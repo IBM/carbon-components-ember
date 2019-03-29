@@ -25,7 +25,7 @@
     "ember-try": "^0.2.23",
     "loader.js": "^4.7.0"
   },
-  "dependencies": {
+  "peerDependencies":  {
     "ember-cli-htmlbars": "*",
     "ember-maybe-import-regenerator": "*",
     "ember-cli-babel": "*",
