@@ -1,0 +1,15 @@
+<button onclick={{action 'onClick'}}
+        class="bx--btn {{bxClassNames}} {{styleNamespace}}"
+        aria-label="{{if danger 'danger'}}"
+        disabled={{disabled}}
+        type="button">
+  {{#if loading}}
+    <Loading />
+  {{else}}
+    {{#if hasBlock}}
+      {{yield}}
+    {{else}}
+      {{label}}
+    {{/if}}
+  {{/if}}
+</button>

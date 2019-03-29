@@ -1,0 +1,32 @@
+{{#if selectable}}
+  <label for="tile-{{uuid}}" aria-label="tile" class="bx--tile bx--tile--selectable" data-tile="selectable" tabindex="0">
+    <input tabindex="-1" data-tile-input id="tile-{{uuid}}" class="bx--tile-input" value="tile" type="checkbox" name="tiles" title="tile"
+    />
+    <div class="bx--tile__checkmark">
+      <Icon @icon="checkmark--solid"/>
+    </div>
+    <div class="bx--tile-content">
+      {{yield}}
+    </div>
+  </label>
+{{/if}}
+{{#if expandable}}
+  <div data-tile="expandable" class="bx--tile bx--tile--expandable" tabindex="0">
+    <button class="bx--tile__chevron">
+      <Icon @icon="chevron--down" />
+    </button>
+    <div class="bx--tile-content">
+    <span data-tile-atf class="bx--tile-content__above-the-fold">
+      {{yield 'above'}}
+    </span>
+    <span class="bx--tile-content__below-the-fold">
+      {{yield 'belowe'}}
+    </span>
+    </div>
+  </div>
+{{/if}}
+{{#if default}}
+  <div class="bx--tile {{if clickable 'bx--tile--clickable'}}">
+    {{yield}}
+  </div>
+{{/if}}

@@ -1,0 +1,19 @@
+<BasicDropdown as |dd|>
+  <dd.trigger class="bx--overflow-menu">
+    <Icon @size="25" @icon={{default-to icon 'overflow-menu'}} @onClick={{action toggleProperty 'showMenu'}} />
+  </dd.trigger>
+  <dd.content class="bx--overflow-menu">
+    <ul style="display: block" class="bx--overflow-menu-options" tabindex="-1" data-floating-menu-direction={{default-to direction 'buttom'}}>
+      {{#each menu as |m|}}
+        <li class="bx--overflow-menu-options__option">
+          <button
+            onclick={{action onClick m}}
+            class="bx--overflow-menu-options__btn {{if m.isDanger 'bx--overflow-menu-options__option--danger'}} {{if m.isDisabled 'bx--overflow-menu-options__option--disabled'}}"
+            title="{{m.tooltip}}"
+            data-floating-menu-primary-focus={{m.isPrimary}}>{{m.title}}
+          </button>
+        </li>
+      {{/each}}
+    </ul>
+  </dd.content>
+</BasicDropdown>

@@ -1,0 +1,5 @@
+<div class="bx--search bx--search--sm" role="search">
+  <Icon @icon="search" class="bx--search-magnifier" />
+  <input type="text" aria-label="Search" class="bx--search-input" placeholder="Search" onchange="{{action 'onChange' value='target.value'}}">
+  <Icon @icon="close" class="bx--search-close{{if hasInput '--hidden' ''}}" @onClick={{action 'onClear'}} />
+</div>

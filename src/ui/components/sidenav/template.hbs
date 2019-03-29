@@ -1,0 +1,82 @@
+<button
+  aria-label="Toggle Side Navigation"
+  class="side-nav__toggle-btn side-nav__toggle-btn{{if open '' '--closed'}}"
+  onclick={{action 'toggleOpen'}}>
+  <div>
+    <span class="line"></span>
+    <span class="line"></span>
+    <span class="line"></span>
+  </div>
+</button>
+<nav role="navigation" aria-label="Page Navigation" aria-expanded="true" class="side-nav {{if open '' 'side-nav__closed side-nav__closed--final'}}">
+  <div class="side-nav__top-container">
+    <a id="skip-to-content" href="#maincontent" class="skip-to-content">Skip to main content</a>
+    <a class="side-nav__logo" href="/">{{title}} <span>{{subtitle}}</span></a>
+    <SearchInput @onSearch={{action 'search'}}/>
+  </div>
+  <div class="global-search">
+    <div class="global-search__results">
+      <div class="global-search__results--section {{unless searchResultsSection 'global-search__results--section--hidden'}}">
+        <h4 class="global-search__sub-heading page__divider-heading">
+          {{#each searchResultsSection as |result|}}
+            <div>
+              <a class="sub-nav__item-link" aria-label="{{result.title}}" tabindex="-1" onclick={{action 'transitionTo' result.route}}>
+                {{result.title}}
+              </a>
+            </div>
+          {{/each}}
+        </h4>
+      </div>
+      <div class="global-search__results--section {{unless searchResultsGlobal 'global-search__results--section--hidden'}}">
+        <h4 class="global-search__sub-heading">
+          {{#each searchResultsGlobal as |result|}}
+            <div>
+              <a class="sub-nav__item-link" aria-label="{{result.title}}" tabindex="-1" onclick={{action 'transitionTo' result.route}}>
+                {{result.title}}
+              </a>
+            </div>
+          {{/each}}
+        </h4>
+      </div>
+    </div>
+  </div>
+  <div role="menu" class="side-nav__bottom-container">
+    <ul class="side-nav__main-nav">
+      {{#each menuItems as |menu menuIndex|}}
+        {{#if menu.submenus}}
+          <li onclick={{action toggleProperty (concat menu.title '-expanded')}} role="menuitem" tabindex="{{menuIndex}}" class="main-nav-item {{if (eq currentMenu menu) 'main-nav-item__active'}} {{if (get this (concat menu.title '-expanded')) 'main-nav-item__open'}}">
+            <p class="main-nav-item__heading main-nav-item__list">
+              <Icon @icon="{{menu.icon}}" />
+              {{menu.title}}
+              <svg class="main-nav-item__arrow" fill-rule="evenodd" height="5" name="caret--down" role="img" viewBox="0 0 10 5" width="10" aria-hidden="true" alt="Menu arrow icon" aria-label="Menu arrow icon">
+                <title>Menu arrow icon</title><path d="M0 0l5 4.998L10 0z"></path>
+              </svg>
+            </p>
+            {{#liquid-if (get this (concat menu.title '-expanded'))}}
+              <ul role="menu" aria-label="{{menu.title}} sub menu" aria-hidden="true" class="main-nav__sub-nav">
+                {{#each menu.submenus as |submenu|}}
+                  <li role="menuitem" class="sub-nav__item {{if (eq currentMenu submenu) 'selected'}}" tabindex="-1">
+                    <a class="sub-nav__item-link" aria-label="{{submenu.title}}" tabindex="-1" onclick={{action 'transitionTo' submenu}}>
+                      <Icon @icon="{{submenu.icon}}" />
+                      {{submenu.title}}
+                    </a>
+                  </li>
+                {{/each}}
+              </ul>
+            {{/liquid-if}}
+          </li>
+        {{else unless menu.hidden}}
+          <li role="menuitem" tabindex="{{menuIndex}}" class="main-nav-item {{if (eq currentMenu menu) 'main-nav-item__active'}}">
+            <a aria-label="{{menu.title}}" tabindex="-1" class="main-nav-item__heading" onclick={{action 'transitionTo' menu}}>
+              <Icon @icon="{{menu.icon}}" />
+              {{menu.title}}
+            </a>
+          </li>
+        {{/if}}
+      {{/each}}
+    </ul>
+  </div>
+</nav>
+<div class="container {{if open '' 'container--expanded'}}">
+  {{yield}}
+</div>

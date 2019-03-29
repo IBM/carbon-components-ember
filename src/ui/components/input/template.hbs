@@ -1,0 +1,16 @@
+<div class="bx--form-item" style='margin-bottom: 1.5rem;' ...attributes>
+  <input onchange={{action onChange}} id="text-input-{{guid}}" type="{{default-to type 'text'}}" value={{value}} class="bx--text-input" placeholder="{{placeholder}}">
+  {{#if label}}
+    <label for="text-input-{{guid}}" class="bx--label">{{label}}</label>
+  {{/if}}
+  {{#if help}}
+    <div class="bx--form__helper-text">
+      {{help}}
+    </div>
+  {{/if}}
+  {{#if errors}}
+    <div class="bx--form-requirement">
+      {{errors}}
+    </div>
+  {{/if}}
+</div>

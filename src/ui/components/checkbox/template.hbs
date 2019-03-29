@@ -1,0 +1,8 @@
+<label for="checkbox-{{uuid}}" class="bx--checkbox-label {{if isFocus 'bx--checkbox-label__focus'}}" data-contained-checkbox-disabled="{{if disabled 'true' 'false'}}" data-contained-checkbox-state="{{if checked 'true' 'false'}}">
+  <input disabled={{if disabled 'true' false}} id='checkbox-{{uuid}}' readonly='{{readonly}}' class="bx--checkbox" type="checkbox" value="{{value}}" name="{{name}}" checked={{if checked true false}} onchange={{action 'onChange'}}>
+  {{#if hasBlock}}
+    {{yield}}
+  {{else}}
+    {{label}}
+  {{/if}}
+</label>

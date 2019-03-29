@@ -1,0 +1,36 @@
+{{#if multiple}}
+  <PowerSelectMultiple
+    @options={{options}}
+      @onfocus={{action "selectFocused"}}
+    @searchField={{searchField}}
+      @selected={{content}}
+    @placeholder={{placeholder}}
+      @onchange={{action 'onChange'}}
+    @onkeydown={{action 'handleKeydown'}}
+    @closeOnSelect={{false}}
+  as |option select|
+  >
+    <Checkbox @onclick='return false;' @readonly='true' @checked={{ember-power-select-is-selected option select.selected}} >
+      {{#if hasBlock}}
+        {{yield option}}
+      {{else}}
+        {{option}}
+      {{/if}}
+    </Checkbox>
+  </PowerSelectMultiple>
+{{else}}
+  <PowerSelect
+    @options={{options}}
+      @onfocus={{action "selectFocused"}}
+    @searchField={{searchField}}
+      @selected={{content}}
+    @placeholder={{placeholder}}
+      @onchange={{action 'onChange'}}
+  as |option|>
+    {{#if hasBlock}}
+      {{yield option}}
+    {{else}}
+      {{option}}
+    {{/if}}
+  </PowerSelect>
+{{/if}}

@@ -1,0 +1,17 @@
+{{#if overlay}}
+  <div class="bx--loading-overlay" id='{{guid}}'>
+  <div data-loading class=" {{if small 'bx--loading--small'}} {{classNames}}" ...attributes>
+    <svg class="bx--loading bx--loading__svg" viewBox="-75 -75 150 150">
+      <title>Loading</title>
+      <circle cx="0" cy="0" r="37.5" />
+    </svg>
+  </div>
+</div>
+{{else}}
+  <div data-loading class="{{classNames}}" id='{{guid}}' ...attributes>
+    <svg class="bx--loading {{if small 'bx--loading--small'}} bx--loading__svg" viewBox="-75 -75 150 150">
+      <title>Loading</title>
+      <circle cx="0" cy="0" r="50" />
+    </svg>
+  </div>
+{{/if}}
