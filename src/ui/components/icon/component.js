@@ -1,11 +1,13 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import icon from 'carbon-icons';
 import BxClassNames from 'carbon/src/mixins/bx-class-names';
 
 export default Component.extend(BxClassNames, {
   tagName: '',
   classPrefix: 'bx--icon--',
+  dialogManager: service('carbon::dialog-manager'),
 
   init(...args) {
     this.classMappings = [
@@ -22,26 +24,32 @@ export default Component.extend(BxClassNames, {
 
   actions: {
     onClick() {
-      if (this.danger && this.onClick) {
-        const ok = confirm(this.confirmText || 'Confirm this operation');
-        if (!ok) {
-          return;
+      const run = () => {
+        const promise = this.onClick && this.onClick();
+        this.set('loading', true);
+        this.set('disabled', true);
+        if (promise && promise.finally) {
+          promise.finally(() => {
+            this.set('loading', false);
+            this.set('disabled', false);
+          });
+        } else {
+          setTimeout(() => {
+            if (this.isDestroyed) return;
+            this.set('loading', false);
+            this.set('disabled', false);
+          }, 350);
         }
-      }
-      const promise = this.onClick && this.onClick();
-      this.set('loading', true);
-      this.set('disabled', true);
-      if (promise && promise.finally) {
-        promise.finally(() => {
-          this.set('loading', false);
-          this.set('disabled', false);
+      };
+      if (this.danger) {
+        this.dialogManager.open('confirm', {
+          type: 'danger',
+          header: 'Danger',
+          body: this.confirmText || 'Confirm this operation',
+          onAccept: run
         });
       } else {
-        setTimeout(() => {
-          if (this.isDestroyed) return;
-          this.set('loading', false);
-          this.set('disabled', false);
-        }, 350);
+        run();
       }
     }
   }

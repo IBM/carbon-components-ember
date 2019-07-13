@@ -12,6 +12,15 @@ export default Component.extend({
     this._super(...args);
   },
 
+  searchMatcher(item, term) {
+    if (!term || term === '') return true;
+    const pass = Object.values(item.toJSON ? item.toJSON() : item)
+      .filter(v => v && !v.defaultAdapter)
+      .some(v => (typeof v === 'string' ? v.includes(term) : JSON.stringify(v).includes(term)));
+    if (pass) return 1;
+    return -1;
+  },
+
   actions: {
     onChange(choice) {
       if (this.multiple) {

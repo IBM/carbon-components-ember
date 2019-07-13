@@ -1,7 +1,4 @@
-<button class="bx--btn bx--btn--primary" type="button" data-modal-target="#modal-{{guid}}">Show
-  modal</button>
-
-<div data-modal id="modal-{{guid}}" class="bx--modal " role="dialog"
+<div data-modal id="modal-{{guid}}" class="bx--modal bx--modal--{{@type}} is-visible" role="dialog"
      aria-modal="true" aria-labelledby="modal-{{guid}}-label" aria-describedby="modal-{{guid}}-heading" tabindex="-1">
   <div class="bx--modal-container">
     <div class="bx--modal-header">
@@ -11,7 +8,7 @@
       <p class="bx--modal-header__heading bx--type-beta" id="modal-{{guid}}-heading">
         {{yield 'header'}}
       </p>
-      <button class="bx--modal-close" type="button" data-modal-close aria-label="close modal"  data-modal-primary-focus>
+      <button class="bx--modal-close" type="button" data-modal-close aria-label="close modal"  data-modal-primary-focus onclick={{action onClick}}>
         <svg class="bx--modal-close__icon" width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
           <title>Close Modal</title>
           <path d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z" fill-rule="nonzero"
@@ -24,5 +21,8 @@
       {{yield 'content'}}
     </div>
 
+    <div class="bx--modal-footer">
+      {{yield 'footer'}}
+    </div>
   </div>
 </div>
