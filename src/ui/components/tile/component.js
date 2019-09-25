@@ -1,20 +1,23 @@
-import Ember from 'ember';
-import Component from '@ember/component';
-import { computed } from '@ember/object';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action, computed } from '@ember/object';
+import { guidFor } from '@ember/object/internals';
 
-export default Component.extend({
-  selectable: false,
-  expandable: false,
-  clickable: false,
-  uuid: computed(() => Ember.uuid()),
+export default class TileComponent extends Component {
+  tagName = '';
+  @tracked attrs;
 
-  default: computed(function () {
-    return !this.selectable && !this.expandable;
-  }),
-
-  actions: {
-    onClick() {
-
-    }
+  @computed()
+  get guid() {
+    return guidFor(this);
   }
-});
+
+  get default() {
+    return !this.args.selectable && !this.args.expandable;
+  }
+
+  @action
+  onClick() {
+
+  }
+}

@@ -1,0 +1,24 @@
+{{import ListRow from './-row'}}
+{{import ListColumn from './-column'}}
+<section class="bx--structured-list {{if @loading 'bx--skeleton'}}">
+    <div class="bx--structured-list-thead">
+        <div class="bx--structured-list-row bx--structured-list-row--header-row">
+            {{#each @headers as |h|}}
+                <div class="bx--structured-list-th">{{h}}</div>
+            {{/each}}
+        </div>
+    </div>
+    <div class="bx--structured-list-tbody">
+        {{#if @loading}}
+            <div class="bx--structured-list-row">
+              {{#each @headers as |h|}}
+                  <div class="bx--structured-list-td bx--structured-list-content--nowrap">
+                    <div class="bx--skeleton__text"></div>
+                  </div>
+              {{/each}}
+            </div>
+        {{else}}
+          {{yield (hash row=ListRow column=ListColumn)}}
+        {{/if}}
+    </div>
+</section>

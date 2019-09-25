@@ -1,17 +1,18 @@
 import Service, { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 
 
-export default Service.extend({
-  currentDialog: null,
-  options: null,
+export default class DialogManagerService extends Service {
+  @tracked currentDialog = null;
+  @tracked options = null;
 
   open(ref, options) {
-    this.set('currentDialog', ref);
-    this.set('options', options);
-  },
+    this.currentDialog = ref;
+    this.options = options;
+  }
 
   close() {
-    this.set('currentDialog', null);
-    this.set('options', null);
+    this.currentDialog = null;
+    this.options = null;
   }
-});
+}

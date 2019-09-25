@@ -1,52 +1,46 @@
 import Component from '@ember/component';
-import BxClassNames from 'carbon/src/mixins/bx-class-names';
+import { bxClassNames, classPrefix } from 'carbon/src/decorators/bx-class-names';
 import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
-export default Component.extend(BxClassNames, {
-  tagName: '',
-  classPrefix: 'bx--btn--',
-  confirmText: null,
-  dialogManager: service('carbon::dialog-manager'),
+@classPrefix('bx--btn--')
+class CarbonButton extends Component {
+  tagName = '';
+  @service('carbon@dialog-manager') dialogManager;
+  @bxClassNames('primary', 'secondary', 'danger', 'tertiary', 'ghost', 'small:sm') bxClassNames;
+  @tracked loading;
+  @tracked disabled;
 
-  init(...args) {
-    this.classMappings = [
-      'primary:primary',
-      'secondary:secondary',
-      'danger:danger',
-      'ghost:ghost',
-      'small:sm'
-    ];
-    this._super(...args);
-  },
-
-  actions: {
-    onClick(...args) {
-      const run = () => {
-        const action = this.get('onClick');
-        if (action) {
-          const ret = action(...args);
-          if (ret && ret.finally) {
-            this.set('loading', true);
-            this.set('disabled', true);
-            ret.finally(() => {
-              this.set('loading', false);
-              this.set('disabled', false);
-            });
-          }
+  @action
+  onButtonClick(...args) {
+    const run = () => {
+      const ac = this.attrs.onClick;
+      if (ac) {
+        const ret = ac(...args);
+        if (ret && ret.finally) {
+          this.disabled = true;
+          this.loading = true;
+          ret.finally(() => {
+            this.disabled = false;
+            this.loading = false;
+          });
         }
-      };
-      if (this.danger) {
-        this.dialogManager.open('confirm', {
-          type: 'danger',
-          header: 'Danger',
-          body: this.confirmText || 'Confirm this operation',
-          onAccept: run
-        });
-      } else {
-        run();
       }
-      // Prevent bubbling, if specified. If undefined, the event will bubble.
-      return this.get('bubbles');
+    };
+    if (this.attrs.danger) {
+      this.dialogManager.open('confirm', {
+        type: 'danger',
+        header: 'Danger',
+        body: this.attrs.confirmText || 'Confirm this operation',
+        onAccept: run
+      });
+    } else {
+      run();
     }
+    // Prevent bubbling, if specified. If undefined, the event will bubble.
+    return this.attrs.bubbles;
   }
-});
+}
+
+export default CarbonButton;

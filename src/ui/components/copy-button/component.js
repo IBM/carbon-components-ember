@@ -1,6 +1,5 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
-import { guidFor } from '@ember/object/internals';
+import { action } from '@ember/object';
 import CopyButton from 'carbon-components/es/components/copy-button/copy-button';
 
 
@@ -12,7 +11,7 @@ class MyCopyButton extends CopyButton {
     }
     targetElement = targetElement || this.element;
     const el = document.createElement('textarea'); // Create a <textarea> element
-    el.value = targetElement.textContent; // Set its value to the string that you want copied
+    el.value = targetElement.textContent.trim(); // Set its value to the string that you want copied
     el.setAttribute('readonly', ''); // Make it readonly to be tamper-proof
     el.style.position = 'absolute';
     el.style.left = '-9999px'; // Move outside the screen to make it invisible
@@ -35,26 +34,25 @@ class MyCopyButton extends CopyButton {
   }
 }
 
-export default Component.extend({
-  tagName: '',
-  guid: computed(function () {
-    return guidFor(this);
-  }),
-  targetElement: null,
-  targetElementId: null,
+export default class CarbonCopyButton extends Component {
+  tagName = '';
+  carbonElement = null;
+  carbonComponent = null;
 
-  didReceiveAttrs() {
+  get options() {
+    return {
+      targetElement: this.targetElement,
+      targetElementId: this.attrs.targetElementId
+    };
+  }
 
-  },
+  @action
+  loadCarbonComponent() {
+    this.carbonComponent = new MyCopyButton(this.carbonElement, this.options);
+  }
 
-  didInsertElement() {
-    if (!document.querySelector(`#${this.guid}`)) {
-      return;
-    }
-    this.carbonComponent = new MyCopyButton(document.querySelector(`#${this.guid}`), this);
-  },
-
-  willDestroy() {
+  @action
+  destroyCarbonComponent() {
     return this.carbonComponent && this.carbonComponent.release();
   }
-});
+}

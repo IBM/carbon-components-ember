@@ -1,7 +1,13 @@
 <div class="bx--form-item">
-  <input class="bx--toggle" id="toggle{{uuid}}" type="checkbox"
-         disabled={{if disabled 'true' false}} readonly='{{readonly}}' value="{{value}}" name="{{name}}" checked={{if checked true false}} onchange={{action 'onChange'}}>
-  <label class="bx--toggle__label" for="toggle{{uuid}}">
+  <input class="bx--toggle" id="toggle{{this.guid}}"
+         type="checkbox"
+         disabled={{if @disabled 'true' false}}
+         readonly='{{@readonly}}'
+         name="{{@name}}"
+         checked={{if @value true false}}
+         onchange={{fn this.onToggleChange}}
+  >
+  <label class="bx--toggle__label" for="toggle{{this.guid}}">
     <span class="bx--toggle__text--left">Off</span>
     <span class="bx--toggle__appearance"></span>
     <span class="bx--toggle__text--right">On</span>

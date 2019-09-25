@@ -1,56 +1,54 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
-import icon from 'carbon-icons';
-import BxClassNames from 'carbon/src/mixins/bx-class-names';
+import * as icons from '@carbon/icons';
+import { bxClassNames, classPrefix } from 'carbon/src/decorators/bx-class-names';
 
-export default Component.extend(BxClassNames, {
-  tagName: '',
-  classPrefix: 'bx--icon--',
-  dialogManager: service('carbon::dialog-manager'),
+@classPrefix('bx--icon--')
+class CarbonIcon extends Component {
+  tagName = '';
+  static positionalParams = ['icon'];
+  @service('carbon@dialog-manager') dialogManager;
+  @bxClassNames('info', 'danger', 'disabled') bxClassNames;
+  @tracked attrs;
+  @tracked loading;
+  @tracked disabled;
+  get svg() {
+    return Object.values(icons).find(i => i.name === this.attrs.icon && (i.size === (this.attrs.size || 16)))
+  }
 
-  init(...args) {
-    this.classMappings = [
-      'info:info',
-      'danger:danger',
-      'disabled:disabled'
-    ];
-    this._super(...args);
-  },
-
-  svg: computed('attrs.icon', function () {
-    return icon.find(i => i.id === `icon--${this.icon}`);
-  }),
-
-  actions: {
-    onClick() {
-      const run = () => {
-        const promise = this.onClick && this.onClick();
-        this.set('loading', true);
-        this.set('disabled', true);
-        if (promise && promise.finally) {
-          promise.finally(() => {
-            this.set('loading', false);
-            this.set('disabled', false);
-          });
-        } else {
-          setTimeout(() => {
-            if (this.isDestroyed) return;
-            this.set('loading', false);
-            this.set('disabled', false);
-          }, 350);
-        }
-      };
-      if (this.danger) {
-        this.dialogManager.open('confirm', {
-          type: 'danger',
-          header: 'Danger',
-          body: this.confirmText || 'Confirm this operation',
-          onAccept: run
-        });
+  @action
+  onIconClick() {
+    const run = () => {
+      const promise = this.attrs.onClick && this.attrs.onClick();
+      this.loading = true;
+      this.disabled = true;
+      if (promise && promise.then) {
+        const finish = () => {
+          this.loading = false;
+          this.disabled = false;
+        };
+        promise.then(finish, finish);
       } else {
-        run();
+        setTimeout(() => {
+          if (this.isDestroyed) return;
+          this.loading = false;
+          this.disabled = false;
+        }, 350);
       }
+    };
+    if (this.attrs.danger) {
+      this.dialogManager.open('confirm', {
+        type: 'danger',
+        header: 'Danger',
+        body: this.attrs.confirmText || 'Confirm this operation',
+        onAccept: run
+      });
+    } else {
+      run();
     }
   }
-});
+}
+
+export default CarbonIcon;

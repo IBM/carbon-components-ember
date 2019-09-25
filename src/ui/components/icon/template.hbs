@@ -1,29 +1,38 @@
-{{#if loading}}
-  <span class="bx--btn__icon">
-    <Loading ...attributes @classNames="{{styleNamespace}} {{bxClassNames}} loader" @small="true"/>
+{{import Loading from '../loading'}}
+{{import defaultTo from '../default-to'}}
+{{import eq from '@abcum/ember-helpers/helpers/eq'}}
+{{import renderSvgPart from './render-svg-part'}}
+
+{{#if (or @loading this.loading)}}
+  <span>
+    <Loading @classNames="{{this.styleNamespace}} {{this.bxClassNames}} loader" @small="true"/>
   </span>
 {{else}}
-  <span style="{{if attrs.onClick 'cursor: pointer'}}"
-       onclick={{action 'onClick'}}
-       class="bx--btn__icon" >
-  <svg class="{{bxClassNames}} {{styleNamespace}}"
-   ...attributes
-  width="{{default-to size svg.width}}"
-  height="{{default-to size  svg.height}}"
-  viewBox="{{svg.viewBox}}"
-  xmlns="http://www.w3.org/2000/svg">
-    {{#each svg.svgData.circles as |c|}}
-      <circle r='{{c.r}}'></circle>
-    {{/each}}
-    {{#each svg.svgData.ellipses as |e|}}
-      <ellipse rx='{{c.rx}}' ry='{{c.ry}}'></ellipse>
-    {{/each}}
-    {{#each svg.svgData.polygons as |p|}}
-      <polygon points='{{p.points}}'></polygon>
-    {{/each}}
-    {{#each svg.svgData.paths as |p|}}
-      <path d="{{p.d}}" fill-rule="{{get p 'fill-rule'}}"></path>
-    {{/each}}
-  </svg>
-  </span>
+  {{#if @onClick}}
+    <button class="bx--btn bx--btn--sm bx--btn--ghost" type="button" {{on 'click' this.onIconClick}} ...attributes>
+        <svg class="{{this.bxClassNames}} {{this.styleNamespace}}"
+             focusable="false"
+             style="will-change: transform;"
+             width="{{defaultTo @size this.svg.attrs.width}}"
+             height="{{defaultTo @size this.svg.attrs.height}}"
+             viewBox="{{this.svg.attrs.viewBox}}"
+             xmlns="http://www.w3.org/2000/svg">
+          {{#each this.svg.content as |c|}}
+            {{renderSvgPart c}}
+          {{/each}}
+        </svg>
+    </button>
+  {{else}}
+      <svg class="{{this.bxClassNames}} {{this.styleNamespace}}"
+           focusable="false"
+           style="will-change: transform;"
+           width="{{defaultTo @size this.svg.attrs.width}}"
+           height="{{defaultTo @size this.svg.attrs.height}}"
+           viewBox="{{this.svg.attrs.viewBox}}"
+           xmlns="http://www.w3.org/2000/svg" ...attributes>
+        {{#each this.svg.content as |c|}}
+            {{renderSvgPart c}}
+        {{/each}}
+      </svg>
+  {{/if}}
 {{/if}}

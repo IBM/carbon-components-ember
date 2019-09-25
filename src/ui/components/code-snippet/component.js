@@ -1,29 +1,25 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
-import { guidFor } from '@ember/object/internals';
-import CodeSnippet from 'carbon-components/es/components/code-snippet/code-snippet';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { CodeSnippet } from 'carbon-components';
 
+export default class CarbonCodeSnippet extends Component {
+  carbonElement = null;
+  tagName = '';
+  @tracked attrs;
+  @tracked type = 'default';
 
-export default Component.extend({
-  tagName: '',
-  guid: computed(function () {
-    return guidFor(this);
-  }),
-  type: 'default', // inline, multi-line
-
-  didReceiveAttrs() {
-
-  },
-
-  didInsertElement() {
-    if (!document.querySelector(`#${this.guid}`)) {
+  @action
+  loadCarbonComponent() {
+    if (!this.carbonElement) {
       return;
     }
     if (this.type === 'inline') return;
-    this.carbonComponent = new CodeSnippet(document.querySelector(`#${this.guid}`), this);
-  },
+    this.carbonComponent = new CodeSnippet(this.carbonElement, this.attrs);
+  }
 
-  willDestroy() {
+  @action
+  destroyCarbonComponent() {
     return this.carbonComponent && this.carbonComponent.release();
   }
-});
+}

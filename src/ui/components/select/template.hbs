@@ -1,17 +1,21 @@
-{{#if multiple}}
+{{import PowerSelectMultiple from 'ember-power-select/components/power-select-multiple'}}
+{{import PowerSelect from 'ember-power-select/components/power-select'}}
+{{import isSelected from 'ember-power-select/helpers/ember-power-select-is-selected'}}
+{{#if @multiple}}
   <PowerSelectMultiple
-    @options={{options}}
-      @onfocus={{action "selectFocused"}}
-    @searchField={{searchField}}
-    @matcher={{searchMatcher}}
-      @selected={{content}}
-    @placeholder={{placeholder}}
-      @onchange={{action 'onChange'}}
-    @onkeydown={{action 'handleKeydown'}}
+    @searchEnabled={{true}}
+    @options={{@options}}
+      @onfocus={{fn this.selectFocused}}
+    @searchField={{@searchField}}
+    @matcher={{this.searchMatcher}}
+      @selected={{@content}}
+    @placeholder={{@placeholder}}
+      @onChange={{fn this.onChange}}
+    @onkeydown={{fn this.handleKeydown}}
     @closeOnSelect={{false}}
   as |option select|
   >
-    <Checkbox @onclick='return false;' @readonly='true' @checked={{ember-power-select-is-selected option select.selected}} >
+    <Checkbox @onclick='return false;' @readonly='true' @checked={{isSelected option select.selected}} >
       {{#if hasBlock}}
         {{yield option}}
       {{else}}
@@ -21,13 +25,14 @@
   </PowerSelectMultiple>
 {{else}}
   <PowerSelect
-    @options={{options}}
-      @onfocus={{action "selectFocused"}}
-    @searchField={{searchField}}
-    @matcher={{searchMatcher}}
-      @selected={{content}}
-    @placeholder={{placeholder}}
-      @onchange={{action 'onChange'}}
+    @searchEnabled={{true}}
+    @options={{@options}}
+      @onfocus={{fn this.selectFocused}}
+    @searchField={{@searchField}}
+    @matcher={{this.searchMatcher}}
+      @selected={{@content}}
+    @placeholder={{@placeholder}}
+      @onChange={{fn this.onChange}}
   as |option|>
     {{#if hasBlock}}
       {{yield option}}

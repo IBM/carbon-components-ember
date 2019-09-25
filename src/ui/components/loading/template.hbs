@@ -1,17 +1,32 @@
-{{#if overlay}}
-  <div class="bx--loading-overlay" id='{{guid}}'>
-  <div data-loading class=" {{if small 'bx--loading--small'}} {{classNames}}" ...attributes>
-    <svg class="bx--loading bx--loading__svg" viewBox="-75 -75 150 150">
+{{#if @overlay}}
+  <div class="bx--loading-overlay"
+       style="height: 100%"
+    {{ref this "carbonElement"}}
+    {{did-update this.attrs.active this.updateLoading}}
+    {{did-insert this.loadCarbonComponent}}
+    {{will-destroy this.destroyCarbonComponent}}>
+  <div data-loading class="bx--loading {{if @small 'bx--loading--small'}} {{this.classNames}}" ...attributes>
+    <svg class="bx--loading__svg" viewBox="-75 -75 150 150">
       <title>Loading</title>
-      <circle cx="0" cy="0" r="37.5" />
+      {{#if @small}}
+          <circle class="bx--loading__background" cx="0" cy="0" r="37.5" />
+      {{/if}}
+      <circle class="bx--loading__stroke" cx="0" cy="0" r="37.5" />
     </svg>
   </div>
 </div>
 {{else}}
-  <div data-loading class="{{classNames}}" id='{{guid}}' ...attributes>
-    <svg class="bx--loading {{if small 'bx--loading--small'}} bx--loading__svg" viewBox="-75 -75 150 150">
+  <div data-loading class="{{this.classNames}}"
+    {{ref this "carbonElement"}}
+    {{did-update this.attrs.active this.updateLoading}}
+    {{did-insert this.loadCarbonComponent}}
+    {{will-destroy this.destroyCarbonComponent}} ...attributes>
+    <svg class="bx--loading {{if @small 'bx--loading--small'}} bx--loading__svg" viewBox="-75 -75 150 150">
       <title>Loading</title>
-      <circle cx="0" cy="0" r="50" />
+      {{#if @small}}
+          <circle class="bx--loading__background" cx="0" cy="0" r="37.5" />
+      {{/if}}
+      <circle class="bx--loading__stroke" cx="0" cy="0" r="37.5" />
     </svg>
   </div>
 {{/if}}

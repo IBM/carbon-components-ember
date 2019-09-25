@@ -1,29 +1,28 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
-import { alias } from '@ember/object/computed';
-import Ember from 'ember';
+import { tracked } from '@glimmer/tracking';
+import { action, computed } from '@ember/object';
+import { guidFor } from '@ember/object/internals';
 
-const { uuid } = Ember;
+export default class CarbonCheckbox extends Component {
+  tagName = '';
+  @tracked disabled = false;
+  @tracked state = null;
+  @tracked isFocus = false;
+  @tracked attrs;
 
-export default Component.extend({
-  tagName: '',
-  uuid: computed(() => uuid()),
-  disabled: false,
-  state: null,
-  checked: alias('value'),
-
-  onFocus() {
-    this.set('isFocus', true);
-  },
-
-  onBlur() {
-    this.set('isFocus', false);
-  },
-
-  actions: {
-    onChange(element) {
-      const value = element.target.checked;
-      this.onChange(value);
-    }
+  @computed()
+  get guid() {
+    return guidFor(this);
   }
-});
+
+  @action
+  onCheckChange(element) {
+    const value = element.target.checked;
+    if (this.attrs.onChange) this.attrs.onChange(value);
+  }
+
+  @action
+  setFocus(val) {
+    this.isFocus = val;
+  }
+}

@@ -1,20 +1,29 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import { action, computed } from '@ember/object';
+import { guidFor } from '@ember/object/internals';
+import { bool } from '@ember/object/computed';
+import { tracked } from '@glimmer/tracking';
 
-export default Component.extend({
-  tagName: '',
-  hasInput: computed.bool('value'),
-  value: null,
+export default class SearchComponent extends Component {
+  tagName = '';
+  @bool('value') hasInput;
+  @tracked value = null;
 
-  actions: {
-    onChange(value) {
-      this.set('value', value);
-      this.onChange && this.onChange(value);
-    },
-
-    onClear() {
-      this.set('value', null);
-      this.onChange && this.onChange(null);
-    }
+  @computed()
+  get guid() {
+    return guidFor(this);
   }
-});
+
+  @action
+  onSearchChange(value) {
+    value = value.target.value;
+    this.value = value;
+    if (this.attrs.onChange) this.attrs.onChange(value);
+  }
+
+  @action
+  onSearchClear() {
+    this.value = null;
+    if (this.attrs.onChange) this.attrs.onChange(null);
+  }
+}

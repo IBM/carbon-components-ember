@@ -1,25 +1,19 @@
 import Component from '@ember/component';
+import { tracked } from '@glimmer/tracking';
 
-export default class extends Component {
+export default class TagComponent extends Component {
   tagName = '';
+  @tracked attrs;
   get type() {
-    return this._type;
-  }
-  set type(v) {
-    const types = [
-      'ibm',
-      'beta',
-      'third-party',
-      'local',
-      'dedicated',
-      'custom',
-      'experimental',
-      'community',
-      'private'
-    ];
-    if (!types.includes(v)) {
-      console.error(`${v} not supported type for Carbon::Tag, supported are:${types.join(',')}`);
+    const types = 'red magenta purple blue cyan teal green gray cool-gray warm-gray'.split(' ');
+    if (!this.attrs) return null;
+    if (!types.includes(this.attrs.type)) {
+      console.error(`${this.attrs.type} not supported type for Carbon::Tag, supported are:${types.join(',')}`);
     }
-    this._type = v;
+    return this.attrs.type;
+  }
+
+  set type(v) {
+    return this.type;
   }
 }

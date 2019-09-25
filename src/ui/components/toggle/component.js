@@ -1,21 +1,15 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
-import { alias } from '@ember/object/computed';
-import Ember from 'ember';
+import { computed, action } from '@ember/object';
+import { guidFor } from '@ember/object/internals';
 
-const { uuid } = Ember;
+export default class ToggleComponent extends Component {
+  tagName = '';
+  @computed
+  get guid() { return guidFor(this); }
 
-export default Component.extend({
-  tagName: '',
-  uuid: computed(() => uuid()),
-  disabled: false,
-  state: null,
-  checked: alias('value'),
-
-  actions: {
-    onChange(element) {
-      const value = element.target.checked;
-      this.onChange(value);
-    }
+  @action
+  onToggleChange(element) {
+    const value = element.target.checked;
+    this.attrs.onChange(value);
   }
-});
+}

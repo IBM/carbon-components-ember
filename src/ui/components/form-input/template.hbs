@@ -1,16 +1,17 @@
+{{import defaultTo from '../default-to'}}
 <div class="bx--form-item" style='margin-bottom: 1.5rem;' ...attributes>
-  <input onchange={{action onChange}} id="text-input-{{guid}}" type="{{default-to type 'text'}}" value={{value}} class="bx--text-input" placeholder="{{placeholder}}">
+  <input {{on 'change' this.onInputChange}} id="text-input-{{this.guid}}" type="{{defaultTo @type 'text'}}" value={{@value}} class="bx--text-input" placeholder="{{@placeholder}}">
   {{#if label}}
-    <label for="text-input-{{guid}}" class="bx--label">{{label}}</label>
+    <label for="text-input-{{this.guid}}" class="bx--label">{{@label}}</label>
   {{/if}}
-  {{#if help}}
+  {{#if @help}}
     <div class="bx--form__helper-text">
-      {{help}}
+      {{@help}}
     </div>
   {{/if}}
-  {{#if errors}}
+  {{#if @errors}}
     <div class="bx--form-requirement">
-      {{errors}}
+      {{@errors}}
     </div>
   {{/if}}
 </div>

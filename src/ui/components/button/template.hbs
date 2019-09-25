@@ -1,15 +1,18 @@
-<button onclick={{action 'onClick'}}
-        class="bx--btn {{bxClassNames}} {{styleNamespace}}"
-        aria-label="{{if danger 'danger'}}"
-        disabled={{disabled}}
+{{import Loading from '../loading'}}
+{{import or from '@abcum/ember-helpers/helpers/or'}}
+<button ...attributes
+        onclick={{fn this.onButtonClick}}
+        class="bx--btn {{this.bxClassNames}} {{this.styleNamespace}} {{if (or this.loading @loading) 'bx--btn--ghost'}}"
+        aria-label="{{if @danger 'danger'}}"
+        disabled={{or @disabled this.loading @loading}}
         type="button">
-  {{#if loading}}
+  {{#if (or this.loading @loading)}}
     <Loading />
   {{else}}
     {{#if hasBlock}}
       {{yield}}
     {{else}}
-      {{label}}
+      {{@label}}
     {{/if}}
   {{/if}}
 </button>
