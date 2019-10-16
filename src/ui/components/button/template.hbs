@@ -7,7 +7,7 @@
         disabled={{or @disabled this.loading @loading}}
         type="button">
   {{#if (or this.loading @loading)}}
-    <Loading />
+    <Loading @inline=true />
   {{else}}
     {{#if hasBlock}}
       {{yield}}

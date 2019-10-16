@@ -4,14 +4,15 @@
 {{import renderSvgPart from './render-svg-part'}}
 
 {{#if (or @loading this.loading)}}
-  <span>
-    <Loading @classNames="{{this.styleNamespace}} {{this.bxClassNames}} loader" @small="true"/>
+  <span style="display: inline-block;">
+    <Loading @classNames="{{this.styleNamespace}} {{this.bxClassNames}} loader" @small="true" @inline=true />
   </span>
 {{else}}
   {{#if @onClick}}
     <button class="bx--btn bx--btn--sm bx--btn--ghost" type="button" {{on 'click' this.onIconClick}} ...attributes>
         <svg class="{{this.bxClassNames}} {{this.styleNamespace}}"
              focusable="false"
+             fill={{@fill}}
              style="will-change: transform;"
              width="{{defaultTo @size this.svg.attrs.width}}"
              height="{{defaultTo @size this.svg.attrs.height}}"
@@ -25,6 +26,7 @@
   {{else}}
       <svg class="{{this.bxClassNames}} {{this.styleNamespace}}"
            focusable="false"
+           fill={{@fill}}
            style="will-change: transform;"
            width="{{defaultTo @size this.svg.attrs.width}}"
            height="{{defaultTo @size this.svg.attrs.height}}"

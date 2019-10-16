@@ -15,7 +15,8 @@ class CarbonIcon extends Component {
   @tracked loading;
   @tracked disabled;
   get svg() {
-    return Object.values(icons).find(i => i.name === this.attrs.icon && (i.size === (this.attrs.size || 16)))
+    // eslint-disable-next-line eqeqeq
+    return Object.values(icons).find(i => i.name === this.attrs.icon && (i.size == (this.attrs.size || 16)));
   }
 
   @action

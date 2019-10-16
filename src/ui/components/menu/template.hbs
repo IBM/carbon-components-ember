@@ -1,23 +1,15 @@
-{{import BasicDropdown from 'ember-basic-dropdown/app/components/basic-dropdown'}}
+{{import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown'}}
 {{import Icon from '../icon'}}
 {{import defaultTo from '../default-to'}}
+{{import Item from './-item'}}
 
 <BasicDropdown as |dd|>
-  <dd.trigger class="bx--overflow-menu">
-    <Icon @size="25" @icon={{defaultTo @icon 'overflow-menu'}} @onClick={{action this.toggleProperty 'showMenu'}} />
-  </dd.trigger>
-  <dd.content class="bx--overflow-menu">
-    <ul style="display: block" class="bx--overflow-menu-options" tabindex="-1" data-floating-menu-direction={{defaultTo @direction 'buttom'}}>
-      {{#each @menu as |m|}}
-        <li class="bx--overflow-menu-options__option">
-          <button
-            {{on 'click' (fn @onClick m)}}
-            class="bx--overflow-menu-options__btn {{if m.isDanger 'bx--overflow-menu-options__option--danger'}} {{if m.isDisabled 'bx--overflow-menu-options__option--disabled'}}"
-            title="{{m.tooltip}}"
-            data-floating-menu-primary-focus={{m.isPrimary}}>{{m.title}}
-          </button>
-        </li>
-      {{/each}}
+  <dd.Trigger class="bx--overflow-menu">
+    <Icon @fill='white' @size=24 @icon={{defaultTo @icon 'overflow-menu'}} />
+  </dd.Trigger>
+  <dd.Content class="bx--overflow-menu">
+    <ul  {{on 'click' (fn dd.actions.close)}} style="display: block" class="bx--overflow-menu-options" tabindex="-1" data-floating-menu-direction={{defaultTo @direction 'buttom'}}>
+        {{yield Item}}
     </ul>
-  </dd.content>
+  </dd.Content>
 </BasicDropdown>

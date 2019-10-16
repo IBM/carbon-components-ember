@@ -79,19 +79,23 @@ export default Resolver.extend({
 
       if (requirejs.has(path)) {
         if (require(path).helper) return require(path).helper;
+        return require(path).default;
       }
       path = `${pkg}/helpers/${name}`;
       if (requirejs.has(path)) {
         if (require(path).helper) return require(path).helper;
+        return require(path).default;
       }
     }
     path = `${parsedName.fullNameWithoutType}/component`;
     if (requirejs.has(path)) {
       if (require(path).helper) return require(path).helper;
+      return require(path).default;
     }
     path = parsedName.fullNameWithoutType;
     if (requirejs.has(path)) {
       if (require(path).helper) return require(path).helper;
+      return require(path).default;
     }
     return null;
   },
