@@ -1,5 +1,5 @@
 // eslint-disable no-undef global-require
-import Resolver from 'ember-resolver/resolvers/fallback';
+import Resolver from 'ember-resolver';
 import { capitalize } from '@ember/string';
 
 
@@ -12,13 +12,16 @@ export default Resolver.extend({
     let result;
     if (this[methodName]) {
       try {
-        const parsedName = this.parseName(name);
+        const parsedName = this.myParseName(name);
         result = this[methodName](parsedName, [root, al]);
       } catch (e) {}
     }
+    if (result) return result;
     try {
       result = this._super(name, referrer);
-    } catch (e) {}
+    } catch (e) {
+      console.error(e);
+    }
     return result;
   },
 
@@ -35,7 +38,7 @@ export default Resolver.extend({
         return require(classicPath).default;
       }
     }
-    return null;
+    return undefined;
   },
 
   resolveTemplate(parsedName) {
@@ -44,27 +47,27 @@ export default Resolver.extend({
     if (requirejs.has(path)) {
       return require(path).default;
     }
-    return null;
+    return undefined;
   },
 
   resolveComponent(parsedName) {
     let path = parsedName.fullNameWithoutType;
     let path2 = path;
-    if (requirejs.has(path2)) {
+    if (requirejs.has(path2) && require(path2).default.isComponentFactory) {
       if (!require(path2).helper) {
         return require(path2).default;
       }
     }
     path2 = `${path}/component`;
-    if (requirejs.has(path2)) {
+    if (requirejs.has(path2) && require(path2).default.isComponentFactory) {
       return require(path2).default;
     }
 
     path2 = `demoapp${path}`;
-    if (requirejs.has(path2)) {
+    if (requirejs.has(path2) && require(path2).default.isComponentFactory) {
       return require(path2).default;
     }
-    return null;
+    return undefined;
   },
 
   resolveHelper(parsedName, [root, al]) {
@@ -97,10 +100,10 @@ export default Resolver.extend({
       if (require(path).helper) return require(path).helper;
       return require(path).default;
     }
-    return null;
+    return undefined;
   },
 
-  parseName(name) {
+  myParseName(name) {
     if (name.includes('/') && !name.includes('@ember-data')) {
       const [, path] = name.split(':');
       return {
@@ -108,6 +111,6 @@ export default Resolver.extend({
         fullNameWithoutType: path
       };
     }
-    return this._super(name);
+    return this.parseName(name);
   }
 });
