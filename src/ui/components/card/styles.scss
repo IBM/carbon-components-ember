@@ -1,0 +1,13 @@
+&.card {
+  padding: 20px;
+  background: white;
+  box-shadow: 0px 0px 3px #e5e5e5;
+
+  .title {
+    margin-left: -20px;
+    margin-right: -20px;
+    border-bottom: 1px solid grey;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+  }
+}

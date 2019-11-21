@@ -3,6 +3,7 @@ import { action, computed } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { bool } from '@ember/object/computed';
 import { tracked } from '@glimmer/tracking';
+import { debounce } from '@ember/runloop';
 
 export default class SearchComponent extends Component {
   tagName = '';
@@ -18,7 +19,9 @@ export default class SearchComponent extends Component {
   onSearchChange(value) {
     value = value.target.value;
     this.value = value;
-    if (this.attrs.onChange) this.attrs.onChange(value);
+    if (this.attrs.onChange) {
+      debounce(this.attrs.onChange, value, 250);
+    }
   }
 
   @action

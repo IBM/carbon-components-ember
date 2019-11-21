@@ -3,19 +3,26 @@
 module.exports = {
   name: require('./package').name,
 
-  discoverAddons() {
-    this.pkg.dependencies = this.pkg.peerDependencies;
-    const pkgInfo = this.packageInfoCache.getEntry(this.root);
-    if (pkgInfo) {
-      pkgInfo.processed = false;
-      pkgInfo.pkg.dependencyPackages = pkgInfo.pkg.dependencyPackages || {};
-      Object.assign(pkgInfo.pkg.dependencyPackages, pkgInfo.pkg.peerDependencies);
-    }
-    this.packageInfoCache._resolveDependencies();
-    this._super();
+  init(...args) {
+    Object.defineProperty(this, 'treePaths', {
+      get() {
+        return this.__treePaths;
+      },
+      set(v) {
+        console.log('set treePaths');
+        this.__treePaths = v;
+        this.__treePaths.addon = 'src';
+        this.__treePaths['addon-styles'] = 'src/ui/styles';
+      }
+    });
+    this._super(...args);
   },
 
   isModuleUnification() {
+    return true;
+  },
+
+  isDevelopingAddon() {
     return true;
   }
 };

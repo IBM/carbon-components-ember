@@ -1,21 +1,31 @@
 import Component from '@ember/component';
-import { action } from '@ember/object';
+import { action, getProperties } from '@ember/object';
 import Loading from 'carbon-components/es/components/loading/loading';
 
 
 export default class LoadingComponent extends Component {
   carbonElement = null;
   tagName = '';
+  attrsDefaults = {
+    active: true,
+    inline: false
+  };
 
-  updateLoading() {
-    if (this.attrs.active !== undefined) {
-      if (this.loading) this.loading.set(this.active);
-    }
+  get loaderAttrs() {
+    let attrs = getProperties(this, Object.keys(this.attrs));
+    Object.keys(attrs).forEach((k) => {
+      if (attrs[k] === undefined) {
+        delete attrs[k];
+      }
+    });
+    attrs = Object.assign({}, this.attrsDefaults, attrs);
+    return attrs;
   }
 
   @action
   loadCarbonComponent() {
-    this.loading = new Loading(this.carbonElement, this.attrs);
+    const attrs = this.loaderAttrs;
+    this.loading = new Loading(this.carbonElement, attrs);
   }
 
   @action

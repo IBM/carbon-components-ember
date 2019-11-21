@@ -1,4 +1,4 @@
-{{import defaultTo from '../default-to'}}
+{{import defaultTo from '../../helpers/default-to'}}
 <div class="bx--form-item" style='margin-bottom: 1.5rem;' ...attributes>
   <input {{on 'change' this.onInputChange}} id="text-input-{{this.guid}}" type="{{defaultTo @type 'text'}}" value={{@value}} class="bx--text-input" placeholder="{{@placeholder}}">
   {{#if label}}

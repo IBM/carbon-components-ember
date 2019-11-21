@@ -1,0 +1,26 @@
+{{import ListRow from './-row'}}
+{{import ListColumn from './-column'}}
+{{import ListHeader from './-header'}}
+{{import ListBody from './-body'}}
+{{import Skeleton from './-skeleton'}}
+{{import Toolbar from './-toolbar'}}
+{{import Pagination from '../pagination'}}
+{{import SearchInput from '../search-input'}}
+
+{{#if @isLoading}}
+  <Skeleton />
+{{/if}}
+
+<div class="bx--data-table-container " data-table>
+  {{yield (hash
+                  items=this.currentItems
+                  SearchInput=(component SearchInput value=this.currentSearch onChange=(action (mut this.currentSearch)) light=true small=true style="width: 250px; display: inline-block;" class="bx--toolbar-search-container-persistent")
+                  Pagination=(component Pagination length=@items.length onPageChanged=(action (mut this.currentItemsSlice)))
+                  Row=ListRow
+                  Column=ListColumn
+                  Body=ListBody
+                  Header=ListHeader
+                  Toolbar=Toolbar
+          )
+  }}
+</div>

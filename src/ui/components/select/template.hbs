@@ -1,9 +1,12 @@
 {{import PowerSelectMultiple from 'ember-power-select/components/power-select-multiple'}}
 {{import PowerSelect from 'ember-power-select/components/power-select'}}
 {{import isSelected from 'ember-power-select/helpers/ember-power-select-is-selected'}}
+{{import Checkbox from '../checkbox'}}
+{{import defaultTo from 'carbon/src/ui/helpers/default-to'}}
+
 {{#if @multiple}}
   <PowerSelectMultiple
-    @searchEnabled={{true}}
+    @searchEnabled={{defaultTo @searchEnabled true}}
     @options={{@options}}
       @onfocus={{fn this.selectFocused}}
     @searchField={{@searchField}}
@@ -15,7 +18,7 @@
     @closeOnSelect={{false}}
   as |option select|
   >
-    <Checkbox @onclick='return false;' @readonly='true' @checked={{isSelected option select.selected}} >
+    <Checkbox @onClick='return false;' @readonly='true' @checked={{isSelected option select.selected}} >
       {{#if hasBlock}}
         {{yield option}}
       {{else}}
@@ -25,7 +28,7 @@
   </PowerSelectMultiple>
 {{else}}
   <PowerSelect
-    @searchEnabled={{true}}
+    @searchEnabled={{defaultTo @searchEnabled true}}
     @options={{@options}}
       @onfocus={{fn this.selectFocused}}
     @searchField={{@searchField}}

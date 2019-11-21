@@ -66,8 +66,8 @@ export default class SelectComponent extends Component {
   didInsertElement() {
     this.$('.ember-power-select-status-icon').replaceWith(''
       + '<svg class="bx--dropdown__arrow ember-power-select-status-icon" '
-      + 'width="10" height="5" viewBox="0 0 10 5" fill-rule="evenodd">\n'
-      + '    <path d="M10 0L5 5 0 0z"></path>\n'
+      + 'width="10" height="6" viewBox="0 0 10 6">\n'
+      + '    <path d="M5 6L0 1 0.7 0.3 5 4.6 9.3 0.3 10 1z"></path>\n'
       + '  </svg>');
   }
 }

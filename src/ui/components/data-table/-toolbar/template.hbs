@@ -1,0 +1,21 @@
+<section class="bx--table-toolbar ">
+   {{#if showActions}}
+     <div class="bx--batch-actions" aria-label="Table Action Bar">
+       <div class="bx--action-list">
+        {{yield 'actions' (hash
+                close=(fn (set this.showActions false))
+                selectedItems=@selectedItems)
+        }}
+       </div>
+       <div class="bx--batch-summary">
+         <p class="bx--batch-summary__para">
+           <span data-items-selected>{{@selectedItems.length}}</span> items selected
+         </p>
+       </div>
+     </div>
+   {{else}}
+     <div class="bx--toolbar-content">
+       {{yield 'content'}}
+     </div>
+   {{/if}}
+</section>

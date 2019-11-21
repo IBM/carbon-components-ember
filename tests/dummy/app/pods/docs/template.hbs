@@ -1,0 +1,10 @@
+{{import Viewer from 'ember-cli-addon-docs/components/docs-viewer'}}
+
+<Viewer as |viewer|>
+  <viewer.nav as |nav|>
+    <nav.item @label='Introduction' @route='docs.index' />
+  </viewer.nav>
+  <viewer.main>
+    {{outlet}}
+  </viewer.main>
+</Viewer>

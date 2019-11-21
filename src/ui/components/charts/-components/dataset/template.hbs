@@ -1,0 +1,11 @@
+{{import onUpdate from '../../-helpers/on-update'}}
+{{import defaultTo from 'carbon/src/ui/helpers/default-to'}}
+
+{{#if @chart.updateDataset}}
+  {{onUpdate @label @backgroundColors (fn 
+    @chart.updateDataset 
+    @label 
+    (defaultTo @backgroundColors this.defaultColor)
+    @data
+  )}}
+{{/if}}

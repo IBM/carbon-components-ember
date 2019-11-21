@@ -1,11 +1,15 @@
 // Variables
+@import "@carbon/charts/styles.css";
+@import "ember-styles";
+@import 'node_modules/carbon-components/scss/globals/scss/styles';
+@import 'node_modules/@carbon/themes/scss/themes';
 
 // Backgrounds
 $ember-power-select-background-color: #f4f7fb !default;
 $ember-power-select-disabled-background-color: #eeeeee !default;
-$ember-power-select-multiple-selection-background-color: #fff !default;
-$ember-power-select-highlighted-background: rgba(85, 150, 230, 0.1) !default;
-$ember-power-select-selected-background: #dddddd !default;
+$ember-power-select-multiple-selection-background-color: #e5e5e5 !default;
+$ember-power-select-highlighted-background: #e5e5e5 !default;
+$ember-power-select-selected-background: #e5e5e5 !default;
 
 // Texts
 $ember-power-select-text-color: #152935 !default;
@@ -20,11 +24,11 @@ $ember-power-select-focus-border-color: #3d70b2 !default;
 $ember-power-select-default-border: none !default;
 $ember-power-select-default-focus-border: none !default;
 
-$ember-power-select-trigger-border: none;
-$ember-power-select-trigger-border-top: $ember-power-select-trigger-border !default;
+$ember-power-select-trigger-border: 1px solid #8c8c8c;
+$ember-power-select-trigger-border-top: none;
 $ember-power-select-trigger-border-bottom: $ember-power-select-trigger-border !default;
-$ember-power-select-trigger-border-right: $ember-power-select-trigger-border !default;
-$ember-power-select-trigger-border-left: $ember-power-select-trigger-border !default;
+$ember-power-select-trigger-border-right: none;
+$ember-power-select-trigger-border-left: none;
 $ember-power-select-active-trigger-border: $ember-power-select-default-focus-border !default;
 $ember-power-select-active-trigger-border-top: $ember-power-select-active-trigger-border !default;
 $ember-power-select-active-trigger-border-bottom: $ember-power-select-active-trigger-border !default;
@@ -57,7 +61,7 @@ $ember-power-select-multiple-option-border-radius: $ember-power-select-default-b
 // Other
 $ember-power-select-focus-box-shadow: 0 2px 0 0 #3d70b2 !default;
 $ember-power-select-dropdown-margin: 0 !default; // Margin between the dropdown and the trigger
-$ember-power-select-dropdown-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1) !default;
+$ember-power-select-dropdown-box-shadow: 0 3px 3px 0 rgba(0,0,0,.1) !default;
 $ember-power-select-line-height: 1 !default;
 $ember-power-select-trigger-icon-color: $ember-power-select-border-color !default;
 $ember-power-select-clear-btn-margin: 25px !default;
@@ -71,6 +75,9 @@ $ember-power-select-multiple-option-line-height: 1.45 !default;
 
 
 .ember-power-select-multiple-trigger {
+  .bx--checkbox-wrapper {
+    display: inline-block;
+  }
   input[type='checkbox'] {
     display: none;
   }
@@ -86,25 +93,24 @@ $ember-power-select-multiple-option-line-height: 1.45 !default;
 }
 
 .ember-power-select-status-icon {
-  width: initial;
-  height: initial;
-  right: 1em;
-  border: none;
+  position: absolute;
+  will-change: transform;
+  fill: #171717;
+  right: 1rem;
+  pointer-events: none;
 }
 .ember-power-select-trigger, .ember-power-select-trigger-multiple-input {
   line-height: initial;
   padding: 10px 20px 10px 16px;
+  position: relative;
+  background: #f3f3f3;
 }
 
 .ember-power-select-multiple-options > .ember-power-select-multiple-option {
-  border: none;
-  margin-top: 0px;
-  margin-left: 0px;
-  margin-right: 2px;
-  line-height: inherit;
-  height: auto;
-  @extend .bx--list-box__selection;
-  @extend .bx--list-box__selection--multi;
+  border-radius: 10px;
+  background: #393939;
+  color: white;
+  width: fit-content;
 }
 
 .ember-power-select-multiple-remove-btn {
@@ -124,11 +130,22 @@ $ember-power-select-multiple-option-line-height: 1.45 !default;
   font-size: 0.875rem;
   align-items: center;
   min-height: 2.5rem;
+  background: #f3f3f3;
 }
 .ember-power-select-option[aria-current="true"] {
   text-decoration: underline;
+  background: #e5e5e5;
 }
 
 .bx--snippet {
   margin-bottom: 15px;
 }
+
+.ember-basic-dropdown-content, .ember-power-select-dropdown {
+  box-shadow: 0 3px 3px 0 rgba(0,0,0,.1);
+}
+
+.ember-power-select-search-input {
+  @extend .bx--text-input;
+}
+

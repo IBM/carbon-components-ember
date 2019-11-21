@@ -1,0 +1,18 @@
+{{import DataSet from '../-components/dataset'}}
+{{import Axis from '../-components/axis'}}
+{{import set from 'carbon/src/ui/helpers/set'}}
+{{import call from 'carbon/src/ui/helpers/call'}}
+
+{{yield (hash
+  DataSet=(component DataSet chart=this)
+  Axis=(component Axis chart=this)
+  )}}
+
+<div ...attributes
+  {{ref this 'chartDiv'}}
+  {{did-insert this.loadChart}}
+  {{did-update @labels @legendClickable @containerResizable this.updateChart}}
+  {{will-destroy this.destroyChart}}
+>
+</div>
+
