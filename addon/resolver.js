@@ -14,7 +14,7 @@ export default Resolver.extend({
       try {
         const parsedName = this.myParseName(name);
         result = this[methodName](parsedName, [root, al]);
-      } catch (e) {}
+      } catch (e) { }
     }
     if (result) return result;
     try {
@@ -33,7 +33,7 @@ export default Resolver.extend({
         return require(muPath).default;
       }
       [pkg, name] = parsedName.fullNameWithoutType.split('@');
-      const classicPath = `${pkg}/app/services/${name}`;
+      const classicPath = `${pkg}/services/${name}`;
       if (requirejs.has(classicPath)) {
         return require(classicPath).default;
       }

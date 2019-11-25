@@ -3,7 +3,7 @@ import { bxClassNames, classPrefix } from 'carbon-components-ember/decorators/bx
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-
+import { styleNamespace } from '/styles';
 /** @documenter yuidoc */
 
 /**
@@ -20,6 +20,7 @@ import { tracked } from '@glimmer/tracking';
 @classPrefix('bx--btn--')
 class CarbonButton extends Component {
   tagName = '';
+  styleNamespace = styleNamespace;
   args = {
     /**
      * Will display a spinning Wheel inside the button

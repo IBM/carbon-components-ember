@@ -1,0 +1,12 @@
+{{import Button from 'carbon-components-ember/components/button'}}
+{{import set from 'carbon-components-ember/helpers/set'}}
+{{import Demo from 'ember-cli-addon-docs/components/docs-demo'}}
+
+<Demo as |demo|>
+  <demo.example name='button.hbs'>
+    <Button @onClick={{set this 'clicked' true}} @danger={{this.isDanger}} @bubbles={{this.bubbles}}
+      @confirmText={{this.confirmText}}>
+      Button Text
+    </Button>
+  </demo.example>
+</Demo>

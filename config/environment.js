@@ -1,6 +1,6 @@
 module.exports = function (environment) {
   return {
-    podModulePrefix: '.',
+    podModulePrefix: 'crbon-components-ember',
     'ember-component-css': {
       namespaceStyles: true,
       componentRootPaths: [],
