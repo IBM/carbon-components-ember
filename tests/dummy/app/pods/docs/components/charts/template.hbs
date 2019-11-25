@@ -1,0 +1,24 @@
+{{import Checkbox from 'carbon-components-ember/components/checkbox'}}
+{{import Input from 'carbon-components-ember/components/form-input'}}
+{{import Demo from 'ember-cli-addon-docs/components/docs-demo'}}
+{{import set from 'carbon-components-ember/helpers/set'}}
+
+<h1>Carbon Charts</h1>
+
+<Demo as |demo|>
+  {{#demo.example name='bar-chart.hbs'}}
+    {{import BarChart from 'carbon-components-ember/components/charts/bar'}}
+
+    <BarChart style="height: 600px; width: 600px; display: inline-block"
+              @labels={{array 'Quantity' 'Leads' 'Sold' 'Restocking' 'Misc'}}
+              as |chart|>
+      <chart.Axis @axis='left' @title='2018 Annual Sales' @primary=true />
+      <chart.Axis @axis='bottom' @title='Figures' @secondary=true @scaleType='labels' />
+      <chart.DataSet
+          @label="Name"
+          @data={{array 65000 29123 35213 51213 16932}}
+      />
+    </BarChart>
+  {{/demo.example}}
+  <demo.snippet @name="bar-chart.hbs" />
+</Demo>

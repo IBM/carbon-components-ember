@@ -78,13 +78,24 @@ class CarbonButton extends Component {
   @service('carbon-components-ember@dialog-manager') dialogManager;
   @bxClassNames('primary', 'secondary', 'danger', 'tertiary', 'ghost', 'small:sm') bxClassNames;
 
-  @tracked loading;
-  @tracked disabled;
+  constructor(...args) {
+    super(...args);
+    if (this.args) {
+      Object.keys(this.args).forEach((k) => {
+        const obj = this;
+        Object.defineProperty(this.args, k, {
+          get() {
+            return obj[k];
+          }
+        })
+      });
+    }
+  }
 
   @action
   onButtonClick(...args) {
     const run = () => {
-      const ac = this.attrs.onClick;
+      const ac = this.args.onClick;
       if (ac) {
         const ret = ac(...args);
         if (ret && ret.finally) {
@@ -97,18 +108,18 @@ class CarbonButton extends Component {
         }
       }
     };
-    if (this.attrs.danger) {
-      this.dialogManager.open('carbon-components-ember/components/confirm', {
+    if (this.danger) {
+      this.dialogManager.open('carbon-components-ember/components/dialogs/confirm', {
         type: 'danger',
         header: 'Danger',
-        body: this.attrs.confirmText || 'Confirm this operation',
+        body: this.args.confirmText || 'Confirm this operation',
         onAccept: run
       });
     } else {
       run();
     }
     // Prevent bubbling, if specified. If undefined, the event will bubble.
-    return this.attrs.bubbles;
+    return this.args.bubbles;
   }
 }
 

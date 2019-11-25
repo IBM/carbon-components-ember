@@ -1,6 +1,7 @@
-{{import Modal from 'carbon/src/ui/components/modal'}}
-{{import defaultTo from 'carbon/src/ui/components/default-to'}}
+{{import Modal from 'carbon-components-ember/components/modal'}}
+{{import defaultTo from 'carbon-components-ember/helpers/default-to'}}
 {{import eq from '@abcum/ember-helpers/helpers/eq'}}
+
 <Modal @onClick={{fn this.onCancel}} as |block|>
   {{#if (eq block 'label')}}
   {{@options.label}}

@@ -3,7 +3,7 @@ import Component from '@ember/component';
 import { action } from '@ember/object';
 
 export default class DialogComponent extends Component {
-  @service('carbon@dialog-manager') dialogManager;
+  @service('carbon-components-ember@dialog-manager') dialogManager;
   tagName = '';
 
   @action
