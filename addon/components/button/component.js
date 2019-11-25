@@ -3,7 +3,7 @@ import { bxClassNames, classPrefix } from 'carbon-components-ember/decorators/bx
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { styleNamespace } from '/styles';
+import { styleNamespace } from './styles';
 /** @documenter yuidoc */
 
 /**
@@ -26,41 +26,53 @@ class CarbonButton extends Component {
      * Will display a spinning Wheel inside the button
      @argument loading
      @type boolean
-     @public
      */
     loading: null,
     /**
      @argument disabled
      @type boolean
-     @public
      */
     disabled: null,
     /**
      @argument bubbles
      @type boolean
-     @public
      */
     bubbles: null,
     /**
      @argument onClick
      @type function
-     @public
      */
     onClick: null,
     /**
      * Indicates if the action is dangerous, showing a confirmation dialog before calling `onClick`
      @argument danger
      @type boolean
-     @public
      */
     danger: null,
     /**
      * If the action is dangerous, this text message will be shown in the dialog
      @argument confirmText
      @type String
-     @public
      */
-    confirmText: null
+    confirmText: null,
+    /**
+     * If the action is tertiary
+     @argument tertiary
+     @type boolean
+     */
+    tertiary: null,
+    /**
+     * If the action is small
+     @argument small
+     @type boolean
+     */
+    small: null,
+    /**
+     * If the action is a ghost button
+     @argument ghost
+     @type boolean
+     */
+    ghost: null
   };
 
   @service('carbon-components-ember@dialog-manager') dialogManager;
@@ -86,7 +98,7 @@ class CarbonButton extends Component {
       }
     };
     if (this.attrs.danger) {
-      this.dialogManager.open('confirm', {
+      this.dialogManager.open('carbon-components-ember/components/confirm', {
         type: 'danger',
         header: 'Danger',
         body: this.attrs.confirmText || 'Confirm this operation',

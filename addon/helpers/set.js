@@ -1,10 +1,11 @@
 import { helper as buildHelper } from '@ember/component/helper';
+import { set } from '@ember/object';
 
-export function set([obj, key, v]) {
+export function setHelper([obj, key, v]) {
   return function (val) {
-    obj[key] = v || val;
+    set(obj, key, v || val);
   };
 }
 
-export const helper = buildHelper(set);
+export const helper = buildHelper(setHelper);
 export default helper;

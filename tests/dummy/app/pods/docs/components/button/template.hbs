@@ -1,12 +1,33 @@
+{{import Checkbox from 'carbon-components-ember/components/checkbox'}}
 {{import Button from 'carbon-components-ember/components/button'}}
-{{import set from 'carbon-components-ember/helpers/set'}}
 {{import Demo from 'ember-cli-addon-docs/components/docs-demo'}}
+{{import set from 'carbon-components-ember/helpers/set'}}
+
+<Checkbox @checked={{this.isPrimary}} @onChange={{fn (set this 'isPrimary') (not this.isPrimary)}}>
+  Primary
+</Checkbox>
+<Checkbox @checked={{this.isSecondary}} @onChange={{fn (set this 'isSecondary') (not this.isSecondary)}}>
+  Secondary
+</Checkbox>
+<Checkbox @checked={{this.isDanger}} @onChange={{fn (set this 'isDanger') (not this.isDanger)}}>
+  Is Danger
+</Checkbox>
+<Checkbox @checked={{this.isSmall}} @onChange={{fn (set this 'isSmall') (not this.isSmall)}}>
+  Is Small
+</Checkbox>
+<Checkbox @checked={{this.isTertiary}} @onChange={{fn (set this 'isTertiary') (not this.isTertiary)}}>
+  Is Tertiary
+</Checkbox>
+<label>Confirm Text</label>
+<Input @onChange={{set this 'confirmText'}} @value={{this.confirmText}} />
 
 <Demo as |demo|>
-  <demo.example name='button.hbs'>
-    <Button @onClick={{set this 'clicked' true}} @danger={{this.isDanger}} @bubbles={{this.bubbles}}
-      @confirmText={{this.confirmText}}>
+  <demo.example @name='button.hbs'>
+    <Button @primary={{this.isPrimary}} @secondary={{this.isSecondary}} @danger={{this.isDanger}}
+      @tertiary={{this.isTertiary}} @small={{this.isSmall}} @onClick={{set this 'clicked' true}}
+      @bubbles={{this.bubbles}} @confirmText={{this.confirmText}}>
       Button Text
     </Button>
   </demo.example>
+  <demo.snippet @name='button.hbs' />
 </Demo>

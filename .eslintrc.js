@@ -1,50 +1,38 @@
 module.exports = {
-  root: true,
-  parserOptions: {
-    ecmaVersion: 2017,
-    sourceType: 'module'
-  },
   plugins: [
     'ember'
   ],
+  globals: {
+  },
   extends: [
     'eslint:recommended',
-    'plugin:ember/recommended'
+    'plugin:ember/recommended', // or 'plugin:ember/base'
+    'airbnb-base'
   ],
-  env: {
-    browser: true
+  parser: "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module",
+    "allowImportExportEverywhere": false,
+    "codeFrame": true
   },
   rules: {
-  },
-  overrides: [
-    // node files
-    {
-      files: [
-        '.eslintrc.js',
-        '.template-lintrc.js',
-        'ember-cli-build.js',
-        'index.js',
-        'testem.js',
-        'blueprints/*/index.js',
-        'config/**/*.js',
-        'tests/dummy/config/**/*.js'
-      ],
-      excludedFiles: [
-        'src/**',
-        'tests/dummy/app/**'
-      ],
-      parserOptions: {
-        sourceType: 'script',
-        ecmaVersion: 2015
-      },
-      env: {
-        browser: false,
-        node: true
-      },
-      plugins: ['node'],
-      rules: Object.assign({}, require('eslint-plugin-node').configs.recommended.rules, {
-        // add your custom rules and overrides for node files here
-      })
-    }
-  ]
+    "import/extensions": "off",
+    "comma-dangle": ["error", "never"],
+    "max-len": ["error", { code: 120 }],
+    "lines-between-class-members": "off",
+    "prefer-destructuring": "off",
+    "space-before-function-paren": "off",
+    "array-callback-return": "off",
+    "func-names": "off",
+    "class-methods-use-this": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/no-unresolved": "off",
+    "no-underscore-dangle": "off",
+    "no-continue": "off",
+    "no-console": "off",
+    "no-plusplus": "off",
+    "no-param-reassign": "off",
+    "ember/no-attrs-in-components": "off",
+    "padded-blocks": ["error", { "classes": "never" }]
+  }
 };
