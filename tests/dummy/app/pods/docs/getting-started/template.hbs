@@ -1,0 +1,12 @@
+{{import Hero from 'ember-cli-addon-docs/components/docs-hero'}}
+{{import Demo from 'ember-cli-addon-docs/components/docs-demo'}}
+
+<Hero />
+
+<div class='container'>
+  <Demo as |demo|>
+    <demo.example @name="my-demo.hbs">
+      <p>Make sure to read up on the DocsDemo component before building out this page.</p>
+    </demo.example>
+  </Demo>
+</div>

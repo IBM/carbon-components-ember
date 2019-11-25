@@ -7,7 +7,16 @@ const Router = AddonDocsRouter.extend({
 });
 
 Router.map(function() {
-  docsRoute(this, function() { /* Your docs routes go here */ });
+  docsRoute(this, function() {
+    this.route('getting-started', function() {
+      this.route('installation');
+      this.route('overview');
+    });
+
+    this.route('components', function() {
+      this.route('button');
+    });
+  });
 });
 
 export default Router;

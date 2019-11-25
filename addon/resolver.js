@@ -70,14 +70,11 @@ export default Resolver.extend({
     return undefined;
   },
 
-  resolveHelper(parsedName, [root, al]) {
+  resolveHelper(parsedName) {
     let path = parsedName.fullNameWithoutType;
     if (parsedName.fullNameWithoutType.includes('/')) {
       // eslint-disable-next-line prefer-const
       let [pkg, name] = parsedName.fullNameWithoutType.split('/');
-      if (al) {
-        pkg = pkg.replace(root, al);
-      }
       path = `${pkg}/src/ui/components/${name}`;
 
       if (requirejs.has(path)) {

@@ -2,7 +2,12 @@
 
 <Viewer as |viewer|>
   <viewer.nav as |nav|>
-    <nav.item @label='Introduction' @route='docs.index' />
+    <nav.section @label='Getting Started' />
+    <nav.item @label='Installation' @route='docs.getting-started.installation' />
+    <nav.item @label='Overview' @route='docs.getting-started.overview' />
+
+    <nav.section @label='Components' />
+    <nav.item @label='Button' @route='docs.components.button' />
   </viewer.nav>
   <viewer.main>
     {{outlet}}
