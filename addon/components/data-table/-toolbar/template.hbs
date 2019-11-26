@@ -1,8 +1,5 @@
-{{import SearchInput from  'carbon-components-ember/components/search-input'}}
-{{import Menu from  'carbon-components-ember/components/menu'}}
-
 <section class="bx--table-toolbar ">
-   {{#if showActions}}
+   {{#if @selectedItems.length}}
      <div class="bx--batch-actions" aria-label="Table Action Bar">
        <div class="bx--action-list">
         {{yield 'actions' (hash
@@ -21,5 +18,4 @@
        {{yield 'content'}}
      </div>
    {{/if}}
-</section>
 </section>

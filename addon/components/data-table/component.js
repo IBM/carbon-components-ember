@@ -1,4 +1,5 @@
 import Component from '@ember/component';
+import { action } from '@ember/component';
 import { tracked } from '@glimmer/tracking';
 
 export default class ListComponent extends Component {
@@ -25,5 +26,18 @@ export default class ListComponent extends Component {
     }
     if (!this.items || !this.currentItemsSlice) return [];
     return this.items.slice(this.currentItemsSlice.start, this.items.end);
+  }
+
+  get allChecked() {
+    return this.currentItems.every(i => this.selectedItems.includes(i));
+  }
+
+  @action
+  toggleSelectAllItems(select) {
+    if (select) {
+      this.selectedItems = this.currentItems.slice();
+    } else {
+      this.selectedItems = [];
+    }
   }
 }
