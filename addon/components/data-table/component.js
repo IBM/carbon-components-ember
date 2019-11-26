@@ -5,6 +5,7 @@ export default class ListComponent extends Component {
   tagName = '';
   @tracked attrs;
   @tracked currentSearch = null;
+  @tracked selectedItems = [];
   @tracked currentItemsSlice = { start: 0, end: -1 };
 
   filter(items, term) {

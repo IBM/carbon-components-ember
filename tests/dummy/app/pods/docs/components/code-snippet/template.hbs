@@ -1,0 +1,40 @@
+{{import Input from 'carbon-components-ember/components/form-input'}}
+{{import Demo from 'ember-cli-addon-docs/components/docs-demo'}}
+{{import set from 'carbon-components-ember/helpers/set'}}
+
+<h1>Carbon Code Snippet</h1>
+
+<Demo as |demo|>
+  {{#demo.example name='code-snippet.hbs'}}
+    {{import CodeSnippet from 'carbon-components-ember/components/code-snippet'}}
+
+    <CodeSnippet @type="default" >
+      Some code
+    </CodeSnippet>
+
+    <p>
+      Some text about this code <CodeSnippet @type="inline" >inline code</CodeSnippet> here
+    </p>
+
+    <CodeSnippet @type="multiline" >
+      Some code
+      multiline
+      code
+      a
+      b
+      c
+      d
+      e
+      f
+      g
+      h
+      i
+      j
+      k
+      l
+      m
+    </CodeSnippet>
+
+  {{/demo.example}}
+  <demo.snippet @name="code-snippet.hbs" />
+</Demo>

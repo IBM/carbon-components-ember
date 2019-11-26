@@ -38,10 +38,11 @@ export default class CarbonCopyButton extends Component {
   tagName = '';
   carbonElement = null;
   carbonComponent = null;
+  ownElement = null;
 
   get options() {
     return {
-      targetElement: this.targetElement,
+      targetElement: this.targetElement || this.ownElement,
       targetElementId: this.attrs.targetElementId
     };
   }

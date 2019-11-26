@@ -13,7 +13,7 @@
 {{/if}}
 
 
-{{#if (eq this.type 'multiline')}}
+{{#if (eq @type 'multiline')}}
   <div {{ref this "carbonElement"}}
     {{did-insert this.loadCarbonComponent}} {{will-destroy this.destroyCarbonComponent}}
       class="bx--snippet bx--snippet--multi"
@@ -40,6 +40,6 @@
 {{/if}}
 
 
-{{#if (eq this.type 'inline')}}
+{{#if (eq @type 'inline')}}
   <CopyButton @inline=true>{{yield}}</CopyButton>
 {{/if}}

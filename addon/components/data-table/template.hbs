@@ -12,6 +12,10 @@
 {{/if}}
 
 <div class="bx--data-table-container " data-table>
+  <div class="bx--data-table-header">
+    <h4 class="bx--data-table-header__title">{{@title}}</h4>
+    <p class="bx--data-table-header__description">{{@description}}</p>
+  </div>
   {{yield (hash
                   items=this.currentItems
                   SearchInput=(component SearchInput value=this.currentSearch onChange=(action (mut this.currentSearch)) light=true small=true style="width: 250px; display: inline-block;" class="bx--toolbar-search-container-persistent")
@@ -20,7 +24,7 @@
                   Column=ListColumn
                   Body=ListBody
                   Header=ListHeader
-                  Toolbar=Toolbar
+                  Toolbar=(component Toolbar table=this selectedItems=this.selectedItems)
           )
   }}
 </div>

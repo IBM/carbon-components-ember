@@ -5,6 +5,7 @@
 
 <h1>Carbon Charts</h1>
 
+<h2>Bar Chart</h2>
 <Demo as |demo|>
   {{#demo.example name='bar-chart.hbs'}}
     {{import BarChart from 'carbon-components-ember/components/charts/bar'}}
@@ -21,4 +22,42 @@
     </BarChart>
   {{/demo.example}}
   <demo.snippet @name="bar-chart.hbs" />
+</Demo>
+
+<h2>Line Chart</h2>
+<Demo as |demo|>
+  {{#demo.example name='line-chart.hbs'}}
+    {{import LineChart from 'carbon-components-ember/components/charts/line'}}
+
+    <LineChart style="height: 600px; width: 600px; display: inline-block"
+              @labels={{array 'Quantity' 'Leads' 'Sold' 'Restocking' 'Misc'}}
+              as |chart|>
+      <chart.Axis @axis='left' @title='2018 Annual Sales' @primary=true />
+      <chart.Axis @axis='bottom' @title='Figures' @secondary=true @scaleType='labels' />
+      <chart.DataSet
+          @label="Name"
+          @data={{array 65000 29123 35213 51213 16932}}
+      />
+    </LineChart>
+  {{/demo.example}}
+  <demo.snippet @name="line-chart.hbs" />
+</Demo>
+
+<h2>Line Chart</h2>
+<Demo as |demo|>
+  {{#demo.example name='pie-chart.hbs'}}
+    {{import PieChart from 'carbon-components-ember/components/charts/pie'}}
+
+    <PieChart style="height: 600px; width: 600px; display: inline-block"
+               @labels={{array 'Quantity' 'Leads' 'Sold' 'Restocking' 'Misc'}}
+               as |chart|>
+      <chart.Axis @axis='left' @title='2018 Annual Sales' @primary=true />
+      <chart.Axis @axis='bottom' @title='Figures' @secondary=true @scaleType='labels' />
+      <chart.DataSet
+          @label="Name"
+          @data={{array 65000 29123 35213 51213 16932}}
+      />
+    </PieChart>
+  {{/demo.example}}
+  <demo.snippet @name="pie-chart.hbs" />
 </Demo>
