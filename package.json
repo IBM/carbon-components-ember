@@ -58,6 +58,12 @@
     "loader.js": "^4.7.0"
   },
   "dependencies": {
+    "ember-power-select": "^3.0.4",
+    "ember-power-calendar": "^0.14.5",
+    "ember-power-calendar-moment": "^0.1.7",
+    "ember-power-datepicker": "^0.7.1",
+    "ember-tooltips": "^3.4.0",
+    "ember-cli-moment-shim": "^3.7.1",
     "@abcum/ember-helpers": "*",
     "@carbon/charts": "^0.16.25",
     "@carbon/colors": "^10.4.0",
