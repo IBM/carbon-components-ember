@@ -20,6 +20,7 @@ jobs:
     - name: npm install, build, and test
       run: |
         npm install -g ember-cli
+        npm install
         ember deploy
       env:
         CI: true
