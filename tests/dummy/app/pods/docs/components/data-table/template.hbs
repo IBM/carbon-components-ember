@@ -8,8 +8,21 @@
   {{#demo.example name='data-table.hbs'}}
     {{import DataTable from 'carbon-components-ember/components/data-table'}}
 
-    <DataTable as |table|>
-      <table.Header></table.Header>
+    <DataTable @items={{array (hash name='a' b='c')}}
+	  as |table|>
+	  <table.Toolbar>
+		<Table.SearchInput />
+	  </table.Toolbar>
+      <table.Header @headers={{array (hash label='Name') (hash label='details')}}></table.Header>	 
+	  <table.Body>
+	    {{#each table.items as |item|}}
+			<table.Row>
+				<table.Column>{{item.name}}</table.Column>
+				<table.Column>{{item.b}}</table.Column>
+			</table.Row>
+		{{/each}}
+	  </table.Body>
+	  
     </DataTable>
 
   {{/demo.example}}
