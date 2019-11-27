@@ -94,7 +94,6 @@
     "ember-maybe-import-regenerator": "*",
     "ember-template-component-import": "*",
     "ember-template-helper-import": "*",
-    "ember-template-styles-import": "git+https://github.com/davewasmer/ember-template-styles-import.git",
     "node-sass": "*"
   },
   "homepage": "https://patricklx.github.io/carbon-components-ember"
