@@ -43,7 +43,7 @@
     "ember-cli-shims": "^1.2.0",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-template-lint": "^1.0.0-beta.3",
-    "ember-cli-uglify": "^3.0.0",
+    "ember-cli-uglify": "^3.0.0",    
     "ember-export-application-global": "^2.0.0",
     "ember-load-initializers": "^2.0.0",
     "ember-maybe-import-regenerator": "^0.1.6",
@@ -54,10 +54,10 @@
     "ember-template-component-import": "^1.1.3",
     "ember-template-helper-import": "^0.2.2",
     "ember-try": "^1.2.1",
-    "ember-component-css": "github:ebryn/ember-component-css#registry-way",
     "loader.js": "^4.7.0"
   },
   "dependencies": {
+    "ember-component-css": "github:patricklx/ember-component-css#registry-way",
     "ember-power-select": "^3.0.4",
     "ember-power-calendar": "^0.14.5",
     "ember-power-calendar-moment": "^0.1.7",
@@ -90,7 +90,6 @@
     "ember-cli-htmlbars-inline-precompile": "*",
     "ember-cli-sass": "*",
     "ember-cli-template-lint": "*",
-    "ember-component-css": "github:ebryn/ember-component-css#registry-way",
     "ember-maybe-import-regenerator": "*",
     "ember-template-component-import": "*",
     "ember-template-helper-import": "*",

@@ -1,7 +1,7 @@
 module.exports = function (environment) {
   return {
     modulePrefix: 'dummy',
-    rootURL: '/',
+    rootURL: '/carbon-components-ember/versions/' + require('child_process').execSync('git branch | grep \\* | cut -d \' \' -f2').toString().trim(),
     locationType: 'auto',
     environment,
     podModulePrefix: 'dummy/pods',
