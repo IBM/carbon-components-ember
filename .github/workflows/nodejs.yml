@@ -21,6 +21,6 @@ jobs:
       run: |
         npm install -g ember-cli
         npm install
-        ember deploy
+        ember deploy production
       env:
         CI: true
