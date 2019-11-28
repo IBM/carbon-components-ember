@@ -7,7 +7,7 @@
   <dd.Trigger class="bx--overflow-menu">
     <Icon @fill='white' @size=24 @icon={{defaultTo @icon 'overflow-menu'}} class='bx--overflow-menu__icon' />
   </dd.Trigger>
-  <dd.Content class="bx--overflow-menu-options bx--overflow-menu-options--open">
+  <dd.Content class="bx--overflow-menu-options--open">
     <ul  {{on 'click' (fn dd.actions.close)}} style="display: block" class="bx--overflow-menu-options__content" tabindex="-1" data-floating-menu-direction={{defaultTo @direction 'buttom'}}>
         {{yield Item}}
     </ul>
