@@ -1,4 +1,4 @@
-name: CI
+name: deploy
 
 on:
   push:
@@ -8,7 +8,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    env:
+       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
     - uses: actions/checkout@v1
     - name: tag
