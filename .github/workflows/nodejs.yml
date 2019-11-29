@@ -1,6 +1,9 @@
 name: Node CI
 
-on: [push]
+on: 
+  push:
+    branches: master
+    tags: '*'
 
 jobs:
   build:
@@ -24,3 +27,5 @@ jobs:
         ember deploy production
       env:
         CI: true
+        ADDON_DOCS_VERSION_PATH: "${GITHUB_REF##*/}"
+        ADDON_DOCS_UPDATE_LATEST: false
