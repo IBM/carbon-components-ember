@@ -1,0 +1,16 @@
+{{import Checkbox from 'carbon-components-ember/components/checkbox'}}
+{{import Breadcrumbs from 'carbon-components-ember/components/breadcrumbs'}}
+{{import Input from 'carbon-components-ember/components/form-input'}}
+{{import Demo from 'ember-cli-addon-docs/components/docs-demo'}}
+{{import set from 'carbon-components-ember/helpers/set'}}
+
+<h1>Carbon Breadcrumbs</h1>
+
+<Demo as |demo|>
+  {{#demo.example name='breadcrumbs-simple.hbs'}}
+    {{import Breadcrumbs from 'carbon-components-ember/components/breadcrumbs'}}
+
+    <Breadcrumbs @crumbs={{array 'a' 'b' 'c'}} />
+  {{/demo.example}}
+  <demo.snippet @name="breadcrumbs-simple.hbs" />
+</Demo>

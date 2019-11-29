@@ -1,0 +1,28 @@
+{{import Modal from 'carbon-components-ember/components/modal'}}
+{{import defaultTo from 'carbon-components-ember/helpers/default-to'}}
+{{import eq from '@abcum/ember-helpers/helpers/eq'}}
+
+<Modal @onClick={{fn this.onCancel}} as |block|>
+  {{#if (eq block 'label')}}
+  {{@options.label}}
+  {{/if}}
+
+  {{#if (eq block 'header')}}
+  {{@options.label}}
+  {{/if}}
+
+  {{#if (eq block 'content')}}
+  <p>
+    {{@options.body}}
+  </p>
+  {{/if}}
+
+  {{#if (eq block 'footer')}}
+  <button class="bx--btn bx--btn--secondary" type="button" data-modal-close {{on 'click' this.onCancel}}>
+    {{defaultTo @options.cancelText 'Cancel'}}
+  </button>
+  <button class="bx--btn bx--btn--{{@options.type}} bx--btn--primary" type="button" aria-label="Danger"
+    {{on 'click' this.onAccept}} data-modal-primary-focus>{{defaultTo @options.cancelText 'Okay'}}
+  </button>
+  {{/if}}
+</Modal>

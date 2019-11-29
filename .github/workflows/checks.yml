@@ -1,9 +1,8 @@
-name: Node CI
+name: Run Checks
 
 on: 
   push:
-    branches: master
-    tags: '*'
+    branches: '*'
 
 jobs:
   build:
@@ -24,7 +23,8 @@ jobs:
       run: |
         npm install -g ember-cli
         npm install
-        ember deploy production
+        npm run lint        
+        ember b
       env:
         CI: true
         ADDON_DOCS_VERSION_PATH: "${GITHUB_REF##*/}"

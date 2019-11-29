@@ -1,0 +1,34 @@
+{{import ListRow from './-row'}}
+{{import ListColumn from './-column'}}
+{{import ListHeader from './-header'}}
+{{import ListBody from './-body'}}
+{{import Skeleton from './-skeleton'}}
+{{import Toolbar from './-toolbar'}}
+{{import Table from './-table'}}
+{{import Pagination from '../pagination'}}
+{{import SearchInput from './-search-input'}}
+{{import Menu from './-menu'}}
+
+{{#if @isLoading}}
+  <Skeleton />
+{{/if}}
+
+<div class="bx--data-table-container " data-table>
+  <div class="bx--data-table-header">
+    <h4 class="bx--data-table-header__title">{{@title}}</h4>
+    <p class="bx--data-table-header__description">{{@description}}</p>
+  </div>
+  {{yield (hash
+                  items=this.currentItems
+                  SearchInput=(component SearchInput value=this.currentSearch onChange=(fn (mut this.currentSearch)))
+                  Pagination=(component Pagination length=@items.length onPageChanged=(fn (mut this.currentItemsSlice)))
+                  Row=(component ListRow isExpandable=this.isExpandable isCheckable=this.isCheckable table=this)
+                  Menu=Menu
+                  Table=Table
+                  Column=ListColumn
+                  Body=ListBody
+                  Header=(component ListHeader table=this)
+                  Toolbar=(component Toolbar table=this)
+          )
+  }}
+</div>

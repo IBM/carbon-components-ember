@@ -1,0 +1,50 @@
+{{#if this.loaderAttrs.active}}
+  {{#if @overlay}}
+      <div class="bx--loading-overlay"
+           style="height: 100%"
+        {{ref this "carbonElement"}}
+        {{did-insert this.loadCarbonComponent}}
+        {{will-destroy this.destroyCarbonComponent}}>
+          <div data-loading class="bx--loading {{if @small 'bx--loading--small'}} {{this.classNames}}" ...attributes>
+              <svg class="bx--loading__svg" viewBox="-75 -75 150 150">
+                  <title>Loading</title>
+                {{#if @small}}
+                    <circle class="bx--loading__background" cx="0" cy="0" r="37.5" />
+                {{/if}}
+                  <circle class="bx--loading__stroke" cx="0" cy="0" r="37.5" />
+              </svg>
+          </div>
+      </div>
+  {{else if @inline}}
+      <div class="bx--inline-loading {{this.classNames}}" aria-live="assertive" style="margin-left: 1rem; width: initial; display: inline-block;"
+        {{ref this "carbonElement"}}
+        {{did-insert this.loadCarbonComponent}}
+        {{will-destroy this.destroyCarbonComponent}} ...attributes
+      >
+          <div class="bx--inline-loading__animation">
+              <div aria-label="Active loading indicator" aria-live="assertive" class="bx--loading bx--loading--small">
+                  <svg class="bx--loading__svg" viewBox="-75 -75 150 150">
+                      <title>Active loading indicator</title>
+                      <circle class="bx--loading__background" cx="0" cy="0" r="37.5"></circle>
+                      <circle class="bx--loading__stroke" cx="0" cy="0" r="37.5">
+                      </circle>
+                  </svg>
+              </div>
+          </div>
+          <div class="bx--inline-loading__text">{{@title}}</div>
+      </div>
+  {{else}}
+      <div data-loading class="{{this.classNames}}"
+        {{ref this "carbonElement"}}
+        {{did-insert this.loadCarbonComponent}}
+        {{will-destroy this.destroyCarbonComponent}} ...attributes>
+          <svg class="bx--loading {{if @small 'bx--loading--small'}} bx--loading__svg" viewBox="-75 -75 150 150">
+              <title>Loading</title>
+            {{#if @small}}
+                <circle class="bx--loading__background" cx="0" cy="0" r="37.5" />
+            {{/if}}
+              <circle class="bx--loading__stroke" cx="0" cy="0" r="37.5" />
+          </svg>
+      </div>
+  {{/if}}
+{{/if}}

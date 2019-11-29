@@ -1,0 +1,16 @@
+{{import DocsHeader from 'ember-cli-addon-docs/components/docs-header'}}
+
+<DocsHeader />
+
+{{outlet}}
+
+<div style="position: fixed; top: 0; right: 0; width: 350px; z-index: 9999">
+  {{#each this.notifications.queue as |notification|}}
+  <Notification style="word-wrap: break-word; width: 350px;" @notification={{notification}} />
+  {{/each}}
+</div>
+<div>
+  {{#if this.dialogManager.currentDialog}}
+  {{component this.dialogManager.currentDialog options=this.dialogManager.options}}
+  {{/if}}
+</div>

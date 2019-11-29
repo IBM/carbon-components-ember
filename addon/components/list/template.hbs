@@ -1,0 +1,25 @@
+{{import ListRow from './-row'}}
+{{import ListColumn from './-column'}}
+{{import ListHeader from './-header'}}
+{{import ListBody from './-body'}}
+{{import Skeleton from './-skeleton'}}
+{{import Pagination from '../pagination'}}
+{{import SearchInput from '../search-input'}}
+
+{{#if @loading}}
+  <Skeleton />
+{{else}}
+  <section class="bx--structured-list {{styleNamespace}}" style="position: relative;" {{did-insert this.delayItems}}>
+    {{yield (hash
+                    items=this.currentItems
+                    SearchInput=(component SearchInput value=this.currentSearch onChange=(action (mut this.currentSearch)) light=true small=true)
+                    Pagination=(component Pagination length=@items.length onPageChanged=(action (mut this.currentItemsSlice)))
+                    Row=ListRow
+                    Column=ListColumn
+                    Body=ListBody
+                    Header=ListHeader
+            )
+    }}
+  </section>
+
+{{/if}}

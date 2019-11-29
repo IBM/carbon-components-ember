@@ -1,0 +1,37 @@
+{{import Viewer from 'ember-cli-addon-docs/components/docs-viewer'}}
+
+<Viewer as |viewer|>
+  <viewer.nav as |nav|>
+    <nav.section @label='Getting Started' />
+    <nav.item @label='Installation' @route='docs.getting-started.installation' />
+
+    <nav.section @label='Components' />
+    <nav.item @label='Button' @route='docs.components.button' />
+    <nav.item @label='Breadcrumbs' @route='docs.components.breadcrumbs' />
+    <nav.item @label='card' @route='docs.components.card' />
+    <nav.item @label='charts' @route='docs.components.charts' />
+    <nav.item @label='checkbox' @route='docs.components.checkbox' />
+    <nav.item @label='code-snippet' @route='docs.components.code-snippet' />
+    <nav.item @label='copy-button' @route='docs.components.copy-button' />
+    <nav.item @label='data-table' @route='docs.components.data-table' />
+    <nav.item @label='confirm' @route='docs.components.confirm' />
+    <nav.item @label='form-input' @route='docs.components.form-input' />
+    <nav.item @label='icon' @route='docs.components.icon' />
+    <nav.item @label='list' @route='docs.components.list' />
+    <nav.item @label='loading' @route='docs.components.loading' />
+    <nav.item @label='menu' @route='docs.components.menu' />
+    <nav.item @label='modal' @route='docs.components.modal' />
+    <nav.item @label='notification' @route='docs.components.notification' />
+    <nav.item @label='pagination' @route='docs.components.pagination' />
+    <nav.item @label='search-input' @route='docs.components.search-input' />
+    <nav.item @label='select' @route='docs.components.select' />
+    <nav.item @label='tabs' @route='docs.components.tabs' />
+    <nav.item @label='tag' @route='docs.components.tag' />
+    <nav.item @label='tile' @route='docs.components.tile' />
+    <nav.item @label='toggle' @route='docs.components.toggle' />
+    <nav.item @label='ui-shell' @route='docs.components.ui-shell' />
+  </viewer.nav>
+  <viewer.main>
+    {{outlet}}
+  </viewer.main>
+</Viewer>

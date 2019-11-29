@@ -1,9 +1,6 @@
-name: Node CI
+name: Update Latest Docs
 
-on: 
-  push:
-    branches: master
-    tags: '*'
+on: release
 
 jobs:
   build:
@@ -28,4 +25,4 @@ jobs:
       env:
         CI: true
         ADDON_DOCS_VERSION_PATH: "${GITHUB_REF##*/}"
-        ADDON_DOCS_UPDATE_LATEST: false
+        ADDON_DOCS_UPDATE_LATEST: true
