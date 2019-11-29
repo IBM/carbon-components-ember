@@ -14,5 +14,9 @@ jobs:
     - uses: actions/checkout@v1
     - name: tag
       uses: ButlerLogic/action-autotag@1.0.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: release
       uses: Roang-zero1/github-create-release-action@v2.0.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
