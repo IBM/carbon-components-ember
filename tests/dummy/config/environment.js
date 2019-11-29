@@ -1,7 +1,10 @@
+
+// eslint-disable-next-line no-undef
 module.exports = function (environment) {
   return {
     modulePrefix: 'dummy',
-    rootURL: '/carbon-components-ember/versions/' + require('child_process').execSync('git branch | grep \\* | cut -d \' \' -f2').toString().trim(),
+    // eslint-disable-next-line no-undef,max-len
+    rootURL: `/carbon-components-ember/versions/${require('child_process').execSync('git branch | grep \\* | cut -d \' \' -f2').toString().trim()}`,
     locationType: 'auto',
     environment,
     podModulePrefix: 'dummy/pods',

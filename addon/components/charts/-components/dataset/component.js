@@ -31,7 +31,7 @@ class CarbonChartDataSet extends Component {
      * @argument data
      * @type number[]
      */
-      data: [],
+      data: []
   }
 }
 

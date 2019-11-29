@@ -2,7 +2,6 @@ import Component from '@ember/component';
 import { bxClassNames, classPrefix, argsCompat } from 'carbon-components-ember/decorators/bx-class-names';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
-import { tracked } from '@glimmer/tracking';
 import { styleNamespace } from './styles';
 /** @documenter yuidoc */
 

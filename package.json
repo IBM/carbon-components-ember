@@ -11,10 +11,13 @@
     "url": "https://github.com/patricklx/carbon-components-ember"
   },
   "scripts": {
-    "build-storybook": "ember build && build-storybook -p 9001 -s dist",
-    "storybook": "ember serve & start-storybook -p 9001 -s dist"
+    "lint": "./node_modules/.bin/eslint tests addon"
   },
   "devDependencies": {
+    "eslint": "^6.7.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-ember": "^7.6.0",
+    "eslint-plugin-ember-standard": "^2.1.0",
     "@embroider/compat": "^0.9.0",
     "@embroider/core": "^0.9.0",
     "@embroider/webpack": "^0.9.0",
@@ -43,7 +46,7 @@
     "ember-cli-shims": "^1.2.0",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-template-lint": "^1.0.0-beta.3",
-    "ember-cli-uglify": "^3.0.0",    
+    "ember-cli-uglify": "^3.0.0",
     "ember-export-application-global": "^2.0.0",
     "ember-load-initializers": "^2.0.0",
     "ember-maybe-import-regenerator": "^0.1.6",
@@ -51,12 +54,12 @@
     "ember-ref-modifier": "^0.1.3",
     "ember-resolver": "^5.1.3",
     "ember-source": "^3.14.2",
-    "ember-template-component-import": "^1.1.3",
-    "ember-template-helper-import": "^0.2.2",
     "ember-try": "^1.2.1",
     "loader.js": "^4.7.0"
   },
   "dependencies": {
+    "ember-prop-types": "^9.0.2",
+    "@glimmer/tracking": "^0.14.0-alpha.1",
     "ember-component-css": "github:patricklx/ember-component-css#registry-way",
     "ember-power-select": "^3.0.4",
     "ember-power-calendar": "^0.14.5",
@@ -91,8 +94,8 @@
     "ember-cli-sass": "*",
     "ember-cli-template-lint": "*",
     "ember-maybe-import-regenerator": "*",
-    "ember-template-component-import": "*",
-    "ember-template-helper-import": "*",
+    "ember-template-component-import": "^1.1.3",
+    "ember-template-helper-import": "^0.2.5",
     "node-sass": "*"
   },
   "homepage": "https://patricklx.github.io/carbon-components-ember"
