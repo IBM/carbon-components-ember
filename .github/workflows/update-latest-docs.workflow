@@ -21,10 +21,12 @@ jobs:
       run: |
         npm install -g ember-cli
         npm install
-        ember deploy production
-        npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
-        npm publish
+        ember deploy production        
       env:
         CI: true
         ADDON_DOCS_VERSION_PATH: "${GITHUB_REF##*/}"
         ADDON_DOCS_UPDATE_LATEST: true
+    - name: npm publish
+      run: |
+        npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
+        npm publish
