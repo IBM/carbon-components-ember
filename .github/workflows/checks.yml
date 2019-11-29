@@ -22,7 +22,9 @@ jobs:
     - name: npm install, build, and test
       run: |
         npm install -g ember-cli
+        npm install
         npm run lint        
+        ember b
       env:
         CI: true
         ADDON_DOCS_VERSION_PATH: "${GITHUB_REF##*/}"
