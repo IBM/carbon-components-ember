@@ -1,4 +1,4 @@
-name: Update Latest Docs
+name: Update Latest Docs And Release
 
 on: release
 
@@ -22,6 +22,8 @@ jobs:
         npm install -g ember-cli
         npm install
         ember deploy production
+        npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
+        npm publish
       env:
         CI: true
         ADDON_DOCS_VERSION_PATH: "${GITHUB_REF##*/}"
