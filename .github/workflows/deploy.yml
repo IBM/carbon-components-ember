@@ -1,0 +1,17 @@
+name: CI
+
+on:
+  push:
+    branches: master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: tag
+      uses: ButlerLogic/action-autotag@1.0.2
+    - name: release
+      uses: Roang-zero1/github-create-release-action@v2.0.2
