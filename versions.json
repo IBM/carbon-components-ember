@@ -4,5 +4,11 @@
     "name": "wip",
     "sha": "c7991a6dbf1694cc04746a2aa31d17d56c54412a",
     "tag": null
+  },
+  "fix-workflow": {
+    "path": "versions\\fix-workflow",
+    "name": "fix-workflow",
+    "sha": "cef8df1df550b76b512aaac10b68e6d17d2fe56c",
+    "tag": null
   }
 }
