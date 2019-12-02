@@ -13,9 +13,8 @@ jobs:
         node-version: 12.x
     - name: npm install, build, and test
       run: |
-        npm install -g ember-cli
         npm install
-        ember test
+        ./node_modules/.bin/ember test
       env:
         CI: true
 
@@ -40,16 +39,15 @@ jobs:
         uses: rwjblue/setup-volta@v1
       - name: Install dependencies (npm)
         run: |
-          npm install -g ember-cli
           npm install
       - name: Setup ember-try scenario
-        run: ember try:one ember-${{ matrix.scenario }} --skip-cleanup --- cat package.json
+        run: ./node_modules/.bin/ember try:one ember-${{ matrix.scenario }} --skip-cleanup --- cat package.json
       - name: Build
-        run: npm ember build --environment test
+        run: npm ./node_modules/.bin/ember build --environment test
       - name: Run test
         # Due to a bug in ember-cli, running `ember test` with `--path` doesn't set `EMBER_ENV=test`
         # See https://github.com/ember-cli/ember-cli/issues/8922
-        run: EMBER_ENV=test npm ember test
+        run: EMBER_ENV=test ./node_modules/.bin/ember test
 
   deploy:
     needs: [test]
@@ -66,9 +64,8 @@ jobs:
           node-version: 12.x
       - name: npm install, build, and deploy docs
         run: |
-          npm install -g ember-cli
           npm install
-          ember deploy production
+          ./node_modules/.bin/ember deploy production
         env:
           CI: true
           ADDON_DOCS_VERSION_PATH: "${GITHUB_REF##*/}"
