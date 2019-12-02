@@ -39,7 +39,9 @@ jobs:
       - name: Set up Volta
         uses: rwjblue/setup-volta@v1
       - name: Install dependencies (npm)
-        run: npm install
+        run: |
+          npm install -g ember-cli
+          npm install
       - name: Setup ember-try scenario
         run: ember try:one ember-${{ matrix.scenario }} --skip-cleanup --- cat package.json
       - name: Build
