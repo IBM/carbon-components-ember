@@ -48,7 +48,7 @@ jobs:
         run: ./node_modules/.bin/ember test
 
   deploy:
-    needs: [test]
+    needs: [test, ember-try]
     if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     strategy:
@@ -66,8 +66,11 @@ jobs:
           ./node_modules/.bin/ember deploy production
         env:
           CI: true
+          DEPLOY_KEY: "${{ secrets.DEPLOY_KEY }}"
           ADDON_DOCS_VERSION_PATH: "${GITHUB_REF##*/}"
           ADDON_DOCS_UPDATE_LATEST: startsWith(github.ref, 'refs/tags/v')
       - name: deploy npm
         if: startsWith(github.ref, 'refs/tags/v')
         run: npm publish
+        env:
+          NPM_TOKEN: "${{ secrets.NPM_TOKEN }}"
