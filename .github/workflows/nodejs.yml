@@ -43,11 +43,9 @@ jobs:
       - name: Setup ember-try scenario
         run: ./node_modules/.bin/ember try:one ember-${{ matrix.scenario }} --skip-cleanup --- cat package.json
       - name: Build
-        run: npm ./node_modules/.bin/ember build --environment test
+        run: ./node_modules/.bin/ember build --environment test
       - name: Run test
-        # Due to a bug in ember-cli, running `ember test` with `--path` doesn't set `EMBER_ENV=test`
-        # See https://github.com/ember-cli/ember-cli/issues/8922
-        run: EMBER_ENV=test ./node_modules/.bin/ember test
+        run: ./node_modules/.bin/ember test
 
   deploy:
     needs: [test]
