@@ -48,7 +48,7 @@ jobs:
         run: ./node_modules/.bin/ember test
 
   deploy:
-    needs: [test, ember-try]
+    needs: []
     if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     strategy:
@@ -62,6 +62,7 @@ jobs:
           node-version: 12.x
       - name: npm install, build, and deploy docs
         run: |
+          mkdir ~/.ssh
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           npm install          
           ./node_modules/.bin/ember deploy production
