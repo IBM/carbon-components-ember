@@ -1,5 +1,5 @@
 {{import Loading from '../loading'}}
-{{import or from '@abcum/ember-helpers/helpers/or'}}
+{{import or from 'ember-truth-helpers/helpers/or'}}
 <button ...attributes
         onclick={{fn this.onButtonClick}}
         class="bx--btn {{this.bxClassNames}} {{this.styleNamespace}} {{if (or this.loading @loading) 'bx--btn--ghost'}}"

@@ -2,8 +2,8 @@
 {{import Icon from '../icon'}}
 {{import defaultTo from 'carbon-components-ember/helpers/default-to'}}
 {{import set from 'carbon-components-ember/helpers/set'}}
-{{import range from '@abcum/ember-helpers/helpers/range'}}
-{{import eq from '@abcum/ember-helpers/helpers/eq'}}
+{{import range from 'ember-composable-helpers/helpers/range'}}
+{{import eq from 'ember-truth-helpers/helpers/equal'}}
 
 <div class="bx--pagination {{styleNamespace}}" data-pagination {{did-insert this.pageChanged}}>
   <div class="bx--pagination__left">
@@ -21,7 +21,7 @@
     </span>
   </div>
   <div class="bx--pagination__right">
-    <Select @searchEnabled={{false}} @options={{range 1 this.pages}} @onSelect={{this.setCurrentPage}} @content={{this.currentPage}}/>
+    <Select @searchEnabled={{false}} @options={{range 1 this.pages true}} @onSelect={{this.setCurrentPage}} @content={{this.currentPage}}/>
     <label id="select-id-pagination-page-label" class="bx--pagination__text" for="select-id-pagination-page">
       {{this.currentPage}} of {{this.pages}} pages
     </label>
