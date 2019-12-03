@@ -69,7 +69,7 @@ jobs:
         env:
           CI: true
           DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
-          ADDON_DOCS_VERSION_PATH: ${github.ref##*/}
+          ADDON_DOCS_VERSION_PATH: ${{github.ref##*/}}
           ADDON_DOCS_UPDATE_LATEST: startsWith(github.ref, 'refs/tags/v')
       - name: deploy npm
         if: github.ref == 'refs/heads/master'
