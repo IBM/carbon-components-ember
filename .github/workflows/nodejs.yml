@@ -62,7 +62,8 @@ jobs:
           node-version: 12.x
       - name: npm install, build, and deploy docs
         run: |
-          npm install
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          npm install          
           ./node_modules/.bin/ember deploy production
         env:
           CI: true
