@@ -48,7 +48,7 @@ jobs:
         run: ./node_modules/.bin/ember test
 
   deploy:
-    needs: []
+    needs: [test, ember-try]
     if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     strategy:
