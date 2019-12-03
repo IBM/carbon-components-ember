@@ -80,7 +80,7 @@ jobs:
             echo "tag exists";
           else
             echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
-            npm publish
+            npm publish || echo "already published"
           fi          
         env:
           NPM_TOKEN: "${{ secrets.NPM_TOKEN }}"
