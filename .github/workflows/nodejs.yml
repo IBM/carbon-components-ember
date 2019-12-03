@@ -86,6 +86,8 @@ jobs:
           NPM_TOKEN: "${{ secrets.NPM_TOKEN }}"
       - name: create tag
         if: github.ref == 'refs/heads/master'
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
         run: |
           version=$(cat package.json | jq -r '.version')
           TAG=v$version
@@ -93,5 +95,10 @@ jobs:
             echo "tag exists";
           else            
             git tag -a $TAG -m "version $version"
+            git config --global user.email "actions@github.org"
+            git config --global user.name "Github Action"
+            git remote rm origin
+            git remote add origin https://${DEPLOY_KEY}@github.com/patricklx/carbon-components-ember.git > /dev/null 2>&1
+            git push --quiet --set-upstream origin master
             git push origin $TAG
           fi
