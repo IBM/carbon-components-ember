@@ -72,9 +72,26 @@ jobs:
           ADDON_DOCS_VERSION_PATH: "${GITHUB_REF##*/}"
           ADDON_DOCS_UPDATE_LATEST: startsWith(github.ref, 'refs/tags/v')
       - name: deploy npm
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: github.ref == 'refs/heads/master'
         run: |
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
-          npm publish
+          version=$(cat package.json | jq -r '.version')
+          TAG=v$version
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "tag exists";
+          else
+            echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+            npm publish
+          fi          
         env:
           NPM_TOKEN: "${{ secrets.NPM_TOKEN }}"
+      - name: create tag
+        if: github.ref == 'refs/heads/master'
+        run: |
+          version=$(cat package.json | jq -r '.version')
+          TAG=v$version
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "tag exists";
+          else            
+            git tag -a $TAG -m "version $version"
+            git push origin $TAG
+          fi
