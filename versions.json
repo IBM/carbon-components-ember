@@ -10,5 +10,17 @@
     "name": "fix-workflow",
     "sha": "cef8df1df550b76b512aaac10b68e6d17d2fe56c",
     "tag": null
+  },
+  "${GITHUB_REF##*/}": {
+    "path": "versions/${GITHUB_REF##*/}",
+    "name": "${GITHUB_REF##*/}",
+    "sha": "7e6c624a9a2fc5e6a45c1e2a2b37957cd63a53c5",
+    "tag": null
+  },
+  "-latest": {
+    "path": "",
+    "name": "Latest",
+    "sha": "7e6c624a9a2fc5e6a45c1e2a2b37957cd63a53c5",
+    "tag": null
   }
 }
