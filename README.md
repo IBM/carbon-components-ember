@@ -1,7 +1,8 @@
-<%= addonName %>
+Carbon Components Ember
 ==============================================================================
 
-[Short description of the addon.]
+Implementation of the carbon design system in ember
+https://www.carbondesignsystem.com/
 
 
 Compatibility
@@ -15,14 +16,15 @@ Installation
 ------------------------------------------------------------------------------
 
 ```
-ember install <%= addonName %>
+ember install carbon-components-ember
 ```
 
 
 Usage
 ------------------------------------------------------------------------------
 
-[Longer description of how to use the addon in apps.]
+Carbon Components need to be imported with
+Ember-template-component-import addon
 
 
 Contributing
