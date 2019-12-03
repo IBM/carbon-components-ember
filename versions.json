@@ -14,13 +14,13 @@
   "${GITHUB_REF##*/}": {
     "path": "versions/${GITHUB_REF##*/}",
     "name": "${GITHUB_REF##*/}",
-    "sha": "7e6c624a9a2fc5e6a45c1e2a2b37957cd63a53c5",
+    "sha": "bb74b2746f3d78f6c5b0247c747cb2e6e09dbde7",
     "tag": "v0.0.2"
   },
   "-latest": {
     "path": "",
     "name": "Latest",
-    "sha": "7e6c624a9a2fc5e6a45c1e2a2b37957cd63a53c5",
+    "sha": "bb74b2746f3d78f6c5b0247c747cb2e6e09dbde7",
     "tag": "v0.0.2"
   }
 }
