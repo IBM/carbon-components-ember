@@ -94,18 +94,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_COMMIT: ${{ github.sha }}
         run: |
           version=$(cat package.json | jq -r '.version')
           TAG=v$version
           if git rev-parse "$TAG" >/dev/null 2>&1; then
             echo "tag exists";
           else
-            git tag -a $TAG -m "version $version"
-            git config --global user.email "actions@github.org"
-            git config --global user.name "Github Action"
-            git remote rm origin
-            git remote add origin https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/patricklx/carbon-components-ember.git
-            git push origin $TAG
+            curl -X POST -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/patricklx/carbon-components-ember/git/refs
+            -d @- << EOF
+            {
+              "ref": "refs/tags/$TAG",
+              "sha": "$GITHUB_COMMIT"
+            }
+            EOF
           fi
       - name: Create a Release
         env:
