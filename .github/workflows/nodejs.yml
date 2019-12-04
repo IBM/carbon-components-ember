@@ -88,6 +88,7 @@ jobs:
         if: github.ref == 'refs/heads/master'
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_ACTOR: ${{ github.actor }}
         run: |
           version=$(cat package.json | jq -r '.version')
           TAG=v$version
@@ -98,6 +99,6 @@ jobs:
             git config --global user.email "actions@github.org"
             git config --global user.name "Github Action"
             git remote rm origin
-            git remote add origin https://${GITHUB_TOKEN}:x-oauth-basic@github.com/patricklx/carbon-components-ember.git
+            git remote add origin https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/patricklx/carbon-components-ember.git
             git push origin $TAG
           fi
