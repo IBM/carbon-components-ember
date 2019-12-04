@@ -1,9 +1,11 @@
 name: Test, Build & Publish
 
 on:
+  create:
+    tags: '*'
   push:
     branches: '*'
-    tags: '*'
+
 
 jobs:
   test:
