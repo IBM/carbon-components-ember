@@ -101,7 +101,7 @@ jobs:
           if git rev-parse "$TAG" >/dev/null 2>&1; then
             echo "tag exists";
           else
-            curl -X POST -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/patricklx/carbon-components-ember/git/refs -d "{ "ref": "refs/tags/$TAG", "sha": "$GITHUB_COMMIT" }"
+            curl -X POST -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/patricklx/carbon-components-ember/git/refs -d "{ \"ref\": \"refs/tags/$TAG\", \"sha\": \"$GITHUB_COMMIT" }"
           fi
       - name: Create a Release
         env:
