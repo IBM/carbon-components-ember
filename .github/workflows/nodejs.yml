@@ -64,7 +64,8 @@ jobs:
         run: |
           mkdir ~/.ssh
           ssh-keyscan github.com >> ~/.ssh/known_hosts
-          npm install          
+          npm install
+          ADDON_DOCS_UPDATE_LATEST=false ./node_modules/.bin/ember deploy production
           ./node_modules/.bin/ember deploy production
         env:
           CI: true
