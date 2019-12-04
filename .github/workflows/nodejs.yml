@@ -102,3 +102,11 @@ jobs:
             git remote add origin https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/patricklx/carbon-components-ember.git
             git push origin $TAG
           fi
+      - name: Create a Release
+        uses: actions/create-release@v1
+        with:
+          # The name of the tag. This should come from the webhook payload, `github.GITHUB_REF` when a user pushes a new tag
+          tag_name: "refs/tags/v$(cat package.json | jq -r '.version')"
+          # The name of the release. For example, `Release v1.0.1`
+          release_name: "v$(cat package.json | jq -r '.version')"
+          body: ''
