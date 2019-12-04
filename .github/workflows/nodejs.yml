@@ -1,6 +1,9 @@
 name: Test, Build & Publish
 
-on: [push]
+on:
+  push:
+    branches: '*'
+    tags: '*'
 
 jobs:
   test:
@@ -65,7 +68,7 @@ jobs:
           mkdir ~/.ssh
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           npm install
-          echo "deploying to $ADDON_DOCS_VERSION_PATH"
+          echo "deploying to $ADDON_DOCS_VERSION_PATH - ADDON_DOCS_UPDATE_LATEST: $ADDON_DOCS_UPDATE_LATEST"
           ADDON_DOCS_UPDATE_LATEST=false ./node_modules/.bin/ember deploy production
           ./node_modules/.bin/ember deploy production
         env:
