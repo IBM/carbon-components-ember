@@ -1,12 +1,5 @@
 name: Test, Build & Publish
 
-on:
-  create:
-    tags: '*'
-  push:
-    branches: '*'
-
-
 jobs:
   test:
     runs-on: ubuntu-latest
