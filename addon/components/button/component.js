@@ -3,6 +3,7 @@ import { bxClassNames, classPrefix, argsCompat } from 'carbon-components-ember/d
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { styleNamespace } from './styles';
+import {tracked} from "@glimmer/tracking";
 /** @documenter yuidoc */
 
 /**
@@ -20,6 +21,8 @@ import { styleNamespace } from './styles';
 class CarbonButton extends Component {
   tagName = '';
   styleNamespace = styleNamespace;
+  @tracked loading;
+  @tracked disabled;
 
   @argsCompat
   args = {
@@ -85,13 +88,14 @@ class CarbonButton extends Component {
       const ac = this.args.onClick;
       if (ac) {
         const ret = ac(...args);
-        if (ret && ret.finally) {
+        if (ret && ret.then) {
           this.disabled = true;
           this.loading = true;
-          ret.finally(() => {
+          const end = () => {
             this.disabled = false;
             this.loading = false;
-          });
+          } ;
+          ret.then(end, end);
         }
       }
     };
