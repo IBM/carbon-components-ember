@@ -109,7 +109,7 @@ jobs:
           version=$(cat package.json | jq -r '.version')
           TAG=v$version
           url="https://api.github.com//repos/patricklx/carbon-components-ember/releases"
-          exists=$(curl $url | jq ".[] | select(.tag_name == \"$TAG\") | .id")
+          exists=$(curl -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" $url | jq ".[] | select(.tag_name == \"$TAG\") | .id")
           if [[ -z $exists ]]; then 
             echo "release already exists"; 
           else          
