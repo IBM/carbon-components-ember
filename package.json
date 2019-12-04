@@ -1,5 +1,5 @@
 {
-  "version": "0.1.2",
+  "version": "0.1.3",
   "name": "carbon-components-ember",
   "keywords": [
     "ember-addon"
@@ -91,7 +91,8 @@
     "d3-selection": "^1.4.1",
     "d3-shape": "^1.3.7",
     "d3-transition": "^1.3.2",
-    "ember-cli-babel": "*",   
+    "ember-cli-babel": "*",
+    "ember-cli-htmlbars": "*",
     "ember-cli-htmlbars-inline-precompile": "*",
     "ember-cli-sass": "*",
     "ember-cli-template-lint": "*",
