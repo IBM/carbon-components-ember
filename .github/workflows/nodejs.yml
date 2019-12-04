@@ -87,7 +87,7 @@ jobs:
       - name: create tag
         if: github.ref == 'refs/heads/master'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           version=$(cat package.json | jq -r '.version')
           TAG=v$version
