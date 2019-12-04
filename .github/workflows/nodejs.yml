@@ -99,7 +99,7 @@ jobs:
           TAG=v$version
           if git rev-parse "$TAG" >/dev/null 2>&1; then
             echo "tag exists";
-          else            
+          else
             git tag -a $TAG -m "version $version"
             git config --global user.email "actions@github.org"
             git config --global user.name "Github Action"
@@ -115,8 +115,8 @@ jobs:
           TAG=v$version
           url="https://api.github.com/repos/patricklx/carbon-components-ember/releases"
           exists=$(curl -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" $url | jq ".[] | select(.tag_name == \"$TAG\") | .id")
-          if [[ -z $exists ]]; then 
-            echo "release already exists"; 
-          else          
+          if [[ -z $exists ]]; then
             curl -X POST -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" $url -d "{ "tag_name": "$TAG", "name": "$TAG", "body": "", "draft": false, "prerelease": false}"
+          else
+            echo "release already exists";
           fi;
