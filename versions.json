@@ -2,7 +2,7 @@
   "-latest": {
     "path": "",
     "name": "Latest",
-    "sha": "2e75c63a88136a778cdbf274fe4a6a1910015f90",
+    "sha": "f25359f40b4d1f310418842f368444943de310bd",
     "tag": null
   },
   "${GITHUB_REF##*/}": {
@@ -20,7 +20,7 @@
   "refs/heads/master": {
     "path": "versions/refs/heads/master",
     "name": "refs/heads/master",
-    "sha": "2e75c63a88136a778cdbf274fe4a6a1910015f90",
+    "sha": "f25359f40b4d1f310418842f368444943de310bd",
     "tag": null
   }
 }
