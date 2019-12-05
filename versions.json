@@ -2,7 +2,7 @@
   "-latest": {
     "path": "",
     "name": "Latest",
-    "sha": "e244c835b7419a4a45e1db5c11fa206e15c1c383",
+    "sha": "0e56432705f22c9c7d9a91e1da97b2553654671b",
     "tag": null
   },
   "${GITHUB_REF##*/}": {
