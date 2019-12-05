@@ -1,7 +1,7 @@
 import { defaultColors } from '@carbon/charts';
 import Component from '@ember/component';
 import { action } from '@ember/object';
-import { argsCompat } from "carbon-components-ember/decorators/bx-class-names";
+import { argsCompat } from "carbon-components-ember/decorators";
 
 /** @documenter yuidoc */
 /**

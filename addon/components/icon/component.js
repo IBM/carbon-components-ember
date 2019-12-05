@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import * as icons from '@carbon/icons';
-import { bxClassNames, classPrefix } from 'carbon-components-ember/decorators/bx-class-names';
+import { bxClassNames, classPrefix } from 'carbon-components-ember/decorators';
 
 @classPrefix('bx--icon--')
 class CarbonIcon extends Component {

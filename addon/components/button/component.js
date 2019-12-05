@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { bxClassNames, classPrefix, argsCompat } from 'carbon-components-ember/decorators/bx-class-names';
+import { bxClassNames, classPrefix, argsCompat } from 'carbon-components-ember/decorators';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { styleNamespace } from './styles';
