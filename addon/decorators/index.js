@@ -16,7 +16,7 @@ export function classPrefix(prefix) {
   };
 }
 
-export function index(...names) {
+export function bxClassNames(...names) {
   return (target, name, descriptor) => {
 
     const attrs = names.map(m => m.split(':'));

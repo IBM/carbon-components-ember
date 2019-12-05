@@ -5,12 +5,12 @@
 
 {{#if (or @loading this.loading)}}
   <span style="display: inline-block;">
-    <Loading @classNames="{{this.styleNamespace}} {{this.index}} loader" @small="true" @inline=true />
+    <Loading @classNames="{{this.styleNamespace}} {{this.bxClassNames}} loader" @small="true" @inline=true />
   </span>
 {{else}}
   {{#if @onClick}}
     <button class="bx--btn bx--btn--sm bx--btn--ghost" type="button" {{on 'click' this.onIconClick}} ...attributes>
-        <svg class="{{this.index}} {{this.styleNamespace}}"
+        <svg class="{{this.bxClassNames}} {{this.styleNamespace}}"
              focusable="false"
              fill={{@fill}}
              style="will-change: transform;"
@@ -24,7 +24,7 @@
         </svg>
     </button>
   {{else}}
-      <svg class="{{this.index}} {{this.styleNamespace}}"
+      <svg class="{{this.bxClassNames}} {{this.styleNamespace}}"
            focusable="false"
            fill={{@fill}}
            style="will-change: transform;"
