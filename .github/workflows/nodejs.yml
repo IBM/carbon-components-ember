@@ -53,7 +53,7 @@ jobs:
 
   deploy:
     needs: [test, ember-try]
-    if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -69,14 +69,18 @@ jobs:
           mkdir ~/.ssh
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           npm install
-          echo "deploying to $ADDON_DOCS_VERSION_PATH - ADDON_DOCS_UPDATE_LATEST: $ADDON_DOCS_UPDATE_LATEST"
-          ADDON_DOCS_UPDATE_LATEST=false ./node_modules/.bin/ember deploy production
-          ./node_modules/.bin/ember deploy production
+          version=$(cat package.json | jq -r '.version')
+          TAG=v$version
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "tag exists";
+          else
+            ADDON_DOCS_UPDATE_LATEST=false ADDON_DOCS_VERSION_PATH=$TAG ./node_modules/.bin/ember deploy production
+            ADDON_DOCS_UPDATE_LATEST=true ADDON_DOCS_VERSION_PATH=$TAG ./node_modules/.bin/ember deploy production
+          fi
+          ADDON_DOCS_UPDATE_LATEST=false ADDON_DOCS_VERSION_PATH=master ./node_modules/.bin/ember deploy production
         env:
           CI: true
           DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
-          ADDON_DOCS_VERSION_PATH: ${{github.ref}}
-          ADDON_DOCS_UPDATE_LATEST: ${{startsWith(github.ref, 'refs/tags/v')}}
       - name: deploy npm
         if: github.ref == 'refs/heads/master'
         run: |
