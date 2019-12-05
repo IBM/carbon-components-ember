@@ -71,6 +71,13 @@ class CarbonPieChart extends Component {
   }
 
   @action
+  removeDataset(label) {
+    const dataset = this.data.datasets.find(d => d.label === label);
+    this.data.datasets.removeObject(dataset);
+    this.updateChart();
+  }
+
+  @action
   updateDataset(label, backgroundColors, data) {
     if (!label || !data) return;
     let dataset = this.data.datasets.find(d => d.label === label);

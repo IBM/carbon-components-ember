@@ -23,7 +23,10 @@ class CarbonBarChart extends Component {
   options = {
     axes: {},
     legendClickable: true,
-    containerResizable: true
+    containerResizable: true,
+    timeScale: {
+      addSpaceOnEdges: false
+    }
   };
   legendClickable = true;
   containerResizable = true;
@@ -79,6 +82,13 @@ class CarbonBarChart extends Component {
     this.options.axes = Object.assign(this.options.axes, {}, {
       [axis]: options
     });
+    this.updateChart();
+  }
+
+  @action
+  removeDataset(label) {
+    const dataset = this.data.datasets.find(d => d.label === label);
+    this.data.datasets.removeObject(dataset);
     this.updateChart();
   }
 

@@ -11,7 +11,7 @@
 <div ...attributes
   {{ref this 'chartDiv'}}
   {{did-insert this.loadChart}}
-  {{did-update @labels @legendClickable @containerResizable this.updateChart}}
+  {{did-update this.updateChart @labels @legendClickable @containerResizable}}
   {{will-destroy this.destroyChart}}
 >
 </div>

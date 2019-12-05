@@ -21,16 +21,19 @@ class CarbonLineChart extends Component {
   options = {
     axes: {},
     legendClickable: true,
-    containerResizable: true
+    resizable: true,
+    timeScale: {
+      addSpaceOnEdges: false
+    }
   };
   legendClickable = true;
-  containerResizable = true;
+  resizable = true;
 
 
   setData() {
     this.data.labels = Array.isArray(this.labels) ? this.labels : this.labels.split(',');
     this.options.legendClickable = this.legendClickable;
-    this.options.containerResizable = this.containerResizable;
+    this.options.resizable = true;
     if (!this.data.datasets.length) return;
     if (!this.options.axes.left) return;
     if (!this.options.axes.bottom) return;
@@ -67,6 +70,13 @@ class CarbonLineChart extends Component {
     this.options.axes = Object.assign(this.options.axes, {}, {
       [axis]: options
     });
+    this.updateChart();
+  }
+
+  @action
+  removeDataset(label) {
+    const dataset = this.data.datasets.find(d => d.label === label);
+    this.data.datasets.removeObject(dataset);
     this.updateChart();
   }
 
