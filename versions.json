@@ -22,5 +22,11 @@
     "name": "refs/heads/master",
     "sha": "b95a5ed21ff407f37c293971d82b37f4467eefab",
     "tag": null
+  },
+  "v0.1.5": {
+    "path": "versions/v0.1.5",
+    "name": "v0.1.5",
+    "sha": "0e56432705f22c9c7d9a91e1da97b2553654671b",
+    "tag": null
   }
 }
