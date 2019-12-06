@@ -71,7 +71,7 @@ class CarbonChart extends Component {
   };
 
 
-  setData() {
+  async setData() {
     const labels = this.componentArgs.labels;
     this.data.labels = Array.isArray(labels) ? labels : labels.split(',');
     this.options.legendClickable = this.componentArgs.legendClickable;
@@ -79,13 +79,21 @@ class CarbonChart extends Component {
     if (!this.data.datasets.length) return;
     if (!this.options.axes.left) return;
     if (!this.options.axes.bottom) return;
+    const data = Object.assign({}, this.data);
+    data.labels = data.labels.slice();
+    data.datasets = data.datasets.slice();
+
     if (!this.chart && this.args.ChartClass) {
-      this.chart = new this.args.ChartClass(this.chartDiv, {
+      const d = document.createElement('div');
+      this.chartDiv.appendChild(d);
+      this.chart = new this.args.ChartClass(d, {
         options: this.options,
-        data: this.data
+        data: data
       });
     }
-    this.chart.update();
+    this.chart.model.setOptions(this.options);
+    this.chart.model.setData(data);
+    this.chart.model.update();
   }
 
   @action
@@ -105,6 +113,7 @@ class CarbonChart extends Component {
   @action
   destroyChart() {
     this.chart && this.chart.destroy();
+    this.chart = null;
   }
 
   @action
@@ -119,6 +128,7 @@ class CarbonChart extends Component {
   removeDataset(label) {
     const dataset = this.data.datasets.find(d => d.label === label);
     this.data.datasets.removeObject(dataset);
+    this.destroyChart();
     this.updateChart();
   }
 
