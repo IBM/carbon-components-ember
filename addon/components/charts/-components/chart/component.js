@@ -86,11 +86,13 @@ class CarbonChart extends Component {
     if (!this.chart && this.args.ChartClass) {
       const d = document.createElement('div');
       this.chartDiv.appendChild(d);
+      this.childChart = d;
       this.chart = new this.args.ChartClass(d, {
         options: this.options,
         data: data
       });
     }
+    this.childChart.style.height = this.chartDiv.style.height;
     this.chart.model.setOptions(this.options);
     this.chart.model.setData(data);
     this.chart.model.update();
