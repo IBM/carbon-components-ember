@@ -7,7 +7,7 @@ export default class ListComponent extends Component {
   @tracked attrs;
   @tracked currentSearch = null;
   @tracked selectedItems = [];
-  @tracked currentItemsSlice = { start: 0, end: -1 };
+  @tracked currentItemsSlice = { start: 0, end: undefined };
 
   filter(items, term) {
     term = term && term.toLowerCase();
