@@ -2,10 +2,5 @@
 {{import defaultTo from 'carbon-components-ember/helpers/default-to'}}
 
 {{#if @chart.updateDataset}}
-  {{onUpdate @label @backgroundColors (fn
-    @chart.updateDataset
-    @label
-    (defaultTo @backgroundColors this.defaultColor)
-    @data
-  )}}
+  {{onUpdate @label @backgroundColors @data this.didUpdateArgs}}
 {{/if}}

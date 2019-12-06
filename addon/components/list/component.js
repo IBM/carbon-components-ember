@@ -34,7 +34,7 @@ export default class ListComponent extends Component {
   delayItems() {
     setTimeout(() => {
       if (!this.currentItemsSlice) {
-        this.currentItemsSlice = { start: 0, end: -1 };
+        this.currentItemsSlice = { start: 0, end: undefined };
       }
     }, 200);
   }

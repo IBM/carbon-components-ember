@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { bxClassNames, classPrefix, argsCompat } from 'carbon-components-ember/decorators/bx-class-names';
+import { bxClassNames, classPrefix, argsCompat } from 'carbon-components-ember/decorators';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { styleNamespace } from './styles';
@@ -60,6 +60,12 @@ class CarbonButton extends Component {
      */
     confirmText: null,
     /**
+     * Use this component as dialog
+     @argument confirmDialog
+     @type String
+     */
+    confirmDialog: null,
+    /**
      * If the action is tertiary
      @argument tertiary
      @type boolean
@@ -100,7 +106,7 @@ class CarbonButton extends Component {
       }
     };
     if (this.danger) {
-      this.dialogManager.open('carbon-components-ember/components/dialogs/confirm', {
+      this.dialogManager.open(this.args.confirmDialog || 'carbon-components-ember/components/dialogs/confirm', {
         type: 'danger',
         header: 'Danger',
         body: this.args.confirmText || 'Confirm this operation',

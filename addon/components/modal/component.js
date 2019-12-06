@@ -1,8 +1,8 @@
 import Component from '@ember/component';
 import { computed, action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import {tracked} from "@glimmer/tracking";
-import {argsCompat} from "../../decorators/bx-class-names";
+import  {tracked } from "@glimmer/tracking";
+import { argsCompat } from "../../decorators";
 
 /** @documenter yuidoc */
 

@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import * as icons from '@carbon/icons';
-import { bxClassNames, classPrefix } from 'carbon-components-ember/decorators/bx-class-names';
+import { bxClassNames, classPrefix, argsCompat } from 'carbon-components-ember/decorators';
 
 @classPrefix('bx--icon--')
 class CarbonIcon extends Component {
@@ -14,6 +14,28 @@ class CarbonIcon extends Component {
   @tracked attrs;
   @tracked loading;
   @tracked disabled;
+  @argsCompat
+  args = {
+    /**
+     * Indicates if the action is dangerous, showing a confirmation dialog before calling `onClick`
+     @argument danger
+     @type boolean
+     */
+    danger: null,
+    /**
+     * If the action is dangerous, this text message will be shown in the dialog
+     @argument confirmText
+     @type String
+     */
+    confirmText: null,
+    /**
+     * Use this component as dialog
+     @argument confirmDialog
+     @type String
+     */
+    confirmDialog: null
+  };
+
   get svg() {
     // eslint-disable-next-line eqeqeq
     return Object.values(icons).find(i => i.name === this.attrs.icon && (i.size == (this.attrs.size || 16)));
@@ -40,10 +62,10 @@ class CarbonIcon extends Component {
       }
     };
     if (this.attrs.danger) {
-      this.dialogManager.open('confirm', {
+      this.dialogManager.open(this.args.confirmDialog || 'carbon-components-ember/components/dialogs/confirm', {
         type: 'danger',
         header: 'Danger',
-        body: this.attrs.confirmText || 'Confirm this operation',
+        body: this.args.confirmText || 'Confirm this operation',
         onAccept: run
       });
     } else {
