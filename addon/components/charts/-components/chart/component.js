@@ -91,11 +91,10 @@ class CarbonChart extends Component {
         options: this.options,
         data: data
       });
+      this.chart.model.setOptions(this.options);
     }
     this.childChart.style.height = this.chartDiv.style.height;
-    this.chart.model.setOptions(this.options);
     this.chart.model.setData(data);
-    this.chart.model.update();
   }
 
   @action
@@ -109,7 +108,7 @@ class CarbonChart extends Component {
 
   @action
   updateChart() {
-    throttle(this, this.update, 250, false);
+    throttle(this, this.update, 50, false);
   }
 
   @action

@@ -61,3 +61,19 @@
   {{/demo.example}}
   <demo.snippet @name="pie-chart.hbs" />
 </Demo>
+
+
+<h2>Sinus Chart</h2>
+<Demo as |demo|>
+  {{#demo.example name='sin-line-chart.hbs'}}
+    {{import LineChart from 'carbon-components-ember/components/charts/line'}}
+
+    <LineChart style="height: 600px; width: 600px; display: inline-block" @labels=''
+               as |chart|>
+      <chart.Axis @axis='left' @title='y' @primary=true />
+      <chart.Axis @axis='bottom' @title='x' @secondary=true @scaleType='time' />
+      <chart.DataSet @label="sinus" @data={{this.sinus}} />
+    </LineChart>
+  {{/demo.example}}
+  <demo.snippet @name="sin-line-chart.hbs" />
+</Demo>
