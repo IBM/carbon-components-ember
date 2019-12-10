@@ -40,5 +40,11 @@
     "name": "v0.1.6",
     "sha": "84b58ca5e2c306c250d555bb8c0cc1e091d562f5",
     "tag": null
+  },
+  "v0.1.7": {
+    "path": "versions/v0.1.7",
+    "name": "v0.1.7",
+    "sha": "b30d59056bd95b67042b8ce9c48c05859420d6e7",
+    "tag": null
   }
 }
