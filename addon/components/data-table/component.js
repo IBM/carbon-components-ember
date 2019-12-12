@@ -25,7 +25,7 @@ export default class ListComponent extends Component {
       return this.filter(this.items || [], this.currentSearch);
     }
     if (!this.items || !this.currentItemsSlice) return [];
-    return this.items.slice(this.currentItemsSlice.start, this.items.end);
+    return this.items.slice(this.currentItemsSlice.start, this.currentItemsSlice.end);
   }
 
   get allChecked() {
