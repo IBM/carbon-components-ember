@@ -1,5 +1,5 @@
 {
-  "version": "0.1.8",
+  "version": "0.1.9",
   "name": "carbon-components-ember",
   "keywords": [
     "ember-addon"
@@ -64,7 +64,8 @@
     "ember-auto-import": "^1.5.2",
     "ember-basic-dropdown": "^2.0.5",
     "ember-prop-types": "^9.0.2",
-    "@glimmer/tracking": "^0.14.0-alpha.1",
+    "@glimmer/tracking": "1.0.0",
+    "@glimmer/component": "1.0.0",
     "ember-component-css": "github:patricklx/ember-component-css#registry-way",
     "ember-power-select": "^3.0.4",
     "ember-power-calendar": "^0.14.5",

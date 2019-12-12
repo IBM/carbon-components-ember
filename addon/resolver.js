@@ -1,6 +1,8 @@
 // eslint-disable no-undef global-this._moduleRegistry.get
 import Resolver from 'ember-resolver';
 import { capitalize } from '@ember/string';
+import GlimmerComponent from '@glimmer/component';
+import EmberComponent from '@ember/component';
 
 
 export default Resolver.extend({
@@ -55,18 +57,19 @@ export default Resolver.extend({
   resolveComponent(parsedName) {
     let path = parsedName.fullNameWithoutType;
     let path2 = path;
-    if (this._moduleRegistry.has(path2) && this._moduleRegistry.get(path2).default.isComponentFactory) {
-      if (!this._moduleRegistry.get(path2).helper) {
+    function checkInstance(instance) {
+      return instance instanceof GlimmerComponent || instance instanceof EmberComponent;
+    }
+    if (this._moduleRegistry.has(path2) && checkInstance(this._moduleRegistry.get(path2).default.prototype)) {
         return this._moduleRegistry.get(path2).default;
-      }
     }
     path2 = `${path}/component`;
-    if (this._moduleRegistry.has(path2) && this._moduleRegistry.get(path2).default.isComponentFactory) {
+    if (this._moduleRegistry.has(path2) && checkInstance(this._moduleRegistry.get(path2).default.prototype)) {
       return this._moduleRegistry.get(path2).default;
     }
 
     path2 = `demoapp${path}`;
-    if (this._moduleRegistry.has(path2) && this._moduleRegistry.get(path2).default.isComponentFactory) {
+    if (this._moduleRegistry.has(path2) && checkInstance(this._moduleRegistry.get(path2).default.prototype)) {
       return this._moduleRegistry.get(path2).default;
     }
     return undefined;
