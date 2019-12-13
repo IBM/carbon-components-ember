@@ -13,7 +13,7 @@
   <Skeleton />
 {{/if}}
 
-<div class="bx--data-table-container " data-table>
+<div class="bx--data-table-container " data-table {{did-insert this.delayItems}}>
   <div class="bx--data-table-header">
     <h4 class="bx--data-table-header__title">{{@title}}</h4>
     <p class="bx--data-table-header__description">{{@description}}</p>

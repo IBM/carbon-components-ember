@@ -7,7 +7,7 @@ export default class ListComponent extends Component {
   @tracked attrs;
   @tracked currentSearch = null;
   @tracked selectedItems = [];
-  @tracked currentItemsSlice = { start: 0, end: undefined };
+  @tracked currentItemsSlice = null;
 
   filter(items, term) {
     term = term && term.toLowerCase();
@@ -49,5 +49,14 @@ export default class ListComponent extends Component {
     } else {
       this.selectedItems = [];
     }
+  }
+
+  @action
+  delayItems() {
+    setTimeout(() => {
+      if (!this.currentItemsSlice) {
+        this.currentItemsSlice = { start: 0, end: undefined };
+      }
+    }, 200);
   }
 }
