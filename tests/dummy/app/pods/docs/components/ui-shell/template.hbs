@@ -1,0 +1,76 @@
+{{import Input from 'carbon-components-ember/components/form-input'}}
+{{import Demo from 'ember-cli-addon-docs/components/docs-demo'}}
+{{import set from 'carbon-components-ember/helpers/set'}}
+{{import eq from 'ember-truth-helpers/helpers/equal'}}
+
+<h1>Carbon Shell UI</h1>
+
+<Demo as |demo|>
+  <style>
+    .docs-p-4 {
+      position: relative;
+    }
+    .bx--header {
+      position: absolute;
+    }
+    .bx--side-nav {
+      position: absolute;
+    }
+  </style>
+  {{#demo.example name='ui-shell.hbs'}}
+    {{import UiShell from 'carbon-components-ember/components/ui-shell'}}
+    {{import Icon from 'carbon-components-ember/components/icon'}}
+    {{import Menu from 'carbon-components-ember/components/menu'}}
+
+
+    <UiShell as |header| >
+      <header.Header @onToggle={{set this 'leftSideBarOpen'}}
+                     @open={{this.leftSideBarOpen}}
+                     @title="Ui Shell"
+                     @subtitle="1.0" as |part|>
+        {{#if (eq part 'header-global')}}{{/if}}
+        {{#if (eq part 'header')}}
+          <div style="float: right; margin-right: 100px">
+            <Menu @icon="user--avatar" as |Item| >
+              <Item {{on 'click' (fn this.logout)}}>Logout</Item>
+            </Menu>
+          </div>
+        {{/if}}
+      </header.Header>
+      <header.Sidenav
+              @menuItems={{this.menuItems}}
+              @currentMenu={{this.currentMenu}}
+              @transitionTo={{fn this.transitionTo}}
+              @open={{this.leftSideBarOpen}}
+              @onToggle={{set this 'leftSideBarOpen'}}
+      />
+      <main id="main-content" class="bx--content">
+        <div>
+          <div class="page-header">
+            <h4 style="display: inline-block" class="page-header__label">{{if this.currentSubMenu.title this.currentMenu.title this.currentSubMenu.title}}</h4>
+            <Icon @icon="chevron--right" />
+            <h1 id="page-title" class="page-header__title" style="display: inline-block">
+              Page Title
+            </h1>
+            <div style="width: 100%">
+              <span class="flex"></span>
+            </div>
+          </div>
+          <div>
+            {{#if this.menuTitle.tabs}}
+              <Tabs style="min-width: 150px" @tabs={{this.menuTitle.tabs}} @tabSelected={{fn this.transitionTo}} @selectedTab={{this.currentTab}} />
+              <div style="margin-top: 50px"></div>
+            {{/if}}
+          </div>
+          <div>
+            <section style="margin-top: 30px">
+              Outlet Page content here
+              {{outlet}}
+            </section>
+          </div>
+        </div>
+      </main>
+    </UiShell>
+  {{/demo.example}}
+  <demo.snippet @name="ui-shell.hbs" />
+</Demo>
