@@ -6,6 +6,7 @@
 
 {{#if @multiple}}
   <PowerSelectMultiple
+    @eventType="click"
     @searchEnabled={{defaultTo @searchEnabled true}}
     @options={{@options}}
       @onfocus={{fn this.selectFocused}}
@@ -28,6 +29,7 @@
   </PowerSelectMultiple>
 {{else}}
   <PowerSelect
+    @eventType="click"
     @searchEnabled={{defaultTo @searchEnabled true}}
     @options={{@options}}
       @onfocus={{fn this.selectFocused}}
