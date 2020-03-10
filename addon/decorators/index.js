@@ -1,14 +1,5 @@
-/** *****************************************************************************
- * Licensed Materials - Property of IBM
- * © Copyright IBM Corporation 2018. All Rights Reserved.
- *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
- ****************************************************************************** */
-
-
 import { computed } from '@ember/object';
+import GlimmerComponent from "@glimmer/component";
 
 export function classPrefix(prefix) {
   return (target) => {
@@ -46,6 +37,9 @@ export function argsCompat(target, name, descriptor) {
 
   const init = descriptor.initializer;
   descriptor.initializer = function() {
+    if (this instanceof GlimmerComponent) {
+      return this.args;
+    }
     const args = init(this);
     const context = this;
     Object.keys(args).forEach((k) => {
