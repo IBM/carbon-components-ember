@@ -1,9 +1,15 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import * as icons from '@carbon/icons';
 import { bxClassNames, classPrefix, argsCompat } from 'carbon-components-ember/decorators';
+
+const IconMap = {};
+Object.values(icons).forEach((i) => {
+  IconMap[i.name] = IconMap[i.name] || {};
+  IconMap[i.name][i.size] = i;
+})
 
 @classPrefix('bx--icon--')
 class CarbonIcon extends Component {
@@ -11,7 +17,6 @@ class CarbonIcon extends Component {
   static positionalParams = ['icon'];
   @service('carbon-components-ember@dialog-manager') dialogManager;
   @bxClassNames('info', 'danger', 'disabled') bxClassNames;
-  @tracked attrs;
   @tracked loading;
   @tracked disabled;
   @argsCompat
@@ -33,18 +38,36 @@ class CarbonIcon extends Component {
      @argument confirmDialog
      @type String
      */
-    confirmDialog: null
+    confirmDialog: null,
+    /**
+     * Use this component as dialog
+     @argument icon
+     @type String
+     */
+    icon: null,
+    /**
+     * Use this component as dialog
+     @argument size
+     @type number
+     */
+    size: null,
+    /**
+     * Use this component as dialog
+     @argument onClick
+     @type function
+     */
+    onClick: null
   };
 
   get svg() {
     // eslint-disable-next-line eqeqeq
-    return Object.values(icons).find(i => i.name === this.attrs.icon && (i.size == (this.attrs.size || 16)));
+    return IconMap[this.args.icon] && IconMap[this.args.icon][this.args.size || 16];
   }
 
   @action
   onIconClick() {
     const run = () => {
-      const promise = this.attrs.onClick && this.attrs.onClick();
+      const promise = this.args.onClick && this.args.onClick();
       this.loading = true;
       this.disabled = true;
       if (promise && promise.then) {
@@ -61,7 +84,7 @@ class CarbonIcon extends Component {
         }, 350);
       }
     };
-    if (this.attrs.danger) {
+    if (this.args.danger) {
       this.dialogManager.open(this.args.confirmDialog || 'carbon-components-ember/components/dialogs/confirm', {
         type: 'danger',
         header: 'Danger',

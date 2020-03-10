@@ -10,31 +10,9 @@
 {{else}}
   {{#if @onClick}}
     <button class="bx--btn bx--btn--sm bx--btn--ghost" type="button" {{on 'click' this.onIconClick}} ...attributes>
-        <svg class="{{this.bxClassNames}} {{styleNamespace}}"
-             focusable="false"
-             fill={{@fill}}
-             style="will-change: transform;"
-             width="{{defaultTo @size this.svg.attrs.width}}"
-             height="{{defaultTo @size this.svg.attrs.height}}"
-             viewBox="{{this.svg.attrs.viewBox}}"
-             xmlns="http://www.w3.org/2000/svg">
-          {{#each this.svg.content as |c|}}
-            {{renderSvgPart c}}
-          {{/each}}
-        </svg>
+        {{renderSvgPart this.svg class=(array this.bxClassNames styleNamespace)}}
     </button>
   {{else}}
-      <svg class="{{this.bxClassNames}} {{styleNamespace}}"
-           focusable="false"
-           fill={{@fill}}
-           style="will-change: transform;"
-           width="{{defaultTo @size this.svg.attrs.width}}"
-           height="{{defaultTo @size this.svg.attrs.height}}"
-           viewBox="{{this.svg.attrs.viewBox}}"
-           xmlns="http://www.w3.org/2000/svg" ...attributes>
-        {{#each this.svg.content as |c|}}
-            {{renderSvgPart c}}
-        {{/each}}
-      </svg>
+    {{renderSvgPart this.svg class=(array this.bxClassNames styleNamespace)}}
   {{/if}}
 {{/if}}
