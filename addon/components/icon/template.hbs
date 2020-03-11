@@ -10,10 +10,10 @@
   </span>
 {{else}}
   {{#if @onClick}}
-    <button class="bx--btn bx--btn--sm bx--btn--ghost" type="button" {{on 'click' this.onIconClick}} ...attributes>
-        {{renderSvgPart this.svg class=(array this.bxClassNames styles.icon)}}
+    <button class="bx--btn bx--btn--sm bx--btn--ghost {{@btnClass}}" style="{{@btnStyle}}" type="button" {{on 'click' this.onIconClick}}>
+        {{renderSvgPart this.svg class=(array @class this.bxClassNames styles.icon)}}
     </button>
   {{else}}
-    {{renderSvgPart this.svg class=(array this.bxClassNames styles.icon)}}
+    {{renderSvgPart this.svg class=(array @class this.bxClassNames styles.icon)}}
   {{/if}}
 {{/if}}
