@@ -1,11 +1,9 @@
 import Component from '@ember/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { styleNamespace } from './styles';
 
 export default class ListComponent extends Component {
   tagName = '';
-  styleNamespace = styleNamespace;
   @tracked attrs;
   @tracked items;
   @tracked currentSearch = null;

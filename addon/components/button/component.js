@@ -2,7 +2,6 @@ import Component from '@ember/component';
 import { bxClassNames, classPrefix, argsCompat } from 'carbon-components-ember/decorators';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
-import { styleNamespace } from './styles';
 import {tracked} from "@glimmer/tracking";
 /** @documenter yuidoc */
 
@@ -20,7 +19,6 @@ import {tracked} from "@glimmer/tracking";
 @classPrefix('bx--btn--')
 class CarbonButton extends Component {
   tagName = '';
-  styleNamespace = styleNamespace;
   @tracked loading;
   @tracked disabled;
 
