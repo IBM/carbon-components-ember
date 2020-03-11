@@ -1,8 +1,10 @@
 {{import Loading from '../loading'}}
 {{import or from 'ember-truth-helpers/helpers/or'}}
+{{import styles from './styles.scoped.scss'}}
+
 <button ...attributes
         onclick={{fn this.onButtonClick}}
-        class="bx--btn {{this.bxClassNames}} {{this.styleNamespace}} {{if (or this.loading @loading) 'bx--btn--ghost'}}"
+        class="bx--btn {{this.bxClassNames}} {{styles.namespace}} {{if (or this.loading @loading) 'bx--btn--ghost'}}"
         aria-label="{{if @danger 'danger'}}"
         disabled={{or @disabled this.loading @loading}}
         type="button">

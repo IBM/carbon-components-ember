@@ -1,4 +1,6 @@
-<div class="{{styleNamespace}} card" ...attributes>
+{{import styles from './styles.scoped.scss'}}
+
+<div class="{{styles.card}} card" ...attributes>
     {{#if @title}}
       <div class="title">
         <strong style="padding-left: 20px">{{@title}}</strong>

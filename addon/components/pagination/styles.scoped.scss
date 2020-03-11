@@ -1,0 +1,15 @@
+.namespace {
+  width: 100%;
+  .ember-power-select-selected-item {
+    background-color: transparent;
+    color: #161616;
+    border-bottom: none;
+    padding-left: 0.5rem;
+    padding-right: 1.625rem;
+  }
+
+  .bx--dropdown__arrow {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

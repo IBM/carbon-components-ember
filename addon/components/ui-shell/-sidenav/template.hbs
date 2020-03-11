@@ -2,8 +2,9 @@
 {{import eq from 'ember-truth-helpers/helpers/equal'}}
 {{import toggle from 'ember-composable-helpers/helpers/toggle'}}
 {{import LiquidIf from 'liquid-fire/components/liquid-if'}}
+{{import styles from './styles.scoped.scss'}}
 
-<nav class="bx--side-nav__navigation bx--side-nav bx--side-nav--ux {{if @open 'bx--side-nav--expanded'}} {{this.styleNamespace}}"
+<nav class="bx--side-nav__navigation bx--side-nav bx--side-nav--ux {{if @open 'bx--side-nav--expanded'}} {{styles.namespace}}"
      role="navigation" aria-label="Page Navigation" aria-expanded="true">
   <ul class="bx--side-nav__items">
     {{#each @menuItems as |menu menuIndex|}}

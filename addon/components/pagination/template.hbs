@@ -4,8 +4,9 @@
 {{import set from 'carbon-components-ember/helpers/set'}}
 {{import range from 'ember-composable-helpers/helpers/range'}}
 {{import eq from 'ember-truth-helpers/helpers/equal'}}
+{{import styles from './styles.scoped.scss'}}
 
-<div class="bx--pagination {{styleNamespace}}" data-pagination {{did-insert this.pageChanged}}>
+<div class="bx--pagination {{styles.namespace}}" data-pagination {{did-insert this.pageChanged}}>
   <div class="bx--pagination__left">
     <label id="select-id-pagination-count-label" class="bx--pagination__text" for="select-id-pagination-count">
       Items per page:

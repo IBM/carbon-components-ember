@@ -1,0 +1,35 @@
+@import "node_modules/carbon-components/scss/globals/scss/theme";
+
+.icon {
+  margin: 5px;
+
+  .bx--icon-- {
+    &disabled {
+      cursor: initial;
+      opacity: 0.5;
+    }
+    &info {
+      fill: $brand-01;
+      &:hover {
+        fill: $hover-primary;
+      }
+    }
+    &danger {
+      fill: $support-01;
+      &:hover {
+        fill: darken($support-01, 10%);
+      }
+    }
+  }
+
+  .loader {
+    width: 12px;
+    height: 16px;
+    display: inline-block;
+    .bx--loading {
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+}

@@ -2,17 +2,18 @@
 {{import defaultTo from 'carbon-components-ember/helpers/default-to'}}
 {{import eq from 'ember-truth-helpers/helpers/equal'}}
 {{import renderSvgPart from './render-svg-part'}}
+{{import styles from './styles.scoped.scss'}}
 
 {{#if (or @loading this.loading)}}
   <span style="display: inline-block;">
-    <Loading @classNames="{{styleNamespace}} {{this.bxClassNames}} loader" @small="true" @inline=true />
+    <Loading @classNames="{{styles.icon}} {{this.bxClassNames}} loader" @small="true" @inline=true />
   </span>
 {{else}}
   {{#if @onClick}}
     <button class="bx--btn bx--btn--sm bx--btn--ghost" type="button" {{on 'click' this.onIconClick}} ...attributes>
-        {{renderSvgPart this.svg class=(array this.bxClassNames styleNamespace)}}
+        {{renderSvgPart this.svg class=(array this.bxClassNames styles.icon)}}
     </button>
   {{else}}
-    {{renderSvgPart this.svg class=(array this.bxClassNames styleNamespace)}}
+    {{renderSvgPart this.svg class=(array this.bxClassNames styles.icon)}}
   {{/if}}
 {{/if}}
