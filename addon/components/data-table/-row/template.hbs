@@ -3,7 +3,7 @@
 {{import includes from 'ember-composable-helpers/helpers/contains'}}
 {{import set from 'carbon-components-ember/helpers/set'}}
 
-<tr>
+<tr class="{{if (includes @item @table.selectedItems) 'bx--data-table--selected'}}">
   {{#if @isExpandable}}
     <td class="bx--table-expand" data-event="expand">
       <Button class="bx--table-expand__button" @onClick={{fn (set this 'isExpanded' (not this.isExpanded))}}>
