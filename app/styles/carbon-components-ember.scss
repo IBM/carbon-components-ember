@@ -72,10 +72,6 @@ $ember-power-select-trigger-rtl-padding: 15px !default;
 $ember-power-select-multiple-option-padding: 0.5rem 1.5rem 0.5rem 1rem !default;
 $ember-power-select-multiple-option-line-height: 1.45 !default;
 
-.ember-power-select-trigger {
-  border-bottom: none;
-}
-
 .ember-power-select-multiple-trigger {
   .bx--checkbox-wrapper {
     display: inline-block;
@@ -135,8 +131,8 @@ $ember-power-select-multiple-option-line-height: 1.45 !default;
   background: #f3f3f3;
 }
 .ember-power-select-option[aria-current="true"] {
-  text-decoration: underline;
   background: #e5e5e5;
+  color: #3d4852;
 }
 
 .bx--snippet {
