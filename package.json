@@ -1,5 +1,5 @@
 {
-  "version": "0.2.7",
+  "version": "0.2.8",
   "name": "carbon-components-ember",
   "keywords": [
     "ember-addon"
@@ -16,6 +16,7 @@
     "test": "./node_modules/.bin/ember test",
     "testserver": "./node_modules/.bin/ember test --serve"
   },
+  "types": "index.d.ts",
   "devDependencies": {
     "eslint": "^6.7.1",
     "eslint-config-airbnb-base": "^14.0.0",
