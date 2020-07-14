@@ -4,9 +4,9 @@
 {{import set from 'carbon-components-ember/helpers/set'}}
 
 <thead 
-  {{did-update @headers (fn (set @table 'headers') @headers)}}
-  {{did-update @isExpandable (fn (set @table 'isExpandable') @isExpandable)}}
-  {{did-update @isCheckable (fn (set @table 'isCheckable') @isCheckable)}}
+  {{did-update (fn (set @table 'headers') @headers)}}
+  {{did-update (fn (set @table 'isExpandable') @isExpandable)}}
+  {{did-update (fn (set @table 'isCheckable') @isCheckable)}}
   {{did-insert (fn (set @table 'headers') @headers)}}
   {{did-insert (fn (set @table 'isExpandable') @isExpandable)}}
   {{did-insert (fn (set @table 'isCheckable') @isCheckable)}}
