@@ -14,6 +14,7 @@ export default class ListComponent extends Component {
     const ensureString = v => (typeof v === 'string' ? v.toLowerCase() : JSON.stringify(v).toLowerCase());
     return items.filter((t) => {
       if (!term || term === '') return true;
+      if (t.id && t.id.includes(term)) return true;
       return Object.values(t.toJSON ? t.toJSON() : t)
         .filter(v => v && !v.defaultAdapter)
         .some(v => (v && ensureString(v).includes(term)));
