@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
+import { action, computed} from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { defaultArgs } from "../../decorators";
 
@@ -30,6 +30,7 @@ export default class ListComponent extends Component {
     });
   }
 
+  @computed('currentSearch', 'items', 'currentItemsSlice')
   get currentItems() {
     if (this.currentSearch) {
       return this.filter(this.items || [], this.currentSearch);
