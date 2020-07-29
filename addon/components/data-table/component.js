@@ -1,28 +1,33 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import { defaultArgs } from "../../decorators";
 
 export default class ListComponent extends Component {
   tagName = '';
-  @tracked attrs;
   @tracked currentSearch = null;
   @tracked selectedItems = [];
   @tracked currentItemsSlice = null;
+
+  @defaultArgs
+  args = {
+    onSelectionChange: () => null,
+    items: null
+  }
+
+  get items() {
+    return this.args.items;
+  }
 
   filter(items, term) {
     term = term && term.toLowerCase();
     const ensureString = v => (typeof v === 'string' ? v.toLowerCase() : JSON.stringify(v).toLowerCase());
     return items.filter((t) => {
       if (!term || term === '') return true;
-      if (t.id && t.id.includes(term)) return true;
       return Object.values(t.toJSON ? t.toJSON() : t)
         .filter(v => v && !v.defaultAdapter)
         .some(v => (v && ensureString(v).includes(term)));
     });
-  }
-
-  get items() {
-    return this.args.items;
   }
 
   get currentItems() {
@@ -45,6 +50,7 @@ export default class ListComponent extends Component {
     if (!selected) {
       this.selectedItems.removeObject(item);
     }
+    this.args.onSelectionChange(this.selectedItems);
   }
 
   @action
@@ -54,6 +60,7 @@ export default class ListComponent extends Component {
     } else {
       this.selectedItems = [];
     }
+    this.args.onSelectionChange(this.selectedItems);
   }
 
   @action

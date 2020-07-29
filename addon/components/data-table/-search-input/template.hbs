@@ -1,5 +1,6 @@
 {{import SearchInput from 'carbon-components-ember/components/search-input'}}
+{{import debounce from '@abcum/ember-helpers/helpers/debounce'}}
 
 <div class="bx--toolbar-search-container-persistent">
-  <SearchInput value={{@currentSearch}} @onChange={{fn @onChange}} />
+  <SearchInput value={{@currentSearch}} @onChange={{fn (debounce @onChange 200)}} />
 </div>
