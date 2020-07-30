@@ -21,8 +21,8 @@
   </div>
   {{#let (new-obj) as |obj|}}
     {{assign obj
-             SearchInput=(component SearchInput value=this.currentSearch onChange=(fn (mut this.currentSearch)))
-             Pagination=(component Pagination length=@items.length onPageChanged=(fn (mut this.currentItemsSlice)))
+             SearchInput=(component SearchInput value=this.currentSearchTerm onChange=(fn this.search))
+             Pagination=(component Pagination length=this.items.length onPageChanged=(fn (mut this.currentItemsSlice)))
              Row=(component ListRow isExpandable=this.isExpandable isCheckable=this.isCheckable table=this)
              Menu=Menu
              Table=Table

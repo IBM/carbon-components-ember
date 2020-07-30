@@ -1,6 +1,9 @@
 {{import SearchInput from 'carbon-components-ember/components/search-input'}}
+{{import Loading from 'carbon-components-ember/components/loading'}}
 {{import debounce from '@abcum/ember-helpers/helpers/debounce'}}
+{{import styles from './styles.scoped.scss'}}
 
-<div class="bx--toolbar-search-container-persistent">
-  <SearchInput value={{@currentSearch}} @onChange={{fn (debounce @onChange 200)}} />
+<div class="bx--toolbar-search-container-persistent {{if this.isSearching styles.is-searching}}">
+  <SearchInput value={{@table.currentSearch}} @onChange={{fn (debounce this.doSearch 200)}} />
+  <Loading style="position: relative; top: -41px; right: 7px" @inline={{true}} @active={{this.isSearching}} />
 </div>
