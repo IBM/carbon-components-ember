@@ -1,7 +1,7 @@
 {{import Button from 'carbon-components-ember/components/button'}}
 {{import Checkbox from 'carbon-components-ember/components/checkbox'}}
-{{import includes from 'ember-composable-helpers/helpers/contains'}}
 {{import set from 'carbon-components-ember/helpers/set'}}
+{{import has from 'carbon-components-ember/helpers/has'}}
 
 <tr class="{{if (includes @item @table.selectedItems) 'bx--data-table--selected'}}">
   {{#if @isExpandable}}
@@ -13,7 +13,7 @@
   {{/if}}
   {{#if @isCheckable}}
     <td class="bx--table-column-checkbox">
-      <Checkbox @checked={{includes @item @table.selectedItems}} @onChange={{fn @table.toggleItemSelection @item}} />
+      <Checkbox @checked={{has @table.selectedItems @item}} @onChange={{fn @table.toggleItemSelection @item}} />
     </td>
   {{/if}}
   {{yield}}

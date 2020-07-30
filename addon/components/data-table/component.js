@@ -6,7 +6,7 @@ import { defaultArgs } from "../../decorators";
 export default class ListComponent extends Component {
   tagName = '';
   @tracked currentSearch = null;
-  @tracked selectedItems = [];
+  @tracked selectedItems = new Set();
   @tracked currentItemsSlice = null;
 
   @defaultArgs
@@ -40,27 +40,31 @@ export default class ListComponent extends Component {
   }
 
   get allChecked() {
-    return this.currentItems.every(i => this.selectedItems.includes(i));
+    return this.currentItems.every(i => this.selectedItems.has(i));
   }
 
   @action
   toggleItemSelection(item, selected) {
-    if (selected && !this.selectedItems.includes(item)) {
-      this.selectedItems.pushObject(item);
+    if (selected && !this.selectedItems.has(item)) {
+      this.selectedItems.add(item);
     }
     if (!selected) {
-      this.selectedItems.removeObject(item);
+      this.selectedItems.remove(item);
     }
+    // eslint-disable-next-line no-self-assign
+    this.selectedItems = this.selectedItems;
     this.args.onSelectionChange(this.selectedItems);
   }
 
   @action
   toggleSelectAllItems(select) {
     if (select) {
-      this.selectedItems = this.currentItems.slice();
+      this.selectedItems = new Set(this.currentItems.slice());
     } else {
-      this.selectedItems = [];
+      this.selectedItems = new Set([]);
     }
+    // eslint-disable-next-line no-self-assign
+    this.selectedItems = this.selectedItems;
     this.args.onSelectionChange(this.selectedItems);
   }
 
