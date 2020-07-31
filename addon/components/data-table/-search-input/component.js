@@ -12,19 +12,18 @@ export default class TableSearchComponent extends Component {
   @task({ restartable: true })
   *runSearch(term) {
     this.isSearching = true;
-    const p = this.args.onChange(term);
+    const task = this.args.onChange(term);
     try {
-      yield p;
-      return;
+      return yield task;
     } finally {
       this.isSearching = false;
-      p.cancel && p.cancel();
+      task.cancelAll && task.cancelAll();
     }
   }
 
   @action
   doSearch(term) {
-    if (this.lastTerm === term) return ;
+    if (this.lastTerm === term) return;
     this.lastTerm = term;
     this.runSearch.perform(term);
   }

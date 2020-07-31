@@ -5,17 +5,18 @@ import { defaultArgs } from "../../decorators";
 
 
 export default class LoadingComponent extends Component {
-  carbonElement = null;
-
   @defaultArgs
   args = {
     active: true,
+    small: false,
+    overlay: false,
+    title: null,
     inline: false
   };
 
   @action
-  loadCarbonComponent() {
-    this.loading = new Loading(this.carbonElement, this.args);
+  loadCarbonComponent(elem) {
+    this.loading = new Loading(elem, this.args);
   }
 
   @action

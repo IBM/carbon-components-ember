@@ -1,5 +1,9 @@
 {{import Icon from '../icon'}}
-<div data-search role="search" class="bx--search bx--search--{{if @small 'sm' (if @xl 'xl')}} {{if @light 'bx--search--light'}}" ...attributes>
+<div data-search
+     {{did-update (fn this.setValue @value) @value}}
+     {{did-update (fn this.onSearchChange) this.value}}
+     role="search"
+     class="bx--search bx--search--{{if @size @size 'lg'}} {{if @light 'bx--search--light'}} {{if @isLoading 'bx--skeleton'}}" ...attributes>
   {{#if this.hasInput}}
       <button class="bx--search-close" title="Clear search input" aria-label="Clear search input" {{on 'click' this.onSearchClear}}>
           <Icon @icon="close" @class="bx--search-clear" />
@@ -8,7 +12,7 @@
     <label id="search-input-label-{{this.guid}}" class="bx--label" for="search__input-{{this.guid}}">Search</label>
     <input class="bx--search-input" type="text" id="search__input-{{this.guid}}" placeholder="Search"
            value={{this.value}}
-      {{on 'change' this.onSearchChange}}
-      {{on 'input' this.onSearchChange}} >
+      {{on 'change' (fn this.setValue)}}
+      {{on 'input' (fn this.setValue)}} >
     <Icon @icon="search" @class="bx--search-magnifier" />
 </div>

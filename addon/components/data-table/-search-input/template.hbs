@@ -4,6 +4,6 @@
 {{import styles from './styles.scoped.scss'}}
 
 <div class="bx--toolbar-search-container-persistent {{if this.isSearching styles.is-searching}}">
-  <SearchInput value={{@table.currentSearch}} @onChange={{fn (debounce this.doSearch 200)}} />
+  <SearchInput @isLoading={{@isLoading}} @value={{@value}} @onChange={{fn this.doSearch}} />
   <Loading style="position: relative; top: -41px; right: 7px" @inline={{true}} @active={{this.isSearching}} />
 </div>

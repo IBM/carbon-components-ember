@@ -2,18 +2,73 @@ import Component from '@glimmer/component';
 import { action, computed} from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { defaultArgs } from "../../decorators";
+import { task } from 'ember-concurrency-decorators'
+
+class TrackedSet {
+  @tracked counter = 0;
+  constructor() {
+    this.set = new Set();
+  }
+
+  toArray() {
+    if (!this.counter) return [];
+    return [...this.set];
+  }
+
+  setTo(array) {
+    this.set = new Set(array);
+    this.counter++;
+  }
+
+  clear() {
+    this.set.clear();
+    this.counter++;
+  }
+
+  add(v) {
+    this.set.add(v);
+    this.counter++;
+  }
+
+  delete(v) {
+    this.set.delete(v);
+    this.counter++;
+  }
+
+  has(v) {
+    if (!this.counter) return false;
+    return this.set.has(v);
+  }
+
+  get size() {
+    if (!this.counter) return 0;
+    return this.set.size;
+  }
+}
 
 export default class ListComponent extends Component {
   tagName = '';
+
   @tracked currentSearch = null;
-  @tracked selectedItems = new Set();
   @tracked currentItemsSlice = null;
   @tracked currentSearchTerm = null;
+  selectedItems = new TrackedSet();
+
+  get trackedState() {
+    return {
+      selectedItems: this.selectedItems.toArray(),
+      currentSearchTerm: this.currentSearchTerm,
+      currentSearch: this.currentSearch,
+      currentItemsSlice: this.currentItemsSlice,
+    }
+  }
 
   @defaultArgs
   args = {
     onSelectionChange: () => null,
+    onStateChanged: () => null,
     search: null,
+    state: null,
     items: null
   }
 
@@ -31,7 +86,7 @@ export default class ListComponent extends Component {
   }
 
   get selectedItemsArray() {
-    return [...this.selectedItems];
+    return this.selectedItems.toArray();
   }
 
   get items() {
@@ -41,25 +96,28 @@ export default class ListComponent extends Component {
     return this.args.items;
   }
 
-  applySearch(items, term) {
-    term = term && term.toLowerCase();
-    const f = this.searchFunction;
-    const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-    // eslint-disable-next-line no-async-promise-executor
-    const p = new Promise(async (res) => {
-      // eslint-disable-next-line no-unused-vars
+  @task({ restartable: true })
+  *applySearch(items, term) {
+    this.currentSearch = [];
+    let cancelled = false;
+    const run = async () => {
+      term = term && term.toLowerCase();
+      const f = this.searchFunction;
+      const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
       for (const t of items.toArray()) {
+        if (cancelled) break;
         if (await f(t, term)) {
-          if (p.cancelled) break;
           await delay(0);
           this.currentSearch.pushObject(t);
         }
-        if (p.cancelled) break;
       }
-      res();
-    });
-    p.cancel = () => p.cancelled = true;
-    return p;
+    }
+
+    try {
+      return yield run();
+    } finally {
+      cancelled = true;
+    }
   }
 
   @computed()
@@ -74,13 +132,13 @@ export default class ListComponent extends Component {
 
   @action
   search(term) {
-    this.currentSearch = [];
     this.currentSearchTerm = term;
     if (!term) {
       this.currentSearch = null;
+      this.applySearch.cancelAll();
       return Promise.resolve();
     }
-    return this.applySearch(this.args.items || [], term);
+    return this.applySearch.perform(this.args.items || [], term);
   }
 
   @action
@@ -92,28 +150,50 @@ export default class ListComponent extends Component {
       this.selectedItems.delete(item);
     }
     // eslint-disable-next-line no-self-assign
-    this.selectedItems = this.selectedItems;
-    this.args.onSelectionChange([...this.selectedItems]);
+    this.args.onSelectionChange(this.selectedItems.toArray());
   }
 
   @action
   toggleSelectAllItems(select) {
     if (select) {
-      this.selectedItems = new Set(this.currentItems.slice());
+      this.selectedItems.setTo(this.currentItems.slice());
     } else {
-      this.selectedItems = new Set([]);
+      this.selectedItems.setTo([]);
     }
     // eslint-disable-next-line no-self-assign
-    this.selectedItems = this.selectedItems;
-    this.args.onSelectionChange([...this.selectedItems]);
+    this.args.onSelectionChange(this.selectedItems.toArray());
   }
 
   @action
-  delayItems() {
+  updateState() {
+    if (this.args.state) {
+      this.currentItemsSlice = this.args.state.currentItemsSlice || this.currentItemsSlice;
+      this.currentSearch = this.args.state.currentSearch || this.currentSearch;
+      this.currentSearchTerm = this.args.state.currentSearchTerm || this.currentSearchTerm;
+      if (this.args.state.selectedItems) {
+        this.selectedItems.setTo(this.args.state.selectedItems);
+      }
+    }
+  }
+
+  @action
+  initialize() {
+    if (this.args.state) {
+      this.updateState();
+    }
     setTimeout(() => {
       if (!this.currentItemsSlice) {
         this.currentItemsSlice = { start: 0, end: undefined };
       }
     }, 200);
+  }
+  
+  @action
+  updateItems() {
+    this.selectedItems.toArray().forEach((i) => {
+      if (!this.args.items.includes(i)) {
+        this.selectedItems.delete(i);
+      }
+    });
   }
 }
