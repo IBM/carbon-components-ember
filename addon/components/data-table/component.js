@@ -99,24 +99,13 @@ export default class ListComponent extends Component {
   @task({ restartable: true })
   *applySearch(items, term) {
     this.currentSearch = [];
-    let cancelled = false;
-    const run = async () => {
-      term = term && term.toLowerCase();
-      const f = this.searchFunction;
-      const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-      for (const t of items.toArray()) {
-        if (cancelled) break;
-        if (await f(t, term)) {
-          await delay(0);
-          this.currentSearch.pushObject(t);
-        }
+    term = term && term.toLowerCase();
+    const f = this.searchFunction;
+    const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+    for (const t of items.toArray()) {
+      if (yield f(t, term)) {
+        this.currentSearch.pushObject(t);
       }
-    }
-
-    try {
-      return yield run();
-    } finally {
-      cancelled = true;
     }
   }
 
@@ -187,7 +176,7 @@ export default class ListComponent extends Component {
       }
     }, 200);
   }
-  
+
   @action
   updateItems() {
     this.selectedItems.toArray().forEach((i) => {

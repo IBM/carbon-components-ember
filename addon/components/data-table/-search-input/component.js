@@ -17,7 +17,6 @@ export default class TableSearchComponent extends Component {
       return yield task;
     } finally {
       this.isSearching = false;
-      task.cancelAll && task.cancelAll();
     }
   }
 
