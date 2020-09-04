@@ -109,7 +109,7 @@ class CarbonButton extends Component {
         }
       }
     };
-    if (this.danger) {
+    if (this.args.danger) {
       this.dialogManager.open(this.args.confirmDialog || 'carbon-components-ember/components/dialogs/confirm', {
         type: 'danger',
         header: 'Danger',
