@@ -3,6 +3,7 @@ import { action, computed} from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { defaultArgs } from "../../decorators";
 import { task } from 'ember-concurrency-decorators'
+import { throttle } from "@ember/runloop";
 
 class TrackedSet {
   @tracked counter = 0;
@@ -197,7 +198,11 @@ export default class ListComponent extends Component {
     this.selectedItems.toArray().forEach((i) => {
       if (!this.args.items.includes(i)) {
         this.selectedItems.delete(i);
+        if (this.currentSearch) {
+          this.currentSearch.removeObject(i);
+        }
       }
     });
+    throttle(this, this.args.onSelectionChange, this.selectedItems.toArray(), 100);
   }
 }

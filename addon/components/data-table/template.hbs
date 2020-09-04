@@ -14,7 +14,7 @@
 <div class="bx--data-table-container {{if @isLoading 'bx-skeleton'}}" data-table
   {{did-insert this.initialize}}
   {{did-update this.updateState @state}}
-  {{did-update this.updateItems @items}}
+  {{did-update this.updateItems @items @items.length}}
   {{did-update (fn this.args.onStateChanged this.trackedState) this.trackedState}}
 >
   <div class="bx--data-table-header">
