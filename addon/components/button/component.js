@@ -1,5 +1,5 @@
-import Component from '@ember/component';
-import { bxClassNames, classPrefix, argsCompat } from 'carbon-components-ember/decorators';
+import Component from '@glimmer/component';
+import { bxClassNames, classPrefix, defaultArgs } from 'carbon-components-ember/decorators';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import {tracked} from "@glimmer/tracking";
@@ -22,7 +22,7 @@ class CarbonButton extends Component {
   @tracked loading;
   @tracked disabled;
 
-  @argsCompat
+  @defaultArgs
   args = {
     /**
      * Will display a spinning Wheel inside the button
@@ -45,6 +45,12 @@ class CarbonButton extends Component {
      @type function
      */
     onClick: null,
+    /**
+     * Indicates if the action is the primary one
+     @argument primary
+     @type boolean
+     */
+    primary: null,
     /**
      * Indicates if the action is dangerous, showing a confirmation dialog before calling `onClick`
      @argument danger

@@ -1,6 +1,7 @@
 <div class="bx--checkbox-wrapper" ...attributes>
 <label
   tabindex='0'
+  {{did-insert this.setup}}
   {{on 'focus' (fn (mut this.isFocus) true)}}
   {{on 'blur' (fn (mut this.isFocus) false)}}
   for="checkbox-{{this.guid}}"
@@ -10,7 +11,7 @@
     <input
             disabled={{if this.disabled true false}}
             id='checkbox-{{this.guid}}'
-            readonly={{readonly}}
+            readonly={{this.readonly}}
             class="bx--checkbox"
             type="checkbox"
             name="{{@name}}"

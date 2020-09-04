@@ -35,6 +35,11 @@ class TrackedSet {
     this.counter++;
   }
 
+  hasAll(a) {
+    if (!this.counter) return false;
+    return a.every(i => this.set.has(i));
+  }
+
   has(v) {
     if (!this.counter) return false;
     return this.set.has(v);
@@ -99,13 +104,23 @@ export default class ListComponent extends Component {
   @task({ restartable: true })
   *applySearch(items, term) {
     this.currentSearch = [];
-    term = term && term.toLowerCase();
-    const f = this.searchFunction;
-    const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-    for (const t of items.toArray()) {
-      if (yield f(t, term)) {
-        this.currentSearch.pushObject(t);
+    let cancelled = false;
+    const run = async () => {
+      term = term && term.toLowerCase();
+      const f = this.searchFunction;
+      const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+      for (const t of items.toArray()) {
+        if (cancelled) break;
+        if (await f(t, term)) {
+          this.currentSearch.pushObject(t);
+        }
       }
+    }
+
+    try {
+      return yield run();
+    } finally {
+      cancelled = true;
     }
   }
 
@@ -116,7 +131,7 @@ export default class ListComponent extends Component {
   }
 
   get allChecked() {
-    return this.currentItems.every(i => this.selectedItems.has(i));
+    return this.selectedItems.hasAll(this.currentItems);
   }
 
   @action

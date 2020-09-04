@@ -5,10 +5,7 @@
 {{#if @table.selectedItems.size}}
   <div class="bx--batch-actions bx--batch-actions--active" aria-label="Table Action Bar">
     <div class="bx--action-list">
-    {{yield (hash
-            close=(fn (getFn @table.selectedItems 'clear'))
-            selectedItems=@table.selectedItemsArray)
-    }}
+    {{yield (hash close=(fn (getFn @table.selectedItems 'clear')))}}
     <Button @primary=true @onClick={{fn (getFn @table.selectedItems 'clear')}}>Cancel</Button>
     </div>
     <div class="bx--batch-summary">

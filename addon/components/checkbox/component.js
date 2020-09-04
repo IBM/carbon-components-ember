@@ -1,24 +1,29 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action, computed } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
+import { defaultArgs } from "../../decorators";
 
 export default class CarbonCheckbox extends Component {
-  tagName = '';
-  @tracked disabled = false;
-  @tracked state = null;
   @tracked isFocus = false;
-  @tracked attrs;
+  @tracked guid = null;
 
-  @computed()
-  get guid() {
-    return guidFor(this);
+  @defaultArgs
+  args = {
+    disabled: false,
+    onChange: () => null,
+    state: null
+  }
+
+  @action
+  setup() {
+    this.guid = guidFor(this);
   }
 
   @action
   onCheckChange(element) {
     const value = element.target.checked;
-    if (this.attrs.onChange) this.attrs.onChange(value);
+    if (this.args.onChange) this.args.onChange(value);
   }
 
   @action

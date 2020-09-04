@@ -21,12 +21,11 @@ export function bxClassNames(...names) {
       return mapping;
     }
 
-    const props = attrs.map(a => `attrs.${a[0]}`);
+    const props = attrs.map(a => a[0]);
     const decorator = computed(
-      props.join(','),
       function() {
         const mapping = createMapping();
-        return attrs.map(a => a[0]).map(a => ((String(this[a]) === 'true') ? mapping[a] : null)).compact().join(' ');
+        return attrs.map(a => a[0]).map(a => ((String(this[a] || this.args && this.args[a]) === 'true') ? mapping[a] : null)).compact().join(' ');
       }
     );
     return decorator(target, name, descriptor);

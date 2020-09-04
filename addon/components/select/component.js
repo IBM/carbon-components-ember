@@ -1,9 +1,20 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { set, action } from '@ember/object';
 import { isBlank } from '@ember/utils';
+import { defaultArgs } from "../../decorators";
 
 
 export default class SelectComponent extends Component {
+
+  @defaultArgs
+  args = {
+    content: [],
+    multiple: false,
+    onSelect: () => null,
+    addItem: () => null,
+    removeItem: () => null,
+  }
+
   searchMatcher(item, term) {
     if (!term || term === '') return true;
     const pass = Object.values(item.toJSON ? item.toJSON() : item)
@@ -15,30 +26,30 @@ export default class SelectComponent extends Component {
 
   @action
   onChange(choice) {
-    if (this.multiple) {
+    if (this.args.multiple) {
       choice.forEach((item) => {
-        if (!this.content || !this.content.includes(item)) {
-          if (this.addItem) this.addItem(item);
+        if (!this.args.content || !this.args.content.includes(item)) {
+          if (this.args.addItem) this.args.addItem(item);
         }
       });
-      if (this.content) {
-        this.content.forEach((item) => {
+      if (this.args.content) {
+        this.args.content.forEach((item) => {
           if (!choice.includes(item)) {
-            if (this.removeItem) this.removeItem(item);
+            if (this.args.removeItem) this.args.removeItem(item);
           }
         });
       }
       return;
     }
-    if (this.onSelect) this.onSelect(choice);
+    if (this.args.onSelect) this.args.onSelect(choice);
   }
   @action
   selectFocused(...args) {
-    return this.selectFocused && this.selectFocused(...args);
+    return this.args.selectFocused && this.args.selectFocused(...args);
   }
   @action
   handleKeydown(select, event) {
-    const selected = this.get('content') || [];
+    const selected = this.args.content || [];
 
 
     let backspaceHandled = false;
@@ -62,7 +73,8 @@ export default class SelectComponent extends Component {
     return undefined;
   }
 
-  didInsertElement() {
+  @action
+  didInsert() {
     this.$('.ember-power-select-status-icon').replaceWith(''
       + '<svg class="bx--dropdown__arrow" '
       + 'width="10" height="6" viewBox="0 0 10 6">\n'

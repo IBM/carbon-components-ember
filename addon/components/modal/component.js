@@ -1,8 +1,8 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { computed, action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import  {tracked } from "@glimmer/tracking";
-import { argsCompat } from "../../decorators";
+import { tracked } from "@glimmer/tracking";
+import { defaultArgs } from "../../decorators";
 
 /** @documenter yuidoc */
 
@@ -14,7 +14,7 @@ export default class ModalComponent extends Component {
   tagName = '';
   @tracked isVisible = true;
 
-  @argsCompat
+  @defaultArgs
   args = {
     /**
      * @argument onClose
@@ -23,7 +23,7 @@ export default class ModalComponent extends Component {
     onClose: null
   };
 
-  @computed
+  @computed()
   get guid() {
     return guidFor(this);
   }

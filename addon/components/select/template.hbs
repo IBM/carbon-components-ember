@@ -5,7 +5,7 @@
 {{import defaultTo from 'carbon-components-ember/helpers/default-to'}}
 
 {{#if @multiple}}
-  <PowerSelectMultiple
+  <PowerSelectMultiple {{did-insert this.didInsert}}
     @eventType="click"
     @searchEnabled={{defaultTo @searchEnabled true}}
     @options={{@options}}
@@ -14,7 +14,7 @@
     @matcher={{this.searchMatcher}}
       @selected={{@content}}
     @placeholder={{@placeholder}}
-      @onChange={{fn this.onChange}}
+      @onChange={{fn this.args.onChange}}
     @onkeydown={{fn this.handleKeydown}}
     @closeOnSelect={{false}}
   as |option select|
@@ -28,7 +28,7 @@
     </Checkbox>
   </PowerSelectMultiple>
 {{else}}
-  <PowerSelect
+  <PowerSelect {{did-insert this.didInsert}}
     @eventType="click"
     @searchEnabled={{defaultTo @searchEnabled true}}
     @options={{@options}}
