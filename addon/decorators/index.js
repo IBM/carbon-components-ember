@@ -1,5 +1,5 @@
 import { computed } from '@ember/object';
-import GlimmerComponent from "@glimmer/component";
+import GlimmerComponent from '@glimmer/component';
 
 export function classPrefix(prefix) {
   return (target) => {
@@ -19,6 +19,15 @@ export function bxClassNames(...names) {
         mapping[a] = target.classPrefix + c;
       });
       return mapping;
+    }
+    if (!descriptor) {
+      Object.defineProperty(target, name, {
+        get() {
+          const mapping = createMapping();
+          return attrs.map(a => a[0]).map(a => ((String(this[a] || this.args && this.args[a]) === 'true') ? mapping[a] : null)).compact().join(' ');
+        }
+      })
+      return ;
     }
 
     const props = attrs.map(a => a[0]);

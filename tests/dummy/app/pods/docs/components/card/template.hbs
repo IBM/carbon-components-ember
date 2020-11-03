@@ -2,12 +2,13 @@
 {{import Input from 'carbon-components-ember/components/form-input'}}
 {{import Demo from 'ember-cli-addon-docs/components/docs-demo'}}
 {{import set from 'carbon-components-ember/helpers/set'}}
+{{import Card from 'carbon-components-ember/components/card'}}
 
 <h1>Carbon Card</h1>
 
 <Demo as |demo|>
   {{#demo.example name='card.hbs'}}
-    {{import Card from 'carbon-components-ember/components/card'}}
+    {{!import Card from 'carbon-components-ember/components/card'}}
     <Card @title="A Card title" as |card|>
       Card text
     </Card>

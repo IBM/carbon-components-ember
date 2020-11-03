@@ -15,7 +15,7 @@
     "noImplicitReturns": false,
     "noEmitOnError": true,
     "baseUrl": ".",
-    "module": "CommonJS",
+    "module": "ES6",
     "experimentalDecorators": true,
     "paths": {
       "carbon-components-ember/*": [

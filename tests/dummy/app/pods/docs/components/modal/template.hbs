@@ -1,13 +1,14 @@
 {{import Input from 'carbon-components-ember/components/form-input'}}
 {{import Demo from 'ember-cli-addon-docs/components/docs-demo'}}
 {{import set from 'carbon-components-ember/helpers/set'}}
-{{import eq from '@abcum/ember-helpers/helpers/eq'}}
+{{import eq from 'ember-truth-helpers/helpers/equal'}}
+{{import Modal from 'carbon-components-ember/components/modal'}}
 
 <h1>Carbon Checkbox</h1>
 
 <Demo as |demo|>
   {{#demo.example name='modal.hbs'}}
-    {{import Modal from 'carbon-components-ember/components/modal'}}
+    {{!import Modal from 'carbon-components-ember/components/modal'}}
 
     <Modal as |part|>
       {{#if (eq part 'label')}}Label{{/if}}

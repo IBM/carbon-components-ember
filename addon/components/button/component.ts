@@ -89,19 +89,22 @@ class CarbonButton extends Component {
   @tracked disabled;
 
   @defaultArgs
-  args: Args = {
-    loading: false,
-    disabled: false,
-    bubbles: false,
-    onClick: null,
-    primary: false,
-    danger: false,
-    confirmText: '',
-    confirmDialog: '',
-    tertiary: false,
-    small: false,
-    ghost: false
-  };
+  // @ts-ignore
+  get args(): Args {
+    return {
+      loading: false,
+      disabled: false,
+      bubbles: false,
+      onClick: null,
+      primary: false,
+      danger: false,
+      confirmText: '',
+      confirmDialog: '',
+      tertiary: false,
+      small: false,
+      ghost: false
+    };
+  }
 
   @service('carbon-components-ember@dialog-manager') dialogManager;
   @bxClassNames('primary', 'secondary', 'danger', 'tertiary', 'ghost', 'small:sm') bxClassNames;

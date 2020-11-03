@@ -1,12 +1,13 @@
 {{import Input from 'carbon-components-ember/components/form-input'}}
 {{import Demo from 'ember-cli-addon-docs/components/docs-demo'}}
 {{import set from 'carbon-components-ember/helpers/set'}}
+{{import CodeSnippet from 'carbon-components-ember/components/code-snippet'}}
 
 <h1>Carbon Code Snippet</h1>
 
 <Demo as |demo|>
   {{#demo.example name='code-snippet.hbs'}}
-    {{import CodeSnippet from 'carbon-components-ember/components/code-snippet'}}
+    {{!import CodeSnippet from 'carbon-components-ember/components/code-snippet'}}
 
     <CodeSnippet @type="default" >
       Some code

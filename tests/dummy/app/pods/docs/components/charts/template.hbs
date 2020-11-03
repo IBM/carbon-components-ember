@@ -2,13 +2,17 @@
 {{import Input from 'carbon-components-ember/components/form-input'}}
 {{import Demo from 'ember-cli-addon-docs/components/docs-demo'}}
 {{import set from 'carbon-components-ember/helpers/set'}}
+{{import BarChart from 'carbon-components-ember/components/charts/bar'}}
+{{import LineChart from 'carbon-components-ember/components/charts/line'}}
+{{import PieChart from 'carbon-components-ember/components/charts/pie'}}
+{{import LineChart from 'carbon-components-ember/components/charts/line'}}
 
 <h1>Carbon Charts</h1>
 
 <h2>Bar Chart</h2>
 <Demo as |demo|>
   {{#demo.example name='bar-chart.hbs'}}
-    {{import BarChart from 'carbon-components-ember/components/charts/bar'}}
+    {{!import BarChart from 'carbon-components-ember/components/charts/bar'}}
 
     <BarChart style="height: 600px; width: 600px; display: inline-block"
               @labels={{array 'Quantity' 'Leads' 'Sold' 'Restocking' 'Misc'}}
@@ -27,7 +31,7 @@
 <h2>Line Chart</h2>
 <Demo as |demo|>
   {{#demo.example name='line-chart.hbs'}}
-    {{import LineChart from 'carbon-components-ember/components/charts/line'}}
+    {{!import LineChart from 'carbon-components-ember/components/charts/line'}}
 
     <LineChart style="height: 600px; width: 600px; display: inline-block"
               @labels={{array 'Quantity' 'Leads' 'Sold' 'Restocking' 'Misc'}}
@@ -46,7 +50,7 @@
 <h2>Pie Chart</h2>
 <Demo as |demo|>
   {{#demo.example name='pie-chart.hbs'}}
-    {{import PieChart from 'carbon-components-ember/components/charts/pie'}}
+    {{!import PieChart from 'carbon-components-ember/components/charts/pie'}}
 
     <PieChart style="height: 600px; width: 600px; display: inline-block"
                @labels={{array 'Quantity' 'Leads' 'Sold' 'Restocking' 'Misc'}}
@@ -66,7 +70,7 @@
 <h2>Sinus Chart</h2>
 <Demo as |demo|>
   {{#demo.example name='sin-line-chart.hbs'}}
-    {{import LineChart from 'carbon-components-ember/components/charts/line'}}
+    {{!import LineChart from 'carbon-components-ember/components/charts/line'}}
 
     <LineChart style="height: 600px; width: 600px; display: inline-block" @labels=''
                as |chart|>

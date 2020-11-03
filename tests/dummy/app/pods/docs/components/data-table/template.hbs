@@ -2,12 +2,13 @@
 {{import Button from 'carbon-components-ember/components/button'}}
 {{import Demo from 'ember-cli-addon-docs/components/docs-demo'}}
 {{import set from 'carbon-components-ember/helpers/set'}}
+{{import DataTable from 'carbon-components-ember/components/data-table'}}
 
 <h1>Carbon Data Table</h1>
 
 <Demo as |demo|>
   {{#demo.example name='data-table.hbs'}}
-    {{import DataTable from 'carbon-components-ember/components/data-table'}}
+    {{!import DataTable from 'carbon-components-ember/components/data-table'}}
 
     <DataTable
         @title="Table title"
@@ -16,7 +17,7 @@
       <table.Toolbar as |toolbar|>
         <toolbar.Content>
           <table.SearchInput />
-        </toolbar.Content>  
+        </toolbar.Content>
       </table.Toolbar>
       <table.Table>
         <table.Header @headers={{array (hash label='Name') (hash label='details') ''}}>
@@ -45,20 +46,20 @@
   {{#demo.example name='data-table-2.hbs'}}
     {{import DataTable from 'carbon-components-ember/components/data-table'}}
 
-    <DataTable        
+    <DataTable
         @title="Table title"
         @items={{array (hash name='a' b='c') (hash name='John' b='asd')}}
 	  as |table|>
       <table.Toolbar as |toolbar|>
         <toolbar.Content>
           <table.SearchInput />
-        </toolbar.Content>        
+        </toolbar.Content>
         <toolbar.Actions>
           <Button @primary=true>Save</Button>
         </toolbar.Actions>
       </table.Toolbar>
       <table.Table>
-        <table.Header 
+        <table.Header
           @isCheckable=true
           @headers={{array (hash label='Name') (hash label='details') ''}}>
         </table.Header>
