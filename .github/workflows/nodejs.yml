@@ -34,7 +34,6 @@ jobs:
           - release
           - beta
           - canary
-          - lts-3.8
           - lts-3.12
     steps:
       - name: Checkout
