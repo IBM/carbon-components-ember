@@ -1,5 +1,5 @@
-import Component from '@ember/component';
-import {argsCompat} from "../../decorators/bx-class-names";
+import Component from '@glimmer/component';
+import { defaultArgs } from "../../decorators";
 /** @documenter yuidoc */
 
 /**
@@ -16,7 +16,7 @@ import {argsCompat} from "../../decorators/bx-class-names";
 export default class CardComponent extends Component {
   tagName = '';
 
-  @argsCompat
+  @defaultArgs
   args = {
     /**
      @argument loading

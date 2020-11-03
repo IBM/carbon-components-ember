@@ -1,9 +1,9 @@
 import Component from '@glimmer/component';
-import { action, computed} from '@ember/object';
+import { action, computed } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { defaultArgs } from "../../decorators";
+import { defaultArgs } from '../../decorators';
 import { task } from 'ember-concurrency-decorators'
-import { throttle } from "@ember/runloop";
+import { throttle } from '@ember/runloop';
 
 class TrackedSet {
   @tracked counter = 0;
@@ -106,7 +106,7 @@ export default class ListComponent extends Component {
   *applySearch(items, term) {
     this.currentSearch = [];
     let cancelled = false;
-    const run = async () => {
+    const run = async() => {
       term = term && term.toLowerCase();
       const f = this.searchFunction;
       const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -125,7 +125,7 @@ export default class ListComponent extends Component {
     }
   }
 
-  @computed()
+  @computed('currentItemsSlice.{end,start}', 'items')
   get currentItems() {
     if (!this.items || !this.currentItemsSlice) return [];
     return this.items.slice(this.currentItemsSlice.start, this.currentItemsSlice.end);

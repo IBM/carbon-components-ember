@@ -9,7 +9,6 @@
   )}}
 
 <div ...attributes
-  {{ref this 'chartDiv'}}
   {{did-insert this.loadChart}}
   {{did-update this.updateChart @labels @legendClickable @containerResizable}}
   {{will-destroy this.destroyChart}}

@@ -1,9 +1,9 @@
 name: Test, Build & Publish
 
-on:	
-  create:	
-    tags: '**'	
-  push:	
+on:
+  create:
+    tags: '**'
+  push:
     branches: '**'
 
 jobs:
@@ -47,7 +47,7 @@ jobs:
       - name: Setup ember-try scenario
         run: ./node_modules/.bin/ember try:one ember-${{ matrix.scenario }} --skip-cleanup --- cat package.json
       - name: Build
-        run: ./node_modules/.bin/ember build --environment test
+        run: ./node_modules/.bin/tsc && ./node_modules/.bin/ember build --environment test
       - name: Run test
         run: ./node_modules/.bin/ember test
 
@@ -69,6 +69,7 @@ jobs:
           mkdir ~/.ssh
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           npm install
+          ./node_modules/.bin/tsc
           version=$(cat package.json | jq -r '.version')
           TAG=v$version
           if git rev-parse "$TAG" >/dev/null 2>&1; then
@@ -91,7 +92,7 @@ jobs:
           else
             echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
             npm publish || echo "already published"
-          fi          
+          fi
         env:
           NPM_TOKEN: "${{ secrets.NPM_TOKEN }}"
       - name: create tag

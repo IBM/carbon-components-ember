@@ -94,7 +94,6 @@ $ember-power-select-multiple-option-line-height: 1.45 !default;
   position: absolute;
   will-change: transform;
   fill: #171717;
-  right: 1rem;
   pointer-events: none;
 }
 .ember-power-select-trigger, .ember-power-select-trigger-multiple-input {
@@ -102,6 +101,7 @@ $ember-power-select-multiple-option-line-height: 1.45 !default;
   padding: 10px 20px 10px 16px;
   position: relative;
   background: #f3f3f3;
+  min-width: 100px;
 }
 
 .ember-power-select-multiple-options > .ember-power-select-multiple-option {

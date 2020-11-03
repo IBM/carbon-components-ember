@@ -1,21 +1,25 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { CodeSnippet } from 'carbon-components';
+import { defaultArgs } from '../../decorators';
 
 export default class CarbonCodeSnippet extends Component {
-  carbonElement = null;
-  tagName = '';
-  @tracked attrs;
-  @tracked type = 'default';
+  @tracked carbonElement = null;
+
+  @defaultArgs
+  args = {
+    type: 'default'
+  }
+
 
   @action
   loadCarbonComponent() {
     if (!this.carbonElement) {
       return;
     }
-    if (this.type === 'inline') return;
-    this.carbonComponent = new CodeSnippet(this.carbonElement, this.attrs);
+    if (this.args.type === 'inline') return;
+    this.carbonComponent = new CodeSnippet(this.carbonElement, this.args);
   }
 
   @action

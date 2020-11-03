@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ES2016",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": false,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": false,
+    "noEmitOnError": true,
+    "baseUrl": ".",
+    "module": "CommonJS",
+    "experimentalDecorators": true,
+    "paths": {
+      "carbon-components-ember/*": [
+        "addon/*"
+      ]
+    }
+  },
+  "include": [
+    "index.d.ts",
+    "lib/",
+    "addon/**/*",
+    "app/**/*"
+  ]
+}

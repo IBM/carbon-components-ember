@@ -1,11 +1,11 @@
 {{#if (or @targetElement @targetElementId)}}
-  <button {{ref this "carbonElement"}}
+  <button
     {{did-insert this.loadCarbonComponent}}
     {{will-destroy this.destroyCarbonComponent}}
-    data-copy-btn
-    class="{{if @inline 'bx--snippet bx--snippet--inline bx--btn--copy' 'bx--snippet-button'}}"
-    aria-label="Copy code"
-    tabindex="0">
+      data-copy-btn
+      class="{{if @inline 'bx--snippet bx--snippet--inline bx--btn--copy' 'bx--snippet-button'}}"
+      aria-label="Copy code"
+      tabindex="0">
     {{#if hasBlock}}
       <code>{{yield}}</code>
     {{/if}}
@@ -18,7 +18,7 @@
     <div class="bx--btn--copy__feedback" data-feedback="Copied!"></div>
   </button>
 {{else}}
-  <button {{ref this "carbonElement"}} {{ref this 'ownElement'}}
+  <button
     {{did-insert this.loadCarbonComponent}}
     {{will-destroy this.destroyCarbonComponent}}
       data-copy-btn

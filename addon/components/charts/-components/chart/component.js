@@ -1,8 +1,7 @@
 import Chart from '@carbon/charts/chart';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { throttle } from '@ember/runloop';
-import { componentArgs, argsCompat } from '../../../../decorators';
 /** @documenter yuidoc */
 
 /**
@@ -32,14 +31,7 @@ class CarbonChart extends Component {
   };
   chartDiv = null;
 
-  @componentArgs
-  componentArgs = {
-    labels: [],
-    resizable: true,
-    legendClickable: true
-  };
-
-  @argsCompat
+  @defaultArgs
   args = {
     /**
      * Chart labels
@@ -98,7 +90,8 @@ class CarbonChart extends Component {
   }
 
   @action
-  loadChart() {
+  loadChart(chartDiv) {
+    this.chartDiv = chartDiv;
     this.setData();
   }
 
