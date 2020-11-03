@@ -32,9 +32,12 @@ jobs:
       matrix:
         scenario:
           - release
-          - beta
-          - canary
           - lts-3.12
+        include:
+          - scenario: beta
+            experimental: true
+          - scenario: canary
+            experimental: true
     steps:
       - name: Checkout
         uses: actions/checkout@v1
