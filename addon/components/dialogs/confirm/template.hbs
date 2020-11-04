@@ -2,27 +2,25 @@
 {{import defaultTo from 'carbon-components-ember/helpers/default-to'}}
 {{import eq from 'ember-truth-helpers/helpers/equal'}}
 
-<Modal @onClick={{fn this.onCancel}} as |block|>
-  {{#if (eq block 'label')}}
-  {{@options.label}}
-  {{/if}}
+<Modal @onClick={{fn this.onCancel}}>
+  <:label>
+    {{@options.label}}
+  </:label>
 
-  {{#if (eq block 'header')}}
-  {{@options.label}}
-  {{/if}}
+  <:header>
+    {{@options.label}}
+  </:header>
 
-  {{#if (eq block 'content')}}
-  <p>
+  <:body>
     {{@options.body}}
-  </p>
-  {{/if}}
+  </:body>
 
-  {{#if (eq block 'footer')}}
-  <button class="bx--btn bx--btn--secondary" type="button" data-modal-close {{on 'click' this.onCancel}}>
-    {{defaultTo @options.cancelText 'Cancel'}}
-  </button>
-  <button class="bx--btn bx--btn--{{@options.type}} bx--btn--primary" type="button" aria-label="Danger"
-    {{on 'click' this.onAccept}} data-modal-primary-focus>{{defaultTo @options.cancelText 'Okay'}}
-  </button>
-  {{/if}}
+  <:footer>
+    <button class="bx--btn bx--btn--secondary" type="button" data-modal-close {{on 'click' this.onCancel}}>
+      {{defaultTo @options.cancelText 'Cancel'}}
+    </button>
+    <button class="bx--btn bx--btn--{{@options.type}} bx--btn--primary" type="button" aria-label="Danger"
+      {{on 'click' this.onAccept}} data-modal-primary-focus>{{defaultTo @options.cancelText 'Okay'}}
+    </button>
+  </:footer>
 </Modal>
