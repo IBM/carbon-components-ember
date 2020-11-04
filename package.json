@@ -1,5 +1,5 @@
 {
-  "version": "0.3.8",
+  "version": "0.3.9",
   "name": "carbon-components-ember",
   "keywords": [
     "ember-addon"
@@ -12,6 +12,7 @@
     "url": "https://github.com/patricklx/carbon-components-ember"
   },
   "scripts": {
+    "prepublishOnly": "tsc",
     "lint": "./node_modules/.bin/eslint tests addon",
     "dev": "./node_modules/.bin/ember s",
     "ts:build": "tsc",
