@@ -3,10 +3,10 @@
   <div class="bx--modal-container">
     <div class="bx--modal-header">
       <p class="bx--modal-header__label bx--type-delta" id="modal-{{this.guid}}-label">
-        {{yield 'label'}}
+        {{yield to='label'}}
       </p>
       <p class="bx--modal-header__heading bx--type-beta" id="modal-{{this.guid}}-heading">
-        {{yield 'header'}}
+        {{yield to='header'}}
       </p>
       <button class="bx--modal-close" type="button" data-modal-close aria-label="close modal"  data-modal-primary-focus {{on 'click' this.closeModal}}>
         <svg class="bx--modal-close__icon" width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
@@ -18,11 +18,11 @@
     </div>
 
     <div class="bx--modal-content">
-      {{yield 'content'}}
+      {{yield to='content'}}
     </div>
 
     <div class="bx--modal-footer">
-      {{yield 'footer'}}
+      {{yield to='footer'}}
     </div>
   </div>
 </div>

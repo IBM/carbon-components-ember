@@ -2,6 +2,7 @@ import Chart from '@carbon/charts/chart';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { throttle } from '@ember/runloop';
+import { defaultArgs } from '../../../../decorators';
 /** @documenter yuidoc */
 
 /**

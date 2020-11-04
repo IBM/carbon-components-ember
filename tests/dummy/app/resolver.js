@@ -1,4 +1,4 @@
-import Resolver from 'carbon-components-ember/resolver';
+import Resolver from 'ember-resolver';
 import moduleConfig from 'dummy/config/environment';
 /*
  * If your application has custom types and collections, modify moduleConfig here

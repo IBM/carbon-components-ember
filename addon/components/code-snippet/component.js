@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { CodeSnippet } from 'carbon-components';
+import CodeSnippet from 'carbon-components/es/components/code-snippet/code-snippet';
 import { defaultArgs } from '../../decorators';
 
 export default class CarbonCodeSnippet extends Component {

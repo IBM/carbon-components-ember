@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { defaultArgs } from '../../decorators';
 import { task } from 'ember-concurrency-decorators'
@@ -109,7 +109,6 @@ export default class ListComponent extends Component {
     const run = async() => {
       term = term && term.toLowerCase();
       const f = this.searchFunction;
-      const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
       for (const t of items.toArray()) {
         if (cancelled) break;
         if (await f(t, term)) {
@@ -125,7 +124,6 @@ export default class ListComponent extends Component {
     }
   }
 
-  @computed('currentItemsSlice.{end,start}', 'items')
   get currentItems() {
     if (!this.items || !this.currentItemsSlice) return [];
     return this.items.slice(this.currentItemsSlice.start, this.currentItemsSlice.end);

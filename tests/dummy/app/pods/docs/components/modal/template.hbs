@@ -10,20 +10,12 @@
   {{#demo.example name='modal.hbs'}}
     {{!import Modal from 'carbon-components-ember/components/modal'}}
 
-    <Modal as |part|>
-      {{#if (eq part 'label')}}Label{{/if}}
-      {{#if (eq part 'header')}}
-        Header
-      {{/if}}
-      {{#if (eq part 'body')}}
-        Body
-      {{/if}}
-      {{#if (eq part 'content')}}
-        Content
-      {{/if}}
-      {{#if (eq part 'footer')}}
-        Footer
-      {{/if}}
+    <Modal>
+      <:label>Label</:label>
+      <:header>Header</:header>
+      <:body>body</:body>
+      <:content>content</:content>
+      <:footer>footer</:footer>
     </Modal>
   {{/demo.example}}
   <demo.snippet @name="modal.hbs" />

@@ -1,7 +1,7 @@
 import { defaultColors } from '@carbon/charts';
 import Component from '@ember/component';
 import { action } from '@ember/object';
-import { argsCompat } from "carbon-components-ember/decorators";
+import { argsCompat } from 'carbon-components-ember/decorators';
 
 /** @documenter yuidoc */
 /**
@@ -24,17 +24,17 @@ class CarbonChartDataSet extends Component {
      * @argument label
      * @type String
      */
-      label: '',
+    label: '',
     /**
      * @argument backgroundColors
      * @type defaultColors[]
      */
-      backgroundColors: [],
+    backgroundColors: [],
     /**
      * @argument data
      * @type number[]
      */
-      data: []
+    data: []
   };
 
   @action

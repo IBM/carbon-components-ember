@@ -1,24 +1,36 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { defaultArgs } from "../../decorators";
+import { defaultArgs } from '../../decorators';
+import { next } from '@ember/runloop';
+/** @documenter yuidoc */
 
-export default class CarbonPagination extends Component {
+type Args = {
+  disabled: boolean,
+  length: number,
+  onPageChanged : () => null,
+  state: {
+    page: number;
+    itemsPerPage: number
+  },
+  itemsPerPageOptions: number
+};
+
+export default class CarbonPagination extends Component<Args> {
   @tracked currentPage = 1;
   @tracked itemsPerPage = 10;
 
-  @defaultArgs
-  args = {
+  args = defaultArgs(this, {
     disabled: false,
     length: 1,
     onPageChanged : () => null,
     state: null,
     itemsPerPageOptions: null
-  };
+  });
 
 
   get pages() {
-    return parseInt(this.args.length / this.itemsPerPage) + 1;
+    return parseInt((this.args.length / this.itemsPerPage).toString()) + 1;
   }
 
   get currentSlice() {
@@ -64,7 +76,9 @@ export default class CarbonPagination extends Component {
 
   @action
   pageChanged() {
-    this.args.onPageChanged(this.currentSlice);
+    next(() => {
+      this.args.onPageChanged(this.currentSlice);
+    });
   }
 
   @action
