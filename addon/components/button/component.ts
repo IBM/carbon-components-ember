@@ -34,6 +34,12 @@ type Args = {
    */
   primary: boolean,
   /**
+   * Indicates if the action is the secondary one
+   @argument secondary
+   @type boolean
+   */
+  secondary: boolean,
+  /**
    * Indicates if the action is dangerous, showing a confirmation dialog before calling `onClick`
    @argument danger
    @type boolean
@@ -83,28 +89,24 @@ type Args = {
  @public
  **/
 @classPrefix('bx--btn--')
-class CarbonButton extends Component {
-  tagName = '';
+class CarbonButton extends Component<Args> {
   @tracked loading;
   @tracked disabled;
 
-  @defaultArgs
-  // @ts-ignore
-  get args(): Args {
-    return {
-      loading: false,
-      disabled: false,
-      bubbles: false,
-      onClick: null,
-      primary: false,
-      danger: false,
-      confirmText: '',
-      confirmDialog: '',
-      tertiary: false,
-      small: false,
-      ghost: false
-    };
-  }
+  args = defaultArgs(this, {
+    loading: false,
+    disabled: false,
+    bubbles: false,
+    onClick: null,
+    primary: false,
+    secondary: false,
+    danger: false,
+    confirmText: '',
+    confirmDialog: '',
+    tertiary: false,
+    small: false,
+    ghost: false
+  });
 
   @service('carbon-components-ember@dialog-manager') dialogManager;
   @bxClassNames('primary', 'secondary', 'danger', 'tertiary', 'ghost', 'small:sm') bxClassNames;

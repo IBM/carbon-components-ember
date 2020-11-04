@@ -3,6 +3,14 @@ import { defaultArgs } from "../../decorators";
 
 /** @documenter yuidoc */
 
+type Args = {
+  /**
+   @argument crumbs
+   @type String[]
+   */
+  crumbs: String[]
+}
+
 /**
  The Carbon Breadcrumb
 
@@ -14,16 +22,11 @@ import { defaultArgs } from "../../decorators";
  @class CarbonBreadcrumb
  @public
  **/
-class CarbonBreadcrumb extends Component {
+class CarbonBreadcrumb extends Component<Args> {
 
-  @defaultArgs
-  args = {
-    /**
-     @argument crumbs
-     @type String[]
-     */
+  args = defaultArgs(this, {
     crumbs: []
-  };
+  });
 
   get lastItem() {
     return this.args.crumbs && this.args.crumbs[this.args.crumbs.length - 1];

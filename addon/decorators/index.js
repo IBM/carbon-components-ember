@@ -30,14 +30,13 @@ export function bxClassNames(...names) {
       return ;
     }
 
-    const props = attrs.map(a => a[0]);
-    const decorator = computed(
-      function() {
-        const mapping = createMapping();
-        return attrs.map(a => a[0]).map(a => ((String(this[a] || this.args && this.args[a]) === 'true') ? mapping[a] : null)).compact().join(' ');
-      }
-    );
-    return decorator(target, name, descriptor);
+    const decorator = function() {
+      const mapping = createMapping();
+      return attrs.map(a => a[0]).map(a => ((String(this[a] || this.args && this.args[a]) === 'true') ? mapping[a] : null)).compact().join(' ');
+    };
+    return {
+      get: decorator
+    }
   };
 }
 
@@ -87,6 +86,20 @@ export function componentArgs(target, name, descriptor) {
 }
 
 export function defaultArgs(target, name, descriptor) {
+  if (typeof name !== 'string') {
+    const defaultArgs = name;
+    const args = target.args;
+    const withDefaultArgs = {};
+    Object.keys(defaultArgs).forEach((k) => {
+      const v = defaultArgs[k];
+      Object.defineProperty(withDefaultArgs, k, {
+        get() {
+          return (k in args) ? args[k] : v;
+        }
+      })
+    });
+    return withDefaultArgs;
+  }
   const init = descriptor.initializer;
   descriptor.initializer = function() {
     const args = init(this);

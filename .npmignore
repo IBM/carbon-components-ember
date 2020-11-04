@@ -1,3 +1,12 @@
-tests
-.github
-**.ts
+*
+!addon/**/*.js
+!addon/**/*.d.ts
+!addon/**/*.scss
+!app/**/*.js
+!app/**/*.d.ts
+!app/**/*.scss
+!config
+!addon.js
+!package.json
+!README.md
+!index.d.ts

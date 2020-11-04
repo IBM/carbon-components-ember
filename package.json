@@ -1,5 +1,5 @@
 {
-  "version": "0.3.3",
+  "version": "0.3.5",
   "name": "carbon-components-ember",
   "keywords": [
     "ember-addon"
@@ -14,6 +14,7 @@
   "scripts": {
     "lint": "./node_modules/.bin/eslint tests addon",
     "dev": "./node_modules/.bin/ember s",
+    "ts:build": "tsc",
     "build": "./node_modules/.bin/ember b",
     "test": "./node_modules/.bin/ember test",
     "testserver": "./node_modules/.bin/ember test --serve"
@@ -102,7 +103,7 @@
     "ember-cli-sass": "*",
     "ember-cli-template-lint": "*",
     "ember-composable-helpers": "^4.0.0",
-    "ember-template-imports": "^0.2.0",
+    "ember-template-imports": "^0.2.2",
     "ember-maybe-import-regenerator": "*",
     "ember-power-calendar": "^0.15.0",
     "ember-power-calendar-moment": "^0.1.7",

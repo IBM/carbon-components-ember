@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
-import { action, getProperties } from '@ember/object';
+import { action } from '@ember/object';
 import Loading from 'carbon-components/es/components/loading/loading';
-import { defaultArgs } from "../../decorators";
+import { defaultArgs } from '../../decorators';
 
 
 export default class LoadingComponent extends Component {

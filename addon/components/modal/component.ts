@@ -1,27 +1,29 @@
 import Component from '@glimmer/component';
 import { computed, action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { tracked } from "@glimmer/tracking";
-import { defaultArgs } from "../../decorators";
+import { tracked } from '@glimmer/tracking';
+import { defaultArgs } from '../../decorators';
 
 /** @documenter yuidoc */
+
+type Args = {
+  /**
+   * @argument onClose
+   * @type function
+   */
+  onClose: null|Function
+}
 
 /**
  * @class ModalComponent
  * @yield {String} part label|header|content|footer
  */
-export default class ModalComponent extends Component {
-  tagName = '';
+export default class ModalComponent extends Component<Args> {
   @tracked isVisible = true;
 
-  @defaultArgs
-  args = {
-    /**
-     * @argument onClose
-     * @type function
-     */
+  args = defaultArgs(this, {
     onClose: null
-  };
+  });
 
   @computed()
   get guid() {
