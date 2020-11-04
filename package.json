@@ -1,5 +1,5 @@
 {
-  "version": "0.3.7",
+  "version": "0.3.8",
   "name": "carbon-components-ember",
   "keywords": [
     "ember-addon"
@@ -53,7 +53,7 @@
     "ember-resolver": "^8.0.0",
     "ember-source": "^3.22.0",
     "ember-source-channel-url": "latest",
-    "ember-template-imports": "^0.2.5",
+    "ember-template-imports": "^0.2.6",
     "ember-try": "^1.4.0",
     "eslint": "^7.12.1",
     "eslint-config-airbnb-base": "^14.0.0",
@@ -103,7 +103,6 @@
     "ember-tooltips": "^3.4.3",
     "ember-truth-helpers": "^2.1.0",
     "node-sass": "^5.0.0",
-    "postcss-scss": "^3.0.2",
     "spark-md5": "^3.0.1"
   },
   "homepage": "https://patricklx.github.io/carbon-components-ember"
