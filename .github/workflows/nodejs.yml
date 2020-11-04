@@ -120,7 +120,10 @@ jobs:
           url="https://api.github.com/repos/patricklx/carbon-components-ember/releases"
           exists=$(curl -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" $url | jq ".[] | select(.tag_name == \"$TAG\") | .id")
           if [[ -z $exists ]]; then
-            curl -X POST -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" $url -d "{ \"tag_name\": \"$TAG\", \"name\": \"$TAG\", \"body\": \"\", \"draft\": false, \"prerelease\": false}"
+            npm i -g lerna-changelog
+            export GITHUB_AUTH=$GITHUB_TOKEN
+            changelog=$(lerna-changelog)
+            curl -X POST -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" $url -d "{ \"tag_name\": \"$TAG\", \"name\": \"$TAG\", \"body\": \"$changelog\", \"draft\": false, \"prerelease\": false}"
           else
             echo "release already exists";
           fi;
