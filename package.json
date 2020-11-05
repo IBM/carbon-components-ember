@@ -1,5 +1,5 @@
 {
-  "version": "0.3.9",
+  "version": "0.3.10",
   "name": "carbon-components-ember",
   "keywords": [
     "ember-addon"
@@ -54,7 +54,6 @@
     "ember-resolver": "^8.0.0",
     "ember-source": "^3.22.0",
     "ember-source-channel-url": "latest",
-    "ember-template-imports": "^0.2.6",
     "ember-try": "^1.4.0",
     "eslint": "^7.12.1",
     "eslint-config-airbnb-base": "^14.0.0",
@@ -103,6 +102,7 @@
     "ember-ref-modifier": "^1.0.0",
     "ember-tooltips": "^3.4.3",
     "ember-truth-helpers": "^2.1.0",
+    "ember-template-imports": "^0.2.9",
     "node-sass": "^5.0.0",
     "spark-md5": "^3.0.1"
   },
