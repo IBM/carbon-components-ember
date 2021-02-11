@@ -1,5 +1,5 @@
 {
-  "version": "0.3.11",
+  "version": "0.3.12",
   "name": "carbon-components-ember",
   "keywords": [
     "ember-addon"
@@ -46,6 +46,7 @@
     "ember-cli-shims": "^1.2.0",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-uglify": "^3.0.0",
+    "ember-concurrency-ts": "^0.2.0",
     "ember-data": "^3.22.0",
     "ember-export-application-global": "^2.0.0",
     "ember-load-initializers": "^2.0.0",

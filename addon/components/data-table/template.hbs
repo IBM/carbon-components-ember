@@ -8,8 +8,6 @@
 {{import Pagination from '../pagination'}}
 {{import SearchInput from './-search-input'}}
 {{import Menu from './-menu'}}
-{{import 'assign, new-obj, bind, set' from 'carbon-components-ember/helpers'}}
-
 
 <div class="bx--data-table-container {{if @isLoading 'bx-skeleton'}}" data-table
   {{did-insert this.initialize}}
@@ -21,19 +19,17 @@
     <h4 class="bx--data-table-header__title">{{@title}}</h4>
     <p class="bx--data-table-header__description">{{@description}}</p>
   </div>
-  {{#let (new-obj) as |obj|}}
-    {{assign obj
-             SearchInput=(component SearchInput isLoading=@isLoading value=@state.currentSearchTerm onChange=(fn this.search))
-             Pagination=(component Pagination isLoading=@isLoading length=this.items.length state=@state.currentItemsSlice onPageChanged=(fn (mut this.currentItemsSlice)))
-             Row=(component ListRow isExpandable=this.isExpandable isCheckable=this.isCheckable table=this)
-             Menu=Menu
-             Table=(component Table isLoading=@isLoading)
-             Column=ListColumn
-             Body=ListBody
-             Header=(component ListHeader table=this)
-             Toolbar=(component Toolbar table=this)
-    }}
-    {{bind this obj 'currentItems' 'items'}}
-    {{yield obj}}
-  {{/let}}
+  {{yield (hash
+              SearchInput=(component SearchInput isLoading=@isLoading value=@state.currentSearchTerm onChange=(fn this.search))
+              Pagination=(component Pagination isLoading=@isLoading length=this.items.length state=@state.currentItemsSlice onPageChanged=(fn (mut this.currentItemsSlice)))
+              Row=(component ListRow isExpandable=this.isExpandable isCheckable=this.isCheckable table=this)
+              Menu=Menu
+              Table=(component Table isLoading=@isLoading)
+              Column=ListColumn
+              Body=ListBody
+              Header=(component ListHeader table=this)
+              Toolbar=(component Toolbar table=this)
+              items=this.currentItems
+          )
+  }}
 </div>

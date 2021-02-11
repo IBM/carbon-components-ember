@@ -1,20 +1,24 @@
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { action } from '@ember/object';
 
-export default class DialogComponent extends Component {
+type Args = {
+  onAccept: () => null;
+  onCancel: () => null;
+}
+
+export default class DialogComponent extends Component<Args> {
   @service('carbon-components-ember@dialog-manager') dialogManager;
-  tagName = '';
 
   @action
   onCancel() {
     this.dialogManager.close();
-    if (this.options.onCancel) this.options.onCancel();
+    if (this.args.onCancel) this.args.onCancel();
   }
 
   @action
   onAccept() {
     this.dialogManager.close();
-    if (this.options.onAccept) this.options.onAccept();
+    if (this.args.onAccept) this.args.onAccept();
   }
 }

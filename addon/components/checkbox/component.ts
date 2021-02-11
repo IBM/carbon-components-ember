@@ -4,16 +4,21 @@ import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { defaultArgs } from '../../decorators';
 
-export default class CarbonCheckbox extends Component {
-  @tracked isFocus = false;
-  @tracked guid = null;
+type Args = {
+  disabled: boolean,
+  onChange: () => null,
+  state: object
+}
 
-  @defaultArgs
-  args = {
+export default class CarbonCheckbox extends Component<Args> {
+  @tracked isFocus = false;
+  @tracked guid: string = '';
+
+  args = defaultArgs({
     disabled: false,
     onChange: () => null,
     state: null
-  }
+  })
 
   @action
   setup() {

@@ -3,13 +3,18 @@ import { action, computed } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { bool } from '@ember/object/computed';
 import { tracked } from '@glimmer/tracking';
-import { debounce } from '@ember/runloop';
 import { task } from 'ember-concurrency-decorators'
-import { timeout } from 'ember-concurrency'
+import { timeout, Task } from 'ember-concurrency'
+import { taskFor } from 'ember-concurrency-ts';
 
-export default class SearchComponent extends Component {
+type Args = {
+  onChange(value: any): Task<any, any>;
+}
+
+export default class SearchComponent extends Component<Args> {
   @bool('value') hasInput;
   @tracked value = null;
+  isSearching: boolean;
 
   @computed()
   get guid() {
@@ -31,7 +36,7 @@ export default class SearchComponent extends Component {
 
   @action
   onSearchChange() {
-    this.runSearch.perform();
+    taskFor(this.runSearch).perform();
   }
 
   @action

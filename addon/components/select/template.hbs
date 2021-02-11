@@ -9,17 +9,17 @@
     @eventType="click"
     @searchEnabled={{defaultTo @searchEnabled true}}
     @options={{@options}}
-      @onfocus={{fn this.selectFocused}}
+      @onFocus={{fn this.selectFocused}}
     @searchField={{@searchField}}
     @matcher={{this.searchMatcher}}
       @selected={{@content}}
     @placeholder={{@placeholder}}
       @onChange={{fn this.args.onChange}}
-    @onkeydown={{fn this.handleKeydown}}
+    @onKeydown={{fn this.handleKeydown}}
     @closeOnSelect={{false}}
   as |option select|
   >
-    <Checkbox @onClick='return false;' @readonly='true' @checked={{isSelected option select.selected}} >
+    <Checkbox @readonly='true' @checked={{isSelected option select.selected}} >
       {{#if hasBlock}}
         {{yield option}}
       {{else}}
@@ -32,7 +32,7 @@
     @eventType="click"
     @searchEnabled={{defaultTo @searchEnabled true}}
     @options={{@options}}
-      @onfocus={{fn this.selectFocused}}
+      @onFocus={{fn this.selectFocused}}
     @searchField={{@searchField}}
     @matcher={{this.searchMatcher}}
       @selected={{@content}}

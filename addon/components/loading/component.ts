@@ -3,16 +3,23 @@ import { action } from '@ember/object';
 import Loading from 'carbon-components/es/components/loading/loading';
 import { defaultArgs } from '../../decorators';
 
+type Args = {
+  active: boolean,
+  small: boolean,
+  overlay: boolean,
+  title: boolean,
+  inline: boolean
+}
 
-export default class LoadingComponent extends Component {
-  @defaultArgs
-  args = {
+export default class LoadingComponent extends Component<Args> {
+  args = defaultArgs({
     active: true,
     small: false,
     overlay: false,
     title: null,
     inline: false
-  };
+  });
+  loading: any;
 
   @action
   loadCarbonComponent(elem) {

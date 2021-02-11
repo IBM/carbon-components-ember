@@ -1,13 +1,14 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 
-export default class ListComponent extends Component {
-  tagName = '';
-  @tracked attrs;
-  @tracked items;
+type Args = {
+  items: any[]
+}
+
+export default class ListComponent extends Component<Args> {
   @tracked currentSearch = null;
-  @tracked currentItemsSlice = null;
+  @tracked currentItemsSlice:any = null;
 
   filter(items, term) {
     term = term && term.toLowerCase();
@@ -15,17 +16,17 @@ export default class ListComponent extends Component {
     return items.filter((t) => {
       if (!term || term === '') return true;
       return Object.values(t.toJSON ? t.toJSON() : t)
-        .filter(v => v && !v.defaultAdapter)
+        .filter((v: any) => v && !v.defaultAdapter)
         .some(v => (v && ensureString(v).includes(term)));
     });
   }
 
   get currentItems() {
     if (this.currentSearch) {
-      return this.filter(this.items || [], this.currentSearch);
+      return this.filter(this.args.items || [], this.currentSearch);
     }
-    if (!this.items || !this.currentItemsSlice) return [];
-    return this.items.slice(this.currentItemsSlice.start, this.currentItemsSlice.end);
+    if (!this.args.items || !this.currentItemsSlice) return [];
+    return this.args.items.slice(this.currentItemsSlice.start, this.currentItemsSlice.end);
   }
 
   @action

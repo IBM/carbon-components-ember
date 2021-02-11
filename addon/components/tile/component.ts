@@ -1,11 +1,13 @@
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
 import { action, computed } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 
-export default class TileComponent extends Component {
-  tagName = '';
-  @tracked attrs;
+type Args = {
+  selectable: boolean;
+  expandable: boolean;
+}
+
+export default class TileComponent extends Component<Args> {
 
   @computed()
   get guid() {

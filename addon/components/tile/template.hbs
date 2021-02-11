@@ -7,7 +7,7 @@
       <Icon @icon="checkmark--solid"/>
     </div>
     <div class="bx--tile-content">
-      {{yield}}
+      {{yield to='content'}}
     </div>
   </label>
 {{/if}}
@@ -18,16 +18,16 @@
     </button>
     <div class="bx--tile-content">
     <span data-tile-atf class="bx--tile-content__above-the-fold">
-      {{yield 'above'}}
+      {{yield 'above' to='above'}}
     </span>
     <span class="bx--tile-content__below-the-fold">
-      {{yield 'below'}}
+      {{yield 'below' to='below'}}
     </span>
     </div>
   </div>
 {{/if}}
 {{#if this.default}}
   <div class="bx--tile {{if @clickable 'bx--tile--clickable'}}">
-    {{yield}}
+    {{yield to='content'}}
   </div>
 {{/if}}

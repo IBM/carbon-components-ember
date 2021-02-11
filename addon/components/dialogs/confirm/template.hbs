@@ -2,25 +2,25 @@
 {{import defaultTo from 'carbon-components-ember/helpers/default-to'}}
 {{import eq from 'ember-truth-helpers/helpers/equal'}}
 
-<Modal @onClick={{fn this.onCancel}}>
+<Modal @onClose={{fn this.onCancel}}>
   <:label>
-    {{@options.label}}
+    {{@label}}
   </:label>
 
   <:header>
-    {{@options.label}}
+    {{@label}}
   </:header>
 
   <:body>
-    {{@options.body}}
+    {{@body}}
   </:body>
 
   <:footer>
     <button class="bx--btn bx--btn--secondary" type="button" data-modal-close {{on 'click' this.onCancel}}>
-      {{defaultTo @options.cancelText 'Cancel'}}
+      {{defaultTo @cancelText 'Cancel'}}
     </button>
-    <button class="bx--btn bx--btn--{{@options.type}} bx--btn--primary" type="button" aria-label="Danger"
-      {{on 'click' this.onAccept}} data-modal-primary-focus>{{defaultTo @options.cancelText 'Okay'}}
+    <button class="bx--btn bx--btn--{{@type}} bx--btn--primary" type="button" aria-label="Danger"
+      {{on 'click' this.onAccept}} data-modal-primary-focus>{{defaultTo @cancelText 'Okay'}}
     </button>
   </:footer>
 </Modal>

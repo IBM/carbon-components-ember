@@ -4,22 +4,23 @@ import { action } from '@ember/object';
 import CodeSnippet from 'carbon-components/es/components/code-snippet/code-snippet';
 import { defaultArgs } from '../../decorators';
 
-export default class CarbonCodeSnippet extends Component {
+type Args = {
+  type: 'default'|'multiline'|'inline'
+}
+
+export default class CarbonCodeSnippet extends Component<Args> {
+  carbonComponent: any;
   @tracked carbonElement = null;
 
-  @defaultArgs
-  args = {
+  args = defaultArgs({
     type: 'default'
-  }
+  })
 
 
   @action
-  loadCarbonComponent() {
-    if (!this.carbonElement) {
-      return;
-    }
+  loadCarbonComponent(carbonElement) {
     if (this.args.type === 'inline') return;
-    this.carbonComponent = new CodeSnippet(this.carbonElement, this.args);
+    this.carbonComponent = new CodeSnippet(carbonElement, this.args);
   }
 
   @action

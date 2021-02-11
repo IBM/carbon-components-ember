@@ -1,5 +1,5 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 
 export default class ListBodyComponent extends Component {
-  tagName = '';
+
 }

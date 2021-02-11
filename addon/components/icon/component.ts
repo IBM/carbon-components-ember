@@ -3,61 +3,74 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import * as icons from '@carbon/icons';
-import { bxClassNames, classPrefix, argsCompat } from 'carbon-components-ember/decorators';
+import { bxClassNames, classPrefix, defaultArgs } from 'carbon-components-ember/decorators';
 
 const IconMap = {};
-Object.values(icons).forEach((i) => {
+Object.values(icons).forEach((i: any) => {
   IconMap[i.name] = IconMap[i.name] || {};
   IconMap[i.name][i.size] = i;
 })
 
+type Args = {
+  /**
+   * Indicates if the icon is informative
+   @argument info
+   @type boolean
+   */
+  info: boolean,
+  /**
+   * Indicates if the action is dangerous, showing a confirmation dialog before calling `onClick`
+   @argument danger
+   @type boolean
+   */
+  danger: boolean,
+  /**
+   * If the action is dangerous, this text message will be shown in the dialog
+   @argument confirmText
+   @type String
+   */
+  confirmText: string,
+  /**
+   * Use this component as dialog
+   @argument confirmDialog
+   @type String
+   */
+  confirmDialog: string,
+  /**
+   * Use this component as dialog
+   @argument icon
+   @type String
+   */
+  icon: string,
+  /**
+   * Use this component as dialog
+   @argument size
+   @type number
+   */
+  size: number,
+  /**
+   * Use this component as dialog
+   @argument onClick
+   @type function
+   */
+  onClick: () => null|Promise<any>
+}
+
 @classPrefix('bx--icon--')
-class CarbonIcon extends Component {
-  tagName = '';
+class CarbonIcon extends Component<Args> {
   static positionalParams = ['icon'];
   @service('carbon-components-ember@dialog-manager') dialogManager;
   @bxClassNames('info', 'danger', 'disabled') bxClassNames;
   @tracked loading;
   @tracked disabled;
-  @argsCompat
-  args = {
-    /**
-     * Indicates if the action is dangerous, showing a confirmation dialog before calling `onClick`
-     @argument danger
-     @type boolean
-     */
+  args = defaultArgs({
     danger: null,
-    /**
-     * If the action is dangerous, this text message will be shown in the dialog
-     @argument confirmText
-     @type String
-     */
     confirmText: null,
-    /**
-     * Use this component as dialog
-     @argument confirmDialog
-     @type String
-     */
     confirmDialog: null,
-    /**
-     * Use this component as dialog
-     @argument icon
-     @type String
-     */
     icon: null,
-    /**
-     * Use this component as dialog
-     @argument size
-     @type number
-     */
     size: null,
-    /**
-     * Use this component as dialog
-     @argument onClick
-     @type function
-     */
     onClick: null
-  };
+  });
 
   get svg() {
     // eslint-disable-next-line eqeqeq

@@ -14,8 +14,7 @@
 
 
 {{#if (eq @type 'multiline')}}
-  <div {{ref this "carbonElement"}}
-    {{did-insert this.loadCarbonComponent}} {{will-destroy this.destroyCarbonComponent}}
+  <div {{did-insert this.loadCarbonComponent}} {{will-destroy this.destroyCarbonComponent}}
       class="bx--snippet bx--snippet--multi"
        data-code-snippet> <div class="bx--snippet-container" aria-label="Code Snippet Text">
   <pre>
