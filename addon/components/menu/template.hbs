@@ -3,6 +3,7 @@
 {{import defaultTo from 'carbon-components-ember/helpers/default-to'}}
 {{import Item from './-item'}}
 
+
 <BasicDropdown as |dd|>
   <dd.Trigger class="bx--overflow-menu {{if dd.isOpen 'bx--overflow-menu--open'}}">
     <Icon @fill='white' @size=24 @icon={{defaultTo @icon 'overflow-menu'}} class='bx--overflow-menu__icon' />

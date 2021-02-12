@@ -14,7 +14,7 @@ export default class CarbonCheckbox extends Component<Args> {
   @tracked isFocus = false;
   @tracked guid: string = '';
 
-  args = defaultArgs({
+  args = defaultArgs(this, {
     disabled: false,
     onChange: () => null,
     state: null

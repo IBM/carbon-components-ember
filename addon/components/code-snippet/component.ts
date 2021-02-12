@@ -12,7 +12,7 @@ export default class CarbonCodeSnippet extends Component<Args> {
   carbonComponent: any;
   @tracked carbonElement = null;
 
-  args = defaultArgs({
+  args = defaultArgs(this, {
     type: 'default'
   })
 

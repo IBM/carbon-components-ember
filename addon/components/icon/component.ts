@@ -63,7 +63,7 @@ class CarbonIcon extends Component<Args> {
   @bxClassNames('info', 'danger', 'disabled') bxClassNames;
   @tracked loading;
   @tracked disabled;
-  args = defaultArgs({
+  args = defaultArgs(this, {
     danger: null,
     confirmText: null,
     confirmDialog: null,

@@ -12,7 +12,7 @@ type Args = {
 }
 
 export default class LoadingComponent extends Component<Args> {
-  args = defaultArgs({
+  args = defaultArgs(this, {
     active: true,
     small: false,
     overlay: false,
