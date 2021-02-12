@@ -3,7 +3,7 @@ module.exports = function (environment) {
     modulePrefix: 'dummy',
     podModulePrefix: 'dummy/pods',
     environment,
-    rootURL: '/',
+    rootURL: 'carbon-components-ember/dist',
     locationType: 'router-scroll',
     historySupportMiddleware: true,
     EmberENV: {
