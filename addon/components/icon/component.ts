@@ -20,25 +20,25 @@ type Args = {
    @argument info
    @type boolean
    */
-  info: boolean,
+  info?: boolean,
   /**
    * Indicates if the action is dangerous, showing a confirmation dialog before calling `onClick`
    @argument danger
    @type boolean
    */
-  danger: boolean,
+  danger?: boolean,
   /**
    * If the action is dangerous, this text message will be shown in the dialog
    @argument confirmText
    @type String
    */
-  confirmText: string,
+  confirmText?: string,
   /**
    * Use this component as dialog
    @argument confirmDialog
    @type String
    */
-  confirmDialog: string,
+  confirmDialog?: string,
   /**
    * Use this icon to display
    @argument icon

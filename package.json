@@ -1,5 +1,5 @@
 {
-  "version": "0.3.15",
+  "version": "0.3.16",
   "name": "carbon-components-ember",
   "keywords": [
     "ember-addon"
@@ -102,7 +102,7 @@
     "ember-ref-modifier": "^1.0.0",
     "ember-tooltips": "^3.4.3",
     "ember-truth-helpers": "^2.1.0",
-    "ember-template-imports": "^0.2.10",
+    "ember-hbs-imports": "^0.3.0",
     "node-sass": "^5.0.0",
     "spark-md5": "^3.0.1"
   },
