@@ -1,5 +1,5 @@
 import { SimpleBarChart } from '@carbon/charts';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 
 /** @documenter yuidoc */
 
@@ -13,8 +13,6 @@ import Component from '@ember/component';
  @yield {Component} api.Axis <a href='-components/axis' >ChartAxis</a>
  **/
 class CarbonBarChart extends Component {
-  tagName = '';
-
   ChartClass = SimpleBarChart;
   args = {
     /**

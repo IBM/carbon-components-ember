@@ -1,4 +1,3 @@
-import { computed } from '@ember/object';
 import GlimmerComponent from '@glimmer/component';
 
 export function classPrefix(prefix) {

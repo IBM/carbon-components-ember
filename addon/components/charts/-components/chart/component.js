@@ -1,4 +1,3 @@
-import Chart from '@carbon/charts/chart';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { throttle } from '@ember/runloop';
@@ -17,7 +16,6 @@ import { defaultArgs } from '../../../../decorators';
  @yield {Component} api.Axis <a href='-components/axis' >ChartAxis</a>
  **/
 class CarbonChart extends Component {
-  tagName = '';
   data = {
     labels: [],
     datasets: []
@@ -65,10 +63,10 @@ class CarbonChart extends Component {
 
 
   async setData() {
-    const labels = this.componentArgs.labels;
+    const labels = this.args.labels;
     this.data.labels = Array.isArray(labels) ? labels : labels.split(',');
-    this.options.legendClickable = this.componentArgs.legendClickable;
-    this.options.containerResizable = this.componentArgs.resizable;
+    this.options.legendClickable = this.args.legendClickable;
+    this.options.containerResizable = this.args.resizable;
     if (!this.data.datasets.length) return;
     if (!this.options.axes.left) return;
     if (!this.options.axes.bottom) return;

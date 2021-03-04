@@ -1,5 +1,5 @@
 import { defaultColors } from '@carbon/charts';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { argsCompat } from 'carbon-components-ember/decorators';
 
@@ -13,7 +13,6 @@ import { argsCompat } from 'carbon-components-ember/decorators';
  @public
  **/
 class CarbonChartDataSet extends Component {
-  tagName = '';
   chart = null;
   defaultColor = [defaultColors[0]];
 
@@ -34,21 +33,26 @@ class CarbonChartDataSet extends Component {
      * @argument data
      * @type number[]
      */
-    data: []
+    data: [],
+
+    /**
+     * @internal
+     */
+    chart: null
   };
 
   @action
   didUpdateArgs() {
     if (this.oldDabel && this.oldDabel !== this.args.label) {
-      this.chart.removeDataset(this.oldLabel);
+      this.args.chart.removeDataset(this.oldLabel);
       this.oldLabel = this.args.label;
     }
-    this.chart.updateDataset(this.args.label, this.args.backgroundColors || this.defaultColor, this.args.data);
+    this.args.chart.updateDataset(this.args.label, this.args.backgroundColors || this.defaultColor, this.args.data);
   }
 
   willDestroy() {
     super.willDestroy();
-    this.chart && this.chart.removeDataset(this.oldLabel);
+    this.args.chart && this.args.chart.removeDataset(this.oldLabel);
   }
 }
 

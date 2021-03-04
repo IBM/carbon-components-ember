@@ -1,5 +1,5 @@
-import {LineChart} from '@carbon/charts';
-import Component from '@ember/component';
+import { LineChart } from '@carbon/charts';
+import Component from '@glimmer/component';
 
 /**
  The CarbonLineChart
@@ -11,7 +11,6 @@ import Component from '@ember/component';
  @yield {Component} api.Axis <a href='-components/axis' >ChartAxis</a>
  **/
 class CarbonLineChart extends Component {
-  tagName = '';
   ChartClass = LineChart;
   args = {
     /**

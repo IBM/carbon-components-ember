@@ -1,4 +1,4 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 
 /** @documenter yuidoc */
 /**
@@ -10,9 +10,6 @@ import Component from '@ember/component';
  @public
  **/
 class ChartAxis extends Component {
-  tagName = '';
-  chart = null;
-
   args = {
     /**
      * The Axis Title
