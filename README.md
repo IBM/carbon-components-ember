@@ -24,7 +24,7 @@ Usage
 ------------------------------------------------------------------------------
 
 Carbon Components need to be imported with
-Ember-template-component-import addon
+[ember-hbs-import addon](https://github.com/patricklx/ember-hbs-imports)
 
 
 Contributing
