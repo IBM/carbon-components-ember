@@ -6,13 +6,15 @@ import { hbs } from 'ember-cli-htmlbars';
 module('Integration | Component | Button', (hooks) => {
   setupRenderingTest(hooks);
 
-  test('should set as primary', async function (assert) {
-    assert.expect(1);
-
-    this.set('isPrimary', 'true');
-
-    await render(hbs`<Button @primary={{this.isPrimary}} />`);
+  test('should set as primary', async function(assert) {
+    await render(hbs`<Button @type='primary' />`);
 
     assert.ok(this.element.querySelector('div').getAttribute('class').includes('primary'));
+  });
+
+  test('should set as secondary', async function(assert) {
+    await render(hbs`<Button @type='secondary' />`);
+
+    assert.ok(this.element.querySelector('div').getAttribute('class').includes('secondary'));
   });
 });

@@ -12,9 +12,9 @@
       @onFocus={{fn this.selectFocused}}
     @searchField={{@searchField}}
     @matcher={{this.searchMatcher}}
-      @selected={{@content}}
+      @selected={{@selected}}
     @placeholder={{@placeholder}}
-      @onChange={{fn this.args.onChange}}
+      @onChange={{fn this.onChange}}
     @onKeydown={{fn this.handleKeydown}}
     @closeOnSelect={{false}}
   as |option select|
@@ -35,7 +35,7 @@
       @onFocus={{fn this.selectFocused}}
     @searchField={{@searchField}}
     @matcher={{this.searchMatcher}}
-      @selected={{@content}}
+      @selected={{@selected}}
     @placeholder={{@placeholder}}
       @onChange={{fn this.onChange}}
   as |option|>

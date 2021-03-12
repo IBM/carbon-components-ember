@@ -1,0 +1,18 @@
+{{import Button from 'carbon-components-ember/components/button'}}
+{{import DocsDemo from 'ember-cli-addon-docs/components/docs-demo'}}
+{{import Notification from 'carbon-components-ember/components/notification'}}
+
+
+<h1>Carbon Notification</h1>
+
+<DocsDemo as |demo|>
+  {{#demo.example name='notification.hbs'}}
+    <Notification @type="success" @caption="success" @title="Title" @text="a long long long long message"></Notification>
+    <Notification @type="info" @caption="info" @title="Title"></Notification>
+    <Notification @type="error" @caption="error"></Notification>
+    <Notification @type="warning" @caption="warning"></Notification>
+    <Button @type="primary" @onClick={{this.showNotification}}>Notify</Button>
+  {{/demo.example}}
+  <demo.snippet @name="notification.hbs" />
+  <demo.snippet @name="notification.js" />
+</DocsDemo>

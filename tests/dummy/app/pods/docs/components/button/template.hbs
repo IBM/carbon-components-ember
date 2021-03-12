@@ -39,8 +39,15 @@
     >
       Secondary Small Button
     </Button>
+    <Button
+        @primary={{true}}
+        @onClick={{this.doSomething}}
+    >
+      Button with loading indicator if onClick returns a promise
+    </Button>
   {{/demo.example}}
   <demo.snippet @name="button-simple.hbs" />
+  <demo.snippet @name='button.js' />
 </Demo>
 
 <Demo as |demo|>

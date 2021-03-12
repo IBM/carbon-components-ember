@@ -27,24 +27,14 @@ type Args = {
    @type function
    */
   onClick: Function|null,
+
   /**
-   * Indicates if the action is the primary one
-   @argument primary
-   @type boolean
+   * Indicates the type of the button
+   @argument type
+   @type string
    */
-  primary: boolean,
-  /**
-   * Indicates if the action is the secondary one
-   @argument secondary
-   @type boolean
-   */
-  secondary: boolean,
-  /**
-   * Indicates if the action is dangerous, showing a confirmation dialog before calling `onClick`
-   @argument danger
-   @type boolean
-   */
-  danger: boolean,
+  type: 'primary'|'secondary'|'danger'
+
   /**
    * If the action is dangerous, this text message will be shown in the dialog
    @argument confirmText
@@ -93,20 +83,33 @@ class CarbonButton extends Component<Args> {
   @tracked loading;
   @tracked disabled;
 
-  args = defaultArgs(this, {
+  args: Args = defaultArgs(this, {
+    primary: false,
+    secondary: false,
+    danger: false,
     loading: false,
     disabled: false,
     bubbles: false,
     onClick: null,
-    primary: false,
-    secondary: false,
-    danger: false,
+    type: '',
     confirmText: '',
     confirmDialog: '',
     tertiary: false,
     small: false,
     ghost: false
   });
+
+  get primary() {
+    return (this.args as any).primary || this.args.type === 'primary';
+  }
+
+  get secondary() {
+    return (this.args as any).secondary || this.args.type === 'secondary';
+  }
+
+  get danger() {
+    return (this.args as any).danger || this.args.type === 'danger';
+  }
 
   @service('carbon-components-ember@dialog-manager') dialogManager;
   @bxClassNames('primary', 'secondary', 'danger', 'tertiary', 'ghost', 'small:sm') bxClassNames;
@@ -128,7 +131,7 @@ class CarbonButton extends Component<Args> {
         }
       }
     };
-    if (this.args.danger) {
+    if (this.danger) {
       this.dialogManager.open(this.args.confirmDialog || 'carbon-components-ember/components/dialogs/confirm', {
         type: 'danger',
         header: 'Danger',

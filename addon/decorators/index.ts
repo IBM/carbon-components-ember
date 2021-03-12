@@ -1,4 +1,5 @@
-import GlimmerComponent from '@glimmer/component';
+import Ember from 'ember';
+
 
 export function classPrefix(prefix) {
   return (target) => {
@@ -6,7 +7,7 @@ export function classPrefix(prefix) {
   };
 }
 
-export function bxClassNames(...names) {
+export function bxClassNames(...names): any {
   return (target, name, descriptor) => {
 
     const attrs = names.map(m => m.split(':'));
@@ -23,6 +24,7 @@ export function bxClassNames(...names) {
       Object.defineProperty(target, name, {
         get() {
           const mapping = createMapping();
+          // @ts-ignore
           return attrs.map(a => a[0]).map(a => ((String(this[a] || this.args && this.args[a]) === 'true') ? mapping[a] : null)).compact().join(' ');
         }
       })
@@ -31,6 +33,7 @@ export function bxClassNames(...names) {
 
     const decorator = function() {
       const mapping = createMapping();
+      // @ts-ignore
       return attrs.map(a => a[0]).map(a => ((String(this[a] || this.args && this.args[a]) === 'true') ? mapping[a] : null)).compact().join(' ');
     };
     return {
@@ -39,52 +42,7 @@ export function bxClassNames(...names) {
   };
 }
 
-export function argsCompat(target, name, descriptor) {
-
-  const init = descriptor.initializer;
-  descriptor.initializer = function() {
-    if (this instanceof GlimmerComponent) {
-      return this.args;
-    }
-    const args = init(this);
-    const context = this;
-    Object.keys(args).forEach((k) => {
-      Object.defineProperty(args, k, {
-        get() {
-          return context[k];
-        }
-      })
-    });
-    return args;
-  };
-
-  return descriptor;
-}
-
-
-export function componentArgs(target, name, descriptor) {
-  const init = descriptor.initializer;
-  descriptor.initializer = function() {
-    const args = init(this);
-    const context = this;
-    Object.keys(args).forEach((k) => {
-      const v = args[k];
-      Object.defineProperty(args, k, {
-        get() {
-          if (context.attrs) {
-            return (k in context.attrs) ? context.args[k] : v;
-          }
-          return (k in context.args) ? context.args[k] : v;
-        }
-      })
-    });
-    return args;
-  };
-
-  return descriptor;
-}
-
-export function defaultArgs(target, name, descriptor) {
+export function defaultArgs(target, name, descriptor?) {
   if (typeof name !== 'string') {
     const defaultArgs = name;
     const args = target.args;
@@ -116,4 +74,10 @@ export function defaultArgs(target, name, descriptor) {
   };
 
   return descriptor;
+}
+
+
+export function autoComputed() {
+  // @ts-ignore
+  return Ember.autoComputed;
 }

@@ -1,0 +1,18 @@
+{{import Loading from 'carbon-components-ember/components/loading'}}
+{{import Button from 'carbon-components-ember/components/button'}}
+
+<h1>Carbon Loading</h1>
+
+<DocsDemo as |demo|>
+  {{#demo.example name='loading.hbs'}}
+    <Loading/>
+    <Loading @inline={{true}} />
+    <Loading @active={{false}} />
+    <Loading @small={{true}} />
+  {{#if this.showOver}}
+    <Loading @overlay={{true}} />
+  {{/if}}
+    <Button @type="primary" @onClick={{fn (mut this.showOver) (not this.showOver)}}>show with overlay</Button>
+  {{/demo.example}}
+  <demo.snippet @name="loading.hbs" />
+</DocsDemo>

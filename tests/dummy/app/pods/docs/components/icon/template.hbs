@@ -1,0 +1,10 @@
+{{import Icon from 'carbon-components-ember/components/icon'}}
+<h1>Carbon Icon</h1>
+
+<DocsDemo as |demo|>
+  {{#demo.example name='icon.hbs'}}
+    <Icon @icon="bookmark" />
+    <Icon @icon="task" @onClick={{fn (mut this.clicked)}}/>
+  {{/demo.example}}
+  <demo.snippet @name="icon.hbs" />
+</DocsDemo>

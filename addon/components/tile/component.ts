@@ -1,6 +1,7 @@
 import Component from '@glimmer/component';
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
+import { autoComputed } from 'carbon-components-ember/decorators';
 
 type Args = {
   selectable: boolean;
@@ -9,7 +10,7 @@ type Args = {
 
 export default class TileComponent extends Component<Args> {
 
-  @computed()
+  @autoComputed()
   get guid() {
     return guidFor(this);
   }

@@ -1,11 +1,12 @@
 import Component from '@glimmer/component';
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { bool } from '@ember/object/computed';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators'
 import { timeout, Task } from 'ember-concurrency'
 import { taskFor } from 'ember-concurrency-ts';
+import { autoComputed } from 'carbon-components-ember/decorators';
 
 type Args = {
   onChange(value: any): Task<any, any>;
@@ -16,7 +17,7 @@ export default class SearchComponent extends Component<Args> {
   @tracked value = null;
   isSearching: boolean;
 
-  @computed()
+  @autoComputed()
   get guid() {
     return guidFor(this);
   }

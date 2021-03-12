@@ -1,8 +1,8 @@
 import Component from '@glimmer/component';
-import { computed, action } from '@ember/object';
+import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { tracked } from '@glimmer/tracking';
-import { defaultArgs } from '../../decorators';
+import { defaultArgs, autoComputed } from '../../decorators';
 
 /** @documenter yuidoc */
 
@@ -25,7 +25,7 @@ export default class ModalComponent extends Component<Args> {
     onClose: null
   });
 
-  @computed()
+  @autoComputed()
   get guid() {
     return guidFor(this);
   }

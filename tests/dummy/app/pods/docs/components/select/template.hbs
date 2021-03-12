@@ -1,0 +1,20 @@
+{{import Button from 'carbon-components-ember/components/button'}}
+{{import DocsDemo from 'ember-cli-addon-docs/components/docs-demo'}}
+{{import Notification from 'carbon-components-ember/components/notification'}}
+{{import Select from 'carbon-components-ember/components/select'}}
+{{import Tag from 'carbon-components-ember/components/tag'}}
+
+
+<h1>Carbon Select</h1>
+
+<DocsDemo as |demo|>
+  {{#demo.example name='select.hbs'}}
+    <Select @selected={{this.selected}} @options={{this.options}} @onSelect={{fn (mut this.selected)}} />
+    <Tag @type="blue">{{this.selected}}</Tag>
+
+    <Select @selected={{this.selectedMultiple}} @options={{this.options}} @multiple={{true}} @onSelect={{fn (mut this.selectedMultiple)}} />
+    <Tag @type="blue">{{this.selectedMultiple}}</Tag>
+  {{/demo.example}}
+  <demo.snippet @name="select.hbs" />
+  <demo.snippet @name="select.js" />
+</DocsDemo>

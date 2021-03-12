@@ -22,6 +22,7 @@
   },
   "types": "index.d.ts",
   "devDependencies": {
+    "@ember/jquery": "^1.1.0",
     "@ember/test-helpers": "^1.7.1",
     "@types/ember": "^3.16.2",
     "@typescript-eslint/eslint-plugin": "^4.6.1",
@@ -42,6 +43,7 @@
     "ember-cli-inject-live-reload": "^2.0.1",
     "ember-cli-qunit": "^4.4.0",
     "ember-cli-sass": "^10.0.1",
+    "ember-cli-typescript": "^4.1.0",
     "ember-cli-shims": "^1.2.0",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-uglify": "^3.0.0",
