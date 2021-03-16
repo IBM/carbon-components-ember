@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { defaultArgs } from "../../decorators";
+import { defaultArgs } from '../../decorators';
 
 /** @documenter yuidoc */
 
