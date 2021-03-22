@@ -23,7 +23,19 @@ ember install carbon-components-ember
 Usage
 ------------------------------------------------------------------------------
 
-Carbon Components need to be imported with
+Access carbon components with Carbon:: prefix
+```handlebars
+<Carbon::Button></Carbon::Button>
+```
+
+Services:
+```js
+class Component {
+  @service('carbon.notifications') notifications;
+}
+```
+
+Carbon Components can also be imported with
 [ember-hbs-import addon](https://github.com/patricklx/ember-hbs-imports)
 
 

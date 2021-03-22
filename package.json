@@ -1,5 +1,5 @@
 {
-  "version": "0.3.18",
+  "version": "0.3.19",
   "name": "carbon-components-ember",
   "keywords": [
     "ember-addon"
@@ -31,7 +31,7 @@
     "broccoli": "^3.4.2",
     "broccoli-asset-rev": "^3.0.0",
     "ember-ajax": "^5.0.0",
-    "ember-cli": "^3.22.0",
+    "ember-cli": "^3.25.2",
     "ember-cli-addon-docs": "^0.10.0",
     "ember-cli-addon-docs-yuidoc": "^1.0.0",
     "ember-cli-app-version": "^3.2.0",
@@ -53,7 +53,7 @@
     "ember-maybe-import-regenerator-for-testing": "^1.0.0",
     "ember-qunit": "^4.6.0",
     "ember-resolver": "^8.0.0",
-    "ember-source": "^3.22.0",
+    "ember-source": "^3.25.3",
     "ember-source-channel-url": "latest",
     "ember-try": "^1.4.0",
     "eslint": "^7.12.1",
