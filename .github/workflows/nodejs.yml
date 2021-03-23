@@ -26,6 +26,7 @@ jobs:
   ember-try:
     name: ember-try (${{ matrix.scenario }})
     needs: test
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
     env:
