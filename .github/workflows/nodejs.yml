@@ -27,10 +27,13 @@ jobs:
     name: ember-try (${{ matrix.scenario }})
     needs: test
     runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
     env:
       CI: 'true'
     strategy:
+      fail-fast: false
       matrix:
+        experimental: [false]
         scenario:
           - release
           - lts-3.12
