@@ -3,7 +3,7 @@
 {{import set from 'carbon-components-ember/helpers/set'}}
 {{import has from 'carbon-components-ember/helpers/has'}}
 
-<tr class="{{if (has @table.selectedItems @item) 'bx--data-table--selected'}}">
+<tr class="{{if (has @table.state.selectedItems @item) 'bx--data-table--selected'}}">
   {{#if @isExpandable}}
     <td class="bx--table-expand" data-event="expand">
       <Button class="bx--table-expand__button" @onClick={{fn (set this 'isExpanded' (not this.isExpanded))}}>
@@ -13,7 +13,7 @@
   {{/if}}
   {{#if @isCheckable}}
     <td class="bx--table-column-checkbox">
-      <Checkbox @checked={{has @table.selectedItems @item}} @onChange={{fn @table.toggleItemSelection @item}} />
+      <Checkbox @checked={{has @table.state.selectedItems @item}} @onChange={{fn @table.toggleItemSelection @item}} />
     </td>
   {{/if}}
   {{yield}}

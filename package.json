@@ -1,5 +1,5 @@
 {
-  "version": "0.3.19",
+  "version": "0.4.0",
   "name": "carbon-components-ember",
   "keywords": [
     "ember-addon"
@@ -23,8 +23,9 @@
   "types": "index.d.ts",
   "devDependencies": {
     "@ember/jquery": "^1.1.0",
-    "@ember/test-helpers": "^1.7.1",
-    "@types/ember": "^3.16.2",
+    "@ember/test-helpers": "^2.2.5",
+    "@types/ember": "^3.16.4",
+    "@types/ember__test-helpers": "^1.7.3",
     "@typescript-eslint/eslint-plugin": "^4.6.1",
     "@typescript-eslint/parser": "^4.6.1",
     "bower": "^1.8.8",

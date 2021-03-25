@@ -3,14 +3,7 @@
 {{import Icon from 'carbon-components-ember/components/icon'}}
 {{import set from 'carbon-components-ember/helpers/set'}}
 
-<thead 
-  {{did-update (fn (set @table 'headers') @headers)}}
-  {{did-update (fn (set @table 'isExpandable') @isExpandable)}}
-  {{did-update (fn (set @table 'isCheckable') @isCheckable)}}
-  {{did-insert (fn (set @table 'headers') @headers)}}
-  {{did-insert (fn (set @table 'isExpandable') @isExpandable)}}
-  {{did-insert (fn (set @table 'isCheckable') @isCheckable)}}
-  >
+<thead>
   <tr>
     {{#if @isExpandable}}
       <th class="bx--table-expand">

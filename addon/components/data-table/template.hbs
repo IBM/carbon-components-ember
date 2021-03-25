@@ -9,19 +9,15 @@
 {{import SearchInput from './-search-input'}}
 {{import Menu from './-menu'}}
 
-<div class="bx--data-table-container {{if @isLoading 'bx-skeleton'}}" data-table
-  {{did-insert this.initialize}}
-  {{did-update this.updateState @state}}
-  {{did-update this.updateItems @items @items.length}}
-  {{did-update (fn this.args.onStateChanged this.trackedState) this.trackedState}}
->
+<div class="bx--data-table-container {{if @isLoading 'bx-skeleton'}}" data-table>
   <div class="bx--data-table-header">
     <h4 class="bx--data-table-header__title">{{@title}}</h4>
     <p class="bx--data-table-header__description">{{@description}}</p>
   </div>
+
   {{yield (hash
               SearchInput=(component SearchInput isLoading=@isLoading value=@state.currentSearchTerm onChange=(fn this.search))
-              Pagination=(component Pagination isLoading=@isLoading length=this.items.length state=@state.currentItemsSlice onPageChanged=(fn (mut this.currentItemsSlice)))
+              Pagination=(component Pagination isLoading=@isLoading length=this.items.length state=@state.currentItemsSlice onPageChanged=(fn this.changePage))
               Row=(component ListRow isExpandable=this.isExpandable isCheckable=this.isCheckable table=this)
               Menu=Menu
               Table=(component Table isLoading=@isLoading)

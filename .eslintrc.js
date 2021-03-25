@@ -4,10 +4,10 @@ module.exports = {
     ecmaVersion: 2017,
     sourceType: 'module'
   },
-  "parser": "@typescript-eslint/parser",
+  'parser': '@typescript-eslint/parser',
   plugins: [
     'ember',
-    "@typescript-eslint"
+    '@typescript-eslint'
   ],
   extends: [
     'eslint:recommended',
@@ -17,61 +17,59 @@ module.exports = {
     browser: true
   },
   rules: {
-    "quotes": [
-      "error", "single"
+    'quotes': [
+      'error', 'single'
     ],
-    "indent": "off",
-    "@typescript-eslint/no-non-null-assertion": "off",
-    "@typescript-eslint/indent": ["error", 2],
-    "@typescript-eslint/ban-ts-comment":  "off",
-    "@typescript-eslint/no-var-requires": "off",
-    "@typescript-eslint/no-empty-function": "off",
-    "node/no-unsupported-features/es-syntax": "off",
-    "no-restricted-syntax": "off",
-    "no-await-in-loop": "off",
-    "arrow-body-style": "off",
-    "comma-dangle": "off",
-    "func-names": "off",
-    "global-require": "off",
-    "keyword-spacing": ["error"],
-    "no-console": "off",
-    "no-param-reassign": "off",
-    "no-plusplus": ["error", {
-      "allowForLoopAfterthoughts": true
+    'indent': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    '@typescript-eslint/indent': ['error', 2],
+    '@typescript-eslint/ban-ts-comment':  'off',
+    '@typescript-eslint/no-var-requires': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
+    'node/no-unsupported-features/es-syntax': 'off',
+    'no-restricted-syntax': 'off',
+    'no-await-in-loop': 'off',
+    'arrow-body-style': 'off',
+    'comma-dangle': 'off',
+    'func-names': 'off',
+    'global-require': 'off',
+    'keyword-spacing': ['error'],
+    'no-console': 'off',
+    'no-param-reassign': 'off',
+    'no-plusplus': 'off',
+    'no-underscore-dangle': 'off',
+    'no-unused-vars': ['error', {
+      'args': 'none'
     }],
-    "no-underscore-dangle": "off",
-    "no-unused-vars": ["error", {
-      "args": "none"
+    'no-use-before-define': ['error', {
+      'functions': false
     }],
-    "no-use-before-define": ["error", {
-      "functions": false
-    }],
-    "max-len": ["error", 180],
-    "object-shorthand": "off",
-    "prefer-arrow-callback": "off",
-    "prefer-rest-params": "off",
-    "spaced-comment": "off",
-    "space-before-function-paren": ["error", "never"],
-    "strict": "off",
-    "vars-on-top": "off",
+    'max-len': ['error', 180],
+    'object-shorthand': 'off',
+    'prefer-arrow-callback': 'off',
+    'prefer-rest-params': 'off',
+    'spaced-comment': 'off',
+    'space-before-function-paren': ['error', 'never'],
+    'strict': 'off',
+    'vars-on-top': 'off',
 
-    "import/no-dynamic-require": "off",
-    "import/no-extraneous-dependencies": "off",
-    "node/no-extraneous-require": "off",
-    "node/no-unpublished-require": "off",
+    'import/no-dynamic-require': 'off',
+    'import/no-extraneous-dependencies': 'off',
+    'node/no-extraneous-require': 'off',
+    'node/no-unpublished-require': 'off',
 
-    "prefer-template": "off",
-    "prefer-spread": "off",
-    "space-in-parens": ["error", "never"],
-    "space-before-blocks": ["error", "always"],
-    "object-curly-spacing": ["error", "always"],
-    "padded-blocks": "off",
-    "no-else-return": "off",
-    "no-empty": "off",
-    "prefer-const": ["error", {
-      "destructuring": "all"
+    'prefer-template': 'off',
+    'prefer-spread': 'off',
+    'space-in-parens': ['error', 'never'],
+    'space-before-blocks': ['error', 'always'],
+    'object-curly-spacing': ['error', 'always'],
+    'padded-blocks': 'off',
+    'no-else-return': 'off',
+    'no-empty': 'off',
+    'prefer-const': ['error', {
+      'destructuring': 'all'
     }],
-    "class-methods-use-this": "off"
+    'class-methods-use-this': 'off'
   },
   overrides: [
     // node files

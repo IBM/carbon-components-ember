@@ -43,11 +43,14 @@
 </Demo>
 
 <Demo as |demo|>
+  The state of the table could be registerd on the controller to resume to the same state.
+  E.g. when clicking on a list item and then go back
   {{#demo.example name='data-table-2.hbs'}}
-
+    {{#let (array (hash name='a' b='c') (hash name='John' b='asd')) as |items|}}
     <DataTable
         @title="Table title"
-        @items={{array (hash name='a' b='c') (hash name='John' b='asd')}}
+        @registerState={{fn (mut this.state)}}
+        @items={{items}}
 	  as |table|>
       <table.Toolbar as |toolbar|>
         <toolbar.Content>
@@ -77,6 +80,39 @@
       <table.Pagination />
     </DataTable>
 
+    <DataTable
+        @state={{this.state}}
+        @title="Table Copy"
+        @items={{items}}
+        as |table|>
+      <table.Toolbar as |toolbar|>
+        <toolbar.Content>
+          <table.SearchInput />
+        </toolbar.Content>
+        <toolbar.Actions>
+          <Button @primary=true>Save</Button>
+        </toolbar.Actions>
+      </table.Toolbar>
+      <table.Table>
+        <table.Header
+            @isCheckable=true
+            @headers={{array (hash label='Name') (hash label='details') ''}}>
+        </table.Header>
+        <table.Body>
+          {{#each table.items as |item|}}
+            <table.Row @item={{item}}>
+              <table.Column>{{item.name}}</table.Column>
+              <table.Column>{{item.b}}</table.Column>
+              <table.Menu as |Item|>
+                <Item>Edit</Item>
+              </table.Menu>
+            </table.Row>
+          {{/each}}
+        </table.Body>
+      </table.Table>
+      <table.Pagination />
+    </DataTable>
+    {{/let}}
   {{/demo.example}}
   <demo.snippet @name="data-table-2.hbs" />
 </Demo>
