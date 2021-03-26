@@ -262,5 +262,11 @@
     "name": "v0.4.2",
     "sha": "ab91942bda62a2887025bca7b7171f4722ca6749",
     "tag": null
+  },
+  "v0.4.3": {
+    "path": "versions/v0.4.3",
+    "name": "v0.4.3",
+    "sha": "c97760da6076c8aa4af33be99ea36acf81745e31",
+    "tag": null
   }
 }
