@@ -6,6 +6,7 @@
 
 {{#if @multiple}}
   <PowerSelectMultiple {{did-insert this.didInsert}}
+      ...attributes
     @eventType="click"
     @searchEnabled={{defaultTo @searchEnabled true}}
     @options={{@options}}
@@ -29,6 +30,7 @@
   </PowerSelectMultiple>
 {{else}}
   <PowerSelect {{did-insert this.didInsert}}
+      ...attributes
     @eventType="click"
     @searchEnabled={{defaultTo @searchEnabled true}}
     @options={{@options}}
