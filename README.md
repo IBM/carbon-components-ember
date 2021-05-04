@@ -31,7 +31,7 @@ Access carbon components with Carbon:: prefix
 Services:
 ```js
 class Component {
-  @service('carbon.notifications') notifications;
+  @service('carbon@notifications') notifications;
 }
 ```
 
