@@ -3,8 +3,8 @@ module.exports = function (environment) {
     modulePrefix: 'dummy',
     podModulePrefix: 'dummy/pods',
     environment,
-    rootURL: 'carbon-components-ember/dist',
-    locationType: 'router-scroll',
+    rootURL: '/',
+    locationType: 'history',
     historySupportMiddleware: true,
     EmberENV: {
       FEATURES: {

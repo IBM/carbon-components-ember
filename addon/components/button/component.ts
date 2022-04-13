@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
 import { bxClassNames, classPrefix, defaultArgs } from 'carbon-components-ember/decorators';
+import DialogManagerService from 'carbon-components-ember/services/dialog-manager';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
@@ -82,6 +83,8 @@ type Args = {
 class CarbonButton extends Component<Args> {
   @tracked loading;
   @tracked disabled;
+  @tracked showDialog;
+  @service('carbon.dialog-manager') dialogManager: DialogManagerService;
 
   args: Args = defaultArgs(this, {
     primary: false,
@@ -111,35 +114,38 @@ class CarbonButton extends Component<Args> {
     return (this.args as any).danger || this.args.type === 'danger';
   }
 
-  @service('carbon-components-ember@dialog-manager') dialogManager;
   @bxClassNames('primary', 'secondary', 'danger', 'tertiary', 'ghost', 'small:sm') bxClassNames;
 
   @action
-  onButtonClick(...args) {
-    const run = () => {
-      const ac = this.args.onClick;
-      if (ac) {
-        const ret = ac(...args);
-        if (ret && ret.then) {
-          this.disabled = true;
-          this.loading = true;
-          const end = () => {
-            this.disabled = false;
-            this.loading = false;
-          } ;
-          ret.then(end, end);
-        }
+  runButtonClick() {
+    const ac = this.args.onClick;
+    if (ac) {
+      const ret = ac();
+      if (ret && ret.then) {
+        this.disabled = true;
+        this.loading = true;
+        const end = () => {
+          this.disabled = false;
+          this.loading = false;
+          this.showDialog = false;
+        } ;
+        ret.then(end, end);
       }
-    };
+    }
+    this.showDialog = false;
+  }
+
+  @action
+  cancel() {
+    this.showDialog = false;
+  }
+
+  @action
+  onButtonClick() {
     if (this.danger) {
-      this.dialogManager.open(this.args.confirmDialog || 'carbon-components-ember/components/dialogs/confirm', {
-        type: 'danger',
-        header: 'Danger',
-        body: this.args.confirmText || 'Confirm this operation',
-        onAccept: run
-      });
+      this.showDialog = true;
     } else {
-      run();
+      this.runButtonClick();
     }
     // Prevent bubbling, if specified. If undefined, the event will bubble.
     return this.args.bubbles;

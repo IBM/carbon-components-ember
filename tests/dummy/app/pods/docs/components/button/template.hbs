@@ -14,13 +14,13 @@
     {{!import Button from 'carbon-components-ember/components/button'}}
 
     <Button
-        @primary={{true}}
+        @type="primary"
         @onClick={{set this 'clicked' true}}
     >
       Primary Button
     </Button>
     <Button
-        @primary={{true}}
+        @type="primary"
         @ghost={{true}}
         @onClick={{set this 'clicked' true}}
     >
@@ -33,14 +33,14 @@
       Tertiary Button
     </Button>
     <Button
-        @secondary={{true}}
+        @type="secondary"
         @small={{true}}
         @onClick={{set this 'clicked' true}}
     >
       Secondary Small Button
     </Button>
     <Button
-        @primary={{true}}
+        @type="primary"
         @onClick={{this.doSomething}}
     >
       Button with loading indicator if onClick returns a promise
@@ -51,13 +51,13 @@
 </Demo>
 
 <Demo as |demo|>
-  <Checkbox @checked={{this.isPrimary}} @onChange={{fn (set this 'isPrimary') (not this.isPrimary)}}>
+  <Checkbox @checked={{eq this.type 'primary'}} @onChange={{fn (set this 'type') 'primary'}}>
     Primary
   </Checkbox>
-  <Checkbox @checked={{this.isSecondary}} @onChange={{fn (set this 'isSecondary') (not this.isSecondary)}}>
+  <Checkbox @checked={{eq this.type 'secondary'}} @onChange={{fn (set this 'type') 'secondary'}}>
     Secondary
   </Checkbox>
-  <Checkbox @checked={{this.isDanger}} @onChange={{fn (set this 'isDanger') (not this.isDanger)}}>
+  <Checkbox @checked={{eq this.type 'danger'}} @onChange={{fn (set this 'type' ) 'danger'}}>
     Is Danger
   </Checkbox>
   <Checkbox @checked={{this.isSmall}} @onChange={{fn (set this 'isSmall') (not this.isSmall)}}>
@@ -74,9 +74,8 @@
 
   {{#demo.example name='button-all.hbs'}}
     <Button
-        @disabled={{isDisabled}}
-        @primary={{this.isPrimary}}
-        @secondary={{this.isSecondary}}
+        @disabled={{this.isDisabled}}
+        @type={{this.type}}
         @danger={{this.isDanger}}
         @tertiary={{this.isTertiary}}
         @small={{this.isSmall}}

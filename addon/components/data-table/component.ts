@@ -6,6 +6,7 @@ import { A } from '@ember/array';
 import MutableArray from '@ember/array/mutable';
 import { taskFor } from 'ember-concurrency-ts';
 import { task } from 'ember-concurrency-decorators';
+import {next} from '@ember/runloop';
 
 class TrackedSet {
   @tracked counter = 0;
@@ -71,7 +72,7 @@ type Args = {
   items: any[]
 }
 
-export default class ListComponent extends Component<Args> {
+export default class DataTableComponent extends Component<Args> {
 
   args: Args = defaultArgs(this, {
     onSelectionChange: (items: any[]) => null,
@@ -98,14 +99,13 @@ export default class ListComponent extends Component<Args> {
 
   constructor(...args: [any, any]) {
     super(...args);
-    setTimeout(() => {
+    next(() => {
       if (!this.state.currentItemsSlice) {
         this.state.currentItemsSlice = { start: 0, end: undefined };
       }
-    }, 200);
+    });
 
     this.internalState = new State();
-    this.args.registerState(this.state);
   }
 
   get state(): State {
@@ -152,6 +152,11 @@ export default class ListComponent extends Component<Args> {
 
   get allChecked() {
     return this.state.selectedItems.hasAll(this.currentItems);
+  }
+
+  @action
+  didInsert() {
+    next(this.args, this.args.registerState, this.state);
   }
 
   @action

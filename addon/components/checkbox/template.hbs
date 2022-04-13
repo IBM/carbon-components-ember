@@ -17,7 +17,7 @@
             name="{{@name}}"
             checked={{if @indeterminate true @checked}}
       {{on 'change' this.onCheckChange}}>
-  {{#if hasBlock}}
+  {{#if (has-block)}}
     {{yield}}
   {{else}}
     {{@label}}

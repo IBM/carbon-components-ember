@@ -34,5 +34,6 @@ export default class ModalComponent extends Component<Args> {
   closeModal() {
     this.isVisible = false;
     this.args.onClose && this.args.onClose();
+    return false;
   }
 }

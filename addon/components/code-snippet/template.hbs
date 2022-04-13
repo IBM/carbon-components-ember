@@ -1,9 +1,10 @@
 {{import CopyButton from '../copy-button'}}
 {{import eq from 'ember-truth-helpers/helpers/equal'}}
+{{import set from 'carbon-components-ember/helpers/set'}}
 {{#if (eq this.type 'default')}}
   <div class="bx--snippet bx--snippet--single" > <div class="bx--snippet-container" aria-label="Code Snippet Text">
   <pre>
-    <code {{ref this "carbonElement"}} >
+    <code {{did-insert (set this "carbonElement")}} >
       {{yield}}
     </code>
   </pre>
@@ -18,7 +19,7 @@
       class="bx--snippet bx--snippet--multi"
        data-code-snippet> <div class="bx--snippet-container" aria-label="Code Snippet Text">
   <pre>
-    <code {{ref this "codeElement"}}>
+    <code {{did-insert (set this "codeElement")}}>
       {{yield}}
     </code>
   </pre>

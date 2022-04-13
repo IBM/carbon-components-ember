@@ -1,0 +1,5 @@
+{{import onUpdate from '../../-helpers/on-update'}}
+
+{{#if @chart.setScaleColor}}
+  {{onUpdate @name @color (fn @chart.setScaleColor @name @color)}}
+{{/if}}

@@ -1,7 +1,6 @@
-import { defaultColors } from '@carbon/charts';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { argsCompat } from 'carbon-components-ember/decorators';
+import { defaultArgs } from 'carbon-components-ember/decorators';
 
 /** @documenter yuidoc */
 /**
@@ -14,9 +13,8 @@ import { argsCompat } from 'carbon-components-ember/decorators';
  **/
 class CarbonChartDataSet extends Component {
   chart = null;
-  defaultColor = [defaultColors[0]];
 
-  @argsCompat
+  @defaultArgs
   args = {
     /**
      * The Dataset label
@@ -24,11 +22,6 @@ class CarbonChartDataSet extends Component {
      * @type String
      */
     label: '',
-    /**
-     * @argument backgroundColors
-     * @type defaultColors[]
-     */
-    backgroundColors: [],
     /**
      * @argument data
      * @type number[]

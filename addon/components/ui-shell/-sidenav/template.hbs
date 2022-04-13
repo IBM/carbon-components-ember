@@ -1,7 +1,7 @@
 {{import Icon from 'carbon-components-ember/components/icon'}}
 {{import eq from 'ember-truth-helpers/helpers/equal'}}
 {{import toggle from 'ember-composable-helpers/helpers/toggle'}}
-{{import LiquidIf from 'liquid-fire/components/liquid-if'}}
+{{import animated-if from 'ember-animated/components/animated-if'}}
 {{import styles from './styles.scoped.scss'}}
 
 <nav class="bx--side-nav__navigation bx--side-nav bx--side-nav--ux {{if @open 'bx--side-nav--expanded'}} {{styles.namespace}}"
@@ -22,7 +22,7 @@
               <Icon @icon='chevron--down' />
             </div>
           </button>
-          {{#LiquidIf (get this (concat menu.title '-expanded')) containerless=true}}
+          {{#if (get this (concat menu.title '-expanded'))}}
             <ul role="menu" class="bx--side-nav__menu" style="    max-height: 93.75rem; visibility: inherit;">
               {{#each menu.submenus as |submenu|}}
                 <li class="bx--side-nav__menu-item">
@@ -38,7 +38,7 @@
                 </li>
               {{/each}}
             </ul>
-          {{/LiquidIf}}
+          {{/if}}
         </li>
       {{else unless menu.hidden}}
         <li class="bx--side-nav__item">

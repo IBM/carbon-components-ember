@@ -21,7 +21,7 @@
   as |option select|
   >
     <Checkbox @readonly='true' @checked={{isSelected option select.selected}} >
-      {{#if hasBlock}}
+      {{#if (has-block)}}
         {{yield option}}
       {{else}}
         {{option}}
@@ -41,7 +41,7 @@
     @placeholder={{@placeholder}}
       @onChange={{fn this.onChange}}
   as |option|>
-    {{#if hasBlock}}
+    {{#if (has-block)}}
       {{yield option}}
     {{else}}
       {{option}}

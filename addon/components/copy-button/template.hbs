@@ -6,7 +6,7 @@
       class="{{if @inline 'bx--snippet bx--snippet--inline bx--btn--copy' 'bx--snippet-button'}}"
       aria-label="Copy code"
       tabindex="0">
-    {{#if hasBlock}}
+    {{#if (has-block)}}
       <code>{{yield}}</code>
     {{/if}}
     {{#unless @inline}}
@@ -25,7 +25,7 @@
       class="{{if @inline 'bx--snippet bx--snippet--inline bx--btn--copy' 'bx--snippet-button'}}"
       aria-label="Copy code"
       tabindex="0">
-    {{#if hasBlock}}
+    {{#if (has-block)}}
       <code>{{yield}}</code>
     {{/if}}
     {{#unless @inline}}

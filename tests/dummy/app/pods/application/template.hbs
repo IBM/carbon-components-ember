@@ -10,7 +10,7 @@
    <Notification style="word-wrap: break-word; width: 350px;" @notification={{notification}} />
   {{/each}}
 </div>
-<div>
+<div id="{{this.dialogManager.id}}">
   {{#if this.dialogManager.currentDialog}}
     {{component this.dialogManager.currentDialog options=this.dialogManager.options}}
   {{/if}}

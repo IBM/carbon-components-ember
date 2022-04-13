@@ -1,0 +1,8 @@
+{{import onUpdate from '../../-helpers/on-update'}}
+
+{{#if @chart.setColorPairing}}
+  {{onUpdate @numberOfVariants @option (fn @chart.setColorPairing (hash
+    option=@option
+    numberOfVariants=numberOfVariants
+  ))}}
+{{/if}}

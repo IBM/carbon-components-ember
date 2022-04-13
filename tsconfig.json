@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES2018",
     "declaration": true,
     "esModuleInterop": true,
     "moduleResolution": "node",

@@ -22,6 +22,7 @@ class CarbonChart extends Component {
   };
   options = {
     axes: {},
+    color: {},
     legendClickable: true,
     containerResizable: true,
     timeScale: {
@@ -31,35 +32,35 @@ class CarbonChart extends Component {
   chartDiv = null;
 
   @defaultArgs
-  args = {
+    args = {
     /**
      * Chart labels
      @argument labels
      @type String[]
      */
-    labels: [],
+      labels: [],
 
-    /**
+      /**
      * Is resizable
      @argument resizable
      @type boolean
      */
-    resizable: true,
+      resizable: true,
 
-    /**
+      /**
      * Is legendClickable
      @argument legendClickable
      @type boolean
      */
-    legendClickable: true,
+      legendClickable: true,
 
-    /**
+      /**
      * Chart class
      @argument ChartClass
      @type Chart
      */
-    ChartClass: null
-  };
+      ChartClass: null
+    };
 
 
   async setData() {
@@ -115,6 +116,17 @@ class CarbonChart extends Component {
       [axis]: options
     });
     this.updateChart();
+  }
+
+  @action
+  setColorPairing(values) {
+    this.options.color.pairing = values;
+  }
+
+  @action
+  setColorScale(datasetName, color) {
+    this.options.color.scale = this.options.color.scale || {};
+    this.options.color.scale[datasetName] = color;
   }
 
   @action
