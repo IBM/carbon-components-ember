@@ -28,9 +28,6 @@
     "@ember/jquery": "^2.0.0",
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.2.5",
-    "@embroider/compat": "^1.6.0",
-    "@embroider/core": "^1.6.0",
-    "@embroider/webpack": "^1.6.0",
     "@types/ember": "^4.0.0",
     "@types/ember__test-helpers": "^2.6.1",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
@@ -112,7 +109,6 @@
     "ember-template-lint": "^4.3.0",
     "ember-tooltips": "^3.4.3",
     "ember-truth-helpers": "^3.0.0",
-    "mber": "^0.14.18",
     "node-sass": "^7.0.1",
     "spark-md5": "^3.0.1"
   },
