@@ -16,18 +16,21 @@
     "lint": "./node_modules/.bin/eslint tests addon",
     "dev": "ember s",
     "ts:build": "tsc",
-    "build": "./node_modules/.bin/ember b",
-    "test": "./node_modules/.bin/ember test",
-    "testserver": "./node_modules/.bin/ember test --serve"
+    "build": "ember b",
+    "test": "ember test",
+    "testserver": "ember test --serve"
   },
   "overrides": {
-    "@embroider/macros": "1.5.0"
+    "@embroider/macros": "^1.6.0",
+    "@embroider/core": "^1.6.0",
+    "@embroider/util": "^1.6.0",
+    "@embroider/shared-internals": "^1.6.0"
   },
   "types": "index.d.ts",
   "devDependencies": {
     "@ember/jquery": "^2.0.0",
     "@ember/optional-features": "^2.0.0",
-    "@ember/test-helpers": "^2.2.5",
+    "@ember/test-helpers": "^2.7.0",
     "@types/ember": "^4.0.0",
     "@types/ember__test-helpers": "^2.6.1",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
