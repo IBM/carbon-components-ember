@@ -37,7 +37,6 @@ jobs:
         experimental: [false]
         scenario:
           - release
-          - lts-3.12
         include:
           - scenario: beta
             experimental: true
