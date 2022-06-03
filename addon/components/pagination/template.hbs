@@ -9,7 +9,6 @@
 <div class="bx--pagination {{styles.namespace}} {{if @isLoading 'bx--skeleton'}}" data-pagination
   {{did-insert this.pageChanged}}
   {{did-update (fn this.setState @state) @state}}
-  {{did-update (fn this.lengthChanged) @length @itemsPerPage}}
 >
   {{#if @isLoading}}
     <div class="bx--skeleton__text"></div>

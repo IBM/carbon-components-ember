@@ -1,9 +1,9 @@
 import { helper as buildHelper } from '@ember/component/helper';
-import { set } from '@ember/object';
+import { set, get } from '@ember/object';
 
-export function setHelper([obj, key, v]) {
+export function setHelper([obj, key, path]) {
   return function (val) {
-    set(obj, key, v || val);
+    set(obj, key, path ? get(val, path) : val);
   };
 }
 

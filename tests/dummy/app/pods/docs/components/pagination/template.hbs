@@ -1,0 +1,32 @@
+{{import Demo from 'ember-cli-addon-docs/components/docs-demo'}}
+{{import set from 'carbon-components-ember/helpers/set'}}
+{{import Pagination from 'carbon-components-ember/components/pagination'}}
+{{import Checkbox from 'carbon-components-ember/components/checkbox'}}
+{{import FormInput from 'carbon-components-ember/components/form-input'}}
+
+<h1>Carbon Pagination</h1>
+
+<Demo as |demo|>
+  {{#demo.example name='pagination.hbs'}}
+    {{!import Pagination from 'carbon-components-ember/components/pagination'}}
+    <Pagination
+      @disabled={{this.disabled}}
+      @isLoading={{this.isLoading}}
+      @itemsPerPage={{this.itemsPerPage}}
+      @length={{this.paginationLength}}
+      @onPageChanged={{set this 'currentSlice'}}
+      @state={{this.currentSlice}} ></Pagination>
+
+    <label>currentSlice</label>
+  {{concat this.currentSlice}}
+    <label>disabled</label>
+  <Checkbox @checked={{this.disabled}} @onChange={{fn (set this 'disabled') (not this.disabled)}}></Checkbox>
+    <label>isLoading</label>
+  <Checkbox @checked={{this.isLoading}} @onChange={{fn (set this 'isLoading') (not this.isLoading)}}></Checkbox>
+    <label>itemsPerPage</label>
+  <FormInput @onChange={{fn (set this 'itemsPerPage')}}></FormInput>
+  <label>paginationLength</label>
+  <FormInput @onChange={{fn (set this 'paginationLength')}}></FormInput>
+  {{/demo.example}}
+  <demo.snippet @name="card.hbs" />
+</Demo>

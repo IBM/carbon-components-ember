@@ -48,6 +48,7 @@ export default class CarbonPagination extends Component<Args> {
     if (!state) return;
     this.currentPage = state.page;
     this.itemsPerPage = state.itemsPerPage;
+    this.lengthChanged();
   }
 
   @action
