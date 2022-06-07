@@ -7162,7 +7162,7 @@ for(var r=0,n=new Array(t);r<t;r++)n[r]=e[r]
 return n}function r(e){return o.packages[e]}function n(){return o.global}Object.defineProperty(e,"__esModule",{value:!0}),e.config=r,e.each=function(e){if(!Array.isArray(e))throw new Error("the argument to the each() macro must be an array")
 return e},e.getGlobalConfig=n,e.isTesting=function(){var e=o.global,t=e&&e["@embroider/macros"]
 return Boolean(t&&t.isTesting)},e.macroCondition=function(e){return e}
-var o={packages:{"/home/runner/work/carbon-components-ember/carbon-components-ember/node_modules/ember-get-config":{config:{modulePrefix:"dummy",podModulePrefix:"dummy/pods",environment:"production",rootURL:"ADDON_DOCS_ROOT_URL",locationType:"auto",historySupportMiddleware:!0,EmberENV:{FEATURES:{},EXTEND_PROTOTYPES:{Date:!1},_APPLICATION_TEMPLATE_WRAPPER:!1,_JQUERY_INTEGRATION:!1,_TEMPLATE_ONLY_GLIMMER_COMPONENTS:!0},APP:{name:"carbon-components-ember",version:"0.4.6+fd6e16c9"},"ember-cli-addon-docs":{projectName:"carbon-components-ember",projectTag:"0.4.6",projectHref:"https://github.com/patricklx/carbon-components-ember",docsAppPathInRepo:"tests/dummy/app",addonPathInRepo:"addon",primaryBranch:"master",latestVersionName:"-latest",deployVersion:"ADDON_DOCS_DEPLOY_VERSION",searchTokenSeparator:"\\s+",showImportPaths:!0},"ember-modal-dialog":{hasEmberTether:"2.0.1"},exportApplicationGlobal:!1},testConfig:{modulePrefix:"dummy",podModulePrefix:"dummy/pods",environment:"test",rootURL:"/",locationType:"none",historySupportMiddleware:!0,EmberENV:{FEATURES:{},EXTEND_PROTOTYPES:{Date:!1},_APPLICATION_TEMPLATE_WRAPPER:!1,_JQUERY_INTEGRATION:!1,_TEMPLATE_ONLY_GLIMMER_COMPONENTS:!0},APP:{LOG_ACTIVE_GENERATION:!1,LOG_VIEW_LOOKUPS:!1,rootElement:"#ember-testing",autoboot:!1,name:"carbon-components-ember",version:"0.4.6+fd6e16c9"},"ember-cli-addon-docs":{projectName:"carbon-components-ember",projectTag:"0.4.6",projectHref:"https://github.com/patricklx/carbon-components-ember",docsAppPathInRepo:"tests/dummy/app",addonPathInRepo:"addon",primaryBranch:"master",latestVersionName:"-latest",deployVersion:"ADDON_DOCS_DEPLOY_VERSION",searchTokenSeparator:"\\s+",showImportPaths:!0},"ember-modal-dialog":{hasEmberTether:"2.0.1"},exportApplicationGlobal:!0}}},global:{"@embroider/macros":{isTesting:!1}}}
+var o={packages:{"/home/runner/work/carbon-components-ember/carbon-components-ember/node_modules/ember-get-config":{modulePrefix:"dummy"}},global:{"@embroider/macros":{isTesting:!1}}}
 var i="undefined"!=typeof window?window._embroider_macros_runtime_config:void 0
 if(i){var a,s={config:r,getGlobalConfig:n,setConfig:function(e,t){o.packages[e]=t},setGlobalConfig:function(e,t){o.global[e]=t}},u=function(e,r){var n="undefined"!=typeof Symbol&&e[Symbol.iterator]||e["@@iterator"]
 if(!n){if(Array.isArray(e)||(n=function(e,r){if(e){if("string"==typeof e)return t(e,r)
@@ -12023,9 +12023,10 @@ else i(o,a,s)
 else if(Array.isArray(s))for(u=0,l=s.length;u<l;u++)i(o,s[u].name,s[u].value)
 else for(c in s)e(c,s[c])
 return o}("",e).join("&").replace(/%20/g,"+")}function i(e,t,r){void 0!==r&&(null===r&&(r=""),r="function"==typeof r?r():r,e[e.length]="".concat(encodeURIComponent(t),"=").concat(encodeURIComponent(r)))}var a=o
-e.default=a})),define("ember-get-config/index",["exports"],(function(e){"use strict"
+e.default=a})),define("ember-get-config/index",["exports","@embroider/macros/es-compat"],(function(e,t){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
-e.default=undefined})),define("ember-hbs-imports/helpers/invoke-helper",["exports","@ember/component/helper","@ember/application"],(function(e,t,r){"use strict"
+var r="".concat("dummy","/config/environment"),n=(0,t.default)(require(r)).default
+e.default=n})),define("ember-hbs-imports/helpers/invoke-helper",["exports","@ember/component/helper","@ember/application"],(function(e,t,r){"use strict"
 function n(e){return function(e){if(Array.isArray(e))return e}(e)||function(e){if("undefined"!=typeof Symbol&&null!=e[Symbol.iterator]||null!=e["@@iterator"])return Array.from(e)}(e)||function(e,t){if(!e)return
 if("string"==typeof e)return o(e,t)
 var r=Object.prototype.toString.call(e).slice(8,-1)

@@ -32,7 +32,7 @@
   "master": {
     "path": "versions/master",
     "name": "master",
-    "sha": "fd6e16c9d77ee644e2f761acc66fa9beae1e2386",
+    "sha": "e554b2e1af9d59dd96c29025452385745771eecc",
     "tag": null
   },
   "v0.1.6": {
