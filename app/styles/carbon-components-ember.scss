@@ -1,11 +1,16 @@
+
+@use '@carbon/styles' with (
+  $prefix: "bx"
+);
+@use '@carbon/grid';
+
+@include grid.flex-grid();
+@include grid.css-grid();
+
 @import "pod-styles";
-@import "../ember-power-select";
-@import "../ember-basic-dropdown";
-@import 'node_modules/@carbon/themes/scss/themes';
-@import 'node_modules/carbon-components/scss/globals/scss/styles';
 
 // Backgrounds
-$ember-power-select-background-color: #f4f7fb !default;
+$ember-power-select-background-color: $field-01 !default;
 $ember-power-select-disabled-background-color: #eeeeee !default;
 $ember-power-select-multiple-selection-background-color: #e5e5e5 !default;
 $ember-power-select-highlighted-background: #e5e5e5 !default;
@@ -26,7 +31,7 @@ $ember-power-select-default-focus-border: none !default;
 
 $ember-power-select-trigger-border: 1px solid #8c8c8c;
 $ember-power-select-trigger-border-top: none;
-$ember-power-select-trigger-border-bottom: none !default;
+$ember-power-select-trigger-border-bottom: 1px solid #8c8c8c !default;
 $ember-power-select-trigger-border-right: none;
 $ember-power-select-trigger-border-left: none;
 $ember-power-select-active-trigger-border: $ember-power-select-default-focus-border !default;
@@ -99,7 +104,7 @@ $ember-power-select-multiple-option-line-height: 1.45 !default;
 }
 .ember-power-select-trigger, .ember-power-select-trigger-multiple-input {
   line-height: initial;
-  padding: 10px 20px 10px 16px;
+  padding: 0 !important;
   position: relative;
   background: #f3f3f3;
   min-width: 100px;
@@ -140,6 +145,13 @@ $ember-power-select-multiple-option-line-height: 1.45 !default;
   margin-bottom: 15px;
 }
 
+.ember-basic-dropdown {
+  .bx--dropdown__arrow {
+    height: 100%;
+    top: 0;
+  }
+}
+
 .ember-basic-dropdown-content, .ember-power-select-dropdown {
   box-shadow: 0 3px 3px 0 rgba(0,0,0,.1);
 }
@@ -161,3 +173,8 @@ $ember-power-select-multiple-option-line-height: 1.45 !default;
     left: 0;
   }
 }
+
+
+
+@import "../ember-power-select";
+@import "../ember-basic-dropdown";

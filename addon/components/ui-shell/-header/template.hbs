@@ -7,8 +7,8 @@
         <Icon @icon={{if @open 'close' 'menu'}}/>
     </button>
     <a class="bx--header__name" href="#"><span class="bx--header__name--prefix">{{@title}} <small>{{@subtitle}}</small></span></a>
+    {{yield to='header'}}
     <div class="bx--header__global">
-        {{yield 'header-global'}}
+        {{yield to="header-global"}}
     </div>
-    {{yield 'header'}}
 </header>

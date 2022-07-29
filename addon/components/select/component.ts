@@ -10,6 +10,7 @@ type Args = {
   onSelect: (item) => null
   addItem: (item) => null
   removeItem: (item) => null
+  search: (str: string) => Promise<any[]>
   selectFocused: (...any) => null
 }
 

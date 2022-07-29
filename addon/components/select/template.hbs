@@ -6,19 +6,22 @@
 
 {{#if @multiple}}
   <PowerSelectMultiple {{did-insert this.didInsert}}
-      ...attributes
+    ...attributes
+    @renderInPlace={{true}}
     @eventType="click"
     @searchEnabled={{defaultTo @searchEnabled true}}
+    @search={{@search}}
     @options={{@options}}
-      @onFocus={{fn this.selectFocused}}
+    @onFocus={{this.selectFocused}}
+    @onOpen={{@onOpen}}
     @searchField={{@searchField}}
     @matcher={{this.searchMatcher}}
-      @selected={{@selected}}
+    @selected={{@selected}}
     @placeholder={{@placeholder}}
-      @onChange={{fn this.onChange}}
+    @onChange={{fn this.onChange}}
     @onKeydown={{fn this.handleKeydown}}
     @closeOnSelect={{false}}
-  as |option select|
+    as |option select|
   >
     <Checkbox @readonly='true' @checked={{isSelected option select.selected}} >
       {{#if (has-block)}}
@@ -30,17 +33,20 @@
   </PowerSelectMultiple>
 {{else}}
   <PowerSelect {{did-insert this.didInsert}}
-      ...attributes
+    ...attributes
+    @renderInPlace={{true}}
     @eventType="click"
+    @search={{@search}}
     @searchEnabled={{defaultTo @searchEnabled true}}
     @options={{@options}}
-      @onFocus={{fn this.selectFocused}}
+    @onFocus={{this.selectFocused}}
+    @onOpen={{@onOpen}}
     @searchField={{@searchField}}
     @matcher={{this.searchMatcher}}
-      @selected={{@selected}}
+    @selected={{@selected}}
     @placeholder={{@placeholder}}
-      @onChange={{fn this.onChange}}
-  as |option|>
+    @onChange={{fn this.onChange}}
+    as |option|>
     {{#if (has-block)}}
       {{yield option}}
     {{else}}

@@ -3,57 +3,27 @@
 {{import toggle from 'ember-composable-helpers/helpers/toggle'}}
 {{import animated-if from 'ember-animated/components/animated-if'}}
 {{import styles from './styles.scoped.scss'}}
+{{import Menu from './-menu'}}
+
 
 <nav class="bx--side-nav__navigation bx--side-nav bx--side-nav--ux {{if @open 'bx--side-nav--expanded'}} {{styles.namespace}}"
      role="navigation" aria-label="Page Navigation" aria-expanded="true">
   <ul class="bx--side-nav__items">
+    {{#unless @menuItems}}
+      {{yield Menu}}
+    {{/unless}}
     {{#each @menuItems as |menu menuIndex|}}
-      {{#if menu.submenus}}
-        <li class="bx--side-nav__item {{if @menu.icon 'bx--side-nav__item--icon'}}">
-          <button class="bx--side-nav__submenu" aria-haspopup="true" aria-expanded="{{get this (concat menu.title '-expanded')}}"
-            {{on 'click' (fn (toggle (concat menu.title '-expanded') this))}}>
-            {{#if menu.icon}}
-              <div class="bx--side-nav__icon">
-                <Icon @icon="{{menu.icon}}"/>
-              </div>
-            {{/if}}
-            <span class="bx--side-nav__submenu-title">{{menu.title}}</span>
-            <div class="bx--side-nav__icon bx--side-nav__icon--small bx--side-nav__submenu-chevron">
-              <Icon @icon='chevron--down' />
-            </div>
-          </button>
-          {{#if (get this (concat menu.title '-expanded'))}}
-            <ul role="menu" class="bx--side-nav__menu" style="    max-height: 93.75rem; visibility: inherit;">
-              {{#each menu.submenus as |submenu|}}
-                <li class="bx--side-nav__menu-item">
-                  <a role="menuitem" aria-current="{{if (eq @currentMenu submenu) 'page'}}" class="bx--side-nav__link" role="menuitem"
-                    {{on 'click' (fn @transitionTo submenu)}}>
-                    {{#if submenu.icon}}
-                      <div class="bx--side-nav__icon">
-                        <Icon @icon="{{submenu.icon}}"/>
-                      </div>
-                    {{/if}}
-                    <span class="bx--side-nav__link-text">{{submenu.title}}</span>
-                  </a>
-                </li>
-              {{/each}}
-            </ul>
-          {{/if}}
-        </li>
-      {{else unless menu.hidden}}
-        <li class="bx--side-nav__item">
-          <a class="bx--side-nav__link"
-             aria-current="{{if (eq @currentMenu menu) 'page'}}"
-            {{on 'click' (fn @transitionTo menu)}}>
-            {{#if menu.icon}}
-              <div class="bx--side-nav__icon bx--side-nav__icon--small">
-                <Icon @icon="{{menu.icon}}"/>
-              </div>
-            {{/if}}
-            <span class="bx--side-nav__link-text">{{menu.title}}</span>
-          </a>
-        </li>
-      {{/if}}
+        <Menu
+          @submenus={{menu.submenus}}
+          @icon={{menu.icon}}
+          @title={{menu.title}}
+          @isCurrent={{eq menu @currentMenu}}
+          @open={{@open}}
+          @transitionTo={{fn @transitionTo menu}} as |sub|>
+          {{#each menu.submenus as |submenu|}}
+            <sub @transiti  onTo=""></sub>
+          {{/each}}
+        </Menu>
     {{/each}}
   </ul>
 </nav>
