@@ -1,8 +1,13 @@
 // BEGIN-SNIPPET ui-shell.js
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
 export default class ApplicationController extends Controller {
+
+  @tracked leftSideBarOpen = true;
+  @tracked currentMenu = null;
+
   menuItems = [{
     title: 'Home',
     routeName: 'index',
@@ -27,8 +32,8 @@ export default class ApplicationController extends Controller {
   }
 
   @action
-  transitionTo() {
-
+  transitionTo(menu) {
+    this.currentMenu = menu;
   }
 }
 // END-SNIPPET

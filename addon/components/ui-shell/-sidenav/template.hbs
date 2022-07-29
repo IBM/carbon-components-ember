@@ -21,7 +21,7 @@
           @open={{@open}}
           @transitionTo={{fn @transitionTo menu}} as |sub|>
           {{#each menu.submenus as |submenu|}}
-            <sub @transiti  onTo=""></sub>
+            <sub @transitionTo={{fn @transitionTo submenu}} @icon={{submenu.icon}} @title={{submenu.title}} />
           {{/each}}
         </Menu>
     {{/each}}

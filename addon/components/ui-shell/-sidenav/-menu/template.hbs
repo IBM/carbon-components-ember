@@ -2,7 +2,7 @@
 {{import Icon from 'carbon-components-ember/components/icon'}}
 {{import new-obj from 'carbon-components-ember/helpers/new-obj'}}
 
-{{#if (has-block)}}
+{{#if @submenus}}
   {{#let (new-obj) as |obj|}}
   <li class="bx--side-nav__item {{if @icon 'bx--side-nav__item--icon'}}">
     <button class="bx--side-nav__submenu" aria-haspopup="true" aria-expanded="{{get obj (concat @title '-expanded')}}"

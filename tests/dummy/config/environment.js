@@ -3,7 +3,7 @@ module.exports = function (environment) {
     modulePrefix: 'dummy',
     podModulePrefix: 'dummy/pods',
     environment,
-    rootURL: 'ADDON_DOCS_ROOT_URL',
+    rootURL: '/',
     locationType: 'auto',
     historySupportMiddleware: true,
     EmberENV: {
