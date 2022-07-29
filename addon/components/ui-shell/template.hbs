@@ -3,7 +3,7 @@
 {{import HeaderAction from './-header-action'}}
 {{import Nav from './-nav'}}
 
-{{yield (hash Header=Header Sidenav=Sidenav HeaderAction=HeaderAction Nav=Nav) to="shell"}}
+{{yield (hash Header=Header Sidenav=Sidenav Nav=Nav) to="shell"}}
 <main id="main-content" class="bx--content">
   {{yield to="content"}}
 </main>
