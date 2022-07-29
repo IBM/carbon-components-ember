@@ -17,7 +17,7 @@ jobs:
         node-version: 16.x
     - name: npm install, build, and test
       run: |
-        npm install
+        npm install --no-audit
         ./node_modules/.bin/tsc
         ./node_modules/.bin/ember test
       env:
@@ -49,7 +49,7 @@ jobs:
         uses: rwjblue/setup-volta@v1
       - name: Install dependencies (npm)
         run: |
-          npm install
+          npm install --no-audit
           ./node_modules/.bin/tsc
       - name: Setup ember-try scenario
         run: ./node_modules/.bin/ember try:one ember-${{ matrix.scenario }} --skip-cleanup --- cat package.json
@@ -75,7 +75,7 @@ jobs:
         run: |
           mkdir ~/.ssh
           ssh-keyscan github.com >> ~/.ssh/known_hosts
-          npm install
+          npm install --no-audit
           ./node_modules/.bin/tsc
           version=$(cat package.json | jq -r '.version')
           TAG=v$version
