@@ -125,7 +125,7 @@ $ember-power-select-multiple-option-line-height: 1.45 !default;
 
 .ember-power-select-placeholder {
   height: 2.7rem;
-  display: inline;
+  display: inline !important;
   padding: 0.8125rem 2.5rem 0.8125rem 1rem;
 }
 
