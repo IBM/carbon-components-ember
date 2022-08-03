@@ -3,7 +3,6 @@
   $prefix: "bx"
 );
 @use '@carbon/grid';
-@use '@carbon/charts';
 
 @include grid.flex-grid();
 @include grid.css-grid();
