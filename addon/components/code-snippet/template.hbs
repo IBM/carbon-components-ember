@@ -1,31 +1,32 @@
 {{import CopyButton from '../copy-button'}}
 {{import eq from 'ember-truth-helpers/helpers/equal'}}
 {{import set from 'carbon-components-ember/helpers/set'}}
+
 {{#if (eq this.type 'default')}}
-  <div class="bx--snippet bx--snippet--single" > <div class="bx--snippet-container" aria-label="Code Snippet Text">
+  <div class="bx--snippet bx--snippet--single">
+    <div class="bx--snippet-container" aria-label="Code Snippet Text">
   <pre>
     <code {{did-insert (set this "carbonElement")}} >
       {{yield}}
     </code>
   </pre>
-  </div>
+    </div>
     <CopyButton @targetElement={{this.carbonElement}} />
   </div>
 {{/if}}
 
 
 {{#if (eq @type 'multiline')}}
-  <div {{did-insert this.loadCarbonComponent}} {{will-destroy this.destroyCarbonComponent}}
-      class="bx--snippet bx--snippet--multi"
-       data-code-snippet> <div class="bx--snippet-container" aria-label="Code Snippet Text">
-  <pre>
-    <code {{did-insert (set this "codeElement")}}>
-      {{yield}}
-    </code>
-  </pre>
-  </div>
+  <div class="bx--snippet bx--snippet--multi {{if this.expanded 'bx--snippet--expand'}}" data-code-snippet>
+    <div class="bx--snippet-container" aria-label="Code Snippet Text">
+    <pre>
+      <code {{did-insert (set this "codeElement")}}>
+        {{yield}}
+      </code>
+    </pre>
+    </div>
     <CopyButton @targetElement={{this.codeElement}} />
-    <button
+    <Button
       class="bx--btn bx--btn--ghost bx--btn--sm bx--snippet-btn--expand"
       type="button"
     >
@@ -33,9 +34,9 @@
     more</span>
       <svg class="bx--icon-chevron--down" width="12" height="7" viewBox="0 0 12 7" aria-label="Show more icon">
         <title>Show more icon</title>
-        <path fill-rule="nonzero" d="M6.002 5.55L11.27 0l.726.685L6.003 7 0 .685.726 0z" />
+        <path fill-rule="nonzero" d="M6.002 5.55L11.27 0l.726.685L6.003 7 0 .685.726 0z"/>
       </svg>
-    </button>
+    </Button>
   </div>
 {{/if}}
 

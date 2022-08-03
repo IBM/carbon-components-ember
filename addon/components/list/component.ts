@@ -3,7 +3,9 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 
 type Args = {
-  items: any[]
+  items: any[];
+  onSelect(item: any): void;
+  selectable: boolean;
 }
 
 export default class ListComponent extends Component<Args> {
@@ -36,5 +38,10 @@ export default class ListComponent extends Component<Args> {
         this.currentItemsSlice = { start: 0, end: undefined };
       }
     }, 200);
+  }
+
+  @action
+  onSelect(item) {
+    this.args.onSelect?.(item);
   }
 }

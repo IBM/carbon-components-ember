@@ -10,15 +10,15 @@
 {{#if @loading}}
   <Skeleton />
 {{else}}
-  <section class="bx--structured-list {{styles.namespace}}" style="position: relative;" {{did-insert this.delayItems}}>
+  <section class="bx--structured-list {{styles.namespace}} {{if @selectable 'bx--structured-list--selection'}}" style="position: relative;" {{did-insert this.delayItems}}>
     {{yield (hash
-                    items=this.currentItems
-                    SearchInput=(component SearchInput value=this.currentSearch onChange=(action (mut this.currentSearch)) light=true small=true)
-                    Pagination=(component Pagination length=@items.length onPageChanged=(action (mut this.currentItemsSlice)))
-                    Row=ListRow
-                    Column=ListColumn
-                    Body=ListBody
-                    Header=ListHeader
+              items=this.currentItems
+              SearchInput=(component SearchInput value=this.currentSearch onChange=(action (mut this.currentSearch)) light=true small=true)
+              Pagination=(component Pagination length=@items.length onPageChanged=(action (mut this.currentItemsSlice)))
+              Row=(component ListRow list=this)
+              Column=ListColumn
+              Body=ListBody
+              Header=ListHeader
             )
     }}
   </section>
