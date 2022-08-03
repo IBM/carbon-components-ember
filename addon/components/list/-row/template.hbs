@@ -1,10 +1,10 @@
 {{import Icon from 'carbon-components-ember/components/icon'}}
-<div class="bx--structured-list-row {{if @isHeader 'bx--structured-list-row--header-row'}}" ...attributes {{on 'click' (fn this.onSelect @item)}}>
+<div class="cds--structured-list-row {{if @isHeader 'cds--structured-list-row--header-row'}}" ...attributes {{on 'click' (fn this.onSelect @item)}}>
   {{yield}}
   {{#if @list.args.selectable}}
-    <input type="radio" checked={{@isCurrent}} class="bx--structured-list-input bx--visually-hidden">
-    <div class="bx--structured-list-td">
-      <Icon @icon="checkmark--filled" @class="bx--structured-list-svg"></Icon>
+    <input type="radio" checked={{@isCurrent}} class="cds--structured-list-input cds--visually-hidden">
+    <div class="cds--structured-list-td">
+      <Icon @icon="checkmark--filled" @class="cds--structured-list-svg"></Icon>
     </div>
   {{/if}}
 </div>

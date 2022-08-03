@@ -79,12 +79,11 @@
         @danger={{this.isDanger}}
         @tertiary={{this.isTertiary}}
         @small={{this.isSmall}}
-        @onClick={{set this 'clicked' true}}
+        @onClick={{fn (set this 'clicked') true}}
         @bubbles={{this.bubbles}}
         @confirmText={{this.confirmText}}
     >
       Button Text
     </Button>
   {{/demo.example}}
-  {{demo.snippet 'button-all.hbs'}}
 </Demo>

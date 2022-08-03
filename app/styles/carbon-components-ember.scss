@@ -1,9 +1,7 @@
 
-@use '@carbon/styles' with (
-  $prefix: "bx"
-);
+@use '@carbon/styles';
 @use '@carbon/grid';
-@use '@carbon/charts';
+@use '@carbon/charts/styles/styles' as chart-styles;
 
 @include grid.flex-grid();
 @include grid.css-grid();
@@ -80,16 +78,16 @@ $ember-power-select-multiple-option-padding: 0.5rem 1.5rem 0.5rem 1rem !default;
 $ember-power-select-multiple-option-line-height: 1.45 !default;
 
 .ember-power-select-multiple-trigger {
-  .bx--checkbox-wrapper {
+  .cds--checkbox-wrapper {
     display: inline-block;
   }
   input[type='checkbox'] {
     display: none;
   }
-  .bx--checkbox-label {
+  .cds--checkbox-label {
     padding: 0;
   }
-  .bx--checkbox-label::before, .bx--checkbox-label::after {
+  .cds--checkbox-label::before, .cds--checkbox-label::after {
     display: none;
   }
   br {
@@ -142,12 +140,12 @@ $ember-power-select-multiple-option-line-height: 1.45 !default;
   color: #3d4852;
 }
 
-.bx--snippet {
+.cds--snippet {
   margin-bottom: 15px;
 }
 
 .ember-basic-dropdown {
-  .bx--dropdown__arrow {
+  .cds--dropdown__arrow {
     height: 100%;
     top: 0;
   }
@@ -157,7 +155,7 @@ $ember-power-select-multiple-option-line-height: 1.45 !default;
   box-shadow: 0 3px 3px 0 rgba(0,0,0,.1);
 }
 
-.bx--overflow-menu-options {
+.cds--overflow-menu-options {
   top: 0;
 }
 
@@ -179,3 +177,4 @@ $ember-power-select-multiple-option-line-height: 1.45 !default;
 
 @import "../ember-power-select";
 @import "../ember-basic-dropdown";
+

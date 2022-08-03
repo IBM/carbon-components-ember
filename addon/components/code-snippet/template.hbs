@@ -3,8 +3,8 @@
 {{import set from 'carbon-components-ember/helpers/set'}}
 
 {{#if (eq this.type 'default')}}
-  <div class="bx--snippet bx--snippet--single">
-    <div class="bx--snippet-container" aria-label="Code Snippet Text">
+  <div class="cds--snippet cds--snippet--single">
+    <div class="cds--snippet-container" aria-label="Code Snippet Text">
   <pre>
     <code {{did-insert (set this "carbonElement")}} >
       {{yield}}
@@ -17,26 +17,29 @@
 
 
 {{#if (eq @type 'multiline')}}
-  <div class="bx--snippet bx--snippet--multi {{if this.expanded 'bx--snippet--expand'}}" data-code-snippet>
-    <div class="bx--snippet-container" aria-label="Code Snippet Text">
+  <div class="cds--snippet cds--snippet--multi {{if this.expanded 'cds--snippet--expand'}}" data-code-snippet>
+    <div class="cds--snippet-container" aria-label="Code Snippet Text" style="min-height: 48px; {{unless this.expanded 'max-height: 240px;'}}">
     <pre>
       <code {{did-insert (set this "codeElement")}}>
         {{yield}}
       </code>
     </pre>
     </div>
-    <CopyButton @targetElement={{this.codeElement}} />
-    <Button
-      class="bx--btn bx--btn--ghost bx--btn--sm bx--snippet-btn--expand"
+    <div class="cds--snippet__overflow-indicator--right"></div>
+    <span class="cds--popover-container cds--popover--caret cds--popover--high-contrast cds--popover--bottom cds--tooltip cds--icon-tooltip">
+      <CopyButton @targetElement={{this.codeElement}} />
+    </span>
+    <button onclick={{fn (set this 'expanded') (not this.expanded)}}
+      class="cds--btn cds--btn--ghost cds--btn--sm cds--snippet-btn--expand"
       type="button"
     >
-  <span class="bx--snippet-btn--text" data-show-more-text="Show more" data-show-less-text="Show less">Show
+  <span class="cds--snippet-btn--text" data-show-more-text="Show more" data-show-less-text="Show less">Show
     more</span>
-      <svg class="bx--icon-chevron--down" width="12" height="7" viewBox="0 0 12 7" aria-label="Show more icon">
+      <svg class="cds--icon-chevron--down" width="12" height="7" viewBox="0 0 12 7" aria-label="Show more icon">
         <title>Show more icon</title>
         <path fill-rule="nonzero" d="M6.002 5.55L11.27 0l.726.685L6.003 7 0 .685.726 0z"/>
       </svg>
-    </Button>
+    </button>
   </div>
 {{/if}}
 

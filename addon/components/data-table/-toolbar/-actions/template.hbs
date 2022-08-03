@@ -3,13 +3,13 @@
 {{import Button from 'carbon-components-ember/components/button'}}
 
 {{#if @table.state.selectedItems.size}}
-  <div class="bx--batch-actions bx--batch-actions--active" aria-label="Table Action Bar">
-    <div class="bx--action-list">
+  <div class="cds--batch-actions cds--batch-actions--active" aria-label="Table Action Bar">
+    <div class="cds--action-list">
     {{yield (hash close=(fn (getFn @table.state.selectedItems 'clear')))}}
     <Button @type="primary" @onClick={{fn (getFn @table.state.selectedItems 'clear')}}>Cancel</Button>
     </div>
-    <div class="bx--batch-summary">
-      <p class="bx--batch-summary__para">
+    <div class="cds--batch-summary">
+      <p class="cds--batch-summary__para">
         <span data-items-selected>{{@table.state.selectedItems.size}}</span> items selected
       </p>
     </div>

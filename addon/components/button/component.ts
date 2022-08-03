@@ -79,7 +79,7 @@ type Args = {
  @class CarbonButton
  @public
  **/
-@classPrefix('bx--btn--')
+@classPrefix('cds--btn--')
 class CarbonButton extends Component<Args> {
   @tracked loading;
   @tracked disabled;

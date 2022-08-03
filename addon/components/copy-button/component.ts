@@ -1,25 +1,36 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import CopyButton from 'carbon-components/es/components/copy-button/copy-button';
+import { tracked } from '@glimmer/tracking';
 
 
-class MyCopyButton extends CopyButton {
-  constructor(carbonElement: any, options: { targetElementId: string; targetElement: Element }) {
-    super(carbonElement, options)
+type Args = {
+  targetElementId: string;
+  targetElement: Element;
+
+};
+
+export default class CarbonCopyButton extends Component<Args> {
+  carbonElement: any;
+  @tracked didCopy: boolean;
+  get options() {
+    return {
+      targetElement: this.args.targetElement,
+      targetElementId: this.args.targetElementId
+    };
   }
 
-  options: {
-    targetElementId: string;
-    targetElement: Element;
-  };
-  element: Element;
+  @action
+  loadCarbonComponent(carbonElement) {
+    this.carbonElement = carbonElement;
+  }
 
+  @action
   copyToClipboard() {
     let targetElement: any = this.options.targetElement;
     if (!targetElement && this.options.targetElementId) {
       targetElement = document.getElementById(this.options.targetElementId);
     }
-    targetElement = targetElement || this.element;
+    targetElement = targetElement || this.carbonElement;
     const el = document.createElement('textarea'); // Create a <textarea> element
     // Set its value to the string that you want copied
     el.value = targetElement.textContent.trim().split('\n').map(x => x.trim()).join('\n');
@@ -37,41 +48,9 @@ class MyCopyButton extends CopyButton {
       document.getSelection()!.removeAllRanges(); // Unselect everything on the HTML document
       document.getSelection()!.addRange(selected); // Restore the original selection
     }
-  }
-
-  handleClick(...args) {
-    super.handleClick(...args);
-    this.copyToClipboard();
-  }
-}
-
-type Args = {
-  targetElementId: string;
-  targetElement: Element;
-
-};
-
-export default class CarbonCopyButton extends Component<Args> {
-  carbonComponent: any;
-  get options() {
-    return {
-      targetElement: this.args.targetElement,
-      targetElementId: this.args.targetElementId
-    };
-  }
-
-  @action
-  loadCarbonComponent(carbonElement) {
-    this.destroyCarbonComponent();
-    const options = this.options;
-    options.targetElement = options.targetElement || carbonElement;
-    this.carbonComponent = new MyCopyButton(carbonElement, this.options);
-  }
-
-  @action
-  destroyCarbonComponent(element?) {
-    if (element && (!this.carbonComponent || this.carbonComponent.element !== element)) return;
-    this.carbonComponent && this.carbonComponent.release();
-    this.carbonComponent = null;
+    this.didCopy = true;
+    setTimeout(() => {
+      this.didCopy = false
+    }, 3000);
   }
 }

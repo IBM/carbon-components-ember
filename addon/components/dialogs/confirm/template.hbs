@@ -16,10 +16,10 @@
   </:body>
 
   <:footer>
-    <button class="bx--btn bx--btn--secondary" type="button" data-modal-close {{on 'click' this.onCancel}}>
+    <button class="cds--btn cds--btn--secondary" type="button" data-modal-close {{on 'click' this.onCancel}}>
       {{defaultTo @cancelText 'Cancel'}}
     </button>
-    <button class="bx--btn bx--btn--{{@type}} bx--btn--primary" type="button" aria-label="Danger"
+    <button class="cds--btn cds--btn--{{@type}} cds--btn--primary" type="button" aria-label="Danger"
       {{on 'click' this.onAccept}} data-modal-primary-focus>{{defaultTo @cancelText 'Okay'}}
     </button>
   </:footer>

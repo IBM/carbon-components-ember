@@ -1,16 +1,16 @@
 {{import defaultTo from 'carbon-components-ember/helpers/default-to'}}
-<div class="bx--form-item" style='margin-bottom: 1.5rem;' ...attributes>
+<div class="cds--form-item" style='margin-bottom: 1.5rem;' ...attributes>
   {{#if @label}}
-    <label for="text-input-{{this.guid}}" class="bx--label">{{@label}}</label>
+    <label for="text-input-{{this.guid}}" class="cds--label">{{@label}}</label>
   {{/if}}
-  <input {{on 'change' this.onInputChange}} id="text-input-{{this.guid}}" type="{{defaultTo @type 'text'}}" value={{@value}} class="bx--text-input" placeholder="{{@placeholder}}">
+  <input {{on 'change' this.onInputChange}} id="text-input-{{this.guid}}" type="{{defaultTo @type 'text'}}" value={{@value}} class="cds--text-input" placeholder="{{@placeholder}}">
   {{#if @help}}
-    <div class="bx--form__helper-text">
+    <div class="cds--form__helper-text">
       {{@help}}
     </div>
   {{/if}}
   {{#if @errors}}
-    <div class="bx--form-requirement">
+    <div class="cds--form-requirement">
       {{@errors}}
     </div>
   {{/if}}

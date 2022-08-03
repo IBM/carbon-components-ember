@@ -6,9 +6,9 @@
 {{import Menu from './-menu'}}
 
 
-<nav class="bx--side-nav__navigation bx--side-nav bx--side-nav--ux {{if @open 'bx--side-nav--expanded'}} {{styles.namespace}}"
+<nav class="cds--side-nav__navigation cds--side-nav cds--side-nav--ux {{if @open 'cds--side-nav--expanded'}} {{styles.namespace}}"
      role="navigation" aria-label="Page Navigation" aria-expanded="true">
-  <ul class="bx--side-nav__items">
+  <ul class="cds--side-nav__items">
     {{#unless @menuItems}}
       {{yield Menu}}
     {{/unless}}

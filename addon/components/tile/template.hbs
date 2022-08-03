@@ -2,35 +2,35 @@
 {{import set from 'carbon-components-ember/helpers/set'}}
 
 {{#if @selectable}}
-  <label for="tile-{{this.guid}}" aria-label="tile" class="bx--tile bx--tile--selectable {{if this.selected 'bx--tile--is-selected'}}" data-tile="selectable" tabindex={{@tabindex}}>
-    <input checked={{this.selected}} {{on 'change' this.onSelect}}  {{on 'change' (set this 'selected' 'target.checked')}} tabindex="-1" data-tile-input id="tile-{{this.guid}}" class="bx--tile-input" value="tile" type="checkbox" name="tiles" title="tile"
+  <label for="tile-{{this.guid}}" aria-label="tile" class="cds--tile cds--tile--selectable {{if this.selected 'cds--tile--is-selected'}}" data-tile="selectable" tabindex={{@tabindex}}>
+    <input checked={{this.selected}} {{on 'change' this.onSelect}}  {{on 'change' (set this 'selected' 'target.checked')}} tabindex="-1" data-tile-input id="tile-{{this.guid}}" class="cds--tile-input" value="tile" type="checkbox" name="tiles" title="tile"
     />
-    <div class="bx--tile__checkmark">
+    <div class="cds--tile__checkmark">
       <Icon @icon="checkmark--filled"/>
     </div>
-    <div class="bx--tile-content">
+    <div class="cds--tile-content">
       {{yield to='content'}}
     </div>
   </label>
 {{/if}}
 {{#if @expandable}}
-  <div data-tile="expandable" class="bx--tile bx--tile--expandable {{if this.expanded 'bx--tile--is-expanded'}}" tabindex={{@tabindex}}>
-    <button class="bx--tile__chevron" {{on 'click' (fn (set this 'expanded') (not this.expanded))}}>
+  <div data-tile="expandable" class="cds--tile cds--tile--expandable {{if this.expanded 'cds--tile--is-expanded'}}" tabindex={{@tabindex}}>
+    <button class="cds--tile__chevron" {{on 'click' (fn (set this 'expanded') (not this.expanded))}}>
       <Icon @icon="chevron--down" />
     </button>
-    <span data-tile-atf class="bx--tile-content__above-the-fold">
+    <span data-tile-atf class="cds--tile-content__above-the-fold">
         {{yield to='above'}}
       </span>
-    <div class="bx--tile-content">      
-      {{yield to='content'}}      
+    <div class="cds--tile-content">
+      {{yield to='content'}}
     </div>
-    <span class="bx--tile-content__below-the-fold">
+    <span class="cds--tile-content__below-the-fold">
         {{yield to='below'}}
       </span>
   </div>
 {{/if}}
 {{#if this.default}}
-  <div class="bx--tile {{if @clickable 'bx--tile--clickable'}}" {{on 'click' this.onClick}}>
+  <div class="cds--tile {{if @clickable 'cds--tile--clickable'}}" {{on 'click' this.onClick}}>
     {{yield to='content'}}
   </div>
 {{/if}}

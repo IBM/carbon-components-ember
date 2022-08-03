@@ -59,7 +59,7 @@ type Args = {
   onClick: () => null|Promise<any>
 }
 
-@classPrefix('bx--icon--')
+@classPrefix('cds--icon--')
 class CarbonIcon extends Component<Args> {
   static positionalParams = ['icon'];
   @service('carbon-components-ember@dialog-manager') dialogManager;

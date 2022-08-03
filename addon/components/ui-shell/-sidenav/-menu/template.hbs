@@ -4,37 +4,37 @@
 
 {{#if @submenus}}
   {{#let (new-obj) as |obj|}}
-  <li class="bx--side-nav__item {{if @icon 'bx--side-nav__item--icon'}}">
-    <button class="bx--side-nav__submenu" aria-haspopup="true" aria-expanded="{{get obj (concat @title '-expanded')}}"
+  <li class="cds--side-nav__item {{if @icon 'cds--side-nav__item--icon'}}">
+    <button class="cds--side-nav__submenu" aria-haspopup="true" aria-expanded="{{get obj (concat @title '-expanded')}}"
       {{on 'click' (fn (toggle (concat @title '-expanded') obj))}}>
       {{#if @icon}}
-        <div class="bx--side-nav__icon">
+        <div class="cds--side-nav__icon">
           <Icon @icon="{{@icon}}"/>
         </div>
       {{/if}}
-      <span class="bx--side-nav__submenu-title">{{@title}}</span>
-      <div class="bx--side-nav__icon bx--side-nav__icon--small bx--side-nav__submenu-chevron">
+      <span class="cds--side-nav__submenu-title">{{@title}}</span>
+      <div class="cds--side-nav__icon cds--side-nav__icon--small cds--side-nav__submenu-chevron">
         <Icon @icon='chevron--down' />
       </div>
     </button>
     {{#if (get obj (concat @title '-expanded'))}}
-      <ul role="menu" class="bx--side-nav__menu" style="    max-height: 93.75rem; visibility: inherit;">
+      <ul role="menu" class="cds--side-nav__menu" style="    max-height: 93.75rem; visibility: inherit;">
         {{yield SubMenu}}
       </ul>
     {{/if}}
   </li>
   {{/let}}
 {{else unless @hidden}}
-  <li class="bx--side-nav__item">
-    <a class="bx--side-nav__link"
+  <li class="cds--side-nav__item">
+    <a class="cds--side-nav__link"
        aria-current="{{if @isCurrent 'page'}}"
       {{on 'click' @transitionTo}}>
       {{#if @icon}}
-        <div class="bx--side-nav__icon bx--side-nav__icon--small">
+        <div class="cds--side-nav__icon cds--side-nav__icon--small">
           <Icon @icon="{{@icon}}"/>
         </div>
       {{/if}}
-      <span class="bx--side-nav__link-text">{{@title}}</span>
+      <span class="cds--side-nav__link-text">{{@title}}</span>
     </a>
   </li>
 {{/if}}

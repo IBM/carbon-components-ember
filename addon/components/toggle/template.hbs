@@ -1,5 +1,5 @@
-<div class="bx--form-item">
-  <input class="bx--toggle" id="toggle{{this.guid}}"
+<div class="cds--form-item">
+  <input class="cds--toggle" id="toggle{{this.guid}}"
          type="checkbox"
          disabled={{if @disabled 'true' false}}
          readonly='{{@readonly}}'
@@ -7,9 +7,9 @@
          checked={{if @value true false}}
          onchange={{fn this.onToggleChange}}
   >
-  <label class="bx--toggle__label" for="toggle{{this.guid}}">
-    <span class="bx--toggle__text--left">Off</span>
-    <span class="bx--toggle__appearance"></span>
-    <span class="bx--toggle__text--right">On</span>
+  <label class="cds--toggle__label" for="toggle{{this.guid}}">
+    <span class="cds--toggle__text--left">Off</span>
+    <span class="cds--toggle__appearance"></span>
+    <span class="cds--toggle__text--right">On</span>
   </label>
 </div>

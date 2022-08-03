@@ -1,13 +1,13 @@
 {{import Icon from 'carbon-components-ember/components/icon'}}
 
-<li class="bx--side-nav__menu-item">
-  <a role="menuitem" aria-current="{{if @isCurrent 'page'}}" class="bx--side-nav__link" role="menuitem"
+<li class="cds--side-nav__menu-item">
+  <a role="menuitem" aria-current="{{if @isCurrent 'page'}}" class="cds--side-nav__link" role="menuitem"
     {{on 'click'@transitionTo}}>
     {{#if @icon}}
-      <div class="bx--side-nav__icon">
+      <div class="cds--side-nav__icon">
         <Icon @icon="{{@icon}}"/>
       </div>
     {{/if}}
-    <span class="bx--side-nav__link-text">{{@title}}</span>
+    <span class="cds--side-nav__link-text">{{@title}}</span>
   </a>
 </li>

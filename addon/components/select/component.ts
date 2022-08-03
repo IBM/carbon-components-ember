@@ -85,7 +85,7 @@ export default class SelectComponent extends Component<Args> {
   didInsert(element) {
     // eslint-disable-next-line ember/no-jquery
     jQuery(element).find('.ember-power-select-status-icon').replaceWith(''
-      + '<svg class="bx--dropdown__arrow" '
+      + '<svg class="cds--dropdown__arrow" '
       + 'width="10" height="6" viewBox="0 0 10 6">\n'
       + '    <path d="M5 6L0 1 0.7 0.3 5 4.6 9.3 0.3 10 1z"></path>\n'
       + '  </svg>');
