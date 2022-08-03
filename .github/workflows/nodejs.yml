@@ -60,7 +60,7 @@ jobs:
 
   deploy:
     needs: [test, ember-try]
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/old'
     runs-on: ubuntu-latest
     strategy:
       matrix:
