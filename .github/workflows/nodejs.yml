@@ -103,7 +103,7 @@ jobs:
         env:
           NPM_TOKEN: "${{ secrets.NPM_TOKEN }}"
       - name: create tag
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/old'
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_ACTOR: ${{ github.actor }}
