@@ -90,7 +90,6 @@ jobs:
           CI: true
           DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
       - name: deploy npm
-        if: github.ref == 'refs/heads/master'
         run: |
           version=$(cat package.json | jq -r '.version')
           TAG=v$version
