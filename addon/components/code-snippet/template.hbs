@@ -18,7 +18,7 @@
 
 {{#if (eq @type 'multiline')}}
   <div class="cds--snippet cds--snippet--multi {{if this.expanded 'cds--snippet--expand'}}" data-code-snippet>
-    <div class="cds--snippet-container" aria-label="Code Snippet Text" style="min-height: 48px; {{unless this.expanded 'max-height: 240px;'}}">
+    <div class="cds--snippet-container" aria-label="Code Snippet Text" style="width: 100%; min-height: 48px; {{unless this.expanded 'max-height: 240px;'}}">
     <pre>
       <code {{did-insert (set this "codeElement")}}>
         {{yield}}

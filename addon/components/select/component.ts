@@ -7,6 +7,7 @@ import jQuery from 'jquery'
 type Args = {
   selected: any[],
   multiple: boolean,
+  disabled: boolean,
   onSelect: (item) => null
   addItem: (item) => null
   removeItem: (item) => null
@@ -19,6 +20,7 @@ export default class SelectComponent extends Component<Args> {
   args: Args = defaultArgs(this, {
     selected: [],
     multiple: false,
+    disabled: false,
     onSelect: () => null,
     addItem: () => null,
     removeItem: () => null,

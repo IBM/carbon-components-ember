@@ -40,12 +40,20 @@ export default class NotificationService extends Service {
     const options: NotificationOptions = {};
     Object.assign(options, opts, this.defaults, { type: 'error' });
     this.notify(options);
-  }E
+  }
 
   notify(options: NotificationOptions) {
     this.queue.pushObject(options);
     if (options.timeout && options.timeout >= 0) {
       setTimeout(() => this.queue.removeObject(options), options.timeout);
     }
+  }
+
+  has(options: NotificationOptions) {
+    return this.queue.includes(options);
+  }
+
+  remove(options: NotificationOptions) {
+    this.queue.removeObject(options);
   }
 }

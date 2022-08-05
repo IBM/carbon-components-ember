@@ -8,6 +8,7 @@
   <PowerSelectMultiple {{did-insert this.didInsert}}
     ...attributes
     @renderInPlace={{true}}
+    @disabled={{@disabled}}
     @eventType="click"
     @searchEnabled={{defaultTo @searchEnabled true}}
     @search={{@search}}
@@ -35,6 +36,7 @@
   <PowerSelect {{did-insert this.didInsert}}
     ...attributes
     @renderInPlace={{true}}
+    @disabled={{@disabled}}
     @eventType="click"
     @search={{@search}}
     @searchEnabled={{defaultTo @searchEnabled true}}

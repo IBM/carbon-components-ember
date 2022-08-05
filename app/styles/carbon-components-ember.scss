@@ -10,7 +10,7 @@
 
 // Backgrounds
 $ember-power-select-background-color: $field-01 !default;
-$ember-power-select-disabled-background-color: #eeeeee !default;
+$ember-power-select-disabled-background-color: $field-01 !default;
 $ember-power-select-multiple-selection-background-color: #e5e5e5 !default;
 $ember-power-select-highlighted-background: #e5e5e5 !default;
 $ember-power-select-selected-background: #e5e5e5 !default;
@@ -113,9 +113,12 @@ $ember-power-select-multiple-option-line-height: 1.45 !default;
   background: #393939;
   color: white;
   width: fit-content;
+  padding: 6px 12px;
+  line-height: inherit;
 }
 
 .ember-power-select-multiple-remove-btn {
+  vertical-align: text-bottom;
   opacity: 1;
   margin-right: 3px;
   font-weight: bold;
@@ -134,10 +137,22 @@ $ember-power-select-multiple-option-line-height: 1.45 !default;
   align-items: center;
   min-height: 2.5rem;
   background: #f3f3f3;
+  .cds--checkbox-label {
+    padding-left: 1.5rem;
+  }
 }
 .ember-power-select-option[aria-current="true"] {
   background: #e5e5e5;
   color: #3d4852;
+}
+
+.ember-power-select-trigger[aria-disabled=true] {
+  .ember-power-select-selected-item {
+    color: $text-disabled;
+  }
+  .cds--dropdown__arrow {
+    fill: $text-disabled;
+  }
 }
 
 .cds--snippet {
@@ -172,8 +187,6 @@ $ember-power-select-multiple-option-line-height: 1.45 !default;
     left: 0;
   }
 }
-
-
 
 @import "../ember-power-select";
 @import "../ember-basic-dropdown";

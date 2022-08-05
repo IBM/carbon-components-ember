@@ -8,9 +8,14 @@
 <DocsDemo as |demo|>
   {{#demo.example name='notification.hbs'}}
     <Notification @type="success" @caption="success" @title="Title" @text="a long long long long message"></Notification>
+    <br>
     <Notification @type="info" @caption="info" @title="Title"></Notification>
+    <br>
     <Notification @type="error" @caption="error"></Notification>
+    <br>
     <Notification @type="warning" @caption="warning"></Notification>
+    <br>
+    <br>
     <Button @type="primary" @onClick={{this.showNotification}}>Notify</Button>
   {{/demo.example}}
   <demo.snippet @name="notification.hbs" />
