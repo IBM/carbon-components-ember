@@ -33,7 +33,7 @@
     "path": "versions/master",
     "name": "master",
     "sha": "df5ba06cc3d01d34e4de9bcf77ec026c749c373b",
-    "tag": "v0.5.0"
+    "tag": null
   },
   "v0.1.6": {
     "path": "versions/v0.1.6",
