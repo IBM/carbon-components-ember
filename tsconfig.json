@@ -29,5 +29,8 @@
     "lib/",
     "addon/**/*",
     "app/**/*"
-  ]
+  ],
+  "glint": {
+    "environment": "ember-loose"
+  }
 }
