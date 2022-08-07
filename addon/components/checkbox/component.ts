@@ -15,9 +15,6 @@ export interface CarbonCheckboxSignature {
   Element: HTMLDivElement
 }
 
-type CarbonCheckboxArgs = CarbonCheckboxSignature['Args'];
-export default interface CarbonCheckbox extends CarbonCheckboxArgs {}
-
 export default class CarbonCheckbox extends Component<CarbonCheckboxSignature> {
   @tracked isFocus = false;
   @tracked guid: string = '';
