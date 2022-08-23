@@ -65,12 +65,14 @@ type Args = {
    @argument ghost
    @type boolean
    */
-  ghost: boolean
+  ghost: boolean,
+
+  label: string
 };
 
 export interface ButtonSignature {
   // We have a `<table>` as our root element
-  Element: HTMLBaseElement;
+  Element: HTMLButtonElement;
   // We accept an array of items, one per row
   Args: Args
   // We accept two named blocks: a parameter-less `header` block
@@ -168,6 +170,7 @@ class CarbonButton extends Component<ButtonSignature> {
 declare module '@glint/environment-ember-loose/registry' {
   export default interface Registry {
     'carbon-components-ember/components/button': typeof CarbonButton;
+    'Carbon::Button': typeof CarbonButton;
   }
 }
 

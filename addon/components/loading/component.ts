@@ -11,8 +11,12 @@ type Args = {
   inline: boolean
 }
 
-export default class LoadingComponent extends Component<Args> {
-  args = defaultArgs(this, {
+export interface LoadingComponentSignature {
+  Args: Args
+}
+
+export default class LoadingComponent extends Component<LoadingComponentSignature> {
+  args: Args = defaultArgs(this, {
     active: true,
     small: false,
     overlay: false,
@@ -29,5 +33,12 @@ export default class LoadingComponent extends Component<Args> {
   @action
   destroyCarbonComponent() {
     return this.loading && this.loading.end();
+  }
+}
+
+declare module '@glint/environment-ember-loose/registry' {
+  export default interface Registry {
+    'carbon-components-ember/components/loading': typeof LoadingComponent;
+    'Carbon::Loading': typeof LoadingComponent;
   }
 }

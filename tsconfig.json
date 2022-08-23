@@ -18,6 +18,9 @@
     "baseUrl": ".",
     "module": "ES6",
     "experimentalDecorators": true,
+    "typeRoots": [
+      "types"
+    ],
     "paths": {
       "carbon-components-ember/*": [
         "addon/*"
@@ -26,6 +29,7 @@
   },
   "exclude": ["node_modules"],
   "include": [
+    "types",
     "index.d.ts",
     "lib/*.ts",
     "addon/**/*.ts",

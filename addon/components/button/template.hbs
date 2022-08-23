@@ -12,12 +12,12 @@
   {{#if this.showDialog}}
     {{#let (component (or @confirmDialog Confirm)) as |Dialog|}}
       {{#in-element this.dialogManager.destinationElement}}
-        <Dialog @onAccept2={{this.runButtonClick}} @onCancel={{this.cancel}} @header="Danger" @body={{or @confirmText 'Confirm this operation'}} @type="danger"></Dialog>
+        <Dialog @onAccept={{this.runButtonClick}} @onCancel={{this.cancel}} @header="Danger" @body={{or @confirmText 'Confirm this operation'}} @type="danger"></Dialog>
       {{/in-element}}
     {{/let}}
   {{/if}}
   {{#if (or this.loading @loading)}}
-    <Loading @inline=true />
+    <Loading @inline={{true}} />
   {{else}}
     {{#if (has-block)}}
       {{yield}}
@@ -26,4 +26,3 @@
     {{/if}}
   {{/if}}
 </button>
-
