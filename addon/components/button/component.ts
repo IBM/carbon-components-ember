@@ -68,6 +68,19 @@ type Args = {
   ghost: boolean
 };
 
+export interface ButtonSignature {
+  // We have a `<table>` as our root element
+  Element: HTMLBaseElement;
+  // We accept an array of items, one per row
+  Args: Args
+  // We accept two named blocks: a parameter-less `header` block
+  // and a `row` block which will be invoked with each item and
+  // its index sequentially.
+  Blocks: {
+    default: []
+  };
+}
+
 /**
  The Carbon Button
 
@@ -80,7 +93,7 @@ type Args = {
  @public
  **/
 @classPrefix('cds--btn--')
-class CarbonButton extends Component<Args> {
+class CarbonButton extends Component<ButtonSignature> {
   @tracked loading;
   @tracked disabled;
   @tracked showDialog;
@@ -149,6 +162,12 @@ class CarbonButton extends Component<Args> {
     }
     // Prevent bubbling, if specified. If undefined, the event will bubble.
     return this.args.bubbles;
+  }
+}
+
+declare module '@glint/environment-ember-loose/registry' {
+  export default interface Registry {
+    'carbon-components-ember/components/button': typeof CarbonButton;
   }
 }
 

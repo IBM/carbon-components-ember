@@ -8,7 +8,21 @@ type Args = {
    @argument crumbs
    @type String[]
    */
-  crumbs: String[]
+  crumbs: string[]
+}
+
+
+export interface BreadcrumbSignature {
+  // We have a `<table>` as our root element
+  Element: HTMLElement;
+  // We accept an array of items, one per row
+  Args: Args
+  // We accept two named blocks: a parameter-less `header` block
+  // and a `row` block which will be invoked with each item and
+  // its index sequentially.
+  Blocks: {
+    default: []
+  };
 }
 
 /**
@@ -22,9 +36,9 @@ type Args = {
  @class CarbonBreadcrumb
  @public
  **/
-class CarbonBreadcrumb extends Component<Args> {
+class CarbonBreadcrumb extends Component<BreadcrumbSignature> {
 
-  args = defaultArgs(this, {
+  args: Args = defaultArgs(this, {
     crumbs: []
   });
 

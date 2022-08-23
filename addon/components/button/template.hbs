@@ -4,15 +4,15 @@
 {{import Confirm from 'carbon-components-ember/components/dialogs/confirm'}}
 
 <button ...attributes
-        onclick={{fn this.onButtonClick}}
+        onclick={{this.onButtonClick}}
         class="cds--btn {{this.bxClassNames}} {{styles.namespace}} {{if (or this.loading @loading) 'cds--btn--ghost'}}"
-        aria-label="{{if @danger 'danger'}}"
+        aria-label="{{if @type 'danger'}}"
         disabled={{or @disabled this.loading @loading}}
         type="button">
   {{#if this.showDialog}}
-    {{#let (component (or this.args.confirmDialog Confirm)) as |Dialog|}}
+    {{#let (component (or @confirmDialog Confirm)) as |Dialog|}}
       {{#in-element this.dialogManager.destinationElement}}
-        <Confirm @onAccept={{this.runButtonClick}} @onCancel={{this.cancel}} @header="Danger" @body={{or @confirmText 'Confirm this operation'}} @type="danger"></Confirm>
+        <Dialog @onAccept2={{this.runButtonClick}} @onCancel={{this.cancel}} @header="Danger" @body={{or @confirmText 'Confirm this operation'}} @type="danger"></Dialog>
       {{/in-element}}
     {{/let}}
   {{/if}}
@@ -26,3 +26,4 @@
     {{/if}}
   {{/if}}
 </button>
+

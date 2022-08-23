@@ -11,7 +11,7 @@ type Args = {
 }
 
 export interface CarbonCheckboxSignature {
-  Args,
+  Args: Args,
   Element: HTMLDivElement
 }
 

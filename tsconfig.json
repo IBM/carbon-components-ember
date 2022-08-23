@@ -24,13 +24,22 @@
       ]
     }
   },
+  "exclude": ["node_modules"],
   "include": [
     "index.d.ts",
-    "lib/",
-    "addon/**/*",
-    "app/**/*"
+    "lib/*.ts",
+    "addon/**/*.ts",
+    "app/**/*.ts",
+    "node_modules/@glint/environment-ember-loose/registry"
   ],
   "glint": {
-    "environment": "ember-loose"
+    "environment": "./hbs-imports-env",
+    "transform": {
+      "exclude": "node_modules/**",
+      "include": [
+        "addon/components/breadcrumbs/**",
+        "addon/components/button/**",
+      ]
+    }
   }
 }

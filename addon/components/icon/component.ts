@@ -114,3 +114,10 @@ class CarbonIcon extends Component<Args> {
 }
 
 export default CarbonIcon;
+
+
+declare module '@glint/environment-ember-loose/registry' {
+  export default interface Registry {
+    'carbon-components-ember/components/icon': typeof CarbonIcon;
+  }
+}

@@ -6,7 +6,9 @@
   ],
   "ember-addon": {
     "main": "addon",
-    "paths": ["lib/pre-build"]
+    "paths": [
+      "lib/pre-build"
+    ]
   },
   "main": "addon",
   "repository": {
@@ -34,6 +36,8 @@
     "@ember/jquery": "^2.0.0",
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.8.1",
+    "@glint/core": "^0.9.1",
+    "@glint/environment-ember-loose": "^0.9.1",
     "@types/ember": "^4.0.0",
     "@types/ember__test-helpers": "^2.6.1",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
@@ -65,6 +69,7 @@
     "ember-resolver": "^8.0.0",
     "ember-source": "^4.3.0",
     "ember-source-channel-url": "latest",
+    "ember-template-lint": "^4.12.0",
     "ember-try": "^2.0.0",
     "eslint": "^8.12.0",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -74,22 +79,21 @@
     "qunit": "^2.18.1",
     "sass-embedded": "^1.53.0",
     "typescript": "^4.0.5",
-    "webpack": "^5.72.0",
-    "@glint/core": "^0.9.1",
-    "@glint/environment-ember-loose": "^0.9.1"
+    "webpack": "^5.72.0"
   },
   "dependencies": {
     "@carbon/charts": "^1.5.0",
-    "@carbon/import-once": "^10.7.0",
     "@carbon/colors": "^11.3.0",
     "@carbon/grid": "^11.2.0",
     "@carbon/icon-helpers": "^10.30.0",
     "@carbon/icons": "^11.3.0",
+    "@carbon/import-once": "^10.7.0",
     "@carbon/layout": "^11.2.0",
     "@carbon/themes": "^11.3.0",
     "@carbon/type": "^11.3.0",
     "@glimmer/component": "^1.0.2",
     "@glimmer/tracking": "^1.0.2",
+    "@types/node": "^18.7.9",
     "carbon-components": "^10.56.0",
     "carbon-web-components": "^1.21.0",
     "d3-array": "^3.1.1",

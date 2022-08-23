@@ -3,9 +3,11 @@
 <nav class="cds--breadcrumb cds--breadcrumb--no-trailing-slash" aria-label="breadcrumb" ...attributes>
     {{#each @crumbs as |crumb|}}
         <div class="cds--breadcrumb-item">
-            <a href="#" class="cds--link" aria-current="{{if (eq crumb this.lastItem) 'page'}}" >
+            <a href="#" class="cds--link" aria-current="{{if (eq crumb this.lastItem 2) 'page'}}" >
                 {{crumb}}
             </a>
         </div>
     {{/each}}
 </nav>
+
+
