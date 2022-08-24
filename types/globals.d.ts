@@ -1,4 +1,5 @@
 import { HelperLike } from '@glint/template';
+import '@glint/environment-ember-loose/registry';
 
 type OrHelper<X,Y> = HelperLike<{
   Args: { Positional: [first: X, second: Y] };

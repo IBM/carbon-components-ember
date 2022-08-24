@@ -34,16 +34,12 @@
     "lib/*.ts",
     "addon/**/*.ts",
     "app/**/*.ts",
-    "node_modules/@glint/environment-ember-loose/registry"
+    "node_modules/@glint/environment-ember-loose/registry/index.d.ts"
   ],
   "glint": {
     "environment": "./hbs-imports-env",
     "transform": {
-      "exclude": "node_modules/**",
-      "include": [
-        "addon/components/breadcrumbs/**",
-        "addon/components/button/**",
-      ]
+      "exclude": "node_modules/**"
     }
   }
 }

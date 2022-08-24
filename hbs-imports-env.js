@@ -14,11 +14,19 @@ const preprocess = glimmer.preprocess;
 
 const hbsImportsProcessor = require('ember-hbs-imports/lib/import-processor')
 hbsImportsProcessor.default.options.useModifierHelperHelpers = true;
+hbsImportsProcessor.default.options.useSafeImports = false;
+hbsImportsProcessor.default.options.useHelperWrapper = false;
 hbsImportsProcessor.default.options.root = require('./package.json').name;
 const hbsImportPreprocess = function(template) {
   const ast = preprocess(template);
   relativePath = relativePath.replace(/\\/g, '/');
-  hbsImportsProcessor.default.replaceInAst(ast, relativePath);
+  try {
+    hbsImportsProcessor.default.replaceInAst(ast, relativePath);
+  } catch (e) {
+    console.log(e);
+  }
+  console.log('hbsImportPreprocess', relativePath);
+
   return ast;
 }
 glimmer.preprocess = hbsImportPreprocess;

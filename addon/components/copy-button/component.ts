@@ -1,6 +1,7 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import { AttrValue } from '@glint/template';
 
 
 type Args = {
@@ -25,7 +26,7 @@ export default class CarbonCopyButton extends Component<Args> {
   }
 
   @action
-  copyToClipboard() {
+  copyToClipboard(): AttrValue {
     let targetElement: any = this.options.targetElement;
     if (!targetElement && this.options.targetElementId) {
       targetElement = document.getElementById(this.options.targetElementId);

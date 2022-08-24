@@ -4,8 +4,9 @@ import { isBlank } from '@ember/utils';
 import { defaultArgs } from '../../decorators';
 import jQuery from 'jquery'
 
-type Args = {
-  selected: any[],
+type Args<T> = {
+  selected: T[],
+  options: T[],
   multiple: boolean,
   disabled: boolean,
   onSelect: (item) => null
@@ -15,9 +16,16 @@ type Args = {
   selectFocused: (...any) => null
 }
 
-export default class SelectComponent extends Component<Args> {
+export interface SelectComponentSignature<T> {
+  Args: Args<T>,
+  Blocks: {
+    default: [option: T]
+  };
+}
 
-  args: Args = defaultArgs(this, {
+export default class SelectComponent<T> extends Component<Args<T>> {
+
+  args: Args<T> = defaultArgs(this, {
     selected: [],
     multiple: false,
     disabled: false,

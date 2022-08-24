@@ -28,7 +28,7 @@ type Args = {
  @public
  **/
 export default class CardComponent extends Component<Args> {
-  args = defaultArgs(this, {
+  args: Args = defaultArgs(this, {
     loading: false,
     title: ''
   });
