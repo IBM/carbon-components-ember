@@ -115,7 +115,7 @@
     "ember-named-blocks-polyfill": "^0.2.3",
     "ember-power-calendar": "^0.18.0",
     "ember-power-calendar-moment": "^0.2.0",
-    "ember-power-select": "^5.0.4",
+    "ember-power-select": "^6.0.1",
     "ember-ref-modifier": "^1.0.0",
     "jsonfile": "^6.1.0",
     "spark-md5": "^3.0.1",
