@@ -20,6 +20,7 @@ export default class DialogComponent extends Component<DialogConfirmInterface> {
 
   @action
   onCancel() {
+    [].find()
     this.dialogManager.close();
     if (this.args.onCancel) this.args.onCancel();
     return false;

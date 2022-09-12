@@ -29,6 +29,7 @@
   },
   "exclude": ["node_modules"],
   "include": [
+    "**/*",
     "types",
     "index.d.ts",
     "lib/*.ts",
@@ -37,9 +38,7 @@
     "node_modules/@glint/environment-ember-loose/registry/index.d.ts"
   ],
   "glint": {
-    "environment": "./hbs-imports-env",
-    "transform": {
-      "exclude": "node_modules/**"
-    }
+    "environment": "./hbs-imports-env.js"
   }
 }
+

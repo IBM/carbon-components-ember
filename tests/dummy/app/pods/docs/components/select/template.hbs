@@ -9,8 +9,9 @@
 
 <DocsDemo as |demo|>
   {{#demo.example name='select.hbs'}}
-    <Select @selected={{this.selected}} @options={{this.options}} @onSelect={{fn (mut this.selected)}} as |item|>
-      {{item.}}
+    <Button></Button>
+    <Select @selected={{this.selected}} @options={{this.options}} as |item|>
+      {{item}}
     </Select>
     <Tag @type="blue">{{this.selected}}</Tag>
 
@@ -20,3 +21,4 @@
   <demo.snippet @name="select.hbs" />
   <demo.snippet @name="select.js" />
 </DocsDemo>
+

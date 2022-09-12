@@ -36,8 +36,8 @@
     "@ember/jquery": "^2.0.0",
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.8.1",
-    "@glint/core": "^0.9.1",
-    "@glint/environment-ember-loose": "^0.9.1",
+    "@glint/core": "^0.9.3",
+    "@glint/environment-ember-loose": "^0.9.3",
     "@types/ember": "^4.0.0",
     "@types/ember__test-helpers": "^2.6.1",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
@@ -78,7 +78,7 @@
     "loader.js": "^4.7.0",
     "qunit": "^2.18.1",
     "sass-embedded": "^1.53.0",
-    "typescript": "^4.0.5",
+    "typescript": "^4.8.2",
     "webpack": "^5.72.0"
   },
   "dependencies": {
@@ -132,4 +132,3 @@
     "edition": "octane"
   }
 }
-

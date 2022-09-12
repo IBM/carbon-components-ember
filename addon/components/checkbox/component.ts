@@ -5,9 +5,13 @@ import { guidFor } from '@ember/object/internals';
 import { defaultArgs } from '../../decorators';
 
 type Args = {
-  disabled: boolean,
-  onChange: () => null,
-  state: object
+  name: string;
+  readonly: boolean;
+  indeterminate: boolean;
+  checked: boolean;
+  disabled: boolean;
+  onChange: () => null;
+  state: object;
 }
 
 export interface CarbonCheckboxSignature {
@@ -19,7 +23,7 @@ export default class CarbonCheckbox extends Component<CarbonCheckboxSignature> {
   @tracked isFocus = false;
   @tracked guid: string = '';
 
-  args = defaultArgs(this, {
+  args: Args = defaultArgs(this, {
     disabled: false,
     onChange: () => null,
     state: null

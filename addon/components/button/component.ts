@@ -87,9 +87,9 @@ export interface ButtonSignature {
  The Carbon Button
 
  ```handlebars
-    {{import Button from 'carbon-components-ember/components/button'}}
+ {{import Button from 'carbon-components-ember/components/button'}}
 
-    <Button @onClick={{fn this.onclick}} @danger={{false}} > Button Text </Button>
+ <Button @onClick={{fn this.onclick}} @danger={{false}} > Button Text </Button>
  ```
  @class CarbonButton
  @public
@@ -167,10 +167,13 @@ class CarbonButton extends Component<ButtonSignature> {
   }
 }
 
+import { ComponentLike, HelperLike } from '@glint/template';
+
 declare module '@glint/environment-ember-loose/registry' {
   export default interface Registry {
     'carbon-components-ember/components/button': typeof CarbonButton;
     'Carbon::Button': typeof CarbonButton;
+    EmberTooltip: ComponentLike<{}>
   }
 }
 

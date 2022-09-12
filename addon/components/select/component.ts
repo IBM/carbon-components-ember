@@ -23,7 +23,7 @@ export interface SelectComponentSignature<T> {
   };
 }
 
-export default class SelectComponent<T> extends Component<Args<T>> {
+export default class SelectComponent<T> extends Component<SelectComponentSignature<T>> {
 
   args: Args<T> = defaultArgs(this, {
     selected: [],
@@ -99,5 +99,13 @@ export default class SelectComponent<T> extends Component<Args<T>> {
       + 'width="10" height="6" viewBox="0 0 10 6">\n'
       + '    <path d="M5 6L0 1 0.7 0.3 5 4.6 9.3 0.3 10 1z"></path>\n'
       + '  </svg>');
+  }
+}
+
+
+declare module '@glint/environment-ember-loose/registry' {
+  export default interface Registry {
+    'carbon-components-ember/components/select': typeof SelectComponent;
+    'Carbon::Select': typeof SelectComponent;
   }
 }
