@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2018",
+    "allowJs": false,
     "declaration": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
@@ -14,7 +15,7 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noImplicitReturns": false,
-    "noEmitOnError": true,
+    "noEmitOnError": false,
     "baseUrl": ".",
     "module": "ES6",
     "experimentalDecorators": true,
@@ -24,13 +25,15 @@
     "paths": {
       "carbon-components-ember/*": [
         "addon/*"
+      ],
+      "ember-truth-helpers/helpers/*": [
+        "node_modules/@gavant/glint-template-types/types/ember-truth-helpers/*"
       ]
     }
   },
-  "exclude": ["node_modules"],
   "include": [
     "**/*",
-    "types",
+    "types/globals.d.ts",
     "index.d.ts",
     "lib/*.ts",
     "addon/**/*.ts",
@@ -38,7 +41,6 @@
     "node_modules/@glint/environment-ember-loose/registry/index.d.ts"
   ],
   "glint": {
-    "environment": "./hbs-imports-env.js"
+    "environment": ["ember-hbs-imports", "ember-template-imports"]
   }
 }
-

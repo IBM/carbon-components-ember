@@ -17,12 +17,13 @@ module.exports = {
     browser: true
   },
   rules: {
+    'ember/no-empty-glimmer-component-classes': 'off',
     'quotes': [
       'error', 'single'
     ],
     'indent': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
-    '@typescript-eslint/indent': ['error', 2],
+    '@typescript-eslint/indent': 'off',
     '@typescript-eslint/ban-ts-comment':  'off',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-empty-function': 'off',

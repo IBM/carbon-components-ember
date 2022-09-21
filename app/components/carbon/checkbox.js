@@ -1,1 +1,1 @@
-export { default } from 'carbon-components-ember/components/checkbox/component';
+export { default } from 'carbon-components-ember/components/checkbox';

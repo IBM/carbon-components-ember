@@ -1,1 +1,1 @@
-export { default } from 'carbon-components-ember/components/tile/component';
+export { default } from 'carbon-components-ember/components/tile';

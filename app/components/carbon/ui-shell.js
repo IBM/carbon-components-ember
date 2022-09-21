@@ -1,1 +1,1 @@
-export { default } from 'carbon-components-ember/components/ui-shell/component';
+export { default } from 'carbon-components-ember/components/ui-shell';
