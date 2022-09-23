@@ -1,1 +1,1 @@
-export { default } from 'carbon-components-ember/components/toggle/component';
+export { default } from 'carbon-components-ember/components/toggle';

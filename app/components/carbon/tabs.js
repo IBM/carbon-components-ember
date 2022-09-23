@@ -1,1 +1,1 @@
-export { default } from 'carbon-components-ember/components/tabs/component';
+export { default } from 'carbon-components-ember/components/tabs';

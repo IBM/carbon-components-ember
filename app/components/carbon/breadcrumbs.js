@@ -1,1 +1,1 @@
-export { default } from 'carbon-components-ember/components/breadcrumbs/component';
+export { default } from 'carbon-components-ember/components/breadcrumbs';

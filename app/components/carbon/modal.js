@@ -1,1 +1,1 @@
-export { default } from 'carbon-components-ember/components/modal/component';
+export { default } from 'carbon-components-ember/components/modal';

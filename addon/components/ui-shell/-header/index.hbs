@@ -1,0 +1,19 @@
+{{import Icon from 'carbon-components-ember/components/icon'}}
+{{import eq from 'ember-truth-helpers/helpers/equal'}}
+{{import not from 'ember-truth-helpers/helpers/not'}}
+{{import and from 'ember-truth-helpers/helpers/and'}}
+
+<header aria-label="IBM Platform Name" class="cds--header" role="banner">
+  <a class="cds--skip-to-content" href="#main-content" tabindex="0">Skip to main content</a>
+  {{#if @onToggle}}
+    <button aria-label="Open menu" class="cds--header__action cds--header__menu-trigger cds--header__menu-toggle {{if @open '' 'cds--header__menu-toggle'}}" title="Open menu" type="button"
+      {{on 'click' (fn @onToggle (not @open))}}>
+      <Icon @icon={{if @open 'close' 'menu'}}/>
+    </button>
+  {{/if}}
+  <a class="cds--header__name" href="#"><span class="cds--header__name--prefix">{{@title}} <small>{{@subtitle}}</small></span></a>
+  {{yield to='header'}}
+  <div class="cds--header__global">
+    {{yield to="header-global"}}
+  </div>
+</header>

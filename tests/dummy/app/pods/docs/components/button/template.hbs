@@ -8,40 +8,40 @@
 
 <h1>Carbon Button</h1>
 
-
 <Demo as |demo|>
   {{#demo.example name='button-simple.hbs'}}
-    {{!import Button from 'carbon-components-ember/components/button'}}
+  {{!import Button from 'carbon-components-ember/components/button'}}
 
     <Button
-        @type="primary"
-        @onClick={{set this 'clicked' true}}
+      @type="primary"
+      @onClick={{set this 'clicked' true}}
     >
       Primary Button
     </Button>
     <Button
-        @type="primary"
-        @ghost={{true}}
-        @onClick={{set this 'clicked' true}}
+      @type="primary"
+      @ghost={{true}}
+      @onClick={{set this 'clicked' true}}
     >
       Ghost Button
     </Button>
     <Button
-        @tertiary={{true}}
-        @onClick={{set this 'clicked' true}}
+      @type="primary"
+      @tertiary={{true}}
+      @onClick={{set this 'clicked' true}}
     >
       Tertiary Button
     </Button>
     <Button
-        @type="secondary"
-        @small={{true}}
-        @onClick={{set this 'clicked' true}}
+      @type="secondary"
+      @small={{true}}
+      @onClick={{set this 'clicked' true}}
     >
       Secondary Small Button
     </Button>
     <Button
-        @type="primary"
-        @onClick={{this.doSomething}}
+      @type="primary"
+      @onClick={{this.doSomething}}
     >
       Button with loading indicator if onClick returns a promise
     </Button>
@@ -74,14 +74,13 @@
 
   {{#demo.example name='button-all.hbs'}}
     <Button
-        @disabled={{this.isDisabled}}
-        @type={{this.type}}
-        @danger={{this.isDanger}}
-        @tertiary={{this.isTertiary}}
-        @small={{this.isSmall}}
-        @onClick={{fn (set this 'clicked') true}}
-        @bubbles={{this.bubbles}}
-        @confirmText={{this.confirmText}}
+      @disabled={{this.isDisabled}}
+      @type={{this.type}}
+      @tertiary={{this.isTertiary}}
+      @small={{this.isSmall}}
+      @onClick={{fn (set this 'clicked') true}}
+      @bubbles={{this.bubbles}}
+      @confirmText={{this.confirmText}}
     >
       Button Text
     </Button>

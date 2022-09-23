@@ -1,1 +1,1 @@
-export { default } from 'carbon-components-ember/components/charts/bar/component';
+export { default } from 'carbon-components-ember/components/charts/bar';

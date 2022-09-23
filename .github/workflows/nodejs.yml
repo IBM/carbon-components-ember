@@ -18,6 +18,7 @@ jobs:
     - name: npm install, build, and test
       run: |
         npm install --no-audit
+        ./node_modules/.bin/glint
         ./node_modules/.bin/tsc
         ./node_modules/.bin/ember test
       env:
@@ -35,9 +36,13 @@ jobs:
       fail-fast: false
       matrix:
         experimental: [false]
+        glint: [false]
         scenario:
           - release
         include:
+          - scenario: release
+            glint: true
+            experimental: true
           - scenario: beta
             experimental: true
           - scenario: canary
@@ -50,6 +55,7 @@ jobs:
       - name: Install dependencies (npm)
         run: |
           npm install --no-audit
+          (${{matrix.glint}}) && ./node_modules/.bin/glint
           ./node_modules/.bin/tsc
       - name: Setup ember-try scenario
         run: ./node_modules/.bin/ember try:one ember-${{ matrix.scenario }} --skip-cleanup --- cat package.json

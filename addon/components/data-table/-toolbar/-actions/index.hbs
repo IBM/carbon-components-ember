@@ -1,0 +1,18 @@
+{{import set from 'carbon-components-ember/helpers/set'}}
+{{import getFn from 'carbon-components-ember/helpers/get-fn'}}
+{{import Button from 'carbon-components-ember/components/button'}}
+{{import "{ fn }" from '@ember/helper'}}
+
+{{#if @table.state.selectedItems.size}}
+  <div class="cds--batch-actions cds--batch-actions--active" aria-label="Table Action Bar">
+    <div class="cds--action-list">
+    {{yield (hash close=(fn (getFn @table.state.selectedItems 'clear')))}}
+    <Button @type="primary" @onClick={{fn (getFn @table.state.selectedItems 'clear')}}>Cancel</Button>
+    </div>
+    <div class="cds--batch-summary">
+      <p class="cds--batch-summary__para">
+        <span data-items-selected>{{@table.state.selectedItems.size}}</span> items selected
+      </p>
+    </div>
+  </div>
+{{/if}}

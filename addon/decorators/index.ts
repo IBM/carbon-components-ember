@@ -79,5 +79,7 @@ export function defaultArgs(target, name, descriptor?) {
 
 export function autoComputed() {
   // @ts-ignore
-  return Ember.autoComputed;
+  const fixDesc = (desc) => ({ get: desc.get, set: desc.set });
+  const dec = (instance, key, desc) => require('@ember/-internals/metal').autoComputed()(instance, key, desc);
+  return Ember.autoComputed || dec;
 }
