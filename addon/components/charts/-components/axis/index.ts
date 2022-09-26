@@ -1,5 +1,7 @@
 import Component from '@glimmer/component';
-import { Chart } from '@carbon/charts/chart';
+import CarbonChart from '../../../charts/-components/chart';
+import { ScaleTypes } from '@carbon/charts/interfaces/enums';
+import { AxisOptions } from '@carbon/charts/interfaces/axis-scales';
 
 type Args = {
   /**
@@ -27,9 +29,11 @@ type Args = {
    * @argument scaleType
    * @type String
    */
-  scaleType: string;
+  scaleType: ScaleTypes;
 
-  chart: typeof Chart
+  chart: CarbonChart
+
+  axis: AxisOptions
 }
 
 /** @documenter yuidoc */

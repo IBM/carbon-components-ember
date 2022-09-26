@@ -5,6 +5,7 @@ import { defaultArgs } from '../../../../decorators';
 import { Chart } from '@carbon/charts/chart';
 import { AxisChartOptions, BaseChartOptions } from '@carbon/charts/interfaces/charts';
 import { ChartData } from '@carbon/charts/interfaces/model';
+import {AxisOptions} from "@carbon/charts/interfaces/axis-scales";
 
 /** @documenter yuidoc */
 
@@ -133,7 +134,7 @@ class CarbonChart extends Component<CarbonChartSignature> {
   }
 
   @action
-  setAxis(axis, options) {
+  setAxis(axis: 'left'|'bottom', options: AxisOptions) {
     (this.options as AxisChartOptions).axes = Object.assign((this.options as AxisChartOptions).axes!!, {}, {
       [axis]: options
     });
