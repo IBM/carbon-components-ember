@@ -2,12 +2,24 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { throttle } from '@ember/runloop';
 import { defaultArgs } from '../../../../decorators';
+import { Chart } from '@carbon/charts/chart';
+import { AxisChartOptions, BaseChartOptions } from '@carbon/charts/interfaces/charts';
+import { ChartData } from '@carbon/charts/interfaces/model';
+
 /** @documenter yuidoc */
 
 
-type Args = {
 
+type Args = {
+  labels: string[];
+  resizable?: boolean;
+  legendClickable?: boolean;
+  ChartClass?: typeof Chart;
 };
+
+export interface CarbonChartSignature {
+  Args: Args;
+}
 
 /**
  The CarbonChart
@@ -20,21 +32,22 @@ type Args = {
  @yield {Component} api.DataSet <a href='-components/dataset' >Dataset</a>
  @yield {Component} api.Axis <a href='-components/axis' >ChartAxis</a>
  **/
-class CarbonChart extends Component<Args> {
-  data = {
+class CarbonChart extends Component<CarbonChartSignature> {
+  data: ChartData = {
     labels: [],
     datasets: []
   };
-  options = {
+  options: BaseChartOptions|AxisChartOptions = {
     axes: {},
     color: {},
-    legendClickable: true,
-    containerResizable: true,
+    legend: {
+      clickable: true
+    },
+    resizable: true,
     timeScale: {
-      addSpaceOnEdges: false
     }
   };
-  chartDiv = null;
+  chartDiv?: HTMLDivElement = undefined;
 
   @defaultArgs
   args: Args = {
@@ -64,34 +77,38 @@ class CarbonChart extends Component<Args> {
      @argument ChartClass
      @type Chart
      */
-      ChartClass: null
+      ChartClass: undefined
     };
+
+  private chart?: Chart;
+  private childChart: HTMLDivElement;
 
 
   async setData() {
     const labels = this.args.labels;
-    this.data.labels = Array.isArray(labels) ? labels : labels.split(',');
-    this.options.legendClickable = this.args.legendClickable;
-    this.options.containerResizable = this.args.resizable;
+    this.data.labels = labels;
+    this.options.legend = {};
+    this.options.legend.clickable = this.args.legendClickable!!;
+    this.options.resizable = this.args.resizable!!;
     if (!this.data.datasets.length) return;
-    if (!this.options.axes.left) return;
-    if (!this.options.axes.bottom) return;
+    if ((!this.options as AxisChartOptions).axes!!.left) return;
+    if ((!this.options as AxisChartOptions).axes!!.bottom) return;
     const data = Object.assign({}, this.data);
     data.labels = data.labels.slice();
     data.datasets = data.datasets.slice();
 
     if (!this.chart && this.args.ChartClass) {
       const d = document.createElement('div');
-      this.chartDiv.appendChild(d);
+      this.chartDiv!!.appendChild(d);
       this.childChart = d;
       this.chart = new this.args.ChartClass(d, {
-        options: this.options,
-        data: data
+        options: this.options as any,
+        data: data as any
       });
       this.chart.model.setOptions(this.options);
     }
-    this.childChart.style.height = this.chartDiv.style.height;
-    this.chart.model.setData(data);
+    this.childChart.style.height = this.chartDiv!!.style.height;
+    this.chart!!.model.setData(data);
   }
 
   @action
@@ -112,12 +129,12 @@ class CarbonChart extends Component<Args> {
   @action
   destroyChart() {
     this.chart && this.chart.destroy();
-    this.chart = null;
+    this.chart = undefined;
   }
 
   @action
   setAxis(axis, options) {
-    this.options.axes = Object.assign(this.options.axes, {}, {
+    (this.options as AxisChartOptions).axes = Object.assign((this.options as AxisChartOptions).axes!!, {}, {
       [axis]: options
     });
     this.updateChart();
@@ -125,13 +142,13 @@ class CarbonChart extends Component<Args> {
 
   @action
   setColorPairing(values) {
-    this.options.color.pairing = values;
+    this.options.color!!.pairing = values;
   }
 
   @action
   setColorScale(datasetName, color) {
-    this.options.color.scale = this.options.color.scale || {};
-    this.options.color.scale[datasetName] = color;
+    this.options.color!!.scale = this.options.color!!.scale || {};
+    this.options.color!!.scale[datasetName] = color;
   }
 
   @action
@@ -143,14 +160,14 @@ class CarbonChart extends Component<Args> {
   }
 
   @action
-  updateDataset(label, backgroundColors, data) {
+  updateDataset(label, fillColors, data) {
     if (!label || !data) return;
     let dataset = this.data.datasets.find(d => d.label === label);
     if (!dataset) {
-      dataset = { };
+      dataset = { label, data, fillColors };
       this.data.datasets.push(dataset);
     }
-    Object.assign(dataset, { label, backgroundColors, data });
+    Object.assign(dataset, { label, fillColors, data });
     this.updateChart();
   }
 }

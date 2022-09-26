@@ -1,4 +1,5 @@
 import Component from '@glimmer/component';
+import { Chart } from '@carbon/charts/chart';
 
 type Args = {
   /**
@@ -26,7 +27,9 @@ type Args = {
    * @argument scaleType
    * @type String
    */
-  scaleType: string
+  scaleType: string;
+
+  chart: typeof Chart
 }
 
 /** @documenter yuidoc */

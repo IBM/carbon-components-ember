@@ -50,7 +50,7 @@ type Args = {
    @argument confirmDialog
    @type ConfirmDialogComponent
    */
-  confirmDialog?: ConfirmDialogComponent,
+  confirmDialog?: typeof ConfirmDialogComponent,
   /**
    * If the action is tertiary
    @argument tertiary
