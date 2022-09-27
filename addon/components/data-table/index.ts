@@ -57,22 +57,37 @@ class TrackedSet {
 }
 
 class State {
-  @tracked currentItemsSlice: {start: number, end?: number} | null = null;
-  @tracked currentSearchTerm: string|null = null;
-  @tracked currentSearch: MutableArray<any>|null = null;
+  @tracked currentItemsSlice?: {start: number, end?: number} = undefined;
+  @tracked currentSearchTerm?: string = undefined;
+  @tracked currentSearch?: MutableArray<any> = undefined;
   @tracked selectedItems = new TrackedSet();
 
 }
 
 type Args = {
-  onSelectionChange: (items: any[]) => null,
-  registerState: (state: State) => null,
+  onSelectionChange: (items: any[]) => void,
+  registerState: (state: State) => void,
   search: () => Promise<boolean>,
   state: State,
-  items: any[]
+  items: any[];
+  isLoading: boolean;
+  title: string;
+  description: string;
 }
 
-export default class DataTableComponent extends Component<Args> {
+export interface DataTableComponentSignature {
+  Args: Args;
+  Blocks: {
+    default: [{
+
+    }]
+  }
+}
+
+export default class DataTableComponent extends Component<DataTableComponentSignature> {
+  // this is set by the Header Component
+  declare isExpandable: boolean
+  declare isCheckable: boolean
 
   args: Args = defaultArgs(this, {
     onSelectionChange: (items: any[]) => null,
@@ -116,9 +131,9 @@ export default class DataTableComponent extends Component<Args> {
     return this.state.selectedItems.toArray();
   }
 
-  get items() {
-    if (this.state.currentSearch !== null) {
-      return this.state.currentSearch;
+  get items(): any[] {
+    if (this.state.currentSearch) {
+      return this.state.currentSearch.toArray();
     }
     return this.args.items;
   }
@@ -163,9 +178,9 @@ export default class DataTableComponent extends Component<Args> {
   search(term) {
     this.state.currentSearchTerm = term;
     if (!term) {
-      this.state.currentSearch = null;
+      this.state.currentSearch = undefined;
       taskFor(this.applySearch).cancelAll();
-      return Promise.resolve();
+      return
     }
     return taskFor(this.applySearch).perform(this.args.items || [], term);
   }

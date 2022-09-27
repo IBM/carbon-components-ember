@@ -57,3 +57,4 @@ class CarbonBarChart extends Component<CarbonBarChartSignature> {
 }
 
 export default CarbonBarChart;
+

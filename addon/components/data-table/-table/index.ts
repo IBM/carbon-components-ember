@@ -1,5 +1,9 @@
 import Component from '@glimmer/component';
 
-export default class TableComponent extends Component {
+type Args = {
+  isLoading: boolean;
+}
+
+export default class TableComponent extends Component<Args> {
 
 }

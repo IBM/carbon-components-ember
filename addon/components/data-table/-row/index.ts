@@ -1,5 +1,10 @@
 import Component from '@glimmer/component';
 
-export default class ListRowComponent extends Component {
-  
+type Args = {
+  isExpandable: boolean;
+  length: number;
+}
+
+export default class ListRowComponent extends Component<Args> {
+
 }
