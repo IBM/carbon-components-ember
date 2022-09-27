@@ -12,6 +12,13 @@ declare type Args = {
      */
     title: string;
 };
+export interface CardComponentSignature {
+    Args: Args;
+    Element: HTMLDivElement;
+    Blocks: {
+        default: [];
+    };
+}
 /**
  The CardComponent
 
@@ -23,7 +30,7 @@ declare type Args = {
  @class CarbonButton
  @public
  **/
-export default class CardComponent extends Component<Args> {
+export default class CardComponent extends Component<CardComponentSignature> {
     args: Args;
 }
 export {};

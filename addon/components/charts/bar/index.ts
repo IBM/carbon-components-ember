@@ -1,7 +1,21 @@
 import { SimpleBarChart } from '@carbon/charts';
 import Component from '@glimmer/component';
+import {defaultArgs} from 'carbon-components-ember/decorators/index';
 
 /** @documenter yuidoc */
+
+type Args = {
+  labels: string[];
+  resizable: boolean;
+  legendClickable: boolean;
+}
+
+export interface CarbonBarChartSignature {
+  Args: Args;
+  Blocks: {
+    default: [SimpleBarChart]
+  }
+}
 
 /**
  The CarbonBarChart
@@ -12,9 +26,11 @@ import Component from '@glimmer/component';
  @yield {Component} api.DataSet <a href='-components/dataset' >Dataset</a>
  @yield {Component} api.Axis <a href='-components/axis' >ChartAxis</a>
  **/
-class CarbonBarChart extends Component {
+class CarbonBarChart extends Component<CarbonBarChartSignature> {
   ChartClass = SimpleBarChart;
-  args = {
+
+  @defaultArgs
+  args: Args = {
     /**
      * Chart labels
      @argument labels

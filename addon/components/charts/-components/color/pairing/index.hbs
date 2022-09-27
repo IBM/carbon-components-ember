@@ -1,8 +1,9 @@
-{{import onUpdate from '../../-helpers/on-update'}}
+{{import onUpdate from '../../../-helpers/on-update'}}
+{{import '{ fn }' from '@ember/helper'}}
 
 {{#if @chart.setColorPairing}}
   {{onUpdate @numberOfVariants @option (fn @chart.setColorPairing (hash
     option=@option
-    numberOfVariants=numberOfVariants
+    numberOfVariants=@numberOfVariants
   ))}}
 {{/if}}

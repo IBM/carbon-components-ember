@@ -6,6 +6,11 @@ import { Chart } from '@carbon/charts/chart';
 import { AxisChartOptions, BaseChartOptions } from '@carbon/charts/interfaces/charts';
 import { ChartData } from '@carbon/charts/interfaces/model';
 import { AxisOptions } from '@carbon/charts/interfaces/axis-scales';
+import CarbonChartDataSet from 'carbon-components-ember/components/charts/-components/dataset/index';
+import { WithBoundArgs } from '@glint/template';
+import ChartAxis from 'carbon-components-ember/components/charts/-components/axis/index';
+import ColorPairing from 'carbon-components-ember/components/charts/-components/color/pairing/index';
+import ColorScale from 'carbon-components-ember/components/charts/-components/color/scale/index';
 
 /** @documenter yuidoc */
 
@@ -20,6 +25,15 @@ type Args = {
 
 export interface CarbonChartSignature {
   Args: Args;
+  Element: HTMLDivElement;
+  Blocks: {
+    default: [{
+      DataSet: WithBoundArgs<typeof CarbonChartDataSet, 'chart'>,
+      Axis: WithBoundArgs<typeof ChartAxis, 'chart'>,
+      ColorPairing: WithBoundArgs<typeof ColorPairing, 'chart'>,
+      ColorScale: WithBoundArgs<typeof ColorScale, 'chart'>,
+    }]
+  }
 }
 
 /**

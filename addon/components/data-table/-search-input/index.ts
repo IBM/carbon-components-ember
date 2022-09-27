@@ -2,9 +2,16 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators'
+import { Task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 
 
-export default class TableSearchComponent extends Component {
+type Args = {
+  onChange: (value: string) => Task<any, [ms: number]>
+}
+
+
+export default class TableSearchComponent extends Component<Args> {
 
   @tracked isSearching;
   lastTerm = null;
@@ -25,6 +32,6 @@ export default class TableSearchComponent extends Component {
   doSearch(term) {
     if (this.lastTerm === term) return;
     this.lastTerm = term;
-    this.runSearch.perform(term);
+    taskFor(this.runSearch).perform(term);
   }
 }

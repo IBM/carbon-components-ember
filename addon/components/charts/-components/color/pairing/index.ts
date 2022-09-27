@@ -1,21 +1,23 @@
 import Component from '@glimmer/component';
 import { defaultArgs } from 'carbon-components-ember/decorators/index';
+import CarbonChart from 'carbon-components-ember/components/charts/-components/chart';
 
 type Args = {
   numberOfVariants?: number;
   option: number;
+  chart: CarbonChart;
 }
 
 /** @documenter yuidoc */
 /**
- The ChartAxis
+ The ColorPairing
 
  ```handlebars
  ```
- @class ChartAxis
+ @class ColorPairing
  @public
  **/
-class ChartAxis extends Component<Args> {
+class ColorPairing extends Component<Args> {
 
   @defaultArgs
   args: Args = {
@@ -31,7 +33,7 @@ class ChartAxis extends Component<Args> {
      * @type Number
      */
     option: 1,
-  }
+  } as any
 }
 
-export default ChartAxis;
+export default ColorPairing;

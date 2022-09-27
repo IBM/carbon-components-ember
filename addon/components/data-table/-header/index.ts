@@ -1,10 +1,23 @@
 import Component from '@glimmer/component';
+import DataTableComponent from 'carbon-components-ember/components/data-table/index';
 
-export default class ListHeaderComponent extends Component {
+type Header = {
+  sortable: boolean;
+  label: string;
+}
+
+type Args = {
+  table: DataTableComponent;
+  headers: Header[];
+  isExpandable: boolean;
+  isCheckable: boolean;
+}
+
+export default class ListHeaderComponent extends Component<Args> {
   didSetup = false;
-  table = null;
+  table: DataTableComponent;
 
-  constructor(...args) {
+  constructor(...args: ConstructorParameters<typeof Component<Args>>) {
     super(...args);
     if (this.args.table) {
       this.table = this.args.table;

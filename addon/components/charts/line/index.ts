@@ -1,6 +1,19 @@
 import { LineChart } from '@carbon/charts';
 import Component from '@glimmer/component';
 
+type Args = {
+  labels: string[];
+  resizable: boolean;
+  legendClickable: boolean;
+}
+
+export interface CarbonLineChartSignature {
+  Args: Args;
+  Blocks: {
+    default: [LineChart]
+  }
+}
+
 /**
  The CarbonLineChart
 
@@ -10,9 +23,9 @@ import Component from '@glimmer/component';
  @yield {Component} api.DataSet <a href='-components/dataset' >Dataset</a>
  @yield {Component} api.Axis <a href='-components/axis' >ChartAxis</a>
  **/
-class CarbonLineChart extends Component {
+class CarbonLineChart extends Component<CarbonLineChartSignature> {
   ChartClass = LineChart;
-  args = {
+  args: Args = {
     /**
      * Chart labels
      @argument labels

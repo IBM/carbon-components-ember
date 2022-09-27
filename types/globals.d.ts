@@ -38,3 +38,24 @@ declare module '@ember/render-modifiers/modifiers/did-insert' {
   }>;
   export default didInsert;
 }
+
+declare module '@ember/render-modifiers/modifiers/did-update' {
+  const didUpdate: import('@glint/template').ModifierLike<{
+    Args: {
+      Positional: [fn: (...args: any) => void, ...args: any]
+    }
+  }>;
+  export default didUpdate;
+}
+
+declare module '@ember/render-modifiers/modifiers/will-destroy' {
+  const willDestroy: import('@glint/template').ModifierLike<{
+    Args: {
+      Positional: [fn: (...args: any) => void]
+    }
+  }>;
+  export default willDestroy;
+}
+
+
+

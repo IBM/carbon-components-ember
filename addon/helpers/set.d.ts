@@ -1,7 +1,7 @@
-export declare function setHelper([obj, key, path]: [any, any, any]): (val: any) => void;
-export declare const helper: import("@ember/component/helper").FunctionBasedHelper<{
+export declare function setHelper<T, K extends keyof T>([obj, key, path]: [obj: T, key: K, path?: string]): (val: any) => void;
+export declare const helper: abstract new <T, K extends keyof T>() => import("@ember/component/helper").FunctionBasedHelperInstance<{
     Args: {
-        Positional: [any, any, any];
+        Positional: [obj: T, key: K, path?: string | undefined];
         Named: import("@ember/component/helper").EmptyObject;
     };
     Return: (val: any) => void;

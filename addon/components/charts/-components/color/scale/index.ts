@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
-import {defaultArgs} from 'carbon-components-ember/decorators/index';
+import { defaultArgs } from 'carbon-components-ember/decorators/index';
+import CarbonChart from 'carbon-components-ember/components/charts/-components/chart';
 
 type Args = {
   title: string;
@@ -7,18 +8,19 @@ type Args = {
   primary: boolean;
   secondary: boolean;
   scaleType?: string;
+  chart: CarbonChart
 }
 
 /** @documenter yuidoc */
 /**
- The ChartAxis
+ The ColorScale
 
  ```handlebars
  ```
- @class ChartAxis
+ @class ColorScale
  @public
  **/
-class ChartAxis extends Component<Args> {
+class ColorScale extends Component<Args> {
 
   @defaultArgs
   args: Args = {
@@ -48,7 +50,7 @@ class ChartAxis extends Component<Args> {
      * @type String
      */
     scaleType: undefined
-  }
+  } as any
 }
 
-export default ChartAxis;
+export default ColorScale;
