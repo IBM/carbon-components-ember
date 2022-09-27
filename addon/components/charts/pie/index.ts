@@ -1,6 +1,7 @@
 import { PieChart } from '@carbon/charts';
 import Component from '@glimmer/component';
 import { defaultArgs } from 'carbon-components-ember/decorators';
+import { CarbonChartSignature } from 'carbon-components-ember/components/charts/-components/chart/index';
 
 type Args = {
   labels: string[];
@@ -10,8 +11,9 @@ type Args = {
 
 export interface CarbonPieChartSignature {
   Args: Args;
+  Element: HTMLDivElement;
   Blocks: {
-    default: [PieChart]
+    default: CarbonChartSignature['Blocks']['default']
   }
 }
 

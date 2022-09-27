@@ -4,7 +4,7 @@ import { defaultArgs } from 'carbon-components-ember/decorators';
 import CarbonChart from 'carbon-components-ember/components/charts/-components/chart/index';
 
 type Args = {
-  backgroundColors: string[];
+  backgroundColors?: string[];
   label: string;
   data: number[];
   chart: CarbonChart
@@ -37,7 +37,7 @@ class CarbonChartDataSet extends Component<Args> {
     data: []
   } as any;
   private oldLabel: string;
-  defaultColor: string;
+  defaultColor: string[];
 
   @action
   didUpdateArgs() {

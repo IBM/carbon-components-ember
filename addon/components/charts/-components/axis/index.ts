@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import CarbonChart from '../../../charts/-components/chart';
 import { ScaleTypes } from '@carbon/charts/interfaces/enums';
-import { AxisOptions } from '@carbon/charts/interfaces/axis-scales';
 
 type Args = {
   /**
@@ -14,26 +13,26 @@ type Args = {
    * @argument stacked
    * @type boolean
    */
-  stacked: boolean,
+  stacked?: boolean,
   /**
    * @argument primary
    * @type boolean
    */
-  primary: boolean,
+  primary?: boolean,
   /**
    * @argument secondary
    * @type boolean
    */
-  secondary: boolean,
+  secondary?: boolean,
   /**
    * @argument scaleType
    * @type String
    */
-  scaleType: ScaleTypes;
+  scaleType?: ScaleTypes[keyof ScaleTypes];
 
   chart: CarbonChart
 
-  axis: AxisOptions
+  axis: 'left'|'bottom'
 }
 
 /** @documenter yuidoc */

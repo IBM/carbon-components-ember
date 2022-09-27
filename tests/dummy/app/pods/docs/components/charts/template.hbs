@@ -6,6 +6,7 @@
 {{import LineChart from 'carbon-components-ember/components/charts/line'}}
 {{import PieChart from 'carbon-components-ember/components/charts/pie'}}
 {{import LineChart from 'carbon-components-ember/components/charts/line'}}
+{{import '{ array }' from '@ember/helper'}}
 
 <h1>Carbon Charts</h1>
 
@@ -17,8 +18,8 @@
     <BarChart style="height: 600px; width: 600px; display: inline-block"
               @labels={{array 'Quantity' 'Leads' 'Sold' 'Restocking' 'Misc'}}
               as |chart|>
-      <chart.Axis @axis='left' @title='2018 Annual Sales' @primary=true />
-      <chart.Axis @axis='bottom' @title='Figures' @secondary=true @scaleType='labels' />
+      <chart.Axis @axis='left' @title='2018 Annual Sales' @primary={{true}} />
+      <chart.Axis @axis='bottom' @title='Figures' @secondary={{true}} @scaleType='labels' />
       <chart.DataSet
           @label="Name"
           @data={{array 65000 29123 35213 51213 16932}}
@@ -36,8 +37,8 @@
     <LineChart style="height: 600px; width: 600px; display: inline-block"
               @labels={{array 'Quantity' 'Leads' 'Sold' 'Restocking' 'Misc'}}
               as |chart|>
-      <chart.Axis @axis='left' @title='2018 Annual Sales' @primary=true />
-      <chart.Axis @axis='bottom' @title='Figures' @secondary=true @scaleType='labels' />
+      <chart.Axis @axis='left' @title='2018 Annual Sales' @primary={{true}} />
+      <chart.Axis @axis='bottom' @title='Figures' @secondary={{true}} @scaleType='labels' />
       <chart.DataSet
           @label="Name"
           @data={{array 65000 29123 35213 51213 16932}}
@@ -55,8 +56,8 @@
     <PieChart style="height: 600px; width: 600px; display: inline-block"
                @labels={{array 'Quantity' 'Leads' 'Sold' 'Restocking' 'Misc'}}
                as |chart|>
-      <chart.Axis @axis='left' @title='2018 Annual Sales' @primary=true />
-      <chart.Axis @axis='bottom' @title='Figures' @secondary=true @scaleType='labels' />
+      <chart.Axis @axis='left' @title='2018 Annual Sales' />
+      <chart.Axis @axis='bottom' @title='Figures' @scaleType='labels' />
       <chart.DataSet
           @label="Name"
           @data={{array 65000 29123 35213 51213 16932}}
@@ -72,10 +73,10 @@
   {{#demo.example name='sin-line-chart.hbs'}}
     {{!import LineChart from 'carbon-components-ember/components/charts/line'}}
 
-    <LineChart style="height: 600px; width: 600px; display: inline-block" @labels=''
+    <LineChart style="height: 600px; width: 600px; display: inline-block" @labels={{array ''}}
                as |chart|>
-      <chart.Axis @axis='left' @title='y' @primary=true />
-      <chart.Axis @axis='bottom' @title='x' @secondary=true @scaleType='time' />
+      <chart.Axis @axis='left' @title='y'/>
+      <chart.Axis @axis='bottom' @title='x' @scaleType='time' />
       <chart.DataSet @label="sinus" @data={{this.sinus}} />
     </LineChart>
   {{/demo.example}}

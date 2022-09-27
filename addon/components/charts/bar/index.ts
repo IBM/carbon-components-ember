@@ -1,19 +1,21 @@
 import { SimpleBarChart } from '@carbon/charts';
 import Component from '@glimmer/component';
-import {defaultArgs} from 'carbon-components-ember/decorators/index';
+import { defaultArgs } from 'carbon-components-ember/decorators/index';
+import { CarbonChartSignature } from 'carbon-components-ember/components/charts/-components/chart/index';
 
 /** @documenter yuidoc */
 
 type Args = {
   labels: string[];
-  resizable: boolean;
-  legendClickable: boolean;
+  resizable?: boolean;
+  legendClickable?: boolean;
 }
 
 export interface CarbonBarChartSignature {
   Args: Args;
+  Element: HTMLDivElement;
   Blocks: {
-    default: [SimpleBarChart]
+    default: CarbonChartSignature['Blocks']['default']
   }
 }
 

@@ -1,16 +1,18 @@
 import { LineChart } from '@carbon/charts';
 import Component from '@glimmer/component';
+import { CarbonChartSignature } from 'carbon-components-ember/components/charts/-components/chart/index';
 
 type Args = {
   labels: string[];
-  resizable: boolean;
-  legendClickable: boolean;
+  resizable?: boolean;
+  legendClickable?: boolean;
 }
 
 export interface CarbonLineChartSignature {
   Args: Args;
+  Element: HTMLDivElement;
   Blocks: {
-    default: [LineChart]
+    default: CarbonChartSignature['Blocks']['default']
   }
 }
 
