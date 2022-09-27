@@ -12,5 +12,5 @@ declare module '@ember/service' {
 }
 
 declare global {
-  interface Array<T> extends Ember.NativeArray<T> {}
+  interface Array<T> extends Ember.ArrayPrototypeExtensions<T> {}
 }
