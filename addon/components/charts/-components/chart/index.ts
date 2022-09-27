@@ -5,7 +5,7 @@ import { defaultArgs } from '../../../../decorators';
 import { Chart } from '@carbon/charts/chart';
 import { AxisChartOptions, BaseChartOptions } from '@carbon/charts/interfaces/charts';
 import { ChartData } from '@carbon/charts/interfaces/model';
-import {AxisOptions} from "@carbon/charts/interfaces/axis-scales";
+import { AxisOptions } from '@carbon/charts/interfaces/axis-scales';
 
 /** @documenter yuidoc */
 
@@ -154,14 +154,14 @@ class CarbonChart extends Component<CarbonChartSignature> {
 
   @action
   removeDataset(label) {
-    const dataset = this.data.datasets.find(d => d.label === label);
+    const dataset = this.data.datasets.find(d => d.label === label)!!;
     this.data.datasets.removeObject(dataset);
     this.destroyChart();
     this.updateChart();
   }
 
   @action
-  updateDataset(label, fillColors, data) {
+  updateDataset(label: string, fillColors: string[], data) {
     if (!label || !data) return;
     let dataset = this.data.datasets.find(d => d.label === label);
     if (!dataset) {

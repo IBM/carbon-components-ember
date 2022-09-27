@@ -1,6 +1,14 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { defaultArgs } from 'carbon-components-ember/decorators';
+import CarbonChart from 'carbon-components-ember/components/charts/-components/chart/index';
+
+type Args = {
+  backgroundColors: string[];
+  label: string;
+  data: number[];
+  chart: CarbonChart
+}
 
 /** @documenter yuidoc */
 /**
@@ -11,11 +19,11 @@ import { defaultArgs } from 'carbon-components-ember/decorators';
  @class CarbonChartDataSet
  @public
  **/
-class CarbonChartDataSet extends Component {
+class CarbonChartDataSet extends Component<Args> {
   chart = null;
 
   @defaultArgs
-  args = {
+  args: Args = {
     /**
      * The Dataset label
      * @argument label
@@ -26,17 +34,14 @@ class CarbonChartDataSet extends Component {
      * @argument data
      * @type number[]
      */
-    data: [],
-
-    /**
-     * @internal
-     */
-    chart: null
-  };
+    data: []
+  } as any;
+  private oldLabel: string;
+  defaultColor: string;
 
   @action
   didUpdateArgs() {
-    if (this.oldDabel && this.oldDabel !== this.args.label) {
+    if (this.oldLabel && this.oldLabel !== this.args.label) {
       this.args.chart.removeDataset(this.oldLabel);
       this.oldLabel = this.args.label;
     }

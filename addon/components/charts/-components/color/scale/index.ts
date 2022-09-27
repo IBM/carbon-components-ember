@@ -1,4 +1,13 @@
 import Component from '@glimmer/component';
+import {defaultArgs} from 'carbon-components-ember/decorators/index';
+
+type Args = {
+  title: string;
+  stacked: boolean;
+  primary: boolean;
+  secondary: boolean;
+  scaleType?: string;
+}
 
 /** @documenter yuidoc */
 /**
@@ -9,8 +18,10 @@ import Component from '@glimmer/component';
  @class ChartAxis
  @public
  **/
-class ChartAxis extends Component {
-  args = {
+class ChartAxis extends Component<Args> {
+
+  @defaultArgs
+  args: Args = {
     /**
      * The Axis Title
      * @argument title
@@ -36,7 +47,7 @@ class ChartAxis extends Component {
      * @argument scaleType
      * @type String
      */
-    scaleType: null
+    scaleType: undefined
   }
 }
 
