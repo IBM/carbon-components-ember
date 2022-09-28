@@ -5,6 +5,6 @@ type Args = {
   length: number;
 }
 
-export default class ListRowComponent extends Component<Args> {
+export default class DataTableRow extends Component<Args> {
 
 }

@@ -8,11 +8,13 @@ type Args = {
   small?: boolean,
   overlay?: boolean,
   title?: boolean,
-  inline?: boolean
+  inline?: boolean,
+  classNames: string
 }
 
 export interface LoadingComponentSignature {
-  Args: Args
+  Args: Args,
+  Element: HTMLDivElement
 }
 
 export default class LoadingComponent extends Component<LoadingComponentSignature> {

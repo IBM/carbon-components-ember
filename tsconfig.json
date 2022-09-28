@@ -28,12 +28,16 @@
       ],
       "ember-truth-helpers/helpers/*": [
         "node_modules/@gavant/glint-template-types/types/ember-truth-helpers/*"
+      ],
+      "ember-power-select/helpers/*": [
+        "node_modules/ember-power-select/addon/helpers/*"
       ]
     }
   },
   "include": [
     "**/*",
     "types/globals.d.ts",
+    "types/glint.d.ts",
     "index.d.ts",
     "lib/*.ts",
     "addon/**/*.ts",

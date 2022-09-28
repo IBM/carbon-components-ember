@@ -3,15 +3,17 @@ import Table from '../../index'
 
 export interface Signature {
   Args: {
-    table: Table
+    table: typeof Table
   },
   Element: null,
   Blocks: {
-    default: [any]
+    default: [{
+      close: () => void
+    }]
   }
 }
 
-export default class ListHeaderActionsComponent extends Component<Signature> {}
+export default class TableActionsComponent extends Component<Signature> {}
 
 
 

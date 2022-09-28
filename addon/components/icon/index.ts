@@ -16,6 +16,12 @@ type IconNames = '3D-Cursor'|  '3D-cursor--alt'|  '3D-curve--auto-colon'|  '3D-c
 
 type Args = {
   /**
+   * Indicates if the icon is in loading state
+   @argument loading
+   @type boolean
+   */
+  loading?: boolean,
+  /**
    * Indicates if the icon is informative
    @argument info
    @type boolean
@@ -57,13 +63,28 @@ type Args = {
    @type function
    */
   onClick?: () => null|Promise<any>
+
+  /**
+   * button style
+   @argument btnStyle
+   @type string
+   */
+  btnStyle?: string;
+
+  /**
+   * button classes
+   @argument btnClass
+   @type string
+   */
+  btnClass?: string;
+  svgClass?: string;
 }
 
 @classPrefix('cds--icon--')
 class CarbonIcon extends Component<Args> {
   static positionalParams = ['icon'];
   @service('carbon-components-ember@dialog-manager') dialogManager;
-  @bxClassNames('info', 'danger', 'disabled') bxClassNames;
+  @bxClassNames('info', 'danger', 'disabled') bxClassNames: string;
   @tracked loading;
   @tracked disabled;
   args: Args = defaultArgs(this, {

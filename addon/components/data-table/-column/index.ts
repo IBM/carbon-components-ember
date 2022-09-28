@@ -1,4 +1,4 @@
 import Component from '@glimmer/component';
 
-export default class ListColumnComponent extends Component {
+export default class TableColumn extends Component {
 }

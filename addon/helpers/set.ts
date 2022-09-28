@@ -1,5 +1,6 @@
 import { helper as buildHelper } from '@ember/component/helper';
 import { set, get } from '@ember/object';
+import PowerSelectMultiple from 'ember-power-select/components/power-select-multiple'
 
 export function setHelper<T, K extends keyof T>([obj, key, path]: [obj: T, key: K, path?: string]): (val: any) => void {
   return function(val) {
@@ -17,3 +18,5 @@ export default interface Registry {
     'set': typeof helper;
   }
 }
+
+new PowerSelectMultiple().args.renderInPlace

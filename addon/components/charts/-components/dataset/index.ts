@@ -20,8 +20,6 @@ type Args = {
  @public
  **/
 class CarbonChartDataSet extends Component<Args> {
-  chart = null;
-
   @defaultArgs
   args: Args = {
     /**
@@ -34,7 +32,9 @@ class CarbonChartDataSet extends Component<Args> {
      * @argument data
      * @type number[]
      */
-    data: []
+    data: [],
+    chart: null,
+    backgroundColors: null,
   } as any;
   private oldLabel: string;
   defaultColor: string[];
@@ -42,10 +42,10 @@ class CarbonChartDataSet extends Component<Args> {
   @action
   didUpdateArgs() {
     if (this.oldLabel && this.oldLabel !== this.args.label) {
-      this.args.chart.removeDataset(this.oldLabel);
+      this.args.chart?.removeDataset(this.oldLabel);
       this.oldLabel = this.args.label;
     }
-    this.args.chart.updateDataset(this.args.label, this.args.backgroundColors || this.defaultColor, this.args.data);
+    this.args.chart?.updateDataset(this.args.label, this.args.backgroundColors || this.defaultColor, this.args.data);
   }
 
   willDestroy() {

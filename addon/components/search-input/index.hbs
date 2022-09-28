@@ -1,7 +1,10 @@
 {{import Icon from '../icon'}}
+{{import didUpdate from '@ember/render-modifiers/modifiers/did-update'}}
+{{import '{ fn }' from '@ember/helper'}}
+
 <div data-search
-     {{did-update (fn this.setValue @value) @value}}
-     {{did-update (fn this.onSearchChange) this.value}}
+     {{didUpdate (fn this.setValue @value) @value}}
+     {{didUpdate (fn this.onSearchChange) this.value}}
      role="search"
      class="cds--search cds--search--{{if @size @size 'lg'}} {{if @light 'cds--search--light'}} {{if @isLoading 'cds--skeleton'}}" ...attributes>
   {{#if this.hasInput}}
@@ -14,5 +17,5 @@
            value={{this.value}}
       {{on 'change' (fn this.setValue)}}
       {{on 'input' (fn this.setValue)}} >
-    <Icon @icon="search" @class="cds--search-magnifier" />
+    <Icon @icon="search" class="cds--search-magnifier" />
 </div>

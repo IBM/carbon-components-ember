@@ -3,12 +3,17 @@
 {{import defaultTo from 'carbon-components-ember/helpers/default-to'}}
 {{import set from 'carbon-components-ember/helpers/set'}}
 {{import range from 'ember-composable-helpers/helpers/range'}}
-{{import eq from 'ember-truth-helpers/helpers/equal'}}
+{{import eq from 'ember-truth-helpers/helpers/eq'}}
 {{import styles from './styles.scoped.scss'}}
+{{import didInsert from '@ember/render-modifiers/modifiers/did-insert'}}
+{{import didUpdate from '@ember/render-modifiers/modifiers/did-update'}}
+{{import '{ fn }' from '@ember/helper'}}
+{{import '{ on }' from '@ember/modifier'}}
+{{import or from 'ember-truth-helpers/helpers/or'}}
 
 <div class="cds--pagination {{styles.namespace}} {{if @isLoading 'cds--skeleton'}}" data-pagination
-  {{did-insert this.pageChanged}}
-  {{did-update (fn this.setState @state) @state}}
+  {{didInsert this.pageChanged}}
+  {{didUpdate (fn this.setState @state) @state}}
 >
   {{#if @isLoading}}
     <div class="cds--skeleton__text"></div>
@@ -28,16 +33,17 @@
     </span>
     </div>
     <div class="cds--pagination__right">
-      <Select @disabled={{@disabled}} @searchEnabled={{false}} @options={{range 1 this.pages true}} @onSelect={{this.setCurrentPage}} @selected={{this.currentPage}}/>
+      <Select @multiple={{false}} @disabled={{@disabled}} @searchEnabled={{false}} @options={{range 1 this.pages true}} @onSelect={{this.setCurrentPage}} @selected={{this.currentPage}}/>
       <label id="select-id-pagination-page-label" class="cds--pagination__text" for="select-id-pagination-page">
         {{this.currentPage}} of {{this.pages}} pages
       </label>
       <button disabled={{or (eq this.currentPage 1) @disabled}} {{on 'click' this.pageBack}} class="cds--btn--icon-only cds--pagination__button cds--pagination__button--backward cds--btn cds--btn--md cds--btn--ghost" tabindex="0" data-page-backward aria-label="previous page">
-        <Icon class="cds--pagination__nav-arrow" @icon="chevron--left" />
+        <Icon @btnClass="cds--pagination__nav-arrow" @icon="chevron--left" />
       </button>
       <button disabled={{or (eq this.currentPage this.pages) @disabled}} {{on 'click' this.pageForward}} class="cds--btn--icon-only cds--pagination__button cds--pagination__button--forward cds--btn cds--btn--md cds--btn--ghost" tabindex="0" data-page-forward aria-label="next page">
-        <Icon class="cds--pagination__nav-arrow" @icon="chevron--right" />
+        <Icon @btnClass="cds--pagination__nav-arrow" @icon="chevron--right" />
       </button>
     </div>
   {{/if}}
 </div>
+

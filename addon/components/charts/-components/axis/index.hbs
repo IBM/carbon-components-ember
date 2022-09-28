@@ -2,6 +2,7 @@
 {{import toBool from '../../-helpers/to-bool'}}
 {{import '{ fn }' from '@ember/helper'}}
 
+
 {{#if @chart.setAxis}}
   {{onUpdate @axis @title @stacked (fn @chart.setAxis @axis (hash
     title=@title

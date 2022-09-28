@@ -6,7 +6,16 @@ import { A } from '@ember/array';
 import MutableArray from '@ember/array/mutable';
 import { taskFor } from 'ember-concurrency-ts';
 import { task } from 'ember-concurrency-decorators';
-import {next} from '@ember/runloop';
+import { next } from '@ember/runloop';
+import TableToolbarComponent from 'carbon-components-ember/components/data-table/-toolbar';
+import TableSearchComponent from 'carbon-components-ember/components/data-table/-search-input';
+import CarbonPagination from 'carbon-components-ember/components/pagination';
+import TableComponent from 'carbon-components-ember/components/data-table/-table';
+import DataTableBody from 'carbon-components-ember/components/data-table/-body';
+import DataTableRow from 'carbon-components-ember/components/data-table/-row';
+import TableMenuComponent from 'carbon-components-ember/components/data-table/-menu';
+import TableColumn from 'carbon-components-ember/components/data-table/-column';
+import {WithBoundArgs} from '@glint/template';
 
 class TrackedSet {
   @tracked counter = 0;
@@ -57,7 +66,7 @@ class TrackedSet {
 }
 
 class State {
-  @tracked currentItemsSlice?: {start: number, end?: number} = undefined;
+  @tracked currentItemsSlice?: {start: number, end?: number; itemsPerPage: number; page: number} = undefined;
   @tracked currentSearchTerm?: string = undefined;
   @tracked currentSearch?: MutableArray<any> = undefined;
   @tracked selectedItems = new TrackedSet();
@@ -65,21 +74,28 @@ class State {
 }
 
 type Args = {
-  onSelectionChange: (items: any[]) => void,
-  registerState: (state: State) => void,
-  search: () => Promise<boolean>,
-  state: State,
+  onSelectionChange?: (items: any[]) => void,
+  registerState?: (state: State) => void,
+  search?: () => Promise<boolean>,
+  state?: State,
   items: any[];
-  isLoading: boolean;
-  title: string;
-  description: string;
+  isLoading?: boolean;
+  title?: string;
+  description?: string;
 }
 
 export interface DataTableComponentSignature {
   Args: Args;
   Blocks: {
     default: [{
-
+      Toolbar: WithBoundArgs<typeof TableToolbarComponent, 'table'>,
+      SearchInput: WithBoundArgs<typeof TableSearchComponent, 'isLoading'|'value'|'onChange'>,
+      Pagination: WithBoundArgs<typeof CarbonPagination, 'isLoading'|'length'|'state'|'onPageChanged'>,
+      Table: typeof TableComponent,
+      Body: typeof DataTableBody,
+      Row: typeof DataTableRow,
+      Column: typeof TableColumn,
+      Menu: typeof TableMenuComponent,
     }]
   }
 }
@@ -116,7 +132,7 @@ export default class DataTableComponent extends Component<DataTableComponentSign
     super(...args);
     next(() => {
       if (!this.state.currentItemsSlice) {
-        this.state.currentItemsSlice = { start: 0, end: undefined };
+        this.state.currentItemsSlice = { start: 0, end: undefined, itemsPerPage: 0, page: 0 };
       }
     });
 
@@ -194,7 +210,7 @@ export default class DataTableComponent extends Component<DataTableComponentSign
       this.state.selectedItems.delete(item);
     }
     // eslint-disable-next-line no-self-assign
-    this.args.onSelectionChange(this.state.selectedItems.toArray());
+    this.args.onSelectionChange?.(this.state.selectedItems.toArray());
   }
 
   @action
@@ -205,7 +221,7 @@ export default class DataTableComponent extends Component<DataTableComponentSign
       this.state.selectedItems.setTo([]);
     }
     // eslint-disable-next-line no-self-assign
-    this.args.onSelectionChange(this.state.selectedItems.toArray());
+    this.args.onSelectionChange?.(this.state.selectedItems.toArray());
   }
 
   @action

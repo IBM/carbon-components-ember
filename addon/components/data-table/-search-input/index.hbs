@@ -2,6 +2,7 @@
 {{import Loading from 'carbon-components-ember/components/loading'}}
 {{import debounce from '@abcum/ember-helpers/helpers/debounce'}}
 {{import styles from './styles.scoped.scss'}}
+{{import '{ fn }' from '@ember/helper'}}
 
 <div class="cds--toolbar-search-container-persistent {{if this.isSearching styles.is-searching}}">
   <SearchInput @isLoading={{@isLoading}} @value={{@value}} @onChange={{fn this.doSearch}} />

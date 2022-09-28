@@ -14,6 +14,7 @@ type Slice = {
 
 type Args = {
   disabled: boolean,
+  isLoading: boolean,
   length: number,
   onPageChanged : (currentSlice: Slice) => void,
   state?: {

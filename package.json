@@ -16,9 +16,10 @@
   },
   "scripts": {
     "prepublishOnly": "tsc",
-    "lint": "./node_modules/.bin/eslint tests addon",
+    "lint:js": "./node_modules/.bin/eslint tests addon",
+    "lint:hbs": "./node_modules/.bin/ember-template-lint tests addon",
+    "glint": "./node_modules/.bin/glint",
     "dev": "ember s",
-    "ts:build": "tsc",
     "build": "ember b",
     "test": "ember test",
     "testserver": "ember test --serve"

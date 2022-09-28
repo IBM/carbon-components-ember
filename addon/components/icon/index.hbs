@@ -3,17 +3,21 @@
 {{import eq from 'ember-truth-helpers/helpers/equal'}}
 {{import renderSvgPart from './render-svg-part'}}
 {{import styles from './styles.scoped.scss'}}
+{{import or from 'ember-truth-helpers/helpers/or'}}
+{{import '{ on }' from '@ember/modifier'}}
+
 
 {{#if (or @loading this.loading)}}
   <span style="display: inline-block;">
-    <Loading @classNames="{{styles.icon}} {{this.bxClassNames}} loader" @small="true" @inline=true />
+    <Loading @classNames="{{styles.icon}} {{this.bxClassNames}} loader" @small={{true}} @inline={{true}} />
   </span>
 {{else}}
   {{#if @onClick}}
     <button class="cds--btn cds--btn--sm cds--btn--ghost {{@btnClass}}" style="{{@btnStyle}}" type="button" {{on 'click' this.onIconClick}}>
-        {{renderSvgPart this.svg class=(array @class this.bxClassNames styles.icon)}}
+        {{renderSvgPart this.svg class=(array @svgClass this.bxClassNames styles.icon)}}
     </button>
   {{else}}
-    {{renderSvgPart this.svg class=(array @class this.bxClassNames styles.icon)}}
+    {{renderSvgPart this.svg class=(array @svgClass this.bxClassNames styles.icon)}}
   {{/if}}
 {{/if}}
+
