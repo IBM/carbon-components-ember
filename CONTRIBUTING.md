@@ -2,15 +2,16 @@
 
 ## Installation
 
-* `git clone <repository-url>`
-* `cd <%= addonName %>`
-* `<% if (yarn) { %>yarn<% } else { %>npm<% } %> install`
+* `git clone git@github.com:patricklx/carbon-components-ember.git`
+* `cd carbon-components-ember`
+* `nmp install`
 
 ## Linting
 
-* `<% if (yarn) { %>yarn lint:hbs<% } else { %>npm run lint:hbs<% } %>`
-* `<% if (yarn) { %>yarn lint:js<% } else { %>npm run lint:js<% } %>`
-* `<% if (yarn) { %>yarn lint:js --fix<% } else { %>npm run lint:js -- --fix<% } %>`
+* `npm run lint:hbs`
+* `npm run lint:js`
+* `npm run glint`
+* `npm run lint:js -- --fix`
 
 ## Running tests
 
