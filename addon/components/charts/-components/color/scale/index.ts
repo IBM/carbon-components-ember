@@ -1,13 +1,10 @@
 import Component from '@glimmer/component';
-import { defaultArgs } from 'carbon-components-ember/decorators/index';
+import { defaultArgs } from 'carbon-components-ember/decorators';
 import CarbonChart from 'carbon-components-ember/components/charts/-components/chart';
 
 type Args = {
-  title: string;
-  stacked: boolean;
-  primary: boolean;
-  secondary: boolean;
-  scaleType?: string;
+  name: string;
+  color: string;
   chart: CarbonChart
 }
 
@@ -49,8 +46,10 @@ class ColorScale extends Component<Args> {
      * @argument scaleType
      * @type String
      */
-    scaleType: undefined
-  } as any
+    scaleType: undefined,
+
+    chart: null as any
+  }
 }
 
 export default ColorScale;

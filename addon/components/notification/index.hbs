@@ -1,4 +1,6 @@
-{{import or from '~/helpers/or'}}
+{{import or from 'ember-truth-helpers/helpers/or'}}
+{{import '{ on }' from '@ember/modifier'}}
+{{import '{ fn }' from '@ember/helper'}}
 
 {{#if this.show}}
   <div data-notification class="cds--toast-notification cds--toast-notification--{{or @notification.type @type}}" role="alert"

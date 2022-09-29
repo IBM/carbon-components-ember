@@ -2,8 +2,8 @@
 {{import '{ fn }' from '@ember/helper'}}
 
 {{#if @chart.setColorPairing}}
-  {{onUpdate @numberOfVariants @option (fn @chart.setColorPairing (hash
+  {{onUpdate (fn @chart.setColorPairing (hash
     option=@option
     numberOfVariants=@numberOfVariants
-  ))}}
+  )) @numberOfVariants @option }}
 {{/if}}

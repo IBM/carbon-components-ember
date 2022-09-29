@@ -33,7 +33,8 @@ class ColorPairing extends Component<Args> {
      * @type Number
      */
     option: 1,
-  } as any
+    chart: null as any
+  }
 }
 
 export default ColorPairing;

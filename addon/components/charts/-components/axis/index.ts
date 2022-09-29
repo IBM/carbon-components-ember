@@ -8,32 +8,32 @@ type Args = {
    * @argument title
    * @type String
    */
-  title: string,
+  title: string;
   /**
    * @argument stacked
    * @type boolean
    */
-  stacked?: boolean,
+  stacked?: boolean;
   /**
    * @argument primary
    * @type boolean
    */
-  primary?: boolean,
+  primary?: boolean;
   /**
    * @argument secondary
    * @type boolean
    */
-  secondary?: boolean,
+  secondary?: boolean;
   /**
    * @argument scaleType
    * @type String
    */
   scaleType?: ScaleTypes[keyof ScaleTypes];
 
-  chart: CarbonChart
+  chart: CarbonChart;
 
-  axis: 'left'|'bottom'
-}
+  axis: 'left' | 'bottom';
+};
 
 /** @documenter yuidoc */
 /**
@@ -44,7 +44,6 @@ type Args = {
  @class ChartAxis
  @public
  **/
-class ChartAxis extends Component<Args> {
-}
+class ChartAxis extends Component<Args> {}
 
 export default ChartAxis;

@@ -15,7 +15,8 @@ import DataTableBody from 'carbon-components-ember/components/data-table/-body';
 import DataTableRow from 'carbon-components-ember/components/data-table/-row';
 import TableMenuComponent from 'carbon-components-ember/components/data-table/-menu';
 import TableColumn from 'carbon-components-ember/components/data-table/-column';
-import {WithBoundArgs} from '@glint/template';
+import { WithBoundArgs } from '@glint/template';
+import ListHeaderComponent, { Header } from 'carbon-components-ember/components/data-table/-header';
 
 class TrackedSet {
   @tracked counter = 0;
@@ -73,37 +74,40 @@ class State {
 
 }
 
-type Args = {
+type Args<T> = {
   onSelectionChange?: (items: any[]) => void,
   registerState?: (state: State) => void,
   search?: () => Promise<boolean>,
   state?: State,
-  items: any[];
+  items: T[];
   isLoading?: boolean;
   title?: string;
   description?: string;
 }
 
-export interface DataTableComponentSignature {
-  Args: Args;
+export interface DataTableComponentSignature<T> {
+  Args: Args<T>;
   Blocks: {
     default: [{
-      Toolbar: WithBoundArgs<typeof TableToolbarComponent, 'table'>,
-      SearchInput: WithBoundArgs<typeof TableSearchComponent, 'isLoading'|'value'|'onChange'>,
-      Pagination: WithBoundArgs<typeof CarbonPagination, 'isLoading'|'length'|'state'|'onPageChanged'>,
-      Table: typeof TableComponent,
-      Body: typeof DataTableBody,
-      Row: typeof DataTableRow,
-      Column: typeof TableColumn,
-      Menu: typeof TableMenuComponent,
+      Toolbar: WithBoundArgs<typeof TableToolbarComponent, 'table'>;
+      SearchInput: WithBoundArgs<typeof TableSearchComponent, 'isLoading'|'value'|'onChange'>;
+      Pagination: WithBoundArgs<typeof CarbonPagination, 'isLoading'|'length'|'state'|'onPageChanged'>;
+      Table: typeof TableComponent;
+      Body: typeof DataTableBody;
+      Row: typeof DataTableRow;
+      Column: typeof TableColumn;
+      Menu: typeof TableMenuComponent;
+      Header: typeof ListHeaderComponent;
+      items: T[];
     }]
   }
 }
 
-export default class DataTableComponent extends Component<DataTableComponentSignature> {
+export default class DataTableComponent<T> extends Component<DataTableComponentSignature<T>> {
   // this is set by the Header Component
   declare isExpandable: boolean
   declare isCheckable: boolean
+  declare headers: Header[]
 
   args: Args = defaultArgs(this, {
     onSelectionChange: (items: any[]) => null,
@@ -187,7 +191,7 @@ export default class DataTableComponent extends Component<DataTableComponentSign
 
   @action
   didInsert() {
-    next(this.args, this.args.registerState, this.state);
+    next(() => this.args.registerState?.(this.state));
   }
 
   @action

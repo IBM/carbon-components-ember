@@ -1,7 +1,7 @@
 import Service from '@ember/service';
 import { A } from '@ember/array';
 
-type NotificationOptions = {
+export type NotificationOptions = {
   timeout?: number,
   position?: 'bottom-left',
   title?: string,

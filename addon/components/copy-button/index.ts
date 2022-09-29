@@ -3,9 +3,9 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 type Args = {
-  targetElementId: string;
-  targetElement: Element;
-  inline: boolean;
+  targetElementId?: string;
+  targetElement?: Element;
+  inline?: boolean;
 };
 
 export interface CarbonCopyButtonSignature {

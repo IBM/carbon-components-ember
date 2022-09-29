@@ -1,9 +1,9 @@
 import Component from '@glimmer/component';
 import DataTableComponent from 'carbon-components-ember/components/data-table/index';
 
-type Header = {
-  sortable: boolean;
-  label: string;
+export type Header = {
+  sortable?: boolean;
+  label?: string;
 }
 
 type Args = {

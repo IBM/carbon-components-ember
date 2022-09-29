@@ -6,7 +6,6 @@ import { CarbonChartSignature } from 'carbon-components-ember/components/charts/
 /** @documenter yuidoc */
 
 type Args = {
-  labels: string[];
   resizable?: boolean;
   legendClickable?: boolean;
 }
@@ -33,13 +32,6 @@ class CarbonBarChart extends Component<CarbonBarChartSignature> {
 
   @defaultArgs
   args: Args = {
-    /**
-     * Chart labels
-     @argument labels
-     @type String[]
-     */
-    labels: [],
-
     /**
      * Is resizable
      @argument resizable

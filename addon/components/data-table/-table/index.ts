@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 
 type Args = {
-  isLoading: boolean;
+  isLoading?: boolean;
 }
 
 export default class TableComponent extends Component<Args> {

@@ -24,7 +24,7 @@ type Args<T extends ContentValue> = {
   multiple: true,
 } | {
   selected: T,
-  multiple: false
+  multiple?: false
 })
 
 export interface SelectComponentSignature<T extends ContentValue> {

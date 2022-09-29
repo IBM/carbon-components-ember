@@ -3,7 +3,6 @@ import Component from '@glimmer/component';
 import { CarbonChartSignature } from 'carbon-components-ember/components/charts/-components/chart/index';
 
 type Args = {
-  labels: string[];
   resizable?: boolean;
   legendClickable?: boolean;
 }
@@ -28,13 +27,6 @@ export interface CarbonLineChartSignature {
 class CarbonLineChart extends Component<CarbonLineChartSignature> {
   ChartClass = LineChart;
   args: Args = {
-    /**
-     * Chart labels
-     @argument labels
-     @type String[]
-     */
-    labels: [],
-
     /**
      * Is resizable
      @argument resizable

@@ -4,7 +4,7 @@ module.exports = function (environment) {
     podModulePrefix: 'dummy/pods',
     environment,
     rootURL: '/',
-    locationType: 'auto',
+    locationType: 'history',
     historySupportMiddleware: true,
     EmberENV: {
       FEATURES: {

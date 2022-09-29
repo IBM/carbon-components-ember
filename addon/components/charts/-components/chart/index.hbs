@@ -1,4 +1,4 @@
-{{import DataSet from '../dataset'}}
+{{import TabularData from '../tabular-data'}}
 {{import Axis from '../axis'}}
 {{import ColorPairing from '../color/pairing'}}
 {{import ColorScale from '../color/scale'}}
@@ -8,17 +8,17 @@
 {{import didUpdate from '@ember/render-modifiers/modifiers/did-update'}}
 {{import willDestroy from '@ember/render-modifiers/modifiers/will-destroy'}}
 
-{{yield (hash
-  DataSet=(component DataSet chart=this)
-  Axis=(component Axis chart=this)
-  ColorPairing=(component ColorPairing chart=this)
-  ColorScale=(component ColorScale chart=this)
-)}}
-
 <div ...attributes
   {{didInsert this.loadChart}}
-  {{didUpdate this.updateChart @labels @legendClickable @resizable}}
+  {{didUpdate this.updateChart @legendClickable @resizable}}
   {{willDestroy this.destroyChart}}
 >
 </div>
 
+
+{{yield (hash
+  TabularData=(component TabularData chart=this)
+  Axis=(component Axis chart=this)
+  ColorPairing=(component ColorPairing chart=this)
+  ColorScale=(component ColorScale chart=this)
+)}}

@@ -1,5 +1,6 @@
-{{import onUpdate from '../../-helpers/on-update'}}
+{{import onUpdate from '../../../-helpers/on-update'}}
+{{import '{ fn }' from '@ember/helper'}}
 
-{{#if @chart.setScaleColor}}
-  {{onUpdate @name @color (fn @chart.setScaleColor @name @color)}}
+{{#if @chart.setColorScale}}
+  {{onUpdate (fn @chart.setColorScale @name @color) @name @color}}
 {{/if}}

@@ -37,7 +37,7 @@ type Args = {
    @argument type
    @type string
    */
-  type: 'primary'|'secondary'|'danger'
+  type?: 'primary'|'secondary'|'danger'
 
   /**
    * If the action is dangerous, this text message will be shown in the dialog
@@ -104,21 +104,19 @@ class CarbonButton extends Component<ButtonSignature> {
   @tracked showDialog;
   @service('carbon.dialog-manager') dialogManager: DialogManagerService;
 
-  args: Args = defaultArgs(this, {
-    primary: false,
-    secondary: false,
-    danger: false,
+  @defaultArgs
+  args: Args = {
     loading: false,
     disabled: false,
     bubbles: false,
     onClick: null,
-    type: '',
+    type: 'primary',
     confirmText: '',
-    confirmDialog: '',
+    confirmDialog: undefined,
     tertiary: false,
     small: false,
     ghost: false
-  });
+  };
 
   get primary() {
     return (this.args as any).primary || this.args.type === 'primary';

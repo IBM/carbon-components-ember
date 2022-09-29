@@ -6,10 +6,20 @@ type Args = {
   type: 'default'|'multiline'|'inline'
 }
 
-export default class CarbonCodeSnippet extends Component<Args> {
-  @tracked expanded = false;
+export interface CarbonCodeSnippetSignature {
+  Args: Args;
+  Blocks: {
+    default: []
+  }
+}
 
-  args = defaultArgs(this, {
+export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignature> {
+  @tracked expanded = false;
+  codeElement: Element;
+  carbonElement: Element;
+
+  @defaultArgs
+  args: Args = {
     type: 'default'
-  })
+  }
 }

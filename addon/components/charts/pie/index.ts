@@ -4,7 +4,6 @@ import { defaultArgs } from 'carbon-components-ember/decorators';
 import { CarbonChartSignature } from 'carbon-components-ember/components/charts/-components/chart/index';
 
 type Args = {
-  labels: string[];
   resizable?: boolean;
   legendClickable?: boolean;
 }
@@ -31,12 +30,6 @@ class CarbonPieChart extends Component<CarbonPieChartSignature> {
 
   @defaultArgs
   args: Args = {
-    /**
-     * Chart labels
-     @argument labels
-     @type String[]
-     */
-    labels: [],
 
     /**
      * Is resizable

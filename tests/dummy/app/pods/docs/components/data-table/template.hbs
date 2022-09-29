@@ -58,13 +58,13 @@
           <table.SearchInput />
         </toolbar.Content>
         <toolbar.Actions>
-          <Button @primary=true>Save</Button>
+          <Button @type="primary">Save</Button>
         </toolbar.Actions>
       </table.Toolbar>
       <table.Table>
         <table.Header
-          @isCheckable=true
-          @headers={{array (hash label='Name') (hash label='details') ''}}>
+          @isCheckable={{true}}
+          @headers={{array (hash label='Name') (hash label='details') null}}>
         </table.Header>
         <table.Body>
           {{#each table.items as |item|}}
@@ -96,7 +96,7 @@
       </table.Toolbar>
       <table.Table>
         <table.Header
-            @isCheckable=true
+            @isCheckable={{true}}
             @headers={{array (hash label='Name') (hash label='details') ''}}>
         </table.Header>
         <table.Body>
