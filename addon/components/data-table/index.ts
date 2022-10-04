@@ -93,7 +93,7 @@ export interface DataTableComponentSignature<T> {
       SearchInput: WithBoundArgs<typeof TableSearchComponent, 'isLoading'|'value'|'onChange'>;
       Pagination: WithBoundArgs<typeof CarbonPagination, 'isLoading'|'length'|'state'|'onPageChanged'>;
       Table: WithBoundArgs<typeof TableComponent, 'isLoading'>;
-      Body: typeof DataTableBody;
+      EachBodyRows: typeof DataTableBody;
       Column: typeof TableColumn;
       Menu: typeof TableMenuComponent;
       Header: WithBoundArgs<typeof ListHeaderComponent, 'table'|'isExpandable'>;
@@ -130,7 +130,7 @@ export default class DataTableComponent<T> extends Component<DataTableComponentS
     const ensureString = v => (typeof v === 'string' ? v.toLowerCase() : JSON.stringify(v).toLowerCase());
     const f = (t, term) => {
       if (!term || term === '') return true;
-      if (t.id && t.id.includes(term)) return true;
+      if (t.id && t.id.toLowerCase().includes(term)) return true;
       return Object.values(t.toJSON ? t.toJSON() : t)
         .filter((v: any) => v && !v.defaultAdapter)
         .some(v => (v && ensureString(v).includes(term)));
@@ -167,22 +167,12 @@ export default class DataTableComponent<T> extends Component<DataTableComponentS
   @task({ restartable: true })
   *applySearch(items, term) {
     this.state.currentSearch = A([]);
-    let cancelled = false;
-    const run = async() => {
-      term = term && term.toLowerCase();
-      const f = this.searchFunction;
-      for (const t of items.toArray()) {
-        if (cancelled) break;
-        if (await f(t, term)) {
-          this.state.currentSearch!!.pushObject(t);
-        }
+    term = term && term.toLowerCase();
+    const f = this.searchFunction;
+    for (const t of items.toArray()) {
+      if (yield f(t, term)) {
+        this.state.currentSearch!!.pushObject(t);
       }
-    }
-
-    try {
-      return yield run();
-    } finally {
-      cancelled = true;
     }
   }
 

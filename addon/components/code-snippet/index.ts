@@ -3,14 +3,14 @@ import { tracked } from '@glimmer/tracking';
 import { defaultArgs } from '../../decorators';
 
 type Args = {
-  type: 'default'|'multiline'|'inline'
+  type: 'default'|'multiline'|'inline';
 }
 
 export interface CarbonCodeSnippetSignature {
   Args: Args;
   Blocks: {
-    default: []
-  }
+    default: [];
+  };
 }
 
 export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignature> {

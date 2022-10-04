@@ -26,7 +26,7 @@ export default class TableSearchComponent extends Component<Args> {
       return yield task;
     } finally {
       this.isSearching = false;
-      task?.cancel() && task.cancel();
+      task?.cancel?.();
     }
   }
 
@@ -34,6 +34,7 @@ export default class TableSearchComponent extends Component<Args> {
   doSearch(term) {
     if (this.lastTerm === term) return;
     this.lastTerm = term;
+    taskFor(this.runSearch)?.cancelAll()
     return taskFor(this.runSearch).perform(term);
   }
 }

@@ -11,7 +11,7 @@ export default class SelectController extends Controller {
 
   @action
   add(v) {
-    this.selected.push(v)
+    this.selectedMultiple.push(v)
   }
 }
 // END-SNIPPET

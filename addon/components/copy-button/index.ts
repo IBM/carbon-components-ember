@@ -9,10 +9,10 @@ type Args = {
 };
 
 export interface CarbonCopyButtonSignature {
-  Args: Args,
-  Element: null,
+  Args: Args;
+  Element: null;
   Blocks: {
-    default: []
+    default: [];
   };
 }
 

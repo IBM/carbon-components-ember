@@ -1,5 +1,12 @@
 import Component from '@glimmer/component';
+import DataTableComponent from 'carbon-components-ember/components/data-table';
 
-export default class DataTableBody extends Component {
+type Args = {
+  isExpandable: boolean;
+  isCheckable: boolean;
+  table: typeof DataTableComponent;
+}
+
+export default class DataTableBody extends Component<Args> {
 
 }

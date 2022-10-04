@@ -24,17 +24,15 @@
         <table.Header @headers={{array (hash label='Name') (hash label='details') null}}>
 
         </table.Header>
-        <table.Body as |body|>
-          {{#each body.rows as |row|}}
-            <row.Row>
-              <table.Column>{{row.item.name}}</table.Column>
-              <table.Column>{{row.item.b}}</table.Column>
-              <table.Menu as |Item|>
-                <Item>Edit</Item>
-              </table.Menu>
-            </row.Row>
-          {{/each}}
-        </table.Body>
+        <table.EachBodyRows as |row|>
+          <row.Row>
+            <table.Column>{{row.item.name}}</table.Column>
+            <table.Column>{{row.item.b}}</table.Column>
+            <table.Menu as |Item|>
+              <Item>Edit</Item>
+            </table.Menu>
+          </row.Row>
+        </table.EachBodyRows>
       </table.Table>
       <table.Pagination />
     </DataTable>
@@ -66,8 +64,7 @@
           @isCheckable={{true}}
           @headers={{array (hash label='Name') (hash label='details') null}}>
         </table.Header>
-        <table.Body as |body|>
-          {{#each body.rows as |row|}}
+        <table.EachBodyRows as |row|>
             <row.Row @item={{row.item}}>
               <table.Column>{{row.item.name}}</table.Column>
               <table.Column>{{row.item.b}}</table.Column>
@@ -75,8 +72,7 @@
                 <Item>Edit</Item>
               </table.Menu>
             </row.Row>
-          {{/each}}
-        </table.Body>
+        </table.EachBodyRows>
       </table.Table>
       <table.Pagination />
     </DataTable>
@@ -99,17 +95,15 @@
             @isCheckable={{true}}
             @headers={{array (hash label='Name') (hash label='details') null}}>
         </table.Header>
-        <table.Body as |body|>
-          {{#each body.rows as |row|}}
-            <row.Row @item={{row.item}}>
-              <table.Column>{{row.item.name}}</table.Column>
-              <table.Column>{{row.item.b}}</table.Column>
-              <table.Menu as |Item|>
-                <Item>Edit</Item>
-              </table.Menu>
-            </row.Row>
-          {{/each}}
-        </table.Body>
+        <table.EachBodyRows as |row|>
+          <row.Row @item={{row.item}}>
+            <table.Column>{{row.item.name}}</table.Column>
+            <table.Column>{{row.item.b}}</table.Column>
+            <table.Menu as |Item|>
+              <Item>Edit</Item>
+            </table.Menu>
+          </row.Row>
+        </table.EachBodyRows>
       </table.Table>
       <table.Pagination />
     </DataTable>

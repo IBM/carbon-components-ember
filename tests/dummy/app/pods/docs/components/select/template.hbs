@@ -15,7 +15,12 @@
     </Select>
     <Tag @type="blue">{{join this.selected}}</Tag>
 
-    <Select @selected={{this.selectedMultiple}} @options={{this.options}} @multiple={{true}} @onSelect={{fn (mut this.selectedMultiple)}} />
+    <Select @selected={{this.selectedMultiple}}
+            @options={{this.options}}
+            @multiple={{true}}
+            @onSelect={{fn (mut this.selectedMultiple)}} as |item index|>
+      {{item}}
+    </Select>
     <Tag @type="blue">{{this.selectedMultiple}}</Tag>
   {{/demo.example}}
   <demo.snippet @name="select.hbs" />

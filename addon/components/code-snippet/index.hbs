@@ -9,13 +9,11 @@
 {{#if (eq @type 'default')}}
   <div class="cds--snippet cds--snippet--single">
     <div class="cds--snippet-container" aria-label="Code Snippet Text">
-  <pre>
-    <code {{didInsert (set this "carbonElement")}} >
-      {{yield}}
-    </code>
-  </pre>
+  <pre><code {{didInsert (set this "carbonElement")}} >{{yield}}</code></pre>
     </div>
-    <CopyButton @targetElement={{this.carbonElement}} />
+    <span class="cds--popover-container cds--popover--caret cds--popover--high-contrast cds--popover--bottom cds--tooltip cds--icon-tooltip">
+      <CopyButton @targetElement={{this.carbonElement}} />
+    </span>
   </div>
 {{/if}}
 
@@ -23,11 +21,7 @@
 {{#if (eq @type 'multiline')}}
   <div class="cds--snippet cds--snippet--multi {{if this.expanded 'cds--snippet--expand'}}" data-code-snippet>
     <div class="cds--snippet-container" aria-label="Code Snippet Text" style="width: 100%; min-height: 48px; {{unless this.expanded 'max-height: 240px;'}}">
-    <pre>
-      <code {{didInsert (set this "codeElement")}}>
-        {{yield}}
-      </code>
-    </pre>
+    <pre><code {{didInsert (set this "codeElement")}}>{{yield}}</code></pre>
     </div>
     <div class="cds--snippet__overflow-indicator--right"></div>
     <span class="cds--popover-container cds--popover--caret cds--popover--high-contrast cds--popover--bottom cds--tooltip cds--icon-tooltip">

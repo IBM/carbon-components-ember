@@ -1,4 +1,3 @@
-{{import ListRow from './-row'}}
 {{import ListColumn from './-column'}}
 {{import ListHeader from './-header'}}
 {{import ListBody from './-body'}}
@@ -30,7 +29,7 @@
             Menu=Menu
             Table=(component Table isLoading=@isLoading)
             Column=ListColumn
-            Body=(component ListBody isExpandable=this.isExpandable isCheckable=this.isCheckable table=this items=this.currentItems)
+            EachBodyRows=(component ListBody isExpandable=this.isExpandable isCheckable=this.isCheckable table=this items=this.currentItems)
             Header=(component ListHeader table=this)
             Toolbar=(component Toolbar table=this)
     )
