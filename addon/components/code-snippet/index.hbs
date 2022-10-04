@@ -4,6 +4,7 @@
 {{import not from 'ember-truth-helpers/helpers/not'}}
 {{import '{ fn }' from '@ember/helper'}}
 {{import didInsert from '@ember/render-modifiers/modifiers/did-insert'}}
+{{import '{ on }' from '@ember/modifier'}}
 
 {{#if (eq @type 'default')}}
   <div class="cds--snippet cds--snippet--single">
@@ -32,7 +33,7 @@
     <span class="cds--popover-container cds--popover--caret cds--popover--high-contrast cds--popover--bottom cds--tooltip cds--icon-tooltip">
       <CopyButton @targetElement={{this.codeElement}} />
     </span>
-    <button onclick={{fn (set this 'expanded') (not this.expanded)}}
+    <button {{on 'click' (fn (set this 'expanded') (not this.expanded))}}
       class="cds--btn cds--btn--ghost cds--btn--sm cds--snippet-btn--expand"
       type="button"
     >

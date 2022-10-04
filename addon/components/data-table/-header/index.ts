@@ -7,15 +7,15 @@ export type Header = {
 }
 
 type Args = {
-  table: DataTableComponent;
-  headers: Header[];
+  table: DataTableComponent<any>;
+  headers: (Header|undefined|null)[];
   isExpandable: boolean;
   isCheckable: boolean;
 }
 
 export default class ListHeaderComponent extends Component<Args> {
   didSetup = false;
-  table: DataTableComponent;
+  table: DataTableComponent<any>;
 
   constructor(...args: ConstructorParameters<typeof Component<Args>>) {
     super(...args);

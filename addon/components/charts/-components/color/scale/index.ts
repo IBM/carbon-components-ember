@@ -5,7 +5,7 @@ import CarbonChart from 'carbon-components-ember/components/charts/-components/c
 type Args = {
   name: string;
   color: string;
-  chart: CarbonChart
+  chart: CarbonChart;
 }
 
 /** @documenter yuidoc */
@@ -26,27 +26,12 @@ class ColorScale extends Component<Args> {
      * @argument title
      * @type String
      */
-    title: '',
+    name: '',
     /**
-     * @argument stacked
-     * @type boolean
-     */
-    stacked: false,
-    /**
-     * @argument primary
-     * @type boolean
-     */
-    primary: false,
-    /**
-     * @argument secondary
-     * @type boolean
-     */
-    secondary: false,
-    /**
-     * @argument scaleType
+     * @argument color
      * @type String
      */
-    scaleType: undefined,
+    color: '',
 
     chart: null as any
   }

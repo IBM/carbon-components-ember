@@ -67,7 +67,7 @@ class TrackedSet {
 }
 
 class State {
-  @tracked currentItemsSlice?: {start: number, end?: number; itemsPerPage: number; page: number} = undefined;
+  @tracked currentItemsSlice?: {start: number; end?: number; itemsPerPage: number; page: number} = undefined;
   @tracked currentSearchTerm?: string = undefined;
   @tracked currentSearch?: MutableArray<any> = undefined;
   @tracked selectedItems = new TrackedSet();
@@ -75,10 +75,10 @@ class State {
 }
 
 type Args<T> = {
-  onSelectionChange?: (items: any[]) => void,
-  registerState?: (state: State) => void,
-  search?: () => Promise<boolean>,
-  state?: State,
+  onSelectionChange?: (items: any[]) => void;
+  registerState?: (state: State) => void;
+  search?: () => Promise<boolean>;
+  state?: State;
   items: T[];
   isLoading?: boolean;
   title?: string;
@@ -92,15 +92,17 @@ export interface DataTableComponentSignature<T> {
       Toolbar: WithBoundArgs<typeof TableToolbarComponent, 'table'>;
       SearchInput: WithBoundArgs<typeof TableSearchComponent, 'isLoading'|'value'|'onChange'>;
       Pagination: WithBoundArgs<typeof CarbonPagination, 'isLoading'|'length'|'state'|'onPageChanged'>;
-      Table: typeof TableComponent;
+      Table: WithBoundArgs<typeof TableComponent, 'isLoading'>;
       Body: typeof DataTableBody;
-      Row: typeof DataTableRow;
       Column: typeof TableColumn;
       Menu: typeof TableMenuComponent;
-      Header: typeof ListHeaderComponent;
-      items: T[];
-    }]
-  }
+      Header: WithBoundArgs<typeof ListHeaderComponent, 'table'|'isExpandable'>;
+      rows: {
+        Row: WithBoundArgs<typeof DataTableRow<T>, 'isExpandable'|'isCheckable'|'table'|'item'>;
+        item: T;
+      }[];
+    }];
+  };
 }
 
 export default class DataTableComponent<T> extends Component<DataTableComponentSignature<T>> {
@@ -109,13 +111,17 @@ export default class DataTableComponent<T> extends Component<DataTableComponentS
   declare isCheckable: boolean
   declare headers: Header[]
 
-  args: Args = defaultArgs(this, {
+  @defaultArgs
+  args: Args<T> = {
     onSelectionChange: (items: any[]) => null,
     registerState: (state: State) => null,
-    search: null,
-    state: null,
-    items: null
-  });
+    search: undefined,
+    state: undefined,
+    items: undefined as any,
+    isLoading: false,
+    title: '',
+    description: ''
+  };
 
   @tracked internalState: State;
 

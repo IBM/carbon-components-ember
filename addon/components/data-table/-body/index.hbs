@@ -1,3 +1,9 @@
 <tbody>
-  {{yield}}
+{{#each @items as |item|}}
+  {{yield (hash
+            Row=(component ListRow isExpandable=this.isExpandable isCheckable=this.isCheckable table=this item=item)
+            item=item
+    )
+  }}
+{{/each}}
 </tbody>

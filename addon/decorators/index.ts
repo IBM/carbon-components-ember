@@ -46,31 +46,28 @@ export function defaultArgs(target, name, descriptor?) {
   if (typeof name !== 'string') {
     const defaultArgs = name;
     const args = target.args;
-    const withDefaultArgs = {};
-    Object.keys(defaultArgs).forEach((k) => {
-      const v = defaultArgs[k];
-      Object.defineProperty(withDefaultArgs, k, {
-        get() {
-          return (k in args) ? args[k] : v;
+    return new Proxy({}, {
+      get(target: any, p: string | symbol, receiver: any): any {
+        if (p in args) {
+          return args[p];
         }
-      })
+        return defaultArgs[p];
+      }
     });
-    return withDefaultArgs;
   }
   const init = descriptor.initializer;
   descriptor.initializer = function() {
-    const args = init(this);
+    const defaultArgs = init(this);
     const context = this;
     const origArgs = context.args;
-    Object.keys(args).forEach((k) => {
-      const v = args[k];
-      Object.defineProperty(args, k, {
-        get() {
-          return (k in origArgs) ? origArgs[k] : v;
+    return new Proxy({}, {
+      get(target: any, p: string | symbol, receiver: any): any {
+        if (p in origArgs) {
+          return origArgs[p];
         }
-      })
+        return defaultArgs[p];
+      }
     });
-    return args;
   };
 
   return descriptor;

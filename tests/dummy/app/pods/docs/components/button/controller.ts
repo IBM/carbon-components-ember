@@ -10,6 +10,7 @@ export default class ButtonController extends Controller {
   isDisabled: boolean;
   isDanger: boolean;
   bubbles: boolean;
+  clicked: boolean;
 
   @action
   doSomething() {

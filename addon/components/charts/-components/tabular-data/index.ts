@@ -6,12 +6,14 @@ import CarbonChart, { ChartData } from 'carbon-components-ember/components/chart
 type Args = {
   backgroundColors?: string[];
   group: string;
+  chart?: CarbonChart;
+} & OneOf<[{
   values: number[];
   dates?: Date[];
   keys?: string[];
-  data?: ChartData[]
-  chart?: CarbonChart
-}
+}, {
+  data: ChartData[];
+}]>
 
 /** @documenter yuidoc */
 /**
@@ -41,7 +43,7 @@ class CarbonChartTabularData extends Component<Args> {
     chart: null as any,
     data: [],
     backgroundColors: undefined,
-  };
+  } as any;
   private oldGroup: string;
   defaultColor: string[];
 
@@ -54,12 +56,12 @@ class CarbonChartTabularData extends Component<Args> {
     let data: ChartData[] = [];
     if (this.args.data?.length) {
       data = this.args.data.slice().map(x => Object.assign(x, { group: this.args.group }));
-    } else {
+    } else if(this.args.values) {
       this.args.values.forEach((v, i) => {
         data.push({
           date: this.args.dates?.[i] || undefined,
           key: this.args.keys?.[i] || undefined,
-          value: this.args.values[i],
+          value: this.args.values!![i],
           group: this.args.group
         })
       })

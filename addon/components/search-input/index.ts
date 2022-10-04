@@ -4,19 +4,24 @@ import { guidFor } from '@ember/object/internals';
 import { bool } from '@ember/object/computed';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators'
-import {timeout, Task, TaskInstance} from 'ember-concurrency'
+import { timeout, TaskInstance } from 'ember-concurrency'
 import { taskFor } from 'ember-concurrency-ts';
 import { autoComputed } from 'carbon-components-ember/decorators';
 
 type Args = {
   onChange(value: any): TaskInstance<any> | undefined;
   value: string;
-  size: 'lg'|'md'|'sm';
-  isLoading: boolean;
-  light: boolean;
+  size?: 'lg'|'md'|'sm';
+  isLoading?: boolean;
+  light?: boolean;
 }
 
-export default class SearchComponent extends Component<Args> {
+export interface SearchComponentSignature {
+  Args: Args;
+  Element: HTMLDivElement;
+}
+
+export default class SearchComponent extends Component<SearchComponentSignature> {
   @bool('value') hasInput;
   @tracked value = null;
   isSearching: boolean;
@@ -35,7 +40,7 @@ export default class SearchComponent extends Component<Args> {
       return yield task;
     } finally {
       this.isSearching = false;
-      task && task.cancelAll && task.cancelAll();
+      task && task.cancel && task.cancel();
     }
   }
 

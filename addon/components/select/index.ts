@@ -7,31 +7,31 @@ import { PowerSelectArgs } from 'ember-power-select/components/power-select';
 import { ContentValue } from '@glint/template'
 
 type Args<T extends ContentValue> = {
-    options: T[],
-    searchField?: string,
-    placeholder?: string,
-    onOpen?: PowerSelectArgs<T, any>['onOpen'],
-    disabled?: boolean,
-    searchEnabled?: boolean,
-    onSelect?: (item) => void
-    addItem?: (item) => void
-    removeItem?: (item) => void
-    search?: PowerSelectArgs<T, any>['search']
-    selectFocused?: PowerSelectArgs<T, any>['onFocus']
+    options: T[];
+    searchField?: string;
+    placeholder?: string;
+    onOpen?: PowerSelectArgs<T, any>['onOpen'];
+    disabled?: boolean;
+    searchEnabled?: boolean;
+    onSelect?: (item) => void;
+    addItem?: (item) => void;
+    removeItem?: (item) => void;
+    search?: PowerSelectArgs<T, any>['search'];
+    selectFocused?: PowerSelectArgs<T, any>['onFocus'];
   }
   & ({
-  selected: T[],
-  multiple: true,
+  selected: T[];
+  multiple: true;
 } | {
-  selected: T,
-  multiple?: false
+  selected: T;
+  multiple?: false;
 })
 
 export interface SelectComponentSignature<T extends ContentValue> {
-  Args: Args<T>,
-  Element: HTMLDivElement,
+  Args: Args<T>;
+  Element: HTMLDivElement;
   Blocks: {
-    default: [option: T]
+    default: [option: T];
   };
 }
 

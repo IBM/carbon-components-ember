@@ -21,18 +21,18 @@
         </toolbar.Content>
       </table.Toolbar>
       <table.Table>
-        <table.Header @headers={{array (hash label='Name') (hash label='details') ''}}>
+        <table.Header @headers={{array (hash label='Name') (hash label='details') null}}>
 
         </table.Header>
-        <table.Body>
-          {{#each table.items as |item|}}
-            <table.Row>
-              <table.Column>{{item.name}}</table.Column>
-              <table.Column>{{item.b}}</table.Column>
+        <table.Body as |body|>
+          {{#each body.rows as |row|}}
+            <row.Row>
+              <table.Column>{{row.item.name}}</table.Column>
+              <table.Column>{{row.item.b}}</table.Column>
               <table.Menu as |Item|>
                 <Item>Edit</Item>
               </table.Menu>
-            </table.Row>
+            </row.Row>
           {{/each}}
         </table.Body>
       </table.Table>
@@ -66,15 +66,15 @@
           @isCheckable={{true}}
           @headers={{array (hash label='Name') (hash label='details') null}}>
         </table.Header>
-        <table.Body>
-          {{#each table.items as |item|}}
-            <table.Row @item={{item}}>
-              <table.Column>{{item.name}}</table.Column>
-              <table.Column>{{item.b}}</table.Column>
+        <table.Body as |body|>
+          {{#each body.rows as |row|}}
+            <row.Row @item={{row.item}}>
+              <table.Column>{{row.item.name}}</table.Column>
+              <table.Column>{{row.item.b}}</table.Column>
               <table.Menu as |Item|>
                 <Item>Edit</Item>
               </table.Menu>
-            </table.Row>
+            </row.Row>
           {{/each}}
         </table.Body>
       </table.Table>
@@ -97,17 +97,17 @@
       <table.Table>
         <table.Header
             @isCheckable={{true}}
-            @headers={{array (hash label='Name') (hash label='details') ''}}>
+            @headers={{array (hash label='Name') (hash label='details') null}}>
         </table.Header>
-        <table.Body>
-          {{#each table.items as |item|}}
-            <table.Row @item={{item}}>
-              <table.Column>{{item.name}}</table.Column>
-              <table.Column>{{item.b}}</table.Column>
+        <table.Body as |body|>
+          {{#each body.rows as |row|}}
+            <row.Row @item={{row.item}}>
+              <table.Column>{{row.item.name}}</table.Column>
+              <table.Column>{{row.item.b}}</table.Column>
               <table.Menu as |Item|>
                 <Item>Edit</Item>
               </table.Menu>
-            </table.Row>
+            </row.Row>
           {{/each}}
         </table.Body>
       </table.Table>

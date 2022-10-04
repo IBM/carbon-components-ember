@@ -13,15 +13,15 @@ type Slice = {
 }
 
 type Args = {
-  disabled: boolean,
-  isLoading: boolean,
-  length: number,
-  onPageChanged : (currentSlice: Slice) => void,
+  disabled?: boolean;
+  isLoading: boolean;
+  length: number;
+  onPageChanged : (currentSlice: Slice) => void;
   state?: {
     page: number;
-    itemsPerPage: number
-  },
-  itemsPerPageOptions: number
+    itemsPerPage: number;
+  };
+  itemsPerPageOptions?: number;
 };
 
 export default class CarbonPagination extends Component<Args> {

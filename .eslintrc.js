@@ -13,10 +13,14 @@ module.exports = {
   env: {
     browser: true,
   },
+  globals: {
+    OneOf: true
+  },
   rules: {
     'ember/no-empty-glimmer-component-classes': 'off',
     quotes: ['error', 'single'],
     indent: 'off',
+    '@typescript-eslint/member-delimiter-style': 'error',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/indent': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',

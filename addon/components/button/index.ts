@@ -15,74 +15,74 @@ type Args = {
    @argument loading
    @type boolean
    */
-  loading?: boolean,
+  loading?: boolean;
   /**
    @argument disabled
    @type boolean
    */
-  disabled?: boolean,
+  disabled?: boolean;
   /**
    @argument bubbles
    @type boolean
    */
-  bubbles?: boolean,
+  bubbles?: boolean;
   /**
    @argument onClick
    @type function
    */
-  onClick?: Function|null,
+  onClick?: Function|null;
 
   /**
    * Indicates the type of the button
    @argument type
    @type string
    */
-  type?: 'primary'|'secondary'|'danger'
+  type?: 'primary'|'secondary'|'danger';
 
   /**
    * If the action is dangerous, this text message will be shown in the dialog
    @argument confirmText
    @type String
    */
-  confirmText?: string,
+  confirmText?: string;
   /**
    * Use this component as dialog
    @argument confirmDialog
    @type ConfirmDialogComponent
    */
-  confirmDialog?: typeof ConfirmDialogComponent,
+  confirmDialog?: typeof ConfirmDialogComponent;
   /**
    * If the action is tertiary
    @argument tertiary
    @type boolean
    */
-  tertiary?: boolean,
+  tertiary?: boolean;
   /**
    * If the action is small
    @argument small
    @type boolean
    */
-  small?: boolean,
+  small?: boolean;
   /**
    * If the action is a ghost button
    @argument ghost
    @type boolean
    */
-  ghost?: boolean,
+  ghost?: boolean;
 
-  label?: string
+  label?: string;
 };
 
 export interface ButtonSignature {
   // We have a `<table>` as our root element
   Element: HTMLButtonElement;
   // We accept an array of items, one per row
-  Args: Args
+  Args: Args;
   // We accept two named blocks: a parameter-less `header` block
   // and a `row` block which will be invoked with each item and
   // its index sequentially.
   Blocks: {
-    default: []
+    default: [];
   };
 }
 
