@@ -31,6 +31,9 @@
       ],
       "ember-power-select/helpers/*": [
         "node_modules/ember-power-select/addon/helpers/*"
+      ],
+      "ember-basic-dropdown/components/*": [
+        "node_modules/ember-basic-dropdown/addon/components/*"
       ]
     }
   },

@@ -23,7 +23,7 @@
         Items per page:
       </label>
       <div class="cds--select cds--select--inline cds--select__item-count">
-        <Select @disabled={{@disabled}} @searchEnabled={{false}} @options={{defaultTo (array 10 20 30 40 50 100) this.args.itemsPerPageOptions}} @onSelect={{this.setItemsPerPage}} @selected={{this.itemsPerPage}}/>
+        <Select @disabled={{@disabled}} @searchEnabled={{false}} @options={{defaultTo this.args.itemsPerPageOptions (array 10 20 30 40 50 100)}} @onSelect={{this.setItemsPerPage}} @selected={{this.itemsPerPage}}/>
       </div>
       <span class="cds--pagination__text">
       <span data-displayed-item-range>{{this.currentSlice.start}} - {{this.currentSlice.end}}</span> of

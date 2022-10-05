@@ -6,13 +6,13 @@ const Router = AddonDocsRouter.extend({
   rootURL: config.rootURL
 });
 
-Router.map(function () {
-  docsRoute(this, function () {
-    this.route('getting-started', function () {
+Router.map(function() {
+  docsRoute(this, function() {
+    this.route('getting-started', function() {
       this.route('installation');
     });
 
-    this.route('components', function () {
+    this.route('components', function() {
       this.route('button');
       this.route('breadcrumbs');
       this.route('card');

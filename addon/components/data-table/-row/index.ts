@@ -3,14 +3,13 @@ import DataTableComponent from 'carbon-components-ember/components/data-table';
 import { tracked } from '@glimmer/tracking';
 
 type Args<T> = {
-  table: DataTableComponent<T>;
+  table: DataTableComponent<any>;
   isExpandable?: boolean;
   isExpanded?: boolean;
   isCheckable?: boolean;
   length?: number;
-  item?: T;
+  item: T;
 }
-
 
 export interface DataTableRowSignature<T> {
   Args: Args<T>;

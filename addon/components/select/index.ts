@@ -5,26 +5,30 @@ import { defaultArgs } from '../../decorators';
 import jQuery from 'jquery'
 import { PowerSelectArgs } from 'ember-power-select/components/power-select';
 import { ContentValue } from '@glint/template'
+import { PowerSelectMultSignature } from 'ember-power-select/components/power-select-multiple';
 
 type Args<T extends ContentValue> = {
     options: T[];
     searchField?: string;
     placeholder?: string;
-    onOpen?: PowerSelectArgs<T, any>['onOpen'];
     disabled?: boolean;
     searchEnabled?: boolean;
     onSelect?: (item) => void;
     addItem?: (item) => void;
     removeItem?: (item) => void;
-    search?: PowerSelectArgs<T, any>['search'];
-    selectFocused?: PowerSelectArgs<T, any>['onFocus'];
   }
   & ({
   selected: T[];
   multiple: true;
+  onOpen?: PowerSelectMultSignature<T>['Args']['onOpen'];
+  search?: PowerSelectMultSignature<T>['Args']['search'];
+  selectFocused?: PowerSelectMultSignature<T>['Args']['onFocus'];
 } | {
   selected: T;
   multiple?: false;
+  onOpen?: PowerSelectArgs<T, any>['onOpen'];
+  search?: PowerSelectArgs<T, any>['search'];
+  selectFocused?: PowerSelectArgs<T, any>['onFocus'];
 })
 
 export interface SelectComponentSignature<T extends ContentValue> {
@@ -56,6 +60,11 @@ export default class SelectComponent<T extends ContentValue> extends Component<S
   }
 
   @action
+  indexOfOption(opt) {
+    return this.args.options.indexOf(opt);
+  }
+
+  @action
   onChange(choice) {
     if (this.args.multiple) {
       choice.forEach((item) => {
@@ -75,8 +84,8 @@ export default class SelectComponent<T extends ContentValue> extends Component<S
   }
 
   @action
-  selectFocused(...args: Parameters<Required<PowerSelectArgs<T, any>>['onFocus']>) {
-    return this.args.selectFocused && this.args.selectFocused?.(...args);
+  selectFocused(select: any, event) {
+    return this.args.selectFocused && this.args.selectFocused?.(select, event);
   }
 
   @action

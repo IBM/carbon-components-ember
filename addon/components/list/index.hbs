@@ -6,15 +6,17 @@
 {{import Pagination from '../pagination'}}
 {{import SearchInput from '../search-input'}}
 {{import styles from './styles.scoped.scss'}}
+{{import '{ fn }' from '@ember/helper'}}
+{{import didInsert from '@ember/render-modifiers/modifiers/did-insert'}}
 
 {{#if @loading}}
   <Skeleton />
 {{else}}
-  <section class="cds--structured-list {{styles.namespace}} {{if @selectable 'cds--structured-list--selection'}}" style="position: relative;" {{did-insert this.delayItems}}>
+  <section class="cds--structured-list {{styles.namespace}} {{if @selectable 'cds--structured-list--selection'}}" style="position: relative;" {{didInsert this.delayItems}}>
     {{yield (hash
               items=this.currentItems
-              SearchInput=(component SearchInput value=this.currentSearch onChange=(action (mut this.currentSearch)) light=true small=true)
-              Pagination=(component Pagination length=@items.length onPageChanged=(action (mut this.currentItemsSlice)))
+              SearchInput=(component SearchInput value=this.currentSearch onChange=(fn (mut this.currentSearch)) light=true size='sm')
+              Pagination=(component Pagination length=@items.length onPageChanged=(fn (mut this.currentItemsSlice)))
               Row=(component ListRow list=this)
               Column=ListColumn
               Body=ListBody

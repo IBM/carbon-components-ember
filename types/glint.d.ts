@@ -31,6 +31,11 @@ declare module 'ember-composable-helpers/helpers/call' {
   export default call;
 }
 
+declare module '@ascua/arrays/helpers/split' {
+  function split(seperator: string, text: string): string[];
+  export default split;
+}
+
 declare module '@ember/helper' {
   export const fn: import('@glint/environment-ember-loose/-private/dsl/index').Globals['fn']
   export const get: import('@glint/environment-ember-loose/-private/dsl/index').Globals['get']
@@ -85,8 +90,8 @@ declare module 'ember-power-select/components/power-select-multiple' {
   import {
     PowerSelectMultipleSignature,
   } from '@gavant/glint-template-types/types/ember-power-select/power-select-multiple';
-  interface Signature<T> extends PowerSelectMultipleSignature<T> {
+  export interface PowerSelectMultSignature<T> extends PowerSelectMultipleSignature<T> {
     Args: PowerSelectMultipleSignature<T>['Args'] & { eventType: 'click' };
   }
-  export default class PowerSelectMultiple<T> extends Component<Signature<T>> {}
+  export default class PowerSelectMultiple<T> extends Component<PowerSelectMultSignature<T>> {}
 }

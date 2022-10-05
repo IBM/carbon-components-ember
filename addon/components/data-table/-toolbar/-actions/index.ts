@@ -3,14 +3,14 @@ import Table from '../../index'
 
 export interface Signature {
   Args: {
-    table: typeof Table
-  },
-  Element: null,
+    table: Table<any>;
+  };
+  Element: null;
   Blocks: {
     default: [{
-      close: () => void
-    }]
-  }
+      close: () => void;
+    }];
+  };
 }
 
 export default class TableActionsComponent extends Component<Signature> {}

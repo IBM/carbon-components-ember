@@ -93,14 +93,10 @@ export interface DataTableComponentSignature<T> {
       SearchInput: WithBoundArgs<typeof TableSearchComponent, 'isLoading'|'value'|'onChange'>;
       Pagination: WithBoundArgs<typeof CarbonPagination, 'isLoading'|'length'|'state'|'onPageChanged'>;
       Table: WithBoundArgs<typeof TableComponent, 'isLoading'>;
-      EachBodyRows: typeof DataTableBody;
+      EachBodyRows: WithBoundArgs<typeof DataTableBody, 'table'|'isExpandable'|'isCheckable'|'items'>;
       Column: typeof TableColumn;
       Menu: typeof TableMenuComponent;
-      Header: WithBoundArgs<typeof ListHeaderComponent, 'table'|'isExpandable'>;
-      rows: {
-        Row: WithBoundArgs<typeof DataTableRow<T>, 'isExpandable'|'isCheckable'|'table'|'item'>;
-        item: T;
-      }[];
+      Header: WithBoundArgs<typeof ListHeaderComponent, 'table'>;
     }];
   };
 }

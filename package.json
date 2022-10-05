@@ -4,6 +4,9 @@
   "keywords": [
     "ember-addon"
   ],
+  "engines": {
+    "node": ">=10"
+  },
   "homepage": "https://patricklx.github.io/carbon-components-ember",
   "repository": {
     "url": "https://github.com/patricklx/carbon-components-ember"
@@ -35,6 +38,7 @@
     "@glimmer/tracking": "^1.0.2",
     "@glint/environment-ember-template-imports": "^0.9.4",
     "@types/node": "^18.7.9",
+    "broccoli-sass-source-maps": "github:adopted-ember-addons/broccoli-sass-source-maps#modernize",
     "carbon-components": "^10.56.0",
     "carbon-web-components": "^1.21.0",
     "d3-array": "^3.1.1",
@@ -138,7 +142,7 @@
     ]
   },
   "overrides": {
-    "broccoli-sass-source-maps": "patricklx/broccoli-sass-source-maps",
+    "broccoli-sass-source-maps": "adopted-ember-addons/broccoli-sass-source-maps#modernize",
     "@embroider/macros": "^1.7.1",
     "@embroider/core": "^1.7.1",
     "@embroider/util": "^1.7.1",

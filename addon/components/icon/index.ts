@@ -78,6 +78,7 @@ type Args = {
    */
   btnClass?: string;
   svgClass?: string;
+  fill?: string;
 }
 
 @classPrefix('cds--icon--')

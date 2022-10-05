@@ -9,8 +9,8 @@ export type Header = {
 type Args = {
   table: DataTableComponent<any>;
   headers: (Header|undefined|null)[];
-  isExpandable: boolean;
-  isCheckable: boolean;
+  isExpandable?: boolean;
+  isCheckable?: boolean;
 }
 
 export default class ListHeaderComponent extends Component<Args> {

@@ -4,6 +4,8 @@
 {{import Checkbox from 'carbon-components-ember/components/checkbox'}}
 {{import FormInput from 'carbon-components-ember/components/form-input'}}
 {{import split from '@ascua/arrays/helpers/split'}}
+{{import '{ fn }' from '@ember/helper'}}
+{{import not from 'ember-truth-helpers/helpers/not'}}
 
 <h1>Carbon Pagination</h1>
 
@@ -27,7 +29,7 @@
     <label>isLoading</label>
   <Checkbox @checked={{this.isLoading}} @onChange={{fn (set this 'isLoading') (not this.isLoading)}}></Checkbox>
     <label>itemsPerPage</label>
-  <FormInput @onChange={{fn (set this.itemsPerPageOptions 'itemsPerPageOptions')}}></FormInput>
+  <FormInput @onChange={{fn (set this 'itemsPerPageOptions')}}></FormInput>
   <label>paginationLength</label>
   <FormInput @onChange={{fn (set this 'paginationLength')}}></FormInput>
   {{/demo.example}}

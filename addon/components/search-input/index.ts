@@ -9,7 +9,7 @@ import { taskFor } from 'ember-concurrency-ts';
 import { autoComputed } from 'carbon-components-ember/decorators';
 
 type Args = {
-  onChange(value: any): TaskInstance<any> | undefined;
+  onChange(value: any): TaskInstance<any> | undefined | void;
   value: string;
   size?: 'lg'|'md'|'sm';
   isLoading?: boolean;

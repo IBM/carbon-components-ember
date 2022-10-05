@@ -4,24 +4,23 @@
 {{import Select from 'carbon-components-ember/components/select'}}
 {{import Tag from 'carbon-components-ember/components/tag'}}
 {{import join from 'ember-composable-helpers/helpers/join'}}
+{{import '{ fn }' from '@ember/helper'}}
 
 
 <h1>Carbon Select</h1>
 
 <DocsDemo as |demo|>
   {{#demo.example name='select.hbs'}}
-    <Select @onSelect={{fn this.add}} @selected={{this.selected}} @options={{this.options}} as |item|>
+    <Select @onSelect={{fn (mut this.selected)}} @selected={{this.selected}} @options={{this.options}} as |item|>
       {{item}}
     </Select>
-    <Tag @type="blue">{{join this.selected}}</Tag>
+    <Tag @type="blue">{{this.selected}}</Tag>
 
     <Select @selected={{this.selectedMultiple}}
             @options={{this.options}}
             @multiple={{true}}
-            @onSelect={{fn (mut this.selectedMultiple)}} as |item index|>
-      {{item}}
-    </Select>
-    <Tag @type="blue">{{this.selectedMultiple}}</Tag>
+            @onSelect={{fn (mut this.selectedMultiple)}} />
+    <Tag @type="blue">{{join this.selectedMultiple}}</Tag>
   {{/demo.example}}
   <demo.snippet @name="select.hbs" />
   <demo.snippet @name="select.js" />

@@ -21,7 +21,7 @@ type Args = {
     page: number;
     itemsPerPage: number;
   };
-  itemsPerPageOptions?: number;
+  itemsPerPageOptions?: (number|string)[];
 };
 
 export default class CarbonPagination extends Component<Args> {
