@@ -12,7 +12,6 @@ import TableSearchComponent from 'carbon-components-ember/components/data-table/
 import CarbonPagination from 'carbon-components-ember/components/pagination';
 import TableComponent from 'carbon-components-ember/components/data-table/-table';
 import DataTableBody from 'carbon-components-ember/components/data-table/-body';
-import DataTableRow from 'carbon-components-ember/components/data-table/-row';
 import TableMenuComponent from 'carbon-components-ember/components/data-table/-menu';
 import TableColumn from 'carbon-components-ember/components/data-table/-column';
 import { WithBoundArgs } from '@glint/template';
@@ -93,7 +92,7 @@ export interface DataTableComponentSignature<T> {
       SearchInput: WithBoundArgs<typeof TableSearchComponent, 'isLoading'|'value'|'onChange'>;
       Pagination: WithBoundArgs<typeof CarbonPagination, 'isLoading'|'length'|'state'|'onPageChanged'>;
       Table: WithBoundArgs<typeof TableComponent, 'isLoading'>;
-      EachBodyRows: WithBoundArgs<typeof DataTableBody, 'table'|'isExpandable'|'isCheckable'|'items'>;
+      EachBodyRows: WithBoundArgs<typeof DataTableBody<T>, 'table'|'isExpandable'|'isCheckable'|'items'>;
       Column: typeof TableColumn;
       Menu: typeof TableMenuComponent;
       Header: WithBoundArgs<typeof ListHeaderComponent, 'table'>;

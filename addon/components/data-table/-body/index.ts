@@ -7,7 +7,7 @@ type Args<T> = {
   isExpandable: boolean;
   isCheckable: boolean;
   table: DataTableComponent<any>;
-  items: any[];
+  items: T[];
 }
 
 export interface DataTableBodySignature<T> {
