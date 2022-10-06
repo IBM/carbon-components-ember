@@ -1,0 +1,29 @@
+{{import Demo from 'ember-cli-addon-docs/components/docs-demo'}}
+{{import Toggle from 'carbon-components-ember/components/toggle'}}
+{{import newObj from 'carbon-components-ember/helpers/new-obj'}}
+{{import '{ fn }' from '@ember/helper'}}
+{{import not from 'ember-truth-helpers/helpers/not'}}
+{{import Tile from 'carbon-components-ember/components/tile'}}
+
+
+<h1>Carbon Tile</h1>
+
+<Demo as |demo|>
+  {{#demo.example name='tile.hbs'}}
+    {{!import Tile from 'carbon-components-ember/components/tile'}}
+
+    <Tile>
+      <:content>Some Content</:content>
+    </Tile>
+
+    <br>
+
+    <Tile @expandable={{true}}>
+      <:above>Title</:above>
+      <:content>Some Content</:content>
+      <:below>footer</:below>
+    </Tile>
+
+  {{/demo.example}}
+  <demo.snippet @name="tile.hbs" />
+</Demo>

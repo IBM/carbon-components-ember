@@ -1,18 +1,35 @@
-<div data-tabs class="cds--tabs" ...attributes>
-    <div class="cds--tabs-trigger {{if this.open 'cds--tabs-trigger--open'}}" tabindex="0">
-        <a href="javascript:void(0)" class="cds--tabs-trigger-text" tabindex="-1" {{on 'click' (fn (mut this.open) (not this.open))}}></a>
-        <svg focusable="false" preserveAspectRatio="xMidYMid meet" style="will-change: transform;" xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" aria-hidden="true"><path d="M5 6L0 1 .7.3 5 4.6 9.3.3l.7.7z"></path></svg>
-    </div>
-    <ul class="cds--tabs__nav {{unless this.open 'cds--tabs__nav--hidden'}}" role="tablist">
-      {{#each @tabs as |tab index|}}
-          <li class="cds--tabs__nav-item {{if (eq @selectedTab.title tab.title) 'cds--tabs__nav-item--selected'}} " role="presentation">
-              <a tabindex="0" id="tab-link-{{index}}" class="cds--tabs__nav-link" href="javascript:void(0)"
-                 role="tab" aria-controls="tab-panel-{{index}}" aria-selected="{{if (eq @selectedTab.title tab.title) 'true'}}"
-                 {{on 'click' (fn @tabSelected tab)}}
-              >
-                {{tab.title}}
-              </a>
-          </li>
-      {{/each}}
-    </ul>
+<div class="cds--tabs">
+  <button aria-hidden="true" aria-label="Scroll left"
+          class="cds--tab--overflow-nav-button cds--tab--overflow-nav-button--previous cds--tab--overflow-nav-button--hidden"
+          type="button">
+    <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+         width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M5 8L10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z"></path>
+    </svg>
+  </button>
+  <div aria-label="List of tabs" role="tablist" class="cds--tab--list">
+  {{#each @tabs as |tab index|}}
+    <button aria-controls="{{this.guid}}-tabpanel-{{index}}" aria-selected="{{if (eq @selectedTab.title tab.title) 'true'}}" id="{{this.guid}}-tab-{{index}}" role="tab"
+            class="cds--tabs__nav-item cds--tabs__nav-link
+              {{if (eq @selectedTab.title tab.title) 'cds--tabs__nav-item--selected'}}
+              {{if tab.disabled "cds--tabs__nav-item--disabled"}}"
+            tabindex="{{index}}"
+            type="button"
+            {{on 'click' (fn @tabSelected tab)}}
+    >
+      {{tab.title}}
+    </button>
+  {{/each}}
+  </div>
+  <button aria-hidden="true" aria-label="Scroll right"
+          class="cds--tab--overflow-nav-button cds--tab--overflow-nav-button--next cds--tab--overflow-nav-button--hidden"
+          type="button">
+    <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+         width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"></path>
+    </svg>
+  </button>
+</div>
+<div aria-labelledby="{{this.guid}}-tab-{{this.currentIndex}}" id="{{this.guid}}-tabpanel-{{this.currentIndex}}" class="cds--tab-content" role="tabpanel" tabindex="{{this.currentIndex}}">
+  {{yield}}
 </div>

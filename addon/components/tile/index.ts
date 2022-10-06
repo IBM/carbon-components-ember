@@ -5,12 +5,12 @@ import { guidFor } from '@ember/object/internals';
 import { autoComputed } from 'carbon-components-ember/decorators';
 
 type Args = {
-  selectable: boolean;
-  clickable: boolean;
-  expandable: boolean;
-  onClick: () => null;
-  onSelect: () => null;
-  tabindex: string;
+  selectable?: boolean;
+  clickable?: boolean;
+  expandable?: boolean;
+  onClick?: () => null;
+  onSelect?: () => null;
+  tabindex?: string;
 }
 
 export interface TileComponentSignature {
