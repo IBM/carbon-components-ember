@@ -1,12 +1,13 @@
 import Component from '@glimmer/component';
 
 export interface Signature {
-  Args: {},
-  Element: null,
-  Blocks: {}
+  Args: {};
+  Blocks: {
+    default: [];
+  };
 }
 
-export default class InnerClass extends Component<Signature> {}
+export default class UiShellNavItem extends Component<Signature> {}
 
 
 

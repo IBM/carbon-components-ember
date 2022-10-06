@@ -3,18 +3,18 @@ import DataTableComponent from 'carbon-components-ember/components/data-table';
 import { WithBoundArgs } from '@glint/template';
 import DataTableRow from 'carbon-components-ember/components/data-table/-row';
 
-type Args<T> = {
+type Args = {
   isExpandable: boolean;
   isCheckable: boolean;
   table: DataTableComponent<any>;
-  items: T[];
+  items: any[];
 }
 
 export interface DataTableBodySignature<T> {
-  Args: Args<T>;
+  Args: Args;
   Blocks: {
     default: [{
-      Row: WithBoundArgs<typeof DataTableRow<T>, 'table'|'isCheckable'|'item'|'isExpandable'>;
+      Row: WithBoundArgs<typeof DataTableRow<any>, 'table'|'isCheckable'|'item'|'isExpandable'>;
       item: T;
     }];
   };

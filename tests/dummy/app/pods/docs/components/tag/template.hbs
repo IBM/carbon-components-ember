@@ -1,5 +1,6 @@
 {{import Tag from 'carbon-components-ember/components/tag'}}
 {{import Demo from 'ember-cli-addon-docs/components/docs-demo'}}
+{{import castToAny from '~/helpers/cast-to-any'}}
 
 
 <h1>Carbon Tag</h1>
@@ -10,7 +11,7 @@
 
     {{#each (array 'red' 'magenta' 'purple' 'blue' 'cyan' 'teal' 'green' 'gray' 'cool-gray' 'warm-gray') as |type|}}
       <Carbon::Tag @type={{type}}>{{type}}</Carbon::Tag>
-      <Tag @type={{type}}>{{type}}</Tag>
+      <Tag @type={{castToAny type}}>{{type}}</Tag>
     {{/each}}
 
   {{/demo.example}}

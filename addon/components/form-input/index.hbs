@@ -1,4 +1,6 @@
 {{import defaultTo from 'carbon-components-ember/helpers/default-to'}}
+{{import '{ on }' from '@ember/modifier'}}
+
 <div class="cds--form-item" style='margin-bottom: 1.5rem;' ...attributes>
   {{#if @label}}
     <label for="text-input-{{this.guid}}" class="cds--label">{{@label}}</label>

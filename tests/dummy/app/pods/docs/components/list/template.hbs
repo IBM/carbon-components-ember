@@ -1,25 +1,29 @@
 {{import List from 'carbon-components-ember/components/list'}}
+{{import DocsDemo from 'ember-cli-addon-docs/components/docs-demo'}}
 
 <h1>Carbon List</h1>
 
 <DocsDemo as |demo|>
   {{#demo.example name='list.hbs'}}
-    <List @loading={{true}} as |list|>
-
+    <List @loading={{true}}>
+      Loading
     </List>
+
+    <br>
+    <br>
 
     <List @items={{array 'a' 'b' 'c'}} as |list|>
       <list.SearchInput/>
-      <list.Header @headers={{array 1 2 3}} />
-      <list.Body>
-        {{#each list.items as |i|}}
-          <list.Row>
-            <list.Column>{{i}}</list.Column>
-          </list.Row>
-        {{/each}}
-      </list.Body>
+      <list.Header @headers={{array "1" "2" "3"}} />
+      <list.BodyRows as |row|>
+          <row.Row>
+            <list.Column>{{row.item}}</list.Column>
+          </row.Row>
+      </list.BodyRows>
       <list.Pagination/>
     </List>
   {{/demo.example}}
+  <br>
+  <br>
   <demo.snippet @name="list.hbs" />
 </DocsDemo>

@@ -4,6 +4,22 @@ declare module 'ember-cli-addon-docs/components/docs-demo' {
   export default class extends Component {}
 }
 
+declare module 'ember-cli-addon-docs/components/docs-viewer' {
+  import Component from '@glimmer/component';
+  export default class extends Component {}
+}
+
+declare module 'ember-cli-addon-docs/components/docs-hero' {
+  import Component from '@glimmer/component';
+  type Args = {
+    prefix: string;
+    heading: string;
+    byline: string;
+  }
+
+  export default class extends Component<Args> {}
+}
+
 declare module 'ember-tooltips/components/ember-tooltip' {
   import Component from '@glimmer/component';
   type Args = {

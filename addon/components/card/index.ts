@@ -8,7 +8,7 @@ type Args = {
    @argument loading
    @type boolean
    */
-  loading: boolean;
+  loading?: boolean;
   /**
    @argument title
    @type String
@@ -20,7 +20,7 @@ export interface CardComponentSignature {
   Args: Args;
   Element: HTMLDivElement;
   Blocks: {
-    default: []
+    default: [];
   };
 }
 

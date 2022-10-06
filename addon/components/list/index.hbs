@@ -17,9 +17,8 @@
               items=this.currentItems
               SearchInput=(component SearchInput value=this.currentSearch onChange=(fn (mut this.currentSearch)) light=true size='sm')
               Pagination=(component Pagination length=@items.length onPageChanged=(fn (mut this.currentItemsSlice)))
-              Row=(component ListRow list=this)
               Column=ListColumn
-              Body=ListBody
+              BodyRows=(component ListBody list=this items=this.currentItems)
               Header=ListHeader
             )
     }}

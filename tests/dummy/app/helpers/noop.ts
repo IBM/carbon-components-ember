@@ -1,8 +1,8 @@
 import { helper as buildHelper } from '@ember/component/helper';
 
-export function run(...args) {
-  return;
+export function noop() {
+  return () => {};
 }
 
-export const helper = buildHelper(run);
+export const helper = buildHelper(noop);
 export default helper;

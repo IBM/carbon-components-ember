@@ -62,7 +62,7 @@ type Args = {
    @argument onClick
    @type function
    */
-  onClick?: () => null|Promise<any>;
+  onClick?: () => void|Promise<any>;
 
   /**
    * button style

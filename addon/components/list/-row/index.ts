@@ -3,9 +3,8 @@ import { action } from '@ember/object';
 import ListComponent from 'carbon-components-ember/components/list';
 
 type Args<T> = {
-  onSelect(item: any): void;
+  onSelect?(item: any): void;
   list: ListComponent<T>;
-  isCurrent: boolean;
   isHeader: boolean;
   item: T;
 }

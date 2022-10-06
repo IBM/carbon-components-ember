@@ -5,7 +5,7 @@
          readonly='{{@readonly}}'
          name="{{@name}}"
          checked={{if @value true false}}
-         onchange={{fn this.onToggleChange}}
+         {{on 'change' this.onToggleChange}}
   >
   <label class="cds--toggle__label" for="toggle{{this.guid}}">
     <span class="cds--toggle__text--left">Off</span>

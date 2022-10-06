@@ -11,8 +11,8 @@ type Args = {
    * @argument onClose
    * @type function
    */
-  onClose: null|Function;
-  type: string;
+  onClose?: Function;
+  type?: 'danger'|'default'|'passive';
 }
 
 export interface ModalComponentSignature {

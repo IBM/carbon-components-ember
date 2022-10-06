@@ -10,10 +10,10 @@ import ListBodyComponent from 'carbon-components-ember/components/list/-body';
 import ListHeaderComponent from 'carbon-components-ember/components/list/-header';
 
 type Args<T> = {
-  items: T[];
-  loading: boolean;
-  onSelect(item: any): void;
-  selectable: boolean;
+  items?: T[];
+  loading?: boolean;
+  onSelect?(item: any): void;
+  selectable?: boolean;
 }
 
 export interface ListComponentSignature<T> {
@@ -24,7 +24,7 @@ export interface ListComponentSignature<T> {
       SearchInput: WithBoundArgs<typeof SearchComponent, 'value'|'onChange'|'light'|'size'>;
       Pagination: WithBoundArgs<typeof CarbonPagination, 'length'|'onPageChanged'>;
       Column: typeof ListColumnComponent;
-      Body: typeof ListBodyComponent;
+      BodyRows: WithBoundArgs<typeof ListBodyComponent<T>, 'list'|'items'>;
       Header: typeof ListHeaderComponent;
     }];
   };
@@ -33,6 +33,7 @@ export interface ListComponentSignature<T> {
 export default class ListComponent<T> extends Component<ListComponentSignature<T>> {
   @tracked currentSearch: string;
   @tracked currentItemsSlice:any = null;
+  @tracked currentItem?: T;
 
   filter(items, term) {
     term = term && term.toLowerCase();
@@ -63,7 +64,8 @@ export default class ListComponent<T> extends Component<ListComponentSignature<T
   }
 
   @action
-  onSelect(item) {
+  onSelect(item: T) {
+    this.currentItem = item;
     this.args.onSelect?.(item);
   }
 }
