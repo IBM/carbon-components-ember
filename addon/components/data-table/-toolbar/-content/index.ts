@@ -10,7 +10,7 @@ export interface Signature {
   }
 }
 
-export default class ListToolbarContentComponent extends Component<Signature> {}
+export default class TableToolbarContentComponent extends Component<Signature> {}
 
 
 

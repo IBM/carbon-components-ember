@@ -1,15 +1,15 @@
 import Component from '@glimmer/component';
 
 type Args = {
-  type: 'red'|'magenta'|'purple'|'blue'|'cyan'|'teal'|'green'|'gray'|'cool-gray'|'warm-gray'
+  type: 'red'|'magenta'|'purple'|'blue'|'cyan'|'teal'|'green'|'gray'|'cool-gray'|'warm-gray';
 }
 
 export interface TagInterface {
   Args: Args;
   Element: HTMLDivElement;
   Blocks: {
-    default: []
-  }
+    default: [];
+  };
 }
 
 export default class TagComponent extends Component<TagInterface> {

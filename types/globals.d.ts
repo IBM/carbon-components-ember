@@ -1,40 +1,13 @@
 
+// eslint-disable-next-line no-unused-vars
+declare type EmberPromise<T> = Promise<T> & { content: T | undefined }
 
-declare module 'ember-cli-addon-docs/components/docs-demo' {
-  import Component from '@glimmer/component';
-  export default class extends Component {}
-}
+type UnionKeys<T> = T extends T ? keyof T : never;
 
-declare module 'ember-tooltips/components/ember-tooltip' {
-  import Component from '@glimmer/component';
-  type Args = {
-    isShown?: boolean;
-    event?: 'none'|'hover'
-  };
-  export default class extends Component<Args> {}
-}
+// Improve intellisense
+type Expand<T> = T extends T ? { [K in keyof T]: T[K] } : never;
 
-declare module 'ember-composable-helpers/helpers/join' {
-  function join(seperator: string, array: string[]): string;
-  function join(array: string[]): string;
-  export default join;
-}
-
-declare module '@ember/helper' {
-  export const fn: import('@glint/environment-ember-loose/-private/dsl/index').Globals['fn']
-  export const on: import('@glint/environment-ember-loose/-private/dsl/index').Globals['on']
-}
-
-declare module '@ember/modifier' {
-  export const on: import('@glint/environment-ember-loose/-private/dsl/index').Globals['on']
-}
-
-
-declare module '@ember/render-modifiers/modifiers/did-insert' {
-  const didInsert: import('@glint/template').ModifierLike<{
-    Args: {
-      Positional: [fn: (...args: any) => void, ...args: any]
-    }
-  }>;
-  export default didInsert;
-}
+// eslint-disable-next-line no-unused-vars
+type OneOf<T extends {}[]> = {
+  [K in keyof T]: Expand<T[K] & Partial<Record<Exclude<UnionKeys<T[number]>, keyof T[K]>, never>>>;
+}[number];

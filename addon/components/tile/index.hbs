@@ -1,5 +1,8 @@
 {{import Icon from '../icon'}}
 {{import set from 'carbon-components-ember/helpers/set'}}
+{{import '{ on }' from '@ember/modifier'}}
+{{import not from 'ember-truth-helpers/helpers/not'}}
+{{import '{ fn }' from '@ember/helper'}}
 
 {{#if @selectable}}
   <label for="tile-{{this.guid}}" aria-label="tile" class="cds--tile cds--tile--selectable {{if this.selected 'cds--tile--is-selected'}}" data-tile="selectable" tabindex={{@tabindex}}>

@@ -1,10 +1,14 @@
 {{import Icon from 'carbon-components-ember/components/icon'}}
+{{import DocsDemo from 'ember-cli-addon-docs/components/docs-demo'}}
+{{import '{ fn }' from '@ember/helper'}}
+{{import noop from '../../../../helpers/noop'}}
+
 <h1>Carbon Icon</h1>
 
 <DocsDemo as |demo|>
   {{#demo.example name='icon.hbs'}}
     <Icon @icon="bookmark" />
-    <Icon @icon="task" @onClick={{fn (mut this.clicked)}}/>
+    <Icon @icon="task" @onClick={{fn (noop)}}/>
   {{/demo.example}}
   <demo.snippet @name="icon.hbs" />
 </DocsDemo>

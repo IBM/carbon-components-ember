@@ -1,5 +1,12 @@
 import Component from '@glimmer/component';
+import MenuItemComponent from 'carbon-components-ember/components/menu/-item';
 
-export default class TableMenuComponent extends Component {
+export interface TableMenuComponentSignature {
+  Blocks: {
+    default: [typeof MenuItemComponent];
+  };
+}
+
+export default class TableMenuComponent extends Component<TableMenuComponentSignature> {
 
 }

@@ -1,5 +1,20 @@
 import { PieChart } from '@carbon/charts';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
+import { defaultArgs } from 'carbon-components-ember/decorators';
+import { CarbonChartSignature } from 'carbon-components-ember/components/charts/-components/chart/index';
+
+type Args = {
+  resizable?: boolean;
+  legendClickable?: boolean;
+}
+
+export interface CarbonPieChartSignature {
+  Args: Args;
+  Element: HTMLDivElement;
+  Blocks: {
+    default: CarbonChartSignature['Blocks']['default']
+  }
+}
 
 /**
  The CarbonPieChart
@@ -10,16 +25,11 @@ import Component from '@ember/component';
  @yield {Component} api.DataSet <a href='-components/dataset' >Dataset</a>
  @yield {Component} api.Axis <a href='-components/axis' >ChartAxis</a>
  **/
-class CarbonPieChart extends Component {
-  tagName = '';
+class CarbonPieChart extends Component<CarbonPieChartSignature> {
   ChartClass = PieChart;
-  args = {
-    /**
-     * Chart labels
-     @argument labels
-     @type String[]
-     */
-    labels: [],
+
+  @defaultArgs
+  args: Args = {
 
     /**
      * Is resizable

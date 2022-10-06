@@ -3,7 +3,11 @@ import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 
 type Args = {
-  onChange: (v: any) => null
+  onChange: (v: any) => void;
+  value: boolean;
+  readonly?: boolean;
+  disabled?: boolean;
+  name: string;
 }
 
 export default class ToggleComponent extends Component<Args> {

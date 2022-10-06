@@ -1,10 +1,10 @@
-module.exports = function (environment) {
+module.exports = function(environment) {
   const ENV = {
     modulePrefix: 'dummy',
     podModulePrefix: 'dummy/pods',
     environment,
     rootURL: '/',
-    locationType: 'auto',
+    locationType: 'history',
     historySupportMiddleware: true,
     EmberENV: {
       FEATURES: {

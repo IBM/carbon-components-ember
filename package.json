@@ -1,44 +1,89 @@
 {
-  "version": "0.5.0",
   "name": "carbon-components-ember",
+  "version": "0.5.0",
   "keywords": [
     "ember-addon"
   ],
-  "ember-addon": {
-    "main": "addon",
-    "paths": [
-      "lib/pre-build"
-    ]
+  "engines": {
+    "node": ">=10"
   },
-  "main": "addon",
+  "homepage": "https://patricklx.github.io/carbon-components-ember",
   "repository": {
     "url": "https://github.com/patricklx/carbon-components-ember"
   },
+  "main": "addon",
+  "types": "index.d.ts",
   "scripts": {
-    "prepublishOnly": "tsc",
-    "lint": "./node_modules/.bin/eslint tests addon",
-    "dev": "ember s",
-    "ts:build": "tsc",
     "build": "ember b",
+    "dev": "ember s",
+    "glint": "./node_modules/.bin/glint",
+    "lint:hbs": "./node_modules/.bin/ember-template-lint tests addon",
+    "lint:js": "bash ./node_modules/.bin/eslint tests addon",
+    "prepublishOnly": "tsc",
     "test": "ember test",
     "testserver": "ember test --serve"
   },
-  "overrides": {
-    "broccoli-sass-source-maps": "patricklx/broccoli-sass-source-maps",
-    "@embroider/macros": "^1.7.1",
-    "@embroider/core": "^1.7.1",
-    "@embroider/util": "^1.7.1",
-    "@embroider/shared-internals": "^1.7.1",
-    "ember-get-config": "^2.0.0"
+  "dependencies": {
+    "@carbon/charts": "^1.5.0",
+    "@carbon/colors": "^11.3.0",
+    "@carbon/grid": "^11.2.0",
+    "@carbon/icon-helpers": "^10.30.0",
+    "@carbon/icons": "^11.3.0",
+    "@carbon/import-once": "^10.7.0",
+    "@carbon/layout": "^11.2.0",
+    "@carbon/themes": "^11.3.0",
+    "@carbon/type": "^11.3.0",
+    "@gavant/glint-template-types": "^0.1.5",
+    "@glimmer/component": "^1.0.2",
+    "@glimmer/tracking": "^1.0.2",
+    "@glint/environment-ember-template-imports": "^0.9.4",
+    "@types/node": "^18.7.9",
+    "broccoli-sass-source-maps": "github:adopted-ember-addons/broccoli-sass-source-maps",
+    "carbon-components": "^10.56.0",
+    "carbon-web-components": "^1.21.0",
+    "d3-array": "^3.1.1",
+    "d3-axis": "^3.0.0",
+    "d3-brush": "^3.0.0",
+    "d3-collection": "^1.0.7",
+    "d3-color": "^3.1.0",
+    "d3-hierarchy": "^3.1.1",
+    "d3-interpolate": "^3.0.1",
+    "d3-scale": "^4.0.2",
+    "d3-selection": "^3.0.0",
+    "d3-shape": "^3.1.0",
+    "d3-transition": "^3.0.1",
+    "ember-auto-import": "^2.4.2",
+    "ember-basic-dropdown": "^6.0.1",
+    "ember-cli-babel": "^7.23.0",
+    "ember-cli-htmlbars": "^6.0.1",
+    "ember-cli-moment-shim": "^3.8.0",
+    "ember-cli-typescript": "^5.1.1",
+    "ember-composable-helpers": "^5.0.0",
+    "ember-concurrency-ts": "^0.3.1",
+    "ember-get-config": "^2.0.0",
+    "ember-hbs-imports": "^0.5.20",
+    "ember-in-element-polyfill": "^1.0.1",
+    "ember-maybe-import-regenerator": "^1.0.0",
+    "ember-named-blocks-polyfill": "^0.2.3",
+    "ember-power-calendar": "^0.18.0",
+    "ember-power-calendar-moment": "^0.2.0",
+    "ember-power-select": "^6.0.1",
+    "ember-ref-modifier": "^1.0.0",
+    "ember-tooltips": "^3.6.0",
+    "jsonfile": "^6.1.0",
+    "spark-md5": "^3.0.1",
+    "yam": "^1.0.0"
   },
-  "types": "index.d.ts",
   "devDependencies": {
+    "@ascua/arrays": "^0.0.236",
     "@ember/jquery": "^2.0.0",
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.8.1",
     "@glint/core": "^0.9.4",
     "@glint/environment-ember-loose": "^0.9.4",
+    "@release-it-plugins/lerna-changelog": "^5.0.0",
     "@types/ember": "^4.0.1",
+    "@types/ember__destroyable": "^4.0.0",
     "@types/ember__test-helpers": "^2.8.1",
     "@types/ember-qunit": "^5.0.1",
     "@types/qunit": "^2.19.2",
@@ -68,7 +113,7 @@
     "ember-maybe-import-regenerator-for-testing": "^1.0.0",
     "ember-qunit": "^5.1.5",
     "ember-resolver": "^8.0.0",
-    "ember-source": "^4.3.0",
+    "ember-source": "^4.7.0",
     "ember-source-channel-url": "latest",
     "ember-template-lint": "^4.12.0",
     "ember-try": "^2.0.0",
@@ -76,64 +121,47 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-ember": "^11.0.4",
     "eslint-plugin-ember-standard": "^2.1.0",
+    "eslint-plugin-qunit": "^7.3.1",
     "loader.js": "^4.7.0",
     "qunit": "^2.18.1",
+    "release-it": "^14.2.1",
     "sass-embedded": "^1.53.0",
     "typescript": "^4.8.2",
     "webpack": "^5.72.0"
   },
-  "dependencies": {
-    "@carbon/charts": "^1.5.0",
-    "@carbon/colors": "^11.3.0",
-    "@carbon/grid": "^11.2.0",
-    "@carbon/icon-helpers": "^10.30.0",
-    "@carbon/icons": "^11.3.0",
-    "@carbon/import-once": "^10.7.0",
-    "@carbon/layout": "^11.2.0",
-    "@carbon/themes": "^11.3.0",
-    "@carbon/type": "^11.3.0",
-    "@gavant/glint-template-types": "^0.1.5",
-    "@glimmer/component": "^1.0.2",
-    "@glimmer/tracking": "^1.0.2",
-    "@glint/environment-ember-template-imports": "^0.9.4",
-    "@types/node": "^18.7.9",
-    "carbon-components": "^10.56.0",
-    "carbon-web-components": "^1.21.0",
-    "d3-array": "^3.1.1",
-    "d3-axis": "^3.0.0",
-    "d3-brush": "^3.0.0",
-    "d3-collection": "^1.0.7",
-    "d3-color": "^3.1.0",
-    "d3-hierarchy": "^3.1.1",
-    "d3-interpolate": "^3.0.1",
-    "d3-scale": "^4.0.2",
-    "d3-selection": "^3.0.0",
-    "d3-shape": "^3.1.0",
-    "d3-transition": "^3.0.1",
-    "ember-auto-import": "^2.4.2",
-    "ember-basic-dropdown": "^6.0.1",
-    "ember-cli-babel": "^7.23.0",
-    "ember-cli-htmlbars": "^6.0.1",
-    "ember-cli-moment-shim": "^3.8.0",
-    "ember-cli-typescript": "^5.1.1",
-    "ember-tooltips": "^3.6.0",
-    "ember-composable-helpers": "^5.0.0",
-    "ember-concurrency-ts": "^0.3.1",
-    "ember-get-config": "^2.0.0",
-    "ember-hbs-imports": "^0.5.1",
-    "ember-in-element-polyfill": "^1.0.1",
-    "ember-maybe-import-regenerator": "^1.0.0",
-    "ember-named-blocks-polyfill": "^0.2.3",
-    "ember-power-calendar": "^0.18.0",
-    "ember-power-calendar-moment": "^0.2.0",
-    "ember-power-select": "^5.0.4",
-    "ember-ref-modifier": "^1.0.0",
-    "jsonfile": "^6.1.0",
-    "spark-md5": "^3.0.1",
-    "yam": "^1.0.0"
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
   },
-  "homepage": "https://patricklx.github.io/carbon-components-ember",
   "ember": {
     "edition": "octane"
+  },
+  "ember-addon": {
+    "main": "addon",
+    "paths": [
+      "lib/pre-build"
+    ]
+  },
+  "overrides": {
+    "broccoli-sass-source-maps": "github:adopted-ember-addons/broccoli-sass-source-maps",
+    "@embroider/macros": "^1.7.1",
+    "@embroider/core": "^1.7.1",
+    "@embroider/util": "^1.7.1",
+    "@embroider/shared-internals": "^1.7.1",
+    "ember-get-config": "^2.0.0"
+  },
+  "release-it": {
+    "plugins": {
+      "@release-it-plugins/lerna-changelog": {
+        "infile": "CHANGELOG.md",
+        "launchEditor": true
+      }
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true,
+      "tokenRef": "GITHUB_AUTH"
+    }
   }
 }

@@ -4,15 +4,17 @@ import Loading from 'carbon-components/es/components/loading/loading';
 import { defaultArgs } from '../../decorators';
 
 type Args = {
-  active?: boolean,
-  small?: boolean,
-  overlay?: boolean,
-  title?: boolean,
-  inline?: boolean
+  active?: boolean;
+  small?: boolean;
+  overlay?: boolean;
+  title?: boolean;
+  inline?: boolean;
+  classNames?: string;
 }
 
 export interface LoadingComponentSignature {
-  Args: Args
+  Args: Args;
+  Element: HTMLDivElement;
 }
 
 export default class LoadingComponent extends Component<LoadingComponentSignature> {

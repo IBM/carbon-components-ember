@@ -1,5 +1,6 @@
-import DialogManager from './addon/services/dialog-manager'
-import Notifications from './addon/services/notifications'
+import DialogManager from './addon/services/dialog-manager';
+import Notifications from './addon/services/notifications';
+import Ember from 'ember';
 
 declare module '@ember/service' {
   export interface Registry {
@@ -8,4 +9,8 @@ declare module '@ember/service' {
     'carbon-components-ember@notifications': Notifications
     'carbon.notifications': Notifications
   }
+}
+
+declare global {
+  interface Array<T> extends Ember.ArrayPrototypeExtensions<T> {}
 }

@@ -4,16 +4,17 @@
 {{import set from 'carbon-components-ember/helpers/set'}}
 {{import Card from 'carbon-components-ember/components/card'}}
 
+
 <h1>Carbon Card</h1>
 
 <Demo as |demo|>
   {{#demo.example name='card.hbs'}}
     {{!import Card from 'carbon-components-ember/components/card'}}
-    <Card @title="A Card title" as |card|>
+    <Card @title="A Card title">
       Card text
     </Card>
     <br>
-    <Card @title="loading card" @loading={{true}} as |card|>
+    <Card @title="loading card" @loading={{true}}>
       Card text
     </Card>
   {{/demo.example}}

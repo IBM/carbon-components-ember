@@ -6,14 +6,26 @@ import { autoComputed } from 'carbon-components-ember/decorators';
 
 type Args = {
   selectable: boolean;
+  clickable: boolean;
   expandable: boolean;
   onClick: () => null;
   onSelect: () => null;
+  tabindex: string;
 }
 
-export default class TileComponent extends Component<Args> {
+export interface TileComponentSignature {
+  Args: Args;
+  Blocks: {
+    above: [];
+    content: [];
+    below: [];
+  };
+}
+
+export default class TileComponent extends Component<TileComponentSignature> {
 
   @tracked selected = null;
+  @tracked expanded = false;
 
   @autoComputed()
   get guid() {

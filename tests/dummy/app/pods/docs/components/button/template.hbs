@@ -5,6 +5,8 @@
 {{import set from 'carbon-components-ember/helpers/set'}}
 {{import not from 'ember-truth-helpers/helpers/not'}}
 {{import Button from 'carbon-components-ember/components/button'}}
+{{import eq from 'ember-truth-helpers/helpers/eq'}}
+{{import '{fn}' from '@ember/helper'}}
 
 <h1>Carbon Button</h1>
 
@@ -14,28 +16,28 @@
 
     <Button
       @type="primary"
-      @onClick={{set this 'clicked' true}}
+      @onClick={{fn (set this 'clicked') true}}
     >
       Primary Button
     </Button>
     <Button
       @type="primary"
       @ghost={{true}}
-      @onClick={{set this 'clicked' true}}
+      @onClick={{fn (set this 'clicked') true}}
     >
       Ghost Button
     </Button>
     <Button
       @type="primary"
       @tertiary={{true}}
-      @onClick={{set this 'clicked' true}}
+      @onClick={{fn (set this 'clicked') true}}
     >
       Tertiary Button
     </Button>
     <Button
       @type="secondary"
       @small={{true}}
-      @onClick={{set this 'clicked' true}}
+      @onClick={{fn (set this 'clicked') true}}
     >
       Secondary Small Button
     </Button>

@@ -1,13 +1,14 @@
 {{import onUpdate from '../../-helpers/on-update'}}
 {{import toBool from '../../-helpers/to-bool'}}
+{{import '{ fn }' from '@ember/helper'}}
+{{import newObj from 'carbon-components-ember/helpers/new-obj'}}
+
 
 {{#if @chart.setAxis}}
-  {{onUpdate @axis @title @stacked (fn @chart.setAxis @axis (hash
+  {{onUpdate (fn @chart.setAxis @axis (newObj
     title=@title
     stacked=(toBool @stacked)
-    primary=(toBool @primary)
-    secondary=(toBool @secondary)
     scaleType=@scaleType
-    addSpaceOnEdges=@addSpaceOnEdges
-  ))}}
+  )) @axis @title @stacked }}
 {{/if}}
+

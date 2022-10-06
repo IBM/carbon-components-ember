@@ -1,11 +1,11 @@
 import Component from '@glimmer/component';
-import UiShellHeader from 'carbon-components-ember/components/ui-shell/-header';
+import UiShellHeader from './-header';
 
 
 
 export interface UiShellSignature {
-  Yields: {
-    shell: [{Header: UiShellHeader, Sidenav, Nav}];
+  Blocks: {
+    shell: [{Header: typeof UiShellHeader; Sidenav; Nav}];
     content: [];
   };
 }

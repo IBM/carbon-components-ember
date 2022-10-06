@@ -1,15 +1,21 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import NotificationService from 'carbon-components-ember/services/notifications';
+import NotificationService, { NotificationOptions } from 'carbon-components-ember/services/notifications';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 
 type Args = {
   onClick: null|Function;
+  notification?: NotificationOptions;
+} & NotificationOptions
+
+export interface NotificationComponentSignature {
+  Args: Args;
+  Element: HTMLDivElement
 }
 
-export default class NotificationComponent extends Component<Args> {
+export default class NotificationComponent extends Component<NotificationComponentSignature> {
   @tracked show = true;
   @service('carbon.notifications') notifications: NotificationService;
 

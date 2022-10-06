@@ -1,5 +1,9 @@
 import Component from '@glimmer/component';
 
-export default class ListSkeletonComponent extends Component {
+type Args = {
+  headers: string[];
+}
+
+export default class ListSkeletonComponent extends Component<Args> {
 
 }

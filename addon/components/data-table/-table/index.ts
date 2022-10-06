@@ -1,5 +1,17 @@
 import Component from '@glimmer/component';
 
-export default class TableComponent extends Component {
+type Args = {
+  isLoading?: boolean;
+  isSortable?: boolean;
+}
+
+export interface TableComponentSignature {
+  Args: Args;
+  Blocks: {
+    default: [];
+  };
+}
+
+export default class TableComponent extends Component<TableComponentSignature> {
 
 }

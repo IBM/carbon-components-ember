@@ -23,17 +23,27 @@
       "types"
     ],
     "paths": {
+      "dummy/*": [
+        "tests/dummy/app/*"
+      ],
       "carbon-components-ember/*": [
         "addon/*"
       ],
       "ember-truth-helpers/helpers/*": [
         "node_modules/@gavant/glint-template-types/types/ember-truth-helpers/*"
+      ],
+      "ember-power-select/helpers/*": [
+        "node_modules/ember-power-select/addon/helpers/*"
+      ],
+      "ember-basic-dropdown/components/*": [
+        "node_modules/ember-basic-dropdown/addon/components/*"
       ]
     }
   },
   "include": [
     "**/*",
     "types/globals.d.ts",
+    "types/glint.d.ts",
     "index.d.ts",
     "lib/*.ts",
     "addon/**/*.ts",

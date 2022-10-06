@@ -2,29 +2,28 @@ module.exports = {
   root: true,
   parserOptions: {
     ecmaVersion: 2017,
-    sourceType: 'module'
+    sourceType: 'module',
   },
-  'parser': '@typescript-eslint/parser',
-  plugins: [
-    'ember',
-    '@typescript-eslint'
-  ],
+  parser: '@typescript-eslint/parser',
+  plugins: ['ember', '@typescript-eslint'],
   extends: [
     'eslint:recommended',
-    'plugin:ember/recommended'
+    'plugin:ember/recommended',
   ],
   env: {
-    browser: true
+    browser: true,
+  },
+  globals: {
+    OneOf: true
   },
   rules: {
     'ember/no-empty-glimmer-component-classes': 'off',
-    'quotes': [
-      'error', 'single'
-    ],
-    'indent': 'off',
+    quotes: ['error', 'single'],
+    indent: 'off',
+    '@typescript-eslint/member-delimiter-style': 'error',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/indent': 'off',
-    '@typescript-eslint/ban-ts-comment':  'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-empty-function': 'off',
     'node/no-unsupported-features/es-syntax': 'off',
@@ -39,19 +38,25 @@ module.exports = {
     'no-param-reassign': 'off',
     'no-plusplus': 'off',
     'no-underscore-dangle': 'off',
-    'no-unused-vars': ['error', {
-      'args': 'none'
-    }],
-    'no-use-before-define': ['error', {
-      'functions': false
-    }],
+    'no-unused-vars': [
+      'error',
+      {
+        args: 'none',
+      },
+    ],
+    'no-use-before-define': [
+      'error',
+      {
+        functions: false,
+      },
+    ],
     'max-len': ['error', 180],
     'object-shorthand': 'off',
     'prefer-arrow-callback': 'off',
     'prefer-rest-params': 'off',
     'spaced-comment': 'off',
     'space-before-function-paren': ['error', 'never'],
-    'strict': 'off',
+    strict: 'off',
     'vars-on-top': 'off',
 
     'import/no-dynamic-require': 'off',
@@ -67,10 +72,13 @@ module.exports = {
     'padded-blocks': 'off',
     'no-else-return': 'off',
     'no-empty': 'off',
-    'prefer-const': ['error', {
-      'destructuring': 'all'
-    }],
-    'class-methods-use-this': 'off'
+    'prefer-const': [
+      'error',
+      {
+        destructuring: 'all',
+      },
+    ],
+    'class-methods-use-this': 'off',
   },
   overrides: [
     // node files
@@ -83,26 +91,39 @@ module.exports = {
         'testem.js',
         'blueprints/*/index.js',
         'config/**/*.js',
-        'tests/dummy/config/**/*.js'
+        'tests/dummy/config/**/*.js',
       ],
       excludedFiles: [
         'addon/**',
         'addon-test-support/**',
         'app/**',
-        'tests/dummy/app/**'
+        'tests/dummy/app/**',
       ],
       parserOptions: {
         sourceType: 'script',
-        ecmaVersion: 2015
+        ecmaVersion: 2015,
       },
       env: {
         browser: false,
-        node: true
+        node: true,
       },
       plugins: ['node'],
-      rules: Object.assign({}, require('eslint-plugin-node').configs.recommended.rules, {
-        // add your custom rules and overrides for node files here
-      })
-    }
-  ]
+      rules: Object.assign(
+        {},
+        require('eslint-plugin-node').configs.recommended.rules,
+        {
+          // add your custom rules and overrides for node files here
+        }
+      ),
+    },
+    {
+      // test files
+      files: ['tests/**/*-test.{js,ts}'],
+      extends: ['plugin:qunit/recommended'],
+      rules: {
+        'qunit/no-conditional-assertions': 'off',
+        'qunit/no-early-return': 'off',
+      },
+    },
+  ],
 };

@@ -1,43 +1,40 @@
 import Component from '@glimmer/component';
+import { defaultArgs } from 'carbon-components-ember/decorators';
+import CarbonChart from 'carbon-components-ember/components/charts/-components/chart';
+
+type Args = {
+  name: string;
+  color: string;
+  chart: CarbonChart;
+}
 
 /** @documenter yuidoc */
 /**
- The ChartAxis
+ The ColorScale
 
  ```handlebars
  ```
- @class ChartAxis
+ @class ColorScale
  @public
  **/
-class ChartAxis extends Component {
-  args = {
+class ColorScale extends Component<Args> {
+
+  @defaultArgs
+  args: Args = {
     /**
      * The Axis Title
      * @argument title
      * @type String
      */
-    title: '',
+    name: '',
     /**
-     * @argument stacked
-     * @type boolean
-     */
-    stacked: false,
-    /**
-     * @argument primary
-     * @type boolean
-     */
-    primary: false,
-    /**
-     * @argument secondary
-     * @type boolean
-     */
-    secondary: false,
-    /**
-     * @argument scaleType
+     * @argument color
      * @type String
      */
-    scaleType: null
+    color: '',
+
+    chart: null as any
   }
 }
 
-export default ChartAxis;
+export default ColorScale;

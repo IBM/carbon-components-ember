@@ -9,10 +9,11 @@ type Args = {
   header: string;
   type: string;
   cancelText?: string;
+  label?: string;
 }
 
 export interface DialogConfirmInterface {
-  Args: Args
+  Args: Args;
 }
 
 export default class ConfirmDialogComponent extends Component<DialogConfirmInterface> {

@@ -6,7 +6,16 @@ import { A } from '@ember/array';
 import MutableArray from '@ember/array/mutable';
 import { taskFor } from 'ember-concurrency-ts';
 import { task } from 'ember-concurrency-decorators';
-import {next} from '@ember/runloop';
+import { next } from '@ember/runloop';
+import TableToolbarComponent from 'carbon-components-ember/components/data-table/-toolbar';
+import TableSearchComponent from 'carbon-components-ember/components/data-table/-search-input';
+import CarbonPagination from 'carbon-components-ember/components/pagination';
+import TableComponent from 'carbon-components-ember/components/data-table/-table';
+import DataTableBody from 'carbon-components-ember/components/data-table/-body';
+import TableMenuComponent from 'carbon-components-ember/components/data-table/-menu';
+import TableColumn from 'carbon-components-ember/components/data-table/-column';
+import { WithBoundArgs } from '@glint/template';
+import ListHeaderComponent, { Header } from 'carbon-components-ember/components/data-table/-header';
 
 class TrackedSet {
   @tracked counter = 0;
@@ -57,30 +66,57 @@ class TrackedSet {
 }
 
 class State {
-  @tracked currentItemsSlice: {start: number, end?: number} | null = null;
-  @tracked currentSearchTerm: string|null = null;
-  @tracked currentSearch: MutableArray<any>|null = null;
+  @tracked currentItemsSlice?: {start: number; end?: number; itemsPerPage: number; page: number} = undefined;
+  @tracked currentSearchTerm?: string = undefined;
+  @tracked currentSearch?: MutableArray<any> = undefined;
   @tracked selectedItems = new TrackedSet();
 
 }
 
-type Args = {
-  onSelectionChange: (items: any[]) => null,
-  registerState: (state: State) => null,
-  search: () => Promise<boolean>,
-  state: State,
-  items: any[]
+type Args<T> = {
+  onSelectionChange?: (items: any[]) => void;
+  registerState?: (state: State) => void;
+  search?: () => Promise<boolean>;
+  state?: State;
+  items: T[];
+  isLoading?: boolean;
+  title?: string;
+  description?: string;
 }
 
-export default class DataTableComponent extends Component<Args> {
+export interface DataTableComponentSignature<T> {
+  Args: Args<T>;
+  Blocks: {
+    default: [{
+      Toolbar: WithBoundArgs<typeof TableToolbarComponent, 'table'>;
+      SearchInput: WithBoundArgs<typeof TableSearchComponent, 'isLoading'|'value'|'onChange'>;
+      Pagination: WithBoundArgs<typeof CarbonPagination, 'isLoading'|'length'|'state'|'onPageChanged'>;
+      Table: WithBoundArgs<typeof TableComponent, 'isLoading'>;
+      EachBodyRows: WithBoundArgs<typeof DataTableBody<T>, 'table'|'isExpandable'|'isCheckable'|'items'>;
+      Column: typeof TableColumn;
+      Menu: typeof TableMenuComponent;
+      Header: WithBoundArgs<typeof ListHeaderComponent, 'table'>;
+    }];
+  };
+}
 
-  args: Args = defaultArgs(this, {
+export default class DataTableComponent<T> extends Component<DataTableComponentSignature<T>> {
+  // this is set by the Header Component
+  declare isExpandable: boolean
+  declare isCheckable: boolean
+  declare headers: Header[]
+
+  @defaultArgs
+  args: Args<T> = {
     onSelectionChange: (items: any[]) => null,
     registerState: (state: State) => null,
-    search: null,
-    state: null,
-    items: null
-  });
+    search: undefined,
+    state: undefined,
+    items: undefined as any,
+    isLoading: false,
+    title: '',
+    description: ''
+  };
 
   @tracked internalState: State;
 
@@ -89,7 +125,7 @@ export default class DataTableComponent extends Component<Args> {
     const ensureString = v => (typeof v === 'string' ? v.toLowerCase() : JSON.stringify(v).toLowerCase());
     const f = (t, term) => {
       if (!term || term === '') return true;
-      if (t.id && t.id.includes(term)) return true;
+      if (t.id && t.id.toLowerCase().includes(term)) return true;
       return Object.values(t.toJSON ? t.toJSON() : t)
         .filter((v: any) => v && !v.defaultAdapter)
         .some(v => (v && ensureString(v).includes(term)));
@@ -101,7 +137,7 @@ export default class DataTableComponent extends Component<Args> {
     super(...args);
     next(() => {
       if (!this.state.currentItemsSlice) {
-        this.state.currentItemsSlice = { start: 0, end: undefined };
+        this.state.currentItemsSlice = { start: 0, end: undefined, itemsPerPage: 0, page: 0 };
       }
     });
 
@@ -116,9 +152,9 @@ export default class DataTableComponent extends Component<Args> {
     return this.state.selectedItems.toArray();
   }
 
-  get items() {
-    if (this.state.currentSearch !== null) {
-      return this.state.currentSearch;
+  get items(): any[] {
+    if (this.state.currentSearch) {
+      return this.state.currentSearch.toArray();
     }
     return this.args.items;
   }
@@ -126,22 +162,12 @@ export default class DataTableComponent extends Component<Args> {
   @task({ restartable: true })
   *applySearch(items, term) {
     this.state.currentSearch = A([]);
-    let cancelled = false;
-    const run = async() => {
-      term = term && term.toLowerCase();
-      const f = this.searchFunction;
-      for (const t of items.toArray()) {
-        if (cancelled) break;
-        if (await f(t, term)) {
-          this.state.currentSearch!!.pushObject(t);
-        }
+    term = term && term.toLowerCase();
+    const f = this.searchFunction;
+    for (const t of items.toArray()) {
+      if (yield f(t, term)) {
+        this.state.currentSearch!!.pushObject(t);
       }
-    }
-
-    try {
-      return yield run();
-    } finally {
-      cancelled = true;
     }
   }
 
@@ -156,16 +182,16 @@ export default class DataTableComponent extends Component<Args> {
 
   @action
   didInsert() {
-    next(this.args, this.args.registerState, this.state);
+    next(() => this.args.registerState?.(this.state));
   }
 
   @action
   search(term) {
     this.state.currentSearchTerm = term;
     if (!term) {
-      this.state.currentSearch = null;
+      this.state.currentSearch = undefined;
       taskFor(this.applySearch).cancelAll();
-      return Promise.resolve();
+      return
     }
     return taskFor(this.applySearch).perform(this.args.items || [], term);
   }
@@ -179,7 +205,7 @@ export default class DataTableComponent extends Component<Args> {
       this.state.selectedItems.delete(item);
     }
     // eslint-disable-next-line no-self-assign
-    this.args.onSelectionChange(this.state.selectedItems.toArray());
+    this.args.onSelectionChange?.(this.state.selectedItems.toArray());
   }
 
   @action
@@ -190,7 +216,7 @@ export default class DataTableComponent extends Component<Args> {
       this.state.selectedItems.setTo([]);
     }
     // eslint-disable-next-line no-self-assign
-    this.args.onSelectionChange(this.state.selectedItems.toArray());
+    this.args.onSelectionChange?.(this.state.selectedItems.toArray());
   }
 
   @action

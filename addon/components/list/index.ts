@@ -1,16 +1,39 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import SearchComponent from 'carbon-components-ember/components/search-input';
+import { WithBoundArgs } from '@glint/template';
+import CarbonPagination from 'carbon-components-ember/components/pagination';
+import ListRowComponent from 'carbon-components-ember/components/list/-row';
+import ListColumnComponent from 'carbon-components-ember/components/list/-column';
+import ListBodyComponent from 'carbon-components-ember/components/list/-body';
+import ListHeaderComponent from 'carbon-components-ember/components/list/-header';
 
-type Args = {
-  items: any[];
-  onSelect(item: any): void;
-  selectable: boolean;
+type Args<T> = {
+  items?: T[];
+  loading?: boolean;
+  onSelect?(item: any): void;
+  selectable?: boolean;
 }
 
-export default class ListComponent extends Component<Args> {
-  @tracked currentSearch = null;
+export interface ListComponentSignature<T> {
+  Args: Args<T>;
+  Blocks: {
+    default: [{
+      items: T[];
+      SearchInput: WithBoundArgs<typeof SearchComponent, 'value'|'onChange'|'light'|'size'>;
+      Pagination: WithBoundArgs<typeof CarbonPagination, 'length'|'onPageChanged'>;
+      Column: typeof ListColumnComponent;
+      BodyRows: WithBoundArgs<typeof ListBodyComponent<T>, 'list'|'items'>;
+      Header: typeof ListHeaderComponent;
+    }];
+  };
+}
+
+export default class ListComponent<T> extends Component<ListComponentSignature<T>> {
+  @tracked currentSearch: string;
   @tracked currentItemsSlice:any = null;
+  @tracked currentItem?: T;
 
   filter(items, term) {
     term = term && term.toLowerCase();
@@ -41,7 +64,8 @@ export default class ListComponent extends Component<Args> {
   }
 
   @action
-  onSelect(item) {
+  onSelect(item: T) {
+    this.currentItem = item;
     this.args.onSelect?.(item);
   }
 }

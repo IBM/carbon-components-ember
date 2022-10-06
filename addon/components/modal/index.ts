@@ -11,14 +11,24 @@ type Args = {
    * @argument onClose
    * @type function
    */
-  onClose: null|Function
+  onClose?: Function;
+  type?: 'danger'|'default'|'passive';
+}
+
+export interface ModalComponentSignature {
+  Args: Args;
+  Blocks: {
+    label: [];
+    header: [];
+    body: [];
+    footer: [];
+  };
 }
 
 /**
  * @class ModalComponent
- * @yield {String} part label|header|content|footer
  */
-export default class ModalComponent extends Component<Args> {
+export default class ModalComponent extends Component<ModalComponentSignature> {
   @tracked isVisible = true;
 
   args = defaultArgs(this, {

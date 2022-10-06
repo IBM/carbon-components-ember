@@ -1,7 +1,6 @@
 import { helper as buildHelper } from '@ember/component/helper';
 
-export function onUpdate([...args]) {
-  const fn = args.slice(-1)[0];
+export function onUpdate([fn, ...args]: [fn: () => void, ...args: any[]]) {
   fn();
 }
 

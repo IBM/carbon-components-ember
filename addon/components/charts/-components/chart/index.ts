@@ -2,12 +2,43 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { throttle } from '@ember/runloop';
 import { defaultArgs } from '../../../../decorators';
+import { Chart } from '@carbon/charts/chart';
+import { AxisChartOptions, BaseChartOptions } from '@carbon/charts/interfaces/charts';
+import CarbonChartTabularData from 'carbon-components-ember/components/charts/-components/tabular-data';
+import { WithBoundArgs } from '@glint/template';
+import ChartAxis from 'carbon-components-ember/components/charts/-components/axis/index';
+import ColorPairing from 'carbon-components-ember/components/charts/-components/color/pairing';
+import ColorScale from 'carbon-components-ember/components/charts/-components/color/scale/index';
+
 /** @documenter yuidoc */
 
+export type ChartData = {
+  group: string;
+  date?: Date|number;
+  key?: string;
+  value: number;
+}
 
 type Args = {
-
+  resizable?: boolean;
+  legendClickable?: boolean;
+  ChartClass?: typeof Chart;
 };
+
+export interface CarbonChartSignature {
+  Args: Args;
+  Element: HTMLDivElement;
+  Blocks: {
+    default: [
+      {
+        TabularData: WithBoundArgs<typeof CarbonChartTabularData, 'chart'>;
+        Axis: WithBoundArgs<typeof ChartAxis, 'chart'>;
+        ColorPairing: WithBoundArgs<typeof ColorPairing, 'chart'>;
+        ColorScale: WithBoundArgs<typeof ColorScale, 'chart'>;
+      }
+    ];
+  };
+}
 
 /**
  The CarbonChart
@@ -20,78 +51,69 @@ type Args = {
  @yield {Component} api.DataSet <a href='-components/dataset' >Dataset</a>
  @yield {Component} api.Axis <a href='-components/axis' >ChartAxis</a>
  **/
-class CarbonChart extends Component<Args> {
-  data = {
-    labels: [],
-    datasets: []
-  };
-  options = {
+class CarbonChart extends Component<CarbonChartSignature> {
+  data: ChartData[] = [];
+  options: BaseChartOptions | AxisChartOptions = {
     axes: {},
     color: {},
-    legendClickable: true,
-    containerResizable: true,
-    timeScale: {
-      addSpaceOnEdges: false
-    }
+    legend: {
+      clickable: true,
+    },
+    resizable: true,
+    timeScale: {},
   };
-  chartDiv = null;
+  chartDiv?: HTMLDivElement = undefined;
 
   @defaultArgs
   args: Args = {
     /**
-     * Chart labels
-     @argument labels
-     @type String[]
-     */
-      labels: [],
-
-      /**
      * Is resizable
      @argument resizable
      @type boolean
      */
-      resizable: true,
+    resizable: true,
 
-      /**
+    /**
      * Is legendClickable
      @argument legendClickable
      @type boolean
      */
-      legendClickable: true,
+    legendClickable: true,
 
-      /**
+    /**
      * Chart class
      @argument ChartClass
      @type Chart
      */
-      ChartClass: null
-    };
+    ChartClass: undefined,
+  };
 
+  private chart?: Chart;
+  private childChart: HTMLDivElement;
 
-  async setData() {
-    const labels = this.args.labels;
-    this.data.labels = Array.isArray(labels) ? labels : labels.split(',');
-    this.options.legendClickable = this.args.legendClickable;
-    this.options.containerResizable = this.args.resizable;
-    if (!this.data.datasets.length) return;
-    if (!this.options.axes.left) return;
-    if (!this.options.axes.bottom) return;
-    const data = Object.assign({}, this.data);
-    data.labels = data.labels.slice();
-    data.datasets = data.datasets.slice();
+  setData() {
+    this.options.legend = {};
+    this.options.legend.clickable = this.args.legendClickable!!;
+    this.options.resizable = this.args.resizable!!;
+    if (!this.data.length) return;
+    if (!(this.options as AxisChartOptions)?.axes?.left) return;
+    if (!(this.options as AxisChartOptions)?.axes?.bottom) return;
+    const data = this.data.slice();
 
-    if (!this.chart && this.args.ChartClass) {
+    if (!this.chart && this.args.ChartClass && this.chartDiv) {
       const d = document.createElement('div');
       this.chartDiv.appendChild(d);
       this.childChart = d;
       this.chart = new this.args.ChartClass(d, {
-        options: this.options,
-        data: data
+        options: this.options as any,
+        data: data,
       });
       this.chart.model.setOptions(this.options);
     }
-    this.childChart.style.height = this.chartDiv.style.height;
-    this.chart.model.setData(data);
+    if (this.childChart && this.chart) {
+      this.childChart.style.height = this.chartDiv!!.style.height;
+      this.chart?.model?.setData(data);
+    }
   }
 
   @action
@@ -112,45 +134,57 @@ class CarbonChart extends Component<Args> {
   @action
   destroyChart() {
     this.chart && this.chart.destroy();
-    this.chart = null;
+    this.chart = undefined;
   }
 
   @action
-  setAxis(axis, options) {
-    this.options.axes = Object.assign(this.options.axes, {}, {
-      [axis]: options
-    });
+  setAxis(
+    axis: 'left' | 'bottom',
+    options: { title: string; stacked: boolean; scaleType: string }
+  ) {
+    (this.options as AxisChartOptions).axes = Object.assign(
+      (this.options as AxisChartOptions).axes!!,
+      {},
+      {
+        [axis]: options,
+      }
+    );
     this.updateChart();
   }
 
   @action
   setColorPairing(values) {
-    this.options.color.pairing = values;
+    this.options.color!!.pairing = values;
   }
 
   @action
   setColorScale(datasetName, color) {
-    this.options.color.scale = this.options.color.scale || {};
-    this.options.color.scale[datasetName] = color;
+    this.options.color!!.scale = this.options.color!!.scale || {};
+    this.options.color!!.scale[datasetName] = color;
   }
 
   @action
-  removeDataset(label) {
-    const dataset = this.data.datasets.find(d => d.label === label);
-    this.data.datasets.removeObject(dataset);
-    this.destroyChart();
-    this.updateChart();
+  removeDataset(group: string) {
+    this.data.slice().reverse().forEach((v, i, array) => {
+        if (v.group === group) {
+          this.data.removeAt(array.length - i - 1);
+        }
+      });
+    this.setData();
   }
 
   @action
-  updateDataset(label, backgroundColors, data) {
-    if (!label || !data) return;
-    let dataset = this.data.datasets.find(d => d.label === label);
-    if (!dataset) {
-      dataset = { };
-      this.data.datasets.push(dataset);
-    }
-    Object.assign(dataset, { label, backgroundColors, data });
+  updateDataset(group: string, fillColors: string[], data: ChartData[]) {
+    if (!group || !data) return;
+    this.data.slice().reverse().forEach((v, i, array) => {
+        if (v.group === group) {
+          this.data.removeAt(array.length - i - 1);
+        }
+      });
+    data.forEach((v, i) => {
+      this.data.push(v);
+    });
+
     this.updateChart();
   }
 }

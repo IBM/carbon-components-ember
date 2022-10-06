@@ -1,9 +1,10 @@
 {{import Icon from 'carbon-components-ember/components/icon'}}
-{{import eq from 'ember-truth-helpers/helpers/equal'}}
+{{import eq from 'ember-truth-helpers/helpers/eq'}}
 {{import toggle from 'ember-composable-helpers/helpers/toggle'}}
 {{import animated-if from 'ember-animated/components/animated-if'}}
 {{import styles from './styles.scoped.scss'}}
 {{import Menu from './-menu'}}
+{{import '{ fn }' from '@ember/helper'}}
 
 
 <nav class="cds--side-nav__navigation cds--side-nav cds--side-nav--ux {{if @open 'cds--side-nav--expanded'}} {{styles.namespace}}"
@@ -12,16 +13,21 @@
     {{#unless @menuItems}}
       {{yield Menu}}
     {{/unless}}
-    {{#each @menuItems as |menu menuIndex|}}
+    {{#each @menuItems as |menu|}}
         <Menu
           @submenus={{menu.submenus}}
           @icon={{menu.icon}}
           @title={{menu.title}}
-          @isCurrent={{eq menu @currentMenu}}
           @open={{@open}}
-          @transitionTo={{fn @transitionTo menu}} as |sub|>
+          @isCurrent={{eq menu @currentMenu}}
+          @transitionTo={{fn @transitionTo menu}} as |Sub|>
           {{#each menu.submenus as |submenu|}}
-            <sub @transitionTo={{fn @transitionTo submenu}} @icon={{submenu.icon}} @title={{submenu.title}} />
+            <Sub
+              @isCurrent={{eq submenu @currentMenu}}
+              @transitionTo={{fn @transitionTo submenu}}
+              @icon={{submenu.icon}}
+              @title={{submenu.title}}
+            />
           {{/each}}
         </Menu>
     {{/each}}

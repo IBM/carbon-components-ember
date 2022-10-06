@@ -1,14 +1,26 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
+import ListComponent from 'carbon-components-ember/components/list';
 
-type Args = {
-  onSelect(item: any): void
+type Args<T> = {
+  onSelect?(item: any): void;
+  list: ListComponent<T>;
+  isHeader: boolean;
+  item: T;
 }
 
-export default class ListRowComponent extends Component<Args> {
+export interface ListRowComponentSignature<T> {
+  Args: Args<T>;
+  Element: HTMLDivElement;
+  Blocks: {
+    default: [];
+  };
+}
+
+export default class ListRowComponent<T> extends Component<ListRowComponentSignature<T>> {
 
   @action
-  onSelect(item) {
+  onSelect(item: T) {
     this.args.onSelect?.(item);
   }
 }

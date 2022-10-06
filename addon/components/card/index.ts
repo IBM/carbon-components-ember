@@ -8,12 +8,20 @@ type Args = {
    @argument loading
    @type boolean
    */
-  loading: boolean;
+  loading?: boolean;
   /**
    @argument title
    @type String
    */
   title: string;
+}
+
+export interface CardComponentSignature {
+  Args: Args;
+  Element: HTMLDivElement;
+  Blocks: {
+    default: [];
+  };
 }
 
 /**
@@ -27,7 +35,7 @@ type Args = {
  @class CarbonButton
  @public
  **/
-export default class CardComponent extends Component<Args> {
+export default class CardComponent extends Component<CardComponentSignature> {
   args: Args = defaultArgs(this, {
     loading: false,
     title: ''

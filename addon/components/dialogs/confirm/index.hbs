@@ -1,6 +1,8 @@
 {{import Modal from 'carbon-components-ember/components/modal'}}
 {{import defaultTo from 'carbon-components-ember/helpers/default-to'}}
 {{import eq from 'ember-truth-helpers/helpers/equal'}}
+{{import '{ fn }' from '@ember/helper'}}
+{{import '{ on }' from '@ember/modifier'}}
 
 <Modal @onClose={{fn this.onCancel}}>
   <:label>

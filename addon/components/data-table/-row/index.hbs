@@ -2,11 +2,13 @@
 {{import Checkbox from 'carbon-components-ember/components/checkbox'}}
 {{import set from 'carbon-components-ember/helpers/set'}}
 {{import has from 'carbon-components-ember/helpers/has'}}
+{{import '{ fn }' from '@ember/helper'}}
+{{import not from 'ember-truth-helpers/helpers/not'}}
 
 <tr class="{{if (has @table.state.selectedItems @item) 'cds--data-table--selected'}}">
   {{#if @isExpandable}}
     <td class="cds--table-expand" data-event="expand">
-      <Button class="cds--table-expand__button" @onClick={{fn (set this 'isExpanded' (not this.isExpanded))}}>
+      <Button class="cds--table-expand__button" @onClick={{fn (set this 'isExpanded') (not this.isExpanded)}}>
         <svg focusable="false" preserveAspectRatio="xMidYMid meet" style="will-change: transform;" xmlns="http://www.w3.org/2000/svg" class="cds--table-expand__svg" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"></path></svg>
       </Button>
     </td>

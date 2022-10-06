@@ -3,27 +3,43 @@ import { set, action } from '@ember/object';
 import { isBlank } from '@ember/utils';
 import { defaultArgs } from '../../decorators';
 import jQuery from 'jquery'
+import { PowerSelectArgs } from 'ember-power-select/components/power-select';
+import { ContentValue } from '@glint/template'
+import { PowerSelectMultSignature } from 'ember-power-select/components/power-select-multiple';
 
-type Args<T> = {
-  selected: T[],
-  options: T[],
-  multiple?: boolean,
-  disabled?: boolean,
-  onSelect?: (item) => void
-  addItem?: (item) => void
-  removeItem?: (item) => void
-  search?: (str: string) => Promise<any[]>
-  selectFocused?: (...any) => void
-}
+type Args<T extends ContentValue> = {
+    options: T[];
+    searchField?: string;
+    placeholder?: string;
+    disabled?: boolean;
+    searchEnabled?: boolean;
+    onSelect?: (item) => void;
+    addItem?: (item) => void;
+    removeItem?: (item) => void;
+  }
+  & ({
+  selected: T[];
+  multiple: true;
+  onOpen?: PowerSelectMultSignature<T>['Args']['onOpen'];
+  search?: PowerSelectMultSignature<T>['Args']['search'];
+  selectFocused?: PowerSelectMultSignature<T>['Args']['onFocus'];
+} | {
+  selected: T;
+  multiple?: false;
+  onOpen?: PowerSelectArgs<T, any>['onOpen'];
+  search?: PowerSelectArgs<T, any>['search'];
+  selectFocused?: PowerSelectArgs<T, any>['onFocus'];
+})
 
-export interface SelectComponentSignature<T> {
-  Args: Args<T>,
+export interface SelectComponentSignature<T extends ContentValue> {
+  Args: Args<T>;
+  Element: HTMLDivElement;
   Blocks: {
-    default: [option: T]
+    default: [option: T];
   };
 }
 
-export default class SelectComponent<T> extends Component<SelectComponentSignature<T>> {
+export default class SelectComponent<T extends ContentValue> extends Component<SelectComponentSignature<T>> {
 
   args: Args<T> = defaultArgs(this, {
     selected: [],
@@ -35,7 +51,7 @@ export default class SelectComponent<T> extends Component<SelectComponentSignatu
   })
 
   searchMatcher(item, term) {
-    if (!term || term === '') return true;
+    if (!term || term === '') return 1;
     const pass = Object.values(item.toJSON ? item.toJSON() : item)
       .filter(v => v && !(v as any).defaultAdapter)
       .some(v => (typeof v === 'string' ? v.includes(term) : JSON.stringify(v).includes(term)));
@@ -44,10 +60,15 @@ export default class SelectComponent<T> extends Component<SelectComponentSignatu
   }
 
   @action
+  indexOfOption(opt) {
+    return this.args.options.indexOf(opt);
+  }
+
+  @action
   onChange(choice) {
     if (this.args.multiple) {
       choice.forEach((item) => {
-        if (!this.args.selected || !this.args.selected.includes(item)) {
+        if (!this.args.selected || !(this.args.selected as T[]).includes(item)) {
           if (this.args.addItem) this.args.addItem(item);
         }
       });
@@ -61,10 +82,12 @@ export default class SelectComponent<T> extends Component<SelectComponentSignatu
     }
     if (this.args.onSelect) this.args.onSelect(choice);
   }
+
   @action
-  selectFocused(...args) {
-    return this.args.selectFocused && this.args.selectFocused(...args);
+  selectFocused(select: any, event) {
+    return this.args.selectFocused && this.args.selectFocused?.(select, event);
   }
+
   @action
   handleKeydown(select, event) {
     const selected = this.args.selected || [];
@@ -74,7 +97,9 @@ export default class SelectComponent<T> extends Component<SelectComponentSignatu
 
     // Delete the entire last tag if backspacing into the tags area.
     if (event.keyCode === 8 && isBlank(event.target.value)) { // BACKSPACE === 8
-      if (this.args.removeItem) this.args.removeItem(selected.slice(-1)[0]);
+      if (Array.isArray(selected)) {
+        if (this.args.removeItem) this.args.removeItem(selected.slice(-1)[0]);
+      }
       event.preventDefault();
       backspaceHandled = true;
       return false;
