@@ -142,7 +142,7 @@
     ]
   },
   "overrides": {
-    "broccoli-sass-source-maps": "adopted-ember-addons/broccoli-sass-source-maps#modernize",
+    "broccoli-sass-source-maps": "github:adopted-ember-addons/broccoli-sass-source-maps#modernize",
     "@embroider/macros": "^1.7.1",
     "@embroider/core": "^1.7.1",
     "@embroider/util": "^1.7.1",
