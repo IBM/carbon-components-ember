@@ -119,7 +119,7 @@ jobs:
             git config --local user.email "github-actions[bot]@users.noreply.github.com"
             git config --local user.name "github-actions[bot]"
             git commit -m "update changelog"
-            git tag -a $TAG
+            git tag $TAG
             git push --tags https://$GITHUB_AUTH@github.com/$GITHUB_REPOSITORY.git
           fi
       - name: Create a Release
