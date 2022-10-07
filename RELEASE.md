@@ -1,12 +1,10 @@
 # Release Process
 
-Releases are mostly automated using
-[release-it](https://github.com/release-it/release-it/) and
-[lerna-changelog](https://github.com/lerna/lerna-changelog/).
+Releases are automated using github actions
 
 ## Preparation
 
-Since the majority of the actual release process is automated, the primary
+Since the the actual release process is automated, the primary
 remaining task prior to releasing is confirming that all pull requests that
 have been merged since the last release have been labeled with the appropriate
 `lerna-changelog` labels and the titles have been updated to ensure they
