@@ -30,6 +30,7 @@ Router.map(function() {
       this.route('modal');
       this.route('notification');
       this.route('pagination');
+      this.route('progress-bar');
       this.route('search-input');
       this.route('select');
       this.route('tabs');

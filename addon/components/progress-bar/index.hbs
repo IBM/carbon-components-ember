@@ -1,0 +1,26 @@
+{{import Icon from 'carbon-components-ember/components/icon'}}
+{{import defaultTo from 'carbon-components-ember/helpers/default-to'}}
+{{import eq from 'ember-truth-helpers/helpers/eq'}}
+{{import '{ concat }' from '@ember/helper'}}
+{{import htmlSafe from '~/helpers/html-safe'}}
+{{import d from '@ascua/maths/helpers/div'}}
+
+<div class="cds--progress-bar cds--progress-bar--{{this.args.size}} cds--progress-bar--{{this.args.type}} cds--progress-bar--{{this.args.status}}">
+  <div class="cds--progress-bar__label" id="progress-bar-{{this.guid}}">
+    <span class="cds--progress-bar__label-text">{{this.args.label}}</span>
+    {{#if (eq this.args.status 'finished')}}
+      <Icon @icon="checkmark--filled" @fill="currentColor" @svgClass="cds--progress-bar__status-icon"/>
+    {{/if}}
+    {{#if (eq this.args.status 'error')}}
+      <Icon @icon="error--filled" @fill="currentColor" @svgClass="cds--progress-bar__status-icon"/>
+    {{/if}}
+  </div>
+  <div class="cds--progress-bar__track" role="progressbar" aria-busy="false" aria-invalid="false"
+       aria-labelledby="progress-bar-{{this.guid}}" aria-valuemin="0" aria-valuemax="{{this.args.max}}" aria-valuenow="{{@value}}">
+    <div class="cds--progress-bar__bar" style="{{if @value (htmlSafe (concat 'transform: scaleX(' (d @value this.args.max) ');'))}}"></div>
+  </div>
+  <div class="cds--progress-bar__helper-text">
+    {{@helperText}}
+    <div class="cds--visually-hidden" aria-live="polite" id="progress-bar-helper-{{this.guid}}">Done</div>
+  </div>
+</div>
