@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { bool } from '@ember/object/computed';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators'
 import { timeout, TaskInstance } from 'ember-concurrency'
@@ -22,9 +21,12 @@ export interface SearchComponentSignature {
 }
 
 export default class SearchComponent extends Component<SearchComponentSignature> {
-  @bool('value') hasInput;
   @tracked value = null;
   isSearching: boolean;
+
+  get hasInput() {
+    return !!this.value;
+  }
 
   @autoComputed()
   get guid() {

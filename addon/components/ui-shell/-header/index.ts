@@ -4,13 +4,13 @@ export interface UiShellHeaderSignature {
   Args: {
     title: string;
     subtitle: string;
-    open?: boolean
-    onToggle?: (value: boolean) => void
+    open?: boolean;
+    onToggle?: (value: boolean) => void;
   };
   Blocks: {
     header: [];
-    'header-global': []
-  }
+    'header-global': [];
+  };
 }
 
 export default class UiShellHeader extends Component<UiShellHeaderSignature> {}

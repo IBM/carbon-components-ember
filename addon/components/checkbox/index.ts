@@ -16,11 +16,11 @@ type Args = {
 }
 
 export interface CarbonCheckboxSignature {
-  Args: Args,
-  Element: HTMLDivElement,
+  Args: Args;
+  Element: HTMLDivElement;
   Blocks: {
-    default: []
-  }
+    default: [];
+  };
 }
 
 export default class CarbonCheckbox extends Component<CarbonCheckboxSignature> {

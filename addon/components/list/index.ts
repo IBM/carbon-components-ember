@@ -4,7 +4,6 @@ import { action } from '@ember/object';
 import SearchComponent from 'carbon-components-ember/components/search-input';
 import { WithBoundArgs } from '@glint/template';
 import CarbonPagination from 'carbon-components-ember/components/pagination';
-import ListRowComponent from 'carbon-components-ember/components/list/-row';
 import ListColumnComponent from 'carbon-components-ember/components/list/-column';
 import ListBodyComponent from 'carbon-components-ember/components/list/-body';
 import ListHeaderComponent from 'carbon-components-ember/components/list/-header';

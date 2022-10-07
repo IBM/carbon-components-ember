@@ -2,12 +2,12 @@ import Service from '@ember/service';
 import { A } from '@ember/array';
 
 export type NotificationOptions = {
-  timeout?: number,
-  position?: 'bottom-left',
-  title?: string,
-  text?: string,
-  caption?: string,
-  type?: 'info'|'success'|'warning'|'error'
+  timeout?: number;
+  position?: 'bottom-left';
+  title?: string;
+  text?: string;
+  caption?: string;
+  type?: 'info'|'success'|'warning'|'error';
 }
 
 export default class NotificationService extends Service {

@@ -16,9 +16,10 @@ jobs:
     - name: npm install, build, and test
       run: |
         npm install --no-audit
-        ./node_modules/.bin/glint
-        ./node_modules/.bin/tsc --noEmit
-        ./node_modules/.bin/ember test
+        npm run ts:lint
+        npm run ts:check
+        npm run glint
+        npm run test
       env:
         CI: true
 

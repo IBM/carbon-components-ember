@@ -12,8 +12,8 @@ export interface CarbonPieChartSignature {
   Args: Args;
   Element: HTMLDivElement;
   Blocks: {
-    default: CarbonChartSignature['Blocks']['default']
-  }
+    default: CarbonChartSignature['Blocks']['default'];
+  };
 }
 
 /**

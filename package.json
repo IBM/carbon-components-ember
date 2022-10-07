@@ -14,16 +14,20 @@
   "main": "addon",
   "types": "index.d.ts",
   "scripts": {
-    "build": "ember b",
-    "dev": "ember s",
+    "build": "bash ./node_modules/.bin/ember b",
+    "dev": "bash ./node_modules/.bin/ember s",
     "glint": "./node_modules/.bin/glint",
-    "lint:hbs": "./node_modules/.bin/ember-template-lint tests addon",
-    "lint:js": "bash ./node_modules/.bin/eslint tests addon",
-    "prepublishOnly": "tsc",
-    "test": "ember test",
-    "testserver": "ember test --serve"
+    "ts:check": "bash ./node_modules/.bin/tsc --noEmit",
+    "ts:lint": "bash ./node_modules/.bin/eslint 'tests/**/*.ts' 'addon/**/*.ts'",
+    "ts:lint:fix": "bash ./node_modules/.bin/eslint 'tests/**/*.ts' 'addon/**/*.ts' --fix",
+    "hbs:lint": "bash ./node_modules/.bin/ember-template-lint 'tests/**/*.hbs' 'addon/**/*.hbs'",
+    "prepublishOnly": "bash ./node_modules/.bin/ember ts:precompile",
+    "postpublish": "bash ./node_modules/.bin/ember ts:clean",
+    "test": "bash ./node_modules/.bin/ember test",
+    "testserver": "bash ./node_modules/.bin/ember test --serve"
   },
   "dependencies": {
+    "@ascua/arrays": "^0.0.236",
     "@carbon/charts": "^1.5.0",
     "@carbon/colors": "^11.3.0",
     "@carbon/grid": "^11.2.0",
@@ -69,12 +73,12 @@
     "ember-power-select": "^6.0.1",
     "ember-ref-modifier": "^1.0.0",
     "ember-tooltips": "^3.6.0",
-    "@ascua/arrays": "^0.0.236",
     "jsonfile": "^6.1.0",
     "spark-md5": "^3.0.1",
     "yam": "^1.0.0"
   },
   "devDependencies": {
+    "@ascua/maths": "^0.0.236",
     "@ember/jquery": "^2.0.0",
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.8.1",

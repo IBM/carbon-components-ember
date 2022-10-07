@@ -5,7 +5,7 @@ import MenuItemComponent from 'carbon-components-ember/components/menu/-item';
 export interface MenuComponentSignature {
   Args: {
     icon: IconNames;
-    direction: 'bottom'|'top'
+    direction: 'bottom'|'top';
   };
   Blocks: {
     default: [typeof MenuItemComponent];

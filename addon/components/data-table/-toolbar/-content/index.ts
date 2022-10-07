@@ -3,11 +3,11 @@ import Component from '@glimmer/component';
 export interface Signature {
   Args: {
 
-  },
-  Element: null,
+  };
+  Element: null;
   Blocks: {
-    default: []
-  }
+    default: [];
+  };
 }
 
 export default class TableToolbarContentComponent extends Component<Signature> {}

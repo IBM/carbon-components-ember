@@ -9,12 +9,12 @@ type Args = {
   type?: string;
   value?: string;
   placeholder?: string;
-  onChange: (value) => void
+  onChange: (value) => void;
 }
 
 export interface FormInputSignature {
-  Args: Args,
-  Element: HTMLDivElement
+  Args: Args;
+  Element: HTMLDivElement;
 }
 
 export default class FormInput extends Component<FormInputSignature> {

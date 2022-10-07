@@ -12,7 +12,7 @@ type Args = {
 
 export interface NotificationComponentSignature {
   Args: Args;
-  Element: HTMLDivElement
+  Element: HTMLDivElement;
 }
 
 export default class NotificationComponent extends Component<NotificationComponentSignature> {

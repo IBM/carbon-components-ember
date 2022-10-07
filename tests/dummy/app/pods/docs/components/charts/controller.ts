@@ -17,8 +17,10 @@ export default class ChartsController extends Controller {
       });
     }
     setTimeout(() => {
+      // eslint-disable-next-line ember/no-side-effects
       this.start += 1;
       if (start === 200) {
+        // eslint-disable-next-line ember/no-side-effects
         this.start = 0;
       }
     }, 100);

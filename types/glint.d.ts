@@ -52,6 +52,11 @@ declare module '@ascua/arrays/helpers/split' {
   export default split;
 }
 
+declare module '@ascua/maths/helpers/div' {
+  function div(a: number, b: number): number;
+  export default div;
+}
+
 declare module '@ember/helper' {
   export const fn: import('@glint/environment-ember-loose/-private/dsl/index').Globals['fn']
   export const get: import('@glint/environment-ember-loose/-private/dsl/index').Globals['get']

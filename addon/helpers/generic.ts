@@ -1,6 +1,6 @@
 import Helper from '@ember/component/helper';
 import { registerDestructor, unregisterDestructor } from '@ember/destroyable';
-import { get } from "@ember/object";
+import { get } from '@ember/object';
 
 
 export interface Signature<T> {
@@ -10,7 +10,7 @@ export interface Signature<T> {
       update?: () => void;
       teardown?: () => void;
       create?: () => void;
-    }
+    };
   };
   Return: T[];
 }

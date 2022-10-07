@@ -56,7 +56,7 @@ class CarbonChartTabularData extends Component<Args> {
     let data: ChartData[] = [];
     if (this.args.data?.length) {
       data = this.args.data.slice().map(x => Object.assign(x, { group: this.args.group }));
-    } else if(this.args.values) {
+    } else if (this.args.values) {
       this.args.values.forEach((v, i) => {
         data.push({
           date: this.args.dates?.[i] || undefined,
