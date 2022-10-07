@@ -21,8 +21,7 @@
     "ts:lint": "bash ./node_modules/.bin/eslint 'tests/**/*.ts' 'addon/**/*.ts'",
     "ts:lint:fix": "bash ./node_modules/.bin/eslint 'tests/**/*.ts' 'addon/**/*.ts' --fix",
     "hbs:lint": "bash ./node_modules/.bin/ember-template-lint 'tests/**/*.hbs' 'addon/**/*.hbs'",
-    "prepublishOnly": "bash ./node_modules/.bin/ember ts:precompile",
-    "postpublish": "bash ./node_modules/.bin/ember ts:clean",
+    "precompile": "bash ./node_modules/.bin/ember pre-build:run && bash ./node_modules/.bin/ember ts:precompile --declarationDir=precompile",
     "test": "bash ./node_modules/.bin/ember test",
     "testserver": "bash ./node_modules/.bin/ember test --serve"
   },
