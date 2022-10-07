@@ -7,11 +7,17 @@ type Tab = {
   disabled?: boolean;
 }
 
-type Args = {
+type Args = OneOf<[{
   tabs: Tab[];
   selectedTab: Tab;
   tabSelected: (tab: Tab) => void;
-}
+  loading?: false;
+}, {
+  tabs?: Tab[];
+  selectedTab?: Tab;
+  tabSelected?: (tab: Tab) => void;
+  loading: true;
+}]>
 
 export interface TabsComponentSignature {
   Args: Args;
@@ -29,6 +35,6 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
   }
 
   get currentIndex() {
-    return (this.args.tabs || []).indexOf(this.args.selectedTab);
+    return (this.args.tabs || [] as any).indexOf(this.args.selectedTab);
   }
 }
