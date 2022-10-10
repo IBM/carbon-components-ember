@@ -64,6 +64,7 @@
     "ember-concurrency-ts": "^0.3.1",
     "ember-get-config": "^2.0.0",
     "ember-hbs-imports": "^0.5.25",
+    "ember-simple-mu-resolver": "^0.1.9",
     "ember-in-element-polyfill": "^1.0.1",
     "ember-maybe-import-regenerator": "^1.0.0",
     "ember-named-blocks-polyfill": "^0.2.3",
