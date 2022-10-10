@@ -18,10 +18,11 @@
     "dev": "ember s",
     "glint": "glint",
     "ts:check": "tsc --noEmit",
+    "ts:build-types": "ember ts:precompile",
     "ts:lint": "eslint \"tests/**/*.ts\" \"addon/**/*.ts\"",
     "ts:lint:fix": "eslint \"tests/**/*.ts\" \"addon/**/*.ts\" --fix",
     "hbs:lint": "ember-template-lint \"tests/**/*.hbs\" \"addon/**/*.hbs\"",
-    "precompile": "ember pre-build:run && ember ts:precompile --declarationDir=precompile",
+    "precompile": "ember pre-build:run",
     "test": "ember test",
     "testserver": "ember test --serve"
   },
