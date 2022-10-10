@@ -1,6 +1,5 @@
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
-import { defaultArgs } from 'carbon-components-ember/decorators';
 
 type Args = {
   status?: 'active'|'finished'|'error'|'indeterminate';
@@ -35,15 +34,16 @@ export default class ProgressBar extends Component<ProgressBarInterface> {
     return guidFor(this);
   }
 
-  @defaultArgs
-  args: Args = {
-    status: 'active',
-    value: undefined,
-    max: 100,
-    size: undefined,
-    type: 'default',
-    helperText: '',
-    label: '',
+  get defaultArgs(): WithRequired<Args, 'max'> {
+    return Object.assign({}, {
+      status: 'active',
+      value: undefined,
+      max: 100,
+      size: undefined,
+      type: 'default',
+      helperText: '',
+      label: '',
+    }, this.args)
   }
 }
 

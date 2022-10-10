@@ -11,3 +11,6 @@ type Expand<T> = T extends T ? { [K in keyof T]: T[K] } : never;
 type OneOf<T extends {}[]> = {
   [K in keyof T]: Expand<T[K] & Partial<Record<Exclude<UnionKeys<T[number]>, keyof T[K]>, never>>>;
 }[number];
+
+// eslint-disable-next-line no-unused-vars
+type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] }

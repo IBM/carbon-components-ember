@@ -14,7 +14,8 @@ module.exports = {
     browser: true,
   },
   globals: {
-    OneOf: true
+    OneOf: true,
+    WithRequired: true
   },
   rules: {
     'ember/no-empty-glimmer-component-classes': 'off',
