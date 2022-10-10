@@ -97,7 +97,9 @@ jobs:
           else
             echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
             npm run precompile
-            cd precompiled && npm publish || echo "already published"
+            cd precompiled
+            npm run ts:build-types
+            npm publish || echo "already published"
           fi
         env:
           NPM_TOKEN: "${{ secrets.NPM_TOKEN }}"
