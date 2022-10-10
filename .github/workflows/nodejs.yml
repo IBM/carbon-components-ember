@@ -96,7 +96,7 @@ jobs:
             echo "tag exists";
           else
             echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
-            npm precompile
+            npm run precompile
             cd precompiled && npm publish || echo "already published"
           fi
         env:
