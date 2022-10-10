@@ -40,6 +40,7 @@
       ]
     }
   },
+  rootDir: ".",
   "include": [
     "**/*",
     "types/globals.d.ts",
