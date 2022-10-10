@@ -14,16 +14,16 @@
   "main": "addon",
   "types": "index.d.ts",
   "scripts": {
-    "build": "bash ./node_modules/.bin/ember b",
-    "dev": "bash ./node_modules/.bin/ember s",
-    "glint": "./node_modules/.bin/glint",
-    "ts:check": "bash -c './node_modules/.bin/tsc --noEmit'",
-    "ts:lint": "bash -c './node_modules/.bin/eslint \"tests/**/*.ts\" \"addon/**/*.ts\"'",
-    "ts:lint:fix": "bash -c './node_modules/.bin/eslint \"tests/**/*.ts\" \"addon/**/*.ts\" --fix'",
-    "hbs:lint": "bash -c './node_modules/.bin/ember-template-lint \"tests/**/*.hbs\" \"addon/**/*.hbs\"'",
-    "precompile": "bash -c './node_modules/.bin/ember pre-build:run && bash ./node_modules/.bin/ember ts:precompile --declarationDir=precompile'",
-    "test": "bash ./node_modules/.bin/ember test",
-    "testserver": "bash ./node_modules/.bin/ember test --serve"
+    "build": "ember b",
+    "dev": "ember s",
+    "glint": "glint",
+    "ts:check": "tsc --noEmit",
+    "ts:lint": "eslint \"tests/**/*.ts\" \"addon/**/*.ts\"",
+    "ts:lint:fix": "eslint \"tests/**/*.ts\" \"addon/**/*.ts\" --fix",
+    "hbs:lint": "ember-template-lint \"tests/**/*.hbs\" \"addon/**/*.hbs\"",
+    "precompile": "ember pre-build:run && ember ts:precompile --declarationDir=precompile",
+    "test": "ember test",
+    "testserver": "ember test --serve"
   },
   "dependencies": {
     "@ascua/arrays": "^0.0.236",
