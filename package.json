@@ -17,7 +17,7 @@
     "build": "bash ./node_modules/.bin/ember b",
     "dev": "bash ./node_modules/.bin/ember s",
     "glint": "./node_modules/.bin/glint",
-    "ts:check": "bash ./node_modules/.bin/tsc --noEmit",
+    "ts:check": "bash -c './node_modules/.bin/tsc --noEmit'",
     "ts:lint": "bash -c './node_modules/.bin/eslint \"tests/**/*.ts\" \"addon/**/*.ts\"'",
     "ts:lint:fix": "bash -c './node_modules/.bin/eslint \"tests/**/*.ts\" \"addon/**/*.ts\" --fix'",
     "hbs:lint": "bash -c './node_modules/.bin/ember-template-lint \"tests/**/*.hbs\" \"addon/**/*.hbs\"'",
