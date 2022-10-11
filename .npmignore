@@ -1,5 +1,7 @@
 *
 !addon/**/*.js
+!addon/**/*.ts
+!**/*.ts
 !addon/**/*.hbs
 !addon/**/*.d.ts
 !addon/**/*.scss
