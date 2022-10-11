@@ -88,14 +88,6 @@ class CarbonIcon extends Component<Args> {
   @bxClassNames('info', 'danger', 'disabled') bxClassNames: string;
   @tracked loading;
   @tracked disabled;
-  args: Args = defaultArgs(this, {
-    danger: null,
-    confirmText: null,
-    confirmDialog: null,
-    icon: null,
-    size: null,
-    onClick: null
-  });
 
   get svg() {
     return IconMap[this.args.icon] && IconMap[this.args.icon][this.args.size || 16];

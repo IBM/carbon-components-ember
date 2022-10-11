@@ -8,6 +8,9 @@ export type NotificationOptions = {
   text?: string;
   caption?: string;
   type?: 'info'|'success'|'warning'|'error';
+  display?: 'toast'|'inline'|'actionable';
+  kind?: 'error'|'info'|'info-square'|'success'|'warning'| 'warning-alt';
+  actionTitle?: string;
 }
 
 export default class NotificationService extends Service {

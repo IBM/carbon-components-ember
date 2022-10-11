@@ -14,10 +14,10 @@
 {{else}}
   {{#if @onClick}}
     <button class="cds--btn cds--btn--sm cds--btn--ghost {{@btnClass}}" style="{{@btnStyle}}" type="button" {{on 'click' this.onIconClick}}>
-        {{renderSvgPart this.svg class=(array @svgClass this.bxClassNames styles.icon) fill=@fill}}
+        {{renderSvgPart this.svg class=(array (or @svgClass styles.icon) this.bxClassNames) fill=@fill}}
     </button>
   {{else}}
-    {{renderSvgPart this.svg class=(array @svgClass this.bxClassNames styles.icon) fill=@fill}}
+    {{renderSvgPart this.svg class=(array (or @svgClass styles.icon) this.bxClassNames) fill=@fill}}
   {{/if}}
 {{/if}}
 

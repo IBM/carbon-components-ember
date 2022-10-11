@@ -9,9 +9,9 @@
   {{#demo.example name='notification.hbs'}}
     <Notification @type="success" @caption="success" @title="Title" @text="a long long long long message"></Notification>
     <br>
-    <Notification @type="info" @caption="info" @title="Title"></Notification>
+    <Notification @display="actionable" @type="info" @caption="info" @title="Title"></Notification>
     <br>
-    <Notification @type="error" @caption="error"></Notification>
+    <Notification @display="inline" @type="error" @caption="error" @title="Title" @text="the notification text"></Notification>
     <br>
     <Notification @type="warning" @caption="warning"></Notification>
     <br>
