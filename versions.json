@@ -352,5 +352,11 @@
     "name": "main",
     "sha": "d361b7810b4f8501e83f5f6be31f14ae1b4a049f",
     "tag": null
+  },
+  "v0.6.0": {
+    "path": "versions/v0.6.0",
+    "name": "v0.6.0",
+    "sha": "cd787483e1aa7db49a622a9a708ba35b0e96ce46",
+    "tag": null
   }
 }
