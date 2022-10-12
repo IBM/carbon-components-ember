@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 import NotificationService, { NotificationOptions } from 'carbon-components-ember/services/notifications';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import { IconNames } from "carbon-components-ember/components/icon";
+import { IconNames } from 'carbon-components-ember/components/icon';
 
 
 type Args = {

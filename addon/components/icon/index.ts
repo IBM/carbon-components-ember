@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import * as icons from '@carbon/icons/es';
-import { bxClassNames, classPrefix, defaultArgs } from 'carbon-components-ember/decorators';
+import { bxClassNames, classPrefix } from 'carbon-components-ember/decorators';
 
 const IconMap = {};
 Object.values(icons).forEach((i: any) => {
