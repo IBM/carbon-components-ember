@@ -46,7 +46,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Set up Volta
-        uses: rwjblue/setup-volta@v1
+        uses: volta-cli/action@v3
       - name: Install dependencies (npm)
         run: |
           npm install --no-audit
