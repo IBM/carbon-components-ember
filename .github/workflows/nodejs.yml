@@ -127,6 +127,7 @@ jobs:
             git config --local user.name "github-actions[bot]"
             git commit -m "update changelog"
             git tag $TAG
+            git push
             git push --tags
           fi
       - name: Create a Release
