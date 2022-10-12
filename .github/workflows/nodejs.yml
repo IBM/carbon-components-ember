@@ -122,7 +122,7 @@ jobs:
             npm i -g lerna-changelog
             export GITHUB_AUTH=$GITHUB_TOKEN
             export changelog=$(lerna-changelog --next-version=$version)
-            echo "$changelog"|cat - CHANGELOG.md > /tmp/out && mv /tmp/out CHANGELOG.md
+            echo -e "# Changelog\n\n$changelog\n$(tail --lines=+2 CHANGELOG.md)" > CHANGELOG.md
             git add CHANGELOG.md
             git config --local user.email "github-actions[bot]@users.noreply.github.com"
             git config --local user.name "github-actions[bot]"
