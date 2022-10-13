@@ -125,7 +125,6 @@
     "eslint": "^8.25.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-ember": "^11.0.4",
-    "eslint-plugin-ember-standard": "^2.1.0",
     "eslint-plugin-qunit": "^7.3.1",
     "loader.js": "^4.7.0",
     "qunit": "^2.18.1",
