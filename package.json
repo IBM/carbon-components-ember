@@ -93,7 +93,7 @@
     "@types/ember-qunit": "^5.0.1",
     "@types/qunit": "^2.19.2",
     "@typescript-eslint/eslint-plugin": "^5.39.0",
-    "@typescript-eslint/parser": "^5.39.0",
+    "@typescript-eslint/parser": "^5.41.0",
     "bower": "^1.8.8",
     "broccoli": "^3.4.2",
     "broccoli-asset-rev": "^3.0.0",
