@@ -83,7 +83,7 @@
     "@ember/jquery": "^2.0.0",
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.8.1",
-    "@glint/core": "^0.9.4",
+    "@glint/core": "^0.9.7",
     "@glint/environment-ember-loose": "^0.9.4",
     "@glint/environment-ember-template-imports": "^0.9.4",
     "@release-it-plugins/lerna-changelog": "^5.0.0",
