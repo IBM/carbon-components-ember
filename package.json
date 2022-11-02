@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@ascua/arrays": "^0.0.236",
-    "@carbon/charts": "^1.5.0",
+    "@carbon/charts": "^1.6.1",
     "@carbon/colors": "^11.3.0",
     "@carbon/grid": "^11.2.0",
     "@carbon/icon-helpers": "^10.30.0",
@@ -125,8 +125,8 @@
     "eslint": "^8.25.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-ember": "^11.0.4",
-    "eslint-plugin-qunit": "^7.3.1",
     "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-qunit": "^7.3.1",
     "loader.js": "^4.7.0",
     "qunit": "^2.19.3",
     "release-it": "^15.5.0",
