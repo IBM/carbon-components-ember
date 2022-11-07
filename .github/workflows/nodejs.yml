@@ -15,7 +15,7 @@ jobs:
         node-version: 16.x
     - name: npm install, build, and test
       run: |
-        npm install --no-audit --force
+        npm install --no-audit --legacy-peer-deps
         npm run ts:lint
         npm run ts:check
         npm run glint
