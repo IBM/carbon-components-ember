@@ -78,6 +78,8 @@ jobs:
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           npm install --no-audit --legacy-peer-deps
           version=$(cat package.json | jq -r '.version')
+          git fetch --unshallow
+          git fetch --all --tags
           TAG=v$version
           if git rev-parse "$TAG" >/dev/null 2>&1; then
             echo "tag exists";
@@ -114,8 +116,6 @@ jobs:
         run: |
           version=$(cat package.json | jq -r '.version')
           TAG=v$version
-          git fetch --unshallow
-          git fetch --all --tags
           if git rev-parse "$TAG" >/dev/null 2>&1; then
             echo "tag exists";
           else
