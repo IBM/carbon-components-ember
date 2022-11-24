@@ -18,6 +18,7 @@ module.exports = {
     WithRequired: true
   },
   rules: {
+    'no-unused-vars': 'off',
     'ember/no-empty-glimmer-component-classes': 'off',
     quotes: ['error', 'single'],
     indent: 'off',
@@ -39,12 +40,6 @@ module.exports = {
     'no-param-reassign': 'off',
     'no-plusplus': 'off',
     'no-underscore-dangle': 'off',
-    'no-unused-vars': [
-      'error',
-      {
-        args: 'none',
-      },
-    ],
     'no-use-before-define': [
       'error',
       {
