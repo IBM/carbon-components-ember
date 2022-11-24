@@ -116,3 +116,8 @@ declare module 'ember-power-select/components/power-select-multiple' {
   }
   export default class PowerSelectMultiple<T> extends Component<PowerSelectMultSignature<T>> {}
 }
+
+
+declare module 'ember-template-imports' {
+  export function hbs(contents: TemplateStringsArray): unknown;
+}

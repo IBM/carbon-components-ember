@@ -11,9 +11,9 @@ type Args = {
    */
   crumbs: string[];
 
-  current: string;
+  current?: string;
 
-  onSelect(crumb: string): void;
+  onSelect?(crumb: string): void;
 }
 
 

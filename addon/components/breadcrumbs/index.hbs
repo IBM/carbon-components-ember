@@ -1,4 +1,6 @@
 {{import eq from 'ember-truth-helpers/helpers/eq'}}
+{{import '{ on }' from '@ember/modifier'}}
+{{import '{ fn }' from '@ember/helper'}}
 
 <nav class="cds--breadcrumb cds--breadcrumb--no-trailing-slash" aria-label="breadcrumb" ...attributes>
     {{#each @crumbs as |crumb|}}
