@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { defaultArgs } from '../../decorators';
-import {action} from "@ember/object";
+import { action } from '@ember/object';
 
 /** @documenter yuidoc */
 
