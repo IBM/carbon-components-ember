@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
 import { defaultArgs } from '../../decorators';
+import {action} from "@ember/object";
 
 /** @documenter yuidoc */
 
@@ -9,6 +10,10 @@ type Args = {
    @type String[]
    */
   crumbs: string[];
+
+  current: string;
+
+  onSelect(crumb: string): void;
 }
 
 
@@ -42,8 +47,9 @@ class CarbonBreadcrumb extends Component<BreadcrumbSignature> {
     crumbs: []
   });
 
-  get lastItem() {
-    return this.args.crumbs && this.args.crumbs[this.args.crumbs.length - 1];
+  @action
+  onSelect(crumb: string) {
+    this.args.onSelect?.(crumb);
   }
 }
 

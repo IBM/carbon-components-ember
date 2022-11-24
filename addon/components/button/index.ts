@@ -130,7 +130,7 @@ class CarbonButton extends Component<ButtonSignature> {
     return (this.args as any).danger || this.args.type === 'danger';
   }
 
-  @bxClassNames('primary', 'secondary', 'danger', 'tertiary', 'ghost', 'small:sm') bxClassNames;
+  @bxClassNames('primary', 'secondary', 'danger', 'tertiary', 'ghost', 'small:sm', 'disabled') bxClassNames;
 
   @action
   runButtonClick() {
