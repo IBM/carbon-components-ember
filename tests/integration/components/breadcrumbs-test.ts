@@ -16,6 +16,7 @@ module('Integration | Component | Breadcrumbs', (hooks) => {
   });
 
   test('should allow click without handler', async function(assert) {
+    assert.expect(0);
     await render(hbs`<Breadcrumbs @crumbs={{array "a" "b" "c"}}></Breadcrumbs>`);
 
     await click('.cds--breadcrumb-item');
