@@ -1,4 +1,5 @@
 
+
 declare module 'ember-cli-addon-docs/components/docs-demo' {
   import Component from '@glimmer/component';
   export default class extends Component {}
@@ -114,10 +115,11 @@ declare module 'ember-power-select/components/power-select-multiple' {
   export interface PowerSelectMultSignature<T> extends PowerSelectMultipleSignature<T> {
     Args: PowerSelectMultipleSignature<T>['Args'] & { eventType: 'click' };
   }
-  export default class PowerSelectMultiple<T> extends Component<PowerSelectMultSignature<T>> {}
+  export default class PowerSelectMultipleWithClick<T> extends Component<PowerSelectMultSignature<T>> {}
 }
 
 
 declare module 'ember-template-imports' {
-  export function hbs(contents: TemplateStringsArray): unknown;
+  import { TemplateFactory } from 'htmlbars-inline-precompile';
+  export function hbs(contents: TemplateStringsArray): TemplateFactory;
 }
