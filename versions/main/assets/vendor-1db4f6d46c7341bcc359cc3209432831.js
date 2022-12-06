@@ -6242,8 +6242,8 @@ const i=this._pending
 let o=new Map
 if(t){let t=ot.get(e)
 t&&t.forEach((e=>{let t=i.get(e)
-t||(t=new Map,i.set(e,t)),o.set(e,t)}))}if(n&&0===n[Ze].length&&r)return o
-if(n){let e=i.get(n)
+t||(t=new Map,i.set(e,t)),o.set(e,t)}))}if(n&&0===n[Ze].length&&r){const e=i.get(n)
+if(!e||0===e.size)return o}if(n){let e=i.get(n)
 e||(e=new Map,i.set(n,e)),o.set(n,e)}else{let t=this._staged.get(e.type)
 t||(t=new Map,this._staged.set(e.type,t)),o.set(st,t)}return o}populateManagedArray(e,t,r){this._pending.delete(e)
 const n=e[Ze],i=n.slice()
@@ -6336,7 +6336,7 @@ if(null!==o){let e,t=Object.keys(r)
 for(let i=0;i<t.length;i++){let s=t[i],a=o[s]
 void 0!==a&&(e="hasMany"===a.kind?At(r[s],n):Mt(r[s],n),r[s]=e)}}}return r}(this,s,i,"1"===a.managedVersion),u=a.clientDidCreate(s,l)
 this.recordArrayManager.identifierAdded(s),r=this._instanceCache.getRecord(s,u)}))})),r}deleteRecord(e){const t=_e(e),r=t&&this._instanceCache.peek({identifier:t,bucket:"recordData"})
-this._join((()=>{r.setIsDeleted(t,!0),r.isNew(t)&&o.run((()=>{this._instanceCache.unloadRecord(t)}))}))}unloadRecord(e){const t=_e(e)
+this._join((()=>{r.setIsDeleted(t,!0),r.isNew(t)&&o._backburner.join((()=>{this._instanceCache.unloadRecord(t)}))}))}unloadRecord(e){const t=_e(e)
 t&&this._instanceCache.unloadRecord(t)}find(e,t,r){return this.findRecord(e,t)}findRecord(e,t,r){if(Tt(e))r=t
 else{e=de(E(e),T(t))}const n=this.identifierCache.getOrCreateRecordIdentifier(e)
 let i
@@ -8487,7 +8487,7 @@ Object.defineProperty(e,"__esModule",{value:!0}),e.default=function(e){(function
 Object.defineProperty(e,"__esModule",{value:!0}),Object.defineProperty(e,"default",{enumerable:!0,get:function(){return t.default}})})),define("ember-data/transform",["exports","@ember-data/serializer/transform"],(function(e,t){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),Object.defineProperty(e,"default",{enumerable:!0,get:function(){return t.default}})})),define("ember-data/version",["exports"],(function(e){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
-e.default="4.8.3"})),define("ember-element-helper/helpers/element",["exports","@ember/component/helper","@ember/debug","@ember/component","@embroider/util"],(function(e,t,r,n,i){"use strict"
+e.default="4.9.1"})),define("ember-element-helper/helpers/element",["exports","@ember/component/helper","@ember/debug","@ember/component","@embroider/util"],(function(e,t,r,n,i){"use strict"
 function o(){}Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
 class s extends t.default{constructor(){super(...arguments),this.tagName=o,this.componentClass=null}compute(e,t){let o=e[0]
 return o!==this.tagName&&(this.tagName=o,"string"==typeof o?this.componentClass=(0,i.ensureSafeComponent)(class extends n.default{constructor(){var e,t,r
