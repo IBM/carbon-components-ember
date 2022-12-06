@@ -88,7 +88,7 @@
     "@glint/environment-ember-loose": "^0.9.4",
     "@glint/environment-ember-template-imports": "^0.9.4",
     "@release-it-plugins/lerna-changelog": "^5.0.0",
-    "@types/ember": "^4.0.1",
+    "@types/ember": "^4.0.3",
     "@types/ember__destroyable": "^4.0.0",
     "@types/ember__test-helpers": "^2.8.1",
     "@types/ember-qunit": "^5.0.1",
