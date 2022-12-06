@@ -40,7 +40,7 @@
     "@gavant/glint-template-types": "^0.2.4",
     "@glimmer/component": "^1.0.2",
     "@glimmer/tracking": "^1.0.2",
-    "@types/node": "^18.7.9",
+    "@types/node": "^18.11.11",
     "broccoli-sass-source-maps": "^4.1.0",
     "carbon-components": "^10.56.0",
     "d3-array": "^3.1.1",
