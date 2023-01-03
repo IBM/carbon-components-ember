@@ -131,7 +131,7 @@
     "loader.js": "^4.7.0",
     "qunit": "^2.19.3",
     "qunit-dom": "^2.0.0",
-    "release-it": "^15.5.0",
+    "release-it": "^15.6.0",
     "sass-embedded": "^1.57.1",
     "typescript": "^4.9.4",
     "webpack": "^5.75.0"
