@@ -118,7 +118,7 @@
     "ember-load-initializers": "^2.0.0",
     "ember-maybe-import-regenerator-for-testing": "^1.0.0",
     "ember-qunit": "^6.0.0",
-    "ember-resolver": "^8.0.0",
+    "ember-resolver": "^10.0.0",
     "ember-source": "^4.9.3",
     "ember-source-channel-url": "latest",
     "ember-template-lint": "^4.12.0",
