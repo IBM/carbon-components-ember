@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@ascua/arrays": "^0.0.236",
-    "@carbon/charts": "^1.6.1",
+    "@carbon/charts": "^1.6.4",
     "@carbon/colors": "11.12.0",
     "@carbon/grid": "^11.7.0",
     "@carbon/icon-helpers": "^10.34.0",
