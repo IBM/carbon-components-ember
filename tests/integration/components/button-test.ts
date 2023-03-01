@@ -12,13 +12,12 @@ module('Integration | Component | Button', (hooks) => {
     await render(hbs`<Button @type="primary"></Button>`);
     await rerender()
 
-    assert.ok(this.element.querySelector('button')?.getAttribute('class')?.includes('primary'));
+    assert.dom('button').hasClass('primary');
   });
 
   test('should set as secondary', async function(assert) {
     await render(hbs`<Button @type="secondary"></Button>`);
-
-    assert.ok(this.element.querySelector('button')?.getAttribute('class')?.includes('secondary'));
+    assert.dom('button').hasClass('secondary');
   });
 
   test('should show loading indicator for async click handler', async function(assert) {
@@ -34,13 +33,13 @@ module('Integration | Component | Button', (hooks) => {
     await click('button');
 
     assert.ok(promise, 'should trigger onClick');
-    assert.ok(this.element.querySelector('button')?.getAttribute('class')?.includes('secondary'));
-    assert.ok(this.element.querySelector('.cds--loading'), 'should show loading indicator');
+    assert.dom('button').hasClass('secondary');
+    assert.dom('.cds--loading').exists('should show loading indicator');
 
     await promise;
     await settled();
 
-    assert.notOk(this.element.querySelector('.cds--loading'), 'should not show loading indicator');
+    assert.dom('.cds--loading').doesNotExist('should not show loading indicator');
   });
 
   test('cannot click disabled', async function(assert) {
@@ -58,8 +57,7 @@ module('Integration | Component | Button', (hooks) => {
       assert.deepEqual(e.message, 'Can not `click` disabled [object HTMLButtonElement]', 'cannot click');
     }
 
-    const classAttr = this.element.querySelector('button')?.getAttribute('class');
-    assert.ok(classAttr?.includes('cds--btn--disabled'), 'class names should include  cds--btn--disabled');
+    assert.dom('button').hasClass('cds--btn--disabled', 'class names should include  cds--btn--disabled');
   });
 });
 
