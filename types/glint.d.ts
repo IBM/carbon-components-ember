@@ -108,13 +108,14 @@ declare module 'ember-power-select/components/power-select' {
 
 declare module 'ember-power-select/components/power-select-multiple' {
   import Component from '@glimmer/component';
-  import '@gavant/glint-template-types/types/ember-power-select';
+  import '@gavant/glint-template-types/types/ember-power-select/components/power-select-multiple';
   import {
     PowerSelectMultipleSignature,
-  } from '@gavant/glint-template-types/types/ember-power-select/components/power-select-multiple';
+  } from 'ember-power-select/components/power-select-multiple';
   export interface PowerSelectMultSignature<T> extends PowerSelectMultipleSignature<T> {
     Args: PowerSelectMultipleSignature<T>['Args'] & { eventType: 'click' };
   }
+  // @ts-ignore
   export default class PowerSelectMultipleWithClick<T> extends Component<PowerSelectMultSignature<T>> {}
 }
 
