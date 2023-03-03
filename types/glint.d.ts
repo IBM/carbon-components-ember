@@ -99,11 +99,7 @@ declare module '@ember/render-modifiers/modifiers/will-destroy' {
 }
 
 declare module 'ember-power-select/components/power-select' {
-  import '@gavant/glint-template-types/types/ember-power-select';
-  export {
-    PowerSelect as default,
-    PowerSelectArgs
-  } from '@gavant/glint-template-types/types/ember-power-select/components/power-select';
+  import '@gavant/glint-template-types/types/ember-power-select/components/power-select';
 }
 
 declare module 'ember-power-select/components/power-select-multiple' {
