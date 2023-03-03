@@ -103,7 +103,7 @@ declare module 'ember-power-select/components/power-select' {
   export {
     PowerSelect as default,
     PowerSelectArgs
-  } from '@gavant/glint-template-types/types/ember-power-select/power-select';
+  } from '@gavant/glint-template-types/types/ember-power-select/components/power-select';
 }
 
 declare module 'ember-power-select/components/power-select-multiple' {
@@ -111,7 +111,7 @@ declare module 'ember-power-select/components/power-select-multiple' {
   import '@gavant/glint-template-types/types/ember-power-select';
   import {
     PowerSelectMultipleSignature,
-  } from '@gavant/glint-template-types/types/ember-power-select/power-select-multiple';
+  } from '@gavant/glint-template-types/types/ember-power-select/components/power-select-multiple';
   export interface PowerSelectMultSignature<T> extends PowerSelectMultipleSignature<T> {
     Args: PowerSelectMultipleSignature<T>['Args'] & { eventType: 'click' };
   }
