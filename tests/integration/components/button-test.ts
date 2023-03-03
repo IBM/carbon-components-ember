@@ -12,12 +12,12 @@ module('Integration | Component | Button', (hooks) => {
     await render(hbs`<Button @type="primary"></Button>`);
     await rerender()
 
-    assert.dom('button').hasClass('primary');
+    assert.dom('button').hasClass('cds--btn--primary');
   });
 
   test('should set as secondary', async function(assert) {
     await render(hbs`<Button @type="secondary"></Button>`);
-    assert.dom('button').hasClass('secondary');
+    assert.dom('button').hasClass('cds--btn--secondary');
   });
 
   test('should show loading indicator for async click handler', async function(assert) {
@@ -33,7 +33,7 @@ module('Integration | Component | Button', (hooks) => {
     await click('button');
 
     assert.ok(promise, 'should trigger onClick');
-    assert.dom('button').hasClass('secondary');
+    assert.dom('button').hasClass('cds--btn--secondary');
     assert.dom('.cds--loading').exists('should show loading indicator');
 
     await promise;
