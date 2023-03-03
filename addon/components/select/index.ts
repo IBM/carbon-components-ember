@@ -26,9 +26,9 @@ type Args<T extends ContentValue> = {
 } | {
   selected: T;
   multiple?: false;
-  onOpen?: PowerSelectArgs<T, any>['onOpen'];
-  search?: PowerSelectArgs<T, any>['search'];
-  selectFocused?: PowerSelectArgs<T, any>['onFocus'];
+  onOpen?: PowerSelectArgs<T>['onOpen'];
+  search?: PowerSelectArgs<T>['search'];
+  selectFocused?: PowerSelectArgs<T>['onFocus'];
 })
 
 export interface SelectComponentSignature<T extends ContentValue> {
