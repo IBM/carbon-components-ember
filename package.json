@@ -37,7 +37,7 @@
     "@carbon/layout": "^11.8.0",
     "@carbon/themes": "^11.16.0",
     "@carbon/type": "^11.15.0",
-    "@gavant/glint-template-types": "^0.2.4",
+    "@gavant/glint-template-types": "^0.3.2",
     "@glimmer/component": "^1.0.2",
     "@glimmer/tracking": "^1.0.2",
     "@types/node": "^18.14.0",
@@ -133,7 +133,7 @@
     "qunit-dom": "^2.0.0",
     "release-it": "^15.6.0",
     "sass-embedded": "^1.57.1",
-    "typescript": "^4.9.4",
+    "typescript": "4.9.4",
     "webpack": "^5.75.0"
   },
   "publishConfig": {

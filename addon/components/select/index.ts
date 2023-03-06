@@ -5,7 +5,7 @@ import { defaultArgs } from '../../decorators';
 import jQuery from 'jquery'
 import { PowerSelectArgs } from 'ember-power-select/components/power-select';
 import { ContentValue } from '@glint/template'
-import { PowerSelectMultSignature } from 'ember-power-select/components/power-select-multiple';
+import { PowerSelectMultipleSignature } from 'ember-power-select/components/power-select-multiple';
 
 type Args<T extends ContentValue> = {
     options: T[];
@@ -20,15 +20,15 @@ type Args<T extends ContentValue> = {
   & ({
   selected: T[];
   multiple: true;
-  onOpen?: PowerSelectMultSignature<T>['Args']['onOpen'];
-  search?: PowerSelectMultSignature<T>['Args']['search'];
-  selectFocused?: PowerSelectMultSignature<T>['Args']['onFocus'];
+  onOpen?: PowerSelectMultipleSignature<T>['Args']['onOpen'];
+  search?: PowerSelectMultipleSignature<T>['Args']['search'];
+  selectFocused?: PowerSelectMultipleSignature<T>['Args']['onFocus'];
 } | {
   selected: T;
   multiple?: false;
-  onOpen?: PowerSelectArgs<T, any>['onOpen'];
-  search?: PowerSelectArgs<T, any>['search'];
-  selectFocused?: PowerSelectArgs<T, any>['onFocus'];
+  onOpen?: PowerSelectArgs<T>['onOpen'];
+  search?: PowerSelectArgs<T>['search'];
+  selectFocused?: PowerSelectArgs<T>['onFocus'];
 })
 
 export interface SelectComponentSignature<T extends ContentValue> {
