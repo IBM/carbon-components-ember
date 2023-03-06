@@ -29,9 +29,6 @@
       "carbon-components-ember/*": [
         "addon/*"
       ],
-      "ember-truth-helpers/helpers/*": [
-        "node_modules/@gavant/glint-template-types/types/ember-truth-helpers/*"
-      ],
       "ember-power-select/helpers/*": [
         "node_modules/ember-power-select/addon/helpers/*"
       ],
@@ -42,12 +39,14 @@
   },
   "rootDir": ".",
   "include": [
-    "**/*",
+    "node_modules/@gavant/glint-template-types/types/ember-power-select/components/power-select.d.ts",
+    "node_modules/@gavant/glint-template-types/types/ember-truth-helpers/*.ts",
     "types/globals.d.ts",
     "types/glint.d.ts",
     "index.d.ts",
     "lib/*.ts",
     "addon/**/*.ts",
+    "tests/**/*.ts",
     "app/**/*.ts",
     "node_modules/@glint/environment-ember-loose/registry/index.d.ts"
   ],

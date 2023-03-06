@@ -99,20 +99,28 @@ declare module '@ember/render-modifiers/modifiers/will-destroy' {
 }
 
 declare module 'ember-power-select/components/power-select' {
-  import '@gavant/glint-template-types/types/ember-power-select/components/power-select';
+  import 'ember-power-select/components/power-select';
+  export interface PowerSelectArgs<O> {
+    eventType: 'click';
+  }
 }
 
 declare module 'ember-power-select/components/power-select-multiple' {
   import Component from '@glimmer/component';
-  import '@gavant/glint-template-types/types/ember-power-select/components/power-select-multiple';
-  import {
-    PowerSelectMultipleSignature,
-  } from 'ember-power-select/components/power-select-multiple';
-  export interface PowerSelectMultSignature<T> extends PowerSelectMultipleSignature<T> {
-    Args: PowerSelectMultipleSignature<T>['Args'] & { eventType: 'click' };
+
+  import { PowerSelectArgs, PromiseProxy, Select } from 'ember-power-select/components/power-select';
+
+  interface PowerSelectMultipleArgs<O> extends Omit<PowerSelectArgs<O>, 'selected'> {
+    selected?: O[] | PromiseProxy<O[]>;
   }
-  // @ts-ignore
-  export default class PowerSelectMultipleWithClick<T> extends Component<PowerSelectMultSignature<T>> {}
+  export interface PowerSelectMultipleSignature<O> {
+    Element: HTMLDivElement;
+    Args: PowerSelectMultipleArgs<O>;
+    Blocks: {
+      default: [O, Select];
+    };
+  }
+  export default class PowerSelectMultiple<O> extends Component<PowerSelectMultipleSignature<O>> {}
 }
 
 
