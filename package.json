@@ -35,7 +35,7 @@
     "@carbon/icons": "^11.16.0",
     "@carbon/import-once": "^10.7.0",
     "@carbon/layout": "^11.8.0",
-    "@carbon/themes": "^11.16.0",
+    "@carbon/themes": "^11.17.0",
     "@carbon/type": "^11.15.0",
     "@gavant/glint-template-types": "^0.3.2",
     "@glimmer/component": "^1.0.2",
