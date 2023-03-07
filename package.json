@@ -132,7 +132,7 @@
     "qunit": "^2.19.4",
     "qunit-dom": "^2.0.0",
     "release-it": "^15.6.0",
-    "sass-embedded": "^1.57.1",
+    "sass-embedded": "^1.58.3",
     "typescript": "4.9.4",
     "webpack": "^5.75.0"
   },
