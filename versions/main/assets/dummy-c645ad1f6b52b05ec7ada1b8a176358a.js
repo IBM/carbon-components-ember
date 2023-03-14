@@ -56,11 +56,12 @@ const u={_moduleRegistry:n.default._moduleRegistry,namespace:n.default.namespace
 const l=`resolve${(0,t.capitalize)(e.split(":")[0])}`
 let r
 if(this[l])try{const t=this.myParseName(e)
-if(r=this[l](t,[n,null]),r)return r}catch(o){console.warn(o)}return r},resolveModule(e){if(!e)return null
-if(this._moduleRegistry.has(e))return this._moduleRegistry.get(e).default
-if(this._moduleRegistry.has(e+"/index"))return this._moduleRegistry.get(e+"/index").default
-const n=e.split("/").slice(-1)[0],t=e.split("/").slice(0,-1).join("/"),l=this.resolveModule(t)
-return l&&l[n]||null},resolveService(e){let n
+if(r=this[l](t,[n,null]),r)return r}catch(o){console.warn(o)}return r},resolveModule(e){let n=!(arguments.length>1&&void 0!==arguments[1])||arguments[1]
+if(!e)return null
+if(this._moduleRegistry.has(e))return n?this._moduleRegistry.get(e).default:this._moduleRegistry.get(e)
+if(this._moduleRegistry.has(e+"/index"))return n?this._moduleRegistry.get(e+"/index").default:this._moduleRegistry.get(e+"/index")
+const t=e.split("/").slice(-1)[0],l=e.split("/").slice(0,-1).join("/"),r=this.resolveModule(l,!1)
+return r&&r[t]||null},resolveService(e){let n
 if(e.fullNameWithoutType.includes("@")){let[t,l]=e.fullNameWithoutType.split("@")
 const r=`${t}/services/${l}/service`
 if(this.resolveModule(r))return this.resolveModule(r)
@@ -85,7 +86,7 @@ if(this.resolveModule(t))return this.resolveModule(t)
 if(t=n.replace("/components/","/templates/components/"),t.includes("/templates/components/")&&this.resolveModule(t))return this.resolveModule(t)
 const l=this.namespace.modulePrefix
 return t=`${l}/ui/routes/${e.fullNameWithoutType}/template`,this.resolveModule(t)?this.resolveModule(t):(t=`${l}/ui/${n}/template`,this.resolveModule(t)?this.resolveModule(t):(t=`${l}/ui/components/${n}/template`,this.resolveModule(t)?this.resolveModule(t):this.resolveOther(e)))},resolveComponent(e){let n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"component",t=e.fullNameWithoutType,u=t
-function i(e){return!!(o.default.TemplateOnlyComponent&&e instanceof o.default.TemplateOnlyComponent)||((e=e.prototype)instanceof l.default||e instanceof r.default)}if(this.resolveModule(u)&&i(this.resolveModule(u)))return this.resolveModule(u)
+function i(e){return!!(o.TemplateOnlyComponent&&e instanceof o.TemplateOnlyComponent)||((e=e.prototype)instanceof l.default||e instanceof r.default)}if(this.resolveModule(u)&&i(this.resolveModule(u)))return this.resolveModule(u)
 if(u=`${t}/${n}`,this.resolveModule(u)&&i(this.resolveModule(u)))return this.resolveModule(u)
 let a=this.namespace.modulePrefix
 if(u=`${a}/ui${t}/${n}`,this.resolveModule(u)&&i(this.resolveModule(u)))return this.resolveModule(u)
@@ -220,4 +221,4 @@ e.default=u})),define("dummy/services/power-calendar",["exports","ember-power-ca
 var t=(0,n.createTemplateFactory)({id:"xN7SjcMA",block:'[[[41,[30,0,["model","isComponent"]],[[[1,"  "],[8,[39,1],null,[["@component"],[[30,0,["model"]]]],null],[1,"\\n"]],[]],[[[41,[30,0,["model","isClass"]],[[[1,"  "],[8,[39,2],null,[["@class"],[[30,0,["model"]]]],null],[1,"\\n"]],[]],[[[1,"  "],[8,[39,3],null,[["@module"],[[30,0,["model"]]]],null],[1,"\\n"]],[]]]],[]]]],[],false,["if","api/x-component","api/x-class","api/x-module"]]',moduleName:"dummy/templates/docs/api/item.hbs",isStrictMode:!1})
 e.default=t})),define("dummy/transforms/boolean",["exports","@ember-data/serializer/-private"],(function(e,n){Object.defineProperty(e,"__esModule",{value:!0}),Object.defineProperty(e,"default",{enumerable:!0,get:function(){return n.BooleanTransform}})})),define("dummy/transforms/date",["exports","@ember-data/serializer/-private"],(function(e,n){Object.defineProperty(e,"__esModule",{value:!0}),Object.defineProperty(e,"default",{enumerable:!0,get:function(){return n.DateTransform}})})),define("dummy/transforms/number",["exports","@ember-data/serializer/-private"],(function(e,n){Object.defineProperty(e,"__esModule",{value:!0}),Object.defineProperty(e,"default",{enumerable:!0,get:function(){return n.NumberTransform}})})),define("dummy/transforms/string",["exports","@ember-data/serializer/-private"],(function(e,n){Object.defineProperty(e,"__esModule",{value:!0}),Object.defineProperty(e,"default",{enumerable:!0,get:function(){return n.StringTransform}})})),define("dummy/utils/calculate-position",["exports","ember-basic-dropdown/utils/calculate-position"],(function(e,n){Object.defineProperty(e,"__esModule",{value:!0}),Object.defineProperty(e,"default",{enumerable:!0,get:function(){return n.default}})})),define("dummy/utils/titleize",["exports","ember-cli-string-helpers/utils/titleize"],(function(e,n){Object.defineProperty(e,"__esModule",{value:!0}),Object.defineProperty(e,"default",{enumerable:!0,get:function(){return n.default}})})),define("dummy/config/environment",[],(function(){try{var e="dummy/config/environment",n=document.querySelector('meta[name="'+e+'"]').getAttribute("content"),t={default:JSON.parse(decodeURIComponent(n))}
 return Object.defineProperty(t,"__esModule",{value:!0}),t}catch(l){throw new Error('Could not read config from meta tag with name "'+e+'".')}}))
-runningTests||require("dummy/app").default.create({name:"carbon-components-ember",version:"0.6.0+6ffe247f"})
+runningTests||require("dummy/app").default.create({name:"carbon-components-ember",version:"0.6.0+752fa15d"})

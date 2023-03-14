@@ -350,7 +350,7 @@
   "main": {
     "path": "versions/main",
     "name": "main",
-    "sha": "6ffe247f0c5fd481ef7cebf311266ab04272ab35",
+    "sha": "752fa15d2d04fc132fc1907d7f121a440913280d",
     "tag": null
   },
   "v0.6.0": {
