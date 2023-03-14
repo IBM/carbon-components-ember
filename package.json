@@ -72,7 +72,7 @@
     "ember-power-calendar-moment": "^0.2.0",
     "ember-power-select": "^6.0.1",
     "ember-ref-modifier": "^1.0.0",
-    "ember-simple-mu-resolver": "^0.1.9",
+    "ember-simple-mu-resolver": "^0.1.10",
     "ember-template-imports": "^3.4.1",
     "ember-tooltips": "^3.6.0",
     "jsonfile": "^6.1.0",
