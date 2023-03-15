@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency-decorators'
+import { task } from 'ember-concurrency'
 import { timeout, TaskInstance } from 'ember-concurrency'
 import { taskFor } from 'ember-concurrency-ts';
 import { autoComputed } from 'carbon-components-ember/decorators';

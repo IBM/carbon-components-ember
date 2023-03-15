@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency-decorators'
+import { task } from 'ember-concurrency'
 import { TaskInstance } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 

@@ -5,7 +5,7 @@ import { defaultArgs } from '../../decorators';
 import { A } from '@ember/array';
 import MutableArray from '@ember/array/mutable';
 import { taskFor } from 'ember-concurrency-ts';
-import { task } from 'ember-concurrency-decorators';
+import { task } from 'ember-concurrency';
 import { next } from '@ember/runloop';
 import TableToolbarComponent from 'carbon-components-ember/components/data-table/-toolbar';
 import TableSearchComponent from 'carbon-components-ember/components/data-table/-search-input';
