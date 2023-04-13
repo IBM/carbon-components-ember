@@ -55,7 +55,7 @@
     "d3-shape": "^3.2.0",
     "d3-transition": "^3.0.1",
     "ember-auto-import": "^2.4.2",
-    "ember-basic-dropdown": "^6.0.2",
+    "ember-basic-dropdown": "^7.0.2",
     "ember-cli-babel": "^7.23.0",
     "ember-cli-htmlbars": "^6.0.1",
     "ember-cli-moment-shim": "^3.8.0",
