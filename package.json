@@ -29,7 +29,7 @@
   "dependencies": {
     "@ascua/arrays": "^0.0.236",
     "@carbon/charts": "^1.6.14",
-    "@carbon/colors": "11.12.0",
+    "@carbon/colors": "11.14.0",
     "@carbon/grid": "^11.13.0",
     "@carbon/icon-helpers": "^10.39.0",
     "@carbon/icons": "^11.17.0",
