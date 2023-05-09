@@ -5,34 +5,16 @@
     "sha": "af7e59ba7439e22bbd405451bf974e6fac2be24f",
     "tag": null
   },
-  "${GITHUB_REF##*/}": {
-    "path": "versions/${GITHUB_REF##*/}",
-    "name": "${GITHUB_REF##*/}",
-    "sha": "d2adaae315aea8e4747091a911833b7b6b59ac43",
-    "tag": null
-  },
-  "${github.ref##*/}": {
-    "path": "versions/${github.ref##*/}",
-    "name": "${github.ref##*/}",
-    "sha": "2e9988821fb98c2d97be4376890ea0dd1a81eed5",
-    "tag": null
-  },
-  "refs/heads/master": {
-    "path": "versions/refs/heads/master",
-    "name": "refs/heads/master",
-    "sha": "b95a5ed21ff407f37c293971d82b37f4467eefab",
+    "main": {
+    "path": "versions/main",
+    "name": "main",
+    "sha": "dceeebc33d57b47fb740b6a43ab5e89324d6655a",
     "tag": null
   },
   "v0.1.5": {
     "path": "versions/v0.1.5",
     "name": "v0.1.5",
     "sha": "0e56432705f22c9c7d9a91e1da97b2553654671b",
-    "tag": null
-  },
-  "master": {
-    "path": "versions/master",
-    "name": "master",
-    "sha": "8971d84dcb8be60eec003e94d6b4fd76b2314fa5",
     "tag": null
   },
   "v0.1.6": {
@@ -345,12 +327,6 @@
     "path": "versions/v0.4.15",
     "name": "v0.4.15",
     "sha": "5e24ed0dd870a7ac3b9fc86e62e17c676b0eb0d6",
-    "tag": null
-  },
-  "main": {
-    "path": "versions/main",
-    "name": "main",
-    "sha": "dceeebc33d57b47fb740b6a43ab5e89324d6655a",
     "tag": null
   },
   "v0.6.0": {
