@@ -94,7 +94,7 @@
     "@types/ember__destroyable": "^4.0.0",
     "@types/ember__test-helpers": "^2.8.1",
     "@types/ember-qunit": "^6.1.1",
-    "@types/qunit": "^2.19.4",
+    "@types/qunit": "^2.19.5",
     "@types/qunit-dom": "^0.7.0",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.48.1",
