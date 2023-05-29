@@ -36,7 +36,7 @@
     "@carbon/import-once": "^10.7.0",
     "@carbon/layout": "^11.8.0",
     "@carbon/themes": "^11.17.0",
-    "@carbon/type": "^11.17.0",
+    "@carbon/type": "^11.18.0",
     "@gavant/glint-template-types": "^0.3.3",
     "@glimmer/component": "^1.0.2",
     "@glimmer/tracking": "^1.0.2",
