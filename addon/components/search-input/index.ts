@@ -4,7 +4,6 @@ import { guidFor } from '@ember/object/internals';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency'
 import { timeout, TaskInstance } from 'ember-concurrency'
-import { taskFor } from 'ember-concurrency-ts';
 import { autoComputed } from 'carbon-components-ember/decorators';
 
 type Args = {
@@ -33,22 +32,20 @@ export default class SearchComponent extends Component<SearchComponentSignature>
     return guidFor(this);
   }
 
-  @task({ restartable: true })
-  *runSearch() {
+  runSearch = task({ restartable: true }, async() => {
     this.isSearching = true;
-    yield timeout(200);
+    await timeout(200);
     const task = this.args.onChange(this.value);
     try {
-      return yield task;
+      return await task;
     } finally {
       this.isSearching = false;
       task && task.cancel && task.cancel();
     }
-  }
-
+  })
   @action
   onSearchChange() {
-    taskFor(this.runSearch).perform();
+    this.runSearch.perform();
   }
 
   @action

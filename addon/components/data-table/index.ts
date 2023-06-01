@@ -4,7 +4,6 @@ import { tracked } from '@glimmer/tracking';
 import { defaultArgs } from '../../decorators';
 import { A } from '@ember/array';
 import MutableArray from '@ember/array/mutable';
-import { taskFor } from 'ember-concurrency-ts';
 import { task } from 'ember-concurrency';
 import { next } from '@ember/runloop';
 import TableToolbarComponent from 'carbon-components-ember/components/data-table/-toolbar';
@@ -159,18 +158,16 @@ export default class DataTableComponent<T> extends Component<DataTableComponentS
     return this.args.items;
   }
 
-  @task({ restartable: true })
-  *applySearch(items, term) {
+  applySearch = task({ restartable: true }, async(items, term) =>{
     this.state.currentSearch = A([]);
     term = term && term.toLowerCase();
     const f = this.searchFunction;
     for (const t of items.toArray()) {
-      if (yield f(t, term)) {
+      if (await f(t, term)) {
         this.state.currentSearch!!.pushObject(t);
       }
     }
-  }
-
+  })
   get currentItems() {
     if (!this.items || !this.state.currentItemsSlice) return [];
     return this.items.slice(this.state.currentItemsSlice.start, this.state.currentItemsSlice.end);
@@ -190,10 +187,10 @@ export default class DataTableComponent<T> extends Component<DataTableComponentS
     this.state.currentSearchTerm = term;
     if (!term) {
       this.state.currentSearch = undefined;
-      taskFor(this.applySearch).cancelAll();
+      this.applySearch.cancelAll();
       return
     }
-    return taskFor(this.applySearch).perform(this.args.items || [], term);
+    return this.applySearch.perform(this.args.items || [], term);
   }
 
   @action

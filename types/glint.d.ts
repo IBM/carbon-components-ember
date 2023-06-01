@@ -58,6 +58,15 @@ declare module '@ascua/maths/helpers/div' {
   export default div;
 }
 
+declare module 'ember-resize-modifier/modifiers/did-resize' {
+  const didResize: import('@glint/template').ModifierLike<{
+    Args: {
+      Positional: [fn: (...args: any) => void, ...args: any];
+    };
+  }>;
+  export default didResize;
+}
+
 declare module '@ember/helper' {
   export const fn: import('@glint/environment-ember-loose/-private/dsl/index').Globals['fn']
   export const get: import('@glint/environment-ember-loose/-private/dsl/index').Globals['get']
@@ -97,32 +106,6 @@ declare module '@ember/render-modifiers/modifiers/will-destroy' {
   }>;
   export default willDestroy;
 }
-
-declare module 'ember-power-select/components/power-select' {
-  import 'ember-power-select/components/power-select';
-  export interface PowerSelectArgs<O> {
-    eventType: 'click';
-  }
-}
-
-declare module 'ember-power-select/components/power-select-multiple' {
-  import Component from '@glimmer/component';
-
-  import { PowerSelectArgs, PromiseProxy, Select } from 'ember-power-select/components/power-select';
-
-  interface PowerSelectMultipleArgs<O> extends Omit<PowerSelectArgs<O>, 'selected'> {
-    selected?: O[] | PromiseProxy<O[]>;
-  }
-  export interface PowerSelectMultipleSignature<O> {
-    Element: HTMLDivElement;
-    Args: PowerSelectMultipleArgs<O>;
-    Blocks: {
-      default: [O, Select];
-    };
-  }
-  export default class PowerSelectMultiple<O> extends Component<PowerSelectMultipleSignature<O>> {}
-}
-
 
 declare module 'ember-template-imports' {
   import { TemplateFactory } from 'htmlbars-inline-precompile';

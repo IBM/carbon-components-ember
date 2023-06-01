@@ -3,7 +3,6 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency'
 import { TaskInstance } from 'ember-concurrency';
-import { taskFor } from 'ember-concurrency-ts';
 
 
 type Args = {
@@ -18,23 +17,22 @@ export default class TableSearchComponent extends Component<Args> {
   @tracked isSearching;
   lastTerm = null;
 
-  @task({ restartable: true })
-  *runSearch(term) {
+  runSearch = task({ restartable: true }, async(term) => {
     this.isSearching = true;
     const task = this.args.onChange(term);
     try {
-      return yield task;
+      return await task;
     } finally {
       this.isSearching = false;
       task?.cancel?.();
     }
-  }
+  });
 
   @action
   doSearch(term) {
     if (this.lastTerm === term) return;
     this.lastTerm = term;
-    taskFor(this.runSearch)?.cancelAll()
-    return taskFor(this.runSearch).perform(term);
+    this.runSearch.cancelAll()
+    return this.runSearch.perform(term);
   }
 }

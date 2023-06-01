@@ -40,6 +40,7 @@
   "rootDir": ".",
   "include": [
     "node_modules/@gavant/glint-template-types/types/ember-power-select/components/power-select.d.ts",
+    "node_modules/@gavant/glint-template-types/types/ember-power-select/components/power-select-multiple.d.ts",
     "node_modules/@gavant/glint-template-types/types/ember-truth-helpers/*.ts",
     "types/globals.d.ts",
     "types/glint.d.ts",

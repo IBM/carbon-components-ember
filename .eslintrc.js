@@ -1,23 +1,34 @@
-module.exports = {
+const EmberLintConfig = require('eslint-plugin-ember-template-lint/lib/ember-teplate-lint/config');
+EmberLintConfig.registerPlugin('ember-template-lint-plugin-prettier');
+EmberLintConfig.registerPlugin('ember-hbs-imports/hbs-imports-rule');
+
+const config = {
   root: true,
   parserOptions: {
     ecmaVersion: 2017,
     sourceType: 'module',
   },
-  parser: '@typescript-eslint/parser',
-  plugins: ['ember', '@typescript-eslint'],
+  plugins: [],
   extends: [
     'eslint:recommended',
+    'plugin:@typescript-eslint/base',
     'plugin:ember/recommended',
+    'plugin:ember-template-lint/recommended',
+    'plugin:ember-template-lint/ember-template-lint-plugin-prettier:recommended',
   ],
   env: {
     browser: true,
   },
   globals: {
     OneOf: true,
-    WithRequired: true
+    WithRequired: true,
   },
   rules: {
+    'ember-template-lint/prettier': ['error', {
+      htmlWhitespaceSensitivity: 'ignore',
+      singleQuote: true
+    }],
+    'ember-template-lint/must-have-hbs-imports': 'error',
     'no-unused-vars': 'off',
     'ember/no-empty-glimmer-component-classes': 'off',
     quotes: ['error', 'single'],
@@ -120,6 +131,8 @@ module.exports = {
         'qunit/no-conditional-assertions': 'off',
         'qunit/no-early-return': 'off',
       },
-    },
+    }
   ],
 };
+
+module.exports = config;

@@ -4,13 +4,14 @@ import { render, click, rerender, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-template-imports';
 import Button from 'carbon-components-ember/components/button';
 
-
 module('Integration | Component | Button', (hooks) => {
   setupRenderingTest(hooks);
 
   test('should set as primary', async function(assert) {
-    await render(hbs`<Button @type="primary"></Button>`);
-    await rerender()
+    await render(
+      hbs`<Button @type="primary"><div><div><div>s</div></div></div></Button>`
+    );
+    await rerender();
 
     assert.dom('button').hasClass('cds--btn--primary');
   });
@@ -21,10 +22,9 @@ module('Integration | Component | Button', (hooks) => {
   });
 
   test('should show loading indicator for async click handler', async function(assert) {
-
     let promise;
     const onClick = function() {
-      promise = new Promise(res => setTimeout(res, 100));
+      promise = new Promise((res) => setTimeout(res, 100));
       return promise;
     };
 
@@ -39,25 +39,37 @@ module('Integration | Component | Button', (hooks) => {
     await promise;
     await settled();
 
-    assert.dom('.cds--loading').doesNotExist('should not show loading indicator');
+    assert
+      .dom('.cds--loading')
+      .doesNotExist('should not show loading indicator');
   });
 
   test('cannot click disabled', async function(assert) {
     assert.expect(2);
 
     const onClick = function() {
-      return new Promise(res => setTimeout(res, 1000));
+      return new Promise((res) => setTimeout(res, 1000));
     };
 
-    await render(hbs`<Button @onClick={{onClick}} @type="primary" @disabled={{true}}></Button>`);
+    await render(
+      hbs`<Button @onClick={{onClick}} @type="primary" @disabled={{true}}></Button>`
+    );
 
     try {
       await click('button');
     } catch (e) {
-      assert.deepEqual(e.message, 'Can not `click` disabled [object HTMLButtonElement]', 'cannot click');
+      assert.deepEqual(
+        e.message,
+        'Can not `click` disabled [object HTMLButtonElement]',
+        'cannot click'
+      );
     }
 
-    assert.dom('button').hasClass('cds--btn--disabled', 'class names should include  cds--btn--disabled');
+    assert
+      .dom('button')
+      .hasClass(
+        'cds--btn--disabled',
+        'class names should include  cds--btn--disabled'
+      );
   });
 });
-

@@ -10,18 +10,26 @@
 
 <Demo as |demo|>
   {{#let (newObj) as |context|}}
-  {{#demo.example name='tabs.hbs'}}
+    {{#demo.example name='tabs.hbs'}}
     {{!import Tab from 'carbon-components-ember/components/tab'}}
 
-    <Tabs @loading={{true}}></Tabs>
+      <Tabs @loading={{true}}></Tabs>
 
-    <br>
+      <br>
 
-    <Tabs @selectedTab={{context.selected}} @tabSelected={{fn (mut context.selected)}} @tabs={{array (hash title="Tab Label 1") (hash title="Tab Label 2" disabled=true) (hash title="Tab Label 4 with a very long long label")}}>
-      {{context.selected.title}}
-    </Tabs>
+      <Tabs @selectedTab={{context.selected}} @tabSelected={{fn (mut context.selected)}} as |TabPane|>
+        <TabPane @title="Tab Label 1">
+          title: {{context.selected}}
+        </TabPane>
+        <TabPane @title="Tab Label 2" @disabled={{true}}>
+          title: {{context.selected}}
+        </TabPane>
+        <TabPane @title="Tab Label 4 with a very long long label">
+          title: {{context.selected}}
+        </TabPane>
+      </Tabs>
 
-  {{/demo.example}}
+    {{/demo.example}}
   {{/let}}
   <demo.snippet @name="tabs.hbs" />
 </Demo>
