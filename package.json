@@ -31,7 +31,7 @@
     "@carbon/charts": "^1.7.6",
     "@carbon/colors": "11.14.0",
     "@carbon/grid": "^11.13.0",
-    "@carbon/icon-helpers": "^10.39.0",
+    "@carbon/icon-helpers": "^10.40.0",
     "@carbon/icons": "^11.17.0",
     "@carbon/import-once": "^10.7.0",
     "@carbon/layout": "^11.8.0",
