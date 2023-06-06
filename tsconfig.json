@@ -46,9 +46,9 @@
     "types/glint.d.ts",
     "index.d.ts",
     "lib/*.ts",
-    "addon/**/*.ts",
-    "tests/**/*.ts",
-    "app/**/*.ts",
+    "./addon/**/*",
+    "tests/**/*",
+    "./app/**/*",
     "node_modules/@glint/environment-ember-loose/registry/index.d.ts"
   ],
   "glint": {

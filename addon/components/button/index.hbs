@@ -1,19 +1,29 @@
 {{import Loading from '../loading'}}
 {{import or from 'ember-truth-helpers/helpers/or'}}
-{{import styles from './styles.scoped.scss'}}
+{{import styles from './styles.module.scss'}}
 {{import Confirm from '~/components/dialogs/confirm'}}
 
-
-<button ...attributes
-        onclick={{this.onButtonClick}}
-        class="cds--btn {{this.bxClassNames}} {{styles.namespace}} {{if (or this.loading @loading) 'cds--btn--ghost'}}"
-        aria-label="{{if @type 'danger'}}"
-        disabled={{or @disabled this.loading @loading}}
-        type="button">
+<button
+  ...attributes
+  onclick={{this.onButtonClick}}
+  class='cds--btn
+    {{this.bxClassNames}}
+    {{styles.namespace}}
+    {{if (or this.loading @loading) "cds--btn--ghost"}}'
+  aria-label='{{if @type "danger"}}'
+  disabled={{or @disabled this.loading @loading}}
+  type='button'
+>
   {{#if this.showDialog}}
     {{#let (or @confirmDialog Confirm) as |Dialog|}}
       {{#in-element this.dialogManager.destinationElement}}
-        <Dialog @onAccept={{this.runButtonClick}} @onCancel={{this.cancel}} @header="Danger" @body={{or @confirmText 'Confirm this operation'}} @type="danger"></Dialog>
+        <Dialog
+          @onAccept={{this.runButtonClick}}
+          @onCancel={{this.cancel}}
+          @header='Danger'
+          @body={{or @confirmText 'Confirm this operation'}}
+          @type='danger'
+        />
       {{/in-element}}
     {{/let}}
   {{/if}}

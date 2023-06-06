@@ -5,6 +5,9 @@ import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import ConfirmDialogComponent from 'carbon-components-ember/components/dialogs/confirm';
+import or from 'carbon-components-ember/helpers/or';
+import Confirm from 'carbon-components-ember/components/carbon/dialogs/confirm';
+import styles from './styles.module.scss';
 
 
 /** @documenter yuidoc */
@@ -118,6 +121,43 @@ class CarbonButton extends Component<ButtonSignature> {
     ghost: false
   };
 
+  <template>
+    <button
+      ...attributes
+      onclick={{this.onButtonClick}}
+      class='cds--btn
+        {{this.bxClassNames}}
+        {{styles.namespace}}
+        {{if (or this.loading @loading) "cds--btn--ghost"}}'
+      aria-label='{{if @type "danger"}}'
+      disabled={{or @disabled this.loading @loading}}
+      type='button'
+    >
+      {{#if this.showDialog}}
+        {{#let (or @confirmDialog Confirm) as |Dialog|}}
+          {{#in-element this.dialogManager.destinationElement}}
+            <Dialog
+              @onAccept={{this.runButtonClick}}
+              @onCancel={{this.cancel}}
+              @header='Danger'
+              @body={{or @confirmText 'Confirm this operation'}}
+              @type='danger'
+            />
+          {{/in-element}}
+        {{/let}}
+      {{/if}}
+      {{#if (or this.loading @loading)}}
+        <Loading @inline={{true}} />
+      {{else}}
+        {{#if (has-block)}}
+          {{yield}}
+        {{else}}
+          {{@label}}
+        {{/if}}
+      {{/if}}
+    </button>
+  </template>
+
   get primary() {
     return (this.args as any).primary || this.args.type === 'primary';
   }
@@ -169,3 +209,4 @@ class CarbonButton extends Component<ButtonSignature> {
 }
 
 export default CarbonButton;
+

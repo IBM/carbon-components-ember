@@ -1,6 +1,9 @@
 import Component from '@glimmer/component';
 import { defaultArgs } from '../../decorators';
 import { action } from '@ember/object';
+import eq from 'ember-truth-helpers/helpers/eq';
+import { fn } from '@ember/helper';
+import { on } from '@ember/modifier';
 
 /** @documenter yuidoc */
 
@@ -51,6 +54,27 @@ class CarbonBreadcrumb extends Component<BreadcrumbSignature> {
   onSelect(crumb: string) {
     this.args.onSelect?.(crumb);
   }
+
+  <template>
+    <nav
+      class='cds--breadcrumb cds--breadcrumb--no-trailing-slash'
+      aria-label='breadcrumb'
+      ...attributes
+    >
+      {{#each @crumbs as |crumb|}}
+        <div class='cds--breadcrumb-item'>
+          <a
+            href='#'
+            {{on 'click' (fn this.onSelect crumb)}}
+            class='cds--link'
+            aria-current='{{if (eq crumb @current) "page"}}'
+          >
+            {{crumb}}
+          </a>
+        </div>
+      {{/each}}
+    </nav>
+  </template>
 }
 
 export default CarbonBreadcrumb;

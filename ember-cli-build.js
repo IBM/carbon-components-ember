@@ -12,6 +12,11 @@ module.exports = function(defaults) {
       // moving from compass compiler to node gave huge improvement
       implementation: nodeSass, //implementation here is node-sass,
       sourceMap : false //will debug with generated CSS than sourcemap :)
+    },
+    cssModules: {
+      includeExtensionInModulePath: true,
+      extension: 'module.scss',
+      intermediateOutputPath: 'app/styles/_modules.scss'
     }
   });
 
