@@ -27,7 +27,7 @@
     "testserver": "ember test --serve"
   },
   "dependencies": {
-    "@ascua/arrays": "^0.0.237",
+    "@ascua/arrays": "^0.0.241",
     "@carbon/charts": "^1.7.6",
     "@carbon/colors": "11.14.0",
     "@carbon/grid": "^11.13.0",
