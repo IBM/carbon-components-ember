@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "plugins": [{ "name": "typescript-plugin-css-modules" }],
     "target": "ES2018",
     "allowJs": false,
     "declaration": true,
@@ -16,16 +17,24 @@
     "noUnusedParameters": false,
     "noImplicitReturns": false,
     "noEmitOnError": false,
-    "baseUrl": ".",
     "module": "ES6",
     "experimentalDecorators": true,
     "typeRoots": [
       "types"
     ],
+    "rootDirs": [
+      "app",
+      "addon",
+      "tests/dummy/app"
+    ],
     "paths": {
       "dummy/*": [
         "tests/dummy/app/*"
       ],
+      "addon/*": [
+        "invalid "
+      ],
+      "carbon-components-ember": ["addon"],
       "carbon-components-ember/*": [
         "addon/*"
       ],
@@ -37,7 +46,6 @@
       ]
     }
   },
-  "rootDir": ".",
   "include": [
     "node_modules/@gavant/glint-template-types/types/ember-power-select/components/power-select.d.ts",
     "node_modules/@gavant/glint-template-types/types/ember-power-select/components/power-select-multiple.d.ts",

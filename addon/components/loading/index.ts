@@ -3,6 +3,7 @@ import { action } from '@ember/object';
 import Loading from 'carbon-components/es/components/loading/loading';
 import { defaultArgs } from '../../decorators';
 
+
 type Args = {
   active?: boolean;
   small?: boolean;

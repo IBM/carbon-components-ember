@@ -8,7 +8,6 @@ interface AccordionSignature {
 
 export default class Accordion extends Component<AccordionSignature> {
   <template>
-    {{this.a}}
     <ul class='cds--accordion cds--accordion--end cds--accordion--md'>
       <li class='cds--accordion__item'>
         <button

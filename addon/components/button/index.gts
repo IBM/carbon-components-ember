@@ -6,9 +6,9 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import ConfirmDialogComponent from 'carbon-components-ember/components/dialogs/confirm';
 import or from 'carbon-components-ember/helpers/or';
-import Confirm from 'carbon-components-ember/components/carbon/dialogs/confirm';
+import Confirm from 'carbon-components-ember/components/dialogs/confirm';
 import styles from './styles.module.scss';
-
+import Loading from 'carbon-components-ember/components/loading';
 
 /** @documenter yuidoc */
 

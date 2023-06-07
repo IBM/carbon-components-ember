@@ -14,3 +14,5 @@ type OneOf<T extends {}[]> = {
 
 // eslint-disable-next-line no-unused-vars
 type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] }
+
+declare module '*.scss';
