@@ -97,7 +97,7 @@
     "@types/ember-qunit": "^6.1.1",
     "@types/qunit": "^2.19.5",
     "@types/qunit-dom": "^0.7.0",
-    "@typescript-eslint/eslint-plugin": "^5.59.8",
+    "@typescript-eslint/eslint-plugin": "^5.59.11",
     "@typescript-eslint/parser": "^5.59.9",
     "bower": "^1.8.8",
     "broccoli": "^3.4.2",
