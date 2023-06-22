@@ -39,6 +39,7 @@ const config = {
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-empty-function': 'off',
+    '@typescript-eslint/no-use-before-define': ['error', { 'typedefs': false }],
     'node/no-unsupported-features/es-syntax': 'off',
     'no-restricted-syntax': 'off',
     'no-await-in-loop': 'off',
@@ -51,12 +52,6 @@ const config = {
     'no-param-reassign': 'off',
     'no-plusplus': 'off',
     'no-underscore-dangle': 'off',
-    'no-use-before-define': [
-      'error',
-      {
-        functions: false,
-      },
-    ],
     'max-len': ['error', 180],
     'object-shorthand': 'off',
     'prefer-arrow-callback': 'off',

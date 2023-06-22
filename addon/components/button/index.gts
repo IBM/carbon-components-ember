@@ -209,4 +209,3 @@ class CarbonButton extends Component<ButtonSignature> {
 }
 
 export default CarbonButton;
-

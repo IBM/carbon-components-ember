@@ -1,1 +1,1 @@
-export { default } from 'carbon-components-ember/components/../../../addon/components/bread';
+export { default } from 'carbon-components-ember/components/breadcrumbs';

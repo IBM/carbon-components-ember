@@ -1,0 +1,42 @@
+{{import Checkbox from 'carbon-components-ember/components/checkbox'}}
+{{import Input from 'carbon-components-ember/components/form-input'}}
+{{import Demo from 'ember-cli-addon-docs/components/docs-demo'}}
+{{import set from 'carbon-components-ember/helpers/set'}}
+{{import Breadcrumbs from 'carbon-components-ember/components/breadcrumbs'}}
+{{import '{ array }' from '@ember/helper'}}
+{{import Accordion from 'carbon-components-ember/components/accordion'}}
+
+<h1>
+  Carbon Accordion
+</h1>
+
+<Demo as |demo|>
+  <demo.example @name='accordion-simple.hbs'>
+    {{!import Accordion from 'carbon-components-ember/components/accordion'}}
+
+    <Accordion as |Item|>
+      <Item @title='Title 1'>
+        The accordion component delivers large amounts of content in a small
+        space through progressive disclosure. The user gets key details about
+        the underlying content and can choose to expand that content within the
+        constraints of the accordion. Accordions work especially well on mobile
+        interfaces or whenever vertical space is at a premium.
+      </Item>
+      <Item @title='Title 2'>
+        The accordion component delivers large amounts of content in a small
+        space through progressive disclosure. The user gets key details about
+        the underlying content and can choose to expand that content within the
+        constraints of the accordion. Accordions work especially well on mobile
+        interfaces or whenever vertical space is at a premium.
+      </Item>
+      <Item @title='Title 3'>
+        The accordion component delivers large amounts of content in a small
+        space through progressive disclosure. The user gets key details about
+        the underlying content and can choose to expand that content within the
+        constraints of the accordion. Accordions work especially well on mobile
+        interfaces or whenever vertical space is at a premium.
+      </Item>
+    </Accordion>
+  </demo.example>
+  <demo.snippet @name='breadcrumbs-simple.hbs' />
+</Demo>
