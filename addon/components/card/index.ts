@@ -28,11 +28,9 @@ export interface CardComponentSignature {
  The CardComponent
 
  ```handlebars
- {{import Button from 'carbon-components-ember/components/button'}}
-
- <Button @onClick={{fn this.onclick}} @danger={{false}} > Button Text </Button>
+ <Carbon::Card @onClick={{fn this.onclick}}> Card Text </Carbon::Card>
  ```
- @class CarbonButton
+ @class CardComponent
  @public
  **/
 export default class CardComponent extends Component<CardComponentSignature> {

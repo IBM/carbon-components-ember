@@ -1,4 +1,4 @@
-@import "carbon-components/scss/globals/scss/theme";
+@import "@carbon/styles/scss/theme";
 
 .icon {
   margin: 5px;
@@ -9,15 +9,15 @@
       opacity: 0.5;
     }
     &info {
-      fill: $brand-01;
+      fill: $background;
       &:hover {
-        fill: $hover-primary;
+        fill: $background-hover;
       }
     }
     &danger {
-      fill: $support-01;
+      fill: $support-error;
       &:hover {
-        fill: darken($support-01, 10%);
+        filter: brightness(0.85);
       }
     }
   }

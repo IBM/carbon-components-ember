@@ -98,4 +98,3 @@ export default class Accordion extends Component<AccordionSignature> {
     </ul>
   </template>
 }
-
