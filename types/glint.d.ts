@@ -71,7 +71,6 @@ declare module '@ember/helper' {
   export const fn: import('@glint/environment-ember-loose/-private/dsl/index').Globals['fn']
   export const get: import('@glint/environment-ember-loose/-private/dsl/index').Globals['get']
   export const concat: import('@glint/environment-ember-loose/-private/dsl/index').Globals['concat']
-  export const on: import('@glint/environment-ember-loose/-private/dsl/index').Globals['on']
   export const array: import('@glint/environment-ember-loose/-private/dsl/index').Globals['array']
 }
 

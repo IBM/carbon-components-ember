@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
 import { defaultArgs } from '../../decorators';
+import styles from './styles.scoped.scss';
 /** @documenter yuidoc */
 
 
@@ -38,4 +39,19 @@ export default class CardComponent extends Component<CardComponentSignature> {
     loading: false,
     title: ''
   });
+
+  <template>
+      <div class="{{styles.card}} card" ...attributes>
+        {{#if @title}}
+          <div class="title">
+            <strong style="padding-left: 20px">{{@title}}</strong>
+          </div>
+        {{/if}}
+        {{#if @loading}}
+          <div class="cds--skeleton cds--btn" style="width: 100%"></div>
+        {{else}}
+          {{yield}}
+        {{/if}}
+      </div>
+  </template>
 }

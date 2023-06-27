@@ -1,0 +1,620 @@
+{
+  "package": "carbon-components-ember",
+  "semverRange": "0.6.0",
+  "addonModules": {
+    "carbon-components-ember/components/card/index.hbs": {
+      "dependsOnModules": [],
+      "dependsOnComponents": []
+    },
+    "carbon-components-ember/components/charts/-components/axis/index.hbs": {
+      "dependsOnModules": [
+        "carbon-components-ember/components/charts/-helpers/on-update",
+        "carbon-components-ember/components/charts/-helpers/to-bool",
+        "carbon-components-ember/helpers/new-obj"
+      ],
+      "dependsOnComponents": []
+    },
+    "carbon-components-ember/components/charts/-components/chart/index.hbs": {
+      "dependsOnModules": [
+        "carbon-components-ember/helpers/set",
+        "carbon-components-ember/helpers/call",
+        "@ember/render-modifiers/modifiers/did-insert",
+        "@ember/render-modifiers/modifiers/did-update",
+        "@ember/render-modifiers/modifiers/will-destroy"
+      ],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/charts/-components/tabular-data\"}}",
+        "{{component \"carbon-components-ember/components/charts/-components/axis\"}}",
+        "{{component \"carbon-components-ember/components/charts/-components/color/pairing\"}}",
+        "{{component \"carbon-components-ember/components/charts/-components/color/scale\"}}"
+      ]
+    },
+    "carbon-components-ember/components/charts/-components/color/pairing/index.hbs": {
+      "dependsOnModules": [
+        "carbon-components-ember/components/charts/-helpers/on-update"
+      ],
+      "dependsOnComponents": []
+    },
+    "carbon-components-ember/components/charts/-components/color/scale/index.hbs": {
+      "dependsOnModules": [
+        "carbon-components-ember/components/charts/-helpers/on-update"
+      ],
+      "dependsOnComponents": []
+    },
+    "carbon-components-ember/components/charts/-components/tabular-data/index.hbs": {
+      "dependsOnModules": [
+        "carbon-components-ember/components/charts/-helpers/on-update",
+        "carbon-components-ember/helpers/default-to"
+      ],
+      "dependsOnComponents": []
+    },
+    "carbon-components-ember/components/charts/bar/index.hbs": {
+      "dependsOnModules": [
+        "carbon-components-ember/helpers/set"
+      ],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/charts/-components/chart\"}}"
+      ]
+    },
+    "carbon-components-ember/components/charts/line/index.hbs": {
+      "dependsOnModules": [
+        "carbon-components-ember/helpers/set"
+      ],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/charts/-components/chart\"}}"
+      ]
+    },
+    "carbon-components-ember/components/charts/pie/index.hbs": {
+      "dependsOnModules": [
+        "carbon-components-ember/helpers/set"
+      ],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/charts/-components/chart\"}}"
+      ]
+    },
+    "carbon-components-ember/components/checkbox/index.hbs": {
+      "dependsOnModules": [],
+      "dependsOnComponents": []
+    },
+    "carbon-components-ember/components/code-snippet/index.hbs": {
+      "dependsOnModules": [
+        "ember-truth-helpers/helpers/eq",
+        "carbon-components-ember/helpers/set",
+        "ember-truth-helpers/helpers/not",
+        "@ember/render-modifiers/modifiers/did-insert"
+      ],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/copy-button\"}}"
+      ]
+    },
+    "carbon-components-ember/components/copy-button/index.hbs": {
+      "dependsOnModules": [
+        "ember-truth-helpers/helpers/or",
+        "@ember/render-modifiers/modifiers/did-insert"
+      ],
+      "dependsOnComponents": []
+    },
+    "carbon-components-ember/components/data-table/-body/index.hbs": {
+      "dependsOnModules": [],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/data-table/-row\"}}"
+      ]
+    },
+    "carbon-components-ember/components/data-table/-column/index.hbs": {
+      "dependsOnModules": [],
+      "dependsOnComponents": []
+    },
+    "carbon-components-ember/components/data-table/-header/index.hbs": {
+      "dependsOnModules": [
+        "carbon-components-ember/helpers/set"
+      ],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/button\"}}",
+        "{{component \"carbon-components-ember/components/checkbox\"}}",
+        "{{component \"carbon-components-ember/components/icon\"}}"
+      ]
+    },
+    "carbon-components-ember/components/data-table/-menu/index.hbs": {
+      "dependsOnModules": [],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/menu\"}}"
+      ]
+    },
+    "carbon-components-ember/components/data-table/-row/index.hbs": {
+      "dependsOnModules": [
+        "carbon-components-ember/helpers/set",
+        "carbon-components-ember/helpers/has",
+        "ember-truth-helpers/helpers/not"
+      ],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/button\"}}",
+        "{{component \"carbon-components-ember/components/checkbox\"}}"
+      ]
+    },
+    "carbon-components-ember/components/data-table/-search-input/index.hbs": {
+      "dependsOnModules": [
+        "@abcum/ember-helpers/helpers/debounce"
+      ],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/search-input\"}}",
+        "{{component \"carbon-components-ember/components/loading\"}}"
+      ]
+    },
+    "carbon-components-ember/components/data-table/-skeleton/index.hbs": {
+      "dependsOnModules": [],
+      "dependsOnComponents": []
+    },
+    "carbon-components-ember/components/data-table/-table/index.hbs": {
+      "dependsOnModules": [],
+      "dependsOnComponents": []
+    },
+    "carbon-components-ember/components/data-table/-toolbar/-actions/index.hbs": {
+      "dependsOnModules": [
+        "carbon-components-ember/helpers/set",
+        "carbon-components-ember/helpers/get-fn"
+      ],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/button\"}}"
+      ]
+    },
+    "carbon-components-ember/components/data-table/-toolbar/-content/index.hbs": {
+      "dependsOnModules": [],
+      "dependsOnComponents": []
+    },
+    "carbon-components-ember/components/data-table/-toolbar/index.hbs": {
+      "dependsOnModules": [
+        "carbon-components-ember/helpers/set"
+      ],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/data-table/-toolbar/-actions\"}}",
+        "{{component \"carbon-components-ember/components/data-table/-toolbar/-content\"}}"
+      ]
+    },
+    "carbon-components-ember/components/data-table/index.hbs": {
+      "dependsOnModules": [
+        "@ember/render-modifiers/modifiers/did-insert",
+        "ember-composable-helpers/helpers/call",
+        "carbon-components-ember/helpers/get-fn",
+        "carbon-components-ember/helpers/new-array",
+        "carbon-components-ember/helpers/generic",
+        "carbon-components-ember/helpers/new-obj",
+        "carbon-components-ember/helpers/run"
+      ],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/data-table/-column\"}}",
+        "{{component \"carbon-components-ember/components/data-table/-header\"}}",
+        "{{component \"carbon-components-ember/components/data-table/-body\"}}",
+        "{{component \"carbon-components-ember/components/data-table/-skeleton\"}}",
+        "{{component \"carbon-components-ember/components/data-table/-toolbar\"}}",
+        "{{component \"carbon-components-ember/components/data-table/-table\"}}",
+        "{{component \"carbon-components-ember/components/pagination\"}}",
+        "{{component \"carbon-components-ember/components/data-table/-search-input\"}}",
+        "{{component \"carbon-components-ember/components/data-table/-menu\"}}"
+      ]
+    },
+    "carbon-components-ember/components/dialogs/confirm/index.hbs": {
+      "dependsOnModules": [
+        "carbon-components-ember/helpers/default-to",
+        "ember-truth-helpers/helpers/equal"
+      ],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/modal\"}}"
+      ]
+    },
+    "carbon-components-ember/components/form-input/index.hbs": {
+      "dependsOnModules": [
+        "carbon-components-ember/helpers/default-to"
+      ],
+      "dependsOnComponents": []
+    },
+    "carbon-components-ember/components/icon/index.hbs": {
+      "dependsOnModules": [
+        "carbon-components-ember/helpers/default-to",
+        "ember-truth-helpers/helpers/equal",
+        "carbon-components-ember/components/icon/render-svg-part",
+        "ember-truth-helpers/helpers/or"
+      ],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/loading\"}}"
+      ]
+    },
+    "carbon-components-ember/components/list/-body/index.hbs": {
+      "dependsOnModules": [],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/list/-row\"}}"
+      ]
+    },
+    "carbon-components-ember/components/list/-column/index.hbs": {
+      "dependsOnModules": [],
+      "dependsOnComponents": []
+    },
+    "carbon-components-ember/components/list/-header/index.hbs": {
+      "dependsOnModules": [],
+      "dependsOnComponents": []
+    },
+    "carbon-components-ember/components/list/-row/index.hbs": {
+      "dependsOnModules": [
+        "ember-truth-helpers/helpers/eq"
+      ],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/icon\"}}"
+      ]
+    },
+    "carbon-components-ember/components/list/-skeleton/index.hbs": {
+      "dependsOnModules": [],
+      "dependsOnComponents": []
+    },
+    "carbon-components-ember/components/list/index.hbs": {
+      "dependsOnModules": [
+        "@ember/render-modifiers/modifiers/did-insert"
+      ],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/list/-row\"}}",
+        "{{component \"carbon-components-ember/components/list/-column\"}}",
+        "{{component \"carbon-components-ember/components/list/-header\"}}",
+        "{{component \"carbon-components-ember/components/list/-body\"}}",
+        "{{component \"carbon-components-ember/components/list/-skeleton\"}}",
+        "{{component \"carbon-components-ember/components/pagination\"}}",
+        "{{component \"carbon-components-ember/components/search-input\"}}"
+      ]
+    },
+    "carbon-components-ember/components/loading/index.hbs": {
+      "dependsOnModules": [],
+      "dependsOnComponents": []
+    },
+    "carbon-components-ember/components/menu/-item/index.hbs": {
+      "dependsOnModules": [],
+      "dependsOnComponents": []
+    },
+    "carbon-components-ember/components/menu/index.hbs": {
+      "dependsOnModules": [
+        "carbon-components-ember/helpers/default-to"
+      ],
+      "dependsOnComponents": [
+        "{{component \"ember-basic-dropdown/components/basic-dropdown\"}}",
+        "{{component \"carbon-components-ember/components/icon\"}}",
+        "{{component \"carbon-components-ember/components/menu/-item\"}}"
+      ]
+    },
+    "carbon-components-ember/components/modal/index.hbs": {
+      "dependsOnModules": [],
+      "dependsOnComponents": []
+    },
+    "carbon-components-ember/components/notification/index.hbs": {
+      "dependsOnModules": [
+        "ember-truth-helpers/helpers/or",
+        "ember-truth-helpers/helpers/eq"
+      ],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/icon\"}}"
+      ]
+    },
+    "carbon-components-ember/components/pagination/index.hbs": {
+      "dependsOnModules": [
+        "carbon-components-ember/helpers/default-to",
+        "carbon-components-ember/helpers/set",
+        "ember-composable-helpers/helpers/range",
+        "ember-truth-helpers/helpers/eq",
+        "@ember/render-modifiers/modifiers/did-insert",
+        "@ember/render-modifiers/modifiers/did-update",
+        "ember-truth-helpers/helpers/or"
+      ],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/select\"}}",
+        "{{component \"carbon-components-ember/components/icon\"}}"
+      ]
+    },
+    "carbon-components-ember/components/progress-bar/index.hbs": {
+      "dependsOnModules": [
+        "carbon-components-ember/helpers/default-to",
+        "ember-truth-helpers/helpers/eq",
+        "~/helpers/html-safe"
+      ],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/icon\"}}"
+      ]
+    },
+    "carbon-components-ember/components/search-input/index.hbs": {
+      "dependsOnModules": [
+        "@ember/render-modifiers/modifiers/did-update"
+      ],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/icon\"}}"
+      ]
+    },
+    "carbon-components-ember/components/select/index.hbs": {
+      "dependsOnModules": [
+        "ember-power-select/helpers/ember-power-select-is-selected",
+        "carbon-components-ember/helpers/default-to",
+        "@ember/render-modifiers/modifiers/did-insert"
+      ],
+      "dependsOnComponents": [
+        "{{component \"ember-power-select/components/power-select-multiple\"}}",
+        "{{component \"ember-power-select/components/power-select\"}}",
+        "{{component \"carbon-components-ember/components/checkbox\"}}"
+      ]
+    },
+    "carbon-components-ember/components/tag/index.hbs": {
+      "dependsOnModules": [],
+      "dependsOnComponents": []
+    },
+    "carbon-components-ember/components/tile/index.hbs": {
+      "dependsOnModules": [
+        "carbon-components-ember/helpers/set",
+        "ember-truth-helpers/helpers/not"
+      ],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/icon\"}}"
+      ]
+    },
+    "carbon-components-ember/components/toggle/index.hbs": {
+      "dependsOnModules": [
+        "ember-truth-helpers/helpers/eq"
+      ],
+      "dependsOnComponents": []
+    },
+    "carbon-components-ember/components/ui-shell/-header/index.hbs": {
+      "dependsOnModules": [
+        "ember-truth-helpers/helpers/equal",
+        "ember-truth-helpers/helpers/not",
+        "ember-truth-helpers/helpers/and"
+      ],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/icon\"}}"
+      ]
+    },
+    "carbon-components-ember/components/ui-shell/-nav/-item/index.hbs": {
+      "dependsOnModules": [],
+      "dependsOnComponents": []
+    },
+    "carbon-components-ember/components/ui-shell/-nav/index.hbs": {
+      "dependsOnModules": [],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/ui-shell/-nav/-item\"}}"
+      ]
+    },
+    "carbon-components-ember/components/ui-shell/-sidenav/-menu/index.hbs": {
+      "dependsOnModules": [
+        "carbon-components-ember/helpers/new-obj",
+        "ember-composable-helpers/helpers/toggle",
+        "ember-truth-helpers/helpers/or"
+      ],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/ui-shell/-sidenav/-sub-menu\"}}",
+        "{{component \"carbon-components-ember/components/icon\"}}"
+      ]
+    },
+    "carbon-components-ember/components/ui-shell/-sidenav/-sub-menu/index.hbs": {
+      "dependsOnModules": [],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/icon\"}}"
+      ]
+    },
+    "carbon-components-ember/components/ui-shell/-sidenav/index.hbs": {
+      "dependsOnModules": [
+        "ember-truth-helpers/helpers/eq",
+        "ember-composable-helpers/helpers/toggle",
+        "ember-animated/components/animated-if"
+      ],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/icon\"}}",
+        "{{component \"carbon-components-ember/components/ui-shell/-sidenav/-menu\"}}"
+      ]
+    },
+    "carbon-components-ember/components/ui-shell/index.hbs": {
+      "dependsOnModules": [],
+      "dependsOnComponents": [
+        "{{component \"carbon-components-ember/components/ui-shell/-header\"}}",
+        "{{component \"carbon-components-ember/components/ui-shell/-sidenav\"}}",
+        "{{component \"carbon-components-ember/components/ui-shell/-nav\"}}"
+      ]
+    }
+  },
+  "components": {
+    "carbon-components-ember/components/charts/-components/tabular-data": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/charts/-components/tabular-data/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/charts/-components/axis": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/charts/-components/axis/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/charts/-components/color/pairing": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/charts/-components/color/pairing/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/charts/-components/color/scale": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/charts/-components/color/scale/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/charts/-components/chart": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/charts/-components/chart/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/copy-button": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/copy-button/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/data-table/-row": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/data-table/-row/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/button": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/button/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/checkbox": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/checkbox/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/icon": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/icon/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/menu": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/menu/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/search-input": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/search-input/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/loading": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/loading/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/data-table/-toolbar/-actions": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/data-table/-toolbar/-actions/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/data-table/-toolbar/-content": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/data-table/-toolbar/-content/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/data-table/-column": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/data-table/-column/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/data-table/-header": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/data-table/-header/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/data-table/-body": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/data-table/-body/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/data-table/-skeleton": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/data-table/-skeleton/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/data-table/-toolbar": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/data-table/-toolbar/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/data-table/-table": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/data-table/-table/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/pagination": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/pagination/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/data-table/-search-input": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/data-table/-search-input/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/data-table/-menu": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/data-table/-menu/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/modal": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/modal/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/list/-row": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/list/-row/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/list/-column": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/list/-column/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/list/-header": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/list/-header/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/list/-body": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/list/-body/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/list/-skeleton": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/list/-skeleton/template.hbs"
+      }
+    },
+    "ember-basic-dropdown/components/basic-dropdown": {
+      "layout": {
+        "addonPath": "ember-basic-dropdown/components/basic-dropdown/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/menu/-item": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/menu/-item/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/select": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/select/template.hbs"
+      }
+    },
+    "ember-power-select/components/power-select-multiple": {
+      "layout": {
+        "addonPath": "ember-power-select/components/power-select-multiple/template.hbs"
+      }
+    },
+    "ember-power-select/components/power-select": {
+      "layout": {
+        "addonPath": "ember-power-select/components/power-select/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/ui-shell/-nav/-item": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/ui-shell/-nav/-item/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/ui-shell/-sidenav/-sub-menu": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/ui-shell/-sidenav/-sub-menu/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/ui-shell/-sidenav/-menu": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/ui-shell/-sidenav/-menu/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/ui-shell/-header": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/ui-shell/-header/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/ui-shell/-sidenav": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/ui-shell/-sidenav/template.hbs"
+      }
+    },
+    "carbon-components-ember/components/ui-shell/-nav": {
+      "layout": {
+        "addonPath": "carbon-components-ember/components/ui-shell/-nav/template.hbs"
+      }
+    }
+  }
+}

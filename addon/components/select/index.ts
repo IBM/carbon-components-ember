@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { set, action } from '@ember/object';
 import { isBlank } from '@ember/utils';
 import { defaultArgs } from '../../decorators';
-import jQuery from 'jquery'
+import jQuery from 'jquery';
 import { PowerSelectArgs } from 'ember-power-select/components/power-select';
 import { ContentValue } from '@glint/template'
 import { PowerSelectMultipleSignature } from 'ember-power-select/components/power-select-multiple';

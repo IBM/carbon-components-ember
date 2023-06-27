@@ -4,6 +4,7 @@
 const { Webpack } = require('@embroider/webpack');
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 const nodeSass = require('sass-embedded');
+const spark_md5 = require('spark-md5');
 
 
 module.exports = function(defaults) {

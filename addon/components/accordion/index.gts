@@ -5,10 +5,12 @@ import { WithBoundArgs } from '@glint/template';
 import { on } from '@ember/modifier';
 import { tracked } from '@glimmer/tracking';
 import { fn } from '@ember/helper';
+import { action } from '@ember/object';
 
 interface AccordionSignature {
   Args: {
     disabled?: boolean;
+    open?: boolean;
     align?: 'start'|'end';
   };
   Element: null;
@@ -37,21 +39,25 @@ class Item extends Component<ItemSignature> {
   }
 
   get isActive() {
+    if (this.args.accordion.args.disabled) {
+      return false;
+    }
     return this.args.isOpen ?? this.args.accordion.isActive(this);
   }
 
   <template>
     <li
       class='cds--accordion__item
-        {{if this.isActive "cds--accordion__item--activ"}}
-        {{if @isDisabled "cds--accordion__item--disable"}}'
+        {{if this.isActive "cds--accordion__item--active"}}
+        {{if @accordion.args.disabled "cds--accordion__item--disabled"}}'
     >
       <button
         type='button'
         aria-controls='accordion-item-{{this.itemId}}'
-        aria-expanded={{if @isActive 'true' 'false'}}
+        aria-expanded={{if this.isActive 'true' 'false'}}
         class='cds--accordion__heading'
         {{on 'click' (fn @accordion.setActiveItem this)}}
+        disabled={{@accordion.args.disabled}}
       >
         <svg
           focusable='false'
@@ -79,13 +85,18 @@ class Item extends Component<ItemSignature> {
 
 
 export default class Accordion extends Component<AccordionSignature> {
-  @tracked currentItem: Item;
+  @tracked currentItem?: Item;
 
   isActive(item: Item) {
-    return this.currentItem === item;
+    return this.currentItem === item || this.args.open;
   }
 
+  @action
   setActiveItem(item: Item) {
+    if (this.currentItem === item) {
+      this.currentItem = undefined;
+      return
+    }
     this.currentItem = item
   }
 

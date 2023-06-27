@@ -4,7 +4,6 @@
 {{import Demo from 'ember-cli-addon-docs/components/docs-demo'}}
 {{import set from 'carbon-components-ember/helpers/set'}}
 {{import not from 'ember-truth-helpers/helpers/not'}}
-{{import Button from 'carbon-components-ember/components/button'}}
 {{import eq from 'ember-truth-helpers/helpers/eq'}}
 {{import '{fn}' from '@ember/helper'}}
 
@@ -36,13 +35,14 @@
     </Button>
     <Button
       @type="secondary"
-      @small={{true}}
+      @size="sm"
       @onClick={{fn (set this 'clicked') true}}
     >
       Secondary Small Button
     </Button>
     <Button
       @type="primary"
+      @size="xl"
       @onClick={{this.doSomething}}
     >
       Button with loading indicator if onClick returns a promise
