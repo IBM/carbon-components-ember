@@ -4,7 +4,7 @@ import { SafeString } from '@ember/template/-private/handlebars';
 
 const cache = new Map();
 
-export function renderSvgPart([svg], { class: classes, fill }: { class: (string|undefined)[]; fill?: string }): SafeString {
+export function renderSvgPartFunc([svg], { class: classes, fill }: { class: (string|undefined)[]; fill?: string }): SafeString {
   if (!svg) return htmlSafe('');
   const base = `<svg class="${classes.join(' ')}"
              focusable="false"
@@ -28,5 +28,5 @@ export function renderSvgPart([svg], { class: classes, fill }: { class: (string|
   return htmlSafe(html);
 }
 
-export const helper = buildHelper(renderSvgPart);
-export default helper;
+export const renderSvgPart = buildHelper(renderSvgPartFunc);
+export default renderSvgPart;

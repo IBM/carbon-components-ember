@@ -58,11 +58,19 @@ declare module '@ascua/maths/helpers/div' {
   export default div;
 }
 
+declare module 'ember-resize-modifier/modifiers/did-resize' {
+  const didResize: import('@glint/template').ModifierLike<{
+    Args: {
+      Positional: [fn: (...args: any) => void, ...args: any];
+    };
+  }>;
+  export default didResize;
+}
+
 declare module '@ember/helper' {
   export const fn: import('@glint/environment-ember-loose/-private/dsl/index').Globals['fn']
   export const get: import('@glint/environment-ember-loose/-private/dsl/index').Globals['get']
   export const concat: import('@glint/environment-ember-loose/-private/dsl/index').Globals['concat']
-  export const on: import('@glint/environment-ember-loose/-private/dsl/index').Globals['on']
   export const array: import('@glint/environment-ember-loose/-private/dsl/index').Globals['array']
 }
 

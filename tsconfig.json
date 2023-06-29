@@ -28,12 +28,6 @@
       ],
       "carbon-components-ember/*": [
         "addon/*"
-      ],
-      "ember-power-select/helpers/*": [
-        "node_modules/ember-power-select/addon/helpers/*"
-      ],
-      "ember-basic-dropdown/components/*": [
-        "node_modules/ember-basic-dropdown/addon/components/*"
       ]
     }
   },
@@ -42,14 +36,20 @@
     "node_modules/@gavant/glint-template-types/types/ember-power-select/components/power-select.d.ts",
     "node_modules/@gavant/glint-template-types/types/ember-power-select/components/power-select-multiple.d.ts",
     "node_modules/@gavant/glint-template-types/types/ember-truth-helpers/*.ts",
+    "node_modules/@gavant/glint-template-types/types/ember-basic-dropdown/components/basic-dropdown.d.ts",
+    "node_modules/@gavant/glint-template-types/types/ember-basic-dropdown/components/basic-dropdown-content.d.ts",
+    "node_modules/@gavant/glint-template-types/types/ember-basic-dropdown/components/basic-dropdown-trigger.d.ts",
+    "node_modules/@gavant/glint-template-types/types/ember-basic-dropdown/utils/calculate-position.d.ts",
     "types/globals.d.ts",
     "types/glint.d.ts",
     "index.d.ts",
     "lib/*.ts",
     "addon/**/*.ts",
     "tests/**/*.ts",
-    "app/**/*.ts",
-    "node_modules/@glint/environment-ember-loose/registry/index.d.ts"
+    "app/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules/ember-power-select"
   ],
   "glint": {
     "environment": ["ember-hbs-imports", "ember-template-imports"]

@@ -7,13 +7,11 @@ type Args = {
   backgroundColors?: string[];
   group: string;
   chart?: CarbonChart;
-} & OneOf<[{
-  values: number[];
+  values?: number[];
   dates?: Date[];
   keys?: string[];
-}, {
-  data: ChartData[];
-}]>
+  data?: ChartData[];
+}
 
 /** @documenter yuidoc */
 /**
