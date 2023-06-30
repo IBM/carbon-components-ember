@@ -18,7 +18,7 @@
     "dev": "ember s",
     "glint": "glint",
     "ts:check": "tsc --noEmit",
-    "ts:build-types": "ember ts:precompile",
+    "ts:build-types": "glint --b",
     "ts:lint": "eslint addon app tests",
     "ts:lint:fix": "eslint \"tests/**/*.ts\" \"addon/**/*.ts\" --fix",
     "hbs:lint": "ember-template-lint \"tests/**/*.hbs\" \"addon/**/*.hbs\"",
