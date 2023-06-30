@@ -1,6 +1,6 @@
 import { helper as buildHelper } from '@ember/component/helper';
 
-export function orHelper([...args]) {
+export function orHelper([...args]): any {
   return args.find(a => !!a);
 }
 

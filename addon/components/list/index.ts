@@ -23,7 +23,7 @@ export interface ListComponentSignature<T> {
       SearchInput: WithBoundArgs<typeof SearchComponent, 'value'|'onChange'|'light'|'size'>;
       Pagination: WithBoundArgs<typeof CarbonPagination, 'length'|'onPageChanged'>;
       Column: typeof ListColumnComponent;
-      BodyRows: WithBoundArgs<typeof ListBodyComponent<T>, 'list'|'items'>;
+      BodyRows: WithBoundArgs<typeof ListBodyComponent, 'list'|'items'>;
       Header: typeof ListHeaderComponent;
     }];
   };

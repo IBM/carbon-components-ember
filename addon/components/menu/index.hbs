@@ -7,7 +7,7 @@
 
 
 <BasicDropdown as |dd|>
-  <dd.Trigger class="cds--overflow-menu {{if dd.isOpen 'cds--overflow-menu--open'}}">
+  <dd.Trigger @stopPropagation={{false}} @eventType="click" class="cds--overflow-menu {{if dd.isOpen 'cds--overflow-menu--open'}}">
     <Icon @fill='white' @size={{24}} @icon={{defaultTo @icon 'overflow-menu'}} @btnClass='cds--overflow-menu__icon' />
   </dd.Trigger>
   <dd.Content class="cds--overflow-menu-options--open">

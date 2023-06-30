@@ -4,10 +4,10 @@ module.exports = {
     ecmaVersion: 2017,
     sourceType: 'module',
   },
-  parser: '@typescript-eslint/parser',
-  plugins: ['ember', '@typescript-eslint'],
+  plugins: [],
   extends: [
     'eslint:recommended',
+    'plugin:@typescript-eslint/base',
     'plugin:ember/recommended',
   ],
   env: {
@@ -15,7 +15,7 @@ module.exports = {
   },
   globals: {
     OneOf: true,
-    WithRequired: true
+    WithRequired: true,
   },
   rules: {
     'no-unused-vars': 'off',
@@ -28,6 +28,7 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-empty-function': 'off',
+    '@typescript-eslint/no-use-before-define': ['error', { 'typedefs': false }],
     'node/no-unsupported-features/es-syntax': 'off',
     'no-restricted-syntax': 'off',
     'no-await-in-loop': 'off',
@@ -40,12 +41,6 @@ module.exports = {
     'no-param-reassign': 'off',
     'no-plusplus': 'off',
     'no-underscore-dangle': 'off',
-    'no-use-before-define': [
-      'error',
-      {
-        functions: false,
-      },
-    ],
     'max-len': ['error', 180],
     'object-shorthand': 'off',
     'prefer-arrow-callback': 'off',
@@ -120,6 +115,6 @@ module.exports = {
         'qunit/no-conditional-assertions': 'off',
         'qunit/no-early-return': 'off',
       },
-    },
+    }
   ],
 };

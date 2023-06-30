@@ -1,11 +1,11 @@
 {{import ListRow from '../-row'}}
 
 <tbody>
-{{#each @items as |item|}}
-  {{yield (hash
-            Row=(component ListRow isExpandable=@isExpandable isCheckable=@isCheckable table=@table item=item)
-            item=item
-    )
-  }}
-{{/each}}
+  {{#each @items as |item|}}
+    {{yield (hash
+              Row=(component ListRow isExpandable=@isExpandable isCheckable=@isCheckable table=@table item=item)
+              item=item
+      )
+    }}
+  {{/each}}
 </tbody>

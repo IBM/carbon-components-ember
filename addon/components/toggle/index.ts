@@ -17,6 +17,7 @@ export default class ToggleComponent extends Component<Args> {
 
   @action
   onToggleChange() {
+    if (this.args.readonly) return;
     const value = !this.args.value;
     this.args.onChange?.(value);
   }

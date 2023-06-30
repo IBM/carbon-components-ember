@@ -5,7 +5,10 @@ import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import ConfirmDialogComponent from 'carbon-components-ember/components/dialogs/confirm';
-
+import or from 'carbon-components-ember/helpers/or';
+import Confirm from 'carbon-components-ember/components/dialogs/confirm';
+import styles from './styles.module.scss';
+import Loading from 'carbon-components-ember/components/loading';
 
 /** @documenter yuidoc */
 
@@ -52,25 +55,27 @@ type Args = {
    */
   confirmDialog?: typeof ConfirmDialogComponent;
   /**
-   * If the action is tertiary
+   * If the button is tertiary
    @argument tertiary
    @type boolean
    */
   tertiary?: boolean;
   /**
-   * If the action is small
+   * the button size
    @argument small
-   @type boolean
+   @type 'sm' | 'md' | 'lg' | 'xl'
    */
-  small?: boolean;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   /**
-   * If the action is a ghost button
+   * If the button is a ghost button
    @argument ghost
    @type boolean
    */
   ghost?: boolean;
 
   label?: string;
+
+  iconOnly?: boolean;
 };
 
 export interface ButtonSignature {
@@ -114,9 +119,47 @@ class CarbonButton extends Component<ButtonSignature> {
     confirmText: '',
     confirmDialog: undefined,
     tertiary: false,
-    small: false,
+    size: 'md',
     ghost: false
   };
+
+  <template>
+    <button
+      onclick={{this.onButtonClick}}
+      class='cds--btn
+        {{this.bxClassNames}}
+        {{this.layout}}
+        {{styles.namespace}}
+        {{if (or this.loading @loading) "cds--btn--ghost"}}'
+      aria-label='{{if @type "danger"}}'
+      disabled={{or @disabled this.loading @loading}}
+      type='button'
+      ...attributes
+    >
+      {{#if this.showDialog}}
+        {{#let (or @confirmDialog Confirm) as |Dialog|}}
+          {{#in-element this.dialogManager.destinationElement}}
+            <Dialog
+              @onAccept={{this.runButtonClick}}
+              @onCancel={{this.cancel}}
+              @header='Danger'
+              @body={{or @confirmText 'Confirm this operation'}}
+              @type='danger'
+            />
+          {{/in-element}}
+        {{/let}}
+      {{/if}}
+      {{#if (or this.loading @loading)}}
+        <Loading @inline={{true}} />
+      {{else}}
+        {{#if (has-block)}}
+          {{yield}}
+        {{else}}
+          {{@label}}
+        {{/if}}
+      {{/if}}
+    </button>
+  </template>
 
   get primary() {
     return (this.args as any).primary || this.args.type === 'primary';
@@ -130,7 +173,11 @@ class CarbonButton extends Component<ButtonSignature> {
     return (this.args as any).danger || this.args.type === 'danger';
   }
 
-  @bxClassNames('primary', 'secondary', 'danger', 'tertiary', 'ghost', 'small:sm', 'disabled') bxClassNames;
+  get layout() {
+    return `cds--layout--size-${this.args.size}`;
+  }
+
+  @bxClassNames('primary', 'secondary', 'danger', 'tertiary', 'ghost', 'size', 'disabled', 'iconOnly:icon-only') bxClassNames;
 
   @action
   runButtonClick() {

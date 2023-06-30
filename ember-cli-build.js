@@ -2,7 +2,7 @@
 /* global require, module */
 
 
-var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
+const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 const nodeSass = require('sass-embedded');
 
 
@@ -10,8 +10,12 @@ module.exports = function(defaults) {
   var app = new EmberAddon(defaults, {
     sassOptions: {
       // moving from compass compiler to node gave huge improvement
-      implementation: nodeSass, //implementation here is node-sass,
-      sourceMap : false //will debug with generated CSS than sourcemap :)
+      implementation: nodeSass, //implementation here is node-sass
+    },
+    cssModules: {
+      includeExtensionInModulePath: true,
+      extension: 'module.scss',
+      intermediateOutputPath: 'app/styles/_modules.scss'
     }
   });
 
