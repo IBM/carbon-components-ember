@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import CarbonChart from '../../../charts/-components/chart';
-import { ScaleTypes } from '@carbon/charts/interfaces/enums';
+import { ScaleTypes } from '@carbon/charts';
 
 type Args = {
   /**

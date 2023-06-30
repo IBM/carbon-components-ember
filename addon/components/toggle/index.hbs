@@ -1,7 +1,7 @@
 {{import '{ on }' from '@ember/modifier'}}
 {{import eq from 'ember-truth-helpers/helpers/eq'}}
 
-<div class="cds--toggle {{if @disabled "cds--toggle--disabled"}}" {{(unless @readonly (modifier on 'click' this.onToggleChange))}}>
+<div class="cds--toggle {{if @disabled "cds--toggle--disabled"}}" {{on 'click' this.onToggleChange}}>
   <button
     id="toggle-{{this.guid}}"
     class="cds--toggle__button"

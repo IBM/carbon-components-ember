@@ -20,7 +20,10 @@ export default class TagComponent extends Component<TagInterface> {
     }
     return this.args.type;
   }
+
+  <template>
+    <div class='cds--tag cds--tag--{{this.type}}' ...attributes>
+      {{yield}}
+    </div>
+  </template>
 }
-
-
-

@@ -14,3 +14,13 @@ type OneOf<T extends {}[]> = {
 
 // eslint-disable-next-line no-unused-vars
 type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] }
+
+type Only<T, U> = {
+  [P in keyof T]: T[P];
+} & {
+  [P in keyof U]?: never;
+};
+
+type Either<T, U> = Only<T, U> | Only<U, T>
+
+declare module '*.scss';
