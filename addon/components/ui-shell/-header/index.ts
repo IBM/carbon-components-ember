@@ -9,7 +9,7 @@ export interface UiShellHeaderSignature {
   };
   Blocks: {
     header: [];
-    'header-global': [];
+    headerGlobal: [];
   };
 }
 

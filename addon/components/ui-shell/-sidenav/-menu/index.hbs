@@ -44,6 +44,7 @@
 {{else}}
   {{#unless @hidden}}
     <li class='cds--side-nav__item'>
+      {{! template-lint-disable require-presentational-children }}
       <a
         href='#'
         class='cds--side-nav__link'
@@ -53,7 +54,7 @@
       >
         {{#if @icon}}
           <div class='cds--side-nav__icon cds--side-nav__icon--small'>
-            <Icon role='presentation' @icon='{{@icon}}' />
+            <Icon @icon='{{@icon}}' />
           </div>
         {{/if}}
         <span class='cds--side-nav__link-text'>
