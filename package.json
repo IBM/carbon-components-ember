@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@ascua/arrays": "^0.0.237",
+    "@babel/plugin-syntax-decorators": "^7.22.5",
     "@carbon/charts": "^1.11.2",
     "@carbon/colors": "^11.16.0",
     "@carbon/feature-flags": "^0.15.0",
@@ -97,9 +98,9 @@
     "@ascua/maths": "^0.0.237",
     "@ember/jquery": "^2.0.0",
     "@ember/optional-features": "^2.0.0",
+    "@ember/render-modifiers": "^2.1.0",
     "@ember/string": "^3.0.1",
     "@ember/test-helpers": "^3.1.0",
-    "@ember/render-modifiers": "^2.1.0",
     "@embroider/compat": "^3.0.2",
     "@embroider/core": "^3.0.2",
     "@embroider/webpack": "^3.0.0",
