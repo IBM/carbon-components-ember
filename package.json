@@ -80,7 +80,7 @@
     "ember-maybe-import-regenerator": "^1.0.0",
     "ember-power-calendar": "^0.19.0",
     "ember-power-calendar-moment": "^0.2.0",
-    "ember-power-select": "^7.0.0",
+    "ember-power-select": "^7.1.0",
     "ember-ref-modifier": "^1.0.0",
     "ember-simple-mu-resolver": "^0.1.11",
     "ember-template-imports": "^3.4.2",
