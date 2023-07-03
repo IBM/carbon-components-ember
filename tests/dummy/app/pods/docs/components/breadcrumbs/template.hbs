@@ -6,14 +6,15 @@
 {{import Breadcrumbs from 'carbon-components-ember/components/breadcrumbs'}}
 {{import '{ array }' from '@ember/helper'}}
 
-<h1>Carbon Breadcrumbs</h1>
+<h1>
+  Carbon Breadcrumbs
+</h1>
 
 <Demo as |demo|>
-  {{#demo.example name='breadcrumbs-simple.hbs'}}
+  <demo.example @name='breadcrumbs-simple.hbs'>
     {{!import Breadcrumbs from 'carbon-components-ember/components/breadcrumbs'}}
 
-    <Breadcrumbs @crumbs={{array 'a' 'b' 'c'}} @current="b"/>
-  {{/demo.example}}
-  <demo.snippet @name="breadcrumbs-simple.hbs" />
+    <Breadcrumbs @crumbs={{array 'a' 'b' 'c'}} @current='b' />
+  </demo.example>
+  <demo.snippet @name='breadcrumbs-simple.hbs' />
 </Demo>
-

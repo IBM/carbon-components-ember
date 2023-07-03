@@ -14,23 +14,46 @@
 {{import newObj from 'carbon-components-ember/helpers/new-obj'}}
 {{import didInsert from '@ember/render-modifiers/modifiers/did-insert'}}
 
-
-<div class="cds--data-table-container {{if @isLoading 'bx-skeleton'}}" data-table>
-  <div class="cds--data-table-header" {{didInsert this.didInsert}}>
-    <h4 class="cds--data-table-header__title">{{@title}}</h4>
-    <p class="cds--data-table-header__description">{{@description}}</p>
+<div
+  class='cds--data-table-container {{if @isLoading "bx-skeleton"}}'
+  data-table
+>
+  <div class='cds--data-table-header' {{didInsert this.didInsert}}>
+    <h4 class='cds--data-table-header__title'>
+      {{@title}}
+    </h4>
+    <p class='cds--data-table-header__description'>
+      {{@description}}
+    </p>
   </div>
 
-
-    {{yield (hash
-              SearchInput=(component SearchInput isLoading=@isLoading value=@state.currentSearchTerm onChange=(fn this.search))
-              Pagination=(component Pagination isLoading=@isLoading length=this.items.length state=this.state.currentItemsSlice onPageChanged=(fn this.changePage))
-            Menu=Menu
-            Table=(component Table isLoading=@isLoading)
-            Column=ListColumn
-            EachBodyRows=(component ListBody isExpandable=this.isExpandable isCheckable=this.isCheckable table=this items=this.currentItems)
-            Header=(component ListHeader table=this)
-            Toolbar=(component Toolbar table=this)
+  {{yield
+    (hash
+      SearchInput=(component
+        SearchInput
+        isLoading=@isLoading
+        value=@state.currentSearchTerm
+        onChange=this.search
+      )
+      Pagination=(component
+        Pagination
+        isLoading=@isLoading
+        length=this.items.length
+        state=this.state.currentItemsSlice
+        onPageChanged=this.changePage
+      )
+      Menu=Menu
+      Table=(component Table isLoading=@isLoading)
+      Column=ListColumn
+      EachBodyRows=(component
+        ListBody
+        isExpandable=this.isExpandable
+        isCheckable=this.isCheckable
+        table=this
+        items=this.currentItems
+      )
+      Header=(component ListHeader table=this)
+      Toolbar=(component Toolbar table=this)
     )
-    }}
+  }}
 </div>

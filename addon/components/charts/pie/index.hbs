@@ -1,10 +1,13 @@
 {{import Chart from '../-components/chart'}}
 {{import set from 'carbon-components-ember/helpers/set'}}
 
-<Chart @ChartClass={{this.ChartClass}}
+<Chart
+  {{! template-lint-disable  no-capital-arguments }}
+  @ChartClass={{this.ChartClass}}
   @resizable={{@resizable}}
   @legendClickable={{@legendClickable}}
-       ...attributes
-as |chart|>
+  ...attributes
+  as |chart|
+>
   {{yield chart}}
 </Chart>

@@ -1,13 +1,16 @@
-<li class="cds--overflow-menu-options__option">
-    <button
-            class="cds--overflow-menu-options__btn {{if @isDanger 'cds--overflow-menu-options__option--danger'}} {{if @isDisabled 'cds--overflow-menu-options__option--disabled'}}"
-            title="{{@tooltip}}"
-            data-floating-menu-primary-focus={{@isPrimary}}
-            ...attributes
-    >
-      <span class="cds--overflow-menu-options__option-content">
-        {{@title}}
-        {{yield}}
-      </span>
-    </button>
+<li class='cds--overflow-menu-options__option'>
+  <button
+    class='cds--overflow-menu-options__btn
+      {{if @isDanger "cds--overflow-menu-options__option--danger"}}
+      {{if @isDisabled "cds--overflow-menu-options__option--disabled"}}'
+    title='{{@tooltip}}'
+    data-floating-menu-primary-focus={{@isPrimary}}
+    ...attributes
+    type='button'
+  >
+    <span class='cds--overflow-menu-options__option-content'>
+      {{@title}}
+      {{yield}}
+    </span>
+  </button>
 </li>

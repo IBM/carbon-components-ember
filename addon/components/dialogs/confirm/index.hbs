@@ -4,7 +4,7 @@
 {{import '{ fn }' from '@ember/helper'}}
 {{import '{ on }' from '@ember/modifier'}}
 
-<Modal @onClose={{fn this.onCancel}}>
+<Modal @onClose={{this.onCancel}}>
   <:label>
     {{@label}}
   </:label>
@@ -18,11 +18,22 @@
   </:body>
 
   <:footer>
-    <button class="cds--btn cds--btn--secondary" type="button" data-modal-close {{on 'click' this.onCancel}}>
+    <button
+      class='cds--btn cds--btn--secondary'
+      type='button'
+      data-modal-close
+      {{on 'click' this.onCancel}}
+    >
       {{defaultTo @cancelText 'Cancel'}}
     </button>
-    <button class="cds--btn cds--btn--{{@type}} cds--btn--primary" type="button" aria-label="Danger"
-      {{on 'click' this.onAccept}} data-modal-primary-focus>{{defaultTo @cancelText 'Okay'}}
+    <button
+      class='cds--btn cds--btn--{{@type}} cds--btn--primary'
+      type='button'
+      aria-label='Danger'
+      {{on 'click' this.onAccept}}
+      data-modal-primary-focus
+    >
+      {{defaultTo @cancelText 'Okay'}}
     </button>
   </:footer>
 </Modal>

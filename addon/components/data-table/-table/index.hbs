@@ -1,9 +1,10 @@
 {{import '{ concat }' from '@ember/helper'}}
-<table class="
-  cds--data-table
-  {{if @size (concat 'cds--data-table--' @size)}}
-  {{if @useZebraStyles 'cds--data-table--zebra'}}
-  {{if @isSortable 'cds--data-table--sort'}}
-  {{if @isLoading 'cds--skeleton'}}" >
+<table
+  class='cds--data-table
+    {{if @size (concat "cds--data-table--" @size)}}
+    {{if @useZebraStyles "cds--data-table--zebra"}}
+    {{if @isSortable "cds--data-table--sort"}}
+    {{if @isLoading "cds--skeleton"}}'
+>
   {{yield}}
 </table>

@@ -1,3 +1,7 @@
+require('eslint-plugin-ember-template-lint/lib/ember-teplate-lint/config').registerPlugin('ember-template-lint-plugin-prettier');
+require('eslint-plugin-ember-template-lint/lib/ember-teplate-lint/config').registerPlugin('ember-hbs-imports/hbs-imports-rule');
+
+
 module.exports = {
   root: true,
   parserOptions: {
@@ -7,8 +11,11 @@ module.exports = {
   plugins: [],
   extends: [
     'eslint:recommended',
-    'plugin:@typescript-eslint/base',
     'plugin:ember/recommended',
+    'plugin:@typescript-eslint/base',
+    'plugin:ember-template-lint/config',
+    'plugin:ember-template-lint/recommended',
+    'plugin:ember-template-lint/ember-template-lint-plugin-prettier:recommended'
   ],
   env: {
     browser: true,
@@ -18,6 +25,13 @@ module.exports = {
     WithRequired: true,
   },
   rules: {
+    'ember-template-lint/no-bare-strings': 'off',
+    'ember-template-lint/no-inline-styles': 'off',
+    'ember-template-lint/no-positive-tabindex': 'off',
+    'ember-template-lint/prettier': ['error', {
+      singleQuote: true,
+      htmlWhitespaceSensitivity: 'ignore'
+    }],
     'no-unused-vars': 'off',
     'ember/no-empty-glimmer-component-classes': 'off',
     quotes: ['error', 'single'],

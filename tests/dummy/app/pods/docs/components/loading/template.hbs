@@ -5,20 +5,27 @@
 {{import not from 'ember-truth-helpers/helpers/not'}}
 {{import newObj from 'carbon-components-ember/helpers/new-obj'}}
 
-<h1>Carbon Loading</h1>
+<h1>
+  Carbon Loading
+</h1>
 
 <DocsDemo as |demo|>
   {{#let (newObj) as |context|}}
-  {{#demo.example name='loading.hbs'}}
-    <Loading/>
-    <Loading @inline={{true}} />
-    <Loading @active={{false}} />
-    <Loading @small={{true}} />
-  {{#if context.showOver}}
-    <Loading @overlay={{true}} />
-  {{/if}}
-    <Button @type="primary" @onClick={{fn (mut context.showOver) (not context.showOver)}}>show with overlay</Button>
-  {{/demo.example}}
+    <demo.example @name='loading.hbs'>
+      <Loading />
+      <Loading @inline={{true}} />
+      <Loading @active={{false}} />
+      <Loading @small={{true}} />
+      {{#if context.showOver}}
+        <Loading @overlay={{true}} />
+      {{/if}}
+      <Button
+        @type='primary'
+        @onClick={{fn (mut context.showOver) (not context.showOver)}}
+      >
+        show with overlay
+      </Button>
+    </demo.example>
   {{/let}}
-  <demo.snippet @name="loading.hbs" />
+  <demo.snippet @name='loading.hbs' />
 </DocsDemo>

@@ -1,15 +1,18 @@
-{{log 'import'}}
 {{import Hero from 'ember-cli-addon-docs/components/docs-hero'}}
 {{import Demo from 'ember-cli-addon-docs/components/docs-demo'}}
-{{log 'after import'}}
 
-<Hero @prefix='Ember' @heading='Carbon Components' @byline='Carbon Components for Ember' />
-
+<Hero
+  @prefix='Ember'
+  @heading='Carbon Components'
+  @byline='Carbon Components for Ember'
+/>
 
 <div class='container'>
   <Demo as |demo|>
-    <demo.example @name="my-demo.hbs">
-      <p>The Ember Carbon Components</p>
+    <demo.example @name='my-demo.hbs'>
+      <p>
+        The Ember Carbon Components
+      </p>
     </demo.example>
   </Demo>
 </div>

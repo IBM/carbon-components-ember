@@ -5,16 +5,22 @@
 {{import Tag from 'carbon-components-ember/components/tag'}}
 {{import Confirm from 'carbon-components-ember/components/dialogs/confirm'}}
 
-
-<h1>Carbon Confirm Dialog</h1>
+<h1>
+  Carbon Confirm Dialog
+</h1>
 
 <DocsDemo as |demo|>
-  {{#demo.example name='confirm.hbs'}}
+  <demo.example @name='confirm.hbs'>
     {{#unless this.answer}}
-      <Confirm @type="info" @body="are you sure?" @onCancel={{fn (mut this.answer) 'no'}} @onAccept={{fn (mut this.answer) 'yes'}} />
+      <Confirm
+        @type='info'
+        @body='are you sure?'
+        @onCancel={{fn (mut this.answer) 'no'}}
+        @onAccept={{fn (mut this.answer) 'yes'}}
+      />
     {{/unless}}
     {{this.answer}}
-  {{/demo.example}}
-  <demo.snippet @name="confirm.hbs" />
-  <demo.snippet @name="confirm.js" />
+  </demo.example>
+  <demo.snippet @name='confirm.hbs' />
+  <demo.snippet @name='confirm.js' />
 </DocsDemo>

@@ -5,25 +5,33 @@
 {{import not from 'ember-truth-helpers/helpers/not'}}
 {{import Tile from 'carbon-components-ember/components/tile'}}
 
-
-<h1>Carbon Tile</h1>
+<h1>
+  Carbon Tile
+</h1>
 
 <Demo as |demo|>
-  {{#demo.example name='tile.hbs'}}
+  <demo.example @name='tile.hbs'>
     {{!import Tile from 'carbon-components-ember/components/tile'}}
 
     <Tile>
-      <:content>Some Content</:content>
+      <:content>
+        Some Content
+      </:content>
     </Tile>
 
-    <br>
+    <br />
 
     <Tile @expandable={{true}}>
-      <:above>Title</:above>
-      <:content>Some Content</:content>
-      <:below>footer</:below>
+      <:above>
+        Title
+      </:above>
+      <:content>
+        Some Content
+      </:content>
+      <:below>
+        footer
+      </:below>
     </Tile>
-
-  {{/demo.example}}
-  <demo.snippet @name="tile.hbs" />
+  </demo.example>
+  <demo.snippet @name='tile.hbs' />
 </Demo>

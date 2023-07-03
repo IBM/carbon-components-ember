@@ -10,6 +10,7 @@ import Loading from '../loading';
 import or from '../../helpers/or';
 import renderSvgPart from './render-svg-part';
 import { array } from '@ember/helper';
+import htmlSafe from '../../helpers/html-safe';
 
 
 const IconMap = {};
@@ -1403,16 +1404,33 @@ class CarbonIcon extends Component<Args> {
   }
   <template>
     {{#if (or @loading this.loading)}}
-      <span style="display: inline-block;">
-        <Loading @classNames="{{styles.icon}} {{this.bxClassNames}} loader" @small={{true}} @inline={{true}} />
+      <span style='display: inline-block;'>
+        <Loading
+          @classNames='{{styles.icon}} {{this.bxClassNames}} loader'
+          @small={{true}}
+          @inline={{true}}
+        />
       </span>
     {{else}}
       {{#if @onClick}}
-        <button class="cds--btn cds--btn--sm cds--btn--ghost {{@btnClass}}" style="{{@btnStyle}}" type="button" {{on 'click' this.onIconClick}}>
-          {{renderSvgPart this.svg class=(array (or @svgClass styles.icon) this.bxClassNames) fill=@fill}}
+        <button
+          class='cds--btn cds--btn--sm cds--btn--ghost {{@btnClass}}'
+          style={{if @btnStyle (htmlSafe @btnStyle)}}
+          type='button'
+          {{on 'click' this.onIconClick}}
+        >
+          {{renderSvgPart
+            this.svg
+            class=(array (or @svgClass styles.icon) this.bxClassNames)
+            fill=@fill
+          }}
         </button>
       {{else}}
-        {{renderSvgPart this.svg class=(array (or @svgClass styles.icon) this.bxClassNames) fill=@fill}}
+        {{renderSvgPart
+          this.svg
+          class=(array (or @svgClass styles.icon) this.bxClassNames)
+          fill=@fill
+        }}
       {{/if}}
     {{/if}}
   </template>

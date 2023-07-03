@@ -12,16 +12,32 @@
 {{#if @loading}}
   <Skeleton />
 {{else}}
-  <section class="cds--structured-list {{styles.namespace}} {{if @selectable 'cds--structured-list--selection'}}" style="position: relative;" {{didInsert this.delayItems}}>
-    {{yield (hash
-              items=this.currentItems
-              SearchInput=(component SearchInput value=this.currentSearch onChange=(fn (mut this.currentSearch)) light=true size='sm')
-              Pagination=(component Pagination length=@items.length onPageChanged=(fn (mut this.currentItemsSlice)))
-              Column=ListColumn
-              BodyRows=(component ListBody list=this items=this.currentItems)
-              Header=ListHeader
-            )
+  <section
+    class='cds--structured-list
+      {{styles.namespace}}
+      {{if @selectable "cds--structured-list--selection"}}'
+    style='position: relative;'
+    {{didInsert this.delayItems}}
+  >
+    {{yield
+      (hash
+        items=this.currentItems
+        SearchInput=(component
+          SearchInput
+          value=this.currentSearch
+          onChange=(fn (mut this.currentSearch))
+          light=true
+          size='sm'
+        )
+        Pagination=(component
+          Pagination
+          length=@items.length
+          onPageChanged=(fn (mut this.currentItemsSlice))
+        )
+        Column=ListColumn
+        BodyRows=(component ListBody list=this items=this.currentItems)
+        Header=ListHeader
+      )
     }}
   </section>
-
 {{/if}}

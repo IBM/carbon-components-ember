@@ -5,14 +5,28 @@
 {{import '{ on }' from '@ember/modifier'}}
 {{import '{ fn }' from '@ember/helper'}}
 
-
 <BasicDropdown as |dd|>
-  <dd.Trigger @stopPropagation={{false}} @eventType="click" class="cds--overflow-menu {{if dd.isOpen 'cds--overflow-menu--open'}}">
-    <Icon @fill='white' @size={{24}} @icon={{defaultTo @icon 'overflow-menu'}} @btnClass='cds--overflow-menu__icon' />
+  <dd.Trigger
+    @stopPropagation={{false}}
+    @eventType='click'
+    class='cds--overflow-menu {{if dd.isOpen "cds--overflow-menu--open"}}'
+  >
+    <Icon
+      @fill='white'
+      @size={{24}}
+      @icon={{defaultTo @icon 'overflow-menu'}}
+      @btnClass='cds--overflow-menu__icon'
+    />
   </dd.Trigger>
-  <dd.Content class="cds--overflow-menu-options--open">
-    <ul  {{on 'click' (fn dd.actions.close)}} style="display: block" class="cds--overflow-menu-options__content" tabindex="-1" data-floating-menu-direction={{defaultTo @direction 'buttom'}}>
-        {{yield Item}}
+  <dd.Content class='cds--overflow-menu-options--open'>
+    <ul
+      {{on 'click' dd.actions.close}}
+      style='display: block'
+      class='cds--overflow-menu-options__content'
+      tabindex='-1'
+      data-floating-menu-direction={{defaultTo @direction 'buttom'}}
+    >
+      {{yield Item}}
     </ul>
   </dd.Content>
 </BasicDropdown>

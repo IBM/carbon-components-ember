@@ -5,23 +5,31 @@
 {{import not from 'ember-truth-helpers/helpers/not'}}
 {{import Tabs from 'carbon-components-ember/components/tabs'}}
 
-
-<h1>Carbon Tabs</h1>
+<h1>
+  Carbon Tabs
+</h1>
 
 <Demo as |demo|>
   {{#let (newObj) as |context|}}
-  {{#demo.example name='tabs.hbs'}}
-    {{!import Tab from 'carbon-components-ember/components/tab'}}
+    <demo.example @name='tabs.hbs'>
+      {{!import Tab from 'carbon-components-ember/components/tab'}}
 
-    <Tabs @loading={{true}}></Tabs>
+      <Tabs @loading={{true}} />
 
-    <br>
+      <br />
 
-    <Tabs @selectedTab={{context.selected}} @tabSelected={{fn (mut context.selected)}} @tabs={{array (hash title="Tab Label 1") (hash title="Tab Label 2" disabled=true) (hash title="Tab Label 4 with a very long long label")}}>
-      {{context.selected.title}}
-    </Tabs>
-
-  {{/demo.example}}
+      <Tabs
+        @selectedTab={{context.selected}}
+        @tabSelected={{fn (mut context.selected)}}
+        @tabs={{array
+          (hash title='Tab Label 1')
+          (hash title='Tab Label 2' disabled=true)
+          (hash title='Tab Label 4 with a very long long label')
+        }}
+      >
+        {{context.selected.title}}
+      </Tabs>
+    </demo.example>
   {{/let}}
-  <demo.snippet @name="tabs.hbs" />
+  <demo.snippet @name='tabs.hbs' />
 </Demo>

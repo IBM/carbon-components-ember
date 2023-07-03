@@ -2,12 +2,22 @@
 {{import '{ on }' from '@ember/modifier'}}
 {{import '{ fn }' from '@ember/helper'}}
 {{import eq from 'ember-truth-helpers/helpers/eq'}}
-<div class="cds--structured-list-row {{if @isHeader 'cds--structured-list-row--header-row'}}" ...attributes {{on 'click' (fn this.onSelect @item)}}>
+<div
+  class='cds--structured-list-row
+    {{if @isHeader "cds--structured-list-row--header-row"}}'
+  ...attributes
+>
   {{yield}}
   {{#if @list.args.selectable}}
-    <input type="radio" checked={{eq @list.currentItem @item}} class="cds--structured-list-input cds--visually-hidden">
-    <div class="cds--structured-list-td">
-      <Icon @icon="checkmark--filled" @btnClass="cds--structured-list-svg"></Icon>
+    <input
+      aria-label='none'
+      type='radio'
+      checked={{eq @list.currentItem @item}}
+      class='cds--structured-list-input cds--visually-hidden'
+      {{on 'click' (fn this.onSelect @item)}}
+    />
+    <div class='cds--structured-list-td'>
+      <Icon @icon='checkmark--filled' @btnClass='cds--structured-list-svg' />
     </div>
   {{/if}}
 </div>

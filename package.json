@@ -21,7 +21,7 @@
     "ts:build-types": "glint --b",
     "ts:move-types": "cd precompiled && find addon -name '*.d.ts' -exec sh -c 's={}; mkdir -p \"$(dirname ${s/addon/'.'})\"  && cp -P $s \"${s/addon/'.'}\"' \\;",
     "ts:lint": "eslint addon app tests",
-    "ts:lint:fix": "eslint \"tests/**/*.ts\" \"addon/**/*.ts\" --fix",
+    "ts:lint:fix": "eslint addon app tests --fix",
     "hbs:lint": "ember-template-lint \"tests/**/*.hbs\" \"addon/**/*.hbs\"",
     "precompile": "ember pre-build:run && npm run ts:build-types && npm run ts:move-types",
     "test": "ember test",

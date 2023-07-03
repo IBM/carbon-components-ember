@@ -36,6 +36,10 @@ export default class CarbonPagination extends Component<Args> {
     itemsPerPageOptions: null
   });
 
+  get defaultArgs() {
+    return this.args;
+  }
+
 
   get pages() {
     return parseInt((this.args.length / this.itemsPerPage).toString()) + 1;

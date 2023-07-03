@@ -7,83 +7,104 @@
 {{import eq from 'ember-truth-helpers/helpers/eq'}}
 {{import '{fn}' from '@ember/helper'}}
 
-<h1>Carbon Button</h1>
+<h1>
+  Carbon Button
+</h1>
 
 <Demo as |demo|>
-  {{#demo.example name='button-simple.hbs'}}
-  {{!import Button from 'carbon-components-ember/components/button'}}
+  <demo.example @name='button-simple.hbs'>
+    {{!import Button from 'carbon-components-ember/components/button'}}
 
-    <Button
-      @type="primary"
-      @onClick={{fn (set this 'clicked') true}}
-    >
+    <Button @type='primary' @onClick={{fn (set this 'clicked') true}}>
       Primary Button
     </Button>
     <Button
-      @type="primary"
+      @type='primary'
       @ghost={{true}}
       @onClick={{fn (set this 'clicked') true}}
     >
       Ghost Button
     </Button>
     <Button
-      @type="primary"
+      @type='primary'
       @tertiary={{true}}
       @onClick={{fn (set this 'clicked') true}}
     >
       Tertiary Button
     </Button>
     <Button
-      @type="secondary"
-      @size="sm"
+      @type='secondary'
+      @size='sm'
       @onClick={{fn (set this 'clicked') true}}
     >
       Secondary Small Button
     </Button>
-    <Button
-      @type="primary"
-      @onClick={{this.doSomething}}
-    >
+    <Button @type='primary' @onClick={{this.doSomething}}>
       Button with loading indicator if onClick returns a promise
     </Button>
-  {{/demo.example}}
-  <demo.snippet @name="button-simple.hbs" />
+  </demo.example>
+  <demo.snippet @name='button-simple.hbs' />
   <demo.snippet @name='button.js' />
 </Demo>
 
 <Demo as |demo|>
-  <Checkbox @checked={{eq this.type 'primary'}} @onChange={{fn (set this 'type') 'primary'}}>
+  <Checkbox
+    @checked={{eq this.type 'primary'}}
+    @onChange={{fn (set this 'type') 'primary'}}
+  >
     Primary
   </Checkbox>
-  <Checkbox @checked={{eq this.type 'secondary'}} @onChange={{fn (set this 'type') 'secondary'}}>
+  <Checkbox
+    @checked={{eq this.type 'secondary'}}
+    @onChange={{fn (set this 'type') 'secondary'}}
+  >
     Secondary
   </Checkbox>
-  <Checkbox @checked={{eq this.type 'danger'}} @onChange={{fn (set this 'type' ) 'danger'}}>
+  <Checkbox
+    @checked={{eq this.type 'danger'}}
+    @onChange={{fn (set this 'type') 'danger'}}
+  >
     Is Danger
   </Checkbox>
-  <Checkbox @checked={{this.isSmall}} @onChange={{fn (set this 'isSmall') (not this.isSmall)}}>
+  <Checkbox
+    @checked={{this.isSmall}}
+    @onChange={{fn (set this 'isSmall') (not this.isSmall)}}
+  >
     Is Small
   </Checkbox>
-  <Checkbox @checked={{this.isTertiary}} @onChange={{fn (set this 'isTertiary') (not this.isTertiary)}}>
+  <Checkbox
+    @checked={{this.isTertiary}}
+    @onChange={{fn (set this 'isTertiary') (not this.isTertiary)}}
+  >
     Is Tertiary
   </Checkbox>
-  <Checkbox @checked={{this.isDisabled}} @onChange={{fn (set this 'isDisabled') (not this.isDisabled)}}>
+  <Checkbox
+    @checked={{this.isDisabled}}
+    @onChange={{fn (set this 'isDisabled') (not this.isDisabled)}}
+  >
     Is Disabled
   </Checkbox>
-  <label>Confirm Text</label>
-  <Input @onChange={{fn (set this 'confirmText')}} @value={{this.confirmText}} />
+  <label for='confirm-text'>
+    Confirm Text
+  </label>
+  <Input
+    id='confirm-text'
+    {{! template-lint-disable }}
+    @onChange={{fn (set this 'confirmText')}}
+    @value={{this.confirmText}}
+  />
 
-  {{#demo.example name='button-all.hbs'}}
+  <demo.example @name='button-all.hbs'>
     <Button
       @disabled={{this.isDisabled}}
       @type={{this.type}}
       @tertiary={{this.isTertiary}}
-      @size="sm"
+      @size='sm'
       @onClick={{fn (set this 'clicked') true}}
       @bubbles={{this.bubbles}}
       @confirmText={{this.confirmText}}
     >
       Button Text
     </Button>
-  {{/demo.example}}
+  </demo.example>
 </Demo>

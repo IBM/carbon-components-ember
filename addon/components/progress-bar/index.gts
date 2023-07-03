@@ -53,13 +53,13 @@ export default class ProgressBar extends Component<ProgressBarInterface> {
 
   <template>
     <div
-      class='cds--progress-bar cds--progress-bar--{{this.args.size}}
+      class='cds--progress-bar cds--progress-bar--{{this.defaultArgs.size}}
         cds--progress-bar--{{this.defaultArgs.type}}
         cds--progress-bar--{{this.defaultArgs.status}}'
     >
       <div class='cds--progress-bar__label' id='progress-bar-{{this.guid}}'>
         <span class='cds--progress-bar__label-text'>
-          {{this.args.label}}
+          {{this.defaultArgs.label}}
         </span>
         {{#if (eq this.defaultArgs.status 'finished')}}
           <Icon
@@ -87,12 +87,12 @@ export default class ProgressBar extends Component<ProgressBarInterface> {
       >
         <div
           class='cds--progress-bar__bar'
-          style='{{if
+          style={{if
             @value
             (htmlSafe
-              (concat "transform: scaleX(" (d @value this.defaultArgs.max) ");")
+              (concat 'transform: scaleX(' (d @value this.defaultArgs.max) ');')
             )
-          }}'
+          }}
         ></div>
       </div>
       <div class='cds--progress-bar__helper-text'>

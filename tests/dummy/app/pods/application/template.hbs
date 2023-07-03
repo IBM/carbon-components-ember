@@ -5,14 +5,20 @@
 
 {{outlet}}
 
-<div style="position: fixed; top: 0; right: 0; width: 350px; z-index: 9999">
+<div style='position: fixed; top: 0; right: 0; width: 350px; z-index: 9999'>
   {{#each this.notifications.queue as |notification|}}
-   <Notification style="word-wrap: break-word; width: 350px;" @notification={{notification}} />
-    <div style="height: 2px"></div>
+    <Notification
+      style='word-wrap: break-word; width: 350px;'
+      @notification={{notification}}
+    />
+    <div style='height: 2px'></div>
   {{/each}}
 </div>
-<div id="{{this.dialogManager.id}}">
+<div id='{{this.dialogManager.id}}'>
   {{#if this.dialogManager.currentDialog}}
-    {{component this.dialogManager.currentDialog options=this.dialogManager.options}}
+    {{component
+      this.dialogManager.currentDialog
+      options=this.dialogManager.options
+    }}
   {{/if}}
 </div>

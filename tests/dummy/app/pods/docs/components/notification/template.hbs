@@ -2,22 +2,41 @@
 {{import DocsDemo from 'ember-cli-addon-docs/components/docs-demo'}}
 {{import Notification from 'carbon-components-ember/components/notification'}}
 
-
-<h1>Carbon Notification</h1>
+<h1>
+  Carbon Notification
+</h1>
 
 <DocsDemo as |demo|>
-  {{#demo.example name='notification.hbs'}}
-    <Notification @type="success" @caption="success" @title="Title" @text="a long long long long message"></Notification>
-    <br>
-    <Notification @display="actionable" @type="info" @caption="info" @title="Title"></Notification>
-    <br>
-    <Notification @display="inline" @type="error" @caption="error" @title="Title" @text="the notification text"></Notification>
-    <br>
-    <Notification @type="warning" @caption="warning"></Notification>
-    <br>
-    <br>
-    <Button @type="primary" @onClick={{this.showNotification}}>Notify</Button>
-  {{/demo.example}}
-  <demo.snippet @name="notification.hbs" />
-  <demo.snippet @name="notification.js" />
+  <demo.example @name='notification.hbs'>
+    <Notification
+      @type='success'
+      @caption='success'
+      @title='Title'
+      @text='a long long long long message'
+    />
+    <br />
+    <Notification
+      @display='actionable'
+      @type='info'
+      @caption='info'
+      @title='Title'
+    />
+    <br />
+    <Notification
+      @display='inline'
+      @type='error'
+      @caption='error'
+      @title='Title'
+      @text='the notification text'
+    />
+    <br />
+    <Notification @type='warning' @caption='warning' />
+    <br />
+    <br />
+    <Button @type='primary' @onClick={{this.showNotification}}>
+      Notify
+    </Button>
+  </demo.example>
+  <demo.snippet @name='notification.hbs' />
+  <demo.snippet @name='notification.js' />
 </DocsDemo>

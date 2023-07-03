@@ -4,20 +4,32 @@
 {{import Checkbox from 'carbon-components-ember/components/checkbox'}}
 {{import '{ fn }' from '@ember/helper'}}
 
-<h1>Carbon Checkbox</h1>
+<h1>
+  Carbon Checkbox
+</h1>
 
 <Demo as |demo|>
-  {{#demo.example name='checkbox.hbs'}}
+  <demo.example @name='checkbox.hbs'>
     {{!import Checkbox from 'carbon-components-ember/components/checkbox'}}
 
-    <Checkbox @disabled={{true}} @checked={{true}} @onChange={{fn (set this 'checked')}}  @label="disabled" />
-    <Checkbox @disabled={{true}} @checked={{false}} @onChange={{fn (set this 'checked')}} @label="disabled and not checked" />
-    <Checkbox @checked={{this.checked}} @onChange={{fn (set this 'checked')}} >
+    <Checkbox
+      @disabled={{true}}
+      @checked={{true}}
+      @onChange={{fn (set this 'checked')}}
+      @label='disabled'
+    />
+    <Checkbox
+      @disabled={{true}}
+      @checked={{false}}
+      @onChange={{fn (set this 'checked')}}
+      @label='disabled and not checked'
+    />
+    <Checkbox @checked={{this.checked}} @onChange={{fn (set this 'checked')}}>
       Label in block
     </Checkbox>
     <p>
       checked: {{this.checked}}
     </p>
-  {{/demo.example}}
-  <demo.snippet @name="checkbox.hbs" />
+  </demo.example>
+  <demo.snippet @name='checkbox.hbs' />
 </Demo>

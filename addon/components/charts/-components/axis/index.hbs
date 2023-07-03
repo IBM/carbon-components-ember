@@ -3,12 +3,15 @@
 {{import '{ fn }' from '@ember/helper'}}
 {{import newObj from 'carbon-components-ember/helpers/new-obj'}}
 
-
 {{#if @chart.setAxis}}
-  {{onUpdate (fn @chart.setAxis @axis (newObj
-    title=@title
-    stacked=(toBool @stacked)
-    scaleType=@scaleType
-  )) @axis @title @stacked }}
+  {{onUpdate
+    (fn
+      @chart.setAxis
+      @axis
+      (newObj title=@title stacked=(toBool @stacked) scaleType=@scaleType)
+    )
+    @axis
+    @title
+    @stacked
+  }}
 {{/if}}
-

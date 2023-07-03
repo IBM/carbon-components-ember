@@ -2,9 +2,16 @@
 
 <tbody>
   {{#each @items as |item|}}
-    {{yield (hash
-              Row=(component ListRow isExpandable=@isExpandable isCheckable=@isCheckable table=@table item=item)
-              item=item
+    {{yield
+      (hash
+        Row=(component
+          ListRow
+          isExpandable=@isExpandable
+          isCheckable=@isCheckable
+          table=@table
+          item=item
+        )
+        item=item
       )
     }}
   {{/each}}
