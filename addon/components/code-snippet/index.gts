@@ -21,6 +21,16 @@ export interface CarbonCodeSnippetSignature {
   };
 }
 
+const PreCode = <template>
+  <pre>
+    {{!~whitespace~}}
+    <code ...attributes>
+      {{~yield~}}
+    </code>
+    {{!~whitespace~}}
+  </pre>
+</template>
+
 export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignature> {
   @tracked expanded = false;
   codeElement: Element;
@@ -35,11 +45,9 @@ export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignat
     {{#if (eq @type 'default')}}
       <div class='cds--snippet cds--snippet--single'>
         <div class='cds--snippet-container' aria-label='Code Snippet Text'>
-          <pre>
-            <code {{didInsert (set this 'carbonElement')}}>
-              {{yield}}
-            </code>
-          </pre>
+          <PreCode {{didInsert (set this 'carbonElement')}}>
+            {{~yield~}}
+          </PreCode>
         </div>
         <span
           class='cds--popover-container cds--popover--caret cds--popover--high-contrast cds--popover--bottom cds--tooltip cds--icon-tooltip'
@@ -64,11 +72,9 @@ export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignat
             )
           }}
         >
-          <pre>
-            <code {{didInsert (set this 'codeElement')}}>
-              {{yield}}
-            </code>
-          </pre>
+          <PreCode {{didInsert (set this 'codeElement')}}>
+            {{~yield~}}
+          </PreCode>
         </div>
         <div class='cds--snippet__overflow-indicator--right'></div>
         <span
@@ -108,7 +114,7 @@ export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignat
     {{/if}}
     {{#if (eq @type 'inline')}}
       <CopyButton @inline={{true}}>
-        {{yield}}
+        {{~yield~}}
       </CopyButton>
     {{/if}}
   </template>

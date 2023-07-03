@@ -37,7 +37,7 @@ export default class CarbonCopyButton extends Component<CarbonCopyButtonSignatur
       >
         {{#if (has-block)}}
           <code>
-            {{yield}}
+            {{~yield~}}
           </code>
         {{/if}}
         {{#unless @inline}}
@@ -76,9 +76,9 @@ export default class CarbonCopyButton extends Component<CarbonCopyButtonSignatur
           {{if @inline "cds--snippet cds--snippet--inline" "cds--copy-btn"}}'
         {{didInsert this.loadCarbonComponent}}
       >
-        {{#if (has-block)}}
+        {{~#if (has-block)}}
           <code>
-            {{yield}}
+            {{~yield~}}
           </code>
         {{/if}}
         {{#unless @inline}}

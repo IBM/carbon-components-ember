@@ -15,6 +15,7 @@ Router.map(function() {
     this.route('components', function() {
       this.route('button');
       this.route('breadcrumbs');
+      this.route('accordion');
       this.route('charts');
       this.route('checkbox');
       this.route('code-snippet');
