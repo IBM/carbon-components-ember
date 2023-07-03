@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES2018",
+    "emitDeclarationOnly": true,
+    "declarationDir": "precompiled",
     "allowJs": false,
     "declaration": true,
     "esModuleInterop": true,
