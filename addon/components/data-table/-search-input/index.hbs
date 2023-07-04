@@ -3,18 +3,15 @@
 {{import styles from './styles.scoped.scss'}}
 {{import '{ fn }' from '@ember/helper'}}
 
-<div
-  class='cds--toolbar-search-container-persistent
-    {{if this.isSearching styles.is-searching}}'
->
-  <SearchInput
-    @isLoading={{@isLoading}}
-    @value={{@value}}
-    @onChange={{this.doSearch}}
-  />
-  <Loading
-    style='position: relative; top: -41px; right: 7px'
-    @inline={{true}}
-    @active={{this.isSearching}}
-  />
-</div>
+<SearchInput
+  @isLoading={{@isLoading}}
+  @value={{@value}}
+  @expandable={{@expandable}}
+  @onChange={{this.doSearch}}
+  class='{{if this.isSearching styles.is-searching}}'
+/>
+<Loading
+  style='position: relative; top: -41px; right: 7px'
+  @inline={{true}}
+  @active={{this.isSearching}}
+/>

@@ -8,6 +8,7 @@ import { TaskInstance } from 'ember-concurrency';
 type Args = {
   onChange: (value: string) => TaskInstance<any>|undefined;
   isLoading: boolean;
+  expandable?: boolean;
   value: string;
 }
 
