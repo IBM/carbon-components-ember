@@ -68,7 +68,7 @@ export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignat
           aria-label='Code Snippet Text'
           style={{htmlSafe
             (concat
-              'width: 100%; min-height: 48px'
+              'width: 100%; min-height: 48px;'
               (unless this.expanded 'max-height: 240px;')
             )
           }}
