@@ -9,6 +9,7 @@ import { on } from '@ember/modifier';
 import set from 'carbon-components-ember/helpers/set';
 import not from 'ember-truth-helpers/helpers/not';
 import htmlSafe from '../../helpers/html-safe';
+import { TemplateOnlyComponent } from '@ember/component/template-only';
 
 type Args = {
   type: 'default'|'multiline'|'inline';
@@ -21,7 +22,7 @@ export interface CarbonCodeSnippetSignature {
   };
 }
 
-const PreCode = <template>
+const PreCode: TemplateOnlyComponent<{Element: HTMLElement; Blocks: { default: [] }}> = <template>
   <pre>
     {{!~whitespace~}}
     <code ...attributes>
