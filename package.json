@@ -127,7 +127,7 @@
     "@types/qunit": "^2.19.5",
     "@types/qunit-dom": "^0.7.0",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
-    "@typescript-eslint/parser": "^5.48.1",
+    "@typescript-eslint/parser": "^5.61.0",
     "bower": "^1.8.8",
     "broccoli": "^3.4.2",
     "broccoli-asset-rev": "^3.0.0",
