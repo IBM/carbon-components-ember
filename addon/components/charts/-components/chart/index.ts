@@ -41,8 +41,6 @@ export interface CarbonChartSignature {
   };
 }
 
-const x: number = 'x';
-
 /**
  The CarbonChart
 
