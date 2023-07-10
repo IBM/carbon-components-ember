@@ -25,6 +25,7 @@ module.exports = {
     WithRequired: true,
   },
   rules: {
+    'ember-template-lint/no-curly-component-invocation': ['error', { allow: ['noop'] }],
     'ember-template-lint/no-bare-strings': 'off',
     'ember-template-lint/no-inline-styles': 'off',
     'ember-template-lint/no-positive-tabindex': 'off',
