@@ -45,8 +45,8 @@
     "types/globals.d.ts",
     "types/glint.d.ts",
     "index.d.ts",
-    "lib/*.ts",
-    "addon/**/*.ts",
+    "lib/*",
+    "addon/**/*",
     "tests/**/*.ts",
     "app/**/*.ts"
   ],

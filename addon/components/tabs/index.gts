@@ -21,7 +21,7 @@ type Args = {
 };
 
 class TabPane extends Component<{
-  Args: { tab: TabsComponent; title: string; disabled?: boolean };
+  Args: { tab: TabsComponent; title: string; disabled?: boolean; isDefault?: boolean };
   Blocks: {
     default: [];
   };
@@ -84,6 +84,9 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
 
   registerTab(tab: TabPane) {
     this.tabs.pushObject(tab);
+    if (tab.args.isDefault && !this.currentTab) {
+      this.tabSelected(tab);
+    }
   }
 
   unregisterTab(tab: TabPane) {

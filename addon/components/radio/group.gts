@@ -1,9 +1,9 @@
 import Component from '@glimmer/component';
 import { defaultArgs } from 'carbon-components-ember/decorators';
-import RadioButton from 'carbon-components-ember/components/radio/index';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { WithBoundArgs } from '@glint/template';
+import RadioButton from 'carbon-components-ember/components/radio';
 
 interface Signature {
   Args: {

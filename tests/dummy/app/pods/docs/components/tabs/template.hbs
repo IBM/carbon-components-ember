@@ -21,13 +21,17 @@
       <Tabs
         @selectedTab={{context.selected}}
         @tabSelected={{fn (mut context.selected)}}
-        @tabs={{array
-          (hash title='Tab Label 1')
-          (hash title='Tab Label 2' disabled=true)
-          (hash title='Tab Label 4 with a very long long label')
-        }}
+        as |TabPane|
       >
-        {{context.selected.title}}
+        <TabPane @title='Tab Label 1' @isDefault={{true}}>
+          title: {{context.selected}}
+        </TabPane>
+        <TabPane @title='Tab Label 2' @disabled={{true}}>
+          title: {{context.selected}}
+        </TabPane>
+        <TabPane @title='Tab Label 4 with a very long long label'>
+          title: {{context.selected}}
+        </TabPane>
       </Tabs>
     </demo.example>
   {{/let}}

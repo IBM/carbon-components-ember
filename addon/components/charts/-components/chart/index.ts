@@ -6,9 +6,10 @@ import { Chart } from '@carbon/charts';
 import { AxisChartOptions, BaseChartOptions } from '@carbon/charts';
 import CarbonChartTabularData from 'carbon-components-ember/components/charts/-components/tabular-data';
 import { WithBoundArgs } from '@glint/template';
-import ChartAxis from 'carbon-components-ember/components/charts/-components/axis/index';
 import ColorPairing from 'carbon-components-ember/components/charts/-components/color/pairing';
-import ColorScale from 'carbon-components-ember/components/charts/-components/color/scale/index';
+import ColorScale from 'carbon-components-ember/components/charts/-components/color/scale';
+import ChartAxis from 'carbon-components-ember/components/charts/-components/axis';
+
 
 /** @documenter yuidoc */
 
@@ -39,6 +40,8 @@ export interface CarbonChartSignature {
     ];
   };
 }
+
+const x: number = 'x';
 
 /**
  The CarbonChart

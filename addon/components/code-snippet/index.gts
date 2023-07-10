@@ -22,13 +22,15 @@ export interface CarbonCodeSnippetSignature {
   };
 }
 
+const noop = () => '';
+
 const PreCode: TemplateOnlyComponent<{Element: HTMLElement; Blocks: { default: [] }}> = <template>
   <pre>
-    {{!~whitespace~}}
+    {{~noop~}}
     <code ...attributes>
       {{~yield~}}
     </code>
-    {{!~whitespace~}}
+    {{~noop~}}
   </pre>
 </template>
 
