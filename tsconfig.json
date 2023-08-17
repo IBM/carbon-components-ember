@@ -19,11 +19,9 @@
     "noImplicitReturns": false,
     "noEmitOnError": false,
     "baseUrl": ".",
+    "rootDir": ".",
     "module": "ES6",
     "experimentalDecorators": true,
-    "typeRoots": [
-      "types"
-    ],
     "paths": {
       "dummy/*": [
         "tests/dummy/app/*"
@@ -37,18 +35,19 @@
   "include": [
     "node_modules/@gavant/glint-template-types/types/ember-power-select/components/power-select.d.ts",
     "node_modules/@gavant/glint-template-types/types/ember-power-select/components/power-select-multiple.d.ts",
-    "node_modules/@gavant/glint-template-types/types/ember-truth-helpers/*.ts",
+    "node_modules/@gavant/glint-template-types/types/ember-truth-helpers/*.d.ts",
     "node_modules/@gavant/glint-template-types/types/ember-basic-dropdown/components/basic-dropdown.d.ts",
     "node_modules/@gavant/glint-template-types/types/ember-basic-dropdown/components/basic-dropdown-content.d.ts",
     "node_modules/@gavant/glint-template-types/types/ember-basic-dropdown/components/basic-dropdown-trigger.d.ts",
     "node_modules/@gavant/glint-template-types/types/ember-basic-dropdown/utils/calculate-position.d.ts",
     "types/globals.d.ts",
     "types/glint.d.ts",
+    "types/ember.d.ts",
     "index.d.ts",
     "lib/*",
     "addon/**/*",
-    "tests/**/*.ts",
-    "app/**/*.ts"
+    "tests/**/*",
+    "app/**/*"
   ],
   "exclude": [
     "node_modules/ember-power-select"

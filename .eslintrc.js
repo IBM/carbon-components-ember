@@ -1,5 +1,4 @@
-require('eslint-plugin-ember-template-lint/lib/ember-teplate-lint/config').registerPlugin('ember-template-lint-plugin-prettier');
-require('eslint-plugin-ember-template-lint/lib/ember-teplate-lint/config').registerPlugin('ember-hbs-imports/hbs-imports-rule');
+
 
 
 module.exports = {
@@ -13,9 +12,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:ember/recommended',
     'plugin:@typescript-eslint/base',
-    'plugin:ember-template-lint/config',
     'plugin:ember-template-lint/recommended',
-    'plugin:ember-template-lint/ember-template-lint-plugin-prettier:recommended'
   ],
   env: {
     browser: true,

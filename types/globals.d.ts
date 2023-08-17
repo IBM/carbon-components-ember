@@ -1,5 +1,3 @@
-
-// eslint-disable-next-line no-unused-vars
 declare type EmberPromise<T> = Promise<T> & { content: T | undefined }
 
 type UnionKeys<T> = T extends T ? keyof T : never;
@@ -24,3 +22,13 @@ type Only<T, U> = {
 type Either<T, U> = Only<T, U> | Only<U, T>
 
 declare module '*.scss';
+
+
+declare global {
+  // Prevents ESLint from "fixing" this via its auto-fix to turn it into a type
+  // alias (e.g. after running any Ember CLI generator)
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  import { MutableArray } from '@ember/array';
+  interface Array<T> extends MutableArray<T> {}
+  // interface Function extends Ember.FunctionPrototypeExtensions {}
+}
