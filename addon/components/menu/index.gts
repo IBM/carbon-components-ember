@@ -8,7 +8,7 @@ import EmberTooltip from 'ember-tooltips/components/ember-tooltip';
 
 export interface MenuComponentSignature {
   Args: {
-    icon: IconNames;
+    icon?: IconNames;
     direction: 'bottom'|'top';
     tooltip?: string;
     disabled?: boolean;

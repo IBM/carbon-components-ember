@@ -4,23 +4,43 @@ on:
   push:
     branches: '**'
 
+
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js
+      - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16.x
-      - name: npm install, build, and test
+          node-version: 16
+
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          version: 7
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
         run: |
-          npm install --no-audit --legacy-peer-deps
-          npm run ts:lint
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: pnpm install, build, and test
+        run: |
+          pnpm install --no-audit --legacy-peer-deps
+          pnpm run ts:lint
           # fix for https://github.com/cibernox/ember-power-select/pull/1577
           rm -rf node_modules/ember-power-select/components
-          npm run glint
-          npm run test
+          pnpm run glint
+          pnpm run test
         env:
           CI: true
 
@@ -46,9 +66,32 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Install dependencies (npm)
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          version: 7
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
         run: |
-          npm install --no-audit --legacy-peer-deps
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: Install dependencies (pnpm)
+        run: |
+          pnpm install
       - name: Setup ember-try scenario
         run: ./node_modules/.bin/ember try:one ember-${{ matrix.scenario }} --skip-cleanup --- cat package.json
       - name: Build
@@ -67,15 +110,34 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
-      - name: Use Node.js
-        uses: actions/setup-node@v1
+      - name: Install Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: 16.x
-      - name: npm install, build, and deploy docs
+          node-version: 16
+
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          version: 7
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: pnpm install, build, and deploy docs
         run: |
           mkdir ~/.ssh
           ssh-keyscan github.com >> ~/.ssh/known_hosts
-          npm install --no-audit --legacy-peer-deps
+          pnpm install
           version=$(cat package.json | jq -r '.version')
           git fetch --unshallow
           git fetch --all --tags
@@ -90,7 +152,7 @@ jobs:
         env:
           CI: true
           DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
-      - name: deploy npm
+      - name: deploy pnpm
         if: github.ref == 'refs/heads/main'
         run: |
           version=$(cat package.json | jq -r '.version')
@@ -98,11 +160,11 @@ jobs:
           if git rev-parse "$TAG" >/dev/null 2>&1; then
             echo "tag exists";
           else
-            npm run precompile
+            pnpm run precompile
             cd precompiled
             echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
-            npm run ts:build-types
-            npm publish || echo "already published"
+            pnpm run ts:build-types
+            pnpm publish || echo "already published"
           fi
         env:
           NPM_TOKEN: "${{ secrets.NPM_TOKEN }}"
@@ -118,7 +180,7 @@ jobs:
           if git rev-parse "$TAG" >/dev/null 2>&1; then
             echo "tag exists";
           else
-            npm i -g lerna-changelog
+            pnpm i -g lerna-changelog
             export GITHUB_AUTH=$GITHUB_TOKEN
             export changelog=$(lerna-changelog --next-version=$version)
             echo -e "# Changelog\n\n$changelog\n$(tail --lines=+2 CHANGELOG.md)" > CHANGELOG.md

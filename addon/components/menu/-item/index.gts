@@ -17,11 +17,14 @@ export interface MenuItemComponentSignature {
 
 export default class Item extends Component<MenuItemComponentSignature> {
   <template>
-    <li class='cds--overflow-menu-options__option {{if @isDivider 'cds--overflow-menu--divider'}}'>
+    <li class='
+      cds--overflow-menu-options__option
+      {{if @isDisabled "cds--overflow-menu-options__option--disabled"}}
+      {{if @isDanger "cds--overflow-menu-options__option--danger"}}
+      {{if @isDivider 'cds--overflow-menu--divider'}}'
+    >
       <button
-        class='cds--overflow-menu-options__btn
-          {{if @isDanger "cds--overflow-menu-options__option--danger"}}
-          {{if @isDisabled "cds--overflow-menu-options__option--disabled"}}'
+        class='cds--overflow-menu-options__btn'
         title='{{@tooltip}}'
         data-floating-menu-primary-focus={{@isPrimary}}
         ...attributes
