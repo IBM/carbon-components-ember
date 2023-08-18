@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, rerender, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-template-imports';
-import Button from 'carbon-components-ember/components/button';
 
 
 module('Integration | Component | Button', (hooks) => {

@@ -49,9 +49,6 @@
     "tests/**/*",
     "app/**/*"
   ],
-  "exclude": [
-    "node_modules/ember-power-select"
-  ],
   "glint": {
     "environment": ["ember-hbs-imports", "ember-template-imports"]
   }

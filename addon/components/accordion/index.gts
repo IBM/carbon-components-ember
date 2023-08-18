@@ -45,6 +45,7 @@ class Item extends Component<ItemSignature> {
     return this.args.isOpen ?? this.args.accordion.isActive(this);
   }
 
+
   <template>
     <li
       class='cds--accordion__item

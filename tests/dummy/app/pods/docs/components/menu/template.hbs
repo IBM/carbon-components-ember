@@ -1,0 +1,21 @@
+{{import Demo from 'ember-cli-addon-docs/components/docs-demo'}}
+{{import Menu from 'carbon-components-ember/components/menu'}}
+
+<h1>
+  Carbon Modal
+</h1>
+
+<Demo as |demo|>
+  <demo.example @name='menu.hbs'>
+    {{!import Menu from 'carbon-components-ember/components/menu'}}
+    <Menu @tooltip="Options" @direction="bottom" as |Item|>
+      <Item>option 1</Item>
+      <Item @tooltip="Option 2 is an example of a really long string and how we recommend handling this">
+        Option 2 is an example of a really long string and how we recommend handling this
+      </Item>
+      <Item>option 3</Item>
+      <Item @isDivider={{true}}>option 4</Item>
+    </Menu>
+  </demo.example>
+  <demo.snippet @name='menu.hbs' />
+</Demo>

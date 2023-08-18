@@ -26,9 +26,9 @@ export interface ModalComponentSignature {
 }
 
 /**
- * @class ModalComponent
+ * @class Modal
  */
-export default class ModalComponent extends Component<ModalComponentSignature> {
+export default class Modal extends Component<ModalComponentSignature> {
   @tracked isVisible = true;
 
   args = defaultArgs(this, {
