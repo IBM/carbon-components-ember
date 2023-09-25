@@ -15,11 +15,8 @@ jobs:
         with:
           node-version: 16
 
-      - uses: pnpm/action-setup@v2
-        name: Install pnpm
-        with:
-          version: 7
-          run_install: false
+      - name: install pnpm
+        run: npm i -g pnpm && pnpm setup
 
       - name: Get pnpm store directory
         shell: bash
