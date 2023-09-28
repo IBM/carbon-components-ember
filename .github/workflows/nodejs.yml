@@ -16,7 +16,7 @@ jobs:
           node-version: 16
 
       - name: install pnpm
-        run: npm i -g pnpm && pnpm setup
+        run: npm i -g pnpm
 
       - name: Get pnpm store directory
         shell: bash
@@ -32,7 +32,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
       - name: pnpm install, build, and test
         run: |
-          pnpm install --no-audit --legacy-peer-deps
+          pnpm install
           pnpm run ts:lint
           # fix for https://github.com/cibernox/ember-power-select/pull/1577
           rm -rf node_modules/ember-power-select/components
@@ -68,11 +68,8 @@ jobs:
         with:
           node-version: 16
 
-      - uses: pnpm/action-setup@v2
-        name: Install pnpm
-        with:
-          version: 7
-          run_install: false
+      - name: install pnpm
+        run: npm i -g pnpm && pnpm setup
 
       - name: Get pnpm store directory
         shell: bash
@@ -112,11 +109,8 @@ jobs:
         with:
           node-version: 16
 
-      - uses: pnpm/action-setup@v2
-        name: Install pnpm
-        with:
-          version: 7
-          run_install: false
+      - name: install pnpm
+        run: npm i -g pnpm && pnpm setup
 
       - name: Get pnpm store directory
         shell: bash
