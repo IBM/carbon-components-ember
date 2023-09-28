@@ -48,7 +48,7 @@ export default class MenuComponent extends Component<MenuComponentSignature> {
           tabindex='-1'
           data-floating-menu-direction={{defaultTo @direction 'buttom'}}
         >
-          {{yield 
+          {{yield
             (component MenuItemComponent isDisabled=@disabled isDanger=@danger)
           }}
         </ul>
