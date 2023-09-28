@@ -29,7 +29,9 @@ export default class MenuComponent extends Component<MenuComponentSignature> {
         class='cds--overflow-menu {{if dd.isOpen "cds--overflow-menu--open"}}'
       >
         {{#if @tooltip}}
-          <EmberTooltip>{{@tooltip}}</EmberTooltip>
+          <EmberTooltip>
+            {{@tooltip}}
+          </EmberTooltip>
         {{/if}}
         <Icon
           @fill='white'
@@ -46,7 +48,9 @@ export default class MenuComponent extends Component<MenuComponentSignature> {
           tabindex='-1'
           data-floating-menu-direction={{defaultTo @direction 'buttom'}}
         >
-          {{yield (component MenuItemComponent isDisabled=@disabled isDanger=@danger)}}
+          {{yield 
+            (component MenuItemComponent isDisabled=@disabled isDanger=@danger)
+          }}
         </ul>
       </dd.Content>
     </BasicDropdown>
