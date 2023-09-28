@@ -28,16 +28,17 @@
       </Checkbox>
       <br />
       <Menu
-        @tooltip="Options"
-        @direction="bottom"
+        @tooltip='Options'
+        @direction='bottom'
         @danger={{context.danger}}
-        @disabled={{context.disabled}} as |Item|
+        @disabled={{context.disabled}}
+        as |Item|
       >
         <Item>
           option 1
         </Item>
         <Item
-          @tooltip="Option 2 is an example of a really long string and how we recommend handling this"
+          @tooltip='Option 2 is an example of a really long string and how we recommend handling this'
         >
           Option 2 is an example of a really long string and how we recommend handling this
         </Item>
@@ -48,7 +49,7 @@
           option 4
         </Item>
       </Menu>
-  {{/let}}
+    {{/let}}
   </demo.example>
   <demo.snippet @name='menu.hbs' />
 </Demo>
