@@ -24,7 +24,8 @@ type Either<T, U> = Only<T, U> | Only<U, T>
 declare module '*.scss';
 
 declare module 'ember-template-imports' {
-  export const hbs as any;
+  const hbs: any;
+  export { hbs };
 }
 
 declare global {
