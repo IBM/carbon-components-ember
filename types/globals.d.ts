@@ -23,6 +23,10 @@ type Either<T, U> = Only<T, U> | Only<U, T>
 
 declare module '*.scss';
 
+declare module 'ember-template-imports' {
+  const hbs: any;
+  export { hbs };
+}
 
 declare global {
   // Prevents ESLint from "fixing" this via its auto-fix to turn it into a type
