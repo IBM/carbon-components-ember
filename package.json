@@ -35,7 +35,7 @@
     "@carbon/feature-flags": "^0.15.0",
     "@carbon/grid": "^11.15.0",
     "@carbon/icon-helpers": "^10.41.0",
-    "@carbon/icons": "^11.21.0",
+    "@carbon/icons": "^11.28.0",
     "@carbon/import-once": "^10.7.0",
     "@carbon/layout": "^11.15.0",
     "@carbon/motion": "^11.12.0",
