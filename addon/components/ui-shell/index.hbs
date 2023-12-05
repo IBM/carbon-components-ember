@@ -1,8 +1,0 @@
-{{import Header from './-header'}}
-{{import Sidenav from './-sidenav'}}
-{{import Nav from './-nav'}}
-
-{{yield (hash Header=Header Sidenav=Sidenav Nav=Nav) to='shell'}}
-<main id='main-content' class='cds--content'>
-  {{yield to='content'}}
-</main>
