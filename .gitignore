@@ -1,22 +1,28 @@
-# See https://help.github.com/ignore-files/ for more about ignoring files.
-
-# dependencies
-node_modules/
-
-# misc
-.env*
-.pnp*
-.pnpm-debug.log
-.sass-cache
-.eslintcache
-coverage/
-npm-debug.log*
-yarn-error.log
-
-# ember-try
-/.node_modules.ember-try/
-/package.json.ember-try
-/package-lock.json.ember-try
-/yarn.lock.ember-try
-/pnpm-lock.ember-try.yaml
-
+*
+!types/
+!carbon-components-ember/
+!carbon-components-ember/**/*
+carbon-components-ember/node_modules
+!doc-app/
+!doc-app/**/*
+doc-app/node_modules
+!test-app/
+!test-app/**/*
+test-app/node_modules
+!.editorconfig
+!.eslintrc.js
+!.gitignore
+!.npmignore
+!.prettierignore
+!.prettierrc.cjs
+!addon.js
+!CHANGELOG.md
+!CONTRIBUTING.md
+!index.d.ts
+!jsconfig.json
+!LICENSE.md
+!package.json
+!pnpm-lock.yaml
+!pnpm-workspace.yaml
+!README.md
+!tsconfig.json
