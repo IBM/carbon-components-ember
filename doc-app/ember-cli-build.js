@@ -7,8 +7,20 @@ module.exports = function (defaults) {
     autoImport: {
       watchDependencies: ['carbon-components-ember2'],
     },
+    'ember-cli-babel': {
+      enableTypeScriptTransform: true,
+    },
   });
 
-  const { maybeEmbroider } = require('@embroider/test-setup');
-  return maybeEmbroider(app);
+  return require('@embroider/compat').compatBuild(app, null, {
+    staticAddonTrees: true,
+    staticAddonTestSupportTrees: true,
+    staticComponents: true,
+    staticHelpers: true,
+    staticModifiers: true,
+    staticEmberSource: true,
+    amdCompatibility: {
+      es: [],
+    },
+  });
 };

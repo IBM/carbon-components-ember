@@ -7,7 +7,6 @@
     "build": "npm run build --workspace carbon-components-ember",
     "lint": "npm run lint --workspaces --if-present",
     "lint:fix": "npm run lint:fix --workspaces --if-present",
-    "prepare": "npm run build",
     "start": "concurrently 'npm:start:*' --restart-after 5000 --prefix-colors cyan,white,yellow",
     "start:addon": "npm start --workspace carbon-components-ember -- --no-watch.clearScreen",
     "start:test-app": "npm start --workspace test-app",

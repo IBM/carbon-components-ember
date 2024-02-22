@@ -1,3 +1,4 @@
 packages:
   - carbon-components-ember
   - test-app
+  - doc-app

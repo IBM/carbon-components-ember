@@ -1,5 +1,5 @@
 {
-  "name": "test-app",
+  "name": "doc-app",
   "version": "0.0.0",
   "private": true,
   "description": "Test app for carbon-components-ember2 addon",
@@ -25,6 +25,11 @@
     "test:ember": "ember test"
   },
   "devDependencies": {
+    "@rollup/plugin-babel": "^6.0.4",
+    "ember-vite-hmr": "^0.6.0",
+    "@embroider/compat": "3.4.4-unstable.12a42ca",
+    "@embroider/core": "3.4.4-unstable.12a42ca",
+    "@embroider/vite": "0.2.1-unstable.12a42ca",
     "@babel/eslint-parser": "^7.22.5",
     "@babel/plugin-proposal-decorators": "^7.22.5",
     "@ember/optional-features": "^2.0.0",
@@ -53,7 +58,7 @@
     "ember-page-title": "^7.0.0",
     "ember-qunit": "^7.0.0",
     "ember-resolver": "^10.1.1",
-    "ember-source": "~5.1.1",
+    "ember-source": "~5.6.0",
     "ember-source-channel-url": "^3.0.0",
     "ember-template-lint": "^5.11.0",
     "ember-try": "^3.0.0",

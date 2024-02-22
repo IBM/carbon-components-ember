@@ -22,7 +22,8 @@
     "lint:js:fix": "eslint . --fix",
     "start": "ember serve",
     "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
-    "test:ember": "ember test"
+    "test:ember": "ember test",
+    "test:ember:serve": "ember test --serv"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.22.5",
@@ -53,7 +54,7 @@
     "ember-page-title": "^7.0.0",
     "ember-qunit": "^7.0.0",
     "ember-resolver": "^10.1.1",
-    "ember-source": "~5.1.1",
+    "ember-source": "~5.6.0",
     "ember-source-channel-url": "^3.0.0",
     "ember-template-lint": "^5.11.0",
     "ember-try": "^3.0.0",
