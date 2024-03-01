@@ -17,7 +17,7 @@
 <div id='{{this.dialogManager.id}}'>
   {{#if this.dialogManager.currentDialog}}
     {{component
-      this.dialogManager.currentDialog
+      (ensure-safe-component this.dialogManager.currentDialog)
       options=this.dialogManager.options
     }}
   {{/if}}

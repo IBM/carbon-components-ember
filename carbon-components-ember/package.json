@@ -75,8 +75,6 @@
     "ember-cli-typescript": "^5.2.1",
     "ember-composable-helpers": "^5.0.0",
     "ember-concurrency": "^3.0.0",
-    "ember-css-modules": "^2.0.1",
-    "ember-css-modules-sass": "^1.1.0",
     "ember-data": "^4.12.0",
     "ember-get-config": "^2.1.1",
     "ember-hbs-imports": "^0.5.39",
@@ -100,9 +98,6 @@
     "yam": "^1.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.0",
-    "@babel/plugin-transform-typescript": "^7.22.15",
-    "@babel/runtime": "^7.17.0",
     "@embroider/addon-dev": "^4.1.0",
     "@glint/environment-ember-loose": "^1.2.0",
     "@glint/environment-ember-template-imports": "^1.2.0",
@@ -149,7 +144,6 @@
     "@ember/optional-features": "^2.0.0",
     "@ember/render-modifiers": "^2.1.0",
     "@ember/string": "^3.1.1",
-    "@ember/test-helpers": "^3.2.0",
     "@embroider/compat": "^3.2.1",
     "@embroider/core": "^3.2.1",
     "@embroider/macros": "^1.13.1",
