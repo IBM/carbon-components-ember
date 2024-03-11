@@ -1,5 +1,9 @@
 import Component from '@glimmer/component';
-import { bxClassNames, classPrefix, defaultArgs } from 'carbon-components-ember/decorators';
+import {
+  bxClassNames,
+  classPrefix,
+  defaultArgs,
+} from 'carbon-components-ember/decorators';
 import DialogManagerService from 'carbon-components-ember/services/dialog-manager';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
@@ -33,14 +37,14 @@ type Args = {
    @argument onClick
    @type function
    */
-  onClick?: Function|null;
+  onClick?: Function | null;
 
   /**
    * Indicates the type of the button
    @argument type
    @type string
    */
-  type?: 'primary'|'secondary'|'danger';
+  type?: 'primary' | 'secondary' | 'danger';
 
   /**
    * If the action is dangerous, this text message will be shown in the dialog
@@ -120,7 +124,7 @@ class CarbonButton extends Component<ButtonSignature> {
     confirmDialog: undefined,
     tertiary: false,
     size: 'md',
-    ghost: false
+    ghost: false,
   };
 
   <template>
@@ -177,7 +181,17 @@ class CarbonButton extends Component<ButtonSignature> {
     return `cds--layout--size-${this.args.size}`;
   }
 
-  @bxClassNames('primary', 'secondary', 'danger', 'tertiary', 'ghost', 'size', 'disabled', 'iconOnly:icon-only') bxClassNames;
+  @bxClassNames(
+    'primary',
+    'secondary',
+    'danger',
+    'tertiary',
+    'ghost',
+    'size',
+    'disabled',
+    'iconOnly:icon-only',
+  )
+  bxClassNames;
 
   @action
   runButtonClick() {
@@ -191,7 +205,7 @@ class CarbonButton extends Component<ButtonSignature> {
           this.disabled = false;
           this.loading = false;
           this.showDialog = false;
-        } ;
+        };
         ret.then(end, end);
       }
     }

@@ -10,12 +10,13 @@ type Args = {
   readonly?: boolean;
   disabled?: boolean;
   name?: string;
-  size?: 'sm'|'md';
-}
+  size?: 'sm' | 'md';
+};
 
 export default class ToggleComponent extends Component<Args> {
-
-  get guid() { return guidFor(this); }
+  get guid() {
+    return guidFor(this);
+  }
 
   @action
   onToggleChange() {

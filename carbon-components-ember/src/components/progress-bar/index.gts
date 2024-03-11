@@ -7,14 +7,14 @@ import { concat } from '@ember/helper';
 import { default as d } from '@ascua/maths/helpers/div';
 
 type Args = {
-  status?: 'active'|'finished'|'error'|'indeterminate';
-  size?: 'small'|'big';
-  type?: 'default'|'inline'|'indented';
+  status?: 'active' | 'finished' | 'error' | 'indeterminate';
+  size?: 'small' | 'big';
+  type?: 'default' | 'inline' | 'indented';
   value?: number;
   max?: number;
   label?: string;
   helperText?: string;
-}
+};
 
 export interface ProgressBarInterface {
   Args: Args;
@@ -40,15 +40,19 @@ export default class ProgressBar extends Component<ProgressBarInterface> {
   }
 
   get defaultArgs(): WithRequired<Args, 'max'> {
-    return Object.assign({}, {
-      status: 'active',
-      value: undefined,
-      max: 100,
-      size: undefined,
-      type: 'default',
-      helperText: '',
-      label: '',
-    }, this.args)
+    return Object.assign(
+      {},
+      {
+        status: 'active',
+        value: undefined,
+        max: 100,
+        size: undefined,
+        type: 'default',
+        helperText: '',
+        label: '',
+      },
+      this.args,
+    );
   }
 
   <template>
@@ -108,6 +112,3 @@ export default class ProgressBar extends Component<ProgressBarInterface> {
     </div>
   </template>
 }
-
-
-

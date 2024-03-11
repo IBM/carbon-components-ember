@@ -14,12 +14,11 @@ interface Signature {
   Element: null;
   Blocks: {
     heading: [];
-    default: [WithBoundArgs<typeof RadioButton, 'group'|'onChange'>];
+    default: [WithBoundArgs<typeof RadioButton, 'group' | 'onChange'>];
   };
 }
 
 export default class RadioButtonGroup extends Component<Signature> {
-
   args: Signature['Args'] = defaultArgs(this, {
     orientation: 'horizontal',
     labelPosition: 'left',

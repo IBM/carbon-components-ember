@@ -21,7 +21,12 @@ type Args = {
 };
 
 class TabPane extends Component<{
-  Args: { tab: TabsComponent; title: string; disabled?: boolean; isDefault?: boolean };
+  Args: {
+    tab: TabsComponent;
+    title: string;
+    disabled?: boolean;
+    isDefault?: boolean;
+  };
   Blocks: {
     default: [];
   };

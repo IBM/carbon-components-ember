@@ -8,7 +8,7 @@ type Args = {
   title?: boolean;
   inline?: boolean;
   classNames?: string;
-}
+};
 
 export interface LoadingComponentSignature {
   Args: Args;
@@ -21,7 +21,7 @@ export default class LoadingComponent extends Component<LoadingComponentSignatur
     small: false,
     overlay: false,
     title: null,
-    inline: false
+    inline: false,
   });
 
   get defaultArgs() {
@@ -44,7 +44,12 @@ export default class LoadingComponent extends Component<LoadingComponentSignatur
                 Loading
               </title>
               {{#if @small}}
-                <circle class='cds--loading__background' cx='0' cy='0' r='37.5' />
+                <circle
+                  class='cds--loading__background'
+                  cx='0'
+                  cy='0'
+                  r='37.5'
+                />
               {{/if}}
               <circle class='cds--loading__stroke' cx='0' cy='0' r='37.5' />
             </svg>
@@ -103,5 +108,3 @@ export default class LoadingComponent extends Component<LoadingComponentSignatur
     {{/if}}
   </template>
 }
-
-

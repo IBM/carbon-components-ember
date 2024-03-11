@@ -2,8 +2,8 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency'
-import { timeout, TaskInstance } from 'ember-concurrency'
+import { task } from 'ember-concurrency';
+import { timeout, TaskInstance } from 'ember-concurrency';
 import { autoComputed } from 'carbon-components-ember/decorators';
 import didUpdate from '@ember/render-modifiers/modifiers/did-update';
 import { fn } from '@ember/helper';
@@ -14,11 +14,11 @@ import { next } from '@ember/runloop';
 type Args = {
   onChange(value: any): TaskInstance<any> | undefined | void;
   value: string;
-  size?: 'lg'|'md'|'sm';
+  size?: 'lg' | 'md' | 'sm';
   isLoading?: boolean;
   expandable?: boolean;
   light?: boolean;
-}
+};
 
 export interface SearchComponentSignature {
   Args: Args;
@@ -39,7 +39,7 @@ export default class SearchComponent extends Component<SearchComponentSignature>
     return guidFor(this);
   }
 
-  runSearch = task({ restartable: true }, async() => {
+  runSearch = task({ restartable: true }, async () => {
     this.isSearching = true;
     await timeout(200);
     const task = this.args.onChange(this.value);
@@ -49,7 +49,7 @@ export default class SearchComponent extends Component<SearchComponentSignature>
       this.isSearching = false;
       task && task.cancel && task.cancel();
     }
-  })
+  });
   @action
   onSearchChange() {
     this.runSearch.perform();
@@ -72,7 +72,7 @@ export default class SearchComponent extends Component<SearchComponentSignature>
   @action
   activate(mouseEvent: Event) {
     if (this.isActive) {
-      return
+      return;
     }
     const element = mouseEvent.target as HTMLDivElement;
     this.isActive = true;

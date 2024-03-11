@@ -12,8 +12,8 @@ import htmlSafe from 'carbon-components-ember/helpers/html-safe';
 import { TemplateOnlyComponent } from '@ember/component/template-only';
 
 type Args = {
-  type: 'default'|'multiline'|'inline';
-}
+  type: 'default' | 'multiline' | 'inline';
+};
 
 export interface CarbonCodeSnippetSignature {
   Args: Args;
@@ -24,7 +24,10 @@ export interface CarbonCodeSnippetSignature {
 
 const noop = () => '';
 
-const PreCode: TemplateOnlyComponent<{Element: HTMLElement; Blocks: { default: [] }}> = <template>
+const PreCode: TemplateOnlyComponent<{
+  Element: HTMLElement;
+  Blocks: { default: [] };
+}> = <template>
   <pre>
     {{~noop~}}
     <code ...attributes>
@@ -32,7 +35,7 @@ const PreCode: TemplateOnlyComponent<{Element: HTMLElement; Blocks: { default: [
     </code>
     {{~noop~}}
   </pre>
-</template>
+</template>;
 
 export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignature> {
   @tracked expanded = false;
@@ -41,7 +44,7 @@ export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignat
 
   @defaultArgs
   args: Args = {
-    type: 'default'
+    type: 'default',
   };
 
   <template>
@@ -121,5 +124,4 @@ export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignat
       </CopyButton>
     {{/if}}
   </template>
-
 }

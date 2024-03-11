@@ -17,7 +17,7 @@ type Args = {
   onChange?: (checked: boolean) => void;
   state?: object;
   label?: string;
-}
+};
 
 export interface CarbonCheckboxSignature {
   Args: Args;
@@ -34,8 +34,8 @@ export default class CarbonCheckbox extends Component<CarbonCheckboxSignature> {
   args: Args = defaultArgs(this, {
     disabled: false,
     onChange: () => null,
-    state: null
-  })
+    state: null,
+  });
 
   @action
   setup() {
@@ -88,7 +88,3 @@ export default class CarbonCheckbox extends Component<CarbonCheckboxSignature> {
     </div>
   </template>
 }
-
-
-
-

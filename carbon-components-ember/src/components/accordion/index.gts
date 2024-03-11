@@ -11,7 +11,7 @@ interface AccordionSignature {
   Args: {
     disabled?: boolean;
     open?: boolean;
-    align?: 'start'|'end';
+    align?: 'start' | 'end';
   };
   Element: null;
   Blocks: {
@@ -33,9 +33,8 @@ interface ItemSignature {
 }
 
 class Item extends Component<ItemSignature> {
-
   get itemId() {
-    return guidFor(this)
+    return guidFor(this);
   }
 
   get isActive() {
@@ -44,7 +43,6 @@ class Item extends Component<ItemSignature> {
     }
     return this.args.isOpen ?? this.args.accordion.isActive(this);
   }
-
 
   <template>
     <li
@@ -84,7 +82,6 @@ class Item extends Component<ItemSignature> {
   </template>
 }
 
-
 export default class Accordion extends Component<AccordionSignature> {
   @tracked currentItem?: Item;
 
@@ -96,9 +93,9 @@ export default class Accordion extends Component<AccordionSignature> {
   setActiveItem(item: Item) {
     if (this.currentItem === item) {
       this.currentItem = undefined;
-      return
+      return;
     }
-    this.currentItem = item
+    this.currentItem = item;
   }
 
   <template>

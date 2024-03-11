@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import Icon,  { IconNames } from 'carbon-components-ember/components/icon';
+import Icon, { IconNames } from 'carbon-components-ember/components/icon';
 import MenuItemComponent from 'carbon-components-ember/components/menu/-item';
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 import defaultTo from 'carbon-components-ember/helpers/default-to';
@@ -9,7 +9,7 @@ import EmberTooltip from 'ember-tooltips/components/ember-tooltip';
 export interface MenuComponentSignature {
   Args: {
     icon?: IconNames;
-    direction: 'bottom'|'top';
+    direction: 'bottom' | 'top';
     tooltip?: string;
     disabled?: boolean;
     danger?: boolean;
@@ -18,7 +18,6 @@ export interface MenuComponentSignature {
     default: [typeof MenuItemComponent];
   };
 }
-
 
 export default class MenuComponent extends Component<MenuComponentSignature> {
   <template>
@@ -46,10 +45,11 @@ export default class MenuComponent extends Component<MenuComponentSignature> {
           tabindex='-1'
           data-floating-menu-direction={{defaultTo @direction 'buttom'}}
         >
-          {{yield (component MenuItemComponent isDisabled=@disabled isDanger=@danger)}}
+          {{yield
+            (component MenuItemComponent isDisabled=@disabled isDanger=@danger)
+          }}
         </ul>
       </dd.Content>
     </BasicDropdown>
   </template>
 }
-

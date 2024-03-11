@@ -17,8 +17,7 @@ type Args = {
   current?: string;
 
   onSelect?(crumb: string): void;
-}
-
+};
 
 export interface BreadcrumbSignature {
   // We have a `<table>` as our root element
@@ -45,9 +44,8 @@ export interface BreadcrumbSignature {
  @public
  **/
 class CarbonBreadcrumb extends Component<BreadcrumbSignature> {
-
   args: Args = defaultArgs(this, {
-    crumbs: []
+    crumbs: [],
   });
 
   @action

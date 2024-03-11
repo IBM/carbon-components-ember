@@ -16,7 +16,7 @@ type Args = {
   onClick?: () => null;
   onSelect?: () => null;
   tabindex?: string;
-}
+};
 
 export interface TileComponentSignature {
   Args: Args;
@@ -28,7 +28,6 @@ export interface TileComponentSignature {
 }
 
 export default class TileComponent extends Component<TileComponentSignature> {
-
   @tracked selected = null;
   @tracked expanded: boolean = false;
 
@@ -38,7 +37,9 @@ export default class TileComponent extends Component<TileComponentSignature> {
   }
 
   get default() {
-    return !this.args.selectable && !this.args.expandable && !this.args.clickable;
+    return (
+      !this.args.selectable && !this.args.expandable && !this.args.clickable
+    );
   }
 
   @action

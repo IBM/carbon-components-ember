@@ -13,7 +13,7 @@ type Args = {
   type: string;
   cancelText?: string;
   label?: string;
-}
+};
 
 export interface DialogConfirmInterface {
   Args: Args;
@@ -72,6 +72,3 @@ export default class ConfirmDialogComponent extends Component<DialogConfirmInter
     </Modal>
   </template>
 }
-
-
-

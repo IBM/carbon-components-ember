@@ -22,7 +22,6 @@ interface Signature {
 }
 
 export default class RadioButton extends Component<Signature> {
-
   get guid() {
     return guidFor(this);
   }
