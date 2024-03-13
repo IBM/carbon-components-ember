@@ -3,7 +3,7 @@ import Toggle from 'carbon-components-ember/components/toggle';
 import newObj from 'carbon-components-ember/helpers/new-obj';
 import { fn } from '@ember/helper';
 import not from 'ember-truth-helpers/helpers/not';
-import RouteTemplate from 'ember-route-template';
+import RouteTemplate from 'ember-route-template/route';
 import Component from '@glimmer/component';
 
 class RouteComponent extends Component {

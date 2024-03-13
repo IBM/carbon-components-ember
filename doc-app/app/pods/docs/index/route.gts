@@ -1,6 +1,6 @@
 import Hero from 'ember-cli-addon-docs/components/docs-hero';
 import Demo from 'ember-cli-addon-docs/components/docs-demo';
-import RouteTemplate from 'ember-route-template';
+import RouteTemplate from 'ember-route-template/route';
 import Component from '@glimmer/component';
 
 class RouteComponent extends Component {

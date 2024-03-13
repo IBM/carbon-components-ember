@@ -24,6 +24,10 @@ module.exports = {
   },
   rules: {},
   overrides: [
+    {
+      files: ['**/*.{gts,gjs}'],
+      parser: 'ember-eslint-parser',
+    },
     // node files
     {
       files: [

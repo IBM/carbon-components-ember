@@ -2,7 +2,7 @@ import Input from 'carbon-components-ember/components/form-input';
 import Demo from 'ember-cli-addon-docs/components/docs-demo';
 import set from 'carbon-components-ember/helpers/set';
 import CodeSnippet from 'carbon-components-ember/components/code-snippet';
-import RouteTemplate from 'ember-route-template';
+import RouteTemplate from 'ember-route-template/route';
 import Component from '@glimmer/component';
 
 class RouteComponent extends Component {

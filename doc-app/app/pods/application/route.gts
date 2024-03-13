@@ -1,9 +1,13 @@
 import DocsHeader from 'ember-cli-addon-docs/components/docs-header';
 import Notification from 'carbon-components-ember/components/notification';
-import RouteTemplate from 'ember-route-template';
+import RouteTemplate from 'ember-route-template/route';
 import Component from '@glimmer/component';
+import { inject as service } from '@ember/service';
 
 class RouteComponent extends Component {
+  @service('carbon-components-ember@dialog-manager') dialogManager;
+  @service('carbon.notifications') notifications;
+
   <template>
     <DocsHeader />
 

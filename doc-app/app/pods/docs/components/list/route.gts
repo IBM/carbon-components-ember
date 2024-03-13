@@ -1,6 +1,6 @@
 import List from 'carbon-components-ember/components/list';
 import DocsDemo from 'ember-cli-addon-docs/components/docs-demo';
-import RouteTemplate from 'ember-route-template';
+import RouteTemplate from 'ember-route-template/route';
 import Component from '@glimmer/component';
 
 class RouteComponent extends Component {

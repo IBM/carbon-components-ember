@@ -5,7 +5,7 @@ import Select from 'carbon-components-ember/components/select';
 import Tag from 'carbon-components-ember/components/tag';
 import join from 'ember-composable-helpers/helpers/join';
 import { fn } from '@ember/helper';
-import RouteTemplate from 'ember-route-template';
+import RouteTemplate from 'ember-route-template/route';
 import Component from '@glimmer/component';
 
 class RouteComponent extends Component {

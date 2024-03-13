@@ -1,5 +1,5 @@
 import Viewer from 'ember-cli-addon-docs/components/docs-viewer';
-import RouteTemplate from 'ember-route-template';
+import RouteTemplate from 'ember-route-template/route';
 import Component from '@glimmer/component';
 
 class RouteComponent extends Component {
