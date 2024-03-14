@@ -1,0 +1,50 @@
+import { default as ListRow } from '../-row';
+import Component from '@glimmer/component';
+import DataTableComponent from '#∼/components/data-table.gts'
+import { WithBoundArgs } from '@glint/template';
+import DataTableRow from '#∼/components/data-table/-row.gts'
+
+type Args<T> = {
+  isExpandable: boolean;
+  isCheckable: boolean;
+  table: DataTableComponent<any>;
+  items: T[];
+};
+
+export interface DataTableBodySignature<T> {
+  Args: Args<T>;
+  Blocks: {
+    default: [
+      {
+        Row: WithBoundArgs<
+          typeof DataTableRow<any>,
+          'table' | 'isCheckable' | 'item' | 'isExpandable'
+        >;
+        item: T;
+      },
+    ];
+  };
+}
+
+export default class DataTableBody<T> extends Component<
+  DataTableBodySignature<T>
+> {
+  <template>
+    <tbody>
+      {{#each @items as |item|}}
+        {{yield
+          (hash
+            Row=(component
+              ListRow
+              isExpandable=@isExpandable
+              isCheckable=@isCheckable
+              table=@table
+              item=item
+            )
+            item=item
+          )
+        }}
+      {{/each}}
+    </tbody>
+  </template>
+}

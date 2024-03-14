@@ -2,6 +2,8 @@ import { babel } from '@rollup/plugin-babel';
 import copy from 'rollup-plugin-copy';
 import { Addon } from '@embroider/addon-dev/rollup';
 import resolve from '@rollup/plugin-node-resolve';
+import astroturf from 'rollup-plugin-astroturf';
+import postcss from 'rollup-plugin-postcss';
 
 const addon = new Addon({
   srcDir: 'src',
@@ -62,8 +64,11 @@ export default {
     // Remove leftover build artifacts when starting a new build.
     addon.clean(),
 
-    resolve({
-      extensions: ['.js', '.gjs', '.ts', '.gts']
+    astroturf({/* options */}),
+    postcss({
+      include: ['node_modules'],
+      extract: 'bundle.css',
+      modules: true
     }),
 
     // Copy Readme and License into published package

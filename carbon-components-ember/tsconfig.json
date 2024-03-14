@@ -23,7 +23,7 @@
     "module": "ES6",
     "experimentalDecorators": true,
     "paths": {
-      "#/*": [
+      "#∼/*": [
         "src/*"
       ]
     }
