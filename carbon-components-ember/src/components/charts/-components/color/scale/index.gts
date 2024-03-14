@@ -1,7 +1,7 @@
-import { default as onUpdate } from '../../../-helpers/on-update';
-import { fn } from '@ember/helper';import Component from '@glimmer/component';
-import { defaultArgs } from 'carbon-components-ember/decorators';
-import CarbonChart from 'carbon-components-ember/components/charts/-components/chart';
+import { default as onUpdate } from '#/components/charts/-helpers/on-update';
+import Component from '@glimmer/component';
+import { defaultArgs } from '#/decorators';
+import CarbonChart from '#/components/charts/-components/chart';
 
 type Args = {
   name: string;
@@ -37,9 +37,9 @@ class ColorScale extends Component<Args> {
  }
 
   <template>
-    
-    
-    
+
+
+
     {{#if @chart.setColorScale}}
       {{onUpdate (fn @chart.setColorScale @name @color) @name @color}}
     {{/if}}

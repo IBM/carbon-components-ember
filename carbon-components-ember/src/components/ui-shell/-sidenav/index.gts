@@ -1,12 +1,10 @@
-import { default as Icon } from 'carbon-components-ember/components/icon';
 import { default as eq } from 'ember-truth-helpers/helpers/eq';
-import { default as toggle } from 'ember-composable-helpers/helpers/toggle';
 import { default as styles } from './styles.scoped.scss';
-import { default as Menu } from './-menu';
-import { fn } from '@ember/helper';
+import { default as Menu } from '#/components/ui-shell/-sidenav/-menu';
 import Component from '@glimmer/component';
 import NavMenuComponent, { SubMenu } from './-menu';
-import { IconNames } from 'carbon-components-ember/components/icon';
+import { IconNames } from '#/components/icon';
+import { fn } from '@ember/helper';
 
 export type MenuItem = {
   submenus: SubMenu[];

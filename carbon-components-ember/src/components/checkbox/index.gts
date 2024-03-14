@@ -2,11 +2,11 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { defaultArgs } from 'carbon-components-ember/decorators';
+import { defaultArgs } from '#/decorators';
 import didInsert from '@ember/render-modifiers/modifiers/did-insert';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
-import set from 'carbon-components-ember/helpers/set';
+import set from '#/helpers/set';
 
 type Args = {
   name?: string;

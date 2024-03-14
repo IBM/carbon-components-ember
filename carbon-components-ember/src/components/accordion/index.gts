@@ -1,11 +1,9 @@
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
-import or from 'carbon-components-ember/helpers/or';
 import { WithBoundArgs } from '@glint/template';
-import { on } from '@ember/modifier';
 import { tracked } from '@glimmer/tracking';
-import { fn } from '@ember/helper';
 import { action } from '@ember/object';
+import or from '#/helpers/or';
 
 interface AccordionSignature {
   Args: {

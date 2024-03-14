@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { defaultArgs } from 'carbon-components-ember/decorators';
+import { defaultArgs } from '#/decorators';
 
 type Args = {
   active?: boolean;

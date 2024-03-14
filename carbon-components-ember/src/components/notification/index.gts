@@ -2,15 +2,15 @@ import { default as or } from 'ember-truth-helpers/helpers/or';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import { default as eq } from 'ember-truth-helpers/helpers/eq';
-import { default as Icon } from 'carbon-components-ember/components/icon';
+import { default as Icon } from '#/components/icon';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import NotificationService, {
   NotificationOptions,
-} from 'carbon-components-ember/services/notifications';
+} from '#/services/notifications';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import { IconNames } from 'carbon-components-ember/components/icon';
+import { IconNames } from '#/components/icon';
 
 type Args = {
   onClick: null | Function;

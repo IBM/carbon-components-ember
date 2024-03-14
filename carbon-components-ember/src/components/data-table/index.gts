@@ -9,29 +9,29 @@ import { default as SearchInput } from './-search-input';
 import { default as Menu } from './-menu';
 import { fn } from '@ember/helper';
 import { default as call } from 'ember-composable-helpers/helpers/call';
-import { default as getFn } from 'carbon-components-ember/helpers/get-fn';
-import { default as generic } from 'carbon-components-ember/helpers/generic';
-import { default as newObj } from 'carbon-components-ember/helpers/new-obj';
+import { default as getFn } from '#/helpers/get-fn';
+import { default as generic } from '#/helpers/generic';
+import { default as newObj } from '#/helpers/new-obj';
 import { default as didInsert } from '@ember/render-modifiers/modifiers/did-insert';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { defaultArgs } from 'carbon-components-ember/decorators';
+import { defaultArgs } from '#/decorators';
 import { A } from '@ember/array';
 import MutableArray from '@ember/array/mutable';
 import { task } from 'ember-concurrency';
 import { next } from '@ember/runloop';
-import TableToolbarComponent from 'carbon-components-ember/components/data-table/-toolbar';
-import TableSearchComponent from 'carbon-components-ember/components/data-table/-search-input';
-import CarbonPagination from 'carbon-components-ember/components/pagination';
-import TableComponent from 'carbon-components-ember/components/data-table/-table';
-import DataTableBody from 'carbon-components-ember/components/data-table/-body';
-import TableMenuComponent from 'carbon-components-ember/components/data-table/-menu';
-import TableColumn from 'carbon-components-ember/components/data-table/-column';
+import TableToolbarComponent from '#/components/data-table/-toolbar';
+import TableSearchComponent from '#/components/data-table/-search-input';
+import CarbonPagination from '#/components/pagination';
+import TableComponent from '#/components/data-table/-table';
+import DataTableBody from '#/components/data-table/-body';
+import TableMenuComponent from '#/components/data-table/-menu';
+import TableColumn from '#/components/data-table/-column';
 import { WithBoundArgs } from '@glint/template';
 import ListHeaderComponent, {
   Header,
-} from 'carbon-components-ember/components/data-table/-header';
+} from '#/components/data-table/-header';
 
 class TrackedSet {
   @tracked counter = 0;

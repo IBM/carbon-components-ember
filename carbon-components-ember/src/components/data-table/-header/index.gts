@@ -1,10 +1,10 @@
-import { default as Button } from 'carbon-components-ember/components/button';
-import { default as Checkbox } from 'carbon-components-ember/components/checkbox';
-import { default as Icon } from 'carbon-components-ember/components/icon';
-import { default as set } from 'carbon-components-ember/helpers/set';
+import { default as Button } from '#/components/button';
+import { default as Checkbox } from '#/components/checkbox';
+import { default as Icon } from '#/components/icon';
+import { default as set } from '#/helpers/set';
 import { fn } from '@ember/helper';
 import Component from '@glimmer/component';
-import DataTableComponent from 'carbon-components-ember/components/data-table/index';
+import DataTableComponent from '#/components/data-table/index';
 
 export type Header = {
   sortable?: boolean;

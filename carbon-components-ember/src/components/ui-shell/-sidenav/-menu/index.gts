@@ -1,13 +1,13 @@
 import { default as SubMenu } from '../-sub-menu';
-import { default as Icon } from 'carbon-components-ember/components/icon';
-import { default as newObj } from 'carbon-components-ember/helpers/new-obj';
+import { default as Icon } from '#/components/icon';
+import { default as newObj } from '#/helpers/new-obj';
 import { on } from '@ember/modifier';
 import { get, concat, fn } from '@ember/helper';
 import { default as toggle } from 'ember-composable-helpers/helpers/toggle';
 import { default as or } from 'ember-truth-helpers/helpers/or';
 import Component from '@glimmer/component';
-import { IconNames } from 'carbon-components-ember/components/icon';
-import SubMenuComponent from 'carbon-components-ember/components/ui-shell/-sidenav/-sub-menu';
+import { IconNames } from '#/components/icon';
+import SubMenuComponent from '#/components/ui-shell/-sidenav/-sub-menu';
 
 export type SubMenu = {
   icon: IconNames;

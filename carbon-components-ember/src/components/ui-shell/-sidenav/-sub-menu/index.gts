@@ -1,6 +1,6 @@
-import { default as Icon } from 'carbon-components-ember/components/icon';
 import Component from '@glimmer/component';
-import Icon from 'carbon-components-ember/components/icon';
+import Icon from '#/components/icon';
+import { on } from '@ember/modifier';
 
 export interface Signature {
   Args: {

@@ -1,5 +1,5 @@
-import { default as SearchInput } from 'carbon-components-ember/components/search-input';
-import { default as Loading } from 'carbon-components-ember/components/loading';
+import { default as SearchInput } from '#/components/search-input';
+import { default as Loading } from '#/components/loading';
 import { default as styles } from './styles.scoped.scss';
 import { fn } from '@ember/helper';
 import Component from '@glimmer/component';

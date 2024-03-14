@@ -4,10 +4,10 @@ import { guidFor } from '@ember/object/internals';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 import { timeout, TaskInstance } from 'ember-concurrency';
-import { autoComputed } from 'carbon-components-ember/decorators';
+import { autoComputed } from '#/decorators';
 import didUpdate from '@ember/render-modifiers/modifiers/did-update';
 import { fn } from '@ember/helper';
-import Icon from 'carbon-components-ember/components/icon';
+import Icon from '#/components/icon';
 import { on } from '@ember/modifier';
 import { next } from '@ember/runloop';
 

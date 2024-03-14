@@ -1,6 +1,6 @@
-import { default as set } from 'carbon-components-ember/helpers/set';
-import { default as getFn } from 'carbon-components-ember/helpers/get-fn';
-import { default as Button } from 'carbon-components-ember/components/button';
+import { default as set } from '#/helpers/set';
+import { default as getFn } from '#/helpers/get-fn';
+import { default as Button } from '#/components/button';
 import { fn } from '@ember/helper';
 import Component from '@glimmer/component';
 import Table from '../../index';

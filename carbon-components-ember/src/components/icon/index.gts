@@ -3,14 +3,14 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import * as icons from '@carbon/icons/es';
-import { bxClassNames, classPrefix } from 'carbon-components-ember/decorators';
+import { bxClassNames, classPrefix } from '#/decorators';
 import styles from './styles.module.scss';
 import { on } from '@ember/modifier';
-import Loading from 'carbon-components-ember/loading';
-import or from 'carbon-components-ember/helpers/or';
-import renderSvgPart from 'carbon-components-ember/icon/render-svg-part';
+import Loading from '#/loading';
+import or from '#/helpers/or';
+import renderSvgPart from '#/icon/render-svg-part';
 import { array } from '@ember/helper';
-import htmlSafe from 'carbon-components-ember/helpers/html-safe';
+import htmlSafe from '#/helpers/html-safe';
 
 const IconMap = {};
 Object.values(icons).forEach((i: any) => {
@@ -1395,7 +1395,7 @@ class CarbonIcon extends Component<Args> {
     if (this.args.danger) {
       this.dialogManager.open(
         this.args.confirmDialog ||
-          'carbon-components-ember/components/dialogs/confirm',
+          '#/components/dialogs/confirm',
         {
           type: 'danger',
           header: 'Danger',

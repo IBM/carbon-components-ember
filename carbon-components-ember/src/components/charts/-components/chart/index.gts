@@ -1,21 +1,19 @@
-import { default as TabularData } from '../tabular-data';
-import { default as Axis } from '../axis';
-import { default as ColorPairing } from '../color/pairing';
-import { default as ColorScale } from '../color/scale';
-import { default as set } from 'carbon-components-ember/helpers/set';
+import { default as TabularData } from '#/components/charts/-components/tabular-data';
+import { default as Axis } from '#/components/charts/-components/axis';
+import { default as ColorPairing } from '#/components/charts/-components/color/pairing';
+import { default as ColorScale } from '#/components/charts/-components/color/scale';
 import { default as didInsert } from '@ember/render-modifiers/modifiers/did-insert';
 import { default as didUpdate } from '@ember/render-modifiers/modifiers/did-update';
-import { default as willDestroy } from '@ember/render-modifiers/modifiers/will-destroy';import Component from '@glimmer/component';
+import { default as willDestroy } from '@ember/render-modifiers/modifiers/will-destroy';
+import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { throttle } from '@ember/runloop';
-import { defaultArgs } from 'carbon-components-ember/decorators';
+import { defaultArgs } from '#/decorators';
 import { Chart } from '@carbon/charts';
 import { AxisChartOptions, BaseChartOptions } from '@carbon/charts';
-import CarbonChartTabularData from 'carbon-components-ember/components/charts/-components/tabular-data';
+import CarbonChartTabularData from '#/components/charts/-components/tabular-data';
 import { WithBoundArgs } from '@glint/template';
-import ColorPairing from 'carbon-components-ember/components/charts/-components/color/pairing';
-import ColorScale from 'carbon-components-ember/components/charts/-components/color/scale';
-import ChartAxis from 'carbon-components-ember/components/charts/-components/axis';
+import ChartAxis from '#/components/charts/-components/axis';
 
 
 /** @documenter yuidoc */
@@ -197,15 +195,15 @@ class CarbonChart extends Component<CarbonChartSignature> {
   }
 
   <template>
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
     <div
       ...attributes
       {{didInsert this.loadChart}}
@@ -213,7 +211,7 @@ class CarbonChart extends Component<CarbonChartSignature> {
       {{willDestroy this.destroyChart}}
     >
     </div>
-    
+
     {{yield
       (hash
         TabularData=(component TabularData chart=this)

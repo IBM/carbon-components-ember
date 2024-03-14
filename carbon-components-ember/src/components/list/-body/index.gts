@@ -1,7 +1,7 @@
 import { default as ListRow } from '../-row';
 import Component from '@glimmer/component';
 import { WithBoundArgs } from '@glint/template';
-import ListRowComponent from 'carbon-components-ember/components/list/-row';
+import ListRowComponent from '#/components/list/-row';
 
 type Args = {
   items: any[];

@@ -1,8 +1,8 @@
 import Component from '@glimmer/component';
-import Icon, { IconNames } from 'carbon-components-ember/components/icon';
-import MenuItemComponent from 'carbon-components-ember/components/menu/-item';
+import Icon, { IconNames } from '#/components/icon';
+import MenuItemComponent from '#/components/menu/-item';
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
-import defaultTo from 'carbon-components-ember/helpers/default-to';
+import defaultTo from '#/helpers/default-to';
 import { on } from '@ember/modifier';
 import EmberTooltip from 'ember-tooltips/components/ember-tooltip';
 

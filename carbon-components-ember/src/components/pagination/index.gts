@@ -1,6 +1,6 @@
 import { default as Select } from '../select';
 import { default as Icon } from '../icon';
-import { default as defaultTo } from 'carbon-components-ember/helpers/default-to';
+import { default as defaultTo } from '#/helpers/default-to';
 import { default as range } from 'ember-composable-helpers/helpers/range';
 import { default as eq } from 'ember-truth-helpers/helpers/eq';
 import { default as styles } from './styles.scoped.scss';
@@ -12,7 +12,7 @@ import { default as or } from 'ember-truth-helpers/helpers/or';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { defaultArgs } from 'carbon-components-ember/decorators';
+import { defaultArgs } from '#/decorators';
 import { next } from '@ember/runloop';
 /** @documenter yuidoc */
 

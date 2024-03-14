@@ -1,11 +1,10 @@
-import { default as onUpdate } from '../../-helpers/on-update';
-import { default as defaultTo } from 'carbon-components-ember/helpers/default-to';
+import { default as onUpdate } from '#/components/charts/-helpers/on-update';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { defaultArgs } from 'carbon-components-ember/decorators';
+import { defaultArgs } from '#/decorators';
 import CarbonChart, {
   ChartData,
-} from 'carbon-components-ember/components/charts/-components/chart/index';
+} from '#/components/charts/-components/chart';
 
 type Args = {
   backgroundColors?: string[];

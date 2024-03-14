@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
-import RadioButtonGroup from 'carbon-components-ember/components/radio/group';
+import RadioButtonGroup from '#/components/radio/group';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import { tracked } from '@glimmer/tracking';

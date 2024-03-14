@@ -2,11 +2,11 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { autoComputed } from 'carbon-components-ember/decorators';
+import { autoComputed } from '#/decorators';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
-import Icon from 'carbon-components-ember/components/icon';
-import set from 'carbon-components-ember/helpers/set';
+import Icon from '#/components/icon';
+import set from '#/helpers/set';
 import not from 'ember-truth-helpers/helpers/not';
 
 type Args = {

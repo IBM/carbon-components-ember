@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { tracked } from '@glimmer/tracking';
-import { defaultArgs, autoComputed } from 'carbon-components-ember/decorators';
+import { defaultArgs, autoComputed } from '#/decorators';
 
 /** @documenter yuidoc */
 

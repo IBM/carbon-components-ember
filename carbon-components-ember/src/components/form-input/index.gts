@@ -1,4 +1,4 @@
-import { default as defaultTo } from 'carbon-components-ember/helpers/default-to';
+import { default as defaultTo } from '#/helpers/default-to';
 import { on } from '@ember/modifier';
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';

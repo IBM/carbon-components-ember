@@ -1,6 +1,6 @@
 import { default as onUpdate } from '../../-helpers/on-update';
 import { default as toBool } from '../../-helpers/to-bool';
-import { default as newObj } from 'carbon-components-ember/helpers/new-obj';
+import { default as newObj } from '#/helpers/new-obj';
 import Component from '@glimmer/component';
 import CarbonChart from '../../../charts/-components/chart';
 import { ScaleTypes } from '@carbon/charts';

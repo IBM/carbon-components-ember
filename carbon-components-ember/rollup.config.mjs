@@ -1,6 +1,7 @@
 import { babel } from '@rollup/plugin-babel';
 import copy from 'rollup-plugin-copy';
 import { Addon } from '@embroider/addon-dev/rollup';
+import resolve from '@rollup/plugin-node-resolve';
 
 const addon = new Addon({
   srcDir: 'src',
@@ -56,10 +57,14 @@ export default {
 
     // addons are allowed to contain imports of .css files, which we want rollup
     // to leave alone and keep in the published output.
-    addon.keepAssets(['**/*.scss']),
+    addon.keepAssets(['styles/**/*.scss']),
 
     // Remove leftover build artifacts when starting a new build.
     addon.clean(),
+
+    resolve({
+      extensions: ['.js', '.gjs', '.ts', '.gts']
+    }),
 
     // Copy Readme and License into published package
     copy({

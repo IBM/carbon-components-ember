@@ -11,12 +11,12 @@ import { default as didInsert } from '@ember/render-modifiers/modifiers/did-inse
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import SearchComponent from 'carbon-components-ember/components/search-input';
+import SearchComponent from '#/components/search-input';
 import { WithBoundArgs } from '@glint/template';
-import CarbonPagination from 'carbon-components-ember/components/pagination';
-import ListColumnComponent from 'carbon-components-ember/components/list/-column';
-import ListBodyComponent from 'carbon-components-ember/components/list/-body';
-import ListHeaderComponent from 'carbon-components-ember/components/list/-header';
+import CarbonPagination from '#/components/pagination';
+import ListColumnComponent from '#/components/list/-column';
+import ListBodyComponent from '#/components/list/-body';
+import ListHeaderComponent from '#/components/list/-header';
 
 type Args<T> = {
   items?: T[];

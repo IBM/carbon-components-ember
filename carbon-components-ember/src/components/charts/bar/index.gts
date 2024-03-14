@@ -1,9 +1,9 @@
 import { default as Chart } from '../-components/chart';
-import { default as set } from 'carbon-components-ember/helpers/set';
+import { default as set } from '#/helpers/set';
 import { SimpleBarChart } from '@carbon/charts';
 import Component from '@glimmer/component';
-import { defaultArgs } from 'carbon-components-ember/decorators/index';
-import { CarbonChartSignature } from 'carbon-components-ember/components/charts/-components/chart/index';
+import { defaultArgs } from '#/decorators/index';
+import { CarbonChartSignature } from '#/components/charts/-components/chart/index';
 
 /** @documenter yuidoc */
 

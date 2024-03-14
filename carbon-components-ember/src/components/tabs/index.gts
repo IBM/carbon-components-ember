@@ -9,7 +9,7 @@ import { registerDestructor } from '@ember/destroyable';
 import { WithBoundArgs } from '@glint/template';
 import { next } from '@ember/runloop';
 import { action } from '@ember/object';
-import or from 'carbon-components-ember/helpers/or';
+import or from '#/helpers/or';
 import didResize from 'ember-resize-modifier/modifiers/did-resize';
 
 type Args = {

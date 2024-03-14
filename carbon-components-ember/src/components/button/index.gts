@@ -3,16 +3,19 @@ import {
   bxClassNames,
   classPrefix,
   defaultArgs,
-} from 'carbon-components-ember/decorators';
-import DialogManagerService from 'carbon-components-ember/services/dialog-manager';
+} from '#/decorators';
+import DialogManagerService from '#/services/dialog-manager';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import ConfirmDialogComponent from 'carbon-components-ember/components/dialogs/confirm';
-import or from 'carbon-components-ember/helpers/or';
-import Confirm from 'carbon-components-ember/components/dialogs/confirm';
+import ConfirmDialogComponent from '#/components/dialogs/confirm';
+import or from '#/helpers/or';
+import Confirm from '#/components/dialogs/confirm';
 import styles from './styles.module.scss';
-import Loading from 'carbon-components-ember/components/loading';
+import Loading from '#/components/loading';
+import { guidFor } from '@ember/object/internals';
+import Ember from 'ember';
+import Object = Ember.Object;
 
 /** @documenter yuidoc */
 
@@ -99,7 +102,7 @@ export interface ButtonSignature {
  The Carbon Button
 
  ```handlebars
- {{import Button from 'carbon-components-ember/components/button'}}
+ {{import Button from '#/components/button'}}
 
  <Button @onClick={{fn this.onclick}} @danger={{false}} > Button Text </Button>
  ```
@@ -127,13 +130,21 @@ class CarbonButton extends Component<ButtonSignature> {
     ghost: false,
   };
 
+  get className() {
+    return guidFor(Object.getPrototypeOf(this)) + 'carbon-button';
+  }
+
   <template>
+    <style>
+      @scope { .{{this.className}}
+      .cds--loading { width: 2rem; height: 2rem; display: inline-block; } } }
+    </style>
     <button
       onclick={{this.onButtonClick}}
       class='cds--btn
         {{this.bxClassNames}}
         {{this.layout}}
-        {{styles.namespace}}
+        {{this.className}}
         {{if (or this.loading @loading) "cds--btn--ghost"}}'
       aria-label='{{if @type "danger"}}'
       disabled={{or @disabled this.loading @loading}}

@@ -1,8 +1,8 @@
 import { default as ListRow } from '../-row';
 import Component from '@glimmer/component';
-import DataTableComponent from 'carbon-components-ember/components/data-table';
+import DataTableComponent from '#/components/data-table';
 import { WithBoundArgs } from '@glint/template';
-import DataTableRow from 'carbon-components-ember/components/data-table/-row';
+import DataTableRow from '#/components/data-table/-row';
 
 type Args<T> = {
   isExpandable: boolean;

@@ -1,6 +1,6 @@
-import { default as Menu } from 'carbon-components-ember/components/menu';
+import { default as Menu } from '#/components/menu';
 import Component from '@glimmer/component';
-import MenuItemComponent from 'carbon-components-ember/components/menu/-item';
+import MenuItemComponent from '#/components/menu/-item';
 
 export interface TableMenuComponentSignature {
   Blocks: {

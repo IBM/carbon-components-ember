@@ -1,21 +1,14 @@
 import Component from '@glimmer/component';
-import { defaultArgs } from 'carbon-components-ember/decorators';
+import { defaultArgs } from '#/decorators/index.ts';
 import { action } from '@ember/object';
 import eq from 'ember-truth-helpers/helpers/eq';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
-
 /** @documenter yuidoc */
 
 type Args = {
-  /**
-   @argument crumbs
-   @type String[]
-   */
   crumbs: string[];
-
   current?: string;
-
   onSelect?(crumb: string): void;
 };
 
@@ -36,7 +29,7 @@ export interface BreadcrumbSignature {
  The Carbon Breadcrumb
 
  ```handlebars
- {{import Breadcrumbs from 'carbon-components-ember/components/breadcrumbs'}}
+ {{import Breadcrumbs from '#/components/breadcrumbs'}}
 
  <Button @onClick={{fn this.onclick}} @danger={{false}} > Button Text </Button>
  ```

@@ -1,11 +1,9 @@
-import { default as set } from 'carbon-components-ember/helpers/set';
-import { default as Actions } from './-actions';
-import { default as Content } from './-content';
 import Component from '@glimmer/component';
-import TableToolbarContentComponent from 'carbon-components-ember/components/data-table/-toolbar/-content';
-import TableActionsComponent from 'carbon-components-ember/components/data-table/-toolbar/-actions';
+import TableToolbarContentComponent from '#/components/data-table/-toolbar/-content';
+import TableActionsComponent from '#/components/data-table/-toolbar/-actions';
 import { WithBoundArgs } from '@glint/template';
-import DataTableComponent from 'carbon-components-ember/components/data-table';
+import DataTableComponent from '#/components/data-table';
+import { hash } from '@ember/helper';
 
 export interface Signature {
   Args: {
@@ -25,7 +23,7 @@ export interface Signature {
 export default class TableToolbarComponent extends Component<Signature> {
   <template>
     <section class='cds--table-toolbar'>
-      {{yield (hash Content=Content Actions=(component Actions table=@table))}}
+      {{yield (hash Content=TableToolbarContentComponent Actions=(component TableActionsComponent table=@table))}}
     </section>
   </template>
 }

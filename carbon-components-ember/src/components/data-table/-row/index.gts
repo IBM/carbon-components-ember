@@ -1,11 +1,11 @@
-import { default as Button } from 'carbon-components-ember/components/button';
-import { default as Checkbox } from 'carbon-components-ember/components/checkbox';
-import { default as set } from 'carbon-components-ember/helpers/set';
-import { default as has } from 'carbon-components-ember/helpers/has';
+import { default as Button } from '#/components/button';
+import { default as Checkbox } from '#/components/checkbox';
+import { default as set } from '#/helpers/set';
+import { default as has } from '#/helpers/has';
 import { fn } from '@ember/helper';
 import { default as not } from 'ember-truth-helpers/helpers/not';
 import Component from '@glimmer/component';
-import DataTableComponent from 'carbon-components-ember/components/data-table';
+import DataTableComponent from '#/components/data-table';
 import { tracked } from '@glimmer/tracking';
 
 type Args<T> = {
