@@ -1,17 +1,11 @@
-import { default as ListColumn } from './-column';
-import { default as ListHeader } from './-header';
-import { default as ListBody } from './-body';
-import { default as Skeleton } from './-skeleton';
-import { default as Toolbar } from './-toolbar';
-import { default as Table } from './-table';
-import { default as Pagination } from '../pagination';
-import { default as SearchInput } from './-search-input';
-import { default as Menu } from './-menu';
-import { fn } from '@ember/helper';
-import { default as call } from 'ember-composable-helpers/helpers/call';
-import { default as getFn } from '#∼/helpers/get-fn.ts';
-import { default as generic } from '#∼/helpers/generic.ts';
-import { default as newObj } from '#∼/helpers/new-obj.ts';
+import { default as ListColumn } from './data-table/-column.gts';
+import { default as ListHeader } from './data-table/-header.gts';
+import { default as ListBody } from './data-table/-body.gts';
+import { default as Toolbar } from './data-table/-toolbar.gts';
+import { default as Table } from './data-table/-table.gts';
+import { default as Pagination } from './pagination.gts';
+import { default as SearchInput } from './data-table/-search-input.gts';
+import { default as Menu } from './data-table/-menu.gts';
 import { default as didInsert } from '@ember/render-modifiers/modifiers/did-insert';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
@@ -21,17 +15,17 @@ import { A } from '@ember/array';
 import MutableArray from '@ember/array/mutable';
 import { task } from 'ember-concurrency';
 import { next } from '@ember/runloop';
-import TableToolbarComponent from '#∼/components/data-table/-toolbar.gts'
-import TableSearchComponent from '#∼/components/data-table/-search-input.gts'
-import CarbonPagination from '#∼/components/pagination.gts'
-import TableComponent from '#∼/components/data-table/-table.gts'
-import DataTableBody from '#∼/components/data-table/-body.gts'
-import TableMenuComponent from '#∼/components/data-table/-menu.gts'
-import TableColumn from '#∼/components/data-table/-column.gts'
+import TableToolbarComponent from '#∼/components/data-table/-toolbar.gts';
+import TableSearchComponent from '#∼/components/data-table/-search-input.gts';
+import CarbonPagination from '#∼/components/pagination.gts';
+import TableComponent from '#∼/components/data-table/-table.gts';
+import DataTableBody from '#∼/components/data-table/-body.gts';
+import TableMenuComponent from '#∼/components/data-table/-menu.gts';
+import TableColumn from '#∼/components/data-table/-column.gts';
 import { WithBoundArgs } from '@glint/template';
 import ListHeaderComponent, {
   Header,
-} from '#∼/components/data-table/-header.gts'
+} from '#∼/components/data-table/-header.gts';
 
 class TrackedSet {
   @tracked counter = 0;

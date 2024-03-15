@@ -4,6 +4,7 @@ import { default as newObj } from '#∼/helpers/new-obj.ts';
 import Component from '@glimmer/component';
 import CarbonChart from '../../charts/-components/chart.gts';
 import { ScaleTypes } from '@carbon/charts';
+import { fn } from '@ember/helper';
 
 type Args = {
   /**

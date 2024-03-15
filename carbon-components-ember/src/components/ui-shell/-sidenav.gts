@@ -1,10 +1,10 @@
 import { default as eq } from 'ember-truth-helpers/helpers/eq';
-import { default as styles } from './styles.scoped.scss';
-import { default as Menu } from '#∼/components/ui-shell/-sidenav/-menu.gts'
+import { default as Menu } from '#∼/components/ui-shell/-sidenav/-menu.gts';
 import Component from '@glimmer/component';
-import NavMenuComponent, { SubMenu } from './-menu';
-import { IconNames } from '#∼/components/icon.gts'
+import NavMenuComponent, { SubMenu } from './-sidenav/-menu.gts';
+import { IconNames } from '#∼/components/icon.gts';
 import { fn } from '@ember/helper';
+import { stylesheet } from 'astroturf';
 
 export type MenuItem = {
   submenus: SubMenu[];
@@ -27,11 +27,23 @@ export interface UiShellNavSignature {
 }
 
 export default class UiShellNav extends Component<UiShellNavSignature> {
+  styles = stylesheet`
+    .namespace {
+      &.cds--side-nav--ux {
+        width: 3.5rem;
+      }
+
+      &.cds--side-nav--expanded {
+        width: 16rem;
+      }
+    }
+  `;
+
   <template>
     <nav
       class='cds--side-nav__navigation cds--side-nav cds--side-nav--ux
         {{if @open "cds--side-nav--expanded"}}
-        {{styles.namespace}}'
+        {{this.styles.namespace}}'
       role='navigation'
       aria-label='Page Navigation'
     >

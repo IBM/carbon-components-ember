@@ -1,22 +1,16 @@
-import { default as ListRow } from './-row';
-import { default as ListColumn } from './-column';
-import { default as ListHeader } from './-header';
-import { default as ListBody } from './-body';
-import { default as Skeleton } from './-skeleton';
-import { default as Pagination } from '../pagination';
-import { default as SearchInput } from '../search-input';
-import { default as styles } from './styles.scoped.scss';
-import { fn } from '@ember/helper';
-import { default as didInsert } from '@ember/render-modifiers/modifiers/did-insert';
+import { fn, hash } from '@ember/helper';
+import didInsert from '@ember/render-modifiers/modifiers/did-insert';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import SearchComponent from '#∼/components/search-input.gts'
+import SearchComponent from '#∼/components/search-input.gts';
 import { WithBoundArgs } from '@glint/template';
-import CarbonPagination from '#∼/components/pagination.gts'
-import ListColumnComponent from '#∼/components/list/-column.gts'
-import ListBodyComponent from '#∼/components/list/-body.gts'
-import ListHeaderComponent from '#∼/components/list/-header.gts'
+import CarbonPagination from '#∼/components/pagination.gts';
+import ListColumnComponent from '#∼/components/list/-column.gts';
+import ListBodyComponent from '#∼/components/list/-body.gts';
+import ListHeaderComponent from '#∼/components/list/-header.gts';
+import { stylesheet } from 'astroturf';
+import ListSkeletonComponent from '#∼/components/list/-skeleton.gts';
 
 type Args<T> = {
   items?: T[];
@@ -92,13 +86,27 @@ export default class ListComponent<T> extends Component<
     this.args.onSelect?.(item);
   }
 
+  styles = stylesheet`
+    .namespace {
+      .cds--pagination {
+        position: absolute;
+        right: 0;
+        left: 0;
+      }
+
+      .cds--search {
+        width: 250px;
+        display: table-caption;
+      }
+    }`;
+
   <template>
     {{#if @loading}}
-      <Skeleton />
+      <ListSkeletonComponent />
     {{else}}
       <section
         class='cds--structured-list
-          {{styles.namespace}}
+          {{this.styles.namespace}}
           {{if @selectable "cds--structured-list--selection"}}'
         style='position: relative;'
         {{didInsert this.delayItems}}
@@ -107,20 +115,22 @@ export default class ListComponent<T> extends Component<
           (hash
             items=this.currentItems
             SearchInput=(component
-              SearchInput
+              SearchComponent
               value=this.currentSearch
               onChange=(fn (mut this.currentSearch))
               light=true
               size='sm'
             )
             Pagination=(component
-              Pagination
+              CarbonPagination
               length=@items.length
               onPageChanged=(fn (mut this.currentItemsSlice))
             )
-            Column=ListColumn
-            BodyRows=(component ListBody list=this items=this.currentItems)
-            Header=ListHeader
+            Column=ListColumnComponent
+            BodyRows=(component
+              ListBodyComponent list=this items=this.currentItems
+            )
+            Header=ListHeaderComponent
           )
         }}
       </section>

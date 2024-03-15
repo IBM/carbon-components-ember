@@ -1,8 +1,9 @@
-import { default as Header } from './-header';
-import { default as Sidenav } from './-sidenav';
-import { default as Nav } from './-nav';
+import { default as Header } from './ui-shell/-header.gts';
+import { default as Sidenav } from './ui-shell/-sidenav.gts';
+import { default as Nav } from './ui-shell/-nav.gts';
 import Component from '@glimmer/component';
-import UiShellHeader from './-header';
+import UiShellHeader from './ui-shell/-header.gts';
+import { hash } from '@ember/helper';
 
 export interface UiShellSignature {
   Blocks: {

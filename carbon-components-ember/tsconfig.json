@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "allowArbitraryExtensions": true,
     "target": "ES2018",
     "emitDeclarationOnly": true,
     "declarationDir": "precompiled",

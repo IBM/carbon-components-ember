@@ -11,6 +11,7 @@ import or from '#∼/helpers/or.ts';
 import renderSvgPart from '#∼/components/icon/render-svg-part.ts';
 import { array } from '@ember/helper';
 import htmlSafe from '#∼/helpers/html-safe.ts';
+import { stylesheet } from 'astroturf';
 
 const IconMap = {};
 Object.values(icons).forEach((i: any) => {
@@ -1406,11 +1407,50 @@ class CarbonIcon extends Component<Args> {
       run();
     }
   }
+
+  styles = stylesheet`
+    //@import "@carbon/styles/scss/theme";
+
+    .icon {
+      margin: 5px;
+
+      .cds--icon-- {
+        &disabled {
+          cursor: initial;
+          opacity: 0.5;
+        }
+        &info {
+          fill: $background;
+          &:hover {
+            fill: $background-hover;
+          }
+        }
+        &danger {
+          fill: $support-error;
+          &:hover {
+            filter: brightness(0.85);
+          }
+        }
+      }
+
+      .loader {
+        width: 12px;
+        height: 16px;
+        display: inline-block;
+        .cds--loading {
+          display: inline-block;
+          width: 1rem;
+          height: 1rem;
+        }
+      }
+    }
+  `;
+
   <template>
     {{#if (or @loading this.loading)}}
       <span style='display: inline-block;'>
         <Loading
-          @classNames='{{styles.icon}} {{this.bxClassNames}} loader'
+          @classNames='{{this.styles.icon}} {{this.bxClassNames}} loader'
           @small={{true}}
           @inline={{true}}
         />
@@ -1425,14 +1465,14 @@ class CarbonIcon extends Component<Args> {
         >
           {{renderSvgPart
             this.svg
-            class=(array (or @svgClass styles.icon) this.bxClassNames)
+            class=(array (or @svgClass this.styles.icon) this.bxClassNames)
             fill=@fill
           }}
         </button>
       {{else}}
         {{renderSvgPart
           this.svg
-          class=(array (or @svgClass styles.icon) this.bxClassNames)
+          class=(array (or @svgClass this.styles.icon) this.bxClassNames)
           fill=@fill
         }}
       {{/if}}
