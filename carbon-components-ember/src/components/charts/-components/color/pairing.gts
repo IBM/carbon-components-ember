@@ -1,7 +1,7 @@
-import { default as onUpdate } from '#∼/components/charts/-helpers/on-update.ts'
+import { default as onUpdate } from '/components/charts/-helpers/on-update.ts'
 import Component from '@glimmer/component';
-import { defaultArgs } from '#∼/utils/decorators.ts';
-import CarbonChart from '#∼/components/charts/-components/chart.gts'
+import { defaultArgs } from '/utils/decorators.ts';
+import CarbonChart from '/components/charts/-components/chart.gts'
 
 type Args = {
   numberOfVariants?: number;

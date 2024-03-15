@@ -1,9 +1,9 @@
 import { default as Chart } from './-components/chart.gts';
-import { default as set } from '#∼/helpers/set.ts';
+import { default as set } from '/helpers/set.ts';
 import { PieChart } from '@carbon/charts';
 import Component from '@glimmer/component';
-import { defaultArgs } from '#∼/utils/decorators.ts';
-import { CarbonChartSignature } from '#∼/components/charts/-components/chart.gts';
+import { defaultArgs } from '/utils/decorators.ts';
+import { CarbonChartSignature } from '/components/charts/-components/chart.gts';
 
 type Args = {
   resizable?: boolean;

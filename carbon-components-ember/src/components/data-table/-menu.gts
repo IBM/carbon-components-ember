@@ -1,6 +1,6 @@
-import { default as Menu } from '#∼/components/menu.gts'
+import { default as Menu } from '/components/menu.gts'
 import Component from '@glimmer/component';
-import MenuItemComponent from '#∼/components/menu/-item.gts'
+import MenuItemComponent from '/components/menu/-item.gts'
 
 export interface TableMenuComponentSignature {
   Blocks: {

@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { defaultArgs } from '#∼/utils/decorators.ts';
+import { defaultArgs } from '/utils/decorators.ts';
 import { action } from '@ember/object';
 import eq from 'ember-truth-helpers/helpers/eq';
 import { on } from '@ember/modifier';
@@ -29,7 +29,7 @@ export interface BreadcrumbSignature {
  The Carbon Breadcrumb
 
  ```handlebars
- {{import Breadcrumbs from '#∼/components/breadcrumbs.ts'}}
+ {{import Breadcrumbs from '/components/breadcrumbs.ts'}}
 
  <Button @onClick={{fn this.onclick}} @danger={{false}} > Button Text </Button>
  ```

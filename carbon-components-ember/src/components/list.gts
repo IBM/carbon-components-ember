@@ -3,14 +3,14 @@ import didInsert from '@ember/render-modifiers/modifiers/did-insert';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import SearchComponent from '#∼/components/search-input.gts';
+import SearchComponent from '/components/search-input.gts';
 import { WithBoundArgs } from '@glint/template';
-import CarbonPagination from '#∼/components/pagination.gts';
-import ListColumnComponent from '#∼/components/list/-column.gts';
-import ListBodyComponent from '#∼/components/list/-body.gts';
-import ListHeaderComponent from '#∼/components/list/-header.gts';
+import CarbonPagination from '/components/pagination.gts';
+import ListColumnComponent from '/components/list/-column.gts';
+import ListBodyComponent from '/components/list/-body.gts';
+import ListHeaderComponent from '/components/list/-header.gts';
 import { stylesheet } from 'astroturf';
-import ListSkeletonComponent from '#∼/components/list/-skeleton.gts';
+import ListSkeletonComponent from '/components/list/-skeleton.gts';
 
 type Args<T> = {
   items?: T[];

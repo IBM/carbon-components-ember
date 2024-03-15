@@ -1,8 +1,8 @@
 import Component from '@glimmer/component';
-import TableToolbarContentComponent from '#∼/components/data-table/-toolbar/-content.gts'
-import TableActionsComponent from '#∼/components/data-table/-toolbar/-actions.gts'
+import TableToolbarContentComponent from '/components/data-table/-toolbar/-content.gts'
+import TableActionsComponent from '/components/data-table/-toolbar/-actions.gts'
 import { WithBoundArgs } from '@glint/template';
-import DataTableComponent from '#∼/components/data-table.gts'
+import DataTableComponent from '/components/data-table.gts'
 import { hash } from '@ember/helper';
 
 export interface Signature {

@@ -10,22 +10,22 @@ import { default as didInsert } from '@ember/render-modifiers/modifiers/did-inse
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { defaultArgs } from '#∼/utils/decorators.ts';
+import { defaultArgs } from '/utils/decorators.ts';
 import { A } from '@ember/array';
 import MutableArray from '@ember/array/mutable';
 import { task } from 'ember-concurrency';
 import { next } from '@ember/runloop';
-import TableToolbarComponent from '#∼/components/data-table/-toolbar.gts';
-import TableSearchComponent from '#∼/components/data-table/-search-input.gts';
-import CarbonPagination from '#∼/components/pagination.gts';
-import TableComponent from '#∼/components/data-table/-table.gts';
-import DataTableBody from '#∼/components/data-table/-body.gts';
-import TableMenuComponent from '#∼/components/data-table/-menu.gts';
-import TableColumn from '#∼/components/data-table/-column.gts';
+import TableToolbarComponent from '/components/data-table/-toolbar.gts';
+import TableSearchComponent from '/components/data-table/-search-input.gts';
+import CarbonPagination from '/components/pagination.gts';
+import TableComponent from '/components/data-table/-table.gts';
+import DataTableBody from '/components/data-table/-body.gts';
+import TableMenuComponent from '/components/data-table/-menu.gts';
+import TableColumn from '/components/data-table/-column.gts';
 import { WithBoundArgs } from '@glint/template';
 import ListHeaderComponent, {
   Header,
-} from '#∼/components/data-table/-header.gts';
+} from '/components/data-table/-header.gts';
 
 class TrackedSet {
   @tracked counter = 0;

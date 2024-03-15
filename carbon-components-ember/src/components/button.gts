@@ -1,13 +1,13 @@
 import Component from '@glimmer/component';
-import { bxClassNames, classPrefix, defaultArgs } from '#∼/utils/decorators.ts';
-import DialogManagerService from '#∼/services/dialog-manager.js';
+import { bxClassNames, classPrefix, defaultArgs } from '/utils/decorators.ts';
+import DialogManagerService from '/services/dialog-manager.js';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import ConfirmDialogComponent from '#∼/components/dialogs/confirm.gts';
-import or from '#∼/helpers/or.ts';
-import Confirm from '#∼/components/dialogs/confirm.gts';
-import Loading from '#∼/components/loading.gts';
+import ConfirmDialogComponent from '/components/dialogs/confirm.gts';
+import or from '/helpers/or.ts';
+import Confirm from '/components/dialogs/confirm.gts';
+import Loading from '/components/loading.gts';
 import { stylesheet } from 'astroturf';
 
 /** @documenter yuidoc */
@@ -95,7 +95,7 @@ export interface ButtonSignature {
  The Carbon Button
 
  ```handlebars
- {{import Button from '#∼/components/button.ts'}}
+ {{import Button from '/components/button.ts'}}
 
  <Button @onClick={{fn this.onclick}} @danger={{false}} > Button Text </Button>
  ```

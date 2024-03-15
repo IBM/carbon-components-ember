@@ -1,7 +1,7 @@
 import { default as ListRow } from './-row.gts';
 import Component from '@glimmer/component';
 import { WithBoundArgs } from '@glint/template';
-import ListRowComponent from '#∼/components/list/-row.gts';
+import ListRowComponent from '/components/list/-row.gts';
 
 type Args = {
   items: any[];

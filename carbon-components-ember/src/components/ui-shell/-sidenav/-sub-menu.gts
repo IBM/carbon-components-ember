@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import Icon from '#∼/components/icon.gts';
+import Icon from '/components/icon.gts';
 import { on } from '@ember/modifier';
 
 export interface Signature {

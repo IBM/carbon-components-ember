@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
-import Icon from '#∼/components/icon.gts'
+import Icon from '/components/icon.gts'
 import eq from 'ember-truth-helpers/helpers/eq';
 import { htmlSafe } from '@ember/template';
 import { concat } from '@ember/helper';

@@ -1,6 +1,6 @@
-import { default as set } from '#∼/helpers/set.ts';
-import { default as getFn } from '#∼/helpers/get-fn.ts';
-import { default as Button } from '#∼/components/button.gts'
+import { default as set } from '/helpers/set.ts';
+import { default as getFn } from '/helpers/get-fn.ts';
+import { default as Button } from '/components/button.gts'
 import { fn } from '@ember/helper';
 import Component from '@glimmer/component';
 import Table from '../../index';

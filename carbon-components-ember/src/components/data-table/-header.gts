@@ -1,10 +1,10 @@
-import { default as Button } from '#∼/components/button.gts'
-import { default as Checkbox } from '#∼/components/checkbox.gts'
-import { default as Icon } from '#∼/components/icon.gts'
-import { default as set } from '#∼/helpers/set.ts';
+import { default as Button } from '/components/button.gts'
+import { default as Checkbox } from '/components/checkbox.gts'
+import { default as Icon } from '/components/icon.gts'
+import { default as set } from '/helpers/set.ts';
 import { fn } from '@ember/helper';
 import Component from '@glimmer/component';
-import DataTableComponent from '#∼/components/data-table/index.gts'
+import DataTableComponent from '/components/data-table/index.gts'
 
 export type Header = {
   sortable?: boolean;

@@ -1,6 +1,6 @@
 import { default as onUpdate } from '../-helpers/on-update.ts';
 import { default as toBool } from '../-helpers/to-bool.ts';
-import { default as newObj } from '#∼/helpers/new-obj.ts';
+import { default as newObj } from '/helpers/new-obj.ts';
 import Component from '@glimmer/component';
 import CarbonChart from '../../charts/-components/chart.gts';
 import { ScaleTypes } from '@carbon/charts';

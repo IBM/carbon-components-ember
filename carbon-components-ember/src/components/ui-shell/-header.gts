@@ -1,4 +1,4 @@
-import { default as Icon } from '#∼/components/icon.gts'
+import { default as Icon } from '/components/icon.gts'
 import { default as eq } from 'ember-truth-helpers/helpers/eq';
 import { default as not } from 'ember-truth-helpers/helpers/not';
 import { default as and } from 'ember-truth-helpers/helpers/and';

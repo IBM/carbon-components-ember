@@ -1,19 +1,19 @@
-import { default as TabularData } from '#∼/components/charts/-components/tabular-data.gts'
-import { default as Axis } from '#∼/components/charts/-components/axis.gts'
-import { default as ColorPairing } from '#∼/components/charts/-components/color/pairing.gts'
-import { default as ColorScale } from '#∼/components/charts/-components/color/scale.gts'
+import { default as TabularData } from '/components/charts/-components/tabular-data.gts'
+import { default as Axis } from '/components/charts/-components/axis.gts'
+import { default as ColorPairing } from '/components/charts/-components/color/pairing.gts'
+import { default as ColorScale } from '/components/charts/-components/color/scale.gts'
 import { default as didInsert } from '@ember/render-modifiers/modifiers/did-insert';
 import { default as didUpdate } from '@ember/render-modifiers/modifiers/did-update';
 import { default as willDestroy } from '@ember/render-modifiers/modifiers/will-destroy';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { throttle } from '@ember/runloop';
-import { defaultArgs } from '#∼/utils/decorators.ts';
+import { defaultArgs } from '/utils/decorators.ts';
 import { Chart } from '@carbon/charts';
 import { AxisChartOptions, BaseChartOptions } from '@carbon/charts';
-import CarbonChartTabularData from '#∼/components/charts/-components/tabular-data.gts'
+import CarbonChartTabularData from '/components/charts/-components/tabular-data.gts'
 import { WithBoundArgs } from '@glint/template';
-import ChartAxis from '#∼/components/charts/-components/axis.gts'
+import ChartAxis from '/components/charts/-components/axis.gts'
 
 
 /** @documenter yuidoc */

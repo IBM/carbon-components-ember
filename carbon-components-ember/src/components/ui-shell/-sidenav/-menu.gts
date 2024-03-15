@@ -1,11 +1,11 @@
-import { default as Icon } from '#∼/components/icon.gts';
-import { default as newObj } from '#∼/helpers/new-obj.ts';
+import { default as Icon } from '/components/icon.gts';
+import { default as newObj } from '/helpers/new-obj.ts';
 import { on } from '@ember/modifier';
 import { get, concat, fn } from '@ember/helper';
 import { default as toggle } from 'ember-composable-helpers/helpers/toggle';
 import { default as or } from 'ember-truth-helpers/helpers/or';
 import Component from '@glimmer/component';
-import { IconNames } from '#∼/components/icon.gts';
+import { IconNames } from '/components/icon.gts';
 import SubMenuComponent from './-sub-menu.gts';
 
 export type SubMenu = {

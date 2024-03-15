@@ -3,7 +3,7 @@ import { guidFor } from '@ember/object/internals';
 import { WithBoundArgs } from '@glint/template';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import or from '#∼/helpers/or.ts';
+import or from '/helpers/or.ts';
 
 interface AccordionSignature {
   Args: {

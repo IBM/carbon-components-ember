@@ -1,6 +1,6 @@
 import { default as Select } from './select.gts';
 import { default as Icon } from './icon.gts';
-import { default as defaultTo } from '#∼/helpers/default-to.ts';
+import { default as defaultTo } from '/helpers/default-to.ts';
 import { default as range } from 'ember-composable-helpers/helpers/range';
 import { default as eq } from 'ember-truth-helpers/helpers/eq';
 import { default as didInsert } from '@ember/render-modifiers/modifiers/did-insert';
@@ -11,7 +11,7 @@ import { default as or } from 'ember-truth-helpers/helpers/or';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { defaultArgs } from '#∼/utils/decorators.ts';
+import { defaultArgs } from '/utils/decorators.ts';
 import { next } from '@ember/runloop';
 import { stylesheet } from 'astroturf';
 /** @documenter yuidoc */

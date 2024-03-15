@@ -3,14 +3,14 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import * as icons from '@carbon/icons/es/index.js';
-import { bxClassNames, classPrefix } from '#∼/utils/decorators.ts';
+import { bxClassNames, classPrefix } from '/utils/decorators.ts';
 import styles from './icon/styles.module.scss';
 import { on } from '@ember/modifier';
-import Loading from '#∼/components/loading.gts';
-import or from '#∼/helpers/or.ts';
-import renderSvgPart from '#∼/components/icon/render-svg-part.ts';
+import Loading from '/components/loading.gts';
+import or from '/helpers/or.ts';
+import renderSvgPart from '/components/icon/render-svg-part.ts';
 import { array } from '@ember/helper';
-import htmlSafe from '#∼/helpers/html-safe.ts';
+import htmlSafe from '/helpers/html-safe.ts';
 import { stylesheet } from 'astroturf';
 
 const IconMap = {};
@@ -1395,7 +1395,7 @@ class CarbonIcon extends Component<Args> {
     };
     if (this.args.danger) {
       this.dialogManager.open(
-        this.args.confirmDialog || '#∼/components/dialogs/confirm.gts',
+        this.args.confirmDialog || '/components/dialogs/confirm.gts',
         {
           type: 'danger',
           header: 'Danger',

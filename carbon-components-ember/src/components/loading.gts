@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { defaultArgs } from '#∼/utils/decorators.ts';
+import { defaultArgs } from '/utils/decorators.ts';
 
 type Args = {
   active?: boolean;

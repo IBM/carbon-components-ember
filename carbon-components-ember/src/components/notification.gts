@@ -1,16 +1,15 @@
-import { default as or } from 'ember-truth-helpers/helpers/or';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import { default as eq } from 'ember-truth-helpers/helpers/eq';
-import { default as Icon } from '#∼/components/icon.gts'
+import { default as Icon } from '/components/icon.gts'
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import NotificationService, {
   NotificationOptions,
-} from '#∼/services/notifications.ts';
+} from '/services/notifications.ts';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import { IconNames } from '#∼/components/icon.gts'
+import { IconNames } from '/components/icon.gts'
 
 type Args = {
   onClick: null | Function;

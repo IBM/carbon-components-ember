@@ -1,4 +1,4 @@
-import { default as defaultTo } from '#∼/helpers/default-to.ts';
+import { default as defaultTo } from '/helpers/default-to.ts';
 import { on } from '@ember/modifier';
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';

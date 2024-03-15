@@ -1,14 +1,14 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { defaultArgs } from '#∼/utils/decorators.ts';
-import CopyButton from '#∼/components/copy-button.gts'
+import { defaultArgs } from '/utils/decorators.ts';
+import CopyButton from '/components/copy-button.gts'
 import { concat, fn } from '@ember/helper';
 import didInsert from '@ember/render-modifiers/modifiers/did-insert';
 import eq from 'ember-truth-helpers/helpers/eq';
 import { on } from '@ember/modifier';
-import set from '#∼/helpers/set.ts';
+import set from '/helpers/set.ts';
 import not from 'ember-truth-helpers/helpers/not';
-import htmlSafe from '#∼/helpers/html-safe.ts';
+import htmlSafe from '/helpers/html-safe.ts';
 import { TemplateOnlyComponent } from '@ember/component/template-only';
 
 type Args = {

@@ -3,8 +3,8 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import didInsert from '@ember/render-modifiers/modifiers/did-insert';
 import EmberTooltip from 'ember-tooltips/components/ember-tooltip';
-import Button from '#∼/components/button.gts'
-import or from '#∼/helpers/or.ts';
+import Button from '/components/button.gts'
+import or from '/helpers/or.ts';
 
 type Args = {
   targetElementId?: string;

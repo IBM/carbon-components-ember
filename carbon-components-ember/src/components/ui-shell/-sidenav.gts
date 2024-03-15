@@ -1,8 +1,8 @@
 import { default as eq } from 'ember-truth-helpers/helpers/eq';
-import { default as Menu } from '#∼/components/ui-shell/-sidenav/-menu.gts';
+import { default as Menu } from '/components/ui-shell/-sidenav/-menu.gts';
 import Component from '@glimmer/component';
 import NavMenuComponent, { SubMenu } from './-sidenav/-menu.gts';
-import { IconNames } from '#∼/components/icon.gts';
+import { IconNames } from '/components/icon.gts';
 import { fn } from '@ember/helper';
 import { stylesheet } from 'astroturf';
 
@@ -37,7 +37,7 @@ export default class UiShellNav extends Component<UiShellNavSignature> {
         width: 16rem;
       }
     }
-  `;
+  ` as { namespace: string };
 
   <template>
     <nav

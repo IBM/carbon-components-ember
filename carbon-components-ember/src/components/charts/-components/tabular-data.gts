@@ -1,10 +1,10 @@
-import { default as onUpdate } from '#∼/components/charts/-helpers/on-update.ts';
+import { default as onUpdate } from '/components/charts/-helpers/on-update.ts';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { defaultArgs } from '#∼/utils/decorators.ts';
+import { defaultArgs } from '/utils/decorators.ts';
 import CarbonChart, {
   ChartData,
-} from '#∼/components/charts/-components/chart.gts'
+} from '/components/charts/-components/chart.gts'
 
 type Args = {
   backgroundColors?: string[];

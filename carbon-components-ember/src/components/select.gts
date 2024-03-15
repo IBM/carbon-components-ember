@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { set, action } from '@ember/object';
 import { isBlank } from '@ember/utils';
-import { defaultArgs } from '#∼/utils/decorators.ts';
+import { defaultArgs } from '/utils/decorators.ts';
 import jQuery from 'jquery';
 import PowerSelect, {
   PowerSelectArgs,
@@ -11,8 +11,8 @@ import PowerSelectMultiple, {
   PowerSelectMultipleSignature,
 } from 'ember-power-select/components/power-select-multiple';
 import didInsert from '@ember/render-modifiers/modifiers/did-insert';
-import defaultTo from '#∼/helpers/default-to.ts';
-import Checkbox from '#∼/components/checkbox.gts'
+import defaultTo from '/helpers/default-to.ts';
+import Checkbox from '/components/checkbox.gts'
 import isSelected from 'ember-power-select/helpers/ember-power-select-is-selected';
 
 type Args<T extends ContentValue> = {

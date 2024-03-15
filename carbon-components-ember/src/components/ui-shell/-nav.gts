@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import UiShellNavItem from '#∼/components/ui-shell/-nav/-item.gts'
+import UiShellNavItem from '/components/ui-shell/-nav/-item.gts'
 
 export interface Signature {
   Args: {};

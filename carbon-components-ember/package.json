@@ -51,6 +51,7 @@
     "@gavant/glint-template-types": "^0.3.3",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
+    "@rollup/plugin-alias": "^5.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@types/node": "^18.15.2",
     "broccoli-sass-source-maps": "^4.1.0",
@@ -97,6 +98,7 @@
     "prettier-linter-helpers": "^1.0.0",
     "rollup-plugin-astroturf": "^0.1.0",
     "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-root-import": "^1.0.0",
     "spark-md5": "^3.0.1",
     "synckit": "^0.8.5",
     "ts-node": "^10.9.1",
@@ -277,7 +279,7 @@
     },
     "./components/*": {
       "types": "./declarations/*.d.ts",
-      "default": "./dist/components/*/index.js"
+      "default": "./dist/components/*.js"
     },
     "./*": {
       "types": "./declarations/*.d.ts",

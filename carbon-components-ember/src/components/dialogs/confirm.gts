@@ -1,8 +1,8 @@
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import defaultTo from '#∼/helpers/default-to.ts';
-import Modal from '#∼/components/modal.gts'
+import defaultTo from '/helpers/default-to.ts';
+import Modal from '/components/modal.gts'
 import { on } from '@ember/modifier';
 
 type Args = {

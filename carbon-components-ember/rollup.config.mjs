@@ -1,9 +1,9 @@
 import { babel } from '@rollup/plugin-babel';
 import copy from 'rollup-plugin-copy';
 import { Addon } from '@embroider/addon-dev/rollup';
-import resolve from '@rollup/plugin-node-resolve';
 import astroturf from 'rollup-plugin-astroturf';
 import postcss from 'rollup-plugin-postcss';
+import rootImport from 'rollup-plugin-root-import';
 
 const addon = new Addon({
   srcDir: 'src',
@@ -49,6 +49,12 @@ export default {
     babel({
       extensions: ['.js', '.gjs', '.ts', '.gts'],
       babelHelpers: 'bundled',
+    }),
+
+    rootImport({
+      // Will first look in `client/src/*` and then `common/src/*`.
+      root: `${__dirname}/src`,
+      useInput: 'prepend',
     }),
 
     // Ensure that standalone .hbs files are properly integrated as Javascript.

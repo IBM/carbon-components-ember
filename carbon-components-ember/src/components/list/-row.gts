@@ -1,10 +1,10 @@
-import { default as Icon } from '#∼/components/icon.gts'
+import { default as Icon } from '/components/icon.gts'
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import { default as eq } from 'ember-truth-helpers/helpers/eq';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import ListComponent from '#∼/components/list.gts'
+import ListComponent from '/components/list.gts'
 
 type Args<T> = {
   onSelect?(item: any): void;
