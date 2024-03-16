@@ -99,8 +99,8 @@ module.exports = function (defaults) {
       staticModifiers: true,
       staticEmberSource: true,
       amdCompatibility: {
-        es: [],
+        es: [['fetch', ['default']]],
       },
-    }
+    },
   );
 };

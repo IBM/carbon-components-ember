@@ -1,8 +1,9 @@
 import Tag from 'carbon-components-ember/components/tag';
 import Demo from 'ember-cli-addon-docs/components/docs-demo';
-import castToAny from '~/helpers/cast-to-any';
+import castToAny from 'doc-app/helpers/cast-to-any';
 import RouteTemplate from 'ember-route-template/route';
 import Component from '@glimmer/component';
+import { array } from '@ember/helper';
 
 class RouteComponent extends Component {
   <template>
@@ -29,9 +30,9 @@ class RouteComponent extends Component {
           )
           as |type|
         }}
-          <Carbon::Tag @type={{type}}>
+          <Tag @type={{type}}>
             {{type}}
-          </Carbon::Tag>
+          </Tag>
           <Tag @type={{castToAny type}}>
             {{type}}
           </Tag>
