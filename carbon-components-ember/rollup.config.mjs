@@ -1,13 +1,25 @@
+import path from 'path';
+import fs from 'fs';
 import { babel } from '@rollup/plugin-babel';
 import copy from 'rollup-plugin-copy';
 import { Addon } from '@embroider/addon-dev/rollup';
 import astroturf from 'rollup-plugin-astroturf';
 import postcss from 'rollup-plugin-postcss';
-import rootImport from 'rollup-plugin-root-import';
 
 const addon = new Addon({
   srcDir: 'src',
   destDir: 'dist',
+});
+
+const rootImport = (options) => ({
+  resolveId: (importee, importer) => {
+    if (importee[0] === '/') {
+      const rootPath = `${options.root}${importee}`;
+      const absPath = path.resolve('.', rootPath);
+      return fs.existsSync(absPath) ? absPath : null;
+    }
+    return null;
+  }
 });
 
 export default {
@@ -16,6 +28,7 @@ export default {
   output: addon.output(),
 
   plugins: [
+
     // These are the modules that users should be able to import from your
     // addon. Anything not listed here may get optimized away.
     // By default all your JavaScript modules (**/*.js) will be importable.
@@ -23,7 +36,7 @@ export default {
     // up your addon's public API. Also make sure your package.json#exports
     // is aligned to the config here.
     // See https://github.com/embroider-build/embroider/blob/main/docs/v2-faq.md#how-can-i-define-the-public-exports-of-my-addon
-    addon.publicEntrypoints(['**/*.{js,gjs,ts,gts}', 'index.js', 'template-registry.js']),
+    addon.publicEntrypoints(['**/*.{js,ts}', 'index.js', 'template-registry.js']),
 
     // These are the modules that should get reexported into the traditional
     // "app" tree. Things in here should also be in publicEntrypoints above, but
@@ -51,12 +64,6 @@ export default {
       babelHelpers: 'bundled',
     }),
 
-    rootImport({
-      // Will first look in `client/src/*` and then `common/src/*`.
-      root: `${__dirname}/src`,
-      useInput: 'prepend',
-    }),
-
     // Ensure that standalone .hbs files are properly integrated as Javascript.
     addon.hbs(),
 
@@ -68,14 +75,16 @@ export default {
     addon.keepAssets(['styles/**/*.scss']),
 
     // Remove leftover build artifacts when starting a new build.
-    addon.clean(),
+    addon.clean({}),
+
+    rootImport({
+      // Will first look in `client/src/*` and then `common/src/*`.
+      root: './src',
+    }),
 
     astroturf({/* options */}),
-    postcss({
-      include: ['node_modules'],
-      extract: 'bundle.css',
-      modules: true
-    }),
+
+
 
     // Copy Readme and License into published package
     copy({
@@ -86,3 +95,4 @@ export default {
     }),
   ],
 };
+

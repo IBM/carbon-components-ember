@@ -12,7 +12,7 @@ import PowerSelectMultiple, {
 } from 'ember-power-select/components/power-select-multiple';
 import didInsert from '@ember/render-modifiers/modifiers/did-insert';
 import defaultTo from '/helpers/default-to.ts';
-import Checkbox from '/components/checkbox.gts'
+import Checkbox from '/components/checkbox.gts';
 import isSelected from 'ember-power-select/helpers/ember-power-select-is-selected';
 
 type Args<T extends ContentValue> = {
@@ -136,17 +136,16 @@ export default class SelectComponent<T extends ContentValue> extends Component<
   }
 
   @action
-  didInsert(element) {
+  didInsert(element: HTMLElement) {
     // eslint-disable-next-line ember/no-jquery
-    jQuery(element)
-      .find('.ember-power-select-status-icon')
-      .replaceWith(
-        '' +
-          '<svg class="cds--dropdown__arrow" ' +
-          'width="10" height="6" viewBox="0 0 10 6">\n' +
-          '    <path d="M5 6L0 1 0.7 0.3 5 4.6 9.3 0.3 10 1z"></path>\n' +
-          '  </svg>',
-      );
+    element
+      .getElementsByClassName('.ember-power-select-status-icon')
+      .item(
+        0,
+      ).innerHTML = `
+        <svg class="cds--dropdown__arrow" width="10" height="6" viewBox="0 0 10 6">
+          <path d="M5 6L0 1 0.7 0.3 5 4.6 9.3 0.3 10 1z"></path>
+        </svg>`;
   }
 
   <template>

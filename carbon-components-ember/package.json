@@ -31,6 +31,11 @@
     "test": "echo 'A v2 addon does not have tests, run tests in test-app'"
   },
   "dependencies": {
+    "ember-resize-modifier": "^0.6.0",
+    "@ascua/maths": "^0.0.237",
+    "@ember/jquery": "^2.0.0",
+    "@ember/string": "^3.1.1",
+    "@ember/render-modifiers": "^2.1.0",
     "@ascua/arrays": "^0.0.237",
     "@babel/core": "^7.24.0",
     "@babel/plugin-syntax-decorators": "^7.22.5",
@@ -102,14 +107,11 @@
     "spark-md5": "^3.0.1",
     "synckit": "^0.8.5",
     "ts-node": "^10.9.1",
-    "yam": "^1.0.0"
+    "yam": "^1.0.0",
+    "astroturf": "^1.2.0"
   },
   "devDependencies": {
-    "@ascua/maths": "^0.0.237",
-    "@ember/jquery": "^2.0.0",
     "@ember/optional-features": "^2.0.0",
-    "@ember/render-modifiers": "^2.1.0",
-    "@ember/string": "^3.1.1",
     "@embroider/addon-dev": "^4.1.0",
     "@embroider/compat": "^3.2.1",
     "@embroider/core": "^3.2.1",
@@ -130,7 +132,6 @@
     "@types/qunit-dom": "^0.7.0",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
     "@typescript-eslint/parser": "^6.7.2",
-    "astroturf": "^1.2.0",
     "babel-plugin-ember-template-compilation": "^2.2.0",
     "bower": "^1.8.8",
     "broccoli": "^3.4.2",
@@ -155,7 +156,6 @@
     "ember-maybe-import-regenerator-for-testing": "^1.0.0",
     "ember-modifier": "^4.1.0",
     "ember-qunit": "^7.0.0",
-    "ember-resize-modifier": "^0.6.0",
     "ember-resolver": "^10.0.0",
     "ember-source": "^5.7.0",
     "ember-source-channel-url": "latest",
@@ -269,17 +269,10 @@
       "./services/notifications.js": "./dist/_app_/services/notifications.js"
     }
   },
-  "imports": {
-    "#∼/*": "./src/*"
-  },
   "exports": {
     ".": {
       "types": "./declarations/index.d.ts",
       "default": "./dist/index.js"
-    },
-    "./components/*": {
-      "types": "./declarations/*.d.ts",
-      "default": "./dist/components/*.js"
     },
     "./*": {
       "types": "./declarations/*.d.ts",

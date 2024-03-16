@@ -6,8 +6,6 @@
 @include grid.flex-grid();
 @include grid.css-grid();
 
-@import "pod-styles";
-
 // Backgrounds
 $ember-power-select-background-color: styles.$field-01 !default;
 $ember-power-select-disabled-background-color: styles.$field-01 !default;
