@@ -10,7 +10,7 @@ import Toggle from 'carbon-components-ember/components/toggle';
 import Select from 'carbon-components-ember/components/select';
 import RadioButtonGroup from 'carbon-components-ember/components/radio/group';
 import Radio from 'carbon-components-ember/components/radio';
-import RouteTemplate from 'ember-route-template/route';
+import RouteTemplate from 'ember-routable-component';
 import Component from '@glimmer/component';
 
 class RouteComponent extends Component {

@@ -4,7 +4,7 @@ import Notification from 'carbon-components-ember/components/notification';
 import Select from 'carbon-components-ember/components/select';
 import Tag from 'carbon-components-ember/components/tag';
 import Confirm from 'carbon-components-ember/components/dialogs/confirm';
-import RouteTemplate from 'ember-route-template/route';
+import RouteTemplate from 'ember-routable-component';
 import Component from '@glimmer/component';
 
 class RouteComponent extends Component {

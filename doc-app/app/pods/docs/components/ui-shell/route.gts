@@ -4,7 +4,7 @@ import UiShell from 'carbon-components-ember/components/ui-shell';
 import Icon from 'carbon-components-ember/components/icon';
 import Menu from 'carbon-components-ember/components/menu';
 import Tabs from 'carbon-components-ember/components/tabs';
-import RouteTemplate from 'ember-route-template/route';
+import RouteTemplate from 'ember-routable-component';
 import Component from '@glimmer/component';
 
 class RouteComponent extends Component {

@@ -23,7 +23,7 @@ export interface NotificationComponentSignature {
 
 export default class NotificationComponent extends Component<NotificationComponentSignature> {
   @tracked show = true;
-  @service('carbon.notifications') notifications: NotificationService;
+  @service('carbon-components-ember@notifications') notifications: NotificationService;
 
   get icon(): IconNames {
     const mapping: Record<Required<NotificationOptions>['kind'], IconNames> = {

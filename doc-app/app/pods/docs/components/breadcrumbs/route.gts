@@ -1,6 +1,6 @@
 import Demo from 'ember-cli-addon-docs/components/docs-demo';
 import { array } from '@ember/helper';
-import RouteTemplate from 'ember-route-template/route';
+import RouteTemplate from 'ember-routable-component';
 import Component from '@glimmer/component';
 import Breadcrumbs from 'carbon-components-ember/components/breadcrumbs';
 

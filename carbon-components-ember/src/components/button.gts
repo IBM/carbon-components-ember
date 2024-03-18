@@ -107,7 +107,7 @@ class CarbonButton extends Component<ButtonSignature> {
   @tracked loading: boolean;
   @tracked disabled;
   @tracked showDialog;
-  @service('carbon.dialog-manager') dialogManager: DialogManagerService;
+  @service('carbon-components-ember@dialog-manager') dialogManager: DialogManagerService;
 
   @defaultArgs
   args: Args = {

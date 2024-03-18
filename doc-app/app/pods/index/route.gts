@@ -1,9 +1,8 @@
 import Hero from 'ember-cli-addon-docs/components/docs-hero';
 import Demo from 'ember-cli-addon-docs/components/docs-demo';
 import Component from '@glimmer/component';
-import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import RouteTemplate from 'ember-route-template/route';
+import RouteTemplate from 'ember-routable-component';
 
 class RouteComponent extends Component {
 
@@ -24,15 +23,6 @@ class RouteComponent extends Component {
       </Demo>
     </div>
   </template>
-}
-
-function RoutableComponent(Component) {
-  return class RoutableComponent extends Route {
-    Component = Component;
-    init() {
-      this.templateName = 'ember-route-template/ember-route-template'
-    }
-  }
 }
 
 export default class extends RouteTemplate(RouteComponent) {

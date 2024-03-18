@@ -3,7 +3,7 @@ import Demo from 'ember-cli-addon-docs/components/docs-demo';
 import set from 'carbon-components-ember/helpers/set';
 import eq from 'ember-truth-helpers/helpers/equal';
 import Modal from 'carbon-components-ember/components/modal';
-import RouteTemplate from 'ember-route-template/route';
+import RouteTemplate from 'ember-routable-component';
 import Component from '@glimmer/component';
 
 class RouteComponent extends Component {

@@ -4,7 +4,7 @@ import DocsDemo from 'ember-cli-addon-docs/components/docs-demo';
 import { fn } from '@ember/helper';
 import not from 'ember-truth-helpers/helpers/not';
 import newObj from 'carbon-components-ember/helpers/new-obj';
-import RouteTemplate from 'ember-route-template/route';
+import RouteTemplate from 'ember-routable-component';
 import Component from '@glimmer/component';
 
 class RouteComponent extends Component {

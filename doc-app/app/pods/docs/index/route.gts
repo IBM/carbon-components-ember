@@ -1,6 +1,6 @@
 import Hero from 'ember-cli-addon-docs/components/docs-hero';
 import Demo from 'ember-cli-addon-docs/components/docs-demo';
-import RouteTemplate from 'ember-route-template/route';
+import RouteTemplate from 'ember-routable-component';
 import Component from '@glimmer/component';
 
 class RouteComponent extends Component {
@@ -9,7 +9,7 @@ class RouteComponent extends Component {
       @prefix='Ember'
       @heading='Carbon Componente'
       @byline='Carbon Components for Ember'
-    />
+        />
 
     <div class='container'>
       <Demo as |demo|>

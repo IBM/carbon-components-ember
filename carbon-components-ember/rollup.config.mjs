@@ -3,8 +3,12 @@ import fs from 'fs';
 import { babel } from '@rollup/plugin-babel';
 import copy from 'rollup-plugin-copy';
 import { Addon } from '@embroider/addon-dev/rollup';
-import astroturf from 'rollup-plugin-astroturf';
-import postcss from 'rollup-plugin-postcss';
+
+
+// rollup-plugin-astroturf mjs has wrong import specifiers...
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const astroturf = require('rollup-plugin-astroturf');
 
 const addon = new Addon({
   srcDir: 'src',

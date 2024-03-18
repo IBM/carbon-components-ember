@@ -6,7 +6,7 @@ import set from 'carbon-components-ember/helpers/set';
 import not from 'ember-truth-helpers/helpers/not';
 import eq from 'ember-truth-helpers/helpers/eq';
 import { fn } from '@ember/helper';
-import RouteTemplate from 'ember-route-template/route';
+import RouteTemplate from 'ember-routable-component';
 import Component from '@glimmer/component';
 
 class RouteComponent extends Component {

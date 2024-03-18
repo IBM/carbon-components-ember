@@ -2,7 +2,7 @@ import Icon from 'carbon-components-ember/components/icon';
 import DocsDemo from 'ember-cli-addon-docs/components/docs-demo';
 import { fn } from '@ember/helper';
 import noop from 'doc-app/helpers/noop';
-import RouteTemplate from 'ember-route-template/route';
+import RouteTemplate from 'ember-routable-component';
 import Component from '@glimmer/component';
 
 class RouteComponent extends Component {

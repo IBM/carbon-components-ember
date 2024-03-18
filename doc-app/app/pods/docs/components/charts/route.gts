@@ -6,7 +6,7 @@ import BarChart from 'carbon-components-ember/components/charts/bar';
 import LineChart from 'carbon-components-ember/components/charts/line';
 import PieChart from 'carbon-components-ember/components/charts/pie';
 import { array } from '@ember/helper';
-import RouteTemplate from 'ember-route-template/route';
+import RouteTemplate from 'ember-routable-component';
 import Component from '@glimmer/component';
 
 class RouteComponent extends Component {

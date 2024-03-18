@@ -63,7 +63,6 @@
     "ember-source-channel-url": "^3.0.0",
     "ember-template-lint": "^5.11.0",
     "ember-try": "^3.0.0",
-    "ember-vite-hmr": "^0.6.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-ember": "^12.0.2",
@@ -72,7 +71,7 @@
     "eslint-plugin-qunit": "^8.0.0",
     "loader.js": "^4.7.0",
     "prettier": "^3.2.5",
-    "prettier-plugin-ember-template-tag": "^2.0.0",
+    "prettier-plugin-ember-template-tag": "^2.0.1",
     "qunit": "^2.19.4",
     "qunit-dom": "^2.0.0",
     "stylelint": "^15.9.0",
@@ -81,7 +80,7 @@
     "tracked-built-ins": "^3.1.1",
     "webpack": "^5.90.3",
     "ember-template-imports": "^4.1.0",
-    "ember-route-template": "https://github.com/patricklx/ember-route-template/releases/download/dist/ember-route-template-1.0.3-alpha1.tgz"
+    "ember-routable-component": "^0.2.0"
   },
   "engines": {
     "node": "16.* || >= 18"
