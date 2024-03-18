@@ -3,6 +3,7 @@
 module.exports = function (environment) {
   const ENV = {
     modulePrefix: 'doc-app',
+    podModulePrefix: 'doc-app/pods',
     environment,
     rootURL: '/',
     locationType: 'history',

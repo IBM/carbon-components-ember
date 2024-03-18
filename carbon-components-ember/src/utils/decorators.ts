@@ -72,12 +72,3 @@ export function defaultArgs(target, name, descriptor?) {
 
   return descriptor;
 }
-
-
-export function autoComputed() {
-  // @ts-ignore
-  // eslint-disable-next-line no-undef
-  const dec = (instance, key, desc) => require('@ember/-internals/metal').autoComputed()(instance, key, desc);
-  // @ts-ignore
-  return Ember.autoComputed || dec;
-}

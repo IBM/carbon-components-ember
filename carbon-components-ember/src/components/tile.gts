@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
+import { cached, tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { autoComputed } from '/utils/decorators.ts';
@@ -31,7 +31,7 @@ export default class TileComponent extends Component<TileComponentSignature> {
   @tracked selected = null;
   @tracked expanded: boolean = false;
 
-  @autoComputed()
+  @cached
   get guid() {
     return guidFor(this);
   }

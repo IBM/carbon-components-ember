@@ -1,7 +1,5 @@
-import Input from 'carbon-components-ember/components/form-input';
 import Demo from 'ember-cli-addon-docs/components/docs-demo';
 import set from 'carbon-components-ember/helpers/set';
-import eq from 'ember-truth-helpers/helpers/equal';
 import UiShell from 'carbon-components-ember/components/ui-shell';
 import Icon from 'carbon-components-ember/components/icon';
 import Menu from 'carbon-components-ember/components/menu';

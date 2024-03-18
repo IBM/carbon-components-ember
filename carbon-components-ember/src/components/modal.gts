@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { tracked } from '@glimmer/tracking';
+import { cached, tracked } from '@glimmer/tracking';
 import { defaultArgs, autoComputed } from '/utils/decorators.ts';
 
 /** @documenter yuidoc */
@@ -35,7 +35,7 @@ export default class Modal extends Component<ModalComponentSignature> {
     onClose: null,
   });
 
-  @autoComputed()
+  @cached
   get guid() {
     return guidFor(this);
   }
