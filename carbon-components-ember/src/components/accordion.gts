@@ -4,6 +4,8 @@ import { WithBoundArgs } from '@glint/template';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import or from '/helpers/or.ts';
+import { on } from '@ember/modifier';
+import { fn } from '@ember/helper';
 
 interface AccordionSignature {
   Args: {
