@@ -31,12 +31,8 @@
     "test": "echo 'A v2 addon does not have tests, run tests in test-app'"
   },
   "dependencies": {
-    "ember-resize-modifier": "^0.6.0",
-    "@ascua/maths": "^0.0.237",
-    "@ember/jquery": "^2.0.0",
-    "@ember/string": "^3.1.1",
-    "@ember/render-modifiers": "^2.1.0",
     "@ascua/arrays": "^0.0.237",
+    "@ascua/maths": "^0.0.237",
     "@babel/core": "^7.24.0",
     "@babel/plugin-syntax-decorators": "^7.22.5",
     "@carbon/charts": "^1.11.2",
@@ -51,6 +47,9 @@
     "@carbon/styles": "^1.31.2",
     "@carbon/themes": "^11.20.0",
     "@carbon/type": "^11.19.0",
+    "@ember/jquery": "^2.0.0",
+    "@ember/render-modifiers": "^2.1.0",
+    "@ember/string": "^3.1.1",
     "@embroider/addon-shim": "^1.8.7",
     "@eslint/js": "^8.41.0",
     "@gavant/glint-template-types": "^0.3.3",
@@ -59,6 +58,7 @@
     "@rollup/plugin-alias": "^5.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@types/node": "^18.15.2",
+    "astroturf": "^1.2.0",
     "broccoli-sass-source-maps": "^4.1.0",
     "d3": "^7.8.5",
     "d3-array": "^3.2.2",
@@ -90,6 +90,7 @@
     "ember-power-calendar-moment": "^0.2.0",
     "ember-power-select": "^7.1.0",
     "ember-ref-modifier": "^1.0.0",
+    "ember-resize-modifier": "^0.6.0",
     "ember-simple-mu-resolver": "^0.1.11",
     "ember-template-imports": "^3.4.2",
     "ember-template-lint-plugin-prettier": "^4.2.0",
@@ -103,11 +104,11 @@
     "rollup-plugin-astroturf": "^0.1.0",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-root-import": "^1.0.0",
+    "rollup-plugin-styles": "^4.0.0",
     "spark-md5": "^3.0.1",
     "synckit": "^0.8.5",
     "ts-node": "^10.9.1",
-    "yam": "^1.0.0",
-    "astroturf": "^1.2.0"
+    "yam": "^1.0.0"
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
@@ -275,6 +276,11 @@
     "./*": {
       "types": "./declarations/*.d.ts",
       "default": "./dist/*.js"
+    },
+    "./styles": {
+      "import": "./dist/styles/index.scss",
+      "require": "./dist/styles/index.scss",
+      "scss": "./dist/styles/index.scss"
     },
     "./addon-main.js": "./addon-main.cjs"
   },

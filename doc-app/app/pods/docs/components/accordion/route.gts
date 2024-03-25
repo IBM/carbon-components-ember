@@ -84,7 +84,6 @@ class RouteComponent extends Component {
           </Accordion>
         {{/let}}
       </demo.example>
-      <demo.snippet @name='accordion-simple.hbs' />
     </Demo>
   </template>
 }

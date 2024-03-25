@@ -79,7 +79,7 @@ export default {
     addon.keepAssets(['styles/**/*.scss']),
 
     // Remove leftover build artifacts when starting a new build.
-    addon.clean({}),
+    //addon.clean({}),
 
     rootImport({
       // Will first look in `client/src/*` and then `common/src/*`.
