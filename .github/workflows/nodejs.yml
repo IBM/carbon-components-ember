@@ -64,7 +64,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
       - name: install pnpm
         run: npm i -g pnpm && pnpm setup
@@ -105,7 +105,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
       - name: install pnpm
         run: npm i -g pnpm && pnpm setup
