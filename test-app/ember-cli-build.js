@@ -12,8 +12,7 @@ module.exports = function (defaults) {
     },
   });
 
-  const { maybeEmbroider } = require('@embroider/test-setup');
-  return maybeEmbroider(app, {
+  return require('@embroider/compat').prebuild(app, {
     staticAddonTrees: true,
     staticAddonTestSupportTrees: true,
     staticComponents: true,
@@ -24,5 +23,4 @@ module.exports = function (defaults) {
       es: [['fetch', ['default', 'setupFastboot']]],
     },
   });
-  //return require('@embroider/compat').prebuild(app, );
 };
