@@ -25,6 +25,7 @@
     "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
     "build:ember": "EMBROIDER_PREBUILD=true ember b",
     "test:ember": "node ./scripts/run-tests.mjs",
+    "test-ember": "EMBROIDER_TEST_SETUP_FORCE=classic ember test",
     "ember:serve": "vite --open tests/"
   },
   "devDependencies": {
@@ -48,7 +49,7 @@
     "@types/qunit": "^2.19.5",
     "carbon-components-ember": "workspace:*",
     "concurrently": "^8.2.0",
-    "ember-auto-import": "^2.7.2",
+    "ember-auto-import": "^2.7.4",
     "ember-cli": "^5.9.0",
     "ember-cli-app-version": "^6.0.1",
     "ember-cli-babel": "^8.2.0",
