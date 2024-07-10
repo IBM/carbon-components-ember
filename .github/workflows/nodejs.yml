@@ -90,12 +90,12 @@ jobs:
         working-directory: ./test-app
         env:
           EMBROIDER_TEST_SETUP_FORCE: classic
-        run: ./node_modules/.bin/ember build --environment test
+        run: pnpm run build
       - name: Run test
         working-directory: ./test-app
         env:
           EMBROIDER_TEST_SETUP_FORCE: classic
-        run: ./node_modules/.bin/ember test
+        run: pnpm run test-ember:classic
 
   deploy:
     needs: [test, ember-try]
