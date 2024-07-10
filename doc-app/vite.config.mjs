@@ -15,7 +15,7 @@ import { babel } from '@rollup/plugin-babel';
 import { hmr } from 'ember-vite-hmr';
 import { ResolverLoader } from '@embroider/core';
 
-const root = "node_modules/.embroider/rewritten-app";
+const root = 'node_modules/.embroider/rewritten-app';
 
 const pathsImporter = () => {
   const addons = [];
@@ -70,7 +70,7 @@ const sassOptions = {
   importer: [pathsImporter()],
 };
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   root,
   // esbuild in vite does not support decorators
   esbuild: false,
@@ -108,19 +108,18 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: resolve(process.cwd(), "dist"),
+    outDir: resolve(process.cwd(), 'dist'),
     rollupOptions: {
       input: {
-        main: resolve(root, "index.html"),
+        main: resolve(root, 'index.html'),
         ...(shouldBuildTests(mode)
-          ? { tests: resolve(root, "tests/index.html") }
+          ? { tests: resolve(root, 'tests/index.html') }
           : undefined),
       },
     },
-  }
-});
-
+  },
+}));
 
 function shouldBuildTests(mode) {
-  return mode !== "production" || process.env.FORCE_BUILD_TESTS;
+  return mode !== 'production' || process.env.FORCE_BUILD_TESTS;
 }

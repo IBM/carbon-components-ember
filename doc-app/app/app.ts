@@ -20,15 +20,8 @@ export default class App extends Application {
   podModulePrefix = config.podModulePrefix;
   Resolver = Resolver;
 
-  init(properties: object | undefined) {
-    super.init(properties);
+  constructor(...args: any[]) {
+    super(...args);
     loadInitializers(App, config.modulePrefix);
   }
 }
-
-
-import.meta.hot.on('vite:beforeUpdate', (options) => {
-  options.updates = options.updates.filter(
-    (u) => !u.path.startsWith(`/assets/${config.modulePrefix}.js`),
-  );
-});
