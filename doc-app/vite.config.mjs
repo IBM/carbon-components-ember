@@ -108,12 +108,19 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: resolve(process.cwd(), 'dist'),
+    outDir: resolve(process.cwd(), "dist"),
     rollupOptions: {
       input: {
-        main: resolve(root, 'index.html'),
-        tests: resolve(root, 'tests/index.html'),
+        main: resolve(root, "index.html"),
+        ...(shouldBuildTests(mode)
+          ? { tests: resolve(root, "tests/index.html") }
+          : undefined),
       },
     },
-  },
+  }
 });
+
+
+function shouldBuildTests(mode) {
+  return mode !== "production" || process.env.FORCE_BUILD_TESTS;
+}
