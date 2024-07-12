@@ -124,7 +124,7 @@
     "@types/qunit-dom": "^0.7.0",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
     "@typescript-eslint/parser": "^6.7.2",
-    "babel-plugin-ember-template-compilation": "^2.2.1",
+    "babel-plugin-ember-template-compilation": "^2.2.5",
     "bower": "^1.8.8",
     "broccoli": "^3.4.2",
     "broccoli-asset-rev": "^3.0.0",
@@ -173,7 +173,7 @@
     "sass": "^1.62.1",
     "sass-embedded": "^1.63.6",
     "sass-loader": "^13.3.2",
-    "typescript": "^5.0.4",
+    "typescript": "^5.5.3",
     "typescript-plugin-css-modules": "^5.0.1",
     "yui": "^3.18.1",
     "fix-bad-declaration-output": "^1.1.4"

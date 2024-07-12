@@ -15,8 +15,6 @@ import defaultTo from '../helpers/default-to.ts';
 import Checkbox from '../components/checkbox.gts';
 import isSelected from 'ember-power-select/helpers/ember-power-select-is-equal';
 
-
-
 type Args<T extends ContentValue> = {
   options: T[];
   searchField?: string;

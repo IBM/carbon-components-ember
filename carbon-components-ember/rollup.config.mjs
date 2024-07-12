@@ -32,6 +32,8 @@ export default {
   // You can augment this if you need to.
   output: addon.output(),
 
+  treeshake: true,
+
   plugins: [
 
     // These are the modules that users should be able to import from your
