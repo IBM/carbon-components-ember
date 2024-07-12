@@ -1,3 +1,6 @@
+/// <reference types="@gavant/glint-template-types/types/ember-power-select/components/power-select.d.ts" />
+/// <reference types="@gavant/glint-template-types/types/ember-power-select/components/power-select-multiple.d.ts" />
+
 import Component from '@glimmer/component';
 import { set, action } from '@ember/object';
 import { isBlank } from '@ember/utils';
@@ -11,8 +14,8 @@ import didInsert from '@ember/render-modifiers/modifiers/did-insert';
 import defaultTo from '../helpers/default-to.ts';
 import Checkbox from '../components/checkbox.gts';
 import isSelected from 'ember-power-select/helpers/ember-power-select-is-equal';
-import '@gavant/glint-template-types/types/ember-power-select/components/power-select';
-import '@gavant/glint-template-types/types/ember-power-select/components/power-select-multiple';
+
+
 
 type Args<T extends ContentValue> = {
   options: T[];
