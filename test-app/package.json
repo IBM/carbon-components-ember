@@ -25,8 +25,9 @@
     "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
     "build:ember": "EMBROIDER_PREBUILD=true ember b",
     "test:ember": "node ./scripts/run-tests.mjs",
-    "test-ember:classic": "bash ./scripts/prepare-classic.sh && EMBROIDER_TEST_SETUP_FORCE=classic ember test",
-    "test-ember:classic-serve": "bash ./scripts/prepare-classic.sh ./tests/index.html && EMBROIDER_TEST_SETUP_FORCE=classic ember test --serv",
+    "classic:test-ember": "bash ./scripts/prepare-classic.sh && EMBROIDER_TEST_SETUP_FORCE=classic ember test",
+    "classic:build-ember": "bash ./scripts/prepare-classic.sh && EMBROIDER_TEST_SETUP_FORCE=classic ember build",
+    "classic:ember-serve": "bash ./scripts/prepare-classic.sh ./tests/index.html && EMBROIDER_TEST_SETUP_FORCE=classic ember test --serv",
     "ember:serve": "vite --open tests/"
   },
   "devDependencies": {
