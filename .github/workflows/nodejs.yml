@@ -88,12 +88,12 @@ jobs:
 #        run: ./node_modules/.bin/ember try:one ember-${{ matrix.scenario }} --skip-cleanup --- cat package.json
       - name: Build
         working-directory: ./carbon-components-ember
-        run: pnpm run build
+        run: pnpm run classic:build-ember
       - name: Build
         working-directory: ./test-app
         env:
           EMBROIDER_TEST_SETUP_FORCE: classic
-        run: pnpm run build
+        run: pnpm run classic:test-ember
       - name: Run test
         working-directory: ./test-app
         env:
