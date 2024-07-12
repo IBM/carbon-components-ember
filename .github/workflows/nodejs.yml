@@ -86,10 +86,10 @@ jobs:
 #      - name: Setup ember-try scenario
 #        working-directory: ./test-app
 #        run: ./node_modules/.bin/ember try:one ember-${{ matrix.scenario }} --skip-cleanup --- cat package.json
-      - name: Build
+      - name: Build V2 addon
         working-directory: ./carbon-components-ember
-        run: pnpm run classic:build-ember
-      - name: Build
+        run: pnpm run build
+      - name: Build test app
         working-directory: ./test-app
         env:
           EMBROIDER_TEST_SETUP_FORCE: classic
