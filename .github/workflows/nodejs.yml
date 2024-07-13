@@ -150,9 +150,9 @@ jobs:
           else
             sh ./scripts/prepare-classic.sh
             EMBROIDER_TEST_SETUP_FORCE=classic ADDON_DOCS_UPDATE_LATEST=false ADDON_DOCS_VERSION_PATH=$TAG ./node_modules/.bin/ember deploy production
-            EMBROIDER_TEST_SETUP_FORCE=classic ADDON_DOCS_UPDATE_LATEST=true ADDON_DOCS_VERSION_PATH=$TAG ./node_modules/.bin/ember deploy production
+            EMBER_CLI_DEPLOY_REUSE_BUILD=true EMBROIDER_TEST_SETUP_FORCE=classic ADDON_DOCS_UPDATE_LATEST=true ADDON_DOCS_VERSION_PATH=$TAG ./node_modules/.bin/ember deploy production
           fi
-          EMBROIDER_TEST_SETUP_FORCE=classic ADDON_DOCS_UPDATE_LATEST=false ADDON_DOCS_VERSION_PATH=main ./node_modules/.bin/ember deploy production
+          EMBER_CLI_DEPLOY_REUSE_BUILD=true EMBROIDER_TEST_SETUP_FORCE=classic ADDON_DOCS_UPDATE_LATEST=false ADDON_DOCS_VERSION_PATH=main ./node_modules/.bin/ember deploy production
         env:
           CI: true
           DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
