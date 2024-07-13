@@ -4,9 +4,6 @@
 module.exports = function(deployTarget) {
   let ENV = {
     build: {},
-    git: {
-      worktreePath: './dist',
-    },
     // include other plugin configuration that applies to all deploy targets here
   };
 
