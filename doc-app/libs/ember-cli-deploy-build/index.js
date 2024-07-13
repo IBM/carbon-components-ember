@@ -41,9 +41,7 @@ module.exports = {
           { verbose: true },
         );
         return new Promise((resolve, reject) => {
-          const child = exec(
-            `pnpm vite build --mode=${buildEnv} --outDir=${outputPath}`,
-          );
+          const child = exec(`pnpm vite build --mode=${buildEnv}`);
 
           child.stdout.on('data', (data) => {
             console.log(data.toString());
