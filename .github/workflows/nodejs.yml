@@ -132,7 +132,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - name: pnpm install, build, and deploy docs
-        working-directory: ./doc-app
         run: |
           mkdir ~/.ssh
           ssh-keyscan github.com >> ~/.ssh/known_hosts
@@ -141,6 +140,10 @@ jobs:
           git fetch --unshallow
           git fetch --all --tags
           TAG=v$version
+          cd ./carbon-components-ember
+          pnpm run build
+          cd ..
+          cd doc-app
           if git rev-parse "$TAG" >/dev/null 2>&1; then
             echo "tag exists";
           else
