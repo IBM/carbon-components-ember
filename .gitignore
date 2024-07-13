@@ -20,4 +20,4 @@
 !.github/**/*
 !scripts
 !scripts/**/*
-
+!.gitconfig
