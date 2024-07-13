@@ -54,19 +54,19 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 18
-      
+
       - uses: pnpm/action-setup@v3
         with:
           version: 8
       - run: pnpm install --frozen-lockfile
-      
+
       - name: "Generate Explanation and Prep Changelogs"
         id: explanation
         run: |
           set +e
-          
+
           pnpm release-plan prepare 2> >(tee -a release-plan-stderr.txt >&2)
-          
+
 
           if [ $? -ne 0 ]; then
             echo 'text<<EOF' >> $GITHUB_OUTPUT
@@ -81,13 +81,14 @@ jobs:
         env:
           GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: peter-evans/create-pull-request@v6
-        with:
-          commit-message: "Prepare Release using 'release-plan'"
-          labels: "internal"
-          branch: release-preview
-          title: Prepare Release
-          body: |
+      - name: create pull request
+        run: node ./scripts/create-pull-request.js
+        env:
+          INPUT_COMMIT-MESSAGE: "Prepare Release using 'release-plan'"
+          INPUT_LABELS: "internal"
+          INPUT_BRANCH: release-preview
+          INPUT_TITLE: Prepare Release
+          INPUT_BODY: |
             This PR is a preview of the release that [release-plan](https://github.com/embroider-build/release-plan) has prepared. To release you should just merge this PR 👍
 
             -----------------------------------------

@@ -31,5 +31,9 @@
       "babel-plugin-ember-template-compilation": "^2.2.5",
       "ember-source": "^5.9.0"
     }
+  },
+  "dependencies": {
+    "create-pull-request": "github:peter-evans/create-pull-request#v6.1.0",
+    "yaml": "^2.4.5"
   }
 }
