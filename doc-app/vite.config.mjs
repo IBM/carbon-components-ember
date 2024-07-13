@@ -71,6 +71,7 @@ const sassOptions = {
 };
 
 export default defineConfig(({ mode }) => ({
+  base: '/carbon-components-ember',
   root,
   // esbuild in vite does not support decorators
   esbuild: false,
