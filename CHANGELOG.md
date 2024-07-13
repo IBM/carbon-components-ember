@@ -1,5 +1,37 @@
 # Changelog
 
+## Release (2024-07-13)
+
+carbon-components-ember 1.0.0 (major)
+
+#### :boom: Breaking Change
+* `carbon-components-ember`, `test-app`
+  * [#217](https://github.com/IBM/carbon-components-ember/pull/217) v2 addon ([@patricklx](https://github.com/patricklx))
+* Other
+  * [#166](https://github.com/IBM/carbon-components-ember/pull/166) card component does not exist anymore ([@patricklx](https://github.com/patricklx))
+
+#### :rocket: Enhancement
+* [#178](https://github.com/IBM/carbon-components-ember/pull/178) data-table: fix search input & support expandable ([@patricklx](https://github.com/patricklx))
+* [#172](https://github.com/IBM/carbon-components-ember/pull/172) add accordion ([@patricklx](https://github.com/patricklx))
+* [#170](https://github.com/IBM/carbon-components-ember/pull/170) add radio button ([@patricklx](https://github.com/patricklx))
+* [#168](https://github.com/IBM/carbon-components-ember/pull/168) data-table: support zebra style and size ([@patricklx](https://github.com/patricklx))
+
+#### :bug: Bug Fix
+* [#167](https://github.com/IBM/carbon-components-ember/pull/167) fix notifications style ([@patricklx](https://github.com/patricklx))
+
+#### :house: Internal
+* [#216](https://github.com/IBM/carbon-components-ember/pull/216) Delete .gitattributes ([@patricklx](https://github.com/patricklx))
+* [#213](https://github.com/IBM/carbon-components-ember/pull/213) fix ci ([@patricklx](https://github.com/patricklx))
+* [#212](https://github.com/IBM/carbon-components-ember/pull/212) Update nodejs.yml ([@patricklx](https://github.com/patricklx))
+* [#179](https://github.com/IBM/carbon-components-ember/pull/179) migrate toggle to gts ([@patricklx](https://github.com/patricklx))
+* [#171](https://github.com/IBM/carbon-components-ember/pull/171) add gts github highlighting ([@patricklx](https://github.com/patricklx))
+* [#169](https://github.com/IBM/carbon-components-ember/pull/169) process gts files for precompile ([@patricklx](https://github.com/patricklx))
+* [#164](https://github.com/IBM/carbon-components-ember/pull/164) migrate some components to gts ([@patricklx](https://github.com/patricklx))
+* [#165](https://github.com/IBM/carbon-components-ember/pull/165)  fix ci ([@patricklx](https://github.com/patricklx))
+
+#### Committers: 1
+- Patrick Pircher ([@patricklx](https://github.com/patricklx))
+
 
 ## 0.6.0 (2022-10-12)
 
