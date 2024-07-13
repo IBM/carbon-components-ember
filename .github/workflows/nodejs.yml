@@ -132,7 +132,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - name: pnpm install, build, and deploy docs
-        working-directory: ./test-app
+        working-directory: ./doc-app
         run: |
           mkdir ~/.ssh
           ssh-keyscan github.com >> ~/.ssh/known_hosts
