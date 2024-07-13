@@ -148,7 +148,7 @@ jobs:
           if git rev-parse "$TAG" >/dev/null 2>&1; then
             echo "tag exists";
           else
-            ADDON_DOCS_UPDATE_LATEST=false ADDON_DOCS_VERSION_PATH=$TAG ./node_modules/.bin/ember deploy production
+            EMBER_CLI_DEPLOY_REUSE_BUILD=true ADDON_DOCS_UPDATE_LATEST=false ADDON_DOCS_VERSION_PATH=$TAG ./node_modules/.bin/ember deploy production
             EMBER_CLI_DEPLOY_REUSE_BUILD=true ADDON_DOCS_UPDATE_LATEST=true ADDON_DOCS_VERSION_PATH=$TAG ./node_modules/.bin/ember deploy production
           fi
           EMBER_CLI_DEPLOY_REUSE_BUILD=true ADDON_DOCS_UPDATE_LATEST=false ADDON_DOCS_VERSION_PATH=main ./node_modules/.bin/ember deploy production
