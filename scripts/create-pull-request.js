@@ -6,11 +6,12 @@ const file = fs.readFileSync('./node_modules/create-pull-request/action.yml', 'u
 const info = yaml.parse(file)
 
 process.env.GITHUB_WORKSPACE = process.cwd();
+process.env.INPUT_SIGNOFF = true;
 
 for (const [variable, value] of Object.entries(info.inputs)) {
   if (value.default !== undefined) {
     const k = 'INPUT_' + variable.toUpperCase();
-    process.env[k] = process.env[k] || value.default;
+    process.env[k] = process.env[k] ?? value.default;
   }
 }
 
