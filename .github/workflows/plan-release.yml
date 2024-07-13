@@ -88,6 +88,8 @@ jobs:
           INPUT_LABELS: "internal"
           INPUT_BRANCH: release-preview
           INPUT_TITLE: Prepare Release
+          INPUT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_AUTHOR: '${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>'
           INPUT_BODY: |
             This PR is a preview of the release that [release-plan](https://github.com/embroider-build/release-plan) has prepared. To release you should just merge this PR 👍
 

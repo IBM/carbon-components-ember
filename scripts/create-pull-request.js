@@ -19,4 +19,5 @@ const child = fork('./node_modules/create-pull-request/dist/index.js');
 child.on('error', (err) => {
   // This will be called with err being an AbortError if the controller aborts
   console.log('error', err);
+  process.exit(-1);
 });
