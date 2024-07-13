@@ -1,6 +1,16 @@
-const { fork } = require('node:child_process');
+const { fork, execSync } = require('node:child_process');
 const yaml = require('yaml');
 const fs = require('fs');
+
+try {
+  const out = execSync('pnpm i -w git+https://github.com/peter-evans/create-pull-request.git#v6.1.0');
+  console.log(out);
+} catch (e) {
+  console.log(e);
+  console.log(e.output?.toString());
+  process.exit(-2);
+}
+
 
 const file = fs.readFileSync('./node_modules/create-pull-request/action.yml', 'utf8')
 const info = yaml.parse(file)

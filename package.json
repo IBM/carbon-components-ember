@@ -24,7 +24,6 @@
     "@glint/core": "^1.4.0",
     "concurrently": "^8.2.0",
     "release-plan": "^0.9.0",
-    "create-pull-request": "git+https://github.com/peter-evans/create-pull-request.git#v6.1.0",
     "yaml": "^2.4.5"
   },
   "pnpm": {
