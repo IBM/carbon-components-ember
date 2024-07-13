@@ -30,7 +30,7 @@
     "overrides": {
       "@types/ember": "../_EXCLUDED",
       "babel-plugin-ember-template-compilation": "^2.2.5",
-      "ember-source": "^5.9.0"
+      "ember-source": "^5.10.1"
     }
   }
 }
