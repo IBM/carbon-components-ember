@@ -1,0 +1,17 @@
+{
+  "name": "ember-cli-deploy-build",
+  "version": "3.0.0",
+  "description": "A Build Plugin for ember-cli-deploy",
+  "keywords": [
+    "ember-addon",
+    "ember-cli-deploy-plugin"
+  ],
+  "dependencies": {
+  },
+  "devDependencies": {
+    "ember-cli-deploy-plugin": "^0.2.9"
+  },
+  "ember-addon": {
+    "configPath": "tests/dummy/config"
+  }
+}
