@@ -17,6 +17,10 @@ module.exports = function (defaults) {
     },
   });
 
+  if (process.env.EMBROIDER_TEST_SETUP_FORCE === 'classic') {
+    return app.toTree();
+  }
+
   return require('@embroider/compat').prebuild(
     app,
     {
