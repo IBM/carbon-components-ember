@@ -334,5 +334,11 @@
     "name": "v0.6.0",
     "sha": "af7e59ba7439e22bbd405451bf974e6fac2be24f",
     "tag": null
+  },
+  "vnull": {
+    "path": "versions/vnull",
+    "name": "vnull",
+    "sha": "4f91f2edf27f1afdac41def0abcc78cb984f1e0c",
+    "tag": null
   }
 }
