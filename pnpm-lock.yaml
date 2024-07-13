@@ -20,7 +20,7 @@ importers:
         specifier: ^8.2.0
         version: 8.2.2
       create-pull-request:
-        specifier: https://github.com/peter-evans/create-pull-request.git#v6.1.0
+        specifier: git+https://github.com/peter-evans/create-pull-request.git#v6.1.0
         version: github.com/peter-evans/create-pull-request/c5a7806660adbe173f04e3e038b0ccdcd758773c
       release-plan:
         specifier: ^0.9.0
