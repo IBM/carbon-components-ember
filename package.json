@@ -1,8 +1,15 @@
 {
   "private": true,
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:IBM/carbon-components-ember.git"
+  },
   "license": "MIT",
   "author": "",
+  "workspaces": [
+    "carbon-components-ember",
+    "test-app"
+  ],
   "scripts": {
     "build": "npm run build --workspace carbon-components-ember",
     "lint": "npm run lint --workspaces --if-present",
@@ -14,18 +21,15 @@
     "test:ember": "npm run test:ember --workspaces --if-present"
   },
   "devDependencies": {
+    "@glint/core": "^1.4.0",
     "concurrently": "^8.2.0",
-    "@glint/core": "^1.4.0"
+    "release-plan": "^0.9.0"
   },
   "pnpm": {
     "overrides": {
+      "@types/ember": "../_EXCLUDED",
       "babel-plugin-ember-template-compilation": "^2.2.5",
-      "ember-source": "^5.9.0",
-      "@types/ember": "../_EXCLUDED"
+      "ember-source": "^5.9.0"
     }
-  },
-  "workspaces": [
-    "carbon-components-ember",
-    "test-app"
-  ]
+  }
 }
