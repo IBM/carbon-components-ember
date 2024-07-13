@@ -1,5 +1,7 @@
 const DeployPluginBase = require('ember-cli-deploy-plugin');
 const path = require('path');
+const { existsSync } = require('fs');
+const glob = require('glob');
 const { exec } = require('child_process');
 
 module.exports = {
@@ -15,8 +17,9 @@ module.exports = {
 
       build: function (/* context */) {
         var self = this;
-        var outputPath = this.readConfig('outputPath');
-        if (process.env.EMBER_CLI_DEPLOY_REUSE_BUILD) {
+        var outputPath = './dist';
+        console.log(outputPath, existsSync(outputPath));
+        if (process.env.EMBER_CLI_DEPLOY_REUSE_BUILD && existsSync(path.join(outputPath, 'index.html'))) {
           this.log('reusing build from `' + outputPath, { verbose: true });
           return Promise.resolve({
             distDir: outputPath,
@@ -53,7 +56,14 @@ module.exports = {
           child.on('exit', (code) => {
             console.log(`Child exited with code ${code}`);
             if (code === 0) {
-              resolve();
+              resolve({
+                distDir: outputPath,
+                distFiles: glob.sync('**/*', {
+                  cwd: outputPath,
+                  nodir: true,
+                  dot: true,
+                }),
+              });
             } else {
               reject(new Error('vite build failed ' + code));
             }
