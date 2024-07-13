@@ -5,9 +5,9 @@
   "keywords": [
     "ember-addon"
   ],
-  "repository": "",
+  "repository": "https://github.com/IBM/carbon-components-ember",
   "license": "MIT",
-  "author": "",
+  "author": "Patrick Pircher",
   "files": [
     "addon-main.cjs",
     "declarations",
