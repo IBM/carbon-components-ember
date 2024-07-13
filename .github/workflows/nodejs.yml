@@ -13,7 +13,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
       - name: install pnpm
         run: npm i -g pnpm
@@ -33,10 +33,8 @@ jobs:
       - name: pnpm install, build, and test
         run: |
           pnpm install
-          pnpm run ts:lint
-          # fix for https://github.com/cibernox/ember-power-select/pull/1577
-          rm -rf node_modules/ember-power-select/components
-          pnpm run glint
+          pnpm run lint
+          pnpm run build
           pnpm run test
         env:
           CI: true
@@ -66,10 +64,10 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
       - name: install pnpm
-        run: npm i -g pnpm && pnpm setup
+        run: npm i -g pnpm
 
       - name: Get pnpm store directory
         shell: bash
@@ -84,14 +82,23 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - name: Install dependencies (pnpm)
-        run: |
-          pnpm install
-      - name: Setup ember-try scenario
-        run: ./node_modules/.bin/ember try:one ember-${{ matrix.scenario }} --skip-cleanup --- cat package.json
-      - name: Build
-        run: ./node_modules/.bin/ember build --environment test
+        run: pnpm install
+#      - name: Setup ember-try scenario
+#        working-directory: ./test-app
+#        run: ./node_modules/.bin/ember try:one ember-${{ matrix.scenario }} --skip-cleanup --- cat package.json
+      - name: Build V2 addon
+        working-directory: ./carbon-components-ember
+        run: pnpm run build
+      - name: Build test app
+        working-directory: ./test-app
+        env:
+          EMBROIDER_TEST_SETUP_FORCE: classic
+        run: pnpm run classic:build-ember
       - name: Run test
-        run: ./node_modules/.bin/ember test
+        working-directory: ./test-app
+        env:
+          EMBROIDER_TEST_SETUP_FORCE: classic
+        run: pnpm run classic:test-ember
 
   deploy:
     needs: [test, ember-try]
@@ -107,10 +114,10 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
       - name: install pnpm
-        run: npm i -g pnpm && pnpm setup
+        run: npm i -g pnpm
 
       - name: Get pnpm store directory
         shell: bash
