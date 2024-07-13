@@ -144,6 +144,7 @@ jobs:
           pnpm run build
           cd ..
           cd doc-app
+          pnpm run build
           if git rev-parse "$TAG" >/dev/null 2>&1; then
             echo "tag exists";
           else
