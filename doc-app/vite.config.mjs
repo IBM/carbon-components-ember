@@ -118,11 +118,14 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks(id) {
           console.log('chunks', id);
-          if (id.includes('node_modules')) {
-            return 'vendor';
+          if (id.includes('@embroider')) {
+            return 'embroider';
           }
           if (id.includes('@carbon/icons')) {
-            return '@carbon/icons';
+            return 'carbon-icons';
+          }
+          if (id.includes('node_modules')) {
+            return 'vendor';
           }
           return 'app';
         },
