@@ -2,8 +2,8 @@
   "-latest": {
     "path": "",
     "name": "Latest",
-    "sha": "4509ecc134f6c8db1a0a87fcf5d74245c70e98ff",
-    "tag": null
+    "sha": "c4a6ca83ff73df677b14608ceab61cf97427d3f8",
+    "tag": "v1.0.1-carbon-components-ember"
   },
   "main": {
     "path": "versions/main",
