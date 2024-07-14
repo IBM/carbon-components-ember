@@ -115,21 +115,6 @@ export default defineConfig(({ mode }) => ({
   build: {
     outDir: resolve(process.cwd(), 'dist'),
     rollupOptions: {
-      output: {
-        manualChunks(id) {
-          console.log('chunks', id);
-          if (id.includes('@embroider')) {
-            return 'embroider';
-          }
-          if (id.includes('@carbon/icons')) {
-            return 'carbon-icons';
-          }
-          if (id.includes('node_modules')) {
-            return 'vendor';
-          }
-          return 'app';
-        },
-      },
       input: {
         main: resolve(root, 'index.html'),
         ...(shouldBuildTests(mode)
