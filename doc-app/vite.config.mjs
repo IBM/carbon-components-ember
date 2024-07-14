@@ -75,7 +75,7 @@ const docsUrl = process.env.ADDON_DOCS_VERSION_PATH;
 console.log('setting base url to', docsUrl);
 
 export default defineConfig(({ mode }) => ({
-  base: docsUrl ? '/carbon-components-ember/' + docsUrl : '.',
+  base: docsUrl ? '/carbon-components-ember/versions/' + docsUrl : '',
   root,
   // esbuild in vite does not support decorators
   esbuild: false,
@@ -115,6 +115,18 @@ export default defineConfig(({ mode }) => ({
   build: {
     outDir: resolve(process.cwd(), 'dist'),
     rollupOptions: {
+      output: {
+        manualChunks(id) {
+          console.log('chunks', id);
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
+          if (id.includes('@embroider/core')) {
+            return '@embroider/core/vendor';
+          }
+          return 'app';
+        },
+      },
       input: {
         main: resolve(root, 'index.html'),
         ...(shouldBuildTests(mode)
