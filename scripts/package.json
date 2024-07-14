@@ -1,0 +1,10 @@
+{
+  "name": "scripts",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "license": "MIT",
+  "author": ""
+}
