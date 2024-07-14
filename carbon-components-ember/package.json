@@ -28,7 +28,7 @@
     "start:js": "rollup --config --watch --no-watch.clearScreen",
     "start:types": "glint --declaration --watch",
     "debug:types": "glint --debug-intermediate-representation",
-    "prepack": "rollup --config",
+    "prepack": "pnpm build",
     "test": "echo 'A v2 addon does not have tests, run tests in test-app'"
   },
   "dependencies": {

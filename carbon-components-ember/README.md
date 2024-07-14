@@ -1,6 +1,8 @@
-# carbon-components-ember2
+Carbon Components Ember
+==============================================================================
 
-[Short description of the addon.]
+Implementation of the carbon design system in ember
+https://www.carbondesignsystem.com/
 
 ## Compatibility
 
@@ -10,17 +12,29 @@
 ## Installation
 
 ```
-ember install carbon-components-ember2
+ember install carbon-components-ember
 ```
 
 ## Usage
 
-[Longer description of how to use the addon in apps.]
+
+Access carbon components with Carbon:: prefix
+```handlebars
+<Carbon::Button></Carbon::Button>
+```
+
+Services:
+```js
+class Component {
+  @service('carbon.notifications') notifications;
+}
+```
 
 ## Contributing
 
 See the [Contributing](CONTRIBUTING.md) guide for details.
 
-## License
+License
+------------------------------------------------------------------------------
 
-This project is licensed under the [MIT License](LICENSE.md).
+This project is licensed under the [Apache License 2.0](LICENSE.md).
