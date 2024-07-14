@@ -121,8 +121,8 @@ export default defineConfig(({ mode }) => ({
           if (id.includes('node_modules')) {
             return 'vendor';
           }
-          if (id.includes('@embroider/core')) {
-            return '@embroider/core/vendor';
+          if (id.includes('@carbon/icons')) {
+            return '@carbon/icons';
           }
           return 'app';
         },
