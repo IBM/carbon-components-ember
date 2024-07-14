@@ -2,6 +2,17 @@
 
 ## Release (2024-07-14)
 
+carbon-components-ember 1.0.1 (patch)
+
+#### :bug: Bug Fix
+* `carbon-components-ember`
+  * [#231](https://github.com/IBM/carbon-components-ember/pull/231) fix missing declarations ([@patricklx](https://github.com/patricklx))
+
+#### Committers: 1
+- Patrick Pircher ([@patricklx](https://github.com/patricklx))
+
+## Release (2024-07-14)
+
 carbon-components-ember 1.0.0 (major)
 
 #### :boom: Breaking Change
