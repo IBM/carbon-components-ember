@@ -22,4 +22,4 @@
 !scripts/**/*
 scripts/node_modules
 !.gitconfig
-
+!.release-plan.json
