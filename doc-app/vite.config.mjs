@@ -72,6 +72,8 @@ const sassOptions = {
 
 const docsUrl = process.env.ADDON_DOCS_VERSION_PATH;
 
+console.log('setting base url to', docsUrl);
+
 export default defineConfig(({ mode }) => ({
   base: docsUrl ? '/carbon-components-ember/' + docsUrl : '.',
   root,
