@@ -70,8 +70,10 @@ const sassOptions = {
   importer: [pathsImporter()],
 };
 
+const docsUrl = process.env.ADDON_DOCS_VERSION_PATH;
+
 export default defineConfig(({ mode }) => ({
-  base: '/carbon-components-ember',
+  base: docsUrl ? '/carbon-components-ember/' + docsUrl : '.',
   root,
   // esbuild in vite does not support decorators
   esbuild: false,
