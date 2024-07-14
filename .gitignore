@@ -20,4 +20,6 @@
 !.github/**/*
 !scripts
 !scripts/**/*
+scripts/node_modules
 !.gitconfig
+
