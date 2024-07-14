@@ -53,7 +53,7 @@ module.exports = {
 
           child.on('exit', (code) => {
             console.log(`Child exited with code ${code}`);
-            if (code === 0) {
+            if (code === 0 || code === null) {
               resolve({
                 distDir: outputPath,
                 distFiles: glob.sync('**/*', {
