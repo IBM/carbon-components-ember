@@ -3,7 +3,8 @@ name: Test, Build & Publish
 on:
   push:
     branches: '**'
-
+    tags:
+      - v*
 
 jobs:
   test:
@@ -144,11 +145,9 @@ jobs:
           pnpm run build
           cd ..
           cd doc-app
-          if git rev-parse "$TAG" >/dev/null 2>&1; then
-            echo "tag exists";
-          else
-            ADDON_DOCS_UPDATE_LATEST=false ADDON_DOCS_VERSION_PATH=$TAG ./node_modules/.bin/ember deploy production
-            ADDON_DOCS_UPDATE_LATEST=true ADDON_DOCS_VERSION_PATH=$TAG ./node_modules/.bin/ember deploy production
+          if [[ "$GITHUB_REF_TYPE" == "tag" ]]; then
+            ADDON_DOCS_UPDATE_LATEST=false ADDON_DOCS_VERSION_PATH=$GITHUB_REF_NAME ./node_modules/.bin/ember deploy production
+            ADDON_DOCS_UPDATE_LATEST=true ADDON_DOCS_VERSION_PATH=$GITHUB_REF_NAME ./node_modules/.bin/ember deploy production
           fi
           ADDON_DOCS_UPDATE_LATEST=false ADDON_DOCS_VERSION_PATH=main ./node_modules/.bin/ember deploy production
         env:

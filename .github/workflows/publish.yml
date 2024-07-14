@@ -57,5 +57,5 @@ jobs:
         run: pnpm release-plan publish
 
         env:
-          GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_AUTH: ${{ secrets.DEPLOY_KEY }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
