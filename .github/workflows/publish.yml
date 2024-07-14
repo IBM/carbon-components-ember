@@ -51,7 +51,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: install pnpm
-        run: npm i -g npm
+        run: npm i -g pnpm
       - run: pnpm install --frozen-lockfile
       - name: npm publish
         run: pnpm release-plan publish
