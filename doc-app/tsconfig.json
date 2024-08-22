@@ -31,10 +31,10 @@
       ]
     }
   },
-  "rootDir": ".",
   "include": [
     "types/*",
-    "app/**/*",
+    "app/**/*.ts",
+    "app/**/*.gts",
     "node_modules/@gavant/glint-template-types/types/ember-truth-helpers/*"
   ],
   "exclude": [
