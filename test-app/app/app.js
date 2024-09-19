@@ -1,18 +1,21 @@
 import Application from '@ember/application';
-import { next } from '@ember/runloop';
+import compatModules from '@embroider/virtual/compat-modules';
 import Resolver from 'ember-resolver';
 import loadInitializers from 'ember-load-initializers';
-import config from 'test-app/config/environment';
+import config from './config/environment';
+
+let d = window.define;
+
+for (const [name, module] of Object.entries(compatModules)) {
+  d(name, function () {
+    return module;
+  });
+}
 
 export default class App extends Application {
   modulePrefix = config.modulePrefix;
   podModulePrefix = config.podModulePrefix;
   Resolver = Resolver;
-
-  constructor(...args) {
-    let r = super(...args);
-    if (App.__loadedInitializers) return;
-    loadInitializers(App, config.modulePrefix);
-    App.__loadedInitializers = true;
-  }
 }
+
+loadInitializers(App, config.modulePrefix);

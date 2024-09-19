@@ -21,7 +21,7 @@
     "test:ember": "npm run test:ember --workspaces --if-present"
   },
   "devDependencies": {
-    "@glint/core": "^1.4.0",
+    "@glint/core": "^1.5.0",
     "concurrently": "^8.2.0",
     "release-plan": "^0.9.0",
     "yaml": "^2.4.5"

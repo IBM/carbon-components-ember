@@ -26,9 +26,7 @@
     "skipLibCheck": true,
     "experimentalDecorators": true,
     "paths": {
-      "doc-app/*": [
-        "app/*"
-      ]
+      "doc-app/*": ["app/*"]
     }
   },
   "include": [
@@ -37,9 +35,7 @@
     "app/**/*.gts",
     "node_modules/@gavant/glint-template-types/types/ember-truth-helpers/*"
   ],
-  "exclude": [
-    "../node_modules/.pnpm/@types+ember__controller@3.16.13/**/*"
-  ],
+  "exclude": ["../node_modules/.pnpm/@types+ember__controller@3.16.13/**/*"],
   "glint": {
     "environment": ["ember-template-imports", "ember-loose"]
   }

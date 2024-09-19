@@ -1,129 +1,98 @@
 import { defineConfig } from 'vite';
+import { hmr } from 'ember-vite-hmr';
 import {
   resolver,
   hbs,
   scripts,
   templateTag,
   optimizeDeps,
-  assets,
   compatPrebuild,
+  assets,
   contentFor,
 } from '@embroider/vite';
-import { resolve, join } from 'path';
-import { existsSync } from 'fs';
 import { babel } from '@rollup/plugin-babel';
-import { hmr } from 'ember-vite-hmr';
-import { ResolverLoader } from '@embroider/core';
+import { sassOptions } from './styles-support.js';
+import { resolve } from 'path';
 
-const root = 'node_modules/.embroider/rewritten-app';
+const extensions = [
+  '.mjs',
+  '.gjs',
+  '.js',
+  '.mts',
+  '.gts',
+  '.ts',
+  '.hbs',
+  '.json',
+];
 
-const pathsImporter = () => {
-  const addons = [];
-
-  function getAddons() {
-    const resolverLoader = new ResolverLoader(process.cwd());
-    for (const engine of resolverLoader.resolver.options.engines) {
-      for (const activeAddon of engine.activeAddons) {
-        const stylesFolder = join(activeAddon.root, '_app_styles_');
-        if (existsSync(stylesFolder)) {
-          addons.push(stylesFolder);
-        } else {
-          addons.push(activeAddon.root);
-        }
-      }
-    }
-  }
-
-  async function search(url) {
-    if (!addons.length) {
-      getAddons();
-    }
-    if (existsSync(url)) {
-      return null;
-    }
-    for (const p of addons) {
-      let newPath = join(p, url);
-      if (
-        !newPath.endsWith('.scss') &&
-        !newPath.endsWith('.sass') &&
-        !newPath.endsWith('.css')
-      ) {
-        newPath += '.scss';
-      }
-      if (existsSync(newPath)) {
-        return {
-          file: newPath,
-        };
-      }
-    }
-    return null;
-  }
-  return (url, prev, done) => {
-    search(url)
-      .then(done)
-      .catch((e) => done(null));
-  };
-};
-
-const sassOptions = {
-  alias: [],
-  importer: [pathsImporter()],
+let aliasPlugin = {
+  name: 'env',
+  setup(build) {
+    // Intercept import paths called "env" so esbuild doesn't attempt
+    // to map them to a file system location. Tag them with the "env-ns"
+    // namespace to reserve them for this plugin.
+    build.onResolve({ filter: /^fetch$/ }, (args) => ({
+      path: resolve('./app/ember-fetch.js'),
+    }));
+  },
 };
 
 const docsUrl = process.env.ADDON_DOCS_VERSION_PATH;
 
 console.log('setting base url to', docsUrl);
 
-export default defineConfig(({ mode }) => ({
-  base: docsUrl ? '/carbon-components-ember/versions/' + docsUrl : '',
-  root,
-  // esbuild in vite does not support decorators
-  esbuild: false,
-  cacheDir: resolve('node_modules', '.vite'),
-  plugins: [
-    hbs(),
-    templateTag(),
-    scripts(),
-    resolver(),
-    compatPrebuild(),
-    assets(),
-    contentFor(),
-    hmr(),
-
-    babel({
-      babelHelpers: 'runtime',
-
-      // this needs .hbs because our hbs() plugin above converts them to
-      // javascript but the javascript still also needs babel, but we don't want
-      // to rename them because vite isn't great about knowing how to hot-reload
-      // them if we resolve them to made-up names.
-      extensions: ['.gjs', '.js', '.hbs', '.ts', '.gts'],
-    }),
-  ],
-  css: {
-    preprocessorOptions: {
-      scss: sassOptions,
-    },
-  },
-  optimizeDeps: optimizeDeps({ exclude: ['@embroider/macros'] }),
-  server: {
-    port: 4200,
-    watch: {
-      ignored: ['!**/tmp/**'],
-    },
-  },
-  build: {
-    outDir: resolve(process.cwd(), 'dist'),
-    rollupOptions: {
-      input: {
-        main: resolve(root, 'index.html'),
-        ...(shouldBuildTests(mode)
-          ? { tests: resolve(root, 'tests/index.html') }
-          : undefined),
+export default defineConfig(({ mode }) => {
+  return {
+    base: docsUrl ? '/carbon-components-ember/versions/' + docsUrl : '',
+    resolve: {
+      extensions,
+      alias: {
+        fetch: resolve('./app/ember-fetch.js'),
       },
     },
-  },
-}));
+    plugins: [
+      hbs(),
+      templateTag(),
+      scripts(),
+      resolver(),
+      compatPrebuild(),
+      assets(),
+      contentFor(),
+      hmr(),
+
+      babel({
+        babelHelpers: 'runtime',
+        extensions,
+      }),
+    ],
+    css: {
+      preprocessorOptions: {
+        scss: sassOptions,
+      },
+    },
+    optimizeDeps: {
+      ...optimizeDeps(),
+      esbuildOptions: {
+        ...optimizeDeps().esbuildOptions,
+        plugins: [aliasPlugin, ...optimizeDeps().esbuildOptions.plugins],
+      },
+    },
+    server: {
+      port: 4200,
+    },
+    build: {
+      outDir: 'dist',
+      rollupOptions: {
+        input: {
+          main: 'index.html',
+          ...(shouldBuildTests(mode)
+            ? { tests: 'tests/index.html' }
+            : undefined),
+        },
+      },
+    },
+  };
+});
 
 function shouldBuildTests(mode) {
   return mode !== 'production' || process.env.FORCE_BUILD_TESTS;

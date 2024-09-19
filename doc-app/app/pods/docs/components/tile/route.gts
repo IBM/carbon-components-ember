@@ -29,7 +29,7 @@ class RouteComponent extends Component {
             </p>
           </:above>
           <:below>
-          test
+            test
             <div style='height: 150px;'>test height</div>
             footer
           </:below>

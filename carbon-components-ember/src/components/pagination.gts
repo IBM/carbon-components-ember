@@ -1,7 +1,6 @@
 import { default as Select } from './select.gts';
 import { default as Icon } from './icon.gts';
 import { default as defaultTo } from '../helpers/default-to.ts';
-import { default as range } from 'ember-composable-helpers/helpers/range';
 import { default as eq } from 'ember-truth-helpers/helpers/eq';
 import { default as didInsert } from '@ember/render-modifiers/modifiers/did-insert';
 import { default as didUpdate } from '@ember/render-modifiers/modifiers/did-update';
@@ -227,4 +226,8 @@ export default class CarbonPagination extends Component<Args> {
       {{/if}}
     </div>
   </template>
+}
+
+function range(min: number, max: number, inclusive: boolean) {
+  return [...Array(max + (inclusive ? 1 : 0)).keys()].slice(min);
 }

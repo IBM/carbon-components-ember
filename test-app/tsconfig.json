@@ -26,16 +26,12 @@
     "experimentalDecorators": true,
     "outDir": "dist",
     "paths": {
-      "doc-app/*": [
-        "app/*"
-      ]
+      "doc-app/*": ["app/*"]
     }
   },
   "rootDir": ".",
-  "include": [
-    "app/**/*"
-  ],
+  "include": ["app/**/*"],
   "glint": {
     "environment": ["ember-template-imports"]
-  },
+  }
 }

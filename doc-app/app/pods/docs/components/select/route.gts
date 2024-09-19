@@ -1,11 +1,10 @@
 import DocsDemo from 'ember-cli-addon-docs/components/docs-demo';
 import Select from 'carbon-components-ember/components/select';
 import Tag from 'carbon-components-ember/components/tag';
-import join from 'ember-composable-helpers/helpers/join';
+import join from '@ascua/arrays/helpers/join';
 import { fn } from '@ember/helper';
 import RouteTemplate, { RoutableComponent } from 'ember-routable-component';
 import type SelectController from './controller';
-
 
 class RouteComponent extends RoutableComponent<SelectController> {
   <template>

@@ -9,7 +9,7 @@ class RouteComponent extends RoutableComponent {
       @prefix='Ember'
       @heading='Carbon Components'
       @byline='Carbon Components for Ember'
-        />
+    />
 
     <div class='container'>
       <Demo as |demo|>

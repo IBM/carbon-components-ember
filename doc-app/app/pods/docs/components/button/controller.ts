@@ -4,7 +4,7 @@ import { action } from '@ember/object';
 
 export default class ButtonController extends Controller {
   confirmText: string;
-  type: 'primary'|'secondary';
+  type: 'primary' | 'secondary';
   isSmall: boolean;
   isTertiary: boolean;
   isDisabled: boolean;

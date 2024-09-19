@@ -4,7 +4,6 @@ import { service } from '@ember/service';
 import RouteTemplate, { RoutableComponent } from 'ember-routable-component';
 
 class RouteComponent extends RoutableComponent {
-
   <template>
     <Hero
       @prefix='Ember'

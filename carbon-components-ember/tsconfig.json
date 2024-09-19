@@ -1,10 +1,7 @@
 {
   "extends": "@tsconfig/ember/tsconfig.json",
   "glint": {
-    "environment": [
-      "ember-loose",
-      "ember-template-imports"
-    ]
+    "environment": ["ember-loose", "ember-template-imports"]
   },
   "compilerOptions": {
     "allowJs": true,
@@ -60,9 +57,7 @@
     "src/**/*",
     "unpublished-development-types/**/*"
   ],
-    "glint": {
-      "environment": [
-        "ember-template-imports"
-      ]
-    }
+  "glint": {
+    "environment": ["ember-template-imports"]
   }
+}

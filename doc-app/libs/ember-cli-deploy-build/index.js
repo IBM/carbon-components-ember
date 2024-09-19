@@ -19,7 +19,10 @@ module.exports = {
         var self = this;
         var outputPath = './dist';
         console.log(outputPath, existsSync(outputPath));
-        if (process.env.EMBER_CLI_DEPLOY_REUSE_BUILD === 'true' && existsSync(path.join(outputPath, 'index.html'))) {
+        if (
+          process.env.EMBER_CLI_DEPLOY_REUSE_BUILD === 'true' &&
+          existsSync(path.join(outputPath, 'index.html'))
+        ) {
           this.log('reusing build from `' + outputPath, { verbose: true });
           return Promise.resolve({
             distDir: outputPath,

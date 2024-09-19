@@ -1,7 +1,6 @@
 import Demo from 'ember-cli-addon-docs/components/docs-demo';
 import Modal from 'carbon-components-ember/components/modal';
 import RouteTemplate, { RoutableComponent } from 'ember-routable-component';
-import Component from '@glimmer/component';
 
 class RouteComponent extends RoutableComponent {
   <template>

@@ -1,4 +1,3 @@
-
 @use '@carbon/styles';
 @use '@carbon/grid';
 @use '@carbon/charts/styles.css' as chart-styles;
@@ -48,7 +47,8 @@ $ember-power-select-dropdown-left-border: $ember-power-select-dropdown-border !d
 $ember-power-select-dropdown-contiguous-border: none !default;
 
 $ember-power-select-multiple-option-border-color: gray !default;
-$ember-power-select-multiple-option-border: 1px solid $ember-power-select-multiple-option-border-color !default;
+$ember-power-select-multiple-option-border: 1px solid
+  $ember-power-select-multiple-option-border-color !default;
 
 // Borders radius
 $ember-power-select-default-border-radius: 0px !default; // General border radius
@@ -63,7 +63,7 @@ $ember-power-select-multiple-option-border-radius: $ember-power-select-default-b
 // Other
 $ember-power-select-focus-box-shadow: 0 2px 0 0 #3d70b2 !default;
 $ember-power-select-dropdown-margin: 0 !default; // Margin between the dropdown and the trigger
-$ember-power-select-dropdown-box-shadow: 0 3px 3px 0 rgba(0,0,0,.1) !default;
+$ember-power-select-dropdown-box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.1) !default;
 $ember-power-select-line-height: 1 !default;
 $ember-power-select-trigger-icon-color: $ember-power-select-border-color !default;
 $ember-power-select-clear-btn-margin: 25px !default;
@@ -85,7 +85,8 @@ $ember-power-select-multiple-option-line-height: 1.45 !default;
   .cds--checkbox-label {
     padding: 0;
   }
-  .cds--checkbox-label::before, .cds--checkbox-label::after {
+  .cds--checkbox-label::before,
+  .cds--checkbox-label::after {
     display: none;
   }
   br {
@@ -99,7 +100,8 @@ $ember-power-select-multiple-option-line-height: 1.45 !default;
   fill: #171717;
   pointer-events: none;
 }
-.ember-power-select-trigger, .ember-power-select-trigger-multiple-input {
+.ember-power-select-trigger,
+.ember-power-select-trigger-multiple-input {
   line-height: initial;
   position: relative;
   background: #f3f3f3;
@@ -139,12 +141,12 @@ $ember-power-select-multiple-option-line-height: 1.45 !default;
     padding-left: 1.5rem;
   }
 }
-.ember-power-select-option[aria-current="true"] {
+.ember-power-select-option[aria-current='true'] {
   background: #e5e5e5;
   color: #3d4852;
 }
 
-.ember-power-select-trigger[aria-disabled=true] {
+.ember-power-select-trigger[aria-disabled='true'] {
   .ember-power-select-selected-item {
     color: styles.$text-disabled;
   }
@@ -164,8 +166,9 @@ $ember-power-select-multiple-option-line-height: 1.45 !default;
   }
 }
 
-.ember-basic-dropdown-content, .ember-power-select-dropdown {
-  box-shadow: 0 3px 3px 0 rgba(0,0,0,.1);
+.ember-basic-dropdown-content,
+.ember-power-select-dropdown {
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
 .cds--overflow-menu-options {
@@ -186,8 +189,5 @@ $ember-power-select-multiple-option-line-height: 1.45 !default;
   }
 }
 
-@import "ember-power-select";
-@import "ember-basic-dropdown";
-
-
-
+@import 'ember-power-select';
+@import 'ember-basic-dropdown';

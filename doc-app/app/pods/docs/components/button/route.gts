@@ -10,13 +10,11 @@ import RouteTemplate from 'ember-routable-component';
 import Component from '@glimmer/component';
 import ButtonController from './controller';
 
-
 interface RoutableComponent {
   Args: {
-    controller: ButtonController
-  }
+    controller: ButtonController;
+  };
 }
-
 
 class RouteComponent extends Component<RoutableComponent> {
   <template>
@@ -25,11 +23,14 @@ class RouteComponent extends Component<RoutableComponent> {
     </h1>
 
     <Demo as |demo|>
-      {{!-- // BEGIN-SNIPPET button-simple3.hbs --}}
+      {{! // BEGIN-SNIPPET button-simple3.hbs }}
       <demo.example @name='button-simple.hbs'>
         {{!import Button from 'carbon-components-ember/components/button'}}
 
-        <Button @type='primary' @onClick={{fn (set @controller 'clicked') true}}>
+        <Button
+          @type='primary'
+          @onClick={{fn (set @controller 'clicked') true}}
+        >
           Primary Button
         </Button>
         <Button
@@ -60,7 +61,7 @@ class RouteComponent extends Component<RoutableComponent> {
       <demo.snippet @name='button-simple3.hbs' />
       <demo.snippet @name='button.js' />
     </Demo>
-    {{!-- // END-SNIPPET --}}
+    {{! // END-SNIPPET }}
 
     <Demo as |demo|>
       <Checkbox
@@ -89,13 +90,19 @@ class RouteComponent extends Component<RoutableComponent> {
       </Checkbox>
       <Checkbox
         @checked={{@controller.isTertiary}}
-        @onChange={{fn (set @controller 'isTertiary') (not @controller.isTertiary)}}
+        @onChange={{fn
+          (set @controller 'isTertiary')
+          (not @controller.isTertiary)
+        }}
       >
         Is Tertiary
       </Checkbox>
       <Checkbox
         @checked={{@controller.isDisabled}}
-        @onChange={{fn (set @controller 'isDisabled') (not @controller.isDisabled)}}
+        @onChange={{fn
+          (set @controller 'isDisabled')
+          (not @controller.isDisabled)
+        }}
       >
         Is Disabled
       </Checkbox>

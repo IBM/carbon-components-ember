@@ -7,12 +7,12 @@ export default class NotificationController extends Controller {
   /**
    * @type {NotificationService}
    */
-  @service('carbon-components-ember@notifications') notifications;
+  @service('carbon/notifications') notifications;
   @action
   showNotification(type) {
     this.notifications.info({
-      caption: 'test'
-    })
+      caption: 'test',
+    });
   }
 }
 // END-SNIPPET
