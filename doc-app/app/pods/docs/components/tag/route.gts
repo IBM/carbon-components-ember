@@ -1,6 +1,6 @@
 import Tag, { TagInterface } from 'carbon-components-ember/components/tag';
 import Demo from 'ember-cli-addon-docs/components/docs-demo';
-import castToAny from 'doc-app/helpers/cast-to-any';
+import castToAny from '/app/helpers/cast-to-any';
 import RouteTemplate from 'ember-routable-component';
 import Component from '@glimmer/component';
 import { array } from '@ember/helper';

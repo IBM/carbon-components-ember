@@ -1,22 +1,15 @@
 'use strict';
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const { maybeEmbroider } = require('@embroider/test-setup');
 
 module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
-    autoImport: {
-      watchDependencies: ['carbon-components-ember'],
-    },
-    'ember-cli-babel': {
-      enableTypeScriptTransform: true,
-    },
+    disableDecoratorTransforms: true,
+    enableTypeScriptTransform: true
   });
 
-  if (process.env.EMBROIDER_TEST_SETUP_FORCE === 'classic') {
-    return app.toTree();
-  }
-
-  return require('@embroider/compat').prebuild(app, {
+  return maybeEmbroider(app, {
     staticAddonTrees: true,
     staticAddonTestSupportTrees: true,
     staticComponents: true,

@@ -1,5 +1,5 @@
 import Application from 'doc-app/app';
-import config from 'doc-app/config/environment';
+import config from '/app/config/environment.js';
 import * as QUnit from 'qunit';
 import { setApplication } from '@ember/test-helpers';
 import { setup } from 'qunit-dom';

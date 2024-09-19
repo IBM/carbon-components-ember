@@ -1,70 +1,42 @@
-import { defineConfig } from "vite";
+import { defineConfig } from 'vite';
+import { hmr } from 'ember-vite-hmr';
 import {
   resolver,
   hbs,
   scripts,
   templateTag,
   optimizeDeps,
-  assets,
   compatPrebuild,
-  contentFor
-} from "@embroider/vite";
-import { resolve, join } from "path";
-import { existsSync } from "fs";
-import { babel } from "@rollup/plugin-babel";
-import { hmr } from 'ember-vite-hmr';
-import { ResolverLoader } from '@embroider/core';
+  assets,
+  contentFor,
+} from '@embroider/vite';
+import { babel } from '@rollup/plugin-babel';
+import { sassOptions } from './styles-support.js';
 
-const root = "node_modules/.embroider/rewritten-app";
+const extensions = [
+  '.mjs',
+  '.gjs',
+  '.js',
+  '.mts',
+  '.gts',
+  '.ts',
+  '.hbs',
+  '.json',
+];
 
-const resolverLoader = new ResolverLoader(process.cwd());
 
-const pathsImporter = () => {
-  const addons = [];
-  async function search(url) {
-    if (existsSync(url)) {
-      return null;
-    }
-    if (!addons.length) {
-      for (const engine of resolverLoader.resolver.options.engines) {
-        for (const activeAddon of engine.activeAddons) {
-          const stylesFolder = join(activeAddon.root, '_app_styles_');
-          if (existsSync(stylesFolder)) {
-            addons.push(stylesFolder);
-          } else {
-            addons.push(activeAddon.root);
-          }
-        }
-      }
-    }
-    for (const p of addons) {
-      let newPath = join(p, url);
-      if (!newPath.endsWith('.scss') && !newPath.endsWith('.sass') && !newPath.endsWith('.css')) {
-        newPath += '.scss';
-      }
-      if (existsSync(newPath)) {
+
+const docsUrl = process.env.ADDON_DOCS_VERSION_PATH;
+
+console.log('setting base url to', docsUrl);
+
+
+export default defineConfig(({ mode }) => {
         return {
-          file: newPath
-        };
-      }
-    }
-    return null
-  }
-  return (url, prev, done) => {
-    search(url).then(done).catch(e => done(null));
-  };
-};
-
-const sassOptions = {
-  alias: [],
-  importer: [pathsImporter()]
-}
-
-export default defineConfig({
-  root,
-  // esbuild in vite does not support decorators
-  esbuild: false,
-  cacheDir: resolve("node_modules", ".vite"),
+    base: docsUrl ? '/carbon-components-ember/versions/' + docsUrl : '',
+    resolve: {
+      extensions,
+    },
   plugins: [
     hbs(),
     templateTag(),
@@ -76,34 +48,33 @@ export default defineConfig({
     hmr(),
 
     babel({
-      babelHelpers: "runtime",
-
-      // this needs .hbs because our hbs() plugin above converts them to
-      // javascript but the javascript still also needs babel, but we don't want
-      // to rename them because vite isn't great about knowing how to hot-reload
-      // them if we resolve them to made-up names.
-      extensions: [".gjs", ".js", ".hbs", ".ts", ".gts"],
+        babelHelpers: 'runtime',
+        extensions,
     }),
   ],
   css: {
     preprocessorOptions: {
-      scss: sassOptions
-    }
+        scss: sassOptions,
   },
-  optimizeDeps: optimizeDeps({ exclude: ['@embroider/macros', 'ember-code-snippet'] }),
+    },
+    optimizeDeps: optimizeDeps(),
   server: {
     port: 4200,
-    watch: {
-      ignored: ["!**/node_modules/.embroider/rewritten-app/**"],
-    },
   },
   build: {
-    outDir: resolve(process.cwd(), "dist"),
+      outDir: 'dist',
     rollupOptions: {
       input: {
-        main: resolve(root, "index.html"),
-        tests: resolve(root, "tests/index.html"),
+          main: 'index.html',
+          ...(shouldBuildTests(mode)
+            ? { tests: 'tests/index.html' }
+            : undefined),
       },
     },
   },
+  };
 });
+
+function shouldBuildTests(mode) {
+  return mode !== 'production' || process.env.FORCE_BUILD_TESTS;
+}

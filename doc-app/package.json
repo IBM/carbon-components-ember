@@ -28,16 +28,19 @@
     "classic:ember-build": "bash ./scripts/prepare-classic.sh && EMBROIDER_TEST_SETUP_FORCE=classic ember build"
   },
   "devDependencies": {
+    "@babel/plugin-transform-typescript": "^7.21.3",
+    "decorator-transforms": "^2.0.0",
     "@babel/eslint-parser": "^7.22.5",
     "@babel/plugin-proposal-decorators": "^7.22.5",
     "@babel/plugin-transform-runtime": "^7.24.7",
     "@ember/optional-features": "^2.0.0",
     "@ember/string": "^3.1.1",
     "@ember/test-helpers": "^3.3.0",
-    "@embroider/compat": "3.5.1-unstable.216c23b",
-    "@embroider/core": "3.4.10-unstable.216c23b",
-    "@embroider/test-setup": "^3.0.1",
-    "@embroider/vite": "0.2.1-unstable.216c23b",
+    "@embroider/compat": "3.6.2-unstable.ad1534d",
+    "@embroider/config-meta-loader": "0.0.1-unstable.ad1534d",
+    "@embroider/core": "3.4.16-unstable.ad1534d",
+    "@embroider/test-setup": "4.0.1-unstable.ad1534d",
+    "@embroider/vite": "0.2.1-unstable.ad1534d",
     "@embroider/webpack": "^3.2.2",
     "@gavant/glint-template-types": "^0.4.0",
     "@glimmer/component": "^1.1.2",
@@ -47,6 +50,8 @@
     "@glint/environment-ember-template-imports": "^1.4.0",
     "@glint/template": "^1.4.0",
     "@rollup/plugin-babel": "^6.0.4",
+    "@ascua/arrays": "^0.4.6",
+    "ember-truth-helpers": "^4.0.3",
     "carbon-components-ember": "workspace:*",
     "concurrently": "^8.2.0",
     "ember-auto-import": "^2.7.2",
@@ -77,7 +82,7 @@
     "ember-svg-jar": "^2.4.9",
     "ember-template-lint": "^5.11.0",
     "ember-try": "^3.0.0",
-    "ember-vite-hmr": "^1.4.12",
+    "ember-vite-hmr": "^1.5.4",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-ember": "^12.1.1",
@@ -94,6 +99,7 @@
     "stylelint-prettier": "^3.0.0",
     "tracked-built-ins": "^3.1.1",
     "vite": "^5.1.6",
+    "typescript": "^5.4.5",
     "webpack": "^5.90.3"
   },
   "engines": {
@@ -101,5 +107,13 @@
   },
   "ember": {
     "edition": "octane"
+  },
+  "ember-addon": {
+    "type": "app",
+    "version": 2
+  },
+  "exports": {
+    "./tests/*": "./tests/*",
+    "./*": "./app/*"
   }
 }
