@@ -24,7 +24,7 @@ export interface NotificationComponentSignature {
 
 export default class NotificationComponent extends Component<NotificationComponentSignature> {
   @tracked show = true;
-  @service('carbon-components-ember@notifications')
+  @service('carbon/notifications')
   notifications!: NotificationService;
 
   get icon(): IconNames {

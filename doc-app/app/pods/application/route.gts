@@ -20,7 +20,7 @@ interface Signature<T> {
 class RouteComponent extends Component<Signature<any>> {
   @service('carbon-components-ember@dialog-manager')
   dialogManager: DialogManagerService;
-  @service('carbon-components-ember@notifications') notifications;
+  @service('carbon/notifications') notifications;
 
   <template>
     <DocsHeader />

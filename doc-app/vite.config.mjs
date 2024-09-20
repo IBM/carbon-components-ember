@@ -25,21 +25,33 @@ const extensions = [
   '.json',
 ];
 
-
+let aliasPlugin = {
+  name: 'env',
+  setup(build) {
+    // Intercept import paths called "env" so esbuild doesn't attempt
+    // to map them to a file system location. Tag them with the "env-ns"
+    // namespace to reserve them for this plugin.
+    build.onResolve({ filter: /^fetch$/ }, args => ({
+      path: resolve('./app/ember-fetch.js'),
+    }));
+  },
+};
 
 const docsUrl = process.env.ADDON_DOCS_VERSION_PATH;
 
 console.log('setting base url to', docsUrl);
-
 
 export default defineConfig(({ mode }) => {
   return {
     base: docsUrl ? '/carbon-components-ember/versions/' + docsUrl : '',
     resolve: {
       extensions,
-      alias: {
-        'fetch': resolve('./app/ember-fetch.js')
-      }
+      alias: [
+        {
+          find: 'fetch',
+          replacement: resolve('./app/ember-fetch.js'),
+        },
+      ],
     },
     plugins: [
       hbs(),
@@ -61,7 +73,13 @@ export default defineConfig(({ mode }) => {
         scss: sassOptions,
       },
     },
-    optimizeDeps: optimizeDeps(),
+    optimizeDeps: {
+      ...optimizeDeps(),
+      esbuildOptions: {
+        ...optimizeDeps().esbuildOptions,
+        plugins: [aliasPlugin, ...optimizeDeps().esbuildOptions.plugins],
+      },
+    },
     server: {
       port: 4200,
     },

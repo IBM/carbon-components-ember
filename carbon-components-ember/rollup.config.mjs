@@ -1,10 +1,9 @@
 import path from 'path';
 import fs from 'fs';
-import postcss from 'rollup-plugin-postcss'
+import postcss from 'rollup-plugin-postcss';
 import { babel } from '@rollup/plugin-babel';
 import copy from 'rollup-plugin-copy';
 import { Addon } from '@embroider/addon-dev/rollup';
-
 
 // rollup-plugin-astroturf mjs has wrong import specifiers...
 import { createRequire } from 'module';
@@ -24,7 +23,7 @@ const rootImport = (options) => ({
       return fs.existsSync(absPath) ? absPath : null;
     }
     return null;
-  }
+  },
 });
 
 export default {
@@ -35,7 +34,6 @@ export default {
   treeshake: true,
 
   plugins: [
-
     // These are the modules that users should be able to import from your
     // addon. Anything not listed here may get optimized away.
     // By default all your JavaScript modules (**/*.js) will be importable.
@@ -43,17 +41,30 @@ export default {
     // up your addon's public API. Also make sure your package.json#exports
     // is aligned to the config here.
     // See https://github.com/embroider-build/embroider/blob/main/docs/v2-faq.md#how-can-i-define-the-public-exports-of-my-addon
-    addon.publicEntrypoints(['**/*.{js,ts}', 'index.js', 'template-registry.js']),
+    addon.publicEntrypoints([
+      '**/*.{js,ts}',
+      'index.js',
+      'template-registry.js',
+    ]),
 
     // These are the modules that should get reexported into the traditional
     // "app" tree. Things in here should also be in publicEntrypoints above, but
     // not everything in publicEntrypoints necessarily needs to go here.
-    addon.appReexports([
-      'components/**/*.{js,ts,gts,gjs}',
-      'helpers/**/*.{js,ts}',
-      'modifiers/**/*.{js,ts}',
-      'services/**/*.{js,ts}',
-    ]),
+    addon.appReexports(
+      [
+        'components/**/*.{js,ts,gts,gjs}',
+        'helpers/**/*.{js,ts}',
+        'modifiers/**/*.{js,ts}',
+        'services/**/*.{js,ts}',
+      ],
+      {
+        mapFilename: (fn) => {
+          const parts = fn.split(path.sep);
+          parts.splice(1, 0, 'carbon');
+          return parts.join(path.sep);
+        },
+      },
+    ),
 
     // Follow the V2 Addon rules about dependencies. Your code can import from
     // `dependencies` and `peerDependencies` as well as standard Ember-provided
@@ -61,7 +72,7 @@ export default {
     addon.dependencies(),
 
     astroturf({
-      include: /\.(jsx?|tsx?|gts|gjs)/i
+      include: /\.(jsx?|tsx?|gts|gjs)/i,
     }),
 
     // This babel config should *not* apply presets or compile away ES modules.
@@ -96,7 +107,7 @@ export default {
     postcss({
       modules: true,
       // Or with custom options for `postcss-modules`
-      modules: {}
+      modules: {},
     }),
 
     // Copy Readme and License into published package
@@ -108,4 +119,3 @@ export default {
     }),
   ],
 };
-
