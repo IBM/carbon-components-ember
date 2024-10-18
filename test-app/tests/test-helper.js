@@ -12,4 +12,4 @@ setup(QUnit.assert);
 
 setupQunit();
 
-start();
+export { start };

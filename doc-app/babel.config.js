@@ -27,7 +27,7 @@ module.exports = {
     [
       'module:decorator-transforms',
       {
-        runtime: { import: require.resolve('decorator-transforms/runtime').replace('.cjs', '.js') },
+        runtime: { import: require.resolve('decorator-transforms/runtime-esm') },
       },
     ],
     [
