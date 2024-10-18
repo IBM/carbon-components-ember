@@ -1,10 +1,8 @@
 import Demo from 'ember-cli-addon-docs/components/docs-demo';
 import { array } from '@ember/helper';
-import RouteTemplate, { RoutableComponent } from 'ember-routable-component';
-import Component from '@glimmer/component';
+import RouteTemplate from 'ember-routable-component';
 import Breadcrumbs from 'carbon-components-ember/components/breadcrumbs';
-
-class RouteComponent extends RoutableComponent {
+export default RouteTemplate(
   <template>
     <h1>
       Carbon Breadcrumbs
@@ -18,7 +16,5 @@ class RouteComponent extends RoutableComponent {
       </demo.example>
       <demo.snippet @name='breadcrumbs-simple.hbs' />
     </Demo>
-  </template>
-}
-
-export default RouteTemplate(RouteComponent);
+  </template>,
+);
