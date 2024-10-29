@@ -6,8 +6,7 @@
     "ember-addon",
     "ember-cli-deploy-plugin"
   ],
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "ember-cli-deploy-plugin": "^0.2.9",
     "glob": "^11.0.0"

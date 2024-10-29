@@ -2,7 +2,7 @@ name: Test, Build & Publish
 
 on:
   push:
-    branches: '**'
+    branches: "**"
     tags:
       - v*
 
@@ -47,7 +47,7 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
     env:
-      CI: 'true'
+      CI: "true"
     strategy:
       fail-fast: false
       matrix:
@@ -84,22 +84,15 @@ jobs:
             ${{ runner.os }}-pnpm-store-
       - name: Install dependencies (pnpm)
         run: pnpm install
-#      - name: Setup ember-try scenario
-#        working-directory: ./test-app
-#        run: ./node_modules/.bin/ember try:one ember-${{ matrix.scenario }} --skip-cleanup --- cat package.json
+      #      - name: Setup ember-try scenario
+      #        working-directory: ./test-app
+      #        run: ./node_modules/.bin/ember try:one ember-${{ matrix.scenario }} --skip-cleanup --- cat package.json
       - name: Build V2 addon
         working-directory: ./carbon-components-ember
         run: pnpm run build
-      - name: Build test app
-        working-directory: ./test-app
-        env:
-          EMBROIDER_TEST_SETUP_FORCE: classic
-        run: pnpm run classic:build-ember
       - name: Run test
         working-directory: ./test-app
-        env:
-          EMBROIDER_TEST_SETUP_FORCE: classic
-        run: pnpm run classic:test-ember
+        run: pnpm run test:ember
 
   deploy:
     needs: [test, ember-try]

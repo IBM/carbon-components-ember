@@ -7,8 +7,6 @@ import newObj from 'carbon-components-ember/helpers/new-obj';
 import RadioButtonGroup from 'carbon-components-ember/components/radio/group';
 import RouteTemplate, { RoutableComponent } from 'ember-routable-component';
 
-
-
 class RouteComponent extends RoutableComponent {
   <template>
     <h1>

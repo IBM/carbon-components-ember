@@ -12,8 +12,8 @@ import PaginationController from './controller';
 
 interface RoutableComponent {
   Args: {
-    controller: PaginationController
-  }
+    controller: PaginationController;
+  };
 }
 
 class RouteComponent extends Component<RoutableComponent> {
@@ -48,14 +48,20 @@ class RouteComponent extends Component<RoutableComponent> {
         </label>
         <Checkbox
           @checked={{@controller.disabled}}
-          @onChange={{fn (set @controller 'disabled') (not @controller.disabled)}}
+          @onChange={{fn
+            (set @controller 'disabled')
+            (not @controller.disabled)
+          }}
         />
         <label>
           isLoading
         </label>
         <Checkbox
           @checked={{@controller.isLoading}}
-          @onChange={{fn (set @controller 'isLoading') (not @controller.isLoading)}}
+          @onChange={{fn
+            (set @controller 'isLoading')
+            (not @controller.isLoading)
+          }}
         />
         <label>
           itemsPerPage

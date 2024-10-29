@@ -24,10 +24,10 @@
     "start": "vite --mode=test",
     "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
     "build:ember": "EMBROIDER_PREBUILD=true ember b",
-    "test:ember": "node ./scripts/run-tests.mjs",
-    "classic:test-ember": "bash ./scripts/prepare-classic.sh && EMBROIDER_TEST_SETUP_FORCE=classic ember test",
-    "classic:build-ember": "bash ./scripts/prepare-classic.sh && EMBROIDER_TEST_SETUP_FORCE=classic ember build",
-    "classic:ember-serve": "bash ./scripts/prepare-classic.sh ./tests/index.html && EMBROIDER_TEST_SETUP_FORCE=classic ember test --serv",
+    "test:ember": "vite build --mode test && ember test --path dist",
+    "classic:test-ember": "ember test",
+    "classic:build-ember": "EMBROIDER_TEST_SETUP_FORCE=classic ember build",
+    "classic:ember-serve": "EMBROIDER_TEST_SETUP_FORCE=classic ember test --serv",
     "ember:serve": "vite  --mode=test --force --open tests/"
   },
   "devDependencies": {
@@ -36,17 +36,19 @@
     "@ember/optional-features": "^2.0.0",
     "@ember/string": "^3.1.1",
     "@ember/test-helpers": "^3.3.0",
-    "@embroider/compat": "3.5.1-unstable.216c23b",
-    "@embroider/core": "3.4.10-unstable.216c23b",
-    "@embroider/test-setup": "^3.0.1",
-    "@embroider/vite": "0.2.1-unstable.216c23b",
+    "@embroider/compat": "unstable",
+    "@embroider/macros": "^1.16.9",
+    "@embroider/config-meta-loader": "unstable",
+    "@embroider/core": "unstable",
+    "@embroider/test-setup": "unstable",
+    "@embroider/vite": "unstable",
     "@embroider/webpack": "^3.2.2",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
-    "@glint/core": "^1.4.0",
-    "@glint/environment-ember-loose": "^1.4.0",
-    "@glint/environment-ember-template-imports": "^1.4.0",
-    "@glint/template": "^1.4.0",
+    "@glint/core": "^1.5.0",
+    "@glint/environment-ember-loose": "^1.5.0",
+    "@glint/environment-ember-template-imports": "^1.5.0",
+    "@glint/template": "^1.5.0",
     "@rollup/plugin-babel": "^6.0.4",
     "@types/qunit": "^2.19.5",
     "carbon-components-ember": "workspace:*",
@@ -61,17 +63,16 @@
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
-    "ember-fetch": "^8.1.2",
-    "ember-load-initializers": "^2.1.2",
+    "ember-load-initializers": "^3.0.1",
     "ember-modifier": "^4.1.0",
     "ember-page-title": "^7.0.0",
     "ember-qunit": "^8.1.0",
-    "ember-resolver": "^12.0.1",
+    "ember-resolver": "^13.0.2",
     "ember-source": "^5.10.1",
     "ember-source-channel-url": "^3.0.0",
     "ember-template-lint": "^5.11.0",
     "ember-try": "^3.0.0",
-    "ember-vite-hmr": "^1.4.11",
+    "ember-vite-hmr": "^1.8.2",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-ember": "^12.1.1",
@@ -90,14 +91,23 @@
     "stylelint-prettier": "^3.0.0",
     "tracked-built-ins": "^3.1.1",
     "webpack": "^5.90.3",
-    "vite": "^5.1.6",
+    "vite": "^5.4.9",
     "ember-routable-component": "^1.2.0",
-    "ember-template-imports": "^4.1.1"
+    "ember-template-imports": "^4.1.1",
+    "decorator-transforms": "^2.2.2"
   },
   "engines": {
     "node": "16.* || >= 18"
   },
   "ember": {
     "edition": "octane"
+  },
+  "ember-addon": {
+    "type": "app",
+    "version": 2
+  },
+  "exports": {
+    "./tests/*": "./tests/*",
+    "./*": "./app/*"
   }
 }

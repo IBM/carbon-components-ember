@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: 'main'
+          ref: "main"
       # This will only cause the `check-plan` job to have a "command" of `release`
       # when the .release-plan.json file was changed on the last commit.
       - id: check-release
@@ -50,7 +50,7 @@ jobs:
         # github-changelog can discover what's changed since the last release
         with:
           fetch-depth: 0
-          ref: 'main'
+          ref: "main"
       - uses: actions/setup-node@v4
         with:
           node-version: 18
@@ -89,7 +89,7 @@ jobs:
           INPUT_BRANCH: release-preview
           INPUT_TITLE: Prepare Release
           INPUT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          INPUT_AUTHOR: '${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>'
+          INPUT_AUTHOR: "${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>"
           INPUT_BODY: |
             This PR is a preview of the release that [release-plan](https://github.com/embroider-build/release-plan) has prepared. To release you should just merge this PR 👍
 
