@@ -13,6 +13,9 @@ import {
 import { babel } from '@rollup/plugin-babel';
 import { sassOptions } from './styles-support.js';
 import { resolve } from 'path';
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
 
 const extensions = [
   '.mjs',
@@ -48,6 +51,7 @@ export default defineConfig(({ mode }) => {
       extensions,
       alias: {
         fetch: resolve('./app/ember-fetch.js'),
+        "ember-composable-helpers": require.resolve("@nullvoxpopuli/ember-composable-helpers")
       },
     },
     plugins: [
