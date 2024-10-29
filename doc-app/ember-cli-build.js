@@ -13,6 +13,11 @@ module.exports = function (defaults) {
       disableDecoratorTransforms: true,
       enableTypeScriptTransform: true,
     },
+    autoImport: {
+      alias: {
+        "ember-composable-helpers": "@nullvoxpopuli/ember-composable-helpers",
+      },
+    },
   });
 
   return maybeEmbroider(app, {

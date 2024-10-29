@@ -29,11 +29,11 @@
     "classic:ember-build": "bash ./scripts/prepare-classic.sh && EMBROIDER_TEST_SETUP_FORCE=classic ember build"
   },
   "devDependencies": {
-    "@babel/plugin-transform-typescript": "^7.21.3",
-    "decorator-transforms": "^2.2.2",
+    "@ascua/arrays": "^0.4.6",
     "@babel/eslint-parser": "^7.22.5",
     "@babel/plugin-proposal-decorators": "^7.22.5",
     "@babel/plugin-transform-runtime": "^7.24.7",
+    "@babel/plugin-transform-typescript": "^7.21.3",
     "@ember/optional-features": "^2.0.0",
     "@ember/string": "^3.1.1",
     "@ember/test-helpers": "^3.3.0",
@@ -51,10 +51,9 @@
     "@glint/environment-ember-template-imports": "^1.5.0",
     "@glint/template": "^1.5.0",
     "@rollup/plugin-babel": "^6.0.4",
-    "@ascua/arrays": "^0.4.6",
-    "ember-truth-helpers": "^4.0.3",
     "carbon-components-ember": "workspace:*",
     "concurrently": "^8.2.0",
+    "decorator-transforms": "^2.2.2",
     "ember-auto-import": "^2.7.2",
     "ember-cli": "~5.9.0",
     "ember-cli-addon-docs": "^7.0.1",
@@ -82,6 +81,7 @@
     "ember-source-channel-url": "^3.0.0",
     "ember-svg-jar": "^2.4.9",
     "ember-template-lint": "^5.11.0",
+    "ember-truth-helpers": "^4.0.3",
     "ember-try": "^3.0.0",
     "ember-vite-hmr": "^1.8.1",
     "eslint": "^8.57.0",
@@ -99,9 +99,10 @@
     "stylelint-config-standard": "^33.0.0",
     "stylelint-prettier": "^3.0.0",
     "tracked-built-ins": "^3.1.1",
-    "vite": "^5.1.6",
     "typescript": "^5.4.5",
-    "webpack": "^5.90.3"
+    "vite": "^5.1.6",
+    "webpack": "^5.90.3",
+    "@nullvoxpopuli/ember-composable-helpers": "^5.2.5"
   },
   "engines": {
     "node": "16.* || >= 18"
