@@ -53,7 +53,7 @@
     "@types/qunit": "^2.19.5",
     "carbon-components-ember": "workspace:*",
     "concurrently": "^8.2.0",
-    "ember-auto-import": "^2.7.4",
+    "ember-auto-import": "^2.9.0",
     "ember-cli": "^5.10.0",
     "ember-cli-app-version": "^6.0.1",
     "ember-cli-babel": "^8.2.0",

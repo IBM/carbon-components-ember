@@ -54,7 +54,7 @@
     "carbon-components-ember": "workspace:*",
     "concurrently": "^8.2.0",
     "decorator-transforms": "^2.2.2",
-    "ember-auto-import": "^2.7.2",
+    "ember-auto-import": "^2.9.0",
     "ember-cli": "~5.9.0",
     "ember-cli-addon-docs": "^7.0.1",
     "ember-cli-addon-docs-yuidoc": "^1.1.0",
