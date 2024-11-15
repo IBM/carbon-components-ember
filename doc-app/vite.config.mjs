@@ -14,6 +14,7 @@ import { babel } from '@rollup/plugin-babel';
 import { sassOptions } from './styles-support.js';
 import { resolve } from 'path';
 import { createRequire } from 'module';
+import { ResolverLoader, virtualContent } from '@embroider/core';
 
 const require = createRequire(import.meta.url);
 
@@ -41,7 +42,7 @@ let aliasPlugin = {
 };
 
 let docsUrl = process.env.ADDON_DOCS_VERSION_PATH;
-if (!docsUrl.endsWith('/')) {
+if (docsUrl && !docsUrl.endsWith('/')) {
   docsUrl += '/';
 }
 
@@ -66,6 +67,23 @@ export default defineConfig(({ mode }) => {
       assets(),
       contentFor(),
       hmr(),
+      {
+        buildEnd() {
+          // workaround https://github.com/embroider-build/embroider/pull/2163
+          const resolverLoader = new ResolverLoader(process.cwd());
+          this.emitFile({
+            type: 'asset',
+            fileName: '@embroider/virtual/vendor.css',
+            source: virtualContent(
+              resolve(
+                resolverLoader.resolver.options.engines[0].root,
+                '-embroider-vendor-styles.css',
+              ),
+              resolverLoader.resolver,
+            ).src,
+          });
+        },
+      },
 
       babel({
         babelHelpers: 'runtime',
