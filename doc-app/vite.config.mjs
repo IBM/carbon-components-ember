@@ -40,13 +40,16 @@ let aliasPlugin = {
   },
 };
 
-const docsUrl = process.env.ADDON_DOCS_VERSION_PATH;
+let docsUrl = process.env.ADDON_DOCS_VERSION_PATH;
+if (!docsUrl.endsWith('/')) {
+  docsUrl += '/';
+}
 
 console.log('setting base url to', docsUrl);
 
 export default defineConfig(({ mode }) => {
   return {
-    base: docsUrl ? '/carbon-components-ember/versions/' + docsUrl : '',
+    base: docsUrl ? '/carbon-components-ember/versions/' + docsUrl : '/',
     resolve: {
       extensions,
       alias: {
