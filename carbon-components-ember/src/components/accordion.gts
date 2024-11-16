@@ -75,8 +75,13 @@ class Item extends Component<ItemSignature> {
           {{@title}}
         </div>
       </button>
-      <div id='accordion-item-{{this.itemId}}' class='cds--accordion__content'>
-        {{yield}}
+      <div class='cds--accordion__wrapper'>
+        <div
+          id='accordion-item-{{this.itemId}}'
+          class='cds--accordion__content'
+        >
+          {{yield}}
+        </div>
       </div>
     </li>
   </template>
