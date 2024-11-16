@@ -2,16 +2,20 @@
   "solution": {
     "carbon-components-ember": {
       "impact": "patch",
-      "oldVersion": "1.0.0",
-      "newVersion": "1.0.1",
+      "oldVersion": "1.0.1",
+      "newVersion": "1.0.2",
       "constraints": [
         {
           "impact": "patch",
           "reason": "Appears in changelog section :bug: Bug Fix"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./carbon-components-ember/package.json"
     }
   },
-  "description": "## Release (2024-07-14)\n\ncarbon-components-ember 1.0.1 (patch)\n\n#### :bug: Bug Fix\n* `carbon-components-ember`\n  * [#231](https://github.com/IBM/carbon-components-ember/pull/231) fix missing declarations ([@patricklx](https://github.com/patricklx))\n\n#### Committers: 1\n- Patrick Pircher ([@patricklx](https://github.com/patricklx))\n"
+  "description": "## Release (2024-11-16)\n\ncarbon-components-ember 1.0.2 (patch)\n\n#### :bug: Bug Fix\n* `carbon-components-ember`\n  * [#246](https://github.com/IBM/carbon-components-ember/pull/246) fix accordion ([@patricklx](https://github.com/patricklx))\n\n#### :house: Internal\n* `carbon-components-ember`, `test-app`\n  * [#232](https://github.com/IBM/carbon-components-ember/pull/232) update embroider vite ([@patricklx](https://github.com/patricklx))\n\n#### Committers: 1\n- Patrick Pircher ([@patricklx](https://github.com/patricklx))\n"
 }

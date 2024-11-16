@@ -1,5 +1,20 @@
 # Changelog
 
+## Release (2024-11-16)
+
+carbon-components-ember 1.0.2 (patch)
+
+#### :bug: Bug Fix
+* `carbon-components-ember`
+  * [#246](https://github.com/IBM/carbon-components-ember/pull/246) fix accordion ([@patricklx](https://github.com/patricklx))
+
+#### :house: Internal
+* `carbon-components-ember`, `test-app`
+  * [#232](https://github.com/IBM/carbon-components-ember/pull/232) update embroider vite ([@patricklx](https://github.com/patricklx))
+
+#### Committers: 1
+- Patrick Pircher ([@patricklx](https://github.com/patricklx))
+
 ## Release (2024-07-14)
 
 carbon-components-ember 1.0.1 (patch)
