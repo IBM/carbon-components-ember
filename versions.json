@@ -8,8 +8,8 @@
   "main": {
     "path": "versions/main",
     "name": "main",
-    "sha": "c130bea8dd577d6deee0e22f921fece5e9676d64",
-    "tag": null
+    "sha": "a0bb2d4db0636d748be2978ce911a18675f14e21",
+    "tag": "v1.0.2-carbon-components-ember"
   },
   "v0.1.5": {
     "path": "versions/v0.1.5",
