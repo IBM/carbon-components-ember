@@ -97,7 +97,7 @@ jobs:
 
   deploy:
     needs: [test, ember-try]
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' || github.ref_type == 'tag'
     runs-on: ubuntu-latest
     strategy:
       matrix:
