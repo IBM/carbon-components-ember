@@ -42,7 +42,7 @@
     "@embroider/core": "unstable",
     "@embroider/test-setup": "unstable",
     "@embroider/vite": "unstable",
-    "@embroider/webpack": "^3.2.2",
+    "@embroider/webpack": "^4.0.8",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "@glint/core": "^1.5.0",

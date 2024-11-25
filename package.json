@@ -31,6 +31,7 @@
       "@types/ember": "../_EXCLUDED",
       "ember-composable-helpers": "../_EXCLUDED",
       "babel-plugin-ember-template-compilation": "^2.2.5",
+      "webpack": "^5.90.3",
       "ember-source": "^5.10.1",
       "semver": "^7.6.3"
     }
