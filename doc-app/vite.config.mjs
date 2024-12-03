@@ -29,18 +29,6 @@ const extensions = [
   '.json',
 ];
 
-let aliasPlugin = {
-  name: 'env',
-  setup(build) {
-    // Intercept import paths called "env" so esbuild doesn't attempt
-    // to map them to a file system location. Tag them with the "env-ns"
-    // namespace to reserve them for this plugin.
-    build.onResolve({ filter: /^fetch$/ }, (args) => ({
-      path: resolve('./app/ember-fetch.js'),
-    }));
-  },
-};
-
 let docsUrl = process.env.ADDON_DOCS_VERSION_PATH;
 if (docsUrl && !docsUrl.endsWith('/')) {
   docsUrl += '/';
@@ -95,13 +83,7 @@ export default defineConfig(({ mode }) => {
         scss: sassOptions,
       },
     },
-    optimizeDeps: {
-      ...optimizeDeps(),
-      esbuildOptions: {
-        ...optimizeDeps().esbuildOptions,
-        plugins: [aliasPlugin, ...optimizeDeps().esbuildOptions.plugins],
-      },
-    },
+    optimizeDeps: optimizeDeps(),
     server: {
       port: 4200,
     },

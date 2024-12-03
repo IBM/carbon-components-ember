@@ -28,6 +28,7 @@
   },
   "pnpm": {
     "overrides": {
+      "ember-fetch": "https://codeload.github.com/NullVoxPopuli/ember-fetch/tar.gz/v2-addon",
       "@types/ember": "../_EXCLUDED",
       "ember-composable-helpers": "../_EXCLUDED",
       "babel-plugin-ember-template-compilation": "^2.2.5",
