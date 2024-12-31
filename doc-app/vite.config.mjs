@@ -54,24 +54,6 @@ export default defineConfig(({ mode }) => {
       assets(),
       contentFor(),
       hmr(),
-      {
-        buildEnd() {
-          // workaround https://github.com/embroider-build/embroider/pull/2163
-          const resolverLoader = new ResolverLoader(process.cwd());
-          this.emitFile({
-            type: 'asset',
-            fileName: '@embroider/virtual/vendor.css',
-            source: virtualContent(
-              resolve(
-                resolverLoader.resolver.options.engines[0].root,
-                '-embroider-vendor-styles.css',
-              ),
-              resolverLoader.resolver,
-            ).src,
-          });
-        },
-      },
-
       babel({
         babelHelpers: 'runtime',
         extensions,
