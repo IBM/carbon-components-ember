@@ -427,8 +427,8 @@ importers:
         specifier: ^1.63.6
         version: 1.77.5
       sass-loader:
-        specifier: ^13.3.2
-        version: 13.3.3(sass-embedded@1.77.5)(sass@1.77.6)(webpack@5.92.1)
+        specifier: ^16.0.4
+        version: 16.0.4(sass-embedded@1.77.5)(sass@1.77.6)(webpack@5.92.1)
       typescript:
         specifier: ^5.5.3
         version: 5.5.3
@@ -4459,6 +4459,7 @@ packages:
 
   carbon-components@10.58.15:
     resolution: {integrity: sha512-w1ubGzeH+HdJotD+B2UgW8hUeTtp1CcXDcki20Il3er6BfLjEhQL5/XlXnJiDzRmB6NgozxOQEbjLPXbZSfiqA==}
+    deprecated: This package is no longer supported. More info at https://carbondesignsystem.com/deprecations/
 
   cardinal@1.0.0:
     resolution: {integrity: sha512-INsuF4GyiFLk8C91FPokbKTc/rwHqV4JnfatVZ6GPhguP1qmkRWX2dp5tepYboYdPpGWisLVLI+KsXoXFPRSMg==}
@@ -10777,23 +10778,25 @@ packages:
     resolution: {integrity: sha512-JQI8aprHDRSNK5exXsbusswTENQPJxW1QWUcLdwuyESoJClT1zo8e+4cmaV5OAU4abcRC6Av4/RmLocPdjcR3A==}
     engines: {node: '>=16.0.0'}
 
-  sass-loader@13.3.3:
-    resolution: {integrity: sha512-mt5YN2F1MOZr3d/wBRcZxeFgwgkH44wVc2zohO2YF6JiOMkiXe4BYRZpSu2sO1g71mo/j16txzUhsKZlqjVGzA==}
-    engines: {node: '>= 14.15.0'}
+  sass-loader@16.0.4:
+    resolution: {integrity: sha512-LavLbgbBGUt3wCiYzhuLLu65+fWXaXLmq7YxivLhEqmiupCFZ5sKUAipK3do6V80YSU0jvSxNhEdT13IXNr3rg==}
+    engines: {node: '>= 18.12.0'}
     peerDependencies:
-      fibers: '>= 3.1.0'
+      '@rspack/core': 0.x || 1.x
       node-sass: ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
       sass: ^1.3.0
       sass-embedded: '*'
       webpack: ^5.90.3
     peerDependenciesMeta:
-      fibers:
+      '@rspack/core':
         optional: true
       node-sass:
         optional: true
       sass:
         optional: true
       sass-embedded:
+        optional: true
+      webpack:
         optional: true
 
   sass@1.77.6:
@@ -15818,12 +15821,12 @@ snapshots:
 
   array-includes@3.1.8:
     dependencies:
-      call-bind: 1.0.7
+      call-bind: 1.0.8
       define-properties: 1.2.1
-      es-abstract: 1.23.3
+      es-abstract: 1.23.8
       es-object-atoms: 1.0.0
-      get-intrinsic: 1.2.4
-      is-string: 1.0.7
+      get-intrinsic: 1.2.6
+      is-string: 1.1.1
 
   array-to-error@1.1.1:
     dependencies:
@@ -15837,9 +15840,9 @@ snapshots:
 
   array.prototype.findlastindex@1.2.5:
     dependencies:
-      call-bind: 1.0.7
+      call-bind: 1.0.8
       define-properties: 1.2.1
-      es-abstract: 1.23.3
+      es-abstract: 1.23.8
       es-errors: 1.3.0
       es-object-atoms: 1.0.0
       es-shim-unscopables: 1.0.2
@@ -17444,8 +17447,8 @@ snapshots:
   call-bind@1.0.8:
     dependencies:
       call-bind-apply-helpers: 1.0.1
-      es-define-property: 1.0.0
-      get-intrinsic: 1.2.4
+      es-define-property: 1.0.1
+      get-intrinsic: 1.2.6
       set-function-length: 1.2.2
 
   call-bound@1.0.3:
@@ -20834,8 +20837,8 @@ snapshots:
   es-to-primitive@1.3.0:
     dependencies:
       is-callable: 1.2.7
-      is-date-object: 1.0.5
-      is-symbol: 1.0.4
+      is-date-object: 1.1.0
+      is-symbol: 1.1.1
 
   es6-promise@1.0.0: {}
 
@@ -21029,7 +21032,7 @@ snapshots:
       object.groupby: 1.0.3
       object.values: 1.2.0
       semver: 7.6.3
-      string.prototype.trimend: 1.0.8
+      string.prototype.trimend: 1.0.9
       tsconfig-paths: 3.15.0
     optionalDependencies:
       '@typescript-eslint/parser': 6.21.0(eslint@8.57.1)(typescript@5.5.3)
@@ -24276,9 +24279,9 @@ snapshots:
 
   object.fromentries@2.0.8:
     dependencies:
-      call-bind: 1.0.7
+      call-bind: 1.0.8
       define-properties: 1.2.1
-      es-abstract: 1.23.3
+      es-abstract: 1.23.8
       es-object-atoms: 1.0.0
 
   object.getownpropertydescriptors@2.1.8:
@@ -24293,9 +24296,9 @@ snapshots:
 
   object.groupby@1.0.3:
     dependencies:
-      call-bind: 1.0.7
+      call-bind: 1.0.8
       define-properties: 1.2.1
-      es-abstract: 1.23.3
+      es-abstract: 1.23.8
 
   object.pick@1.3.0:
     dependencies:
@@ -25975,13 +25978,13 @@ snapshots:
       sass-embedded-win32-ia32: 1.77.5
       sass-embedded-win32-x64: 1.77.5
 
-  sass-loader@13.3.3(sass-embedded@1.77.5)(sass@1.77.6)(webpack@5.92.1):
+  sass-loader@16.0.4(sass-embedded@1.77.5)(sass@1.77.6)(webpack@5.92.1):
     dependencies:
       neo-async: 2.6.2
-      webpack: 5.92.1
     optionalDependencies:
       sass: 1.77.6
       sass-embedded: 1.77.5
+      webpack: 5.92.1
 
   sass@1.77.6:
     dependencies:
