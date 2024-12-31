@@ -1,6 +1,6 @@
 import DialogManager from './addon/services/dialog-manager';
 import Notifications from './addon/services/notifications';
-import 'ember-source/types/stable';
+import 'ember-source/types';
 
 declare module '@ember/service' {
   export interface Registry {
