@@ -1,5 +1,10 @@
 # Changelog
 
+
+
+
+
+
 ## Release (2024-11-16)
 
 carbon-components-ember 1.0.2 (patch)
