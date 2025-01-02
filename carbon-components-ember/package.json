@@ -165,7 +165,7 @@
     "rollup-plugin-copy": "^3.4.0",
     "sass": "^1.62.1",
     "sass-embedded": "^1.63.6",
-    "sass-loader": "^13.3.2",
+    "sass-loader": "^16.0.4",
     "typescript": "^5.5.3",
     "typescript-plugin-css-modules": "^5.0.1",
     "yui": "^3.18.1",
