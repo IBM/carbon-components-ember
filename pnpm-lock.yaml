@@ -94,7 +94,7 @@ importers:
         version: 8.57.0
       '@gavant/glint-template-types':
         specifier: ^0.3.3
-        version: 0.3.6(5eguw3ivtkxy4x4s2wagdaiy5m)
+        version: 0.3.6(5uuuckf525ov6oczehr62rdafq)
       '@glimmer/component':
         specifier: ^1.1.2
         version: 1.1.2(@babel/core@7.24.7(supports-color@8.1.1))
@@ -313,8 +313,8 @@ importers:
         specifier: ^6.8.1
         version: 6.11.0(webpack@5.92.1)
       ember-animated:
-        specifier: ^1.0.4
-        version: 1.1.4(@ember/test-helpers@4.0.4(@babel/core@7.24.7)(@glint/template@1.5.0)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1)))(@glint/environment-ember-loose@1.5.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.24.7)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))))(@glint/template@1.5.0)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))
+        specifier: ^2.1.0
+        version: 2.1.0(@babel/core@7.24.7)(@ember/test-helpers@4.0.4(@babel/core@7.24.7)(@glint/template@1.5.0)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1)))(@glint/environment-ember-loose@1.5.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.24.7)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))))(@glint/template@1.5.0)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))
       ember-cli:
         specifier: ^4.8.0
         version: 4.12.3(babel-core@6.26.3)(handlebars@4.7.8)(underscore@1.13.6)
@@ -3738,6 +3738,10 @@ packages:
     resolution: {integrity: sha512-iH+boep2xivfD9wMaZWkywYIURSmsL96d6MoqrC94BnGSvXE4Quf8hnJiHGFYhw/nLeIa1XyRaf4vvcvkwAefg==}
     engines: {node: 8.* || >= 10.*}
 
+  async-function@1.0.0:
+    resolution: {integrity: sha512-hsU18Ae8CDTR6Kgu9DYf0EbCr/a5iGL0rytQDobUcdpYOKokk8LEjVphnXkDkgpi0wYVsqrXuP0bZxJaTqdgoA==}
+    engines: {node: '>= 0.4'}
+
   async-promise-queue@1.0.5:
     resolution: {integrity: sha512-xi0aQ1rrjPWYmqbwr18rrSKbSaXIeIwSd1J4KAgVfkq8utNbdZoht7GfvfY6swFUAMJ9obkc4WPJmtGwl+B8dw==}
 
@@ -5782,6 +5786,14 @@ packages:
       '@ember/test-helpers':
         optional: true
 
+  ember-animated@2.1.0:
+    resolution: {integrity: sha512-VupLeda0SMvD+z0cb3/Zo1F4jL0LUspqDLCOm/P7AwBWtq5pR3cuf9Lhr33b9HJPICGYyU9zQfYPY76CpqKGhA==}
+    peerDependencies:
+      '@ember/test-helpers': ^2.6.0 || ^3.0.0 || >= 4.0.0
+    peerDependenciesMeta:
+      '@ember/test-helpers':
+        optional: true
+
   ember-app-scheduler@7.0.1:
     resolution: {integrity: sha512-7140A/4OJuYBlncfxmreZHX5S7FxO/4KX5NswowIrvGZpaLuoeULjBHgiKBWC1OUzsdHST4jwaDufniHEROajg==}
     engines: {node: 12.* || 14.* || >= 16}
@@ -6500,8 +6512,8 @@ packages:
     resolution: {integrity: sha512-e+HfNH61Bj1X9/jLc5v1owaLYuHdeHHSQlkhCBiTK8rBvKaULl/beGMxwrMXjpYrv4pz22BlY570vVePA2ho4A==}
     engines: {node: '>= 0.4'}
 
-  es-abstract@1.23.8:
-    resolution: {integrity: sha512-lfab8IzDn6EpI1ibZakcgS6WsfEBiB+43cuJo+wgylx1xKXf+Sp+YR3vFuQwC/u3sxYwV8Cxe3B0DpVUu/WiJQ==}
+  es-abstract@1.23.9:
+    resolution: {integrity: sha512-py07lI0wjxAC/DcfK1S6G7iANonniZwTISvdPzk9hzeH0IZIshbuuFxLIU96OyF89Yb9hiqWn8M/bY83KY5vzA==}
     engines: {node: '>= 0.4'}
 
   es-array-method-boxes-properly@1.0.0:
@@ -6529,8 +6541,16 @@ packages:
     resolution: {integrity: sha512-MZ4iQ6JwHOBQjahnjwaC1ZtIBH+2ohjamzAO3oaHcXYup7qxjF2fixyH+Q71voWHeOkI2q/TnJao/KfXYIZWbw==}
     engines: {node: '>= 0.4'}
 
+  es-object-atoms@1.1.1:
+    resolution: {integrity: sha512-FGgH2h8zKNim9ljj7dankFPcICIK9Cp5bm+c2gQSYePhpaG5+esrLODihIorn+Pe6FGJzWhXQotPv73jTaldXA==}
+    engines: {node: '>= 0.4'}
+
   es-set-tostringtag@2.0.3:
     resolution: {integrity: sha512-3T8uNMC3OQTHkFUsFq8r/BwAXLHvU/9O9mE0fBc/MY5iq/8H7ncvO947LmYA6ldWw9Uh8Yhf25zu6n7nML5QWQ==}
+    engines: {node: '>= 0.4'}
+
+  es-set-tostringtag@2.1.0:
+    resolution: {integrity: sha512-j6vWzfrGVfyXxge+O0x5sh6cvxAog0a/4Rdd2K36zCMV5eJ+/+tOAngRO8cODMNWbVRdVlmGZQL2YS3yR8bIUA==}
     engines: {node: '>= 0.4'}
 
   es-shim-unscopables@1.0.2:
@@ -7087,6 +7107,10 @@ packages:
   for-each@0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
 
+  for-each@0.3.4:
+    resolution: {integrity: sha512-kKaIINnFpzW6ffJNDjjyjrk21BkDx38c0xa/klsT8VzLCaMEefv4ZTacrcVR4DmgTeBra++jMDAfS/tS799YDw==}
+    engines: {node: '>= 0.4'}
+
   for-in@1.0.2:
     resolution: {integrity: sha512-7EwmXrOjyL+ChxMhmG5lnW9MPt1aIeZEwKhQzoBUdTV0N3zuwWDZYVJatDvZ2OyzPUvdIAZDsCetk3coyMfcnQ==}
     engines: {node: '>=0.10.0'}
@@ -7238,8 +7262,12 @@ packages:
     resolution: {integrity: sha512-5uYhsJH8VJBTv7oslg4BznJYhDoRI6waYCxMmCdnTrcCrHA/fCFKoTFz2JKKE0HdDFUF7/oQuhzumXJK7paBRQ==}
     engines: {node: '>= 0.4'}
 
-  get-intrinsic@1.2.6:
-    resolution: {integrity: sha512-qxsEs+9A+u85HhllWJJFicJfPDhRmjzoYdl64aMWW9yRIJmSyxdn8IEkuIM530/7T+lv0TIHd8L6Q/ra0tEoeA==}
+  get-intrinsic@1.2.7:
+    resolution: {integrity: sha512-VW6Pxhsrk0KAOqs3WEd0klDiF/+V7gQOpAvY1jVU/LHmaD/kQO4523aiJuikX/QAKYiW6x8Jh+RJej1almdtCA==}
+    engines: {node: '>= 0.4'}
+
+  get-proto@1.0.1:
+    resolution: {integrity: sha512-sTSfBjoXBp89JvIKIefqw7U2CCebsc74kiY6awiGogKtoSGbgjYE/G/+l9sF3MWFPNc9IcoOC4ODfKHfxFmp0g==}
     engines: {node: '>= 0.4'}
 
   get-stdin@4.0.1:
@@ -7465,6 +7493,10 @@ packages:
 
   has-bigints@1.0.2:
     resolution: {integrity: sha512-tSvCKtBr9lkF0Ex0aQiP9N+OpV4zi2r/Nee5VkRDbaqv35RLYMzbwQfFSZZH0kR+Rd6302UJZ2p/bJCEoR3VoQ==}
+
+  has-bigints@1.1.0:
+    resolution: {integrity: sha512-R3pbpkcIqv2Pm3dUwgjclDRVmWpTJW2DcMzcIhEXEx1oh/CEMObMm3KLmRJOdvhM7o4uQBnwr8pzRK2sJWIqfg==}
+    engines: {node: '>= 0.4'}
 
   has-flag@3.0.0:
     resolution: {integrity: sha512-sKJf1+ceQBr4SMkvQnBDNDtf4TXpVhVGateu0t918bl30FnbE2m4vNLX+VWe/dpjlb+HugGYzW7uQXH98HPEYw==}
@@ -7860,8 +7892,8 @@ packages:
   is-arrayish@0.3.2:
     resolution: {integrity: sha512-eVRqCvVlZbuw3GrM63ovNSNAeA1K16kaR/LRY/92w0zxQ5/1YzwblUX652i4Xs9RwAGjW9d9y6X88t8OaAJfWQ==}
 
-  is-async-function@2.0.0:
-    resolution: {integrity: sha512-Y1JXKrfykRJGdlDwdKlLpLyMIiWqWvuSd17TvZk68PLAOGOoF4Xyav1z0Xhoi+gCYjZVeC5SI+hYFOfvXmGRCA==}
+  is-async-function@2.1.1:
+    resolution: {integrity: sha512-9dgM/cZBnNvjzaMYHVoxxfPj2QXt22Ev7SuuPrs+xav0ukGB0S6d4ydZdEiM48kLx5kDV+QBPrpVnFyefL8kkQ==}
     engines: {node: '>= 0.4'}
 
   is-bigint@1.0.4:
@@ -7972,8 +8004,8 @@ packages:
     resolution: {integrity: sha512-zymm5+u+sCsSWyD9qNaejV3DFvhCKclKdizYaJUuHA83RLjb7nSuGnddCHGv0hk+KY7BMAlsWeK4Ueg6EV6XQg==}
     engines: {node: '>=8'}
 
-  is-generator-function@1.0.10:
-    resolution: {integrity: sha512-jsEjy9l3yiXEQ+PsXdmBwEPcOxaXWLspKdplFUVI9vq1iZgIekeC0L167qeu86czQaxed3q/Uzuw0swL0irL8A==}
+  is-generator-function@1.1.0:
+    resolution: {integrity: sha512-nPUB5km40q9e8UfN/Zc24eLlzdSf9OfKByBw9CIdw4H1giPMeA0OIJvbchsCu4npfI2QcMVBsGEBHKZ7wLTWmQ==}
     engines: {node: '>= 0.4'}
 
   is-git-url@1.0.0:
@@ -8592,12 +8624,14 @@ packages:
 
   lodash.omit@4.5.0:
     resolution: {integrity: sha512-XeqSp49hNGmlkj2EJlfrQFIzQ6lXdNro9sddtQzcJY8QaoC2GO0DT7xaIokHeyM+mIT0mPMlPvkYzg2xCuHdZg==}
+    deprecated: This package is deprecated. Use destructuring assignment syntax instead.
 
   lodash.restparam@3.6.1:
     resolution: {integrity: sha512-L4/arjjuq4noiUJpt3yS6KIKDtJwNe2fIYgMqyYYKoeIfV1iEqvPwhCx23o+R9dzouGihDAPN1dTIRWa7zk8tw==}
 
   lodash.template@4.5.0:
     resolution: {integrity: sha512-84vYFxIkmidUiFxidA/KjjH9pAycqW+h980j7Fuz5qxRtO9pgB7MDFTdys1N7A5mcucRiDyEq4fusljItR1T/A==}
+    deprecated: This package is deprecated. Use https://socket.dev/npm/package/eta instead.
 
   lodash.templatesettings@4.2.0:
     resolution: {integrity: sha512-stgLz+i3Aa9mZgnjr/O+v9ruKZsPsndy7qPZOchbqk2cnTU1ZaldKK+v7m54WoKIyxiuMZTKT2H81F8BeAc3ZQ==}
@@ -9357,6 +9391,10 @@ packages:
 
   object.values@1.2.0:
     resolution: {integrity: sha512-yBYjY9QX2hnRmZHAjG/f13MzmBzxzYgQhFrke06TTyKY5zSTEqkOeukBzIdVA3j3ulu8Qa3MbVFShV7T2RmGtQ==}
+    engines: {node: '>= 0.4'}
+
+  object.values@1.2.1:
+    resolution: {integrity: sha512-gXah6aZrcUxjWg2zR2MwouP2eHlCBzdV4pygudehaKXSGW4v2AsRQUK+lwwXhii6KFZcunEnmSUoYp5CXibxtA==}
     engines: {node: '>= 0.4'}
 
   on-finished@2.3.0:
@@ -10340,8 +10378,8 @@ packages:
   reduce-css-calc@2.1.8:
     resolution: {integrity: sha512-8liAVezDmUcH+tdzoEGrhfbGcP7nOV4NkGE3a74+qqvE7nt9i4sKLGBuZNOnpI4WiGksiNPklZxva80061QiPg==}
 
-  reflect.getprototypeof@1.0.9:
-    resolution: {integrity: sha512-r0Ay04Snci87djAsI4U+WNRcSw5S4pOH7qFjd/veA5gC7TbqESR3tcj28ia95L/fYUDw11JKP7uqUKUAfVvV5Q==}
+  reflect.getprototypeof@1.0.10:
+    resolution: {integrity: sha512-00o4I+DVrefhv+nX0ulyi3biSHCPDe+yLv5o/p6d/UVlirijB8E16FtfwSAi4g3tcqrQ4lRAqQSoFEZJehYEcw==}
     engines: {node: '>= 0.4'}
 
   regenerate-unicode-properties@10.1.1:
@@ -10380,8 +10418,8 @@ packages:
     resolution: {integrity: sha512-NcDiDkTLuPR+++OCKB0nWafEmhg/Da8aUPLPMQbK+bxKKCm1/S5he+AqYa4PlMCVBalb4/yxIRub6qkEx5yJbw==}
     engines: {node: '>= 0.4'}
 
-  regexp.prototype.flags@1.5.3:
-    resolution: {integrity: sha512-vqlC04+RQoFalODCbCumG2xIOvapzVMHwsyIGM/SIE8fRhFFsXeH8/QQ+s0T0kDAhKc4k30s73/0ydkHQz6HlQ==}
+  regexp.prototype.flags@1.5.4:
+    resolution: {integrity: sha512-dYqgNSZbDwkaJ2ceRd9ojCGjBq+mOm9LmtXnAnEGyHhN/5R7iDW2TRw3h+o/jCFxus3P2LfWIIiwowAjANm7IA==}
     engines: {node: '>= 0.4'}
 
   regexpp@3.2.0:
@@ -10951,6 +10989,10 @@ packages:
 
   set-function-name@2.0.2:
     resolution: {integrity: sha512-7PGFlmtwsEADb0WYyvCMa1t+yke6daIG4Wirafur5kcf+MhUnPms1UeR0CKQdTZD81yESwMHbtn+TR+dMviakQ==}
+    engines: {node: '>= 0.4'}
+
+  set-proto@1.0.0:
+    resolution: {integrity: sha512-RJRdvCo6IAnPdsvP/7m6bsQqNnn1FCBX5ZNtFL98MmFF/4xAIJTIg1YbHW5DC2W5SKZanrC6i4HsJqlajw/dZw==}
     engines: {node: '>= 0.4'}
 
   set-value@2.0.1:
@@ -14926,11 +14968,11 @@ snapshots:
 
   '@gar/promisify@1.1.3': {}
 
-  '@gavant/glint-template-types@0.3.6(5eguw3ivtkxy4x4s2wagdaiy5m)':
+  '@gavant/glint-template-types@0.3.6(5uuuckf525ov6oczehr62rdafq)':
     dependencies:
       ember-source: 6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7(supports-color@8.1.1)))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1)
     optionalDependencies:
-      ember-animated: 1.1.4(@ember/test-helpers@4.0.4(@babel/core@7.24.7)(@glint/template@1.5.0)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1)))(@glint/environment-ember-loose@1.5.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.24.7)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))))(@glint/template@1.5.0)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))
+      ember-animated: 2.1.0(@babel/core@7.24.7)(@ember/test-helpers@4.0.4(@babel/core@7.24.7)(@glint/template@1.5.0)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1)))(@glint/environment-ember-loose@1.5.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.24.7)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))))(@glint/template@1.5.0)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))
       ember-basic-dropdown: 8.1.0(@ember/string@3.1.1)(@ember/test-helpers@4.0.4(@babel/core@7.24.7)(@glint/template@1.5.0)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1)))(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glimmer/tracking@1.1.2)(@glint/environment-ember-loose@1.5.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.24.7)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))))(@glint/template@1.5.0)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))
       ember-concurrency: 4.0.2(@babel/core@7.24.7)(@glimmer/tracking@1.1.2)(@glint/template@1.5.0)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))
       ember-modifier: 4.2.0(@babel/core@7.24.7(supports-color@8.1.1))(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7(supports-color@8.1.1)))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))
@@ -16257,9 +16299,9 @@ snapshots:
     dependencies:
       call-bind: 1.0.8
       define-properties: 1.2.1
-      es-abstract: 1.23.8
-      es-object-atoms: 1.0.0
-      get-intrinsic: 1.2.6
+      es-abstract: 1.23.9
+      es-object-atoms: 1.1.1
+      get-intrinsic: 1.2.7
       is-string: 1.1.1
 
   array-to-error@1.1.1:
@@ -16276,23 +16318,23 @@ snapshots:
     dependencies:
       call-bind: 1.0.8
       define-properties: 1.2.1
-      es-abstract: 1.23.8
+      es-abstract: 1.23.9
       es-errors: 1.3.0
-      es-object-atoms: 1.0.0
+      es-object-atoms: 1.1.1
       es-shim-unscopables: 1.0.2
 
   array.prototype.flat@1.3.3:
     dependencies:
       call-bind: 1.0.8
       define-properties: 1.2.1
-      es-abstract: 1.23.8
+      es-abstract: 1.23.9
       es-shim-unscopables: 1.0.2
 
   array.prototype.flatmap@1.3.3:
     dependencies:
       call-bind: 1.0.8
       define-properties: 1.2.1
-      es-abstract: 1.23.8
+      es-abstract: 1.23.9
       es-shim-unscopables: 1.0.2
 
   array.prototype.map@1.0.7:
@@ -16330,9 +16372,9 @@ snapshots:
       array-buffer-byte-length: 1.0.2
       call-bind: 1.0.8
       define-properties: 1.2.1
-      es-abstract: 1.23.8
+      es-abstract: 1.23.9
       es-errors: 1.3.0
-      get-intrinsic: 1.2.6
+      get-intrinsic: 1.2.7
       is-array-buffer: 3.0.5
 
   arrify@1.0.1: {}
@@ -16416,6 +16458,8 @@ snapshots:
       username-sync: 1.0.3
     transitivePeerDependencies:
       - supports-color
+
+  async-function@1.0.0: {}
 
   async-promise-queue@1.0.5:
     dependencies:
@@ -17902,13 +17946,13 @@ snapshots:
     dependencies:
       call-bind-apply-helpers: 1.0.1
       es-define-property: 1.0.1
-      get-intrinsic: 1.2.6
+      get-intrinsic: 1.2.7
       set-function-length: 1.2.2
 
   call-bound@1.0.3:
     dependencies:
       call-bind-apply-helpers: 1.0.1
-      get-intrinsic: 1.2.6
+      get-intrinsic: 1.2.7
 
   callsites@3.1.0: {}
 
@@ -19134,14 +19178,31 @@ snapshots:
 
   ember-animated@1.1.4(@ember/test-helpers@4.0.4(@babel/core@7.24.7)(@glint/template@1.5.0)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1)))(@glint/environment-ember-loose@1.5.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.24.7)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))))(@glint/template@1.5.0)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1)):
     dependencies:
-      '@embroider/addon-shim': 1.8.9
-      '@embroider/macros': 1.16.9(@glint/template@1.5.0)
+      '@embroider/addon-shim': 1.9.0
+      '@embroider/macros': 1.16.10(@glint/template@1.5.0)
       '@embroider/util': 1.13.2(@glint/environment-ember-loose@1.5.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.24.7)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))))(@glint/template@1.5.0)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))
-      assert-never: 1.3.0
+      assert-never: 1.4.0
       ember-element-helper: 0.8.6(@glint/environment-ember-loose@1.5.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.24.7)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))))(@glint/template@1.5.0)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))
     optionalDependencies:
       '@ember/test-helpers': 4.0.4(@babel/core@7.24.7(supports-color@8.1.1))(@glint/template@1.5.0)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7(supports-color@8.1.1)))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))
     transitivePeerDependencies:
+      - '@glint/environment-ember-loose'
+      - '@glint/template'
+      - ember-source
+      - supports-color
+    optional: true
+
+  ember-animated@2.1.0(@babel/core@7.24.7)(@ember/test-helpers@4.0.4(@babel/core@7.24.7)(@glint/template@1.5.0)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1)))(@glint/environment-ember-loose@1.5.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.24.7)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))))(@glint/template@1.5.0)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1)):
+    dependencies:
+      '@embroider/addon-shim': 1.9.0
+      '@embroider/macros': 1.16.10(@glint/template@1.5.0)
+      assert-never: 1.4.0
+      decorator-transforms: 2.3.0(@babel/core@7.24.7(supports-color@8.1.1))
+      ember-element-helper: 0.8.6(@glint/environment-ember-loose@1.5.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.24.7)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))))(@glint/template@1.5.0)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))
+    optionalDependencies:
+      '@ember/test-helpers': 4.0.4(@babel/core@7.24.7(supports-color@8.1.1))(@glint/template@1.5.0)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7(supports-color@8.1.1)))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))
+    transitivePeerDependencies:
+      - '@babel/core'
       - '@glint/environment-ember-loose'
       - '@glint/template'
       - ember-source
@@ -19182,7 +19243,7 @@ snapshots:
 
   ember-assign-helper@0.5.0(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1)):
     dependencies:
-      '@embroider/addon-shim': 1.8.9
+      '@embroider/addon-shim': 1.9.0
       ember-source: 6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7(supports-color@8.1.1)))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1)
     transitivePeerDependencies:
       - supports-color
@@ -20409,7 +20470,7 @@ snapshots:
 
   ember-element-helper@0.8.6(@glint/environment-ember-loose@1.5.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.24.7)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))))(@glint/template@1.5.0)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1)):
     dependencies:
-      '@embroider/addon-shim': 1.8.9
+      '@embroider/addon-shim': 1.9.0
       '@embroider/util': 1.13.2(@glint/environment-ember-loose@1.5.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.24.7)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))))(@glint/template@1.5.0)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))
       ember-source: 6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7(supports-color@8.1.1)))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1)
     transitivePeerDependencies:
@@ -20801,7 +20862,7 @@ snapshots:
   ember-style-modifier@4.3.1(@babel/core@7.24.7)(@ember/string@3.1.1)(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1)):
     dependencies:
       '@ember/string': 3.1.1
-      '@embroider/addon-shim': 1.8.9
+      '@embroider/addon-shim': 1.9.0
       csstype: 3.1.3
       decorator-transforms: 1.2.1(@babel/core@7.24.7)
       ember-modifier: 4.2.0(@babel/core@7.24.7(supports-color@8.1.1))(ember-source@6.1.0(@glimmer/component@1.1.2(@babel/core@7.24.7(supports-color@8.1.1)))(@glint/template@1.5.0)(rsvp@4.8.5)(webpack@5.92.1))
@@ -21156,7 +21217,7 @@ snapshots:
       unbox-primitive: 1.0.2
       which-typed-array: 1.1.15
 
-  es-abstract@1.23.8:
+  es-abstract@1.23.9:
     dependencies:
       array-buffer-byte-length: 1.0.2
       arraybuffer.prototype.slice: 1.0.4
@@ -21168,11 +21229,12 @@ snapshots:
       data-view-byte-offset: 1.0.1
       es-define-property: 1.0.1
       es-errors: 1.3.0
-      es-object-atoms: 1.0.0
-      es-set-tostringtag: 2.0.3
+      es-object-atoms: 1.1.1
+      es-set-tostringtag: 2.1.0
       es-to-primitive: 1.3.0
       function.prototype.name: 1.1.8
-      get-intrinsic: 1.2.6
+      get-intrinsic: 1.2.7
+      get-proto: 1.0.1
       get-symbol-description: 1.1.0
       globalthis: 1.0.4
       gopd: 1.2.0
@@ -21194,10 +21256,11 @@ snapshots:
       object-keys: 1.1.1
       object.assign: 4.1.7
       own-keys: 1.0.1
-      regexp.prototype.flags: 1.5.3
+      regexp.prototype.flags: 1.5.4
       safe-array-concat: 1.1.3
       safe-push-apply: 1.0.0
       safe-regex-test: 1.1.0
+      set-proto: 1.0.0
       string.prototype.trim: 1.2.10
       string.prototype.trimend: 1.0.9
       string.prototype.trimstart: 1.0.8
@@ -21236,9 +21299,20 @@ snapshots:
     dependencies:
       es-errors: 1.3.0
 
+  es-object-atoms@1.1.1:
+    dependencies:
+      es-errors: 1.3.0
+
   es-set-tostringtag@2.0.3:
     dependencies:
       get-intrinsic: 1.2.4
+      has-tostringtag: 1.0.2
+      hasown: 2.0.2
+
+  es-set-tostringtag@2.1.0:
+    dependencies:
+      es-errors: 1.3.0
+      get-intrinsic: 1.2.7
       has-tostringtag: 1.0.2
       hasown: 2.0.2
 
@@ -21476,7 +21550,7 @@ snapshots:
       minimatch: 3.1.2
       object.fromentries: 2.0.8
       object.groupby: 1.0.3
-      object.values: 1.2.0
+      object.values: 1.2.1
       semver: 7.6.3
       string.prototype.trimend: 1.0.9
       tsconfig-paths: 3.15.0
@@ -22110,6 +22184,10 @@ snapshots:
     dependencies:
       is-callable: 1.2.7
 
+  for-each@0.3.4:
+    dependencies:
+      is-callable: 1.2.7
+
   for-in@1.0.2: {}
 
   foreground-child@3.2.1:
@@ -22324,18 +22402,23 @@ snapshots:
       has-symbols: 1.0.3
       hasown: 2.0.2
 
-  get-intrinsic@1.2.6:
+  get-intrinsic@1.2.7:
     dependencies:
       call-bind-apply-helpers: 1.0.1
-      dunder-proto: 1.0.1
       es-define-property: 1.0.1
       es-errors: 1.3.0
-      es-object-atoms: 1.0.0
+      es-object-atoms: 1.1.1
       function-bind: 1.1.2
+      get-proto: 1.0.1
       gopd: 1.2.0
       has-symbols: 1.1.0
       hasown: 2.0.2
       math-intrinsics: 1.1.0
+
+  get-proto@1.0.1:
+    dependencies:
+      dunder-proto: 1.0.1
+      es-object-atoms: 1.1.1
 
   get-stdin@4.0.1: {}
 
@@ -22363,7 +22446,7 @@ snapshots:
     dependencies:
       call-bound: 1.0.3
       es-errors: 1.3.0
-      get-intrinsic: 1.2.6
+      get-intrinsic: 1.2.7
 
   get-tsconfig@4.8.1:
     dependencies:
@@ -22636,6 +22719,8 @@ snapshots:
       ansi-regex: 3.0.1
 
   has-bigints@1.0.2: {}
+
+  has-bigints@1.1.0: {}
 
   has-flag@3.0.0: {}
 
@@ -23097,15 +23182,19 @@ snapshots:
     dependencies:
       call-bind: 1.0.8
       call-bound: 1.0.3
-      get-intrinsic: 1.2.6
+      get-intrinsic: 1.2.7
 
   is-arrayish@0.2.1: {}
 
   is-arrayish@0.3.2: {}
 
-  is-async-function@2.0.0:
+  is-async-function@2.1.1:
     dependencies:
+      async-function: 1.0.0
+      call-bound: 1.0.3
+      get-proto: 1.0.1
       has-tostringtag: 1.0.2
+      safe-regex-test: 1.1.0
 
   is-bigint@1.0.4:
     dependencies:
@@ -23113,7 +23202,7 @@ snapshots:
 
   is-bigint@1.1.0:
     dependencies:
-      has-bigints: 1.0.2
+      has-bigints: 1.1.0
 
   is-binary-path@2.1.0:
     dependencies:
@@ -23160,7 +23249,7 @@ snapshots:
   is-data-view@1.0.2:
     dependencies:
       call-bound: 1.0.3
-      get-intrinsic: 1.2.6
+      get-intrinsic: 1.2.7
       is-typed-array: 1.1.15
 
   is-date-object@1.0.5:
@@ -23204,9 +23293,12 @@ snapshots:
 
   is-fullwidth-code-point@3.0.0: {}
 
-  is-generator-function@1.0.10:
+  is-generator-function@1.1.0:
     dependencies:
+      call-bound: 1.0.3
+      get-proto: 1.0.1
       has-tostringtag: 1.0.2
+      safe-regex-test: 1.1.0
 
   is-git-url@1.0.0: {}
 
@@ -23360,7 +23452,7 @@ snapshots:
   is-weakset@2.0.4:
     dependencies:
       call-bound: 1.0.3
-      get-intrinsic: 1.2.6
+      get-intrinsic: 1.2.7
 
   is-what@3.14.1: {}
 
@@ -24714,7 +24806,7 @@ snapshots:
       call-bind: 1.0.8
       call-bound: 1.0.3
       define-properties: 1.2.1
-      es-object-atoms: 1.0.0
+      es-object-atoms: 1.1.1
       has-symbols: 1.1.0
       object-keys: 1.1.1
 
@@ -24728,8 +24820,8 @@ snapshots:
     dependencies:
       call-bind: 1.0.8
       define-properties: 1.2.1
-      es-abstract: 1.23.8
-      es-object-atoms: 1.0.0
+      es-abstract: 1.23.9
+      es-object-atoms: 1.1.1
 
   object.getownpropertydescriptors@2.1.8:
     dependencies:
@@ -24745,7 +24837,7 @@ snapshots:
     dependencies:
       call-bind: 1.0.8
       define-properties: 1.2.1
-      es-abstract: 1.23.8
+      es-abstract: 1.23.9
 
   object.pick@1.3.0:
     dependencies:
@@ -24756,6 +24848,13 @@ snapshots:
       call-bind: 1.0.7
       define-properties: 1.2.1
       es-object-atoms: 1.0.0
+
+  object.values@1.2.1:
+    dependencies:
+      call-bind: 1.0.8
+      call-bound: 1.0.3
+      define-properties: 1.2.1
+      es-object-atoms: 1.1.1
 
   on-finished@2.3.0:
     dependencies:
@@ -24863,7 +24962,7 @@ snapshots:
 
   own-keys@1.0.1:
     dependencies:
-      get-intrinsic: 1.2.6
+      get-intrinsic: 1.2.7
       object-keys: 1.1.1
       safe-push-apply: 1.0.0
 
@@ -25809,15 +25908,15 @@ snapshots:
       css-unit-converter: 1.1.2
       postcss-value-parser: 3.3.1
 
-  reflect.getprototypeof@1.0.9:
+  reflect.getprototypeof@1.0.10:
     dependencies:
       call-bind: 1.0.8
       define-properties: 1.2.1
-      dunder-proto: 1.0.1
-      es-abstract: 1.23.8
+      es-abstract: 1.23.9
       es-errors: 1.3.0
-      get-intrinsic: 1.2.6
-      gopd: 1.2.0
+      es-object-atoms: 1.1.1
+      get-intrinsic: 1.2.7
+      get-proto: 1.0.1
       which-builtin-type: 1.2.1
 
   regenerate-unicode-properties@10.1.1:
@@ -25858,11 +25957,13 @@ snapshots:
       es-errors: 1.3.0
       set-function-name: 2.0.2
 
-  regexp.prototype.flags@1.5.3:
+  regexp.prototype.flags@1.5.4:
     dependencies:
       call-bind: 1.0.8
       define-properties: 1.2.1
       es-errors: 1.3.0
+      get-proto: 1.0.1
+      gopd: 1.2.0
       set-function-name: 2.0.2
 
   regexpp@3.2.0: {}
@@ -26258,7 +26359,7 @@ snapshots:
     dependencies:
       call-bind: 1.0.8
       call-bound: 1.0.3
-      get-intrinsic: 1.2.6
+      get-intrinsic: 1.2.7
       has-symbols: 1.1.0
       isarray: 2.0.5
 
@@ -26531,6 +26632,12 @@ snapshots:
       functions-have-names: 1.2.3
       has-property-descriptors: 1.0.2
 
+  set-proto@1.0.0:
+    dependencies:
+      dunder-proto: 1.0.1
+      es-errors: 1.3.0
+      es-object-atoms: 1.1.1
+
   set-value@2.0.1:
     dependencies:
       extend-shallow: 2.0.1
@@ -26579,14 +26686,14 @@ snapshots:
     dependencies:
       call-bound: 1.0.3
       es-errors: 1.3.0
-      get-intrinsic: 1.2.6
+      get-intrinsic: 1.2.7
       object-inspect: 1.13.3
 
   side-channel-weakmap@1.0.2:
     dependencies:
       call-bound: 1.0.3
       es-errors: 1.3.0
-      get-intrinsic: 1.2.6
+      get-intrinsic: 1.2.7
       object-inspect: 1.13.3
       side-channel-map: 1.0.1
 
@@ -26880,8 +26987,8 @@ snapshots:
       call-bound: 1.0.3
       define-data-property: 1.1.4
       define-properties: 1.2.1
-      es-abstract: 1.23.8
-      es-object-atoms: 1.0.0
+      es-abstract: 1.23.9
+      es-object-atoms: 1.1.1
       has-property-descriptors: 1.0.2
 
   string.prototype.trim@1.2.9:
@@ -26902,7 +27009,7 @@ snapshots:
       call-bind: 1.0.8
       call-bound: 1.0.3
       define-properties: 1.2.1
-      es-object-atoms: 1.0.0
+      es-object-atoms: 1.1.1
 
   string.prototype.trimstart@1.0.8:
     dependencies:
@@ -27659,7 +27766,7 @@ snapshots:
   typed-array-byte-length@1.0.3:
     dependencies:
       call-bind: 1.0.8
-      for-each: 0.3.3
+      for-each: 0.3.4
       gopd: 1.2.0
       has-proto: 1.2.0
       is-typed-array: 1.1.15
@@ -27677,11 +27784,11 @@ snapshots:
     dependencies:
       available-typed-arrays: 1.0.7
       call-bind: 1.0.8
-      for-each: 0.3.3
+      for-each: 0.3.4
       gopd: 1.2.0
       has-proto: 1.2.0
       is-typed-array: 1.1.15
-      reflect.getprototypeof: 1.0.9
+      reflect.getprototypeof: 1.0.10
 
   typed-array-length@1.0.6:
     dependencies:
@@ -27695,11 +27802,11 @@ snapshots:
   typed-array-length@1.0.7:
     dependencies:
       call-bind: 1.0.8
-      for-each: 0.3.3
+      for-each: 0.3.4
       gopd: 1.2.0
       is-typed-array: 1.1.15
       possible-typed-array-names: 1.0.0
-      reflect.getprototypeof: 1.0.9
+      reflect.getprototypeof: 1.0.10
 
   typedarray-to-buffer@3.1.5:
     dependencies:
@@ -27747,7 +27854,7 @@ snapshots:
   unbox-primitive@1.1.0:
     dependencies:
       call-bound: 1.0.3
-      has-bigints: 1.0.2
+      has-bigints: 1.1.0
       has-symbols: 1.1.0
       which-boxed-primitive: 1.1.1
 
@@ -28179,10 +28286,10 @@ snapshots:
       call-bound: 1.0.3
       function.prototype.name: 1.1.8
       has-tostringtag: 1.0.2
-      is-async-function: 2.0.0
+      is-async-function: 2.1.1
       is-date-object: 1.1.0
       is-finalizationregistry: 1.1.1
-      is-generator-function: 1.0.10
+      is-generator-function: 1.1.0
       is-regex: 1.2.1
       is-weakref: 1.1.0
       isarray: 2.0.5
@@ -28210,7 +28317,7 @@ snapshots:
       available-typed-arrays: 1.0.7
       call-bind: 1.0.8
       call-bound: 1.0.3
-      for-each: 0.3.3
+      for-each: 0.3.4
       gopd: 1.2.0
       has-tostringtag: 1.0.2
 
