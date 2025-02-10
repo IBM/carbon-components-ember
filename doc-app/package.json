@@ -102,7 +102,7 @@
     "stylelint-prettier": "^3.0.0",
     "tracked-built-ins": "^3.1.1",
     "typescript": "^5.4.5",
-    "vite": "^6.0.6",
+    "vite": "^6.1.0",
     "webpack": "^5.97.1"
   },
   "engines": {
