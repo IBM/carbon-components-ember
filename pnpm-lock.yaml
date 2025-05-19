@@ -591,8 +591,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(encoding@0.1.13)
       ember-svg-jar:
-        specifier: ^2.6.0
-        version: 2.6.0(@glint/template@1.5.0)
+        specifier: ^2.6.2
+        version: 2.6.2(@glint/template@1.5.0)
       ember-template-lint:
         specifier: ^5.11.0
         version: 5.13.0
@@ -4289,8 +4289,8 @@ packages:
     resolution: {integrity: sha512-XpcFfLoBEAhezrrNw1V+yLXkE7M6uR7xJEsxbG6c/V9v043qurwVJB9r9UTnoSioFDoz1i1VOydpWGmJpfVZbg==}
     engines: {node: '>= 0.4'}
 
-  array.prototype.reduce@1.0.7:
-    resolution: {integrity: sha512-mzmiUCVwtiD4lgxYP8g7IYy8El8p2CSMePvIbTS7gchKir/L1fgJrk0yDKmAX6mnRQFKNADYIk8nNlTris5H1Q==}
+  array.prototype.reduce@1.0.8:
+    resolution: {integrity: sha512-DwuEqgXFBwbmZSRqt3BpQigWNUoqw9Ml2dTWdF3B2zQlQX4OeUE0zyuzX0fX0IbTvjdkZbcBTU3idgpO78qkTw==}
     engines: {node: '>= 0.4'}
 
   arraybuffer.prototype.slice@1.0.3:
@@ -6498,9 +6498,6 @@ packages:
   domutils@2.8.0:
     resolution: {integrity: sha512-w96Cjofp72M5IIhpjgobBimYEfoPjx1Vx0BSX9P30WBdZW2WIKU0T1Bd0kz2eNZ9ikjKgHbEyKx8BB6H1L3h3A==}
 
-  domutils@3.1.0:
-    resolution: {integrity: sha512-H78uMmQtI2AhgDJjWeQmHwJJ2bLPD3GMmO7Zja/ZZh84wkm+4ut+IUnUdRa8uCGX88DiVx1j6FRe1XfxEgjEZA==}
-
   domutils@3.2.2:
     resolution: {integrity: sha512-6kZKyUajlDuqlHKVX1w7gyslj9MPIXzIFiz/rGu35uC1wMi+kMhQwGhl4lt9unC9Vb9INnY9Z3/ZA3+FhASLaw==}
 
@@ -7094,8 +7091,8 @@ packages:
       '@ember/string': ^3.1.1 || ^4.0.0
       ember-source: ^3.28.0 || ^4.0.0 || >=5.0.0
 
-  ember-svg-jar@2.6.0:
-    resolution: {integrity: sha512-LRG+BoQJTHPQlxfCPGIrOZo/UqXtadcOLuUjrhHRyQJJYDFEeJX5sWUsz/bJe48Bgi9FyOoQtdqrRAQ+COn2Kg==}
+  ember-svg-jar@2.6.2:
+    resolution: {integrity: sha512-bDwzecB1DjVMvYCg0QpSsqQoHjK/zRDJ/ob+QbB0VzL8rPbSsThpoyKAsRcNip7m0l+gUxBfyUoHorPlyc0UxA==}
     engines: {node: 12.* || 14.* || >= 16}
 
   ember-template-imports@3.4.2:
@@ -10268,10 +10265,6 @@ packages:
     resolution: {integrity: sha512-tqa/UMy/CCoYmj+H5qc07qvSL9dqcs/WZENZ1JbtWBlATP+iVOe778gE6MSijnyCnORzDuX6hU+LA4SZ09YjFQ==}
     engines: {node: '>=0.10.0'}
 
-  object.values@1.2.0:
-    resolution: {integrity: sha512-yBYjY9QX2hnRmZHAjG/f13MzmBzxzYgQhFrke06TTyKY5zSTEqkOeukBzIdVA3j3ulu8Qa3MbVFShV7T2RmGtQ==}
-    engines: {node: '>= 0.4'}
-
   object.values@1.2.1:
     resolution: {integrity: sha512-gXah6aZrcUxjWg2zR2MwouP2eHlCBzdV4pygudehaKXSGW4v2AsRQUK+lwwXhii6KFZcunEnmSUoYp5CXibxtA==}
     engines: {node: '>= 0.4'}
@@ -10525,8 +10518,8 @@ packages:
   parse5-htmlparser2-tree-adapter@6.0.1:
     resolution: {integrity: sha512-qPuWvbLgvDGilKc5BoicRovlT4MtYT6JfJyBOMDsKoiT+GiuP5qyrPCnR9HcPECIJJmZh5jRndyNThnhhb/vlA==}
 
-  parse5-htmlparser2-tree-adapter@7.0.0:
-    resolution: {integrity: sha512-B77tOZrqqfUfnVcOrUvfdLbz4pu4RopLD/4vmu3HUPswwTA8OH0EMW9BlWR2B0RCoiZRAHEUu7IxeP1Pd1UU+g==}
+  parse5-htmlparser2-tree-adapter@7.1.0:
+    resolution: {integrity: sha512-ruw5xyKs6lrpo9x9rCZqZZnIUntICjQAd0Wsmp396Ul9lN/h+ifgVV1x1gZHi8euej6wTfpqX8j+BFQxF0NS/g==}
 
   parse5-parser-stream@7.1.2:
     resolution: {integrity: sha512-JyeQc9iwFLn5TbvvqACIF/VXG6abODeB3Fwmv/TGdLk2LfbWkaySGY72at4+Ty7EkPZj854u4CrICqNk2qIbow==}
@@ -10536,9 +10529,6 @@ packages:
 
   parse5@6.0.1:
     resolution: {integrity: sha512-Ofn/CTFzRGTTxwpNEs9PP93gXShHcTq255nzRYSKe8AkVpZY7e1fpmTfOyoIvjP5HG7Z2ZM7VS9PPhQGW2pOpw==}
-
-  parse5@7.2.1:
-    resolution: {integrity: sha512-BuBYQYlv1ckiPdQi/ohiivi9Sagc9JG+Ozs0r7b/0iK3sKmrb0b9FdWdBbOdx6hBCM/F9Ir82ofnBhtZOjCRPQ==}
 
   parse5@7.3.0:
     resolution: {integrity: sha512-IInvU7fabl34qmi9gY8XOVxhYyMyuH2xUNpb2q8/Y+7552KlejkRvqvD19nMoUW/uQGGbqNpA6Tufu5FL5BZgw==}
@@ -11719,6 +11709,10 @@ packages:
 
   safe-stable-stringify@2.4.3:
     resolution: {integrity: sha512-e2bDA2WJT0wxseVd4lsDP4+3ONX6HpMXQa1ZhFQ7SU+GjvORCmShbCMltrtIDfkYhVHrOcPtj+KhmDBdPdZD1g==}
+    engines: {node: '>=10'}
+
+  safe-stable-stringify@2.5.0:
+    resolution: {integrity: sha512-b3rppTKm9T+PsVCBEOUR46GWI7fdOs00VKZ1+9c1EWDaDMvjQc6tUwuFyIprgGgTcWoVHSKrU8H31ZHA2e0RHA==}
     engines: {node: '>=10'}
 
   safer-buffer@2.1.2:
@@ -12936,8 +12930,8 @@ packages:
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
-  undici@6.21.0:
-    resolution: {integrity: sha512-BUgJXc752Kou3oOIuU1i+yZZypyZRqNPW0vqoMPl8VaoalSfeR0D8/t4iAS3yirs79SSMTxTag+ZC86uswv+Cw==}
+  undici@6.21.3:
+    resolution: {integrity: sha512-gBLkYIlEnSp8pFbT64yFgGE6UIB9tAkhukC23PmMDCe5Nd+cRqKxSjw5y54MK2AZMgZfJWMaNE4nYUHgi1XEOw==}
     engines: {node: '>=18.17'}
 
   unicode-canonical-property-names-ecmascript@2.0.0:
@@ -18781,7 +18775,7 @@ snapshots:
   '@npmcli/fs@1.1.1':
     dependencies:
       '@gar/promisify': 1.1.3
-      semver: 7.7.2
+      semver: 7.7.1
 
   '@npmcli/git@6.0.3':
     dependencies:
@@ -19383,7 +19377,7 @@ snapshots:
 
   '@types/fs-extra@5.1.0':
     dependencies:
-      '@types/node': 22.14.1
+      '@types/node': 22.15.19
 
   '@types/fs-extra@8.1.5':
     dependencies:
@@ -19434,7 +19428,6 @@ snapshots:
   '@types/node@22.15.19':
     dependencies:
       undici-types: 6.21.0
-    optional: true
 
   '@types/parse-json@4.0.2': {}
 
@@ -19853,7 +19846,7 @@ snapshots:
 
   agent-base@6.0.2(supports-color@8.1.1):
     dependencies:
-      debug: 4.4.1(supports-color@8.1.1)
+      debug: 4.3.5(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -20061,15 +20054,16 @@ snapshots:
       es-object-atoms: 1.0.0
       is-string: 1.0.7
 
-  array.prototype.reduce@1.0.7:
+  array.prototype.reduce@1.0.8:
     dependencies:
       call-bind: 1.0.8
+      call-bound: 1.0.4
       define-properties: 1.2.1
-      es-abstract: 1.23.3
+      es-abstract: 1.23.9
       es-array-method-boxes-properly: 1.0.0
       es-errors: 1.3.0
-      es-object-atoms: 1.0.0
-      is-string: 1.0.7
+      es-object-atoms: 1.1.1
+      is-string: 1.1.1
 
   arraybuffer.prototype.slice@1.0.3:
     dependencies:
@@ -21208,7 +21202,7 @@ snapshots:
       clone: 2.1.2
       hash-for-dep: 1.5.1
       heimdalljs-logger: 0.1.10
-      json-stable-stringify: 1.1.1
+      json-stable-stringify: 1.3.0
       rsvp: 4.8.5
       workerpool: 2.3.4
     transitivePeerDependencies:
@@ -21304,7 +21298,7 @@ snapshots:
       broccoli-persistent-filter: 1.4.6
       clean-css-promise: 0.1.1
       inline-source-map-comment: 1.0.5
-      json-stable-stringify: 1.1.1
+      json-stable-stringify: 1.3.0
     transitivePeerDependencies:
       - supports-color
 
@@ -21675,7 +21669,7 @@ snapshots:
   broccoli-svg-optimizer@2.1.0:
     dependencies:
       broccoli-persistent-filter: 3.1.3
-      safe-stable-stringify: 2.4.3
+      safe-stable-stringify: 2.5.0
       svgo: 1.3.0
     transitivePeerDependencies:
       - supports-color
@@ -22025,20 +22019,20 @@ snapshots:
       css-what: 6.1.0
       domelementtype: 2.3.0
       domhandler: 5.0.3
-      domutils: 3.1.0
+      domutils: 3.2.2
 
   cheerio@1.0.0:
     dependencies:
       cheerio-select: 2.1.0
       dom-serializer: 2.0.0
       domhandler: 5.0.3
-      domutils: 3.1.0
+      domutils: 3.2.2
       encoding-sniffer: 0.2.0
       htmlparser2: 9.1.0
-      parse5: 7.2.1
-      parse5-htmlparser2-tree-adapter: 7.0.0
+      parse5: 7.3.0
+      parse5-htmlparser2-tree-adapter: 7.1.0
       parse5-parser-stream: 7.1.2
-      undici: 6.21.0
+      undici: 6.21.3
       whatwg-mimetype: 4.0.0
 
   chokidar@2.1.8:
@@ -22371,7 +22365,7 @@ snapshots:
     dependencies:
       chalk: 2.4.2
       inquirer: 6.5.2
-      json-stable-stringify: 1.1.1
+      json-stable-stringify: 1.3.0
       ora: 3.4.0
       through2: 3.0.2
 
@@ -23239,12 +23233,6 @@ snapshots:
       domelementtype: 2.3.0
       domhandler: 4.3.1
 
-  domutils@3.1.0:
-    dependencies:
-      dom-serializer: 2.0.0
-      domelementtype: 2.3.0
-      domhandler: 5.0.3
-
   domutils@3.2.2:
     dependencies:
       dom-serializer: 2.0.0
@@ -23617,7 +23605,7 @@ snapshots:
       ember-router-scroll: 4.1.2(@babel/core@7.27.1)
       ember-set-helper: 2.0.1
       ember-source: 6.4.0(@glimmer/component@1.1.2(@babel/core@7.27.1))(rsvp@4.8.5)
-      ember-svg-jar: 2.6.0(@glint/template@1.5.0)
+      ember-svg-jar: 2.6.2(@glint/template@1.5.0)
       ember-tether: 3.1.0(@glint/template@1.5.0)(ember-source@6.4.0(@glimmer/component@1.1.2(@babel/core@7.27.1))(rsvp@4.8.5))(webpack@5.99.5)
       ember-truth-helpers: 4.0.3(ember-source@6.4.0(@glimmer/component@1.1.2(@babel/core@7.27.1))(rsvp@4.8.5))
       esm: 3.2.25
@@ -23705,7 +23693,7 @@ snapshots:
       ember-router-scroll: 4.1.2(@babel/core@7.24.7)
       ember-set-helper: 2.0.1
       ember-source: 6.4.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(rsvp@4.8.5)
-      ember-svg-jar: 2.6.0(@glint/template@1.5.0)
+      ember-svg-jar: 2.6.2(@glint/template@1.5.0)
       ember-tether: 3.1.0(@glint/template@1.5.0)(ember-source@6.4.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(rsvp@4.8.5))(webpack@4.47.0)
       ember-truth-helpers: 4.0.3(ember-source@6.4.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(rsvp@4.8.5))
       esm: 3.2.25
@@ -23820,12 +23808,12 @@ snapshots:
   ember-cli-babel@7.26.11:
     dependencies:
       '@babel/core': 7.27.1
-      '@babel/helper-compilation-targets': 7.24.7
+      '@babel/helper-compilation-targets': 7.27.2
       '@babel/plugin-proposal-class-properties': 7.18.6(@babel/core@7.27.1)
       '@babel/plugin-proposal-decorators': 7.24.7(@babel/core@7.27.1)
       '@babel/plugin-proposal-private-methods': 7.18.6(@babel/core@7.27.1)
       '@babel/plugin-proposal-private-property-in-object': 7.21.11(@babel/core@7.27.1)
-      '@babel/plugin-transform-modules-amd': 7.24.7(@babel/core@7.27.1)
+      '@babel/plugin-transform-modules-amd': 7.27.1(@babel/core@7.27.1)
       '@babel/plugin-transform-runtime': 7.24.7(@babel/core@7.27.1)
       '@babel/plugin-transform-typescript': 7.24.7(@babel/core@7.27.1)
       '@babel/polyfill': 7.12.1
@@ -24060,7 +24048,7 @@ snapshots:
       fs-tree-diff: 2.0.1
       hash-for-dep: 1.5.1
       heimdalljs-logger: 0.1.10
-      json-stable-stringify: 1.1.1
+      json-stable-stringify: 1.3.0
       semver: 7.7.2
       silent-error: 1.1.1
       strip-bom: 4.0.0
@@ -25429,9 +25417,9 @@ snapshots:
       - '@babel/core'
       - supports-color
 
-  ember-svg-jar@2.6.0(@glint/template@1.5.0):
+  ember-svg-jar@2.6.2(@glint/template@1.5.0):
     dependencies:
-      '@embroider/macros': 1.16.9(@glint/template@1.5.0)
+      '@embroider/macros': 1.17.3(@glint/template@1.5.0)
       broccoli-caching-writer: 3.0.3
       broccoli-concat: 4.2.5
       broccoli-funnel: 3.0.8
@@ -25445,7 +25433,7 @@ snapshots:
       ember-cli-babel: 7.26.11
       ember-cli-htmlbars: 5.7.2
       lodash: 4.17.21
-      safe-stable-stringify: 2.4.3
+      safe-stable-stringify: 2.5.0
     transitivePeerDependencies:
       - '@glint/template'
       - supports-color
@@ -25979,7 +25967,7 @@ snapshots:
   eslint-compat-utils@0.5.1(eslint@8.57.1):
     dependencies:
       eslint: 8.57.1
-      semver: 7.7.2
+      semver: 7.6.3
 
   eslint-config-airbnb-base@15.0.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.5.3))(eslint@8.57.1))(eslint@8.57.1):
     dependencies:
@@ -27550,7 +27538,7 @@ snapshots:
     dependencies:
       domelementtype: 2.3.0
       domhandler: 5.0.3
-      domutils: 3.1.0
+      domutils: 3.2.2
       entities: 4.5.0
 
   http-cache-semantics@4.1.1: {}
@@ -28113,7 +28101,7 @@ snapshots:
 
   is-symbol@1.0.4:
     dependencies:
-      has-symbols: 1.0.3
+      has-symbols: 1.1.0
 
   is-symbol@1.1.1:
     dependencies:
@@ -29409,7 +29397,7 @@ snapshots:
     dependencies:
       growly: 1.3.0
       is-wsl: 2.2.0
-      semver: 7.7.2
+      semver: 7.6.3
       shellwords: 0.1.1
       uuid: 8.3.2
       which: 2.0.2
@@ -29565,13 +29553,13 @@ snapshots:
 
   object.getownpropertydescriptors@2.1.8:
     dependencies:
-      array.prototype.reduce: 1.0.7
+      array.prototype.reduce: 1.0.8
       call-bind: 1.0.8
       define-properties: 1.2.1
-      es-abstract: 1.23.3
-      es-object-atoms: 1.0.0
-      gopd: 1.0.1
-      safe-array-concat: 1.1.2
+      es-abstract: 1.23.9
+      es-object-atoms: 1.1.1
+      gopd: 1.2.0
+      safe-array-concat: 1.1.3
 
   object.groupby@1.0.3:
     dependencies:
@@ -29582,12 +29570,6 @@ snapshots:
   object.pick@1.3.0:
     dependencies:
       isobject: 3.0.1
-
-  object.values@1.2.0:
-    dependencies:
-      call-bind: 1.0.7
-      define-properties: 1.2.1
-      es-object-atoms: 1.0.0
 
   object.values@1.2.1:
     dependencies:
@@ -29822,7 +29804,7 @@ snapshots:
       ky: 1.7.2
       registry-auth-token: 5.0.2
       registry-url: 6.0.1
-      semver: 7.7.2
+      semver: 7.7.1
 
   package-json@6.5.0:
     dependencies:
@@ -29895,7 +29877,7 @@ snapshots:
     dependencies:
       parse5: 6.0.1
 
-  parse5-htmlparser2-tree-adapter@7.0.0:
+  parse5-htmlparser2-tree-adapter@7.1.0:
     dependencies:
       domhandler: 5.0.3
       parse5: 7.3.0
@@ -29907,10 +29889,6 @@ snapshots:
   parse5@5.1.1: {}
 
   parse5@6.0.1: {}
-
-  parse5@7.2.1:
-    dependencies:
-      entities: 4.5.0
 
   parse5@7.3.0:
     dependencies:
@@ -31258,6 +31236,8 @@ snapshots:
 
   safe-stable-stringify@2.4.3: {}
 
+  safe-stable-stringify@2.5.0: {}
+
   safer-buffer@2.1.2: {}
 
   sane@4.1.0:
@@ -32144,7 +32124,7 @@ snapshots:
       csso: 3.5.1
       js-yaml: 3.14.1
       mkdirp: 0.5.6
-      object.values: 1.2.0
+      object.values: 1.2.1
       sax: 1.2.4
       stable: 0.1.8
       unquote: 1.1.1
@@ -32894,7 +32874,7 @@ snapshots:
 
   undici-types@6.21.0: {}
 
-  undici@6.21.0: {}
+  undici@6.21.3: {}
 
   unicode-canonical-property-names-ecmascript@2.0.0: {}
 
@@ -33034,8 +33014,8 @@ snapshots:
   util.promisify@1.0.1:
     dependencies:
       define-properties: 1.2.1
-      es-abstract: 1.23.3
-      has-symbols: 1.0.3
+      es-abstract: 1.23.9
+      has-symbols: 1.1.0
       object.getownpropertydescriptors: 2.1.8
 
   util@0.10.4:
@@ -33426,7 +33406,7 @@ snapshots:
 
   workerpool@3.1.2:
     dependencies:
-      '@babel/core': 7.27.1
+      '@babel/core': 7.24.7
       object-assign: 4.1.1
       rsvp: 4.8.5
     transitivePeerDependencies:
