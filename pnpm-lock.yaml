@@ -62,8 +62,8 @@ importers:
         specifier: ^10.7.0
         version: 10.7.0
       '@carbon/layout':
-        specifier: ^11.15.0
-        version: 11.23.0
+        specifier: ^11.34.0
+        version: 11.34.0
       '@carbon/motion':
         specifier: ^11.12.0
         version: 11.19.0
@@ -2100,9 +2100,6 @@ packages:
 
   '@carbon/import-once@10.7.0':
     resolution: {integrity: sha512-KoqbfzGKjO89iUPabN6zNpXpcjxgQYgpHmesZ/DXc/zeV0PyHrnAOC8Q3J0cRPf1zYpGRHN2Tbw1ttTjonzbjg==}
-
-  '@carbon/layout@11.23.0':
-    resolution: {integrity: sha512-7YFTFG9mqtvFp67h+qO2z2BG7QmbHc0jVgUevwtOHSCdVHRwhYqEFNGCCE4+MhMHetUjl/z3ut4rNfHleoyOWg==}
 
   '@carbon/layout@11.34.0':
     resolution: {integrity: sha512-6PMofb/Ul/CZkP1XivszK2teh0odPV/bUG/PPQlVX1xnFdc+4O9o08JnFG9N2Ie6syncOXRCf8z1CegpV28x9A==}
@@ -16943,7 +16940,7 @@ snapshots:
 
   '@carbon/colors@11.23.1':
     dependencies:
-      '@ibm/telemetry-js': 1.6.0
+      '@ibm/telemetry-js': 1.9.1
 
   '@carbon/colors@11.33.0':
     dependencies:
@@ -16957,7 +16954,7 @@ snapshots:
 
   '@carbon/grid@11.24.0':
     dependencies:
-      '@carbon/layout': 11.23.0
+      '@carbon/layout': 11.34.0
       '@ibm/telemetry-js': 1.6.0
 
   '@carbon/grid@11.36.0':
@@ -16974,10 +16971,6 @@ snapshots:
       '@ibm/telemetry-js': 1.6.0
 
   '@carbon/import-once@10.7.0': {}
-
-  '@carbon/layout@11.23.0':
-    dependencies:
-      '@ibm/telemetry-js': 1.6.0
 
   '@carbon/layout@11.34.0':
     dependencies:
@@ -17018,7 +17011,7 @@ snapshots:
   '@carbon/themes@11.37.0':
     dependencies:
       '@carbon/colors': 11.23.0
-      '@carbon/layout': 11.23.0
+      '@carbon/layout': 11.34.0
       '@carbon/type': 11.28.0
       '@ibm/telemetry-js': 1.6.0
       color: 4.2.3
@@ -17034,7 +17027,7 @@ snapshots:
   '@carbon/type@11.28.0':
     dependencies:
       '@carbon/grid': 11.24.0
-      '@carbon/layout': 11.23.0
+      '@carbon/layout': 11.34.0
       '@ibm/telemetry-js': 1.6.0
 
   '@carbon/type@11.40.0':
@@ -17045,7 +17038,7 @@ snapshots:
 
   '@carbon/utils-position@1.3.0':
     dependencies:
-      '@ibm/telemetry-js': 1.6.0
+      '@ibm/telemetry-js': 1.9.1
 
   '@cnakazawa/watch@1.0.4':
     dependencies:
