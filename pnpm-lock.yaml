@@ -573,8 +573,8 @@ importers:
         specifier: ^4.2.2
         version: 4.2.2(@babel/core@7.27.1)
       ember-page-title:
-        specifier: ^8.2.3
-        version: 8.2.3(ember-source@6.4.0(@glimmer/component@1.1.2(@babel/core@7.27.1))(rsvp@4.8.5))
+        specifier: ^9.0.2
+        version: 9.0.2
       ember-qunit:
         specifier: ^9.0.3
         version: 9.0.3(@ember/test-helpers@4.0.4(@babel/core@7.27.1)(@glint/template@1.5.0)(ember-source@6.4.0(@glimmer/component@1.1.2(@babel/core@7.27.1))(rsvp@4.8.5)))(@glint/template@1.5.0)(qunit@2.23.1)
@@ -768,8 +768,8 @@ importers:
         specifier: ^4.2.2
         version: 4.2.2(@babel/core@7.24.7)
       ember-page-title:
-        specifier: ^7.0.0
-        version: 7.0.0
+        specifier: ^9.0.2
+        version: 9.0.2
       ember-qunit:
         specifier: ^9.0.3
         version: 9.0.3(@ember/test-helpers@4.0.4(@babel/core@7.24.7)(@glint/template@1.5.0)(ember-source@6.4.0(@glimmer/component@1.1.2(@babel/core@7.24.7))(rsvp@4.8.5)))(@glint/template@1.5.0)(qunit@2.24.1)
@@ -6964,15 +6964,9 @@ packages:
   ember-modifier@4.2.2:
     resolution: {integrity: sha512-pPYBAGyczX0hedGWQFQOEiL9s45KS9efKxJxUQkMLjQyh+1Uef1mcmAGsdw2KmvNupITkE/nXxmVO1kZ9tt3ag==}
 
-  ember-page-title@7.0.0:
-    resolution: {integrity: sha512-oq6+HYbeVD/BnxIO5AkP4gWlsatdgW2HFO10F8+XQiJZrwa7cC7Wm54JNGqQkavkDQTgNSiy1Fe2NILJ14MmAg==}
-    engines: {node: 12.* || 14.* || >= 16}
-
-  ember-page-title@8.2.3:
-    resolution: {integrity: sha512-9XH4EVPCpSCyXRsLPzdDydU4HgQnaVeJJTrRF0WVh5bZERI9DgxuHv1NPmZU28todHRH91KcBc5nx8kIVJmqUw==}
+  ember-page-title@9.0.2:
+    resolution: {integrity: sha512-ACklH6hemNB6tDAiwGo4e0tFIqVrAkTNqRmlLtLABlh+GynH7xkWm9q4fyc4Ysg9R1jP8OrsKcxWRittshRatA==}
     engines: {node: 16.* || >= 18}
-    peerDependencies:
-      ember-source: '>= 3.28.0'
 
   ember-power-calendar-moment@0.2.0:
     resolution: {integrity: sha512-8CL2o4KScrNOhmVAgoFEgdDy3K0k8+4DjRHeXcX6PstxOj9/ZDU+/ST2XUrDRBDSLfzaf3WIhr3siPPwh0LY9A==}
@@ -18781,7 +18775,7 @@ snapshots:
   '@npmcli/fs@1.1.1':
     dependencies:
       '@gar/promisify': 1.1.3
-      semver: 7.7.2
+      semver: 7.7.1
 
   '@npmcli/git@6.0.3':
     dependencies:
@@ -19853,7 +19847,7 @@ snapshots:
 
   agent-base@6.0.2(supports-color@8.1.1):
     dependencies:
-      debug: 4.4.1(supports-color@8.1.1)
+      debug: 4.3.5(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -24965,17 +24959,10 @@ snapshots:
       - '@babel/core'
       - supports-color
 
-  ember-page-title@7.0.0:
+  ember-page-title@9.0.2:
     dependencies:
-      ember-cli-babel: 7.26.11
-    transitivePeerDependencies:
-      - supports-color
-
-  ember-page-title@8.2.3(ember-source@6.4.0(@glimmer/component@1.1.2(@babel/core@7.27.1))(rsvp@4.8.5)):
-    dependencies:
-      '@embroider/addon-shim': 1.8.9
+      '@embroider/addon-shim': 1.10.0
       '@simple-dom/document': 1.4.0
-      ember-source: 6.4.0(@glimmer/component@1.1.2(@babel/core@7.27.1))(rsvp@4.8.5)
     transitivePeerDependencies:
       - supports-color
 
@@ -25979,7 +25966,7 @@ snapshots:
   eslint-compat-utils@0.5.1(eslint@8.57.1):
     dependencies:
       eslint: 8.57.1
-      semver: 7.7.2
+      semver: 7.6.3
 
   eslint-config-airbnb-base@15.0.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.5.3))(eslint@8.57.1))(eslint@8.57.1):
     dependencies:
@@ -29409,7 +29396,7 @@ snapshots:
     dependencies:
       growly: 1.3.0
       is-wsl: 2.2.0
-      semver: 7.7.2
+      semver: 7.6.3
       shellwords: 0.1.1
       uuid: 8.3.2
       which: 2.0.2
@@ -29822,7 +29809,7 @@ snapshots:
       ky: 1.7.2
       registry-auth-token: 5.0.2
       registry-url: 6.0.1
-      semver: 7.7.2
+      semver: 7.7.1
 
   package-json@6.5.0:
     dependencies:
