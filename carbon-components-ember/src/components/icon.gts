@@ -1368,7 +1368,7 @@ type Args = {
 @classPrefix('cds--icon--')
 class CarbonIcon extends Component<Args> {
   static positionalParams = ['icon'];
-  @service('carbon-components-ember@dialog-manager')
+  @service('carbon.dialog-manager')
   dialogManager!: DialogManagerService;
   @bxClassNames('info', 'danger', 'disabled') bxClassNames?: string;
   @tracked loading: boolean = false;
