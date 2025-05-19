@@ -42,7 +42,10 @@ export default defineConfig(({ mode }) => {
     resolve: {
       extensions,
       alias: {
-        "ember-composable-helpers": require.resolve("@nullvoxpopuli/ember-composable-helpers")
+        fetch: resolve('./app/ember-fetch.js'),
+        'ember-composable-helpers': require.resolve(
+          '@nullvoxpopuli/ember-composable-helpers',
+        ),
       },
     },
     plugins: [

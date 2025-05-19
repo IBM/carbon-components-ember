@@ -21,7 +21,7 @@ export interface DialogConfirmInterface {
 }
 
 export default class ConfirmDialogComponent extends Component<DialogConfirmInterface> {
-  @service('carbon-components-ember@dialog-manager')
+  @service('carbon.dialog-manager')
   dialogManager!: DialogManagerService;
 
   @action
