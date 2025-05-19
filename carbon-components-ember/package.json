@@ -129,7 +129,7 @@
     "css-loader": "^6.8.1",
     "ember-animated": "^2.2.0",
     "ember-cli": "^4.8.0",
-    "ember-cli-addon-docs": "^6.0.2",
+    "ember-cli-addon-docs": "^8.0.8",
     "ember-cli-addon-docs-yuidoc": "^1.0.0",
     "ember-cli-app-version": "^6.0.0",
     "ember-cli-dependency-checker": "^3.2.0",
