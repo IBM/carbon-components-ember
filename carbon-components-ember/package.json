@@ -127,7 +127,7 @@
     "broccoli-asset-rev": "^3.0.0",
     "concurrently": "^8.0.1",
     "css-loader": "^6.8.1",
-    "ember-animated": "^1.0.4",
+    "ember-animated": "^2.2.0",
     "ember-cli": "^4.8.0",
     "ember-cli-addon-docs": "^6.0.2",
     "ember-cli-addon-docs-yuidoc": "^1.0.0",
