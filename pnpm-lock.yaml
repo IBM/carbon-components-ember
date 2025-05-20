@@ -32,8 +32,8 @@ importers:
         specifier: ^0.0.237
         version: 0.0.237
       '@ascua/maths':
-        specifier: ^0.0.237
-        version: 0.0.237
+        specifier: ^0.4.6
+        version: 0.4.6(@babel/core@7.24.7)
       '@babel/core':
         specifier: ^7.24.0
         version: 7.24.7
@@ -876,8 +876,8 @@ packages:
   '@ascua/arrays@0.4.6':
     resolution: {integrity: sha512-gpsX8TFY/Me0G4h46F4XGUz9JVY7LRhr3zoTntocdMlQF/Rt2NvUEYw6yZzCiUpc/ju31jxyw4mPenJ3bMBp9A==}
 
-  '@ascua/maths@0.0.237':
-    resolution: {integrity: sha512-TUjoUYh3kqE6ldjac61WfYcI4Pxqk5bP1TbRhc/EMnJFFl1S1bJubnAvgzpx5uTc0E8Rt370xnGT3srnkTZw2A==}
+  '@ascua/maths@0.4.6':
+    resolution: {integrity: sha512-hA73kwmDCTb30jOMVkL2U6ycbXD0SJ8MMJCSIyo+w15Ta3J9xBdmkzc/iQSyoL7duyv1J2cDFA53wSHsCK3J8A==}
 
   '@babel/code-frame@7.24.7':
     resolution: {integrity: sha512-BcYH1CVJBO9tvyIZ2jVeXgSIMvGZ2FDRvDdOIVQyuklNKSsx+eppDEBq/g47Ayw+RqNFE+URvOShmf+f/qwAlA==}
@@ -13619,11 +13619,12 @@ snapshots:
       - '@babel/core'
       - supports-color
 
-  '@ascua/maths@0.0.237':
+  '@ascua/maths@0.4.6(@babel/core@7.24.7)':
     dependencies:
-      ember-cli-babel: 7.26.11
-      ember-cli-htmlbars: 5.7.2
+      ember-cli-babel: 8.2.0(@babel/core@7.24.7)
+      ember-cli-htmlbars: 6.3.0
     transitivePeerDependencies:
+      - '@babel/core'
       - supports-color
 
   '@babel/code-frame@7.24.7':
