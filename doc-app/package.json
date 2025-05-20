@@ -44,7 +44,7 @@
     "@embroider/vite": "alpha",
     "@embroider/webpack": "^3.2.2",
     "@gavant/glint-template-types": "^0.4.0",
-    "@glimmer/component": "^1.1.2",
+    "@glimmer/component": "^2.0.0",
     "@glimmer/tracking": "^1.1.2",
     "@glint/core": "^1.5.2",
     "@glint/environment-ember-loose": "^1.5.0",

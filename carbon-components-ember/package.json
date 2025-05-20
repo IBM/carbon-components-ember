@@ -53,7 +53,7 @@
     "@embroider/addon-shim": "^1.8.9",
     "@eslint/js": "^8.41.0",
     "@gavant/glint-template-types": "^0.3.3",
-    "@glimmer/component": "^1.1.2",
+    "@glimmer/component": "^2.0.0",
     "@glimmer/tracking": "^1.1.2",
     "@rollup/plugin-alias": "^5.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
