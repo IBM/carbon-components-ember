@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2025-05-20)
+
+* carbon-components-ember 1.0.3 (patch)
+
+#### :bug: Bug Fix
+* `carbon-components-ember`
+  * [#272](https://github.com/IBM/carbon-components-ember/pull/272) fix modal service ([@patricklx](https://github.com/patricklx))
+
+#### Committers: 1
+- Patrick Pircher ([@patricklx](https://github.com/patricklx))
+
 ## Release (2024-11-16)
 
 carbon-components-ember 1.0.2 (patch)
