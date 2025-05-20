@@ -80,7 +80,7 @@
     "ember-routable-component": "^1.2.0",
     "ember-source": "^6.4.0",
     "ember-source-channel-url": "^3.0.0",
-    "ember-svg-jar": "^2.6.0",
+    "ember-svg-jar": "^2.6.2",
     "ember-template-lint": "^5.11.0",
     "ember-truth-helpers": "^4.0.3",
     "ember-try": "^4.0.0",
