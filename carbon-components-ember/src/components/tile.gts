@@ -4,9 +4,9 @@ import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
-import Icon from '../components/icon.gts';
 import set from '../helpers/set.ts';
 import not from 'ember-truth-helpers/helpers/not';
+import { CheckmarkFilled, ChevronDown } from '../icons.ts';
 
 type Args = {
   selectable?: boolean;
@@ -76,7 +76,7 @@ export default class TileComponent extends Component<TileComponentSignature> {
           title='tile'
         />
         <div class='cds--tile__checkmark'>
-          <Icon @icon='checkmark--filled' />
+          <CheckmarkFilled @size="16" />
         </div>
         <div class='cds--tile-content'>
           {{yield to='content'}}
@@ -96,7 +96,7 @@ export default class TileComponent extends Component<TileComponentSignature> {
             type='button'
             {{on 'click' (fn (set this 'expanded') (not this.expanded))}}
           >
-            <Icon @icon='chevron--down' />
+            <ChevronDown @size="16" />
           </button>
           <div class='cds--tile-content'>
             <span data-tile-atf class='cds--tile-content__above-the-fold'>

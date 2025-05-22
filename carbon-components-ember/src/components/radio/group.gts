@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { defaultArgs } from '../../utils/decorators.ts';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { type WithBoundArgs } from '@glint/template';
+import type { WithBoundArgs } from '@glint/template';
 import RadioButton from '../../components/radio.gts';
 
 interface Signature {

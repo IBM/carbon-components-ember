@@ -79,7 +79,8 @@ type Args = {
    @argument size
    @type number
    */
-  size?: 16 | 20 | 24 | 32;
+  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
+  size?: 16 | 20 | 24 | 32 | number | string;
   /**
    * action to trigger on click
    @argument onClick
