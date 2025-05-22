@@ -1,12 +1,9 @@
 
 
 ```gjs live preview
-import Checkbox from 'carbon-components-ember/components/checkbox';
-import set from 'carbon-components-ember/helpers/set';
 import { fn } from '@ember/helper';
-import Accordion from 'carbon-components-ember/components/accordion';
-import newObj from 'carbon-components-ember/helpers/new-obj';
-import RadioButtonGroup from 'carbon-components-ember/components/radio/group';
+import { Accordion, checkbox, RadioGroup } from 'carbon-components-ember/components';
+import { newObj, set } from 'carbon-components-ember/helpers';
 
 <template>
   {{#let (newObj) as |context|}}

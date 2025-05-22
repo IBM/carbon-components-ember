@@ -42,12 +42,8 @@ export default class Application extends Route {
         resolve: {
           // ember-primitives
           'ember-primitives': import('ember-primitives'),
-          'carbon-components-ember': import('carbon-components-ember'),
-          'carbon-components-ember/components/accordion': import('carbon-components-ember/components/accordion'),
-          'carbon-components-ember/components/checkbox': import('carbon-components-ember/components/checkbox'),
-          'carbon-components-ember/components/radio/group': import('carbon-components-ember/components/radio/group'),
-          'carbon-components-ember/helpers/set': import('carbon-components-ember/helpers/set'),
-          'carbon-components-ember/helpers/new-obj': import('carbon-components-ember/helpers/new-obj'),
+          'carbon-components-ember/components': import('carbon-components-ember/components/index'),
+          'carbon-components-ember/helpers': import('carbon-components-ember/helpers/index'),
           'ember-primitives/floating-ui': import('ember-primitives/floating-ui'),
           'ember-primitives/on-resize': import('ember-primitives/on-resize'),
           'ember-primitives/color-scheme': import('ember-primitives/color-scheme'),
