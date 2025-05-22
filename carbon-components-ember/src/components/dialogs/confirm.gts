@@ -6,7 +6,7 @@ import Modal from '../modal.gts';
 import { on } from '@ember/modifier';
 import type DialogManagerService from '../../services/dialog-manager';
 
-type Args = {
+export type Args = {
   onAccept: () => void;
   onCancel: () => void;
   body?: string;

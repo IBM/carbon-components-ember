@@ -30,7 +30,7 @@ export function registerIcon(name: string, icon: IconType) {
   IconMap[name] = icon;
 }
 
-type Args = {
+export type Args = {
   /**
    * Indicates if the icon is in loading state
    @argument loading
@@ -106,7 +106,7 @@ type Args = {
 };
 
 @classPrefix('cds--icon--')
-class CarbonIcon extends Component<Args> {
+export default class CarbonIcon extends Component<Args> {
   static positionalParams = ['icon'];
   @service('carbon.dialog-manager')
   dialogManager!: DialogManagerService;
@@ -234,4 +234,4 @@ class CarbonIcon extends Component<Args> {
   </template>
 }
 
-export default CarbonIcon;
+

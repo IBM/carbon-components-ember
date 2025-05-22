@@ -26,11 +26,29 @@ const rootImport = (options) => ({
   },
 });
 
-function astroturf() {
+export function astroturf() {
 
+  const astroturfFiles = {};
   return {
     name: 'astroturf',
+    resolveId(id, importee) {
+      if (id.includes('.scss')) {
+        if (astroturfFiles[id]) {
+          return id;
+        }
+        const fullPath = path.resolve(path.dirname(importee), id);
+        if (astroturfFiles[fullPath]) {
+          return fullPath
+        }
+      }
+    },
+    load(id) {
+      return astroturfFiles[id];
+    },
     async transform(code, id) {
+      if (!code.includes('astroturf')) {
+        return;
+      }
       if (id.endsWith('.gjs') || id.endsWith('.gts')) {
         const { metadata, code: transformedCode, map } = await transformAsync(code, {
           plugins: [[require.resolve('astroturf/plugin'), {
@@ -49,6 +67,7 @@ function astroturf() {
         const generatedFiles = metadata.astroturf.styles
           .map(({absoluteFilePath, requirePath, value}) => ({importPath: requirePath, fullPath: absoluteFilePath, code: value}))
         for (const gen of generatedFiles) {
+          astroturfFiles[gen.fullPath] = gen.code;
           const fname =  gen.fullPath.replace(process.cwd(), '').slice(1);
           this.emitFile({
             source: gen.code,

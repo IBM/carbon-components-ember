@@ -6,7 +6,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import ListComponent from '../../components/list.gts';
 
-type Args<T> = {
+export type Args<T> = {
   onSelect?(item: any): void;
   list: ListComponent<T>;
   isHeader: boolean;

@@ -12,7 +12,7 @@ import { tracked } from '@glimmer/tracking';
 import type { WithRequired } from '../utils/type-helpers.ts';
 import { CheckmarkFilled, Close, ErrorFilled, Information, InformationSquareFilled, Warning, WarningAltFilled } from '../icons.ts';
 
-type Args = {
+export type Args = {
   onClick?: (args: never) => never;
   notification?: NotificationOptions;
 } & NotificationOptions;

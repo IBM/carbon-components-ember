@@ -8,7 +8,7 @@ import Component from '@glimmer/component';
 import DataTableComponent from '../data-table.gts';
 import { tracked } from '@glimmer/tracking';
 
-type Args<T> = {
+export type Args<T> = {
   table: DataTableComponent<T>;
   isExpandable?: boolean;
   isExpanded?: boolean;

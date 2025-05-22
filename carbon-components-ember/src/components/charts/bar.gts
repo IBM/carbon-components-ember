@@ -6,7 +6,7 @@ import { type CarbonChartSignature } from './-components/chart.gts';
 
 /** @documenter yuidoc */
 
-type Args = {
+export type Args = {
   resizable?: boolean;
   legendClickable?: boolean;
 };
@@ -28,7 +28,7 @@ export interface CarbonBarChartSignature {
  @yield {Component} api.DataSet <a href='-components/dataset' >Dataset</a>
  @yield {Component} api.Axis <a href='-components/axis' >ChartAxis</a>
  **/
-class CarbonBarChart extends Component<CarbonBarChartSignature> {
+export default class CarbonBarChart extends Component<CarbonBarChartSignature> {
   ChartClass = SimpleBarChart;
 
   @defaultArgs
@@ -61,5 +61,3 @@ class CarbonBarChart extends Component<CarbonBarChartSignature> {
     </Chart>
   </template>
 }
-
-export default CarbonBarChart;

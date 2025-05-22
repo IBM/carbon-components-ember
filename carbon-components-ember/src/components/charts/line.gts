@@ -3,7 +3,7 @@ import { LineChart } from '@carbon/charts';
 import Component from '@glimmer/component';
 import { type CarbonChartSignature } from './-components/chart.gts';
 
-type Args = {
+export type Args = {
   resizable?: boolean;
   legendClickable?: boolean;
 };
@@ -25,7 +25,7 @@ export interface CarbonLineChartSignature {
  @yield {Component} api.DataSet <a href='-components/dataset' >Dataset</a>
  @yield {Component} api.Axis <a href='-components/axis' >ChartAxis</a>
  **/
-class CarbonLineChart extends Component<CarbonLineChartSignature> {
+export default class CarbonLineChart extends Component<CarbonLineChartSignature> {
   ChartClass = LineChart;
   args: Args = {
     /**
@@ -56,5 +56,3 @@ class CarbonLineChart extends Component<CarbonLineChartSignature> {
     </Chart>
   </template>
 }
-
-export default CarbonLineChart;

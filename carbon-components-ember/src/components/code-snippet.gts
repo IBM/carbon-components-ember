@@ -11,7 +11,7 @@ import not from 'ember-truth-helpers/helpers/not';
 import htmlSafe from '../helpers/html-safe.ts';
 import { type TemplateOnlyComponent } from '@ember/component/template-only';
 
-type Args = {
+export type Args = {
   type: 'default' | 'multiline' | 'inline';
 };
 

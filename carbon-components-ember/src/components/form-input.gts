@@ -5,7 +5,7 @@ import { guidFor } from '@ember/object/internals';
 import { action } from '@ember/object';
 import { WarningFilled } from '../icons.ts';
 
-type Args = {
+export type Args = {
   label?: string;
   help?: string;
   errors?: string;

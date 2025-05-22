@@ -4,7 +4,7 @@ import Component from '@glimmer/component';
 import { defaultArgs } from '../../utils/decorators.ts';
 import { type CarbonChartSignature } from '../../components/charts/-components/chart.gts';
 
-type Args = {
+export type Args = {
   resizable?: boolean;
   legendClickable?: boolean;
 };

@@ -6,7 +6,7 @@ import AttachTooltip from 'ember-attacher/components/attach-tooltip';
 import Button from '../components/button.gts';
 import or from '../helpers/or.ts';
 
-type Args = {
+export type Args = {
   targetElementId?: string;
   targetElement?: Element;
   inline?: boolean;

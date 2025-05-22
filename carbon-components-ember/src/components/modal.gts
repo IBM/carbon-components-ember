@@ -7,7 +7,7 @@ import { on } from '@ember/modifier';
 
 /** @documenter yuidoc */
 
-type Args = {
+export type Args = {
   /**
    * @argument onClose
    * @type function

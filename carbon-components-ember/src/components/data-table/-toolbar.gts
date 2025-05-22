@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import TableToolbarContentComponent from '../data-table/-toolbar/-content.gts';
 import TableActionsComponent from '../data-table/-toolbar/-actions.gts';
-import { type WithBoundArgs } from '@glint/template';
+import type { WithBoundArgs } from '@glint/template';
 import DataTableComponent from '../data-table.gts';
 import { hash } from '@ember/helper';
 

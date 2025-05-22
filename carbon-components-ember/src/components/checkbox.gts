@@ -8,7 +8,7 @@ import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import set from '../helpers/set.ts';
 
-type Args = {
+export type Args = {
   name?: string;
   readonly?: boolean;
   indeterminate?: boolean;

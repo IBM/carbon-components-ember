@@ -7,7 +7,7 @@ import { task } from 'ember-concurrency';
 import { type TaskInstance } from 'ember-concurrency';
 import { stylesheet } from 'astroturf';
 
-type Args = {
+export type Args = {
   onChange: (value: string) => TaskInstance<any> | undefined;
   isLoading: boolean;
   expandable?: boolean;

@@ -22,7 +22,7 @@ import { Close } from '../icons.ts';
 import type { TOC } from "@ember/component/template-only";
 
 
-type Args<T extends ContentValue> = {
+export type Args<T extends ContentValue> = {
   options: T[];
   searchField?: string;
   placeholder?: string;

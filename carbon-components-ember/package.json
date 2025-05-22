@@ -73,6 +73,7 @@
     "d3-selection": "^3.0.0",
     "d3-shape": "^3.2.0",
     "d3-transition": "^3.0.1",
+    "ember-attacher": "^3.2.0",
     "ember-auto-import": "^2.10.0",
     "ember-basic-dropdown": "^8.6.1",
     "ember-cli-babel": "^8.2.0",
@@ -91,7 +92,6 @@
     "ember-resize-modifier": "^0.7.1",
     "ember-template-imports": "^3.4.2",
     "ember-template-lint-plugin-prettier": "^5.0.0",
-    "ember-attacher": "^3.2.0",
     "ember-truth-helpers": "^4.0.3",
     "prettier-linter-helpers": "^1.0.0",
     "rollup-plugin-astroturf": "^0.1.0",
@@ -100,7 +100,13 @@
     "rollup-plugin-styles": "^4.0.0"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.27.1",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-decorators": "^7.22.5",
+    "@babel/plugin-transform-class-static-block": "^7.27.1",
+    "@babel/plugin-transform-typescript": "^7.27.1",
     "@ember/optional-features": "^2.0.0",
+    "@ember/string": "^4.0.1",
     "@embroider/addon-dev": "^6.0.1",
     "@embroider/compat": "^4.0.0-alpha.14",
     "@embroider/core": "^4.0.0-alpha.10",
@@ -120,6 +126,8 @@
     "@types/ember-qunit": "^6.1.1",
     "@types/qunit": "^2.19.5",
     "@types/qunit-dom": "^0.7.0",
+    "@typescript-eslint/eslint-plugin": "^8.32.1",
+    "@typescript-eslint/parser": "^8.32.1",
     "babel-plugin-ember-template-compilation": "^2.2.5",
     "bower": "^1.8.8",
     "broccoli": "^3.4.2",
@@ -127,7 +135,6 @@
     "concurrently": "^9.1.2",
     "css-loader": "^6.8.1",
     "ember-animated": "^2.2.0",
-    "@ember/string": "^4.0.1",
     "ember-cli": "^4.8.0",
     "ember-cli-app-version": "^7.0.0",
     "ember-cli-dependency-checker": "^3.2.0",
@@ -153,9 +160,6 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.5.0",
     "eslint-plugin-qunit": "^8.1.1",
-    "@babel/eslint-parser": "^7.27.1",
-    "@typescript-eslint/eslint-plugin": "^8.32.1",
-    "@typescript-eslint/parser": "^8.32.1",
     "fix-bad-declaration-output": "^1.1.4",
     "globals": "^16.1.0",
     "loader.js": "^4.7.0",
@@ -164,7 +168,7 @@
     "qunit": "^2.19.4",
     "qunit-dom": "^3.4.0",
     "release-it": "^15.10.3",
-    "rollup": "^4.24.0",
+    "rollup": "^4.41.1",
     "rollup-plugin-copy": "^3.4.0",
     "sass": "^1.62.1",
     "sass-embedded": "^1.89.0",
@@ -175,7 +179,26 @@
     "yui": "^3.18.1"
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.org"
+    "exports": {
+      ".": {
+        "types": "./declarations/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "./*": {
+        "types": "./declarations/*.d.ts",
+        "default": "./dist/*.js"
+      },
+      "./*.scss": {
+        "types": "./declarations/*.d.ts",
+        "default": "./dist/*.scss"
+      },
+      "./styles.scss": {
+        "import": "./dist/styles/index.scss",
+        "require": "./dist/styles/index.scss",
+        "scss": "./dist/styles/index.scss"
+      },
+      "./addon-main.js": "./addon-main.cjs"
+    }
   },
   "ember": {
     "edition": "octane"
@@ -436,13 +459,13 @@
       "./components/carbon/icons/carbon-for-salesforce.js": "./dist/_app_/components/carbon/icons/carbon-for-salesforce.js",
       "./components/carbon/icons/carbon-ui-builder.js": "./dist/_app_/components/carbon/icons/carbon-ui-builder.js",
       "./components/carbon/icons/carbon.js": "./dist/_app_/components/carbon/icons/carbon.js",
-      "./components/carbon/icons/caret-down-glyph.js": "./dist/_app_/components/carbon/icons/caret-down-glyph.js",
-      "./components/carbon/icons/caret-left-glyph.js": "./dist/_app_/components/carbon/icons/caret-left-glyph.js",
-      "./components/carbon/icons/caret-right-glyph.js": "./dist/_app_/components/carbon/icons/caret-right-glyph.js",
+      "./components/carbon/icons/caret-down.js": "./dist/_app_/components/carbon/icons/caret-down.js",
+      "./components/carbon/icons/caret-left.js": "./dist/_app_/components/carbon/icons/caret-left.js",
+      "./components/carbon/icons/caret-right.js": "./dist/_app_/components/carbon/icons/caret-right.js",
       "./components/carbon/icons/caret-sort-down.js": "./dist/_app_/components/carbon/icons/caret-sort-down.js",
       "./components/carbon/icons/caret-sort-up.js": "./dist/_app_/components/carbon/icons/caret-sort-up.js",
       "./components/carbon/icons/caret-sort.js": "./dist/_app_/components/carbon/icons/caret-sort.js",
-      "./components/carbon/icons/caret-up-glyph.js": "./dist/_app_/components/carbon/icons/caret-up-glyph.js",
+      "./components/carbon/icons/caret-up.js": "./dist/_app_/components/carbon/icons/caret-up.js",
       "./components/carbon/icons/carousel-horizontal.js": "./dist/_app_/components/carbon/icons/carousel-horizontal.js",
       "./components/carbon/icons/carousel-vertical.js": "./dist/_app_/components/carbon/icons/carousel-vertical.js",
       "./components/carbon/icons/catalog-publish.js": "./dist/_app_/components/carbon/icons/catalog-publish.js",
@@ -453,8 +476,8 @@
       "./components/carbon/icons/category-new-each.js": "./dist/_app_/components/carbon/icons/category-new-each.js",
       "./components/carbon/icons/category-new.js": "./dist/_app_/components/carbon/icons/category-new.js",
       "./components/carbon/icons/category.js": "./dist/_app_/components/carbon/icons/category.js",
-      "./components/carbon/icons/caution-glyph.js": "./dist/_app_/components/carbon/icons/caution-glyph.js",
-      "./components/carbon/icons/caution-inverted-glyph.js": "./dist/_app_/components/carbon/icons/caution-inverted-glyph.js",
+      "./components/carbon/icons/caution-inverted.js": "./dist/_app_/components/carbon/icons/caution-inverted.js",
+      "./components/carbon/icons/caution.js": "./dist/_app_/components/carbon/icons/caution.js",
       "./components/carbon/icons/cda.js": "./dist/_app_/components/carbon/icons/cda.js",
       "./components/carbon/icons/cell-tower.js": "./dist/_app_/components/carbon/icons/cell-tower.js",
       "./components/carbon/icons/center-circle.js": "./dist/_app_/components/carbon/icons/center-circle.js",
@@ -553,16 +576,16 @@
       "./components/carbon/icons/checkmark.js": "./dist/_app_/components/carbon/icons/checkmark.js",
       "./components/carbon/icons/chemistry-reference.js": "./dist/_app_/components/carbon/icons/chemistry-reference.js",
       "./components/carbon/icons/chemistry.js": "./dist/_app_/components/carbon/icons/chemistry.js",
-      "./components/carbon/icons/chevron-down-glyph.js": "./dist/_app_/components/carbon/icons/chevron-down-glyph.js",
       "./components/carbon/icons/chevron-down-outline.js": "./dist/_app_/components/carbon/icons/chevron-down-outline.js",
-      "./components/carbon/icons/chevron-left-glyph.js": "./dist/_app_/components/carbon/icons/chevron-left-glyph.js",
+      "./components/carbon/icons/chevron-down.js": "./dist/_app_/components/carbon/icons/chevron-down.js",
+      "./components/carbon/icons/chevron-left.js": "./dist/_app_/components/carbon/icons/chevron-left.js",
       "./components/carbon/icons/chevron-mini.js": "./dist/_app_/components/carbon/icons/chevron-mini.js",
-      "./components/carbon/icons/chevron-right-glyph.js": "./dist/_app_/components/carbon/icons/chevron-right-glyph.js",
+      "./components/carbon/icons/chevron-right.js": "./dist/_app_/components/carbon/icons/chevron-right.js",
       "./components/carbon/icons/chevron-sort-down.js": "./dist/_app_/components/carbon/icons/chevron-sort-down.js",
       "./components/carbon/icons/chevron-sort-up.js": "./dist/_app_/components/carbon/icons/chevron-sort-up.js",
       "./components/carbon/icons/chevron-sort.js": "./dist/_app_/components/carbon/icons/chevron-sort.js",
-      "./components/carbon/icons/chevron-up-glyph.js": "./dist/_app_/components/carbon/icons/chevron-up-glyph.js",
       "./components/carbon/icons/chevron-up-outline.js": "./dist/_app_/components/carbon/icons/chevron-up-outline.js",
+      "./components/carbon/icons/chevron-up.js": "./dist/_app_/components/carbon/icons/chevron-up.js",
       "./components/carbon/icons/chip.js": "./dist/_app_/components/carbon/icons/chip.js",
       "./components/carbon/icons/choices.js": "./dist/_app_/components/carbon/icons/choices.js",
       "./components/carbon/icons/choose-item.js": "./dist/_app_/components/carbon/icons/choose-item.js",
@@ -582,12 +605,12 @@
       "./components/carbon/icons/cics-wui-region.js": "./dist/_app_/components/carbon/icons/cics-wui-region.js",
       "./components/carbon/icons/cicsplex.js": "./dist/_app_/components/carbon/icons/cicsplex.js",
       "./components/carbon/icons/circle-dash.js": "./dist/_app_/components/carbon/icons/circle-dash.js",
-      "./components/carbon/icons/circle-fill-glyph.js": "./dist/_app_/components/carbon/icons/circle-fill-glyph.js",
+      "./components/carbon/icons/circle-fill.js": "./dist/_app_/components/carbon/icons/circle-fill.js",
       "./components/carbon/icons/circle-filled.js": "./dist/_app_/components/carbon/icons/circle-filled.js",
       "./components/carbon/icons/circle-outline.js": "./dist/_app_/components/carbon/icons/circle-outline.js",
       "./components/carbon/icons/circle-packing.js": "./dist/_app_/components/carbon/icons/circle-packing.js",
       "./components/carbon/icons/circle-solid.js": "./dist/_app_/components/carbon/icons/circle-solid.js",
-      "./components/carbon/icons/circle-stroke-glyph.js": "./dist/_app_/components/carbon/icons/circle-stroke-glyph.js",
+      "./components/carbon/icons/circle-stroke.js": "./dist/_app_/components/carbon/icons/circle-stroke.js",
       "./components/carbon/icons/classification.js": "./dist/_app_/components/carbon/icons/classification.js",
       "./components/carbon/icons/classifier-language.js": "./dist/_app_/components/carbon/icons/classifier-language.js",
       "./components/carbon/icons/clean.js": "./dist/_app_/components/carbon/icons/clean.js",
@@ -686,8 +709,8 @@
       "./components/carbon/icons/course.js": "./dist/_app_/components/carbon/icons/course.js",
       "./components/carbon/icons/covariate.js": "./dist/_app_/components/carbon/icons/covariate.js",
       "./components/carbon/icons/credentials.js": "./dist/_app_/components/carbon/icons/credentials.js",
-      "./components/carbon/icons/critical-glyph.js": "./dist/_app_/components/carbon/icons/critical-glyph.js",
-      "./components/carbon/icons/critical-severity-glyph.js": "./dist/_app_/components/carbon/icons/critical-severity-glyph.js",
+      "./components/carbon/icons/critical-severity.js": "./dist/_app_/components/carbon/icons/critical-severity.js",
+      "./components/carbon/icons/critical.js": "./dist/_app_/components/carbon/icons/critical.js",
       "./components/carbon/icons/crop-growth.js": "./dist/_app_/components/carbon/icons/crop-growth.js",
       "./components/carbon/icons/crop-health.js": "./dist/_app_/components/carbon/icons/crop-health.js",
       "./components/carbon/icons/crop.js": "./dist/_app_/components/carbon/icons/crop.js",
@@ -804,7 +827,7 @@
       "./components/carbon/icons/dew-point.js": "./dist/_app_/components/carbon/icons/dew-point.js",
       "./components/carbon/icons/diagram-reference.js": "./dist/_app_/components/carbon/icons/diagram-reference.js",
       "./components/carbon/icons/diagram.js": "./dist/_app_/components/carbon/icons/diagram.js",
-      "./components/carbon/icons/diamond-fill-glyph.js": "./dist/_app_/components/carbon/icons/diamond-fill-glyph.js",
+      "./components/carbon/icons/diamond-fill.js": "./dist/_app_/components/carbon/icons/diamond-fill.js",
       "./components/carbon/icons/diamond-outline.js": "./dist/_app_/components/carbon/icons/diamond-outline.js",
       "./components/carbon/icons/diamond-solid.js": "./dist/_app_/components/carbon/icons/diamond-solid.js",
       "./components/carbon/icons/direct-link.js": "./dist/_app_/components/carbon/icons/direct-link.js",
@@ -1275,8 +1298,8 @@
       "./components/carbon/icons/in-progress.js": "./dist/_app_/components/carbon/icons/in-progress.js",
       "./components/carbon/icons/incomplete-cancel.js": "./dist/_app_/components/carbon/icons/incomplete-cancel.js",
       "./components/carbon/icons/incomplete-error.js": "./dist/_app_/components/carbon/icons/incomplete-error.js",
-      "./components/carbon/icons/incomplete-glyph.js": "./dist/_app_/components/carbon/icons/incomplete-glyph.js",
       "./components/carbon/icons/incomplete-warning.js": "./dist/_app_/components/carbon/icons/incomplete-warning.js",
+      "./components/carbon/icons/incomplete.js": "./dist/_app_/components/carbon/icons/incomplete.js",
       "./components/carbon/icons/increase-level.js": "./dist/_app_/components/carbon/icons/increase-level.js",
       "./components/carbon/icons/industry.js": "./dist/_app_/components/carbon/icons/industry.js",
       "./components/carbon/icons/infinity-symbol.js": "./dist/_app_/components/carbon/icons/infinity-symbol.js",
@@ -1466,7 +1489,7 @@
       "./components/carbon/icons/logo-youtube.js": "./dist/_app_/components/carbon/icons/logo-youtube.js",
       "./components/carbon/icons/logout.js": "./dist/_app_/components/carbon/icons/logout.js",
       "./components/carbon/icons/loop.js": "./dist/_app_/components/carbon/icons/loop.js",
-      "./components/carbon/icons/low-severity-glyph.js": "./dist/_app_/components/carbon/icons/low-severity-glyph.js",
+      "./components/carbon/icons/low-severity.js": "./dist/_app_/components/carbon/icons/low-severity.js",
       "./components/carbon/icons/mac-command.js": "./dist/_app_/components/carbon/icons/mac-command.js",
       "./components/carbon/icons/mac-option.js": "./dist/_app_/components/carbon/icons/mac-option.js",
       "./components/carbon/icons/mac-shift.js": "./dist/_app_/components/carbon/icons/mac-shift.js",
@@ -2047,7 +2070,7 @@
       "./components/carbon/icons/spray-paint.js": "./dist/_app_/components/carbon/icons/spray-paint.js",
       "./components/carbon/icons/sprout.js": "./dist/_app_/components/carbon/icons/sprout.js",
       "./components/carbon/icons/sql.js": "./dist/_app_/components/carbon/icons/sql.js",
-      "./components/carbon/icons/square-fill-glyph.js": "./dist/_app_/components/carbon/icons/square-fill-glyph.js",
+      "./components/carbon/icons/square-fill.js": "./dist/_app_/components/carbon/icons/square-fill.js",
       "./components/carbon/icons/square-outline.js": "./dist/_app_/components/carbon/icons/square-outline.js",
       "./components/carbon/icons/square-solid.js": "./dist/_app_/components/carbon/icons/square-solid.js",
       "./components/carbon/icons/stack-limitation.js": "./dist/_app_/components/carbon/icons/stack-limitation.js",
@@ -2637,11 +2660,72 @@
     },
     "./addon-main.js": "./addon-main.cjs"
   },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "declarations/*"
-      ]
-    }
+  "local-dev-exports": {
+    "./_app_/services/carbon/*": {
+      "development": {
+        "types": "./declarations/*.d.ts",
+        "default": "./src/services/*.ts"
+      }
+    },
+    "./_app_/components/carbon/*": {
+      "development": {
+        "types": "./declarations/*.d.ts",
+        "default": "./src/components/*.ts"
+      }
+    },
+    "./dist/_app_/*": {
+      "development": {
+        "types": "./declarations/*.d.ts",
+        "default": "./src/*"
+      }
+    },
+    "./dist/*.js": {
+      "development": {
+        "types": "./declarations/*.d.ts",
+        "default": "./src/*.ts"
+      }
+    },
+    "./dist": {
+      "development": {
+        "types": "./declarations/*.d.ts",
+        "default": "./src/*.ts"
+      }
+    },
+    ".": {
+      "development": {
+        "default": "./src/index.ts"
+      },
+      "types": "./declarations/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./*.js": {
+      "development": {
+        "types": "./declarations/*.d.ts",
+        "default": "./src/*.ts"
+      }
+    },
+    "./*.scss": {
+      "development": {
+        "default": "./dist/*.scss"
+      },
+      "types": "./declarations/*.d.ts",
+      "default": "./dist/*.scss"
+    },
+    "./*": {
+      "development": {
+        "default": "./src/*"
+      },
+      "types": "./declarations/*.d.ts",
+      "default": "./dist/*.js"
+    },
+    "./styles.scss": {
+      "development": {
+        "import": "./src/styles/index.scss",
+        "require": "./src/styles/index.scss",
+        "scss": "./src/styles/index.scss"
+      }
+    },
+    "./addon-main.js": "./addon-main.cjs",
+    "./rollup.config.mjs": "./rollup.config.mjs"
   }
 }

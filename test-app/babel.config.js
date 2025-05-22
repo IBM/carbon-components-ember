@@ -1,4 +1,5 @@
 const { babelCompatSupport, templateCompatSupport } = require('@embroider/compat/babel');
+const addTOCNames = require('./babel/babel-plugin');
 
 module.exports = {
   plugins: [
@@ -6,7 +7,6 @@ module.exports = {
       '@babel/plugin-transform-typescript',
       {
         allExtensions: true,
-        onlyRemoveTypeImports: true,
         allowDeclareFields: true,
       },
     ],
@@ -40,6 +40,7 @@ module.exports = {
         regenerator: false,
       },
     ],
+    [addTOCNames],
     ...babelCompatSupport(),
   ],
 

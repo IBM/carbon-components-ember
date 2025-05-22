@@ -4,7 +4,7 @@ import { defaultArgs } from '../../../../utils/decorators.ts';
 import CarbonChart from '../../../../components/charts/-components/chart.gts';
 import { fn } from '@ember/helper';
 
-type Args = {
+export type Args = {
   name: string;
   color: string;
   chart: CarbonChart | null;
