@@ -1,3 +1,4 @@
+import './setup-inspector-support';
 import Application from '@ember/application';
 import compatModules from '@embroider/virtual/compat-modules';
 import Resolver from 'ember-resolver';

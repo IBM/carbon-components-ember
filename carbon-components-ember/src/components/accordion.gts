@@ -7,12 +7,14 @@ import or from '../helpers/or.ts';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 
+interface Args {
+  disabled?: boolean;
+  open?: boolean;
+  align?: 'start' | 'end';
+};
+
 interface AccordionSignature {
-  Args: {
-    disabled?: boolean;
-    open?: boolean;
-    align?: 'start' | 'end';
-  };
+  Args: Args;
   Element: null;
   Blocks: {
     default: [WithBoundArgs<typeof Item, 'accordion'>];

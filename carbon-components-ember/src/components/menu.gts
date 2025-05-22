@@ -1,10 +1,11 @@
 import Component from '@glimmer/component';
 import Icon, { type IconNames } from '../components/icon.gts';
+import OverflowMenuVertical24 from '@carbon/icons/es/overflow-menu--vertical/24';
 import MenuItemComponent from '../components/menu/-item.gts';
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 import defaultTo from '../helpers/default-to.ts';
 import { on } from '@ember/modifier';
-import EmberTooltip from 'ember-tooltips/components/ember-tooltip';
+import AttachTooltip from 'ember-attacher/components/attach-tooltip';
 import type { WithBoundArgs } from '@glint/template';
 
 export interface MenuComponentSignature {
@@ -31,12 +32,11 @@ export default class MenuComponent extends Component<MenuComponentSignature> {
         class='cds--overflow-menu {{if dd.isOpen "cds--overflow-menu--open"}}'
       >
         {{#if @tooltip}}
-          <EmberTooltip>{{@tooltip}}</EmberTooltip>
+          <AttachTooltip @animation="none" @arrow={{true}} >{{@tooltip}}</AttachTooltip>
         {{/if}}
         <Icon
-          @fill='white'
           @size={{24}}
-          @icon={{defaultTo @icon 'overflow-menu--vertical'}}
+          @icon={{defaultTo @icon OverflowMenuVertical24}}
           @btnClass='cds--overflow-menu__icon'
         />
       </dd.Trigger>

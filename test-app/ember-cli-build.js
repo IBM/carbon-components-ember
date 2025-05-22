@@ -12,12 +12,6 @@ module.exports = function (defaults) {
       setConfig: {
         'ember-qunit': {
           /**
-           * default: false
-           *
-           * removes the CSS for the test-container (where the app and components are rendered to)
-           */
-          disableContainerStyles: true,
-          /**
            * default: 'qunit-default'
            * options: 'qunit-default' | 'ember'
            *

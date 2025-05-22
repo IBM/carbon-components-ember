@@ -24,7 +24,7 @@ export default class SubMenuComponent extends Component<Signature> {
       >
         {{#if @icon}}
           <div class='cds--side-nav__icon'>
-            <Icon @icon='{{@icon}}' />
+            <Icon @icon={{@icon}} />
           </div>
         {{/if}}
         <span class='cds--side-nav__link-text'>

@@ -30,7 +30,6 @@ console.log('setting base url to', docsUrl);
 
 export default defineConfig(({ mode }) => {
   return {
-    base: docsUrl ? '/carbon-components-ember/versions/' + docsUrl : '',
     resolve: {
       extensions,
     },

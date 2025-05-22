@@ -74,30 +74,19 @@ export default class Modal extends Component<ModalComponentSignature> {
           >
             {{yield to='header'}}
           </p>
-          <button
-            class='cds--modal-close'
-            type='button'
-            data-modal-close
-            aria-label='close modal'
-            data-modal-primary-focus
-            {{on 'click' this.closeModal}}
-          >
-            <svg
-              class='cds--modal-close__icon'
-              width='10'
-              height='10'
-              viewBox='0 0 10 10'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <title>
-                Close Modal
-              </title>
-              <path
-                d='M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z'
-                fill-rule='nonzero'
-              />
-            </svg>
-          </button>
+          <div class="cds--modal-close-button"><span
+            class="cds--popover-container cds--popover--caret cds--popover--high-contrast cds--popover--left cds--tooltip cds--icon-tooltip">
+            <div class="cds--tooltip-trigger__wrapper">
+              <button {{on 'click' this.closeModal}} aria-label="Close" class="cds--modal-close cds--btn cds--btn--primary cds--btn--icon-only" type="button">
+                <svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 32 32"
+                     class="cds--modal-close__icon" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M17.4141 16L24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"></path>
+                </svg>
+              </button>
+            </div>
+            <span aria-hidden="true" id="tooltip-:rm:" role="tooltip" class="cds--popover">
+              <span class="cds--popover-content cds--tooltip-content">Close</span>
+            <span class="cds--popover-caret"></span></span></span></div>
         </div>
 
         <div class='cds--modal-content'>

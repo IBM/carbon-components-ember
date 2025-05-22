@@ -42,7 +42,7 @@ export default class LoadingComponent extends Component<LoadingComponentSignatur
           >
             <svg class='cds--loading__svg' viewBox='-75 -75 150 150'>
               <title>
-                Loading
+                {{@title}}
               </title>
               {{#if @small}}
                 <circle
@@ -71,7 +71,7 @@ export default class LoadingComponent extends Component<LoadingComponentSignatur
             >
               <svg class='cds--loading__svg' viewBox='-75 -75 150 150'>
                 <title>
-                  Active loading indicator
+                  {{@title}}
                 </title>
                 <circle
                   class='cds--loading__background'
@@ -97,7 +97,7 @@ export default class LoadingComponent extends Component<LoadingComponentSignatur
             viewBox='-75 -75 150 150'
           >
             <title>
-              Loading
+              {{@title}}
             </title>
             {{#if this.defaultArgs.small}}
               <circle class='cds--loading__background' cx='0' cy='0' r='37.5' />
