@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   plugins: [
     require.resolve('ember-concurrency/async-arrow-task-transform'),
