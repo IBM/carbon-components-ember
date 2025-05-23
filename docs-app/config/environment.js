@@ -41,7 +41,7 @@ module.exports = function (environment) {
   }
 
   if (environment === 'production') {
-    ENV.rootURL = '/ember-native/' + (process.env.DOCS_URL + '/' || 'versions/main/');
+    ENV.rootURL = '/carbon-components-ember/' + (process.env.DOCS_URL + '/' || 'versions/main/');
     // here you can enable a production-specific feature
   }
 
