@@ -113,9 +113,17 @@ jobs:
           DOCS_URL=versions/$GITHUB_REF_NAME pnpm run build
           mkdir -p ./docs-app/gh-pages/versions/$GITHUB_REF_NAME
           cp -r ./docs-app/dist/* ./docs-app/gh-pages/versions/$GITHUB_REF_NAME
-      - uses: peaceiris/actions-gh-pages@v4
+      - uses: actions/checkout@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs-app/gh-pages
-          publish_branch: gh-pages
-          keep_files: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: gh-pages
+          path: gh-pages
+      - run: |-
+          cp -r ./docs-app/gh-pages/versions/* $GITHUB_WORKSPACE/gh-pages/versions/
+          cd $GITHUB_WORKSPACE/gh-pages
+          git add .
+          git commit -m 'dev'
+          git push 
+        
+
+          
