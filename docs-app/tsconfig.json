@@ -11,5 +11,6 @@
       "*": ["./types/*"]
     },
     "types": ["ember-source/types", "kolay/virtual", "@embroider/core/virtual"]
-  }
+  },
+  "include": ["./types/*"]
 }
