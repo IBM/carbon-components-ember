@@ -7,6 +7,7 @@ import { resolve } from "path";
 
 export default defineConfig((/* { mode } */) => {
   return {
+    base: process.env.DOCS_URL ? "/carbon-components-ember/" + process.env.DOCS_URL + "/" : "",
     build: {
       target: ["esnext"],
     },
