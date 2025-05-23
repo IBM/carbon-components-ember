@@ -100,7 +100,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: NullVoxPopuli/action-setup-pnpm@v2.3.1
+      - run: |-
+          npm i -g pnpm
+          pnpm i
       - if: github.ref == 'refs/heads/ember-docs-support'
         run: |-
           DOCS_URL=versions/dev pnpm run build
