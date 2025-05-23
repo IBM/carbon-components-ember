@@ -12,8 +12,8 @@
   ],
   "scripts": {
     "build": "pnpm build:carbon && pnpm build:docs",
-    "build:carbon": "pnpm run build --filter carbon-components-ember",
-    "build:docs": "pnpm run build --filter docs-app",
+    "build:carbon": "pnpm run --filter carbon-components-ember build",
+    "build:docs": "pnpm run --filter docs-app build",
     "lint": "npm run lint --workspaces --if-present",
     "lint:fix": "npm run lint:fix --workspaces --if-present",
     "start": "concurrently 'npm:start:*' --restart-after 5000 --prefix-colors cyan,white,yellow",
