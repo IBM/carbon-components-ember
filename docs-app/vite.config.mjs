@@ -3,6 +3,7 @@ import { classicEmberSupport, ember, extensions } from "@embroider/vite";
 import { babel } from "@rollup/plugin-babel";
 import { kolay } from "kolay/vite";
 import { defineConfig } from "vite";
+import { resolve } from "path";
 
 export default defineConfig((/* { mode } */) => {
   return {
@@ -14,7 +15,13 @@ export default defineConfig((/* { mode } */) => {
     },
     resolve: {
       extensions,
-      dedupe: ["ember-primitives"],
+      dedupe: [
+        "ember-primitives",
+        "ember-source",
+      ],
+      'alias': {
+        '@ember/render-modifiers/modifiers/did-insert': resolve('./node_modules/@ember/render-modifiers/addon/modifiers/did-insert.js'),
+      }
     },
     plugins: [
       classicEmberSupport(),

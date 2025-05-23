@@ -9,8 +9,18 @@ import getWasm from 'shiki/wasm';
 import { Callout } from '@universal-ember/docs-support';
 
 import { APIDocs, ComponentSignature, ModifierSignature } from './api-docs';
+import ThemeSupport from 'docs-app/docs-support/theme-support';
+import ThemeSwitcher from 'docs-app/docs-support/theme-switcher';
+
+ComponentSignature.name = 'ComponentSignature';
+APIDocs.name = 'APIDocs';
 
 export default class Application extends Route {
+
+  beforeModel() {
+    document.querySelector('.lds-ripple')?.remove();
+  }
+
   async model() {
     const highlighter = await getHighlighterCore({
       themes: [import('shiki/themes/github-dark.mjs'), import('shiki/themes/github-light.mjs')],
@@ -38,10 +48,18 @@ export default class Application extends Route {
           APIDocs,
           ComponentSignature,
           ModifierSignature,
+          ThemeSwitcher,
         },
         resolve: {
           // ember-primitives
+          'docs-support': Promise.resolve({
+            ThemeSupport,
+            ThemeSwitcher,
+          }),
           'ember-primitives': import('ember-primitives'),
+          '@ember/string': import('@ember/string'),
+          '@ember/helper': import('@ember/helper'),
+          'ember-truth-helpers': import('ember-truth-helpers'),
           'carbon-components-ember/components': import('carbon-components-ember/components/index'),
           'carbon-components-ember/helpers': import('carbon-components-ember/helpers/index'),
           'ember-primitives/floating-ui': import('ember-primitives/floating-ui'),

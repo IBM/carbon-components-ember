@@ -1,5 +1,5 @@
 import 'decorator-transforms/globals';
-
+import './setup-inspector-support';
 import Application from '@ember/application';
 import compatModules from '@embroider/virtual/compat-modules';
 
@@ -9,9 +9,12 @@ import Resolver from 'ember-resolver';
 
 import config from './config/environment';
 import { install } from './icons';
+import { initCarbonThemeSync } from './docs-support/theme-switcher';
+import './docs-support/styles.css';
 
 sync();
 install();
+initCarbonThemeSync();
 
 // @babel/traverse (from babel-plugin-ember-template-imports)
 // accesses process.....

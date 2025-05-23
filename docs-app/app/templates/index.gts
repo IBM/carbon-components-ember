@@ -25,7 +25,7 @@ export default Route(
     </:header>
     <:tagline>
       <p class="text-center">
-        use the Ember framework with Nativescript
+        use the Carbon Components with the Ember framework
         <br />
       </p>
     </:tagline>

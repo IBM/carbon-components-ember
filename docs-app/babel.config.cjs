@@ -1,4 +1,5 @@
 const { babelCompatSupport, templateCompatSupport } = require('@embroider/compat/babel');
+const addTOCNames = require('./babel/babel-plugin');
 
 module.exports = {
   plugins: [
@@ -40,6 +41,7 @@ module.exports = {
         regenerator: false,
       },
     ],
+    [addTOCNames],
     ...babelCompatSupport(),
   ],
 

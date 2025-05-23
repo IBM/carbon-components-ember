@@ -54,8 +54,8 @@ function createIndexFiles() {
     if (comp.includes('dialogs')) {
       camelCased += 'Dialog';
     }
-    if (comp.includes('group')) {
-      camelCased += 'Group';
+    if (comp.includes('radio/group')) {
+      camelCased = 'RadioGroup';
     }
     componentIndexFile.push(`export { default as ${camelCased} } from './${comp.replace('components/', '')}'`);
   }
