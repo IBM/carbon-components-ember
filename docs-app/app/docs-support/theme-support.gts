@@ -1,6 +1,6 @@
 import GlimmerComponent from '@glimmer/component';
 
-import carbonStyle from 'carbon-components-ember/styles?inline';
+import carbonStyle from 'carbon-components-ember/styles.scss?inline';
 import style10 from '../styles/carbon-gray-10.scss?inline';
 import style90 from '../styles/carbon-gray-90.scss?inline';
 import style100 from '../styles/carbon-gray-100.scss?inline';
