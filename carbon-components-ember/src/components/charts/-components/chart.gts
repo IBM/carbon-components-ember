@@ -7,7 +7,6 @@ import { default as didUpdate } from '@ember/render-modifiers/modifiers/did-upda
 import { default as willDestroy } from '@ember/render-modifiers/modifiers/will-destroy';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { throttleTask } from 'ember-lifeline';
 import { defaultArgs } from '../../../utils/decorators.ts';
 import { Chart, type ScaleTypes } from '@carbon/charts';
 import { type AxisChartOptions, type BaseChartOptions } from '@carbon/charts';
@@ -15,6 +14,7 @@ import CarbonChartTabularData from '../../charts/-components/tabular-data.gts';
 import { type WithBoundArgs } from '@glint/template';
 import ChartAxis from '../../charts/-components/axis.gts';
 import { hash } from '@ember/helper';
+import { throttle } from '@ember/runloop';
 
 /** @documenter yuidoc */
 
@@ -130,13 +130,14 @@ class CarbonChart extends Component<CarbonChartSignature> {
     this.setData();
   }
 
-  update() {
+  update = () => {
     this.setData();
   }
 
   @action
   updateChart() {
-    throttleTask(this, this.update, 50, false);
+    // eslint-disable-next-line ember/no-runloop
+    throttle(this, this.update, 50, false);
   }
 
   @action

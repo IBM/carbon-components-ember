@@ -11,7 +11,9 @@
     "test-app"
   ],
   "scripts": {
-    "build": "npm run build --workspace carbon-components-ember",
+    "build": "pnpm build:carbon && pnpm build:docs",
+    "build:carbon": "pnpm run --filter carbon-components-ember build",
+    "build:docs": "pnpm run --filter docs-app build",
     "lint": "npm run lint --workspaces --if-present",
     "lint:fix": "npm run lint:fix --workspaces --if-present",
     "start": "concurrently 'npm:start:*' --restart-after 5000 --prefix-colors cyan,white,yellow",
@@ -29,6 +31,7 @@
   "pnpm": {
     "overrides": {
       "@types/ember": "-",
+      "@glimmer/validator": "-",
       "ember-composable-helpers": "-",
       "babel-plugin-ember-template-compilation": "^2.2.5"
     }

@@ -26,6 +26,51 @@ const rootImport = (options) => ({
   },
 });
 
+function createIndexFiles() {
+  const files = fs.readdirSync('./src', { recursive: true });
+  const groups = {
+    components: [],
+    helpers: [],
+  };
+  for (const addonFilename of files) {
+    if (!addonFilename.includes('.')) continue;
+    if (addonFilename.includes('components/index.ts')) continue;
+    if (addonFilename.includes('helpers/index.ts')) continue;
+    if (addonFilename.includes('render-svg-part.ts')) continue;
+    if (addonFilename.startsWith('components/') && !addonFilename.includes('/-')) {
+      groups.components.push(addonFilename);
+    }
+    if (addonFilename.startsWith('helpers/') && !addonFilename.includes('/-')) {
+      groups.helpers.push(addonFilename);
+    }
+  }
+  const componentIndexFile = [];
+  for (const comp of groups.components) {
+    let camelCased = comp.split('/').at(-1).split('.').at().replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+    camelCased = camelCased[0].toUpperCase() + camelCased.slice(1);
+    if (comp.includes('charts')) {
+      camelCased += 'Chart';
+    }
+    if (comp.includes('dialogs')) {
+      camelCased += 'Dialog';
+    }
+    if (comp.includes('radio/group')) {
+      camelCased = 'RadioGroup';
+    }
+    componentIndexFile.push(`export { default as ${camelCased} } from './${comp.replace('components/', '')}'`);
+  }
+  fs.writeFileSync('./src/components/index.ts', componentIndexFile.join('\n'));
+
+  const helpersIndexFile = [];
+  for (const comp of groups.helpers) {
+    let camelCased = comp.split('/').at(-1).split('.').at().replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+    helpersIndexFile.push(`export { default as ${camelCased} } from './${comp.replace('helpers/', '')}'`);
+  }
+  fs.writeFileSync('./src/helpers/index.ts', helpersIndexFile.join('\n'));
+}
+
+createIndexFiles();
+
 export default {
   // This provides defaults that work well alongside `publicEntrypoints` below.
   // You can augment this if you need to.

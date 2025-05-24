@@ -12,7 +12,7 @@
 !.editorconfig
 !.ember-cli
 !.eslintignore
-!.eslintrc.js
+!eslint.config.mjs
 !.gitignore
 !.prettierignore
 !.prettierrc.js
