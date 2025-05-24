@@ -1,13 +1,8 @@
-@use '@carbon/styles';
-@use '@carbon/grid';
-@use '@carbon/charts/styles.css' as chart-styles;
-
-@include grid.flex-grid();
-@include grid.css-grid();
+@use '@carbon/styles/scss/colors';
 
 // Backgrounds
-$ember-power-select-background-color: styles.$field-01 !default;
-$ember-power-select-disabled-background-color: styles.$field-01 !default;
+$ember-power-select-background-color: colors.$field-01 !default;
+$ember-power-select-disabled-background-color: colors.$field-01 !default;
 $ember-power-select-multiple-selection-background-color: #e5e5e5 !default;
 $ember-power-select-highlighted-background: #e5e5e5 !default;
 $ember-power-select-selected-background: #e5e5e5 !default;
