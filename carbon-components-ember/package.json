@@ -266,7 +266,7 @@
       "types": "./declarations/*.d.ts",
       "default": "./dist/*.js"
     },
-    "./styles": {
+    "./styles.scss": {
       "import": "./dist/styles/index.scss",
       "require": "./dist/styles/index.scss",
       "scss": "./dist/styles/index.scss"
