@@ -1,4 +1,4 @@
-name: Test, Build & Publish
+ name: Test, Build & Publish
 
 on:
   workflow_dispatch:
@@ -121,6 +121,9 @@ jobs:
       - run: |-
           cp -r ./docs-app/gh-pages/versions/* $GITHUB_WORKSPACE/gh-pages/versions/
           cd $GITHUB_WORKSPACE/gh-pages
+          
+          git config --global user.name 'Patrick Pircher'
+          git config --global user.email 'patricklx@users.noreply.github.com'
           git add .
           git commit -m 'dev'
           git push 
