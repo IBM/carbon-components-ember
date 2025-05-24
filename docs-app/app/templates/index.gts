@@ -13,7 +13,7 @@ export default Route(
     <:logo>
       <div style="margin: 0 auto; transform: translateY(-20%);" class="grid gap-4">
         <h1 style="filter: drop-shadow(3px 5px 0px rgba(0, 0, 0, 0.4));">
-          <Logo style="margin: auto; width: fit-content;" />
+          <Logo style="margin: auto; width: fit-content;" class="dark:fill-sky-100" />
         </h1>
       </div>
     </:logo>
