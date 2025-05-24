@@ -2,7 +2,7 @@ import GlimmerComponent from '@glimmer/component';
 import { fn } from '@ember/helper';
 
 import { Select } from 'carbon-components-ember/components/index';
-import carbonStyle from 'carbon-components-ember/styles/index.scss?inline';
+import * as carbonStyle from 'carbon-components-ember/styles.scss?inline';
 import { colorScheme } from 'ember-primitives/color-scheme';
 import  { cell } from 'ember-resources';
 import style10 from '../styles/carbon-gray-10.scss?inline';
