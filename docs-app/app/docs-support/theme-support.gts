@@ -1,10 +1,13 @@
 import GlimmerComponent from '@glimmer/component';
 
-import carbonStyle from 'carbon-components-ember/styles.scss?inline';
+import * as carbonStyle from 'carbon-components-ember/styles.scss?inline';
+
 import style10 from '../styles/carbon-gray-10.scss?inline';
 import style90 from '../styles/carbon-gray-90.scss?inline';
 import style100 from '../styles/carbon-gray-100.scss?inline';
 import { currentCarbonTheme } from './theme-switcher';
+
+
 
 
 export default class ThemeSwitcher extends GlimmerComponent {
@@ -31,7 +34,7 @@ export default class ThemeSwitcher extends GlimmerComponent {
         {{this.carbonTheme}}
     </style>
     <style>
-        {{carbonStyle}}
+        {{carbonStyle.default}}
     </style>
   </template>
 }

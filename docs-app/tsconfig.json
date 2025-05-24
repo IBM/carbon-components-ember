@@ -1,6 +1,6 @@
 {
   "extends": "@ember/app-tsconfig",
-  "include": ["app", "tests", "types"],
+  "include": ["app", "tests", "./types/*", "./app/**/*.gts"],
   "glint": {
     "environment": ["ember-loose", "ember-template-imports"]
   },
@@ -12,5 +12,4 @@
     },
     "types": ["ember-source/types", "kolay/virtual", "@embroider/core/virtual"]
   },
-  "include": ["./types/*"]
 }
