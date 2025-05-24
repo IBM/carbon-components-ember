@@ -9,7 +9,7 @@ export default Route(
   <template>
     <PageLayout>
       <:logoLink>
-        <Logomark class="h-9 w-28 lg:hidden" />
+        <Logo class="h-9 w-28 lg:hidden" />
         <Logo class="hidden w-auto h-9 fill-slate-700 lg:block dark:fill-sky-100" />
       </:logoLink>
       <:topRight>
