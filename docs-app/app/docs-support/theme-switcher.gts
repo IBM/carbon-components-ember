@@ -52,10 +52,7 @@ export default class ThemeSwitcher extends GlimmerComponent {
       </Select>
     </label>
     <style>
-        {{this.carbonTheme}}
-    </style>
-    <style>
-        {{carbonStyle.default}}
+      {{carbonStyle.default}}
     </style>
   </template>
 }

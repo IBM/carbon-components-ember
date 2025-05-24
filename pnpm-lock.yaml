@@ -514,6 +514,9 @@ importers:
       '@babel/core':
         specifier: ^7.27.1
         version: 7.27.1(supports-color@8.1.1)
+      '@carbon/styles':
+        specifier: ^1.82.0
+        version: 1.82.0(sass@1.89.0)
       '@carbon/themes':
         specifier: ^11.53.0
         version: 11.53.0
@@ -2146,6 +2149,14 @@ packages:
 
   '@carbon/styles@1.81.0':
     resolution: {integrity: sha512-kOWYDO1pdEIkkMmC42bxbrf0QTQRLMdGtdESIMWJX8VvQMqganPqNyl6QSweIEf2PzsXn/pyrZ0tZdOHzzD+ow==}
+    peerDependencies:
+      sass: ^1.33.0
+    peerDependenciesMeta:
+      sass:
+        optional: true
+
+  '@carbon/styles@1.82.0':
+    resolution: {integrity: sha512-WgwWIoXHb/nsov+mfqbiH9G8fQ7qp8pgspZGsIypg0Ym77b9/AOGL2ODC/uIjUt+FeNKjqm0/C5hi3ldu0iF8A==}
     peerDependencies:
       sass: ^1.33.0
     peerDependenciesMeta:
@@ -15446,6 +15457,28 @@ snapshots:
       '@ibm/telemetry-js': 1.6.0
 
   '@carbon/styles@1.81.0(sass@1.89.0)':
+    dependencies:
+      '@carbon/colors': 11.33.0
+      '@carbon/feature-flags': 0.26.0
+      '@carbon/grid': 11.36.0
+      '@carbon/layout': 11.34.0
+      '@carbon/motion': 11.28.0
+      '@carbon/themes': 11.53.0
+      '@carbon/type': 11.40.0
+      '@ibm/plex': 6.0.0-next.6
+      '@ibm/plex-mono': 0.0.3-alpha.0
+      '@ibm/plex-sans': 0.0.3-alpha.0
+      '@ibm/plex-sans-arabic': 0.0.3-alpha.0
+      '@ibm/plex-sans-devanagari': 0.0.3-alpha.0
+      '@ibm/plex-sans-hebrew': 0.0.3-alpha.0
+      '@ibm/plex-sans-thai': 0.0.3-alpha.0
+      '@ibm/plex-sans-thai-looped': 0.0.3-alpha.0
+      '@ibm/plex-serif': 0.0.3-alpha.0
+      '@ibm/telemetry-js': 1.9.1
+    optionalDependencies:
+      sass: 1.89.0
+
+  '@carbon/styles@1.82.0(sass@1.89.0)':
     dependencies:
       '@carbon/colors': 11.33.0
       '@carbon/feature-flags': 0.26.0
