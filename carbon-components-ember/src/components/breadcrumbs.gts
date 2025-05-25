@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import { defaultArgs } from '../utils/decorators.ts';
 import { action } from '@ember/object';
-import eq from 'ember-truth-helpers/helpers/eq';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 /** @documenter yuidoc */
@@ -46,6 +45,8 @@ class CarbonBreadcrumb extends Component<BreadcrumbSignature> {
     this.args.onSelect?.(crumb);
   }
 
+  isCurrent = (item: any) => item === this.args.current;
+
   <template>
     <nav
       class='cds--breadcrumb cds--breadcrumb--no-trailing-slash'
@@ -53,12 +54,15 @@ class CarbonBreadcrumb extends Component<BreadcrumbSignature> {
       ...attributes
     >
       {{#each @crumbs as |crumb|}}
-        <div class='cds--breadcrumb-item'>
+        <div
+          class='cds--breadcrumb-item
+            {{if (this.isCurrent crumb) "cds--breadcrumb-item--current"}}'
+        >
           <a
             href='#'
             {{on 'click' (fn this.onSelect crumb)}}
             class='cds--link'
-            aria-current='{{if (eq crumb @current) "page"}}'
+            aria-current='{{if (this.isCurrent crumb) "true"}}'
           >
             {{crumb}}
           </a>
