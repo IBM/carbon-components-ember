@@ -56,7 +56,7 @@ class CarbonBreadcrumb extends Component<BreadcrumbSignature> {
       {{#each @crumbs as |crumb|}}
         <div
           class='cds--breadcrumb-item
-          {{if (this.isCurrent crumb)'cds--breadcrumb-item--current'}}
+          {{if (this.isCurrent crumb)'cds--breadcrumb-item--current'}}'
         >
           <a
             href='#'
