@@ -61,6 +61,83 @@ function doSomething() {
 ```
 
 
+```gjs live preview
+import { Checkbox } from 'carbon-components-ember/components';
+import { set } from 'carbon-components-ember/helpers';
+import { fn } from '@ember/helper';
+import { TrackedObject } from 'tracked-built-ins';
+
+const eq = (a, b) => a === b;
+const state = new TrackedObject();
+
+<template>
+    <Checkbox
+        @checked={{eq state.type 'primary'}}
+        @onChange={{fn (set state 'type') 'primary'}}
+    >
+        Primary
+    </Checkbox>
+    <Checkbox
+        @checked={{eq state.type 'secondary'}}
+        @onChange={{fn (set state 'type') 'secondary'}}
+    >
+        Secondary
+    </Checkbox>
+    <Checkbox
+        @checked={{eq state.type 'danger'}}
+        @onChange={{fn (set state 'type') 'danger'}}
+    >
+        Is Danger
+    </Checkbox>
+    <Checkbox
+        @checked={{state.isSmall}}
+        @onChange={{fn (set state 'isSmall') (not state.isSmall)}}
+    >
+        Is Small
+    </Checkbox>
+    <Checkbox
+        @checked={{state.isTertiary}}
+        @onChange={{fn
+        (set state 'isTertiary')
+        (not state.isTertiary)
+    }}
+    >
+        Is Tertiary
+    </Checkbox>
+    <Checkbox
+        @checked={{state.isDisabled}}
+        @onChange={{fn
+        (set state 'isDisabled')
+        (not state.isDisabled)
+    }}
+    >
+        Is Disabled
+    </Checkbox>
+    <label for='confirm-text'>
+        Confirm Text
+    </label>
+    <Input
+        id='confirm-text'
+        {{! template-lint-disable }}
+        @onChange={{fn (set state 'confirmText')}}
+        @value={{state.confirmText}}
+    />
+    
+        <Button
+            @disabled={{state.isDisabled}}
+            @type={{state.type}}
+            @tertiary={{state.isTertiary}}
+            @size='sm'
+            @onClick={{fn (set state 'clicked') true}}
+            @bubbles={{state.bubbles}}
+            @confirmText={{state.confirmText}}
+        >
+            Button Text
+        </Button>
+</template>
+```
+
+
 ## API Reference
 
 <details>
