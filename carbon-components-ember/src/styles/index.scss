@@ -1,13 +1,8 @@
-@use '@carbon/styles';
-@use '@carbon/grid';
-@use '@carbon/charts/styles.css' as chart-styles;
-
-@include grid.flex-grid();
-@include grid.css-grid();
+@use '@carbon/styles/scss/theme' as theme;
 
 // Backgrounds
-$ember-power-select-background-color: styles.$field-01 !default;
-$ember-power-select-disabled-background-color: styles.$field-01 !default;
+$ember-power-select-background-color: theme.$field-01 !default;
+$ember-power-select-disabled-background-color: theme.$field-01 !default;
 $ember-power-select-multiple-selection-background-color: #e5e5e5 !default;
 $ember-power-select-highlighted-background: #e5e5e5 !default;
 $ember-power-select-selected-background: #e5e5e5 !default;
@@ -148,10 +143,10 @@ $ember-power-select-multiple-option-line-height: 1.45 !default;
 
 .ember-power-select-trigger[aria-disabled='true'] {
   .ember-power-select-selected-item {
-    color: styles.$text-disabled;
+    color: theme.$text-disabled;
   }
   .cds--dropdown__arrow {
-    fill: styles.$text-disabled;
+    fill: theme.$text-disabled;
   }
 }
 
