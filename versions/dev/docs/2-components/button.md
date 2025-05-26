@@ -62,15 +62,20 @@ function doSomething() {
 
 
 ```gjs live preview
-import { Checkbox } from 'carbon-components-ember/components';
+    import { ThemeSupport } from 'docs-support';
+import { Checkbox, FormInput as Input, Button } from 'carbon-components-ember/components';
 import { set } from 'carbon-components-ember/helpers';
 import { fn } from '@ember/helper';
 import { TrackedObject } from 'tracked-built-ins';
 
 const eq = (a, b) => a === b;
+const not = (x) => !x;
 const state = new TrackedObject();
 
 <template>
+
+  <ThemeSupport />
+    
     <Checkbox
         @checked={{eq state.type 'primary'}}
         @onChange={{fn (set state 'type') 'primary'}}
@@ -127,7 +132,7 @@ const state = new TrackedObject();
             @disabled={{state.isDisabled}}
             @type={{state.type}}
             @tertiary={{state.isTertiary}}
-            @size='sm'
+            @size={{if state.isSmall 'sm' 'md'}}
             @onClick={{fn (set state 'clicked') true}}
             @bubbles={{state.bubbles}}
             @confirmText={{state.confirmText}}

@@ -4,43 +4,26 @@
 
 ```gjs live preview
 import { fn } from '@ember/helper';
-import { Accordion, Checkbox, RadioGroup } from 'carbon-components-ember/components';
+import { Bookmark32, Task32 } from '@carbon/icons/es/index.js';
+import { Icon } from 'carbon-components-ember/components';
+import { registerIcon } from 'carbon-components-ember/components/icon';
 import { newObj, set } from 'carbon-components-ember/helpers';
 import { ThemeSupport } from 'docs-support';
 
+registerIcon('bookmark', Bookmark32);
+
+function noop() {};
 
 <template>
     <ThemeSupport />
-    {{#let (newObj) as |context|}}
-        <Checkbox
-            @disabled={{true}}
-            @checked={{true}}
-            @onChange={{fn (set context 'checked')}}
-            @label='disabled'
-        />
-        <Checkbox
-            @disabled={{true}}
-            @checked={{false}}
-            @onChange={{fn (set context 'checked')}}
-            @label='disabled and not checked'
-        />
-        <Checkbox
-            @checked={{context.checked}}
-            @onChange={{fn (set context 'checked')}}
-        >
-            Label in block
-        </Checkbox>
-        <p>
-            checked:
-            {{context.checked}}
-        </p>
-    {{/let}}
+    <Icon @icon='bookmark' />
+    <Icon @icon={{Task32}} @onClick={{fn (noop)}} />
 </template>
 ```
 ## API Reference
 
 <details>
-<summary><h3>Checkbox</h3></summary>
+<summary><h3>Icon</h3></summary>
 
 ```gjs live no-shadow
 import { ComponentSignature } from 'kolay';
@@ -48,7 +31,7 @@ import { ComponentSignature } from 'kolay';
 <template>
   <ComponentSignature 
     @package="carbon-components-ember" 
-    @module='declarations/components/checkbox' 
+    @module='declarations/components/icon' 
     @name='default' 
   />
 </template>
