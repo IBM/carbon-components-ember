@@ -5,7 +5,6 @@ import PCR from 'puppeteer-chromium-resolver';
 const __root = process.cwd();
 
 async function run() {
-  // eslint-disable-next-line new-cap
   const { puppeteer, executablePath } = await PCR({});
   console.log('[ci] starting');
 
@@ -66,7 +65,9 @@ async function run() {
             if (parsed.type === '[HARNESS] done') {
               return fulfill(parsed.failed > 0 ? 1 : 0);
             }
-          } catch (e) {}
+          } catch (e) {
+            console.error(e);
+          }
         }
         if (location.url?.includes(`/qunit.js`)) {
           console.log(text);

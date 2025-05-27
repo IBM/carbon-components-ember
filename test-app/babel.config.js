@@ -7,6 +7,7 @@ const { hotAstProcessor } = require('ember-vite-hmr/lib/babel-plugin');
 module.exports = {
   plugins: [
     ['ember-vite-hmr/lib/babel-plugin'],
+    ['@babel/plugin-transform-typescript'],
     [
       'babel-plugin-ember-template-compilation',
       {

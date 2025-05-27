@@ -16,7 +16,7 @@ const addon = new Addon({
 });
 
 const rootImport = (options) => ({
-  resolveId: (importee, importer) => {
+  resolveId: (importee) => {
     if (importee[0] === '/') {
       const rootPath = `${options.root}${importee}`;
       const absPath = path.resolve('.', rootPath);

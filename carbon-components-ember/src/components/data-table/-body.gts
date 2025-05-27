@@ -33,8 +33,7 @@ export default class DataTableBody<T> extends Component<
   <template>
     <tbody>
       {{#each @items as |item|}}
-        {{! eslint-disable-next-line }}
-        {{! @glint-expect-error }} {{! eslint-disable-next-line }}
+        {{! @glint-expect-error }}
         {{yield (hash Row=(component
               ListRow
               isExpandable=@isExpandable

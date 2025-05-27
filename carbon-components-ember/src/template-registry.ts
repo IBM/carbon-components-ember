@@ -5,7 +5,7 @@
 // import type MyComponent from './components/my-component';
 
 // Remove this once entries have been added! 👇
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export default interface Registry {
   // MyComponent: typeof MyComponent
 }

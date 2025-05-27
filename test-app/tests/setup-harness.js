@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { autoRegister } from 'js-reporters';
 import QUnit from 'qunit';
 

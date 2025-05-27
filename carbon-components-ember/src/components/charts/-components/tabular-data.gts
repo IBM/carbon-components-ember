@@ -78,7 +78,7 @@ class CarbonChartTabularData extends Component<Args> {
 
   willDestroy() {
     super.willDestroy();
-    this.args.chart && this.args.chart.removeDataset(this.oldGroup!);
+    this.args.chart?.removeDataset(this.oldGroup!);
   }
 
   <template>

@@ -11,7 +11,6 @@ import {
   contentFor,
 } from '@embroider/vite';
 import { babel } from '@rollup/plugin-babel';
-import { sassOptions } from './styles-support.js';
 
 const extensions = [
   '.mjs',
@@ -49,11 +48,6 @@ export default defineConfig(({ mode }) => {
         extensions,
       }),
     ],
-    css: {
-      preprocessorOptions: {
-        scss: sassOptions,
-      },
-    },
     optimizeDeps: optimizeDeps(),
     server: {
       port: 4200,

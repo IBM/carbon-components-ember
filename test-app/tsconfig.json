@@ -30,7 +30,10 @@
     }
   },
   "rootDir": ".",
-  "include": ["app/**/*"],
+  "include": [
+    "app/**/*",
+    "tests/**/*",
+  ],
   "glint": {
     "environment": ["ember-template-imports"]
   }

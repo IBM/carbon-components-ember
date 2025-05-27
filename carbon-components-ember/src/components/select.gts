@@ -1,6 +1,3 @@
-/// <reference types="@gavant/glint-template-types/types/ember-power-select/components/power-select.d.ts" />
-/// <reference types="@gavant/glint-template-types/types/ember-power-select/components/power-select-multiple.d.ts" />
-
 import Component from '@glimmer/component';
 import { set, action } from '@ember/object';
 import { isBlank } from '@ember/utils';
@@ -21,6 +18,7 @@ type Args<T extends ContentValue> = {
   placeholder?: string;
   disabled?: boolean;
   searchEnabled?: boolean;
+  renderInPlace?: boolean;
   addItem?: (item: T) => void;
   removeItem?: (item: T) => void;
 } & (
@@ -28,23 +26,23 @@ type Args<T extends ContentValue> = {
       selected?: T[];
       multiple: true;
       onSelect?: (item: T[]) => void;
-      onOpen?: PowerSelectArgs<T>['onOpen'];
-      search?: PowerSelectArgs<T>['search'];
-      selectFocused?: PowerSelectArgs<T>['onFocus'];
+      onOpen?: PowerSelectArgs['onOpen'];
+      search?: PowerSelectArgs['search'];
+      selectFocused?: PowerSelectArgs['onFocus'];
     }
   | {
       selected?: T;
       multiple?: false;
       onSelect?: (item: T) => void;
-      onOpen?: PowerSelectArgs<T>['onOpen'];
-      search?: PowerSelectArgs<T>['search'];
-      selectFocused?: PowerSelectArgs<T>['onFocus'];
+      onOpen?: PowerSelectArgs['onOpen'];
+      search?: PowerSelectArgs['search'];
+      selectFocused?: PowerSelectArgs['onFocus'];
     }
 );
 
 export interface SelectComponentSignature<T extends ContentValue> {
   Args: Args<T>;
-  Element: HTMLDivElement;
+  Element: HTMLElement;
   Blocks: {
     default: [option: T];
   };
@@ -151,7 +149,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
       <PowerSelectMultiple
         {{didInsert this.didInsert}}
         ...attributes
-        @renderInPlace={{true}}
+        @renderInPlace={{defaultTo @renderInPlace false}}
         @disabled={{@disabled}}
         @eventType='click'
         @searchEnabled={{defaultTo @searchEnabled true}}
@@ -183,7 +181,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
       <PowerSelect
         {{didInsert this.didInsert}}
         ...attributes
-        @renderInPlace={{true}}
+        @renderInPlace={{defaultTo @renderInPlace false}}
         @disabled={{@disabled}}
         @eventType='click'
         @search={{@search}}

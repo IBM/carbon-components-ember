@@ -40,7 +40,7 @@ class TabPane extends Component<{
     return this.args.tab.selectedTab === this;
   }
 
-  constructor(owner: unknown, args: any) {
+  constructor(owner: any, args: any) {
     super(owner, args);
     runTask(this, () => {
       if (this.isDestroyed) {

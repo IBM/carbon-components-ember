@@ -4,7 +4,7 @@
 !types
 !types/**/*
 !.eslintignore
-!.eslintrc.cjs
+!eslint.config.mjs
 !.gitignore
 !.prettierignore
 !.prettierrc.cjs

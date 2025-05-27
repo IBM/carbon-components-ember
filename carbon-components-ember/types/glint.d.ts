@@ -6,7 +6,7 @@ declare module 'ember-tooltips/components/ember-tooltip' {
   };
 
   interface Signature {
-    Args;
+    Args: Args;
     Blocks: {
       default: [];
     };
@@ -84,6 +84,7 @@ declare module '@carbon/icons/es/index.js';
 
 declare module '@glint/environment-ember-loose/registry' {
   import type { EmbroiderUtilRegistry } from '@embroider/util';
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   export default interface Registry extends EmbroiderUtilRegistry {
     // ...
   }
