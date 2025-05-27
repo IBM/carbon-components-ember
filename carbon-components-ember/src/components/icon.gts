@@ -1,8 +1,8 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { inject as service } from '@ember/service';
-import * as icons from '@carbon/icons/es/index.js';
+import { service } from '@ember/service';
+import { htmlSafe as htmlSafeString } from '@ember/template';
 import { bxClassNames, classPrefix } from '../utils/decorators.ts';
 import { on } from '@ember/modifier';
 import Loading from '../components/loading.gts';
@@ -13,19 +13,23 @@ import htmlSafe from '../helpers/html-safe.ts';
 import { stylesheet } from 'astroturf';
 import type DialogManagerService from '../services/dialog-manager';
 
-type Icon = { name: IconNames; size: number };
+export type IconType = {
+  name: IconNames;
+  elem: string;
+  attrs: Record<string,string>;
+  content: {
+    elem: string;
+    attrs: Record<string,string>;
+  },
+  size: number;
+};
 
-const IconMap: Record<IconNames, Record<number, Icon>> = {} as Record<
-  IconNames,
-  Record<number, never>
->;
+const IconMap: Record<string, IconType> = {} as Record<string, IconType>
 
-Object.values(icons as Icon[]).forEach((i) => {
-  IconMap[i.name] = IconMap[i.name] || {};
-  IconMap[i.name][i.size] = i;
-});
+export function registerIcon(name: string, icon: IconType) {
+  IconMap[name] = icon;
+}
 
-// eslint-disable-next-line max-len
 export type IconNames =
   | '3D-Cursor'
   | '3D-cursor--alt'
@@ -1334,7 +1338,14 @@ type Args = {
    @argument icon
    @type String
    */
-  icon: IconNames;
+  icon?: IconNames | IconType;
+
+  /**
+   * Use this icon svg to display,
+   * must be a htmlSafe string
+   @argument icon
+   */
+  iconSvg?: ReturnType<typeof htmlSafeString>;
   /**
    * Size of icon
    @argument size
@@ -1375,9 +1386,10 @@ class CarbonIcon extends Component<Args> {
   @tracked disabled: boolean = false;
 
   get svg() {
-    return (
-      IconMap[this.args.icon] && IconMap[this.args.icon][this.args.size || 16]
-    );
+    if (typeof this.args.icon === 'string') {
+      return IconMap[this.args.icon];
+    }
+    return this.args.icon;
   }
 
   @action
@@ -1421,6 +1433,7 @@ class CarbonIcon extends Component<Args> {
 
     .icon {
       margin: 5px;
+      fill: $icon-primary;
 
       .cds--icon-- {
         &disabled {

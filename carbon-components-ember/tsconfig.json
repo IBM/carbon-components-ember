@@ -50,6 +50,7 @@
     "node_modules/@gavant/glint-template-types/types/ember-basic-dropdown/components/basic-dropdown-content.d.ts",
     "node_modules/@gavant/glint-template-types/types/ember-basic-dropdown/components/basic-dropdown-trigger.d.ts",
     "node_modules/@gavant/glint-template-types/types/ember-basic-dropdown/utils/calculate-position.d.ts",
+    "types/carbon-icons.d.ts",
     "types/globals.d.ts",
     "types/glint.d.ts",
     "types/ember.d.ts",

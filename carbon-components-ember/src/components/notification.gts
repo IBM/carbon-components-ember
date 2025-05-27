@@ -9,8 +9,9 @@ import NotificationService, {
 } from '../services/notifications.ts';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import { type IconNames } from '../components/icon.gts';
+import { type IconType } from '../components/icon.gts';
 import type { WithRequired } from '../utils/type-helpers.ts';
+import { CheckmarkFilled24, ErrorFilled24, Information24, InformationSquareFilled24, Warning24, WarningAltFilled24 } from '../icons.ts';
 
 type Args = {
   onClick?: (args: never) => never;
@@ -27,14 +28,14 @@ export default class NotificationComponent extends Component<NotificationCompone
   @service('carbon-components-ember@notifications')
   notifications!: NotificationService;
 
-  get icon(): IconNames {
-    const mapping: Record<Required<NotificationOptions>['kind'], IconNames> = {
-      info: 'information',
-      error: 'error--filled',
-      'info-square': 'information--square--filled',
-      success: 'checkmark--filled',
-      warning: 'warning',
-      'warning-alt': 'warning--alt--filled',
+  get icon(): IconType {
+    const mapping: Record<Required<NotificationOptions>['kind'], IconType> = {
+      info: Information24,
+      error: ErrorFilled24,
+      'info-square': InformationSquareFilled24,
+      success: CheckmarkFilled24,
+      warning: Warning24,
+      'warning-alt': WarningAltFilled24,
     };
     return mapping[this.defaultArgs.kind];
   }
