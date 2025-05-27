@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { bxClassNames, classPrefix, defaultArgs } from '../utils/decorators.ts';
 import DialogManagerService from '../services/dialog-manager.ts';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import ConfirmDialogComponent from './dialogs/confirm.gts';

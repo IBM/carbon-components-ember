@@ -21,6 +21,7 @@ type Args<T extends ContentValue> = {
   placeholder?: string;
   disabled?: boolean;
   searchEnabled?: boolean;
+  renderInPlace?: boolean;
   addItem?: (item: T) => void;
   removeItem?: (item: T) => void;
 } & (
@@ -151,7 +152,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
       <PowerSelectMultiple
         {{didInsert this.didInsert}}
         ...attributes
-        @renderInPlace={{true}}
+        @renderInPlace={{defaultTo @renderInPlace false}}
         @disabled={{@disabled}}
         @eventType='click'
         @searchEnabled={{defaultTo @searchEnabled true}}
@@ -183,7 +184,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
       <PowerSelect
         {{didInsert this.didInsert}}
         ...attributes
-        @renderInPlace={{true}}
+        @renderInPlace={{defaultTo @renderInPlace false}}
         @disabled={{@disabled}}
         @eventType='click'
         @search={{@search}}

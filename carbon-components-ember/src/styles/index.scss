@@ -90,10 +90,16 @@ $ember-power-select-multiple-option-line-height: 1.45 !default;
 }
 
 .ember-power-select-status-icon {
+  border: none;
+  border-width: 0 !important;
   position: absolute;
   will-change: transform;
   fill: #171717;
   pointer-events: none;
+  > .cds--dropdown__arrow {
+    top: 0;
+    right: 0;
+  }
 }
 .ember-power-select-trigger,
 .ember-power-select-trigger-multiple-input {
