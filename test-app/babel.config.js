@@ -1,20 +1,45 @@
+const {
+  babelCompatSupport,
+  templateCompatSupport,
+} = require('@embroider/compat/babel');
+const { hotAstProcessor } = require('ember-vite-hmr/lib/babel-plugin');
+
 module.exports = {
   plugins: [
-    require.resolve('ember-concurrency/async-arrow-task-transform'),
-    [
-      '@babel/plugin-transform-typescript',
-      { allExtensions: true, allowDeclareFields: true },
-    ],
-    '@embroider/addon-dev/template-colocation-plugin',
-    '@babel/plugin-transform-class-static-block',
+    ['ember-vite-hmr/lib/babel-plugin'],
+    ['@babel/plugin-transform-typescript'],
     [
       'babel-plugin-ember-template-compilation',
       {
-        targetFormat: 'hbs',
-        transforms: [],
+        compilerPath: 'ember-source/dist/ember-template-compiler.js',
+        enableLegacyModules: [
+          'ember-cli-htmlbars',
+          'ember-cli-htmlbars-inline-precompile',
+          'htmlbars-inline-precompile',
+        ],
+        transforms: [...templateCompatSupport(), hotAstProcessor.transform],
       },
     ],
-    ['@babel/plugin-proposal-decorators', { version: 'legacy' }],
-    '@babel/plugin-proposal-class-properties',
+    [
+      'module:decorator-transforms',
+      {
+        runtime: {
+          import: require.resolve('decorator-transforms/runtime-esm'),
+        },
+      },
+    ],
+    [
+      '@babel/plugin-transform-runtime',
+      {
+        absoluteRuntime: __dirname,
+        useESModules: true,
+        regenerator: false,
+      },
+    ],
+    ...babelCompatSupport(),
   ],
+
+  generatorOpts: {
+    compact: false,
+  },
 };
