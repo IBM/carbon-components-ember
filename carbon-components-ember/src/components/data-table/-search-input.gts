@@ -29,10 +29,11 @@ export default class TableSearchComponent extends Component<Args> {
     }
   });
 
-  @action async doSearch(term: string) {
+  @action
+  doSearch(term: string) {
     if (this.lastTerm === term) return;
     this.lastTerm = term;
-    await this.runSearch.cancelAll();
+    void this.runSearch.cancelAll();
     return this.runSearch.perform(term);
   }
 

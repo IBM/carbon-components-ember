@@ -223,11 +223,11 @@ export default class DataTableComponent<T> extends Component<
   }
 
   @action
-  async search(term?: string) {
+  search(term?: string) {
     this.state.currentSearchTerm = term;
     if (!term) {
       this.state.currentSearch = undefined;
-      await this.applySearch.cancelAll();
+      void this.applySearch.cancelAll();
       return;
     }
     return this.applySearch.perform(this.args.items || [], term);
