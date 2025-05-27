@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "build": "pnpm run --filter carbon-components-ember build",
-    "lint": "pnpm run --filter '*' lint",
+    "lint": "pnpm run --filter carbon-components-ember lint",
     "lint:fix": "pnpm run --filter '*' lint:fix",
     "start": "concurrently 'npm:start:*' --restart-after 5000 --prefix-colors cyan,white,yellow",
     "start:addon": "npm start --workspace carbon-components-ember -- --no-watch.clearScreen",
