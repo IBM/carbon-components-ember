@@ -5,7 +5,6 @@ import PCR from 'puppeteer-chromium-resolver';
 const __root = process.cwd();
 
 async function run() {
-  // eslint-disable-next-line new-cap
   const { puppeteer, executablePath } = await PCR({});
   console.log('[ci] starting');
 
