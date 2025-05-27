@@ -223,11 +223,11 @@ export default class DataTableComponent<T> extends Component<
   }
 
   @action
-  search(term?: string) {
+  async search(term?: string) {
     this.state.currentSearchTerm = term;
     if (!term) {
       this.state.currentSearch = undefined;
-      this.applySearch.cancelAll();
+      await this.applySearch.cancelAll();
       return;
     }
     return this.applySearch.perform(this.args.items || [], term);
@@ -241,7 +241,6 @@ export default class DataTableComponent<T> extends Component<
     if (!selected) {
       this.state.selectedItems.delete(item);
     }
-    // eslint-disable-next-line no-self-assign
     this.args.onSelectionChange?.(this.state.selectedItems.toArray());
   }
 
@@ -252,7 +251,6 @@ export default class DataTableComponent<T> extends Component<
     } else {
       this.state.selectedItems.setTo([]);
     }
-    // eslint-disable-next-line no-self-assign
     this.args.onSelectionChange?.(this.state.selectedItems.toArray());
   }
 

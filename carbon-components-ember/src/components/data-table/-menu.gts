@@ -6,7 +6,7 @@ import type { WithBoundArgs } from '@glint/template';
 export interface TableMenuComponentSignature {
   Blocks: {
     default: [
-      WithBoundArgs<typeof MenuItemComponent, 'isDisabled' | 'isDisabled'>,
+      WithBoundArgs<typeof MenuItemComponent, 'isDisabled' | 'isDanger'>,
     ];
   };
 }

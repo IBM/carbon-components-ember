@@ -12,5 +12,6 @@ declare module '@ember/service' {
 }
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   interface Array<T> extends Ember.ArrayPrototypeExtensions<T> {}
 }

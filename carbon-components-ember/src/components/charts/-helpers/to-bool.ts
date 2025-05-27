@@ -1,6 +1,6 @@
 import { helper as buildHelper } from '@ember/component/helper';
 
-export function tobool([string]: [string | boolean | undefined]): boolean {
+export function toBool([string]: [string | boolean | undefined]): boolean {
   switch (string && string.toString().toLowerCase().trim()) {
     case 'true':
     case 'yes':
@@ -16,5 +16,5 @@ export function tobool([string]: [string | boolean | undefined]): boolean {
   }
 }
 
-export const helper = buildHelper(tobool);
+export const helper = buildHelper(toBool);
 export default helper;

@@ -12,6 +12,7 @@ export interface Signature {
   Element: null;
 }
 
+
 export default class SubMenuComponent extends Component<Signature> {
   <template>
     <li class='cds--side-nav__menu-item' role='menu'>

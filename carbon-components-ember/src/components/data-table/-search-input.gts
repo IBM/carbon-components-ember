@@ -25,15 +25,14 @@ export default class TableSearchComponent extends Component<Args> {
       return await task;
     } finally {
       this.isSearching = false;
-      task?.cancel?.();
+      await task?.cancel?.();
     }
   });
 
-  @action
-  doSearch(term: string) {
+  @action async doSearch(term: string) {
     if (this.lastTerm === term) return;
     this.lastTerm = term;
-    this.runSearch.cancelAll();
+    await this.runSearch.cancelAll();
     return this.runSearch.perform(term);
   }
 

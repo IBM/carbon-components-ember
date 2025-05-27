@@ -91,16 +91,6 @@ export default ts.config(
       parserOptions: parserOptions.esm.ts,
     },
     extends: [...ts.configs.recommendedTypeChecked, ember.configs.gts],
-    rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-unsafe-member-access': 'off',
-      '@typescript-eslint/no-unsafe-assignment': 'off',
-      '@typescript-eslint/no-unsafe-return': 'off',
-      '@typescript-eslint/no-unsafe-argument': 'off',
-      '@typescript-eslint/no-unsafe-call': 'off',
-      'ember/no-empty-glimmer-component-classes': 'off',
-      'ember/no-at-ember-render-modifiers': 'off',
-    }
   },
   {
     files: ['tests/**/*-test.{js,gjs,ts,gts}'],
@@ -119,7 +109,6 @@ export default ts.config(
       'testem.js',
       'testem*.js',
       'index.js',
-      'babel.config.js',
       '.prettierrc.js',
       '.stylelintrc.js',
       '.template-lintrc.js',

@@ -46,12 +46,11 @@ export default class SearchComponent extends Component<SearchComponentSignature>
       return await task;
     } finally {
       this.isSearching = false;
-      task && task.cancel && task.cancel();
+      await task?.cancel?.();
     }
   });
-  @action
-  onSearchChange() {
-    this.runSearch.perform();
+  @action async onSearchChange() {
+    await this.runSearch.perform();
   }
 
   @action
@@ -79,9 +78,9 @@ export default class SearchComponent extends Component<SearchComponentSignature>
       const listener = (event: Event) => {
         if (element.contains(event.target as HTMLDivElement)) return;
         this.isActive = false;
-        (document as Document).removeEventListener('mousedown', listener);
+        document.removeEventListener('mousedown', listener);
       };
-      (document as Document).addEventListener('mousedown', listener);
+      document.addEventListener('mousedown', listener);
     });
   }
 

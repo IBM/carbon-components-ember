@@ -142,7 +142,7 @@ class CarbonChart extends Component<CarbonChartSignature> {
 
   @action
   destroyChart() {
-    this.chart && this.chart.destroy();
+    this.chart?.destroy();
     this.chart = undefined;
   }
 

@@ -11,9 +11,9 @@
     "test-app"
   ],
   "scripts": {
-    "build": "npm run build --workspace carbon-components-ember",
-    "lint": "npm run lint --workspaces --if-present",
-    "lint:fix": "npm run lint:fix --workspaces --if-present",
+    "build": "pnpm run --filter carbon-components-ember build",
+    "lint": "pnpm run --filter '*' lint",
+    "lint:fix": "pnpm run --filter '*' lint:fix",
     "start": "concurrently 'npm:start:*' --restart-after 5000 --prefix-colors cyan,white,yellow",
     "start:addon": "npm start --workspace carbon-components-ember -- --no-watch.clearScreen",
     "start:test-app": "npm start --workspace test-app",

@@ -44,7 +44,7 @@ export default class Modal extends Component<ModalComponentSignature> {
   @action
   closeModal() {
     this.isVisible = false;
-    this.args.onClose && this.args.onClose?.();
+    this.args.onClose?.();
     return false;
   }
 

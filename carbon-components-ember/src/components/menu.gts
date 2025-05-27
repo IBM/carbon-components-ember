@@ -18,7 +18,7 @@ export interface MenuComponentSignature {
   };
   Blocks: {
     default: [
-      WithBoundArgs<typeof MenuItemComponent, 'isDisabled' | 'isDisabled'>,
+      WithBoundArgs<typeof MenuItemComponent, 'isDisabled' | 'isDanger'>,
     ];
   };
 }

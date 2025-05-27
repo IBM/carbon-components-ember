@@ -28,6 +28,7 @@ export interface Signature {
   };
 }
 
+
 export default class NavMenuComponent extends Component<Signature> {
   <template>
     {{#if @submenus}}
