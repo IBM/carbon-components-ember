@@ -72,12 +72,13 @@
     "ember-template-lint": "^5.11.0",
     "ember-try": "^4.0.0",
     "ember-vite-hmr": "^2.0.1",
-    "eslint": "^8.57.0",
+    "eslint": "^9.27.0",
     "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-ember": "^12.1.1",
+    "eslint-plugin-ember": "^12.5.0",
     "eslint-plugin-n": "^17.15.1",
     "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-qunit": "^8.1.1",
+    "globals": "^16.2.0",
     "js-reporters": "^2.1.0",
     "loader.js": "^4.7.0",
     "prettier": "^3.3.2",
@@ -93,7 +94,10 @@
     "vite": "^6.3.5",
     "ember-routable-component": "^1.2.0",
     "ember-template-imports": "^4.1.1",
-    "decorator-transforms": "^2.2.2"
+    "decorator-transforms": "^2.2.2",
+    "@typescript-eslint/eslint-plugin": "^8.32.1",
+    "@typescript-eslint/parser": "^8.32.1",
+    "typescript": "^5.8.3"
   },
   "engines": {
     "node": "16.* || >= 18"
