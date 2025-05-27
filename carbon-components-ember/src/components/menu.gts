@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
 import Icon, { type IconNames } from '../components/icon.gts';
+import OverflowMenuVertical24 from '@carbon/icons/es/overflow-menu--vertical/24';
 import MenuItemComponent from '../components/menu/-item.gts';
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 import defaultTo from '../helpers/default-to.ts';
@@ -34,9 +35,8 @@ export default class MenuComponent extends Component<MenuComponentSignature> {
           <AttachTooltip @animation="none" @arrow={{true}} >{{@tooltip}}</AttachTooltip>
         {{/if}}
         <Icon
-          @fill='white'
           @size={{24}}
-          @icon={{defaultTo @icon 'overflow-menu--vertical'}}
+          @icon={{defaultTo @icon OverflowMenuVertical24}}
           @btnClass='cds--overflow-menu__icon'
         />
       </dd.Trigger>

@@ -8,6 +8,7 @@ export function renderSvgPartFunc(
   { class: classes, fill }: { class: (string | undefined)[]; fill?: string },
 ): ReturnType<typeof htmlSafe> {
   if (!svg) return htmlSafe('');
+  if (typeof svg !== 'object') return svg as ReturnType<typeof htmlSafe>;
   const base = `<svg class="${classes.join(' ')}"
              focusable="false"
              fill="${fill}"
