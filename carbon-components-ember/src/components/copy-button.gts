@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import didInsert from '@ember/render-modifiers/modifiers/did-insert';
-import EmberTooltip from 'ember-tooltips/components/ember-tooltip';
+import AttachTooltip from 'ember-attacher/components/attach-tooltip';
 import Button from '../components/button.gts';
 import or from '../helpers/or.ts';
 
@@ -55,13 +55,13 @@ export default class CarbonCopyButton extends Component<CarbonCopyButtonSignatur
             />
           </svg>
         {{/unless}}
-        <EmberTooltip @event='{{if this.didCopy "none" "hover"}}'>
+        <AttachTooltip @animation="none" @arrow={{true}} @isShown={{this.didCopy}} @showOn='{{if this.didCopy "none" "mouseenter"}}'>
           {{#if this.didCopy}}
             Copied!
           {{else}}
             Copy to clipboard
           {{/if}}
-        </EmberTooltip>
+        </AttachTooltip>
       </Button>
     {{else}}
       <Button
@@ -96,16 +96,18 @@ export default class CarbonCopyButton extends Component<CarbonCopyButtonSignatur
             />
           </svg>
         {{/unless}}
-        <EmberTooltip
+        <AttachTooltip
+          @animation="none"
+          @arrow={{true}}
           @isShown={{this.didCopy}}
-          @event={{if this.didCopy 'none' 'hover'}}
+          @showOn={{if this.didCopy 'none' 'mouseenter'}}
         >
           {{#if this.didCopy}}
             Copied!
           {{else}}
             Copy to clipboard
           {{/if}}
-        </EmberTooltip>
+        </AttachTooltip>
       </Button>
     {{/if}}
   </template>

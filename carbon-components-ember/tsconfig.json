@@ -53,6 +53,7 @@
     "types/globals.d.ts",
     "types/glint.d.ts",
     "types/ember.d.ts",
+    "types/ember-attacher.d.ts",
     "index.d.ts",
     "src/**/*",
     "unpublished-development-types/**/*"
