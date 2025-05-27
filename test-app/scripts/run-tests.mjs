@@ -5,7 +5,9 @@ import PCR from 'puppeteer-chromium-resolver';
 const __root = process.cwd();
 
 async function run() {
-  const { puppeteer, executablePath } = await PCR({});
+  const { puppeteer, executablePath } = await PCR({
+    revision: 1466950
+  });
   console.log('[ci] starting');
 
   await /** @type {Promise<void>} */ (
@@ -66,7 +68,7 @@ async function run() {
               return fulfill(parsed.failed > 0 ? 1 : 0);
             }
           } catch (e) {
-            console.error(e);
+            console.log(e);
           }
         }
         if (location.url?.includes(`/qunit.js`)) {

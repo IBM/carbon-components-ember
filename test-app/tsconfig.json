@@ -2,7 +2,8 @@
   "compilerOptions": {
     "allowImportingTsExtensions": true,
     "allowArbitraryExtensions": true,
-    "target": "ES2018",
+    "target": "es2019",
+    "lib": ["dom", "es2019"],
     "emitDeclarationOnly": true,
     "declarationDir": "precompiled",
     "allowJs": false,
@@ -33,6 +34,7 @@
   "include": [
     "app/**/*",
     "tests/**/*",
+    "types/*"
   ],
   "glint": {
     "environment": ["ember-template-imports"]

@@ -11,7 +11,10 @@
     "test-app"
   ],
   "scripts": {
-    "build": "pnpm run --filter carbon-components-ember build",
+    "build": "pnpm build:carbon",
+    "build:carbon": "pnpm run --filter carbon-components-ember build",
+    "build:docs": "pnpm run --filter doc-app build",
+    "build:test": "pnpm run --filter test-app build",
     "lint": "pnpm run --filter carbon-components-ember lint",
     "lint:fix": "pnpm run --filter '*' lint:fix",
     "start": "concurrently 'npm:start:*' --restart-after 5000 --prefix-colors cyan,white,yellow",

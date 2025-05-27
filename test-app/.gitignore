@@ -9,6 +9,8 @@
 !scripts/**/*
 !tests
 !tests/**/*
+!types
+!types/**/*
 !.editorconfig
 !.ember-cli
 !eslint.config.mjs
