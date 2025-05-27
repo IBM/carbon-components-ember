@@ -4,31 +4,30 @@
 
 ```gjs live preview
 import { Button, Notification } from 'carbon-components-ember/components';
-import { ThemeSupport } from 'docs-support';
+import { ThemeSupport, setOwner } from 'docs-support';
 import { service } from '@ember/service';
 import { 
     Information16, 
     ErrorFilled16,
     InformationSquareFilled16,
     CheckmarkFilled16,
-} from '@carbon/icons';
+} from 'carbon-components-ember/icons';
 
 class Context {
-    @service('carbon.notifications') notifications;
+  @service('carbon.notifications') notifications;
+  
+  constructor() {
+    setOwner(this);
+  }
 
-    get icon() {
-        const mapping= {
-            info: Information16,
-            error: ErrorFilled16,
-            'info-square': 'information--square--filled',
-            success: 'checkmark--filled',
-            warning: 'warning',
-            'warning-alt': 'warning--alt--filled',
-        };
-        return mapping[this.defaultArgs.kind];
-    }
-    
+  showNotification = (type) => {
+    this.notifications.info({
+      caption: 'test',
+    });
+  }
 }
+
+const context = new Context();
 
 <template>
     <ThemeSupport />
@@ -58,7 +57,7 @@ class Context {
     <Notification @type='warning' @caption='warning' />
     <br />
     <br />
-    <Button @type='primary' @onClick={{@controller.showNotification}}>
+    <Button @type='primary' @onClick={{context.showNotification}}>
         Notify
     </Button>
 </template>
