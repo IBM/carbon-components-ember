@@ -651,8 +651,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(prettier@3.5.3)(stylelint@16.20.0(typescript@5.8.3))
       tracked-built-ins:
-        specifier: ^3.1.1
-        version: 3.4.0(@babel/core@7.27.1)
+        specifier: ^4.0.0
+        version: 4.0.0(@babel/core@7.27.1)
       typescript:
         specifier: ^5.4.5
         version: 5.8.3
@@ -876,8 +876,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(prettier@3.5.3)(stylelint@16.20.0(typescript@5.8.3))
       tracked-built-ins:
-        specifier: ^3.1.1
-        version: 3.4.0(@babel/core@7.27.3)
+        specifier: ^4.0.0
+        version: 4.0.0(@babel/core@7.27.3)
       vite:
         specifier: ^6.3.5
         version: 6.3.5(@types/node@22.15.24)(less@4.2.0)(sass-embedded@1.89.0)(sass@1.89.0)(stylus@0.62.0)(terser@5.39.0)(yaml@2.8.0)
@@ -12405,8 +12405,8 @@ packages:
     resolution: {integrity: sha512-hdF5ZgjTqgAntKkklYw0R03MG2x/bSzTtkxmIRw/sTNV8YXsCJ1tfLAX23lhxhHJlEf3CRCOCGGWw3vI3GaSPw==}
     engines: {node: '>=18'}
 
-  tracked-built-ins@3.4.0:
-    resolution: {integrity: sha512-aRwWQXC3VkY50oYxS7wKZiavkjf3uaN+UYUH30D5gxUqbxDN2LnNsfWyDfckmxHUGw4gJDH5lpRS0jX/tim0vw==}
+  tracked-built-ins@4.0.0:
+    resolution: {integrity: sha512-0Jl43A1SDZd+yYCJvXfgDSn4Wk/zcawkyFTBPqOETU5UJRngnVEnQ8oOjawqPRg6qja3sKjIQ8z6X9xJzcUTUA==}
 
   tracked-toolbox@2.0.0:
     resolution: {integrity: sha512-adZtX+RGN6F+pWs/5JqVuDxLhuia4uhqmQp+UlUaxpykWjDFETtAdQR+LdDJiFPXFAXnS6FBqn/tnSLJQCm3Yw==}
@@ -31151,18 +31151,18 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  tracked-built-ins@3.4.0(@babel/core@7.27.1):
+  tracked-built-ins@4.0.0(@babel/core@7.27.1):
     dependencies:
-      '@embroider/addon-shim': 1.8.9
+      '@embroider/addon-shim': 1.10.0
       decorator-transforms: 2.3.0(@babel/core@7.27.1)
       ember-tracked-storage-polyfill: 1.0.0
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
 
-  tracked-built-ins@3.4.0(@babel/core@7.27.3):
+  tracked-built-ins@4.0.0(@babel/core@7.27.3):
     dependencies:
-      '@embroider/addon-shim': 1.8.9
+      '@embroider/addon-shim': 1.10.0
       decorator-transforms: 2.3.0(@babel/core@7.27.3)
       ember-tracked-storage-polyfill: 1.0.0
     transitivePeerDependencies:
