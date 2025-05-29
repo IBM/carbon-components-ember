@@ -2,13 +2,13 @@ import { default as eq } from 'ember-truth-helpers/helpers/eq';
 import { default as Menu } from '../../components/ui-shell/-sidenav/-menu.gts';
 import Component from '@glimmer/component';
 import NavMenuComponent, { type SubMenu } from './-sidenav/-menu.gts';
-import { type IconNames } from '../../components/icon.gts';
 import { fn } from '@ember/helper';
 import { stylesheet } from 'astroturf';
+import type Icon from '../icon';
 
 export type MenuItem = {
   submenus: SubMenu[];
-  icon: IconNames;
+  icon: typeof Icon;
   title: string;
 };
 

@@ -1,11 +1,12 @@
 import { helper as buildHelper } from '@ember/component/helper';
 import { htmlSafe } from '@ember/template';
+import { guidFor } from '@ember/object/internals';
 
 const cache = new Map();
 
 export function renderSvgPartFunc(
   [svg]: [any],
-  { class: classes, fill }: { class: (string | undefined)[]; fill?: string },
+  { class: classes, fill, size }: { class: (string | undefined)[]; fill?: string; size: number|string|undefined },
 ): ReturnType<typeof htmlSafe> {
   if (!svg) return htmlSafe('');
   if (typeof svg !== 'object') return svg as ReturnType<typeof htmlSafe>;
@@ -13,12 +14,12 @@ export function renderSvgPartFunc(
              focusable="false"
              fill="${fill}"
              style="will-change: transform;"
-             width="${svg.attrs.width}"
-             height="${svg.attrs.height}"
+             width="${size || svg.attrs.width}"
+             height="${size || svg.attrs.height}"
              viewBox="${svg.attrs.viewBox}">`;
   let rest = '';
-  if (cache.has(svg)) {
-    rest = cache.get(svg);
+  if (cache.has(guidFor(svg)+size)) {
+    rest = cache.get(guidFor(svg)+size);
   } else {
     const part = svg.content
       .map((svgPart: any) => {
@@ -29,7 +30,7 @@ export function renderSvgPartFunc(
       })
       .join();
     rest = part;
-    cache.set(svg, rest);
+    cache.set(guidFor(svg)+size, rest);
   }
   const html = (base + rest + '</svg>').trim();
   return htmlSafe(html);

@@ -4,11 +4,11 @@ import { on } from '@ember/modifier';
 import { get, concat, fn } from '@ember/helper';
 import { default as or } from 'ember-truth-helpers/helpers/or';
 import Component from '@glimmer/component';
-import { type IconNames } from '../../icon';
 import SubMenuComponent from './-sub-menu.gts';
+import { ChevronDown } from '../../../icons.ts';
 
 export type SubMenu = {
-  icon: IconNames;
+  icon: typeof Icon;
   title: string;
 };
 
@@ -18,7 +18,7 @@ export interface Signature {
     hidden?: boolean;
     open?: boolean;
     isCurrent: boolean;
-    icon: IconNames;
+    icon: typeof Icon;
     title: string;
     submenus: SubMenu[];
   };
@@ -45,7 +45,7 @@ export default class NavMenuComponent extends Component<Signature> {
           >
             {{#if @icon}}
               <div class='cds--side-nav__icon'>
-                <Icon @icon='{{@icon}}' />
+                <this.args.icon />
               </div>
             {{/if}}
             <span class='cds--side-nav__submenu-title'>
@@ -54,7 +54,7 @@ export default class NavMenuComponent extends Component<Signature> {
             <div
               class='cds--side-nav__icon cds--side-nav__icon--small cds--side-nav__submenu-chevron'
             >
-              <Icon @icon='chevron--down' />
+              <ChevronDown />
             </div>
           </button>
           {{#if (or @open (get obj (concat @title '-expanded')))}}
@@ -81,7 +81,7 @@ export default class NavMenuComponent extends Component<Signature> {
           >
             {{#if @icon}}
               <div class='cds--side-nav__icon cds--side-nav__icon--small'>
-                <Icon @icon='{{@icon}}' />
+                <this.args.icon />
               </div>
             {{/if}}
             <span class='cds--side-nav__link-text'>

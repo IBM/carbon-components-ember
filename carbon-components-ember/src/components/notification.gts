@@ -9,9 +9,8 @@ import NotificationService, {
 } from '../services/notifications.ts';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import { type IconType } from '../components/icon.gts';
 import type { WithRequired } from '../utils/type-helpers.ts';
-import { CheckmarkFilled24, ErrorFilled24, Information24, InformationSquareFilled24, Warning24, WarningAltFilled24 } from '../icons.ts';
+import { CheckmarkFilled, Close, ErrorFilled, Information, InformationSquareFilled, Warning, WarningAltFilled } from '../icons.ts';
 
 type Args = {
   onClick?: (args: never) => never;
@@ -28,14 +27,14 @@ export default class NotificationComponent extends Component<NotificationCompone
   @service('carbon-components-ember@notifications')
   notifications!: NotificationService;
 
-  get icon(): IconType {
-    const mapping: Record<Required<NotificationOptions>['kind'], IconType> = {
-      info: Information24,
-      error: ErrorFilled24,
-      'info-square': InformationSquareFilled24,
-      success: CheckmarkFilled24,
-      warning: Warning24,
-      'warning-alt': WarningAltFilled24,
+  get icon(): typeof Icon {
+    const mapping: Record<Required<NotificationOptions>['kind'], typeof Icon> = {
+      info: Information,
+      error: ErrorFilled,
+      'info-square': InformationSquareFilled,
+      success: CheckmarkFilled,
+      warning: Warning,
+      'warning-alt': WarningAltFilled,
     };
     return mapping[this.defaultArgs.kind];
   }
@@ -71,8 +70,7 @@ export default class NotificationComponent extends Component<NotificationCompone
           role='alert'
           ...attributes
         >
-          <Icon
-            @icon={{this.icon}}
+          <this.icon
             @svgClass='cds--toast-notification__icon'
             @fill='currentColor'
           />
@@ -94,7 +92,7 @@ export default class NotificationComponent extends Component<NotificationCompone
             type='button'
             aria-label='close'
           >
-            <Icon
+            <Close
               @icon='close'
               @svgClass='cds--inline-notification__close-icon'
             />
@@ -107,8 +105,7 @@ export default class NotificationComponent extends Component<NotificationCompone
           class='cds--inline-notification cds--inline-notification--error'
         >
           <div class='cds--inline-notification__details'>
-            <Icon
-              @icon={{this.icon}}
+            <this.icon
               @svgClass='cds--inline-notification__icon'
               @fill='currentColor'
             />
@@ -129,8 +126,7 @@ export default class NotificationComponent extends Component<NotificationCompone
             title='close notification'
             class='cds--inline-notification__close-button'
           >
-            <Icon
-              @icon='close'
+            <Close
               @svgClass='cds--inline-notification__close-icon'
             />
           </button>
@@ -144,8 +140,7 @@ export default class NotificationComponent extends Component<NotificationCompone
           aria-labelledby='actionable-notification-3'
         >
           <div class='cds--actionable-notification__details'>
-            <Icon
-              @icon={{this.icon}}
+            <this.icon
               @svgClass='cds--toast-notification__icon'
               @fill='currentColor'
             />

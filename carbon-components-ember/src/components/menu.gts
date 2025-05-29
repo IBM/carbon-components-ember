@@ -1,16 +1,16 @@
 import Component from '@glimmer/component';
-import Icon, { type IconNames } from '../components/icon.gts';
-import OverflowMenuVertical24 from '@carbon/icons/es/overflow-menu--vertical/24';
+import Icon from '../components/icon.gts';
 import MenuItemComponent from '../components/menu/-item.gts';
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 import defaultTo from '../helpers/default-to.ts';
 import { on } from '@ember/modifier';
 import AttachTooltip from 'ember-attacher/components/attach-tooltip';
 import type { WithBoundArgs } from '@glint/template';
+import { OverflowMenuVertical } from '../icons.ts';
 
 export interface MenuComponentSignature {
   Args: {
-    icon?: IconNames;
+    icon?: typeof Icon;
     direction: 'bottom' | 'top';
     tooltip?: string;
     disabled?: boolean;
@@ -23,7 +23,13 @@ export interface MenuComponentSignature {
   };
 }
 
+
 export default class MenuComponent extends Component<MenuComponentSignature> {
+
+  get icon() {
+    return this.args.icon || OverflowMenuVertical;
+  }
+
   <template>
     <BasicDropdown @renderInPlace={{true}} as |dd|>
       <dd.Trigger
@@ -34,9 +40,7 @@ export default class MenuComponent extends Component<MenuComponentSignature> {
         {{#if @tooltip}}
           <AttachTooltip @animation="none" @arrow={{true}} >{{@tooltip}}</AttachTooltip>
         {{/if}}
-        <Icon
-          @size={{24}}
-          @icon={{defaultTo @icon OverflowMenuVertical24}}
+        <this.icon
           @btnClass='cds--overflow-menu__icon'
         />
       </dd.Trigger>
