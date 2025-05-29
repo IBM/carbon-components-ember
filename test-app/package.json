@@ -95,7 +95,7 @@
     "prettier-plugin-ember-template-tag": "^2.0.2",
     "puppeteer-chromium-resolver": "^24.0.1",
     "qunit": "^2.24.1",
-    "qunit-dom": "^2.0.0",
+    "qunit-dom": "^3.4.0",
     "stylelint": "^16.19.1",
     "stylelint-config-standard": "^33.0.0",
     "stylelint-prettier": "^3.0.0",
