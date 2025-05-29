@@ -1,0 +1,29 @@
+[
+  [
+    "<a href=\"#\" class=\"cds--link\" data-index=\"2\"></a>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "cursor": "auto",
+      "outline": "rgb(22, 22, 22) none 0px"
+    }
+  ],
+  [
+    "<a:before href=\"#\" class=\"cds--link\" data-index=\"2\"></a:before>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "cursor": "auto",
+      "outline": "rgb(22, 22, 22) none 0px"
+    }
+  ],
+  [
+    "<a:after href=\"#\" class=\"cds--link\" data-index=\"2\"></a:after>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "cursor": "auto",
+      "outline": "rgb(22, 22, 22) none 0px"
+    }
+  ]
+]

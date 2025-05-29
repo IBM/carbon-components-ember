@@ -11,6 +11,8 @@ import {
   contentFor,
 } from '@embroider/vite';
 import { babel } from '@rollup/plugin-babel';
+import { writeFileSync, mkdirSync } from 'node:fs';
+import { dirname } from 'node:path';
 
 const extensions = [
   '.mjs',
@@ -23,17 +25,46 @@ const extensions = [
   '.json',
 ];
 
-const docsUrl = process.env.ADDON_DOCS_VERSION_PATH;
 
-console.log('setting base url to', docsUrl);
+function snapshotPlugin() {
+  return {
+    name: 'snapshot',
+    configureServer(s) {
+      const server = s;
+      return () => {
+        server.middlewares.use((req, _res, next) => {
+          const base = server.config.base || '/';
+          let originalUrl = req.originalUrl;
+          if (originalUrl === null || originalUrl === void 0 ? void 0 : originalUrl.startsWith(base)) {
+            originalUrl = req.originalUrl.slice(base.length - 1);
+          }
+          if (originalUrl && originalUrl.length > 1) {
+            if (req.method === 'POST' && originalUrl.startsWith('/__snapshots__')) {
+              const path = `./tests/${decodeURI(originalUrl)}`;
+              mkdirSync(dirname(path), { recursive: true });
+              let body = "";
+              req.on("readable", () => {
+                body += req.read() || '';
+              });
+              req.on("end", () => {
+                writeFileSync(path, body.toString());
+              });
+            }
+          }
+          return next();
+        });
+      };
+    },
+  }
+}
 
 export default defineConfig(({ mode }) => {
   return {
-    base: docsUrl ? '/carbon-components-ember/versions/' + docsUrl : '',
     resolve: {
       extensions,
     },
     plugins: [
+      snapshotPlugin(),
       hbs(),
       templateTag(),
       scripts(),

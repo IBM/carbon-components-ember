@@ -125,7 +125,6 @@ function astroturf() {
           .map(({absoluteFilePath, requirePath, value}) => ({importPath: requirePath, fullPath: absoluteFilePath, code: value}))
         for (const gen of generatedFiles) {
           const fname =  gen.fullPath.replace(process.cwd(), '').slice(1);
-          console.log('fname', fname)
           this.emitFile({
             source: gen.code,
             type: 'asset',
