@@ -165,7 +165,7 @@
     "release-it": "^15.10.3",
     "rollup": "^4.24.0",
     "rollup-plugin-copy": "^3.4.0",
-    "sass": "^1.62.1",
+    "sass": "^1.89.0",
     "sass-embedded": "^1.89.0",
     "sass-loader": "^16.0.4",
     "typescript": "^5.5.3",
