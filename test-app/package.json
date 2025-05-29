@@ -99,7 +99,7 @@
     "stylelint": "^16.19.1",
     "stylelint-config-standard": "^33.0.0",
     "stylelint-prettier": "^3.0.0",
-    "tracked-built-ins": "^3.1.1",
+    "tracked-built-ins": "^4.0.0",
     "webpack": "^5.99.5",
     "vite": "^6.3.5",
     "ember-routable-component": "^1.2.0",
