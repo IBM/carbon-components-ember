@@ -14,7 +14,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "concurrently 'npm:build:*'",
+    "build": "pnpm build:js && pnpm build:types",
     "build:js": "rollup --config",
     "build:types": "glint --declaration && pnpm fix-bad-declaration-output './declarations/**/*.d.ts'",
     "lint": "concurrently 'npm:lint:*(!fix)' --names 'lint:'",
