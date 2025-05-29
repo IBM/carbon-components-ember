@@ -53,7 +53,7 @@
     "@embroider/addon-shim": "^1.8.9",
     "@eslint/js": "^8.41.0",
     "@gavant/glint-template-types": "^0.4.0",
-    "@rollup/plugin-alias": "^5.1.0",
+    "@rollup/plugin-alias": "^5.1.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@types/node": "^20.14.10",
     "astroturf": "^1.2.0",
