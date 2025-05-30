@@ -44,6 +44,9 @@
     */
     "allowImportingTsExtensions": true
   },
+  "exclude": [
+    "declarations"
+  ],
   "include": [
     "node_modules/@gavant/glint-template-types/types/ember-truth-helpers/*.d.ts",
     "node_modules/@gavant/glint-template-types/types/ember-basic-dropdown/components/basic-dropdown.d.ts",

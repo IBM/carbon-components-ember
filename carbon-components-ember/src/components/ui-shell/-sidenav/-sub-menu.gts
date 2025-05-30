@@ -6,7 +6,7 @@ export interface Signature {
   Args: {
     isCurrent: boolean;
     transitionTo: () => void;
-    icon: Icon['args']['icon'];
+    icon: typeof Icon;
     title: string;
   };
   Element: null;
@@ -25,7 +25,7 @@ export default class SubMenuComponent extends Component<Signature> {
       >
         {{#if @icon}}
           <div class='cds--side-nav__icon'>
-            <Icon @icon={{@icon}} />
+            <this.args.icon />
           </div>
         {{/if}}
         <span class='cds--side-nav__link-text'>

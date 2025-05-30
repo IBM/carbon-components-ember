@@ -21,7 +21,7 @@
     "lint:glint": "glint",
     "lint:js": "eslint .",
     "lint:js:fix": "eslint . --fix",
-    "start": "vite --mode=test",
+    "start": "vite",
     "test": "pnpm test:ember",
     "test:all": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
     "test:ember": "node ./scripts/run-tests.mjs",

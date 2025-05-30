@@ -18,3 +18,5 @@
 !rollup.config.mjs
 !tsconfig.json
 !.npmrc
+src/components/icons
+types/carbon-icons.d.ts
