@@ -217,11 +217,12 @@ export default class SelectComponent<T extends ContentValue> extends Component<
           <label class="cds--label" id="downshift-:{{this.guid}}:-label" for="downshift-:{{this.guid}}:-toggle-button">{{@title}}</label>
           <div class="cds--multi-select cds--list-box cds--list-box--md">
             <div class="cds--list-box__field--wrapper">
-              {{log @select}}
               {{#each @select.selected as |opt|}}
                 <div class="cds--tag cds--tag--filter cds--tag--high-contrast">
                   <span class="cds--tag__label" title="1">{{opt}}</span>
-                  <Close @onClick={{fn this.removeSelected opt}} />
+                  <div {{on 'click' (fn this.removeSelected opt)}} role="button" tabindex="-1" class="cds--tag__close-icon" aria-label="Clear all selected items" title="Clear all selected items"><
+                    <Close />
+                  </div>
                 </div>
               {{/each}}
               <button
