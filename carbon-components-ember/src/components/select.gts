@@ -197,7 +197,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
       <template>
         <div
           aria-activedescendant={{if
-          (and @select.isOpen (not @searchEnabled))
+          (and @select.isOpen)
           @ariaActiveDescendant
         }}
           {{this.openChange @select.isOpen}}
@@ -208,6 +208,12 @@ export default class SelectComponent<T extends ContentValue> extends Component<
           <label class="cds--label" id="downshift-:{{this.guid}}:-label" for="downshift-:{{this.guid}}:-toggle-button">{{@title}}</label>
           <div class="cds--multi-select cds--list-box cds--list-box--md">
             <div class="cds--list-box__field--wrapper">
+              {{log @select}}
+              {{#each @select.options as |opt|}}
+                <div class="cds--tag cds--tag--filter cds--tag--high-contrast">
+                  <span class="cds--tag__label" title="1">{{opt}}</span>
+                  <Close @onClick={{fn @select.actions.select opt}} />
+              {{/each}}
               <button
                 type="button"
                 class="cds--list-box__field"
@@ -258,17 +264,18 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         @closeOnSelect={{false}}
         as |option select|
       >
-        <Checkbox
-          {{didInsert this.addClassToParent 'cds--list-box__menu-item__option'}}
-          @readonly={{true}}
-          @checked={{isSelected option select.selected}}
-        >
-          {{#if (has-block)}}
-            {{yield option}}
-          {{else}}
-            {{option}}
-          {{/if}}
-        </Checkbox>
+        <div class='cds--list-box__menu-item__option' {{didInsert this.addClassToParent 'cds--list-box__menu-item'}}>
+          <Checkbox
+            @readonly={{true}}
+            @checked={{isSelected option select.selected}}
+          >
+            {{#if (has-block)}}
+              {{yield option}}
+            {{else}}
+              {{option}}
+            {{/if}}
+          </Checkbox>
+        </div>
       </PowerSelectMultiple>
     {{else}}
       <PowerSelect
