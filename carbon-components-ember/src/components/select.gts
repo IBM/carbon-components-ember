@@ -13,9 +13,12 @@ import Checkbox from '../components/checkbox.gts';
 import isSelected from 'ember-power-select/helpers/ember-power-select-is-equal';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
-import PowerSelectTriggerComponent from 'ember-power-select/components/power-select/trigger';
 import not from 'ember-truth-helpers/helpers/not';
 import { and } from 'ember-truth-helpers';
+import TriggerComponent from 'ember-power-select/components/power-select-multiple/trigger';
+import OptionsComponent from 'ember-power-select/components/power-select/options';
+import { guidFor } from '@ember/object/internals';
+
 
 type Args<T extends ContentValue> = {
   options: T[];
@@ -139,13 +142,34 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     return undefined;
   }
 
-  @action
-  didInsert(element: HTMLElement) {
-    element
-      .getElementsByClassName('ember-power-select-status-icon')
-      .item(0)!.innerHTML = `
-        <div class="cds--list-box__menu-icon"><svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor" name="chevron--down" aria-label="Open menu" width="16" height="16" viewBox="0 0 16 16" role="img" xmlns="http://www.w3.org/2000/svg"><path d="M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"></path><title>Open menu</title></svg></div>`;
+  get guid() {
+    return guidFor(this);
   }
+
+  setupCarbonClass = (el) => {
+    setTimeout(() => {
+      el.parentElement.classList.add('cds--list-box--expanded');
+    });
+  }
+
+  optionsComponent = <template>
+      <OptionsComponent
+        @options={{@options}}
+        @select={{@select}}
+        @groupIndex="{{@groupIndex}}"
+        @optionsComponent={{@optionsComponent}}
+        @groupComponent={{@groupComponent}}
+        @extra={{@extra}}
+        {{didInsert this.setupCarbonClass}}
+        role="listbox"
+        aria-labelledby="downshift-:{{this.guid}}:-label"
+        ...attributes
+        class='cds--list-box--expanded cds--list-box__menu'
+        as |option|
+      >
+        {{yield option @select}}
+      </OptionsComponent>
+    </template>;
 
   selectedItemComponent = <template>
       <div class="cds--tag cds--tag--filter cds--tag--high-contrast">
@@ -166,39 +190,57 @@ export default class SelectComponent<T extends ContentValue> extends Component<
       </div>
     </template>;
 
-  triggerComponent = class CarbonTriggerComponent extends PowerSelectTriggerComponent {
+  triggerComponent = class CarbonTriggerComponent extends TriggerComponent {
+    get guid() {
+      return guidFor(this);
+    }
       <template>
         <div
           aria-activedescendant={{if
           (and @select.isOpen (not @searchEnabled))
-            @ariaActiveDescendant
-          }}
+          @ariaActiveDescendant
+        }}
           {{this.openChange @select.isOpen}}
           {{on "touchstart" this.chooseOption}}
           {{on "mousedown" this.chooseOption}}
-             ...attributes
-             class="cds--multi-select__wrapper cds--list-box__wrapper">
-          <label class="cds--label" id="downshift-:r1o:-label" for="downshift-:r1o:-toggle-button">This is a MultiSelect Title</label>
-          <div id="carbon-multiselect-example" class="cds--multi-select cds--list-box cds--list-box--md">
+          ...attributes
+        >
+          <label class="cds--label" id="downshift-:{{this.guid}}:-label" for="downshift-:{{this.guid}}:-toggle-button">{{@title}}</label>
+          <div class="cds--multi-select cds--list-box cds--list-box--md">
             <div class="cds--list-box__field--wrapper">
-              <button type="button" class="cds--list-box__field" aria-describedby="multiselect-helper-text-id-:r1m:" aria-activedescendant="" aria-controls="downshift-:r1o:-menu"
-                      aria-expanded="false" aria-haspopup="listbox" aria-labelledby="downshift-:r1o:-label" id="downshift-:r1o:-toggle-button" role="combobox" tabindex="0"><span
-                id="multiselect-field-label-id-:r1m:" class="cds--list-box__label">This is a label</span>
+              <button
+                type="button"
+                class="cds--list-box__field"
+                aria-describedby="multiselect-helper-text-id-:r1m:"
+                aria-activedescendant=""
+                aria-controls="downshift-:{{this.guid}}:-menu"
+                aria-expanded="false"
+                aria-haspopup="listbox"
+                aria-labelledby="downshift-:{{this.guid}}:-label"
+                id="downshift-:{{this.guid}}:-toggle-button"
+                role="combobox"
+                tabindex="0"
+              >
+                <span id="multiselect-field-label-id-:{{this.guid}}:" class="cds--list-box__label">{{@placeholder}}</span>
                 <div class="cds--list-box__menu-icon">
-                  <svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor" name="chevron--down" aria-label="Open menu" width="16" height="16"
-                       viewBox="0 0 16 16" role="img" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"></path><title>Open menu</title></svg></div></button></div>
-            <ul id="downshift-:r1o:-menu" class="cds--list-box__menu" role="listbox" aria-labelledby="downshift-:r1o:-label"></ul></div>
-          <div id="multiselect-helper-text-id-:r1m:" class="cds--form__helper-text">This is helper text</div></div>
+                  <svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor" name="chevron--down" aria-label="Open menu" width="16" height="16" viewBox="0 0 16 16" role="img" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"></path><title>Open menu</title>
+                  </svg>
+                </div>
+              </button>
+            </div>
+            <ul id="downshift-:r1o:-menu" class="cds--list-box__menu" role="listbox" aria-labelledby="downshift-:r1o:-label"></ul>
+          </div>
+          <div id="multiselect-helper-text-id-:{{this.guid}}:" class="cds--form__helper-text">{{@helperText}}</div></div>
       </template>
-  }
+  };
 
   <template>
     {{#if @multiple}}
       <PowerSelectMultiple
-        {{didInsert this.didInsert}}
         ...attributes
         @triggerComponent={{this.triggerComponent}}
+        @optionsComponent={{this.optionsComponent}}
         @selectedItemComponent={{this.selectedItemComponent}}
         @renderInPlace={{defaultTo @renderInPlace false}}
         @disabled={{@disabled}}
@@ -207,7 +249,6 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         @search={{@search}}
         @options={{@options}}
         @onFocus={{this.selectFocused}}
-        @onOpen={{@onOpen}}
         @searchField={{@searchField}}
         @matcher={{this.searchMatcher}}
         @selected={{@selected}}
@@ -217,20 +258,21 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         @closeOnSelect={{false}}
         as |option select|
       >
-        <Checkbox
-          @readonly={{true}}
-          @checked={{isSelected option select.selected}}
-        >
-          {{#if (has-block)}}
-            {{yield option}}
-          {{else}}
-            {{option}}
-          {{/if}}
-        </Checkbox>
+        <div class="cds--list-box__menu-item__option">
+          <Checkbox
+            @readonly={{true}}
+            @checked={{isSelected option select.selected}}
+          >
+            {{#if (has-block)}}
+              {{yield option}}
+            {{else}}
+              {{option}}
+            {{/if}}
+          </Checkbox>
+        </div>
       </PowerSelectMultiple>
     {{else}}
       <PowerSelect
-        {{didInsert this.didInsert}}
         ...attributes
         @renderInPlace={{defaultTo @renderInPlace false}}
         @disabled={{@disabled}}
