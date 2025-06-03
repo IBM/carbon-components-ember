@@ -18,6 +18,7 @@ import { and } from 'ember-truth-helpers';
 import TriggerComponent from 'ember-power-select/components/power-select-multiple/trigger';
 import OptionsComponent from 'ember-power-select/components/power-select/options';
 import { guidFor } from '@ember/object/internals';
+import { Close } from '../icons.ts';
 
 
 type Args<T extends ContentValue> = {
@@ -213,6 +214,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
                 <div class="cds--tag cds--tag--filter cds--tag--high-contrast">
                   <span class="cds--tag__label" title="1">{{opt}}</span>
                   <Close @onClick={{fn @select.actions.select opt}} />
+                </div>
               {{/each}}
               <button
                 type="button"
