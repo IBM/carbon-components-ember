@@ -195,6 +195,14 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     get guid() {
       return guidFor(this);
     }
+
+    removeSelected = (opt) => {
+      const selected = [...this.args.select.selected];
+      const i = selected.findIndex(opt);
+      selected.splice(i, 1);
+      this.args.select.actions.select(selected)
+    }
+
       <template>
         <div
           aria-activedescendant={{if
@@ -210,10 +218,10 @@ export default class SelectComponent<T extends ContentValue> extends Component<
           <div class="cds--multi-select cds--list-box cds--list-box--md">
             <div class="cds--list-box__field--wrapper">
               {{log @select}}
-              {{#each @select.options as |opt|}}
+              {{#each @select.selected as |opt|}}
                 <div class="cds--tag cds--tag--filter cds--tag--high-contrast">
                   <span class="cds--tag__label" title="1">{{opt}}</span>
-                  <Close @onClick={{fn @select.actions.select opt}} />
+                  <Close @onClick={{fn this.removeSelected opt}} />
                 </div>
               {{/each}}
               <button
@@ -229,7 +237,9 @@ export default class SelectComponent<T extends ContentValue> extends Component<
                 role="combobox"
                 tabindex="0"
               >
-                <span id="multiselect-field-label-id-:{{this.guid}}:" class="cds--list-box__label">{{@placeholder}}</span>
+                {{#unless @select.selected}}
+                  <span id="multiselect-field-label-id-:{{this.guid}}:" class="cds--list-box__label">{{@placeholder}}</span>
+                {{/unless}}
                 <div class="cds--list-box__menu-icon">
                   <svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor" name="chevron--down" aria-label="Open menu" width="16" height="16" viewBox="0 0 16 16" role="img" xmlns="http://www.w3.org/2000/svg">
                     <path d="M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"></path><title>Open menu</title>
