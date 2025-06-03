@@ -146,9 +146,9 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     return guidFor(this);
   }
 
-  setupCarbonClass = (el) => {
+  addClassToParent = (el, cls) => {
     setTimeout(() => {
-      el.parentElement.classList.add('cds--list-box--expanded');
+      el.parentElement.classList.add(cls);
     });
   }
 
@@ -160,7 +160,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         @optionsComponent={{@optionsComponent}}
         @groupComponent={{@groupComponent}}
         @extra={{@extra}}
-        {{didInsert this.setupCarbonClass}}
+        {{didInsert this.addClassToParent 'cds--list-box--expanded'}}
         role="listbox"
         aria-labelledby="downshift-:{{this.guid}}:-label"
         ...attributes
@@ -258,18 +258,17 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         @closeOnSelect={{false}}
         as |option select|
       >
-        <div class="cds--list-box__menu-item__option">
-          <Checkbox
-            @readonly={{true}}
-            @checked={{isSelected option select.selected}}
-          >
-            {{#if (has-block)}}
-              {{yield option}}
-            {{else}}
-              {{option}}
-            {{/if}}
-          </Checkbox>
-        </div>
+        <Checkbox
+          {{didInsert this.addClassToParent 'cds--list-box__menu-item__option'}}
+          @readonly={{true}}
+          @checked={{isSelected option select.selected}}
+        >
+          {{#if (has-block)}}
+            {{yield option}}
+          {{else}}
+            {{option}}
+          {{/if}}
+        </Checkbox>
       </PowerSelectMultiple>
     {{else}}
       <PowerSelect
