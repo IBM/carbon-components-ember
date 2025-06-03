@@ -1,11 +1,11 @@
 import GlimmerComponent from '@glimmer/component';
 
 import * as carbonCompoenntStyle from 'carbon-components-ember/styles.scss?inline';
-import * as iconStyle from 'carbon-components-ember/components/icon_CarbonIcon.module.scss?raw';
-import * as buttonStyle from 'carbon-components-ember/components/button_CarbonButton.module.scss?raw';
-import * as listStyle from 'carbon-components-ember/components/list_ListComponent.module.scss?raw';
-import * as paginationStyle from 'carbon-components-ember/components/pagination_CarbonPagination.module.scss?raw';
-import * as uiShellStyle from 'carbon-components-ember/components/ui-shell/-sidenavSidenav.module.scss?raw';
+import * as iconStyle from 'carbon-components-ember/components/icon_CarbonIcon.module.scss?inline';
+import * as buttonStyle from 'carbon-components-ember/components/button_CarbonButton.module.scss?inline';
+import * as listStyle from 'carbon-components-ember/components/list_ListComponent.module.scss?inline';
+import * as paginationStyle from 'carbon-components-ember/components/pagination_CarbonPagination.module.scss?inline';
+import * as uiShellStyle from 'carbon-components-ember/components/ui-shell/-sidenavSidenav.module.scss?inline';
 import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import * as carbonChartsStyle from '@carbon/charts/styles.css?inline';
 
@@ -18,11 +18,6 @@ import { currentCarbonTheme } from './theme-switcher';
 function targetShadowHost(style: string) {
   return style.replace(/:root /g, ':host ');
 }
-
-function buildStyle(object) {
-
-}
-
 
 export default class ThemeSwitcher extends GlimmerComponent {
 
