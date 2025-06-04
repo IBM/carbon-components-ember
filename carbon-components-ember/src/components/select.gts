@@ -12,19 +12,22 @@ import defaultTo from '../helpers/default-to.ts';
 import Checkbox from '../components/checkbox.gts';
 import isSelected from 'ember-power-select/helpers/ember-power-select-is-equal';
 import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
+import { fn, hash } from '@ember/helper';
 import not from 'ember-truth-helpers/helpers/not';
 import { and } from 'ember-truth-helpers';
 import TriggerComponent from 'ember-power-select/components/power-select-multiple/trigger';
 import OptionsComponent from 'ember-power-select/components/power-select/options';
 import { guidFor } from '@ember/object/internals';
 import { Close } from '../icons.ts';
+import type {TOC} from "@ember/component/template-only";
 
 
 type Args<T extends ContentValue> = {
   options: T[];
   searchField?: string;
   placeholder?: string;
+  helperText?: string;
+  title?: string;
   disabled?: boolean;
   searchEnabled?: boolean;
   renderInPlace?: boolean;
@@ -147,9 +150,9 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     return guidFor(this);
   }
 
-  addClassToParent = (el, cls) => {
+  addClassToParent = (el: HTMLElement, cls: string) => {
     setTimeout(() => {
-      el.parentElement.classList.add(cls);
+      el.parentElement?.classList.add(cls);
     });
   }
 
@@ -170,9 +173,9 @@ export default class SelectComponent<T extends ContentValue> extends Component<
       >
         {{yield option @select}}
       </OptionsComponent>
-    </template>;
+    </template> as TOC<any>;
 
-  selectedItemComponent = <template>
+  selectedItemComponent: TOC<any> = <template>
       <div class="cds--tag cds--tag--filter cds--tag--high-contrast">
         <span class="cds--tag__label" title="1">
           {{#if (has-block)}}
@@ -196,7 +199,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
       return guidFor(this);
     }
 
-    removeSelected = (opt) => {
+    removeSelected = (opt: any) => {
       const selected = [...this.args.select.selected];
       const i = selected.findIndex(opt);
       selected.splice(i, 1);
@@ -214,7 +217,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
           {{on "mousedown" this.chooseOption}}
           ...attributes
         >
-          <label class="cds--label" id="downshift-:{{this.guid}}:-label" for="downshift-:{{this.guid}}:-toggle-button">{{@title}}</label>
+          <label class="cds--label" id="downshift-:{{this.guid}}:-label" for="downshift-:{{this.guid}}:-toggle-button">{{{{@extra.title}}}}</label>
           <div class="cds--multi-select cds--list-box cds--list-box--md">
             <div class="cds--list-box__field--wrapper">
               {{#each @select.selected as |opt|}}
@@ -250,7 +253,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
             </div>
             <ul id="downshift-:r1o:-menu" class="cds--list-box__menu" role="listbox" aria-labelledby="downshift-:r1o:-label"></ul>
           </div>
-          <div id="multiselect-helper-text-id-:{{this.guid}}:" class="cds--form__helper-text">{{@helperText}}</div></div>
+          <div id="multiselect-helper-text-id-:{{this.guid}}:" class="cds--form__helper-text">{{@extra.helperText}}</div></div>
       </template>
   };
 
@@ -258,7 +261,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     {{#if @multiple}}
       <PowerSelectMultiple
         ...attributes
-        @triggerComponent={{this.triggerComponent}}
+        @triggerComponent={{component this.triggerComponent extra=(hash helperText=@helperText title=@title)}}
         @optionsComponent={{this.optionsComponent}}
         @selectedItemComponent={{this.selectedItemComponent}}
         @renderInPlace={{defaultTo @renderInPlace false}}
@@ -317,3 +320,5 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     {{/if}}
   </template>
 }
+
+
