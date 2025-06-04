@@ -13,7 +13,6 @@ import Checkbox from '../components/checkbox.gts';
 import isSelected from 'ember-power-select/helpers/ember-power-select-is-equal';
 import { on } from '@ember/modifier';
 import { fn, hash } from '@ember/helper';
-import not from 'ember-truth-helpers/helpers/not';
 import { and } from 'ember-truth-helpers';
 import TriggerComponent from 'ember-power-select/components/power-select-multiple/trigger';
 import OptionsComponent from 'ember-power-select/components/power-select/options';
@@ -49,8 +48,8 @@ type Args<T extends ContentValue> = {
   onOpen?: PowerSelectArgs['onOpen'];
   search?: PowerSelectArgs['search'];
   selectFocused?: PowerSelectArgs['onFocus'];
-}
-  );
+});
+
 
 export interface SelectComponentSignature<T extends ContentValue> {
   Args: Args<T>;
@@ -59,6 +58,64 @@ export interface SelectComponentSignature<T extends ContentValue> {
     default: [option: T];
   };
 }
+
+type ExtractInterface<C> = C extends Component<infer T> ? T : unknown;
+type ArrayElement<A> = A extends readonly (infer T)[] ? T : never;
+type OptionsComponentInterface = ExtractInterface<OptionsComponent>;
+
+const addClassToParent = (el: HTMLElement, cls: string) => {
+  setTimeout(() => {
+    el.parentElement?.classList.add(cls);
+  });
+}
+
+const Options: TOC<OptionsComponentInterface & { Args: { guid: string } }> = <template>
+  <OptionsComponent
+    @options={{@options}}
+    @select={{@select}}
+    @groupIndex="{{@groupIndex}}"
+    @listboxId="{{@listboxId}}"
+    @loadingMessage="{{@loadingMessage}}"
+    @optionsComponent={{@optionsComponent}}
+    @groupComponent={{@groupComponent}}
+    @extra={{@extra}}
+    {{didInsert addClassToParent 'cds--list-box--expanded'}}
+    role="listbox"
+    aria-labelledby="downshift-:{{@guid}}:-label"
+    ...attributes
+    class='cds--list-box--expanded cds--list-box__menu'
+    as |option|
+  >
+    {{yield option @select}}
+  </OptionsComponent>
+</template>;
+
+const SelectedItem: TOC<{
+  Args: {
+    select: OptionsComponentInterface['Args']['select'],
+    option: ArrayElement<OptionsComponentInterface['Args']['options']>
+  };
+  Blocks: {
+    default: [string];
+  }
+}> =  <template>
+      <div class="cds--tag cds--tag--filter cds--tag--high-contrast">
+        <span class="cds--tag__label" title="1">
+          {{#if (has-block)}}
+            {{yield @option}}
+          {{else}}
+            {{@option}}
+          {{/if}}
+        </span>
+        <div {{on 'click' (fn @select.actions.select @option)}} role="button" tabindex="-1" class="cds--tag__close-icon" aria-label="Clear all selected items"
+                                                                title="Clear all selected items">
+          <svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor" width="16" height="16" viewBox="0 0 32 32" aria-hidden="true"
+               xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.4141 16L24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"></path>
+          </svg>
+        </div>
+      </div>
+    </template>
 
 export default class SelectComponent<T extends ContentValue> extends Component<
   SelectComponentSignature<T>
@@ -150,49 +207,9 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     return guidFor(this);
   }
 
-  addClassToParent = (el: HTMLElement, cls: string) => {
-    setTimeout(() => {
-      el.parentElement?.classList.add(cls);
-    });
-  }
+  optionsComponent = Options;
 
-  optionsComponent = <template>
-      <OptionsComponent
-        @options={{@options}}
-        @select={{@select}}
-        @groupIndex="{{@groupIndex}}"
-        @optionsComponent={{@optionsComponent}}
-        @groupComponent={{@groupComponent}}
-        @extra={{@extra}}
-        {{didInsert this.addClassToParent 'cds--list-box--expanded'}}
-        role="listbox"
-        aria-labelledby="downshift-:{{this.guid}}:-label"
-        ...attributes
-        class='cds--list-box--expanded cds--list-box__menu'
-        as |option|
-      >
-        {{yield option @select}}
-      </OptionsComponent>
-    </template> as TOC<any>;
-
-  selectedItemComponent: TOC<any> = <template>
-      <div class="cds--tag cds--tag--filter cds--tag--high-contrast">
-        <span class="cds--tag__label" title="1">
-          {{#if (has-block)}}
-            {{yield @option}}
-          {{else}}
-            {{@option}}
-          {{/if}}
-        </span>
-        <div {{on 'click' (fn @select.actions.select @option)}} role="button" tabindex="-1" class="cds--tag__close-icon" aria-label="Clear all selected items"
-                                                                title="Clear all selected items">
-          <svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor" width="16" height="16" viewBox="0 0 32 32" aria-hidden="true"
-               xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.4141 16L24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"></path>
-          </svg>
-        </div>
-      </div>
-    </template>;
+  selectedItemComponent = SelectedItem;
 
   triggerComponent = class CarbonTriggerComponent extends TriggerComponent {
     get guid() {
@@ -217,13 +234,13 @@ export default class SelectComponent<T extends ContentValue> extends Component<
           {{on "mousedown" this.chooseOption}}
           ...attributes
         >
-          <label class="cds--label" id="downshift-:{{this.guid}}:-label" for="downshift-:{{this.guid}}:-toggle-button">{{{{@extra.title}}}}</label>
+          <label class="cds--label" id="downshift-:{{this.guid}}:-label" for="downshift-:{{this.guid}}:-toggle-button">{{@extra.title}}</label>
           <div class="cds--multi-select cds--list-box cds--list-box--md">
             <div class="cds--list-box__field--wrapper">
               {{#each @select.selected as |opt|}}
-                <div class="cds--tag cds--tag--filter cds--tag--high-contrast">
+                <div class="cds--tag cds--tag--filter cds--tag--high-contrast" style="margin: 0;">
                   <span class="cds--tag__label" title="1">{{opt}}</span>
-                  <div {{on 'click' (fn this.removeSelected opt)}} role="button" tabindex="-1" class="cds--tag__close-icon" aria-label="Clear all selected items" title="Clear all selected items"><
+                  <div {{on 'click' (fn this.removeSelected opt)}} role="button" tabindex="-1" class="cds--tag__close-icon" aria-label="Clear all selected items" title="Clear all selected items" >
                     <Close />
                   </div>
                 </div>

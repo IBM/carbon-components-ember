@@ -31,6 +31,9 @@ function astroturf() {
   return {
     name: 'astroturf',
     async transform(code, id) {
+      if (!code.includes('astroturf')) {
+        return;
+      }
       if (id.endsWith('.gjs') || id.endsWith('.gts')) {
         const { metadata, code: transformedCode, map } = await transformAsync(code, {
           plugins: [[require.resolve('astroturf/plugin'), {
