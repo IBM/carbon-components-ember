@@ -31,6 +31,7 @@ function astroturf() {
   return {
     name: 'astroturf',
     async transform(code, id) {
+      console.log('transform', id);
       if (!code.includes('astroturf')) {
         return;
       }

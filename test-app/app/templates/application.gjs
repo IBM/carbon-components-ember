@@ -1,6 +1,16 @@
 import { Add, _4K as KK } from 'carbon-components-ember/icons';
 import { Select } from 'carbon-components-ember/components/index';
 import { array } from '@ember/helper';
+import { tracked } from '@glimmer/tracking';
+
+
+class State {
+  @tracked state = [1,2]
+
+  update = (s) => {
+    this.state = s;
+  }
+}
 
 
 <template>

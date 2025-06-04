@@ -5,7 +5,7 @@ import { defaultArgs } from '../utils/decorators.ts';
 import PowerSelect, {
   type PowerSelectArgs,
 } from 'ember-power-select/components/power-select';
-import { type ContentValue } from '@glint/template';
+import { type ComponentLike, type ContentValue } from '@glint/template';
 import PowerSelectMultiple from 'ember-power-select/components/power-select-multiple';
 import didInsert from '@ember/render-modifiers/modifiers/did-insert';
 import defaultTo from '../helpers/default-to.ts';
@@ -99,23 +99,23 @@ const SelectedItem: TOC<{
     default: [string];
   }
 }> =  <template>
-      <div class="cds--tag cds--tag--filter cds--tag--high-contrast">
-        <span class="cds--tag__label" title="1">
-          {{#if (has-block)}}
-            {{yield @option}}
-          {{else}}
-            {{@option}}
-          {{/if}}
-        </span>
-        <div {{on 'click' (fn @select.actions.select @option)}} role="button" tabindex="-1" class="cds--tag__close-icon" aria-label="Clear all selected items"
-                                                                title="Clear all selected items">
-          <svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor" width="16" height="16" viewBox="0 0 32 32" aria-hidden="true"
-               xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.4141 16L24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"></path>
-          </svg>
-        </div>
+    <div class="cds--tag cds--tag--filter cds--tag--high-contrast">
+      <span class="cds--tag__label" title="1">
+        {{#if (has-block)}}
+          {{yield @option}}
+        {{else}}
+          {{@option}}
+        {{/if}}
+      </span>
+      <div {{on 'click' (fn @select.actions.select @option)}} role="button" tabindex="-1" class="cds--tag__close-icon" aria-label="Clear all selected items"
+                                                              title="Clear all selected items">
+        <svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor" width="16" height="16" viewBox="0 0 32 32" aria-hidden="true"
+             xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.4141 16L24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"></path>
+        </svg>
       </div>
-    </template>
+    </div>
+  </template>
 
 export default class SelectComponent<T extends ContentValue> extends Component<
   SelectComponentSignature<T>
@@ -207,11 +207,11 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     return guidFor(this);
   }
 
-  optionsComponent = Options;
+  private optionsComponent = Options;
 
   selectedItemComponent = SelectedItem;
 
-  triggerComponent = class CarbonTriggerComponent extends TriggerComponent {
+  private triggerComponent = class CarbonTriggerComponent extends TriggerComponent {
     get guid() {
       return guidFor(this);
     }
@@ -278,7 +278,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     {{#if @multiple}}
       <PowerSelectMultiple
         ...attributes
-        @triggerComponent={{component this.triggerComponent extra=(hash helperText=@helperText title=@title)}}
+        @triggerComponent={{this.triggerComponent}}
         @optionsComponent={{this.optionsComponent}}
         @selectedItemComponent={{this.selectedItemComponent}}
         @renderInPlace={{defaultTo @renderInPlace false}}
@@ -297,7 +297,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         @closeOnSelect={{false}}
         as |option select|
       >
-        <div class='cds--list-box__menu-item__option' {{didInsert this.addClassToParent 'cds--list-box__menu-item'}}>
+        <div class='cds--list-box__menu-item__option' {{didInsert addClassToParent 'cds--list-box__menu-item'}}>
           <Checkbox
             @readonly={{true}}
             @checked={{isSelected option select.selected}}
@@ -337,5 +337,4 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     {{/if}}
   </template>
 }
-
 

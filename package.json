@@ -32,6 +32,7 @@
   "pnpm": {
     "overrides": {
       "@types/ember": "-",
+      "@glint/template": "1.5.2",
       "@glimmer/validator": "-",
       "ember-composable-helpers": "-",
       "babel-plugin-ember-template-compilation": "^2.2.5"
