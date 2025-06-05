@@ -8,6 +8,7 @@ import PowerSelect, {
 import { type ComponentLike, type ContentValue } from '@glint/template';
 import PowerSelectMultiple from 'ember-power-select/components/power-select-multiple';
 import didInsert from '@ember/render-modifiers/modifiers/did-insert';
+import didUpdate from '@ember/render-modifiers/modifiers/did-update';
 import defaultTo from '../helpers/default-to.ts';
 import Checkbox from '../components/checkbox.gts';
 import isSelected from 'ember-power-select/helpers/ember-power-select-is-equal';
@@ -79,7 +80,6 @@ const Options: TOC<OptionsComponentInterface & { Args: { guid: string } }> = <te
     @optionsComponent={{@optionsComponent}}
     @groupComponent={{@groupComponent}}
     @extra={{@extra}}
-    {{didInsert addClassToParent 'cds--list-box--expanded'}}
     role="listbox"
     aria-labelledby="downshift-:{{@guid}}:-label"
     ...attributes
@@ -218,7 +218,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
 
     removeSelected = (opt: any) => {
       const selected = [...this.args.select.selected];
-      const i = selected.findIndex(opt);
+      const i = selected.indexOf(opt);
       selected.splice(i, 1);
       this.args.select.actions.select(selected)
     }
@@ -235,7 +235,8 @@ export default class SelectComponent<T extends ContentValue> extends Component<
           ...attributes
         >
           <label class="cds--label" id="downshift-:{{this.guid}}:-label" for="downshift-:{{this.guid}}:-toggle-button">{{@extra.title}}</label>
-          <div class="cds--multi-select cds--list-box cds--list-box--md">
+          <div class="cds--multi-select cds--list-box cds--list-box--md">}
+            {{#if @select.lastSearchedText}}{{/if}}
             <div class="cds--list-box__field--wrapper">
               {{#each @select.selected as |opt|}}
                 <div class="cds--tag cds--tag--filter cds--tag--high-contrast" style="margin: 0;">
@@ -278,6 +279,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     {{#if @multiple}}
       <PowerSelectMultiple
         ...attributes
+        @extra={{hash helperText=@helperText title=@title}}
         @triggerComponent={{this.triggerComponent}}
         @optionsComponent={{this.optionsComponent}}
         @selectedItemComponent={{this.selectedItemComponent}}
