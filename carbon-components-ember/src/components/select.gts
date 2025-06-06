@@ -29,6 +29,7 @@ type Args<T extends ContentValue> = {
   helperText?: string;
   title?: string;
   disabled?: boolean;
+  showNumber?: boolean;
   searchEnabled?: boolean;
   renderInPlace?: boolean;
   addItem?: (item: T) => void;
@@ -223,6 +224,10 @@ export default class SelectComponent<T extends ContentValue> extends Component<
       this.args.select.actions.select(selected)
     }
 
+    removeAll = () => {
+      this.args.select.actions.select([]);
+    }
+
       <template>
         <div
           aria-activedescendant={{if
@@ -235,17 +240,32 @@ export default class SelectComponent<T extends ContentValue> extends Component<
           ...attributes
         >
           <label class="cds--label" id="downshift-:{{this.guid}}:-label" for="downshift-:{{this.guid}}:-toggle-button">{{@extra.title}}</label>
-          <div class="cds--multi-select cds--list-box cds--list-box--md">}
-            {{#if @select.lastSearchedText}}{{/if}}
+          <div class="cds--multi-select cds--combo-box cds--list-box
+                    {{if @searchEnabled 'cds--multi-select--filterable'}}
+                    {{if @select.isOpen 'cds--multi-select--open cds--multi-select--filterable--input-focused cds--list-box--expanded'}}"
+          >
+            {{#if @searchEnabled}}
+
+            {{/if}}
             <div class="cds--list-box__field--wrapper">
-              {{#each @select.selected as |opt|}}
+              {{#if (and @extra.showNumber @select.selected.length)}}
                 <div class="cds--tag cds--tag--filter cds--tag--high-contrast" style="margin: 0;">
-                  <span class="cds--tag__label" title="1">{{opt}}</span>
-                  <div {{on 'click' (fn this.removeSelected opt)}} role="button" tabindex="-1" class="cds--tag__close-icon" aria-label="Clear all selected items" title="Clear all selected items" >
+                  <span class="cds--tag__label" title="{{@select.selected.length}}">{{@select.selected.length}}</span>
+                  <div {{on 'click' (fn this.removeAll)}} role="button" tabindex="-1" class="cds--tag__close-icon" aria-label="Clear all selected items" title="Clear all selected items" >
                     <Close />
                   </div>
                 </div>
-              {{/each}}
+              {{else}}
+                {{#each @select.selected as |opt|}}
+                  <div class="cds--tag cds--tag--filter cds--tag--high-contrast" style="margin: 0;">
+                    <span class="cds--tag__label" title="1">{{opt}}</span>
+                    <div {{on 'click' (fn this.removeSelected opt)}} role="button" tabindex="-1" class="cds--tag__close-icon" aria-label="Clear all selected items" title="Clear all selected items" >
+                      <Close />
+                    </div>
+                  </div>
+                {{/each}}
+              {{/if}}
+
               <button
                 type="button"
                 class="cds--list-box__field"
@@ -279,7 +299,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     {{#if @multiple}}
       <PowerSelectMultiple
         ...attributes
-        @extra={{hash helperText=@helperText title=@title}}
+        @extra={{hash helperText=@helperText title=@title showNumber=@showNumber}}
         @triggerComponent={{this.triggerComponent}}
         @optionsComponent={{this.optionsComponent}}
         @selectedItemComponent={{this.selectedItemComponent}}

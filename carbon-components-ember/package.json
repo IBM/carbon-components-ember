@@ -2617,25 +2617,64 @@
       "./services/carbon/notifications.js": "./dist/_app_/services/carbon/notifications.js"
     }
   },
+  "publishConfig": {
+    "exports": {
+      ".": {
+        "types": "./declarations/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "./*": {
+        "types": "./declarations/*.d.ts",
+        "default": "./dist/*.js"
+      },
+      "./*.scss": {
+        "types": "./declarations/*.d.ts",
+        "default": "./dist/*.scss"
+      },
+      "./styles.scss": {
+        "import": "./dist/styles/index.scss",
+        "require": "./dist/styles/index.scss",
+        "scss": "./dist/styles/index.scss"
+      },
+      "./addon-main.js": "./addon-main.cjs"
+    }
+  },
   "exports": {
+    "./dist/_app_/*": {
+      "types": "./declarations/*.d.ts",
+      "default": "./dist/*"
+    },
+    "./dist/*.js": {
+      "types": "./declarations/*.d.ts",
+      "default": "./src/*.ts"
+    },
+    "./dist": {
+      "types": "./declarations/*.d.ts",
+      "default": "./src/*.ts"
+    },
     ".": {
       "types": "./declarations/index.d.ts",
-      "default": "./dist/index.js"
+      "default": "./src/index.ts"
+    },
+    "./*.js": {
+      "types": "./declarations/*.d.ts",
+      "default": "./src/*.ts"
     },
     "./*": {
       "types": "./declarations/*.d.ts",
-      "default": "./dist/*.js"
+      "default": "./src/*"
     },
     "./*.scss": {
       "types": "./declarations/*.d.ts",
-      "default": "./dist/*.scss"
+      "default": "./src/*.scss"
     },
     "./styles.scss": {
-      "import": "./dist/styles/index.scss",
-      "require": "./dist/styles/index.scss",
-      "scss": "./dist/styles/index.scss"
+      "import": "./src/styles/index.scss",
+      "require": "./src/styles/index.scss",
+      "scss": "./src/styles/index.scss"
     },
-    "./addon-main.js": "./addon-main.cjs"
+    "./addon-main.js": "./addon-main.cjs",
+    "./rollup.config.mjs": "./rollup.config.mjs"
   },
   "typesVersions": {
     "*": {

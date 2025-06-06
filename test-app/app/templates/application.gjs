@@ -6,6 +6,7 @@ import { tracked } from '@glimmer/tracking';
 
 class State {
   @tracked selected = [1,2]
+  @tracked options = [1,2,3,4, '23423423', 'asdaszudgia', 'f67gz8n']
 
   update = (s) => {
     this.selected = s;
@@ -23,7 +24,7 @@ const state = new State();
   <br>
 
   <div style="width: 300px">
-    <Select @onSelect={{state.update}} @multiple={{true}} @placeholder='label' @selected={{state.selected}} @options={{array 1 2 3 4 }} as |item|>
+    <Select @showNumber={{true}} @onSelect={{state.update}} @multiple={{true}} @placeholder='label' @selected={{state.selected}} @options={{state.options}} as |item|>
       {{item}}
     </Select>
   </div>

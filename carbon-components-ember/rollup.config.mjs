@@ -26,12 +26,31 @@ const rootImport = (options) => ({
   },
 });
 
-function astroturf() {
+export function astroturf() {
 
+  const astroturfFiles = {};
   return {
     name: 'astroturf',
+    resolveId(id, importee) {
+      if (id.includes('.scss')) {
+        if (astroturfFiles[id]) {
+          return id;
+        }
+        const fullPath = path.resolve(path.dirname(importee), id);
+        console.log('resolveId', id, fullPath, astroturfFiles[fullPath]);
+        if (astroturfFiles[fullPath]) {
+          return fullPath
+        }
+      }
+    },
+    load(id) {
+      // /Users/patrickpircher/IdeaProjects/carbon-components-ember/src/components/buttonCarbonButton.module.scss
+      if (id.includes('.scss')) {
+        console.log('load', id);
+      }
+      return astroturfFiles[id];
+    },
     async transform(code, id) {
-      console.log('transform', id);
       if (!code.includes('astroturf')) {
         return;
       }
@@ -53,6 +72,8 @@ function astroturf() {
         const generatedFiles = metadata.astroturf.styles
           .map(({absoluteFilePath, requirePath, value}) => ({importPath: requirePath, fullPath: absoluteFilePath, code: value}))
         for (const gen of generatedFiles) {
+          console.log('gen file', gen);
+          astroturfFiles[gen.fullPath] = gen.code;
           const fname =  gen.fullPath.replace(process.cwd(), '').slice(1);
           this.emitFile({
             source: gen.code,
