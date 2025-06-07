@@ -11,7 +11,7 @@
     "test-app"
   ],
   "scripts": {
-    "build": "pnpm build:carbon",
+    "build": "pnpm build:carbon && pnpm build:docs",
     "build:carbon": "pnpm run --filter carbon-components-ember build",
     "build:docs": "pnpm run --filter doc-app build",
     "build:test": "pnpm run --filter test-app build",
