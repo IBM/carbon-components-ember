@@ -15,7 +15,7 @@ function astroturf() {
         if (astroturfFiles[id]) {
           return id;
         }
-        const fullPath = path.resolve(path.dirname(importee), id);
+        const fullPath = resolve(dirname(importee), id);
         if (astroturfFiles[fullPath]) {
           return fullPath
         }
@@ -37,7 +37,7 @@ function astroturf() {
           plugins: [[resolve('./node_modules/astroturf/plugin'), {
             writeFiles: false,
             getFileName: function(hostFile, pluginOptions, identifier) {
-              const r = path.join(dirname(hostFile), path.basename(hostFile, '.gts') + identifier + '.module.scss');
+              const r = path.join(dirname(hostFile), basename(hostFile, '.gts') + identifier + '.module.scss');
               return resolve(r);
             },
             getRequirePath(hostFile, absoluteFilePath, identifier) {
