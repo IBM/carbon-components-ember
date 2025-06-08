@@ -3,7 +3,7 @@ import { classicEmberSupport, ember, extensions } from "@embroider/vite";
 import { babel } from "@rollup/plugin-babel";
 import { kolay } from "kolay/vite";
 import { defineConfig } from "vite";
-import { resolve } from "path";
+import { resolve, dirname, basename } from "path";
 
 function astroturf() {
 
@@ -34,14 +34,14 @@ function astroturf() {
       }
       if (id.endsWith('.gjs') || id.endsWith('.gts')) {
         const { metadata, code: transformedCode, map } = await transformAsync(code, {
-          plugins: [[path.resolve('./node_modules/astroturf/plugin'), {
+          plugins: [[resolve('./node_modules/astroturf/plugin'), {
             writeFiles: false,
             getFileName: function(hostFile, pluginOptions, identifier) {
-              const r = path.join(path.dirname(hostFile), path.basename(hostFile, '.gts') + identifier + '.module.scss');
-              return path.resolve(r);
+              const r = path.join(dirname(hostFile), path.basename(hostFile, '.gts') + identifier + '.module.scss');
+              return resolve(r);
             },
             getRequirePath(hostFile, absoluteFilePath, identifier) {
-              return './' + path.basename(hostFile, '.gts') + identifier   + '.module.scss'
+              return './' + basename(hostFile, '.gts') + identifier   + '.module.scss'
             }
           }]],
           filename: id,
