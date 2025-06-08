@@ -5,6 +5,59 @@ import { kolay } from "kolay/vite";
 import { defineConfig } from "vite";
 import { resolve } from "path";
 
+function astroturf() {
+
+  const astroturfFiles = {};
+  return {
+    name: 'astroturf',
+    resolveId(id, importee) {
+      if (id.includes('.scss')) {
+        if (astroturfFiles[id]) {
+          return id;
+        }
+        const fullPath = path.resolve(path.dirname(importee), id);
+        if (astroturfFiles[fullPath]) {
+          return fullPath
+        }
+      }
+    },
+    load(id) {
+      // /Users/patrickpircher/IdeaProjects/carbon-components-ember/src/components/buttonCarbonButton.module.scss
+      if (id.includes('.scss')) {
+        console.log('load', id);
+      }
+      return astroturfFiles[id];
+    },
+    async transform(code, id) {
+      if (!code.includes('astroturf')) {
+        return;
+      }
+      if (id.endsWith('.gjs') || id.endsWith('.gts')) {
+        const { metadata, code: transformedCode, map } = await transformAsync(code, {
+          plugins: [[path.resolve('./node_modules/astroturf/plugin'), {
+            writeFiles: false,
+            getFileName: function(hostFile, pluginOptions, identifier) {
+              const r = path.join(path.dirname(hostFile), path.basename(hostFile, '.gts') + identifier + '.module.scss');
+              return path.resolve(r);
+            },
+            getRequirePath(hostFile, absoluteFilePath, identifier) {
+              return './' + path.basename(hostFile, '.gts') + identifier   + '.module.scss'
+            }
+          }]],
+          filename: id,
+        });
+        const generatedFiles = metadata.astroturf.styles
+          .map(({absoluteFilePath, requirePath, value}) => ({importPath: requirePath, fullPath: absoluteFilePath, code: value}))
+        for (const gen of generatedFiles) {
+          console.log('gen file', gen);
+          astroturfFiles[gen.fullPath] = gen.code;
+        }
+        return { code: transformedCode, map };
+      }
+    }
+  }
+}
+
 export default defineConfig((/* { mode } */) => {
   return {
     base: process.env.DOCS_URL ? "/carbon-components-ember/" + process.env.DOCS_URL + "/" : "",
@@ -36,6 +89,7 @@ export default defineConfig((/* { mode } */) => {
         babelHelpers: "runtime",
         extensions,
       }),
+      astroturf(),
     ],
     optimizeDeps: {
       // a wasm-providing dependency
