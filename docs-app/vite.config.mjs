@@ -15,6 +15,9 @@ function astroturf() {
       id = id.split('?')[0];
       if (id.includes('.scss')) {
         console.log('scss', id);
+        if (id.includes('carbon-components-ember/components')) {
+          id = id.replace('/components/', '/src/components/');
+        }
         if (astroturfFiles[id]) {
           return id;
         }
