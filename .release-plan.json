@@ -4,5 +4,5 @@
       "oldVersion": "2.0.0"
     }
   },
-  "description": "## Release (2025-06-09)\n\n\n\n#### :house: Internal\n* [#317](https://github.com/IBM/carbon-components-ember/pull/317) fix publish ([@patricklx](https://github.com/patricklx))\n\n#### Committers: 1\n- Patrick Pircher ([@patricklx](https://github.com/patricklx))\n"
+  "description": "## Release (2025-06-09)\n\n\n\n#### :house: Internal\n* [#318](https://github.com/IBM/carbon-components-ember/pull/318) Prepare Release ([@github-actions[bot]](https://github.com/apps/github-actions))\n* [#317](https://github.com/IBM/carbon-components-ember/pull/317) fix publish ([@patricklx](https://github.com/patricklx))\n\n#### Committers: 2\n- Patrick Pircher ([@patricklx](https://github.com/patricklx))\n- [@github-actions[bot]](https://github.com/apps/github-actions)\n"
 }
