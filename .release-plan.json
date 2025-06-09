@@ -16,3 +16,4 @@
   },
   "description": "## Release (2025-06-09)\n\n* carbon-components-ember 2.0.1 (patch)\n\n#### :house: Internal\n* `carbon-components-ember`\n  * [#320](https://github.com/IBM/carbon-components-ember/pull/320) fix publish ([@patricklx](https://github.com/patricklx))\n* Other\n  * [#319](https://github.com/IBM/carbon-components-ember/pull/319) Prepare Release ([@github-actions[bot]](https://github.com/apps/github-actions))\n  * [#318](https://github.com/IBM/carbon-components-ember/pull/318) Prepare Release ([@github-actions[bot]](https://github.com/apps/github-actions))\n  * [#317](https://github.com/IBM/carbon-components-ember/pull/317) fix publish ([@patricklx](https://github.com/patricklx))\n\n#### Committers: 2\n- Patrick Pircher ([@patricklx](https://github.com/patricklx))\n- [@github-actions[bot]](https://github.com/apps/github-actions)\n"
 }
+
