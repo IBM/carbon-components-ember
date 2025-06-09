@@ -59,13 +59,4 @@ jobs:
           GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: install workflow-dispatch
-        run: npm i --no-save git+https://github.com/benc-uk/workflow-dispatch.git#v1.2.4
-      - name: fetch tags
-        id: fetch-tags
-        run: echo "latest_tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
-      - name: call workflow
-        run: node ./node_modules/workflow-dispatch/dist/index.js
-        env:
-          INPUT_SIGNOFF: true
-          INPUT_WORKFLOW: Test, Build & Publish
-          INPUT_REF: ${{ steps.fetch-tags.outputs.latest_tag }}
+        run: gh workflow run 'Test, Build & Publish'
