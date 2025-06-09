@@ -1,26 +1,8 @@
 {
   "solution": {
     "carbon-components-ember": {
-      "impact": "major",
-      "oldVersion": "1.0.2",
-      "newVersion": "2.0.0",
-      "tagName": "latest",
-      "constraints": [
-        {
-          "impact": "major",
-          "reason": "Appears in changelog section :boom: Breaking Change"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
-        }
-      ],
-      "pkgJSONPath": "./carbon-components-ember/package.json"
+      "oldVersion": "2.0.0"
     }
   },
-  "description": "## Release (2025-05-30)\n\n* carbon-components-ember 2.0.0 (major)\n\n#### :boom: Breaking Change\n* `carbon-components-ember`\n  * [#306](https://github.com/IBM/carbon-components-ember/pull/306) all icons as components ([@patricklx](https://github.com/patricklx))\n  * [#303](https://github.com/IBM/carbon-components-ember/pull/303) use imported icons ([@patricklx](https://github.com/patricklx))\n  * [#294](https://github.com/IBM/carbon-components-ember/pull/294) don't include full carbon styles ([@patricklx](https://github.com/patricklx))\n\n#### :bug: Bug Fix\n* `carbon-components-ember`\n  * [#295](https://github.com/IBM/carbon-components-ember/pull/295) fix breadcrumbs for latest carbon styles ([@patricklx](https://github.com/patricklx))\n  * [#272](https://github.com/IBM/carbon-components-ember/pull/272) fix modal service ([@patricklx](https://github.com/patricklx))\n\n#### :house: Internal\n* `carbon-components-ember`\n  * [#305](https://github.com/IBM/carbon-components-ember/pull/305) improve tests ([@patricklx](https://github.com/patricklx))\n  * [#302](https://github.com/IBM/carbon-components-ember/pull/302) use ember attacher ([@patricklx](https://github.com/patricklx))\n\n#### Committers: 1\n- Patrick Pircher ([@patricklx](https://github.com/patricklx))\n"
+  "description": "## Release (2025-06-09)\n\n\n\n#### :house: Internal\n* [#317](https://github.com/IBM/carbon-components-ember/pull/317) fix publish ([@patricklx](https://github.com/patricklx))\n\n#### Committers: 1\n- Patrick Pircher ([@patricklx](https://github.com/patricklx))\n"
 }

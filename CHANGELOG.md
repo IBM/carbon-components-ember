@@ -1,5 +1,15 @@
 # Changelog
 
+## Release (2025-06-09)
+
+
+
+#### :house: Internal
+* [#317](https://github.com/IBM/carbon-components-ember/pull/317) fix publish ([@patricklx](https://github.com/patricklx))
+
+#### Committers: 1
+- Patrick Pircher ([@patricklx](https://github.com/patricklx))
+
 ## Release (2025-05-30)
 
 * carbon-components-ember 2.0.0 (major)
