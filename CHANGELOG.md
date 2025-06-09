@@ -1,5 +1,28 @@
 # Changelog
 
+## Release (2025-05-30)
+
+* carbon-components-ember 2.0.0 (major)
+
+#### :boom: Breaking Change
+* `carbon-components-ember`
+  * [#306](https://github.com/IBM/carbon-components-ember/pull/306) all icons as components ([@patricklx](https://github.com/patricklx))
+  * [#303](https://github.com/IBM/carbon-components-ember/pull/303) use imported icons ([@patricklx](https://github.com/patricklx))
+  * [#294](https://github.com/IBM/carbon-components-ember/pull/294) don't include full carbon styles ([@patricklx](https://github.com/patricklx))
+
+#### :bug: Bug Fix
+* `carbon-components-ember`
+  * [#295](https://github.com/IBM/carbon-components-ember/pull/295) fix breadcrumbs for latest carbon styles ([@patricklx](https://github.com/patricklx))
+  * [#272](https://github.com/IBM/carbon-components-ember/pull/272) fix modal service ([@patricklx](https://github.com/patricklx))
+
+#### :house: Internal
+* `carbon-components-ember`
+  * [#305](https://github.com/IBM/carbon-components-ember/pull/305) improve tests ([@patricklx](https://github.com/patricklx))
+  * [#302](https://github.com/IBM/carbon-components-ember/pull/302) use ember attacher ([@patricklx](https://github.com/patricklx))
+
+#### Committers: 1
+- Patrick Pircher ([@patricklx](https://github.com/patricklx))
+
 ## Release (2024-11-16)
 
 carbon-components-ember 1.0.2 (patch)
