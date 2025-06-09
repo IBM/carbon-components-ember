@@ -37,7 +37,9 @@ function astroturf() {
       console.log('transform', id);
       if (id.endsWith('.gjs') || id.endsWith('.gts')) {
         const { metadata, code: transformedCode, map } = await transformAsync(code, {
-          plugins: [[resolve('./node_modules/astroturf/plugin'), {
+            babelrc: false,
+            configFile: false,
+            plugins: [[resolve('./node_modules/astroturf/plugin'), {
             writeFiles: false,
             getFileName: function(hostFile, pluginOptions, identifier) {
               const r = path.join(dirname(hostFile), basename(hostFile, '.gts') + identifier + '.module.scss');
