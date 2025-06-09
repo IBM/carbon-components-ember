@@ -20,10 +20,16 @@
     <script type="module">
       import Application from './app/app';
       import environment from './app/config/environment';
-
       Application.create(environment.APP);
     </script>
 
     {{content-for "body-footer"}}
+    <script type="module">
+      import 'carbon-components-ember/styles.scss';
+      import '@carbon/themes/scss/_theme.scss';
+      import '@carbon/styles/css/styles.css';
+    </script>
+    <div id="carbon-components-dialog-id"></div>
+    <div id="ember-basic-dropdown-wormhole"></div>
   </body>
 </html>
