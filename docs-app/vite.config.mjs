@@ -36,6 +36,7 @@ function astroturf() {
       if (!code.includes('astroturf')) {
         return;
       }
+      console.log('transform', id)
       if (id.endsWith('.gjs') || id.endsWith('.gts')) {
         const { metadata, code: transformedCode, map } = await transformAsync(code, {
           plugins: [[resolve('./node_modules/astroturf/plugin'), {
