@@ -11,7 +11,9 @@ function astroturf() {
   return {
     name: 'astroturf',
     resolveId(id, importee) {
+      id = id.split('?')[0];
       if (id.includes('.scss')) {
+        console.log('scss', id);
         if (astroturfFiles[id]) {
           return id;
         }
@@ -22,6 +24,7 @@ function astroturf() {
       }
     },
     load(id) {
+      id = id.split('?')[0];
       // /Users/patrickpircher/IdeaProjects/carbon-components-ember/src/components/buttonCarbonButton.module.scss
       if (id.includes('.scss')) {
         console.log('load', id);
@@ -29,6 +32,7 @@ function astroturf() {
       return astroturfFiles[id];
     },
     async transform(code, id) {
+      id = id.split('?')[0];
       if (!code.includes('astroturf')) {
         return;
       }
