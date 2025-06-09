@@ -39,7 +39,6 @@ function astroturf() {
       id = id.split('?')[0];
       console.log('transform', id);
       if (id.endsWith('.gjs') || id.endsWith('.gts')) {
-        console.log(code);
         const { metadata, code: transformedCode, map } = await transformAsync(code, {
             babelrc: false,
             configFile: false,
