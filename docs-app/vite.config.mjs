@@ -2,6 +2,7 @@ import { classicEmberSupport, ember, extensions } from "@embroider/vite";
 
 import { babel } from "@rollup/plugin-babel";
 import { kolay } from "kolay/vite";
+import { transformAsync } from '@babel/core';
 import { defineConfig } from "vite";
 import { resolve, dirname, basename } from "path";
 
