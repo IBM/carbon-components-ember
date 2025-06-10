@@ -2660,13 +2660,13 @@
       "types": "./declarations/*.d.ts",
       "default": "./src/*.ts"
     },
+    "./*.scss": {
+      "types": "./declarations/*.d.ts",
+      "default": "./dist/*.scss"
+    },
     "./*": {
       "types": "./declarations/*.d.ts",
       "default": "./src/*"
-    },
-    "./*.scss": {
-      "types": "./declarations/*.d.ts",
-      "default": "./src/*.scss"
     },
     "./styles.scss": {
       "import": "./src/styles/index.scss",
