@@ -4,20 +4,21 @@
 
 ```gjs live preview
 import { fn } from '@ember/helper';
-import { Bookmark32, Task32 } from '@carbon/icons/es/index.js';
+import { Bookmark32 as BookmarkSvgInfo } from '@carbon/icons/es/index.js';
+import { Bookmark, Task } from 'carbon-components-ember/icons';
 import { Icon } from 'carbon-components-ember/components';
 import { registerIcon } from 'carbon-components-ember/components/icon';
 import { newObj, set } from 'carbon-components-ember/helpers';
 import { ThemeSupport } from 'docs-support';
 
-registerIcon('bookmark', Bookmark32);
+registerIcon('bookmark', BookmarkSvgInfo);
 
 function noop() {};
 
 <template>
     <ThemeSupport />
     <Icon @icon='bookmark' />
-    <Icon @icon={{Task32}} @onClick={{fn (noop)}} />
+    <Task @onClick={{fn (noop)}} />
 </template>
 ```
 ## API Reference
