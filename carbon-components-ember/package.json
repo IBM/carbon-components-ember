@@ -2640,6 +2640,27 @@
     }
   },
   "exports": {
+      ".": {
+        "types": "./declarations/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "./*": {
+        "types": "./declarations/*.d.ts",
+        "default": "./dist/*.js"
+      },
+      "./*.scss": {
+        "types": "./declarations/*.d.ts",
+        "default": "./dist/*.scss"
+      },
+      "./styles.scss": {
+        "import": "./dist/styles/index.scss",
+        "require": "./dist/styles/index.scss",
+        "scss": "./dist/styles/index.scss"
+      },
+      "./addon-main.js": "./addon-main.cjs"
+    }
+  },
+  "local-dev-exports": {
     "./dist/_app_/*": {
       "types": "./declarations/*.d.ts",
       "default": "./dist/*"
