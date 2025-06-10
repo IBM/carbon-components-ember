@@ -4,7 +4,7 @@ import { babel } from "@rollup/plugin-babel";
 import { kolay } from "kolay/vite";
 import { transformAsync } from '@babel/core';
 import { defineConfig } from "vite";
-import { resolve, dirname, basename } from "path";
+import { resolve, dirname, basename, join } from "path";
 
 function astroturf() {
 
@@ -45,7 +45,7 @@ function astroturf() {
             plugins: [[resolve('./node_modules/astroturf/plugin'), {
             writeFiles: false,
             getFileName: function(hostFile, pluginOptions, identifier) {
-              const r = path.join(dirname(hostFile), basename(hostFile, '.gts') + identifier + '.module.scss');
+              const r = join(dirname(hostFile), basename(hostFile, '.gts') + identifier + '.module.scss');
               return resolve(r);
             },
             getRequirePath(hostFile, absoluteFilePath, identifier) {
