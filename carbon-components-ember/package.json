@@ -2658,7 +2658,6 @@
         "scss": "./dist/styles/index.scss"
       },
       "./addon-main.js": "./addon-main.cjs"
-    }
   },
   "local-dev-exports": {
     "./dist/_app_/*": {
