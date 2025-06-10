@@ -17,7 +17,7 @@ import { currentCarbonTheme } from './theme-switcher';
 console.log(all);
 
 function targetShadowHost(style: string) {
-  return style.replace(/:root /g, ':host ');
+  return style.replace?.(/:root /g, ':host ');
 }
 
 export default class ThemeSwitcher extends GlimmerComponent {
