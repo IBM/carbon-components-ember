@@ -1,0 +1,1 @@
+var t={elem:"svg",attrs:{xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 10 6",fill:"currentColor",width:"10",height:"6"},content:[{elem:"path",attrs:{d:"M5 6L0 1 0.7 0.3 5 4.6 9.3 0.3 10 1z"}}],name:"chevron--down",size:"glyph"};export{t as default};
