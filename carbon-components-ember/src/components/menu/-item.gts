@@ -1,4 +1,5 @@
 import Component from '@glimmer/component';
+import { on } from '@ember/modifier';
 
 export interface MenuItemComponentSignature {
   Args: {
@@ -8,6 +9,7 @@ export interface MenuItemComponentSignature {
     isPrimary?: boolean;
     isDisabled?: boolean;
     isDivider?: boolean;
+    onClick?: (...args: any) => void;
   };
   Element: HTMLButtonElement;
   Blocks: {
@@ -16,6 +18,11 @@ export interface MenuItemComponentSignature {
 }
 
 export default class Item extends Component<MenuItemComponentSignature> {
+
+  onClick = () => {
+    return this.args.onClick?.();
+  }
+
   <template>
     <li
       class='cds--overflow-menu-options__option
@@ -24,6 +31,7 @@ export default class Item extends Component<MenuItemComponentSignature> {
         {{if @isDivider "cds--overflow-menu--divider"}}'
     >
       <button
+        {{on 'click' this.onClick}}
         class='cds--overflow-menu-options__btn'
         title='{{@tooltip}}'
         data-floating-menu-primary-focus={{@isPrimary}}
