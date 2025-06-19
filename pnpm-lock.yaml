@@ -197,8 +197,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.1
       ember-resize-modifier:
-        specifier: ^0.6.0
-        version: 0.6.0(@babel/core@7.27.3)(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))(webpack@5.99.9)
+        specifier: ^0.7.1
+        version: 0.7.1(@babel/core@7.27.3)(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))(webpack@5.99.9)
       ember-template-imports:
         specifier: ^3.4.2
         version: 3.4.2
@@ -6899,11 +6899,11 @@ packages:
     resolution: {integrity: sha512-qmEFY/4WOWWXABRWvX50jLPleH30p/LPLUXEvaSlIj41F23e3Vul91IqZ1PFdw1Rxpkb8DHWO5BRchN8vnz4+Q==}
     engines: {node: 10.* || >= 12}
 
-  ember-resize-modifier@0.6.0:
-    resolution: {integrity: sha512-7KGLYC3MyNNaNKJJsHZsOoyAIA98+1yK9Xyb1dEXUeXboCd2dBcbapDuSmJWV51J03AZ90LGvOH5DDL0y6KXMQ==}
-    engines: {node: 14.* || 16.* || >= 18}
+  ember-resize-modifier@0.7.1:
+    resolution: {integrity: sha512-fNVgmGiiprv8eMbikYP9zL2MR0UqkrcFwVFmrJjDblvwGNSrR0BIV6QKNjeFCW4AObrlY/vohsspViFZhK1VEA==}
+    engines: {node: 16.* || >= 18}
     peerDependencies:
-      ember-source: ^3.28.0 || ^4.0.0
+      ember-source: ^4.0.0 || >=5.0.0
 
   ember-resolver@10.1.1:
     resolution: {integrity: sha512-y1zzn6C4YGJui+tJzcCKlsf1oSOSVAkRrvmg8OwqVIKnALKKb9ihx2qLCslHg8x0wJvJgMtDMXgrczvQrZW0Lw==}
@@ -23801,10 +23801,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  ember-resize-modifier@0.6.0(@babel/core@7.27.3)(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))(webpack@5.99.9):
+  ember-resize-modifier@0.7.1(@babel/core@7.27.3)(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))(webpack@5.99.9):
     dependencies:
       ember-auto-import: 2.10.0(@glint/template@1.5.2)(webpack@5.99.9)
-      ember-cli-babel: 7.26.11
+      ember-cli-babel: 8.2.0(@babel/core@7.27.3)
       ember-cli-htmlbars: 6.3.0
       ember-modifier: 4.2.2(@babel/core@7.27.3)
       ember-source: 6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5)
