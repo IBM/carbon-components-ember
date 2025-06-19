@@ -95,7 +95,7 @@ type Icon = {
     const index = sizes.includes('index') ? 'index' : '32';
     const content = `
 import Icon from '../icon.gts';
-import { TrackedPromise } from '../../utils/tracked';
+import { TrackedPromise } from '../../utils/tracked.ts';
 
 const icons = {
   ${iconSizeMap}
