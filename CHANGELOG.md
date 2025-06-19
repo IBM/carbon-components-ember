@@ -1,5 +1,20 @@
 # Changelog
 
+## Release (2025-06-19)
+
+* carbon-components-ember 2.1.0 (minor)
+
+#### :rocket: Enhancement
+* `carbon-components-ember`
+  * [#326](https://github.com/IBM/carbon-components-ember/pull/326) use dynamic import for carbon icons ([@patricklx](https://github.com/patricklx))
+
+#### :bug: Bug Fix
+* `carbon-components-ember`
+  * [#327](https://github.com/IBM/carbon-components-ember/pull/327) fix menu ([@patricklx](https://github.com/patricklx))
+
+#### Committers: 1
+- Patrick Pircher ([@patricklx](https://github.com/patricklx))
+
 ## Release (2025-06-09)
 
 * carbon-components-ember 2.0.1 (patch)
