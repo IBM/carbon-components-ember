@@ -31,7 +31,7 @@ export default class MenuComponent extends Component<MenuComponentSignature> {
   }
 
   <template>
-    <BasicDropdown @renderInPlace={{true}} as |dd|>
+    <BasicDropdown as |dd|>
       <dd.Trigger
         @stopPropagation={{false}}
         @eventType='click'
@@ -44,11 +44,11 @@ export default class MenuComponent extends Component<MenuComponentSignature> {
           @btnClass='cds--overflow-menu__icon'
         />
       </dd.Trigger>
-      <dd.Content class='cds--overflow-menu-options--open'>
+      <dd.Content>
         <ul
           {{on 'click' dd.actions.close}}
-          style='display: block'
-          class='cds--overflow-menu-options__content'
+          class='cds--overflow-menu-options cds--overflow-menu-options--open cds--overflow-menu-options--md'
+          style="inset-block-start: 0"
           tabindex='-1'
           data-floating-menu-direction={{defaultTo @direction 'buttom'}}
         >
