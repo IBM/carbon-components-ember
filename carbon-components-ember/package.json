@@ -114,7 +114,7 @@
     "@glint/environment-ember-loose": "^1.5.0",
     "@glint/environment-ember-template-imports": "^1.5.0",
     "@glint/template": "^1.5.0",
-    "@release-it-plugins/lerna-changelog": "^5.0.0",
+    "@release-it-plugins/lerna-changelog": "^8.0.1",
     "@rollup/plugin-babel": "^6.0.3",
     "@tsconfig/ember": "^3.0.8",
     "@types/ember-qunit": "^6.1.1",
