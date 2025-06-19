@@ -55,7 +55,7 @@
     "@eslint/js": "^9.29.0",
     "@gavant/glint-template-types": "^0.4.0",
     "@rollup/plugin-alias": "^5.1.0",
-    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-node-resolve": "^16.0.1",
     "@types/node": "^20.14.10",
     "astroturf": "^1.2.0",
     "broccoli-sass-source-maps": "^4.1.0",
