@@ -59,7 +59,7 @@
     "carbon-components-ember": "workspace:*",
     "@carbon/themes": "^11.53.0",
     "@carbon/styles": "^1.82.0",
-    "concurrently": "^8.2.0",
+    "concurrently": "^9.1.2",
     "globals": "^16.2.0",
     "ember-resources": "^7.0.4",
     "ember-auto-import": "^2.10.0",

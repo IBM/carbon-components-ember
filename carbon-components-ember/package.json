@@ -124,7 +124,7 @@
     "bower": "^1.8.8",
     "broccoli": "^3.4.2",
     "broccoli-asset-rev": "^3.0.0",
-    "concurrently": "^8.0.1",
+    "concurrently": "^9.1.2",
     "css-loader": "^6.8.1",
     "ember-animated": "^2.2.0",
     "@ember/string": "^4.0.1",
