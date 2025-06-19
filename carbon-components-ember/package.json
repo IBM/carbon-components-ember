@@ -52,7 +52,7 @@
     "@ember/render-modifiers": "^3.0.0",
     "@ember/string": "^4.0.1",
     "@embroider/addon-shim": "^1.8.9",
-    "@eslint/js": "^8.41.0",
+    "@eslint/js": "^9.29.0",
     "@gavant/glint-template-types": "^0.4.0",
     "@rollup/plugin-alias": "^5.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
