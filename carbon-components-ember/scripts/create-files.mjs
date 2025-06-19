@@ -91,11 +91,11 @@ type Icon = {
   }
   fs.mkdirSync('./src/components/icons', { recursive: true });
   for (const [icon, sizes] of Object.entries(icons)) {
-    const imports = sizes.map(size => `import iconInfo${size} from '${icon}/${size}';`).join('\n');
-    const iconSizeMap = sizes.map(size => `'${size}': iconInfo${size},`).join('\n  ');
+    const iconSizeMap = sizes.map(size => `'${size}': new TrackedPromise(() => import('${icon}/${size}')),`).join('\n  ');
     const index = sizes.includes('index') ? 'index' : '32';
-    const content = `${imports}
+    const content = `
 import Icon from '../icon.gts';
+import { TrackedPromise } from '../../utils/tracked';
 
 const icons = {
   ${iconSizeMap}
@@ -103,7 +103,7 @@ const icons = {
 
 export default class ${iconNames[icon]} extends Icon {
   get svg() {
-    return icons[(this.args.size || 24).toString() as keyof typeof icons] || icons['${index}'] ;
+    return (icons[(this.args.size || 24).toString() as keyof typeof icons] || icons['${index}']).getValue()?.default;
   }
 }
     `;
