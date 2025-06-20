@@ -120,6 +120,7 @@ const SelectedItem: TOC<{
           {{@option}}
         {{/if}}
       </span>
+      {{! template-lint-disable require-presentational-children }}
       <div {{on 'click' (fn @select.actions.select @option)}} role="button" tabindex="-1" class="cds--tag__close-icon" aria-label="Clear all selected items"
                                                               title="Clear all selected items">
         <svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor" width="16" height="16" viewBox="0 0 32 32" aria-hidden="true"
@@ -252,11 +253,13 @@ export default class SelectComponent<T extends ContentValue> extends Component<
           {{#if @extra.title}}
             <label class="cds--label {{if @select.disabled 'cds--label--disabled'}}" id="downshift-:{{this.guid}}:-label" for="downshift-:{{this.guid}}:-toggle-button">{{@extra.title}}</label>
           {{/if}}
-          <div class="cds--multi-select cds--combo-box cds--list-box
+          {{! template-lint-disable no-pointer-down-event-binding }}
+          {{! template-lint-disable no-unsupported-role-attributes }}
+          <div tabindex="1" class="cds--multi-select cds--combo-box cds--list-box
                     {{if @select.disabled 'cds--list-box--disabled'}}
                     {{if @searchEnabled 'cds--multi-select--filterable'}}
                     {{if @select.isOpen 'cds--multi-select--open cds--multi-select--filterable--input-focused cds--list-box--expanded'}}"
-               style="{{if @extra.inline 'background: transparent; border: none;'}}"
+               style={{if @extra.inline 'background: transparent; border: none;'}}
                aria-activedescendant={{if
             (and @select.isOpen)
             @ariaActiveDescendant
@@ -273,7 +276,8 @@ export default class SelectComponent<T extends ContentValue> extends Component<
               {{#if (and @extra.showNumber @select.selected.length)}}
                 <div class="cds--tag cds--tag--filter cds--tag--high-contrast" style="margin: 0;">
                   <span class="cds--tag__label" title="{{@select.selected.length}}">{{@select.selected.length}}</span>
-                  <div {{on 'click' (fn this.removeAll)}} role="button" tabindex="-1" class="cds--tag__close-icon" aria-label="Clear all selected items" title="Clear all selected items" >
+                  {{! template-lint-disable require-presentational-children }}
+                  <div {{on 'click' this.removeAll}} role="button" tabindex="-1" class="cds--tag__close-icon" aria-label="Clear all selected items" title="Clear all selected items" >
                     <Close />
                   </div>
                 </div>
@@ -281,6 +285,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
                 {{#each @select.selected as |opt|}}
                   <div class="cds--tag cds--tag--filter cds--tag--high-contrast" style="margin: 0;">
                     <span class="cds--tag__label" title="1">{{opt}}</span>
+                    {{! template-lint-disable require-presentational-children }}
                     <div {{on 'click' (fn this.removeSelected opt)}} role="button" tabindex="-1" class="cds--tag__close-icon" aria-label="Clear all selected items" title="Clear all selected items" >
                       <Close />
                     </div>
@@ -288,6 +293,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
                 {{/each}}
               {{/if}}
               {{#if (and @searchEnabled @select.isOpen)}}
+                {{! template-lint-disable no-redundant-role }}
                 <input
                   placeholder="{{@extra.searchPlaceholder}}"
                   class="cds--text-input cds--text-input--empty"
@@ -295,19 +301,19 @@ export default class SelectComponent<T extends ContentValue> extends Component<
                   aria-autocomplete="list"
                   aria-expanded="true"
                   autocomplete="off"
-                  id="carbon-multiselect-example-3-input"
+                  id="carbon-multiselect-{{this.guid}}-input"
                   role="combobox"
                   aria-describedby="filterablemultiselect-helper-text-id-:re8:"
                   aria-haspopup="listbox"
                   value=""
-                  aria-controls="carbon-multiselect-example-3__menu"
+                  aria-controls="carbon-multiselect-{{this.guid}}__menu"
                   {{on 'input' this.doSearch}}
                   {{didInsert this.focus}}
                 >
               {{/if}}
 
               <button
-                style="overflow: visible; {{if @extra.isSingleSelect 'width: 50px;'}}"
+                style={{if @extra.isSingleSelect 'overflow: visible; width: 50px;' 'overflow: visible; '}}
                 type="button"
                 class="cds--list-box__field"
                 aria-describedby="multiselect-helper-text-id-:r1m:"
