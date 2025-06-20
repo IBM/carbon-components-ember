@@ -5,7 +5,7 @@ import { defaultArgs } from '../utils/decorators.ts';
 import PowerSelect, {
   type PowerSelectArgs,
 } from 'ember-power-select/components/power-select';
-import type { ComponentLike, ContentValue } from '@glint/template';
+import type { ContentValue } from '@glint/template';
 import PowerSelectMultiple from 'ember-power-select/components/power-select-multiple';
 import didInsert from '@ember/render-modifiers/modifiers/did-insert';
 import didUpdate from '@ember/render-modifiers/modifiers/did-update';
@@ -18,7 +18,7 @@ import { and, eq, not } from 'ember-truth-helpers';
 import TriggerComponent from 'ember-power-select/components/power-select-multiple/trigger';
 import OptionsComponent from 'ember-power-select/components/power-select/options';
 import { guidFor } from '@ember/object/internals';
-import { Checkmark, CheckmarkFilled, Close } from '../icons.ts';
+import { Close } from '../icons.ts';
 import type { TOC } from "@ember/component/template-only";
 
 
@@ -82,6 +82,7 @@ const addClassToParent = (el: HTMLElement, args: [string, boolean]) => {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 const Options: TOC<OptionsComponentInterface & { Args: { guid: string } }> = <template>
   <OptionsComponent
     @options={{@options}}
@@ -240,7 +241,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     }
 
     doSearch = (event: Event) => {
-      this.args.select.actions.search((event.target as HTMLInputElement)!!.value);
+      this.args.select.actions.search((event.target as HTMLInputElement).value);
     }
 
     focus = (element: HTMLElement) => {
@@ -417,4 +418,3 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     {{/if}}
   </template>
 }
-
