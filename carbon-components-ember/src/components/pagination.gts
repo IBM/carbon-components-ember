@@ -1,5 +1,4 @@
 import { default as Select } from './select.gts';
-import { default as Icon } from './icon.gts';
 import { default as defaultTo } from '../helpers/default-to.ts';
 import { default as eq } from 'ember-truth-helpers/helpers/eq';
 import { default as didInsert } from '@ember/render-modifiers/modifiers/did-insert';
