@@ -13,6 +13,8 @@ import { action } from '@ember/object';
 import { defaultArgs } from '../utils/decorators.ts';
 import { stylesheet } from 'astroturf';
 import { runTask } from 'ember-lifeline';
+import { guidFor } from '@ember/object/internals';
+import { ChevronLeft, ChevronRight } from '../icons.ts';
 /** @documenter yuidoc */
 
 type Slice = {
@@ -130,9 +132,13 @@ export default class CarbonPagination extends Component<Args> {
     }
   ` as { namespace: string };
 
+  get guid() {
+    return guidFor(this);
+  }
+
   <template>
     <div
-      class='cds--pagination
+      class='cds--pagination cds--pagination--md
         {{this.styles.namespace}}
         {{if @isLoading "cds--skeleton"}}'
       data-pagination
@@ -144,20 +150,21 @@ export default class CarbonPagination extends Component<Args> {
       {{else}}
         <div class='cds--pagination__left'>
           <label
-            id='select-id-pagination-count-label'
+            id='select-{{this.guid}}-pagination-count-label'
             class='cds--pagination__text'
-            for='select-id-pagination-count'
+            for='select-{{this.guid}}-pagination-count'
           >
             Items per page:
           </label>
-          <div class='cds--select cds--select--inline cds--select__item-count'>
+          <div class="cds--form-item cds--select__item-count">
             <Select
+              @inline={{true}}
               @disabled={{@disabled}}
               @searchEnabled={{false}}
               @options={{defaultTo
-                this.defaultArgs.itemsPerPageOptions
-                (array 10 20 30 40 50 100)
-              }}
+              this.defaultArgs.itemsPerPageOptions
+              (array 10 20 30 40 50 100)
+            }}
               @onSelect={{this.setItemsPerPage}}
               @selected={{this.itemsPerPage}}
             />
@@ -176,7 +183,9 @@ export default class CarbonPagination extends Component<Args> {
           </span>
         </div>
         <div class='cds--pagination__right'>
+        <div class="cds--form-item cds--select__item-count">
           <Select
+            @inline={{true}}
             @multiple={{false}}
             @disabled={{@disabled}}
             @searchEnabled={{false}}
@@ -184,10 +193,11 @@ export default class CarbonPagination extends Component<Args> {
             @onSelect={{this.setCurrentPage}}
             @selected={{this.currentPage}}
           />
+        </div>
           <label
-            id='select-id-pagination-page-label'
+            id='select-{{this.guid}}-pagination-page-label'
             class='cds--pagination__text'
-            for='select-id-pagination-page'
+            for='select-{{this.guid}}-pagination-page'
           >
             {{this.currentPage}}
             of
@@ -203,10 +213,7 @@ export default class CarbonPagination extends Component<Args> {
             type='button'
             {{on 'click' this.pageBack}}
           >
-            <Icon
-              @btnClass='cds--pagination__nav-arrow'
-              @icon='chevron--left'
-            />
+            <ChevronLeft @btnClass='cds--pagination__nav-arrow' />
           </button>
           <button
             disabled={{or (eq this.currentPage this.pages) @disabled}}
@@ -217,10 +224,7 @@ export default class CarbonPagination extends Component<Args> {
             type='button'
             {{on 'click' this.pageForward}}
           >
-            <Icon
-              @btnClass='cds--pagination__nav-arrow'
-              @icon='chevron--right'
-            />
+            <ChevronRight @btnClass="cds--pagination__nav-arrow" />
           </button>
         </div>
       {{/if}}
