@@ -24,7 +24,7 @@ export interface NotificationComponentSignature {
 
 export default class NotificationComponent extends Component<NotificationComponentSignature> {
   @tracked show = true;
-  @service('carbon-components-ember@notifications')
+  @service('carbon.notifications')
   notifications!: NotificationService;
 
   get icon(): typeof Icon {
@@ -94,7 +94,8 @@ export default class NotificationComponent extends Component<NotificationCompone
           >
             <Close
               @icon='close'
-              @svgClass='cds--inline-notification__close-icon'
+              @svgClass='cds--toast-notification__close-icon'
+              @fill='currentColor'
             />
           </button>
         </div>
@@ -128,6 +129,7 @@ export default class NotificationComponent extends Component<NotificationCompone
           >
             <Close
               @svgClass='cds--inline-notification__close-icon'
+              @fill='currentColor'
             />
           </button>
         </div>
@@ -170,9 +172,9 @@ export default class NotificationComponent extends Component<NotificationCompone
             title='close notification'
             class='cds--actionable-notification__close-button'
           >
-            <Icon
-              @icon='close'
+            <Close
               @svgClass='cds--actionable-notification__close-icon'
+              @fill='currentColor'
             />
           </button>
         </div>
