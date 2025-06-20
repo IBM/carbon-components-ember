@@ -239,11 +239,11 @@ export default class SelectComponent<T extends ContentValue> extends Component<
       this.args.select.actions.select([]);
     }
 
-    doSearch = (event) => {
-      this.args.select.actions.search(event.target.value);
+    doSearch = (event: Event) => {
+      this.args.select.actions.search((event.target as HTMLInputElement)!!.value);
     }
 
-    focus = (element) => {
+    focus = (element: HTMLElement) => {
       element.focus();
     }
 
@@ -382,6 +382,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         style="outline: none"
         @extra={{hash isSingleSelect=true searchPlaceholder=@searchPlaceholder inline=@inline}}
         @renderInPlace={{defaultTo @renderInPlace false}}
+        {{! @glint-expect-error: null is allowed }}
         @beforeOptionsComponent={{null}}
         @triggerComponent={{this.triggerComponent}}
         @optionsComponent={{this.optionsComponent}}
