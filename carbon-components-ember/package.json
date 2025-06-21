@@ -2696,12 +2696,5 @@
     },
     "./addon-main.js": "./addon-main.cjs",
     "./rollup.config.mjs": "./rollup.config.mjs"
-  },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "declarations/*"
-      ]
-    }
   }
 }
