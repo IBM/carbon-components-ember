@@ -20,7 +20,7 @@ import TableComponent from '../components/data-table/-table.gts';
 import DataTableBody from '../components/data-table/-body.gts';
 import TableMenuComponent from '../components/data-table/-menu.gts';
 import TableColumn from '../components/data-table/-column.gts';
-import { type WithBoundArgs } from '@glint/template';
+import type { WithBoundArgs } from '@glint/template';
 import ListHeaderComponent, {
   type Header,
 } from '../components/data-table/-header.gts';

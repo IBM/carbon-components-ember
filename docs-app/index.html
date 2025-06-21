@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>carbon compponents ember</title>
+    <meta name="description" content="" />
+    <link rel="icon" href="/images/ember-carbon-components.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    {{content-for "head"}}
+
+    <link integrity="" rel="stylesheet" href="/@embroider/virtual/vendor.css" />
+    <link integrity="" rel="stylesheet" href="/assets/docs-app.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lexend:wght@100..900&display=swap"
+      as="font"
+      rel="font/woff2"
+    />
+
+    {{content-for "head-footer"}}
+  </head>
+  <body class="bg-white dark:bg-slate-900">
+    {{content-for "body"}}
+
+    <script type="text/javascript">
+      // Single Page Apps for GitHub Pages
+      // MIT License
+      // https://github.com/rafgraph/spa-github-pages
+      // This script checks to see if a redirect is present in the query string,
+      // converts it back into the correct url and adds it to the
+      // browser's history using window.history.replaceState(...),
+      // which won't cause the browser to attempt to load the new url.
+      // When the single page app is loaded further down in this file,
+      // the correct url will be waiting in the browser's history for
+      // the single page app to route accordingly.
+      (function (l) {
+        if (l.search.startsWith('?p=')) {
+          var decoded = l.search.replace('?p=', '');
+          window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+        }
+      })(window.location);
+    </script>
+    <script src="/@embroider/virtual/vendor.js"></script>
+    <script type="module">
+      import Application from "./app/app";
+      import environment from "./app/config/environment";
+
+      Application.create(environment.APP);
+    </script>
+
+    {{content-for "body-footer"}}
+    <style>
+      .lds-ripple {
+        display: inline-block;
+        position: relative;
+        width: 80px;
+        height: 80px;
+        margin-left: calc(50vw - 40px);
+        margin-top: calc(50vh - 40px);
+      }
+      .lds-ripple div {
+        position: absolute;
+        border: 4px solid black;
+        opacity: 1;
+        border-radius: 50%;
+        animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+      }
+      .lds-ripple div:nth-child(2) {
+        animation-delay: -0.5s;
+      }
+      @keyframes lds-ripple {
+        0% {
+          top: 36px;
+          left: 36px;
+          width: 0;
+          height: 0;
+          opacity: 0;
+        }
+        4.9% {
+          top: 36px;
+          left: 36px;
+          width: 0;
+          height: 0;
+          opacity: 0;
+        }
+        5% {
+          top: 36px;
+          left: 36px;
+          width: 0;
+          height: 0;
+          opacity: 1;
+        }
+        100% {
+          top: 0px;
+          left: 0px;
+          width: 72px;
+          height: 72px;
+          opacity: 0;
+        }
+      }
+    </style>
+    <div class="lds-ripple">
+      <div></div>
+      <div></div>
+    </div>
+    <script type="module">
+      import '@carbon/styles/scss/components/dialog/_index.scss';
+      import '@carbon/styles/scss/components/modal/_index.scss';
+      import '@carbon/styles/scss/components/select/_index.scss';
+      import '@carbon/styles/scss/components/multiselect/_index.scss';
+      import '@carbon/styles/scss/components/overflow-menu/_index.scss';
+    </script>
+    <div class="not-prose" id="carbon-components-dialog-id"></div>
+  </body>
+</html>

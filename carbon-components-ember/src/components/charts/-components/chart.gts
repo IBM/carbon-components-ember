@@ -11,7 +11,7 @@ import { defaultArgs } from '../../../utils/decorators.ts';
 import { Chart, type ScaleTypes } from '@carbon/charts';
 import { type AxisChartOptions, type BaseChartOptions } from '@carbon/charts';
 import CarbonChartTabularData from '../../charts/-components/tabular-data.gts';
-import { type WithBoundArgs } from '@glint/template';
+import type { WithBoundArgs } from '@glint/template';
 import ChartAxis from '../../charts/-components/axis.gts';
 import { hash } from '@ember/helper';
 import { throttle } from '@ember/runloop';

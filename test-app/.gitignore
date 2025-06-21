@@ -11,6 +11,8 @@
 !tests/**/*
 !types
 !types/**/*
+!babel
+!babel/*
 !.editorconfig
 !.ember-cli
 !eslint.config.mjs
