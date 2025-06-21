@@ -218,7 +218,7 @@ class CarbonIcon extends Component<Args> {
           {{renderSvgPart
             this.svg
             class=(array (or @svgClass this.styles.icon) this.bxClassNames)
-            fill=@fill
+            fill=(or @fill 'currentColor')
             size=@size
           }}
         </button>
@@ -226,7 +226,7 @@ class CarbonIcon extends Component<Args> {
         {{renderSvgPart
           this.svg
           class=(array (or @svgClass this.styles.icon) this.bxClassNames)
-          fill=@fill
+          fill=(or @fill 'currentColor')
           size=@size
         }}
       {{/if}}
