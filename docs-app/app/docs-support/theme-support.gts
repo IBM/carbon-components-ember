@@ -36,21 +36,20 @@ export default class ThemeSwitcher extends GlimmerComponent {
         return style100 as unknown as string;
     }
 
-    return carbonStyle.default as unknown as string;
+    return '';
   }
 
   <template>
     <style type="text/css">
+        {{targetShadowHost carbonStyle.default}}
+        {{targetShadowHost this.carbonTheme}}
         {{targetShadowHost carbonChartsStyle.default}}
         {{targetShadowHost carbonCompoenntStyle.default}}
         {{targetShadowHost iconStyle.default}}
         {{targetShadowHost buttonStyle.default}}
         {{targetShadowHost paginationStyle.default}}
-        {{targetShadowHost uiShellStyle.default}}
+        {{targetShadowHost utargetiShellStyle.default}}
         {{targetShadowHost listStyle.default}}
-    </style>
-    <style type="text/css">
-        {{targetShadowHost this.carbonTheme}}
     </style>
   </template>
 }
