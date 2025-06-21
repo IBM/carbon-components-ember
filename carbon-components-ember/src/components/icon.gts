@@ -79,7 +79,8 @@ type Args = {
    @argument size
    @type number
    */
-  size?: 16 | 20 | 24 | 32;
+  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
+  size?: 16 | 20 | 24 | 32 | number | string;
   /**
    * action to trigger on click
    @argument onClick
@@ -217,7 +218,7 @@ class CarbonIcon extends Component<Args> {
           {{renderSvgPart
             this.svg
             class=(array (or @svgClass this.styles.icon) this.bxClassNames)
-            fill=@fill
+            fill=(or @fill 'currentColor')
             size=@size
           }}
         </button>
@@ -225,7 +226,7 @@ class CarbonIcon extends Component<Args> {
         {{renderSvgPart
           this.svg
           class=(array (or @svgClass this.styles.icon) this.bxClassNames)
-          fill=@fill
+          fill=(or @fill 'currentColor')
           size=@size
         }}
       {{/if}}
