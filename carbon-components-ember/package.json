@@ -1,6 +1,6 @@
 {
   "name": "carbon-components-ember",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "The default blueprint for Embroider v2 addons.",
   "keywords": [
     "ember-addon"
