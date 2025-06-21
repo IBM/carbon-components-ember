@@ -51,7 +51,7 @@ export default class ThemeSwitcher extends GlimmerComponent {
         {{targetShadowHost listStyle.default}}
     </style>
     <style type="text/css">
-        {{this.carbonTheme}}
+        {{targetShadowHost this.carbonTheme}}
     </style>
   </template>
 }
