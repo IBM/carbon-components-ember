@@ -4,7 +4,7 @@
 );
 
 
-:host {
+:host, :root {
   // Emit CSS Custom Properties for the current theme
   @include themes.theme();
 }
