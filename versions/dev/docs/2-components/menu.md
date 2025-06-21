@@ -14,18 +14,8 @@ const not = (x) => !x;
 
 <template>
     <ThemeSupport />
-    <Checkbox
-        @checked={{context.danger}}
-        @onChange={{fn (set context 'danger') (not context.danger)}}
-    >
-        danger
-    </Checkbox>
-    <Checkbox
-        @checked={{context.disabled}}
-        @onChange={{fn (set context 'disabled') (not context.disabled)}}
-    >
-        disabled
-    </Checkbox>
+    <Checkbox @checked={{context.danger}} @onChange={{fn (set context 'danger') (not context.danger)}}> danger </Checkbox>
+    <Checkbox @checked={{context.disabled}} @onChange={{fn (set context 'disabled') (not context.disabled)}}> disabled </Checkbox>
     <br />
     <Menu
         @tooltip='Options'
@@ -41,10 +31,13 @@ const not = (x) => !x;
             Option 2 is an example of a really long string and how we
             recommend handling this
         </Item>
-        <Item>option 3</Item>
+        <Item @onClick={{fn (set context 'selected') 'option 3'}}>option 3</Item>
         <Item @isDanger={{true}}>delete</Item>
+        <Item @isDisabled={{true}}>disabled</Item>
         <Item @isDivider={{true}}>option 4</Item>
     </Menu>
+    <br>
+    selected: {{context.selected}}
 </template>
 ```
 ## API Reference

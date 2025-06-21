@@ -6,18 +6,16 @@
 import { Button, Notification } from 'carbon-components-ember/components';
 import { ThemeSupport, setOwner } from 'docs-support';
 import { service } from '@ember/service';
-import { 
-    Information16, 
-    ErrorFilled16,
-    InformationSquareFilled16,
-    CheckmarkFilled16,
-} from 'carbon-components-ember/icons';
 
 class Context {
   @service('carbon.notifications') notifications;
   
   constructor() {
     setOwner(this);
+  }
+  
+  get documentBody() {
+    return document.body; 
   }
 
   showNotification = (type) => {
@@ -34,7 +32,7 @@ const context = new Context();
     <Notification
         @type='success'
         @caption='success'
-        @title='Title'
+        @title='Success'
         @text='a long long long long message'
     />
     <br />
@@ -42,15 +40,15 @@ const context = new Context();
         @display='actionable'
         @type='info'
         @caption='info'
-        @title='Notification title'
-        @actionTitle='Subtitle text goes here'
+        @title='Actionable title'
+        @actionTitle='Actionable subtitle text goes here'
     />
     <br />
     <Notification
         @display='inline'
         @type='error'
         @caption='error'
-        @title='Title'
+        @title='Inline Notification'
         @text='the notification text'
     />
     <br />
@@ -60,6 +58,13 @@ const context = new Context();
     <Button @type='primary' @onClick={{context.showNotification}}>
         Notify
     </Button>
+
+    <div style="position: absolute; top:0; right: 0">
+      {{#each context.notifications.queue as |n|}}
+        <Notification @notification={{n}} />
+        <div style="margin: 2px"></div>
+      {{/each}}
+    </div> 
 </template>
 ```
 ## API Reference

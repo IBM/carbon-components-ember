@@ -1,0 +1,1 @@
+var t={elem:"svg",attrs:{xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 32 32",fill:"currentColor",width:32,height:32},content:[{elem:"circle",attrs:{cx:"16",cy:"16",r:"8"}}],name:"dot-mark",size:32};export{t as default};

@@ -1,0 +1,1 @@
+var e={elem:"svg",attrs:{xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 32 32",fill:"currentColor",width:20,height:20},content:[{elem:"path",attrs:{d:"M30 30H22V4h8zm-6-2h4V6H24zM20 30H12V12h8zM10 30H2V18h8z"}}],name:"skill-level--intermediate",size:20};export{e as default};

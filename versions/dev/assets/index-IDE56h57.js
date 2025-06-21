@@ -1,0 +1,1 @@
+var t={elem:"svg",attrs:{xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 16 16",fill:"currentColor",width:"16",height:"16"},content:[{elem:"path",attrs:{d:"M12.3154,12H3.6846L8,4.0884,12.3154,12M14,13,8,2,2,13Z"}},{elem:"path",attrs:{d:"M12.315 12L3.685 12 8 4.088 12.315 12z"}}],name:"caution",size:"glyph"};export{t as default};

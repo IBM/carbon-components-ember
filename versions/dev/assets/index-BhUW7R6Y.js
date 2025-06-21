@@ -1,0 +1,1 @@
+var t={elem:"svg",attrs:{xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 16 16",fill:"currentColor",width:"16",height:"16"},content:[{elem:"path",attrs:{d:"M12.887 11.4727a5.9936 5.9936 0 00-8.36-8.3594zM3.113 4.5273a5.9936 5.9936 0 008.36 8.3594z"}}],name:"critical",size:"glyph"};export{t as default};

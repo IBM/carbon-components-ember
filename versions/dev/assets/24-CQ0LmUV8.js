@@ -1,0 +1,1 @@
+var t={elem:"svg",attrs:{xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 32 32",fill:"currentColor",width:24,height:24},content:[{elem:"path",attrs:{d:"M28 24H14V16H28zM16 22H26V18H16zM26 12H8V4H26zM10 10H24V6H10z"}},{elem:"path",attrs:{d:"M30,30H4a2.0023,2.0023,0,0,1-2-2V2H4V28H30Z"}}],name:"chart--bar-floating",size:24};export{t as default};

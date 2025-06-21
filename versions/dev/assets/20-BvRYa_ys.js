@@ -1,0 +1,1 @@
+var t={elem:"svg",attrs:{xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 32 32",fill:"currentColor",width:20,height:20},content:[{elem:"path",attrs:{d:"M6,24H4V8H6ZM28,8H26V24h2ZM24,6V4H8V6Zm0,22V26H8v2Z"}}],name:"blockchain",size:20};export{t as default};

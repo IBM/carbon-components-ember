@@ -1,0 +1,1 @@
+var t={elem:"svg",attrs:{xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 32 32",fill:"currentColor",width:20,height:20},content:[{elem:"path",attrs:{d:"M12 11L15 11 15 21 12 21 12 23 20 23 20 21 17 21 17 11 20 11 20 9 12 9 12 11z"}}],name:"deployment-unit--installation",size:20};export{t as default};
