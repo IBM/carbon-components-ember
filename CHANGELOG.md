@@ -1,5 +1,22 @@
 # Changelog
 
+## Release (2025-06-21)
+
+* carbon-components-ember 2.2.0 (minor)
+
+#### :rocket: Enhancement
+* `carbon-components-ember`
+  * [#328](https://github.com/IBM/carbon-components-ember/pull/328) improve select component ([@patricklx](https://github.com/patricklx))
+
+#### :bug: Bug Fix
+* `carbon-components-ember`
+  * [#332](https://github.com/IBM/carbon-components-ember/pull/332) fix tile icons ([@patricklx](https://github.com/patricklx))
+  * [#331](https://github.com/IBM/carbon-components-ember/pull/331) fix notification icons ([@patricklx](https://github.com/patricklx))
+  * [#329](https://github.com/IBM/carbon-components-ember/pull/329) fix pagination component dropdowns to be inline ([@patricklx](https://github.com/patricklx))
+
+#### Committers: 1
+- Patrick Pircher ([@patricklx](https://github.com/patricklx))
+
 ## Release (2025-06-19)
 
 * carbon-components-ember 2.1.0 (minor)
