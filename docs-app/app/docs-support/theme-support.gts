@@ -48,7 +48,7 @@ export default class ThemeSwitcher extends GlimmerComponent {
         {{targetShadowHost iconStyle.default}}
         {{targetShadowHost buttonStyle.default}}
         {{targetShadowHost paginationStyle.default}}
-        {{targetShadowHost utargetiShellStyle.default}}
+        {{targetShadowHost uiShellStyle.default}}
         {{targetShadowHost listStyle.default}}
     </style>
   </template>
