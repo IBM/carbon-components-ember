@@ -5,7 +5,7 @@
     <link rel="icon" href="/carbon-components-ember/versions/dev/images/ember-carbon-components.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    </head><body class="bg-white dark:bg-slate-900"><meta name="docs-app/config/environment" content="%7B%22modulePrefix%22%3A%22docs-app%22%2C%22environment%22%3A%22production%22%2C%22rootURL%22%3A%22%2Fcarbon-components-ember%2Fversions%2Fdev%2F%22%2C%22locationType%22%3A%22history%22%2C%22EmberENV%22%3A%7B%22EXTEND_PROTOTYPES%22%3Afalse%2C%22FEATURES%22%3A%7B%7D%2C%22_APPLICATION_TEMPLATE_WRAPPER%22%3Afalse%2C%22_DEFAULT_ASYNC_OBSERVERS%22%3Atrue%2C%22_JQUERY_INTEGRATION%22%3Afalse%2C%22_TEMPLATE_ONLY_GLIMMER_COMPONENTS%22%3Atrue%7D%2C%22APP%22%3A%7B%22name%22%3A%22docs-app%22%2C%22version%22%3A%220.0.0%2B0d6cd0c3%22%7D%7D" />
+    </head><body class="bg-white dark:bg-slate-900"><meta name="docs-app/config/environment" content="%7B%22modulePrefix%22%3A%22docs-app%22%2C%22environment%22%3A%22production%22%2C%22rootURL%22%3A%22%2Fcarbon-components-ember%2Fversions%2Fdev%2F%22%2C%22locationType%22%3A%22history%22%2C%22EmberENV%22%3A%7B%22EXTEND_PROTOTYPES%22%3Afalse%2C%22FEATURES%22%3A%7B%7D%2C%22_APPLICATION_TEMPLATE_WRAPPER%22%3Afalse%2C%22_DEFAULT_ASYNC_OBSERVERS%22%3Atrue%2C%22_JQUERY_INTEGRATION%22%3Afalse%2C%22_TEMPLATE_ONLY_GLIMMER_COMPONENTS%22%3Atrue%7D%2C%22APP%22%3A%7B%22name%22%3A%22docs-app%22%2C%22version%22%3A%220.0.0%2B4d16a496%22%7D%7D" />
 
     <link integrity="" rel="stylesheet" href="/assets/docs-app.css">
 
@@ -32,15 +32,8 @@
       // the correct url will be waiting in the browser's history for
       // the single page app to route accordingly.
       (function (l) {
-        if (l.search[1] === "/") {
-          var decoded = l.search
-            .slice(1)
-            .split("&")
-            .map(function (s) {
-              return s.replace(/~and~/g, "&");
-            })
-            .join("?");
-          decoded = decoded.replace('?p=/', '');
+        if (l.search.startsWith('?p=')) {
+          var decoded = l.search.replace('?p=/', '');
           window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
         }
       })(window.location);
