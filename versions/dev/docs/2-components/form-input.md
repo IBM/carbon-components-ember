@@ -13,11 +13,11 @@ const context = new TrackedObject({});
 <template>
     <ThemeSupport />
     <br>
-    <FormInput />
+    <FormInput @label="some label" />
     <br>
     <FormInput @help="some help" />
     <br>
-    <FormInput @errors="some error" />
+    <FormInput @errors="some error" @help="some help" />
 </template>
 ```
 
