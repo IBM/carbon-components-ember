@@ -3,12 +3,15 @@ import { guidFor } from '@ember/object/internals';
 import RadioButtonGroup from '../components/radio/group.gts';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
+import { or } from '../helpers';
+import not from 'ember-truth-helpers/helpers/not';
 
 interface Signature {
   Args: {
     labelText?: string;
-    value: string;
+    value?: any;
     isChecked?: boolean;
+    disabled?: boolean;
     group?: RadioButtonGroup;
     onChange: (radio: RadioButton) => void;
     isDefault?: boolean;
@@ -24,11 +27,24 @@ export default class RadioButton extends Component<Signature> {
     return guidFor(this);
   }
 
+  get groupGuid() {
+    if (this.args.group) {
+      return guidFor(this.args.group);
+    }
+    return '';
+  }
+
   get isChecked() {
     if (this.args.group && !this.args.group.current) {
       return this.args.isDefault;
     }
     return this.args.group?.current === this || this.args.isChecked;
+  }
+
+  onChange = (event: Event) => {
+    this.args.onChange?.(this);
+    event.preventDefault();
+    return false;
   }
 
   <template>
@@ -37,10 +53,10 @@ export default class RadioButton extends Component<Signature> {
         type='radio'
         class='cds--radio-button'
         id='radio-{{this.guid}}'
-        name='radio-button-group'
-        value={{@value}}
+        disabled={{or @disabled (not @onChange)}}
+        name='radio-button-group-{{this.groupGuid}}'
         checked={{this.isChecked}}
-        {{on 'change' (fn @onChange this)}}
+        {{on 'change' this.onChange}}
       />
       <label for='radio-{{this.guid}}' class='cds--radio-button__label'>
         <span class='cds--radio-button__appearance'></span>
