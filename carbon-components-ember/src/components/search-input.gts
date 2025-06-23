@@ -13,6 +13,7 @@ import { Close, Search } from '../icons.ts';
 type Args = {
   onChange(value: any): TaskInstance<any> | undefined | void;
   label: string;
+  value: string;
   placeholder: string;
   size?: 'lg' | 'md' | 'sm';
   isLoading?: boolean;
@@ -86,9 +87,9 @@ export default class SearchComponent extends Component<SearchComponentSignature>
   }
 
   <template>
+    {{this.setValue @value}}
     <div
       data-search
-      {{didUpdate (fn this.setValue @value) @value}}
       {{didUpdate this.onSearchChange this.value}}
       role='search'
       aria-label={{@label}}
