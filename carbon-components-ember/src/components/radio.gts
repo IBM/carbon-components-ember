@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
 import RadioButtonGroup from '../components/radio/group.gts';
 import { on } from '@ember/modifier';
-import { or } from '../helpers';
+import { or } from '../helpers/index.ts';
 import not from 'ember-truth-helpers/helpers/not';
 
 interface Signature {
