@@ -2,8 +2,8 @@
   "solution": {
     "carbon-components-ember": {
       "impact": "minor",
-      "oldVersion": "2.0.1",
-      "newVersion": "2.1.0",
+      "oldVersion": "2.1.0",
+      "newVersion": "2.2.0",
       "tagName": "latest",
       "constraints": [
         {
@@ -18,5 +18,5 @@
       "pkgJSONPath": "./carbon-components-ember/package.json"
     }
   },
-  "description": "## Release (2025-06-19)\n\n* carbon-components-ember 2.1.0 (minor)\n\n#### :rocket: Enhancement\n* `carbon-components-ember`\n  * [#326](https://github.com/IBM/carbon-components-ember/pull/326) use dynamic import for carbon icons ([@patricklx](https://github.com/patricklx))\n\n#### :bug: Bug Fix\n* `carbon-components-ember`\n  * [#327](https://github.com/IBM/carbon-components-ember/pull/327) fix menu ([@patricklx](https://github.com/patricklx))\n\n#### Committers: 1\n- Patrick Pircher ([@patricklx](https://github.com/patricklx))\n"
+  "description": "## Release (2025-06-23)\n\n* carbon-components-ember 2.2.0 (minor)\n\n#### :rocket: Enhancement\n* `carbon-components-ember`\n  * [#328](https://github.com/IBM/carbon-components-ember/pull/328) improve select component ([@patricklx](https://github.com/patricklx))\n\n#### :bug: Bug Fix\n* `carbon-components-ember`\n  * [#335](https://github.com/IBM/carbon-components-ember/pull/335) fix radio input ([@patricklx](https://github.com/patricklx))\n  * [#334](https://github.com/IBM/carbon-components-ember/pull/334) fix search input icons/label/placeholder ([@patricklx](https://github.com/patricklx))\n  * [#333](https://github.com/IBM/carbon-components-ember/pull/333) fix form input component ([@patricklx](https://github.com/patricklx))\n  * [#332](https://github.com/IBM/carbon-components-ember/pull/332) fix tile icons ([@patricklx](https://github.com/patricklx))\n  * [#331](https://github.com/IBM/carbon-components-ember/pull/331) fix notification icons ([@patricklx](https://github.com/patricklx))\n  * [#329](https://github.com/IBM/carbon-components-ember/pull/329) fix pagination component dropdowns to be inline ([@patricklx](https://github.com/patricklx))\n\n#### Committers: 1\n- Patrick Pircher ([@patricklx](https://github.com/patricklx))\n"
 }
