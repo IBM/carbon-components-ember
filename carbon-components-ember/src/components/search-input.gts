@@ -6,13 +6,14 @@ import { task } from 'ember-concurrency';
 import { timeout, type TaskInstance } from 'ember-concurrency';
 import didUpdate from '@ember/render-modifiers/modifiers/did-update';
 import { fn } from '@ember/helper';
-import Icon from '../components/icon.gts';
 import { on } from '@ember/modifier';
 import { runTask } from 'ember-lifeline';
+import { Close, Search } from '../icons.ts';
 
 type Args = {
   onChange(value: any): TaskInstance<any> | undefined | void;
-  value: string;
+  label: string;
+  placeholder: string;
   size?: 'lg' | 'md' | 'sm';
   isLoading?: boolean;
   expandable?: boolean;
@@ -41,7 +42,7 @@ export default class SearchComponent extends Component<SearchComponentSignature>
   runSearch = task({ restartable: true }, async () => {
     this.isSearching = true;
     await timeout(200);
-    const task = this.args.onChange(this.value);
+    const task = this.args.onChange?.(this.value);
     try {
       return await task;
     } finally {
@@ -90,7 +91,7 @@ export default class SearchComponent extends Component<SearchComponentSignature>
       {{didUpdate (fn this.setValue @value) @value}}
       {{didUpdate this.onSearchChange this.value}}
       role='search'
-      aria-label='Filter table'
+      aria-label={{@label}}
       class='cds--search cds--search--{{if @size @size "lg"}}
         {{if @light "cds--search--light"}}
         {{if @isLoading "cds--skeleton"}}
@@ -103,20 +104,20 @@ export default class SearchComponent extends Component<SearchComponentSignature>
       ...attributes
     >
       <div class='cds--search-magnifier'>
-        <Icon @icon='search' @svgClass='cds--search-magnifier-icon' />
+        <Search @svgClass='cds--search-magnifier-icon' />
       </div>
       <label
         id='search-input-label-{{this.guid}}'
         for='search__input-{{this.guid}}'
         class='cds--label'
       >
-        Filter table
+        {{@label}}
       </label>
       <input
         class='cds--search-input'
         type='text'
         id='search__input-{{this.guid}}'
-        placeholder='Filter table'
+        placeholder={{@placeholder}}
         value={{this.value}}
         {{on 'change' this.setValue}}
         {{on 'input' this.setValue}}
@@ -131,7 +132,7 @@ export default class SearchComponent extends Component<SearchComponentSignature>
           type='button'
           {{on 'click' this.onSearchClear}}
         >
-          <Icon @icon='close' @btnClass='cds--search-clear' />
+          <Close @btnClass='cds--search-clear' />
         </button>
       {{/if}}
     </div>
