@@ -5,7 +5,6 @@ import { cached, tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 import { timeout, type TaskInstance } from 'ember-concurrency';
 import didUpdate from '@ember/render-modifiers/modifiers/did-update';
-import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { runTask } from 'ember-lifeline';
 import { Close, Search } from '../icons.ts';
