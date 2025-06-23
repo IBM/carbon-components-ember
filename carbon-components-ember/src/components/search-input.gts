@@ -12,9 +12,9 @@ import { Close, Search } from '../icons.ts';
 
 type Args = {
   onChange(value: any): TaskInstance<any> | undefined | void;
-  label: string;
-  value: string;
-  placeholder: string;
+  label?: string;
+  value?: string;
+  placeholder?: string;
   size?: 'lg' | 'md' | 'sm';
   isLoading?: boolean;
   expandable?: boolean;
