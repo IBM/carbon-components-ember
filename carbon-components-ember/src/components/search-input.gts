@@ -8,6 +8,7 @@ import didUpdate from '@ember/render-modifiers/modifiers/did-update';
 import { on } from '@ember/modifier';
 import { runTask } from 'ember-lifeline';
 import { Close, Search } from '../icons.ts';
+import perform from 'ember-concurrency/helpers/perform';
 
 type Args = {
   onChange(value: any): TaskInstance<any> | undefined | void;
@@ -50,9 +51,6 @@ export default class SearchComponent extends Component<SearchComponentSignature>
       await task?.cancel?.();
     }
   });
-  @action async onSearchChange() {
-    await this.runSearch.perform();
-  }
 
   @action
   onSearchClear() {
@@ -76,8 +74,13 @@ export default class SearchComponent extends Component<SearchComponentSignature>
     const element = mouseEvent.target as HTMLDivElement;
     this.isActive = true;
     runTask(this, () => {
-      const listener = (event: Event) => {
-        if (element.contains(event.target as HTMLDivElement)) return;
+      const listener = (event: MouseEvent) => {
+        let target = event.target as Element | null;
+        if (target?.shadowRoot) {
+          target = target.shadowRoot.elementFromPoint(event.x, event.y);
+        }
+        if (element.contains(target as HTMLDivElement)) return;
+        if (this.value) return;
         this.isActive = false;
         document.removeEventListener('mousedown', listener);
       };
@@ -89,7 +92,7 @@ export default class SearchComponent extends Component<SearchComponentSignature>
     {{this.setValue @value}}
     <div
       data-search
-      {{didUpdate this.onSearchChange this.value}}
+      {{didUpdate (perform this.runSearch) this.value}}
       role='search'
       aria-label={{@label}}
       class='cds--search cds--search--{{if @size @size "lg"}}
