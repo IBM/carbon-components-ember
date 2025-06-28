@@ -12,7 +12,7 @@ import { stylesheet } from 'astroturf';
 
 /** @documenter yuidoc */
 
-type Args = {
+export type Args = {
   /**
    * Will display a spinning Wheel inside the button
    @argument loading
@@ -103,7 +103,7 @@ export interface ButtonSignature {
  @public
  **/
 @classPrefix('cds--btn--')
-class CarbonButton extends Component<ButtonSignature> {
+export default class CarbonButton extends Component<ButtonSignature> {
   @tracked loading: boolean = false;
   @tracked disabled = false;
   @tracked showDialog = false;
@@ -235,5 +235,3 @@ class CarbonButton extends Component<ButtonSignature> {
     return this.args.bubbles;
   }
 }
-
-export default CarbonButton;

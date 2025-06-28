@@ -4,7 +4,7 @@ import { guidFor } from '@ember/object/internals';
 import { on } from '@ember/modifier';
 import eq from 'ember-truth-helpers/helpers/eq';
 
-type Args = {
+export type Args = {
   onChange?: (v: any) => void;
   value?: boolean;
   readonly?: boolean;

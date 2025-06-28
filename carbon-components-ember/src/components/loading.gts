@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { defaultArgs } from '../utils/decorators.ts';
 
-type Args = {
+export type Args = {
   active?: boolean;
   small?: boolean;
   overlay?: boolean;

@@ -10,7 +10,7 @@ import { runTask } from 'ember-lifeline';
 import { Close, Search } from '../icons.ts';
 import perform from 'ember-concurrency/helpers/perform';
 
-type Args = {
+export type Args = {
   onChange(value: any): TaskInstance<any> | undefined | void;
   label?: string;
   value?: string;

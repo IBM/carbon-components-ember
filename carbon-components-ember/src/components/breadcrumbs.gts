@@ -5,7 +5,7 @@ import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 /** @documenter yuidoc */
 
-type Args = {
+export type Args = {
   crumbs: string[];
   current?: string;
   onSelect?(crumb: string): void;
@@ -35,7 +35,7 @@ export interface BreadcrumbSignature {
  @class CarbonBreadcrumb
  @public
  **/
-class CarbonBreadcrumb extends Component<BreadcrumbSignature> {
+export default class CarbonBreadcrumb extends Component<BreadcrumbSignature> {
   args: Args = defaultArgs(this, {
     crumbs: [],
   });
@@ -68,5 +68,3 @@ class CarbonBreadcrumb extends Component<BreadcrumbSignature> {
     </nav>
   </template>
 }
-
-export default CarbonBreadcrumb;

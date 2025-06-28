@@ -5,7 +5,7 @@ import { on } from '@ember/modifier';
 import { or } from '../helpers/index.ts';
 import not from 'ember-truth-helpers/helpers/not';
 
-interface Signature {
+export interface Signature {
   Args: {
     labelText?: string;
     value?: any;

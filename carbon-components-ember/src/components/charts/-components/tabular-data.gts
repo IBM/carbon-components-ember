@@ -6,7 +6,7 @@ import CarbonChart, {
   type ChartData,
 } from '../../charts/-components/chart.gts';
 
-type Args = {
+export type Args = {
   backgroundColors?: string[];
   group: string;
   chart?: CarbonChart;

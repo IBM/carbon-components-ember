@@ -4,7 +4,7 @@ import { defaultArgs } from '../../../../utils/decorators.ts';
 import CarbonChart from '../../../charts/-components/chart.gts';
 import { fn, hash } from '@ember/helper';
 
-type Args = {
+export type Args = {
   numberOfVariants?: number;
   option: number;
   chart: CarbonChart | null;

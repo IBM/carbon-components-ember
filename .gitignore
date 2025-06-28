@@ -3,8 +3,9 @@
 !carbon-components-ember/**/*
 !config
 !config/**/*
-!doc-app
-!doc-app/**/*
+!docs-app
+!docs-app/**/*
+docs-app/node_modules
 !test-app
 !test-app/**/*
 !.editorconfig

@@ -6,7 +6,7 @@ import { ScaleTypes } from '@carbon/charts';
 import { fn } from '@ember/helper';
 import type { TOC } from '@ember/component/template-only';
 
-type Args = {
+export type Args = {
   /**
    * The Axis Title
    * @argument title

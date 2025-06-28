@@ -1,0 +1,20 @@
+
+.getStartedLink {
+  box-shadow: inherit;
+  padding-left: 3px;
+  padding-right: 3px;
+  color: white;
+  transform: scale(2.5);
+  --tw-prose-underline-size: 1px;
+  border: 1px solid;
+  border-radius: 4px;
+
+
+  &:hover {
+    background-color: rgba(255,255,255,0.55)
+  };
+
+  &:active {
+    background-color: rgba(255,255,255,0.88)
+  }
+}

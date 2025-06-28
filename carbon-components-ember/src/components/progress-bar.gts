@@ -7,7 +7,7 @@ import { concat } from '@ember/helper';
 import { default as d } from '@ascua/maths/helpers/div';
 import type { WithRequired } from '../utils/type-helpers.ts';
 
-type Args = {
+export type Args = {
   status?: 'active' | 'finished' | 'error' | 'indeterminate';
   size?: 'small' | 'big';
   type?: 'default' | 'inline' | 'indented';

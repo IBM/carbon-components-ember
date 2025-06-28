@@ -11,9 +11,9 @@
     "test-app"
   ],
   "scripts": {
-    "build": "pnpm build:carbon",
+    "build": "pnpm build:carbon && pnpm build:docs",
     "build:carbon": "pnpm run --filter carbon-components-ember build",
-    "build:docs": "pnpm run --filter doc-app build",
+    "build:docs": "pnpm run --filter docs-app build",
     "build:test": "pnpm run --filter test-app build",
     "lint": "pnpm run --filter carbon-components-ember lint",
     "lint:fix": "pnpm run --filter '*' lint:fix",
@@ -32,6 +32,8 @@
   "pnpm": {
     "overrides": {
       "@types/ember": "-",
+      "@glint/template": "1.5.2",
+      "@glimmer/validator": "-",
       "ember-composable-helpers": "-",
       "babel-plugin-ember-template-compilation": "^2.2.5"
     }

@@ -8,7 +8,7 @@ import set from '../helpers/set.ts';
 import not from 'ember-truth-helpers/helpers/not';
 import { CheckmarkFilled, ChevronDown } from '../icons.ts';
 
-type Args = {
+export type Args = {
   selectable?: boolean;
   clickable?: boolean;
   expandable?: boolean;

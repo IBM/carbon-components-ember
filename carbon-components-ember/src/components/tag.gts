@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 
-type Args = {
+export type Args = {
   type:
     | 'red'
     | 'magenta'

@@ -8,7 +8,7 @@ export type Header = {
   label?: string;
 };
 
-type Args = {
+export type Args = {
   table: DataTableComponent<any>;
   headers: (Header | undefined | null)[];
   isExpandable?: boolean;

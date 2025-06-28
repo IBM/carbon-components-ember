@@ -1,7 +1,7 @@
 import { concat } from '@ember/helper';
 import Component from '@glimmer/component';
 
-type Args = {
+export type Args = {
   isLoading?: boolean;
   isSortable?: boolean;
   useZebraStyles?: boolean;

@@ -28,7 +28,7 @@ type State = {
   itemsPerPage: number;
 };
 
-type Args = {
+export type Args = {
   disabled?: boolean;
   isLoading?: boolean;
   length: number;

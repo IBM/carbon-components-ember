@@ -6,14 +6,14 @@ import eq from 'ember-truth-helpers/helpers/eq';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { registerDestructor } from '@ember/destroyable';
-import { type WithBoundArgs } from '@glint/template';
+import type { WithBoundArgs } from '@glint/template';
 import { action } from '@ember/object';
 import or from '../helpers/or.ts';
 import didResize from 'ember-resize-modifier/modifiers/did-resize';
 import { A, type NativeArray } from '@ember/array';
 import { runTask } from 'ember-lifeline';
 
-type Args = {
+export type Args = {
   selectedTab?: string;
   tabSelected?: (tab: string) => void;
   loading?: boolean;
