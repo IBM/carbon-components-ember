@@ -157,6 +157,13 @@ section {
 /**
  * Signature / Function Formatting
  */
+
+
+.typedoc__function div {
+  display: inline !important;
+}
+
+
 .typedoc__function__type {
   display: flex;
   gap: 0.25rem;
