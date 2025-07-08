@@ -25,7 +25,7 @@ export type Args = {
  @class CarbonChartDataSet
  @public
  **/
-class CarbonChartTabularData extends Component<Args> {
+export default class CarbonChartTabularData extends Component<Args> {
   @defaultArgs
   args: Args = {
     /**
@@ -94,5 +94,3 @@ class CarbonChartTabularData extends Component<Args> {
     {{/if}}
   </template>
 }
-
-export default CarbonChartTabularData;

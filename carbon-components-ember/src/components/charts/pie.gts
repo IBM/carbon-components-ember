@@ -26,7 +26,7 @@ export interface CarbonPieChartSignature {
  @yield {Component} api.DataSet <a href='-components/dataset' >Dataset</a>
  @yield {Component} api.Axis <a href='-components/axis' >ChartAxis</a>
  **/
-class CarbonPieChart extends Component<CarbonPieChartSignature> {
+export default class CarbonPieChart extends Component<CarbonPieChartSignature> {
   ChartClass = PieChart;
 
   @defaultArgs
@@ -59,5 +59,3 @@ class CarbonPieChart extends Component<CarbonPieChartSignature> {
     </Chart>
   </template>
 }
-
-export default CarbonPieChart;

@@ -197,3 +197,20 @@ import { ComponentSignature } from 'kolay';
 
 </details>
 
+
+<details><summary><h3>Colour Pairing</h3></summary>
+
+```gjs live no-shadow
+import { ComponentSignature } from 'kolay';
+
+<template>
+  <ComponentSignature 
+    @package="carbon-components-ember" 
+    @module='declarations/components/charts/-components/color/pairing' 
+    @name='default' 
+  />
+</template>
+```
+
+</details>
+

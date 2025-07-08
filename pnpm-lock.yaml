@@ -92,7 +92,7 @@ importers:
         version: 9.29.0
       '@gavant/glint-template-types':
         specifier: ^0.4.0
-        version: 0.4.0(gazyy65kvujp3roxlktvzgrmeu)
+        version: 0.4.0(a5b16e6a2748044c9a1e116f1cd46aa8)
       '@rollup/plugin-alias':
         specifier: ^5.1.0
         version: 5.1.0(rollup@4.41.1)
@@ -506,8 +506,8 @@ importers:
         specifier: ^2.2.1
         version: 2.2.2(highlight.js@11.11.1)
       kolay:
-        specifier: ^3.8.0
-        version: 3.8.0(@babel/core@7.27.1)(@ember/test-helpers@5.2.2(@babel/core@7.27.1)(@glint/template@1.5.2))(@glimmer/compiler@0.94.10)(@glimmer/syntax@0.94.9)(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))(typescript@5.8.3)(webpack@5.99.9)
+        specifier: ^3.9.1
+        version: 3.9.1(@babel/core@7.27.1)(@ember/test-helpers@5.2.2(@babel/core@7.27.1)(@glint/template@1.5.2))(@glimmer/compiler@0.94.10)(@glimmer/syntax@0.94.9)(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))(typescript@5.8.3)(webpack@5.99.9)
       lorem-ipsum:
         specifier: ^2.0.8
         version: 2.0.8
@@ -9526,8 +9526,8 @@ packages:
   known-css-properties@0.36.0:
     resolution: {integrity: sha512-A+9jP+IUmuQsNdsLdcg6Yt7voiMF/D4K83ew0OpJtpu+l34ef7LaohWV0Rc6KNvzw6ZDizkqfyB5JznZnzuKQA==}
 
-  kolay@3.8.0:
-    resolution: {integrity: sha512-777FaKiAHDILKYudiI5mDMfmJu3LawaWOGJjbtm6e7ZBkaTLJ7ViVAFvdM+e7zfnoiIO8WMJ8EA6DBreVcaUqw==}
+  kolay@3.9.1:
+    resolution: {integrity: sha512-74MW59MtTquPUmzJZFYvYQLPbE0TuwwR58hJ9IddCN8tWq5lbUoIsVf7b/eGK3BD5Fuv9rRSgOAgPg2rPrusow==}
     engines: {node: '>= 18'}
     peerDependencies:
       '@glint/template': 1.5.2
@@ -18658,7 +18658,7 @@ snapshots:
 
   '@gar/promisify@1.1.3': {}
 
-  '@gavant/glint-template-types@0.4.0(gazyy65kvujp3roxlktvzgrmeu)':
+  '@gavant/glint-template-types@0.4.0(a5b16e6a2748044c9a1e116f1cd46aa8)':
     dependencies:
       ember-source: 6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5)
     optionalDependencies:
@@ -20366,7 +20366,7 @@ snapshots:
       ember-primitives: 0.30.1(@babel/core@7.27.1)(@ember/test-helpers@5.2.2(@babel/core@7.27.1)(@glint/template@1.5.2))(@ember/test-waiters@4.1.0(@glint/template@1.5.2))(@glimmer/component@2.0.0)(@glint/template@1.5.2)(ember-modifier@4.2.2(@babel/core@7.27.1))(ember-resources@7.0.4(@glimmer/component@2.0.0)(@glint/template@1.5.2))(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
       ember-resources: 7.0.4(@glimmer/component@2.0.0)(@glint/template@1.5.2)
       inter-ui: 4.1.0
-      kolay: 3.8.0(@babel/core@7.27.1)(@ember/test-helpers@5.2.2(@babel/core@7.27.1)(@glint/template@1.5.2))(@glimmer/compiler@0.94.10)(@glimmer/syntax@0.94.9)(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))(typescript@5.8.3)(webpack@5.99.9)
+      kolay: 3.9.1(@babel/core@7.27.1)(@ember/test-helpers@5.2.2(@babel/core@7.27.1)(@glint/template@1.5.2))(@glimmer/compiler@0.94.10)(@glimmer/syntax@0.94.9)(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))(typescript@5.8.3)(webpack@5.99.9)
       package-up: 5.0.0
       read-package-up: 11.0.0
       should-handle-link: 1.3.0
@@ -28698,7 +28698,7 @@ snapshots:
 
   known-css-properties@0.36.0: {}
 
-  kolay@3.8.0(@babel/core@7.27.1)(@ember/test-helpers@5.2.2(@babel/core@7.27.1)(@glint/template@1.5.2))(@glimmer/compiler@0.94.10)(@glimmer/syntax@0.94.9)(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))(typescript@5.8.3)(webpack@5.99.9):
+  kolay@3.9.1(@babel/core@7.27.1)(@ember/test-helpers@5.2.2(@babel/core@7.27.1)(@glint/template@1.5.2))(@glimmer/compiler@0.94.10)(@glimmer/syntax@0.94.9)(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))(typescript@5.8.3)(webpack@5.99.9):
     dependencies:
       '@ember/test-waiters': 4.1.0(@glint/template@1.5.2)
       '@embroider/addon-shim': 1.10.0

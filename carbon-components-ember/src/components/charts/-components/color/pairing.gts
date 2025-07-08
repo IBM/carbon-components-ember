@@ -5,9 +5,19 @@ import CarbonChart from '../../../charts/-components/chart.gts';
 import { fn, hash } from '@ember/helper';
 
 export type Args = {
+  /**
+   * define palette with {numberOfVariants} color variants
+   * @argument numberOfVariants
+   * @type Number
+   */
   numberOfVariants?: number;
+  /**
+   * the option number of the color paring
+   * @argument option
+   * @type Number
+   */
   option: number;
-  chart: CarbonChart | null;
+  chart: CarbonChart;
 };
 
 /** @documenter yuidoc */
@@ -19,24 +29,7 @@ export type Args = {
  @class ColorPairing
  @public
  **/
-class ColorPairing extends Component<Args> {
-  @defaultArgs
-  args: Args = {
-    /**
-     * define palette with {numberOfVariants} color variants
-     * @argument numberOfVariants
-     * @type Number
-     */
-    numberOfVariants: undefined,
-    /**
-     * the option number of the color paring
-     * @argument option
-     * @type Number
-     */
-    option: 1,
-    chart: null,
-  };
-
+export default class ColorPairing extends Component<Args> {
   <template>
     {{#if @chart.setColorPairing}}
       {{onUpdate
@@ -50,5 +43,3 @@ class ColorPairing extends Component<Args> {
     {{/if}}
   </template>
 }
-
-export default ColorPairing;

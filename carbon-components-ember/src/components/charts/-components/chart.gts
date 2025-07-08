@@ -57,7 +57,7 @@ export interface CarbonChartSignature {
  @yield {Component} api.DataSet <a href='-components/dataset' >Dataset</a>
  @yield {Component} api.Axis <a href='-components/axis' >ChartAxis</a>
  **/
-class CarbonChart extends Component<CarbonChartSignature> {
+export default class CarbonChart extends Component<CarbonChartSignature> {
   data: ChartData[] = [];
   options: BaseChartOptions | AxisChartOptions = {
     axes: {},
@@ -227,5 +227,3 @@ class CarbonChart extends Component<CarbonChartSignature> {
     }}
   </template>
 }
-
-export default CarbonChart;

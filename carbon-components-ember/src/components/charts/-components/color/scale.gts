@@ -19,7 +19,7 @@ export type Args = {
  @class ColorScale
  @public
  **/
-class ColorScale extends Component<Args> {
+export default class ColorScale extends Component<Args> {
   @defaultArgs
   args: Args = {
     /**
@@ -43,5 +43,3 @@ class ColorScale extends Component<Args> {
     {{/if}}
   </template>
 }
-
-export default ColorScale;
