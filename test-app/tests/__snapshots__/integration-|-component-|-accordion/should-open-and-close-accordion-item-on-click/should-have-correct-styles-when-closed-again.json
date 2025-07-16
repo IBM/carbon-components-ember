@@ -1,0 +1,46 @@
+[
+  [
+    "<ul class=\"cds--accordion cds--accordion--end\n        cds--accordion--md\" data-index=\"0\"></ul>",
+    {
+      "height": "42px"
+    }
+  ],
+  [
+    "<li class=\"cds--accordion__item\n        \n        \" data-index=\"1\"></li>",
+    {
+      "height": "42px"
+    }
+  ],
+  [
+    "<svg focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" class=\"cds--accordion__arrow\" data-index=\"3\"></svg>",
+    {
+      "transform": "matrix(0, 1, -1, 0, 0, 0)"
+    }
+  ],
+  [
+    "<div class=\"cds--accordion__wrapper\" data-index=\"6\"></div>",
+    {
+      "display": "none",
+      "height": "auto",
+      "opacity": "0",
+      "overflow": "hidden",
+      "padding": "0px",
+      "width": "auto"
+    }
+  ],
+  [
+    "<div id=\"accordion-item-ember77\" class=\"cds--accordion__content\" data-index=\"7\"></div>",
+    {
+      "height": "auto",
+      "padding": "0px 25% 0px 16px",
+      "width": "auto"
+    }
+  ],
+  [
+    "<p data-index=\"8\"></p>",
+    {
+      "height": "auto",
+      "width": "auto"
+    }
+  ]
+]

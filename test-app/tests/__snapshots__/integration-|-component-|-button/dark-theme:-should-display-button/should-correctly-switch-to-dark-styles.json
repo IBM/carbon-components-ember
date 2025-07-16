@@ -1,0 +1,47 @@
+[
+  [
+    "<button class=\"cds--btn\n        cds--btn--primary\n        cds--layout--size-md\n        _namespace_1ejwd_1\n        \" aria-label=\"danger\" type=\"button\" data-index=\"0\"></button>",
+    {
+      "background": "rgb(15, 98, 254) none repeat scroll 0% 0% / auto padding-box border-box",
+      "border": "1px solid rgba(0, 0, 0, 0)",
+      "bottom": "0px",
+      "color": "rgb(255, 255, 255)",
+      "cursor": "pointer",
+      "display": "inline-flex",
+      "flex": "0 0 auto",
+      "font": "14px / 18.0001px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "height": "40px",
+      "inset": "0px",
+      "left": "0px",
+      "outline": "rgb(255, 255, 255) none 0px",
+      "padding": "9.99996px 63px 9.99996px 15px",
+      "position": "relative",
+      "right": "0px",
+      "top": "0px",
+      "transition": "background 0.07s cubic-bezier(0, 0, 0.38, 0.9), box-shadow 0.07s cubic-bezier(0, 0, 0.38, 0.9), border-color 0.07s cubic-bezier(0, 0, 0.38, 0.9), outline 0.07s cubic-bezier(0, 0, 0.38, 0.9)",
+      "width": "123.492px"
+    }
+  ],
+  [
+    "<button:before class=\"cds--btn\n        cds--btn--primary\n        cds--layout--size-md\n        _namespace_1ejwd_1\n        \" aria-label=\"danger\" type=\"button\" data-index=\"0\"></button:before>",
+    {
+      "border": "0px none rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "cursor": "pointer",
+      "display": "block",
+      "font": "14px / 18.0001px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(255, 255, 255) none 0px"
+    }
+  ],
+  [
+    "<button:after class=\"cds--btn\n        cds--btn--primary\n        cds--layout--size-md\n        _namespace_1ejwd_1\n        \" aria-label=\"danger\" type=\"button\" data-index=\"0\"></button:after>",
+    {
+      "border": "0px none rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "cursor": "pointer",
+      "display": "block",
+      "font": "14px / 18.0001px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(255, 255, 255) none 0px"
+    }
+  ]
+]

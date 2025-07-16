@@ -1,0 +1,30 @@
+[
+  [
+    "<button class=\"cds--btn\n        cds--btn--primary cds--btn--disabled\n        cds--layout--size-md\n        _namespace_1ejwd_1\n        \" aria-label=\"danger\" type=\"button\" data-index=\"0\" disabled=\"\"></button>",
+    {
+      "background": "rgb(198, 198, 198) none repeat scroll 0% 0% / auto padding-box border-box",
+      "border": "1px solid rgb(198, 198, 198)",
+      "color": "rgb(141, 141, 141)",
+      "cursor": "not-allowed",
+      "outline": "rgb(141, 141, 141) none 0px"
+    }
+  ],
+  [
+    "<button:before class=\"cds--btn\n        cds--btn--primary cds--btn--disabled\n        cds--layout--size-md\n        _namespace_1ejwd_1\n        \" aria-label=\"danger\" type=\"button\" data-index=\"0\" disabled=\"\"></button:before>",
+    {
+      "border": "0px none rgb(141, 141, 141)",
+      "color": "rgb(141, 141, 141)",
+      "cursor": "not-allowed",
+      "outline": "rgb(141, 141, 141) none 0px"
+    }
+  ],
+  [
+    "<button:after class=\"cds--btn\n        cds--btn--primary cds--btn--disabled\n        cds--layout--size-md\n        _namespace_1ejwd_1\n        \" aria-label=\"danger\" type=\"button\" data-index=\"0\" disabled=\"\"></button:after>",
+    {
+      "border": "0px none rgb(141, 141, 141)",
+      "color": "rgb(141, 141, 141)",
+      "cursor": "not-allowed",
+      "outline": "rgb(141, 141, 141) none 0px"
+    }
+  ]
+]

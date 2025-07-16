@@ -39,6 +39,7 @@
       "color": "rgb(22, 22, 22)",
       "display": "flex",
       "font": "",
+      "height": "18px",
       "inset": "0px",
       "left": "0px",
       "margin": "0px 8px 0px 0px",
@@ -46,7 +47,7 @@
       "position": "relative",
       "right": "0px",
       "top": "0px",
-      "width": "20.0156px"
+      "width": "21.1641px"
     }
   ],
   [
@@ -70,7 +71,7 @@
       "height": "18px",
       "margin": "0px 0px 0px 8px",
       "outline": "rgb(22, 22, 22) none 0px",
-      "width": "4.28125px"
+      "width": "5.52344px"
     }
   ],
   [
@@ -83,7 +84,7 @@
       "height": "18px",
       "outline": "rgb(15, 98, 254) none 0px",
       "transition": "color 0.07s cubic-bezier(0.2, 0, 0.38, 0.9)",
-      "width": "7.73438px"
+      "width": "7.64062px"
     }
   ],
   [
@@ -114,6 +115,7 @@
       "color": "rgb(22, 22, 22)",
       "display": "flex",
       "font": "",
+      "height": "18px",
       "inset": "0px",
       "left": "0px",
       "margin": "0px 8px 0px 0px",
@@ -121,7 +123,7 @@
       "position": "relative",
       "right": "0px",
       "top": "0px",
-      "width": "20.8906px"
+      "width": "21.8047px"
     }
   ],
   [
@@ -145,7 +147,7 @@
       "height": "18px",
       "margin": "0px 0px 0px 8px",
       "outline": "rgb(22, 22, 22) none 0px",
-      "width": "4.28125px"
+      "width": "5.52344px"
     }
   ],
   [
@@ -159,7 +161,7 @@
       "height": "18px",
       "outline": "rgb(22, 22, 22) none 0px",
       "transition": "color 0.07s cubic-bezier(0.2, 0, 0.38, 0.9)",
-      "width": "8.60938px"
+      "width": "8.28125px"
     }
   ],
   [
@@ -192,13 +194,14 @@
       "color": "rgb(22, 22, 22)",
       "display": "flex",
       "font": "",
+      "height": "18px",
       "inset": "0px",
       "left": "0px",
       "outline": "rgb(22, 22, 22) none 0px",
       "position": "relative",
       "right": "0px",
       "top": "0px",
-      "width": "15.8438px"
+      "width": "15.2031px"
     }
   ],
   [
@@ -235,7 +238,7 @@
       "height": "18px",
       "outline": "rgb(15, 98, 254) none 0px",
       "transition": "color 0.07s cubic-bezier(0.2, 0, 0.38, 0.9)",
-      "width": "7.84375px"
+      "width": "7.20312px"
     }
   ],
   [

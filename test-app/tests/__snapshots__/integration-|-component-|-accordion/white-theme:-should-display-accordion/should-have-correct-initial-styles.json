@@ -1,0 +1,32 @@
+[
+  [
+    "<ul class=\"cds--accordion cds--accordion--end\n        cds--accordion--md\" data-index=\"0\"></ul>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "font": "",
+      "margin": "0px",
+      "outline": "rgb(22, 22, 22) none 0px",
+      "padding": "0px",
+      "width": "1276px"
+    }
+  ],
+  [
+    "<ul:before class=\"cds--accordion cds--accordion--end\n        cds--accordion--md\" data-index=\"0\"></ul:before>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "font": "",
+      "outline": "rgb(22, 22, 22) none 0px"
+    }
+  ],
+  [
+    "<ul:after class=\"cds--accordion cds--accordion--end\n        cds--accordion--md\" data-index=\"0\"></ul:after>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "font": "",
+      "outline": "rgb(22, 22, 22) none 0px"
+    }
+  ]
+]
