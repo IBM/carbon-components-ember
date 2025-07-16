@@ -85,7 +85,8 @@ function elementRepresentation(element: HTMLElement, pseudo='') {
   let rep = '<'  + element.tagName.toLowerCase() + pseudo;
   // @ts-expect-error ignore
   for (const attribute of element.attributes as Attr[]) {
-    rep += ` ${attribute.name}="${attribute.value}"`;
+    const v = attribute.value.replace(/-ember[0-9]+/, '-ember123')
+    rep += ` ${attribute.name}="${v}"`;
   }
   rep += '>';
   rep += '</' + element.tagName.toLowerCase() + pseudo + '>';

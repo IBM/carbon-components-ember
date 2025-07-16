@@ -2,13 +2,13 @@
   [
     "<ul class=\"cds--accordion cds--accordion--end\n        cds--accordion--md\" data-index=\"0\"></ul>",
     {
-      "height": "93.9922px"
+      "height": "93.9844px"
     }
   ],
   [
     "<li class=\"cds--accordion__item\n        cds--accordion__item--active\n        \" data-index=\"1\"></li>",
     {
-      "height": "93.9922px"
+      "height": "93.9844px"
     }
   ],
   [
@@ -21,7 +21,7 @@
     "<div class=\"cds--accordion__wrapper\" data-index=\"6\"></div>",
     {
       "display": "block",
-      "height": "51.9922px",
+      "height": "51.9844px",
       "opacity": "1",
       "overflow": "visible",
       "padding": "8px 0px 24px",
@@ -29,9 +29,9 @@
     }
   ],
   [
-    "<div id=\"accordion-item-ember77\" class=\"cds--accordion__content\" data-index=\"7\"></div>",
+    "<div id=\"accordion-item-ember123\" class=\"cds--accordion__content\" data-index=\"7\"></div>",
     {
-      "height": "19.9922px",
+      "height": "19.9844px",
       "padding": "0px 319px 0px 16px",
       "width": "1276px"
     }
@@ -39,7 +39,7 @@
   [
     "<p data-index=\"8\"></p>",
     {
-      "height": "19.9922px",
+      "height": "19.9844px",
       "width": "941px"
     }
   ]
