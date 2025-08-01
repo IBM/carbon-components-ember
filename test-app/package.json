@@ -25,6 +25,7 @@
     "test": "pnpm test:ember",
     "test:all": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
     "test:ember": "node ./scripts/run-tests.mjs",
+    "test:ember:update-snapshot": "node ./scripts/run-tests.mjs update-snapshots",
     "test:ember-dist": "vite build --mode test && ember test --path dist",
     "classic:test-ember": "ember test",
     "classic:build-ember": "EMBROIDER_TEST_SETUP_FORCE=classic ember build",

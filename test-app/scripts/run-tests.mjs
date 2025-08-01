@@ -78,7 +78,11 @@ async function run() {
         }
       });
 
-      await page.goto('http://localhost:60173/tests/?hidepassed&ci');
+      let params = '';
+      if (process.argv[2] === 'update-snapshots') {
+        params = '&save-snapshots';
+      }
+      await page.goto('http://localhost:60173/tests/?hidepassed&ci' + params);
     })
   );
 
