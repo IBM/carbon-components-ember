@@ -105,7 +105,7 @@
     "@babel/plugin-proposal-decorators": "^7.22.5",
     "@babel/plugin-transform-class-static-block": "^7.27.1",
     "@babel/plugin-transform-typescript": "^7.27.1",
-    "@ember/optional-features": "^2.0.0",
+    "@ember/optional-features": "^2.2.0",
     "@ember/string": "^4.0.1",
     "@embroider/addon-dev": "^6.0.1",
     "@embroider/compat": "^4.0.0-alpha.14",
