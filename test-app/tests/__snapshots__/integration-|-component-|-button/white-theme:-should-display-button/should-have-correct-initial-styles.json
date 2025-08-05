@@ -9,7 +9,7 @@
       "cursor": "pointer",
       "display": "inline-flex",
       "flex": "0 0 auto",
-      "font": "14px / 18.0001px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "font": "14px / 18.0001px \"IBM Plex Sans\", system-ui, -apple-system, BlinkMacSystemFont, \".SFNSText-Regular\", sans-serif",
       "height": "40px",
       "inset": "0px",
       "left": "0px",
@@ -29,7 +29,7 @@
       "color": "rgb(255, 255, 255)",
       "cursor": "pointer",
       "display": "block",
-      "font": "14px / 18.0001px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "font": "14px / 18.0001px \"IBM Plex Sans\", system-ui, -apple-system, BlinkMacSystemFont, \".SFNSText-Regular\", sans-serif",
       "outline": "rgb(255, 255, 255) none 0px"
     }
   ],
@@ -40,7 +40,7 @@
       "color": "rgb(255, 255, 255)",
       "cursor": "pointer",
       "display": "block",
-      "font": "14px / 18.0001px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "font": "14px / 18.0001px \"IBM Plex Sans\", system-ui, -apple-system, BlinkMacSystemFont, \".SFNSText-Regular\", sans-serif",
       "outline": "rgb(255, 255, 255) none 0px"
     }
   ]
