@@ -58,7 +58,7 @@
     "@ember/string": "^4.0.0",
     "@ember/test-helpers": "^5.2.0",
     "@ember/test-waiters": "^4.1.0",
-    "@embroider/compat": "^4.0.3",
+    "@embroider/compat": "^4.1.2",
     "@embroider/config-meta-loader": "^1.0.0",
     "@embroider/core": "^4.0.3",
     "@embroider/vite": "^1.1.1",
