@@ -58,8 +58,8 @@ importers:
         specifier: ^10.41.0
         version: 10.49.0
       '@carbon/icons':
-        specifier: ^11.21.0
-        version: 11.45.0
+        specifier: ^11.65.0
+        version: 11.65.0
       '@carbon/import-once':
         specifier: ^10.7.0
         version: 10.7.0
@@ -534,8 +534,8 @@ importers:
         specifier: ^1.23.9
         version: 1.23.9
       '@carbon/icons':
-        specifier: ^11.60.0
-        version: 11.60.0
+        specifier: ^11.65.0
+        version: 11.65.0
       '@carbon/styles':
         specifier: ^1.82.0
         version: 1.82.0(sass@1.89.0)
@@ -2219,11 +2219,8 @@ packages:
   '@carbon/icon-helpers@10.49.0':
     resolution: {integrity: sha512-GSx22ch7ahJ3u/7ZRIykeO8h/uBx3Qruybz3VYi5JBIM+smHDLldXRpJTQk65JsXuSiPWWGepIb1FlhV99fgtw==}
 
-  '@carbon/icons@11.45.0':
-    resolution: {integrity: sha512-LWh9ywfH7u0Ch8S6pGVevN2h3sO3+qaZR/BgUAw7hoS4HF/aWmQ5sk3onkx6zM1SiXJr8GrqTy3Acbanx9LG+A==}
-
-  '@carbon/icons@11.60.0':
-    resolution: {integrity: sha512-zLCFYeNliyqD+phDZBzTvDVyMbchEGFHJFr4X95EjvqqkM1LhK8/3i8Ngn0+e6WsZsJ5qn/slw6tUL/ij6Sv9w==}
+  '@carbon/icons@11.65.0':
+    resolution: {integrity: sha512-4V3pmE7oA8tFhXmCTaMnI6ucNISaVbls9xjj7uUCt/wAF+DxSG+08dnhqwDoz53cDwA0M+ww92voHFCdRpDhxQ==}
 
   '@carbon/import-once@10.7.0':
     resolution: {integrity: sha512-KoqbfzGKjO89iUPabN6zNpXpcjxgQYgpHmesZ/DXc/zeV0PyHrnAOC8Q3J0cRPf1zYpGRHN2Tbw1ttTjonzbjg==}
@@ -17566,11 +17563,7 @@ snapshots:
     dependencies:
       '@ibm/telemetry-js': 1.6.0
 
-  '@carbon/icons@11.45.0':
-    dependencies:
-      '@ibm/telemetry-js': 1.6.0
-
-  '@carbon/icons@11.60.0':
+  '@carbon/icons@11.65.0':
     dependencies:
       '@ibm/telemetry-js': 1.9.1
 
