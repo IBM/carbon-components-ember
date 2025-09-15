@@ -127,7 +127,7 @@
     "tailwindcss": "^3.4.14",
     "typedoc": "^0.28.1",
     "typescript": "^5.8.3",
-    "vite": "^6.3.5",
+    "vite": "^7.1.5",
     "webpack": "^5.99.8"
   },
   "engines": {
