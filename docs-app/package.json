@@ -80,7 +80,7 @@
     "autoprefixer": "^10.4.19",
     "broccoli-asset-rev": "^3.0.0",
     "@carbon/themes": "^11.53.0",
-    "@carbon/icons": "^11.60.0",
+    "@carbon/icons": "^11.68.0",
     "@carbon/styles": "^1.91.0",
     "@carbon/charts": "^1.23.9",
     "carbon-components-ember": "workspace:*",
