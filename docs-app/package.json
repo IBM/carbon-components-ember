@@ -81,7 +81,7 @@
     "broccoli-asset-rev": "^3.0.0",
     "@carbon/themes": "^11.53.0",
     "@carbon/icons": "^11.60.0",
-    "@carbon/styles": "^1.82.0",
+    "@carbon/styles": "^1.91.0",
     "@carbon/charts": "^1.23.9",
     "carbon-components-ember": "workspace:*",
     "concurrently": "^9.1.0",
