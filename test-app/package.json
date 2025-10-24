@@ -93,7 +93,7 @@
     "eslint-plugin-ember": "^12.5.0",
     "eslint-plugin-n": "^17.23.1",
     "eslint-plugin-prettier": "^5.5.0",
-    "eslint-plugin-qunit": "^8.1.2",
+    "eslint-plugin-qunit": "^8.2.5",
     "globals": "^16.2.0",
     "js-reporters": "^2.1.0",
     "loader.js": "^4.7.0",
