@@ -97,7 +97,7 @@
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
     "ember-load-initializers": "^3.0.1",
-    "ember-page-title": "^9.0.1",
+    "ember-page-title": "^9.0.3",
     "ember-power-select": "^8.7.1",
     "ember-primitives": "^0.32.0",
     "tracked-built-ins": "^4.0.0",
