@@ -108,7 +108,7 @@
     "ember-template-lint": "^7.6.0",
     "ember-tooltips": "^3.6.0",
     "ember-welcome-page": "^7.0.2",
-    "eslint": "^9.26.0",
+    "eslint": "^9.38.0",
     "file-loader": "^6.2.0",
     "globals": "^16.1.0",
     "globby": "^14.0.0",
