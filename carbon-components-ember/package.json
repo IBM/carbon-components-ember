@@ -111,7 +111,7 @@
     "@embroider/compat": "^4.1.8",
     "@embroider/core": "^4.0.0-alpha.10",
     "@embroider/macros": "^1.16.9",
-    "@embroider/shared-internals": "^2.8.1",
+    "@embroider/shared-internals": "^3.0.1",
     "@embroider/util": "^1.13.2",
     "@embroider/webpack": "^4.0.8",
     "@glimmer/component": "^2.0.0",
