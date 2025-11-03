@@ -37,7 +37,7 @@
     "@ascua/maths": "^0.4.6",
     "@babel/core": "^7.24.0",
     "@babel/plugin-syntax-decorators": "^7.22.5",
-    "@carbon/charts": "^1.11.2",
+    "@carbon/charts": "^1.27.0",
     "@carbon/colors": "^11.16.0",
     "@carbon/feature-flags": "^0.15.0",
     "@carbon/grid": "^11.15.0",
