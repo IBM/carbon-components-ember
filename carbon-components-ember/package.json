@@ -85,7 +85,7 @@
     "ember-in-element-polyfill": "^1.0.1",
     "ember-lifeline": "^7.0.0",
     "ember-maybe-import-regenerator": "^1.0.0",
-    "ember-power-calendar": "^1.5.4",
+    "ember-power-calendar": "^1.8.0",
     "ember-power-calendar-moment": "^0.2.0",
     "ember-power-select": "^8.7.2",
     "ember-ref-modifier": "^1.0.0",

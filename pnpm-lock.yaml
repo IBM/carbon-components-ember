@@ -187,8 +187,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
       ember-power-calendar:
-        specifier: ^1.5.4
-        version: 1.5.4(@babel/core@7.27.1)(@ember/test-helpers@5.2.2(@babel/core@7.27.1)(@glint/template@1.5.2))(@glimmer/component@2.0.0)(@glint/environment-ember-loose@1.5.0(@glimmer/component@2.0.0)(@glint/template@1.5.2)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.2(@babel/core@7.27.1)))(@glint/template@1.5.2)(ember-concurrency@4.0.2(@babel/core@7.27.1)(@glimmer/tracking@1.1.2)(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5)))(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
+        specifier: ^1.8.0
+        version: 1.8.0(@babel/core@7.27.1)(@ember/test-helpers@5.2.2(@babel/core@7.27.1)(@glint/template@1.5.2))(@glimmer/component@2.0.0)(@glint/environment-ember-loose@1.5.0(@glimmer/component@2.0.0)(@glint/template@1.5.2)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.2(@babel/core@7.27.1)))(@glint/template@1.5.2)(ember-concurrency@4.0.2(@babel/core@7.27.1)(@glimmer/tracking@1.1.2)(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5)))(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
       ember-power-calendar-moment:
         specifier: ^0.2.0
         version: 0.2.0(@glint/template@1.5.2)(moment-timezone@0.5.45)(moment@2.30.1)(webpack@5.102.1)
@@ -7269,12 +7269,12 @@ packages:
       moment-timezone:
         optional: true
 
-  ember-power-calendar@1.5.4:
-    resolution: {integrity: sha512-8MFkRatCYFgMBSuMW2uavAcC3jd8WfxZ2TQLywM6i7qzFYIP56Kwp699Wl4ptPoTCpKy+39ESpNTtJGm9S1Nqg==}
+  ember-power-calendar@1.8.0:
+    resolution: {integrity: sha512-GqnQ+Scj8bxBYf4ld5vyc/IVjqo0DV9HcHxQrwPiChL3goDTmKCIRlBfqGnsyDQXaKyhLXF4sOPzr/w3x/INKw==}
     peerDependencies:
       '@ember/test-helpers': ^2.9.4 || ^3.2.1 || ^4.0.4 || ^5.0.0
       '@glimmer/component': ^1.1.2 || ^2.0.0
-      ember-concurrency: ^4.0.4
+      ember-concurrency: ^4.0.4 || ^5.1.0
 
   ember-power-select@8.7.1:
     resolution: {integrity: sha512-TbTv+P3QnSZc2Diq74qSO732R0dCo9wtlNUILMpGu6KWvbuTCyIB5CqfL7BpRtf7Iy6gXijYCWvraDBr5xs1aQ==}
@@ -25750,17 +25750,18 @@ snapshots:
       - supports-color
       - webpack
 
-  ember-power-calendar@1.5.4(@babel/core@7.27.1)(@ember/test-helpers@5.2.2(@babel/core@7.27.1)(@glint/template@1.5.2))(@glimmer/component@2.0.0)(@glint/environment-ember-loose@1.5.0(@glimmer/component@2.0.0)(@glint/template@1.5.2)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.2(@babel/core@7.27.1)))(@glint/template@1.5.2)(ember-concurrency@4.0.2(@babel/core@7.27.1)(@glimmer/tracking@1.1.2)(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5)))(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5)):
+  ember-power-calendar@1.8.0(@babel/core@7.27.1)(@ember/test-helpers@5.2.2(@babel/core@7.27.1)(@glint/template@1.5.2))(@glimmer/component@2.0.0)(@glint/environment-ember-loose@1.5.0(@glimmer/component@2.0.0)(@glint/template@1.5.2)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.2(@babel/core@7.27.1)))(@glint/template@1.5.2)(ember-concurrency@4.0.2(@babel/core@7.27.1)(@glimmer/tracking@1.1.2)(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5)))(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5)):
     dependencies:
       '@ember/test-helpers': 5.2.2(@babel/core@7.27.1)(@glint/template@1.5.2)
       '@embroider/addon-shim': 1.10.0
-      '@embroider/macros': 1.18.0(@glint/template@1.5.2)
+      '@embroider/macros': 1.19.2(@glint/template@1.5.2)
       '@embroider/util': 1.13.2(@glint/environment-ember-loose@1.5.0(@glimmer/component@2.0.0)(@glint/template@1.5.2)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.2(@babel/core@7.27.1)))(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
       '@glimmer/component': 2.0.0
       decorator-transforms: 2.3.0(@babel/core@7.27.1)
       ember-assign-helper: 0.5.1
       ember-concurrency: 4.0.2(@babel/core@7.27.1)(@glimmer/tracking@1.1.2)(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
       ember-element-helper: 0.8.8
+      ember-modifier: 4.2.2(@babel/core@7.27.1)
       ember-truth-helpers: 4.0.3(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
     transitivePeerDependencies:
       - '@babel/core'
