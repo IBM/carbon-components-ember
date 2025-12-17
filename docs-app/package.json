@@ -82,7 +82,7 @@
     "@carbon/themes": "^11.53.0",
     "@carbon/icons": "^11.68.0",
     "@carbon/styles": "^1.91.0",
-    "@carbon/charts": "^1.23.9",
+    "@carbon/charts": "^1.27.0",
     "carbon-components-ember": "workspace:*",
     "concurrently": "^9.1.0",
     "astroturf": "^1.2.0",
