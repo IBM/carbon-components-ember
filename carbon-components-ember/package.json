@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@ascua/arrays": "^0.0.237",
-    "@ascua/maths": "^0.4.6",
+    "@ascua/maths": "^0.7.0",
     "@babel/core": "^7.24.0",
     "@babel/plugin-syntax-decorators": "^7.22.5",
     "@carbon/charts": "^1.27.0",
