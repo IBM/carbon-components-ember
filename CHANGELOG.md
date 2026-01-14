@@ -1,5 +1,20 @@
 # Changelog
 
+## Release (2026-01-14)
+
+* carbon-components-ember 2.2.1 (patch)
+
+#### :bug: Bug Fix
+* `carbon-components-ember`
+  * [#336](https://github.com/IBM/carbon-components-ember/pull/336) search-input: use search task directly ([@patricklx](https://github.com/patricklx))
+
+#### :house: Internal
+* `carbon-components-ember`
+  * [#293](https://github.com/IBM/carbon-components-ember/pull/293) better docs support ([@patricklx](https://github.com/patricklx))
+
+#### Committers: 1
+- Patrick Pircher ([@patricklx](https://github.com/patricklx))
+
 ## Release (2025-06-23)
 
 * carbon-components-ember 2.2.0 (minor)
