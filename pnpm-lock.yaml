@@ -294,10 +294,10 @@ importers:
         version: 3.0.8
       '@types/ember-qunit':
         specifier: ^6.1.1
-        version: 6.1.1(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glint/template@1.5.2)(qunit@2.24.1)
+        version: 6.1.1(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glint/template@1.5.2)(qunit@2.25.0)
       '@types/qunit':
-        specifier: ^2.19.5
-        version: 2.19.10
+        specifier: ^2.19.13
+        version: 2.19.13
       '@types/qunit-dom':
         specifier: ^0.7.0
         version: 0.7.0
@@ -357,7 +357,7 @@ importers:
         version: 4.2.2(@babel/core@7.27.1)
       ember-qunit:
         specifier: ^9.0.3
-        version: 9.0.3(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glint/template@1.5.2)(qunit@2.24.1)
+        version: 9.0.3(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glint/template@1.5.2)(qunit@2.25.0)
       ember-resolver:
         specifier: ^10.0.0
         version: 10.1.1(@ember/string@4.0.1)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
@@ -416,8 +416,8 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0(prettier@3.3.2)
       qunit:
-        specifier: ^2.19.4
-        version: 2.24.1
+        specifier: ^2.25.0
+        version: 2.25.0
       qunit-dom:
         specifier: ^3.4.0
         version: 3.4.0
@@ -609,8 +609,8 @@ importers:
         specifier: ^8.42.3
         version: 8.42.3
       '@types/qunit':
-        specifier: ^2.19.10
-        version: 2.19.10
+        specifier: ^2.19.13
+        version: 2.19.13
       '@types/rsvp':
         specifier: ^4.0.9
         version: 4.0.9
@@ -631,7 +631,7 @@ importers:
         version: 9.1.2
       ember-a11y-testing:
         specifier: ^7.0.1
-        version: 7.1.2(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glint/template@1.5.2)(qunit@2.24.1)(webpack@5.102.1)
+        version: 7.1.2(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glint/template@1.5.2)(qunit@2.25.0)(webpack@5.102.1)
       ember-auto-import:
         specifier: ^2.10.0
         version: 2.10.0(@glint/template@1.5.2)(webpack@5.102.1)
@@ -673,7 +673,7 @@ importers:
         version: 0.32.0(@babel/core@7.27.1)(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@ember/test-waiters@4.1.0(@glint/template@1.5.2))(@glimmer/component@2.0.0)(@glint/template@1.5.2)(ember-modifier@4.2.2(@babel/core@7.27.1))(ember-resources@7.0.4(@glimmer/component@2.0.0)(@glint/template@1.5.2))(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
       ember-qunit:
         specifier: ^8.0.2
-        version: 8.1.1(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))(qunit@2.24.1)
+        version: 8.1.1(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))(qunit@2.25.0)
       ember-resolver:
         specifier: ^13.0.2
         version: 13.1.0(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
@@ -726,11 +726,11 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0(prettier@3.3.2)
       qunit:
-        specifier: ^2.22.0
-        version: 2.24.1
+        specifier: ^2.25.0
+        version: 2.25.0
       qunit-assertions-extra:
         specifier: ^1.0.3
-        version: 1.0.3(qunit@2.24.1)
+        version: 1.0.3(qunit@2.25.0)
       qunit-dom:
         specifier: ^3.2.1
         version: 3.4.0
@@ -837,8 +837,8 @@ importers:
         specifier: ^6.0.4
         version: 6.0.4(@babel/core@7.27.4)(@types/babel__core@7.20.5)(rollup@4.52.5)
       '@types/qunit':
-        specifier: ^2.19.5
-        version: 2.19.10
+        specifier: ^2.19.13
+        version: 2.19.13
       astroturf:
         specifier: ^1.2.0
         version: 1.2.0(webpack@5.102.1)
@@ -895,7 +895,7 @@ importers:
         version: 9.0.3
       ember-qunit:
         specifier: ^9.0.3
-        version: 9.0.3(@ember/test-helpers@5.4.1(@babel/core@7.27.4)(@glint/template@1.5.2))(@glint/template@1.5.2)(qunit@2.24.1)
+        version: 9.0.3(@ember/test-helpers@5.4.1(@babel/core@7.27.4)(@glint/template@1.5.2))(@glint/template@1.5.2)(qunit@2.25.0)
       ember-resolver:
         specifier: ^13.0.2
         version: 13.1.0(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
@@ -960,8 +960,8 @@ importers:
         specifier: ^24.0.1
         version: 24.0.1
       qunit:
-        specifier: ^2.24.1
-        version: 2.24.1
+        specifier: ^2.25.0
+        version: 2.25.0
       qunit-dom:
         specifier: ^3.4.0
         version: 3.4.0
@@ -4558,8 +4558,8 @@ packages:
     resolution: {integrity: sha512-Weg9KnkGQ00FN+JgCVhv0gaQBPtrsgXQ+1Eh2/4DIoeeYuCfJ3hvUKbw0yMKoqYnY5M+F1IN/FKRAdbIatzGQQ==}
     deprecated: This is a stub types definition. qunit-dom provides its own type definitions, so you do not need this installed.
 
-  '@types/qunit@2.19.10':
-    resolution: {integrity: sha512-gVB+rxvxmbyPFWa6yjjKgcumWal3hyqoTXI0Oil161uWfo1OCzWZ/rnEumsx+6uVgrwPrCrhpQbLkzfildkSbg==}
+  '@types/qunit@2.19.13':
+    resolution: {integrity: sha512-N4xp3v4s7f0jb2Oij6+6xw5QhH7/IgHCoGIFLCWtbEWoPkGYp8Te4mIwIP21qaurr6ed5JiPMiy2/ZoiGPkLIw==}
 
   '@types/range-parser@1.2.7':
     resolution: {integrity: sha512-hKormJbkJqzQGhziax5PItDUTMAM9uE2XXQmM37dyd4hVM+5aVl7oVxMVUiVQn2oCQFN/LKCZdvSM0pFRqbSmQ==}
@@ -12201,8 +12201,8 @@ packages:
   qunit-theme-ember@1.0.0:
     resolution: {integrity: sha512-vdMVVo6ecdCkWttMTKeyq1ZTLGHcA6zdze2zhguNuc3ritlJMhOXY5RDseqazOwqZVfCg3rtlmL3fMUyIzUyFQ==}
 
-  qunit@2.24.1:
-    resolution: {integrity: sha512-Eu0k/5JDjx0QnqxsE1WavnDNDgL1zgMZKsMw/AoAxnsl9p4RgyLODyo2N7abZY7CEAnvl5YUqFZdkImzbgXzSg==}
+  qunit@2.25.0:
+    resolution: {integrity: sha512-MONPKgjavgTqArCwZOEz8nEMbA19zNXIp5ZOW9rPYj5cbgQp0fiI36c9dPTSzTRRzx+KcfB5eggYB/ENqxi0+w==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -22014,9 +22014,9 @@ snapshots:
     dependencies:
       '@types/ms': 0.7.34
 
-  '@types/ember-qunit@6.1.1(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glint/template@1.5.2)(qunit@2.24.1)':
+  '@types/ember-qunit@6.1.1(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glint/template@1.5.2)(qunit@2.25.0)':
     dependencies:
-      ember-qunit: 9.0.3(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glint/template@1.5.2)(qunit@2.24.1)
+      ember-qunit: 9.0.3(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glint/template@1.5.2)(qunit@2.25.0)
     transitivePeerDependencies:
       - '@ember/test-helpers'
       - '@glint/template'
@@ -22152,7 +22152,7 @@ snapshots:
     dependencies:
       qunit-dom: 3.4.0
 
-  '@types/qunit@2.19.10': {}
+  '@types/qunit@2.19.13': {}
 
   '@types/range-parser@1.2.7': {}
 
@@ -26044,7 +26044,7 @@ snapshots:
       minimalistic-assert: 1.0.1
       minimalistic-crypto-utils: 1.0.1
 
-  ember-a11y-testing@7.1.2(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glint/template@1.5.2)(qunit@2.24.1)(webpack@5.102.1):
+  ember-a11y-testing@7.1.2(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glint/template@1.5.2)(qunit@2.25.0)(webpack@5.102.1):
     dependencies:
       '@ember/test-helpers': 5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2)
       '@ember/test-waiters': 4.1.0(@glint/template@1.5.2)
@@ -26060,7 +26060,7 @@ snapshots:
       fs-extra: 11.3.0
       validate-peer-dependencies: 2.2.0
     optionalDependencies:
-      qunit: 2.24.1
+      qunit: 2.25.0
     transitivePeerDependencies:
       - '@glint/template'
       - supports-color
@@ -27481,36 +27481,36 @@ snapshots:
       - ember-source
       - supports-color
 
-  ember-qunit@8.1.1(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))(qunit@2.24.1):
+  ember-qunit@8.1.1(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))(qunit@2.25.0):
     dependencies:
       '@ember/test-helpers': 5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2)
       '@embroider/addon-shim': 1.10.0
       '@embroider/macros': 1.17.3(@glint/template@1.5.2)
       ember-cli-test-loader: 3.1.0
       ember-source: 6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5)
-      qunit: 2.24.1
+      qunit: 2.25.0
       qunit-theme-ember: 1.0.0
     transitivePeerDependencies:
       - '@glint/template'
       - supports-color
 
-  ember-qunit@9.0.3(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glint/template@1.5.2)(qunit@2.24.1):
+  ember-qunit@9.0.3(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glint/template@1.5.2)(qunit@2.25.0):
     dependencies:
       '@ember/test-helpers': 5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2)
       '@embroider/addon-shim': 1.10.0
       '@embroider/macros': 1.18.0(@glint/template@1.5.2)
-      qunit: 2.24.1
+      qunit: 2.25.0
       qunit-theme-ember: 1.0.0
     transitivePeerDependencies:
       - '@glint/template'
       - supports-color
 
-  ember-qunit@9.0.3(@ember/test-helpers@5.4.1(@babel/core@7.27.4)(@glint/template@1.5.2))(@glint/template@1.5.2)(qunit@2.24.1):
+  ember-qunit@9.0.3(@ember/test-helpers@5.4.1(@babel/core@7.27.4)(@glint/template@1.5.2))(@glint/template@1.5.2)(qunit@2.25.0):
     dependencies:
       '@ember/test-helpers': 5.4.1(@babel/core@7.27.4)(@glint/template@1.5.2)
       '@embroider/addon-shim': 1.10.0
       '@embroider/macros': 1.18.0(@glint/template@1.5.2)
-      qunit: 2.24.1
+      qunit: 2.25.0
       qunit-theme-ember: 1.0.0
     transitivePeerDependencies:
       - '@glint/template'
@@ -33334,9 +33334,9 @@ snapshots:
       rimraf: 2.7.1
       underscore.string: 3.3.6
 
-  qunit-assertions-extra@1.0.3(qunit@2.24.1):
+  qunit-assertions-extra@1.0.3(qunit@2.25.0):
     dependencies:
-      qunit: 2.24.1
+      qunit: 2.25.0
 
   qunit-dom@3.4.0:
     dependencies:
@@ -33344,7 +33344,7 @@ snapshots:
 
   qunit-theme-ember@1.0.0: {}
 
-  qunit@2.24.1:
+  qunit@2.25.0:
     dependencies:
       commander: 7.2.0
       node-watch: 0.7.3
