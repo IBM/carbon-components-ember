@@ -107,7 +107,7 @@
     "stylelint-prettier": "^3.0.0",
     "tracked-built-ins": "^4.0.0",
     "vite": "^7.1.12",
-    "webpack": "^5.102.1"
+    "webpack": "^5.105.2"
   },
   "engines": {
     "node": "16.* || >= 18"
