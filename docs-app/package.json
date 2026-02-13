@@ -117,7 +117,7 @@
     "sass-embedded": "^1.89.0",
     "postcss": "^8.4.47",
     "postcss-import": "^16.1.0",
-    "postcss-loader": "^8.1.1",
+    "postcss-loader": "^8.2.0",
     "prettier": "^3.2.5",
     "prettier-plugin-ember-template-tag": "^2.1.0",
     "qunit": "^2.22.0",
