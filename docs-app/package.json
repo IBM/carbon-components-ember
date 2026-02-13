@@ -62,7 +62,7 @@
     "@embroider/config-meta-loader": "^1.0.0",
     "@embroider/core": "^4.0.3",
     "@embroider/vite": "^1.2.1",
-    "@fontsource/lexend": "^5.2.7",
+    "@fontsource/lexend": "^5.2.11",
     "@glimmer/component": "^2.0.0",
     "@glint/core": "1.5.2",
     "@glint/environment-ember-loose": "1.5.2",
