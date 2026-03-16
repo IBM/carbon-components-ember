@@ -92,7 +92,7 @@
     "ember-resize-modifier": "^0.7.1",
     "ember-template-imports": "^3.4.2",
     "ember-template-lint-plugin-prettier": "^5.0.0",
-    "ember-truth-helpers": "^4.0.3",
+    "ember-truth-helpers": "^5.0.0",
     "prettier-linter-helpers": "^1.0.0",
     "rollup-plugin-astroturf": "^0.1.0",
     "rollup-plugin-postcss": "^4.0.2",
