@@ -1,0 +1,261 @@
+name: 'Daily Parity Fix'
+
+on:
+  schedule:
+    # Run every day at 10:00 AM UTC
+    - cron: '0 10 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+defaults:
+  run:
+    shell: 'bash'
+
+jobs:
+  fix-parity-issues:
+    runs-on: 'ubuntu-latest'
+    permissions:
+      contents: 'write'
+      issues: 'write'
+      pull-requests: 'write'
+
+    steps:
+      - name: 'Checkout repository'
+        uses: 'actions/checkout@v4'
+        with:
+          fetch-depth: 0
+          token: '${{ secrets.GITHUB_TOKEN }}'
+
+      - name: 'Setup Node.js'
+        uses: 'actions/setup-node@v4'
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: 'Setup Python'
+        uses: 'actions/setup-python@v5'
+        with:
+          python-version: '3.x'
+
+      - name: 'Install Playwright'
+        run: |
+          npm install -g playwright
+          npx playwright install chromium
+          npx playwright install-deps chromium
+
+      - name: 'Install project dependencies'
+        run: |
+          npm ci || echo "npm ci failed, continuing..."
+
+      - name: 'Install Bob Shell'
+        id: 'install'
+        shell: 'bash'
+        run: |-
+          set -euo pipefail
+
+          VERSION_INPUT="${BOBSHELL_VERSION:-latest}"
+
+          if [[ "${VERSION_INPUT}" == "latest" ]]; then
+            echo "Installing the latest version of Bob Shell."
+            version="$(curl https://s3.us-south.cloud-object-storage.appdomain.cloud/bobshell/bobshell-version.txt)"
+            dl_url="http://bob-bot1.fyre.ibm.com:3000/cos-assets/bobshell/bobshell-${version}.tgz"
+          elif [[ "${VERSION_INPUT}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9\.-]+)?(\+[a-zA-Z0-9\.-]+)?$ ]]; then
+            dl_url="http://bob-bot1.fyre.ibm.com:3000/cos-assets/bobshell/bobshell-${VERSION_INPUT}.tgz"
+          fi
+
+          curl -o /tmp/bobshell.tgz -L "${dl_url}"
+          mkdir -p /tmp/bobshell-install
+          tar -xzf /tmp/bobshell.tgz -C /tmp/bobshell-install
+
+          echo "Verifying installation:"
+          node /tmp/bobshell-install/package/bundle/bob.js --version
+
+      - name: 'Setup GitHub CLI'
+        env:
+          GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+        run: |
+          echo "$GH_TOKEN" | gh auth login --with-token
+
+      - name: 'Configure Git'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: 'Get parity-check issues'
+        id: 'get-issues'
+        env:
+          GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          GITHUB_REPOSITORY: '${{ github.repository }}'
+        run: |
+          # Get up to 3 open issues with parity-check label
+          ISSUES=$(gh issue list \
+            --repo "$GITHUB_REPOSITORY" \
+            --label "parity-check" \
+            --state open \
+            --limit 3 \
+            --json number,title,body \
+            --jq '.[] | @json')
+          
+          echo "Found issues:"
+          echo "$ISSUES"
+          
+          # Save to file for processing
+          echo "$ISSUES" > /tmp/parity-issues.jsonl
+          
+          # Count issues
+          ISSUE_COUNT=$(echo "$ISSUES" | wc -l)
+          echo "issue_count=$ISSUE_COUNT" >> $GITHUB_OUTPUT
+
+      - name: 'Process parity issues'
+        if: steps.get-issues.outputs.issue_count > 0
+        env:
+          GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          GITHUB_REPOSITORY: '${{ github.repository }}'
+          BOBSHELL_API_KEY: '${{ secrets.BOBSHELL_API_KEY_1 }}'
+        run: |
+          # Process each issue
+          while IFS= read -r issue_json; do
+            if [ -z "$issue_json" ]; then
+              continue
+            fi
+            
+            ISSUE_NUMBER=$(echo "$issue_json" | jq -r '.number')
+            ISSUE_TITLE=$(echo "$issue_json" | jq -r '.title')
+            ISSUE_BODY=$(echo "$issue_json" | jq -r '.body')
+            
+            echo "Processing issue #$ISSUE_NUMBER: $ISSUE_TITLE"
+            
+            # Extract component name from title
+            COMPONENT_NAME=$(echo "$ISSUE_TITLE" | sed -n 's/.*Investigate \(.*\) component.*/\1/p')
+            
+            if [ -z "$COMPONENT_NAME" ]; then
+              echo "Could not extract component name, skipping..."
+              continue
+            fi
+            
+            echo "Component: $COMPONENT_NAME"
+            
+            # Create screenshots directory
+            mkdir -p /tmp/screenshots
+            
+            # Take screenshot of React Storybook
+            echo "Taking screenshot of React Storybook for $COMPONENT_NAME..."
+            STORYBOOK_URL="https://react.carbondesignsystem.com/?path=/docs/components-${COMPONENT_NAME,,}--overview"
+            
+            node -e "
+            const playwright = require('playwright');
+            (async () => {
+              const browser = await playwright.chromium.launch();
+              const context = await browser.newContext({
+                viewport: { width: 1280, height: 720 }
+              });
+              const page = await context.newPage();
+              
+              try {
+                await page.goto('$STORYBOOK_URL', { waitUntil: 'networkidle', timeout: 30000 });
+                await page.waitForTimeout(2000);
+                await page.screenshot({ 
+                  path: '/tmp/screenshots/${COMPONENT_NAME}-react.png',
+                  fullPage: false
+                });
+                console.log('Screenshot saved');
+              } catch (error) {
+                console.error('Error taking screenshot:', error.message);
+              }
+              
+              await browser.close();
+            })();
+            " || echo "Screenshot failed, continuing..."
+            
+            # Prepare context for Bob-Shell
+            CONTEXT_FILE="/tmp/component-context-${ISSUE_NUMBER}.md"
+            cat > "$CONTEXT_FILE" <<EOF
+# Component Parity Investigation: $COMPONENT_NAME
+
+## Issue Details
+- Issue Number: #$ISSUE_NUMBER
+- Component: $COMPONENT_NAME
+- Repository: $GITHUB_REPOSITORY
+
+## Resources
+- React Implementation: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/$COMPONENT_NAME
+- Storybook: $STORYBOOK_URL
+- Carbon Design System: https://carbondesignsystem.com/
+
+## Investigation Tasks
+$ISSUE_BODY
+
+## Screenshots
+React Storybook screenshot saved at: /tmp/screenshots/${COMPONENT_NAME}-react.png
+
+## Instructions
+1. Review the React implementation and Storybook documentation
+2. Check if the component exists in carbon-components-ember/src/components/
+3. If it exists, compare the implementation with React version:
+   - Check props/arguments compatibility
+   - Verify visual appearance matches (use screenshot as reference)
+   - Test functionality
+   - Fix any discrepancies found
+4. If it doesn't exist, document findings and update the issue with:
+   - Component complexity assessment
+   - Required props/API surface
+   - Implementation priority recommendation
+5. Update the issue with your findings and any fixes made
+6. If fixes were made, create a PR and link it to the issue
+
+## Important Notes
+- Focus on maintaining API compatibility with React version
+- Follow existing Ember component patterns in the codebase
+- Ensure visual consistency with Carbon Design System
+- Add appropriate tests for any new functionality
+- Update documentation if needed
+EOF
+
+            # Run Bob-Shell to investigate and fix
+            TASK="Investigate and fix parity issues for the $COMPONENT_NAME component. 
+            
+Context file: @$CONTEXT_FILE
+Screenshot: @/tmp/screenshots/${COMPONENT_NAME}-react.png
+
+Your task:
+1. Read the context file and review the component requirements
+2. Check the React implementation at the provided GitHub URL
+3. Look at the screenshot to understand the visual design
+4. Check if we have this component in carbon-components-ember/src/components/
+5. If we have it, compare and fix any differences
+6. If we don't have it, document what would be needed to implement it
+7. Update issue #$ISSUE_NUMBER with your findings
+8. If you made fixes, commit them and create a PR linked to the issue
+
+Use the screenshot as a visual reference for how the component should look.
+Make sure any implementation matches the Carbon Design System specifications."
+
+            echo "Running Bob-Shell for issue #$ISSUE_NUMBER..."
+            node /tmp/bobshell-install/package/bundle/bob.js --yolo -p "$TASK" || echo "Bob-Shell execution completed with errors, continuing..."
+            
+            # Add a comment to the issue
+            gh issue comment "$ISSUE_NUMBER" \
+              --repo "$GITHUB_REPOSITORY" \
+              --body "🤖 Automated parity check completed. Review the changes and any PRs created." || true
+            
+            echo "Completed processing issue #$ISSUE_NUMBER"
+            echo "---"
+            
+          done < /tmp/parity-issues.jsonl
+
+      - name: 'Push any changes'
+        run: |
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git add -A
+            git commit -m "fix: automated parity fixes [skip ci]" || echo "Nothing to commit"
+            git push || echo "Nothing to push"
+          fi
+
+      - name: 'Upload screenshots'
+        if: always()
+        uses: 'actions/upload-artifact@v4'
+        with:
+          name: 'component-screenshots'
+          path: '/tmp/screenshots/'
+          retention-days: 30

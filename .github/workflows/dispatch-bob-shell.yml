@@ -1,0 +1,139 @@
+name: 'Dispatch bob-shell'
+
+on:
+  issue_comment:
+    types:
+      - 'created'
+
+defaults:
+  run:
+    shell: 'bash'
+
+jobs:
+  dispatch:
+    if: |-
+      (
+        github.event.sender.type == 'User' &&
+        startsWith(github.event.comment.body, '@bob-shell') &&
+        contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association)
+      )
+    runs-on: 'ibm-x86-64-small'
+    permissions:
+      checks: 'read'
+      statuses: 'read'
+      contents: 'write'
+      issues: 'write'
+      pull-requests: 'write'
+
+    steps:
+      - name: 'Checkout repository'
+        uses: 'actions/checkout@v4'
+        with:
+          ref: 'refs/pull/${{ github.event.issue.number }}/head'
+          fetch-depth: 0
+          token: '${{ secrets.PAT }}'
+
+      - uses: 'actions/setup-python@v5'
+        with:
+          python-version: '3.x'
+
+      - name: 'Setup Node.js'
+        uses: 'actions/setup-node@v4'
+        with:
+          node-version: '24.x'
+          cache: 'npm'
+
+      - name: 'Install Playwright (for screenshots)'
+        run: |
+          npm install -g playwright
+          npx playwright install chromium
+          npx playwright install-deps chromium
+
+      - name: 'setup npm artifactory'
+        env:
+          NPM_REGISTRY: '${{ vars.NPM_REGISTRY }}'
+          NPM_TOKEN: '${{ secrets.NPM_TOKEN }}'
+        run: |-
+          npm config set registry="https://${NPM_REGISTRY}" --global
+          npm config set //"${NPM_REGISTRY}":_auth="${NPM_TOKEN}" --global
+          npm i @vscode/vsce-sign-linux-x64@2.0.6 || echo "its okay"
+          npm ci || echo "its okay"
+      - name: 'Install Bob Shell'
+        id: 'install'
+        shell: 'bash'
+        run: |-
+          set -euo pipefail
+
+          VERSION_INPUT="${BOBSHELL_VERSION:-latest}"
+
+          if [[ "${VERSION_INPUT}" == "latest" ]]; then
+            echo "Installing the latest version of Bob Shell."
+            version="$(curl https://s3.us-south.cloud-object-storage.appdomain.cloud/bobshell/bobshell-version.txt)"
+            dl_url="http://bob-bot1.fyre.ibm.com:3000/cos-assets/bobshell/bobshell-${version}.tgz"
+          elif [[ "${VERSION_INPUT}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9\.-]+)?(\+[a-zA-Z0-9\.-]+)?$ ]]; then
+            dl_url="http://bob-bot1.fyre.ibm.com:3000/cos-assets/bobshell/bobshell-${VERSION_INPUT}.tgz"
+          fi
+
+          curl -o /tmp/bobshell.tgz -L "${dl_url}"
+          mkdir -p /tmp/bobshell-install
+          tar -xzf /tmp/bobshell.tgz -C /tmp/bobshell-install
+
+          echo "Verifying installation:"
+          node /tmp/bobshell-install/package/bundle/bob.js --version
+
+          curl https://bootstrap.pypa.io/get-pip.py | python3
+          python3 -m pip install --upgrade git+https://github.com/ibm/detect-secrets.git@master#egg=detect-secrets
+
+      - name: 'Setup GitHub CLI'
+        env:
+          GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+        run: |
+          echo "$GH_TOKEN" | gh auth login --hostname github.ibm.com --with-token || echo "okay"
+
+      - name: 'Configure Git'
+        run: |
+          git config --global user.name "bob-shell[bot]"
+          git config --global user.email "bob-shell[bot]@users.noreply.github.ibm.com"
+
+      - name: 'Execute Bob-Shell task'
+        env:
+          GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          GITHUB_REPOSITORY: '${{ github.repository }}'
+          PR_NUMBER: '${{ github.event.issue.number }}'
+          PR_BRANCH: '${{ github.head_ref }}'
+          COMMENT_BODY: '${{ github.event.comment.body }}'
+          BOBSHELL_API_KEY_1: '${{ secrets.BOBSHELL_API_KEY_1 }}'
+          BOBSHELL_API_KEY_2: '${{ secrets.BOBSHELL_API_KEY_2 }}'
+        run: |
+          # shellcheck disable=SC2153
+          BOBSHELL_API_KEY=$(echo "${BOBSHELL_API_KEY_1}" "${BOBSHELL_API_KEY_2}" | xargs shuf -n1 -e)
+          export BOBSHELL_API_KEY
+          # Extract the task from the comment (remove @bob-shell prefix)
+          TASK=${COMMENT_BODY#@bob-shell }
+
+          # Get current branch name from PR using GitHub CLI
+          CURRENT_BRANCH=$(gh pr view "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --json headRefName --jq '.headRefName')
+          prompt=$(cat <<EOF
+           you are in gh enterprise gh action ci. gh tool is already setup and authenticated to github.ibm.com.
+           use gh tool to interact with Github.
+           The Task is related to PR $PR_NUMBER in repository $GITHUB_REPOSITORY.
+           The current PR branch is: $CURRENT_BRANCH.
+           The task to execute is: <task>$TASK</task>.
+           Respond to the user with a GH Comment and update the comment with progress information while working on the task.
+           The user might edit it, before updating, also read the latest state of the comment and check if the user added more things to work on.
+           Afterwards commit and push any changes you did. make sure to only commit files you changed or added.
+           no other file should be committed.
+           The only way to commnuicate with the User is through GH Comments.
+
+           task notes:
+           * if the task requests running tests, it means npm run test:ibm. it is slow and take several minutes.
+           * if the tasks requests fixing lint issues. it means npm run lint:ci. it is slow and take several minutes.
+           * if not specified otherwise, to fix tests, ONLY modify test files.
+           * if the tasks mentions fixing secrets or secret scan:
+            1. detect-secrets scan --update .secrets.baseline'
+            2. echo "n" | detect-secrets audit .secrets.baseline'
+          if detect-secrets is not installed run
+            python3 -m pip install --upgrade git+https://github.com/ibm/detect-secrets.git@master#egg=detect-secrets
+          EOF
+          )
+          node /tmp/bobshell-install/package/bundle/bob.js --yolo -p "$prompt"
