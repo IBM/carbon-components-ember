@@ -25,8 +25,8 @@ importers:
         specifier: ^0.16.0
         version: 0.16.0
       yaml:
-        specifier: ^2.7.0
-        version: 2.7.0
+        specifier: ^2.8.3
+        version: 2.8.3
 
   carbon-components-ember:
     dependencies:
@@ -191,7 +191,7 @@ importers:
         version: 1.8.0(@babel/core@7.27.1)(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glimmer/component@2.0.0)(@glint/environment-ember-loose@1.5.0(@glimmer/component@2.0.0)(@glint/template@1.5.2)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.2(@babel/core@7.27.1)))(@glint/template@1.5.2)(ember-concurrency@4.0.2(@babel/core@7.27.1)(@glimmer/tracking@1.1.2)(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5)))(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
       ember-power-calendar-moment:
         specifier: ^1.0.4
-        version: 1.0.4(@glint/template@1.5.2)(ember-power-calendar@1.8.0(@babel/core@7.27.1)(@ember/test-helpers@5.2.2(@babel/core@7.27.1)(@glint/template@1.5.2))(@glimmer/component@2.0.0)(@glint/environment-ember-loose@1.5.0(@glimmer/component@2.0.0)(@glint/template@1.5.2)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.2(@babel/core@7.27.1)))(@glint/template@1.5.2)(ember-concurrency@4.0.2(@babel/core@7.27.1)(@glimmer/tracking@1.1.2)(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5)))(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5)))(moment-timezone@0.5.45)(moment@2.30.1)
+        version: 1.0.4(@glint/template@1.5.2)(ember-power-calendar@1.8.0(@babel/core@7.27.1)(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glimmer/component@2.0.0)(@glint/environment-ember-loose@1.5.0(@glimmer/component@2.0.0)(@glint/template@1.5.2)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.2(@babel/core@7.27.1)))(@glint/template@1.5.2)(ember-concurrency@4.0.2(@babel/core@7.27.1)(@glimmer/tracking@1.1.2)(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5)))(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5)))(moment-timezone@0.5.45)(moment@2.30.1)
       ember-power-select:
         specifier: ^8.7.2
         version: 8.7.2(@babel/core@7.27.1)(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glimmer/component@2.0.0)(@glint/environment-ember-loose@1.5.0(@glimmer/component@2.0.0)(@glint/template@1.5.2)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.2(@babel/core@7.27.1)))(@glint/template@1.5.2)(ember-basic-dropdown@8.6.1(@babel/core@7.27.1)(@ember/string@4.0.1)(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glimmer/component@2.0.0)(@glint/environment-ember-loose@1.5.0(@glimmer/component@2.0.0)(@glint/template@1.5.2)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.2(@babel/core@7.27.1)))(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5)))(ember-concurrency@4.0.2(@babel/core@7.27.1)(@glimmer/tracking@1.1.2)(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5)))(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
@@ -568,7 +568,7 @@ importers:
         version: 4.1.0(@glint/template@1.5.2)
       '@embroider/vite':
         specifier: ^1.2.1
-        version: 1.2.1(@embroider/core@4.1.0(@glint/template@1.5.2))(@glint/template@1.5.2)(rollup@4.52.5)(vite@7.1.12(@types/node@24.9.0)(jiti@2.6.1)(less@4.2.0)(sass-embedded@1.89.0)(sass@1.89.0)(stylus@0.62.0)(terser@5.44.0)(yaml@2.8.0))
+        version: 1.2.1(@embroider/core@4.1.0(@glint/template@1.5.2))(@glint/template@1.5.2)(rollup@4.52.5)(vite@7.1.12(@types/node@24.9.0)(jiti@2.6.1)(less@4.2.0)(sass-embedded@1.89.0)(sass@1.89.0)(stylus@0.62.0)(terser@5.44.0)(yaml@2.8.3))
       '@fontsource/lexend':
         specifier: ^5.2.11
         version: 5.2.11
@@ -751,7 +751,7 @@ importers:
         version: 5.8.3
       vite:
         specifier: ^7.1.12
-        version: 7.1.12(@types/node@24.9.0)(jiti@2.6.1)(less@4.2.0)(sass-embedded@1.89.0)(sass@1.89.0)(stylus@0.62.0)(terser@5.44.0)(yaml@2.8.0)
+        version: 7.1.12(@types/node@24.9.0)(jiti@2.6.1)(less@4.2.0)(sass-embedded@1.89.0)(sass@1.89.0)(stylus@0.62.0)(terser@5.44.0)(yaml@2.8.3)
       webpack:
         specifier: ^5.102.1
         version: 5.102.1
@@ -808,7 +808,7 @@ importers:
         version: 4.0.0(@embroider/compat@4.1.8(@embroider/core@4.1.1(@glint/template@1.5.2))(@glint/template@1.5.2))(@embroider/core@4.1.1(@glint/template@1.5.2))(@embroider/webpack@4.0.8(@embroider/core@4.1.1(@glint/template@1.5.2))(webpack@5.102.1))
       '@embroider/vite':
         specifier: ^1.2.1
-        version: 1.2.1(@embroider/core@4.1.1(@glint/template@1.5.2))(@glint/template@1.5.2)(rollup@4.52.5)(vite@7.1.12(@types/node@24.9.0)(jiti@2.6.1)(less@4.2.0)(sass-embedded@1.89.0)(sass@1.89.0)(stylus@0.62.0)(terser@5.44.0)(yaml@2.8.0))
+        version: 1.2.1(@embroider/core@4.1.1(@glint/template@1.5.2))(@glint/template@1.5.2)(rollup@4.52.5)(vite@7.1.12(@types/node@24.9.0)(jiti@2.6.1)(less@4.2.0)(sass-embedded@1.89.0)(sass@1.89.0)(stylus@0.62.0)(terser@5.44.0)(yaml@2.8.3))
       '@embroider/webpack':
         specifier: ^4.0.8
         version: 4.0.8(@embroider/core@4.1.1(@glint/template@1.5.2))(webpack@5.102.1)
@@ -979,7 +979,7 @@ importers:
         version: 4.0.0(@babel/core@7.27.4)
       vite:
         specifier: ^7.1.12
-        version: 7.1.12(@types/node@24.9.0)(jiti@2.6.1)(less@4.2.0)(sass-embedded@1.89.0)(sass@1.89.0)(stylus@0.62.0)(terser@5.44.0)(yaml@2.8.0)
+        version: 7.1.12(@types/node@24.9.0)(jiti@2.6.1)(less@4.2.0)(sass-embedded@1.89.0)(sass@1.89.0)(stylus@0.62.0)(terser@5.44.0)(yaml@2.8.3)
       webpack:
         specifier: ^5.102.1
         version: 5.102.1
@@ -4301,6 +4301,7 @@ packages:
 
   '@tsconfig/ember@3.0.8':
     resolution: {integrity: sha512-OVnIsZIt/8q0VEtcdz3rRryNrm6gdJTxXlxefkGIrkZnME0wqslmwHlUEZ7mvh377df9FqBhNKrYNarhCW8zJA==}
+    deprecated: Please use @ember/app-tsconfig or @ember/library-tsconfig instead. These live at https://github.com/ember-cli/tsconfigs
 
   '@tybys/wasm-util@0.10.1':
     resolution: {integrity: sha512-9tTaPJLSiejZKx+Bmog4uSubteqTvFrVrURwkmHixBo0G4seD0zUxp98E1DzUBJxLQ3NPwXrGKDiVjwx/DpPsg==}
@@ -14622,17 +14623,17 @@ packages:
     resolution: {integrity: sha512-Hv9xxHtsJ9228wNhk03xnlDReUuWVvHwM4rIbjdAXYvHLs17xjuyF50N6XXFMN6N0omBaqgOok/MCK3At9fTAg==}
     engines: {node: ^4.5 || 6.* || >= 7.*}
 
-  yaml@1.10.2:
-    resolution: {integrity: sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==}
+  yaml@1.10.3:
+    resolution: {integrity: sha512-vIYeF1u3CjlhAFekPPAk2h/Kv4T3mAkMox5OymRiJQB0spDP10LHvt+K7G9Ny6NuuMAb25/6n1qyUjAcGNf/AA==}
     engines: {node: '>= 6'}
-
-  yaml@2.7.0:
-    resolution: {integrity: sha512-+hSoy/QHluxmC9kCIJyL/uyFmLmc+e5CFR5Wa+bpIhIj85LVb9ZH2nVnqrHoSvKogwODv0ClqZkmiSSaIH5LTA==}
-    engines: {node: '>= 14'}
-    hasBin: true
 
   yaml@2.8.0:
     resolution: {integrity: sha512-4lLa/EcQCB0cJkyts+FpIRx5G/llPxfP6VQU5KByHEhLxY3IJCH0f0Hy1MHI8sClTvsIb8qwRJ6R/ZdlDJ/leQ==}
+    engines: {node: '>= 14.6'}
+    hasBin: true
+
+  yaml@2.8.3:
+    resolution: {integrity: sha512-AvbaCLOO2Otw/lW5bmh9d/WEdcDFdQp2Z2ZUH3pX9U2ihyUY0nvLv7J6TrWowklRGPYbB/IuIMfYgxaCPg5Bpg==}
     engines: {node: '>= 14.6'}
     hasBin: true
 
@@ -20420,7 +20421,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@embroider/vite@1.2.1(@embroider/core@4.1.0(@glint/template@1.5.2))(@glint/template@1.5.2)(rollup@4.52.5)(vite@7.1.12(@types/node@24.9.0)(jiti@2.6.1)(less@4.2.0)(sass-embedded@1.89.0)(sass@1.89.0)(stylus@0.62.0)(terser@5.44.0)(yaml@2.8.0))':
+  '@embroider/vite@1.2.1(@embroider/core@4.1.0(@glint/template@1.5.2))(@glint/template@1.5.2)(rollup@4.52.5)(vite@7.1.12(@types/node@24.9.0)(jiti@2.6.1)(less@4.2.0)(sass-embedded@1.89.0)(sass@1.89.0)(stylus@0.62.0)(terser@5.44.0)(yaml@2.8.3))':
     dependencies:
       '@babel/core': 7.27.4(supports-color@8.1.1)
       '@embroider/core': 4.1.0(@glint/template@1.5.2)
@@ -20438,7 +20439,7 @@ snapshots:
       send: 0.18.0
       source-map-url: 0.4.1
       terser: 5.44.0
-      vite: 7.1.12(@types/node@24.9.0)(jiti@2.6.1)(less@4.2.0)(sass-embedded@1.89.0)(sass@1.89.0)(stylus@0.62.0)(terser@5.44.0)(yaml@2.8.0)
+      vite: 7.1.12(@types/node@24.9.0)(jiti@2.6.1)(less@4.2.0)(sass-embedded@1.89.0)(sass@1.89.0)(stylus@0.62.0)(terser@5.44.0)(yaml@2.8.3)
     transitivePeerDependencies:
       - '@glint/template'
       - bufferutil
@@ -20447,7 +20448,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@embroider/vite@1.2.1(@embroider/core@4.1.1(@glint/template@1.5.2))(@glint/template@1.5.2)(rollup@4.52.5)(vite@7.1.12(@types/node@24.9.0)(jiti@2.6.1)(less@4.2.0)(sass-embedded@1.89.0)(sass@1.89.0)(stylus@0.62.0)(terser@5.44.0)(yaml@2.8.0))':
+  '@embroider/vite@1.2.1(@embroider/core@4.1.1(@glint/template@1.5.2))(@glint/template@1.5.2)(rollup@4.52.5)(vite@7.1.12(@types/node@24.9.0)(jiti@2.6.1)(less@4.2.0)(sass-embedded@1.89.0)(sass@1.89.0)(stylus@0.62.0)(terser@5.44.0)(yaml@2.8.3))':
     dependencies:
       '@babel/core': 7.27.4(supports-color@8.1.1)
       '@embroider/core': 4.1.1(@glint/template@1.5.2)
@@ -20465,7 +20466,7 @@ snapshots:
       send: 0.18.0
       source-map-url: 0.4.1
       terser: 5.44.0
-      vite: 7.1.12(@types/node@24.9.0)(jiti@2.6.1)(less@4.2.0)(sass-embedded@1.89.0)(sass@1.89.0)(stylus@0.62.0)(terser@5.44.0)(yaml@2.8.0)
+      vite: 7.1.12(@types/node@24.9.0)(jiti@2.6.1)(less@4.2.0)(sass-embedded@1.89.0)(sass@1.89.0)(stylus@0.62.0)(terser@5.44.0)(yaml@2.8.3)
     transitivePeerDependencies:
       - '@glint/template'
       - bufferutil
@@ -25290,7 +25291,7 @@ snapshots:
       import-fresh: 3.3.0
       parse-json: 5.2.0
       path-type: 4.0.0
-      yaml: 1.10.2
+      yaml: 1.10.3
 
   cosmiconfig@8.1.3:
     dependencies:
@@ -25517,14 +25518,14 @@ snapshots:
       cssnano-preset-default: 5.2.14(postcss@8.5.3)
       lilconfig: 2.1.0
       postcss: 8.5.3
-      yaml: 1.10.2
+      yaml: 1.10.3
 
   cssnano@5.1.15(postcss@8.5.6):
     dependencies:
       cssnano-preset-default: 5.2.14(postcss@8.5.6)
       lilconfig: 2.1.0
       postcss: 8.5.6
-      yaml: 1.10.2
+      yaml: 1.10.3
 
   csso@4.2.0:
     dependencies:
@@ -27372,11 +27373,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  ember-power-calendar-moment@1.0.4(@glint/template@1.5.2)(ember-power-calendar@1.8.0(@babel/core@7.27.1)(@ember/test-helpers@5.2.2(@babel/core@7.27.1)(@glint/template@1.5.2))(@glimmer/component@2.0.0)(@glint/environment-ember-loose@1.5.0(@glimmer/component@2.0.0)(@glint/template@1.5.2)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.2(@babel/core@7.27.1)))(@glint/template@1.5.2)(ember-concurrency@4.0.2(@babel/core@7.27.1)(@glimmer/tracking@1.1.2)(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5)))(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5)))(moment-timezone@0.5.45)(moment@2.30.1):
+  ember-power-calendar-moment@1.0.4(@glint/template@1.5.2)(ember-power-calendar@1.8.0(@babel/core@7.27.1)(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glimmer/component@2.0.0)(@glint/environment-ember-loose@1.5.0(@glimmer/component@2.0.0)(@glint/template@1.5.2)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.2(@babel/core@7.27.1)))(@glint/template@1.5.2)(ember-concurrency@4.0.2(@babel/core@7.27.1)(@glimmer/tracking@1.1.2)(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5)))(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5)))(moment-timezone@0.5.45)(moment@2.30.1):
     dependencies:
       '@embroider/addon-shim': 1.10.0
       '@embroider/macros': 1.19.2(@glint/template@1.5.2)
-      ember-power-calendar: 1.8.0(@babel/core@7.27.1)(@ember/test-helpers@5.2.2(@babel/core@7.27.1)(@glint/template@1.5.2))(@glimmer/component@2.0.0)(@glint/environment-ember-loose@1.5.0(@glimmer/component@2.0.0)(@glint/template@1.5.2)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.2(@babel/core@7.27.1)))(@glint/template@1.5.2)(ember-concurrency@4.0.2(@babel/core@7.27.1)(@glimmer/tracking@1.1.2)(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5)))(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
+      ember-power-calendar: 1.8.0(@babel/core@7.27.1)(@ember/test-helpers@5.4.1(@babel/core@7.27.1)(@glint/template@1.5.2))(@glimmer/component@2.0.0)(@glint/environment-ember-loose@1.5.0(@glimmer/component@2.0.0)(@glint/template@1.5.2)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.2(@babel/core@7.27.1)))(@glint/template@1.5.2)(ember-concurrency@4.0.2(@babel/core@7.27.1)(@glimmer/tracking@1.1.2)(@glint/template@1.5.2)(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5)))(ember-source@6.4.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
     optionalDependencies:
       moment: 2.30.1
       moment-timezone: 0.5.45
@@ -32764,21 +32765,21 @@ snapshots:
   postcss-load-config@3.1.4(postcss@8.5.3):
     dependencies:
       lilconfig: 2.1.0
-      yaml: 1.10.2
+      yaml: 1.10.3
     optionalDependencies:
       postcss: 8.5.3
 
   postcss-load-config@3.1.4(postcss@8.5.6):
     dependencies:
       lilconfig: 2.1.0
-      yaml: 1.10.2
+      yaml: 1.10.3
     optionalDependencies:
       postcss: 8.5.6
 
   postcss-load-config@4.0.2(postcss@8.5.3):
     dependencies:
       lilconfig: 3.1.3
-      yaml: 2.7.0
+      yaml: 2.8.3
     optionalDependencies:
       postcss: 8.5.3
 
@@ -36112,7 +36113,7 @@ snapshots:
       '@types/unist': 3.0.3
       vfile-message: 4.0.2
 
-  vite@7.1.12(@types/node@24.9.0)(jiti@2.6.1)(less@4.2.0)(sass-embedded@1.89.0)(sass@1.89.0)(stylus@0.62.0)(terser@5.44.0)(yaml@2.8.0):
+  vite@7.1.12(@types/node@24.9.0)(jiti@2.6.1)(less@4.2.0)(sass-embedded@1.89.0)(sass@1.89.0)(stylus@0.62.0)(terser@5.44.0)(yaml@2.8.3):
     dependencies:
       esbuild: 0.25.11
       fdir: 6.5.0(picomatch@4.0.3)
@@ -36129,7 +36130,7 @@ snapshots:
       sass-embedded: 1.89.0
       stylus: 0.62.0
       terser: 5.44.0
-      yaml: 2.8.0
+      yaml: 2.8.3
 
   vm-browserify@1.1.2: {}
 
@@ -36526,11 +36527,11 @@ snapshots:
       fs-extra: 4.0.3
       lodash.merge: 4.6.2
 
-  yaml@1.10.2: {}
-
-  yaml@2.7.0: {}
+  yaml@1.10.3: {}
 
   yaml@2.8.0: {}
+
+  yaml@2.8.3: {}
 
   yargs-parser@20.2.9: {}
 

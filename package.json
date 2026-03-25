@@ -27,7 +27,7 @@
     "@glint/core": "^1.5.2",
     "concurrently": "^9.1.2",
     "release-plan": "^0.16.0",
-    "yaml": "^2.7.0"
+    "yaml": "^2.8.3"
   },
   "pnpm": {
     "overrides": {
