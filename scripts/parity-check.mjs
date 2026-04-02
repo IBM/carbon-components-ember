@@ -19,7 +19,10 @@ import { execSync } from 'child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const ROOT_DIR = path.resolve(__dirname, '..');
+
+// Support running from a different repo (standalone mode)
+const TARGET_REPO_PATH = process.env.TARGET_REPO_PATH || path.resolve(__dirname, '..');
+const ROOT_DIR = TARGET_REPO_PATH;
 
 const PARITY_DATA_FILE = path.join(ROOT_DIR, '.parity-check-data.json');
 const GITHUB_LABEL = 'parity-check';
