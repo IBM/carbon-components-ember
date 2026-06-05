@@ -44,7 +44,7 @@ export default class CarbonChartTabularData extends Component<Args> {
     chart: null as any,
     data: [],
     backgroundColors: undefined,
-  } as any;
+  };
   private oldGroup?: string;
   defaultColor?: string[];
 

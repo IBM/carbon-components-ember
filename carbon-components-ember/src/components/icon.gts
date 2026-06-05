@@ -24,7 +24,7 @@ export type IconType = {
   size: number;
 };
 
-const IconMap: Record<string, IconType> = {} as Record<string, IconType>
+const IconMap: Record<string, IconType> = {};
 
 export function registerIcon(name: string, icon: IconType) {
   IconMap[name] = icon;

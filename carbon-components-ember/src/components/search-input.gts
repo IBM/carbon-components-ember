@@ -79,7 +79,7 @@ export default class SearchComponent extends Component<SearchComponentSignature>
         if (target?.shadowRoot) {
           target = target.shadowRoot.elementFromPoint(event.x, event.y);
         }
-        if (element.contains(target as HTMLDivElement)) return;
+        if (element.contains(target)) return;
         if (this.value) return;
         this.isActive = false;
         document.removeEventListener('mousedown', listener);
