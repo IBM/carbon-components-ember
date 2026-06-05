@@ -3,27 +3,27 @@ packages:
   - test-app
   - docs-app
 allowBuilds:
-  '@carbon/charts': set this to true or false
-  '@carbon/colors': set this to true or false
-  '@carbon/feature-flags': set this to true or false
-  '@carbon/grid': set this to true or false
-  '@carbon/icon-helpers': set this to true or false
-  '@carbon/icons': set this to true or false
-  '@carbon/layout': set this to true or false
-  '@carbon/motion': set this to true or false
-  '@carbon/styles': set this to true or false
-  '@carbon/themes': set this to true or false
-  '@carbon/type': set this to true or false
-  '@carbon/utils-position': set this to true or false
-  '@ibm/plex-mono': set this to true or false
-  '@ibm/plex-sans': set this to true or false
-  '@ibm/plex-sans-arabic': set this to true or false
-  '@ibm/plex-sans-devanagari': set this to true or false
-  '@ibm/plex-sans-thai-looped': set this to true or false
-  '@ibm/plex-serif': set this to true or false
-  '@parcel/watcher': set this to true or false
-  core-js: set this to true or false
-  esbuild: set this to true or false
-  fsevents: set this to true or false
-  puppeteer-chromium-resolver: set this to true or false
-  unrs-resolver: set this to true or false
+  '@carbon/charts': true
+  '@carbon/colors': true
+  '@carbon/feature-flags': true
+  '@carbon/grid': true
+  '@carbon/icon-helpers': true
+  '@carbon/icons': true
+  '@carbon/layout': true
+  '@carbon/motion': true
+  '@carbon/styles': true
+  '@carbon/themes': true
+  '@carbon/type': true
+  '@carbon/utils-position': true
+  '@ibm/plex-mono': true
+  '@ibm/plex-sans': true
+  '@ibm/plex-sans-arabic': true
+  '@ibm/plex-sans-devanagari': true
+  '@ibm/plex-sans-thai-looped': true
+  '@ibm/plex-serif': true
+  '@parcel/watcher': true
+  core-js: true
+  esbuild: true
+  fsevents: true
+  puppeteer-chromium-resolver: true
+  unrs-resolver: true
