@@ -102,12 +102,8 @@ jobs:
           PR_NUMBER: '${{ github.event.issue.number }}'
           PR_BRANCH: '${{ github.head_ref }}'
           COMMENT_BODY: '${{ github.event.comment.body }}'
-          BOBSHELL_API_KEY_1: '${{ secrets.BOBSHELL_API_KEY_1 }}'
-          BOBSHELL_API_KEY_2: '${{ secrets.BOBSHELL_API_KEY_2 }}'
+          BOBSHELL_API_KEY: '${{ secrets.BOBSHELL_API_KEY }}'
         run: |
-          # shellcheck disable=SC2153
-          BOBSHELL_API_KEY=$(echo "${BOBSHELL_API_KEY_1}" "${BOBSHELL_API_KEY_2}" | xargs shuf -n1 -e)
-          export BOBSHELL_API_KEY
           # Extract the task from the comment (remove @bob-shell prefix)
           TASK=${COMMENT_BODY#@bob-shell }
 

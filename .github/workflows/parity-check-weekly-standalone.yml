@@ -1,0 +1,100 @@
+name: 'Weekly Parity Check (Standalone)'
+
+on:
+  schedule:
+    # Run every Monday at 9:00 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+    inputs:
+      target_repo:
+        description: 'Target repository (owner/repo)'
+        required: false
+        default: 'carbon-design-system/carbon-components-ember'
+      target_branch:
+        description: 'Target branch'
+        required: false
+        default: 'main'
+
+defaults:
+  run:
+    shell: 'bash'
+
+env:
+  TARGET_REPO: ${{ github.event.inputs.target_repo || 'carbon-design-system/carbon-components-ember' }}
+  TARGET_BRANCH: ${{ github.event.inputs.target_branch || 'main' }}
+
+jobs:
+  parity-check:
+    runs-on: 'ubuntu-latest'
+    permissions:
+      contents: 'write'
+      issues: 'write'
+      pull-requests: 'read'
+
+    steps:
+      - name: 'Checkout target repository'
+        uses: 'actions/checkout@v4'
+        with:
+          repository: ${{ env.TARGET_REPO }}
+          ref: ${{ env.TARGET_BRANCH }}
+          fetch-depth: 0
+          token: '${{ secrets.GITHUB_TOKEN }}'
+          path: 'target-repo'
+
+      - name: 'Checkout actions repository (for scripts)'
+        uses: 'actions/checkout@v4'
+        with:
+          path: 'actions-repo'
+
+      - name: 'Setup Node.js'
+        uses: 'actions/setup-node@v4'
+        with:
+          node-version: '20.x'
+
+      - name: 'Install script dependencies'
+        run: |
+          cd actions-repo/scripts
+          npm install @octokit/rest
+
+      - name: 'Run parity check'
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          GITHUB_REPOSITORY: '${{ env.TARGET_REPO }}'
+          CREATE_ISSUES: 'true'
+          TARGET_REPO_PATH: '${{ github.workspace }}/target-repo'
+        run: |
+          cd actions-repo/scripts
+          node parity-check.mjs
+
+      - name: 'Commit parity data to target repo'
+        run: |
+          cd target-repo
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Copy generated files from actions repo
+          if [[ -f ../actions-repo/.parity-check-data.json ]]; then
+            cp ../actions-repo/.parity-check-data.json .
+          fi
+          if [[ -f ../actions-repo/PARITY_REPORT.md ]]; then
+            cp ../actions-repo/PARITY_REPORT.md .
+          fi
+          
+          if [[ -f .parity-check-data.json ]]; then
+            git add .parity-check-data.json
+            git add PARITY_REPORT.md || true
+            
+            if git diff --staged --quiet; then
+              echo "No changes to commit"
+            else
+              git commit -m "chore: update parity check data [skip ci]"
+              git push
+            fi
+          fi
+
+      - name: 'Upload parity report'
+        uses: 'actions/upload-artifact@v4'
+        with:
+          name: 'parity-report'
+          path: 'target-repo/PARITY_REPORT.md'
+          retention-days: 90

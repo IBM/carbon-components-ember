@@ -1,14 +1,27 @@
-name: 'Daily Parity Fix'
+name: 'Daily Parity Fix (Standalone)'
 
 on:
   schedule:
     # Run every day at 10:00 AM UTC
     - cron: '0 10 * * *'
-  workflow_dispatch: # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      target_repo:
+        description: 'Target repository (owner/repo)'
+        required: false
+        default: 'carbon-design-system/carbon-components-ember'
+      target_branch:
+        description: 'Target branch'
+        required: false
+        default: 'main'
 
 defaults:
   run:
     shell: 'bash'
+
+env:
+  TARGET_REPO: ${{ github.event.inputs.target_repo || 'carbon-design-system/carbon-components-ember' }}
+  TARGET_BRANCH: ${{ github.event.inputs.target_branch || 'main' }}
 
 jobs:
   fix-parity-issues:
@@ -19,17 +32,24 @@ jobs:
       pull-requests: 'write'
 
     steps:
-      - name: 'Checkout repository'
+      - name: 'Checkout target repository'
         uses: 'actions/checkout@v4'
         with:
+          repository: ${{ env.TARGET_REPO }}
+          ref: ${{ env.TARGET_BRANCH }}
           fetch-depth: 0
-          token: '${{ secrets.GITHUB_TOKEN }}'
+          token: '${{ secrets.PAT || secrets.GITHUB_TOKEN }}'
+          path: 'target-repo'
+
+      - name: 'Checkout actions repository (for scripts)'
+        uses: 'actions/checkout@v4'
+        with:
+          path: 'actions-repo'
 
       - name: 'Setup Node.js'
         uses: 'actions/setup-node@v4'
         with:
           node-version: '20.x'
-          cache: 'npm'
 
       - name: 'Setup Python'
         uses: 'actions/setup-python@v5'
@@ -42,8 +62,9 @@ jobs:
           npx playwright install chromium
           npx playwright install-deps chromium
 
-      - name: 'Install project dependencies'
+      - name: 'Install target repo dependencies'
         run: |
+          cd target-repo
           npm ci || echo "npm ci failed, continuing..."
 
       - name: 'Install Bob Shell'
@@ -77,6 +98,7 @@ jobs:
 
       - name: 'Configure Git'
         run: |
+          cd target-repo
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
@@ -84,11 +106,10 @@ jobs:
         id: 'get-issues'
         env:
           GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-          GITHUB_REPOSITORY: '${{ github.repository }}'
         run: |
           # Get up to 3 open issues with parity-check label
           ISSUES=$(gh issue list \
-            --repo "$GITHUB_REPOSITORY" \
+            --repo "${{ env.TARGET_REPO }}" \
             --label "parity-check" \
             --state open \
             --limit 3 \
@@ -109,9 +130,10 @@ jobs:
         if: steps.get-issues.outputs.issue_count > 0
         env:
           GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-          GITHUB_REPOSITORY: '${{ github.repository }}'
           BOBSHELL_API_KEY: '${{ secrets.BOBSHELL_API_KEY }}'
         run: |
+          cd target-repo
+
           # Process each issue
           while IFS= read -r issue_json; do
             if [ -z "$issue_json" ]; then
@@ -174,7 +196,7 @@ jobs:
 ## Issue Details
 - Issue Number: #$ISSUE_NUMBER
 - Component: $COMPONENT_NAME
-- Repository: $GITHUB_REPOSITORY
+- Repository: ${{ env.TARGET_REPO }}
 
 ## Resources
 - React Implementation: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/$COMPONENT_NAME
@@ -234,7 +256,7 @@ Make sure any implementation matches the Carbon Design System specifications."
 
             # Add a comment to the issue
             gh issue comment "$ISSUE_NUMBER" \
-              --repo "$GITHUB_REPOSITORY" \
+              --repo "${{ env.TARGET_REPO }}" \
               --body "🤖 Automated parity check completed. Review the changes and any PRs created." || true
 
             echo "Completed processing issue #$ISSUE_NUMBER"
@@ -244,6 +266,7 @@ Make sure any implementation matches the Carbon Design System specifications."
 
       - name: 'Push any changes'
         run: |
+          cd target-repo
           if git diff --quiet && git diff --staged --quiet; then
             echo "No changes to commit"
           else
