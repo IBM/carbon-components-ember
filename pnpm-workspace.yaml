@@ -15,10 +15,13 @@ allowBuilds:
   '@carbon/themes': true
   '@carbon/type': true
   '@carbon/utils-position': true
+  '@ibm/plex': true
   '@ibm/plex-mono': true
   '@ibm/plex-sans': true
   '@ibm/plex-sans-arabic': true
   '@ibm/plex-sans-devanagari': true
+  '@ibm/plex-sans-hebrew': true
+  '@ibm/plex-sans-thai': true
   '@ibm/plex-sans-thai-looped': true
   '@ibm/plex-serif': true
   '@parcel/watcher': true

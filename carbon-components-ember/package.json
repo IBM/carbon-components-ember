@@ -128,7 +128,7 @@
     "@types/qunit-dom": "^0.7.0",
     "@typescript-eslint/eslint-plugin": "^8.32.1",
     "@typescript-eslint/parser": "^8.32.1",
-    "babel-plugin-ember-template-compilation": "^2.2.5",
+    "babel-plugin-ember-template-compilation": "^4.0.0",
     "bower": "^1.8.8",
     "broccoli": "^3.4.2",
     "broccoli-asset-rev": "^3.0.0",

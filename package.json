@@ -34,6 +34,7 @@
     "@glint/template": "1.5.2",
     "@glimmer/validator": "-",
     "ember-composable-helpers": "-",
-    "babel-plugin-ember-template-compilation": "^2.2.5"
+    "babel-plugin-ember-template-compilation": "4.0.0",
+    "broccoli-babel-transpiler": "^8.0.2"
   }
 }
