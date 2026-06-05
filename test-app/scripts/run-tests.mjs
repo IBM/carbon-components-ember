@@ -6,7 +6,7 @@ const __root = process.cwd();
 
 async function run() {
   const { puppeteer, executablePath } = await PCR({
-    revision: 1466950
+    revision: 1642292
   });
   console.log('[ci] starting');
 
