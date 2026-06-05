@@ -62,9 +62,29 @@ function createIndexFiles() {
 function createIconIndex() {
   const iconsIndex = path.resolve('./node_modules/@carbon/icons/es/index.js');
   const content = fs.readFileSync(iconsIndex).toString();
-  let tsContent = content.replaceAll(/'\.\//g, '\'@carbon/icons/es/');
-  const matches = tsContent.matchAll(/ as ([^ ]+) } from '([^']+)'/g);
-  const matchList = [...matches];
+
+  // Step 1: parse all import lines → varName → relative path (without .js)
+  const varToPath = {};
+  for (const m of content.matchAll(/^import (\S+) from "\.\/([^"]+)";$/gm)) {
+    varToPath[m[1]] = m[2].replace('.js', '');
+  }
+
+  // Step 2: parse export block → varName → export name
+  // The export block is a single line: export { var1 as Name1, var2 as Name2, ... }
+  const varToExport = {};
+  for (const m of content.matchAll(/\b(\S+?) as ([A-Za-z]\w*)/g)) {
+    varToExport[m[1]] = m[2];
+  }
+
+  // Step 3: build matchList as [exportName, '@carbon/icons/es/path/size']
+  const matchList = [];
+  for (const [varName, exportName] of Object.entries(varToExport)) {
+    const iconPath = varToPath[varName];
+    if (iconPath) {
+      matchList.push([exportName, '@carbon/icons/es/' + iconPath]);
+    }
+  }
+
   let typesContent = `
 type Icon = {
   name: IconNames;
@@ -77,17 +97,14 @@ type Icon = {
   size: number;
 };
   `;
-  const icons = {}
-  const iconNames = {
-
-  }
-  for (const regExpExecArray of matchList) {
-    const path = regExpExecArray[2].replace('.js', '');
-    const size = path.split('/').at(-1);
-    const commonPath = path.split('/').slice(0, -1).join('/');
+  const icons = {};
+  const iconNames = {};
+  for (const [exportName, fullPath] of matchList) {
+    const size = fullPath.split('/').at(-1);
+    const commonPath = fullPath.split('/').slice(0, -1).join('/');
     icons[commonPath] = icons[commonPath] || [];
     icons[commonPath].push(size);
-    iconNames[commonPath] = regExpExecArray[1].replace(size, '').replace('Glyph', '');
+    iconNames[commonPath] = exportName.replace(size, '').replace('Glyph', '');
   }
   fs.mkdirSync('./src/components/icons', { recursive: true });
   for (const [icon, sizes] of Object.entries(icons)) {
@@ -110,10 +127,9 @@ export default class ${iconNames[icon]} extends Icon {
     let dashed = iconNames[icon].replace(/[A-Z]/g, m => "-" + m.toLowerCase()).replace(/^-/, '');
     fs.writeFileSync(`./src/components/icons/${dashed}.ts`, content);
   }
-  for (const regExpExecArray of matchList) {
-    const m = regExpExecArray[2].replace('.js', '');
+  for (const [, fullPath] of matchList) {
     typesContent += '\n';
-    typesContent += `declare module '${m}' { export default {} as Icon };\n`;
+    typesContent += `declare module '${fullPath}' { export default {} as Icon };\n`;
   }
   fs.writeFileSync('./types/carbon-icons.d.ts', typesContent);
 }

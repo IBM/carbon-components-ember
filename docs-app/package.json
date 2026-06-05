@@ -21,7 +21,7 @@
     "lint:prettier:fix": "pnpm -w exec lint prettier:fix",
     "lint:prettier": "pnpm -w exec lint prettier",
     "lint:types": "glint",
-    "start": "pnpm vite",
+    "start": "pnpm vite --force",
     "test": "vite build --mode test && ember test --path dist",
     "test:ember": "vite build --mode test && ember test --path dist"
   },
