@@ -80,9 +80,6 @@ export default defineConfig((/* { mode } */) => {
         "ember-primitives",
         "ember-source",
       ],
-      'alias': {
-        '@ember/render-modifiers/modifiers/did-insert': resolve('./node_modules/@ember/render-modifiers/addon/modifiers/did-insert.js'),
-      }
     },
     plugins: [
       classicEmberSupport(),
