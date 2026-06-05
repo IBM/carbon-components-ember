@@ -247,6 +247,7 @@ Your task:
 6. If we don't have it, document what would be needed to implement it
 7. Update issue #$ISSUE_NUMBER with your findings
 8. If you made fixes, commit them and create a PR linked to the issue
+9. If you created a PR, add the 'preview' label to it using -> gh pr edit <number> --add-label 'preview'
 
 Use the screenshot as a visual reference for how the component should look.
 Make sure any implementation matches the Carbon Design System specifications."
