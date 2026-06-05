@@ -78,7 +78,7 @@
     {
       "border": "0px none rgb(15, 98, 254)",
       "color": "rgb(15, 98, 254)",
-      "display": "flex",
+      "display": "block",
       "font": "",
       "height": "18px",
       "outline": "rgb(15, 98, 254) none 0px",
@@ -91,7 +91,6 @@
     {
       "border": "0px none rgb(15, 98, 254)",
       "color": "rgb(15, 98, 254)",
-      "display": "block",
       "font": "",
       "outline": "rgb(15, 98, 254) none 0px"
     }
@@ -101,7 +100,6 @@
     {
       "border": "0px none rgb(15, 98, 254)",
       "color": "rgb(15, 98, 254)",
-      "display": "block",
       "font": "",
       "outline": "rgb(15, 98, 254) none 0px"
     }
@@ -154,7 +152,7 @@
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
       "cursor": "auto",
-      "display": "flex",
+      "display": "block",
       "font": "",
       "height": "18px",
       "outline": "rgb(22, 22, 22) none 0px",
@@ -168,7 +166,6 @@
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
       "cursor": "auto",
-      "display": "block",
       "font": "",
       "outline": "rgb(22, 22, 22) none 0px"
     }
@@ -179,7 +176,6 @@
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
       "cursor": "auto",
-      "display": "block",
       "font": "",
       "outline": "rgb(22, 22, 22) none 0px"
     }
@@ -230,7 +226,7 @@
     {
       "border": "0px none rgb(15, 98, 254)",
       "color": "rgb(15, 98, 254)",
-      "display": "flex",
+      "display": "block",
       "font": "",
       "height": "18px",
       "outline": "rgb(15, 98, 254) none 0px",
@@ -243,7 +239,6 @@
     {
       "border": "0px none rgb(15, 98, 254)",
       "color": "rgb(15, 98, 254)",
-      "display": "block",
       "font": "",
       "outline": "rgb(15, 98, 254) none 0px"
     }
@@ -253,7 +248,6 @@
     {
       "border": "0px none rgb(15, 98, 254)",
       "color": "rgb(15, 98, 254)",
-      "display": "block",
       "font": "",
       "outline": "rgb(15, 98, 254) none 0px"
     }
