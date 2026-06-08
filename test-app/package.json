@@ -99,7 +99,7 @@
     "loader.js": "^4.7.0",
     "prettier": "^3.3.2",
     "prettier-plugin-ember-template-tag": "^2.1.0",
-    "puppeteer-chromium-resolver": "^24.0.1",
+    "playwright-chromium": "^1.50.0",
     "qunit": "^2.24.1",
     "qunit-dom": "^3.4.0",
     "stylelint": "^16.19.1",

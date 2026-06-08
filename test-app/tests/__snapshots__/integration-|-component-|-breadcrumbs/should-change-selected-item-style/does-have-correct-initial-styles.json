@@ -5,7 +5,7 @@
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
       "cursor": "auto",
-      "outline": "rgb(22, 22, 22) none 0px"
+      "outline": "rgb(22, 22, 22) none 3px"
     }
   ],
   [
@@ -14,7 +14,7 @@
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
       "cursor": "auto",
-      "outline": "rgb(22, 22, 22) none 0px"
+      "outline": "rgb(22, 22, 22) none 3px"
     }
   ],
   [
@@ -23,7 +23,7 @@
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
       "cursor": "auto",
-      "outline": "rgb(22, 22, 22) none 0px"
+      "outline": "rgb(22, 22, 22) none 3px"
     }
   ]
 ]

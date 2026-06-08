@@ -13,7 +13,7 @@
       "height": "40px",
       "inset": "0px",
       "left": "0px",
-      "outline": "rgb(255, 255, 255) none 0px",
+      "outline": "rgb(255, 255, 255) none 3px",
       "padding": "9.99996px 63px 9.99996px 15px",
       "position": "relative",
       "right": "0px",
@@ -30,7 +30,7 @@
       "cursor": "pointer",
       "display": "block",
       "font": "14px / 18.0001px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
-      "outline": "rgb(255, 255, 255) none 0px"
+      "outline": "rgb(255, 255, 255) none 3px"
     }
   ],
   [
@@ -41,7 +41,7 @@
       "cursor": "pointer",
       "display": "block",
       "font": "14px / 18.0001px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
-      "outline": "rgb(255, 255, 255) none 0px"
+      "outline": "rgb(255, 255, 255) none 3px"
     }
   ]
 ]

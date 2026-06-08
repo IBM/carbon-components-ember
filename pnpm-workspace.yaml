@@ -28,5 +28,6 @@ allowBuilds:
   core-js: true
   esbuild: true
   fsevents: true
-  puppeteer-chromium-resolver: true
+  playwright-chromium: true
+  puppeteer-chromium-resolver: set this to true or false
   unrs-resolver: true
