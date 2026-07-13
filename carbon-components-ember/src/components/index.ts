@@ -1,6 +1,8 @@
 export { default as Accordion } from './accordion.gts'
+export { default as AspectRatio } from './aspect-ratio.gts'
 export { default as Breadcrumbs } from './breadcrumbs.gts'
 export { default as Button } from './button.gts'
+export { default as ButtonSet } from './button-set.gts'
 export { default as Checkbox } from './checkbox.gts'
 export { default as CodeSnippet } from './code-snippet.gts'
 export { default as CopyButton } from './copy-button.gts'

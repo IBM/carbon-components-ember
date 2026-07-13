@@ -209,7 +209,9 @@
     "main": "addon-main.cjs",
     "app-js": {
       "./components/carbon/accordion.js": "./dist/_app_/components/carbon/accordion.js",
+      "./components/carbon/aspect-ratio.js": "./dist/_app_/components/carbon/aspect-ratio.js",
       "./components/carbon/breadcrumbs.js": "./dist/_app_/components/carbon/breadcrumbs.js",
+      "./components/carbon/button-set.js": "./dist/_app_/components/carbon/button-set.js",
       "./components/carbon/button.js": "./dist/_app_/components/carbon/button.js",
       "./components/carbon/charts/-components/axis.js": "./dist/_app_/components/carbon/charts/-components/axis.js",
       "./components/carbon/charts/-components/chart.js": "./dist/_app_/components/carbon/charts/-components/chart.js",
