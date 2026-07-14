@@ -25,3 +25,4 @@ docs-app/node_modules
 scripts/node_modules
 !.gitconfig
 !.release-plan.json
+!.parity-check-data.json

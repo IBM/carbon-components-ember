@@ -8,16 +8,30 @@ set -euo pipefail
 ISSUE_NUMBER="${1:-}"
 
 if [ -z "$ISSUE_NUMBER" ]; then
-  echo "Usage: ./scripts/fix-parity-issue.sh <issue_number>"
+  echo "No issue number provided. Fetching a random parity-check issue..."
+  
+  # Check for required tools
+  command -v gh >/dev/null 2>&1 || { echo "Error: GitHub CLI (gh) is required but not installed."; exit 1; }
+  
+  # Get all open issues with parity-check label
+  PARITY_ISSUES=$(gh issue list --label "parity-check" --state open --json number --jq '.[].number')
+  
+  if [ -z "$PARITY_ISSUES" ]; then
+    echo "Error: No open issues found with label 'parity-check'"
+    echo ""
+    echo "Usage: ./scripts/fix-parity-issue.sh [issue_number]"
+    echo ""
+    echo "Example: ./scripts/fix-parity-issue.sh 123"
+    echo ""
+    echo "If no issue number is provided, a random issue with label 'parity-check' will be selected."
+    exit 1
+  fi
+  
+  # Select a random issue from the list
+  ISSUE_NUMBER=$(echo "$PARITY_ISSUES" | shuf -n 1)
+  
+  echo "Selected random issue: #$ISSUE_NUMBER"
   echo ""
-  echo "Example: ./scripts/fix-parity-issue.sh 123"
-  echo ""
-  echo "This will:"
-  echo "  1. Fetch issue details from GitHub"
-  echo "  2. Take screenshot of React Storybook"
-  echo "  3. Generate context file"
-  echo "  4. Run Bob Shell to investigate and fix"
-  exit 1
 fi
 
 # Check for required tools
