@@ -1,7 +1,7 @@
-const { fork, execSync } = require("node:child_process");
-const { join } = require("node:path");
-const yaml = require("yaml");
-const fs = require("fs");
+import { execSync, fork } from 'node:child_process';
+import fs from 'fs';
+import yaml from 'yaml';
+import { join } from 'node:path';
 
 try {
   const out = execSync(
