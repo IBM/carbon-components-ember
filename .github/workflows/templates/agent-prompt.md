@@ -70,6 +70,14 @@ Implement or fix the {{COMPONENT_NAME}} component to achieve parity with Carbon 
    - Test all variants/props
    - Test edge cases
 
+
+5. **Add Documentation**
+   - Create or update docs in `docs-app/app/routes/components/{{COMPONENT_NAME_KEBAB}}.gts`
+   - Include usage examples
+   - Document all props/args
+   - Show common variants
+   - Reference Carbon Design System docs
+
 ### Phase 3: Validation (Required)
 
 1. **Build**
@@ -115,6 +123,7 @@ Your implementation is complete when ALL of these are true:
 - [ ] Component file created/updated in correct location
 - [ ] Component exported in `index.ts`
 - [ ] Tests created and cover main functionality
+- [ ] Documentation added in `docs-app/app/routes/components/`
 - [ ] Build succeeds: `cd carbon-components-ember && pnpm build`
 - [ ] CSS classes use `cds--` prefix
 - [ ] API matches React component (args match props)

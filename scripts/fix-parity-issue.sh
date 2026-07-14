@@ -2,20 +2,20 @@
 set -euo pipefail
 
 # Local Parity Fix Script
-# This script helps fix parity issues locally using Bob Shell
+# This script helps fix parity issues locally using Agent
 # Usage: ./scripts/fix-parity-issue.sh [issue_number]
 
 ISSUE_NUMBER="${1:-}"
 
 if [ -z "$ISSUE_NUMBER" ]; then
   echo "No issue number provided. Fetching a random parity-check issue..."
-  
+
   # Check for required tools
   command -v gh >/dev/null 2>&1 || { echo "Error: GitHub CLI (gh) is required but not installed."; exit 1; }
-  
+
   # Get all open issues with parity-check label
   PARITY_ISSUES=$(gh issue list --label "parity-check" --state open --json number --jq '.[].number')
-  
+
   if [ -z "$PARITY_ISSUES" ]; then
     echo "Error: No open issues found with label 'parity-check'"
     echo ""
@@ -26,10 +26,10 @@ if [ -z "$ISSUE_NUMBER" ]; then
     echo "If no issue number is provided, a random issue with label 'parity-check' will be selected."
     exit 1
   fi
-  
+
   # Select a random issue from the list
   ISSUE_NUMBER=$(echo "$PARITY_ISSUES" | shuf -n 1)
-  
+
   echo "Selected random issue: #$ISSUE_NUMBER"
   echo ""
 fi
@@ -37,7 +37,6 @@ fi
 # Check for required tools
 command -v gh >/dev/null 2>&1 || { echo "Error: GitHub CLI (gh) is required but not installed."; exit 1; }
 command -v node >/dev/null 2>&1 || { echo "Error: Node.js is required but not installed."; exit 1; }
-command -v bob >/dev/null 2>&1 || { echo "Error: Bob Shell is required but not installed."; exit 1; }
 
 # Check for Playwright
 if ! node -e "require('playwright')" 2>/dev/null; then
@@ -125,11 +124,11 @@ EOF
 
 echo "Context file created: $CONTEXT_FILE"
 echo ""
-echo "Starting Bob Shell..."
+echo "Starting Agent..."
 echo "---"
 
-# Run Bob Shell with structured prompt from template
-PROMPT_TEMPLATE=".github/workflows/templates/bob-shell-prompt.md"
+
+PROMPT_TEMPLATE=".github/workflows/templates/agent-prompt.md"
 
 if [ -f "$PROMPT_TEMPLATE" ]; then
   # Use template and replace variables
@@ -139,17 +138,17 @@ if [ -f "$PROMPT_TEMPLATE" ]; then
     sed "s/{{COMPONENT_NAME_KEBAB}}/$(echo $COMPONENT_NAME | sed 's/\([A-Z]\)/-\1/g' | sed 's/^-//' | tr '[:upper:]' '[:lower:]')/g" | \
     sed "s/{{ISSUE_NUMBER}}/$ISSUE_NUMBER/g" | \
     sed "s|{{GITHUB_REPOSITORY}}|$(gh repo view --json nameWithOwner -q .nameWithOwner)|g")
-  
-  echo "$PROMPT" | bob --yolo
+
+  echo "$PROMPT" | claude --dangerously-skip-permissions
 else
   # Fallback to simple prompt
-  bob --yolo -p "Investigate and fix parity issues for the $COMPONENT_NAME component.
+  claude --dangerously-skip-permissions -p "Investigate and fix parity issues for the $COMPONENT_NAME component.
 
 Context file: @$CONTEXT_FILE
 Screenshot: @/tmp/screenshots/${COMPONENT_NAME}-react.png
 
 Follow the instructions in AGENTS.md for component implementation patterns.
-Use the structured approach from the Bob Shell prompt template if available.
+Use the structured approach from the agent prompt template if available.
 
 Your task:
 1. Read the context file and review the component requirements
@@ -167,7 +166,7 @@ fi
 
 echo ""
 echo "---"
-echo "Bob Shell execution completed!"
+echo "Agent execution completed!"
 echo ""
 echo "Next steps:"
 echo "  - Review any changes made"
