@@ -86,9 +86,11 @@ Use `{{on}}` modifier instead of React's event props:
 
 ### 5. Dynamic Element Types
 
-Use the native `element` helper (no import needed):
+Use the `element` helper from `ember-element-helper`:
 
 ```typescript
+import { element } from 'ember-element-helper';
+
 <template>
   {{#let (element this.elementType) as |Tag|}}
     <Tag class="my-class">{{yield}}</Tag>
@@ -96,7 +98,7 @@ Use the native `element` helper (no import needed):
 </template>
 ```
 
-**Important**: `element` is a built-in Ember helper. Do NOT try to import it.
+**Important**: `element` requires the `ember-element-helper` package. It is already installed in this project.
 
 ## Real Implementation Examples
 
@@ -170,20 +172,26 @@ export default class ButtonSet extends Component<ButtonSetSignature> {
 
 ## Common Pitfalls and Solutions
 
-### ❌ Pitfall 1: Trying to Import `element`
+### ❌ Pitfall 1: Forgetting to Import `element`
 
 ```typescript
-// ❌ Wrong - will cause build error
-import { element } from 'ember-element-helper';
-```
-
-**Solution**: Use it directly (it's built-in):
-
-```typescript
-// ✅ Correct
+// ❌ Wrong - element is not built-in
 {{#let (element "div") as |Tag|}}
   <Tag>Content</Tag>
 {{/let}}
+```
+
+**Solution**: Import from `ember-element-helper`:
+
+```typescript
+// ✅ Correct
+import { element } from 'ember-element-helper';
+
+<template>
+  {{#let (element "div") as |Tag|}}
+    <Tag>Content</Tag>
+  {{/let}}
+</template>
 ```
 
 ### ❌ Pitfall 2: Overcomplicating React Patterns
