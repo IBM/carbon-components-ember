@@ -81,6 +81,7 @@
     "ember-cli-moment-shim": "^3.8.0",
     "ember-cli-sass": "^11.0.1",
     "ember-concurrency": "^4.0.2",
+    "ember-element-helper": "^0.8.8",
     "ember-get-config": "^2.1.1",
     "ember-in-element-polyfill": "^1.0.1",
     "ember-lifeline": "^7.0.0",
@@ -209,7 +210,9 @@
     "main": "addon-main.cjs",
     "app-js": {
       "./components/carbon/accordion.js": "./dist/_app_/components/carbon/accordion.js",
+      "./components/carbon/aspect-ratio.js": "./dist/_app_/components/carbon/aspect-ratio.js",
       "./components/carbon/breadcrumbs.js": "./dist/_app_/components/carbon/breadcrumbs.js",
+      "./components/carbon/button-set.js": "./dist/_app_/components/carbon/button-set.js",
       "./components/carbon/button.js": "./dist/_app_/components/carbon/button.js",
       "./components/carbon/charts/-components/axis.js": "./dist/_app_/components/carbon/charts/-components/axis.js",
       "./components/carbon/charts/-components/chart.js": "./dist/_app_/components/carbon/charts/-components/chart.js",

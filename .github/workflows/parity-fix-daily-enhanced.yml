@@ -1,0 +1,376 @@
+name: 'Daily Parity Fix (Enhanced)'
+
+on:
+  schedule:
+    # Run every day at 10:00 AM UTC
+    - cron: '0 10 * * *'
+  workflow_dispatch:
+    inputs:
+      max_issues:
+        description: 'Maximum number of issues to process'
+        required: false
+        default: '3'
+      parallel:
+        description: 'Process issues in parallel'
+        required: false
+        default: 'false'
+
+defaults:
+  run:
+    shell: 'bash'
+
+jobs:
+  prepare:
+    runs-on: 'ubuntu-latest'
+    outputs:
+      issues: ${{ steps.get-issues.outputs.issues }}
+      issue_count: ${{ steps.get-issues.outputs.issue_count }}
+    
+    steps:
+      - name: 'Setup GitHub CLI'
+        env:
+          GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+        run: |
+          echo "$GH_TOKEN" | gh auth login --with-token
+
+      - name: 'Get parity-check issues'
+        id: 'get-issues'
+        env:
+          GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          GITHUB_REPOSITORY: '${{ github.repository }}'
+          MAX_ISSUES: '${{ github.event.inputs.max_issues || 3 }}'
+        run: |
+          # Get open issues with parity-check label
+          ISSUES=$(gh issue list \
+            --repo "$GITHUB_REPOSITORY" \
+            --label "parity-check" \
+            --state open \
+            --limit "$MAX_ISSUES" \
+            --json number,title,body \
+            --jq '.[] | @json')
+
+          echo "Found issues:"
+          echo "$ISSUES"
+
+          # Count issues
+          ISSUE_COUNT=$(echo "$ISSUES" | wc -l | tr -d ' ')
+          
+          # Convert to JSON array for matrix
+          ISSUES_JSON=$(echo "$ISSUES" | jq -s '.')
+          
+          echo "issue_count=$ISSUE_COUNT" >> $GITHUB_OUTPUT
+          echo "issues=$ISSUES_JSON" >> $GITHUB_OUTPUT
+
+  fix-component:
+    needs: prepare
+    if: needs.prepare.outputs.issue_count > 0
+    runs-on: 'ubuntu-latest'
+    permissions:
+      contents: 'write'
+      issues: 'write'
+      pull-requests: 'write'
+    
+    strategy:
+      fail-fast: false
+      max-parallel: ${{ github.event.inputs.parallel == 'true' && 3 || 1 }}
+      matrix:
+        issue: ${{ fromJson(needs.prepare.outputs.issues) }}
+    
+    steps:
+      - name: 'Checkout repository'
+        uses: 'actions/checkout@v4'
+        with:
+          fetch-depth: 0
+          token: '${{ secrets.GITHUB_TOKEN }}'
+
+      - name: 'Setup Node.js'
+        uses: 'actions/setup-node@v4'
+        with:
+          node-version: '20.x'
+
+      - name: 'Setup pnpm'
+        uses: 'pnpm/action-setup@v4'
+        with:
+          version: 8
+
+      - name: 'Setup Python'
+        uses: 'actions/setup-python@v5'
+        with:
+          python-version: '3.x'
+
+      - name: 'Install Playwright'
+        run: |
+          npm install -g playwright
+          npx playwright install chromium
+          npx playwright install-deps chromium
+
+      - name: 'Install project dependencies'
+        run: |
+          pnpm install
+
+      - name: 'Install Bob Shell'
+        id: 'install'
+        shell: 'bash'
+        run: |-
+          set -euo pipefail
+
+          VERSION_INPUT="${BOBSHELL_VERSION:-latest}"
+
+          if [[ "${VERSION_INPUT}" == "latest" ]]; then
+            echo "Installing the latest version of Bob Shell."
+            version="$(curl https://s3.us-south.cloud-object-storage.appdomain.cloud/bob-shell/bobshell-version.txt)"
+            dl_url="https://s3.us-south.cloud-object-storage.appdomain.cloud/bob-shell/bobshell-${version}.tgz"
+          elif [[ "${VERSION_INPUT}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9\.-]+)?(\+[a-zA-Z0-9\.-]+)?$ ]]; then
+            dl_url="https://s3.us-south.cloud-object-storage.appdomain.cloud/bob-shell/bobshell-${VERSION_INPUT}.tgz"
+          fi
+
+          curl -o /tmp/bobshell.tgz -L "${dl_url}"
+          mkdir -p /tmp/bobshell-install
+          tar -xzf /tmp/bobshell.tgz -C /tmp/bobshell-install
+
+          echo "Verifying installation:"
+          node /tmp/bobshell-install/package/bundle/bob.js --version
+
+      - name: 'Setup GitHub CLI'
+        env:
+          GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+        run: |
+          echo "$GH_TOKEN" | gh auth login --with-token
+
+      - name: 'Configure Git'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: 'Setup Bob Shell MCP'
+        run: |
+          mkdir -p .bob
+          cat > .bob/settings.json << 'EOF'
+          {
+            "mcpServers": {
+              "ember-mcp": {
+                "command": "npx",
+                "args": ["-y", "ember-mcp"],
+                "cwd": "${workspaceFolder}",
+                "trust": false,
+                "timeout": 30000
+              }
+            },
+            "context": {
+              "fileName": ["AGENTS.md", "PARITY_CHECK.md"]
+            }
+          }
+          EOF
+
+      - name: 'Extract component info'
+        id: 'component-info'
+        env:
+          ISSUE_TITLE: '${{ matrix.issue.title }}'
+          ISSUE_NUMBER: '${{ matrix.issue.number }}'
+        run: |
+          # Extract component name from title
+          COMPONENT_NAME=$(echo "$ISSUE_TITLE" | sed -n 's/.*Investigate \(.*\) component.*/\1/p')
+          
+          if [ -z "$COMPONENT_NAME" ]; then
+            echo "Could not extract component name from: $ISSUE_TITLE"
+            exit 1
+          fi
+          
+          echo "component_name=$COMPONENT_NAME" >> $GITHUB_OUTPUT
+          echo "component_name_lower=$(echo $COMPONENT_NAME | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+          echo "component_name_kebab=$(echo $COMPONENT_NAME | sed 's/\([A-Z]\)/-\1/g' | sed 's/^-//' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+
+      - name: 'Take screenshot'
+        env:
+          COMPONENT_NAME: '${{ steps.component-info.outputs.component_name }}'
+          COMPONENT_NAME_LOWER: '${{ steps.component-info.outputs.component_name_lower }}'
+        run: |
+          mkdir -p /tmp/screenshots
+          
+          STORYBOOK_URL="https://react.carbondesignsystem.com/?path=/docs/components-${COMPONENT_NAME_LOWER}--overview"
+          
+          echo "Taking screenshot of: $STORYBOOK_URL"
+          
+          node -e "
+          const playwright = require('playwright');
+          (async () => {
+            const browser = await playwright.chromium.launch();
+            const context = await browser.newContext({
+              viewport: { width: 1280, height: 720 }
+            });
+            const page = await context.newPage();
+
+            try {
+              await page.goto('$STORYBOOK_URL', { waitUntil: 'networkidle', timeout: 30000 });
+              await page.waitForTimeout(2000);
+              await page.screenshot({
+                path: '/tmp/screenshots/${COMPONENT_NAME}-react.png',
+                fullPage: false
+              });
+              console.log('Screenshot saved successfully');
+            } catch (error) {
+              console.error('Error taking screenshot:', error.message);
+              process.exit(1);
+            }
+
+            await browser.close();
+          })();
+          " || echo "Screenshot failed, continuing without it..."
+
+      - name: 'Prepare context'
+        env:
+          ISSUE_NUMBER: '${{ matrix.issue.number }}'
+          ISSUE_BODY: '${{ matrix.issue.body }}'
+          COMPONENT_NAME: '${{ steps.component-info.outputs.component_name }}'
+          COMPONENT_NAME_LOWER: '${{ steps.component-info.outputs.component_name_lower }}'
+          GITHUB_REPOSITORY: '${{ github.repository }}'
+        run: |
+          CONTEXT_FILE="/tmp/component-context-${ISSUE_NUMBER}.md"
+          
+          cat > "$CONTEXT_FILE" <<EOF
+          # Component Parity Investigation: $COMPONENT_NAME
+
+          ## Issue Details
+          - Issue Number: #$ISSUE_NUMBER
+          - Component: $COMPONENT_NAME
+          - Repository: $GITHUB_REPOSITORY
+
+          ## Resources
+          - React Implementation: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/$COMPONENT_NAME
+          - Storybook: https://react.carbondesignsystem.com/?path=/docs/components-${COMPONENT_NAME_LOWER}--overview
+          - Carbon Design System: https://carbondesignsystem.com/
+
+          ## Investigation Tasks
+          $ISSUE_BODY
+
+          ## Screenshots
+          React Storybook screenshot: /tmp/screenshots/${COMPONENT_NAME}-react.png
+
+          ## Reference Documentation
+          - See AGENTS.md for component patterns and examples
+          - See PARITY_CHECK.md for parity workflow details
+          EOF
+
+      - name: 'Generate task prompt'
+        env:
+          ISSUE_NUMBER: '${{ matrix.issue.number }}'
+          COMPONENT_NAME: '${{ steps.component-info.outputs.component_name }}'
+          COMPONENT_NAME_LOWER: '${{ steps.component-info.outputs.component_name_lower }}'
+          COMPONENT_NAME_KEBAB: '${{ steps.component-info.outputs.component_name_kebab }}'
+          GITHUB_REPOSITORY: '${{ github.repository }}'
+        run: |
+          # Load template and replace variables
+          TEMPLATE=$(cat .github/workflows/templates/bob-shell-prompt.md)
+          
+          PROMPT=$(echo "$TEMPLATE" | \
+            sed "s/{{COMPONENT_NAME}}/$COMPONENT_NAME/g" | \
+            sed "s/{{COMPONENT_NAME_LOWER}}/$COMPONENT_NAME_LOWER/g" | \
+            sed "s/{{COMPONENT_NAME_KEBAB}}/$COMPONENT_NAME_KEBAB/g" | \
+            sed "s/{{ISSUE_NUMBER}}/$ISSUE_NUMBER/g" | \
+            sed "s|{{GITHUB_REPOSITORY}}|$GITHUB_REPOSITORY|g")
+          
+          echo "$PROMPT" > /tmp/task-prompt.md
+          
+          echo "Generated prompt:"
+          cat /tmp/task-prompt.md
+
+      - name: 'Run Bob Shell'
+        id: 'bob-shell'
+        continue-on-error: true
+        env:
+          BOBSHELL_API_KEY: '${{ secrets.BOBSHELL_API_KEY }}'
+          ISSUE_NUMBER: '${{ matrix.issue.number }}'
+        run: |
+          echo "Starting Bob Shell for issue #$ISSUE_NUMBER..."
+          
+          # Run with structured prompt
+          node /tmp/bobshell-install/package/bundle/bob.js \
+            --yolo \
+            -p "$(cat /tmp/task-prompt.md)" \
+            2>&1 | tee /tmp/bob-shell-output.log
+          
+          EXIT_CODE=${PIPESTATUS[0]}
+          echo "exit_code=$EXIT_CODE" >> $GITHUB_OUTPUT
+          
+          if [ $EXIT_CODE -eq 0 ]; then
+            echo "status=success" >> $GITHUB_OUTPUT
+          else
+            echo "status=failed" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 'Retry on failure'
+        if: steps.bob-shell.outputs.status == 'failed'
+        continue-on-error: true
+        env:
+          BOBSHELL_API_KEY: '${{ secrets.BOBSHELL_API_KEY }}'
+          ISSUE_NUMBER: '${{ matrix.issue.number }}'
+        run: |
+          echo "First attempt failed, retrying with simplified approach..."
+          
+          RETRY_PROMPT="Previous attempt failed. Review the error log and try a simpler approach:
+          
+          $(cat /tmp/task-prompt.md)
+          
+          Previous error log:
+          $(tail -100 /tmp/bob-shell-output.log)
+          
+          Focus on:
+          1. Creating a minimal working implementation
+          2. Ensuring build succeeds
+          3. Adding basic tests
+          4. Documenting any limitations"
+          
+          node /tmp/bobshell-install/package/bundle/bob.js \
+            --yolo \
+            -p "$RETRY_PROMPT"
+
+      - name: 'Comment on issue'
+        if: always()
+        env:
+          GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          GITHUB_REPOSITORY: '${{ github.repository }}'
+          ISSUE_NUMBER: '${{ matrix.issue.number }}'
+          STATUS: '${{ steps.bob-shell.outputs.status }}'
+        run: |
+          if [ "$STATUS" = "success" ]; then
+            COMMENT="🤖 **Automated parity check completed successfully**
+            
+            The component has been investigated and any necessary fixes have been implemented.
+            Please review the changes and any PRs that were created."
+          else
+            COMMENT="🤖 **Automated parity check completed with issues**
+            
+            The automated fix encountered some problems. Manual review may be needed.
+            Check the workflow logs for details."
+          fi
+          
+          gh issue comment "$ISSUE_NUMBER" \
+            --repo "$GITHUB_REPOSITORY" \
+            --body "$COMMENT" || true
+
+      - name: 'Upload artifacts'
+        if: always()
+        uses: 'actions/upload-artifact@v4'
+        with:
+          name: 'component-${{ steps.component-info.outputs.component_name_kebab }}-artifacts'
+          path: |
+            /tmp/screenshots/
+            /tmp/bob-shell-output.log
+            /tmp/task-prompt.md
+          retention-days: 30
+
+  summary:
+    needs: [prepare, fix-component]
+    if: always()
+    runs-on: 'ubuntu-latest'
+    
+    steps:
+      - name: 'Generate summary'
+        env:
+          ISSUE_COUNT: '${{ needs.prepare.outputs.issue_count }}'
+        run: |
+          echo "## Parity Fix Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- Issues processed: $ISSUE_COUNT" >> $GITHUB_STEP_SUMMARY
+          echo "- Workflow: Enhanced with structured prompts and retry logic" >> $GITHUB_STEP_SUMMARY
+          echo "- MCP: ember-mcp integration enabled" >> $GITHUB_STEP_SUMMARY
