@@ -19,8 +19,10 @@ npm run check-parity
 - Fetches component list from Carbon React GitHub
 - Compares with Ember implementation
 - Generates parity report (PARITY_REPORT.md)
-- Tracks version changes (.parity-check-data.json)
-- Can create GitHub issues for missing components
+- **Tracks commit SHAs** to detect component updates
+- **Detects outdated components** when React components change
+- Tracks per-component metadata (.parity-check-data.json)
+- Can create GitHub issues for missing and outdated components
 
 **Environment Variables:**
 - `GITHUB_TOKEN` - GitHub personal access token (required for API access)
@@ -127,6 +129,30 @@ cd scripts
 npm install
 GITHUB_TOKEN=your_token node parity-check.mjs
 ```
+
+### How Parity Tracking Works
+
+The enhanced parity check now tracks changes at the commit level:
+
+1. **Initial Run**: Records current commit SHA for React components directory
+2. **Subsequent Runs**: 
+   - Fetches latest commit SHA
+   - If changed, checks each implemented component for updates
+   - Uses GitHub API to get commit history per component
+   - Identifies components with changes since last sync
+3. **Issue Creation**:
+   - Missing components → "Investigate" issues
+   - Outdated components → "Update" issues with commit details
+4. **Metadata Storage**: `.parity-check-data.json` stores:
+   - Last checked commit SHA
+   - Per-component metadata (lastSyncedCommit, lastCheckedCommit)
+   - Change counts and update dates
+
+**Benefits:**
+- Detects when React components get new features/fixes
+- Creates targeted update issues with commit links
+- Tracks sync status per component
+- No manual version comparison needed
 
 ### Debugging Bob Shell Script
 
