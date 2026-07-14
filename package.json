@@ -29,13 +29,12 @@
     "release-plan": "^0.16.0",
     "yaml": "^2.7.0"
   },
-  "pnpm": {
-    "overrides": {
-      "@types/ember": "-",
-      "@glint/template": "1.5.2",
-      "@glimmer/validator": "-",
-      "ember-composable-helpers": "-",
-      "babel-plugin-ember-template-compilation": "^2.2.5"
-    }
+  "overrides": {
+    "@types/ember": "-",
+    "@glint/template": "1.5.2",
+    "@glimmer/validator": "-",
+    "ember-composable-helpers": "-",
+    "babel-plugin-ember-template-compilation": "4.0.0",
+    "broccoli-babel-transpiler": "^8.0.2"
   }
 }

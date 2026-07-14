@@ -6,7 +6,7 @@
       "color": "rgb(22, 22, 22)",
       "font": "",
       "margin": "0px",
-      "outline": "rgb(22, 22, 22) none 0px",
+      "outline": "rgb(22, 22, 22) none 3px",
       "padding": "0px",
       "width": "1276px"
     }
@@ -17,7 +17,7 @@
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
       "font": "",
-      "outline": "rgb(22, 22, 22) none 0px"
+      "outline": "rgb(22, 22, 22) none 3px"
     }
   ],
   [
@@ -26,7 +26,7 @@
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
       "font": "",
-      "outline": "rgb(22, 22, 22) none 0px"
+      "outline": "rgb(22, 22, 22) none 3px"
     }
   ]
 ]

@@ -1,13 +1,10 @@
 import child from 'child_process';
 import { resolve } from 'path';
-import PCR from 'puppeteer-chromium-resolver';
+import { chromium } from 'playwright-chromium';
 
 const __root = process.cwd();
 
 async function run() {
-  const { puppeteer, executablePath } = await PCR({
-    revision: 1466950
-  });
   console.log('[ci] starting');
 
   await /** @type {Promise<void>} */ (
@@ -40,13 +37,12 @@ async function run() {
 
   console.log('[ci] spawned');
 
-  const browser = await puppeteer.launch({
-    headless: 'new',
-    executablePath,
+  const browser = await chromium.launch({
+    headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
 
-  console.log('[ci] puppeteer launched');
+  console.log('[ci] playwright launched');
 
   const result = await /** @type {Promise<void>} */ (
     // eslint-disable-next-line no-async-promise-executor

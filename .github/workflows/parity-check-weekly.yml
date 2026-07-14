@@ -1,0 +1,69 @@
+name: 'Weekly Parity Check'
+
+on:
+  schedule:
+    # Run every Monday at 9:00 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch: # Allow manual trigger
+
+defaults:
+  run:
+    shell: 'bash'
+
+jobs:
+  parity-check:
+    runs-on: 'ubuntu-latest'
+    permissions:
+      contents: 'write'
+      issues: 'write'
+      pull-requests: 'read'
+
+    steps:
+      - name: 'Checkout repository'
+        uses: 'actions/checkout@v4'
+        with:
+          fetch-depth: 0
+          token: '${{ secrets.GITHUB_TOKEN }}'
+
+      - name: 'Setup Node.js'
+        uses: 'actions/setup-node@v4'
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: 'Install dependencies'
+        run: |
+          cd scripts
+          npm install @octokit/rest
+
+      - name: 'Run parity check'
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          GITHUB_REPOSITORY: '${{ github.repository }}'
+          CREATE_ISSUES: 'true'
+        run: |
+          node scripts/parity-check.mjs
+
+      - name: 'Commit parity data'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          if [[ -f .parity-check-data.json ]]; then
+            git add .parity-check-data.json
+            git add PARITY_REPORT.md || true
+            
+            if git diff --staged --quiet; then
+              echo "No changes to commit"
+            else
+              git commit -m "chore: update parity check data [skip ci]"
+              git push
+            fi
+          fi
+
+      - name: 'Upload parity report'
+        uses: 'actions/upload-artifact@v4'
+        with:
+          name: 'parity-report'
+          path: 'PARITY_REPORT.md'
+          retention-days: 90

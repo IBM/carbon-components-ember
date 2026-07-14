@@ -61,9 +61,7 @@ export default class CarbonChart extends Component<CarbonChartSignature> {
   data: ChartData[] = [];
   options: BaseChartOptions | AxisChartOptions = {
     axes: {},
-    color: {} as {
-      scale: Record<string, string>;
-    },
+    color: {},
     legend: {
       clickable: true,
     },
@@ -173,7 +171,7 @@ export default class CarbonChart extends Component<CarbonChartSignature> {
   @action
   setColorScale(datasetName: string, color: string) {
     this.options.color!.scale =
-      this.options.color!.scale || ({} as Record<string, string>);
+      this.options.color!.scale || {};
     (this.options.color!.scale as any)[datasetName] = color;
   }
 

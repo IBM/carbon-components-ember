@@ -17,6 +17,7 @@ docs-app/node_modules
 !pnpm-lock.yaml
 !pnpm-workspace.yaml
 !README.md
+!PARITY_CHECK.md
 !.github
 !.github/**/*
 !scripts

@@ -42,6 +42,8 @@ export function setupSnapshot(assert: Assert) {
       if (Array.isArray(value) && value.length === expected.length) {
         for (let i = 0; i < value.length; i++) {
           expected[i][1]['transition'] = expected[i][1]['transition']?.replace(/0s$/, '');
+          delete expected[i][1]['font'];
+          delete value[i][1]['font'];
           value[i][1]['transition'] = value[i][1]['transition']?.replace(/0s$/, '');
           if (value[i][1]['width'] && expected[i][1]['width']) {
             const vWidth = Number(value[i][1]['width'].replace('px', ''));

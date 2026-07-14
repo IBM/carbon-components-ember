@@ -3,7 +3,6 @@ const addTOCNames = require('./babel/babel-plugin');
 
 module.exports = {
   plugins: [
-    require.resolve('ember-concurrency/async-arrow-task-transform'),
     [
       '@babel/plugin-transform-typescript',
       {
@@ -28,8 +27,6 @@ module.exports = {
       'module:decorator-transforms',
       {
         runtime: {
-          // requires package.json#exports
-
           import: require.resolve('decorator-transforms/runtime-esm'),
         },
       },

@@ -32,6 +32,7 @@ const parserOptions = {
       ecmaVersion: 'latest',
       requireConfigFile: false,
       babelOptions: {
+        configFile: false,
         plugins: [
           [
             '@babel/plugin-proposal-decorators',
@@ -42,7 +43,6 @@ const parserOptions = {
     },
     ts: {
       projectService: true,
-      project: true,
       tsconfigRootDir: import.meta.dirname,
     },
   },

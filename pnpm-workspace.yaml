@@ -2,3 +2,32 @@ packages:
   - carbon-components-ember
   - test-app
   - docs-app
+allowBuilds:
+  '@carbon/charts': true
+  '@carbon/colors': true
+  '@carbon/feature-flags': true
+  '@carbon/grid': true
+  '@carbon/icon-helpers': true
+  '@carbon/icons': true
+  '@carbon/layout': true
+  '@carbon/motion': true
+  '@carbon/styles': true
+  '@carbon/themes': true
+  '@carbon/type': true
+  '@carbon/utils-position': true
+  '@ibm/plex': true
+  '@ibm/plex-mono': true
+  '@ibm/plex-sans': true
+  '@ibm/plex-sans-arabic': true
+  '@ibm/plex-sans-devanagari': true
+  '@ibm/plex-sans-hebrew': true
+  '@ibm/plex-sans-thai': true
+  '@ibm/plex-sans-thai-looped': true
+  '@ibm/plex-serif': true
+  '@parcel/watcher': true
+  core-js: true
+  esbuild: true
+  fsevents: true
+  playwright-chromium: true
+  puppeteer-chromium-resolver: set this to true or false
+  unrs-resolver: true
