@@ -62,27 +62,53 @@ async function fetchLatestCarbonVersion() {
 }
 
 /**
- * Fetch the latest commit SHA for React components directory
+ * Fetch the commit SHA for the latest release tag
  */
-async function fetchLatestCommitSHA() {
+async function fetchLatestReleaseCommitSHA() {
   try {
-    const { data } = await octokit.repos.listCommits({
+    // Get latest release
+    const { data: release } = await octokit.repos.getLatestRelease({
       owner: 'carbon-design-system',
-      repo: 'carbon',
-      path: 'packages/react/src/components',
-      per_page: 1
+      repo: 'carbon'
     });
     
-    if (data.length > 0) {
-      return {
-        sha: data[0].sha,
-        date: data[0].commit.committer.date,
-        message: data[0].commit.message
-      };
+    // Get the tag reference
+    const { data: tag } = await octokit.git.getRef({
+      owner: 'carbon-design-system',
+      repo: 'carbon',
+      ref: `tags/${release.tag_name}`
+    });
+    
+    // The tag object contains the commit SHA
+    // If it's an annotated tag, tag.object.sha points to the tag object, not commit
+    // We need to get the commit that the tag points to
+    let commitSha = tag.object.sha;
+    
+    // If it's an annotated tag, we need to dereference it
+    if (tag.object.type === 'tag') {
+      const { data: tagObject } = await octokit.git.getTag({
+        owner: 'carbon-design-system',
+        repo: 'carbon',
+        tag_sha: tag.object.sha
+      });
+      commitSha = tagObject.object.sha;
     }
-    return null;
+    
+    // Get the actual commit
+    const { data: commit } = await octokit.repos.getCommit({
+      owner: 'carbon-design-system',
+      repo: 'carbon',
+      ref: commitSha
+    });
+    
+    return {
+      sha: commitSha,
+      date: commit.commit.committer.date,
+      message: commit.commit.message.split('\n')[0],
+      tag: release.tag_name
+    };
   } catch (error) {
-    console.error('Error fetching latest commit:', error.message);
+    console.error('Error fetching release commit:', error.message);
     return null;
   }
 }
@@ -513,8 +539,8 @@ async function main() {
   const currentVersion = await fetchLatestCarbonVersion();
   console.log(`Current Carbon React version: ${currentVersion}`);
   
-  const currentCommitInfo = await fetchLatestCommitSHA();
-  console.log(`Current commit: ${currentCommitInfo?.sha?.substring(0, 7) || 'unknown'} (${currentCommitInfo?.date || 'unknown'})\n`);
+  const currentCommitInfo = await fetchLatestReleaseCommitSHA();
+  console.log(`Current release commit: ${currentCommitInfo?.sha?.substring(0, 7) || 'unknown'} (${currentCommitInfo?.tag || 'unknown'}, ${currentCommitInfo?.date || 'unknown'})\n`);
   
   // Fetch component lists
   console.log('Fetching React components from GitHub...');
