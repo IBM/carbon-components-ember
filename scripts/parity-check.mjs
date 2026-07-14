@@ -525,9 +525,55 @@ ${comparison.newComponents.map(c => `- ${c}`).join('\n')}
 }
 
 /**
+ * Mark components as synced (update lastSyncedCommit to current release)
+ */
+async function markComponentsSynced(componentNames) {
+  const previousData = await loadParityData();
+  const currentCommitInfo = await fetchLatestReleaseCommitSHA();
+  
+  if (!currentCommitInfo) {
+    console.error('Failed to fetch current release commit');
+    return;
+  }
+  
+  const updated = [];
+  const notFound = [];
+  
+  for (const componentName of componentNames) {
+    if (previousData.componentMetadata?.[componentName]) {
+      previousData.componentMetadata[componentName].lastSyncedCommit = currentCommitInfo.sha;
+      previousData.componentMetadata[componentName].hasChanges = false;
+      previousData.componentMetadata[componentName].changeCount = 0;
+      updated.push(componentName);
+    } else {
+      notFound.push(componentName);
+    }
+  }
+  
+  if (updated.length > 0) {
+    await saveParityData(previousData);
+    console.log(`✅ Marked as synced (${currentCommitInfo.sha.substring(0, 7)}):`);
+    updated.forEach(name => console.log(`   - ${name}`));
+  }
+  
+  if (notFound.length > 0) {
+    console.log(`\n⚠️  Not found in metadata:`);
+    notFound.forEach(name => console.log(`   - ${name}`));
+  }
+}
+
+/**
  * Main execution
  */
 async function main() {
+  // Check for --mark-synced flag
+  const markSyncedIndex = process.argv.indexOf('--mark-synced');
+  if (markSyncedIndex !== -1 && process.argv[markSyncedIndex + 1]) {
+    const components = process.argv[markSyncedIndex + 1].split(',').map(s => s.trim());
+    await markComponentsSynced(components);
+    return;
+  }
+  
   console.log('Starting Carbon Components Parity Check...\n');
   
   // Load previous data

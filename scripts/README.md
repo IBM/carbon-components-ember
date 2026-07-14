@@ -130,6 +130,19 @@ npm install
 GITHUB_TOKEN=your_token node parity-check.mjs
 ```
 
+### Marking Components as Synced
+
+After updating Ember components to match React changes, mark them as synced:
+
+```bash
+cd scripts
+node parity-check.mjs --mark-synced ComponentName
+# Or multiple components:
+node parity-check.mjs --mark-synced Button,Accordion,DataTable
+```
+
+This updates `lastSyncedCommit` to the current release commit, removing them from the "outdated" list.
+
 ### How Parity Tracking Works
 
 The enhanced parity check now tracks changes at the commit level:
