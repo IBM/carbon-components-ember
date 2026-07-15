@@ -330,16 +330,34 @@ async function compareComponents(reactComponents, emberComponents, previousData,
 }
 
 /**
+ * Fetch the titles of all open issues carrying the parity-check label,
+ * paginating through the full result set (listForRepo defaults to 30
+ * per page, and issues are returned newest-first, so relying on a
+ * single page misses older open issues and causes duplicate creation).
+ */
+async function fetchOpenParityIssueTitles(owner, repo) {
+  const issues = await octokit.paginate(octokit.issues.listForRepo, {
+    owner,
+    repo,
+    labels: GITHUB_LABEL,
+    state: 'open',
+    per_page: 100
+  });
+
+  return new Set(issues.map(issue => issue.title));
+}
+
+/**
  * Create GitHub issue for a missing component
  */
-async function createGitHubIssue(componentName, version, commitSHA) {
+async function createGitHubIssue(componentName, version, commitSHA, existingTitles) {
   const [owner, repo] = process.env.GITHUB_REPOSITORY?.split('/') || ['', ''];
-  
+
   if (!owner || !repo) {
     console.log(`Would create issue for: ${componentName} (no GITHUB_REPOSITORY set)`);
     return null;
   }
-  
+
   const title = `[Parity Check] Investigate ${componentName} component`;
   const body = `## Component Parity Investigation
 
@@ -368,23 +386,11 @@ async function createGitHubIssue(componentName, version, commitSHA) {
 `;
 
   try {
-    // Check if issue already exists
-    const { data: existingIssues } = await octokit.issues.listForRepo({
-      owner,
-      repo,
-      labels: GITHUB_LABEL,
-      state: 'open'
-    });
-    
-    const exists = existingIssues.some(issue => 
-      issue.title.includes(componentName)
-    );
-    
-    if (exists) {
+    if (existingTitles.has(title)) {
       console.log(`Issue for ${componentName} already exists, skipping...`);
       return null;
     }
-    
+
     const { data: issue } = await octokit.issues.create({
       owner,
       repo,
@@ -392,8 +398,9 @@ async function createGitHubIssue(componentName, version, commitSHA) {
       body,
       labels: [GITHUB_LABEL, 'enhancement']
     });
-    
+
     console.log(`Created issue #${issue.number} for ${componentName}`);
+    existingTitles.add(title);
     return issue;
   } catch (error) {
     console.error(`Error creating issue for ${componentName}:`, error.message);
@@ -404,14 +411,14 @@ async function createGitHubIssue(componentName, version, commitSHA) {
 /**
  * Create GitHub issue for an outdated component
  */
-async function createOutdatedComponentIssue(componentInfo, version, commitSHA) {
+async function createOutdatedComponentIssue(componentInfo, version, commitSHA, existingTitles) {
   const [owner, repo] = process.env.GITHUB_REPOSITORY?.split('/') || ['', ''];
-  
+
   if (!owner || !repo) {
     console.log(`Would create issue for outdated: ${componentInfo.name} (no GITHUB_REPOSITORY set)`);
     return null;
   }
-  
+
   const title = `[Parity Check] Update ${componentInfo.name} component`;
   
   const commitsList = componentInfo.commits.map(commit => 
@@ -451,23 +458,11 @@ ${componentInfo.changeCount > 5 ? `\n*...and ${componentInfo.changeCount - 5} mo
 `;
 
   try {
-    // Check if issue already exists
-    const { data: existingIssues } = await octokit.issues.listForRepo({
-      owner,
-      repo,
-      labels: GITHUB_LABEL,
-      state: 'open'
-    });
-    
-    const exists = existingIssues.some(issue => 
-      issue.title.includes(`Update ${componentInfo.name}`)
-    );
-    
-    if (exists) {
+    if (existingTitles.has(title)) {
       console.log(`Update issue for ${componentInfo.name} already exists, skipping...`);
       return null;
     }
-    
+
     const { data: issue } = await octokit.issues.create({
       owner,
       repo,
@@ -475,8 +470,9 @@ ${componentInfo.changeCount > 5 ? `\n*...and ${componentInfo.changeCount - 5} mo
       body,
       labels: [GITHUB_LABEL, 'enhancement', 'needs-update']
     });
-    
+
     console.log(`Created update issue #${issue.number} for ${componentInfo.name}`);
+    existingTitles.add(title);
     return issue;
   } catch (error) {
     console.error(`Error creating update issue for ${componentInfo.name}:`, error.message);
@@ -635,24 +631,29 @@ async function main() {
   
   if (shouldCreateIssues) {
     console.log('\n=== Creating GitHub Issues ===');
-    
+
+    const [owner, repo] = process.env.GITHUB_REPOSITORY?.split('/') || ['', ''];
+    const existingTitles = (owner && repo)
+      ? await fetchOpenParityIssueTitles(owner, repo)
+      : new Set();
+
     // Create issues for missing components (new or all if version changed)
     const componentsToInvestigate = versionChanged ? comparison.missing : comparison.newComponents;
-    
+
     if (componentsToInvestigate.length > 0) {
       console.log(`Creating issues for ${componentsToInvestigate.length} missing components...`);
       for (const component of componentsToInvestigate) {
-        await createGitHubIssue(component, currentVersion, currentCommitInfo?.sha);
+        await createGitHubIssue(component, currentVersion, currentCommitInfo?.sha, existingTitles);
         // Rate limiting
         await new Promise(resolve => setTimeout(resolve, 1000));
       }
     }
-    
+
     // Create issues for outdated components
     if (comparison.outdatedComponents && comparison.outdatedComponents.length > 0) {
       console.log(`Creating issues for ${comparison.outdatedComponents.length} outdated components...`);
       for (const componentInfo of comparison.outdatedComponents) {
-        await createOutdatedComponentIssue(componentInfo, currentVersion, currentCommitInfo?.sha);
+        await createOutdatedComponentIssue(componentInfo, currentVersion, currentCommitInfo?.sha, existingTitles);
         // Rate limiting
         await new Promise(resolve => setTimeout(resolve, 1000));
       }
