@@ -216,7 +216,7 @@ if [ -f "$PROMPT_TEMPLATE" ]; then
     sed "s/{{ISSUE_NUMBER}}/$ISSUE_NUMBER/g" | \
     sed "s|{{GITHUB_REPOSITORY}}|$(gh repo view --json nameWithOwner -q .nameWithOwner)|g")
 
-  echo "$PROMPT" | claude --dangerously-skip-permissions
+  claude --dangerously-skip-permissions -p "$PROMPT"
 else
   # Fallback to simple prompt
   claude --dangerously-skip-permissions -p "Investigate and fix parity issues for the $COMPONENT_NAME component.
