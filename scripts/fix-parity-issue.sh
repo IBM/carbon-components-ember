@@ -37,6 +37,19 @@ if [ -z "$ISSUE_NUMBER" ]; then
   echo ""
 fi
 
+git fetch origin main
+
+BRANCH_NAME="fix-issue-$ISSUE_NUMBER"
+CURRENT_BRANCH=$(git branch --show-current)
+
+if [ "$CURRENT_BRANCH" = "$BRANCH_NAME" ]; then
+  echo "Already on branch $BRANCH_NAME"
+elif git show-ref --verify --quiet "refs/heads/$BRANCH_NAME"; then
+  git checkout "$BRANCH_NAME"
+else
+  git checkout -b "$BRANCH_NAME" origin/main
+fi
+
 # Check for required tools
 command -v gh >/dev/null 2>&1 || { echo "Error: GitHub CLI (gh) is required but not installed."; exit 1; }
 command -v node >/dev/null 2>&1 || { echo "Error: Node.js is required but not installed."; exit 1; }
