@@ -21,11 +21,13 @@ Implement or fix the {{COMPONENT_NAME}} component to achieve parity with Carbon 
    - Review @/tmp/component-context-{{ISSUE_NUMBER}}.md
    - Examine the React implementation at the GitHub URL
    - Study the screenshot to understand visual design
+   - check if it has already been updated to latest commit in .parity-check-data.json
 
 2. **Check Current State**
    - Look for existing implementation in `carbon-components-ember/src/components/`
    - If exists: Compare with React version
    - If missing: Prepare for new implementation
+   - If a component needs other updated components first, skip. If it needs update to other components
 
 ### Phase 2: Implementation (Choose One Path)
 
@@ -116,6 +118,17 @@ Implement or fix the {{COMPONENT_NAME}} component to achieve parity with Carbon 
    gh pr edit <PR_NUMBER> --add-label "preview"
    ```
 
+### Marking Components as Synced
+
+After updating Ember components to match React changes, mark them as synced:
+
+```bash
+cd scripts
+node parity-check.mjs --mark-synced ComponentName
+# Or multiple components:
+node parity-check.mjs --mark-synced Button,Accordion,DataTable
+```
+
 ## Success Criteria
 
 Your implementation is complete when ALL of these are true:
@@ -131,6 +144,7 @@ Your implementation is complete when ALL of these are true:
 - [ ] Issue updated with findings
 - [ ] PR created and linked to issue (if changes made)
 - [ ] Preview label added to PR
+- [ ] mark them as synced
 
 ## Important Notes
 

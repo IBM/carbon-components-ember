@@ -13,6 +13,7 @@
     "check-parity:create-issues": "CREATE_ISSUES=true node parity-check.mjs"
   },
   "dependencies": {
-    "@octokit/rest": "^20.0.0"
+    "@octokit/rest": "^20.0.0",
+    "playwright": "^1.61.1"
   }
 }

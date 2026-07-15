@@ -278,7 +278,8 @@ async function compareComponents(reactComponents, emberComponents, previousData,
     console.log('\nChecking for component updates...');
     
     for (const component of implemented) {
-      const lastSyncedSHA = previousData.componentMetadata?.[component]?.lastSyncedCommit || previousData.lastCheckedCommitSHA;
+      const storedLastSyncedCommit = previousData.componentMetadata?.[component]?.lastSyncedCommit;
+      const lastSyncedSHA = (storedLastSyncedCommit && storedLastSyncedCommit !== 'N/A') ? storedLastSyncedCommit : previousData.lastCheckedCommitSHA;
       const updateInfo = await checkComponentUpdates(component, lastSyncedSHA);
       
       componentMetadata[component] = {
@@ -304,9 +305,12 @@ async function compareComponents(reactComponents, emberComponents, previousData,
   } else {
     // Initialize metadata for all implemented components
     for (const component of implemented) {
+      // For components without prior metadata, set lastSyncedCommit to N/A
+      const hasExistingMetadata = previousData.componentMetadata?.[component] !== undefined;
+
       componentMetadata[component] = {
         lastCheckedCommit: currentCommitSHA,
-        lastSyncedCommit: currentCommitSHA,
+        lastSyncedCommit: hasExistingMetadata ? previousData.componentMetadata[component].lastSyncedCommit : 'N/A',
         hasChanges: false,
         changeCount: 0,
         lastUpdate: null

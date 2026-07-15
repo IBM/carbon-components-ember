@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
+# Change to script directory so it can be run from anywhere
+cd "$(dirname "$0")"
+
 # Local Parity Fix Script
 # This script helps fix parity issues locally using Agent
 # Usage: ./scripts/fix-parity-issue.sh [issue_number]
@@ -38,10 +41,10 @@ fi
 command -v gh >/dev/null 2>&1 || { echo "Error: GitHub CLI (gh) is required but not installed."; exit 1; }
 command -v node >/dev/null 2>&1 || { echo "Error: Node.js is required but not installed."; exit 1; }
 
-# Check for Playwright
+# Check for Playwright and install if needed
 if ! node -e "require('playwright')" 2>/dev/null; then
   echo "Installing Playwright..."
-  npm install -g playwright
+  npm install --legacy-peer-deps --no-save playwright
   npx playwright install chromium
 fi
 
@@ -67,12 +70,64 @@ echo "Component: $COMPONENT_NAME"
 # Create screenshots directory
 mkdir -p /tmp/screenshots
 
-# Take screenshot
-STORYBOOK_URL="https://react.carbondesignsystem.com/?path=/docs/components-${COMPONENT_NAME,,}--overview"
-echo "Taking screenshot from: $STORYBOOK_URL"
+echo "Searching for stories file for $COMPONENT_NAME..."
 
-node -e "
-const playwright = require('playwright');
+# List files in component directory to find stories file
+COMPONENT_DIR="packages/react/src/components/${COMPONENT_NAME}"
+FILES_JSON=$(gh api repos/carbon-design-system/carbon/contents/"$COMPONENT_DIR" 2>/dev/null || echo "[]")
+
+# Find stories file
+STORIES_FILE=$(echo "$FILES_JSON" | jq -r '.[] | select(.name | test("\\.stories\\.(js|tsx|ts)$")) | .name' | head -1)
+
+if [ -z "$STORIES_FILE" ]; then
+  echo "Note: Could not find stories file in $COMPONENT_DIR"
+  STORY_URLS="No stories file found in the repository"
+else
+  echo "Found stories file: $STORIES_FILE"
+
+  # Fetch the stories file content
+  STORIES_PATH="${COMPONENT_DIR}/${STORIES_FILE}"
+  echo "Fetching: $STORIES_PATH"
+
+  STORIES_FILE_CONTENT=$(gh api repos/carbon-design-system/carbon/contents/"$STORIES_PATH" --jq '.content' 2>/dev/null | base64 -d 2>/dev/null || echo "")
+
+  if [ -n "$STORIES_FILE_CONTENT" ]; then
+    echo "Parsing stories file..."
+
+    # Write stories content to temp file to avoid issues with backticks
+    TEMP_STORIES_FILE="/tmp/stories-${ISSUE_NUMBER}.tsx"
+    echo "$STORIES_FILE_CONTENT" > "$TEMP_STORIES_FILE"
+
+    # Parse the stories file to extract title and story exports, then take screenshots
+    cat > "./parse-stories.cjs" <<'NODESCRIPT'
+const fs = require("fs");
+const playwright = require("playwright");
+const content = fs.readFileSync(process.env.TEMP_STORIES_FILE, "utf-8");
+
+// Extract title from export default
+const titleMatch = content.match(/title:\s*['"]([^'"]+)['"]/);
+if (!titleMatch) {
+  console.error("Error: Could not extract title from stories file");
+  process.exit(1);
+}
+
+const title = titleMatch[1]; // e.g., "Components/Accordion"
+const componentPart = title.split("/")[1]; // e.g., "Accordion"
+const componentKebab = componentPart.replace(/([A-Z])/g, "-$1").toLowerCase().replace(/^-/, "");
+
+// Extract all export const declarations
+const exportMatches = [...content.matchAll(/export\s+const\s+(\w+)\s*=/g)];
+const storyNames = exportMatches.map(match => match[1]);
+
+// Generate URLs for each story
+const urls = storyNames.map(story =>
+  `https://react.carbondesignsystem.com/?path=/story/components-${componentKebab}--${story.toLowerCase()}`
+);
+
+// Write URLs to file for later reference
+fs.writeFileSync(process.env.URLS_FILE, urls.join("\n"));
+
+// Take screenshots for each URL
 (async () => {
   const browser = await playwright.chromium.launch();
   const context = await browser.newContext({
@@ -80,25 +135,45 @@ const playwright = require('playwright');
   });
   const page = await context.newPage();
 
-  try {
-    await page.goto('$STORYBOOK_URL', { waitUntil: 'networkidle', timeout: 30000 });
-    await page.waitForTimeout(2000);
-    await page.screenshot({
-      path: '/tmp/screenshots/${COMPONENT_NAME}-react.png',
-      fullPage: false
-    });
-    console.log('Screenshot saved to /tmp/screenshots/${COMPONENT_NAME}-react.png');
-  } catch (error) {
-    console.error('Error taking screenshot:', error.message);
-    process.exit(1);
+  for (const [index, url] of urls.entries()) {
+    const storyName = storyNames[index];
+    const screenshotPath = `${process.env.SCREENSHOTS_DIR}/${process.env.COMPONENT_NAME}-${storyName}-react.png`;
+
+    try {
+      console.log(`Taking screenshot for ${storyName}: ${url}`);
+      await page.goto(url, { waitUntil: "load", timeout: 15000 });
+      await page.waitForTimeout(1000);
+      await page.screenshot({
+        path: screenshotPath,
+        fullPage: false
+      });
+      console.log(`Screenshot saved: ${screenshotPath}`);
+    } catch (error) {
+      console.warn(`Skipping screenshot for ${storyName} (${error.message})`);
+    }
   }
 
   await browser.close();
 })();
-"
+NODESCRIPT
+
+    # Run the parsing script with environment variables
+    TEMP_STORIES_FILE="$TEMP_STORIES_FILE" \
+    URLS_FILE="/tmp/story-urls-${ISSUE_NUMBER}.txt" \
+    SCREENSHOTS_DIR="/tmp/screenshots" \
+    COMPONENT_NAME="$COMPONENT_NAME" \
+    node "./parse-stories.cjs"
+    STORY_URLS=$(cat /tmp/story-urls-${ISSUE_NUMBER}.txt 2>/dev/null || echo "")
+  else
+    echo "Note: Could not fetch stories file content"
+    STORY_URLS=""
+  fi
+fi
 
 # Create context file
 CONTEXT_FILE="/tmp/component-context-${ISSUE_NUMBER}.md"
+SCREENSHOTS_LIST=$(ls /tmp/screenshots/${COMPONENT_NAME}-*-react.png 2>/dev/null | sed 's|^|  - |' || echo "  No screenshots found")
+
 cat > "$CONTEXT_FILE" <<EOF
 # Component Parity Investigation: $COMPONENT_NAME
 
@@ -108,14 +183,16 @@ cat > "$CONTEXT_FILE" <<EOF
 
 ## Resources
 - React Implementation: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/$COMPONENT_NAME
-- Storybook: $STORYBOOK_URL
 - Carbon Design System: https://carbondesignsystem.com/
+
+## Storybook Stories
+$STORY_URLS
+
+## React Storybook Screenshots
+$SCREENSHOTS_LIST
 
 ## Investigation Tasks
 $ISSUE_BODY
-
-## Screenshots
-React Storybook screenshot: /tmp/screenshots/${COMPONENT_NAME}-react.png
 
 ## Reference Documentation
 - See AGENTS.md for component patterns and examples
@@ -145,7 +222,7 @@ else
   claude --dangerously-skip-permissions -p "Investigate and fix parity issues for the $COMPONENT_NAME component.
 
 Context file: @$CONTEXT_FILE
-Screenshot: @/tmp/screenshots/${COMPONENT_NAME}-react.png
+Screenshots directory: /tmp/screenshots/
 
 Follow the instructions in AGENTS.md for component implementation patterns.
 Use the structured approach from the agent prompt template if available.
@@ -153,7 +230,7 @@ Use the structured approach from the agent prompt template if available.
 Your task:
 1. Read the context file and review the component requirements
 2. Check the React implementation at the provided GitHub URL
-3. Look at the screenshot to understand the visual design
+3. Review the Storybook screenshots in /tmp/screenshots/ to understand the component and its variations
 4. Check if we have this component in carbon-components-ember/src/components/
 5. If we have it, compare and fix any differences
 6. If we don't have it, implement it following AGENTS.md patterns
@@ -161,7 +238,7 @@ Your task:
 8. If you made fixes, commit them and create a PR linked to the issue
 9. If you created a PR, add the 'preview' label to it
 
-Use the screenshot as a visual reference for how the component should look."
+Use the screenshots as visual references for how the component should look."
 fi
 
 echo ""
