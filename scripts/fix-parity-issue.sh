@@ -10,6 +10,10 @@ cd "$(dirname "$0")"
 
 ISSUE_NUMBER="${1:-}"
 
+# All temporary/generated files are kept locally under scripts/tmp instead of /tmp
+TMP_DIR="./tmp"
+mkdir -p "$TMP_DIR"
+
 if [ -z "$ISSUE_NUMBER" ]; then
   echo "No issue number provided. Fetching a random parity-check issue..."
 
@@ -81,7 +85,7 @@ fi
 echo "Component: $COMPONENT_NAME"
 
 # Create screenshots directory
-mkdir -p /tmp/screenshots
+mkdir -p "$TMP_DIR/screenshots"
 
 echo "Searching for stories file for $COMPONENT_NAME..."
 
@@ -108,11 +112,11 @@ else
     echo "Parsing stories file..."
 
     # Write stories content to temp file to avoid issues with backticks
-    TEMP_STORIES_FILE="/tmp/stories-${ISSUE_NUMBER}.tsx"
+    TEMP_STORIES_FILE="$TMP_DIR/stories-${ISSUE_NUMBER}.tsx"
     echo "$STORIES_FILE_CONTENT" > "$TEMP_STORIES_FILE"
 
     # Parse the stories file to extract title and story exports, then take screenshots
-    cat > "./parse-stories.cjs" <<'NODESCRIPT'
+    cat > "$TMP_DIR/parse-stories.cjs" <<'NODESCRIPT'
 const fs = require("fs");
 const playwright = require("playwright");
 const content = fs.readFileSync(process.env.TEMP_STORIES_FILE, "utf-8");
@@ -172,11 +176,11 @@ NODESCRIPT
 
     # Run the parsing script with environment variables
     TEMP_STORIES_FILE="$TEMP_STORIES_FILE" \
-    URLS_FILE="/tmp/story-urls-${ISSUE_NUMBER}.txt" \
-    SCREENSHOTS_DIR="/tmp/screenshots" \
+    URLS_FILE="$TMP_DIR/story-urls-${ISSUE_NUMBER}.txt" \
+    SCREENSHOTS_DIR="$TMP_DIR/screenshots" \
     COMPONENT_NAME="$COMPONENT_NAME" \
-    node "./parse-stories.cjs"
-    STORY_URLS=$(cat /tmp/story-urls-${ISSUE_NUMBER}.txt 2>/dev/null || echo "")
+    node "$TMP_DIR/parse-stories.cjs"
+    STORY_URLS=$(cat "$TMP_DIR/story-urls-${ISSUE_NUMBER}.txt" 2>/dev/null || echo "")
   else
     echo "Note: Could not fetch stories file content"
     STORY_URLS=""
@@ -184,8 +188,8 @@ NODESCRIPT
 fi
 
 # Create context file
-CONTEXT_FILE="/tmp/component-context-${ISSUE_NUMBER}.md"
-SCREENSHOTS_LIST=$(ls /tmp/screenshots/${COMPONENT_NAME}-*-react.png 2>/dev/null | sed 's|^|  - |' || echo "  No screenshots found")
+CONTEXT_FILE="$TMP_DIR/component-context-${ISSUE_NUMBER}.md"
+SCREENSHOTS_LIST=$(ls "$TMP_DIR"/screenshots/${COMPONENT_NAME}-*-react.png 2>/dev/null | sed 's|^|  - |' || echo "  No screenshots found")
 
 cat > "$CONTEXT_FILE" <<EOF
 # Component Parity Investigation: $COMPONENT_NAME
@@ -229,13 +233,12 @@ if [ -f "$PROMPT_TEMPLATE" ]; then
     sed "s/{{ISSUE_NUMBER}}/$ISSUE_NUMBER/g" | \
     sed "s|{{GITHUB_REPOSITORY}}|$(gh repo view --json nameWithOwner -q .nameWithOwner)|g")
 
-  claude --dangerously-skip-permissions -p "$PROMPT"
 else
   # Fallback to simple prompt
-  claude --dangerously-skip-permissions -p "Investigate and fix parity issues for the $COMPONENT_NAME component.
+  PROMPT="Investigate and fix parity issues for the $COMPONENT_NAME component.
 
 Context file: @$CONTEXT_FILE
-Screenshots directory: /tmp/screenshots/
+Screenshots directory: $TMP_DIR/screenshots/
 
 Follow the instructions in AGENTS.md for component implementation patterns.
 Use the structured approach from the agent prompt template if available.
@@ -243,7 +246,7 @@ Use the structured approach from the agent prompt template if available.
 Your task:
 1. Read the context file and review the component requirements
 2. Check the React implementation at the provided GitHub URL
-3. Review the Storybook screenshots in /tmp/screenshots/ to understand the component and its variations
+3. Review the Storybook screenshots in $TMP_DIR/screenshots/ to understand the component and its variations
 4. Check if we have this component in carbon-components-ember/src/components/
 5. If we have it, compare and fix any differences
 6. If we don't have it, implement it following AGENTS.md patterns
@@ -253,6 +256,16 @@ Your task:
 
 Use the screenshots as visual references for how the component should look."
 fi
+
+# Run the agent in a loop, retrying indefinitely until it succeeds
+RETRY_DELAY=600
+ATTEMPT=1
+
+until claude --dangerously-skip-permissions -p "$PROMPT"; do
+  echo "Agent attempt $ATTEMPT failed. Retrying in ${RETRY_DELAY}s..."
+  ATTEMPT=$((ATTEMPT + 1))
+  sleep "$RETRY_DELAY"
+done
 
 echo ""
 echo "---"
