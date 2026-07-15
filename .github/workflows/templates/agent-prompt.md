@@ -15,6 +15,15 @@ Implement or fix the {{COMPONENT_NAME}} component to achieve parity with Carbon 
 
 ## Step-by-Step Instructions
 
+### Phase 0: Check Prior Progress (Required)
+
+This task may have already been attempted in an earlier run. Before doing anything else:
+
+- Run `git status` and `git log origin/main..HEAD` to see if commits already exist on this branch
+- Run `git diff origin/main` to see any uncommitted or committed changes already made
+- Check `gh pr list --search "{{ISSUE_NUMBER}}"` and `gh issue view {{ISSUE_NUMBER}} --comments` for prior findings, a PR that already exists, or notes about what remains
+- If prior work exists, resume and build on it instead of starting over or redoing completed steps
+
 ### Phase 1: Investigation (Required)
 
 1. **Read Context**
