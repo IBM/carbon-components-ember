@@ -243,6 +243,12 @@ Screenshots directory: $TMP_DIR/screenshots/
 Follow the instructions in AGENTS.md for component implementation patterns.
 Use the structured approach from the agent prompt template if available.
 
+This task may have already been attempted in an earlier run. Before doing anything else:
+- Run 'git status' and 'git log origin/main..HEAD' to see if commits already exist on this branch
+- Run 'git diff origin/main' to see any uncommitted or committed changes already made
+- Check 'gh pr list --search \"$ISSUE_NUMBER\"' and 'gh issue view $ISSUE_NUMBER --comments' for prior findings, a PR that already exists, or notes about what remains
+- If prior work exists, resume and build on it instead of starting over or redoing completed steps
+
 Your task:
 1. Read the context file and review the component requirements
 2. Check the React implementation at the provided GitHub URL
