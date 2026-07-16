@@ -23,6 +23,9 @@ docs-app/node_modules
 !scripts
 !scripts/**/*
 scripts/node_modules
+scripts/tmp
 !.gitconfig
 !.release-plan.json
 !.parity-check-data.json
+!.parity-check-exclusions.json
+!PARITY_REPORT.md

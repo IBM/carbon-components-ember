@@ -143,6 +143,29 @@ node parity-check.mjs --mark-synced Button,Accordion,DataTable
 
 This updates `lastSyncedCommit` to the current release commit, removing them from the "outdated" list.
 
+### Excluding Components from Parity Tracking
+
+Some React components don't make sense to implement in Ember (a React-only utility/pattern, or a component that's really just a piece of another already-implemented component). Exclude them so they stop showing up as "missing" in `.parity-check-data.json` and `PARITY_REPORT.md`:
+
+```bash
+cd scripts
+node parity-check.mjs --exclude ComponentName --reason "why this doesn't apply to Ember"
+# Also comment on and close the linked issue:
+node parity-check.mjs --exclude ComponentName --reason "why this doesn't apply to Ember" --issue 123
+```
+
+Exclusions are stored in `.parity-check-exclusions.json` (committed to the repo) and filtered out before any comparison runs, so they never appear in the parity data file or report.
+
+Components that are simply missing from Ember under the *same* name but exist under a *different* name should not be excluded - align the Ember name to match React instead.
+
+```bash
+# Undo an exclusion:
+node parity-check.mjs --include ComponentName
+
+# List current exclusions:
+node parity-check.mjs --list-exclusions
+```
+
 ### How Parity Tracking Works
 
 The enhanced parity check now tracks changes at the commit level:

@@ -253,12 +253,17 @@ Your task:
 1. Read the context file and review the component requirements
 2. Check the React implementation at the provided GitHub URL
 3. Review the Storybook screenshots in $TMP_DIR/screenshots/ to understand the component and its variations
-4. Check if we have this component in carbon-components-ember/src/components/
-5. If we have it, compare and fix any differences
-6. If we don't have it, implement it following AGENTS.md patterns
-7. Update issue #$ISSUE_NUMBER with your findings
+4. Check if we have this component in carbon-components-ember/src/components/ (including under a different name)
+5. Decide which of these applies:
+   - Naming mismatch only (the same functionality already exists in Ember under a different name): align the name/export to match React rather than treating it as missing
+   - Doesn't make sense in an Ember context, or is really just a piece of another already-implemented component: exclude it instead of implementing it (see below) - only do this for a genuine reason, when in doubt implement it
+   - Otherwise: implement it (new or fix existing) following AGENTS.md patterns
+6. If excluding, run from the scripts directory: node parity-check.mjs --exclude $COMPONENT_NAME --reason \"<why this doesn't apply to Ember>\" --issue $ISSUE_NUMBER
+   - This drops the component from .parity-check-data.json and PARITY_REPORT.md, and comments on + closes the issue for you. Don't create a PR or make component changes in this case - you're done.
+7. Otherwise, update issue #$ISSUE_NUMBER with your findings
 8. If you made fixes, commit them and create a PR linked to the issue
-9. If you created a PR, add the 'preview' label to it
+9. If you created a PR, also add exactly one of these labels based on the change: 'bug' (fixing broken behavior), 'enhancement' (new/missing component or functionality), or 'breaking' (renamed/changed a public API, e.g. a naming-mismatch alignment)
+10. If you created a PR, add the 'preview' label to it
 
 Use the screenshots as visual references for how the component should look."
 fi
