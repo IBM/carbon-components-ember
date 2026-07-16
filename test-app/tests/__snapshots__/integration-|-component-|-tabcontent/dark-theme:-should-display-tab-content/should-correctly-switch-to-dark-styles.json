@@ -1,0 +1,62 @@
+[
+  [
+    "<div class=\"cds--tab-content\" role=\"tabpanel\" data-index=\"0\"></div>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "height": "56px",
+      "outline": "rgb(244, 244, 244) none 3px",
+      "padding": "16px",
+      "width": "1276px"
+    }
+  ],
+  [
+    "<div:before class=\"cds--tab-content\" role=\"tabpanel\" data-index=\"0\"></div:before>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<div:after class=\"cds--tab-content\" role=\"tabpanel\" data-index=\"0\"></div:after>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<p data-index=\"1\"></p>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "height": "24px",
+      "margin": "0px",
+      "outline": "rgb(244, 244, 244) none 3px",
+      "width": "1244px"
+    }
+  ],
+  [
+    "<p:before data-index=\"1\"></p:before>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<p:after data-index=\"1\"></p:after>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ]
+]

@@ -38,6 +38,31 @@ const context = new TrackedObject({});
 </template>
 ```
 
+## TabContent
+
+`TabContent` is a standalone panel component for cases where tab selection is
+managed outside of `Tabs`, such as a custom tab list.
+
+```gjs live preview
+import { TabContent } from 'carbon-components-ember/components';
+import { ThemeSupport } from 'docs-support';
+import { TrackedObject } from 'tracked-built-ins';
+
+const eq = (a, b) => a === b;
+const context = new TrackedObject({ selected: 'a' });
+
+<template>
+    <ThemeSupport />
+    <br>
+    <TabContent @selected={{eq context.selected 'a'}}>
+        Content A
+    </TabContent>
+    <TabContent @selected={{eq context.selected 'b'}}>
+        Content B
+    </TabContent>
+</template>
+```
+
 ## API Reference
 
 <details>
@@ -50,6 +75,22 @@ import { ComponentSignature } from 'kolay';
   <ComponentSignature 
     @package="carbon-components-ember" 
     @module='declarations/components/tabs' 
+    @name='default' 
+  />
+</template>
+```
+</details>
+
+<details>
+<summary><h3>TabContent</h3></summary>
+
+```gjs live no-shadow
+import { ComponentSignature } from 'kolay';
+
+<template>
+  <ComponentSignature 
+    @package="carbon-components-ember" 
+    @module='declarations/components/tab-content' 
     @name='default' 
   />
 </template>
