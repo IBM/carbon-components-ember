@@ -193,6 +193,7 @@ Otherwise, your implementation is complete when ALL of these are true:
 - [ ] One of `bug` / `enhancement` / `breaking` label added to PR
 - [ ] Preview label added to PR
 - [ ] mark them as synced
+- [ ] use signed commit
 
 ## Important Notes
 
