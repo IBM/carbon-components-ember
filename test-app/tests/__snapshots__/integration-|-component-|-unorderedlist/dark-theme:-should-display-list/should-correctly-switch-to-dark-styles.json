@@ -1,0 +1,91 @@
+[
+  [
+    "<ul class=\"cds--list--unordered\" data-index=\"0\"></ul>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "height": "39.9688px",
+      "margin": "0px 0px 0px 16px",
+      "outline": "rgb(244, 244, 244) none 3px",
+      "padding": "0px",
+      "width": "1260px"
+    }
+  ],
+  [
+    "<ul:before class=\"cds--list--unordered\" data-index=\"0\"></ul:before>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<ul:after class=\"cds--list--unordered\" data-index=\"0\"></ul:after>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<li data-index=\"1\"></li>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "height": "19.9844px",
+      "outline": "rgb(244, 244, 244) none 3px",
+      "width": "1260px"
+    }
+  ],
+  [
+    "<li:before data-index=\"1\"></li:before>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<li:after data-index=\"1\"></li:after>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<li data-index=\"2\"></li>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "height": "19.9844px",
+      "outline": "rgb(244, 244, 244) none 3px",
+      "width": "1260px"
+    }
+  ],
+  [
+    "<li:before data-index=\"2\"></li:before>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<li:after data-index=\"2\"></li:after>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ]
+]
