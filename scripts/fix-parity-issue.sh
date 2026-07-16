@@ -41,6 +41,73 @@ if [ -z "$ISSUE_NUMBER" ]; then
   echo ""
 fi
 
+# Check for open PRs with parity-check label
+echo "Checking for open parity-check PRs..."
+OPEN_PRS=$(gh pr list --state open --limit 100 --json number,labels --jq '[.[] | select(.labels[]?.name == "parity-check")] | length')
+
+if [ "$OPEN_PRS" -ge 5 ]; then
+  echo "Found $OPEN_PRS open parity-check PRs (limit: 5)"
+  echo "Checking PR comments to determine if action is needed..."
+  
+  # Get list of open PR numbers
+  PR_NUMBERS=$(gh pr list --state open --limit 100 --json number,labels --jq '.[] | select(.labels[]?.name == "parity-check") | .number')
+  
+  # Create a summary file for Claude to review
+  PR_SUMMARY_FILE="$TMP_DIR/pr-summary.md"
+  echo "# Open Parity Check PRs" > "$PR_SUMMARY_FILE"
+  echo "" >> "$PR_SUMMARY_FILE"
+  echo "Currently $OPEN_PRS open PRs (limit reached: 5)" >> "$PR_SUMMARY_FILE"
+  echo "" >> "$PR_SUMMARY_FILE"
+  
+  for PR_NUM in $PR_NUMBERS; do
+    echo "## PR #$PR_NUM" >> "$PR_SUMMARY_FILE"
+    gh pr view "$PR_NUM" --json number,title,url,body,comments --jq '{number,title,url,body,comments: [.comments[] | {author: .author.login, body: .body, createdAt: .createdAt}]}' >> "$PR_SUMMARY_FILE"
+    echo "" >> "$PR_SUMMARY_FILE"
+  done
+  
+  echo "PR summary created: $PR_SUMMARY_FILE"
+  echo ""
+  echo "Asking Claude Code to review existing PRs and determine next action..."
+  
+  REVIEW_PROMPT="Review the open parity-check PRs and determine if any action is needed.
+
+Context: We have reached the limit of 5 open parity-check PRs.
+
+PR Summary: @$PR_SUMMARY_FILE
+
+Your task:
+1. Review each open PR and its comments
+2. Check if any PR needs attention (e.g., requested changes, failing tests, merge conflicts)
+3. Determine if you should:
+   - Work on an existing PR that needs fixes
+   - Wait for PR reviews/merges (no action needed)
+   - Close stale PRs that are no longer relevant
+
+If action is needed on a specific PR:
+- Check out that PR's branch
+- Address the issues
+- Update the PR
+
+If no action is needed:
+- Report that we should wait for existing PRs to be reviewed/merged
+- Do NOT create new PRs until the count drops below 5
+
+Be specific about which PR (if any) needs work and why."
+
+  # Run Claude Code to review PRs
+  if claude --dangerously-skip-permissions -p "$REVIEW_PROMPT"; then
+    echo ""
+    echo "PR review completed. Exiting."
+    exit 0
+  else
+    echo "Error: Failed to review PRs"
+    exit 1
+  fi
+fi
+
+echo "Open parity-check PRs: $OPEN_PRS (limit: 5)"
+echo ""
+
 git fetch origin main
 
 BRANCH_NAME="fix-issue-$ISSUE_NUMBER"
