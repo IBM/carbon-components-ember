@@ -28,7 +28,7 @@ export function renderSvgPartFunc(
           .join(' ');
         return `<${svgPart.elem} ${attrs} />`;
       })
-      .join();
+      .join('');
     rest = part;
     cache.set(guidFor(svg)+size, rest);
   }

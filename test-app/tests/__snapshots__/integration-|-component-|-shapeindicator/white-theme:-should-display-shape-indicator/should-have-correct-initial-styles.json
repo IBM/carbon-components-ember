@@ -1,0 +1,96 @@
+[
+  [
+    "<div class=\"cds--shape-indicator\" data-index=\"0\"></div>",
+    {
+      "border": "0px none rgb(82, 82, 82)",
+      "color": "rgb(82, 82, 82)",
+      "display": "flex",
+      "font": "",
+      "height": "16px",
+      "outline": "rgb(82, 82, 82) none 3px",
+      "width": "1276px"
+    }
+  ],
+  [
+    "<div:before class=\"cds--shape-indicator\" data-index=\"0\"></div:before>",
+    {
+      "border": "0px none rgb(82, 82, 82)",
+      "color": "rgb(82, 82, 82)",
+      "display": "block",
+      "font": "",
+      "outline": "rgb(82, 82, 82) none 3px"
+    }
+  ],
+  [
+    "<div:after class=\"cds--shape-indicator\" data-index=\"0\"></div:after>",
+    {
+      "border": "0px none rgb(82, 82, 82)",
+      "color": "rgb(82, 82, 82)",
+      "display": "block",
+      "font": "",
+      "outline": "rgb(82, 82, 82) none 3px"
+    }
+  ],
+  [
+    "<svg class=\"cds--shape-indicator--stable \" focusable=\"false\" fill=\"currentColor\" style=\"will-change: transform;\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" data-index=\"1\"></svg>",
+    {
+      "border": "0px none rgb(82, 82, 82)",
+      "color": "rgb(82, 82, 82)",
+      "display": "block",
+      "fill": "rgb(36, 161, 72)",
+      "font": "",
+      "margin": "0px 8px 0px 0px",
+      "outline": "rgb(82, 82, 82) none 3px"
+    }
+  ],
+  [
+    "<svg:before class=\"cds--shape-indicator--stable \" focusable=\"false\" fill=\"currentColor\" style=\"will-change: transform;\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" data-index=\"1\"></svg:before>",
+    {
+      "border": "0px none rgb(82, 82, 82)",
+      "color": "rgb(82, 82, 82)",
+      "fill": "rgb(36, 161, 72)",
+      "font": "",
+      "outline": "rgb(82, 82, 82) none 3px"
+    }
+  ],
+  [
+    "<svg:after class=\"cds--shape-indicator--stable \" focusable=\"false\" fill=\"currentColor\" style=\"will-change: transform;\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" data-index=\"1\"></svg:after>",
+    {
+      "border": "0px none rgb(82, 82, 82)",
+      "color": "rgb(82, 82, 82)",
+      "fill": "rgb(36, 161, 72)",
+      "font": "",
+      "outline": "rgb(82, 82, 82) none 3px"
+    }
+  ],
+  [
+    "<circle cx=\"8\" cy=\"8\" r=\"6\" data-index=\"2\"></circle>",
+    {
+      "border": "0px none rgb(82, 82, 82)",
+      "color": "rgb(82, 82, 82)",
+      "fill": "rgb(36, 161, 72)",
+      "font": "",
+      "outline": "rgb(82, 82, 82) none 3px"
+    }
+  ],
+  [
+    "<circle:before cx=\"8\" cy=\"8\" r=\"6\" data-index=\"2\"></circle:before>",
+    {
+      "border": "0px none rgb(82, 82, 82)",
+      "color": "rgb(82, 82, 82)",
+      "fill": "rgb(36, 161, 72)",
+      "font": "",
+      "outline": "rgb(82, 82, 82) none 3px"
+    }
+  ],
+  [
+    "<circle:after cx=\"8\" cy=\"8\" r=\"6\" data-index=\"2\"></circle:after>",
+    {
+      "border": "0px none rgb(82, 82, 82)",
+      "color": "rgb(82, 82, 82)",
+      "fill": "rgb(36, 161, 72)",
+      "font": "",
+      "outline": "rgb(82, 82, 82) none 3px"
+    }
+  ]
+]
