@@ -14,11 +14,90 @@ ISSUE_NUMBER="${1:-}"
 TMP_DIR="./tmp"
 mkdir -p "$TMP_DIR"
 
-if [ -z "$ISSUE_NUMBER" ]; then
-  echo "No issue number provided. Fetching a random parity-check issue..."
+# Check for required tools
+command -v gh >/dev/null 2>&1 || { echo "Error: GitHub CLI (gh) is required but not installed."; exit 1; }
 
-  # Check for required tools
-  command -v gh >/dev/null 2>&1 || { echo "Error: GitHub CLI (gh) is required but not installed."; exit 1; }
+if [ -z "$ISSUE_NUMBER" ]; then
+  echo "No issue or PR number provided. Checking for work to do..."
+  echo ""
+
+  # First, check for open PRs with comments that need review
+  echo "Checking for open parity-check PRs with comments..."
+  
+  # Get all open PRs with parity-check label
+  PR_LIST=$(gh pr list --state open --label "parity-check" --limit 100 --json number,comments)
+  
+  # Filter PRs that have comments (review feedback)
+  PRS_WITH_COMMENTS=$(echo "$PR_LIST" | jq -r '.[] | select(.comments | length > 0) | .number')
+  
+  if [ -n "$PRS_WITH_COMMENTS" ]; then
+    # Count PRs with comments
+    PR_COUNT=$(echo "$PRS_WITH_COMMENTS" | wc -l | tr -d ' ')
+    echo "Found $PR_COUNT open PR(s) with comments that may need attention"
+    
+    # Randomly select one PR with comments
+    SELECTED_PR=$(echo "$PRS_WITH_COMMENTS" | shuf -n 1)
+    
+    echo "Randomly selected PR #$SELECTED_PR for review"
+    echo ""
+    
+    # Get PR details
+    PR_JSON=$(gh pr view "$SELECTED_PR" --json number,title,body,comments,reviews)
+    PR_TITLE=$(echo "$PR_JSON" | jq -r '.title')
+    
+    echo "PR: $PR_TITLE"
+    echo ""
+    
+    # Create PR review file
+    PR_REVIEW_FILE="$TMP_DIR/pr-review-${SELECTED_PR}.md"
+    echo "# PR Review: #$SELECTED_PR" > "$PR_REVIEW_FILE"
+    echo "" >> "$PR_REVIEW_FILE"
+    echo "## PR Details" >> "$PR_REVIEW_FILE"
+    echo "$PR_JSON" | jq '{number,title,body,comments: [.comments[] | {author: .author.login, body: .body, createdAt: .createdAt}], reviews: [.reviews[] | {author: .author.login, state: .state, body: .body}]}' >> "$PR_REVIEW_FILE"
+    
+    echo "PR review file created: $PR_REVIEW_FILE"
+    echo ""
+    
+    # Checkout the PR branch
+    echo "Checking out PR #$SELECTED_PR..."
+    gh pr checkout "$SELECTED_PR"
+    
+    REVIEW_PROMPT="Review and address feedback on PR #$SELECTED_PR
+
+PR Details: @$PR_REVIEW_FILE
+
+Your task:
+1. Read the PR details, comments, and review feedback
+2. Understand what changes were requested
+3. Check the current state of the code
+4. Address all feedback and requested changes
+5. Run tests to ensure everything works
+6. Commit and push your fixes
+7. Comment on the PR summarizing what you fixed
+
+Be thorough and address all review comments."
+
+    echo "Starting Agent to review PR..."
+    echo "---"
+    
+    # Run the agent
+    RETRY_DELAY=600
+    ATTEMPT=1
+    
+    until claude --dangerously-skip-permissions -p "$REVIEW_PROMPT"; do
+      echo "Agent attempt $ATTEMPT failed. Retrying in ${RETRY_DELAY}s..."
+      ATTEMPT=$((ATTEMPT + 1))
+      sleep "$RETRY_DELAY"
+    done
+    
+    echo ""
+    echo "---"
+    echo "PR review completed!"
+    exit 0
+  fi
+  
+  echo "No open PRs with comments found. Looking for issues to work on..."
+  echo ""
 
   # Get all open issues with parity-check label
   PARITY_ISSUES=$(gh issue list --label "parity-check" --state open --json number --jq '.[].number')
@@ -30,7 +109,9 @@ if [ -z "$ISSUE_NUMBER" ]; then
     echo ""
     echo "Example: ./scripts/fix-parity-issue.sh 123"
     echo ""
-    echo "If no issue number is provided, a random issue with label 'parity-check' will be selected."
+    echo "If no issue number is provided, the script will:"
+    echo "  1. First check for open PRs with comments that need review"
+    echo "  2. If none found, select a random issue with label 'parity-check'"
     exit 1
   fi
 
