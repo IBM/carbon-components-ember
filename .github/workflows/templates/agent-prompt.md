@@ -163,6 +163,11 @@ Use this path only when the component genuinely doesn't belong as a standalone E
    gh pr edit <PR_NUMBER> --add-label "preview"
    ```
 
+5 **Add parity-check Label**
+   ```bash
+   gh pr edit <PR_NUMBER> --add-label "parity-check"
+   ```
+
 ### Marking Components as Synced
 
 After updating Ember components to match React changes, mark them as synced:
@@ -192,6 +197,7 @@ Otherwise, your implementation is complete when ALL of these are true:
 - [ ] PR created and linked to issue (if changes made)
 - [ ] One of `bug` / `enhancement` / `breaking` label added to PR
 - [ ] Preview label added to PR
+- [ ] parity-check label added to PR
 - [ ] mark them as synced
 - [ ] use signed commit
 
