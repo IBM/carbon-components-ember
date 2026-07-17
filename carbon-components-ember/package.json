@@ -2942,6 +2942,7 @@
       "./components/carbon/ui-shell/-sidenav.js": "./dist/_app_/components/carbon/ui-shell/-sidenav.js",
       "./components/carbon/ui-shell/-sidenav/-menu.js": "./dist/_app_/components/carbon/ui-shell/-sidenav/-menu.js",
       "./components/carbon/ui-shell/-sidenav/-sub-menu.js": "./dist/_app_/components/carbon/ui-shell/-sidenav/-sub-menu.js",
+      "./components/carbon/unordered-list.js": "./dist/_app_/components/carbon/unordered-list.js",
       "./helpers/carbon/default-to.js": "./dist/_app_/helpers/carbon/default-to.js",
       "./helpers/carbon/generic.js": "./dist/_app_/helpers/carbon/generic.js",
       "./helpers/carbon/get-fn.js": "./dist/_app_/helpers/carbon/get-fn.js",
