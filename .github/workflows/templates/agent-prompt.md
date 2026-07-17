@@ -15,6 +15,15 @@ Implement or fix the {{COMPONENT_NAME}} component to achieve parity with Carbon 
 
 ## Step-by-Step Instructions
 
+### Phase 0: Check Prior Progress (Required)
+
+This task may have already been attempted in an earlier run. Before doing anything else:
+
+- Run `git status` and `git log origin/main..HEAD` to see if commits already exist on this branch
+- Run `git diff origin/main` to see any uncommitted or committed changes already made
+- Check `gh pr list --search "{{ISSUE_NUMBER}}"` and `gh issue view {{ISSUE_NUMBER}} --comments` for prior findings, a PR that already exists, or notes about what remains
+- If prior work exists, resume and build on it instead of starting over or redoing completed steps
+
 ### Phase 1: Investigation (Required)
 
 1. **Read Context**
@@ -31,20 +40,32 @@ Implement or fix the {{COMPONENT_NAME}} component to achieve parity with Carbon 
 
 ### Phase 2: Implementation (Choose One Path)
 
+Before implementing, decide which path applies:
+
+- **Naming mismatch only** (the same functionality already exists in Ember under a different name) → Path A, and align the name/export to match React. Don't exclude these - they should be fixed if at all possible.
+- **Doesn't make sense in an Ember context**, or the component is actually a sub-part of another component that's already implemented → Path C: Exclude.
+- Otherwise → Path A (exists, needs fixes) or Path B (missing, implement new).
+
+Only exclude a component when there's a genuine reason (React-only concept/utility with no Ember equivalent, or fully covered by another component's implementation). When in doubt, prefer implementing it.
+
 #### Path A: Component Exists - Fix Discrepancies
 
-1. **Compare APIs**
+1. **Check for a Naming Mismatch**
+   - If the component already exists in Ember under a different name (e.g. `carbon-components-ember/src/components/` has an equivalent component with a different export name), rename/align it to match the React name instead of treating it as missing
+   - Update the export in `index.ts`, the file name, and any references/docs/tests accordingly
+
+2. **Compare APIs**
    - List React props vs Ember args
    - Identify missing or incorrect arguments
    - Check event handlers match
 
-2. **Fix Implementation**
+3. **Fix Implementation**
    - Update component signature
    - Add missing functionality
    - Ensure CSS classes use `cds--` prefix
    - Match visual design from screenshot
 
-3. **Update Tests**
+4. **Update Tests**
    - Add tests for new functionality
    - Verify all variants work
 
@@ -80,6 +101,19 @@ Implement or fix the {{COMPONENT_NAME}} component to achieve parity with Carbon 
    - Show common variants
    - Reference Carbon Design System docs
 
+#### Path C: Exclude - Doesn't Apply to Ember
+
+Use this path only when the component genuinely doesn't belong as a standalone Ember component (e.g. it's a React-only utility/context/HOC with no Ember equivalent, or it's really just a piece of another component that's already implemented here).
+
+1. **Record the exclusion**
+   ```bash
+   cd scripts
+   node parity-check.mjs --exclude {{COMPONENT_NAME}} --reason "<why this doesn't apply to Ember>" --issue {{ISSUE_NUMBER}}
+   ```
+   - This removes `{{COMPONENT_NAME}}` from `.parity-check-data.json` and `PARITY_REPORT.md` going forward
+   - It also comments on and closes issue #{{ISSUE_NUMBER}} with the reason
+2. **Do not** create a PR or make component changes for this path - skip Phase 3 and Phase 4 below, you're done once the exclusion is recorded
+
 ### Phase 3: Validation (Required)
 
 1. **Build**
@@ -113,9 +147,25 @@ Implement or fix the {{COMPONENT_NAME}} component to achieve parity with Carbon 
      --label "parity-check"
    ```
 
-3. **Add Preview Label**
+3. **Add a Change-Type Label**
+
+   Also add exactly one of these, based on the nature of the change:
+   - `bug` - fixing incorrect/broken behavior in an existing component
+   - `enhancement` - implementing a new (previously missing) component, or new functionality
+   - `breaking` - changing a public API/export, e.g. renaming a component to align with React (Path A naming-mismatch fix)
+
+   ```bash
+   gh pr edit <PR_NUMBER> --add-label "bug"          # or "enhancement" / "breaking"
+   ```
+
+4. **Add Preview Label**
    ```bash
    gh pr edit <PR_NUMBER> --add-label "preview"
+   ```
+
+5 **Add parity-check Label**
+   ```bash
+   gh pr edit <PR_NUMBER> --add-label "parity-check"
    ```
 
 ### Marking Components as Synced
@@ -131,7 +181,9 @@ node parity-check.mjs --mark-synced Button,Accordion,DataTable
 
 ## Success Criteria
 
-Your implementation is complete when ALL of these are true:
+If you took Path C (Exclude), you're done once `--exclude` has been run and the issue is closed - none of the criteria below apply.
+
+Otherwise, your implementation is complete when ALL of these are true:
 
 - [ ] Component file created/updated in correct location
 - [ ] Component exported in `index.ts`
@@ -143,8 +195,11 @@ Your implementation is complete when ALL of these are true:
 - [ ] Visual design matches screenshot/Storybook
 - [ ] Issue updated with findings
 - [ ] PR created and linked to issue (if changes made)
+- [ ] One of `bug` / `enhancement` / `breaking` label added to PR
 - [ ] Preview label added to PR
+- [ ] parity-check label added to PR
 - [ ] mark them as synced
+- [ ] use signed commit
 
 ## Important Notes
 

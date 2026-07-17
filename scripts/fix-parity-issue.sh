@@ -10,6 +10,10 @@ cd "$(dirname "$0")"
 
 ISSUE_NUMBER="${1:-}"
 
+# All temporary/generated files are kept locally under scripts/tmp instead of /tmp
+TMP_DIR="./tmp"
+mkdir -p "$TMP_DIR"
+
 if [ -z "$ISSUE_NUMBER" ]; then
   echo "No issue number provided. Fetching a random parity-check issue..."
 
@@ -35,6 +39,86 @@ if [ -z "$ISSUE_NUMBER" ]; then
 
   echo "Selected random issue: #$ISSUE_NUMBER"
   echo ""
+fi
+
+# Check for open PRs with parity-check label
+echo "Checking for open parity-check PRs..."
+OPEN_PRS=$(gh pr list --state open --limit 100 --json number,labels --jq '[.[] | select(.labels[]?.name == "parity-check")] | length')
+
+if [ "$OPEN_PRS" -ge 5 ]; then
+  echo "Found $OPEN_PRS open parity-check PRs (limit: 5)"
+  echo "Checking PR comments to determine if action is needed..."
+  
+  # Get list of open PR numbers
+  PR_NUMBERS=$(gh pr list --state open --limit 100 --json number,labels --jq '.[] | select(.labels[]?.name == "parity-check") | .number')
+  
+  # Create a summary file for Claude to review
+  PR_SUMMARY_FILE="$TMP_DIR/pr-summary.md"
+  echo "# Open Parity Check PRs" > "$PR_SUMMARY_FILE"
+  echo "" >> "$PR_SUMMARY_FILE"
+  echo "Currently $OPEN_PRS open PRs (limit reached: 5)" >> "$PR_SUMMARY_FILE"
+  echo "" >> "$PR_SUMMARY_FILE"
+  
+  for PR_NUM in $PR_NUMBERS; do
+    echo "## PR #$PR_NUM" >> "$PR_SUMMARY_FILE"
+    gh pr view "$PR_NUM" --json number,title,url,body,comments --jq '{number,title,url,body,comments: [.comments[] | {author: .author.login, body: .body, createdAt: .createdAt}]}' >> "$PR_SUMMARY_FILE"
+    echo "" >> "$PR_SUMMARY_FILE"
+  done
+  
+  echo "PR summary created: $PR_SUMMARY_FILE"
+  echo ""
+  echo "Asking Claude Code to review existing PRs and determine next action..."
+  
+  REVIEW_PROMPT="Review the open parity-check PRs and determine if any action is needed.
+
+Context: We have reached the limit of 5 open parity-check PRs.
+
+PR Summary: @$PR_SUMMARY_FILE
+
+Your task:
+1. Review each open PR and its comments
+2. Check if any PR needs attention (e.g., requested changes, failing tests, merge conflicts)
+3. Determine if you should:
+   - Work on an existing PR that needs fixes
+   - Wait for PR reviews/merges (no action needed)
+   - Close stale PRs that are no longer relevant
+
+If action is needed on a specific PR:
+- Check out that PR's branch
+- Address the issues
+- Update the PR
+
+If no action is needed:
+- Report that we should wait for existing PRs to be reviewed/merged
+- Do NOT create new PRs until the count drops below 5
+
+Be specific about which PR (if any) needs work and why."
+
+  # Run Claude Code to review PRs
+  if claude --dangerously-skip-permissions -p "$REVIEW_PROMPT"; then
+    echo ""
+    echo "PR review completed. Exiting."
+    exit 0
+  else
+    echo "Error: Failed to review PRs"
+    exit 1
+  fi
+fi
+
+echo "Open parity-check PRs: $OPEN_PRS (limit: 5)"
+echo ""
+
+git fetch origin main
+
+BRANCH_NAME="fix-issue-$ISSUE_NUMBER"
+CURRENT_BRANCH=$(git branch --show-current)
+
+if [ "$CURRENT_BRANCH" = "$BRANCH_NAME" ]; then
+  echo "Already on branch $BRANCH_NAME"
+elif git show-ref --verify --quiet "refs/heads/$BRANCH_NAME"; then
+  git checkout "$BRANCH_NAME"
+else
+  git checkout -b "$BRANCH_NAME" origin/main
 fi
 
 # Check for required tools
@@ -68,7 +152,7 @@ fi
 echo "Component: $COMPONENT_NAME"
 
 # Create screenshots directory
-mkdir -p /tmp/screenshots
+mkdir -p "$TMP_DIR/screenshots"
 
 echo "Searching for stories file for $COMPONENT_NAME..."
 
@@ -95,11 +179,11 @@ else
     echo "Parsing stories file..."
 
     # Write stories content to temp file to avoid issues with backticks
-    TEMP_STORIES_FILE="/tmp/stories-${ISSUE_NUMBER}.tsx"
+    TEMP_STORIES_FILE="$TMP_DIR/stories-${ISSUE_NUMBER}.tsx"
     echo "$STORIES_FILE_CONTENT" > "$TEMP_STORIES_FILE"
 
     # Parse the stories file to extract title and story exports, then take screenshots
-    cat > "./parse-stories.cjs" <<'NODESCRIPT'
+    cat > "$TMP_DIR/parse-stories.cjs" <<'NODESCRIPT'
 const fs = require("fs");
 const playwright = require("playwright");
 const content = fs.readFileSync(process.env.TEMP_STORIES_FILE, "utf-8");
@@ -159,11 +243,11 @@ NODESCRIPT
 
     # Run the parsing script with environment variables
     TEMP_STORIES_FILE="$TEMP_STORIES_FILE" \
-    URLS_FILE="/tmp/story-urls-${ISSUE_NUMBER}.txt" \
-    SCREENSHOTS_DIR="/tmp/screenshots" \
+    URLS_FILE="$TMP_DIR/story-urls-${ISSUE_NUMBER}.txt" \
+    SCREENSHOTS_DIR="$TMP_DIR/screenshots" \
     COMPONENT_NAME="$COMPONENT_NAME" \
-    node "./parse-stories.cjs"
-    STORY_URLS=$(cat /tmp/story-urls-${ISSUE_NUMBER}.txt 2>/dev/null || echo "")
+    node "$TMP_DIR/parse-stories.cjs"
+    STORY_URLS=$(cat "$TMP_DIR/story-urls-${ISSUE_NUMBER}.txt" 2>/dev/null || echo "")
   else
     echo "Note: Could not fetch stories file content"
     STORY_URLS=""
@@ -171,8 +255,8 @@ NODESCRIPT
 fi
 
 # Create context file
-CONTEXT_FILE="/tmp/component-context-${ISSUE_NUMBER}.md"
-SCREENSHOTS_LIST=$(ls /tmp/screenshots/${COMPONENT_NAME}-*-react.png 2>/dev/null | sed 's|^|  - |' || echo "  No screenshots found")
+CONTEXT_FILE="$TMP_DIR/component-context-${ISSUE_NUMBER}.md"
+SCREENSHOTS_LIST=$(ls "$TMP_DIR"/screenshots/${COMPONENT_NAME}-*-react.png 2>/dev/null | sed 's|^|  - |' || echo "  No screenshots found")
 
 cat > "$CONTEXT_FILE" <<EOF
 # Component Parity Investigation: $COMPONENT_NAME
@@ -216,30 +300,50 @@ if [ -f "$PROMPT_TEMPLATE" ]; then
     sed "s/{{ISSUE_NUMBER}}/$ISSUE_NUMBER/g" | \
     sed "s|{{GITHUB_REPOSITORY}}|$(gh repo view --json nameWithOwner -q .nameWithOwner)|g")
 
-  claude --dangerously-skip-permissions -p "$PROMPT"
 else
   # Fallback to simple prompt
-  claude --dangerously-skip-permissions -p "Investigate and fix parity issues for the $COMPONENT_NAME component.
+  PROMPT="Investigate and fix parity issues for the $COMPONENT_NAME component.
 
 Context file: @$CONTEXT_FILE
-Screenshots directory: /tmp/screenshots/
+Screenshots directory: $TMP_DIR/screenshots/
 
 Follow the instructions in AGENTS.md for component implementation patterns.
 Use the structured approach from the agent prompt template if available.
 
+This task may have already been attempted in an earlier run. Before doing anything else:
+- Run 'git status' and 'git log origin/main..HEAD' to see if commits already exist on this branch
+- Run 'git diff origin/main' to see any uncommitted or committed changes already made
+- Check 'gh pr list --search \"$ISSUE_NUMBER\"' and 'gh issue view $ISSUE_NUMBER --comments' for prior findings, a PR that already exists, or notes about what remains
+- If prior work exists, resume and build on it instead of starting over or redoing completed steps
+
 Your task:
 1. Read the context file and review the component requirements
 2. Check the React implementation at the provided GitHub URL
-3. Review the Storybook screenshots in /tmp/screenshots/ to understand the component and its variations
-4. Check if we have this component in carbon-components-ember/src/components/
-5. If we have it, compare and fix any differences
-6. If we don't have it, implement it following AGENTS.md patterns
-7. Update issue #$ISSUE_NUMBER with your findings
+3. Review the Storybook screenshots in $TMP_DIR/screenshots/ to understand the component and its variations
+4. Check if we have this component in carbon-components-ember/src/components/ (including under a different name)
+5. Decide which of these applies:
+   - Naming mismatch only (the same functionality already exists in Ember under a different name): align the name/export to match React rather than treating it as missing
+   - Doesn't make sense in an Ember context, or is really just a piece of another already-implemented component: exclude it instead of implementing it (see below) - only do this for a genuine reason, when in doubt implement it
+   - Otherwise: implement it (new or fix existing) following AGENTS.md patterns
+6. If excluding, run from the scripts directory: node parity-check.mjs --exclude $COMPONENT_NAME --reason \"<why this doesn't apply to Ember>\" --issue $ISSUE_NUMBER
+   - This drops the component from .parity-check-data.json and PARITY_REPORT.md, and comments on + closes the issue for you. Don't create a PR or make component changes in this case - you're done.
+7. Otherwise, update issue #$ISSUE_NUMBER with your findings
 8. If you made fixes, commit them and create a PR linked to the issue
-9. If you created a PR, add the 'preview' label to it
+9. If you created a PR, also add exactly one of these labels based on the change: 'bug' (fixing broken behavior), 'enhancement' (new/missing component or functionality), or 'breaking' (renamed/changed a public API, e.g. a naming-mismatch alignment)
+10. If you created a PR, add the 'preview' label to it
 
 Use the screenshots as visual references for how the component should look."
 fi
+
+# Run the agent in a loop, retrying indefinitely until it succeeds
+RETRY_DELAY=600
+ATTEMPT=1
+
+until claude --dangerously-skip-permissions -p "$PROMPT"; do
+  echo "Agent attempt $ATTEMPT failed. Retrying in ${RETRY_DELAY}s..."
+  ATTEMPT=$((ATTEMPT + 1))
+  sleep "$RETRY_DELAY"
+done
 
 echo ""
 echo "---"

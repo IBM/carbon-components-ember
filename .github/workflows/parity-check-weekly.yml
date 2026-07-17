@@ -16,7 +16,7 @@ jobs:
     permissions:
       contents: 'write'
       issues: 'write'
-      pull-requests: 'read'
+      pull-requests: 'write'
 
     steps:
       - name: 'Checkout repository'
@@ -43,21 +43,43 @@ jobs:
         run: |
           node scripts/parity-check.mjs
 
-      - name: 'Commit parity data'
+      - name: 'Open or update PR with parity data'
+        env:
+          GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
-          if [[ -f .parity-check-data.json ]]; then
-            git add .parity-check-data.json
-            git add PARITY_REPORT.md || true
-            
-            if git diff --staged --quiet; then
-              echo "No changes to commit"
-            else
-              git commit -m "chore: update parity check data [skip ci]"
-              git push
-            fi
+
+          BRANCH_NAME="chore/update-parity-data"
+
+          if [[ ! -f .parity-check-data.json ]]; then
+            echo "No parity data file generated, nothing to do"
+            exit 0
+          fi
+
+          git add .parity-check-data.json
+          git add PARITY_REPORT.md || true
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git checkout -B "$BRANCH_NAME"
+          git commit -m "chore: update parity check data [skip ci]"
+          git push --force origin "$BRANCH_NAME"
+
+          EXISTING_PR=$(gh pr list --head "$BRANCH_NAME" --state open --json number --jq '.[0].number')
+
+          if [[ -n "$EXISTING_PR" ]]; then
+            echo "Updated existing PR #$EXISTING_PR"
+          else
+            gh pr create \
+              --title "chore: update parity check data" \
+              --body "Automated update of \`.parity-check-data.json\` and \`PARITY_REPORT.md\` from the weekly parity check." \
+              --base main \
+              --head "$BRANCH_NAME" \
+              --label "parity-check"
           fi
 
       - name: 'Upload parity report'

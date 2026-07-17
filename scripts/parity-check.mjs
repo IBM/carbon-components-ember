@@ -25,6 +25,7 @@ const TARGET_REPO_PATH = process.env.TARGET_REPO_PATH || path.resolve(__dirname,
 const ROOT_DIR = TARGET_REPO_PATH;
 
 const PARITY_DATA_FILE = path.join(ROOT_DIR, '.parity-check-data.json');
+const EXCLUSIONS_FILE = path.join(ROOT_DIR, '.parity-check-exclusions.json');
 const GITHUB_LABEL = 'parity-check';
 
 // Initialize Octokit
@@ -257,6 +258,86 @@ async function saveParityData(data) {
 }
 
 /**
+ * Load component exclusions (React components intentionally not tracked for parity)
+ */
+async function loadExclusions() {
+  try {
+    const content = await fs.readFile(EXCLUSIONS_FILE, 'utf-8');
+    return JSON.parse(content);
+  } catch (error) {
+    return {};
+  }
+}
+
+/**
+ * Save component exclusions
+ */
+async function saveExclusions(exclusions) {
+  await fs.writeFile(EXCLUSIONS_FILE, JSON.stringify(exclusions, null, 2));
+}
+
+/**
+ * Exclude a component from parity tracking (e.g. it doesn't make sense in an
+ * Ember context, or it's actually part of another already-implemented component).
+ * Excluded components are dropped before comparison, so they never show up in
+ * .parity-check-data.json or PARITY_REPORT.md. If an issue number is given, the
+ * corresponding parity-check issue is commented on and closed.
+ */
+async function excludeComponent(componentName, reason, issueNumber) {
+  if (!reason) {
+    console.error('Error: --reason is required when excluding a component');
+    process.exit(1);
+  }
+
+  const exclusions = await loadExclusions();
+  exclusions[componentName] = {
+    reason,
+    excludedAt: new Date().toISOString(),
+    issue: issueNumber || null
+  };
+  await saveExclusions(exclusions);
+  console.log(`Excluded ${componentName} from parity tracking: ${reason}`);
+
+  if (issueNumber) {
+    const [owner, repo] = process.env.GITHUB_REPOSITORY?.split('/') || ['', ''];
+    if (owner && repo) {
+      try {
+        await octokit.issues.createComment({
+          owner,
+          repo,
+          issue_number: Number(issueNumber),
+          body: `Excluded \`${componentName}\` from parity tracking.\n\n**Reason**: ${reason}\n\nIt will no longer appear in \`.parity-check-data.json\` or \`PARITY_REPORT.md\`.`
+        });
+        await octokit.issues.update({
+          owner,
+          repo,
+          issue_number: Number(issueNumber),
+          state: 'closed',
+          labels: [GITHUB_LABEL, 'wontfix']
+        });
+        console.log(`Closed issue #${issueNumber} with exclusion reason.`);
+      } catch (error) {
+        console.error(`Error updating issue #${issueNumber}:`, error.message);
+      }
+    }
+  }
+}
+
+/**
+ * Remove a component exclusion, restoring it to parity tracking
+ */
+async function includeComponent(componentName) {
+  const exclusions = await loadExclusions();
+  if (!(componentName in exclusions)) {
+    console.log(`${componentName} is not excluded.`);
+    return;
+  }
+  delete exclusions[componentName];
+  await saveExclusions(exclusions);
+  console.log(`Removed exclusion for ${componentName}. It will be tracked again.`);
+}
+
+/**
  * Compare component lists and identify changes
  */
 async function compareComponents(reactComponents, emberComponents, previousData, currentCommitSHA) {
@@ -330,16 +411,34 @@ async function compareComponents(reactComponents, emberComponents, previousData,
 }
 
 /**
+ * Fetch the titles of all open issues carrying the parity-check label,
+ * paginating through the full result set (listForRepo defaults to 30
+ * per page, and issues are returned newest-first, so relying on a
+ * single page misses older open issues and causes duplicate creation).
+ */
+async function fetchOpenParityIssueTitles(owner, repo) {
+  const issues = await octokit.paginate(octokit.issues.listForRepo, {
+    owner,
+    repo,
+    labels: GITHUB_LABEL,
+    state: 'open',
+    per_page: 100
+  });
+
+  return new Set(issues.map(issue => issue.title));
+}
+
+/**
  * Create GitHub issue for a missing component
  */
-async function createGitHubIssue(componentName, version, commitSHA) {
+async function createGitHubIssue(componentName, version, commitSHA, existingTitles) {
   const [owner, repo] = process.env.GITHUB_REPOSITORY?.split('/') || ['', ''];
-  
+
   if (!owner || !repo) {
     console.log(`Would create issue for: ${componentName} (no GITHUB_REPOSITORY set)`);
     return null;
   }
-  
+
   const title = `[Parity Check] Investigate ${componentName} component`;
   const body = `## Component Parity Investigation
 
@@ -368,23 +467,11 @@ async function createGitHubIssue(componentName, version, commitSHA) {
 `;
 
   try {
-    // Check if issue already exists
-    const { data: existingIssues } = await octokit.issues.listForRepo({
-      owner,
-      repo,
-      labels: GITHUB_LABEL,
-      state: 'open'
-    });
-    
-    const exists = existingIssues.some(issue => 
-      issue.title.includes(componentName)
-    );
-    
-    if (exists) {
+    if (existingTitles.has(title)) {
       console.log(`Issue for ${componentName} already exists, skipping...`);
       return null;
     }
-    
+
     const { data: issue } = await octokit.issues.create({
       owner,
       repo,
@@ -392,8 +479,9 @@ async function createGitHubIssue(componentName, version, commitSHA) {
       body,
       labels: [GITHUB_LABEL, 'enhancement']
     });
-    
+
     console.log(`Created issue #${issue.number} for ${componentName}`);
+    existingTitles.add(title);
     return issue;
   } catch (error) {
     console.error(`Error creating issue for ${componentName}:`, error.message);
@@ -404,14 +492,14 @@ async function createGitHubIssue(componentName, version, commitSHA) {
 /**
  * Create GitHub issue for an outdated component
  */
-async function createOutdatedComponentIssue(componentInfo, version, commitSHA) {
+async function createOutdatedComponentIssue(componentInfo, version, commitSHA, existingTitles) {
   const [owner, repo] = process.env.GITHUB_REPOSITORY?.split('/') || ['', ''];
-  
+
   if (!owner || !repo) {
     console.log(`Would create issue for outdated: ${componentInfo.name} (no GITHUB_REPOSITORY set)`);
     return null;
   }
-  
+
   const title = `[Parity Check] Update ${componentInfo.name} component`;
   
   const commitsList = componentInfo.commits.map(commit => 
@@ -451,23 +539,11 @@ ${componentInfo.changeCount > 5 ? `\n*...and ${componentInfo.changeCount - 5} mo
 `;
 
   try {
-    // Check if issue already exists
-    const { data: existingIssues } = await octokit.issues.listForRepo({
-      owner,
-      repo,
-      labels: GITHUB_LABEL,
-      state: 'open'
-    });
-    
-    const exists = existingIssues.some(issue => 
-      issue.title.includes(`Update ${componentInfo.name}`)
-    );
-    
-    if (exists) {
+    if (existingTitles.has(title)) {
       console.log(`Update issue for ${componentInfo.name} already exists, skipping...`);
       return null;
     }
-    
+
     const { data: issue } = await octokit.issues.create({
       owner,
       repo,
@@ -475,8 +551,9 @@ ${componentInfo.changeCount > 5 ? `\n*...and ${componentInfo.changeCount - 5} mo
       body,
       labels: [GITHUB_LABEL, 'enhancement', 'needs-update']
     });
-    
+
     console.log(`Created update issue #${issue.number} for ${componentInfo.name}`);
+    existingTitles.add(title);
     return issue;
   } catch (error) {
     console.error(`Error creating update issue for ${componentInfo.name}:`, error.message);
@@ -567,6 +644,14 @@ async function markComponentsSynced(componentNames) {
 }
 
 /**
+ * Get the value following a CLI flag, e.g. getArgValue('--reason')
+ */
+function getArgValue(flag) {
+  const index = process.argv.indexOf(flag);
+  return index !== -1 ? process.argv[index + 1] : undefined;
+}
+
+/**
  * Main execution
  */
 async function main() {
@@ -577,7 +662,34 @@ async function main() {
     await markComponentsSynced(components);
     return;
   }
-  
+
+  // Check for --exclude flag: exclude a component from parity tracking
+  const excludeName = getArgValue('--exclude');
+  if (excludeName) {
+    await excludeComponent(excludeName, getArgValue('--reason'), getArgValue('--issue'));
+    return;
+  }
+
+  // Check for --include flag: undo a previous exclusion
+  const includeName = getArgValue('--include');
+  if (includeName) {
+    await includeComponent(includeName);
+    return;
+  }
+
+  // Check for --list-exclusions flag
+  if (process.argv.includes('--list-exclusions')) {
+    const exclusions = await loadExclusions();
+    const names = Object.keys(exclusions);
+    if (names.length === 0) {
+      console.log('No components are excluded.');
+    } else {
+      console.log('Excluded components:');
+      names.forEach(name => console.log(`  - ${name}: ${exclusions[name].reason}`));
+    }
+    return;
+  }
+
   console.log('Starting Carbon Components Parity Check...\n');
   
   // Load previous data
@@ -602,9 +714,18 @@ async function main() {
   console.log(`Found ${storybookComponents.length} components in Storybook`);
   
   // Merge and deduplicate
-  const allReactComponents = Array.from(new Set([...reactComponents, ...storybookComponents])).sort();
-  console.log(`Total unique React components: ${allReactComponents.length}`);
-  
+  const mergedReactComponents = Array.from(new Set([...reactComponents, ...storybookComponents])).sort();
+  console.log(`Total unique React components: ${mergedReactComponents.length}`);
+
+  // Drop components that were deliberately excluded from parity tracking
+  // (doesn't make sense in an Ember context, or already covered by another component)
+  const exclusions = await loadExclusions();
+  const excludedNames = Object.keys(exclusions);
+  const allReactComponents = mergedReactComponents.filter(c => !excludedNames.includes(c));
+  if (excludedNames.length > 0) {
+    console.log(`Excluding ${excludedNames.length} component(s) from tracking: ${excludedNames.join(', ')}`);
+  }
+
   console.log('Reading Ember components...');
   const emberComponents = await getEmberComponents();
   console.log(`Found ${emberComponents.length} Ember components\n`);
@@ -635,24 +756,29 @@ async function main() {
   
   if (shouldCreateIssues) {
     console.log('\n=== Creating GitHub Issues ===');
-    
+
+    const [owner, repo] = process.env.GITHUB_REPOSITORY?.split('/') || ['', ''];
+    const existingTitles = (owner && repo)
+      ? await fetchOpenParityIssueTitles(owner, repo)
+      : new Set();
+
     // Create issues for missing components (new or all if version changed)
     const componentsToInvestigate = versionChanged ? comparison.missing : comparison.newComponents;
-    
+
     if (componentsToInvestigate.length > 0) {
       console.log(`Creating issues for ${componentsToInvestigate.length} missing components...`);
       for (const component of componentsToInvestigate) {
-        await createGitHubIssue(component, currentVersion, currentCommitInfo?.sha);
+        await createGitHubIssue(component, currentVersion, currentCommitInfo?.sha, existingTitles);
         // Rate limiting
         await new Promise(resolve => setTimeout(resolve, 1000));
       }
     }
-    
+
     // Create issues for outdated components
     if (comparison.outdatedComponents && comparison.outdatedComponents.length > 0) {
       console.log(`Creating issues for ${comparison.outdatedComponents.length} outdated components...`);
       for (const componentInfo of comparison.outdatedComponents) {
-        await createOutdatedComponentIssue(componentInfo, currentVersion, currentCommitInfo?.sha);
+        await createOutdatedComponentIssue(componentInfo, currentVersion, currentCommitInfo?.sha, existingTitles);
         // Rate limiting
         await new Promise(resolve => setTimeout(resolve, 1000));
       }
