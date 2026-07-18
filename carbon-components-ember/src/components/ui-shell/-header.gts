@@ -4,7 +4,7 @@ import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import Component from '@glimmer/component';
 
-export interface UiShellHeaderSignature {
+export interface UIShellHeaderSignature {
   Args: {
     title: string;
     subtitle: string;
@@ -17,7 +17,7 @@ export interface UiShellHeaderSignature {
   };
 }
 
-export default class UiShellHeader extends Component<UiShellHeaderSignature> {
+export default class UIShellHeader extends Component<UIShellHeaderSignature> {
   <template>
     <header aria-label='IBM Platform Name' class='cds--header'>
       <a class='cds--skip-to-content' href='#main-content' tabindex='0'>

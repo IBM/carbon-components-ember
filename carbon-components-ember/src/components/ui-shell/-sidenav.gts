@@ -12,7 +12,7 @@ export type MenuItem = {
   title: string;
 };
 
-export interface UiShellNavSignature {
+export interface UIShellNavSignature {
   Args: {
     open: boolean;
     menuItems: MenuItem[];
@@ -25,7 +25,7 @@ export interface UiShellNavSignature {
   };
 }
 
-export default class UiShellNav extends Component<UiShellNavSignature> {
+export default class UIShellNav extends Component<UIShellNavSignature> {
   styles = stylesheet`
     .namespace {
       &.cds--side-nav--ux {
