@@ -17,6 +17,52 @@ mkdir -p "$TMP_DIR"
 # Check for required tools
 command -v gh >/dev/null 2>&1 || { echo "Error: GitHub CLI (gh) is required but not installed."; exit 1; }
 
+# jq filter that turns Claude's --output-format stream-json into a readable
+# live log: tool calls, tool results (truncated), assistant text, and a final
+# status/cost line. Falls back to plain -p output when jq isn't installed.
+STREAM_JQ_FILTER='
+def trunc($n): if (type == "string" and length > $n) then .[0:$n] + "…" else . end;
+
+if .type == "assistant" then
+  (.message.content[]? |
+    if .type == "text" then .text
+    elif .type == "tool_use" then
+      "\n→ " + .name + ": " + (.input | tostring | trunc(200))
+    else empty end)
+elif .type == "user" then
+  (.message.content[]? |
+    if .type == "tool_result" then
+      (if (.content | type) == "string" then .content
+       else (.content[]? | select(.type=="text") | .text) end) as $c
+      | "  " + ($c | trunc(300))
+    else empty end)
+elif .type == "result" then
+  "\n✔ " + .subtype + " — " + (.duration_ms|tostring) + "ms, $" + (.total_cost_usd|tostring)
+else empty end
+'
+
+# Run Claude on $1, streaming readable progress (tool calls/results/text) to
+# stdout as it happens rather than staying silent until the final answer.
+# Returns Claude's actual exit status (not jq's) via the return value.
+run_claude() {
+  local prompt="$1"
+  local claude_exit
+
+  if command -v jq >/dev/null 2>&1; then
+    set +e
+    claude --dangerously-skip-permissions -p --verbose --output-format stream-json "$prompt" | jq -r --unbuffered "$STREAM_JQ_FILTER"
+    claude_exit="${PIPESTATUS[0]}"
+    set -e
+  else
+    set +e
+    claude --dangerously-skip-permissions -p --verbose "$prompt"
+    claude_exit=$?
+    set -e
+  fi
+
+  return "$claude_exit"
+}
+
 if [ -z "$ISSUE_NUMBER" ]; then
   echo "No issue or PR number provided. Checking for work to do..."
   echo ""
@@ -84,7 +130,7 @@ Be thorough and address all review comments."
     RETRY_DELAY=600
     ATTEMPT=1
     
-    until claude --dangerously-skip-permissions -p "$REVIEW_PROMPT"; do
+    until run_claude "$REVIEW_PROMPT"; do
       echo "Agent attempt $ATTEMPT failed. Retrying in ${RETRY_DELAY}s..."
       ATTEMPT=$((ATTEMPT + 1))
       sleep "$RETRY_DELAY"
@@ -176,7 +222,7 @@ If no action is needed:
 Be specific about which PR (if any) needs work and why."
 
   # Run Claude Code to review PRs
-  if claude --dangerously-skip-permissions -p "$REVIEW_PROMPT"; then
+  if run_claude "$REVIEW_PROMPT"; then
     echo ""
     echo "PR review completed. Exiting."
     exit 0
@@ -420,7 +466,7 @@ fi
 RETRY_DELAY=600
 ATTEMPT=1
 
-until claude --dangerously-skip-permissions -p "$PROMPT"; do
+until run_claude "$PROMPT"; do
   echo "Agent attempt $ATTEMPT failed. Retrying in ${RETRY_DELAY}s..."
   ATTEMPT=$((ATTEMPT + 1))
   sleep "$RETRY_DELAY"
