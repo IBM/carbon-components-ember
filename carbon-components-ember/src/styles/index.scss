@@ -7,3 +7,18 @@
 .ember-basic-dropdown-content .cds--list-box__menu {
   display: block;
 }
+
+// Fixes a bug in ember-attacher's small-screen tooltip sizing: its
+// `max-width: calc(100% - 42px)` media query assumes the tooltip's
+// containing block spans the viewport, but ember-attacher actually
+// positions tooltips inside a `width: max-content` wrapper sized to the
+// tooltip's own content. For short tooltips on narrow triggers (e.g.
+// ShapeIndicator's compact-mode tooltip), `100%` resolves to that small
+// intrinsic width instead of the viewport, clamping the tooltip down to a
+// sliver and clipping its text. Use `vw` units, which are always relative
+// to the actual viewport, to sidestep the ambiguous containing block.
+@media (max-width: 450px) {
+  .ember-attacher-tooltip {
+    max-width: min(90vw, 400px) !important;
+  }
+}
