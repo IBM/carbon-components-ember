@@ -2930,6 +2930,7 @@
       "./components/carbon/radio/group.js": "./dist/_app_/components/carbon/radio/group.js",
       "./components/carbon/search-input.js": "./dist/_app_/components/carbon/search-input.js",
       "./components/carbon/select.js": "./dist/_app_/components/carbon/select.js",
+      "./components/carbon/shape-indicator.js": "./dist/_app_/components/carbon/shape-indicator.js",
       "./components/carbon/skeleton-placeholder.js": "./dist/_app_/components/carbon/skeleton-placeholder.js",
       "./components/carbon/slider-skeleton.js": "./dist/_app_/components/carbon/slider-skeleton.js",
       "./components/carbon/slider.js": "./dist/_app_/components/carbon/slider.js",
