@@ -6,7 +6,7 @@ export interface Signature {
   };
 }
 
-export default class UiShellNavItem extends Component<Signature> {
+export default class UIShellNavItem extends Component<Signature> {
   <template>
     <li>
       <a href='#' class='cds--header__menu-item' tabindex='0'>

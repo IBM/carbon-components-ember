@@ -67,22 +67,19 @@ if [ -z "$ISSUE_NUMBER" ]; then
   echo "No issue or PR number provided. Checking for work to do..."
   echo ""
 
-  # First, check for open PRs with comments that need review
-  echo "Checking for open parity-check PRs with comments..."
-  
-  # Get all open PRs with parity-check label
-  PR_LIST=$(gh pr list --state open --label "parity-check" --limit 100 --json number,comments)
-  
-  # Filter PRs that have comments (review feedback)
-  PRS_WITH_COMMENTS=$(echo "$PR_LIST" | jq -r '.[] | select(.comments | length > 0) | .number')
-  
-  if [ -n "$PRS_WITH_COMMENTS" ]; then
-    # Count PRs with comments
-    PR_COUNT=$(echo "$PRS_WITH_COMMENTS" | wc -l | tr -d ' ')
-    echo "Found $PR_COUNT open PR(s) with comments that may need attention"
-    
-    # Randomly select one PR with comments
-    SELECTED_PR=$(echo "$PRS_WITH_COMMENTS" | shuf -n 1)
+  # First, check for open PRs explicitly flagged for review via the "review" label
+  echo "Checking for open parity-check PRs labeled 'review'..."
+
+  # Get all open PRs that have BOTH the parity-check and review labels
+  PRS_FOR_REVIEW=$(gh pr list --state open --label "parity-check" --label "review" --limit 100 --json number --jq '.[].number')
+
+  if [ -n "$PRS_FOR_REVIEW" ]; then
+    # Count PRs labeled for review
+    PR_COUNT=$(echo "$PRS_FOR_REVIEW" | wc -l | tr -d ' ')
+    echo "Found $PR_COUNT open PR(s) labeled 'review'"
+
+    # Randomly select one PR labeled for review
+    SELECTED_PR=$(echo "$PRS_FOR_REVIEW" | shuf -n 1)
     
     echo "Randomly selected PR #$SELECTED_PR for review"
     echo ""
@@ -138,11 +135,12 @@ Be thorough and address all review comments."
     
     echo ""
     echo "---"
-    echo "PR review completed!"
+    echo "PR review completed! Removing 'review' label from PR #$SELECTED_PR..."
+    gh pr edit "$SELECTED_PR" --remove-label "review" || echo "Warning: failed to remove 'review' label from PR #$SELECTED_PR (non-fatal, review work is already committed/pushed)"
     exit 0
   fi
-  
-  echo "No open PRs with comments found. Looking for issues to work on..."
+
+  echo "No open PRs labeled 'review' found. Looking for issues to work on..."
   echo ""
 
   # Get all open issues with parity-check label
@@ -156,7 +154,7 @@ Be thorough and address all review comments."
     echo "Example: ./scripts/fix-parity-issue.sh 123"
     echo ""
     echo "If no issue number is provided, the script will:"
-    echo "  1. First check for open PRs with comments that need review"
+    echo "  1. First check for open PRs labeled 'review' that need review"
     echo "  2. If none found, select a random issue with label 'parity-check'"
     exit 1
   fi
