@@ -168,6 +168,9 @@ Use this path only when the component genuinely doesn't belong as a standalone E
    gh pr edit <PR_NUMBER> --add-label "parity-check"
    ```
 6 commit modified files, package.json and index.ts, those are auto updated. make sure all necessary files are commited, but no unrelated file is commited.
+
+7 ensure git working tree is clean!!!
+
 ### Marking Components as Synced
 
 After updating Ember components to match React changes, mark them as synced:
