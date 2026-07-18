@@ -3,6 +3,7 @@ import { default as not } from 'ember-truth-helpers/helpers/not';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import Component from '@glimmer/component';
+import UIShellHeaderGlobalAction from './-header/-global-action.gts';
 
 export interface UIShellHeaderSignature {
   Args: {
@@ -13,7 +14,7 @@ export interface UIShellHeaderSignature {
   };
   Blocks: {
     header: [];
-    headerGlobal: [];
+    headerGlobal: [typeof UIShellHeaderGlobalAction];
   };
 }
 
@@ -45,7 +46,7 @@ export default class UIShellHeader extends Component<UIShellHeaderSignature> {
       </a>
       {{yield to='header'}}
       <div class='cds--header__global'>
-        {{yield to='headerGlobal'}}
+        {{yield UIShellHeaderGlobalAction to='headerGlobal'}}
       </div>
     </header>
   </template>

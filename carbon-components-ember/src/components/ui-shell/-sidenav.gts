@@ -2,6 +2,8 @@ import { default as eq } from 'ember-truth-helpers/helpers/eq';
 import { default as Menu } from '../../components/ui-shell/-sidenav/-menu.gts';
 import Component from '@glimmer/component';
 import NavMenuComponent, { type SubMenu } from './-sidenav/-menu.gts';
+import Divider from './-sidenav/-divider.gts';
+import Footer from './-sidenav/-footer.gts';
 import { fn } from '@ember/helper';
 import { stylesheet } from 'astroturf';
 import type Icon from '../icon';
@@ -20,8 +22,9 @@ export interface UIShellNavSignature {
     transitionTo: (menu: MenuItem | SubMenu) => void;
   };
   Blocks: {
-    default: [typeof NavMenuComponent];
+    default: [typeof NavMenuComponent, typeof Divider];
     content: [];
+    footer: [typeof Footer];
   };
 }
 
@@ -48,7 +51,7 @@ export default class UIShellNav extends Component<UIShellNavSignature> {
     >
       <ul class='cds--side-nav__items'>
         {{#unless @menuItems}}
-          {{yield Menu}}
+          {{yield Menu Divider}}
         {{/unless}}
         {{#each @menuItems as |menu|}}
           <Menu
@@ -71,6 +74,7 @@ export default class UIShellNav extends Component<UIShellNavSignature> {
           </Menu>
         {{/each}}
       </ul>
+      {{yield Footer to='footer'}}
     </nav>
   </template>
 }
