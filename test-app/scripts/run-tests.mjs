@@ -78,10 +78,13 @@ async function run() {
       if (process.argv[2] === 'update-snapshots') {
         params = '&save-snapshots';
       }
-      // Vite's first compile of the test bundle (incl. vendor.css) can take
-      // well over the default 30s Playwright navigation timeout in CI.
+      // Test completion is signaled by the '[HARNESS] done' console message
+      // above, not by this navigation. Vite's first compile of the test
+      // bundle (incl. vendor.css) can take well over a minute in CI, so
+      // waiting for the 'load' event here can time out long before the
+      // harness is actually done; only wait for navigation to commit.
       await page.goto('http://localhost:60173/tests/?hidepassed&ci' + params, {
-        timeout: 120000,
+        waitUntil: 'commit',
       });
     })
   );
