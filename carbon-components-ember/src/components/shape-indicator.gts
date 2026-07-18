@@ -109,7 +109,7 @@ export default class ShapeIndicator extends Component<ShapeIndicatorSignature> {
     {{#if this.isValidKind}}
       <div class={{this.classes}} ...attributes>
         {{#if @compact}}
-          <button type='button' class='cds--shape-indicator__button'>
+          <span class='cds--shape-indicator__button' tabindex='0'>
             {{#if this.shapeIcon}}
               <this.shapeIcon
                 @size={{16}}
@@ -123,7 +123,7 @@ export default class ShapeIndicator extends Component<ShapeIndicatorSignature> {
             <AttachTooltip @arrow={{true}} @animation='none'>
               {{@label}}
             </AttachTooltip>
-          </button>
+          </span>
         {{else}}
           {{#if this.shapeIcon}}
             <this.shapeIcon
