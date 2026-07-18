@@ -90,7 +90,7 @@ Be thorough and address all review comments."
     echo ""
     echo "---"
     echo "PR review completed! Removing 'review' label from PR #$SELECTED_PR..."
-    gh pr edit "$SELECTED_PR" --remove-label "review"
+    gh pr edit "$SELECTED_PR" --remove-label "review" || echo "Warning: failed to remove 'review' label from PR #$SELECTED_PR (non-fatal, review work is already committed/pushed)"
     exit 0
   fi
 

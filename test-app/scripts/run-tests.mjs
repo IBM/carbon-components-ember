@@ -78,7 +78,11 @@ async function run() {
       if (process.argv[2] === 'update-snapshots') {
         params = '&save-snapshots';
       }
-      await page.goto('http://localhost:60173/tests/?hidepassed&ci' + params);
+      // Vite's first compile of the test bundle (incl. vendor.css) can take
+      // well over the default 30s Playwright navigation timeout in CI.
+      await page.goto('http://localhost:60173/tests/?hidepassed&ci' + params, {
+        timeout: 120000,
+      });
     })
   );
 
