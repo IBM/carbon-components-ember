@@ -452,10 +452,16 @@ Your task:
    - Otherwise: implement it (new or fix existing) following AGENTS.md patterns
 6. If excluding, run from the scripts directory: node parity-check.mjs --exclude $COMPONENT_NAME --reason \"<why this doesn't apply to Ember>\" --issue $ISSUE_NUMBER
    - This drops the component from .parity-check-data.json and PARITY_REPORT.md, and comments on + closes the issue for you. Don't create a PR or make component changes in this case - you're done.
-7. Otherwise, update issue #$ISSUE_NUMBER with your findings
-8. If you made fixes, commit them and create a PR linked to the issue
-9. If you created a PR, also add exactly one of these labels based on the change: 'bug' (fixing broken behavior), 'enhancement' (new/missing component or functionality), or 'breaking' (renamed/changed a public API, e.g. a naming-mismatch alignment)
-10. If you created a PR, add the 'preview' label to it
+7. Otherwise (i.e. you did NOT exclude it), update issue #$ISSUE_NUMBER with your findings
+8. Mark the component synced — do this even if the component already matched React and you made no code changes at all; \"nothing to fix\" is a successful outcome, not a skip:
+   cd scripts && node parity-check.mjs --mark-synced $COMPONENT_NAME && cd ..
+   This updates .parity-check-data.json at the repo root. Do this BEFORE committing/pushing (next step) so it rides along in the same commit.
+9. Commit and push — always, even when the only change is the sync marker from step 8:
+   - If you made component/code changes: commit them together with the .parity-check-data.json update, push, and create a PR linked to the issue
+   - If you made no code changes (component already matched React): commit and push just the .parity-check-data.json update on a branch, and still open a PR linked to the issue (title like \"chore: mark $COMPONENT_NAME as synced\") — don't leave this change uncommitted/unpushed
+10. If you created a PR for actual component/code changes, add exactly one of these labels based on the change: 'bug' (fixing broken behavior), 'enhancement' (new/missing component or functionality), or 'breaking' (renamed/changed a public API, e.g. a naming-mismatch alignment). Skip this label for a sync-only PR (step 9's no-changes case) since none of those apply.
+11. If you created a PR, add the 'preview' label to it
+12. Before finishing, run 'git status' to confirm the working tree is clean and everything has been pushed
 
 Use the screenshots as visual references for how the component should look."
 fi
