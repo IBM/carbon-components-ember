@@ -19,40 +19,51 @@ import { cell } from 'ember-resources';
 const sideNavOpen = cell(true);
 const onToggle = (value) => (sideNavOpen.current = value);
 const noop = () => {};
+const subLinks = [{ title: 'Sub-link 1' }, { title: 'Sub-link 2' }];
 
 <template>
   <ThemeSupport />
-  <br>
-  <UIShell>
-    <:shell as |s|>
-      <s.Header @title='IBM' @subtitle='Platform' @open={{sideNavOpen.current}} @onToggle={{onToggle}}>
-        <:header>
-          <s.Nav as |Item|>
-            <Item>Link 1</Item>
-            <Item>Link 2</Item>
-            <Item>Link 3</Item>
-          </s.Nav>
-        </:header>
-        <:headerGlobal as |GlobalAction|>
-          <GlobalAction @aria-label='Notifications' @icon={{Notification}} @onClick={{noop}} />
-          <GlobalAction @aria-label='User Avatar' @icon={{UserAvatar}} @onClick={{noop}} />
-        </:headerGlobal>
-      </s.Header>
-      <s.Sidenav @open={{sideNavOpen.current}}>
-        <:default as |Menu Divider|>
-          <Menu @title='Category 1' @isCurrent={{false}} @transitionTo={{noop}} @submenus={{array}} />
-          <Divider />
-          <Menu @title='Category 2' @isCurrent={{false}} @transitionTo={{noop}} @submenus={{array}} />
-        </:default>
-        <:footer as |Footer|>
-          <Footer @open={{sideNavOpen.current}} @onToggle={{onToggle}} />
-        </:footer>
-      </s.Sidenav>
-    </:shell>
-    <:content>
-      <p>Page content</p>
-    </:content>
-  </UIShell>
+  {{! The wrapper's transform makes it the containing block for the
+      shell's fixed-position header and side nav, so the preview stays
+      inside this box instead of overlaying the whole page. }}
+  <div
+    style='position: relative; height: 26rem; overflow: hidden; transform: translate(0); border: 1px solid var(--cds-border-subtle-01, #e0e0e0);'
+  >
+    <UIShell>
+      <:shell as |s|>
+        <s.Header @title='IBM' @subtitle='Platform' @open={{sideNavOpen.current}} @onToggle={{onToggle}}>
+          <:header>
+            <s.Nav as |Item|>
+              <Item>Link 1</Item>
+              <Item>Link 2</Item>
+              <Item>Link 3</Item>
+            </s.Nav>
+          </:header>
+          <:headerGlobal as |GlobalAction|>
+            <GlobalAction @aria-label='Notifications' @icon={{Notification}} @onClick={{noop}} />
+            <GlobalAction @aria-label='User Avatar' @icon={{UserAvatar}} @onClick={{noop}} />
+          </:headerGlobal>
+        </s.Header>
+        <s.Sidenav @open={{sideNavOpen.current}}>
+          <:default as |Menu Divider|>
+            <Menu @title='Category 1' @submenus={{subLinks}} as |Sub|>
+              {{#each subLinks as |link|}}
+                <Sub @title={{link.title}} @transitionTo={{noop}} />
+              {{/each}}
+            </Menu>
+            <Divider />
+            <Menu @title='Category 2' @isCurrent={{false}} @transitionTo={{noop}} @submenus={{array}} />
+          </:default>
+          <:footer as |Footer|>
+            <Footer @open={{sideNavOpen.current}} @onToggle={{onToggle}} />
+          </:footer>
+        </s.Sidenav>
+      </:shell>
+      <:content>
+        <p>Page content</p>
+      </:content>
+    </UIShell>
+  </div>
 </template>
 ```
 
