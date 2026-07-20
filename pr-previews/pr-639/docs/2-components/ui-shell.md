@@ -2,7 +2,6 @@
 
 # UI Shell
 
-
 The UI Shell is the structural framework of an application that houses
 navigational elements and page content, so users can move through an
 application consistently and predictably. It composes a `Header` (top bar
