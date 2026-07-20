@@ -101,6 +101,45 @@ module('Integration | Component | UIShell', (hooks) => {
     assert.dom('.cds--side-nav__divider').exists({ count: 2 });
   });
 
+  test('sidenav menu with submenus expands and collapses on click', async function (assert) {
+    const subLinks = [{ title: 'Sub-link 1' }, { title: 'Sub-link 2' }];
+    const noop = () => {};
+
+    await render(
+      <template>
+        <UIShell>
+          <:shell as |s|>
+            <s.Sidenav @open={{true}}>
+              <:default as |Menu|>
+                <Menu @title='Category 1' @submenus={{subLinks}} as |Sub|>
+                  {{#each subLinks as |link|}}
+                    <Sub
+                      @title={{link.title}}
+                      @isCurrent={{false}}
+                      @transitionTo={{noop}}
+                    />
+                  {{/each}}
+                </Menu>
+              </:default>
+            </s.Sidenav>
+          </:shell>
+          <:content></:content>
+        </UIShell>
+      </template>,
+    );
+
+    assert.dom('.cds--side-nav__submenu').hasText('Category 1');
+    assert.dom('.cds--side-nav__menu').doesNotExist();
+
+    await click('.cds--side-nav__submenu');
+    assert.dom('.cds--side-nav__submenu').hasAria('expanded', 'true');
+    assert.dom('.cds--side-nav__menu .cds--side-nav__menu-item').exists({ count: 2 });
+
+    await click('.cds--side-nav__submenu');
+    assert.dom('.cds--side-nav__submenu').hasAria('expanded', 'false');
+    assert.dom('.cds--side-nav__menu').doesNotExist();
+  });
+
   test('sidenav footer toggles open state', async function (assert) {
     const open = cell(false);
     const onToggle = (value: boolean) => (open.current = value);
