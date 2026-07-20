@@ -50,6 +50,11 @@ Only exclude a component when there's a genuine reason (React-only concept/utili
 
 #### Path A: Component Exists - Fix Discrepancies
 
+If comparison finds the Ember component already matches React with no
+discrepancies, that's a valid outcome of Path A too — skip straight to
+Phase 3/4 with no code changes. Don't skip Phase 4: you still mark the
+component synced and push that update (see Phase 4, step 3).
+
 1. **Check for a Naming Mismatch**
    - If the component already exists in Ember under a different name (e.g. `carbon-components-ember/src/components/` has an equivalent component with a different export name), rename/align it to match the React name instead of treating it as missing
    - Update the export in `index.ts`, the file name, and any references/docs/tests accordingly
@@ -136,18 +141,50 @@ Use this path only when the component genuinely doesn't belong as a standalone E
      - What you implemented/fixed
      - Any limitations or notes
 
-2. **Create PR** (if changes made)
+2. **Mark the Component as Synced (before committing/pushing — always, even if no code changes were needed)**
+
+   Run this whenever Phase 1/2 investigation confirms the component is at
+   parity with React — **including when nothing needed fixing**, i.e. you
+   determined the existing Ember implementation already matches and made no
+   code changes. "Nothing to fix" is a successful outcome, not a skip:
+   ```bash
+   cd scripts
+   node parity-check.mjs --mark-synced {{COMPONENT_NAME}}
+   # Or, if you touched multiple components in this fix:
+   node parity-check.mjs --mark-synced Button,Accordion,DataTable
+   cd ..
+   ```
+   This updates `.parity-check-data.json` at the repo root. Do this *before*
+   the commit/push step below, so the change rides along in the same commit
+   instead of being left uncommitted after you've already pushed.
+
+3. **Commit and Push — always, even if the only change is the sync marker**
    ```bash
    git checkout -b feat/{{COMPONENT_NAME_KEBAB}}
    git add -A
-   git commit -m "feat: implement {{COMPONENT_NAME}} component"
-   git push -u origin feat/{{COMPONENT_NAME_KEBAB}}
-   gh pr create --title "feat: implement {{COMPONENT_NAME}} component" \
-     --body "Closes #{{ISSUE_NUMBER}}" \
-     --label "parity-check"
    ```
+   - If you made component/code changes:
+     ```bash
+     git commit -m "feat: implement {{COMPONENT_NAME}} component"
+     git push -u origin feat/{{COMPONENT_NAME_KEBAB}}
+     gh pr create --title "feat: implement {{COMPONENT_NAME}} component" \
+       --body "Closes #{{ISSUE_NUMBER}}" \
+       --label "parity-check"
+     ```
+   - If no code changes were needed (component already matched React) — the
+     working tree still has the `.parity-check-data.json` sync update from
+     step 2 above; commit and push *that*, don't skip this step:
+     ```bash
+     git commit -m "chore: mark {{COMPONENT_NAME}} as synced (already at parity, no changes needed)"
+     git push -u origin feat/{{COMPONENT_NAME_KEBAB}}
+     gh pr create --title "chore: mark {{COMPONENT_NAME}} as synced" \
+       --body "Closes #{{ISSUE_NUMBER}} — verified {{COMPONENT_NAME}} already matches the React implementation, no changes needed." \
+       --label "parity-check"
+     ```
+     The change-type label in the next step doesn't apply here (it's not a
+     bug/enhancement/breaking change) — skip it for this case only.
 
-3. **Add a Change-Type Label**
+4. **Add a Change-Type Label** (skip if you took the "no code changes needed" branch above)
 
    Also add exactly one of these, based on the nature of the change:
    - `bug` - fixing incorrect/broken behavior in an existing component
@@ -158,50 +195,50 @@ Use this path only when the component genuinely doesn't belong as a standalone E
    gh pr edit <PR_NUMBER> --add-label "bug"          # or "enhancement" / "breaking"
    ```
 
-4. **Add Preview Label**
+5. **Add Preview Label**
    ```bash
    gh pr edit <PR_NUMBER> --add-label "preview"
    ```
 
-5 **Add parity-check Label**
+6. **Add parity-check Label**
    ```bash
    gh pr edit <PR_NUMBER> --add-label "parity-check"
    ```
-6 commit modified files, package.json and index.ts, those are auto updated. make sure all necessary files are commited, but no unrelated file is commited.
 
-7 ensure git working tree is clean!!!
+7. Commit any remaining modified files — `package.json`, `index.ts`, and
+   `.parity-check-data.json` are all auto-updated by tooling above and must
+   be included. Make sure all necessary files are committed, but no
+   unrelated file is committed.
 
-### Marking Components as Synced
-
-After updating Ember components to match React changes, mark them as synced:
-
-```bash
-cd scripts
-node parity-check.mjs --mark-synced ComponentName
-# Or multiple components:
-node parity-check.mjs --mark-synced Button,Accordion,DataTable
-```
+8. Ensure the git working tree is clean and everything (including the
+   `.parity-check-data.json` sync update) has been pushed to the PR branch —
+   run `git status` to confirm before finishing.
 
 ## Success Criteria
 
 If you took Path C (Exclude), you're done once `--exclude` has been run and the issue is closed - none of the criteria below apply.
 
+If the component already matched React and no code changes were needed, most
+of the code/test/doc criteria below don't apply — but the sync-marking, PR,
+and push criteria still do: "nothing to fix" still has to be recorded and
+pushed, not just left as a silent no-op.
+
 Otherwise, your implementation is complete when ALL of these are true:
 
-- [ ] Component file created/updated in correct location
-- [ ] Component exported in `index.ts`
-- [ ] Tests created and cover main functionality
-- [ ] Documentation added in `docs-app/app/routes/components/`
+- [ ] Component file created/updated in correct location (skip if no code changes were needed)
+- [ ] Component exported in `index.ts` (skip if no code changes were needed)
+- [ ] Tests created and cover main functionality (skip if no code changes were needed)
+- [ ] Documentation added in `docs-app/app/routes/components/` (skip if no code changes were needed)
 - [ ] Build succeeds: `cd carbon-components-ember && pnpm build`
 - [ ] CSS classes use `cds--` prefix
 - [ ] API matches React component (args match props)
 - [ ] Visual design matches screenshot/Storybook
 - [ ] Issue updated with findings
-- [ ] PR created and linked to issue (if changes made)
-- [ ] One of `bug` / `enhancement` / `breaking` label added to PR
+- [ ] PR created and linked to issue — always, even when the only change is the sync marker
+- [ ] One of `bug` / `enhancement` / `breaking` label added to PR (skip if no code changes were needed)
 - [ ] Preview label added to PR
 - [ ] parity-check label added to PR
-- [ ] mark them as synced
+- [ ] Component(s) marked synced via `--mark-synced` — always, even when no code changes were needed — and the resulting `.parity-check-data.json` change is committed and pushed (not left behind)
 - [ ] use signed commit
 
 ## Important Notes

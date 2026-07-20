@@ -39,6 +39,9 @@ function createIndexFiles() {
     if (comp.includes('radio/group')) {
       camelCased = 'RadioGroup';
     }
+    if (comp.split('/').at(-1) === 'ui-shell.gts') {
+      camelCased = 'UIShell';
+    }
     componentIndexFile.push(`export { default as ${camelCased} } from './${comp.replace('components/', '')}'`);
   }
   fs.writeFileSync('./src/components/index.ts', componentIndexFile.join('\n'));
