@@ -1,0 +1,123 @@
+[
+  [
+    "<div id=\"ember76\" class=\"ember-view cds--stack-vertical cds--stack-scale-6\" data-index=\"0\"></div>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "display": "grid",
+      "font": "",
+      "gap": "24px normal",
+      "grid": "16px 16px 16px / 1276px / none / row / auto / auto",
+      "height": "96px",
+      "outline": "rgb(244, 244, 244) none 3px",
+      "width": "1276px"
+    }
+  ],
+  [
+    "<div:before id=\"ember76\" class=\"ember-view cds--stack-vertical cds--stack-scale-6\" data-index=\"0\"></div:before>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "display": "block",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<div:after id=\"ember76\" class=\"ember-view cds--stack-vertical cds--stack-scale-6\" data-index=\"0\"></div:after>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "display": "block",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<div data-index=\"1\"></div>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "height": "16px",
+      "outline": "rgb(244, 244, 244) none 3px",
+      "width": "1276px"
+    }
+  ],
+  [
+    "<div:before data-index=\"1\"></div:before>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<div:after data-index=\"1\"></div:after>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<div data-index=\"2\"></div>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "height": "16px",
+      "outline": "rgb(244, 244, 244) none 3px",
+      "width": "1276px"
+    }
+  ],
+  [
+    "<div:before data-index=\"2\"></div:before>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<div:after data-index=\"2\"></div:after>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<div data-index=\"3\"></div>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "height": "16px",
+      "outline": "rgb(244, 244, 244) none 3px",
+      "width": "1276px"
+    }
+  ],
+  [
+    "<div:before data-index=\"3\"></div:before>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<div:after data-index=\"3\"></div:after>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ]
+]

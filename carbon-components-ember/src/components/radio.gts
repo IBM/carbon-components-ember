@@ -26,24 +26,40 @@ export default class RadioButton extends Component<Signature> {
     return guidFor(this);
   }
 
-  get groupGuid() {
+  get name() {
     if (this.args.group) {
-      return guidFor(this.args.group);
+      return this.args.group.name;
     }
-    return '';
+    return 'radio-button-group-';
   }
 
   get isChecked() {
-    if (this.args.group && !this.args.group.current) {
+    const group = this.args.group;
+    if (group) {
+      if (group.args.valueSelected !== undefined) {
+        return group.args.valueSelected === this.args.value;
+      }
+      if (group.current) {
+        return group.current === this;
+      }
+      if (group.args.defaultSelected !== undefined) {
+        return group.args.defaultSelected === this.args.value;
+      }
       return this.args.isDefault;
     }
-    return this.args.group?.current === this || this.args.isChecked;
+    return this.args.isChecked;
   }
 
   onChange = (event: Event) => {
     this.args.onChange?.(this);
     event.preventDefault();
     return false;
+  }
+
+  onClick = (event: Event) => {
+    if (this.args.group?.args.readOnly) {
+      event.preventDefault();
+    }
   }
 
   <template>
@@ -53,9 +69,10 @@ export default class RadioButton extends Component<Signature> {
         class='cds--radio-button'
         id='radio-{{this.guid}}'
         disabled={{or @disabled (not @onChange)}}
-        name='radio-button-group-{{this.groupGuid}}'
+        name={{this.name}}
         checked={{this.isChecked}}
         {{on 'change' this.onChange}}
+        {{on 'click' this.onClick}}
       />
       <label for='radio-{{this.guid}}' class='cds--radio-button__label'>
         <span class='cds--radio-button__appearance'></span>

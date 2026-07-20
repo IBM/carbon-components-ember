@@ -7,7 +7,9 @@ on:
 jobs:
   deploy-preview:
     name: Deploy Preview
-    if: contains(github.event.pull_request.labels.*.name, 'preview') && github.event.action != 'closed'
+    if: |
+      (github.event.action == 'labeled' && github.event.label.name == 'preview') ||
+      (contains(fromJSON('["opened", "synchronize", "reopened"]'), github.event.action) && contains(github.event.pull_request.labels.*.name, 'preview'))
     runs-on: ubuntu-latest
     permissions:
       contents: write

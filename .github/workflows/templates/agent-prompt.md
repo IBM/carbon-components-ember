@@ -241,6 +241,20 @@ Otherwise, your implementation is complete when ALL of these are true:
 - [ ] Component(s) marked synced via `--mark-synced` — always, even when no code changes were needed — and the resulting `.parity-check-data.json` change is committed and pushed (not left behind)
 - [ ] use signed commit
 
+**Before ending your turn**, go through this checklist and actually run the
+verification commands (`git status`, `git log origin/main..HEAD`, `gh pr view`,
+`gh issue view {{ISSUE_NUMBER}} --comments`) — don't check a box because you
+intend to do something or recall saying you would. This is an unattended
+headless run: nobody reads a "documented progress, moving on" note and
+resumes it by hand, so leaving anything unchecked is a wasted run, not a
+graceful degradation.
+
+If a command you started (build, test, `gh pr create`, etc.) is still
+running, **wait for it to finish** before ending — don't end your turn with
+a message like "once the suite finishes, I'll commit and open the PR". If you
+say you're about to do something, do it now, in this same turn, and confirm
+it happened before stopping.
+
 ## Important Notes
 
 - **Simplify**: Don't overcomplicate React patterns
