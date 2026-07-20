@@ -19,6 +19,8 @@ import {
   ErrorFilled,
   InformationSquareFilled,
   CheckmarkFilled,
+  Notification,
+  UserAvatar,
 } from 'carbon-components-ember/icons';
 // @ts-expect-error ignore
 import { Bookmark32 } from '@carbon/icons/es/index.js';
@@ -79,6 +81,8 @@ export default class Application extends Route {
             ErrorFilled,
             InformationSquareFilled,
             CheckmarkFilled,
+            Notification,
+            UserAvatar,
           }),
           'docs-support': Promise.resolve({
             ThemeSupport,
