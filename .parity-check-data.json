@@ -157,6 +157,7 @@
       "RadioGroup",
       "SearchInput",
       "Select",
+      "SkeletonIcon",
       "SkeletonPlaceholder",
       "Tabs",
       "Tag",
@@ -252,7 +253,6 @@
       "SelectItem",
       "SelectItemGroup",
       "ShapeIndicator",
-      "SkeletonIcon",
       "SkeletonText",
       "Slider",
       "Stack",
@@ -430,6 +430,13 @@
       "lastUpdate": null
     },
     "SkeletonPlaceholder": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "SkeletonIcon": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "hasChanges": false,
