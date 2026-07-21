@@ -1,0 +1,7 @@
+{
+  "PrimaryButton": {
+    "reason": "PrimaryButton in Carbon React is a thin legacy convenience wrapper (<Button kind=\"primary\" {...props} />), not an independent component. Ember's Button already defaults @type to 'primary', so <Button>...</Button> is fully equivalent — no separate component needed.",
+    "excludedAt": "2026-07-21T17:06:53.659Z",
+    "issue": "478"
+  }
+}
