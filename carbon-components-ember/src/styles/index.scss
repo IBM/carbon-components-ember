@@ -30,3 +30,14 @@
     max-width: min(90vw, 400px) !important;
   }
 }
+
+// `@carbon/styles`'s text-area mixin sizes `.cds--text-area__wrapper` to
+// 100% width but never gives the `<textarea>` itself a width, so without an
+// explicit `cols` attribute the browser falls back to its ~20-character
+// default width. That leaves the textarea rendering narrow while its
+// counter label and invalid/warning icon -- both positioned relative to the
+// full-width wrapper -- end up far to the right, disconnected from the
+// field itself.
+.cds--text-area__wrapper:not(.cds--text-area__wrapper--cols) .cds--text-area {
+  inline-size: 100%;
+}

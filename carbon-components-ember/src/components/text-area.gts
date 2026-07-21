@@ -106,6 +106,7 @@ export default class TextArea extends Component<Signature> {
       </div>
       <div
         class='cds--text-area__wrapper
+          {{if @cols "cds--text-area__wrapper--cols"}}
           {{if @readOnly "cds--text-area__wrapper--readonly"}}
           {{if this.isInvalid "cds--text-area__wrapper--invalid"}}
           {{if this.isWarn "cds--text-area__wrapper--warn"}}'
