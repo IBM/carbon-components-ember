@@ -80,6 +80,7 @@ export default class StructuredListRow extends Component<StructuredListRowSignat
     {{else}}
       <div
         role='row'
+        tabindex='-1'
         class='cds--structured-list-row
           {{if this.hasFocusWithin "cds--structured-list-row--focused-within"}}
           {{if this.isSelected "cds--structured-list-row--selected"}}'

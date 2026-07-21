@@ -41,8 +41,8 @@ export default class StructuredListInput extends Component<StructuredListInputSi
     <input
       type='radio'
       tabindex='0'
-      checked={{this.args.row.isSelected}}
-      value={{this.args.row.rowId}}
+      checked={{@row.isSelected}}
+      value={{@row.rowId}}
       id={{this.id}}
       class='cds--structured-list-input cds--visually-hidden'
       name={{this.name}}

@@ -22,6 +22,8 @@ export interface StructuredListSignature {
     isCondensed?: boolean;
     isFlush?: boolean;
     selectedInitialRow?: string;
+    selectedRow?: string | null;
+    onSelectionChange?: (id: string) => void;
     ariaLabel?: string;
   };
   Blocks: {
@@ -56,7 +58,8 @@ export interface StructuredListSignature {
  * ```
  */
 export default class StructuredList extends Component<StructuredListSignature> {
-  @tracked selectedRow: string | null = this.args.selectedInitialRow ?? null;
+  @tracked internalSelectedRow: string | null =
+    this.args.selectedInitialRow ?? null;
 
   get ariaLabel() {
     return this.args.ariaLabel ?? 'Structured list section';
@@ -66,9 +69,23 @@ export default class StructuredList extends Component<StructuredListSignature> {
     return this.args.isFlush && !this.args.selection;
   }
 
+  /**
+   * The currently selected row id. Pass `@selectedRow` to control selection
+   * externally (e.g. to drive it from route/query-param state); otherwise
+   * the component tracks it internally, seeded by `@selectedInitialRow`.
+   */
+  get selectedRow(): string | null {
+    return this.args.selectedRow ?? this.internalSelectedRow;
+  }
+
   @action
   setSelectedRow(id: string) {
-    this.selectedRow = id;
+    // A click on the row's radio input fires both the row's own click
+    // handler and the input's change handler; guard so a single user
+    // selection only produces a single update/notification.
+    if (this.internalSelectedRow === id) return;
+    this.internalSelectedRow = id;
+    this.args.onSelectionChange?.(id);
   }
 
   <template>

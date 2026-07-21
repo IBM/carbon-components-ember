@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
+import { tracked } from '@glimmer/tracking';
 import StructuredList from 'carbon-components-ember/components/structured-list';
 
 module('Integration | Component | StructuredList', (hooks) => {
@@ -122,6 +123,80 @@ module('Integration | Component | StructuredList', (hooks) => {
 
     assert.dom('[value="row-2"]').isChecked();
     assert.dom('.cds--structured-list-row--selected').exists({ count: 1 });
+  });
+
+  test('onSelectionChange is called with the selected row id', async function (assert) {
+    const selections: string[] = [];
+    const onSelectionChange = (id: string) => selections.push(id);
+
+    await render(
+      <template>
+        <StructuredList
+          @selection={{true}}
+          @onSelectionChange={{onSelectionChange}}
+          as |SL|
+        >
+          <SL.Body>
+            <SL.Row @id='row-1' as |Row|>
+              <Row @name='rows' />
+              <SL.Cell>Row 1</SL.Cell>
+            </SL.Row>
+            <SL.Row @id='row-2' as |Row|>
+              <Row @name='rows' />
+              <SL.Cell>Row 2</SL.Cell>
+            </SL.Row>
+          </SL.Body>
+        </StructuredList>
+      </template>,
+    );
+
+    await click('[value="row-2"]');
+
+    assert.deepEqual(selections, ['row-2']);
+  });
+
+  test('@selectedRow lets a consumer fully control selection alongside onSelectionChange', async function (assert) {
+    class State {
+      @tracked selectedRow = 'row-1';
+    }
+    const state = new State();
+    const onSelectionChange = (id: string) => (state.selectedRow = id);
+
+    await render(
+      <template>
+        <StructuredList
+          @selection={{true}}
+          @selectedRow={{state.selectedRow}}
+          @onSelectionChange={{onSelectionChange}}
+          as |SL|
+        >
+          <SL.Body>
+            <SL.Row @id='row-1' as |Row|>
+              <Row @name='rows' />
+              <SL.Cell>Row 1</SL.Cell>
+            </SL.Row>
+            <SL.Row @id='row-2' as |Row|>
+              <Row @name='rows' />
+              <SL.Cell>Row 2</SL.Cell>
+            </SL.Row>
+          </SL.Body>
+        </StructuredList>
+      </template>,
+    );
+
+    assert.dom('[value="row-1"]').isChecked('starts at the controlled value');
+
+    await click('[value="row-2"]');
+
+    assert.strictEqual(
+      state.selectedRow,
+      'row-2',
+      'onSelectionChange updated the external state',
+    );
+    assert
+      .dom('[value="row-2"]')
+      .isChecked('the controlled @selectedRow reflects the update');
+    assert.dom('[value="row-1"]').isNotChecked();
   });
 
   test('clicking a row calls the provided onClick handler', async function (assert) {
