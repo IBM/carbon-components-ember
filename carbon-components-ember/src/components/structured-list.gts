@@ -19,11 +19,15 @@ export interface StructuredListSignature {
   Element: HTMLDivElement;
   Args: {
     selection?: boolean;
+    multiSelection?: boolean;
     isCondensed?: boolean;
     isFlush?: boolean;
     selectedInitialRow?: string;
     selectedRow?: string | null;
     onSelectionChange?: (id: string) => void;
+    selectedInitialRows?: string[];
+    selectedRows?: string[] | null;
+    onMultiSelectionChange?: (ids: string[]) => void;
     ariaLabel?: string;
   };
   Blocks: {
@@ -60,6 +64,7 @@ export interface StructuredListSignature {
 export default class StructuredList extends Component<StructuredListSignature> {
   @tracked internalSelectedRow: string | null =
     this.args.selectedInitialRow ?? null;
+  @tracked internalSelectedRows: string[] = this.args.selectedInitialRows ?? [];
 
   get ariaLabel() {
     return this.args.ariaLabel ?? 'Structured list section';
@@ -78,14 +83,49 @@ export default class StructuredList extends Component<StructuredListSignature> {
     return this.args.selectedRow ?? this.internalSelectedRow;
   }
 
+  /**
+   * The currently selected row ids, used when `@multiSelection` is enabled.
+   * Pass `@selectedRows` to control selection externally; otherwise the
+   * component tracks it internally, seeded by `@selectedInitialRows`.
+   */
+  get selectedRows(): string[] {
+    return this.args.selectedRows ?? this.internalSelectedRows;
+  }
+
+  isRowSelected(id: string): boolean {
+    return this.args.multiSelection
+      ? this.selectedRows.includes(id)
+      : this.selectedRow === id;
+  }
+
+  /**
+   * Applies a row selection triggered by user interaction, dispatching to
+   * single- or multi-selection handling depending on `@multiSelection`.
+   */
+  @action
+  selectRow(id: string) {
+    if (this.args.multiSelection) {
+      this.toggleSelectedRow(id);
+    } else {
+      this.setSelectedRow(id);
+    }
+  }
+
   @action
   setSelectedRow(id: string) {
-    // A click on the row's radio input fires both the row's own click
-    // handler and the input's change handler; guard so a single user
-    // selection only produces a single update/notification.
     if (this.internalSelectedRow === id) return;
     this.internalSelectedRow = id;
     this.args.onSelectionChange?.(id);
+  }
+
+  @action
+  toggleSelectedRow(id: string) {
+    const current = this.selectedRows;
+    const next = current.includes(id)
+      ? current.filter((rowId) => rowId !== id)
+      : [...current, id];
+    this.internalSelectedRows = next;
+    this.args.onMultiSelectionChange?.(next);
   }
 
   <template>

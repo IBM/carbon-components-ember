@@ -31,15 +31,19 @@ export default class StructuredListInput extends Component<StructuredListInputSi
     return this.args.name ?? `structured-list-input-${guidFor(this.args.row.args.wrapper)}`;
   }
 
+  get type() {
+    return this.args.row.multiSelection ? 'checkbox' : 'radio';
+  }
+
   @action
   handleChange(event: Event) {
-    this.args.row.args.wrapper.setSelectedRow(this.args.row.rowId);
+    this.args.row.args.wrapper.selectRow(this.args.row.rowId);
     this.args.onChange?.(event);
   }
 
   <template>
     <input
-      type='radio'
+      type={{this.type}}
       tabindex='0'
       checked={{@row.isSelected}}
       value={{@row.rowId}}

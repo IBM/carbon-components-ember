@@ -14,7 +14,12 @@ import type { WithBoundArgs } from '@glint/template';
 import Cell from './-cell.gts';
 import Input from './-input.gts';
 import type StructuredList from '../structured-list.gts';
-import { RadioButtonChecked, RadioButton } from '../../icons.ts';
+import {
+  RadioButtonChecked,
+  RadioButton,
+  CheckboxChecked,
+  Checkbox,
+} from '../../icons.ts';
 
 export interface StructuredListRowSignature {
   Element: HTMLDivElement;
@@ -41,13 +46,22 @@ export default class StructuredListRow extends Component<StructuredListRowSignat
     return this.args.wrapper.args.selection;
   }
 
+  get multiSelection() {
+    return this.args.wrapper.args.multiSelection;
+  }
+
   get isSelected() {
-    return this.args.wrapper.selectedRow === this.rowId;
+    return this.args.wrapper.isRowSelected(this.rowId);
   }
 
   @action
   handleClick(event: MouseEvent) {
-    this.args.wrapper.setSelectedRow(this.rowId);
+    // Clicking the row's own input fires both this click handler and the
+    // input's change handler; skip here so the input's handler is the one
+    // that applies the selection, avoiding a double toggle in multi-select.
+    if ((event.target as HTMLElement)?.tagName !== 'INPUT') {
+      this.args.wrapper.selectRow(this.rowId);
+    }
     this.args.onClick?.(event);
     if (this.selection) {
       this.hasFocusWithin = true;
@@ -92,16 +106,30 @@ export default class StructuredListRow extends Component<StructuredListRowSignat
       >
         {{#if this.selection}}
           <Cell>
-            {{#if this.isSelected}}
-              <RadioButtonChecked
-                @size={{16}}
-                @svgClass='cds--structured-list__icon'
-              />
+            {{#if this.multiSelection}}
+              {{#if this.isSelected}}
+                <CheckboxChecked
+                  @size={{16}}
+                  @svgClass='cds--structured-list__icon'
+                />
+              {{else}}
+                <Checkbox
+                  @size={{16}}
+                  @svgClass='cds--structured-list__icon'
+                />
+              {{/if}}
             {{else}}
-              <RadioButton
-                @size={{16}}
-                @svgClass='cds--structured-list__icon'
-              />
+              {{#if this.isSelected}}
+                <RadioButtonChecked
+                  @size={{16}}
+                  @svgClass='cds--structured-list__icon'
+                />
+              {{else}}
+                <RadioButton
+                  @size={{16}}
+                  @svgClass='cds--structured-list__icon'
+                />
+              {{/if}}
             {{/if}}
           </Cell>
         {{/if}}
