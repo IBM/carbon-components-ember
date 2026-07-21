@@ -101,7 +101,7 @@ export default class RadioButton extends Component<Signature> {
         type='radio'
         class='cds--radio-button'
         id={{this.id}}
-        value={{this.args.value}}
+        value={{@value}}
         disabled={{this.disabled}}
         readonly={{this.readOnly}}
         required={{this.required}}
@@ -114,7 +114,7 @@ export default class RadioButton extends Component<Signature> {
         <span class='cds--radio-button__appearance'></span>
         <span
           class='cds--radio-button__label-text
-            {{if this.args.hideLabel "cds--visually-hidden"}}'
+            {{if @hideLabel "cds--visually-hidden"}}'
           dir='auto'
         >
           {{#if (has-block)}}
