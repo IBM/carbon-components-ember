@@ -2932,6 +2932,7 @@
       "./components/carbon/select.js": "./dist/_app_/components/carbon/select.js",
       "./components/carbon/shape-indicator.js": "./dist/_app_/components/carbon/shape-indicator.js",
       "./components/carbon/skeleton-placeholder.js": "./dist/_app_/components/carbon/skeleton-placeholder.js",
+      "./components/carbon/skeleton-text.js": "./dist/_app_/components/carbon/skeleton-text.js",
       "./components/carbon/slider-skeleton.js": "./dist/_app_/components/carbon/slider-skeleton.js",
       "./components/carbon/slider.js": "./dist/_app_/components/carbon/slider.js",
       "./components/carbon/stack.js": "./dist/_app_/components/carbon/stack.js",
