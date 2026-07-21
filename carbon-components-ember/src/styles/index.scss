@@ -1,4 +1,12 @@
 @use 'ember-basic-dropdown';
+@use '@carbon/grid';
+
+// `Grid`/`GridRow`/`GridColumn` render the `cds--grid`/`cds--row`/`cds--col-*`
+// class names from Carbon's Flexbox Grid, but `@carbon/styles`'s prebuilt
+// `css/styles.css` doesn't include them (flexbox grid is opt-in there and
+// disabled by default). Generate them here so the classes our components
+// emit actually have styles.
+@include grid.flex-grid();
 
 .ember-power-select-visually-hidden {
   visibility: hidden;
