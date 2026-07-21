@@ -163,6 +163,7 @@
       "SliderSkeleton",
       "Stack",
       "TabContent",
+      "SkeletonText",
       "Tabs",
       "Tag",
       "Text",
@@ -259,6 +260,8 @@
       "SelectItemGroup",
       "SkeletonIcon",
       "SkeletonText",
+      "Slider",
+      "Stack",
       "StructuredList",
       "Switch",
       "Tab",
@@ -294,6 +297,7 @@
       "Slider",
       "Stack",
       "TabContent",
+      "SkeletonText",
       "Tabs",
       "Tag",
       "Text",
@@ -505,6 +509,13 @@
     "UnorderedList": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "N/A",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "SkeletonText": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "hasChanges": false,
       "changeCount": 0,
       "lastUpdate": null
