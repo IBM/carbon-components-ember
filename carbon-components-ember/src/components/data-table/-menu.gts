@@ -1,6 +1,6 @@
-import { default as Menu } from '../menu.gts';
+import { default as OverflowMenu } from '../overflow-menu.gts';
 import Component from '@glimmer/component';
-import MenuItemComponent from '../menu/-item.gts';
+import MenuItemComponent from '../overflow-menu/-item.gts';
 import type { WithBoundArgs } from '@glint/template';
 import { OverflowMenuVertical } from '../../icons.ts';
 
@@ -15,9 +15,9 @@ export interface TableMenuComponentSignature {
 export default class TableMenuComponent extends Component<TableMenuComponentSignature> {
   <template>
     <td class='cds--table-column-menu'>
-      <Menu @icon={{OverflowMenuVertical}} @direction='top' as |Item|>
+      <OverflowMenu @icon={{OverflowMenuVertical}} @direction='top' as |Item|>
         {{yield Item}}
-      </Menu>
+      </OverflowMenu>
     </td>
   </template>
 }

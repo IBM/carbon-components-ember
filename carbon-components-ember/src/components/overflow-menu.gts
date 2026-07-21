@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import Icon from '../components/icon.gts';
-import MenuItemComponent from '../components/menu/-item.gts';
+import MenuItemComponent from '../components/overflow-menu/-item.gts';
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 import defaultTo from '../helpers/default-to.ts';
 import { on } from '@ember/modifier';
@@ -8,7 +8,7 @@ import AttachTooltip from 'ember-attacher/components/attach-tooltip';
 import type { WithBoundArgs } from '@glint/template';
 import { OverflowMenuVertical } from '../icons.ts';
 
-export interface MenuComponentSignature {
+export interface OverflowMenuComponentSignature {
   Args: {
     icon?: typeof Icon;
     direction: 'bottom' | 'top';
@@ -24,7 +24,7 @@ export interface MenuComponentSignature {
 }
 
 
-export default class MenuComponent extends Component<MenuComponentSignature> {
+export default class OverflowMenuComponent extends Component<OverflowMenuComponentSignature> {
 
   get icon() {
     return this.args.icon || OverflowMenuVertical;
