@@ -4,6 +4,10 @@ set -euo pipefail
 # Change to script directory so it can be run from anywhere
 cd "$(dirname "$0")"
 
+# Repo root, for paths (like the prompt template under .github/) that live
+# outside this scripts/ directory regardless of our cwd above.
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
 # Local Parity Fix Script
 # This script helps fix parity issues locally using Agent
 # Usage: ./scripts/fix-parity-issue.sh [issue_number]
@@ -63,6 +67,26 @@ run_claude() {
   return "$claude_exit"
 }
 
+warn_dirty_worktree() {
+  if git diff --quiet && git diff --cached --quiet; then
+    return 0
+  fi
+
+  echo "Local tracked changes detected. Leaving working tree as-is so Claude can resolve the state if needed."
+  return 0
+}
+
+# If we're already on a branch this script created for a prior issue (and it's
+# not main), finish that work first instead of picking something new — a
+# leftover "fix-issue-N" branch means an earlier run ended without opening a
+# PR and getting back to main, so it isn't actually done yet.
+STARTING_BRANCH="$(git branch --show-current)"
+if [ "$STARTING_BRANCH" != "main" ] && [[ "$STARTING_BRANCH" == fix-issue-* ]]; then
+  RESUMED_ISSUE_NUMBER="${STARTING_BRANCH#fix-issue-}"
+  echo "Currently on branch '$STARTING_BRANCH' (not main) — resuming unfinished issue #$RESUMED_ISSUE_NUMBER instead of selecting new work."
+  ISSUE_NUMBER="$RESUMED_ISSUE_NUMBER"
+fi
+
 if [ -z "$ISSUE_NUMBER" ]; then
   echo "No issue or PR number provided. Checking for work to do..."
   echo ""
@@ -103,7 +127,8 @@ if [ -z "$ISSUE_NUMBER" ]; then
     
     # Checkout the PR branch
     echo "Checking out PR #$SELECTED_PR..."
-    gh pr checkout "$SELECTED_PR"
+    warn_dirty_worktree
+    gh pr checkout "$SELECTED_PR" || echo "Warning: failed to check out PR #$SELECTED_PR; continuing so Claude can inspect and resolve the repository state"
     
     REVIEW_PROMPT="Review and address feedback on PR #$SELECTED_PR
 
@@ -128,9 +153,10 @@ Be thorough and address all review comments."
     ATTEMPT=1
     
     until run_claude "$REVIEW_PROMPT"; do
-      echo "Agent attempt $ATTEMPT failed. Retrying in ${RETRY_DELAY}s..."
+      echo "[$(date '+%Y-%m-%d %H:%M:%S')] Agent attempt $ATTEMPT failed. Sleeping ${RETRY_DELAY}s..."
       ATTEMPT=$((ATTEMPT + 1))
       sleep "$RETRY_DELAY"
+      echo "[$(date '+%Y-%m-%d %H:%M:%S')] Woke up, retrying attempt $ATTEMPT..."
     done
     
     echo ""
@@ -240,10 +266,14 @@ CURRENT_BRANCH=$(git branch --show-current)
 
 if [ "$CURRENT_BRANCH" = "$BRANCH_NAME" ]; then
   echo "Already on branch $BRANCH_NAME"
-elif git show-ref --verify --quiet "refs/heads/$BRANCH_NAME"; then
-  git checkout "$BRANCH_NAME"
 else
-  git checkout -b "$BRANCH_NAME" origin/main
+  warn_dirty_worktree
+
+  if git show-ref --verify --quiet "refs/heads/$BRANCH_NAME"; then
+    git checkout "$BRANCH_NAME" || echo "Warning: failed to check out existing branch $BRANCH_NAME; continuing so Claude can inspect and resolve the repository state"
+  else
+    git checkout -b "$BRANCH_NAME" origin/main || echo "Warning: failed to create branch $BRANCH_NAME from origin/main; continuing so Claude can inspect and resolve the repository state"
+  fi
 fi
 
 # Check for required tools
@@ -414,7 +444,7 @@ echo "Starting Agent..."
 echo "---"
 
 
-PROMPT_TEMPLATE=".github/workflows/templates/agent-prompt.md"
+PROMPT_TEMPLATE="$REPO_ROOT/.github/workflows/templates/agent-prompt.md"
 
 if [ -f "$PROMPT_TEMPLATE" ]; then
   # Use template and replace variables
@@ -463,7 +493,9 @@ Your task:
 11. If you created a PR, add the 'preview' label to it
 12. Before finishing, run 'git status' to confirm the working tree is clean and everything has been pushed
 
-Use the screenshots as visual references for how the component should look."
+Use the screenshots as visual references for how the component should look.
+
+Before ending your turn, actually run 'git status', 'gh pr view' and 'gh issue view $ISSUE_NUMBER --comments' to confirm steps 9-12 really happened — don't end on a message describing what you're about to do (e.g. 'once the suite finishes, I'll commit and open the PR'). This is an unattended headless run with nobody to resume it by hand, so if something you started (build/test/push/PR creation) is still in progress, wait for it and finish it now instead of stopping."
 fi
 
 # Run the agent in a loop, retrying indefinitely until it succeeds
@@ -471,14 +503,84 @@ RETRY_DELAY=600
 ATTEMPT=1
 
 until run_claude "$PROMPT"; do
-  echo "Agent attempt $ATTEMPT failed. Retrying in ${RETRY_DELAY}s..."
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] Agent attempt $ATTEMPT failed. Sleeping ${RETRY_DELAY}s..."
   ATTEMPT=$((ATTEMPT + 1))
   sleep "$RETRY_DELAY"
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] Woke up, retrying attempt $ATTEMPT..."
 done
 
 echo ""
 echo "---"
-echo "Agent execution completed!"
+echo "Agent execution completed. Verifying the task is actually finished before finalizing..."
+
+CONTINUE_FILE="$TMP_DIR/continue-${ISSUE_NUMBER}.md"
+MAX_VERIFY_ATTEMPTS=5
+VERIFY_ATTEMPT=1
+
+while true; do
+  rm -f "$CONTINUE_FILE"
+
+  VERIFY_PROMPT="You just worked on issue #$ISSUE_NUMBER for the $COMPONENT_NAME component on branch $BRANCH_NAME.
+
+Verify — by actually running commands, not by recalling what you intended to do — whether this task is genuinely finished:
+- 'git status' shows a clean working tree, and everything has actually been pushed (git push again if needed)
+- Either: a PR exists linked to issue #$ISSUE_NUMBER (check 'gh pr list --search \"$ISSUE_NUMBER\"' / 'gh pr view') with the required labels from the original instructions, OR the component was excluded via 'parity-check.mjs --exclude' and issue #$ISSUE_NUMBER is closed, OR it was marked synced via '--mark-synced' with that change committed, pushed, and a PR opened for it
+- Issue #$ISSUE_NUMBER has been commented on / updated as instructed
+
+If ALL of the above are actually true: just report 'DONE', don't change anything else.
+
+If ANYTHING is missing, incomplete, or was only described as a future step (e.g. you previously said you would open a PR but didn't): finish it right now — run the actual commands (commit, push, gh pr create, gh pr edit --add-label, gh issue comment, etc.) in this same turn. Only if you genuinely cannot finish (a real blocker, not just running low on time), write a file at $CONTINUE_FILE explaining exactly what remains and why, so the next run can pick it up."
+
+  echo "Starting verification agent (round $VERIFY_ATTEMPT)..."
+  run_claude "$VERIFY_PROMPT" || echo "Warning: verification agent invocation itself failed; treating the task as unresolved"
+
+  if [ ! -f "$CONTINUE_FILE" ]; then
+    echo "Verification found no $CONTINUE_FILE — task considered finished."
+    break
+  fi
+
+  echo "Verification left $CONTINUE_FILE with remaining work:"
+  cat "$CONTINUE_FILE"
+  echo ""
+
+  VERIFY_ATTEMPT=$((VERIFY_ATTEMPT + 1))
+  if [ "$VERIFY_ATTEMPT" -gt "$MAX_VERIFY_ATTEMPTS" ]; then
+    echo "WARNING: task still incomplete after $MAX_VERIFY_ATTEMPTS verification rounds. Leaving branch $BRANCH_NAME as-is; the next run of this script will resume it automatically."
+    break
+  fi
+
+  CONTINUE_PROMPT="Continue and finish the remaining work on issue #$ISSUE_NUMBER for the $COMPONENT_NAME component (branch $BRANCH_NAME).
+
+A verification pass found this wasn't actually finished. Remaining work noted at $CONTINUE_FILE:
+
+$(cat "$CONTINUE_FILE")
+
+Finish these steps now — run the real commands (commit, push, gh pr create, gh pr edit --add-label, gh issue comment, etc.), don't just describe them."
+
+  echo "Re-running agent to finish remaining work (round $VERIFY_ATTEMPT)..."
+  until run_claude "$CONTINUE_PROMPT"; do
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] Continuation attempt failed. Sleeping ${RETRY_DELAY}s..."
+    sleep "$RETRY_DELAY"
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] Woke up, retrying continuation..."
+  done
+done
+
+echo ""
+echo "---"
+
+if [ -f "$CONTINUE_FILE" ]; then
+  echo "Task not finalized — staying on branch $BRANCH_NAME so the next run picks it back up."
+else
+  echo "Task finalized. Returning to latest main..."
+  warn_dirty_worktree
+  git fetch origin main
+  if git checkout main && git pull --ff-only origin main; then
+    echo "Now on branch: $(git branch --show-current)"
+  else
+    echo "Warning: failed to check out/update main; repo left on $(git branch --show-current) for manual or next-run cleanup"
+  fi
+fi
+
 echo ""
 echo "Next steps:"
 echo "  - Review any changes made"
