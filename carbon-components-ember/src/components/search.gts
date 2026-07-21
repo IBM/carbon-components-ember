@@ -5,20 +5,28 @@ import { cached, tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 import { timeout, type TaskInstance } from 'ember-concurrency';
 import didUpdate from '@ember/render-modifiers/modifiers/did-update';
+import { concat } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { runTask } from 'ember-lifeline';
-import { Close, Search } from '../icons.ts';
+import { default as defaultTo } from '../helpers/default-to.ts';
+import { Close, Search as SearchIcon } from '../icons.ts';
 import perform from 'ember-concurrency/helpers/perform';
 
 export type Args = {
-  onChange(value: any): TaskInstance<any> | undefined | void;
-  label?: string;
+  onChange?(value: any): TaskInstance<any> | undefined | void;
+  onClear?(): void;
+  labelText?: string;
   value?: string;
   placeholder?: string;
-  size?: 'lg' | 'md' | 'sm';
+  size?: 'xs' | 'sm' | 'md' | 'lg';
   isLoading?: boolean;
   expandable?: boolean;
   light?: boolean;
+  disabled?: boolean;
+  id?: string;
+  closeButtonLabelText?: string;
+  autoComplete?: string;
+  type?: string;
 };
 
 export interface SearchComponentSignature {
@@ -40,6 +48,10 @@ export default class SearchComponent extends Component<SearchComponentSignature>
     return guidFor(this);
   }
 
+  get inputId() {
+    return this.args.id ?? `search__input-${this.guid}`;
+  }
+
   runSearch = task({ restartable: true }, async () => {
     this.isSearching = true;
     await timeout(200);
@@ -55,6 +67,7 @@ export default class SearchComponent extends Component<SearchComponentSignature>
   @action
   onSearchClear() {
     this.value = null;
+    this.args.onClear?.();
   }
 
   @action
@@ -94,10 +107,11 @@ export default class SearchComponent extends Component<SearchComponentSignature>
       data-search
       {{didUpdate (perform this.runSearch) this.value}}
       role='search'
-      aria-label={{@label}}
-      class='cds--search cds--search--{{if @size @size "lg"}}
+      aria-labelledby='search-input-label-{{this.guid}}'
+      class='cds--search {{if @size (concat "cds--search--" @size)}}
         {{if @light "cds--search--light"}}
         {{if @isLoading "cds--skeleton"}}
+        {{if @disabled "cds--search--disabled"}}
         {{if
           @expandable
           "cds--toolbar-search-container-expandable"
@@ -107,21 +121,23 @@ export default class SearchComponent extends Component<SearchComponentSignature>
       ...attributes
     >
       <div class='cds--search-magnifier'>
-        <Search @svgClass='cds--search-magnifier-icon' />
+        <SearchIcon @svgClass='cds--search-magnifier-icon' />
       </div>
       <label
         id='search-input-label-{{this.guid}}'
-        for='search__input-{{this.guid}}'
+        for={{this.inputId}}
         class='cds--label'
       >
-        {{@label}}
+        {{@labelText}}
       </label>
       <input
         class='cds--search-input'
-        type='text'
-        id='search__input-{{this.guid}}'
-        placeholder={{@placeholder}}
+        type={{defaultTo @type 'search'}}
+        id={{this.inputId}}
+        placeholder={{defaultTo @placeholder 'Search'}}
+        autocomplete={{defaultTo @autoComplete 'off'}}
         value={{this.value}}
+        disabled={{@disabled}}
         {{on 'change' this.setValue}}
         {{on 'input' this.setValue}}
         {{! template-lint-disable }}
@@ -130,9 +146,10 @@ export default class SearchComponent extends Component<SearchComponentSignature>
       {{#if this.hasInput}}
         <button
           class='cds--search-close'
-          title='Clear search input'
-          aria-label='Clear search input'
+          title={{defaultTo @closeButtonLabelText 'Clear search input'}}
+          aria-label={{defaultTo @closeButtonLabelText 'Clear search input'}}
           type='button'
+          disabled={{@disabled}}
           {{on 'click' this.onSearchClear}}
         >
           <Close @btnClass='cds--search-clear' />

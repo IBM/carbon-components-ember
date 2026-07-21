@@ -87,7 +87,6 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - [ ] PrimaryButton
 - [ ] ProgressIndicator
 - [ ] RadioTile
-- [ ] Search
 - [ ] SecondaryButton
 - [ ] SelectItem
 - [ ] Slider
@@ -123,6 +122,7 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - [x] ProgressBar
 - [x] RadioButton
 - [x] RadioButtonGroup
+- [x] Search
 - [x] Select
 - [x] SelectItemGroup
 - [x] ShapeIndicator
@@ -151,7 +151,6 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - LineChart
 - List
 - PieChart
-- SearchInput
 - TextDirection
 
 
