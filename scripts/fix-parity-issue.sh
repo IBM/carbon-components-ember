@@ -450,7 +450,7 @@ if [ -f "$PROMPT_TEMPLATE" ]; then
   # Use template and replace variables
   PROMPT=$(cat "$PROMPT_TEMPLATE" | \
     sed "s/{{COMPONENT_NAME}}/$COMPONENT_NAME/g" | \
-    sed "s/{{COMPONENT_NAME_LOWER}}/${COMPONENT_NAME,,}/g" | \
+    sed "s/{{COMPONENT_NAME_LOWER}}/$(echo "$COMPONENT_NAME" | tr '[:upper:]' '[:lower:]')/g" | \
     sed "s/{{COMPONENT_NAME_KEBAB}}/$(echo $COMPONENT_NAME | sed 's/\([A-Z]\)/-\1/g' | sed 's/^-//' | tr '[:upper:]' '[:lower:]')/g" | \
     sed "s/{{ISSUE_NUMBER}}/$ISSUE_NUMBER/g" | \
     sed "s|{{GITHUB_REPOSITORY}}|$(gh repo view --json nameWithOwner -q .nameWithOwner)|g")
