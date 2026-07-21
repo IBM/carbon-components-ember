@@ -1,0 +1,7 @@
+{
+  "SecondaryButton": {
+    "reason": "React's SecondaryButton is a thin wrapper (<Button kind=\"secondary\" {...props} />) around Button, not a distinct component. Ember's Button component already supports this via the @type=\"secondary\" argument (see carbon-components-ember/src/components/button.gts), so no separate SecondaryButton component is needed.",
+    "excludedAt": "2026-07-21T13:18:13.452Z",
+    "issue": "484"
+  }
+}
