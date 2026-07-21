@@ -158,7 +158,9 @@ Use this path only when the component genuinely doesn't belong as a standalone E
    the commit/push step below, so the change rides along in the same commit
    instead of being left uncommitted after you've already pushed.
 
-3. **Commit and Push — always, even if the only change is the sync marker**
+3. **Use signed commits: Signed-off-by: Author Name <authoremail@example.com>**
+
+4. **Commit and Push — always, even if the only change is the sync marker**
    ```bash
    git checkout -b feat/{{COMPONENT_NAME_KEBAB}}
    git add -A
@@ -184,7 +186,7 @@ Use this path only when the component genuinely doesn't belong as a standalone E
      The change-type label in the next step doesn't apply here (it's not a
      bug/enhancement/breaking change) — skip it for this case only.
 
-4. **Add a Change-Type Label** (skip if you took the "no code changes needed" branch above)
+5. **Add a Change-Type Label** (skip if you took the "no code changes needed" branch above)
 
    Also add exactly one of these, based on the nature of the change:
    - `bug` - fixing incorrect/broken behavior in an existing component
@@ -195,22 +197,22 @@ Use this path only when the component genuinely doesn't belong as a standalone E
    gh pr edit <PR_NUMBER> --add-label "bug"          # or "enhancement" / "breaking"
    ```
 
-5. **Add Preview Label**
+6. **Add Preview Label**
    ```bash
    gh pr edit <PR_NUMBER> --add-label "preview"
    ```
 
-6. **Add parity-check Label**
+7. **Add parity-check Label**
    ```bash
    gh pr edit <PR_NUMBER> --add-label "parity-check"
    ```
 
-7. Commit any remaining modified files — `package.json`, `index.ts`, and
+8. Commit any remaining modified files — `package.json`, `index.ts`, and
    `.parity-check-data.json` are all auto-updated by tooling above and must
    be included. Make sure all necessary files are committed, but no
    unrelated file is committed.
 
-8. Ensure the git working tree is clean and everything (including the
+9. Ensure the git working tree is clean and everything (including the
    `.parity-check-data.json` sync update) has been pushed to the PR branch —
    run `git status` to confirm before finishing.
 
