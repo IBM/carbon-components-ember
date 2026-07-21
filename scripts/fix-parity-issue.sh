@@ -67,6 +67,31 @@ run_claude() {
   return "$claude_exit"
 }
 
+# Retry a git/gh network command a few times with a short delay, for
+# transient failures (dropped SSH connections, GitHub API blips) that aren't
+# worth aborting the whole script over. Captures and echoes stdout so it can
+# be used in command substitution, e.g. VAR=$(retry_net gh pr list ...).
+retry_net() {
+  local max_attempts=5
+  local delay=10
+  local attempt=1
+  local output
+
+  while true; do
+    if output="$("$@")"; then
+      printf '%s' "$output"
+      return 0
+    fi
+    if [ "$attempt" -ge "$max_attempts" ]; then
+      echo "ERROR: command failed after $max_attempts attempts: $*" >&2
+      return 1
+    fi
+    echo "Command failed (attempt $attempt/$max_attempts): $* — retrying in ${delay}s..." >&2
+    sleep "$delay"
+    attempt=$((attempt + 1))
+  done
+}
+
 warn_dirty_worktree() {
   if git diff --quiet && git diff --cached --quiet; then
     return 0
@@ -95,7 +120,7 @@ if [ -z "$ISSUE_NUMBER" ]; then
   echo "Checking for open parity-check PRs labeled 'review'..."
 
   # Get all open PRs that have BOTH the parity-check and review labels
-  PRS_FOR_REVIEW=$(gh pr list --state open --label "parity-check" --label "review" --limit 100 --json number --jq '.[].number')
+  PRS_FOR_REVIEW=$(retry_net gh pr list --state open --label "parity-check" --label "review" --limit 100 --json number --jq '.[].number')
 
   if [ -n "$PRS_FOR_REVIEW" ]; then
     # Count PRs labeled for review
@@ -109,7 +134,7 @@ if [ -z "$ISSUE_NUMBER" ]; then
     echo ""
     
     # Get PR details
-    PR_JSON=$(gh pr view "$SELECTED_PR" --json number,title,body,comments,reviews)
+    PR_JSON=$(retry_net gh pr view "$SELECTED_PR" --json number,title,body,comments,reviews)
     PR_TITLE=$(echo "$PR_JSON" | jq -r '.title')
     
     echo "PR: $PR_TITLE"
@@ -128,7 +153,7 @@ if [ -z "$ISSUE_NUMBER" ]; then
     # Checkout the PR branch
     echo "Checking out PR #$SELECTED_PR..."
     warn_dirty_worktree
-    gh pr checkout "$SELECTED_PR" || echo "Warning: failed to check out PR #$SELECTED_PR; continuing so Claude can inspect and resolve the repository state"
+    retry_net gh pr checkout "$SELECTED_PR" || echo "Warning: failed to check out PR #$SELECTED_PR; continuing so Claude can inspect and resolve the repository state"
     
     REVIEW_PROMPT="Review and address feedback on PR #$SELECTED_PR
 
@@ -162,7 +187,7 @@ Be thorough and address all review comments."
     echo ""
     echo "---"
     echo "PR review completed! Removing 'review' label from PR #$SELECTED_PR..."
-    gh pr edit "$SELECTED_PR" --remove-label "review" || echo "Warning: failed to remove 'review' label from PR #$SELECTED_PR (non-fatal, review work is already committed/pushed)"
+    retry_net gh pr edit "$SELECTED_PR" --remove-label "review" || echo "Warning: failed to remove 'review' label from PR #$SELECTED_PR (non-fatal, review work is already committed/pushed)"
     exit 0
   fi
 
@@ -170,7 +195,7 @@ Be thorough and address all review comments."
   echo ""
 
   # Get all open issues with parity-check label
-  PARITY_ISSUES=$(gh issue list --label "parity-check" --state open --json number --jq '.[].number')
+  PARITY_ISSUES=$(retry_net gh issue list --label "parity-check" --state open --json number --jq '.[].number')
 
   if [ -z "$PARITY_ISSUES" ]; then
     echo "Error: No open issues found with label 'parity-check'"
@@ -194,14 +219,14 @@ fi
 
 # Check for open PRs with parity-check label
 echo "Checking for open parity-check PRs..."
-OPEN_PRS=$(gh pr list --state open --limit 100 --json number,labels --jq '[.[] | select(.labels[]?.name == "parity-check")] | length')
+OPEN_PRS=$(retry_net gh pr list --state open --limit 100 --json number,labels --jq '[.[] | select(.labels[]?.name == "parity-check")] | length')
 
 if [ "$OPEN_PRS" -ge 5 ]; then
   echo "Found $OPEN_PRS open parity-check PRs (limit: 5)"
   echo "Checking PR comments to determine if action is needed..."
   
   # Get list of open PR numbers
-  PR_NUMBERS=$(gh pr list --state open --limit 100 --json number,labels --jq '.[] | select(.labels[]?.name == "parity-check") | .number')
+  PR_NUMBERS=$(retry_net gh pr list --state open --limit 100 --json number,labels --jq '.[] | select(.labels[]?.name == "parity-check") | .number')
   
   # Create a summary file for Claude to review
   PR_SUMMARY_FILE="$TMP_DIR/pr-summary.md"
@@ -212,7 +237,7 @@ if [ "$OPEN_PRS" -ge 5 ]; then
   
   for PR_NUM in $PR_NUMBERS; do
     echo "## PR #$PR_NUM" >> "$PR_SUMMARY_FILE"
-    gh pr view "$PR_NUM" --json number,title,url,body,comments --jq '{number,title,url,body,comments: [.comments[] | {author: .author.login, body: .body, createdAt: .createdAt}]}' >> "$PR_SUMMARY_FILE"
+    retry_net gh pr view "$PR_NUM" --json number,title,url,body,comments --jq '{number,title,url,body,comments: [.comments[] | {author: .author.login, body: .body, createdAt: .createdAt}]}' >> "$PR_SUMMARY_FILE"
     echo "" >> "$PR_SUMMARY_FILE"
   done
   
@@ -259,7 +284,7 @@ fi
 echo "Open parity-check PRs: $OPEN_PRS (limit: 5)"
 echo ""
 
-git fetch origin main
+retry_net git fetch origin main
 
 BRANCH_NAME="fix-issue-$ISSUE_NUMBER"
 CURRENT_BRANCH=$(git branch --show-current)
@@ -290,7 +315,7 @@ fi
 echo "Fetching issue #$ISSUE_NUMBER..."
 
 # Get issue details
-ISSUE_JSON=$(gh issue view "$ISSUE_NUMBER" --json number,title,body)
+ISSUE_JSON=$(retry_net gh issue view "$ISSUE_NUMBER" --json number,title,body)
 ISSUE_TITLE=$(echo "$ISSUE_JSON" | jq -r '.title')
 ISSUE_BODY=$(echo "$ISSUE_JSON" | jq -r '.body')
 
@@ -448,12 +473,13 @@ PROMPT_TEMPLATE="$REPO_ROOT/.github/workflows/templates/agent-prompt.md"
 
 if [ -f "$PROMPT_TEMPLATE" ]; then
   # Use template and replace variables
+  GITHUB_REPOSITORY=$(retry_net gh repo view --json nameWithOwner -q .nameWithOwner)
   PROMPT=$(cat "$PROMPT_TEMPLATE" | \
     sed "s/{{COMPONENT_NAME}}/$COMPONENT_NAME/g" | \
     sed "s/{{COMPONENT_NAME_LOWER}}/$(echo "$COMPONENT_NAME" | tr '[:upper:]' '[:lower:]')/g" | \
     sed "s/{{COMPONENT_NAME_KEBAB}}/$(echo $COMPONENT_NAME | sed 's/\([A-Z]\)/-\1/g' | sed 's/^-//' | tr '[:upper:]' '[:lower:]')/g" | \
     sed "s/{{ISSUE_NUMBER}}/$ISSUE_NUMBER/g" | \
-    sed "s|{{GITHUB_REPOSITORY}}|$(gh repo view --json nameWithOwner -q .nameWithOwner)|g")
+    sed "s|{{GITHUB_REPOSITORY}}|$GITHUB_REPOSITORY|g")
 
 else
   # Fallback to simple prompt
@@ -573,8 +599,8 @@ if [ -f "$CONTINUE_FILE" ]; then
 else
   echo "Task finalized. Returning to latest main..."
   warn_dirty_worktree
-  git fetch origin main
-  if git checkout main && git pull --ff-only origin main; then
+  retry_net git fetch origin main
+  if git checkout main && retry_net git pull --ff-only origin main; then
     echo "Now on branch: $(git branch --show-current)"
   else
     echo "Warning: failed to check out/update main; repo left on $(git branch --show-current) for manual or next-run cleanup"
