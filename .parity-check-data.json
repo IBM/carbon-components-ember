@@ -153,6 +153,7 @@
       "Notification",
       "Pagination",
       "PieChart",
+      "Portal",
       "ProgressBar",
       "RadioButton",
       "RadioButtonGroup",
@@ -252,7 +253,6 @@
       "PasswordInput",
       "Plex",
       "Popover",
-      "Portal",
       "PrimaryButton",
       "ProgressIndicator",
       "RadioTile",
@@ -292,6 +292,7 @@
       "Modal",
       "Notification",
       "Pagination",
+      "Portal",
       "ProgressBar",
       "RadioButton",
       "RadioButtonGroup",
@@ -533,6 +534,13 @@
       "lastUpdate": null
     },
     "SkeletonText": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "Portal": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "hasChanges": false,

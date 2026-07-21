@@ -2928,6 +2928,7 @@
       "./components/carbon/modal.js": "./dist/_app_/components/carbon/modal.js",
       "./components/carbon/notification.js": "./dist/_app_/components/carbon/notification.js",
       "./components/carbon/pagination.js": "./dist/_app_/components/carbon/pagination.js",
+      "./components/carbon/portal.js": "./dist/_app_/components/carbon/portal.js",
       "./components/carbon/progress-bar.js": "./dist/_app_/components/carbon/progress-bar.js",
       "./components/carbon/radio-button.js": "./dist/_app_/components/carbon/radio-button.js",
       "./components/carbon/radio-button/group.js": "./dist/_app_/components/carbon/radio-button/group.js",
