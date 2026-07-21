@@ -1,15 +1,15 @@
 # Component Parity Report
-Generated: 2026-07-16T12:47:47.866Z
+Generated: 2026-07-21T12:06:55.716Z
 Carbon React Version: 11.112.0
 Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 
 ## Summary
 - Total React Components: 126
-- Total Ember Components: 29
-- Parity: 14%
+- Total Ember Components: 39
+- Parity: 23%
 - Outdated Components: 0
 
-## Missing in Ember (108)
+## Missing in Ember (97)
 - [ ] AILabel
 - [ ] AISkeleton
 - [ ] AccordionItem
@@ -88,27 +88,18 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - [ ] Portal
 - [ ] PrimaryButton
 - [ ] ProgressIndicator
-- [ ] RadioButton
-- [ ] RadioButtonGroup
 - [ ] RadioTile
 - [ ] Search
 - [ ] SecondaryButton
 - [ ] SelectItem
 - [ ] SelectItemGroup
-- [ ] ShapeIndicator
 - [ ] SkeletonIcon
-- [ ] SkeletonPlaceholder
 - [ ] SkeletonText
-- [ ] Slider
-- [ ] Stack
 - [ ] StructuredList
 - [ ] Switch
 - [ ] Tab
-- [ ] TabContent
-- [ ] Text
 - [ ] TextArea
 - [ ] TextInput
-- [ ] Theme
 - [ ] TileGroup
 - [ ] TimePicker
 - [ ] TimePickerSelect
@@ -116,10 +107,8 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - [ ] Toggletip
 - [ ] Tooltip
 - [ ] TreeView
-- [ ] UIShell
-- [ ] UnorderedList
 
-## Implemented in Both (18)
+## Implemented in Both (29)
 - [x] Accordion
 - [x] Button
 - [x] Checkbox
@@ -133,15 +122,26 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - [x] Notification
 - [x] Pagination
 - [x] ProgressBar
+- [x] RadioButton
+- [x] RadioButtonGroup
 - [x] Select
+- [x] ShapeIndicator
+- [x] SkeletonPlaceholder
+- [x] Slider
+- [x] Stack
+- [x] TabContent
 - [x] Tabs
 - [x] Tag
+- [x] Text
+- [x] Theme
 - [x] Tile
 - [x] Toggle
+- [x] UIShell
+- [x] UnorderedList
 
 
 
-## Ember-Specific (11)
+## Ember-Specific (10)
 - BarChart
 - Breadcrumbs
 - ConfirmDialog
@@ -149,9 +149,8 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - LineChart
 - List
 - PieChart
-- Radio
-- RadioGroup
 - SearchInput
-- UiShell
+- SliderSkeleton
+- TextDirection
 
 

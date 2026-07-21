@@ -6,7 +6,7 @@ An accordion component is an element that organizes content into collapsible sec
 
 ```gjs live preview
 import { fn } from '@ember/helper';
-import { Accordion, Checkbox, RadioGroup } from 'carbon-components-ember/components';
+import { Accordion, Checkbox, RadioButtonGroup } from 'carbon-components-ember/components';
 import { newObj, set } from 'carbon-components-ember/helpers';
 import { ThemeSupport } from 'docs-support';
 
@@ -15,7 +15,7 @@ const eq = (a, b) => a === b;
 <template>
   <ThemeSupport />
     {{#let (newObj) as |context|}}
-        <RadioGroup @onSelect={{fn (set context 'align')}}>
+        <RadioButtonGroup @onChange={{fn (set context 'align')}}>
             <:heading>
                 orientation
             </:heading>
@@ -23,11 +23,11 @@ const eq = (a, b) => a === b;
                 <Radio @value='start'>
                     start
                 </Radio>
-                <Radio @isDefault={{true}} @value='end'>
+                <Radio @defaultChecked={{true}} @value='end'>
                     end
                 </Radio>
             </:default>
-        </RadioGroup>
+        </RadioButtonGroup>
         <br />
         <Checkbox
             @name='disabled'
