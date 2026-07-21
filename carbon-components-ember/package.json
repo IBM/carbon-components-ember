@@ -2933,6 +2933,7 @@
       "./components/carbon/radio-button.js": "./dist/_app_/components/carbon/radio-button.js",
       "./components/carbon/radio-button/group.js": "./dist/_app_/components/carbon/radio-button/group.js",
       "./components/carbon/search-input.js": "./dist/_app_/components/carbon/search-input.js",
+      "./components/carbon/select-item-group.js": "./dist/_app_/components/carbon/select-item-group.js",
       "./components/carbon/select.js": "./dist/_app_/components/carbon/select.js",
       "./components/carbon/shape-indicator.js": "./dist/_app_/components/carbon/shape-indicator.js",
       "./components/carbon/skeleton-icon.js": "./dist/_app_/components/carbon/skeleton-icon.js",

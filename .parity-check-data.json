@@ -159,6 +159,7 @@
       "RadioButtonGroup",
       "SearchInput",
       "Select",
+      "SelectItemGroup",
       "ShapeIndicator",
       "SkeletonIcon",
       "SkeletonPlaceholder",
@@ -258,7 +259,6 @@
       "Search",
       "SecondaryButton",
       "SelectItem",
-      "SelectItemGroup",
       "ShapeIndicator",
       "SkeletonText",
       "SkeletonIcon",
@@ -297,6 +297,7 @@
       "RadioButton",
       "RadioButtonGroup",
       "Select",
+      "SelectItemGroup",
       "ShapeIndicator",
       "SkeletonPlaceholder",
       "SkeletonText",
@@ -540,6 +541,13 @@
       "lastUpdate": null
     },
     "Portal": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "SelectItemGroup": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "hasChanges": false,
