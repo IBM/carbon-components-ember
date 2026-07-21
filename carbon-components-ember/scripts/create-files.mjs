@@ -39,6 +39,12 @@ function createIndexFiles() {
     if (comp.includes('radio/group')) {
       camelCased = 'RadioGroup';
     }
+    if (comp.includes('grid/column')) {
+      camelCased = 'GridColumn';
+    }
+    if (comp.includes('grid/row')) {
+      camelCased = 'GridRow';
+    }
     if (comp.split('/').at(-1) === 'ui-shell.gts') {
       camelCased = 'UIShell';
     }
