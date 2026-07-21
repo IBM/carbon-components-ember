@@ -6,7 +6,7 @@ Checkboxes are used when there are multiple items to select in a list. Users can
 
 ```gjs live preview
 import { fn } from '@ember/helper';
-import { Accordion, Checkbox, RadioGroup } from 'carbon-components-ember/components';
+import { Accordion, Checkbox } from 'carbon-components-ember/components';
 import { newObj, set } from 'carbon-components-ember/helpers';
 import { ThemeSupport } from 'docs-support';
 

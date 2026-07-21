@@ -2,7 +2,7 @@
   "lastCheckedVersion": "11.112.0",
   "lastCheckedCommitSHA": "5102bd860864c2580048183ffaf50d1ffd4400b5",
   "lastCheckedCommitDate": "2026-07-15T09:42:43Z",
-  "lastCheckDate": "2026-07-16T12:49:37.064Z",
+  "lastCheckDate": "2026-07-21T12:06:55.719Z",
   "components": {
     "react": [
       "AILabel",
@@ -154,19 +154,27 @@
       "Pagination",
       "PieChart",
       "ProgressBar",
-      "Radio",
-      "RadioGroup",
+      "RadioButton",
+      "RadioButtonGroup",
       "SearchInput",
       "Select",
+      "ShapeIndicator",
       "SkeletonIcon",
       "SkeletonPlaceholder",
+      "Slider",
+      "SliderSkeleton",
+      "Stack",
+      "TabContent",
       "SkeletonText",
       "Tabs",
       "Tag",
+      "Text",
+      "TextDirection",
       "Theme",
       "Tile",
       "Toggle",
-      "UiShell"
+      "UIShell",
+      "UnorderedList"
     ],
     "missing": [
       "AILabel",
@@ -246,8 +254,6 @@
       "Portal",
       "PrimaryButton",
       "ProgressIndicator",
-      "RadioButton",
-      "RadioButtonGroup",
       "RadioTile",
       "Search",
       "SecondaryButton",
@@ -256,13 +262,12 @@
       "ShapeIndicator",
       "SkeletonText",
       "SkeletonIcon",
+      "SkeletonText",
       "Slider",
       "Stack",
       "StructuredList",
       "Switch",
       "Tab",
-      "TabContent",
-      "Text",
       "TextArea",
       "TextInput",
       "TileGroup",
@@ -271,9 +276,7 @@
       "ToggleSmall",
       "Toggletip",
       "Tooltip",
-      "TreeView",
-      "UIShell",
-      "UnorderedList"
+      "TreeView"
     ],
     "implemented": [
       "Accordion",
@@ -290,12 +293,23 @@
       "Notification",
       "Pagination",
       "ProgressBar",
+      "RadioButton",
+      "RadioButtonGroup",
       "Select",
+      "ShapeIndicator",
+      "SkeletonPlaceholder",
+      "Slider",
+      "Stack",
+      "TabContent",
       "SkeletonText",
       "Tabs",
       "Tag",
+      "Text",
+      "Theme",
       "Tile",
-      "Toggle"
+      "Toggle",
+      "UIShell",
+      "UnorderedList"
     ],
     "outdated": []
   },
@@ -398,7 +412,56 @@
       "changeCount": 0,
       "lastUpdate": null
     },
+    "RadioButton": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "RadioButtonGroup": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
     "Select": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "N/A",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "ShapeIndicator": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "N/A",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "SkeletonPlaceholder": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "Slider": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "N/A",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "Stack": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "N/A",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "TabContent": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "N/A",
       "hasChanges": false,
@@ -419,6 +482,20 @@
       "changeCount": 0,
       "lastUpdate": null
     },
+    "Text": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "N/A",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "Theme": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
     "Tile": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "N/A",
@@ -433,16 +510,16 @@
       "changeCount": 0,
       "lastUpdate": null
     },
-    "Theme": {
+    "UIShell": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "N/A",
       "hasChanges": false,
       "changeCount": 0,
       "lastUpdate": null
     },
-    "SkeletonPlaceholder": {
+    "UnorderedList": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "N/A",
       "hasChanges": false,
       "changeCount": 0,
       "lastUpdate": null

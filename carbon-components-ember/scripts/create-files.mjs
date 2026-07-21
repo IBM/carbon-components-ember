@@ -36,8 +36,8 @@ function createIndexFiles() {
     if (comp.includes('dialogs')) {
       camelCased += 'Dialog';
     }
-    if (comp.includes('radio/group')) {
-      camelCased = 'RadioGroup';
+    if (comp.includes('radio-button/group')) {
+      camelCased = 'RadioButtonGroup';
     }
     if (comp.includes('grid/column')) {
       camelCased = 'GridColumn';
