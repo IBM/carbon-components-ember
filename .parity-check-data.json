@@ -158,6 +158,7 @@
       "ProgressIndicator",
       "RadioButton",
       "RadioButtonGroup",
+      "RadioTile",
       "SearchInput",
       "Select",
       "SelectItemGroup",
@@ -177,6 +178,7 @@
       "TextDirection",
       "Theme",
       "Tile",
+      "TileGroup",
       "Toggle",
       "UIShell",
       "UnorderedList"
@@ -256,7 +258,6 @@
       "Plex",
       "Popover",
       "PrimaryButton",
-      "RadioTile",
       "Search",
       "SecondaryButton",
       "SelectItem",
@@ -269,7 +270,6 @@
       "Tab",
       "TextArea",
       "TextInput",
-      "TileGroup",
       "TimePicker",
       "TimePickerSelect",
       "ToggleSmall",
@@ -296,6 +296,7 @@
       "ProgressIndicator",
       "RadioButton",
       "RadioButtonGroup",
+      "RadioTile",
       "Select",
       "SelectItemGroup",
       "ShapeIndicator",
@@ -310,6 +311,7 @@
       "Text",
       "Theme",
       "Tile",
+      "TileGroup",
       "Toggle",
       "UIShell",
       "UnorderedList"
@@ -576,7 +578,21 @@
       "changeCount": 0,
       "lastUpdate": null
     },
+    "RadioTile": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
     "TextInput": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "TileGroup": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "hasChanges": false,
