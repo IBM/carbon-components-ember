@@ -1,10 +1,10 @@
 <ThemeSwitcher />
 
-# Menu
+# OverflowMenu
 
 ```gjs live preview
 import { fn } from '@ember/helper';
-import { Button, Checkbox, Menu } from 'carbon-components-ember/components';
+import { Button, Checkbox, OverflowMenu } from 'carbon-components-ember/components';
 import { set } from 'carbon-components-ember/helpers';
 import { TrackedObject } from 'tracked-built-ins';
 import { ThemeSupport } from 'docs-support';
@@ -17,7 +17,7 @@ const not = (x) => !x;
     <Checkbox @checked={{context.danger}} @onChange={{fn (set context 'danger') (not context.danger)}}> danger </Checkbox>
     <Checkbox @checked={{context.disabled}} @onChange={{fn (set context 'disabled') (not context.disabled)}}> disabled </Checkbox>
     <br />
-    <Menu
+    <OverflowMenu
         @tooltip='Options'
         @direction='bottom'
         @danger={{context.danger}}
@@ -35,7 +35,7 @@ const not = (x) => !x;
         <Item @isDanger={{true}}>delete</Item>
         <Item @isDisabled={{true}}>disabled</Item>
         <Item @isDivider={{true}}>option 4</Item>
-    </Menu>
+    </OverflowMenu>
     <br>
     selected: {{context.selected}}
 </template>
@@ -43,7 +43,7 @@ const not = (x) => !x;
 ## API Reference
 
 <details>
-<summary><h3>Menu</h3></summary>
+<summary><h3>OverflowMenu</h3></summary>
 
 ```gjs live no-shadow
 import { ComponentSignature } from 'kolay';
@@ -51,7 +51,7 @@ import { ComponentSignature } from 'kolay';
 <template>
   <ComponentSignature 
     @package="carbon-components-ember" 
-    @module='declarations/components/menu' 
+    @module='declarations/components/overflow-menu' 
     @name='default' 
   />
 </template>

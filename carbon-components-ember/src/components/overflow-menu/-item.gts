@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { on } from '@ember/modifier';
 
-export interface MenuItemComponentSignature {
+export interface OverflowMenuItemComponentSignature {
   Args: {
     tooltip?: string;
     title?: string;
@@ -17,7 +17,7 @@ export interface MenuItemComponentSignature {
   };
 }
 
-export default class Item extends Component<MenuItemComponentSignature> {
+export default class OverflowMenuItem extends Component<OverflowMenuItemComponentSignature> {
 
   onClick = () => {
     return this.args.onClick?.();
