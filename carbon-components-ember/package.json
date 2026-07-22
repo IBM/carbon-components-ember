@@ -2930,6 +2930,7 @@
       "./components/carbon/pagination.js": "./dist/_app_/components/carbon/pagination.js",
       "./components/carbon/portal.js": "./dist/_app_/components/carbon/portal.js",
       "./components/carbon/progress-bar.js": "./dist/_app_/components/carbon/progress-bar.js",
+      "./components/carbon/progress-indicator.js": "./dist/_app_/components/carbon/progress-indicator.js",
       "./components/carbon/radio-button.js": "./dist/_app_/components/carbon/radio-button.js",
       "./components/carbon/radio-button/group.js": "./dist/_app_/components/carbon/radio-button/group.js",
       "./components/carbon/search-input.js": "./dist/_app_/components/carbon/search-input.js",

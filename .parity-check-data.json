@@ -155,6 +155,7 @@
       "PieChart",
       "Portal",
       "ProgressBar",
+      "ProgressIndicator",
       "RadioButton",
       "RadioButtonGroup",
       "SearchInput",
@@ -255,7 +256,6 @@
       "Plex",
       "Popover",
       "PrimaryButton",
-      "ProgressIndicator",
       "RadioTile",
       "Search",
       "SecondaryButton",
@@ -295,6 +295,7 @@
       "Pagination",
       "Portal",
       "ProgressBar",
+      "ProgressIndicator",
       "RadioButton",
       "RadioButtonGroup",
       "Select",
@@ -541,7 +542,7 @@
       "changeCount": 0,
       "lastUpdate": null
     },
-"Portal": {
+    "Portal": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "hasChanges": false,
@@ -556,6 +557,13 @@
       "lastUpdate": null
     },
     "TextArea": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "ProgressIndicator": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "hasChanges": false,
