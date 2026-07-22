@@ -52,6 +52,23 @@ item. Give each `SL.Row` a stable `@id` and render the row-bound `Row`
 input component (yielded from `SL.Row`) to make it selectable; clicking
 anywhere in the row, or the input itself, selects it.
 
+By default selection state is managed internally, optionally seeded with
+`@selectedInitialRow`. Pass `@onSelectionChange` to be notified whenever the
+selected row changes, and/or `@selectedRow` to fully control the selection
+from outside the component (for example to drive it from route or query
+param state):
+
+```gjs
+<StructuredList
+  @selection={{true}}
+  @selectedRow={{this.selectedRow}}
+  @onSelectionChange={{this.handleSelectionChange}}
+  as |SL|
+>
+  ...
+</StructuredList>
+```
+
 ```gjs live preview
 import { StructuredList } from 'carbon-components-ember/components';
 import { ThemeSupport } from 'docs-support';
@@ -74,6 +91,66 @@ import { ThemeSupport } from 'docs-support';
             </SL.Row>
             <SL.Row @id="row-2" as |Row|>
                 <Row @name="structured-list-demo" />
+                <SL.Cell>Row 2</SL.Cell>
+                <SL.Cell>Option 2</SL.Cell>
+            </SL.Row>
+        </SL.Body>
+    </StructuredList>
+</template>
+```
+
+## Multi-selection
+
+Carbon React's `StructuredListWrapper` only ever supports single (radio-style)
+selection. As an Ember-specific addition, passing `@multiSelection={{true}}`
+alongside `@selection={{true}}` turns each row into a checkbox-style
+selectable item instead, allowing more than one row to be selected at once.
+
+The API mirrors the single-selection one: `@selectedInitialRows` seeds the
+internal state, `@onMultiSelectionChange` is called with the full array of
+selected row ids whenever it changes, and `@selectedRows` lets you fully
+control selection from outside the component.
+
+```gjs
+<StructuredList
+  @selection={{true}}
+  @multiSelection={{true}}
+  @selectedRows={{this.selectedRows}}
+  @onMultiSelectionChange={{this.handleSelectionChange}}
+  as |SL|
+>
+  ...
+</StructuredList>
+```
+
+```gjs live preview
+import { array } from '@ember/helper';
+import { StructuredList } from 'carbon-components-ember/components';
+import { ThemeSupport } from 'docs-support';
+
+<template>
+    <ThemeSupport />
+    <br>
+    <StructuredList
+      @selection={{true}}
+      @multiSelection={{true}}
+      @selectedInitialRows={{array "row-1"}}
+      as |SL|
+    >
+        <SL.Head>
+            <SL.Row @head={{true}}>
+                <SL.Cell @head={{true}}>ColumnA</SL.Cell>
+                <SL.Cell @head={{true}}>ColumnB</SL.Cell>
+            </SL.Row>
+        </SL.Head>
+        <SL.Body>
+            <SL.Row @id="row-1" as |Row|>
+                <Row @name="structured-list-multi-demo" />
+                <SL.Cell>Row 1</SL.Cell>
+                <SL.Cell>Option 1</SL.Cell>
+            </SL.Row>
+            <SL.Row @id="row-2" as |Row|>
+                <Row @name="structured-list-multi-demo" />
                 <SL.Cell>Row 2</SL.Cell>
                 <SL.Cell>Option 2</SL.Cell>
             </SL.Row>
