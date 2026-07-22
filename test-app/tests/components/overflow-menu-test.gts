@@ -39,6 +39,38 @@ module('Integration | Component | OverflowMenu', (hooks) => {
       .exists({ count: 2 });
   });
 
+  test('should stay open after a touch tap on the trigger (mobile)', async function (assert) {
+    // Simulate a touch-capable device (real phones have this; desktop
+    // headless Chrome does not), since ember-basic-dropdown branches on it
+    // to short-circuit the synthetic click it dispatches after touchend.
+    window.ontouchstart = null;
+    try {
+      await render(
+        <template>
+          <OverflowMenu @direction='bottom' @tooltip='Options' as |Item|>
+            <Item>option 1</Item>
+            <Item>option 2</Item>
+          </OverflowMenu>
+        </template>,
+      );
+
+      const trigger = document.querySelector('.cds--overflow-menu');
+      trigger.dispatchEvent(
+        new Event('touchstart', { bubbles: true, cancelable: true }),
+      );
+      trigger.dispatchEvent(
+        new Event('touchend', { bubbles: true, cancelable: true }),
+      );
+
+      // ember-basic-dropdown dispatches its synthetic click via setTimeout(0).
+      await new Promise((resolve) => setTimeout(resolve, 50));
+
+      assert.dom('.cds--overflow-menu-options').exists();
+    } finally {
+      delete window.ontouchstart;
+    }
+  });
+
   test('should call onClick when an item is clicked', async function (assert) {
     const clicked = cell(false);
     const onClick = () => (clicked.current = true);
