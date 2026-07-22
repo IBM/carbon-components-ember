@@ -71,6 +71,25 @@ module('Integration | Component | OverflowMenu', (hooks) => {
     }
   });
 
+  test('should support configuring the trigger eventType', async function (assert) {
+    await render(
+      <template>
+        <OverflowMenu @direction='bottom' @eventType='mousedown' as |Item|>
+          <Item>option 1</Item>
+        </OverflowMenu>
+      </template>,
+    );
+
+    assert.dom('.cds--overflow-menu-options').doesNotExist();
+
+    const trigger = document.querySelector('.cds--overflow-menu');
+    trigger.dispatchEvent(
+      new MouseEvent('mousedown', { bubbles: true, cancelable: true, button: 0 }),
+    );
+
+    assert.dom('.cds--overflow-menu-options').exists();
+  });
+
   test('should call onClick when an item is clicked', async function (assert) {
     const clicked = cell(false);
     const onClick = () => (clicked.current = true);

@@ -15,6 +15,7 @@ export interface OverflowMenuComponentSignature {
     tooltip?: string;
     disabled?: boolean;
     danger?: boolean;
+    eventType?: 'click' | 'mousedown';
   };
   Blocks: {
     default: [
@@ -23,9 +24,7 @@ export interface OverflowMenuComponentSignature {
   };
 }
 
-
 export default class OverflowMenuComponent extends Component<OverflowMenuComponentSignature> {
-
   get icon() {
     return this.args.icon || OverflowMenuVertical;
   }
@@ -34,7 +33,8 @@ export default class OverflowMenuComponent extends Component<OverflowMenuCompone
     <BasicDropdown as |dd|>
       <dd.Trigger
         @stopPropagation={{false}}
-        @eventType='click'
+        {{! @glint-expect-error: @gavant/glint-template-types types eventType as required, but ember-basic-dropdown itself treats it as optional and defaults to 'click' }}
+        @eventType={{@eventType}}
         class='cds--overflow-menu {{if dd.isOpen "cds--overflow-menu--open"}}'
       >
         {{#if @tooltip}}
