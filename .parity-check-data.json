@@ -275,8 +275,7 @@
       "TimePickerSelect",
       "ToggleSmall",
       "Toggletip",
-      "Tooltip",
-      "TreeView"
+      "Tooltip"
     ],
     "implemented": [
       "Accordion",
@@ -312,6 +311,7 @@
       "Theme",
       "Tile",
       "Toggle",
+      "TreeView",
       "UIShell",
       "UnorderedList"
     ],
