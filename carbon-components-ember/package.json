@@ -2958,6 +2958,7 @@
       "./components/carbon/theme.js": "./dist/_app_/components/carbon/theme.js",
       "./components/carbon/tile.js": "./dist/_app_/components/carbon/tile.js",
       "./components/carbon/toggle.js": "./dist/_app_/components/carbon/toggle.js",
+      "./components/carbon/tree-view.js": "./dist/_app_/components/carbon/tree-view.js",
       "./components/carbon/ui-shell.js": "./dist/_app_/components/carbon/ui-shell.js",
       "./components/carbon/ui-shell/-header.js": "./dist/_app_/components/carbon/ui-shell/-header.js",
       "./components/carbon/ui-shell/-header/-global-action.js": "./dist/_app_/components/carbon/ui-shell/-header/-global-action.js",
