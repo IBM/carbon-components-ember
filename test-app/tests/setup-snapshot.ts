@@ -22,6 +22,17 @@ function saveSnapshot(moduleName, testName, name, value) {
   });
 }
 
+// Ember auto-generates element ids (e.g. `ember314`) from a global counter
+// that depends on how many components have been instantiated so far in the
+// whole test run, not just this test. That count drifts as unrelated tests
+// are added/removed elsewhere in the suite, so a literal id baked into a
+// committed snapshot will eventually stop matching a fresh run even though
+// nothing about this component changed. Normalize ids in both the live
+// representation and the stored snapshot before comparing.
+function normalizeEmberIds(representation: string) {
+  return representation.replace(/ember[0-9]+/g, 'ember0');
+}
+
 export function setupSnapshot(assert: Assert) {
   assert.snapshot = function(value, name) {
     const current = QUnit.config.current;
@@ -41,6 +52,12 @@ export function setupSnapshot(assert: Assert) {
     if (typeof value === 'object' && typeof expected === 'object') {
       if (Array.isArray(value) && value.length === expected.length) {
         for (let i = 0; i < value.length; i++) {
+          if (typeof value[i][0] === 'string') {
+            value[i][0] = normalizeEmberIds(value[i][0]);
+          }
+          if (typeof expected[i]?.[0] === 'string') {
+            expected[i][0] = normalizeEmberIds(expected[i][0]);
+          }
           expected[i][1]['transition'] = expected[i][1]['transition']?.replace(/0s$/, '');
           delete expected[i][1]['font'];
           delete value[i][1]['font'];
