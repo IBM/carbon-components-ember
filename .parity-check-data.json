@@ -148,9 +148,9 @@
       "LineChart",
       "List",
       "Loading",
-      "Menu",
       "Modal",
       "Notification",
+      "OverflowMenu",
       "Pagination",
       "PieChart",
       "Portal",
@@ -248,7 +248,6 @@
       "MultiSelect",
       "NumberInput",
       "OrderedList",
-      "OverflowMenu",
       "OverflowMenuItem",
       "OverflowMenuV2",
       "PageHeader",
@@ -288,9 +287,9 @@
       "Grid",
       "Icon",
       "Loading",
-      "Menu",
       "Modal",
       "Notification",
+      "OverflowMenu",
       "Pagination",
       "Portal",
       "ProgressBar",
@@ -381,13 +380,6 @@
       "changeCount": 0,
       "lastUpdate": null
     },
-    "Menu": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "N/A",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
     "Modal": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "N/A",
@@ -398,6 +390,13 @@
     "Notification": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "N/A",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "OverflowMenu": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "hasChanges": false,
       "changeCount": 0,
       "lastUpdate": null

@@ -1,15 +1,15 @@
 # Component Parity Report
-Generated: 2026-07-21T12:06:55.716Z
+Generated: 2026-07-21T22:43:30.164Z
 Carbon React Version: 11.112.0
 Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 
 ## Summary
 - Total React Components: 126
-- Total Ember Components: 39
-- Parity: 23%
+- Total Ember Components: 43
+- Parity: 25%
 - Outdated Components: 0
 
-## Missing in Ember (97)
+## Missing in Ember (94)
 - [ ] AILabel
 - [ ] AISkeleton
 - [ ] AccordionItem
@@ -57,7 +57,6 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - [ ] FormGroup
 - [ ] FormItem
 - [ ] FormLabel
-- [ ] Grid
 - [ ] Heading
 - [ ] HideAtBreakpoint
 - [ ] IconButton
@@ -72,12 +71,12 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - [ ] Link
 - [ ] ListBox
 - [ ] ListItem
+- [ ] Menu
 - [ ] MenuButton
 - [ ] ModalWrapper
 - [ ] MultiSelect
 - [ ] NumberInput
 - [ ] OrderedList
-- [ ] OverflowMenu
 - [ ] OverflowMenuItem
 - [ ] OverflowMenuV2
 - [ ] PageHeader
@@ -85,16 +84,14 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - [ ] PasswordInput
 - [ ] Plex
 - [ ] Popover
-- [ ] Portal
 - [ ] PrimaryButton
 - [ ] ProgressIndicator
 - [ ] RadioTile
 - [ ] Search
 - [ ] SecondaryButton
 - [ ] SelectItem
-- [ ] SelectItemGroup
-- [ ] SkeletonIcon
-- [ ] SkeletonText
+- [ ] Slider
+- [ ] Stack
 - [ ] StructuredList
 - [ ] Switch
 - [ ] Tab
@@ -108,27 +105,30 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - [ ] Tooltip
 - [ ] TreeView
 
-## Implemented in Both (29)
+## Implemented in Both (32)
 - [x] Accordion
 - [x] Button
 - [x] Checkbox
 - [x] CodeSnippet
 - [x] CopyButton
 - [x] DataTable
+- [x] Grid
 - [x] Icon
 - [x] Loading
-- [x] Menu
 - [x] Modal
 - [x] Notification
+- [x] OverflowMenu
 - [x] Pagination
+- [x] Portal
 - [x] ProgressBar
 - [x] RadioButton
 - [x] RadioButtonGroup
 - [x] Select
+- [x] SelectItemGroup
 - [x] ShapeIndicator
+- [x] SkeletonIcon
 - [x] SkeletonPlaceholder
-- [x] Slider
-- [x] Stack
+- [x] SkeletonText
 - [x] TabContent
 - [x] Tabs
 - [x] Tag
@@ -141,16 +141,17 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 
 
 
-## Ember-Specific (10)
+## Ember-Specific (11)
 - BarChart
 - Breadcrumbs
 - ConfirmDialog
 - FormInput
+- GridColumn
+- GridRow
 - LineChart
 - List
 - PieChart
 - SearchInput
-- SliderSkeleton
 - TextDirection
 
 
