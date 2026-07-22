@@ -2,7 +2,7 @@
   "lastCheckedVersion": "11.112.0",
   "lastCheckedCommitSHA": "5102bd860864c2580048183ffaf50d1ffd4400b5",
   "lastCheckedCommitDate": "2026-07-15T09:42:43Z",
-  "lastCheckDate": "2026-07-21T22:26:31.956Z",
+  "lastCheckDate": "2026-07-21T12:06:55.719Z",
   "components": {
     "react": [
       "AILabel",
@@ -144,8 +144,6 @@
       "DataTable",
       "FormInput",
       "Grid",
-      "GridColumn",
-      "GridRow",
       "Icon",
       "LineChart",
       "List",
@@ -261,6 +259,10 @@
       "RadioTile",
       "SecondaryButton",
       "SelectItem",
+      "ShapeIndicator",
+      "SkeletonText",
+      "SkeletonIcon",
+      "SkeletonText",
       "Slider",
       "Switch",
       "Tab",
@@ -297,7 +299,6 @@
       "Select",
       "SelectItemGroup",
       "ShapeIndicator",
-      "SkeletonIcon",
       "SkeletonPlaceholder",
       "SkeletonText",
       "Slider",
@@ -407,13 +408,6 @@
       "changeCount": 0,
       "lastUpdate": null
     },
-    "Portal": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
     "ProgressBar": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "N/A",
@@ -435,23 +429,9 @@
       "changeCount": 0,
       "lastUpdate": null
     },
-    "Search": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
     "Select": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "N/A",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "SelectItemGroup": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "hasChanges": false,
       "changeCount": 0,
       "lastUpdate": null
@@ -463,13 +443,6 @@
       "changeCount": 0,
       "lastUpdate": null
     },
-    "SkeletonIcon": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
     "SkeletonPlaceholder": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
@@ -477,7 +450,7 @@
       "changeCount": 0,
       "lastUpdate": null
     },
-    "SkeletonText": {
+    "Slider": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "hasChanges": false,
@@ -597,6 +570,13 @@
       "lastUpdate": null
     },
     "ProgressIndicator": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "Search": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "hasChanges": false,
