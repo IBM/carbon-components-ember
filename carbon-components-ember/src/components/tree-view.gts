@@ -125,7 +125,7 @@ class TreeNode extends Component<TreeNodeSignature> {
           role='group'
           aria-labelledby='{{this.nodeId}}__label'
           class='cds--tree-node__children
-            {{unless this.expanded "cds--tree-node__children--hidden"}}'
+            {{unless this.expanded "cds--tree-node--hidden"}}'
         >
           {{yield (component TreeNode treeView=@treeView)}}
         </ul>

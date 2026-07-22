@@ -116,14 +116,36 @@ module('Integration | Component | TreeView', (hooks) => {
 
     assert.dom('.cds--tree-parent-node').exists({ count: 1 });
     assert.dom('.cds--tree-parent-node').hasAttribute('aria-expanded', 'false');
-    assert.dom('.cds--tree-node__children').hasClass('cds--tree-node__children--hidden');
+    assert.dom('.cds--tree-node__children').hasClass('cds--tree-node--hidden');
 
     await click('.cds--tree-parent-node__toggle');
 
     assert.dom('.cds--tree-parent-node').hasAttribute('aria-expanded', 'true');
-    assert
-      .dom('.cds--tree-node__children')
-      .doesNotHaveClass('cds--tree-node__children--hidden');
+    assert.dom('.cds--tree-node__children').doesNotHaveClass('cds--tree-node--hidden');
+  });
+
+  test('collapsing a node actually hides its children under real Carbon styles', async function (this: RenderingTestContext, assert) {
+    const styleValue = cell('');
+    await render(
+      <template>
+        <TreeView @label='Tree View' as |Node|>
+          <Node @id='parent' @label='Parent' as |Child|>
+            <Child @id='child' @label='Child' />
+          </Node>
+        </TreeView>
+        <style>{{styleValue.current}}</style>
+      </template>,
+    );
+    styleValue.current = carbonStyle.default;
+    await rerender();
+    await waitForAnimationFrame();
+
+    assert.dom('.cds--tree-node__children').isNotVisible();
+
+    await click('.cds--tree-parent-node__toggle');
+    await waitForAnimationFrame();
+
+    assert.dom('.cds--tree-node__children').isVisible();
   });
 
   test('@isExpanded sets the initial expansion state', async function (assert) {
