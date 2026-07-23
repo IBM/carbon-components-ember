@@ -2916,6 +2916,7 @@
       "./components/carbon/icons/zos-sysplex.js": "./dist/_app_/components/carbon/icons/zos-sysplex.js",
       "./components/carbon/icons/zos.js": "./dist/_app_/components/carbon/icons/zos.js",
       "./components/carbon/index.js": "./dist/_app_/components/carbon/index.js",
+      "./components/carbon/layout.js": "./dist/_app_/components/carbon/layout.js",
       "./components/carbon/list.js": "./dist/_app_/components/carbon/list.js",
       "./components/carbon/list/-body.js": "./dist/_app_/components/carbon/list/-body.js",
       "./components/carbon/list/-column.js": "./dist/_app_/components/carbon/list/-column.js",
