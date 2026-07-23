@@ -12,6 +12,7 @@ import { guidFor } from '@ember/object/internals';
 import { on } from '@ember/modifier';
 import { fn, concat } from '@ember/helper';
 import type { WithBoundArgs } from '@glint/template';
+import { htmlSafe } from '@ember/template';
 
 export interface TreeNodeArgs {
   treeView: TreeView;
@@ -19,6 +20,12 @@ export interface TreeNodeArgs {
   label: string;
   disabled?: boolean;
   isExpanded?: boolean;
+  /**
+   * Nesting depth of this node within the tree, starting at 0 for
+   * top-level nodes. Set automatically when nodes are yielded — do not
+   * pass this manually.
+   */
+  depth?: number;
 }
 
 export interface TreeNodeSignature {
@@ -42,6 +49,32 @@ class TreeNode extends Component<TreeNodeSignature> {
 
   get isActive() {
     return this.args.treeView.isActive(this.nodeId);
+  }
+
+  get depth() {
+    return this.args.depth ?? 0;
+  }
+
+  get childDepth() {
+    return this.depth + 1;
+  }
+
+  // Mirrors upstream Carbon's per-node negative margin/padding trick so the
+  // row's hover/selected background spans the full row width (flush with
+  // the tree's left edge) instead of just starting where the label text
+  // begins.
+  get parentLabelStyle() {
+    const offset = this.depth + 1;
+    return htmlSafe(
+      `margin-inline-start: -${offset}rem; padding-inline-start: ${offset}rem;`,
+    );
+  }
+
+  get leafLabelStyle() {
+    const offset = this.depth + 2.5;
+    return htmlSafe(
+      `margin-inline-start: -${offset}rem; padding-inline-start: ${offset}rem;`,
+    );
   }
 
   @action
@@ -91,7 +124,10 @@ class TreeNode extends Component<TreeNodeSignature> {
       {{on 'keydown' (fn this.handleKeydown (has-block))}}
       ...attributes
     >
-      <div class='cds--tree-node__label'>
+      <div
+        class='cds--tree-node__label'
+        style={{if (has-block) this.parentLabelStyle this.leafLabelStyle}}
+      >
         {{#if (has-block)}}
           {{! template-lint-disable no-invalid-interactive }}
           <span
@@ -109,7 +145,7 @@ class TreeNode extends Component<TreeNodeSignature> {
               viewBox='0 0 32 32'
               aria-hidden='true'
             >
-              <path d='M12 8 22 16 12 24z'></path>
+              <path d='M24 12 16 22 8 12z'></path>
             </svg>
           </span>
         {{/if}}
@@ -127,7 +163,7 @@ class TreeNode extends Component<TreeNodeSignature> {
           class='cds--tree-node__children
             {{unless this.expanded "cds--tree-node--hidden"}}'
         >
-          {{yield (component TreeNode treeView=@treeView)}}
+          {{yield (component TreeNode treeView=@treeView depth=this.childDepth)}}
         </ul>
       {{/if}}
     </li>
@@ -199,7 +235,7 @@ export default class TreeView extends Component<TreeViewSignature> {
       class='cds--tree cds--tree--{{if @size @size "sm"}}'
       ...attributes
     >
-      {{yield (component TreeNode treeView=this)}}
+      {{yield (component TreeNode treeView=this depth=0)}}
     </ul>
   </template>
 }

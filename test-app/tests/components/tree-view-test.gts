@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, rerender } from '@ember/test-helpers';
+import { array } from '@ember/helper';
 import TreeView from 'carbon-components-ember/components/tree-view';
 import { cell } from 'ember-resources';
 import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
@@ -218,5 +219,80 @@ module('Integration | Component | TreeView', (hooks) => {
 
     assert.dom('#node-1').hasAttribute('aria-selected', 'true');
     assert.dom('#node-2').hasAttribute('aria-selected', 'true');
+  });
+
+  test('the toggle caret points right when collapsed and down when expanded', async function (assert) {
+    await render(
+      <template>
+        <TreeView @label='Tree View' as |Node|>
+          <Node @id='parent' @label='Parent' as |Child|>
+            <Child @id='child' @label='Child' />
+          </Node>
+        </TreeView>
+      </template>,
+    );
+
+    // Uses the real caret--down path (points down unrotated); combined
+    // with @carbon/styles' rotate(-90deg)/rotate(0) rules this renders as
+    // right-pointing when collapsed and down-pointing when expanded.
+    assert
+      .dom('.cds--tree-parent-node__toggle-icon path')
+      .hasAttribute('d', 'M24 12 16 22 8 12z');
+    assert
+      .dom('.cds--tree-parent-node__toggle-icon')
+      .doesNotHaveClass('cds--tree-parent-node__toggle-icon--expanded');
+
+    await click('.cds--tree-parent-node__toggle');
+
+    assert
+      .dom('.cds--tree-parent-node__toggle-icon')
+      .hasClass('cds--tree-parent-node__toggle-icon--expanded');
+  });
+
+  test('a selected row highlights the full row width under real Carbon styles, not just the label text', async function (this: RenderingTestContext, assert) {
+    const styleValue = cell('');
+    await render(
+      <template>
+        <TreeView @label='Tree View' @selected={{(array 'node-1' 'nested-child')}} as |Node|>
+          <Node @id='node-1' @label='A' />
+          <Node @id='parent' @label='Parent' @isExpanded={{true}} as |Child|>
+            <Child @id='nested-child' @label='B' />
+          </Node>
+        </TreeView>
+        <style>{{styleValue.current}}</style>
+      </template>,
+    );
+    styleValue.current = carbonStyle.default;
+    await rerender();
+    await waitForAnimationFrame();
+
+    const topLevelRow = document.querySelector('#node-1') as HTMLElement;
+    const topLevelLabel = topLevelRow.querySelector(
+      '.cds--tree-node__label',
+    ) as HTMLElement;
+    const rowRect = topLevelRow.getBoundingClientRect();
+    const labelRect = topLevelLabel.getBoundingClientRect();
+
+    assert
+      .strictEqual(labelRect.left, rowRect.left, 'label background starts flush with the row\'s left edge');
+    assert
+      .strictEqual(labelRect.right, rowRect.right, 'label background extends to the row\'s right edge');
+
+    const nestedRow = document.querySelector('#nested-child') as HTMLElement;
+    const nestedLabel = nestedRow.querySelector(
+      '.cds--tree-node__label',
+    ) as HTMLElement;
+    const nestedRowRect = nestedRow.getBoundingClientRect();
+    const nestedLabelRect = nestedLabel.getBoundingClientRect();
+
+    assert.strictEqual(
+      nestedLabelRect.left,
+      labelRect.left,
+      'nested label background is also flush with the tree\'s absolute left edge, matching top-level rows',
+    );
+    assert.true(
+      nestedRowRect.left > rowRect.left,
+      'the nested row itself (and its text) is indented further than the top-level row',
+    );
   });
 });
