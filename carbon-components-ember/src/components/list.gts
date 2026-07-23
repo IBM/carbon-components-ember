@@ -3,7 +3,7 @@ import didInsert from '@ember/render-modifiers/modifiers/did-insert';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import SearchComponent from '../components/search-input.gts';
+import SearchComponent from '../components/search.gts';
 import type { WithBoundArgs } from '@glint/template';
 import CarbonPagination from '../components/pagination.gts';
 import ListColumnComponent from '../components/list/-column.gts';
