@@ -210,6 +210,48 @@ class="carbon--btn-set"
 class="cds--btn-set"
 ```
 
+### ❌ Pitfall 4: New Icons Used in Docs Examples Don't Render
+
+`docs-app` live-preview examples (the `gjs live preview` code blocks under
+`docs-app/public/docs/`) run through `kolay`, which resolves each import
+specifier in the example's `<template>` against a **static** map built in
+`docs-app/app/routes/application.ts` — it does not do real module resolution.
+For `carbon-components-ember/icons`, that map only exposes the specific
+icon components someone has explicitly imported and listed:
+
+```typescript
+// docs-app/app/routes/application.ts
+import {
+  Bookmark,
+  Task,
+  // ...
+  Folder,
+  Document,
+} from 'carbon-components-ember/icons';
+
+// ...
+resolve: {
+  'carbon-components-ember/icons': Promise.resolve({
+    Bookmark,
+    Task,
+    // ...
+    Folder,
+    Document,
+  }),
+}
+```
+
+If a docs example imports an icon (e.g. `Folder`, `Document`) that isn't in
+both places, the example renders with no visible error — the icon is simply
+absent, which is easy to mistake for a CSS or component bug instead of a
+missing registration.
+
+**Solution**: whenever a new docs example introduces an icon that isn't
+already in this map, add it to *both* the `import` and the `resolve` object
+in `docs-app/app/routes/application.ts`. Actually load the docs page (or an
+isolated render test asserting the icon's SVG is visible) to confirm — don't
+rely on `pnpm build`/`pnpm lint`, since neither catches this.
+
 ## Component Implementation Checklist
 
 - [ ] Review React implementation at GitHub
@@ -222,6 +264,7 @@ class="cds--btn-set"
 - [ ] Create test file in `test-app/tests/components/`
 - [ ] Build: `cd carbon-components-ember && pnpm build`
 - [ ] Test: `cd test-app && pnpm test`
+- [ ] If a docs example uses an icon, register it in `docs-app/app/routes/application.ts` (see Pitfall 4) and verify it actually renders
 
 ## Simplification Guidelines
 
@@ -241,4 +284,4 @@ class="cds--btn-set"
 
 ---
 
-Last Updated: 2026-07-14
+Last Updated: 2026-07-23

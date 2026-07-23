@@ -575,7 +575,7 @@ This task may have already been attempted in an earlier run. Before doing anythi
 
 Your task:
 1. Read the context file and review the component requirements
-2. Check the React implementation at the provided GitHub URL
+2. Check the React implementation at the provided GitHub URL — read the actual .tsx source's prop types (not just the docs page), and list every story export in its *.stories.js/tsx file (not just the default one); each story is generally a distinct variant/prop combination that needs to be covered, not optional flavor
 3. Review the Storybook screenshots in $TMP_DIR/screenshots/ to understand the component and its variations
 4. Check if we have this component in carbon-components-ember/src/components/ (including under a different name)
 5. Decide which of these applies:
