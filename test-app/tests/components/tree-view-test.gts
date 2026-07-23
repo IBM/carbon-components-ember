@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click, rerender, waitUntil } from '@ember/test-helpers';
 import { array } from '@ember/helper';
 import TreeView from 'carbon-components-ember/components/tree-view';
-import { Folder } from 'carbon-components-ember/icons';
+import { Folder, Document } from 'carbon-components-ember/icons';
 import { cell } from 'ember-resources';
 import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
@@ -310,6 +310,55 @@ module('Integration | Component | TreeView', (hooks) => {
     // The icon's SVG is loaded via a dynamic import, so wait for it to resolve.
     await waitUntil(() => document.querySelector('#node-1 .cds--tree-node__icon'));
     assert.dom('#node-1 .cds--tree-node__icon').exists();
+  });
+
+  test('every icon in a tree with multiple mixed parent/leaf icons at different depths becomes visible', async function (assert) {
+    // Mirrors the docs "With icons" example: several sibling and nested
+    // nodes each with their own icon, some already expanded. Every one of
+    // them should independently resolve and become visible — this guards
+    // against any shared-state/caching issue across simultaneous icon
+    // instances of the same type (e.g. multiple `Document` icons at once).
+    await render(
+      <template>
+        <TreeView @label='Tree View' as |Node|>
+          <Node
+            @id='ai'
+            @label='Artificial intelligence'
+            @icon={{Folder}}
+            @isExpanded={{true}}
+            as |Child|
+          >
+            <Child @id='ml' @label='Machine learning' @icon={{Document}} />
+            <Child @id='nlp' @label='NLP' @icon={{Document}} />
+          </Node>
+          <Node
+            @id='cloud'
+            @label='Cloud computing'
+            @icon={{Folder}}
+            @isExpanded={{true}}
+            as |Child|
+          >
+            <Child @id='iaas' @label='IaaS' @icon={{Document}} />
+            <Child @id='paas' @label='PaaS' @icon={{Document}} />
+          </Node>
+          <Node @id='security' @label='Security' @icon={{Document}} />
+        </TreeView>
+      </template>,
+    );
+
+    const nodeIds = ['ai', 'ml', 'nlp', 'cloud', 'iaas', 'paas', 'security'];
+    await waitUntil(() =>
+      nodeIds.every((id) =>
+        document.querySelector(`#${id} .cds--tree-node__icon`),
+      ),
+    );
+
+    for (const id of nodeIds) {
+      assert.dom(`#${id} .cds--tree-node__icon`).exists(`icon for #${id} renders`);
+      assert
+        .dom(`#${id} .cds--tree-node__icon`)
+        .isVisible(`icon for #${id} is visible, not just present`);
+    }
   });
 
   test('a node with no @icon does not render an icon or the with-icon modifier class', async function (assert) {
