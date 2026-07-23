@@ -42,6 +42,54 @@ argument is called with the array of currently selected node ids and the
 node that triggered the change, and `@onActivate` is called with the id of
 the node that received keyboard/click focus.
 
+```gjs live preview
+import { fn } from '@ember/helper';
+import { TreeView, Checkbox, RadioButtonGroup } from 'carbon-components-ember/components';
+import { newObj, set } from 'carbon-components-ember/helpers';
+import { ThemeSupport } from 'docs-support';
+
+<template>
+  <ThemeSupport />
+  <br />
+
+  {{#let (newObj) as |context|}}
+    <Checkbox
+      @name='multiselect'
+      @label='multiselect'
+      @checked={{context.multiselect}}
+      @onChange={{fn (set context 'multiselect')}}
+    />
+    <RadioButtonGroup @onChange={{fn (set context 'size')}}>
+      <:heading>size</:heading>
+      <:default as |Radio|>
+        <Radio @defaultChecked={{true}} @value='sm'>sm</Radio>
+        <Radio @value='xs'>xs</Radio>
+      </:default>
+    </RadioButtonGroup>
+    <br />
+
+    <TreeView
+      @label='Tree View'
+      @multiselect={{context.multiselect}}
+      @size={{context.size}}
+      @onSelect={{fn (set context 'selected')}}
+      as |Node|
+    >
+      <Node @id='ai' @label='Artificial intelligence' as |Child|>
+        <Child @id='machine-learning' @label='Machine learning' />
+        <Child @id='nlp' @label='Natural language processing' />
+      </Node>
+      <Node @id='cloud' @label='Cloud computing' @isExpanded={{true}} as |Child|>
+        <Child @id='iaas' @label='IaaS' />
+        <Child @id='paas' @label='PaaS' />
+      </Node>
+      <Node @id='security' @label='Security' />
+    </TreeView>
+    <p>Selected: {{context.selected}}</p>
+  {{/let}}
+</template>
+```
+
 ## API Reference
 
 <details>
