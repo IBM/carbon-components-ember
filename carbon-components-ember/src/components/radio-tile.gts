@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
 import { on } from '@ember/modifier';
 import { CheckmarkFilled } from '../icons.ts';
-import type RadioTileGroup from './tile/group.gts';
+import type RadioTileGroup from './tile/tile-group.gts';
 
 export type Value = string | number;
 

@@ -210,6 +210,37 @@ class="carbon--btn-set"
 class="cds--btn-set"
 ```
 
+### ❌ Pitfall 4: Reusing a `.gts` filename that already exists elsewhere under `src/components/`
+
+Nested "sub-component" files (e.g. `tile/group.gts`, `radio-button/group.gts`)
+are easy to name generically (`group.gts`, `item.gts`, `row.gts`...). If a
+**publicly exported** component (one re-exported from
+`src/components/index.ts`) shares its exact filename with another publicly
+exported component elsewhere in the tree — even in a different
+directory — docs-app's production Vite build (which uses an aggressive
+`treeshake: 'smallest'` rollup setting) has been observed to silently
+mis-name one of the two exports in the generated component registry. The
+addon's own build (`pnpm build:carbon`) looks completely correct and every
+test/lint passes; the failure only shows up as a runtime
+`TypeError: Cannot convert undefined or null to object` (at
+`getPrototypeOf`) in the browser console on the deployed docs preview, where
+the affected component's demo silently fails to render. This bit `TileGroup`
+(`tile/group.gts`) because `radio-button/group.gts` already existed with the
+same basename `group.gts` — renaming to `tile/tile-group.gts` fixed it.
+
+**Solution**: Before finishing a new component, check for filename
+collisions:
+
+```bash
+find carbon-components-ember/src/components -name "*.gts" -not -path "*/icons/*" \
+  | sed 's#.*/##' | sort | uniq -d
+```
+
+If your new component's exported file shares a basename with another
+exported component (private sub-components prefixed with `-`, e.g.
+`-row.gts`, are not exported from `index.ts` and are unaffected), give it a
+more specific name (e.g. `tile/tile-group.gts`, not `tile/group.gts`).
+
 ## Component Implementation Checklist
 
 - [ ] Review React implementation at GitHub

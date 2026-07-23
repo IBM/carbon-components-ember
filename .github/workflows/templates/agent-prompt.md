@@ -141,6 +141,24 @@ Use this path only when the component genuinely doesn't belong as a standalone E
    cd test-app && pnpm test -- --filter="*{{COMPONENT_NAME_KEBAB}}*"
    ```
 
+3. **Check for `.gts` filename collisions** (required if you added a new nested
+   file, e.g. `{{COMPONENT_NAME_KEBAB}}/something.gts`)
+   ```bash
+   find carbon-components-ember/src/components -name "*.gts" -not -path "*/icons/*" \
+     | sed 's#.*/##' | sort | uniq -d
+   ```
+   Any name in the output that belongs to your new file AND an existing
+   *publicly exported* component (one listed in `src/components/index.ts`;
+   private sub-components prefixed with `-` don't count) must be renamed to
+   something more specific before you finish. This isn't a style nit —
+   docs-app's production build has silently mis-registered one of two
+   same-named exported components before (`TileGroup`'s `tile/group.gts`
+   collided with the pre-existing `radio-button/group.gts`, both just named
+   `group.gts`), causing the deployed docs preview to crash with
+   `TypeError: Cannot convert undefined or null to object` at
+   `getPrototypeOf` while the addon build and local tests looked fine. See
+   "Pitfall 4" in AGENTS.md for the full story.
+
 ### Phase 4: Documentation (Required)
 
 1. **Update Issue**

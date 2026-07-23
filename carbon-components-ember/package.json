@@ -2959,7 +2959,7 @@
       "./components/carbon/text.js": "./dist/_app_/components/carbon/text.js",
       "./components/carbon/theme.js": "./dist/_app_/components/carbon/theme.js",
       "./components/carbon/tile.js": "./dist/_app_/components/carbon/tile.js",
-      "./components/carbon/tile/group.js": "./dist/_app_/components/carbon/tile/group.js",
+      "./components/carbon/tile/tile-group.js": "./dist/_app_/components/carbon/tile/tile-group.js",
       "./components/carbon/toggle.js": "./dist/_app_/components/carbon/toggle.js",
       "./components/carbon/ui-shell.js": "./dist/_app_/components/carbon/ui-shell.js",
       "./components/carbon/ui-shell/-header.js": "./dist/_app_/components/carbon/ui-shell/-header.js",

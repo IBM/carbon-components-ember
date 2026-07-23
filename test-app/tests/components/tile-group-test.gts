@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
 import RadioTile from 'carbon-components-ember/components/radio-tile';
-import TileGroup from 'carbon-components-ember/components/tile/group';
+import TileGroup from 'carbon-components-ember/components/tile/tile-group';
 import { fn } from '@ember/helper';
 import { cell } from 'ember-resources';
 

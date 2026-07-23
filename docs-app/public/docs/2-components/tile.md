@@ -120,7 +120,7 @@ import { ComponentSignature } from 'kolay';
 <template>
   <ComponentSignature
     @package="carbon-components-ember"
-    @module='declarations/components/tile/group'
+    @module='declarations/components/tile/tile-group'
     @name='default'
   />
 </template>
