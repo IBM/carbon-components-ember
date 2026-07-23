@@ -320,15 +320,21 @@ If no action is needed:
 
 Be specific about which PR (if any) needs work and why."
 
-  # Run Claude Code to review PRs
-  if run_claude "$REVIEW_PROMPT"; then
-    echo ""
-    echo "PR review completed. Exiting."
-    exit 0
-  else
-    echo "Error: Failed to review PRs"
-    exit 1
-  fi
+  # Run Claude Code to review PRs, retrying indefinitely (e.g. across session-limit
+  # resets or transient API connectivity errors like ENOTFOUND)
+  RETRY_DELAY=600
+  ATTEMPT=1
+
+  until run_claude "$REVIEW_PROMPT"; do
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] Agent attempt $ATTEMPT failed. Sleeping ${RETRY_DELAY}s..."
+    ATTEMPT=$((ATTEMPT + 1))
+    sleep "$RETRY_DELAY"
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] Woke up, retrying attempt $ATTEMPT..."
+  done
+
+  echo ""
+  echo "PR review completed. Exiting."
+  exit 0
 fi
 
 echo "Open parity-check PRs: $OPEN_PRS (limit: 5)"
