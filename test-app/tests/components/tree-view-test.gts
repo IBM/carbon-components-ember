@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, rerender } from '@ember/test-helpers';
+import { render, click, rerender, waitUntil } from '@ember/test-helpers';
 import { array } from '@ember/helper';
 import TreeView from 'carbon-components-ember/components/tree-view';
+import { Folder } from 'carbon-components-ember/icons';
 import { cell } from 'ember-resources';
 import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
@@ -294,5 +295,91 @@ module('Integration | Component | TreeView', (hooks) => {
       nestedRowRect.left > rowRect.left,
       'the nested row itself (and its text) is indented further than the top-level row',
     );
+  });
+
+  test('@icon renders the given icon before the label and adds the with-icon modifier class', async function (assert) {
+    await render(
+      <template>
+        <TreeView @label='Tree View' as |Node|>
+          <Node @id='node-1' @label='Node 1' @icon={{Folder}} />
+        </TreeView>
+      </template>,
+    );
+
+    assert.dom('#node-1').hasClass('cds--tree-node--with-icon');
+    // The icon's SVG is loaded via a dynamic import, so wait for it to resolve.
+    await waitUntil(() => document.querySelector('#node-1 .cds--tree-node__icon'));
+    assert.dom('#node-1 .cds--tree-node__icon').exists();
+  });
+
+  test('a node with no @icon does not render an icon or the with-icon modifier class', async function (assert) {
+    await render(
+      <template>
+        <TreeView @label='Tree View' as |Node|>
+          <Node @id='node-1' @label='Node 1' />
+        </TreeView>
+      </template>,
+    );
+
+    assert.dom('#node-1').doesNotHaveClass('cds--tree-node--with-icon');
+    assert.dom('#node-1 .cds--tree-node__icon').doesNotExist();
+  });
+
+  test('without @onToggle, @isExpanded only sets the initial state and the node can still be freely toggled', async function (assert) {
+    await render(
+      <template>
+        <TreeView @label='Tree View' as |Node|>
+          <Node @id='parent' @label='Parent' @isExpanded={{true}} as |Child|>
+            <Child @id='child' @label='Child' />
+          </Node>
+        </TreeView>
+      </template>,
+    );
+
+    assert.dom('.cds--tree-parent-node').hasAttribute('aria-expanded', 'true');
+
+    await click('.cds--tree-parent-node__toggle');
+    assert.dom('.cds--tree-parent-node').hasAttribute('aria-expanded', 'false');
+
+    await click('.cds--tree-parent-node__toggle');
+    assert.dom('.cds--tree-parent-node').hasAttribute('aria-expanded', 'true');
+  });
+
+  test('@onToggle makes expansion controlled: the node follows @isExpanded and reports toggles instead of managing its own state', async function (assert) {
+    const expanded = cell(false);
+    let reportedExpanded: boolean | undefined;
+    const onToggle = (value: boolean) => {
+      reportedExpanded = value;
+    };
+
+    await render(
+      <template>
+        <TreeView @label='Tree View' as |Node|>
+          <Node
+            @id='parent'
+            @label='Parent'
+            @isExpanded={{expanded.current}}
+            @onToggle={{onToggle}}
+            as |Child|
+          >
+            <Child @id='child' @label='Child' />
+          </Node>
+        </TreeView>
+      </template>,
+    );
+
+    assert.dom('.cds--tree-parent-node').hasAttribute('aria-expanded', 'false');
+
+    await click('.cds--tree-parent-node__toggle');
+
+    // Clicking reports the intended next state, but does not itself change
+    // the rendered state — the consumer must feed it back via @isExpanded.
+    assert.strictEqual(reportedExpanded, true);
+    assert.dom('.cds--tree-parent-node').hasAttribute('aria-expanded', 'false');
+
+    expanded.current = true;
+    await rerender();
+
+    assert.dom('.cds--tree-parent-node').hasAttribute('aria-expanded', 'true');
   });
 });

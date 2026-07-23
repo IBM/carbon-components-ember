@@ -13,13 +13,26 @@ import { on } from '@ember/modifier';
 import { fn, concat } from '@ember/helper';
 import type { WithBoundArgs } from '@glint/template';
 import { htmlSafe } from '@ember/template';
+import type Icon from './icon.gts';
 
 export interface TreeNodeArgs {
   treeView: TreeView;
   id?: string;
   label: string;
   disabled?: boolean;
+  /**
+   * Whether the node is expanded. Uncontrolled (just sets the initial
+   * state) unless `@onToggle` is also passed, in which case this becomes
+   * the source of truth and the consumer is expected to update it from
+   * `@onToggle` — see the "Controlled expansion" docs example.
+   */
   isExpanded?: boolean;
+  onToggle?: (expanded: boolean, node: TreeNode) => void;
+  /**
+   * Icon rendered before the node's label, e.g. `Folder`/`Document` from
+   * `carbon-components-ember/icons`.
+   */
+  icon?: typeof Icon;
   /**
    * Nesting depth of this node within the tree, starting at 0 for
    * top-level nodes. Set automatically when nodes are yielded — do not
@@ -37,7 +50,18 @@ export interface TreeNodeSignature {
 }
 
 class TreeNode extends Component<TreeNodeSignature> {
-  @tracked expanded = this.args.isExpanded ?? false;
+  @tracked uncontrolledExpanded = this.args.isExpanded ?? false;
+
+  get expanded() {
+    // `@isExpanded` only sets the initial state unless `@onToggle` is also
+    // passed, in which case the node becomes fully controlled — otherwise
+    // a plain `@isExpanded={{true}}` (not bound to mutable state) would
+    // permanently lock the node open/closed instead of just seeding it.
+    if (this.args.onToggle) {
+      return this.args.isExpanded ?? false;
+    }
+    return this.uncontrolledExpanded;
+  }
 
   get nodeId() {
     return this.args.id ?? `tree-node-${guidFor(this)}`;
@@ -84,10 +108,15 @@ class TreeNode extends Component<TreeNodeSignature> {
     this.args.treeView.select(this, event);
   }
 
+  setExpanded(expanded: boolean) {
+    this.uncontrolledExpanded = expanded;
+    this.args.onToggle?.(expanded, this);
+  }
+
   @action
   toggle(event: MouseEvent) {
     event.stopPropagation();
-    this.expanded = !this.expanded;
+    this.setExpanded(!this.expanded);
   }
 
   @action
@@ -98,10 +127,10 @@ class TreeNode extends Component<TreeNodeSignature> {
       this.args.treeView.select(this, event);
     } else if (hasChildren && event.key === 'ArrowRight' && !this.expanded) {
       event.preventDefault();
-      this.expanded = true;
+      this.setExpanded(true);
     } else if (hasChildren && event.key === 'ArrowLeft' && this.expanded) {
       event.preventDefault();
-      this.expanded = false;
+      this.setExpanded(false);
     }
   }
 
@@ -119,6 +148,7 @@ class TreeNode extends Component<TreeNodeSignature> {
         {{if this.isSelected "cds--tree-node--selected"}}
         {{if @disabled "cds--tree-node--disabled"}}
         {{if this.isActive "cds--tree-node--active"}}
+        {{if @icon "cds--tree-node--with-icon"}}
         {{if (has-block) "cds--tree-parent-node" "cds--tree-leaf-node"}}'
       {{on 'click' this.select}}
       {{on 'keydown' (fn this.handleKeydown (has-block))}}
@@ -150,6 +180,9 @@ class TreeNode extends Component<TreeNodeSignature> {
           </span>
         {{/if}}
         <span class='cds--tree-node__label__details'>
+          {{#if @icon}}
+            <@icon @svgClass='cds--tree-node__icon' />
+          {{/if}}
           <span id='{{this.nodeId}}__label' class='cds--tree-node__label__text'>
             {{@label}}
           </span>
