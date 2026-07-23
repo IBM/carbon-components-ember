@@ -2,17 +2,20 @@
 
 # Search
 
+Search allows users to enter a term to be used to find specific content, filtering out results that don't match.
+
 ```gjs live preview
-import { SearchInput } from 'carbon-components-ember/components';
+import { Search } from 'carbon-components-ember/components';
 import { ThemeSupport } from 'docs-support';
 
 <template>
     <ThemeSupport />
     <br>
-    <SearchInput @label="search" /><br>
-    <SearchInput @placeholder="search something" /><br>
-    <SearchInput @value="my search" /><br>
-    <SearchInput /><br>
+    <Search @labelText="Search" /><br>
+    <Search @labelText="Search" @placeholder="search something" /><br>
+    <Search @labelText="Search" @value="my search" /><br>
+    <Search @labelText="Small search" @size="sm" /><br>
+    <Search @labelText="Disabled search" @disabled={{true}} /><br>
 </template>
 ```
 
@@ -27,7 +30,7 @@ import { ComponentSignature } from 'kolay';
 <template>
   <ComponentSignature 
     @package="carbon-components-ember" 
-    @module='declarations/components/search-input' 
+    @module='declarations/components/search' 
     @name='default' 
   />
 </template>
