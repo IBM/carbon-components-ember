@@ -2954,6 +2954,7 @@
       "./components/carbon/tag.js": "./dist/_app_/components/carbon/tag.js",
       "./components/carbon/text-area.js": "./dist/_app_/components/carbon/text-area.js",
       "./components/carbon/text-direction.js": "./dist/_app_/components/carbon/text-direction.js",
+      "./components/carbon/text-input.js": "./dist/_app_/components/carbon/text-input.js",
       "./components/carbon/text.js": "./dist/_app_/components/carbon/text.js",
       "./components/carbon/theme.js": "./dist/_app_/components/carbon/theme.js",
       "./components/carbon/tile.js": "./dist/_app_/components/carbon/tile.js",
