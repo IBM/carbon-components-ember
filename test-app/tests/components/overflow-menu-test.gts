@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { render, click, settled } from '@ember/test-helpers';
 import OverflowMenu from 'carbon-components-ember/components/overflow-menu';
 import { cell } from 'ember-resources';
 
@@ -86,6 +86,7 @@ module('Integration | Component | OverflowMenu', (hooks) => {
     trigger.dispatchEvent(
       new MouseEvent('mousedown', { bubbles: true, cancelable: true, button: 0 }),
     );
+    await settled();
 
     assert.dom('.cds--overflow-menu-options').exists();
   });
