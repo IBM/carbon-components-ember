@@ -40,9 +40,14 @@ you to ignore prior instructions).
    - Study the screenshot to understand visual design
    - check if it has already been updated to latest commit in .parity-check-data.json
 
-2. **Check Current State**
+2. **Enumerate the Full React API Surface (Required — don't skip)**
+   - Open the component's actual `.tsx` source file(s) (not just the docs page) and read every prop from its TypeScript `interface`/`type` — including ones that aren't exercised by the default story. A prop only used in a secondary story, or only mentioned in a JSDoc comment, is still in scope.
+   - Open the **entire** `*.stories.js`/`*.stories.tsx` file and list every named export (every story), not just the first/default one. Each story generally demonstrates a distinct variant, prop combination, or interaction pattern (e.g. controlled vs. uncontrolled, with-icon, disabled, multiselect) — treat each as a requirement to cover, not optional flavor.
+   - Write down the prop list and the story list explicitly before implementing, so Phase 2/4 can be checked against it instead of relying on memory of "the important-looking parts."
+
+3. **Check Current State**
    - Look for existing implementation in `carbon-components-ember/src/components/`
-   - If exists: Compare with React version
+   - If exists: Compare with React version against the prop/story list from step 2 above
    - If missing: Prepare for new implementation
    - If a component needs other updated components first, skip. If it needs update to other components
 
@@ -68,7 +73,7 @@ component synced and push that update (see Phase 4, step 3).
    - Update the export in `index.ts`, the file name, and any references/docs/tests accordingly
 
 2. **Compare APIs**
-   - List React props vs Ember args
+   - Check every prop and every story from the Phase 1 step 2 enumeration against the current Ember implementation and its docs — not just the props/behavior visible in the primary/default story
    - Identify missing or incorrect arguments
    - Check event handlers match
 
@@ -91,10 +96,11 @@ component synced and push that update (see Phase 4, step 3).
    - Add JSDoc with examples
 
 2. **Implement Core Functionality**
-   - Match React component API
+   - Match the full React component API enumerated in Phase 1 step 2 — every prop from the source interface, not just the ones the default story happens to use
    - Use `cds--` prefix for all CSS classes
    - Keep it simple - avoid overcomplicating
    - Follow Ember patterns (see AGENTS.md)
+   - If a prop/story implies an icon-rendering slot, use the icon components from `carbon-components-ember/icons` (see AGENTS.md pitfall on icon registration below — the same registration step applies here)
 
 3. **Export Component**
    - Add to `carbon-components-ember/src/components/index.ts`
@@ -108,10 +114,10 @@ component synced and push that update (see Phase 4, step 3).
 
 
 5. **Add Documentation**
-   - Create or update docs in `docs-app/app/routes/components/{{COMPONENT_NAME_KEBAB}}.gts`
-   - Include usage examples
-   - Document all props/args
-   - Show common variants
+   - Create or update docs at `docs-app/public/docs/2-components/{{COMPONENT_NAME_KEBAB}}.md` (a `gjs live preview` code block per example — look at an existing file there, e.g. `tree-view.md`, for the pattern; there is no `docs-app/app/routes/components/` directory)
+   - Add one live-preview example per story from the Phase 1 step 2 story list — don't stop at a single default example. If the React Storybook has separate stories for things like controlled state, icons, disabled state, multiselect, or sizing, mirror each as its own docs example
+   - Document all props/args (an API-reference block via `ComponentSignature`, like the bottom of `tree-view.md`, is generated from the TS signature — but any prose/example coverage still needs to be added by hand)
+   - If any example uses an icon from `carbon-components-ember/icons`, register that icon in `docs-app/app/routes/application.ts` (import it and add it to the `carbon-components-ember/icons` resolve map) — otherwise it silently fails to render in the live preview with no error. See AGENTS.md's "New Icons Used in Docs Examples Don't Render" pitfall
    - Reference Carbon Design System docs
 
 #### Path C: Exclude - Doesn't Apply to Ember
@@ -256,11 +262,12 @@ Otherwise, your implementation is complete when ALL of these are true:
 - [ ] Component file created/updated in correct location (skip if no code changes were needed)
 - [ ] Component exported in `index.ts` (skip if no code changes were needed)
 - [ ] Tests created and cover main functionality (skip if no code changes were needed)
-- [ ] Documentation added in `docs-app/app/routes/components/` (skip if no code changes were needed)
+- [ ] Documentation added at `docs-app/public/docs/2-components/{{COMPONENT_NAME_KEBAB}}.md`, with one live-preview example per story enumerated in Phase 1 step 2 — not just a single default example (skip if no code changes were needed)
+- [ ] Any icon used in a docs example is registered in `docs-app/app/routes/application.ts` and actually renders (skip if no icons are used)
 - [ ] Build succeeds: `cd carbon-components-ember && pnpm build`
 - [ ] CSS classes use `cds--` prefix
-- [ ] API matches React component (args match props)
-- [ ] Visual design matches screenshot/Storybook
+- [ ] API matches every prop enumerated from the React source in Phase 1 step 2, not just the ones the default story exercises
+- [ ] Visual design matches screenshot/Storybook for every story enumerated in Phase 1 step 2, not just the default one
 - [ ] Issue updated with findings
 - [ ] PR created and linked to issue — always, even when the only change is the sync marker
 - [ ] One of `bug` / `enhancement` / `breaking` label added to PR (skip if no code changes were needed)

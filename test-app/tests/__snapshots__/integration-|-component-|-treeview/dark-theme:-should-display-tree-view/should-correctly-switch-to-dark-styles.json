@@ -1,0 +1,33 @@
+[
+  [
+    "<label id=\"tree-view-ember123__label\" class=\"cds--label\" data-index=\"0\"></label>",
+    {
+      "border": "0px none rgb(198, 198, 198)",
+      "color": "rgb(198, 198, 198)",
+      "display": "inline-block",
+      "font": "",
+      "height": "16px",
+      "margin": "0px 0px 8px",
+      "outline": "rgb(198, 198, 198) none 3px",
+      "width": "55.6094px"
+    }
+  ],
+  [
+    "<label:before id=\"tree-view-ember123__label\" class=\"cds--label\" data-index=\"0\"></label:before>",
+    {
+      "border": "0px none rgb(198, 198, 198)",
+      "color": "rgb(198, 198, 198)",
+      "font": "",
+      "outline": "rgb(198, 198, 198) none 3px"
+    }
+  ],
+  [
+    "<label:after id=\"tree-view-ember123__label\" class=\"cds--label\" data-index=\"0\"></label:after>",
+    {
+      "border": "0px none rgb(198, 198, 198)",
+      "color": "rgb(198, 198, 198)",
+      "font": "",
+      "outline": "rgb(198, 198, 198) none 3px"
+    }
+  ]
+]

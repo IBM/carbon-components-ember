@@ -180,6 +180,7 @@
       "Tile",
       "TileGroup",
       "Toggle",
+      "TreeView",
       "UIShell",
       "UnorderedList"
     ],
@@ -273,8 +274,7 @@
       "TimePickerSelect",
       "ToggleSmall",
       "Toggletip",
-      "Tooltip",
-      "TreeView"
+      "Tooltip"
     ],
     "implemented": [
       "Accordion",
@@ -313,6 +313,7 @@
       "Tile",
       "TileGroup",
       "Toggle",
+      "TreeView",
       "UIShell",
       "UnorderedList"
     ],
@@ -585,6 +586,13 @@
       "changeCount": 0,
       "lastUpdate": null
     },
+    "TreeView": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
     "Search": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
@@ -600,6 +608,13 @@
       "lastUpdate": null
     },
     "TileGroup": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "Layout": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "hasChanges": false,
