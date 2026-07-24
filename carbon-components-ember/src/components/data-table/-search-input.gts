@@ -1,4 +1,4 @@
-import { default as SearchInput } from '../search-input.gts';
+import { default as SearchInput } from '../search.gts';
 import { default as Loading } from '../loading.gts';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
