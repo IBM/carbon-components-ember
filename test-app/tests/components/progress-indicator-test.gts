@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, settled } from '@ember/test-helpers';
+import { render, click, settled, waitUntil } from '@ember/test-helpers';
 import { cell } from 'ember-resources';
 import ProgressIndicator from 'carbon-components-ember/components/progress-indicator';
 
@@ -75,6 +75,7 @@ module('Integration | Component | ProgressIndicator', (hooks) => {
     await settled();
 
     const steps = this.element.querySelectorAll('li.cds--progress-step');
+    await waitUntil(() => steps[0]?.querySelector('svg'));
     assert.dom(steps[0]?.querySelector('svg')).hasClass('cds--progress__warning');
     assert.dom(steps[1]).hasClass('cds--progress-step--disabled');
     assert.dom(steps[1]?.querySelector('button')).isDisabled();
