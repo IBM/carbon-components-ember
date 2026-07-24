@@ -114,6 +114,7 @@ export default class ToggletipComponent extends Component<ToggletipComponentSign
   };
 
   <template>
+    {{! template-lint-disable no-invalid-interactive }}
     <span
       class='cds--popover-container
         cds--popover--{{this.align}}
