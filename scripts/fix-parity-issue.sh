@@ -14,6 +14,14 @@ REPO_ROOT="$(git rev-parse --show-toplevel)"
 
 ISSUE_NUMBER="${1:-}"
 
+# True when ISSUE_NUMBER was explicitly given (CLI arg) or came from resuming
+# an in-progress fix-issue-N branch, as opposed to being auto-selected below
+# from the open parity-check issue pool. Used later to make sure resumed
+# branch work still gets finished (and Claude gets a chance to return to
+# main) even when we're at the open-PR cap.
+EXPLICIT_ISSUE=0
+[ -n "$ISSUE_NUMBER" ] && EXPLICIT_ISSUE=1
+
 # All temporary/generated files are kept locally under scripts/tmp instead of /tmp
 TMP_DIR="./tmp"
 mkdir -p "$TMP_DIR"
@@ -128,6 +136,7 @@ if [ "$STARTING_BRANCH" != "main" ] && [[ "$STARTING_BRANCH" == fix-issue-* ]]; 
   RESUMED_ISSUE_NUMBER="${STARTING_BRANCH#fix-issue-}"
   echo "Currently on branch '$STARTING_BRANCH' (not main) — resuming unfinished issue #$RESUMED_ISSUE_NUMBER instead of selecting new work."
   ISSUE_NUMBER="$RESUMED_ISSUE_NUMBER"
+  EXPLICIT_ISSUE=1
 fi
 
 if [ -z "$ISSUE_NUMBER" ]; then
@@ -270,6 +279,33 @@ if [ "$OPEN_PRS" -ge 5 ]; then
   PR_NUMBERS=$(retry_net gh pr list --state open --label "parity-check" --label "review" --limit 100 --json number --jq '.[].number')
 
   if [ -z "$PR_NUMBERS" ]; then
+    if [ "$EXPLICIT_ISSUE" -eq 1 ] && [ "$STARTING_BRANCH" != "main" ]; then
+      echo "No open parity-check PRs are labeled 'review', but branch '$STARTING_BRANCH' (issue #$ISSUE_NUMBER) has unfinished work — asking Claude to finish it."
+
+      FINISH_PROMPT="You're on branch $STARTING_BRANCH (not main), which was left over from earlier work on parity issue #$ISSUE_NUMBER.
+
+We're currently at the 5-open-PR cap for parity-check PRs, so no *new* PR should be opened for other work — but this branch's own work still needs to be finished, since it's either already counted in that cap or still needs a PR opened for it.
+
+Verify — by actually running commands, not by recalling intentions — whether this branch's work is genuinely finished:
+- 'git status' shows a clean working tree, and everything committed has actually been pushed (git push again if needed)
+- A PR exists linked to issue #$ISSUE_NUMBER (check 'gh pr list --search \"$ISSUE_NUMBER\"' / 'gh pr view') with the appropriate labels, OR the component was excluded via 'parity-check.mjs --exclude' and issue #$ISSUE_NUMBER is closed, OR it was marked synced via '--mark-synced' with that change committed, pushed, and a PR opened for it
+- Issue #$ISSUE_NUMBER has been commented on / updated with findings as expected
+
+If anything above is missing or incomplete, finish it now — run the real commands (commit, push, gh pr create, gh pr edit --add-label, gh issue comment, etc.), don't just describe them.
+
+Only once you've confirmed (or made) all of the above genuinely true: check out main yourself, e.g. 'git fetch origin main && git checkout main && git pull --ff-only origin main'. Don't check out main until you're sure the work is actually done. If you hit a real blocker you can't resolve, leave the branch as-is instead so the next run can pick it back up, and explain why in your final message."
+
+      until run_claude "$FINISH_PROMPT"; do
+        echo "[$(date '+%Y-%m-%d %H:%M:%S')] Agent attempt failed. Sleeping 600s..."
+        sleep 600
+        echo "[$(date '+%Y-%m-%d %H:%M:%S')] Woke up, retrying..."
+      done
+
+      echo ""
+      echo "Finish-work agent completed. Exiting."
+      exit 0
+    fi
+
     echo "No open parity-check PRs are labeled 'review'; nothing actionable while at the limit. Exiting."
     exit 0
   fi
