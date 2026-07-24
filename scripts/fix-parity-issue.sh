@@ -263,11 +263,19 @@ OPEN_PRS=$(retry_net gh pr list --state open --limit 100 --json number,labels --
 
 if [ "$OPEN_PRS" -ge 5 ]; then
   echo "Found $OPEN_PRS open parity-check PRs (limit: 5)"
+
+  # Only PRs explicitly flagged with the "review" label need attention here —
+  # the rest are just waiting on human review/merge, which isn't actionable
+  # for this script to check on.
+  PR_NUMBERS=$(retry_net gh pr list --state open --label "parity-check" --label "review" --limit 100 --json number --jq '.[].number')
+
+  if [ -z "$PR_NUMBERS" ]; then
+    echo "No open parity-check PRs are labeled 'review'; nothing actionable while at the limit. Exiting."
+    exit 0
+  fi
+
   echo "Checking PR comments to determine if action is needed..."
-  
-  # Get list of open PR numbers
-  PR_NUMBERS=$(retry_net gh pr list --state open --limit 100 --json number,labels --jq '.[] | select(.labels[]?.name == "parity-check") | .number')
-  
+
   # Create a summary file for Claude to review
   PR_SUMMARY_FILE="$TMP_DIR/pr-summary.md"
   echo "# Open Parity Check PRs" > "$PR_SUMMARY_FILE"
