@@ -315,7 +315,7 @@ export default class Popover extends Component<PopoverSignature> {
 
 export interface PopoverContentSignature {
   Element: HTMLSpanElement;
-  Args: {};
+  Args: object;
   Blocks: {
     default: [];
   };
