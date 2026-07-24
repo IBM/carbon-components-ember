@@ -146,6 +146,7 @@
       "Grid",
       "Icon",
       "LineChart",
+      "Link",
       "List",
       "Loading",
       "Modal",
@@ -241,7 +242,6 @@
       "Layer",
       "Layout",
       "LayoutDirection",
-      "Link",
       "ListBox",
       "ListItem",
       "MenuButton",
@@ -313,7 +313,8 @@
       "Toggle",
       "TreeView",
       "UIShell",
-      "UnorderedList"
+      "UnorderedList",
+      "Link"
     ],
     "outdated": []
   },
@@ -599,6 +600,13 @@
       "lastUpdate": null
     },
     "Layout": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "Link": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "hasChanges": false,
