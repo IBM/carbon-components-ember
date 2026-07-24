@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { render, click, waitUntil, find } from '@ember/test-helpers';
 import Link from 'carbon-components-ember/components/link';
 import { Add } from 'carbon-components-ember/icons';
 
@@ -64,7 +64,10 @@ module('Integration | Component | Link', (hooks) => {
 
   test('should call onClick when clicked', async function (assert) {
     let called = false;
-    const onClick = () => (called = true);
+    const onClick = (event: MouseEvent) => {
+      event.preventDefault();
+      called = true;
+    };
 
     await render(
       <template><Link @href='/foo' @onClick={{onClick}}>Link text</Link></template>,
@@ -92,6 +95,7 @@ module('Integration | Component | Link', (hooks) => {
     await render(
       <template><Link @href='/foo' @renderIcon={{Add}}>Link text</Link></template>,
     );
+    await waitUntil(() => find('.cds--link__icon svg'));
 
     assert.dom('a.cds--link').hasClass('cds--link--icon');
     assert.dom('.cds--link__icon svg').exists();
