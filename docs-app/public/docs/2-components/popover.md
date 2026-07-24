@@ -14,6 +14,7 @@ The trigger element and `PopoverContent` are both yielded as plain children of
 
 ```gjs live preview
 import { fn } from '@ember/helper';
+import { on } from '@ember/modifier';
 import { not } from 'ember-truth-helpers';
 import { Popover, PopoverContent } from 'carbon-components-ember/components';
 import { Checkbox as CheckboxIcon } from 'carbon-components-ember/icons';
@@ -55,6 +56,7 @@ and `@backgroundToken` control its appearance.
 
 ```gjs live preview
 import { fn } from '@ember/helper';
+import { on } from '@ember/modifier';
 import { not } from 'ember-truth-helpers';
 import {
   Popover,
@@ -136,6 +138,7 @@ class to the trigger.
 
 ```gjs live preview
 import { fn } from '@ember/helper';
+import { on } from '@ember/modifier';
 import { not } from 'ember-truth-helpers';
 import {
   Popover,
@@ -202,6 +205,7 @@ flips it to render `bottom` instead.
 
 ```gjs live preview
 import { fn } from '@ember/helper';
+import { on } from '@ember/modifier';
 import { not } from 'ember-truth-helpers';
 import { Popover, PopoverContent } from 'carbon-components-ember/components';
 import { Checkbox as CheckboxIcon } from 'carbon-components-ember/icons';
