@@ -2929,6 +2929,7 @@
       "./components/carbon/overflow-menu.js": "./dist/_app_/components/carbon/overflow-menu.js",
       "./components/carbon/overflow-menu/-item.js": "./dist/_app_/components/carbon/overflow-menu/-item.js",
       "./components/carbon/pagination.js": "./dist/_app_/components/carbon/pagination.js",
+      "./components/carbon/popover.js": "./dist/_app_/components/carbon/popover.js",
       "./components/carbon/portal.js": "./dist/_app_/components/carbon/portal.js",
       "./components/carbon/progress-bar.js": "./dist/_app_/components/carbon/progress-bar.js",
       "./components/carbon/progress-indicator.js": "./dist/_app_/components/carbon/progress-indicator.js",

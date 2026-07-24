@@ -23,6 +23,8 @@ import {
   UserAvatar,
   Folder,
   Document,
+  Checkbox as CheckboxIcon,
+  Settings,
 } from 'carbon-components-ember/icons';
 // @ts-expect-error ignore
 import { Bookmark32 } from '@carbon/icons/es/index.js';
@@ -87,6 +89,8 @@ export default class Application extends Route {
             UserAvatar,
             Folder,
             Document,
+            Checkbox: CheckboxIcon,
+            Settings,
           }),
           'docs-support': Promise.resolve({
             ThemeSupport,
