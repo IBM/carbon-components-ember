@@ -1,0 +1,7 @@
+{
+  "ModalWrapper": {
+    "reason": "ModalWrapper is deprecated in Carbon React v11 (removed in v12) in favor of ComposedModal + a custom trigger button (see migration.mdx). Ember's existing Modal component (src/components/modal.gts) is already a block-based header/body/footer component matching the recommended ComposedModal-style pattern, with the trigger button left to the consumer as React's own migration guide recommends. No standalone Ember equivalent needed.",
+    "excludedAt": "2026-07-25T22:11:12.972Z",
+    "issue": "467"
+  }
+}
