@@ -59,4 +59,30 @@ module('Integration | Component | LayoutDirection', (hooks) => {
     assert.dom('#outer').hasAttribute('dir', 'ltr');
     assert.dom('#inner').hasAttribute('dir', 'rtl');
   });
+
+  test('yields dir and isRTL', async function (assert) {
+    await render(
+      <template>
+        <LayoutDirection @dir='rtl' as |ctx|>
+          <span data-test-dir>{{ctx.dir}}</span>
+          <span data-test-rtl>{{if ctx.isRTL 'rtl' 'ltr'}}</span>
+        </LayoutDirection>
+      </template>,
+    );
+
+    assert.dom('[data-test-dir]').hasText('rtl');
+    assert.dom('[data-test-rtl]').hasText('rtl');
+  });
+
+  test('isRTL is false for ltr', async function (assert) {
+    await render(
+      <template>
+        <LayoutDirection @dir='ltr' as |ctx|>
+          <span data-test-rtl>{{if ctx.isRTL 'rtl' 'ltr'}}</span>
+        </LayoutDirection>
+      </template>,
+    );
+
+    assert.dom('[data-test-rtl]').hasText('ltr');
+  });
 });

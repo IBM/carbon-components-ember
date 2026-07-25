@@ -1,4 +1,5 @@
 import Component from '@glimmer/component';
+import { hash } from '@ember/helper';
 import { element } from 'ember-element-helper';
 
 export type LayoutDirectionType = 'ltr' | 'rtl';
@@ -10,7 +11,7 @@ export interface LayoutDirectionSignature {
     dir: LayoutDirectionType;
   };
   Blocks: {
-    default: [];
+    default: [{ dir: LayoutDirectionType; isRTL: boolean }];
   };
 }
 
@@ -18,6 +19,9 @@ export interface LayoutDirectionSignature {
  * Set the layout direction (`ltr` or `rtl`) for a part of the page. Renders
  * a wrapper element with a `dir` attribute, which is inherited by descendant
  * elements per standard HTML/CSS behavior.
+ *
+ * The block receives `dir` and `isRTL`, the Ember analog of React's
+ * `useLayoutDirection` hook.
  *
  * ```gjs
  * import { LayoutDirection } from 'carbon-components-ember/components';
@@ -34,10 +38,14 @@ export default class LayoutDirection extends Component<LayoutDirectionSignature>
     return this.args.as ?? 'div';
   }
 
+  get isRTL() {
+    return this.args.dir === 'rtl';
+  }
+
   <template>
     {{#let (element this.tag) as |Tag|}}
       <Tag dir={{@dir}} ...attributes>
-        {{yield}}
+        {{yield (hash dir=@dir isRTL=this.isRTL)}}
       </Tag>
     {{/let}}
   </template>
