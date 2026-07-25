@@ -1,15 +1,15 @@
 # Component Parity Report
-Generated: 2026-07-21T22:43:30.164Z
+Generated: 2026-07-25T08:20:43.624Z
 Carbon React Version: 11.112.0
 Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 
 ## Summary
 - Total React Components: 126
-- Total Ember Components: 43
-- Parity: 25%
+- Total Ember Components: 60
+- Parity: 36%
 - Outdated Components: 0
 
-## Missing in Ember (94)
+## Missing in Ember (81)
 - [ ] AILabel
 - [ ] AISkeleton
 - [ ] AccordionItem
@@ -68,7 +68,6 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - [ ] Layer
 - [ ] Layout
 - [ ] LayoutDirection
-- [ ] Link
 - [ ] ListBox
 - [ ] ListItem
 - [ ] Menu
@@ -85,26 +84,15 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - [ ] Plex
 - [ ] Popover
 - [ ] PrimaryButton
-- [ ] ProgressIndicator
-- [ ] RadioTile
 - [ ] SecondaryButton
 - [ ] SelectItem
-- [ ] Slider
-- [ ] Stack
-- [ ] StructuredList
 - [ ] Switch
 - [ ] Tab
-- [ ] TextArea
-- [ ] TextInput
-- [ ] TileGroup
 - [ ] TimePicker
-- [ ] TimePickerSelect
 - [ ] ToggleSmall
-- [ ] Toggletip
 - [ ] Tooltip
-- [ ] TreeView
 
-## Implemented in Both (32)
+## Implemented in Both (45)
 - [x] Accordion
 - [x] Button
 - [x] Checkbox
@@ -113,6 +101,7 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - [x] DataTable
 - [x] Grid
 - [x] Icon
+- [x] Link
 - [x] Loading
 - [x] Modal
 - [x] Notification
@@ -120,8 +109,10 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - [x] Pagination
 - [x] Portal
 - [x] ProgressBar
+- [x] ProgressIndicator
 - [x] RadioButton
 - [x] RadioButtonGroup
+- [x] RadioTile
 - [x] Search
 - [x] Select
 - [x] SelectItemGroup
@@ -129,19 +120,28 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - [x] SkeletonIcon
 - [x] SkeletonPlaceholder
 - [x] SkeletonText
+- [x] Slider
+- [x] Stack
+- [x] StructuredList
 - [x] TabContent
 - [x] Tabs
 - [x] Tag
 - [x] Text
+- [x] TextArea
+- [x] TextInput
 - [x] Theme
 - [x] Tile
+- [x] TileGroup
+- [x] TimePickerSelect
 - [x] Toggle
+- [x] Toggletip
+- [x] TreeView
 - [x] UIShell
 - [x] UnorderedList
 
 
 
-## Ember-Specific (11)
+## Ember-Specific (15)
 - BarChart
 - Breadcrumbs
 - ConfirmDialog
@@ -151,6 +151,11 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - LineChart
 - List
 - PieChart
+- SliderSkeleton
 - TextDirection
+- ToggletipActions
+- ToggletipButton
+- ToggletipContent
+- ToggletipLabel
 
 
