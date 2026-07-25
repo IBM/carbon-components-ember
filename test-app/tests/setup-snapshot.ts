@@ -22,6 +22,23 @@ function saveSnapshot(moduleName, testName, name, value) {
   });
 }
 
+// Positioning properties derived from floating-ui/popover placement shift by
+// sub-pixel amounts depending on the font metrics of the host running the
+// browser (e.g. CI's Linux font stack vs. a locally generated snapshot), even
+// though the layout is otherwise identical. Treat two values as equal when
+// every number embedded in them (px offsets, matrix() components, the four
+// `inset` values, ...) is within a small tolerance of the other.
+const FUZZY_NUMERIC_PROPS = ['left', 'right', 'top', 'bottom', 'inset', 'transform'];
+
+function numbersWithinTolerance(a: string, b: string, tolerance: number) {
+  const numsA = a.match(/-?\d+(\.\d+)?/g);
+  const numsB = b.match(/-?\d+(\.\d+)?/g);
+  if (!numsA || !numsB || numsA.length !== numsB.length) {
+    return false;
+  }
+  return numsA.every((n, idx) => Math.abs(parseFloat(n) - parseFloat(numsB[idx])) < tolerance);
+}
+
 // Ember auto-generates element ids (e.g. `ember314`) from a global counter
 // that depends on how many components have been instantiated so far in the
 // whole test run, not just this test. That count drifts as unrelated tests
@@ -78,6 +95,14 @@ export function setupSnapshot(assert: Assert) {
             if (Math.abs(vWidth - expectedWidth) < 2) {
               delete value[i][1]['height'];
               delete expected[i][1]['height'];
+            }
+          }
+          for (const prop of FUZZY_NUMERIC_PROPS) {
+            const v = value[i][1][prop];
+            const e = expected[i][1][prop];
+            if (v && e && numbersWithinTolerance(v, e, 3)) {
+              delete value[i][1][prop];
+              delete expected[i][1][prop];
             }
           }
           if (!QUnit.equiv(value[i], expected[i])) {

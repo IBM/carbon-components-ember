@@ -182,6 +182,7 @@
       "TileGroup",
       "Toggle",
       "Toggletip",
+      "Tooltip",
       "TreeView",
       "UIShell",
       "UnorderedList"
@@ -273,8 +274,7 @@
       "TextInput",
       "TimePicker",
       "TimePickerSelect",
-      "ToggleSmall",
-      "Tooltip"
+      "ToggleSmall"
     ],
     "implemented": [
       "Accordion",
@@ -314,6 +314,7 @@
       "TileGroup",
       "Toggle",
       "Toggletip",
+      "Tooltip",
       "TreeView",
       "UIShell",
       "UnorderedList",
@@ -519,6 +520,13 @@
       "lastUpdate": null
     },
     "Toggletip": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "Tooltip": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "hasChanges": false,
