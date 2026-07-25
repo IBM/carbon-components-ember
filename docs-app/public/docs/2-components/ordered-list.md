@@ -30,11 +30,11 @@ import { OrderedList } from 'carbon-components-ember/components';
   <OrderedList>
     <li>
       Ordered List level 1
-      <OrderedList @nested>
+      <OrderedList @nested={{true}}>
         <li>Ordered List level 2</li>
         <li>
           Ordered List level 2
-          <OrderedList @nested>
+          <OrderedList @nested={{true}}>
             <li>Ordered List level 3</li>
             <li>Ordered List level 3</li>
           </OrderedList>
@@ -57,13 +57,13 @@ import { OrderedList } from 'carbon-components-ember/components';
 <template>
   <ThemeSupport />
   <br>
-  <OrderedList @native>
+  <OrderedList @native={{true}}>
     <li>Ordered List level 1</li>
     <li>Ordered List level 1</li>
     <li>Ordered List level 1</li>
     <li>
       Ordered List level 1
-      <OrderedList @nested>
+      <OrderedList @nested={{true}}>
         <li>Ordered List level 2</li>
         <li>Ordered List level 2</li>
         <li>Ordered List level 2</li>

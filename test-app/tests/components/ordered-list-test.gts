@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, rerender } from '@ember/test-helpers';
+import { render, rerender, waitUntil, findAll } from '@ember/test-helpers';
 import OrderedList from 'carbon-components-ember/components/ordered-list';
 import { cell } from 'ember-resources';
 import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
@@ -83,6 +83,40 @@ module('Integration | Component | OrderedList', (hooks) => {
     assert.dom('ol').doesNotHaveClass('cds--list--ordered--native');
     assert.dom('ol').doesNotHaveClass('cds--list--nested');
     assert.dom('ol').doesNotHaveClass('cds--list--expressive');
+  });
+
+  test('adds cds--list__item to direct li children so the counter and spacing styles apply', async function (assert) {
+    await render(
+      <template>
+        <OrderedList>
+          <li>Item 1</li>
+          <li>Item 2</li>
+        </OrderedList>
+      </template>,
+    );
+
+    assert.dom('li:nth-of-type(1)').hasClass('cds--list__item');
+    assert.dom('li:nth-of-type(2)').hasClass('cds--list__item');
+  });
+
+  test('adds cds--list__item to li elements added after the initial render', async function (assert) {
+    const items = cell(['Item 1']);
+    await render(
+      <template>
+        <OrderedList>
+          {{#each items.current as |item|}}
+            <li>{{item}}</li>
+          {{/each}}
+        </OrderedList>
+      </template>,
+    );
+
+    items.current = [...items.current, 'Item 2'];
+    await rerender();
+    await waitUntil(() => findAll('li').every((li) => li.classList.contains('cds--list__item')));
+
+    assert.dom('li').exists({ count: 2 });
+    assert.dom('li:nth-of-type(2)').hasClass('cds--list__item');
   });
 
   test('@native adds the native class instead of the default one', async function (assert) {

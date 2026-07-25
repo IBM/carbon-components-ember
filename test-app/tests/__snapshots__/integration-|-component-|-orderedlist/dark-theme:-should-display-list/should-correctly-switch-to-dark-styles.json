@@ -31,18 +31,43 @@
     }
   ],
   [
-    "<li data-index=\"1\"></li>",
+    "<li class=\"cds--list__item\" data-index=\"1\"></li>",
     {
       "border": "0px none rgb(244, 244, 244)",
+      "bottom": "0px",
       "color": "rgb(244, 244, 244)",
       "font": "",
       "height": "19.9844px",
+      "inset": "0px",
+      "left": "0px",
       "outline": "rgb(244, 244, 244) none 3px",
+      "position": "relative",
+      "right": "0px",
+      "top": "0px",
       "width": "1276px"
     }
   ],
   [
-    "<li:before data-index=\"1\"></li:before>",
+    "<li:before class=\"cds--list__item\" data-index=\"1\"></li:before>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "bottom": "0px",
+      "color": "rgb(244, 244, 244)",
+      "content": "counter(item) \".\"",
+      "display": "block",
+      "font": "",
+      "height": "19.9844px",
+      "inset": "0px 1287.47px 0px -24px",
+      "left": "-24px",
+      "outline": "rgb(244, 244, 244) none 3px",
+      "position": "absolute",
+      "right": "1287.47px",
+      "top": "0px",
+      "width": "12.5312px"
+    }
+  ],
+  [
+    "<li:after class=\"cds--list__item\" data-index=\"1\"></li:after>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
@@ -51,36 +76,43 @@
     }
   ],
   [
-    "<li:after data-index=\"1\"></li:after>",
+    "<li class=\"cds--list__item\" data-index=\"2\"></li>",
     {
       "border": "0px none rgb(244, 244, 244)",
-      "color": "rgb(244, 244, 244)",
-      "font": "",
-      "outline": "rgb(244, 244, 244) none 3px"
-    }
-  ],
-  [
-    "<li data-index=\"2\"></li>",
-    {
-      "border": "0px none rgb(244, 244, 244)",
+      "bottom": "0px",
       "color": "rgb(244, 244, 244)",
       "font": "",
       "height": "19.9844px",
+      "inset": "0px",
+      "left": "0px",
       "outline": "rgb(244, 244, 244) none 3px",
+      "position": "relative",
+      "right": "0px",
+      "top": "0px",
       "width": "1276px"
     }
   ],
   [
-    "<li:before data-index=\"2\"></li:before>",
+    "<li:before class=\"cds--list__item\" data-index=\"2\"></li:before>",
     {
       "border": "0px none rgb(244, 244, 244)",
+      "bottom": "0px",
       "color": "rgb(244, 244, 244)",
+      "content": "counter(item) \".\"",
+      "display": "block",
       "font": "",
-      "outline": "rgb(244, 244, 244) none 3px"
+      "height": "19.9844px",
+      "inset": "0px 1287.47px 0px -24px",
+      "left": "-24px",
+      "outline": "rgb(244, 244, 244) none 3px",
+      "position": "absolute",
+      "right": "1287.47px",
+      "top": "0px",
+      "width": "12.5312px"
     }
   ],
   [
-    "<li:after data-index=\"2\"></li:after>",
+    "<li:after class=\"cds--list__item\" data-index=\"2\"></li:after>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
