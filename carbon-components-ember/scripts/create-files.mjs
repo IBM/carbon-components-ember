@@ -51,7 +51,13 @@ function createIndexFiles() {
     if (comp.includes('toggletip/')) {
       camelCased = 'Toggletip' + camelCased;
     }
-    componentIndexFile.push(`export { default as ${camelCased} } from './${comp.replace('components/', '')}'`);
+    const relativePath = comp.replace('components/', '');
+    const source = fs.readFileSync(path.join('./src/components', relativePath)).toString();
+    const namedExports = [...source.matchAll(/^export (?:class|const|function) ([A-Za-z0-9_]+)/gm)].map(
+      (m) => m[1],
+    );
+    const specifiers = [`default as ${camelCased}`, ...namedExports];
+    componentIndexFile.push(`export { ${specifiers.join(', ')} } from './${relativePath}'`);
   }
   fs.writeFileSync('./src/components/index.ts', componentIndexFile.join('\n'));
 
