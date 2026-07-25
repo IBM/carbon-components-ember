@@ -48,6 +48,9 @@ function createIndexFiles() {
     if (comp.split('/').at(-1) === 'ui-shell.gts') {
       camelCased = 'UIShell';
     }
+    if (comp.includes('toggletip/')) {
+      camelCased = 'Toggletip' + camelCased;
+    }
     componentIndexFile.push(`export { default as ${camelCased} } from './${comp.replace('components/', '')}'`);
   }
   fs.writeFileSync('./src/components/index.ts', componentIndexFile.join('\n'));
