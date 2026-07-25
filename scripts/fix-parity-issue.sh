@@ -657,7 +657,78 @@ done
 
 echo ""
 echo "---"
-echo "Agent execution completed. Verifying the task is actually finished before finalizing..."
+echo "Agent execution completed. Running review+fix rounds before finalizing..."
+
+# Give the change a few rounds of self-review before we even check whether the
+# task is "finished" (PR opened, issue commented, etc. — checked separately
+# below). Each round asks Claude to review the diff on this branch like a
+# code reviewer and write findings to $REVIEW_FILE only if it finds genuine
+# issues; no file means no issues, which is our exit condition. Bounded at
+# MAX_REVIEW_ROUNDS so a persistently self-critical agent can't loop forever.
+REVIEW_FILE="$TMP_DIR/review-${ISSUE_NUMBER}.md"
+MAX_REVIEW_ROUNDS=5
+REVIEW_ROUND=1
+
+while [ "$REVIEW_ROUND" -le "$MAX_REVIEW_ROUNDS" ]; do
+  rm -f "$REVIEW_FILE"
+
+  REVIEW_PROMPT="Review the changes made so far on branch $BRANCH_NAME for issue #$ISSUE_NUMBER (the $COMPONENT_NAME component), acting as a strict code reviewer.
+
+Look at the actual diff ('git diff origin/main' and 'git status'), not just what you recall doing. Check for:
+- Correctness bugs (wrong logic, broken edge cases, args/types that don't match the React source)
+- Deviations from AGENTS.md patterns (component structure, @tracked usage, cds-- class prefixes, prop naming matching React)
+- Missing test coverage for the story variants this component has
+- Anything left broken: failing build ('cd carbon-components-ember && pnpm build'), failing lint ('pnpm lint'), or failing tests ('cd test-app && pnpm test')
+
+This is review round $REVIEW_ROUND of $MAX_REVIEW_ROUNDS.
+
+If you find genuine issues that should be fixed: write them as a concise markdown checklist to $REVIEW_FILE (create it). Be specific — file, what's wrong, what to do about it. Do not fix anything yourself in this pass, only review and report.
+
+If you find no genuine issues (the change is correct, follows conventions, builds, lints, and tests pass): do NOT create $REVIEW_FILE at all. Do not create it just to say 'no issues' — its mere existence is what signals issues were found."
+
+  echo "Starting review agent (round $REVIEW_ROUND of $MAX_REVIEW_ROUNDS)..."
+  run_claude "$REVIEW_PROMPT" || echo "Warning: review agent invocation itself failed; treating this round as having no confirmed findings"
+
+  if [ ! -f "$REVIEW_FILE" ]; then
+    echo "Review round $REVIEW_ROUND found no $REVIEW_FILE — no issues found, exiting review loop."
+    break
+  fi
+
+  echo "Review round $REVIEW_ROUND found issues in $REVIEW_FILE:"
+  cat "$REVIEW_FILE"
+  echo ""
+
+  if [ "$REVIEW_ROUND" -eq "$MAX_REVIEW_ROUNDS" ]; then
+    echo "WARNING: reached max review rounds ($MAX_REVIEW_ROUNDS) with unresolved findings in $REVIEW_FILE. Leaving findings in place for the next run and moving on."
+    break
+  fi
+
+  FIX_PROMPT="Address the review findings in $REVIEW_FILE for issue #$ISSUE_NUMBER (the $COMPONENT_NAME component) on branch $BRANCH_NAME.
+
+Findings from review round $REVIEW_ROUND:
+
+$(cat "$REVIEW_FILE")
+
+Fix every issue listed. Run the build/lint/test commands referenced in the findings (or from AGENTS.md's Component Implementation Checklist) to confirm the fixes actually work, then commit and push. Once you've addressed everything, delete $REVIEW_FILE — it should not exist once its findings are resolved."
+
+  echo "Fixing review round $REVIEW_ROUND findings..."
+  until run_claude "$FIX_PROMPT"; do
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] Fix attempt failed. Sleeping ${RETRY_DELAY}s..."
+    sleep "$RETRY_DELAY"
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] Woke up, retrying fix..."
+  done
+
+  # In case the fix agent addressed the findings but didn't delete the file
+  # itself, remove it so a stale file can't be mistaken for the next round's
+  # findings; the next iteration's review pass re-creates it if issues remain.
+  rm -f "$REVIEW_FILE"
+
+  REVIEW_ROUND=$((REVIEW_ROUND + 1))
+done
+
+echo ""
+echo "---"
+echo "Review+fix rounds complete. Verifying the task is actually finished before finalizing..."
 
 CONTINUE_FILE="$TMP_DIR/continue-${ISSUE_NUMBER}.md"
 MAX_VERIFY_ATTEMPTS=5
