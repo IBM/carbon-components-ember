@@ -7,6 +7,9 @@ which the browser natively cascades to descendant elements. `LayoutDirection`
 components can be nested to override the direction for a specific section of
 content.
 
+The block receives `dir` and `isRTL` so nested content can react to the
+active direction, mirroring React's `useLayoutDirection` hook.
+
 ```gjs live preview
 import { ThemeSupport } from 'docs-support';
 import { LayoutDirection } from 'carbon-components-ember/components';
@@ -62,6 +65,20 @@ import { LayoutDirection } from 'carbon-components-ember/components';
       Ipsum ipsa repellat doloribus magni architecto totam Laborum maxime
       ratione nobis voluptatibus facilis nostrum.
     </p>
+  </LayoutDirection>
+</template>
+```
+
+## Reading the current direction
+
+```gjs live preview
+import { ThemeSupport } from 'docs-support';
+import { LayoutDirection } from 'carbon-components-ember/components';
+<template>
+  <ThemeSupport />
+  <br>
+  <LayoutDirection @dir='rtl' as |ctx|>
+    <p>Current direction: {{ctx.dir}} ({{if ctx.isRTL 'RTL' 'LTR'}})</p>
   </LayoutDirection>
 </template>
 ```
