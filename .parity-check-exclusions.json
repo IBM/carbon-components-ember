@@ -1,0 +1,7 @@
+{
+  "Plex": {
+    "reason": "Plex is not a real React component — it's a Storybook-only typography demo (Elements/IBM Plex) showcasing the IBM Plex font family in different scripts/weights using plain <p>/<code> tags with inline styles. There is no .tsx source file, no props interface, and no exported component to port to Ember.",
+    "excludedAt": "2026-07-25T22:45:10.211Z",
+    "issue": "475"
+  }
+}
