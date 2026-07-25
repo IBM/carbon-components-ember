@@ -180,6 +180,8 @@
       "Theme",
       "Tile",
       "TileGroup",
+      "TimePicker",
+      "TimePickerSelect",
       "Toggle",
       "Toggletip",
       "TreeView",
@@ -271,8 +273,6 @@
       "Tab",
       "TextArea",
       "TextInput",
-      "TimePicker",
-      "TimePickerSelect",
       "ToggleSmall",
       "Tooltip"
     ],
@@ -312,6 +312,8 @@
       "Theme",
       "Tile",
       "TileGroup",
+      "TimePicker",
+      "TimePickerSelect",
       "Toggle",
       "Toggletip",
       "TreeView",
@@ -617,6 +619,20 @@
       "lastUpdate": null
     },
     "TileGroup": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "TimePicker": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "TimePickerSelect": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "hasChanges": false,
