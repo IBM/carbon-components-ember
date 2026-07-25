@@ -1,0 +1,7 @@
+{
+  "HideAtBreakpoint": {
+    "reason": "HideAtBreakpoint is not a React component — it's a documentation-only Storybook 'Helpers' page demonstrating pure SCSS mixins (hide-at-sm/md/lg/xlg/max from @carbon/styles/scss/utilities/hide-at-breakpoint) applied via plain CSS class names. There is no component API (no props, no JS logic, no exported React component) to give an Ember counterpart; consumers apply the same @carbon/styles mixins directly in their own SCSS, which already works today via this addon's existing @carbon/styles dependency.",
+    "excludedAt": "2026-07-25T19:44:35.374Z",
+    "issue": "453"
+  }
+}
