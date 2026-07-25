@@ -184,6 +184,7 @@
       "TimePickerSelect",
       "Toggle",
       "Toggletip",
+      "Tooltip",
       "TreeView",
       "UIShell",
       "UnorderedList"
@@ -275,6 +276,9 @@
       "TextInput",
       "ToggleSmall",
       "Tooltip"
+      "TimePicker",
+      "TimePickerSelect",
+      "ToggleSmall"
     ],
     "implemented": [
       "Accordion",
@@ -316,6 +320,7 @@
       "TimePickerSelect",
       "Toggle",
       "Toggletip",
+      "Tooltip",
       "TreeView",
       "UIShell",
       "UnorderedList",
@@ -527,6 +532,13 @@
       "changeCount": 0,
       "lastUpdate": null
     },
+    "Tooltip": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
     "UIShell": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "N/A",
@@ -647,6 +659,13 @@
       "lastUpdate": null
     },
     "Link": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "SelectItem": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "hasChanges": false,
