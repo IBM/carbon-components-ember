@@ -1,0 +1,7 @@
+{
+  "ListBox": {
+    "reason": "ListBox is an internal composition primitive (ListBox/ListBoxField/ListBoxMenu/ListBoxMenuItem/ListBoxSelection/etc.) used by React to build Dropdown, ComboBox, and MultiSelect. It has no standalone Storybook story or public docs page in Carbon React and is not a component consumers use directly. It will be covered implicitly when Dropdown/ComboBox/MultiSelect are implemented in Ember; no standalone Ember component makes sense.",
+    "excludedAt": "2026-07-25T19:41:09.433Z",
+    "issue": "464"
+  }
+}
