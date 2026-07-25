@@ -159,6 +159,7 @@
       "ProgressIndicator",
       "RadioButton",
       "RadioButtonGroup",
+      "RadioTile",
       "Search",
       "Select",
       "SelectItemGroup",
@@ -178,6 +179,7 @@
       "TextDirection",
       "Theme",
       "Tile",
+      "TileGroup",
       "Toggle",
       "Toggletip",
       "TreeView",
@@ -258,7 +260,6 @@
       "Plex",
       "Popover",
       "PrimaryButton",
-      "RadioTile",
       "SecondaryButton",
       "SelectItem",
       "ShapeIndicator",
@@ -270,7 +271,6 @@
       "Tab",
       "TextArea",
       "TextInput",
-      "TileGroup",
       "TimePicker",
       "TimePickerSelect",
       "ToggleSmall",
@@ -295,6 +295,7 @@
       "ProgressIndicator",
       "RadioButton",
       "RadioButtonGroup",
+      "RadioTile",
       "Search",
       "Select",
       "SelectItemGroup",
@@ -310,6 +311,7 @@
       "Text",
       "Theme",
       "Tile",
+      "TileGroup",
       "Toggle",
       "Toggletip",
       "TreeView",
@@ -586,6 +588,13 @@
       "changeCount": 0,
       "lastUpdate": null
     },
+    "RadioTile": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
     "TreeView": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
@@ -601,6 +610,13 @@
       "lastUpdate": null
     },
     "TextInput": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "TileGroup": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "hasChanges": false,
