@@ -93,7 +93,7 @@ export default class PasswordInput extends Component<Signature> {
     const position = this.args.tooltipPosition ?? 'bottom';
     const alignment = this.args.tooltipAlignment ?? 'end';
     if (position === 'top' || position === 'bottom') {
-      return alignment === 'center' ? position : (`${position}-${alignment}` as TooltipAlignment);
+      return alignment === 'center' ? position : `${position}-${alignment}`;
     }
     return position;
   }
