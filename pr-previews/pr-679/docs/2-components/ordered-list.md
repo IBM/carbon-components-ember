@@ -5,14 +5,14 @@ Ordered lists are groupings of related content where the order of the items with
 
 ```gjs live preview
 import { ThemeSupport } from 'docs-support';
-import { OrderedList } from 'carbon-components-ember/components';
+import { ListItem, OrderedList } from 'carbon-components-ember/components';
 <template>
   <ThemeSupport />
   <br>
   <OrderedList>
-    <li>Ordered List level 1</li>
-    <li>Ordered List level 1</li>
-    <li>Ordered List level 1</li>
+    <ListItem>Ordered List level 1</ListItem>
+    <ListItem>Ordered List level 1</ListItem>
+    <ListItem>Ordered List level 1</ListItem>
   </OrderedList>
 </template>
 ```
@@ -23,26 +23,26 @@ Ordered lists can be nested inside of each other using the `@nested` argument.
 
 ```gjs live preview
 import { ThemeSupport } from 'docs-support';
-import { OrderedList } from 'carbon-components-ember/components';
+import { ListItem, OrderedList } from 'carbon-components-ember/components';
 <template>
   <ThemeSupport />
   <br>
   <OrderedList>
-    <li>
+    <ListItem>
       Ordered List level 1
       <OrderedList @nested={{true}}>
-        <li>Ordered List level 2</li>
-        <li>
+        <ListItem>Ordered List level 2</ListItem>
+        <ListItem>
           Ordered List level 2
           <OrderedList @nested={{true}}>
-            <li>Ordered List level 3</li>
-            <li>Ordered List level 3</li>
+            <ListItem>Ordered List level 3</ListItem>
+            <ListItem>Ordered List level 3</ListItem>
           </OrderedList>
-        </li>
+        </ListItem>
       </OrderedList>
-    </li>
-    <li>Ordered List level 1</li>
-    <li>Ordered List level 1</li>
+    </ListItem>
+    <ListItem>Ordered List level 1</ListItem>
+    <ListItem>Ordered List level 1</ListItem>
   </OrderedList>
 </template>
 ```
@@ -53,25 +53,25 @@ Use the `@native` argument to render the list using the browser's native ordered
 
 ```gjs live preview
 import { ThemeSupport } from 'docs-support';
-import { OrderedList } from 'carbon-components-ember/components';
+import { ListItem, OrderedList } from 'carbon-components-ember/components';
 <template>
   <ThemeSupport />
   <br>
   <OrderedList @native={{true}}>
-    <li>Ordered List level 1</li>
-    <li>Ordered List level 1</li>
-    <li>Ordered List level 1</li>
-    <li>
+    <ListItem>Ordered List level 1</ListItem>
+    <ListItem>Ordered List level 1</ListItem>
+    <ListItem>Ordered List level 1</ListItem>
+    <ListItem>
       Ordered List level 1
       <OrderedList @nested={{true}}>
-        <li>Ordered List level 2</li>
-        <li>Ordered List level 2</li>
-        <li>Ordered List level 2</li>
-        <li>Ordered List level 2</li>
+        <ListItem>Ordered List level 2</ListItem>
+        <ListItem>Ordered List level 2</ListItem>
+        <ListItem>Ordered List level 2</ListItem>
+        <ListItem>Ordered List level 2</ListItem>
       </OrderedList>
-    </li>
-    <li>Ordered List level 1</li>
-    <li>Ordered List level 1</li>
+    </ListItem>
+    <ListItem>Ordered List level 1</ListItem>
+    <ListItem>Ordered List level 1</ListItem>
   </OrderedList>
 </template>
 ```
