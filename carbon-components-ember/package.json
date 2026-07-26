@@ -239,6 +239,7 @@
       "./components/carbon/data-table/-toolbar/-content.js": "./dist/_app_/components/carbon/data-table/-toolbar/-content.js",
       "./components/carbon/dialogs/confirm.js": "./dist/_app_/components/carbon/dialogs/confirm.js",
       "./components/carbon/form-input.js": "./dist/_app_/components/carbon/form-input.js",
+      "./components/carbon/form-label.js": "./dist/_app_/components/carbon/form-label.js",
       "./components/carbon/grid.js": "./dist/_app_/components/carbon/grid.js",
       "./components/carbon/grid/column.js": "./dist/_app_/components/carbon/grid/column.js",
       "./components/carbon/grid/row.js": "./dist/_app_/components/carbon/grid/row.js",
