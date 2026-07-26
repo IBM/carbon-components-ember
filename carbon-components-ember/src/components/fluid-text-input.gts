@@ -21,8 +21,11 @@ export interface Signature {
     enableCounter?: boolean;
     maxCount?: number;
     isPassword?: boolean;
+    showPasswordLabel?: string;
+    hidePasswordLabel?: string;
     onChange?: (value: string, event: Event) => void;
     onClick?: (event: MouseEvent) => void;
+    onTogglePasswordVisibility?: (event: MouseEvent) => void;
   };
   Blocks: {
     labelText: [];
@@ -80,6 +83,14 @@ export default class FluidTextInput extends Component<Signature> {
     return this.showCounter && this.count > (this.args.maxCount as number);
   }
 
+  get showPasswordLabel() {
+    return this.args.showPasswordLabel ?? 'Show password';
+  }
+
+  get hidePasswordLabel() {
+    return this.args.hidePasswordLabel ?? 'Hide password';
+  }
+
   @action
   updateValue(event: Event) {
     const value = (event.target as HTMLInputElement).value;
@@ -93,8 +104,9 @@ export default class FluidTextInput extends Component<Signature> {
   }
 
   @action
-  togglePasswordVisibility() {
+  togglePasswordVisibility(event: MouseEvent) {
     this.passwordVisible = !this.passwordVisible;
+    this.args.onTogglePasswordVisibility?.(event);
   }
 
   <template>
@@ -168,7 +180,11 @@ export default class FluidTextInput extends Component<Signature> {
               type='button'
               class='cds--text-input--password__visibility__toggle cds--btn cds--btn--icon-only'
               disabled={{@disabled}}
-              aria-label={{if this.passwordVisible 'Hide password' 'Show password'}}
+              aria-label={{if
+                this.passwordVisible
+                this.hidePasswordLabel
+                this.showPasswordLabel
+              }}
               {{on 'click' this.togglePasswordVisibility}}
             >
               {{#if this.passwordVisible}}

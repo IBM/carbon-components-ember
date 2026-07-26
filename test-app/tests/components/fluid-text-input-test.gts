@@ -45,6 +45,9 @@ module('Integration | Component | FluidTextInput', (hooks) => {
 
     assert.dom('input.cds--text-input').isDisabled();
     assert.dom('input.cds--text-input').hasAttribute('readonly');
+    assert
+      .dom('.cds--text-input-wrapper')
+      .hasClass('cds--text-input-wrapper--readonly');
   });
 
   test('should call onChange with the new value when typed into', async function (assert) {
@@ -84,6 +87,30 @@ module('Integration | Component | FluidTextInput', (hooks) => {
     assert.dom('.cds--form-requirement').hasText('Careful with this');
   });
 
+  test('should prioritize the invalid state over the warn state', async function (assert) {
+    await render(
+      <template>
+        <FluidTextInput
+          @invalid={{true}}
+          @invalidText='Invalid'
+          @warn={{true}}
+          @warnText='Warn'
+        />
+      </template>,
+    );
+    await waitFor('.cds--text-input__invalid-icon');
+
+    assert.dom('input.cds--text-input').hasClass('cds--text-input--invalid');
+    assert
+      .dom('input.cds--text-input')
+      .doesNotHaveClass('cds--text-input--warning');
+    assert.dom('.cds--text-input__invalid-icon').exists();
+    assert
+      .dom('.cds--text-input__invalid-icon--warning')
+      .doesNotExist();
+    assert.dom('.cds--form-requirement').hasText('Invalid');
+  });
+
   test('should show a character counter when enableCounter and maxCount are set', async function (assert) {
     await render(
       <template>
@@ -92,6 +119,20 @@ module('Integration | Component | FluidTextInput', (hooks) => {
     );
 
     assert.dom('.cds--text-input__label-counter').hasText('5/10');
+  });
+
+  test('should show the counter alert when over the maxCount limit', async function (assert) {
+    await render(
+      <template>
+        <FluidTextInput
+          @defaultValue='hello world'
+          @enableCounter={{true}}
+          @maxCount={{5}}
+        />
+      </template>,
+    );
+
+    assert.dom('.cds--text-input__counter-alert').hasText('11/5');
   });
 
   test('should render a password toggle when isPassword is set', async function (assert) {
@@ -112,5 +153,49 @@ module('Integration | Component | FluidTextInput', (hooks) => {
     assert
       .dom('.cds--text-input--password__visibility__toggle')
       .hasAttribute('aria-label', 'Hide password');
+  });
+
+  test('should disable the password toggle when disabled', async function (assert) {
+    await render(
+      <template>
+        <FluidTextInput
+          @labelText='Password'
+          @isPassword={{true}}
+          @disabled={{true}}
+        />
+      </template>,
+    );
+
+    assert
+      .dom('.cds--text-input--password__visibility__toggle')
+      .isDisabled();
+  });
+
+  test('should support custom show/hide password labels and onTogglePasswordVisibility', async function (assert) {
+    let callCount = 0;
+    const handleToggle = () => callCount++;
+
+    await render(
+      <template>
+        <FluidTextInput
+          @labelText='Password'
+          @isPassword={{true}}
+          @showPasswordLabel='Reveal'
+          @hidePasswordLabel='Conceal'
+          @onTogglePasswordVisibility={{handleToggle}}
+        />
+      </template>,
+    );
+
+    assert
+      .dom('.cds--text-input--password__visibility__toggle')
+      .hasAttribute('aria-label', 'Reveal');
+
+    await click('.cds--text-input--password__visibility__toggle');
+
+    assert
+      .dom('.cds--text-input--password__visibility__toggle')
+      .hasAttribute('aria-label', 'Conceal');
+    assert.strictEqual(callCount, 1);
   });
 });
