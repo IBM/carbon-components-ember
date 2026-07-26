@@ -181,8 +181,11 @@
       "Theme",
       "Tile",
       "TileGroup",
+      "TimePicker",
+      "TimePickerSelect",
       "Toggle",
       "Toggletip",
+      "Tooltip",
       "TreeView",
       "UIShell",
       "UnorderedList"
@@ -271,10 +274,10 @@
       "Tab",
       "TextArea",
       "TextInput",
-      "TimePicker",
-      "TimePickerSelect",
       "ToggleSmall",
-      "Tooltip"
+      "Tooltip",
+      "TimePicker",
+      "TimePickerSelect"
     ],
     "implemented": [
       "Accordion",
@@ -314,8 +317,11 @@
       "Theme",
       "Tile",
       "TileGroup",
+      "TimePicker",
+      "TimePickerSelect",
       "Toggle",
       "Toggletip",
+      "Tooltip",
       "TreeView",
       "UIShell",
       "UnorderedList"
@@ -526,6 +532,13 @@
       "changeCount": 0,
       "lastUpdate": null
     },
+    "Tooltip": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
     "UIShell": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "N/A",
@@ -624,6 +637,20 @@
       "changeCount": 0,
       "lastUpdate": null
     },
+    "TimePicker": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "TimePickerSelect": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
     "Layout": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
@@ -639,6 +666,13 @@
       "lastUpdate": null
     },
     "OrderedList": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "SelectItem": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "hasChanges": false,
