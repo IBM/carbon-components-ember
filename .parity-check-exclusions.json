@@ -1,0 +1,7 @@
+{
+  "Switch": {
+    "reason": "Switch/IconSwitch are internal building-block components explicitly documented in Carbon React source as 'Reserved for usage in ContentSwitcher' (tab-like buttons rendered only as children of ContentSwitcher). There are no standalone stories/Storybook page for Switch on its own - it has no independent public API or usage pattern. ContentSwitcher itself is not yet implemented in Ember (tracked separately in PARITY_REPORT.md); when it is, this switch-item pattern will be built internally as part of that component rather than as a separate public export.",
+    "excludedAt": "2026-07-26T01:11:57.475Z",
+    "issue": "494"
+  }
+}
