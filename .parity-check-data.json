@@ -275,10 +275,9 @@
       "TextArea",
       "TextInput",
       "ToggleSmall",
-      "Tooltip"
+      "Tooltip",
       "TimePicker",
-      "TimePickerSelect",
-      "ToggleSmall"
+      "TimePickerSelect"
     ],
     "implemented": [
       "Accordion",
