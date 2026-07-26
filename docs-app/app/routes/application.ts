@@ -6,6 +6,7 @@ import { setupTabster } from 'ember-primitives/tabster';
 import { setupKolay } from 'kolay/setup';
 import { getHighlighterCore } from 'shiki/core';
 import getWasm from 'shiki/wasm';
+import didInsert from '@ember/render-modifiers/modifiers/did-insert';
 
 import { Callout } from '@universal-ember/docs-support';
 
@@ -23,6 +24,8 @@ import {
   UserAvatar,
   Folder,
   Document,
+  Checkbox as CheckboxIcon,
+  Settings,
 } from 'carbon-components-ember/icons';
 // @ts-expect-error ignore
 import { Bookmark32 } from '@carbon/icons/es/index.js';
@@ -87,10 +90,13 @@ export default class Application extends Route {
             UserAvatar,
             Folder,
             Document,
+            Checkbox: CheckboxIcon,
+            Settings,
           }),
           'docs-support': Promise.resolve({
             ThemeSupport,
             ThemeSwitcher,
+            didInsert,
             setOwner: (ctx) => setOwner(ctx, getOwner(this))
           }),
           'ember-primitives': import('ember-primitives'),

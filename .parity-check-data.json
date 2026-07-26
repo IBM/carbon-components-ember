@@ -155,6 +155,7 @@
       "OverflowMenu",
       "Pagination",
       "PieChart",
+      "Popover",
       "Portal",
       "ProgressBar",
       "ProgressIndicator",
@@ -261,7 +262,6 @@
       "PaginationNav",
       "PasswordInput",
       "Plex",
-      "Popover",
       "PrimaryButton",
       "SecondaryButton",
       "SelectItem",
@@ -295,6 +295,7 @@
       "OrderedList",
       "OverflowMenu",
       "Pagination",
+      "Popover",
       "Portal",
       "ProgressBar",
       "ProgressIndicator",
@@ -673,6 +674,13 @@
       "lastUpdate": null
     },
     "SelectItem": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "Popover": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "hasChanges": false,
