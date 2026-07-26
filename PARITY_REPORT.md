@@ -1,15 +1,15 @@
 # Component Parity Report
-Generated: 2026-07-21T22:43:30.164Z
+Generated: 2026-07-26T15:31:05.623Z
 Carbon React Version: 11.112.0
 Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 
 ## Summary
 - Total React Components: 126
-- Total Ember Components: 43
-- Parity: 25%
+- Total Ember Components: 65
+- Parity: 40%
 - Outdated Components: 0
 
-## Missing in Ember (94)
+## Missing in Ember (76)
 - [ ] AILabel
 - [ ] AISkeleton
 - [ ] AccordionItem
@@ -50,7 +50,6 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - [ ] FluidSearch
 - [ ] FluidSelect
 - [ ] FluidTextArea
-- [ ] FluidTextInput
 - [ ] FluidTimePicker
 - [ ] FluidTimePickerSelect
 - [ ] Form
@@ -68,7 +67,6 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - [ ] Layer
 - [ ] Layout
 - [ ] LayoutDirection
-- [ ] Link
 - [ ] ListBox
 - [ ] ListItem
 - [ ] Menu
@@ -76,7 +74,6 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - [ ] ModalWrapper
 - [ ] MultiSelect
 - [ ] NumberInput
-- [ ] OrderedList
 - [ ] OverflowMenuItem
 - [ ] OverflowMenuV2
 - [ ] PageHeader
@@ -85,63 +82,66 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - [ ] Plex
 - [ ] Popover
 - [ ] PrimaryButton
-- [ ] ProgressIndicator
-- [ ] RadioTile
 - [ ] SecondaryButton
-- [ ] SelectItem
-- [ ] Slider
-- [ ] Stack
-- [ ] StructuredList
 - [ ] Switch
 - [ ] Tab
-- [ ] TextArea
-- [ ] TextInput
-- [ ] TileGroup
-- [ ] TimePicker
-- [ ] TimePickerSelect
 - [ ] ToggleSmall
-- [ ] Toggletip
-- [ ] Tooltip
-- [ ] TreeView
 
-## Implemented in Both (32)
+## Implemented in Both (50)
 - [x] Accordion
 - [x] Button
 - [x] Checkbox
 - [x] CodeSnippet
 - [x] CopyButton
 - [x] DataTable
+- [x] FluidTextInput
 - [x] Grid
 - [x] Icon
+- [x] Link
 - [x] Loading
 - [x] Modal
 - [x] Notification
+- [x] OrderedList
 - [x] OverflowMenu
 - [x] Pagination
 - [x] Portal
 - [x] ProgressBar
+- [x] ProgressIndicator
 - [x] RadioButton
 - [x] RadioButtonGroup
+- [x] RadioTile
 - [x] Search
 - [x] Select
+- [x] SelectItem
 - [x] SelectItemGroup
 - [x] ShapeIndicator
 - [x] SkeletonIcon
 - [x] SkeletonPlaceholder
 - [x] SkeletonText
+- [x] Slider
+- [x] Stack
+- [x] StructuredList
 - [x] TabContent
 - [x] Tabs
 - [x] Tag
 - [x] Text
+- [x] TextArea
+- [x] TextInput
 - [x] Theme
 - [x] Tile
+- [x] TileGroup
+- [x] TimePicker
+- [x] TimePickerSelect
 - [x] Toggle
+- [x] Toggletip
+- [x] Tooltip
+- [x] TreeView
 - [x] UIShell
 - [x] UnorderedList
 
 
 
-## Ember-Specific (11)
+## Ember-Specific (15)
 - BarChart
 - Breadcrumbs
 - ConfirmDialog
@@ -151,6 +151,11 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - LineChart
 - List
 - PieChart
+- SliderSkeleton
 - TextDirection
+- ToggletipActions
+- ToggletipButton
+- ToggletipContent
+- ToggletipLabel
 
 
