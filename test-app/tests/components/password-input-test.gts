@@ -31,10 +31,10 @@ module('Integration | Component | PasswordInput', (hooks) => {
     assert.dom('input.cds--text-input').hasValue('secret');
   });
 
-  test('should apply the size class', async function (assert) {
+  test('should apply the layout size class', async function (assert) {
     await render(<template><PasswordInput @size='sm' /></template>);
 
-    assert.dom('input.cds--text-input').hasClass('cds--text-input--sm');
+    assert.dom('.cds--text-input-wrapper').hasClass('cds--layout--size-sm');
   });
 
   test('should respect the disabled and readOnly arguments', async function (assert) {

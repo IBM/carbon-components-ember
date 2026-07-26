@@ -122,7 +122,8 @@ export default class PasswordInput extends Component<Signature> {
         {{if @readOnly "cds--text-input-wrapper--readonly"}}
         {{if @light "cds--text-input-wrapper--light"}}
         {{if @inline "cds--text-input-wrapper--inline"}}
-        {{if (and @inline this.isInvalid) "cds--text-input-wrapper--inline--invalid"}}'
+        {{if (and @inline this.isInvalid) "cds--text-input-wrapper--inline--invalid"}}
+        {{if @size (concat "cds--layout--size-" @size)}}'
       ...attributes
     >
       {{#if @labelText}}
@@ -154,7 +155,6 @@ export default class PasswordInput extends Component<Signature> {
             id={{this.id}}
             type={{this.inputType}}
             class='cds--text-input cds--password-input
-              {{if @size (concat "cds--text-input--" @size)}}
               {{if @light "cds--text-input--light"}}
               {{if this.isInvalid "cds--text-input--invalid"}}
               {{if this.isWarn "cds--text-input--warning"}}'
