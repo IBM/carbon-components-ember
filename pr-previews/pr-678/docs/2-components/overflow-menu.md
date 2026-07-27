@@ -24,17 +24,16 @@ const not = (x) => !x;
         @disabled={{context.disabled}}
         as |Item|
     >
-        <Item>option 1</Item>
+        <Item @itemText='option 1' />
         <Item
-            @tooltip='Option 2 is an example of a really long string and how we recommend handling this'
-        >
-            Option 2 is an example of a really long string and how we
-            recommend handling this
-        </Item>
-        <Item @onClick={{fn (set context 'selected') 'option 3'}}>option 3</Item>
-        <Item @isDanger={{true}}>delete</Item>
-        <Item @isDisabled={{true}}>disabled</Item>
-        <Item @isDivider={{true}}>option 4</Item>
+            @itemText='Option 2 is an example of a really long string and how we recommend handling this'
+            @requireTitle={{true}}
+        />
+        <Item @itemText='option 3' @onClick={{fn (set context 'selected') 'option 3'}} />
+        <Item @itemText='delete' @isDelete={{true}} @dangerDescription='delete this item' />
+        <Item @itemText='disabled' @disabled={{true}} />
+        <Item @itemText='option 4' @hasDivider={{true}} />
+        <Item @itemText='link item' @href='https://carbondesignsystem.com' />
     </OverflowMenu>
     <br>
     selected: {{context.selected}}
@@ -52,6 +51,22 @@ import { ComponentSignature } from 'kolay';
   <ComponentSignature 
     @package="carbon-components-ember" 
     @module='declarations/components/overflow-menu' 
+    @name='default' 
+  />
+</template>
+```
+</details>
+
+<details>
+<summary><h3>OverflowMenuItem</h3></summary>
+
+```gjs live no-shadow
+import { ComponentSignature } from 'kolay';
+
+<template>
+  <ComponentSignature 
+    @package="carbon-components-ember" 
+    @module='declarations/components/overflow-menu/item' 
     @name='default' 
   />
 </template>
