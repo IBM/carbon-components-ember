@@ -156,7 +156,7 @@ export default class NumberInput extends Component<Signature> {
         (min !== undefined && min > 0 && max !== undefined && max > 0) ||
         min !== undefined
       ) {
-        rawValue = min as number;
+        rawValue = min;
       } else {
         rawValue = direction === 'up' ? 1 : -1;
       }
