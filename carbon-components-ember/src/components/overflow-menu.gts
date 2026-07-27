@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import Icon from '../components/icon.gts';
-import MenuItemComponent from '../components/overflow-menu/-item.gts';
+import MenuItemComponent from '../components/overflow-menu/item.gts';
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 import defaultTo from '../helpers/default-to.ts';
 import { on } from '@ember/modifier';
@@ -19,7 +19,7 @@ export interface OverflowMenuComponentSignature {
   };
   Blocks: {
     default: [
-      WithBoundArgs<typeof MenuItemComponent, 'isDisabled' | 'isDanger'>,
+      WithBoundArgs<typeof MenuItemComponent, 'disabled' | 'isDelete'>,
     ];
   };
 }
@@ -53,7 +53,7 @@ export default class OverflowMenuComponent extends Component<OverflowMenuCompone
           data-floating-menu-direction={{defaultTo @direction 'buttom'}}
         >
           {{yield
-            (component MenuItemComponent isDisabled=@disabled isDanger=@danger)
+            (component MenuItemComponent disabled=@disabled isDelete=@danger)
           }}
         </ul>
       </dd.Content>

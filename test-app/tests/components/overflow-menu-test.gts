@@ -144,7 +144,7 @@ module('Integration | Component | OverflowMenu', (hooks) => {
     await render(
       <template>
         <OverflowMenu @direction='bottom' as |Item|>
-          <Item @isDivider={{true}}>option 1</Item>
+          <Item @hasDivider={{true}}>option 1</Item>
         </OverflowMenu>
       </template>,
     );
