@@ -85,4 +85,16 @@ module('Integration | Component | LayoutDirection', (hooks) => {
 
     assert.dom('[data-test-rtl]').hasText('ltr');
   });
+
+  test('passes through html attributes', async function (assert) {
+    await render(
+      <template>
+        <LayoutDirection id='my-layout-direction' class='custom-class' @dir='ltr'>
+          Hello world
+        </LayoutDirection>
+      </template>,
+    );
+    assert.dom('#my-layout-direction').exists();
+    assert.dom('div').hasClass('custom-class');
+  });
 });
