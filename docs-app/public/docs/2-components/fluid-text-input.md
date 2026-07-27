@@ -44,7 +44,7 @@ const update = (value) => {
 ## With Toggletip
 
 ```gjs live preview
-import { FluidTextInput, ToggletipLabel, Toggletip, ToggletipButton, ToggletipContent } from 'carbon-components-ember/components';
+import { FluidTextInput, ToggletipLabel, Toggletip } from 'carbon-components-ember/components';
 import { Information } from 'carbon-components-ember/icons';
 import { ThemeSupport } from 'docs-support';
 
@@ -54,13 +54,13 @@ import { ThemeSupport } from 'docs-support';
       <FluidTextInput @placeholder="Placeholder text">
         <:labelText>
           <ToggletipLabel>Label</ToggletipLabel>
-          <Toggletip @align="top-left">
-            <ToggletipButton @label="Show information">
+          <Toggletip @align="top-left" as |t|>
+            <t.Button @label="Show information">
               <Information />
-            </ToggletipButton>
-            <ToggletipContent>
+            </t.Button>
+            <t.Content>
               <p>Additional field information here.</p>
-            </ToggletipContent>
+            </t.Content>
           </Toggletip>
         </:labelText>
       </FluidTextInput>

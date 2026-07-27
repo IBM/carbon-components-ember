@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { on } from '@ember/modifier';
 import { WarningFilled, WarningAltFilled, View, ViewOff } from '../icons.ts';
+import Tooltip from './tooltip.gts';
 
 export interface Signature {
   Args: {
@@ -176,23 +177,33 @@ export default class FluidTextInput extends Component<Signature> {
           {{/unless}}
           <hr class='cds--text-input__divider' />
           {{#if @isPassword}}
-            <button
-              type='button'
-              class='cds--text-input--password__visibility__toggle cds--btn cds--btn--icon-only'
-              disabled={{@disabled}}
-              aria-label={{if
+            <Tooltip
+              @label={{if
                 this.passwordVisible
                 this.hidePasswordLabel
                 this.showPasswordLabel
               }}
-              {{on 'click' this.togglePasswordVisibility}}
+              @align='bottom'
+              class='cds--toggle-password-tooltip'
             >
-              {{#if this.passwordVisible}}
-                <ViewOff @size='16' @svgClass='cds--icon-visibility-off' />
-              {{else}}
-                <View @size='16' @svgClass='cds--icon-visibility-on' />
-              {{/if}}
-            </button>
+              <button
+                type='button'
+                class='cds--text-input--password__visibility__toggle cds--btn cds--tooltip__trigger'
+                disabled={{@disabled}}
+                aria-label={{if
+                  this.passwordVisible
+                  this.hidePasswordLabel
+                  this.showPasswordLabel
+                }}
+                {{on 'click' this.togglePasswordVisibility}}
+              >
+                {{#if this.passwordVisible}}
+                  <ViewOff @size='16' @svgClass='cds--icon-visibility-off' />
+                {{else}}
+                  <View @size='16' @svgClass='cds--icon-visibility-on' />
+                {{/if}}
+              </button>
+            </Tooltip>
           {{/if}}
           {{#if this.isInvalid}}
             <div class='cds--form-requirement'>{{@invalidText}}</div>

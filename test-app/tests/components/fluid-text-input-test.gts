@@ -1,7 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn, click, waitFor } from '@ember/test-helpers';
+import { render, fillIn, click, waitFor, settled } from '@ember/test-helpers';
+import { tracked } from '@glimmer/tracking';
 import FluidTextInput from 'carbon-components-ember/components/fluid-text-input';
+import Toggletip from 'carbon-components-ember/components/toggletip';
 
 module('Integration | Component | FluidTextInput', (hooks) => {
   setupRenderingTest(hooks);
@@ -26,6 +28,28 @@ module('Integration | Component | FluidTextInput', (hooks) => {
     );
 
     assert.dom('label.cds--label').hasText('Custom Label');
+  });
+
+  test('should open a Toggletip rendered in the labelText block when its button is clicked', async function (assert) {
+    await render(
+      <template>
+        <FluidTextInput @placeholder='Placeholder text'>
+          <:labelText>
+            <Toggletip as |t|>
+              <t.Button @label='Show information'>i</t.Button>
+              <t.Content>Additional field information here.</t.Content>
+            </Toggletip>
+          </:labelText>
+        </FluidTextInput>
+      </template>,
+    );
+
+    assert.dom('.cds--popover-container').doesNotHaveClass('cds--popover--open');
+
+    await click('.cds--toggletip-button');
+
+    assert.dom('.cds--popover-container').hasClass('cds--popover--open');
+    assert.dom('.cds--toggletip-content').hasText('Additional field information here.');
   });
 
   test('should render the defaultValue', async function (assert) {
@@ -61,6 +85,28 @@ module('Integration | Component | FluidTextInput', (hooks) => {
     await fillIn('input.cds--text-input', 'new value');
 
     assert.strictEqual(received, 'new value');
+  });
+
+  test('should reflect external updates to a controlled value', async function (assert) {
+    class State {
+      @tracked value = '';
+    }
+    const state = new State();
+    const update = (value: string) => (state.value = value);
+
+    await render(
+      <template>
+        <FluidTextInput @value={{state.value}} @onChange={{update}} />
+      </template>,
+    );
+
+    await fillIn('input.cds--text-input', 'typed value');
+    assert.strictEqual(state.value, 'typed value');
+    assert.dom('input.cds--text-input').hasValue('typed value');
+
+    state.value = 'set from outside';
+    await settled();
+    assert.dom('input.cds--text-input').hasValue('set from outside');
   });
 
   test('should show the invalid state and message', async function (assert) {
@@ -146,6 +192,10 @@ module('Integration | Component | FluidTextInput', (hooks) => {
     assert
       .dom('.cds--text-input--password__visibility__toggle')
       .hasAttribute('aria-label', 'Show password');
+    assert
+      .dom('.cds--text-input--password__visibility__toggle')
+      .hasClass('cds--tooltip__trigger');
+    assert.dom('.cds--toggle-password-tooltip').exists();
 
     await click('.cds--text-input--password__visibility__toggle');
 
