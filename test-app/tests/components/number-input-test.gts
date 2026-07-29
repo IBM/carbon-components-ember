@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, fillIn, waitFor } from '@ember/test-helpers';
+import { render, click, fillIn, typeIn, waitFor } from '@ember/test-helpers';
+import { TrackedObject } from 'tracked-built-ins';
 import NumberInput from 'carbon-components-ember/components/number-input';
 
 module('Integration | Component | NumberInput', (hooks) => {
@@ -161,5 +162,36 @@ module('Integration | Component | NumberInput', (hooks) => {
     );
 
     assert.dom('.cds--form__helper-text').hasText('Optional field');
+  });
+
+  test('should update a bound @value through @onChange when used as a controlled input, mirroring the docs demo', async function (assert) {
+    const context = new TrackedObject<{ value?: number | '' }>();
+    const update = (value: number | '') => {
+      context.value = value;
+    };
+
+    await render(
+      <template>
+        <NumberInput @value={{context.value}} @onChange={{update}} />
+        <span id='out'>{{context.value}}</span>
+      </template>,
+    );
+
+    assert.dom('input').hasValue('0');
+    assert.dom('#out').hasText('');
+
+    await click('.cds--number__control-btn.up-icon');
+    assert.dom('input').hasValue('1');
+    assert.dom('#out').hasText('1');
+
+    await click('input');
+    await fillIn('input', '');
+    await typeIn('input', '42');
+    assert.dom('input').hasValue('42');
+    assert.dom('#out').hasText('42');
+
+    await click('.cds--number__control-btn.up-icon');
+    assert.dom('input').hasValue('43');
+    assert.dom('#out').hasText('43');
   });
 });
