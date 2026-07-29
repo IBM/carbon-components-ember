@@ -183,12 +183,12 @@ export default class FluidTextInput extends Component<Signature> {
                 this.hidePasswordLabel
                 this.showPasswordLabel
               }}
-              @align='bottom'
-              class='cds--toggle-password-tooltip'
+              @align='bottom-end'
+              class='cds--toggle-password-tooltip cds--icon-tooltip'
             >
               <button
                 type='button'
-                class='cds--text-input--password__visibility__toggle cds--btn cds--tooltip__trigger'
+                class='cds--text-input--password__visibility__toggle cds--btn cds--btn--icon-only cds--tooltip__trigger cds--tooltip--a11y'
                 disabled={{@disabled}}
                 aria-label={{if
                   this.passwordVisible
