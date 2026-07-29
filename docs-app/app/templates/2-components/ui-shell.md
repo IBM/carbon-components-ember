@@ -80,6 +80,163 @@ navigation items, and a `footer` named block that yields a `Footer` toggle
 control for expanding/collapsing the rail — wire both to the same
 `@open`/`@onToggle` state used by the `Header`'s menu button.
 
+## Header dropdown menus
+
+The `Nav` block yields a second component, `Menu` (`HeaderMenu`), for
+top-level items that expand to show a list of `HeaderMenuItem`s.
+
+```gjs live preview
+import { UIShell } from 'carbon-components-ember/components';
+import { ThemeSupport } from 'docs-support';
+
+<template>
+  <ThemeSupport />
+  <div
+    style='position: relative; height: 14rem; overflow: hidden; transform: translate(0); border: 1px solid var(--cds-border-subtle-01, #e0e0e0);'
+  >
+    <UIShell>
+      <:shell as |s|>
+        <s.Header @title='IBM' @subtitle='Platform'>
+          <:header>
+            <s.Nav as |Item Menu|>
+              <Item>Link 1</Item>
+              <Menu @menuLinkName='Link 2' as |MenuItem|>
+                <MenuItem @isActive={{true}}>Sub-link 1</MenuItem>
+                <MenuItem>Sub-link 2</MenuItem>
+              </Menu>
+            </s.Nav>
+          </:header>
+        </s.Header>
+      </:shell>
+      <:content></:content>
+    </UIShell>
+  </div>
+</template>
+```
+
+## Header panel and switcher
+
+`Header` yields a `HeaderPanel` component into the `headerPanel` named
+block for building panels such as an application switcher — toggle its
+`@expanded` argument from a `GlobalAction`'s `onClick`. The top-level
+`UIShell` yields a `Switcher` component (with `Item` and `Divider`) for
+rendering the switcher's contents.
+
+```gjs live preview
+import { UIShell } from 'carbon-components-ember/components';
+import { UserAvatar } from 'carbon-components-ember/icons';
+import { ThemeSupport } from 'docs-support';
+import { cell } from 'ember-resources';
+
+const switcherOpen = cell(false);
+const toggleSwitcher = () => (switcherOpen.current = !switcherOpen.current);
+
+<template>
+  <ThemeSupport />
+  <div
+    style='position: relative; height: 14rem; overflow: hidden; transform: translate(0); border: 1px solid var(--cds-border-subtle-01, #e0e0e0);'
+  >
+    <UIShell>
+      <:shell as |s|>
+        <s.Header @title='IBM' @subtitle='Platform'>
+          <:headerGlobal as |GlobalAction|>
+            <GlobalAction
+              @aria-label='App switcher'
+              @icon={{UserAvatar}}
+              @onClick={{toggleSwitcher}}
+            />
+          </:headerGlobal>
+          <:headerPanel as |HeaderPanel|>
+            <HeaderPanel @expanded={{switcherOpen.current}} @onToggle={{toggleSwitcher}}>
+              <s.Switcher @aria-label='App switcher' as |Item Divider|>
+                <Item @isSelected={{true}}>App 1</Item>
+                <Item>App 2</Item>
+                <Divider />
+                <Item>App 3</Item>
+              </s.Switcher>
+            </HeaderPanel>
+          </:headerPanel>
+        </s.Header>
+      </:shell>
+      <:content></:content>
+    </UIShell>
+  </div>
+</template>
+```
+
+## Side navigation header, details, and mirrored header items
+
+The `Sidenav` block also yields `SideNavHeader` (an icon + heading for the
+rail), `SideNavDetails` (a titled block, useful for account info), and
+`HeaderSideNavItems` (mirrors top `Header` nav items into the rail for
+smaller viewports).
+
+```gjs live preview
+import { UIShell } from 'carbon-components-ember/components';
+import { UserAvatar } from 'carbon-components-ember/icons';
+import { ThemeSupport } from 'docs-support';
+
+<template>
+  <ThemeSupport />
+  <div
+    style='position: relative; height: 20rem; overflow: hidden; transform: translate(0); border: 1px solid var(--cds-border-subtle-01, #e0e0e0);'
+  >
+    <UIShell>
+      <:shell as |s|>
+        <s.Sidenav @open={{true}}>
+          <:default as |_Menu _Divider SideNavHeader SideNavDetails _SideNavIcon HeaderSideNavItems|>
+            <SideNavHeader @icon={{UserAvatar}}>IBM</SideNavHeader>
+            <SideNavDetails @title='Account'>
+              <p>jane.doe@example.com</p>
+            </SideNavDetails>
+            <HeaderSideNavItems @hasDivider={{true}}>
+              <li>Mirrored link 1</li>
+              <li>Mirrored link 2</li>
+            </HeaderSideNavItems>
+          </:default>
+        </s.Sidenav>
+      </:shell>
+      <:content></:content>
+    </UIShell>
+  </div>
+</template>
+```
+
+## HeaderContainer
+
+`HeaderContainer` (yielded from the top-level `shell` block) manages the
+`isSideNavExpanded` state for you and collapses it when the user presses
+<kbd>Escape</kbd>, so you don't have to keep your own `@open`/`@onToggle`
+cell. It yields `isSideNavExpanded` and `onClickSideNavExpand` for wiring up
+the `Header`'s menu toggle and the `Sidenav`'s `@open` argument.
+
+```gjs live preview
+import { UIShell } from 'carbon-components-ember/components';
+import { ThemeSupport } from 'docs-support';
+
+<template>
+  <ThemeSupport />
+  <div
+    style='position: relative; height: 14rem; overflow: hidden; transform: translate(0); border: 1px solid var(--cds-border-subtle-01, #e0e0e0);'
+  >
+    <UIShell>
+      <:shell as |s|>
+        <s.HeaderContainer as |c|>
+          <s.Header
+            @title='IBM'
+            @subtitle='Platform'
+            @open={{c.isSideNavExpanded}}
+            @onToggle={{c.onClickSideNavExpand}}
+          />
+          <s.Sidenav @open={{c.isSideNavExpanded}} />
+        </s.HeaderContainer>
+      </:shell>
+      <:content></:content>
+    </UIShell>
+  </div>
+</template>
+```
+
 ## API Reference
 
 <details>

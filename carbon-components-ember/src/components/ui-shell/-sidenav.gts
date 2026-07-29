@@ -4,6 +4,10 @@ import Component from '@glimmer/component';
 import NavMenuComponent, { type SubMenu } from './-sidenav/-menu.gts';
 import Divider from './-sidenav/-divider.gts';
 import Footer from './-sidenav/-footer.gts';
+import SideNavHeader from './-sidenav/-header.gts';
+import SideNavDetails from './-sidenav/-details.gts';
+import SideNavIcon from './-sidenav/-icon.gts';
+import HeaderSideNavItems from './-header/-side-nav-items.gts';
 import { fn } from '@ember/helper';
 import { stylesheet } from 'astroturf';
 import type Icon from '../icon';
@@ -22,7 +26,14 @@ export interface UIShellNavSignature {
     transitionTo: (menu: MenuItem | SubMenu) => void;
   };
   Blocks: {
-    default: [typeof NavMenuComponent, typeof Divider];
+    default: [
+      typeof NavMenuComponent,
+      typeof Divider,
+      typeof SideNavHeader,
+      typeof SideNavDetails,
+      typeof SideNavIcon,
+      typeof HeaderSideNavItems,
+    ];
     content: [];
     footer: [typeof Footer];
   };
@@ -51,7 +62,7 @@ export default class UIShellNav extends Component<UIShellNavSignature> {
     >
       <ul class='cds--side-nav__items'>
         {{#unless @menuItems}}
-          {{yield Menu Divider}}
+          {{yield Menu Divider SideNavHeader SideNavDetails SideNavIcon HeaderSideNavItems}}
         {{/unless}}
         {{#each @menuItems as |menu|}}
           <Menu

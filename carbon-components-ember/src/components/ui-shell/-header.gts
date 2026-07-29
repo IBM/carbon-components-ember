@@ -4,6 +4,7 @@ import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import Component from '@glimmer/component';
 import UIShellHeaderGlobalAction from './-header/-global-action.gts';
+import UIShellHeaderPanel from './-header/-panel.gts';
 
 export interface UIShellHeaderSignature {
   Args: {
@@ -15,6 +16,7 @@ export interface UIShellHeaderSignature {
   Blocks: {
     header: [];
     headerGlobal: [typeof UIShellHeaderGlobalAction];
+    headerPanel: [typeof UIShellHeaderPanel];
   };
 }
 
@@ -48,6 +50,7 @@ export default class UIShellHeader extends Component<UIShellHeaderSignature> {
       <div class='cds--header__global'>
         {{yield UIShellHeaderGlobalAction to='headerGlobal'}}
       </div>
+      {{yield UIShellHeaderPanel to='headerPanel'}}
     </header>
   </template>
 }
