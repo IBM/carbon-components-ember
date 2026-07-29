@@ -432,12 +432,19 @@ fi
 
 echo "Issue: $ISSUE_TITLE"
 
-# Extract component name
+# Extract component name. Most parity-check issues follow the auto-generated
+# "[Parity Check] Investigate <Name> component" title, but some are hand-written
+# follow-ups like "[Parity Check] UIShell: implement remaining React
+# sub-components" — fall back to the leading "<Name>:" form for those.
 COMPONENT_NAME=$(echo "$ISSUE_TITLE" | sed -n 's/.*Investigate \(.*\) component.*/\1/p')
 
 if [ -z "$COMPONENT_NAME" ]; then
-  echo "Error: Could not extract component name from issue title"
-  exit 1
+  COMPONENT_NAME=$(echo "$ISSUE_TITLE" | sed -n 's/^\[Parity Check\] \([A-Za-z0-9]*\):.*/\1/p')
+fi
+
+if [ -z "$COMPONENT_NAME" ]; then
+  echo "Note: Could not extract component name from issue title; falling back to the full title."
+  COMPONENT_NAME="$ISSUE_TITLE"
 fi
 
 echo "Component: $COMPONENT_NAME"
