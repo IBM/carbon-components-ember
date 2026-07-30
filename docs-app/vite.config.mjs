@@ -1,4 +1,4 @@
-import { ember, extensions } from "@embroider/vite";
+import { compatPrebuild, ember, extensions } from "@embroider/vite";
 
 import { babel } from "@rollup/plugin-babel";
 import { kolay } from "kolay/vite";
@@ -83,6 +83,13 @@ export default defineConfig((/* { mode } */) => {
       ],
     },
     plugins: [
+      // Runs a classic ember-cli prebuild so @embroider/core's resolver has
+      // the metadata (rewritten-packages, resolver.json, etc.) it needs to
+      // resolve Ember virtual modules like @embroider/virtual/helpers/*.
+      // Without this, addon-owned templates using dynamic component
+      // invocation (e.g. ember-power-select's `ensure-safe-component`) fail
+      // to resolve in a fresh build (no stale node_modules/.embroider cache).
+      compatPrebuild(),
       ember(),
       kolay({
         src: "public/docs",
