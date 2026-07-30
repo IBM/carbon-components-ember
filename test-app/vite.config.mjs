@@ -1,4 +1,4 @@
-import { classicEmberSupport, ember, extensions } from "@embroider/vite";
+import { ember, extensions } from "@embroider/vite";
 
 import { babel } from "@rollup/plugin-babel";
 import { transformAsync } from '@babel/core';
@@ -103,7 +103,6 @@ export default defineConfig((/* { mode } */) => {
     },
     plugins: [
       snapshotPlugin(),
-      classicEmberSupport(),
       ember(),
       babel({
         babelHelpers: "runtime",

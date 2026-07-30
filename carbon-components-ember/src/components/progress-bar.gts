@@ -4,8 +4,11 @@ import Icon from '../components/icon.gts';
 import eq from 'ember-truth-helpers/helpers/eq';
 import { htmlSafe } from '@ember/template';
 import { concat } from '@ember/helper';
-import { default as d } from '@ascua/maths/helpers/div';
 import type { WithRequired } from '../utils/type-helpers.ts';
+
+function div(numerator: number, denominator: number) {
+  return numerator / denominator;
+}
 
 export type Args = {
   status?: 'active' | 'finished' | 'error' | 'indeterminate';
@@ -95,7 +98,7 @@ export default class ProgressBar extends Component<ProgressBarInterface> {
           style={{if
             @value
             (htmlSafe
-              (concat 'transform: scaleX(' (d @value this.defaultArgs.max) ');')
+              (concat 'transform: scaleX(' (div @value this.defaultArgs.max) ');')
             )
           }}
         ></div>

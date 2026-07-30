@@ -1,4 +1,4 @@
-import { classicEmberSupport, ember, extensions } from "@embroider/vite";
+import { ember, extensions } from "@embroider/vite";
 
 import { babel } from "@rollup/plugin-babel";
 import { kolay } from "kolay/vite";
@@ -83,7 +83,6 @@ export default defineConfig((/* { mode } */) => {
       ],
     },
     plugins: [
-      classicEmberSupport(),
       ember(),
       kolay({
         src: "public/docs",
