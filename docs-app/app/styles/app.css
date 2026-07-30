@@ -1,1 +1,9 @@
-/* intentionally empty -- ember-cli does not allow this file to not exist */
+/**
+ * @universal-ember/docs-support >= 0.8 no longer ships Tailwind's
+ * `@tailwind base/components/utilities` (its own CSS is pre-built), so
+ * docs-app has to declare them itself for the Tailwind classes used
+ * directly in its own templates (e.g. app/components/header.gts).
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

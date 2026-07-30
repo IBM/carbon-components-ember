@@ -1,0 +1,41 @@
+diff --git a/addon-main.cjs b/addon-main.cjs
+new file mode 100644
+index 0000000000000000000000000000000000000000..d36b0c86dac6790915b78b156856e8d564bfb914
+--- /dev/null
++++ b/addon-main.cjs
+@@ -0,0 +1,5 @@
++'use strict';
++
++const { addonV1Shim } = require('@embroider/addon-shim');
++
++module.exports = addonV1Shim(__dirname);
+diff --git a/package.json b/package.json
+index c2497b3f7383d3da967fba13f5303e9472714ef1..1748370f3dec43e2c86f7430c7f35087465baac7 100644
+--- a/package.json
++++ b/package.json
+@@ -14,6 +14,7 @@
+   "license": "MIT",
+   "author": "NullVoxPopuli",
+   "files": [
++    "addon-main.cjs",
+     "declarations",
+     "dist",
+     "src"
+@@ -21,6 +22,7 @@
+   "dependencies": {
+     "@ember/test-helpers": "^5.4.1",
+     "@ember/test-waiters": "^4.1.0",
++    "@embroider/addon-shim": "^1.10.2",
+     "codemirror": "^6.0.2",
+     "content-tag": "^4.0.0",
+     "decorator-transforms": "2.3.1",
+@@ -105,7 +107,8 @@
+   },
+   "ember-addon": {
+     "version": 2,
+-    "type": "addon"
++    "type": "addon",
++    "main": "addon-main.cjs"
+   },
+   "imports": {
+     "#src/*": "./src/*",

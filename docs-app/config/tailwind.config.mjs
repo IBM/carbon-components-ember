@@ -1,14 +1,31 @@
 import { join } from "node:path";
 
-import { config as docsSupport } from "@universal-ember/docs-support/tailwind";
+import defaultTheme from "tailwindcss/defaultTheme.js";
 
 const appRoot = join(import.meta.dirname, "../");
-const config = await docsSupport(appRoot, {
-  packages: ["@universal-ember/docs-support"],
-});
+const files = "**/*.{js,ts,hbs,gjs,gts,html,md}";
+const sourceEntries = "{app,src,public}";
 
-// console.log(config);
-
+/**
+ * @universal-ember/docs-support >= 0.8 ships its own pre-built CSS
+ * (imported as a side effect of its components) instead of Tailwind
+ * utility classes, so this config only needs to scan docs-app's own
+ * source for Tailwind classes.
+ *
+ * @type {import('tailwindcss').Config}
+ */
 export default {
-  ...config,
+  content: [`${appRoot}/${sourceEntries}/${files}`],
+  darkMode: "selector",
+  theme: {
+    extend: {
+      maxWidth: {
+        "8xl": "88rem",
+      },
+      fontFamily: {
+        sans: ["InterVariable", ...defaultTheme.fontFamily.sans],
+        display: ["Helvetica, Arial, sans-serif"],
+      },
+    },
+  },
 };

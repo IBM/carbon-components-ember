@@ -31,3 +31,5 @@ allowBuilds:
   playwright-chromium: true
   puppeteer-chromium-resolver: set this to true or false
   unrs-resolver: true
+patchedDependencies:
+  ember-repl@8.2.1: patches/ember-repl@8.2.1.patch

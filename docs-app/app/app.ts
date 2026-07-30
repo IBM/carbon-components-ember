@@ -11,6 +11,7 @@ import config from './config/environment';
 import { install } from './icons';
 import { initCarbonThemeSync } from './docs-support/theme-switcher';
 import './docs-support/styles.css';
+import './styles/app.css';
 
 sync();
 install();
