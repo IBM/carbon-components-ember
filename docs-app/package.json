@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@ember/render-modifiers": "^4.0.0",
+    "@embroider/legacy-inspector-support": "^0.1.3",
     "@shikijs/rehype": "^1.22.2",
     "@universal-ember/docs-support": "^0.9.12",
     "assert": "^2.0.0",

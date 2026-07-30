@@ -458,6 +458,9 @@ importers:
       '@ember/render-modifiers':
         specifier: ^4.0.0
         version: 4.0.0
+      '@embroider/legacy-inspector-support':
+        specifier: ^0.1.3
+        version: 0.1.3
       '@shikijs/rehype':
         specifier: ^1.22.2
         version: 1.29.2
@@ -1963,6 +1966,9 @@ packages:
     peerDependencies:
       '@embroider/core': ^3.5.9
       webpack: ^5
+
+  '@embroider/legacy-inspector-support@0.1.3':
+    resolution: {integrity: sha512-0VzD1xExkT78a1CUiW8wZ5VZDL4bVyMSc3t8E/RiAW1X6TlyKIA/m6zoQgsQtQIiiTPPxH0/1Tdd0F7b5//etw==}
 
   '@embroider/macros@1.20.3':
     resolution: {integrity: sha512-8sClktPsQ20KgnWl8id6NL5G/hv3+Q5OlnQ4y4XQjYS/RsPy8/C9tU75/2ujgToi1YfX64UykjCau6PXqKDfUQ==}
@@ -14896,6 +14902,12 @@ snapshots:
     dependencies:
       '@embroider/core': 4.6.0(@glint/template@1.5.2)
       webpack: 5.107.2(postcss@8.5.15)
+
+  '@embroider/legacy-inspector-support@0.1.3':
+    dependencies:
+      '@embroider/addon-shim': 1.10.3
+    transitivePeerDependencies:
+      - supports-color
 
   '@embroider/macros@1.20.3(@babel/core@7.29.7)(@glint/template@1.5.2)':
     dependencies:
