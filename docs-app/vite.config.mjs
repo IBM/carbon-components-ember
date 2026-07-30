@@ -92,7 +92,10 @@ export default defineConfig((/* { mode } */) => {
       compatPrebuild(),
       ember(),
       kolay({
-        src: "public/docs",
+        // Unnamed/"Home" group pages are co-located markdown under
+        // app/templates (e.g. app/templates/1-get-started/index.md) --
+        // kolay's markdown-pages plugin only globs {app,src}/templates for
+        // that group, so there is no separate top-level `src` option.
         groups: [],
         packages: ["carbon-components-ember"],
       }),

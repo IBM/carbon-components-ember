@@ -32,4 +32,5 @@ allowBuilds:
   puppeteer-chromium-resolver: set this to true or false
   unrs-resolver: true
 patchedDependencies:
+  '@universal-ember/docs-support@0.9.12': patches/@universal-ember__docs-support@0.9.12.patch
   ember-repl@8.2.1: patches/ember-repl@8.2.1.patch

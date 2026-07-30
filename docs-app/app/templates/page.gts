@@ -25,7 +25,7 @@ export default Route(
       <:editLink as |Link|>
         {{#let (service "kolay/docs") as |docs|}}
           <Link
-            @href="https://github.com/IBM/carbon-components-ember/edit/main/docs-app/public/docs{{docs.selected.path}}.md"
+            @href="https://github.com/IBM/carbon-components-ember/edit/main/docs-app/app/templates{{docs.selected.path}}.md"
           >
             Edit this page
           </Link>
