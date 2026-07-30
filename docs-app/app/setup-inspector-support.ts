@@ -1,10 +1,7 @@
 import Ember from 'ember';
-// @ts-expect-error dont care
 import * as runtime from '@glimmer/runtime';
-// @ts-expect-error dont care
 import * as reference from '@glimmer/reference';
 import * as tracking from '@glimmer/tracking';
-// @ts-expect-error dont care
 import * as validator from '@glimmer/validator';
 import { RSVP } from '@ember/-internals/runtime';
 import * as metal from '@ember/-internals/metal';
