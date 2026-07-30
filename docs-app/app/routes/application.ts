@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import { getOwner, setOwner } from '@ember/owner';
+import type Owner from '@ember/owner';
 
 import rehypeShikiFromHighlighter from '@shikijs/rehype/core';
 import { setupTabster } from 'ember-primitives/tabster';
@@ -75,55 +76,56 @@ export default class Application extends Route {
           ModifierSignature,
           ThemeSwitcher,
         },
-        resolve: {
-          '@carbon/icons/es/index.js': Promise.resolve({
-            Bookmark32,
-          }),
-          'carbon-components-ember/icons': Promise.resolve({
-            Bookmark,
-            Task,
-            Information,
-            ErrorFilled,
-            InformationSquareFilled,
-            CheckmarkFilled,
-            Notification,
-            UserAvatar,
-            Folder,
-            Document,
-            Checkbox: CheckboxIcon,
-            Settings,
-          }),
-          'docs-support': Promise.resolve({
-            ThemeSupport,
-            ThemeSwitcher,
-            didInsert,
-            setOwner: (ctx) => setOwner(ctx, getOwner(this))
-          }),
-          'ember-primitives': import('ember-primitives'),
-          'tracked-built-ins': import('tracked-built-ins'),
-          '@ember/string': import('@ember/string'),
-          '@ember/helper': import('@ember/helper'),
-          'ember-truth-helpers': import('ember-truth-helpers'),
-          'carbon-components-ember/components': Promise.resolve(CarbonComponents),
-          'carbon-components-ember/helpers': import('carbon-components-ember/helpers/index'),
-          'carbon-components-ember/components/icon': import('carbon-components-ember/components/icon'),
-          'ember-primitives/floating-ui': import('ember-primitives/floating-ui'),
-          'ember-primitives/on-resize': import('ember-primitives/on-resize'),
-          'ember-primitives/color-scheme': import('ember-primitives/color-scheme'),
-          'ember-primitives/components/form': import('ember-primitives/components/form'),
+        modules: {
+          '@carbon/icons/es/index.js': () =>
+            Promise.resolve({
+              Bookmark32,
+            }),
+          'carbon-components-ember/icons': () =>
+            Promise.resolve({
+              Bookmark,
+              Task,
+              Information,
+              ErrorFilled,
+              InformationSquareFilled,
+              CheckmarkFilled,
+              Notification,
+              UserAvatar,
+              Folder,
+              Document,
+              Checkbox: CheckboxIcon,
+              Settings,
+            }),
+          'docs-support': () =>
+            Promise.resolve({
+              ThemeSupport,
+              ThemeSwitcher,
+              didInsert,
+              setOwner: (ctx: object) => setOwner(ctx, getOwner(this) as Owner),
+            }),
+          'ember-primitives': () => import('ember-primitives'),
+          'tracked-built-ins': () => import('tracked-built-ins'),
+          '@ember/string': () => import('@ember/string'),
+          '@ember/helper': () => import('@ember/helper'),
+          'ember-truth-helpers': () => import('ember-truth-helpers'),
+          'carbon-components-ember/components': () => Promise.resolve(CarbonComponents),
+          'carbon-components-ember/helpers': () => import('carbon-components-ember/helpers/index'),
+          'carbon-components-ember/components/icon': () => import('carbon-components-ember/components/icon'),
+          'ember-primitives/floating-ui': () => import('ember-primitives/floating-ui'),
+          'ember-primitives/on-resize': () => import('ember-primitives/on-resize'),
+          'ember-primitives/color-scheme': () => import('ember-primitives/color-scheme'),
+          'ember-primitives/components/form': () => import('ember-primitives/components/form'),
 
           // community libraries
-          'ember-resources': import('ember-resources'),
-          'reactiveweb/remote-data': import('reactiveweb/remote-data'),
-          // @ts-expect-error - no types provided
-          'ember-focus-trap/modifiers/focus-trap': import('ember-focus-trap/modifiers/focus-trap'),
-          // @ts-expect-error - no types provided
-          'ember-focus-trap': import('ember-focus-trap'),
+          'ember-resources': () => import('ember-resources'),
+          'reactiveweb/remote-data': () => import('reactiveweb/remote-data'),
+          'ember-focus-trap/modifiers/focus-trap': () => import('ember-focus-trap/modifiers/focus-trap'),
+          'ember-focus-trap': () => import('ember-focus-trap'),
 
           // utility
-          'lorem-ipsum': import('lorem-ipsum'),
-          'form-data-utils': import('form-data-utils'),
-          kolay: import('kolay'),
+          'lorem-ipsum': () => import('lorem-ipsum'),
+          'form-data-utils': () => import('form-data-utils'),
+          kolay: () => import('kolay'),
         },
         rehypePlugins: [
           [
