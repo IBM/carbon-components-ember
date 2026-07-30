@@ -47,7 +47,7 @@
     "@carbon/styles": "^1.91.0",
     "@carbon/themes": "^11.20.0",
     "@carbon/type": "^11.19.0",
-    "@ember/render-modifiers": "^3.0.0",
+    "@ember/render-modifiers": "^4.0.0",
     "@ember/string": "^4.0.1",
     "@embroider/addon-shim": "^1.10.3",
     "@eslint/js": "^9.29.0",
