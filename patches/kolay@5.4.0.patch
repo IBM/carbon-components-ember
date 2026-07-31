@@ -1,0 +1,13 @@
+diff --git a/dist/browser/utils-Bua7HOwN.js b/dist/browser/utils-Bua7HOwN.js
+index 40a2bb4647361d0886380f0b336ba089477c659b..38374e15ea6ffeaca435596f08265be91c57f36a 100644
+--- a/dist/browser/utils-Bua7HOwN.js
++++ b/dist/browser/utils-Bua7HOwN.js
+@@ -546,7 +546,7 @@ function isCollection(x) {
+ }
+ function isIndex(x) {
+   if (isCollection(x)) return false;
+-  return x.path.endsWith('index');
++  return x.path.replace(/\.md$/, '').endsWith('index');
+ }
+ function getIndexPage(x) {
+   const page = x.pages.find(isIndex);
