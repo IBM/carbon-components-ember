@@ -241,7 +241,6 @@
       "Heading",
       "HideAtBreakpoint",
       "IconButton",
-      "IconIndicator",
       "Icons",
       "IdPrefix",
       "InlineCheckbox",
@@ -287,6 +286,7 @@
       "FormItem",
       "Grid",
       "Icon",
+      "IconIndicator",
       "LayoutDirection",
       "Link",
       "ListItem",
@@ -732,6 +732,13 @@
       "lastUpdate": null
     },
     "OverflowMenuItem": {
+      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "IconIndicator": {
       "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "hasChanges": false,
