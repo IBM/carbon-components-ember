@@ -40,6 +40,46 @@ aside.side-nav .subsection-link.is-active::before {
   display: block;
 }
 
+/*
+ * Upstream's `.subsection-link` sets `position: relative`, making the link
+ * itself the containing block for its `::before` dot (`left: -0.25rem`).
+ * The link has no left padding of its own, so the dot lands flush against
+ * the link text with no gap. On main, the equivalent link had no `position`
+ * set, so the dot's containing block was the parent `<li>` instead -- which
+ * *does* have 16px of left padding, giving the dot room and leaving a
+ * visible gap before the text. Un-setting `position` here restores that
+ * fallback instead of reserving padding on the link (which would shift the
+ * text itself, doubling up on the `<li>`'s own padding).
+ */
+aside.side-nav .subsection-link {
+  position: static;
+}
+
+/*
+ * docs-support >= 0.9 hardcodes the header and sidenav's dark-mode
+ * background to a separate near-black (#02020e / rgb(2 2 14)) instead of
+ * matching docs-app's own `dark:bg-slate-900` body background, producing a
+ * visible two-tone seam between the header/sidenav and the page content.
+ * Main doesn't have this seam because its header/sidenav dark background
+ * was the same `dark:bg-slate-900` Tailwind utility as the body. Match
+ * that shade here instead of upstream's new literal color.
+ */
+:is(html[style*="color-scheme: dark"]) .page-header,
+:is(html[style*="color-scheme: dark"]) .page-header.is-scrolled {
+  background-color: rgb(15 23 42 / 0.95) !important;
+}
+
+@supports (backdrop-filter: blur(0)) {
+  :is(html[style*="color-scheme: dark"]) .page-header.is-scrolled {
+    background-color: rgb(15 23 42 / 0.75) !important;
+  }
+}
+
+:is(html[style*="color-scheme: dark"]) aside.side-nav,
+:is(html[style*="color-scheme: dark"]) aside.side-nav nav {
+  background-color: #0f172a !important;
+}
+
 /**
  * @universal-ember/docs-support's site.css applies an unscoped
  * `a, button, input, select, textarea, [role="switch"], [role="button"],
