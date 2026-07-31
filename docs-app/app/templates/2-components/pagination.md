@@ -6,10 +6,10 @@
 import { Pagination, FormInput, Checkbox } from 'carbon-components-ember/components';
 import { set } from 'carbon-components-ember/helpers';
 import { fn } from '@ember/helper';
-import { TrackedObject } from 'tracked-built-ins';
+import { trackedObject } from '@ember/reactive/collections';
 import { ThemeSupport } from 'docs-support';
 
-const context = new TrackedObject({
+const context = trackedObject({
     paginationLength: 100,
 });
 

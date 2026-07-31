@@ -66,11 +66,11 @@ function doSomething() {
 import { Checkbox, FormInput as Input, Button } from 'carbon-components-ember/components';
 import { set } from 'carbon-components-ember/helpers';
 import { fn } from '@ember/helper';
-import { TrackedObject } from 'tracked-built-ins';
+import { trackedObject } from '@ember/reactive/collections';
 
 const eq = (a, b) => a === b;
 const not = (x) => !x;
-const state = new TrackedObject();
+const state = trackedObject();
 
 <template>
 

@@ -5,10 +5,10 @@
 ```gjs live preview
 import { Tabs } from 'carbon-components-ember/components';
 import { fn } from '@ember/helper';
-import { TrackedObject } from 'tracked-built-ins';
+import { trackedObject } from '@ember/reactive/collections';
 import { ThemeSupport } from 'docs-support';
 
-const context = new TrackedObject({});
+const context = trackedObject({});
 
 <template>
     <ThemeSupport />
@@ -46,10 +46,10 @@ managed outside of `Tabs`, such as a custom tab list.
 ```gjs live preview
 import { TabContent } from 'carbon-components-ember/components';
 import { ThemeSupport } from 'docs-support';
-import { TrackedObject } from 'tracked-built-ins';
+import { trackedObject } from '@ember/reactive/collections';
 
 const eq = (a, b) => a === b;
-const context = new TrackedObject({ selected: 'a' });
+const context = trackedObject({ selected: 'a' });
 
 <template>
     <ThemeSupport />

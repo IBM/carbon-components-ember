@@ -30,13 +30,13 @@ import {
 } from 'carbon-components-ember/icons';
 // @ts-expect-error ignore
 import { Bookmark32 } from '@carbon/icons/es/index.js';
-import { TrackedObject } from 'tracked-built-ins';
+import { trackedObject } from '@ember/reactive/collections';
 import * as Components from 'carbon-components-ember/components/index';
 
 ComponentSignature.name = 'ComponentSignature';
 APIDocs.name = 'APIDocs';
 
-const CarbonComponents = new TrackedObject(Components);
+const CarbonComponents = trackedObject(Components);
 if (import.meta.hot) {
 
 }
@@ -104,7 +104,7 @@ export default class Application extends Route {
               setOwner: (ctx: object) => setOwner(ctx, getOwner(this) as Owner),
             }),
           'ember-primitives': () => import('ember-primitives'),
-          'tracked-built-ins': () => import('tracked-built-ins'),
+          '@ember/reactive/collections': () => import('@ember/reactive/collections'),
           '@ember/string': () => import('@ember/string'),
           '@ember/helper': () => import('@ember/helper'),
           'ember-truth-helpers': () => import('ember-truth-helpers'),

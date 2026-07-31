@@ -49,8 +49,7 @@
     "path-browserify": "^1.0.1",
     "reactiveweb": "^1.4.2",
     "shiki": "^1.22.2",
-    "should-handle-link": "^1.2.2",
-    "tracked-built-ins": "^4.0.0"
+    "should-handle-link": "^1.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.27.1",
@@ -100,7 +99,6 @@
     "ember-page-title": "^9.0.3",
     "ember-power-select": "^8.7.1",
     "ember-primitives": "^0.61.1",
-    "tracked-built-ins": "^4.0.0",
     "ember-qunit": "^8.0.2",
     "ember-resolver": "^13.0.2",
     "ember-resources": "^7.1.0",
