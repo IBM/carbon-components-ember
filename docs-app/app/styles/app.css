@@ -83,6 +83,22 @@ aside.side-nav .subsection-link.is-active::before {
   box-shadow: none !important;
 }
 
+/* Invalid text-input/text-area/password-input/form-input: `focus-outline('invalid')`
+ * sets a permanent (not focus-scoped) red outline via `.cds--text-input--invalid`
+ * to flag the error state -- there's no `:focus` rule to swap it back to blue for
+ * this non-fluid variant (only `.cds--form--fluid` does that intentionally). Without
+ * this exception, the default block above unconditionally repaints it blue the
+ * moment the field is focused, hiding the error indicator exactly when the user is
+ * interacting with the field. Match on `[data-invalid]` (set by all four components
+ * alongside the `--invalid` class) so this also covers text-area's separate
+ * `cds--text-area--invalid` class name, and order it after the default block so its
+ * equal specificity wins via source order, mirroring the pattern above. */
+[class*="cds--"][data-invalid]:focus-visible {
+  outline: 2px solid var(--cds-support-error, #da1e28) !important;
+  outline-offset: -2px !important;
+  box-shadow: none !important;
+}
+
 /* Link / Breadcrumb: `focus-outline('border')` (the mixin's default type)
  * -- a thin outward outline, no box-shadow. */
 .cds--link:focus-visible {
