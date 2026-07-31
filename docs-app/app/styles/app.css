@@ -15,14 +15,23 @@
  * custom property), which wins the font-family cascade and resolves to an
  * inherited default font instead of Helvetica. Match that selector's
  * specificity (by nesting under both `aside.side-nav` and
- * `nav[aria-label="Main Navigation"]`) so this rule wins outright. Main has
- * no font-size override for this h2 — Tailwind Preflight's `h1..h6 {
- * font-size: inherit }` leaves it at the ancestor nav's 1rem, so font-size
- * is intentionally omitted here too.
+ * `nav[aria-label="Main Navigation"]`) so this rule wins outright.
+ *
+ * Main also renders this h2 at Carbon's heading-05 size (2rem/32px, from
+ * carbon-components-ember's global `h2` reset), not the 1rem it inherits
+ * from `nav[aria-label="Main Navigation"] { font-size: 1rem }` here --
+ * that inherited rule wins the cascade in this build because it's an
+ * external stylesheet rule with the same specificity as Carbon's `h2`
+ * rule (itself injected via a runtime <style> tag) and simply loses the
+ * tie. Restore the heading-05 size explicitly so the sidebar group
+ * headings ("Components", "Home", etc.) stay legible instead of blending
+ * into the regular nav links below them.
  */
 aside.side-nav nav[aria-label="Main Navigation"] h2 {
   font-weight: 500;
   font-family: "Helvetica", "Arial", sans-serif;
+  font-size: var(--cds-heading-05-font-size, 2rem);
+  line-height: var(--cds-heading-05-line-height, 1.25);
 }
 
 /* Upstream only shows the active-subsection dot marker on :hover; main also
