@@ -15,7 +15,7 @@ const sourceEntries = "{app,src,public}";
  * @type {import('tailwindcss').Config}
  */
 export default {
-  content: [`${appRoot}/${sourceEntries}/${files}`],
+  content: [`${appRoot}/${sourceEntries}/${files}`, `${appRoot}/*.html`],
   darkMode: "selector",
   theme: {
     extend: {

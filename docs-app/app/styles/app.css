@@ -7,3 +7,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/**
+ * @universal-ember/docs-support's side-nav.gts (>= 0.8) ships its own
+ * `.side-nav h2` rule at 1rem/500, which reads as body text rather than a
+ * section heading. Restore the larger heading treatment that main displays
+ * (32px/500 Helvetica). docs-support's prebuilt site.css also targets this
+ * same h2 via `nav[aria-label="Main Navigation"] > ul h2` (specificity
+ * 0,1,3) with an unguarded `var(--font-display)` (no fallback, and nothing
+ * defines that custom property), which wins the font-family cascade and
+ * resolves to an inherited default font instead of Helvetica. Match that
+ * selector's specificity (by nesting under both `aside.side-nav` and
+ * `nav[aria-label="Main Navigation"]`) so this rule wins outright.
+ */
+aside.side-nav nav[aria-label="Main Navigation"] h2 {
+  font-size: 2rem;
+  font-weight: 500;
+  font-family: "Helvetica", "Arial", sans-serif;
+}
+
+/* Upstream only shows the active-subsection dot marker on :hover; main also
+ * shows it for the active link itself. */
+aside.side-nav .subsection-link.is-active::before {
+  display: block;
+}
