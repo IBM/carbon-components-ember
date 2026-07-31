@@ -9,22 +9,19 @@ forms.
 ```gjs live preview
 import { FluidTextInput } from 'carbon-components-ember/components';
 import { ThemeSupport } from 'docs-support';
-import { TrackedObject } from 'tracked-built-ins';
+import { cell } from 'ember-resources';
 
-const context = new TrackedObject();
-
-const update = (value) => {
-  context.value = value;
-}
+const value = cell('');
+const update = (newValue) => (value.current = newValue);
 
 <template>
     <ThemeSupport />
     <div style="max-width: 400px">
       <FluidTextInput @labelText="Label" @placeholder="Placeholder text" />
       <br />
-      <FluidTextInput @labelText="Controlled" @value={{context.value}} @onChange={{update}} />
+      <FluidTextInput @labelText="Controlled" @value={{value.current}} @onChange={{update}} />
       <br/>
-      value: {{context.value}}
+      value: {{value.current}}
       <br />
       <FluidTextInput @labelText="With a counter" @enableCounter={{true}} @maxCount={{20}} />
       <br />
