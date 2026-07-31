@@ -16,7 +16,7 @@ const sourceEntries = "{app,src,public}";
  */
 export default {
   content: [`${appRoot}/${sourceEntries}/${files}`, `${appRoot}/*.html`],
-  darkMode: "selector",
+  darkMode: ["selector", 'html[style*="color-scheme: dark"]'],
   theme: {
     extend: {
       maxWidth: {
