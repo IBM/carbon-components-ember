@@ -30,3 +30,34 @@ aside.side-nav nav[aria-label="Main Navigation"] h2 {
 aside.side-nav .subsection-link.is-active::before {
   display: block;
 }
+
+/**
+ * @universal-ember/docs-support's site.css applies an unscoped
+ * `a, button, input, select, textarea, [role="switch"], [role="button"],
+ * [role="tab"], [role="tab"][aria-selected], [tabindex] { &:focus-visible {
+ * outline: none; box-shadow: 0 0 0 2px black, 0 0 0 4px #e04e39 } }` rule
+ * to every focusable element on the page. Two upstream changes since 0.7.x
+ * combine to make this visible on Carbon components:
+ *   1. The box-shadow used to be built from Tailwind "ring" custom
+ *      properties that never actually resolved (a silent no-op); 0.9.x
+ *      replaced it with a literal value, so it now actually paints.
+ *   2. 0.9.x added `[role="tab"][aria-selected]` to the selector list.
+ *      Native CSS nesting desugars a selector list under `&` into
+ *      `:is(...)`, whose specificity is the *max* of its members -- that
+ *      two-attribute selector alone is 0,2,0, so the whole compound rule's
+ *      effective specificity is 0,3,0, tying (and, being later in this
+ *      bundle, beating) Carbon's own focus rules (typically one class + one
+ *      pseudo-class, 0,2,0).
+ * A same-specificity selector here would only re-create the same
+ * source-order race (and re-break the next time upstream's selector list
+ * grows), so use `!important` to unconditionally win regardless of
+ * upstream's exact selector list, and fall back to Carbon's own focus
+ * color directly -- letting Carbon's per-component rule win the cascade
+ * isn't an option since nothing can "un-match" an already-matched
+ * declaration.
+ */
+[class*="cds--"]:focus-visible {
+  outline: 2px solid var(--cds-focus, #0f62fe) !important;
+  outline-offset: 2px !important;
+  box-shadow: none !important;
+}
