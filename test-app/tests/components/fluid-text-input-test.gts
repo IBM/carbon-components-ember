@@ -3,6 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, fillIn, click, waitFor, settled, typeIn } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import { TrackedObject } from 'tracked-built-ins';
+import { cell } from 'ember-resources';
 import FluidTextInput from 'carbon-components-ember/components/fluid-text-input';
 import Toggletip from 'carbon-components-ember/components/toggletip';
 
@@ -120,6 +121,23 @@ module('Integration | Component | FluidTextInput', (hooks) => {
       <template>
         <FluidTextInput @labelText='Controlled' @value={{context.value}} @onChange={{update}} />
         <div id='display'>value: {{context.value}}</div>
+      </template>,
+    );
+
+    await typeIn('input.cds--text-input', 'hi');
+
+    assert.dom('input.cds--text-input').hasValue('hi');
+    assert.dom('#display').hasText('value: hi');
+  });
+
+  test('should keep an ember-resources cell-backed controlled value in sync while typing, matching the docs demo', async function (assert) {
+    const value = cell('');
+    const update = (newValue: string) => (value.current = newValue);
+
+    await render(
+      <template>
+        <FluidTextInput @labelText='Controlled' @value={{value.current}} @onChange={{update}} />
+        <div id='display'>value: {{value.current}}</div>
       </template>,
     );
 
