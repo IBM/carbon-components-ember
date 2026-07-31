@@ -91,8 +91,10 @@ aside.side-nav .subsection-link.is-active::before {
  * moment the field is focused, hiding the error indicator exactly when the user is
  * interacting with the field. Match on `[data-invalid]` (set by all four components
  * alongside the `--invalid` class) so this also covers text-area's separate
- * `cds--text-area--invalid` class name, and order it after the default block so its
- * equal specificity wins via source order, mirroring the pattern above. */
+ * `cds--text-area--invalid` class name. Unlike the source-order-dependent blocks
+ * further below, this rule wins outright on specificity alone -- (0,3,0) vs. the
+ * default block's (0,2,0) -- so it's placed after the default purely for
+ * readability, not because it needs to be. */
 [class*="cds--"][data-invalid]:focus-visible {
   outline: 2px solid var(--cds-support-error, #da1e28) !important;
   outline-offset: -2px !important;
