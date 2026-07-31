@@ -51,13 +51,23 @@ aside.side-nav .subsection-link.is-active::before {
  * A same-specificity selector here would only re-create the same
  * source-order race (and re-break the next time upstream's selector list
  * grows), so use `!important` to unconditionally win regardless of
- * upstream's exact selector list, and fall back to Carbon's own focus
- * color directly -- letting Carbon's per-component rule win the cascade
- * isn't an option since nothing can "un-match" an already-matched
- * declaration.
+ * upstream's exact selector list -- letting Carbon's per-component rule
+ * win the cascade on its own isn't an option since nothing can "un-match"
+ * an already-matched declaration.
+ *
+ * Carbon components don't share one focus treatment (Button/Tag draw an
+ * inset `box-shadow` ring and explicitly set `outline: none`; text-input
+ * and most others use an inset `outline` via the `focus-outline('outline')`
+ * mixin: `outline: 2px solid $focus; outline-offset: -2px`), so blanket
+ * `box-shadow: none` + an outward `outline-offset: 2px` here would replace
+ * Carbon's real per-component ring with one hardcoded, differently-shaped
+ * style instead of restoring it. Setting both properties to Carbon's
+ * dominant inset convention (2px, `-2px` offset, `$focus` color) means
+ * whichever property a given component actually relies on renders the
+ * correct inset ring in the correct color, instead of a mismatched one.
  */
 [class*="cds--"]:focus-visible {
   outline: 2px solid var(--cds-focus, #0f62fe) !important;
-  outline-offset: 2px !important;
-  box-shadow: none !important;
+  outline-offset: -2px !important;
+  box-shadow: inset 0 0 0 2px var(--cds-focus, #0f62fe) !important;
 }
