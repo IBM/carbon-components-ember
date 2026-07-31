@@ -131,6 +131,10 @@ module('Integration | Component | IconIndicator', (hooks) => {
     assert
       .dom('.cds--icon-indicator__button .cds--visually-hidden')
       .hasText('Failed');
+    assert.ok(
+      find('.cds--icon-indicator__button')?.getAttribute('aria-describedby'),
+      'the button gets an aria-describedby pointing at the tooltip',
+    );
   });
 
   test('should use iconDescription instead of label for the accessible name in compact mode', async function (assert) {
@@ -149,5 +153,26 @@ module('Integration | Component | IconIndicator', (hooks) => {
     assert
       .dom('.cds--icon-indicator__button .cds--visually-hidden')
       .hasText('Something failed');
+  });
+
+  test('should support align and autoAlign in compact mode', async function (assert) {
+    await render(
+      <template>
+        <IconIndicator
+          @kind='failed'
+          @label='Failed'
+          @compact={{true}}
+          @align='top'
+          @autoAlign={{true}}
+        />
+      </template>,
+    );
+    await waitUntil(() => find('.cds--icon-indicator__button svg'));
+
+    assert.dom('.cds--icon-indicator__button').exists();
+    assert.ok(
+      find('.cds--icon-indicator__button')?.getAttribute('aria-describedby'),
+      'the button gets an aria-describedby pointing at the tooltip',
+    );
   });
 });
