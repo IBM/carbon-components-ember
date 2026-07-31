@@ -14,29 +14,17 @@ import { Callout } from '@universal-ember/docs-support';
 import { APIDocs, ComponentSignature, ModifierSignature } from './api-docs';
 import ThemeSupport from 'docs-app/docs-support/theme-support';
 import ThemeSwitcher from 'docs-app/docs-support/theme-switcher';
-import {
-  Bookmark,
-  Task,
-  Information,
-  ErrorFilled,
-  InformationSquareFilled,
-  CheckmarkFilled,
-  Notification,
-  UserAvatar,
-  Folder,
-  Document,
-  Checkbox as CheckboxIcon,
-  Settings,
-} from 'carbon-components-ember/icons';
 // @ts-expect-error ignore
 import { Bookmark32 } from '@carbon/icons/es/index.js';
 import { trackedObject } from '@ember/reactive/collections';
 import * as Components from 'carbon-components-ember/components/index';
+import * as Icons from 'carbon-components-ember/icons';
 
 ComponentSignature.name = 'ComponentSignature';
 APIDocs.name = 'APIDocs';
 
 const CarbonComponents = trackedObject(Components);
+const CarbonIcons = trackedObject(Icons);
 if (import.meta.hot) {
 
 }
@@ -81,21 +69,7 @@ export default class Application extends Route {
             Promise.resolve({
               Bookmark32,
             }),
-          'carbon-components-ember/icons': () =>
-            Promise.resolve({
-              Bookmark,
-              Task,
-              Information,
-              ErrorFilled,
-              InformationSquareFilled,
-              CheckmarkFilled,
-              Notification,
-              UserAvatar,
-              Folder,
-              Document,
-              Checkbox: CheckboxIcon,
-              Settings,
-            }),
+          'carbon-components-ember/icons': () => Promise.resolve(CarbonIcons),
           'docs-support': () =>
             Promise.resolve({
               ThemeSupport,

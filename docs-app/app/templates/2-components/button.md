@@ -5,7 +5,7 @@
 
 ```gjs live preview
 import { ThemeSupport } from 'docs-support';
-import { Button, Checkbox, Input } from 'carbon-components-ember/components';
+import { Button, Checkbox } from 'carbon-components-ember/components';
 import { set, newObj } from 'carbon-components-ember/helpers';
 import { fn } from '@ember/helper';
 import { not, eq } from 'ember-truth-helpers';
