@@ -11,12 +11,14 @@ import { sync } from 'ember-primitives/color-scheme';
 import Resolver from 'ember-resolver';
 
 import config from './config/environment';
+import { registerShadowDemoElement } from './docs-support/shadow-demo-element';
 import { initCarbonThemeSync } from './docs-support/theme-switcher';
 import { install } from './icons';
 
 sync();
 install();
 initCarbonThemeSync();
+registerShadowDemoElement();
 
 // @babel/traverse (from babel-plugin-ember-template-imports)
 // accesses process.....
