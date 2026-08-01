@@ -35,4 +35,3 @@ patchedDependencies:
   '@universal-ember/docs-support@0.9.12': patches/@universal-ember__docs-support@0.9.12.patch
   ember-repl@8.2.1: patches/ember-repl@8.2.1.patch
   kolay@5.4.0: patches/kolay@5.4.0.patch
-  repl-sdk@1.6.1: patches/repl-sdk@1.6.1.patch

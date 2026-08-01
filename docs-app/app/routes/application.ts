@@ -14,6 +14,7 @@ import { Callout } from '@universal-ember/docs-support';
 import { APIDocs, ComponentSignature, ModifierSignature } from './api-docs';
 import ThemeSupport from 'docs-app/docs-support/theme-support';
 import ThemeSwitcher from 'docs-app/docs-support/theme-switcher';
+import { rehypeShadowDemo } from 'docs-app/docs-support/rehype-shadow-demo';
 // @ts-expect-error ignore
 import { Bookmark32 } from '@carbon/icons/es/index.js';
 import { trackedObject } from '@ember/reactive/collections';
@@ -102,6 +103,7 @@ export default class Application extends Route {
           kolay: () => import('kolay'),
         },
         rehypePlugins: [
+          rehypeShadowDemo,
           [
             rehypeShikiFromHighlighter,
             highlighter,

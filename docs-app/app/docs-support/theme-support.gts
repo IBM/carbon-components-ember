@@ -39,14 +39,19 @@ export default class ThemeSwitcher extends GlimmerComponent {
     {{! Older ember-repl versions wrapped every live demo in a `<Shadowed>`
       shadow-DOM host, and this component's styles targeted that host via a
       `:root` -> `:host` rewrite. ember-repl 8.x dropped that automatic
-      wrapping (the demos' `no-shadow` markdown flag is dead syntax now), so
-      demos render in the light DOM -- `:host` never matches anything, and
-      these Carbon theme tokens silently never applied, leaving demo text
-      and backgrounds unstyled (most visible as unreadable text once the
-      page's own dark-mode styles started applying, see the accordion/
-      checkbox reports). Inject the styles as plain `:root` rules instead;
-      this is safe globally since nothing outside `.cds--*` demo markup
-      reads these custom properties. }}
+      wrapping, so demos rendered in the light DOM -- `:host` never matched
+      anything, and these Carbon theme tokens silently never applied, leaving
+      demo text and backgrounds unstyled (most visible as unreadable text
+      once the page's own dark-mode styles started applying, see the
+      accordion/checkbox reports). `rehype-shadow-demo.ts` +
+      `shadow-demo-element.ts` have since restored shadow-DOM wrapping (the
+      `no-shadow` markdown flag opts a fence out again), but this component's
+      styles stay as plain `:root` rules rather than switching back to
+      `:host`: CSS custom properties inherit through the shadow boundary, so
+      `:root`-defined tokens are visible to shadow-wrapped demos too, while
+      staying simpler than duplicating the block for both wrapped and
+      `no-shadow` (light-DOM) demos. This is safe globally since nothing
+      outside `.cds--*` demo markup reads these custom properties. }}
     <style type="text/css">
         {{carbonStyle.default}}
         {{this.carbonTheme}}
