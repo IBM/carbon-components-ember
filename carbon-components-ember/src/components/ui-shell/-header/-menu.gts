@@ -30,6 +30,7 @@ export default class UIShellHeaderMenu extends Component<UIShellHeaderMenuSignat
         {{if @isActive "cds--header__menu-item--current"}}'
       ...attributes
     >
+      {{! template-lint-disable no-unsupported-role-attributes }}
       <a
         aria-haspopup='menu'
         aria-expanded='{{if this.expanded "true" "false"}}'
