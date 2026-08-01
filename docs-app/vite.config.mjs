@@ -1,4 +1,4 @@
-import { classicEmberSupport, ember, extensions } from "@embroider/vite";
+import { compatPrebuild, ember, extensions } from "@embroider/vite";
 
 import { babel } from "@rollup/plugin-babel";
 import { kolay } from "kolay/vite";
@@ -79,13 +79,23 @@ export default defineConfig((/* { mode } */) => {
       dedupe: [
         "ember-primitives",
         "ember-source",
+        "@ember/test-waiters",
       ],
     },
     plugins: [
-      classicEmberSupport(),
+      // Runs a classic ember-cli prebuild so @embroider/core's resolver has
+      // the metadata (rewritten-packages, resolver.json, etc.) it needs to
+      // resolve Ember virtual modules like @embroider/virtual/helpers/*.
+      // Without this, addon-owned templates using dynamic component
+      // invocation (e.g. ember-power-select's `ensure-safe-component`) fail
+      // to resolve in a fresh build (no stale node_modules/.embroider cache).
+      compatPrebuild(),
       ember(),
       kolay({
-        src: "public/docs",
+        // Unnamed/"Home" group pages are co-located markdown under
+        // app/templates (e.g. app/templates/1-get-started/index.md) --
+        // kolay's markdown-pages plugin only globs {app,src}/templates for
+        // that group, so there is no separate top-level `src` option.
         groups: [],
         packages: ["carbon-components-ember"],
       }),

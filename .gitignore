@@ -8,6 +8,8 @@
 docs-app/node_modules
 !test-app
 !test-app/**/*
+!patches
+!patches/**/*
 !.editorconfig
 !.gitignore
 !CHANGELOG.md

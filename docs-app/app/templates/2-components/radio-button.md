@@ -7,9 +7,9 @@ Radio buttons are used when there is a list of two or more options that are mutu
 ```gjs live preview
 import { RadioButton, RadioButtonGroup } from 'carbon-components-ember/components';
 import { ThemeSupport } from 'docs-support';
-import { TrackedObject } from 'tracked-built-ins';
+import { trackedObject } from '@ember/reactive/collections';
 
-const context = new TrackedObject();
+const context = trackedObject();
 
 const update = (value) => {
   context.checked = value;

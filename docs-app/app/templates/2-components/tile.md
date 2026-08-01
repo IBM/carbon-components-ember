@@ -56,9 +56,9 @@ only one tile can be selected at a time.
 ```gjs live preview
 import { TileGroup } from 'carbon-components-ember/components';
 import { ThemeSupport } from 'docs-support';
-import { TrackedObject } from 'tracked-built-ins';
+import { trackedObject } from '@ember/reactive/collections';
 
-const context = new TrackedObject();
+const context = trackedObject();
 
 const updateSelected = (value) => {
   context.selected = value;

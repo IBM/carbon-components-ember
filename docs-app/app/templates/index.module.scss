@@ -5,7 +5,7 @@
   padding-right: 3px;
   color: white;
   transform: scale(2.5);
-  --tw-prose-underline-size: 1px;
+  --link-prose-underline-size: 1px;
   border: 1px solid;
   border-radius: 4px;
 
@@ -17,4 +17,16 @@
   &:active {
     background-color: rgba(255,255,255,0.88)
   }
+}
+
+/*
+ * docs-support's .styled-link sets color + box-shadow (the underline
+ * effect) for dark mode via `:is(html[style*="color-scheme: dark"])
+ * .styled-link`, which ties this rule's specificity. Since a tie falls back
+ * to source order (unreliable across bundling), win explicitly instead of
+ * relying on cascade order.
+ */
+:global(html[style*="color-scheme: dark"]) .getStartedLink {
+  color: white !important;
+  box-shadow: none !important;
 }

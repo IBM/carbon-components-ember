@@ -5,10 +5,10 @@
 ```gjs live preview
 import { FormInput } from 'carbon-components-ember/components';
 import { ThemeSupport } from 'docs-support';
-import { TrackedObject } from 'tracked-built-ins';
+import { trackedObject } from '@ember/reactive/collections';
 import { fn } from '@ember/helper';
 import { not } from 'ember-truth-helpers';
-const context = new TrackedObject({});
+const context = trackedObject({});
 
 <template>
     <ThemeSupport />

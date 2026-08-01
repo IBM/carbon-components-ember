@@ -1,4 +1,4 @@
-import { classicEmberSupport, ember, extensions } from "@embroider/vite";
+import { compatPrebuild, ember, extensions } from "@embroider/vite";
 
 import { babel } from "@rollup/plugin-babel";
 import { transformAsync } from '@babel/core';
@@ -103,7 +103,9 @@ export default defineConfig((/* { mode } */) => {
     },
     plugins: [
       snapshotPlugin(),
-      classicEmberSupport(),
+      // See docs-app/vite.config.mjs for why this is needed even without
+      // any classic (v1) addons left in the dependency tree.
+      compatPrebuild(),
       ember(),
       babel({
         babelHelpers: "runtime",

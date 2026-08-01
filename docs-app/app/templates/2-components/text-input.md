@@ -7,9 +7,9 @@ TextInput allows the user to enter a single line of text.
 ```gjs live preview
 import { TextInput } from 'carbon-components-ember/components';
 import { ThemeSupport } from 'docs-support';
-import { TrackedObject } from 'tracked-built-ins';
+import { trackedObject } from '@ember/reactive/collections';
 
-const context = new TrackedObject();
+const context = trackedObject();
 
 const update = (value) => {
   context.value = value;

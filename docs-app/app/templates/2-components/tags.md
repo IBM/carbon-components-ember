@@ -4,10 +4,10 @@
 
 ```gjs live preview
 import { Tag } from 'carbon-components-ember/components';
-import { TrackedObject } from 'tracked-built-ins';
+import { trackedObject } from '@ember/reactive/collections';
 import { ThemeSupport } from 'docs-support';
 
-const context = new TrackedObject({
+const context = trackedObject({
   types: [
     'red',
     'magenta',

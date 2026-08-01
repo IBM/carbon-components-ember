@@ -16,10 +16,6 @@ import { currentCarbonTheme } from './theme-switcher';
 
 console.log(all);
 
-function targetShadowHost(style: string) {
-  return style?.replace?.(/:root /g, ':host ');
-}
-
 export default class ThemeSwitcher extends GlimmerComponent {
 
   get currentTheme() {
@@ -40,16 +36,27 @@ export default class ThemeSwitcher extends GlimmerComponent {
   }
 
   <template>
+    {{! Older ember-repl versions wrapped every live demo in a `<Shadowed>`
+      shadow-DOM host, and this component's styles targeted that host via a
+      `:root` -> `:host` rewrite. ember-repl 8.x dropped that automatic
+      wrapping (the demos' `no-shadow` markdown flag is dead syntax now), so
+      demos render in the light DOM -- `:host` never matches anything, and
+      these Carbon theme tokens silently never applied, leaving demo text
+      and backgrounds unstyled (most visible as unreadable text once the
+      page's own dark-mode styles started applying, see the accordion/
+      checkbox reports). Inject the styles as plain `:root` rules instead;
+      this is safe globally since nothing outside `.cds--*` demo markup
+      reads these custom properties. }}
     <style type="text/css">
-        {{targetShadowHost carbonStyle.default}}
-        {{targetShadowHost this.carbonTheme}}
-        {{targetShadowHost carbonChartsStyle.default}}
-        {{targetShadowHost carbonCompoenntStyle.default}}
-        {{targetShadowHost iconStyle.default}}
-        {{targetShadowHost buttonStyle.default}}
-        {{targetShadowHost paginationStyle.default}}
-        {{targetShadowHost uiShellStyle.default}}
-        {{targetShadowHost listStyle.default}}
+        {{carbonStyle.default}}
+        {{this.carbonTheme}}
+        {{carbonChartsStyle.default}}
+        {{carbonCompoenntStyle.default}}
+        {{iconStyle.default}}
+        {{buttonStyle.default}}
+        {{paginationStyle.default}}
+        {{uiShellStyle.default}}
+        {{listStyle.default}}
     </style>
   </template>
 }

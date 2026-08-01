@@ -1,1 +1,174 @@
-/* intentionally empty -- ember-cli does not allow this file to not exist */
+/**
+ * @universal-ember/docs-support >= 0.8 no longer ships Tailwind's
+ * `@tailwind base/components/utilities` (its own CSS is pre-built), so
+ * docs-app has to declare them itself for the Tailwind classes used
+ * directly in its own templates (e.g. app/components/header.gts).
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * @universal-ember/docs-support's prebuilt site.css targets this h2 via
+ * `nav[aria-label="Main Navigation"] > ul h2` (specificity 0,1,3) with an
+ * unguarded `var(--font-display)` (no fallback, and nothing defines that
+ * custom property), which wins the font-family cascade and resolves to an
+ * inherited default font instead of Helvetica. Match that selector's
+ * specificity (by nesting under both `aside.side-nav` and
+ * `nav[aria-label="Main Navigation"]`) so this rule wins outright.
+ *
+ * Main also renders this h2 at Carbon's heading-05 size (2rem/32px, from
+ * carbon-components-ember's global `h2` reset), not the 1rem it inherits
+ * from `nav[aria-label="Main Navigation"] { font-size: 1rem }` here --
+ * that inherited rule wins the cascade in this build because it's an
+ * external stylesheet rule with the same specificity as Carbon's `h2`
+ * rule (itself injected via a runtime <style> tag) and simply loses the
+ * tie. Restore the heading-05 size explicitly so the sidebar group
+ * headings ("Components", "Home", etc.) stay legible instead of blending
+ * into the regular nav links below them.
+ */
+aside.side-nav nav[aria-label="Main Navigation"] h2 {
+  font-weight: 500;
+  font-family: "Helvetica", "Arial", sans-serif;
+  font-size: var(--cds-heading-05-font-size, 2rem);
+  line-height: var(--cds-heading-05-line-height, 1.25);
+}
+
+/* Upstream only shows the active-subsection dot marker on :hover; main also
+ * shows it for the active link itself. */
+aside.side-nav .subsection-link.is-active::before {
+  display: block;
+}
+
+/*
+ * Upstream's `.subsection-link` sets `position: relative`, making the link
+ * itself the containing block for its `::before` dot (`left: -0.25rem`).
+ * The link has no left padding of its own, so the dot lands flush against
+ * the link text with no gap. On main, the equivalent link had no `position`
+ * set, so the dot's containing block was the parent `<li>` instead -- which
+ * *does* have 16px of left padding, giving the dot room and leaving a
+ * visible gap before the text. Un-setting `position` here restores that
+ * fallback instead of reserving padding on the link (which would shift the
+ * text itself, doubling up on the `<li>`'s own padding).
+ */
+aside.side-nav .subsection-link {
+  position: static;
+}
+
+/*
+ * docs-support >= 0.9 hardcodes the header and sidenav's dark-mode
+ * background to a separate near-black (#02020e / rgb(2 2 14)) instead of
+ * matching docs-app's own `dark:bg-slate-900` body background, producing a
+ * visible two-tone seam between the header/sidenav and the page content.
+ * Main doesn't have this seam because its header/sidenav dark background
+ * was the same `dark:bg-slate-900` Tailwind utility as the body. Match
+ * that shade here instead of upstream's new literal color.
+ */
+:is(html[style*="color-scheme: dark"]) .page-header,
+:is(html[style*="color-scheme: dark"]) .page-header.is-scrolled {
+  background-color: rgb(15 23 42 / 0.95) !important;
+}
+
+@supports (backdrop-filter: blur(0)) {
+  :is(html[style*="color-scheme: dark"]) .page-header.is-scrolled {
+    background-color: rgb(15 23 42 / 0.75) !important;
+  }
+}
+
+:is(html[style*="color-scheme: dark"]) aside.side-nav,
+:is(html[style*="color-scheme: dark"]) aside.side-nav nav {
+  background-color: #0f172a !important;
+}
+
+/**
+ * @universal-ember/docs-support's site.css applies an unscoped
+ * `a, button, input, select, textarea, [role="switch"], [role="button"],
+ * [role="tab"], [role="tab"][aria-selected], [tabindex] { &:focus-visible {
+ * outline: none; box-shadow: 0 0 0 2px black, 0 0 0 4px #e04e39 } }` rule
+ * to every focusable element on the page. Two upstream changes since 0.7.x
+ * combine to make this visible on Carbon components:
+ *   1. The box-shadow used to be built from Tailwind "ring" custom
+ *      properties that never actually resolved (a silent no-op); 0.9.x
+ *      replaced it with a literal value, so it now actually paints.
+ *   2. 0.9.x added `[role="tab"][aria-selected]` to the selector list.
+ *      Native CSS nesting desugars a selector list under `&` into
+ *      `:is(...)`, whose specificity is the *max* of its members -- that
+ *      two-attribute selector alone is 0,2,0, so the whole compound rule's
+ *      effective specificity is 0,3,0, tying (and, being later in this
+ *      bundle, beating) Carbon's own focus rules (typically one class + one
+ *      pseudo-class, 0,2,0).
+ * A same-specificity selector here would only re-create the same
+ * source-order race (and re-break the next time upstream's selector list
+ * grows), so use `!important` to unconditionally win regardless of
+ * upstream's exact selector list -- letting Carbon's per-component rule
+ * win the cascade on its own isn't an option since nothing can "un-match"
+ * an already-matched declaration.
+ *
+ * Carbon components don't share one focus treatment, so a single hardcoded
+ * rule can't restore all of them correctly. Each block below matches one of
+ * Carbon's actual per-component focus treatments (checked against
+ * `@carbon/styles/scss/components/**`) and is ordered after the default so
+ * that, at equal specificity, source order picks the more specific
+ * treatment for that component.
+ */
+
+/* Default: `focus-outline('outline')` -- text-input, dropdown, checkbox,
+ * radio and most other form/interactive components. This type sets no
+ * box-shadow, so it must be explicitly cleared here too, or upstream's
+ * `box-shadow: 0 0 0 2px black, 0 0 0 4px #e04e39` (unmatched by any
+ * `outline` declaration) would keep winning the cascade for that property. */
+[class*="cds--"]:focus-visible {
+  outline: 2px solid var(--cds-focus, #0f62fe) !important;
+  outline-offset: -2px !important;
+  box-shadow: none !important;
+}
+
+/* Invalid text-input/text-area/password-input/form-input: `focus-outline('invalid')`
+ * sets a permanent (not focus-scoped) red outline via `.cds--text-input--invalid`
+ * to flag the error state -- there's no `:focus` rule to swap it back to blue for
+ * this non-fluid variant (only `.cds--form--fluid` does that intentionally). Without
+ * this exception, the default block above unconditionally repaints it blue the
+ * moment the field is focused, hiding the error indicator exactly when the user is
+ * interacting with the field. Match on `[data-invalid]` (set by all four components
+ * alongside the `--invalid` class) so this also covers text-area's separate
+ * `cds--text-area--invalid` class name. Unlike the source-order-dependent blocks
+ * further below, this rule wins outright on specificity alone -- (0,3,0) vs. the
+ * default block's (0,2,0) -- so it's placed after the default purely for
+ * readability, not because it needs to be. */
+[class*="cds--"][data-invalid]:focus-visible {
+  outline: 2px solid var(--cds-support-error, #da1e28) !important;
+  outline-offset: -2px !important;
+  box-shadow: none !important;
+}
+
+/* Link / Breadcrumb: `focus-outline('border')` (the mixin's default type)
+ * -- a thin outward outline, no box-shadow. */
+.cds--link:focus-visible {
+  outline: 1px solid var(--cds-focus, #0f62fe) !important;
+  outline-offset: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Button: outline suppressed in favor of a double inset box-shadow ring
+ * (focus color, then the page background to punch out the button border). */
+.cds--btn:focus-visible {
+  outline: none !important;
+  box-shadow:
+    inset 0 0 0 1px var(--cds-focus, #0f62fe),
+    inset 0 0 0 2px var(--cds-background, #fff) !important;
+}
+
+/* Tag: interactive tags draw an outward outline (opposite offset sign from
+ * the default above); the close icon draws an inset box-shadow instead. */
+.cds--tag--interactive:focus-visible,
+.cds--tag--selectable:focus-visible,
+.cds--tag--operational:focus-visible {
+  outline: 2px solid var(--cds-focus, #0f62fe) !important;
+  outline-offset: 1px !important;
+  box-shadow: none !important;
+}
+
+.cds--tag__close-icon:focus-visible {
+  outline: none !important;
+  box-shadow: inset 0 0 0 1px var(--cds-focus, #0f62fe) !important;
+}

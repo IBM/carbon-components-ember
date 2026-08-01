@@ -8,9 +8,9 @@ by default, with a toggle button to reveal or hide the value.
 ```gjs live preview
 import { PasswordInput } from 'carbon-components-ember/components';
 import { ThemeSupport } from 'docs-support';
-import { TrackedObject } from 'tracked-built-ins';
+import { trackedObject } from '@ember/reactive/collections';
 
-const context = new TrackedObject();
+const context = trackedObject();
 
 const update = (value) => {
   context.value = value;

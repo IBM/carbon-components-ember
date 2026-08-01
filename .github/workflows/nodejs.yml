@@ -13,6 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          # docs-app's build depends on kolay, which uses RegExp.escape (Node >= 24)
+          node-version: 24
+
       - name: install pnpm
         run: npm i -g pnpm
 
@@ -100,6 +106,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          # docs-app's build depends on kolay, which uses RegExp.escape (Node >= 24)
+          node-version: 24
       - run: |-
           npm i -g pnpm
           pnpm i

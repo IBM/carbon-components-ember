@@ -1,6 +1,9 @@
 import 'decorator-transforms/globals';
-import './setup-inspector-support';
+import './docs-support/styles.css';
+import './styles/app.css';
+
 import Application from '@ember/application';
+import setupInspector from '@embroider/legacy-inspector-support/ember-source-4.12';
 import compatModules from '@embroider/virtual/compat-modules';
 
 import loadInitializers from 'ember-load-initializers';
@@ -8,9 +11,8 @@ import { sync } from 'ember-primitives/color-scheme';
 import Resolver from 'ember-resolver';
 
 import config from './config/environment';
-import { install } from './icons';
 import { initCarbonThemeSync } from './docs-support/theme-switcher';
-import './docs-support/styles.css';
+import { install } from './icons';
 
 sync();
 install();
@@ -29,6 +31,7 @@ export default class App extends Application {
   modulePrefix = config.modulePrefix;
   podModulePrefix = config.podModulePrefix;
   Resolver = Resolver.withModules(compatModules);
+  inspector = setupInspector(this);
 }
 
 loadInitializers(App, config.modulePrefix, compatModules);

@@ -5,10 +5,10 @@
 ```gjs live preview
 import { Select, Tag } from 'carbon-components-ember/components';
 import { fn } from '@ember/helper';
-import { TrackedObject } from 'tracked-built-ins';
+import { trackedObject } from '@ember/reactive/collections';
 import { ThemeSupport } from 'docs-support';
 
-const context = new TrackedObject({
+const context = trackedObject({
   options: ['first', 'second', 'a', 'b']
 });
 const join = (...args) => args.join(' ');

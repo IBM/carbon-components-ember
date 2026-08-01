@@ -1,0 +1,27 @@
+diff --git a/dist/browser/utils-Bua7HOwN.js b/dist/browser/utils-Bua7HOwN.js
+index 40a2bb4647361d0886380f0b336ba089477c659b..d4253c6ce851ba65f48e98fd5da2e116a6b2a3c8 100644
+--- a/dist/browser/utils-Bua7HOwN.js
++++ b/dist/browser/utils-Bua7HOwN.js
+@@ -393,7 +393,12 @@ function compilerOptions({
+       md,
+       gmd: {
+         scope,
+-        ...md
++        ...md,
++        // Style-isolate every live demo in its own shadow root (restores the
++        // auto-wrapping ember-repl 6.x used to do by default before its 8.x
++        // rewrite dropped the concept). Individual code fences can still
++        // opt out with a `no-shadow` meta flag.
++        ShadowComponent: true
+       },
+       hbs: {
+         scope
+@@ -546,7 +551,7 @@ function isCollection(x) {
+ }
+ function isIndex(x) {
+   if (isCollection(x)) return false;
+-  return x.path.endsWith('index');
++  return x.path.replace(/\.md$/, '').endsWith('index');
+ }
+ function getIndexPage(x) {
+   const page = x.pages.find(isIndex);

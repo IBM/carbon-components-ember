@@ -7,7 +7,7 @@
 
 import Component from '@glimmer/component';
 import { type TemplateOnlyComponent } from '@ember/component/template-only';
-import AttachTooltip from 'ember-attacher/components/attach-tooltip';
+import Tooltip from './-private/tooltip.gts';
 import Critical from './icons/critical.ts';
 import CriticalSeverity from './icons/critical-severity.ts';
 import Caution from './icons/caution.ts';
@@ -109,21 +109,23 @@ export default class ShapeIndicator extends Component<ShapeIndicatorSignature> {
     {{#if this.isValidKind}}
       <div class={{this.classes}} ...attributes>
         {{#if @compact}}
-          <span class='cds--shape-indicator__button' tabindex='0'>
-            {{#if this.shapeIcon}}
-              <this.shapeIcon
-                @size={{16}}
-                @svgClass={{this.iconClass}}
-                @fill='currentColor'
-              />
-            {{else}}
-              <IncompleteIcon class={{this.iconClass}} />
-            {{/if}}
-            <span class='cds--visually-hidden'>{{this.accessibleLabel}}</span>
-            <AttachTooltip @arrow={{true}} @animation='none'>
-              {{@label}}
-            </AttachTooltip>
-          </span>
+          <Tooltip>
+            <:trigger as |reference|>
+              <span class='cds--shape-indicator__button' tabindex='0' {{reference}}>
+                {{#if this.shapeIcon}}
+                  <this.shapeIcon
+                    @size={{16}}
+                    @svgClass={{this.iconClass}}
+                    @fill='currentColor'
+                  />
+                {{else}}
+                  <IncompleteIcon class={{this.iconClass}} />
+                {{/if}}
+                <span class='cds--visually-hidden'>{{this.accessibleLabel}}</span>
+              </span>
+            </:trigger>
+            <:content>{{@label}}</:content>
+          </Tooltip>
         {{else}}
           {{#if this.shapeIcon}}
             <this.shapeIcon
