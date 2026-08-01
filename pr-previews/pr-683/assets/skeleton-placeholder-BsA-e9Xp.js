@@ -1,3 +1,0 @@
-const skeletonPlaceholder = "<ThemeSwitcher />\n\n# SkeletonPlaceholder\n\n```gjs live preview\nimport { SkeletonPlaceholder } from 'carbon-components-ember/components';\nimport { ThemeSupport } from 'docs-support';\n\n<template>\n    <ThemeSupport />\n    <SkeletonPlaceholder style='width: 20rem; height: 10rem;' />\n</template>\n```\n## API Reference\n\n<details>\n<summary><h3>SkeletonPlaceholder</h3></summary>\n\n```gjs live no-shadow\nimport { ComponentSignature } from 'kolay';\n\n<template>\n  <ComponentSignature \n    @package=\"carbon-components-ember\" \n    @module='declarations/components/skeleton-placeholder' \n    @name='default' \n  />\n</template>\n```\n</details>\n";
-
-export { skeletonPlaceholder as default };
