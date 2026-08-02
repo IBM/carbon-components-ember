@@ -111,7 +111,7 @@
     "globby": "^14.0.0",
     "inter-ui": "^4.0.2",
     "sass-embedded": "^1.89.0",
-    "postcss": "^8.4.47",
+    "postcss": "^8.5.18",
     "postcss-import": "^16.1.0",
     "postcss-loader": "^8.2.1",
     "prettier": "^3.2.5",
