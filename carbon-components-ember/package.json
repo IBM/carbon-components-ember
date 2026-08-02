@@ -230,6 +230,7 @@
       "./components/carbon/grid.js": "./dist/_app_/components/carbon/grid.js",
       "./components/carbon/grid/column.js": "./dist/_app_/components/carbon/grid/column.js",
       "./components/carbon/grid/row.js": "./dist/_app_/components/carbon/grid/row.js",
+      "./components/carbon/icon-indicator.js": "./dist/_app_/components/carbon/icon-indicator.js",
       "./components/carbon/icon.js": "./dist/_app_/components/carbon/icon.js",
       "./components/carbon/icon/render-svg-part.js": "./dist/_app_/components/carbon/icon/render-svg-part.js",
       "./components/carbon/icons/accept-action-usage.js": "./dist/_app_/components/carbon/icons/accept-action-usage.js",
