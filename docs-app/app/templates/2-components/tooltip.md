@@ -38,6 +38,62 @@ import { Tooltip, Button } from 'carbon-components-ember/components';
 </template>
 ```
 
+## Alignment
+
+`@align` controls which side of the trigger the tooltip is rendered on.
+
+```gjs live preview
+import { ThemeSupport } from 'docs-support';
+import { Tooltip, Button } from 'carbon-components-ember/components';
+<template>
+  <ThemeSupport />
+  <br>
+  <div style='display: flex; gap: 4rem; padding: 4rem 2rem;'>
+    <Tooltip @label='Tooltip alignment' @align='bottom-left'>
+      <Button @type='secondary'>This button has a tooltip</Button>
+    </Tooltip>
+  </div>
+</template>
+```
+
+## Duration
+
+`@enterDelayMs` and `@leaveDelayMs` control how long the tooltip waits
+before showing and hiding on hover.
+
+```gjs live preview
+import { ThemeSupport } from 'docs-support';
+import { Tooltip, Button } from 'carbon-components-ember/components';
+<template>
+  <ThemeSupport />
+  <br>
+  <div style='display: flex; gap: 4rem; padding: 4rem 2rem;'>
+    <Tooltip @label='Label one' @enterDelayMs={{0}} @leaveDelayMs={{300}}>
+      <Button @type='secondary'>This button has a tooltip</Button>
+    </Tooltip>
+  </div>
+</template>
+```
+
+## Auto align
+
+When `@autoAlign` is set, the tooltip flips to the opposite side if it
+would otherwise overflow the viewport (or `@autoAlignBoundary`, if
+provided).
+
+```gjs live preview
+import { ThemeSupport } from 'docs-support';
+import { Tooltip, Button } from 'carbon-components-ember/components';
+<template>
+  <ThemeSupport />
+  <br>
+  <div style='padding: 1rem 2rem 8rem;'>
+    <Tooltip @label='This tooltip flips to stay in the viewport' @align='top' @autoAlign={{true}}>
+      <Button @type='secondary'>Scroll me into view, near the bottom</Button>
+    </Tooltip>
+  </div>
+</template>
+```
 
 ## API Reference
 

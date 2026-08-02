@@ -11,6 +11,8 @@ import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { registerDestructor } from '@ember/destroyable';
 import { on } from '@ember/modifier';
+import didInsert from '@ember/render-modifiers/modifiers/did-insert';
+import didUpdate from '@ember/render-modifiers/modifiers/did-update';
 import { defaultArgs } from '../utils/decorators.ts';
 
 export const TooltipAlignments = [
@@ -38,6 +40,29 @@ export const TooltipAlignments = [
 
 export type TooltipAlignment = (typeof TooltipAlignments)[number];
 
+const flippedAlignmentMap: Record<TooltipAlignment, TooltipAlignment> = {
+  top: 'bottom',
+  'top-left': 'bottom-left',
+  'top-start': 'bottom-start',
+  'top-right': 'bottom-right',
+  'top-end': 'bottom-end',
+  bottom: 'top',
+  'bottom-left': 'top-left',
+  'bottom-start': 'top-start',
+  'bottom-right': 'top-right',
+  'bottom-end': 'top-end',
+  left: 'right',
+  'left-bottom': 'right-bottom',
+  'left-end': 'right-end',
+  'left-top': 'right-top',
+  'left-start': 'right-start',
+  right: 'left',
+  'right-bottom': 'left-bottom',
+  'right-end': 'left-end',
+  'right-top': 'left-top',
+  'right-start': 'left-start',
+};
+
 export type Args = {
   /** Where the tooltip is placed relative to the trigger */
   align?: TooltipAlignment;
@@ -45,6 +70,16 @@ export type Args = {
   label?: string;
   /** Description text for the trigger, announced via aria-describedby */
   description?: string;
+  /**
+   * Will auto-align the tooltip on open if it is not visible within the
+   * viewport (or `autoAlignBoundary`, if provided).
+   */
+  autoAlign?: boolean;
+  /**
+   * Specify a bounding element to be used for autoAlign calculations. The
+   * viewport is used by default.
+   */
+  autoAlignBoundary?: HTMLElement;
   /** Close the tooltip when the trigger is activated (click, Enter, Space) */
   closeOnActivation?: boolean;
   /** Render the tooltip open on initial render */
@@ -83,8 +118,10 @@ export default class CarbonTooltip extends Component<CarbonTooltipSignature> {
   };
 
   @tracked open = this.args.defaultOpen ?? false;
+  @tracked autoAlignResult: TooltipAlignment | null = null;
 
   timer?: ReturnType<typeof setTimeout>;
+  containerElement?: HTMLElement;
 
   constructor(owner: any, args: Args) {
     super(owner, args);
@@ -95,17 +132,65 @@ export default class CarbonTooltip extends Component<CarbonTooltipSignature> {
     return `${guidFor(this)}-tooltip`;
   }
 
+  get align(): TooltipAlignment {
+    return this.autoAlignResult ?? this.args.align ?? 'top';
+  }
+
   get classes() {
     const classes = [
       'cds--popover-container',
       'cds--popover--caret',
       'cds--tooltip',
-      `cds--popover--${this.args.align}`,
+      `cds--popover--${this.align}`,
     ];
     if (this.args.highContrast) classes.push('cds--popover--high-contrast');
     if (this.args.dropShadow) classes.push('cds--popover--drop-shadow');
     if (this.open) classes.push('cds--popover--open');
     return classes.join(' ');
+  }
+
+  @action
+  setup(el: HTMLElement) {
+    this.containerElement = el;
+    this.updateAutoAlign();
+  }
+
+  @action
+  update() {
+    this.updateAutoAlign();
+  }
+
+  updateAutoAlign() {
+    if (!this.args.autoAlign || !this.open || !this.containerElement) {
+      this.autoAlignResult = null;
+      return;
+    }
+
+    const content = this.containerElement.querySelector<HTMLElement>(
+      '.cds--popover-content',
+    );
+    if (!content) {
+      return;
+    }
+
+    const boundary = this.args.autoAlignBoundary;
+    const boundaryRect = boundary
+      ? boundary.getBoundingClientRect()
+      : { top: 0, left: 0, right: window.innerWidth, bottom: window.innerHeight };
+    const rect = content.getBoundingClientRect();
+
+    let align = this.args.align ?? 'top';
+    const overflowsVertically = rect.top < boundaryRect.top || rect.bottom > boundaryRect.bottom;
+    const overflowsHorizontally = rect.left < boundaryRect.left || rect.right > boundaryRect.right;
+
+    if (
+      ((align.startsWith('top') || align.startsWith('bottom')) && overflowsVertically) ||
+      ((align.startsWith('left') || align.startsWith('right')) && overflowsHorizontally)
+    ) {
+      align = flippedAlignmentMap[align] ?? align;
+    }
+
+    this.autoAlignResult = align;
   }
 
   setOpen(open: boolean, delayMs: number | undefined) {
@@ -164,6 +249,8 @@ export default class CarbonTooltip extends Component<CarbonTooltipSignature> {
     <span
       class={{this.classes}}
       ...attributes
+      {{didInsert this.setup}}
+      {{didUpdate this.update this.open this.args.align}}
       {{on 'mouseenter' this.onMouseEnter}}
       {{on 'mouseleave' this.onMouseLeave}}
       {{on 'focusin' this.onFocusIn}}
