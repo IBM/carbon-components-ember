@@ -250,7 +250,7 @@ export default class CarbonTooltip extends Component<CarbonTooltipSignature> {
       class={{this.classes}}
       ...attributes
       {{didInsert this.setup}}
-      {{didUpdate this.update this.open this.args.align}}
+      {{didUpdate this.update this.open @align}}
       {{on 'mouseenter' this.onMouseEnter}}
       {{on 'mouseleave' this.onMouseLeave}}
       {{on 'focusin' this.onFocusIn}}
