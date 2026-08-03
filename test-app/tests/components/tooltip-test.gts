@@ -254,6 +254,72 @@ module('Integration | Component | Tooltip', (hooks) => {
     assert.dom('.cds--tooltip-content [data-custom]').hasText('Custom content');
   });
 
+  test('@autoAlign flips the alignment when the tooltip would overflow @autoAlignBoundary', async function (this: RenderingTestContext, assert) {
+    const styleValue = cell(carbonStyle.default);
+    // A fake boundary positioned far below the trigger guarantees the
+    // rendered tooltip content (which sits above the trigger for a 'top'
+    // alignment) overflows it, regardless of the trigger's real page
+    // position.
+    const boundary = {
+      getBoundingClientRect: () => ({
+        top: 10000,
+        left: 0,
+        right: 10000,
+        bottom: 20000,
+      }),
+    } as unknown as HTMLElement;
+
+    await render(
+      <template>
+        <style>{{styleValue.current}}</style>
+        <Tooltip
+          @label='Close'
+          @align='top'
+          @autoAlign={{true}}
+          @autoAlignBoundary={{boundary}}
+          @defaultOpen={{true}}
+        >
+          <button type='button'>Trigger</button>
+        </Tooltip>
+      </template>,
+    );
+    await waitForAnimationFrame();
+
+    await waitUntil(() =>
+      document
+        .querySelector('.cds--tooltip')!
+        .classList.contains('cds--popover--bottom'),
+    );
+    assert.dom('.cds--tooltip').hasClass('cds--popover--bottom');
+    assert.dom('.cds--tooltip').doesNotHaveClass('cds--popover--top');
+  });
+
+  test('without @autoAlign the alignment class does not flip', async function (assert) {
+    const boundary = {
+      getBoundingClientRect: () => ({
+        top: 10000,
+        left: 0,
+        right: 10000,
+        bottom: 20000,
+      }),
+    } as unknown as HTMLElement;
+
+    await render(
+      <template>
+        <Tooltip
+          @label='Close'
+          @align='top'
+          @autoAlignBoundary={{boundary}}
+          @defaultOpen={{true}}
+        >
+          <button type='button'>Trigger</button>
+        </Tooltip>
+      </template>,
+    );
+
+    assert.dom('.cds--tooltip').hasClass('cds--popover--top');
+  });
+
   test('passes through html attributes', async function (assert) {
     await render(
       <template>
