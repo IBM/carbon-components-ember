@@ -1,4 +1,5 @@
 import { default as Select } from './select.gts';
+import { default as Tooltip } from './tooltip.gts';
 import { default as defaultTo } from '../helpers/default-to.ts';
 import { default as eq } from 'ember-truth-helpers/helpers/eq';
 import { default as didInsert } from '@ember/render-modifiers/modifiers/did-insert';
@@ -14,7 +15,10 @@ import { stylesheet } from 'astroturf';
 import { runTask } from 'ember-lifeline';
 import { guidFor } from '@ember/object/internals';
 import { ChevronLeft, ChevronRight } from '../icons.ts';
+import type { ComponentLike } from '@glint/template';
 /** @documenter yuidoc */
+
+type TooltipPosition = 'top' | 'right' | 'bottom' | 'left';
 
 type Slice = {
   page: number;
@@ -35,6 +39,36 @@ export type Args = {
   onPageChanged: (currentSlice: Slice) => void;
   state?: State;
   itemsPerPageOptions?: (number | string)[];
+  /**
+   * The description for the backward icon, also used as its tooltip content.
+   */
+  backwardText?: string;
+  /**
+   * The tooltip position for the backward button.
+   */
+  backwardTextTooltipPosition?: TooltipPosition;
+  /**
+   * The description for the forward icon, also used as its tooltip content.
+   */
+  forwardText?: string;
+  /**
+   * The tooltip position for the forward button.
+   */
+  forwardTextTooltipPosition?: TooltipPosition;
+  /**
+   * Provide a custom component to render in place of the default page-select
+   * control. Receives `@currentPage`, `@totalPages`, `@currentPageSize`,
+   * `@pageSelectLabelText` and `@onSetPage`.
+   */
+  renderPageSelect?: ComponentLike<{
+    Args: {
+      currentPage: number;
+      totalPages: number;
+      currentPageSize: number;
+      pageSelectLabelText: string;
+      onSetPage: (page: number) => void;
+    };
+  }>;
 };
 
 export default class CarbonPagination extends Component<Args> {
@@ -47,10 +81,21 @@ export default class CarbonPagination extends Component<Args> {
     onPageChanged: () => null,
     state: undefined,
     itemsPerPageOptions: undefined,
+    backwardText: 'Previous page',
+    backwardTextTooltipPosition: 'top',
+    forwardText: 'Next page',
+    forwardTextTooltipPosition: 'top',
+    renderPageSelect: undefined,
   });
 
   get defaultArgs() {
     return this.args;
+  }
+
+  get pageSelectLabelText() {
+    return `Page ${this.currentPage} of ${this.pages} ${
+      this.pages === 1 ? 'page' : 'pages'
+    }`;
   }
 
   get pages() {
@@ -182,17 +227,27 @@ export default class CarbonPagination extends Component<Args> {
           </span>
         </div>
         <div class='cds--pagination__right'>
-        <div class="cds--form-item cds--select__item-count">
-          <Select
-            @inline={{true}}
-            @multiple={{false}}
-            @disabled={{@disabled}}
-            @searchEnabled={{false}}
-            @options={{range 1 this.pages true}}
-            @onSelect={{this.setCurrentPage}}
-            @selected={{this.currentPage}}
-          />
-        </div>
+          {{#if @renderPageSelect}}
+            <@renderPageSelect
+              @currentPage={{this.currentPage}}
+              @totalPages={{this.pages}}
+              @currentPageSize={{this.itemsPerPage}}
+              @pageSelectLabelText={{this.pageSelectLabelText}}
+              @onSetPage={{this.setCurrentPage}}
+            />
+          {{else}}
+            <div class="cds--form-item cds--select__item-count">
+              <Select
+                @inline={{true}}
+                @multiple={{false}}
+                @disabled={{@disabled}}
+                @searchEnabled={{false}}
+                @options={{range 1 this.pages true}}
+                @onSelect={{this.setCurrentPage}}
+                @selected={{this.currentPage}}
+              />
+            </div>
+          {{/if}}
           <label
             id='select-{{this.guid}}-pagination-page-label'
             class='cds--pagination__text'
@@ -203,28 +258,40 @@ export default class CarbonPagination extends Component<Args> {
             {{this.pages}}
             pages
           </label>
-          <button
-            disabled={{or (eq this.currentPage 1) @disabled}}
-            class='cds--btn--icon-only cds--pagination__button cds--pagination__button--backward cds--btn cds--btn--md cds--btn--ghost'
-            tabindex='0'
-            data-page-backward
-            aria-label='previous page'
-            type='button'
-            {{on 'click' this.pageBack}}
-          >
-            <ChevronLeft @btnClass='cds--pagination__nav-arrow' />
-          </button>
-          <button
-            disabled={{or (eq this.currentPage this.pages) @disabled}}
-            class='cds--btn--icon-only cds--pagination__button cds--pagination__button--forward cds--btn cds--btn--md cds--btn--ghost'
-            tabindex='0'
-            data-page-forward
-            aria-label='next page'
-            type='button'
-            {{on 'click' this.pageForward}}
-          >
-            <ChevronRight @btnClass="cds--pagination__nav-arrow" />
-          </button>
+          <div class='cds--pagination__control-buttons'>
+            <Tooltip
+              @align={{this.defaultArgs.backwardTextTooltipPosition}}
+              @label={{this.defaultArgs.backwardText}}
+            >
+              <button
+                disabled={{or (eq this.currentPage 1) @disabled}}
+                class='cds--btn--icon-only cds--pagination__button cds--pagination__button--backward cds--btn cds--btn--md cds--btn--ghost'
+                tabindex='0'
+                data-page-backward
+                aria-label={{this.defaultArgs.backwardText}}
+                type='button'
+                {{on 'click' this.pageBack}}
+              >
+                <ChevronLeft @btnClass='cds--pagination__nav-arrow' />
+              </button>
+            </Tooltip>
+            <Tooltip
+              @align={{this.defaultArgs.forwardTextTooltipPosition}}
+              @label={{this.defaultArgs.forwardText}}
+            >
+              <button
+                disabled={{or (eq this.currentPage this.pages) @disabled}}
+                class='cds--btn--icon-only cds--pagination__button cds--pagination__button--forward cds--btn cds--btn--md cds--btn--ghost'
+                tabindex='0'
+                data-page-forward
+                aria-label={{this.defaultArgs.forwardText}}
+                type='button'
+                {{on 'click' this.pageForward}}
+              >
+                <ChevronRight @btnClass="cds--pagination__nav-arrow" />
+              </button>
+            </Tooltip>
+          </div>
         </div>
       {{/if}}
     </div>
