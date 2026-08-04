@@ -6,7 +6,8 @@
       "color": "rgb(82, 82, 82)",
       "display": "flex",
       "font": "",
-      "height": "18px",
+      "gap": "8px",
+      "height": "16px",
       "outline": "rgb(82, 82, 82) none 3px",
       "width": "1276px"
     }
@@ -39,7 +40,6 @@
       "display": "block",
       "fill": "rgb(36, 161, 72)",
       "font": "",
-      "margin": "0px 8px 0px 0px",
       "outline": "rgb(82, 82, 82) none 3px"
     }
   ],
