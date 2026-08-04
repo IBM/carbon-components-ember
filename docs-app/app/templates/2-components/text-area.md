@@ -25,6 +25,8 @@ const update = (value) => {
     <br />
     <TextArea @labelText="With a counter" @enableCounter={{true}} @maxCount={{100}} @helperText="Up to 100 characters" />
     <br />
+    <TextArea @labelText="With a word counter" @enableCounter={{true}} @maxCount={{20}} @counterMode="word" @helperText="Up to 20 words" />
+    <br />
     <TextArea @labelText="Invalid" @invalid={{true}} @invalidText="A valid value is required" />
     <br />
     <TextArea @labelText="Warning" @warn={{true}} @warnText="This value may cause issues" />
@@ -32,6 +34,8 @@ const update = (value) => {
     <TextArea @labelText="Disabled" @disabled={{true}} @value="Can't touch this" />
     <br />
     <TextArea @labelText="Read-only" @readOnly={{true}} @value="Read-only value" />
+    <br />
+    <TextArea @labelText="Fixed size" @cols={{50}} @rows={{6}} @helperText="Not resizable horizontally" />
 </template>
 ```
 

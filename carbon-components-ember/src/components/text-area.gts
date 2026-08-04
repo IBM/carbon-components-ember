@@ -27,6 +27,8 @@ export interface Signature {
     counterMode?: 'character' | 'word';
     light?: boolean;
     onChange?: (value: string, event: Event) => void;
+    onClick?: (event: MouseEvent) => void;
+    onKeyDown?: (event: KeyboardEvent) => void;
   };
   Element: HTMLDivElement;
 }
@@ -78,11 +80,27 @@ export default class TextArea extends Component<Signature> {
     return this.showCounter && this.count > (this.args.maxCount as number);
   }
 
+  get maxLength() {
+    return this.showCounter && this.args.counterMode !== 'word'
+      ? this.args.maxCount
+      : undefined;
+  }
+
   @action
   updateValue(event: Event) {
     const value = (event.target as HTMLTextAreaElement).value;
     this.internalValue = value;
     this.args.onChange?.(value, event);
+  }
+
+  @action
+  handleClick(event: MouseEvent) {
+    this.args.onClick?.(event);
+  }
+
+  @action
+  handleKeyDown(event: KeyboardEvent) {
+    this.args.onKeyDown?.(event);
   }
 
   <template>
@@ -98,7 +116,7 @@ export default class TextArea extends Component<Signature> {
         {{/if}}
         {{#if this.showCounter}}
           <label
-            class='cds--label cds--text-area__counter'
+            class='cds--label cds--text-area__label-counter'
             aria-live='polite'
             aria-atomic='true'
           >{{this.count}}/{{@maxCount}}</label>
@@ -108,7 +126,6 @@ export default class TextArea extends Component<Signature> {
         class='cds--text-area__wrapper
           {{if @cols "cds--text-area__wrapper--cols"}}
           {{if @readOnly "cds--text-area__wrapper--readonly"}}
-          {{if this.isInvalid "cds--text-area__wrapper--invalid"}}
           {{if this.isWarn "cds--text-area__wrapper--warn"}}'
         data-invalid={{if this.isInvalid 'true'}}
       >
@@ -131,9 +148,12 @@ export default class TextArea extends Component<Signature> {
           placeholder={{@placeholder}}
           disabled={{@disabled}}
           readonly={{@readOnly}}
+          maxlength={{this.maxLength}}
           aria-invalid={{if this.isInvalid 'true'}}
           data-invalid={{if this.isInvalid 'true'}}
           {{on 'input' this.updateValue}}
+          {{on 'click' this.handleClick}}
+          {{on 'keydown' this.handleKeyDown}}
         >{{this.value}}</textarea>
         <span
           class='cds--text-area__counter-alert'

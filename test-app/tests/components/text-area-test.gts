@@ -1,6 +1,12 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn, waitFor } from '@ember/test-helpers';
+import {
+  render,
+  fillIn,
+  waitFor,
+  click,
+  triggerKeyEvent,
+} from '@ember/test-helpers';
 import TextArea from 'carbon-components-ember/components/text-area';
 
 module('Integration | Component | TextArea', (hooks) => {
@@ -117,7 +123,31 @@ module('Integration | Component | TextArea', (hooks) => {
       </template>,
     );
 
-    assert.dom('.cds--text-area__counter').hasText('5/10');
+    assert.dom('.cds--text-area__label-counter').hasText('5/10');
+  });
+
+  test('should limit typed characters to maxCount in character counter mode', async function (assert) {
+    await render(
+      <template>
+        <TextArea @enableCounter={{true}} @maxCount={{5}} />
+      </template>,
+    );
+
+    assert.dom('textarea.cds--text-area').hasAttribute('maxlength', '5');
+  });
+
+  test('should not limit the textarea maxlength in word counter mode', async function (assert) {
+    await render(
+      <template>
+        <TextArea
+          @enableCounter={{true}}
+          @maxCount={{5}}
+          @counterMode='word'
+        />
+      </template>,
+    );
+
+    assert.dom('textarea.cds--text-area').doesNotHaveAttribute('maxlength');
   });
 
   test('should count words when counterMode is word', async function (assert) {
@@ -132,6 +162,31 @@ module('Integration | Component | TextArea', (hooks) => {
       </template>,
     );
 
-    assert.dom('.cds--text-area__counter').hasText('3/5');
+    assert.dom('.cds--text-area__label-counter').hasText('3/5');
+  });
+
+  test('should call onClick when clicked', async function (assert) {
+    let clicked = false;
+    const handleClick = () => (clicked = true);
+
+    await render(<template><TextArea @onClick={{handleClick}} /></template>);
+
+    await click('textarea.cds--text-area');
+
+    assert.true(clicked);
+  });
+
+  test('should call onKeyDown when a key is pressed', async function (assert) {
+    let received;
+    const handleKeyDown = (event: KeyboardEvent) =>
+      (received = event.key);
+
+    await render(
+      <template><TextArea @onKeyDown={{handleKeyDown}} /></template>,
+    );
+
+    await triggerKeyEvent('textarea.cds--text-area', 'keydown', 'A');
+
+    assert.strictEqual(received, 'A');
   });
 });
