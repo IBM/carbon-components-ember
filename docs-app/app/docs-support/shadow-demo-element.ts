@@ -20,13 +20,6 @@ class CarbonShadowDemo extends HTMLElement {
     if (this.shadowRoot) return;
 
     const shadowRoot = this.attachShadow({ mode: 'open' });
-    const style = document.createElement('style');
-
-    style.textContent = [...document.querySelectorAll<HTMLLinkElement>(STYLESHEET_SELECTOR)]
-      .map((link) => `@import "${link.href}";`)
-      .join('\n');
-
-    shadowRoot.appendChild(style);
 
     for (const child of [...this.childNodes]) {
       shadowRoot.appendChild(child);

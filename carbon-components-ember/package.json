@@ -2919,6 +2919,7 @@
       "./components/carbon/loading.js": "./dist/_app_/components/carbon/loading.js",
       "./components/carbon/modal.js": "./dist/_app_/components/carbon/modal.js",
       "./components/carbon/notification.js": "./dist/_app_/components/carbon/notification.js",
+      "./components/carbon/number-input.js": "./dist/_app_/components/carbon/number-input.js",
       "./components/carbon/ordered-list.js": "./dist/_app_/components/carbon/ordered-list.js",
       "./components/carbon/overflow-menu.js": "./dist/_app_/components/carbon/overflow-menu.js",
       "./components/carbon/overflow-menu/item.js": "./dist/_app_/components/carbon/overflow-menu/item.js",
