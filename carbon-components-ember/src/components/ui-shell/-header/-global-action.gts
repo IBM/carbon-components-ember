@@ -16,7 +16,7 @@ export default class UIShellHeaderGlobalAction extends Component<UIShellHeaderGl
     <button
       aria-label={{@aria-label}}
       title={{@aria-label}}
-      class='cds--header__action'
+      class='cds--header__action cds--btn cds--btn--icon-only'
       type='button'
       {{on 'click' @onClick}}
       ...attributes

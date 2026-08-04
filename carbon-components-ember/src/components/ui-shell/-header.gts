@@ -1,9 +1,10 @@
-import { default as Icon } from '../../components/icon.gts';
+import { Close, Menu } from '../../icons.ts';
 import { default as not } from 'ember-truth-helpers/helpers/not';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import Component from '@glimmer/component';
 import UIShellHeaderGlobalAction from './-header/-global-action.gts';
+import UIShellHeaderPanel from './-header/-panel.gts';
 
 export interface UIShellHeaderSignature {
   Args: {
@@ -15,6 +16,7 @@ export interface UIShellHeaderSignature {
   Blocks: {
     header: [];
     headerGlobal: [typeof UIShellHeaderGlobalAction];
+    headerPanel: [typeof UIShellHeaderPanel];
   };
 }
 
@@ -33,7 +35,11 @@ export default class UIShellHeader extends Component<UIShellHeaderSignature> {
           type='button'
           {{on 'click' (fn @onToggle (not @open))}}
         >
-          <Icon @icon={{if @open 'close' 'menu'}} />
+          {{#if @open}}
+            <Close @size={{20}} />
+          {{else}}
+            <Menu @size={{20}} />
+          {{/if}}
         </button>
       {{/if}}
       <a class='cds--header__name' href='#'>
@@ -48,6 +54,7 @@ export default class UIShellHeader extends Component<UIShellHeaderSignature> {
       <div class='cds--header__global'>
         {{yield UIShellHeaderGlobalAction to='headerGlobal'}}
       </div>
+      {{yield UIShellHeaderPanel to='headerPanel'}}
     </header>
   </template>
 }
