@@ -13,5 +13,10 @@
     "reason": "React SecondaryButton is a thin wrapper (<Button kind=\"secondary\" {...props} />) with no distinct props/stories; fully covered by the existing Ember Button component's @type='secondary' argument",
     "excludedAt": "2026-08-04T09:24:30.880Z",
     "issue": "699"
+  },
+  "Tab": {
+    "reason": "Tab is not a standalone React component — its source (packages/react/src/components/Tab/index.tsx) simply re-exports the Tab sub-component from Tabs/Tabs.tsx. It only exists as a child of Tabs > TabList and has no standalone usage. This functionality is already covered by the existing Ember Tabs component (src/components/tabs.gts), which is tracked and implemented separately.",
+    "excludedAt": "2026-08-04T09:45:17.206Z",
+    "issue": "702"
   }
 }
