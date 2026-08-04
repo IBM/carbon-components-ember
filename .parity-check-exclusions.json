@@ -8,5 +8,10 @@
     "reason": "Switch/IconSwitch in Carbon React are internal building-block components explicitly documented in the source as \"Reserved for usage in ContentSwitcher\" — they render as the tab-like buttons that are children of ContentSwitcher, with no standalone Storybook page or independent public API. ContentSwitcher itself is not yet implemented in this Ember addon; when it is, this switch-item rendering will be built as an internal part of that component rather than exposed as a separate public export. This duplicates the investigation already done in issue #494 (closed wontfix), whose exclusion commit never made it into main.",
     "excludedAt": "2026-08-04T09:14:48.584Z",
     "issue": "701"
+  },
+  "SecondaryButton": {
+    "reason": "React SecondaryButton is a thin wrapper (<Button kind=\"secondary\" {...props} />) with no distinct props/stories; fully covered by the existing Ember Button component's @type='secondary' argument",
+    "excludedAt": "2026-08-04T09:24:30.880Z",
+    "issue": "699"
   }
 }
