@@ -24,6 +24,8 @@ const update = (value) => {
     <br/>
     value: {{context.value}}
     <br />
+    <PasswordInput @labelText="Extra small" @size="xs" />
+    <br />
     <PasswordInput @labelText="Small" @size="sm" />
     <br />
     <PasswordInput @labelText="Large" @size="lg" />

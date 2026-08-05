@@ -24,7 +24,7 @@ export interface Signature {
     defaultValue?: string;
     placeholder?: string;
     type?: 'password' | 'text';
-    size?: 'sm' | 'md' | 'lg';
+    size?: 'xs' | 'sm' | 'md' | 'lg';
     disabled?: boolean;
     readOnly?: boolean;
     inline?: boolean;

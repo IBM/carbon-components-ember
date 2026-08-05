@@ -37,6 +37,12 @@ module('Integration | Component | PasswordInput', (hooks) => {
     assert.dom('.cds--text-input-wrapper').hasClass('cds--layout--size-sm');
   });
 
+  test('should support the xs layout size', async function (assert) {
+    await render(<template><PasswordInput @size='xs' /></template>);
+
+    assert.dom('.cds--text-input-wrapper').hasClass('cds--layout--size-xs');
+  });
+
   test('should respect the disabled and readOnly arguments', async function (assert) {
     await render(
       <template><PasswordInput @disabled={{true}} @readOnly={{true}} /></template>,
