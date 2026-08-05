@@ -17,6 +17,29 @@ function range(value: number | [number, number]): [number, number] {
   return Array.isArray(value) ? value : [value, value];
 }
 
+/**
+ * The part of a menu item its owning `Menu` needs to know about to derive
+ * the `--with-icons`/`--with-selectable-items` modifier classes. Declared as
+ * an interface so `Menu` doesn't have to import `MenuItem`, which imports
+ * `Menu` itself.
+ */
+export interface MenuItemFeatures {
+  hasIcon: boolean;
+  isSelectable: boolean;
+}
+
+// `MenuItem` & friends are invoked as standalone components rather than
+// being yielded by `Menu`, so they have no argument pointing back at the
+// menu they belong to. Every rendered menu registers itself under its own
+// `<ul>` here, which lets an item find its owner by walking up the DOM once,
+// when it is inserted.
+const MENUS = new WeakMap<Element, Menu>();
+
+export function findParentMenu(element: Element): Menu | undefined {
+  const list = element.parentElement?.closest('.cds--menu');
+  return list ? MENUS.get(list) : undefined;
+}
+
 export interface MenuSignature {
   Element: HTMLUListElement;
   Args: {
@@ -48,7 +71,9 @@ export interface MenuSignature {
     size?: 'xs' | 'sm' | 'md' | 'lg';
     /**
      * Specify a DOM node where the Menu should be rendered in. Defaults to
-     * `document.body`.
+     * `document.body`. Pass a node inside your own root when the Menu is
+     * rendered in a shadow root, otherwise it escapes into the light DOM
+     * where your styles don't reach it.
      */
     target?: Element;
     /**
@@ -109,7 +134,7 @@ class MenuList extends Component<MenuListSignature> {
       {{on 'keydown' @menu.handleKeyDown}}
       {{on 'focusout' @menu.handleBlur}}
       {{on 'click' @menu.handleClick}}
-      {{@menu.scanFeatures}}
+      {{@menu.registerList}}
       {{@menu.positionMenu}}
       ...attributes
     >
@@ -119,9 +144,35 @@ class MenuList extends Component<MenuListSignature> {
 }
 
 export default class Menu extends Component<MenuSignature> {
-  @tracked hasIcons = false;
-  @tracked hasSelectableItems = false;
+  @tracked items: readonly MenuItemFeatures[] = [];
   @tracked shown = false;
+
+  // Carbon derives these two modifier classes from a React Context its items
+  // push into as they mount. The Ember equivalent is having the items
+  // register with the menu they belong to, which keeps the classes reactive
+  // to items being added, removed, or having their icon swapped out.
+  get hasIcons() {
+    return this.items.some((item) => item.hasIcon);
+  }
+
+  get hasSelectableItems() {
+    return this.items.some((item) => item.isSelectable);
+  }
+
+  registerList = modifier((element: HTMLUListElement) => {
+    MENUS.set(element, this);
+    return () => MENUS.delete(element);
+  });
+
+  registerItem(item: MenuItemFeatures) {
+    if (this.isDestroying || this.isDestroyed) return;
+    this.items = [...this.items, item];
+  }
+
+  unregisterItem(item: MenuItemFeatures) {
+    if (this.isDestroying || this.isDestroyed) return;
+    this.items = this.items.filter((registered) => registered !== item);
+  }
 
   get isRoot() {
     return this.args.isRoot ?? true;
@@ -155,59 +206,6 @@ export default class Menu extends Component<MenuSignature> {
     }
     return classes.join(' ');
   }
-
-  // Carbon's `--with-icons`/`--with-selectable-items` modifier classes are
-  // normally derived from a React Context that inspects children as they
-  // mount. We don't have that here, so scan the rendered items directly
-  // instead of requiring callers to declare it themselves. Icons render
-  // their SVG asynchronously (dynamic import), so a one-shot scan on insert
-  // isn't enough — a MutationObserver re-scans whenever the icon actually
-  // lands in the DOM.
-  scanFeatures = modifier((element: HTMLUListElement) => {
-    // Assigning a @tracked property always invalidates it, even when the
-    // new value equals the old one, which would cause `classes` to be
-    // rewritten to the DOM on every scan. Since the MutationObserver below
-    // also watches this element's own attributes, an unconditional
-    // `class` rewrite would re-trigger the observer and loop forever. Only
-    // assign when the computed value actually changes to break the cycle.
-    const scan = () => {
-      const hasIcons = !!element.querySelector(
-        [
-          ':scope > .cds--menu-item > .cds--menu-item__icon > svg',
-          ':scope > .cds--menu-item-group > ul > .cds--menu-item > .cds--menu-item__icon > svg',
-          ':scope > .cds--menu-item-radio-group > ul > .cds--menu-item > .cds--menu-item__icon > svg',
-        ].join(', '),
-      );
-      if (hasIcons !== this.hasIcons) this.hasIcons = hasIcons;
-      const hasSelectableItems = !!element.querySelector(
-        [
-          ':scope > [role="menuitemcheckbox"]',
-          ':scope > [role="menuitemradio"]',
-          ':scope > .cds--menu-item-group > ul > [role="menuitemcheckbox"]',
-          ':scope > .cds--menu-item-radio-group > ul > [role="menuitemradio"]',
-        ].join(', '),
-      );
-      if (hasSelectableItems !== this.hasSelectableItems) {
-        this.hasSelectableItems = hasSelectableItems;
-      }
-    };
-    // The modifier installs synchronously during the same render
-    // computation that already read `hasIcons`/`hasSelectableItems` (via
-    // `classes`, used for this element's `class` attribute), so scanning
-    // here directly would trip Ember's backtracking-rerender assertion.
-    // Defer the initial scan to the next frame, same as `positionMenu`.
-    const raf = requestAnimationFrame(scan);
-    const observer = new MutationObserver(scan);
-    observer.observe(element, {
-      childList: true,
-      subtree: true,
-      attributes: true,
-    });
-    return () => {
-      cancelAnimationFrame(raf);
-      observer.disconnect();
-    };
-  });
 
   positionMenu = modifier((element: HTMLUListElement) => {
     if (!this.args.open) {

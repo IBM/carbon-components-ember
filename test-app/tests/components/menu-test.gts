@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, triggerKeyEvent } from '@ember/test-helpers';
+import { render, click, settled, triggerKeyEvent } from '@ember/test-helpers';
 import { array } from '@ember/helper';
+import { tracked } from '@glimmer/tracking';
 import Menu from 'carbon-components-ember/components/menu';
 import MenuItem from 'carbon-components-ember/components/menu/menu-item';
 import MenuItemDivider from 'carbon-components-ember/components/menu/menu-item-divider';
@@ -152,6 +153,82 @@ module('Integration | Component | Menu', (hooks) => {
       .dom('[role="menu"]', this.container)
       .hasClass('cds--menu--with-icons');
     assert.dom('.cds--menu-item__icon svg', this.container).exists();
+  });
+
+  test('the with-icons and with-selectable-items classes follow items being added and removed', async function (this: {
+    container: HTMLElement;
+  }, assert) {
+    class State {
+      @tracked extras = false;
+    }
+    const state = new State();
+
+    const target = this.container;
+    await render(
+      <template>
+        <Menu @label='Test menu' @open={{true}} @target={{target}}>
+          <MenuItem @label='Cut' />
+          {{#if state.extras}}
+            <MenuItem @label='Copy' @renderIcon={{Copy}} />
+            <MenuItemSelectable @label='Bold' />
+          {{/if}}
+        </Menu>
+      </template>,
+    );
+
+    await waitForAnimationFrame();
+
+    assert
+      .dom('[role="menu"]', this.container)
+      .doesNotHaveClass('cds--menu--with-icons');
+    assert
+      .dom('[role="menu"]', this.container)
+      .doesNotHaveClass('cds--menu--with-selectable-items');
+
+    state.extras = true;
+    await settled();
+
+    assert.dom('[role="menu"]', this.container).hasClass('cds--menu--with-icons');
+    assert
+      .dom('[role="menu"]', this.container)
+      .hasClass('cds--menu--with-selectable-items');
+
+    state.extras = false;
+    await settled();
+
+    assert
+      .dom('[role="menu"]', this.container)
+      .doesNotHaveClass('cds--menu--with-icons');
+    assert
+      .dom('[role="menu"]', this.container)
+      .doesNotHaveClass('cds--menu--with-selectable-items');
+  });
+
+  test('a submenu tracks its own items rather than the root menu ones', async function (this: {
+    container: HTMLElement;
+  }, assert) {
+    const target = this.container;
+    await render(
+      <template>
+        <Menu @label='Test menu' @open={{true}} @target={{target}}>
+          <MenuItem @label='Share with'>
+            <MenuItemSelectable @label='Product team' />
+          </MenuItem>
+        </Menu>
+      </template>,
+    );
+
+    await waitForAnimationFrame();
+
+    assert
+      .dom('[role="menu"]', this.container)
+      .doesNotHaveClass(
+        'cds--menu--with-selectable-items',
+        'the root menu only has a plain item',
+      );
+    assert
+      .dom('.cds--menu-item .cds--menu', this.container)
+      .hasClass('cds--menu--with-selectable-items');
   });
 
   test('MenuItemSelectable toggles its checked state on click and calls @onChange', async function (this: {

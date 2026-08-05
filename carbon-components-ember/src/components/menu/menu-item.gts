@@ -9,10 +9,12 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
+import { registerDestructor } from '@ember/destroyable';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import didInsert from '@ember/render-modifiers/modifiers/did-insert';
-import Menu from '../menu.gts';
+import { runTask } from 'ember-lifeline';
+import Menu, { findParentMenu, type MenuItemFeatures } from '../menu.gts';
 import Checkmark from '../icons/checkmark.ts';
 import CaretRight from '../icons/caret-right.ts';
 import type Icon from '../icon.gts';
@@ -67,7 +69,10 @@ export interface MenuItemSignature {
   };
 }
 
-export default class MenuItem extends Component<MenuItemSignature> {
+export default class MenuItem
+  extends Component<MenuItemSignature>
+  implements MenuItemFeatures
+{
   @tracked submenuOpen = false;
   @tracked liElement?: HTMLLIElement;
 
@@ -75,6 +80,14 @@ export default class MenuItem extends Component<MenuItemSignature> {
 
   get role() {
     return this.args.role ?? 'menuitem';
+  }
+
+  get hasIcon() {
+    return !!this.args.renderIcon;
+  }
+
+  get isSelectable() {
+    return this.role !== 'menuitem';
   }
 
   get hasAriaChecked() {
@@ -91,6 +104,18 @@ export default class MenuItem extends Component<MenuItemSignature> {
   @action
   setLiElement(element: HTMLLIElement) {
     this.liElement = element;
+    // The menu we belong to registers itself from a modifier on its own
+    // `<ul>`, and Glimmer installs an element's modifiers before those of
+    // its parent, so it isn't registered yet at this point. Look it up once
+    // the render pass is done - which also keeps the class recomputation
+    // this triggers out of the render that just read those classes.
+    runTask(this, () => {
+      if (this.isDestroyed || this.isDestroying) return;
+      const menu = findParentMenu(element);
+      if (!menu) return;
+      menu.registerItem(this);
+      registerDestructor(this, () => menu.unregisterItem(this));
+    });
   }
 
   @action
