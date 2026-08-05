@@ -14,7 +14,7 @@ import { on } from '@ember/modifier';
 import didInsert from '@ember/render-modifiers/modifiers/did-insert';
 import didUpdate from '@ember/render-modifiers/modifiers/did-update';
 import { defaultArgs } from '../utils/decorators.ts';
-import { schedule } from '@ember/runloop';
+import { scheduleTask } from 'ember-lifeline';
 
 export const TooltipAlignments = [
   'top',
@@ -221,20 +221,16 @@ export default class CarbonTooltip extends Component<CarbonTooltipSignature> {
     // `disabled`, which browsers blur automatically), which can happen while
     // Glimmer is still mid-render. Setting a tracked property directly in
     // that window trips the "already used in this computation" assertion.
-    schedule('actions', () => {
-      if (!this.isDestroying) {
-        this.open = true;
-      }
+    scheduleTask(this, 'actions', () => {
+      this.open = true;
     });
   }
 
   @action
   onFocusOut() {
     clearTimeout(this.timer);
-    schedule('actions', () => {
-      if (!this.isDestroying) {
-        this.open = false;
-      }
+    scheduleTask(this, 'actions', () => {
+      this.open = false;
     });
   }
 
