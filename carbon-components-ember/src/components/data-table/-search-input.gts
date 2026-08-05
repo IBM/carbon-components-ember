@@ -12,6 +12,7 @@ export type Args = {
   isLoading: boolean;
   expandable?: boolean;
   value: string;
+  size?: 'xs' | 'sm' | 'md' | 'lg';
 };
 
 export default class TableSearchComponent extends Component<Args> {
@@ -50,6 +51,7 @@ export default class TableSearchComponent extends Component<Args> {
       @isLoading={{@isLoading}}
       @value={{@value}}
       @expandable={{@expandable}}
+      @size={{@size}}
       @onChange={{this.doSearch}}
       class='{{if this.isSearching this.styles.is-searching}}'
     />

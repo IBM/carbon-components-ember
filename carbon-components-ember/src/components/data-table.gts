@@ -118,7 +118,7 @@ export interface DataTableComponentSignature<T> {
           typeof DataTableBody<T>,
           'table' | 'isExpandable' | 'isCheckable' | 'items'
         >;
-        Column: typeof TableColumn;
+        Column: WithBoundArgs<typeof TableColumn, 'table'>;
         Menu: typeof TableMenuComponent;
         Header: WithBoundArgs<typeof ListHeaderComponent, 'table'>;
       },
@@ -133,6 +133,10 @@ export default class DataTableComponent<T> extends Component<
   declare isExpandable: boolean;
   declare isCheckable: boolean;
   declare headers: Header[];
+  declare headerIds: (string | undefined)[];
+  // incremented by each Column instance to associate it with its header id;
+  // reset to 0 by each Row so column position stays 1:1 with the headers array
+  columnIndexCounter = 0;
 
   @defaultArgs
   args: Args<T> = {
@@ -290,7 +294,7 @@ export default class DataTableComponent<T> extends Component<
           )
           Menu=Menu
           Table=(component Table isLoading=@isLoading)
-          Column=ListColumn
+          Column=(component ListColumn table=this)
           EachBodyRows=(component
             ListBody
             isExpandable=this.isExpandable
