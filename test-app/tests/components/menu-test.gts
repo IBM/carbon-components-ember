@@ -14,22 +14,45 @@ import { waitForAnimationFrame } from '../helpers';
 module('Integration | Component | Menu', (hooks) => {
   setupRenderingTest(hooks);
 
-  test('does not render anything when @open is false', async function (assert) {
+  // Menu (the root Menu, at least) renders via `{{in-element}}` into
+  // `document.body` by default, which is outside `#ember-testing`'s
+  // rendering-test container - the same reason portal-test.gts avoids
+  // exercising its own `document.body` default. Rendering there directly via
+  // a real `render()` call corrupts `#qunit-fixture` on teardown and breaks
+  // later tests in the suite, so every test here points `@target` at a
+  // dedicated container appended to `document.body` instead, and queries
+  // scope to that container rather than the default rendering-test root.
+  hooks.beforeEach(function (this: { container: HTMLElement }) {
+    this.container = document.createElement('div');
+    document.body.appendChild(this.container);
+  });
+
+  hooks.afterEach(function (this: { container: HTMLElement }) {
+    this.container.remove();
+  });
+
+  test('does not render anything when @open is false', async function (this: {
+    container: HTMLElement;
+  }, assert) {
+    const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{false}}>
+        <Menu @label='Test menu' @open={{false}} @target={{target}}>
           <MenuItem @label='Cut' />
         </Menu>
       </template>,
     );
 
-    assert.dom('[role="menu"]').doesNotExist();
+    assert.dom('[role="menu"]', this.container).doesNotExist();
   });
 
-  test('renders items with the correct roles when open', async function (assert) {
+  test('renders items with the correct roles when open', async function (this: {
+    container: HTMLElement;
+  }, assert) {
+    const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{true}}>
+        <Menu @label='Test menu' @open={{true}} @target={{target}}>
           <MenuItem @label='Cut' />
           <MenuItemDivider />
           <MenuItem @label='Delete' @kind='danger' />
@@ -39,14 +62,18 @@ module('Integration | Component | Menu', (hooks) => {
 
     await waitForAnimationFrame();
 
-    assert.dom('[role="menu"]').exists();
-    assert.dom('[role="menu"]').hasAttribute('aria-label', 'Test menu');
-    assert.dom('[role="menuitem"]').exists({ count: 2 });
-    assert.dom('[role="separator"]').exists({ count: 1 });
-    assert.dom('.cds--menu-item--danger').exists({ count: 1 });
+    assert.dom('[role="menu"]', this.container).exists();
+    assert
+      .dom('[role="menu"]', this.container)
+      .hasAttribute('aria-label', 'Test menu');
+    assert.dom('[role="menuitem"]', this.container).exists({ count: 2 });
+    assert.dom('[role="separator"]', this.container).exists({ count: 1 });
+    assert.dom('.cds--menu-item--danger', this.container).exists({ count: 1 });
   });
 
-  test('clicking an item invokes @onClick and closes the menu via @onClose', async function (assert) {
+  test('clicking an item invokes @onClick and closes the menu via @onClose', async function (this: {
+    container: HTMLElement;
+  }, assert) {
     let clicked = false;
     let closed = false;
     const onClick = () => {
@@ -56,30 +83,39 @@ module('Integration | Component | Menu', (hooks) => {
       closed = true;
     };
 
+    const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{true}} @onClose={{onClose}}>
+        <Menu
+          @label='Test menu'
+          @open={{true}}
+          @target={{target}}
+          @onClose={{onClose}}
+        >
           <MenuItem @label='Cut' @onClick={{onClick}} />
         </Menu>
       </template>,
     );
 
     await waitForAnimationFrame();
-    await click('[role="menuitem"]');
+    await click(this.container.querySelector('[role="menuitem"]')!);
 
     assert.true(clicked, '@onClick was called');
     assert.true(closed, '@onClose was called');
   });
 
-  test('disabled items cannot be clicked', async function (assert) {
+  test('disabled items cannot be clicked', async function (this: {
+    container: HTMLElement;
+  }, assert) {
     let clicked = false;
     const onClick = () => {
       clicked = true;
     };
 
+    const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{true}}>
+        <Menu @label='Test menu' @open={{true}} @target={{target}}>
           <MenuItem @label='Cut' @disabled={{true}} @onClick={{onClick}} />
         </Menu>
       </template>,
@@ -87,17 +123,24 @@ module('Integration | Component | Menu', (hooks) => {
 
     await waitForAnimationFrame();
 
-    assert.dom('[role="menuitem"]').hasAttribute('aria-disabled', 'true');
-    assert.dom('[role="menuitem"]').hasAttribute('tabindex', '-1');
+    assert
+      .dom('[role="menuitem"]', this.container)
+      .hasAttribute('aria-disabled', 'true');
+    assert
+      .dom('[role="menuitem"]', this.container)
+      .hasAttribute('tabindex', '-1');
 
-    await click('[role="menuitem"]');
+    await click(this.container.querySelector('[role="menuitem"]')!);
     assert.false(clicked, '@onClick was not called for a disabled item');
   });
 
-  test('renders an icon and adds the with-icons modifier class', async function (assert) {
+  test('renders an icon and adds the with-icons modifier class', async function (this: {
+    container: HTMLElement;
+  }, assert) {
+    const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{true}}>
+        <Menu @label='Test menu' @open={{true}} @target={{target}}>
           <MenuItem @label='Copy' @renderIcon={{Copy}} />
         </Menu>
       </template>,
@@ -105,19 +148,24 @@ module('Integration | Component | Menu', (hooks) => {
 
     await waitForAnimationFrame();
 
-    assert.dom('[role="menu"]').hasClass('cds--menu--with-icons');
-    assert.dom('.cds--menu-item__icon svg').exists();
+    assert
+      .dom('[role="menu"]', this.container)
+      .hasClass('cds--menu--with-icons');
+    assert.dom('.cds--menu-item__icon svg', this.container).exists();
   });
 
-  test('MenuItemSelectable toggles its checked state on click and calls @onChange', async function (assert) {
+  test('MenuItemSelectable toggles its checked state on click and calls @onChange', async function (this: {
+    container: HTMLElement;
+  }, assert) {
     let checked: boolean | undefined;
     const onChange = (value: boolean) => {
       checked = value;
     };
 
+    const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{true}}>
+        <Menu @label='Test menu' @open={{true}} @target={{target}}>
           <MenuItemSelectable
             @label='Bold'
             @defaultSelected={{true}}
@@ -130,22 +178,27 @@ module('Integration | Component | Menu', (hooks) => {
     await waitForAnimationFrame();
 
     assert
-      .dom('[role="menuitemcheckbox"]')
+      .dom('[role="menuitemcheckbox"]', this.container)
       .hasAttribute('aria-checked', 'true');
-    assert.dom('[role="menu"]').hasClass('cds--menu--with-selectable-items');
+    assert
+      .dom('[role="menu"]', this.container)
+      .hasClass('cds--menu--with-selectable-items');
 
-    await click('[role="menuitemcheckbox"]');
+    await click(this.container.querySelector('[role="menuitemcheckbox"]')!);
 
     assert.strictEqual(checked, false);
     assert
-      .dom('[role="menuitemcheckbox"]')
+      .dom('[role="menuitemcheckbox"]', this.container)
       .hasAttribute('aria-checked', 'false');
   });
 
-  test('MenuItemGroup wraps its items in a labelled group', async function (assert) {
+  test('MenuItemGroup wraps its items in a labelled group', async function (this: {
+    container: HTMLElement;
+  }, assert) {
+    const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{true}}>
+        <Menu @label='Test menu' @open={{true}} @target={{target}}>
           <MenuItemGroup @label='Font style'>
             <MenuItemSelectable @label='Bold' />
             <MenuItemSelectable @label='Italic' />
@@ -156,24 +209,27 @@ module('Integration | Component | Menu', (hooks) => {
 
     await waitForAnimationFrame();
 
-    assert.dom('.cds--menu-item-group').exists({ count: 1 });
+    assert.dom('.cds--menu-item-group', this.container).exists({ count: 1 });
     assert
-      .dom('.cds--menu-item-group > ul')
+      .dom('.cds--menu-item-group > ul', this.container)
       .hasAttribute('aria-label', 'Font style');
     assert
-      .dom('.cds--menu-item-group [role="menuitemcheckbox"]')
+      .dom('.cds--menu-item-group [role="menuitemcheckbox"]', this.container)
       .exists({ count: 2 });
   });
 
-  test('MenuItemRadioGroup renders one item per entry and only one is checked at a time', async function (assert) {
+  test('MenuItemRadioGroup renders one item per entry and only one is checked at a time', async function (this: {
+    container: HTMLElement;
+  }, assert) {
     let selected: string | undefined;
     const onChange = (value: string) => {
       selected = value;
     };
 
+    const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{true}}>
+        <Menu @label='Test menu' @open={{true}} @target={{target}}>
           <MenuItemRadioGroup
             @label='Text decoration'
             @items={{array 'None' 'Underline'}}
@@ -186,29 +242,36 @@ module('Integration | Component | Menu', (hooks) => {
 
     await waitForAnimationFrame();
 
-    assert.dom('[role="menuitemradio"]').exists({ count: 2 });
+    assert.dom('[role="menuitemradio"]', this.container).exists({ count: 2 });
     assert
-      .dom('[role="menuitemradio"]:nth-child(1)')
+      .dom('[role="menuitemradio"]:nth-child(1)', this.container)
       .hasAttribute('aria-checked', 'true');
     assert
-      .dom('[role="menuitemradio"]:nth-child(2)')
+      .dom('[role="menuitemradio"]:nth-child(2)', this.container)
       .hasAttribute('aria-checked', 'false');
 
-    await click('[role="menuitemradio"]:nth-child(2)');
+    await click(
+      this.container.querySelector(
+        '[role="menuitemradio"]:nth-child(2)',
+      )!,
+    );
 
     assert.strictEqual(selected, 'Underline');
     assert
-      .dom('[role="menuitemradio"]:nth-child(1)')
+      .dom('[role="menuitemradio"]:nth-child(1)', this.container)
       .hasAttribute('aria-checked', 'false');
     assert
-      .dom('[role="menuitemradio"]:nth-child(2)')
+      .dom('[role="menuitemradio"]:nth-child(2)', this.container)
       .hasAttribute('aria-checked', 'true');
   });
 
-  test('a MenuItem with a submenu opens it on click and closes it on ArrowLeft', async function (assert) {
+  test('a MenuItem with a submenu opens it on click and closes it on ArrowLeft', async function (this: {
+    container: HTMLElement;
+  }, assert) {
+    const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{true}}>
+        <Menu @label='Test menu' @open={{true}} @target={{target}}>
           <MenuItem @label='Share with'>
             <MenuItem @label='Product team' />
           </MenuItem>
@@ -219,42 +282,62 @@ module('Integration | Component | Menu', (hooks) => {
     await waitForAnimationFrame();
 
     assert
-      .dom('[aria-haspopup="true"]')
+      .dom('[aria-haspopup="true"]', this.container)
       .hasAttribute('aria-expanded', 'false');
-    assert.dom('.cds--menu-item .cds--menu').doesNotHaveClass('cds--menu--open');
+    assert
+      .dom('.cds--menu-item .cds--menu', this.container)
+      .doesNotHaveClass('cds--menu--open');
 
-    await click('[aria-haspopup="true"]');
+    await click(this.container.querySelector('[aria-haspopup="true"]')!);
     await waitForAnimationFrame();
 
-    assert.dom('[aria-haspopup="true"]').hasAttribute('aria-expanded', 'true');
-    assert.dom('.cds--menu-item .cds--menu').hasClass('cds--menu--open');
-    assert.dom('[role="menuitem"]', document.body).exists({ count: 2 });
+    assert
+      .dom('[aria-haspopup="true"]', this.container)
+      .hasAttribute('aria-expanded', 'true');
+    assert
+      .dom('.cds--menu-item .cds--menu', this.container)
+      .hasClass('cds--menu--open');
+    assert.dom('[role="menuitem"]', this.container).exists({ count: 2 });
 
     await triggerKeyEvent(
-      '.cds--menu-item .cds--menu',
+      this.container.querySelector('.cds--menu-item .cds--menu')!,
       'keydown',
       'ArrowLeft',
     );
 
-    assert.dom('.cds--menu-item .cds--menu').doesNotHaveClass('cds--menu--open');
+    assert
+      .dom('.cds--menu-item .cds--menu', this.container)
+      .doesNotHaveClass('cds--menu--open');
   });
 
-  test('pressing Escape calls @onClose', async function (assert) {
+  test('pressing Escape calls @onClose', async function (this: {
+    container: HTMLElement;
+  }, assert) {
     let closed = false;
     const onClose = () => {
       closed = true;
     };
 
+    const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{true}} @onClose={{onClose}}>
+        <Menu
+          @label='Test menu'
+          @open={{true}}
+          @target={{target}}
+          @onClose={{onClose}}
+        >
           <MenuItem @label='Cut' />
         </Menu>
       </template>,
     );
 
     await waitForAnimationFrame();
-    await triggerKeyEvent('[role="menu"]', 'keydown', 'Escape');
+    await triggerKeyEvent(
+      this.container.querySelector('[role="menu"]')!,
+      'keydown',
+      'Escape',
+    );
 
     assert.true(closed);
   });

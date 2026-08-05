@@ -164,15 +164,22 @@ export default class Menu extends Component<MenuSignature> {
   // isn't enough — a MutationObserver re-scans whenever the icon actually
   // lands in the DOM.
   scanFeatures = modifier((element: HTMLUListElement) => {
+    // Assigning a @tracked property always invalidates it, even when the
+    // new value equals the old one, which would cause `classes` to be
+    // rewritten to the DOM on every scan. Since the MutationObserver below
+    // also watches this element's own attributes, an unconditional
+    // `class` rewrite would re-trigger the observer and loop forever. Only
+    // assign when the computed value actually changes to break the cycle.
     const scan = () => {
-      this.hasIcons = !!element.querySelector(
+      const hasIcons = !!element.querySelector(
         [
           ':scope > .cds--menu-item > .cds--menu-item__icon > svg',
           ':scope > .cds--menu-item-group > ul > .cds--menu-item > .cds--menu-item__icon > svg',
           ':scope > .cds--menu-item-radio-group > ul > .cds--menu-item > .cds--menu-item__icon > svg',
         ].join(', '),
       );
-      this.hasSelectableItems = !!element.querySelector(
+      if (hasIcons !== this.hasIcons) this.hasIcons = hasIcons;
+      const hasSelectableItems = !!element.querySelector(
         [
           ':scope > [role="menuitemcheckbox"]',
           ':scope > [role="menuitemradio"]',
@@ -180,15 +187,26 @@ export default class Menu extends Component<MenuSignature> {
           ':scope > .cds--menu-item-radio-group > ul > [role="menuitemradio"]',
         ].join(', '),
       );
+      if (hasSelectableItems !== this.hasSelectableItems) {
+        this.hasSelectableItems = hasSelectableItems;
+      }
     };
-    scan();
+    // The modifier installs synchronously during the same render
+    // computation that already read `hasIcons`/`hasSelectableItems` (via
+    // `classes`, used for this element's `class` attribute), so scanning
+    // here directly would trip Ember's backtracking-rerender assertion.
+    // Defer the initial scan to the next frame, same as `positionMenu`.
+    const raf = requestAnimationFrame(scan);
     const observer = new MutationObserver(scan);
     observer.observe(element, {
       childList: true,
       subtree: true,
       attributes: true,
     });
-    return () => observer.disconnect();
+    return () => {
+      cancelAnimationFrame(raf);
+      observer.disconnect();
+    };
   });
 
   positionMenu = modifier((element: HTMLUListElement) => {
