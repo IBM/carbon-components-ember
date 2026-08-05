@@ -3,6 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { on } from '@ember/modifier';
+import type { ComponentLike } from '@glint/template';
 import { WarningFilled, WarningAltFilled } from '../icons.ts';
 
 export interface Signature {
@@ -26,7 +27,20 @@ export interface Signature {
     maxCount?: number;
     counterMode?: 'character' | 'word';
     light?: boolean;
+    /**
+     * **Experimental**: Provide a decorator component (e.g. AILabel) to be
+     * rendered inside the TextArea.
+     */
+    decorator?: ComponentLike;
+    /**
+     * @deprecated please use `decorator` instead.
+     * **Experimental**: Provide a Slug/AILabel component to be rendered
+     * inside the TextArea.
+     */
+    slug?: ComponentLike;
     onChange?: (value: string, event: Event) => void;
+    onClick?: (event: MouseEvent) => void;
+    onKeyDown?: (event: KeyboardEvent) => void;
   };
   Element: HTMLDivElement;
 }
@@ -78,11 +92,27 @@ export default class TextArea extends Component<Signature> {
     return this.showCounter && this.count > (this.args.maxCount as number);
   }
 
+  get maxLength() {
+    return this.showCounter && this.args.counterMode !== 'word'
+      ? this.args.maxCount
+      : undefined;
+  }
+
   @action
   updateValue(event: Event) {
     const value = (event.target as HTMLTextAreaElement).value;
     this.internalValue = value;
     this.args.onChange?.(value, event);
+  }
+
+  @action
+  handleClick(event: MouseEvent) {
+    this.args.onClick?.(event);
+  }
+
+  @action
+  handleKeyDown(event: KeyboardEvent) {
+    this.args.onKeyDown?.(event);
   }
 
   <template>
@@ -98,7 +128,7 @@ export default class TextArea extends Component<Signature> {
         {{/if}}
         {{#if this.showCounter}}
           <label
-            class='cds--label cds--text-area__counter'
+            class='cds--label cds--text-area__label-counter'
             aria-live='polite'
             aria-atomic='true'
           >{{this.count}}/{{@maxCount}}</label>
@@ -108,8 +138,9 @@ export default class TextArea extends Component<Signature> {
         class='cds--text-area__wrapper
           {{if @cols "cds--text-area__wrapper--cols"}}
           {{if @readOnly "cds--text-area__wrapper--readonly"}}
-          {{if this.isInvalid "cds--text-area__wrapper--invalid"}}
-          {{if this.isWarn "cds--text-area__wrapper--warn"}}'
+          {{if this.isWarn "cds--text-area__wrapper--warn"}}
+          {{if @slug "cds--text-area__wrapper--slug"}}
+          {{if @decorator "cds--text-area__wrapper--decorator"}}'
         data-invalid={{if this.isInvalid 'true'}}
       >
         {{#if this.isInvalid}}
@@ -131,10 +162,20 @@ export default class TextArea extends Component<Signature> {
           placeholder={{@placeholder}}
           disabled={{@disabled}}
           readonly={{@readOnly}}
+          maxlength={{this.maxLength}}
           aria-invalid={{if this.isInvalid 'true'}}
           data-invalid={{if this.isInvalid 'true'}}
           {{on 'input' this.updateValue}}
+          {{on 'click' this.handleClick}}
+          {{on 'keydown' this.handleKeyDown}}
         >{{this.value}}</textarea>
+        {{#if @slug}}
+          <@slug />
+        {{else if @decorator}}
+          <div class='cds--text-area__inner-wrapper--decorator'>
+            <@decorator />
+          </div>
+        {{/if}}
         <span
           class='cds--text-area__counter-alert'
           role='alert'
