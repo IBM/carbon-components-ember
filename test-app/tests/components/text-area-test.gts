@@ -4,10 +4,14 @@ import {
   render,
   fillIn,
   waitFor,
+  waitUntil,
+  find,
   click,
   triggerKeyEvent,
 } from '@ember/test-helpers';
 import TextArea from 'carbon-components-ember/components/text-area';
+import TextAreaSkeleton from 'carbon-components-ember/components/text-area-skeleton';
+import { Add } from 'carbon-components-ember/icons';
 
 module('Integration | Component | TextArea', (hooks) => {
   setupRenderingTest(hooks);
@@ -188,5 +192,40 @@ module('Integration | Component | TextArea', (hooks) => {
     await triggerKeyEvent('textarea.cds--text-area', 'keydown', 'A');
 
     assert.strictEqual(received, 'A');
+  });
+
+  test('should render a decorator component and apply the decorator wrapper classes', async function (assert) {
+    await render(<template><TextArea @decorator={{Add}} /></template>);
+    await waitUntil(() => find('.cds--text-area__inner-wrapper--decorator svg'));
+
+    assert.dom('.cds--text-area__wrapper').hasClass('cds--text-area__wrapper--decorator');
+    assert.dom('.cds--text-area__inner-wrapper--decorator svg').exists();
+  });
+
+  test('should render a slug component without the inner-wrapper and apply the slug wrapper class', async function (assert) {
+    await render(<template><TextArea @slug={{Add}} /></template>);
+    await waitUntil(() => find('.cds--text-area__wrapper svg'));
+
+    assert.dom('.cds--text-area__wrapper').hasClass('cds--text-area__wrapper--slug');
+    assert.dom('.cds--text-area__inner-wrapper--decorator').doesNotExist();
+  });
+});
+
+module('Integration | Component | TextAreaSkeleton', (hooks) => {
+  setupRenderingTest(hooks);
+
+  test('should render a skeleton text area with a label', async function (assert) {
+    await render(<template><TextAreaSkeleton /></template>);
+
+    assert.dom('.cds--form-item').exists();
+    assert.dom('.cds--label.cds--skeleton').exists();
+    assert.dom('.cds--skeleton.cds--text-area').exists();
+  });
+
+  test('@hideLabel hides the label', async function (assert) {
+    await render(<template><TextAreaSkeleton @hideLabel={{true}} /></template>);
+
+    assert.dom('.cds--label').doesNotExist();
+    assert.dom('.cds--skeleton.cds--text-area').exists();
   });
 });

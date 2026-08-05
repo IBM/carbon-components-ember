@@ -39,6 +39,37 @@ const update = (value) => {
 </template>
 ```
 
+## Decorator
+
+**Experimental**: Provide a `@decorator` (or the deprecated `@slug`) component
+to render inside the TextArea, such as an AILabel once it's available (see
+[#406](https://github.com/IBM/carbon-components-ember/issues/406)). Any
+component can be used in the meantime; this example uses an icon as a
+stand-in.
+
+```gjs live preview
+import { TextArea } from 'carbon-components-ember/components';
+import { Add } from 'carbon-components-ember/icons';
+import { ThemeSupport } from 'docs-support';
+
+<template>
+    <ThemeSupport />
+    <TextArea @labelText="With a decorator" @helperText="Optional helper text" @decorator={{Add}} />
+</template>
+```
+
+## Skeleton
+
+```gjs live preview
+import { TextAreaSkeleton } from 'carbon-components-ember/components';
+import { ThemeSupport } from 'docs-support';
+
+<template>
+    <ThemeSupport />
+    <TextAreaSkeleton />
+</template>
+```
+
 ## API Reference
 
 <details>
@@ -51,6 +82,22 @@ import { ComponentSignature } from 'kolay';
   <ComponentSignature
     @package="carbon-components-ember"
     @module='declarations/components/text-area'
+    @name='default'
+  />
+</template>
+```
+</details>
+
+<details>
+<summary><h3>TextAreaSkeleton</h3></summary>
+
+```gjs live no-shadow
+import { ComponentSignature } from 'kolay';
+
+<template>
+  <ComponentSignature
+    @package="carbon-components-ember"
+    @module='declarations/components/text-area-skeleton'
     @name='default'
   />
 </template>
