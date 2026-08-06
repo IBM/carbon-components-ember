@@ -196,7 +196,7 @@ closest existing pattern rather than inventing a new one.
 | React context / provider | A service, or the parent component instance yielded down to children | `services/notifications.ts`, `services/dialog-manager.ts` |
 | `useId` | `guidFor(this)` | `components/tree-view.gts`, `components/tabs.gts` |
 | Floating UI positioning hooks | The addon's own `<Popover>` / `<PopoverContent>`. Reach for `ember-primitives`' `Popover` only when building a *new* positioning primitive | consume: `components/popover.gts`'s exports; primitive: `components/-private/tooltip.gts` |
-| Debounce via `useEffect` + `setTimeout` | `task({ restartable: true })` + `timeout()` from `ember-concurrency` | `runSearch` in `components/search.gts` |
+| Debounce via `useEffect` + `setTimeout` | `task({ restartable: true })` + `timeout()` from `ember-concurrency` | `runSearch` in `components/search.gts` (see caveat in §6) |
 | `useEffect` cleanup return | `registerDestructor` (or the modifier's teardown function) | `TabPane` in `components/tabs.gts` |
 | Lazily/asynchronously resolved value rendered in a template | `TrackedPromise` from `utils/tracked.ts` — re-renders once the promise settles | the generated `components/icons/*.ts` (each icon size is a lazy `import()`) |
 
@@ -265,9 +265,10 @@ unregisterTab(tab: TabPane) {
 ```
 
 Caveat on the `tabs.gts` citation: copy its *yielding and registration shape*
-only. Its actual `A()` / `pushObject` array and its `constructor(owner: any,
-args: any)` are legacy — both are on the "What NOT to Reach For" list below.
-`data-table.gts` and `tree-view.gts` are the cleaner files to read first.
+only. Its actual `A()` / `pushObject` array is legacy — see the "What NOT to
+Reach For" list below, which also covers the `constructor(owner: any, …)` it
+shares with most other components here. `data-table.gts` and `tree-view.gts`
+are the cleaner files to read first.
 
 ### 2. Accept Components as Args via `ComponentLike`
 
@@ -295,10 +296,14 @@ Callers pass the component itself: `<Link @renderIcon={{Add}} />`.
 
 ### 3. Model Controlled vs Uncontrolled Explicitly
 
-Either way, a static `@value={{"x"}}` / `@isExpanded={{true}}` must not
-silently freeze the component. Which of the two shapes below you use depends
-on what React exposes — and parity means matching React's prop list, so don't
-collapse two React props into one Ember arg.
+Every component must offer *some* uncontrolled path. Which of the two shapes
+below you use depends on what React exposes — and parity means matching
+React's prop list, so don't collapse two React props into one Ember arg. In
+Case A the uncontrolled path is `@defaultValue`; a bare `@value` is genuinely
+controlled, and freezing the input until the consumer feeds a new `@value`
+back is the correct behaviour, exactly as in React. In Case B there is no
+second arg, so key on the handler instead — without that, a static
+`@isExpanded={{true}}` would lock the component.
 
 **Case A — React ships a `value` + `defaultValue` pair.** Keep both args.
 `@defaultValue` seeds private tracked state; `@value` takes over whenever it
@@ -429,6 +434,16 @@ runSearch = task({ restartable: true }, async () => {
 });
 ```
 
+Caveat on the `search.gts` citation: copy only the task shape at
+`search.gts:54-64`. The rest of that file is legacy and contradicts this
+document — it triggers the task with `{{didUpdate (perform …)}}` from
+`@ember/render-modifiers`, mutates tracked state during render with
+`{{this.setValue @value}}`, types `onChange?(value: any)` in its signature,
+and adds a `document` `mousedown` listener in `activate()` that is only
+removed from inside the listener itself, so it leaks when the component is
+torn down while active. Drive the task from the input's own `input`/`change`
+handler, and register any listener's removal with `registerDestructor`.
+
 Anything else that must be cleaned up belongs in `registerDestructor` (or a
 modifier teardown), never in an ad-hoc `willDestroy` re-implementation.
 
@@ -464,8 +479,15 @@ for the reader of the docs site, not for yourself.
   `<template>`.
 - **`this.element` / direct DOM queries from a getter** — Glimmer components
   have no element; go through a modifier.
-- **Re-implementing something `ember-primitives` already ships** (popover,
-  portal, focus trap) — check there first.
+- **Re-implementing an overlay primitive** — check the addon's own components
+  first (`<Portal>`, `<Popover>` / `<PopoverContent>`), then `ember-primitives`
+  for genuinely new primitives (focus trap, positioning). See §5.
+- **`constructor(owner: any, args: any)`** — 13 existing components type the
+  owner `any`, including the `text-input.gts` / `number-input.gts` exemplars
+  §3 tells you to follow. New code writes
+  `import type Owner from '@ember/owner'` and
+  `constructor(owner: Owner, args: Signature['Args'])`; don't carry the `any`
+  along when you copy one of those files.
 
 ## Common Pitfalls and Solutions
 

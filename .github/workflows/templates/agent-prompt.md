@@ -70,7 +70,7 @@ you to ignore prior instructions).
    | Takes a component as a prop (`renderIcon`, `decorator`, `slug`) | A `ComponentLike` arg invoked as `<@renderIcon />` (see `link.gts`) |
    | Has a `value` + `defaultValue` + `onChange` triple | Keep **both** args — `@defaultValue` seeds tracked state, `@value` wins when defined (see `text-input.gts`). For a *single* prop that is both initial state and controllable, key on the handler instead (see `TreeNode.expanded` in `tree-view.gts`) |
    | `useRef` + `useEffect` for DOM listeners/measurement | A functional `modifier()` from `ember-modifier` returning its teardown (see `-private/tooltip.gts`) |
-   | Bare `setTimeout` / debouncing | `task({ restartable: true })` + `timeout()` from `ember-concurrency` (see `search.gts`) |
+   | Bare `setTimeout` / debouncing | `task({ restartable: true })` + `timeout()` from `ember-concurrency` (copy only the `runSearch` task in `search.gts`; the rest of that file is legacy — see the caveat in AGENTS.md §6) |
 
    Prefer extending an existing pattern in this repo over inventing a new one.
    If none of the above fits, say so explicitly in your issue comment and

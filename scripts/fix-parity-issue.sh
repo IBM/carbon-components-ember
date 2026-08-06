@@ -359,6 +359,7 @@ If action is needed on a specific PR:
 - Check out that PR's branch
 - Address the issues
 - Update the PR
+- Any code you write while doing so follows this addon's house style — see AGENTS.md's 'Idiomatic Ember Patterns' section (React → Ember translation table, worked examples, and the 'What NOT to Reach For' list) — and stays scoped to that PR's diff rather than expanding into a repo-wide cleanup.
 
 If no action is needed:
 - Report that we should wait for existing PRs to be reviewed/merged
