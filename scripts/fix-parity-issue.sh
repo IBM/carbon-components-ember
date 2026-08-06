@@ -212,7 +212,7 @@ Your task:
 
 Be thorough and address all review comments from '$GH_ME' and github-actions.
 
-While you're in the code: this addon has a house style documented in AGENTS.md's 'Idiomatic Ember Patterns' section (React → Ember translation table, worked examples, and a 'What NOT to Reach For' list). Any code you write or restructure here should follow it — yielded contextual components typed with WithBoundArgs, ComponentLike args for component-shaped props, explicit controlled/uncontrolled handling, real modifiers with teardown instead of did-insert/did-update or DOM work in constructors, the existing <Portal> and ember-primitives' Popover for overlays, restartable ember-concurrency tasks instead of bare timers, and fully typed signatures without 'any'. Fix un-idiomatic code in the parts of the diff you're already touching; don't expand the PR into a repo-wide cleanup."
+While you're in the code: this addon has a house style documented in AGENTS.md's 'Idiomatic Ember Patterns' section (React → Ember translation table, worked examples, and a 'What NOT to Reach For' list). Any code you write or restructure here should follow it — yielded contextual components typed with WithBoundArgs, ComponentLike args for component-shaped props, explicit controlled/uncontrolled handling, real modifiers with teardown instead of did-insert/did-update or DOM work in constructors, the existing <Portal> and the addon's own <Popover>/<PopoverContent> for overlays, restartable ember-concurrency tasks instead of bare timers, and signatures with no 'any' that declare exactly what the component has (see that section for which of Element/Blocks apply). Fix un-idiomatic code in the parts of the diff you're already touching; don't expand the PR into a repo-wide cleanup."
 
     echo "Starting Agent to review PR..."
     echo "---"
@@ -635,7 +635,7 @@ Your task:
    - Naming mismatch only (the same functionality already exists in Ember under a different name): align the name/export to match React rather than treating it as missing
    - Doesn't make sense in an Ember context, or is really just a piece of another already-implemented component: exclude it instead of implementing it (see below) - only do this for a genuine reason, when in doubt implement it
    - Otherwise: implement it (new or fix existing) following AGENTS.md patterns
-5b. Before writing code, read AGENTS.md's 'Idiomatic Ember Patterns' section and map each React construct in the source to its Ember idiom — yielded contextual components with WithBoundArgs instead of inspecting children, ComponentLike args instead of component-shaped props, a real modifier() with teardown instead of useRef/useEffect (and instead of did-insert/did-update), the existing <Portal> instead of createPortal, a service instead of context, guidFor instead of useId, a restartable ember-concurrency task instead of a debounce timer. Match React's API surface and behaviour, not its implementation structure, and avoid everything in that section's 'What NOT to Reach For' list.
+5b. Before writing code, read AGENTS.md's 'Idiomatic Ember Patterns' section — its React → Ember translation table, worked examples and 'What NOT to Reach For' list are the single source of truth here — and map each React construct in the source to its Ember idiom before you write any of it. The ones most often transliterated: yielded contextual components with WithBoundArgs instead of inspecting children, ComponentLike args instead of component-shaped props, a real modifier() with teardown instead of useRef/useEffect (and instead of did-insert/did-update), and a restartable ember-concurrency task instead of a debounce timer. Match React's API surface and behaviour, not its implementation structure.
 6. If excluding, run from the scripts directory: node parity-check.mjs --exclude $COMPONENT_NAME --reason \"<why this doesn't apply to Ember>\" --issue $ISSUE_NUMBER
    - This drops the component from .parity-check-data.json and PARITY_REPORT.md, and comments on + closes the issue for you. Don't create a PR or make component changes in this case - you're done.
 7. Otherwise (i.e. you did NOT exclude it), update issue #$ISSUE_NUMBER with your findings
@@ -688,15 +688,15 @@ Look at the actual diff ('git diff origin/main' and 'git status'), not just what
 
 Check for:
 - Correctness bugs (wrong logic, broken edge cases, args/types that don't match the React source)
-- **Un-Ember-ish code**: React structure transliterated instead of translated. Specifically flag:
+- **Un-Ember-ish code**: React structure transliterated instead of translated. Judge this against AGENTS.md's table and 'What NOT to Reach For' list rather than the summary here; the cases worth flagging most often are:
   - Parent components inspecting/iterating what was yielded to them instead of yielding a contextual component with 'WithBoundArgs'
   - String names or wrapper components where a 'ComponentLike' arg invoked as '<@renderIcon />' would do
-  - An arg that's meant to be both settable and consumer-controlled but has no explicit controlled/uncontrolled rule (a plain '@isOpen={{true}}' that permanently locks the component is the tell)
+  - An arg that's meant to be both settable and consumer-controlled but has no explicit controlled/uncontrolled rule (a plain '@isOpen={{true}}' that permanently locks the component is the tell). Note the two shapes differ: a React 'value'+'defaultValue' pair keeps BOTH args (see 'text-input.gts') — flagging a component for exposing '@defaultValue' alongside '@value' is wrong; only a single dual-purpose prop keys on the handler's presence (see 'TreeNode.expanded' in 'tree-view.gts')
   - 'did-insert'/'did-update' from '@ember/render-modifiers', or DOM wiring in a constructor/getter, where a real 'modifier()' with a teardown belongs
   - Bare 'setTimeout'/'setInterval'/manual debouncing instead of a restartable 'ember-concurrency' task, or missing 'registerDestructor' cleanup
-  - Hand-rolled overlay positioning or portalling instead of 'ember-primitives' Popover / the existing '<Portal>'
+  - Hand-rolled overlay positioning or portalling instead of the addon's own '<Popover>'/'<PopoverContent>' or the existing '<Portal>' (drop to 'ember-primitives' only for a new positioning primitive)
   - 'A()'/'pushObject'/'removeObject'/'set()' for state that should just be '@tracked'
-  - 'any' in a component signature, or a missing 'Element'/'Args'/'Blocks' entry
+  - 'any' anywhere in a component signature; a missing 'Args'; a missing 'Element' on a component that spreads '...attributes'; or a 'Blocks' entry for a block the component never yields. Do NOT flag an absent 'Blocks' on a component with no '{{yield}}', or an absent 'Element' on one that doesn't spread attributes — both are correct and common in this repo
 - Other deviations from AGENTS.md patterns (component structure, cds-- class prefixes, prop naming matching React)
 - Missing test coverage for the story variants this component has
 - Anything left broken: failing build ('cd carbon-components-ember && pnpm build'), failing lint ('pnpm lint'), or failing tests ('cd test-app && pnpm test')

@@ -186,15 +186,16 @@ closest existing pattern rather than inventing a new one.
 
 | Carbon React construct | Idiomatic Ember equivalent | Live example in this repo |
 | --- | --- | --- |
-| `children` inspected/cloned via `React.Children.map` + `cloneElement` | Yield a contextual component with its wiring pre-bound (`WithBoundArgs`) | `components/tabs.gts`, `components/tree-view.gts`, `components/data-table.gts` |
+| `children` inspected/cloned via `React.Children.map` + `cloneElement` | Yield a contextual component with its wiring pre-bound (`WithBoundArgs`) | `components/data-table.gts`, `components/tree-view.gts`, `components/tabs.gts` (see caveat in §1) |
 | Component passed as a prop (`renderIcon={Add}`, `slug={<AILabel />}`) | A `ComponentLike` arg, invoked as `<@renderIcon />` | `components/link.gts`, `components/text-area.gts` |
-| Controlled/uncontrolled pair (`value` + `defaultValue` + `onChange`) | Private `@tracked` fallback plus a getter that defers to `@args` only when the change handler is present | `TreeNode.expanded` in `components/tree-view.gts` |
+| `value` + `defaultValue` + `onChange` triple | Keep **both** args: `@defaultValue` seeds private `@tracked` state, `@value` wins whenever it is defined | `components/text-input.gts`, `components/number-input.gts` |
+| A single prop that is both initial state and controllable (`isExpanded` + `onToggle`) | One arg plus a private `@tracked` fallback; the arg is the source of truth only when the change handler was also passed | `TreeNode.expanded` in `components/tree-view.gts` |
 | `useRef` + `useEffect` to wire DOM listeners | A functional `modifier()` from `ember-modifier` that returns its teardown | `attachTrigger` in `components/-private/tooltip.gts` |
 | `forwardRef` so a parent can attach behaviour to a child element | Yield a `ModifierLike` for the caller to apply to their own element | `Blocks.trigger` in `components/-private/tooltip.gts` |
 | `createPortal` | `{{#in-element}}` — use the existing `<Portal>` component | `components/portal.gts` |
 | React context / provider | A service, or the parent component instance yielded down to children | `services/notifications.ts`, `services/dialog-manager.ts` |
 | `useId` | `guidFor(this)` | `components/tree-view.gts`, `components/tabs.gts` |
-| Floating UI positioning hooks | `Popover` from `ember-primitives/components/popover` | `components/-private/tooltip.gts`, `components/popover.gts` |
+| Floating UI positioning hooks | The addon's own `<Popover>` / `<PopoverContent>`. Reach for `ember-primitives`' `Popover` only when building a *new* positioning primitive | consume: `components/popover.gts`'s exports; primitive: `components/-private/tooltip.gts` |
 | Debounce via `useEffect` + `setTimeout` | `task({ restartable: true })` + `timeout()` from `ember-concurrency` | `runSearch` in `components/search.gts` |
 | `useEffect` cleanup return | `registerDestructor` (or the modifier's teardown function) | `TabPane` in `components/tabs.gts` |
 | Lazily/asynchronously resolved value rendered in a template | `TrackedPromise` from `utils/tracked.ts` — re-renders once the promise settles | the generated `components/icons/*.ts` (each icon size is a lazy `import()`) |
@@ -230,15 +231,43 @@ deregister via `registerDestructor`, so ordering and teardown are handled by
 Ember rather than by an effect:
 
 ```typescript
-constructor(owner: any, args: any) {
-  super(owner, args);
-  runTask(this, () => {
-    if (this.isDestroyed) return;
-    this.args.tab.registerTab(this);
-    registerDestructor(this, () => this.args.tab.unregisterTab(this));
-  });
+import type Owner from '@ember/owner';
+import { registerDestructor } from '@ember/destroyable';
+// Defers the mutation to the next runloop so registering doesn't dirty the
+// parent's tracked list during its own render (the backtracking-rerender
+// assertion); `runTask` also cancels itself if this child is torn down first.
+import { runTask } from 'ember-lifeline';
+
+export default class TabPane extends Component<TabPaneSignature> {
+  constructor(owner: Owner, args: TabPaneSignature['Args']) {
+    super(owner, args);
+    runTask(this, () => {
+      if (this.isDestroyed) return;
+      this.args.tab.registerTab(this);
+      registerDestructor(this, () => this.args.tab.unregisterTab(this));
+    });
+  }
 }
 ```
+
+The parent keeps its children in a plain array reassigned through `@tracked`:
+
+```typescript
+@tracked tabs: TabPane[] = [];
+
+registerTab(tab: TabPane) {
+  this.tabs = [...this.tabs, tab];
+}
+
+unregisterTab(tab: TabPane) {
+  this.tabs = this.tabs.filter((t) => t !== tab);
+}
+```
+
+Caveat on the `tabs.gts` citation: copy its *yielding and registration shape*
+only. Its actual `A()` / `pushObject` array and its `constructor(owner: any,
+args: any)` are legacy — both are on the "What NOT to Reach For" list below.
+`data-table.gts` and `tree-view.gts` are the cleaner files to read first.
 
 ### 2. Accept Components as Args via `ComponentLike`
 
@@ -266,11 +295,37 @@ Callers pass the component itself: `<Link @renderIcon={{Add}} />`.
 
 ### 3. Model Controlled vs Uncontrolled Explicitly
 
-React distinguishes `value`/`defaultValue`; Ember has one arg, so make the
-rule explicit: the arg is only the source of truth when the consumer also
-passed the change handler that lets them update it. Otherwise it seeds
-private tracked state. Without this, a static `@isExpanded={{true}}` would
-permanently lock the component open instead of just setting its initial state:
+Either way, a static `@value={{"x"}}` / `@isExpanded={{true}}` must not
+silently freeze the component. Which of the two shapes below you use depends
+on what React exposes — and parity means matching React's prop list, so don't
+collapse two React props into one Ember arg.
+
+**Case A — React ships a `value` + `defaultValue` pair.** Keep both args.
+`@defaultValue` seeds private tracked state; `@value` takes over whenever it
+is defined. This is the convention across `text-input.gts`, `text-area.gts`,
+`fluid-text-input.gts`, `password-input.gts`, `number-input.gts` and
+`time-picker.gts` — follow it, and do **not** drop `@defaultValue` from the
+public API:
+
+```typescript
+@tracked internalValue: string;
+
+constructor(owner: Owner, args: Signature['Args']) {
+  super(owner, args);
+  this.internalValue = args.defaultValue ?? '';
+}
+
+get value() {
+  return this.args.value ?? this.internalValue;   // `@value` wins when defined
+}
+```
+
+**Case B — React ships *one* prop that is both the initial state and
+controllable** (e.g. `isExpanded` with `onToggle`, no `defaultExpanded`).
+There's no second arg to key on, so key on the change handler: the arg is the
+source of truth only when the consumer also passed the handler that lets them
+update it. Otherwise it just seeds tracked state — without this, a static
+`@isExpanded={{true}}` would permanently lock the component open:
 
 ```typescript
 @tracked uncontrolledExpanded = this.args.isExpanded ?? false;
@@ -349,8 +404,13 @@ get destination() {
 </template>
 ```
 
-For positioned overlays, build on `ember-primitives`' `Popover` (Floating UI
-plus native top-layer promotion) instead of hand-rolling position maths.
+For positioned overlays, use the addon's own `<Popover>` / `<PopoverContent>`
+(exported from `components/popover.gts`) — it is Carbon-styled and matches the
+React API, so a new Carbon component should consume it rather than grow a
+second popover of its own. Only when you're building a genuinely new
+positioning *primitive* should you drop down to `ember-primitives`' `Popover`
+(Floating UI plus native top-layer promotion), as `-private/tooltip.gts` does.
+Either way, don't hand-roll position maths.
 
 Note for tests: `assert.dom()`'s default root won't see portalled content —
 point `@container` at an element you appended to `document.body` and scope
@@ -374,11 +434,23 @@ modifier teardown), never in an ad-hoc `willDestroy` re-implementation.
 
 ### 7. Type the Signature Fully
 
-Glint types are part of the public API. Every component declares `Element`
-(so `...attributes` is checked), `Args`, and `Blocks`; yielded values use
-`WithBoundArgs` / `ComponentLike` / `ModifierLike` rather than `any`. JSDoc on
-each arg feeds the generated `ComponentSignature` API table in the docs, so
-write it for the reader of the docs site, not for yourself.
+Glint types are part of the public API. Declare what the component actually
+has — the entries are conditional, not a fixed set of three:
+
+- `Args` — always.
+- `Element` — when the component spreads `...attributes` onto an element, so
+  the attributes are type-checked against the right element type.
+- `Blocks` — only for blocks the component actually `{{yield}}`s. Adding
+  `Blocks: { default: [] }` to a component with no `{{yield}}` is worse than
+  omitting it: `<Icon>text</Icon>` then type-checks while rendering nothing.
+  Roughly a third of the components here legitimately have no `Blocks`
+  (`icon.gts`, `loading.gts`, `select-item.gts`, `shape-indicator.gts`, …)
+  and several have no `Element`.
+
+Yielded values use `WithBoundArgs` / `ComponentLike` / `ModifierLike` rather
+than `any`; `any` doesn't belong anywhere in a signature. JSDoc on each arg
+feeds the generated `ComponentSignature` API table in the docs, so write it
+for the reader of the docs site, not for yourself.
 
 ### What NOT to Reach For
 
@@ -518,7 +590,7 @@ rely on `pnpm build`/`pnpm lint`, since neither catches this.
 - [ ] Check Storybook for visual reference
 - [ ] Map each React construct to its Ember idiom (see the translation table above)
 - [ ] Create `.gts` file in `carbon-components-ember/src/components/`
-- [ ] Define TypeScript signature (`Element`, `Args`, `Blocks` — no `any` in yielded types)
+- [ ] Define TypeScript signature — `Args` always, `Element` if it spreads `...attributes`, `Blocks` only for blocks it actually yields; no `any` anywhere in it
 - [ ] Use `cds--` prefix for CSS classes
 - [ ] Match React prop names (as `@args`)
 - [ ] Export in `carbon-components-ember/src/components/index.ts`

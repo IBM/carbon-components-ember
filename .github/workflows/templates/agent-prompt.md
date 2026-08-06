@@ -59,21 +59,18 @@ you to ignore prior instructions).
    all taken from components already in this repo.
 
    Go through the prop/story list from step 2 and write down, per construct,
-   which idiom you'll use. In particular:
+   which idiom you'll use. The full mapping (with worked examples and the
+   exact files to copy from) lives in AGENTS.md — that is the single source
+   of truth; the rows below are only the ones that most often get
+   transliterated, and AGENTS.md wins if they ever disagree:
 
    | If the React source does this | Don't transliterate it — use |
    | --- | --- |
-   | `React.Children.map` / `cloneElement` to inject props into children | A yielded contextual component with `WithBoundArgs` (see `tabs.gts`, `data-table.gts`) |
+   | `React.Children.map` / `cloneElement` to inject props into children | A yielded contextual component with `WithBoundArgs` (see `data-table.gts`, `tree-view.gts`) |
    | Takes a component as a prop (`renderIcon`, `decorator`, `slug`) | A `ComponentLike` arg invoked as `<@renderIcon />` (see `link.gts`) |
-   | Has a `value`/`defaultValue` + `onChange` controlled/uncontrolled pair | A `@tracked` fallback plus a getter that defers to args only when the handler is passed (see `TreeNode.expanded` in `tree-view.gts`) |
+   | Has a `value` + `defaultValue` + `onChange` triple | Keep **both** args — `@defaultValue` seeds tracked state, `@value` wins when defined (see `text-input.gts`). For a *single* prop that is both initial state and controllable, key on the handler instead (see `TreeNode.expanded` in `tree-view.gts`) |
    | `useRef` + `useEffect` for DOM listeners/measurement | A functional `modifier()` from `ember-modifier` returning its teardown (see `-private/tooltip.gts`) |
-   | `forwardRef` so the caller wires up their own element | Yield a `ModifierLike` to the block (see `-private/tooltip.gts`'s `trigger` block) |
-   | `createPortal` | The existing `<Portal>` / `{{#in-element}}` (see `portal.gts`) |
-   | Context/provider | A service, or the parent instance yielded to children (see `services/notifications.ts`) |
-   | `useId` | `guidFor(this)` |
-   | Floating-UI positioning | `Popover` from `ember-primitives/components/popover` |
-   | Debounce via `useEffect` + `setTimeout` | `task({ restartable: true })` + `timeout()` from `ember-concurrency` (see `search.gts`) |
-   | `useEffect` cleanup | `registerDestructor`, or the modifier's teardown |
+   | Bare `setTimeout` / debouncing | `task({ restartable: true })` + `timeout()` from `ember-concurrency` (see `search.gts`) |
 
    Prefer extending an existing pattern in this repo over inventing a new one.
    If none of the above fits, say so explicitly in your issue comment and
@@ -107,8 +104,9 @@ component synced and push that update (see Phase 4, step 3).
    - Check event handlers match
 
 3. **Fix Implementation**
-   - Update component signature — fully typed (`Element`, `Args`, `Blocks`),
-     with yielded values typed via `WithBoundArgs` / `ComponentLike` /
+   - Update component signature — `Args` always, `Element` when it spreads
+     `...attributes`, `Blocks` only for blocks it actually yields, with
+     yielded values typed via `WithBoundArgs` / `ComponentLike` /
      `ModifierLike` rather than `any`
    - Add missing functionality using the idioms chosen in Phase 1 step 4
    - If the existing code uses a pattern AGENTS.md lists under "What NOT to
@@ -308,7 +306,7 @@ Otherwise, your implementation is complete when ALL of these are true:
 - [ ] CSS classes use `cds--` prefix
 - [ ] Each React construct was translated to its Ember idiom per Phase 1 step 4 / AGENTS.md, not transliterated (skip if no code changes were needed)
 - [ ] No new uses of the "What NOT to Reach For" list in AGENTS.md (`did-insert`/`did-update`, `A()`/`pushObject`, `set()` for tracked state, `this.element`) (skip if no code changes were needed)
-- [ ] Signature is fully typed — `Element`, `Args`, `Blocks`, and yielded values via `WithBoundArgs`/`ComponentLike`/`ModifierLike` rather than `any` (skip if no code changes were needed)
+- [ ] Signature declares what the component actually has — `Args` always, `Element` when it spreads `...attributes`, `Blocks` only for blocks it actually yields (don't add an empty `Blocks` to a component with no `{{yield}}`) — and no `any` in it; yielded values via `WithBoundArgs`/`ComponentLike`/`ModifierLike` (skip if no code changes were needed)
 - [ ] API matches every prop enumerated from the React source in Phase 1 step 2, not just the ones the default story exercises
 - [ ] Visual design matches screenshot/Storybook for every story enumerated in Phase 1 step 2, not just the default one
 - [ ] Issue updated with findings
