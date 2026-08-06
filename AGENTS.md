@@ -225,8 +225,13 @@ export interface TabsComponentSignature {
 ```
 
 `DataTable` yields a whole namespace this way (`Toolbar`, `SearchInput`,
-`Pagination`, `Table`, `EachBodyRows`, `Header`), each with the table instance
-bound — that is all it demonstrates; it has no child→parent registration.
+`Pagination`, `Table`, `EachBodyRows`, `Header`, plus `Column` and `Menu`),
+each with the wiring that child actually needs already bound — the table
+instance for `Toolbar`/`Header`/`EachBodyRows`, loading and paging state for
+`SearchInput`/`Pagination`/`Table`, and nothing at all for `Column`/`Menu`,
+which are yielded as a plain `typeof`. Bind what the child needs, not the
+parent wholesale. That is all it demonstrates; it has no child→parent
+registration.
 
 `Tabs` goes one step further: because the parent needs to know which children
 exist and in what order, its children register themselves with the parent on
@@ -458,7 +463,9 @@ modifier teardown), never in an ad-hoc `willDestroy` re-implementation.
 Glint types are part of the public API. Declare what the component actually
 has — the entries are conditional, not a fixed set of three:
 
-- `Args` — always.
+- `Args` — whenever the component takes any args (most do). Omit it entirely
+  for argless wrappers (`form-item.gts`, `toggletip/label.gts`,
+  `ui-shell/-sidenav/-divider.gts`, …) rather than declaring `Args: {}`.
 - `Element` — when the component spreads `...attributes` onto an element, so
   the attributes are type-checked against the right element type.
 - `Blocks` — only for blocks the component actually `{{yield}}`s. Adding
@@ -618,7 +625,7 @@ rely on `pnpm build`/`pnpm lint`, since neither catches this.
 - [ ] Check Storybook for visual reference
 - [ ] Map each React construct to its Ember idiom (see the translation table above)
 - [ ] Create `.gts` file in `carbon-components-ember/src/components/`
-- [ ] Define TypeScript signature — `Args` always, `Element` if it spreads `...attributes`, `Blocks` only for blocks it actually yields; no `any` anywhere in it
+- [ ] Define TypeScript signature — `Args` if it takes args, `Element` if it spreads `...attributes`, `Blocks` only for blocks it actually yields; no `any` anywhere in it
 - [ ] Use `cds--` prefix for CSS classes
 - [ ] Match React prop names (as `@args`)
 - [ ] Export in `carbon-components-ember/src/components/index.ts`

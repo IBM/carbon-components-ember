@@ -212,7 +212,7 @@ Your task:
 
 Be thorough and address all review comments from '$GH_ME' and github-actions.
 
-While you're in the code: this addon has a house style documented in AGENTS.md's 'Idiomatic Ember Patterns' section (React → Ember translation table, worked examples, and a 'What NOT to Reach For' list). Any code you write or restructure here should follow it — yielded contextual components typed with WithBoundArgs, ComponentLike args for component-shaped props, explicit controlled/uncontrolled handling, real modifiers with teardown instead of did-insert/did-update or DOM work in constructors, the existing <Portal> and the addon's own <Popover>/<PopoverContent> for overlays, restartable ember-concurrency tasks instead of bare timers, and signatures with no 'any' that declare exactly what the component has (see that section for which of Element/Blocks apply). Fix un-idiomatic code in the parts of the diff you're already touching; don't expand the PR into a repo-wide cleanup."
+While you're in the code: this addon has a house style documented in AGENTS.md's 'Idiomatic Ember Patterns' section (React → Ember translation table, worked examples, and a 'What NOT to Reach For' list). Any code you write or restructure here should follow it — yielded contextual components typed with WithBoundArgs, ComponentLike args for component-shaped props, explicit controlled/uncontrolled handling, real modifiers with teardown instead of did-insert/did-update or DOM work in constructors, the existing <Portal> and the addon's own <Popover>/<PopoverContent> for overlays, restartable ember-concurrency tasks instead of bare timers, and signatures with no 'any' that declare exactly what the component has (see that section for which of Args/Element/Blocks apply). Fix un-idiomatic code in the parts of the diff you're already touching; don't expand the PR into a repo-wide cleanup."
 
     echo "Starting Agent to review PR..."
     echo "---"
@@ -697,7 +697,7 @@ Check for:
   - Bare 'setTimeout'/'setInterval'/manual debouncing instead of a restartable 'ember-concurrency' task, or missing 'registerDestructor' cleanup
   - Hand-rolled overlay positioning or portalling instead of the addon's own '<Popover>'/'<PopoverContent>' or the existing '<Portal>' (drop to 'ember-primitives' only for a new positioning primitive)
   - 'A()'/'pushObject'/'removeObject'/'set()' for state that should just be '@tracked'
-  - 'any' anywhere in a component signature; a missing 'Args'; a missing 'Element' on a component that spreads '...attributes'; or a 'Blocks' entry for a block the component never yields. Do NOT flag an absent 'Blocks' on a component with no '{{yield}}', or an absent 'Element' on one that doesn't spread attributes — both are correct and common in this repo
+  - 'any' anywhere in a component signature; a missing 'Args' on a component that does take args; a missing 'Element' on a component that spreads '...attributes'; or a 'Blocks' entry for a block the component never yields. Do NOT flag an absent 'Args' on an argless wrapper, an absent 'Blocks' on a component with no '{{yield}}', or an absent 'Element' on one that doesn't spread attributes — all three are correct and common in this repo
 - Other deviations from AGENTS.md patterns (component structure, cds-- class prefixes, prop naming matching React)
 - Missing test coverage for the story variants this component has
 - Anything left broken: failing build ('cd carbon-components-ember && pnpm build'), failing lint ('pnpm lint'), or failing tests ('cd test-app && pnpm test')

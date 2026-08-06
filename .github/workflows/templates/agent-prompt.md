@@ -104,8 +104,10 @@ component synced and push that update (see Phase 4, step 3).
    - Check event handlers match
 
 3. **Fix Implementation**
-   - Update component signature — `Args` always, `Element` when it spreads
-     `...attributes`, `Blocks` only for blocks it actually yields, with
+   - Update component signature — `Args` when the component takes args (omit
+     it, rather than declaring `Args: {}`, for argless wrappers), `Element`
+     when it spreads `...attributes`, `Blocks` only for blocks it actually
+     yields, with
      yielded values typed via `WithBoundArgs` / `ComponentLike` /
      `ModifierLike` rather than `any`
    - Add missing functionality using the idioms chosen in Phase 1 step 4
@@ -306,7 +308,7 @@ Otherwise, your implementation is complete when ALL of these are true:
 - [ ] CSS classes use `cds--` prefix
 - [ ] Each React construct was translated to its Ember idiom per Phase 1 step 4 / AGENTS.md, not transliterated (skip if no code changes were needed)
 - [ ] No new uses of the "What NOT to Reach For" list in AGENTS.md (`did-insert`/`did-update`, `A()`/`pushObject`, `set()` for tracked state, `this.element`) (skip if no code changes were needed)
-- [ ] Signature declares what the component actually has — `Args` always, `Element` when it spreads `...attributes`, `Blocks` only for blocks it actually yields (don't add an empty `Blocks` to a component with no `{{yield}}`) — and no `any` in it; yielded values via `WithBoundArgs`/`ComponentLike`/`ModifierLike` (skip if no code changes were needed)
+- [ ] Signature declares what the component actually has — `Args` when it takes args, `Element` when it spreads `...attributes`, `Blocks` only for blocks it actually yields (don't add an empty `Args` to an argless wrapper or an empty `Blocks` to a component with no `{{yield}}`) — and no `any` in it; yielded values via `WithBoundArgs`/`ComponentLike`/`ModifierLike` (skip if no code changes were needed)
 - [ ] API matches every prop enumerated from the React source in Phase 1 step 2, not just the ones the default story exercises
 - [ ] Visual design matches screenshot/Storybook for every story enumerated in Phase 1 step 2, not just the default one
 - [ ] Issue updated with findings
