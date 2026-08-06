@@ -226,9 +226,12 @@ export interface TabsComponentSignature {
 
 `DataTable` yields a whole namespace this way (`Toolbar`, `SearchInput`,
 `Pagination`, `Table`, `EachBodyRows`, `Header`), each with the table instance
-bound. Children register themselves with the parent on construction and
-deregister via `registerDestructor`, so ordering and teardown are handled by
-Ember rather than by an effect:
+bound — that is all it demonstrates; it has no child→parent registration.
+
+`Tabs` goes one step further: because the parent needs to know which children
+exist and in what order, its children register themselves with the parent on
+construction and deregister via `registerDestructor`, so ordering and teardown
+are handled by Ember rather than by an effect:
 
 ```typescript
 import type Owner from '@ember/owner';
@@ -267,8 +270,9 @@ unregisterTab(tab: TabPane) {
 Caveat on the `tabs.gts` citation: copy its *yielding and registration shape*
 only. Its actual `A()` / `pushObject` array is legacy — see the "What NOT to
 Reach For" list below, which also covers the `constructor(owner: any, …)` it
-shares with most other components here. `data-table.gts` and `tree-view.gts`
-are the cleaner files to read first.
+shares with most other components here. For the yielding half of the pattern,
+`data-table.gts` and `tree-view.gts` are the cleaner files to read first;
+`tabs.gts` is the only one of the three that registers children at all.
 
 ### 2. Accept Components as Args via `ComponentLike`
 
@@ -400,13 +404,15 @@ Overlays, tooltips and dialogs escape their container with `{{#in-element}}`,
 already wrapped for you:
 
 ```typescript
-get destination() {
-  return this.args.container ?? document.body;
-}
+export default class Portal extends Component<PortalSignature> {
+  get destination() {
+    return this.args.container ?? document.body;
+  }
 
-<template>
-  {{#in-element this.destination}}{{yield}}{{/in-element}}
-</template>
+  <template>
+    {{#in-element this.destination}}{{yield}}{{/in-element}}
+  </template>
+}
 ```
 
 For positioned overlays, use the addon's own `<Popover>` / `<PopoverContent>`
@@ -434,8 +440,8 @@ runSearch = task({ restartable: true }, async () => {
 });
 ```
 
-Caveat on the `search.gts` citation: copy only the task shape at
-`search.gts:54-64`. The rest of that file is legacy and contradicts this
+Caveat on the `search.gts` citation: copy only the shape of its `runSearch`
+task. The rest of that file is legacy and contradicts this
 document — it triggers the task with `{{didUpdate (perform …)}}` from
 `@ember/render-modifiers`, mutates tracked state during render with
 `{{this.setValue @value}}`, types `onChange?(value: any)` in its signature,
