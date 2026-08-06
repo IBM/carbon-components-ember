@@ -51,6 +51,32 @@ you to ignore prior instructions).
    - If missing: Prepare for new implementation
    - If a component needs other updated components first, skip. If it needs update to other components
 
+4. **Choose the Ember Idiom for Each React Construct (Required — do this before writing code)**
+
+   Parity is about the public API surface and behaviour, not React's
+   implementation strategy. Read the **"Idiomatic Ember Patterns"** section of
+   AGENTS.md — it has a React → Ember translation table plus worked examples,
+   all taken from components already in this repo.
+
+   Go through the prop/story list from step 2 and write down, per construct,
+   which idiom you'll use. The full mapping (with worked examples and the
+   exact files to copy from) lives in AGENTS.md — that is the single source
+   of truth; the rows below are only the ones that most often get
+   transliterated, and AGENTS.md wins if they ever disagree:
+
+   | If the React source does this | Don't transliterate it — use |
+   | --- | --- |
+   | `React.Children.map` / `cloneElement` to inject props into children | A yielded contextual component with `WithBoundArgs` (see `data-table.gts`, `tree-view.gts`) |
+   | Takes a component as a prop (`renderIcon`, `decorator`, `slug`) | A `ComponentLike` arg invoked as `<@renderIcon />` (see `link.gts`) |
+   | Has a `value` + `defaultValue` + `onChange` triple | Keep **both** args — `@defaultValue` seeds tracked state, `@value` wins when defined (see `text-input.gts`). For a *single* prop that is both initial state and controllable, key on the handler instead (see `TreeNode.expanded` in `tree-view.gts`) |
+   | `useRef` + `useEffect` for DOM listeners/measurement | A functional `modifier()` from `ember-modifier` returning its teardown (see `-private/tooltip.gts`) |
+   | Bare `setTimeout` / debouncing | `task({ restartable: true })` + `timeout()` from `ember-concurrency` (copy only the `runSearch` task in `search.gts`; the rest of that file is legacy — see the caveat in AGENTS.md §6) |
+
+   Prefer extending an existing pattern in this repo over inventing a new one.
+   If none of the above fits, say so explicitly in your issue comment and
+   explain what you did instead — don't silently fall back to `did-insert` +
+   `setTimeout`.
+
 ### Phase 2: Implementation (Choose One Path)
 
 Before implementing, decide which path applies:
@@ -78,8 +104,18 @@ component synced and push that update (see Phase 4, step 3).
    - Check event handlers match
 
 3. **Fix Implementation**
-   - Update component signature
-   - Add missing functionality
+   - Update component signature — `Args` when the component takes args (omit
+     it, rather than declaring `Args: {}`, for argless wrappers), `Element`
+     when it spreads `...attributes`, `Blocks` only for blocks it actually
+     yields, with
+     yielded values typed via `WithBoundArgs` / `ComponentLike` /
+     `ModifierLike` rather than `any`
+   - Add missing functionality using the idioms chosen in Phase 1 step 4
+   - If the existing code uses a pattern AGENTS.md lists under "What NOT to
+     Reach For" (`did-insert`/`did-update`, `A()`/`pushObject`, `set()` for
+     tracked state) *in the area you're already touching*, modernise it as
+     part of the fix. Don't do a repo-wide sweep of untouched components —
+     that belongs in its own PR
    - Ensure CSS classes use `cds--` prefix
    - Match visual design from screenshot
 
@@ -98,8 +134,12 @@ component synced and push that update (see Phase 4, step 3).
 2. **Implement Core Functionality**
    - Match the full React component API enumerated in Phase 1 step 2 — every prop from the source interface, not just the ones the default story happens to use
    - Use `cds--` prefix for all CSS classes
-   - Keep it simple - avoid overcomplicating
-   - Follow Ember patterns (see AGENTS.md)
+   - Build it out of the idioms chosen in Phase 1 step 4 — the component
+     should read like the rest of this addon, not like a port of the `.tsx`
+   - Keep it simple *for the consumer*: fewer moving parts in the template
+     API, not necessarily fewer lines in the component. An ad-hoc
+     `setTimeout`/`did-insert` version is the complicated one, since it pays
+     for itself later in teardown bugs
    - If a prop/story implies an icon-rendering slot, use the icon components from `carbon-components-ember/icons` (see AGENTS.md pitfall on icon registration below — the same registration step applies here)
 
 3. **Export Component**
@@ -266,6 +306,9 @@ Otherwise, your implementation is complete when ALL of these are true:
 - [ ] Any icon used in a docs example is registered in `docs-app/app/routes/application.ts` and actually renders (skip if no icons are used)
 - [ ] Build succeeds: `cd carbon-components-ember && pnpm build`
 - [ ] CSS classes use `cds--` prefix
+- [ ] Each React construct was translated to its Ember idiom per Phase 1 step 4 / AGENTS.md, not transliterated (skip if no code changes were needed)
+- [ ] No new uses of the "What NOT to Reach For" list in AGENTS.md (`did-insert`/`did-update`, `A()`/`pushObject`, `set()` for tracked state, `this.element`) (skip if no code changes were needed)
+- [ ] Signature declares what the component actually has — `Args` when it takes args, `Element` when it spreads `...attributes`, `Blocks` only for blocks it actually yields (don't add an empty `Args` to an argless wrapper or an empty `Blocks` to a component with no `{{yield}}`) — and no `any` in it; yielded values via `WithBoundArgs`/`ComponentLike`/`ModifierLike` (skip if no code changes were needed)
 - [ ] API matches every prop enumerated from the React source in Phase 1 step 2, not just the ones the default story exercises
 - [ ] Visual design matches screenshot/Storybook for every story enumerated in Phase 1 step 2, not just the default one
 - [ ] Issue updated with findings
@@ -292,26 +335,33 @@ it happened before stopping.
 
 ## Important Notes
 
-- **Simplify**: Don't overcomplicate React patterns
+- **Translate, don't transliterate**: match React's API and behaviour using
+  Ember's idioms — see AGENTS.md's "Idiomatic Ember Patterns"
 - **CSS Prefix**: Always use `cds--` not `carbon--` or `bx--`
-- **Native Helpers**: `element` is built-in, don't import it
+- **Native Helpers**: `element` comes from `ember-element-helper` (already
+  installed); `on`, `fn`, `concat` and friends come from `@ember/modifier` /
+  `@ember/helper`
 - **Reference**: Check AGENTS.md for patterns and examples
 - **Focus**: Complete one component well, don't start others
 
 ## If You Get Stuck
 
-1. Check AGENTS.md for similar examples
-2. Look at existing components in `carbon-components-ember/src/components/`
-3. Simplify - remove unnecessary complexity
+1. Check AGENTS.md for similar examples — especially the React → Ember
+   translation table
+2. Look at existing components in `carbon-components-ember/src/components/`.
+   Find the closest existing component (does it also yield sub-components?
+   also take an icon as an arg? also position an overlay?) and follow how it
+   solved that, rather than starting from the React source's structure
+3. Simplify - remove unnecessary complexity from the *consumer-facing* API
 4. Document what you tried in the issue
 
 ## Time Management
 
-- Investigation: 5-10 minutes
+- Investigation (incl. mapping React constructs to Ember idioms): 10-15 minutes
 - Implementation: 15-25 minutes
 - Testing/Validation: 5-10 minutes
 - Documentation: 5 minutes
 
-**Total: ~30-50 minutes per component**
+**Total: ~35-55 minutes per component**
 
 If you can't complete in this time, document progress in the issue and move on.

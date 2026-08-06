@@ -210,7 +210,9 @@ Your task:
 6. Commit and push your fixes
 7. Comment on the PR summarizing what you fixed
 
-Be thorough and address all review comments from '$GH_ME' and github-actions."
+Be thorough and address all review comments from '$GH_ME' and github-actions.
+
+While you're in the code: this addon has a house style documented in AGENTS.md's 'Idiomatic Ember Patterns' section (React → Ember translation table, worked examples, and a 'What NOT to Reach For' list). Any code you write or restructure here should follow it — yielded contextual components typed with WithBoundArgs, ComponentLike args for component-shaped props, explicit controlled/uncontrolled handling, real modifiers with teardown instead of did-insert/did-update or DOM work in constructors, the existing <Portal> and the addon's own <Popover>/<PopoverContent> for overlays, restartable ember-concurrency tasks instead of bare timers, and signatures with no 'any' that declare exactly what the component has (see that section for which of Args/Element/Blocks apply). Fix un-idiomatic code in the parts of the diff you're already touching; don't expand the PR into a repo-wide cleanup."
 
     echo "Starting Agent to review PR..."
     echo "---"
@@ -357,6 +359,7 @@ If action is needed on a specific PR:
 - Check out that PR's branch
 - Address the issues
 - Update the PR
+- Any code you write while doing so follows this addon's house style — see AGENTS.md's 'Idiomatic Ember Patterns' section (React → Ember translation table, worked examples, and the 'What NOT to Reach For' list) — and stays scoped to that PR's diff rather than expanding into a repo-wide cleanup.
 
 If no action is needed:
 - Report that we should wait for existing PRs to be reviewed/merged
@@ -633,6 +636,7 @@ Your task:
    - Naming mismatch only (the same functionality already exists in Ember under a different name): align the name/export to match React rather than treating it as missing
    - Doesn't make sense in an Ember context, or is really just a piece of another already-implemented component: exclude it instead of implementing it (see below) - only do this for a genuine reason, when in doubt implement it
    - Otherwise: implement it (new or fix existing) following AGENTS.md patterns
+5b. Before writing code, read AGENTS.md's 'Idiomatic Ember Patterns' section — its React → Ember translation table, worked examples and 'What NOT to Reach For' list are the single source of truth here — and map each React construct in the source to its Ember idiom before you write any of it. The ones most often transliterated: yielded contextual components with WithBoundArgs instead of inspecting children, ComponentLike args instead of component-shaped props, a real modifier() with teardown instead of useRef/useEffect (and instead of did-insert/did-update), and a restartable ember-concurrency task instead of a debounce timer. Match React's API surface and behaviour, not its implementation structure.
 6. If excluding, run from the scripts directory: node parity-check.mjs --exclude $COMPONENT_NAME --reason \"<why this doesn't apply to Ember>\" --issue $ISSUE_NUMBER
    - This drops the component from .parity-check-data.json and PARITY_REPORT.md, and comments on + closes the issue for you. Don't create a PR or make component changes in this case - you're done.
 7. Otherwise (i.e. you did NOT exclude it), update issue #$ISSUE_NUMBER with your findings
@@ -681,17 +685,30 @@ while [ "$REVIEW_ROUND" -le "$MAX_REVIEW_ROUNDS" ]; do
 
   REVIEW_PROMPT="Review the changes made so far on branch $BRANCH_NAME for issue #$ISSUE_NUMBER (the $COMPONENT_NAME component), acting as a strict code reviewer.
 
-Look at the actual diff ('git diff origin/main' and 'git status'), not just what you recall doing. Check for:
+Look at the actual diff ('git diff origin/main' and 'git status'), not just what you recall doing. First read AGENTS.md's 'Idiomatic Ember Patterns' section (the React → Ember translation table, the worked examples, and the 'What NOT to Reach For' list) so you're reviewing against it rather than against general taste.
+
+Check for:
 - Correctness bugs (wrong logic, broken edge cases, args/types that don't match the React source)
-- Deviations from AGENTS.md patterns (component structure, @tracked usage, cds-- class prefixes, prop naming matching React)
+- **Un-Ember-ish code**: React structure transliterated instead of translated. Judge this against AGENTS.md's table and 'What NOT to Reach For' list rather than the summary here; the cases worth flagging most often are:
+  - Parent components inspecting/iterating what was yielded to them instead of yielding a contextual component with 'WithBoundArgs'
+  - String names or wrapper components where a 'ComponentLike' arg invoked as '<@renderIcon />' would do
+  - An arg that's meant to be both settable and consumer-controlled but has no explicit controlled/uncontrolled rule (a plain '@isOpen={{true}}' that permanently locks the component is the tell). Note the two shapes differ: a React 'value'+'defaultValue' pair keeps BOTH args (see 'text-input.gts') — flagging a component for exposing '@defaultValue' alongside '@value' is wrong; only a single dual-purpose prop keys on the handler's presence (see 'TreeNode.expanded' in 'tree-view.gts')
+  - 'did-insert'/'did-update' from '@ember/render-modifiers', or DOM wiring in a constructor/getter, where a real 'modifier()' with a teardown belongs
+  - Bare 'setTimeout'/'setInterval'/manual debouncing instead of a restartable 'ember-concurrency' task, or missing 'registerDestructor' cleanup
+  - Hand-rolled overlay positioning or portalling instead of the addon's own '<Popover>'/'<PopoverContent>' or the existing '<Portal>' (drop to 'ember-primitives' only for a new positioning primitive)
+  - 'A()'/'pushObject'/'removeObject'/'set()' for state that should just be '@tracked'
+  - 'any' anywhere in a component signature; a missing 'Args' on a component that does take args; a missing 'Element' on a component that spreads '...attributes'; or a 'Blocks' entry for a block the component never yields. Do NOT flag an absent 'Args' on an argless wrapper, an absent 'Blocks' on a component with no '{{yield}}', or an absent 'Element' on one that doesn't spread attributes — all three are correct and common in this repo
+- Other deviations from AGENTS.md patterns (component structure, cds-- class prefixes, prop naming matching React)
 - Missing test coverage for the story variants this component has
 - Anything left broken: failing build ('cd carbon-components-ember && pnpm build'), failing lint ('pnpm lint'), or failing tests ('cd test-app && pnpm test')
+
+For each idiom finding, name the specific replacement pattern and an existing component in this repo that already does it — a finding the fix round can act on directly, not 'this could be more idiomatic'. Judge idiom issues on the code this branch actually adds or touches; pre-existing legacy patterns elsewhere in an untouched file are not findings for this PR.
 
 This is review round $REVIEW_ROUND of $MAX_REVIEW_ROUNDS.
 
 If you find genuine issues that should be fixed: write them as a concise markdown checklist to $REVIEW_FILE (create it). Be specific — file, what's wrong, what to do about it. Do not fix anything yourself in this pass, only review and report.
 
-If you find no genuine issues (the change is correct, follows conventions, builds, lints, and tests pass): do NOT create $REVIEW_FILE at all. Do not create it just to say 'no issues' — its mere existence is what signals issues were found."
+If you find no genuine issues (the change is correct, idiomatic, follows conventions, builds, lints, and tests pass): do NOT create $REVIEW_FILE at all. Do not create it just to say 'no issues' — its mere existence is what signals issues were found. Don't invent stylistic nits to justify another round either; a clean diff is a valid result."
 
   echo "Starting review agent (round $REVIEW_ROUND of $MAX_REVIEW_ROUNDS)..."
   run_claude "$REVIEW_PROMPT" || echo "Warning: review agent invocation itself failed; treating this round as having no confirmed findings"
@@ -716,7 +733,9 @@ Findings from review round $REVIEW_ROUND:
 
 $(cat "$REVIEW_FILE")
 
-Fix every issue listed. Run the build/lint/test commands referenced in the findings (or from AGENTS.md's Component Implementation Checklist) to confirm the fixes actually work, then commit and push. Once you've addressed everything, delete $REVIEW_FILE — it should not exist once its findings are resolved."
+Fix every issue listed. For findings about un-Ember-ish code, apply the actual pattern named in the finding (see AGENTS.md's 'Idiomatic Ember Patterns' section and the referenced example component) — restructure the code rather than papering over it, and keep the component's public arg names matching the React source while you do. If you conclude a finding is wrong or not worth acting on, say so explicitly in your final message with the reason instead of silently skipping it.
+
+Run the build/lint/test commands referenced in the findings (or from AGENTS.md's Component Implementation Checklist) to confirm the fixes actually work, then commit and push. Once you've addressed everything, delete $REVIEW_FILE — it should not exist once its findings are resolved."
 
   echo "Fixing review round $REVIEW_ROUND findings..."
   until run_claude "$FIX_PROMPT"; do
