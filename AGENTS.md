@@ -580,7 +580,7 @@ more specific name (e.g. `tile/tile-group.gts`, not `tile/group.gts`).
 ### ❌ Pitfall 5: New Icons Used in Docs Examples Don't Render
 
 `docs-app` live-preview examples (the `gjs live preview` code blocks under
-`docs-app/public/docs/`) run through `kolay`, which resolves each import
+`docs-app/app/templates/`) run through `kolay`, which resolves each import
 specifier in the example's `<template>` against a **static** map built in
 `docs-app/app/routes/application.ts` — it does not do real module resolution.
 For `carbon-components-ember/icons`, that map only exposes the specific
