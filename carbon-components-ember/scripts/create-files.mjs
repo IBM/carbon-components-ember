@@ -45,6 +45,12 @@ function createIndexFiles() {
     if (comp.includes('grid/row')) {
       camelCased = 'GridRow';
     }
+    if (comp.includes('grid/column-hang')) {
+      camelCased = 'GridColumnHang';
+    }
+    if (comp.includes('grid/settings')) {
+      camelCased = 'GridSettings';
+    }
     if (comp.split('/').at(-1) === 'ui-shell.gts') {
       camelCased = 'UIShell';
     }
