@@ -1,4 +1,0 @@
-import { T as runtime } from './main-Dug202yT.js';
-import { g as globalId } from './global-id-BrhFC90G-wPkaDz-T.js';
-
-globalThis[globalId] = runtime;
