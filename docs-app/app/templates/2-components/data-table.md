@@ -159,6 +159,56 @@ const state = cell();
 
 </details>
 
+<details><summary>xs toolbar and pagination</summary>
+The Toolbar, its Search and the Pagination each accept their own `@size`
+argument (`xs`, `sm`, `md` or `lg`, depending on the sub-component). Every
+`<td>` is also automatically linked to its column's `<th>` via the `headers`
+attribute for screen-reader users.
+
+```gjs live preview
+import { array, hash } from '@ember/helper';
+import { DataTable } from 'carbon-components-ember/components';
+import { ThemeSupport } from 'docs-support';
+
+<template>
+    <ThemeSupport />
+    <DataTable
+        @title='Table title'
+        @items={{array (hash name='a' b='c') (hash name='John' b='asd')}}
+        as |table|
+    >
+        <table.Toolbar @size='xs' as |toolbar|>
+            <toolbar.Content>
+                <table.SearchInput @size='xs' @expandable={{true}} />
+            </toolbar.Content>
+        </table.Toolbar>
+        <table.Table @size='xs'>
+            <table.Header
+                @headers={{array (hash label='Name') (hash label='details') null}}
+            />
+            <table.EachBodyRows as |row|>
+                <row.Row>
+                    <table.Column>
+                        {{row.item.name}}
+                    </table.Column>
+                    <table.Column>
+                        {{row.item.b}}
+                    </table.Column>
+                    <table.Menu as |Item|>
+                        <Item>
+                            Edit
+                        </Item>
+                    </table.Menu>
+                </row.Row>
+            </table.EachBodyRows>
+        </table.Table>
+        <table.Pagination @size='xs' />
+    </DataTable>
+</template>
+```
+
+</details>
+
 
 ## API Reference
 

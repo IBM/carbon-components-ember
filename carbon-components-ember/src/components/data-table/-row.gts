@@ -29,6 +29,15 @@ export default class DataTableRow<T> extends Component<
 > {
   @tracked isExpanded: boolean = false;
 
+  constructor(
+    ...args: ConstructorParameters<typeof Component<DataTableRowSignature<T>>>
+  ) {
+    super(...args);
+    if (this.args.table) {
+      this.args.table.columnIndexCounter = 0;
+    }
+  }
+
   <template>
     <tr
       class='{{if
