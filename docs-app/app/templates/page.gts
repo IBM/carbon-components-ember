@@ -1,6 +1,7 @@
+import { EditThisPage } from 'docs-app/components/edit-this-page';
 import { GitHubLink, TestsLink } from 'docs-app/components/header';
 import { Logo, Logomark } from 'docs-app/components/icons';
-import { ExternalLink, service } from 'ember-primitives';
+import { ExternalLink } from 'ember-primitives';
 import Route from 'ember-route-template';
 
 import { OopsError, PageLayout } from '@universal-ember/docs-support';
@@ -23,13 +24,7 @@ export default Route(
         </OopsError>
       </:error>
       <:editLink as |Link|>
-        {{#let (service "kolay/docs") as |docs|}}
-          <Link
-            @href="https://github.com/IBM/carbon-components-ember/edit/main/docs-app/app/templates{{docs.selected.path}}.md"
-          >
-            Edit this page
-          </Link>
-        {{/let}}
+        <EditThisPage @link={{Link}} />
       </:editLink>
     </PageLayout>
   </template>
