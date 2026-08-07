@@ -1,0 +1,3 @@
+const text = "<ThemeSwitcher />\n\n# SkeletonText\n\n```gjs live preview\nimport { SkeletonText } from 'carbon-components-ember/components';\nimport { ThemeSupport } from 'docs-support';\n\n<template>\n    <ThemeSupport />\n    <SkeletonText />\n    <SkeletonText @heading={{true}} />\n    <SkeletonText @paragraph={{true}} @lineCount={{3}} />\n</template>\n```\n## API Reference\n\n<details>\n<summary><h3>SkeletonText</h3></summary>\n\n```gjs live no-shadow\nimport { ComponentSignature } from 'kolay';\n\n<template>\n  <ComponentSignature \n    @package=\"carbon-components-ember\" \n    @module='declarations/components/skeleton-text' \n    @name='default' \n  />\n</template>\n```\n</details>\n";
+
+export { text as default };
