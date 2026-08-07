@@ -1,18 +1,19 @@
 # Component Parity Report
-Generated: 2026-07-26T15:31:05.623Z
-Carbon React Version: 11.112.0
-Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
+Generated: 2026-08-07T15:47:27.393Z
+Carbon React Version: 11.113.0
+Latest Commit: a57cf8a (2026-07-29T14:49:48Z)
 
 ## Summary
 - Total React Components: 126
-- Total Ember Components: 65
-- Parity: 40%
-- Outdated Components: 0
+- Total Ember Components: 71
+- Parity: 44%
+- Outdated Components: 21
 
-## Missing in Ember (76)
+## Missing in Ember (71)
 - [ ] AILabel
 - [ ] AISkeleton
 - [ ] AccordionItem
+- [ ] ActionSet
 - [ ] AspectRatio
 - [ ] BadgeIndicator
 - [ ] Breadcrumb
@@ -53,11 +54,9 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - [ ] FluidTimePicker
 - [ ] FluidTimePickerSelect
 - [ ] Form
-- [ ] FormGroup
-- [ ] FormItem
-- [ ] FormLabel
 - [ ] Heading
 - [ ] HideAtBreakpoint
+- [ ] Icon
 - [ ] IconButton
 - [ ] IconIndicator
 - [ ] Icons
@@ -66,28 +65,24 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - [ ] InlineLoading
 - [ ] Layer
 - [ ] Layout
-- [ ] LayoutDirection
-- [ ] ListBox
-- [ ] ListItem
 - [ ] Menu
 - [ ] MenuButton
 - [ ] ModalWrapper
 - [ ] MultiSelect
-- [ ] NumberInput
-- [ ] OverflowMenuItem
 - [ ] OverflowMenuV2
 - [ ] PageHeader
 - [ ] PaginationNav
-- [ ] PasswordInput
 - [ ] Plex
 - [ ] Popover
 - [ ] PrimaryButton
-- [ ] SecondaryButton
-- [ ] Switch
-- [ ] Tab
+- [ ] Resizer
+- [ ] ShapeIndicator
+- [ ] SidePanel
 - [ ] ToggleSmall
+- [ ] Tooltip
+- [ ] TruncatedText
 
-## Implemented in Both (50)
+## Implemented in Both (55)
 - [x] Accordion
 - [x] Button
 - [x] Checkbox
@@ -95,15 +90,22 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - [x] CopyButton
 - [x] DataTable
 - [x] FluidTextInput
+- [x] FormGroup
+- [x] FormItem
+- [x] FormLabel
 - [x] Grid
-- [x] Icon
+- [x] LayoutDirection
 - [x] Link
+- [x] ListItem
 - [x] Loading
 - [x] Modal
 - [x] Notification
+- [x] NumberInput
 - [x] OrderedList
 - [x] OverflowMenu
+- [x] OverflowMenuItem
 - [x] Pagination
+- [x] PasswordInput
 - [x] Portal
 - [x] ProgressBar
 - [x] ProgressIndicator
@@ -114,7 +116,6 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - [x] Select
 - [x] SelectItem
 - [x] SelectItemGroup
-- [x] ShapeIndicator
 - [x] SkeletonIcon
 - [x] SkeletonPlaceholder
 - [x] SkeletonText
@@ -134,14 +135,38 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - [x] TimePickerSelect
 - [x] Toggle
 - [x] Toggletip
-- [x] Tooltip
 - [x] TreeView
 - [x] UIShell
 - [x] UnorderedList
 
 
+## Outdated Components (21)
+These components exist in Ember but have updates in React that need to be synced:
 
-## Ember-Specific (15)
+- [ ] Accordion (2 changes)
+- [ ] Button (5 changes)
+- [ ] CodeSnippet (1 changes)
+- [ ] CopyButton (1 changes)
+- [ ] DataTable (7 changes)
+- [ ] FluidTextInput (1 changes)
+- [ ] Grid (1 changes)
+- [ ] Link (2 changes)
+- [ ] Modal (7 changes)
+- [ ] NumberInput (2 changes)
+- [ ] OrderedList (1 changes)
+- [ ] OverflowMenu (2 changes)
+- [ ] OverflowMenuItem (1 changes)
+- [ ] Pagination (4 changes)
+- [ ] Search (2 changes)
+- [ ] Select (1 changes)
+- [ ] Slider (1 changes)
+- [ ] Tabs (7 changes)
+- [ ] Tag (1 changes)
+- [ ] TextInput (1 changes)
+- [ ] UIShell (3 changes)
+
+
+## Ember-Specific (16)
 - BarChart
 - Breadcrumbs
 - ConfirmDialog
@@ -152,10 +177,17 @@ Latest Commit: 5102bd8 (2026-07-15T09:42:43Z)
 - List
 - PieChart
 - SliderSkeleton
+- TextAreaSkeleton
 - TextDirection
 - ToggletipActions
 - ToggletipButton
 - ToggletipContent
 - ToggletipLabel
 
+
+## New Components Since Last Check (4)
+- ActionSet
+- Resizer
+- SidePanel
+- TruncatedText
 
