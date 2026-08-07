@@ -14,6 +14,7 @@ import { on } from '@ember/modifier';
 import didInsert from '@ember/render-modifiers/modifiers/did-insert';
 import didUpdate from '@ember/render-modifiers/modifiers/did-update';
 import { defaultArgs } from '../utils/decorators.ts';
+import { scheduleTask } from 'ember-lifeline';
 
 export const TooltipAlignments = [
   'top',
@@ -215,13 +216,22 @@ export default class CarbonTooltip extends Component<CarbonTooltipSignature> {
   @action
   onFocusIn() {
     clearTimeout(this.timer);
-    this.open = true;
+    // Deferred via the runloop: a focusin/focusout can fire synchronously as
+    // a side effect of a DOM mutation (e.g. a focused trigger becoming
+    // `disabled`, which browsers blur automatically), which can happen while
+    // Glimmer is still mid-render. Setting a tracked property directly in
+    // that window trips the "already used in this computation" assertion.
+    scheduleTask(this, 'actions', () => {
+      this.open = true;
+    });
   }
 
   @action
   onFocusOut() {
     clearTimeout(this.timer);
-    this.open = false;
+    scheduleTask(this, 'actions', () => {
+      this.open = false;
+    });
   }
 
   @action
