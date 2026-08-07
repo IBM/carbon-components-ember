@@ -3,8 +3,8 @@
 # ListItem
 
 A `ListItem` renders a single `<li>` element with the styles needed for it to
-work as a child of [`OrderedList`](/components/ordered-list) or
-[`UnorderedList`](/components/unordered-list). It has no arguments of its own
+work as a child of [`OrderedList`](./ordered.md) or
+[`UnorderedList`](./unordered.md). It has no arguments of its own
 - any attributes passed to it (`id`, `class`, etc.) are applied to the
 underlying `<li>`.
 

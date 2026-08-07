@@ -154,7 +154,8 @@ component synced and push that update (see Phase 4, step 3).
 
 
 5. **Add Documentation**
-   - Create or update docs at `docs-app/public/docs/2-components/{{COMPONENT_NAME_KEBAB}}.md` (a `gjs live preview` code block per example — look at an existing file there, e.g. `tree-view.md`, for the pattern; there is no `docs-app/app/routes/components/` directory)
+   - Create or update docs at `docs-app/app/templates/2-components/{{COMPONENT_NAME_KEBAB}}.md` (a `gjs live preview` code block per example — look at an existing file there, e.g. `tree-view.md`, for the pattern). This is the only location kolay globs for the sidenav/routes; a doc under `docs-app/public/` is served as a static file but never appears in the docs app. There is no `docs-app/app/routes/components/` directory
+   - If the component belongs to a family that already has its own folder there (`form/`, `indicator/`, `layout/`, `list/`, `progress/`, `select/`, `skeleton/`, `text-input/`), put the doc inside that folder under its family-relative name instead — e.g. `SkeletonTile` goes to `skeleton/tile.md`, not `skeleton-tile.md`. Folders are what group entries in the sidenav
    - Add one live-preview example per story from the Phase 1 step 2 story list — don't stop at a single default example. If the React Storybook has separate stories for things like controlled state, icons, disabled state, multiselect, or sizing, mirror each as its own docs example
    - Document all props/args (an API-reference block via `ComponentSignature`, like the bottom of `tree-view.md`, is generated from the TS signature — but any prose/example coverage still needs to be added by hand)
    - If any example uses an icon from `carbon-components-ember/icons`, register that icon in `docs-app/app/routes/application.ts` (import it and add it to the `carbon-components-ember/icons` resolve map) — otherwise it silently fails to render in the live preview with no error. See AGENTS.md's "New Icons Used in Docs Examples Don't Render" pitfall
@@ -302,7 +303,7 @@ Otherwise, your implementation is complete when ALL of these are true:
 - [ ] Component file created/updated in correct location (skip if no code changes were needed)
 - [ ] Component exported in `index.ts` (skip if no code changes were needed)
 - [ ] Tests created and cover main functionality (skip if no code changes were needed)
-- [ ] Documentation added at `docs-app/public/docs/2-components/{{COMPONENT_NAME_KEBAB}}.md`, with one live-preview example per story enumerated in Phase 1 step 2 — not just a single default example (skip if no code changes were needed)
+- [ ] Documentation added at `docs-app/app/templates/2-components/{{COMPONENT_NAME_KEBAB}}.md` (or inside the matching family folder there), with one live-preview example per story enumerated in Phase 1 step 2 — not just a single default example (skip if no code changes were needed)
 - [ ] Any icon used in a docs example is registered in `docs-app/app/routes/application.ts` and actually renders (skip if no icons are used)
 - [ ] Build succeeds: `cd carbon-components-ember && pnpm build`
 - [ ] CSS classes use `cds--` prefix

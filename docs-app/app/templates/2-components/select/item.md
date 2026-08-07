@@ -3,7 +3,7 @@
 # SelectItem
 
 `SelectItem` renders a native `<option>` element for use inside a native
-`<select>` (or [`Select`](./select)).
+`<select>` (or [`Select`](./index.md)).
 
 ```gjs live preview
 import { SelectItem } from 'carbon-components-ember/components';

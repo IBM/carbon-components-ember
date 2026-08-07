@@ -34,6 +34,32 @@ aside.side-nav nav[aria-label="Main Navigation"] h2 {
   line-height: var(--cds-heading-05-line-height, 1.25);
 }
 
+/*
+ * Component docs are grouped into folders (e.g. `2-components/skeleton/`),
+ * which kolay turns into nested collections. Upstream renders a collection
+ * with an `index.md` as an `<a class="section-link">` and one without as an
+ * `<h2>`, so sibling groups would otherwise be typeset at two different
+ * sizes -- the heading-05 set above (which is meant for the top-level
+ * "Components"/"Home" headings) versus the nav's inherited 1rem. Give both
+ * forms one intermediate size so every group reads as a peer, and as a level
+ * below the section it sits in. Only nested collections live inside a second
+ * `<ul>`, which is what scopes these rules to them; the extra
+ * `aside.side-nav` + `nav[...]` prefix matches the specificity of the rule
+ * above so this wins on its own rather than on source order.
+ */
+aside.side-nav nav[aria-label="Main Navigation"] ul ul h2,
+aside.side-nav nav[aria-label="Main Navigation"] ul ul .section-link {
+  font-size: var(--cds-heading-03-font-size, 1.25rem);
+  line-height: var(--cds-heading-03-line-height, 1.4);
+  margin-top: 0.5rem;
+}
+
+/* `.section-link` is an inline `<a>` upstream, so it would drop the
+ * `margin-top` above; `.subsection-link` is already block-level. */
+aside.side-nav nav[aria-label="Main Navigation"] ul ul .section-link {
+  display: block;
+}
+
 /* Upstream only shows the active-subsection dot marker on :hover; main also
  * shows it for the active link itself. */
 aside.side-nav .subsection-link.is-active::before {
