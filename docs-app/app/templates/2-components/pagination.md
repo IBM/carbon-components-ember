@@ -63,6 +63,24 @@ const not = (x) => !x;
 </template>
 ```
 
+<details><summary>sizes</summary>
+Pagination supports `xs`, `sm`, `md` and `lg` sizes via the `@size` argument.
+
+```gjs live preview
+import { Pagination } from 'carbon-components-ember/components';
+import { ThemeSupport } from 'docs-support';
+
+<template>
+    <ThemeSupport />
+    <Pagination @size='xs' @length={{100}} @onPageChanged={{() => {}}} />
+    <Pagination @size='sm' @length={{100}} @onPageChanged={{() => {}}} />
+    <Pagination @size='md' @length={{100}} @onPageChanged={{() => {}}} />
+    <Pagination @size='lg' @length={{100}} @onPageChanged={{() => {}}} />
+</template>
+```
+
+</details>
+
 ## API Reference
 
 <details>

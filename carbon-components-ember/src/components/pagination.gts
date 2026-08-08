@@ -3,7 +3,7 @@ import { default as defaultTo } from '../helpers/default-to.ts';
 import { default as eq } from 'ember-truth-helpers/helpers/eq';
 import { default as didInsert } from '@ember/render-modifiers/modifiers/did-insert';
 import { default as didUpdate } from '@ember/render-modifiers/modifiers/did-update';
-import { array, fn } from '@ember/helper';
+import { array, concat, fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { default as or } from 'ember-truth-helpers/helpers/or';
 import Component from '@glimmer/component';
@@ -35,6 +35,7 @@ export type Args = {
   onPageChanged: (currentSlice: Slice) => void;
   state?: State;
   itemsPerPageOptions?: (number | string)[];
+  size?: 'xs' | 'sm' | 'md' | 'lg';
 };
 
 export default class CarbonPagination extends Component<Args> {
@@ -47,6 +48,7 @@ export default class CarbonPagination extends Component<Args> {
     onPageChanged: () => null,
     state: undefined,
     itemsPerPageOptions: undefined,
+    size: 'md',
   });
 
   get defaultArgs() {
@@ -137,7 +139,7 @@ export default class CarbonPagination extends Component<Args> {
 
   <template>
     <div
-      class='cds--pagination cds--pagination--md
+      class='cds--pagination {{concat "cds--pagination--" this.defaultArgs.size}}
         {{this.styles.namespace}}
         {{if @isLoading "cds--skeleton"}}'
       data-pagination

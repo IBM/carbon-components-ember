@@ -1,6 +1,9 @@
 import { default as Button } from '../button.gts';
 import { default as Checkbox } from '../checkbox.gts';
 import Component from '@glimmer/component';
+import { cached } from '@glimmer/tracking';
+import { guidFor } from '@ember/object/internals';
+import { get } from '@ember/helper';
 import type DataTableComponent from '../data-table.gts';
 
 export type Header = {
@@ -19,6 +22,18 @@ export default class ListHeaderComponent extends Component<Args> {
   didSetup = false;
   table?: DataTableComponent<any>;
 
+  @cached
+  get guid() {
+    return guidFor(this);
+  }
+
+  @cached
+  get headerIds(): (string | undefined)[] {
+    return this.args.headers.map((h, index) =>
+      h ? `data-table-${this.guid}__header-${index}` : undefined,
+    );
+  }
+
   constructor(...args: ConstructorParameters<typeof Component<Args>>) {
     super(...args);
     if (this.args.table) {
@@ -27,6 +42,10 @@ export default class ListHeaderComponent extends Component<Args> {
       Object.defineProperty(this.args.table, 'headers', {
         configurable: true,
         get: () => this.args.headers,
+      });
+      Object.defineProperty(this.args.table, 'headerIds', {
+        configurable: true,
+        get: () => this.headerIds,
       });
       Object.defineProperty(this.args.table, 'isExpandable', {
         configurable: true,
@@ -57,8 +76,8 @@ export default class ListHeaderComponent extends Component<Args> {
             />
           </th>
         {{/if}}
-        {{#each @headers as |h|}}
-          <th>
+        {{#each @headers as |h index|}}
+          <th id={{get this.headerIds index}}>
             {{#if h.sortable}}
               <Button @type='primary' class='cds--table-sort' title={{h.label}}>
                 <span class='cds--table-header-label'>
