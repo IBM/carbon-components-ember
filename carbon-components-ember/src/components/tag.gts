@@ -1,6 +1,7 @@
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
 import type { ComponentLike } from '@glint/template';
+import type Icon from './icon.gts';
 
 export type Args = {
   /**
@@ -14,7 +15,7 @@ export type Args = {
   /**
    * A component used to render an icon.
    */
-  renderIcon?: ComponentLike;
+  renderIcon?: typeof Icon;
   /**
    * Specify the size of the Tag. Currently supports either `sm`, `md`
    * (default) or `lg` sizes.
@@ -94,7 +95,7 @@ export default class TagComponent extends Component<TagInterface> {
     <div class={{this.classes}} id={{this.id}} ...attributes>
       {{#if this.showIcon}}
         <div class='cds--tag__custom-icon'>
-          <@renderIcon />
+          <@renderIcon @size='16' @svgClass='cds--tag__custom-icon-svg' />
         </div>
       {{/if}}
       <span class='cds--tag__label'>

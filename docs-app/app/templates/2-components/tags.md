@@ -100,7 +100,11 @@ import { ThemeSupport } from 'docs-support';
 <template>
   <ThemeSupport />
   <br>
-  <Tag @type='red' @renderIcon={{Add}} @decorator={{Add}}>With decorator</Tag>
+  <Tag
+    @type='red'
+    @renderIcon={{Add}}
+    @decorator={{component Add size='16'}}
+  >With decorator</Tag>
 </template>
 ```
 

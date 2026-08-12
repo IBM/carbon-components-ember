@@ -1,8 +1,12 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, waitUntil, find } from '@ember/test-helpers';
+import { render, rerender, waitUntil, find } from '@ember/test-helpers';
 import Tag from 'carbon-components-ember/components/tag';
 import { Add } from 'carbon-components-ember/icons';
+import { cell } from 'ember-resources';
+import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
+import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
+import { waitForAnimationFrame } from '../helpers';
 
 module('Integration | Component | Tag', (hooks) => {
   setupRenderingTest(hooks);
@@ -63,6 +67,37 @@ module('Integration | Component | Tag', (hooks) => {
     await waitUntil(() => find('.cds--tag__custom-icon svg'));
 
     assert.dom('.cds--tag__custom-icon svg').exists();
+    assert.dom('.cds--tag__custom-icon svg').hasAttribute('width', '16');
+    assert.dom('.cds--tag__custom-icon svg').hasAttribute('height', '16');
+  });
+
+  test('positions the custom icon inside its wrapper under real Carbon styles', async function (this: RenderingTestContext, assert) {
+    const styleValue = cell('');
+    await render(
+      <template>
+        <Tag @type='red' @renderIcon={{Add}}>Tag content</Tag>
+        <style>{{styleValue.current}}</style>
+      </template>,
+    );
+    await waitUntil(() => find('.cds--tag__custom-icon svg'));
+    styleValue.current = carbonStyle.default;
+    await rerender();
+    await waitForAnimationFrame();
+
+    const wrapper = find('.cds--tag__custom-icon') as HTMLElement;
+    const svg = wrapper.querySelector('svg') as SVGElement;
+    const wrapperRect = wrapper.getBoundingClientRect();
+    const svgRect = svg.getBoundingClientRect();
+
+    assert.strictEqual(
+      getComputedStyle(svg).marginRight,
+      '0px',
+      'the icon has no default margin pushing it out of its 16px box',
+    );
+    assert.true(
+      svgRect.width <= wrapperRect.width && svgRect.height <= wrapperRect.height,
+      'the icon fits inside its wrapper instead of overflowing it',
+    );
   });
 
   test('should not render the icon wrapper for the sm size', async function (assert) {
