@@ -73,7 +73,8 @@ export interface MenuSignature {
      * Specify a DOM node where the Menu should be rendered in. Defaults to
      * `document.body`. Pass a node inside your own root when the Menu is
      * rendered in a shadow root, otherwise it escapes into the light DOM
-     * where your styles don't reach it.
+     * where your styles don't reach it. Submenus aren't portaled - they
+     * inherit this as their positioning origin instead.
      */
     target?: Element;
     /**
@@ -238,14 +239,36 @@ export default class Menu extends Component<MenuSignature> {
   }
 
   applyPosition(element: HTMLUListElement) {
+    // A `position: fixed` element inset to `0, 0` sits exactly at its true
+    // containing block's origin, in viewport coordinates - the viewport
+    // itself unless an ancestor (e.g. the root's `@target`) establishes one
+    // via `transform`/`filter`/etc. Measuring this instead of assuming
+    // "`@target` other than `document.body` means an offset" keeps this
+    // correct whether or not `@target` actually has a transform, and for
+    // submenus, which inherit whatever containing block their root's
+    // `@target` happens to establish since they render inline rather than
+    // being portaled themselves.
+    element.style.insetInlineStart = '0px';
+    element.style.insetInlineEnd = 'initial';
+    element.style.insetBlockStart = '0px';
     const rect = element.getBoundingClientRect();
+    const originLeft = rect.left;
+    const originTop = rect.top;
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
+    // Fit decisions always happen in viewport space, since that's what
+    // actually constrains where the menu is visible - the containing block
+    // origin is only relevant for translating the result back into the
+    // inset values it's written as.
     let x1: number, x2: number, y1: number, y2: number;
     if (this.isRoot) {
-      [x1, x2] = range(this.args.x ?? 0);
-      [y1, y2] = range(this.args.y ?? 0);
+      const [ax1, ax2] = range(this.args.x ?? 0);
+      const [ay1, ay2] = range(this.args.y ?? 0);
+      x1 = ax1 + originLeft;
+      x2 = ax2 + originLeft;
+      y1 = ay1 + originTop;
+      y2 = ay2 + originTop;
     } else if (this.args.anchor) {
       const anchorRect = this.args.anchor.getBoundingClientRect();
       x1 = anchorRect.left;
@@ -271,9 +294,9 @@ export default class Menu extends Component<MenuSignature> {
       this.isRoot ? 0 : 4,
     );
 
-    element.style.insetInlineStart = `${left}px`;
+    element.style.insetInlineStart = `${left - originLeft}px`;
     element.style.insetInlineEnd = 'initial';
-    element.style.insetBlockStart = `${top}px`;
+    element.style.insetBlockStart = `${top - originTop}px`;
   }
 
   focusableItemsSelector =

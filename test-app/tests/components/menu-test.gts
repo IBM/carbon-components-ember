@@ -10,6 +10,7 @@ import MenuItemGroup from 'carbon-components-ember/components/menu/menu-item-gro
 import MenuItemRadioGroup from 'carbon-components-ember/components/menu/menu-item-radio-group';
 import MenuItemSelectable from 'carbon-components-ember/components/menu/menu-item-selectable';
 import { Copy } from 'carbon-components-ember/icons';
+import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import { waitForAnimationFrame } from '../helpers';
 
 module('Integration | Component | Menu', (hooks) => {
@@ -385,6 +386,71 @@ module('Integration | Component | Menu', (hooks) => {
     assert
       .dom('.cds--menu-item .cds--menu', this.container)
       .doesNotHaveClass('cds--menu--open');
+  });
+
+  test('a submenu is positioned relative to its anchor even when @target has a transform', async function (this: {
+    container: HTMLElement;
+  }, assert) {
+    const target = this.container;
+    // A `transform` makes `target` the containing block for every
+    // `position: fixed` menu rendered inside it (root and submenus alike),
+    // which is what a shadow-DOM docs preview does. Offsetting the target
+    // from the viewport origin makes a coordinate-space mismatch obvious.
+    target.style.transform = 'translateZ(0)';
+    target.style.marginInlineStart = '200px';
+    target.style.marginBlockStart = '150px';
+
+    await render(
+      <template>
+        <style>{{carbonStyle.default}}</style>
+        <Menu @label='Test menu' @open={{true}} @target={{target}}>
+          <MenuItem @label='Share with'>
+            <MenuItem @label='Product team'>
+              <MenuItem @label='Nested' />
+            </MenuItem>
+          </MenuItem>
+        </Menu>
+      </template>,
+    );
+
+    await waitForAnimationFrame();
+    await click(this.container.querySelector('[aria-haspopup="true"]')!);
+    await waitForAnimationFrame();
+
+    let anchor = this.container.querySelector('[aria-haspopup="true"]')!;
+    let submenu = this.container.querySelector(
+      '.cds--menu-item .cds--menu',
+    )!;
+    let anchorRect = anchor.getBoundingClientRect();
+    let submenuRect = submenu.getBoundingClientRect();
+
+    assert.ok(
+      Math.abs(submenuRect.left - anchorRect.right) < 10,
+      `submenu left (${submenuRect.left}) should be near anchor right (${anchorRect.right})`,
+    );
+    assert.ok(
+      Math.abs(submenuRect.top - anchorRect.top) < 10,
+      `submenu top (${submenuRect.top}) should be near anchor top (${anchorRect.top})`,
+    );
+
+    // Two levels deep, to exercise walking back up through an intermediate
+    // (non-root) menu to find the root's target.
+    await click(submenu.querySelector('[aria-haspopup="true"]')!);
+    await waitForAnimationFrame();
+
+    anchor = submenu.querySelector('[aria-haspopup="true"]')!;
+    const nestedSubmenu = submenu.querySelector('.cds--menu-item .cds--menu')!;
+    anchorRect = anchor.getBoundingClientRect();
+    const nestedRect = nestedSubmenu.getBoundingClientRect();
+
+    assert.ok(
+      Math.abs(nestedRect.left - anchorRect.right) < 10,
+      `nested submenu left (${nestedRect.left}) should be near anchor right (${anchorRect.right})`,
+    );
+    assert.ok(
+      Math.abs(nestedRect.top - anchorRect.top) < 10,
+      `nested submenu top (${nestedRect.top}) should be near anchor top (${anchorRect.top})`,
+    );
   });
 
   test('pressing Escape calls @onClose', async function (this: {
