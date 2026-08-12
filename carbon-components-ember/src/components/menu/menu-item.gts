@@ -1,0 +1,232 @@
+/**
+ * Copyright IBM Corp. 2016, 2026
+ *
+ * This source code is licensed under the Apache-2.0 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { guidFor } from '@ember/object/internals';
+import { on } from '@ember/modifier';
+import { fn } from '@ember/helper';
+import { modifier } from 'ember-modifier';
+import { runTask, cancelTask } from 'ember-lifeline';
+import Menu, { findParentMenu, type MenuItemFeatures } from '../menu.gts';
+import Checkmark from '../icons/checkmark.ts';
+import CaretRight from '../icons/caret-right.ts';
+import type Icon from '../icon.gts';
+
+export interface MenuItemSignature {
+  Element: HTMLLIElement;
+  Args: {
+    /**
+     * A required label titling the MenuItem. Rendered as its text content.
+     */
+    label: string;
+    /**
+     * Specify whether the MenuItem is disabled or not.
+     */
+    disabled?: boolean;
+    /**
+     * Specify the kind of the MenuItem.
+     */
+    kind?: 'default' | 'danger';
+    /**
+     * Specify the message read by screen readers for the danger menu item
+     * variant.
+     */
+    dangerDescription?: string;
+    /**
+     * Provide an optional function to be called when the MenuItem is
+     * clicked.
+     */
+    onClick?: (event: MouseEvent | KeyboardEvent) => void;
+    /**
+     * A component used to render an icon.
+     */
+    renderIcon?: typeof Icon;
+    /**
+     * Provide a shortcut for the action of this MenuItem. Only rendered as
+     * a hint; the shortcut itself is not registered.
+     */
+    shortcut?: string;
+    /**
+     * @internal Used by MenuItemSelectable/MenuItemRadioGroup.
+     */
+    role?: 'menuitem' | 'menuitemcheckbox' | 'menuitemradio';
+    /**
+     * @internal Used by MenuItemSelectable/MenuItemRadioGroup.
+     */
+    ariaChecked?: boolean;
+  };
+  Blocks: {
+    // A nested Menu (submenu) — props.children can't be used to specify
+    // the label of the MenuItem itself, use @label instead.
+    default: [];
+  };
+}
+
+export default class MenuItem
+  extends Component<MenuItemSignature>
+  implements MenuItemFeatures
+{
+  @tracked submenuOpen = false;
+  @tracked liElement?: HTMLLIElement;
+
+  guid = guidFor(this);
+
+  get role() {
+    return this.args.role ?? 'menuitem';
+  }
+
+  get hasIcon() {
+    return !!this.args.renderIcon;
+  }
+
+  get isSelectable() {
+    return this.role !== 'menuitem';
+  }
+
+  get hasAriaChecked() {
+    return this.args.ariaChecked !== undefined;
+  }
+
+  // A submenu-parent item can't be individually disabled or marked danger,
+  // matching React's `isDisabled = disabled && !hasChildren` /
+  // `isDanger = kind === 'danger' && !hasChildren`.
+  @action
+  isDisabled(hasChildren: boolean) {
+    return !!this.args.disabled && !hasChildren;
+  }
+
+  @action
+  isDanger(hasChildren: boolean) {
+    return this.args.kind === 'danger' && !hasChildren;
+  }
+
+  @action
+  classesFor(hasChildren: boolean) {
+    const classes = ['cds--menu-item'];
+    if (this.isDisabled(hasChildren)) classes.push('cds--menu-item--disabled');
+    if (this.isDanger(hasChildren)) classes.push('cds--menu-item--danger');
+    return classes.join(' ');
+  }
+
+  registerWithMenu = modifier((element: HTMLLIElement) => {
+    this.liElement = element;
+    let unregister: (() => void) | undefined;
+    // The menu we belong to registers itself from a modifier on its own
+    // `<ul>`, and Glimmer installs an element's modifiers before those of
+    // its parent, so it isn't registered yet at this point. Look it up once
+    // the render pass is done - which also keeps the class recomputation
+    // this triggers out of the render that just read those classes.
+    const timer = runTask(this, () => {
+      const menu = findParentMenu(element);
+      if (!menu) return;
+      menu.registerItem(this);
+      unregister = () => menu.unregisterItem(this);
+    });
+    return () => {
+      cancelTask(this, timer);
+      unregister?.();
+    };
+  });
+
+  @action
+  handleClick(hasChildren: boolean, event: MouseEvent | KeyboardEvent) {
+    if (this.isDisabled(hasChildren)) return;
+    if (hasChildren) {
+      this.submenuOpen = true;
+    } else {
+      this.args.onClick?.(event);
+    }
+  }
+
+  @action
+  handleKeyDown(hasChildren: boolean, event: KeyboardEvent) {
+    if (hasChildren && event.key === 'ArrowRight') {
+      event.stopPropagation();
+      event.preventDefault();
+      this.submenuOpen = true;
+      return;
+    }
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.handleClick(hasChildren, event);
+    }
+  }
+
+  @action
+  closeSubmenu() {
+    this.submenuOpen = false;
+    this.liElement?.focus();
+  }
+
+  <template>
+    {{#let (has-block) as |hasChildren|}}
+      <li
+        role={{this.role}}
+        class={{this.classesFor hasChildren}}
+        tabindex={{if (this.isDisabled hasChildren) '-1' '0'}}
+        aria-disabled={{if (this.isDisabled hasChildren) 'true'}}
+        aria-haspopup={{if hasChildren 'true'}}
+        aria-expanded={{if
+          hasChildren
+          (if this.submenuOpen 'true' 'false')
+        }}
+        aria-checked={{if
+          this.hasAriaChecked
+          (if @ariaChecked 'true' 'false')
+        }}
+        title={{@label}}
+        {{on 'click' (fn this.handleClick hasChildren)}}
+        {{on 'keydown' (fn this.handleKeyDown hasChildren)}}
+        {{this.registerWithMenu}}
+        ...attributes
+      >
+        <div class='cds--menu-item__selection-icon'>
+          {{#if @ariaChecked}}
+            <Checkmark />
+          {{/if}}
+        </div>
+        <div class='cds--menu-item__icon'>
+          {{#if @renderIcon}}
+            <@renderIcon />
+          {{/if}}
+        </div>
+        <div class='cds--menu-item__label'>{{@label}}</div>
+        {{#if (this.isDanger hasChildren)}}
+          {{#if @dangerDescription}}
+            <span
+              id='menu-item-danger-{{this.guid}}'
+              class='cds--visually-hidden'
+            >
+              {{@dangerDescription}}
+            </span>
+          {{/if}}
+        {{/if}}
+        {{#unless hasChildren}}
+          {{#if @shortcut}}
+            <div class='cds--menu-item__shortcut'>{{@shortcut}}</div>
+          {{/if}}
+        {{/unless}}
+        {{#if hasChildren}}
+          <div class='cds--menu-item__shortcut'>
+            <CaretRight />
+          </div>
+          <Menu
+            @label={{@label}}
+            @open={{this.submenuOpen}}
+            @isRoot={{false}}
+            @anchor={{this.liElement}}
+            @onClose={{this.closeSubmenu}}
+          >
+            {{yield}}
+          </Menu>
+        {{/if}}
+      </li>
+    {{/let}}
+  </template>
+}
