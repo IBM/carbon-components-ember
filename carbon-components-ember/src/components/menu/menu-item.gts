@@ -93,10 +93,24 @@ export default class MenuItem
     return this.args.ariaChecked !== undefined;
   }
 
-  get classes() {
+  // A submenu-parent item can't be individually disabled or marked danger,
+  // matching React's `isDisabled = disabled && !hasChildren` /
+  // `isDanger = kind === 'danger' && !hasChildren`.
+  @action
+  isDisabled(hasChildren: boolean) {
+    return !!this.args.disabled && !hasChildren;
+  }
+
+  @action
+  isDanger(hasChildren: boolean) {
+    return this.args.kind === 'danger' && !hasChildren;
+  }
+
+  @action
+  classesFor(hasChildren: boolean) {
     const classes = ['cds--menu-item'];
-    if (this.args.disabled) classes.push('cds--menu-item--disabled');
-    if (this.args.kind === 'danger') classes.push('cds--menu-item--danger');
+    if (this.isDisabled(hasChildren)) classes.push('cds--menu-item--disabled');
+    if (this.isDanger(hasChildren)) classes.push('cds--menu-item--danger');
     return classes.join(' ');
   }
 
@@ -122,7 +136,7 @@ export default class MenuItem
 
   @action
   handleClick(hasChildren: boolean, event: MouseEvent | KeyboardEvent) {
-    if (this.args.disabled) return;
+    if (this.isDisabled(hasChildren)) return;
     if (hasChildren) {
       this.submenuOpen = true;
     } else {
@@ -151,61 +165,68 @@ export default class MenuItem
   }
 
   <template>
-    <li
-      role={{this.role}}
-      class={{this.classes}}
-      tabindex={{if @disabled '-1' '0'}}
-      aria-disabled={{if @disabled 'true'}}
-      aria-haspopup={{if (has-block) 'true'}}
-      aria-expanded={{if
-        (has-block)
-        (if this.submenuOpen 'true' 'false')
-      }}
-      aria-checked={{if
-        this.hasAriaChecked
-        (if @ariaChecked 'true' 'false')
-      }}
-      title={{@label}}
-      {{on 'click' (fn this.handleClick (has-block))}}
-      {{on 'keydown' (fn this.handleKeyDown (has-block))}}
-      {{this.registerWithMenu}}
-      ...attributes
-    >
-      <div class='cds--menu-item__selection-icon'>
-        {{#if @ariaChecked}}
-          <Checkmark />
-        {{/if}}
-      </div>
-      <div class='cds--menu-item__icon'>
-        {{#if @renderIcon}}
-          <@renderIcon />
-        {{/if}}
-      </div>
-      <div class='cds--menu-item__label'>{{@label}}</div>
-      {{#if @dangerDescription}}
-        <span id='menu-item-danger-{{this.guid}}' class='cds--visually-hidden'>
-          {{@dangerDescription}}
-        </span>
-      {{/if}}
-      {{#unless (has-block)}}
-        {{#if @shortcut}}
-          <div class='cds--menu-item__shortcut'>{{@shortcut}}</div>
-        {{/if}}
-      {{/unless}}
-      {{#if (has-block)}}
-        <div class='cds--menu-item__shortcut'>
-          <CaretRight />
+    {{#let (has-block) as |hasChildren|}}
+      <li
+        role={{this.role}}
+        class={{this.classesFor hasChildren}}
+        tabindex={{if (this.isDisabled hasChildren) '-1' '0'}}
+        aria-disabled={{if (this.isDisabled hasChildren) 'true'}}
+        aria-haspopup={{if hasChildren 'true'}}
+        aria-expanded={{if
+          hasChildren
+          (if this.submenuOpen 'true' 'false')
+        }}
+        aria-checked={{if
+          this.hasAriaChecked
+          (if @ariaChecked 'true' 'false')
+        }}
+        title={{@label}}
+        {{on 'click' (fn this.handleClick hasChildren)}}
+        {{on 'keydown' (fn this.handleKeyDown hasChildren)}}
+        {{this.registerWithMenu}}
+        ...attributes
+      >
+        <div class='cds--menu-item__selection-icon'>
+          {{#if @ariaChecked}}
+            <Checkmark />
+          {{/if}}
         </div>
-        <Menu
-          @label={{@label}}
-          @open={{this.submenuOpen}}
-          @isRoot={{false}}
-          @anchor={{this.liElement}}
-          @onClose={{this.closeSubmenu}}
-        >
-          {{yield}}
-        </Menu>
-      {{/if}}
-    </li>
+        <div class='cds--menu-item__icon'>
+          {{#if @renderIcon}}
+            <@renderIcon />
+          {{/if}}
+        </div>
+        <div class='cds--menu-item__label'>{{@label}}</div>
+        {{#if (this.isDanger hasChildren)}}
+          {{#if @dangerDescription}}
+            <span
+              id='menu-item-danger-{{this.guid}}'
+              class='cds--visually-hidden'
+            >
+              {{@dangerDescription}}
+            </span>
+          {{/if}}
+        {{/if}}
+        {{#unless hasChildren}}
+          {{#if @shortcut}}
+            <div class='cds--menu-item__shortcut'>{{@shortcut}}</div>
+          {{/if}}
+        {{/unless}}
+        {{#if hasChildren}}
+          <div class='cds--menu-item__shortcut'>
+            <CaretRight />
+          </div>
+          <Menu
+            @label={{@label}}
+            @open={{this.submenuOpen}}
+            @isRoot={{false}}
+            @anchor={{this.liElement}}
+            @onClose={{this.closeSubmenu}}
+          >
+            {{yield}}
+          </Menu>
+        {{/if}}
+      </li>
+    {{/let}}
   </template>
 }

@@ -331,9 +331,10 @@ export default class Menu extends Component<MenuSignature> {
   handleKeyDown(event: KeyboardEvent) {
     event.stopPropagation();
     const closesMenu =
-      event.key === 'Escape' ||
-      event.key === 'Tab' ||
-      (!this.isRoot && event.key === 'ArrowLeft');
+      (event.key === 'Escape' ||
+        event.key === 'Tab' ||
+        (!this.isRoot && event.key === 'ArrowLeft')) &&
+      this.args.onClose;
     if (closesMenu) {
       event.preventDefault();
       this.args.onClose?.();

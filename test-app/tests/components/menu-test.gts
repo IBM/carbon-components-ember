@@ -484,4 +484,167 @@ module('Integration | Component | Menu', (hooks) => {
 
     assert.true(closed);
   });
+
+  test('@size sets the size modifier class, defaulting to sm', async function (this: {
+    container: HTMLElement;
+  }, assert) {
+    const target = this.container;
+    await render(
+      <template>
+        <Menu @label='Test menu' @open={{true}} @target={{target}}>
+          <MenuItem @label='Cut' />
+        </Menu>
+      </template>,
+    );
+
+    await waitForAnimationFrame();
+    assert.dom('[role="menu"]', this.container).hasClass('cds--menu--sm');
+
+    await render(
+      <template>
+        <Menu @label='Test menu' @open={{true}} @target={{target}} @size='lg'>
+          <MenuItem @label='Cut' />
+        </Menu>
+      </template>,
+    );
+
+    await waitForAnimationFrame();
+    assert.dom('[role="menu"]', this.container).hasClass('cds--menu--lg');
+  });
+
+  test('@border, @backgroundToken, and @menuAlignment add their modifier classes', async function (this: {
+    container: HTMLElement;
+  }, assert) {
+    const target = this.container;
+    await render(
+      <template>
+        <Menu
+          @label='Test menu'
+          @open={{true}}
+          @target={{target}}
+          @border={{true}}
+          @backgroundToken='background'
+          @menuAlignment='top-start'
+        >
+          <MenuItem @label='Cut' />
+        </Menu>
+      </template>,
+    );
+
+    await waitForAnimationFrame();
+
+    assert.dom('[role="menu"]', this.container).hasClass('cds--menu--border');
+    assert
+      .dom('[role="menu"]', this.container)
+      .hasClass('cds--menu--background-token__background');
+    assert
+      .dom('[role="menu"]', this.container)
+      .hasClass('cds--menu--box-shadow-top');
+  });
+
+  test('ArrowDown/ArrowUp move roving focus between items and wrap around', async function (this: {
+    container: HTMLElement;
+  }, assert) {
+    const target = this.container;
+    await render(
+      <template>
+        <Menu @label='Test menu' @open={{true}} @target={{target}}>
+          <MenuItem @label='Cut' />
+          <MenuItem @label='Copy' />
+          <MenuItem @label='Paste' />
+        </Menu>
+      </template>,
+    );
+
+    await waitForAnimationFrame();
+
+    const items = this.container.querySelectorAll('[role="menuitem"]');
+    const menu = this.container.querySelector('[role="menu"]')!;
+
+    assert.strictEqual(document.activeElement, items[0]);
+
+    await triggerKeyEvent(menu, 'keydown', 'ArrowDown');
+    assert.strictEqual(document.activeElement, items[1]);
+
+    await triggerKeyEvent(menu, 'keydown', 'ArrowDown');
+    assert.strictEqual(document.activeElement, items[2]);
+
+    await triggerKeyEvent(menu, 'keydown', 'ArrowDown');
+    assert.strictEqual(
+      document.activeElement,
+      items[0],
+      'wraps around past the last item',
+    );
+
+    await triggerKeyEvent(menu, 'keydown', 'ArrowUp');
+    assert.strictEqual(
+      document.activeElement,
+      items[2],
+      'wraps around past the first item',
+    );
+  });
+
+  test('@dangerDescription is only rendered for a danger item without a submenu', async function (this: {
+    container: HTMLElement;
+  }, assert) {
+    const target = this.container;
+    await render(
+      <template>
+        <Menu @label='Test menu' @open={{true}} @target={{target}}>
+          <MenuItem
+            @label='Delete'
+            @kind='danger'
+            @dangerDescription='This cannot be undone'
+          />
+          <MenuItem @label='Share with' @kind='danger'>
+            <MenuItem @label='Product team' />
+          </MenuItem>
+        </Menu>
+      </template>,
+    );
+
+    await waitForAnimationFrame();
+
+    assert
+      .dom('.cds--visually-hidden', this.container)
+      .exists({ count: 1 }, 'only the leaf danger item renders the hint');
+    assert
+      .dom('[role="menuitem"]:nth-child(1)', this.container)
+      .hasClass('cds--menu-item--danger');
+    assert
+      .dom('[aria-haspopup="true"]', this.container)
+      .doesNotHaveClass(
+        'cds--menu-item--danger',
+        'a submenu-parent item is never marked danger',
+      );
+  });
+
+  test('a MenuItem with a submenu ignores @disabled since it cannot be individually disabled', async function (this: {
+    container: HTMLElement;
+  }, assert) {
+    const target = this.container;
+    await render(
+      <template>
+        <Menu @label='Test menu' @open={{true}} @target={{target}}>
+          <MenuItem @label='Share with' @disabled={{true}}>
+            <MenuItem @label='Product team' />
+          </MenuItem>
+        </Menu>
+      </template>,
+    );
+
+    await waitForAnimationFrame();
+
+    const parent = this.container.querySelector('[aria-haspopup="true"]')!;
+    assert.dom(parent).doesNotHaveClass('cds--menu-item--disabled');
+    assert.dom(parent).hasAttribute('tabindex', '0');
+    assert.dom(parent).doesNotHaveAttribute('aria-disabled');
+
+    await click(parent);
+    await waitForAnimationFrame();
+
+    assert
+      .dom('.cds--menu-item .cds--menu', this.container)
+      .hasClass('cds--menu--open', 'the submenu still opens on click');
+  });
 });
