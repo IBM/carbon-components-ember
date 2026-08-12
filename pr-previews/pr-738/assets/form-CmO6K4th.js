@@ -1,4 +1,4 @@
-import { s as setComponentTemplate, t as templateOnly, i as templateFactory, o as on, j as fn } from './main-CA22e_N2.js';
+import { s as setComponentTemplate, t as templateOnly, i as templateFactory, o as on, j as fn } from './main-BQyjbLtJ.js';
 import { dataFrom } from './index-dGgzbTWI.js';
 
 const dataFromEvent = dataFrom;

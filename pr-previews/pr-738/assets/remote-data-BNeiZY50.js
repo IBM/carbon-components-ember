@@ -1,4 +1,4 @@
-import { k as resource, l as decorateFieldV2, m as initializeDeferredDecorator, w as waitForPromise, n as tracked, p as resourceFactory } from './main-CA22e_N2.js';
+import { k as resource, l as decorateFieldV2, m as initializeDeferredDecorator, w as waitForPromise, n as tracked, p as resourceFactory } from './main-BQyjbLtJ.js';
 
 /**
  * @protected
