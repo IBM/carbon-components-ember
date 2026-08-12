@@ -1,0 +1,493 @@
+[
+  [
+    "<div class=\"cds--tabs\n          \n          \n          \n          \" data-index=\"0\"></div>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "bottom": "0px",
+      "color": "rgb(22, 22, 22)",
+      "display": "flex",
+      "font": "",
+      "height": "40px",
+      "inset": "0px",
+      "left": "0px",
+      "outline": "rgb(22, 22, 22) none 3px",
+      "overflow": "hidden auto",
+      "position": "relative",
+      "right": "0px",
+      "top": "0px",
+      "width": "1276px"
+    }
+  ],
+  [
+    "<div:before class=\"cds--tabs\n          \n          \n          \n          \" data-index=\"0\"></div:before>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "display": "block",
+      "font": "",
+      "outline": "rgb(22, 22, 22) none 3px"
+    }
+  ],
+  [
+    "<div:after class=\"cds--tabs\n          \n          \n          \n          \" data-index=\"0\"></div:after>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "display": "block",
+      "font": "",
+      "outline": "rgb(22, 22, 22) none 3px"
+    }
+  ],
+  [
+    "<button aria-hidden=\"true\" aria-label=\"Scroll left\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--previous\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"1\"></button>",
+    {
+      "appearance": "none",
+      "background": "rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box",
+      "border": "0px none rgb(0, 0, 0)",
+      "bottom": "0px",
+      "cursor": "pointer",
+      "display": "none",
+      "flex": "0 0 auto",
+      "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "height": "auto",
+      "inset": "0px auto 0px 0px",
+      "left": "0px",
+      "padding": "0px",
+      "position": "relative",
+      "top": "0px",
+      "width": "40px"
+    }
+  ],
+  [
+    "<button:before aria-hidden=\"true\" aria-label=\"Scroll left\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--previous\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"1\"></button:before>",
+    {
+      "background": "rgba(0, 0, 0, 0) linear-gradient(to left, rgba(255, 255, 255, 0), rgb(255, 255, 255)) repeat scroll 0% 0% / auto padding-box border-box",
+      "content": "\"\"",
+      "cursor": "pointer",
+      "display": "block",
+      "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "height": "100%",
+      "inset": "auto -8px auto auto",
+      "position": "absolute",
+      "right": "-8px",
+      "width": "8px"
+    }
+  ],
+  [
+    "<button:after aria-hidden=\"true\" aria-label=\"Scroll left\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--previous\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"1\"></button:after>",
+    {
+      "cursor": "pointer",
+      "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<svg focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" data-index=\"2\"></svg>",
+    {
+      "cursor": "pointer",
+      "fill": "rgb(22, 22, 22)",
+      "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<svg:before focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" data-index=\"2\"></svg:before>",
+    {
+      "cursor": "pointer",
+      "fill": "rgb(22, 22, 22)",
+      "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<svg:after focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" data-index=\"2\"></svg:after>",
+    {
+      "cursor": "pointer",
+      "fill": "rgb(22, 22, 22)",
+      "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<path d=\"M5 8L10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z\" data-index=\"3\"></path>",
+    {
+      "cursor": "pointer",
+      "fill": "rgb(22, 22, 22)",
+      "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<path:before d=\"M5 8L10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z\" data-index=\"3\"></path:before>",
+    {
+      "cursor": "pointer",
+      "fill": "rgb(22, 22, 22)",
+      "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<path:after d=\"M5 8L10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z\" data-index=\"3\"></path:after>",
+    {
+      "cursor": "pointer",
+      "fill": "rgb(22, 22, 22)",
+      "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<div aria-label=\"List of tabs\" role=\"tablist\" class=\"cds--tab--list\" data-index=\"4\"></div>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "display": "flex",
+      "font": "",
+      "height": "40px",
+      "outline": "rgb(22, 22, 22) none 3px",
+      "overflow": "auto",
+      "width": "136.016px"
+    }
+  ],
+  [
+    "<div:before aria-label=\"List of tabs\" role=\"tablist\" class=\"cds--tab--list\" data-index=\"4\"></div:before>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "display": "block",
+      "font": "",
+      "outline": "rgb(22, 22, 22) none 3px"
+    }
+  ],
+  [
+    "<div:after aria-label=\"List of tabs\" role=\"tablist\" class=\"cds--tab--list\" data-index=\"4\"></div:after>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "display": "block",
+      "font": "",
+      "outline": "rgb(22, 22, 22) none 3px"
+    }
+  ],
+  [
+    "<button aria-controls=\"ember1025-tabpanel-0\" aria-selected=\"true\" id=\"ember1025-tab-0\" role=\"tab\" data-tab-index=\"0\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  cds--tabs__nav-item--selected\n                  \" tabindex=\"0\" type=\"button\" data-index=\"5\"></button>",
+    {
+      "appearance": "none",
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "border": "",
+      "bottom": "0px",
+      "color": "rgb(22, 22, 22)",
+      "cursor": "pointer",
+      "display": "block",
+      "flex": "1 0 auto",
+      "font": "600 14px / 18.0001px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "height": "40px",
+      "inset": "0px",
+      "left": "0px",
+      "outline": "rgba(0, 0, 0, 0) solid 2px",
+      "overflow": "hidden",
+      "padding": "0px 16px",
+      "position": "relative",
+      "right": "0px",
+      "top": "0px",
+      "transition": "color 0.07s cubic-bezier(0.2, 0, 0.38, 0.9)",
+      "width": "67.875px"
+    }
+  ],
+  [
+    "<button:before aria-controls=\"ember1025-tabpanel-0\" aria-selected=\"true\" id=\"ember1025-tab-0\" role=\"tab\" data-tab-index=\"0\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  cds--tabs__nav-item--selected\n                  \" tabindex=\"0\" type=\"button\" data-index=\"5\"></button:before>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "cursor": "pointer",
+      "font": "600 14px / 18.0001px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(22, 22, 22) none 3px"
+    }
+  ],
+  [
+    "<button:after aria-controls=\"ember1025-tabpanel-0\" aria-selected=\"true\" id=\"ember1025-tab-0\" role=\"tab\" data-tab-index=\"0\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  cds--tabs__nav-item--selected\n                  \" tabindex=\"0\" type=\"button\" data-index=\"5\"></button:after>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "cursor": "pointer",
+      "font": "600 14px / 18.0001px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(22, 22, 22) none 3px"
+    }
+  ],
+  [
+    "<div class=\"cds--tabs__nav-item-label-wrapper\" data-index=\"6\"></div>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "bottom": "-1px",
+      "color": "rgb(22, 22, 22)",
+      "cursor": "pointer",
+      "display": "flex",
+      "font": "",
+      "height": "18px",
+      "inset": "1px 0px -1px",
+      "left": "0px",
+      "outline": "rgb(22, 22, 22) none 3px",
+      "position": "relative",
+      "right": "0px",
+      "top": "1px",
+      "width": "35.875px"
+    }
+  ],
+  [
+    "<div:before class=\"cds--tabs__nav-item-label-wrapper\" data-index=\"6\"></div:before>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "cursor": "pointer",
+      "display": "block",
+      "font": "",
+      "outline": "rgb(22, 22, 22) none 3px"
+    }
+  ],
+  [
+    "<div:after class=\"cds--tabs__nav-item-label-wrapper\" data-index=\"6\"></div:after>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "cursor": "pointer",
+      "display": "block",
+      "font": "",
+      "outline": "rgb(22, 22, 22) none 3px"
+    }
+  ],
+  [
+    "<span class=\"cds--tabs__nav-item-label\" data-index=\"7\"></span>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "cursor": "pointer",
+      "display": "block",
+      "font": "",
+      "height": "18px",
+      "outline": "rgb(22, 22, 22) none 3px",
+      "width": "35.875px"
+    }
+  ],
+  [
+    "<span:before class=\"cds--tabs__nav-item-label\" data-index=\"7\"></span:before>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "cursor": "pointer",
+      "font": "",
+      "outline": "rgb(22, 22, 22) none 3px"
+    }
+  ],
+  [
+    "<span:after class=\"cds--tabs__nav-item-label\" data-index=\"7\"></span:after>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "cursor": "pointer",
+      "font": "",
+      "outline": "rgb(22, 22, 22) none 3px"
+    }
+  ],
+  [
+    "<button aria-controls=\"ember1025-tabpanel-1\" aria-selected=\"false\" id=\"ember1025-tab-1\" role=\"tab\" data-tab-index=\"1\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  \n                  \" tabindex=\"-1\" type=\"button\" data-index=\"8\"></button>",
+    {
+      "appearance": "none",
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "border": "",
+      "bottom": "0px",
+      "color": "rgb(82, 82, 82)",
+      "cursor": "pointer",
+      "display": "block",
+      "flex": "1 0 auto",
+      "font": "14px / 18.0001px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "height": "40px",
+      "inset": "0px",
+      "left": "0px",
+      "margin": "0px 0px 0px 1px",
+      "outline": "rgba(0, 0, 0, 0) solid 2px",
+      "overflow": "hidden",
+      "padding": "0px 16px",
+      "position": "relative",
+      "right": "0px",
+      "top": "0px",
+      "transition": "border 0.07s cubic-bezier(0.2, 0, 0.38, 0.9), outline 0.07s cubic-bezier(0.2, 0, 0.38, 0.9)",
+      "width": "67.1406px"
+    }
+  ],
+  [
+    "<button:before aria-controls=\"ember1025-tabpanel-1\" aria-selected=\"false\" id=\"ember1025-tab-1\" role=\"tab\" data-tab-index=\"1\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  \n                  \" tabindex=\"-1\" type=\"button\" data-index=\"8\"></button:before>",
+    {
+      "border": "0px none rgb(82, 82, 82)",
+      "color": "rgb(82, 82, 82)",
+      "cursor": "pointer",
+      "font": "14px / 18.0001px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(82, 82, 82) none 3px"
+    }
+  ],
+  [
+    "<button:after aria-controls=\"ember1025-tabpanel-1\" aria-selected=\"false\" id=\"ember1025-tab-1\" role=\"tab\" data-tab-index=\"1\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  \n                  \" tabindex=\"-1\" type=\"button\" data-index=\"8\"></button:after>",
+    {
+      "border": "0px none rgb(82, 82, 82)",
+      "color": "rgb(82, 82, 82)",
+      "cursor": "pointer",
+      "font": "14px / 18.0001px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(82, 82, 82) none 3px"
+    }
+  ],
+  [
+    "<div class=\"cds--tabs__nav-item-label-wrapper\" data-index=\"9\"></div>",
+    {
+      "border": "0px none rgb(82, 82, 82)",
+      "bottom": "-1px",
+      "color": "rgb(82, 82, 82)",
+      "cursor": "pointer",
+      "display": "flex",
+      "font": "",
+      "height": "18px",
+      "inset": "1px 0px -1px",
+      "left": "0px",
+      "outline": "rgb(82, 82, 82) none 3px",
+      "position": "relative",
+      "right": "0px",
+      "top": "1px",
+      "width": "35.1406px"
+    }
+  ],
+  [
+    "<div:before class=\"cds--tabs__nav-item-label-wrapper\" data-index=\"9\"></div:before>",
+    {
+      "border": "0px none rgb(82, 82, 82)",
+      "color": "rgb(82, 82, 82)",
+      "cursor": "pointer",
+      "display": "block",
+      "font": "",
+      "outline": "rgb(82, 82, 82) none 3px"
+    }
+  ],
+  [
+    "<div:after class=\"cds--tabs__nav-item-label-wrapper\" data-index=\"9\"></div:after>",
+    {
+      "border": "0px none rgb(82, 82, 82)",
+      "color": "rgb(82, 82, 82)",
+      "cursor": "pointer",
+      "display": "block",
+      "font": "",
+      "outline": "rgb(82, 82, 82) none 3px"
+    }
+  ],
+  [
+    "<span class=\"cds--tabs__nav-item-label\" data-index=\"10\"></span>",
+    {
+      "border": "0px none rgb(82, 82, 82)",
+      "color": "rgb(82, 82, 82)",
+      "cursor": "pointer",
+      "display": "block",
+      "font": "",
+      "height": "18px",
+      "outline": "rgb(82, 82, 82) none 3px",
+      "width": "35.1406px"
+    }
+  ],
+  [
+    "<span:before class=\"cds--tabs__nav-item-label\" data-index=\"10\"></span:before>",
+    {
+      "border": "0px none rgb(82, 82, 82)",
+      "color": "rgb(82, 82, 82)",
+      "cursor": "pointer",
+      "font": "",
+      "outline": "rgb(82, 82, 82) none 3px"
+    }
+  ],
+  [
+    "<span:after class=\"cds--tabs__nav-item-label\" data-index=\"10\"></span:after>",
+    {
+      "border": "0px none rgb(82, 82, 82)",
+      "color": "rgb(82, 82, 82)",
+      "cursor": "pointer",
+      "font": "",
+      "outline": "rgb(82, 82, 82) none 3px"
+    }
+  ],
+  [
+    "<button aria-hidden=\"true\" aria-label=\"Scroll right\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--next\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"11\"></button>",
+    {
+      "appearance": "none",
+      "background": "rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box",
+      "border": "0px none rgb(0, 0, 0)",
+      "bottom": "0px",
+      "cursor": "pointer",
+      "display": "none",
+      "flex": "0 0 auto",
+      "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "height": "auto",
+      "inset": "0px 0px 0px auto",
+      "padding": "0px",
+      "position": "relative",
+      "right": "0px",
+      "top": "0px",
+      "width": "40px"
+    }
+  ],
+  [
+    "<button:before aria-hidden=\"true\" aria-label=\"Scroll right\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--next\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"11\"></button:before>",
+    {
+      "background": "rgba(0, 0, 0, 0) linear-gradient(to right, rgba(255, 255, 255, 0), rgb(255, 255, 255)) repeat scroll 0% 0% / auto padding-box border-box",
+      "content": "\"\"",
+      "cursor": "pointer",
+      "display": "block",
+      "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "height": "100%",
+      "inset": "auto auto auto -8px",
+      "left": "-8px",
+      "position": "absolute",
+      "width": "8px"
+    }
+  ],
+  [
+    "<button:after aria-hidden=\"true\" aria-label=\"Scroll right\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--next\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"11\"></button:after>",
+    {
+      "cursor": "pointer",
+      "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<svg focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" data-index=\"12\"></svg>",
+    {
+      "cursor": "pointer",
+      "fill": "rgb(22, 22, 22)",
+      "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<svg:before focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" data-index=\"12\"></svg:before>",
+    {
+      "cursor": "pointer",
+      "fill": "rgb(22, 22, 22)",
+      "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<svg:after focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" data-index=\"12\"></svg:after>",
+    {
+      "cursor": "pointer",
+      "fill": "rgb(22, 22, 22)",
+      "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<path d=\"M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"13\"></path>",
+    {
+      "cursor": "pointer",
+      "fill": "rgb(22, 22, 22)",
+      "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<path:before d=\"M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"13\"></path:before>",
+    {
+      "cursor": "pointer",
+      "fill": "rgb(22, 22, 22)",
+      "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<path:after d=\"M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"13\"></path:after>",
+    {
+      "cursor": "pointer",
+      "fill": "rgb(22, 22, 22)",
+      "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ]
+]
