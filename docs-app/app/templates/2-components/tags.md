@@ -19,6 +19,8 @@ const context = trackedObject({
     'gray',
     'cool-gray',
     'warm-gray',
+    'high-contrast',
+    'outline',
   ]
 });
 
@@ -33,6 +35,76 @@ const context = trackedObject({
           {{type}}
         </Tag>
       {{/each}}
+</template>
+```
+
+## Sizes
+
+`@size` supports `sm`, `md` (default) or `lg`.
+
+```gjs live preview
+import { Tag } from 'carbon-components-ember/components';
+import { ThemeSupport } from 'docs-support';
+
+<template>
+  <ThemeSupport />
+  <br>
+  <Tag @type='blue' @size='sm'>Small</Tag>
+  <Tag @type='blue' @size='md'>Medium</Tag>
+  <Tag @type='blue' @size='lg'>Large</Tag>
+</template>
+```
+
+## Disabled
+
+```gjs live preview
+import { Tag } from 'carbon-components-ember/components';
+import { ThemeSupport } from 'docs-support';
+
+<template>
+  <ThemeSupport />
+  <br>
+  <Tag @type='blue' @disabled={{true}}>Disabled</Tag>
+</template>
+```
+
+## With icon
+
+Provide a `@renderIcon` component to render an icon inside the tag. The icon
+is hidden for the `sm` size.
+
+```gjs live preview
+import { Tag } from 'carbon-components-ember/components';
+import { Asleep } from 'carbon-components-ember/icons';
+import { ThemeSupport } from 'docs-support';
+
+<template>
+  <ThemeSupport />
+  <br>
+  <Tag @type='blue' @renderIcon={{Asleep}}>With icon</Tag>
+</template>
+```
+
+## With decorator
+
+**Experimental:** Provide a `@decorator` (or the deprecated `@slug`) component
+to render inside the Tag, such as an AILabel once it's available (see
+[AILabel #406](https://github.com/IBM/carbon-components-ember/issues/406)).
+In the meantime, any component can be used as a placeholder.
+
+```gjs live preview
+import { Tag } from 'carbon-components-ember/components';
+import { Add } from 'carbon-components-ember/icons';
+import { ThemeSupport } from 'docs-support';
+
+<template>
+  <ThemeSupport />
+  <br>
+  <Tag
+    @type='red'
+    @renderIcon={{Add}}
+    @decorator={{component Add size='16'}}
+  >With decorator</Tag>
 </template>
 ```
 
