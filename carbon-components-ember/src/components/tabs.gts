@@ -5,9 +5,10 @@ import and from 'ember-truth-helpers/helpers/and';
 import { fn, concat } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { registerDestructor } from '@ember/destroyable';
-import type { WithBoundArgs, ComponentLike } from '@glint/template';
+import type { WithBoundArgs } from '@glint/template';
 import { action } from '@ember/object';
 import type Owner from '@ember/owner';
+import type Icon from './icon.gts';
 import didResize from 'ember-resize-modifier/modifiers/did-resize';
 import { modifier as eModifier } from 'ember-modifier';
 import { runTask } from 'ember-lifeline';
@@ -46,7 +47,7 @@ export interface TabPaneArgs {
   disabled?: boolean;
   isDefault?: boolean;
   /** Icon rendered alongside the tab label, e.g. from `carbon-components-ember/icons`. */
-  renderIcon?: ComponentLike;
+  renderIcon?: typeof Icon;
   /** Subtitle rendered under the label. Only shown when the parent `Tabs` is `@contained`. */
   secondaryLabel?: string;
 }
@@ -392,8 +393,11 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
                 <div class='cds--tabs__nav-item-label-wrapper'>
                   {{#if tab.args.renderIcon}}
                     <div class='cds--tabs__nav-item--icon-left'>
-                      {{#let tab.args.renderIcon as |Icon|}}
-                        <Icon />
+                      {{#let tab.args.renderIcon as |RenderIcon|}}
+                        <RenderIcon
+                          @size='16'
+                          @svgClass='cds--tabs__nav-item-icon-svg'
+                        />
                       {{/let}}
                     </div>
                   {{/if}}
@@ -461,8 +465,11 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
                   </span>
                   {{#if tab.args.renderIcon}}
                     <div class='cds--tabs__nav-item--icon'>
-                      {{#let tab.args.renderIcon as |Icon|}}
-                        <Icon />
+                      {{#let tab.args.renderIcon as |RenderIcon|}}
+                        <RenderIcon
+                          @size='16'
+                          @svgClass='cds--tabs__nav-item-icon-svg'
+                        />
                       {{/let}}
                     </div>
                   {{/if}}

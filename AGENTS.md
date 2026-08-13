@@ -303,6 +303,30 @@ export interface LinkSignature {
 
 Callers pass the component itself: `<Link @renderIcon={{Add}} />`.
 
+**Gotcha: always pass `@size` (and an inert `@svgClass`) when invoking a
+`renderIcon`-style arg.** This addon's `Icon` base component
+(`components/icon.gts`) defaults to a 24px SVG and adds its own 5px margin
+unless `@size`/`@svgClass` are passed — so a bare `<@renderIcon />` renders
+oversized and misaligned inside whatever small (usually 16px) box the
+surrounding component gives it. Carbon React always passes an explicit size
+to these icons (e.g. Tabs' `Tab.tsx` does `<Icon size={16} />`); do the same
+here:
+
+```gts
+{{! WRONG — renders a 24px icon with a stray 5px margin in a 16px box }}
+<@renderIcon />
+
+{{! RIGHT — matches Carbon's spec size and neutralizes the default margin }}
+<@renderIcon @size='16' @svgClass='cds--component__icon-svg' />
+```
+
+The `@svgClass` only needs to be *some* class that isn't otherwise styled —
+its job is to opt out of `Icon`'s default `.icon` class (which carries the
+margin), not to add real styling. This exact bug has recurred more than
+once (Tag's custom icon overflowing its box, Tabs' `renderIcon` rendering at
+24px instead of 16px) — check icon size/alignment against real Carbon styles
+whenever you add a `renderIcon`/`decorator`/`slug`-style arg.
+
 ### 3. Model Controlled vs Uncontrolled Explicitly
 
 Every component must offer *some* uncontrolled path. Which of the two shapes

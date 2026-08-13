@@ -1,6 +1,13 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, rerender, triggerKeyEvent } from '@ember/test-helpers';
+import {
+  render,
+  click,
+  rerender,
+  triggerKeyEvent,
+  waitUntil,
+  find,
+} from '@ember/test-helpers';
 import Tabs from 'carbon-components-ember/components/tabs';
 import { Folder } from 'carbon-components-ember/icons';
 import { cell } from 'ember-resources';
@@ -221,7 +228,7 @@ module('Integration | Component | Tabs', (hooks) => {
     assert.dom('[role="tab"]:first-child').hasAttribute('aria-selected', 'true');
   });
 
-  test('@renderIcon renders the given icon inside the tab', async function (assert) {
+  test('@renderIcon renders the given icon inside the tab at the 16px size Carbon expects', async function (assert) {
     await render(
       <template>
         <Tabs as |TabPane|>
@@ -233,6 +240,63 @@ module('Integration | Component | Tabs', (hooks) => {
     );
 
     assert.dom('.cds--tabs__nav-item--icon').exists();
+    await waitUntil(() => find('.cds--tabs__nav-item--icon svg'));
+    assert.dom('.cds--tabs__nav-item--icon svg').hasAttribute('width', '16');
+    assert.dom('.cds--tabs__nav-item--icon svg').hasAttribute('height', '16');
+  });
+
+  test('@dismissable @renderIcon renders the given icon at the 16px size Carbon expects', async function (assert) {
+    await render(
+      <template>
+        <Tabs @dismissable={{true}} as |TabPane|>
+          <TabPane @title='Tab 1' @isDefault={{true}} @renderIcon={{Folder}}>
+            Content 1
+          </TabPane>
+        </Tabs>
+      </template>,
+    );
+
+    assert.dom('.cds--tabs__nav-item--icon-left').exists();
+    await waitUntil(() => find('.cds--tabs__nav-item--icon-left svg'));
+    assert
+      .dom('.cds--tabs__nav-item--icon-left svg')
+      .hasAttribute('width', '16');
+    assert
+      .dom('.cds--tabs__nav-item--icon-left svg')
+      .hasAttribute('height', '16');
+  });
+
+  test('@renderIcon fits inside its wrapper under real Carbon styles, without the default icon margin', async function (this: RenderingTestContext, assert) {
+    const styleValue = cell('');
+    await render(
+      <template>
+        <Tabs as |TabPane|>
+          <TabPane @title='Tab 1' @isDefault={{true}} @renderIcon={{Folder}}>
+            Content 1
+          </TabPane>
+        </Tabs>
+        <style>{{styleValue.current}}</style>
+      </template>,
+    );
+    await waitUntil(() => find('.cds--tabs__nav-item--icon svg'));
+    styleValue.current = carbonStyle.default;
+    await rerender();
+    await waitForAnimationFrame();
+
+    const wrapper = find('.cds--tabs__nav-item--icon') as HTMLElement;
+    const svg = wrapper.querySelector('svg') as SVGElement;
+    const wrapperRect = wrapper.getBoundingClientRect();
+    const svgRect = svg.getBoundingClientRect();
+
+    assert.strictEqual(
+      getComputedStyle(svg).margin,
+      '0px',
+      'the icon has no default margin pushing it out of its 16px box',
+    );
+    assert.true(
+      svgRect.width <= wrapperRect.width && svgRect.height <= wrapperRect.height,
+      'the icon fits inside its wrapper instead of overflowing it',
+    );
   });
 
   test('@secondaryLabel only renders when @contained is set', async function (assert) {
