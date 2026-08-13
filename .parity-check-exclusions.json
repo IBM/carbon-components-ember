@@ -23,5 +23,10 @@
     "reason": "HideAtBreakpoint is not a React component — it's a documentation-only Storybook 'Helpers' page demonstrating pure SCSS mixins (hide-at-sm/md/lg/xlg/max from @carbon/styles/scss/utilities/hide-at-breakpoint) applied via plain CSS class names. There is no component API to give an Ember counterpart; consumers apply the same @carbon/styles mixins directly in their own SCSS, which already works today via this addon's existing @carbon/styles dependency.",
     "excludedAt": "2026-08-13T21:13:39.188Z",
     "issue": "690"
+  },
+  "PrimaryButton": {
+    "reason": "React's PrimaryButton is a thin wrapper — <Button kind=\"primary\" {...props} /> — with no distinct props, stories, or behavior of its own beyond the fixed kind (which is also Button's default kind). It is fully covered by the existing Ember Button component's @type='primary' argument (see carbon-components-ember/src/components/button.gts), consistent with the SecondaryButton exclusion (#699).",
+    "excludedAt": "2026-08-13T21:05:39.480Z",
+    "issue": "698"
   }
 }
