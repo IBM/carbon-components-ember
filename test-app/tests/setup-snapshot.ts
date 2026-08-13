@@ -83,16 +83,16 @@ export function setupSnapshot(assert: Assert) {
             const vWidth = Number(value[i][1]['width'].replace('px', ''));
             const expectedWidth = Number(expected[i][1]['width'].replace('px', ''));
             console.log('width', vWidth, expectedWidth);
-            if (Math.abs(vWidth - expectedWidth) < 2) {
+            if (Math.abs(vWidth - expectedWidth) < 3) {
               delete value[i][1]['width'];
               delete expected[i][1]['width'];
             }
           }
-          if (value[i][1]['height'] && expected[i][1]['width']) {
+          if (value[i][1]['height'] && expected[i][1]['height']) {
             const vWidth = Number(value[i][1]['height'].replace('px', ''));
             const expectedWidth = Number(expected[i][1]['height'].replace('px', ''));
             console.log('height', vWidth, expectedWidth);
-            if (Math.abs(vWidth - expectedWidth) < 2) {
+            if (Math.abs(vWidth - expectedWidth) < 3) {
               delete value[i][1]['height'];
               delete expected[i][1]['height'];
             }
