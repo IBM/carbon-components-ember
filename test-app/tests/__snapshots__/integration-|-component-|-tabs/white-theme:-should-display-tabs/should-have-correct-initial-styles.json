@@ -1,6 +1,6 @@
 [
   [
-    "<div class=\"cds--tabs\n          \n          \n          \n          \" data-index=\"0\"></div>",
+    "<div class=\"cds--tabs\n          \n          \n          \n          \n          \" data-index=\"0\"></div>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "bottom": "0px",
@@ -19,7 +19,7 @@
     }
   ],
   [
-    "<div:before class=\"cds--tabs\n          \n          \n          \n          \" data-index=\"0\"></div:before>",
+    "<div:before class=\"cds--tabs\n          \n          \n          \n          \n          \" data-index=\"0\"></div:before>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -29,7 +29,7 @@
     }
   ],
   [
-    "<div:after class=\"cds--tabs\n          \n          \n          \n          \" data-index=\"0\"></div:after>",
+    "<div:after class=\"cds--tabs\n          \n          \n          \n          \n          \" data-index=\"0\"></div:after>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",

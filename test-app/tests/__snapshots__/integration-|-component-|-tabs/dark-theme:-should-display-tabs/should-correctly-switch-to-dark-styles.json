@@ -1,6 +1,6 @@
 [
   [
-    "<div class=\"cds--tabs\n          \n          \n          \n          \" data-index=\"0\"></div>",
+    "<div class=\"cds--tabs\n          \n          \n          \n          \n          \" data-index=\"0\"></div>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "bottom": "0px",
@@ -19,7 +19,7 @@
     }
   ],
   [
-    "<div:before class=\"cds--tabs\n          \n          \n          \n          \" data-index=\"0\"></div:before>",
+    "<div:before class=\"cds--tabs\n          \n          \n          \n          \n          \" data-index=\"0\"></div:before>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
@@ -29,7 +29,7 @@
     }
   ],
   [
-    "<div:after class=\"cds--tabs\n          \n          \n          \n          \" data-index=\"0\"></div:after>",
+    "<div:after class=\"cds--tabs\n          \n          \n          \n          \n          \" data-index=\"0\"></div:after>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
@@ -188,7 +188,7 @@
     }
   ],
   [
-    "<button aria-controls=\"ember1028-tabpanel-0\" aria-selected=\"true\" id=\"ember1028-tab-0\" role=\"tab\" data-tab-index=\"0\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  cds--tabs__nav-item--selected\n                  \" tabindex=\"0\" type=\"button\" data-index=\"5\"></button>",
+    "<button aria-controls=\"ember64-tabpanel-0\" aria-selected=\"true\" id=\"ember64-tab-0\" role=\"tab\" data-tab-index=\"0\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  cds--tabs__nav-item--selected\n                  \" tabindex=\"0\" type=\"button\" data-index=\"5\"></button>",
     {
       "appearance": "none",
       "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
@@ -213,7 +213,7 @@
     }
   ],
   [
-    "<button:before aria-controls=\"ember1028-tabpanel-0\" aria-selected=\"true\" id=\"ember1028-tab-0\" role=\"tab\" data-tab-index=\"0\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  cds--tabs__nav-item--selected\n                  \" tabindex=\"0\" type=\"button\" data-index=\"5\"></button:before>",
+    "<button:before aria-controls=\"ember64-tabpanel-0\" aria-selected=\"true\" id=\"ember64-tab-0\" role=\"tab\" data-tab-index=\"0\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  cds--tabs__nav-item--selected\n                  \" tabindex=\"0\" type=\"button\" data-index=\"5\"></button:before>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
@@ -223,7 +223,7 @@
     }
   ],
   [
-    "<button:after aria-controls=\"ember1028-tabpanel-0\" aria-selected=\"true\" id=\"ember1028-tab-0\" role=\"tab\" data-tab-index=\"0\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  cds--tabs__nav-item--selected\n                  \" tabindex=\"0\" type=\"button\" data-index=\"5\"></button:after>",
+    "<button:after aria-controls=\"ember64-tabpanel-0\" aria-selected=\"true\" id=\"ember64-tab-0\" role=\"tab\" data-tab-index=\"0\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  cds--tabs__nav-item--selected\n                  \" tabindex=\"0\" type=\"button\" data-index=\"5\"></button:after>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
@@ -307,7 +307,7 @@
     }
   ],
   [
-    "<button aria-controls=\"ember1028-tabpanel-1\" aria-selected=\"false\" id=\"ember1028-tab-1\" role=\"tab\" data-tab-index=\"1\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  \n                  \" tabindex=\"-1\" type=\"button\" data-index=\"8\"></button>",
+    "<button aria-controls=\"ember64-tabpanel-1\" aria-selected=\"false\" id=\"ember64-tab-1\" role=\"tab\" data-tab-index=\"1\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  \n                  \" tabindex=\"-1\" type=\"button\" data-index=\"8\"></button>",
     {
       "appearance": "none",
       "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
@@ -333,7 +333,7 @@
     }
   ],
   [
-    "<button:before aria-controls=\"ember1028-tabpanel-1\" aria-selected=\"false\" id=\"ember1028-tab-1\" role=\"tab\" data-tab-index=\"1\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  \n                  \" tabindex=\"-1\" type=\"button\" data-index=\"8\"></button:before>",
+    "<button:before aria-controls=\"ember64-tabpanel-1\" aria-selected=\"false\" id=\"ember64-tab-1\" role=\"tab\" data-tab-index=\"1\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  \n                  \" tabindex=\"-1\" type=\"button\" data-index=\"8\"></button:before>",
     {
       "border": "0px none rgb(198, 198, 198)",
       "color": "rgb(198, 198, 198)",
@@ -343,7 +343,7 @@
     }
   ],
   [
-    "<button:after aria-controls=\"ember1028-tabpanel-1\" aria-selected=\"false\" id=\"ember1028-tab-1\" role=\"tab\" data-tab-index=\"1\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  \n                  \" tabindex=\"-1\" type=\"button\" data-index=\"8\"></button:after>",
+    "<button:after aria-controls=\"ember64-tabpanel-1\" aria-selected=\"false\" id=\"ember64-tab-1\" role=\"tab\" data-tab-index=\"1\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  \n                  \" tabindex=\"-1\" type=\"button\" data-index=\"8\"></button:after>",
     {
       "border": "0px none rgb(198, 198, 198)",
       "color": "rgb(198, 198, 198)",

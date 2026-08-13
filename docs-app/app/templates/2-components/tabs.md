@@ -83,7 +83,8 @@ import { ThemeSupport } from 'docs-support';
 
 ## Sizes
 
-`@size` accepts `sm`, `md`, `lg`, or (contained only) `xl`.
+`@size` accepts `sm` and `md` for line tabs. `lg` is also accepted, but only
+takes effect when `@contained` is set.
 
 ```gjs live preview
 import { Tabs } from 'carbon-components-ember/components';
@@ -97,7 +98,7 @@ import { ThemeSupport } from 'docs-support';
         <TabPane @title='Tab Label 2'>Content 2</TabPane>
     </Tabs>
     <br />
-    <Tabs @contained={{true}} @size='xl' as |TabPane|>
+    <Tabs @contained={{true}} @size='lg' as |TabPane|>
         <TabPane @title='Tab Label 1' @isDefault={{true}}>Content 1</TabPane>
         <TabPane @title='Tab Label 2'>Content 2</TabPane>
     </Tabs>

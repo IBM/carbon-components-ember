@@ -339,6 +339,79 @@ module('Integration | Component | Tabs', (hooks) => {
     assert.dom('.cds--tabs').hasClass('cds--layout--size-lg');
   });
 
+  test('@size="lg" without @contained does not add the size class (line tabs cap out at md)', async function (assert) {
+    await render(
+      <template>
+        <Tabs @size='lg' as |TabPane|>
+          <TabPane @title='Tab 1' @isDefault={{true}}>Content 1</TabPane>
+        </Tabs>
+      </template>,
+    );
+
+    assert.dom('.cds--tabs').doesNotHaveClass('cds--layout--size-lg');
+  });
+
+  test('@fullWidth without @contained does not add the full-width class', async function (assert) {
+    await render(
+      <template>
+        <Tabs @fullWidth={{true}} as |TabPane|>
+          <TabPane @title='Tab 1' @isDefault={{true}}>Content 1</TabPane>
+        </Tabs>
+      </template>,
+    );
+
+    assert.dom('.cds--tabs').doesNotHaveClass('cds--tabs--full-width');
+  });
+
+  test('a contained @secondaryLabel tab adds the cds--tabs--tall class', async function (assert) {
+    await render(
+      <template>
+        <Tabs @contained={{true}} as |TabPane|>
+          <TabPane @title='Tab 1' @isDefault={{true}} @secondaryLabel='Sub'>
+            Content 1
+          </TabPane>
+        </Tabs>
+      </template>,
+    );
+
+    assert.dom('.cds--tabs').hasClass('cds--tabs--tall');
+  });
+
+  test('a disabled, dismissable tab cannot be closed by click or Delete key', async function (assert) {
+    let closed: string | undefined;
+    const onClose = (title: string) => {
+      closed = title;
+    };
+    await render(
+      <template>
+        <Tabs @dismissable={{true}} @onTabCloseRequest={{onClose}} as |TabPane|>
+          <TabPane @title='Tab 1' @isDefault={{true}}>Content 1</TabPane>
+          <TabPane @title='Tab 2' @disabled={{true}}>Content 2</TabPane>
+        </Tabs>
+      </template>,
+    );
+
+    const disabledCloseButton = document.querySelectorAll(
+      '.cds--tabs__nav-item--close-icon',
+    )[1] as HTMLElement;
+
+    assert
+      .dom(disabledCloseButton)
+      .hasClass('cds--tabs__nav-item--close-icon--disabled');
+    assert.dom(disabledCloseButton).hasAttribute('aria-disabled', 'true');
+    assert
+      .dom(disabledCloseButton)
+      .isDisabled('the native disabled attribute prevents the button from being clicked at all');
+
+    const disabledTab = document.querySelectorAll('[role="tab"]')[1]!;
+    await triggerKeyEvent(disabledTab, 'keydown', 'Delete');
+    assert.strictEqual(
+      closed,
+      undefined,
+      'pressing Delete on a disabled tab does not call @onTabCloseRequest',
+    );
+  });
+
   test('@loading renders a skeleton, honoring @contained', async function (assert) {
     await render(
       <template>

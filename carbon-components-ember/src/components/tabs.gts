@@ -20,10 +20,10 @@ export type Args = {
   contained?: boolean;
   disabled?: boolean;
   /**
-   * Size of the tabs. `sm`/`md`/`lg` apply to line tabs, `xl` is only
-   * meaningful when `@contained` is also set.
+   * Size of the tabs. `sm` and `md` apply to line tabs; `lg` only takes
+   * effect when `@contained` is also set (a no-op on line tabs otherwise).
    */
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' | 'lg';
   /**
    * When `@contained`, stretches tabs to fill the available width in equal
    * shares.
@@ -138,7 +138,7 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
   }
 
   get focusableTab(): TabPane | undefined {
-    return this.focusedTab ?? this.selectedTab ?? this.tabs[0];
+    return this.focusedTab ?? this.selectedTab ?? this.enabledTabs[0];
   }
 
   @action
@@ -154,6 +154,29 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
     return this.args.activation ?? 'automatic';
   }
 
+  get hasSecondaryLabelTabs() {
+    return (
+      !!this.args.contained &&
+      this.tabs.some((t) => t.args.secondaryLabel !== undefined)
+    );
+  }
+
+  get showSizeClass() {
+    return (
+      !!this.args.size &&
+      !this.hasSecondaryLabelTabs &&
+      (!!this.args.contained ||
+        this.args.size === 'sm' ||
+        this.args.size === 'md')
+    );
+  }
+
+  get showFullWidthClass() {
+    return (
+      !!this.args.fullWidth && !!this.args.contained && this.tabs.length < 9
+    );
+  }
+
   @action
   tabSelected(tab: TabPane) {
     if (this.isTabDisabled(tab)) return;
@@ -165,6 +188,7 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
   @action
   closeTab(tab: TabPane, event?: Event) {
     event?.stopPropagation();
+    if (this.isTabDisabled(tab)) return;
     this.args.onTabCloseRequest?.(tab.args.title);
   }
 
@@ -333,9 +357,10 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
       <div
         class='cds--tabs
           {{if @contained "cds--tabs--contained"}}
-          {{if @fullWidth "cds--tabs--full-width"}}
+          {{if this.showFullWidthClass "cds--tabs--full-width"}}
           {{if @dismissable "cds--tabs--dismissable"}}
-          {{if @size (concat "cds--layout--size-" @size)}}'
+          {{if this.showSizeClass (concat "cds--layout--size-" @size)}}
+          {{if this.hasSecondaryLabelTabs "cds--tabs--tall"}}'
       >
         <button
           {{on 'click' this.scrollLeft}}
@@ -418,7 +443,13 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
               <div class='cds--tabs__nav-item--close'>
                 <button
                   aria-label='Close {{tab.args.title}} tab'
-                  class='cds--tabs__nav-item--close-icon'
+                  aria-disabled='{{if (this.isTabDisabled tab) "true"}}'
+                  class='cds--tabs__nav-item--close-icon
+                    {{if
+                      (this.isTabDisabled tab)
+                      "cds--tabs__nav-item--close-icon--disabled"
+                    }}'
+                  disabled={{this.isTabDisabled tab}}
                   tabindex='-1'
                   type='button'
                   {{on 'click' (fn this.closeTab tab)}}
