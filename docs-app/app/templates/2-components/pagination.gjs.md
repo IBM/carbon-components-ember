@@ -70,12 +70,14 @@ Pagination supports `xs`, `sm`, `md` and `lg` sizes via the `@size` argument.
 import { Pagination } from 'carbon-components-ember/components';
 import { ThemeSupport } from 'docs-support';
 
+const noop = () => null;
+
 <template>
     <ThemeSupport />
-    <Pagination @size='xs' @length={{100}} @onPageChanged={{() => {}}} />
-    <Pagination @size='sm' @length={{100}} @onPageChanged={{() => {}}} />
-    <Pagination @size='md' @length={{100}} @onPageChanged={{() => {}}} />
-    <Pagination @size='lg' @length={{100}} @onPageChanged={{() => {}}} />
+    <Pagination @size='xs' @length={{100}} @onPageChanged={{noop}} />
+    <Pagination @size='sm' @length={{100}} @onPageChanged={{noop}} />
+    <Pagination @size='md' @length={{100}} @onPageChanged={{noop}} />
+    <Pagination @size='lg' @length={{100}} @onPageChanged={{noop}} />
 </template>
 ```
 
