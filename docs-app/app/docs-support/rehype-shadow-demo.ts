@@ -65,7 +65,7 @@ function forEachRawNode(node: unknown, visit: (node: RawNode) => void) {
  * works. `wrapDemos` is still useful for non-isolating chrome (borders,
  * labels) once kolay 6 lands.
  */
-export function rehypeShadowDemo() {
+export function rehypeShadowDemo({ forBuildTimeInjection = false } = {}) {
   return (tree: unknown, file: VFileLike) => {
     const liveCode = file.data?.liveCode ?? [];
     const shadowed = new Set(
@@ -85,7 +85,19 @@ export function rehypeShadowDemo() {
 
       if (!id || !shadowed.has(id)) return;
 
-      node.value = `<carbon-shadow-demo id="${id}" class="${className}"></carbon-shadow-demo>`;
+      // kolay's build-time `.gjs.md` compiler (gjs-md.js's
+      // rehypeInjectComponentInvocation) finds this node by its `id` and
+      // injects the demo's compiled component invocation by string-replacing
+      // the node's *literal* `</div>` - it doesn't re-run the placeholder
+      // regex, so it doesn't know about `<carbon-shadow-demo>`. An inner
+      // `<div>` gives it something to match, and CarbonShadowDemo re-parents
+      // any child into the shadow root regardless of its tag, so the extra
+      // wrapper is otherwise inert. Runtime `.md` grafts by `id` directly
+      // onto `<carbon-shadow-demo>` (see shadow-demo-element.ts), so it does
+      // not need this and keeps the original two-attribute form.
+      node.value = forBuildTimeInjection
+        ? `<carbon-shadow-demo id="${id}" class="${className}"><div></div></carbon-shadow-demo>`
+        : `<carbon-shadow-demo id="${id}" class="${className}"></carbon-shadow-demo>`;
     });
   };
 }

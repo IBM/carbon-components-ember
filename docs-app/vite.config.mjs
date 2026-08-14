@@ -6,6 +6,20 @@ import { transformAsync } from '@babel/core';
 import { defineConfig } from "vite";
 import { resolve, dirname, basename, join } from "path";
 
+import { rehypeShadowDemo } from "./app/docs-support/rehype-shadow-demo";
+
+// Components invocable at the top level of a build-time `.gjs.md` doc (e.g.
+// `<ThemeSwitcher />` above the first heading), mirroring the `topLevelScope`
+// passed to `setupKolay` for runtime `.md` docs in routes/application.ts.
+// Bare imports here must be real, resolvable module specifiers -- unlike
+// `setupKolay`'s `modules` map, there's no dynamic runtime lookup at build
+// time.
+const kolayScope = `
+import ThemeSwitcher from 'docs-app/docs-support/theme-switcher';
+import { APIDocs, ComponentSignature, ModifierSignature } from 'docs-app/routes/api-docs';
+import { Callout } from '@universal-ember/docs-support';
+`;
+
 function astroturf() {
 
   const astroturfFiles = {};
@@ -81,6 +95,26 @@ export default defineConfig((/* { mode } */) => {
         "ember-source",
         "@ember/test-waiters",
       ],
+      alias: [
+        // Backs the `docs-support` bare specifier that live demo fences
+        // import `ThemeSupport`/`didInsert`/etc. from. Runtime `.md` docs
+        // resolve it dynamically via setupKolay's `modules` map instead (see
+        // routes/application.ts); this alias is only exercised by build-time
+        // `.gjs.md` docs.
+        { find: "docs-support", replacement: resolve("./app/docs-support/index.ts") },
+        // Demo fences conventionally import from these two extension-less
+        // specifiers, but the addon's package.json `exports` only maps
+        // `./*` to `dist/*.js` -- there is no `dist/components.js` or
+        // `dist/helpers.js`, only `dist/components/index.js` and
+        // `dist/helpers/index.js`. Runtime `.md` docs never hit real module
+        // resolution for these (setupKolay's `modules` map short-circuits
+        // it with the `/index` forms), so build-time `.gjs.md` docs need
+        // the same specifiers aliased to their real, resolvable form.
+        // Anchored `RegExp`s so already-correct `/index` (or `/icon`, etc.)
+        // specifiers elsewhere in the app don't also match and recurse.
+        { find: /^carbon-components-ember\/components$/, replacement: "carbon-components-ember/components/index" },
+        { find: /^carbon-components-ember\/helpers$/, replacement: "carbon-components-ember/helpers/index" },
+      ],
     },
     plugins: [
       // Runs a classic ember-cli prebuild so @embroider/core's resolver has
@@ -98,6 +132,10 @@ export default defineConfig((/* { mode } */) => {
         // that group, so there is no separate top-level `src` option.
         groups: [],
         packages: ["carbon-components-ember"],
+        // Applies to build-time `.gjs.md` docs only; runtime `.md` docs get
+        // their own copies of these via setupKolay in routes/application.ts.
+        scope: kolayScope,
+        rehypePlugins: [[rehypeShadowDemo, { forBuildTimeInjection: true }]],
       }),
       babel({
         babelHelpers: "runtime",
