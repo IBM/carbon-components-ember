@@ -5,6 +5,7 @@ import { kolay } from "kolay/vite";
 import { transformAsync } from '@babel/core';
 import { defineConfig } from "vite";
 import { resolve, dirname, basename, join } from "path";
+import rehypeShiki from "@shikijs/rehype";
 
 import { rehypeShadowDemo } from "./app/docs-support/rehype-shadow-demo";
 
@@ -135,7 +136,42 @@ export default defineConfig((/* { mode } */) => {
         // Applies to build-time `.gjs.md` docs only; runtime `.md` docs get
         // their own copies of these via setupKolay in routes/application.ts.
         scope: kolayScope,
-        rehypePlugins: [[rehypeShadowDemo, { forBuildTimeInjection: true }]],
+        rehypePlugins: [
+          [rehypeShadowDemo, { forBuildTimeInjection: true }],
+          // Code-fence syntax highlighting, mirroring the rehypeShiki setup
+          // in routes/application.ts for runtime `.md` docs. Build time runs
+          // in Node, so (unlike the runtime highlighter) there's no need to
+          // hand-roll getHighlighterCore/loadWasm -- the package's default
+          // export creates its own highlighter from the bundled langs/themes.
+          [
+            rehypeShiki,
+            {
+              langs: [
+                "javascript",
+                "typescript",
+                "bash",
+                "css",
+                "diff",
+                "html",
+                "glimmer-js",
+                "glimmer-ts",
+                "handlebars",
+                "jsonc",
+                "markdown",
+              ],
+              // Theme chosen by the `--shiki-{light,dark}{,-bg}` CSS
+              // variables this emits (defaultColor: false) -- mapped to
+              // `color`/`background-color` by @universal-ember/docs-support's
+              // prebuilt site-css/shiki.css (already loaded globally, so no
+              // separate include is needed here), same as runtime `.md` docs.
+              defaultColor: false,
+              themes: {
+                light: "github-light",
+                dark: "github-dark",
+              },
+            },
+          ],
+        ],
       }),
       babel({
         babelHelpers: "runtime",
