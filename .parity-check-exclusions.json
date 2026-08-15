@@ -18,5 +18,10 @@
     "reason": "Tab is not a standalone React component — its source (packages/react/src/components/Tab/index.tsx) simply re-exports the Tab sub-component from Tabs/Tabs.tsx. It only exists as a child of Tabs > TabList and has no standalone usage. This functionality is already covered by the existing Ember Tabs component (src/components/tabs.gts), which is tracked and implemented separately.",
     "excludedAt": "2026-08-04T09:45:17.206Z",
     "issue": "702"
+  },
+  "HideAtBreakpoint": {
+    "reason": "HideAtBreakpoint is not a React component — it's a documentation-only Storybook 'Helpers' page demonstrating pure SCSS mixins (hide-at-sm/md/lg/xlg/max from @carbon/styles/scss/utilities/hide-at-breakpoint) applied via plain CSS class names. There is no component API to give an Ember counterpart; consumers apply the same @carbon/styles mixins directly in their own SCSS, which already works today via this addon's existing @carbon/styles dependency.",
+    "excludedAt": "2026-08-13T21:13:39.188Z",
+    "issue": "690"
   }
 }
