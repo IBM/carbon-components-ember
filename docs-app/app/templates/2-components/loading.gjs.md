@@ -21,18 +21,18 @@ function showWithOverlay() {
 <template>
     <ThemeSupport />
     <p>loading</p>
-    <Loading @title='loading'/>
+    <Loading @withOverlay={{false}} @description='loading' />
     <br>
-    <Loading @inline={{true}} @title='inline loading' />
+    <Loading @inline={{true}} @description='inline loading' />
     <br>
     <p>loading active=false</p>
-    <Loading @active={{false}} />
+    <Loading @withOverlay={{false}} @active={{false}} />
     <br>
     <p>loading small=false</p>
-    <Loading @small={{true}} />
+    <Loading @withOverlay={{false}} @small={{true}} />
     <br>
     {{#if showOver.current}}
-        <Loading @overlay={{true}} />
+        <Loading @withOverlay={{true}} />
     {{/if}}
     <br>
     <Button
