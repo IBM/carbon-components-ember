@@ -48,10 +48,24 @@ function forEachRawNode(node: unknown, visit: (node: RawNode) => void) {
  * Rather than teaching repl-sdk's compiler about shadow roots, this plugin
  * renames each live demo's placeholder tag to `<carbon-shadow-demo>` (a
  * custom element registered in `shadow-demo-element.ts`), which performs the
- * actual `attachShadow` + style-import once the demo's rendered element is
- * appended into it. Fences marked `no-shadow` are left as plain `<div>`s.
+ * actual `attachShadow` once the demo's rendered element is appended into
+ * it. Fences marked `no-shadow` are left as plain `<div>`s.
+ *
+ * Kolay has since grown a generic `wrapDemos` rehype plugin (`kolay/wrap-demos`,
+ * merged in universal-ember/kolay#361, unreleased as of kolay 5.4.0 - it ships
+ * in the pending 6.0.0). It is *not* a drop-in replacement for this: it wraps
+ * the placeholder in a component invocation (`<Shadowed>{placeholder}</Shadowed>`)
+ * rather than renaming it, which puts the placeholder inside the wrapper's
+ * shadow root. repl-sdk grafts each compiled demo in afterwards via
+ * `element.querySelector('#<placeholderId>')` (see repl-sdk's
+ * `src/compilers/markdown.js` / `src/compilers/ember/gmd.js`), and that lookup
+ * does not cross a shadow boundary - so a shadow-DOM wrapper would trip its
+ * "Could not find placeholder / target element" assertion. Renaming the
+ * placeholder itself, as below, keeps it in the light DOM and is why this
+ * works. `wrapDemos` is still useful for non-isolating chrome (borders,
+ * labels) once kolay 6 lands.
  */
-export function rehypeShadowDemo() {
+export function rehypeShadowDemo({ forBuildTimeInjection = false } = {}) {
   return (tree: unknown, file: VFileLike) => {
     const liveCode = file.data?.liveCode ?? [];
     const shadowed = new Set(
@@ -71,7 +85,19 @@ export function rehypeShadowDemo() {
 
       if (!id || !shadowed.has(id)) return;
 
-      node.value = `<carbon-shadow-demo id="${id}" class="${className}"></carbon-shadow-demo>`;
+      // kolay's build-time `.gjs.md` compiler (gjs-md.js's
+      // rehypeInjectComponentInvocation) finds this node by its `id` and
+      // injects the demo's compiled component invocation by string-replacing
+      // the node's *literal* `</div>` - it doesn't re-run the placeholder
+      // regex, so it doesn't know about `<carbon-shadow-demo>`. An inner
+      // `<div>` gives it something to match, and CarbonShadowDemo re-parents
+      // any child into the shadow root regardless of its tag, so the extra
+      // wrapper is otherwise inert. Runtime `.md` grafts by `id` directly
+      // onto `<carbon-shadow-demo>` (see shadow-demo-element.ts), so it does
+      // not need this and keeps the original two-attribute form.
+      node.value = forBuildTimeInjection
+        ? `<carbon-shadow-demo id="${id}" class="${className}"><div></div></carbon-shadow-demo>`
+        : `<carbon-shadow-demo id="${id}" class="${className}"></carbon-shadow-demo>`;
     });
   };
 }

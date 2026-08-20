@@ -1,10 +1,16 @@
-const STYLESHEET_SELECTOR = 'link[rel="stylesheet"]';
 const TAG_NAME = 'carbon-shadow-demo';
 
 /**
- * Style-isolates a live glimdown demo in its own shadow root, importing the
- * app's stylesheets (mirroring ember-primitives' `<Shadowed includeStyles>`)
- * so the isolated demo still picks up Carbon's styling.
+ * Style-isolates a live glimdown demo in its own shadow root.
+ *
+ * Nothing is imported into the shadow root on our behalf: this used to copy
+ * the document's `<link rel="stylesheet">` tags in as `@import`s (mirroring
+ * ember-primitives' `<Shadowed includeStyles>`), but that was dropped again
+ * because the demos that need Carbon's CSS already inline it themselves --
+ * they render `<ThemeSupport />` (see `theme-support.gts`), which emits a
+ * `<style>` with the Carbon stylesheets *inside* the demo, and therefore
+ * inside this shadow root. Theme tokens defined on `:root` reach here too,
+ * since custom properties inherit through the shadow boundary.
  *
  * repl-sdk's gmd compiler renders each demo by `appendChild`-ing it into the
  * placeholder element some time after this element connects (see

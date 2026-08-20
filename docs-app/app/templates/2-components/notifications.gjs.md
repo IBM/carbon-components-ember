@@ -3,31 +3,21 @@
 # Notification
 
 ```gjs live preview
-import { Button, Notification } from 'carbon-components-ember/components';
-import { ThemeSupport, setOwner } from 'docs-support';
+import Component from '@glimmer/component';
 import { service } from '@ember/service';
+import { Button, Notification } from 'carbon-components-ember/components';
+import { ThemeSupport } from 'docs-support';
 
-class Context {
+class NotificationsDemo extends Component {
   @service('carbon.notifications') notifications;
-  
-  constructor() {
-    setOwner(this);
-  }
-  
-  get documentBody() {
-    return document.body; 
-  }
 
-  showNotification = (type) => {
+  showNotification = () => {
     this.notifications.info({
       caption: 'test',
     });
-  }
-}
+  };
 
-const context = new Context();
-
-<template>
+  <template>
     <ThemeSupport />
     <Notification
         @type='success'
@@ -55,17 +45,20 @@ const context = new Context();
     <Notification @type='warning' @caption='warning' />
     <br />
     <br />
-    <Button @type='primary' @onClick={{context.showNotification}}>
+    <Button @type='primary' @onClick={{this.showNotification}}>
         Notify
     </Button>
 
     <div style="position: absolute; top:0; right: 0">
-      {{#each context.notifications.queue as |n|}}
+      {{#each this.notifications.queue as |n|}}
         <Notification @notification={{n}} />
         <div style="margin: 2px"></div>
       {{/each}}
-    </div> 
-</template>
+    </div>
+  </template>
+}
+
+<template><NotificationsDemo /></template>
 ```
 ## API Reference
 
