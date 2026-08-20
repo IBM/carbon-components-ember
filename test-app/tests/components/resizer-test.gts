@@ -146,6 +146,48 @@ module('Integration | Component | Resizer', (hooks) => {
     assert.strictEqual(prev.style.height, `${beforeSecondPress + 25}px`);
   });
 
+  test('Home key collapses the previous sibling to 0 and expands the next sibling', async function (assert) {
+    await render(
+      <template>
+        <div style='height: 100px;'></div>
+        <Resizer @orientation='horizontal' />
+        <div style='height: 100px;'></div>
+      </template>,
+    );
+
+    const resizer = this.element.querySelector('[role="separator"]') as HTMLElement;
+    const prev = resizer.previousElementSibling as HTMLElement;
+    const next = resizer.nextElementSibling as HTMLElement;
+    const prevHeight = prev.getBoundingClientRect().height;
+    const nextHeight = next.getBoundingClientRect().height;
+
+    await triggerKeyEvent(resizer, 'keydown', 'Home');
+
+    assert.strictEqual(prev.style.height, '0px');
+    assert.strictEqual(next.style.height, `${nextHeight + prevHeight}px`);
+  });
+
+  test('End key collapses the next sibling to 0 and expands the previous sibling', async function (assert) {
+    await render(
+      <template>
+        <div style='height: 100px;'></div>
+        <Resizer @orientation='horizontal' />
+        <div style='height: 100px;'></div>
+      </template>,
+    );
+
+    const resizer = this.element.querySelector('[role="separator"]') as HTMLElement;
+    const prev = resizer.previousElementSibling as HTMLElement;
+    const next = resizer.nextElementSibling as HTMLElement;
+    const prevHeight = prev.getBoundingClientRect().height;
+    const nextHeight = next.getBoundingClientRect().height;
+
+    await triggerKeyEvent(resizer, 'keydown', 'End');
+
+    assert.strictEqual(next.style.height, '0px');
+    assert.strictEqual(prev.style.height, `${prevHeight + nextHeight}px`);
+  });
+
   test('@onResizeEnd fires (debounced) after a key-driven resize', async function (assert) {
     let called = false;
     const onResizeEnd = () => (called = true);

@@ -249,7 +249,7 @@ export default class Resizer extends Component<ResizerSignature> {
     event: MouseEvent | KeyboardEvent,
     element: HTMLDivElement,
   ) => {
-    this.debounceResizeEnd.perform(event, element);
+    return this.debounceResizeEnd.perform(event, element);
   };
 
   <template>
