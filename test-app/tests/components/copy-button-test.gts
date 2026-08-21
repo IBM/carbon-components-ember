@@ -14,6 +14,14 @@ module('Integration | Component | CopyButton', (hooks) => {
     assert.dom('[data-copy-btn] code').hasText('some code');
   });
 
+  test('without @inline, block content is visually hidden behind the icon', async function (assert) {
+    await render(<template><CopyButton>some code</CopyButton></template>);
+    await waitUntil(() => find('[data-copy-btn]'));
+
+    assert.dom('[data-copy-btn] code').hasClass('cds--visually-hidden');
+    assert.dom('[data-copy-btn] svg').exists();
+  });
+
   test('should copy the block content to the clipboard and show feedback on click', async function (assert) {
     await render(<template><CopyButton>copy me</CopyButton></template>);
     await waitUntil(() => find('[data-copy-btn]'));

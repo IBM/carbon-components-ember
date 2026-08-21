@@ -151,7 +151,7 @@ export default class CarbonCopyButton extends Component<CarbonCopyButtonSignatur
         {{captureElement onInsert=this.captureCarbonElement}}
       >
         {{#if (has-block)}}
-          <code>
+          <code class={{unless @inline 'cds--visually-hidden'}}>
             {{~yield~}}
           </code>
         {{/if}}
