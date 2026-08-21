@@ -55,11 +55,7 @@ export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignat
             {{~yield~}}
           </PreCode>
         </div>
-        <span
-          class='cds--popover-container cds--popover--caret cds--popover--high-contrast cds--popover--bottom cds--tooltip cds--icon-tooltip'
-        >
-          <CopyButton @targetElement={{this.carbonElement}} />
-        </span>
+        <CopyButton @targetElement={{this.carbonElement}} />
       </div>
     {{/if}}
     {{#if (eq @type 'multiline')}}
@@ -83,11 +79,7 @@ export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignat
           </PreCode>
         </div>
         <div class='cds--snippet__overflow-indicator--right'></div>
-        <span
-          class='cds--popover-container cds--popover--caret cds--popover--high-contrast cds--popover--bottom cds--tooltip cds--icon-tooltip'
-        >
-          <CopyButton @targetElement={{this.codeElement}} />
-        </span>
+        <CopyButton @targetElement={{this.codeElement}} />
         <button
           {{on 'click' (fn (set this 'expanded') (not this.expanded))}}
           class='cds--btn cds--btn--ghost cds--btn--sm cds--snippet-btn--expand'
