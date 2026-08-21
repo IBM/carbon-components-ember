@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { find, render } from '@ember/test-helpers';
 import Loading from 'carbon-components-ember/components/loading';
 
 module('Integration | Component | Loading', (hooks) => {
@@ -69,6 +69,11 @@ module('Integration | Component | Loading', (hooks) => {
 
     assert.dom('.cds--inline-loading').exists();
     assert.dom('.cds--inline-loading__text').hasText('saving');
+    assert.strictEqual(
+      getComputedStyle(find('.cds--inline-loading') as Element).display,
+      'inline-flex',
+      'the animation and text lay out side-by-side instead of stacking',
+    );
   });
 
   test('@inline without @description does not leak the default description as visible text', async function (assert) {

@@ -35,7 +35,7 @@ export default class LoadingComponent extends Component<LoadingComponentSignatur
         <div
           class='cds--inline-loading {{this.defaultArgs.classNames}}'
           aria-live='assertive'
-          style='margin-left: 1rem; width: initial; display: inline-block;'
+          style='margin-left: 1rem; width: initial; display: inline-flex; align-items: center;'
           ...attributes
         >
           <div class='cds--inline-loading__animation'>
