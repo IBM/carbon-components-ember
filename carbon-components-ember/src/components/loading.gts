@@ -4,8 +4,8 @@ import { defaultArgs } from '../utils/decorators.ts';
 export type Args = {
   active?: boolean;
   small?: boolean;
-  overlay?: boolean;
-  title?: boolean;
+  withOverlay?: boolean;
+  description?: string;
   inline?: boolean;
   classNames?: string;
 };
@@ -19,8 +19,8 @@ export default class LoadingComponent extends Component<LoadingComponentSignatur
   args: Args = defaultArgs(this, {
     active: true,
     small: false,
-    overlay: false,
-    title: undefined,
+    withOverlay: true,
+    description: 'loading',
     inline: false,
     classNames: '',
   });
@@ -30,37 +30,12 @@ export default class LoadingComponent extends Component<LoadingComponentSignatur
   }
 
   <template>
-    {{#if this.defaultArgs.active}}
-      {{#if this.defaultArgs.overlay}}
-        <div class='cds--loading-overlay' style='height: 100%'>
-          <div
-            data-loading
-            class='cds--loading
-              {{if this.defaultArgs.small "cds--loading--small"}}
-              {{@classNames}}'
-            ...attributes
-          >
-            <svg class='cds--loading__svg' viewBox='-75 -75 150 150'>
-              <title>
-                {{@title}}
-              </title>
-              {{#if @small}}
-                <circle
-                  class='cds--loading__background'
-                  cx='0'
-                  cy='0'
-                  r='37.5'
-                />
-              {{/if}}
-              <circle class='cds--loading__stroke' cx='0' cy='0' r='37.5' />
-            </svg>
-          </div>
-        </div>
-      {{else if @inline}}
+    {{#if this.defaultArgs.inline}}
+      {{#if this.defaultArgs.active}}
         <div
-          class='cds--inline-loading {{@classNames}}'
+          class='cds--inline-loading {{this.defaultArgs.classNames}}'
           aria-live='assertive'
-          style='margin-left: 1rem; width: initial; display: inline-block;'
+          style='margin-left: 1rem; width: initial; display: inline-flex; align-items: center;'
           ...attributes
         >
           <div class='cds--inline-loading__animation'>
@@ -69,43 +44,94 @@ export default class LoadingComponent extends Component<LoadingComponentSignatur
               aria-live='assertive'
               class='cds--loading cds--loading--small'
             >
-              <svg class='cds--loading__svg' viewBox='-75 -75 150 150'>
-                <title>
-                  {{@title}}
-                </title>
+              <svg
+                class='cds--loading__svg'
+                viewBox='0 0 100 100'
+                role='img'
+                aria-label={{this.defaultArgs.description}}
+              >
+                <title>{{this.defaultArgs.description}}</title>
                 <circle
                   class='cds--loading__background'
-                  cx='0'
-                  cy='0'
-                  r='37.5'
-                ></circle>
-                <circle class='cds--loading__stroke' cx='0' cy='0' r='37.5'>
-                </circle>
+                  cx='50%'
+                  cy='50%'
+                  r='42'
+                />
+                <circle class='cds--loading__stroke' cx='50%' cy='50%' r='42' />
               </svg>
             </div>
           </div>
           <div class='cds--inline-loading__text'>
-            {{this.defaultArgs.title}}
+            {{@description}}
           </div>
         </div>
-      {{else}}
-        <div data-loading class='{{@classNames}}' ...attributes>
+      {{/if}}
+    {{else if this.defaultArgs.withOverlay}}
+      <div
+        class='cds--loading-overlay
+          {{unless this.defaultArgs.active "cds--loading-overlay--stop"}}'
+      >
+        <div
+          aria-atomic='true'
+          aria-live={{if this.defaultArgs.active 'assertive' 'off'}}
+          class='cds--loading
+            {{if this.defaultArgs.small "cds--loading--small"}}
+            {{unless this.defaultArgs.active "cds--loading--stop"}}
+            {{this.defaultArgs.classNames}}'
+          ...attributes
+        >
           <svg
-            class='cds--loading
-              {{if this.defaultArgs.small "cds--loading--small"}}
-              cds--loading__svg'
-            viewBox='-75 -75 150 150'
+            class='cds--loading__svg'
+            viewBox='0 0 100 100'
+            role='img'
+            aria-label={{this.defaultArgs.description}}
           >
-            <title>
-              {{@title}}
-            </title>
+            <title>{{this.defaultArgs.description}}</title>
             {{#if this.defaultArgs.small}}
-              <circle class='cds--loading__background' cx='0' cy='0' r='37.5' />
+              <circle
+                class='cds--loading__background'
+                cx='50%'
+                cy='50%'
+                r='42'
+              />
             {{/if}}
-            <circle class='cds--loading__stroke' cx='0' cy='0' r='37.5' />
+            <circle
+              class='cds--loading__stroke'
+              cx='50%'
+              cy='50%'
+              r={{if this.defaultArgs.small '42' '44'}}
+            />
           </svg>
         </div>
-      {{/if}}
+      </div>
+    {{else}}
+      <div
+        aria-atomic='true'
+        aria-live={{if this.defaultArgs.active 'assertive' 'off'}}
+        class='cds--loading
+          {{if this.defaultArgs.small "cds--loading--small"}}
+          {{unless this.defaultArgs.active "cds--loading--stop"}}
+          {{this.defaultArgs.classNames}}'
+        ...attributes
+      >
+        <svg
+          class='cds--loading__svg'
+          viewBox='0 0 100 100'
+          role='img'
+          aria-label={{this.defaultArgs.description}}
+        >
+          <title>{{this.defaultArgs.description}}</title>
+          {{#if this.defaultArgs.small}}
+            <circle class='cds--loading__background' cx='50%' cy='50%' r='42' />
+          {{/if}}
+          <circle
+            class='cds--loading__stroke'
+            cx='50%'
+            cy='50%'
+            r={{if this.defaultArgs.small '42' '44'}}
+          />
+        </svg>
+      </div>
     {{/if}}
   </template>
 }
