@@ -172,6 +172,18 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
     return `${this.id}-menu`;
   }
 
+  get descriptionId() {
+    return `${this.id}-description`;
+  }
+
+  get showHelperText() {
+    return !!(this.args.helperText && !this.isInline);
+  }
+
+  get hasDescription() {
+    return this.isInvalid || this.isWarn || this.showHelperText;
+  }
+
   get selectedItem(): T | null {
     return this.args.selectedItem !== undefined
       ? this.args.selectedItem
@@ -248,14 +260,17 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
     if (this.args.itemToString) {
       return this.args.itemToString(item);
     }
+    if (typeof item === 'string') return item;
+    if (typeof item === 'number') return `${item}`;
     if (
       item !== null &&
       typeof item === 'object' &&
-      'label' in (item as Record<string, unknown>)
+      'label' in item &&
+      typeof (item as Record<string, unknown>)['label'] === 'string'
     ) {
-      return String((item as Record<string, unknown>)['label']);
+      return (item as Record<string, unknown>)['label'] as string;
     }
-    return `${item}`;
+    return '';
   }
 
   openMenu() {
@@ -415,6 +430,7 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
           aria-expanded={{if this.isOpen 'true' 'false'}}
           aria-controls={{this.menuId}}
           aria-labelledby='{{this.labelId}} {{this.id}}'
+          aria-describedby={{if this.hasDescription this.descriptionId}}
           aria-readonly={{if @readOnly 'true'}}
           disabled={{@disabled}}
           {{on 'click' this.handleTriggerClick}}
@@ -469,11 +485,12 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
         </ul>
       </div>
       {{#if this.isInvalid}}
-        <div class='cds--form-requirement'>{{@invalidText}}</div>
+        <div id={{this.descriptionId}} class='cds--form-requirement'>{{@invalidText}}</div>
       {{else if this.isWarn}}
-        <div class='cds--form-requirement'>{{@warnText}}</div>
-      {{else if @helperText}}
+        <div id={{this.descriptionId}} class='cds--form-requirement'>{{@warnText}}</div>
+      {{else if this.showHelperText}}
         <div
+          id={{this.descriptionId}}
           class='cds--form__helper-text {{if @disabled "cds--form__helper-text--disabled"}}'
         >{{@helperText}}</div>
       {{/if}}
