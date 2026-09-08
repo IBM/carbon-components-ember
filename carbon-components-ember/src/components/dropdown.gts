@@ -47,7 +47,7 @@ export interface DropdownSignature<T> {
      * Convert an item to display text. Used both for the field button's
      * `title` attribute and, when no item block is supplied, as the default
      * rendering of each menu item. Defaults to reading a `label` property
-     * off the item, falling back to `String(item)`.
+     * off the item, falling back to an empty string.
      */
     itemToString?: (item: T) => string;
     /**
