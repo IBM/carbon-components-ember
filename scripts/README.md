@@ -18,6 +18,7 @@ independently (see the `SOURCES` array at the top of the script):
 cd scripts
 npm install
 npm run check-parity                              # all sources, report-only unless CREATE_ISSUES=true
+node parity-check.mjs --source carbon-ai-chat                          # run just one source
 node parity-check.mjs --source carbon-ai-chat --mark-synced Launcher   # source-scoped CLI flags
 ```
 
@@ -35,7 +36,7 @@ node parity-check.mjs --source carbon-ai-chat --mark-synced Launcher   # source-
 - `CREATE_ISSUES` - Set to 'true' to automatically create issues (default: false; also requires the target source's `createIssues: true`)
 
 **CLI flags:**
-- `--source <id>` - scope `--mark-synced`/etc. to a source (default: `react`); valid ids are the `id` fields in `SOURCES`
+- `--source <id>` - scope the run to a single source: the main fetch/compare/report/issue-creation pipeline, as well as `--mark-synced` (default source for that flag: `react`); valid ids are the `id` fields in `SOURCES`. Omit it to run every configured source.
 - `--mark-synced Name1,Name2` / `--exclude Name --reason "..."` / `--include Name` / `--list-exclusions` - unchanged, see below (exclusions are a single flat list shared across sources, since upstream naming conventions don't currently collide - PascalCase React directories vs. kebab-case carbon-ai-chat ones)
 
 ### fix-parity-issue.sh

@@ -62,6 +62,9 @@ const SOURCES = [
     // far), so "components exported from Ember but not in this source"
     // is a meaningful signal.
     trackExtra: true,
+    // React's upstream directory names are already PascalCase and match
+    // the Ember export names 1:1.
+    nameToEmberExport: (name) => name,
   },
   {
     id: 'carbon-ai-chat',
@@ -87,6 +90,9 @@ const SOURCES = [
     // meaningless noise, not a real signal. Skip it until this source has
     // its own implemented components to actually compare against.
     trackExtra: false,
+    // Upstream directory names are kebab-case (e.g. "chat-shell"); the
+    // Ember port exports them as PascalCase (e.g. "ChatShell").
+    nameToEmberExport: kebabToPascalCase,
   },
 ];
 
@@ -96,6 +102,18 @@ function getSource(id) {
     throw new Error(`Unknown parity source "${id}". Known sources: ${SOURCES.map((s) => s.id).join(', ')}`);
   }
   return source;
+}
+
+/**
+ * Convert a kebab-case upstream directory name (e.g. "chat-shell") to the
+ * PascalCase named export it should correspond to on the Ember side (e.g.
+ * "ChatShell").
+ */
+function kebabToPascalCase(name) {
+  return name
+    .split('-')
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join('');
 }
 
 // Initialize Octokit
@@ -435,8 +453,8 @@ async function includeComponent(componentName) {
  * Compare component lists and identify changes for a single source
  */
 async function compareComponents(source, upstreamComponents, emberComponents, previousSourceData, currentCommitSHA) {
-  const missing = upstreamComponents.filter(c => !emberComponents.includes(c));
-  const implemented = upstreamComponents.filter(c => emberComponents.includes(c));
+  const missing = upstreamComponents.filter(c => !emberComponents.includes(source.nameToEmberExport(c)));
+  const implemented = upstreamComponents.filter(c => emberComponents.includes(source.nameToEmberExport(c)));
   // Meaningless for sources with no naming overlap against the Ember
   // export list yet (see `trackExtra` on the source config).
   const extra = source.trackExtra ? emberComponents.filter(c => !upstreamComponents.includes(c)) : [];
@@ -887,7 +905,8 @@ async function runSource(source, exclusions) {
  * Main execution
  */
 async function main() {
-  const sourceId = getArgValue('--source') || 'react';
+  const sourceIdArg = getArgValue('--source');
+  const sourceId = sourceIdArg || 'react';
 
   // Check for --mark-synced flag
   const markSyncedIndex = process.argv.indexOf('--mark-synced');
@@ -926,11 +945,13 @@ async function main() {
 
   console.log('Starting Carbon Components Parity Check...');
 
+  const sourcesToRun = sourceIdArg ? [getSource(sourceIdArg)] : SOURCES;
+
   const previousData = await loadParityData();
   const exclusions = await loadExclusions();
 
   const results = [];
-  for (const source of SOURCES) {
+  for (const source of sourcesToRun) {
     results.push(await runSource(source, exclusions));
   }
 
