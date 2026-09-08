@@ -9,6 +9,7 @@ import {
 } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import Dropdown from 'carbon-components-ember/components/dropdown';
+import { Add } from 'carbon-components-ember/icons';
 
 module('Integration | Component | Dropdown', (hooks) => {
   setupRenderingTest(hooks);
@@ -197,9 +198,32 @@ module('Integration | Component | Dropdown', (hooks) => {
     await waitFor('.cds--list-box__invalid-icon');
 
     assert.dom('.cds--dropdown').hasClass('cds--dropdown--invalid');
+    assert.dom('.cds--dropdown').hasClass('cds--list-box--invalid');
     assert.dom('.cds--dropdown').hasAttribute('data-invalid', 'true');
     assert.dom('.cds--list-box__invalid-icon').exists();
     assert.dom('.cds--form-requirement').hasText('This field is required');
+  });
+
+  test('@invalid combined with @decorator adds both state and decorator classes', async function (assert) {
+    await render(
+      <template>
+        <Dropdown
+          @titleText='Choose an option'
+          @label='Select an option'
+          @items={{items}}
+          @invalid={{true}}
+          @invalidText='This field is required'
+          @decorator={{Add}}
+        />
+      </template>,
+    );
+
+    await waitFor('.cds--list-box__inner-wrapper--decorator svg');
+
+    assert.dom('.cds--dropdown').hasClass('cds--dropdown--invalid');
+    assert.dom('.cds--dropdown').hasClass('cds--list-box--invalid');
+    assert.dom('.cds--dropdown__wrapper').hasClass('cds--list-box__wrapper--decorator');
+    assert.dom('.cds--list-box__inner-wrapper--decorator svg').exists();
   });
 
   test('@warn and @warnText render the warning state when not invalid', async function (assert) {
@@ -215,6 +239,7 @@ module('Integration | Component | Dropdown', (hooks) => {
       </template>,
     );
 
+    assert.dom('.cds--dropdown').hasClass('cds--dropdown--warning');
     assert.dom('.cds--dropdown').hasClass('cds--list-box--warning');
     assert.dom('.cds--form-requirement').hasText('Careful with this');
   });

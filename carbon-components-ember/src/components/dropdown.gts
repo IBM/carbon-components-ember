@@ -230,9 +230,9 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
     const classes = ['cds--dropdown', 'cds--list-box'];
     classes.push(`cds--dropdown--${this.size}`, `cds--list-box--${this.size}`);
     if (this.isInvalid) {
-      classes.push('cds--dropdown--invalid');
+      classes.push('cds--dropdown--invalid', 'cds--list-box--invalid');
     } else if (this.isWarn) {
-      classes.push('cds--list-box--warning');
+      classes.push('cds--dropdown--warning', 'cds--list-box--warning');
     }
     if (this.isOpen) {
       classes.push('cds--dropdown--open', 'cds--list-box--expanded');
@@ -431,7 +431,7 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
           aria-controls={{this.menuId}}
           aria-labelledby='{{this.labelId}} {{this.id}}'
           aria-describedby={{if this.hasDescription this.descriptionId}}
-          aria-readonly={{if @readOnly 'true'}}
+          aria-disabled={{if @readOnly 'true'}}
           disabled={{@disabled}}
           {{on 'click' this.handleTriggerClick}}
           {{on 'keydown' this.handleTriggerKeydown}}
@@ -451,6 +451,8 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
             <@decorator />
           </div>
         {{/if}}
+        {{! template-lint-disable no-invalid-interactive }}
+        {{! template-lint-disable no-pointer-down-event-binding }}
         <ul
           id={{this.menuId}}
           role='listbox'
@@ -459,6 +461,7 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
           {{on 'mousedown' this.preventMenuMouseDown}}
         >
           {{#each @items as |item index|}}
+            {{! template-lint-disable require-presentational-children }}
             <li
               role='option'
               class='cds--list-box__menu-item
@@ -475,10 +478,12 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
                 {{else}}
                   {{this.itemToString item}}
                 {{/if}}
-                <Checkmark
-                  @size='16'
-                  @svgClass='cds--list-box__menu-item__selected-icon'
-                />
+                <span aria-hidden='true'>
+                  <Checkmark
+                    @size='16'
+                    @svgClass='cds--list-box__menu-item__selected-icon'
+                  />
+                </span>
               </div>
             </li>
           {{/each}}
