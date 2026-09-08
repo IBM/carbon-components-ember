@@ -161,6 +161,117 @@ module('Integration | Component | Dropdown', (hooks) => {
     assert.dom('.cds--dropdown').doesNotHaveClass('cds--dropdown--open');
   });
 
+  test('exposes the keyboard-highlighted item via aria-activedescendant and role=combobox', async function (assert) {
+    await render(
+      <template>
+        <Dropdown
+          @titleText='Choose an option'
+          @label='Select an option'
+          @items={{items}}
+        />
+      </template>,
+    );
+
+    const button = find('.cds--list-box__field')!;
+    assert.dom(button).hasAttribute('role', 'combobox');
+    assert
+      .dom(button)
+      .doesNotHaveAttribute(
+        'aria-activedescendant',
+        'closed dropdown has no active descendant',
+      );
+
+    await triggerKeyEvent(button, 'keydown', 'ArrowDown');
+
+    const firstOption = find('[role="option"]:nth-child(1)')!;
+    assert.dom(button).hasAttribute('aria-activedescendant', firstOption.id);
+    assert.true(!!firstOption.id, 'the highlighted item has an id');
+
+    await triggerKeyEvent(button, 'keydown', 'ArrowDown');
+
+    const secondOption = find('[role="option"]:nth-child(2)')!;
+    assert.dom(button).hasAttribute('aria-activedescendant', secondOption.id);
+
+    await triggerKeyEvent(button, 'keydown', 'Escape');
+
+    assert
+      .dom(button)
+      .doesNotHaveAttribute(
+        'aria-activedescendant',
+        'closing the menu clears the active descendant',
+      );
+  });
+
+  test('typing a character jumps the highlight to the next matching item while open', async function (assert) {
+    await render(
+      <template>
+        <Dropdown
+          @titleText='Choose an option'
+          @label='Select an option'
+          @items={{items}}
+        />
+      </template>,
+    );
+
+    const button = find('.cds--list-box__field')!;
+    await click(button);
+
+    assert
+      .dom('[role="option"]:nth-child(1)')
+      .hasClass(
+        'cds--list-box__menu-item--highlighted',
+        'opening with nothing selected highlights the first item',
+      );
+
+    await triggerKeyEvent(button, 'keydown', 'O');
+
+    assert
+      .dom('[role="option"]:nth-child(2)')
+      .hasClass(
+        'cds--list-box__menu-item--highlighted',
+        'all options start with "o", so typeahead advances past the already-highlighted item',
+      );
+
+    await triggerKeyEvent(button, 'keydown', 'O');
+
+    assert
+      .dom('[role="option"]:nth-child(3)')
+      .hasClass(
+        'cds--list-box__menu-item--highlighted',
+        'repeating the same character cycles to the next match',
+      );
+  });
+
+  test('typing a character while closed selects the next matching item', async function (assert) {
+    let received: { selectedItem: string | null } | undefined;
+    const onChange = (data: { selectedItem: string | null }) => {
+      received = data;
+    };
+
+    await render(
+      <template>
+        <Dropdown
+          @titleText='Choose an option'
+          @label='Select an option'
+          @items={{items}}
+          @onChange={{onChange}}
+        />
+      </template>,
+    );
+
+    const button = find('.cds--list-box__field')!;
+    await triggerKeyEvent(button, 'keydown', 'O');
+
+    assert.dom('.cds--list-box__label').hasText('Option 1');
+    assert.strictEqual(received?.selectedItem, 'Option 1');
+    assert
+      .dom('.cds--dropdown')
+      .doesNotHaveClass(
+        'cds--dropdown--open',
+        'typeahead while closed selects without opening the menu',
+      );
+  });
+
   test('@disabled prevents opening', async function (assert) {
     await render(
       <template>

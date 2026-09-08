@@ -9,6 +9,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
+import { registerDestructor } from '@ember/destroyable';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import { eq } from 'ember-truth-helpers';
@@ -155,9 +156,17 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
 
   guid = guidFor(this);
 
+  // Character-key typeahead: characters typed within `searchTimer`'s window
+  // of each other accumulate into a single search query, mirroring
+  // downshift's `getItemIndexByCharacterKey`.
+  searchBuffer = '';
+  searchAnchorIndex = -1;
+  searchTimer?: ReturnType<typeof setTimeout>;
+
   constructor(owner: Owner, args: DropdownSignature<T>['Args']) {
     super(owner, args);
     this.internalSelectedItem = args.initialSelectedItem ?? null;
+    registerDestructor(this, () => clearTimeout(this.searchTimer));
   }
 
   get id() {
@@ -174,6 +183,17 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
 
   get descriptionId() {
     return `${this.id}-description`;
+  }
+
+  @action
+  itemId(index: number): string {
+    return `${this.menuId}-item-${index}`;
+  }
+
+  get activeDescendant(): string | undefined {
+    return this.isOpen && this.highlightedIndex >= 0
+      ? this.itemId(this.highlightedIndex)
+      : undefined;
   }
 
   get showHelperText() {
@@ -366,7 +386,58 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
         }
         break;
       default:
+        if (event.key.length === 1 && !event.altKey && !event.ctrlKey && !event.metaKey) {
+          this.handleCharacterKey(event.key);
+        }
         break;
+    }
+  }
+
+  // Jumps the highlight (or, when closed, the selection) to the next item
+  // whose text starts with the characters typed so far, the same
+  // native-`<select>`-like behavior downshift's `useSelect` provides by
+  // default.
+  handleCharacterKey(key: string) {
+    const items = this.args.items;
+    if (!items.length) return;
+
+    clearTimeout(this.searchTimer);
+    const currentIndex = this.isOpen
+      ? this.highlightedIndex
+      : this.selectedItem !== null
+        ? items.indexOf(this.selectedItem)
+        : -1;
+    if (!this.searchBuffer) {
+      this.searchAnchorIndex = currentIndex;
+    }
+    this.searchBuffer += key.toLowerCase();
+    this.searchTimer = setTimeout(() => {
+      this.searchBuffer = '';
+      this.searchAnchorIndex = -1;
+    }, 500);
+
+    // A run of the same repeated character (e.g. "b", "b", "b") cycles
+    // through every item starting with that character, one per keypress,
+    // instead of narrowing to items starting with "bbb".
+    const isRepeatedChar =
+      this.searchBuffer.length > 1 &&
+      [...this.searchBuffer].every((char) => char === this.searchBuffer[0]);
+    const query = isRepeatedChar
+      ? (this.searchBuffer[0] as string)
+      : this.searchBuffer;
+    const startAfter = isRepeatedChar ? currentIndex : this.searchAnchorIndex;
+
+    for (let offset = 1; offset <= items.length; offset++) {
+      const index = (startAfter + offset + items.length) % items.length;
+      const text = this.itemToString(items[index] as T).toLowerCase();
+      if (text.startsWith(query)) {
+        if (this.isOpen) {
+          this.highlightedIndex = index;
+        } else {
+          this.selectItem(items[index] as T);
+        }
+        return;
+      }
     }
   }
 
@@ -426,9 +497,11 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
           id={{this.id}}
           class='cds--list-box__field'
           title={{this.triggerText}}
+          role='combobox'
           aria-haspopup='listbox'
           aria-expanded={{if this.isOpen 'true' 'false'}}
           aria-controls={{this.menuId}}
+          aria-activedescendant={{this.activeDescendant}}
           aria-labelledby='{{this.labelId}} {{this.id}}'
           aria-describedby={{if this.hasDescription this.descriptionId}}
           aria-disabled={{if @readOnly 'true'}}
@@ -463,6 +536,7 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
           {{#each @items as |item index|}}
             {{! template-lint-disable require-presentational-children }}
             <li
+              id={{this.itemId index}}
               role='option'
               class='cds--list-box__menu-item
                 {{if (eq item this.selectedItem) "cds--list-box__menu-item--active"}}
