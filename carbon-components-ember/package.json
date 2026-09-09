@@ -2920,6 +2920,7 @@
       "./components/carbon/icons/zos-sysplex.js": "./dist/_app_/components/carbon/icons/zos-sysplex.js",
       "./components/carbon/icons/zos.js": "./dist/_app_/components/carbon/icons/zos.js",
       "./components/carbon/index.js": "./dist/_app_/components/carbon/index.js",
+      "./components/carbon/layer.js": "./dist/_app_/components/carbon/layer.js",
       "./components/carbon/layout-direction.js": "./dist/_app_/components/carbon/layout-direction.js",
       "./components/carbon/layout.js": "./dist/_app_/components/carbon/layout.js",
       "./components/carbon/link.js": "./dist/_app_/components/carbon/link.js",
