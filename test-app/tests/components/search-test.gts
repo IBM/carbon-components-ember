@@ -1,6 +1,12 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn, click } from '@ember/test-helpers';
+import {
+  render,
+  fillIn,
+  click,
+  find,
+  triggerEvent,
+} from '@ember/test-helpers';
 import Search from 'carbon-components-ember/components/search';
 
 module('Integration | Component | Search', (hooks) => {
@@ -96,6 +102,50 @@ module('Integration | Component | Search', (hooks) => {
     await click('.cds--search-close');
 
     assert.true(cleared);
+  });
+
+  test('clicking the clear button also calls onChange with the cleared value', async function (assert) {
+    const changeCalls: unknown[] = [];
+    const onChange = (value: unknown) => {
+      changeCalls.push(value);
+    };
+    let cleared = false;
+    const onClear = () => {
+      cleared = true;
+    };
+
+    await render(
+      <template>
+        <Search
+          @labelText='Search'
+          @value='abc'
+          @onChange={{onChange}}
+          @onClear={{onClear}}
+        />
+      </template>,
+    );
+    await click('.cds--search-close');
+
+    assert.true(cleared);
+    assert.deepEqual(changeCalls, [null]);
+  });
+
+  test('does not call onChange twice when a change event follows an input event with the same value', async function (assert) {
+    let calls = 0;
+    const onChange = () => {
+      calls++;
+    };
+
+    await render(
+      <template><Search @labelText='Search' @onChange={{onChange}} /></template>,
+    );
+
+    const input = find('input.cds--search-input') as HTMLInputElement;
+    input.value = 'carbon';
+    await triggerEvent(input, 'input');
+    await triggerEvent(input, 'change');
+
+    assert.strictEqual(calls, 1);
   });
 
   test('uses the closeButtonLabelText argument for the clear button', async function (assert) {

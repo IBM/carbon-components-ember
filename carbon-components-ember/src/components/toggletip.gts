@@ -1,10 +1,9 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import { registerDestructor } from '@ember/destroyable';
 import { on } from '@ember/modifier';
 import { hash } from '@ember/helper';
-import didInsert from '@ember/render-modifiers/modifiers/did-insert';
+import { modifier } from 'ember-modifier';
 import type { WithBoundArgs } from '@glint/template';
 import ToggletipButtonComponent from './toggletip/button.gts';
 import ToggletipContentComponent from './toggletip/content.gts';
@@ -77,15 +76,15 @@ export default class ToggletipComponent extends Component<ToggletipComponentSign
     }
   };
 
-  registerElement = (element: HTMLElement) => {
+  registerElement = modifier((element: HTMLElement) => {
     this.element = element;
     document.addEventListener('click', this.onDocumentClick, true);
     window.addEventListener('blur', this.onWindowBlur);
-    registerDestructor(this, () => {
+    return () => {
       document.removeEventListener('click', this.onDocumentClick, true);
       window.removeEventListener('blur', this.onWindowBlur);
-    });
-  };
+    };
+  });
 
   onDocumentClick = (event: MouseEvent) => {
     if (!this.open || !this.element) return;
@@ -123,7 +122,7 @@ export default class ToggletipComponent extends Component<ToggletipComponentSign
         {{if this.open "cds--popover--open"}}
         cds--toggletip
         {{if this.open "cds--toggletip--open"}}'
-      {{didInsert this.registerElement}}
+      {{this.registerElement}}
       {{on 'keydown' this.onKeyDown}}
       {{on 'focusout' this.onFocusOut}}
       ...attributes
