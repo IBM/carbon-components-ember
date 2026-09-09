@@ -178,6 +178,9 @@ importers:
       ember-truth-helpers:
         specifier: ^5.0.0
         version: 5.0.0
+      flatpickr:
+        specifier: ^4.6.13
+        version: 4.6.13
       prettier-linter-helpers:
         specifier: ^1.0.0
         version: 1.0.1
@@ -7090,6 +7093,9 @@ packages:
 
   flat-cache@6.1.22:
     resolution: {integrity: sha512-N2dnzVJIphnNsjHcrxGW7DePckJ6haPrSFqpsBUhHYgwtKGVq4JrBGielEGD2fCVnsGm1zlBVZ8wGhkyuetgug==}
+
+  flatpickr@4.6.13:
+    resolution: {integrity: sha512-97PMG/aywoYpB4IvbvUJi0RQi8vearvU0oov1WW3k0WZPBMrTQVqekSX5CjSG/M4Q3i6A/0FKXC7RyAoAUUSPw==}
 
   flatted@3.4.2:
     resolution: {integrity: sha512-PjDse7RzhcPkIJwy5t7KPWQSZ9cAbzQXcafsetQoD7sOJRQlGikNbx7yZp2OotDnJyrDcbyRq3Ttb18iYOqkxA==}
@@ -21711,6 +21717,8 @@ snapshots:
       cacheable: 2.3.5
       flatted: 3.4.2
       hookified: 1.15.1
+
+  flatpickr@4.6.13: {}
 
   flatted@3.4.2: {}
 
