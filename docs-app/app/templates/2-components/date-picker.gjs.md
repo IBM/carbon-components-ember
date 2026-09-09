@@ -10,10 +10,12 @@ themselves.
 
 ```gjs live preview
 import { DatePicker } from 'carbon-components-ember/components';
-import { ThemeSupport } from 'docs-support';
+import { ThemeSupport, didInsert } from 'docs-support';
 import { trackedObject } from '@ember/reactive/collections';
 
-const context = trackedObject();
+const context = trackedObject({ container: null });
+
+const setContainer = (element) => (context.container = element);
 
 const update = (dates) => {
   context.value = dates[0];
@@ -25,40 +27,44 @@ const readOnlyValue = new Date(2024, 0, 15);
 
 <template>
     <ThemeSupport />
-    <DatePicker @datePickerType="simple" as |Input|>
-      <Input @labelText="Simple date field" @placeholder="mm/dd/yyyy" />
-    </DatePicker>
-    <br />
-    <DatePicker @datePickerType="single" @onChange={{update}} as |Input|>
-      <Input @labelText="Single date picker" @placeholder="mm/dd/yyyy" />
-    </DatePicker>
-    <br />
-    selected: {{context.value}}
-    <br />
-    <DatePicker @datePickerType="range" as |Input|>
-      <Input @labelText="Start date" @placeholder="mm/dd/yyyy" />
-      <Input @labelText="End date" @placeholder="mm/dd/yyyy" />
-    </DatePicker>
-    <br />
-    <DatePicker @datePickerType="single" @dateFormat="Y-m-d" as |Input|>
-      <Input @labelText="Custom format (Y-m-d)" @placeholder="yyyy-mm-dd" />
-    </DatePicker>
-    <br />
-    <DatePicker @datePickerType="single" @minDate={{minDate}} @maxDate={{maxDate}} as |Input|>
-      <Input @labelText="Min/max date" @placeholder="mm/dd/yyyy" />
-    </DatePicker>
-    <br />
-    <DatePicker @datePickerType="single" @readOnly={{true}} @value={{readOnlyValue}} as |Input|>
-      <Input @labelText="Read-only" @placeholder="mm/dd/yyyy" />
-    </DatePicker>
-    <br />
-    <DatePicker @datePickerType="single" as |Input|>
-      <Input @labelText="Invalid" @invalid={{true}} @invalidText="A valid date is required" />
-    </DatePicker>
-    <br />
-    <DatePicker @datePickerType="single" as |Input|>
-      <Input @labelText="Warning" @warn={{true}} @warnText="Double check this date" />
-    </DatePicker>
+    <div {{didInsert setContainer}}>
+      <DatePicker @datePickerType="simple" as |Input|>
+        <Input @labelText="Simple date field" @placeholder="mm/dd/yyyy" />
+      </DatePicker>
+      <br />
+      {{#if context.container}}
+        <DatePicker @datePickerType="single" @appendTo={{context.container}} @onChange={{update}} as |Input|>
+          <Input @labelText="Single date picker" @placeholder="mm/dd/yyyy" />
+        </DatePicker>
+        <br />
+        selected: {{context.value}}
+        <br />
+        <DatePicker @datePickerType="range" @appendTo={{context.container}} as |Input|>
+          <Input @labelText="Start date" @placeholder="mm/dd/yyyy" />
+          <Input @labelText="End date" @placeholder="mm/dd/yyyy" />
+        </DatePicker>
+        <br />
+        <DatePicker @datePickerType="single" @appendTo={{context.container}} @dateFormat="Y-m-d" as |Input|>
+          <Input @labelText="Custom format (Y-m-d)" @placeholder="yyyy-mm-dd" />
+        </DatePicker>
+        <br />
+        <DatePicker @datePickerType="single" @appendTo={{context.container}} @minDate={{minDate}} @maxDate={{maxDate}} as |Input|>
+          <Input @labelText="Min/max date" @placeholder="mm/dd/yyyy" />
+        </DatePicker>
+        <br />
+        <DatePicker @datePickerType="single" @appendTo={{context.container}} @readOnly={{true}} @value={{readOnlyValue}} as |Input|>
+          <Input @labelText="Read-only" @placeholder="mm/dd/yyyy" />
+        </DatePicker>
+        <br />
+        <DatePicker @datePickerType="single" @appendTo={{context.container}} as |Input|>
+          <Input @labelText="Invalid" @invalid={{true}} @invalidText="A valid date is required" />
+        </DatePicker>
+        <br />
+        <DatePicker @datePickerType="single" @appendTo={{context.container}} as |Input|>
+          <Input @labelText="Warning" @warn={{true}} @warnText="Double check this date" />
+        </DatePicker>
+      {{/if}}
+    </div>
 </template>
 ```
 
