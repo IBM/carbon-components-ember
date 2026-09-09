@@ -7,8 +7,7 @@ import PowerSelect, {
 } from 'ember-power-select/components/power-select';
 import type { ContentValue } from '@glint/template';
 import PowerSelectMultiple from 'ember-power-select/components/power-select-multiple';
-import didInsert from '@ember/render-modifiers/modifiers/did-insert';
-import didUpdate from '@ember/render-modifiers/modifiers/did-update';
+import { modifier } from 'ember-modifier';
 import defaultTo from '../helpers/default-to.ts';
 import Checkbox from '../components/checkbox.gts';
 import isSelected from 'ember-power-select/helpers/ember-power-select-is-equal';
@@ -68,8 +67,7 @@ type ExtractInterface<C> = C extends Component<infer T> ? T : unknown;
 type ArrayElement<A> = A extends readonly (infer T)[] ? T : never;
 type OptionsComponentInterface = ExtractInterface<OptionsComponent>;
 
-const addClassToParent = (el: HTMLElement, args: [string, boolean]) => {
-  const [cls, ifTrue] = args;
+const addClassToParent = (el: HTMLElement, cls: string, ifTrue: boolean) => {
   if (ifTrue !== false) {
     setTimeout(() => {
       el.parentElement?.classList.add(cls);
@@ -80,7 +78,21 @@ const addClassToParent = (el: HTMLElement, args: [string, boolean]) => {
       el.parentElement?.classList.remove(cls);
     });
   }
-}
+};
+
+const addMenuItemClass = modifier((element: HTMLElement) => {
+  addClassToParent(element, 'cds--list-box__menu-item', true);
+});
+
+const toggleHighlightedClass = modifier(
+  (element: HTMLElement, [highlighted]: [boolean]) => {
+    addClassToParent(
+      element,
+      'cds--list-box__menu-item--highlighted',
+      highlighted,
+    );
+  },
+);
 
 // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 const Options: TOC<OptionsComponentInterface & { Args: { guid: string } }> = <template>
@@ -245,9 +257,9 @@ export default class SelectComponent<T extends ContentValue> extends Component<
       this.args.select.actions.search((event.target as HTMLInputElement).value);
     }
 
-    focus = (element: HTMLElement) => {
+    focus = modifier((element: HTMLElement) => {
       element.focus();
-    }
+    });
 
       <template>
           {{#if @extra.title}}
@@ -308,7 +320,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
                   value=""
                   aria-controls="carbon-multiselect-{{this.guid}}__menu"
                   {{on 'input' this.doSearch}}
-                  {{didInsert this.focus}}
+                  {{this.focus}}
                 >
               {{/if}}
 
@@ -369,7 +381,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         @closeOnSelect={{false}}
         as |option select|
       >
-        <div class='cds--list-box__menu-item__option' {{didUpdate addClassToParent  'cds--list-box__menu-item--highlighted' (eq option select.highlighted)}} {{didInsert addClassToParent 'cds--list-box__menu-item'}}>
+        <div class='cds--list-box__menu-item__option' {{toggleHighlightedClass (eq option select.highlighted)}} {{addMenuItemClass}}>
           <Checkbox
             @readonly={{true}}
             @checked={{isSelected option select.selected}}
@@ -410,7 +422,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         @onChange={{this.onChange}}
         as |option select|
       >
-        <div class='cds--list-box__menu-item__option' {{didUpdate addClassToParent  'cds--list-box__menu-item--highlighted' (eq option select.highlighted)}} {{didInsert addClassToParent 'cds--list-box__menu-item'}}>
+        <div class='cds--list-box__menu-item__option' {{toggleHighlightedClass (eq option select.highlighted)}} {{addMenuItemClass}}>
           {{#if (isSelected option select.selected)}}
             <span style="font-weight: bold; position: absolute; margin-left: -14px;">&check;</span>
           {{/if}}

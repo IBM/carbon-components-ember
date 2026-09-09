@@ -510,13 +510,15 @@ for the reader of the docs site, not for yourself.
   story. Write a real modifier instead (§4). As of the 2026-09-09 audit,
   13 components still imported it; `checkbox.gts`, `code-snippet.gts`,
   `list.gts`, `ordered-list.gts`, `search.gts`, `toggletip.gts`,
-  `slider.gts`, `data-table.gts`, and `pagination.gts` have since been
-  migrated off it. 4 components still import it:
-  `charts/-components/chart.gts`, `popover.gts`, `select.gts`,
-  `tooltip.gts`. Migrating one of these to a real modifier while you're
-  already touching it for something else is in-scope cleanup, not scope
-  creep — don't do a drive-by rewrite of an unrelated file just to cross
-  it off this list.
+  `slider.gts`, `data-table.gts`, `pagination.gts`, and `select.gts` have
+  since been migrated off it (note: `select.gts` has no dedicated test
+  file — this and any future change to it is only covered indirectly, by
+  other components' tests that happen to render a `<Select>`). 3
+  components still import it: `charts/-components/chart.gts`,
+  `popover.gts`, `tooltip.gts`. Migrating one of these to a real modifier
+  while you're already touching it for something else is in-scope
+  cleanup, not scope creep — don't do a drive-by rewrite of an unrelated
+  file just to cross it off this list.
 - **An ad-hoc `willDestroy()` lifecycle override** instead of
   `registerDestructor` or a modifier's own teardown function (see §6).
   `ordered-list.gts`'s has since been replaced with a modifier teardown; one
