@@ -47,6 +47,7 @@ upload: each file starts `uploading`, becomes `complete`, and then `edit`
 import { ThemeSupport } from 'docs-support';
 import { FileUploaderDropContainer, FileUploaderItem } from 'carbon-components-ember/components';
 import { trackedObject } from '@ember/reactive/collections';
+import { array } from '@ember/helper';
 
 const context = trackedObject({ files: [] });
 
