@@ -6,6 +6,7 @@
  */
 
 import Component from '@glimmer/component';
+import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { registerDestructor } from '@ember/destroyable';
@@ -162,7 +163,7 @@ export default class Popover extends Component<PopoverSignature> {
 
   containerElement?: HTMLElement;
 
-  constructor(owner: any, args: PopoverArgs) {
+  constructor(owner: Owner, args: PopoverArgs) {
     super(owner, args);
     registerDestructor(this, () => {
       document.removeEventListener('click', this.handleDocumentClick);

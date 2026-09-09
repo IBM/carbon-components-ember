@@ -1,4 +1,5 @@
 import Component from '@glimmer/component';
+import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
@@ -56,7 +57,7 @@ export default class Slider extends Component<SliderSignature> {
   lowerThumbElement?: HTMLDivElement;
   upperThumbElement?: HTMLDivElement;
 
-  constructor(owner: any, args: Args) {
+  constructor(owner: Owner, args: Args) {
     super(owner, args);
     registerDestructor(this, () => this.removeDragListeners());
   }

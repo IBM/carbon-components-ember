@@ -6,6 +6,7 @@
  */
 
 import Component from '@glimmer/component';
+import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
@@ -124,7 +125,7 @@ export default class CarbonTooltip extends Component<CarbonTooltipSignature> {
   timer?: ReturnType<typeof setTimeout>;
   containerElement?: HTMLElement;
 
-  constructor(owner: any, args: Args) {
+  constructor(owner: Owner, args: Args) {
     super(owner, args);
     registerDestructor(this, () => clearTimeout(this.timer));
   }
