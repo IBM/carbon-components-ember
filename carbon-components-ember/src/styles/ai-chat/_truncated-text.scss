@@ -42,3 +42,19 @@
 .cds-aichat-truncated-text__toggle:hover {
   color: var(--cds-link-primary-hover, #0043ce);
 }
+
+// Upstream includes `@include focus-outline('outline')` here (a 2px inset
+// outline). Reproduced directly with the compiled `--cds-focus` custom
+// property rather than importing the Sass mixin (which needs `@carbon/
+// styles`' Sass theme module, not just its compiled CSS custom properties —
+// see this file's header comment). This toggle is genuinely
+// keyboard-operable (`tabindex="0"`, Enter/Space handled), so it needs a
+// visible focus indicator. Upstream's matching `.content:focus` rule (for
+// the tooltip-branch content div) isn't reproduced: that div has no
+// `tabindex` in upstream's own template either, so it can never actually
+// receive focus — the same kind of pre-existing dead rule as the
+// `::slotted([slot='card-media'])` one documented in `_card.scss`.
+.cds-aichat-truncated-text__toggle:focus {
+  outline: 2px solid var(--cds-focus, #0f62fe);
+  outline-offset: -2px;
+}

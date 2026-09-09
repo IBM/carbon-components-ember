@@ -94,6 +94,11 @@ const PAGE_SIZE_OPTIONS = [5, 10, 15, 20, 50];
  * than upstream's DOM-attribute `data-hidden` row-hiding trick, which only
  * exists because upstream renders through Carbon Web Components' own
  * `cds-table`/`cds-pagination` custom elements.
+ *
+ * Upstream also accepts a `data-rounded` attribute (set by an outer shell)
+ * that clips/rounds the table's own corners via `overflow: hidden`. Not
+ * exposed here for the same reason `AiChatCard` doesn't expose it either —
+ * nothing in this port provides that outer shell context.
  */
 export default class AiChatTable extends Component<AiChatTableSignature> {
   @tracked filterTerm = '';

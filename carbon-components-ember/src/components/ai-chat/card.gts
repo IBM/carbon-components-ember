@@ -50,6 +50,15 @@ export interface AiChatCardSignature {
  * selector names disagree) — a pre-existing upstream inconsistency, not
  * reproduced here since the rule was already dead code upstream too.
  *
+ * Upstream also accepts a `data-rounded` attribute set from *outside* (e.g.
+ * by a chat-shell wrapper that wants a nested card to only round specific
+ * corners instead of all four). This card always rounds all four corners
+ * unconditionally (matching upstream's own default, un-overridden
+ * behavior) and doesn't expose `data-rounded` as an arg — nothing in this
+ * port provides the outer shell context that would ever set it.
+ * `AiChatCardFooter`'s own `data-rounded` (which *is* always rendered, to
+ * match its bottom corners to this card's) is wired up in `_card.scss`.
+ *
  * ```gjs
  * import { AiChatCard } from 'carbon-components-ember/components';
  *

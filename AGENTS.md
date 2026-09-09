@@ -903,6 +903,44 @@ scoped to the test's own container). Fixed by dropping `@value` entirely —
 control `@value` similarly and hasn't shown symptoms, but wasn't touched
 here — out of scope for this batch.
 
+**Review round 2 fixes (still batch 1):** two SCSS gaps found by diffing
+against upstream's real `.scss` source (not caught by build/glint/tests,
+which don't check CSS coverage at all).
+
+- Upstream's `card.scss`/`card-footer.scss`/`table.scss` all
+  `@include rounded-modifiers` (`globals/scss/_modifiers.scss`) — a generic
+  mixin driving `[data-rounded="..."]` corner rounding across a full
+  stacked/non-stacked/positional matrix. `AiChatCardFooter` already
+  rendered `data-rounded='bottom'`/`'bottom-right'` (the only two values
+  this port ever produces), but `_card.scss` had zero matching CSS, so
+  those corners were never actually rounded. Rather than port the full
+  generic mixin, `_card.scss` now hand-writes just those two concrete
+  cases (rounding the footer's first/last action to match the card's own
+  radius, both corners on the single last button once stacked). `AiChatCard`
+  and `AiChatTable` themselves don't expose upstream's *externally-set*
+  `data-rounded` attribute (used by an outer shell to override a nested
+  card/table's corners) — documented as an intentional gap in both
+  components' doc comments rather than silently missing, since nothing in
+  this port provides that shell context yet.
+- `AiChatTruncatedText`'s expand/collapse toggle (`tabindex="0"`,
+  keyboard-operable) had no `:focus` style at all — a real a11y regression.
+  Added a `2px solid var(--cds-focus)` outline directly (matching upstream's
+  `@include focus-outline('outline')`) rather than importing the real Sass
+  mixin, which needs `@carbon/styles`' Sass theme module and not just its
+  compiled CSS custom properties, unlike everything else in this port. The
+  tooltip-branch content div's matching upstream `:focus` rule was *not*
+  reproduced — that div has no `tabindex` in upstream's own template
+  either, so it's unreachable by keyboard there too (a pre-existing dead
+  rule, same class as `_card.scss`'s already-documented
+  `::slotted([slot='card-media'])`).
+
+**Takeaway for later batches: build/glint/lint/tests passing does not mean
+the ported SCSS actually matches upstream's CSS.** None of those checks
+diff against the real stylesheet, so a batch can ship green and still be
+missing real rules (dead attributes, missing focus states). Worth a
+deliberate side-by-side read of each component's real `.scss` against the
+ported partial before calling a batch done, not just after review flags it.
+
 ## Key Resources
 
 - **Carbon React**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components

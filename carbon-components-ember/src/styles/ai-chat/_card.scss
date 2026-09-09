@@ -64,6 +64,57 @@
   border-block-start: 1px solid var(--cds-chat-bubble-border, #e0e0e0);
 }
 
+// Upstream's shared `rounded-modifiers` mixin (`globals/scss/_modifiers.scss`)
+// derives corner rounding for a whole grid of `data-rounded`/`data-stacked`
+// combinations that this addon's port doesn't need in full — `AiChatCard`
+// unconditionally rounds all 4 corners already (see `.cds-aichat-card`
+// above), and `AiChatCardFooter` only ever renders exactly the two values
+// below (`bottom` for labeled actions, `bottom-right` for icon-only
+// actions). Rather than porting the full mixin, this reproduces just those
+// two cases directly: the footer's first/last action gets the matching
+// bottom corner rounded (both, on the single last button, once stacked) so
+// its outer edge matches the card's own radius. `AiChatCard`'s own
+// `data-rounded` attribute (used by an outer shell to override which
+// corners a *nested* card should round) is intentionally not exposed here —
+// nothing in this vertical-slice port provides that shell context yet.
+.cds-aichat-card-footer__actions[data-rounded='bottom'] {
+  > :first-child,
+  > :first-child button {
+    border-end-start-radius: calc(
+      var(--cds-aichat-card-border-radius-end-start, 0) - 1px
+    );
+  }
+
+  > :last-child,
+  > :last-child button {
+    border-end-end-radius: calc(
+      var(--cds-aichat-card-border-radius-end-end, 0) - 1px
+    );
+  }
+
+  &[data-stacked='true'] {
+    > :first-child,
+    > :first-child button {
+      border-end-start-radius: 0;
+    }
+
+    > :last-child,
+    > :last-child button {
+      border-end-start-radius: calc(
+        var(--cds-aichat-card-border-radius-end-start, 0) - 1px
+      );
+    }
+  }
+}
+
+.cds-aichat-card-footer__icon-actions[data-rounded='bottom-right'] {
+  > :last-child button {
+    border-end-end-radius: calc(
+      var(--cds-aichat-card-border-radius-end-end, 0) - 1px
+    );
+  }
+}
+
 .cds-aichat-card-footer__actions .cds--btn--ghost {
   border-block-start: 1px solid var(--cds-chat-bubble-border, #e0e0e0);
 }
