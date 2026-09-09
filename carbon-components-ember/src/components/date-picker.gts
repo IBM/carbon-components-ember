@@ -17,6 +17,8 @@ import type {
   Options as FlatpickrOptions,
 } from 'flatpickr/dist/types/options';
 import type { Instance as FlatpickrInstance } from 'flatpickr/dist/types/instance';
+import chevronLeft16 from '@carbon/icons/es/chevron--left/16';
+import chevronRight16 from '@carbon/icons/es/chevron--right/16';
 import DatePickerInput from './date-picker-input.gts';
 
 export type DatePickerType = 'simple' | 'single' | 'range';
@@ -69,6 +71,13 @@ export interface DatePickerSignature {
      */
     closeOnSelect?: boolean;
     /**
+     * The DOM node flatpickr's calendar dropdown is appended into. Defaults
+     * to `document.body` (flatpickr's own default). Pass a node inside your
+     * own root when the picker is rendered in a shadow root, otherwise the
+     * calendar escapes into the light DOM where your styles don't reach it.
+     */
+    appendTo?: HTMLElement;
+    /**
      * Whether the field(s) are read-only. A read-only picker has no
      * calendar and cannot be typed into.
      */
@@ -115,6 +124,28 @@ function formatSimpleValue(raw: DateOption, dateFormat: string): string {
   const parsed = flatpickr.parseDate(raw, dateFormat);
   return parsed ? flatpickr.formatDate(parsed, dateFormat) : String(raw);
 }
+
+// Flatpickr's stock prev/next month arrows are a raw `viewBox='0 0 17 17'`
+// SVG string with no `width`/`height` attributes. `@carbon/styles`' own
+// `.flatpickr-prev-month`/`.flatpickr-next-month` rules only size the
+// containing 40px button, not the svg itself, so with no explicit sizing
+// the browser falls back to its default replaced-element size and the
+// arrows render huge. Carbon React swaps the arrow markup for its own 16px
+// chevron icon instead - do the same, deliberately omitting a `fill`
+// attribute (same as flatpickr's stock arrows) so the svg keeps inheriting
+// `fill` from `.flatpickr-prev-month`/`.flatpickr-next-month`'s own CSS
+// `fill` declaration, including the `.disabled` override.
+type ChevronIcon = {
+  attrs: { xmlns: string; viewBox: string; width: number; height: number };
+  content: [{ attrs: { d: string } }];
+};
+function chevronArrowSvg(icon: ChevronIcon): string {
+  const { xmlns, viewBox, width, height } = icon.attrs;
+  const path = icon.content[0].attrs.d;
+  return `<svg xmlns="${xmlns}" viewBox="${viewBox}" width="${width}" height="${height}"><path d="${path}" /></svg>`;
+}
+const prevMonthArrow = chevronArrowSvg(chevronLeft16 as unknown as ChevronIcon);
+const nextMonthArrow = chevronArrowSvg(chevronRight16 as unknown as ChevronIcon);
 
 // Mirrors Carbon React's `updateClassNames`: flatpickr's calendar markup
 // only carries its own `flatpickr-*` classes, but `@carbon/styles` themes
@@ -232,13 +263,23 @@ export default class DatePicker extends Component<DatePickerSignature> {
         allowInput: boolean;
         readOnly: boolean;
         closeOnSelect: boolean;
+        appendTo?: HTMLElement;
       };
     };
   }>(
     (
       element,
       _positional,
-      { datePickerType, dateFormat, minDate, maxDate, allowInput, readOnly, closeOnSelect },
+      {
+        datePickerType,
+        dateFormat,
+        minDate,
+        maxDate,
+        allowInput,
+        readOnly,
+        closeOnSelect,
+        appendTo,
+      },
     ) => {
       const inputs = element.querySelectorAll<HTMLInputElement>(
         '.cds--date-picker__input',
@@ -276,6 +317,9 @@ export default class DatePicker extends Component<DatePickerSignature> {
         clickOpens: !readOnly,
         noCalendar: readOnly,
         disableMobile: true,
+        appendTo,
+        prevArrow: prevMonthArrow,
+        nextArrow: nextMonthArrow,
         plugins: end ? [rangePlugin({ input: end })] : [],
         onChange: (selectedDates, dateStr, instance) =>
           this.handleChange(selectedDates, dateStr, instance),
@@ -373,6 +417,7 @@ export default class DatePicker extends Component<DatePickerSignature> {
           allowInput=this.allowInput
           readOnly=this.readOnly
           closeOnSelect=this.closeOnSelect
+          appendTo=@appendTo
         }}
         {{this.syncValue @value}}
       >

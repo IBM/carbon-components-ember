@@ -138,6 +138,53 @@ module('Integration | Component | DatePicker', (hooks) => {
       assert.strictEqual(receivedDates?.length, 1);
     });
 
+  test('single: prev/next month arrows render a properly-sized 16px chevron icon',
+    async function (assert) {
+      await render(
+        <template>
+          <DatePicker @datePickerType='single' as |Input|>
+            <Input @labelText='Date' />
+          </DatePicker>
+        </template>,
+      );
+
+      await openCalendar();
+
+      const prevSvg = document.querySelector('.flatpickr-prev-month svg');
+      const nextSvg = document.querySelector('.flatpickr-next-month svg');
+
+      assert.strictEqual(prevSvg?.getAttribute('width'), '16', 'prev arrow svg has an explicit width');
+      assert.strictEqual(prevSvg?.getAttribute('height'), '16', 'prev arrow svg has an explicit height');
+      assert.strictEqual(nextSvg?.getAttribute('width'), '16', 'next arrow svg has an explicit width');
+      assert.strictEqual(nextSvg?.getAttribute('height'), '16', 'next arrow svg has an explicit height');
+    });
+
+  test('single: @appendTo redirects the calendar dropdown into a custom root instead of document.body',
+    async function (assert) {
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+
+      try {
+        await render(
+          <template>
+            <DatePicker @datePickerType='single' @appendTo={{container}} as |Input|>
+              <Input @labelText='Date' />
+            </DatePicker>
+          </template>,
+        );
+
+        await openCalendar();
+
+        assert.strictEqual(
+          flatpickrCalendar()?.parentElement,
+          container,
+          'the calendar is appended into @appendTo, not document.body directly',
+        );
+      } finally {
+        container.remove();
+      }
+    });
+
   test('single: the calendar stays interactive across two selections when @value is controlled',
     async function (assert) {
       const date = cell<Date | undefined>(new Date(2024, 0, 15));
