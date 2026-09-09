@@ -9,10 +9,10 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { registerDestructor } from '@ember/destroyable';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import { eq } from 'ember-truth-helpers';
+import { task, timeout } from 'ember-concurrency';
 import type Owner from '@ember/owner';
 import type { ComponentLike } from '@glint/template';
 import {
@@ -104,7 +104,9 @@ export interface DropdownSignature<T> {
     size?: 'sm' | 'md' | 'lg';
     /**
      * `default` renders the standalone field; `inline` lays the field out
-     * next to its label and hides the label row.
+     * next to its label (via flex layout classes) and suppresses the helper
+     * text row. The label itself is always rendered - use `@hideLabel` to
+     * visually hide it.
      */
     type?: 'default' | 'inline';
     /**
@@ -112,9 +114,13 @@ export interface DropdownSignature<T> {
      */
     direction?: 'top' | 'bottom';
     /**
-     * A component (for example `AILabel`) rendered inside the field.
+     * A component (for example an icon, or `AILabel` once implemented)
+     * rendered inside the field. Invoked with `@size='16'` and an inert
+     * `@svgClass`, so it must accept both.
      */
-    decorator?: ComponentLike;
+    decorator?: ComponentLike<{
+      Args: { size?: string; svgClass?: string };
+    }>;
   };
   Blocks: {
     /**
@@ -156,17 +162,21 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
 
   guid = guidFor(this);
 
-  // Character-key typeahead: characters typed within `searchTimer`'s window
-  // of each other accumulate into a single search query, mirroring
+  // Character-key typeahead: characters typed within `resetSearchBuffer`'s
+  // window of each other accumulate into a single search query, mirroring
   // downshift's `getItemIndexByCharacterKey`.
   searchBuffer = '';
   searchAnchorIndex = -1;
-  searchTimer?: ReturnType<typeof setTimeout>;
+
+  resetSearchBuffer = task({ restartable: true }, async () => {
+    await timeout(500);
+    this.searchBuffer = '';
+    this.searchAnchorIndex = -1;
+  });
 
   constructor(owner: Owner, args: DropdownSignature<T>['Args']) {
     super(owner, args);
     this.internalSelectedItem = args.initialSelectedItem ?? null;
-    registerDestructor(this, () => clearTimeout(this.searchTimer));
   }
 
   get id() {
@@ -401,7 +411,6 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
     const items = this.args.items;
     if (!items.length) return;
 
-    clearTimeout(this.searchTimer);
     const currentIndex = this.isOpen
       ? this.highlightedIndex
       : this.selectedItem !== null
@@ -411,10 +420,7 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
       this.searchAnchorIndex = currentIndex;
     }
     this.searchBuffer += key.toLowerCase();
-    this.searchTimer = setTimeout(() => {
-      this.searchBuffer = '';
-      this.searchAnchorIndex = -1;
-    }, 500);
+    void this.resetSearchBuffer.perform();
 
     // A run of the same repeated character (e.g. "b", "b", "b") cycles
     // through every item starting with that character, one per keypress,
@@ -521,7 +527,7 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
         </button>
         {{#if @decorator}}
           <div class='cds--list-box__inner-wrapper--decorator'>
-            <@decorator />
+            <@decorator @size='16' @svgClass='cds--list-box__decorator-icon' />
           </div>
         {{/if}}
         {{! template-lint-disable no-invalid-interactive }}

@@ -3,10 +3,12 @@ import { setupRenderingTest } from 'ember-qunit';
 import {
   render,
   click,
+  triggerEvent,
   triggerKeyEvent,
   find,
   waitFor,
 } from '@ember/test-helpers';
+import fireEvent from '@ember/test-helpers/dom/fire-event';
 import { tracked } from '@glimmer/tracking';
 import Dropdown from 'carbon-components-ember/components/dropdown';
 import { Add } from 'carbon-components-ember/icons';
@@ -335,6 +337,19 @@ module('Integration | Component | Dropdown', (hooks) => {
     assert.dom('.cds--dropdown').hasClass('cds--list-box--invalid');
     assert.dom('.cds--dropdown__wrapper').hasClass('cds--list-box__wrapper--decorator');
     assert.dom('.cds--list-box__inner-wrapper--decorator svg').exists();
+    assert
+      .dom('.cds--list-box__inner-wrapper--decorator svg')
+      .hasClass(
+        'cds--list-box__decorator-icon',
+        'decorator icon opts out of the default 24px Icon margin class',
+      );
+    assert
+      .dom('.cds--list-box__inner-wrapper--decorator svg')
+      .hasAttribute(
+        'width',
+        '16',
+        'decorator icon is rendered at 16px, not the default 24px',
+      );
   });
 
   test('@warn and @warnText render the warning state when not invalid', async function (assert) {
@@ -456,5 +471,293 @@ module('Integration | Component | Dropdown', (hooks) => {
     await click('[role="option"]:nth-child(3)');
 
     assert.dom('.cds--list-box__label').hasText('Option 3');
+  });
+
+  test("default itemToString reads an object item's string `label`", async function (assert) {
+    const objectItems = [{ label: 'Option 1' }, { label: 'Option 2' }];
+
+    await render(
+      <template>
+        <Dropdown
+          @titleText='Choose an option'
+          @label='Select an option'
+          @items={{objectItems}}
+        />
+      </template>,
+    );
+
+    await click('.cds--list-box__field');
+
+    assert
+      .dom('[role="option"]:nth-child(1)')
+      .hasText('Option 1');
+
+    await click('[role="option"]:nth-child(2)');
+
+    assert.dom('.cds--list-box__label').hasText('Option 2');
+  });
+
+  test('default itemToString falls back to an empty string when there is no string `label`', async function (assert) {
+    const objectItems = [{ id: 1 }, { label: 42 }];
+
+    await render(
+      <template>
+        <Dropdown
+          @titleText='Choose an option'
+          @label='Select an option'
+          @items={{objectItems}}
+        />
+      </template>,
+    );
+
+    await click('.cds--list-box__field');
+
+    assert
+      .dom('[role="option"]:nth-child(1)')
+      .hasText('', 'an object with no `label` renders as empty text, not "[object Object]"');
+    assert
+      .dom('[role="option"]:nth-child(2)')
+      .hasText('', 'a non-string `label` also falls back to empty text');
+  });
+
+  test('a custom @itemToString overrides the default rendering', async function (assert) {
+    const objectItems = [{ id: 1, name: 'First' }, { id: 2, name: 'Second' }];
+    const itemToString = (item: { id: number; name: string }) =>
+      `#${item.id} ${item.name}`;
+
+    await render(
+      <template>
+        <Dropdown
+          @titleText='Choose an option'
+          @label='Select an option'
+          @items={{objectItems}}
+          @itemToString={{itemToString}}
+        />
+      </template>,
+    );
+
+    await click('.cds--list-box__field');
+
+    assert
+      .dom('[role="option"]:nth-child(1)')
+      .hasText('#1 First');
+
+    await click('[role="option"]:nth-child(2)');
+
+    assert.dom('.cds--list-box__label').hasText('#2 Second');
+  });
+
+  test('typing two different characters within the reset window accumulates into one search query', async function (assert) {
+    const typeaheadItems = ['Orange', 'Olive', 'Option'];
+
+    await render(
+      <template>
+        <Dropdown
+          @titleText='Choose an option'
+          @label='Select an option'
+          @items={{typeaheadItems}}
+        />
+      </template>,
+    );
+
+    const button = find('.cds--list-box__field')!;
+    await click(button);
+
+    assert
+      .dom('[role="option"]:nth-child(1)')
+      .hasClass('cds--list-box__menu-item--highlighted', 'opens highlighting the first item');
+
+    // Fire both keydowns back-to-back with no awaited settle in between, so
+    // neither one lets the 500ms search-buffer-reset window elapse first.
+    await fireEvent(button, 'keydown', { key: 'o' });
+    await fireEvent(button, 'keydown', { key: 'p' });
+
+    assert
+      .dom('[role="option"]:nth-child(3)')
+      .hasClass(
+        'cds--list-box__menu-item--highlighted',
+        'accumulated query "op" matches "Option", not just "o" or "p" alone',
+      );
+  });
+
+  test('a pause longer than the reset window starts a new search query instead of accumulating', async function (assert) {
+    const typeaheadItems = ['Orange', 'Olive', 'Option'];
+
+    await render(
+      <template>
+        <Dropdown
+          @titleText='Choose an option'
+          @label='Select an option'
+          @items={{typeaheadItems}}
+        />
+      </template>,
+    );
+
+    const button = find('.cds--list-box__field')!;
+    await click(button);
+
+    // Each `triggerKeyEvent` awaits `settled()`, which itself waits for the
+    // restartable reset task's 500ms `timeout()` to complete - so by the
+    // time this resolves, the search buffer has already been cleared.
+    await triggerKeyEvent(button, 'keydown', 'O');
+
+    assert
+      .dom('[role="option"]:nth-child(2)')
+      .hasClass('cds--list-box__menu-item--highlighted', '"o" alone matches "Olive"');
+
+    await triggerKeyEvent(button, 'keydown', 'P');
+
+    assert
+      .dom('[role="option"]:nth-child(2)')
+      .hasClass(
+        'cds--list-box__menu-item--highlighted',
+        'no item starts with "p" alone, so the highlight is unchanged - it never sees the accumulated "op"',
+      );
+  });
+
+  test('Tab closes the open menu', async function (assert) {
+    await render(
+      <template>
+        <Dropdown
+          @titleText='Choose an option'
+          @label='Select an option'
+          @items={{items}}
+        />
+      </template>,
+    );
+
+    const button = find('.cds--list-box__field')!;
+    await click(button);
+
+    assert.dom('.cds--dropdown').hasClass('cds--dropdown--open');
+
+    await triggerKeyEvent(button, 'keydown', 'Tab');
+
+    assert.dom('.cds--dropdown').doesNotHaveClass('cds--dropdown--open');
+  });
+
+  test('blurring the field closes the open menu', async function (assert) {
+    await render(
+      <template>
+        <Dropdown
+          @titleText='Choose an option'
+          @label='Select an option'
+          @items={{items}}
+        />
+      </template>,
+    );
+
+    const button = find('.cds--list-box__field')!;
+    await click(button);
+
+    assert.dom('.cds--dropdown').hasClass('cds--dropdown--open');
+
+    await triggerEvent(button, 'blur');
+
+    assert.dom('.cds--dropdown').doesNotHaveClass('cds--dropdown--open');
+    assert.dom('.cds--dropdown').doesNotHaveClass('cds--dropdown--focus');
+  });
+
+  test('Home and End jump the highlight to the first and last item', async function (assert) {
+    await render(
+      <template>
+        <Dropdown
+          @titleText='Choose an option'
+          @label='Select an option'
+          @items={{items}}
+        />
+      </template>,
+    );
+
+    const button = find('.cds--list-box__field')!;
+    await click(button);
+    await triggerKeyEvent(button, 'keydown', 'ArrowDown');
+
+    assert
+      .dom('[role="option"]:nth-child(2)')
+      .hasClass('cds--list-box__menu-item--highlighted');
+
+    await triggerKeyEvent(button, 'keydown', 'End');
+
+    assert
+      .dom('[role="option"]:nth-child(3)')
+      .hasClass('cds--list-box__menu-item--highlighted', 'End jumps to the last item');
+
+    await triggerKeyEvent(button, 'keydown', 'Home');
+
+    assert
+      .dom('[role="option"]:nth-child(1)')
+      .hasClass('cds--list-box__menu-item--highlighted', 'Home jumps to the first item');
+  });
+
+  test('aria-describedby points at the helper text element', async function (assert) {
+    await render(
+      <template>
+        <Dropdown
+          @titleText='Choose an option'
+          @label='Select an option'
+          @items={{items}}
+          @helperText='Some helpful text'
+        />
+      </template>,
+    );
+
+    const button = find('.cds--list-box__field')!;
+    const describedBy = button.getAttribute('aria-describedby');
+
+    assert.true(!!describedBy, 'aria-describedby is set when helper text is shown');
+    assert.dom(`#${describedBy}`).hasText('Some helpful text');
+  });
+
+  test('@size renders the corresponding size classes', async function (assert) {
+    await render(
+      <template>
+        <Dropdown
+          @titleText='Choose an option'
+          @label='Select an option'
+          @items={{items}}
+          @size='sm'
+        />
+      </template>,
+    );
+
+    assert.dom('.cds--dropdown').hasClass('cds--dropdown--sm');
+    assert.dom('.cds--dropdown').hasClass('cds--list-box--sm');
+  });
+
+  test("@type='inline' adds the inline layout classes and suppresses helper text", async function (assert) {
+    await render(
+      <template>
+        <Dropdown
+          @titleText='Choose an option'
+          @label='Select an option'
+          @items={{items}}
+          @type='inline'
+          @helperText='Some helpful text'
+        />
+      </template>,
+    );
+
+    assert.dom('.cds--dropdown__wrapper').hasClass('cds--dropdown__wrapper--inline');
+    assert.dom('.cds--dropdown__wrapper').hasClass('cds--list-box__wrapper--inline');
+    assert.dom('.cds--dropdown').hasClass('cds--dropdown--inline');
+    assert.dom('.cds--label').exists('the label row is still rendered when inline');
+    assert.dom('.cds--form__helper-text').doesNotExist('inline suppresses helper text');
+  });
+
+  test('@hideLabel visually hides the label without removing it', async function (assert) {
+    await render(
+      <template>
+        <Dropdown
+          @titleText='Choose an option'
+          @label='Select an option'
+          @items={{items}}
+          @hideLabel={{true}}
+        />
+      </template>,
+    );
+
+    assert.dom('.cds--label').hasClass('cds--visually-hidden');
+    assert.dom('.cds--label').hasText('Choose an option');
   });
 });
