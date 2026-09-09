@@ -2,9 +2,8 @@ import { default as Select } from './select.gts';
 import { default as Tooltip } from './tooltip.gts';
 import { default as defaultTo } from '../helpers/default-to.ts';
 import { default as eq } from 'ember-truth-helpers/helpers/eq';
-import { default as didInsert } from '@ember/render-modifiers/modifiers/did-insert';
-import { default as didUpdate } from '@ember/render-modifiers/modifiers/did-update';
-import { array, concat, fn } from '@ember/helper';
+import { modifier } from 'ember-modifier';
+import { array, concat } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { default as or } from 'ember-truth-helpers/helpers/or';
 import Component from '@glimmer/component';
@@ -161,6 +160,21 @@ export default class CarbonPagination extends Component<Args> {
     }
   }
 
+  notifyInitialPage = modifier(() => {
+    this.pageChanged();
+  });
+
+  syncedInitialState = false;
+
+  syncState = modifier(() => {
+    const state = this.args.state;
+    if (!this.syncedInitialState) {
+      this.syncedInitialState = true;
+      return;
+    }
+    this.setState(state);
+  });
+
   styles = stylesheet`
     .namespace {
       width: 100%;
@@ -188,8 +202,8 @@ export default class CarbonPagination extends Component<Args> {
         {{this.styles.namespace}}
         {{if @isLoading "cds--skeleton"}}'
       data-pagination
-      {{didInsert this.pageChanged}}
-      {{didUpdate (fn this.setState @state) @state}}
+      {{this.notifyInitialPage}}
+      {{this.syncState}}
     >
       {{#if @isLoading}}
         <div class='cds--skeleton__text'></div>
