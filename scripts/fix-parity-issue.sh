@@ -489,15 +489,21 @@ const fs = require("fs");
 const playwright = require("playwright");
 const content = fs.readFileSync(process.env.TEMP_STORIES_FILE, "utf-8");
 
-// Extract title from export default
-const titleMatch = content.match(/title:\s*['"]([^'"]+)['"]/);
+// Extract title from export default. Prefer anchoring to the export default
+// block (avoids picking up an unrelated `title:` elsewhere in the file), but
+// fall back to an unanchored match for stories files that assign a `meta`
+// object and re-export it (e.g. `const meta = {...}; export default meta;`).
+const titleMatch =
+  content.match(/export\s+default\s+\{[\s\S]*?title:\s*['"]([^'"]+)['"]/) ??
+  content.match(/title:\s*['"]([^'"]+)['"]/);
 if (!titleMatch) {
   console.error("Error: Could not extract title from stories file");
   process.exit(1);
 }
 
 const title = titleMatch[1]; // e.g., "Components/Accordion"
-const componentPart = title.split("/")[1]; // e.g., "Accordion"
+const titleParts = title.split("/");
+const componentPart = titleParts[titleParts.length - 1]; // e.g., "Accordion"
 const componentKebab = componentPart.replace(/([A-Z])/g, "-$1").toLowerCase().replace(/^-/, "");
 
 // Extract all export const declarations
