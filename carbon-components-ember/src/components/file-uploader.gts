@@ -25,7 +25,7 @@ export interface FileUploaderChangeData {
   addedFiles: FileUploaderFileItem[];
   removedFiles: FileUploaderFileItem[];
   currentFiles: FileUploaderFileItem[];
-  action: 'add' | 'remove';
+  action: 'add' | 'remove' | 'clear';
 }
 
 export interface FileUploaderSignature {
@@ -78,6 +78,10 @@ export interface FileUploaderSignature {
     /** Specify the size of the FileUploaderButton, from a list of available sizes */
     size?: 'sm' | 'small' | 'md' | 'field' | 'lg';
   };
+  Blocks: {
+    /** Yields a `clearFiles`-style action that resets the selected-file list, e.g. after a successful upload */
+    default: [clearFiles: () => void];
+  };
 }
 
 /**
@@ -94,6 +98,7 @@ export default class FileUploader extends Component<FileUploaderSignature> {
   @tracked fileItems: FileUploaderFileItem[] = [];
 
   guid = guidFor(this);
+  buttonElement?: HTMLButtonElement;
 
   get helperTextId() {
     return `file-uploader-helper-${this.guid}`;
@@ -105,6 +110,26 @@ export default class FileUploader extends Component<FileUploaderSignature> {
     if (size === 'field' || size === 'md') classes.push('cds--file__selected-file--md');
     if (size === 'small' || size === 'sm') classes.push('cds--file__selected-file--sm');
     return classes.join(' ');
+  }
+
+  @action
+  setButtonElement(element: HTMLButtonElement) {
+    this.buttonElement = element;
+  }
+
+  /** Resets the selected-file list, e.g. after a successful upload. Yielded to callers as `clearFiles`. */
+  @action
+  clear() {
+    const previousItems = this.fileItems;
+    if (!previousItems.length) return;
+
+    this.fileItems = [];
+    this.args.onChange?.(new Event('change'), {
+      addedFiles: [],
+      removedFiles: previousItems,
+      currentFiles: [],
+      action: 'clear',
+    });
   }
 
   @action
@@ -168,6 +193,7 @@ export default class FileUploader extends Component<FileUploaderSignature> {
       action: 'remove',
     });
     this.args.onClick?.(event);
+    this.buttonElement?.focus();
   }
 
   <template>
@@ -193,6 +219,7 @@ export default class FileUploader extends Component<FileUploaderSignature> {
         @name={{@name}}
         @size={{@size}}
         @onChange={{this.handleFilesAdded}}
+        @onButtonInsert={{this.setButtonElement}}
         aria-describedby={{this.helperTextId}}
       />
       <div class='cds--file-container'>
@@ -214,6 +241,7 @@ export default class FileUploader extends Component<FileUploaderSignature> {
           </span>
         {{/each}}
       </div>
+      {{yield (fn this.clear)}}
     </div>
   </template>
 }

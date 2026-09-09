@@ -84,4 +84,13 @@ module('Integration | Component | FileUploaderButton', (hooks) => {
 
     assert.dom('button').hasClass('cds--btn--ghost').hasClass('cds--btn--sm');
   });
+
+  test('@onButtonInsert is called with the underlying button element', async function (assert) {
+    let inserted: HTMLButtonElement | undefined;
+    const onButtonInsert = (element: HTMLButtonElement) => (inserted = element);
+
+    await render(<template><FileUploaderButton @onButtonInsert={{onButtonInsert}} /></template>);
+
+    assert.strictEqual(inserted, find('button'));
+  });
 });

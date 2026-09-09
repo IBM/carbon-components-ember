@@ -9,9 +9,14 @@ independently, and users can drag and drop files onto the page - compose
 `FileUploaderDropContainer` and `FileUploaderItem` directly, shown further
 down.
 
+`FileUploader` yields a `clearFiles` action that resets the selected-file
+list, e.g. once a caller has finished uploading every file - it's the only
+supported way to reset the picker without destroying/recreating the
+component.
+
 ```gjs live preview
 import { ThemeSupport } from 'docs-support';
-import { FileUploader } from 'carbon-components-ember/components';
+import { Button, FileUploader } from 'carbon-components-ember/components';
 import { array } from '@ember/helper';
 <template>
   <ThemeSupport />
@@ -22,7 +27,9 @@ import { array } from '@ember/helper';
     @accept={{array '.jpg' '.png'}}
     @multiple={{true}}
     @filenameStatus='edit'
-  />
+  as |clearFiles|>
+    <Button @ghost={{true}} @size='sm' @onClick={{clearFiles}}>Clear files</Button>
+  </FileUploader>
 </template>
 ```
 

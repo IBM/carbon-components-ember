@@ -42,6 +42,8 @@ export interface FileUploaderButtonSignature {
     name?: string;
     /** Called each time the `<input>` value changes */
     onChange?: (event: Event) => void;
+    /** Called with the underlying `<button>` element once it's inserted, so a caller can drive it imperatively (e.g. restoring focus) */
+    onButtonInsert?: (element: HTMLButtonElement) => void;
     /** Specify the size of the FileUploaderButton, from a list of available sizes */
     size?: 'sm' | 'small' | 'md' | 'field' | 'lg';
   };
@@ -94,6 +96,11 @@ export default class FileUploaderButton extends Component<FileUploaderButtonSign
   }
 
   @action
+  setButtonElement(element: HTMLElement) {
+    this.args.onButtonInsert?.(element as HTMLButtonElement);
+  }
+
+  @action
   handleButtonClick() {
     if (this.inputElement) {
       this.inputElement.value = '';
@@ -120,6 +127,7 @@ export default class FileUploaderButton extends Component<FileUploaderButtonSign
       disabled={{@disabled}}
       class={{this.classes}}
       {{on 'click' this.handleButtonClick}}
+      {{captureElement onInsert=this.setButtonElement}}
       ...attributes
     >{{this.label}}</button>
     <label class='cds--visually-hidden' for={{this.inputId}}>
