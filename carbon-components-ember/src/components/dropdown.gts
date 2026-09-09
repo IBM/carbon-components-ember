@@ -303,13 +303,18 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
     return '';
   }
 
-  openMenu() {
+  openMenu(offset: -1 | 1 = 1) {
     this.isOpen = true;
     const items = this.args.items;
     const selectedIndex =
       this.selectedItem !== null ? items.indexOf(this.selectedItem) : -1;
-    this.highlightedIndex =
-      selectedIndex >= 0 ? selectedIndex : items.length ? 0 : -1;
+    if (selectedIndex >= 0) {
+      this.highlightedIndex = selectedIndex;
+    } else if (items.length) {
+      this.highlightedIndex = offset < 0 ? items.length - 1 : 0;
+    } else {
+      this.highlightedIndex = -1;
+    }
   }
 
   close() {
@@ -355,7 +360,7 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
       case 'ArrowUp':
         event.preventDefault();
         if (!this.isOpen) {
-          this.openMenu();
+          this.openMenu(-1);
         } else if (items.length) {
           this.highlightedIndex = Math.max(this.highlightedIndex - 1, 0);
         }

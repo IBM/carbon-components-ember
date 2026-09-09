@@ -163,6 +163,26 @@ module('Integration | Component | Dropdown', (hooks) => {
     assert.dom('.cds--dropdown').doesNotHaveClass('cds--dropdown--open');
   });
 
+  test('ArrowUp opens the closed menu with the last item highlighted', async function (assert) {
+    await render(
+      <template>
+        <Dropdown
+          @titleText='Choose an option'
+          @label='Select an option'
+          @items={{items}}
+        />
+      </template>,
+    );
+
+    const button = find('.cds--list-box__field')!;
+    await triggerKeyEvent(button, 'keydown', 'ArrowUp');
+
+    assert.dom('.cds--dropdown').hasClass('cds--dropdown--open');
+    assert
+      .dom(`[role="option"]:nth-child(${items.length})`)
+      .hasClass('cds--list-box__menu-item--highlighted');
+  });
+
   test('exposes the keyboard-highlighted item via aria-activedescendant and role=combobox', async function (assert) {
     await render(
       <template>
