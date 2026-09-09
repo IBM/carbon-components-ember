@@ -3,7 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { defaultArgs } from '../utils/decorators.ts';
 import CopyButton from '../components/copy-button.gts';
 import { concat, fn } from '@ember/helper';
-import didInsert from '@ember/render-modifiers/modifiers/did-insert';
+import { modifier as eModifier } from 'ember-modifier';
 import eq from 'ember-truth-helpers/helpers/eq';
 import { on } from '@ember/modifier';
 import set from '../helpers/set.ts';
@@ -23,6 +23,13 @@ export interface CarbonCodeSnippetSignature {
 }
 
 const noop = () => '';
+
+const captureElement = eModifier<{
+  Element: HTMLElement;
+  Args: { Named: { onInsert: (element: Element) => void } };
+}>((element, _positional, { onInsert }) => {
+  onInsert(element);
+});
 
 const PreCode: TemplateOnlyComponent<{
   Element: HTMLElement;
@@ -51,7 +58,7 @@ export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignat
     {{#if (eq @type 'default')}}
       <div class='cds--snippet cds--snippet--single'>
         <div class='cds--snippet-container' aria-label='Code Snippet Text'>
-          <PreCode {{didInsert (set this 'carbonElement')}}>
+          <PreCode {{captureElement onInsert=(set this 'carbonElement')}}>
             {{~yield~}}
           </PreCode>
         </div>
@@ -74,7 +81,7 @@ export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignat
             )
           }}
         >
-          <PreCode {{didInsert (set this 'codeElement')}}>
+          <PreCode {{captureElement onInsert=(set this 'codeElement')}}>
             {{~yield~}}
           </PreCode>
         </div>

@@ -469,14 +469,14 @@ runSearch = task({ restartable: true }, async () => {
 ```
 
 Caveat on the `search.gts` citation: copy only the shape of its `runSearch`
-task. The rest of that file is legacy and contradicts this
-document — it triggers the task with `{{didUpdate (perform …)}}` from
-`@ember/render-modifiers`, mutates tracked state during render with
-`{{this.setValue @value}}`, types `onChange?(value: any)` in its signature,
-and adds a `document` `mousedown` listener in `activate()` that is only
-removed from inside the listener itself, so it leaks when the component is
-torn down while active. Drive the task from the input's own `input`/`change`
-handler, and register any listener's removal with `registerDestructor`.
+task. The rest of that file still contradicts this document in places — it
+mutates tracked state during render with `{{this.setValue @value}}`, types
+`onChange?(value: any)` in its signature, and adds a `document` `mousedown`
+listener in `activate()` that is only removed from inside the listener
+itself, so it leaks when the component is torn down while active. (The task
+is now driven directly from the input's own `input`/`change` handler rather
+than a `did-update`, as this section already recommends — see "What NOT to
+Reach For" below.)
 
 Anything else that must be cleaned up belongs in `registerDestructor` (or a
 modifier teardown), never in an ad-hoc `willDestroy` re-implementation.
@@ -507,19 +507,19 @@ for the reader of the docs site, not for yourself.
 
 - **`@ember/render-modifiers`** (`did-insert`, `did-update`) in new code.
   It observes render rather than state, doesn't compose, and has no teardown
-  story. Write a real modifier instead (§4). As of the 2026-09-09 audit
-  (below), 13 components still import it:
-  `charts/-components/chart.gts`, `checkbox.gts`, `code-snippet.gts`,
-  `data-table.gts`, `list.gts`, `ordered-list.gts`, `pagination.gts`,
-  `popover.gts`, `search.gts`, `select.gts`, `slider.gts`, `toggletip.gts`,
-  `tooltip.gts`. Migrating one of these to a real modifier while you're
-  already touching it for something else is in-scope cleanup, not scope
-  creep — don't do a drive-by rewrite of an unrelated file just to cross it
-  off this list.
+  story. Write a real modifier instead (§4). As of the 2026-09-09 audit,
+  13 components still imported it; `checkbox.gts`, `code-snippet.gts`,
+  `list.gts`, `ordered-list.gts`, `search.gts`, and `toggletip.gts` have
+  since been migrated off it. 7 components still import it:
+  `charts/-components/chart.gts`, `data-table.gts`, `pagination.gts`,
+  `popover.gts`, `select.gts`, `slider.gts`, `tooltip.gts`. Migrating one of
+  these to a real modifier while you're already touching it for something
+  else is in-scope cleanup, not scope creep — don't do a drive-by rewrite of
+  an unrelated file just to cross it off this list.
 - **An ad-hoc `willDestroy()` lifecycle override** instead of
-  `registerDestructor` or a modifier's own teardown function (see §6). Two
-  components still do this: `ordered-list.gts`, `charts/-components/
-  tabular-data.gts`.
+  `registerDestructor` or a modifier's own teardown function (see §6).
+  `ordered-list.gts`'s has since been replaced with a modifier teardown; one
+  component still does this: `charts/-components/tabular-data.gts`.
 - **`A()` / `NativeArray` / `pushObject` / `removeObject`** and `set()` from
   `@ember/object`. Also present in older components. New code uses plain
   arrays/objects reassigned through `@tracked`. The legacy `bxClassNames`
@@ -736,7 +736,12 @@ Retiring `bxClassNames` and fixing the 12 `constructor(owner: any)`
 components were small enough, mechanical enough cleanups to do as their own
 pair of dedicated follow-up PRs shortly after (2026-09-09, #842 and #843
 respectively) — see the "What NOT to Reach For" entries above, now updated
-to reflect both are done.
+to reflect both are done. The "simpler" half of the render-modifiers
+migration (`checkbox.gts`, `code-snippet.gts`, `list.gts`,
+`ordered-list.gts`, `search.gts`, `toggletip.gts`, plus `ordered-list.gts`'s
+`willDestroy`) was also done as its own follow-up (2026-09-09) — see the
+"What NOT to Reach For" entries above, now updated to reflect the remaining
+7-component/1-component counts.
 
 ## Key Resources
 

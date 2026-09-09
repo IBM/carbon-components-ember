@@ -1,9 +1,8 @@
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
+import { cached, tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { defaultArgs } from '../utils/decorators.ts';
-import didInsert from '@ember/render-modifiers/modifiers/did-insert';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import set from '../helpers/set.ts';
@@ -29,7 +28,6 @@ export interface CarbonCheckboxSignature {
 
 export default class CarbonCheckbox extends Component<CarbonCheckboxSignature> {
   @tracked isFocus = false;
-  @tracked guid: string = '';
 
   args: Args = defaultArgs(this, {
     disabled: false,
@@ -37,9 +35,9 @@ export default class CarbonCheckbox extends Component<CarbonCheckboxSignature> {
     state: undefined,
   });
 
-  @action
-  setup() {
-    this.guid = guidFor(this);
+  @cached
+  get guid() {
+    return guidFor(this);
   }
 
   @action
@@ -57,7 +55,6 @@ export default class CarbonCheckbox extends Component<CarbonCheckboxSignature> {
     <div class='cds--checkbox-wrapper' ...attributes>
       <label
         tabindex='0'
-        {{didInsert this.setup}}
         {{on 'focus' (fn (set this 'isFocus') true)}}
         {{on 'blur' (fn (set this 'isFocus') false)}}
         for='checkbox-{{this.guid}}'

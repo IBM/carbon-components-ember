@@ -4,13 +4,11 @@ import { guidFor } from '@ember/object/internals';
 import { cached, tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 import { timeout, type TaskInstance } from 'ember-concurrency';
-import didUpdate from '@ember/render-modifiers/modifiers/did-update';
 import { concat } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { runTask } from 'ember-lifeline';
 import { default as defaultTo } from '../helpers/default-to.ts';
 import { Close, Search as SearchIcon } from '../icons.ts';
-import perform from 'ember-concurrency/helpers/perform';
 
 export type Args = {
   onChange?(value: any): TaskInstance<any> | undefined | void;
@@ -67,13 +65,17 @@ export default class SearchComponent extends Component<SearchComponentSignature>
   @action
   onSearchClear() {
     this.value = null;
+    void this.runSearch.perform();
     this.args.onClear?.();
   }
 
   @action
   setValue(v: any) {
     if (v && v.target) {
-      this.value = v.target.value;
+      const next = v.target.value;
+      if (next === this.value) return;
+      this.value = next;
+      void this.runSearch.perform();
       return;
     }
     this.value = v;
@@ -105,7 +107,6 @@ export default class SearchComponent extends Component<SearchComponentSignature>
     {{this.setValue @value}}
     <div
       data-search
-      {{didUpdate (perform this.runSearch) this.value}}
       role='search'
       aria-labelledby='search-input-label-{{this.guid}}'
       class='cds--search {{if @size (concat "cds--search--" @size)}}

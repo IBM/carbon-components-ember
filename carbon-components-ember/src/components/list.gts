@@ -1,5 +1,5 @@
 import { fn, hash } from '@ember/helper';
-import didInsert from '@ember/render-modifiers/modifiers/did-insert';
+import { modifier } from 'ember-modifier';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
@@ -71,14 +71,14 @@ export default class ListComponent<T> extends Component<
     );
   }
 
-  @action
-  delayItems() {
-    setTimeout(() => {
+  delayItems = modifier(() => {
+    const timer = setTimeout(() => {
       if (!this.currentItemsSlice) {
         this.currentItemsSlice = { start: 0, end: undefined };
       }
     }, 200);
-  }
+    return () => clearTimeout(timer);
+  });
 
   @action
   onSelect(item: T) {
@@ -111,7 +111,7 @@ export default class ListComponent<T> extends Component<
           {{this.styles.namespace}}
           {{if @selectable "cds--structured-list--selection"}}'
         style='position: relative;'
-        {{didInsert this.delayItems}}
+        {{this.delayItems}}
       >
         {{yield
           (hash
