@@ -1,9 +1,10 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { render, click, waitUntil, find } from '@ember/test-helpers';
 import AiChatCardFooter, {
   type CardFooterAction,
 } from 'carbon-components-ember/components/ai-chat/card-footer';
+import Checkmark from 'carbon-components-ember/components/icons/checkmark';
 
 module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
   setupRenderingTest(hooks);
@@ -133,5 +134,29 @@ module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
       ['cds--btn--danger'],
       'icon-only action respects an explicit kind instead of always being ghost',
     );
+  });
+
+  test('it opts icon-only and labeled action icons out of the default icon margin', async function (assert) {
+    const actions: CardFooterAction[] = [
+      { id: 'a', label: '', tooltipText: 'Copy', icon: Checkmark },
+    ];
+
+    await render(<template><AiChatCardFooter @actions={{actions}} /></template>);
+    await waitUntil(() => find('.cds-aichat-card-footer__icon-actions svg'));
+
+    assert
+      .dom('.cds-aichat-card-footer__icon-actions svg')
+      .hasClass('cds-aichat-card-footer__action-icon');
+
+    const labeledActions: CardFooterAction[] = [
+      { id: 'a', label: 'Accept', icon: Checkmark },
+    ];
+
+    await render(<template><AiChatCardFooter @actions={{labeledActions}} /></template>);
+    await waitUntil(() => find('.cds-aichat-card-footer__actions svg'));
+
+    assert
+      .dom('.cds-aichat-card-footer__actions svg')
+      .hasClass('cds-aichat-card-footer__action-icon');
   });
 });

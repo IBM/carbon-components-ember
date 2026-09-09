@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, fillIn } from '@ember/test-helpers';
+import { render, click, fillIn, waitUntil, find } from '@ember/test-helpers';
 import AiChatTable, {
   type AiChatTableRow,
   type AiChatTableCell,
@@ -176,5 +176,16 @@ module('Integration | Component | ai-chat/AiChatTable', (hooks) => {
     } finally {
       HTMLAnchorElement.prototype.click = originalClick;
     }
+  });
+
+  test('it opts the download icon out of the default icon margin', async function (assert) {
+    const rows = rowsOf(3);
+
+    await render(<template><AiChatTable @headers={{headers}} @rows={{rows}} /></template>);
+    await waitUntil(() => find('.cds-aichat-table-container .cds--btn svg'));
+
+    assert
+      .dom('.cds-aichat-table-container .cds--btn svg')
+      .hasClass('cds-aichat-table__download-icon');
   });
 });

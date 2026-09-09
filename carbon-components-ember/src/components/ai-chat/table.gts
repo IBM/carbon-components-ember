@@ -284,7 +284,11 @@ export default class AiChatTable extends Component<AiChatTableSignature> {
               />
               <Tooltip @label={{@downloadLabelText}}>
                 <Button @ghost={{true}} @iconOnly={{true}} @onClick={{this.download}}>
-                  <Download @size={{16}} @fill='currentColor' />
+                  <Download
+                    @size={{16}}
+                    @fill='currentColor'
+                    @svgClass='cds-aichat-table__download-icon'
+                  />
                 </Button>
               </Tooltip>
             </div>

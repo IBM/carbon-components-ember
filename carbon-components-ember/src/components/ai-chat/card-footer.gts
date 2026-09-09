@@ -134,7 +134,11 @@ export default class AiChatCardFooter extends Component<AiChatCardFooterSignatur
                 @onClick={{fn this.handleAction cardAction}}
               >
                 {{#if cardAction.icon}}
-                  <cardAction.icon @size={{16}} @fill='currentColor' />
+                  <cardAction.icon
+                    @size={{16}}
+                    @fill='currentColor'
+                    @svgClass='cds-aichat-card-footer__action-icon'
+                  />
                 {{/if}}
               </Button>
             </Tooltip>
@@ -161,11 +165,19 @@ export default class AiChatCardFooter extends Component<AiChatCardFooterSignatur
               }}
             >
               {{#if cardAction.isViewing}}
-                {{#if cardAction.icon}}<cardAction.icon @size={{16}} @fill='currentColor' />{{/if}}
+                {{#if cardAction.icon}}<cardAction.icon
+                    @size={{16}}
+                    @fill='currentColor'
+                    @svgClass='cds-aichat-card-footer__action-icon'
+                  />{{/if}}
                 {{cardAction.label}}
               {{else}}
                 {{cardAction.label}}
-                {{#if cardAction.icon}}<cardAction.icon @size={{16}} @fill='currentColor' />{{/if}}
+                {{#if cardAction.icon}}<cardAction.icon
+                    @size={{16}}
+                    @fill='currentColor'
+                    @svgClass='cds-aichat-card-footer__action-icon'
+                  />{{/if}}
               {{/if}}
             </Button>
           {{/each}}
