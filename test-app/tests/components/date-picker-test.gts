@@ -64,6 +64,21 @@ module('Integration | Component | DatePicker', (hooks) => {
     assert.dom('input.cds--date-picker__input').hasValue('01/15/2024');
   });
 
+  test('simple: formats a Date @value through @dateFormat instead of stringifying it raw',
+    async function (assert) {
+      const jan15 = new Date(2024, 0, 15);
+
+      await render(
+        <template>
+          <DatePicker @datePickerType='simple' @value={{jan15}} as |Input|>
+            <Input @labelText='Date' />
+          </DatePicker>
+        </template>,
+      );
+
+      assert.dom('input.cds--date-picker__input').hasValue('01/15/2024');
+    });
+
   test('single: opens a calendar and selecting a day fills the field and calls onChange',
     async function (assert) {
       const jan15 = new Date(2024, 0, 15);
@@ -196,6 +211,39 @@ module('Integration | Component | DatePicker', (hooks) => {
     assert.dom(flatpickrDay('January 5, 2024')).hasClass('flatpickr-disabled');
     assert.dom(flatpickrDay('January 15, 2024')).doesNotHaveClass('flatpickr-disabled');
   });
+
+  test('single: changing minDate after a selection preserves the current value instead of reverting to the initial @value',
+    async function (assert) {
+      const jan15 = new Date(2024, 0, 15);
+      const minDate = cell(new Date(2024, 0, 1));
+
+      await render(
+        <template>
+          <DatePicker
+            @datePickerType='single'
+            @value={{jan15}}
+            @minDate={{minDate.current}}
+            as |Input|
+          >
+            <Input @labelText='Date' />
+          </DatePicker>
+        </template>,
+      );
+
+      await openCalendar();
+      await click(flatpickrDay('January 20, 2024')!);
+      await settled();
+      assert.dom('input.cds--date-picker__input').hasValue('01/20/2024');
+
+      // `minDate` is one of `attachFlatpickr`'s tracked args, so changing it
+      // tears down and rebuilds the flatpickr instance - the rebuild must
+      // reseed from the user's current selection, not the original `@value`
+      // the picker was constructed with.
+      minDate.current = new Date(2024, 0, 2);
+      await settled();
+
+      assert.dom('input.cds--date-picker__input').hasValue('01/20/2024');
+    });
 
   test('readOnly is passed down to the yielded DatePickerInput', async function (assert) {
     await render(

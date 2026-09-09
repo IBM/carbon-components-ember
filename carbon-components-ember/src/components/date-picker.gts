@@ -154,17 +154,20 @@ export default class DatePicker extends Component<DatePickerSignature> {
   // Plain instance state, not `@tracked` - both live only inside the two
   // modifiers below and are never read from the template.
   calendar: FlatpickrInstance | null = null;
-  initialValue: DatePickerSignature['Args']['value'];
+  // Seeded once from `@value` at construction, then updated from
+  // `handleChange` (a user selection) and `syncValue` (a controlled
+  // `@value` update) - not `@tracked`, and never read from the template.
+  // `attachFlatpickr` reseeds `defaultDate` from this on every rebuild, so
+  // tearing the calendar down and recreating it for a change to
+  // `minDate`/`maxDate`/`allowInput`/`readOnly`/`closeOnSelect`/
+  // `datePickerType` doesn't discard whatever the user (or a controlled
+  // `@value`) most recently set. `attachFlatpickr` deliberately never
+  // tracks `@value` itself - see the `syncValue` doc comment.
+  currentValue: DatePickerSignature['Args']['value'];
 
   constructor(owner: Owner, args: DatePickerSignature['Args']) {
     super(owner, args);
-    // Captured once, non-reactively (mirrors `defaultValue` seeding
-    // elsewhere in this addon) - `attachFlatpickr` below intentionally
-    // does not track `@value` itself. Live updates flow through
-    // `syncValue` instead, so that changing `@value` sets the date on the
-    // existing flatpickr instance rather than tearing down and rebuilding
-    // it mid-interaction (see the `syncValue` doc comment).
-    this.initialValue = args.value;
+    this.currentValue = args.value;
   }
 
   get datePickerType(): DatePickerType {
@@ -197,6 +200,7 @@ export default class DatePicker extends Component<DatePickerSignature> {
   @action
   handleChange(selectedDates: Date[], dateStr: string, instance: FlatpickrInstance) {
     if (this.readOnly) return;
+    this.currentValue = selectedDates;
     this.args.onChange?.(selectedDates, dateStr, instance);
   }
 
@@ -232,11 +236,23 @@ export default class DatePicker extends Component<DatePickerSignature> {
       if (datePickerType !== 'single' && datePickerType !== 'range') {
         // `simple` has no calendar - flatpickr never gets involved, but the
         // field still gets seeded with `@value` the same way an
-        // uncontrolled `<input>` would.
-        if (start && this.initialValue !== undefined) {
-          start.value = Array.isArray(this.initialValue)
-            ? String(this.initialValue[0] ?? '')
-            : String(this.initialValue);
+        // uncontrolled `<input>` would. `@value` accepts a `Date`/timestamp
+        // here too (same documented contract as `single`/`range`), so those
+        // need to go through flatpickr's own formatter against `dateFormat`
+        // rather than a raw `String(...)` - a string is assumed to already
+        // be formatted and passed through as-is.
+        const raw = Array.isArray(this.currentValue)
+          ? this.currentValue[0]
+          : this.currentValue;
+        if (start && raw !== undefined && raw !== null) {
+          if (typeof raw === 'string') {
+            start.value = raw;
+          } else {
+            const parsed = flatpickr.parseDate(raw, dateFormat);
+            start.value = parsed
+              ? flatpickr.formatDate(parsed, dateFormat)
+              : String(raw);
+          }
         }
         return;
       }
@@ -247,7 +263,7 @@ export default class DatePicker extends Component<DatePickerSignature> {
       const config: Partial<FlatpickrOptions> = {
         mode: datePickerType,
         dateFormat,
-        defaultDate: this.initialValue,
+        defaultDate: this.currentValue,
         allowInput,
         minDate,
         maxDate,
@@ -295,6 +311,7 @@ export default class DatePicker extends Component<DatePickerSignature> {
     Element: HTMLDivElement;
     Args: { Positional: [DatePickerSignature['Args']['value']] };
   }>((_element, [value]) => {
+    this.currentValue = value;
     this.calendar?.setDate(value ?? [], false);
   });
 
