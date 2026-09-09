@@ -5,13 +5,20 @@ import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { registerDestructor } from '@ember/destroyable';
 import { on } from '@ember/modifier';
-import { fn, concat } from '@ember/helper';
+import { concat } from '@ember/helper';
 import { htmlSafe } from '@ember/template';
-import didInsert from '@ember/render-modifiers/modifiers/did-insert';
-import { and, not, or } from 'ember-truth-helpers';
-import { WarningFilled, WarningAltFilled } from '../icons.ts';
+import { modifier } from 'ember-modifier';
+import SliderThumb from './slider/-thumb.gts';
+import SliderTextInput from './slider/-text-input.gts';
 
 export type HandlePosition = 'lower' | 'upper';
+
+const registerElement = modifier<{
+  Element: HTMLDivElement;
+  Args: { Positional: [(element: HTMLDivElement) => void] };
+}>((element, [onInsert]) => {
+  onInsert(element);
+});
 
 export type Args = {
   ariaLabelInput?: string;
@@ -149,6 +156,11 @@ export default class Slider extends Component<SliderSignature> {
       return this.editingUpper ?? String(this.args.valueUpper ?? '');
     }
     return this.editingUpper ?? String(this.args.value ?? '');
+  }
+
+  get upperInputAriaLabelledby() {
+    if (this.args.ariaLabelInput || this.twoHandles) return undefined;
+    return `${this.id}-label`;
   }
 
   discreteValueForPercent(percent: number) {
@@ -412,42 +424,26 @@ export default class Slider extends Component<SliderSignature> {
           {{if @readOnly "cds--slider-container--readonly"}}'
       >
         {{#if this.twoHandles}}
-          <div
-            class='cds--text-input-wrapper cds--slider-text-input-wrapper
-              cds--slider-text-input-wrapper--lower
-              {{if @readOnly "cds--text-input-wrapper--readonly"}}
-              {{if @hideTextInput "cds--slider-text-input-wrapper--hidden"}}'
-          >
-            {{! template-lint-disable require-input-label }}
-            <input
-              type={{if @hideTextInput "hidden" "number"}}
-              id='{{this.id}}-lower-input-for-slider'
-              name={{@name}}
-              class='cds--text-input cds--slider-text-input cds--slider-text-input--lower
-                {{if @invalid "cds--text-input--invalid"}}'
-              value={{this.lowerDisplayValue}}
-              aria-label={{@ariaLabelInput}}
-              disabled={{@disabled}}
-              required={{@required}}
-              min={{@min}}
-              max={{@max}}
-              step={{@step}}
-              readonly={{@readOnly}}
-              aria-invalid={{if @invalid "true"}}
-              {{on 'change' (fn this.onInputChange 'lower')}}
-              {{on 'input' (fn this.onInputChange 'lower')}}
-              {{on 'blur' (fn this.onInputBlur 'lower')}}
-              {{on 'keydown' (fn this.onInputKeyDown 'lower')}}
-            />
-            {{#if @invalid}}
-              <WarningFilled @size='16' @svgClass='cds--slider__invalid-icon' />
-            {{else if @warn}}
-              <WarningAltFilled
-                @size='16'
-                @svgClass='cds--slider__invalid-icon cds--slider__invalid-icon--warning'
-              />
-            {{/if}}
-          </div>
+          <SliderTextInput
+            @handle='lower'
+            @suffix='lower'
+            @id='{{this.id}}-lower-input-for-slider'
+            @name={{@name}}
+            @value={{this.lowerDisplayValue}}
+            @ariaLabel={{@ariaLabelInput}}
+            @disabled={{@disabled}}
+            @required={{@required}}
+            @min={{@min}}
+            @max={{@max}}
+            @step={{@step}}
+            @readOnly={{@readOnly}}
+            @invalid={{@invalid}}
+            @warn={{@warn}}
+            @hideTextInput={{@hideTextInput}}
+            @onChange={{this.onInputChange}}
+            @onBlur={{this.onInputBlur}}
+            @onKeyDown={{this.onInputKeyDown}}
+          />
         {{/if}}
 
         <span class='cds--slider__range-label'>{{this.formatLabel @min @minLabel}}</span>
@@ -457,98 +453,43 @@ export default class Slider extends Component<SliderSignature> {
           role='presentation'
           tabindex='-1'
           data-invalid={{if @invalid "true"}}
-          {{didInsert this.registerTrack}}
+          {{registerElement this.registerTrack}}
           {{! template-lint-disable no-pointer-down-event-binding }}
           {{on 'mousedown' this.onDragStart}}
           {{on 'touchstart' this.onDragStart}}
           {{on 'keydown' this.onKeyDown}}
         >
-          <div
-            class='cds--icon-tooltip cds--slider__thumb-wrapper
-              {{if this.twoHandles "cds--slider__thumb-wrapper--lower"}}'
-            style={{this.lowerThumbStyle}}
-          >
-            {{! template-lint-disable require-presentational-children }}
-            <div
-              class='cds--slider__thumb {{if this.twoHandles "cds--slider__thumb--lower"}}'
-              role='slider'
-              id={{unless this.twoHandles this.id}}
-              tabindex={{if (or @readOnly @disabled) undefined 0}}
-              aria-valuetext={{this.formatLabel @value}}
-              aria-valuemax={{if this.twoHandles @valueUpper @max}}
-              aria-valuemin={{@min}}
-              aria-valuenow={{@value}}
-              aria-labelledby={{unless this.twoHandles (concat this.id "-label")}}
-              aria-label={{if this.twoHandles @ariaLabelInput}}
-              {{didInsert this.registerLowerThumb}}
-              {{on 'focus' this.onLowerFocus}}
-            >
-              {{#if this.twoHandles}}
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  viewBox='0 0 16 24'
-                  class='cds--slider__thumb-icon cds--slider__thumb-icon--lower'
-                >
-                  <path
-                    d='M15.08 6.46H16v11.08h-.92zM4.46 17.54c-.25 0-.46-.21-.46-.46V6.92a.465.465 0 0 1 .69-.4l8.77 5.08a.46.46 0 0 1 0 .8l-8.77 5.08c-.07.04-.15.06-.23.06Z'
-                  />
-                </svg>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  viewBox='0 0 16 24'
-                  class='cds--slider__thumb-icon cds--slider__thumb-icon--lower cds--slider__thumb-icon--focus'
-                >
-                  <path
-                    d='M15.08 6.46H16v11.08h-.92zM4.46 17.54c-.25 0-.46-.21-.46-.46V6.92a.465.465 0 0 1 .69-.4l8.77 5.08a.46.46 0 0 1 0 .8l-8.77 5.08c-.07.04-.15.06-.23.06Z'
-                  />
-                  <path d='M15.08 0H16v6.46h-.92z' />
-                  <path d='M0 0h.92v24H0zM15.08 0H16v24h-.92z' />
-                  <path d='M0 .92V0h16v.92zM0 24v-.92h16V24z' />
-                </svg>
-              {{/if}}
-            </div>
-          </div>
+          <SliderThumb
+            @position='lower'
+            @twoHandles={{this.twoHandles}}
+            @style={{this.lowerThumbStyle}}
+            @id={{unless this.twoHandles this.id}}
+            @disabled={{@disabled}}
+            @readOnly={{@readOnly}}
+            @ariaValueText={{this.formatLabel @value}}
+            @ariaValueMax={{if this.twoHandles @valueUpper @max}}
+            @ariaValueMin={{@min}}
+            @ariaValueNow={{@value}}
+            @ariaLabelledby={{unless this.twoHandles (concat this.id "-label")}}
+            @ariaLabel={{if this.twoHandles @ariaLabelInput}}
+            @onFocus={{this.onLowerFocus}}
+            @registerElement={{this.registerLowerThumb}}
+          />
 
           {{#if this.twoHandles}}
-            <div
-              class='cds--icon-tooltip cds--slider__thumb-wrapper cds--slider__thumb-wrapper--upper'
-              style={{this.upperThumbStyle}}
-            >
-              {{! template-lint-disable require-presentational-children }}
-              <div
-                class='cds--slider__thumb cds--slider__thumb--upper'
-                role='slider'
-                tabindex={{if (or @readOnly @disabled) undefined 0}}
-                aria-valuemax={{@max}}
-                aria-valuemin={{@value}}
-                aria-valuenow={{@valueUpper}}
-                aria-label={{@ariaLabelInputUpper}}
-                {{didInsert this.registerUpperThumb}}
-                {{on 'focus' this.onUpperFocus}}
-              >
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  viewBox='0 0 16 24'
-                  class='cds--slider__thumb-icon cds--slider__thumb-icon--upper'
-                >
-                  <path
-                    d='M0 6.46h.92v11.08H0zM11.54 6.46c.25 0 .46.21.46.46v10.15a.465.465 0 0 1-.69.4L2.54 12.4a.46.46 0 0 1 0-.8l8.77-5.08c.07-.04.15-.06.23-.06Z'
-                  />
-                </svg>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  viewBox='0 0 16 24'
-                  class='cds--slider__thumb-icon cds--slider__thumb-icon--upper cds--slider__thumb-icon--focus'
-                >
-                  <path
-                    d='M0 6.46h.92v11.08H0zM11.54 6.46c.25 0 .46.21.46.46v10.15a.465.465 0 0 1-.69.4L2.54 12.4a.46.46 0 0 1 0-.8l8.77-5.08c.07-.04.15-.06.23-.06Z'
-                  />
-                  <path d='M.92 24H0v-6.46h.92z' />
-                  <path d='M16 24h-.92V0H16zM.92 24H0V0h.92z' />
-                  <path d='M16 23.08V24H0v-.92zM16 0v.92H0V0z' />
-                </svg>
-              </div>
-            </div>
+            <SliderThumb
+              @position='upper'
+              @twoHandles={{this.twoHandles}}
+              @style={{this.upperThumbStyle}}
+              @disabled={{@disabled}}
+              @readOnly={{@readOnly}}
+              @ariaValueMax={{@max}}
+              @ariaValueMin={{@value}}
+              @ariaValueNow={{@valueUpper}}
+              @ariaLabel={{@ariaLabelInputUpper}}
+              @onFocus={{this.onUpperFocus}}
+              @registerElement={{this.registerUpperThumb}}
+            />
           {{/if}}
 
           <div class='cds--slider__track'></div>
@@ -557,59 +498,27 @@ export default class Slider extends Component<SliderSignature> {
 
         <span class='cds--slider__range-label'>{{this.formatLabel @max @maxLabel}}</span>
 
-        <div
-          class='cds--text-input-wrapper cds--slider-text-input-wrapper
-            {{if this.twoHandles "cds--slider-text-input-wrapper--upper"}}
-            {{if @readOnly "cds--text-input-wrapper--readonly"}}
-            {{if @hideTextInput "cds--slider-text-input-wrapper--hidden"}}'
-        >
-          {{! template-lint-disable require-input-label }}
-          <input
-            type={{if @hideTextInput "hidden" "number"}}
-            id='{{this.id}}-{{if this.twoHandles "upper-"}}input-for-slider'
-            name={{if this.twoHandles @nameUpper @name}}
-            class='cds--text-input cds--slider-text-input
-              {{if this.twoHandles "cds--slider-text-input--upper"}}
-              {{if @invalid "cds--text-input--invalid"}}'
-            value={{this.upperDisplayValue}}
-            aria-labelledby={{if
-              (and (not @ariaLabelInput) (not this.twoHandles))
-              (concat this.id "-label")
-            }}
-            aria-label={{if this.twoHandles @ariaLabelInputUpper @ariaLabelInput}}
-            disabled={{@disabled}}
-            required={{@required}}
-            min={{@min}}
-            max={{@max}}
-            step={{@step}}
-            readonly={{@readOnly}}
-            aria-invalid={{if @invalid "true"}}
-            {{on
-              'change'
-              (fn this.onInputChange (if this.twoHandles 'upper' 'lower'))
-            }}
-            {{on
-              'input'
-              (fn this.onInputChange (if this.twoHandles 'upper' 'lower'))
-            }}
-            {{on
-              'blur'
-              (fn this.onInputBlur (if this.twoHandles 'upper' 'lower'))
-            }}
-            {{on
-              'keydown'
-              (fn this.onInputKeyDown (if this.twoHandles 'upper' 'lower'))
-            }}
-          />
-          {{#if @invalid}}
-            <WarningFilled @size='16' @svgClass='cds--slider__invalid-icon' />
-          {{else if @warn}}
-            <WarningAltFilled
-              @size='16'
-              @svgClass='cds--slider__invalid-icon cds--slider__invalid-icon--warning'
-            />
-          {{/if}}
-        </div>
+        <SliderTextInput
+          @handle={{if this.twoHandles 'upper' 'lower'}}
+          @suffix={{if this.twoHandles 'upper'}}
+          @id='{{this.id}}-{{if this.twoHandles "upper-"}}input-for-slider'
+          @name={{if this.twoHandles @nameUpper @name}}
+          @value={{this.upperDisplayValue}}
+          @ariaLabel={{if this.twoHandles @ariaLabelInputUpper @ariaLabelInput}}
+          @ariaLabelledby={{this.upperInputAriaLabelledby}}
+          @disabled={{@disabled}}
+          @required={{@required}}
+          @min={{@min}}
+          @max={{@max}}
+          @step={{@step}}
+          @readOnly={{@readOnly}}
+          @invalid={{@invalid}}
+          @warn={{@warn}}
+          @hideTextInput={{@hideTextInput}}
+          @onChange={{this.onInputChange}}
+          @onBlur={{this.onInputBlur}}
+          @onKeyDown={{this.onInputKeyDown}}
+        />
       </div>
       {{#if @invalid}}
         <div class='cds--slider__validation-msg cds--slider__validation-msg--invalid cds--form-requirement'>
