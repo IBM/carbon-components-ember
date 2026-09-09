@@ -214,6 +214,49 @@ module('Integration | Component | DatePicker', (hooks) => {
       assert.strictEqual(receivedDates?.length, 2);
     });
 
+  test('range: a controlled @value update after mount syncs both fields',
+    async function (assert) {
+      // Regression test: flatpickr's `setDate(dates, false)` (used by
+      // `syncValue` to re-sync a controlled `@value` without rebuilding the
+      // calendar) only writes the *start* input directly - the stock
+      // `rangePlugin` only ever writes the *end* input from inside its own
+      // `onValueUpdate` handler, which flatpickr skips firing when
+      // `triggerChange` is falsy. Without `syncValue`'s own end-input write,
+      // the end field would keep showing the initial value below.
+      const initial = new Date(2024, 0, 10);
+      const initialEnd = new Date(2024, 0, 15);
+      const value = cell<Date[]>([initial, initialEnd]);
+
+      await render(
+        <template>
+          <DatePicker @datePickerType='range' @value={{value.current}} as |Input|>
+            <Input @labelText='Start date' />
+            <Input @labelText='End date' />
+          </DatePicker>
+        </template>,
+      );
+
+      const inputs = () =>
+        Array.from(
+          document.querySelectorAll<HTMLInputElement>('input.cds--date-picker__input'),
+        );
+
+      assert.strictEqual(inputs()[0]?.value, mdyFor(initial));
+      assert.strictEqual(inputs()[1]?.value, mdyFor(initialEnd));
+
+      const newStart = new Date(2024, 1, 5);
+      const newEnd = new Date(2024, 1, 10);
+      value.current = [newStart, newEnd];
+      await settled();
+
+      assert.strictEqual(inputs()[0]?.value, mdyFor(newStart));
+      assert.strictEqual(
+        inputs()[1]?.value,
+        mdyFor(newEnd),
+        'the end field is re-synced too, not left showing the initial value',
+      );
+    });
+
   test('minDate disables earlier days in the calendar', async function (assert) {
     const jan15 = new Date(2024, 0, 15);
     const jan10 = new Date(2024, 0, 10);

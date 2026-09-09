@@ -321,6 +321,34 @@ export default class DatePicker extends Component<DatePickerSignature> {
     this.currentValue = value;
     if (this.calendar) {
       this.calendar.setDate(value ?? [], false);
+      // `setDate(..., false)` writes `self.input.value` itself (flatpickr's
+      // `updateValue`) - for `range` mode with two `selectedDates` that's a
+      // single "<start> to <end>" joined string on the *first* input, since
+      // the per-input split only happens in the stock `rangePlugin`'s
+      // (imported above) `onValueUpdate` hook, which flatpickr only fires
+      // when `triggerChange` is truthy. Carbon React avoids this by
+      // wrapping `rangePlugin` in its own patched version for exactly this
+      // reason; this replicates the fix directly instead of vendoring the
+      // whole plugin - re-format and write both inputs ourselves so a
+      // controlled `@value` update (including the very first one, at
+      // mount) doesn't leave the start field showing the joined string or
+      // the end field showing a stale date.
+      if (this.datePickerType === 'range') {
+        const [start, end] = element.querySelectorAll<HTMLInputElement>(
+          '.cds--date-picker__input',
+        );
+        const [startDate, endDate] = this.calendar.selectedDates;
+        if (start) {
+          start.value = startDate
+            ? flatpickr.formatDate(startDate, this.dateFormat)
+            : '';
+        }
+        if (end) {
+          end.value = endDate
+            ? flatpickr.formatDate(endDate, this.dateFormat)
+            : '';
+        }
+      }
       return;
     }
     const raw = Array.isArray(value) ? value[0] : value;
