@@ -6,27 +6,38 @@ This directory contains utility scripts for maintaining the carbon-components-em
 
 ### parity-check.mjs
 
-Automated script that compares carbon-components-ember with Carbon React to identify missing components.
+Automated script that compares carbon-components-ember with one or more upstream
+Carbon repositories to identify missing components. It tracks multiple **sources**
+independently (see the `SOURCES` array at the top of the script):
+
+- `react` - Carbon React (`carbon-design-system/carbon`, `packages/react/src/components`). Issue creation enabled.
+- `carbon-ai-chat` - Carbon AI Chat (`carbon-design-system/carbon-ai-chat`, `packages/ai-chat-components/src/components` - the reusable Lit widget library, i.e. the actual Ember port target, not the React application internals or the web-component shell). Issue creation is **disabled** for this source until the first Ember component under this namespace lands - with zero components implemented so far, every upstream component would otherwise show up as "missing" and flood the issue tracker on the first run. Flip `createIssues: true` for this source once that changes.
 
 **Usage:**
 ```bash
 cd scripts
 npm install
-npm run check-parity
+npm run check-parity                              # all sources, report-only unless CREATE_ISSUES=true
+node parity-check.mjs --source carbon-ai-chat                          # run just one source
+node parity-check.mjs --source carbon-ai-chat --mark-synced Launcher   # source-scoped CLI flags
 ```
 
 **Features:**
-- Fetches component list from Carbon React GitHub
-- Compares with Ember implementation
-- Generates parity report (PARITY_REPORT.md)
-- **Tracks commit SHAs** to detect component updates
-- **Detects outdated components** when React components change
-- Tracks per-component metadata (.parity-check-data.json)
-- Can create GitHub issues for missing and outdated components
+- Fetches each source's component list from its GitHub repo
+- Compares with Ember implementation (shared `carbon-components-ember/src/components/index.ts` export list across all sources)
+- Generates one combined parity report with a section per source (PARITY_REPORT.md)
+- **Tracks commit SHAs** per source to detect component updates
+- **Detects outdated components** when upstream components change
+- Tracks per-source, per-component metadata (`.parity-check-data.json`'s `sources.<id>` object). The legacy top-level `components`/`componentMetadata` fields are kept in sync with the `react` source for backward compatibility.
+- Can create GitHub issues for missing and outdated components, gated by both the global `CREATE_ISSUES`/`--create-issues` flag and each source's own `createIssues` setting
 
 **Environment Variables:**
 - `GITHUB_TOKEN` - GitHub personal access token (required for API access)
-- `CREATE_ISSUES` - Set to 'true' to automatically create issues (default: false)
+- `CREATE_ISSUES` - Set to 'true' to automatically create issues (default: false; also requires the target source's `createIssues: true`)
+
+**CLI flags:**
+- `--source <id>` - scope the run to a single source: the main fetch/compare/report/issue-creation pipeline, as well as `--mark-synced` (default source for that flag: `react`); valid ids are the `id` fields in `SOURCES`. Omit it to run every configured source.
+- `--mark-synced Name1,Name2` / `--exclude Name --reason "..."` / `--include Name` / `--list-exclusions` - unchanged, see below (exclusions are a single flat list shared across sources, since upstream naming conventions don't currently collide - PascalCase React directories vs. kebab-case carbon-ai-chat ones)
 
 ### fix-parity-issue.sh
 
