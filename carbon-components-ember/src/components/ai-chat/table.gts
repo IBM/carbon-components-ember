@@ -10,6 +10,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
+import willDestroy from '@ember/render-modifiers/modifiers/will-destroy';
 import { default as eq } from 'ember-truth-helpers/helpers/eq';
 import { default as Search } from '../search.gts';
 import { default as Pagination } from '../pagination.gts';
@@ -118,7 +119,21 @@ export default class AiChatTable extends Component<AiChatTableSignature> {
   // default rather than the value we seeded above. Override just that
   // one initial report back to `@defaultPageSize`; every later call is a
   // real, user-driven page/size change and is trusted as-is.
+  //
+  // `Pagination` is only rendered while `showPagination` is true, and that
+  // can flip back to `false` and then `true` again purely from search
+  // filtering (independent of any real page-size change), remounting a
+  // brand-new `Pagination` instance that fires its own fresh initial
+  // report. Reset the guard on unmount (not on the next mount - a child
+  // component's `didInsert` fires before a parent/sibling modifier's, so
+  // resetting on mount would run too late to catch that instance's own
+  // initial report) so each mount gets exactly one correction.
   initialPageSizeApplied = false;
+
+  @action
+  resetPageSizeGuard() {
+    this.initialPageSizeApplied = false;
+  }
 
   get headers() {
     return this.args.headers ?? [];
@@ -264,6 +279,7 @@ export default class AiChatTable extends Component<AiChatTableSignature> {
                 @labelText={{@filterPlaceholderText}}
                 @placeholder={{@filterPlaceholderText}}
                 @onChange={{this.search}}
+                @onClear={{this.search}}
                 @expandable={{false}}
               />
               <Tooltip @label={{@downloadLabelText}}>
@@ -318,14 +334,19 @@ export default class AiChatTable extends Component<AiChatTableSignature> {
             </tbody>
           </table>
           {{#if this.showPagination}}
-            <Pagination
-              @length={{this.filteredRows.length}}
-              @state={{this.currentSlice}}
-              @onPageChanged={{this.changePage}}
-              @itemsPerPageOptions={{this.itemsPerPageOptions}}
-              @backwardText={{@previousPageText}}
-              @forwardText={{@nextPageText}}
-            />
+            {{!-- Pagination's own template has no ...attributes, so a
+              modifier attached directly to its invocation is silently
+              dropped - wrap it so willDestroy actually fires on unmount. --}}
+            <div {{willDestroy this.resetPageSizeGuard}}>
+              <Pagination
+                @length={{this.filteredRows.length}}
+                @state={{this.currentSlice}}
+                @onPageChanged={{this.changePage}}
+                @itemsPerPageOptions={{this.itemsPerPageOptions}}
+                @backwardText={{@previousPageText}}
+                @forwardText={{@nextPageText}}
+              />
+            </div>
           {{/if}}
         </div>
       {{/if}}

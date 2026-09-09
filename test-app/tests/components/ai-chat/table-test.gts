@@ -59,6 +59,22 @@ module('Integration | Component | ai-chat/AiChatTable', (hooks) => {
     assert.dom('tbody tr:first-child td:first-child').hasText('Row 2');
   });
 
+  test('it clears the filter when the search field is cleared via its close button', async function (assert) {
+    const rows = rowsOf(3);
+
+    await render(
+      <template><AiChatTable @headers={{headers}} @rows={{rows}} /></template>,
+    );
+
+    await fillIn('input.cds--search-input', 'Row 2');
+    assert.dom('tbody tr').exists({ count: 1 });
+
+    await click('.cds--search-close');
+
+    assert.dom('input.cds--search-input').hasValue('');
+    assert.dom('tbody tr').exists({ count: 3 });
+  });
+
   test('it sorts rows when a column header is clicked', async function (assert) {
     const rows: AiChatTableRow[] = [
       { cells: [{ text: 'Charlie' }, { text: 'Active' }] },
@@ -101,6 +117,31 @@ module('Integration | Component | ai-chat/AiChatTable', (hooks) => {
         <AiChatTable @headers={{headers}} @rows={{rows}} @defaultPageSize={{5}} />
       </template>,
     );
+
+    assert.dom('.cds--pagination').exists();
+    assert.dom('tbody tr').exists({ count: 5 });
+  });
+
+  test('it keeps the default page size after pagination unmounts and remounts due to filtering', async function (assert) {
+    const rows = rowsOf(8);
+
+    await render(
+      <template>
+        <AiChatTable @headers={{headers}} @rows={{rows}} @defaultPageSize={{5}} />
+      </template>,
+    );
+
+    assert.dom('.cds--pagination').exists('pagination shown for 8 rows at page size 5');
+    assert.dom('tbody tr').exists({ count: 5 });
+
+    // Narrow the filter to 2 matches, dropping Pagination from the DOM.
+    await fillIn('input.cds--search-input', 'Row 2');
+    assert.dom('.cds--pagination').doesNotExist();
+
+    // Clearing brings back a brand-new Pagination instance, which must not
+    // discard @defaultPageSize in favor of Pagination's own hardcoded
+    // initial itemsPerPage of 10.
+    await fillIn('input.cds--search-input', '');
 
     assert.dom('.cds--pagination').exists();
     assert.dom('tbody tr').exists({ count: 5 });
