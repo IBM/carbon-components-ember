@@ -274,8 +274,7 @@ unregisterTab(tab: TabPane) {
 
 Caveat on the `tabs.gts` citation: copy its *yielding and registration shape*
 only. Its actual `A()` / `pushObject` array is legacy — see the "What NOT to
-Reach For" list below, which also covers the `constructor(owner: any, …)` it
-shares with most other components here. For the yielding half of the pattern,
+Reach For" list below. For the yielding half of the pattern,
 `data-table.gts` and `tree-view.gts` are the cleaner files to read first;
 `tabs.gts` is the only one of the three that registers children at all.
 
@@ -507,11 +506,31 @@ for the reader of the docs site, not for yourself.
 ### What NOT to Reach For
 
 - **`@ember/render-modifiers`** (`did-insert`, `did-update`) in new code.
-  Several older components still use it; it observes render rather than
-  state, doesn't compose, and has no teardown story. Write a real modifier.
+  It observes render rather than state, doesn't compose, and has no teardown
+  story. Write a real modifier instead (§4). As of the 2026-09-09 audit
+  (below), 13 components still import it:
+  `charts/-components/chart.gts`, `checkbox.gts`, `code-snippet.gts`,
+  `data-table.gts`, `list.gts`, `ordered-list.gts`, `pagination.gts`,
+  `popover.gts`, `search.gts`, `select.gts`, `slider.gts`, `toggletip.gts`,
+  `tooltip.gts`. Migrating one of these to a real modifier while you're
+  already touching it for something else is in-scope cleanup, not scope
+  creep — don't do a drive-by rewrite of an unrelated file just to cross it
+  off this list.
+- **An ad-hoc `willDestroy()` lifecycle override** instead of
+  `registerDestructor` or a modifier's own teardown function (see §6). Two
+  components still do this: `ordered-list.gts`, `charts/-components/
+  tabular-data.gts`.
 - **`A()` / `NativeArray` / `pushObject` / `removeObject`** and `set()` from
   `@ember/object`. Also present in older components. New code uses plain
-  arrays/objects reassigned through `@tracked`.
+  arrays/objects reassigned through `@tracked`. The legacy `bxClassNames`
+  class decorator (built on this — `A()` plus string-coerced `=== 'true'`
+  boolean checks) has been retired as of the 2026-09-09 mechanical cleanup:
+  `icon.gts` and `button.gts`, its last two callers, now each have a plain
+  `get classes()` getter pushing onto an array and joining it, matching
+  every other component that builds a conditional class list (see
+  `tag.gts` for a representative example), and `bxClassNames`/`classPrefix`
+  have been deleted from `utils/decorators.ts` entirely. Don't reach for
+  either in new code.
 - **Classic `Component` + separate `.hbs`** — everything here is `.gts` with
   `<template>`.
 - **`this.element` / direct DOM queries from a getter** — Glimmer components
@@ -519,12 +538,23 @@ for the reader of the docs site, not for yourself.
 - **Re-implementing an overlay primitive** — check the addon's own components
   first (`<Portal>`, `<Popover>` / `<PopoverContent>`), then `ember-primitives`
   for genuinely new primitives (focus trap, positioning). See §5.
-- **`constructor(owner: any, args: any)`** — 13 existing components type the
-  owner `any`, including the `text-input.gts` / `number-input.gts` exemplars
-  §3 tells you to follow. New code writes
-  `import type Owner from '@ember/owner'` and
-  `constructor(owner: Owner, args: Signature['Args'])`; don't carry the `any`
-  along when you copy one of those files.
+- **Re-implementing "close on outside click"** — `popover.gts` and
+  `toggletip.gts` each independently wire their own `document.addEventListener
+  ('click', ...)` (plus, in `toggletip.gts`, a `window` `blur` listener) to
+  detect an outside click and request close, with subtly different semantics
+  (capture phase vs. not). There's no shared modifier for this yet; if you're
+  touching either file, factoring the pattern into one shared modifier both
+  can use is worth doing rather than adding a third bespoke copy elsewhere.
+- **`constructor(owner: any, args: any)`** — as of the 2026-09-09 mechanical
+  cleanup, no component in this codebase types the owner `any` anymore; the
+  last 12 (`time-picker.gts`, `text-area.gts`, `slider.gts`, `popover.gts`,
+  `fluid-text-input.gts`, `progress-indicator.gts`, `tooltip.gts`,
+  `number-input.gts`, `password-input.gts`, `text-input.gts`,
+  `time-picker/time-picker-select.gts`, `ui-shell/-header-container.gts`)
+  were fixed to match the `text-input.gts` / `number-input.gts` exemplars §3
+  tells you to follow. New code writes `import type Owner from
+  '@ember/owner'` and `constructor(owner: Owner, args: Signature['Args'])`;
+  don't reintroduce `any` here.
 
 ## Common Pitfalls and Solutions
 
@@ -601,47 +631,20 @@ exported component (private sub-components prefixed with `-`, e.g.
 `-row.gts`, are not exported from `index.ts` and are unaffected), give it a
 more specific name (e.g. `tile/tile-group.gts`, not `tile/group.gts`).
 
-### ❌ Pitfall 5: New Icons Used in Docs Examples Don't Render
+### ❌ Pitfall 5 (stale, kept for history): New Icons Used in Docs Examples Don't Render
 
-`docs-app` live-preview examples (the `gjs live preview` code blocks under
-`docs-app/app/templates/`) run through `kolay`, which resolves each import
-specifier in the example's `<template>` against a **static** map built in
-`docs-app/app/routes/application.ts` — it does not do real module resolution.
-For `carbon-components-ember/icons`, that map only exposes the specific
-icon components someone has explicitly imported and listed:
+This used to be a real trap: `docs-app/app/routes/application.ts` resolved
+`carbon-components-ember/icons` in `kolay`'s `modules` map against a
+hand-maintained list of explicitly imported icon components, so any icon a
+docs example used but that list didn't mention silently rendered nothing.
 
-```typescript
-// docs-app/app/routes/application.ts
-import {
-  Bookmark,
-  Task,
-  // ...
-  Folder,
-  Document,
-} from 'carbon-components-ember/icons';
-
-// ...
-resolve: {
-  'carbon-components-ember/icons': Promise.resolve({
-    Bookmark,
-    Task,
-    // ...
-    Folder,
-    Document,
-  }),
-}
-```
-
-If a docs example imports an icon (e.g. `Folder`, `Document`) that isn't in
-both places, the example renders with no visible error — the icon is simply
-absent, which is easy to mistake for a CSS or component bug instead of a
-missing registration.
-
-**Solution**: whenever a new docs example introduces an icon that isn't
-already in this map, add it to *both* the `import` and the `resolve` object
-in `docs-app/app/routes/application.ts`. Actually load the docs page (or an
-isolated render test asserting the icon's SVG is visible) to confirm — don't
-rely on `pnpm build`/`pnpm lint`, since neither catches this.
+As of the current `application.ts`, that hand-maintained list is gone —
+icons resolve via a wildcard `import * as Icons from
+'carbon-components-ember/icons'` (wrapped in `trackedObject(Icons)` and
+handed to `kolay` as-is), so every exported icon component Just Works in a
+docs example with no separate registration step. If you ever see this
+per-icon-registration pattern reintroduced, treat it as a regression, not
+something to imitate.
 
 ## Component Implementation Checklist
 
@@ -656,7 +659,7 @@ rely on `pnpm build`/`pnpm lint`, since neither catches this.
 - [ ] Create test file in `test-app/tests/components/`
 - [ ] Build: `cd carbon-components-ember && pnpm build`
 - [ ] Test: `cd test-app && pnpm test`
-- [ ] If a docs example uses an icon, register it in `docs-app/app/routes/application.ts` (see Pitfall 4) and verify it actually renders
+- [ ] If a docs example uses an icon, load the docs page (or an isolated render test) and confirm it actually renders — icons no longer need manual registration (see Pitfall 5), but this is still the only way to catch a genuinely missing/misnamed export
 
 ## Simplification Guidelines
 
@@ -680,6 +683,61 @@ restartable task) is a simplification even when it's more code than an
 inline `setTimeout` — it's the ad-hoc version that ends up complicated, in
 the form of teardown bugs and props that only work in one direction.
 
+## Known Codebase Debt (audit, 2026-09-09)
+
+An audit of `main` against this document's own rules — modifiers vs.
+`did-insert`/`did-update`/ad-hoc `willDestroy`, dynamic `import()` hygiene,
+duplication, and oversized functions/templates — found the codebase mostly
+compliant, with a small number of concrete, named exceptions. Those are
+folded into "What NOT to Reach For" and Pitfall 5 above rather than repeated
+here; this section records the two findings that didn't fit either list, and
+the overall verdict on the two clean areas so a future audit doesn't have to
+re-derive them from scratch.
+
+- **Dynamic `import()`: zero occurrences in tracked source.** The only
+  `import()` calls in this addon are inside the generated, `.gitignore`d
+  `src/components/icons/**/*.ts` files (one lazy import per icon size,
+  loaded through `TrackedPromise` — see the translation table above) — those
+  files don't exist in a fresh checkout until `createIconIndex()` runs (see
+  `scripts/create-files.mjs`), so they won't show up in a plain `grep` of a
+  clone. This is the *only* legitimate use of a dynamic import in this
+  codebase; a hand-written component reaching for `import()` instead of a
+  static import is not following an established pattern here and should be
+  questioned.
+- **`slider.gts`'s `<template>` block (~228 lines) duplicates its
+  lower/upper-handle markup wholesale** — the two handle SVG pairs
+  (`cds--slider__thumb-icon--lower` / `--upper`) and the two text-input
+  wrapper blocks are near-identical, differing only in a `--lower`/`--upper`
+  class suffix and which arg (`@value`/`@valueUpper`, `@ariaLabelInput`/
+  `@ariaLabelInputUpper`) each reads. This is the addon's clearest instance
+  of "huge template + duplication" together, and it has an idiomatic fix
+  already established elsewhere in this codebase: extract a private
+  sub-component parameterized by handle position (the same shape as
+  `tree-view/-node.gts` or `data-table/-header.gts`), invoked twice instead
+  of the markup being written out twice.
+- **Not a problem, checked directly rather than assumed:** the number of
+  overly-long *methods* (as opposed to templates) is small. Several
+  candidates that looked suspicious from a rough line-count scan turned out,
+  on reading, to be either misattributed (a getter or arrow-function class
+  property the scan's regex didn't recognize, inflating the apparent gap to
+  the next method) or genuinely justified — e.g. `date-picker.gts`'s
+  ~110-line `attachFlatpickr` modifier builds a real third-party widget's
+  config across three date-picker modes and is already broken up with
+  explanatory comments for each non-obvious branch, not accidental
+  complexity. Don't trust a bare line-count heuristic here; read the
+  candidate before flagging it.
+
+None of the above were fixed in place as part of the audit itself —
+migrating 13 components off `@ember/render-modifiers`, unifying the two
+outside-click implementations, and de-duplicating `slider.gts`'s template
+are each a real, independently-reviewable change, not something to bundle
+into a documentation update. They're tracked as follow-up todos instead.
+Retiring `bxClassNames` and fixing the 12 `constructor(owner: any)`
+components were small enough, mechanical enough cleanups to do as their own
+pair of dedicated follow-up PRs shortly after (2026-09-09, #842 and #843
+respectively) — see the "What NOT to Reach For" entries above, now updated
+to reflect both are done.
+
 ## Key Resources
 
 - **Carbon React**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components
@@ -688,4 +746,4 @@ the form of teardown bugs and props that only work in one direction.
 
 ---
 
-Last Updated: 2026-08-06
+Last Updated: 2026-09-09
