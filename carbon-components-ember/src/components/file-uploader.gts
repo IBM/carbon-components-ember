@@ -240,7 +240,7 @@ export default class FileUploader extends Component<FileUploaderSignature> {
           </span>
         {{/each}}
       </div>
-      {{yield (fn this.clear)}}
+      {{yield this.clear}}
     </div>
   </template>
 }

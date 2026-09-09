@@ -47,7 +47,8 @@ export interface FileUploaderItemSignature {
 const measureEllipsis = eModifier<{
   Element: HTMLElement;
   Args: { Named: { onMeasure: (active: boolean) => void; name?: string } };
-}>((element, _positional, { onMeasure }) => {
+}>((element, _positional, { onMeasure, name }) => {
+  void name;
   onMeasure(element.offsetWidth < element.scrollWidth);
 });
 
