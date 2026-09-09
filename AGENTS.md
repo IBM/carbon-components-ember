@@ -274,8 +274,7 @@ unregisterTab(tab: TabPane) {
 
 Caveat on the `tabs.gts` citation: copy its *yielding and registration shape*
 only. Its actual `A()` / `pushObject` array is legacy — see the "What NOT to
-Reach For" list below, which also covers the `constructor(owner: any, …)` it
-shares with most other components here. For the yielding half of the pattern,
+Reach For" list below. For the yielding half of the pattern,
 `data-table.gts` and `tree-view.gts` are the cleaner files to read first;
 `tabs.gts` is the only one of the three that registers children at all.
 
@@ -524,14 +523,14 @@ for the reader of the docs site, not for yourself.
 - **`A()` / `NativeArray` / `pushObject` / `removeObject`** and `set()` from
   `@ember/object`. Also present in older components. New code uses plain
   arrays/objects reassigned through `@tracked`. The legacy `bxClassNames`
-  class decorator in `utils/decorators.ts` is built on this (`A()` plus
-  string-coerced `=== 'true'` boolean checks) and is only still used by two
-  components, `icon.gts` and `button.gts` — every other component that
-  builds a conditional class list does it the idiomatic way, a plain
-  `get classes()` getter pushing onto an array and joining it (see
-  `tag.gts` for a representative example). Don't reach for `bxClassNames`
-  in new code; when next touching `icon.gts`/`button.gts`, migrating them
-  off it to match the other 19+ components is a reasonable cleanup.
+  class decorator (built on this — `A()` plus string-coerced `=== 'true'`
+  boolean checks) has been retired as of the 2026-09-09 mechanical cleanup:
+  `icon.gts` and `button.gts`, its last two callers, now each have a plain
+  `get classes()` getter pushing onto an array and joining it, matching
+  every other component that builds a conditional class list (see
+  `tag.gts` for a representative example), and `bxClassNames`/`classPrefix`
+  have been deleted from `utils/decorators.ts` entirely. Don't reach for
+  either in new code.
 - **Classic `Component` + separate `.hbs`** — everything here is `.gts` with
   `<template>`.
 - **`this.element` / direct DOM queries from a getter** — Glimmer components
@@ -546,15 +545,16 @@ for the reader of the docs site, not for yourself.
   (capture phase vs. not). There's no shared modifier for this yet; if you're
   touching either file, factoring the pattern into one shared modifier both
   can use is worth doing rather than adding a third bespoke copy elsewhere.
-- **`constructor(owner: any, args: any)`** — 12 existing components type the
-  owner `any` (`time-picker.gts`, `text-area.gts`, `slider.gts`,
-  `popover.gts`, `fluid-text-input.gts`, `progress-indicator.gts`,
-  `tooltip.gts`, `number-input.gts`, `password-input.gts`, `text-input.gts`,
-  `time-picker/time-picker-select.gts`, `ui-shell/-header-container.gts`),
-  including the `text-input.gts` / `number-input.gts` exemplars §3 tells you
-  to follow. New code writes `import type Owner from '@ember/owner'` and
-  `constructor(owner: Owner, args: Signature['Args'])`; don't carry the `any`
-  along when you copy one of those files.
+- **`constructor(owner: any, args: any)`** — as of the 2026-09-09 mechanical
+  cleanup, no component in this codebase types the owner `any` anymore; the
+  last 12 (`time-picker.gts`, `text-area.gts`, `slider.gts`, `popover.gts`,
+  `fluid-text-input.gts`, `progress-indicator.gts`, `tooltip.gts`,
+  `number-input.gts`, `password-input.gts`, `text-input.gts`,
+  `time-picker/time-picker-select.gts`, `ui-shell/-header-container.gts`)
+  were fixed to match the `text-input.gts` / `number-input.gts` exemplars §3
+  tells you to follow. New code writes `import type Owner from
+  '@ember/owner'` and `constructor(owner: Owner, args: Signature['Args'])`;
+  don't reintroduce `any` here.
 
 ## Common Pitfalls and Solutions
 
@@ -727,12 +727,16 @@ re-derive them from scratch.
   complexity. Don't trust a bare line-count heuristic here; read the
   candidate before flagging it.
 
-None of the above were fixed in place — migrating 13 components off
-`@ember/render-modifiers`, retiring `bxClassNames`, unifying the two
+None of the above were fixed in place as part of the audit itself —
+migrating 13 components off `@ember/render-modifiers`, unifying the two
 outside-click implementations, and de-duplicating `slider.gts`'s template
 are each a real, independently-reviewable change, not something to bundle
-into a documentation update. They're tracked as follow-up todos instead of
-being done here.
+into a documentation update. They're tracked as follow-up todos instead.
+Retiring `bxClassNames` and fixing the 12 `constructor(owner: any)`
+components were small enough, mechanical enough cleanups to do as their own
+pair of dedicated follow-up PRs shortly after (2026-09-09, #842 and #843
+respectively) — see the "What NOT to Reach For" entries above, now updated
+to reflect both are done.
 
 ## Key Resources
 
