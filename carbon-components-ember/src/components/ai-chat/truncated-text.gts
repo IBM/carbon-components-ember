@@ -75,6 +75,7 @@ export default class AiChatTruncatedText extends Component<AiChatTruncatedTextSi
   lineHeight = 0;
   resizeObserver?: ResizeObserver;
   contentElement?: HTMLElement;
+  pendingRaf?: number;
 
   get type() {
     return this.args.type ?? 'tooltip';
@@ -108,18 +109,33 @@ export default class AiChatTruncatedText extends Component<AiChatTruncatedTextSi
     return this.isOverflowing || this.isExpanded;
   }
 
+  constructor(owner: any, args: AiChatTruncatedTextSignature['Args']) {
+    super(owner, args);
+    registerDestructor(this, this.teardown);
+  }
+
+  teardown = () => {
+    if (this.pendingRaf !== undefined) {
+      cancelAnimationFrame(this.pendingRaf);
+      this.pendingRaf = undefined;
+    }
+    this.resizeObserver?.disconnect();
+    this.resizeObserver = undefined;
+  };
+
   setup = (element: HTMLElement) => {
+    // Each toggle between the tooltip/expand `{{#if}}` branches tears down
+    // and recreates this element (and re-fires `didInsert`), so any
+    // observer/RAF from a previous `setup()` call must be cleaned up here
+    // rather than only at component destroy time.
+    this.teardown();
     this.contentElement = element;
-    const raf = requestAnimationFrame(() => {
+    this.pendingRaf = requestAnimationFrame(() => {
       this.lineHeight = parseFloat(getComputedStyle(element).lineHeight);
       this.updateOverflowStatus();
     });
     this.resizeObserver = new ResizeObserver(() => this.updateOverflowStatus());
     this.resizeObserver.observe(element);
-    registerDestructor(this, () => {
-      cancelAnimationFrame(raf);
-      this.resizeObserver?.disconnect();
-    });
   };
 
   recalculate = () => {

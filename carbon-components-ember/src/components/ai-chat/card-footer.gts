@@ -9,7 +9,6 @@ import Component from '@glimmer/component';
 import { fn } from '@ember/helper';
 import { default as Button } from '../button.gts';
 import { default as Tooltip } from '../tooltip.gts';
-import { default as eq } from 'ember-truth-helpers/helpers/eq';
 import { default as or } from 'ember-truth-helpers/helpers/or';
 import type { ComponentLike } from '@glint/template';
 
@@ -86,6 +85,35 @@ export default class AiChatCardFooter extends Component<AiChatCardFooterSignatur
     this.args.onAction?.(action);
   };
 
+  /**
+   * Resolves `action.kind` (defaulting per upstream, `'secondary'` for
+   * labeled actions and `'ghost'` for icon-only ones) to `Button`'s own
+   * `@type`/`@tertiary`/`@ghost` args. `Button` treats those three as
+   * independently-truthy flags rather than a single mutually-exclusive
+   * variant, so exactly one of them must be set per resolved kind:
+   * `@type` for `'primary'`/`'secondary'`/`'danger'`, and `undefined`
+   * (with `@tertiary`/`@ghost` instead) for `'tertiary'`/`'ghost'`.
+   */
+  buttonType = (
+    kind: CardFooterActionKind | undefined,
+    fallback: CardFooterActionKind,
+  ) => {
+    const resolved = kind ?? fallback;
+    return resolved === 'tertiary' || resolved === 'ghost'
+      ? undefined
+      : resolved;
+  };
+
+  buttonTertiary = (
+    kind: CardFooterActionKind | undefined,
+    fallback: CardFooterActionKind,
+  ) => (kind ?? fallback) === 'tertiary';
+
+  buttonGhost = (
+    kind: CardFooterActionKind | undefined,
+    fallback: CardFooterActionKind,
+  ) => (kind ?? fallback) === 'ghost';
+
   <template>
     {{#if this.actions.length}}
       {{#if this.isIconButton}}
@@ -98,7 +126,9 @@ export default class AiChatCardFooter extends Component<AiChatCardFooterSignatur
           {{#each this.actions as |cardAction|}}
             <Tooltip @label={{cardAction.tooltipText}}>
               <Button
-                @ghost={{true}}
+                @type={{this.buttonType cardAction.kind 'ghost'}}
+                @tertiary={{this.buttonTertiary cardAction.kind 'ghost'}}
+                @ghost={{this.buttonGhost cardAction.kind 'ghost'}}
                 @iconOnly={{true}}
                 @disabled={{cardAction.disabled}}
                 @onClick={{fn this.handleAction cardAction}}
@@ -120,9 +150,9 @@ export default class AiChatCardFooter extends Component<AiChatCardFooterSignatur
         >
           {{#each this.actions as |cardAction|}}
             <Button
-              @type={{if (eq cardAction.kind 'danger') 'danger' 'secondary'}}
-              @ghost={{eq cardAction.kind 'ghost'}}
-              @tertiary={{eq cardAction.kind 'tertiary'}}
+              @type={{this.buttonType cardAction.kind 'secondary'}}
+              @tertiary={{this.buttonTertiary cardAction.kind 'secondary'}}
+              @ghost={{this.buttonGhost cardAction.kind 'secondary'}}
               @disabled={{or cardAction.disabled cardAction.isViewing}}
               @onClick={{fn this.handleAction cardAction}}
               class={{if

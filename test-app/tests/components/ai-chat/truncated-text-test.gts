@@ -94,6 +94,57 @@ module('Integration | Component | ai-chat/AiChatTruncatedText', (hooks) => {
     assert.dom('.cds-aichat-truncated-text__toggle').hasText('Show more');
   });
 
+  test('it disconnects the previous ResizeObserver when the overflow flip re-renders the content element', async function (assert) {
+    const longValue = Array.from({ length: 40 }, () => 'word').join(' ');
+
+    const observed: { disconnected: boolean }[] = [];
+    const OriginalResizeObserver = window.ResizeObserver;
+    class TrackingResizeObserver {
+      state: { disconnected: boolean } = { disconnected: false };
+      observer: ResizeObserver;
+
+      constructor(callback: ResizeObserverCallback) {
+        observed.push(this.state);
+        this.observer = new OriginalResizeObserver(callback);
+      }
+
+      observe(target: Element, options?: ResizeObserverOptions) {
+        this.observer.observe(target, options);
+      }
+
+      unobserve(target: Element) {
+        this.observer.unobserve(target);
+      }
+
+      disconnect() {
+        this.state.disconnected = true;
+        this.observer.disconnect();
+      }
+    }
+    window.ResizeObserver = TrackingResizeObserver as unknown as typeof ResizeObserver;
+
+    try {
+      await render(
+        <template>
+          <style>{{carbonStyle.default}}</style>
+          <style>{{lineClampStyle}}</style>
+          <div style='width: 100px'>
+            <AiChatTruncatedText @value={{longValue}} @lines={{1}} />
+          </div>
+        </template>,
+      );
+      await waitForAnimationFrame();
+      await waitForAnimationFrame();
+
+      assert.dom('.cds--tooltip-trigger__wrapper').exists();
+      assert.strictEqual(observed.length, 2, 'a second ResizeObserver is created for the tooltip-wrapped content');
+      assert.true(observed[0]?.disconnected, 'the first (now-detached) ResizeObserver was disconnected');
+      assert.false(observed[1]?.disconnected, 'the current ResizeObserver is still connected');
+    } finally {
+      window.ResizeObserver = OriginalResizeObserver;
+    }
+  });
+
   test('it renders default block content instead of @value when passed', async function (assert) {
     await render(
       <template>

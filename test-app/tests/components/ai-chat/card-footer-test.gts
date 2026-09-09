@@ -62,4 +62,76 @@ module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
       .dom('.cds-aichat-card-footer__actions')
       .hasClass('cds-aichat-card-footer__actions--stacked');
   });
+
+  test('it renders each labeled action kind as exactly one Button variant', async function (assert) {
+    const allKindClasses = [
+      'cds--btn--primary',
+      'cds--btn--secondary',
+      'cds--btn--tertiary',
+      'cds--btn--ghost',
+      'cds--btn--danger',
+    ];
+    const actions: CardFooterAction[] = [
+      { id: 'a', label: 'Primary', kind: 'primary' },
+      { id: 'b', label: 'Secondary' },
+      { id: 'c', label: 'Tertiary', kind: 'tertiary' },
+      { id: 'd', label: 'Ghost', kind: 'ghost' },
+      { id: 'e', label: 'Danger', kind: 'danger' },
+    ];
+
+    await render(<template><AiChatCardFooter @actions={{actions}} /></template>);
+
+    const buttons = document.querySelectorAll(
+      '.cds-aichat-card-footer__actions button',
+    );
+    const expectedClasses = [
+      'cds--btn--primary',
+      'cds--btn--secondary',
+      'cds--btn--tertiary',
+      'cds--btn--ghost',
+      'cds--btn--danger',
+    ];
+
+    expectedClasses.forEach((expected, index) => {
+      const present = allKindClasses.filter((kindClass) =>
+        buttons[index]!.classList.contains(kindClass),
+      );
+      assert.deepEqual(
+        present,
+        [expected],
+        `action ${index} (kind ${actions[index]!.kind ?? 'unset'}) renders exactly the ${expected} variant class`,
+      );
+    });
+  });
+
+  test('it defaults icon-only actions to ghost but respects an explicit kind', async function (assert) {
+    const allKindClasses = [
+      'cds--btn--primary',
+      'cds--btn--secondary',
+      'cds--btn--tertiary',
+      'cds--btn--ghost',
+      'cds--btn--danger',
+    ];
+    const actions: CardFooterAction[] = [
+      { id: 'a', label: '', tooltipText: 'Default' },
+      { id: 'b', label: '', tooltipText: 'Danger', kind: 'danger' },
+    ];
+
+    await render(<template><AiChatCardFooter @actions={{actions}} /></template>);
+
+    const buttons = document.querySelectorAll(
+      '.cds-aichat-card-footer__icon-actions button',
+    );
+
+    assert.deepEqual(
+      allKindClasses.filter((kindClass) => buttons[0]!.classList.contains(kindClass)),
+      ['cds--btn--ghost'],
+      'icon-only action with no kind defaults to ghost',
+    );
+    assert.deepEqual(
+      allKindClasses.filter((kindClass) => buttons[1]!.classList.contains(kindClass)),
+      ['cds--btn--danger'],
+      'icon-only action respects an explicit kind instead of always being ghost',
+    );
+  });
 });
