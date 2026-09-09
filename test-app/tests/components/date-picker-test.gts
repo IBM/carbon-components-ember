@@ -331,6 +331,42 @@ module('Integration | Component | DatePicker', (hooks) => {
     assert.dom('.cds--form-requirement').hasText('Double check this date');
   });
 
+  test('DatePickerInput: shows the plain calendar icon instead of invalid/warn when disabled', async function (assert) {
+    await render(
+      <template>
+        <DatePicker @datePickerType='single' as |Input|>
+          <Input
+            @labelText='Date'
+            @disabled={{true}}
+            @invalid={{true}}
+            @invalidText='Enter a valid date'
+          />
+        </DatePicker>
+      </template>,
+    );
+
+    assert.dom('.cds--date-picker__icon--invalid').doesNotExist();
+    assert.dom('.cds--date-picker__icon').exists();
+  });
+
+  test('DatePickerInput: shows the plain calendar icon instead of invalid/warn when readOnly', async function (assert) {
+    await render(
+      <template>
+        <DatePicker @datePickerType='single' as |Input|>
+          <Input
+            @labelText='Date'
+            @readOnly={{true}}
+            @warn={{true}}
+            @warnText='Double check this date'
+          />
+        </DatePicker>
+      </template>,
+    );
+
+    assert.dom('.cds--date-picker__icon--warn').doesNotExist();
+    assert.dom('.cds--date-picker__icon').exists();
+  });
+
   test('DatePickerInput: shows the helper text when not invalid or warn', async function (assert) {
     await render(
       <template>

@@ -143,6 +143,16 @@ export default class DatePickerInput extends Component<DatePickerInputSignature>
     return this.args.datePickerType !== 'simple' || this.isInvalid || this.isWarn;
   }
 
+  // Disabled/read-only fields always show the plain calendar icon, even when
+  // invalid/warn, matching Carbon React's `DatePickerIcon` precedence.
+  get calendarIconIsInvalid() {
+    return this.isInvalid && !this.args.disabled && !this.args.readOnly;
+  }
+
+  get calendarIconIsWarn() {
+    return this.isWarn && !this.args.disabled && !this.args.readOnly;
+  }
+
   get descriptionId() {
     return `${this.id}-description`;
   }
@@ -206,12 +216,12 @@ export default class DatePickerInput extends Component<DatePickerInputSignature>
             </div>
           {{/if}}
           {{#if this.showCalendarIcon}}
-            {{#if this.isInvalid}}
+            {{#if this.calendarIconIsInvalid}}
               <WarningFilled
                 @size='16'
                 @svgClass='cds--date-picker__icon cds--date-picker__icon--invalid'
               />
-            {{else if this.isWarn}}
+            {{else if this.calendarIconIsWarn}}
               <WarningAltFilled
                 @size='16'
                 @svgClass='cds--date-picker__icon cds--date-picker__icon--warn'
