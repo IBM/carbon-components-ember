@@ -8,6 +8,13 @@ dropdown, or type one into a plain field. It wraps
 two `DatePickerInput` fields, yielded from the block, to render the field(s)
 themselves.
 
+By default the calendar dropdown renders into `document.body`. Since these
+live previews render in an isolated shadow DOM, the examples below pass a
+local element as `@appendTo` so the calendar stays inside the preview
+instead of escaping into the real page (where the preview's styles don't
+reach it) - outside a shadow-DOM preview, `@appendTo` is normally
+unnecessary.
+
 ```gjs live preview
 import { DatePicker } from 'carbon-components-ember/components';
 import { ThemeSupport, didInsert } from 'docs-support';

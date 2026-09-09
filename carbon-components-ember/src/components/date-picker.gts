@@ -147,6 +147,54 @@ function chevronArrowSvg(icon: ChevronIcon): string {
 const prevMonthArrow = chevronArrowSvg(chevronLeft16 as unknown as ChevronIcon);
 const nextMonthArrow = chevronArrowSvg(chevronRight16 as unknown as ChevronIcon);
 
+// flatpickr's own `positionCalendar` computes the calendar's `top`/`left`
+// as absolute **document** coordinates on a `position: absolute`
+// `calendarContainer`, which only lands next to the input when that
+// element's nearest positioned ancestor sits at the document origin -
+// true when appended straight to `document.body` (flatpickr's own
+// default), but not when `@appendTo` points somewhere with a `position:
+// relative`/`fixed`/`transform` ancestor between it and `<body>` (e.g. a
+// real consumer's page layout, or this addon's own docs site's
+// `.page-main`) - the calendar ends up offset by that ancestor's own
+// document position instead of sitting next to the input. Positioning
+// relative to the calendar's actual CSS containing block (`offsetParent`)
+// instead of the document keeps it anchored to the input regardless of
+// what's between `@appendTo` and `<body>` - the `getBoundingClientRect()`
+// subtraction below cancels out page scroll the same way document
+// coordinates did. Only wired in when `@appendTo` is set; the default (no
+// `@appendTo`, appended straight to `document.body`) keeps flatpickr's own
+// positioning untouched.
+function positionCalendarWithinAppendTo(
+  instance: FlatpickrInstance,
+  customPositionElement?: HTMLElement,
+) {
+  const calendar = instance.calendarContainer;
+  const positionElement = customPositionElement ?? instance._positionElement;
+  if (!calendar || !positionElement) return;
+
+  const offsetParent = (calendar.offsetParent as HTMLElement | null) ?? document.body;
+  const inputBounds = positionElement.getBoundingClientRect();
+  const parentBounds = offsetParent.getBoundingClientRect();
+  const calendarHeight = Array.from(calendar.children).reduce(
+    (acc, child) => acc + (child as HTMLElement).offsetHeight,
+    0,
+  );
+  const showOnTop =
+    window.innerHeight - inputBounds.bottom < calendarHeight &&
+    inputBounds.top > calendarHeight;
+
+  calendar.classList.toggle('arrowTop', !showOnTop);
+  calendar.classList.toggle('arrowBottom', showOnTop);
+
+  const top =
+    inputBounds.top -
+    parentBounds.top +
+    (showOnTop ? -calendarHeight - 2 : positionElement.offsetHeight + 2);
+  calendar.style.top = `${top}px`;
+  calendar.style.left = `${inputBounds.left - parentBounds.left}px`;
+  calendar.style.right = 'auto';
+}
+
 // Mirrors Carbon React's `updateClassNames`: flatpickr's calendar markup
 // only carries its own `flatpickr-*` classes, but `@carbon/styles` themes
 // the calendar through `cds--date-picker__*` classes layered on top. This
@@ -318,6 +366,13 @@ export default class DatePicker extends Component<DatePickerSignature> {
         noCalendar: readOnly,
         disableMobile: true,
         appendTo,
+        // Omitted entirely (not just `undefined`) when there's no
+        // `@appendTo`: flatpickr's own config merge is a plain
+        // `Object.assign` over its defaults, so an explicit `undefined`
+        // here would clobber its default `position: "auto"` string with
+        // `undefined` and crash `positionCalendar`'s `self.config.position
+        // .split(" ")`.
+        ...(appendTo ? { position: positionCalendarWithinAppendTo } : {}),
         prevArrow: prevMonthArrow,
         nextArrow: nextMonthArrow,
         plugins: end ? [rangePlugin({ input: end })] : [],

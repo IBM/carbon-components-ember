@@ -3,6 +3,8 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click, waitFor, waitUntil, settled } from '@ember/test-helpers';
 import { cell } from 'ember-resources';
 import DatePicker from 'carbon-components-ember/components/date-picker';
+import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
+import { waitForAnimationFrame } from '../helpers';
 
 // flatpickr renders its calendar into `document.body`, outside the
 // `#ember-testing` root that `find`/`click`/`waitFor`/`assert.dom` scope to
@@ -182,6 +184,60 @@ module('Integration | Component | DatePicker', (hooks) => {
         );
       } finally {
         container.remove();
+      }
+    });
+
+  test('single: the calendar dropdown lands next to its input even when @appendTo sits under a position:relative ancestor',
+    async function (assert) {
+      // flatpickr's own positioning assumes the calendar's containing
+      // block sits at the document origin (true for its own default of
+      // appending straight to `document.body`) - a `position: relative`
+      // ancestor between `@appendTo` and `<body>`, offset from the
+      // document origin, is exactly what used to detach the calendar from
+      // its input (see `positionCalendarWithinAppendTo`'s doc comment).
+      // `.flatpickr-calendar`'s `position: absolute` only comes from real
+      // `@carbon/styles` CSS (flatpickr's own stylesheet is never
+      // imported), which test-app's dev-mode build doesn't reliably load
+      // for a component under test - inject it directly so this test
+      // actually exercises real layout instead of the browser's static
+      // default.
+      const ancestor = document.createElement('div');
+      ancestor.style.position = 'relative';
+      ancestor.style.marginTop = '500px';
+      ancestor.style.marginLeft = '300px';
+      document.body.appendChild(ancestor);
+
+      const container = document.createElement('div');
+      ancestor.appendChild(container);
+
+      try {
+        await render(
+          <template>
+            <style>{{carbonStyle.default}}</style>
+            <DatePicker @datePickerType='single' @appendTo={{container}} as |Input|>
+              <Input @labelText='Date' />
+            </DatePicker>
+          </template>,
+        );
+        await waitForAnimationFrame();
+
+        await openCalendar();
+
+        const inputRect = document
+          .querySelector('input.cds--date-picker__input')!
+          .getBoundingClientRect();
+        const calendarRect = flatpickrCalendar()!.getBoundingClientRect();
+
+        assert.ok(
+          Math.abs(calendarRect.left - inputRect.left) < 5,
+          `calendar left (${calendarRect.left}) is close to input left (${inputRect.left})`,
+        );
+        assert.ok(
+          Math.abs(calendarRect.top - inputRect.bottom) < 10,
+          `calendar top (${calendarRect.top}) is close to input bottom (${inputRect.bottom})`,
+        );
+      } finally {
+        ancestor.remove();
       }
     });
 
