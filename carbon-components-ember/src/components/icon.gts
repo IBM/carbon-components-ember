@@ -3,7 +3,6 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
 import { htmlSafe as htmlSafeString } from '@ember/template';
-import { bxClassNames, classPrefix } from '../utils/decorators.ts';
 import { on } from '@ember/modifier';
 import Loading from '../components/loading.gts';
 import or from '../helpers/or.ts';
@@ -105,14 +104,20 @@ export type Args = {
   fill?: string;
 };
 
-@classPrefix('cds--icon--')
 export default class CarbonIcon extends Component<Args> {
   static positionalParams = ['icon'];
   @service('carbon.dialog-manager')
   dialogManager!: DialogManagerService;
-  @bxClassNames('info', 'danger', 'disabled') bxClassNames?: string;
   @tracked loading: boolean = false;
   @tracked disabled: boolean = false;
+
+  get classes() {
+    const classes: string[] = [];
+    if (this.args.info) classes.push('cds--icon--info');
+    if (this.args.danger) classes.push('cds--icon--danger');
+    if (this.disabled) classes.push('cds--icon--disabled');
+    return classes.join(' ');
+  }
 
   get svg() {
     if (typeof this.args.icon === 'string') {
@@ -202,7 +207,7 @@ export default class CarbonIcon extends Component<Args> {
     {{#if (or @loading this.loading)}}
       <span style='display: inline-block;'>
         <Loading
-          @classNames='{{this.styles.icon}} {{this.bxClassNames}} loader'
+          @classNames='{{this.styles.icon}} {{this.classes}} loader'
           @small={{true}}
           @inline={{true}}
         />
@@ -217,7 +222,7 @@ export default class CarbonIcon extends Component<Args> {
         >
           {{renderSvgPart
             this.svg
-            class=(array (or @svgClass this.styles.icon) this.bxClassNames)
+            class=(array (or @svgClass this.styles.icon) this.classes)
             fill=(or @fill 'currentColor')
             size=@size
           }}
@@ -225,7 +230,7 @@ export default class CarbonIcon extends Component<Args> {
       {{else}}
         {{renderSvgPart
           this.svg
-          class=(array (or @svgClass this.styles.icon) this.bxClassNames)
+          class=(array (or @svgClass this.styles.icon) this.classes)
           fill=(or @fill 'currentColor')
           size=@size
         }}

@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { bxClassNames, classPrefix, defaultArgs } from '../utils/decorators.ts';
+import { defaultArgs } from '../utils/decorators.ts';
 import DialogManagerService from '../services/dialog-manager.ts';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
@@ -102,7 +102,6 @@ export interface ButtonSignature {
  @class CarbonButton
  @public
  **/
-@classPrefix('cds--btn--')
 export default class CarbonButton extends Component<ButtonSignature> {
   @tracked loading: boolean = false;
   @tracked disabled = false;
@@ -138,7 +137,7 @@ export default class CarbonButton extends Component<ButtonSignature> {
     <button
       onclick={{this.onButtonClick}}
       class='cds--btn
-        {{this.bxClassNames}}
+        {{this.classes}}
         {{this.layout}}
         {{this.styles.namespace}}
         {{if (or this.loading @loading) "cds--btn--ghost"}}'
@@ -188,17 +187,17 @@ export default class CarbonButton extends Component<ButtonSignature> {
     return `cds--layout--size-${this.args.size}`;
   }
 
-  @bxClassNames(
-    'primary',
-    'secondary',
-    'danger',
-    'tertiary',
-    'ghost',
-    'size',
-    'disabled',
-    'iconOnly:icon-only',
-  )
-  bxClassNames!: string;
+  get classes() {
+    const classes: string[] = [];
+    if (this.primary) classes.push('cds--btn--primary');
+    if (this.secondary) classes.push('cds--btn--secondary');
+    if (this.danger) classes.push('cds--btn--danger');
+    if (this.args.tertiary) classes.push('cds--btn--tertiary');
+    if (this.args.ghost) classes.push('cds--btn--ghost');
+    if (this.disabled || this.args.disabled) classes.push('cds--btn--disabled');
+    if (this.args.iconOnly) classes.push('cds--btn--icon-only');
+    return classes.join(' ');
+  }
 
   @action
   runButtonClick() {
