@@ -10,7 +10,6 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { fn } from '@ember/helper';
-import { on } from '@ember/modifier';
 import FileUploaderButton from './file-uploader/file-uploader-button.gts';
 import FileUploaderStatusIcon from './file-uploader/-status-icon.gts';
 import type { FileUploaderAddedFile } from './file-uploader/file-uploader-drop-container.gts';
