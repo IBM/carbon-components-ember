@@ -680,12 +680,129 @@ restartable task) is a simplification even when it's more code than an
 inline `setTimeout` — it's the ad-hoc version that ends up complicated, in
 the form of teardown bugs and props that only work in one direction.
 
+## Porting Carbon AI Chat (`@carbon/ai-chat-components`)
+
+Carbon AI Chat (https://github.com/carbon-design-system/carbon-ai-chat) is a
+separate, much larger initiative from the Carbon React parity work above:
+it's a ~3,000-file monorepo, not a single component. The **port target is
+`@carbon/ai-chat-components`** — a framework-agnostic Lit widget library
+under `packages/ai-chat-components/src/components` (~20 components:
+`audio-player`, `card`, `carousel`, `chain-of-thought`, `chat-button`,
+`chat-history`, `chat-shell`, `code-snippet`, `feedback`, `file-uploads`,
+`launcher`, `markdown`, `processing`, `prompt-line`, `reasoning-steps`,
+`table`, `toolbar`, `truncated-text`, `video-player`, `workspace-shell`) —
+**not** `@carbon/ai-chat`'s React app or its `<cds-aichat-container>` Lit
+shell, which mounts React into shadow DOM rather than providing a
+framework-native implementation to build on.
+
+`scripts/parity-check.mjs` tracks this as its own `carbon-ai-chat` source
+(see the `SOURCES` array), independent of the `react` source. Its
+`nameToEmberExport` maps upstream's kebab-case directory names to PascalCase
+1:1 (`chat-shell` → `ChatShell`, no `AiChat`-prefix) — export new components
+under exactly that name from `index.ts` or the tracker will report a false
+"missing".
+
+### Where to get the real API
+
+Read the actual shipped **`custom-elements.json`** from the published npm
+package (`@carbon/ai-chat-components`) — it's Lit's own auto-generated,
+precise machine-readable manifest of every component's props/attributes/
+events, far more reliable than Storybook or prose docs. It's easiest to get
+at via `npm pack`, not `WebFetch`/unpkg (unpkg 404s on this package's
+`dist/`):
+
+```bash
+npm pack @carbon/ai-chat-components@latest --registry https://registry.npmjs.org/
+tar xzf carbon-ai-chat-components-*.tgz package/custom-elements.json
+```
+
+The manifest alone isn't enough for **styling** — the npm package's own
+`scss/` folder only has shared tokens; each component's actual `.scss` is
+pre-compiled into a minified `es-custom/components/*/src/*.scss.js` blob
+(Lit `css` tagged template, common tokens duplicated into every file), not
+usable as SCSS source. Fetch the real, human-authored `.scss` straight from
+GitHub instead (`gh api repos/carbon-design-system/carbon-ai-chat/contents/
+packages/ai-chat-components/src/components/<name>/src/<name>.scss`).
+
+### Decisions made porting `launcher` + `chat-shell` (the first vertical slice)
+
+1. **Location**: `carbon-components-ember/src/components/ai-chat/`. No new
+   top-level package/directory — the root `.gitignore`'s `!carbon-components-ember`
+   `/**/*` allowlist already covers it, so nothing extra was needed there
+   (see the `.gitignore wildcard blocks new top-level dirs` gotcha, which
+   *would* apply to a genuinely new top-level directory but doesn't here).
+2. **Filename collisions**: checked with the `find ... | sort | uniq -d`
+   command from Pitfall 4 before naming anything; `launcher.gts` and
+   `chat-shell.gts` were both free. The same check will matter again for
+   later batches — `card`, `table`, `toolbar`, and `code-snippet` (which
+   already exists here as a Carbon React component) are flagged as future
+   collision risks.
+3. **Styling**: ported into this addon's own SCSS, the same way the
+   existing `src/styles/index.scss` already patches gaps `@carbon/styles`
+   doesn't cover (see its own comments) — new partials under
+   `src/styles/ai-chat/`, `@use`d from `index.scss`, published the same way
+   as everything else via the `carbon-components-ember/styles.scss`
+   subpath export docs-app already consumes. Selectors are adapted from
+   upstream's shadow-DOM `:host(...)` to plain classes (`.cds-aichat-shell`,
+   `.cds-aichat-launcher`) since this addon renders in light DOM like every
+   other component here; colors reference `@carbon/styles`' compiled
+   `--cds-*` custom properties directly (the same fallback pattern
+   upstream's own AI-shadow tokens use) rather than its Sass theme module,
+   whose internal variable names have changed shape across versions. Only
+   the structural/layout SCSS needed by what's actually rendered was
+   ported — not upstream's responsive workspace-panel breakpoint rules or
+   its per-instance dynamic corner stylesheet (see point 4). Upstream's
+   further custom-property theming/override layer
+   (`globals/scss/_tokens-layout.scss`'s `get-var()` indirection) was not
+   reproduced; layout constants were hardcoded from its documented
+   defaults instead — revisit if a later component needs runtime overrides.
+4. **Controlled/uncontrolled state**: checked the actual manifest before
+   assuming anything, and it settles the question cleanly — **neither
+   component has an open/closed concept for §3's controlled/uncontrolled
+   rule to apply to.** `cds-aichat-launcher` is stateless (fires a toggle
+   event, has no `open` property at all); `cds-aichat-shell`'s
+   `show-history`/`show-workspace` are plain reflected booleans with **no**
+   `default-*` counterpart and **no** change event — the host application
+   owns visibility entirely, always. Per §3's actual rule ("parity means
+   matching React's prop list, don't collapse two props into one arg" /
+   "don't invent state upstream doesn't have"), the right port is a plain
+   always-controlled `@showHistory`/`@showWorkspace` boolean with **no**
+   `@defaultShowHistory` — inventing one would add public API upstream
+   doesn't have, not achieve parity with it.
+
+### Translation notes worth reusing for later batches
+
+- **Upstream's kebab-case slot names become camelCase named blocks**, not
+  hyphenated ones (`header-after` slot → `<:headerAfter>` block) — this
+  codebase has no existing precedent for a hyphenated Glimmer block name,
+  so camelCase is the safe, idiomatic default. Document the upstream slot
+  name in the block's JSDoc so the mapping is discoverable.
+- **`{{has-block "name"}}` replaces Lit's `SlotObserver`.** Upstream detects
+  slotted content with a `MutationObserver` to drive `has-content` layout
+  classes; Ember doesn't need that — whether a caller passed a given named
+  block is known at render time via `has-block`, no observer required.
+- Where upstream's public API is simply incomplete or inconsistent (e.g.
+  `cds-aichat-launcher`'s `open-label` attribute is declared but never
+  actually read by its own computed aria-label, in every released version
+  through 1.9.0), the port matches upstream's actual behavior rather than
+  "fixing" it, and says so in a comment — same principle as matching
+  Carbon React's behavior over its intent elsewhere in this doc.
+- Port the component's **public surface**, not its internal managers.
+  `chat-shell` alone pulls in `ResizeObserverManager`, `CornerManager`,
+  `PanelManager`, `InitializationManager`, `WorkspaceManager` and
+  `AriaAnnouncerManager` — none of those are part of the public API and
+  none were ported. Their args are still accepted/typed where they're
+  genuinely public props (e.g. the `@*Announcement` strings), even where
+  the port doesn't yet wire real behavior to them, and the gap is
+  documented in the component's own class doc, not just here.
+
 ## Key Resources
 
 - **Carbon React**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components
 - **Carbon Storybook**: https://react.carbondesignsystem.com/
+- **Carbon AI Chat**: https://github.com/carbon-design-system/carbon-ai-chat
 - **Ember Guides**: https://guides.emberjs.com/
 
 ---
 
-Last Updated: 2026-08-06
+Last Updated: 2026-09-09
