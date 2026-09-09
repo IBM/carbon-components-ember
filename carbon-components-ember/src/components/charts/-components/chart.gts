@@ -2,9 +2,7 @@ import { default as TabularData } from '../../charts/-components/tabular-data.gt
 import { default as Axis } from '../../charts/-components/axis.gts';
 import { default as ColorPairing } from '../../charts/-components/color/pairing.gts';
 import { default as ColorScale } from '../../charts/-components/color/scale.gts';
-import { default as didInsert } from '@ember/render-modifiers/modifiers/did-insert';
-import { default as didUpdate } from '@ember/render-modifiers/modifiers/did-update';
-import { default as willDestroy } from '@ember/render-modifiers/modifiers/will-destroy';
+import { modifier } from 'ember-modifier';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { defaultArgs } from '../../../utils/decorators.ts';
@@ -144,6 +142,28 @@ export default class CarbonChart extends Component<CarbonChartSignature> {
     this.chart = undefined;
   }
 
+  loadChartModifier = modifier((element: HTMLDivElement) => {
+    this.loadChart(element);
+    return () => this.destroyChart();
+  });
+
+  hasUpdatedOnce = false;
+
+  updateChartModifier = modifier(
+    (_element: HTMLDivElement, [legendClickable, resizable]: [
+      boolean | undefined,
+      boolean | undefined,
+    ]) => {
+      void legendClickable;
+      void resizable;
+      if (!this.hasUpdatedOnce) {
+        this.hasUpdatedOnce = true;
+        return;
+      }
+      this.updateChart();
+    },
+  );
+
   @action
   setAxis(
     axis: 'left' | 'bottom',
@@ -209,9 +229,8 @@ export default class CarbonChart extends Component<CarbonChartSignature> {
   <template>
     <div
       ...attributes
-      {{didInsert this.loadChart}}
-      {{didUpdate this.updateChart @legendClickable @resizable}}
-      {{willDestroy this.destroyChart}}
+      {{this.loadChartModifier}}
+      {{this.updateChartModifier @legendClickable @resizable}}
     >
     </div>
 
