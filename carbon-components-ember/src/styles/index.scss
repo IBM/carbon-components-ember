@@ -1,5 +1,7 @@
 @use 'ember-basic-dropdown';
 @use '@carbon/grid';
+@use 'ai-chat/launcher';
+@use 'ai-chat/chat-shell';
 
 // `Grid`/`GridRow`/`GridColumn` render the `cds--grid`/`cds--row`/`cds--col-*`
 // class names from Carbon's Flexbox Grid, but `@carbon/styles`'s prebuilt

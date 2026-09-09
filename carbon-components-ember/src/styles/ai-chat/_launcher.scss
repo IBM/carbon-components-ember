@@ -1,0 +1,73 @@
+// Ember port of @carbon/ai-chat-components' launcher.scss
+// (packages/ai-chat-components/src/components/launcher/src/launcher.scss).
+//
+// Upstream is a Lit shadow-DOM component styled with `:host(...)` and
+// `@carbon/styles`' Sass theme module. This addon renders `<Launcher>` in
+// light DOM alongside every other component here, so selectors target the
+// `.cds-aichat-launcher` class directly, and colors reference `@carbon/
+// styles`' compiled `--cds-*` custom properties (the same fallback pattern
+// upstream itself uses for its AI-specific shadow tokens) rather than the
+// Sass theme module, whose variable names have changed across versions.
+
+@use '@carbon/layout';
+
+$launcher-default-size: 56px;
+$launcher-border-radius: 28px;
+
+.cds-aichat-launcher {
+  position: relative;
+  display: inline-block;
+}
+
+.cds-aichat-launcher__button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  block-size: $launcher-default-size;
+  border-radius: $launcher-border-radius;
+  box-shadow: 1px 0 4px rgb(23 23 23 / 30%);
+  inline-size: $launcher-default-size;
+  padding-inline: 0;
+}
+
+.cds-aichat-launcher__count-indicator {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 20px;
+  min-inline-size: 20px;
+  padding: 0 4px;
+  border-radius: 10px;
+  background-color: var(--cds-support-error, #da1e28);
+  box-shadow: 1px layout.$spacing-01 layout.$spacing-01 rgb(23 23 23 / 30%);
+  color: var(--cds-text-on-color, #fff);
+  font-size: 12px;
+  inset-block-start: calc(-1 * #{layout.$spacing-02});
+  inset-inline-end: calc(-1 * #{layout.$spacing-02});
+}
+
+.cds-aichat-launcher__avatar {
+  block-size: 32px;
+  border-radius: 50%;
+  inline-size: 32px;
+  user-select: none;
+}
+
+.cds-aichat-launcher__wrapper {
+  display: flex;
+}
+
+.cds-aichat-launcher__icon-holder {
+  display: flex;
+  align-items: center;
+}
+
+.cds-aichat-launcher__svg {
+  fill: var(--cds-text-on-color, #fff);
+}
+
+[dir='rtl'] .cds-aichat-launcher__count-indicator {
+  inset-inline: calc(-1 * #{layout.$spacing-01}) unset;
+}

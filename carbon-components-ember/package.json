@@ -196,6 +196,8 @@
     "app-js": {
       "./components/carbon/-private/tooltip.js": "./dist/_app_/components/carbon/-private/tooltip.js",
       "./components/carbon/accordion.js": "./dist/_app_/components/carbon/accordion.js",
+      "./components/carbon/ai-chat/chat-shell.js": "./dist/_app_/components/carbon/ai-chat/chat-shell.js",
+      "./components/carbon/ai-chat/launcher.js": "./dist/_app_/components/carbon/ai-chat/launcher.js",
       "./components/carbon/breadcrumbs.js": "./dist/_app_/components/carbon/breadcrumbs.js",
       "./components/carbon/button.js": "./dist/_app_/components/carbon/button.js",
       "./components/carbon/charts/-components/axis.js": "./dist/_app_/components/carbon/charts/-components/axis.js",
