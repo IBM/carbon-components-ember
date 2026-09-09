@@ -1,0 +1,123 @@
+// Ember port of @carbon/ai-chat-components' card SCSS
+// (packages/ai-chat-components/src/components/card/src/card.scss,
+// card-footer.scss and card-steps.scss).
+//
+// Selectors are adapted from upstream's `:host(...)` (shadow DOM) to plain
+// `.cds-aichat-card*` classes (light DOM, matching every other component in
+// this addon), and colors reference `@carbon/styles`' compiled `--cds-*`
+// custom properties rather than its Sass theme module. `AiChatCard` already
+// applies the real `.cds--tile` class from `@carbon/styles`' prebuilt CSS
+// for base tile spacing/typography — this partial only adds the
+// card-specific border/background/radius/modifier rules upstream layers on
+// top of that.
+//
+// Upstream's `card.scss` also has a `::slotted([slot='card-media'])` rule
+// whose selector doesn't match its own template's `<slot name="media">` —
+// a pre-existing dead rule upstream, not reproduced here.
+
+@use '@carbon/layout';
+
+.cds-aichat-card {
+  --cds-aichat-card-border-radius-start-start: #{layout.$spacing-03};
+  --cds-aichat-card-border-radius-start-end: #{layout.$spacing-03};
+  --cds-aichat-card-border-radius-end-start: #{layout.$spacing-03};
+  --cds-aichat-card-border-radius-end-end: #{layout.$spacing-03};
+
+  border: 1px solid var(--cds-chat-bubble-border, #e0e0e0);
+  background-color: var(--cds-chat-shell-background, #fff);
+  border-end-end-radius: var(--cds-aichat-card-border-radius-end-end, 0);
+  border-end-start-radius: var(--cds-aichat-card-border-radius-end-start, 0);
+  border-start-end-radius: var(--cds-aichat-card-border-radius-start-end, 0);
+  border-start-start-radius: var(--cds-aichat-card-border-radius-start-start, 0);
+
+  // The named blocks render directly one after another with no wrapping
+  // element between them, so a `contenteditable` ancestor's inherited
+  // `white-space: pre-wrap` can't turn that whitespace into phantom
+  // vertical space.
+  white-space: normal;
+}
+
+.cds-aichat-card--layered {
+  background-color: var(--cds-layer, #f4f4f4);
+}
+
+.cds-aichat-card--flush {
+  padding: 0;
+}
+
+.cds-aichat-card-footer__actions {
+  display: flex;
+}
+
+.cds-aichat-card-footer__actions--stacked {
+  flex-direction: column;
+}
+
+.cds-aichat-card-footer__actions:not(:has(.cds--btn--ghost)) {
+  gap: 1px;
+  background-color: var(--cds-button-separator, #e0e0e0);
+}
+
+.cds-aichat-card-footer__icon-actions {
+  display: flex;
+  justify-content: end;
+  border-block-start: 1px solid var(--cds-chat-bubble-border, #e0e0e0);
+}
+
+.cds-aichat-card-footer__actions .cds--btn--ghost {
+  border-block-start: 1px solid var(--cds-chat-bubble-border, #e0e0e0);
+}
+
+.cds-aichat-card-footer__action-viewing {
+  flex-direction: row-reverse;
+  flex-grow: 0;
+  align-items: center;
+  justify-content: flex-end;
+  gap: layout.$spacing-03;
+  inline-size: 100%;
+}
+
+.cds-aichat-card-steps {
+  display: flex;
+  flex-direction: column;
+  container-type: inline-size;
+  inline-size: 100%;
+}
+
+.cds-aichat-card-step {
+  display: flex;
+  align-items: flex-start;
+  padding: layout.$spacing-04 layout.$spacing-05;
+  border-block-end: 1px solid var(--cds-chat-bubble-border, #e0e0e0);
+  gap: layout.$spacing-05;
+}
+
+.cds-aichat-card-step:last-child {
+  border-block-end: none;
+}
+
+.cds-aichat-card-step-indicator {
+  display: flex;
+  align-items: center;
+  block-size: calc(#{layout.$spacing-05} + #{layout.$spacing-01});
+  gap: layout.$spacing-03;
+  white-space: nowrap;
+}
+
+.cds-aichat-card-step-title {
+  margin: 0;
+  color: var(--cds-text-secondary, #525252);
+}
+
+.cds-aichat-card-step-description {
+  margin: 0;
+  color: var(--cds-text-secondary, #525252);
+}
+
+@container (max-width: 320px) {
+  .cds-aichat-card-step {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: layout.$spacing-03;
+  }
+}
