@@ -43,11 +43,12 @@ export interface DatePickerSignature {
     dateFormat?: string;
     /**
      * The date (or, for `range`, the `[start, end]` dates) to seed the
-     * field(s) with. Uncontrolled: flatpickr owns the field's value after
-     * that - update it imperatively through `@onChange`, there is no
-     * `@onChange`-driven re-render of the calendar itself. Accepts anything
-     * flatpickr's own `defaultDate`/`setDate` accept (a `Date`, a
-     * date string, a timestamp, or - for `range` - an array of two).
+     * field(s) with. Controlled: later changes to `@value` are re-synced
+     * onto the field(s) (via the live flatpickr instance for
+     * `single`/`range`, or written directly to the input for `simple`) -
+     * see `syncValue`. Accepts anything flatpickr's own
+     * `defaultDate`/`setDate` accept (a `Date`, a date string, a timestamp,
+     * or - for `range` - an array of two).
      */
     value?: DatePickerValue;
     /**
@@ -102,6 +103,17 @@ export interface DatePickerSignature {
      */
     default: [WithBoundArgs<typeof DatePickerInput, 'datePickerType' | 'readOnly'>];
   };
+}
+
+// Formats a `simple`-mode `@value` (a `Date`/timestamp accepted the same
+// way `single`/`range` accept theirs) through flatpickr's own formatter
+// against `dateFormat`. A string is assumed to already be formatted and is
+// passed through as-is. Shared between `attachFlatpickr`'s construction-time
+// seed and `syncValue`'s post-mount re-sync so the two don't drift.
+function formatSimpleValue(raw: DateOption, dateFormat: string): string {
+  if (typeof raw === 'string') return raw;
+  const parsed = flatpickr.parseDate(raw, dateFormat);
+  return parsed ? flatpickr.formatDate(parsed, dateFormat) : String(raw);
 }
 
 // Mirrors Carbon React's `updateClassNames`: flatpickr's calendar markup
@@ -245,14 +257,7 @@ export default class DatePicker extends Component<DatePickerSignature> {
           ? this.currentValue[0]
           : this.currentValue;
         if (start && raw !== undefined && raw !== null) {
-          if (typeof raw === 'string') {
-            start.value = raw;
-          } else {
-            const parsed = flatpickr.parseDate(raw, dateFormat);
-            start.value = parsed
-              ? flatpickr.formatDate(parsed, dateFormat)
-              : String(raw);
-          }
+          start.value = formatSimpleValue(raw, dateFormat);
         }
         return;
       }
@@ -301,18 +306,31 @@ export default class DatePicker extends Component<DatePickerSignature> {
     },
   );
 
-  // Syncs a controlled `@value` onto the live flatpickr instance without
-  // rebuilding it (`attachFlatpickr` above deliberately never reads
-  // `@value` for that reason). Tracks `@value` only, so a consumer wiring
-  // `@value={{this.date}}` + `@onChange={{this.setDate}}` doesn't get the
-  // calendar torn down mid-selection every time their own `onChange`
-  // writes the new date back.
+  // Syncs a controlled `@value` after mount without rebuilding
+  // `attachFlatpickr` (which deliberately never reads `@value` for that
+  // reason - see its doc comment). For `single`/`range`, writes through the
+  // live flatpickr instance. `simple` mode never has a flatpickr instance
+  // (`this.calendar` stays `null`), so it writes the formatted value
+  // directly to the raw `<input>` instead - mirrors Carbon React's
+  // `DatePicker.js`, which does the same `calendarRef.current` presence
+  // check on every `value` change.
   syncValue = eModifier<{
     Element: HTMLDivElement;
     Args: { Positional: [DatePickerSignature['Args']['value']] };
-  }>((_element, [value]) => {
+  }>((element, [value]) => {
     this.currentValue = value;
-    this.calendar?.setDate(value ?? [], false);
+    if (this.calendar) {
+      this.calendar.setDate(value ?? [], false);
+      return;
+    }
+    const raw = Array.isArray(value) ? value[0] : value;
+    if (raw === undefined || raw === null) return;
+    const start = element.querySelector<HTMLInputElement>(
+      '.cds--date-picker__input',
+    );
+    if (start) {
+      start.value = formatSimpleValue(raw, this.dateFormat);
+    }
   });
 
   <template>

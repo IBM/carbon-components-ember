@@ -79,6 +79,31 @@ module('Integration | Component | DatePicker', (hooks) => {
       assert.dom('input.cds--date-picker__input').hasValue('01/15/2024');
     });
 
+  test('simple: re-syncs the input when a controlled @value changes after mount',
+    async function (assert) {
+      const jan15 = new Date(2024, 0, 15);
+      const value = cell<Date>(jan15);
+
+      await render(
+        <template>
+          <DatePicker @datePickerType='simple' @value={{value.current}} as |Input|>
+            <Input @labelText='Date' />
+          </DatePicker>
+        </template>,
+      );
+
+      assert.dom('input.cds--date-picker__input').hasValue('01/15/2024');
+
+      // `simple` mode never has a flatpickr instance, so this must write
+      // through to the raw `<input>` directly (`syncValue`'s no-calendar
+      // branch) - there is no `minDate`/`allowInput`/etc. change here to
+      // trigger `attachFlatpickr`'s rebuild path instead.
+      value.current = new Date(2024, 0, 20);
+      await settled();
+
+      assert.dom('input.cds--date-picker__input').hasValue('01/20/2024');
+    });
+
   test('single: opens a calendar and selecting a day fills the field and calls onChange',
     async function (assert) {
       const jan15 = new Date(2024, 0, 15);
