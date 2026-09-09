@@ -226,6 +226,7 @@
       "./components/carbon/date-picker-input.js": "./dist/_app_/components/carbon/date-picker-input.js",
       "./components/carbon/date-picker.js": "./dist/_app_/components/carbon/date-picker.js",
       "./components/carbon/dialogs/confirm.js": "./dist/_app_/components/carbon/dialogs/confirm.js",
+      "./components/carbon/dropdown.js": "./dist/_app_/components/carbon/dropdown.js",
       "./components/carbon/file-uploader.js": "./dist/_app_/components/carbon/file-uploader.js",
       "./components/carbon/file-uploader/-capture-element.js": "./dist/_app_/components/carbon/file-uploader/-capture-element.js",
       "./components/carbon/file-uploader/-status-icon.js": "./dist/_app_/components/carbon/file-uploader/-status-icon.js",
