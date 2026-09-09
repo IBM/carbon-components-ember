@@ -72,9 +72,12 @@ export interface DatePickerSignature {
     closeOnSelect?: boolean;
     /**
      * The DOM node flatpickr's calendar dropdown is appended into. Defaults
-     * to `document.body` (flatpickr's own default). Pass a node inside your
-     * own root when the picker is rendered in a shadow root, otherwise the
-     * calendar escapes into the light DOM where your styles don't reach it.
+     * to the picker's own container element, so the calendar always lands
+     * in the same root (shadow or document) the picker itself renders
+     * into - flatpickr's own default of `document.body` would otherwise
+     * make the calendar escape a shadow root, where your styles don't
+     * reach it. Pass an explicit node to redirect it elsewhere instead
+     * (e.g. to escape a `overflow: hidden` ancestor).
      */
     appendTo?: HTMLElement;
     /**
@@ -159,11 +162,19 @@ const nextMonthArrow = chevronArrowSvg(chevronRight16 as unknown as ChevronIcon)
 // document position instead of sitting next to the input. Positioning
 // relative to the calendar's actual CSS containing block (`offsetParent`)
 // instead of the document keeps it anchored to the input regardless of
-// what's between `@appendTo` and `<body>` - the `getBoundingClientRect()`
-// subtraction below cancels out page scroll the same way document
-// coordinates did. Only wired in when `@appendTo` is set; the default (no
-// `@appendTo`, appended straight to `document.body`) keeps flatpickr's own
-// positioning untouched.
+// what's between the append target and `<body>` - the
+// `getBoundingClientRect()` subtraction below cancels out page scroll the
+// same way document coordinates did. Wired in whenever the calendar is
+// appended anywhere other than flatpickr's own `document.body` default -
+// which, since `attachFlatpickr` now defaults the append target to the
+// picker's own container (see `appendTo`'s doc comment), is effectively
+// always. Deliberately narrower than flatpickr's own "auto" position: it
+// doesn't replicate the `rightMost`/`centerMost` horizontal viewport-edge
+// clamping flatpickr's stock algorithm does, since Carbon React's own
+// DatePicker doesn't need it either (its calendar is always positioned
+// via CSS relative to the input, never appended elsewhere) - a picker
+// placed hard against the right edge of the viewport can render its
+// calendar partially off-screen.
 function positionCalendarWithinAppendTo(
   instance: FlatpickrInstance,
   customPositionElement?: HTMLElement,
@@ -354,6 +365,14 @@ export default class DatePicker extends Component<DatePickerSignature> {
       const end = datePickerType === 'range' ? inputs[1] : undefined;
       if (!start) return;
 
+      // Defaults to the picker's own `.cds--form-item` wrapper (this
+      // element's parent) rather than leaving flatpickr to fall back to its
+      // own `document.body` default - that keeps the calendar inside
+      // whatever root (shadow or document) the picker itself renders into,
+      // so it isn't left behind if the whole picker is later re-parented
+      // into a shadow root. An explicit `@appendTo` still overrides this.
+      const effectiveAppendTo = appendTo ?? element.parentElement ?? undefined;
+
       const config: Partial<FlatpickrOptions> = {
         mode: datePickerType,
         dateFormat,
@@ -365,14 +384,14 @@ export default class DatePicker extends Component<DatePickerSignature> {
         clickOpens: !readOnly,
         noCalendar: readOnly,
         disableMobile: true,
-        appendTo,
-        // Omitted entirely (not just `undefined`) when there's no
-        // `@appendTo`: flatpickr's own config merge is a plain
+        appendTo: effectiveAppendTo,
+        // Omitted entirely (not just `undefined`) when there's nowhere to
+        // append to: flatpickr's own config merge is a plain
         // `Object.assign` over its defaults, so an explicit `undefined`
         // here would clobber its default `position: "auto"` string with
         // `undefined` and crash `positionCalendar`'s `self.config.position
         // .split(" ")`.
-        ...(appendTo ? { position: positionCalendarWithinAppendTo } : {}),
+        ...(effectiveAppendTo ? { position: positionCalendarWithinAppendTo } : {}),
         prevArrow: prevMonthArrow,
         nextArrow: nextMonthArrow,
         plugins: end ? [rangePlugin({ input: end })] : [],

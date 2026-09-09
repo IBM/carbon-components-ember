@@ -6,11 +6,15 @@ import DatePicker from 'carbon-components-ember/components/date-picker';
 import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import { waitForAnimationFrame } from '../helpers';
 
-// flatpickr renders its calendar into `document.body`, outside the
-// `#ember-testing` root that `find`/`click`/`waitFor`/`assert.dom` scope to
-// by default (see the addon's `in-element portal test pattern` convention -
-// same idea, just from a third-party library instead of `{{in-element}}`).
-// These helpers go through the real `document` instead.
+// `DatePicker` defaults flatpickr's calendar to append inside its own
+// container (so it can't escape a shadow root - see `appendTo`'s doc
+// comment on the component), but that's still a sibling subtree flatpickr
+// manages itself outside Ember's render tree, and an explicit `@appendTo`
+// can redirect it anywhere, including straight to `document.body` (see the
+// addon's `in-element portal test pattern` convention - same idea, just
+// from a third-party library instead of `{{in-element}}`). These helpers go
+// through the real `document` instead of relying on `assert.dom`'s default
+// `#ember-testing`-scoped context.
 function flatpickrCalendar() {
   return document.querySelector<HTMLElement>('.flatpickr-calendar');
 }
@@ -159,6 +163,30 @@ module('Integration | Component | DatePicker', (hooks) => {
       assert.strictEqual(prevSvg?.getAttribute('height'), '16', 'prev arrow svg has an explicit height');
       assert.strictEqual(nextSvg?.getAttribute('width'), '16', 'next arrow svg has an explicit width');
       assert.strictEqual(nextSvg?.getAttribute('height'), '16', 'next arrow svg has an explicit height');
+    });
+
+  test('single: without @appendTo, the calendar dropdown defaults into the picker\'s own container instead of document.body',
+    async function (assert) {
+      await render(
+        <template>
+          <DatePicker @datePickerType='single' as |Input|>
+            <Input @labelText='Date' />
+          </DatePicker>
+        </template>,
+      );
+
+      await openCalendar();
+
+      assert.strictEqual(
+        flatpickrCalendar()?.parentElement,
+        document.querySelector('.cds--form-item'),
+        "the calendar defaults into the picker's own .cds--form-item container, so it stays inside whatever root (shadow or document) the picker itself renders into",
+      );
+      assert.notStrictEqual(
+        flatpickrCalendar()?.parentElement,
+        document.body,
+        'the calendar is not appended directly to document.body by default',
+      );
     });
 
   test('single: @appendTo redirects the calendar dropdown into a custom root instead of document.body',
