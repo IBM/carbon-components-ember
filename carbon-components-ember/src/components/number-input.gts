@@ -6,6 +6,7 @@
  */
 
 import Component from '@glimmer/component';
+import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
@@ -61,7 +62,7 @@ export default class NumberInput extends Component<Signature> {
 
   guid = guidFor(this);
 
-  constructor(owner: any, args: Signature['Args']) {
+  constructor(owner: Owner, args: Signature['Args']) {
     super(owner, args);
     this.internalValue = args.defaultValue ?? 0;
   }

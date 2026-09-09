@@ -6,6 +6,7 @@
  */
 
 import Component from '@glimmer/component';
+import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
@@ -70,7 +71,7 @@ class ProgressStep extends Component<{
   Args: ProgressStepArgs & { indicator: ProgressIndicator };
   Element: HTMLLIElement;
 }> {
-  constructor(owner: any, args: ProgressStep['args']) {
+  constructor(owner: Owner, args: ProgressStep['args']) {
     super(owner, args);
     runTask(this, () => {
       if (this.isDestroyed) {
