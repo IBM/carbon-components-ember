@@ -1,0 +1,60 @@
+// Ember port of @carbon/ai-chat-components' truncated-text.scss
+// (packages/ai-chat-components/src/components/truncated-text/src/truncated-text.scss).
+//
+// Upstream sets `--line-clamp-value`/`--max-height-value` through a shared
+// shadow-DOM stylesheet helper needed only because of Lit shadow DOM + a
+// strict CSP; `AiChatTruncatedText` sets them via a plain inline `style`
+// attribute instead (light DOM, matching every other component here), so
+// this partial only needs to consume those two custom properties, not
+// produce them. Selectors are adapted from `:host(...)` to plain
+// `.cds-aichat-truncated-text__*` classes; colors reference `@carbon/
+// styles`' compiled `--cds-*` custom properties rather than its Sass theme
+// module.
+
+.cds-aichat-truncated-text__content {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--line-clamp-value, 1);
+  text-overflow: clip;
+  white-space: normal;
+}
+
+.cds-aichat-truncated-text__content--expanded {
+  -webkit-line-clamp: unset;
+}
+
+.cds-aichat-truncated-text__content--expand-type {
+  max-block-size: var(--max-height-value, none);
+}
+
+.cds-aichat-truncated-text__toggle {
+  display: inline-block;
+  padding: 0 0.125rem;
+  color: var(--cds-link-primary, #0f62fe);
+  cursor: pointer;
+}
+
+.cds-aichat-truncated-text__toggle--layered {
+  background-color: var(--cds-layer, #f4f4f4);
+}
+
+.cds-aichat-truncated-text__toggle:hover {
+  color: var(--cds-link-primary-hover, #0043ce);
+}
+
+// Upstream includes `@include focus-outline('outline')` here (a 2px inset
+// outline). Reproduced directly with the compiled `--cds-focus` custom
+// property rather than importing the Sass mixin (which needs `@carbon/
+// styles`' Sass theme module, not just its compiled CSS custom properties —
+// see this file's header comment). This toggle is genuinely
+// keyboard-operable (`tabindex="0"`, Enter/Space handled), so it needs a
+// visible focus indicator. Upstream's matching `.content:focus` rule (for
+// the tooltip-branch content div) isn't reproduced: that div has no
+// `tabindex` in upstream's own template either, so it can never actually
+// receive focus — the same kind of pre-existing dead rule as the
+// `::slotted([slot='card-media'])` one documented in `_card.scss`.
+.cds-aichat-truncated-text__toggle:focus {
+  outline: 2px solid var(--cds-focus, #0f62fe);
+  outline-offset: -2px;
+}

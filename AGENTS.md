@@ -866,6 +866,151 @@ packages/ai-chat-components/src/components/<name>/src/<name>.scss`).
   the port doesn't yet wire real behavior to them, and the gap is
   documented in the component's own class doc, not just here.
 
+### Batch 1 (`card`, `table`, `truncated-text`) — export-name collisions
+
+`card`, `carousel`, `table`, `markdown` and `truncated-text` were the next
+scheduled batch. `carousel` and `markdown` were split into their own
+follow-up todos instead — each introduces a genuinely new runtime
+dependency (`@carbon/utilities`'s `initCarousel`, and `markdown-it` +
+`dompurify` respectively) that deserves its own review, the same reason
+DatePicker's `flatpickr` dependency got split out earlier. `card` and
+`truncated-text` shipped alongside `table`.
+
+**The export-collision problem, and the fix:** `scripts/parity-check.mjs`
+diffs each source against the *same* flat `index.ts` export list (see
+`emberComponents` in the script) — so a plain PascalCase `nameToEmberExport`
+for `carbon-ai-chat` isn't just a filename risk (Pitfall 4), it can silently
+satisfy the **`react`** source's own "missing" check too. Exporting a plain
+`Card` here would close out the react source's real, still-open `Card` issue
+(#774) despite no React `Card` ever having been implemented — same for
+`truncated-text` (#749) and `code-snippet` (already implemented as a real
+Carbon React component, `CodeSnippet`). Checked each upstream `ai-chat-
+components` directory name against Carbon React's live top-level component
+list (`gh api repos/carbon-design-system/carbon/contents/packages/react/src/
+components --jq '.[].name'`) before naming anything — `card` (`Card`),
+`truncated-text` (`TruncatedText`) and `code-snippet` (`CodeSnippet`) collide;
+`carousel`, `table` and `markdown` don't (checked ahead of time for the two
+split-out todos too, so whoever picks them up doesn't have to re-derive this).
+
+Fixed via a small override map, not a blanket prefix — `Launcher`/`ChatShell`
+(#838) didn't collide and stay unprefixed so that PR's export names don't
+churn:
+
+```js
+// scripts/parity-check.mjs
+const AI_CHAT_EXPORT_OVERRIDES = {
+  card: 'AiChatCard',
+  'truncated-text': 'AiChatTruncatedText',
+  'code-snippet': 'AiChatCodeSnippet', // reserved for the code-snippet batch
+};
+// ...
+nameToEmberExport: (name) => AI_CHAT_EXPORT_OVERRIDES[name] ?? kebabToPascalCase(name),
+```
+
+Matching Ember export names: `AiChatCard` (`ai-chat/card.gts`),
+`AiChatCardFooter` (`ai-chat/card-footer.gts`, upstream's `cds-aichat-card-
+footer` sub-widget — no collision, but prefixed for family consistency with
+`AiChatCard`), `AiChatCardSteps` (`ai-chat/card-steps.gts`, same reasoning),
+`Table` (`ai-chat/table.gts`, no collision, stays unprefixed) and
+`AiChatTruncatedText` (`ai-chat/truncated-text.gts`). Checked with Pitfall
+4's `find ... | sort | uniq -d` command first — none of these five
+basenames collided with anything else in the tree, so the export name and
+the filename didn't need to diverge.
+
+**`table` reuses this addon's own `Search`/`Pagination`, not upstream's DOM
+tricks.** Upstream's Lit `cds-aichat-table` hand-toggles a `data-hidden`
+attribute on rendered `cds-table-row` elements for pagination and does its
+own filter/sort bookkeeping, because it renders through Carbon Web
+Components' real custom elements. None of that DOM-poking is part of the
+public surface; the port instead uses this addon's own `Search` (for
+filtering) and `Pagination` (for paging) components and plain tracked
+getters (`filteredRows` → `sortedRows` → `pagedRows`) for sort/filter/page
+state — always-internal, since the manifest confirms upstream has no
+`@onChange`-style callback for any of it either. One real trap hit wiring
+`Pagination` in: its own `itemsPerPage` field defaults to a hardcoded `10`,
+set on construction, *not* derived from `@state` — `@state` only syncs on
+the `didUpdate` modifier, which never fires on initial insert. `Pagination`'s
+own `didInsert`-triggered first `pageChanged()` call therefore always
+reports `10` regardless of what's passed in initially, silently overriding
+`AiChatTable`'s own `@defaultPageSize` (default `5`, since upstream's real
+default is derived from a DOM-width measurement this port doesn't
+reproduce). Fixed with a one-shot guard in `changePage` that corrects just
+that first report back to the real default, then trusts every later call
+(a genuine user page/size change) as-is — worth knowing about for any other
+component that wires up `Pagination` with a non-default initial page size.
+
+**Testing `AiChatTruncatedText`'s overflow detection needs its own inline
+`-webkit-line-clamp` rule in the test, not just `@carbon/styles`.** The
+component's real clamping CSS lives in this addon's own `src/styles/
+ai-chat/_truncated-text.scss`, which isn't part of `@carbon/styles`'
+prebuilt bundle (the one already `?inline`-imported elsewhere in this test
+suite) and isn't reliably loaded by test-app's dev build either (per the
+already-documented "test-app dev-mode build doesn't reliably load a new
+component's real SCSS" gotcha) — so `scrollHeight`/`clientHeight` never
+differ and `isOverflowing` never flips true. Rather than fight the addon's
+own SCSS import path from test-app, the test defines the handful of rules
+the component actually needs (`display: -webkit-box`, `-webkit-line-clamp:
+var(--line-clamp-value, 1)`, `overflow: hidden`) directly in its own scoped
+`<style>` block. See `test-app/tests/components/ai-chat/truncated-text-
+test.gts`.
+
+**Don't feed a component's own debounced `@onChange` value back into it as
+a controlled `@value`, even when the underlying value is otherwise correct.**
+`AiChatTable`'s search box originally passed both `@value={{this.filterTerm}}`
+*and* `@onChange={{this.search}}` to `Search`. `Search`'s own template calls
+`this.setValue(@value)` on every render to mirror the arg into its internal
+`@tracked value`, and separately re-runs its 200ms-debounced `onChange` task
+via `{{didUpdate (perform this.runSearch) this.value}}` whenever that
+internal value changes — so a controlled `@value` that merely echoes back
+what the user just typed adds an extra round trip through both of those on
+every keystroke. It never actually diverged in manual testing here, but it
+measurably slowed `fillIn`-based tests (one hit the harness's 60s timeout)
+and left stray un-torn-down DOM behind that cascaded into an unrelated,
+later `DataTable` test's failure (its `document.querySelectorAll` isn't
+scoped to the test's own container). Fixed by dropping `@value` entirely —
+`Search` already owns its own display value; the parent only needs
+`@onChange`. `data-table.gts`'s own `-search-input.gts` wrapper appears to
+control `@value` similarly and hasn't shown symptoms, but wasn't touched
+here — out of scope for this batch.
+
+**Review round 2 fixes (still batch 1):** two SCSS gaps found by diffing
+against upstream's real `.scss` source (not caught by build/glint/tests,
+which don't check CSS coverage at all).
+
+- Upstream's `card.scss`/`card-footer.scss`/`table.scss` all
+  `@include rounded-modifiers` (`globals/scss/_modifiers.scss`) — a generic
+  mixin driving `[data-rounded="..."]` corner rounding across a full
+  stacked/non-stacked/positional matrix. `AiChatCardFooter` already
+  rendered `data-rounded='bottom'`/`'bottom-right'` (the only two values
+  this port ever produces), but `_card.scss` had zero matching CSS, so
+  those corners were never actually rounded. Rather than port the full
+  generic mixin, `_card.scss` now hand-writes just those two concrete
+  cases (rounding the footer's first/last action to match the card's own
+  radius, both corners on the single last button once stacked). `AiChatCard`
+  and `AiChatTable` themselves don't expose upstream's *externally-set*
+  `data-rounded` attribute (used by an outer shell to override a nested
+  card/table's corners) — documented as an intentional gap in both
+  components' doc comments rather than silently missing, since nothing in
+  this port provides that shell context yet.
+- `AiChatTruncatedText`'s expand/collapse toggle (`tabindex="0"`,
+  keyboard-operable) had no `:focus` style at all — a real a11y regression.
+  Added a `2px solid var(--cds-focus)` outline directly (matching upstream's
+  `@include focus-outline('outline')`) rather than importing the real Sass
+  mixin, which needs `@carbon/styles`' Sass theme module and not just its
+  compiled CSS custom properties, unlike everything else in this port. The
+  tooltip-branch content div's matching upstream `:focus` rule was *not*
+  reproduced — that div has no `tabindex` in upstream's own template
+  either, so it's unreachable by keyboard there too (a pre-existing dead
+  rule, same class as `_card.scss`'s already-documented
+  `::slotted([slot='card-media'])`).
+
+**Takeaway for later batches: build/glint/lint/tests passing does not mean
+the ported SCSS actually matches upstream's CSS.** None of those checks
+diff against the real stylesheet, so a batch can ship green and still be
+missing real rules (dead attributes, missing focus states). Worth a
+deliberate side-by-side read of each component's real `.scss` against the
+ported partial before calling a batch done, not just after review flags it.
+
 ## Key Resources
 
 - **Carbon React**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components

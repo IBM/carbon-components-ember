@@ -46,6 +46,17 @@ const GITHUB_LABEL = 'parity-check';
  * section) it's on, and the next live run will open issues for the
  * remaining ~18 still-unported components.
  */
+// Ember export name overrides for `carbon-ai-chat` components whose plain
+// PascalCase name would collide with an existing Carbon React component of
+// the same name in the shared `index.ts` export list (see the source's
+// `nameToEmberExport` comment below for why that matters). Keyed by the
+// upstream kebab-case directory name.
+const AI_CHAT_EXPORT_OVERRIDES = {
+  card: 'AiChatCard',
+  'truncated-text': 'AiChatTruncatedText',
+  'code-snippet': 'AiChatCodeSnippet',
+};
+
 const SOURCES = [
   {
     id: 'react',
@@ -102,8 +113,22 @@ const SOURCES = [
     // its own implemented components to actually compare against.
     trackExtra: false,
     // Upstream directory names are kebab-case (e.g. "chat-shell"); the
-    // Ember port exports them as PascalCase (e.g. "ChatShell").
-    nameToEmberExport: kebabToPascalCase,
+    // Ember port exports them as PascalCase (e.g. "ChatShell"). `emberComponents`
+    // (see comparison below) is a single flat list built from the *entire*
+    // `index.ts` export list, shared across every source - so a plain 1:1
+    // name would collide with any Carbon React component of the same name
+    // and silently satisfy that source's own "missing" check too (e.g.
+    // exporting `Card` here would close out the react source's Card issue
+    // #774 despite no React Card ever having been implemented). `Launcher`/
+    // `ChatShell` (see PR #838) didn't collide with anything in `react` and
+    // stay unprefixed so that PR's export names don't churn; `card`,
+    // `truncated-text` and `code-snippet` do collide (checked against
+    // `react`'s live component list when each was ported) and are exported
+    // with an `AiChat` prefix instead (`AiChatCard`, `AiChatTruncatedText`,
+    // `AiChatCodeSnippet`) - add a name here only when a real collision is
+    // confirmed, not preemptively.
+    nameToEmberExport: (name) =>
+      AI_CHAT_EXPORT_OVERRIDES[name] ?? kebabToPascalCase(name),
   },
 ];
 
