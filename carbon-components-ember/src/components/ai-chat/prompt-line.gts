@@ -126,7 +126,7 @@ export default class PromptLine extends Component<PromptLineSignature> {
    */
   autofocusIfRequested = eModifier<{ Element: HTMLTextAreaElement }>((element) => {
     if (this.args.autofocus) {
-      Promise.resolve().then(() => element.focus());
+      void Promise.resolve().then(() => element.focus());
     }
   });
 
