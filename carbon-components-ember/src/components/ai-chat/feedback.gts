@@ -100,7 +100,6 @@ export default class Feedback extends Component<FeedbackSignature> {
   // resets them on any later identity change — wired below via
   // `watchInitialValues`, a real modifier, so this fires on initial render
   // too (unlike `@ember/render-modifiers`' `did-update`, which never does).
-  @action
   applyInitialValues() {
     const values = this.args.initialValues;
     this.textInput = values?.text ?? '';
