@@ -140,4 +140,35 @@ module('Integration | Component | ai-chat/Feedback', (hooks) => {
     assert.dom('.cds-aichat-feedback__text-area').hasValue('seed');
     assert.dom('.cds-aichat-feedback__tag:first-child').hasClass('cds-aichat-feedback__tag--selected');
   });
+
+  test('changing @initialValues resets the text area even after the user has typed in it', async function (assert) {
+    class State {
+      @tracked initialValues: FeedbackDetails | null = null;
+    }
+    const state = new State();
+
+    class Host extends Component {
+      state = state;
+      reseed = () => {
+        this.state.initialValues = { text: 'seed' };
+      };
+      <template>
+        <Feedback
+          @isOpen={{true}}
+          @showTextArea={{true}}
+          @initialValues={{this.state.initialValues}}
+        />
+        <button type='button' class='reseed-button' {{on 'click' this.reseed}}>Reseed</button>
+      </template>
+    }
+
+    await render(<template><Host /></template>);
+
+    await fillIn('.cds-aichat-feedback__text-area', 'user typed this');
+    assert.dom('.cds-aichat-feedback__text-area').hasValue('user typed this');
+
+    await click('.reseed-button');
+
+    assert.dom('.cds-aichat-feedback__text-area').hasValue('seed');
+  });
 });

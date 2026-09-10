@@ -12,6 +12,7 @@ import { guidFor } from '@ember/object/internals';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import { default as didUpdate } from '@ember/render-modifiers/modifiers/did-update';
+import { modifier as eModifier } from 'ember-modifier';
 import type Owner from '@ember/owner';
 import { default as Button } from '../button.gts';
 import { default as Tooltip } from '../tooltip.gts';
@@ -118,6 +119,22 @@ export default class Feedback extends Component<FeedbackSignature> {
   handleTextInput(event: Event) {
     this.textInput = (event.currentTarget as HTMLTextAreaElement).value;
   }
+
+  // A plain `{{this.textInput}}` child-text mustache only sets the
+  // textarea's *initial* value — once a user types, the browser detaches
+  // the live `.value` from further child-content re-renders, so a later
+  // `@initialValues` reset would silently leave the stale typed text on
+  // screen even though `this.textInput` was updated internally. Write
+  // `.value` imperatively instead, same technique as PromptLine's
+  // `syncContent` modifier.
+  syncTextInput = eModifier<{
+    Element: HTMLTextAreaElement;
+    Args: { Positional: [string] };
+  }>((element, [value]) => {
+    if (element.value !== value) {
+      element.value = value;
+    }
+  });
 
   @action
   isCategorySelected(category: string) {
@@ -226,7 +243,8 @@ export default class Feedback extends Component<FeedbackSignature> {
                   rows='3'
                   maxlength={{@maxLength}}
                   {{on 'input' this.handleTextInput}}
-                >{{this.textInput}}</textarea>
+                  {{this.syncTextInput this.textInput}}
+                ></textarea>
               </div>
             {{/if}}
             {{#if @disclaimer}}
