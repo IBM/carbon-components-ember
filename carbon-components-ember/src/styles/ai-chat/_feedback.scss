@@ -1,0 +1,155 @@
+// Ember port of @carbon/ai-chat-components' feedback.scss and
+// feedback-buttons.scss
+// (packages/ai-chat-components/src/components/feedback/src/*.scss).
+//
+// Selectors are adapted from `:host(...)` to plain `.cds-aichat-*` classes;
+// colors reference `@carbon/styles`' compiled `--cds-*` custom properties,
+// spacing uses literal rem values (see `_chain-of-thought.scss`'s header
+// comment for why). Upstream's `@include rounded-modifiers` (a generic
+// corner-rounding mixin driving a `data-rounded` attribute matrix) isn't
+// reproduced in full — only the two concrete corners this component itself
+// ever renders (`top-right` on the close button, `bottom-right` on the
+// submit button), matching the precedent set in `_card.scss`.
+
+.cds-aichat-feedback {
+  border-radius: 0.5rem;
+}
+
+.cds-aichat-feedback__container {
+  position: relative;
+  box-sizing: border-box;
+  border: 1px solid var(--cds-chat-bubble-border, #e0e0e0);
+  background-color: var(--cds-chat-shell-background, #ffffff);
+  border-radius: inherit;
+  container-type: inline-size;
+  inline-size: 100%;
+}
+
+.cds-aichat-feedback__container--closed {
+  display: none;
+}
+
+.cds-aichat-feedback__close {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  border-start-end-radius: inherit;
+}
+
+.cds-aichat-feedback__title-row {
+  display: flex;
+  margin-block-start: 0.75rem;
+  margin-inline: 1rem;
+}
+
+// Carbon's type-scale tokens (unlike color/layout tokens) aren't emitted as
+// runtime `--cds-*` custom properties in the compiled `@carbon/styles`
+// bundle this addon loads, so these use literal values directly rather than
+// a `var(..., fallback)` that would never actually resolve the first half.
+.cds-aichat-feedback__title {
+  flex: 1;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.cds-aichat-feedback__body-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-block-start: 1rem;
+  margin-inline: 1rem;
+}
+
+.cds-aichat-feedback__prompt-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cds-aichat-feedback__prompt {
+  color: var(--cds-text-secondary, #525252);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.cds-aichat-feedback__tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cds-aichat-feedback__tag {
+  display: inline-flex;
+  align-items: center;
+  padding-inline: 0.75rem;
+  border: 1px solid var(--cds-border-subtle, #c6c6c6);
+  border-radius: 0.9375rem;
+  background: transparent;
+  block-size: 1.5rem;
+  color: var(--cds-text-primary, #161616);
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+.cds-aichat-feedback__tag--selected {
+  border-color: var(--cds-background-inverse, #393939);
+  background: var(--cds-background-inverse, #393939);
+  color: var(--cds-text-inverse, #ffffff);
+}
+
+.cds-aichat-feedback__tag:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.cds-aichat-feedback__tag:focus,
+.cds-aichat-feedback__tag:focus-visible {
+  outline: 2px solid var(--cds-focus, #0f62fe);
+  outline-offset: 1px;
+}
+
+.cds-aichat-feedback__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.cds-aichat-feedback__disclaimer {
+  color: var(--cds-text-secondary, #525252);
+  font-size: 0.75rem;
+}
+
+.cds-aichat-feedback__disclaimer-checkbox {
+  font-size: 0.75rem;
+}
+
+.cds-aichat-feedback__buttons {
+  display: flex;
+  inline-size: 100%;
+  margin-block-start: 1rem;
+}
+
+.cds-aichat-feedback__submit {
+  display: flex;
+  overflow: hidden;
+  flex: 1;
+  align-items: stretch;
+  margin-inline-start: 50%;
+  min-inline-size: 0;
+  border-end-end-radius: inherit;
+}
+
+.cds-aichat-feedback__submit button {
+  flex: 1;
+  inline-size: 100%;
+}
+
+// -----------------------------------------------------------------------
+// Buttons
+// -----------------------------------------------------------------------
+
+.cds-aichat-feedback-buttons {
+  display: flex;
+}
