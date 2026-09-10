@@ -1,6 +1,8 @@
 import { default as onUpdate } from '../../charts/-helpers/on-update.ts';
 import Component from '@glimmer/component';
+import type Owner from '@ember/owner';
 import { action } from '@ember/object';
+import { registerDestructor } from '@ember/destroyable';
 import { defaultArgs } from '../../../utils/decorators.ts';
 import CarbonChart, {
   type ChartData,
@@ -48,6 +50,13 @@ export default class CarbonChartTabularData extends Component<Args> {
   private oldGroup?: string;
   defaultColor?: string[];
 
+  constructor(owner: Owner, args: Args) {
+    super(owner, args);
+    registerDestructor(this, () => {
+      this.args.chart?.removeDataset(this.oldGroup!);
+    });
+  }
+
   @action
   didUpdateArgs() {
     if (this.oldGroup && this.oldGroup !== this.args.group) {
@@ -74,11 +83,6 @@ export default class CarbonChartTabularData extends Component<Args> {
       this.args.backgroundColors || this.defaultColor || [],
       data,
     );
-  }
-
-  willDestroy() {
-    super.willDestroy();
-    this.args.chart?.removeDataset(this.oldGroup!);
   }
 
   <template>
