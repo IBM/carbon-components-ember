@@ -57,6 +57,19 @@ function createIndexFiles() {
     if (comp.includes('toggletip/')) {
       camelCased = 'Toggletip' + camelCased;
     }
+    // These ai-chat/ components would otherwise export under a plain name
+    // that either collides with an existing Carbon React component in this
+    // same index (Card, TruncatedText, CodeSnippet - see
+    // scripts/parity-check.mjs's AI_CHAT_EXPORT_OVERRIDES) or breaks family-
+    // naming consistency with those (CardFooter, CardSteps). Table, Launcher
+    // and ChatShell don't collide with anything and intentionally stay
+    // unprefixed.
+    if (['ai-chat/card.gts', 'ai-chat/card-footer.gts', 'ai-chat/card-steps.gts', 'ai-chat/truncated-text.gts', 'ai-chat/code-snippet.gts'].some((f) => comp.endsWith(f))) {
+      camelCased = 'AiChat' + camelCased;
+    }
+    if (comp.split('/').at(-1) === 'item.gts' && comp.includes('overflow-menu/')) {
+      camelCased = 'OverflowMenuItem';
+    }
     const relativePath = comp.replace('components/', '');
     const source = fs.readFileSync(path.join('./src/components', relativePath)).toString();
     const namedExports = [...source.matchAll(/^export (?:class|const|function) ([A-Za-z0-9_]+)/gm)].map(
