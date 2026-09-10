@@ -1197,7 +1197,8 @@ CSS hook — the latter has no matching CSS rule in upstream's own fetched
 `.scss` either, a pre-existing dead hook, not something this port broke.
 
 **`feedback`/`feedback-buttons` — plain-button category chips, disclaimer
-via `Markdown`, and a constructor-seeded initial-render gotcha.** Upstream's
+via `Markdown`, and a real-modifier-vs-`did-update` initial-render gotcha.**
+Upstream's
 `cds-aichat-feedback` category chips are `cds-selectable-tag`, a variant
 this addon has no equivalent for (Carbon React's own `Tag` has no
 selectable state either) — ported as plain `<button>`s toggling a
@@ -1221,13 +1222,22 @@ text area and selected categories. The first version wired this seeding
 missed that `@ember/render-modifiers`' `did-update` explicitly never runs
 on initial render, so a consumer passing `@initialValues` at mount (e.g. a
 read-only panel showing previously-submitted feedback, exactly the shipped
-docs demo's second example) rendered an empty, unselected panel instead.
-Fixed by also calling `applyInitialValues()` once from the constructor;
-`didUpdate` is kept for the "reset on a later identity change" behavior
-only. Worth checking for the same gap in any other component here that
-uses `did-update` to seed from an arg rather than purely to react to
-changes after mount — `did-update`-only initialization is a recurring trap
-worth grepping for.
+docs demo's second example) rendered an empty, unselected panel instead. A
+second pass patched this by also calling `applyInitialValues()` once from
+the constructor, keeping `didUpdate` for the "reset on later identity
+change" half — but that reintroduced `@ember/render-modifiers` into brand
+-new code, exactly what this file's "What NOT to Reach For" section says
+not to do, and needed the extra constructor call as a workaround only
+because `did-update` itself can't cover initial render. Replaced with a
+real `ember-modifier` (`watchInitialValues`, same shape as
+`chain-of-thought.gts`'s `watchOpen`) that takes `@initialValues` as its
+tracked positional arg and calls `applyInitialValues()` — a real modifier
+fires on initial install too, so it covers both the seed and the reset in
+one place and the separate constructor call could be deleted entirely.
+Worth checking for the same gap in any other component here that uses
+`did-update` (or is tempted to) to seed from an arg rather than purely to
+react to changes after mount — reach for a real modifier from the start
+instead.
 
 **`prompt-line` is textarea-mode only — the Tiptap rich editor is left for
 a follow-up, same reasoning as `flatpickr`/`@carbon/utilities`/
