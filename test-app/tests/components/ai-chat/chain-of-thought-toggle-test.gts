@@ -1,18 +1,16 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { render, click, rerender } from '@ember/test-helpers';
+import { cell } from 'ember-resources';
 import ChainOfThoughtToggle from 'carbon-components-ember/components/ai-chat/chain-of-thought-toggle';
 
 module('Integration | Component | ai-chat/ChainOfThoughtToggle', (hooks) => {
   setupRenderingTest(hooks);
 
-  test('it toggles its own label/aria-expanded on click and calls @onToggle', async function (assert) {
-    const calls: boolean[] = [];
-    const onToggle = (open: boolean) => calls.push(open);
-
+  test('uncontrolled: it toggles its own label/aria-expanded on click', async function (assert) {
     await render(
       <template>
-        <ChainOfThoughtToggle @panelId='my-panel' @onToggle={{onToggle}} />
+        <ChainOfThoughtToggle @panelId='my-panel' />
       </template>,
     );
 
@@ -23,7 +21,34 @@ module('Integration | Component | ai-chat/ChainOfThoughtToggle', (hooks) => {
     await click('button');
     assert.dom('button').hasAttribute('aria-expanded', 'true');
     assert.dom('.cds-aichat-chain-of-thought-toggle__label').hasText('Hide chain of thought');
-    assert.deepEqual(calls, [true]);
+  });
+
+  test('@onToggle makes it controlled: it follows @open and reports clicks instead of managing its own state', async function (assert) {
+    const open = cell(false);
+    let reportedOpen: boolean | undefined;
+    const onToggle = (value: boolean) => {
+      reportedOpen = value;
+    };
+
+    await render(
+      <template>
+        <ChainOfThoughtToggle @open={{open.current}} @onToggle={{onToggle}} />
+      </template>,
+    );
+
+    assert.dom('button').hasAttribute('aria-expanded', 'false');
+
+    await click('button');
+
+    // Clicking reports the intended next state, but does not itself change
+    // the rendered state — the consumer must feed it back via @open.
+    assert.strictEqual(reportedOpen, true);
+    assert.dom('button').hasAttribute('aria-expanded', 'false');
+
+    open.current = true;
+    await rerender();
+
+    assert.dom('button').hasAttribute('aria-expanded', 'true');
   });
 
   test('custom labels and disabled state', async function (assert) {
@@ -40,5 +65,20 @@ module('Integration | Component | ai-chat/ChainOfThoughtToggle', (hooks) => {
 
     assert.dom('.cds-aichat-chain-of-thought-toggle__label').hasText('Custom open');
     assert.dom('button').isDisabled();
+  });
+
+  test('an @open seed without @onToggle is only an initial value, not a permanent lock', async function (assert) {
+    await render(
+      <template><ChainOfThoughtToggle @open={{true}} /></template>,
+    );
+
+    assert.dom('button').hasAttribute('aria-expanded', 'true');
+    assert.dom('.cds-aichat-chain-of-thought-toggle__label').hasText('Hide chain of thought');
+
+    await click('button');
+    assert
+      .dom('button')
+      .hasAttribute('aria-expanded', 'false', 'click flips it, unlike a truly controlled usage');
+    assert.dom('.cds-aichat-chain-of-thought-toggle__label').hasText('Show chain of thought');
   });
 });

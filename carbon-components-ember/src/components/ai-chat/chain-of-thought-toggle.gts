@@ -44,10 +44,15 @@ export interface ChainOfThoughtToggleSignature {
  * unprefixed.
  */
 export default class ChainOfThoughtToggle extends Component<ChainOfThoughtToggleSignature> {
-  @tracked internalOpen = false;
+  // Seeded from `@open` so a static `@open={{true}}` (without `@onToggle`)
+  // still sets the initial state — it just isn't a permanent lock afterward.
+  @tracked internalOpen = this.args.open ?? false;
 
   get open() {
-    return this.args.open ?? this.internalOpen;
+    if (this.args.onToggle) {
+      return this.args.open ?? false;
+    }
+    return this.internalOpen;
   }
 
   get labelText() {

@@ -10,6 +10,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { on } from '@ember/modifier';
+import { modifier as eModifier } from 'ember-modifier';
 import { default as eq } from 'ember-truth-helpers/helpers/eq';
 import type { WithBoundArgs } from '@glint/template';
 import { default as Loading } from '../loading.gts';
@@ -203,7 +204,13 @@ export type Args = {
   controlled?: boolean;
   /** ID applied to the content panel `<div>`. */
   panelId?: string;
-  /** Called when `@open` changes. */
+  /**
+   * Called whenever `@open` changes after initial render, including
+   * externally-driven changes (not just user interaction) — mirrors
+   * upstream's `updated()`-driven `chain-of-thought-toggled` event. Passes
+   * just the new open state, not upstream's panel element, for consistency
+   * with this port's other `onToggle` callbacks (e.g. `ChainOfThoughtStep`).
+   */
   onToggle?: (open: boolean) => void;
 };
 
@@ -240,6 +247,8 @@ export interface ChainOfThoughtSignature {
  * `@onToggle` to each individual step instead.
  */
 export default class ChainOfThought extends Component<ChainOfThoughtSignature> {
+  previousOpen?: boolean;
+
   get open() {
     return Boolean(this.args.open);
   }
@@ -248,8 +257,21 @@ export default class ChainOfThought extends Component<ChainOfThoughtSignature> {
     return this.args.panelId ?? `cds-aichat-chain-of-thought-panel-${guidFor(this)}`;
   }
 
+  // Fires `@onToggle` whenever `@open` actually changes after the initial
+  // render — not on mount itself, which upstream's own `firstUpdated()`
+  // guard also excludes from its `chain-of-thought-toggled` dispatch.
+  watchOpen = eModifier<{
+    Element: HTMLDivElement;
+    Args: { Positional: [boolean] };
+  }>((_element, [open]) => {
+    if (this.previousOpen !== undefined && this.previousOpen !== open) {
+      this.args.onToggle?.(open);
+    }
+    this.previousOpen = open;
+  });
+
   <template>
-    <div class='cds-aichat-chain-of-thought' ...attributes>
+    <div class='cds-aichat-chain-of-thought' {{this.watchOpen this.open}} ...attributes>
       <div
         id={{this.panelId}}
         class='cds-aichat-chain-of-thought__content

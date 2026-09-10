@@ -128,4 +128,33 @@ module('Integration | Component | ai-chat/ChainOfThought', (hooks) => {
     assert.dom('#my-panel').hasAttribute('hidden');
     assert.dom('#my-panel').hasAttribute('aria-hidden', 'true');
   });
+
+  test('the container calls @onToggle whenever @open changes after initial render', async function (assert) {
+    class State {
+      @tracked open = false;
+    }
+    const state = new State();
+    const calls: boolean[] = [];
+
+    class Host extends Component {
+      state = state;
+      onToggle = (open: boolean) => calls.push(open);
+      <template>
+        <ChainOfThought @open={{this.state.open}} @onToggle={{this.onToggle}}>
+          <p>content</p>
+        </ChainOfThought>
+      </template>
+    }
+
+    await render(<template><Host /></template>);
+    assert.deepEqual(calls, [], 'not called on initial render');
+
+    state.open = true;
+    await settled();
+    assert.deepEqual(calls, [true]);
+
+    state.open = false;
+    await settled();
+    assert.deepEqual(calls, [true, false]);
+  });
 });
