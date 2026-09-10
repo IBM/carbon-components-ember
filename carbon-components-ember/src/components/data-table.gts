@@ -6,7 +6,7 @@ import { default as Table } from './data-table/-table.gts';
 import { default as Pagination } from './pagination.gts';
 import { default as SearchInput } from './data-table/-search-input.gts';
 import { default as Menu } from './data-table/-menu.gts';
-import { default as didInsert } from '@ember/render-modifiers/modifiers/did-insert';
+import { modifier } from 'ember-modifier';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
@@ -221,10 +221,9 @@ export default class DataTableComponent<T> extends Component<
     return this.state.selectedItems.hasAll(this.currentItems);
   }
 
-  @action
-  didInsert() {
+  notifyRegisterState = modifier(() => {
     runTask(this, () => this.args.registerState?.(this.state));
-  }
+  });
 
   @action
   search(term?: string) {
@@ -268,7 +267,7 @@ export default class DataTableComponent<T> extends Component<
       class='cds--data-table-container {{if @isLoading "bx-skeleton"}}'
       data-table
     >
-      <div class='cds--data-table-header' {{didInsert this.didInsert}}>
+      <div class='cds--data-table-header' {{this.notifyRegisterState}}>
         <h4 class='cds--data-table-header__title'>
           {{@title}}
         </h4>
