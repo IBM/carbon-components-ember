@@ -6,13 +6,10 @@
  */
 
 import Component from '@glimmer/component';
-import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
-import { registerDestructor } from '@ember/destroyable';
 import { element } from 'ember-element-helper';
-import didInsert from '@ember/render-modifiers/modifiers/did-insert';
-import didUpdate from '@ember/render-modifiers/modifiers/did-update';
+import { modifier } from 'ember-modifier';
+import closeOnOutsideClick from '../modifiers/close-on-outside-click.ts';
 
 /**
  * @deprecated Use NewPopoverAlignment instead.
@@ -163,14 +160,6 @@ export default class Popover extends Component<PopoverSignature> {
 
   containerElement?: HTMLElement;
 
-  constructor(owner: Owner, args: PopoverArgs) {
-    super(owner, args);
-    registerDestructor(this, () => {
-      document.removeEventListener('click', this.handleDocumentClick);
-      document.removeEventListener('keydown', this.handleDocumentKeydown);
-    });
-  }
-
   get tag(): keyof HTMLElementTagNameMap {
     return this.args.as ?? 'span';
   }
@@ -219,19 +208,15 @@ export default class Popover extends Component<PopoverSignature> {
     return classes.join(' ');
   }
 
-  @action
-  setup(el: HTMLElement) {
-    this.containerElement = el;
-    document.addEventListener('click', this.handleDocumentClick);
-    document.addEventListener('keydown', this.handleDocumentKeydown);
-    this.update();
-  }
-
-  @action
-  update() {
+  manage = modifier((element: HTMLElement) => {
+    this.containerElement = element;
     this.markTabTipTrigger();
     this.updateAutoAlign();
-  }
+    document.addEventListener('keydown', this.handleDocumentKeydown);
+    return () => {
+      document.removeEventListener('keydown', this.handleDocumentKeydown);
+    };
+  });
 
   markTabTipTrigger() {
     const trigger = this.containerElement?.querySelector<HTMLElement>(
@@ -273,12 +258,8 @@ export default class Popover extends Component<PopoverSignature> {
     this.autoAlignResult = align;
   }
 
-  handleDocumentClick = (event: MouseEvent) => {
-    if (!this.args.open || !this.containerElement) {
-      return;
-    }
-    const target = event.target as Node;
-    if (!this.containerElement.contains(target)) {
+  handleOutsideClick = () => {
+    if (this.args.open) {
       this.args.onRequestClose?.();
     }
   };
@@ -304,8 +285,8 @@ export default class Popover extends Component<PopoverSignature> {
     {{#let (element this.tag) as |Tag|}}
       <Tag
         class={{this.classes}}
-        {{didInsert this.setup}}
-        {{didUpdate this.update @open @autoAlign @isTabTip}}
+        {{this.manage}}
+        {{closeOnOutsideClick this.handleOutsideClick}}
         ...attributes
       >
         {{yield}}
