@@ -234,7 +234,16 @@ export default class AiChatTable extends Component<AiChatTableSignature> {
       this.headers.map((cell) => cell.text),
       ...this.rows.map((row) => row.cells.map((cell) => cell.text)),
     ];
-    const csvContent = stringifyCSV(table);
+    // Excel picks a CSV's delimiter from the OS/Excel locale's list
+    // separator, not from the file's actual content - on any locale where
+    // that's a semicolon (common outside en-US), double-clicking a plain
+    // comma-delimited file like `stringifyCSV`'s output dumps every column
+    // into column A. A leading `sep=,` line is Excel's own documented
+    // escape hatch to force comma parsing regardless of locale; it isn't
+    // part of RFC 4180 (upstream's `stringifyCSV` deliberately doesn't add
+    // it, staying a spec-compliant formatter), so it's prepended here in
+    // the Ember-specific download glue instead.
+    const csvContent = `sep=,\n${stringifyCSV(table)}`;
     const dataUrl = `data:text/csv;charset=utf-8,${encodeURIComponent(csvContent)}`;
 
     const link = document.createElement('a');

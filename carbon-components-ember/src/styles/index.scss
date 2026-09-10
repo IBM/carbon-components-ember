@@ -19,6 +19,23 @@
 
 .ember-basic-dropdown-content .cds--list-box__menu {
   display: block;
+
+  // `.cds--list-box__menu-item__option`'s block padding is computed from
+  // `--cds-layout-size-height-local`, a custom property `@carbon/styles`
+  // only ever sets on `.cds--list-box` (the trigger element). `Select`
+  // wormholes its dropdown content out of that element's subtree into
+  // `document.body` by default (unless `@renderInPlace` is set), so the
+  // portalled menu items never inherit it - the property reads as unset,
+  // the `calc()` that depends on it is invalid, and every menu item renders
+  // with zero block padding. Re-declare `.cds--list-box`'s own default (md)
+  // formula here so portalled items get real padding back; `Select` never
+  // applies a `cds--list-box--<size>` variant class, so this always matches
+  // what the trigger itself would have computed.
+  --cds-layout-size-height-local: clamp(
+    max(var(--cds-layout-size-height-min), var(--cds-layout-size-height-xs)),
+    var(--cds-layout-size-height, var(--cds-layout-size-height-md)),
+    min(var(--cds-layout-size-height-max), var(--cds-layout-size-height-lg))
+  );
 }
 
 // `@carbon/styles`'s text-area mixin sizes `.cds--text-area__wrapper` to

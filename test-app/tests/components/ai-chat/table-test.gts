@@ -172,7 +172,11 @@ module('Integration | Component | ai-chat/AiChatTable', (hooks) => {
 
       assert.ok(capturedHref, 'a download link was clicked');
       const csv = decodeURIComponent(capturedHref!.split(',').slice(1).join(','));
-      assert.strictEqual(csv, 'Name,Status\n"Ann, Bob",Active\n');
+      // Leading `sep=,` line forces Excel to parse with a comma delimiter
+      // regardless of the OS/Excel locale's own list separator - see
+      // `download()`'s comment for why this isn't part of `stringifyCSV`
+      // itself.
+      assert.strictEqual(csv, 'sep=,\nName,Status\n"Ann, Bob",Active\n');
     } finally {
       HTMLAnchorElement.prototype.click = originalClick;
     }

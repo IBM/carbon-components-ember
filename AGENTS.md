@@ -1011,6 +1011,61 @@ missing real rules (dead attributes, missing focus states). Worth a
 deliberate side-by-side read of each component's real `.scss` against the
 ported partial before calling a batch done, not just after review flags it.
 
+### PR #838 review follow-up: pagination dropdown padding, CSV export, ChatShell input
+
+Three review comments on the `Launcher`/`ChatShell` PR (#838, which by then
+also carried batch 1's `Card`/`Table`/`TruncatedText` — see above), all
+verified with a real `DOCS_URL=versions/main pnpm build` + Playwright pass,
+not just by reading code:
+
+- **`AiChatTable`'s "Items per page" `Select` dropdown rendered with zero
+  block padding on every option — a real, pre-existing `Select`/`Pagination`
+  bug, not something this port introduced.** `.cds--list-box__menu-item__option`'s
+  padding is computed from `--cds-layout-size-height-local`, a custom
+  property `@carbon/styles` only ever sets on `.cds--list-box` (the trigger
+  element). `Select` is built on `ember-power-select`, which wormholes its
+  dropdown content out of that element's subtree into `document.body` by
+  default (unless `@renderInPlace` is set) — so the portalled option rows
+  never inherit the property, the `calc()` that depends on it is invalid,
+  and every menu item renders with 0 block padding. Confirmed this
+  reproduces identically on the plain `Pagination` docs page too (nothing
+  ai-chat-specific), and confirmed it's unrelated to the docs site's shadow-
+  DOM demo isolation (the property is simply absent from the wormhole's
+  ancestor chain, shadow root or not). Fixed by re-declaring `.cds--list-
+  box`'s own default (md) formula on `.ember-basic-dropdown-content
+  .cds--list-box__menu` in `src/styles/index.scss` (right next to the
+  existing `display: block` fix for the same selector) — `Select` never
+  applies a `cds--list-box--<size>` variant class today, so the md default
+  always matches what the trigger itself computes. Worth checking this fix
+  still holds if `Select` ever grows real size-variant support.
+- **CSV export ("all columns end up in first column") wasn't a formatting
+  bug in `stringifyCSV` or `AiChatTable.download()` — both produce correct,
+  RFC 4180 comma-delimited output**, confirmed byte-for-byte via a real
+  Playwright download (no BOM, correct quoting, matches upstream's own
+  `_handleDownload` exactly). The symptom is the classic Excel behavior:
+  Excel picks a CSV's delimiter from the OS/Excel locale's list separator,
+  not from the file's own content, so on any locale where that's a
+  semicolon (common outside en-US), double-clicking a plain comma-delimited
+  file dumps every column into column A. Fixed by prepending a `sep=,\n`
+  line to the CSV content in `AiChatTable.download()` — Excel's own
+  documented escape hatch to force comma parsing regardless of locale.
+  Deliberately *not* added to `-csv.ts`'s `stringifyCSV` itself, which stays
+  a byte-identical port of upstream's spec-compliant formatter (`sep=,` line
+  isn't part of RFC 4180 and would corrupt output for any non-Excel CSV
+  consumer) — the fix lives in the Ember-specific download glue instead.
+- **ChatShell's input is deliberately out of scope, confirmed rather than
+  assumed:** `ChatShell` owns no conversation/input state at all — the
+  `input` named block is entirely caller-supplied, matching upstream, which
+  has no `prompt-line` equivalent built into `cds-aichat-shell` either
+  (`prompt-line` is its own separate, not-yet-ported ai-chat-components
+  widget). No component-level change was needed or made. The docs demo
+  *was* weak, though — its `<:input>` block was just a static `<p>Type a
+  message…</p>`, not a real input — so it was upgraded to a real, typeable
+  `TextInput` + `Button` (with a `trackedArray` message log in `<:messages>`
+  to actually show sent messages appear), purely to make the demo honest
+  about what a real integration looks like. This is a docs-only change; it
+  doesn't imply `ChatShell` should grow its own input widget.
+
 ## Key Resources
 
 - **Carbon React**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components

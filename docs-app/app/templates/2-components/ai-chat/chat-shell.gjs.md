@@ -11,19 +11,36 @@ owns no conversation state.
 `@showHistory`/`@showWorkspace` are always-controlled booleans — there is no
 uncontrolled/default-open variant, matching upstream's own API.
 
-```gjs live preview
-import { Button, ChatShell } from 'carbon-components-ember/components';
-import { ThemeSupport } from 'docs-support';
-import { trackedObject } from '@ember/reactive/collections';
+The `input` block is entirely caller-supplied too — `ChatShell` doesn't own a
+text field or send button. Upstream's actual prompt input is a separate
+`prompt-line` component that hasn't been ported yet, so the demo below wires
+up a plain `TextInput` + `Button` instead, just to show a real, typeable
+input rather than static placeholder text.
 
-const context = trackedObject({ showHistory: false, showWorkspace: false });
+```gjs live preview
+import { Button, ChatShell, TextInput } from 'carbon-components-ember/components';
+import { ThemeSupport } from 'docs-support';
+import { trackedObject, trackedArray } from '@ember/reactive/collections';
+
+const state = trackedObject({ showHistory: false, showWorkspace: false, draft: '' });
+const messages = trackedArray(['Hello! How can I help?']);
 
 const toggleHistory = () => {
-  context.showHistory = !context.showHistory;
+  state.showHistory = !state.showHistory;
 };
 
 const toggleWorkspace = () => {
-  context.showWorkspace = !context.showWorkspace;
+  state.showWorkspace = !state.showWorkspace;
+};
+
+const updateDraft = (value) => {
+  state.draft = value;
+};
+
+const send = () => {
+  if (!state.draft.trim()) return;
+  messages.push(state.draft);
+  state.draft = '';
 };
 
 <template>
@@ -34,8 +51,8 @@ const toggleWorkspace = () => {
   <br />
   <div style='block-size: 28rem; max-inline-size: 480px;'>
     <ChatShell
-      @showHistory={{context.showHistory}}
-      @showWorkspace={{context.showWorkspace}}
+      @showHistory={{state.showHistory}}
+      @showWorkspace={{state.showWorkspace}}
       @messagesAriaLabel='Chat messages'
       @historyAriaLabel='Conversation history'
       @workspaceAriaLabel='Workspace panel'
@@ -48,10 +65,21 @@ const toggleWorkspace = () => {
         <p style='padding: 1rem;'>Workspace content goes here.</p>
       </:workspace>
       <:messages>
-        <p style='padding: 1rem;'>Hello! How can I help?</p>
+        {{#each messages as |message|}}
+          <p style='padding: 0.5rem 1rem;'>{{message}}</p>
+        {{/each}}
       </:messages>
       <:input>
-        <p style='padding: 1rem;'>Type a message…</p>
+        <div style='display: flex; gap: 0.5rem; align-items: flex-end; padding: 1rem;'>
+          <TextInput
+            @labelText='Message'
+            @hideLabel={{true}}
+            @placeholder='Type a message…'
+            @value={{state.draft}}
+            @onChange={{updateDraft}}
+          />
+          <Button @size='sm' @onClick={{send}}>Send</Button>
+        </div>
       </:input>
     </ChatShell>
   </div>
