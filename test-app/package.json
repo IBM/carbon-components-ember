@@ -89,7 +89,7 @@
     "ember-template-lint": "^7.9.3",
     "ember-try": "^4.0.0",
     "ember-vite-hmr": "^2.0.1",
-    "eslint": "^9.38.0",
+    "eslint": "^10.10.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-ember": "^12.5.0",
     "eslint-plugin-n": "^17.23.1",
