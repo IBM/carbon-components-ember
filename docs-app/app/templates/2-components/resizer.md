@@ -14,6 +14,17 @@ Drag the handle with a mouse, or focus it and use the arrow keys (hold
 jump to a boundary). Double-clicking the handle resets the siblings to the
 size they had when it was inserted.
 
+By design, the resting handle is a subtle `border-subtle`-colored 4px bar —
+much more visible on hover/focus, when it switches to `border-interactive` —
+so it can be easy to miss at a glance. Carbon's own docs call this out
+explicitly: the trigger cue "can be enhanced if needed by writing a
+pseudo-class to make the trigger easier to grab, or any custom elements can
+be passed as children" (see
+[With a custom drag handle](#with-a-custom-drag-handle) below). Every demo on
+this page also widens the handle's actual hit area with an invisible
+`::before` pseudo-element, matching Carbon React's own story examples, so the
+draggable/hoverable region is larger than the painted line.
+
 ## Single panel (no boundaries)
 
 The simplest case &mdash; a panel followed by a horizontal `Resizer`. The
@@ -26,6 +37,15 @@ import { ThemeSupport } from 'docs-support';
 <template>
   <ThemeSupport />
   <br />
+  <style>
+    .cds--resizer--horizontal::before {
+      content: '';
+      position: absolute;
+      top: -0.5rem;
+      width: 100%;
+      height: calc(100% + 1rem);
+    }
+  </style>
   <div style='display: flex; flex-direction: column; width: 100%; max-width: 600px; overflow: hidden;'>
     <div style='padding: 1rem; background: var(--cds-layer); min-block-size: 3rem; overflow: auto;'>
       <h5>Single panel</h5>
@@ -55,6 +75,15 @@ function announce(setLastHeight, _event, element) {
 <template>
   <ThemeSupport />
   <br />
+  <style>
+    .cds--resizer--horizontal::before {
+      content: '';
+      position: absolute;
+      top: -0.5rem;
+      width: 100%;
+      height: calc(100% + 1rem);
+    }
+  </style>
   {{#let (newObj lastHeight='initial') as |context|}}
     <div style='width: 100%; max-width: 600px; height: 200px; overflow: hidden; display: flex; flex-direction: column;'>
       <div style='padding: 1rem; background: var(--cds-layer); overflow: auto; flex: 1;'>
@@ -80,6 +109,15 @@ import { ThemeSupport } from 'docs-support';
 <template>
   <ThemeSupport />
   <br />
+  <style>
+    .cds--resizer--horizontal::before {
+      content: '';
+      position: absolute;
+      top: -0.5rem;
+      width: 100%;
+      height: calc(100% + 1rem);
+    }
+  </style>
   <div style='position: relative; width: 100%; max-width: 600px; height: 300px; overflow: hidden; border: 1px solid var(--cds-border-subtle-01, #e0e0e0);'>
     <div style='padding: 1rem; height: 100%; overflow: auto;'>
       <h5>Main content</h5>
@@ -108,6 +146,15 @@ import { ThemeSupport } from 'docs-support';
 <template>
   <ThemeSupport />
   <br />
+  <style>
+    .cds--resizer--horizontal::before {
+      content: '';
+      position: absolute;
+      top: -0.5rem;
+      width: 100%;
+      height: calc(100% + 1rem);
+    }
+  </style>
   <div style='display: flex; flex-direction: column; width: 100%; max-width: 600px; height: 300px; overflow: hidden;'>
     <div style='height: 100%; background: var(--cds-layer); padding: 1rem; overflow: auto; min-block-size: 48px;'>
       <h5>Top panel</h5>
@@ -132,6 +179,15 @@ import { ThemeSupport } from 'docs-support';
 <template>
   <ThemeSupport />
   <br />
+  <style>
+    .cds--resizer--vertical::before {
+      content: '';
+      position: absolute;
+      left: -0.5rem;
+      height: 100%;
+      width: calc(100% + 1rem);
+    }
+  </style>
   <div style='display: flex; width: 100%; max-width: 600px; height: 300px; overflow: hidden;'>
     <div style='background: var(--cds-layer); padding: 1rem; overflow: auto; min-inline-size: 48px;'>
       <h5>Left panel</h5>
@@ -156,6 +212,22 @@ import { ThemeSupport } from 'docs-support';
 <template>
   <ThemeSupport />
   <br />
+  <style>
+    .cds--resizer--horizontal::before {
+      content: '';
+      position: absolute;
+      top: -0.5rem;
+      width: 100%;
+      height: calc(100% + 1rem);
+    }
+    .cds--resizer--vertical::before {
+      content: '';
+      position: absolute;
+      left: -0.5rem;
+      height: 100%;
+      width: calc(100% + 1rem);
+    }
+  </style>
   <div style='display: flex; height: 300px; width: 100%; max-width: 600px;'>
     <div style='overflow: auto; min-inline-size: 3rem; width: 50%; display: flex; flex-direction: column;'>
       <div style='padding: 1rem; background: var(--cds-layer); overflow: auto; min-block-size: 3rem; height: 50%;'>
@@ -201,6 +273,15 @@ function onResize(context, setFraction, _event, delta) {
 <template>
   <ThemeSupport />
   <br />
+  <style>
+    .cds--resizer--vertical::before {
+      content: '';
+      position: absolute;
+      left: -0.5rem;
+      height: 100%;
+      width: calc(100% + 1rem);
+    }
+  </style>
   {{#let (newObj fraction=0.5) as |context|}}
     <div
       style='display: grid; grid-template-columns: {{context.fraction}}fr auto {{context.fraction}}fr; width: 100%; max-width: 600px; height: 200px;'
@@ -235,6 +316,15 @@ import { ThemeSupport } from 'docs-support';
 <template>
   <ThemeSupport />
   <br />
+  <style>
+    .cds--resizer--horizontal::before {
+      content: '';
+      position: absolute;
+      top: -0.5rem;
+      width: 100%;
+      height: calc(100% + 1rem);
+    }
+  </style>
   <div style='display: flex; flex-direction: column; width: 100%; max-width: 400px; height: 160px; overflow: hidden;'>
     <div style='padding: 1rem; background: var(--cds-layer); min-block-size: 3rem; overflow: auto;'>
       <p>This handle shows a custom drag icon.</p>
