@@ -1,4 +1,11 @@
 @use 'ember-basic-dropdown';
+// `ai-chat/carousel` transitively pulls in `@carbon/styles`' Sass theme
+// module (via `@carbon/utilities/scss/carousel`'s own `focus-outline`
+// dependency), which configures `@carbon/grid` via `@forward ... with (...)`
+// - Sass only allows a module's *first* load to configure it, so this has
+// to come before the plain, unconfigured `@use '@carbon/grid';` below or
+// that load wins first and the configured load errors.
+@use 'ai-chat/carousel';
 @use '@carbon/grid';
 @use 'ai-chat/launcher';
 @use 'ai-chat/chat-shell';

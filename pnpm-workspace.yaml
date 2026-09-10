@@ -14,6 +14,7 @@ allowBuilds:
   '@carbon/styles': true
   '@carbon/themes': true
   '@carbon/type': true
+  '@carbon/utilities': true
   '@carbon/utils-position': true
   '@ibm/plex': true
   '@ibm/plex-mono': true

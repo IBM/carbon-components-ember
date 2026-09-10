@@ -1,0 +1,30 @@
+// Ember port of @carbon/ai-chat-components' carousel SCSS
+// (packages/ai-chat-components/src/components/carousel/src/carousel.scss).
+//
+// The actual view-stack behavior (view transforms/animations, recycling
+// classes, the visually-hidden live region) comes straight from
+// `@carbon/utilities/scss/carousel` below - it's the same generic engine
+// its JS counterpart, `initCarousel`, is built for, and its class names
+// (`carousel__*`, no `cds-aichat` prefix) are hardcoded in that JS, not
+// configurable. This partial only adds the `.cds-aichat-carousel__controls`
+// layout upstream's own `carousel.scss` defines on top of it.
+// The trailing `/index` is required, not cosmetic: `@carbon/utilities`'s
+// `package.json#exports` maps `./scss/*` literally (`"./scss/*": "./scss/*"`),
+// and real Node/bundler exports resolution treats that target as an exact
+// file path - it does *not* fall back to a directory's `_index.scss` the
+// way plain filesystem-based Sass resolution (e.g. the `sass` CLI given a
+// `--load-path`) would. Vite's own sass resolver only retries the
+// `_`-prefixed partial once the specifier already ends in `index`.
+@use '@carbon/utilities/scss/carousel/index';
+@use '@carbon/layout';
+@use '@carbon/styles/scss/type';
+
+.cds-aichat-carousel__controls {
+  @include type.type-style('body-compact-01');
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: layout.$spacing-03;
+  inline-size: 100%;
+}
