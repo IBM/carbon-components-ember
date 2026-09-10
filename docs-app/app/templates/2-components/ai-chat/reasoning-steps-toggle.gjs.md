@@ -21,8 +21,8 @@ class Demo extends Component {
   <template>
     <ThemeSupport />
     <ReasoningStepsToggle @open={{this.open}} @panelId='rs-panel' @onToggle={{this.toggle}} />
-    <ReasoningSteps @open={{this.open}} as |Step|>
-      <Step @title='Considering the question' id='rs-panel'>
+    <ReasoningSteps @open={{this.open}} id='rs-panel' as |Step|>
+      <Step @title='Considering the question'>
         Breaking the request down into smaller parts.
       </Step>
     </ReasoningSteps>
