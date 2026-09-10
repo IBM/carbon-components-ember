@@ -1066,6 +1066,82 @@ not just by reading code:
   about what a real integration looks like. This is a docs-only change; it
   doesn't imply `ChatShell` should grow its own input widget.
 
+### `markdown` — dependency review and scope cuts
+
+Split out from batch 1 (see above) for its own dependency review, the same
+reason `carousel`'s `@carbon/utilities` dependency was split out. Shipped as
+`Markdown` (`ai-chat/markdown.gts`) — no export-collision override needed,
+confirmed via `gh api .../packages/react/src/components --jq '.[].name'`
+(no React `Markdown`) and Pitfall 4's `find | uniq -d` (no filename
+collision either).
+
+**Dependency decision: real `markdown-it` + `dompurify`, not a pre-parsed-
+HTML surface.** The alternative (accept already-parsed/sanitized HTML,
+push sanitization onto the caller) was rejected: the task's own safety
+requirement ("never render caller-supplied content without a sanitizer")
+means an HTML-accepting surface still needs `dompurify` as a dependency, so
+that option only saves `markdown-it` while deleting `markdown` — the
+component's single central public prop, which §3 forbids collapsing away.
+Matches the precedent already set by `flatpickr` (`DatePicker`) and
+`@carbon/utilities` (`Carousel`): add the real dependency, reproduce
+upstream's actual pipeline. `markdown-it-attrs`/`markdown-it-highlight`/
+`markdown-it-task-lists` are **not** npm dependencies — they're upstream's
+own vendored/forked plugin files at that path (`markdown-it-attrs` is
+itself a from-scratch, deliberately restricted fork of a third-party MIT
+plugin, allow-listing only `target`/`rel`/`class`/`id`), so they're ported
+as source too (`-markdown-it-attrs.ts` etc.), matching `-csv.ts`'s existing
+precedent for vendored non-dependency upstream source.
+
+**Sanitization is unconditional — a deliberate divergence from upstream's
+actual default, not a faithfulness gap.** Reading upstream's real
+`createMarkdownIt` (not just the manifest) shows `html: !removeHTML`
+(raw HTML parsing is *on* by default) combined with `sanitizeHTML`
+defaulting to `false` — upstream's own default configuration renders raw
+HTML found in the markdown source completely unsanitized. That's a real
+XSS hole for the untrusted (user- or LLM-generated) chat content this
+widget exists to render, and the task explicitly overrides faithfulness
+here. This port always runs parsed output through `DOMPurify.sanitize()`
+before injecting it (`-markdown-render.ts`'s `renderMarkdown`), regardless
+of `@sanitizeHTML` — the arg is still accepted (for API parity) but is a
+no-op; it does not gate the sanitizer. `@removeHTML` is unaffected and
+matches upstream exactly (disables raw-HTML parsing at the markdown-it
+level, on top of the sanitizer that always runs anyway). Verified with
+tests that inject `<script>`, an `onerror` handler, and a `javascript:`
+link — asserting the dangerous content/attribute is *absent*, not just
+that the component renders — since build/glint/lint prove nothing about
+sanitization.
+
+**Scope cut, same "public surface, not internal managers" call as
+`ChatShell`/`AiChatTable`:** upstream's real renderer
+(`markdown-renderer.ts` + `markdown-token-tree.ts`, ~1,200 lines combined)
+builds a diffed token tree and renders fenced code blocks and tables as
+upstream's own not-yet-ported `cds-aichat-code-snippet`/`cds-aichat-table`
+custom elements (copy/show-more/sort/filter/page behavior), plus exposes
+`markdownItPlugins`/`customRenderers` extension points and ~15
+`codeSnippet*`/`table*` label args. None of that is ported: fenced code
+renders as plain `<pre><code>`, markdown tables as plain `<table>`
+(styled via `_markdown.scss`), and the label/extensibility args aren't
+accepted at all — they'd be dead public API with nothing to label. GFM
+task-list checkboxes and `==highlight==` syntax *are* ported (both are
+plain markup, not widgets); checkboxes render read-only (`disabled`) since
+there's no `checklist.onToggle`-equivalent callback to wire an interactive
+one to — upstream's own `cds-checkbox` tag is swapped for a plain
+`<input type="checkbox">` via a markdown-it renderer-rule override, not
+reproduced as an unstyled custom element. `@streaming` **is** made real
+(a 100ms leading+trailing throttle via an `ember-modifier`, not
+`did-update`), since upstream's own default streaming throttle is cheap
+to reproduce without the diffing machinery behind it. A follow-up todo for
+`markdownItPlugins`/`customRenderers` extensibility was deliberately not
+scheduled inline here — pick it up if/when a real consumer needs it.
+
+**Strict-mode TS note for anyone porting more upstream markdown-it code:**
+upstream's own plugin/renderer TS isn't written against
+`noUncheckedIndexedAccess` (which this repo's `tsconfig` enables) — expect
+a wave of `TS18048`/`TS2532` "possibly undefined" errors on every
+`tokens[i]`-style array index when porting more of it, fixed with `!`
+non-null assertions at each site (already used elsewhere in this codebase,
+e.g. `copy-button.gts`) rather than restructuring the ported logic.
+
 ## Key Resources
 
 - **Carbon React**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components
