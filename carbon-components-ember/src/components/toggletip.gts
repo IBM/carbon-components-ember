@@ -7,6 +7,7 @@ import { modifier } from 'ember-modifier';
 import type { WithBoundArgs } from '@glint/template';
 import ToggletipButtonComponent from './toggletip/button.gts';
 import ToggletipContentComponent from './toggletip/content.gts';
+import closeOnOutsideClick from '../modifiers/close-on-outside-click.ts';
 
 export type ToggletipAlignment =
   | 'top'
@@ -78,23 +79,9 @@ export default class ToggletipComponent extends Component<ToggletipComponentSign
 
   registerElement = modifier((element: HTMLElement) => {
     this.element = element;
-    document.addEventListener('click', this.onDocumentClick, true);
-    window.addEventListener('blur', this.onWindowBlur);
-    return () => {
-      document.removeEventListener('click', this.onDocumentClick, true);
-      window.removeEventListener('blur', this.onWindowBlur);
-    };
   });
 
-  onDocumentClick = (event: MouseEvent) => {
-    if (!this.open || !this.element) return;
-    const target = event.target;
-    if (target instanceof Node && !this.element.contains(target)) {
-      this.open = false;
-    }
-  };
-
-  onWindowBlur = () => {
+  onOutsideClick = () => {
     if (this.open) this.open = false;
   };
 
@@ -123,6 +110,7 @@ export default class ToggletipComponent extends Component<ToggletipComponentSign
         cds--toggletip
         {{if this.open "cds--toggletip--open"}}'
       {{this.registerElement}}
+      {{closeOnOutsideClick this.onOutsideClick capture=true onWindowBlur=true}}
       {{on 'keydown' this.onKeyDown}}
       {{on 'focusout' this.onFocusOut}}
       ...attributes
