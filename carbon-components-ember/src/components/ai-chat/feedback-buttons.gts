@@ -64,6 +64,20 @@ export default class FeedbackButtons extends Component<FeedbackButtonsSignature>
     return this.args.panelId ? `${this.args.panelId}-feedback-negative` : undefined;
   }
 
+  get positiveExpanded() {
+    if (this.args.isPositiveDisabled || !this.args.hasPositiveDetails) {
+      return undefined;
+    }
+    return this.args.isPositiveOpen ? 'true' : 'false';
+  }
+
+  get negativeExpanded() {
+    if (this.args.isNegativeDisabled || !this.args.hasNegativeDetails) {
+      return undefined;
+    }
+    return this.args.isNegativeOpen ? 'true' : 'false';
+  }
+
   @action
   clickPositive() {
     this.args.onClick?.(true);
@@ -85,6 +99,7 @@ export default class FeedbackButtons extends Component<FeedbackButtonsSignature>
           @disabled={{@isPositiveDisabled}}
           @onClick={{this.clickPositive}}
           aria-pressed={{if @isPositiveSelected 'true' undefined}}
+          aria-expanded={{this.positiveExpanded}}
           aria-controls={{this.positiveControls}}
         >
           {{#if @isPositiveSelected}}
@@ -103,6 +118,7 @@ export default class FeedbackButtons extends Component<FeedbackButtonsSignature>
           @disabled={{@isNegativeDisabled}}
           @onClick={{this.clickNegative}}
           aria-pressed={{if @isNegativeSelected 'true' undefined}}
+          aria-expanded={{this.negativeExpanded}}
           aria-controls={{this.negativeControls}}
         >
           {{#if @isNegativeSelected}}
