@@ -1,10 +1,15 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, waitUntil, find } from '@ember/test-helpers';
+import { render, click, waitUntil, find, triggerEvent } from '@ember/test-helpers';
 import AiChatCardFooter, {
   type CardFooterAction,
 } from 'carbon-components-ember/components/ai-chat/card-footer';
 import Checkmark from 'carbon-components-ember/components/icons/checkmark';
+import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
+// The addon's own custom SCSS (its `.cds-aichat-card-footer__icon-actions`
+// rules, incl. whether it clips its own overflow) — not part of
+// `@carbon/styles`' prebuilt bundle above.
+import * as carbonComponentStyle from 'carbon-components-ember/styles.scss?inline';
 
 module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
   setupRenderingTest(hooks);
@@ -48,6 +53,44 @@ module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
     assert.dom('.cds-aichat-card-footer__icon-actions').exists();
     assert.dom('.cds-aichat-card-footer__actions').doesNotExist();
     assert.dom('.cds-aichat-card-footer__icon-actions button').exists({ count: 2 });
+  });
+
+  test("icon-only action tooltips are not clipped by the icon-actions container", async function (assert) {
+    const actions: CardFooterAction[] = [
+      { id: 'a', label: '', tooltipText: 'Copy' },
+    ];
+
+    await render(
+      <template>
+        <style>{{carbonStyle.default}}</style>
+        <style>{{carbonComponentStyle.default}}</style>
+        <AiChatCardFooter @actions={{actions}} />
+      </template>,
+    );
+
+    const container = find(
+      '.cds-aichat-card-footer__icon-actions',
+    ) as HTMLElement;
+    assert.notStrictEqual(
+      getComputedStyle(container).overflow,
+      'hidden',
+      'the container does not clip its own contents — a Tooltip popping up above one of its buttons (the default alignment) would otherwise be cut off',
+    );
+
+    await triggerEvent('.cds--tooltip', 'mouseenter');
+    await waitUntil(() =>
+      find('.cds--tooltip')?.classList.contains('cds--popover--open'),
+    );
+
+    const containerRect = container.getBoundingClientRect();
+    const tooltipRect = find(
+      '.cds--popover-content',
+    )!.getBoundingClientRect();
+
+    assert.true(
+      tooltipRect.top < containerRect.top,
+      "the open tooltip renders above the icon-actions container's own box (its default alignment), so it must not be clipped there",
+    );
   });
 
   test('it stacks more than two actions', async function (assert) {

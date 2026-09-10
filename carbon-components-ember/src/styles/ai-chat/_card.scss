@@ -78,20 +78,23 @@
 // corners a *nested* card should round) is intentionally not exposed here —
 // nothing in this vertical-slice port provides that shell context yet.
 //
-// The container itself also gets the same bottom-corner radius (plus
-// `overflow: hidden`), not just its rounded-corner children. Without it,
-// the container's own square corner sits directly behind the button's
-// rounded one, and its background (the `--cds-button-separator`-driven
-// "grout" line between adjacent buttons) shows through as a stray corner
-// triangle — `--cds-button-separator` is a button-component-specific token
-// that, unlike this file's other `--cds-chat-*` custom properties, isn't
-// reliably set outside a real `.cds--g90`/`.cds--g100`-classed ancestor, so
-// its fallback (`#e0e0e0`) can leak through in a dark theme even when
-// everything else on the card is themed correctly. Clipping the container
-// to the same radius hides that triangle regardless of which color the
-// background resolves to.
+// The container itself also gets the same bottom-corner radius, not just
+// its rounded-corner children. Without it, the container's own square
+// corner sits directly behind the button's rounded one, and its background
+// (the `--cds-button-separator`-driven "grout" line between adjacent
+// buttons) shows through as a stray corner triangle — `--cds-button-
+// separator` is a button-component-specific token that, unlike this file's
+// other `--cds-chat-*` custom properties, isn't reliably set outside a real
+// `.cds--g90`/`.cds--g100`-classed ancestor, so its fallback (`#e0e0e0`) can
+// leak through in a dark theme even when everything else on the card is
+// themed correctly. Rounding the container's own corner to match is
+// sufficient to hide the triangle, since a box's own background paint is
+// already clipped to its own border-radius shape — no `overflow: hidden`
+// needed, which matters here because the icon-actions variant below wraps
+// each button in this addon's `Tooltip`, whose popover content renders
+// in-place (not portaled) and pops up *above* the trigger by default,
+// outside this container's box; `overflow: hidden` would clip it.
 .cds-aichat-card-footer__actions[data-rounded='bottom'] {
-  overflow: hidden;
   border-end-start-radius: calc(
     var(--cds-aichat-card-border-radius-end-start, 0) - 1px
   );
@@ -129,7 +132,6 @@
 }
 
 .cds-aichat-card-footer__icon-actions[data-rounded='bottom-right'] {
-  overflow: hidden;
   border-end-end-radius: calc(
     var(--cds-aichat-card-border-radius-end-end, 0) - 1px
   );
