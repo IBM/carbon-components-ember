@@ -38,13 +38,25 @@ const GITHUB_LABEL = 'parity-check';
  *
  * `createIssues` is a per-source kill switch on top of the global
  * CREATE_ISSUES/--create-issues flag - both must allow issue creation for
- * a given source to actually file issues. `carbon-ai-chat` starts with
- * this off: as of this writing there isn't a single Ember component under
- * that namespace yet, so every upstream component would show up as
- * "missing" and a live run would immediately open ~20 issues. Flip it to
- * `true` once the first components have landed and a normal missing/
- * implemented split makes sense.
+ * a given source to actually file issues. `carbon-ai-chat` started with
+ * this off while there wasn't a single Ember component under that
+ * namespace (every upstream component would've shown up as "missing" and
+ * a live run would've immediately opened ~20 issues); now that `Launcher`
+ * and `ChatShell` have landed (see AGENTS.md's "Porting Carbon AI Chat"
+ * section) it's on, and the next live run will open issues for the
+ * remaining ~18 still-unported components.
  */
+// Ember export name overrides for `carbon-ai-chat` components whose plain
+// PascalCase name would collide with an existing Carbon React component of
+// the same name in the shared `index.ts` export list (see the source's
+// `nameToEmberExport` comment below for why that matters). Keyed by the
+// upstream kebab-case directory name.
+const AI_CHAT_EXPORT_OVERRIDES = {
+  card: 'AiChatCard',
+  'truncated-text': 'AiChatTruncatedText',
+  'code-snippet': 'AiChatCodeSnippet',
+};
+
 const SOURCES = [
   {
     id: 'react',
@@ -83,7 +95,17 @@ const SOURCES = [
     storybookStoriesUrl: null,
     storybookBaseUrl: null,
     issueTitlePrefix: '[Parity Check][AI Chat]',
-    createIssues: false,
+    // `Launcher` and `ChatShell` landed (see AGENTS.md's "Porting Carbon AI
+    // Chat" section), so a normal missing/implemented split now makes
+    // sense - flipped on. `.parity-check-data.json` has never had a
+    // `sources['carbon-ai-chat']` entry (this source only ever ran in
+    // report-only mode before now), so `runSource()`'s
+    // `versionChanged ? comparison.missing : comparison.newComponents`
+    // branch will take the `missing` path on the very next run (no stored
+    // `lastCheckedVersion` to compare against) and file issues for every
+    // still-unported component, not just ones that appeared since a
+    // previous check - no separate remediation step needed here.
+    createIssues: true,
     // Every existing Ember component in this addon mirrors `react`, not
     // this source, so diffing the full Ember export list against this
     // source's component list would report ~all of them as "extra" -
@@ -91,8 +113,22 @@ const SOURCES = [
     // its own implemented components to actually compare against.
     trackExtra: false,
     // Upstream directory names are kebab-case (e.g. "chat-shell"); the
-    // Ember port exports them as PascalCase (e.g. "ChatShell").
-    nameToEmberExport: kebabToPascalCase,
+    // Ember port exports them as PascalCase (e.g. "ChatShell"). `emberComponents`
+    // (see comparison below) is a single flat list built from the *entire*
+    // `index.ts` export list, shared across every source - so a plain 1:1
+    // name would collide with any Carbon React component of the same name
+    // and silently satisfy that source's own "missing" check too (e.g.
+    // exporting `Card` here would close out the react source's Card issue
+    // #774 despite no React Card ever having been implemented). `Launcher`/
+    // `ChatShell` (see PR #838) didn't collide with anything in `react` and
+    // stay unprefixed so that PR's export names don't churn; `card`,
+    // `truncated-text` and `code-snippet` do collide (checked against
+    // `react`'s live component list when each was ported) and are exported
+    // with an `AiChat` prefix instead (`AiChatCard`, `AiChatTruncatedText`,
+    // `AiChatCodeSnippet`) - add a name here only when a real collision is
+    // confirmed, not preemptively.
+    nameToEmberExport: (name) =>
+      AI_CHAT_EXPORT_OVERRIDES[name] ?? kebabToPascalCase(name),
   },
 ];
 
@@ -254,9 +290,10 @@ async function fetchUpstreamComponents(source) {
 
 /**
  * Get Ember components from index.ts. Shared across all sources: whatever
- * gets added for a new source (e.g. an `AiChat*` component) is exported
- * from the same public entrypoint, regardless of which subfolder it lives
- * under, so there is no need for a per-source path here.
+ * gets added for a new source (e.g. `ChatShell`/`Launcher` for
+ * `carbon-ai-chat`) is exported from the same public entrypoint, regardless
+ * of which subfolder it lives under, so there is no need for a per-source
+ * path here.
  */
 async function getEmberComponents() {
   try {

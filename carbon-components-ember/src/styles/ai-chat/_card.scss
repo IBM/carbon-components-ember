@@ -1,0 +1,202 @@
+// Ember port of @carbon/ai-chat-components' card SCSS
+// (packages/ai-chat-components/src/components/card/src/card.scss,
+// card-footer.scss and card-steps.scss).
+//
+// Selectors are adapted from upstream's `:host(...)` (shadow DOM) to plain
+// `.cds-aichat-card*` classes (light DOM, matching every other component in
+// this addon), and colors reference `@carbon/styles`' compiled `--cds-*`
+// custom properties rather than its Sass theme module. `AiChatCard` already
+// applies the real `.cds--tile` class from `@carbon/styles`' prebuilt CSS
+// for base tile spacing/typography — this partial only adds the
+// card-specific border/background/radius/modifier rules upstream layers on
+// top of that.
+//
+// Upstream's `card.scss` also has a `::slotted([slot='card-media'])` rule
+// whose selector doesn't match its own template's `<slot name="media">` —
+// a pre-existing dead rule upstream, not reproduced here.
+
+@use '@carbon/layout';
+
+.cds-aichat-card {
+  --cds-aichat-card-border-radius-start-start: #{layout.$spacing-03};
+  --cds-aichat-card-border-radius-start-end: #{layout.$spacing-03};
+  --cds-aichat-card-border-radius-end-start: #{layout.$spacing-03};
+  --cds-aichat-card-border-radius-end-end: #{layout.$spacing-03};
+
+  border: 1px solid var(--cds-chat-bubble-border, #e0e0e0);
+  background-color: var(--cds-chat-shell-background, #fff);
+  border-end-end-radius: var(--cds-aichat-card-border-radius-end-end, 0);
+  border-end-start-radius: var(--cds-aichat-card-border-radius-end-start, 0);
+  border-start-end-radius: var(--cds-aichat-card-border-radius-start-end, 0);
+  border-start-start-radius: var(--cds-aichat-card-border-radius-start-start, 0);
+
+  // The named blocks render directly one after another with no wrapping
+  // element between them, so a `contenteditable` ancestor's inherited
+  // `white-space: pre-wrap` can't turn that whitespace into phantom
+  // vertical space.
+  white-space: normal;
+}
+
+.cds-aichat-card--layered {
+  background-color: var(--cds-layer, #f4f4f4);
+}
+
+.cds-aichat-card--flush {
+  padding: 0;
+}
+
+.cds-aichat-card-footer__actions {
+  display: flex;
+}
+
+.cds-aichat-card-footer__actions--stacked {
+  flex-direction: column;
+}
+
+.cds-aichat-card-footer__actions:not(:has(.cds--btn--ghost)) {
+  gap: 1px;
+  background-color: var(--cds-button-separator, #e0e0e0);
+}
+
+.cds-aichat-card-footer__icon-actions {
+  display: flex;
+  justify-content: end;
+  border-block-start: 1px solid var(--cds-chat-bubble-border, #e0e0e0);
+}
+
+// Upstream's shared `rounded-modifiers` mixin (`globals/scss/_modifiers.scss`)
+// derives corner rounding for a whole grid of `data-rounded`/`data-stacked`
+// combinations that this addon's port doesn't need in full — `AiChatCard`
+// unconditionally rounds all 4 corners already (see `.cds-aichat-card`
+// above), and `AiChatCardFooter` only ever renders exactly the two values
+// below (`bottom` for labeled actions, `bottom-right` for icon-only
+// actions). Rather than porting the full mixin, this reproduces just those
+// two cases directly: the footer's first/last action gets the matching
+// bottom corner rounded (both, on the single last button, once stacked) so
+// its outer edge matches the card's own radius. `AiChatCard`'s own
+// `data-rounded` attribute (used by an outer shell to override which
+// corners a *nested* card should round) is intentionally not exposed here —
+// nothing in this vertical-slice port provides that shell context yet.
+//
+// The container itself also gets the same bottom-corner radius, not just
+// its rounded-corner children. Without it, the container's own square
+// corner sits directly behind the button's rounded one, and its background
+// (the `--cds-button-separator`-driven "grout" line between adjacent
+// buttons) shows through as a stray corner triangle — `--cds-button-
+// separator` is a button-component-specific token that, unlike this file's
+// other `--cds-chat-*` custom properties, isn't reliably set outside a real
+// `.cds--g90`/`.cds--g100`-classed ancestor, so its fallback (`#e0e0e0`) can
+// leak through in a dark theme even when everything else on the card is
+// themed correctly. Rounding the container's own corner to match is
+// sufficient to hide the triangle, since a box's own background paint is
+// already clipped to its own border-radius shape — no `overflow: hidden`
+// needed, which matters here because the icon-actions variant below wraps
+// each button in this addon's `Tooltip`, whose popover content renders
+// in-place (not portaled) and pops up *above* the trigger by default,
+// outside this container's box; `overflow: hidden` would clip it.
+.cds-aichat-card-footer__actions[data-rounded='bottom'] {
+  border-end-start-radius: calc(
+    var(--cds-aichat-card-border-radius-end-start, 0) - 1px
+  );
+  border-end-end-radius: calc(
+    var(--cds-aichat-card-border-radius-end-end, 0) - 1px
+  );
+
+  > :first-child,
+  > :first-child button {
+    border-end-start-radius: calc(
+      var(--cds-aichat-card-border-radius-end-start, 0) - 1px
+    );
+  }
+
+  > :last-child,
+  > :last-child button {
+    border-end-end-radius: calc(
+      var(--cds-aichat-card-border-radius-end-end, 0) - 1px
+    );
+  }
+
+  &[data-stacked='true'] {
+    > :first-child,
+    > :first-child button {
+      border-end-start-radius: 0;
+    }
+
+    > :last-child,
+    > :last-child button {
+      border-end-start-radius: calc(
+        var(--cds-aichat-card-border-radius-end-start, 0) - 1px
+      );
+    }
+  }
+}
+
+.cds-aichat-card-footer__icon-actions[data-rounded='bottom-right'] {
+  border-end-end-radius: calc(
+    var(--cds-aichat-card-border-radius-end-end, 0) - 1px
+  );
+
+  > :last-child button {
+    border-end-end-radius: calc(
+      var(--cds-aichat-card-border-radius-end-end, 0) - 1px
+    );
+  }
+}
+
+.cds-aichat-card-footer__actions .cds--btn--ghost {
+  border-block-start: 1px solid var(--cds-chat-bubble-border, #e0e0e0);
+}
+
+.cds-aichat-card-footer__action-viewing {
+  flex-direction: row-reverse;
+  flex-grow: 0;
+  align-items: center;
+  justify-content: flex-end;
+  gap: layout.$spacing-03;
+  inline-size: 100%;
+}
+
+.cds-aichat-card-steps {
+  display: flex;
+  flex-direction: column;
+  container-type: inline-size;
+  inline-size: 100%;
+}
+
+.cds-aichat-card-step {
+  display: flex;
+  align-items: flex-start;
+  padding: layout.$spacing-04 layout.$spacing-05;
+  border-block-end: 1px solid var(--cds-chat-bubble-border, #e0e0e0);
+  gap: layout.$spacing-05;
+}
+
+.cds-aichat-card-step:last-child {
+  border-block-end: none;
+}
+
+.cds-aichat-card-step-indicator {
+  display: flex;
+  align-items: center;
+  block-size: calc(#{layout.$spacing-05} + #{layout.$spacing-01});
+  gap: layout.$spacing-03;
+  white-space: nowrap;
+}
+
+.cds-aichat-card-step-title {
+  margin: 0;
+  color: var(--cds-text-secondary, #525252);
+}
+
+.cds-aichat-card-step-description {
+  margin: 0;
+  color: var(--cds-text-secondary, #525252);
+}
+
+@container (max-width: 320px) {
+  .cds-aichat-card-step {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: layout.$spacing-03;
+  }
+}

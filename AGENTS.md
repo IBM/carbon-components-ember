@@ -750,10 +750,327 @@ further follow-up PR, since both changes touched the same file — see the
 two relevant "What NOT to Reach For" entries above, now updated to reflect
 both.
 
+## Porting Carbon AI Chat (`@carbon/ai-chat-components`)
+
+Carbon AI Chat (https://github.com/carbon-design-system/carbon-ai-chat) is a
+separate, much larger initiative from the Carbon React parity work above:
+it's a ~3,000-file monorepo, not a single component. The **port target is
+`@carbon/ai-chat-components`** — a framework-agnostic Lit widget library
+under `packages/ai-chat-components/src/components` (~20 components:
+`audio-player`, `card`, `carousel`, `chain-of-thought`, `chat-button`,
+`chat-history`, `chat-shell`, `code-snippet`, `feedback`, `file-uploads`,
+`launcher`, `markdown`, `processing`, `prompt-line`, `reasoning-steps`,
+`table`, `toolbar`, `truncated-text`, `video-player`, `workspace-shell`) —
+**not** `@carbon/ai-chat`'s React app or its `<cds-aichat-container>` Lit
+shell, which mounts React into shadow DOM rather than providing a
+framework-native implementation to build on.
+
+`scripts/parity-check.mjs` tracks this as its own `carbon-ai-chat` source
+(see the `SOURCES` array), independent of the `react` source. Its
+`nameToEmberExport` maps upstream's kebab-case directory names to PascalCase
+1:1 (`chat-shell` → `ChatShell`, no `AiChat`-prefix) — export new components
+under exactly that name from `index.ts` or the tracker will report a false
+"missing".
+
+### Where to get the real API
+
+Read the actual shipped **`custom-elements.json`** from the published npm
+package (`@carbon/ai-chat-components`) — it's Lit's own auto-generated,
+precise machine-readable manifest of every component's props/attributes/
+events, far more reliable than Storybook or prose docs. It's easiest to get
+at via `npm pack`, not `WebFetch`/unpkg (unpkg 404s on this package's
+`dist/`):
+
+```bash
+npm pack @carbon/ai-chat-components@latest --registry https://registry.npmjs.org/
+tar xzf carbon-ai-chat-components-*.tgz package/custom-elements.json
+```
+
+The manifest alone isn't enough for **styling** — the npm package's own
+`scss/` folder only has shared tokens; each component's actual `.scss` is
+pre-compiled into a minified `es-custom/components/*/src/*.scss.js` blob
+(Lit `css` tagged template, common tokens duplicated into every file), not
+usable as SCSS source. Fetch the real, human-authored `.scss` straight from
+GitHub instead (`gh api repos/carbon-design-system/carbon-ai-chat/contents/
+packages/ai-chat-components/src/components/<name>/src/<name>.scss`).
+
+### Decisions made porting `launcher` + `chat-shell` (the first vertical slice)
+
+1. **Location**: `carbon-components-ember/src/components/ai-chat/`. No new
+   top-level package/directory — the root `.gitignore`'s `!carbon-components-ember`
+   `/**/*` allowlist already covers it, so nothing extra was needed there
+   (see the `.gitignore wildcard blocks new top-level dirs` gotcha, which
+   *would* apply to a genuinely new top-level directory but doesn't here).
+2. **Filename collisions**: checked with the `find ... | sort | uniq -d`
+   command from Pitfall 4 before naming anything; `launcher.gts` and
+   `chat-shell.gts` were both free. The same check will matter again for
+   later batches — `card`, `table`, `toolbar`, and `code-snippet` (which
+   already exists here as a Carbon React component) are flagged as future
+   collision risks.
+3. **Styling**: ported into this addon's own SCSS, the same way the
+   existing `src/styles/index.scss` already patches gaps `@carbon/styles`
+   doesn't cover (see its own comments) — new partials under
+   `src/styles/ai-chat/`, `@use`d from `index.scss`, published the same way
+   as everything else via the `carbon-components-ember/styles.scss`
+   subpath export docs-app already consumes. Selectors are adapted from
+   upstream's shadow-DOM `:host(...)` to plain classes (`.cds-aichat-shell`,
+   `.cds-aichat-launcher`) since this addon renders in light DOM like every
+   other component here; colors reference `@carbon/styles`' compiled
+   `--cds-*` custom properties directly (the same fallback pattern
+   upstream's own AI-shadow tokens use) rather than its Sass theme module,
+   whose internal variable names have changed shape across versions. Only
+   the structural/layout SCSS needed by what's actually rendered was
+   ported — not upstream's responsive workspace-panel breakpoint rules or
+   its per-instance dynamic corner stylesheet (see point 4). Upstream's
+   further custom-property theming/override layer
+   (`globals/scss/_tokens-layout.scss`'s `get-var()` indirection) was not
+   reproduced; layout constants were hardcoded from its documented
+   defaults instead — revisit if a later component needs runtime overrides.
+4. **Controlled/uncontrolled state**: checked the actual manifest before
+   assuming anything, and it settles the question cleanly — **neither
+   component has an open/closed concept for §3's controlled/uncontrolled
+   rule to apply to.** `cds-aichat-launcher` is stateless (fires a toggle
+   event, has no `open` property at all); `cds-aichat-shell`'s
+   `show-history`/`show-workspace` are plain reflected booleans with **no**
+   `default-*` counterpart and **no** change event — the host application
+   owns visibility entirely, always. Per §3's actual rule ("parity means
+   matching React's prop list, don't collapse two props into one arg" /
+   "don't invent state upstream doesn't have"), the right port is a plain
+   always-controlled `@showHistory`/`@showWorkspace` boolean with **no**
+   `@defaultShowHistory` — inventing one would add public API upstream
+   doesn't have, not achieve parity with it.
+
+### Translation notes worth reusing for later batches
+
+- **Upstream's kebab-case slot names become camelCase named blocks**, not
+  hyphenated ones (`header-after` slot → `<:headerAfter>` block) — this
+  codebase has no existing precedent for a hyphenated Glimmer block name,
+  so camelCase is the safe, idiomatic default. Document the upstream slot
+  name in the block's JSDoc so the mapping is discoverable.
+- **`{{has-block "name"}}` replaces Lit's `SlotObserver`.** Upstream detects
+  slotted content with a `MutationObserver` to drive `has-content` layout
+  classes; Ember doesn't need that — whether a caller passed a given named
+  block is known at render time via `has-block`, no observer required.
+- Where upstream's public API is simply incomplete or inconsistent (e.g.
+  `cds-aichat-launcher`'s `open-label` attribute is declared but never
+  actually read by its own computed aria-label, in every released version
+  through 1.9.0), the port matches upstream's actual behavior rather than
+  "fixing" it, and says so in a comment — same principle as matching
+  Carbon React's behavior over its intent elsewhere in this doc.
+- Port the component's **public surface**, not its internal managers.
+  `chat-shell` alone pulls in `ResizeObserverManager`, `CornerManager`,
+  `PanelManager`, `InitializationManager`, `WorkspaceManager` and
+  `AriaAnnouncerManager` — none of those are part of the public API and
+  none were ported. Their args are still accepted/typed where they're
+  genuinely public props (e.g. the `@*Announcement` strings), even where
+  the port doesn't yet wire real behavior to them, and the gap is
+  documented in the component's own class doc, not just here.
+
+### Batch 1 (`card`, `table`, `truncated-text`) — export-name collisions
+
+`card`, `carousel`, `table`, `markdown` and `truncated-text` were the next
+scheduled batch. `carousel` and `markdown` were split into their own
+follow-up todos instead — each introduces a genuinely new runtime
+dependency (`@carbon/utilities`'s `initCarousel`, and `markdown-it` +
+`dompurify` respectively) that deserves its own review, the same reason
+DatePicker's `flatpickr` dependency got split out earlier. `card` and
+`truncated-text` shipped alongside `table`.
+
+**The export-collision problem, and the fix:** `scripts/parity-check.mjs`
+diffs each source against the *same* flat `index.ts` export list (see
+`emberComponents` in the script) — so a plain PascalCase `nameToEmberExport`
+for `carbon-ai-chat` isn't just a filename risk (Pitfall 4), it can silently
+satisfy the **`react`** source's own "missing" check too. Exporting a plain
+`Card` here would close out the react source's real, still-open `Card` issue
+(#774) despite no React `Card` ever having been implemented — same for
+`truncated-text` (#749) and `code-snippet` (already implemented as a real
+Carbon React component, `CodeSnippet`). Checked each upstream `ai-chat-
+components` directory name against Carbon React's live top-level component
+list (`gh api repos/carbon-design-system/carbon/contents/packages/react/src/
+components --jq '.[].name'`) before naming anything — `card` (`Card`),
+`truncated-text` (`TruncatedText`) and `code-snippet` (`CodeSnippet`) collide;
+`carousel`, `table` and `markdown` don't (checked ahead of time for the two
+split-out todos too, so whoever picks them up doesn't have to re-derive this).
+
+Fixed via a small override map, not a blanket prefix — `Launcher`/`ChatShell`
+(#838) didn't collide and stay unprefixed so that PR's export names don't
+churn:
+
+```js
+// scripts/parity-check.mjs
+const AI_CHAT_EXPORT_OVERRIDES = {
+  card: 'AiChatCard',
+  'truncated-text': 'AiChatTruncatedText',
+  'code-snippet': 'AiChatCodeSnippet', // reserved for the code-snippet batch
+};
+// ...
+nameToEmberExport: (name) => AI_CHAT_EXPORT_OVERRIDES[name] ?? kebabToPascalCase(name),
+```
+
+Matching Ember export names: `AiChatCard` (`ai-chat/card.gts`),
+`AiChatCardFooter` (`ai-chat/card-footer.gts`, upstream's `cds-aichat-card-
+footer` sub-widget — no collision, but prefixed for family consistency with
+`AiChatCard`), `AiChatCardSteps` (`ai-chat/card-steps.gts`, same reasoning),
+`Table` (`ai-chat/table.gts`, no collision, stays unprefixed) and
+`AiChatTruncatedText` (`ai-chat/truncated-text.gts`). Checked with Pitfall
+4's `find ... | sort | uniq -d` command first — none of these five
+basenames collided with anything else in the tree, so the export name and
+the filename didn't need to diverge.
+
+**`table` reuses this addon's own `Search`/`Pagination`, not upstream's DOM
+tricks.** Upstream's Lit `cds-aichat-table` hand-toggles a `data-hidden`
+attribute on rendered `cds-table-row` elements for pagination and does its
+own filter/sort bookkeeping, because it renders through Carbon Web
+Components' real custom elements. None of that DOM-poking is part of the
+public surface; the port instead uses this addon's own `Search` (for
+filtering) and `Pagination` (for paging) components and plain tracked
+getters (`filteredRows` → `sortedRows` → `pagedRows`) for sort/filter/page
+state — always-internal, since the manifest confirms upstream has no
+`@onChange`-style callback for any of it either. One real trap hit wiring
+`Pagination` in: its own `itemsPerPage` field defaults to a hardcoded `10`,
+set on construction, *not* derived from `@state` — `@state` only syncs on
+the `didUpdate` modifier, which never fires on initial insert. `Pagination`'s
+own `didInsert`-triggered first `pageChanged()` call therefore always
+reports `10` regardless of what's passed in initially, silently overriding
+`AiChatTable`'s own `@defaultPageSize` (default `5`, since upstream's real
+default is derived from a DOM-width measurement this port doesn't
+reproduce). Fixed with a one-shot guard in `changePage` that corrects just
+that first report back to the real default, then trusts every later call
+(a genuine user page/size change) as-is — worth knowing about for any other
+component that wires up `Pagination` with a non-default initial page size.
+
+**Testing `AiChatTruncatedText`'s overflow detection needs its own inline
+`-webkit-line-clamp` rule in the test, not just `@carbon/styles`.** The
+component's real clamping CSS lives in this addon's own `src/styles/
+ai-chat/_truncated-text.scss`, which isn't part of `@carbon/styles`'
+prebuilt bundle (the one already `?inline`-imported elsewhere in this test
+suite) and isn't reliably loaded by test-app's dev build either (per the
+already-documented "test-app dev-mode build doesn't reliably load a new
+component's real SCSS" gotcha) — so `scrollHeight`/`clientHeight` never
+differ and `isOverflowing` never flips true. Rather than fight the addon's
+own SCSS import path from test-app, the test defines the handful of rules
+the component actually needs (`display: -webkit-box`, `-webkit-line-clamp:
+var(--line-clamp-value, 1)`, `overflow: hidden`) directly in its own scoped
+`<style>` block. See `test-app/tests/components/ai-chat/truncated-text-
+test.gts`.
+
+**Don't feed a component's own debounced `@onChange` value back into it as
+a controlled `@value`, even when the underlying value is otherwise correct.**
+`AiChatTable`'s search box originally passed both `@value={{this.filterTerm}}`
+*and* `@onChange={{this.search}}` to `Search`. `Search`'s own template calls
+`this.setValue(@value)` on every render to mirror the arg into its internal
+`@tracked value`, and separately re-runs its 200ms-debounced `onChange` task
+via `{{didUpdate (perform this.runSearch) this.value}}` whenever that
+internal value changes — so a controlled `@value` that merely echoes back
+what the user just typed adds an extra round trip through both of those on
+every keystroke. It never actually diverged in manual testing here, but it
+measurably slowed `fillIn`-based tests (one hit the harness's 60s timeout)
+and left stray un-torn-down DOM behind that cascaded into an unrelated,
+later `DataTable` test's failure (its `document.querySelectorAll` isn't
+scoped to the test's own container). Fixed by dropping `@value` entirely —
+`Search` already owns its own display value; the parent only needs
+`@onChange`. `data-table.gts`'s own `-search-input.gts` wrapper appears to
+control `@value` similarly and hasn't shown symptoms, but wasn't touched
+here — out of scope for this batch.
+
+**Review round 2 fixes (still batch 1):** two SCSS gaps found by diffing
+against upstream's real `.scss` source (not caught by build/glint/tests,
+which don't check CSS coverage at all).
+
+- Upstream's `card.scss`/`card-footer.scss`/`table.scss` all
+  `@include rounded-modifiers` (`globals/scss/_modifiers.scss`) — a generic
+  mixin driving `[data-rounded="..."]` corner rounding across a full
+  stacked/non-stacked/positional matrix. `AiChatCardFooter` already
+  rendered `data-rounded='bottom'`/`'bottom-right'` (the only two values
+  this port ever produces), but `_card.scss` had zero matching CSS, so
+  those corners were never actually rounded. Rather than port the full
+  generic mixin, `_card.scss` now hand-writes just those two concrete
+  cases (rounding the footer's first/last action to match the card's own
+  radius, both corners on the single last button once stacked). `AiChatCard`
+  and `AiChatTable` themselves don't expose upstream's *externally-set*
+  `data-rounded` attribute (used by an outer shell to override a nested
+  card/table's corners) — documented as an intentional gap in both
+  components' doc comments rather than silently missing, since nothing in
+  this port provides that shell context yet.
+- `AiChatTruncatedText`'s expand/collapse toggle (`tabindex="0"`,
+  keyboard-operable) had no `:focus` style at all — a real a11y regression.
+  Added a `2px solid var(--cds-focus)` outline directly (matching upstream's
+  `@include focus-outline('outline')`) rather than importing the real Sass
+  mixin, which needs `@carbon/styles`' Sass theme module and not just its
+  compiled CSS custom properties, unlike everything else in this port. The
+  tooltip-branch content div's matching upstream `:focus` rule was *not*
+  reproduced — that div has no `tabindex` in upstream's own template
+  either, so it's unreachable by keyboard there too (a pre-existing dead
+  rule, same class as `_card.scss`'s already-documented
+  `::slotted([slot='card-media'])`).
+
+**Takeaway for later batches: build/glint/lint/tests passing does not mean
+the ported SCSS actually matches upstream's CSS.** None of those checks
+diff against the real stylesheet, so a batch can ship green and still be
+missing real rules (dead attributes, missing focus states). Worth a
+deliberate side-by-side read of each component's real `.scss` against the
+ported partial before calling a batch done, not just after review flags it.
+
+### PR #838 review follow-up: pagination dropdown padding, CSV export, ChatShell input
+
+Three review comments on the `Launcher`/`ChatShell` PR (#838, which by then
+also carried batch 1's `Card`/`Table`/`TruncatedText` — see above), all
+verified with a real `DOCS_URL=versions/main pnpm build` + Playwright pass,
+not just by reading code:
+
+- **`AiChatTable`'s "Items per page" `Select` dropdown rendered with zero
+  block padding on every option — a real, pre-existing `Select`/`Pagination`
+  bug, not something this port introduced.** `.cds--list-box__menu-item__option`'s
+  padding is computed from `--cds-layout-size-height-local`, a custom
+  property `@carbon/styles` only ever sets on `.cds--list-box` (the trigger
+  element). `Select` is built on `ember-power-select`, which wormholes its
+  dropdown content out of that element's subtree into `document.body` by
+  default (unless `@renderInPlace` is set) — so the portalled option rows
+  never inherit the property, the `calc()` that depends on it is invalid,
+  and every menu item renders with 0 block padding. Confirmed this
+  reproduces identically on the plain `Pagination` docs page too (nothing
+  ai-chat-specific), and confirmed it's unrelated to the docs site's shadow-
+  DOM demo isolation (the property is simply absent from the wormhole's
+  ancestor chain, shadow root or not). Fixed by re-declaring `.cds--list-
+  box`'s own default (md) formula on `.ember-basic-dropdown-content
+  .cds--list-box__menu` in `src/styles/index.scss` (right next to the
+  existing `display: block` fix for the same selector) — `Select` never
+  applies a `cds--list-box--<size>` variant class today, so the md default
+  always matches what the trigger itself computes. Worth checking this fix
+  still holds if `Select` ever grows real size-variant support.
+- **CSV export ("all columns end up in first column") wasn't a formatting
+  bug in `stringifyCSV` or `AiChatTable.download()` — both produce correct,
+  RFC 4180 comma-delimited output**, confirmed byte-for-byte via a real
+  Playwright download (no BOM, correct quoting, matches upstream's own
+  `_handleDownload` exactly). The symptom is the classic Excel behavior:
+  Excel picks a CSV's delimiter from the OS/Excel locale's list separator,
+  not from the file's own content, so on any locale where that's a
+  semicolon (common outside en-US), double-clicking a plain comma-delimited
+  file dumps every column into column A. Fixed by prepending a `sep=,\n`
+  line to the CSV content in `AiChatTable.download()` — Excel's own
+  documented escape hatch to force comma parsing regardless of locale.
+  Deliberately *not* added to `-csv.ts`'s `stringifyCSV` itself, which stays
+  a byte-identical port of upstream's spec-compliant formatter (`sep=,` line
+  isn't part of RFC 4180 and would corrupt output for any non-Excel CSV
+  consumer) — the fix lives in the Ember-specific download glue instead.
+- **ChatShell's input is deliberately out of scope, confirmed rather than
+  assumed:** `ChatShell` owns no conversation/input state at all — the
+  `input` named block is entirely caller-supplied, matching upstream, which
+  has no `prompt-line` equivalent built into `cds-aichat-shell` either
+  (`prompt-line` is its own separate, not-yet-ported ai-chat-components
+  widget). No component-level change was needed or made. The docs demo
+  *was* weak, though — its `<:input>` block was just a static `<p>Type a
+  message…</p>`, not a real input — so it was upgraded to a real, typeable
+  `TextInput` + `Button` (with a `trackedArray` message log in `<:messages>`
+  to actually show sent messages appear), purely to make the demo honest
+  about what a real integration looks like. This is a docs-only change; it
+  doesn't imply `ChatShell` should grow its own input widget.
+
 ## Key Resources
 
 - **Carbon React**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components
 - **Carbon Storybook**: https://react.carbondesignsystem.com/
+- **Carbon AI Chat**: https://github.com/carbon-design-system/carbon-ai-chat
 - **Ember Guides**: https://guides.emberjs.com/
 
 ---

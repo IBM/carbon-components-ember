@@ -1,0 +1,21 @@
+// Ember port of @carbon/ai-chat-components' table.scss
+// (packages/ai-chat-components/src/components/table/src/table.scss),
+// trimmed to what `AiChatTable`'s own markup renders. `AiChatTable`
+// composes this addon's own `Search`/`Pagination`/`Button` components
+// rather than Carbon Web Components' `cds-table`/`cds-pagination`, so the
+// upstream rules for those (data-hidden rows, forced grid columns) aren't
+// needed here — the corresponding classes (`.cds--data-table`,
+// `.cds--pagination`, `.cds--search`) already have full styling from
+// `@carbon/styles`' prebuilt CSS.
+
+.cds-aichat-table-container {
+  a {
+    color: var(--cds-link-primary, #0f62fe);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--cds-link-primary-hover, #0043ce);
+      text-decoration: underline;
+    }
+  }
+}
