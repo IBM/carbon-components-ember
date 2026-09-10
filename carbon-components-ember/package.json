@@ -119,7 +119,7 @@
     "@typescript-eslint/parser": "^8.32.1",
     "babel-plugin-ember-template-compilation": "^4.0.0",
     "bower": "^1.8.8",
-    "broccoli": "^3.4.2",
+    "broccoli": "^4.0.0",
     "broccoli-asset-rev": "^3.0.0",
     "concurrently": "^9.1.2",
     "css-loader": "^6.8.1",
