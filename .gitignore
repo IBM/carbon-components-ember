@@ -28,6 +28,7 @@ scripts/node_modules
 scripts/tmp
 !.gitconfig
 !.release-plan.json
+!.release-plan-pending.md
 !.parity-check-data.json
 !.parity-check-exclusions.json
 !PARITY_REPORT.md
