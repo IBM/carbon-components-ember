@@ -509,13 +509,13 @@ for the reader of the docs site, not for yourself.
   It observes render rather than state, doesn't compose, and has no teardown
   story. Write a real modifier instead (§4). As of the 2026-09-09 audit,
   13 components still imported it; `checkbox.gts`, `code-snippet.gts`,
-  `list.gts`, `ordered-list.gts`, `search.gts`, and `toggletip.gts` have
-  since been migrated off it. 7 components still import it:
-  `charts/-components/chart.gts`, `data-table.gts`, `pagination.gts`,
-  `popover.gts`, `select.gts`, `slider.gts`, `tooltip.gts`. Migrating one of
-  these to a real modifier while you're already touching it for something
-  else is in-scope cleanup, not scope creep — don't do a drive-by rewrite of
-  an unrelated file just to cross it off this list.
+  `list.gts`, `ordered-list.gts`, `search.gts`, `toggletip.gts`, and
+  `slider.gts` have since been migrated off it. 6 components still import
+  it: `charts/-components/chart.gts`, `data-table.gts`, `pagination.gts`,
+  `popover.gts`, `select.gts`, `tooltip.gts`. Migrating one of these to a
+  real modifier while you're already touching it for something else is
+  in-scope cleanup, not scope creep — don't do a drive-by rewrite of an
+  unrelated file just to cross it off this list.
 - **An ad-hoc `willDestroy()` lifecycle override** instead of
   `registerDestructor` or a modifier's own teardown function (see §6).
   `ordered-list.gts`'s has since been replaced with a modifier teardown; one
@@ -704,17 +704,13 @@ re-derive them from scratch.
   codebase; a hand-written component reaching for `import()` instead of a
   static import is not following an established pattern here and should be
   questioned.
-- **`slider.gts`'s `<template>` block (~228 lines) duplicates its
-  lower/upper-handle markup wholesale** — the two handle SVG pairs
-  (`cds--slider__thumb-icon--lower` / `--upper`) and the two text-input
-  wrapper blocks are near-identical, differing only in a `--lower`/`--upper`
-  class suffix and which arg (`@value`/`@valueUpper`, `@ariaLabelInput`/
-  `@ariaLabelInputUpper`) each reads. This is the addon's clearest instance
-  of "huge template + duplication" together, and it has an idiomatic fix
-  already established elsewhere in this codebase: extract a private
-  sub-component parameterized by handle position (the same shape as
-  `tree-view/-node.gts` or `data-table/-header.gts`), invoked twice instead
-  of the markup being written out twice.
+- **`slider.gts`'s `<template>` block duplicated its lower/upper-handle
+  markup wholesale — fixed (2026-09-09).** The two handle SVG pairs and the
+  two text-input wrapper blocks differed only in a `--lower`/`--upper` class
+  suffix and which arg each read, so they're now two private sub-components,
+  `slider/-thumb.gts` and `slider/-text-input.gts`, each invoked twice from
+  `slider.gts` with the differing bits already resolved into plain args —
+  the same shape as `tree-view/-node.gts` or `data-table/-header.gts`.
 - **Not a problem, checked directly rather than assumed:** the number of
   overly-long *methods* (as opposed to templates) is small. Several
   candidates that looked suspicious from a rough line-count scan turned out,
@@ -741,7 +737,10 @@ migration (`checkbox.gts`, `code-snippet.gts`, `list.gts`,
 `ordered-list.gts`, `search.gts`, `toggletip.gts`, plus `ordered-list.gts`'s
 `willDestroy`) was also done as its own follow-up (2026-09-09) — see the
 "What NOT to Reach For" entries above, now updated to reflect the remaining
-7-component/1-component counts.
+counts. `slider.gts` was migrated off `@ember/render-modifiers` and had its
+template de-duplicated in the same follow-up PR, since both changes touched
+the same file — see the "What NOT to Reach For" entries above and the debt
+bullet above, now updated to reflect both.
 
 ## Key Resources
 

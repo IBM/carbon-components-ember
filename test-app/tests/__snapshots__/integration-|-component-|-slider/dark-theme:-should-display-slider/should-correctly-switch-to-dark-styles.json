@@ -172,7 +172,7 @@
     }
   ],
   [
-    "<div class=\"cds--icon-tooltip cds--slider__thumb-wrapper\n              \" style=\"inset-inline-start: 50%;\" data-index=\"5\"></div>",
+    "<div class=\"cds--icon-tooltip cds--slider__thumb-wrapper\n        \" style=\"inset-inline-start: 50%;\" data-index=\"5\"></div>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "bottom": "2px",
@@ -191,7 +191,7 @@
     }
   ],
   [
-    "<div:before class=\"cds--icon-tooltip cds--slider__thumb-wrapper\n              \" style=\"inset-inline-start: 50%;\" data-index=\"5\"></div:before>",
+    "<div:before class=\"cds--icon-tooltip cds--slider__thumb-wrapper\n        \" style=\"inset-inline-start: 50%;\" data-index=\"5\"></div:before>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
@@ -201,7 +201,7 @@
     }
   ],
   [
-    "<div:after class=\"cds--icon-tooltip cds--slider__thumb-wrapper\n              \" style=\"inset-inline-start: 50%;\" data-index=\"5\"></div:after>",
+    "<div:after class=\"cds--icon-tooltip cds--slider__thumb-wrapper\n        \" style=\"inset-inline-start: 50%;\" data-index=\"5\"></div:after>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
@@ -211,7 +211,7 @@
     }
   ],
   [
-    "<div class=\"cds--slider__thumb \" role=\"slider\" id=\"slider-ember123\" tabindex=\"0\" aria-valuetext=\"50\" aria-valuemax=\"100\" aria-valuemin=\"0\" aria-valuenow=\"50\" aria-labelledby=\"slider-ember123-label\" data-index=\"6\"></div>",
+    "<div class=\"cds--slider__thumb\n          \" role=\"slider\" id=\"slider-ember123\" tabindex=\"0\" aria-valuetext=\"50\" aria-valuemax=\"100\" aria-valuemin=\"0\" aria-valuenow=\"50\" aria-labelledby=\"slider-ember123-label\" data-index=\"6\"></div>",
     {
       "background": "rgb(244, 244, 244) none repeat scroll 0% 0% / auto padding-box border-box",
       "border": "0px none rgb(244, 244, 244)",
@@ -231,7 +231,7 @@
     }
   ],
   [
-    "<div:before class=\"cds--slider__thumb \" role=\"slider\" id=\"slider-ember123\" tabindex=\"0\" aria-valuetext=\"50\" aria-valuemax=\"100\" aria-valuemin=\"0\" aria-valuenow=\"50\" aria-labelledby=\"slider-ember123-label\" data-index=\"6\"></div:before>",
+    "<div:before class=\"cds--slider__thumb\n          \" role=\"slider\" id=\"slider-ember123\" tabindex=\"0\" aria-valuetext=\"50\" aria-valuemax=\"100\" aria-valuemin=\"0\" aria-valuenow=\"50\" aria-labelledby=\"slider-ember123-label\" data-index=\"6\"></div:before>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
@@ -241,7 +241,7 @@
     }
   ],
   [
-    "<div:after class=\"cds--slider__thumb \" role=\"slider\" id=\"slider-ember123\" tabindex=\"0\" aria-valuetext=\"50\" aria-valuemax=\"100\" aria-valuemin=\"0\" aria-valuenow=\"50\" aria-labelledby=\"slider-ember123-label\" data-index=\"6\"></div:after>",
+    "<div:after class=\"cds--slider__thumb\n          \" role=\"slider\" id=\"slider-ember123\" tabindex=\"0\" aria-valuetext=\"50\" aria-valuemax=\"100\" aria-valuemin=\"0\" aria-valuenow=\"50\" aria-labelledby=\"slider-ember123-label\" data-index=\"6\"></div:after>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
@@ -374,7 +374,7 @@
     }
   ],
   [
-    "<div class=\"cds--text-input-wrapper cds--slider-text-input-wrapper\n            \n            \n            \" data-index=\"10\"></div>",
+    "<div class=\"cds--text-input-wrapper cds--slider-text-input-wrapper\n        \n        \n        \" data-index=\"10\"></div>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "bottom": "0px",
@@ -391,7 +391,7 @@
     }
   ],
   [
-    "<div:before class=\"cds--text-input-wrapper cds--slider-text-input-wrapper\n            \n            \n            \" data-index=\"10\"></div:before>",
+    "<div:before class=\"cds--text-input-wrapper cds--slider-text-input-wrapper\n        \n        \n        \" data-index=\"10\"></div:before>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
@@ -400,7 +400,7 @@
     }
   ],
   [
-    "<div:after class=\"cds--text-input-wrapper cds--slider-text-input-wrapper\n            \n            \n            \" data-index=\"10\"></div:after>",
+    "<div:after class=\"cds--text-input-wrapper cds--slider-text-input-wrapper\n        \n        \n        \" data-index=\"10\"></div:after>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
@@ -409,7 +409,7 @@
     }
   ],
   [
-    "<input id=\"slider-ember123-input-for-slider\" class=\"cds--text-input cds--slider-text-input\n              \n              \" aria-labelledby=\"slider-ember123-label\" min=\"0\" max=\"100\" type=\"number\" data-index=\"11\"></input>",
+    "<input id=\"slider-ember123-input-for-slider\" class=\"cds--text-input cds--slider-text-input\n          \n          \" aria-labelledby=\"slider-ember123-label\" min=\"0\" max=\"100\" type=\"number\" data-index=\"11\"></input>",
     {
       "appearance": "textfield",
       "background": "rgb(57, 57, 57) none repeat scroll 0% 0% / auto padding-box border-box",
@@ -424,7 +424,7 @@
     }
   ],
   [
-    "<input:before id=\"slider-ember123-input-for-slider\" class=\"cds--text-input cds--slider-text-input\n              \n              \" aria-labelledby=\"slider-ember123-label\" min=\"0\" max=\"100\" type=\"number\" data-index=\"11\"></input:before>",
+    "<input:before id=\"slider-ember123-input-for-slider\" class=\"cds--text-input cds--slider-text-input\n          \n          \" aria-labelledby=\"slider-ember123-label\" min=\"0\" max=\"100\" type=\"number\" data-index=\"11\"></input:before>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
@@ -433,7 +433,7 @@
     }
   ],
   [
-    "<input:after id=\"slider-ember123-input-for-slider\" class=\"cds--text-input cds--slider-text-input\n              \n              \" aria-labelledby=\"slider-ember123-label\" min=\"0\" max=\"100\" type=\"number\" data-index=\"11\"></input:after>",
+    "<input:after id=\"slider-ember123-input-for-slider\" class=\"cds--text-input cds--slider-text-input\n          \n          \" aria-labelledby=\"slider-ember123-label\" min=\"0\" max=\"100\" type=\"number\" data-index=\"11\"></input:after>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
