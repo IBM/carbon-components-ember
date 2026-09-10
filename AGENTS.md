@@ -1196,6 +1196,39 @@ upstream's own (unported) message-list scroll manager and `data-last-item`
 CSS hook — the latter has no matching CSS rule in upstream's own fetched
 `.scss` either, a pre-existing dead hook, not something this port broke.
 
+**`feedback`/`feedback-buttons` — plain-button category chips, disclaimer
+via `Markdown`, and a constructor-seeded initial-render gotcha.** Upstream's
+`cds-aichat-feedback` category chips are `cds-selectable-tag`, a variant
+this addon has no equivalent for (Carbon React's own `Tag` has no
+selectable state either) — ported as plain `<button>`s toggling a
+`--selected` modifier class rather than introducing a new shared
+`SelectableTag` component for a single caller. The disclaimer string
+renders through this same initiative's own `Markdown` port
+(`ai-chat/markdown.gts`), matching upstream's use of its sibling
+`cds-aichat-markdown` custom element rather than a raw `{{@disclaimer}}`
+interpolation. The submit button is disabled from the start only when
+`@disclaimerCheckbox` is passed (gating submission on that checkbox); when
+omitted, no checkbox renders and submit is enabled immediately, matching
+upstream's own default. `FeedbackButtons` drops upstream's
+direction-based tooltip alignment flip (`top-start`/`top-end` depending on
+document direction) since this addon's `Tooltip` already has an
+`@autoAlign` that repositions to stay in-viewport regardless of direction,
+making the upstream flip redundant here.
+
+`@initialValues` seeds (and, on later identity change, resets) `Feedback`'s
+text area and selected categories. The first version wired this seeding
+*only* through `{{didUpdate this.applyInitialValues @initialValues}}` —
+missed that `@ember/render-modifiers`' `did-update` explicitly never runs
+on initial render, so a consumer passing `@initialValues` at mount (e.g. a
+read-only panel showing previously-submitted feedback, exactly the shipped
+docs demo's second example) rendered an empty, unselected panel instead.
+Fixed by also calling `applyInitialValues()` once from the constructor;
+`didUpdate` is kept for the "reset on a later identity change" behavior
+only. Worth checking for the same gap in any other component here that
+uses `did-update` to seed from an arg rather than purely to react to
+changes after mount — `did-update`-only initialization is a recurring trap
+worth grepping for.
+
 **`prompt-line` is textarea-mode only — the Tiptap rich editor is left for
 a follow-up, same reasoning as `flatpickr`/`@carbon/utilities`/
 `markdown-it`.** Confirmed from the real source (not just the manifest)

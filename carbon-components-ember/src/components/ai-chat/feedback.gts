@@ -12,6 +12,7 @@ import { guidFor } from '@ember/object/internals';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import { default as didUpdate } from '@ember/render-modifiers/modifiers/did-update';
+import type Owner from '@ember/owner';
 import { default as Button } from '../button.gts';
 import { default as Tooltip } from '../tooltip.gts';
 import { default as Checkbox } from '../checkbox.gts';
@@ -85,6 +86,11 @@ export default class Feedback extends Component<FeedbackSignature> {
 
   guid = guidFor(this);
 
+  constructor(owner: Owner, args: FeedbackSignature['Args']) {
+    super(owner, args);
+    this.applyInitialValues();
+  }
+
   get id() {
     return this.args.id ?? `cds-aichat-feedback-${this.guid}`;
   }
@@ -96,6 +102,10 @@ export default class Feedback extends Component<FeedbackSignature> {
     return Boolean(this.args.disclaimerCheckbox) && !this.disclaimerChecked;
   }
 
+  // Called from the constructor to seed the initial render, and from the
+  // `didUpdate` modifier below to reset on later `@initialValues` identity
+  // changes — `did-update` never fires on initial render, so the
+  // constructor call is required, not redundant.
   @action
   applyInitialValues() {
     const values = this.args.initialValues;

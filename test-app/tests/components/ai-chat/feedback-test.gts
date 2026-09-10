@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, fillIn } from '@ember/test-helpers';
-import { array } from '@ember/helper';
+import { array, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
@@ -91,6 +91,22 @@ module('Integration | Component | ai-chat/Feedback', (hooks) => {
 
     await click('.cds-aichat-feedback__close button');
     assert.true(closed);
+  });
+
+  test('@initialValues seeds the text area and selected categories on initial render', async function (assert) {
+    await render(
+      <template>
+        <Feedback
+          @isOpen={{true}}
+          @showTextArea={{true}}
+          @categories={{array 'Accurate' 'Helpful'}}
+          @initialValues={{hash text='seed' selectedCategories=(array 'Accurate')}}
+        />
+      </template>,
+    );
+
+    assert.dom('.cds-aichat-feedback__text-area').hasValue('seed');
+    assert.dom('.cds-aichat-feedback__tag:first-child').hasClass('cds-aichat-feedback__tag--selected');
   });
 
   test('changing @initialValues resets the text area and selected categories', async function (assert) {
