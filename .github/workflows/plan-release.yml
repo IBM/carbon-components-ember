@@ -66,18 +66,33 @@ jobs:
           set +e
 
           pnpm release-plan prepare 2> >(tee -a release-plan-stderr.txt >&2)
+          status=$?
 
-
-          if [ $? -ne 0 ]; then
+          if [ $status -ne 0 ]; then
             echo 'text<<EOF' >> $GITHUB_OUTPUT
             cat release-plan-stderr.txt >> $GITHUB_OUTPUT
             echo 'EOF' >> $GITHUB_OUTPUT
+            echo "status=blocked" >> $GITHUB_OUTPUT
+            # `release-plan prepare` exits before touching .release-plan.json/
+            # CHANGELOG.md/package.json when the plan is incomplete (e.g. some
+            # merged PRs are missing a semver label), so there is nothing left
+            # for create-pull-request to diff and it silently skips opening or
+            # updating the preview PR. Commit the explanation to a tracked
+            # placeholder file instead, so a PR still gets created/updated to
+            # surface which PRs need labels. Keep this filename clear of the
+            # ".release-plan.json" substring the release-trigger `grep -w -q`
+            # check below (and the same check in publish.yml) looks for, so
+            # merging this placeholder-only PR never fires a real release.
+            cp release-plan-stderr.txt .release-plan-pending.md
           else
             echo 'text<<EOF' >> $GITHUB_OUTPUT
             jq .description .release-plan.json -r >> $GITHUB_OUTPUT
             echo 'EOF' >> $GITHUB_OUTPUT
-            rm release-plan-stderr.txt
+            echo "status=ready" >> $GITHUB_OUTPUT
+            # plan is complete again; drop any stale pending-labels placeholder
+            rm -f .release-plan-pending.md
           fi
+          rm -f release-plan-stderr.txt
         env:
           GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
 
@@ -87,11 +102,11 @@ jobs:
           INPUT_COMMIT-MESSAGE: "Prepare Release using 'release-plan'"
           INPUT_LABELS: "internal"
           INPUT_BRANCH: release-preview
-          INPUT_TITLE: Prepare Release
+          INPUT_TITLE: "${{ steps.explanation.outputs.status == 'blocked' && 'Release Plan Incomplete' || 'Prepare Release' }}"
           INPUT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           INPUT_AUTHOR: "${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>"
           INPUT_BODY: |
-            This PR is a preview of the release that [release-plan](https://github.com/embroider-build/release-plan) has prepared. To release you should just merge this PR 👍
+            ${{ steps.explanation.outputs.status == 'blocked' && 'This PR is not ready to merge. release-plan could not compute the next release - see the explanation below for why, and what needs to change. This PR will update automatically once that is resolved and pushed to main.' || 'This PR is a preview of the release that [release-plan](https://github.com/embroider-build/release-plan) has prepared. To release you should just merge this PR 👍' }}
 
             -----------------------------------------
 
