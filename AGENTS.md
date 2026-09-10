@@ -510,7 +510,7 @@ for the reader of the docs site, not for yourself.
   story. Write a real modifier instead (§4). As of the 2026-09-09 audit,
   13 components still imported it; `checkbox.gts`, `code-snippet.gts`,
   `list.gts`, `ordered-list.gts`, `search.gts`, `toggletip.gts`,
-  `slider.gts`, `data-table.gts`, `pagination.gts`, and
+  `slider.gts`, `data-table.gts`, `pagination.gts`, `select.gts`, and
   `charts/-components/chart.gts` have since been migrated off it. 3
   components still import it: `popover.gts`, `select.gts`, `tooltip.gts`.
   Migrating one of these to a real modifier while you're already touching
@@ -540,13 +540,14 @@ for the reader of the docs site, not for yourself.
 - **Re-implementing an overlay primitive** — check the addon's own components
   first (`<Portal>`, `<Popover>` / `<PopoverContent>`), then `ember-primitives`
   for genuinely new primitives (focus trap, positioning). See §5.
-- **Re-implementing "close on outside click"** — `popover.gts` and
-  `toggletip.gts` each independently wire their own `document.addEventListener
-  ('click', ...)` (plus, in `toggletip.gts`, a `window` `blur` listener) to
-  detect an outside click and request close, with subtly different semantics
-  (capture phase vs. not). There's no shared modifier for this yet; if you're
-  touching either file, factoring the pattern into one shared modifier both
-  can use is worth doing rather than adding a third bespoke copy elsewhere.
+- **Re-implementing "close on outside click"** — fixed (2026-09-09).
+  `popover.gts` and `toggletip.gts` used to each independently wire their
+  own `document.addEventListener('click', ...)` (plus, in `toggletip.gts`,
+  a `window` `blur` listener), with subtly different semantics (capture
+  phase vs. not). Both now use the shared `closeOnOutsideClick` modifier in
+  `modifiers/close-on-outside-click.ts` (`{ capture, onWindowBlur }`
+  options cover the two differing behaviors); reach for that modifier
+  instead of adding a third bespoke copy elsewhere.
 - **`constructor(owner: any, args: any)`** — as of the 2026-09-09 mechanical
   cleanup, no component in this codebase types the owner `any` anymore; the
   last 12 (`time-picker.gts`, `text-area.gts`, `slider.gts`, `popover.gts`,
@@ -742,7 +743,12 @@ migration (`checkbox.gts`, `code-snippet.gts`, `list.gts`,
 counts. `slider.gts` was migrated off `@ember/render-modifiers` and had its
 template de-duplicated in the same follow-up PR, since both changes touched
 the same file — see the "What NOT to Reach For" entries above and the debt
-bullet above, now updated to reflect both.
+bullet above, now updated to reflect both. `popover.gts` was migrated off
+`@ember/render-modifiers` and its outside-click handling was unified with
+`toggletip.gts`'s into the shared `closeOnOutsideClick` modifier in a
+further follow-up PR, since both changes touched the same file — see the
+two relevant "What NOT to Reach For" entries above, now updated to reflect
+both.
 
 ## Key Resources
 

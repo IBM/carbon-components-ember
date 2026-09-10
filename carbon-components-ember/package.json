@@ -3024,6 +3024,7 @@
       "./helpers/carbon/new-obj.js": "./dist/_app_/helpers/carbon/new-obj.js",
       "./helpers/carbon/or.js": "./dist/_app_/helpers/carbon/or.js",
       "./helpers/carbon/set.js": "./dist/_app_/helpers/carbon/set.js",
+      "./modifiers/carbon/close-on-outside-click.js": "./dist/_app_/modifiers/carbon/close-on-outside-click.js",
       "./services/carbon/dialog-manager.js": "./dist/_app_/services/carbon/dialog-manager.js",
       "./services/carbon/notifications.js": "./dist/_app_/services/carbon/notifications.js"
     }
