@@ -12,8 +12,7 @@ import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { registerDestructor } from '@ember/destroyable';
 import { on } from '@ember/modifier';
-import didInsert from '@ember/render-modifiers/modifiers/did-insert';
-import didUpdate from '@ember/render-modifiers/modifiers/did-update';
+import { modifier } from 'ember-modifier';
 import { defaultArgs } from '../utils/decorators.ts';
 import { scheduleTask } from 'ember-lifeline';
 
@@ -151,16 +150,10 @@ export default class CarbonTooltip extends Component<CarbonTooltipSignature> {
     return classes.join(' ');
   }
 
-  @action
-  setup(el: HTMLElement) {
-    this.containerElement = el;
+  manageAutoAlign = modifier((element: HTMLElement) => {
+    this.containerElement = element;
     this.updateAutoAlign();
-  }
-
-  @action
-  update() {
-    this.updateAutoAlign();
-  }
+  });
 
   updateAutoAlign() {
     if (!this.args.autoAlign || !this.open || !this.containerElement) {
@@ -260,8 +253,7 @@ export default class CarbonTooltip extends Component<CarbonTooltipSignature> {
     <span
       class={{this.classes}}
       ...attributes
-      {{didInsert this.setup}}
-      {{didUpdate this.update this.open @align}}
+      {{this.manageAutoAlign}}
       {{on 'mouseenter' this.onMouseEnter}}
       {{on 'mouseleave' this.onMouseLeave}}
       {{on 'focusin' this.onFocusIn}}

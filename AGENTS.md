@@ -510,6 +510,9 @@ for the reader of the docs site, not for yourself.
   story. Write a real modifier instead (§4). As of the 2026-09-09 audit,
   13 components still imported it; `checkbox.gts`, `code-snippet.gts`,
   `list.gts`, `ordered-list.gts`, `search.gts`, `toggletip.gts`,
+  `slider.gts`, `data-table.gts`, `pagination.gts`, and `tooltip.gts` have
+  since been migrated off it. 3 components still import it:
+  `charts/-components/chart.gts`, `popover.gts`, `select.gts`. Migrating
   `slider.gts`, `data-table.gts`, `pagination.gts`, and `popover.gts`
   have since been migrated off it. 3 components still import it:
   `charts/-components/chart.gts`, `select.gts`, `tooltip.gts`. Migrating
