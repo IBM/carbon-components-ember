@@ -12,6 +12,7 @@ import { guidFor } from '@ember/object/internals';
 import { on } from '@ember/modifier';
 import { modifier as eModifier } from 'ember-modifier';
 import { default as eq } from 'ember-truth-helpers/helpers/eq';
+import { default as and } from 'ember-truth-helpers/helpers/and';
 import type { WithBoundArgs } from '@glint/template';
 import { default as Loading } from '../loading.gts';
 import { CheckmarkFilled, ChevronRight, ErrorFilled } from '../../icons.ts';
@@ -182,10 +183,9 @@ class ChainOfThoughtStep extends Component<ChainOfThoughtStepSignature> {
       {{/if}}
       <div
         id={{this.contentId}}
-        class='cds-aichat-chain-of-thought-step__content
-          {{if this.isOpen "cds-aichat-chain-of-thought-step__content--open"}}'
+        class='cds-aichat-chain-of-thought-step__content'
         aria-hidden={{if this.isOpen 'false' 'true'}}
-        hidden={{if (has-block) false true}}
+        hidden={{if (and (has-block) this.isOpen) false true}}
       >
         {{#if (has-block)}}
           <div class='cds-aichat-chain-of-thought-step__item'>

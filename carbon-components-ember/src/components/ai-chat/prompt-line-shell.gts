@@ -105,21 +105,12 @@ export default class PromptLineShell extends Component<PromptLineShellSignature>
           {{yield to='fieldMessaging'}}
         </div>
         <div class='cds-aichat-prompt-line-shell__text-and-actions'>
-          {{#if @expanded}}
-            <div class='cds-aichat-prompt-line-shell__text-area'>
-              {{yield to='editor'}}
-            </div>
-            <div class='cds-aichat-prompt-line-shell__message-actions'>
-              {{yield to='messageActions'}}
-            </div>
-          {{else}}
-            <div class='cds-aichat-prompt-line-shell__message-actions'>
-              {{yield to='messageActions'}}
-            </div>
-            <div class='cds-aichat-prompt-line-shell__text-area'>
-              {{yield to='editor'}}
-            </div>
-          {{/if}}
+          <div class='cds-aichat-prompt-line-shell__message-actions'>
+            {{yield to='messageActions'}}
+          </div>
+          <div class='cds-aichat-prompt-line-shell__text-area'>
+            {{yield to='editor'}}
+          </div>
         </div>
         <div class='cds-aichat-prompt-line-shell__send-control'>
           {{yield to='sendControl'}}

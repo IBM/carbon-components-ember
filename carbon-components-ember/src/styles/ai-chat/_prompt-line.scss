@@ -171,8 +171,25 @@
 .cds-aichat-prompt-line-shell__input-container--expanded
   .cds-aichat-prompt-line-shell__send-control {
   flex: 0 0 auto;
+  order: 3;
   margin-block: 0.5rem;
   margin-inline-start: auto;
+}
+
+// `__text-and-actions` renders `__message-actions` before `__text-area` in
+// the DOM unconditionally (see prompt-line-shell.gts) so toggling
+// `@expanded` never destroys/recreates the yielded editor/message-actions
+// content. `display: contents` above flattens both into this container's
+// own flex context, so `order` alone reverses their visual sequence for the
+// expanded layout without touching the DOM.
+.cds-aichat-prompt-line-shell__input-container--expanded
+  .cds-aichat-prompt-line-shell__text-area {
+  order: 1;
+}
+
+.cds-aichat-prompt-line-shell__input-container--expanded
+  .cds-aichat-prompt-line-shell__message-actions {
+  order: 2;
 }
 
 .cds-aichat-prompt-line-shell__input-container--expanded.cds-aichat-prompt-line-shell__input-container--has-message-actions

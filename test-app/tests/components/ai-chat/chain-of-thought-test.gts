@@ -66,6 +66,30 @@ module('Integration | Component | ai-chat/ChainOfThought', (hooks) => {
     assert.deepEqual(calls, [true, false]);
   });
 
+  test('a step with body content starts collapsed and expands/collapses its content on click', async function (assert) {
+    await render(
+      <template>
+        <ChainOfThought as |Step|>
+          <Step @title='Step'>Body content</Step>
+        </ChainOfThought>
+      </template>,
+    );
+
+    assert
+      .dom('.cds-aichat-chain-of-thought-step__content')
+      .hasAttribute('hidden', '', 'starts collapsed');
+
+    await click('.cds-aichat-chain-of-thought-step__header');
+    assert
+      .dom('.cds-aichat-chain-of-thought-step__content')
+      .doesNotHaveAttribute('hidden', 'expands on click');
+
+    await click('.cds-aichat-chain-of-thought-step__header');
+    assert
+      .dom('.cds-aichat-chain-of-thought-step__content')
+      .hasAttribute('hidden', '', 'collapses again on a second click');
+  });
+
   test('a controlled step never toggles itself; @open is the sole source of truth', async function (assert) {
     class State {
       @tracked open = false;
