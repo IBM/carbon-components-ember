@@ -87,9 +87,7 @@ export default class AiChatChatButton extends Component<AiChatChatButtonSignatur
   }
 
   get buttonType() {
-    return this.effectiveKind === 'ghost' || this.effectiveKind === 'tertiary' || this.effectiveKind === 'danger'
-      ? undefined
-      : this.effectiveKind;
+    return this.effectiveKind === 'ghost' || this.effectiveKind === 'tertiary' ? undefined : this.effectiveKind;
   }
 
   <template>

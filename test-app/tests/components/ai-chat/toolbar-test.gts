@@ -93,4 +93,51 @@ module('Integration | Component | ai-chat/Toolbar', (hooks) => {
 
     assert.dom('.cds-aichat-toolbar__fixed-actions .fixed-btn').exists();
   });
+
+  test('an href action renders as a link', async function (assert) {
+    const actions = [{ text: 'Docs', icon: Add, href: 'https://example.com/docs' }];
+
+    await render(<template><Toolbar @actions={{actions}} /></template>);
+
+    assert.dom('.cds-aichat-toolbar__actions-container a').hasAttribute('href', 'https://example.com/docs');
+    assert.dom('.cds-aichat-toolbar__actions-container a').doesNotHaveAttribute('aria-disabled');
+  });
+
+  test('a disabled href action strips href and is not navigable', async function (assert) {
+    const actions = [{ text: 'Docs', icon: Add, href: 'https://example.com/docs', disabled: true }];
+
+    await render(<template><Toolbar @actions={{actions}} /></template>);
+
+    const link = document.querySelector('.cds-aichat-toolbar__actions-container a');
+    assert.dom(link).hasClass('cds--btn--disabled');
+    assert.dom(link).doesNotHaveAttribute('href');
+    assert.dom(link).hasAttribute('role', 'link');
+    assert.dom(link).hasAttribute('aria-disabled', 'true');
+
+    // Safe to click: href was stripped above, so there's nothing to navigate to.
+    await click(link as HTMLElement);
+  });
+
+  test('@fixed actions never collapse into the overflow menu, even when they do not all fit', async function (assert) {
+    const actions = [
+      { text: 'Pinned 1', icon: Add, onClick: () => {}, fixed: true, testId: 'pinned-1' },
+      { text: 'Pinned 2', icon: Settings, onClick: () => {}, fixed: true, testId: 'pinned-2' },
+      { text: 'Extra 1', icon: Add, onClick: () => {}, testId: 'extra-1' },
+      { text: 'Extra 2', icon: Settings, onClick: () => {}, testId: 'extra-2' },
+    ];
+
+    await render(
+      <template>
+        <style>.cds-aichat-toolbar__measure { position: absolute; visibility: hidden; pointer-events: none; }</style>
+        <div style='max-inline-size: 60px;'>
+          <Toolbar @overflow={{true}} @actions={{actions}} />
+        </div>
+      </template>,
+    );
+
+    await waitUntil(() => find('.cds-aichat-toolbar .cds--overflow-menu'));
+
+    assert.dom('.cds-aichat-toolbar__actions-container [data-testid="pinned-1"]').exists();
+    assert.dom('.cds-aichat-toolbar__actions-container [data-testid="pinned-2"]').exists();
+  });
 });

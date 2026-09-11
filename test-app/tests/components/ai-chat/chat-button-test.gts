@@ -57,4 +57,12 @@ module('Integration | Component | ai-chat/AiChatChatButton', (hooks) => {
 
     assert.dom('.cds-aichat-button').hasClass('cds--btn--secondary');
   });
+
+  test('@kind="danger" renders as a danger button', async function (assert) {
+    await render(<template><AiChatChatButton @kind='danger'>Delete</AiChatChatButton></template>);
+
+    assert.dom('.cds-aichat-button').hasClass('cds--btn--danger');
+    assert.dom('.cds-aichat-button').doesNotHaveClass('cds--btn--primary');
+    assert.dom('.cds-aichat-button').doesNotHaveClass('cds--btn--secondary');
+  });
 });
