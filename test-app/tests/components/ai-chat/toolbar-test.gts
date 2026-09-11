@@ -118,6 +118,20 @@ module('Integration | Component | ai-chat/Toolbar', (hooks) => {
     await click(link as HTMLElement);
   });
 
+  test('without @overflow, actions render in their given order even when a @fixed action is not listed first', async function (assert) {
+    const actions = [
+      { text: 'Extra', icon: Add, onClick: () => {}, testId: 'extra' },
+      { text: 'Pinned', icon: Settings, onClick: () => {}, fixed: true, testId: 'pinned' },
+    ];
+
+    await render(<template><Toolbar @actions={{actions}} /></template>);
+
+    const testIds = [...document.querySelectorAll('.cds-aichat-toolbar__actions-container button')].map((el) =>
+      el.getAttribute('data-testid'),
+    );
+    assert.deepEqual(testIds, ['extra', 'pinned'], 'actions render in raw array order, not fixed-first');
+  });
+
   test('@fixed actions never collapse into the overflow menu, even when they do not all fit', async function (assert) {
     const actions = [
       { text: 'Pinned 1', icon: Add, onClick: () => {}, fixed: true, testId: 'pinned-1' },
