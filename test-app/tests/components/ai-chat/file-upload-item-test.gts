@@ -45,6 +45,17 @@ module('Integration | Component | ai-chat/FileUploadItem', (hooks) => {
     assert.dom('.cds--file-close').doesNotExist();
   });
 
+  test('status "success" shows a checkmark, not a remove/loading affordance', async function (assert) {
+    const upload = { id: '1', file: new File(['x'], 'a.txt', { type: 'text/plain' }), status: 'success' as const };
+
+    await render(<template><FileUploadItem @upload={{upload}} /></template>);
+
+    await waitUntil(() => find('.cds--file-complete'));
+    assert.dom('.cds--file-complete').exists();
+    assert.dom('.cds--file-close').doesNotExist();
+    assert.dom('.cds--file-loading').doesNotExist();
+  });
+
   test('status "complete" (settled) renders no status affordance at all', async function (assert) {
     const upload = { id: '1', file: new File(['x'], 'a.txt', { type: 'text/plain' }), status: 'complete' as const };
 
