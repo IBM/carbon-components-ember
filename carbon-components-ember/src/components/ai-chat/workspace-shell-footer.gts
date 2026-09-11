@@ -34,7 +34,6 @@ export interface WorkspaceShellFooterSignature {
 
 const RANK: Record<string, number> = {
   ghost: 1,
-  'danger--ghost': 2,
   tertiary: 3,
   danger: 5,
   primary: 6,
@@ -60,6 +59,11 @@ const watchStacked = modifier((element: HTMLElement, [onChange]: [(stacked: bool
  * unprefixed. Upstream renders `size="2xl"` buttons via
  * `@carbon/web-components`; this addon's `Button` tops out at `'xl'`, so
  * that's what's used here instead - a real, documented gap, not a bug.
+ *
+ * Upstream's `kind` also accepts `danger--tertiary`/`danger--ghost`
+ * combination kinds (from `@carbon/web-components`' `BUTTON_KIND`), same gap
+ * as `AiChatChatButton` - `WorkspaceShellFooterAction['kind']` doesn't
+ * accept them, so they're not reproduced here either.
  */
 export default class WorkspaceShellFooter extends Component<WorkspaceShellFooterSignature> {
   @tracked isStacked = false;

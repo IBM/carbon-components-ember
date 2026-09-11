@@ -214,7 +214,7 @@ export default class FileUploadItem extends Component<FileUploadItemSignature> {
           <FileUploaderStatusIcon
             @status={{this.iconStatus}}
             @name={{this.displayName}}
-            @iconDescription={{if (eq this.iconStatus 'uploading') (or @uploadingFileLabel 'Uploading') (or @removeFileLabel 'Remove file')}}
+            @iconDescription={{if (eq this.iconStatus 'uploading') (or @uploadingFileLabel 'Uploading file') (or @removeFileLabel 'Remove file')}}
             @onActivate={{this.handleRemove}}
           />
         </span>
