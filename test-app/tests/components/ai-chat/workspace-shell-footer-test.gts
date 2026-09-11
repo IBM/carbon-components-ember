@@ -42,4 +42,20 @@ module('Integration | Component | ai-chat/WorkspaceShellFooter', (hooks) => {
 
     assert.dom('.cds-aichat-workspace-shell__footer').hasClass('cds-aichat-workspace-shell__footer--three-buttons');
   });
+
+  test('kind: secondary renders the secondary Button variant class', async function (assert) {
+    const actions = [{ label: 'Secondary', kind: 'secondary' as const }];
+
+    await render(<template><WorkspaceShellFooter @actions={{actions}} /></template>);
+
+    assert.dom('.cds-aichat-workspace-shell__footer button').hasClass('cds--btn--secondary');
+  });
+
+  test('kind: danger renders the danger Button variant class', async function (assert) {
+    const actions = [{ label: 'Danger', kind: 'danger' as const }];
+
+    await render(<template><WorkspaceShellFooter @actions={{actions}} /></template>);
+
+    assert.dom('.cds-aichat-workspace-shell__footer button').hasClass('cds--btn--danger');
+  });
 });
