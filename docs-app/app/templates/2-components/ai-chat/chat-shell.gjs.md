@@ -12,13 +12,12 @@ owns no conversation state.
 uncontrolled/default-open variant, matching upstream's own API.
 
 The `input` block is entirely caller-supplied too — `ChatShell` doesn't own a
-text field or send button. Upstream's actual prompt input is a separate
-`prompt-line` component that hasn't been ported yet, so the demo below wires
-up a plain `TextInput` + `Button` instead, just to show a real, typeable
-input rather than static placeholder text.
+text field or send button. The demo below composes `PromptLineShell` +
+`PromptLine` (upstream's own separate `prompt-line` component) into it.
 
 ```gjs live preview
-import { Button, ChatShell, TextInput } from 'carbon-components-ember/components';
+import { ChatShell, PromptLine, PromptLineShell, Button, Tooltip } from 'carbon-components-ember/components';
+import { Send } from 'carbon-components-ember/icons';
 import { ThemeSupport } from 'docs-support';
 import { trackedObject, trackedArray } from '@ember/reactive/collections';
 
@@ -70,15 +69,24 @@ const send = () => {
         {{/each}}
       </:messages>
       <:input>
-        <div style='display: flex; gap: 0.5rem; align-items: flex-end; padding: 1rem;'>
-          <TextInput
-            @labelText='Message'
-            @hideLabel={{true}}
-            @placeholder='Type a message…'
-            @value={{state.draft}}
-            @onChange={{updateDraft}}
-          />
-          <Button @size='sm' @onClick={{send}}>Send</Button>
+        <div style='padding: 1rem;'>
+          <PromptLineShell @rounded={{true}}>
+            <:editor>
+              <PromptLine
+                @content={{state.draft}}
+                @placeholder='Type a message…'
+                @onChange={{updateDraft}}
+                @onSendIntent={{send}}
+              />
+            </:editor>
+            <:sendControl>
+              <Tooltip @label='Send' @autoAlign={{true}}>
+                <Button @type={{undefined}} @ghost={{true}} @size='sm' @iconOnly={{true}} @onClick={{send}} aria-label='Send'>
+                  <Send @size='16' />
+                </Button>
+              </Tooltip>
+            </:sendControl>
+          </PromptLineShell>
         </div>
       </:input>
     </ChatShell>

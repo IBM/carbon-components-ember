@@ -1,0 +1,221 @@
+// Ember port of @carbon/ai-chat-components' chain-of-thought.scss,
+// chain-of-thought-step.scss and chain-of-thought-toggle.scss
+// (packages/ai-chat-components/src/components/chain-of-thought/src/*.scss).
+//
+// Selectors are adapted from `:host(...)` to plain `.cds-aichat-*` classes
+// (light DOM, matching every other component in this port); colors and
+// spacing reference `@carbon/styles`' compiled `--cds-*` custom properties
+// (colors) or literal rem values (spacing/motion — those aren't emitted as
+// runtime custom properties, see `_resizer.scss`'s equivalent note and the
+// `docs_resizer_spacing_custom_property_gotcha` lesson).
+
+.cds-aichat-chain-of-thought {
+  display: block;
+}
+
+.cds-aichat-chain-of-thought__content {
+  display: none;
+  overflow: hidden;
+  border: 1px solid var(--cds-border-subtle-01, #c6c6c6);
+  background-color: var(--cds-layer-01, #f4f4f4);
+  margin-block-start: 0.5rem;
+  max-block-size: 0;
+  opacity: 0;
+  transition: all 110ms cubic-bezier(0.2, 0, 0.38, 0.9);
+}
+
+.cds-aichat-chain-of-thought__content--open {
+  display: block;
+  overflow: visible;
+  max-block-size: fit-content;
+  opacity: 1;
+}
+
+// -----------------------------------------------------------------------
+// Step
+// -----------------------------------------------------------------------
+
+.cds-aichat-chain-of-thought-step {
+  display: block;
+  background: var(--cds-layer-02, #ffffff);
+  font-size: var(--cds-body-01-font-size, 0.875rem);
+  line-height: var(--cds-body-01-line-height, 1.42857);
+}
+
+.cds-aichat-chain-of-thought-step--even {
+  background: var(--cds-layer-accent-02, #e0e0e0);
+}
+
+.cds-aichat-chain-of-thought-step__content {
+  display: block;
+  overflow: visible;
+  background: var(--cds-layer-01, #f4f4f4);
+  color: var(--cds-text-primary, #161616);
+  max-block-size: fit-content;
+  opacity: 1;
+  transition: all 110ms cubic-bezier(0.2, 0, 0.38, 0.9);
+}
+
+.cds-aichat-chain-of-thought-step__item {
+  padding-block: 1rem;
+  padding-inline: 2rem 1rem;
+}
+
+.cds-aichat-chain-of-thought-step__content[hidden] {
+  display: none;
+  overflow: hidden;
+  max-block-size: 0;
+  opacity: 0;
+  padding-block: 0;
+  padding-inline: 0;
+}
+
+.cds-aichat-chain-of-thought-step__header-chevron {
+  display: flex;
+  flex: 0 1 2rem;
+  justify-content: center;
+  color: var(--cds-text-primary, #161616);
+
+  svg {
+    fill: var(--cds-text-primary, #161616);
+    transform: rotate(-270deg);
+    transition: all 110ms cubic-bezier(0.4, 0.14, 0.3, 1);
+  }
+}
+
+.cds-aichat-chain-of-thought-step__header-chevron--open svg {
+  transform: rotate(-90deg);
+}
+
+.cds-aichat-chain-of-thought-step__static {
+  display: flex;
+  align-items: center;
+  background: var(--cds-layer-accent-02, #e0e0e0);
+  block-size: 2rem;
+  color: var(--cds-text-primary, #161616);
+  font-size: var(--cds-body-01-font-size, 0.875rem);
+  line-height: var(--cds-body-01-line-height, 1.42857);
+}
+
+.cds-aichat-chain-of-thought-step__header {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0.5rem 0;
+  border: 0;
+  background: var(--cds-layer-accent-02, #e0e0e0);
+  block-size: 2rem;
+  cursor: pointer;
+  font: inherit;
+  inline-size: 100%;
+  text-align: start;
+}
+
+.cds-aichat-chain-of-thought-step__header:disabled {
+  cursor: default;
+}
+
+.cds-aichat-chain-of-thought-step--odd .cds-aichat-chain-of-thought-step__header,
+.cds-aichat-chain-of-thought-step--odd .cds-aichat-chain-of-thought-step__static {
+  background: var(--cds-layer-02, #ffffff);
+}
+
+.cds-aichat-chain-of-thought-step__header:focus,
+.cds-aichat-chain-of-thought-step__header:focus-visible {
+  position: relative;
+  z-index: 2;
+  box-shadow:
+    0 -1px 0 0 var(--cds-focus, #0f62fe),
+    inset 0 1px 0 0 var(--cds-focus, #0f62fe),
+    inset 2px 0 0 0 var(--cds-focus, #0f62fe),
+    0 1px 0 0 var(--cds-focus, #0f62fe),
+    inset 0 -1px 0 0 var(--cds-focus, #0f62fe),
+    inset -2px 0 0 0 var(--cds-focus, #0f62fe);
+  outline: none;
+}
+
+.cds-aichat-chain-of-thought-step__header-title {
+  overflow: hidden;
+  flex: 1 1;
+  color: var(--cds-text-primary, #161616);
+  margin-inline-end: 0.5rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cds-aichat-chain-of-thought-step__header-status {
+  display: flex;
+  flex: 0 0 1.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.cds-aichat-chain-of-thought-step__header-status--failure {
+  margin-inline-end: 0.5rem;
+
+  svg {
+    fill: var(--cds-support-error, #da1e28);
+  }
+}
+
+.cds-aichat-chain-of-thought-step__header-status--success {
+  margin-inline-end: 0.5rem;
+
+  svg {
+    fill: var(--cds-support-success, #24a148);
+  }
+}
+
+// -----------------------------------------------------------------------
+// Toggle
+// -----------------------------------------------------------------------
+
+.cds-aichat-chain-of-thought-toggle {
+  display: block;
+  max-inline-size: 100%;
+}
+
+.cds-aichat-chain-of-thought-toggle--open .cds-aichat-chain-of-thought-toggle__chevron svg {
+  transform: rotate(0deg);
+}
+
+.cds-aichat-chain-of-thought-toggle__chevron {
+  display: flex;
+  flex-basis: 1.5rem;
+  margin-inline-end: 2px;
+
+  svg {
+    transform: rotate(-90deg);
+    transition: all 110ms cubic-bezier(0.2, 0, 0.38, 0.9);
+  }
+}
+
+.cds-aichat-chain-of-thought-toggle__button {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  box-sizing: border-box;
+  border: 0;
+  background: transparent;
+  color: var(--cds-text-primary, #161616);
+  cursor: pointer;
+  font-size: var(--cds-heading-01-font-size, 0.875rem);
+  font-weight: var(--cds-heading-01-font-weight, 600);
+  inline-size: max-content;
+  max-inline-size: 100%;
+  min-inline-size: 0;
+  padding: 0;
+}
+
+.cds-aichat-chain-of-thought-toggle__label {
+  overflow: hidden;
+  flex: 0 1 auto;
+  min-inline-size: fit-content;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cds-aichat-chain-of-thought-toggle__button:focus,
+.cds-aichat-chain-of-thought-toggle__button:focus-visible {
+  outline: 2px solid var(--cds-focus, #0f62fe);
+}

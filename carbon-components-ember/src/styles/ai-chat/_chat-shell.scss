@@ -138,6 +138,21 @@ $history-width: 320px;
   min-inline-size: $messages-min-width;
 }
 
+// Upstream enforces this same fixed $messages-min-width unconditionally too,
+// but only gets away with it because its ResizeObserverManager (not ported —
+// see the class doc in chat-shell.gts) collapses the history panel below a
+// container-width breakpoint before the two fixed-width columns can compete
+// for space. Without that JS, a shell narrower than
+// $history-width + $messages-min-width combined with `@showHistory` pushes
+// `__input-and-messages` (and everything inside it, including the input row)
+// past the shell's own right edge instead of wrapping/shrinking. Letting the
+// messages column shrink below its floor once history is showing avoids the
+// overflow; `@showWorkspace` alone never needed this since `__workspace`
+// already has its own `min-inline-size: 0`.
+.cds-aichat-shell.show-history .cds-aichat-shell__input-and-messages {
+  min-inline-size: 0;
+}
+
 .cds-aichat-shell__input-and-messages.at-max-width {
   margin: auto;
   inline-size: 100%;

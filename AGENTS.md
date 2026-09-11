@@ -1142,6 +1142,145 @@ a wave of `TS18048`/`TS2532` "possibly undefined" errors on every
 non-null assertions at each site (already used elsewhere in this codebase,
 e.g. `copy-button.gts`) rather than restructuring the ported logic.
 
+### Batch 2 (`chain-of-thought`, `reasoning-steps`, `feedback`, `prompt-line`) — split, controlled/uncontrolled, and scope cuts
+
+The originally-scoped batch also included `chat-history`, which was split
+into its own follow-up todo instead: its manifest has ~10 sub-elements
+(`history-shell`/`-header`/`-toolbar`/`-panel`/`-panel-items`/`-panel-item`/
+`-panel-item-input`/`-panel-menu`/`-search-item`/`-loading`/`-delete-panel`),
+materially larger than any single "component" shipped so far (batch 1's
+`card`/`card-footer`/`card-steps` was 3 elements) and it wraps
+`CDSSideNav`/`CDSSideNavItems` plus a real overflow-menu repositioning
+concern — a dependency question worth its own review, not a size call made
+lightly. None of `chain-of-thought`, `reasoning-steps`, `feedback`, or
+`prompt-line` collide with a Carbon React component name or an existing
+filename (checked both, per the batch-1 precedent above) — all four stay
+unprefixed, no `AI_CHAT_EXPORT_OVERRIDES` entries needed.
+
+**`chain-of-thought` and `reasoning-steps` are genuine controlled/
+uncontrolled components, unlike `chat-shell`.** Unlike the launcher/
+chat-shell slice (where §3's rule resolved to "always controlled" because
+upstream had *no* open/closed concept at all), these two upstream widgets
+implement their own real controlled/uncontrolled mechanism per step
+(`open` + `controlled`, self-toggling on click unless `controlled` is set,
+in which case a click only calls the toggle callback). Ported 1:1: each
+step is a private sub-component (`ChainOfThoughtStep`/`ReasoningStep`,
+same shape as `Accordion`'s `Item`) with `@open ?? internalTracked` as the
+effective state and an internal write gated on `!@controlled` — and the
+container yields the step pre-bound with `@controlled` via `WithBoundArgs`
+(the `Layer` #460 pattern), so `<ChainOfThought @controlled={{true}} as
+|Step|>` propagates to every step without the container needing to know
+how many there are. Upstream's own `ChainOfThought`/`ReasoningSteps`
+containers, by contrast, really are "always controlled" the same way
+`chat-shell` is (no self-toggle logic at all, just a plain `@open` the
+host sets) — the controlled/uncontrolled question only applies one level
+down, at the step.
+
+**Static vs. interactive header is resolved with `{{has-block}}`, not
+upstream's live slot-occupancy sniffing.** Both step components render a
+non-interactive (`&mdash;`) header when they have no body content, and
+upstream decides that by inspecting live slotted DOM nodes (and auto-
+closing an uncontrolled step whose content just got removed). `{{has-block}}`
+is static per invocation in Ember, so that auto-close-on-empty behavior
+has no equivalent here and isn't reproduced — a step either has a body
+block or it doesn't, for its whole lifetime.
+
+**Real gaps, documented in each component's own class doc, not silently
+dropped:** `ChainOfThought`'s upstream `@onStepToggle` aggregates a
+`chain-of-thought-step-toggled` DOM event bubbling up from *any* child
+step — that relies on DOM-tree event bubbling with no clean equivalent for
+a block-yielded child in Ember, so it's not reproduced; pass a step-level
+`@onToggle` to each step instead. `ReasoningSteps`' `reasoning-animation-
+start`/`-end` events and `markLastVisibleStep()` exist purely to feed
+upstream's own (unported) message-list scroll manager and `data-last-item`
+CSS hook — the latter has no matching CSS rule in upstream's own fetched
+`.scss` either, a pre-existing dead hook, not something this port broke.
+
+**`feedback`/`feedback-buttons` — plain-button category chips, disclaimer
+via `Markdown`, and a real-modifier-vs-`did-update` initial-render gotcha.**
+Upstream's
+`cds-aichat-feedback` category chips are `cds-selectable-tag`, a variant
+this addon has no equivalent for (Carbon React's own `Tag` has no
+selectable state either) — ported as plain `<button>`s toggling a
+`--selected` modifier class rather than introducing a new shared
+`SelectableTag` component for a single caller. The disclaimer string
+renders through this same initiative's own `Markdown` port
+(`ai-chat/markdown.gts`), matching upstream's use of its sibling
+`cds-aichat-markdown` custom element rather than a raw `{{@disclaimer}}`
+interpolation. The submit button is disabled from the start only when
+`@disclaimerCheckbox` is passed (gating submission on that checkbox); when
+omitted, no checkbox renders and submit is enabled immediately, matching
+upstream's own default. `FeedbackButtons` drops upstream's
+direction-based tooltip alignment flip (`top-start`/`top-end` depending on
+document direction) since this addon's `Tooltip` already has an
+`@autoAlign` that repositions to stay in-viewport regardless of direction,
+making the upstream flip redundant here.
+
+`@initialValues` seeds (and, on later identity change, resets) `Feedback`'s
+text area and selected categories. The first version wired this seeding
+*only* through `{{didUpdate this.applyInitialValues @initialValues}}` —
+missed that `@ember/render-modifiers`' `did-update` explicitly never runs
+on initial render, so a consumer passing `@initialValues` at mount (e.g. a
+read-only panel showing previously-submitted feedback, exactly the shipped
+docs demo's second example) rendered an empty, unselected panel instead. A
+second pass patched this by also calling `applyInitialValues()` once from
+the constructor, keeping `didUpdate` for the "reset on later identity
+change" half — but that reintroduced `@ember/render-modifiers` into brand
+-new code, exactly what this file's "What NOT to Reach For" section says
+not to do, and needed the extra constructor call as a workaround only
+because `did-update` itself can't cover initial render. Replaced with a
+real `ember-modifier` (`watchInitialValues`, same shape as
+`chain-of-thought.gts`'s `watchOpen`) that takes `@initialValues` as its
+tracked positional arg and calls `applyInitialValues()` — a real modifier
+fires on initial install too, so it covers both the seed and the reset in
+one place and the separate constructor call could be deleted entirely.
+Worth checking for the same gap in any other component here that uses
+`did-update` (or is tempted to) to seed from an arg rather than purely to
+react to changes after mount — reach for a real modifier from the start
+instead.
+
+**`prompt-line` is textarea-mode only — the Tiptap rich editor is left for
+a follow-up, same reasoning as `flatpickr`/`@carbon/utilities`/
+`markdown-it`.** Confirmed from the real source (not just the manifest)
+that `rich: false` is the actual default and the textarea surface is a
+fully separate, Tiptap-free code path (`TextareaController` in upstream's
+`prompt-line-textarea-runtime.ts`) — only loaded into Tiptap when `rich` is
+set or `ensureEditor()` is called. This port implements exactly that
+default textarea path as a plain `.gts` component: a `<textarea>` +
+hidden-mirror auto-grow trick (ported as static SCSS instead of upstream's
+runtime CSSOM-injection helper, which exists only for its shadow-DOM/CSP
+constraint — irrelevant in this addon's light-DOM rendering), an
+`ember-modifier`-driven `@content` sync (mirroring `DatePicker`'s
+`syncValue` pattern: only re-runs when the tracked `@content` positional
+arg actually changes, so it can't clobber the caret while the user is
+mid-keystroke), and the same Enter/Shift-Enter/Mod-Enter/Escape keymap.
+Deliberately **not** accepted as no-op args (unlike `chat-shell`'s benign
+unwired `@*Announcement` strings — see the translation notes above):
+`@rich`, `@extensions`, `getEditor()`/`ensureEditor()`, `undo()`/`redo()`,
+`insertContent()`, `setTextSelection()`. An arg that silently does nothing
+is worse API than one that doesn't exist; all of it is left for whoever
+picks up the rich-mode follow-up. Also not reproduced: the keyboard-vs-
+pointer focus-ring distinction (`cds-aichat-prompt-focus`'s `keyboard`
+detail, which `PromptLineShell`'s own CSS keys off of) and the
+`cds-aichat-prompt-typing`/`cds-aichat-prompt-keydown` events — both exist
+upstream to keep a typing indicator and the textarea↔rich transfer
+contract in sync, and there's nothing to keep in sync with only one
+editing surface. A native `autofocus` attribute is disallowed by this repo's own
+`ember-template-lint` config (`no-autofocus-attribute`) — reproduced
+upstream's actual behavior instead (a deferred microtask `focus()` call
+after mount, not the native attribute) via a small modifier.
+
+**`PromptLineShell`'s five kebab-case upstream slots become six camelCase
+named blocks** (the extra one, `editor`, is unnamed in upstream's own
+JSDoc but is a real slot in its implementation) — `<:messageActions>`,
+`<:fileUploads>`, `<:autocompleteContent>`, `<:fieldMessaging>`,
+`<:sendControl>`. `_hasMessageActions`'s slot-occupancy check becomes
+`{{has-block "messageActions"}}`; `_hasFileUploads` (which upstream derives
+from a `MutationObserver` watching the slotted file-uploads element's own
+`has-uploads` attribute — genuinely dynamic content a block-presence check
+can't see) becomes a plain `@hasFileUploads` arg instead, passed straight
+through from whatever tracks the upload list.
+
 ## Key Resources
 
 - **Carbon React**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components

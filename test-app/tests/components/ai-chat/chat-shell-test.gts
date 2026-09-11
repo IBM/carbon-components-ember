@@ -1,6 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
+import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
+import { waitForAnimationFrame } from '../../helpers';
 import ChatShell from 'carbon-components-ember/components/ai-chat/chat-shell';
 
 module('Integration | Component | ai-chat/ChatShell', (hooks) => {
@@ -164,5 +166,42 @@ module('Integration | Component | ai-chat/ChatShell', (hooks) => {
     );
 
     assert.dom('[data-test-custom-panel]').hasText('a panel');
+  });
+
+  test('the input-and-messages column shrinks instead of overflowing the shell when @showHistory is true on a narrow container', async function (assert) {
+    // `.cds-aichat-shell__history` (320px) and the default
+    // `min-inline-size` floor on `.cds-aichat-shell__input-and-messages`
+    // (also 320px) together need more width than this 480px shell has -
+    // without the `show-history` override in `_chat-shell.scss`, the
+    // messages column overflows the shell's own right edge instead of
+    // shrinking. That override only comes from real `@carbon/styles` CSS,
+    // which test-app's dev-mode build doesn't reliably load for a
+    // component under test - inject it directly so this test exercises
+    // real layout instead of the browser's static default.
+    await render(
+      <template>
+        <style>{{carbonStyle.default}}</style>
+        <div style='inline-size: 480px'>
+          <ChatShell @showHistory={{true}}>
+            <:history>history content</:history>
+            <:messages></:messages>
+            <:input>the input</:input>
+          </ChatShell>
+        </div>
+      </template>,
+    );
+    await waitForAnimationFrame();
+
+    const shellRect = document
+      .querySelector('.cds-aichat-shell')!
+      .getBoundingClientRect();
+    const inputRect = document
+      .querySelector('[data-panel-slot="input"]')!
+      .getBoundingClientRect();
+
+    assert.ok(
+      inputRect.right <= shellRect.right + 1,
+      `input column right edge (${inputRect.right}) stays within the shell's right edge (${shellRect.right})`,
+    );
   });
 });

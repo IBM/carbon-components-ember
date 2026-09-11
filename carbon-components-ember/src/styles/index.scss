@@ -13,6 +13,10 @@
 @use 'ai-chat/truncated-text';
 @use 'ai-chat/table';
 @use 'ai-chat/markdown';
+@use 'ai-chat/chain-of-thought';
+@use 'ai-chat/reasoning-steps';
+@use 'ai-chat/feedback';
+@use 'ai-chat/prompt-line';
 
 // `Grid`/`GridRow`/`GridColumn` render the `cds--grid`/`cds--row`/`cds--col-*`
 // class names from Carbon's Flexbox Grid, but `@carbon/styles`'s prebuilt
