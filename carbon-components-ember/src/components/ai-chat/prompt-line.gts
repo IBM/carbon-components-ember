@@ -13,6 +13,7 @@ import type { EditingSurfaceController } from './-prompt-line/controller.ts';
 import { getRichRuntimeIfLoaded, loadRichRuntime } from './-prompt-line/rich-loader.ts';
 import { TextareaController } from './-prompt-line/textarea-controller.ts';
 import { textOffsetToDocPos } from './-prompt-line/text-utils.ts';
+import type { SuggestionItem } from './-prompt-line/tiptap/types.ts';
 
 /**
  * Imperative handle to the live editing surface, handed to `@onReady` once
@@ -38,6 +39,16 @@ export interface PromptLineApi {
   selectAll(): void;
   undo(): boolean;
   redo(): boolean;
+  /**
+   * Completes the active mention/command/autocomplete trigger with `item` —
+   * the counterpart to a host-rendered popup's click/Enter handling. `false`
+   * when textarea mode or no trigger is currently active. See
+   * `-prompt-line/tiptap/build-extensions.ts` for building the extensions
+   * that open a trigger in the first place.
+   */
+  selectSuggestion(item: SuggestionItem): boolean;
+  /** Closes the active trigger without selecting. `false` when none is active. */
+  dismissSuggestion(): boolean;
 }
 
 export type Args = {
@@ -98,12 +109,25 @@ export interface PromptLineSignature {
  * `PromptLineApi` handle works identically in either, so a consumer never
  * needs to branch on which is currently mounted.
  *
- * Deliberately narrower than upstream's rich mode: no mention/autocomplete
- * extensions (`carbon-mention`/`carbon-autocomplete`/`carbon-starter-trigger`
- * — a separate, not-yet-ported feature; `@extensions` accepts plain Tiptap
- * `Extension`s only) and no typing-indicator event (nothing in this port
- * consumes one; a caller can debounce `@onChange` itself). Also not
- * reproduced: the keyboard-vs-pointer focus-ring distinction upstream
+ * Mention (`@`), command (`/`), autocomplete, and starter-prompt Tiptap
+ * extensions are available under `-prompt-line/tiptap/` (`carbonMention`/
+ * `carbonCommand`/`carbonAutocomplete`/`carbonStarterTrigger`, or
+ * `buildCarbonExtensions` to assemble several at once) — build one and pass
+ * it through `@extensions` like any other Tiptap extension; `PromptLine`
+ * itself has no dedicated mention/command/autocomplete/starter args,
+ * matching upstream's own `<cds-aichat-prompt-line>` (which doesn't have
+ * them either — only its *host application* builds and passes extensions).
+ * This port ships **no suggestion popup UI** (upstream's own
+ * `autocomplete-controller.ts` + `<cds-aichat-autocomplete>`, a separate,
+ * not-yet-ported feature) — a host listens for the real, bubbling
+ * `cds-aichat-trigger-change` DOM event the same way it already can for
+ * `keydown` (see below), renders its own popup from the `{ type, query,
+ * triggerOffset }` detail plus its own copy of whichever config it passed
+ * to the extension factory, and completes or cancels the trigger via
+ * `PromptLineApi.selectSuggestion()`/`dismissSuggestion()`. No typing-
+ * indicator event either (nothing in this port consumes one; a caller can
+ * debounce `@onChange` itself). Also not reproduced: the keyboard-vs-pointer
+ * focus-ring distinction upstream
  * derives from a `keyboard` event detail (`MouseFocusController`, wired into
  * both controllers) — see `PromptLineShell`'s class doc for why a native
  * `:focus-visible`-based CSS fix can't close this gap either; and the
@@ -213,6 +237,8 @@ export default class PromptLine extends Component<PromptLineSignature> {
     selectAll: () => this.controller?.selectAll(),
     undo: () => this.controller?.undo() ?? false,
     redo: () => this.controller?.redo() ?? false,
+    selectSuggestion: (item) => this.controller?.selectSuggestion(item) ?? false,
+    dismissSuggestion: () => this.controller?.dismissSuggestion() ?? false,
   };
 
   private ensureEditor(): Promise<Editor> {

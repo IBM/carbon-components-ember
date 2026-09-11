@@ -1294,12 +1294,12 @@ preserved); documented in both the class doc and the docs demo to memoize
 it.
 
 **Mention/autocomplete (`carbon-mention`/`carbon-autocomplete`/
-`carbon-starter-trigger`/`token-node-view`) are deliberately left unported,
-not just deferred** — `@extensions` accepts plain Tiptap `Extension`s only,
-so no `content`-as-`JSONContent` seeding either, only plain strings.
-Reading upstream's real source
+`carbon-starter-trigger`/`token-node-view`) were deliberately left unported
+here, not just deferred** — `@extensions` accepted plain Tiptap `Extension`s
+only at this point, so no `content`-as-`JSONContent` seeding either, only
+plain strings. Reading upstream's real source
 (`packages/ai-chat-components/src/components/prompt-line/src/tiptap/`)
-surfaced four concrete reasons this needs its own dependency-review todo
+surfaced four concrete reasons this needed its own dependency-review todo
 rather than folding into this port: (1) a new runtime dependency —
 `@tiptap/extension-mention` (itself built on `@tiptap/suggestion`); (2)
 `carbon-mention.ts`'s `onRemove` removal plugin is built directly on
@@ -1312,7 +1312,12 @@ with no precedent anywhere in this addon; (4) an unanswered API-shape
 question — upstream dispatches a `cds-aichat-trigger-change` event and lets
 the *host* render the suggestion popup, so an Ember port has to decide
 whether that becomes a named block, a yielded API, or a separate component,
-before any code gets written. Tracked as its own follow-up todo.
+before any code gets written. Tracked as its own follow-up todo — since
+landed; see "`prompt-line`'s mention/command/autocomplete/starter
+extensions" below for how each of these four was actually resolved (short
+version: (1) added, pinned exact; (2) both `suppressChange` and origin
+tagging coexist; (3) not ported at all, default chip only; (4) no new args
+on `PromptLine`, a plain DOM event a host already can listen for).
 
 **The textarea→rich swap is a lossless, same-frame handoff**, ported
 faithfully from upstream's `_swapToRich`: capture the textarea's plain
@@ -1475,6 +1480,139 @@ from a `MutationObserver` watching the slotted file-uploads element's own
 `has-uploads` attribute — genuinely dynamic content a block-presence check
 can't see) becomes a plain `@hasFileUploads` arg instead, passed straight
 through from whatever tracks the upload list.
+
+### `prompt-line`'s mention/command/autocomplete/starter extensions
+
+Follow-up to the three gaps batch 2's `prompt-line` write-up (above) left
+open under "Mention/autocomplete ... are deliberately left unported."
+Ported upstream's `tiptap/carbon-mention.ts`/`carbon-autocomplete.ts`/
+`carbon-starter-trigger.ts`/`build-extensions.ts` as
+`ai-chat/-prompt-line/tiptap/*.ts` — standalone Tiptap extension factories a
+host imports and passes through `PromptLine`'s existing `@extensions` arg,
+exactly like any other Tiptap extension. **No new args on `PromptLine`
+itself** — checked upstream's real `<cds-aichat-prompt-line>` first and it
+has no `mention`/`command`/`autocomplete`/`starters` props either; only the
+*host application* (outside `@carbon/ai-chat-components` entirely) calls
+`buildCarbonExtensions` and passes the result in. `PromptLineShell` builds
+none either ("chat-domain logic, builds no Tiptap extensions" — its own
+class doc). Matching that division of responsibility kept this from turning
+into a second, parallel config surface to maintain.
+
+**Scope cut, decided before writing code (advisor-reviewed): the suggestion
+popup itself is not ported.** Reading upstream's real source turned up two
+more pieces beyond the three already-flagged tiptap/ files —
+`autocomplete-controller.ts` (~860 lines: async item resolution with
+stale-result protection, keyboard forwarding, dismissal) and
+`prompt-line/autocomplete/src/autocomplete.ts` (~770 lines, the actual Lit
+popup element) — both living in a *sibling* directory behind the
+`cds-aichat-trigger-change` event boundary, not inside `tiptap/`. Upstream's
+own layering (extensions dispatch an event; a separate controller+element
+renders the popup) is the proof this split is real, not arbitrary. Left
+unported, scheduled as its own follow-up (its event/callback surface here is
+its input contract) — porting it is a second batch-2-sized task on its own
+(list positioning, keyboard nav, grouping, stale-async-result handling), not
+a rounding error to fold in. `PromptLineApi` gained `selectSuggestion(item)`/
+`dismissSuggestion()` so a host's own popup (or the eventual ported one) can
+complete or cancel the active trigger without reaching into Tiptap.
+
+**`renderCustomToken` is not accepted, matching the "no-op arg is worse than
+an absent one" rule** — a Tiptap `NodeView`'s `dom` must exist synchronously
+from its constructor; synchronously rendering a Glimmer component into it
+needs a `{{in-element}}`-plus-tracked-registry design with no precedent in
+this addon (the same class of problem upstream's own light-DOM portal
+handshake solves for its shadow-DOM/React case — not reproduced, since this
+addon has no shadow root to escape in the first place). Only the default
+chip (`createTokenContainer`/`createDefaultChip`, ported as
+`ai-chat/-prompt-line/tiptap/token-chip.ts`) is available; its colors are
+real SCSS (`_prompt-line.scss`'s `.cds-aichat--token` rules, verified
+against the resolved `@carbon/styles` bundle — see the "always verify a
+`var(--cds-*)` reference resolves" gotcha from the Resizer PR) rather than
+upstream's runtime `setVarsForSelector` CSSOM injection, matching how this
+port already prefers static SCSS over upstream's shadow-DOM-only styling
+tricks elsewhere.
+
+**`origin-meta.ts` is ported, additively, not as a replacement for
+`suppressChange`.** The original batch-2 write-up framed `onRemove`'s
+`isHostOrigin(tr)` origin-tagging as something this port's simpler
+`suppressChange` boolean guard "would re-open" if ever ported — the actual
+resolution is that both coexist, each solving a different problem:
+`suppressChange` still guards `onChange` re-emission on a controlled
+`setContent`; `origin-meta.ts`'s `setHostOriginMeta`/`isHostOrigin` (ported
+verbatim) additionally tags the same transactions so the mention/command
+removal plugin can tell a host-driven change from a user edit and skip
+`onRemove` for the former. Tagging a transaction inside `RichController`'s
+command-based methods needed one real trick: `editor.chain().command(({tr})
+=> { setHostOriginMeta(tr); return true; }).setContent(...).run()` — Tiptap
+chains apply every command against one shared `tr`, dispatched once at the
+end, so a leading no-op `command()` call can tag a transaction a *later*
+command in the same chain produces. `insertContent()` threads the same tag
+through `insertPlainText`'s existing helper via a new `hostOrigin` param
+(default `false`, so the real paste/drop handler — a genuine user edit —
+never sets it). Verified empirically, not just by reading the code, per the
+advisor's specific instruction: a regression test seeds a chip, then calls
+each of `setContent`/`clearContent`/`insertContent` with content that drops
+it, and asserts `onRemove` did **not** fire for any of the three — a
+separate test performs the equivalent removal via a plain (untagged)
+`editor.chain().deleteRange(...).run()` and asserts it **did**.
+
+**A same-transaction race between independent trigger extensions is real,
+not a test artifact — confirmed with a raw event-listener probe in an
+actual Chromium instance, not inferred.** `carbon-mention`/`command`/
+`autocomplete`'s `Suggestion` plugins and `carbon-starter-trigger`'s
+`onTransaction` hook each react to the *same* document change independently
+and call `dispatchTriggerChange` on their own schedule — exactly the
+"concurrent transitions" case `trigger-utils.ts`'s own doc comment already
+warns about (ported unchanged from upstream). Probed directly: focus an
+empty field with both `mention` and `starters` installed, type `@` — the
+real dispatched sequence is `starter(active) → mention(onStart) →
+null(starter's own exit)`, i.e. the starter trigger's exit fires *after*
+mention's open, so a plain "last event wins" listener observes `null` and
+hides its own popup, even though the mention trigger is genuinely open.
+This isn't a bug to fix in the ported extensions (upstream's own
+`AutocompleteController` — the very thing left unported above — is what
+actually reconciles multiple simultaneous triggers into one authoritative
+state); it surfaces here because a naive host listener is exactly what this
+slice's own docs demo is. Resolved by splitting the docs demo into two
+separate `PromptLine` instances (mention+command on one, starters on the
+other) instead of layering both onto one editor, and saying so explicitly
+in the docs prose — combining them correctly is the reconciliation-layer
+follow-up's job, not something to paper over with ad hoc coalescing logic
+in a ~40-line illustrative popup.
+
+**`getRawText`'s `default` case needed restoring**, matching upstream's own
+`json-utils.ts` (this port's `text-utils.ts` had trimmed it away when
+mention/command extensions were still out of scope, per the earlier batch-2
+write-up's own note). Without it, a rebuild that round-trips a doc
+containing a chip through `getRawText`/`textToDoc` — `upgradeToRich`'s
+textarea→rich handoff, or `RichController.recreateEditor`'s `@extensions`
+rebuild — silently dropped the chip's text entirely (the atom node has no
+`content` children for the old code's generic fallback to walk). Restored
+the `attrs.value`/`attrs.label` projection for atom nodes; `textToDoc` is
+still plain-text-only in the other direction (there's no trigger character
+to parse back out of a bare string), so a rebuild now degrades a chip to
+plain text rather than erasing it outright — documented as the real,
+remaining limitation, not "fixed."
+
+**`createChatEnter`/`createChatKeymap` gate on `hasActiveSuggestion(editor)`
+now** — without this, plain/Mod-Enter while a trigger is open would send a
+half-typed `@query` as a message (nothing else intercepts the keystroke,
+since this port ships no popup to consume it and both factories'
+`onKeyDown` deliberately return `false`, matching upstream). A new
+`-prompt-line/tiptap/active-suggestion.ts` module — no upstream
+equivalent, since upstream's own popup already has `props.command` in
+scope from its own `render()` closure — stashes each open trigger's
+`props.command` (and its `pluginKey`) in a `WeakMap<Editor, ...>` so
+`selectSuggestion()`/`dismissSuggestion()` and the Enter/Escape gates can
+reach it from outside. `dismissSuggestion()` uses `@tiptap/suggestion`
+3.31.3's real, public `exitSuggestion(view, pluginKey)` (a metadata-only
+transaction, safe to call anytime) — newer than the API upstream's own
+fetched source targets, found by reading this port's own pinned version's
+`.d.ts` directly rather than assuming parity with the older upstream
+snippet.
+
+New deps: `@tiptap/extension-mention` + `@tiptap/suggestion`, pinned exact
+`3.31.3` (lockstep with the other eight Tiptap packages already in this
+port). No `allowBuilds` entry needed — neither has an install script.
 
 ## Key Resources
 
