@@ -2,16 +2,20 @@
 // prompt-line-shell.scss
 // (packages/ai-chat-components/src/components/prompt-line/src/*.scss).
 //
-// Only the default (non-rich) textarea surface is ported here — see
-// `PromptLine`'s class doc for the tiptap/rich-mode scope cut. Upstream's
-// textarea rules (normally injected at runtime via a CSP-safe dynamic
-// stylesheet helper, `ensureTextareaStyleRules()` in
-// `prompt-line-textarea-runtime.ts`) are reproduced here as static SCSS
-// instead — this port has no shadow-DOM/CSP constraint driving that
-// runtime-injection trick. Selectors are adapted from `:host(...)` to plain
-// `.cds-aichat-*` classes; colors reference `@carbon/styles`' compiled
-// `--cds-*` custom properties, spacing uses literal rem values (see
-// `_chain-of-thought.scss`'s header comment for why).
+// Both the default textarea surface and the rich (Tiptap) contenteditable
+// surface are styled here — see `PromptLine`'s class doc for the rest of
+// the rich-mode scope cut (no mentions/autocomplete/typing-indicator).
+// Upstream's rules (normally injected at runtime via a CSP-safe dynamic
+// stylesheet helper — `ensureTextareaStyleRules()`/`ensurePmContentStyleRules()`
+// in `prompt-line-controller.ts`/`tiptap/editor-styles.ts`) are reproduced
+// here as static SCSS instead — this port has no shadow-DOM/CSP constraint
+// driving that runtime-injection trick. Selectors are adapted from
+// `:host(...)` to plain `.cds-aichat-*` classes; colors reference
+// `@carbon/styles`' compiled `--cds-*` custom properties, spacing uses
+// literal rem values (see `_chain-of-thought.scss`'s header comment for
+// why). The textarea and pm-content typography rules are intentionally
+// identical (same font metrics, same 157px block-size cap) so the
+// textarea→rich swap is pixel-imperceptible.
 
 // -----------------------------------------------------------------------
 // Shell
@@ -251,5 +255,50 @@
 
 .cds-aichat-prompt-line__mirror {
   visibility: hidden;
+  pointer-events: none;
+}
+
+// -----------------------------------------------------------------------
+// Rich (Tiptap) contenteditable surface (PromptLine, @rich)
+// -----------------------------------------------------------------------
+
+// No grow/mirror wrapper needed here, unlike the textarea above: a
+// contenteditable grows with its own content natively, so the block-size
+// cap + scroll below is sufficient on its own.
+.cds-aichat-prompt-line__pm-content {
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--cds-text-primary, #161616);
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.16px;
+  line-height: 1.42857;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  overflow-y: auto;
+  inline-size: 100%;
+  max-block-size: 157px;
+}
+
+// Tiptap renders block content into real <p> tags inside the contenteditable.
+// Neutralize the user-agent/host paragraph margin so the prompt line doesn't
+// inflate to whatever the host page styles `p` as.
+.cds-aichat-prompt-line__pm-content p {
+  margin: 0;
+  padding: 0;
+}
+
+// Tiptap's Placeholder extension only tags empty textblocks with
+// `is-editor-empty` + `data-placeholder` — the host renders the text. The
+// ::before float/height-0 pair keeps the placeholder in flow without
+// displacing the caret onto a second line. Standard Tiptap pattern.
+.cds-aichat-prompt-line__pm-content p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: var(--cds-text-secondary, #525252);
+  float: left;
+  block-size: 0;
   pointer-events: none;
 }
