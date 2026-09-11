@@ -634,6 +634,81 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     );
   });
 
+  // -------------------------------------------------------------------------
+  // IME composition guard
+  // -------------------------------------------------------------------------
+
+  test('an IME composition in progress defers a @rich-triggered upgrade until it ends', async function (assert) {
+    class State {
+      @tracked rich = false;
+    }
+    const state = new State();
+
+    await render(<template><PromptLine @rich={{state.rich}} /></template>);
+
+    const field = find('.cds-aichat-prompt-line__field') as HTMLTextAreaElement;
+    field.dispatchEvent(new CompositionEvent('compositionstart', { bubbles: true }));
+
+    state.rich = true;
+    await settled();
+
+    assert.dom('.cds-aichat-prompt-line__field').exists('upgrade is withheld while a composition is in flight');
+    assert.dom('.cds-aichat-prompt-line__pm-content').doesNotExist();
+
+    field.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true }));
+    await settled();
+
+    assert.dom('.cds-aichat-prompt-line__pm-content').exists('upgrade proceeds once composition ends');
+    assert.dom('.cds-aichat-prompt-line__field').doesNotExist();
+  });
+
+  test('an IME composition in progress defers a rich-mode @extensions rebuild until it ends', async function (assert) {
+    class State {
+      // Untyped, matches the existing @extensions-reference test above -
+      // only the reference identity matters here, not the contents.
+      @tracked extensions = [];
+    }
+    const state = new State();
+    let api!: PromptLineApi;
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(
+      <template>
+        <PromptLine @rich={{true}} @extensions={{state.extensions}} @onReady={{onReady}} />
+      </template>,
+    );
+    await api.ensureEditor();
+
+    const editorBefore = api.getEditor();
+    const pmContent = find('.cds-aichat-prompt-line__pm-content')!;
+    pmContent.dispatchEvent(new CompositionEvent('compositionstart', { bubbles: true }));
+
+    state.extensions = [];
+    await settled();
+
+    assert.strictEqual(api.getEditor(), editorBefore, 'rebuild is withheld while composing');
+
+    pmContent.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true }));
+    await settled();
+
+    assert.notStrictEqual(api.getEditor(), editorBefore, 'rebuild proceeds once composition ends');
+  });
+
+  // -------------------------------------------------------------------------
+  // Preload / warm-mount fast path
+  // -------------------------------------------------------------------------
+
+  test('PromptLine.preloadRich() warms the Tiptap chunk so an initial @rich mounts rich directly, no textarea flash', async function (assert) {
+    await PromptLine.preloadRich();
+
+    await render(<template><PromptLine @rich={{true}} /></template>);
+
+    assert.dom('.cds-aichat-prompt-line__pm-content').exists();
+    assert
+      .dom('.cds-aichat-prompt-line__field')
+      .doesNotExist('warm runtime skips the textarea entirely, no one-tick flash');
+  });
+
   test('api.focus() and api.blur() move real DOM focus in rich mode', async function (assert) {
     let api!: PromptLineApi;
     const onReady = (fn: PromptLineApi) => (api = fn);
