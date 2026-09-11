@@ -123,7 +123,8 @@ export default class Toolbar extends Component<ToolbarSignature> {
   }
 
   get displayedVisibleActions() {
-    if (!this.args.overflow || !this.measured) return this.sortedActions;
+    if (!this.args.overflow) return this.args.actions ?? [];
+    if (!this.measured) return this.sortedActions;
     return this.showOverflowMenu ? this.visibleActions : [...this.visibleActions, ...this.hiddenActions];
   }
 
