@@ -55,6 +55,9 @@ const AI_CHAT_EXPORT_OVERRIDES = {
   card: 'AiChatCard',
   'truncated-text': 'AiChatTruncatedText',
   'code-snippet': 'AiChatCodeSnippet',
+  // Carbon React has its own (not yet implemented) `ChatButton` - see the
+  // batch 3 write-up in AGENTS.md's "Porting Carbon AI Chat" section.
+  'chat-button': 'AiChatChatButton',
 };
 
 const SOURCES = [

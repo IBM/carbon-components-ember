@@ -1,0 +1,94 @@
+// Ported from `@carbon/ai-chat-components`' `toolbar.scss`. Selectors are
+// adapted from upstream's shadow-DOM `:host`/`::slotted()` to plain classes,
+// matching the pattern already used by `ai-chat/chat-shell` etc.
+@use '@carbon/styles/scss/theme';
+@use '@carbon/layout';
+@use '@carbon/styles/scss/type';
+
+// Upstream's `data-rounded="top"`/`data-rounded="top-right"` attributes are
+// driven by a shared `rounded-modifiers` mixin this port hasn't brought
+// over (see `_card.scss`'s own comment for the same call) - `AiChatCard`
+// is the only consumer that needs a `data-rounded` matrix so far, and
+// `Toolbar`'s own corners are already covered by the explicit
+// `--cds-aichat-border-radius` rule below, so the attributes are left in
+// the markup for forward-compatibility but have no matching CSS yet.
+.cds-aichat-toolbar {
+  display: flex;
+  block-size: 100%;
+  inline-size: 100%;
+  max-inline-size: 100%;
+  min-block-size: layout.$spacing-08;
+  border-start-end-radius: var(--cds-aichat-border-radius, 0);
+  border-start-start-radius: var(--cds-aichat-border-radius, 0);
+  min-inline-size: 0;
+}
+
+.cds-aichat-toolbar__navigation {
+  display: flex;
+  align-items: center;
+}
+
+.cds-aichat-toolbar__title {
+  @include type.type-style('body-compact-01');
+
+  flex: 1;
+  margin-block: auto;
+  margin-inline-end: auto;
+  min-inline-size: layout.$spacing-10;
+  padding-inline-end: layout.$spacing-04;
+  padding-inline-start: var(--cds-aichat-toolbar-title-padding-inline-start, #{layout.$spacing-04});
+}
+
+.cds-aichat-toolbar__navigation:has(> *) ~ .cds-aichat-toolbar__title {
+  padding-inline-start: 0;
+}
+
+.cds-aichat-toolbar__name {
+  font-weight: bold;
+}
+
+.cds-aichat-toolbar__fixed-actions {
+  margin-block: auto;
+}
+
+.cds-aichat-toolbar__start,
+.cds-aichat-toolbar__end {
+  display: flex;
+  flex: 1 0 50%;
+  min-inline-size: 0;
+}
+
+.cds-aichat-toolbar__end {
+  position: relative;
+}
+
+.cds-aichat-toolbar__actions-container {
+  display: flex;
+  flex: 1;
+  justify-content: end;
+  min-inline-size: 0;
+}
+
+.cds-aichat-toolbar__decorator-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-block: auto;
+  min-block-size: layout.$spacing-08;
+  min-inline-size: layout.$spacing-08;
+
+  &:empty {
+    display: none;
+  }
+}
+
+// Purely for measuring every action's natural width - never actually
+// shown. See the deliberate-simplification note in toolbar.gts's class doc.
+.cds-aichat-toolbar__measure {
+  position: absolute;
+  visibility: hidden;
+  display: flex;
+  pointer-events: none;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+}

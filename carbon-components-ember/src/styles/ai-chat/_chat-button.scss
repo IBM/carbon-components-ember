@@ -1,0 +1,80 @@
+// Ported from `@carbon/ai-chat-components`' `chat-button.scss`. Selectors
+// are adapted from upstream's shadow-DOM `:host(...)` to plain classes -
+// `AiChatChatButton` puts `.cds-aichat-button`/`.cds-aichat-button--quick-
+// action` directly on `Button`'s own root `<button>` (via `...attributes`),
+// not on a wrapping element, so these are compound selectors on one
+// element rather than descendant selectors.
+@use '@carbon/styles/scss/theme';
+@use '@carbon/styles/scss/utilities/convert';
+@use '@carbon/styles/scss/components/button/tokens' as button-tokens;
+
+.cds-aichat-button.cds--btn {
+  border-radius: convert.to-rem(24px);
+  max-inline-size: 19rem;
+
+  &.cds--layout--size-md {
+    border-radius: convert.to-rem(20px);
+  }
+
+  &.cds--layout--size-sm {
+    border-radius: convert.to-rem(16px);
+  }
+}
+
+.cds-aichat-button--quick-action.cds--btn {
+  border: convert.to-rem(1px) solid theme.$border-interactive;
+  background: transparent;
+  color: theme.$link-primary;
+
+  &:disabled {
+    border: convert.to-rem(1px) solid button-tokens.$button-disabled;
+    background: transparent;
+    color: theme.$text-disabled;
+  }
+
+  &:hover:not(:disabled) {
+    border-color: transparent;
+    background: theme.$background-hover;
+    color: theme.$link-primary-hover;
+  }
+
+  &:hover:not(:disabled):focus {
+    border-color: theme.$focus-inset;
+    box-shadow: inset 0 0 0 convert.to-rem(1px) theme.$focus-inset;
+  }
+
+  &:active:not(:disabled) {
+    border-color: transparent;
+    background: theme.$background-active;
+    color: theme.$link-primary-hover;
+  }
+
+  &:focus {
+    border-color: theme.$focus;
+    box-shadow: inset 0 0 0 convert.to-rem(1px) theme.$focus;
+  }
+}
+
+.cds-aichat-button--quick-action[data-is-selected].cds--btn {
+  border: convert.to-rem(1px) solid button-tokens.$button-disabled;
+  background: theme.$background-selected;
+  color: theme.$text-secondary;
+}
+
+.cds-aichat-button-skeleton {
+  overflow: hidden;
+  border-radius: convert.to-rem(24px);
+  inline-size: convert.to-rem(100px);
+  max-inline-size: 19rem;
+  block-size: convert.to-rem(48px);
+
+  &.cds-aichat-button-skeleton--md {
+    border-radius: convert.to-rem(20px);
+    block-size: convert.to-rem(40px);
+  }
+
+  &.cds-aichat-button-skeleton--sm {
+    border-radius: convert.to-rem(16px);
+    block-size: convert.to-rem(32px);
+  }
+}
