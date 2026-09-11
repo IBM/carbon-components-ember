@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn, triggerKeyEvent, find, click, settled } from '@ember/test-helpers';
+import { render, fillIn, triggerKeyEvent, find, click, settled, clearRender } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import { on } from '@ember/modifier';
@@ -692,6 +692,35 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     await settled();
 
     assert.notStrictEqual(api.getEditor(), editorBefore, 'rebuild proceeds once composition ends');
+  });
+
+  test('destroying the component while a composition-deferred upgrade is pending rejects ensureEditor() instead of hanging forever', async function (assert) {
+    let api!: PromptLineApi;
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(<template><PromptLine @onReady={{onReady}} /></template>);
+
+    const field = find('.cds-aichat-prompt-line__field') as HTMLTextAreaElement;
+    field.dispatchEvent(new CompositionEvent('compositionstart', { bubbles: true }));
+
+    // Attached immediately, before `clearRender()` below runs the teardown
+    // that settles this - a handler added only after awaiting `clearRender()`
+    // risks the browser having already reported the rejection as unhandled.
+    const settledOutcome = api.ensureEditor().then(
+      () => 'resolved',
+      () => 'rejected',
+    );
+
+    await clearRender();
+
+    const timeout = new Promise((resolve) => setTimeout(() => resolve('timed out'), 500));
+    const outcome = await Promise.race([settledOutcome, timeout]);
+
+    assert.strictEqual(
+      outcome,
+      'rejected',
+      'ensureEditor() settles (rejects) rather than hanging when destroyed mid-composition',
+    );
   });
 
   // -------------------------------------------------------------------------

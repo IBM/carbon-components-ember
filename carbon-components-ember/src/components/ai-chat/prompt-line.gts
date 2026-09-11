@@ -364,6 +364,14 @@ export default class PromptLine extends Component<PromptLineSignature> {
       element.removeEventListener('compositionend', this.onCompositionEnd);
       this.isComposing = false;
       this.pendingUpgrade = false;
+      if (this.richReadyPromise) {
+        // A composition-deferred upgrade never settles `richReadyPromise`
+        // itself - `onCompositionEnd` is what would normally flush it - so
+        // if the component is torn down before composition ends, fail it
+        // here instead of leaving an `ensureEditor()` caller awaiting
+        // forever.
+        this.failRichReady(new Error('PromptLine was destroyed before the rich editor upgrade completed'));
+      }
       this.controller?.destroy();
       this.controller = null;
       this.editorHost = null;
