@@ -12,7 +12,8 @@ surface) into `<:editor>`.
 ```gjs live preview
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
-import { Button, PromptLine, PromptLineShell } from 'carbon-components-ember/components';
+import { Button, PromptLine, PromptLineShell, Tooltip } from 'carbon-components-ember/components';
+import { Send } from 'carbon-components-ember/icons';
 import { ThemeSupport } from 'docs-support';
 
 class Demo extends Component {
@@ -48,7 +49,11 @@ class Demo extends Component {
         />
       </:editor>
       <:sendControl>
-        <Button @iconOnly={{true}} @onClick={{this.send}}>Send</Button>
+        <Tooltip @label='Send' @autoAlign={{true}}>
+          <Button @ghost={{true}} @size='sm' @iconOnly={{true}} @onClick={{this.send}} aria-label='Send'>
+            <Send @size='16' />
+          </Button>
+        </Tooltip>
       </:sendControl>
     </PromptLineShell>
   </template>
