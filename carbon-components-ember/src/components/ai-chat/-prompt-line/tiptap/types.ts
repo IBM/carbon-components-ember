@@ -91,7 +91,7 @@ export interface StartersConfig {
 
 /** Detail payload for the `cds-aichat-trigger-change` DOM event. */
 export interface TriggerChangeEventDetail {
-  /** `'mention'` / `'command'` / `'carbonAutocomplete'` / `'starter'`. */
+  /** `'mention'` / `'command'` / `'autocomplete'` / `'starter'`. */
   type: string;
   /** The current query string typed after the trigger character. */
   query: string;
