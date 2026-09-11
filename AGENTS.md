@@ -1334,17 +1334,32 @@ upstream's own distinction.
 (the task explicitly asked to check this): upstream's keyboard-vs-pointer
 focus-ring class and the `cds-aichat-prompt-typing`/`cds-aichat-prompt-
 keydown` events all exist there to keep two surfaces' *visual*/*event*
-behavior from diverging. None of the three actually needs new API surface
-in this port: both controllers render inside the same
-`.cds-aichat-prompt-line`, whose `:focus-within` rule is already
-surface-agnostic (nothing to key a `keyboard` detail off of); a real
-`keydown` bubbles from either surface up to the component's root element,
-which already forwards `...attributes`, so `<PromptLine {{on 'keydown'
-...}}>` already works today in both modes without a dedicated arg; and
-nothing in this port consumes a typing indicator, so both modes emitting
-nothing is exactly as consistent as both emitting one. Two editing surfaces
-existing didn't change any of these conclusions — worth re-checking again
-only if a future consumer actually needs one of them.
+behavior from diverging. The keyboard-vs-pointer distinction is **still not
+reproduced, and this is a real, currently-shipping visual gap, not a closed
+one**: upstream's `MouseFocusController` (wired into both
+`TextareaController._onFocus` and the rich `RichController`'s `editor.on
+('focus', …)`) tracks pointer/touch immediately before focus and dispatches
+`cds-aichat-prompt-focus` with `{ keyboard: boolean }`; `PromptLineShell`
+listens for that event and toggles a class that its SCSS scopes specifically
+to the **expanded** layout, suppressing the focus ring on a mouse click there
+and showing it only for keyboard-driven focus. This port's `:focus-within`
+CSS fires identically regardless of *how* focus arrived — it can't
+distinguish keyboard from pointer, `:focus-within` only reports "is
+something focused" — so a mouse click in `PromptLineShell`'s expanded layout
+still shows a focus outline that upstream deliberately suppresses. Two
+editing surfaces existing didn't change this conclusion: the gap was never
+about keeping two surfaces in sync with each other, it's a single missing
+"was this focus keyboard-driven" capability that's exactly as absent with
+one surface as with two. (A native `:has(:focus-visible)` selector on the
+expanded container would close most of the gap without reproducing
+upstream's `MouseFocusController` event-plumbing, if this is ever worth
+fixing rather than documenting.) The other two — `keydown` and the typing
+indicator — really don't need new API surface: a real `keydown` bubbles from
+either surface up to the component's root element, which already forwards
+`...attributes`, so `<PromptLine {{on 'keydown' ...}}>` already works today
+in both modes without a dedicated arg; and nothing in this port consumes a
+typing indicator, so both modes emitting nothing is exactly as consistent as
+both emitting one.
 
 **Real gotcha for any future modifier wrapping a stateful object with an
 async "upgrade" step:** the initial `mountSurface` modifier must never read

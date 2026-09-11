@@ -5,6 +5,7 @@ import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import { on } from '@ember/modifier';
 import PromptLine, { type PromptLineApi } from 'carbon-components-ember/components/ai-chat/prompt-line';
+import { waitForAnimationFrame } from '../../helpers';
 
 module('Integration | Component | ai-chat/PromptLine', (hooks) => {
   setupRenderingTest(hooks);
@@ -452,5 +453,95 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
 
     assert.ok(editor);
     assert.dom('.cds-aichat-prompt-line__pm-content').exists();
+  });
+
+  test('api.clearContent() empties the rich editor and fires @onChange', async function (assert) {
+    const calls: string[] = [];
+    let api!: PromptLineApi;
+    const onChange = (value: string) => calls.push(value);
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(
+      <template>
+        <PromptLine @rich={{true}} @onChange={{onChange}} @onReady={{onReady}} />
+      </template>,
+    );
+    await api.ensureEditor();
+
+    api.getEditor()!.commands.insertContent('to be cleared');
+    assert.strictEqual(api.getValue(), 'to be cleared');
+
+    api.clearContent();
+
+    assert.strictEqual(api.getValue(), '');
+    assert.strictEqual(calls.at(-1), '', 'clearContent() fires @onChange with the emptied value');
+  });
+
+  test('api.insertContent() inserts at an explicit position, independent of the current selection', async function (assert) {
+    let api!: PromptLineApi;
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(<template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>);
+    await api.ensureEditor();
+
+    api.insertContent('world');
+    assert.strictEqual(api.getValue(), 'world');
+
+    // Position 1 is right after the doc/paragraph boundary, i.e. the start
+    // of the text - inserting there (rather than at the current selection,
+    // which sits at the end after the insert above) proves `at` is honored.
+    api.insertContent('hello ', { at: 1 });
+
+    assert.strictEqual(api.getValue(), 'hello world');
+  });
+
+  test('api.setTextSelection() and api.selectAll() move the Tiptap selection', async function (assert) {
+    let api!: PromptLineApi;
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(<template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>);
+    await api.ensureEditor();
+
+    api.getEditor()!.commands.insertContent('hello world');
+
+    api.setTextSelection(1);
+    let selection = api.getEditor()!.state.selection;
+    assert.strictEqual(selection.from, 1);
+    assert.strictEqual(selection.to, 1, 'a single position collapses the selection there');
+
+    api.setTextSelection({ from: 1, to: 6 });
+    selection = api.getEditor()!.state.selection;
+    assert.strictEqual(selection.from, 1);
+    assert.strictEqual(selection.to, 6, 'a {from, to} range selects that range');
+
+    api.selectAll();
+    selection = api.getEditor()!.state.selection;
+    assert.strictEqual(selection.from, 0);
+    assert.strictEqual(
+      selection.to,
+      api.getEditor()!.state.doc.content.size,
+      'selectAll() selects the whole document',
+    );
+  });
+
+  test('api.focus() and api.blur() move real DOM focus in rich mode', async function (assert) {
+    let api!: PromptLineApi;
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(<template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>);
+    await api.ensureEditor();
+
+    // Tiptap's focus()/blur() commands both defer the actual DOM
+    // focus()/blur() call to a requestAnimationFrame callback, so a plain
+    // settled() (no pending Ember async) isn't enough to observe the effect.
+    api.focus();
+    await waitForAnimationFrame();
+    assert.true(api.hasFocus());
+    assert.dom(document.activeElement).hasClass('cds-aichat-prompt-line__pm-content');
+
+    api.blur();
+    await waitForAnimationFrame();
+    assert.false(api.hasFocus());
+    assert.dom(document.activeElement).doesNotHaveClass('cds-aichat-prompt-line__pm-content');
   });
 });

@@ -105,9 +105,13 @@ export interface PromptLineSignature {
  * IME-composition guard around the textarea→rich swap (an already-narrow
  * edge case — `@rich` toggling mid-keystroke). Also not reproduced: the
  * keyboard-vs-pointer focus-ring distinction upstream derives from a
- * `keyboard` event detail — both surfaces render inside this component's
- * own `.cds-aichat-prompt-line`, whose `:focus-within` rule is already
- * surface-agnostic, so there's nothing to key off of; and the
+ * `keyboard` event detail (`MouseFocusController`, wired into both
+ * controllers, dispatches `cds-aichat-prompt-focus` with that detail so
+ * `PromptLineShell`'s expanded layout can suppress the ring on a mouse
+ * click and only show it for keyboard-driven focus) — this port's
+ * `:focus-within`-based CSS fires identically regardless of how focus
+ * arrived, so a mouse click in the expanded `PromptLineShell` layout still
+ * shows a focus outline that upstream would suppress; and the
  * `cds-aichat-prompt-keydown` event — keydown already bubbles from either
  * surface up to this component's root element, which forwards
  * `...attributes`, so a consumer can listen directly on the invocation
