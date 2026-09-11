@@ -46,4 +46,17 @@ export function getRichRuntimeIfLoaded(): RichRuntimeModule | null {
   return runtime;
 }
 
+/**
+ * Test-only: clears the module-level cache so the next `loadRichRuntime()`/
+ * `getRichRuntimeIfLoaded()` call starts cold again. Without this, the first
+ * test in a suite run that upgrades to rich mode permanently warms this
+ * module for every later test in the same browser session, silently
+ * swapping their `mountSurface` behavior from the cold textarea-then-upgrade
+ * path to the warm-mount fast path.
+ */
+export function resetRichRuntimeForTests(): void {
+  runtimePromise = null;
+  runtime = null;
+}
+
 export type { RichRuntimeModule };

@@ -5,6 +5,7 @@ import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import { on } from '@ember/modifier';
 import PromptLine, { type PromptLineApi } from 'carbon-components-ember/components/ai-chat/prompt-line';
+import { resetRichRuntimeForTests } from 'carbon-components-ember/components/ai-chat/-prompt-line/rich-loader';
 import { waitForAnimationFrame } from '../../helpers';
 
 /** Dispatches a real, untrusted `paste` event carrying plain text - matches
@@ -17,6 +18,16 @@ function pasteText(target: Element, text: string) {
 
 module('Integration | Component | ai-chat/PromptLine', (hooks) => {
   setupRenderingTest(hooks);
+
+  // The Tiptap runtime chunk is cached module-level (see rich-loader.ts) so
+  // the warm-mount fast path can check it synchronously. Without resetting
+  // it between tests, the first test that upgrades to rich mode permanently
+  // warms it for every later test in this file, silently swapping their
+  // `mountSurface` behavior from the cold textarea-then-upgrade path to the
+  // warm-mount path.
+  hooks.afterEach(() => {
+    resetRichRuntimeForTests();
+  });
 
   test('it renders the initial @content and placeholder/aria-label', async function (assert) {
     await render(
