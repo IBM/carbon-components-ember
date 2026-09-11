@@ -66,8 +66,10 @@ export default class WorkspaceShellFooter extends Component<WorkspaceShellFooter
 
   get sortedActions() {
     const rank = (a: WorkspaceShellFooterAction) => RANK[a.kind ?? 'primary'] ?? 4;
-    const sorted = [...(this.args.actions ?? [])].sort((a, b) => rank(a) - rank(b));
-    return this.isStacked ? sorted.reverse() : sorted;
+    return [...(this.args.actions ?? [])].sort((a, b) => {
+      const diff = rank(a) - rank(b);
+      return this.isStacked ? -diff : diff;
+    });
   }
 
   get isThreeButtons() {
