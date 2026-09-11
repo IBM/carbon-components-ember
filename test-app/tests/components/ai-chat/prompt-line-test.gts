@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn, triggerKeyEvent, find, click } from '@ember/test-helpers';
+import { render, fillIn, triggerKeyEvent, find, click, settled } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import { on } from '@ember/modifier';
-import PromptLine from 'carbon-components-ember/components/ai-chat/prompt-line';
+import PromptLine, { type PromptLineApi } from 'carbon-components-ember/components/ai-chat/prompt-line';
 
 module('Integration | Component | ai-chat/PromptLine', (hooks) => {
   setupRenderingTest(hooks);
@@ -123,5 +123,282 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
   test('@disabled renders the field readonly', async function (assert) {
     await render(<template><PromptLine @disabled={{true}} /></template>);
     assert.dom('.cds-aichat-prompt-line__field').hasAttribute('readonly');
+  });
+
+  // -------------------------------------------------------------------------
+  // Rich (Tiptap) mode
+  // -------------------------------------------------------------------------
+
+  test('defaults to the textarea surface — no Tiptap DOM is ever created', async function (assert) {
+    let api!: PromptLineApi;
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(<template><PromptLine @onReady={{onReady}} /></template>);
+
+    assert.dom('.cds-aichat-prompt-line__field').exists();
+    assert.dom('.cds-aichat-prompt-line__pm-content').doesNotExist();
+    assert.strictEqual(api.getEditor(), null, 'getEditor() is a probe and never triggers the upgrade');
+    assert.dom('.cds-aichat-prompt-line__field').exists('probing getEditor() did not upgrade the surface');
+  });
+
+  test('@rich upgrades to the Tiptap surface, transferring text and caret losslessly', async function (assert) {
+    class State {
+      @tracked content = '';
+      @tracked rich = false;
+    }
+    const state = new State();
+    let api!: PromptLineApi;
+    const onChange = (value: string) => (state.content = value);
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(
+      <template>
+        <PromptLine
+          @content={{state.content}}
+          @onChange={{onChange}}
+          @rich={{state.rich}}
+          @onReady={{onReady}}
+        />
+      </template>,
+    );
+
+    await fillIn('.cds-aichat-prompt-line__field', 'hello world');
+    const field = find('.cds-aichat-prompt-line__field') as HTMLTextAreaElement;
+    field.setSelectionRange(5, 5);
+
+    state.rich = true;
+    await api.ensureEditor();
+
+    assert.dom('.cds-aichat-prompt-line__field').doesNotExist();
+    assert.dom('.cds-aichat-prompt-line__pm-content').hasText('hello world');
+
+    const editor = api.getEditor();
+    assert.ok(editor, 'getEditor() returns the live Tiptap editor once rich');
+    assert.strictEqual(
+      editor!.state.selection.from,
+      editor!.state.selection.to,
+      'caret is collapsed, not a range selection',
+    );
+    // "hello" is 5 plain-text characters in; textToDoc's single paragraph
+    // costs +1 for the doc/paragraph boundary.
+    assert.strictEqual(editor!.state.selection.from, 6, 'caret offset carried over from the textarea');
+  });
+
+  test('setting @rich back to false does not downgrade a rich surface (sticky upgrade)', async function (assert) {
+    class State {
+      @tracked rich = true;
+    }
+    const state = new State();
+    let api!: PromptLineApi;
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(<template><PromptLine @rich={{state.rich}} @onReady={{onReady}} /></template>);
+    await api.ensureEditor();
+    assert.dom('.cds-aichat-prompt-line__pm-content').exists();
+
+    state.rich = false;
+    await settled();
+
+    assert.dom('.cds-aichat-prompt-line__pm-content').exists('still rich after @rich flips back to false');
+    assert.dom('.cds-aichat-prompt-line__field').doesNotExist();
+  });
+
+  test('typing in the rich editor calls @onChange', async function (assert) {
+    const calls: string[] = [];
+    let api!: PromptLineApi;
+    const onChange = (value: string) => calls.push(value);
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(
+      <template>
+        <PromptLine @rich={{true}} @onChange={{onChange}} @onReady={{onReady}} />
+      </template>,
+    );
+    await api.ensureEditor();
+
+    api.getEditor()!.commands.insertContent('hi there');
+
+    assert.deepEqual(calls, ['hi there']);
+  });
+
+  test('a controlled @content update does not re-trigger @onChange in rich mode', async function (assert) {
+    class State {
+      @tracked content = '';
+    }
+    const state = new State();
+    const calls: string[] = [];
+    let api!: PromptLineApi;
+    const onChange = (value: string) => calls.push(value);
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(
+      <template>
+        <PromptLine
+          @rich={{true}}
+          @content={{state.content}}
+          @onChange={{onChange}}
+          @onReady={{onReady}}
+        />
+      </template>,
+    );
+    await api.ensureEditor();
+
+    state.content = 'set from outside';
+    await settled();
+
+    assert.dom('.cds-aichat-prompt-line__pm-content').hasText('set from outside');
+    assert.deepEqual(calls, [], 'no onChange echo for a controlled update');
+  });
+
+  test('plain Enter sends and Shift+Enter inserts a newline in rich mode', async function (assert) {
+    let sent = 0;
+    let api!: PromptLineApi;
+    const onSendIntent = () => sent++;
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(
+      <template>
+        <PromptLine @rich={{true}} @onSendIntent={{onSendIntent}} @onReady={{onReady}} />
+      </template>,
+    );
+    await api.ensureEditor();
+
+    // Enter on an empty field falls through to a newline, matching the
+    // textarea's own empty-field guard.
+    await triggerKeyEvent('.cds-aichat-prompt-line__pm-content', 'keydown', 'Enter');
+    assert.strictEqual(sent, 0);
+
+    api.getEditor()!.commands.insertContent('ready to send');
+    await triggerKeyEvent('.cds-aichat-prompt-line__pm-content', 'keydown', 'Enter');
+    assert.strictEqual(sent, 1);
+
+    await triggerKeyEvent('.cds-aichat-prompt-line__pm-content', 'keydown', 'Enter', { shiftKey: true });
+    assert.strictEqual(sent, 1, 'Shift+Enter does not send');
+  });
+
+  test('Mod-Enter sends even on an empty rich field', async function (assert) {
+    let sent = 0;
+    let api!: PromptLineApi;
+    const onSendIntent = () => sent++;
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(
+      <template>
+        <PromptLine @rich={{true}} @onSendIntent={{onSendIntent}} @onReady={{onReady}} />
+      </template>,
+    );
+    await api.ensureEditor();
+
+    // Unlike the textarea's own hand-rolled keydown handler (which accepts
+    // either modifier regardless of platform - see the passing `ctrlKey`-only
+    // test above), the rich editor's Mod-Enter comes from real
+    // `prosemirror-keymap` binding resolution, which resolves `Mod` to
+    // exactly `Meta` on Mac and `Ctrl` elsewhere (`navigator.platform`-based,
+    // matching prosemirror-keymap's own detection) and requires an exact
+    // modifier-set match - the "other" modifier alone will not fire it.
+    const isMac = /Mac|iP(hone|[oa]d)/.test(navigator.platform);
+    await triggerKeyEvent(
+      '.cds-aichat-prompt-line__pm-content',
+      'keydown',
+      'Enter',
+      isMac ? { metaKey: true } : { ctrlKey: true },
+    );
+
+    assert.strictEqual(sent, 1);
+  });
+
+  test('undo/redo round-trip through the imperative API', async function (assert) {
+    let api!: PromptLineApi;
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(<template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>);
+    await api.ensureEditor();
+
+    api.getEditor()!.commands.insertContent('a change');
+    assert.strictEqual(api.getValue(), 'a change');
+
+    const undone = api.undo();
+    assert.true(undone);
+    assert.strictEqual(api.getValue(), '');
+
+    const redone = api.redo();
+    assert.true(redone);
+    assert.strictEqual(api.getValue(), 'a change');
+  });
+
+  test('@disabled makes the rich editor non-editable', async function (assert) {
+    let api!: PromptLineApi;
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(
+      <template>
+        <PromptLine @rich={{true}} @disabled={{true}} @onReady={{onReady}} />
+      </template>,
+    );
+    await api.ensureEditor();
+
+    assert.false(api.getEditor()!.isEditable);
+  });
+
+  test('@placeholder renders through the Tiptap placeholder decoration', async function (assert) {
+    let api!: PromptLineApi;
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(
+      <template>
+        <PromptLine @rich={{true}} @placeholder='Type a message' @onReady={{onReady}} />
+      </template>,
+    );
+    await api.ensureEditor();
+
+    assert.dom('.cds-aichat-prompt-line__pm-content p').hasAttribute('data-placeholder', 'Type a message');
+  });
+
+  test('a new @extensions array reference rebuilds the rich editor (resets undo, preserves content)', async function (assert) {
+    class State {
+      // Untyped so this file never has to reference `Extension` (from
+      // `@tiptap/core`) by name - `carbon-components-ember`'s own
+      // dependencies aren't resolvable from test-app's package context (see
+      // the equivalent `flatpickr`/`markdown-it` precedent elsewhere in this
+      // suite), and an empty array is assignable regardless. Only the
+      // *reference* identity matters for this test, not the contents.
+      @tracked extensions = [];
+    }
+    const state = new State();
+    let api!: PromptLineApi;
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(
+      <template>
+        <PromptLine @rich={{true}} @extensions={{state.extensions}} @onReady={{onReady}} />
+      </template>,
+    );
+    await api.ensureEditor();
+
+    api.getEditor()!.commands.insertContent('typed text');
+    assert.strictEqual(api.getValue(), 'typed text');
+    assert.true(api.undo(), 'undo works before the @extensions reference changes');
+    assert.strictEqual(api.getValue(), '');
+    assert.true(api.redo());
+
+    state.extensions = [];
+    await settled();
+
+    assert.strictEqual(api.getValue(), 'typed text', 'content survives the rebuild');
+    assert.false(api.undo(), 'undo history was reset by the rebuild');
+  });
+
+  test('ensureEditor() called directly (without setting @rich) upgrades the surface', async function (assert) {
+    let api!: PromptLineApi;
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(<template><PromptLine @onReady={{onReady}} /></template>);
+
+    assert.dom('.cds-aichat-prompt-line__field').exists();
+
+    const editor = await api.ensureEditor();
+
+    assert.ok(editor);
+    assert.dom('.cds-aichat-prompt-line__pm-content').exists();
   });
 });

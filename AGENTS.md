@@ -1239,36 +1239,144 @@ Worth checking for the same gap in any other component here that uses
 react to changes after mount — reach for a real modifier from the start
 instead.
 
-**`prompt-line` is textarea-mode only — the Tiptap rich editor is left for
-a follow-up, same reasoning as `flatpickr`/`@carbon/utilities`/
-`markdown-it`.** Confirmed from the real source (not just the manifest)
-that `rich: false` is the actual default and the textarea surface is a
-fully separate, Tiptap-free code path (`TextareaController` in upstream's
-`prompt-line-textarea-runtime.ts`) — only loaded into Tiptap when `rich` is
-set or `ensureEditor()` is called. This port implements exactly that
-default textarea path as a plain `.gts` component: a `<textarea>` +
+**`prompt-line`'s textarea mode**, ported first (batch 2): a `<textarea>` +
 hidden-mirror auto-grow trick (ported as static SCSS instead of upstream's
 runtime CSSOM-injection helper, which exists only for its shadow-DOM/CSP
 constraint — irrelevant in this addon's light-DOM rendering), an
 `ember-modifier`-driven `@content` sync (mirroring `DatePicker`'s
 `syncValue` pattern: only re-runs when the tracked `@content` positional
 arg actually changes, so it can't clobber the caret while the user is
-mid-keystroke), and the same Enter/Shift-Enter/Mod-Enter/Escape keymap.
-Deliberately **not** accepted as no-op args (unlike `chat-shell`'s benign
-unwired `@*Announcement` strings — see the translation notes above):
-`@rich`, `@extensions`, `getEditor()`/`ensureEditor()`, `undo()`/`redo()`,
-`insertContent()`, `setTextSelection()`. An arg that silently does nothing
-is worse API than one that doesn't exist; all of it is left for whoever
-picks up the rich-mode follow-up. Also not reproduced: the keyboard-vs-
-pointer focus-ring distinction (`cds-aichat-prompt-focus`'s `keyboard`
-detail, which `PromptLineShell`'s own CSS keys off of) and the
-`cds-aichat-prompt-typing`/`cds-aichat-prompt-keydown` events — both exist
-upstream to keep a typing indicator and the textarea↔rich transfer
-contract in sync, and there's nothing to keep in sync with only one
-editing surface. A native `autofocus` attribute is disallowed by this repo's own
-`ember-template-lint` config (`no-autofocus-attribute`) — reproduced
-upstream's actual behavior instead (a deferred microtask `focus()` call
-after mount, not the native attribute) via a small modifier.
+mid-keystroke), and the Enter/Shift-Enter/Mod-Enter/Escape keymap. A native
+`autofocus` attribute is disallowed by this repo's own `ember-template-lint`
+config (`no-autofocus-attribute`) — reproduced upstream's actual behavior
+instead (a deferred microtask `focus()` call after mount, not the native
+attribute) via a small modifier.
+
+**`prompt-line`'s rich (Tiptap) mode, added as its own follow-up** (same
+new-runtime-dependency review as `flatpickr`/`@carbon/utilities`/
+`markdown-it`+`dompurify` got): `@tiptap/core`, `@tiptap/pm`,
+`@tiptap/extensions` (for `UndoRedo`), and one package per schema/placeholder
+node (`@tiptap/extension-{document,paragraph,text,hard-break,placeholder}`),
+all pinned exact at `3.31.3`. `PromptLine` renders the textarea by default
+and never statically imports `@tiptap/*` — every real `@tiptap/*` import
+lives in one file, `ai-chat/-prompt-line/rich-controller.ts`, reached only
+through a dynamic `import()` from `PromptLine` itself
+(`prompt-line.gts`/`upgradeToRich`), so a bundler splits Tiptap into its own
+lazy chunk and a chat that never sets `@rich` never ships it — verified for
+real against a `DOCS_URL=versions/main pnpm build` output, not just inferred
+from the rollup config (an addon build keeps `@tiptap/*` external by design;
+the consumer's own bundler — docs-app's Vite build here — is what actually
+has to prove the split, and its dynamic-import chunk boundary confirmed it
+does).
+
+The **shared controller interface**
+(`ai-chat/-prompt-line/controller.ts`) both `TextareaController` and the
+lazy `RichController` implement is a direct, simplified adaptation of
+upstream's own `TextareaController`/`RichController` pair
+(`prompt-line-controller.ts`/`prompt-line-rich-runtime.ts`) — upstream's
+classes are already plain DOM/Tiptap code with no Lit dependency, so this
+port is closer to a straight port than a re-derivation. Real cuts made
+against upstream, all deliberate: no mention/autocomplete extensions
+(`carbon-mention`/`carbon-autocomplete`/`carbon-starter-trigger`/
+`token-node-view` — a separate, not-yet-ported feature; `@extensions`
+accepts plain Tiptap `Extension`s only, so no `content`-as-`JSONContent`
+seeding either, only plain strings), no typing-indicator event (nothing in
+this port consumes one — a caller can debounce `@onChange` itself), no
+origin-tagging on transactions (exists upstream only to keep the
+mention-removal plugin and the typing indicator from misfiring on a
+host-driven change; neither exists here, so a **plain boolean guard**
+(`suppressChange`) on the `RichController` instance does the equivalent job
+for the one case that still matters — a controlled `@content` sync must not
+re-invoke `@onChange`, matching the textarea controller's own
+equality-check bail-out), no IME-composition guard around the textarea→rich
+swap (an already-narrow edge case: `@rich` toggling mid-keystroke), and no
+deferred-teardown/reconnect handling (Ember's render lifecycle doesn't have
+upstream's "removed and re-appended in the same frame" custom-element
+concern). `@extensions` is compared by plain reference, not upstream's deep
+equivalence/starter-storage check — simpler, at the cost of a fresh array
+literal every render triggering an avoidable rebuild (undo history reset,
+content/selection/focus still preserved); documented in both the class doc
+and the docs demo to memoize it.
+
+**The textarea→rich swap is a lossless, same-frame handoff**, ported
+faithfully from upstream's `_swapToRich`: capture the textarea's plain
+text + caret (`getSelection()`) + focus state, destroy the textarea
+controller, mount the rich controller seeded via `textToDoc(value)` (a
+paragraph-per-line doc — the inverse of `getRawText`, both ported from
+upstream's `tiptap/json-utils.ts` trimmed to the plain-text-only subset
+this port needs), then `textOffsetToDocPos` the plain-text caret offset
+into a ProseMirror position and restore focus if it had it. One real gap
+disclosed rather than silently accepted: unlike upstream's
+`getRichRuntimeIfLoaded()` preload check, this port has no "already warm"
+fast path, so `@rich={{true}}` supplied from the very first render still
+renders the textarea for one tick before the dynamic import resolves and
+the swap happens — a visible (if brief) mode flash upstream's preload path
+usually avoids. The upgrade is **sticky** (matches upstream): implemented
+by simply never checking `@rich` again once `mode` is `'rich'`, so later
+setting it back to `false` is a no-op.
+
+**Exposing `getEditor()`/`ensureEditor()`/`undo()`/`redo()`/
+`insertContent()`/`setTextSelection()` needed a new pattern this addon
+didn't have a precedent for**: no existing component exposes an imperative
+API to its consumer. Landed on a single `@onReady?: (api: PromptLineApi) =>
+void` callback, called once after mount, handing back a **stable** object
+whose methods close over `this.controller` and simply delegate to whatever
+controller is live at call time — so the object's identity never changes
+across the textarea→rich swap and `@onReady` never needs to fire twice.
+This mirrors `ember-power-select`'s own `registerAPI` convention (already a
+transitive dependency of this addon via `Select`), just callback-shaped
+instead of block-param-shaped since `PromptLine` has no block content to
+yield into. `getEditor()` stays a pure probe (returns `null` in textarea
+mode, never triggers the upgrade) — only `ensureEditor()` does, matching
+upstream's own distinction.
+
+**Revisited, not silently kept, now that a second editing surface exists**
+(the task explicitly asked to check this): upstream's keyboard-vs-pointer
+focus-ring class and the `cds-aichat-prompt-typing`/`cds-aichat-prompt-
+keydown` events all exist there to keep two surfaces' *visual*/*event*
+behavior from diverging. None of the three actually needs new API surface
+in this port: both controllers render inside the same
+`.cds-aichat-prompt-line`, whose `:focus-within` rule is already
+surface-agnostic (nothing to key a `keyboard` detail off of); a real
+`keydown` bubbles from either surface up to the component's root element,
+which already forwards `...attributes`, so `<PromptLine {{on 'keydown'
+...}}>` already works today in both modes without a dedicated arg; and
+nothing in this port consumes a typing indicator, so both modes emitting
+nothing is exactly as consistent as both emitting one. Two editing surfaces
+existing didn't change any of these conclusions — worth re-checking again
+only if a future consumer actually needs one of them.
+
+**Real gotcha for any future modifier wrapping a stateful object with an
+async "upgrade" step:** the initial `mountSurface` modifier must never read
+a tracked `@arg` directly in its body — ember-modifier's functional
+modifiers autotrack *any* property access during the call, not just
+declared positional/named args, so reading `this.args.content` there would
+make the whole mount-and-destroy cycle re-run (discarding the live
+controller) on every `@content` keystroke. Fixed the same way `DatePicker`
+already does (`currentValue` captured in the constructor): capture every
+arg `mountSurface` needs into a plain, non-tracked field
+(`initialContent`/`initialPlaceholder`/etc.) in the constructor, and read
+only those inside the modifier. Later changes flow through separate small
+modifiers (`watchRich`, `watchExtensions`, `syncArgs`), each keyed on
+exactly the arg(s) it reacts to, same split as `DatePicker`'s
+`attachFlatpickr`/`syncValue`.
+
+**Second real gotcha, this one a test-writing trap, not a component bug:**
+an inline arrow function written directly inside a mustache
+(`@onReady={{(fn) => (api = fn)}}`) parses fine in a scratch `.gjs.md`
+fence (kolay's runtime REPL) but fails hard in a real `.gts` test file with
+`Expecting 'OPEN_SEXPR', ... got 'EQUALS'` — confirmed by actually running
+`pnpm test` locally, not assumed from the doc-migration precedent alone.
+`.gts`'s `<template>` tag still compiles `{{ }}` content through the
+classic Handlebars-grammar mustache parser, not as arbitrary interpolated
+JS, the same constraint the existing `.gjs.md`-migration notes already
+documented for docs fences — this confirms it isn't fence-specific, it's
+inherent to every real (non-kolay-REPL) template compile in this repo.
+Fix: always bind a named `const` (or existing method reference) outside the
+template and pass the bare identifier, e.g. `const onReady = (fn) => (api
+= fn);` then `@onReady={{onReady}}` — the pattern the *existing*
+(pre-rich-mode) tests in this file already used for `@onChange`/
+`@onSendIntent` and that this file's rich-mode tests now follow too.
 
 **`PromptLineShell`'s five kebab-case upstream slots become six camelCase
 named blocks** (the extra one, `editor`, is unnamed in upstream's own
