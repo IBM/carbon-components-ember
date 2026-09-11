@@ -88,12 +88,24 @@ export default class WorkspaceShell extends Component<WorkspaceShellSignature> {
 
   observeCollapse = modifier((element: HTMLElement) => {
     if (!this.args.autoCollapsibleHeader) return undefined;
-    const recompute = () => {
-      this.shouldCollapseHeader = this.tracker.measure(element);
-    };
-    const observer = new ResizeObserver(recompute);
+    let raf: number | undefined;
+    // Deferring the actual measurement/write to the next animation frame
+    // (matching `Toolbar`'s `observeOverflow` and `WorkspaceShellFooter`'s
+    // `watchStacked` modifiers) keeps this callback from doing synchronous,
+    // layout-affecting work inside the ResizeObserver's own notification
+    // cycle, which is what the browser's "ResizeObserver loop completed
+    // with undelivered notifications" error guards against.
+    const observer = new ResizeObserver(() => {
+      if (raf !== undefined) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        this.shouldCollapseHeader = this.tracker.measure(element);
+      });
+    });
     observer.observe(element);
-    return () => observer.disconnect();
+    return () => {
+      if (raf !== undefined) cancelAnimationFrame(raf);
+      observer.disconnect();
+    };
   });
 
   <template>

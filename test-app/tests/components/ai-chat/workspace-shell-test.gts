@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, waitUntil, find } from '@ember/test-helpers';
 import WorkspaceShell from 'carbon-components-ember/components/ai-chat/workspace-shell';
 
 module('Integration | Component | ai-chat/WorkspaceShell', (hooks) => {
@@ -38,5 +38,21 @@ module('Integration | Component | ai-chat/WorkspaceShell', (hooks) => {
 
     assert.dom('details').doesNotExist();
     assert.dom('.cds-aichat-workspace-shell__header').exists();
+  });
+
+  test('@autoCollapsibleHeader collapses the header once the shell is too short for it', async function (assert) {
+    await render(
+      <template>
+        <WorkspaceShell @autoCollapsibleHeader={{true}} style='block-size: 40px; overflow: hidden;'>
+          <:header as |Header|><Header @titleText='Order' /></:header>
+          <:body><div class='bd'>Body</div></:body>
+        </WorkspaceShell>
+      </template>,
+    );
+
+    await waitUntil(() => find('.cds-aichat-workspace-shell__header-details'));
+
+    assert.dom('.cds-aichat-workspace-shell__header-details').exists();
+    assert.dom('.cds-aichat-workspace-shell__header-title').containsText('Order');
   });
 });

@@ -168,6 +168,13 @@ export default class Toolbar extends Component<ToolbarSignature> {
       idx += 1;
     }
 
+    // Fixed actions are sorted first (see `sortByFixed`) and documented to
+    // never land in the overflow menu - clamp the cutoff so the width-fit
+    // loop above can never push one of them past it, even when there isn't
+    // enough room for them either.
+    const fixedCount = sorted.filter((a) => a.fixed).length;
+    if (idx < fixedCount) idx = fixedCount;
+
     this.measured = true;
     if (idx === this.lastIdx) return;
     this.lastIdx = idx;

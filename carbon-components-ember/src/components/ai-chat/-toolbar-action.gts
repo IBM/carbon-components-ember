@@ -6,6 +6,8 @@
  */
 
 import Component from '@glimmer/component';
+import { on } from '@ember/modifier';
+import { action } from '@ember/object';
 import { or } from 'ember-truth-helpers';
 import Button from '../button.gts';
 import Tooltip from '../tooltip.gts';
@@ -25,15 +27,26 @@ export interface ToolbarActionButtonSignature {
  * measurement row - see `toolbar.gts`.
  */
 export default class ToolbarActionButton extends Component<ToolbarActionButtonSignature> {
+  @action
+  handleLinkClick(event: MouseEvent) {
+    if (this.args.action.disabled) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+
   <template>
     <Tooltip @label={{@action.text}} @align='bottom' ...attributes>
       {{#if @action.href}}
         <a
-          href={{@action.href}}
+          href={{unless @action.disabled @action.href}}
           target={{if @action.href (or @action.target '_self')}}
           class='cds--btn cds--btn--icon-only cds--btn--ghost cds--layout--size-{{or @action.size "md"}}
             {{if @action.disabled "cds--btn--disabled"}}'
+          role={{if @action.disabled 'link'}}
+          aria-disabled={{if @action.disabled 'true'}}
           data-testid={{@action.testId}}
+          {{on 'click' this.handleLinkClick}}
         >
           <@action.icon @size={{16}} />
         </a>
