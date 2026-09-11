@@ -172,6 +172,10 @@ class RichController implements EditingSurfaceController {
   private onSendIntent: () => void = () => {};
   /** Guards `setContent` (a controlled `@content` sync) from re-emitting `onChange`. */
   private suppressChange = false;
+  /** Set while an IME composition is in flight (see `setComposing`). */
+  private composing = false;
+  /** Set when a `setExtensions` rebuild was withheld during a composition. */
+  private pendingRecreate = false;
 
   mount(host: HTMLElement, init: EditingSurfaceInit) {
     this.host = host;
@@ -303,7 +307,30 @@ class RichController implements EditingSurfaceController {
       return;
     }
     this.extensions = extensions;
+    // `recreateEditor` destroys and rebuilds the live editor - doing that
+    // mid-composition would strand the IME's candidate text the same way an
+    // unguarded textarea->rich swap would. Withhold it until `setComposing
+    // (false)` releases it.
+    if (this.composing) {
+      this.pendingRecreate = true;
+      return;
+    }
     this.recreateEditor();
+  }
+
+  /**
+   * Reports whether an IME composition is in flight. `PromptLine` owns the
+   * one composition observer for both surfaces and pushes the state down
+   * here so a `setExtensions` rebuild during composition is deferred instead
+   * of stranding the IME's candidate text, then flushed once composition
+   * ends.
+   */
+  setComposing(composing: boolean) {
+    this.composing = composing;
+    if (!composing && this.pendingRecreate) {
+      this.pendingRecreate = false;
+      this.recreateEditor();
+    }
   }
 
   undo(): boolean {

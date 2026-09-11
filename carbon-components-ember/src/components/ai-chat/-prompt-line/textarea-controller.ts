@@ -218,6 +218,10 @@ export class TextareaController implements EditingSurfaceController {
     // rich controller once it wants them installed.
   }
 
+  setComposing() {
+    // Textarea mode never rebuilds its DOM; nothing to withhold.
+  }
+
   undo() {
     return false;
   }

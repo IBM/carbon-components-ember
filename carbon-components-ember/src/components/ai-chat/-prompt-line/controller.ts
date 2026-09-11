@@ -49,6 +49,13 @@ export interface EditingSurfaceController {
   setAriaLabel(ariaLabel?: string): void;
   setTestId(testId?: string): void;
   setExtensions(extensions: Extension[]): void;
+  /**
+   * Reports whether an IME composition is in flight, so a controller can
+   * withhold a destructive rebuild (`RichController`'s `recreateEditor`)
+   * until it ends rather than stranding the IME's candidate text.
+   * `TextareaController` never rebuilds, so it's a no-op there.
+   */
+  setComposing(composing: boolean): void;
   undo(): boolean;
   redo(): boolean;
 }

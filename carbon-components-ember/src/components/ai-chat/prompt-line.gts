@@ -10,6 +10,7 @@ import { modifier as eModifier } from 'ember-modifier';
 import type Owner from '@ember/owner';
 import type { Editor, Extension } from '@tiptap/core';
 import type { EditingSurfaceController } from './-prompt-line/controller.ts';
+import { getRichRuntimeIfLoaded, loadRichRuntime } from './-prompt-line/rich-loader.ts';
 import { TextareaController } from './-prompt-line/textarea-controller.ts';
 import { textOffsetToDocPos } from './-prompt-line/text-utils.ts';
 
@@ -100,22 +101,31 @@ export interface PromptLineSignature {
  * Deliberately narrower than upstream's rich mode: no mention/autocomplete
  * extensions (`carbon-mention`/`carbon-autocomplete`/`carbon-starter-trigger`
  * — a separate, not-yet-ported feature; `@extensions` accepts plain Tiptap
- * `Extension`s only), no typing-indicator event (nothing in this port
- * consumes one; a caller can debounce `@onChange` itself), and no
- * IME-composition guard around the textarea→rich swap (an already-narrow
- * edge case — `@rich` toggling mid-keystroke). Also not reproduced: the
- * keyboard-vs-pointer focus-ring distinction upstream derives from a
- * `keyboard` event detail (`MouseFocusController`, wired into both
- * controllers, dispatches `cds-aichat-prompt-focus` with that detail so
- * `PromptLineShell`'s expanded layout can suppress the ring on a mouse
- * click and only show it for keyboard-driven focus) — this port's
- * `:focus-within`-based CSS fires identically regardless of how focus
- * arrived, so a mouse click in the expanded `PromptLineShell` layout still
- * shows a focus outline that upstream would suppress; and the
+ * `Extension`s only) and no typing-indicator event (nothing in this port
+ * consumes one; a caller can debounce `@onChange` itself). Also not
+ * reproduced: the keyboard-vs-pointer focus-ring distinction upstream
+ * derives from a `keyboard` event detail (`MouseFocusController`, wired into
+ * both controllers) — see `PromptLineShell`'s class doc for why a native
+ * `:focus-visible`-based CSS fix can't close this gap either; and the
  * `cds-aichat-prompt-keydown` event — keydown already bubbles from either
  * surface up to this component's root element, which forwards
  * `...attributes`, so a consumer can listen directly on the invocation
  * (`<PromptLine {{on 'keydown' ...}} />`) instead.
+ *
+ * An IME composition in flight (typing e.g. Japanese/Chinese/Korean) is
+ * tracked once, at this component's own editor-host element, and pushed to
+ * whichever surface is live: it defers a `@rich`-triggered upgrade until
+ * the composition ends (never tearing the field out from under an in-flight
+ * candidate), and defers a rich-mode `@extensions` rebuild the same way.
+ *
+ * `static preloadRich()` warms the Tiptap chunk ahead of render — call it as
+ * soon as the host app knows it'll need rich mode (e.g. at boot), and an
+ * initial `@rich={{true}}` mounts the rich editor directly with no
+ * textarea-then-swap flash. Without a preceding `preloadRich()` call (or an
+ * earlier `@rich`/`ensureEditor()` elsewhere in the same page that already
+ * warmed the chunk), a cold initial `@rich={{true}}` still renders the
+ * textarea for one tick while the dynamic `import()` resolves — nothing
+ * short of a static import can avoid that on a page's very first mount.
  */
 export default class PromptLine extends Component<PromptLineSignature> {
   // Captured once at construction so `mountSurface` (below) never reads a
@@ -131,6 +141,8 @@ export default class PromptLine extends Component<PromptLineSignature> {
   private readonly initialAriaLabel: string;
   private readonly initialTestId: string | undefined;
   private readonly initialAutofocus: boolean;
+  private readonly initialRich: boolean;
+  private readonly initialExtensions: Extension[];
 
   // Plain instance state, not `@tracked` - read only inside the modifiers
   // below and never from the template (both editing surfaces manage their
@@ -142,6 +154,10 @@ export default class PromptLine extends Component<PromptLineSignature> {
   private richReadyPromise: Promise<Editor> | null = null;
   private resolveRichReady: ((editor: Editor) => void) | null = null;
   private rejectRichReady: ((reason: unknown) => void) | null = null;
+  /** Whether an IME composition is currently in flight on the editor host. */
+  private isComposing = false;
+  /** Set when `@rich`/`ensureEditor()` requested an upgrade mid-composition. */
+  private pendingUpgrade = false;
 
   constructor(owner: Owner, args: Args) {
     super(owner, args);
@@ -151,6 +167,17 @@ export default class PromptLine extends Component<PromptLineSignature> {
     this.initialAriaLabel = args.ariaLabel ?? 'Message';
     this.initialTestId = args.testId;
     this.initialAutofocus = !!args.autofocus;
+    this.initialRich = !!args.rich;
+    this.initialExtensions = args.extensions ?? [];
+  }
+
+  /**
+   * Warm the Tiptap runtime chunk ahead of render, so an initial
+   * `@rich={{true}}` mount can skip the textarea and go straight to the rich
+   * editor. See the class doc for what this does and doesn't eliminate.
+   */
+  static preloadRich(): Promise<unknown> {
+    return loadRichRuntime();
   }
 
   get placeholder() {
@@ -231,11 +258,18 @@ export default class PromptLine extends Component<PromptLineSignature> {
     }
     this.upgrading = true;
     try {
-      const { createRichController } = await import('./-prompt-line/rich-controller.ts');
+      const { createRichController } = getRichRuntimeIfLoaded() ?? (await loadRichRuntime());
       const host = this.editorHost;
       const previous = this.controller;
       if (!host || !previous) {
         this.failRichReady(new Error('PromptLine is not currently rendered'));
+        return;
+      }
+      if (this.isComposing) {
+        // Defer until composition ends - `richReadyPromise` stays pending
+        // and settles when `onCompositionEnd` re-runs the upgrade, instead
+        // of tearing the textarea out from under an in-flight IME candidate.
+        this.pendingUpgrade = true;
         return;
       }
       const value = previous.getValue();
@@ -272,26 +306,49 @@ export default class PromptLine extends Component<PromptLineSignature> {
     }
   }
 
-  // Mounts the textarea surface once, on install, and tears it (or whatever
-  // surface is live by then) down on element removal. Always starts
-  // textarea, even when `@rich` is `true` from the start - there's no
-  // preloaded-runtime fast path here (unlike upstream's
-  // `getRichRuntimeIfLoaded()`), so an initial `@rich={{true}}` renders the
-  // textarea for one tick and then swaps, rather than skipping it. `watchRich`
+  private readonly onCompositionStart = () => {
+    this.isComposing = true;
+    this.controller?.setComposing(true);
+  };
+
+  private readonly onCompositionEnd = () => {
+    this.isComposing = false;
+    this.controller?.setComposing(false);
+    if (this.pendingUpgrade) {
+      this.pendingUpgrade = false;
+      void this.upgradeToRich();
+    }
+  };
+
+  // Mounts the editing surface once, on install, and tears it down on
+  // element removal. Starts rich directly, with no textarea flash at all,
+  // when both `@rich` was already `true` on this initial render AND the
+  // Tiptap chunk is already warm (`preloadRich()` was called, or an earlier
+  // `PromptLine` on the page already triggered the dynamic `import()`) -
+  // `getRichRuntimeIfLoaded()` is synchronous, so this check can't race the
+  // import itself. Otherwise starts textarea, same as always; `watchRich`
   // below (installed right after, so it runs immediately afterward on the
-  // same render) is what actually kicks off that swap.
+  // same render) is what kicks off the async upgrade in that case.
   mountSurface = eModifier<{ Element: HTMLDivElement }>((element) => {
     this.editorHost = element;
-    const controller = new TextareaController();
+    element.addEventListener('compositionstart', this.onCompositionStart);
+    element.addEventListener('compositionend', this.onCompositionEnd);
+
+    const warmModule = this.initialRich ? getRichRuntimeIfLoaded() : null;
+    const controller = warmModule ? warmModule.createRichController() : new TextareaController();
     this.controller = controller;
-    this.mode = 'textarea';
+    this.mode = warmModule ? 'rich' : 'textarea';
     controller.mount(element, {
       value: this.initialContent,
       placeholder: this.initialPlaceholder,
       disabled: this.initialDisabled,
       ariaLabel: this.initialAriaLabel,
       testId: this.initialTestId,
-      extensions: [],
+      // Textarea mode ignores extensions outright; a cold mount doesn't
+      // install them either - `upgradeToRich` reads `@extensions` fresh
+      // when it actually swaps. Only the warm/direct-rich path needs a real
+      // list up front.
+      extensions: warmModule ? this.initialExtensions : [],
       onChange: this.handleChange,
       onSendIntent: this.handleSendIntent,
     });
@@ -303,6 +360,18 @@ export default class PromptLine extends Component<PromptLineSignature> {
     this.args.onReady?.(this.api);
 
     return () => {
+      element.removeEventListener('compositionstart', this.onCompositionStart);
+      element.removeEventListener('compositionend', this.onCompositionEnd);
+      this.isComposing = false;
+      this.pendingUpgrade = false;
+      if (this.richReadyPromise) {
+        // A composition-deferred upgrade never settles `richReadyPromise`
+        // itself - `onCompositionEnd` is what would normally flush it - so
+        // if the component is torn down before composition ends, fail it
+        // here instead of leaving an `ensureEditor()` caller awaiting
+        // forever.
+        this.failRichReady(new Error('PromptLine was destroyed before the rich editor upgrade completed'));
+      }
       this.controller?.destroy();
       this.controller = null;
       this.editorHost = null;

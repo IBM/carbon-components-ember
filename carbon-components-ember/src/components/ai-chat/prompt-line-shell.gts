@@ -62,10 +62,34 @@ export interface PromptLineShellSignature {
  * one, `editor`, is unnamed upstream's own JSDoc but is a real slot in its
  * implementation.
  *
- * Also not reproduced: the keyboard-vs-pointer focus-ring class upstream
- * derives from `cds-aichat-prompt-focus`'s event detail (see `PromptLine`'s
- * class doc for why) — the base `:focus-within` rule still gives a visible
- * focus outline in the non-expanded layout.
+ * Also not reproduced: upstream's keyboard-vs-pointer focus ring on the
+ * expanded layout's text-area wrapper. Upstream gives that wrapper its own
+ * `outline: ... solid transparent` (independent of the `__input-container`
+ * box-shadow elevation both ports already share) and only colors it in when
+ * a `MouseFocusController`-sourced `cds-aichat-prompt-focus` event reports
+ * `{ keyboard: true }` — i.e. a mouse click on the editor gets the
+ * box-shadow but not this second ring, matching the non-expanded layout's
+ * plain `:focus-within` outline having no keyboard/pointer distinction at
+ * all (upstream doesn't gate that one either). This port never added the
+ * wrapper's outline rule in the first place, so there's currently no ring
+ * to over- or under-show there in either input mode.
+ *
+ * A native `:has(:focus-visible)` selector on the wrapper, checked directly
+ * in a real browser rather than assumed, **cannot** reproduce the
+ * distinction: Chromium (and per the CSS spec's own `:focus-visible`
+ * heuristic, every engine) matches `:focus-visible` on a plain mouse click
+ * for both `<textarea>` and a `contenteditable` element — text-entry
+ * controls are always considered focus-visible regardless of input
+ * modality, unlike a `<button>`. A `:has(:focus-visible)` rule would
+ * therefore show the ring on every editor focus, mouse or keyboard alike —
+ * functionally identical to `:focus-within` and not upstream's behavior.
+ * Reproducing this for real needs upstream's actual pointer-vs-keyboard
+ * event tracking (`MouseFocusController`), which is real, non-trivial
+ * event-plumbing (`pointerdown`/`mousedown`/`touchstart` tracking latched
+ * across the next `focus` event, per-surface, with a priority override for
+ * a programmatic `focus(keyboardFocus)` call) — out of scope here as a
+ * "small CSS fix"; tracked instead as a real gap for whenever this is worth
+ * the added complexity.
  */
 export default class PromptLineShell extends Component<PromptLineShellSignature> {
   get hasFileUploads() {

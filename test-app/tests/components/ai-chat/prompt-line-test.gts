@@ -1,10 +1,11 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn, triggerKeyEvent, find, click, settled } from '@ember/test-helpers';
+import { render, fillIn, triggerKeyEvent, find, click, settled, clearRender } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import { on } from '@ember/modifier';
 import PromptLine, { type PromptLineApi } from 'carbon-components-ember/components/ai-chat/prompt-line';
+import { resetRichRuntimeForTests } from 'carbon-components-ember/components/ai-chat/-prompt-line/rich-loader';
 import { waitForAnimationFrame } from '../../helpers';
 
 /** Dispatches a real, untrusted `paste` event carrying plain text - matches
@@ -17,6 +18,16 @@ function pasteText(target: Element, text: string) {
 
 module('Integration | Component | ai-chat/PromptLine', (hooks) => {
   setupRenderingTest(hooks);
+
+  // The Tiptap runtime chunk is cached module-level (see rich-loader.ts) so
+  // the warm-mount fast path can check it synchronously. Without resetting
+  // it between tests, the first test that upgrades to rich mode permanently
+  // warms it for every later test in this file, silently swapping their
+  // `mountSurface` behavior from the cold textarea-then-upgrade path to the
+  // warm-mount path.
+  hooks.afterEach(() => {
+    resetRichRuntimeForTests();
+  });
 
   test('it renders the initial @content and placeholder/aria-label', async function (assert) {
     await render(
@@ -632,6 +643,110 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
       'hello line1\nline2world',
       'first/last pasted lines merge with the surrounding paragraph, only the interior line is a new paragraph',
     );
+  });
+
+  // -------------------------------------------------------------------------
+  // IME composition guard
+  // -------------------------------------------------------------------------
+
+  test('an IME composition in progress defers a @rich-triggered upgrade until it ends', async function (assert) {
+    class State {
+      @tracked rich = false;
+    }
+    const state = new State();
+
+    await render(<template><PromptLine @rich={{state.rich}} /></template>);
+
+    const field = find('.cds-aichat-prompt-line__field') as HTMLTextAreaElement;
+    field.dispatchEvent(new CompositionEvent('compositionstart', { bubbles: true }));
+
+    state.rich = true;
+    await settled();
+
+    assert.dom('.cds-aichat-prompt-line__field').exists('upgrade is withheld while a composition is in flight');
+    assert.dom('.cds-aichat-prompt-line__pm-content').doesNotExist();
+
+    field.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true }));
+    await settled();
+
+    assert.dom('.cds-aichat-prompt-line__pm-content').exists('upgrade proceeds once composition ends');
+    assert.dom('.cds-aichat-prompt-line__field').doesNotExist();
+  });
+
+  test('an IME composition in progress defers a rich-mode @extensions rebuild until it ends', async function (assert) {
+    class State {
+      // Untyped, matches the existing @extensions-reference test above -
+      // only the reference identity matters here, not the contents.
+      @tracked extensions = [];
+    }
+    const state = new State();
+    let api!: PromptLineApi;
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(
+      <template>
+        <PromptLine @rich={{true}} @extensions={{state.extensions}} @onReady={{onReady}} />
+      </template>,
+    );
+    await api.ensureEditor();
+
+    const editorBefore = api.getEditor();
+    const pmContent = find('.cds-aichat-prompt-line__pm-content')!;
+    pmContent.dispatchEvent(new CompositionEvent('compositionstart', { bubbles: true }));
+
+    state.extensions = [];
+    await settled();
+
+    assert.strictEqual(api.getEditor(), editorBefore, 'rebuild is withheld while composing');
+
+    pmContent.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true }));
+    await settled();
+
+    assert.notStrictEqual(api.getEditor(), editorBefore, 'rebuild proceeds once composition ends');
+  });
+
+  test('destroying the component while a composition-deferred upgrade is pending rejects ensureEditor() instead of hanging forever', async function (assert) {
+    let api!: PromptLineApi;
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(<template><PromptLine @onReady={{onReady}} /></template>);
+
+    const field = find('.cds-aichat-prompt-line__field') as HTMLTextAreaElement;
+    field.dispatchEvent(new CompositionEvent('compositionstart', { bubbles: true }));
+
+    // Attached immediately, before `clearRender()` below runs the teardown
+    // that settles this - a handler added only after awaiting `clearRender()`
+    // risks the browser having already reported the rejection as unhandled.
+    const settledOutcome = api.ensureEditor().then(
+      () => 'resolved',
+      () => 'rejected',
+    );
+
+    await clearRender();
+
+    const timeout = new Promise((resolve) => setTimeout(() => resolve('timed out'), 500));
+    const outcome = await Promise.race([settledOutcome, timeout]);
+
+    assert.strictEqual(
+      outcome,
+      'rejected',
+      'ensureEditor() settles (rejects) rather than hanging when destroyed mid-composition',
+    );
+  });
+
+  // -------------------------------------------------------------------------
+  // Preload / warm-mount fast path
+  // -------------------------------------------------------------------------
+
+  test('PromptLine.preloadRich() warms the Tiptap chunk so an initial @rich mounts rich directly, no textarea flash', async function (assert) {
+    await PromptLine.preloadRich();
+
+    await render(<template><PromptLine @rich={{true}} /></template>);
+
+    assert.dom('.cds-aichat-prompt-line__pm-content').exists();
+    assert
+      .dom('.cds-aichat-prompt-line__field')
+      .doesNotExist('warm runtime skips the textarea entirely, no one-tick flash');
   });
 
   test('api.focus() and api.blur() move real DOM focus in rich mode', async function (assert) {

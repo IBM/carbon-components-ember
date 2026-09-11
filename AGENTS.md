@@ -1276,11 +1276,7 @@ upstream's own `TextareaController`/`RichController` pair
 (`prompt-line-controller.ts`/`prompt-line-rich-runtime.ts`) — upstream's
 classes are already plain DOM/Tiptap code with no Lit dependency, so this
 port is closer to a straight port than a re-derivation. Real cuts made
-against upstream, all deliberate: no mention/autocomplete extensions
-(`carbon-mention`/`carbon-autocomplete`/`carbon-starter-trigger`/
-`token-node-view` — a separate, not-yet-ported feature; `@extensions`
-accepts plain Tiptap `Extension`s only, so no `content`-as-`JSONContent`
-seeding either, only plain strings), no typing-indicator event (nothing in
+against upstream, all deliberate: no typing-indicator event (nothing in
 this port consumes one — a caller can debounce `@onChange` itself), no
 origin-tagging on transactions (exists upstream only to keep the
 mention-removal plugin and the typing indicator from misfiring on a
@@ -1288,15 +1284,35 @@ host-driven change; neither exists here, so a **plain boolean guard**
 (`suppressChange`) on the `RichController` instance does the equivalent job
 for the one case that still matters — a controlled `@content` sync must not
 re-invoke `@onChange`, matching the textarea controller's own
-equality-check bail-out), no IME-composition guard around the textarea→rich
-swap (an already-narrow edge case: `@rich` toggling mid-keystroke), and no
-deferred-teardown/reconnect handling (Ember's render lifecycle doesn't have
-upstream's "removed and re-appended in the same frame" custom-element
-concern). `@extensions` is compared by plain reference, not upstream's deep
-equivalence/starter-storage check — simpler, at the cost of a fresh array
-literal every render triggering an avoidable rebuild (undo history reset,
-content/selection/focus still preserved); documented in both the class doc
-and the docs demo to memoize it.
+equality-check bail-out), and no deferred-teardown/reconnect handling
+(Ember's render lifecycle doesn't have upstream's "removed and re-appended
+in the same frame" custom-element concern). `@extensions` is compared by
+plain reference, not upstream's deep equivalence/starter-storage check —
+simpler, at the cost of a fresh array literal every render triggering an
+avoidable rebuild (undo history reset, content/selection/focus still
+preserved); documented in both the class doc and the docs demo to memoize
+it.
+
+**Mention/autocomplete (`carbon-mention`/`carbon-autocomplete`/
+`carbon-starter-trigger`/`token-node-view`) are deliberately left unported,
+not just deferred** — `@extensions` accepts plain Tiptap `Extension`s only,
+so no `content`-as-`JSONContent` seeding either, only plain strings.
+Reading upstream's real source
+(`packages/ai-chat-components/src/components/prompt-line/src/tiptap/`)
+surfaced four concrete reasons this needs its own dependency-review todo
+rather than folding into this port: (1) a new runtime dependency —
+`@tiptap/extension-mention` (itself built on `@tiptap/suggestion`); (2)
+`carbon-mention.ts`'s `onRemove` removal plugin is built directly on
+`isHostOrigin(tr)` transaction-origin tagging, which this port deliberately
+cut in favor of the simpler `suppressChange` boolean above — porting
+mention faithfully re-opens that cut; (3) `CarbonTokenNodeView`
+(`token-node-view.ts`) renders each mention/command chip through a
+light-DOM portal handshake (`render-in-light-dom.ts`), a rendering pattern
+with no precedent anywhere in this addon; (4) an unanswered API-shape
+question — upstream dispatches a `cds-aichat-trigger-change` event and lets
+the *host* render the suggestion popup, so an Ember port has to decide
+whether that becomes a named block, a yielded API, or a separate component,
+before any code gets written. Tracked as its own follow-up todo.
 
 **The textarea→rich swap is a lossless, same-frame handoff**, ported
 faithfully from upstream's `_swapToRich`: capture the textarea's plain
@@ -1305,15 +1321,58 @@ controller, mount the rich controller seeded via `textToDoc(value)` (a
 paragraph-per-line doc — the inverse of `getRawText`, both ported from
 upstream's `tiptap/json-utils.ts` trimmed to the plain-text-only subset
 this port needs), then `textOffsetToDocPos` the plain-text caret offset
-into a ProseMirror position and restore focus if it had it. One real gap
-disclosed rather than silently accepted: unlike upstream's
-`getRichRuntimeIfLoaded()` preload check, this port has no "already warm"
-fast path, so `@rich={{true}}` supplied from the very first render still
-renders the textarea for one tick before the dynamic import resolves and
-the swap happens — a visible (if brief) mode flash upstream's preload path
-usually avoids. The upgrade is **sticky** (matches upstream): implemented
-by simply never checking `@rich` again once `mode` is `'rich'`, so later
-setting it back to `false` is a no-op.
+into a ProseMirror position and restore focus if it had it. The upgrade is
+**sticky** (matches upstream): implemented by simply never checking `@rich`
+again once `mode` is `'rich'`, so later setting it back to `false` is a
+no-op.
+
+**IME composition guard**, ported from upstream's `_isComposing`/
+`_pendingUpgrade` (`prompt-line.ts`) and its rich-runtime withheld-recreate
+logic (`prompt-line-rich-runtime.ts`): `PromptLine` owns a single
+`compositionstart`/`compositionend` listener pair on its own editor-host
+element (composition events bubble from either surface's real
+textarea/contenteditable up through it) and pushes the composing state down
+to whichever controller is live via a new `setComposing(composing: boolean)`
+method on `EditingSurfaceController` (a no-op in `TextareaController`,
+same shape as its existing `setExtensions()` no-op). Two things are
+withheld while composing, both flushed on `compositionend`: a
+`@rich`-triggered (or `ensureEditor()`-triggered) upgrade, so a swap never
+tears the field out from under an in-flight IME candidate; and, newly, a
+rich-mode `@extensions` rebuild (`RichController.recreateEditor()` destroys
+and recreates the live editor, which would strand a candidate exactly the
+same way an unguarded swap would — upstream withholds this too, in
+`prompt-line-rich-runtime.ts`). Deliberately **not** ported: upstream's
+"judge the withheld rebuild against the config as it was when composition
+began" equivalence logic — this port already compares `@extensions` by
+plain reference, so there's nothing extra to reconcile once the rebuild
+actually fires.
+
+**Preload / warm-mount fast path**, ported from upstream's
+`prompt-line-rich-loader.ts` (`getRichRuntimeIfLoaded()`/
+`loadRichRuntime()`) as a new `-prompt-line/rich-loader.ts` module — a
+module-level `runtime`/`runtimePromise` singleton pair shared by both
+`upgradeToRich()` (the cold-start upgrade path) and `mountSurface` (the new
+synchronous warm-mount check), so whichever path resolves the dynamic
+`import()` first warms it for the other too. `static PromptLine.preloadRich()`
+exposes this to a host app (call at boot, or whenever it becomes clear rich
+mode will be needed) — `mountSurface` checks `getRichRuntimeIfLoaded()`
+synchronously and, only when both `@rich` was already `true` on the very
+first render *and* the chunk is already warm, mounts the rich controller
+directly instead of the textarea, with no flash at all. Skipped upstream's
+`typeof window === 'undefined'` SSR branch (nothing else in this stack has
+one). One constraint worth flagging for the next person touching this: the
+warm-mount branch in `mountSurface` needs a real `@extensions` list at
+mount time (unlike the cold-start textarea path, which always mounts with
+an empty list and only reads `@extensions` later, inside the async
+`upgradeToRich`) — reading `this.args.extensions` directly in the
+modifier's synchronous body would trip the autotracking gotcha below, so it
+gets its own `initialExtensions` constructor-captured snapshot, same
+pattern as `initialContent` etc. Without a preceding `preloadRich()` call
+(or some earlier `PromptLine`/`ensureEditor()` on the same page that
+already warmed the chunk), a truly cold `@rich={{true}}` still renders the
+textarea for one tick while the import resolves — nothing short of a
+static import can avoid that on a page's very first mount, and the class
+doc says so plainly rather than overselling `preloadRich()`.
 
 **Exposing `getEditor()`/`ensureEditor()`/`undo()`/`redo()`/
 `insertContent()`/`setTextSelection()` needed a new pattern this addon
@@ -1330,36 +1389,49 @@ yield into. `getEditor()` stays a pure probe (returns `null` in textarea
 mode, never triggers the upgrade) — only `ensureEditor()` does, matching
 upstream's own distinction.
 
-**Revisited, not silently kept, now that a second editing surface exists**
-(the task explicitly asked to check this): upstream's keyboard-vs-pointer
-focus-ring class and the `cds-aichat-prompt-typing`/`cds-aichat-prompt-
-keydown` events all exist there to keep two surfaces' *visual*/*event*
-behavior from diverging. The keyboard-vs-pointer distinction is **still not
-reproduced, and this is a real, currently-shipping visual gap, not a closed
-one**: upstream's `MouseFocusController` (wired into both
-`TextareaController._onFocus` and the rich `RichController`'s `editor.on
-('focus', …)`) tracks pointer/touch immediately before focus and dispatches
-`cds-aichat-prompt-focus` with `{ keyboard: boolean }`; `PromptLineShell`
-listens for that event and toggles a class that its SCSS scopes specifically
-to the **expanded** layout, suppressing the focus ring on a mouse click there
-and showing it only for keyboard-driven focus. This port's `:focus-within`
-CSS fires identically regardless of *how* focus arrived — it can't
-distinguish keyboard from pointer, `:focus-within` only reports "is
-something focused" — so a mouse click in `PromptLineShell`'s expanded layout
-still shows a focus outline that upstream deliberately suppresses. Two
-editing surfaces existing didn't change this conclusion: the gap was never
-about keeping two surfaces in sync with each other, it's a single missing
-"was this focus keyboard-driven" capability that's exactly as absent with
-one surface as with two. (A native `:has(:focus-visible)` selector on the
-expanded container would close most of the gap without reproducing
-upstream's `MouseFocusController` event-plumbing, if this is ever worth
-fixing rather than documenting.) The other two — `keydown` and the typing
-indicator — really don't need new API surface: a real `keydown` bubbles from
-either surface up to the component's root element, which already forwards
-`...attributes`, so `<PromptLine {{on 'keydown' ...}}>` already works today
-in both modes without a dedicated arg; and nothing in this port consumes a
-typing indicator, so both modes emitting nothing is exactly as consistent as
-both emitting one.
+**Revisited a second time, not just re-asserted** (a follow-up task asked to
+look for a `:has(:focus-visible)`-based fix for the keyboard-vs-pointer
+focus ring): the gap is real, but its own prior description here was
+imprecise, and the suggested CSS fix turns out not to work — both corrected
+after reading upstream's actual `prompt-line-shell.scss`/`.ts` and
+verifying in a real Chromium instance rather than reasoning from the CSS
+alone (see `chromium.launch()` + `.matches(':focus-visible')` in this
+task's own investigation). What upstream actually gates is a **second,
+independent outline** on the expanded layout's text-area *wrapper*
+(`.input-text-area`) — `outline: ... solid transparent` by default,
+colored in only when a `cds-aichat-prompt-focus` event reports
+`{ keyboard: true }` — layered on top of the `__input-container`
+box-shadow elevation both ports already share via a plain, ungated
+`:focus-within` (upstream doesn't gate *that* one either, keyboard or
+mouse). This port never added that second wrapper outline at all, in
+either input mode — so there's currently nothing to over- or under-show
+there, not a mouse click incorrectly showing a ring that keyboard focus
+correctly gets.
+
+A native `:has(:focus-visible)` selector on that wrapper — the fix this
+doc previously suggested as "closing most of the gap" — was tested
+directly rather than assumed and **cannot** express the distinction:
+dispatching a real Chromium click on a `<textarea>` and a
+`contenteditable` element and checking `.matches(':focus-visible')`
+confirmed both match `:focus-visible` on a plain mouse click (per the CSS
+spec's own heuristic, text-entry controls are always focus-visible
+regardless of input modality — unlike a `<button>`, which correctly
+doesn't). A `:has(:focus-visible)` rule on the wrapper would therefore
+show the ring on *every* editor focus, mouse or keyboard alike —
+functionally identical to `:focus-within`, not upstream's behavior. Closing
+this for real needs upstream's actual `MouseFocusController` — real
+`pointerdown`/`mousedown`/`touchstart` tracking latched across the next
+`focus` event, per surface, with a priority override for a programmatic
+`focus(keyboardFocus)` call — which is genuine event-plumbing, not a small
+CSS fix; left as a documented gap rather than a half-fix that looks correct
+in a static screenshot. The other two upstream events from the original
+task — `keydown` and the typing indicator — still don't need new API
+surface, unchanged from the original reasoning: a real `keydown` bubbles
+from either surface up to the component's root element, which already
+forwards `...attributes`, so `<PromptLine {{on 'keydown' ...}}>` already
+works today in both modes without a dedicated arg; and nothing in this port
+consumes a typing indicator, so both modes emitting nothing is exactly as
+consistent as both emitting one.
 
 **Real gotcha for any future modifier wrapping a stateful object with an
 async "upgrade" step:** the initial `mountSurface` modifier must never read

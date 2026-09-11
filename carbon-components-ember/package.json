@@ -212,6 +212,7 @@
       "./components/carbon/ai-chat/-markdown-render.js": "./dist/_app_/components/carbon/ai-chat/-markdown-render.js",
       "./components/carbon/ai-chat/-prompt-line/controller.js": "./dist/_app_/components/carbon/ai-chat/-prompt-line/controller.js",
       "./components/carbon/ai-chat/-prompt-line/rich-controller.js": "./dist/_app_/components/carbon/ai-chat/-prompt-line/rich-controller.js",
+      "./components/carbon/ai-chat/-prompt-line/rich-loader.js": "./dist/_app_/components/carbon/ai-chat/-prompt-line/rich-loader.js",
       "./components/carbon/ai-chat/-prompt-line/text-utils.js": "./dist/_app_/components/carbon/ai-chat/-prompt-line/text-utils.js",
       "./components/carbon/ai-chat/-prompt-line/textarea-controller.js": "./dist/_app_/components/carbon/ai-chat/-prompt-line/textarea-controller.js",
       "./components/carbon/ai-chat/card-footer.js": "./dist/_app_/components/carbon/ai-chat/card-footer.js",
