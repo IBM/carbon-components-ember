@@ -1,5 +1,22 @@
 # Changelog
 
+## Release (2026-09-11)
+
+* carbon-components-ember 3.1.0 (minor)
+
+#### :rocket: Enhancement
+* `carbon-components-ember`
+  * [#864](https://github.com/IBM/carbon-components-ember/pull/864) PromptLine: IME composition guard + Tiptap preload fast path ([@patricklx](https://github.com/patricklx))
+  * [#863](https://github.com/IBM/carbon-components-ember/pull/863) feat: add rich (Tiptap) editing mode to PromptLine ([@patricklx](https://github.com/patricklx))
+  * [#862](https://github.com/IBM/carbon-components-ember/pull/862) feat: port Carbon AI Chat ChainOfThought, ReasoningSteps, Feedback, PromptLine components ([@patricklx](https://github.com/patricklx))
+  * [#861](https://github.com/IBM/carbon-components-ember/pull/861) feat: port Carbon AI Chat Markdown component ([@patricklx](https://github.com/patricklx))
+  * [#859](https://github.com/IBM/carbon-components-ember/pull/859) feat: port Carbon AI Chat Carousel component ([@patricklx](https://github.com/patricklx))
+  * [#791](https://github.com/IBM/carbon-components-ember/pull/791) feat: implement Resizer component ([@patricklx](https://github.com/patricklx))
+  * [#838](https://github.com/IBM/carbon-components-ember/pull/838) feat: port Carbon AI Chat Launcher and ChatShell components ([@patricklx](https://github.com/patricklx))
+
+#### Committers: 1
+- Patrick Pircher ([@patricklx](https://github.com/patricklx))
+
 ## Release (2026-09-10)
 
 * carbon-components-ember 3.0.0 (major)
