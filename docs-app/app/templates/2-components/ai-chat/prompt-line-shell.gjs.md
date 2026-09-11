@@ -50,7 +50,7 @@ class Demo extends Component {
       </:editor>
       <:sendControl>
         <Tooltip @label='Send' @autoAlign={{true}}>
-          <Button @ghost={{true}} @size='sm' @iconOnly={{true}} @onClick={{this.send}} aria-label='Send'>
+          <Button @type={{undefined}} @ghost={{true}} @size='sm' @iconOnly={{true}} @onClick={{this.send}} aria-label='Send'>
             <Send @size='16' />
           </Button>
         </Tooltip>
