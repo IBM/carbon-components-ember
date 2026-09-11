@@ -519,6 +519,42 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     );
   });
 
+  test('api.insertContent() merges a multi-line insert at the very start of the document (at: 0)', async function (assert) {
+    let api!: PromptLineApi;
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(<template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>);
+    await api.ensureEditor();
+
+    api.insertContent('world');
+
+    // Position 0 sits at the true outer document boundary (before the only
+    // paragraph, depth 0) - a naive, unclamped `from`/`to` there would leave
+    // 'line1'/'line2' as their own unmerged paragraphs instead of merging the
+    // last inserted line into the paragraph that already follows it.
+    api.insertContent('line1\nline2', { at: 0 });
+
+    assert.strictEqual(api.getValue(), 'line1\nline2world');
+  });
+
+  test('api.insertContent() merges a multi-line insert at the very end of the document (at: doc size)', async function (assert) {
+    let api!: PromptLineApi;
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(<template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>);
+    await api.ensureEditor();
+
+    api.insertContent('world');
+    const docSize = api.getEditor()!.state.doc.content.size;
+
+    // Symmetric case: `doc.content.size` sits just past the only paragraph's
+    // closing boundary (depth 0) - unclamped, the first inserted line would
+    // never merge into the preceding 'world' paragraph.
+    api.insertContent('line1\nline2', { at: docSize });
+
+    assert.strictEqual(api.getValue(), 'worldline1\nline2');
+  });
+
   test('api.setTextSelection() and api.selectAll() move the Tiptap selection', async function (assert) {
     let api!: PromptLineApi;
     const onReady = (fn: PromptLineApi) => (api = fn);

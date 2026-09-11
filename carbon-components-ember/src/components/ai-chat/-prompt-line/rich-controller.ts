@@ -7,7 +7,7 @@
 
 import { Editor, Extension } from '@tiptap/core';
 import type { JSONContent } from '@tiptap/core';
-import { Plugin } from '@tiptap/pm/state';
+import { Plugin, TextSelection } from '@tiptap/pm/state';
 import { Fragment, Slice } from '@tiptap/pm/model';
 import type { Node as ProseMirrorNode, Schema } from '@tiptap/pm/model';
 import type { EditorView } from '@tiptap/pm/view';
@@ -80,6 +80,20 @@ function linesToNodes(schema: Schema, lines: string[]): ProseMirrorNode[] {
       ? schema.nodes['paragraph']!.create()
       : schema.nodes['paragraph']!.create(null, schema.text(line)),
   );
+}
+
+/**
+ * Clamps `pos` into the range `setTextSelection` itself would clamp a
+ * selection into (`TextSelection.atStart(doc).from` .. `TextSelection.atEnd
+ * (doc).to`) - never the document's outer boundary (`0`/`doc.content.size`)
+ * for a non-empty doc. `insertPlainText`'s multi-line branch relies on an
+ * "open" slice merging into a paragraph that already surrounds `from`/`to`;
+ * at the true outer boundary there is no such paragraph (resolving that
+ * position has depth `0`), so the open ends fail to merge and a multi-line
+ * insert silently produces extra, unmerged paragraphs instead.
+ */
+function clampToTextRange(doc: ProseMirrorNode, pos: number): number {
+  return Math.min(Math.max(pos, TextSelection.atStart(doc).from), TextSelection.atEnd(doc).to);
 }
 
 /**
@@ -206,7 +220,10 @@ class RichController implements EditingSurfaceController {
    * node instead of visible text. Routed through the same `insertPlainText`
    * helper the paste/drop handler uses, so this stays consistent with
    * `setContent()` (which seeds via `textToDoc`, not a raw string) and with
-   * `TextareaController.insertContent()`, which is always literal.
+   * `TextareaController.insertContent()`, which is always literal. `opts.at`
+   * is clamped via `clampToTextRange` (mirroring `setTextSelection`) so a
+   * caller passing `0`/`doc.content.size` for a multi-line insert still
+   * merges into the surrounding paragraph instead of leaving it detached.
    */
   insertContent(text: string, opts: { at?: number } = {}) {
     const editor = this.editor;
@@ -214,8 +231,9 @@ class RichController implements EditingSurfaceController {
       return;
     }
     const { view } = editor;
-    const from = typeof opts.at === 'number' ? opts.at : view.state.selection.from;
-    const to = typeof opts.at === 'number' ? opts.at : view.state.selection.to;
+    const at = typeof opts.at === 'number' ? clampToTextRange(view.state.doc, opts.at) : undefined;
+    const from = at ?? view.state.selection.from;
+    const to = at ?? view.state.selection.to;
     insertPlainText(view, text, from, to);
   }
 
