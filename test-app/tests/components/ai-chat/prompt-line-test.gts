@@ -184,6 +184,58 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     assert.strictEqual(editor!.state.selection.from, 6, 'caret offset carried over from the textarea');
   });
 
+  test('multi-line content survives the textarea -> rich upgrade without doubled newlines', async function (assert) {
+    const calls: string[] = [];
+    class State {
+      @tracked content = '';
+      @tracked rich = false;
+    }
+    const state = new State();
+    let api!: PromptLineApi;
+    const onChange = (value: string) => {
+      state.content = value;
+      calls.push(value);
+    };
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(
+      <template>
+        <PromptLine
+          @content={{state.content}}
+          @onChange={{onChange}}
+          @rich={{state.rich}}
+          @onReady={{onReady}}
+        />
+      </template>,
+    );
+
+    await fillIn('.cds-aichat-prompt-line__field', 'hi\nthere');
+
+    state.rich = true;
+    await api.ensureEditor();
+
+    assert.strictEqual(
+      api.getValue(),
+      'hi\nthere',
+      'getValue() reports single newlines, not doubled ones, right after the upgrade',
+    );
+
+    const editor = api.getEditor()!;
+    editor.commands.insertContent(' more');
+    await settled();
+
+    assert.strictEqual(
+      api.getValue(),
+      'hi\nthere more',
+      'getValue() still reports single newlines after a further edit',
+    );
+    assert.strictEqual(
+      calls.at(-1),
+      'hi\nthere more',
+      '@onChange received single newlines, not doubled ones',
+    );
+  });
+
   test('setting @rich back to false does not downgrade a rich surface (sticky upgrade)', async function (assert) {
     class State {
       @tracked rich = true;

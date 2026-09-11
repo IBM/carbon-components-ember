@@ -15,7 +15,7 @@ import ParagraphNode from '@tiptap/extension-paragraph';
 import Placeholder from '@tiptap/extension-placeholder';
 import TextNode from '@tiptap/extension-text';
 import { UndoRedo } from '@tiptap/extensions';
-import { textToDoc } from './text-utils.ts';
+import { getRawText, textToDoc } from './text-utils.ts';
 import type { EditingSurfaceController, EditingSurfaceInit } from './controller.ts';
 
 /**
@@ -162,7 +162,7 @@ class RichController implements EditingSurfaceController {
   }
 
   getValue(): string {
-    return this.editor?.getText() ?? '';
+    return this.editor ? getRawText(this.editor.getJSON()) : '';
   }
 
   setContent(value: string) {
@@ -286,7 +286,7 @@ class RichController implements EditingSurfaceController {
         if (this.suppressChange) {
           return;
         }
-        this.onChange(editor.getText());
+        this.onChange(getRawText(editor.getJSON()));
       },
     });
   }
@@ -297,7 +297,7 @@ class RichController implements EditingSurfaceController {
     if (!host || !editor) {
       return;
     }
-    const value = editor.getText();
+    const value = getRawText(editor.getJSON());
     const selection = this.getSelection();
     const wasFocused = editor.isFocused;
     editor.destroy();
