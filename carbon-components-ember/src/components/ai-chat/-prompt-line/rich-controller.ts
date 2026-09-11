@@ -8,7 +8,9 @@
 import { Editor, Extension } from '@tiptap/core';
 import type { JSONContent } from '@tiptap/core';
 import { Plugin } from '@tiptap/pm/state';
+import { Fragment, Slice } from '@tiptap/pm/model';
 import type { Node as ProseMirrorNode, Schema } from '@tiptap/pm/model';
+import type { EditorView } from '@tiptap/pm/view';
 import DocumentNode from '@tiptap/extension-document';
 import HardBreakNode from '@tiptap/extension-hard-break';
 import ParagraphNode from '@tiptap/extension-paragraph';
@@ -71,6 +73,7 @@ function createChatEnter(onSendIntent: () => void) {
   });
 }
 
+/** Builds a paragraph node per interior line, for a multi-line paste/drop. */
 function linesToNodes(schema: Schema, lines: string[]): ProseMirrorNode[] {
   return lines.map((line) =>
     line.length === 0
@@ -79,7 +82,31 @@ function linesToNodes(schema: Schema, lines: string[]): ProseMirrorNode[] {
   );
 }
 
-/** Intercepts paste/drop and inserts plain text as paragraphs split on newlines. */
+/**
+ * Inserts plain text at `from`/`to`, splitting on newlines. A single-line
+ * paste/drop (the overwhelmingly common case - a URL, a word mid-sentence)
+ * is inserted as inline text so it merges into whatever paragraph is already
+ * there, instead of being wrapped in its own `paragraph` node (which would
+ * split the surrounding line in two). Genuine multi-line text is inserted as
+ * an "open" slice (`openStart`/`openEnd: 1`) so only the *interior* lines
+ * become new paragraphs - the first and last lines merge into the paragraph
+ * content already surrounding `from`/`to`, matching how a real multi-line
+ * paste behaves in any other rich text editor.
+ */
+function insertPlainText(view: EditorView, text: string, from: number, to: number) {
+  const lines = text.replace(/\r\n?/g, '\n').split('\n');
+  const tr =
+    lines.length === 1
+      ? view.state.tr.insertText(lines[0]!, from, to)
+      : view.state.tr.replace(
+          from,
+          to,
+          new Slice(Fragment.from(linesToNodes(view.state.schema, lines)), 1, 1),
+        );
+  view.dispatch(tr.scrollIntoView());
+}
+
+/** Intercepts paste/drop and inserts plain text, splitting on newlines. */
 const PlainTextPaste = Extension.create({
   name: 'carbonPlainTextPaste',
   addProseMirrorPlugins() {
@@ -91,10 +118,8 @@ const PlainTextPaste = Extension.create({
             if (text == null) {
               return false;
             }
-            const { schema } = view.state;
-            const nodes = linesToNodes(schema, text.replace(/\r\n?/g, '\n').split('\n'));
             const { from, to } = view.state.selection;
-            view.dispatch(view.state.tr.replaceWith(from, to, nodes).scrollIntoView());
+            insertPlainText(view, text, from, to);
             return true;
           },
           handleDrop(view, event, _slice, moved) {
@@ -105,13 +130,11 @@ const PlainTextPaste = Extension.create({
             if (!text) {
               return true;
             }
-            const { schema } = view.state;
-            const nodes = linesToNodes(schema, text.replace(/\r\n?/g, '\n').split('\n'));
             const pos = view.posAtCoords({ left: event.clientX, top: event.clientY });
             if (!pos) {
               return true;
             }
-            view.dispatch(view.state.tr.replaceWith(pos.pos, pos.pos, nodes).scrollIntoView());
+            insertPlainText(view, text, pos.pos, pos.pos);
             event.preventDefault();
             return true;
           },

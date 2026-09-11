@@ -7,6 +7,14 @@ import { on } from '@ember/modifier';
 import PromptLine, { type PromptLineApi } from 'carbon-components-ember/components/ai-chat/prompt-line';
 import { waitForAnimationFrame } from '../../helpers';
 
+/** Dispatches a real, untrusted `paste` event carrying plain text - matches
+ * how `RichController`'s `PlainTextPaste` plugin reads `event.clipboardData`. */
+function pasteText(target: Element, text: string) {
+  const clipboardData = new DataTransfer();
+  clipboardData.setData('text/plain', text);
+  target.dispatchEvent(new ClipboardEvent('paste', { clipboardData, bubbles: true, cancelable: true }));
+}
+
 module('Integration | Component | ai-chat/PromptLine', (hooks) => {
   setupRenderingTest(hooks);
 
@@ -521,6 +529,56 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
       selection.to,
       api.getEditor()!.state.doc.content.size,
       'selectAll() selects the whole document',
+    );
+  });
+
+  test('pasting single-line text does not split the surrounding paragraph in two', async function (assert) {
+    let api!: PromptLineApi;
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(<template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>);
+    await api.ensureEditor();
+
+    api.getEditor()!.commands.insertContent('hello world');
+
+    // Position 7 is right after "hello " (1 for the doc/paragraph boundary +
+    // 6 characters), i.e. mid-paragraph, between "hello " and "world".
+    api.setTextSelection(7);
+    pasteText(find('.cds-aichat-prompt-line__pm-content')!, 'PASTED');
+
+    assert.strictEqual(
+      api.getValue(),
+      'hello PASTEDworld',
+      'mid-paragraph paste merges inline instead of creating new paragraphs',
+    );
+
+    // The end of the document's content, i.e. right after "hello PASTEDworld".
+    api.setTextSelection(api.getEditor()!.state.doc.content.size);
+    pasteText(find('.cds-aichat-prompt-line__pm-content')!, '!');
+
+    assert.strictEqual(
+      api.getValue(),
+      'hello PASTEDworld!',
+      'end-of-paragraph paste merges inline instead of creating a new paragraph',
+    );
+  });
+
+  test('pasting multi-line text only turns the interior lines into new paragraphs', async function (assert) {
+    let api!: PromptLineApi;
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(<template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>);
+    await api.ensureEditor();
+
+    api.getEditor()!.commands.insertContent('hello world');
+    // Position 7 is mid-paragraph, between "hello " and "world".
+    api.setTextSelection(7);
+    pasteText(find('.cds-aichat-prompt-line__pm-content')!, 'line1\nline2');
+
+    assert.strictEqual(
+      api.getValue(),
+      'hello line1\nline2world',
+      'first/last pasted lines merge with the surrounding paragraph, only the interior line is a new paragraph',
     );
   });
 
