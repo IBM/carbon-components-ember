@@ -10,7 +10,6 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { fn } from '@ember/helper';
 import { modifier } from 'ember-modifier';
-import { eq } from 'ember-truth-helpers';
 import type { ComponentLike } from '@glint/template';
 import Button from '../button.gts';
 
@@ -85,6 +84,26 @@ export default class WorkspaceShellFooter extends Component<WorkspaceShellFooter
     this.args.onClick?.(footerAction);
   }
 
+  /**
+   * Resolves `action.kind` to `Button`'s own `@type`/`@tertiary`/`@ghost`
+   * args, exactly like `AiChatCardFooter`'s `buttonType`/`buttonTertiary`/
+   * `buttonGhost` helpers: `@type` covers `'primary'`/`'secondary'`/
+   * `'danger'`, `undefined` (with `@tertiary`/`@ghost` instead) covers
+   * `'tertiary'`/`'ghost'`.
+   */
+  buttonType = (kind: WorkspaceShellFooterAction['kind']) => {
+    const resolved = kind ?? 'primary';
+    return resolved === 'tertiary' || resolved === 'ghost'
+      ? undefined
+      : resolved;
+  };
+
+  buttonTertiary = (kind: WorkspaceShellFooterAction['kind']) =>
+    (kind ?? 'primary') === 'tertiary';
+
+  buttonGhost = (kind: WorkspaceShellFooterAction['kind']) =>
+    (kind ?? 'primary') === 'ghost';
+
   <template>
     <div
       data-rounded='bottom'
@@ -95,9 +114,9 @@ export default class WorkspaceShellFooter extends Component<WorkspaceShellFooter
     >
       {{#each this.sortedActions as |footerAction|}}
         <Button
-          @type={{if (eq footerAction.kind 'danger') 'danger' (if (eq footerAction.kind 'primary') 'primary')}}
-          @tertiary={{eq footerAction.kind 'tertiary'}}
-          @ghost={{eq footerAction.kind 'ghost'}}
+          @type={{this.buttonType footerAction.kind}}
+          @tertiary={{this.buttonTertiary footerAction.kind}}
+          @ghost={{this.buttonGhost footerAction.kind}}
           @size='xl'
           @disabled={{footerAction.disabled}}
           @onClick={{fn this.handleClick footerAction}}

@@ -67,10 +67,6 @@ class CollapseTracker {
     const availableBodyHeight = root.offsetHeight - toolbarHeight - notificationHeight - headerHeight - footerHeight;
     return availableBodyHeight < headerHeight;
   }
-
-  reset() {
-    this.expandedHeaderHeight = undefined;
-  }
 }
 
 /**
