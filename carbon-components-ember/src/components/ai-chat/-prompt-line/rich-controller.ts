@@ -198,16 +198,25 @@ class RichController implements EditingSurfaceController {
     this.suppressChange = false;
   }
 
+  /**
+   * Inserts `text` as literal characters, never as parsed HTML - Tiptap's own
+   * `insertContent`/`insertContentAt` commands parse a string argument via
+   * `DOMParser`, so any substring that happens to look like a recognized tag
+   * (this schema has `<p>`/`<br>`) would otherwise get spliced in as a real
+   * node instead of visible text. Routed through the same `insertPlainText`
+   * helper the paste/drop handler uses, so this stays consistent with
+   * `setContent()` (which seeds via `textToDoc`, not a raw string) and with
+   * `TextareaController.insertContent()`, which is always literal.
+   */
   insertContent(text: string, opts: { at?: number } = {}) {
     const editor = this.editor;
     if (!editor) {
       return;
     }
-    if (typeof opts.at === 'number') {
-      editor.commands.insertContentAt(opts.at, text);
-    } else {
-      editor.commands.insertContent(text);
-    }
+    const { view } = editor;
+    const from = typeof opts.at === 'number' ? opts.at : view.state.selection.from;
+    const to = typeof opts.at === 'number' ? opts.at : view.state.selection.to;
+    insertPlainText(view, text, from, to);
   }
 
   clearContent() {

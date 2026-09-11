@@ -503,6 +503,22 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     assert.strictEqual(api.getValue(), 'hello world');
   });
 
+  test('api.insertContent() inserts literal text, not parsed HTML', async function (assert) {
+    let api!: PromptLineApi;
+    const onReady = (fn: PromptLineApi) => (api = fn);
+
+    await render(<template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>);
+    await api.ensureEditor();
+
+    api.insertContent('a<br>b<p>c</p>');
+
+    assert.strictEqual(
+      api.getValue(),
+      'a<br>b<p>c</p>',
+      'HTML-like substrings are inserted as visible characters, not parsed into real nodes',
+    );
+  });
+
   test('api.setTextSelection() and api.selectAll() move the Tiptap selection', async function (assert) {
     let api!: PromptLineApi;
     const onReady = (fn: PromptLineApi) => (api = fn);
