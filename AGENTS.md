@@ -1404,6 +1404,146 @@ from a `MutationObserver` watching the slotted file-uploads element's own
 can't see) becomes a plain `@hasFileUploads` arg instead, passed straight
 through from whatever tracks the upload list.
 
+### Batch 3 (`processing`, `chat-button` (+skeleton), `toolbar`, `workspace-shell` family, `file-uploads` family)
+
+Split from the originally-requested 8-component batch: `code-snippet`
+(needs a real CodeMirror 6 engine - 24 `@codemirror/lang-*` packages plus
+core - a much bigger dependency review than Tiptap/flatpickr before it) and
+`audio-player`+`video-player` together (share `shared/media-utils/`'s
+third-party SDK loader and `BaseProvider`, plus `video-player`'s own
+`shared/dynamic-css-var-sheet.js` and a real `subtitleTracks` prop) were
+both split into their own follow-up todos rather than pulled in silently -
+same reasoning as every prior split in this initiative.
+
+- **`chat-button` collides with Carbon React's own (not yet implemented)
+  `ChatButton`.** Exported as `AiChatChatButton`, added to both
+  `scripts/parity-check.mjs`'s `AI_CHAT_EXPORT_OVERRIDES` and
+  `carbon-components-ember/scripts/create-files.mjs`'s ai-chat-prefix
+  array (its skeleton sibling, `chat-button-skeleton.gts`, got the same
+  treatment for family-name consistency, matching `CardFooter`/
+  `CardSteps`'s precedent). `table`, `toolbar`, `processing`,
+  `file-uploads`, `file-upload-item`, `workspace-shell` (+ its header/
+  body/footer) don't collide with anything and stay unprefixed - checked
+  against Carbon React's live component list first.
+- **`AiChatChatButton` wraps this addon's own `Button`, not
+  `@carbon/web-components`' `cds-button`** (which upstream's `chat-button`
+  literally extends). `@isQuickAction` forces `size='sm'`/`kind='ghost'`
+  (unless an explicit `@kind` is given) and `@isSelected` applies `inert`
+  + `tabindex='-1'` + a capture-phase click guard, matching upstream's
+  `_normalizeButtonState`. Upstream's `danger--tertiary`/`danger--ghost`
+  combination kinds and `xl`/`2xl` sizes aren't reproduced - `Button` has
+  no equivalent and nothing else in this addon needs them.
+- **`Toolbar` reuses `Tooltip`/`Button`/`OverflowMenu`/`OverflowMenuItem`
+  instead of `@carbon/web-components`**, same "reuse this addon's own
+  components" precedent `AiChatTable` set in batch 1. Its `@overflow`
+  responsive-collapse behavior is a **deliberate rewrite, not a literal
+  port** of upstream's `getActions()`: upstream measures whichever actions
+  are *currently rendered* to decide the next frame's split, which means
+  an action already in the overflow menu has no recorded width and can
+  never come back out once the container widens again (very likely an
+  unintentional upstream quirk, not the kind of stated behavior this doc's
+  "match behavior over intent" principle is about). This port instead
+  keeps a permanently offscreen (`position: absolute; visibility: hidden`)
+  row rendering every action at full size purely for measurement, so the
+  split is recomputed from complete information on every resize. Two real
+  bugs surfaced fixing this before it was reliable, worth knowing for any
+  future component with a similar "measure via ResizeObserver, then write
+  tracked state" shape: (1) reassigning `visibleActions`/`hiddenActions`
+  to a *new* array with identical content on every callback (even when the
+  computed split hadn't changed) was enough DOM churn to make the
+  ResizeObserver observing the same container refire indefinitely,
+  eventually hitting the browser's real "ResizeObserver loop completed
+  with undelivered notifications" error - fixed with a plain (non-tracked)
+  `lastIdx` guard that skips the tracked-array reassignment when the
+  computed index hasn't actually changed; (2) even with that guard, doing
+  the DOM-affecting write synchronously *inside* the ResizeObserver
+  callback itself was still enough to trip the same error under
+  Playwright - fixed by deferring the actual measurement/write to
+  `requestAnimationFrame`, the same pattern `WorkspaceShellFooter` already
+  needed (see below) and that upstream's own `workspace-shell-footer.ts`
+  comment calls out for the identical reason.
+- **`WorkspaceShell`'s `header` block yields a `WorkspaceShellHeader`
+  pre-bound with `@collapsible`** (`WithBoundArgs`, the same ambient-
+  context pattern `Layer` established) rather than exposing
+  `@autoCollapsibleHeader`'s behavior any other way - use the yielded
+  component to get the automatic behavior; import `WorkspaceShellHeader`
+  directly for static/manual `@collapsible` control instead. The
+  auto-collapse algorithm itself is a simplified, direct port of
+  upstream's `HeaderCollapsibleManager` (capture the *expanded* header
+  height once, compare it against the body's remaining space) as a small
+  class holding plain instance state, not a full upstream-style manager
+  with slot-change listeners - this addon has no shadow-DOM slots to
+  watch in the first place.
+- **`WorkspaceShellFooter`'s `size="2xl"` isn't reproduced** - `Button`
+  tops out at `'xl'`, a real, documented gap, not a bug.
+- **`FileUploads`/`FileUploadItem` render their own markup instead of
+  wrapping `@carbon/web-components`' `cds-file-uploader-item`** (which
+  upstream's `file-upload-item` does, then patches two of its shadow-root-
+  internal styles via injected `<style>` elements because it exposes no
+  `part=` for either) - reuses this addon's own private
+  `FileUploaderStatusIcon` for the uploading/edit/complete affordance
+  instead, so the whole "inject a style into a child's shadow root"
+  mechanism simply doesn't apply here. `FileUpload.status`'s real upstream
+  type (`FileStatusValue`) has **four** values, not three -
+  `'uploading' | 'edit' | 'success' | 'complete'` - where `success` (a
+  transient just-finished checkmark) and `complete` (the settled,
+  persisted terminal state with **no icon at all**) are distinct;
+  `FileUploaderStatusIcon` only has three icon states, so `success` maps
+  to its `'complete'` (checkmark) state and `FileUploadItem`'s own
+  `complete` maps to no status icon. Passing `@status={{undefined}}` to
+  suppress the icon does **not** work - `FileUploaderStatusIcon` defaults
+  an absent `@status` to `'uploading'` (its own upstream-faithful
+  default), so the icon must be wrapped in its own `{{#if}}` instead of
+  relying on passing through an empty value.
+- **The live-region announcer's "which region is currently active" flag
+  must not be `@tracked`.** Several transitions can be announced
+  synchronously within one `announceTransitions()` call (e.g. two files
+  erroring in the same frame), each calling `announce()` in turn -
+  `announce()`'s own `if (this.activeRegion === 0) ... else ...` read,
+  followed later by a write, trips Ember's backtracking-rerender assertion
+  the *second* time `announce()` runs in the same computation, since the
+  first call already wrote what the second call is about to read. Fixed
+  by keeping `activeRegion` as a plain (non-`@tracked`) field - it's never
+  read by the template, only used as internal bookkeeping to decide which
+  of the two (real, `@tracked`) region `<div>`s to write text into next.
+- **A bare zero-argument `{{someImportedHelper}}` mustache in an attribute
+  position did not reliably invoke the helper in test-app's rendering-test
+  pipeline** - `@uploads={{array}}`/`@actions={{array}}` (no positional
+  args) produced something without a working `.map()`/spread, crashing
+  with `TypeError: ... is not a function`/`... is not iterable` inside the
+  component, not a template compile error. The identical `{{array}}`
+  pattern already exists elsewhere in this repo's docs (`ui-shell.gjs.md`)
+  without issue, so this looks specific to test-app's own vite/babel
+  pipeline rather than a universal bug - not fully root-caused. Fix used
+  throughout this batch's tests: bind a real literal (`const noActions:
+  ToolbarAction[] = [];`) and pass that identifier instead of a bare
+  zero-arg helper mustache.
+- **`Button`'s root element is its own `<button>`, not a wrapper around
+  one** (already-documented gotcha from the Carousel batch, hit again
+  here) - `<Button class='cds-aichat-button ...'>` puts that class
+  directly on the rendered `<button>`, so both `chat-button-test.gts`'s
+  selectors and `_chat-button.scss`'s rules needed `.cds-aichat-button`
+  (or `.cds-aichat-button.cds--btn` in SCSS) rather than a `.cds-aichat-
+  button button`/`.cds-aichat-button .cds--btn` descendant selector.
+
+Verified beyond glint/build/lint/the full `test-app` suite (882/882 green,
+the DataTable header-association failure seen on one earlier pre-fix run
+cleared on the final clean run - same known pre-existing flake as
+elsewhere in this doc): a real `DOCS_URL=versions/main pnpm build` served
+locally (custom SPA-fallback static server per
+`project_docs_app_local_browser_verification`) and driven with Playwright
+across all 10 new docs pages - every page's `carbon-shadow-demo` has a
+populated shadow root with real component markup and zero unexpected page
+errors (the repo-wide, unrelated `getChildByName` `pageerror` noise
+documented in the PromptLine-followup batch's notes appears on every page,
+including these, and was excluded from the pass/fail check the same way).
+Targeted interaction checks also passed end-to-end in the real browser,
+not just static-shape checks: clicking a quick-action `AiChatChatButton`
+chip selects it; the narrow toolbar demo's overflow menu renders and is
+clickable; clicking a `FileUploads` chip's remove button actually removes
+it from the rendered list; clicking a collapsible `WorkspaceShellHeader`'s
+summary toggles its `open` attribute.
+
 ## Key Resources
 
 - **Carbon React**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components
