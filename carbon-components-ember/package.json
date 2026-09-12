@@ -237,6 +237,7 @@
       "./components/carbon/ai-chat/feedback.js": "./dist/_app_/components/carbon/ai-chat/feedback.js",
       "./components/carbon/ai-chat/launcher.js": "./dist/_app_/components/carbon/ai-chat/launcher.js",
       "./components/carbon/ai-chat/markdown.js": "./dist/_app_/components/carbon/ai-chat/markdown.js",
+      "./components/carbon/ai-chat/prompt-line-autocomplete.js": "./dist/_app_/components/carbon/ai-chat/prompt-line-autocomplete.js",
       "./components/carbon/ai-chat/prompt-line-shell.js": "./dist/_app_/components/carbon/ai-chat/prompt-line-shell.js",
       "./components/carbon/ai-chat/prompt-line.js": "./dist/_app_/components/carbon/ai-chat/prompt-line.js",
       "./components/carbon/ai-chat/reasoning-steps-toggle.js": "./dist/_app_/components/carbon/ai-chat/reasoning-steps-toggle.js",
