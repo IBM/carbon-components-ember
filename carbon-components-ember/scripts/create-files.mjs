@@ -59,12 +59,24 @@ function createIndexFiles() {
     }
     // These ai-chat/ components would otherwise export under a plain name
     // that either collides with an existing Carbon React component in this
-    // same index (Card, TruncatedText, CodeSnippet - see
+    // same index (Card, TruncatedText, CodeSnippet, ChatButton - see
     // scripts/parity-check.mjs's AI_CHAT_EXPORT_OVERRIDES) or breaks family-
-    // naming consistency with those (CardFooter, CardSteps). Table, Launcher
+    // naming consistency with those (CardFooter, CardSteps,
+    // ChatButtonSkeleton). Table, Toolbar, Processing, FileUploads,
+    // FileUploadItem, WorkspaceShell (+ its Header/Body/Footer), Launcher
     // and ChatShell don't collide with anything and intentionally stay
     // unprefixed.
-    if (['ai-chat/card.gts', 'ai-chat/card-footer.gts', 'ai-chat/card-steps.gts', 'ai-chat/truncated-text.gts', 'ai-chat/code-snippet.gts'].some((f) => comp.endsWith(f))) {
+    if (
+      [
+        'ai-chat/card.gts',
+        'ai-chat/card-footer.gts',
+        'ai-chat/card-steps.gts',
+        'ai-chat/truncated-text.gts',
+        'ai-chat/code-snippet.gts',
+        'ai-chat/chat-button.gts',
+        'ai-chat/chat-button-skeleton.gts',
+      ].some((f) => comp.endsWith(f))
+    ) {
       camelCased = 'AiChat' + camelCased;
     }
     if (comp.split('/').at(-1) === 'item.gts' && comp.includes('overflow-menu/')) {
