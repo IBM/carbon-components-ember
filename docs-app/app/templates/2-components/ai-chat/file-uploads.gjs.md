@@ -18,6 +18,15 @@ const context = trackedObject({
     { id: '2', file: new File(['a,b,c'], 'data.csv', { type: 'text/csv' }), status: 'edit' },
     {
       id: '3',
+      file: new File(
+        ['<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36"><rect width="36" height="36" fill="#0f62fe"/></svg>'],
+        'photo.svg',
+        { type: 'image/svg+xml' },
+      ),
+      status: 'edit',
+    },
+    {
+      id: '4',
       file: new File(['{}'], 'broken.json', { type: 'application/json' }),
       status: 'edit',
       isError: true,

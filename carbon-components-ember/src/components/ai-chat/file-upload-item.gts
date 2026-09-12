@@ -57,7 +57,16 @@ function isUpload(value: FileUpload | FileAttachment): value is FileUpload {
  */
 export default class FileUploadItem extends Component<FileUploadItemSignature> {
   @tracked failedPreviewURL: string | null = null;
-  @tracked objectURL: string | null = null;
+  /**
+   * Deliberately not `@tracked`: it's never bound directly in the template,
+   * only read (via `previewURL`, whose own reactivity traces back to
+   * `@upload`) and written inside `getOrCreateObjectURL`. Tracking it would
+   * make that method's read-then-write of the same field within one
+   * computation trip Ember's backtracking-rerender assertion on first
+   * render - the same class of bug `FileUploads.activeRegion` already
+   * works around elsewhere in this component family.
+   */
+  private objectURL: string | null = null;
   private objectURLFile: File | null = null;
 
   constructor(owner: Owner, args: FileUploadItemSignature['Args']) {
