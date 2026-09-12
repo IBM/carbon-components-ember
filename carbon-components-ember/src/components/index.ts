@@ -83,6 +83,7 @@ export { default as ChainOfThoughtToggle } from './ai-chat/chain-of-thought-togg
 export { default as AiChatChatButton } from './ai-chat/chat-button.gts'
 export { default as AiChatChatButtonSkeleton } from './ai-chat/chat-button-skeleton.gts'
 export { default as ChatShell } from './ai-chat/chat-shell.gts'
+export { default as AiChatCodeSnippet } from './ai-chat/code-snippet.gts'
 export { default as Feedback } from './ai-chat/feedback.gts'
 export { default as FeedbackButtons } from './ai-chat/feedback-buttons.gts'
 export { default as FileUploadItem } from './ai-chat/file-upload-item.gts'
