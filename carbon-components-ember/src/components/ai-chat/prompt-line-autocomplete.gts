@@ -154,7 +154,7 @@ const ItemRow: TemplateOnlyComponent<ItemRowSignature> = <template>
     id={{@entry.optionId}}
     role='option'
     tabindex='-1'
-    aria-selected='false'
+    aria-selected={{if @entry.isActive 'true' 'false'}}
     aria-disabled={{if @entry.isDisabled 'true' 'false'}}
     class='cds-aichat-autocomplete-item
       {{if @entry.isActive "cds-aichat-autocomplete-item--active"}}

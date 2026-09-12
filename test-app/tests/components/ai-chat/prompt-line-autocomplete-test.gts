@@ -375,10 +375,14 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
 
     const pmContent = '.cds-aichat-prompt-line__pm-content';
     assert.dom(findAll('.cds-aichat-autocomplete-item')[0]!).hasClass('cds-aichat-autocomplete-item--active');
+    assert.dom(findAll('.cds-aichat-autocomplete-item')[0]!).hasAttribute('aria-selected', 'true');
+    assert.dom(findAll('.cds-aichat-autocomplete-item')[2]!).hasAttribute('aria-selected', 'false');
 
     await triggerKeyEvent(pmContent, 'keydown', 'ArrowDown');
     // Bob is disabled - Carol (index 2) should become active, not Bob.
     assert.dom(findAll('.cds-aichat-autocomplete-item')[2]!).hasClass('cds-aichat-autocomplete-item--active');
+    assert.dom(findAll('.cds-aichat-autocomplete-item')[2]!).hasAttribute('aria-selected', 'true');
+    assert.dom(findAll('.cds-aichat-autocomplete-item')[0]!).hasAttribute('aria-selected', 'false');
 
     await triggerKeyEvent(pmContent, 'keydown', 'Enter');
     assert.dom('.cds-aichat--token[data-token-type="mention"]').hasText('Carol');
