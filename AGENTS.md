@@ -1568,16 +1568,17 @@ real dispatched sequence is `starter(active) → mention(onStart) →
 null(starter's own exit)`, i.e. the starter trigger's exit fires *after*
 mention's open, so a plain "last event wins" listener observes `null` and
 hides its own popup, even though the mention trigger is genuinely open.
-This isn't a bug to fix in the ported extensions (upstream's own
-`AutocompleteController` — the very thing left unported above — is what
-actually reconciles multiple simultaneous triggers into one authoritative
-state); it surfaces here because a naive host listener is exactly what this
-slice's own docs demo is. Resolved by splitting the docs demo into two
-separate `PromptLine` instances (mention+command on one, starters on the
-other) instead of layering both onto one editor, and saying so explicitly
-in the docs prose — combining them correctly is the reconciliation-layer
-follow-up's job, not something to paper over with ad hoc coalescing logic
-in a ~40-line illustrative popup.
+This isn't a bug in the ported extensions, but it also turned out **not** to
+be something upstream's own `AutocompleteController` already solves either
+— that assumption (below, and in the original write-up of this paragraph)
+was made without reading the fetched file closely enough. Its
+`handleTriggerChange` is plain last-event-wins, with no branch that
+inspects *which extension* a `null` detail came from; it reproduces this
+exact race rather than fixing it. The docs demo below was split into two
+separate `PromptLine` instances purely to dodge the bug, not because
+combining them needs a follow-up — **`PromptLineAutocomplete` (see its own
+subsection further down) is the actual fix**, and its docs demo puts
+mention, command, and starters back on one editor as the live proof.
 
 **`getRawText`'s `default` case needed restoring**, matching upstream's own
 `json-utils.ts` (this port's `text-utils.ts` had trimmed it away when
@@ -1613,6 +1614,122 @@ snippet.
 New deps: `@tiptap/extension-mention` + `@tiptap/suggestion`, pinned exact
 `3.31.3` (lockstep with the other eight Tiptap packages already in this
 port). No `allowBuilds` entry needed — neither has an install script.
+
+### `PromptLineAutocomplete` — the real suggestion popup
+
+Follow-up to the previous subsection's scope cut ("the suggestion popup
+itself is not ported"). Ports `autocomplete-controller.ts`
+(`AutocompleteController` + `<cds-aichat-autocomplete-controller>`) and
+`prompt-line/autocomplete/src/autocomplete.ts` (`<cds-aichat-autocomplete>`)
+as one component, `ai-chat/prompt-line-autocomplete.gts` — exported
+unprefixed as `PromptLineAutocomplete` (no collision with Carbon React, no
+filename collision, so no `AI_CHAT_EXPORT_OVERRIDES`/`create-files.mjs`
+entry needed either). Upstream's own two-layer split (a framework-agnostic
+controller wrapped by a thin Lit element, driving a *separate* Lit list
+element) exists so the controller can also be reused from a React hook;
+Ember has no such reuse pressure, so both layers — and the
+`setListElement`/synthetic-keydown-forwarding indirection that bridges them
+— are merged into one component that handles keydown directly against its
+own state.
+
+**The reconciliation this needs is net-new code, not a port.** Read
+closely, upstream's own `AutocompleteController.handleTriggerChange` is
+last-event-wins:
+
+```js
+handleTriggerChange(detail) {
+  this._trigger = detail;             // unconditional
+  if (!detail) { this._items = []; this._resolveToken++; ...; return; }
+  this._kickoffResolve(detail);
+}
+```
+
+— there is no branch anywhere in the file that inspects which extension a
+`null` detail came from, so it reproduces the previous subsection's
+"concurrent transitions" race rather than fixing it (a prior version of
+that subsection assumed otherwise; that assumption was wrong). Since every
+extension in a batch dispatches synchronously inside the *same* ProseMirror
+transaction, the fix batches by microtask instead of by type:
+`cds-aichat-trigger-change` events are pushed onto a pending array as they
+arrive, and a `Promise.resolve().then(...)` flush resolves the whole batch
+to its **last non-null** detail, clearing only when every event in the
+batch was `null`. Verified against all four constructible sequences (unit
+tests, driven by raw event dispatch so they don't depend on real Tiptap
+timing): `[starter, mention, null]` → mention (the documented bug, fixed);
+`[null]` → closed; `[null(mention exit), starter]` → starters;
+`[null(starter exit), autocomplete]` → autocomplete. An explicit user
+action (select/send/cancel/Escape) still updates local state and drops the
+pending batch **immediately and synchronously** rather than waiting for the
+next flush — otherwise a stale queued event could fight a state change the
+user just caused, and closing would visibly lag by a microtask.
+
+**Event wiring uses DOM ancestry, not `@promptLine` as a modifier
+dependency — a real backtracking-rerender near-miss caught by advisor
+review before implementation, not found by testing.** The natural design
+("attach listeners to `@promptLine`'s root element, resolved via a new
+`getElement()` on `PromptLineApi`") reads a tracked value inside a
+modifier's argument list — but `PromptLineAutocomplete` renders earlier in
+`PromptLineShell`'s DOM than `<:editor>` does, and `PromptLine`'s own
+`mountSurface` modifier writes that value (via `@onReady`) later in the
+*same* render pass. That's the exact write-after-read shape that produced
+the assertion in the `RichController`/`setEditable` episode. Fixed by
+attaching listeners from an argument-less modifier on this component's own
+root instead: `@target` (defaulting to the closest
+`.cds-aichat-prompt-line-shell` ancestor, or this component's own parent —
+same spirit as `Menu`'s `@target`/`DatePicker`'s `@appendTo`) is resolved
+once, from real DOM structure, never from a tracked arg. `@promptLine`
+itself is read only *inside* event handlers (click, keydown, outside-click,
+cancel) — always well after the render pass that might have just written
+it. No change to `PromptLineApi` was needed at all.
+
+**Selection and dismissal reuse the previous subsection's API instead of
+re-deriving it.** For mention/command/autocomplete,
+`PromptLineApi.selectSuggestion(item)` already runs the exact
+`insertContentAt` chip/text logic (and `config.onSelect`) those extensions'
+own `command` callbacks implement — added there specifically as "the
+counterpart to a host-rendered popup's click/Enter handling" in
+anticipation of this component, so selection here is a one-line call, not a
+second implementation. Escape/outside-click calls
+`PromptLineApi.dismissSuggestion()` (`@tiptap/suggestion`'s real
+`exitSuggestion`) rather than porting `AutocompleteController.dismiss()`'s
+raw-JS equivalent verbatim — that upstream method only clears local UI
+state and never touches the `Suggestion` plugin's own match-tracking state,
+so typing another character within the same still-open match range would
+immediately reopen a popup the user just dismissed; `dismissSuggestion()`
+was built in the previous subsection precisely to close that gap. Starters
+have no `Suggestion` plugin at all (`carbon-starter-trigger.ts`'s own doc
+comment says so), so selecting one calls `PromptLineApi.insertContent()`/
+`getValue()` directly instead.
+
+**The upstream "send directly to chat" vs. "insert into the editor" split
+is real, two-path UX, ported faithfully via `BaseSuggestionConfig
+.disableDirectSend`** (restored to the shared types — the earlier
+subsection had dropped it as callback-hook scope creep before a real popup
+existed to interpret it): with `disableDirectSend` unset/false (the
+default for autocomplete/starters; always forced `true` for mention/command
+since a chip/text token has to land in the editor), clicking an item fires
+`@onItemSend` with its `value ?? label` and never touches the editor at all
+— the host owns actually sending it. `@isSendDisabled` makes that path a
+complete no-op (not even a dismiss) if set, matching upstream's own
+`_sendItem` guard exactly.
+
+**The typed/remainder label-highlight split is dropped, not ported —
+verified dead code, not a simplification call.** Upstream's own
+`<cds-aichat-autocomplete-controller>` render() never actually binds
+`.inputText=` on the `<cds-aichat-autocomplete>` it renders, so
+`_getLabelParts`'s comparison against `inputText` always sees `''` in the
+real, shipped wiring — permanently `{ typed: '', remainder: label }`. This
+port renders the plain label under the same `__label-remainder` class
+(so the ported SCSS's disabled-state color rule still applies to it) and
+skips the dead comparison logic entirely.
+
+`groupId`/`groupTitle` grouping and `SuggestionItem.avatar` are real,
+rendered data now (not the earlier "no popup exists to interpret them"
+placeholders) — `avatar` takes a plain string image URL or a `ComponentLike`
+icon (`<entry.avatarIcon @size={{16}} />`), the same icon-as-value pattern
+`AiChatCardFooter`'s `CardFooterAction.icon` already established.
+`renderCustomList`/`renderCustomToken` stay dropped — no clean Ember
+equivalent (a host-rendered-popup escape hatch), same reasoning as before.
 
 ## Key Resources
 

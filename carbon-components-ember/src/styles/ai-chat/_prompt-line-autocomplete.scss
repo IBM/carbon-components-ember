@@ -1,0 +1,218 @@
+// Ember port of @carbon/ai-chat-components' prompt-line/autocomplete/src/autocomplete.scss
+// (packages/ai-chat-components/src/components/prompt-line/autocomplete/src/autocomplete.scss).
+//
+// Selectors are adapted from `:host(...)` to plain `.cds-aichat-*` classes;
+// colors reference `@carbon/styles`' compiled `--cds-*` custom properties,
+// spacing uses literal rem values (see `_chain-of-thought.scss`'s header
+// comment for why). Upstream's `[first-item]`/`[last-item]` boolean
+// attribute selectors (only ever used for corner-rounding, driven by a
+// single "is this the very first/last option overall" computation) become
+// plain `--first`/`--last` modifier classes here — no boolean-attribute
+// equivalent gain in Ember over a class.
+
+.cds-aichat-autocomplete-controller {
+  position: relative;
+}
+
+.cds-aichat-autocomplete {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--cds-chat-prompt-border-start, #e0e0e0);
+  border-end-end-radius: 0;
+  border-end-start-radius: 0;
+  border-start-end-radius: 0.5rem;
+  border-start-start-radius: 0.5rem;
+  background: var(--cds-chat-prompt-background, #ffffff);
+  max-block-size: 20rem;
+}
+
+.cds-aichat-autocomplete__header {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  border-block-end: 1px solid var(--cds-border-subtle-00, #e0e0e0);
+  gap: 1rem;
+  min-block-size: 2.5rem;
+  padding-inline: 1rem;
+}
+
+.cds-aichat-autocomplete__title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1rem;
+  color: var(--cds-text-primary, #161616);
+}
+
+.cds-aichat-autocomplete__items {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-block-size: 0;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+}
+
+.cds-aichat-autocomplete__live-region {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  block-size: 1px;
+  inline-size: 1px;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.cds-aichat-autocomplete-item-group__title {
+  padding-block-end: 0.25rem;
+  padding-block-start: 1rem;
+  padding-inline: 1rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--cds-text-helper, #6f6f6f);
+}
+
+.cds-aichat-autocomplete-item-group__items {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+
+.cds-aichat-autocomplete-item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  inline-size: 100%;
+  min-block-size: 2.5rem;
+  border: none;
+  background: none;
+  padding-block: 0;
+  padding-inline: 0;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+
+  &::after {
+    position: absolute;
+    display: block;
+    background: var(--cds-border-subtle-00, #e0e0e0);
+    block-size: 1px;
+    content: '';
+    inset-block-end: 0;
+    inset-inline: 1rem;
+  }
+
+  &:hover {
+    background: var(--cds-background-hover, #e8e8e8);
+  }
+
+  &:hover::after,
+  &:focus::after {
+    display: none;
+  }
+
+  &:focus {
+    outline: 2px solid var(--cds-focus, #0f62fe);
+    outline-offset: -2px;
+  }
+
+  &--active,
+  &--active:hover {
+    background: var(--cds-background-hover, #e8e8e8);
+  }
+
+  &--disabled {
+    cursor: default;
+    pointer-events: none;
+
+    .cds-aichat-autocomplete-item__label-remainder,
+    .cds-aichat-autocomplete-item__description {
+      color: var(--cds-text-disabled, #c6c6c6);
+    }
+
+    .cds-aichat-autocomplete-item__send-icon svg {
+      fill: var(--cds-icon-disabled, #c6c6c6);
+    }
+  }
+
+  &--first {
+    border-start-end-radius: 0.5rem;
+    border-start-start-radius: 0.5rem;
+  }
+
+  &--last {
+    border-end-end-radius: 0.5rem;
+    border-end-start-radius: 0.5rem;
+
+    &::after {
+      display: none;
+    }
+  }
+}
+
+.cds-aichat-autocomplete-item__content {
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding-block: 0.6875rem;
+  padding-inline: 1rem;
+}
+
+.cds-aichat-autocomplete-item__avatar {
+  display: flex;
+  flex-shrink: 0;
+
+  img {
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}
+
+.cds-aichat-autocomplete-item__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.cds-aichat-autocomplete-item__label {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.cds-aichat-autocomplete-item__label-remainder {
+  color: var(--cds-text-primary, #161616);
+}
+
+.cds-aichat-autocomplete-item__description {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--cds-text-secondary, #525252);
+}
+
+.cds-aichat-autocomplete-item__send-icon {
+  z-index: 1;
+  display: flex;
+  flex-shrink: 0;
+  align-self: flex-start;
+  padding-block: 0.75rem;
+  padding-inline: 0.75rem;
+  visibility: hidden;
+  pointer-events: none;
+
+  svg {
+    fill: var(--cds-link-primary, #0f62fe);
+  }
+}
+
+.cds-aichat-autocomplete-item:hover .cds-aichat-autocomplete-item__send-icon,
+.cds-aichat-autocomplete-item:focus .cds-aichat-autocomplete-item__send-icon,
+.cds-aichat-autocomplete-item--active .cds-aichat-autocomplete-item__send-icon {
+  visibility: visible;
+}
