@@ -1544,6 +1544,182 @@ clickable; clicking a `FileUploads` chip's remove button actually removes
 it from the rendered list; clicking a collapsible `WorkspaceShellHeader`'s
 summary toggles its `open` attribute.
 
+### `code-snippet` — CodeMirror 6, split out of batch 3 for its own dependency review
+
+Ported as `AiChatCodeSnippet` (`ai-chat/code-snippet.gts` + an
+`ai-chat/-code-snippet/` module folder) - the export-collision override
+(an existing Carbon React `CodeSnippet`) was already reserved ahead of
+time in both `scripts/parity-check.mjs`'s `AI_CHAT_EXPORT_OVERRIDES` and
+`scripts/create-files.mjs`'s ai-chat-prefix array, so no script changes
+were needed here, only matching the reserved name.
+
+**Branched off `feat/ai-chat-batch3` (PR #865), not `origin/main`** - the
+component reuses this addon's own `Toolbar`/`ToolbarAction` (for the
+copy/action-button header), which only exists on that still-open branch.
+Same precedent as `feat/prompt-line-rich` branching off `feat/ai-chat-batch2`
+before it. Noted for whoever merges next: `feat/ai-chat-batch3`'s own
+merge-base with `origin/main` was one commit behind at the time (missing
+only PR #864's PromptLine preload fast path, unrelated to this component)
+- not rebased here since batch3 is someone else's open, multi-review-round
+PR; flag if it's still unrebased by the time this merges.
+
+**The dependency-scope answer, confirmed empirically, not just reasoned
+about:** bundle zero `@codemirror/lang-*` packages. `@codemirror/language-data`
+(the real, unforked npm package: `@codemirror/state`, `@codemirror/view`,
+`@codemirror/language`, `@codemirror/language-data`, `@codemirror/commands`,
+`@codemirror/autocomplete`, `@codemirror/lint`, `@lezer/highlight`, all
+pinned exact) already lazy-loads every language grammar itself - each
+`LanguageDescription`'s own `load()` body is `import('@codemirror/lang-x')`.
+Upstream vendors a ~1,250-line fork of this exact package
+(`code-snippet/src/codemirror/language-data.ts`) purely to drop one entry
+("Brainfuck", a language name that reads as profanity) - diffed directly
+against the real npm build to confirm that's the *only* difference, then
+reproduced with a one-line `.filter()` in `-code-snippet/languages.ts`
+instead of vendoring the fork. `-code-snippet/codemirror-loader.ts` mirrors
+`-prompt-line/rich-loader.ts`'s exact shape (module-level cache,
+non-memoized rejections, a `resetCodeMirrorRuntimeForTests()` test hook) -
+every real `@codemirror/*`/`@lezer/*` import lives in the one module it
+dynamically imports, `-code-snippet/codemirror-runtime.ts`. Verified for
+real in a `DOCS_URL=versions/main pnpm build` output: CodeMirror's core is
+its own `codemirror-runtime-*.js`/`codemirror-*.js` lazy chunk pair, and
+each language that's actually exercised in the docs demos (`javascript`,
+`python`, `css`, `sql`, `markdown`, `html`) is a further, separate chunk of
+its own (13-47KB gzip each) - a page that never renders `AiChatCodeSnippet`
+ships none of it, and a snippet that only ever shows JavaScript never
+downloads Python's grammar. Install size (`node_modules`) is unaffected -
+all 23 `@codemirror/lang-*` packages + `@codemirror/legacy-modes` are still
+real (transitive) dependencies of `@codemirror/language-data`; only the
+*bundle* is lazy.
+
+**Scope cuts from upstream, all deliberate (full reasoning in
+`code-snippet.gts`'s own class doc, not just here):**
+- **`@code` is the sole content source** - upstream's `StreamingManager`
+  (a `MutationObserver` + `<slot>` machinery watching light-DOM text nodes)
+  exists only for backward compatibility with a pre-`code`-property era of
+  the widget; nothing in a Glimmer template can "stream text into a
+  component's DOM" the way raw custom-element light-DOM usage could
+  anyway, so a consumer just reassigns a tracked `@code` string per token,
+  same as every other streaming-content component in this initiative.
+  Dropped `StreamingManager`/`adoptLightDomCode`/`copyText` entirely
+  (`copyText` only ever applied when slotted content was empty in
+  upstream's own fallback chain - with `@code` the sole source there's no
+  scenario where it would be consulted). Kept `createContentSync`'s
+  throttled diff-apply (append-only/prefix-shrink fast paths, full replace
+  otherwise) almost verbatim, since that's real, valuable behavior
+  independent of where the content comes from - a local ~40-line
+  leading+trailing throttle replaces `lodash-es/throttle` (no existing
+  `lodash-es` dependency in this addon, not worth adding for one
+  function).
+- **No `focusEditor()`/`@onReady` imperative API, no
+  `code-snippet-render-end` event** - both exist upstream purely to feed a
+  not-yet-ported surrounding scroll/focus manager (the chat message list),
+  the same "public surface, not the manager it feeds" call already made
+  for `ReasoningSteps`' `data-last-item`/animation events in batch 2. Add
+  if a real consumer needs one.
+- **Modern Clipboard API + a `document.execCommand('copy')` fallback**,
+  matching upstream's own two-path copy handler, but via a plain
+  inline-styled off-screen `<textarea>` (this addon's own
+  `copy-button.gts` already establishes that exact technique) instead of
+  upstream's CSP-safe dynamic-stylesheet trick - this addon doesn't target
+  a strict `style-src-attr` CSP anywhere else. Same reasoning for the
+  container's `--cds-snippet-max-height`/`-min-height` custom properties:
+  a plain `style` attribute getter (`containerStyle`, matching
+  `AiChatTruncatedText`'s already-established `contentStyle` precedent),
+  not the CSP-safe helper.
+- **`wrap-text` (a `:host([wrap-text])` rule in upstream's own SCSS) has
+  no backing property anywhere in upstream's own `code-snippet.ts`
+  either** - a pre-existing dead CSS hook upstream, not something this
+  port broke or dropped. Not reproduced.
+
+**Real translation challenge: Lit's single `updated(changedProperties)`
+method vs. Ember's "a modifier reacts to exactly the args it declares"
+model.** Rather than one big autotracking modifier (which would tear down
+and rebuild the live `EditorView` on every keystroke of streamed `@code` -
+the exact mistake `PromptLine`'s own `mountSurface` class-doc comment
+warns against), this port splits into: `mountContainer` (no reactive args
+- one-shot setup/teardown: `ResizeObserver`, kicking off the CodeMirror
+runtime load, final disposal - same "reactive args re-run their own
+teardown on every change" reason `PromptLine` splits `mountSurface` from
+`watchRich`/`syncArgs`); `mountEditor` (positional
+`[editable, hideLineNumbers, hideFold]` - full destroy+recreate, mirroring
+Lit's `needsRecreate` branch, and *also* the modifier whose first,
+install-time invocation creates the very first editor once the runtime
+resolves); and three narrow `sync*` modifiers (`syncContent` on `@code`,
+`syncLanguage` on `@language`/`@highlight`, `syncDisabled` on `@disabled`)
+plus `syncAriaAttrs`, each a thin, guarded (`if (!this.editorView) return`)
+wrapper around one of upstream's own `updateEditor` branches. `mountEditor`
+and every `sync*` modifier independently `await ensureCodeMirrorRuntime()`
+at their own call site (idempotent - same shape upstream's own
+`updateEditor` re-awaits it every single call), so no ordering dependency
+between them is needed; whichever resolves first "wins" the one-time
+compartment/`LanguageController` construction.
+
+**`--cds-syntax-*` custom properties are NOT emitted by this port's own
+SCSS** (unlike upstream's `:host { @each $token, $value in themes.$white
+{ ... } }` / `:host-context([data-theme='g90']) { @each ... themes.$g90
+{ ... } }` blocks) - confirmed by grepping the resolved `@carbon/styles`
+`css/styles.css` bundle this addon (and every real consumer) actually
+loads at runtime: it already ships all ~90 `--cds-syntax-*` tokens,
+correctly theme-scoped, for all 4 standard Carbon themes. Re-emitting them
+here would be redundant, not additive - `theme.ts`'s
+`createCarbonHighlightStyle()` just consumes them via
+`var(--cds-syntax-x, var(--cds-text-primary, #161616))`, same as upstream.
+
+**Real, but explicitly NOT-this-PR's-bug finding, worth flagging loudly
+for whoever next debugs "docs demo looks unstyled/monochrome": docs-app's
+own `ThemeSupport` (`docs-app/app/docs-support/theme-support.gts`) never
+actually applies Carbon's theme-scoped `--cds-*` custom properties (text
+colors, link colors, syntax colors, ...) for the *default* "white" theme
+specifically.** Root-caused while investigating why this component's
+syntax highlighting rendered as a single uniform color in a fresh
+`DOCS_URL=versions/main` build: `theme-switcher.gts`'s `currentCarbonTheme`
+cell initializes to `'white'` unless the OS/browser already prefers dark
+mode, and `ThemeSupport`'s `carbonTheme` getter returns `''` (nothing
+injected) for exactly that `'white'` case, only injecting a real,
+Sass-recompiled `:root { ... }` custom-property block
+(`carbon-gray-10/90/100.scss`) for the other three themes. The raw
+`@carbon/styles/css/styles.css` this component *does* always inject
+defines every `--cds-*` color token exclusively under `.cds--white`/
+`.cds--g10`/`.cds--g90`/`.cds--g100` class selectors - and nothing in a
+`carbon-shadow-demo`'s shadow root ever actually carries one of those
+classes (confirmed by enumerating every element's `className` in a live
+page). So on the default theme, *every* component's demo silently runs
+on its own hardcoded `var(..., fallback)` values, not real custom
+properties - invisible for most components only because their chosen
+fallback happens to equal the real white-theme value (e.g.
+`_truncated-text.scss`'s `var(--cds-link-primary, #0f62fe)` - `#0f62fe`
+*is* white theme's real link-primary color, so the coincidence masks the
+gap). This component's syntax highlighting is the first case where the
+fallback chain deliberately collapses ~20 different tokens to one shared
+color (`--cds-text-primary`) when none of them resolve, making the gap
+visible for the first time. **Verified this is a genuine pre-existing
+docs-support gap, not a bug in this port**, by forcing
+`page.emulateMedia({ colorScheme: 'dark' })` before navigating (which
+flips `currentCarbonTheme`'s init branch to `'g90'`, a theme that *does*
+get the real `:root`-scoped injection): the exact same demo immediately
+rendered 5 distinct, theme-correct syntax colors and a real dark
+background. Left unfixed here - `theme-support.gts`/`theme-switcher.gts`
+are shared docs-app infra well outside this component's scope - but
+worth a dedicated future todo, since it likely affects every other
+already-shipped component's default-theme colors too, just invisibly.
+
+Full checklist: `pnpm exec glint`, addon `build:js`, addon `pnpm run lint`
+(hbs/js/types, 0 errors - one real `no-unsupported-role-attributes` catch
+on `aria-readonly`/`aria-multiline` needing `role='textbox'` on the
+editable surface's container, and a handful of real `@typescript-eslint`
+catches ported code needed, e.g. `require-await` on
+`handleStreamingLanguageDetection` since this port's version never
+actually awaits inside its body, unlike upstream's plain-JS original)
+clean. Full `test-app` suite (907/907 green, 15 new `AiChatCodeSnippet`
+tests). A real `DOCS_URL=versions/main pnpm build` (confirmed the
+CodeMirror-core and per-language lazy chunk splits, per above) served
+locally (custom SPA-fallback static server per
+`project_docs_app_local_browser_verification`) and driven with Playwright:
+all 4 new demos render inside a real shadow root, zero page errors; a
+forced-dark-mode pass (see above) confirmed real syntax highlighting,
+editing, and the collapse/expand control's height transition all work
+end-to-end.
+
 ## Key Resources
 
 - **Carbon React**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components

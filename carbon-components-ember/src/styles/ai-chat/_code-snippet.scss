@@ -1,0 +1,200 @@
+// Ember port of @carbon/ai-chat-components' code-snippet SCSS
+// (packages/ai-chat-components/src/components/code-snippet/src/code-snippet.scss).
+//
+// Selectors are adapted from upstream's `:host(...)`/`:host-context(...)`
+// (shadow DOM) to plain `.cds-aichat-code-snippet*` classes (light DOM,
+// matching every other component in this addon), and colors reference
+// `@carbon/styles`' compiled `--cds-*` custom properties rather than its
+// Sass theme module, matching `_card.scss`'s established precedent.
+//
+// Upstream's `:host { @each $token, $value in themes.$white { ... } }` /
+// `:host-context([data-theme='g90']) { @each ... themes.$g90 { ... } }`
+// blocks *emit* the `--cds-syntax-*` custom properties `theme.ts`'s
+// `createCarbonHighlightStyle()` consumes. Not reproduced: confirmed by
+// grepping the resolved `@carbon/styles` `css/styles.css` bundle this addon
+// (and every consumer) actually loads at runtime - it already ships all
+// ~90 `--cds-syntax-*` tokens, correctly theme-scoped (distinct light/dark
+// values), for every one of the 4 standard Carbon themes. Emitting them a
+// second time here would be redundant, not additive.
+@use '@carbon/layout';
+@use '@carbon/styles/scss/type';
+
+.cds-aichat-code-snippet {
+  display: block;
+  max-inline-size: 100%;
+}
+
+.cds-aichat-code-snippet--fill-mode {
+  block-size: 100%;
+}
+
+.cds-aichat-snippet {
+  display: block;
+  padding: 0;
+  // Use the chat-shell surface token rather than plain `layer` - it tracks
+  // the page canvas (e.g. gray in g10), so the snippet would render gray
+  // when placed outside a card / on a non-white layer.
+  // `--cds-chat-shell-background` is a single, layer-independent surface
+  // (white in white/g10, dark in g90/g100), matching the card it usually
+  // lives in - see `_card.scss`'s identical rationale for the same token.
+  background: var(--cds-chat-shell-background, #ffffff);
+  font-family: inherit;
+  max-inline-size: 100%;
+  // Insulate from inherited `white-space: pre-wrap` (e.g. a contenteditable
+  // ancestor). Without this, indented newlines in this file's own template
+  // render as line boxes between block children, leaving a gap above/below
+  // the editor.
+  white-space: normal;
+
+  code {
+    @include type.type-style('code-01');
+  }
+}
+
+.cds-aichat-code-snippet--fill-mode .cds-aichat-snippet {
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+}
+
+.cm-diff-line-inserted {
+  background-color: var(--cds-syntax-inserted, #defbe6);
+}
+
+.cm-diff-line-deleted {
+  background-color: var(--cds-syntax-deleted, #fff1f1);
+}
+
+.cds-aichat-code-snippet--disabled {
+  .cds-aichat-snippet {
+    background-color: var(--cds-layer, #f4f4f4);
+    color: var(--cds-text-disabled, #a8a8a8);
+  }
+
+  // Keep the gutter the same color as the disabled surface. The enabled
+  // gutter uses chat-shell-background (see -code-snippet/theme.ts);
+  // override it here so the disabled snippet reads as one flat `layer`
+  // surface.
+  .cm-gutters {
+    background-color: var(--cds-layer, #f4f4f4);
+  }
+
+  .cds-aichat-snippet-container {
+    cursor: not-allowed;
+  }
+
+  .cm-editor {
+    pointer-events: none;
+  }
+
+  .cds-aichat-snippet__icon {
+    fill: var(--cds-icon-disabled, #c6c6c6);
+  }
+}
+
+.cds-aichat-snippet-container {
+  position: relative;
+  order: 1;
+  // Default to "grow with content, no internal scroll". Pixel clamps are
+  // applied per-instance by `buildContainerStyles` (driven by the
+  // `*NumberOfRows` args, written to this same element's `style` attribute
+  // by `AiChatCodeSnippet`'s `containerStyle` getter); fill-mode overrides
+  // separately below.
+  max-block-size: var(--cds-snippet-max-height, none);
+  min-block-size: var(--cds-snippet-min-height, auto);
+  overflow-y: auto;
+  pointer-events: auto;
+  transition: max-height 150ms cubic-bezier(0.2, 0, 0.38, 0.9);
+
+  &:focus {
+    outline: 2px solid var(--cds-focus, #0f62fe);
+    outline-offset: 0;
+  }
+
+  pre {
+    overflow: auto;
+    padding-block-end: layout.$spacing-06;
+    padding-inline-end: layout.$spacing-06;
+
+    code {
+      overflow: hidden;
+    }
+  }
+}
+
+.cds-aichat-snippet-container--fill-mode {
+  block-size: 100%;
+  // Own the clamp explicitly so fill mode (a 0/0 row config) scrolls inside
+  // its host rather than depending on the base container's `var()`
+  // fallback, which defaults to `none` to let grow mode (`Infinity` rows)
+  // expand freely.
+  max-block-size: 100%;
+  overflow-y: auto;
+}
+
+.cds-aichat-code-editor {
+  block-size: 100%;
+  inline-size: 100%;
+}
+
+.cds-aichat-snippet__editor-skeleton {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  padding: layout.$spacing-05;
+  background: var(--cds-layer-01, #f4f4f4);
+  inset: 0;
+  pointer-events: none;
+}
+
+.cds-aichat-snippet__header {
+  border-block-end: 1px solid var(--cds-border-subtle-02, #e0e0e0);
+}
+
+.cds-aichat-snippet__meta {
+  display: flex;
+}
+
+.cds-aichat-snippet__footer {
+  display: flex;
+  justify-content: flex-end;
+  border-block-start: 1px solid var(--cds-border-subtle-02, #e0e0e0);
+}
+
+.cds-aichat-snippet-btn--text {
+  color: var(--cds-text-primary, #161616);
+}
+
+// Match the expand control's chevron to its neutral label. Without this
+// the icon inherits the ghost button's interactive color (blue) while the
+// label is `text-primary`. Pairs with the disabled-icon rule above.
+.cds-aichat-snippet__icon {
+  fill: var(--cds-icon-primary, #161616);
+}
+
+.cds-aichat-snippet__language,
+.cds-aichat-snippet__header-separator,
+.cds-aichat-snippet__linecount {
+  @include type.type-style('label-01');
+}
+
+.cds-aichat-snippet__header-separator {
+  padding-inline-end: layout.$spacing-02;
+  padding-inline-start: layout.$spacing-02;
+}
+
+.cds-aichat-snippet-container--collapsed {
+  overflow-x: auto;
+  overflow-y: hidden;
+  transition: max-height 150ms cubic-bezier(0.2, 0, 0.38, 0.9);
+}
+
+.cds-aichat-icon-chevron--down {
+  transform: rotate(0deg);
+  transition: transform 150ms cubic-bezier(0.2, 0, 0.38, 0.9);
+}
+
+.cds-aichat-icon-chevron--down--expanded {
+  transform: rotate(180deg);
+}
