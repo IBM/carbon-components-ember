@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, waitUntil, find } from '@ember/test-helpers';
+import { render, rerender, click, waitUntil, find } from '@ember/test-helpers';
+import { cell } from 'ember-resources';
 import FileUploadItem from 'carbon-components-ember/components/ai-chat/file-upload-item';
 
 module('Integration | Component | ai-chat/FileUploadItem', (hooks) => {
@@ -95,5 +96,63 @@ module('Integration | Component | ai-chat/FileUploadItem', (hooks) => {
     assert.dom('.cds-aichat-file-upload-item__name').hasText('archive.zip');
     await waitUntil(() => find('.cds-aichat-file-upload-item__icon svg'));
     assert.dom('.cds-aichat-file-upload-item__icon svg').exists();
+  });
+
+  test('an image file renders a preview via an object URL, without crashing on first render', async function (assert) {
+    const upload = {
+      id: '1',
+      file: new File(['x'], 'photo.png', { type: 'image/png' }),
+      status: 'edit' as const,
+    };
+
+    await render(<template><FileUploadItem @upload={{upload}} /></template>);
+
+    assert.dom('.cds-aichat-file-upload-item__preview').exists();
+    const src = find('.cds-aichat-file-upload-item__preview')?.getAttribute('src');
+    assert.ok(src?.startsWith('blob:'), 'renders a blob: object URL for the preview src');
+  });
+
+  test('a video file renders a preview via an object URL, without crashing on first render', async function (assert) {
+    const upload = {
+      id: '1',
+      file: new File(['x'], 'clip.mp4', { type: 'video/mp4' }),
+      status: 'edit' as const,
+    };
+
+    await render(<template><FileUploadItem @upload={{upload}} /></template>);
+
+    assert.dom('.cds-aichat-file-upload-item__video-preview-wrapper').exists();
+    const src = find('.cds-aichat-file-upload-item__preview')?.getAttribute('src');
+    assert.ok(src?.startsWith('blob:'), 'renders a blob: object URL for the preview src');
+  });
+
+  test('changing @upload to a different File (same instance) revokes the old object URL and mints a new one', async function (assert) {
+    const originalRevoke = URL.revokeObjectURL;
+    const revoked: string[] = [];
+    URL.revokeObjectURL = (url: string) => {
+      revoked.push(url);
+      originalRevoke.call(URL, url);
+    };
+
+    try {
+      const upload = cell({
+        id: '1',
+        file: new File(['a'], 'first.png', { type: 'image/png' }),
+        status: 'edit' as const,
+      });
+
+      await render(<template><FileUploadItem @upload={{upload.current}} /></template>);
+      const firstSrc = find('.cds-aichat-file-upload-item__preview')?.getAttribute('src');
+
+      upload.current = { id: '1', file: new File(['b'], 'second.png', { type: 'image/png' }), status: 'edit' as const };
+      await rerender();
+
+      const secondSrc = find('.cds-aichat-file-upload-item__preview')?.getAttribute('src');
+
+      assert.notStrictEqual(firstSrc, secondSrc, 'a new File identity produces a new object URL, on the same component instance');
+      assert.deepEqual(revoked, [firstSrc], 'the previous object URL was revoked exactly once, and no more');
+    } finally {
+      URL.revokeObjectURL = originalRevoke;
+    }
   });
 });

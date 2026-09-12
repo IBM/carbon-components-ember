@@ -1506,6 +1506,26 @@ same reasoning as every prior split in this initiative.
   by keeping `activeRegion` as a plain (non-`@tracked`) field - it's never
   read by the template, only used as internal bookkeeping to decide which
   of the two (real, `@tracked`) region `<div>`s to write text into next.
+- **Second occurrence of the same read-then-write shape, this time in
+  `FileUploadItem`.** `getOrCreateObjectURL`'s `if (this.objectURL)
+  URL.revokeObjectURL(this.objectURL); ...; this.objectURL =
+  URL.createObjectURL(file);` reads `@tracked objectURL` in the revoke
+  check, then writes it two lines later in the same computation - unlike
+  `activeRegion` this crashed on the very *first* render of any image/
+  video-typed upload (no update needed to trigger it), and shipped
+  undetected through 5 review rounds because every existing test/demo
+  file used a non-media MIME type, so `previewURL`/`getOrCreateObjectURL`
+  were never actually exercised. Same fix: `objectURL` (and its sibling
+  `objectURLFile`) are plain, non-`@tracked` private fields - nothing
+  outside the getter chain reads `objectURL` directly, only `previewURL`'s
+  *return value*, and that getter's reactivity already traces to
+  `this.args.upload` via `resolved`, so tracking the intermediate field
+  bought nothing. **Any future component that lazily creates/caches a
+  value (object URLs, computed class instances, etc.) behind a `@tracked`
+  identity-check field should default to a plain field instead, unless
+  something outside the owning getter reads it directly** - this is now a
+  confirmed, twice-independently-hit pattern in this initiative, not a
+  one-off.
 - **A bare zero-argument `{{someImportedHelper}}` mustache in an attribute
   position did not reliably invoke the helper in test-app's rendering-test
   pipeline** - `@uploads={{array}}`/`@actions={{array}}` (no positional
