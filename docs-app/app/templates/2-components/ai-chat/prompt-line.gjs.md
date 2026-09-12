@@ -108,26 +108,23 @@ Enter/Mod-Enter/Escape keymap) — memoize the array you pass, since a fresh
 one every render rebuilds the live editor (content, selection, and focus
 survive; undo history doesn't).
 
-## Mention, command, and autocomplete triggers
+## Mention, command, autocomplete, and starter triggers
 
 `buildCarbonExtensions` (and the individual `carbonMention`/`carbonCommand`/
 `carbonAutocomplete`/`carbonStarterTrigger` factories it wraps, all under
 `carbon-components-ember/components/ai-chat/-prompt-line/tiptap/`) build
-Tiptap extensions you pass through `@extensions` like any other. This port
-ships **no suggestion popup UI** — a host listens for the real, bubbling
-`cds-aichat-trigger-change` DOM event (the same way it already can for
-`keydown`), renders its own popup from the event's `{ type, query,
-triggerOffset }` detail plus its own copy of the same `items`, and completes
-or cancels the trigger via `api.selectSuggestion()`/`api.dismissSuggestion()`.
-This demo's popup is intentionally minimal (a plain filtered `<ul>`) to keep
-the focus on the extension/event contract rather than a full picker UI.
+Tiptap extensions you pass through `@extensions` like any other — `PromptLine`
+itself has no dedicated mention/command/autocomplete/starter args, matching
+upstream's own `<cds-aichat-prompt-line>`. The extensions only dispatch a
+bubbling `cds-aichat-trigger-change` DOM event with `{ type, query,
+triggerOffset }`; **the actual popup is `PromptLineAutocomplete`** (its own
+doc page has the full reference and more examples) — pair it with a
+`PromptLine` via the imperative handle from `@onReady`.
 
 ```gjs live preview
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
-import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
-import { PromptLine } from 'carbon-components-ember/components';
+import { PromptLine, PromptLineAutocomplete } from 'carbon-components-ember/components';
 import { buildCarbonExtensions } from 'carbon-components-ember/components/ai-chat/-prompt-line/tiptap/build-extensions';
 import { ThemeSupport } from 'docs-support';
 
@@ -140,17 +137,20 @@ const COMMANDS = [
   { id: 'c1', label: 'summarize' },
   { id: 'c2', label: 'translate' },
 ];
+const STARTERS = [
+  { id: 's1', label: 'Summarize this thread' },
+  { id: 's2', label: 'Draft a reply' },
+];
+
+const mention = { trigger: '@', items: PEOPLE };
+const command = { trigger: '/', items: COMMANDS };
+const starters = { items: STARTERS };
 
 class Demo extends Component {
   @tracked content = '';
-  @tracked trigger = null;
-  @tracked items = [];
-  api;
+  @tracked api;
 
-  extensions = buildCarbonExtensions({
-    mention: { trigger: '@', items: PEOPLE },
-    command: { trigger: '/', items: COMMANDS },
-  });
+  extensions = buildCarbonExtensions({ mention, command, starters });
 
   onChange = (value) => {
     this.content = value;
@@ -160,44 +160,17 @@ class Demo extends Component {
     this.api = api;
   };
 
-  onTriggerChange = (event) => {
-    const detail = event.detail;
-    this.trigger = detail;
-    if (!detail) {
-      this.items = [];
-      return;
-    }
-    const query = detail.query.toLowerCase();
-    const source = detail.type === 'command' ? COMMANDS : PEOPLE;
-    this.items = source.filter((item) => item.label.toLowerCase().includes(query));
-  };
-
-  select = (item) => {
-    this.api?.selectSuggestion(item);
-  };
-
   <template>
     <ThemeSupport />
     <PromptLine
       @content={{this.content}}
-      @placeholder='Type @ to mention someone, or / for a command...'
+      @placeholder='Type @ to mention someone, / for a command, or focus while empty for starters...'
       @rich={{true}}
       @extensions={{this.extensions}}
       @onChange={{this.onChange}}
       @onReady={{this.onReady}}
-      {{on 'cds-aichat-trigger-change' this.onTriggerChange}}
     />
-    {{#if this.trigger}}
-      <ul class='mention-demo-popup'>
-        {{#each this.items as |item|}}
-          <li>
-            <button type='button' {{on 'click' (fn this.select item)}}>{{item.label}}</button>
-          </li>
-        {{else}}
-          <li>No matches</li>
-        {{/each}}
-      </ul>
-    {{/if}}
+    <PromptLineAutocomplete @promptLine={{this.api}} @mention={{mention}} @command={{command}} @starters={{starters}} />
   </template>
 }
 
@@ -206,90 +179,23 @@ class Demo extends Component {
 
 A command chip (`/summarize`) is prefixed with its trigger character by
 default; a mention chip (`Alice`) isn't — either default can be overridden
-per-config or per-item via `showTriggerInChip`.
+per-config or per-item via `showTriggerInChip`. Focus the field while empty
+to see the starter prompts, then start typing `@`/`/` to switch to mention/
+command — all three trigger types share one editor here, which is the live
+proof of the fix described next.
 
-## Starter prompts
-
-`carbonStarterTrigger` fires `type: 'starter'` whenever the field is empty
-and focused, and `null` as soon as you start typing.
-
-```gjs live preview
-import { tracked } from '@glimmer/tracking';
-import Component from '@glimmer/component';
-import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
-import { PromptLine } from 'carbon-components-ember/components';
-import { buildCarbonExtensions } from 'carbon-components-ember/components/ai-chat/-prompt-line/tiptap/build-extensions';
-import { ThemeSupport } from 'docs-support';
-
-const STARTERS = [
-  { id: 's1', label: 'Summarize this thread' },
-  { id: 's2', label: 'Draft a reply' },
-];
-
-class Demo extends Component {
-  @tracked content = '';
-  @tracked active = false;
-  api;
-
-  extensions = buildCarbonExtensions({ starters: { items: STARTERS } });
-
-  onChange = (value) => {
-    this.content = value;
-  };
-
-  onReady = (api) => {
-    this.api = api;
-  };
-
-  onTriggerChange = (event) => {
-    this.active = event.detail?.type === 'starter';
-  };
-
-  send = (item) => {
-    this.api?.insertContent(item.label);
-    this.api?.getEditor()?.commands.focus();
-  };
-
-  <template>
-    <ThemeSupport />
-    <PromptLine
-      @content={{this.content}}
-      @placeholder='Click the field...'
-      @rich={{true}}
-      @extensions={{this.extensions}}
-      @onChange={{this.onChange}}
-      @onReady={{this.onReady}}
-      {{on 'cds-aichat-trigger-change' this.onTriggerChange}}
-    />
-    {{#if this.active}}
-      <ul class='mention-demo-popup'>
-        {{#each STARTERS as |item|}}
-          <li>
-            <button type='button' {{on 'click' (fn this.send item)}}>{{item.label}}</button>
-          </li>
-        {{/each}}
-      </ul>
-    {{/if}}
-  </template>
-}
-
-<template><Demo /></template>
-```
-
-Starters are shown as their own demo, not layered onto the mention/command
-one above: `carbonMention`/`carbonCommand`/`carbonAutocomplete` and
-`carbonStarterTrigger` are independent Tiptap extensions that each react to
-the same document changes and dispatch `cds-aichat-trigger-change`
-separately (see `trigger-utils.ts`'s "concurrent transitions" doc comment)
-— combined on one editor, typing `@` after focusing an empty field can
-observe the starter list's own exit event (`null`) fire *after* the mention
-trigger's own opening event, since each extension's lifecycle hook runs
-independently. A naive "last event wins" listener (like both of these
-demos') can momentarily see a stale `null` in that case. Reconciling that
-into one authoritative, coalesced state — matching several trigger types
-active on the same editor — is exactly the job of upstream's own
-(not-yet-ported) `autocomplete-controller.ts`.
+Mention, command, autocomplete, and starter extensions each react to the
+*same* document changes and dispatch `cds-aichat-trigger-change`
+independently (see `trigger-utils.ts`'s "concurrent transitions" doc
+comment) — combined on one editor, typing `@` after focusing an empty field
+can dispatch the starter list's own exit event (`null`) *after* the mention
+trigger's own opening event, since each extension's lifecycle hook runs on
+its own schedule. A naive "last event wins" listener can momentarily see a
+stale `null` in that case and hide its popup even though a trigger is
+genuinely open. `PromptLineAutocomplete` reconciles this for real (batches
+same-tick events by microtask, resolves to the last non-null one) — see its
+own doc page and AGENTS.md's "Porting Carbon AI Chat" section for the full
+write-up.
 
 ## API Reference
 

@@ -5,19 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type { ComponentLike } from '@glint/template';
+
 /**
  * Ported from `@carbon/ai-chat-components`' `prompt-line/src/tiptap/types.ts`,
  * trimmed to the fields this slice's factories (`carbon-mention.ts`,
- * `carbon-autocomplete.ts`, `carbon-starter-trigger.ts`) actually read.
- * Dropped: `avatar`'s `CarbonIcon`/React-component union (becomes `unknown`
- * — this port ships no default suggestion popup to interpret it),
- * `renderCustomList`/`renderCustomToken`/`disableDirectSend` (all three
- * assume a host-rendered popup/chip layer this slice deliberately doesn't
- * include — see `PromptLine`'s class doc and AGENTS.md's "Porting Carbon AI
- * Chat" section for why), and `groupId`/`groupTitle` (meaningless without a
- * list UI to group). A host building its own popup on top of these configs
- * can still read `items`/`minQueryLength`/`onSelect`/`onRemove` directly off
- * the same config object it passed into `carbonMention`/etc.
+ * `carbon-autocomplete.ts`, `carbon-starter-trigger.ts`) and
+ * `PromptLineAutocomplete` (the real, now-ported popup) actually read.
+ * Still dropped: `avatar`'s React-component union (this port has no React),
+ * `renderCustomList`/`renderCustomToken` (a host-rendered-popup escape hatch
+ * with no clean Ember equivalent — see `token-chip.ts`'s doc comment and
+ * `PromptLineAutocomplete`'s class doc for why), and `groupId`'s partner
+ * React-only fields. `disableDirectSend`/`groupId`/`groupTitle` are back —
+ * they're plain data `PromptLineAutocomplete` renders directly, not
+ * callback hooks, now that a real popup exists to interpret them.
  */
 
 export interface SuggestionItem {
@@ -27,10 +28,15 @@ export interface SuggestionItem {
   label: string;
   /** String value inserted into the message on selection. Defaults to label. */
   value?: string;
-  /** Optional description, for a host-rendered popup to show. */
+  /** Optional description, shown below the label in `PromptLineAutocomplete`. */
   description?: string;
-  /** Optional leading visual, opaque to this port — a host-rendered popup interprets it. */
-  avatar?: unknown;
+  /**
+   * Optional leading visual. A plain string is rendered as an image `src`;
+   * anything else is invoked as a component (`<entry.avatarIcon @size={{16}} />`),
+   * matching the `ComponentLike` icon-arg pattern used elsewhere in this
+   * addon (e.g. `AiChatCardFooter`'s `CardFooterAction.icon`).
+   */
+  avatar?: string | ComponentLike<{ Args: { size?: number; svgClass?: string; fill?: string } }>;
   /** Whether the item is disabled and cannot be selected. */
   disabled?: boolean;
   /**
@@ -40,6 +46,27 @@ export interface SuggestionItem {
    * default (commands show their trigger, mentions don't) when set.
    */
   showTriggerInChip?: boolean;
+  /**
+   * Optional group identifier. Items sharing the same `groupId` are rendered
+   * together under a single group heading in `PromptLineAutocomplete`. Items
+   * without a `groupId` are rendered ungrouped, before any groups. Group
+   * order follows first-occurrence of each `groupId` in the array.
+   */
+  groupId?: string;
+  /**
+   * Human-readable title for the group header. Every item in the group
+   * should supply this so the header renders correctly if filtering leaves
+   * only a non-first item visible.
+   */
+  groupTitle?: string;
+}
+
+/** A group of related suggestion items, derived from `SuggestionItem.groupId`/`groupTitle` by `itemsToGroups`. */
+export interface SuggestionItemGroup {
+  /** Matches the items' `groupId`. */
+  id: string;
+  title: string;
+  items: SuggestionItem[];
 }
 
 export interface BaseSuggestionConfig {
@@ -49,13 +76,22 @@ export interface BaseSuggestionConfig {
   minQueryLength?: number;
   /** Called after the user selects an item and insertion is complete. */
   onSelect?: (item: SuggestionItem) => void;
+  /**
+   * When `true`, clicking a suggestion item in `PromptLineAutocomplete`
+   * inserts it into the editor (`onSelect`, plus a chip for mention/command)
+   * instead of the default "send directly to chat" behavior
+   * (`PromptLineAutocomplete`'s `@onItemSend`, which never touches the
+   * editor at all). Always `true` for mention/command, regardless of this
+   * flag — see `TriggerSuggestionConfig`. Defaults to `false`.
+   */
+  disableDirectSend?: boolean;
 }
 
 /**
  * Trigger-character-driven suggestion config, shared by `carbonMention` and
  * `carbonCommand`.
  */
-export interface TriggerSuggestionConfig extends BaseSuggestionConfig {
+export interface TriggerSuggestionConfig extends Omit<BaseSuggestionConfig, 'disableDirectSend'> {
   /** Character that activates the suggestion (e.g. `"@"`, `"/"`). */
   trigger: string;
   /** Whether the trigger must start the line, or may appear anywhere. Defaults to `'anywhere'`. */
@@ -87,6 +123,8 @@ export interface StartersConfig {
   items: SuggestionItem[];
   /** Defaults to `true`. */
   isOn?: boolean;
+  /** See {@link BaseSuggestionConfig.disableDirectSend}. Defaults to `false`. */
+  disableDirectSend?: boolean;
 }
 
 /** Detail payload for the `cds-aichat-trigger-change` DOM event. */
