@@ -9,6 +9,7 @@ import * as uiShellStyle from 'carbon-components-ember/components/ui-shell/-side
 import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import * as carbonChartsStyle from '@carbon/charts/styles.css?inline';
 
+import styleWhite from '../styles/carbon-white.scss?inline';
 import style10 from '../styles/carbon-gray-10.scss?inline';
 import style90 from '../styles/carbon-gray-90.scss?inline';
 import style100 from '../styles/carbon-gray-100.scss?inline';
@@ -32,7 +33,13 @@ export default class ThemeSwitcher extends GlimmerComponent {
         return style100 as unknown as string;
     }
 
-    return '';
+    // The default 'white' theme otherwise never gets a real :root/:host
+    // custom-property injection -- @carbon/styles' own color tokens are
+    // scoped under `.cds--white`, which nothing inside a shadow-wrapped
+    // demo ever carries. Without this, every demo silently falls back to
+    // its own hardcoded var(--cds-x, fallback) constant instead of a real
+    // resolved custom property.
+    return styleWhite as unknown as string;
   }
 
   <template>
