@@ -1720,6 +1720,16 @@ forced-dark-mode pass (see above) confirmed real syntax highlighting,
 editing, and the collapse/expand control's height transition all work
 end-to-end.
 
+**Review round 1 fix:** the initial 13 tests covered the editor/toolbar/
+copy/editable surface but had zero assertions for three real, docs-demoed
+features - collapse/expand (`@maxCollapsedNumberOfRows`, the "Show more"/
+"Show less" button), the `diff` language's insert/delete line coloring
+(`diff-decorator.ts`), and pure content-based language detection (no
+explicit `@language`, driven by `detectLanguageFromSignatures` through the
+component's own 200ms lock-in delay). Added one test per gap (3 new tests,
+`test-app` suite now 910/910) - no correctness bugs found, this was purely
+missing coverage for already-correct, already-ported logic.
+
 ## Key Resources
 
 - **Carbon React**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components

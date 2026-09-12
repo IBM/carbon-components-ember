@@ -171,4 +171,64 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
 
     assert.dom('.cds-aichat-snippet__language').doesNotExist();
   });
+
+  test('pure content-based language detection locks in a language label after the detection delay', async function (assert) {
+    const pythonCode = ['def greet(name):', '    if name:', '        print(name)'].join('\n');
+
+    await render(
+      <template><AiChatCodeSnippet @code={{pythonCode}} @detectLanguage={{true}} /></template>,
+    );
+    await waitForEditor();
+
+    assert.dom('.cds-aichat-snippet__language').doesNotExist('no @language was given, so nothing is locked in yet');
+
+    await waitUntil(() => find('.cds-aichat-snippet__language'), { timeout: 2000 });
+    assert.dom('.cds-aichat-snippet__language').hasText('Python');
+  });
+
+  test('@maxCollapsedNumberOfRows shows a "Show more" button once content exceeds it, and toggling it expands/collapses the container', async function (assert) {
+    const manyLines = Array.from({ length: 20 }, (_, i) => `const line${i} = ${i};`).join('\n');
+
+    await render(
+      <template><AiChatCodeSnippet @code={{manyLines}} @maxCollapsedNumberOfRows={{3}} /></template>,
+    );
+    await waitForEditor();
+
+    await waitUntil(() => find('.cds-aichat-snippet__footer button'));
+    assert.dom('.cds-aichat-snippet-container--collapsed').exists();
+    assert.dom('.cds-aichat-snippet__footer button').hasText('Show more');
+
+    await click('.cds-aichat-snippet__footer button');
+    assert.dom('.cds-aichat-snippet-container--collapsed').doesNotExist();
+    assert.dom('.cds-aichat-snippet__footer button').hasText('Show less');
+
+    await click('.cds-aichat-snippet__footer button');
+    assert.dom('.cds-aichat-snippet-container--collapsed').exists();
+    assert.dom('.cds-aichat-snippet__footer button').hasText('Show more');
+  });
+
+  test('@language="diff" colors inserted/deleted lines via the diff decorator', async function (assert) {
+    const diffCode = [
+      'diff --git a/file.txt b/file.txt',
+      '--- a/file.txt',
+      '+++ b/file.txt',
+      '@@ -1,2 +1,2 @@',
+      '-old line',
+      '+new line',
+    ].join('\n');
+
+    await render(
+      <template><AiChatCodeSnippet @code={{diffCode}} @language='diff' @highlight={{true}} /></template>,
+    );
+    await waitForEditor();
+
+    await waitUntil(() => find('.cm-diff-line-inserted') && find('.cm-diff-line-deleted'));
+    assert.dom('.cm-diff-line-inserted').hasText('+new line');
+    assert.dom('.cm-diff-line-deleted').hasText('-old line');
+    // Metadata lines starting with `+++`/`---` are not colored as insert/delete.
+    const insertedLines = [...document.querySelectorAll('.cm-diff-line-inserted')].map((el) => el.textContent);
+    const deletedLines = [...document.querySelectorAll('.cm-diff-line-deleted')].map((el) => el.textContent);
+    assert.false(insertedLines.includes('+++ b/file.txt'));
+    assert.false(deletedLines.includes('--- a/file.txt'));
+  });
 });
