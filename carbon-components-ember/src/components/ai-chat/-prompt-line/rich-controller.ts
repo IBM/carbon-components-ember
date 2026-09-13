@@ -42,9 +42,16 @@ import type { SuggestionItem } from './tiptap/types.ts';
  * points: `setContent`/`clearContent`/`insertContent` tag their
  * transactions host-origin (`./tiptap/origin-meta.ts`) so the mention/
  * command removal plugin can tell a host-driven change from a user edit,
- * and `createChatEnter`/`createChatKeymap` bail out while a trigger is
- * active (`./tiptap/active-suggestion.ts`'s `hasActiveSuggestion`) so
- * plain/Mod-Enter doesn't send a half-typed `@query` as a message. Real,
+ * and `createChatEnter`/`createChatKeymap` swallow (not just decline)
+ * plain/Mod-Enter while a trigger is active
+ * (`./tiptap/active-suggestion.ts`'s `hasActiveSuggestion`), so a
+ * half-typed `@query` never gets sent as a message. Declining (`return
+ * false`) is unsafe: with no popup consuming the keystroke, an untrapped
+ * key falls through to the browser's default paragraph split (Enter) or
+ * `HardBreakNode`'s own unconditional binding (Mod-Enter), corrupting the
+ * query text and exiting the trigger — confirmed on CI, not locally
+ * reproducible (see the two functions below for the full explanation).
+ * Real,
  * deliberate gap: neither key falls through to "select the highlighted
  * item" — this port doesn't ship a suggestion popup at all (see
  * `carbon-mention.ts`'s class doc), so there's no "highlighted item" to

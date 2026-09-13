@@ -1611,6 +1611,28 @@ fetched source targets, found by reading this port's own pinned version's
 `.d.ts` directly rather than assuming parity with the older upstream
 snippet.
 
+**Follow-up fix, PR #868 review round 2: the gate must swallow (`return
+true`), not just decline (`return false`), while a trigger is active.** The
+first version declined, matching upstream's own `onKeyDown` — reasonable by
+analogy, but wrong here since this port ships no popup to actually consume
+the falling-through keystroke (upstream always has one). An untrapped
+`Enter` falls through to the browser's default contenteditable
+paragraph-split; an untrapped `Mod-Enter` falls through to
+`HardBreakNode`'s own unconditional `Mod-Enter -> setHardBreak()` binding
+(always present in the base extension bundle) — either corrupts the query
+text and exits the trigger, after which a *second*, immediately-following
+keydown sees `hasActiveSuggestion() === false` and genuinely sends. This
+reproduced reliably on CI but **not** against a local `pnpm test` run —
+this class of ProseMirror keymap-chain fallthrough ordering is
+timing/environment-sensitive, so a local green run is not sufficient
+evidence a fix here is unnecessary; verify against real CI before trusting
+either a fix or a "no bug" conclusion for this specific code path. Fixed by
+returning `true` instead of `false` from both handlers while a suggestion
+is active — ProseMirror's `handleKeyDown` chain stops at the first
+truthy-returning binding without calling `stopPropagation`, so a host
+popup listening via DOM event bubbling still observes the raw keydown even
+though the ProseMirror-internal fallthrough is blocked.
+
 New deps: `@tiptap/extension-mention` + `@tiptap/suggestion`, pinned exact
 `3.31.3` (lockstep with the other eight Tiptap packages already in this
 port). No `allowBuilds` entry needed — neither has an install script.
