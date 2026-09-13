@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, fillIn, typeIn, waitFor } from '@ember/test-helpers';
-import { TrackedObject } from 'tracked-built-ins';
+import { trackedObject } from '@ember/reactive/collections';
 import NumberInput from 'carbon-components-ember/components/number-input';
 
 module('Integration | Component | NumberInput', (hooks) => {
@@ -165,7 +165,7 @@ module('Integration | Component | NumberInput', (hooks) => {
   });
 
   test('should update a bound @value through @onChange when used as a controlled input, mirroring the docs demo', async function (assert) {
-    const context = new TrackedObject<{ value?: number | '' }>();
+    const context = trackedObject<{ value?: number | '' }>({});
     const update = (value: number | '') => {
       context.value = value;
     };
