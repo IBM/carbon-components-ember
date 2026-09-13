@@ -42,9 +42,16 @@ import type { SuggestionItem } from './tiptap/types.ts';
  * points: `setContent`/`clearContent`/`insertContent` tag their
  * transactions host-origin (`./tiptap/origin-meta.ts`) so the mention/
  * command removal plugin can tell a host-driven change from a user edit,
- * and `createChatEnter`/`createChatKeymap` bail out while a trigger is
- * active (`./tiptap/active-suggestion.ts`'s `hasActiveSuggestion`) so
- * plain/Mod-Enter doesn't send a half-typed `@query` as a message. Real,
+ * and `createChatEnter`/`createChatKeymap` swallow (not just decline)
+ * plain/Mod-Enter while a trigger is active
+ * (`./tiptap/active-suggestion.ts`'s `hasActiveSuggestion`), so a
+ * half-typed `@query` never gets sent as a message. Declining (`return
+ * false`) is unsafe: with no popup consuming the keystroke, an untrapped
+ * key falls through to the browser's default paragraph split (Enter) or
+ * `HardBreakNode`'s own unconditional binding (Mod-Enter), corrupting the
+ * query text and exiting the trigger — confirmed on CI, not locally
+ * reproducible (see the two functions below for the full explanation).
+ * Real,
  * deliberate gap: neither key falls through to "select the highlighted
  * item" — this port doesn't ship a suggestion popup at all (see
  * `carbon-mention.ts`'s class doc), so there's no "highlighted item" to
@@ -59,13 +66,17 @@ function createChatKeymap(onSendIntent: () => void) {
     name: 'carbonChatKeymap',
     addKeyboardShortcuts() {
       return {
-        // Bail while a mention/command/autocomplete trigger is active so a
-        // host-rendered popup keeps the keystroke (this port ships no
-        // popup of its own — see the class doc) instead of Mod-Enter
-        // sending a half-typed "@query".
+        // Swallow (return true), don't just decline, while a trigger is
+        // active — see `createChatEnter`'s `Enter` comment for why
+        // declining is unsafe. Confirmed on CI (though not reproducible
+        // against a local `pnpm test` run — this class of ProseMirror
+        // plugin-ordering issue is timing/environment-sensitive) that an
+        // untrapped Mod-Enter falls through to `HardBreakNode`'s own
+        // unconditional `Mod-Enter -> setHardBreak()` binding, inserting a
+        // hard break into the query text and exiting the trigger.
         'Mod-Enter': ({ editor }) => {
           if (hasActiveSuggestion(editor)) {
-            return false;
+            return true;
           }
           onSendIntent();
           return true;
@@ -89,8 +100,21 @@ function createChatEnter(onSendIntent: () => void) {
     addKeyboardShortcuts() {
       return {
         Enter: ({ editor }) => {
+          // Swallow (return true), don't just decline, while a trigger is
+          // active. Declining leaves the keydown untrapped — since nothing
+          // else in this bundle binds plain Enter, ProseMirror falls back
+          // to the browser's default contenteditable paragraph-split
+          // behavior, which inserts a real newline right after the trigger
+          // character and desyncs the query text from the cursor, exiting
+          // the trigger (confirmed via a regression test: without this,
+          // `getValue()` came back `"@\n"` and the trigger no longer
+          // accepted a selection). A *subsequent* keydown — e.g. Mod-Enter
+          // immediately after — would then see `hasActiveSuggestion() ===
+          // false` and genuinely send, which is what actually reproduced
+          // in CI as "plain Enter and Mod-Enter do not send while a
+          // mention trigger is active" failing.
           if (hasActiveSuggestion(editor)) {
-            return false;
+            return true;
           }
           if (editor.isEmpty) {
             return false;

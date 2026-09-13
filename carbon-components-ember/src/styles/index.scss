@@ -17,6 +17,7 @@
 @use 'ai-chat/reasoning-steps';
 @use 'ai-chat/feedback';
 @use 'ai-chat/prompt-line';
+@use 'ai-chat/prompt-line-autocomplete';
 
 // `Grid`/`GridRow`/`GridColumn` render the `cds--grid`/`cds--row`/`cds--col-*`
 // class names from Carbon's Flexbox Grid, but `@carbon/styles`'s prebuilt
