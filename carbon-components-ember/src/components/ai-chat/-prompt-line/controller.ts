@@ -6,6 +6,7 @@
  */
 
 import type { Editor, Extension } from '@tiptap/core';
+import type { SuggestionItem } from './tiptap/types.ts';
 
 /**
  * Common shape both editing surfaces (`TextareaController` and the
@@ -58,4 +59,13 @@ export interface EditingSurfaceController {
   setComposing(composing: boolean): void;
   undo(): boolean;
   redo(): boolean;
+  /**
+   * Completes the active mention/command/autocomplete trigger with `item`
+   * (see `ai-chat/-prompt-line/tiptap/active-suggestion.ts`). A no-op in
+   * `TextareaController` — the mention/autocomplete extensions this drives
+   * only ever install in rich mode.
+   */
+  selectSuggestion(item: SuggestionItem): boolean;
+  /** Closes the active trigger without selecting. A no-op in `TextareaController`. */
+  dismissSuggestion(): boolean;
 }

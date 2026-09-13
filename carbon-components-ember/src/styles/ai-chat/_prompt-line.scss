@@ -302,3 +302,17 @@
   block-size: 0;
   pointer-events: none;
 }
+
+// Default (non-customizable) mention/command chip, ported from
+// `tiptap/render-token-chip.ts`'s `ensureTokenStyleRules` (its composer-
+// context colors only — the "historical" transcript-context variant isn't
+// ported, since no sent-message/transcript component in this addon renders
+// a token yet).
+.cds-aichat--token {
+  white-space: normal;
+  color: var(--cds-tag-color-blue, #0043ce);
+}
+
+.cds-aichat--token::selection {
+  background-color: var(--cds-tag-background-blue, #d0e2ff);
+}

@@ -19,6 +19,9 @@ import TextNode from '@tiptap/extension-text';
 import { UndoRedo } from '@tiptap/extensions';
 import { getRawText, textToDoc } from './text-utils.ts';
 import type { EditingSurfaceController, EditingSurfaceInit } from './controller.ts';
+import { dismissActiveSuggestion, hasActiveSuggestion, selectActiveSuggestion } from './tiptap/active-suggestion.ts';
+import { setHostOriginMeta } from './tiptap/origin-meta.ts';
+import type { SuggestionItem } from './tiptap/types.ts';
 
 /**
  * The **only** module in the prompt-line stack that imports `@tiptap/*` —
@@ -26,13 +29,27 @@ import type { EditingSurfaceController, EditingSurfaceInit } from './controller.
  * bundler splits Tiptap into its own lazy chunk and chats that never enable
  * `@rich` never ship it. Ported from `@carbon/ai-chat-components`'
  * `prompt-line-rich-runtime.ts`, trimmed to this port's scope: no
- * mention/autocomplete extensions (`carbon-mention`/`carbon-autocomplete`/
- * `carbon-starter-trigger` — a separate, not-yet-ported feature), no
- * typing-indicator event, and no origin-tagging (both exist upstream to keep
- * a mention-removal plugin and a typing indicator in sync with host-driven
- * changes; neither exists in this port). `@extensions` is compared by
- * reference, not upstream's deep equivalence check — a fresh array every
- * render rebuilds the editor (resetting undo history), so memoize it.
+ * typing-indicator event (nothing here consumes one — a caller can debounce
+ * `@onChange` itself). `@extensions` is compared by reference, not
+ * upstream's deep equivalence check — a fresh array every render rebuilds
+ * the editor (resetting undo history), so memoize it.
+ *
+ * Mention/command/autocomplete/starter extensions (`carbon-mention.ts` /
+ * `carbon-autocomplete.ts` / `carbon-starter-trigger.ts` under
+ * `./tiptap/`) build on top of the base bundle here via the normal
+ * `@extensions` contract — a host imports and passes them in, this
+ * controller doesn't know about them specially, except for two integration
+ * points: `setContent`/`clearContent`/`insertContent` tag their
+ * transactions host-origin (`./tiptap/origin-meta.ts`) so the mention/
+ * command removal plugin can tell a host-driven change from a user edit,
+ * and `createChatEnter`/`createChatKeymap` bail out while a trigger is
+ * active (`./tiptap/active-suggestion.ts`'s `hasActiveSuggestion`) so
+ * plain/Mod-Enter doesn't send a half-typed `@query` as a message. Real,
+ * deliberate gap: neither key falls through to "select the highlighted
+ * item" — this port doesn't ship a suggestion popup at all (see
+ * `carbon-mention.ts`'s class doc), so there's no "highlighted item" to
+ * select; a host wires its own popup's click/Enter handling to
+ * `PromptLineApi.selectSuggestion()`.
  */
 
 const HISTORY_DEFAULTS = { depth: 100, newGroupDelay: 500 };
@@ -42,11 +59,21 @@ function createChatKeymap(onSendIntent: () => void) {
     name: 'carbonChatKeymap',
     addKeyboardShortcuts() {
       return {
-        'Mod-Enter': () => {
+        // Bail while a mention/command/autocomplete trigger is active so a
+        // host-rendered popup keeps the keystroke (this port ships no
+        // popup of its own — see the class doc) instead of Mod-Enter
+        // sending a half-typed "@query".
+        'Mod-Enter': ({ editor }) => {
+          if (hasActiveSuggestion(editor)) {
+            return false;
+          }
           onSendIntent();
           return true;
         },
         Escape: ({ editor }) => {
+          if (hasActiveSuggestion(editor)) {
+            return false;
+          }
           editor.view.dom.blur();
           return true;
         },
@@ -62,6 +89,9 @@ function createChatEnter(onSendIntent: () => void) {
     addKeyboardShortcuts() {
       return {
         Enter: ({ editor }) => {
+          if (hasActiveSuggestion(editor)) {
+            return false;
+          }
           if (editor.isEmpty) {
             return false;
           }
@@ -107,9 +137,9 @@ function clampToTextRange(doc: ProseMirrorNode, pos: number): number {
  * content already surrounding `from`/`to`, matching how a real multi-line
  * paste behaves in any other rich text editor.
  */
-function insertPlainText(view: EditorView, text: string, from: number, to: number) {
+function insertPlainText(view: EditorView, text: string, from: number, to: number, hostOrigin = false) {
   const lines = text.replace(/\r\n?/g, '\n').split('\n');
-  const tr =
+  let tr =
     lines.length === 1
       ? view.state.tr.insertText(lines[0]!, from, to)
       : view.state.tr.replace(
@@ -117,7 +147,16 @@ function insertPlainText(view: EditorView, text: string, from: number, to: numbe
           to,
           new Slice(Fragment.from(linesToNodes(view.state.schema, lines)), 1, 1),
         );
-  view.dispatch(tr.scrollIntoView());
+  tr = tr.scrollIntoView();
+  if (hostOrigin) {
+    // `insertContent()` (the imperative API) replacing a selection that
+    // happens to contain a mention/command chip is a host action, not a
+    // user delete — tag it the same as `setContent`/`clearContent` so the
+    // removal plugin (`carbon-mention.ts`) doesn't fire `onRemove` for it.
+    // Never set from the paste/drop handler below, which is a real user edit.
+    tr = setHostOriginMeta(tr);
+  }
+  view.dispatch(tr);
 }
 
 /** Intercepts paste/drop and inserts plain text, splitting on newlines. */
@@ -212,7 +251,18 @@ class RichController implements EditingSurfaceController {
       return;
     }
     this.suppressChange = true;
-    editor.commands.setContent(textToDoc(value));
+    // Chaining a custom `command` before `setContent` tags the *same*
+    // transaction both commands share (Tiptap chains apply sequentially
+    // against one shared `tr`, dispatched once at the end) as host-origin,
+    // so the mention/command removal plugin skips any chip this drops.
+    editor
+      .chain()
+      .command(({ tr }) => {
+        setHostOriginMeta(tr);
+        return true;
+      })
+      .setContent(textToDoc(value))
+      .run();
     this.suppressChange = false;
   }
 
@@ -238,11 +288,22 @@ class RichController implements EditingSurfaceController {
     const at = typeof opts.at === 'number' ? clampToTextRange(view.state.doc, opts.at) : undefined;
     const from = at ?? view.state.selection.from;
     const to = at ?? view.state.selection.to;
-    insertPlainText(view, text, from, to);
+    insertPlainText(view, text, from, to, /* hostOrigin */ true);
   }
 
   clearContent() {
-    this.editor?.commands.clearContent(true);
+    const editor = this.editor;
+    if (!editor) {
+      return;
+    }
+    editor
+      .chain()
+      .command(({ tr }) => {
+        setHostOriginMeta(tr);
+        return true;
+      })
+      .clearContent(true)
+      .run();
   }
 
   getEditor(): Editor | null {
@@ -339,6 +400,14 @@ class RichController implements EditingSurfaceController {
 
   redo(): boolean {
     return Boolean(this.editor?.commands.redo());
+  }
+
+  selectSuggestion(item: SuggestionItem): boolean {
+    return this.editor ? selectActiveSuggestion(this.editor, item) : false;
+  }
+
+  dismissSuggestion(): boolean {
+    return this.editor ? dismissActiveSuggestion(this.editor) : false;
   }
 
   private createEditor(element: HTMLElement, content: JSONContent): Editor {

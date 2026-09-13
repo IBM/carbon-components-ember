@@ -230,6 +230,14 @@ export class TextareaController implements EditingSurfaceController {
     return false;
   }
 
+  selectSuggestion() {
+    return false;
+  }
+
+  dismissSuggestion() {
+    return false;
+  }
+
   private syncMirror() {
     if (this.mirror && this.textarea) {
       // Trailing newline so the box grows the instant a new line starts.

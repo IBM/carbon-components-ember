@@ -9,12 +9,20 @@ import type { JSONContent } from '@tiptap/core';
 
 /**
  * Ported from `@carbon/ai-chat-components`' `tiptap/json-utils.ts`, trimmed
- * to the plain-text-only subset this port needs (no `mention`/`command`
- * atom-node projection — this port doesn't accept structured `content` or
- * mention extensions). `import type` only, so pulling this file in doesn't
- * force a real `@tiptap/core` import — `JSONContent` is erased at build
- * time, keeping these functions usable from the eagerly-loaded textarea
- * controller.
+ * to the plain-text-only subset this port needs (`textToDoc` never
+ * reconstructs a `mention`/`command` node from plain text — there's no
+ * trigger character to parse back out of a bare string — so a rebuild that
+ * round-trips a doc containing chips through `getRawText`/`textToDoc`
+ * degrades them to plain text rather than preserving them as live nodes;
+ * see `rich-controller.ts`'s `recreateEditor`). `getRawText`'s `default`
+ * case *does* still project any atom node carrying `attrs.value`/`label`
+ * (mention/command chips) to that text, matching upstream exactly — an
+ * earlier version of this port dropped that case since mention/command
+ * extensions weren't accepted yet, which silently lost a chip's text
+ * entirely on any rebuild instead of merely flattening it. `import type`
+ * only, so pulling this file in doesn't force a real `@tiptap/core` import —
+ * `JSONContent` is erased at build time, keeping these functions usable
+ * from the eagerly-loaded textarea controller.
  */
 
 /**
@@ -65,8 +73,17 @@ function collect(node: JSONContent, out: string[], paragraphIndex: { count: numb
     case 'doc':
       node.content?.forEach((child) => collect(child, out, paragraphIndex));
       return;
-    default:
+    default: {
+      // Atom nodes like mention/command — pull `value` (or `label`) off attrs.
+      const attrs = (node.attrs ?? {}) as Record<string, unknown>;
+      const value = typeof attrs['value'] === 'string' ? attrs['value'] : null;
+      const label = typeof attrs['label'] === 'string' ? attrs['label'] : null;
+      if (value !== null || label !== null) {
+        out.push(value ?? label ?? '');
+        return;
+      }
       node.content?.forEach((child) => collect(child, out, paragraphIndex));
+    }
   }
 }
 
