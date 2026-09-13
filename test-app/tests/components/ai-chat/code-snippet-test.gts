@@ -8,7 +8,15 @@ import { resetCodeMirrorRuntimeForTests } from 'carbon-components-ember/componen
 import { Add } from 'carbon-components-ember/icons';
 
 async function waitForEditor() {
-  await waitUntil(() => find('.cm-content'));
+  // The very first invocation of this helper in the whole suite is the only
+  // one that pays for a genuinely cold dynamic import() of the CodeMirror
+  // runtime chunk over the dev server - resetCodeMirrorRuntimeForTests()
+  // only clears this addon's own module-level promise/runtime variables,
+  // not the browser's underlying ES-module graph cache, so every later
+  // "cold-seeming" mount actually resolves from that cache almost
+  // instantly. A real cold fetch+parse+eval can exceed waitUntil's default
+  // 1000ms timeout under CI load, so give it more headroom here.
+  await waitUntil(() => find('.cm-content'), { timeout: 5000 });
 }
 
 module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
