@@ -219,7 +219,7 @@ export default class FileUploadItem extends Component<FileUploadItemSignature> {
       >{{this.displayName}}</span>
 
       {{#if (and (not @readOnly) this.iconStatus)}}
-        <span class='cds-aichat-file-upload-item__status'>
+        <span class='cds-aichat-file-upload-item__status cds--file__state-container'>
           <FileUploaderStatusIcon
             @status={{this.iconStatus}}
             @name={{this.displayName}}

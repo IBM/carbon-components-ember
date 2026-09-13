@@ -37,6 +37,18 @@ module('Integration | Component | ai-chat/FileUploadItem', (hooks) => {
     assert.deepEqual(calls, ['42']);
   });
 
+  test('the status wrapper carries cds--file__state-container, so @carbon/styles actually styles the close/loading/complete icons', async function (assert) {
+    const upload = {
+      id: '1',
+      file: new File(['x'], 'a.txt', { type: 'text/plain' }),
+      status: 'edit' as const,
+    };
+
+    await render(<template><FileUploadItem @upload={{upload}} /></template>);
+
+    assert.dom('.cds-aichat-file-upload-item__status').hasClass('cds--file__state-container');
+  });
+
   test('status "uploading" shows a loading indicator, not a remove button', async function (assert) {
     const upload = { id: '1', file: new File(['x'], 'a.txt', { type: 'text/plain' }), status: 'uploading' as const };
 
