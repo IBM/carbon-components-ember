@@ -132,7 +132,7 @@ module('Integration | Component | ai-chat/PromptLine mention/autocomplete/starte
     assert.false(api.selectSuggestion(PEOPLE[0]!));
   });
 
-  test('plain Enter and Mod-Enter do not send while a mention trigger is active', async function (assert) {
+  test('plain Enter alone does not send, and does not corrupt/exit an active mention trigger', async function (assert) {
     let sent = 0;
     let api!: PromptLineApi;
     const onReady = (fn: PromptLineApi) => (api = fn);
@@ -150,9 +150,44 @@ module('Integration | Component | ai-chat/PromptLine mention/autocomplete/starte
     await settled();
 
     await triggerKeyEvent('.cds-aichat-prompt-line__pm-content', 'keydown', 'Enter');
-    await triggerKeyEvent('.cds-aichat-prompt-line__pm-content', 'keydown', 'Enter', { ctrlKey: true });
 
     assert.strictEqual(sent, 0, 'Enter is withheld from sending while a trigger is open');
+    assert.strictEqual(api.getValue(), '@', 'the untrapped Enter did not fall through to a default paragraph split/newline');
+    assert.true(
+      api.selectSuggestion(PEOPLE[0]!),
+      'the trigger is still active after Enter — selecting an item still completes it',
+    );
+  });
+
+  test('Mod-Enter alone does not send, and does not corrupt/exit an active mention trigger', async function (assert) {
+    let sent = 0;
+    let api!: PromptLineApi;
+    const onReady = (fn: PromptLineApi) => (api = fn);
+    const onSendIntent = () => sent++;
+    const extensions = buildCarbonExtensions({ mention: { trigger: '@', items: PEOPLE } });
+
+    await render(
+      <template>
+        <PromptLine @rich={{true}} @extensions={{extensions}} @onReady={{onReady}} @onSendIntent={{onSendIntent}} />
+      </template>,
+    );
+    await api.ensureEditor();
+
+    api.getEditor()!.commands.insertContent('@');
+    await settled();
+
+    await triggerKeyEvent('.cds-aichat-prompt-line__pm-content', 'keydown', 'Enter', { ctrlKey: true });
+
+    assert.strictEqual(sent, 0, 'Mod-Enter is withheld from sending while a trigger is open');
+    assert.strictEqual(
+      api.getValue(),
+      '@',
+      'the untrapped Mod-Enter did not fall through to HardBreakNode\'s own Mod-Enter -> setHardBreak() binding',
+    );
+    assert.true(
+      api.selectSuggestion(PEOPLE[0]!),
+      'the trigger is still active after Mod-Enter — selecting an item still completes it',
+    );
   });
 
   test('deleting an inserted mention chip via a user edit fires onRemove; clearContent()/a controlled @content change do not', async function (assert) {

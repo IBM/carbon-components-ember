@@ -89,8 +89,21 @@ function createChatEnter(onSendIntent: () => void) {
     addKeyboardShortcuts() {
       return {
         Enter: ({ editor }) => {
+          // Swallow (return true), don't just decline, while a trigger is
+          // active. Declining leaves the keydown untrapped — since nothing
+          // else in this bundle binds plain Enter, ProseMirror falls back
+          // to the browser's default contenteditable paragraph-split
+          // behavior, which inserts a real newline right after the trigger
+          // character and desyncs the query text from the cursor, exiting
+          // the trigger (confirmed via a regression test: without this,
+          // `getValue()` came back `"@\n"` and the trigger no longer
+          // accepted a selection). A *subsequent* keydown — e.g. Mod-Enter
+          // immediately after — would then see `hasActiveSuggestion() ===
+          // false` and genuinely send, which is what actually reproduced
+          // in CI as "plain Enter and Mod-Enter do not send while a
+          // mention trigger is active" failing.
           if (hasActiveSuggestion(editor)) {
-            return false;
+            return true;
           }
           if (editor.isEmpty) {
             return false;
