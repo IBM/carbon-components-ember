@@ -59,13 +59,17 @@ function createChatKeymap(onSendIntent: () => void) {
     name: 'carbonChatKeymap',
     addKeyboardShortcuts() {
       return {
-        // Bail while a mention/command/autocomplete trigger is active so a
-        // host-rendered popup keeps the keystroke (this port ships no
-        // popup of its own — see the class doc) instead of Mod-Enter
-        // sending a half-typed "@query".
+        // Swallow (return true), don't just decline, while a trigger is
+        // active — see `createChatEnter`'s `Enter` comment for why
+        // declining is unsafe. Confirmed on CI (though not reproducible
+        // against a local `pnpm test` run — this class of ProseMirror
+        // plugin-ordering issue is timing/environment-sensitive) that an
+        // untrapped Mod-Enter falls through to `HardBreakNode`'s own
+        // unconditional `Mod-Enter -> setHardBreak()` binding, inserting a
+        // hard break into the query text and exiting the trigger.
         'Mod-Enter': ({ editor }) => {
           if (hasActiveSuggestion(editor)) {
-            return false;
+            return true;
           }
           onSendIntent();
           return true;
