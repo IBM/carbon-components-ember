@@ -176,7 +176,16 @@ module('Integration | Component | ai-chat/PromptLine mention/autocomplete/starte
     api.getEditor()!.commands.insertContent('@');
     await settled();
 
-    await triggerKeyEvent('.cds-aichat-prompt-line__pm-content', 'keydown', 'Enter', { ctrlKey: true });
+    // `Mod-Enter` resolves via prosemirror-keymap's own platform detection to
+    // exactly `Meta` on Mac and `Ctrl` elsewhere - an exact modifier-set match
+    // is required, so the "other" modifier alone would never fire the binding.
+    const isMac = /Mac|iP(hone|[oa]d)/.test(navigator.platform);
+    await triggerKeyEvent(
+      '.cds-aichat-prompt-line__pm-content',
+      'keydown',
+      'Enter',
+      isMac ? { metaKey: true } : { ctrlKey: true },
+    );
 
     assert.strictEqual(sent, 0, 'Mod-Enter is withheld from sending while a trigger is open');
     assert.strictEqual(
