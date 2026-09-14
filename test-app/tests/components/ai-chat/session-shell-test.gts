@@ -111,6 +111,24 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
     assert.dom('.cds-aichat-session-shell__message--assistant').hasText('hello there');
   });
 
+  test('the Stop generating button cancels the active stream and hides once cancelled', async function (assert) {
+    const svc = session(this);
+    svc.open = true;
+    await render(<template><SessionShell /></template>);
+
+    const message = svc.receive('', { streaming: true });
+    await settled();
+
+    assert.dom('.cds-aichat-processing').exists();
+    assert.dom('.cds-aichat-session-shell__streaming-actions button').hasText('Stop generating');
+
+    await click('.cds-aichat-session-shell__streaming-actions button');
+
+    assert.dom('.cds-aichat-processing').doesNotExist('the Processing indicator disappears once cancelled');
+    assert.strictEqual(svc.messages.find((m) => m.id === message.id)?.cancelled, true);
+    assert.dom('.cds-aichat-session-shell__stopped-label').exists();
+  });
+
   test('@messagesAriaLabel and @aiEnabled are forwarded to ChatShell', async function (assert) {
     session(this).open = true;
     await render(
