@@ -10,7 +10,6 @@ module('Integration | Component | ai-chat/AiChatChatButtonSkeleton', (hooks) => 
     await render(<template><AiChatChatButtonSkeleton /></template>);
 
     assert.dom('.cds-aichat-button-skeleton').hasClass('cds-aichat-button-skeleton--lg');
-    assert.dom('.cds-aichat-button-skeleton').hasClass('cds--skeleton');
   });
 
   test('@size changes the size class', async function (assert) {

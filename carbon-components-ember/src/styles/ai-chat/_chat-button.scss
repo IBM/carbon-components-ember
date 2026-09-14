@@ -6,6 +6,7 @@
 // element rather than descendant selectors.
 @use '@carbon/styles/scss/theme';
 @use '@carbon/styles/scss/utilities/convert';
+@use '@carbon/styles/scss/utilities/skeleton';
 @use '@carbon/styles/scss/components/button/tokens' as button-tokens;
 
 .cds-aichat-button.cds--btn {
@@ -62,6 +63,8 @@
 }
 
 .cds-aichat-button-skeleton {
+  @include skeleton.skeleton;
+
   overflow: hidden;
   border-radius: convert.to-rem(24px);
   inline-size: convert.to-rem(100px);
