@@ -63,9 +63,11 @@ function createIndexFiles() {
     // scripts/parity-check.mjs's AI_CHAT_EXPORT_OVERRIDES) or breaks family-
     // naming consistency with those (CardFooter, CardSteps,
     // ChatButtonSkeleton). Table, Toolbar, Processing, FileUploads,
-    // FileUploadItem, WorkspaceShell (+ its Header/Body/Footer), Launcher
-    // and ChatShell don't collide with anything and intentionally stay
-    // unprefixed.
+    // FileUploadItem, WorkspaceShell (+ its Header/Body/Footer), Launcher,
+    // ChatShell, and the whole ChatHistory family (filenames already
+    // prefixed `chat-history-*`, so their PascalCase names come out
+    // `ChatHistory*` with no override needed) don't collide with anything
+    // and intentionally stay unprefixed.
     if (
       [
         'ai-chat/card.gts',

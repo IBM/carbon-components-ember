@@ -1,0 +1,336 @@
+// Ported from `@carbon/ai-chat-components`' `chat-history.scss`. Selectors
+// are adapted from upstream's shadow-DOM `:host(...)` to plain classes,
+// matching the pattern already used by `ai-chat/chat-shell` etc, and colors
+// reference `@carbon/styles`' compiled `--cds-*` custom properties directly
+// rather than its Sass theme module. `.cds--side-nav__*` class names
+// themselves are NOT renamed - they're real classes with real (mostly
+// untagged, so also usable on a `<button>`/plain `<div>`, not just an
+// `<a>`) rules already shipped in `@carbon/styles`' compiled CSS, verified
+// directly against that bundle before relying on them (see the class docs
+// on `ChatHistoryPanel`/`ChatHistoryPanelMenu`). This file only adds the
+// rules that don't already exist untagged in that bundle - largely the
+// same set upstream's own file re-declares for the same reason (its
+// `history-panel-item`/`history-search-item` render a `<button>`, not the
+// `<a>` tag `@carbon/styles`' own `.cds--side-nav__link` rules require).
+@use '@carbon/layout';
+@use '@carbon/styles/scss/type';
+
+.cds-aichat-history-shell {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  border: solid 1px var(--cds-border-subtle-00, #e0e0e0);
+  background: var(--cds-chat-header-background, #fff);
+  block-size: 100%;
+  inline-size: 100%;
+}
+
+.cds-aichat-history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-block-end: 1px solid var(--cds-border-subtle-00, #e0e0e0);
+  font-weight: 600;
+  inline-size: 100%;
+  letter-spacing: 0.1px;
+  line-height: 1.25rem;
+  min-block-size: 2.5rem;
+
+  .cds-aichat-history-header__close-button {
+    padding-inline-end: layout.$spacing-01;
+  }
+
+  .cds-aichat-history-header__title {
+    @include type.type-style('heading-compact-01');
+
+    overflow: hidden;
+    inline-size: 100%;
+    margin-inline-start: layout.$spacing-04;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.cds-aichat-history-toolbar {
+  display: flex;
+  align-items: center;
+
+  .cds-aichat-history-toolbar__search {
+    flex: 1;
+
+    .cds--search-input {
+      background-color: var(--cds-chat-header-background, #fff);
+      border-block-end: 1px solid var(--cds-border-subtle-00, #e0e0e0);
+    }
+  }
+}
+
+.cds-aichat-history-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow-y: auto;
+
+  .cds-aichat-history-content__results-count {
+    display: block;
+    padding: layout.$spacing-04 0 layout.$spacing-02 layout.$spacing-04;
+    @include type.type-style('label-01');
+  }
+}
+
+.cds-aichat-history-loading {
+  overflow: hidden;
+  padding: layout.$spacing-06;
+
+  .cds--skeleton__text {
+    padding: layout.$spacing-06 0;
+  }
+
+  .cds-aichat-history-loading__results {
+    border-block-end: 1px solid var(--cds-border-subtle, #e0e0e0);
+    margin-block-end: layout.$spacing-04;
+
+    .cds--skeleton__text {
+      padding: 0 0 layout.$spacing-04 0;
+    }
+  }
+}
+
+.cds-aichat-history-panel {
+  flex: 1;
+  position: relative;
+  background-color: transparent;
+  block-size: 100%;
+  inline-size: 100%;
+  max-inline-size: 100%;
+}
+
+.cds-aichat-history-panel-items {
+  position: relative;
+  padding: 0;
+}
+
+.cds-aichat-history-panel-menu {
+  padding-block-start: layout.$spacing-03;
+
+  .cds--side-nav__menu {
+    padding: 0 1rem 0 layout.$spacing-04;
+  }
+
+  .cds--side-nav__submenu-title {
+    @include type.type-style('label-01');
+
+    padding-inline-start: layout.$spacing-02;
+  }
+
+  .cds--side-nav__icon:not(.cds--side-nav__submenu-chevron) {
+    margin-inline-end: layout.$spacing-03;
+  }
+}
+
+.cds-aichat-history-panel-item,
+.cds-aichat-history-search-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .cds--side-nav__link {
+    @include type.type-style('body-compact-01');
+
+    position: relative;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: space-between;
+    border: none;
+    background-color: transparent;
+    block-size: 2.5rem;
+    cursor: pointer;
+    font-family: inherit;
+    inline-size: 100%;
+    outline: 2px solid transparent;
+    outline-offset: -2px;
+    padding-inline-start: layout.$spacing-08;
+    text-decoration: none;
+  }
+
+  .cds--side-nav__link:focus {
+    background-color: var(--cds-background-hover, rgba(141, 141, 141, 0.12));
+    outline: 2px solid var(--cds-focus, #0f62fe);
+    outline-offset: -2px;
+  }
+
+  .cds--side-nav__link-text {
+    overflow: hidden;
+    color: var(--cds-text-primary, #161616);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.cds-aichat-history-panel-item__actions {
+  // Hidden by default - see the hover/focus/selected/always-show rules
+  // below, mirroring upstream's own default-hidden `cds-overflow-menu`.
+  visibility: hidden;
+  flex: 0 0 auto;
+}
+
+.cds-aichat-history-panel-item[data-selected][data-parent-menu-expanded]
+  .cds-aichat-history-panel-item__actions,
+.cds-aichat-history-panel-item:hover .cds-aichat-history-panel-item__actions,
+.cds-aichat-history-panel-item:focus-within .cds-aichat-history-panel-item__actions,
+.cds-aichat-history-panel-item__actions--always-show,
+.cds-aichat-history-panel-item__actions:has(.cds--overflow-menu--open) {
+  visibility: visible;
+}
+
+.cds-aichat-history-panel-item--rename {
+  display: flex;
+  align-items: center;
+  min-block-size: 2.5rem;
+  padding-block: layout.$spacing-02;
+}
+
+.cds-aichat-history-panel-item[data-selected] .cds--side-nav__link {
+  background-color: var(--cds-layer-selected, #e0e0e0);
+}
+
+.cds-aichat-history-panel-item[data-selected] .cds--side-nav__link::before {
+  position: absolute;
+  background-color: var(--cds-border-interactive, #0f62fe);
+  content: '';
+  inline-size: 3px;
+  inset-block: 0;
+  inset-inline-start: 0;
+}
+
+.cds-aichat-history-panel-item-input {
+  padding: 0 layout.$spacing-06;
+  inline-size: 100%;
+
+  .cds-aichat-history-panel-item-input__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    block-size: layout.$spacing-07;
+    outline: layout.$spacing-01 solid var(--cds-focus, #0f62fe);
+  }
+
+  input {
+    @include type.type-style('body-compact-01');
+
+    overflow: hidden;
+    flex-grow: 2;
+    border: none;
+    background-color: transparent;
+    color: var(--cds-text-primary, #161616);
+    padding-inline-start: layout.$spacing-05;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  input:focus {
+    outline: none;
+  }
+}
+
+.cds-aichat-history-panel-item-input--invalid .cds-aichat-history-panel-item-input__row {
+  outline: layout.$spacing-01 solid var(--cds-support-error, #da1e28);
+}
+
+.cds-aichat-history-panel-item-input__invalid-message {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: layout.$spacing-05;
+  padding-block-end: layout.$spacing-03;
+  padding-inline-start: layout.$spacing-05;
+
+  .cds-aichat-history-panel-item-input__invalid-message-text {
+    @include type.type-style('body-compact-01');
+
+    flex-grow: 1;
+    color: var(--cds-support-error, #da1e28);
+  }
+
+  svg {
+    flex: 0 0 layout.$spacing-07;
+    fill: var(--cds-support-error, #da1e28);
+  }
+}
+
+.cds-aichat-history-search-item {
+  .cds--side-nav__link {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    block-size: layout.$spacing-10;
+    padding-inline-end: layout.$spacing-05;
+  }
+
+  .cds--side-nav__link-text {
+    inline-size: 100%;
+    text-align: start;
+  }
+
+  // Not part of `@carbon/styles`' compiled CSS at all (not just
+  // untagged-vs-tagged) - it's chat-history's own addition, same as
+  // upstream's own file authors it from scratch.
+  .cds--side-nav__link-subtitle {
+    @include type.type-style('label-01');
+
+    color: var(--cds-text-placeholder, #a8a8a8);
+    padding-block-start: layout.$spacing-01;
+  }
+}
+
+.cds-aichat-history-search-item .cds--side-nav__link:disabled {
+  background-color: transparent;
+  cursor: default;
+  outline: none;
+}
+
+.cds-aichat-history-delete-panel {
+  position: absolute;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: layout.$spacing-07;
+  inset: 0;
+
+  &::before {
+    position: absolute;
+    z-index: -1;
+    background: var(--cds-background, #fff);
+    content: '';
+    inset: 0;
+    opacity: 0.95;
+  }
+
+  .cds-aichat-history-delete-panel__content {
+    position: relative;
+    z-index: 1;
+  }
+
+  h1 {
+    @include type.type-style('heading-03');
+
+    margin: 0 0 layout.$spacing-03 0;
+  }
+
+  span {
+    @include type.type-style('body-01');
+  }
+
+  .cds-aichat-history-delete-panel__actions {
+    display: flex;
+    gap: layout.$spacing-03;
+    padding-block-start: layout.$spacing-06;
+
+    .cds-aichat-button {
+      flex: 1;
+    }
+  }
+}
