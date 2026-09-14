@@ -51,12 +51,17 @@ export interface SessionShellSignature {
  * presentational `ai-chat/*` components - `Launcher` while closed,
  * `ChatShell` + `PromptLineShell`/`PromptLine` + `Processing` while open.
  *
- * This is the one, and only, injection point: `Launcher`/`ChatShell`/
- * `PromptLine` themselves stay exactly as ported (stateless/always-
+ * This is the intended injection point for `Launcher`/`ChatShell`/
+ * `PromptLine`, which themselves stay exactly as ported (stateless/always-
  * controlled, per their own class docs) and receive session state purely
  * as args from here, matching AGENTS.md's "React context -> a service, or
  * the parent component instance yielded down to children" convention
  * rather than threading the service through every descendant individually.
+ * The `<:history>`/`<:workspace>` blocks are the one deliberate exception -
+ * a filler for those slots (e.g. the eventual `ai-chat/chat-history`
+ * integration) that needs its own `carbon.ai-chat-session` affordance
+ * (e.g. a close button) injects the service itself, same as any other
+ * consumer would.
  *
  * See AGENTS.md's "Porting Carbon AI Chat" -> "Orchestration layer" section
  * for the full React -> Ember mapping and the scope this first pass cuts.
@@ -103,7 +108,7 @@ export default class SessionShell extends Component<SessionShellSignature> {
           <:history>{{yield to='history'}}</:history>
           <:workspace>{{yield to='workspace'}}</:workspace>
           <:messages>
-            {{#each this.session.messages as |message|}}
+            {{#each this.session.messages key='id' as |message|}}
               <div
                 class='cds-aichat-session-shell__message
                   cds-aichat-session-shell__message--{{message.role}}'

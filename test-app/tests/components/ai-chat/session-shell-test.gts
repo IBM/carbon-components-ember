@@ -76,6 +76,41 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
     assert.dom('.cds-aichat-processing').doesNotExist();
   });
 
+  test('a streaming message keeps its DOM node identity across appendChunk calls', async function (assert) {
+    const svc = session(this);
+    svc.open = true;
+    await render(<template><SessionShell /></template>);
+
+    const message = svc.receive('', { streaming: true });
+    await settled();
+
+    const nodeBefore = document.querySelector('.cds-aichat-session-shell__message--assistant');
+    assert.ok(nodeBefore, 'the streaming bubble is rendered');
+
+    svc.appendChunk(message.id, 'hello');
+    await settled();
+    const nodeAfterChunk1 = document.querySelector(
+      '.cds-aichat-session-shell__message--assistant',
+    );
+    assert.strictEqual(
+      nodeAfterChunk1,
+      nodeBefore,
+      'the DOM node survives the first appendChunk call',
+    );
+
+    svc.appendChunk(message.id, ' there');
+    await settled();
+    const nodeAfterChunk2 = document.querySelector(
+      '.cds-aichat-session-shell__message--assistant',
+    );
+    assert.strictEqual(
+      nodeAfterChunk2,
+      nodeBefore,
+      'the DOM node survives a second appendChunk call',
+    );
+    assert.dom('.cds-aichat-session-shell__message--assistant').hasText('hello there');
+  });
+
   test('@messagesAriaLabel and @aiEnabled are forwarded to ChatShell', async function (assert) {
     session(this).open = true;
     await render(
@@ -104,6 +139,12 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
     await render(<template><SessionShell /></template>);
 
     assert.dom('[aria-label="Send"]').isDisabled();
+
+    svc.draft = 'should not send';
+    await triggerKeyEvent('.cds-aichat-prompt-line__field', 'keydown', 'Enter');
+
+    assert.strictEqual(svc.messages.length, 0, 'no message was added while readonly');
+    assert.dom('.cds-aichat-session-shell__message--user').doesNotExist();
   });
 
   test('a host component following the docs demo pattern (restart() + registerDestructor cleanup) does not leak a send listener across a remount', async function (assert) {
