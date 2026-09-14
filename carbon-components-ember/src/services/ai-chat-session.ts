@@ -80,7 +80,10 @@ export default class ChatSessionService extends Service {
 
   /** Equivalent of the event bus's internal `emit`/`fire`. */
   emit<T = unknown>(type: ChatEventType, detail?: T): void {
-    for (const handler of this.#listeners.get(type) ?? []) {
+    // Snapshot rather than iterate the live Set directly, so a handler that
+    // calls on()/off() for this same event type during dispatch (e.g. a
+    // once-style self-unsubscribe) doesn't mutate the Set mid-iteration.
+    for (const handler of [...(this.#listeners.get(type) ?? [])]) {
       handler(detail);
     }
   }
