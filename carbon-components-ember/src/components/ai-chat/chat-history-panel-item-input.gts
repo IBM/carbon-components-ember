@@ -107,11 +107,29 @@ export default class ChatHistoryPanelItemInput extends Component<ChatHistoryPane
     if (related && container instanceof Node && container.contains(related)) {
       return;
     }
-    if (this.canSave) {
-      this.handleSave();
-    } else {
-      this.handleCancel();
-    }
+    // Deferred to a microtask: a `focusout` here isn't always a genuine
+    // user-driven blur - removing this component's DOM (e.g. a host
+    // flipping `@rename` back to `false` externally, or a sibling item
+    // entering rename mode) also fires a native `focusout` on the
+    // still-focused input as a side effect of the removal itself, and it
+    // can do so *synchronously from within the very render transaction*
+    // that's already updating this component's backing state. Calling
+    // `handleSave`/`handleCancel` (which write tracked state) immediately
+    // from inside that transaction would write to state already read
+    // earlier in the same computation and trip Ember's backtracking-
+    // rerender assertion. A microtask guarantees this only ever runs once
+    // the current render transaction (whatever triggered it) has fully
+    // settled, regardless of exactly when the removal itself completes.
+    void Promise.resolve().then(() => {
+      if (this.isDestroying || this.isDestroyed) {
+        return;
+      }
+      if (this.canSave) {
+        this.handleSave();
+      } else {
+        this.handleCancel();
+      }
+    });
   }
 
   focusAndSelect = eModifier((element: HTMLInputElement) => {

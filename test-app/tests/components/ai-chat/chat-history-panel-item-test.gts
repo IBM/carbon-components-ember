@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, fillIn } from '@ember/test-helpers';
+import { render, click, fillIn, settled } from '@ember/test-helpers';
 import { array, hash } from '@ember/helper';
+import { cell } from 'ember-resources';
 import ChatHistoryPanelItem from 'carbon-components-ember/components/ai-chat/chat-history-panel-item';
 import { Delete } from 'carbon-components-ember/icons';
 
@@ -65,6 +66,20 @@ module('Integration | Component | ai-chat/ChatHistoryPanelItem', (hooks) => {
     assert.dom('.cds-aichat-history-panel-item-input').doesNotExist('rename mode exits on its own');
     assert.dom('.cds--side-nav__link').exists();
     assert.deepEqual(saveCalls, ['New name']);
+  });
+
+  test('a falling edge on @rename (e.g. the host switched to renaming a different item) closes this item\'s rename UI too', async function (assert) {
+    const rename = cell(true);
+
+    await render(<template><ChatHistoryPanelItem @name='My chat' @rename={{rename.current}} /></template>);
+    assert.dom('.cds-aichat-history-panel-item-input').exists('rename mode starts open per @rename');
+
+    rename.current = false;
+    await settled();
+    assert
+      .dom('.cds-aichat-history-panel-item-input')
+      .doesNotExist('rename mode closes once @rename flips back to false');
+    assert.dom('.cds--side-nav__link').exists();
   });
 
   test('renders one overflow-menu action per entry in @actions, and calls @onMenuAction with the clicked action', async function (assert) {

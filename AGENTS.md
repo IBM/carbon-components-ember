@@ -2218,13 +2218,44 @@ forced into one.** Upstream's own `history-panel-item.ts` mutates its own
 `rename` field directly back to `false` once a save/cancel fires (a plain
 web-component property, not a React-style controlled prop) - it's not
 "controlled unless a handler is passed" so much as "externally *seedable*,
-always internally *exitable*". This port matches that literally: `@rename`
-only starts rename mode on a rising edge (via a small `watchRename`
-modifier), and `ChatHistoryPanelItem` always exits it locally on save/
-cancel while still calling `@onRenameSave`/`@onRenameCancel` so a host can
-keep its own state in sync - documented inline as a deliberate departure
-from the Case B convention used everywhere else in this initiative, not an
-oversight.
+always internally *exitable*". This port matches that literally:
+`ChatHistoryPanelItem` always exits rename mode locally on save/cancel
+(without waiting for a matching `@rename` change) while still calling
+`@onRenameSave`/`@onRenameCancel` so a host can keep its own state in
+sync - documented inline as a deliberate departure from the Case B
+convention used everywhere else in this initiative, not an oversight.
+`@rename` itself **is** mirrored onto internal state in both directions
+by `watchRename` (not just a rising edge, fixed in review after the
+original version only handled false→true) - a host renaming a second
+item and resetting the first item's `@rename` back to `false` now
+correctly closes the first item's rename UI too, instead of leaving two
+items' rename inputs open at once.
+
+That bidirectional mirror uncovered a second, real bug in
+`ChatHistoryPanelItemInput.handleFocusOut` while fixing the first one:
+tearing down a still-focused rename input (because `watchRename` just
+flipped `internalRename` back to `false`) fires a *native* `focusout` on
+the input as a side effect of the DOM removal itself - synchronously,
+from inside the very render transaction that's already writing
+`internalRename`. `handleFocusOut`'s existing blur-triggers-cancel logic
+reacted to that immediately, writing `internalRename` a second time in
+the same computation and tripping Ember's backtracking-rerender
+assertion. Two more targeted fixes were tried and rejected before landing
+on the real one, both confirmed empirically (a passing local run doesn't
+prove either was sufficient - see the CI-timing precedents already in
+this file): checking `this.isDestroying`/`isDestroyed` didn't help
+(Ember's destroy-flag propagation is scheduled *after* the DOM patch that
+triggers the native event, so it isn't set yet at the point
+`handleFocusOut` runs), and checking `event.currentTarget.isConnected`
+didn't help either (empirically still `true` at the moment the event
+fires in this specific removal path, contrary to the "already detached
+per spec" assumption). The fix that actually works: defer
+`handleFocusOut`'s save/cancel decision to a microtask
+(`Promise.resolve().then(...)`, re-checking `isDestroying`/`isDestroyed`
+once inside it) so it never runs reentrant inside an active render
+transaction, regardless of exactly when the removal itself completes.
+Verified stable across repeated full local suite runs, not just one green
+run, given how timing-sensitive this class of bug is.
 
 **Two real, disclosed scope cuts, both host-application bookkeeping in
 Ember's terms** (same class of cut as `ChatShell`'s already-documented

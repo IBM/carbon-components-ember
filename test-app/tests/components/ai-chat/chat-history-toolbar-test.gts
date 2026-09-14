@@ -31,6 +31,19 @@ module('Integration | Component | ai-chat/ChatHistoryToolbar', (hooks) => {
     assert.deepEqual(calls, ['today']);
   });
 
+  test('clicking the search field\'s clear button calls @onSearchClear', async function (assert) {
+    let clearCalls = 0;
+    const onSearchClear = () => clearCalls++;
+
+    await render(<template><ChatHistoryToolbar @onSearchClear={{onSearchClear}} /></template>);
+
+    await fillIn('.cds-aichat-history-toolbar__search input', 'today');
+    await click('.cds-aichat-history-toolbar__search .cds--search-close');
+
+    assert.strictEqual(clearCalls, 1);
+    assert.dom('.cds-aichat-history-toolbar__search input').hasValue('');
+  });
+
   test('clicking the new-chat button calls @onNewChat', async function (assert) {
     let calls = 0;
     const onNewChat = () => calls++;

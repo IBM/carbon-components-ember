@@ -39,10 +39,13 @@ export type Args = {
    * back to `false` directly once a rename is saved/canceled, rather than
    * treating it as a value the host exclusively owns (a looser convention
    * common in plain web components, not a strict controlled/uncontrolled
-   * split) - this port matches that: `@rename` only *seeds* rename mode
-   * (a rising edge starts it), and this component always exits it locally
-   * once save/cancel fires, while still calling `@onRenameSave`/
-   * `@onRenameCancel` so a host can keep its own state in sync.
+   * split) - this port matches that: a local save/cancel always exits
+   * rename mode immediately (without waiting for `@rename` to change),
+   * while `@onRenameSave`/`@onRenameCancel` still fire so a host can keep
+   * its own state in sync. `@rename` itself is mirrored in both
+   * directions by `watchRename` below, so a host resetting `@rename` back
+   * to `false` (e.g. because it switched to renaming a *different* item)
+   * also closes this item's rename UI.
    */
   rename?: boolean;
   actions?: ChatHistoryItemAction[];
@@ -133,15 +136,17 @@ export default class ChatHistoryPanelItem extends Component<ChatHistoryPanelItem
     return this.args.parentMenuExpanded ?? true;
   }
 
-  // A rising edge on `@rename` (re)enters rename mode; exiting is always
-  // handled locally, see the class doc above.
+  // Mirrors `@rename` onto `internalRename` on every change (in both
+  // directions), so a host resetting `@rename` back to `false` - e.g.
+  // because it switched to renaming a different item - closes this
+  // item's rename UI too. A local save/cancel still exits immediately
+  // without waiting for a matching `@rename` change, see the class doc
+  // above.
   watchRename = eModifier<{
     Element: HTMLDivElement;
     Args: { Positional: [boolean | undefined] };
   }>((_element, [rename]) => {
-    if (rename) {
-      this.internalRename = true;
-    }
+    this.internalRename = Boolean(rename);
   });
 
   @action
