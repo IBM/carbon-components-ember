@@ -131,6 +131,32 @@ module('Unit | Service | ai-chat-session', function (hooks) {
     assert.notOk(session.messages[0]?.cancelled);
   });
 
+  test('cancelStreaming() is a no-op for a message that already finished normally', function (assert) {
+    const session = getService(this);
+    const message = session.receive('', { streaming: true });
+    session.finalizeStreaming(message.id);
+    let received: unknown;
+    session.on('cancel', (detail) => (received = detail));
+
+    session.cancelStreaming(message.id);
+
+    assert.notOk(session.messages[0]?.cancelled, 'a normally-completed message is not relabeled cancelled');
+    assert.strictEqual(received, undefined, 'cancel is not emitted for a message that was not streaming');
+  });
+
+  test('cancelStreaming() called twice for the same id is a no-op the second time', function (assert) {
+    const session = getService(this);
+    const message = session.receive('', { streaming: true });
+    let callCount = 0;
+    session.on('cancel', () => callCount++);
+
+    session.cancelStreaming(message.id);
+    session.cancelStreaming(message.id);
+
+    assert.strictEqual(callCount, 1, 'cancel is only emitted once across both calls');
+    assert.true(session.messages[0]?.cancelled);
+  });
+
   test('restart() aborts an in-flight stream and a stale appendChunk() after it does not resurrect a message', function (assert) {
     const session = getService(this);
     const message = session.receive('', { streaming: true });
