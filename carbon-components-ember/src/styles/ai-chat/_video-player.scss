@@ -1,0 +1,101 @@
+// Ember port of @carbon/ai-chat-components' video-player.scss
+// (packages/ai-chat-components/src/components/video-player/src/video-player.scss).
+//
+// Upstream is a Lit shadow-DOM component styled with `:host(...)` and
+// `@carbon/styles`' Sass theme module. This addon renders `<VideoPlayer>`
+// in light DOM, so selectors target `.cds-aichat-video-player` classes
+// directly, and colors reference `@carbon/styles`' compiled `--cds-*`
+// custom properties rather than the Sass theme module. Upstream's
+// `rounded-modifiers`/`data-rounded` host-attribute mixins, and its
+// `--video-player-aspect-ratio` custom property (written via a
+// CSP-safe constructable stylesheet, unnecessary here since Glimmer binds
+// the value directly into `style`), are skipped - see `video-player.gts`'s
+// class doc for both.
+
+@use '@carbon/layout';
+
+.cds-aichat-video-player {
+  display: block;
+}
+
+.cds-aichat-video-player__container {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--cds-layer-accent, #e0e0e0);
+  inline-size: 100%;
+}
+
+.cds-aichat-video-player__provider {
+  position: absolute;
+  block-size: 100%;
+  inline-size: 100%;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+
+  // Direct children (provider mount divs for YouTube/Vimeo) fill the
+  // container without the providers writing inline styles.
+  > * {
+    position: absolute;
+    block-size: 100%;
+    inline-size: 100%;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+  }
+
+  iframe,
+  video {
+    border: 0;
+    block-size: 100%;
+    inline-size: 100%;
+    opacity: 0;
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition: opacity 240ms cubic-bezier(0, 0, 0.38, 0.9);
+    }
+  }
+}
+
+.cds-aichat-video-player__provider--ready {
+  iframe,
+  video {
+    opacity: 1;
+  }
+}
+
+.cds-aichat-video-player__provider--hidden {
+  display: none;
+}
+
+.cds-aichat-video-player__status {
+  position: absolute;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  margin: -1px;
+  block-size: 1px;
+  clip: rect(0, 0, 0, 0);
+  inline-size: 1px;
+  white-space: nowrap;
+}
+
+.cds-aichat-video-player__error {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: layout.$spacing-05;
+  background-color: var(--cds-layer, #f4f4f4);
+  block-size: 100%;
+  inline-size: 100%;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+}
+
+.cds-aichat-video-player__error-message {
+  margin: 0;
+  color: var(--cds-text-error, #da1e28);
+  font-size: 0.875rem;
+  letter-spacing: 0.16px;
+  line-height: 1.28572;
+  text-align: center;
+}
