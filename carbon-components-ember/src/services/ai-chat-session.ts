@@ -240,7 +240,7 @@ export default class ChatSessionService extends Service {
    */
   cancelStreaming = (id?: string): void => {
     const targetId = id ?? this.streamingMessageId;
-    if (!targetId) {
+    if (!targetId || !this.#streamControllers.has(targetId)) {
       return;
     }
     this.#cancelledResponses.add(targetId);
