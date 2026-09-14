@@ -86,6 +86,17 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
     assert.dom('.cds-aichat-shell.ai-theme').exists();
   });
 
+  test('@showHistory and @showWorkspace are forwarded to ChatShell', async function (assert) {
+    const svc = session(this);
+    svc.open = true;
+    svc.showHistory = true;
+    svc.showWorkspace = true;
+    await render(<template><SessionShell /></template>);
+
+    assert.dom('.cds-aichat-shell.show-history').exists();
+    assert.dom('.cds-aichat-shell.show-workspace').exists();
+  });
+
   test('isReadonly disables the send button and prevents sending', async function (assert) {
     const svc = session(this);
     svc.open = true;

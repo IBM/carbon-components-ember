@@ -7,7 +7,6 @@
 
 import Component from '@glimmer/component';
 import { service } from '@ember/service';
-import { eq } from 'ember-truth-helpers';
 import Button from '../button.gts';
 import Tooltip from '../tooltip.gts';
 import Launcher from './launcher.gts';
@@ -107,8 +106,7 @@ export default class SessionShell extends Component<SessionShellSignature> {
             {{#each this.session.messages as |message|}}
               <div
                 class='cds-aichat-session-shell__message
-                  cds-aichat-session-shell__message--{{message.role}}
-                  {{if (eq message.role "user") "cds-aichat-session-shell__message--user"}}'
+                  cds-aichat-session-shell__message--{{message.role}}'
               >
                 {{message.text}}
               </div>
