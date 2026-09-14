@@ -127,8 +127,18 @@ export function evaluateShowMoreButton({
     (maxExpanded <= 0 || maxExpanded > maxCollapsed) &&
     height > maxCollapsed * rowHeight;
 
+  // Upstream's own `shouldCollapse` (ported verbatim above) doesn't guard
+  // against `minExpanded * rowHeight` overlapping `maxCollapsed * rowHeight`
+  // — with the shared defaults (`maxCollapsed: 15`, `minExpanded: 16`) that
+  // overlap is a single row and easy to miss, but a consumer passing a much
+  // smaller `maxCollapsedNumberOfRows` (a real, supported use case) opens a
+  // wide band where content both needs the show-more affordance AND is
+  // "small enough" to auto-collapse - toggling to expanded immediately
+  // snaps back to collapsed. `!shouldShowButton` makes the two mutually
+  // exclusive: only auto-collapse once there's no longer any reason to show
+  // the toggle at all. Deliberate divergence from upstream, not a port gap.
   const shouldCollapse =
-    expanded && minExpanded > 0 && height <= minExpanded * rowHeight;
+    expanded && !shouldShowButton && minExpanded > 0 && height <= minExpanded * rowHeight;
 
   return { shouldShowButton, shouldCollapse };
 }

@@ -2099,6 +2099,30 @@ component's own 200ms lock-in delay). Added one test per gap (3 new tests,
 `test-app` suite now 910/910) - no correctness bugs found, this was purely
 missing coverage for already-correct, already-ported logic.
 
+**CI fix (todo #734, 2026-09-14):** `evaluateShowMoreButton`'s
+`shouldCollapse` (`-code-snippet/layout-utils.ts`, "ported verbatim" from
+upstream) never guarded against its own threshold (`minExpandedNumberOfRows`,
+default 16 rows) overlapping `shouldShowButton`'s threshold
+(`maxCollapsedNumberOfRows`). With the shared defaults (15 vs. 16) the
+overlap is a single row and easy to miss, but a consumer passing a much
+smaller `maxCollapsedNumberOfRows` (the existing "shows a Show more button"
+test uses `3`) opens a wide band where content both still needs the
+show-more affordance AND is "small enough" to auto-collapse - clicking to
+expand immediately snapped back to collapsed. This is a genuine latent bug
+present in upstream too (confirmed byte-for-byte identical logic in
+upstream's real `layout-utils.ts`), just never exercised by upstream's own
+stories/tests. It only reproduced in CI, not locally - real per-environment
+font-metric drift (already documented for `.cds--resizer`/`Grid` snapshot
+tests elsewhere in this file) pushed the existing 20-line test's measured
+height into the overlap band on CI's Linux runner but not on a Mac dev
+machine, which read as a flake until the actual arithmetic was worked out.
+Fixed by making the two mutually exclusive (`shouldCollapse` now also
+requires `!shouldShowButton`) - a deliberate, documented divergence from
+upstream, not a port gap. Added a `test-app/tests/unit/ai-chat/
+code-snippet-layout-utils-test.ts` pure unit test (mocked container height,
+no real DOM/font dependency) asserting the invariant directly, plus kept the
+existing rendering-level regression test. `test-app` suite 954/954 green.
+
 ## Key Resources
 
 - **Carbon React**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components
