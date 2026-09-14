@@ -9,6 +9,7 @@
 @use '@carbon/grid';
 @use 'ai-chat/launcher';
 @use 'ai-chat/chat-shell';
+@use 'ai-chat/code-snippet';
 @use 'ai-chat/card';
 @use 'ai-chat/truncated-text';
 @use 'ai-chat/table';
@@ -18,6 +19,11 @@
 @use 'ai-chat/feedback';
 @use 'ai-chat/prompt-line';
 @use 'ai-chat/prompt-line-autocomplete';
+@use 'ai-chat/processing';
+@use 'ai-chat/chat-button';
+@use 'ai-chat/toolbar';
+@use 'ai-chat/workspace-shell';
+@use 'ai-chat/file-uploads';
 
 // `Grid`/`GridRow`/`GridColumn` render the `cds--grid`/`cds--row`/`cds--col-*`
 // class names from Carbon's Flexbox Grid, but `@carbon/styles`'s prebuilt

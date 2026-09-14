@@ -1,0 +1,151 @@
+// Ported from `@carbon/ai-chat-components`' `workspace-shell*.scss` (all
+// four sibling components share one stylesheet upstream). Selectors are
+// adapted from upstream's shadow-DOM `:host(...)`/`::slotted()` to plain
+// classes.
+@use '@carbon/layout';
+@use '@carbon/styles/scss/theme';
+@use '@carbon/styles/scss/type';
+@use '@carbon/styles/scss/utilities/convert' as *;
+@use '@carbon/styles/scss/breakpoint' as *;
+
+.cds-aichat-workspace-shell {
+  @include type.type-style('body-01');
+
+  display: flex;
+  overflow: auto;
+  box-sizing: border-box;
+  flex-direction: column;
+  border: solid rem(1px) theme.$chat-bubble-border;
+  border-radius: rem(8px);
+  background-color: var(--cds-chat-shell-background);
+  block-size: 100%;
+  box-shadow:
+    -10px 0 100px -24px theme.$ai-popover-shadow-outer-01,
+    0 10px 40px -24px theme.$ai-popover-shadow-outer-02;
+  color: theme.$text-secondary;
+  inline-size: 100%;
+}
+
+.cds-aichat-workspace-shell__toolbar,
+.cds-aichat-workspace-shell__notification {
+  flex-shrink: 0;
+  min-inline-size: 0;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.cds-aichat-workspace-shell__body-wrapper {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-block-size: 0;
+}
+
+.cds-aichat-workspace-shell__toolbar > .cds-aichat-toolbar {
+  --cds-aichat-toolbar-title-padding-inline-start: #{layout.$spacing-07};
+
+  @include type.type-style('heading-03');
+
+  box-sizing: border-box;
+  border-block-end: 0.0625rem solid var(--cds-chat-bubble-border);
+  inline-size: 100%;
+  max-inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.cds-aichat-workspace-shell__body {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  flex: 1;
+  padding: rem(24px) rem(32px);
+}
+
+.cds-aichat-workspace-shell__header,
+.cds-aichat-workspace-shell__header-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: rem(24px) rem(32px);
+  border-block-end: solid rem(1px) theme.$chat-bubble-border;
+  color: theme.$text-secondary;
+  gap: layout.$spacing-05;
+
+  @include type.type-style('body-01');
+
+  @include breakpoint-up('md') {
+    flex-direction: row;
+  }
+
+  ::marker {
+    content: '';
+  }
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+}
+
+.cds-aichat-workspace-shell__header-details {
+  cursor: pointer;
+
+  &[open] {
+    overflow: auto;
+
+    .cds-aichat-workspace-shell__header-chevron {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.cds-aichat-workspace-shell__header-content {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: rem(16px);
+  inline-size: 100%;
+}
+
+.cds-aichat-workspace-shell__header-title {
+  color: theme.$text-primary;
+  @include type.type-style('heading-04');
+}
+
+.cds-aichat-workspace-shell__header-sub-title {
+  color: theme.$text-secondary;
+  margin-block-start: rem(-14px);
+  @include type.type-style('label-01');
+}
+
+.cds-aichat-workspace-shell__header-summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  inline-size: 100%;
+}
+
+.cds-aichat-workspace-shell__footer {
+  display: grid;
+  align-items: stretch;
+  border-block-start: solid rem(1px) theme.$border-subtle-00;
+  container-type: inline-size;
+  margin-block-start: auto;
+  grid-template-columns: repeat(auto-fit, minmax(80px, auto));
+
+  &.cds-aichat-workspace-shell__footer--three-buttons {
+    grid-template-columns: 50% 25% 25%;
+  }
+}
+
+@container (max-width: 671px) {
+  .cds-aichat-workspace-shell__footer {
+    grid-auto-flow: row;
+    grid-template-columns: 1fr;
+
+    &.cds-aichat-workspace-shell__footer--three-buttons {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}

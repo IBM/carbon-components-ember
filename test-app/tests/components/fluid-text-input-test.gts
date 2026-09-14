@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, fillIn, click, waitFor, settled, typeIn } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
-import { TrackedObject } from 'tracked-built-ins';
+import { trackedObject } from '@ember/reactive/collections';
 import { cell } from 'ember-resources';
 import FluidTextInput from 'carbon-components-ember/components/fluid-text-input';
 import Toggletip from 'carbon-components-ember/components/toggletip';
@@ -112,7 +112,7 @@ module('Integration | Component | FluidTextInput', (hooks) => {
   });
 
   test('should keep a TrackedObject-backed controlled value in sync while typing, matching the docs demo', async function (assert) {
-    const context = new TrackedObject<{ value: string }>({ value: '' });
+    const context = trackedObject<{ value: string }>({ value: '' });
     const update = (value: string) => {
       context.value = value;
     };

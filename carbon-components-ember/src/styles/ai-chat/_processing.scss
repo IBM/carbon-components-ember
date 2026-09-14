@@ -1,0 +1,281 @@
+// Ported from `@carbon/ai-chat-components`'s `processing.scss`. Selectors are
+// adapted from upstream's shadow-DOM `:host`/plain classes to this addon's
+// own `.cds-aichat-processing` class + BEM-ish dot classes, matching the
+// pattern already used by `ai-chat/chain-of-thought` etc.
+@use '@carbon/styles/scss/theme';
+
+.cds-aichat-processing {
+  display: inline-block;
+}
+
+.cds-aichat-processing__dots {
+  block-size: 32px;
+  inline-size: 32px;
+}
+
+.cds-aichat-processing__dot {
+  fill: none;
+  r: 0;
+  stroke: theme.$interactive;
+  stroke-width: 0;
+  transform: translateY(0);
+}
+
+.cds-aichat-processing--linear {
+  .cds-aichat-processing__dot--left {
+    animation:
+      cds-aichat-processing-load-size,
+      cds-aichat-processing-load-stroke,
+      cds-aichat-processing-loop-size,
+      cds-aichat-processing-loop-stroke;
+    animation-delay: 1000ms, 1000ms, 2000ms, 2000ms;
+    animation-duration: 1000ms;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1, 1, infinite, infinite;
+    transform-origin: 25% 50%;
+  }
+
+  .cds-aichat-processing__dot--center {
+    animation:
+      cds-aichat-processing-load-size,
+      cds-aichat-processing-load-stroke,
+      cds-aichat-processing-loop-size,
+      cds-aichat-processing-loop-stroke;
+    animation-delay: 1167ms, 1167ms, 2167ms, 2167ms;
+    animation-duration: 1000ms;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1, 1, infinite, infinite;
+    transform-origin: 50% 50%;
+  }
+
+  .cds-aichat-processing__dot--right {
+    animation:
+      cds-aichat-processing-load-size,
+      cds-aichat-processing-load-stroke,
+      cds-aichat-processing-loop-size,
+      cds-aichat-processing-loop-stroke;
+    animation-delay: 1334ms, 1334ms, 2334ms, 2334ms;
+    animation-duration: 1000ms;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1, 1, infinite, infinite;
+    transform-origin: 75% 50%;
+  }
+
+  @media screen and (prefers-reduced-motion: reduce) {
+    .cds-aichat-processing__dot--left {
+      animation: none;
+    }
+
+    .cds-aichat-processing__dot--center {
+      animation: none;
+    }
+
+    .cds-aichat-processing__dot--right {
+      animation: none;
+    }
+  }
+}
+
+.cds-aichat-processing--linear-no-loop {
+  .cds-aichat-processing__dot--left {
+    animation:
+      cds-aichat-processing-load-size,
+      cds-aichat-processing-load-stroke,
+      cds-aichat-processing-unload-size,
+      cds-aichat-processing-unload-stroke;
+    animation-delay: 1000ms, 1000ms, 2000ms, 2000ms;
+    animation-duration: 1000ms;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+    transform-origin: 25% 50%;
+  }
+
+  .cds-aichat-processing__dot--center {
+    animation:
+      cds-aichat-processing-load-size,
+      cds-aichat-processing-load-stroke,
+      cds-aichat-processing-unload-size,
+      cds-aichat-processing-unload-stroke;
+    animation-delay: 1167ms, 1167ms, 2167ms, 2167ms;
+    animation-duration: 1000ms;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+    transform-origin: 50% 50%;
+  }
+
+  .cds-aichat-processing__dot--right {
+    animation:
+      cds-aichat-processing-load-size,
+      cds-aichat-processing-load-stroke,
+      cds-aichat-processing-unload-size,
+      cds-aichat-processing-unload-stroke;
+    animation-delay: 1334ms, 1334ms, 2334ms, 2334ms;
+    animation-duration: 1000ms;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+    transform-origin: 75% 50%;
+  }
+
+  @media screen and (prefers-reduced-motion: reduce) {
+    .cds-aichat-processing__dot--left,
+    .cds-aichat-processing__dot--center,
+    .cds-aichat-processing__dot--right {
+      animation: none;
+    }
+  }
+}
+
+// Shift the whole sequence ~1s earlier so the dots appear immediately
+// instead of waiting out the entry delay. Composes with both variants above.
+.cds-aichat-processing--quick-load {
+  .cds-aichat-processing__dot--left {
+    animation-delay: 0ms, 0ms, 1000ms, 1000ms;
+  }
+
+  .cds-aichat-processing__dot--center {
+    animation-delay: 167ms, 167ms, 1167ms, 1167ms;
+  }
+
+  .cds-aichat-processing__dot--right {
+    animation-delay: 334ms, 334ms, 1334ms, 1334ms;
+  }
+}
+
+[dir='rtl'] {
+  .cds-aichat-processing--linear {
+    .cds-aichat-processing__dot--left {
+      animation-delay: 1334ms, 1334ms, 2334ms, 2334ms, 7334ms, 7334ms;
+    }
+
+    .cds-aichat-processing__dot--center {
+      animation-delay: 1167ms, 1167ms, 2167ms, 2167ms, 7167ms, 7167ms;
+    }
+
+    .cds-aichat-processing__dot--right {
+      animation-delay: 1000ms, 1000ms, 2000ms, 2000ms, 7000ms, 7000ms;
+    }
+  }
+
+  .cds-aichat-processing--linear-no-loop {
+    .cds-aichat-processing__dot--left {
+      animation-delay: 1334ms, 1334ms, 2334ms, 2334ms;
+    }
+
+    .cds-aichat-processing__dot--center {
+      animation-delay: 1167ms, 1167ms, 2167ms, 2167ms;
+    }
+
+    .cds-aichat-processing__dot--right {
+      animation-delay: 1000ms, 1000ms, 2000ms, 2000ms;
+    }
+  }
+
+  .cds-aichat-processing--quick-load {
+    .cds-aichat-processing__dot--left {
+      animation-delay: 334ms, 334ms, 1334ms, 1334ms;
+    }
+
+    .cds-aichat-processing__dot--center {
+      animation-delay: 167ms, 167ms, 1167ms, 1167ms;
+    }
+
+    .cds-aichat-processing__dot--right {
+      animation-delay: 0ms, 0ms, 1000ms, 1000ms;
+    }
+  }
+}
+
+@keyframes cds-aichat-processing-load-size {
+  0% {
+    animation-timing-function: cubic-bezier(0, 0, 0.3, 1);
+    r: 0;
+  }
+
+  25% {
+    animation-timing-function: cubic-bezier(0, 0, 0.3, 1);
+    r: 2.5px;
+  }
+
+  83.3%,
+  100% {
+    r: 0.875px;
+  }
+}
+
+@keyframes cds-aichat-processing-load-stroke {
+  0% {
+    animation-timing-function: cubic-bezier(0, 0, 0.3, 1);
+    stroke-width: 0;
+  }
+
+  8.33%,
+  100% {
+    stroke-width: 1.72;
+  }
+}
+
+@keyframes cds-aichat-processing-loop-size {
+  0% {
+    animation-timing-function: cubic-bezier(0, 0, 0.3, 1);
+    r: 0.875px;
+  }
+
+  25% {
+    animation-timing-function: cubic-bezier(0, 0, 0.3, 1);
+    r: 2.5px;
+  }
+
+  91.66%,
+  100% {
+    r: 0.875px;
+  }
+}
+
+@keyframes cds-aichat-processing-loop-stroke {
+  0% {
+    animation-timing-function: cubic-bezier(0.4, 0.14, 1, 1);
+    stroke-width: 1.72;
+  }
+
+  100% {
+    stroke-width: 1.72;
+  }
+}
+
+@keyframes cds-aichat-processing-unload-size {
+  0%,
+  8.33% {
+    r: 0.875px;
+  }
+
+  33.33% {
+    animation-timing-function: cubic-bezier(0.4, 0.14, 1, 1);
+    r: 2.5px;
+  }
+
+  58.33%,
+  100% {
+    r: 0;
+  }
+}
+
+@keyframes cds-aichat-processing-unload-stroke {
+  0%,
+  50% {
+    stroke-width: 1.72;
+  }
+
+  58.33%,
+  100% {
+    stroke-width: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cds-aichat-processing__dot--left,
+  .cds-aichat-processing__dot--center,
+  .cds-aichat-processing__dot--right {
+    animation: none;
+    transition: none;
+  }
+}
