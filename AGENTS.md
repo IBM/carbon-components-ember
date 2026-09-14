@@ -2123,6 +2123,112 @@ code-snippet-layout-utils-test.ts` pure unit test (mocked container height,
 no real DOM/font dependency) asserting the invariant directly, plus kept the
 existing rendering-level regression test. `test-app` suite 954/954 green.
 
+### Orchestration layer — `carbon.ai-chat-session` service + `SessionShell` (2026-09-14)
+
+Ember-native equivalent of `@carbon/ai-chat`'s React app
+(`packages/ai-chat/src/chat`: `AppShell` + `services/` + the Redux `store/`).
+This is genuinely the largest single piece of upstream surface area in the
+whole initiative - `store/reducers.ts` alone is 1,691 lines with ~50 action
+types, `services/ChatActionsImpl.ts` is 2,399 lines, and `AppShell.tsx` is
+1,039 lines - so this first pass is a deliberately scoped subset, not a 1:1
+port. Two files: `src/services/ai-chat-session.ts` (`ChatSessionService`)
+and `src/components/ai-chat/session-shell.gts` (`SessionShell`, the
+`AppShell`-equivalent container).
+
+**React → Ember mapping:**
+
+| Upstream (React/Redux) | This port |
+| --- | --- |
+| `ServiceManager` (upstream's own DI container) | Deleted entirely - Ember's owner/`@service` already is this. |
+| `store/` (Redux: `actions.ts`/`reducers.ts`/`appStore.ts`/`selectors.ts`) | `ChatSessionService`'s own `@tracked` fields (`messages`, `draft`, `open`, `showHistory`, `showWorkspace`, `isReadonly`) - no separate action/reducer/selector layers; methods mutate directly and Glimmer's autotracking replaces `connect()`/selectors. |
+| `MessageService`/`OutboundMessageCoordinator` (`ADD_MESSAGE`, `UPSERT_MESSAGE`, `UPDATE_MESSAGE`) | `ChatSessionService#send()`/`#receive()` |
+| `InboundStreamingCoordinator` (`STREAMING_START`, `STREAMING_ADD_CHUNK`, generation tracking, abort controllers) | `ChatSessionService#appendChunk()`/`#finalizeStreaming()` - generation tracking and cancellation are cut, see below. |
+| `instance.on()`/`.off()`/`.once()` (upstream's own event bus, `serviceManager.eventBus`) | `ChatSessionService#on()`/`#off()`/`#emit()` - a plain `Map<type, Set<handler>>`; `.once()` isn't ported (no caller needed it yet). |
+| `instance.send()` | `ChatSessionService#send()` - same host-boundary: appends the user message and emits `'send'`, producing the assistant reply is the host application's job (upstream's `customSendMessage`), not this service's. |
+| `SET_HISTORY_PANEL_OPEN`/`SET_WORKSPACE_PANEL_OPEN` | `ChatSessionService#toggleHistory()`/`#toggleWorkspace()` |
+| `SET_VIEW_STATE`/`instance.changeView()` | `ChatSessionService#toggleOpen()` (a single `open` boolean - upstream's richer multi-view `ViewState` isn't needed since `Launcher`/`ChatShell` are the only two views this port has). |
+| `RESTART_CONVERSATION` | `ChatSessionService#restart()` |
+| `AppShell.tsx` (assembles `Launcher`/`MainWindow`/panels, owns the Context providers) | `SessionShell` - injects `@service('carbon.ai-chat-session')` once and passes session state down as plain `@arg`s to `Launcher`/`ChatShell`/`PromptLineShell`/`PromptLine`/`Processing`, all of which stay exactly as already ported (stateless/always-controlled per their own class docs - this is the "not a parallel prop-drilling scheme" requirement: one injection point, one level of args, per AGENTS.md's "React context → a service, or the parent component instance yielded down to children" rule). |
+
+**Deliberately NOT ported in this first pass** (each is its own real,
+separable follow-up, not an oversight):
+
+- **Human-agent handoff** (`humanAgentActions.ts`/`humanAgentReducers.ts`,
+  `HistoryService`'s agent-transfer paths) - a whole second conversation
+  mode with no presentational components ported yet to drive it.
+- **Persistence/rehydration** (`UserSessionStorageService`,
+  `persistenceUtils.ts`, `HYDRATE_CHAT`/`HYDRATE_MESSAGE_HISTORY`) - no
+  storage backend decision has been made yet; today's messages are
+  in-memory only and vanish on reload.
+- **`CustomPanelManager`/`CustomPanelInstance`** - upstream's arbitrary
+  host-defined side panels; `SessionShell`'s `<:history>`/`<:workspace>`
+  blocks cover the two panel *slots* `ChatShell` already exposes, but not
+  upstream's generic multi-panel-instance management on top of them.
+  Yielded outward rather than filled in, so a future `ai-chat/chat-history`
+  (PR #870) integration can plug into `<:history>` without this component
+  changing.
+- **`NamespaceService`** (multi-instance isolation, `SET_STREAM_ID`) - this
+  service is a per-app Ember singleton; multiple independent chat widgets
+  on one page would need a real design (probably an id-keyed registry
+  service, or per-widget instantiation via `ember-simple-tracking`-style
+  factories) that wasn't needed for a first pass.
+- **`ThemeWatcherService`** - docs-app's own `ThemeSupport` already owns
+  theming for every component in this addon; there is no upstream-shaped
+  gap to fill here.
+- **The bulk of `actions.ts`'s ~50 action types** - file uploads
+  (`ADD_INPUT_FILE`/etc.), structured data, nested messages, iframe/
+  conversational-search/response panels, catastrophic-error state,
+  disclaimer acceptance, and message-option-selection UI state are all
+  real upstream concerns with no Ember consumer yet (no ported component
+  reads them). Add the corresponding service method + `@tracked` field
+  alongside a real consumer, rather than speculatively pre-building state
+  nothing reads.
+- **Cancellation/generation tracking** inside streaming -
+  `InboundStreamingCoordinator`'s real job is also resolving `response_id`
+  vs. `item_id` aliasing and per-response `AbortController`s for
+  mid-stream cancellation. `appendChunk()`/`finalizeStreaming()` assume a
+  single, uncancellable stream per message id - good enough for the
+  common case, not upstream's full guarantee.
+
+**`on()`/`off()` are manual, on purpose** - matching upstream's own
+`instance.on()`/`.off()`, which are likewise not scoped to a component's
+lifetime. Since `carbon.ai-chat-session` is an app-wide singleton, any
+consumer that registers a listener owns unregistering it (e.g. via
+`registerDestructor`) - the service has no way to know when a listener's
+owning component is torn down otherwise. The docs demo below does this,
+and a real leaked-listener-across-a-remount bug (caught before merge, not
+shipped) is the regression test in `session-shell-test.gts` covering
+exactly this contract.
+
+**Message shape is deliberately minimal**: `{ id, role: 'user' | 'assistant',
+text, streaming? }` - a flat array, reassigned (not deep-mutated) on every
+change for `@tracked` reactivity, matching the established `@tracked
+messages: T[]` reassignment pattern already used elsewhere in this
+initiative (e.g. `FileUploads`' `@tracked extensions`) rather than reaching
+for `TrackedArray`/a Redux-style normalized-by-id map upstream uses. There
+is no dedicated "message bubble" component in `@carbon/ai-chat-components` -
+message rendering is part of the React app's own `components/` tree, not the
+ported widget library - so `SessionShell`'s `<:messages>` block renders
+plain, minimally-styled `<div>`s (`_session-shell.scss`, the only SCSS
+partial in this directory with no upstream source to port from) rather than
+a pixel-matched bubble design.
+
+**Verified**: `pnpm exec glint`, addon `build:js`, addon `pnpm run lint`
+(0 errors - one real `{{#unless}}...{{else}}` lint error caught and fixed,
+per `simple-unless`), a `pnpm run create-autogenerated-files` diff check
+confirming `session-shell.gts` → `SessionShell` needs no export-override
+entry (checked, then reverted the script's unrelated reordering per the
+established regen-gotcha), a service unit-test suite (`carbon.ai-chat-session`:
+send/receive/streaming/panel-toggle/event-bus/restart), a `SessionShell`
+integration-test suite (launcher↔shell toggle, real typed send via Enter,
+send button, streaming indicator, arg forwarding, readonly disabling, and a
+mount/destroy/remount regression test proving a `registerDestructor`-based
+`off()` cleanup - matching the docs demo's own pattern - doesn't leak a
+`'send'` listener), and a real `DOCS_URL=versions/main pnpm build` +
+Playwright pass on the new docs demo (a host-side `'send'` listener
+simulating a streamed reply end-to-end, full `test-app` suite 973/973 modulo
+the pre-existing Grid snapshot env-flake).
+
 ## Key Resources
 
 - **Carbon React**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components
@@ -2132,4 +2238,4 @@ existing rendering-level regression test. `test-app` suite 954/954 green.
 
 ---
 
-Last Updated: 2026-09-09
+Last Updated: 2026-09-14

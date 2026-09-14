@@ -24,6 +24,7 @@
 @use 'ai-chat/toolbar';
 @use 'ai-chat/workspace-shell';
 @use 'ai-chat/file-uploads';
+@use 'ai-chat/session-shell';
 
 // `Grid`/`GridRow`/`GridColumn` render the `cds--grid`/`cds--row`/`cds--col-*`
 // class names from Carbon's Flexbox Grid, but `@carbon/styles`'s prebuilt
