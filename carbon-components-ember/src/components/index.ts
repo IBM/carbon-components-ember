@@ -108,6 +108,7 @@ export { default as PromptLineAutocomplete } from './ai-chat/prompt-line-autocom
 export { default as PromptLineShell } from './ai-chat/prompt-line-shell.gts'
 export { default as ReasoningSteps } from './ai-chat/reasoning-steps.gts'
 export { default as ReasoningStepsToggle } from './ai-chat/reasoning-steps-toggle.gts'
+export { default as SessionShell } from './ai-chat/session-shell.gts'
 export { default as Table } from './ai-chat/table.gts'
 export { default as Toolbar } from './ai-chat/toolbar.gts'
 export { default as AiChatTruncatedText } from './ai-chat/truncated-text.gts'
