@@ -73,6 +73,10 @@ export default class SessionShell extends Component<SessionShellSignature> {
     this.session.send();
   };
 
+  stopStreaming = (): void => {
+    this.session.cancelStreaming();
+  };
+
   get closedLabel(): string {
     return this.args.closedLabel ?? 'Open chat';
   }
@@ -114,10 +118,23 @@ export default class SessionShell extends Component<SessionShellSignature> {
                   cds-aichat-session-shell__message--{{message.role}}'
               >
                 {{message.text}}
+                {{#if message.cancelled}}
+                  <span class='cds-aichat-session-shell__stopped-label'>(stopped)</span>
+                {{/if}}
               </div>
             {{/each}}
             {{#if this.session.isStreaming}}
-              <Processing />
+              <div class='cds-aichat-session-shell__streaming-actions'>
+                <Processing />
+                <Button
+                  @type={{undefined}}
+                  @ghost={{true}}
+                  @size='sm'
+                  @onClick={{this.stopStreaming}}
+                >
+                  Stop generating
+                </Button>
+              </div>
             {{/if}}
           </:messages>
           <:input>

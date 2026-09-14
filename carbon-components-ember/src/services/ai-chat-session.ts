@@ -16,11 +16,14 @@ export interface ChatMessage {
   text: string;
   /** True while an assistant message is still receiving streamed chunks. */
   streaming?: boolean;
+  /** True once `cancelStreaming()` has stopped a still in-progress response. */
+  cancelled?: boolean;
 }
 
 export type ChatEventType =
   | 'send'
   | 'receive'
+  | 'cancel'
   | 'change:view'
   | 'change:history'
   | 'change:workspace'
@@ -60,6 +63,24 @@ export default class ChatSessionService extends Service {
   @tracked isReadonly = false;
 
   #listeners = new Map<ChatEventType, Set<ChatEventHandler<any>>>();
+  /**
+   * One `AbortController` per still-streaming response, for
+   * `getAbortSignal()`/`cancelStreaming()`. Equivalent of upstream's
+   * `InboundStreamingCoordinator`'s `messageAbortControllers` map, minus
+   * the `response_id`/`item_id` aliasing `StreamingTracker` layers on top
+   * of it - this service has no wire protocol with a second id to
+   * resolve, `appendChunk()`'s `id` is always whatever `receive()`
+   * returned, so that aliasing is deliberately not ported. See AGENTS.md.
+   */
+  #streamControllers = new Map<string, AbortController>();
+  /**
+   * Response ids `cancelStreaming()`/`restart()` have already stopped.
+   * Equivalent of upstream's `validateChunkGeneration` guard against a
+   * stale chunk resurrecting a cancelled response - kept as a permanent
+   * per-id set rather than a single incrementing generation counter,
+   * since message ids here are never reused.
+   */
+  #cancelledResponses = new Set<string>();
 
   /** Equivalent of `instance.on()`. */
   on<T = unknown>(type: ChatEventType, handler: ChatEventHandler<T>): this {
@@ -148,17 +169,36 @@ export default class ChatSessionService extends Service {
       streaming: Boolean(options.streaming),
     };
     this.messages = [...this.messages, message];
+    if (options.streaming) {
+      this.#streamControllers.set(message.id, new AbortController());
+    }
     this.emit('receive', message);
     return message;
   };
 
   /**
-   * Equivalent of `STREAMING_ADD_CHUNK`. Upstream's real
-   * `InboundStreamingCoordinator` also tracks per-response generations and
-   * abort controllers for cancellation - deliberately cut here, see
-   * AGENTS.md.
+   * `AbortSignal` for a still-streaming response, for the host to wire into
+   * its own network request (e.g. `fetch(url, { signal })`) so
+   * `cancelStreaming()` actually stops inbound data, not just this
+   * service's own bookkeeping. `undefined` once the response has
+   * finalized/cancelled, or if it was never started with
+   * `{ streaming: true }`.
+   */
+  getAbortSignal = (id: string): AbortSignal | undefined => {
+    return this.#streamControllers.get(id)?.signal;
+  };
+
+  /**
+   * Equivalent of `STREAMING_ADD_CHUNK`. Drops a chunk for a response
+   * `cancelStreaming()` already stopped (see `#cancelledResponses`) rather
+   * than resurrecting it - a host's in-flight streaming loop can still be
+   * mid-`await` when cancellation happens and keep calling this after the
+   * fact.
    */
   appendChunk = (id: string, delta: string): void => {
+    if (this.#cancelledResponses.has(id)) {
+      return;
+    }
     this.messages = this.messages.map((message) =>
       message.id === id
         ? { ...message, text: message.text + delta, streaming: true }
@@ -171,14 +211,69 @@ export default class ChatSessionService extends Service {
     this.messages = this.messages.map((message) =>
       message.id === id ? { ...message, streaming: false } : message,
     );
+    this.#streamControllers.delete(id);
   };
 
   get isStreaming(): boolean {
     return this.messages.some((message) => message.streaming);
   }
 
-  /** Equivalent of dispatching `RESTART_CONVERSATION`. */
+  /**
+   * Equivalent of `InboundStreamingCoordinator.streamingMessageID` - the
+   * response currently receiving chunks, if any. Assumes at most one
+   * active stream at a time, matching `isStreaming`'s existing
+   * single-boolean model - this port has no concurrent-response support.
+   */
+  get streamingMessageId(): string | null {
+    return this.messages.find((message) => message.streaming)?.id ?? null;
+  }
+
+  /**
+   * Equivalent of upstream's user-triggered "Stop generating" action -
+   * `InboundStreamingCoordinator`'s cancellation path (minus the
+   * `response_id`/`item_id` aliasing, see `#streamControllers`'s doc
+   * comment). Defaults to the currently-streaming response when no `id`
+   * is given. Aborts the response's `AbortSignal` (`getAbortSignal()`) so
+   * a host's own network request actually stops, marks the message no
+   * longer streaming, and flags it `cancelled` so a consumer can render a
+   * "stopped" affordance.
+   */
+  cancelStreaming = (id?: string): void => {
+    const targetId = id ?? this.streamingMessageId;
+    if (!targetId) {
+      return;
+    }
+    this.#cancelledResponses.add(targetId);
+    this.#streamControllers.get(targetId)?.abort();
+    this.#streamControllers.delete(targetId);
+    let cancelledMessage: ChatMessage | undefined;
+    this.messages = this.messages.map((message) => {
+      if (message.id !== targetId) {
+        return message;
+      }
+      cancelledMessage = { ...message, streaming: false, cancelled: true };
+      return cancelledMessage;
+    });
+    if (cancelledMessage) {
+      this.emit('cancel', cancelledMessage);
+    }
+  };
+
+  /**
+   * Equivalent of dispatching `RESTART_CONVERSATION`. Iterates
+   * `#streamControllers` (a plain, untracked `Map`) rather than the
+   * `@tracked messages` array to find in-flight streams to abort - reading
+   * `messages` here and then writing it a few lines later would trip
+   * Ember's backtracking-rerender assertion when `restart()` runs during a
+   * render computation (e.g. from a component constructor, as the docs
+   * demo and its regression test both do).
+   */
   restart = (): void => {
+    for (const [id, controller] of this.#streamControllers) {
+      this.#cancelledResponses.add(id);
+      controller.abort();
+    }
+    this.#streamControllers.clear();
     this.messages = [];
     this.draft = '';
     this.emit('restart');
