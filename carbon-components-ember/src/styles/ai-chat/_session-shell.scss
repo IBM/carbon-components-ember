@@ -1,0 +1,25 @@
+// Minimal styling for `<SessionShell>`'s own message-bubble/input markup.
+// `SessionShell` is this addon's orchestration container, not a ported
+// upstream widget - there is no upstream `.scss` to port from, unlike every
+// other partial in this directory.
+
+@use '@carbon/layout';
+
+.cds-aichat-session-shell__message {
+  max-inline-size: 80%;
+  margin-block-end: layout.$spacing-05;
+  padding: layout.$spacing-03 layout.$spacing-05;
+  border-radius: layout.$spacing-03;
+  background-color: var(--cds-layer, #f4f4f4);
+  color: var(--cds-text-primary, #161616);
+  word-break: break-word;
+}
+
+.cds-aichat-session-shell__message--user {
+  margin-inline-start: auto;
+  background-color: var(--cds-background-selected, #e0e0e0);
+}
+
+.cds-aichat-session-shell__input {
+  padding: layout.$spacing-05;
+}

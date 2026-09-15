@@ -285,6 +285,7 @@
       "./components/carbon/ai-chat/prompt-line.js": "./dist/_app_/components/carbon/ai-chat/prompt-line.js",
       "./components/carbon/ai-chat/reasoning-steps-toggle.js": "./dist/_app_/components/carbon/ai-chat/reasoning-steps-toggle.js",
       "./components/carbon/ai-chat/reasoning-steps.js": "./dist/_app_/components/carbon/ai-chat/reasoning-steps.js",
+      "./components/carbon/ai-chat/session-shell.js": "./dist/_app_/components/carbon/ai-chat/session-shell.js",
       "./components/carbon/ai-chat/table.js": "./dist/_app_/components/carbon/ai-chat/table.js",
       "./components/carbon/ai-chat/toolbar.js": "./dist/_app_/components/carbon/ai-chat/toolbar.js",
       "./components/carbon/ai-chat/truncated-text.js": "./dist/_app_/components/carbon/ai-chat/truncated-text.js",
@@ -3122,6 +3123,7 @@
       "./helpers/carbon/or.js": "./dist/_app_/helpers/carbon/or.js",
       "./helpers/carbon/set.js": "./dist/_app_/helpers/carbon/set.js",
       "./modifiers/carbon/close-on-outside-click.js": "./dist/_app_/modifiers/carbon/close-on-outside-click.js",
+      "./services/carbon/ai-chat-session.js": "./dist/_app_/services/carbon/ai-chat-session.js",
       "./services/carbon/dialog-manager.js": "./dist/_app_/services/carbon/dialog-manager.js",
       "./services/carbon/notifications.js": "./dist/_app_/services/carbon/notifications.js"
     }
