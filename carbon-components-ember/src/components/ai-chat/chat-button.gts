@@ -70,6 +70,18 @@ const blockProgrammaticClickWhenSelected = modifier((element: HTMLButtonElement,
  * `primary`/`secondary`/`tertiary`/`ghost`/`danger` and `sm`/`md`/`lg`/`xl`,
  * so those combinations aren't reproduced - not a behavior consumers of
  * this addon have relied on elsewhere either.
+ *
+ * `@kind='danger'` deliberately does NOT pass through as `Button`'s
+ * `@type='danger'`: that arg doesn't just add styling, it also opts into
+ * `Button`'s own built-in native-confirm-dialog-before-click flow (see its
+ * `showDialog`/`onButtonClick`) - a Carbon-React-parity feature with no
+ * upstream `cds-aichat-button` equivalent (there, `kind="danger"` is a
+ * pure color variant, `@click` always fires immediately). Adding the
+ * `cds--btn--danger` class directly gets the same styling without opting
+ * into that unrelated behavior - real, not hypothetical: `kind='danger'`
+ * is exactly what `ChatHistoryDeletePanel`'s own Delete button uses, and
+ * that component IS already the confirmation UI, so a second, unrelated
+ * confirm dialog nested inside it would be a broken double-confirmation.
  */
 export default class AiChatChatButton extends Component<AiChatChatButtonSignature> {
   get isBlocked() {
@@ -87,12 +99,16 @@ export default class AiChatChatButton extends Component<AiChatChatButtonSignatur
   }
 
   get buttonType() {
-    return this.effectiveKind === 'ghost' || this.effectiveKind === 'tertiary' ? undefined : this.effectiveKind;
+    return this.effectiveKind === 'ghost' || this.effectiveKind === 'tertiary' || this.effectiveKind === 'danger'
+      ? undefined
+      : this.effectiveKind;
   }
 
   <template>
     <Button
-      class='cds-aichat-button {{if @isQuickAction "cds-aichat-button--quick-action"}}'
+      class='cds-aichat-button
+        {{if @isQuickAction "cds-aichat-button--quick-action"}}
+        {{if (eq this.effectiveKind "danger") "cds--btn--danger"}}'
       @type={{this.buttonType}}
       @tertiary={{eq this.effectiveKind 'tertiary'}}
       @ghost={{eq this.effectiveKind 'ghost'}}
