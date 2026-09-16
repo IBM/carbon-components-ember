@@ -79,9 +79,11 @@
 // CSS reset that forces `img, svg, video, ... { display: block; }` (e.g.
 // Tailwind's Preflight, confirmed present in docs-app itself) blockifies
 // the icon, splitting it onto its own line below the text instead of next
-// to it. Force it back to participating in the surrounding inline flow
-// regardless of what a consumer's own reset does.
+// to it. `inline-block` restores the same baseline-aligned rendering an
+// unreset `inline` svg already has (both share the default
+// `vertical-align: baseline` for replaced elements) without introducing a
+// new alignment - don't add `vertical-align` here, it would shift the icon
+// in every environment, including ones with no blockifying reset at all.
 .cds--overflow-menu-options__option-content svg {
   display: inline-block;
-  vertical-align: middle;
 }

@@ -21,6 +21,13 @@ module('Integration | Component | ai-chat/ChatHistoryToolbar', (hooks) => {
     assert.dom('.cds-aichat-history-toolbar__new-chat').exists();
   });
 
+  test('the new-chat button renders with the primary (blue) button style', async function (assert) {
+    await render(<template><ChatHistoryToolbar /></template>);
+
+    assert.dom('.cds-aichat-history-toolbar__new-chat').hasClass('cds--btn--primary');
+    assert.dom('.cds-aichat-history-toolbar__new-chat').doesNotHaveClass('cds--btn--ghost');
+  });
+
   test('typing in the search field calls @onSearch with the value', async function (assert) {
     const calls: string[] = [];
     const onSearch = (value: string) => calls.push(value);
