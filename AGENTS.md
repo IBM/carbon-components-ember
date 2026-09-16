@@ -2305,6 +2305,90 @@ errors, plus a full end-to-end interaction pass on the flagship
 the swapped-in input, save, delete-confirm via the overlay) - all
 mutations landed in the real DOM with no scripted mocking.
 
+### PR #881 follow-up: overflow-menu icon alignment, `New chat` tooltip side, dropdown-trigger tooltip color (2026-09-16)
+
+Three more visual reports against the `chat-history` demo, all fixed on the
+same PR (which had already landed the icon-below-text and New-chat-button-
+color fixes from an earlier round):
+
+- **Icon right-alignment.** `OverflowMenuItem` (`src/components/overflow-
+  menu/item.gts`) previously rendered `{{@itemText}}{{yield}}` as one
+  inline run inside a single `.cds--overflow-menu-options__option-content`
+  span - text and icon sat hugged together on the left, with unused space
+  to the right, instead of upstream Carbon web-components' own
+  `:host(cds-overflow-menu-item) { display: flex; justify-content: space-
+  between; }` (icon flush right). Split the icon into its own sibling
+  `.cds--overflow-menu-options__option-icon` span and added `justify-
+  content: space-between` to `.cds--overflow-menu-options__btn` in
+  `src/styles/index.scss` - a no-op for the far more common text-only case
+  (one flex child has nowhere else to go). **Real gotcha caught by the
+  test suite, not by reasoning:** `{{has-block}}` in `item.gts`'s own
+  `<template>` reflects whether a block was *syntactically* passed to its
+  invocation, not whether that block renders any visible content -
+  `ChatHistoryPanelItem` always passes a block (`{{#if menuAction.icon}}
+  <menuAction.icon /> {{/if}}`), so `.option-icon` renders (empty) for
+  every action, including ones with no `icon` set. Harmless (an empty
+  flex item has zero width, doesn't affect layout) but worth knowing before
+  writing a "no icon → no `.option-icon` element" test against this
+  component - assert emptiness (`.hasText('')`), not absence.
+- **`New chat` tooltip side.** `chat-history-toolbar.gts` hardcoded
+  `@align='bottom'` on the `Tooltip` wrapping the button - upstream's real
+  `history-toolbar.ts` uses `<cds-icon-button align="top-right">`. Changed
+  to `@align='top-right'` (`Tooltip`'s own default is already `'top'`, so
+  this was a deliberate but wrong override, not a missing default).
+- **Dropdown-trigger tooltip missing its black background** - the
+  "Options" tooltip on the overflow-menu kebab trigger uses `-private/
+  tooltip.gts` (an `ember-primitives` `Popover` + an `astroturf` CSS
+  module, `background: var(--cds-background-inverse, #393939)`). Real,
+  generalizable, previously-undiscovered bug in `docs-app/app/docs-support/
+  theme-support.gts`: **`?inline` on a `.module.scss` import does not
+  return the compiled CSS text the way it does for a plain `.scss` file -
+  Vite always treats a `.module.` id as a CSS Modules request regardless of
+  query string, so `.default` is the hashed classname map (`{ tooltip:
+  '_tooltip_rjx3s_1', ... }`), not CSS text.** `theme-support.gts` already
+  had FIVE other `.module.scss?inline` imports (`icon_CarbonIcon`,
+  `button_CarbonButton`, `pagination_CarbonPagination`, `-sidenavSidenav`,
+  `list_ListComponent`) making the exact same mistake, interpolating
+  `{{xStyle.default}}` straight into the injected `<style>` tag - confirmed
+  via a real browser that ALL FIVE have silently rendered the literal text
+  `[object Object]` into every shadow-wrapped demo this whole time, not
+  just this new one (pre-existing, unfixed here - filed as a follow-up
+  todo, since properly fixing it means hand-porting five real stylesheets'
+  worth of rules, more risk/scope than a targeted tooltip fix). **A second,
+  sharper trap this uncovered:** six consecutive occurrences of the bare
+  text `[object Object]` (no `{`/`}` between them) parse as ONE long
+  invalid selector prelude - per the CSS "consume a list of rules"
+  algorithm, an invalid prelude's declaration block is discarded once its
+  closing `}` is reached, so if you naively append a *new, valid* rule
+  right after the five broken ones, the parser glues your rule's own
+  opening `{` onto the end of that giant broken prelude and silently drops
+  your rule too (confirmed empirically: `el.matches('._tooltip_rjx3s_1')`
+  found nothing in `shadowRoot.styleSheets` until the new rule was moved
+  earlier in the `<style>` block, ahead of the five broken imports).
+  Fixed the tooltip specifically (not the five pre-existing ones) by
+  writing its rule by hand in `theme-support.gts`, targeting the real
+  classname via `.{{privateTooltipStyle.default.tooltip}}` /
+  `.{{privateTooltipStyle.default.arrow}}` (the classname MAP is real and
+  usable, only the raw-text export is broken) - and positioning that block
+  *before* the five broken interpolations so it can't be swallowed by
+  them. **Any future "inline this component's astroturf CSS into
+  `theme-support.gts` for shadow-DOM demo verification" task should expect
+  the same `.module.scss?inline` trap and use this classname-property
+  pattern, not a bare `{{xStyle.default}}` interpolation** - and should
+  place new valid rules ahead of (not after) the existing five broken
+  imports in the `<style>` block, for the same parser-swallowing reason.
+
+Verified all three with a real `DOCS_URL=versions/main pnpm build` served
+locally + Playwright: `getComputedStyle` on the newly-split `.option-icon`
+confirmed it sits flush right within the button (`iconRight` ≈ `btnRight`
+minus padding, `contentRight` far to its left); the New-chat tooltip's
+rendered popover carries `cds--popover--top-right`; the Options tooltip's
+`._tooltip_rjx3s_1` element resolved `background-color: rgb(57, 57, 57)`
+(`#393939`) post-fix vs. `rgb(255, 255, 255)` pre-fix. Full `test-app`
+suite green (1032/1032, one new regression test added covering the icon-
+sibling structure). Filed a follow-up todo for the pre-existing broken
+icon/button/pagination/ui-shell/list `.module.scss?inline` imports.
+
 ### Orchestration layer — `carbon.ai-chat-session` service + `SessionShell` (2026-09-14)
 
 Ember-native equivalent of `@carbon/ai-chat`'s React app

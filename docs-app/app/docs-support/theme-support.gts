@@ -6,6 +6,7 @@ import * as buttonStyle from 'carbon-components-ember/components/button_CarbonBu
 import * as listStyle from 'carbon-components-ember/components/list_ListComponent.module.scss?inline';
 import * as paginationStyle from 'carbon-components-ember/components/pagination_CarbonPagination.module.scss?inline';
 import * as uiShellStyle from 'carbon-components-ember/components/ui-shell/-sidenavSidenav.module.scss?inline';
+import * as privateTooltipStyle from 'carbon-components-ember/components/-private/tooltip_Tooltip.module.scss?inline';
 import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import * as carbonChartsStyle from '@carbon/charts/styles.css?inline';
 
@@ -64,6 +65,39 @@ export default class ThemeSwitcher extends GlimmerComponent {
         {{this.carbonTheme}}
         {{carbonChartsStyle.default}}
         {{carbonCompoenntStyle.default}}
+        {{! `?inline` on a `.module.scss` import doesn't do what it does for a
+          plain `.scss` file: Vite always treats a `.module.` id as a CSS
+          Modules request, so `.default` on each of the five imports below
+          is the hashed classname map (`{ tooltip: '_tooltip_rjx3s_1', ... }`),
+          not the compiled CSS text - interpolating it directly renders the
+          literal string "[object Object]" and injects no real styling. This
+          is a pre-existing, still-unfixed gap (filed as a follow-up). Write
+          this component's own rule by hand instead, against the real
+          (build-stable, content-hashed) classname property rather than the
+          broken text export - and place it *before* the five broken
+          interpolations below: with no selector-terminating "{" between
+          them, six repetitions of the bare text "[object Object]" parse as
+          one long invalid selector prelude that swallows (and silently
+          drops) the next real rule's declaration block too, so anything
+          appended after them here would be lost the same way. }}
+        .{{privateTooltipStyle.default.tooltip}} {
+          background: var(--cds-background-inverse, #393939);
+          color: var(--cds-text-inverse, #fff);
+          padding: 0.1875rem 0.5rem;
+          font-size: 0.75rem;
+          line-height: 1rem;
+          max-width: 18rem;
+          overflow-wrap: break-word;
+          border-radius: 0;
+          margin: 0.4375rem;
+        }
+        .{{privateTooltipStyle.default.arrow}} {
+          position: absolute;
+          width: 0.5rem;
+          height: 0.5rem;
+          background: var(--cds-background-inverse, #393939);
+          transform: rotate(45deg);
+        }
         {{iconStyle.default}}
         {{buttonStyle.default}}
         {{paginationStyle.default}}
