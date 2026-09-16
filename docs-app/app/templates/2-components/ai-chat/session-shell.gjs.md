@@ -20,14 +20,25 @@ service's `'send'` event and calls `receive()`/`appendChunk()`/
 that appears while streaming (wired to `cancelStreaming()`) actually breaks
 the host's own reply loop, not just the service's internal bookkeeping.
 
+The demo also calls `enablePersistence()`, so the conversation survives a
+real page reload (try sending a message, then reloading this page), and
+passes `@historyItems`/`@onHistoryItemSelect`/`@onHistoryItemRename`/
+`@onHistoryItemDelete` to show the built-in `<:history>` panel — the item
+list itself is host-owned demo data here (this service tracks one live
+conversation, not a list of past ones; see AGENTS.md), not something
+persistence restores on its own.
+
 ```gjs live preview
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 import { registerDestructor } from '@ember/destroyable';
 import { service } from '@ember/service';
 import { SessionShell } from 'carbon-components-ember/components';
 import { ThemeSupport } from 'docs-support';
 
 const REPLY = 'This is a simulated streamed reply from the host application.';
+const STORAGE_KEY = 'docs-session-shell-demo';
 
 class SessionShellDemo extends Component {
   @service('carbon.ai-chat-session') sessions;
@@ -38,14 +49,23 @@ class SessionShellDemo extends Component {
     return this.sessions.default;
   }
 
+  @tracked historyItems = [
+    { id: 'trip', name: 'Trip planning' },
+    { id: 'recipe', name: 'Recipe ideas' },
+  ];
+  @tracked selectedHistoryItemId = null;
+
   constructor(owner, args) {
     super(owner, args);
-    // The service is an app-wide singleton, so a remount must reset it
-    // before reseeding, and must unregister its own listener on teardown -
-    // on()/off() are manual by design (matching upstream's instance.on/off),
-    // so any consumer registering a handler owns cleaning it up.
-    this.session.restart();
-    this.session.receive('Hello! How can I help?');
+    // Restores a previously-persisted conversation (survives a real page
+    // reload, unlike a plain in-memory SPA route remount) - only seed the
+    // welcome message when there was nothing to restore. on()/off() are
+    // manual by design (matching upstream's instance.on/off), so any
+    // consumer registering a handler owns cleaning it up on teardown.
+    const restored = this.session.enablePersistence(window.sessionStorage, STORAGE_KEY);
+    if (!restored) {
+      this.session.receive('Hello! How can I help?');
+    }
     this.session.on('send', this.reply);
     registerDestructor(this, () => this.session.off('send', this.reply));
   }
@@ -64,10 +84,33 @@ class SessionShellDemo extends Component {
     this.session.finalizeStreaming(message.id);
   };
 
+  @action
+  selectHistoryItem(id) {
+    this.selectedHistoryItemId = id;
+  }
+
+  @action
+  renameHistoryItem(id, name) {
+    this.historyItems = this.historyItems.map((item) => (item.id === id ? { ...item, name } : item));
+  }
+
+  @action
+  deleteHistoryItem(id) {
+    this.historyItems = this.historyItems.filter((item) => item.id !== id);
+  }
+
   <template>
     <ThemeSupport />
     <div style='block-size: 32rem; max-inline-size: 400px; position: relative;'>
-      <SessionShell @closedLabel='Open chat' @messagesAriaLabel='Chat messages' />
+      <SessionShell
+        @closedLabel='Open chat'
+        @messagesAriaLabel='Chat messages'
+        @historyItems={{this.historyItems}}
+        @selectedHistoryItemId={{this.selectedHistoryItemId}}
+        @onHistoryItemSelect={{this.selectHistoryItem}}
+        @onHistoryItemRename={{this.renameHistoryItem}}
+        @onHistoryItemDelete={{this.deleteHistoryItem}}
+      />
     </div>
   </template>
 }
@@ -127,10 +170,17 @@ class MultiInstanceDemo extends Component {
   context → a service, or the parent component instance yielded down to
   children" convention rather than threading the service through every
   descendant.
-- **`<:history>`/`<:workspace>` are yielded outward**, left for the caller to
-  fill in (e.g. the `ai-chat/chat-history` family) rather than this
-  component owning that content directly. A filler that needs the same
+- **`<:workspace>` is yielded outward**, left entirely for the caller to fill
+  in — that panel has no built-in assembly. A filler that needs the same
   session this shell drives resolves it with the same `@instanceId`.
+- **`<:history>` has a built-in default**: passing `@historyItems` (plus the
+  optional `@selectedHistoryItemId`/`@onHistoryItem*` callbacks) renders a
+  real `ai-chat/chat-history` assembly with no extra wiring; passing a
+  `<:history>` block instead overrides it completely. The item *list* is
+  always host-owned (matching upstream's own `customLoadHistory` boundary —
+  this service tracks one live conversation, not a list of past ones); only
+  the panel's open/close chrome and "new chat" action are session-owned. See
+  AGENTS.md's "Persistence and the `chat-history` integration" section.
 - **Cancellation.** `cancelStreaming()` aborts the response's
   `AbortSignal` (`getAbortSignal()`), marks the message no longer
   streaming/`cancelled`, and permanently drops any further `appendChunk()`
@@ -141,12 +191,17 @@ class MultiInstanceDemo extends Component {
 - **`@instanceId` resolves which `ChatSession` this shell drives** (see
   "Multiple independent instances" above) — the Ember equivalent of
   upstream's `NamespaceService`. Omit it for a single-widget page.
+- **`enablePersistence()`** opts a session into storage-backed rehydration
+  (`window.sessionStorage` by default, matching upstream's own
+  `UserSessionStorageService` choice — see AGENTS.md for why not
+  `localStorage`). Off by default; call it once (e.g. from a host
+  component's constructor, as the demo above does) to turn it on.
 - **Scope cuts**, documented in full in AGENTS.md's "Porting Carbon AI Chat"
-  → "Orchestration layer" section: human-agent handoff, persistence/
-  rehydration, custom panels, and most of upstream's ~50 Redux action types
-  are not ported in this first pass — only message send/receive, streaming
-  chunk append + cancellation, panel open state, multi-instance isolation,
-  and a minimal `on()`/`off()`/`emit()` event bus.
+  → "Orchestration layer" section: human-agent handoff, custom panels, and
+  most of upstream's ~50 Redux action types are not ported in this first
+  pass — only message send/receive, streaming chunk append + cancellation,
+  panel open state, multi-instance isolation, persistence, and a minimal
+  `on()`/`off()`/`emit()` event bus.
 
 ## API Reference
 
