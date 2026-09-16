@@ -2438,6 +2438,209 @@ Playwright pass on the new docs demo (a host-side `'send'` listener
 simulating a streamed reply end-to-end, full `test-app` suite 973/973 modulo
 the pre-existing Grid snapshot env-flake).
 
+### `AudioPlayer` + `VideoPlayer` — shared media provider infra, split out of batch 3
+
+Ported `@carbon/ai-chat-components`' `audio-player` and `video-player`
+together (not separately, and not as part of batch 3) because both share
+`shared/media-utils/script-loader.ts` (`ScriptLoader`, ported verbatim as
+`ai-chat/-media/script-loader.ts`) - a tiny utility that lazily injects a
+third-party SDK `<script>` tag at runtime and caches the load promise so
+repeated calls don't re-inject. None of the SDKs it loads (YouTube IFrame
+API, Vimeo Player API, SoundCloud Widget API, embed.ly's player.js for
+Kaltura) are npm dependencies, so porting all of them was in scope - this
+is business logic, not a new-dependency review like flatpickr/Tiptap/
+markdown-it were.
+
+**Full provider scope, not a native-only cut.** `AudioPlayer` supports
+native `<audio>` + SoundCloud; `VideoPlayer` supports native `<video>` +
+YouTube + Vimeo + Kaltura. `AudioSource`/`VideoSource` detection
+(`-audio-player/url-detector.ts`, `-video-player/url-detector.ts`, ported
+verbatim minus upstream's unused `isXUrl` convenience wrappers) and each
+component's own `BaseProvider` abstract class (deliberately duplicated
+per-component, not unified, matching upstream's own duplication - audio's
+`ProviderConfig` has no `subtitleTracks`, video's `getStateLabel` is a
+lookup object where audio's is a `switch`) are both ported verbatim. An
+unrecognized URL still surfaces `@errorMessage`/`@onError` through the
+normal error path (`createProvider` returning `null` triggers
+`handleError()`) - never a silent no-op, same principle already
+established for `PromptLine`'s `@rich` before it had a real implementation.
+
+**`init`/`destroy` renamed to `initialize`/`teardown` across the whole
+provider hierarchy** (`BaseProvider` and every subclass, plus the two
+`.gts` components' own call sites) - a real, mechanical divergence from
+upstream's method names, not stylistic preference. `eslint-plugin-ember`'s
+`classic-decorator-hooks` rule fires on any class method literally named
+`init`/`destroy` regardless of whether the class extends `EmberObject` -
+these are plain TS classes with zero Ember Object lineage, but the rule
+can't tell that statically and the repo's lint gate requires 0 errors.
+Worth checking for this same collision before naming a method `init`/
+`destroy` on any *other* plain (non-Ember-Object) class ported into this
+addon in the future.
+
+**`shared/dynamic-css-var-sheet.ts` deliberately NOT ported**, even though
+`VideoPlayer` needs its one consumer (`--video-player-aspect-ratio`).
+Upstream's ~200-line constructable-stylesheet mechanism (`adoptOnRoot`/
+`setVarsForSelector`/`clearSelector`, with a documented WebKit-segfault
+workaround for mid-teardown stylesheet mutation) exists solely because
+Lit's `render()` can't bind a dynamic value directly into a CSS
+declaration, and because `el.style.setProperty` is blocked by a strict
+CSP's `style-src-attr` (only `style-src`, which a trusted stylesheet
+mutation satisfies without `unsafe-inline`, is exempt). Glimmer has
+neither limitation - `video-player.gts`'s `containerStyle` getter binds a
+sanitized, computed percentage straight into `style={{this.containerStyle}}`
+on `.cds-aichat-video-player__container` (same `htmlSafe`-wrapped-getter
+pattern `ProgressBar`/`CodeSnippet`/`Slider` already use elsewhere in this
+addon), with the SCSS partial no longer needing any `var(--video-player-
+aspect-ratio, ...)` indirection at all. `aspectRatioPercentage` (the
+getter, not the arg) clamps to a finite positive number or the `56.25`
+default - the one place in this port where consumer input flows into a
+`style` attribute, so it's sanitized rather than interpolated raw.
+
+**`@subtitleTracks` (WebVTT captions) is real, not a no-op arg** - ported
+straight through to `NativeVideoProvider`, which appends a `<track>`
+element per entry (matching upstream exactly); iframe-based embed
+providers ignore it, also matching upstream (`ProviderConfig.subtitleTracks`
+is documented there as "not used by iframe providers").
+
+**Upstream's sibling `cds-aichat-transcript` element intentionally not
+ported.** It's a separate, independently-invoked widget (its own
+`cds-aichat-transcript` custom element with its own toggle event) that
+`audio-player.ts` never imports or renders - porting `AudioPlayer`
+faithfully doesn't require it. Left for a future todo if ever needed.
+
+**Upstream's `rounded-modifiers` SCSS mixins (`data-rounded`/`data-stacked`
+host attributes) skipped for both components** - same scope cut already
+established for `ChatShell`'s `ResizeObserverManager`: they're driven by a
+message-list orchestration layer (rounding/stacking adjacent chat bubbles)
+that this addon hasn't ported, and would be dead weight without it.
+
+**Two real bugs, both around `ember-modifier` reruns not meaning what
+they're assumed to mean - the second is genuinely serious (a repeated
+destroy/reload of the whole player), the first looked like the same class
+of bug but was a red herring.**
+
+First pass: `syncPlaying`'s modifier read `this.isReady` (a real
+`@tracked` field, needed for template class bindings) inside its install
+function - a tracked read inside a modifier body auto-entangles as a
+dependency, so the modifier reran the instant `isReady` flipped true, not
+only when `@playing` changed. Caught when a Kaltura test's fake player
+(with no `pause()` method, since the test never expected it to be called)
+threw `this.player.pause is not a function` right on becoming ready.
+"Fixed" by adding a plain (non-`@tracked`) `providerReady` shadow field
+for the modifier to read instead of `isReady`.
+
+That fix was necessary but **not sufficient** - a dedicated `@playing`
+toggle test still failed afterward (`pauseCalls` came back `2`, not `1`,
+for one explicit toggle). Root-caused with a `HTMLMediaElement.prototype
+.pause` spy that captured a full stack trace per call: **both** `pause()`
+calls traced back to `NativeAudioProvider.teardown()`, called from
+`AudioPlayer.teardownProvider()`, called from the modifier framework's own
+`updateModifier` - i.e. `attachProvider` (the `@source`-loading modifier,
+untouched by the first fix) was tearing down and reloading the entire
+provider on **every unrelated rerender**, including ones caused only by
+toggling `@playing`. `attachProvider`'s install function reads nothing
+tracked directly, but `ember-modifier` still reran its install/cleanup
+pair on any commit that touched the element's render node - triggered
+here by `loadAudio`'s own tracked writes (`isLoading`/`isReady`/
+`statusMessage`) feeding back into a render the modifier gets
+re-evaluated against. This is a real, generalizable finding, not specific
+to this component: **a function-based `ember-modifier`'s re-invocation is
+not proof that its own declared positional/named arg actually changed** -
+confirmed empirically here, contradicting a literal reading of
+`ember-modifier`'s own README ("the modifier will update if any of those
+values change"). Something in this addon's exact stack (Embroider/Glimmer
+VM version, or another modifier update on the same element notifying a
+shared render node) causes an update call even when the modifier's own
+tracked footprint hasn't moved - the exact mechanism wasn't pinned down,
+but the observable behavior was confirmed directly via three independent
+stack-trace/ordinal-log captures across two components, not assumed.
+
+Fixed with the same shape of fix in both places, made explicit rather
+than relying on modifier reinvocation semantics: a plain `lastLoadedSource`
+field, diffed by `attachProvider` before deciding to tear down and reload
+(`if (source === this.lastLoadedSource) return;`), and a plain
+`lastSyncedPlaying` field, diffed by `syncPlaying` before calling `play()`/
+`pause()`. This is also a *more faithful* port than the original
+arg-identity-trusting version - upstream's Lit `updated(changedProperties)`
+hook is itself exactly this kind of explicit before/after diff
+(`changedProperties.has('playing')`), not "this callback fired, so
+something must have changed."
+
+**Worth checking any other `eModifier` in this codebase whose install
+function has a real side effect gated only on "did my declared arg
+change" (not read from inside the function body) for this same class of
+bug** - a modifier that's idempotent no matter how often it reruns (e.g.
+`Feedback`'s `watchInitialValues`, `DatePicker`'s `syncValue`) is safe
+either way; one with a *destructive* side effect per invocation (tearing
+down and rebuilding a third-party widget, as here) is not, and the bug is
+invisible in casual testing since the reruns are silent unless something
+downstream (a strict test double, a flicker in real playback) makes them
+observable. Both AudioPlayer regression tests for this
+(`an unrelated rerender ... does not tear down and reload the same-source
+provider`) assert DOM node *identity* survives an unrelated `@playing`
+toggle and that `@onReady` doesn't fire a second time - a plain
+"does it still work" test would not have caught either bug.
+
+**Test fixtures:** self-hosted a tiny real audio/video/caption asset
+(`test-app/public/test-fixtures/tiny.mp4`,
+`docs-app/public/demo-support/{sample-audio.mp3,sample-video.mp4,
+sample-captions.vtt}`, all generated locally with `ffmpeg` - a few KB
+each) rather than depending on an external network resource for the
+*native*-provider tests/demos - avoids both flakiness and the CORS
+question entirely (same-origin assets need no `Access-Control-Allow-Origin`
+header to satisfy `crossOrigin='anonymous'`, which both native providers
+set unconditionally, faithfully matching upstream). A native `<audio>`
+element also accepts a `data:audio/wav;base64,...` URI directly (upstream's
+own `MATCH_DATA_AUDIO_URI` pattern) - used in `audio-player-test.gts`
+instead of a fixture file, since it needs no server at all. Native
+*video* detection has no equivalent data-URI pattern upstream, so its
+tests/demos use the fixture file. SDK-backed providers (SoundCloud/
+YouTube/Vimeo/Kaltura) are tested by pre-setting the relevant
+`window.SC`/`window.YT`/`window.Vimeo`/`window.playerjs` global with a
+small fake player *before* mounting - each provider's own `loadXxxAPI()`
+early-returns the instant it sees the global already populated, so this
+skips `ScriptLoader`'s real network fetch entirely with zero source
+changes needed. `ScriptLoader.clearCache()` (already public upstream) is
+called in every such test's `afterEach` - its module-level cache is a
+process-lifetime singleton, so a later test that expects a cold load would
+otherwise silently inherit an earlier test's resolved promise (same class
+of gotcha as `rich-loader.ts`'s warm-cache issue from the `PromptLine`
+preload work).
+
+**Docs demo gotcha: a hardcoded root-relative `public/` asset path (e.g.
+`@source='/demo-support/sample-video.mp4'`) breaks under `DOCS_URL=
+versions/main`**, real and confirmed by the local verification pass, not
+theoretical. Vite's `base` config (`docs-app/vite.config.mjs`) rewrites
+asset URLs it can see at build time (`index.html`'s own `<link>`/`<script>`
+tags, e.g. the favicon), but a plain string literal inside a component arg
+is invisible to that rewriting - it stays a literal `/demo-support/...`
+request, which 404s once the real site (or this local verification setup)
+is mounted under a subpath rather than at the domain root. Fixed by
+computing the path from Vite's client-exposed `import.meta.env.BASE_URL`
+inside the fence's own top-level JS (` `${import.meta.env.BASE_URL}demo-
+support/sample-video.mp4` `) instead of a literal string - confirmed
+working via the actual `DOCS_URL=versions/main` build + a local server
+mounted at the real `/carbon-components-ember/versions/main/` subpath (a
+plain root-mounted local server would never have caught this). **Any
+future docs demo referencing a `public/` asset by a literal path needs
+this same treatment**, not just AudioPlayer/VideoPlayer's.
+
+**Real-world third-party demo content needs its own liveness check, not
+just "does the URL parse."** The first SoundCloud/Vimeo IDs picked for
+these docs demos both looked fine (valid URL shape, matched the
+provider's detection regex) but failed for reasons only discoverable by
+actually hitting the network: the original Vimeo ID's oEmbed endpoint
+404'd (video removed/never existed), and a second, oEmbed-visible ID
+still 401'd on the real `player.vimeo.com/video/<id>` embed endpoint
+(Vimeo's own embed-privacy setting, independent of oEmbed visibility).
+Confirmed real HTTP status codes with `curl` (`vimeo.com/api/oembed.json`
+for existence, `player.vimeo.com/video/<id>` for embeddability) before
+landing on `vimeo.com/22439234` and `soundcloud.com/forss/flickermood` -
+both long-standing, well-known public tracks unlikely to be pulled.
+Worth the same two-step check (existence + actual embeddability, not
+just existence) for any future docs demo embedding third-party media by
+ID.
+
 ## Key Resources
 
 - **Carbon React**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components
