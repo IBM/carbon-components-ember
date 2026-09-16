@@ -55,5 +55,20 @@ module('Integration | Component | List', (hooks) => {
     assert
       .dom('.cds--structured-list .cds--pagination')
       .exists('Pagination renders inside the structured list section');
+
+    const search = document.querySelector('.cds--search') as HTMLElement;
+    const pagination = document.querySelector(
+      '.cds--pagination',
+    ) as HTMLElement;
+    assert.strictEqual(
+      getComputedStyle(search).display,
+      'table-caption',
+      "list.gts's :global()-wrapped astroturf rule sets .cds--search to display: table-caption",
+    );
+    assert.strictEqual(
+      getComputedStyle(pagination).position,
+      'absolute',
+      "list.gts's :global()-wrapped astroturf rule sets .cds--pagination to position: absolute",
+    );
   });
 });
