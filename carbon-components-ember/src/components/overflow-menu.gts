@@ -16,6 +16,16 @@ export interface OverflowMenuComponentSignature {
     disabled?: boolean;
     danger?: boolean;
     eventType?: 'click' | 'mousedown';
+    /**
+     * Passed straight through to the underlying `BasicDropdown` (whose own
+     * declared type isn't cleanly importable - its published `.d.ts`
+     * re-exports it from a sibling module via a broken `.ts`-extension
+     * specifier). Defaults to `'auto'` (its own default) - only needed when
+     * the trigger sits near the right edge of a container narrower than
+     * the viewport, where `'auto'` would otherwise pick `'left'` (fits the
+     * viewport) and let the menu overflow that container instead.
+     */
+    horizontalPosition?: 'auto' | 'auto-right' | 'right' | 'center' | 'left';
   };
   Blocks: {
     default: [
@@ -30,7 +40,7 @@ export default class OverflowMenuComponent extends Component<OverflowMenuCompone
   }
 
   <template>
-    <BasicDropdown as |dd|>
+    <BasicDropdown @horizontalPosition={{@horizontalPosition}} as |dd|>
       {{#if @tooltip}}
         <Tooltip>
           <:trigger as |reference|>

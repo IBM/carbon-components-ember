@@ -127,6 +127,36 @@ module('Integration | Component | ai-chat/ChatHistoryPanelItem', (hooks) => {
     assert.deepEqual(calls, [{ action: 'Delete', itemId: 'chat-1', itemName: 'My chat' }]);
   });
 
+  test('the overflow menu requests right-alignment, so it opens toward the panel interior instead of growing past its right edge', async function (assert) {
+    // The trigger sits flush against the right edge of a history panel
+    // that's usually much narrower than the browser viewport - `Overflow
+    // Menu`'s underlying `ember-basic-dropdown` `horizontalPosition='auto'`
+    // default would pick `'left'` (the menu already fits the *viewport*
+    // from there), letting it grow rightward out of the panel. `Chat
+    // HistoryPanelItem` passes `@horizontalPosition='right'` so the menu
+    // opens toward the panel's interior (leftward from the trigger)
+    // instead. Asserted via the resulting `ember-basic-dropdown-content--
+    // right` state class rather than measured pixel positions - the actual
+    // pixel math is `ember-basic-dropdown`'s own well-tested concern, and
+    // is sensitive to the QUnit test harness's own container/coordinate
+    // setup in a way unrelated to this component.
+    await render(
+      <template>
+        <ChatHistoryPanelItem
+          @id='chat-1'
+          @name='My chat'
+          @actions={{array (hash text='Rename') (hash text='Delete' delete=true)}}
+        />
+      </template>,
+    );
+
+    await click('.cds--overflow-menu');
+
+    assert
+      .dom(document.querySelector('.cds--overflow-menu-options')!.closest('.ember-basic-dropdown-content'))
+      .hasClass('ember-basic-dropdown-content--right');
+  });
+
   test('the overflow menu is hidden by default and shown via @showActions', async function (assert) {
     await render(<template><ChatHistoryPanelItem @name='My chat' /></template>);
     assert
