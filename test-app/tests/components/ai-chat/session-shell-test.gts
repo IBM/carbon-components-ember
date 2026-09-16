@@ -11,8 +11,16 @@ import type ChatSessionService from 'carbon-components-ember/services/ai-chat-se
 module('Integration | Component | ai-chat/SessionShell', (hooks) => {
   setupRenderingTest(hooks);
 
-  function session(context: { owner: { lookup: (name: string) => unknown } }) {
+  function registry(context: { owner: { lookup: (name: string) => unknown } }) {
     return context.owner.lookup('service:carbon.ai-chat-session') as ChatSessionService;
+  }
+
+  // Every pre-existing test below drives a single, unnamed <SessionShell />
+  // (no @instanceId), which resolves the same default session as before
+  // multi-instance isolation - see the "multi-instance isolation" tests
+  // further down for @instanceId-scoped behavior itself.
+  function session(context: { owner: { lookup: (name: string) => unknown } }) {
+    return registry(context).default;
   }
 
   test('renders the Launcher while closed, and ChatShell once opened', async function (assert) {
@@ -173,7 +181,11 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
     let replyCount = 0;
 
     class Host extends Component {
-      @service('carbon.ai-chat-session') declare session: ChatSessionService;
+      @service('carbon.ai-chat-session') declare sessions: ChatSessionService;
+
+      get session() {
+        return this.sessions.default;
+      }
 
       constructor(owner: Owner, args: object) {
         super(owner, args);
@@ -209,5 +221,56 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
       2,
       'listener still fires exactly once per send after a remount - not twice from a leaked first-mount listener',
     );
+  });
+
+  test('two SessionShells with different @instanceId drive fully isolated conversations', async function (assert) {
+    const support = registry(this).for('support');
+    const sales = registry(this).for('sales');
+    support.open = true;
+    sales.open = true;
+
+    await render(
+      <template>
+        <div data-test-widget='support'>
+          <SessionShell @instanceId='support' />
+        </div>
+        <div data-test-widget='sales'>
+          <SessionShell @instanceId='sales' />
+        </div>
+      </template>,
+    );
+
+    await fillIn(
+      '[data-test-widget="support"] .cds-aichat-prompt-line__field',
+      'support question',
+    );
+    await triggerKeyEvent(
+      '[data-test-widget="support"] .cds-aichat-prompt-line__field',
+      'keydown',
+      'Enter',
+    );
+
+    assert
+      .dom('[data-test-widget="support"] .cds-aichat-session-shell__message--user')
+      .hasText('support question');
+    assert
+      .dom('[data-test-widget="sales"] .cds-aichat-session-shell__message--user')
+      .doesNotExist('sending in the support widget left the sales widget untouched');
+    assert.strictEqual(support.messages.length, 1);
+    assert.strictEqual(sales.messages.length, 0);
+  });
+
+  test('omitting @instanceId resolves the same default session as the registry\'s .default', async function (assert) {
+    const svc = registry(this).default;
+    svc.open = true;
+    await render(<template><SessionShell /></template>);
+
+    assert.dom('.cds-aichat-shell').exists();
+
+    await fillIn('.cds-aichat-prompt-line__field', 'no instance id');
+    await triggerKeyEvent('.cds-aichat-prompt-line__field', 'keydown', 'Enter');
+
+    assert.strictEqual(svc.messages.length, 1);
+    assert.strictEqual(svc.messages[0]?.text, 'no instance id');
   });
 });

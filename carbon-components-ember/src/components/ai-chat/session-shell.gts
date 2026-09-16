@@ -17,6 +17,7 @@ import PromptLineShell from './prompt-line-shell.gts';
 import Send from '../icons/send.ts';
 import Close from '../icons/close.ts';
 import type ChatSessionService from '../../services/ai-chat-session.ts';
+import type { ChatSession } from '../../services/ai-chat-session.ts';
 
 export interface SessionShellSignature {
   Element: HTMLDivElement;
@@ -27,6 +28,14 @@ export interface SessionShellSignature {
     closedLabel?: string;
     /** Aria label for the messages region. */
     messagesAriaLabel?: string;
+    /**
+     * Resolves which `ChatSession` this shell drives, via
+     * `@service('carbon.ai-chat-session').for(instanceId)` - for isolating
+     * several independent chat widgets on one page. Omit it for a
+     * single-widget page (resolves to the default session, matching this
+     * component's pre-multi-instance behavior).
+     */
+    instanceId?: string;
   };
   Blocks: {
     /** Shell header content, shown only while open. */
@@ -34,9 +43,11 @@ export interface SessionShellSignature {
     /**
      * History panel content. Left entirely to the caller (e.g. the
      * `ai-chat/chat-history` family, PR #870) - this component only owns
-     * `@service('carbon.ai-chat-session').showHistory`/`toggleHistory`,
-     * the same "inject the service, pass args down, don't prop-drill"
-     * boundary `ChatShell` itself already draws for every other slot.
+     * `@service('carbon.ai-chat-session').for(@instanceId).showHistory`/
+     * `toggleHistory`, the same "inject the service, pass args down, don't
+     * prop-drill" boundary `ChatShell` itself already draws for every other
+     * slot. A filler that needs the same session this shell drives must
+     * resolve it with the same `@instanceId` this shell was given.
      */
     history: [];
     /** Workspace panel content. See `<:history>`. */
@@ -63,11 +74,20 @@ export interface SessionShellSignature {
  * (e.g. a close button) injects the service itself, same as any other
  * consumer would.
  *
+ * `carbon.ai-chat-session` is a registry keyed by an id (see
+ * `ChatSessionService#for()`), not a single flat bag of state - this
+ * component resolves its own `ChatSession` from `@instanceId` so several
+ * `SessionShell`s on one page can drive fully independent conversations.
+ *
  * See AGENTS.md's "Porting Carbon AI Chat" -> "Orchestration layer" section
  * for the full React -> Ember mapping and the scope this first pass cuts.
  */
 export default class SessionShell extends Component<SessionShellSignature> {
-  @service('carbon.ai-chat-session') declare session: ChatSessionService;
+  @service('carbon.ai-chat-session') declare sessions: ChatSessionService;
+
+  get session(): ChatSession {
+    return this.sessions.for(this.args.instanceId);
+  }
 
   sendMessage = (): void => {
     this.session.send();

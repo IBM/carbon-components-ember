@@ -30,7 +30,13 @@ import { ThemeSupport } from 'docs-support';
 const REPLY = 'This is a simulated streamed reply from the host application.';
 
 class SessionShellDemo extends Component {
-  @service('carbon.ai-chat-session') session;
+  @service('carbon.ai-chat-session') sessions;
+
+  // No @instanceId is passed to <SessionShell /> below, so it resolves the
+  // registry's default session - the same one .default resolves here.
+  get session() {
+    return this.sessions.default;
+  }
 
   constructor(owner, args) {
     super(owner, args);
@@ -69,6 +75,50 @@ class SessionShellDemo extends Component {
 <template><SessionShellDemo /></template>
 ```
 
+## Multiple independent instances
+
+`@service('carbon.ai-chat-session')` is a registry keyed by id (see
+`ChatSessionService#for()`), not a single flat bag of state — passing a
+distinct `@instanceId` to each `SessionShell` isolates its messages, draft,
+panel state, and event-bus listeners from every other instance on the page.
+The demo below renders two independently-open, independently-driven shells
+side by side; sending in one never touches the other.
+
+```gjs live preview
+import Component from '@glimmer/component';
+import { service } from '@ember/service';
+import { SessionShell } from 'carbon-components-ember/components';
+import { ThemeSupport } from 'docs-support';
+
+class MultiInstanceDemo extends Component {
+  @service('carbon.ai-chat-session') sessions;
+
+  constructor(owner, args) {
+    super(owner, args);
+    // Each id resolves its own ChatSession - restart() only clears the
+    // instance it's called on, so these two seed independently.
+    this.sessions.for('support').restart();
+    this.sessions.for('support').receive("Hi, I'm the support widget.");
+    this.sessions.for('sales').restart();
+    this.sessions.for('sales').receive("Hi, I'm the sales widget.");
+  }
+
+  <template>
+    <ThemeSupport />
+    <div style='display: flex; gap: 1rem;'>
+      <div style='block-size: 24rem; inline-size: 320px; position: relative;'>
+        <SessionShell @instanceId='support' @closedLabel='Open support chat' />
+      </div>
+      <div style='block-size: 24rem; inline-size: 320px; position: relative;'>
+        <SessionShell @instanceId='sales' @closedLabel='Open sales chat' />
+      </div>
+    </div>
+  </template>
+}
+
+<template><MultiInstanceDemo /></template>
+```
+
 ## Design notes
 
 - **One injection point.** `SessionShell` is the only component in this
@@ -79,20 +129,24 @@ class SessionShellDemo extends Component {
   descendant.
 - **`<:history>`/`<:workspace>` are yielded outward**, left for the caller to
   fill in (e.g. the `ai-chat/chat-history` family) rather than this
-  component owning that content directly.
+  component owning that content directly. A filler that needs the same
+  session this shell drives resolves it with the same `@instanceId`.
 - **Cancellation.** `cancelStreaming()` aborts the response's
   `AbortSignal` (`getAbortSignal()`), marks the message no longer
   streaming/`cancelled`, and permanently drops any further `appendChunk()`
   call for that response id — a host's in-flight streaming loop can still
   be mid-`await` when cancellation happens. `response_id`/`item_id`
   aliasing (upstream's `StreamingTracker`) is deliberately not ported —
-  this service has no wire protocol with a second id to resolve.
+  this session has no wire protocol with a second id to resolve.
+- **`@instanceId` resolves which `ChatSession` this shell drives** (see
+  "Multiple independent instances" above) — the Ember equivalent of
+  upstream's `NamespaceService`. Omit it for a single-widget page.
 - **Scope cuts**, documented in full in AGENTS.md's "Porting Carbon AI Chat"
   → "Orchestration layer" section: human-agent handoff, persistence/
-  rehydration, custom panels, multi-instance namespacing, and most of
-  upstream's ~50 Redux action types are not ported in this first pass — only
-  message send/receive, streaming chunk append + cancellation, panel open
-  state, and a minimal `on()`/`off()`/`emit()` event bus.
+  rehydration, custom panels, and most of upstream's ~50 Redux action types
+  are not ported in this first pass — only message send/receive, streaming
+  chunk append + cancellation, panel open state, multi-instance isolation,
+  and a minimal `on()`/`off()`/`emit()` event bus.
 
 ## API Reference
 

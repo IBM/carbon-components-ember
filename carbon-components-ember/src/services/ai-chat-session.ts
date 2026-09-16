@@ -31,6 +31,9 @@ export type ChatEventType =
 
 export type ChatEventHandler<T = unknown> = (detail: T) => void;
 
+/** The id `ChatSessionService#for()` resolves to when no id is given. */
+export const DEFAULT_CHAT_SESSION_ID = 'default';
+
 let nextMessageId = 0;
 function generateMessageId(): string {
   nextMessageId += 1;
@@ -38,21 +41,31 @@ function generateMessageId(): string {
 }
 
 /**
+ * One isolated conversation's worth of state - what used to live directly
+ * on `ChatSessionService` before multi-instance isolation. Everything here
+ * (messages, draft, panel flags, the event bus) is scoped to a single `id`;
+ * two `ChatSession`s never see each other's sends, listeners, or panel
+ * state. See `ChatSessionService#for()`.
+ *
  * Ember-native orchestration layer for the `ai-chat/*` component family -
  * the equivalent of `@carbon/ai-chat`'s React app
  * (`packages/ai-chat/src/chat`: `AppShell` + `services/` + the Redux
- * `store/`). Registered under the `carbon.` namespace like this addon's
- * other services (`carbon.notifications`, `carbon.dialog-manager`) - inject
- * with `@service('carbon.ai-chat-session')`.
+ * `store/`).
  *
  * See AGENTS.md's "Porting Carbon AI Chat" -> "Orchestration layer" section
  * for the full React -> Ember mapping table and the list of upstream
  * responsibilities deliberately left out of this first pass (human-agent
- * handoff, persistence/rehydration, custom panels, multi-instance
- * namespacing, theming - docs-app's own `ThemeSupport` already owns that
- * last one here).
+ * handoff, persistence/rehydration, custom panels, theming - docs-app's own
+ * `ThemeSupport` already owns that last one here).
  */
-export default class ChatSessionService extends Service {
+export class ChatSession {
+  /** The id this instance was created for. See `ChatSessionService#for()`. */
+  readonly id: string;
+
+  constructor(id: string) {
+    this.id = id;
+  }
+
   @tracked messages: ChatMessage[] = [];
   @tracked draft = '';
   /** Mirrors upstream's `ViewState` open/closed flag (launcher vs. shell). */
@@ -83,7 +96,7 @@ export default class ChatSessionService extends Service {
   #cancelledResponses = new Set<string>();
 
   /** Equivalent of `instance.on()`. */
-  on<T = unknown>(type: ChatEventType, handler: ChatEventHandler<T>): this {
+  on = <T = unknown>(type: ChatEventType, handler: ChatEventHandler<T>): this => {
     let handlers = this.#listeners.get(type);
     if (!handlers) {
       handlers = new Set();
@@ -91,23 +104,23 @@ export default class ChatSessionService extends Service {
     }
     handlers.add(handler as ChatEventHandler<any>);
     return this;
-  }
+  };
 
   /** Equivalent of `instance.off()`. */
-  off<T = unknown>(type: ChatEventType, handler: ChatEventHandler<T>): this {
+  off = <T = unknown>(type: ChatEventType, handler: ChatEventHandler<T>): this => {
     this.#listeners.get(type)?.delete(handler as ChatEventHandler<any>);
     return this;
-  }
+  };
 
   /** Equivalent of the event bus's internal `emit`/`fire`. */
-  emit<T = unknown>(type: ChatEventType, detail?: T): void {
+  emit = <T = unknown>(type: ChatEventType, detail?: T): void => {
     // Snapshot rather than iterate the live Set directly, so a handler that
     // calls on()/off() for this same event type during dispatch (e.g. a
     // once-style self-unsubscribe) doesn't mutate the Set mid-iteration.
     for (const handler of [...(this.#listeners.get(type) ?? [])]) {
       handler(detail);
     }
-  }
+  };
 
   /** Equivalent of `instance.changeView()` toggling between launcher/shell. */
   toggleOpen = (): void => {
@@ -278,4 +291,41 @@ export default class ChatSessionService extends Service {
     this.draft = '';
     this.emit('restart');
   };
+}
+
+/**
+ * Registry of `ChatSession`s, keyed by an arbitrary string id - the Ember
+ * equivalent of upstream's `NamespaceService` (multi-instance isolation).
+ * Registered under the `carbon.` namespace like this addon's other
+ * services (`carbon.notifications`, `carbon.dialog-manager`) - inject with
+ * `@service('carbon.ai-chat-session')`.
+ *
+ * A single-widget page never needs an id: `service.default` (equivalent to
+ * `service.for()`) resolves the same session every time, matching this
+ * service's pre-multi-instance API 1:1. A page with several independent
+ * chat widgets gives each one its own id (e.g. a `SessionShell`'s
+ * `@instanceId` arg) - `service.for('support')` and `service.for('sales')`
+ * never share messages, drafts, panel state, or event-bus listeners.
+ *
+ * See AGENTS.md's "Porting Carbon AI Chat" -> "Orchestration layer" ->
+ * "Multi-instance isolation" section for why this is a registry on one
+ * singleton rather than a non-singleton factory per widget.
+ */
+export default class ChatSessionService extends Service {
+  #sessions = new Map<string, ChatSession>();
+
+  /** Get-or-create the `ChatSession` for `id` (`DEFAULT_CHAT_SESSION_ID` if omitted). */
+  for = (id: string = DEFAULT_CHAT_SESSION_ID): ChatSession => {
+    let session = this.#sessions.get(id);
+    if (!session) {
+      session = new ChatSession(id);
+      this.#sessions.set(id, session);
+    }
+    return session;
+  };
+
+  /** The single-widget-page convenience: `for(DEFAULT_CHAT_SESSION_ID)`. */
+  get default(): ChatSession {
+    return this.for();
+  }
 }
