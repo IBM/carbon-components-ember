@@ -69,3 +69,19 @@
 .cds--text-area__wrapper:not(.cds--text-area__wrapper--cols) .cds--text-area {
   inline-size: 100%;
 }
+
+// `OverflowMenuItem`'s icon block (`ai-chat/chat-history-panel-item.gts`'s
+// Rename/Delete actions are the first caller of this) renders a bare
+// `<svg>` as a sibling of the item's text inside
+// `.cds--overflow-menu-options__option-content`. `@carbon/styles` leaves an
+// inline `<svg>`'s `display` at the browser default (`inline`), which sits
+// on the same line as the text just fine - but any host app with a common
+// CSS reset that forces `img, svg, video, ... { display: block; }` (e.g.
+// Tailwind's Preflight, confirmed present in docs-app itself) blockifies
+// the icon, splitting it onto its own line below the text instead of next
+// to it. Force it back to participating in the surrounding inline flow
+// regardless of what a consumer's own reset does.
+.cds--overflow-menu-options__option-content svg {
+  display: inline-block;
+  vertical-align: middle;
+}
