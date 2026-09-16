@@ -10,6 +10,7 @@ import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { fn } from '@ember/helper';
+import { modifier } from 'ember-modifier';
 import { eq } from 'ember-truth-helpers';
 import Button from '../button.gts';
 import Tooltip from '../tooltip.gts';
@@ -147,6 +148,23 @@ export default class SessionShell extends Component<SessionShellSignature> {
 
   historyItemActions = HISTORY_ITEM_ACTIONS;
 
+  // `renamingId`/`deletingId` live on `SessionShell` itself, which is never
+  // remounted, while `ChatShell` only renders `<:history>` content (this
+  // `ChatHistory` assembly included) while `showHistory` is true - so the
+  // panel's own contents are destroyed/recreated on every open/close, but
+  // without this modifier the two fields would silently survive the
+  // round-trip and reopen straight into a stale rename/delete-confirm view.
+  // Attached directly to the default `ChatHistory` assembly so it fires on
+  // every path that can close the panel (the header's toggle button, the
+  // shell's own close button, `newChat()`) without needing to intercept
+  // each call site individually.
+  resetHistoryEditState = modifier(() => {
+    return () => {
+      this.renamingId = null;
+      this.deletingId = null;
+    };
+  });
+
   sendMessage = (): void => {
     this.session.send();
   };
@@ -262,7 +280,7 @@ export default class SessionShell extends Component<SessionShellSignature> {
             {{#if (has-block 'history')}}
               {{yield to='history'}}
             {{else}}
-              <ChatHistory>
+              <ChatHistory {{this.resetHistoryEditState}}>
                 <:header>
                   <ChatHistoryHeader @showCloseAction={{true}} @onClose={{this.closeHistory}} />
                 </:header>

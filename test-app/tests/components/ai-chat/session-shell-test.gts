@@ -380,6 +380,61 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
       assert.dom('.cds-aichat-history-delete-panel').doesNotExist();
     });
 
+    test('closing the panel via the header toggle (not Cancel/Confirm) resets a pending delete so reopening does not resurrect it', async function (assert) {
+      const svc = session(this);
+      svc.open = true;
+      svc.showHistory = true;
+      const items = [{ id: '1', name: 'Trip planning' }];
+
+      await render(<template><SessionShell @historyItems={{items}} /></template>);
+
+      await click('.cds--overflow-menu');
+      await click('.cds--overflow-menu-options__option:last-child button');
+      assert.dom('.cds-aichat-history-delete-panel').exists('delete-confirm overlay opened');
+
+      // Leave via the header's history toggle instead of Cancel/Confirm.
+      await click('[aria-label="Chat history"]');
+      assert.dom('.cds-aichat-shell__history').doesNotExist();
+
+      await click('[aria-label="Chat history"]');
+      assert.dom('.cds-aichat-shell__history').exists();
+      assert
+        .dom('.cds-aichat-history-delete-panel')
+        .doesNotExist('reopening the panel does not resurrect the stale delete-confirm overlay');
+    });
+
+    test('closing the whole shell while mid-rename resets it so reopening the panel starts clean', async function (assert) {
+      const svc = session(this);
+      svc.open = true;
+      svc.showHistory = true;
+      const items = [{ id: '1', name: 'Trip planning' }];
+
+      await render(<template><SessionShell @historyItems={{items}} /></template>);
+
+      await click('.cds--overflow-menu');
+      await click('.cds--overflow-menu-options__option:first-child button');
+      assert.dom('.cds-aichat-history-panel-item-input').exists('menu action switched the item into rename mode');
+
+      // Close the whole shell via the service directly (not a real click on
+      // a different element) so the rename input's own blur-triggered
+      // auto-cancel - a real click elsewhere would naturally shift focus
+      // and trigger that unrelated path first - can't mask whether
+      // `renamingId` itself actually got reset on teardown.
+      svc.toggleOpen();
+      await settled();
+      assert.dom('.cds-aichat-launcher').exists();
+
+      // Reopening leaves `showHistory` as it was (the session doesn't reset
+      // it), so the history panel - and, without the fix, the stale rename
+      // input inside it - is visible again immediately.
+      svc.toggleOpen();
+      await settled();
+      assert.dom('.cds-aichat-shell__history').exists();
+      assert
+        .dom('.cds-aichat-history-panel-item-input')
+        .doesNotExist('reopening does not resurrect the stale rename input');
+    });
+
     test('a <:history> block overrides the default assembly entirely', async function (assert) {
       session(this).open = true;
       session(this).showHistory = true;
