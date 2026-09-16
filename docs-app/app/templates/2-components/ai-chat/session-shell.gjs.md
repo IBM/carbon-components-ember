@@ -15,7 +15,10 @@ state down as plain args.
 Producing an assistant reply is left to the host application, matching
 upstream's own `customSendMessage` boundary — the demo below listens for the
 service's `'send'` event and calls `receive()`/`appendChunk()`/
-`finalizeStreaming()` itself, simulating a streamed response.
+`finalizeStreaming()` itself, simulating a streamed response. It also checks
+`getAbortSignal()` between chunks, so clicking the "Stop generating" button
+that appears while streaming (wired to `cancelStreaming()`) actually breaks
+the host's own reply loop, not just the service's internal bookkeeping.
 
 ```gjs live preview
 import Component from '@glimmer/component';
@@ -43,9 +46,13 @@ class SessionShellDemo extends Component {
 
   reply = async () => {
     const message = this.session.receive('', { streaming: true });
+    const signal = this.session.getAbortSignal(message.id);
     const words = REPLY.split(' ');
     for (const [index, word] of words.entries()) {
       await new Promise((resolve) => setTimeout(resolve, 60));
+      if (signal?.aborted) {
+        return;
+      }
       this.session.appendChunk(message.id, (index > 0 ? ' ' : '') + word);
     }
     this.session.finalizeStreaming(message.id);
@@ -73,12 +80,19 @@ class SessionShellDemo extends Component {
 - **`<:history>`/`<:workspace>` are yielded outward**, left for the caller to
   fill in (e.g. the `ai-chat/chat-history` family) rather than this
   component owning that content directly.
+- **Cancellation.** `cancelStreaming()` aborts the response's
+  `AbortSignal` (`getAbortSignal()`), marks the message no longer
+  streaming/`cancelled`, and permanently drops any further `appendChunk()`
+  call for that response id — a host's in-flight streaming loop can still
+  be mid-`await` when cancellation happens. `response_id`/`item_id`
+  aliasing (upstream's `StreamingTracker`) is deliberately not ported —
+  this service has no wire protocol with a second id to resolve.
 - **Scope cuts**, documented in full in AGENTS.md's "Porting Carbon AI Chat"
   → "Orchestration layer" section: human-agent handoff, persistence/
   rehydration, custom panels, multi-instance namespacing, and most of
   upstream's ~50 Redux action types are not ported in this first pass — only
-  message send/receive, streaming chunk append, panel open state, and a
-  minimal `on()`/`off()`/`emit()` event bus.
+  message send/receive, streaming chunk append + cancellation, panel open
+  state, and a minimal `on()`/`off()`/`emit()` event bus.
 
 ## API Reference
 

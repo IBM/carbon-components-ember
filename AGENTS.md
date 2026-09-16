@@ -2324,7 +2324,7 @@ and `src/components/ai-chat/session-shell.gts` (`SessionShell`, the
 | `ServiceManager` (upstream's own DI container) | Deleted entirely - Ember's owner/`@service` already is this. |
 | `store/` (Redux: `actions.ts`/`reducers.ts`/`appStore.ts`/`selectors.ts`) | `ChatSessionService`'s own `@tracked` fields (`messages`, `draft`, `open`, `showHistory`, `showWorkspace`, `isReadonly`) - no separate action/reducer/selector layers; methods mutate directly and Glimmer's autotracking replaces `connect()`/selectors. |
 | `MessageService`/`OutboundMessageCoordinator` (`ADD_MESSAGE`, `UPSERT_MESSAGE`, `UPDATE_MESSAGE`) | `ChatSessionService#send()`/`#receive()` |
-| `InboundStreamingCoordinator` (`STREAMING_START`, `STREAMING_ADD_CHUNK`, generation tracking, abort controllers) | `ChatSessionService#appendChunk()`/`#finalizeStreaming()` - generation tracking and cancellation are cut, see below. |
+| `InboundStreamingCoordinator` (`STREAMING_START`, `STREAMING_ADD_CHUNK`, generation tracking, abort controllers) | `ChatSessionService#appendChunk()`/`#finalizeStreaming()`/`#cancelStreaming()`/`#getAbortSignal()` - cancellation and a stale-chunk guard are ported (see "Cancellation" below); `StreamingTracker`'s `response_id`/`item_id` aliasing is not, since this service has no wire protocol with a second id to resolve. |
 | `instance.on()`/`.off()`/`.once()` (upstream's own event bus, `serviceManager.eventBus`) | `ChatSessionService#on()`/`#off()`/`#emit()` - a plain `Map<type, Set<handler>>`; `.once()` isn't ported (no caller needed it yet). |
 | `instance.send()` | `ChatSessionService#send()` - same host-boundary: appends the user message and emits `'send'`, producing the assistant reply is the host application's job (upstream's `customSendMessage`), not this service's. |
 | `SET_HISTORY_PANEL_OPEN`/`SET_WORKSPACE_PANEL_OPEN` | `ChatSessionService#toggleHistory()`/`#toggleWorkspace()` |
@@ -2365,12 +2365,39 @@ separable follow-up, not an oversight):
   reads them). Add the corresponding service method + `@tracked` field
   alongside a real consumer, rather than speculatively pre-building state
   nothing reads.
-- **Cancellation/generation tracking** inside streaming -
-  `InboundStreamingCoordinator`'s real job is also resolving `response_id`
-  vs. `item_id` aliasing and per-response `AbortController`s for
-  mid-stream cancellation. `appendChunk()`/`finalizeStreaming()` assume a
-  single, uncancellable stream per message id - good enough for the
-  common case, not upstream's full guarantee.
+- **`response_id`/`item_id` aliasing** inside streaming -
+  `InboundStreamingCoordinator`'s `StreamingTracker` resolves chunks that
+  arrive keyed on either id, because upstream has a real wire protocol
+  where both ids show up. This port has none: `appendChunk()`'s `id` is
+  always whatever `receive()` returned, so there is no second id to
+  resolve. Porting `StreamingTracker` itself would be speculative state
+  with no consumer - see "Cancellation" below for what *is* ported.
+
+**Cancellation (2026-09-14 follow-up)**: `ChatSessionService#cancelStreaming(id?)`
+is the Ember equivalent of upstream's user-triggered "Stop generating"
+action. Defaults to the currently-streaming response
+(`#streamingMessageId`) when no `id` is given. It aborts the response's
+`AbortSignal` (`#getAbortSignal(id)` - host-owned, since this service
+doesn't make the network call itself; wire it into `fetch(url, { signal })`
+or check `signal.aborted` inside a manual streaming loop, as the docs demo
+does), marks the message `streaming: false, cancelled: true`, and adds the
+id to a permanent `#cancelledResponses` set so a host's in-flight loop that
+is still mid-`await` when cancellation happens can't resurrect the message
+via a late `appendChunk()` call - `appendChunk()` silently drops any chunk
+for an id in that set instead of re-marking it `streaming: true`.
+`restart()` does the same for every still-streaming message before
+clearing `messages`, so an abandoned reply loop from before a restart can't
+write into whatever conversation exists afterward either (ids are never
+reused, so this is defense in depth rather than a reachable bug today, but
+cheap and matches upstream aborting in-flight requests on
+`RESTART_CONVERSATION`). `SessionShell` wires a real "Stop generating"
+button next to `<Processing />` while `session.isStreaming`, and renders a
+`(stopped)` label on a `cancelled` message - real consumers, not
+speculative API surface. **Not ported**: `response_id`/`item_id` aliasing
+(see above) and upstream's `stopStreamingButtonState.isVisible`/`cancellable`
+gating (this port always shows the button while streaming; upstream can
+suppress it per-response via `streaming_metadata.cancellable`, which this
+port's `receive()` has no equivalent input for).
 
 **`on()`/`off()` are manual, on purpose** - matching upstream's own
 `instance.on()`/`.off()`, which are likewise not scoped to a component's
