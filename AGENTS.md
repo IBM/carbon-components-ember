@@ -3165,6 +3165,27 @@ chat" and confirmed it cleared the conversation and closed the panel - zero
 real page errors (excluding the already-documented repo-wide unrelated
 `getChildByName` noise present on every docs page).
 
+**Review fixes:** round 1 found `SessionShell`'s `renamingId`/`deletingId`
+(the transient mid-rename/mid-delete-confirm UI state mentioned above)
+leaked across paths that close the whole history panel without going
+through the rename/delete UI's own save/cancel/confirm handlers (the header
+toggle button, the shell's close button, `newChat()`) - fixed with a
+teardown `modifier()` attached to the default `<ChatHistory>` assembly,
+whose cleanup fires on every path that unmounts it. Round 2 found
+`enablePersistence()` unconditionally discarded any pending debounced write
+(from `setDraft()`/`appendChunk()`) and re-rehydrated from the last-*flushed*
+snapshot even when called again with the exact same `storage`/`key` it was
+already using - since the service is a singleton and the documented pattern
+above calls `enablePersistence()` from a host component's constructor
+specifically to survive a same-page remount, this silently reverted the last
+few hundred milliseconds of typed draft text (or an in-flight streamed
+chunk) whenever a remount happened to land inside the debounce window.
+Fixed by making `enablePersistence()` a no-op (beyond flushing the pending
+write via `persist()`) when `storage`/`key` are unchanged from what's
+already active - only a real change of target still cancels the old pending
+write and rehydrates from the new one, which was already correct and stays
+that way.
+
 ## Key Resources
 
 - **Carbon React**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components

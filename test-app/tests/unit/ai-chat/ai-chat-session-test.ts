@@ -494,5 +494,28 @@ module('Unit | Service | ai-chat-session', function (hooks) {
         'the pending write to the old key never landed once persistence was re-pointed elsewhere',
       );
     });
+
+    test('re-enabling persistence with the same storage/key flushes a pending write instead of reverting to the last-flushed snapshot', function (assert) {
+      const storage = createFakeStorage();
+      const session = getService(this);
+      session.enablePersistence(storage);
+      session.send('flushed message'); // written synchronously, not debounced
+
+      session.setDraft('not yet flushed'); // schedules a debounced write, still pending
+
+      // Simulates a same-page remount (e.g. an SPA route transition) whose
+      // constructor calls enablePersistence() again with the same target -
+      // must not discard the pending write and rehydrate from the stale,
+      // last-flushed snapshot.
+      session.enablePersistence(storage);
+
+      assert.strictEqual(session.draft, 'not yet flushed', 'the live draft was not reverted');
+      const raw = storage.getItem('carbon-ai-chat-session');
+      assert.strictEqual(
+        (JSON.parse(raw as string) as { draft: string }).draft,
+        'not yet flushed',
+        'the pending write was flushed rather than discarded',
+      );
+    });
   });
 });

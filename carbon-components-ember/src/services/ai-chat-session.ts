@@ -381,11 +381,28 @@ export class ChatSession {
    * `restart()` persists its own (now-empty) state like every other
    * mutator. See the docs demo (`session-shell.gjs.md`) for the correct
    * order.
+   *
+   * Since this service is a singleton, a host that calls this from a
+   * component's constructor (the documented pattern above) will call it
+   * again on every remount - including one that happens to land inside a
+   * pending debounced write from `setDraft()`/`appendChunk()`. If `storage`
+   * and `key` are unchanged from what's already active, this is a no-op
+   * (aside from flushing that pending write) rather than a discard-and-
+   * rehydrate: there's nothing to re-point persistence at, and reverting to
+   * the last-*flushed* snapshot would silently drop the last few hundred
+   * milliseconds of already-in-memory state (`schedulePersist()`'s debounce
+   * window). A real change of `storage`/`key` still
+   * cancels any pending write for the *old* target (abandoning it is
+   * correct there) and rehydrates from the new one.
    */
   enablePersistence = (
     storage: ChatSessionStorage = window.sessionStorage,
     key = DEFAULT_STORAGE_KEY,
   ): boolean => {
+    if (this.#storage === storage && this.#storageKey === key) {
+      this.persist();
+      return this.wasRehydrated;
+    }
     if (this.#persistTimer !== undefined) {
       clearTimeout(this.#persistTimer);
       this.#persistTimer = undefined;
