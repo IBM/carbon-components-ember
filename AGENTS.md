@@ -2641,7 +2641,7 @@ Worth the same two-step check (existence + actual embeddability, not
 just existence) for any future docs demo embedding third-party media by
 ID.
 
-### `docs-app`'s `ThemeSupport` `.module.scss?inline` imports — the "[object Object]" bug, root-caused and fixed for real
+### `docs-app`'s `ThemeSupport` `.module.scss?inline` imports — the "[object Object]" bug, root-caused and fixed at the Vite level (functional restoration confirmed for icon only - see the dead-rule caveat below)
 
 `docs-app/app/docs-support/theme-support.gts` inlines several components'
 astroturf-generated, component-scoped CSS into every shadow-wrapped demo's
@@ -2726,18 +2726,41 @@ followed by grepping the built `main-*.js` chunk confirmed all five
 bindings' `.default` are now string literals of real compiled CSS (not
 `_CarbonIcon2`-style classname objects), and a Playwright pass against the
 built `dist` (served locally, mounted at the real `/carbon-components-
-ember/versions/main/` subpath) confirmed: zero remaining `"[object
+ember/versions/main/` subpath) confirmed zero remaining `"[object
 Object]"` occurrences in any demo's injected `<style>` text across icon/
-button/pagination/ui-shell/list docs pages, AND (the sharper check - a
-`.default` that's merely a non-object string doesn't by itself prove the
-CSS actually *applies*, since a naive fix could produce real CSS text
-whose selectors don't match anything if the two imports ended up with
-different postcss-modules hashes) that a live `<svg>` element inside the
-icon demo's shadow root, carrying the exact same hashed class
-(`_icon_13t4y_1`) the injected rule targets, resolves a real `margin:
-5px` via `getComputedStyle` - not a browser default, and not the value it
-would have without this fix (no other CSS in scope sets margin on a bare
-`<svg>`).
+button/pagination/ui-shell/list docs pages.
+
+**Functional restoration (the CSS text actually *applying* to something,
+not just being syntactically valid) was only confirmed for `icon`, not all
+five - the other four have a separate, pre-existing bug that makes their
+astroturf rules permanently dead regardless of this fix, found while doing
+the stronger per-component check a review round explicitly asked for.**
+For icon: a live `<svg>` inside the icon demo's shadow root, carrying the
+exact same hashed class (`_icon_13t4y_1`) the injected rule targets,
+resolves a real `margin: 5px` via `getComputedStyle` - not a browser
+default, and not the value it would have without this fix (no other CSS in
+scope sets margin on a bare `<svg>`). For `button`/`pagination`/`list`/
+`ui-shell`, tracing the compiled selectors through the built `main-*.js`
+chunk shows each one's nested/compound classnames (e.g. `.cds--loading`
+nested under `.namespace` in `button.gts`'s `stylesheet`) get hashed
+*independently* by CSS Modules (confirmed: `_namespace_1ejwd_1
+._cds--loading_1ejwd_1 { ... }` in the compiled output) - but each
+component's own template only ever binds `this.styles.namespace` to its
+root element, never the second, also-hashed classname the rule requires on
+the actual target (`Loading`'s own rendered `cds--loading` class stays
+literal/unhashed; same pattern for `pagination.gts`'s
+`.ember-power-select-trigger`, `list.gts`'s `.cds--pagination`/
+`.cds--search`, and `ui-shell/-sidenav.gts`'s compound `&.cds--side-nav--
+expanded`, which the template applies as a literal string, never through
+`this.styles`). So these four rules can never match any real element -
+this fix makes their `.default` a real, syntactically valid CSS string
+instead of `"[object Object]"`, but has **zero visible styling effect**
+for them, exactly as it had before this fix (just for a different reason).
+This is a separate, pre-existing template-authoring gap in each of those
+four components, not introduced or fixed by this PR - tracked as todo #779
+(fix or remove the dead rule per component) rather than fixed here, since
+it's a larger, per-component change (four separate template edits, not a
+docs-app-only fix).
 
 **Cross-branch hazard, disclosed rather than silently worked around:**
 PR #881 (`fix-chat-history-icon-alignment`, open/unmerged as of this fix)
