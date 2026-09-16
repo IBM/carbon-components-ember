@@ -2860,6 +2860,117 @@ back to a plain `{{privateTooltipStyle.default}}` interpolation (matching
 the other five) as part of its own rebase - flagged explicitly here and in
 this fix's own PR description so it isn't missed.
 
+### The four dead astroturf rules (`button`, `pagination`, `list`, `ui-shell/-sidenav`) — resolved per-component, todo #779
+
+Follow-up to the dead-rule caveat above: each of the four rules that were
+"real CSS text but zero visible effect" post-fix was traced to a real
+target element (or its absence) and resolved individually rather than
+uniformly. The bar used throughout: a rule only counts as "wired up" if a
+real before/after `getComputedStyle`/screenshot delta exists, not just "the
+selector now compiles."
+
+- **`button.gts`'s `.namespace .cds--loading { width: 2rem; height: 2rem }`
+  - deleted.** `Loading`'s inline branch always renders `cds--loading
+  cds--loading--small`, and `@carbon/styles` sizes `.cds--loading--small`
+  to `1rem` by design (a real, intentional Carbon token, confirmed against
+  the compiled `styles.css`) - overriding it to `2rem` via this rule would
+  have doubled the spinner past Carbon's own intended small-inline size,
+  not restored a lost feature. There's also no way to reach the actual
+  `.cds--loading` div from `button.gts`: `Loading`'s `@classNames` arg only
+  reaches the OUTER `.cds--inline-loading` wrapper in the inline branch,
+  never the inner spinner div. Removed the `stylesheet` field, the
+  `astroturf` import, and the `{{this.styles.namespace}}` interpolation
+  from the template - and correspondingly dropped the `buttonStyle` import
+  and interpolation from `theme-support.gts` (leaving that import in place
+  after deleting the `stylesheet` tag it depends on breaks the docs build
+  outright, since PR #882's `inlineAddonModuleCss()` plugin resolves the
+  specifier straight to a `dist/` file path that no longer gets emitted).
+- **`ui-shell/-sidenav.gts`'s `&.cds--side-nav--ux` / `&.cds--side-nav--
+  expanded` - deleted.** `cds--side-nav--ux` is never applied by this
+  component at all (grepped the whole `ui-shell` family - confirmed dead
+  code with no reachable path), and would have set `3.5rem` where real
+  Carbon CSS uses `16rem` for that class if it ever were applied - wiring
+  it up would have shipped an actively wrong value, not restored a real
+  one. `cds--side-nav--expanded` IS applied (to the same `<nav>` this rule
+  targets) but at `16rem`, an exact byte-for-byte match with `@carbon/
+  styles`' own `.cds--side-nav--expanded { inline-size: 16rem }` - the
+  rule is fully redundant even where it's reachable. Same removal pattern
+  as `button.gts` (drop the `stylesheet` field/import/interpolation, and
+  the `uiShellStyle` import/interpolation in `theme-support.gts`).
+- **`pagination.gts`'s `.ember-power-select-selected-item` / `.ember-
+  power-select-trigger` - deleted, but for a different reason than the
+  above two: this is a nested/nested-descendant SCSS rule targeting a
+  REAL, always-present global classname from a different library
+  (`ember-power-select`), not a locally-scoped classname the component's
+  own template controls.** CSS Modules (via astroturf -> Vite's default
+  postcss-modules processing) hashes every classname in a selector
+  independently unless wrapped in `:global(...)` - wrapping both in
+  `:global()` DOES survive the pipeline (confirmed by grepping the
+  compiled `main-*.js`: `._namespace_X .ember-power-select-trigger`, not a
+  second hashed classname) and both target elements are real and always
+  present (`.ember-power-select-trigger`'s literal class comes straight
+  from `ember-power-select`'s own trigger template, unconditionally).
+  Despite that, a real `DOCS_URL=versions/main` build + Playwright
+  `getComputedStyle` check on the pagination demo showed **zero** delta
+  for either: (1) `Select`'s own `@selectedItemComponent={{this
+  .selectedItemComponent}}` (a fixed, unconditional class field, both
+  `PowerSelect`/`PowerSelectMultiple` branches) makes ember-power-select
+  take its "custom selected-item component" branch always - the literal
+  `<span class="ember-power-select-selected-item">` this rule targets is
+  never rendered by this addon's `Select`, full stop; (2) the trigger's
+  border was already `0px none` with or without the rule, because real
+  Carbon CSS's own reset (`.cds--select { border: 0; }`, part of
+  `@carbon/styles`' box-model normalize block) already zeroes it, and
+  `class="cds--select ..."` genuinely does land on the same
+  `.ember-power-select-trigger` element (confirmed via the rendered DOM).
+  Both rules were dead twice over - once by hashing, once by target
+  reachability/redundancy - so `:global()` was tried and then discarded
+  once the delta check came back empty, rather than shipped as a
+  technically-working-but-invisible fix. The unrelated, directly-bound
+  `.namespace { width: 100% }` top-level rule was untouched (it already
+  worked before this fix and still does).
+- **`list.gts`'s `.cds--pagination { position: absolute; ... }` / `.cds--
+  search { width: 250px; display: table-caption }` - wrapped in
+  `:global()` and kept: this is the one real fix among the four.** Both
+  target real Carbon classnames rendered by the yielded `Pagination`/
+  `SearchInput` components, both are real elements a consuming template
+  can render inside `List`'s `<section style="position: relative;">`, and
+  a real before/after screenshot comparison (`DOCS_URL=versions/main`
+  build, `2-components/list/index.md`'s "real items" demo) showed a
+  genuine, positive delta: without the rule, the search input renders
+  squeezed into the table's own header row as an unstyled block (`display:
+  table-caption`'s default fallback never applies since the class never
+  resolves); with it, the search bar renders as its own distinct row above
+  the table and the pagination bar sits cleanly below it. Kept as `:global
+  (.cds--pagination)`/`:global(.cds--search)` rather than rewiring markup,
+  since both targets are real, stable, unconditionally-rendered Carbon
+  classnames - no template change needed anywhere in `list.gts` or its
+  consumers.
+- **Note for whoever finds this while working the `list/index.gjs.md` or
+  `2-components/list` docs route:** the `List` family's docs page is NOT
+  at `2-components/list` (that URL resolves but renders an empty content
+  area with the sidebar still visible - the client-side router doesn't
+  redirect a bare folder path to its `index.md`) - it's at
+  `2-components/list/index.md` specifically. Worth fixing as its own small
+  docs-routing task if it comes up again; not chased further here since it
+  didn't block this fix's own verification.
+
+Verified with a real `DOCS_URL=versions/main pnpm build` + Playwright pass
+across `button`, `ui-shell`, `pagination`, and `list/index.md`: zero page
+errors on any of the four, `button`'s loading-spinner demo and `ui-shell`'s
+expanded-width (still a real, Carbon-matching `256px`) both confirmed
+unaffected by the two deletions, `pagination`'s directly-bound `width:
+100%` rule confirmed still applying, and `list`'s absolute-positioned
+pagination bar / table-caption search bar both confirmed via
+`getComputedStyle` (`position: absolute`, `width: 250px`, `display: table-
+caption`) plus the before/after screenshot comparison described above.
+Also confirmed via a full local `test-app` suite run that deleting
+`button.gts`'s dead class binding changes 4 pre-existing style-snapshot
+fixtures' *expected HTML string* (the now-absent `_namespace_1ejwd_1`
+class) with **zero** change to any of their captured `getComputedStyle`
+values - regenerated via `pnpm run test:ember:update-snapshot` and diffed
+to confirm the class-string removal was the only change in each fixture.
+
 ## Key Resources
 
 - **Carbon React**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components

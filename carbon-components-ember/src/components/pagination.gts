@@ -178,17 +178,6 @@ export default class CarbonPagination extends Component<Args> {
   styles = stylesheet`
     .namespace {
       width: 100%;
-      .ember-power-select-selected-item {
-        background-color: transparent;
-        color: #161616;
-        border-bottom: none;
-        padding-left: 0.5rem;
-        padding-right: 1.625rem;
-      }
-
-      .ember-power-select-trigger {
-        border: none;
-      }
     }
   ` as { namespace: string };
 
