@@ -3396,8 +3396,12 @@ scope to upstream's own
 — a real host application wiring the components together, not another
 per-component doc page. Lives at `docs-app/app/components/ai-chat-demo/`,
 routed at `/ai-chat-demo` and linked from `session-shell.gjs.md` and the
-`ai-chat` family's own `2-components/ai-chat/index.md` overview page (the
-sidebar's "Ai Chat" entry).
+`ai-chat` family's own `2-components/ai-chat/index.gjs.md` overview page (the
+sidebar's "Ai Chat" entry) — a `.gjs.md` file, matching every other family
+index page (`list/index.gjs.md`, `layout/index.gjs.md`,
+`select/index.gjs.md`, `text-input/index.gjs.md`), with a plain markdown
+prose link to the demo plus a real `<Link @href='../../ai-chat-demo'>`
+rendered inside a `gjs live preview` fence as a verifiable, clickable CTA.
 
 **Routing: a real Ember route registered alongside kolay's markdown pages,
 not one.** `router.ts` adds `this.route('ai-chat-demo')` next to
