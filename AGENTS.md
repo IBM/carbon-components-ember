@@ -3189,6 +3189,112 @@ already active - only a real change of target still cancels the old pending
 write and rehydrates from the new one, which was already correct and stays
 that way.
 
+### Full demo app — `docs-app`'s `/ai-chat-demo` route (2026-09-18)
+
+A standalone, fully-assembled demo of the `ai-chat/*` family, comparable in
+scope to upstream's own
+[`demo/` package](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/demo)
+— a real host application wiring the components together, not another
+per-component doc page. Lives at `docs-app/app/components/ai-chat-demo/`,
+routed at `/ai-chat-demo` and linked from `session-shell.gjs.md`.
+
+**Routing: a real Ember route registered alongside kolay's markdown pages,
+not one.** `router.ts` adds `this.route('ai-chat-demo')` next to
+`addRoutes(this)` (kolay's own `this.route('page', { path: '/*page' })`
+wildcard for every markdown page) — a static segment always wins a wildcard
+by route-recognizer specificity regardless of registration order, confirmed
+empirically rather than assumed. `docs-app/app/templates/ai-chat-demo.gts`
+follows the same `ember-route-template` `Route()` pattern as `page.gts`/
+`application.gts`, rendering `components/ai-chat-demo/index.gts`. Because
+this route is a sibling of `page`, not nested under it, it renders with none
+of `PageLayout`'s sidebar/prose chrome — the "own contained page" the task
+asked for, same as how the site's own `index.gts` (home page) opts out via
+`IndexPage` instead of `PageLayout`.
+
+**Real trap: `ember-route-template`'s `Route()` templates belong in
+`app/templates/`, not `app/routes/`, despite the name.** Tried
+`app/routes/ai-chat-demo.gts` first (it reads like the natural home for a
+route file) — Ember's resolver treats anything under `app/routes/` as a
+`route:` factory (a `Route` subclass), and `Route()` doesn't produce one; it
+produces the *template's* backing class. The failure mode is opaque: no
+build error, just a runtime `TypeError: this.class.create is not a function`
+inside `InternalFactoryManager.create` the moment the router tries to
+instantiate the route. `page.gts`/`application.gts`/`index.gts` all already
+live in `app/templates/` — should have been the tell.
+
+**Verifying against the dev server doesn't work — this hit the
+already-documented [[project_docs_app_dev_server_live_reload_unstable]]
+class of issue from the *routing* side, not just live-preview demos:** a
+real Playwright `page.goto('/ai-chat-demo', { waitUntil: 'load' })` against
+`pnpm vite dev` timed out repeatedly (120s+) even though `curl` got a 200
+for the SPA shell instantly — the dev server never finishes serving the
+full module graph this route pulls in (this app's `application.ts` already
+eagerly imports every component). Confirmed the route itself worked via a
+real `DOCS_URL=versions/main pnpm build` instead, per
+[[project_docs_app_local_browser_verification]] — that memory's guidance
+("the dev server isn't a trustworthy verification target") now also covers
+routing questions, not just component rendering.
+
+**No addon changes — `SessionShell` was deliberately left alone.** The
+obvious-looking approach (add an optional `<:messages>` override block to
+`SessionShell`, mirroring its existing `<:history>` has-block pattern) was
+considered and rejected: it would need a way to tag which messages get
+custom rendering, and the only place to carry that tag is `ChatMessage.text`
+itself (`ChatSession` has no per-message metadata field — see the class doc
+in `services/ai-chat-session.ts`) — i.e. inventing a wire protocol inside a
+shared string field to serve one demo page, exactly the kind of thing flagged
+elsewhere in this doc ("a no-op arg is worse than an absent one", "don't
+invent state upstream doesn't have"). Instead, the demo is a genuine *host
+application*: `full-window.gts` hand-assembles `ChatShell` directly (its own
+`@service('carbon.ai-chat-session')` injection, exactly what `SessionShell`
+itself does internally), which yields `<:messages>` already — full control
+over rendering with zero addon changes. "Custom response type" payloads are
+kept as demo-local state (`Map<messageId, RichResponse>`, populated by the
+demo's own reply handler from the id `receive()` returns), not encoded into
+`message.text` — see `rich-response.gts`'s class doc.
+
+**Two sections, two embedding styles, deliberately not unified into one
+mode-toggle:** `full-window.gts` hand-assembles `ChatShell` (fills its
+container, forces `session.open = true` since there's no launcher in this
+layout) to showcase custom response types (`AiChatCard`/`Table`/
+`AiChatCodeSnippet`/`AudioPlayer`/`VideoPlayer`, chosen by keyword-matching
+the user's message — a demo-only convention, not a real intent parser) and
+writeable elements (`<:headerAfter>`/`<:inputBefore>`/`<:footer>` — this
+addon's equivalent of upstream's named `WriteableElementName` slots is
+simply passing a named block, no separate registry API to build). `floating.gts`
+uses the one-line `<SessionShell />` container instead, positioned as a
+viewport-corner launcher widget via `demo.css`'s `position: fixed` wrapper —
+the "drop-in container" showcase, deliberately kept simple rather than
+duplicating `full-window.gts`'s complexity. Both drive independent
+`ChatSession`s (distinct `@instanceId`s and `enablePersistence()` storage
+keys) via the existing multi-instance isolation, and both fill the same
+`<:workspace>` block with a shared `workspace-panel.gts` component (built
+from `WorkspaceShell`) — the "custom panel" showcase, reused in both layouts
+since the panel itself is ordinary host content, not tied to either
+embedding style. Theming reuses `docs-app/docs-support/theme-switcher.gts`'s
+existing `ThemeSwitcher`/shared `currentCarbonTheme` cell directly (imported
+by its real module path, not through kolay's virtual `'docs-support'` module
+map, which only exists for markdown-rendered live-preview demos) — this is
+the *only* real (non-kolay-demo) route in the app that renders actual Carbon
+components, so it's also the only one that needs to include `<ThemeSupport />`
+itself for the CSS those components need.
+
+**`import.meta.env.BASE_URL` (used for the local `demo-support/` sample
+audio/video assets, same pattern as `audio-player.gjs.md`/`video-player.gjs.md`)
+must stay a direct, unaliased member expression.** Refactoring it to
+`const viteMeta = import.meta as unknown as {...}; viteMeta.env.BASE_URL`
+(to satisfy `@typescript-eslint/no-unsafe-member-access` without a
+`@ts-expect-error`) built cleanly but broke at runtime — `viteMeta.env` was
+`undefined` in the actual browser, caught by the real
+`DOCS_URL=versions/main pnpm build` + Playwright pass, not by any static
+check. This app's build has no runtime `import.meta.env` polyfill; `BASE_URL`
+only resolves via vite's own static substitution of the literal
+`import.meta.env.BASE_URL` expression shape, which an intermediate local
+binding defeats. Kept as `import.meta.env.BASE_URL` directly, with
+`@ts-expect-error` (glint) + a scoped `eslint-disable` (the unsafe-member-
+access rule) instead — same class of gap as `routes/application.ts`'s
+pre-existing untyped `import.meta.hot` check.
+
 ## Key Resources
 
 - **Carbon React**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components
