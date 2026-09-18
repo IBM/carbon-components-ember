@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, waitUntil, findAll } from '@ember/test-helpers';
 import { array, hash } from '@ember/helper';
 import DataTable from 'carbon-components-ember/components/data-table';
 import Pagination from 'carbon-components-ember/components/pagination';
@@ -67,9 +67,20 @@ module('Integration | Component | DataTable', (hooks) => {
       </template>,
     );
 
-    const headerIds = Array.from(document.querySelectorAll('thead th')).map(
-      (th) => th.id,
+    // `DataTable`'s row/column-index bookkeeping (and the header ids they
+    // key off of) settle one render pass after `await render()` resolves
+    // (the initial items slice is populated via a scheduled task, not
+    // synchronously) - wait for the actual `td[headers]` values this test
+    // asserts on, not just the header `th` ids, which can be populated
+    // while the body hasn't re-rendered against them yet.
+    await waitUntil(
+      () =>
+        findAll('tbody tr').length === 2 &&
+        findAll('tbody td').every((td) => !!td.getAttribute('headers')),
+      { timeout: 5000 },
     );
+
+    const headerIds = findAll('thead th').map((th) => th.id);
     assert.strictEqual(headerIds.length, 2);
     assert.ok(headerIds.every((id) => !!id));
 
