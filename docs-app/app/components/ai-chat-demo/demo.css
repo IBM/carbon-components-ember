@@ -1,0 +1,96 @@
+/**
+ * Copyright IBM Corp. 2026
+ *
+ * This source code is licensed under the Apache-2.0 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * Demo-page-only chrome - `full-window.gts`/`floating.gts` invent their own
+ * `cds-aichat-demo__*` classes for content that has no upstream widget to
+ * port (the message bubbles, banners, suggestion chips), unlike
+ * `SessionShell`'s own `cds-aichat-session-shell__*` styles, which ship with
+ * the addon (`src/styles/ai-chat/_session-shell.scss`) since that component
+ * itself is a real, published part of the library. This page isn't, so its
+ * styling lives here instead.
+ */
+
+.cds-aichat-demo__page {
+  min-height: 100vh;
+  padding: 1.5rem 1.5rem 6rem;
+  background-color: var(--cds-background, #fff);
+  color: var(--cds-text-primary, #161616);
+}
+
+.cds-aichat-demo__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-block-end: 1.5rem;
+}
+
+.cds-aichat-demo__section {
+  margin-block-end: 2.5rem;
+}
+
+.cds-aichat-demo__full-window {
+  position: relative;
+  block-size: 70vh;
+}
+
+.cds-aichat-demo__floating {
+  position: fixed;
+  inset-block-end: 1.5rem;
+  inset-inline-end: 1.5rem;
+  z-index: 9000;
+}
+
+.cds-aichat-demo__floating .cds-aichat-shell {
+  inline-size: 380px;
+  block-size: 32rem;
+}
+
+.cds-aichat-demo__message {
+  max-inline-size: 80%;
+  margin-block-end: 0.75rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background-color: var(--cds-layer, #f4f4f4);
+  color: var(--cds-text-primary, #161616);
+  word-break: break-word;
+}
+
+.cds-aichat-demo__message--user {
+  margin-inline-start: auto;
+  background-color: var(--cds-background-selected, #e0e0e0);
+}
+
+.cds-aichat-demo__stopped-label {
+  color: var(--cds-text-secondary, #525252);
+  font-style: italic;
+}
+
+.cds-aichat-demo__streaming-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cds-aichat-demo__banner,
+.cds-aichat-demo__disclaimer {
+  padding: 0 1rem;
+  margin: 0;
+  color: var(--cds-text-secondary, #525252);
+  font-size: 0.75rem;
+}
+
+.cds-aichat-demo__suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
+.cds-aichat-demo__input {
+  padding: 1rem;
+}
