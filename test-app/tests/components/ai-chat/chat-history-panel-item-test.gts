@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, fillIn, settled } from '@ember/test-helpers';
+import { render, click, fillIn, settled, waitUntil, find } from '@ember/test-helpers';
 import { array, hash } from '@ember/helper';
 import { cell } from 'ember-resources';
 import ChatHistoryPanelItem from 'carbon-components-ember/components/ai-chat/chat-history-panel-item';
@@ -101,6 +101,18 @@ module('Integration | Component | ai-chat/ChatHistoryPanelItem', (hooks) => {
     await click('.cds--overflow-menu');
     assert.dom('.cds--overflow-menu-options__option').exists({ count: 2 });
     assert.dom('.cds--overflow-menu-options__option--danger').exists({ count: 1 });
+
+    // The action's icon SVG loads asynchronously (see icon components'
+    // TrackedPromise-backed `svg` getter) - `settled()` after `click()`
+    // doesn't reliably wait for it since the import resolves outside
+    // Ember's run loop, so wait for it explicitly before asserting.
+    await waitUntil(
+      () =>
+        find(
+          '.cds--overflow-menu-options__option:last-child .cds--overflow-menu-options__option-icon svg',
+        ),
+      { timeout: 5000 },
+    );
 
     // The action's icon renders as its own `.option-icon` sibling of the
     // text `.option-content`, not nested inside it - `.cds--overflow-menu-

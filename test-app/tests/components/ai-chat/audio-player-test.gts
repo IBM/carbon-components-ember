@@ -59,7 +59,9 @@ function stubSoundCloudSDK() {
 }
 
 async function waitForReady(selector = '.cds-aichat-audio-player__provider--ready') {
-  await waitUntil(() => find(selector));
+  // Real `loadedmetadata`/network events back this, not app timing - give
+  // CI's slower/contended runner more room than the 1000ms default.
+  await waitUntil(() => find(selector), { timeout: 5000 });
 }
 
 module('Integration | Component | ai-chat/AudioPlayer', (hooks) => {
@@ -248,6 +250,18 @@ module('Integration | Component | ai-chat/AudioPlayer', (hooks) => {
     assert
       .dom('.cds-aichat-audio-player__provider iframe')
       .hasAttribute('src', `https://w.soundcloud.com/player/?url=${encodeURIComponent(SOUNDCLOUD_SOURCE)}`);
+
+    // `SoundCloudProvider.load()` awaits the iframe's real `load` event
+    // before it considers the SDK widget ready - left alone, that's a real
+    // network navigation to soundcloud.com, which is what actually made
+    // this test flaky/slow under CI (not just a too-tight waitUntil
+    // timeout). `stubSoundCloudSDK()` already fakes `window.SC`; dispatch
+    // a synthetic `load` here the same way, so `waitForReady()` below
+    // settles from the stub instead of racing a real network round trip.
+    // Idempotent even if the real navigation's `load` also fires later.
+    find('.cds-aichat-audio-player__provider iframe')?.dispatchEvent(
+      new Event('load'),
+    );
     await waitForReady();
   });
 });
