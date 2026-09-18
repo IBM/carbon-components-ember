@@ -3395,7 +3395,9 @@ scope to upstream's own
 [`demo/` package](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/demo)
 — a real host application wiring the components together, not another
 per-component doc page. Lives at `docs-app/app/components/ai-chat-demo/`,
-routed at `/ai-chat-demo` and linked from `session-shell.gjs.md`.
+routed at `/ai-chat-demo` and linked from `session-shell.gjs.md` and the
+`ai-chat` family's own `2-components/ai-chat/index.md` overview page (the
+sidebar's "Ai Chat" entry).
 
 **Routing: a real Ember route registered alongside kolay's markdown pages,
 not one.** `router.ts` adds `this.route('ai-chat-demo')` next to
