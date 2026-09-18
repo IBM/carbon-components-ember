@@ -243,8 +243,13 @@ export default class SessionShell extends Component<SessionShellSignature> {
   <template>
     <div ...attributes>
       {{#if this.session.open}}
+        {{! @showFrame is always on here: a pre-assembled drop-in widget always
+          renders as a standalone surface (a floating corner widget or a
+          full-container embed), never bare content that needs to blend into a
+          caller's own frame the way a hand-assembled <ChatShell> might. }}
         <ChatShell
           @aiEnabled={{@aiEnabled}}
+          @showFrame={{true}}
           @showHistory={{this.session.showHistory}}
           @showWorkspace={{this.session.showWorkspace}}
           @messagesAriaLabel={{this.messagesAriaLabel}}
@@ -348,7 +353,15 @@ export default class SessionShell extends Component<SessionShellSignature> {
           </:messages>
           <:input>
             <div class='cds-aichat-session-shell__input'>
-              <PromptLineShell @rounded={{true}} @disabled={{this.session.isReadonly}}>
+              {{! @expanded gives the input its own full-width row with a bottom
+                border plus a focus drop-shadow, instead of the non-expanded
+                layout's all-around blue focus outline - matches the
+                full-window chat-prompt look this drop-in widget is meant to have. }}
+              <PromptLineShell
+                @rounded={{true}}
+                @expanded={{true}}
+                @disabled={{this.session.isReadonly}}
+              >
                 <:editor>
                   <PromptLine
                     @content={{this.session.draft}}
