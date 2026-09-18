@@ -386,6 +386,21 @@ module('Unit | Service | ai-chat-session', function (hooks) {
       assert.false(reloaded.isStreaming);
     });
 
+    test('cancelStreaming() persists the cancelled message', function (assert) {
+      const storage = createFakeStorage();
+      const session = getService(this);
+      session.enablePersistence(storage);
+      const message = session.receive('partial reply', { streaming: true });
+
+      session.cancelStreaming(message.id);
+
+      const reloaded = getFreshService(this);
+      reloaded.enablePersistence(storage);
+
+      assert.true(reloaded.messages[0]?.cancelled);
+      assert.false(reloaded.messages[0]?.streaming);
+    });
+
     test('a version mismatch is discarded rather than restored', function (assert) {
       const storage = createFakeStorage();
       storage.setItem(
