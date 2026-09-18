@@ -3301,6 +3301,67 @@ binding defeats. Kept as `import.meta.env.BASE_URL` directly, with
 access rule) instead — same class of gap as `routes/application.ts`'s
 pre-existing untyped `import.meta.hot` check.
 
+### PR #886 review follow-up: message-area scroll, input focus ring, shell border
+
+Three visual reports against the demo app, all fixed on the same PR:
+
+- **`.cds-aichat-shell__messages` had no `overflow`, so a long conversation
+  pushed past the shell's own bounded height instead of scrolling
+  internally.** Upstream's own `.messages` rule has no `overflow` either —
+  it relies on the `messages` slot's caller content (its own message-list
+  widget) providing the scroll container, an intentional gap already
+  documented in `chat-shell.gts`'s class doc ("the `messages` block's
+  content is entirely up to the caller"). But `SessionShell`'s own default
+  `<:messages>` assembly yields raw content straight into that slot with no
+  scroll wrapper of its own — so the shipped, one-line `<SessionShell />`
+  was broken the same way as the demo's hand-assembled `ChatShell`, not
+  just the demo. Fixed in the shared `_chat-shell.scss` (`overflow-y: auto`
+  alongside the existing `min-block-size: 0`, completing the standard
+  flex-grow-scroll idiom) rather than duplicated in demo-only CSS, since
+  that's the one change that fixes both call sites — a consumer that
+  passes its own scrolling message-list component into `<:messages>` is
+  unaffected either way.
+- **The non-expanded prompt-line layout's `outline-color: var(--cds-focus)`
+  focus ring is real, intentional, byte-identical to upstream — not
+  touched.** Deleting it would be both an a11y regression and a parity
+  break for every `PromptLineShell` consumer (see the already-documented
+  `:focus-visible` investigation in the PromptLine batch-2 section — it
+  can't discriminate keyboard from pointer focus on a text-entry surface,
+  so there's no CSS-only way to show it only for keyboard users). Instead,
+  both the full-window demo's own `PromptLineShell` and `SessionShell`'s
+  internal one now pass `@expanded={{true}}` — upstream's real chat-prompt
+  layout already replaces that ring with a bottom border plus a focus
+  drop-shadow for exactly this look, so this is a real, already-ported
+  upstream variant, not a new suppression rule.
+- **`ChatShell`'s `frameless` class applies whenever `@showFrame` is
+  omitted, and neither demo (nor `SessionShell` itself) ever passed it** —
+  so every `ChatShell`/`SessionShell` consumer rendered with no border and
+  no shadow at all. `full-window.gts` now passes `@showFrame={{true}}`
+  directly; `SessionShell` (used by the floating demo) hardcodes it
+  internally, since a pre-assembled drop-in widget always renders as a
+  standalone surface. One interaction worth knowing: the floating demo
+  also passes `@aiEnabled={{true}}`, which applies `.ai-theme { border-
+  color: transparent; }` — so that shell gets `@showFrame`'s box-shadow but
+  no visible border line, confirmed via real `getComputedStyle` and a
+  screenshot to read as a distinct, separated surface anyway (matching
+  Carbon's AI-theme design intent of shadow-only elevation, not a bug to
+  work around).
+
+Verified with a real `DOCS_URL=versions/main pnpm build` + Playwright
+against the built `dist` (SPA-fallback static server, per
+[[project_docs_app_local_browser_verification]]): typed 15 messages into
+the full-window demo and confirmed `scrollHeight` (1807px) exceeds
+`clientHeight` (372px) inside `.cds-aichat-shell__messages` while the
+shell's own rendered height stayed fixed at the container's 700px; focused
+the input and confirmed `outlineColor` is transparent with a real
+`borderBottom`/`boxShadow` instead; confirmed both shells' `border`/
+`boxShadow` computed styles and a full-page screenshot of each layout.
+Local `test-app` Playwright suite hit the already-documented
+[[project_test_app_harness_json_parse_crash]] harness flake without
+producing results even with the addon freshly built; relied on `pnpm
+build`/`glint`/`lint` (all clean) plus the direct browser verification
+above instead of fighting it further.
+
 ## Key Resources
 
 - **Carbon React**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components

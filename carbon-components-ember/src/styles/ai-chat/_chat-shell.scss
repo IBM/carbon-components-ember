@@ -159,9 +159,19 @@ $history-width: 320px;
   max-inline-size: $messages-max-width;
 }
 
+// Upstream's own `.messages` rule (shell-base.scss) has no `overflow`
+// either — it relies on the `messages` slot's caller content (its own
+// message-list widget) to scroll itself. This port yields raw content
+// into the slot instead (see the class doc in chat-shell.gts), so nothing
+// upstream provides ever adds a scroll container here — including
+// `SessionShell`'s own default `<:messages>` block. `min-block-size: 0`
+// above is already half of the flex-grow-scroll idiom; `overflow-y: auto`
+// is the other half, needed for a long conversation to scroll internally
+// instead of overflowing the shell's bounded height.
 .cds-aichat-shell__messages {
   flex-grow: 1;
   min-block-size: 0;
+  overflow-y: auto;
 }
 
 .cds-aichat-shell__panels {

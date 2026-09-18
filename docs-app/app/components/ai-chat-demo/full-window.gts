@@ -129,6 +129,7 @@ export default class AiChatDemoFullWindow extends Component {
         @messagesAriaLabel="Full-window demo chat"
         @showWorkspace={{this.session.showWorkspace}}
         @contentMaxWidth={{true}}
+        @showFrame={{true}}
       >
         <:header>
           Carbon AI Chat — full-window demo
@@ -212,7 +213,11 @@ export default class AiChatDemoFullWindow extends Component {
         </:inputBefore>
         <:input>
           <div class="cds-aichat-demo__input">
-            <PromptLineShell @rounded={{true}} @disabled={{this.session.isReadonly}}>
+            <PromptLineShell
+              @rounded={{true}}
+              @expanded={{true}}
+              @disabled={{this.session.isReadonly}}
+            >
               <:editor>
                 <PromptLine
                   @content={{this.session.draft}}
