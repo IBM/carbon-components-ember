@@ -1,3 +1,5 @@
+<ThemeSwitcher />
+
 # AI Chat
 
 This addon ports [Carbon's AI Chat](https://www.npmjs.com/package/@carbon/ai-chat)
@@ -18,4 +20,14 @@ persisted chat sessions — see the
 upstream's own
 [`demo/` package](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/demo).
 
-[Open the full demo →](../../ai-chat-demo)
+```gjs live preview
+import { Link } from 'carbon-components-ember/components';
+import { ThemeSupport } from 'docs-support';
+
+<template>
+  <ThemeSupport />
+  <Link @href='../../ai-chat-demo' @size='lg'>
+    Open the full demo →
+  </Link>
+</template>
+```
