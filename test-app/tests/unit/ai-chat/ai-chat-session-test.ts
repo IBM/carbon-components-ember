@@ -1,12 +1,21 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'test-app/tests/helpers';
 import type ChatSessionService from 'carbon-components-ember/services/ai-chat-session';
+import { DEFAULT_CHAT_SESSION_ID } from 'carbon-components-ember/services/ai-chat-session';
 
 module('Unit | Service | ai-chat-session', function (hooks) {
   setupTest(hooks);
 
-  function getService(context: { owner: { lookup: (name: string) => unknown } }) {
+  function getRegistry(context: { owner: { lookup: (name: string) => unknown } }) {
     return context.owner.lookup('service:carbon.ai-chat-session') as ChatSessionService;
+  }
+
+  // Every pre-existing test below exercises the default (single-widget)
+  // session, resolved the same way SessionShell resolves it when no
+  // @instanceId is given - see the "multi-instance isolation" tests further
+  // down for the registry/`for()` behavior itself.
+  function getService(context: { owner: { lookup: (name: string) => unknown } }) {
+    return getRegistry(context).default;
   }
 
   test('send() appends a user message and clears the draft', function (assert) {
@@ -211,5 +220,84 @@ module('Unit | Service | ai-chat-session', function (hooks) {
     assert.strictEqual(session.messages.length, 0);
     assert.strictEqual(session.draft, '');
     assert.true(restarted);
+  });
+
+  module('multi-instance isolation (for())', function () {
+    test('for() returns the same instance for the same id, and a distinct instance for a different id', function (assert) {
+      const registry = getRegistry(this);
+
+      const a1 = registry.for('widget-a');
+      const a2 = registry.for('widget-a');
+      const b = registry.for('widget-b');
+
+      assert.strictEqual(a1, a2, 'the same id resolves to the same ChatSession every time');
+      assert.notStrictEqual(a1, b, 'a different id resolves to a distinct ChatSession');
+      assert.strictEqual(a1.id, 'widget-a');
+      assert.strictEqual(b.id, 'widget-b');
+    });
+
+    test('for() with no id, and for(DEFAULT_CHAT_SESSION_ID), and .default all resolve to the same instance', function (assert) {
+      const registry = getRegistry(this);
+
+      assert.strictEqual(registry.for(), registry.default);
+      assert.strictEqual(registry.for(DEFAULT_CHAT_SESSION_ID), registry.default);
+    });
+
+    test('sending in one instance does not affect another instance\'s messages or draft', function (assert) {
+      const registry = getRegistry(this);
+      const a = registry.for('widget-a');
+      const b = registry.for('widget-b');
+
+      a.setDraft('only in a');
+      a.send();
+
+      assert.strictEqual(a.messages.length, 1);
+      assert.strictEqual(b.messages.length, 0, 'a send in widget-a leaves widget-b untouched');
+      assert.strictEqual(b.draft, '', 'a draft set on widget-a leaves widget-b untouched');
+    });
+
+    test('panel/open state is independent per instance', function (assert) {
+      const registry = getRegistry(this);
+      const a = registry.for('widget-a');
+      const b = registry.for('widget-b');
+
+      a.toggleOpen();
+      a.toggleHistory();
+
+      assert.true(a.open);
+      assert.true(a.showHistory);
+      assert.false(b.open, 'widget-b was not opened by toggling widget-a');
+      assert.false(b.showHistory, 'widget-b\'s history panel was not opened by toggling widget-a');
+    });
+
+    test('event-bus listeners are independent per instance', function (assert) {
+      const registry = getRegistry(this);
+      const a = registry.for('widget-a');
+      const b = registry.for('widget-b');
+      let aCalls = 0;
+      let bCalls = 0;
+
+      a.on('send', () => (aCalls += 1));
+      b.on('send', () => (bCalls += 1));
+
+      a.send('hello from a');
+
+      assert.strictEqual(aCalls, 1, 'widget-a\'s own listener fires for its own send');
+      assert.strictEqual(bCalls, 0, 'widget-b\'s listener does not fire for widget-a\'s send');
+    });
+
+    test('restart() on one instance does not clear another instance\'s messages', function (assert) {
+      const registry = getRegistry(this);
+      const a = registry.for('widget-a');
+      const b = registry.for('widget-b');
+
+      a.send('a message');
+      b.send('b message');
+
+      a.restart();
+
+      assert.strictEqual(a.messages.length, 0);
+      assert.strictEqual(b.messages.length, 1, 'restarting widget-a leaves widget-b\'s messages intact');
+    });
   });
 });

@@ -2406,14 +2406,14 @@ and `src/components/ai-chat/session-shell.gts` (`SessionShell`, the
 | Upstream (React/Redux) | This port |
 | --- | --- |
 | `ServiceManager` (upstream's own DI container) | Deleted entirely - Ember's owner/`@service` already is this. |
-| `store/` (Redux: `actions.ts`/`reducers.ts`/`appStore.ts`/`selectors.ts`) | `ChatSessionService`'s own `@tracked` fields (`messages`, `draft`, `open`, `showHistory`, `showWorkspace`, `isReadonly`) - no separate action/reducer/selector layers; methods mutate directly and Glimmer's autotracking replaces `connect()`/selectors. |
-| `MessageService`/`OutboundMessageCoordinator` (`ADD_MESSAGE`, `UPSERT_MESSAGE`, `UPDATE_MESSAGE`) | `ChatSessionService#send()`/`#receive()` |
-| `InboundStreamingCoordinator` (`STREAMING_START`, `STREAMING_ADD_CHUNK`, generation tracking, abort controllers) | `ChatSessionService#appendChunk()`/`#finalizeStreaming()`/`#cancelStreaming()`/`#getAbortSignal()` - cancellation and a stale-chunk guard are ported (see "Cancellation" below); `StreamingTracker`'s `response_id`/`item_id` aliasing is not, since this service has no wire protocol with a second id to resolve. |
-| `instance.on()`/`.off()`/`.once()` (upstream's own event bus, `serviceManager.eventBus`) | `ChatSessionService#on()`/`#off()`/`#emit()` - a plain `Map<type, Set<handler>>`; `.once()` isn't ported (no caller needed it yet). |
-| `instance.send()` | `ChatSessionService#send()` - same host-boundary: appends the user message and emits `'send'`, producing the assistant reply is the host application's job (upstream's `customSendMessage`), not this service's. |
-| `SET_HISTORY_PANEL_OPEN`/`SET_WORKSPACE_PANEL_OPEN` | `ChatSessionService#toggleHistory()`/`#toggleWorkspace()` |
-| `SET_VIEW_STATE`/`instance.changeView()` | `ChatSessionService#toggleOpen()` (a single `open` boolean - upstream's richer multi-view `ViewState` isn't needed since `Launcher`/`ChatShell` are the only two views this port has). |
-| `RESTART_CONVERSATION` | `ChatSessionService#restart()` |
+| `store/` (Redux: `actions.ts`/`reducers.ts`/`appStore.ts`/`selectors.ts`) | `ChatSession`'s own `@tracked` fields (`messages`, `draft`, `open`, `showHistory`, `showWorkspace`, `isReadonly`) - no separate action/reducer/selector layers; methods mutate directly and Glimmer's autotracking replaces `connect()`/selectors. |
+| `MessageService`/`OutboundMessageCoordinator` (`ADD_MESSAGE`, `UPSERT_MESSAGE`, `UPDATE_MESSAGE`) | `ChatSession#send()`/`#receive()` |
+| `InboundStreamingCoordinator` (`STREAMING_START`, `STREAMING_ADD_CHUNK`, generation tracking, abort controllers) | `ChatSession#appendChunk()`/`#finalizeStreaming()`/`#cancelStreaming()`/`#getAbortSignal()` - cancellation and a stale-chunk guard are ported (see "Cancellation" below); `StreamingTracker`'s `response_id`/`item_id` aliasing is not, since this session has no wire protocol with a second id to resolve. |
+| `instance.on()`/`.off()`/`.once()` (upstream's own event bus, `serviceManager.eventBus`) | `ChatSession#on()`/`#off()`/`#emit()` - a plain `Map<type, Set<handler>>`; `.once()` isn't ported (no caller needed it yet). |
+| `instance.send()` | `ChatSession#send()` - same host-boundary: appends the user message and emits `'send'`, producing the assistant reply is the host application's job (upstream's `customSendMessage`), not this session's. |
+| `SET_HISTORY_PANEL_OPEN`/`SET_WORKSPACE_PANEL_OPEN` | `ChatSession#toggleHistory()`/`#toggleWorkspace()` |
+| `SET_VIEW_STATE`/`instance.changeView()` | `ChatSession#toggleOpen()` (a single `open` boolean - upstream's richer multi-view `ViewState` isn't needed since `Launcher`/`ChatShell` are the only two views this port has). |
+| `RESTART_CONVERSATION` | `ChatSession#restart()` |
 | `AppShell.tsx` (assembles `Launcher`/`MainWindow`/panels, owns the Context providers) | `SessionShell` - injects `@service('carbon.ai-chat-session')` once and passes session state down as plain `@arg`s to `Launcher`/`ChatShell`/`PromptLineShell`/`PromptLine`/`Processing`, all of which stay exactly as already ported (stateless/always-controlled per their own class docs - this is the "not a parallel prop-drilling scheme" requirement: one injection point, one level of args, per AGENTS.md's "React context → a service, or the parent component instance yielded down to children" rule). |
 
 **Deliberately NOT ported in this first pass** (each is its own real,
@@ -2433,11 +2433,6 @@ separable follow-up, not an oversight):
   Yielded outward rather than filled in, so a future `ai-chat/chat-history`
   (PR #870) integration can plug into `<:history>` without this component
   changing.
-- **`NamespaceService`** (multi-instance isolation, `SET_STREAM_ID`) - this
-  service is a per-app Ember singleton; multiple independent chat widgets
-  on one page would need a real design (probably an id-keyed registry
-  service, or per-widget instantiation via `ember-simple-tracking`-style
-  factories) that wasn't needed for a first pass.
 - **`ThemeWatcherService`** - docs-app's own `ThemeSupport` already owns
   theming for every component in this addon; there is no upstream-shaped
   gap to fill here.
@@ -2457,11 +2452,11 @@ separable follow-up, not an oversight):
   resolve. Porting `StreamingTracker` itself would be speculative state
   with no consumer - see "Cancellation" below for what *is* ported.
 
-**Cancellation (2026-09-14 follow-up)**: `ChatSessionService#cancelStreaming(id?)`
+**Cancellation (2026-09-14 follow-up)**: `ChatSession#cancelStreaming(id?)`
 is the Ember equivalent of upstream's user-triggered "Stop generating"
 action. Defaults to the currently-streaming response
 (`#streamingMessageId`) when no `id` is given. It aborts the response's
-`AbortSignal` (`#getAbortSignal(id)` - host-owned, since this service
+`AbortSignal` (`#getAbortSignal(id)` - host-owned, since this session
 doesn't make the network call itself; wire it into `fetch(url, { signal })`
 or check `signal.aborted` inside a manual streaming loop, as the docs demo
 does), marks the message `streaming: false, cancelled: true`, and adds the
@@ -2483,15 +2478,56 @@ gating (this port always shows the button while streaming; upstream can
 suppress it per-response via `streaming_metadata.cancellable`, which this
 port's `receive()` has no equivalent input for).
 
+**Multi-instance isolation (2026-09-16 follow-up):** `ChatSessionService`
+is now a *registry*, not a flat bag of state - what used to live directly
+on the service (`messages`, `draft`, `open`, `showHistory`,
+`showWorkspace`, `isReadonly`, the `on()`/`off()`/`emit()` event bus, and
+every method) moved verbatim onto a new exported `ChatSession` class. The
+service itself is just `#sessions: Map<string, ChatSession>` behind
+`for(id = DEFAULT_CHAT_SESSION_ID)` (get-or-create) and a `.default`
+convenience getter (`for()` with no id) - the Ember equivalent of
+upstream's `NamespaceService`. `SessionShell` gained an `@instanceId?:
+string` arg and resolves `get session() { return this.sessions.for(this
+.args.instanceId); }`; omitting it behaves exactly as before this change
+(resolves the same default session every time).
+
+Two designs were considered - a registry on the existing `carbon.*`
+singleton (chosen) vs. a non-singleton `ChatSession` created per widget via
+`owner.factoryFor('service:ai-chat-session').create()`. The factory
+approach was rejected because it has no *name* a second, unrelated
+component can use to find the same instance - the existing docs demo (and
+any real host app) already injects `@service('carbon.ai-chat-session')`
+directly from an out-of-tree listener component, not just from
+`SessionShell` itself, and a factory-created instance is only reachable by
+whoever holds the reference `create()` returned. The registry keeps the id
+as the address, which is also what makes `SessionShell`'s `@instanceId`
+arg fall out naturally: two components anywhere in the tree that call
+`service.for('support')` reach the same `ChatSession`, no prop-drilling or
+yielded block param required. This also matches the addon's existing
+`carbon.*` service-namespace convention (one singleton per concern,
+`@service`-injected) rather than introducing a new, unprecedented
+per-widget-factory pattern into the codebase.
+
+Confirmed via upstream's real `NamespaceService.ts` source that it is
+purely a DOM-id/class/storage-key *suffix* generator (`getSuffix()`),
+unrelated to `SET_STREAM_ID` (a separate, already-cut streaming-generation
+concern, see the "Cancellation" cut above) - the original scope-cut bullet
+in this section had loosely conflated the two. The registry's `id` is the
+seam for that eventual namespacing: a future storage-backed persistence
+pass (see the Persistence cut above) should derive its storage key from
+`ChatSession#id` rather than a single fixed key, so two named instances on
+one page never collide in the same storage backend.
+
 **`on()`/`off()` are manual, on purpose** - matching upstream's own
 `instance.on()`/`.off()`, which are likewise not scoped to a component's
-lifetime. Since `carbon.ai-chat-session` is an app-wide singleton, any
-consumer that registers a listener owns unregistering it (e.g. via
-`registerDestructor`) - the service has no way to know when a listener's
-owning component is torn down otherwise. The docs demo below does this,
-and a real leaked-listener-across-a-remount bug (caught before merge, not
-shipped) is the regression test in `session-shell-test.gts` covering
-exactly this contract.
+lifetime. Since `carbon.ai-chat-session` is an app-wide singleton (its
+registry, and every `ChatSession` it hands out, live for the app's
+lifetime), any consumer that registers a listener owns unregistering it
+(e.g. via `registerDestructor`) - a `ChatSession` has no way to know when a
+listener's owning component is torn down otherwise. The docs demo below
+does this, and a real leaked-listener-across-a-remount bug (caught before
+merge, not shipped) is the regression test in `session-shell-test.gts`
+covering exactly this contract.
 
 **Message shape is deliberately minimal**: `{ id, role: 'user' | 'assistant',
 text, streaming? }` - a flat array, reassigned (not deep-mutated) on every
