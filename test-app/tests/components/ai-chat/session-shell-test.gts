@@ -159,6 +159,16 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
     assert.dom('.cds-aichat-shell.show-workspace').exists();
   });
 
+  test('always renders ChatShell with a frame and an expanded PromptLineShell', async function (assert) {
+    session(this).open = true;
+    await render(<template><SessionShell /></template>);
+
+    assert.dom('.cds-aichat-shell').doesNotHaveClass('frameless');
+    assert
+      .dom('.cds-aichat-prompt-line-shell__input-container')
+      .hasClass('cds-aichat-prompt-line-shell__input-container--expanded');
+  });
+
   test('isReadonly disables the send button and prevents sending', async function (assert) {
     const svc = session(this);
     svc.open = true;
