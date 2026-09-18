@@ -1,5 +1,43 @@
 # Changelog
 
+## Release (2026-09-18)
+
+* carbon-components-ember 3.1.0 (minor)
+
+#### :rocket: Enhancement
+* `carbon-components-ember`
+  * [#879](https://github.com/IBM/carbon-components-ember/pull/879) Carbon AI Chat: ChatSessionService persistence + chat-history integration ([@patricklx](https://github.com/patricklx))
+  * [#880](https://github.com/IBM/carbon-components-ember/pull/880) Carbon AI Chat: multi-instance isolation for ChatSessionService (NamespaceService) ([@patricklx](https://github.com/patricklx))
+  * [#876](https://github.com/IBM/carbon-components-ember/pull/876) Carbon AI Chat: port AudioPlayer and VideoPlayer components ([@patricklx](https://github.com/patricklx))
+  * [#878](https://github.com/IBM/carbon-components-ember/pull/878) AI Chat: streaming cancellation for ChatSessionService ([@patricklx](https://github.com/patricklx))
+  * [#877](https://github.com/IBM/carbon-components-ember/pull/877) Carbon AI Chat orchestration layer: carbon.ai-chat-session service + SessionShell ([@patricklx](https://github.com/patricklx))
+  * [#870](https://github.com/IBM/carbon-components-ember/pull/870) Carbon AI Chat: port chat-history component family ([@patricklx](https://github.com/patricklx))
+  * [#865](https://github.com/IBM/carbon-components-ember/pull/865) Carbon AI Chat batch 3: Processing, ChatButton, Toolbar, WorkspaceShell, FileUploads ([@patricklx](https://github.com/patricklx))
+  * [#868](https://github.com/IBM/carbon-components-ember/pull/868) PromptLine: add the real suggestion popup (PromptLineAutocomplete) ([@patricklx](https://github.com/patricklx))
+  * [#866](https://github.com/IBM/carbon-components-ember/pull/866) Add mention/command/autocomplete/starter Tiptap extensions to PromptLine ([@patricklx](https://github.com/patricklx))
+  * [#864](https://github.com/IBM/carbon-components-ember/pull/864) PromptLine: IME composition guard + Tiptap preload fast path ([@patricklx](https://github.com/patricklx))
+  * [#863](https://github.com/IBM/carbon-components-ember/pull/863) feat: add rich (Tiptap) editing mode to PromptLine ([@patricklx](https://github.com/patricklx))
+  * [#862](https://github.com/IBM/carbon-components-ember/pull/862) feat: port Carbon AI Chat ChainOfThought, ReasoningSteps, Feedback, PromptLine components ([@patricklx](https://github.com/patricklx))
+  * [#861](https://github.com/IBM/carbon-components-ember/pull/861) feat: port Carbon AI Chat Markdown component ([@patricklx](https://github.com/patricklx))
+  * [#859](https://github.com/IBM/carbon-components-ember/pull/859) feat: port Carbon AI Chat Carousel component ([@patricklx](https://github.com/patricklx))
+  * [#791](https://github.com/IBM/carbon-components-ember/pull/791) feat: implement Resizer component ([@patricklx](https://github.com/patricklx))
+  * [#838](https://github.com/IBM/carbon-components-ember/pull/838) feat: port Carbon AI Chat Launcher and ChatShell components ([@patricklx](https://github.com/patricklx))
+
+#### :bug: Bug Fix
+* `carbon-components-ember`
+  * [#881](https://github.com/IBM/carbon-components-ember/pull/881) fix: chat-history overflow-menu icon alignment + New chat button color ([@patricklx](https://github.com/patricklx))
+
+#### :house: Internal
+* `carbon-components-ember`
+  * [#883](https://github.com/IBM/carbon-components-ember/pull/883) fix: resolve or remove the 4 dead astroturf rules left by the .module.scss?inline fix ([@patricklx](https://github.com/patricklx))
+* Other
+  * [#885](https://github.com/IBM/carbon-components-ember/pull/885) fix: root-cause 3 CI-flaky test-app timing races ([@patricklx](https://github.com/patricklx))
+  * [#882](https://github.com/IBM/carbon-components-ember/pull/882) fix(docs-app): resolve .module.scss?inline imports before embroider-resolver drops the query ([@patricklx](https://github.com/patricklx))
+  * [#869](https://github.com/IBM/carbon-components-ember/pull/869) fix: docs-app default 'white' theme never got real custom-property injection ([@patricklx](https://github.com/patricklx))
+
+#### Committers: 1
+- Patrick Pircher ([@patricklx](https://github.com/patricklx))
+
 ## Release (2026-09-10)
 
 * carbon-components-ember 3.0.0 (major)
