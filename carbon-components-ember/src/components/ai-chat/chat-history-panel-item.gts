@@ -124,6 +124,14 @@ export interface ChatHistoryPanelItemSignature {
  *   items (`_handleMenuItemKeyDown`) - not ported; `OverflowMenu` doesn't
  *   provide it, and it's a keyboard enhancement rather than core
  *   functionality (Tab still reaches every item).
+ *
+ * `@horizontalPosition='right'` is passed explicitly to `OverflowMenu`: its
+ * underlying `ember-basic-dropdown` default (`'auto'`) picks whichever side
+ * fits the *viewport*, which - since the trigger sits flush against the
+ * right edge of the (usually much narrower) history panel - almost always
+ * resolves to `'left'` and lets the menu grow rightward out of the panel
+ * into whatever sits beside it. Forcing `'right'` opens the menu leftward
+ * instead, keeping it within the panel's own bounds.
  */
 export default class ChatHistoryPanelItem extends Component<ChatHistoryPanelItemSignature> {
   @tracked internalRename = this.args.rename ?? false;
@@ -206,7 +214,12 @@ export default class ChatHistoryPanelItem extends Component<ChatHistoryPanelItem
           class='cds-aichat-history-panel-item__actions
             {{if @showActions "cds-aichat-history-panel-item__actions--always-show"}}'
         >
-          <OverflowMenu @direction='bottom' @tooltip={{or @overflowMenuLabel 'Options'}} @icon={{OverflowMenuVertical}}>
+          <OverflowMenu
+            @direction='bottom'
+            @tooltip={{or @overflowMenuLabel 'Options'}}
+            @icon={{OverflowMenuVertical}}
+            @horizontalPosition='right'
+          >
             {{#each @actions as |menuAction|}}
               <OverflowMenuItem
                 @itemText={{menuAction.text}}

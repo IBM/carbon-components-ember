@@ -77,10 +77,9 @@ export default class ChatHistoryToolbar extends Component<ChatHistoryToolbarSign
         />
       {{/unless}}
       {{yield to='actionsEnd'}}
-      <Tooltip @label={{or @newChatLabel 'New chat'}} @align='bottom'>
+      <Tooltip @label={{or @newChatLabel 'New chat'}} @align='top-right'>
         <Button
           class='cds-aichat-history-toolbar__new-chat'
-          @ghost={{true}}
           @iconOnly={{true}}
           @size='md'
           @onClick={{this.handleNewChat}}

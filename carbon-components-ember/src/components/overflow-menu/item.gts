@@ -65,8 +65,13 @@ export default class OverflowMenuItem extends Component<OverflowMenuItemComponen
           ...attributes
         >
           <span class='cds--overflow-menu-options__option-content'>
-            {{@itemText}}{{yield}}
+            {{@itemText}}
           </span>
+          {{#if (has-block)}}
+            <span class='cds--overflow-menu-options__option-icon'>
+              {{yield}}
+            </span>
+          {{/if}}
           {{#if @dangerDescription}}
             {{#if @isDelete}}
               <span class='cds--visually-hidden'>{{@dangerDescription}}</span>

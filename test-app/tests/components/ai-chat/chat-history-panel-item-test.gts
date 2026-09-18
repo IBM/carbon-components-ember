@@ -102,8 +102,59 @@ module('Integration | Component | ai-chat/ChatHistoryPanelItem', (hooks) => {
     assert.dom('.cds--overflow-menu-options__option').exists({ count: 2 });
     assert.dom('.cds--overflow-menu-options__option--danger').exists({ count: 1 });
 
+    // The action's icon renders as its own `.option-icon` sibling of the
+    // text `.option-content`, not nested inside it - `.cds--overflow-menu-
+    // options__btn`'s `justify-content: space-between` then pushes it flush
+    // right, matching upstream's `cds-overflow-menu-item` layout.
+    assert
+      .dom('.cds--overflow-menu-options__option:last-child .cds--overflow-menu-options__option-icon svg')
+      .exists();
+    assert
+      .dom('.cds--overflow-menu-options__option:last-child .cds--overflow-menu-options__option-content svg')
+      .doesNotExist();
+    // "Rename" passes no `icon`, so its `.option-icon` wrapper (always
+    // present once ChatHistoryPanelItem's own `{{#if menuAction.icon}}`
+    // block is yielded to OverflowMenuItem at all, regardless of whether
+    // that inner `{{#if}}` ends up rendering anything) stays empty rather
+    // than being absent - `{{has-block}}` reflects whether a block was
+    // syntactically passed to the invocation, not whether it renders any
+    // content.
+    assert
+      .dom('.cds--overflow-menu-options__option:first-child .cds--overflow-menu-options__option-icon')
+      .hasText('');
+
     await click('.cds--overflow-menu-options__option:last-child button');
     assert.deepEqual(calls, [{ action: 'Delete', itemId: 'chat-1', itemName: 'My chat' }]);
+  });
+
+  test('the overflow menu requests right-alignment, so it opens toward the panel interior instead of growing past its right edge', async function (assert) {
+    // The trigger sits flush against the right edge of a history panel
+    // that's usually much narrower than the browser viewport - `Overflow
+    // Menu`'s underlying `ember-basic-dropdown` `horizontalPosition='auto'`
+    // default would pick `'left'` (the menu already fits the *viewport*
+    // from there), letting it grow rightward out of the panel. `Chat
+    // HistoryPanelItem` passes `@horizontalPosition='right'` so the menu
+    // opens toward the panel's interior (leftward from the trigger)
+    // instead. Asserted via the resulting `ember-basic-dropdown-content--
+    // right` state class rather than measured pixel positions - the actual
+    // pixel math is `ember-basic-dropdown`'s own well-tested concern, and
+    // is sensitive to the QUnit test harness's own container/coordinate
+    // setup in a way unrelated to this component.
+    await render(
+      <template>
+        <ChatHistoryPanelItem
+          @id='chat-1'
+          @name='My chat'
+          @actions={{array (hash text='Rename') (hash text='Delete' delete=true)}}
+        />
+      </template>,
+    );
+
+    await click('.cds--overflow-menu');
+
+    assert
+      .dom(document.querySelector('.cds--overflow-menu-options')!.closest('.ember-basic-dropdown-content'))
+      .hasClass('ember-basic-dropdown-content--right');
   });
 
   test('the overflow menu is hidden by default and shown via @showActions', async function (assert) {

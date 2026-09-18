@@ -71,3 +71,32 @@
 .cds--text-area__wrapper:not(.cds--text-area__wrapper--cols) .cds--text-area {
   inline-size: 100%;
 }
+
+// `OverflowMenuItem`'s optional icon block (`ai-chat/chat-history-panel-
+// item.gts`'s Rename/Delete actions are the first caller of this) renders
+// as a `.cds--overflow-menu-options__option-icon` sibling of the item's
+// text, matching upstream Carbon web-components' own
+// `:host(cds-overflow-menu-item) { display: flex; justify-content:
+// space-between; }` (the icon sits flush right, the label flush left) -
+// `@carbon/styles` (this addon models the React variant of OverflowMenu,
+// which has no built-in icon slot at all) never declares this, so it's
+// added here. `justify-content: space-between` on the trigger button is a
+// no-op for the far more common text-only case (a single flex child has
+// nowhere else to go), so this is safe to apply unconditionally.
+.cds--overflow-menu-options__btn {
+  justify-content: space-between;
+}
+
+// A bare `<svg>` icon's `display` defaults to the browser's `inline` for
+// replaced elements, which sits fine on its own line - but any host app
+// with a common CSS reset that forces `img, svg, video, ... { display:
+// block; }` (e.g. Tailwind's Preflight, confirmed present in docs-app
+// itself) would blockify it. Making `.option-icon` itself an `inline-flex`
+// container sidesteps that entirely: a flex item's outer display is always
+// blockified by the flex layout algorithm regardless of what a reset sets
+// it to, so the icon lays out identically with or without such a reset.
+.cds--overflow-menu-options__option-icon {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
