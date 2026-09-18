@@ -398,7 +398,9 @@ export class ChatSession {
    */
   enablePersistence = (
     storage: ChatSessionStorage = window.sessionStorage,
-    key = DEFAULT_STORAGE_KEY,
+    key: string = this.id === DEFAULT_CHAT_SESSION_ID
+      ? DEFAULT_STORAGE_KEY
+      : `${DEFAULT_STORAGE_KEY}:${this.id}`,
   ): boolean => {
     if (this.#storage === storage && this.#storageKey === key) {
       this.persist();

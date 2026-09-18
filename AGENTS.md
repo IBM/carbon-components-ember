@@ -2508,10 +2508,13 @@ purely a DOM-id/class/storage-key *suffix* generator (`getSuffix()`),
 unrelated to `SET_STREAM_ID` (a separate, already-cut streaming-generation
 concern, see the "Cancellation" cut above) - the original scope-cut bullet
 in this section had loosely conflated the two. The registry's `id` is the
-seam for that eventual namespacing: a future storage-backed persistence
-pass (see the Persistence cut above) should derive its storage key from
-`ChatSession#id` rather than a single fixed key, so two named instances on
-one page never collide in the same storage backend.
+seam this namespacing needed: `enablePersistence()`'s default storage key
+(see the Persistence section below) derives from `ChatSession#id` - the
+default session keeps the plain `carbon-ai-chat-session` key unchanged
+(matching this service's pre-multi-instance behavior and every existing
+test that hardcodes it), while any other id gets a `:${id}` suffix, so two
+named instances on one page never collide in the same storage backend
+unless a host passes the same explicit `key` to both.
 
 **`on()`/`off()` are manual, on purpose** - matching upstream's own
 `instance.on()`/`.off()`, which are likewise not scoped to a component's

@@ -494,6 +494,26 @@ module('Unit | Service | ai-chat-session', function (hooks) {
       assert.strictEqual(sessionB.messages.length, 0);
     });
 
+    test('two non-default sessions default to distinct storage keys derived from their id, without an explicit key', function (assert) {
+      const storage = createFakeStorage();
+      const registry = getRegistry(this);
+      const support = registry.for('support');
+      const sales = registry.for('sales');
+
+      support.enablePersistence(storage);
+      support.send('support message');
+
+      const restoredSales = sales.enablePersistence(storage);
+
+      assert.false(restoredSales, 'sales never wrote to support\'s key, so there is nothing to restore');
+      assert.strictEqual(sales.messages.length, 0);
+      assert.strictEqual(
+        storage.getItem('carbon-ai-chat-session'),
+        null,
+        'the default session\'s own plain key is untouched by either named instance',
+      );
+    });
+
     test('re-enabling persistence with a different key cancels a pending debounced write to the old one', async function (assert) {
       const storage = createFakeStorage();
       const session = getService(this);
