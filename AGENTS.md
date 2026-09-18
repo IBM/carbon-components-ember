@@ -2641,6 +2641,141 @@ Worth the same two-step check (existence + actual embeddability, not
 just existence) for any future docs demo embedding third-party media by
 ID.
 
+### `docs-app`'s `ThemeSupport` `.module.scss?inline` imports — the "[object Object]" bug, root-caused and fixed at the Vite level (functional restoration confirmed for icon only - see the dead-rule caveat below)
+
+`docs-app/app/docs-support/theme-support.gts` inlines several components'
+astroturf-generated, component-scoped CSS into every shadow-wrapped demo's
+`<style>` tag via `import * as iconStyle from 'carbon-components-ember/
+components/icon_CarbonIcon.module.scss?inline'` (and four siblings:
+`buttonStyle`, `paginationStyle`, `uiShellStyle`, `listStyle`), then
+interpolates `{{iconStyle.default}}` etc. directly into the style block. A
+prior session (porting `AiChatCodeSnippet`, PR #867) discovered this
+renders the literal string `"[object Object]"` for all five in a real
+`DOCS_URL=versions/main` production build - `.default` on a `.module.scss?
+inline` import was NOT the compiled CSS text, it was the hashed classname
+map object - and worked around it for a newly-added sixth import
+(`privateTooltipStyle`, PR #881) by hand-writing a CSS rule against the
+real classname property (`.{{privateTooltipStyle.default.tooltip}} {...}`)
+instead of fixing the underlying cause. **This has now been properly
+root-caused and fixed at the Vite-config level** - the by-hand-rule
+workaround is no longer needed for new imports, and PR #881's hand-written
+tooltip rule needs to be reverted back to plain `{{privateTooltipStyle
+.default}}` as part of whichever PR merges second (see the note at the
+end of this section).
+
+**Root cause, confirmed empirically (source-reading alone was
+misleading and pointed at the wrong plugin twice before landing here) -
+not `docs-app/vite.config.mjs`'s own `astroturf()` plugin.** A raw dev-
+server curl of the exact `?inline` module id (`/@id/carbon-components-
+ember/components/icon_CarbonIcon.module.scss?inline`) returned real,
+correctly-hashed compiled CSS text - Vite's own `?inline`-vs-CSS-modules
+handling (`vite:css-post`, keyed off `inlineRE.test(id)` on the *final
+resolved* id) is already correct and needs no fix. The bug only reproduces
+in a production **build**. Patching a one-line `console.error` into a
+throwaway local copy of Vite's own `vite:css-post` transform (reverted
+immediately after use - this is a shared `pnpm` store package, edits there
+are NOT scoped to one project) proved the resolved `id` reaching that
+transform had **no query string at all** for this file in build mode -
+i.e. the `?inline` request and the plain (non-inline) CSS-modules request
+the owning component uses for its own scoped classnames had already
+collapsed onto one identical Rollup module id before Vite's own css
+pipeline ever ran. Tracing where: `@embroider/vite`'s `embroider-resolver`
+plugin (`resolver.js`) is registered with `enforce: 'pre'`, so it always
+wins the resolve race for any specifier matching an addon package,
+*before* `docs-app`'s own `astroturf()` plugin (registered last, `enforce`
+unset -> normal bucket) ever gets a chance - astroturf's resolveId is a
+red herring for this specific case, since the requested `.module.scss`
+file already exists for real under the addon's own build output (`carbon-
+components-ember/dist/components/icon_CarbonIcon.module.scss`, written by
+the addon's *own* astroturf babel transform during its rollup build) and
+resolves via normal package resolution, never reaching `docs-app`'s
+in-memory astroturf virtual-file plugin at all. `embroider-resolver`'s own
+`RollupRequestAdapter` (`@embroider/vite`'s `request.js`) strips query
+params off the specifier before delegating to `@embroider/core`'s resolver
+and reconstructing a `filename` via `new URL(result.id, ...).pathname`
+(which drops the query) - the net effect, confirmed by the debug log
+rather than fully traced line-by-line through `@embroider/core`'s own
+resolver internals, is that the final id `embroider-resolver` hands back
+to Vite for a real (non-virtual) `.module.scss` file has no query at all,
+regardless of what query the original specifier carried.
+
+**Fix: win the resolve race ourselves**, in a new `enforce: 'pre'` plugin
+(`inlineAddonModuleCss()`) placed *first* in `docs-app/vite.config.mjs`'s
+`plugins` array (Vite runs same-bucket plugins in array order, and
+`embroider-resolver` is also in the `pre` bucket via `compatPrebuild()`/
+`ember()`) - it matches only `carbon-components-ember/**/*.module.scss?
+inline` specifiers, resolves them directly to the addon's real `dist/`
+file with the query string intact, and returns `null` for everything else
+(plain non-inline imports of the same file, and anything unrelated, both
+fall through to `embroider-resolver` exactly as before - confirmed via a
+full rebuild that the addon's own scoped-classname objects still resolve
+correctly and the hashes still match). With the query preserved,
+`postcss-modules` still runs (it processes `.module.scss` files as CSS
+modules regardless of query, and produces the SAME content-derived hash
+either way, since both the `?inline` and plain imports now resolve
+through the identical underlying file), but `vite:css-post`'s own
+`inlined = inlineRE.test(id)` check now correctly sees the `?inline` flag
+and takes its "return compiled CSS text" branch instead of its "return
+the classname-map module" branch.
+
+**Verified for real, not just "the bundle looks different"** (per the
+`[[project_docs_app_local_browser_verification]]`-style precedent this
+codebase already follows): a real `DOCS_URL=versions/main pnpm build`
+followed by grepping the built `main-*.js` chunk confirmed all five
+`iconStyle`/`buttonStyle`/`paginationStyle`/`uiShellStyle`/`listStyle`
+bindings' `.default` are now string literals of real compiled CSS (not
+`_CarbonIcon2`-style classname objects), and a Playwright pass against the
+built `dist` (served locally, mounted at the real `/carbon-components-
+ember/versions/main/` subpath) confirmed zero remaining `"[object
+Object]"` occurrences in any demo's injected `<style>` text across icon/
+button/pagination/ui-shell/list docs pages.
+
+**Functional restoration (the CSS text actually *applying* to something,
+not just being syntactically valid) was only confirmed for `icon`, not all
+five - the other four have a separate, pre-existing bug that makes their
+astroturf rules permanently dead regardless of this fix, found while doing
+the stronger per-component check a review round explicitly asked for.**
+For icon: a live `<svg>` inside the icon demo's shadow root, carrying the
+exact same hashed class (`_icon_13t4y_1`) the injected rule targets,
+resolves a real `margin: 5px` via `getComputedStyle` - not a browser
+default, and not the value it would have without this fix (no other CSS in
+scope sets margin on a bare `<svg>`). For `button`/`pagination`/`list`/
+`ui-shell`, tracing the compiled selectors through the built `main-*.js`
+chunk shows each one's nested/compound classnames (e.g. `.cds--loading`
+nested under `.namespace` in `button.gts`'s `stylesheet`) get hashed
+*independently* by CSS Modules (confirmed: `_namespace_1ejwd_1
+._cds--loading_1ejwd_1 { ... }` in the compiled output) - but each
+component's own template only ever binds `this.styles.namespace` to its
+root element, never the second, also-hashed classname the rule requires on
+the actual target (`Loading`'s own rendered `cds--loading` class stays
+literal/unhashed; same pattern for `pagination.gts`'s
+`.ember-power-select-trigger`, `list.gts`'s `.cds--pagination`/
+`.cds--search`, and `ui-shell/-sidenav.gts`'s compound `&.cds--side-nav--
+expanded`, which the template applies as a literal string, never through
+`this.styles`). So these four rules can never match any real element -
+this fix makes their `.default` a real, syntactically valid CSS string
+instead of `"[object Object]"`, but has **zero visible styling effect**
+for them, exactly as it had before this fix (just for a different reason).
+This is a separate, pre-existing template-authoring gap in each of those
+four components, not introduced or fixed by this PR - tracked as todo #779
+(fix or remove the dead rule per component) rather than fixed here, since
+it's a larger, per-component change (four separate template edits, not a
+docs-app-only fix).
+
+**Cross-branch hazard, disclosed rather than silently worked around:**
+PR #881 (`fix-chat-history-icon-alignment`, open/unmerged as of this fix)
+added a sixth `.module.scss?inline` import (`privateTooltipStyle`, for
+`-private/tooltip.gts`) and hand-wrote its rule against
+`.{{privateTooltipStyle.default.tooltip}}` specifically *because* `.default`
+was the classname-map object at the time. Once this fix lands,
+`.default` becomes a plain string again, so `.default.tooltip` resolves to
+`undefined` and that rule silently becomes `.undefined { ... }` - dead,
+not visibly broken (no error, just no rule ever matches). Whichever of
+this fix or PR #881 merges second must revert that one hand-written rule
+back to a plain `{{privateTooltipStyle.default}}` interpolation (matching
+the other five) as part of its own rebase - flagged explicitly here and in
+this fix's own PR description so it isn't missed.
+
 ## Key Resources
 
 - **Carbon React**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components

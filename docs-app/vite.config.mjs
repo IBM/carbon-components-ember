@@ -5,9 +5,48 @@ import { kolay } from "kolay/vite";
 import { transformAsync } from '@babel/core';
 import { defineConfig } from "vite";
 import { resolve, dirname, basename, join } from "path";
+import { createRequire } from "module";
 import rehypeShiki from "@shikijs/rehype";
 
 import { rehypeShadowDemo } from "./app/docs-support/rehype-shadow-demo";
+
+const require = createRequire(import.meta.url);
+
+// `?inline` imports of a component's astroturf-generated `.module.scss`
+// (e.g. ThemeSupport's `iconStyle`/`buttonStyle`/etc., re-injected into
+// every shadow-wrapped docs demo's <style> tag) collide with that exact
+// same file's plain, query-less CSS-modules import that the owning
+// component uses for its own scoped classnames: `@embroider/vite`'s
+// `embroider-resolver` plugin is registered `enforce: 'pre'` (always
+// resolves first, regardless of plugin-array order) and drops the
+// `?inline` query when resolving a real file under the addon's `dist/`, so
+// both imports collapse onto the identical resolved id and Vite's own
+// inline-vs-css-modules decision (keyed off that id's query string) never
+// sees the `?inline` flag -- every `.default` came back as the hashed
+// classname map object instead of the compiled CSS text, silently
+// rendering "[object Object]" into the injected <style> block. Resolving
+// these ourselves, in our own `enforce: 'pre'` plugin placed *before*
+// `compatPrebuild()`/`ember()` in the plugins array (same bucket, so array
+// order decides), wins the race and keeps the query intact so Vite's real,
+// already-correct `?inline` handling (confirmed directly against Vite's
+// own dev-server transform) applies.
+function inlineAddonModuleCss() {
+  // The addon's package.json `exports` map has no `./package.json` entry,
+  // so `require.resolve` that directly -- resolve the `.` entry
+  // (`dist/index.js`) instead and strip it back down to the package root.
+  const addonRoot = require.resolve("carbon-components-ember").replace(/\/dist\/.*$/, "");
+  return {
+    name: "inline-addon-module-css",
+    enforce: "pre",
+    resolveId(source) {
+      if (!source.startsWith("carbon-components-ember/") || !source.endsWith(".module.scss?inline")) {
+        return null;
+      }
+      const [path, query] = source.slice("carbon-components-ember/".length).split("?");
+      return `${join(addonRoot, "dist", path)}?${query}`;
+    },
+  };
+}
 
 // Components invocable at the top level of a build-time `.gjs.md` doc (e.g.
 // `<ThemeSwitcher />` above the first heading), mirroring the `topLevelScope`
@@ -118,6 +157,10 @@ export default defineConfig((/* { mode } */) => {
       ],
     },
     plugins: [
+      // Must win the resolve race against `embroider-resolver` (registered
+      // by compatPrebuild()/ember() below, also `enforce: 'pre'`) for the
+      // `?inline` module-CSS imports it targets -- see its own doc comment.
+      inlineAddonModuleCss(),
       // Runs a classic ember-cli prebuild so @embroider/core's resolver has
       // the metadata (rewritten-packages, resolver.json, etc.) it needs to
       // resolve Ember virtual modules like @embroider/virtual/helpers/*.
