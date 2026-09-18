@@ -8,7 +8,6 @@ import ConfirmDialogComponent from './dialogs/confirm.gts';
 import or from '../helpers/or.ts';
 import Confirm from './dialogs/confirm.gts';
 import Loading from './loading.gts';
-import { stylesheet } from 'astroturf';
 
 /** @documenter yuidoc */
 
@@ -123,23 +122,12 @@ export default class CarbonButton extends Component<ButtonSignature> {
     ghost: false,
   };
 
-  styles = stylesheet`
-  .namespace {
-    .cds--loading {
-      width: 2rem;
-      height: 2rem;
-      display: inline-block;
-    }
-  }
-  ` as { namespace: string };
-
   <template>
     <button
       onclick={{this.onButtonClick}}
       class='cds--btn
         {{this.classes}}
         {{this.layout}}
-        {{this.styles.namespace}}
         {{if (or this.loading @loading) "cds--btn--ghost"}}'
       aria-label='{{if @type "danger"}}'
       disabled={{or @disabled this.loading @loading}}

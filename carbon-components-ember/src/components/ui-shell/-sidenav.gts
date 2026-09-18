@@ -9,7 +9,6 @@ import SideNavDetails from './-sidenav/-details.gts';
 import SideNavIcon from './-sidenav/-icon.gts';
 import HeaderSideNavItems from './-header/-side-nav-items.gts';
 import { fn } from '@ember/helper';
-import { stylesheet } from 'astroturf';
 import type Icon from '../icon';
 
 export type MenuItem = {
@@ -40,23 +39,10 @@ export interface UIShellNavSignature {
 }
 
 export default class UIShellNav extends Component<UIShellNavSignature> {
-  styles = stylesheet`
-    .namespace {
-      &.cds--side-nav--ux {
-        width: 3.5rem;
-      }
-
-      &.cds--side-nav--expanded {
-        width: 16rem;
-      }
-    }
-  ` as { namespace: string };
-
   <template>
     <nav
       class='cds--side-nav__navigation cds--side-nav
-        {{if @open "cds--side-nav--expanded"}}
-        {{this.styles.namespace}}'
+        {{if @open "cds--side-nav--expanded"}}'
       role='navigation'
       aria-label='Page Navigation'
     >

@@ -88,13 +88,13 @@ export default class ListComponent<T> extends Component<
 
   styles = stylesheet`
     .namespace {
-      .cds--pagination {
+      :global(.cds--pagination) {
         position: absolute;
         right: 0;
         left: 0;
       }
 
-      .cds--search {
+      :global(.cds--search) {
         width: 250px;
         display: table-caption;
       }

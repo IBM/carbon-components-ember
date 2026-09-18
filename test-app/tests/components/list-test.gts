@@ -33,4 +33,42 @@ module('Integration | Component | List', (hooks) => {
 
     assert.dom('.cds--structured-list-row').exists({ count: 3 });
   });
+
+  test('yields a SearchInput and Pagination that render inside the structured list section', async function (assert) {
+    await render(
+      <template>
+        <List @items={{array 'a' 'b' 'c'}} as |list|>
+          <list.SearchInput />
+          <list.Pagination />
+          <list.BodyRows as |row|>
+            <row.Row>
+              <list.Column>{{row.item}}</list.Column>
+            </row.Row>
+          </list.BodyRows>
+        </List>
+      </template>,
+    );
+
+    assert
+      .dom('.cds--structured-list .cds--search')
+      .exists('SearchInput renders inside the structured list section');
+    assert
+      .dom('.cds--structured-list .cds--pagination')
+      .exists('Pagination renders inside the structured list section');
+
+    const search = document.querySelector('.cds--search') as HTMLElement;
+    const pagination = document.querySelector(
+      '.cds--pagination',
+    ) as HTMLElement;
+    assert.strictEqual(
+      getComputedStyle(search).display,
+      'table-caption',
+      "list.gts's :global()-wrapped astroturf rule sets .cds--search to display: table-caption",
+    );
+    assert.strictEqual(
+      getComputedStyle(pagination).position,
+      'absolute',
+      "list.gts's :global()-wrapped astroturf rule sets .cds--pagination to position: absolute",
+    );
+  });
 });
