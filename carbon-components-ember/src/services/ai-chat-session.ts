@@ -335,6 +335,7 @@ export class ChatSession {
     if (cancelledMessage) {
       this.emit('cancel', cancelledMessage);
     }
+    this.persist();
   };
 
   /**
