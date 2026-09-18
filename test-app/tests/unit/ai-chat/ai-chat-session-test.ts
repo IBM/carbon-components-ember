@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'test-app/tests/helpers';
 import type ChatSessionService from 'carbon-components-ember/services/ai-chat-session';
 import { DEFAULT_CHAT_SESSION_ID } from 'carbon-components-ember/services/ai-chat-session';
+import type { ChatSessionStorage } from 'carbon-components-ember/services/ai-chat-session';
 
 module('Unit | Service | ai-chat-session', function (hooks) {
   setupTest(hooks);
@@ -16,6 +17,35 @@ module('Unit | Service | ai-chat-session', function (hooks) {
   // down for the registry/`for()` behavior itself.
   function getService(context: { owner: { lookup: (name: string) => unknown } }) {
     return getRegistry(context).default;
+  }
+
+  // `owner.lookup()` caches the singleton, so a second call in the same
+  // test returns the identical instance - not a real stand-in for "a fresh
+  // page load, same storage". Unregistering first forces a genuinely new
+  // instance so a rehydrate test actually proves storage round-tripped the
+  // state, rather than just re-reading the already-live service.
+  function getFreshService(context: {
+    owner: { lookup: (name: string) => unknown; unregister: (name: string) => void };
+  }) {
+    context.owner.unregister('service:carbon.ai-chat-session');
+    return getService(context);
+  }
+
+  // A fake in-memory adapter, not the real `sessionStorage` - a shared
+  // browser global across every test in the suite would let one test's
+  // persisted session leak into another's, the same class of gotcha
+  // already documented for `rich-loader.ts`'s module-level warm cache.
+  function createFakeStorage(): ChatSessionStorage {
+    const map = new Map<string, string>();
+    return {
+      getItem: (key) => map.get(key) ?? null,
+      setItem: (key, value) => void map.set(key, value),
+      removeItem: (key) => void map.delete(key),
+    };
+  }
+
+  function wait(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   test('send() appends a user message and clears the draft', function (assert) {
@@ -298,6 +328,229 @@ module('Unit | Service | ai-chat-session', function (hooks) {
 
       assert.strictEqual(a.messages.length, 0);
       assert.strictEqual(b.messages.length, 1, 'restarting widget-a leaves widget-b\'s messages intact');
+    });
+  });
+
+  module('Persistence', function () {
+    test('enablePersistence() with an empty store returns false and leaves state untouched', function (assert) {
+      const session = getService(this);
+
+      const restored = session.enablePersistence(createFakeStorage());
+
+      assert.false(restored);
+      assert.false(session.wasRehydrated);
+      assert.strictEqual(session.messages.length, 0);
+    });
+
+    test('send() persists immediately, and a later enablePersistence() restores it', function (assert) {
+      const storage = createFakeStorage();
+      const session = getService(this);
+      session.enablePersistence(storage);
+      session.send('remember me');
+
+      // Simulate a reload: a brand new service instance, same storage.
+      const reloaded = getFreshService(this);
+      const restored = reloaded.enablePersistence(storage);
+
+      assert.true(restored);
+      assert.true(reloaded.wasRehydrated);
+      assert.strictEqual(reloaded.messages.length, 1);
+      assert.strictEqual(reloaded.messages[0]?.text, 'remember me');
+    });
+
+    test('restart() persists immediately, clearing a previously-restored session', function (assert) {
+      const storage = createFakeStorage();
+      const session = getService(this);
+      session.enablePersistence(storage);
+      session.send('one');
+
+      session.restart();
+
+      const raw = storage.getItem('carbon-ai-chat-session');
+      assert.true(raw !== null);
+      assert.strictEqual((JSON.parse(raw as string) as { messages: unknown[] }).messages.length, 0);
+    });
+
+    test('a message restored mid-stream comes back with streaming cleared', function (assert) {
+      const storage = createFakeStorage();
+      const session = getService(this);
+      session.enablePersistence(storage);
+      const message = session.receive('partial reply', { streaming: true });
+      session.appendChunk(message.id, '...');
+      session.persist(); // force the debounced appendChunk() write instead of waiting it out
+
+      const reloaded = getFreshService(this);
+      reloaded.enablePersistence(storage);
+
+      assert.false(reloaded.messages[0]?.streaming);
+      assert.false(reloaded.isStreaming);
+    });
+
+    test('cancelStreaming() persists the cancelled message', function (assert) {
+      const storage = createFakeStorage();
+      const session = getService(this);
+      session.enablePersistence(storage);
+      const message = session.receive('partial reply', { streaming: true });
+
+      session.cancelStreaming(message.id);
+
+      const reloaded = getFreshService(this);
+      reloaded.enablePersistence(storage);
+
+      assert.true(reloaded.messages[0]?.cancelled);
+      assert.false(reloaded.messages[0]?.streaming);
+    });
+
+    test('a version mismatch is discarded rather than restored', function (assert) {
+      const storage = createFakeStorage();
+      storage.setItem(
+        'carbon-ai-chat-session',
+        JSON.stringify({ version: 999, messages: [{ id: 'x', role: 'user', text: 'old' }], draft: '', open: false, showHistory: false, showWorkspace: false }),
+      );
+      const session = getService(this);
+
+      const restored = session.enablePersistence(storage);
+
+      assert.false(restored);
+      assert.strictEqual(session.messages.length, 0);
+      assert.strictEqual(storage.getItem('carbon-ai-chat-session'), null, 'stale session is cleared, not left behind');
+    });
+
+    test('malformed stored JSON is discarded rather than throwing', function (assert) {
+      const storage = createFakeStorage();
+      storage.setItem('carbon-ai-chat-session', 'not json');
+      const session = getService(this);
+
+      const restored = session.enablePersistence(storage);
+
+      assert.false(restored);
+      assert.strictEqual(session.messages.length, 0);
+    });
+
+    test('restoring an id already used by the current counter does not collide with a later send()', function (assert) {
+      const storage = createFakeStorage();
+      const firstSession = getService(this);
+      firstSession.enablePersistence(storage);
+      const restoredMessage = firstSession.send('first ever message');
+
+      const secondSession = getFreshService(this);
+      secondSession.enablePersistence(storage);
+      const newMessage = secondSession.send('after reload');
+
+      assert.notStrictEqual(newMessage?.id, restoredMessage?.id);
+    });
+
+    test('setDraft()/appendChunk() debounce their persistence instead of writing on every call', async function (assert) {
+      const storage = createFakeStorage();
+      const session = getService(this);
+      session.enablePersistence(storage);
+
+      session.setDraft('h');
+      session.setDraft('he');
+      session.setDraft('hel');
+      assert.strictEqual(storage.getItem('carbon-ai-chat-session'), null, 'not written synchronously');
+
+      await wait(300);
+
+      const raw = storage.getItem('carbon-ai-chat-session');
+      assert.true(raw !== null);
+      assert.strictEqual((JSON.parse(raw as string) as { draft: string }).draft, 'hel');
+    });
+
+    test('disablePersistence() stops further writes', function (assert) {
+      const storage = createFakeStorage();
+      const session = getService(this);
+      session.enablePersistence(storage);
+      session.send('one');
+
+      session.disablePersistence();
+      session.send('two');
+
+      const raw = storage.getItem('carbon-ai-chat-session');
+      assert.strictEqual((JSON.parse(raw as string) as { messages: unknown[] }).messages.length, 1, 'the second send() was never persisted');
+    });
+
+    test('clearPersistedSession() removes the stored session', function (assert) {
+      const storage = createFakeStorage();
+      const session = getService(this);
+      session.enablePersistence(storage);
+      session.send('one');
+
+      session.clearPersistedSession();
+
+      assert.strictEqual(storage.getItem('carbon-ai-chat-session'), null);
+    });
+
+    test('a custom storage key keeps two sessions independent', function (assert) {
+      const storage = createFakeStorage();
+      const sessionA = getService(this);
+      sessionA.enablePersistence(storage, 'session-a');
+      sessionA.send('a message');
+
+      const sessionB = getFreshService(this);
+      const restoredB = sessionB.enablePersistence(storage, 'session-b');
+
+      assert.false(restoredB);
+      assert.strictEqual(sessionB.messages.length, 0);
+    });
+
+    test('two non-default sessions default to distinct storage keys derived from their id, without an explicit key', function (assert) {
+      const storage = createFakeStorage();
+      const registry = getRegistry(this);
+      const support = registry.for('support');
+      const sales = registry.for('sales');
+
+      support.enablePersistence(storage);
+      support.send('support message');
+
+      const restoredSales = sales.enablePersistence(storage);
+
+      assert.false(restoredSales, 'sales never wrote to support\'s key, so there is nothing to restore');
+      assert.strictEqual(sales.messages.length, 0);
+      assert.strictEqual(
+        storage.getItem('carbon-ai-chat-session'),
+        null,
+        'the default session\'s own plain key is untouched by either named instance',
+      );
+    });
+
+    test('re-enabling persistence with a different key cancels a pending debounced write to the old one', async function (assert) {
+      const storage = createFakeStorage();
+      const session = getService(this);
+      session.enablePersistence(storage, 'key-a');
+      session.setDraft('not yet flushed'); // schedules a debounced write to 'key-a'
+
+      session.enablePersistence(storage, 'key-b');
+      await wait(300);
+
+      assert.strictEqual(
+        storage.getItem('key-a'),
+        null,
+        'the pending write to the old key never landed once persistence was re-pointed elsewhere',
+      );
+    });
+
+    test('re-enabling persistence with the same storage/key flushes a pending write instead of reverting to the last-flushed snapshot', function (assert) {
+      const storage = createFakeStorage();
+      const session = getService(this);
+      session.enablePersistence(storage);
+      session.send('flushed message'); // written synchronously, not debounced
+
+      session.setDraft('not yet flushed'); // schedules a debounced write, still pending
+
+      // Simulates a same-page remount (e.g. an SPA route transition) whose
+      // constructor calls enablePersistence() again with the same target -
+      // must not discard the pending write and rehydrate from the stale,
+      // last-flushed snapshot.
+      session.enablePersistence(storage);
+
+      assert.strictEqual(session.draft, 'not yet flushed', 'the live draft was not reverted');
+      const raw = storage.getItem('carbon-ai-chat-session');
+      assert.strictEqual(
+        (JSON.parse(raw as string) as { draft: string }).draft,
+        'not yet flushed',
+        'the pending write was flushed rather than discarded',
+      );
     });
   });
 });

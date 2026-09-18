@@ -4,6 +4,7 @@ import { render, click, fillIn, triggerKeyEvent, settled, clearRender } from '@e
 import Component from '@glimmer/component';
 import { registerDestructor } from '@ember/destroyable';
 import { service } from '@ember/service';
+import { array, hash } from '@ember/helper';
 import type Owner from '@ember/owner';
 import SessionShell from 'carbon-components-ember/components/ai-chat/session-shell';
 import type ChatSessionService from 'carbon-components-ember/services/ai-chat-session';
@@ -272,5 +273,182 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
 
     assert.strictEqual(svc.messages.length, 1);
     assert.strictEqual(svc.messages[0]?.text, 'no instance id');
+  });
+
+  module('<:history> integration', () => {
+    test('the header history button toggles the panel open and closed', async function (assert) {
+      session(this).open = true;
+      await render(<template><SessionShell /></template>);
+
+      assert.dom('.cds-aichat-shell__history').doesNotExist();
+
+      await click('[aria-label="Chat history"]');
+      assert.dom('.cds-aichat-shell__history').exists();
+      assert.true(session(this).showHistory);
+
+      await click('[aria-label="Chat history"]');
+      assert.dom('.cds-aichat-shell__history').doesNotExist();
+    });
+
+    test('the default assembly renders @historyItems and forwards selection', async function (assert) {
+      const svc = session(this);
+      svc.open = true;
+      svc.showHistory = true;
+      const calls: string[] = [];
+      const items = [
+        { id: '1', name: 'Trip planning' },
+        { id: '2', name: 'Recipe ideas' },
+      ];
+      const onSelect = (id: string) => calls.push(id);
+
+      await render(
+        <template>
+          <SessionShell
+            @historyItems={{items}}
+            @selectedHistoryItemId='1'
+            @onHistoryItemSelect={{onSelect}}
+          />
+        </template>,
+      );
+
+      assert.dom('.cds-aichat-history-panel-item').exists({ count: 2 });
+      assert.dom('.cds--side-nav__link--current').hasText('Trip planning');
+
+      await click('.cds--side-nav__link:not(.cds--side-nav__link--current)');
+      assert.deepEqual(calls, ['2']);
+    });
+
+    test('the toolbar new-chat action restarts the session and closes the history panel', async function (assert) {
+      const svc = session(this);
+      svc.open = true;
+      svc.showHistory = true;
+      svc.send('leftover message');
+      await render(<template><SessionShell /></template>);
+
+      await click('.cds-aichat-history-toolbar__new-chat');
+
+      assert.strictEqual(svc.messages.length, 0, 'restart() cleared the conversation');
+      assert.false(svc.showHistory, 'the history panel closed back to the live conversation');
+    });
+
+    test('the header close button closes the history panel without closing the whole shell', async function (assert) {
+      const svc = session(this);
+      svc.open = true;
+      svc.showHistory = true;
+      await render(<template><SessionShell /></template>);
+
+      await click('.cds-aichat-history-header__close-button');
+
+      assert.false(svc.showHistory);
+      assert.true(svc.open, 'the shell itself stays open');
+    });
+
+    test('rename and delete forward to @onHistoryItemRename/@onHistoryItemDelete', async function (assert) {
+      const svc = session(this);
+      svc.open = true;
+      svc.showHistory = true;
+      const renameCalls: Array<[string, string]> = [];
+      const deleteCalls: string[] = [];
+      const items = [{ id: '1', name: 'Trip planning' }];
+      const onRename = (id: string, name: string) => renameCalls.push([id, name]);
+      const onDelete = (id: string) => deleteCalls.push(id);
+
+      await render(
+        <template>
+          <SessionShell
+            @historyItems={{items}}
+            @onHistoryItemRename={{onRename}}
+            @onHistoryItemDelete={{onDelete}}
+          />
+        </template>,
+      );
+
+      await click('.cds--overflow-menu');
+      await click('.cds--overflow-menu-options__option:first-child button');
+      assert.dom('.cds-aichat-history-panel-item-input').exists('menu action switched the item into rename mode');
+
+      await fillIn('.cds-aichat-history-panel-item-input input', 'Renamed chat');
+      await click('.cds-aichat-history-panel-item-input__save');
+      assert.deepEqual(renameCalls, [['1', 'Renamed chat']]);
+
+      await click('.cds--overflow-menu');
+      await click('.cds--overflow-menu-options__option:last-child button');
+      assert.dom('.cds-aichat-history-delete-panel').exists('menu action opened the delete-confirm overlay');
+
+      await click('.cds-aichat-history-delete-panel button:last-child');
+      assert.deepEqual(deleteCalls, ['1']);
+      assert.dom('.cds-aichat-history-delete-panel').doesNotExist();
+    });
+
+    test('closing the panel via the header toggle (not Cancel/Confirm) resets a pending delete so reopening does not resurrect it', async function (assert) {
+      const svc = session(this);
+      svc.open = true;
+      svc.showHistory = true;
+      const items = [{ id: '1', name: 'Trip planning' }];
+
+      await render(<template><SessionShell @historyItems={{items}} /></template>);
+
+      await click('.cds--overflow-menu');
+      await click('.cds--overflow-menu-options__option:last-child button');
+      assert.dom('.cds-aichat-history-delete-panel').exists('delete-confirm overlay opened');
+
+      // Leave via the header's history toggle instead of Cancel/Confirm.
+      await click('[aria-label="Chat history"]');
+      assert.dom('.cds-aichat-shell__history').doesNotExist();
+
+      await click('[aria-label="Chat history"]');
+      assert.dom('.cds-aichat-shell__history').exists();
+      assert
+        .dom('.cds-aichat-history-delete-panel')
+        .doesNotExist('reopening the panel does not resurrect the stale delete-confirm overlay');
+    });
+
+    test('closing the whole shell while mid-rename resets it so reopening the panel starts clean', async function (assert) {
+      const svc = session(this);
+      svc.open = true;
+      svc.showHistory = true;
+      const items = [{ id: '1', name: 'Trip planning' }];
+
+      await render(<template><SessionShell @historyItems={{items}} /></template>);
+
+      await click('.cds--overflow-menu');
+      await click('.cds--overflow-menu-options__option:first-child button');
+      assert.dom('.cds-aichat-history-panel-item-input').exists('menu action switched the item into rename mode');
+
+      // Close the whole shell via the service directly (not a real click on
+      // a different element) so the rename input's own blur-triggered
+      // auto-cancel - a real click elsewhere would naturally shift focus
+      // and trigger that unrelated path first - can't mask whether
+      // `renamingId` itself actually got reset on teardown.
+      svc.toggleOpen();
+      await settled();
+      assert.dom('.cds-aichat-launcher').exists();
+
+      // Reopening leaves `showHistory` as it was (the session doesn't reset
+      // it), so the history panel - and, without the fix, the stale rename
+      // input inside it - is visible again immediately.
+      svc.toggleOpen();
+      await settled();
+      assert.dom('.cds-aichat-shell__history').exists();
+      assert
+        .dom('.cds-aichat-history-panel-item-input')
+        .doesNotExist('reopening does not resurrect the stale rename input');
+    });
+
+    test('a <:history> block overrides the default assembly entirely', async function (assert) {
+      session(this).open = true;
+      session(this).showHistory = true;
+
+      await render(
+        <template>
+          <SessionShell @historyItems={{array (hash id='1' name='Trip planning')}}>
+            <:history><div class='custom-history'>Custom history content</div></:history>
+          </SessionShell>
+        </template>,
+      );
+
+      assert.dom('.custom-history').hasText('Custom history content');
+      assert.dom('.cds-aichat-history-shell').doesNotExist();
+    });
   });
 });

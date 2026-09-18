@@ -2422,17 +2422,12 @@ separable follow-up, not an oversight):
 - **Human-agent handoff** (`humanAgentActions.ts`/`humanAgentReducers.ts`,
   `HistoryService`'s agent-transfer paths) - a whole second conversation
   mode with no presentational components ported yet to drive it.
-- **Persistence/rehydration** (`UserSessionStorageService`,
-  `persistenceUtils.ts`, `HYDRATE_CHAT`/`HYDRATE_MESSAGE_HISTORY`) - no
-  storage backend decision has been made yet; today's messages are
-  in-memory only and vanish on reload.
 - **`CustomPanelManager`/`CustomPanelInstance`** - upstream's arbitrary
-  host-defined side panels; `SessionShell`'s `<:history>`/`<:workspace>`
-  blocks cover the two panel *slots* `ChatShell` already exposes, but not
-  upstream's generic multi-panel-instance management on top of them.
-  Yielded outward rather than filled in, so a future `ai-chat/chat-history`
-  (PR #870) integration can plug into `<:history>` without this component
-  changing.
+  host-defined side panels; `SessionShell`'s `<:workspace>` block still
+  covers just that panel *slot* `ChatShell` already exposes, not upstream's
+  generic multi-panel-instance management on top of it. (`<:history>` is no
+  longer a pure passthrough - see "Persistence and the `chat-history`
+  integration" below.)
 - **`ThemeWatcherService`** - docs-app's own `ThemeSupport` already owns
   theming for every component in this addon; there is no upstream-shaped
   gap to fill here.
@@ -2513,10 +2508,13 @@ purely a DOM-id/class/storage-key *suffix* generator (`getSuffix()`),
 unrelated to `SET_STREAM_ID` (a separate, already-cut streaming-generation
 concern, see the "Cancellation" cut above) - the original scope-cut bullet
 in this section had loosely conflated the two. The registry's `id` is the
-seam for that eventual namespacing: a future storage-backed persistence
-pass (see the Persistence cut above) should derive its storage key from
-`ChatSession#id` rather than a single fixed key, so two named instances on
-one page never collide in the same storage backend.
+seam this namespacing needed: `enablePersistence()`'s default storage key
+(see the Persistence section below) derives from `ChatSession#id` - the
+default session keeps the plain `carbon-ai-chat-session` key unchanged
+(matching this service's pre-multi-instance behavior and every existing
+test that hardcodes it), while any other id gets a `:${id}` suffix, so two
+named instances on one page never collide in the same storage backend
+unless a host passes the same explicit `key` to both.
 
 **`on()`/`off()` are manual, on purpose** - matching upstream's own
 `instance.on()`/`.off()`, which are likewise not scoped to a component's
@@ -3006,6 +3004,190 @@ fixtures' *expected HTML string* (the now-absent `_namespace_1ejwd_1`
 class) with **zero** change to any of their captured `getComputedStyle`
 values - regenerated via `pnpm run test:ember:update-snapshot` and diffed
 to confirm the class-string removal was the only change in each fixture.
+
+### Persistence and the `chat-history` integration (2026-09-16 follow-up)
+
+Picked up two of the "Deliberately NOT ported" items above: persistence/
+rehydration, bundled with wiring the real `ai-chat/chat-history` family
+(PR #870, merged 2026-09-15) into `SessionShell`'s `<:history>` block -
+the two were bundled together because a real history integration is the
+natural place to also decide what "rehydration" means for this service.
+
+**Storage backend: a host-provided `ChatSessionStorage` interface
+(`Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>`), not a hardcoded
+`localStorage` call - and the interface itself rules out `localStorage` as
+the *default*.** Read upstream's real `UserSessionStorageService.ts`
+before deciding (not just its name): it persists to `sessionStorage`, not
+`localStorage`, and says why in its own comment - *"We use sessionStorage
+instead of localStorage to not have to have a public cookie policy that
+must be accepted in EU."* `enablePersistence(storage?, key?)` defaults
+`storage` to `window.sessionStorage` for the same reason, but accepts any
+object shaped like the 3 read/write methods of the real `Storage`
+interface - `window.localStorage` itself, or a host's own adapter, both
+already satisfy it with zero wrapping. Kept fully synchronous (no
+`Promise`-returning variant of the interface) - there's no real consumer
+needing an async/network-backed store yet, matching this file's existing
+"add it when there's a real consumer" precedent (`on()`'s missing
+`.once()`, the cut `NamespaceService`).
+
+**What gets persisted, and why it's less than upstream's own two
+mechanisms combined.** Upstream actually splits this in two: (1)
+`UserSessionStorageService` persists lightweight *UI* state to
+sessionStorage (`viewState`, `launcherIsExpanded`, disclaimers,
+`homeScreenState`, ...) - never messages; (2) actual conversation history
+comes back through `HistoryService#loadHistory()`, which calls a
+host-provided `config.messaging.customLoadHistory(instance)` async
+callback - not browser storage at all. This service has no such split (no
+separate "UI state" vs. "message history" subsystem), so `enablePersistence()`
+persists everything session-relevant in one shot: `messages`, `draft`,
+`open`, `showHistory`, `showWorkspace` (not `isReadonly`, which is
+host-driven per-mount state, not a user preference worth restoring).
+`persist()`/`rehydrate()` (both public) are the direct equivalents of
+`persistSession()`/`loadSession()`; `clearPersistedSession()` of
+`clearSession()`. A version stamp (bumped only on a real breaking change
+to the persisted shape) reproduces `loadSession()`'s own "session is from
+a previous version, throw it away" guard rather than risk restoring a
+shape a later version of this service doesn't understand, and every
+read/write is wrapped in try/catch + `console.error`-and-swallow, matching
+`persistSession()`/`loadSession()`'s own failure handling - a full storage
+quota or a corrupted value shouldn't break the chat.
+
+**Two sanitize-on-restore steps, both with a real failure mode if skipped
+(caught before writing any test, by working through what a reload
+mid-conversation actually does to each field):**
+- A message persisted while `streaming: true` (page closed before a reply
+  finished) is restored with `streaming` forced back to `false` - there's
+  no host loop left after a reload to ever finalize it, so leaving it
+  `true` would make `isStreaming` (and therefore `SessionShell`'s
+  `<Processing />` indicator) stuck on forever. Same principle as
+  upstream's own `launcherIsExpanded: false` override in `loadSession()` -
+  sanitizing view state that can't possibly still be true after a reload,
+  not a divergence from upstream's actual behavior.
+- `generateMessageId()`'s counter (`nextMessageId`) is a module-level
+  value that always restarts at 0 on a fresh page load. Restoring
+  messages without accounting for that means the very next `send()`/
+  `receive()` mints an id already present in the just-restored array -
+  breaks `{{#each ... key='id'}}` identity and lets a later `appendChunk()`
+  write into the wrong (older) message. `rehydrate()` scans restored ids
+  and advances the counter past the highest one found before returning.
+
+**Debounced vs. immediate persistence, chosen per call site, not
+uniformly:** `setDraft()` (fires on every keystroke) and `appendChunk()`
+(fires every ~50-100ms per streamed chunk) go through a single shared
+250ms debounce (`schedulePersist()`); every other mutator
+(`send`/`receive`/`finalizeStreaming`/`restart`/the three `toggle*`
+methods) calls `persist()` immediately - these are once-per-user-action,
+not once-per-keystroke, and immediate persistence means a reload right
+after, say, a reply finishes streaming can't lose it. `persist()` itself
+cancels any pending debounced write first, so a debounce firing later
+never clobbers a more recent immediate write with stale data.
+`schedulePersist()`/`rehydrate()` are plain (unprefixed) methods, not
+`#`-private, despite `#storage`/`#persistTimer` being real private
+fields - this addon's babel config enables private *fields* but not
+private *methods* (`@babel/plugin-transform-private-methods` isn't
+configured), confirmed by an actual `build:js` failure
+(`SyntaxError: Class private methods are not enabled`) before renaming
+them, not assumed - matches this file's own pre-existing convention of
+`#`-only-for-fields.
+
+**`chat-history` integration in `SessionShell`'s `<:history>` block -
+session-owned chrome, host-owned item list, not a `conversations[]`
+store invented on top of `ChatSessionService`.** The task's own instinct
+("wire chat-history in as a real integration, not a placeholder slot")
+was checked against upstream's actual architecture before deciding how
+deep to go: upstream's store holds exactly *one* active conversation, and
+the history panel's items come from the host via `HistoryService`'s
+`customLoadHistory` callback, not from any Redux slice this service could
+port. Inventing a `conversations`/`activeConversationId` registry inside
+`ChatSessionService` to make the panel "useful" on its own would be
+exactly the "don't invent state upstream doesn't have" mistake this
+initiative has flagged repeatedly elsewhere. Instead the same split
+upstream itself draws is reproduced as a division between `SessionShell`
+and its caller:
+- **Session-owned** (no new args): before this, `<:history>` had no UI
+  path to open *or* close itself at all - `ChatShell`'s `@showHistory` was
+  already wired to `session.showHistory`, but nothing in `SessionShell`'s
+  own header ever called `session.toggleHistory()`, so the panel could
+  only be opened programmatically. Fixed with a new `RecentlyViewed`
+  icon-button next to the existing "Close chat" button in `ChatShell`'s
+  main header (toggles `session.toggleHistory`); the default `<:history>`
+  assembly's own `ChatHistoryHeader` gets a real close action
+  (`session.showHistory = false`); and the default `ChatHistoryToolbar`'s
+  "new chat" action calls `session.restart()` then closes the panel back
+  to the now-fresh live conversation.
+- **Host-owned** (new `SessionShell` args, one level of forwarding - same
+  shape as every other arg this component already passes straight down
+  to `ChatShell`/`Launcher`): `@historyItems` (`{ id, name }[]`),
+  `@selectedHistoryItemId`, `@onHistoryItemSelect`/`Rename`/`Delete`. A
+  host supplies the actual list (e.g. backed by its own
+  `customLoadHistory`-equivalent) and reacts to selection/rename/delete;
+  `SessionShell` only assembles `ChatHistory` + `ChatHistoryHeader`/
+  `Toolbar`/`Content`/`Panel`/`Items`/`Item` around whatever list it's
+  given, plus owns the transient "which item is mid-rename/mid-delete-
+  confirm" UI state itself (ephemeral view state, not session data - the
+  same category as the docs demo's own pre-existing `renamingId`/
+  `deletingId` tracked fields on the `chat-history.gjs.md` demo).
+- `<:history>` still fully overrides this default assembly when passed
+  (`{{#if (has-block 'history')}}{{yield to='history'}}{{else}}...{{/if}}`),
+  the same pattern `ChatHistoryDeletePanel` already uses for its
+  `title`/`description` block defaults - a host that wants something
+  other than this default `ChatHistory` shape (or no history feature at
+  all) isn't forced into it.
+- The default assembly's delete-confirm overlay (`ChatHistoryDeletePanel`)
+  is rendered as a sibling of `ChatHistoryContent` *inside* `<:content>`,
+  not as a sibling of `<ChatHistory>` itself - `.cds-aichat-history-delete-
+  panel` is `position: absolute; inset: 0`, and `ChatHistory`'s own root
+  element (`.cds-aichat-history-shell`) is the nearest `position: relative`
+  ancestor. Getting this wrong (a sibling of `<ChatHistory>`) would let the
+  overlay escape to `.cds-aichat-shell`'s own positioning context and cover
+  the whole widget instead of just the history column - not caught by any
+  `test-app` assertion (no test asserts computed layout here), but
+  confirmed correctly scoped with a real `getBoundingClientRect()` check
+  against the `DOCS_URL=versions/main` build: the overlay's width (318px)
+  matches the history column's (320px, the 2px gap being the column's own
+  border), not the full shell's (400px) - it does not escape into the rest
+  of the shell.
+
+**Verified**: `pnpm exec glint`, addon `build:types`/`build:js`, addon
+`pnpm run lint` (0 errors, only pre-existing unrelated warnings), full
+`test-app` suite 1050/1050 (up from 932 in this session's baseline - 76
+new tests across the service unit suite's `Persistence` module and
+`SessionShell`'s `<:history> integration` module; the two runs that showed
+3 "not ok" were the pre-existing, already-documented `Grid` snapshot
+env-flake plus its `js-reporters` module-aggregate double-count, confirmed
+unrelated by a clean rerun of the same commit). A real `DOCS_URL=versions/
+main pnpm build` served locally (custom SPA-fallback static server,
+`carbon-shadow-demo` mounted at the real subpath) driven with Playwright
+end-to-end against the live `session-shell.gjs.md` demo, in this order:
+sent a message → **reloaded the page for real** → confirmed the shell was
+still open and the message was still there (the actual feature this
+subsection adds, not just "does it render") → opened the history panel and
+saw the two demo items → renamed one via the overflow menu → deleted the
+other via the delete-confirm overlay (item count 2 → 1) → clicked "new
+chat" and confirmed it cleared the conversation and closed the panel - zero
+real page errors (excluding the already-documented repo-wide unrelated
+`getChildByName` noise present on every docs page).
+
+**Review fixes:** round 1 found `SessionShell`'s `renamingId`/`deletingId`
+(the transient mid-rename/mid-delete-confirm UI state mentioned above)
+leaked across paths that close the whole history panel without going
+through the rename/delete UI's own save/cancel/confirm handlers (the header
+toggle button, the shell's close button, `newChat()`) - fixed with a
+teardown `modifier()` attached to the default `<ChatHistory>` assembly,
+whose cleanup fires on every path that unmounts it. Round 2 found
+`enablePersistence()` unconditionally discarded any pending debounced write
+(from `setDraft()`/`appendChunk()`) and re-rehydrated from the last-*flushed*
+snapshot even when called again with the exact same `storage`/`key` it was
+already using - since the service is a singleton and the documented pattern
+above calls `enablePersistence()` from a host component's constructor
+specifically to survive a same-page remount, this silently reverted the last
+few hundred milliseconds of typed draft text (or an in-flight streamed
+chunk) whenever a remount happened to land inside the debounce window.
+Fixed by making `enablePersistence()` a no-op (beyond flushing the pending
+write via `persist()`) when `storage`/`key` are unchanged from what's
+already active - only a real change of target still cancels the old pending
+write and rehydrates from the new one, which was already correct and stays
+that way.
 
 ## Key Resources
 
