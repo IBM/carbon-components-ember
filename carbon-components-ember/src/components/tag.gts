@@ -112,7 +112,12 @@ export default class TagComponent extends Component<TagInterface> {
   });
 
   <template>
-    <div class={{this.classes}} id={{this.id}} ...attributes>
+    <div
+      class={{this.classes}}
+      id={{this.id}}
+      disabled={{if @disabled true}}
+      ...attributes
+    >
       {{#if this.showIcon}}
         <div class='cds--tag__custom-icon'>
           <@renderIcon @size='16' @svgClass='cds--tag__custom-icon-svg' />

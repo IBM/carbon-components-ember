@@ -158,15 +158,25 @@ export default class CarbonButton extends Component<ButtonSignature> {
     </button>
   </template>
 
+  // @type has no "off" value (it defaults to 'primary'), so a caller that
+  // only sets @tertiary/@ghost still has @type default to 'primary' behind
+  // the scenes - without this guard, `primary` would also resolve true and
+  // `cds--btn--tertiary`/`cds--btn--ghost` would render alongside a
+  // conflicting `cds--btn--primary`. A caller that wants a plain @type-based
+  // kind with neither @tertiary nor @ghost set (the common case, and the
+  // only way @type ever resolves to its real default) is unaffected.
   get primary() {
+    if (this.args.tertiary || this.args.ghost) return false;
     return (this.args as any).primary || this.args.type === 'primary';
   }
 
   get secondary() {
+    if (this.args.tertiary || this.args.ghost) return false;
     return (this.args as any).secondary || this.args.type === 'secondary';
   }
 
   get danger() {
+    if (this.args.tertiary || this.args.ghost) return false;
     return (this.args as any).danger || this.args.type === 'danger';
   }
 
