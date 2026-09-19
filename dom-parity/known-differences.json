@@ -11,6 +11,26 @@
       "reason": "Same `type` defaults to 'primary' bug as the `tertiary` variant above, for @ghost={{true}} - `cds--btn--ghost` and `cds--btn--primary` both get added. Real bug, tracked as a follow-up."
     }
   ],
+  "Link": [
+    {
+      "path": "a.classes[ember-view]",
+      "reason": "Verified against ember-element-helper@0.8.8's actual source (dist/helpers/element.js): `element` (used here for @as) resolves to a dynamically-generated class that extends classic `@ember/component`, and classic tag-having components always add the framework's own `ember-view` class to their root element. @carbon/react's Link has no equivalent. This is unavoidable *while the root tag is rendered through `element`* - not an inherent Link limitation: `element` is only needed to support @as, so a `{{#if @as}}` branch rendering a literal `<a>` for the common no-@as case would avoid this (and the sibling id entry below) for every variant except as-button. Left as-is here since restructuring Link is out of scope for adding this parity test; worth doing as its own follow-up. The same artifact will hit Grid/GridColumn/GridRow when that family is added to this harness, since they also render their root tag via `element`. Applies to every variant, including as-button (button.classes[ember-view])."
+    },
+    {
+      "path": "a.attributes.id",
+      "reason": "Same ember-element-helper artifact as the ember-view class above - a classic tag-having component also gets an auto-generated `elementId` (rendered as the `id` attribute) by default, canonicalized here to `#1` since it's not referenced by anything else in the tree. Applies to every variant, including as-button (button.attributes.id)."
+    },
+    {
+      "path": "button.classes[ember-view]",
+      "variant": "as-button",
+      "reason": "Same ember-view artifact as the `a.classes[ember-view]` entry above, for the as-button variant's <button> root."
+    },
+    {
+      "path": "button.attributes.id",
+      "variant": "as-button",
+      "reason": "Same auto-generated-id artifact as the `a.attributes.id` entry above, for the as-button variant's <button> root."
+    }
+  ],
   "Tag": [
     {
       "path": "div.attributes.disabled",

@@ -19,6 +19,31 @@
  * wrapped in a tooltip) rather than toggling a class on the same root
  * element, so it isn't a fair "variation of args" comparison here.
  *
+ * Link's `renderIcon` is skipped for the same reason `hasIconOnly` is
+ * skipped for Button: the icon markup itself comes from each side's own,
+ * unrelated icon component, so a `renderIcon` variant would mostly be
+ * comparing two different icon implementations rather than Link's own
+ * wrapping markup. `onClick` is Ember-only DOM-invisible behavior, out of
+ * scope like Button's.
+ *
+ * Tile, Notification/ToastNotification/InlineNotification, CodeSnippet,
+ * Breadcrumb, and the Grid family (Grid/Row/Column) were all considered for
+ * this same batch and deliberately left out - see todo #836 for why each
+ * needs its own, separate pass instead: a real conflated-type bug in
+ * Notification (its `inline` display hardcodes
+ * `cds--inline-notification--error` regardless of `@type`), a
+ * feature-flag-dependent default in Grid (@carbon/react's `Grid` renders
+ * CSS Grid by default at this pinned version, not the flexbox grid Ember's
+ * `Grid` defaults to - needs its own investigation before either side is
+ * "fixed"; also expect the same `element`-helper `ember-view`/auto-id
+ * artifact recorded in known-differences.json for Link, since Grid/
+ * GridColumn/GridRow all render their root tag via `element` too), a
+ * structurally different root element/API in Breadcrumb (a `<nav>` of
+ * plain strings vs. React's `<div>` of `BreadcrumbItem`/`Link` children),
+ * and Popover-dependent interactive state in CodeSnippet (its `CopyButton`
+ * tooltip), matching this file's existing Modal/ComboBox/Dropdown/
+ * DatePicker exclusion.
+ *
  * To add a component or variant: add/extend an entry here, run
  * `pnpm generate` in this package to (re)write its fixture, then add a
  * matching Ember render case to the QUnit test.
@@ -34,6 +59,40 @@ const tag = (name, props) => ({
   name,
   props,
   createElement: (React, Carbon) => React.createElement(Carbon.Tag, props, 'Tag content'),
+});
+
+const link = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) => React.createElement(Carbon.Link, props, 'Link text'),
+});
+
+// Both list factories render two `ListItem`s so a regression in the
+// `cds--list__item` class the parent list stamps onto its children (see
+// ordered-list.gts's `addItemClass` modifier) would show up here too, not
+// just in ListItem's own standalone fixture below.
+const unorderedList = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.UnorderedList,
+      props,
+      React.createElement(Carbon.ListItem, { key: '1' }, 'Item 1'),
+      React.createElement(Carbon.ListItem, { key: '2' }, 'Item 2'),
+    ),
+});
+
+const orderedList = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.OrderedList,
+      props,
+      React.createElement(Carbon.ListItem, { key: '1' }, 'Item 1'),
+      React.createElement(Carbon.ListItem, { key: '2' }, 'Item 2'),
+    ),
 });
 
 export const COMPONENTS = [
@@ -195,6 +254,50 @@ export const COMPONENTS = [
             status: 'active',
             description: 'Active loading indicator',
           }),
+      },
+    ],
+  },
+  {
+    name: 'Link',
+    variants: [
+      link('default', { href: '/about' }),
+      link('disabled', { href: '/about', disabled: true }),
+      link('inline', { href: '/about', inline: true }),
+      link('visited', { href: '/about', visited: true }),
+      link('size-sm', { href: '/about', size: 'sm' }),
+      link('size-lg', { href: '/about', size: 'lg' }),
+      link('target-blank', { href: '/about', target: '_blank' }),
+      link('as-button', { as: 'button', href: '/about' }),
+    ],
+  },
+  {
+    name: 'UnorderedList',
+    variants: [
+      unorderedList('default', {}),
+      unorderedList('nested', { nested: true }),
+      unorderedList('expressive', { isExpressive: true }),
+    ],
+  },
+  {
+    name: 'OrderedList',
+    variants: [
+      orderedList('default', {}),
+      orderedList('nested', { nested: true }),
+      orderedList('expressive', { isExpressive: true }),
+      orderedList('native', { native: true }),
+    ],
+  },
+  {
+    // Covered on its own (in addition to as a child of the two list
+    // fixtures above) since it's a separately exported component
+    // (`ListItem`) with its own DOM shape (`Text`'s `dir='auto'`, see
+    // list-item.gts) that a consumer can render outside of a list.
+    name: 'ListItem',
+    variants: [
+      {
+        name: 'default',
+        props: {},
+        createElement: (React, Carbon) => React.createElement(Carbon.ListItem, {}, 'Item content'),
       },
     ],
   },

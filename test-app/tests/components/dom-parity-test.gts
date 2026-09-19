@@ -5,6 +5,10 @@ import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-c
 import Button from 'carbon-components-ember/components/button';
 import Tag from 'carbon-components-ember/components/tag';
 import Loading from 'carbon-components-ember/components/loading';
+import Link from 'carbon-components-ember/components/link';
+import UnorderedList from 'carbon-components-ember/components/unordered-list';
+import OrderedList from 'carbon-components-ember/components/ordered-list';
+import ListItem from 'carbon-components-ember/components/list-item';
 import { normalizeElement } from '../../../dom-parity/lib/normalize-dom.mjs';
 import {
   diffNormalized,
@@ -14,6 +18,10 @@ import knownDifferences from '../../../dom-parity/known-differences.json';
 import buttonFixture from '../../../dom-parity/fixtures/Button.json';
 import tagFixture from '../../../dom-parity/fixtures/Tag.json';
 import loadingFixture from '../../../dom-parity/fixtures/Loading.json';
+import linkFixture from '../../../dom-parity/fixtures/Link.json';
+import unorderedListFixture from '../../../dom-parity/fixtures/UnorderedList.json';
+import orderedListFixture from '../../../dom-parity/fixtures/OrderedList.json';
+import listItemFixture from '../../../dom-parity/fixtures/ListItem.json';
 
 type VariantFixture = { props: object; dom: object };
 type ComponentFixture = {
@@ -383,6 +391,201 @@ module('DOM parity | Carbon React', function (hooks) {
         'plain-inactive-small',
         'inline',
       ]);
+    });
+  });
+
+  module('Link', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><Link @href='/about'>Link text</Link></template>);
+      assertDomParity(assert, linkFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Link @href='/about' @disabled={{true}}>Link text</Link>
+        </template>,
+      );
+      assertDomParity(assert, linkFixture, 'disabled', this.element.firstElementChild);
+    });
+
+    test('inline', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Link @href='/about' @inline={{true}}>Link text</Link>
+        </template>,
+      );
+      assertDomParity(assert, linkFixture, 'inline', this.element.firstElementChild);
+    });
+
+    test('visited', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Link @href='/about' @visited={{true}}>Link text</Link>
+        </template>,
+      );
+      assertDomParity(assert, linkFixture, 'visited', this.element.firstElementChild);
+    });
+
+    test('size-sm', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Link @href='/about' @size='sm'>Link text</Link>
+        </template>,
+      );
+      assertDomParity(assert, linkFixture, 'size-sm', this.element.firstElementChild);
+    });
+
+    test('size-lg', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Link @href='/about' @size='lg'>Link text</Link>
+        </template>,
+      );
+      assertDomParity(assert, linkFixture, 'size-lg', this.element.firstElementChild);
+    });
+
+    test('target-blank', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Link @href='/about' @target='_blank'>Link text</Link>
+        </template>,
+      );
+      assertDomParity(assert, linkFixture, 'target-blank', this.element.firstElementChild);
+    });
+
+    test('as-button', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Link @as='button' @href='/about'>Link text</Link>
+        </template>,
+      );
+      assertDomParity(assert, linkFixture, 'as-button', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, linkFixture, [
+        'default',
+        'disabled',
+        'inline',
+        'visited',
+        'size-sm',
+        'size-lg',
+        'target-blank',
+        'as-button',
+      ]);
+    });
+  });
+
+  module('UnorderedList', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <UnorderedList>
+            <ListItem>Item 1</ListItem>
+            <ListItem>Item 2</ListItem>
+          </UnorderedList>
+        </template>,
+      );
+      assertDomParity(assert, unorderedListFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('nested', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <UnorderedList @nested={{true}}>
+            <ListItem>Item 1</ListItem>
+            <ListItem>Item 2</ListItem>
+          </UnorderedList>
+        </template>,
+      );
+      assertDomParity(assert, unorderedListFixture, 'nested', this.element.firstElementChild);
+    });
+
+    test('expressive', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <UnorderedList @isExpressive={{true}}>
+            <ListItem>Item 1</ListItem>
+            <ListItem>Item 2</ListItem>
+          </UnorderedList>
+        </template>,
+      );
+      assertDomParity(assert, unorderedListFixture, 'expressive', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, unorderedListFixture, ['default', 'nested', 'expressive']);
+    });
+  });
+
+  module('OrderedList', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <OrderedList>
+            <ListItem>Item 1</ListItem>
+            <ListItem>Item 2</ListItem>
+          </OrderedList>
+        </template>,
+      );
+      assertDomParity(assert, orderedListFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('nested', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <OrderedList @nested={{true}}>
+            <ListItem>Item 1</ListItem>
+            <ListItem>Item 2</ListItem>
+          </OrderedList>
+        </template>,
+      );
+      assertDomParity(assert, orderedListFixture, 'nested', this.element.firstElementChild);
+    });
+
+    test('expressive', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <OrderedList @isExpressive={{true}}>
+            <ListItem>Item 1</ListItem>
+            <ListItem>Item 2</ListItem>
+          </OrderedList>
+        </template>,
+      );
+      assertDomParity(assert, orderedListFixture, 'expressive', this.element.firstElementChild);
+    });
+
+    test('native', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <OrderedList @native={{true}}>
+            <ListItem>Item 1</ListItem>
+            <ListItem>Item 2</ListItem>
+          </OrderedList>
+        </template>,
+      );
+      assertDomParity(assert, orderedListFixture, 'native', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, orderedListFixture, [
+        'default',
+        'nested',
+        'expressive',
+        'native',
+      ]);
+    });
+  });
+
+  module('ListItem', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><ListItem>Item content</ListItem></template>);
+      assertDomParity(assert, listItemFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, listItemFixture, ['default']);
     });
   });
 });

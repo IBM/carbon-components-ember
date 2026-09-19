@@ -1,0 +1,158 @@
+{
+  "component": "UnorderedList",
+  "generatedAt": "2026-09-19T19:15:23.160Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "ul",
+        "classes": [
+          "cds--list--unordered"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--list__item"
+            ],
+            "attributes": {
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Item 1"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--list__item"
+            ],
+            "attributes": {
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Item 2"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "nested": {
+      "props": {
+        "nested": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "ul",
+        "classes": [
+          "cds--list--nested",
+          "cds--list--unordered"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--list__item"
+            ],
+            "attributes": {
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Item 1"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--list__item"
+            ],
+            "attributes": {
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Item 2"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "expressive": {
+      "props": {
+        "isExpressive": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "ul",
+        "classes": [
+          "cds--list--expressive",
+          "cds--list--unordered"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--list__item"
+            ],
+            "attributes": {
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Item 1"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--list__item"
+            ],
+            "attributes": {
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Item 2"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
