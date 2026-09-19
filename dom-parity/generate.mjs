@@ -10,8 +10,12 @@
  * This is an offline step: fixtures are committed, and the QUnit suite in
  * test-app only ever reads them - it never runs this script itself. Rerun
  * manually (`pnpm generate`) after bumping the pinned @carbon/react version
- * in package.json, and see .github/workflows/parity-check-weekly.yml for
- * the scheduled drift check.
+ * in package.json, or after adding/changing an entry in lib/components.mjs.
+ *
+ * There is currently no scheduled CI job that reruns this and diffs the
+ * result, so fixture drift against a newer @carbon/react release is only
+ * caught the next time someone runs this manually - see the follow-up todo
+ * for wiring that into CI.
  */
 import { JSDOM } from 'jsdom';
 import { readFileSync, writeFileSync } from 'fs';

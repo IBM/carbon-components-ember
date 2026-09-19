@@ -23,6 +23,12 @@ pnpm --filter dom-parity generate
 Rerun this after bumping the pinned `@carbon/react` version in
 `package.json`, or after adding a new entry to `lib/components.mjs`.
 
+This is currently a manual step - there is no scheduled CI job that reruns
+`generate` against a newer `@carbon/react` release and diffs the result, so
+fixture drift is only caught the next time someone runs this by hand. Wiring
+that into CI (e.g. alongside `.github/workflows/parity-check-weekly.yml`) is
+tracked as a follow-up, not something this package does today.
+
 ## Adding a component
 
 1. Add an entry to `lib/components.mjs` describing how to render the
