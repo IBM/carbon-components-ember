@@ -2,6 +2,7 @@ packages:
   - carbon-components-ember
   - test-app
   - docs-app
+  - dom-parity
 allowBuilds:
   '@carbon/charts': true
   '@carbon/colors': true

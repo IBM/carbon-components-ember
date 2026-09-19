@@ -1,0 +1,23 @@
+{
+  "Button": [
+    {
+      "path": "button.classes",
+      "reason": "Ember's Button only adds `cds--layout--size-{size}`; @carbon/react's Button also adds a `cds--btn--{size}` modifier class (e.g. `cds--btn--lg`) that Ember's component never emits for non-default sizes. Real gap, tracked as a follow-up."
+    },
+    {
+      "path": "button.attributes.aria-label",
+      "reason": "Ember's <button> template sets `aria-label='{{if @type \"danger\"}}'`, which renders aria-label=\"danger\" whenever @type is any truthy string (i.e. on every button, since @type defaults to 'primary') instead of only on an actual danger/icon-only button. @carbon/react's Button never sets aria-label here at all. Looks like an unintended bug in the Ember template, tracked as a follow-up rather than fixed in this DOM-parity-test PR."
+    }
+  ],
+  "Tag": [
+    {
+      "path": "div > span[0].attributes.title",
+      "reason": "@carbon/react's Tag sets `title` on the `.cds--tag__label` span (used for a truncation tooltip); Ember's Tag never sets it. Real gap, tracked as a follow-up."
+    },
+    {
+      "path": "div > span[0].attributes.dir",
+      "reason": "@carbon/react's Tag sets `dir='auto'` on the `.cds--tag__label` span; Ember's Tag never sets it. Real gap, tracked as a follow-up."
+    }
+  ],
+  "Loading": []
+}

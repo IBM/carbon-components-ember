@@ -1,0 +1,16 @@
+{
+  "name": "dom-parity",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Generates DOM-parity fixtures by rendering a pinned @carbon/react release, for comparison against carbon-components-ember's own render output in test-app's QUnit suite.",
+  "type": "module",
+  "scripts": {
+    "generate": "node ./generate.mjs"
+  },
+  "devDependencies": {
+    "@carbon/react": "1.114.0",
+    "jsdom": "^25.0.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}

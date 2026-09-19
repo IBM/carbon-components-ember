@@ -1,0 +1,62 @@
+{
+  "component": "Loading",
+  "generatedAt": "2026-09-19T11:21:51.006Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "dom": {
+    "type": "element",
+    "tag": "div",
+    "classes": [
+      "cds--loading"
+    ],
+    "attributes": {
+      "aria-atomic": "true",
+      "aria-live": "assertive"
+    },
+    "style": {},
+    "children": [
+      {
+        "type": "element",
+        "tag": "svg",
+        "classes": [
+          "cds--loading__svg"
+        ],
+        "attributes": {
+          "viewbox": "0 0 100 100",
+          "role": "img",
+          "aria-label": "Active loading indicator"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "title",
+            "classes": [],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Active loading indicator"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "circle",
+            "classes": [
+              "cds--loading__stroke"
+            ],
+            "attributes": {
+              "cx": "50%",
+              "cy": "50%",
+              "r": "44"
+            },
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+}

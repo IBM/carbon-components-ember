@@ -1,0 +1,38 @@
+{
+  "component": "Tag",
+  "generatedAt": "2026-09-19T11:21:51.004Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "dom": {
+    "type": "element",
+    "tag": "div",
+    "classes": [
+      "cds--tag",
+      "cds--tag--gray"
+    ],
+    "attributes": {
+      "id": "#1"
+    },
+    "style": {},
+    "children": [
+      {
+        "type": "element",
+        "tag": "span",
+        "classes": [
+          "cds--tag__label"
+        ],
+        "attributes": {
+          "title": "Tag content",
+          "dir": "auto"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Tag content"
+          }
+        ]
+      }
+    ]
+  }
+}
