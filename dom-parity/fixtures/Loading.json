@@ -1,0 +1,742 @@
+{
+  "component": "Loading",
+  "generatedAt": "2026-09-19T16:04:13.516Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "overlay-active": {
+      "props": {
+        "withOverlay": true,
+        "active": true,
+        "description": "Active loading indicator"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--loading-overlay"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--loading"
+            ],
+            "attributes": {
+              "aria-atomic": "true",
+              "aria-live": "assertive"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--loading__svg"
+                ],
+                "attributes": {
+                  "viewBox": "0 0 100 100",
+                  "role": "img",
+                  "aria-label": "Active loading indicator"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "title",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Active loading indicator"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "circle",
+                    "classes": [
+                      "cds--loading__stroke"
+                    ],
+                    "attributes": {
+                      "cx": "50%",
+                      "cy": "50%",
+                      "r": "44"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "overlay-active-small": {
+      "props": {
+        "withOverlay": true,
+        "active": true,
+        "small": true,
+        "description": "Active loading indicator"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--loading-overlay"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--loading",
+              "cds--loading--small"
+            ],
+            "attributes": {
+              "aria-atomic": "true",
+              "aria-live": "assertive"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--loading__svg"
+                ],
+                "attributes": {
+                  "viewBox": "0 0 100 100",
+                  "role": "img",
+                  "aria-label": "Active loading indicator"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "title",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Active loading indicator"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "circle",
+                    "classes": [
+                      "cds--loading__background"
+                    ],
+                    "attributes": {
+                      "cx": "50%",
+                      "cy": "50%",
+                      "r": "42"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "circle",
+                    "classes": [
+                      "cds--loading__stroke"
+                    ],
+                    "attributes": {
+                      "cx": "50%",
+                      "cy": "50%",
+                      "r": "42"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "overlay-inactive": {
+      "props": {
+        "withOverlay": true,
+        "active": false,
+        "description": "Stopped loading indicator"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--loading-overlay",
+          "cds--loading-overlay--stop"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--loading",
+              "cds--loading--stop"
+            ],
+            "attributes": {
+              "aria-atomic": "true",
+              "aria-live": "off"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--loading__svg"
+                ],
+                "attributes": {
+                  "viewBox": "0 0 100 100",
+                  "role": "img",
+                  "aria-label": "Stopped loading indicator"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "title",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Stopped loading indicator"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "circle",
+                    "classes": [
+                      "cds--loading__stroke"
+                    ],
+                    "attributes": {
+                      "cx": "50%",
+                      "cy": "50%",
+                      "r": "44"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "overlay-inactive-small": {
+      "props": {
+        "withOverlay": true,
+        "active": false,
+        "small": true,
+        "description": "Stopped loading indicator"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--loading-overlay",
+          "cds--loading-overlay--stop"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--loading",
+              "cds--loading--small",
+              "cds--loading--stop"
+            ],
+            "attributes": {
+              "aria-atomic": "true",
+              "aria-live": "off"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--loading__svg"
+                ],
+                "attributes": {
+                  "viewBox": "0 0 100 100",
+                  "role": "img",
+                  "aria-label": "Stopped loading indicator"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "title",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Stopped loading indicator"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "circle",
+                    "classes": [
+                      "cds--loading__background"
+                    ],
+                    "attributes": {
+                      "cx": "50%",
+                      "cy": "50%",
+                      "r": "42"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "circle",
+                    "classes": [
+                      "cds--loading__stroke"
+                    ],
+                    "attributes": {
+                      "cx": "50%",
+                      "cy": "50%",
+                      "r": "42"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "plain-active": {
+      "props": {
+        "withOverlay": false,
+        "active": true,
+        "description": "Active loading indicator"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--loading"
+        ],
+        "attributes": {
+          "aria-atomic": "true",
+          "aria-live": "assertive"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--loading__svg"
+            ],
+            "attributes": {
+              "viewBox": "0 0 100 100",
+              "role": "img",
+              "aria-label": "Active loading indicator"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "title",
+                "classes": [],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Active loading indicator"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [
+                  "cds--loading__stroke"
+                ],
+                "attributes": {
+                  "cx": "50%",
+                  "cy": "50%",
+                  "r": "44"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "plain-active-small": {
+      "props": {
+        "withOverlay": false,
+        "active": true,
+        "small": true,
+        "description": "Active loading indicator"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--loading",
+          "cds--loading--small"
+        ],
+        "attributes": {
+          "aria-atomic": "true",
+          "aria-live": "assertive"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--loading__svg"
+            ],
+            "attributes": {
+              "viewBox": "0 0 100 100",
+              "role": "img",
+              "aria-label": "Active loading indicator"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "title",
+                "classes": [],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Active loading indicator"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [
+                  "cds--loading__background"
+                ],
+                "attributes": {
+                  "cx": "50%",
+                  "cy": "50%",
+                  "r": "42"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [
+                  "cds--loading__stroke"
+                ],
+                "attributes": {
+                  "cx": "50%",
+                  "cy": "50%",
+                  "r": "42"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "plain-inactive": {
+      "props": {
+        "withOverlay": false,
+        "active": false,
+        "description": "Stopped loading indicator"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--loading",
+          "cds--loading--stop"
+        ],
+        "attributes": {
+          "aria-atomic": "true",
+          "aria-live": "off"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--loading__svg"
+            ],
+            "attributes": {
+              "viewBox": "0 0 100 100",
+              "role": "img",
+              "aria-label": "Stopped loading indicator"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "title",
+                "classes": [],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Stopped loading indicator"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [
+                  "cds--loading__stroke"
+                ],
+                "attributes": {
+                  "cx": "50%",
+                  "cy": "50%",
+                  "r": "44"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "plain-inactive-small": {
+      "props": {
+        "withOverlay": false,
+        "active": false,
+        "small": true,
+        "description": "Stopped loading indicator"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--loading",
+          "cds--loading--small",
+          "cds--loading--stop"
+        ],
+        "attributes": {
+          "aria-atomic": "true",
+          "aria-live": "off"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--loading__svg"
+            ],
+            "attributes": {
+              "viewBox": "0 0 100 100",
+              "role": "img",
+              "aria-label": "Stopped loading indicator"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "title",
+                "classes": [],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Stopped loading indicator"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [
+                  "cds--loading__background"
+                ],
+                "attributes": {
+                  "cx": "50%",
+                  "cy": "50%",
+                  "r": "42"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [
+                  "cds--loading__stroke"
+                ],
+                "attributes": {
+                  "cx": "50%",
+                  "cy": "50%",
+                  "r": "42"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "inline": {
+      "props": {
+        "status": "active",
+        "description": "Active loading indicator"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--inline-loading"
+        ],
+        "attributes": {
+          "aria-live": "assertive"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--inline-loading__animation"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--loading",
+                  "cds--loading--small"
+                ],
+                "attributes": {
+                  "aria-atomic": "true",
+                  "aria-live": "assertive"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--loading__svg"
+                    ],
+                    "attributes": {
+                      "viewBox": "0 0 100 100",
+                      "role": "img",
+                      "aria-label": "loading"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "title",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "loading"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "circle",
+                        "classes": [
+                          "cds--loading__background"
+                        ],
+                        "attributes": {
+                          "cx": "50%",
+                          "cy": "50%",
+                          "r": "42"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "circle",
+                        "classes": [
+                          "cds--loading__stroke"
+                        ],
+                        "attributes": {
+                          "cx": "50%",
+                          "cy": "50%",
+                          "r": "42"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--inline-loading__text"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Active loading indicator"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

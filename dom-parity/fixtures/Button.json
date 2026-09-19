@@ -1,0 +1,245 @@
+{
+  "component": "Button",
+  "generatedAt": "2026-09-19T16:04:13.500Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "primary-lg": {
+      "props": {
+        "kind": "primary",
+        "size": "lg"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--lg",
+          "cds--btn--primary",
+          "cds--layout--size-lg"
+        ],
+        "attributes": {
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Button"
+          }
+        ]
+      }
+    },
+    "secondary": {
+      "props": {
+        "kind": "secondary",
+        "size": "md"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--md",
+          "cds--btn--secondary",
+          "cds--layout--size-md"
+        ],
+        "attributes": {
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Button"
+          }
+        ]
+      }
+    },
+    "danger": {
+      "props": {
+        "kind": "danger",
+        "size": "md"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--danger",
+          "cds--btn--md",
+          "cds--layout--size-md"
+        ],
+        "attributes": {
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Button"
+          }
+        ]
+      }
+    },
+    "tertiary": {
+      "props": {
+        "kind": "tertiary",
+        "size": "md"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--md",
+          "cds--btn--tertiary",
+          "cds--layout--size-md"
+        ],
+        "attributes": {
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Button"
+          }
+        ]
+      }
+    },
+    "ghost": {
+      "props": {
+        "kind": "ghost",
+        "size": "md"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--ghost",
+          "cds--btn--md",
+          "cds--layout--size-md"
+        ],
+        "attributes": {
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Button"
+          }
+        ]
+      }
+    },
+    "size-sm": {
+      "props": {
+        "kind": "primary",
+        "size": "sm"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--primary",
+          "cds--btn--sm",
+          "cds--layout--size-sm"
+        ],
+        "attributes": {
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Button"
+          }
+        ]
+      }
+    },
+    "size-md": {
+      "props": {
+        "kind": "primary",
+        "size": "md"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--md",
+          "cds--btn--primary",
+          "cds--layout--size-md"
+        ],
+        "attributes": {
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Button"
+          }
+        ]
+      }
+    },
+    "size-xl": {
+      "props": {
+        "kind": "primary",
+        "size": "xl"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--primary",
+          "cds--btn--xl",
+          "cds--layout--size-xl"
+        ],
+        "attributes": {
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Button"
+          }
+        ]
+      }
+    },
+    "disabled": {
+      "props": {
+        "kind": "primary",
+        "size": "md",
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--disabled",
+          "cds--btn--md",
+          "cds--btn--primary",
+          "cds--layout--size-md"
+        ],
+        "attributes": {
+          "disabled": true,
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Button"
+          }
+        ]
+      }
+    }
+  }
+}
