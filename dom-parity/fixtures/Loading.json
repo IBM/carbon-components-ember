@@ -1,6 +1,6 @@
 {
   "component": "Loading",
-  "generatedAt": "2026-09-19T11:21:51.006Z",
+  "generatedAt": "2026-09-19T12:12:24.120Z",
   "carbonReactVersion": "1.114.0",
   "reactVersion": "19.3.0",
   "dom": {
@@ -22,7 +22,7 @@
           "cds--loading__svg"
         ],
         "attributes": {
-          "viewbox": "0 0 100 100",
+          "viewBox": "0 0 100 100",
           "role": "img",
           "aria-label": "Active loading indicator"
         },

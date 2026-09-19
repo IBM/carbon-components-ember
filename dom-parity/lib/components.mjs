@@ -2,7 +2,7 @@
  * Registry of components covered by the DOM-parity fixtures. Each entry
  * describes how to render the upstream `@carbon/react` component; the
  * matching Ember invocation lives alongside the comparison test in
- * test-app/tests/integration/components/dom-parity-test.gts and is kept in
+ * test-app/tests/components/dom-parity-test.gts and is kept in
  * sync with these props by hand - there is no codegen linking the two.
  *
  * To add a component: add an entry here, run `pnpm generate` in this

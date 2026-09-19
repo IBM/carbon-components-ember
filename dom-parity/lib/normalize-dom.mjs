@@ -96,11 +96,21 @@ function canonicalizeIdRefs(value, idMap) {
     .join(' ');
 }
 
+const HTML_NAMESPACE = 'http://www.w3.org/1999/xhtml';
+
 function normalizeAttributes(el, idMap) {
+  // Unlike HTML, SVG (and other foreign-content) attribute names are
+  // case-sensitive (`viewBox`, `preserveAspectRatio`, `gradientTransform`,
+  // ...) - a real browser ignores `viewbox` entirely. Only fold case for
+  // elements in the HTML namespace, so a case bug on either side (e.g.
+  // rendering `viewbox` instead of `viewBox`) still shows up as a diff
+  // instead of silently normalizing to the same key on both sides.
+  const isHtml = !el.namespaceURI || el.namespaceURI === HTML_NAMESPACE;
   const attributes = {};
   for (const attr of Array.from(el.attributes)) {
-    const name = attr.name.toLowerCase();
-    if (name === 'class' || name === 'style') continue;
+    const name = isHtml ? attr.name.toLowerCase() : attr.name;
+    if (name.toLowerCase() === 'class' || name.toLowerCase() === 'style')
+      continue;
 
     if (BOOLEAN_ATTRIBUTES.has(name)) {
       // Presence-only: a "false"/"" HTML boolean attribute is still
