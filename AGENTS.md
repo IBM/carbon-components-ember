@@ -3235,23 +3235,27 @@ sets both), and the panel-body `<div>` wrapper was only rendered at all
 when there's a body block, where upstream always renders it (just empty)
 and additionally stamps a `data-visible` attribute Ember never rendered a
 version of. Two further, real gaps were found but *not* fixed, since
-fixing them is real feature work rather than a markup tweak - documented
-in `known-differences.json` instead, matching this repo's established
-convention (see `dom-parity/README.md`'s own guidance) of recording a real,
-non-trivial gap rather than silently dropping it or bending the harness to
-hide it: upstream's `ReasoningSteps` container propagates an `inert`
-attribute onto its own light-DOM step children while collapsed
-(`propagateOpen()`), which the Ember port has no equivalent path for since
-it has no DOM handle on its yielded steps' rendered elements the way a
-custom element's `querySelectorAll` does; and `markLastVisibleStep()`'s
+fixing them is real feature work rather than a markup tweak - and not
+added to `known-differences.json` either, since both are host-only
+attributes (`flattenComposedTree` strips them from both sides by design,
+per its own doc comment), so the harness can never surface them and no
+allowlist entry is actually needed for tests to pass. Documented here
+instead, matching this repo's established convention (see
+`dom-parity/README.md`'s own guidance) of recording a real, non-trivial
+gap rather than silently dropping it: upstream's `ReasoningSteps` container
+propagates an `inert` attribute onto its own light-DOM step children while
+collapsed (`propagateOpen()`), which the Ember port has no equivalent path
+for since it has no DOM handle on its yielded steps' rendered elements the
+way a custom element's `querySelectorAll` does; and `markLastVisibleStep()`'s
 `data-last-item` attribute, already documented above (in the
 `ReasoningSteps` write-up itself) as a dead hook not worth porting. A third
 class of finding - `preserveAspectRatio`/`xmlns`/`aria-hidden` missing and
 an extra `will-change: transform` style on every icon's `<svg>` - traces to
 `src/components/icon/render-svg-part.ts`'s hand-written SVG wrapper, a
-pre-existing, addon-wide gap unrelated to `ReasoningStep` specifically;
-also left as a documented known-difference rather than fixed here, since a
-fix would touch every icon in the addon.
+pre-existing, addon-wide gap unrelated to `ReasoningStep` specifically; this
+one *is* recorded in `known-differences.json`, since the harness does
+surface it and needs the allowlist entry for tests to pass; left unfixed
+here since a fix would touch every icon in the addon.
 
 **Adding more components to this path**: there's no `lib/components.mjs`-
 style registry or `generate` step to extend, just a new `test`/`module` in
