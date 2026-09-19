@@ -79,5 +79,56 @@
       "variant": "inline",
       "reason": "Same `iconDescription` vs `description` gap as the svg aria-label above - the <title> text mirrors whichever value was actually used for the label."
     }
+  ],
+  "AiChatReasoningSteps": [
+    {
+      "path": "div > div[0] > div[0] > div[0].attributes.role",
+      "reason": "Harness limitation, not a real gap - verified by hand that Ember's `ReasoningStep` sets `role='listitem'` on its own rendered root, matching upstream's `reasoning-step.ts` `connectedCallback` (`this.setAttribute('role', 'listitem')`) exactly. `flattenComposedTree` (see dom-parity/lib/flatten-composed-tree.mjs) deliberately does not merge a custom element host's own light-DOM attributes onto its unwrapped shadow content, since doing so can't distinguish a genuine self-applied output attribute like this one from a configuration-input attribute (see that file's own doc comment) - so upstream's host-only `role` is invisible to this diff, and only Ember's copy of it shows up, as 'extra'."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[1].attributes.role",
+      "variant": "open-with-steps",
+      "reason": "Same harness limitation as the div[0].role entry above, for the second (interactive) step - only reachable in the open-with-steps variant, which renders two steps."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[1] > button[0] > span[0] > svg[0].attributes.preserveAspectRatio",
+      "variant": "open-with-steps",
+      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to ReasoningStep - Ember's `renderSvgPartFunc` (src/components/icon/render-svg-part.ts) hand-writes the `<svg>` wrapper for every icon in this addon and never sets `preserveAspectRatio`, while upstream's real Carbon icon SVGs (via `@carbon/web-components`' `iconLoader`) always carry `preserveAspectRatio=\"xMidYMid meet\"`. Real gap, but out of scope for this harness (fixing it touches every icon in the addon); worth its own follow-up."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[1] > button[0] > span[0] > svg[0].attributes.xmlns",
+      "variant": "open-with-steps",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above - it never sets `xmlns` either."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[1] > button[0] > span[0] > svg[0].attributes.aria-hidden",
+      "variant": "open-with-steps",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above - it never sets `aria-hidden` on the svg itself (the icon is already wrapped in an `aria-hidden='true'` span in both `ReasoningStep` and upstream, so this isn't a real accessibility gap - just a missing redundant attribute)."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[1] > button[0] > span[0] > svg[0].style.will-change",
+      "variant": "open-with-steps",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above, in the other direction - it hardcodes `style=\"will-change: transform;\"` on every icon's svg, which upstream's real Carbon icon svg does not carry."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[0] > button[0] > span[0] > svg[0].attributes.preserveAspectRatio",
+      "variant": "closed-with-steps",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as AiChatReasoningSteps' open-with-steps entry of the same name - here it's the interactive step at index 0 rather than 1, since the closed-with-steps variant only renders one step."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[0] > button[0] > span[0] > svg[0].attributes.xmlns",
+      "variant": "closed-with-steps",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[0] > button[0] > span[0] > svg[0].attributes.aria-hidden",
+      "variant": "closed-with-steps",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above - not a real accessibility gap, see the open-with-steps entry of the same name for why."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[0] > button[0] > span[0] > svg[0].style.will-change",
+      "variant": "closed-with-steps",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as AiChatReasoningSteps' open-with-steps entry of the same name."
+    }
   ]
 }

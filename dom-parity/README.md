@@ -78,3 +78,72 @@ just "latest". Check with:
 ```sh
 npm view @carbon/react@<candidate> dependencies.@carbon/styles
 ```
+
+## A second, live path: `@carbon/ai-chat-components`
+
+Everything above covers only the `react` parity source. The Ember port
+target for the `carbon-ai-chat` source is `@carbon/ai-chat-components` - a
+framework-agnostic **Lit** widget library rendering into real shadow DOM
+(see `scripts/parity-check.mjs`'s `SOURCES` comment and AGENTS.md's
+"Porting Carbon AI Chat" section) - not a React tree, so there's nothing
+for this package's `react-dom/client` + jsdom pipeline to render.
+
+That source is instead compared by a **second, independent** test module,
+`test-app/tests/components/ai-chat/dom-parity-test.gts`, with two real
+architectural differences from the path above - both explained in that
+file's own module doc, summarized here:
+
+1. **Live, not fixture-based.** Lit depends on real shadow DOM/custom-
+   element upgrade timing that jsdom doesn't faithfully reproduce, so this
+   path mounts the real, pinned `@carbon/ai-chat-components` custom
+   elements directly in test-app's own real-Chromium (Playwright) QUnit
+   run and compares live, every run - no `fixtures/*.json`, no `generate`
+   step, no fixture-drift risk (the version pinned in
+   `test-app/package.json` is the only source of truth).
+2. **Class names are excluded from the comparison.** `@carbon/react` and
+   Ember are both meant to emit the same `cds--*` classes; `@carbon/ai-
+   chat-components` renders into shadow DOM and styles itself with plain,
+   shadow-scoped class names, while the Ember port deliberately uses
+   unrelated, globally-scoped BEM names instead (it has no shadow boundary
+   to scope styles within) - see AGENTS.md, "Porting Carbon AI Chat", §3.
+   A literal class diff would flag that intentional translation as a
+   failure on every element, so this path strips `classes` from both
+   normalized trees before diffing (`dom-parity/lib/strip-classes.mjs`)
+   and asserts tag structure, semantic attributes (role, aria-\*, id
+   references, disabled/hidden/inert, ...), text, and SVG geometry
+   instead. A regression in the Ember port's own class names is covered by
+   that component's own rendering/style-snapshot tests, not by this
+   harness.
+
+This path still reuses `normalize-dom.mjs` and `diff-normalized.mjs`
+completely unmodified, and the same `dom-parity/known-differences.json`
+allowlist (component names are namespaced with an `AiChat` prefix there,
+e.g. `AiChatProcessing`, to keep them visually distinct from `react`-source
+entries even though nothing stops the two namespaces from colliding).
+What's new is `dom-parity/lib/flatten-composed-tree.mjs`, which resolves a
+real custom element's shadow DOM/`<slot>` content into a plain, detached
+DOM subtree first, since `normalizeElement` only ever walks
+`.childNodes`/`.classList` and can't cross a shadow boundary on its own -
+see that file's own doc comment for the "unwrap every nested custom-
+element boundary, not just the outermost one" design decision.
+
+**Adding a component to this path** means adding a `test`/`module` to
+`ai-chat/dom-parity-test.gts` directly (mounting the real custom element
+via plain DOM APIs, per `mountUpstream`) - there's no `lib/components.mjs`-
+style registry to extend and no `generate` step to rerun. Before picking a
+component to add, check `es/components/<name>/src/*.js` in the real
+package (`npm pack @carbon/ai-chat-components@<version>` into a scratch
+dir) for how deeply it composes `@carbon/web-components` custom elements
+(`cds-button`, `cds-tooltip`, ...) or extends one via subclassing
+(`chat-button` extends `CDSButton` directly) - those are real, in scope,
+and `flattenComposedTree` handles them structurally, but the Ember port
+frequently reuses this addon's *own* components instead of a 1:1 port of
+the nested web-component (e.g. `Toolbar` reuses `Tooltip`/`OverflowMenu`,
+`FileUploads` renders its own markup instead of `cds-file-uploader-item`),
+so expect real, legitimate structural differences there that need their
+own `known-differences.json` reasoning per component - it isn't only a
+copy-paste of the `Processing`/`ReasoningSteps` pattern already in the
+suite. Also check whether the shadow template is mostly `<slot>`s: if so,
+the flattened tree is dominated by caller-supplied content and the
+comparison won't say much about the component's own markup - pick a
+different variant/component, or accept the weaker coverage and say so.
