@@ -70,12 +70,12 @@
     {
       "path": "div > div[0] > div[0].attributes.aria-atomic",
       "variant": "inline",
-      "reason": "@carbon/react's InlineLoading renders its inner spinner via `Loading` with no `aria-atomic`; Ember's inline branch hardcodes `aria-atomic='true'` on that div (copied from the non-inline branches). Real gap, tracked as a follow-up."
+      "reason": "@carbon/react's InlineLoading renders its inner spinner via `Loading`, which sets `aria-atomic='true'` on that div; Ember's inline branch never sets `aria-atomic` at all (only its non-inline `withOverlay`/plain branches do). Real gap, tracked as a follow-up."
     },
     {
       "path": "div > div[0] > div[0].attributes.aria-label",
       "variant": "inline",
-      "reason": "Ember's inline branch puts `aria-label={{@description}}` on both the spinner div and its svg; @carbon/react's InlineLoading only ever puts a label on the svg (via its own `iconDescription`/`status` fallback), never on the wrapping div. Real gap, tracked as a follow-up."
+      "reason": "Ember's inline branch hardcodes a literal `aria-label='Active loading indicator'` on the spinner div (not bound to `@description`); @carbon/react's InlineLoading never puts a label on the wrapping div at all, only on the svg. Real gap, tracked as a follow-up."
     },
     {
       "path": "div > div[0] > div[0] > svg[0].attributes.aria-label",
