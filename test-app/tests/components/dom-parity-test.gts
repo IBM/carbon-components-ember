@@ -15,66 +15,374 @@ import buttonFixture from '../../../dom-parity/fixtures/Button.json';
 import tagFixture from '../../../dom-parity/fixtures/Tag.json';
 import loadingFixture from '../../../dom-parity/fixtures/Loading.json';
 
+type VariantFixture = { props: object; dom: object };
+type ComponentFixture = {
+  component: string;
+  carbonReactVersion: string;
+  variants: Record<string, VariantFixture>;
+};
+
 /**
- * Compares an Ember-rendered root element against a fixture captured from a
- * pinned @carbon/react release (see dom-parity/generate.mjs). Differences
- * pre-approved in dom-parity/known-differences.json (real, tracked gaps)
- * are filtered out before asserting - a change here should either fix the
- * component or add a new, reasoned entry to that file, not both.
+ * Compares an Ember-rendered root element against one variant's fixture,
+ * captured from a pinned @carbon/react release (see dom-parity/generate.mjs).
+ * Differences pre-approved in dom-parity/known-differences.json (real,
+ * tracked gaps, optionally scoped to this exact `variant`) are filtered out
+ * before asserting - a change here should either fix the component or add a
+ * new, reasoned entry to that file, not both.
  */
 function assertDomParity(
   assert: Assert,
-  fixture: { component: string; carbonReactVersion: string; dom: object },
+  fixture: ComponentFixture,
+  variant: string,
   rootElement: Element | null,
 ) {
+  const variantFixture = fixture.variants[variant];
+  if (!variantFixture) {
+    assert.ok(false, `${fixture.component}: no fixture recorded for variant "${variant}"`);
+    return;
+  }
+
   if (!rootElement) {
-    assert.ok(false, `${fixture.component}: nothing rendered`);
+    assert.ok(false, `${fixture.component}/${variant}: nothing rendered`);
     return;
   }
 
   const emberTree = normalizeElement(rootElement);
-  const differences = diffNormalized(fixture.dom, emberTree);
+  const differences = diffNormalized(variantFixture.dom, emberTree);
   const known =
-    (knownDifferences as Record<string, Array<{ path: string; reason: string }>>)[
+    (knownDifferences as Record<string, Array<{ path: string; reason: string; variant?: string }>>)[
       fixture.component
     ] ?? [];
-  const unexpected = applyKnownDifferences(differences, known);
+  const unexpected = applyKnownDifferences(differences, known, variant);
 
   assert.deepEqual(
     unexpected,
     [],
-    `${fixture.component} should render the same tag/classes/attributes/style as ` +
+    `${fixture.component}/${variant} should render the same tag/classes/attributes/style as ` +
       `@carbon/react@${fixture.carbonReactVersion}, modulo the documented gaps in ` +
       `dom-parity/known-differences.json`,
+  );
+}
+
+/**
+ * A variant added to dom-parity/lib/components.mjs (and regenerated into a
+ * fixture) with no matching entry here would otherwise go silently
+ * untested - this is a static list, not populated at test-run time, so it
+ * stays correct even when the suite is filtered down to a single test.
+ */
+function assertFullCoverage(assert: Assert, fixture: ComponentFixture, coveredVariants: string[]) {
+  assert.deepEqual(
+    Object.keys(fixture.variants).sort(),
+    [...coveredVariants].sort(),
+    `every variant in dom-parity/fixtures/${fixture.component}.json should have a matching render case in this file`,
   );
 }
 
 module('DOM parity | Carbon React', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('Button', async function (this: RenderingTestContext, assert) {
-    await render(
-      <template>
-        <Button @type='primary' @size='lg'>Button</Button>
-      </template>,
-    );
-    assertDomParity(assert, buttonFixture, this.element.firstElementChild);
+  module('Button', function () {
+    test('primary-lg', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Button @type='primary' @size='lg'>Button</Button>
+        </template>,
+      );
+      assertDomParity(assert, buttonFixture, 'primary-lg', this.element.firstElementChild);
+    });
+
+    test('secondary', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Button @type='secondary' @size='md'>Button</Button>
+        </template>,
+      );
+      assertDomParity(assert, buttonFixture, 'secondary', this.element.firstElementChild);
+    });
+
+    test('danger', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Button @type='danger' @size='md'>Button</Button>
+        </template>,
+      );
+      assertDomParity(assert, buttonFixture, 'danger', this.element.firstElementChild);
+    });
+
+    test('tertiary', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Button @tertiary={{true}} @size='md'>Button</Button>
+        </template>,
+      );
+      assertDomParity(assert, buttonFixture, 'tertiary', this.element.firstElementChild);
+    });
+
+    test('ghost', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Button @ghost={{true}} @size='md'>Button</Button>
+        </template>,
+      );
+      assertDomParity(assert, buttonFixture, 'ghost', this.element.firstElementChild);
+    });
+
+    test('size-sm', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Button @type='primary' @size='sm'>Button</Button>
+        </template>,
+      );
+      assertDomParity(assert, buttonFixture, 'size-sm', this.element.firstElementChild);
+    });
+
+    test('size-md', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Button @type='primary' @size='md'>Button</Button>
+        </template>,
+      );
+      assertDomParity(assert, buttonFixture, 'size-md', this.element.firstElementChild);
+    });
+
+    test('size-xl', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Button @type='primary' @size='xl'>Button</Button>
+        </template>,
+      );
+      assertDomParity(assert, buttonFixture, 'size-xl', this.element.firstElementChild);
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Button @type='primary' @size='md' @disabled={{true}}>Button</Button>
+        </template>,
+      );
+      assertDomParity(assert, buttonFixture, 'disabled', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, buttonFixture, [
+        'primary-lg',
+        'secondary',
+        'danger',
+        'tertiary',
+        'ghost',
+        'size-sm',
+        'size-md',
+        'size-xl',
+        'disabled',
+      ]);
+    });
   });
 
-  test('Tag', async function (this: RenderingTestContext, assert) {
-    await render(<template><Tag @type='gray'>Tag content</Tag></template>);
-    assertDomParity(assert, tagFixture, this.element.firstElementChild);
+  module('Tag', function () {
+    const types = [
+      'red',
+      'magenta',
+      'purple',
+      'blue',
+      'cyan',
+      'teal',
+      'green',
+      'gray',
+      'cool-gray',
+      'warm-gray',
+      'high-contrast',
+      'outline',
+    ] as const;
+
+    for (const type of types) {
+      test(type, async function (this: RenderingTestContext, assert) {
+        await render(<template><Tag @type={{type}}>Tag content</Tag></template>);
+        assertDomParity(assert, tagFixture, type, this.element.firstElementChild);
+      });
+    }
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Tag @type='gray' @disabled={{true}}>Tag content</Tag>
+        </template>,
+      );
+      assertDomParity(assert, tagFixture, 'disabled', this.element.firstElementChild);
+    });
+
+    test('size-sm', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Tag @type='gray' @size='sm'>Tag content</Tag>
+        </template>,
+      );
+      assertDomParity(assert, tagFixture, 'size-sm', this.element.firstElementChild);
+    });
+
+    test('size-lg', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Tag @type='gray' @size='lg'>Tag content</Tag>
+        </template>,
+      );
+      assertDomParity(assert, tagFixture, 'size-lg', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, tagFixture, [...types, 'disabled', 'size-sm', 'size-lg']);
+    });
   });
 
-  test('Loading', async function (this: RenderingTestContext, assert) {
-    await render(
-      <template>
-        <Loading
-          @description='Active loading indicator'
-          @withOverlay={{false}}
-        />
-      </template>,
-    );
-    assertDomParity(assert, loadingFixture, this.element.firstElementChild);
+  module('Loading', function () {
+    test('overlay-active', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Loading
+            @description='Active loading indicator'
+            @withOverlay={{true}}
+            @active={{true}}
+          />
+        </template>,
+      );
+      assertDomParity(assert, loadingFixture, 'overlay-active', this.element.firstElementChild);
+    });
+
+    test('overlay-active-small', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Loading
+            @description='Active loading indicator'
+            @withOverlay={{true}}
+            @active={{true}}
+            @small={{true}}
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        loadingFixture,
+        'overlay-active-small',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('overlay-inactive', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Loading
+            @description='Stopped loading indicator'
+            @withOverlay={{true}}
+            @active={{false}}
+          />
+        </template>,
+      );
+      assertDomParity(assert, loadingFixture, 'overlay-inactive', this.element.firstElementChild);
+    });
+
+    test('overlay-inactive-small', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Loading
+            @description='Stopped loading indicator'
+            @withOverlay={{true}}
+            @active={{false}}
+            @small={{true}}
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        loadingFixture,
+        'overlay-inactive-small',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('plain-active', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Loading
+            @description='Active loading indicator'
+            @withOverlay={{false}}
+            @active={{true}}
+          />
+        </template>,
+      );
+      assertDomParity(assert, loadingFixture, 'plain-active', this.element.firstElementChild);
+    });
+
+    test('plain-active-small', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Loading
+            @description='Active loading indicator'
+            @withOverlay={{false}}
+            @active={{true}}
+            @small={{true}}
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        loadingFixture,
+        'plain-active-small',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('plain-inactive', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Loading
+            @description='Stopped loading indicator'
+            @withOverlay={{false}}
+            @active={{false}}
+          />
+        </template>,
+      );
+      assertDomParity(assert, loadingFixture, 'plain-inactive', this.element.firstElementChild);
+    });
+
+    test('plain-inactive-small', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Loading
+            @description='Stopped loading indicator'
+            @withOverlay={{false}}
+            @active={{false}}
+            @small={{true}}
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        loadingFixture,
+        'plain-inactive-small',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('inline', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Loading @description='Active loading indicator' @inline={{true}} @active={{true}} />
+        </template>,
+      );
+      assertDomParity(assert, loadingFixture, 'inline', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, loadingFixture, [
+        'overlay-active',
+        'overlay-active-small',
+        'overlay-inactive',
+        'overlay-inactive-small',
+        'plain-active',
+        'plain-active-small',
+        'plain-inactive',
+        'plain-inactive-small',
+        'inline',
+      ]);
+    });
   });
 });

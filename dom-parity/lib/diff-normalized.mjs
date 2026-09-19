@@ -101,12 +101,15 @@ export function diffNormalized(reactTree, emberTree) {
 
 /**
  * Filters out differences matched by the known-differences allowlist for a
- * given component. An entry matches when its `path` is an exact match or a
- * prefix (`path + " "` or `path + "."`) of the difference's path.
+ * given component/variant. An entry matches when its `path` is an exact
+ * match or a prefix (`path + " "` or `path + "."`) of the difference's
+ * path, and either carries no `variant` (applies to every variant of the
+ * component) or names this exact `variant`.
  */
-export function applyKnownDifferences(differences, knownDifferences) {
+export function applyKnownDifferences(differences, knownDifferences, variant) {
+  const applicable = knownDifferences.filter((known) => !known.variant || known.variant === variant);
   return differences.filter((diff) => {
-    return !knownDifferences.some((known) => {
+    return !applicable.some((known) => {
       if (known.path === diff.path) return true;
       return diff.path.startsWith(`${known.path} `) || diff.path.startsWith(`${known.path}.`);
     });

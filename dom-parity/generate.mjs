@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
- * Renders each component in lib/components.mjs with the pinned
- * `@carbon/react` release (mounted via `react-dom/client` + `act()`, not
- * `renderToStaticMarkup` - Carbon React components rely on `useId`/layout
- * effects, so only a real client-side mount matches the post-effect DOM
- * that Ember's `render()` + `settled()` produces) and writes a normalized
- * fixture per component to ./fixtures/<Name>.json.
+ * Renders every variant of every component in lib/components.mjs with the
+ * pinned `@carbon/react` release (mounted via `react-dom/client` + `act()`,
+ * not `renderToStaticMarkup` - Carbon React components rely on `useId`/
+ * layout effects, so only a real client-side mount matches the post-effect
+ * DOM that Ember's `render()` + `settled()` produces) and writes one
+ * fixture per component to ./fixtures/<Name>.json, keyed by variant name.
  *
  * This is an offline step: fixtures are committed, and the QUnit suite in
  * test-app only ever reads them - it never runs this script itself. Rerun
@@ -51,28 +51,40 @@ const reactVersion = JSON.parse(
 ).version;
 
 for (const component of COMPONENTS) {
-  const container = document.createElement('div');
-  document.body.appendChild(container);
-  const root = createRoot(container);
+  const variants = {};
 
-  act(() => {
-    root.render(component.createElement(React, Carbon));
-  });
+  for (const variant of component.variants) {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    const root = createRoot(container);
 
-  if (container.children.length !== 1) {
-    throw new Error(
-      `${component.name}: expected exactly one rendered root element, got ${container.children.length}`,
-    );
+    act(() => {
+      root.render(variant.createElement(React, Carbon));
+    });
+
+    if (container.children.length !== 1) {
+      throw new Error(
+        `${component.name}/${variant.name}: expected exactly one rendered root element, got ${container.children.length}`,
+      );
+    }
+
+    variants[variant.name] = {
+      props: variant.props,
+      dom: normalizeElement(container.firstElementChild),
+    };
+
+    act(() => {
+      root.unmount();
+    });
+    container.remove();
   }
-
-  const normalized = normalizeElement(container.firstElementChild);
 
   const fixture = {
     component: component.name,
     generatedAt: new Date().toISOString(),
     carbonReactVersion,
     reactVersion,
-    dom: normalized,
+    variants,
   };
 
   writeFileSync(
@@ -80,10 +92,8 @@ for (const component of COMPONENTS) {
     JSON.stringify(fixture, null, 2) + '\n',
   );
 
-  console.log(`Wrote fixtures/${component.name}.json (@carbon/react@${carbonReactVersion})`);
-
-  act(() => {
-    root.unmount();
-  });
-  container.remove();
+  console.log(
+    `Wrote fixtures/${component.name}.json (${Object.keys(variants).length} variant(s), ` +
+      `@carbon/react@${carbonReactVersion})`,
+  );
 }
