@@ -129,7 +129,6 @@ export default class CarbonButton extends Component<ButtonSignature> {
         {{this.classes}}
         {{this.layout}}
         {{if (or this.loading @loading) "cds--btn--ghost"}}'
-      aria-label='{{if @type "danger"}}'
       disabled={{or @disabled this.loading @loading}}
       type='button'
       ...attributes
@@ -184,6 +183,7 @@ export default class CarbonButton extends Component<ButtonSignature> {
     if (this.args.ghost) classes.push('cds--btn--ghost');
     if (this.disabled || this.args.disabled) classes.push('cds--btn--disabled');
     if (this.args.iconOnly) classes.push('cds--btn--icon-only');
+    if (this.args.size) classes.push(`cds--btn--${this.args.size}`);
     return classes.join(' ');
   }
 

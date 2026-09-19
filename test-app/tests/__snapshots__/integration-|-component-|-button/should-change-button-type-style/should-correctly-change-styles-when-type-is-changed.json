@@ -1,6 +1,6 @@
 [
   [
-    "<button class=\"cds--btn\n        cds--btn--secondary\n        cds--layout--size-md\n        \" aria-label=\"danger\" type=\"button\" data-index=\"0\"></button>",
+    "<button class=\"cds--btn\n        cds--btn--secondary cds--btn--md\n        cds--layout--size-md\n        \" type=\"button\" data-index=\"0\"></button>",
     {
       "background": "rgb(57, 57, 57) none repeat scroll 0% 0% / auto padding-box border-box"
     }
