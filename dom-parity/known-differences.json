@@ -13,14 +13,6 @@
   ],
   "Tag": [
     {
-      "path": "div > span[0].attributes.title",
-      "reason": "@carbon/react's Tag sets `title` on the `.cds--tag__label` span (used for a truncation tooltip); Ember's Tag never sets it. Real gap, tracked as a follow-up."
-    },
-    {
-      "path": "div > span[0].attributes.dir",
-      "reason": "@carbon/react's Tag sets `dir='auto'` on the `.cds--tag__label` span; Ember's Tag never sets it. Real gap, tracked as a follow-up."
-    },
-    {
       "path": "div.attributes.disabled",
       "variant": "disabled",
       "reason": "@carbon/react's Tag spreads `disabled` straight onto its root element regardless of tag type, so a non-interactive (div-rendered) disabled Tag still carries a `disabled=\"true\"` attribute alongside the `cds--tag--disabled` class. Ember's Tag only ever adds the class, never the attribute. Real gap, tracked as a follow-up."

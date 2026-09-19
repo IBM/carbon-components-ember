@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
+import { modifier } from 'ember-modifier';
 import type { ComponentLike } from '@glint/template';
 import type Icon from './icon.gts';
 
@@ -91,6 +92,25 @@ export default class TagComponent extends Component<TagInterface> {
     return !!this.args.renderIcon && this.args.size !== 'sm';
   }
 
+  // @carbon/react's Tag derives the label's `title` (used for a truncation
+  // tooltip) from its `children` prop directly, recomputed on every render -
+  // there's no Ember equivalent of "read a yielded block's content as a
+  // string", so this mirrors it off the rendered text instead, kept in sync
+  // if the yielded content changes.
+  syncLabelTitle = modifier((element: HTMLElement) => {
+    const apply = () => {
+      element.title = (element.textContent ?? '').replace(/\s+/g, ' ').trim();
+    };
+    apply();
+    const observer = new MutationObserver(apply);
+    observer.observe(element, {
+      childList: true,
+      characterData: true,
+      subtree: true,
+    });
+    return () => observer.disconnect();
+  });
+
   <template>
     <div class={{this.classes}} id={{this.id}} ...attributes>
       {{#if this.showIcon}}
@@ -98,7 +118,7 @@ export default class TagComponent extends Component<TagInterface> {
           <@renderIcon @size='16' @svgClass='cds--tag__custom-icon-svg' />
         </div>
       {{/if}}
-      <span class='cds--tag__label'>
+      <span class='cds--tag__label' dir='auto' {{this.syncLabelTitle}}>
         {{yield}}
       </span>
       {{#if @slug}}
