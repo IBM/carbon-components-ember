@@ -1,7 +1,7 @@
 {
   "Button": [
     {
-      "path": "button.classes",
+      "path": "button.classes[cds--btn--lg]",
       "reason": "Ember's Button only adds `cds--layout--size-{size}`; @carbon/react's Button also adds a `cds--btn--{size}` modifier class (e.g. `cds--btn--lg`) that Ember's component never emits for non-default sizes. Real gap, tracked as a follow-up."
     },
     {

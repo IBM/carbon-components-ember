@@ -17,12 +17,12 @@ function diffArray(prefix, key, a, b, out) {
   const bSet = new Set(b);
   for (const value of a) {
     if (!bSet.has(value)) {
-      out.push({ path: `${prefix}.${key}`, kind: `${key}-missing`, detail: value });
+      out.push({ path: `${prefix}.${key}[${value}]`, kind: `${key}-missing`, detail: value });
     }
   }
   for (const value of b) {
     if (!aSet.has(value)) {
-      out.push({ path: `${prefix}.${key}`, kind: `${key}-extra`, detail: value });
+      out.push({ path: `${prefix}.${key}[${value}]`, kind: `${key}-extra`, detail: value });
     }
   }
 }
