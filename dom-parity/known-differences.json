@@ -1,0 +1,91 @@
+{
+  "Button": [
+    {
+      "path": "button.classes[cds--btn--lg]",
+      "reason": "Ember's Button only adds `cds--layout--size-{size}`; @carbon/react's Button also adds a `cds--btn--{size}` modifier class (e.g. `cds--btn--lg`) that Ember's component never emits for non-default sizes. Real gap, tracked as a follow-up."
+    },
+    {
+      "path": "button.classes[cds--btn--md]",
+      "reason": "Same `cds--btn--{size}` gap as `cds--btn--lg` above, for the `md` size - deliberately left component-wide (no `variant` scoping) since six of the nine Button variants legitimately render at the default `md` size; note that this also means a future genuine `cds--btn--md` regression on any of them would be silently swallowed too, same tradeoff already accepted for `cds--btn--lg`."
+    },
+    {
+      "path": "button.classes[cds--btn--sm]",
+      "reason": "Same `cds--btn--{size}` gap as `cds--btn--lg` above, for the `sm` size."
+    },
+    {
+      "path": "button.classes[cds--btn--xl]",
+      "reason": "Same `cds--btn--{size}` gap as `cds--btn--lg` above, for the `xl` size."
+    },
+    {
+      "path": "button.attributes.aria-label",
+      "reason": "Ember's <button> template sets `aria-label='{{if @type \"danger\"}}'`, which renders aria-label=\"danger\" whenever @type is any truthy string (i.e. on every button, since @type defaults to 'primary') instead of only on an actual danger/icon-only button. @carbon/react's Button never sets aria-label here at all. Looks like an unintended bug in the Ember template, tracked as a follow-up rather than fixed in this DOM-parity-test PR."
+    },
+    {
+      "path": "button.classes[cds--btn--primary]",
+      "variant": "tertiary",
+      "reason": "Ember's `primary` getter is `args.primary || args.type === 'primary'`; @type still defaults to 'primary' when only @tertiary={{true}} is passed (there is no separate 'off' value), so `cds--btn--tertiary` and `cds--btn--primary` are both added instead of just `cds--btn--tertiary`. @carbon/react's `kind='tertiary'` only ever adds `cds--btn--tertiary`. Real bug, tracked as a follow-up."
+    },
+    {
+      "path": "button.classes[cds--btn--primary]",
+      "variant": "ghost",
+      "reason": "Same `type` defaults to 'primary' bug as the `tertiary` variant above, for @ghost={{true}} - `cds--btn--ghost` and `cds--btn--primary` both get added. Real bug, tracked as a follow-up."
+    }
+  ],
+  "Tag": [
+    {
+      "path": "div > span[0].attributes.title",
+      "reason": "@carbon/react's Tag sets `title` on the `.cds--tag__label` span (used for a truncation tooltip); Ember's Tag never sets it. Real gap, tracked as a follow-up."
+    },
+    {
+      "path": "div > span[0].attributes.dir",
+      "reason": "@carbon/react's Tag sets `dir='auto'` on the `.cds--tag__label` span; Ember's Tag never sets it. Real gap, tracked as a follow-up."
+    },
+    {
+      "path": "div.attributes.disabled",
+      "variant": "disabled",
+      "reason": "@carbon/react's Tag spreads `disabled` straight onto its root element regardless of tag type, so a non-interactive (div-rendered) disabled Tag still carries a `disabled=\"true\"` attribute alongside the `cds--tag--disabled` class. Ember's Tag only ever adds the class, never the attribute. Real gap, tracked as a follow-up."
+    }
+  ],
+  "Loading": [
+    {
+      "path": "div.style.margin-left",
+      "variant": "inline",
+      "reason": "Ember's inline branch hardcodes `style='margin-left: 1rem; width: initial; display: inline-flex; align-items: center;'` on the root div; @carbon/react's InlineLoading sets no inline style at all (its layout comes entirely from `cds--inline-loading`'s own CSS). Real gap, tracked as a follow-up."
+    },
+    {
+      "path": "div.style.width",
+      "variant": "inline",
+      "reason": "Same hardcoded inline-style gap as `margin-left` above."
+    },
+    {
+      "path": "div.style.display",
+      "variant": "inline",
+      "reason": "Same hardcoded inline-style gap as `margin-left` above."
+    },
+    {
+      "path": "div.style.align-items",
+      "variant": "inline",
+      "reason": "Same hardcoded inline-style gap as `margin-left` above."
+    },
+    {
+      "path": "div > div[0] > div[0].attributes.aria-atomic",
+      "variant": "inline",
+      "reason": "@carbon/react's InlineLoading renders its inner spinner via `Loading`, which sets `aria-atomic='true'` on that div; Ember's inline branch never sets `aria-atomic` at all (only its non-inline `withOverlay`/plain branches do). Real gap, tracked as a follow-up."
+    },
+    {
+      "path": "div > div[0] > div[0].attributes.aria-label",
+      "variant": "inline",
+      "reason": "Ember's inline branch hardcodes a literal `aria-label='Active loading indicator'` on the spinner div (not bound to `@description`); @carbon/react's InlineLoading never puts a label on the wrapping div at all, only on the svg. Real gap, tracked as a follow-up."
+    },
+    {
+      "path": "div > div[0] > div[0] > svg[0].attributes.aria-label",
+      "variant": "inline",
+      "reason": "@carbon/react's InlineLoading passes its own `iconDescription` (defaulting to the literal string \"loading\", NOT `description`) to the inner spinner's aria-label/title - `description` only ever reaches the separate visible text below. Ember's inline branch has no separate `iconDescription` concept and reuses `@description` for both, so the icon's label differs from React's default whenever a caller passes a real @description. Real gap, tracked as a follow-up."
+    },
+    {
+      "path": "div > div[0] > div[0] > svg[0] > title[0] > text(\"loading\")[0]",
+      "variant": "inline",
+      "reason": "Same `iconDescription` vs `description` gap as the svg aria-label above - the <title> text mirrors whichever value was actually used for the label."
+    }
+  ]
+}

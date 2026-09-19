@@ -1,0 +1,572 @@
+{
+  "component": "Tag",
+  "generatedAt": "2026-09-19T16:04:13.509Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "red": {
+      "props": {
+        "type": "red"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tag",
+          "cds--tag--red"
+        ],
+        "attributes": {
+          "id": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--tag__label"
+            ],
+            "attributes": {
+              "title": "Tag content",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Tag content"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "magenta": {
+      "props": {
+        "type": "magenta"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tag",
+          "cds--tag--magenta"
+        ],
+        "attributes": {
+          "id": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--tag__label"
+            ],
+            "attributes": {
+              "title": "Tag content",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Tag content"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "purple": {
+      "props": {
+        "type": "purple"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tag",
+          "cds--tag--purple"
+        ],
+        "attributes": {
+          "id": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--tag__label"
+            ],
+            "attributes": {
+              "title": "Tag content",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Tag content"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "blue": {
+      "props": {
+        "type": "blue"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tag",
+          "cds--tag--blue"
+        ],
+        "attributes": {
+          "id": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--tag__label"
+            ],
+            "attributes": {
+              "title": "Tag content",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Tag content"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "cyan": {
+      "props": {
+        "type": "cyan"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tag",
+          "cds--tag--cyan"
+        ],
+        "attributes": {
+          "id": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--tag__label"
+            ],
+            "attributes": {
+              "title": "Tag content",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Tag content"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "teal": {
+      "props": {
+        "type": "teal"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tag",
+          "cds--tag--teal"
+        ],
+        "attributes": {
+          "id": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--tag__label"
+            ],
+            "attributes": {
+              "title": "Tag content",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Tag content"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "green": {
+      "props": {
+        "type": "green"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tag",
+          "cds--tag--green"
+        ],
+        "attributes": {
+          "id": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--tag__label"
+            ],
+            "attributes": {
+              "title": "Tag content",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Tag content"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "gray": {
+      "props": {
+        "type": "gray"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tag",
+          "cds--tag--gray"
+        ],
+        "attributes": {
+          "id": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--tag__label"
+            ],
+            "attributes": {
+              "title": "Tag content",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Tag content"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "cool-gray": {
+      "props": {
+        "type": "cool-gray"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tag",
+          "cds--tag--cool-gray"
+        ],
+        "attributes": {
+          "id": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--tag__label"
+            ],
+            "attributes": {
+              "title": "Tag content",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Tag content"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "warm-gray": {
+      "props": {
+        "type": "warm-gray"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tag",
+          "cds--tag--warm-gray"
+        ],
+        "attributes": {
+          "id": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--tag__label"
+            ],
+            "attributes": {
+              "title": "Tag content",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Tag content"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "high-contrast": {
+      "props": {
+        "type": "high-contrast"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tag",
+          "cds--tag--high-contrast"
+        ],
+        "attributes": {
+          "id": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--tag__label"
+            ],
+            "attributes": {
+              "title": "Tag content",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Tag content"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "outline": {
+      "props": {
+        "type": "outline"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tag",
+          "cds--tag--outline"
+        ],
+        "attributes": {
+          "id": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--tag__label"
+            ],
+            "attributes": {
+              "title": "Tag content",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Tag content"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "disabled": {
+      "props": {
+        "type": "gray",
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tag",
+          "cds--tag--disabled",
+          "cds--tag--gray"
+        ],
+        "attributes": {
+          "disabled": true,
+          "id": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--tag__label"
+            ],
+            "attributes": {
+              "title": "Tag content",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Tag content"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "size-sm": {
+      "props": {
+        "type": "gray",
+        "size": "sm"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--layout--size-sm",
+          "cds--tag",
+          "cds--tag--gray",
+          "cds--tag--sm"
+        ],
+        "attributes": {
+          "id": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--tag__label"
+            ],
+            "attributes": {
+              "title": "Tag content",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Tag content"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "size-lg": {
+      "props": {
+        "type": "gray",
+        "size": "lg"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--layout--size-lg",
+          "cds--tag",
+          "cds--tag--gray",
+          "cds--tag--lg"
+        ],
+        "attributes": {
+          "id": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--tag__label"
+            ],
+            "attributes": {
+              "title": "Tag content",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Tag content"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
