@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { render, click, waitUntil } from '@ember/test-helpers';
 import Tile from 'carbon-components-ember/components/tile';
 
 module('Integration | Component | Tile', (hooks) => {
@@ -36,6 +36,7 @@ module('Integration | Component | Tile', (hooks) => {
     );
 
     assert.dom('.cds--tile--selectable').exists();
+    await waitUntil(() => document.querySelector('.cds--tile__checkmark svg'));
     const icon = document.querySelector('.cds--tile__checkmark svg');
     assert.dom(icon).hasClass('cds--tile__checkmark-icon');
     assert.dom(icon).doesNotHaveClass('icon');
@@ -65,6 +66,7 @@ module('Integration | Component | Tile', (hooks) => {
     );
 
     assert.dom('.cds--tile--expandable').exists();
+    await waitUntil(() => document.querySelector('.cds--tile__chevron svg'));
     const icon = document.querySelector('.cds--tile__chevron svg');
     assert.dom(icon).hasClass('cds--tile__chevron-icon');
     assert.dom(icon).doesNotHaveClass('icon');
