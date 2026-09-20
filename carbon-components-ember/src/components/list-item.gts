@@ -34,7 +34,7 @@ export interface ListItemSignature {
  */
 export default class ListItem extends Component<ListItemSignature> {
   <template>
-    <li class='cds--list__item' ...attributes>
+    <li class='cds--list__item' dir='auto' ...attributes>
       {{yield}}
     </li>
   </template>

@@ -1,0 +1,28 @@
+{
+  "component": "ListItem",
+  "generatedAt": "2026-09-20T01:49:54.765Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "li",
+        "classes": [
+          "cds--list__item"
+        ],
+        "attributes": {
+          "dir": "auto"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Item content"
+          }
+        ]
+      }
+    }
+  }
+}

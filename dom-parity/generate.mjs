@@ -27,6 +27,10 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const dom = new JSDOM('<!doctype html><html><body></body></html>');
 globalThis.window = dom.window;
 globalThis.document = dom.window.document;
+// Some @carbon/react components (e.g. Notification's
+// useNoInteractiveChildren) reference DOM constructors like `HTMLElement`
+// as bare globals rather than off `window`.
+globalThis.HTMLElement = dom.window.HTMLElement;
 // Node has its own read-only global `navigator` getter; jsdom's must
 // replace it via defineProperty rather than plain assignment.
 Object.defineProperty(globalThis, 'navigator', {

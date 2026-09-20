@@ -8,6 +8,13 @@ export type Args = {
   description?: string;
   inline?: boolean;
   classNames?: string;
+  /**
+   * Specify the description for the inline loading icon. Only used when
+   * `@inline` is true - matches @carbon/react's InlineLoading `iconDescription`
+   * prop, which labels the spinner icon separately from `@description` (the
+   * visible text shown next to it). Defaults to `'loading'`.
+   */
+  iconDescription?: string;
 };
 
 export interface LoadingComponentSignature {
@@ -23,6 +30,7 @@ export default class LoadingComponent extends Component<LoadingComponentSignatur
     description: 'loading',
     inline: false,
     classNames: '',
+    iconDescription: 'loading',
   });
 
   get defaultArgs() {
@@ -35,12 +43,11 @@ export default class LoadingComponent extends Component<LoadingComponentSignatur
         <div
           class='cds--inline-loading {{this.defaultArgs.classNames}}'
           aria-live='assertive'
-          style='margin-left: 1rem; width: initial; display: inline-flex; align-items: center;'
           ...attributes
         >
           <div class='cds--inline-loading__animation'>
             <div
-              aria-label='Active loading indicator'
+              aria-atomic='true'
               aria-live='assertive'
               class='cds--loading cds--loading--small'
             >
@@ -48,9 +55,9 @@ export default class LoadingComponent extends Component<LoadingComponentSignatur
                 class='cds--loading__svg'
                 viewBox='0 0 100 100'
                 role='img'
-                aria-label={{this.defaultArgs.description}}
+                aria-label={{this.defaultArgs.iconDescription}}
               >
-                <title>{{this.defaultArgs.description}}</title>
+                <title>{{this.defaultArgs.iconDescription}}</title>
                 <circle
                   class='cds--loading__background'
                   cx='50%'

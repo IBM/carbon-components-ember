@@ -43,6 +43,13 @@ export default class RadioTile extends Component<Signature> {
     return this.args.required ?? this.args.group?.args.required ?? false;
   }
 
+  // Matches @carbon/react's RadioTile: the underlying <input> is tabbable
+  // (tabIndex defaults to 0) unless disabled, in which case it's removed
+  // from the tab order entirely rather than left at its native default.
+  get tabindex() {
+    return this.disabled ? undefined : (this.args.tabindex ?? '0');
+  }
+
   get checked() {
     if (this.args.group) {
       return this.args.group.selectedValue === this.args.value;
@@ -66,7 +73,7 @@ export default class RadioTile extends Component<Signature> {
         required={{this.required}}
         name={{this.name}}
         checked={{this.checked}}
-        tabindex={{@tabindex}}
+        tabindex={{this.tabindex}}
         {{on 'change' this.handleChange}}
       />
       <label
@@ -76,11 +83,12 @@ export default class RadioTile extends Component<Signature> {
           {{if this.disabled "cds--tile--disabled"}}'
       >
         <span class='cds--tile__checkmark'>
-          <CheckmarkFilled @size="16" />
+          <CheckmarkFilled @size="16" @svgClass='cds--tile__checkmark-icon' />
         </span>
-        <div class='cds--tile-content'>
+        {{! @carbon/react wraps this in Text, which defaults to a span with dir='auto' - same Text/dir='auto' pattern as Tag/ListItem }}
+        <span class='cds--tile-content' dir='auto'>
           {{yield}}
-        </div>
+        </span>
       </label>
     </div>
   </template>

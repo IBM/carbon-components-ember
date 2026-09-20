@@ -4,6 +4,7 @@ packages:
   - docs-app
   - dom-parity
 allowBuilds:
+  '@carbon/ai-chat-components': true
   '@carbon/charts': true
   '@carbon/colors': true
   '@carbon/feature-flags': true
@@ -19,6 +20,7 @@ allowBuilds:
   '@carbon/type': true
   '@carbon/utilities': true
   '@carbon/utils-position': true
+  '@carbon/web-components': true
   '@ibm/plex': true
   '@ibm/plex-mono': true
   '@ibm/plex-sans': true

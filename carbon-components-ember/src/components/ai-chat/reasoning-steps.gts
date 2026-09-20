@@ -10,6 +10,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { on } from '@ember/modifier';
+import { and } from 'ember-truth-helpers';
 import type { WithBoundArgs } from '@glint/template';
 import { ChevronRight } from '../../icons.ts';
 
@@ -103,13 +104,18 @@ class ReasoningStep extends Component<ReasoningStepSignature> {
         class='cds-aichat-reasoning-step__panel
           {{unless (has-block) "cds-aichat-reasoning-step__panel--hidden"}}'
         aria-hidden={{if this.isOpen 'false' 'true'}}
+        role={{if (has-block) 'region'}}
+        aria-labelledby={{if (has-block) this.headerId}}
         hidden={{if (has-block) false true}}
       >
-        {{#if (has-block)}}
-          <div class='cds-aichat-reasoning-step__panel-body'>
+        <div
+          class='cds-aichat-reasoning-step__panel-body'
+          data-visible={{if (and this.isOpen (has-block)) 'true' 'false'}}
+        >
+          {{#if (has-block)}}
             {{yield}}
-          </div>
-        {{/if}}
+          {{/if}}
+        </div>
       </div>
     </div>
   </template>

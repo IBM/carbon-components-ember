@@ -1,0 +1,110 @@
+{
+  "component": "Grid",
+  "generatedAt": "2026-09-20T01:49:54.768Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--grid"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Grid content"
+          }
+        ]
+      }
+    },
+    "condensed": {
+      "props": {
+        "condensed": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--grid",
+          "cds--grid--condensed"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Grid content"
+          }
+        ]
+      }
+    },
+    "narrow": {
+      "props": {
+        "narrow": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--grid",
+          "cds--grid--narrow"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Grid content"
+          }
+        ]
+      }
+    },
+    "full-width": {
+      "props": {
+        "fullWidth": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--grid",
+          "cds--grid--full-width"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Grid content"
+          }
+        ]
+      }
+    },
+    "with-row-gap": {
+      "props": {
+        "withRowGap": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--grid",
+          "cds--grid--with-row-gap"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Grid content"
+          }
+        ]
+      }
+    }
+  }
+}

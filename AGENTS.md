@@ -326,6 +326,20 @@ once (Tag's custom icon overflowing its box, Tabs' `renderIcon` rendering at
 24px instead of 16px) — check icon size/alignment against real Carbon styles
 whenever you add a `renderIcon`/`decorator`/`slug`-style arg.
 
+**The same bug also hits a component's own *direct*, hardcoded icon usage,
+not just a `renderIcon`-style `ComponentLike` arg** — e.g. `<CheckmarkFilled
+@size="16" />` invoked straight inside a component's own template. Found
+(and fixed) in `tile.gts` (the `@selectable` checkmark and `@expandable`
+chevron) and `radio-tile.gts` (the checkmark) while adding their DOM-parity
+coverage — none of the three passed `@svgClass`, so each rendered with the
+same stray margin/hashed-class bug described above, even though `@carbon/
+react`'s own equivalent icon carries no class at all (its `.cds--tile__
+checkmark svg`/`.cds--tile__chevron svg` CSS rules are plain descendant
+selectors, so no class was ever needed on the icon itself — see `notification.gts`'s
+icon invocations, which already pass real `@svgClass` values, for the
+established correct pattern). Check any direct icon invocation for this too,
+not just `ComponentLike` args.
+
 ### 3. Model Controlled vs Uncontrolled Explicitly
 
 Every component must offer *some* uncontrolled path. Which of the two shapes
@@ -648,6 +662,32 @@ handed to `kolay` as-is), so every exported icon component Just Works in a
 docs example with no separate registration step. If you ever see this
 per-icon-registration pattern reintroduced, treat it as a regression, not
 something to imitate.
+
+### ❌ Pitfall 6: A Backtick Inside a `{{! ... }}` Template Comment Breaks the Build
+
+A Handlebars-style comment containing a backtick character fails to parse
+inside a `.gts` `<template>` tag, even on a single line with no other
+special characters:
+
+```gts
+{{! WRONG — the backtick breaks glint's --declaration build }}
+{{! @carbon/react wraps this in `Text`, which defaults to... }}
+
+{{! RIGHT — same content, no backticks }}
+{{! @carbon/react wraps this in Text, which defaults to... }}
+```
+
+The failure is `pnpm build:types`' `glint --declaration` step, and the
+error is unhelpful and points nowhere near backticks — `Parse error on
+line N: Expecting 'OPEN_SEXPR', 'ID', 'STRING', 'NUMBER', 'BOOLEAN',
+'UNDEFINED', 'NULL', 'DATA', got 'INVALID'`, as if a bare mustache
+expression were malformed. Plain single/double quotes and parentheses
+inside the same comment style are fine (see `overflow-menu.gts`'s existing
+`{{! @glint-expect-error: ... treats it as optional and defaults to
+'click' }}` comments) — it's specifically the backtick. Found while adding
+DOM-parity coverage for `radio-tile.gts`, where a comment describing
+`@carbon/react`'s `Text` component was originally written with backticks
+around the name.
 
 ## Component Implementation Checklist
 
@@ -3189,6 +3229,84 @@ already active - only a real change of target still cancels the old pending
 write and rehydrates from the new one, which was already correct and stays
 that way.
 
+### DOM-parity harness for `@carbon/ai-chat-components` (2026-09-19)
+
+PR #887 added `dom-parity/` - a harness that renders a pinned `@carbon/react`
+release offline and diffs its normalized DOM against the Ember port (see
+`dom-parity/README.md`). It only ever covered the `react` parity source:
+its `generate.mjs` mounts React components via `react-dom/client` in jsdom,
+which has nothing to render for `carbon-ai-chat` - that source's actual
+port target is `@carbon/ai-chat-components`, a Lit widget library (see this
+document's own opening paragraphs above), not a React tree.
+
+Added a second, independent comparison path instead of trying to bend the
+first one to fit: `test-app/tests/components/ai-chat/dom-parity-test.gts`
+mounts the real, pinned `@carbon/ai-chat-components` custom elements
+directly in test-app's own real-Chromium (Playwright) QUnit run - live,
+every run, no offline fixture or regeneration step, since Lit's real
+shadow-DOM/custom-element upgrade timing isn't reliably reproducible in
+jsdom the way a React mount is. It reuses `normalize-dom.mjs` and
+`diff-normalized.mjs` completely unmodified, plus the same
+`known-differences.json` allowlist, and adds two new framework-agnostic
+`dom-parity/lib/` helpers: `flatten-composed-tree.mjs` (resolves shadow
+DOM/`<slot>` content into a plain subtree normalizeElement can walk, and
+unwraps every nested custom-element boundary - not just the outermost one -
+since the Ember port never wraps a child component's output in an extra
+host element) and `strip-classes.mjs` (excludes `classes` and `part` from
+the comparison, since both are shadow-DOM-scoped styling hooks the Ember
+port intentionally does not mirror 1:1 - see AGENTS.md's "Porting Carbon AI
+Chat" §3 for why class names diverge by design). Full reasoning, including
+why host-element attributes are deliberately *not* merged onto the
+unwrapped shadow content (it produced false positives - see `flatten-
+composed-tree.mjs`'s own doc comment), lives in `dom-parity/README.md`'s
+"A second, live path" section and this test file's own module doc - not
+repeated here.
+
+**First batch: `Processing` and `ReasoningSteps`/`ReasoningStep`**, picked
+because upstream's own source (`es/components/<name>/src/*.js` in the real
+npm package) shows zero `@carbon/web-components` composition for either -
+a fair full-subtree structural diff, unlike e.g. `truncated-text` (nests
+`cds-tooltip`/`cds-button`/`cds-link`) or `chat-button` (subclasses
+`CDSButton` directly). Running the real harness against `ReasoningStep`
+found two genuine, additive Ember-port bugs, both fixed in
+`reasoning-steps.gts`: the panel `<div>` was missing `role='region'`/
+`aria-labelledby={headerId}` when it has body content (upstream always
+sets both), and the panel-body `<div>` wrapper was only rendered at all
+when there's a body block, where upstream always renders it (just empty)
+and additionally stamps a `data-visible` attribute Ember never rendered a
+version of. Two further, real gaps were found but *not* fixed, since
+fixing them is real feature work rather than a markup tweak - and not
+added to `known-differences.json` either, since both are host-only
+attributes (`flattenComposedTree` strips them from both sides by design,
+per its own doc comment), so the harness can never surface them and no
+allowlist entry is actually needed for tests to pass. Documented here
+instead, matching this repo's established convention (see
+`dom-parity/README.md`'s own guidance) of recording a real, non-trivial
+gap rather than silently dropping it: upstream's `ReasoningSteps` container
+propagates an `inert` attribute onto its own light-DOM step children while
+collapsed (`propagateOpen()`), which the Ember port has no equivalent path
+for since it has no DOM handle on its yielded steps' rendered elements the
+way a custom element's `querySelectorAll` does; and `markLastVisibleStep()`'s
+`data-last-item` attribute, already documented above (in the
+`ReasoningSteps` write-up itself) as a dead hook not worth porting. A third
+class of finding - `preserveAspectRatio`/`xmlns`/`aria-hidden` missing and
+an extra `will-change: transform` style on every icon's `<svg>` - traces to
+`src/components/icon/render-svg-part.ts`'s hand-written SVG wrapper, a
+pre-existing, addon-wide gap unrelated to `ReasoningStep` specifically; this
+one *is* recorded in `known-differences.json`, since the harness does
+surface it and needs the allowlist entry for tests to pass; left unfixed
+here since a fix would touch every icon in the addon.
+
+**Adding more components to this path**: there's no `lib/components.mjs`-
+style registry or `generate` step to extend, just a new `test`/`module` in
+the same file. Before picking one, check how deeply its upstream source
+composes `@carbon/web-components` (`dom-parity/README.md` has the exact
+command) - real composition is in scope, but expect real, per-component
+`known-differences.json` entries where the Ember port reuses this addon's
+own components instead of a literal nested-web-component port (e.g.
+`Toolbar` reusing `Tooltip`/`OverflowMenu`), not just a copy of this
+batch's pattern.
+
 ## Key Resources
 
 - **Carbon React**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components
@@ -3198,4 +3316,4 @@ that way.
 
 ---
 
-Last Updated: 2026-09-14
+Last Updated: 2026-09-19

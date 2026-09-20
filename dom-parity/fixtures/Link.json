@@ -1,0 +1,199 @@
+{
+  "component": "Link",
+  "generatedAt": "2026-09-20T01:49:54.760Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {
+        "href": "/about"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "a",
+        "classes": [
+          "cds--link"
+        ],
+        "attributes": {
+          "href": "/about"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Link text"
+          }
+        ]
+      }
+    },
+    "disabled": {
+      "props": {
+        "href": "/about",
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "a",
+        "classes": [
+          "cds--link",
+          "cds--link--disabled"
+        ],
+        "attributes": {
+          "role": "link",
+          "aria-disabled": "true"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Link text"
+          }
+        ]
+      }
+    },
+    "inline": {
+      "props": {
+        "href": "/about",
+        "inline": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "a",
+        "classes": [
+          "cds--link",
+          "cds--link--inline"
+        ],
+        "attributes": {
+          "href": "/about"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Link text"
+          }
+        ]
+      }
+    },
+    "visited": {
+      "props": {
+        "href": "/about",
+        "visited": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "a",
+        "classes": [
+          "cds--link",
+          "cds--link--visited"
+        ],
+        "attributes": {
+          "href": "/about"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Link text"
+          }
+        ]
+      }
+    },
+    "size-sm": {
+      "props": {
+        "href": "/about",
+        "size": "sm"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "a",
+        "classes": [
+          "cds--link",
+          "cds--link--sm"
+        ],
+        "attributes": {
+          "href": "/about"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Link text"
+          }
+        ]
+      }
+    },
+    "size-lg": {
+      "props": {
+        "href": "/about",
+        "size": "lg"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "a",
+        "classes": [
+          "cds--link",
+          "cds--link--lg"
+        ],
+        "attributes": {
+          "href": "/about"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Link text"
+          }
+        ]
+      }
+    },
+    "target-blank": {
+      "props": {
+        "href": "/about",
+        "target": "_blank"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "a",
+        "classes": [
+          "cds--link"
+        ],
+        "attributes": {
+          "rel": "noopener",
+          "target": "_blank",
+          "href": "/about"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Link text"
+          }
+        ]
+      }
+    },
+    "as-button": {
+      "props": {
+        "as": "button",
+        "href": "/about"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--link"
+        ],
+        "attributes": {
+          "href": "/about"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Link text"
+          }
+        ]
+      }
+    }
+  }
+}

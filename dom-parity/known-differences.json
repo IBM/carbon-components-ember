@@ -1,91 +1,300 @@
 {
-  "Button": [
+  "Link": [
     {
-      "path": "button.classes[cds--btn--lg]",
-      "reason": "Ember's Button only adds `cds--layout--size-{size}`; @carbon/react's Button also adds a `cds--btn--{size}` modifier class (e.g. `cds--btn--lg`) that Ember's component never emits for non-default sizes. Real gap, tracked as a follow-up."
+      "path": "a.classes[ember-view]",
+      "reason": "Verified against ember-element-helper@0.8.8's actual source (dist/helpers/element.js): `element` (used here for @as) resolves to a dynamically-generated class that extends classic `@ember/component`, and classic tag-having components always add the framework's own `ember-view` class to their root element. @carbon/react's Link has no equivalent. This is unavoidable *while the root tag is rendered through `element`* - not an inherent Link limitation: `element` is only needed to support @as, so a `{{#if @as}}` branch rendering a literal `<a>` for the common no-@as case would avoid this (and the sibling id entry below) for every variant except as-button. Left as-is here since restructuring Link is out of scope for adding this parity test; worth doing as its own follow-up. The same artifact will hit Grid/GridColumn/GridRow when that family is added to this harness, since they also render their root tag via `element`. Applies to every variant, including as-button (button.classes[ember-view])."
     },
     {
-      "path": "button.classes[cds--btn--md]",
-      "reason": "Same `cds--btn--{size}` gap as `cds--btn--lg` above, for the `md` size - deliberately left component-wide (no `variant` scoping) since six of the nine Button variants legitimately render at the default `md` size; note that this also means a future genuine `cds--btn--md` regression on any of them would be silently swallowed too, same tradeoff already accepted for `cds--btn--lg`."
+      "path": "a.attributes.id",
+      "reason": "Same ember-element-helper artifact as the ember-view class above - a classic tag-having component also gets an auto-generated `elementId` (rendered as the `id` attribute) by default, canonicalized here to `#1` since it's not referenced by anything else in the tree. Applies to every variant, including as-button (button.attributes.id)."
     },
     {
-      "path": "button.classes[cds--btn--sm]",
-      "reason": "Same `cds--btn--{size}` gap as `cds--btn--lg` above, for the `sm` size."
+      "path": "button.classes[ember-view]",
+      "variant": "as-button",
+      "reason": "Same ember-view artifact as the `a.classes[ember-view]` entry above, for the as-button variant's <button> root."
     },
     {
-      "path": "button.classes[cds--btn--xl]",
-      "reason": "Same `cds--btn--{size}` gap as `cds--btn--lg` above, for the `xl` size."
-    },
-    {
-      "path": "button.attributes.aria-label",
-      "reason": "Ember's <button> template sets `aria-label='{{if @type \"danger\"}}'`, which renders aria-label=\"danger\" whenever @type is any truthy string (i.e. on every button, since @type defaults to 'primary') instead of only on an actual danger/icon-only button. @carbon/react's Button never sets aria-label here at all. Looks like an unintended bug in the Ember template, tracked as a follow-up rather than fixed in this DOM-parity-test PR."
-    },
-    {
-      "path": "button.classes[cds--btn--primary]",
-      "variant": "tertiary",
-      "reason": "Ember's `primary` getter is `args.primary || args.type === 'primary'`; @type still defaults to 'primary' when only @tertiary={{true}} is passed (there is no separate 'off' value), so `cds--btn--tertiary` and `cds--btn--primary` are both added instead of just `cds--btn--tertiary`. @carbon/react's `kind='tertiary'` only ever adds `cds--btn--tertiary`. Real bug, tracked as a follow-up."
-    },
-    {
-      "path": "button.classes[cds--btn--primary]",
-      "variant": "ghost",
-      "reason": "Same `type` defaults to 'primary' bug as the `tertiary` variant above, for @ghost={{true}} - `cds--btn--ghost` and `cds--btn--primary` both get added. Real bug, tracked as a follow-up."
+      "path": "button.attributes.id",
+      "variant": "as-button",
+      "reason": "Same auto-generated-id artifact as the `a.attributes.id` entry above, for the as-button variant's <button> root."
     }
   ],
-  "Tag": [
+  "Grid": [
     {
-      "path": "div > span[0].attributes.title",
-      "reason": "@carbon/react's Tag sets `title` on the `.cds--tag__label` span (used for a truncation tooltip); Ember's Tag never sets it. Real gap, tracked as a follow-up."
+      "path": "div.classes[ember-view]",
+      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above (see that entry for the full explanation) - Grid renders its root tag through `element` too, to support `@as`. Applies to every variant."
     },
     {
-      "path": "div > span[0].attributes.dir",
-      "reason": "@carbon/react's Tag sets `dir='auto'` on the `.cds--tag__label` span; Ember's Tag never sets it. Real gap, tracked as a follow-up."
-    },
-    {
-      "path": "div.attributes.disabled",
-      "variant": "disabled",
-      "reason": "@carbon/react's Tag spreads `disabled` straight onto its root element regardless of tag type, so a non-interactive (div-rendered) disabled Tag still carries a `disabled=\"true\"` attribute alongside the `cds--tag--disabled` class. Ember's Tag only ever adds the class, never the attribute. Real gap, tracked as a follow-up."
+      "path": "div.attributes.id",
+      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
     }
   ],
-  "Loading": [
+  "GridRow": [
     {
-      "path": "div.style.margin-left",
-      "variant": "inline",
-      "reason": "Ember's inline branch hardcodes `style='margin-left: 1rem; width: initial; display: inline-flex; align-items: center;'` on the root div; @carbon/react's InlineLoading sets no inline style at all (its layout comes entirely from `cds--inline-loading`'s own CSS). Real gap, tracked as a follow-up."
+      "path": "div.classes[ember-view]",
+      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above - GridRow renders its root tag through `element` too, to support `@as`. Applies to every variant."
     },
     {
-      "path": "div.style.width",
-      "variant": "inline",
-      "reason": "Same hardcoded inline-style gap as `margin-left` above."
+      "path": "div.attributes.id",
+      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
+    }
+  ],
+  "GridColumn": [
+    {
+      "path": "div.classes[ember-view]",
+      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above - GridColumn renders its root tag through `element` too, to support `@as`. Applies to every variant."
     },
     {
-      "path": "div.style.display",
-      "variant": "inline",
-      "reason": "Same hardcoded inline-style gap as `margin-left` above."
+      "path": "div.attributes.id",
+      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
+    }
+  ],
+  "GridColumnHang": [
+    {
+      "path": "div.classes[ember-view]",
+      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above - GridColumnHang renders its root tag through `element` too, to support `@as`. Applies to every variant."
     },
     {
-      "path": "div.style.align-items",
-      "variant": "inline",
-      "reason": "Same hardcoded inline-style gap as `margin-left` above."
+      "path": "div.attributes.id",
+      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
+    }
+  ],
+  "Notification": [
+    {
+      "path": "div.attributes.role",
+      "reason": "@carbon/react's ToastNotification defaults `role` to 'status'; Ember's toast branch hardcodes `role='alert'` and doesn't expose a `role` arg to override it. A real behavioral difference (assertive vs. polite screen-reader announcement), not a DOM-generation bug - left as-is rather than changed, since Ember's default here may be intentional and changing it is a behavior change this pass didn't set out to make. Applies to every toast-* variant."
     },
     {
-      "path": "div > div[0] > div[0].attributes.aria-atomic",
-      "variant": "inline",
-      "reason": "@carbon/react's InlineLoading renders its inner spinner via `Loading`, which sets `aria-atomic='true'` on that div; Ember's inline branch never sets `aria-atomic` at all (only its non-inline `withOverlay`/plain branches do). Real gap, tracked as a follow-up."
+      "path": "div.attributes.data-notification",
+      "reason": "Ember-only marker attribute (see notification.gts's `data-notification`) with no React counterpart - used internally, not part of the rendered-markup contract this harness checks. Applies to every toast-* variant."
     },
     {
-      "path": "div > div[0] > div[0].attributes.aria-label",
-      "variant": "inline",
-      "reason": "Ember's inline branch hardcodes a literal `aria-label='Active loading indicator'` on the spinner div (not bound to `@description`); @carbon/react's InlineLoading never puts a label on the wrapping div at all, only on the svg. Real gap, tracked as a follow-up."
+      "path": "div > button[2].attributes.data-notification-btn",
+      "reason": "Same kind of Ember-only marker attribute as `data-notification` above, on the toast close button. Applies to every toast-* variant."
     },
     {
-      "path": "div > div[0] > div[0] > svg[0].attributes.aria-label",
-      "variant": "inline",
-      "reason": "@carbon/react's InlineLoading passes its own `iconDescription` (defaulting to the literal string \"loading\", NOT `description`) to the inner spinner's aria-label/title - `description` only ever reaches the separate visible text below. Ember's inline branch has no separate `iconDescription` concept and reuses `@description` for both, so the icon's label differs from React's default whenever a caller passes a real @description. Real gap, tracked as a follow-up."
+      "path": "div > button[1].attributes.aria-hidden",
+      "reason": "Ember's inline close button has no click handler wired up at all (unlike the toast branch's `{{on 'click' ...}}`) - inline notifications rendered directly in a template (not pushed through the notifications service) have no way to remove themselves, so the button is deliberately hidden from the accessibility tree and keyboard tab order instead of rendering a non-functional interactive element. React's InlineNotification always wires a working `onCloseButtonClick`, so it never adds these attributes. A real, functional gap (the close button does nothing), not just a markup one - fixing it means wiring real dismissal behavior for template-rendered inline notifications, out of scope for a DOM-parity-only pass. Applies to every inline-* variant."
     },
     {
-      "path": "div > div[0] > div[0] > svg[0] > title[0] > text(\"loading\")[0]",
-      "variant": "inline",
-      "reason": "Same `iconDescription` vs `description` gap as the svg aria-label above - the <title> text mirrors whichever value was actually used for the label."
+      "path": "div > button[1].attributes.tabindex",
+      "reason": "Same non-functional-close-button gap as the `aria-hidden` entry above. Applies to every inline-* variant."
+    },
+    {
+      "path": "div > svg[0].attributes.preserveAspectRatio",
+      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to Notification - see the AiChatReasoningSteps entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`, none of which the real Carbon icon svg carries the same way). This is the toast branch's un-nested main icon (a direct child of the root). Applies to every toast-* variant."
+    },
+    {
+      "path": "div > svg[0].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above. Applies to every toast-* variant."
+    },
+    {
+      "path": "div > svg[0].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above. Applies to every toast-* variant."
+    },
+    {
+      "path": "div > svg[0].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above (the extra-attribute direction of it). Applies to every toast-* variant."
+    },
+    {
+      "path": "div > button[2] > svg[0].attributes.preserveAspectRatio",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the main icon's `preserveAspectRatio` entry above, on the toast branch's close-button icon. Applies to every toast-* variant."
+    },
+    {
+      "path": "div > button[2] > svg[0].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above, on the toast branch's close-button icon. Applies to every toast-* variant."
+    },
+    {
+      "path": "div > button[2] > svg[0].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above, on the toast branch's close-button icon. Applies to every toast-* variant."
+    },
+    {
+      "path": "div > button[2] > svg[0].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above, on the toast branch's close-button icon. Applies to every toast-* variant."
+    },
+    {
+      "path": "div > div[0] > svg[0].attributes.preserveAspectRatio",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the toast branch's `div > svg[0].attributes.preserveAspectRatio` entry above - this is the inline branch's main icon, nested one level deeper (inside `cds--inline-notification__details`) than toast's. Applies to every inline-* variant."
+    },
+    {
+      "path": "div > div[0] > svg[0].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above. Applies to every inline-* variant."
+    },
+    {
+      "path": "div > div[0] > svg[0].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above. Applies to every inline-* variant."
+    },
+    {
+      "path": "div > div[0] > svg[0].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above. Applies to every inline-* variant."
+    },
+    {
+      "path": "div > button[1] > svg[0].attributes.preserveAspectRatio",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the toast branch's close-icon entries above, on the inline branch's close-button icon. Applies to every inline-* variant."
+    },
+    {
+      "path": "div > button[1] > svg[0].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above. Applies to every inline-* variant."
+    },
+    {
+      "path": "div > button[1] > svg[0].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above. Applies to every inline-* variant."
+    },
+    {
+      "path": "div > button[1] > svg[0].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above. Applies to every inline-* variant."
+    },
+    {
+      "path": "div > svg[0] > title[2]",
+      "reason": "@carbon/react's `NotificationIcon` wraps the icon in an inner `<title>{kind} icon</title>` for an accessible name; Ember's `Icon`/`renderSvgPart` has no API to inject a description element into the generated svg at all (an addon-wide icon limitation, not Notification-specific). Applies to every toast-* variant except warning-alt, whose icon has one extra `<path>` shifting the title to index 3 (see the `title[3]` entry below)."
+    },
+    {
+      "path": "div > svg[0] > title[3]",
+      "variant": "toast-warning-alt",
+      "reason": "Same missing-title gap as `div > svg[0] > title[2]` above - WarningAltFilled's icon has an extra `<path>` compared to the other kind icons, shifting where the (missing) title would land."
+    },
+    {
+      "path": "div > div[0] > svg[0] > title[2]",
+      "reason": "Same missing-title gap as the toast branch's `div > svg[0] > title[2]` entry above, on the inline branch's nested main icon. Applies to every inline-* variant except warning-alt (see the `title[3]` entry below)."
+    },
+    {
+      "path": "div > div[0] > svg[0] > title[3]",
+      "variant": "inline-warning-alt",
+      "reason": "Same missing-title gap as `div > div[0] > svg[0] > title[2]` above, shifted to index 3 for the same WarningAltFilled extra-`<path>` reason as the toast branch's `title[3]` entry."
+    },
+    {
+      "path": "div > svg[0] > path[0].attributes.d",
+      "variant": "toast-warning",
+      "reason": "Harness limitation, not a real bug: the `d` attribute is byte-identical between @carbon/icons' and @carbon/icons-react's copies of the Warning icon except for one whitespace separator (a literal tab vs. a space between two path commands), which the SVG path grammar treats as equivalent - this diffs as a text mismatch only because the comparison is a raw string diff, not an SVG-path-aware one."
+    },
+    {
+      "path": "div > div[0] > svg[0] > path[0].attributes.d",
+      "variant": "inline-warning",
+      "reason": "Same whitespace-only, harness-limitation diff as the toast branch's `div > svg[0] > path[0].attributes.d` entry above, on the inline branch's nested main icon."
+    }
+  ],
+  "AiChatReasoningSteps": [
+    {
+      "path": "div > div[0] > div[0] > div[0].attributes.role",
+      "reason": "Harness limitation, not a real gap - verified by hand that Ember's `ReasoningStep` sets `role='listitem'` on its own rendered root, matching upstream's `reasoning-step.ts` `connectedCallback` (`this.setAttribute('role', 'listitem')`) exactly. `flattenComposedTree` (see dom-parity/lib/flatten-composed-tree.mjs) deliberately does not merge a custom element host's own light-DOM attributes onto its unwrapped shadow content, since doing so can't distinguish a genuine self-applied output attribute like this one from a configuration-input attribute (see that file's own doc comment) - so upstream's host-only `role` is invisible to this diff, and only Ember's copy of it shows up, as 'extra'."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[1].attributes.role",
+      "variant": "open-with-steps",
+      "reason": "Same harness limitation as the div[0].role entry above, for the second (interactive) step - only reachable in the open-with-steps variant, which renders two steps."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[1] > button[0] > span[0] > svg[0].attributes.preserveAspectRatio",
+      "variant": "open-with-steps",
+      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to ReasoningStep - Ember's `renderSvgPartFunc` (src/components/icon/render-svg-part.ts) hand-writes the `<svg>` wrapper for every icon in this addon and never sets `preserveAspectRatio`, while upstream's real Carbon icon SVGs (via `@carbon/web-components`' `iconLoader`) always carry `preserveAspectRatio=\"xMidYMid meet\"`. Real gap, but out of scope for this harness (fixing it touches every icon in the addon); worth its own follow-up."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[1] > button[0] > span[0] > svg[0].attributes.xmlns",
+      "variant": "open-with-steps",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above - it never sets `xmlns` either."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[1] > button[0] > span[0] > svg[0].attributes.aria-hidden",
+      "variant": "open-with-steps",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above - it never sets `aria-hidden` on the svg itself (the icon is already wrapped in an `aria-hidden='true'` span in both `ReasoningStep` and upstream, so this isn't a real accessibility gap - just a missing redundant attribute)."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[1] > button[0] > span[0] > svg[0].style.will-change",
+      "variant": "open-with-steps",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above, in the other direction - it hardcodes `style=\"will-change: transform;\"` on every icon's svg, which upstream's real Carbon icon svg does not carry."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[0] > button[0] > span[0] > svg[0].attributes.preserveAspectRatio",
+      "variant": "closed-with-steps",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as AiChatReasoningSteps' open-with-steps entry of the same name - here it's the interactive step at index 0 rather than 1, since the closed-with-steps variant only renders one step."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[0] > button[0] > span[0] > svg[0].attributes.xmlns",
+      "variant": "closed-with-steps",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[0] > button[0] > span[0] > svg[0].attributes.aria-hidden",
+      "variant": "closed-with-steps",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above - not a real accessibility gap, see the open-with-steps entry of the same name for why."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[0] > button[0] > span[0] > svg[0].style.will-change",
+      "variant": "closed-with-steps",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as AiChatReasoningSteps' open-with-steps entry of the same name."
+    }
+  ],
+  "RadioTile": [
+    {
+      "path": "div > label[1] > span[0] > svg[0].classes[cds--tile__checkmark-icon]",
+      "reason": "`.cds--tile__checkmark svg` is a plain descendant selector in the resolved @carbon/styles CSS (no class needed on the svg itself for styling), so `cds--tile__checkmark-icon` is an inert class - added to radio-tile.gts's `<CheckmarkFilled @svgClass=...>` invocation specifically to opt out of this addon's `Icon` base component's default hashed/margin-carrying class (see AGENTS.md's renderIcon-default-size gotcha, previously undocumented for this non-renderIcon direct-icon-usage case, now fixed the same way). @carbon/react's own icon has no class at all. Applies to every variant."
+    },
+    {
+      "path": "div > label[1] > span[0] > svg[0].attributes.preserveAspectRatio",
+      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to RadioTile - see the Notification/AiChatReasoningSteps entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). Applies to every variant."
+    },
+    {
+      "path": "div > label[1] > span[0] > svg[0].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above. Applies to every variant."
+    },
+    {
+      "path": "div > label[1] > span[0] > svg[0].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above. Applies to every variant."
+    },
+    {
+      "path": "div > label[1] > span[0] > svg[0].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above (the extra-attribute direction of it). Applies to every variant."
+    },
+    {
+      "path": "div > input[0].attributes.checked",
+      "variant": "checked",
+      "reason": "Harness limitation, not a functional gap: Glimmer sets a bound `checked={{...}}` on an `<input>` as the DOM `checked` IDL property, not a reflected HTML attribute - confirmed by this addon's own `tile-group-test.gts`, which already asserts `assert.dom('input.cds--tile-input').isChecked()` (a property-based check) and passes. `normalizeElement` only inspects `el.attributes` (real attribute nodes), which can't see property-only state, so React's copy (which jsdom does reflect onto the attribute) shows as present and Ember's as absent even though both render a genuinely checked radio button."
+    }
+  ],
+  "TileGroup": [
+    {
+      "path": "fieldset > div[1] > div[0] > input[0].attributes.checked",
+      "reason": "Same harness limitation as RadioTile's `div > input[0].attributes.checked` entry above, for the first (selected, via `@defaultSelected`) RadioTile in this fixture's default variant."
+    },
+    {
+      "path": "fieldset > div[1] > div[0] > label[1] > span[0] > svg[0].classes[cds--tile__checkmark-icon]",
+      "reason": "Same inert-`@svgClass` gap as RadioTile's entry of the same name, for the first RadioTile in this fixture's default variant."
+    },
+    {
+      "path": "fieldset > div[1] > div[0] > label[1] > span[0] > svg[0].attributes.preserveAspectRatio",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as RadioTile's entry of the same name, for the first RadioTile in this fixture's default variant."
+    },
+    {
+      "path": "fieldset > div[1] > div[0] > label[1] > span[0] > svg[0].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above, for the first RadioTile."
+    },
+    {
+      "path": "fieldset > div[1] > div[0] > label[1] > span[0] > svg[0].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above, for the first RadioTile."
+    },
+    {
+      "path": "fieldset > div[1] > div[0] > label[1] > span[0] > svg[0].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above, for the first RadioTile."
+    },
+    {
+      "path": "fieldset > div[1] > div[1] > label[1] > span[0] > svg[0].classes[cds--tile__checkmark-icon]",
+      "reason": "Same inert-`@svgClass` gap as RadioTile's entry of the same name, for the second RadioTile in this fixture's default variant."
+    },
+    {
+      "path": "fieldset > div[1] > div[1] > label[1] > span[0] > svg[0].attributes.preserveAspectRatio",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as RadioTile's entry of the same name, for the second RadioTile in this fixture's default variant."
+    },
+    {
+      "path": "fieldset > div[1] > div[1] > label[1] > span[0] > svg[0].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above, for the second RadioTile."
+    },
+    {
+      "path": "fieldset > div[1] > div[1] > label[1] > span[0] > svg[0].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above, for the second RadioTile."
+    },
+    {
+      "path": "fieldset > div[1] > div[1] > label[1] > span[0] > svg[0].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above, for the second RadioTile."
     }
   ]
 }

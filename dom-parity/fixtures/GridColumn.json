@@ -1,0 +1,114 @@
+{
+  "component": "GridColumn",
+  "generatedAt": "2026-09-20T01:49:54.771Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--col"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Column content"
+          }
+        ]
+      }
+    },
+    "sm": {
+      "props": {
+        "sm": 2
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--col-sm-2"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Column content"
+          }
+        ]
+      }
+    },
+    "multi-breakpoint": {
+      "props": {
+        "sm": 4,
+        "md": 4,
+        "lg": 8
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--col-lg-8",
+          "cds--col-md-4",
+          "cds--col-sm-4"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Column content"
+          }
+        ]
+      }
+    },
+    "auto": {
+      "props": {
+        "lg": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--col-lg"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Column content"
+          }
+        ]
+      }
+    },
+    "offset": {
+      "props": {
+        "lg": {
+          "span": 4,
+          "offset": 2
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--col-lg-4",
+          "cds--offset-lg-2"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Column content"
+          }
+        ]
+      }
+    }
+  }
+}
