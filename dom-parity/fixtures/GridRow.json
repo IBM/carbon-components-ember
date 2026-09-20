@@ -1,0 +1,68 @@
+{
+  "component": "GridRow",
+  "generatedAt": "2026-09-20T01:36:29.430Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--row"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Row content"
+          }
+        ]
+      }
+    },
+    "condensed": {
+      "props": {
+        "condensed": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--row",
+          "cds--row--condensed"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Row content"
+          }
+        ]
+      }
+    },
+    "narrow": {
+      "props": {
+        "narrow": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--row",
+          "cds--row--narrow"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Row content"
+          }
+        ]
+      }
+    }
+  }
+}

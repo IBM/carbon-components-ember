@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
+import { hash } from '@ember/helper';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import Button from 'carbon-components-ember/components/button';
 import Tag from 'carbon-components-ember/components/tag';
@@ -9,6 +10,10 @@ import Link from 'carbon-components-ember/components/link';
 import UnorderedList from 'carbon-components-ember/components/unordered-list';
 import OrderedList from 'carbon-components-ember/components/ordered-list';
 import ListItem from 'carbon-components-ember/components/list-item';
+import Grid from 'carbon-components-ember/components/grid';
+import GridRow from 'carbon-components-ember/components/grid/row';
+import GridColumn from 'carbon-components-ember/components/grid/column';
+import GridColumnHang from 'carbon-components-ember/components/grid/column-hang';
 import { normalizeElement } from '../../../dom-parity/lib/normalize-dom.mjs';
 import {
   diffNormalized,
@@ -22,6 +27,10 @@ import linkFixture from '../../../dom-parity/fixtures/Link.json';
 import unorderedListFixture from '../../../dom-parity/fixtures/UnorderedList.json';
 import orderedListFixture from '../../../dom-parity/fixtures/OrderedList.json';
 import listItemFixture from '../../../dom-parity/fixtures/ListItem.json';
+import gridFixture from '../../../dom-parity/fixtures/Grid.json';
+import gridRowFixture from '../../../dom-parity/fixtures/GridRow.json';
+import gridColumnFixture from '../../../dom-parity/fixtures/GridColumn.json';
+import gridColumnHangFixture from '../../../dom-parity/fixtures/GridColumnHang.json';
 
 type VariantFixture = { props: object; dom: object };
 type ComponentFixture = {
@@ -586,6 +595,161 @@ module('DOM parity | Carbon React', function (hooks) {
 
     test('every fixture variant is covered', function (assert) {
       assertFullCoverage(assert, listItemFixture, ['default']);
+    });
+  });
+
+  // See dom-parity/lib/components.mjs's top-of-file comment for why these
+  // compare against `Carbon.FlexGrid`/`Row`/`Column`/`ColumnHang` rather
+  // than `Carbon.Grid` (feature-flag dependent) and use plain-text
+  // children instead of nesting Grid components inside each other.
+  module('Grid', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><Grid>Grid content</Grid></template>);
+      assertDomParity(assert, gridFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('condensed', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Grid @condensed={{true}}>Grid content</Grid>
+        </template>,
+      );
+      assertDomParity(assert, gridFixture, 'condensed', this.element.firstElementChild);
+    });
+
+    test('narrow', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Grid @narrow={{true}}>Grid content</Grid>
+        </template>,
+      );
+      assertDomParity(assert, gridFixture, 'narrow', this.element.firstElementChild);
+    });
+
+    test('full-width', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Grid @fullWidth={{true}}>Grid content</Grid>
+        </template>,
+      );
+      assertDomParity(assert, gridFixture, 'full-width', this.element.firstElementChild);
+    });
+
+    test('with-row-gap', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Grid @withRowGap={{true}}>Grid content</Grid>
+        </template>,
+      );
+      assertDomParity(assert, gridFixture, 'with-row-gap', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, gridFixture, [
+        'default',
+        'condensed',
+        'narrow',
+        'full-width',
+        'with-row-gap',
+      ]);
+    });
+  });
+
+  module('GridRow', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><GridRow>Row content</GridRow></template>);
+      assertDomParity(assert, gridRowFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('condensed', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <GridRow @condensed={{true}}>Row content</GridRow>
+        </template>,
+      );
+      assertDomParity(assert, gridRowFixture, 'condensed', this.element.firstElementChild);
+    });
+
+    test('narrow', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <GridRow @narrow={{true}}>Row content</GridRow>
+        </template>,
+      );
+      assertDomParity(assert, gridRowFixture, 'narrow', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, gridRowFixture, ['default', 'condensed', 'narrow']);
+    });
+  });
+
+  module('GridColumn', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><GridColumn>Column content</GridColumn></template>);
+      assertDomParity(assert, gridColumnFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('sm', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <GridColumn @sm={{2}}>Column content</GridColumn>
+        </template>,
+      );
+      assertDomParity(assert, gridColumnFixture, 'sm', this.element.firstElementChild);
+    });
+
+    test('multi-breakpoint', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <GridColumn @sm={{4}} @md={{4}} @lg={{8}}>Column content</GridColumn>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        gridColumnFixture,
+        'multi-breakpoint',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('auto', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <GridColumn @lg={{true}}>Column content</GridColumn>
+        </template>,
+      );
+      assertDomParity(assert, gridColumnFixture, 'auto', this.element.firstElementChild);
+    });
+
+    test('offset', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <GridColumn @lg={{hash span=4 offset=2}}>Column content</GridColumn>
+        </template>,
+      );
+      assertDomParity(assert, gridColumnFixture, 'offset', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, gridColumnFixture, [
+        'default',
+        'sm',
+        'multi-breakpoint',
+        'auto',
+        'offset',
+      ]);
+    });
+  });
+
+  module('GridColumnHang', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><GridColumnHang>Hang content</GridColumnHang></template>);
+      assertDomParity(assert, gridColumnHangFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, gridColumnHangFixture, ['default']);
     });
   });
 });

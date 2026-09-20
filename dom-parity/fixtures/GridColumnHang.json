@@ -1,6 +1,6 @@
 {
-  "component": "ListItem",
-  "generatedAt": "2026-09-20T01:36:29.427Z",
+  "component": "GridColumnHang",
+  "generatedAt": "2026-09-20T01:36:29.434Z",
   "carbonReactVersion": "1.114.0",
   "reactVersion": "19.3.0",
   "variants": {
@@ -8,18 +8,16 @@
       "props": {},
       "dom": {
         "type": "element",
-        "tag": "li",
+        "tag": "div",
         "classes": [
-          "cds--list__item"
+          "cds--grid-column-hang"
         ],
-        "attributes": {
-          "dir": "auto"
-        },
+        "attributes": {},
         "style": {},
         "children": [
           {
             "type": "text",
-            "text": "Item content"
+            "text": "Hang content"
           }
         ]
       }

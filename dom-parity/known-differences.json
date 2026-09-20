@@ -19,6 +19,46 @@
       "reason": "Same auto-generated-id artifact as the `a.attributes.id` entry above, for the as-button variant's <button> root."
     }
   ],
+  "Grid": [
+    {
+      "path": "div.classes[ember-view]",
+      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above (see that entry for the full explanation) - Grid renders its root tag through `element` too, to support `@as`. Applies to every variant."
+    },
+    {
+      "path": "div.attributes.id",
+      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
+    }
+  ],
+  "GridRow": [
+    {
+      "path": "div.classes[ember-view]",
+      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above - GridRow renders its root tag through `element` too, to support `@as`. Applies to every variant."
+    },
+    {
+      "path": "div.attributes.id",
+      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
+    }
+  ],
+  "GridColumn": [
+    {
+      "path": "div.classes[ember-view]",
+      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above - GridColumn renders its root tag through `element` too, to support `@as`. Applies to every variant."
+    },
+    {
+      "path": "div.attributes.id",
+      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
+    }
+  ],
+  "GridColumnHang": [
+    {
+      "path": "div.classes[ember-view]",
+      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above - GridColumnHang renders its root tag through `element` too, to support `@as`. Applies to every variant."
+    },
+    {
+      "path": "div.attributes.id",
+      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
+    }
+  ],
   "AiChatReasoningSteps": [
     {
       "path": "div > div[0] > div[0] > div[0].attributes.role",

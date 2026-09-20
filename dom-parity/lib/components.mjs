@@ -26,23 +26,48 @@
  * wrapping markup. `onClick` is Ember-only DOM-invisible behavior, out of
  * scope like Button's.
  *
- * Tile, Notification/ToastNotification/InlineNotification, CodeSnippet,
- * Breadcrumb, and the Grid family (Grid/Row/Column) were all considered for
- * this same batch and deliberately left out - see todo #836 for why each
- * needs its own, separate pass instead: a real conflated-type bug in
- * Notification (its `inline` display hardcodes
- * `cds--inline-notification--error` regardless of `@type`), a
- * feature-flag-dependent default in Grid (@carbon/react's `Grid` renders
- * CSS Grid by default at this pinned version, not the flexbox grid Ember's
- * `Grid` defaults to - needs its own investigation before either side is
- * "fixed"; also expect the same `element`-helper `ember-view`/auto-id
- * artifact recorded in known-differences.json for Link, since Grid/
- * GridColumn/GridRow all render their root tag via `element` too), a
- * structurally different root element/API in Breadcrumb (a `<nav>` of
- * plain strings vs. React's `<div>` of `BreadcrumbItem`/`Link` children),
- * and Popover-dependent interactive state in CodeSnippet (its `CopyButton`
- * tooltip), matching this file's existing Modal/ComboBox/Dropdown/
- * DatePicker exclusion.
+ * Notification/ToastNotification/InlineNotification, CodeSnippet, Breadcrumb,
+ * and the Tile family were all considered for the batch that added Link/
+ * UnorderedList/OrderedList/ListItem and deliberately left out - see todo
+ * #836 for the follow-up investigation of each:
+ *
+ * - CodeSnippet: all three variants (default/multiline/inline) embed
+ *   `CopyButton`, which uses `Popover` for its tooltip - blocked on this
+ *   harness's approach to interaction/floating-ui-dependent DOM being
+ *   figured out separately, same bucket as the existing Modal/ComboBox/
+ *   Dropdown/DatePicker exclusion. Revisit once that's decided, not before.
+ * - Breadcrumb: Ember's `Breadcrumbs` has a structurally different API and
+ *   DOM shape than Carbon React's `Breadcrumb`/`BreadcrumbItem`/
+ *   `BreadcrumbLink` (a `<nav>` wrapping `crumbs: string[]` with href='#'
+ *   placeholders, vs. React's `<div>` of real `BreadcrumbItem`/`Link`
+ *   children). Explicit non-goal for this harness until Breadcrumbs itself
+ *   is reworked to accept real link/item children - a fixture comparison
+ *   against the current API would mostly be diffing two unrelated shapes,
+ *   not catching real regressions.
+ * - Tile (`Tile`/`RadioTile`/`TileGroup`): a single Ember `Tile` conflates
+ *   React's separate `Tile`/`ClickableTile`/`ExpandableTile`/`SelectableTile`
+ *   via `@selectable`/`@clickable`/`@expandable`, each needing its own
+ *   branch-by-branch comparison against the matching upstream component;
+ *   large enough to need its own todo rather than a tail end of this one.
+ *
+ * Grid (Grid/GridColumn/GridRow/GridColumnHang) is covered below. The
+ * naive comparison target, `@carbon/react`'s `Grid`, is feature-flag
+ * dependent - at this pinned version it renders CSS Grid by default
+ * (`enable-css-grid` defaults on), not the flexbox grid Ember's `Grid`
+ * defaults to. Rather than depend on that flag's default (which could flip
+ * again on a future @carbon/react bump and silently change what this
+ * fixture asserts) or change Ember's own default, every variant below
+ * renders against `Carbon.FlexGrid`/`Carbon.Row`/`Carbon.Column`/
+ * `Carbon.ColumnHang` directly - the same components `Grid` delegates to
+ * internally once the flag resolves to flexbox mode, but reachable without
+ * going through the flag at all. `css-grid` mode is out of scope here for
+ * the same reason Breadcrumb/Tile are: it's a real, separate comparison
+ * (`Carbon.CSSGrid`, not directly exported - only reachable through the
+ * flag) that deserves its own pass. Each component is exercised with a
+ * plain-text child (not nested Grid components) so the `ember-view`/
+ * auto-id artifact already documented for Link (Grid/GridColumn/GridRow/
+ * GridColumnHang all render their root tag via the `element` helper too)
+ * shows up once per fixture instead of once per nesting depth.
  *
  * To add a component or variant: add/extend an entry here, run
  * `pnpm generate` in this package to (re)write its fixture, then add a
@@ -93,6 +118,29 @@ const orderedList = (name, props) => ({
       React.createElement(Carbon.ListItem, { key: '1' }, 'Item 1'),
       React.createElement(Carbon.ListItem, { key: '2' }, 'Item 2'),
     ),
+});
+
+// See this file's top-of-file comment for why these render against
+// `Carbon.FlexGrid`/`Carbon.Row`/`Carbon.Column`/`Carbon.ColumnHang`
+// directly rather than `Carbon.Grid`.
+const grid = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.FlexGrid, props, 'Grid content'),
+});
+
+const gridRow = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) => React.createElement(Carbon.Row, props, 'Row content'),
+});
+
+const gridColumn = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Column, props, 'Column content'),
 });
 
 export const COMPONENTS = [
@@ -298,6 +346,45 @@ export const COMPONENTS = [
         name: 'default',
         props: {},
         createElement: (React, Carbon) => React.createElement(Carbon.ListItem, {}, 'Item content'),
+      },
+    ],
+  },
+  {
+    name: 'Grid',
+    variants: [
+      grid('default', {}),
+      grid('condensed', { condensed: true }),
+      grid('narrow', { narrow: true }),
+      grid('full-width', { fullWidth: true }),
+      grid('with-row-gap', { withRowGap: true }),
+    ],
+  },
+  {
+    name: 'GridRow',
+    variants: [
+      gridRow('default', {}),
+      gridRow('condensed', { condensed: true }),
+      gridRow('narrow', { narrow: true }),
+    ],
+  },
+  {
+    name: 'GridColumn',
+    variants: [
+      gridColumn('default', {}),
+      gridColumn('sm', { sm: 2 }),
+      gridColumn('multi-breakpoint', { sm: 4, md: 4, lg: 8 }),
+      gridColumn('auto', { lg: true }),
+      gridColumn('offset', { lg: { span: 4, offset: 2 } }),
+    ],
+  },
+  {
+    name: 'GridColumnHang',
+    variants: [
+      {
+        name: 'default',
+        props: {},
+        createElement: (React, Carbon) =>
+          React.createElement(Carbon.ColumnHang, {}, 'Hang content'),
       },
     ],
   },
