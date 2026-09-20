@@ -3307,6 +3307,80 @@ own components instead of a literal nested-web-component port (e.g.
 `Toolbar` reusing `Tooltip`/`OverflowMenu`), not just a copy of this
 batch's pattern.
 
+### Tile's `@selectable`/`@expandable` reworked to match upstream's DOM shape (todo #845, 2026-09-20)
+
+Follow-up to todo #838, which had left both branches out of the `react`-source
+dom-parity harness (`dom-parity/lib/components.mjs`) as disclosed gaps
+because closing them meant changing Ember's DOM shape, not just fixing
+attributes - full reasoning for each (verified against real `@carbon/react`
+source) lives in that file's own top comment; only the parts worth
+surfacing here are repeated below.
+
+- **`@selectable`** now renders upstream's actual `SelectableTile` shape: a
+  `role="checkbox"` `<div>` with Enter/Space keyboard handling and a
+  persistent `Checkbox`/`CheckboxCheckedFilled` icon pair, instead of a
+  native `<label>` wrapping a real `<input type="checkbox">`. A new `@id`
+  arg mirrors upstream's own optional `id` prop (unset by default, in which
+  case neither `id` nor the content `<label for>` renders). `@tabindex` now
+  defaults to `'0'` (matching upstream), since the root is now the only
+  focusable element - previously the native `<input>` was tabbable
+  independent of `@tabindex`. The nested icon/label inside `role="checkbox"`
+  trip two real `ember-template-lint` a11y rules
+  (`no-nested-interactive`/`require-presentational-children`); both are
+  suppressed inline with a comment, since this is upstream's own real ARIA
+  pattern for a custom checkbox widget, not a regression.
+- **`@expandable`** is reworked to match upstream's *interactive*
+  `ExpandableTile` branch specifically (a root `<div>` with a separate,
+  always-present chevron `<button>` carrying `aria-expanded`/
+  `aria-controls` on itself) rather than its non-interactive branch (a root
+  `<button>` wrapping arbitrary yielded content) - the latter would produce
+  invalid nested-interactive markup for any caller putting a real
+  button/link in the `<:above>`/`<:below>` blocks, and Ember has no way to
+  inspect yielded block content ahead of render the way upstream's
+  effect-based DOM scan does to pick the safe branch automatically. Two
+  real structural gaps closed: the below-the-fold `<div>` is now always
+  rendered (previously only once `@expanded` was true) and the outer
+  `<div style="height: fit-content">` wrapper is gone - the tile div itself
+  is the root, matching upstream.
+  - **The always-rendered below-the-fold content needs a real measured
+    `max-height` to actually clip, not just CSS alone - caught in review,
+    not by any test/lint/build check, and worth calling out as a class of
+    bug.** `overflow: hidden` and the below-the-fold span's
+    `opacity: 0`/`visibility: hidden` (both real, pre-existing
+    `@carbon/styles` rules) only hide *paint* - neither removes layout
+    space, and nothing actually overflows a content-derived box. A first
+    pass that dropped the `{{#if this.expanded}}` conditional without also
+    reproducing upstream's `useIsomorphicEffect`-driven `max-height`
+    measurement rendered the collapsed tile at full expanded height (empirically
+    confirmed: `getBoundingClientRect().height` identical collapsed vs.
+    expanded, in a real browser). Fixed with `clipExpandableTile`, a small
+    `ember-modifier` on the above-the-fold `<div>` that measures its real
+    `scrollHeight` (plus the tile's own computed vertical padding) and
+    writes/clears the tile's inline `max-height` - `expanded` is passed as
+    the modifier's declared positional arg (not read off `this` inside the
+    body) so it re-measures synchronously on every toggle, matching
+    upstream's own layout-effect timing with no flash of unclipped content;
+    a `ResizeObserver` on the above-the-fold element handles later content
+    size changes, deferred to `requestAnimationFrame` per the
+    ResizeObserver-loop-error precedent already documented for
+    Toolbar/`WorkspaceShellFooter` above. **Any future "always render
+    previously-conditional content, clipped via CSS" change in this addon
+    should treat this as the default assumption to check, not an edge
+    case**: CSS alone clips overflow, not content-derived height - if nothing
+    actually overflows the box, `overflow: hidden` is a no-op.
+  - A `known-differences.json` entry remains for the collapsed variant's
+    `max-height` *value* - the dom-parity fixture was generated in jsdom,
+    where `scrollHeight` is always 0, so upstream's captured value there is
+    a deterministic `"0px"` artifact, not a real measurement; Ember's own
+    real-Chromium test (`tile-test.gts`) asserts the real, non-zero
+    clipping behavior directly instead.
+- Also dropped the dead `cds--tile-content__above-the-fold` wrapper span
+  (no matching CSS rule in `@carbon/styles` - verified by grepping the
+  resolved stylesheet) and added the `cds--tile__chevron--interactive`
+  modifier class the chevron button was missing (a real, independent
+  styling gap - that class carries `@carbon/styles`' own button-reset and
+  focus-outline rules).
+
 ## Key Resources
 
 - **Carbon React**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components
@@ -3316,4 +3390,4 @@ batch's pattern.
 
 ---
 
-Last Updated: 2026-09-19
+Last Updated: 2026-09-20
