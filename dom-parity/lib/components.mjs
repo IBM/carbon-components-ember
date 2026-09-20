@@ -79,23 +79,28 @@
  *   ever report one useless top-level "tag" diff. Left as a real, disclosed
  *   gap rather than forced into this harness; worth its own follow-up if
  *   `@selectable` is ever reworked to match upstream's DOM shape.
- * - `ExpandableTile` (`@expandable`) is NOT covered either, for a harness
- *   reason on top of the real structural ones: with plain-text children,
- *   `act()` captures upstream's *interactive* render branch (computed from
- *   `getInteractiveContent`/`getRoleContent` in an effect), which renders a
- *   `<button>`-driven chevron with `aria-expanded`/`aria-controls` wired to
- *   a `useId`-derived id and always renders the below-the-fold `<div>`
- *   (Ember only renders it once expanded) - genuinely different structure,
- *   not just missing attributes. Separately, upstream measures
- *   `aboveTheFold.current.scrollHeight` in an effect and writes it back as
- *   an inline `max-height` style, which `normalize-dom.mjs` captures -
- *   baking a jsdom `scrollHeight: 0` artifact into any fixture generated
- *   this way - and constructs a real `ResizeObserver`, which jsdom doesn't
- *   implement at all, so `generate` would likely need some kind of
- *   `ResizeObserver` shim (not attempted here - see generate.mjs's existing
- *   `globalThis.HTMLElement` shim for the general pattern) before it could
- *   even run. Left out; worth its own follow-up alongside `SelectableTile`
- *   above.
+ * - `ExpandableTile` (`@expandable`) is NOT covered either, for real
+ *   structural reasons - verified directly with a throwaway jsdom + `act()`
+ *   script rendering `Carbon.ExpandableTile` with plain div children (a
+ *   3-line `ResizeObserver` stub, same shape as `generate.mjs`'s existing
+ *   `globalThis.HTMLElement` shim, was tried and works fine - no crash, and
+ *   it's a cheap addition if this is ever revisited). With plain-text/div
+ *   children, `getInteractiveContent`/`getRoleContent` correctly find no
+ *   interactive content, so upstream renders its *non-interactive* branch: a
+ *   root `<button>` (not a `<div>` wrapping an inner interactive chevron
+ *   `<button>`) carrying `aria-expanded`/`aria-controls` on itself, wired to
+ *   a `useId`-derived id. Two real, structural mismatches remain regardless
+ *   of which branch renders: (1) upstream always renders the below-the-fold
+ *   `<div>` in the DOM (clipped via a computed `max-height` inline style,
+ *   itself dependent on measuring `aboveTheFold.current.scrollHeight` in an
+ *   effect, which `normalize-dom.mjs` would capture as a jsdom
+ *   `scrollHeight: 0` artifact), while Ember's expandable branch only
+ *   renders that `<div>` at all once `@expanded` is true; (2) upstream's
+ *   root element is the `<button>` itself, while Ember's expandable branch's
+ *   root is an outer `<div style="height: fit-content">` wrapping the inner
+ *   `cds--tile--expandable` div - a second, independent root-tag mismatch on
+ *   top of the interactive-content one. Left out; worth its own follow-up
+ *   alongside `SelectableTile` above.
  *
  * Both covered branches are feature-flag dependent the same way Grid's
  * entry below is - at this pinned `@carbon/react` version (`generate`
