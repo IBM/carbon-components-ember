@@ -197,6 +197,49 @@
  * deliberately not exercised (and so not fixed) by any variant here;
  * worth its own follow-up.
  *
+ * Coverage inventory (todo #854, 2026-09-20): this file covers 18 of the
+ * ~76 non-ai-chat components exported from `src/components/index.ts`
+ * (Button/Tag/Loading/Link/UnorderedList/OrderedList/ListItem/Grid×4/
+ * Notification/Tile×5, all above) - the remaining ~58 are not a silent
+ * gap, they were never scheduled. The `ai-chat/dom-parity-test.gts` live
+ * path (see the README's "second, live path" section) is even further
+ * behind: 2 of ~28 shipped `@carbon/ai-chat-components` widgets
+ * (`Processing`, `ReasoningSteps`). Follow-up todos scheduled to close
+ * this, in dependency order:
+ *
+ * 1. A gate decision this file's own CodeSnippet comment above already
+ *    flags but that doesn't exist yet - the harness's approach to
+ *    interaction/floating-ui-dependent DOM (open state? closed-only?
+ *    skip entirely?). Blocks Modal, Popover/PopoverContent, Tooltip,
+ *    Toggletip, OverflowMenu(+Item), Select, the Menu family, DatePicker
+ *    (+Input), TimePicker(+Select), CopyButton, and CodeSnippet - don't
+ *    start any of those until this lands.
+ * 2. Skeletons (SkeletonIcon/SkeletonPlaceholder/SkeletonText/
+ *    TextAreaSkeleton/SliderSkeleton/FileUploaderSkeleton) - static
+ *    markup, no gate dependency.
+ * 3. Static form controls (Checkbox, RadioButton(+Group), Toggle,
+ *    TextInput, TextArea, PasswordInput, NumberInput, FluidTextInput,
+ *    Search).
+ * 4. Layout/scaffolding wrappers (FormGroup, FormItem, FormLabel, Stack,
+ *    Layer, Theme, Text).
+ * 5. Indicators (ProgressBar, ProgressIndicator, IconIndicator,
+ *    ShapeIndicator, Slider).
+ * 6. Structural content, split into three (each large/distinct enough to
+ *    warrant its own review): Accordion+Tabs/TabContent+StructuredList;
+ *    TreeView+Pagination (Pagination's item-per-page control may depend
+ *    on the gate above via Select); DataTable and UIShell each get their
+ *    own todo given their size.
+ * 7. Three `ai-chat/dom-parity-test.gts` batches, picked by how much of
+ *    each upstream shadow template is its own markup vs. caller-supplied
+ *    `<slot>` content (per the README's warning) rather than
+ *    alphabetically: (a) Card+CardFooter+CardSteps+TruncatedText+
+ *    ChatButton+ChatButtonSkeleton; (b) Toolbar+Table+Feedback+
+ *    FeedbackButtons+ChainOfThought+ChainOfThoughtToggle+
+ *    ReasoningStepsToggle; (c) FileUploads+FileUploadItem. Chat-shell,
+ *    workspace-shell, prompt-line-shell, audio-player, and video-player
+ *    are flagged as weak/low-value candidates (slot- or native-element-
+ *    dominated) rather than skipped outright - revisit case by case.
+ *
  * To add a component or variant: add/extend an entry here, run
  * `pnpm generate` in this package to (re)write its fixture, then add a
  * matching Ember render case to the QUnit test.
