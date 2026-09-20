@@ -326,6 +326,20 @@ once (Tag's custom icon overflowing its box, Tabs' `renderIcon` rendering at
 24px instead of 16px) — check icon size/alignment against real Carbon styles
 whenever you add a `renderIcon`/`decorator`/`slug`-style arg.
 
+**The same bug also hits a component's own *direct*, hardcoded icon usage,
+not just a `renderIcon`-style `ComponentLike` arg** — e.g. `<CheckmarkFilled
+@size="16" />` invoked straight inside a component's own template. Found
+(and fixed) in `tile.gts` (the `@selectable` checkmark and `@expandable`
+chevron) and `radio-tile.gts` (the checkmark) while adding their DOM-parity
+coverage — none of the three passed `@svgClass`, so each rendered with the
+same stray margin/hashed-class bug described above, even though `@carbon/
+react`'s own equivalent icon carries no class at all (its `.cds--tile__
+checkmark svg`/`.cds--tile__chevron svg` CSS rules are plain descendant
+selectors, so no class was ever needed on the icon itself — see `notification.gts`'s
+icon invocations, which already pass real `@svgClass` values, for the
+established correct pattern). Check any direct icon invocation for this too,
+not just `ComponentLike` args.
+
 ### 3. Model Controlled vs Uncontrolled Explicitly
 
 Every component must offer *some* uncontrolled path. Which of the two shapes
@@ -648,6 +662,32 @@ handed to `kolay` as-is), so every exported icon component Just Works in a
 docs example with no separate registration step. If you ever see this
 per-icon-registration pattern reintroduced, treat it as a regression, not
 something to imitate.
+
+### ❌ Pitfall 6: A Backtick Inside a `{{! ... }}` Template Comment Breaks the Build
+
+A Handlebars-style comment containing a backtick character fails to parse
+inside a `.gts` `<template>` tag, even on a single line with no other
+special characters:
+
+```gts
+{{! WRONG — the backtick breaks glint's --declaration build }}
+{{! @carbon/react wraps this in `Text`, which defaults to... }}
+
+{{! RIGHT — same content, no backticks }}
+{{! @carbon/react wraps this in Text, which defaults to... }}
+```
+
+The failure is `pnpm build:types`' `glint --declaration` step, and the
+error is unhelpful and points nowhere near backticks — `Parse error on
+line N: Expecting 'OPEN_SEXPR', 'ID', 'STRING', 'NUMBER', 'BOOLEAN',
+'UNDEFINED', 'NULL', 'DATA', got 'INVALID'`, as if a bare mustache
+expression were malformed. Plain single/double quotes and parentheses
+inside the same comment style are fine (see `overflow-menu.gts`'s existing
+`{{! @glint-expect-error: ... treats it as optional and defaults to
+'click' }}` comments) — it's specifically the backtick. Found while adding
+DOM-parity coverage for `radio-tile.gts`, where a comment describing
+`@carbon/react`'s `Text` component was originally written with backticks
+around the name.
 
 ## Component Implementation Checklist
 

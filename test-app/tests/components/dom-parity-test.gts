@@ -15,6 +15,9 @@ import GridRow from 'carbon-components-ember/components/grid/row';
 import GridColumn from 'carbon-components-ember/components/grid/column';
 import GridColumnHang from 'carbon-components-ember/components/grid/column-hang';
 import Notification from 'carbon-components-ember/components/notification';
+import Tile from 'carbon-components-ember/components/tile';
+import RadioTile from 'carbon-components-ember/components/radio-tile';
+import TileGroup from 'carbon-components-ember/components/tile/tile-group';
 import { normalizeElement } from '../../../dom-parity/lib/normalize-dom.mjs';
 import {
   diffNormalized,
@@ -33,6 +36,10 @@ import gridRowFixture from '../../../dom-parity/fixtures/GridRow.json';
 import gridColumnFixture from '../../../dom-parity/fixtures/GridColumn.json';
 import gridColumnHangFixture from '../../../dom-parity/fixtures/GridColumnHang.json';
 import notificationFixture from '../../../dom-parity/fixtures/Notification.json';
+import tileFixture from '../../../dom-parity/fixtures/Tile.json';
+import clickableTileFixture from '../../../dom-parity/fixtures/ClickableTile.json';
+import radioTileFixture from '../../../dom-parity/fixtures/RadioTile.json';
+import tileGroupFixture from '../../../dom-parity/fixtures/TileGroup.json';
 
 type VariantFixture = { props: object; dom: object };
 type ComponentFixture = {
@@ -812,6 +819,90 @@ module('DOM parity | Carbon React', function (hooks) {
         ...kinds.map((kind) => `toast-${kind}`),
         ...kinds.map((kind) => `inline-${kind}`),
       ]);
+    });
+  });
+
+  // See dom-parity/lib/components.mjs's top-of-file comment for why only
+  // the plain `Tile`/`ClickableTile`/`RadioTile`/`TileGroup` branches are
+  // covered here, not `@selectable`/`@expandable`.
+  module('Tile', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Tile><:content>Tile content</:content></Tile>
+        </template>,
+      );
+      assertDomParity(assert, tileFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, tileFixture, ['default']);
+    });
+  });
+
+  module('ClickableTile', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Tile @clickable={{true}}><:content>Clickable tile content</:content></Tile>
+        </template>,
+      );
+      assertDomParity(assert, clickableTileFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, clickableTileFixture, ['default']);
+    });
+  });
+
+  module('RadioTile', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><RadioTile @value='a'>Radio tile content</RadioTile></template>);
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
+      assertDomParity(assert, radioTileFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('checked', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <RadioTile @value='a' @checked={{true}}>Radio tile content</RadioTile>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
+      assertDomParity(assert, radioTileFixture, 'checked', this.element.firstElementChild);
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <RadioTile @value='a' @disabled={{true}}>Radio tile content</RadioTile>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
+      assertDomParity(assert, radioTileFixture, 'disabled', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, radioTileFixture, ['default', 'checked', 'disabled']);
+    });
+  });
+
+  module('TileGroup', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <TileGroup @name='tiles' @legend='Choose one' @defaultSelected='a' as |RadioTileItem|>
+            <RadioTileItem @value='a'>Option A</RadioTileItem>
+            <RadioTileItem @value='b'>Option B</RadioTileItem>
+          </TileGroup>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
+      assertDomParity(assert, tileGroupFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, tileGroupFixture, ['default']);
     });
   });
 });

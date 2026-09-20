@@ -1,0 +1,268 @@
+{
+  "component": "TileGroup",
+  "generatedAt": "2026-09-20T10:10:37.423Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {
+        "name": "tiles",
+        "legend": "Choose one",
+        "defaultSelected": "a"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "fieldset",
+        "classes": [
+          "cds--tile-group"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "legend",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Choose one"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--tile-input"
+                    ],
+                    "attributes": {
+                      "id": "#1",
+                      "tabindex": "0",
+                      "type": "radio",
+                      "value": "a",
+                      "checked": true,
+                      "name": "tiles"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "label",
+                    "classes": [
+                      "cds--tile",
+                      "cds--tile--is-selected",
+                      "cds--tile--radio",
+                      "cds--tile--selectable"
+                    ],
+                    "attributes": {
+                      "for": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tile__checkmark"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": [],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 16 16",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M8,1C4.1,1,1,4.1,1,8c0,3.9,3.1,7,7,7s7-3.1,7-7C15,4.1,11.9,1,8,1z M7,11L4.3,8.3l0.9-0.8L7,9.3l4-3.9l0.9,0.8L7,11z"
+                                },
+                                "style": {},
+                                "children": []
+                              },
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M7,11L4.3,8.3l0.9-0.8L7,9.3l4-3.9l0.9,0.8L7,11z",
+                                  "data-icon-path": "inner-path",
+                                  "opacity": "0"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tile-content"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Option A"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--tile-input"
+                    ],
+                    "attributes": {
+                      "id": "#2",
+                      "tabindex": "0",
+                      "type": "radio",
+                      "value": "b",
+                      "name": "tiles"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "label",
+                    "classes": [
+                      "cds--tile",
+                      "cds--tile--radio",
+                      "cds--tile--selectable"
+                    ],
+                    "attributes": {
+                      "for": "#2"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tile__checkmark"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": [],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 16 16",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M8,1C4.1,1,1,4.1,1,8c0,3.9,3.1,7,7,7s7-3.1,7-7C15,4.1,11.9,1,8,1z M7,11L4.3,8.3l0.9-0.8L7,9.3l4-3.9l0.9,0.8L7,11z"
+                                },
+                                "style": {},
+                                "children": []
+                              },
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M7,11L4.3,8.3l0.9-0.8L7,9.3l4-3.9l0.9,0.8L7,11z",
+                                  "data-icon-path": "inner-path",
+                                  "opacity": "0"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tile-content"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Option B"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -76,7 +76,7 @@ export default class TileComponent extends Component<TileComponentSignature> {
           title='tile'
         />
         <div class='cds--tile__checkmark'>
-          <CheckmarkFilled @size="16" />
+          <CheckmarkFilled @size="16" @svgClass='cds--tile__checkmark-icon' />
         </div>
         <div class='cds--tile-content'>
           {{yield to='content'}}
@@ -96,7 +96,7 @@ export default class TileComponent extends Component<TileComponentSignature> {
             type='button'
             {{on 'click' (fn (set this 'expanded') (not this.expanded))}}
           >
-            <ChevronDown @size="16" />
+            <ChevronDown @size="16" @svgClass='cds--tile__chevron-icon' />
           </button>
           <div class='cds--tile-content'>
             <span data-tile-atf class='cds--tile-content__above-the-fold'>
@@ -119,8 +119,8 @@ export default class TileComponent extends Component<TileComponentSignature> {
       </div>
     {{/if}}
     {{#if @clickable}}
+      {{! @carbon/react's Link never sets role='button' on a real <a href> (only role='link' when disabled) - a real <a href> already conveys link semantics on its own }}
       <a
-        role='button'
         class='cds--link cds--tile cds--tile--clickable'
         href='#'
         {{on 'click' this.onClick}}

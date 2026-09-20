@@ -223,5 +223,78 @@
       "variant": "closed-with-steps",
       "reason": "Same pre-existing `renderSvgPartFunc` gap as AiChatReasoningSteps' open-with-steps entry of the same name."
     }
+  ],
+  "RadioTile": [
+    {
+      "path": "div > label[1] > span[0] > svg[0].classes[cds--tile__checkmark-icon]",
+      "reason": "`.cds--tile__checkmark svg` is a plain descendant selector in the resolved @carbon/styles CSS (no class needed on the svg itself for styling), so `cds--tile__checkmark-icon` is an inert class - added to radio-tile.gts's `<CheckmarkFilled @svgClass=...>` invocation specifically to opt out of this addon's `Icon` base component's default hashed/margin-carrying class (see AGENTS.md's renderIcon-default-size gotcha, previously undocumented for this non-renderIcon direct-icon-usage case, now fixed the same way). @carbon/react's own icon has no class at all. Applies to every variant."
+    },
+    {
+      "path": "div > label[1] > span[0] > svg[0].attributes.preserveAspectRatio",
+      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to RadioTile - see the Notification/AiChatReasoningSteps entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). Applies to every variant."
+    },
+    {
+      "path": "div > label[1] > span[0] > svg[0].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above. Applies to every variant."
+    },
+    {
+      "path": "div > label[1] > span[0] > svg[0].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above. Applies to every variant."
+    },
+    {
+      "path": "div > label[1] > span[0] > svg[0].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above (the extra-attribute direction of it). Applies to every variant."
+    },
+    {
+      "path": "div > input[0].attributes.checked",
+      "variant": "checked",
+      "reason": "Harness limitation, not a functional gap: Glimmer sets a bound `checked={{...}}` on an `<input>` as the DOM `checked` IDL property, not a reflected HTML attribute - confirmed by this addon's own `tile-group-test.gts`, which already asserts `assert.dom('input.cds--tile-input').isChecked()` (a property-based check) and passes. `normalizeElement` only inspects `el.attributes` (real attribute nodes), which can't see property-only state, so React's copy (which jsdom does reflect onto the attribute) shows as present and Ember's as absent even though both render a genuinely checked radio button."
+    }
+  ],
+  "TileGroup": [
+    {
+      "path": "fieldset > div[1] > div[0] > input[0].attributes.checked",
+      "reason": "Same harness limitation as RadioTile's `div > input[0].attributes.checked` entry above, for the first (selected, via `@defaultSelected`) RadioTile in this fixture's default variant."
+    },
+    {
+      "path": "fieldset > div[1] > div[0] > label[1] > span[0] > svg[0].classes[cds--tile__checkmark-icon]",
+      "reason": "Same inert-`@svgClass` gap as RadioTile's entry of the same name, for the first RadioTile in this fixture's default variant."
+    },
+    {
+      "path": "fieldset > div[1] > div[0] > label[1] > span[0] > svg[0].attributes.preserveAspectRatio",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as RadioTile's entry of the same name, for the first RadioTile in this fixture's default variant."
+    },
+    {
+      "path": "fieldset > div[1] > div[0] > label[1] > span[0] > svg[0].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above, for the first RadioTile."
+    },
+    {
+      "path": "fieldset > div[1] > div[0] > label[1] > span[0] > svg[0].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above, for the first RadioTile."
+    },
+    {
+      "path": "fieldset > div[1] > div[0] > label[1] > span[0] > svg[0].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above, for the first RadioTile."
+    },
+    {
+      "path": "fieldset > div[1] > div[1] > label[1] > span[0] > svg[0].classes[cds--tile__checkmark-icon]",
+      "reason": "Same inert-`@svgClass` gap as RadioTile's entry of the same name, for the second RadioTile in this fixture's default variant."
+    },
+    {
+      "path": "fieldset > div[1] > div[1] > label[1] > span[0] > svg[0].attributes.preserveAspectRatio",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as RadioTile's entry of the same name, for the second RadioTile in this fixture's default variant."
+    },
+    {
+      "path": "fieldset > div[1] > div[1] > label[1] > span[0] > svg[0].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above, for the second RadioTile."
+    },
+    {
+      "path": "fieldset > div[1] > div[1] > label[1] > span[0] > svg[0].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above, for the second RadioTile."
+    },
+    {
+      "path": "fieldset > div[1] > div[1] > label[1] > span[0] > svg[0].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above, for the second RadioTile."
+    }
   ]
 }

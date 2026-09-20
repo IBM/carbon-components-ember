@@ -30,7 +30,8 @@
  * considered for the batch that added Link/UnorderedList/OrderedList/
  * ListItem and deliberately left out - see todo #836 for the follow-up
  * investigation of each. Notification is now covered (see below); the
- * other three remain out of scope:
+ * Tile family is covered in part (see below); CodeSnippet and Breadcrumb
+ * remain out of scope:
  *
  * - CodeSnippet: all three variants (default/multiline/inline) embed
  *   `CopyButton`, which uses `Popover` for its tooltip - blocked on this
@@ -45,11 +46,72 @@
  *   is reworked to accept real link/item children - a fixture comparison
  *   against the current API would mostly be diffing two unrelated shapes,
  *   not catching real regressions.
- * - Tile (`Tile`/`RadioTile`/`TileGroup`): a single Ember `Tile` conflates
- *   React's separate `Tile`/`ClickableTile`/`ExpandableTile`/`SelectableTile`
- *   via `@selectable`/`@clickable`/`@expandable`, each needing its own
- *   branch-by-branch comparison against the matching upstream component;
- *   large enough to need its own todo rather than a tail end of this one.
+ *
+ * Tile family (`Tile`/`RadioTile`/`TileGroup`/`ClickableTile` below): a
+ * single Ember `tile.gts` conflates React's separate `Tile`/`ClickableTile`/
+ * `ExpandableTile`/`SelectableTile` behind `@selectable`/`@clickable`/
+ * `@expandable`, so each branch needed its own comparison against the
+ * matching upstream component rather than one shared fixture:
+ *
+ * - `Tile` (no args) and `ClickableTile` (`@clickable`) are covered.
+ *   `ClickableTile`'s only variant passes `href: '#'` to the upstream side
+ *   to match what Ember's clickable branch always renders (it hardcodes
+ *   `href='#'` and has no `@href` arg at all) - with `href` set, upstream's
+ *   `tabIndex = !href && !disabled ? 0 : undefined` resolves to absent on
+ *   both sides, same as Ember's. `light`/`slug`/`decorator` are
+ *   experimental/deprecated upstream props Ember never ported - out of
+ *   scope per this file's own "args both sides implement" rule.
+ * - `RadioTile` and `TileGroup` are covered. `RadioTile` is exercised both
+ *   standalone (matching `tile-group-test.gts`'s own standalone usage) and
+ *   nested inside a `TileGroup`.
+ * - `SelectableTile` (`@selectable`) is NOT covered, and isn't a
+ *   fixable-attributes gap like the ones above: upstream's `SelectableTile`
+ *   renders a `<div role="checkbox" aria-checked ...>` with keyboard
+ *   handlers and no `<input>` element at all (a persistent-checkmark
+ *   `Checkbox`/`CheckboxCheckedFilled` icon pair), while Ember's
+ *   `@selectable` branch renders a native `<label>` wrapping a real
+ *   `<input type="checkbox">` (a `CheckmarkFilled` icon). Root tag, the
+ *   accessibility mechanism, and which icon renders all differ - closing
+ *   this means rewriting Ember's selectable branch to drop native
+ *   input/label semantics in favor of upstream's ARIA-role approach, not
+ *   adding attributes. `diffNode` (see diff-normalized.mjs) also stops
+ *   descending as soon as root tags differ, so a fixture here would only
+ *   ever report one useless top-level "tag" diff. Left as a real, disclosed
+ *   gap rather than forced into this harness; worth its own follow-up if
+ *   `@selectable` is ever reworked to match upstream's DOM shape.
+ * - `ExpandableTile` (`@expandable`) is NOT covered either, for a harness
+ *   reason on top of the real structural ones: with plain-text children,
+ *   `act()` captures upstream's *interactive* render branch (computed from
+ *   `getInteractiveContent`/`getRoleContent` in an effect), which renders a
+ *   `<button>`-driven chevron with `aria-expanded`/`aria-controls` wired to
+ *   a `useId`-derived id and always renders the below-the-fold `<div>`
+ *   (Ember only renders it once expanded) - genuinely different structure,
+ *   not just missing attributes. Separately, upstream measures
+ *   `aboveTheFold.current.scrollHeight` in an effect and writes it back as
+ *   an inline `max-height` style, which `normalize-dom.mjs` captures -
+ *   baking a jsdom `scrollHeight: 0` artifact into any fixture generated
+ *   this way - and constructs a real `ResizeObserver`, which jsdom doesn't
+ *   implement at all, so `generate` would likely need some kind of
+ *   `ResizeObserver` shim (not attempted here - see generate.mjs's existing
+ *   `globalThis.HTMLElement` shim for the general pattern) before it could
+ *   even run. Left out; worth its own follow-up alongside `SelectableTile`
+ *   above.
+ *
+ * One more RadioTile/TileGroup interaction worth flagging rather than
+ * silently leaving unexercised: a `RadioTile` inside a `@disabled` `TileGroup`
+ * (no variant added for it here). Upstream's own `getRadioTilesWithWrappers`
+ * only ever passes `required`/`name`/`key`/`value`/`onChange`/`checked` to
+ * each child - never `disabled` - so upstream's `<input>` keeps
+ * `tabIndex="0"` there and relies entirely on the surrounding
+ * `<fieldset disabled>` to actually disable it. Ember's `RadioTile#disabled`
+ * getter falls back to `this.args.group?.args.disabled`, so a grouped input
+ * gets both a `disabled` attribute *and* (per the `tabindex` fix above) no
+ * `tabindex` - a real, pre-existing divergence (`tile-group-test.gts`
+ * already asserts `isDisabled()` on grouped inputs), just one this fix
+ * extends from the `disabled` attribute to `tabindex` too. Functionally
+ * identical either way, since `fieldset[disabled]` already makes every
+ * descendant control unfocusable regardless of its own `tabindex` - not
+ * worth its own variant.
  *
  * Grid (Grid/GridColumn/GridRow/GridColumnHang) is covered below. The
  * naive comparison target, `@carbon/react`'s `Grid`, is feature-flag
@@ -196,6 +258,41 @@ const inlineNotification = (name, kind) => ({
   props: { kind, ...INLINE_CONTENT },
   createElement: (React, Carbon) =>
     React.createElement(Carbon.InlineNotification, { kind, ...INLINE_CONTENT }),
+});
+
+const tile = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) => React.createElement(Carbon.Tile, props, 'Tile content'),
+});
+
+const clickableTile = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.ClickableTile, props, 'Clickable tile content'),
+});
+
+const radioTile = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.RadioTile, props, 'Radio tile content'),
+});
+
+// Renders two real `RadioTile` children, matching upstream's own
+// `getRadioTilesWithWrappers` (which only special-cases actual `RadioTile`
+// elements) and this addon's own `tile-group-test.gts` usage.
+const tileGroup = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.TileGroup,
+      props,
+      React.createElement(Carbon.RadioTile, { key: 'a', value: 'a' }, 'Option A'),
+      React.createElement(Carbon.RadioTile, { key: 'b', value: 'b' }, 'Option B'),
+    ),
 });
 
 export const COMPONENTS = [
@@ -458,6 +555,28 @@ export const COMPONENTS = [
       inlineNotification('inline-success', 'success'),
       inlineNotification('inline-warning', 'warning'),
       inlineNotification('inline-warning-alt', 'warning-alt'),
+    ],
+  },
+  {
+    name: 'Tile',
+    variants: [tile('default', {})],
+  },
+  {
+    name: 'ClickableTile',
+    variants: [clickableTile('default', { href: '#' })],
+  },
+  {
+    name: 'RadioTile',
+    variants: [
+      radioTile('default', { value: 'a' }),
+      radioTile('checked', { value: 'a', checked: true }),
+      radioTile('disabled', { value: 'a', disabled: true }),
+    ],
+  },
+  {
+    name: 'TileGroup',
+    variants: [
+      tileGroup('default', { name: 'tiles', legend: 'Choose one', defaultSelected: 'a' }),
     ],
   },
 ];
