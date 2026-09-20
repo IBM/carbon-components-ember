@@ -97,6 +97,20 @@
  *   even run. Left out; worth its own follow-up alongside `SelectableTile`
  *   above.
  *
+ * Both covered branches are feature-flag dependent the same way Grid's
+ * entry below is - at this pinned `@carbon/react` version (`generate`
+ * prints "... is available but not enabled" for both), `ClickableTile`
+ * renders with `enable-v12-tile-default-icons` off (no default
+ * `ArrowRight`/`Error` icon Ember's `ClickableTile` has no counterpart
+ * for) and `RadioTile` renders with `enable-v12-tile-radio-icons` off
+ * (`CheckmarkFilled`, matching Ember's hardcoded icon, rather than the
+ * flagged `RadioButton`/`RadioButtonChecked` pair). Unlike Grid there's no
+ * non-flagged equivalent component to route around the flag with, so
+ * nothing needs to change in either fixture today - but a future
+ * `@carbon/react` bump that flips either v12 default will silently change
+ * what these fixtures assert, the same risk Grid's entry already calls
+ * out.
+ *
  * One more RadioTile/TileGroup interaction worth flagging rather than
  * silently leaving unexercised: a `RadioTile` inside a `@disabled` `TileGroup`
  * (no variant added for it here). Upstream's own `getRadioTilesWithWrappers`
