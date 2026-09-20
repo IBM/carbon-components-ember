@@ -778,7 +778,12 @@ module('DOM parity | Carbon React', function (hooks) {
         // asynchronously via a TrackedPromise - settled() alone doesn't
         // wait for it, so wait for both real <svg>s to land before diffing.
         await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
-        assertDomParity(assert, notificationFixture, `toast-${kind}`, this.element.firstElementChild);
+        assertDomParity(
+          assert,
+          notificationFixture,
+          `toast-${kind}`,
+          this.element.firstElementChild,
+        );
       });
 
       test(`inline-${kind}`, async function (this: RenderingTestContext, assert) {
@@ -793,7 +798,12 @@ module('DOM parity | Carbon React', function (hooks) {
           </template>,
         );
         await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
-        assertDomParity(assert, notificationFixture, `inline-${kind}`, this.element.firstElementChild);
+        assertDomParity(
+          assert,
+          notificationFixture,
+          `inline-${kind}`,
+          this.element.firstElementChild,
+        );
       });
     }
 
