@@ -4,13 +4,14 @@ import { default as eq } from 'ember-truth-helpers/helpers/eq';
 import { default as Icon } from '../components/icon.gts';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
+import { guidFor } from '@ember/object/internals';
 import NotificationService, {
   type NotificationOptions,
 } from '../services/notifications.ts';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import type { WithRequired } from '../utils/type-helpers.ts';
-import { CheckmarkFilled, Close, ErrorFilled, Information, InformationSquareFilled, Warning, WarningAltFilled } from '../icons.ts';
+import { CheckmarkFilled, Close, ErrorFilled, InformationFilled, InformationSquareFilled, WarningFilled, WarningAltFilled } from '../icons.ts';
 
 export type Args = {
   onClick?: (args: never) => never;
@@ -29,11 +30,11 @@ export default class NotificationComponent extends Component<NotificationCompone
 
   get icon(): typeof Icon {
     const mapping: Record<Required<NotificationOptions>['kind'], typeof Icon> = {
-      info: Information,
+      info: InformationFilled,
       error: ErrorFilled,
       'info-square': InformationSquareFilled,
       success: CheckmarkFilled,
-      warning: Warning,
+      warning: WarningFilled,
       'warning-alt': WarningAltFilled,
     };
     return mapping[this.defaultArgs.kind];
@@ -52,6 +53,10 @@ export default class NotificationComponent extends Component<NotificationCompone
     );
   }
 
+  get actionableTitleId(): string {
+    return `actionable-notification-${guidFor(this)}`;
+  }
+
   @action
   onNotificationClick(notification: NotificationOptions) {
     if (this.notifications.has(notification)) {
@@ -66,36 +71,39 @@ export default class NotificationComponent extends Component<NotificationCompone
       {{#if (eq this.defaultArgs.display 'toast')}}
         <div
           data-notification
-          class='cds--toast-notification cds--toast-notification--{{this.defaultArgs.type}}'
+          class='cds--toast-notification cds--toast-notification--{{this.defaultArgs.kind}}'
           role='alert'
           ...attributes
         >
           <this.icon
             @svgClass='cds--toast-notification__icon'
             @fill='currentColor'
+            @size={{20}}
           />
           <div class='cds--toast-notification__details'>
-            <h3 class='cds--toast-notification__title'>
+            <div class='cds--toast-notification__title' dir='auto'>
               {{this.defaultArgs.title}}
-            </h3>
-            <p class='cds--toast-notification__subtitle'>
+            </div>
+            <div class='cds--toast-notification__subtitle' dir='auto'>
               {{this.defaultArgs.text}}
-            </p>
-            <p class='cds--toast-notification__caption'>
+            </div>
+            <div class='cds--toast-notification__caption' dir='auto'>
               {{this.defaultArgs.caption}}
-            </p>
+            </div>
           </div>
           <button
             {{on 'click' (fn this.onNotificationClick this.defaultArgs)}}
             data-notification-btn
             class='cds--toast-notification__close-button'
             type='button'
-            aria-label='close'
+            aria-label='close notification'
+            title='close notification'
           >
             <Close
               @icon='close'
               @svgClass='cds--toast-notification__close-icon'
               @fill='currentColor'
+              @size={{16}}
             />
           </button>
         </div>
@@ -103,18 +111,19 @@ export default class NotificationComponent extends Component<NotificationCompone
       {{#if (eq this.defaultArgs.display 'inline')}}
         <div
           role='status'
-          class='cds--inline-notification cds--inline-notification--error'
+          class='cds--inline-notification cds--inline-notification--{{this.defaultArgs.kind}}'
         >
           <div class='cds--inline-notification__details'>
             <this.icon
               @svgClass='cds--inline-notification__icon'
               @fill='currentColor'
+              @size={{20}}
             />
             <div class='cds--inline-notification__text-wrapper'>
-              <div class='cds--inline-notification__title'>
+              <div class='cds--inline-notification__title' dir='auto'>
                 {{this.defaultArgs.title}}
               </div>
-              <div class='cds--inline-notification__subtitle'>
+              <div class='cds--inline-notification__subtitle' dir='auto'>
                 {{this.defaultArgs.text}}
               </div>
             </div>
@@ -130,6 +139,7 @@ export default class NotificationComponent extends Component<NotificationCompone
             <Close
               @svgClass='cds--inline-notification__close-icon'
               @fill='currentColor'
+              @size={{16}}
             />
           </button>
         </div>
@@ -138,19 +148,20 @@ export default class NotificationComponent extends Component<NotificationCompone
       {{#if (eq this.defaultArgs.display 'actionable')}}
         <div
           role='alertdialog'
-          class='cds--actionable-notification cds--actionable-notification--toast cds--actionable-notification--{{@type}}'
-          aria-labelledby='actionable-notification-3'
+          class='cds--actionable-notification cds--actionable-notification--toast cds--actionable-notification--{{this.defaultArgs.kind}}'
+          aria-labelledby={{this.actionableTitleId}}
         >
           <div class='cds--actionable-notification__details'>
             <this.icon
               @svgClass='cds--toast-notification__icon'
               @fill='currentColor'
+              @size={{20}}
             />
             <div class='cds--actionable-notification__text-wrapper'>
               <div class='cds--actionable-notification__content'>
                 <div
                   class='cds--actionable-notification__title'
-                  id='actionable-notification-3'
+                  id={{this.actionableTitleId}}
                 >
                   {{this.defaultArgs.title}}
                 </div>
@@ -175,6 +186,7 @@ export default class NotificationComponent extends Component<NotificationCompone
             <Close
               @svgClass='cds--actionable-notification__close-icon'
               @fill='currentColor'
+              @size={{16}}
             />
           </button>
         </div>

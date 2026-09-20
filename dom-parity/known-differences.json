@@ -59,6 +59,120 @@
       "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
     }
   ],
+  "Notification": [
+    {
+      "path": "div.attributes.role",
+      "reason": "@carbon/react's ToastNotification defaults `role` to 'status'; Ember's toast branch hardcodes `role='alert'` and doesn't expose a `role` arg to override it. A real behavioral difference (assertive vs. polite screen-reader announcement), not a DOM-generation bug - left as-is rather than changed, since Ember's default here may be intentional and changing it is a behavior change this pass didn't set out to make. Applies to every toast-* variant."
+    },
+    {
+      "path": "div.attributes.data-notification",
+      "reason": "Ember-only marker attribute (see notification.gts's `data-notification`) with no React counterpart - used internally, not part of the rendered-markup contract this harness checks. Applies to every toast-* variant."
+    },
+    {
+      "path": "div > button[2].attributes.data-notification-btn",
+      "reason": "Same kind of Ember-only marker attribute as `data-notification` above, on the toast close button. Applies to every toast-* variant."
+    },
+    {
+      "path": "div > button[1].attributes.aria-hidden",
+      "reason": "Ember's inline close button has no click handler wired up at all (unlike the toast branch's `{{on 'click' ...}}`) - inline notifications rendered directly in a template (not pushed through the notifications service) have no way to remove themselves, so the button is deliberately hidden from the accessibility tree and keyboard tab order instead of rendering a non-functional interactive element. React's InlineNotification always wires a working `onCloseButtonClick`, so it never adds these attributes. A real, functional gap (the close button does nothing), not just a markup one - fixing it means wiring real dismissal behavior for template-rendered inline notifications, out of scope for a DOM-parity-only pass. Applies to every inline-* variant."
+    },
+    {
+      "path": "div > button[1].attributes.tabindex",
+      "reason": "Same non-functional-close-button gap as the `aria-hidden` entry above. Applies to every inline-* variant."
+    },
+    {
+      "path": "div > svg[0].attributes.preserveAspectRatio",
+      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to Notification - see the AiChatReasoningSteps entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`, none of which the real Carbon icon svg carries the same way). This is the toast branch's un-nested main icon (a direct child of the root). Applies to every toast-* variant."
+    },
+    {
+      "path": "div > svg[0].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above. Applies to every toast-* variant."
+    },
+    {
+      "path": "div > svg[0].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above. Applies to every toast-* variant."
+    },
+    {
+      "path": "div > svg[0].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above (the extra-attribute direction of it). Applies to every toast-* variant."
+    },
+    {
+      "path": "div > button[2] > svg[0].attributes.preserveAspectRatio",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the main icon's `preserveAspectRatio` entry above, on the toast branch's close-button icon. Applies to every toast-* variant."
+    },
+    {
+      "path": "div > button[2] > svg[0].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above, on the toast branch's close-button icon. Applies to every toast-* variant."
+    },
+    {
+      "path": "div > button[2] > svg[0].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above, on the toast branch's close-button icon. Applies to every toast-* variant."
+    },
+    {
+      "path": "div > button[2] > svg[0].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above, on the toast branch's close-button icon. Applies to every toast-* variant."
+    },
+    {
+      "path": "div > div[0] > svg[0].attributes.preserveAspectRatio",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the toast branch's `div > svg[0].attributes.preserveAspectRatio` entry above - this is the inline branch's main icon, nested one level deeper (inside `cds--inline-notification__details`) than toast's. Applies to every inline-* variant."
+    },
+    {
+      "path": "div > div[0] > svg[0].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above. Applies to every inline-* variant."
+    },
+    {
+      "path": "div > div[0] > svg[0].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above. Applies to every inline-* variant."
+    },
+    {
+      "path": "div > div[0] > svg[0].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above. Applies to every inline-* variant."
+    },
+    {
+      "path": "div > button[1] > svg[0].attributes.preserveAspectRatio",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the toast branch's close-icon entries above, on the inline branch's close-button icon. Applies to every inline-* variant."
+    },
+    {
+      "path": "div > button[1] > svg[0].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above. Applies to every inline-* variant."
+    },
+    {
+      "path": "div > button[1] > svg[0].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above. Applies to every inline-* variant."
+    },
+    {
+      "path": "div > button[1] > svg[0].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above. Applies to every inline-* variant."
+    },
+    {
+      "path": "div > svg[0] > title[2]",
+      "reason": "@carbon/react's `NotificationIcon` wraps the icon in an inner `<title>{kind} icon</title>` for an accessible name; Ember's `Icon`/`renderSvgPart` has no API to inject a description element into the generated svg at all (an addon-wide icon limitation, not Notification-specific). Applies to every toast-* variant except warning-alt, whose icon has one extra `<path>` shifting the title to index 3 (see the `title[3]` entry below)."
+    },
+    {
+      "path": "div > svg[0] > title[3]",
+      "variant": "toast-warning-alt",
+      "reason": "Same missing-title gap as `div > svg[0] > title[2]` above - WarningAltFilled's icon has an extra `<path>` compared to the other kind icons, shifting where the (missing) title would land."
+    },
+    {
+      "path": "div > div[0] > svg[0] > title[2]",
+      "reason": "Same missing-title gap as the toast branch's `div > svg[0] > title[2]` entry above, on the inline branch's nested main icon. Applies to every inline-* variant except warning-alt (see the `title[3]` entry below)."
+    },
+    {
+      "path": "div > div[0] > svg[0] > title[3]",
+      "variant": "inline-warning-alt",
+      "reason": "Same missing-title gap as `div > div[0] > svg[0] > title[2]` above, shifted to index 3 for the same WarningAltFilled extra-`<path>` reason as the toast branch's `title[3]` entry."
+    },
+    {
+      "path": "div > svg[0] > path[0].attributes.d",
+      "variant": "toast-warning",
+      "reason": "Harness limitation, not a real bug: the `d` attribute is byte-identical between @carbon/icons' and @carbon/icons-react's copies of the Warning icon except for one whitespace separator (a literal tab vs. a space between two path commands), which the SVG path grammar treats as equivalent - this diffs as a text mismatch only because the comparison is a raw string diff, not an SVG-path-aware one."
+    },
+    {
+      "path": "div > div[0] > svg[0] > path[0].attributes.d",
+      "variant": "inline-warning",
+      "reason": "Same whitespace-only, harness-limitation diff as the toast branch's `div > svg[0] > path[0].attributes.d` entry above, on the inline branch's nested main icon."
+    }
+  ],
   "AiChatReasoningSteps": [
     {
       "path": "div > div[0] > div[0] > div[0].attributes.role",

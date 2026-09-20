@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, waitUntil } from '@ember/test-helpers';
 import { hash } from '@ember/helper';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import Button from 'carbon-components-ember/components/button';
@@ -14,6 +14,7 @@ import Grid from 'carbon-components-ember/components/grid';
 import GridRow from 'carbon-components-ember/components/grid/row';
 import GridColumn from 'carbon-components-ember/components/grid/column';
 import GridColumnHang from 'carbon-components-ember/components/grid/column-hang';
+import Notification from 'carbon-components-ember/components/notification';
 import { normalizeElement } from '../../../dom-parity/lib/normalize-dom.mjs';
 import {
   diffNormalized,
@@ -31,6 +32,7 @@ import gridFixture from '../../../dom-parity/fixtures/Grid.json';
 import gridRowFixture from '../../../dom-parity/fixtures/GridRow.json';
 import gridColumnFixture from '../../../dom-parity/fixtures/GridColumn.json';
 import gridColumnHangFixture from '../../../dom-parity/fixtures/GridColumnHang.json';
+import notificationFixture from '../../../dom-parity/fixtures/Notification.json';
 
 type VariantFixture = { props: object; dom: object };
 type ComponentFixture = {
@@ -750,6 +752,56 @@ module('DOM parity | Carbon React', function (hooks) {
 
     test('every fixture variant is covered', function (assert) {
       assertFullCoverage(assert, gridColumnHangFixture, ['default']);
+    });
+  });
+
+  // See dom-parity/lib/components.mjs's top-of-file comment for why only
+  // the `toast` and `inline` displays are covered (not `actionable`) and
+  // why `title`/`text`/`caption` are always given non-empty values.
+  module('Notification', function () {
+    const kinds = ['error', 'info', 'info-square', 'success', 'warning', 'warning-alt'] as const;
+
+    for (const kind of kinds) {
+      test(`toast-${kind}`, async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Notification
+              @kind={{kind}}
+              @title='Notification title'
+              @text='Notification subtitle'
+              @caption='Notification caption'
+            />
+          </template>,
+        );
+        // Notification renders two icons (the kind icon and the close
+        // icon) and, like every icon in this addon, each loads its SVG
+        // asynchronously via a TrackedPromise - settled() alone doesn't
+        // wait for it, so wait for both real <svg>s to land before diffing.
+        await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
+        assertDomParity(assert, notificationFixture, `toast-${kind}`, this.element.firstElementChild);
+      });
+
+      test(`inline-${kind}`, async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Notification
+              @display='inline'
+              @kind={{kind}}
+              @title='Notification title'
+              @text='Notification subtitle'
+            />
+          </template>,
+        );
+        await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
+        assertDomParity(assert, notificationFixture, `inline-${kind}`, this.element.firstElementChild);
+      });
+    }
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, notificationFixture, [
+        ...kinds.map((kind) => `toast-${kind}`),
+        ...kinds.map((kind) => `inline-${kind}`),
+      ]);
     });
   });
 });

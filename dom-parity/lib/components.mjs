@@ -26,10 +26,11 @@
  * wrapping markup. `onClick` is Ember-only DOM-invisible behavior, out of
  * scope like Button's.
  *
- * Notification/ToastNotification/InlineNotification, CodeSnippet, Breadcrumb,
- * and the Tile family were all considered for the batch that added Link/
- * UnorderedList/OrderedList/ListItem and deliberately left out - see todo
- * #836 for the follow-up investigation of each:
+ * Notification, CodeSnippet, Breadcrumb, and the Tile family were all
+ * considered for the batch that added Link/UnorderedList/OrderedList/
+ * ListItem and deliberately left out - see todo #836 for the follow-up
+ * investigation of each. Notification is now covered (see below); the
+ * other three remain out of scope:
  *
  * - CodeSnippet: all three variants (default/multiline/inline) embed
  *   `CopyButton`, which uses `Popover` for its tooltip - blocked on this
@@ -68,6 +69,29 @@
  * auto-id artifact already documented for Link (Grid/GridColumn/GridRow/
  * GridColumnHang all render their root tag via the `element` helper too)
  * shows up once per fixture instead of once per nesting depth.
+ *
+ * Notification is a single Ember component that conflates three upstream
+ * ones behind `@display` - `toast`/`inline`/`actionable` map to
+ * `Carbon.ToastNotification`/`InlineNotification`/`ActionableNotification`
+ * respectively, the same "one Ember component, several upstream ones"
+ * shape as Loading's `@inline`. Only `toast` and `inline` are covered
+ * here: `actionable` additionally renders a `focus-wrapper`/
+ * `button-wrapper` structure and (unless a feature flag is on - another
+ * flag-dependent shape, like Grid's) two hidden focus-sentinel `<span>`s
+ * that Ember's actionable branch has no counterpart for at all, which
+ * would need a real structural addition to Ember's template, not just
+ * known-differences entries, to compare meaningfully; left for a
+ * follow-up. Variants are named by `kind` (which both the container class
+ * and the icon key off, in both frameworks) rather than by the `low-
+ * contrast`/`hideCloseButton`/custom-`role` props React also supports,
+ * since Ember's `NotificationOptions` never exposes those - out of scope
+ * per this file's own "args both sides implement" rule. `title`/`text`/
+ * `caption` are always given non-empty values in every variant, since
+ * React only renders each of those wrapper elements when its value is
+ * truthy while Ember always renders the wrapper regardless of value - a
+ * real, separate gap from the `kind`-class one this batch fixes, but
+ * deliberately not exercised (and so not fixed) by any variant here;
+ * worth its own follow-up.
  *
  * To add a component or variant: add/extend an entry here, run
  * `pnpm generate` in this package to (re)write its fixture, then add a
@@ -141,6 +165,34 @@ const gridColumn = (name, props) => ({
   props,
   createElement: (React, Carbon) =>
     React.createElement(Carbon.Column, props, 'Column content'),
+});
+
+// `caption` is ToastNotification-only - InlineNotification doesn't
+// destructure it at all, so passing it there would just spread it onto
+// the root <div> as a stray, non-Carbon HTML attribute via its `...rest`,
+// not exercise any real InlineNotification behavior.
+const TOAST_CONTENT = {
+  title: 'Notification title',
+  subtitle: 'Notification subtitle',
+  caption: 'Notification caption',
+};
+const INLINE_CONTENT = {
+  title: 'Notification title',
+  subtitle: 'Notification subtitle',
+};
+
+const toastNotification = (name, kind) => ({
+  name,
+  props: { kind, ...TOAST_CONTENT },
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.ToastNotification, { kind, ...TOAST_CONTENT }),
+});
+
+const inlineNotification = (name, kind) => ({
+  name,
+  props: { kind, ...INLINE_CONTENT },
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.InlineNotification, { kind, ...INLINE_CONTENT }),
 });
 
 export const COMPONENTS = [
@@ -386,6 +438,23 @@ export const COMPONENTS = [
         createElement: (React, Carbon) =>
           React.createElement(Carbon.ColumnHang, {}, 'Hang content'),
       },
+    ],
+  },
+  {
+    name: 'Notification',
+    variants: [
+      toastNotification('toast-error', 'error'),
+      toastNotification('toast-info', 'info'),
+      toastNotification('toast-info-square', 'info-square'),
+      toastNotification('toast-success', 'success'),
+      toastNotification('toast-warning', 'warning'),
+      toastNotification('toast-warning-alt', 'warning-alt'),
+      inlineNotification('inline-error', 'error'),
+      inlineNotification('inline-info', 'info'),
+      inlineNotification('inline-info-square', 'info-square'),
+      inlineNotification('inline-success', 'success'),
+      inlineNotification('inline-warning', 'warning'),
+      inlineNotification('inline-warning-alt', 'warning-alt'),
     ],
   },
 ];
