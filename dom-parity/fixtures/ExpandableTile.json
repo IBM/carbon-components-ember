@@ -1,0 +1,239 @@
+{
+  "component": "ExpandableTile",
+  "generatedAt": "2026-09-20T14:25:27.974Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tile",
+          "cds--tile--expandable",
+          "cds--tile--expandable--interactive"
+        ],
+        "attributes": {},
+        "style": {
+          "max-height": "0px"
+        },
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tile-content"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [],
+                    "attributes": {
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Above content"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tile__chevron",
+                  "cds--tile__chevron--interactive"
+                ],
+                "attributes": {
+                  "type": "button",
+                  "aria-expanded": "false",
+                  "aria-controls": "#1",
+                  "aria-label": "Interact to expand Tile"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M8 11 3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tile-content"
+                ],
+                "attributes": {
+                  "id": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Below content"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "expanded": {
+      "props": {
+        "expanded": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tile",
+          "cds--tile--expandable",
+          "cds--tile--expandable--interactive",
+          "cds--tile--is-expanded"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tile-content"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [],
+                    "attributes": {
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Above content"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tile__chevron",
+                  "cds--tile__chevron--interactive"
+                ],
+                "attributes": {
+                  "type": "button",
+                  "aria-expanded": "true",
+                  "aria-controls": "#1",
+                  "aria-label": "Interact to collapse Tile"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M8 11 3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tile-content"
+                ],
+                "attributes": {
+                  "id": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Below content"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

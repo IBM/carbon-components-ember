@@ -64,43 +64,63 @@
  * - `RadioTile` and `TileGroup` are covered. `RadioTile` is exercised both
  *   standalone (matching `tile-group-test.gts`'s own standalone usage) and
  *   nested inside a `TileGroup`.
- * - `SelectableTile` (`@selectable`) is NOT covered, and isn't a
- *   fixable-attributes gap like the ones above: upstream's `SelectableTile`
- *   renders a `<div role="checkbox" aria-checked ...>` with keyboard
- *   handlers and no `<input>` element at all (a persistent-checkmark
- *   `Checkbox`/`CheckboxCheckedFilled` icon pair), while Ember's
- *   `@selectable` branch renders a native `<label>` wrapping a real
- *   `<input type="checkbox">` (a `CheckmarkFilled` icon). Root tag, the
- *   accessibility mechanism, and which icon renders all differ - closing
- *   this means rewriting Ember's selectable branch to drop native
- *   input/label semantics in favor of upstream's ARIA-role approach, not
- *   adding attributes. `diffNode` (see diff-normalized.mjs) also stops
- *   descending as soon as root tags differ, so a fixture here would only
- *   ever report one useless top-level "tag" diff. Left as a real, disclosed
- *   gap rather than forced into this harness; worth its own follow-up if
- *   `@selectable` is ever reworked to match upstream's DOM shape.
- * - `ExpandableTile` (`@expandable`) is NOT covered either, for real
- *   structural reasons - verified directly with a throwaway jsdom + `act()`
- *   script rendering `Carbon.ExpandableTile` with plain div children (a
- *   3-line `ResizeObserver` stub, same shape as `generate.mjs`'s existing
- *   `globalThis.HTMLElement` shim, was tried and works fine - no crash, and
- *   it's a cheap addition if this is ever revisited). With plain-text/div
- *   children, `getInteractiveContent`/`getRoleContent` correctly find no
- *   interactive content, so upstream renders its *non-interactive* branch: a
- *   root `<button>` (not a `<div>` wrapping an inner interactive chevron
- *   `<button>`) carrying `aria-expanded`/`aria-controls` on itself, wired to
- *   a `useId`-derived id. Two real, structural mismatches remain regardless
- *   of which branch renders: (1) upstream always renders the below-the-fold
- *   `<div>` in the DOM (clipped via a computed `max-height` inline style,
- *   itself dependent on measuring `aboveTheFold.current.scrollHeight` in an
- *   effect, which `normalize-dom.mjs` would capture as a jsdom
- *   `scrollHeight: 0` artifact), while Ember's expandable branch only
- *   renders that `<div>` at all once `@expanded` is true; (2) upstream's
- *   root element is the `<button>` itself, while Ember's expandable branch's
- *   root is an outer `<div style="height: fit-content">` wrapping the inner
- *   `cds--tile--expandable` div - a second, independent root-tag mismatch on
- *   top of the interactive-content one. Left out; worth its own follow-up
- *   alongside `SelectableTile` above.
+ * - `SelectableTile` (`@selectable`) is now covered (see the `selectableTile`
+ *   variant below) - todo #845 reworked Ember's `@selectable` branch to drop
+ *   its native `<label>`/`<input type="checkbox">` in favor of upstream's
+ *   own DOM shape: a `<div role="checkbox" aria-checked ...>` with keyboard
+ *   handling (Enter/Space toggle, matching upstream's `handleKeyDown`) and a
+ *   persistent `Checkbox`/`CheckboxCheckedFilled` icon pair swapped by
+ *   selection state, wrapping a `<label>` (only rendered with a real
+ *   `for`/`id` pair when a new `@id` arg is passed, matching upstream's own
+ *   `id` prop defaulting to unset). `@tabindex` now defaults to `'0'`
+ *   (matching upstream's `tabIndex = 0` default) since the root is now the
+ *   only focusable element - previously the native `<input>` was
+ *   independently tabbable regardless of any `@tabindex` value. See
+ *   tile.gts's own inline comment for the two a11y lint rules
+ *   (`no-nested-interactive`/`require-presentational-children`) suppressed
+ *   on this branch - the nested icon/label are upstream's own real ARIA
+ *   pattern for a custom checkbox widget, not a regression.
+ * - `ExpandableTile` (`@expandable`) is now covered too (see the
+ *   `expandableTile` variant below) - reworked to match upstream's
+ *   *interactive* branch specifically, not its non-interactive one. Verified
+ *   directly with a throwaway jsdom + `act()` script (a 3-line
+ *   `ResizeObserver` stub, same shape as `generate.mjs`'s existing
+ *   `globalThis.HTMLElement` shim, was all that was needed) that upstream
+ *   picks its branch via `getInteractiveContent`/`getRoleContent` scanning
+ *   the actual above/below-the-fold DOM: plain-text/div children get the
+ *   non-interactive branch (a root `<button>` wrapping arbitrary children),
+ *   while real interactive content (e.g. a `<button>`) gets the interactive
+ *   branch (a root `<div>` with a separate, always-present chevron
+ *   `<button>` carrying `aria-expanded`/`aria-controls` on itself). The
+ *   non-interactive branch's root-button shape is unsafe to port as-is:
+ *   Ember has no way to inspect yielded block content ahead of render the
+ *   way upstream's effect-based DOM scan does, so a caller putting a real
+ *   button/link in `<:above>`/`<:below>` would produce invalid nested
+ *   interactive markup (button-in-button) if Ember always rendered a root
+ *   `<button>`. Ember's expandable branch already resembled upstream's
+ *   *interactive* branch structurally (a root wrapping an inner chevron
+ *   `<button>`, safe for any content), so the rework targets that branch
+ *   and the `expandableTile` fixture forces it by rendering a real
+ *   `<button>` as the "above" content - the same case that matters for
+ *   safety. Two real structural gaps this closes: (1) the below-the-fold
+ *   `<div>` is now always rendered (clipped via CSS classes, matching
+ *   upstream) rather than only once `@expanded` is true; (2) the outer
+ *   `<div style="height: fit-content">` wrapper is gone - the tile div
+ *   itself is now the root, matching upstream's interactive-branch root.
+ *   One disclosed gap remains, `known-differences.json`-listed under the
+ *   `default` (collapsed) variant only, and it's a harness artifact, not a
+ *   missing-behavior gap: both sides now clip the collapsed tile via a
+ *   real, measured inline `max-height` style - upstream measures
+ *   `aboveTheFold.current.scrollHeight` in an effect, and Ember's own
+ *   `clipExpandableTile` modifier (in `tile.gts`) does the equivalent,
+ *   mirroring that same mechanism. But this fixture is generated in
+ *   jsdom, where `scrollHeight` is always `0`, so upstream's captured
+ *   `max-height` here is a deterministic jsdom artifact (`"0px"`), not a
+ *   real measurement - Ember's own real-Chromium test (`tile-test.gts`)
+ *   asserts the real, non-zero clipping behavior directly instead. The
+ *   `expanded` variant has no such gap: upstream clears its inline
+ *   `max-height` entirely once expanded, so both sides render no `style`
+ *   attribute there.
  *
  * Both covered branches are feature-flag dependent the same way Grid's
  * entry below is - at this pinned `@carbon/react` version (`generate`
@@ -311,6 +331,31 @@ const tileGroup = (name, props) => ({
       props,
       React.createElement(Carbon.RadioTile, { key: 'a', value: 'a' }, 'Option A'),
       React.createElement(Carbon.RadioTile, { key: 'b', value: 'b' }, 'Option B'),
+    ),
+});
+
+const selectableTile = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.SelectableTile, props, 'Selectable tile content'),
+});
+
+// Renders a real `<button>` as the "above" content so upstream's own
+// interactive-content scan (`getInteractiveContent`/`getRoleContent`, see
+// this file's top comment) deterministically picks its *interactive*
+// branch - the branch Ember's `@expandable` is reworked to match. A plain
+// string/div child would instead exercise upstream's non-interactive
+// (root `<button>`) branch, which isn't the one being ported.
+const expandableTile = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.ExpandableTile,
+      props,
+      React.createElement('button', { key: 'above', type: 'button' }, 'Above content'),
+      'Below content',
     ),
 });
 
@@ -596,6 +641,17 @@ export const COMPONENTS = [
     name: 'TileGroup',
     variants: [
       tileGroup('default', { name: 'tiles', legend: 'Choose one', defaultSelected: 'a' }),
+    ],
+  },
+  {
+    name: 'SelectableTile',
+    variants: [selectableTile('default', {})],
+  },
+  {
+    name: 'ExpandableTile',
+    variants: [
+      expandableTile('default', {}),
+      expandableTile('expanded', { expanded: true }),
     ],
   },
 ];

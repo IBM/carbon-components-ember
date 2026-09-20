@@ -34,6 +34,14 @@ import { ThemeSupport } from 'docs-support';
 
     <br />
 
+    <Tile @selectable={{true}}>
+        <:content>
+            Selectable content
+        </:content>
+    </Tile>
+
+    <br />
+
     <Tile @clickable={{true}}>
         <:above>
             Title

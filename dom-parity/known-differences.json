@@ -296,5 +296,58 @@
       "path": "fieldset > div[1] > div[1] > label[1] > span[0] > svg[0].style.will-change",
       "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above, for the second RadioTile."
     }
+  ],
+  "SelectableTile": [
+    {
+      "path": "div > span[0] > svg[0].classes[cds--tile__checkmark-icon]",
+      "reason": "Same inert-`@svgClass` gap as RadioTile's entry of the same name - added to tile.gts's `<Checkbox>`/`<CheckboxCheckedFilled>` invocations to opt out of this addon's `Icon` base component's default hashed/margin-carrying class (see AGENTS.md's renderIcon-default-size gotcha). @carbon/react's own icon has no class at all. Applies to every variant."
+    },
+    {
+      "path": "div > span[0] > svg[0].attributes.preserveAspectRatio",
+      "reason": "Same pre-existing, addon-wide `renderSvgPartFunc` gap as RadioTile's entry of the same name (Ember's icon renderer never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). Applies to every variant."
+    },
+    {
+      "path": "div > span[0] > svg[0].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above. Applies to every variant."
+    },
+    {
+      "path": "div > span[0] > svg[0].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above. Applies to every variant."
+    },
+    {
+      "path": "div > span[0] > svg[0].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above (the extra-attribute direction of it). Applies to every variant."
+    }
+  ],
+  "ExpandableTile": [
+    {
+      "path": "div.style.max-height",
+      "variant": "default",
+      "reason": "Both sides clip the collapsed tile via a real, measured inline `max-height` style (Ember's own `clipExpandableTile` modifier in tile.gts, mirroring upstream's `useIsomorphicEffect` scrollHeight measurement) - this is a harness artifact, not a missing-behavior gap. This fixture was generated in jsdom, where `scrollHeight` is always 0, so upstream's captured value here (`\"0px\"`) is a deterministic jsdom artifact, not a real browser measurement (see dom-parity/lib/components.mjs's top comment) - Ember's own real-Chromium test asserts the collapsed tile actually clips (a non-zero max-height, and a real height delta vs. expanded), see tile-test.gts. The `expanded` variant has no such gap - both sides clear the inline `max-height` entirely once expanded, so neither renders a style there."
+    },
+    {
+      "path": "div > div[0] > div[2] > text(\"Below content\")[0]",
+      "reason": "Ember always wraps the below-the-fold block's yielded content in its own `<span class=\"cds--tile-content__below-the-fold\">` (the real, styled target of @carbon/styles' opacity/visibility fade-in transition - see _tile.scss), so a caller's plain content gets the collapse fade animation for free. Upstream's ExpandableTile itself renders whatever children are passed with no such wrapper - only its own, separately-exported (and not ported here) `TileBelowTheFoldContent` sub-component adds that class, opt-in per caller. A deliberate, functional divergence (keeping the fade animation working without requiring a second sub-component this addon doesn't port), not an accidental structural gap. Applies to every variant."
+    },
+    {
+      "path": "div > div[0] > button[1] > svg[0].classes[cds--tile__chevron-icon]",
+      "reason": "Same inert-`@svgClass` gap as RadioTile's entry of the same name - added to tile.gts's `<ChevronDown>` invocation to opt out of this addon's `Icon` base component's default hashed/margin-carrying class. @carbon/react's own icon has no class at all. Applies to every variant."
+    },
+    {
+      "path": "div > div[0] > button[1] > svg[0].attributes.preserveAspectRatio",
+      "reason": "Same pre-existing, addon-wide `renderSvgPartFunc` gap as RadioTile's entry of the same name. Applies to every variant."
+    },
+    {
+      "path": "div > div[0] > button[1] > svg[0].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above. Applies to every variant."
+    },
+    {
+      "path": "div > div[0] > button[1] > svg[0].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above. Applies to every variant."
+    },
+    {
+      "path": "div > div[0] > button[1] > svg[0].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above (the extra-attribute direction of it). Applies to every variant."
+    }
   ]
 }

@@ -1,0 +1,85 @@
+{
+  "component": "SelectableTile",
+  "generatedAt": "2026-09-20T14:25:27.944Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tile",
+          "cds--tile--selectable"
+        ],
+        "attributes": {
+          "role": "checkbox",
+          "aria-checked": "false",
+          "tabindex": "0",
+          "title": "title"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--tile__checkmark",
+              "cds--tile__checkmark--persistent"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 32 32",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M26,4H6A2,2,0,0,0,4,6V26a2,2,0,0,0,2,2H26a2,2,0,0,0,2-2V6A2,2,0,0,0,26,4ZM6,26V6H26V26Z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--tile-content"
+            ],
+            "attributes": {
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Selectable tile content"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
