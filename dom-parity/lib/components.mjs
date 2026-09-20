@@ -85,7 +85,10 @@
  * and the icon key off, in both frameworks) rather than by the `low-
  * contrast`/`hideCloseButton`/custom-`role` props React also supports,
  * since Ember's `NotificationOptions` never exposes those - out of scope
- * per this file's own "args both sides implement" rule. `title`/`text`/
+ * per this file's own "args both sides implement" rule. React's
+ * `subtitle` is Ember's `@text` - same content slot, different arg name -
+ * so `props.subtitle` in the generated fixture is what the matching test
+ * passes as `@text`. `title`/`text`/
  * `caption` are always given non-empty values in every variant, since
  * React only renders each of those wrapper elements when its value is
  * truthy while Ember always renders the wrapper regardless of value - a
