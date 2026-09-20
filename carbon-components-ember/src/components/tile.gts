@@ -60,6 +60,17 @@ export type Args = {
   expandable?: boolean;
   onClick?: () => null;
   onSelect?: () => null;
+  /**
+   * Only applies to `@selectable` tiles - matches @carbon/react's
+   * `SelectableTile#tabIndex`, defaulting to `'0'`. `@expandable` tiles
+   * ignore this arg entirely: upstream's own `ExpandableTile` destructures
+   * its `tabIndex` prop out before spreading `...rest` onto its interactive
+   * (root `<div>`) branch's DOM node, so the prop has no effect there
+   * either - it's only ever applied on the non-interactive (root `<button>`)
+   * branch this port doesn't render. Passing `@tabindex` to an `@expandable`
+   * tile is a silent no-op, matching upstream's own behavior rather than a
+   * port gap.
+   */
   tabindex?: string;
   /**
    * The id of the `@selectable` tile's root element, also used as the

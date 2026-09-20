@@ -3328,7 +3328,14 @@ surfacing here are repeated below.
   trip two real `ember-template-lint` a11y rules
   (`no-nested-interactive`/`require-presentational-children`); both are
   suppressed inline with a comment, since this is upstream's own real ARIA
-  pattern for a custom checkbox widget, not a regression.
+  pattern for a custom checkbox widget, not a regression. `Args.tabindex`'s
+  JSDoc now scopes the arg to `@selectable` explicitly - `@expandable`
+  silently ignores it, confirmed against upstream's own `ExpandableTile`
+  source: its interactive branch (the root `<div>` this port now matches)
+  destructures `tabIndex` out before spreading `...rest` onto that node, so
+  the prop has no effect there upstream either. Matching upstream's actual
+  no-op rather than wiring the arg through to a place upstream itself
+  never applies it.
 - **`@expandable`** is reworked to match upstream's *interactive*
   `ExpandableTile` branch specifically (a root `<div>` with a separate,
   always-present chevron `<button>` carrying `aria-expanded`/

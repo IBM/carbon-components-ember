@@ -107,21 +107,20 @@
  *   upstream) rather than only once `@expanded` is true; (2) the outer
  *   `<div style="height: fit-content">` wrapper is gone - the tile div
  *   itself is now the root, matching upstream's interactive-branch root.
- *   One disclosed, unavoidable gap remains, `known-differences.json`-listed
- *   under the `default` (collapsed) variant only: upstream clips the
- *   collapsed height via a computed inline `max-height` style, measured
- *   from `aboveTheFold.current.scrollHeight` in an effect - in the jsdom
- *   environment this fixture is generated in, `scrollHeight` is always `0`,
- *   so the fixture's captured `max-height` is a deterministic jsdom
- *   artifact (`"0px"`), not a real measurement. Ember doesn't reproduce
- *   this computed-height mechanism at all (relying on
- *   `overflow: hidden`/opacity CSS alone for the same visual clipping, per
- *   `@carbon/styles`' own `_tile.scss`), so its collapsed variant has no
- *   `max-height` style at all - a real, cosmetic-only gap between "clip via
- *   a real measured pixel value" and "clip via CSS alone", not a DOM-shape
- *   mismatch. The `expanded` variant has no such gap: upstream clears its
- *   inline `max-height` entirely once expanded, so both sides render no
- *   `style` attribute there.
+ *   One disclosed gap remains, `known-differences.json`-listed under the
+ *   `default` (collapsed) variant only, and it's a harness artifact, not a
+ *   missing-behavior gap: both sides now clip the collapsed tile via a
+ *   real, measured inline `max-height` style - upstream measures
+ *   `aboveTheFold.current.scrollHeight` in an effect, and Ember's own
+ *   `clipExpandableTile` modifier (in `tile.gts`) does the equivalent,
+ *   mirroring that same mechanism. But this fixture is generated in
+ *   jsdom, where `scrollHeight` is always `0`, so upstream's captured
+ *   `max-height` here is a deterministic jsdom artifact (`"0px"`), not a
+ *   real measurement - Ember's own real-Chromium test (`tile-test.gts`)
+ *   asserts the real, non-zero clipping behavior directly instead. The
+ *   `expanded` variant has no such gap: upstream clears its inline
+ *   `max-height` entirely once expanded, so both sides render no `style`
+ *   attribute there.
  *
  * Both covered branches are feature-flag dependent the same way Grid's
  * entry below is - at this pinned `@carbon/react` version (`generate`

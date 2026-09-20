@@ -60,6 +60,26 @@ module('Integration | Component | Tile', (hooks) => {
     assert.dom('.cds--tile--selectable').hasAttribute('aria-checked', 'true');
   });
 
+  test('@selectable renders @id on its root and matches the content label\'s `for`, and renders neither when omitted', async function (assert) {
+    await render(
+      <template>
+        <Tile @selectable={{true}} @id='my-tile'><:content>Selectable</:content></Tile>
+      </template>,
+    );
+
+    assert.dom('.cds--tile--selectable').hasAttribute('id', 'my-tile');
+    assert.dom('label.cds--tile-content').hasAttribute('for', 'my-tile');
+
+    await render(
+      <template>
+        <Tile @selectable={{true}}><:content>Selectable</:content></Tile>
+      </template>,
+    );
+
+    assert.dom('.cds--tile--selectable').doesNotHaveAttribute('id');
+    assert.dom('label.cds--tile-content').doesNotHaveAttribute('for');
+  });
+
   test('@expandable renders its chevron icon with the tile-specific class, not the default icon margin class', async function (assert) {
     await render(
       <template>
