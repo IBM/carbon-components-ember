@@ -27,10 +27,23 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const dom = new JSDOM('<!doctype html><html><body></body></html>');
 globalThis.window = dom.window;
 globalThis.document = dom.window.document;
-// Some @carbon/react components (e.g. Notification's
+// Some @carbon/react components (e.g. Notification's/Tile's
 // useNoInteractiveChildren) reference DOM constructors like `HTMLElement`
 // as bare globals rather than off `window`.
 globalThis.HTMLElement = dom.window.HTMLElement;
+globalThis.HTMLButtonElement = dom.window.HTMLButtonElement;
+globalThis.HTMLInputElement = dom.window.HTMLInputElement;
+globalThis.HTMLSelectElement = dom.window.HTMLSelectElement;
+globalThis.HTMLTextAreaElement = dom.window.HTMLTextAreaElement;
+globalThis.HTMLAnchorElement = dom.window.HTMLAnchorElement;
+// jsdom has no ResizeObserver; ExpandableTile only uses it to re-measure
+// the above-the-fold content on resize, which this offline, one-shot
+// render never needs to react to.
+globalThis.ResizeObserver = class ResizeObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+};
 // Node has its own read-only global `navigator` getter; jsdom's must
 // replace it via defineProperty rather than plain assignment.
 Object.defineProperty(globalThis, 'navigator', {

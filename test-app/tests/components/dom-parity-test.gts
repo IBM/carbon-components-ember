@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, waitUntil } from '@ember/test-helpers';
+import { render, waitUntil, click } from '@ember/test-helpers';
 import { hash } from '@ember/helper';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import Button from 'carbon-components-ember/components/button';
@@ -40,6 +40,8 @@ import tileFixture from '../../../dom-parity/fixtures/Tile.json';
 import clickableTileFixture from '../../../dom-parity/fixtures/ClickableTile.json';
 import radioTileFixture from '../../../dom-parity/fixtures/RadioTile.json';
 import tileGroupFixture from '../../../dom-parity/fixtures/TileGroup.json';
+import selectableTileFixture from '../../../dom-parity/fixtures/SelectableTile.json';
+import expandableTileFixture from '../../../dom-parity/fixtures/ExpandableTile.json';
 
 type VariantFixture = { props: object; dom: object };
 type ComponentFixture = {
@@ -822,9 +824,9 @@ module('DOM parity | Carbon React', function (hooks) {
     });
   });
 
-  // See dom-parity/lib/components.mjs's top-of-file comment for why only
-  // the plain `Tile`/`ClickableTile`/`RadioTile`/`TileGroup` branches are
-  // covered here, not `@selectable`/`@expandable`.
+  // See dom-parity/lib/components.mjs's top-of-file comment for how
+  // `@selectable`/`@expandable` (covered further below, as `SelectableTile`/
+  // `ExpandableTile`) map to their own separate upstream components.
   module('Tile', function () {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(
@@ -903,6 +905,55 @@ module('DOM parity | Carbon React', function (hooks) {
 
     test('every fixture variant is covered', function (assert) {
       assertFullCoverage(assert, tileGroupFixture, ['default']);
+    });
+  });
+
+  module('SelectableTile', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Tile @selectable={{true}}><:content>Selectable tile content</:content></Tile>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
+      assertDomParity(assert, selectableTileFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, selectableTileFixture, ['default']);
+    });
+  });
+
+  module('ExpandableTile', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Tile @expandable={{true}}>
+            <:above><button type='button'>Above content</button></:above>
+            <:below>Below content</:below>
+          </Tile>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
+      assertDomParity(assert, expandableTileFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('expanded', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Tile @expandable={{true}}>
+            <:above><button type='button'>Above content</button></:above>
+            <:below>Below content</:below>
+          </Tile>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
+      await click('.cds--tile__chevron');
+      assertDomParity(assert, expandableTileFixture, 'expanded', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, expandableTileFixture, ['default', 'expanded']);
     });
   });
 });
