@@ -1,0 +1,217 @@
+{
+  "component": "SkeletonText",
+  "generatedAt": "2026-09-21T22:02:54.090Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "p",
+        "classes": [
+          "cds--skeleton__text"
+        ],
+        "attributes": {},
+        "style": {
+          "width": "100%"
+        },
+        "children": []
+      }
+    },
+    "heading": {
+      "props": {
+        "heading": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "p",
+        "classes": [
+          "cds--skeleton__heading",
+          "cds--skeleton__text"
+        ],
+        "attributes": {},
+        "style": {
+          "width": "100%"
+        },
+        "children": []
+      }
+    },
+    "paragraph": {
+      "props": {
+        "paragraph": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "p",
+            "classes": [
+              "cds--skeleton__text"
+            ],
+            "attributes": {},
+            "style": {
+              "width": "calc(100% - 73px)"
+            },
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "p",
+            "classes": [
+              "cds--skeleton__text"
+            ],
+            "attributes": {},
+            "style": {
+              "width": "calc(100% - 11px)"
+            },
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "p",
+            "classes": [
+              "cds--skeleton__text"
+            ],
+            "attributes": {},
+            "style": {
+              "width": "calc(100% - 43px)"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    "paragraph-line-count": {
+      "props": {
+        "paragraph": true,
+        "lineCount": 5
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "p",
+            "classes": [
+              "cds--skeleton__text"
+            ],
+            "attributes": {},
+            "style": {
+              "width": "calc(100% - 73px)"
+            },
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "p",
+            "classes": [
+              "cds--skeleton__text"
+            ],
+            "attributes": {},
+            "style": {
+              "width": "calc(100% - 11px)"
+            },
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "p",
+            "classes": [
+              "cds--skeleton__text"
+            ],
+            "attributes": {},
+            "style": {
+              "width": "calc(100% - 43px)"
+            },
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "p",
+            "classes": [
+              "cds--skeleton__text"
+            ],
+            "attributes": {},
+            "style": {
+              "width": "calc(100% - 73px)"
+            },
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "p",
+            "classes": [
+              "cds--skeleton__text"
+            ],
+            "attributes": {},
+            "style": {
+              "width": "calc(100% - 11px)"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    "paragraph-width-px": {
+      "props": {
+        "paragraph": true,
+        "width": "300px"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "p",
+            "classes": [
+              "cds--skeleton__text"
+            ],
+            "attributes": {},
+            "style": {
+              "width": "298px"
+            },
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "p",
+            "classes": [
+              "cds--skeleton__text"
+            ],
+            "attributes": {},
+            "style": {
+              "width": "236px"
+            },
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "p",
+            "classes": [
+              "cds--skeleton__text"
+            ],
+            "attributes": {},
+            "style": {
+              "width": "268px"
+            },
+            "children": []
+          }
+        ]
+      }
+    }
+  }
+}
