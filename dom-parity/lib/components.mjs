@@ -309,14 +309,17 @@
  *
  * Coverage inventory (todo #854, 2026-09-20; recounted and corrected in a
  * review follow-up the same day - the first pass undercounted the total
- * and omitted ~20 real exports from every bucket below): this file covers
- * 15 of the ~98 non-ai-chat components exported from
- * `src/components/index.ts` (18 fixture entries above, since the Tile
- * family's `Tile`/`ClickableTile`/`SelectableTile`/`ExpandableTile` all map
- * to just the single real `Tile` export, while `RadioTile` and `TileGroup`
- * each map 1:1 to their own real export - 6 fixture entries collapse to 3
- * real exports, `Tile`/`RadioTile`/`TileGroup`) - the remaining ~83 are not
- * a silent gap, they were never scheduled. The ~98 total is every
+ * and omitted ~20 real exports from every bucket below; updated again for
+ * todo #861's Skeleton batch below): this file covers 21 of the ~98
+ * non-ai-chat components exported from `src/components/index.ts` (24
+ * fixture entries above, since the Tile family's
+ * `Tile`/`ClickableTile`/`SelectableTile`/`ExpandableTile` all map to just
+ * the single real `Tile` export, while `RadioTile` and `TileGroup` each map
+ * 1:1 to their own real export - 6 fixture entries collapse to 3 real
+ * exports, `Tile`/`RadioTile`/`TileGroup`; every other fixture entry,
+ * including the 6 Skeleton ones, maps 1:1 to its own real export) - the
+ * remaining ~77 are not a silent gap, they were never scheduled. The ~98
+ * total is every
  * `default as` export from `index.ts` outside `./ai-chat/`, plus the three
  * real secondary component exports on a shared line (`FlexGrid`,
  * `LayoutConstraint`, `PopoverContent`); it excludes `registerIcon` (a
@@ -346,9 +349,16 @@
  *    gated by this at all (see that same decision's Select entry - native
  *    `<select>`, no floating UI); they were never really blocked and can be
  *    picked up under item 3 below instead.
- * 2. Skeletons (SkeletonIcon/SkeletonPlaceholder/SkeletonText/
- *    TextAreaSkeleton/SliderSkeleton/FileUploaderSkeleton) - static
- *    markup, no gate dependency.
+ * 2. DONE (todo #861) - Skeletons (SkeletonIcon/SkeletonPlaceholder/
+ *    SkeletonText/TextAreaSkeleton/SliderSkeleton/FileUploaderSkeleton),
+ *    all static markup with no gate dependency, as expected. One real gap
+ *    fixed along the way: `file-uploader-skeleton.gts` was missing the
+ *    `cds--layout--size-lg` class upstream's own `Button.Skeleton` always
+ *    adds (`[cds--layout--size-${size}]: size` is truthy for any size
+ *    string, including the default `'lg'`) - a one-line addition, not a
+ *    documented gap. The one gap that *is* documented rather than fixed:
+ *    see the `SliderSkeleton` entry's own inline comment above for the
+ *    `twoHandles` thumb-icon gap.
  * 3. Static form controls (Checkbox, RadioButton(+Group), Toggle,
  *    TextInput, TextArea, PasswordInput, NumberInput, FluidTextInput,
  *    Search, Select(+SelectItem/SelectItemGroup), TimePicker(+Select),
@@ -601,6 +611,24 @@ const expandableTile = (name, props) => ({
       React.createElement('button', { key: 'above', type: 'button' }, 'Above content'),
       'Below content',
     ),
+});
+
+const skeletonText = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) => React.createElement(Carbon.SkeletonText, props),
+});
+
+const textAreaSkeleton = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) => React.createElement(Carbon.TextAreaSkeleton, props),
+});
+
+const sliderSkeleton = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) => React.createElement(Carbon.SliderSkeleton, props),
 });
 
 export const COMPONENTS = [
@@ -896,6 +924,83 @@ export const COMPONENTS = [
     variants: [
       expandableTile('default', {}),
       expandableTile('expanded', { expanded: true }),
+    ],
+  },
+  {
+    name: 'SkeletonIcon',
+    variants: [
+      {
+        name: 'default',
+        props: {},
+        createElement: (React, Carbon) => React.createElement(Carbon.SkeletonIcon, {}),
+      },
+    ],
+  },
+  {
+    name: 'SkeletonPlaceholder',
+    variants: [
+      {
+        name: 'default',
+        props: {},
+        createElement: (React, Carbon) => React.createElement(Carbon.SkeletonPlaceholder, {}),
+      },
+    ],
+  },
+  {
+    // A real, verified-against-source gap this file's variants can't
+    // surface: upstream's multi-line (`paragraph`) branch spreads its
+    // `...rest` (any extra HTML attribute beyond `heading`/`lineCount`/
+    // `paragraph`/`width`/`className`) onto *every* `<p>` line and gives
+    // the wrapping `<div>` nothing at all, while Ember's `isMultiLine`
+    // branch puts `...attributes` on the wrapping `<div>` and nothing on
+    // the inner `<p>`s (see skeleton-text.gts). None of the variants below
+    // pass any such extra attribute, so this never shows up as a diff here
+    // - deliberately not exercised (and so not fixed), same as this file's
+    // `title`/`text`/`caption` note above; worth its own follow-up.
+    name: 'SkeletonText',
+    variants: [
+      skeletonText('default', {}),
+      skeletonText('heading', { heading: true }),
+      skeletonText('paragraph', { paragraph: true }),
+      skeletonText('paragraph-line-count', { paragraph: true, lineCount: 5 }),
+      skeletonText('paragraph-width-px', { paragraph: true, width: '300px' }),
+    ],
+  },
+  {
+    name: 'TextAreaSkeleton',
+    variants: [
+      textAreaSkeleton('default', {}),
+      textAreaSkeleton('hide-label', { hideLabel: true }),
+    ],
+  },
+  {
+    // `twoHandles` is a real, documented gap, not just fixtured as-is: see
+    // known-differences.json's `thumb-icon`/`svg` entries for the
+    // `two-handles` variant - upstream renders a real `LowerHandle`/
+    // `UpperHandle` svg icon inside each thumb once `twoHandles` is true
+    // (`SliderHandles.tsx`), driven by an `ariaLabel`/
+    // `unstable_ariaLabelHandleUpper` pair and an RTL-detecting layout
+    // effect that Ember's `slider-skeleton.gts` has no equivalent for at
+    // all (it renders the same two empty thumb `<div>`s regardless of
+    // `@twoHandles`). Out of scope for a DOM-parity-only pass - fixturing
+    // it anyway still exercises every other twoHandles-driven class
+    // (`cds--slider-container--two-handles`, the lower/upper
+    // wrapper/thumb modifier classes), which is real, un-gapped coverage.
+    name: 'SliderSkeleton',
+    variants: [
+      sliderSkeleton('default', {}),
+      sliderSkeleton('hide-label', { hideLabel: true }),
+      sliderSkeleton('two-handles', { twoHandles: true }),
+    ],
+  },
+  {
+    name: 'FileUploaderSkeleton',
+    variants: [
+      {
+        name: 'default',
+        props: {},
+        createElement: (React, Carbon) => React.createElement(Carbon.FileUploaderSkeleton, {}),
+      },
     ],
   },
 ];

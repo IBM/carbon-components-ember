@@ -18,6 +18,12 @@ import Notification from 'carbon-components-ember/components/notification';
 import Tile from 'carbon-components-ember/components/tile';
 import RadioTile from 'carbon-components-ember/components/radio-tile';
 import TileGroup from 'carbon-components-ember/components/tile/tile-group';
+import SkeletonIcon from 'carbon-components-ember/components/skeleton-icon';
+import SkeletonPlaceholder from 'carbon-components-ember/components/skeleton-placeholder';
+import SkeletonText from 'carbon-components-ember/components/skeleton-text';
+import TextAreaSkeleton from 'carbon-components-ember/components/text-area-skeleton';
+import SliderSkeleton from 'carbon-components-ember/components/slider-skeleton';
+import FileUploaderSkeleton from 'carbon-components-ember/components/file-uploader/file-uploader-skeleton';
 import { normalizeElement } from '../../../dom-parity/lib/normalize-dom.mjs';
 import {
   diffNormalized,
@@ -42,6 +48,12 @@ import radioTileFixture from '../../../dom-parity/fixtures/RadioTile.json';
 import tileGroupFixture from '../../../dom-parity/fixtures/TileGroup.json';
 import selectableTileFixture from '../../../dom-parity/fixtures/SelectableTile.json';
 import expandableTileFixture from '../../../dom-parity/fixtures/ExpandableTile.json';
+import skeletonIconFixture from '../../../dom-parity/fixtures/SkeletonIcon.json';
+import skeletonPlaceholderFixture from '../../../dom-parity/fixtures/SkeletonPlaceholder.json';
+import skeletonTextFixture from '../../../dom-parity/fixtures/SkeletonText.json';
+import textAreaSkeletonFixture from '../../../dom-parity/fixtures/TextAreaSkeleton.json';
+import sliderSkeletonFixture from '../../../dom-parity/fixtures/SliderSkeleton.json';
+import fileUploaderSkeletonFixture from '../../../dom-parity/fixtures/FileUploaderSkeleton.json';
 
 type VariantFixture = { props: object; dom: object };
 type ComponentFixture = {
@@ -954,6 +966,147 @@ module('DOM parity | Carbon React', function (hooks) {
 
     test('every fixture variant is covered', function (assert) {
       assertFullCoverage(assert, expandableTileFixture, ['default', 'expanded']);
+    });
+  });
+
+  module('SkeletonIcon', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><SkeletonIcon /></template>);
+      assertDomParity(assert, skeletonIconFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, skeletonIconFixture, ['default']);
+    });
+  });
+
+  module('SkeletonPlaceholder', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><SkeletonPlaceholder /></template>);
+      assertDomParity(
+        assert,
+        skeletonPlaceholderFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, skeletonPlaceholderFixture, ['default']);
+    });
+  });
+
+  module('SkeletonText', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><SkeletonText /></template>);
+      assertDomParity(assert, skeletonTextFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('heading', async function (this: RenderingTestContext, assert) {
+      await render(<template><SkeletonText @heading={{true}} /></template>);
+      assertDomParity(assert, skeletonTextFixture, 'heading', this.element.firstElementChild);
+    });
+
+    test('paragraph', async function (this: RenderingTestContext, assert) {
+      await render(<template><SkeletonText @paragraph={{true}} /></template>);
+      assertDomParity(assert, skeletonTextFixture, 'paragraph', this.element.firstElementChild);
+    });
+
+    test('paragraph-line-count', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><SkeletonText @paragraph={{true}} @lineCount={{5}} /></template>,
+      );
+      assertDomParity(
+        assert,
+        skeletonTextFixture,
+        'paragraph-line-count',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('paragraph-width-px', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><SkeletonText @paragraph={{true}} @width='300px' /></template>,
+      );
+      assertDomParity(
+        assert,
+        skeletonTextFixture,
+        'paragraph-width-px',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, skeletonTextFixture, [
+        'default',
+        'heading',
+        'paragraph',
+        'paragraph-line-count',
+        'paragraph-width-px',
+      ]);
+    });
+  });
+
+  module('TextAreaSkeleton', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><TextAreaSkeleton /></template>);
+      assertDomParity(assert, textAreaSkeletonFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('hide-label', async function (this: RenderingTestContext, assert) {
+      await render(<template><TextAreaSkeleton @hideLabel={{true}} /></template>);
+      assertDomParity(
+        assert,
+        textAreaSkeletonFixture,
+        'hide-label',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, textAreaSkeletonFixture, ['default', 'hide-label']);
+    });
+  });
+
+  module('SliderSkeleton', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><SliderSkeleton /></template>);
+      assertDomParity(assert, sliderSkeletonFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('hide-label', async function (this: RenderingTestContext, assert) {
+      await render(<template><SliderSkeleton @hideLabel={{true}} /></template>);
+      assertDomParity(assert, sliderSkeletonFixture, 'hide-label', this.element.firstElementChild);
+    });
+
+    test('two-handles', async function (this: RenderingTestContext, assert) {
+      await render(<template><SliderSkeleton @twoHandles={{true}} /></template>);
+      assertDomParity(
+        assert,
+        sliderSkeletonFixture,
+        'two-handles',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, sliderSkeletonFixture, ['default', 'hide-label', 'two-handles']);
+    });
+  });
+
+  module('FileUploaderSkeleton', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><FileUploaderSkeleton /></template>);
+      assertDomParity(
+        assert,
+        fileUploaderSkeletonFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, fileUploaderSkeletonFixture, ['default']);
     });
   });
 });
