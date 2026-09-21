@@ -197,48 +197,126 @@
  * deliberately not exercised (and so not fixed) by any variant here;
  * worth its own follow-up.
  *
- * Coverage inventory (todo #854, 2026-09-20): this file covers 18 of the
- * ~76 non-ai-chat components exported from `src/components/index.ts`
- * (Button/Tag/Loading/Link/UnorderedList/OrderedList/ListItem/Grid×4/
- * Notification/Tile×5, all above) - the remaining ~58 are not a silent
- * gap, they were never scheduled. The `ai-chat/dom-parity-test.gts` live
- * path (see the README's "second, live path" section) is even further
- * behind: 2 of ~28 shipped `@carbon/ai-chat-components` widgets
- * (`Processing`, `ReasoningSteps`). Follow-up todos scheduled to close
- * this, in dependency order:
+ * Coverage inventory (todo #854, 2026-09-20; recounted and corrected in a
+ * review follow-up the same day - the first pass undercounted the total
+ * and omitted ~20 real exports from every bucket below): this file covers
+ * 15 of the ~98 non-ai-chat components exported from
+ * `src/components/index.ts` (18 fixture entries above, since the Tile
+ * family's `Tile`/`ClickableTile`/`SelectableTile`/`ExpandableTile` all map
+ * to just the single real `Tile` export, while `RadioTile` and `TileGroup`
+ * each map 1:1 to their own real export - 6 fixture entries collapse to 3
+ * real exports, `Tile`/`RadioTile`/`TileGroup`) - the remaining ~83 are not
+ * a silent gap, they were never scheduled. The ~98 total is every
+ * `default as` export from `index.ts` outside `./ai-chat/`, plus the three
+ * real secondary component exports on a shared line (`FlexGrid`,
+ * `LayoutConstraint`, `PopoverContent`); it excludes `registerIcon` (a
+ * function) and the four enum/constant exports (`IconIndicatorKinds`/
+ * `IconIndicatorAlignments`/`ShapeIndicatorKinds`/`TooltipAlignments`) -
+ * re-run `grep -E '^export' src/components/index.ts | grep -v "'\./ai-chat/"`
+ * to recheck this count if it drifts. The `ai-chat/dom-parity-test.gts`
+ * live path (see the README's "second, live path" section) is even further
+ * behind: 2 of the 44 real `./ai-chat/*` exports (`Processing`,
+ * `ReasoningSteps`) - re-run
+ * `grep -E "^export" src/components/index.ts | grep "'\./ai-chat/"` to
+ * recheck this count too (a review follow-up corrected this from an
+ * earlier, undercounted "~28" that didn't match a real recount). Follow-up
+ * todos scheduled to close this, in dependency order:
  *
  * 1. A gate decision this file's own CodeSnippet comment above already
  *    flags but that doesn't exist yet - the harness's approach to
  *    interaction/floating-ui-dependent DOM (open state? closed-only?
  *    skip entirely?). Blocks Modal, Popover/PopoverContent, Tooltip,
- *    Toggletip, OverflowMenu(+Item), Select, the Menu family, DatePicker
- *    (+Input), TimePicker(+Select), CopyButton, and CodeSnippet - don't
- *    start any of those until this lands.
+ *    Toggletip(+ToggletipActions/ToggletipButton/ToggletipContent/
+ *    ToggletipLabel), OverflowMenu(+Item), Select(+SelectItem/
+ *    SelectItemGroup), Dropdown, the Menu family, DatePicker(+Input),
+ *    TimePicker(+Select), CopyButton, CodeSnippet, ConfirmDialog (wraps
+ *    Modal), and FileUploaderItem (embeds a Tooltip around its filename) -
+ *    don't start any of those until this lands.
  * 2. Skeletons (SkeletonIcon/SkeletonPlaceholder/SkeletonText/
  *    TextAreaSkeleton/SliderSkeleton/FileUploaderSkeleton) - static
  *    markup, no gate dependency.
  * 3. Static form controls (Checkbox, RadioButton(+Group), Toggle,
  *    TextInput, TextArea, PasswordInput, NumberInput, FluidTextInput,
- *    Search).
- * 4. Layout/scaffolding wrappers (FormGroup, FormItem, FormLabel, Stack,
- *    Layer, Theme, Text).
+ *    Search, FileUploader(+FileUploaderButton+FileUploaderDropContainer -
+ *    the drop-target/trigger pieces, not FileUploaderItem, which is
+ *    gate-blocked above)).
+ * 4. Layout/scaffolding wrappers (FormGroup, FormItem, FormLabel, FormInput,
+ *    Stack, Layer, Theme, Text, Layout(+LayoutConstraint), LayoutDirection,
+ *    TextDirection).
  * 5. Indicators (ProgressBar, ProgressIndicator, IconIndicator,
  *    ShapeIndicator, Slider).
- * 6. Structural content, split into three (each large/distinct enough to
+ * 6. Structural content, split into four (each large/distinct enough to
  *    warrant its own review): Accordion+Tabs/TabContent+StructuredList;
- *    TreeView+Pagination (Pagination's item-per-page control may depend
- *    on the gate above via Select); DataTable and UIShell each get their
- *    own todo given their size.
- * 7. Three `ai-chat/dom-parity-test.gts` batches, picked by how much of
- *    each upstream shadow template is its own markup vs. caller-supplied
- *    `<slot>` content (per the README's warning) rather than
- *    alphabetically: (a) Card+CardFooter+CardSteps+TruncatedText+
- *    ChatButton+ChatButtonSkeleton; (b) Toolbar+Table+Feedback+
- *    FeedbackButtons+ChainOfThought+ChainOfThoughtToggle+
- *    ReasoningStepsToggle; (c) FileUploads+FileUploadItem. Chat-shell,
- *    workspace-shell, prompt-line-shell, audio-player, and video-player
- *    are flagged as weak/low-value candidates (slot- or native-element-
- *    dominated) rather than skipped outright - revisit case by case.
+ *    TreeView+Pagination+List (Pagination's item-per-page control may
+ *    depend on the gate above via Select, and List yields its own bound
+ *    Pagination/Search the same way); DataTable gets its own todo given
+ *    its size; UIShell likewise.
+ * 7. Carbon AI Chat DOM-parity batches (`ai-chat/dom-parity-test.gts`),
+ *    picked by how much of each upstream shadow template is its own markup
+ *    vs. caller-supplied `<slot>` content (per the README's warning) rather
+ *    than alphabetically: (a, #869) Card+CardFooter+CardSteps+
+ *    TruncatedText+ChatButton+ChatButtonSkeleton; (b, #870) Toolbar+Table+
+ *    Feedback+FeedbackButtons+ChainOfThought+ChainOfThoughtToggle+
+ *    ReasoningStepsToggle; (c, #871) FileUploads+FileUploadItem, and then,
+ *    in that same todo, assess the remaining 15 exports one at a time
+ *    rather than leaving them unaddressed: ChatShell; the WorkspaceShell
+ *    family (`WorkspaceShell`/`WorkspaceShellBody`/`WorkspaceShellHeader`/
+ *    `WorkspaceShellFooter`); `PromptLineShell`/`PromptLine`/
+ *    `PromptLineAutocomplete`; `AudioPlayer`/`VideoPlayer`; `Carousel`;
+ *    `Markdown`; `AiChatCodeSnippet`; `Launcher`; `SessionShell`.
+ *    `ChatShell`, `WorkspaceShell`, and `PromptLineShell` are flagged as
+ *    likely weak/low-value candidates (slot-dominated) and
+ *    `AudioPlayer`/`VideoPlayer` as likely low-value (native
+ *    `<audio>`/`<video>`/iframe bodies that don't compare meaningfully in
+ *    jsdom-free Playwright either) - both are starting hypotheses for
+ *    whoever picks up #871 to confirm or reject per component, not a
+ *    decision already made here. (d, #872) The whole ChatHistory family
+ *    (`ChatHistory`/`ChatHistoryContent`/`ChatHistoryDeletePanel`/
+ *    `ChatHistoryHeader`/`ChatHistoryLoading`/`ChatHistoryPanel`/
+ *    `ChatHistoryPanelItem`/`ChatHistoryPanelItemInput`/
+ *    `ChatHistoryPanelItems`/`ChatHistoryPanelMenu`/`ChatHistorySearchItem`/
+ *    `ChatHistoryToolbar`, 12 components) gets its own todo rather than
+ *    folding into #871's "assess the rest" tail, the same reasoning #867/
+ *    #868 already gave DataTable/UIShell their own todos for size - per
+ *    AGENTS.md's own "chat-history family" section this renders
+ *    substantial real `cds--side-nav__*` markup, so it isn't a weak/slot-
+ *    dominated skip candidate either; it needs real fixtures. 2 (done) + 6
+ *    (a) + 7 (b) + 2 (c) + 15 (assessed in #871) + 12 (d, #872) accounts
+ *    for all 44 real `./ai-chat/*` exports.
+ *
+ * The rest of the ~98 aren't scheduled above because they're explicit
+ * non-goals for this harness, each verified against source rather than
+ * assumed, matching the Breadcrumb/CodeSnippet reasoning earlier in this
+ * comment:
+ *
+ * - `BarChart`/`LineChart`/`PieChart` wrap `@carbon/charts`
+ *   (`SimpleBarChart` etc., see `charts/bar.gts`'s own import), not
+ *   `@carbon/react` - there's no upstream React DOM for this harness to
+ *   diff against at all.
+ * - `Icon`/`registerIcon` have no real upstream counterpart to compare
+ *   against: `@carbon/react`'s own top-level `Icon` export is only
+ *   `Icon.Skeleton` (confirmed by reading its `index.d.ts`, which is
+ *   `export * from './Icon.Skeleton'` and nothing else) - real icons come
+ *   from the separate `@carbon/icons-react` package, one component per
+ *   icon, with no shared wrapper shaped like Ember's `Icon`.
+ * - `Resizer` has no `@carbon/react` export at all (confirmed by listing
+ *   its `es/components` directory) - Ember's `cds--resizer`-based
+ *   component has no upstream React counterpart to diff against.
+ * - `Portal` and `GridSettings` both have a real `@carbon/react`
+ *   counterpart, but neither renders any DOM of its own: `Portal` only
+ *   relocates its own yielded content (see `portal.gts`), and
+ *   `GridSettings` only yields `Grid`/`Column`/`Row`/`ColumnHang`
+ *   pre-configured with a mode (see `grid/settings.gts`) - there's no
+ *   wrapper markup for this harness to diff either way. `GridSettings` is
+ *   the natural vehicle for this file's already-flagged css-grid-mode
+ *   follow-up (see the Grid entry above) once that's picked up, rather
+ *   than its own separate todo.
+ * - `FlexGrid` is already effectively covered, not scheduled: Ember's
+ *   `FlexGrid` is just `Grid` with its `mode` getter hardcoded to
+ *   `'flexbox'` (see `grid.gts`), identical output to what the existing
+ *   Grid fixture already renders, since that fixture already targets
+ *   `Carbon.FlexGrid` directly for the same reason (see the Grid entry
+ *   above).
  *
  * To add a component or variant: add/extend an entry here, run
  * `pnpm generate` in this package to (re)write its fixture, then add a
