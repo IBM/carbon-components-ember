@@ -30,14 +30,21 @@
  * considered for the batch that added Link/UnorderedList/OrderedList/
  * ListItem and deliberately left out - see todo #836 for the follow-up
  * investigation of each. Notification is now covered (see below); the
- * Tile family is covered in part (see below); CodeSnippet and Breadcrumb
- * remain out of scope:
+ * Tile family is covered in part (see below); CodeSnippet turns out to have
+ * been left out on a premise the interaction/floating-ui-dependent-DOM
+ * decision below has since disproven (see that entry's CopyButton bullet)
+ * and is unblocked today; Breadcrumb remains out of scope:
  *
- * - CodeSnippet: all three variants (default/multiline/inline) embed
- *   `CopyButton`, which uses `Popover` for its tooltip - blocked on this
- *   harness's approach to interaction/floating-ui-dependent DOM being
- *   figured out separately, same bucket as the existing Modal/ComboBox/
- *   Dropdown/DatePicker exclusion. Revisit once that's decided, not before.
+ * - CodeSnippet: its three real variants (default/multiline/inline) need
+ *   neither an open prop nor a simulated click at all - a closed, never-
+ *   clicked `CopyButton` (the only interactive/floating-ui-based thing it
+ *   embeds) mounts cleanly and renders real `cds--popover-container`/
+ *   `cds--tooltip` markup with the harness's *current* jsdom shims,
+ *   confirmed directly for all three `type`s. Add it as its own component
+ *   entry same as any other. A fourth, optional "copied" variant capturing
+ *   the post-click feedback state does need the interaction/floating-ui
+ *   decision's simulated-click route (see that entry's CopyButton bullet) -
+ *   that one only, not the three base variants.
  * - Breadcrumb: Ember's `Breadcrumbs` has a structurally different API and
  *   DOM shape than Carbon React's `Breadcrumb`/`BreadcrumbItem`/
  *   `BreadcrumbLink` (a `<nav>` wrapping `crumbs: string[]` with href='#'
@@ -46,6 +53,109 @@
  *   is reworked to accept real link/item children - a fixture comparison
  *   against the current API would mostly be diffing two unrelated shapes,
  *   not catching real regressions.
+ *
+ * Interaction/floating-ui-dependent DOM (todo #854 follow-up item 1,
+ * resolved 2026-09-21): `generate.mjs` mounts via `react-dom/client` + `act()`
+ * with no simulated user interaction, so every component whose interesting
+ * DOM only exists once opened (Modal, Popover/PopoverContent, Tooltip,
+ * Toggletip(+Actions/Button/Content/Label), OverflowMenu(+Item), Dropdown,
+ * the Menu family, DatePicker(+Input), TimePicker(+Select), CopyButton,
+ * CodeSnippet, ConfirmDialog, FileUploaderItem) previously had no decided
+ * way to capture that state. Decision: drive each component open through
+ * whichever real prop it exposes (a fully controlled `open`/`isOpen`, or an
+ * uncontrolled `defaultOpen`/`initialIsOpen` that still avoids simulating
+ * anything) and fall back to a real, `act()`-wrapped simulated click on the
+ * actual trigger element only when no such prop exists at all - not
+ * fixturing the closed state only (needlessly weak when the open state is
+ * reachable without faking interaction) and not skipping the bucket
+ * permanently (jsdom does support both routes - confirmed below, no real
+ * blocker). Verified per component with a throwaway jsdom + `act()` script,
+ * the same pattern as the `ExpandableTile` verification above:
+ *
+ * - Modal: `open` boolean prop (`ModalProps`). Portals into `document.body`
+ *   (not the render container), confirmed `cds--modal-container` renders.
+ * - Popover/PopoverContent: `open` isn't even optional on `PopoverBaseProps`
+ *   - it's already a required, fully controlled prop.
+ * - OverflowMenu(+Item): `open` boolean prop, confirmed directly.
+ * - Menu family (Menu/MenuItem/MenuItemDivider/MenuItemGroup/
+ *   MenuItemRadioGroup/MenuItemSelectable): `Menu`'s own `open` boolean
+ *   prop, confirmed directly - the item components render as its children,
+ *   no separate mechanism needed for those.
+ * - Dropdown: no top-level `open` prop, but its `downshiftProps` passes
+ *   straight through to `downshift`'s own `useSelect`, which accepts a
+ *   controlled `isOpen` - confirmed `downshiftProps: { isOpen: true }`
+ *   renders the expanded `cds--list-box--expanded` DOM.
+ * - DatePicker(+Input): no `open` prop at all (flatpickr's popup is
+ *   imperative, not React state), but the deprecated-yet-still-functional
+ *   `inline: true` prop renders the `flatpickr-calendar` markup directly in
+ *   the tree instead of the floating popup - confirmed. Caveat for whoever
+ *   implements this: `inline` is flatpickr's own separate always-visible
+ *   layout mode, not literally "the popup, but open" - re-verify the
+ *   calendar markup it emits actually matches the popup's shape once this
+ *   is built, don't just assume it.
+ * - Tooltip and Toggletip(+Actions/Button/Content/Label): no controlled
+ *   `open` prop by design (`ToggletipBaseProps extends
+ *   Omit<PopoverBaseProps, 'open'>` in the `.d.ts`), but both expose
+ *   `defaultOpen` to seed the initial, uncontrolled state open - confirmed
+ *   for Toggletip directly (`cds--toggletip--open`/`aria-expanded="true"`
+ *   present with no click). Tooltip shares the same underlying `Popover`
+ *   machinery and the same `defaultOpen` shape, so this should carry over,
+ *   but wasn't independently re-verified - do that when Tooltip is actually
+ *   added.
+ * - FileUploaderItem: upstream `FileUploaderItem.js` embeds `@carbon/react`'s
+ *   own `Tooltip` around the filename (confirmed by reading it, matching
+ *   what Ember's `file-uploader-item.gts` does too) - same `defaultOpen`
+ *   route as Tooltip above, once FileUploaderItem itself is in scope.
+ * - ConfirmDialog: wraps `@carbon/react`'s `Modal`, matching Ember's
+ *   `dialogs/confirm.gts`, which itself wraps this addon's own `Modal` -
+ *   confirmed by reading both: `confirm.gts` passes no `@open`-style arg to
+ *   `Modal` at all, and `modal.gts` itself has no closed state to begin
+ *   with (`@tracked isVisible = true`, no arg that starts it `false`) - so
+ *   Ember's side needs no special handling here, it's already always
+ *   "open" once mounted. Same `open: true` route as Modal above on the
+ *   React side.
+ * - CopyButton (and by extension CodeSnippet, which only embeds it): no
+ *   open/default-open prop of any kind for its post-click "Copied!"
+ *   feedback state - it's local `useState` set from `onClick` inside the
+ *   internal `Copy` component, no prop escape hatch. Confirmed a real,
+ *   `act()`-wrapped click on the rendered `<button>` (jsdom's own `.click()`
+ *   shorthand works fine, no need to hand-construct a `MouseEvent`) does
+ *   flip it to the animating/"Copied!" state. This is the one component in
+ *   the whole bucket with no prop route at all - simulated click is
+ *   required here, not just an available fallback. One gotcha hit while
+ *   verifying: its `feedbackTimeout` debounce schedules a `setTimeout`
+ *   outside the click's own `act()` call, which later fires an "update not
+ *   wrapped in act()" warning if the script keeps running - snapshot the
+ *   DOM synchronously right after the click's `act()` returns, don't await
+ *   anything first.
+ * - Select(+SelectItem/SelectItemGroup) and TimePickerSelect: turn out not
+ *   to belong in this bucket at all - `@carbon/react`'s `Select` renders a
+ *   plain native `<select>`/`<option>` tree (`Select.d.ts` extends
+ *   `ComponentPropsWithRef<'select'>` directly), so there's no floating-UI
+ *   popup and no "open" DOM state for this decision to gate - a native
+ *   element's own open/closed dropdown is OS-rendered chrome, invisible to
+ *   the DOM tree either way. These can be added on their own schedule,
+ *   independent of the rest of this bucket.
+ *
+ * Mechanics for whoever implements any of the above: the prop route needs
+ * no `generate.mjs` changes at all (it's just another prop on the variant,
+ * same as every other variant already passes); the simulated-click route
+ * needs a small per-variant hook to run `act()`-wrapped code against the
+ * mounted container right after the initial render, since
+ * `variant.createElement` alone only returns an element to mount and can't
+ * run code afterward - add that hook when the first click-driven variant
+ * (CopyButton/CodeSnippet) actually lands, not preemptively here. Either
+ * route also needs a few more jsdom globals than `generate.mjs` currently
+ * shims (`HTMLElement`/`HTMLButtonElement`/etc.): `Element`, `Node`,
+ * `addEventListener`/`removeEventListener`, and
+ * `requestAnimationFrame`/`cancelAnimationFrame` - `Popover`'s
+ * outside-click effect and `FloatingMenu`'s portal-target resolution
+ * reference these as bare globals once a component actually opens, the
+ * same pattern already documented for `HTMLElement` above (confirmed by
+ * reproducing the exact `ReferenceError`/`TypeError` jsdom throws without
+ * each one). A *closed*, never-opened instance of any of these components
+ * mounts fine without them - confirmed directly for CopyButton - so add
+ * the shims alongside the first component that actually opens, not here.
  *
  * Tile family (`Tile`/`RadioTile`/`TileGroup`/`ClickableTile` below): a
  * single Ember `tile.gts` conflates React's separate `Tile`/`ClickableTile`/
@@ -222,24 +332,29 @@
  * earlier, undercounted "~28" that didn't match a real recount). Follow-up
  * todos scheduled to close this, in dependency order:
  *
- * 1. A gate decision this file's own CodeSnippet comment above already
- *    flags but that doesn't exist yet - the harness's approach to
- *    interaction/floating-ui-dependent DOM (open state? closed-only?
- *    skip entirely?). Blocks Modal, Popover/PopoverContent, Tooltip,
+ * 1. RESOLVED - see the "Interaction/floating-ui-dependent DOM" decision
+ *    above (approach: drive each component open via a real prop, falling
+ *    back to a real simulated click only where no prop exists). Unblocks
+ *    Modal, Popover/PopoverContent, Tooltip,
  *    Toggletip(+ToggletipActions/ToggletipButton/ToggletipContent/
- *    ToggletipLabel), OverflowMenu(+Item), Select(+SelectItem/
- *    SelectItemGroup), Dropdown, the Menu family, DatePicker(+Input),
- *    TimePicker(+Select), CopyButton, CodeSnippet, ConfirmDialog (wraps
- *    Modal), and FileUploaderItem (embeds a Tooltip around its filename) -
- *    don't start any of those until this lands.
+ *    ToggletipLabel), OverflowMenu(+Item), Dropdown, the Menu family,
+ *    DatePicker(+Input), CopyButton, CodeSnippet, ConfirmDialog (wraps
+ *    Modal), and FileUploaderItem (embeds a Tooltip around its filename) to
+ *    be scheduled and implemented individually, each following that
+ *    decision's per-component routing. `Select(+SelectItem/
+ *    SelectItemGroup)` and `TimePicker(+Select)` turned out not to be
+ *    gated by this at all (see that same decision's Select entry - native
+ *    `<select>`, no floating UI); they were never really blocked and can be
+ *    picked up under item 3 below instead.
  * 2. Skeletons (SkeletonIcon/SkeletonPlaceholder/SkeletonText/
  *    TextAreaSkeleton/SliderSkeleton/FileUploaderSkeleton) - static
  *    markup, no gate dependency.
  * 3. Static form controls (Checkbox, RadioButton(+Group), Toggle,
  *    TextInput, TextArea, PasswordInput, NumberInput, FluidTextInput,
- *    Search, FileUploader(+FileUploaderButton+FileUploaderDropContainer -
- *    the drop-target/trigger pieces, not FileUploaderItem, which is
- *    gate-blocked above)).
+ *    Search, Select(+SelectItem/SelectItemGroup), TimePicker(+Select),
+ *    FileUploader(+FileUploaderButton+FileUploaderDropContainer - the
+ *    drop-target/trigger pieces, not FileUploaderItem, which needs item 1's
+ *    decision's `defaultOpen`-on-its-embedded-Tooltip route instead)).
  * 4. Layout/scaffolding wrappers (FormGroup, FormItem, FormLabel, FormInput,
  *    Stack, Layer, Theme, Text, Layout(+LayoutConstraint), LayoutDirection,
  *    TextDirection).
@@ -247,10 +362,18 @@
  *    ShapeIndicator, Slider).
  * 6. Structural content, split into four (each large/distinct enough to
  *    warrant its own review): Accordion+Tabs/TabContent+StructuredList;
- *    TreeView+Pagination+List (Pagination's item-per-page control may
- *    depend on the gate above via Select, and List yields its own bound
- *    Pagination/Search the same way); DataTable gets its own todo given
- *    its size; UIShell likewise.
+ *    TreeView+Pagination+List (Pagination's item-per-page control isn't
+ *    gated by the interaction/floating-ui decision above - React's own
+ *    `Pagination` renders it with React's native `Select`/`SelectItem`, no
+ *    floating UI involved - but it is a real, separate structural mismatch
+ *    worth checking before assuming a fixture is straightforward: Ember's
+ *    `pagination.gts` renders it with this addon's own `select.gts`, which
+ *    is `ember-power-select`-based and implements Carbon's MultiSelect/
+ *    ComboBox pattern, not a native `<select>` - same Breadcrumb-style "two
+ *    genuinely different shapes" risk, confirm before fixturing rather than
+ *    assuming Select's own resolution above carries over. List yields its
+ *    own bound Pagination/Search the same way); DataTable gets its own
+ *    todo given its size; UIShell likewise.
  * 7. Carbon AI Chat DOM-parity batches (`ai-chat/dom-parity-test.gts`),
  *    picked by how much of each upstream shadow template is its own markup
  *    vs. caller-supplied `<slot>` content (per the README's warning) rather
