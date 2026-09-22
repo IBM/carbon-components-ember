@@ -79,12 +79,6 @@ for (const component of COMPONENTS) {
       reactRoot.render(variant.createElement(React, Carbon));
     });
 
-    if (container.children.length < 1) {
-      throw new Error(
-        `${component.name}/${variant.name}: expected at least one rendered root element, got 0`,
-      );
-    }
-
     // Most variants render exactly one root element, which is also what
     // Ember's side compares against (`this.element.firstElementChild`).
     // A variant can override `pickRoot` when upstream's root doesn't match
@@ -92,6 +86,17 @@ for (const component of COMPONENTS) {
     // (FileUploaderButton) where only the first is Ember's real root, or an
     // extra wrapping element Ember's component doesn't render at all
     // (RadioButtonGroup) - see lib/components.mjs's per-component notes.
+    if (!variant.pickRoot && container.children.length !== 1) {
+      throw new Error(
+        `${component.name}/${variant.name}: expected exactly one rendered root element, got ${container.children.length} (define pickRoot on this variant if multiple root children are expected)`,
+      );
+    }
+    if (container.children.length < 1) {
+      throw new Error(
+        `${component.name}/${variant.name}: expected at least one rendered root element, got 0`,
+      );
+    }
+
     const root = variant.pickRoot
       ? variant.pickRoot(container)
       : container.firstElementChild;
