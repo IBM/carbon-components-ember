@@ -1,6 +1,6 @@
 {
-  "component": "GridRow",
-  "generatedAt": "2026-09-22T06:04:04.998Z",
+  "component": "Text",
+  "generatedAt": "2026-09-22T06:04:05.180Z",
   "carbonReactVersion": "1.114.0",
   "reactVersion": "19.3.0",
   "variants": {
@@ -8,58 +8,56 @@
       "props": {},
       "dom": {
         "type": "element",
-        "tag": "div",
-        "classes": [
-          "cds--row"
-        ],
-        "attributes": {},
+        "tag": "span",
+        "classes": [],
+        "attributes": {
+          "dir": "auto"
+        },
         "style": {},
         "children": [
           {
             "type": "text",
-            "text": "Row content"
+            "text": "Text content"
           }
         ]
       }
     },
-    "condensed": {
+    "dir-ltr": {
       "props": {
-        "condensed": true
+        "dir": "ltr"
       },
       "dom": {
         "type": "element",
-        "tag": "div",
-        "classes": [
-          "cds--row",
-          "cds--row--condensed"
-        ],
-        "attributes": {},
+        "tag": "span",
+        "classes": [],
+        "attributes": {
+          "dir": "ltr"
+        },
         "style": {},
         "children": [
           {
             "type": "text",
-            "text": "Row content"
+            "text": "Text content"
           }
         ]
       }
     },
-    "narrow": {
+    "dir-rtl": {
       "props": {
-        "narrow": true
+        "dir": "rtl"
       },
       "dom": {
         "type": "element",
-        "tag": "div",
-        "classes": [
-          "cds--row",
-          "cds--row--narrow"
-        ],
-        "attributes": {},
+        "tag": "span",
+        "classes": [],
+        "attributes": {
+          "dir": "rtl"
+        },
         "style": {},
         "children": [
           {
             "type": "text",
-            "text": "Row content"
+            "text": "Text content"
           }
         ]
       }

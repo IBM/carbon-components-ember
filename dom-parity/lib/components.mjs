@@ -310,17 +310,26 @@
  * Coverage inventory (todo #854, 2026-09-20; recounted and corrected in a
  * review follow-up the same day - the first pass undercounted the total
  * and omitted ~20 real exports from every bucket below; updated again for
- * todo #861's Skeleton batch, and again for the static-form-controls batch
- * below): this file covers 34 of the ~98
- * non-ai-chat components exported from `src/components/index.ts` (37
+ * todo #861's Skeleton batch, again for the static-form-controls batch, and
+ * again for the layout/scaffolding-wrappers batch below): this file covers
+ * 44 of the ~98
+ * non-ai-chat components exported from `src/components/index.ts` (47
  * fixture entries above, since the Tile family's
  * `Tile`/`ClickableTile`/`SelectableTile`/`ExpandableTile` all map to just
  * the single real `Tile` export, while `RadioTile` and `TileGroup` each map
  * 1:1 to their own real export - 6 fixture entries collapse to 3 real
  * exports, `Tile`/`RadioTile`/`TileGroup`; every other fixture entry,
- * including the 6 Skeleton ones and the 13 static-form-control ones, maps
- * 1:1 to its own real export) - the
- * remaining ~64 are not a silent gap, they were never scheduled. The ~98
+ * including the 6 Skeleton ones, the 13 static-form-control ones, and the
+ * 10 layout/scaffolding-wrapper ones, maps
+ * 1:1 to its own real export) - of the remaining ~54, `FormInput` and
+ * `TextDirection` (verified while working the layout/scaffolding-wrappers
+ * batch) join `Resizer`/`Portal`/`GridSettings`/`FlexGrid` (see the
+ * "explicit non-goals" bullets further down) as components with no real
+ * upstream DOM for this harness to ever diff against - counted here at
+ * face value like the rest of that list, not subtracted, so the ~54
+ * figure is a true, still-unscheduled gap using one consistent counting
+ * convention throughout this paragraph, not a silent one - they were
+ * never scheduled. The ~98
  * total is every
  * `default as` export from `index.ts` outside `./ai-chat/`, plus the three
  * real secondary component exports on a shared line (`FlexGrid`,
@@ -375,9 +384,19 @@
  *    either (native `<select>`, no floating UI - see that decision's own
  *    Select entry), so picking them up doesn't need any further
  *    investigation, just fixturing.
- * 4. Layout/scaffolding wrappers (FormGroup, FormItem, FormLabel, FormInput,
- *    Stack, Layer, Theme, Text, Layout(+LayoutConstraint), LayoutDirection,
- *    TextDirection).
+ * 4. DONE in part - FormGroup, FormItem, FormLabel, Stack, Layer, Theme,
+ *    Text, Layout(+LayoutConstraint), and LayoutDirection are covered
+ *    below. `FormInput` and `TextDirection` turn out not to belong in this
+ *    harness at all - see the "explicit non-goals" bullets further down
+ *    for why (no upstream counterpart at all for the former, zero rendered
+ *    DOM nodes upstream for the latter). `Text`/`Layout`/`LayoutConstraint`/
+ *    `LayoutDirection` are only reachable via `@carbon/react`'s
+ *    `preview_`/`unstable_` prefixed aliases (`LayoutConstraint` isn't
+ *    re-exported from the top level at all, under either prefix - see the
+ *    `layoutConstraint` factory's own comment) - this addon treats them as
+ *    stable, but upstream still marks them experimental, which is the same
+ *    "a future @carbon/react bump can silently change this" caveat already
+ *    recorded for Grid's feature flag.
  * 5. Indicators (ProgressBar, ProgressIndicator, IconIndicator,
  *    ShapeIndicator, Slider).
  * 6. Structural content, split into four (each large/distinct enough to
@@ -445,6 +464,24 @@
  * - `Resizer` has no `@carbon/react` export at all (confirmed by listing
  *   its `es/components` directory) - Ember's `cds--resizer`-based
  *   component has no upstream React counterpart to diff against.
+ * - `FormInput` is the same case as `Resizer`: no `@carbon/react` export of
+ *   that name exists at all (confirmed by grepping its top-level
+ *   `index.js`). Ember's `form-input.gts` is a bespoke, addon-only
+ *   label+input+error widget (it even carries a literal, leftover
+ *   `some-class` in its template) - the closest upstream analog is
+ *   `TextInput`, which is already covered by its own fixture above.
+ * - `TextDirection` has a real `@carbon/react` export, but it renders zero
+ *   DOM nodes of its own: reading `Text/TextDirection.js` shows it's a bare
+ *   `TextDirectionContext.Provider` wrapping `children` directly, with no
+ *   host element at all - confirmed mechanically too, since a throwaway
+ *   render through this harness's own pipeline trips `generate.mjs`'s
+ *   "expected at least one rendered root element, got 0" guard. Ember's
+ *   `text-direction.gts` renders a real `<div dir>` wrapper (the same
+ *   `element`-helper-driven wrapper shape as `Layer`/`Theme`/`Stack`/etc.),
+ *   so there's no comparable upstream tree to diff against, not just a
+ *   weak one - `LayoutDirection` (a sibling component that *does* render a
+ *   real wrapper element upstream, confirmed separately) is covered below
+ *   instead.
  * - `Portal` and `GridSettings` both have a real `@carbon/react`
  *   counterpart, but neither renders any DOM of its own: `Portal` only
  *   relocates its own yielded content (see `portal.gts`), and
@@ -465,6 +502,16 @@
  * `pnpm generate` in this package to (re)write its fixture, then add a
  * matching Ember render case to the QUnit test.
  */
+
+// `LayoutConstraint` has no top-level `@carbon/react` export at all, under
+// either its `preview_`/`unstable_` alias or a bare name (confirmed by
+// grepping the package's own `index.js`) - only its sibling `Layout` is
+// re-exported that way. Imported directly from its real source module
+// instead, matching the same (CJS, `main: lib/index.js`) build the rest of
+// this file already receives as `Carbon` via `import('@carbon/react')` in
+// generate.mjs, so this doesn't end up mixing two separate module
+// instances of the same component family.
+import { LayoutConstraint as CarbonLayoutConstraint } from '@carbon/react/lib/components/Layout/index.js';
 
 const button = (name, props) => ({
   name,
@@ -798,6 +845,85 @@ const fileUploader = (name, props) => ({
   props,
   createElement: (React, Carbon) =>
     React.createElement(Carbon.FileUploader, { filenameStatus: 'edit', ...props }),
+});
+
+const formGroup = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.FormGroup, { legendText: 'Group label', ...props }, 'Form group content'),
+});
+
+const formItem = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) => React.createElement(Carbon.FormItem, props, 'Form item content'),
+});
+
+const formLabel = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) => React.createElement(Carbon.FormLabel, props, 'Form label'),
+});
+
+const stack = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) => React.createElement(Carbon.Stack, props, 'Stack content'),
+});
+
+const layer = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) => React.createElement(Carbon.Layer, props, 'Layer content'),
+});
+
+// Upstream's `theme` prop has no default of its own - a theme-less render
+// only ever applies `cds--layer-one` (none of the `cds--white`/`g10`/`g90`/
+// `g100` branches match `undefined`). Ember's `Theme` always defaults
+// `@theme` to `'white'`, so every variant here passes an explicit `theme`
+// (matching what Ember always effectively renders) rather than comparing
+// against upstream's genuinely different theme-less shape.
+const theme = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Theme, { theme: 'white', ...props }, 'Theme content'),
+});
+
+// Rendered standalone, with no ambient `TextDirectionContext` - matching
+// every other variant in this file, none of which nest one of these
+// wrapper components inside another of the same family (see `TextDirection`'s
+// own "explicit non-goals" entry above for why nesting isn't exercised
+// here at all).
+const text = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) => React.createElement(Carbon.preview_Text, props, 'Text content'),
+});
+
+const layout = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.preview_Layout, props, 'Layout content'),
+});
+
+// See this file's top-of-file `CarbonLayoutConstraint` import comment for
+// why this renders through its own direct import rather than the `Carbon`
+// param every other factory here uses.
+const layoutConstraint = (name, props) => ({
+  name,
+  props,
+  createElement: (React) =>
+    React.createElement(CarbonLayoutConstraint, props, 'Layout constraint content'),
+});
+
+const layoutDirection = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.preview_LayoutDirection, props, 'Layout direction content'),
 });
 
 export const COMPONENTS = [
@@ -1320,5 +1446,82 @@ export const COMPONENTS = [
       fileUploader('disabled', { disabled: true }),
       fileUploader('button-kind-secondary', { buttonKind: 'secondary' }),
     ],
+  },
+  {
+    name: 'FormGroup',
+    variants: [
+      formGroup('default', {}),
+      formGroup('disabled', { disabled: true }),
+      formGroup('invalid', { invalid: true }),
+      formGroup('message', { message: true, messageText: 'Helper message' }),
+      formGroup('legend-id', { legendId: 'form-group-legend-1' }),
+    ],
+  },
+  {
+    name: 'FormItem',
+    variants: [formItem('default', {})],
+  },
+  {
+    name: 'FormLabel',
+    variants: [formLabel('default', {}), formLabel('with-id', { id: 'form-label-input-1' })],
+  },
+  {
+    name: 'Stack',
+    variants: [
+      stack('default', {}),
+      stack('horizontal', { orientation: 'horizontal' }),
+      stack('gap-number', { gap: 4 }),
+      stack('gap-string', { gap: '2rem' }),
+    ],
+  },
+  {
+    // No `as` variant here (or on Theme/Stack/Text/Layout/LayoutConstraint/
+    // LayoutDirection below) - each one's root tag also drives which
+    // tag-specific `known-differences.json` entry applies (see the
+    // ember-view/auto-id entries added for the default `div`/`span` root
+    // below); a per-component `as` variant would need its own
+    // variant-scoped pair on top of that rather than reusing it, for
+    // coverage this batch doesn't attempt.
+    name: 'Layer',
+    variants: [
+      layer('default', {}),
+      layer('level-0', { level: 0 }),
+      layer('level-2', { level: 2 }),
+      layer('with-background', { withBackground: true }),
+    ],
+  },
+  {
+    name: 'Theme',
+    variants: [
+      theme('white', { theme: 'white' }),
+      theme('g10', { theme: 'g10' }),
+      theme('g90', { theme: 'g90' }),
+      theme('g100', { theme: 'g100' }),
+    ],
+  },
+  {
+    name: 'Text',
+    variants: [text('default', {}), text('dir-ltr', { dir: 'ltr' }), text('dir-rtl', { dir: 'rtl' })],
+  },
+  {
+    name: 'Layout',
+    variants: [
+      layout('default', {}),
+      layout('size-md', { size: 'md' }),
+      layout('density-condensed', { density: 'condensed' }),
+      layout('size-and-density', { size: 'lg', density: 'normal' }),
+    ],
+  },
+  {
+    name: 'LayoutConstraint',
+    variants: [
+      layoutConstraint('default', {}),
+      layoutConstraint('size-constraint', { size: { default: 'md', min: 'sm', max: 'lg' } }),
+      layoutConstraint('density-constraint', { density: { default: 'normal', min: 'condensed' } }),
+    ],
+  },
+  {
+    name: 'LayoutDirection',
+    variants: [layoutDirection('ltr', { dir: 'ltr' }), layoutDirection('rtl', { dir: 'rtl' })],
   },
 ];

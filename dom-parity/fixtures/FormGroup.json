@@ -1,6 +1,6 @@
 {
-  "component": "OrderedList",
-  "generatedAt": "2026-09-22T06:04:04.994Z",
+  "component": "FormGroup",
+  "generatedAt": "2026-09-22T06:04:05.172Z",
   "carbonReactVersion": "1.114.0",
   "reactVersion": "19.3.0",
   "variants": {
@@ -8,198 +8,195 @@
       "props": {},
       "dom": {
         "type": "element",
-        "tag": "ol",
+        "tag": "fieldset",
         "classes": [
-          "cds--list--ordered"
+          "cds--fieldset"
         ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "element",
-            "tag": "li",
+            "tag": "legend",
             "classes": [
-              "cds--list__item"
+              "cds--label"
             ],
-            "attributes": {
-              "dir": "auto"
-            },
+            "attributes": {},
             "style": {},
             "children": [
               {
                 "type": "text",
-                "text": "Item 1"
+                "text": "Group label"
               }
             ]
           },
           {
+            "type": "text",
+            "text": "Form group content"
+          }
+        ]
+      }
+    },
+    "disabled": {
+      "props": {
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "fieldset",
+        "classes": [
+          "cds--fieldset"
+        ],
+        "attributes": {
+          "disabled": true
+        },
+        "style": {},
+        "children": [
+          {
             "type": "element",
-            "tag": "li",
+            "tag": "legend",
             "classes": [
-              "cds--list__item"
+              "cds--label"
             ],
-            "attributes": {
-              "dir": "auto"
-            },
+            "attributes": {},
             "style": {},
             "children": [
               {
                 "type": "text",
-                "text": "Item 2"
+                "text": "Group label"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Form group content"
+          }
+        ]
+      }
+    },
+    "invalid": {
+      "props": {
+        "invalid": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "fieldset",
+        "classes": [
+          "cds--fieldset"
+        ],
+        "attributes": {
+          "data-invalid": ""
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "legend",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Group label"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Form group content"
+          }
+        ]
+      }
+    },
+    "message": {
+      "props": {
+        "message": true,
+        "messageText": "Helper message"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "fieldset",
+        "classes": [
+          "cds--fieldset"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "legend",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Group label"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Form group content"
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--form__requirements"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Helper message"
               }
             ]
           }
         ]
       }
     },
-    "nested": {
+    "legend-id": {
       "props": {
-        "nested": true
+        "legendId": "form-group-legend-1"
       },
       "dom": {
         "type": "element",
-        "tag": "ol",
+        "tag": "fieldset",
         "classes": [
-          "cds--list--nested",
-          "cds--list--ordered"
+          "cds--fieldset"
         ],
-        "attributes": {},
+        "attributes": {
+          "aria-labelledby": "#1"
+        },
         "style": {},
         "children": [
           {
             "type": "element",
-            "tag": "li",
+            "tag": "legend",
             "classes": [
-              "cds--list__item"
+              "cds--label"
             ],
             "attributes": {
-              "dir": "auto"
+              "id": "#1"
             },
             "style": {},
             "children": [
               {
                 "type": "text",
-                "text": "Item 1"
+                "text": "Group label"
               }
             ]
           },
           {
-            "type": "element",
-            "tag": "li",
-            "classes": [
-              "cds--list__item"
-            ],
-            "attributes": {
-              "dir": "auto"
-            },
-            "style": {},
-            "children": [
-              {
-                "type": "text",
-                "text": "Item 2"
-              }
-            ]
-          }
-        ]
-      }
-    },
-    "expressive": {
-      "props": {
-        "isExpressive": true
-      },
-      "dom": {
-        "type": "element",
-        "tag": "ol",
-        "classes": [
-          "cds--list--expressive",
-          "cds--list--ordered"
-        ],
-        "attributes": {},
-        "style": {},
-        "children": [
-          {
-            "type": "element",
-            "tag": "li",
-            "classes": [
-              "cds--list__item"
-            ],
-            "attributes": {
-              "dir": "auto"
-            },
-            "style": {},
-            "children": [
-              {
-                "type": "text",
-                "text": "Item 1"
-              }
-            ]
-          },
-          {
-            "type": "element",
-            "tag": "li",
-            "classes": [
-              "cds--list__item"
-            ],
-            "attributes": {
-              "dir": "auto"
-            },
-            "style": {},
-            "children": [
-              {
-                "type": "text",
-                "text": "Item 2"
-              }
-            ]
-          }
-        ]
-      }
-    },
-    "native": {
-      "props": {
-        "native": true
-      },
-      "dom": {
-        "type": "element",
-        "tag": "ol",
-        "classes": [
-          "cds--list--ordered--native"
-        ],
-        "attributes": {},
-        "style": {},
-        "children": [
-          {
-            "type": "element",
-            "tag": "li",
-            "classes": [
-              "cds--list__item"
-            ],
-            "attributes": {
-              "dir": "auto"
-            },
-            "style": {},
-            "children": [
-              {
-                "type": "text",
-                "text": "Item 1"
-              }
-            ]
-          },
-          {
-            "type": "element",
-            "tag": "li",
-            "classes": [
-              "cds--list__item"
-            ],
-            "attributes": {
-              "dir": "auto"
-            },
-            "style": {},
-            "children": [
-              {
-                "type": "text",
-                "text": "Item 2"
-              }
-            ]
+            "type": "text",
+            "text": "Form group content"
           }
         ]
       }

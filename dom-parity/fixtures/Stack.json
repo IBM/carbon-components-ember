@@ -1,6 +1,6 @@
 {
-  "component": "GridRow",
-  "generatedAt": "2026-09-22T06:04:04.998Z",
+  "component": "Stack",
+  "generatedAt": "2026-09-22T06:04:05.174Z",
   "carbonReactVersion": "1.114.0",
   "reactVersion": "19.3.0",
   "variants": {
@@ -10,56 +10,77 @@
         "type": "element",
         "tag": "div",
         "classes": [
-          "cds--row"
+          "cds--stack-vertical"
         ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "text",
-            "text": "Row content"
+            "text": "Stack content"
           }
         ]
       }
     },
-    "condensed": {
+    "horizontal": {
       "props": {
-        "condensed": true
+        "orientation": "horizontal"
       },
       "dom": {
         "type": "element",
         "tag": "div",
         "classes": [
-          "cds--row",
-          "cds--row--condensed"
+          "cds--stack-horizontal"
         ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "text",
-            "text": "Row content"
+            "text": "Stack content"
           }
         ]
       }
     },
-    "narrow": {
+    "gap-number": {
       "props": {
-        "narrow": true
+        "gap": 4
       },
       "dom": {
         "type": "element",
         "tag": "div",
         "classes": [
-          "cds--row",
-          "cds--row--narrow"
+          "cds--stack-scale-4",
+          "cds--stack-vertical"
         ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "text",
-            "text": "Row content"
+            "text": "Stack content"
+          }
+        ]
+      }
+    },
+    "gap-string": {
+      "props": {
+        "gap": "2rem"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--stack-vertical"
+        ],
+        "attributes": {},
+        "style": {
+          "--cds-stack-gap": "2rem"
+        },
+        "children": [
+          {
+            "type": "text",
+            "text": "Stack content"
           }
         ]
       }

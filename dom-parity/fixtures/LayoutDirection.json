@@ -1,0 +1,48 @@
+{
+  "component": "LayoutDirection",
+  "generatedAt": "2026-09-22T06:04:05.183Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "ltr": {
+      "props": {
+        "dir": "ltr"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [],
+        "attributes": {
+          "dir": "ltr"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Layout direction content"
+          }
+        ]
+      }
+    },
+    "rtl": {
+      "props": {
+        "dir": "rtl"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [],
+        "attributes": {
+          "dir": "rtl"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Layout direction content"
+          }
+        ]
+      }
+    }
+  }
+}

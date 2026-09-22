@@ -37,6 +37,15 @@ import Search from 'carbon-components-ember/components/search';
 import FileUploaderButton from 'carbon-components-ember/components/file-uploader/file-uploader-button';
 import FileUploaderDropContainer from 'carbon-components-ember/components/file-uploader/file-uploader-drop-container';
 import FileUploader from 'carbon-components-ember/components/file-uploader';
+import FormGroup from 'carbon-components-ember/components/form-group';
+import FormItem from 'carbon-components-ember/components/form-item';
+import FormLabel from 'carbon-components-ember/components/form-label';
+import Stack from 'carbon-components-ember/components/stack';
+import Layer from 'carbon-components-ember/components/layer';
+import Theme from 'carbon-components-ember/components/theme';
+import Text from 'carbon-components-ember/components/text';
+import Layout, { LayoutConstraint } from 'carbon-components-ember/components/layout';
+import LayoutDirection from 'carbon-components-ember/components/layout-direction';
 import { normalizeElement } from '../../../dom-parity/lib/normalize-dom.mjs';
 import {
   diffNormalized,
@@ -80,6 +89,16 @@ import searchFixture from '../../../dom-parity/fixtures/Search.json';
 import fileUploaderButtonFixture from '../../../dom-parity/fixtures/FileUploaderButton.json';
 import fileUploaderDropContainerFixture from '../../../dom-parity/fixtures/FileUploaderDropContainer.json';
 import fileUploaderFixture from '../../../dom-parity/fixtures/FileUploader.json';
+import formGroupFixture from '../../../dom-parity/fixtures/FormGroup.json';
+import formItemFixture from '../../../dom-parity/fixtures/FormItem.json';
+import formLabelFixture from '../../../dom-parity/fixtures/FormLabel.json';
+import stackFixture from '../../../dom-parity/fixtures/Stack.json';
+import layerFixture from '../../../dom-parity/fixtures/Layer.json';
+import themeFixture from '../../../dom-parity/fixtures/Theme.json';
+import textFixture from '../../../dom-parity/fixtures/Text.json';
+import layoutFixture from '../../../dom-parity/fixtures/Layout.json';
+import layoutConstraintFixture from '../../../dom-parity/fixtures/LayoutConstraint.json';
+import layoutDirectionFixture from '../../../dom-parity/fixtures/LayoutDirection.json';
 
 type VariantFixture = { props: object; dom: object };
 type ComponentFixture = {
@@ -1996,6 +2015,318 @@ module('DOM parity | Carbon React', function (hooks) {
         'disabled',
         'button-kind-secondary',
       ]);
+    });
+  });
+
+  module('FormGroup', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <FormGroup @legendText='Group label'>Form group content</FormGroup>
+        </template>,
+      );
+      assertDomParity(assert, formGroupFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <FormGroup @legendText='Group label' @disabled={{true}}>Form group content</FormGroup>
+        </template>,
+      );
+      assertDomParity(assert, formGroupFixture, 'disabled', this.element.firstElementChild);
+    });
+
+    test('invalid', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <FormGroup @legendText='Group label' @invalid={{true}}>Form group content</FormGroup>
+        </template>,
+      );
+      assertDomParity(assert, formGroupFixture, 'invalid', this.element.firstElementChild);
+    });
+
+    test('message', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <FormGroup
+            @legendText='Group label'
+            @message={{true}}
+            @messageText='Helper message'
+          >Form group content</FormGroup>
+        </template>,
+      );
+      assertDomParity(assert, formGroupFixture, 'message', this.element.firstElementChild);
+    });
+
+    test('legend-id', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <FormGroup
+            @legendText='Group label'
+            @legendId='form-group-legend-1'
+          >Form group content</FormGroup>
+        </template>,
+      );
+      assertDomParity(assert, formGroupFixture, 'legend-id', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, formGroupFixture, [
+        'default',
+        'disabled',
+        'invalid',
+        'message',
+        'legend-id',
+      ]);
+    });
+  });
+
+  module('FormItem', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><FormItem>Form item content</FormItem></template>);
+      assertDomParity(assert, formItemFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, formItemFixture, ['default']);
+    });
+  });
+
+  module('FormLabel', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><FormLabel>Form label</FormLabel></template>);
+      assertDomParity(assert, formLabelFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('with-id', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><FormLabel @id='form-label-input-1'>Form label</FormLabel></template>,
+      );
+      assertDomParity(assert, formLabelFixture, 'with-id', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, formLabelFixture, ['default', 'with-id']);
+    });
+  });
+
+  module('Stack', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><Stack>Stack content</Stack></template>);
+      assertDomParity(assert, stackFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('horizontal', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><Stack @orientation='horizontal'>Stack content</Stack></template>,
+      );
+      assertDomParity(assert, stackFixture, 'horizontal', this.element.firstElementChild);
+    });
+
+    test('gap-number', async function (this: RenderingTestContext, assert) {
+      await render(<template><Stack @gap={{4}}>Stack content</Stack></template>);
+      assertDomParity(assert, stackFixture, 'gap-number', this.element.firstElementChild);
+    });
+
+    test('gap-string', async function (this: RenderingTestContext, assert) {
+      await render(<template><Stack @gap='2rem'>Stack content</Stack></template>);
+      assertDomParity(assert, stackFixture, 'gap-string', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, stackFixture, [
+        'default',
+        'horizontal',
+        'gap-number',
+        'gap-string',
+      ]);
+    });
+  });
+
+  module('Layer', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><Layer>Layer content</Layer></template>);
+      assertDomParity(assert, layerFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('level-0', async function (this: RenderingTestContext, assert) {
+      await render(<template><Layer @level={{0}}>Layer content</Layer></template>);
+      assertDomParity(assert, layerFixture, 'level-0', this.element.firstElementChild);
+    });
+
+    test('level-2', async function (this: RenderingTestContext, assert) {
+      await render(<template><Layer @level={{2}}>Layer content</Layer></template>);
+      assertDomParity(assert, layerFixture, 'level-2', this.element.firstElementChild);
+    });
+
+    test('with-background', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><Layer @withBackground={{true}}>Layer content</Layer></template>,
+      );
+      assertDomParity(assert, layerFixture, 'with-background', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, layerFixture, [
+        'default',
+        'level-0',
+        'level-2',
+        'with-background',
+      ]);
+    });
+  });
+
+  module('Theme', function () {
+    test('white', async function (this: RenderingTestContext, assert) {
+      await render(<template><Theme @theme='white'>Theme content</Theme></template>);
+      assertDomParity(assert, themeFixture, 'white', this.element.firstElementChild);
+    });
+
+    test('g10', async function (this: RenderingTestContext, assert) {
+      await render(<template><Theme @theme='g10'>Theme content</Theme></template>);
+      assertDomParity(assert, themeFixture, 'g10', this.element.firstElementChild);
+    });
+
+    test('g90', async function (this: RenderingTestContext, assert) {
+      await render(<template><Theme @theme='g90'>Theme content</Theme></template>);
+      assertDomParity(assert, themeFixture, 'g90', this.element.firstElementChild);
+    });
+
+    test('g100', async function (this: RenderingTestContext, assert) {
+      await render(<template><Theme @theme='g100'>Theme content</Theme></template>);
+      assertDomParity(assert, themeFixture, 'g100', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, themeFixture, ['white', 'g10', 'g90', 'g100']);
+    });
+  });
+
+  module('Text', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><Text>Text content</Text></template>);
+      assertDomParity(assert, textFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('dir-ltr', async function (this: RenderingTestContext, assert) {
+      await render(<template><Text @dir='ltr'>Text content</Text></template>);
+      assertDomParity(assert, textFixture, 'dir-ltr', this.element.firstElementChild);
+    });
+
+    test('dir-rtl', async function (this: RenderingTestContext, assert) {
+      await render(<template><Text @dir='rtl'>Text content</Text></template>);
+      assertDomParity(assert, textFixture, 'dir-rtl', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, textFixture, ['default', 'dir-ltr', 'dir-rtl']);
+    });
+  });
+
+  module('Layout', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><Layout>Layout content</Layout></template>);
+      assertDomParity(assert, layoutFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('size-md', async function (this: RenderingTestContext, assert) {
+      await render(<template><Layout @size='md'>Layout content</Layout></template>);
+      assertDomParity(assert, layoutFixture, 'size-md', this.element.firstElementChild);
+    });
+
+    test('density-condensed', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><Layout @density='condensed'>Layout content</Layout></template>,
+      );
+      assertDomParity(assert, layoutFixture, 'density-condensed', this.element.firstElementChild);
+    });
+
+    test('size-and-density', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Layout @size='lg' @density='normal'>Layout content</Layout>
+        </template>,
+      );
+      assertDomParity(assert, layoutFixture, 'size-and-density', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, layoutFixture, [
+        'default',
+        'size-md',
+        'density-condensed',
+        'size-and-density',
+      ]);
+    });
+  });
+
+  module('LayoutConstraint', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><LayoutConstraint>Layout constraint content</LayoutConstraint></template>,
+      );
+      assertDomParity(assert, layoutConstraintFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('size-constraint', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <LayoutConstraint @size={{hash default='md' min='sm' max='lg'}}>
+            Layout constraint content
+          </LayoutConstraint>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        layoutConstraintFixture,
+        'size-constraint',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('density-constraint', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <LayoutConstraint @density={{hash default='normal' min='condensed'}}>
+            Layout constraint content
+          </LayoutConstraint>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        layoutConstraintFixture,
+        'density-constraint',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, layoutConstraintFixture, [
+        'default',
+        'size-constraint',
+        'density-constraint',
+      ]);
+    });
+  });
+
+  module('LayoutDirection', function () {
+    test('ltr', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><LayoutDirection @dir='ltr'>Layout direction content</LayoutDirection></template>,
+      );
+      assertDomParity(assert, layoutDirectionFixture, 'ltr', this.element.firstElementChild);
+    });
+
+    test('rtl', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><LayoutDirection @dir='rtl'>Layout direction content</LayoutDirection></template>,
+      );
+      assertDomParity(assert, layoutDirectionFixture, 'rtl', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, layoutDirectionFixture, ['ltr', 'rtl']);
     });
   });
 });

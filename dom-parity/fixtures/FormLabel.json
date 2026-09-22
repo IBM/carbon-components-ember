@@ -1,0 +1,53 @@
+{
+  "component": "FormLabel",
+  "generatedAt": "2026-09-22T06:04:05.173Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "label",
+        "classes": [
+          "cds--label",
+          "cds--label--no-margin"
+        ],
+        "attributes": {
+          "dir": "auto"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Form label"
+          }
+        ]
+      }
+    },
+    "with-id": {
+      "props": {
+        "id": "form-label-input-1"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "label",
+        "classes": [
+          "cds--label",
+          "cds--label--no-margin"
+        ],
+        "attributes": {
+          "for": "form-label-input-1",
+          "dir": "auto"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Form label"
+          }
+        ]
+      }
+    }
+  }
+}

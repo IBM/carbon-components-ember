@@ -1,6 +1,6 @@
 {
-  "component": "GridRow",
-  "generatedAt": "2026-09-22T06:04:04.998Z",
+  "component": "Layer",
+  "generatedAt": "2026-09-22T06:04:05.176Z",
   "carbonReactVersion": "1.114.0",
   "reactVersion": "19.3.0",
   "variants": {
@@ -10,56 +10,75 @@
         "type": "element",
         "tag": "div",
         "classes": [
-          "cds--row"
+          "cds--layer-two"
         ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "text",
-            "text": "Row content"
+            "text": "Layer content"
           }
         ]
       }
     },
-    "condensed": {
+    "level-0": {
       "props": {
-        "condensed": true
+        "level": 0
       },
       "dom": {
         "type": "element",
         "tag": "div",
         "classes": [
-          "cds--row",
-          "cds--row--condensed"
+          "cds--layer-one"
         ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "text",
-            "text": "Row content"
+            "text": "Layer content"
           }
         ]
       }
     },
-    "narrow": {
+    "level-2": {
       "props": {
-        "narrow": true
+        "level": 2
       },
       "dom": {
         "type": "element",
         "tag": "div",
         "classes": [
-          "cds--row",
-          "cds--row--narrow"
+          "cds--layer-three"
         ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "text",
-            "text": "Row content"
+            "text": "Layer content"
+          }
+        ]
+      }
+    },
+    "with-background": {
+      "props": {
+        "withBackground": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--layer-two",
+          "cds--layer__with-background"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Layer content"
           }
         ]
       }
