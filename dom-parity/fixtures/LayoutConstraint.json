@@ -1,6 +1,6 @@
 {
-  "component": "GridRow",
-  "generatedAt": "2026-09-22T06:04:04.998Z",
+  "component": "LayoutConstraint",
+  "generatedAt": "2026-09-22T06:04:05.182Z",
   "carbonReactVersion": "1.114.0",
   "reactVersion": "19.3.0",
   "variants": {
@@ -9,57 +9,63 @@
       "dom": {
         "type": "element",
         "tag": "div",
-        "classes": [
-          "cds--row"
-        ],
+        "classes": [],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "text",
-            "text": "Row content"
+            "text": "Layout constraint content"
           }
         ]
       }
     },
-    "condensed": {
+    "size-constraint": {
       "props": {
-        "condensed": true
+        "size": {
+          "default": "md",
+          "min": "sm",
+          "max": "lg"
+        }
       },
       "dom": {
         "type": "element",
         "tag": "div",
         "classes": [
-          "cds--row",
-          "cds--row--condensed"
+          "cds--layout-constraint--size__default-md",
+          "cds--layout-constraint--size__max-lg",
+          "cds--layout-constraint--size__min-sm"
         ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "text",
-            "text": "Row content"
+            "text": "Layout constraint content"
           }
         ]
       }
     },
-    "narrow": {
+    "density-constraint": {
       "props": {
-        "narrow": true
+        "density": {
+          "default": "normal",
+          "min": "condensed"
+        }
       },
       "dom": {
         "type": "element",
         "tag": "div",
         "classes": [
-          "cds--row",
-          "cds--row--narrow"
+          "cds--layout-constraint--density__default-normal",
+          "cds--layout-constraint--density__min-condensed"
         ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "text",
-            "text": "Row content"
+            "text": "Layout constraint content"
           }
         ]
       }

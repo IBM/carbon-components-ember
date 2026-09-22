@@ -933,5 +933,75 @@
       "variant": "with-labels",
       "reason": "Same `Text`-wrapper `dir='auto'` gap as the `p[0]` entry above, at the index `labelDescription`'s `<p>` occupies once the `labelTitle` heading precedes it."
     }
+  ],
+  "Stack": [
+    {
+      "path": "div.classes[ember-view]",
+      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above - Stack renders its root tag through `element` too, to support `@as`. Applies to every variant."
+    },
+    {
+      "path": "div.attributes.id",
+      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
+    }
+  ],
+  "Layer": [
+    {
+      "path": "div.classes[ember-view]",
+      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above - Layer renders its root tag through `element` too, to support `@as`. Applies to every variant."
+    },
+    {
+      "path": "div.attributes.id",
+      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
+    }
+  ],
+  "Theme": [
+    {
+      "path": "div.classes[ember-view]",
+      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above - Theme renders its root tag through `element` too, to support `@as`. Applies to every variant."
+    },
+    {
+      "path": "div.attributes.id",
+      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
+    }
+  ],
+  "Text": [
+    {
+      "path": "span.classes[ember-view]",
+      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above - Text renders its root tag through `element` too, to support `@as`. Applies to every variant."
+    },
+    {
+      "path": "span.attributes.id",
+      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
+    }
+  ],
+  "Layout": [
+    {
+      "path": "div.classes[ember-view]",
+      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above - Layout renders its root tag through `element` too, to support `@as`. Applies to every variant."
+    },
+    {
+      "path": "div.attributes.id",
+      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
+    }
+  ],
+  "LayoutConstraint": [
+    {
+      "path": "div.classes[ember-view]",
+      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above - LayoutConstraint renders its root tag through `element` too, to support `@as`. Applies to every variant."
+    },
+    {
+      "path": "div.attributes.id",
+      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
+    }
+  ],
+  "LayoutDirection": [
+    {
+      "path": "div.classes[ember-view]",
+      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above - LayoutDirection renders its root tag through `element` too, to support `@as`. Applies to every variant."
+    },
+    {
+      "path": "div.attributes.id",
+      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
+    }
   ]
 }
