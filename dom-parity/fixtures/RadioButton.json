@@ -1,0 +1,365 @@
+{
+  "component": "RadioButton",
+  "generatedAt": "2026-09-22T04:50:36.385Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--radio-button-wrapper"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--radio-button"
+            ],
+            "attributes": {
+              "id": "#1",
+              "type": "radio",
+              "value": "a",
+              "name": "radio-group"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--radio-button__label"
+            ],
+            "attributes": {
+              "for": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--radio-button__appearance"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--radio-button__label-text"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Radio label"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "checked": {
+      "props": {
+        "checked": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--radio-button-wrapper"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--radio-button"
+            ],
+            "attributes": {
+              "id": "#1",
+              "type": "radio",
+              "value": "a",
+              "checked": true,
+              "name": "radio-group"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--radio-button__label"
+            ],
+            "attributes": {
+              "for": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--radio-button__appearance"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--radio-button__label-text"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Radio label"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "disabled": {
+      "props": {
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--radio-button-wrapper"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--radio-button"
+            ],
+            "attributes": {
+              "id": "#1",
+              "disabled": true,
+              "type": "radio",
+              "value": "a",
+              "name": "radio-group"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--radio-button__label"
+            ],
+            "attributes": {
+              "for": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--radio-button__appearance"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--radio-button__label-text"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Radio label"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "label-position-left": {
+      "props": {
+        "labelPosition": "left"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--radio-button-wrapper",
+          "cds--radio-button-wrapper--label-left"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--radio-button"
+            ],
+            "attributes": {
+              "id": "#1",
+              "type": "radio",
+              "value": "a",
+              "name": "radio-group"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--radio-button__label"
+            ],
+            "attributes": {
+              "for": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--radio-button__appearance"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--radio-button__label-text"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Radio label"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "hide-label": {
+      "props": {
+        "hideLabel": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--radio-button-wrapper"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--radio-button"
+            ],
+            "attributes": {
+              "id": "#1",
+              "type": "radio",
+              "value": "a",
+              "name": "radio-group"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--radio-button__label"
+            ],
+            "attributes": {
+              "for": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--radio-button__appearance"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--radio-button__label-text",
+                  "cds--visually-hidden"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Radio label"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

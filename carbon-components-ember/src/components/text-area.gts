@@ -122,7 +122,9 @@ export default class TextArea extends Component<Signature> {
         {{#if @labelText}}
           <label
             for={{this.id}}
-            class='cds--label {{if @hideLabel "cds--visually-hidden"}}'
+            class='cds--label
+              {{if @hideLabel "cds--visually-hidden"}}
+              {{if @disabled "cds--label--disabled"}}'
           >
             {{@labelText}}
           </label>

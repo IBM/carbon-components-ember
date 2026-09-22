@@ -36,6 +36,14 @@ export default class RadioButtonGroup extends Component<Signature> {
 
   @tracked _selectedValue?: Value;
 
+  get orientation() {
+    return this.args.orientation;
+  }
+
+  get labelPosition() {
+    return this.args.labelPosition;
+  }
+
   get selectedValue() {
     return this.args.valueSelected ?? this._selectedValue ?? this.args.defaultSelected;
   }
@@ -48,8 +56,8 @@ export default class RadioButtonGroup extends Component<Signature> {
 
   <template>
     <fieldset
-      class='cds--radio-button-group cds--radio-button-group--{{@orientation}}
-        cds--radio-button-group--label-{{@labelPosition}}'
+      class='cds--radio-button-group cds--radio-button-group--{{this.orientation}}
+        cds--radio-button-group--label-{{this.labelPosition}}'
       disabled={{@disabled}}
       ...attributes
     >
