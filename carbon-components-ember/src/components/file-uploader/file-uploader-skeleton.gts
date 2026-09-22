@@ -18,7 +18,7 @@ export default class FileUploaderSkeleton extends Component<FileUploaderSkeleton
     <div class='cds--form-item' ...attributes>
       <SkeletonText @heading={{true}} @width='100px' />
       <SkeletonText @width='225px' class='cds--label-description' />
-      <div class='cds--skeleton cds--btn cds--btn--lg'></div>
+      <div class='cds--skeleton cds--btn cds--btn--lg cds--layout--size-lg'></div>
     </div>
   </template>
 }

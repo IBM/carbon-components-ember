@@ -1,0 +1,71 @@
+{
+  "component": "TextAreaSkeleton",
+  "generatedAt": "2026-09-21T22:02:54.091Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--label",
+              "cds--skeleton"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--skeleton",
+              "cds--text-area"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    },
+    "hide-label": {
+      "props": {
+        "hideLabel": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--skeleton",
+              "cds--text-area"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    }
+  }
+}

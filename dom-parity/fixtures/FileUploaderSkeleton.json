@@ -1,0 +1,61 @@
+{
+  "component": "FileUploaderSkeleton",
+  "generatedAt": "2026-09-21T22:02:54.095Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "p",
+            "classes": [
+              "cds--skeleton__heading",
+              "cds--skeleton__text"
+            ],
+            "attributes": {},
+            "style": {
+              "width": "100px"
+            },
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "p",
+            "classes": [
+              "cds--label-description",
+              "cds--skeleton__text"
+            ],
+            "attributes": {},
+            "style": {
+              "width": "225px"
+            },
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--btn",
+              "cds--btn--lg",
+              "cds--layout--size-lg",
+              "cds--skeleton"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    }
+  }
+}

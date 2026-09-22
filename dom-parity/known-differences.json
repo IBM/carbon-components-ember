@@ -349,5 +349,17 @@
       "path": "div > div[0] > button[1] > svg[0].style.will-change",
       "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above (the extra-attribute direction of it). Applies to every variant."
     }
+  ],
+  "SliderSkeleton": [
+    {
+      "path": "div > div[1] > div[1] > div[2] > div[0] > svg[0]",
+      "variant": "two-handles",
+      "reason": "Upstream's `SliderSkeleton` renders a real `LowerHandle`/`UpperHandle` svg icon (`SliderHandles.tsx`) inside each thumb once `twoHandles` is true, driven by an `ariaLabel`/`unstable_ariaLabelHandleUpper` pair and an RTL-detecting layout effect. Ember's `slider-skeleton.gts` has no equivalent at all - it renders the same two empty thumb `<div>`s regardless of `@twoHandles`, with no args to opt into the icon, aria-label, or RTL detection. A real, undocumented-until-now gap, but out of scope for a DOM-parity-only pass (see lib/components.mjs's `SliderSkeleton` entry) - left as a known difference rather than fixed here. This is the lower thumb's missing icon."
+    },
+    {
+      "path": "div > div[1] > div[1] > div[3] > div[0] > svg[0]",
+      "variant": "two-handles",
+      "reason": "Same missing-icon gap as the lower thumb's entry above, for the upper thumb."
+    }
   ]
 }
