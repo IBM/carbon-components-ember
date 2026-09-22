@@ -26,7 +26,17 @@ export interface FormLabelSignature {
 
 export default class FormLabel extends Component<FormLabelSignature> {
   <template>
-    <label for={{@id}} class='cds--label cds--label--no-margin' ...attributes>
+    {{! @carbon/react's FormLabel renders its label through Text, which
+      defaults dir to "auto" whenever it has no ambient TextDirection
+      context - this addon has no such context (see layer.gts's own note on
+      the same limitation), so the same default is hardcoded here to match
+      the common, unnested case. }}
+    <label
+      for={{@id}}
+      dir='auto'
+      class='cds--label cds--label--no-margin'
+      ...attributes
+    >
       {{yield}}
     </label>
   </template>

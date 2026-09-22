@@ -1,6 +1,6 @@
 {
-  "component": "Tile",
-  "generatedAt": "2026-09-22T06:04:05.020Z",
+  "component": "FormItem",
+  "generatedAt": "2026-09-22T06:04:05.172Z",
   "carbonReactVersion": "1.114.0",
   "reactVersion": "19.3.0",
   "variants": {
@@ -10,14 +10,14 @@
         "type": "element",
         "tag": "div",
         "classes": [
-          "cds--tile"
+          "cds--form-item"
         ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "text",
-            "text": "Tile content"
+            "text": "Form item content"
           }
         ]
       }

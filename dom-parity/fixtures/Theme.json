@@ -1,65 +1,89 @@
 {
-  "component": "GridRow",
-  "generatedAt": "2026-09-22T06:04:04.998Z",
+  "component": "Theme",
+  "generatedAt": "2026-09-22T06:04:05.179Z",
   "carbonReactVersion": "1.114.0",
   "reactVersion": "19.3.0",
   "variants": {
-    "default": {
-      "props": {},
-      "dom": {
-        "type": "element",
-        "tag": "div",
-        "classes": [
-          "cds--row"
-        ],
-        "attributes": {},
-        "style": {},
-        "children": [
-          {
-            "type": "text",
-            "text": "Row content"
-          }
-        ]
-      }
-    },
-    "condensed": {
+    "white": {
       "props": {
-        "condensed": true
+        "theme": "white"
       },
       "dom": {
         "type": "element",
         "tag": "div",
         "classes": [
-          "cds--row",
-          "cds--row--condensed"
+          "cds--layer-one",
+          "cds--white"
         ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "text",
-            "text": "Row content"
+            "text": "Theme content"
           }
         ]
       }
     },
-    "narrow": {
+    "g10": {
       "props": {
-        "narrow": true
+        "theme": "g10"
       },
       "dom": {
         "type": "element",
         "tag": "div",
         "classes": [
-          "cds--row",
-          "cds--row--narrow"
+          "cds--g10",
+          "cds--layer-one"
         ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "text",
-            "text": "Row content"
+            "text": "Theme content"
+          }
+        ]
+      }
+    },
+    "g90": {
+      "props": {
+        "theme": "g90"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--g90",
+          "cds--layer-one"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Theme content"
+          }
+        ]
+      }
+    },
+    "g100": {
+      "props": {
+        "theme": "g100"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--g100",
+          "cds--layer-one"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Theme content"
           }
         ]
       }

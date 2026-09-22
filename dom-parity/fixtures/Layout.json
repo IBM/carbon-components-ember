@@ -1,6 +1,6 @@
 {
-  "component": "Grid",
-  "generatedAt": "2026-09-22T06:04:04.997Z",
+  "component": "Layout",
+  "generatedAt": "2026-09-22T06:04:05.181Z",
   "carbonReactVersion": "1.114.0",
   "reactVersion": "19.3.0",
   "variants": {
@@ -10,98 +10,79 @@
         "type": "element",
         "tag": "div",
         "classes": [
-          "cds--grid"
+          "cds--layout"
         ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "text",
-            "text": "Grid content"
+            "text": "Layout content"
           }
         ]
       }
     },
-    "condensed": {
+    "size-md": {
       "props": {
-        "condensed": true
+        "size": "md"
       },
       "dom": {
         "type": "element",
         "tag": "div",
         "classes": [
-          "cds--grid",
-          "cds--grid--condensed"
+          "cds--layout",
+          "cds--layout--size-md"
         ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "text",
-            "text": "Grid content"
+            "text": "Layout content"
           }
         ]
       }
     },
-    "narrow": {
+    "density-condensed": {
       "props": {
-        "narrow": true
+        "density": "condensed"
       },
       "dom": {
         "type": "element",
         "tag": "div",
         "classes": [
-          "cds--grid",
-          "cds--grid--narrow"
+          "cds--layout",
+          "cds--layout--density-condensed"
         ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "text",
-            "text": "Grid content"
+            "text": "Layout content"
           }
         ]
       }
     },
-    "full-width": {
+    "size-and-density": {
       "props": {
-        "fullWidth": true
+        "size": "lg",
+        "density": "normal"
       },
       "dom": {
         "type": "element",
         "tag": "div",
         "classes": [
-          "cds--grid",
-          "cds--grid--full-width"
+          "cds--layout",
+          "cds--layout--density-normal",
+          "cds--layout--size-lg"
         ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "text",
-            "text": "Grid content"
-          }
-        ]
-      }
-    },
-    "with-row-gap": {
-      "props": {
-        "withRowGap": true
-      },
-      "dom": {
-        "type": "element",
-        "tag": "div",
-        "classes": [
-          "cds--grid",
-          "cds--grid--with-row-gap"
-        ],
-        "attributes": {},
-        "style": {},
-        "children": [
-          {
-            "type": "text",
-            "text": "Grid content"
+            "text": "Layout content"
           }
         ]
       }
