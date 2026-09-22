@@ -1,6 +1,6 @@
 {
   "component": "Checkbox",
-  "generatedAt": "2026-09-22T04:50:36.382Z",
+  "generatedAt": "2026-09-22T05:28:07.605Z",
   "carbonReactVersion": "1.114.0",
   "reactVersion": "19.3.0",
   "variants": {
@@ -261,78 +261,6 @@
                 "tag": "div",
                 "classes": [
                   "cds--checkbox-label-text"
-                ],
-                "attributes": {
-                  "dir": "auto"
-                },
-                "style": {},
-                "children": [
-                  {
-                    "type": "text",
-                    "text": "Checkbox label"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "element",
-            "tag": "div",
-            "classes": [
-              "cds--checkbox__validation-msg"
-            ],
-            "attributes": {},
-            "style": {},
-            "children": []
-          }
-        ]
-      }
-    },
-    "hide-label": {
-      "props": {
-        "hideLabel": true
-      },
-      "dom": {
-        "type": "element",
-        "tag": "div",
-        "classes": [
-          "cds--checkbox-wrapper",
-          "cds--form-item"
-        ],
-        "attributes": {},
-        "style": {},
-        "children": [
-          {
-            "type": "element",
-            "tag": "input",
-            "classes": [
-              "cds--checkbox"
-            ],
-            "attributes": {
-              "id": "#1",
-              "type": "checkbox"
-            },
-            "style": {},
-            "children": []
-          },
-          {
-            "type": "element",
-            "tag": "label",
-            "classes": [
-              "cds--checkbox-label"
-            ],
-            "attributes": {
-              "for": "#1",
-              "title": ""
-            },
-            "style": {},
-            "children": [
-              {
-                "type": "element",
-                "tag": "div",
-                "classes": [
-                  "cds--checkbox-label-text",
-                  "cds--visually-hidden"
                 ],
                 "attributes": {
                   "dir": "auto"
