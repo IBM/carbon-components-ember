@@ -1,0 +1,207 @@
+{
+  "component": "FileUploaderDropContainer",
+  "generatedAt": "2026-09-22T04:50:36.461Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--file"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--file-browse-btn",
+              "cds--file__drop-container"
+            ],
+            "attributes": {
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Add file"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--visually-hidden"
+            ],
+            "attributes": {
+              "for": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Add file"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--file-input"
+            ],
+            "attributes": {
+              "id": "#1",
+              "tabindex": "-1",
+              "accept": "",
+              "type": "file"
+            },
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    },
+    "disabled": {
+      "props": {
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--file"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--file-browse-btn",
+              "cds--file-browse-btn--disabled",
+              "cds--file__drop-container"
+            ],
+            "attributes": {
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Add file"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--visually-hidden"
+            ],
+            "attributes": {
+              "for": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Add file"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--file-input"
+            ],
+            "attributes": {
+              "id": "#1",
+              "tabindex": "-1",
+              "disabled": true,
+              "accept": "",
+              "type": "file"
+            },
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    },
+    "multiple": {
+      "props": {
+        "multiple": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--file"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--file-browse-btn",
+              "cds--file__drop-container"
+            ],
+            "attributes": {
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Add file"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--visually-hidden"
+            ],
+            "attributes": {
+              "for": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Add file"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--file-input"
+            ],
+            "attributes": {
+              "id": "#1",
+              "tabindex": "-1",
+              "accept": "",
+              "multiple": true,
+              "type": "file"
+            },
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    }
+  }
+}

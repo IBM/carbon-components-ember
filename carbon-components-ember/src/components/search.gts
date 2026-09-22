@@ -110,6 +110,7 @@ export default class SearchComponent extends Component<SearchComponentSignature>
       role='search'
       aria-labelledby='search-input-label-{{this.guid}}'
       class='cds--search {{if @size (concat "cds--search--" @size)}}
+        {{if @size (concat "cds--layout--size-" @size)}}
         {{if @light "cds--search--light"}}
         {{if @isLoading "cds--skeleton"}}
         {{if @disabled "cds--search--disabled"}}
@@ -122,7 +123,7 @@ export default class SearchComponent extends Component<SearchComponentSignature>
       ...attributes
     >
       <div class='cds--search-magnifier'>
-        <SearchIcon @svgClass='cds--search-magnifier-icon' />
+        <SearchIcon @size='16' @svgClass='cds--search-magnifier-icon' />
       </div>
       <label
         id='search-input-label-{{this.guid}}'
@@ -153,7 +154,7 @@ export default class SearchComponent extends Component<SearchComponentSignature>
           disabled={{@disabled}}
           {{on 'click' this.onSearchClear}}
         >
-          <Close @btnClass='cds--search-clear' />
+          <Close @size='16' @svgClass='cds--search-clear' />
         </button>
       {{/if}}
     </div>
