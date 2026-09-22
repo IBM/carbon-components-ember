@@ -1159,23 +1159,8 @@ module('DOM parity | Carbon React', function (hooks) {
       assertDomParity(assert, checkboxFixture, 'disabled', this.element.firstElementChild);
     });
 
-    test('hide-label', async function (this: RenderingTestContext, assert) {
-      await render(
-        <template>
-          <Checkbox @label='Checkbox label' @indeterminate={{false}} @checked={{false}} />
-        </template>,
-      );
-      assertDomParity(assert, checkboxFixture, 'hide-label', this.element.firstElementChild);
-    });
-
     test('every fixture variant is covered', function (assert) {
-      assertFullCoverage(assert, checkboxFixture, [
-        'default',
-        'checked',
-        'indeterminate',
-        'disabled',
-        'hide-label',
-      ]);
+      assertFullCoverage(assert, checkboxFixture, ['default', 'checked', 'indeterminate', 'disabled']);
     });
   });
 

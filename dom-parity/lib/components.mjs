@@ -1173,13 +1173,17 @@ export const COMPONENTS = [
     ],
   },
   {
+    // `hideLabel` is a real @carbon/react Checkbox prop (wraps the label
+    // text in a `cds--visually-hidden` div) but checkbox.gts has no
+    // `@hideLabel` arg at all - out of scope per this file's own scoping
+    // rule (unlike RadioButton's `hide-label` variant below, which is a
+    // real arg on both sides).
     name: 'Checkbox',
     variants: [
       checkbox('default', {}),
       checkbox('checked', { checked: true }),
       checkbox('indeterminate', { indeterminate: true }),
       checkbox('disabled', { disabled: true }),
-      checkbox('hide-label', { hideLabel: true }),
     ],
   },
   {
