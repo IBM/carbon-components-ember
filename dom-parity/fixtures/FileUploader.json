@@ -1,0 +1,433 @@
+{
+  "component": "FileUploader",
+  "generatedAt": "2026-09-22T05:28:07.690Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "p",
+            "classes": [
+              "cds--label-description"
+            ],
+            "attributes": {
+              "id": "#1",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--btn",
+              "cds--btn--md",
+              "cds--btn--primary",
+              "cds--layout--size-md"
+            ],
+            "attributes": {
+              "type": "button",
+              "aria-describedby": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Add file"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--visually-hidden"
+            ],
+            "attributes": {
+              "for": "#2"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Add file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--visually-hidden"
+            ],
+            "attributes": {
+              "id": "#2",
+              "tabindex": "-1",
+              "type": "file"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--file-container"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    },
+    "with-labels": {
+      "props": {
+        "labelTitle": "Upload files",
+        "labelDescription": "Max file size 500kb"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "h3",
+            "classes": [
+              "cds--file--label"
+            ],
+            "attributes": {
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Upload files"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "p",
+            "classes": [
+              "cds--label-description"
+            ],
+            "attributes": {
+              "id": "#1",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Max file size 500kb"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--btn",
+              "cds--btn--md",
+              "cds--btn--primary",
+              "cds--layout--size-md"
+            ],
+            "attributes": {
+              "type": "button",
+              "aria-describedby": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Add file"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--visually-hidden"
+            ],
+            "attributes": {
+              "for": "#2"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Add file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--visually-hidden"
+            ],
+            "attributes": {
+              "id": "#2",
+              "tabindex": "-1",
+              "type": "file"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--file-container"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    },
+    "disabled": {
+      "props": {
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "p",
+            "classes": [
+              "cds--label-description",
+              "cds--label-description--disabled"
+            ],
+            "attributes": {
+              "id": "#1",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--btn",
+              "cds--btn--disabled",
+              "cds--btn--md",
+              "cds--btn--primary",
+              "cds--layout--size-md"
+            ],
+            "attributes": {
+              "type": "button",
+              "disabled": true,
+              "aria-describedby": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Add file"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--visually-hidden"
+            ],
+            "attributes": {
+              "for": "#2"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Add file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--visually-hidden"
+            ],
+            "attributes": {
+              "id": "#2",
+              "disabled": true,
+              "tabindex": "-1",
+              "type": "file"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--file-container"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    },
+    "button-kind-secondary": {
+      "props": {
+        "buttonKind": "secondary"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "p",
+            "classes": [
+              "cds--label-description"
+            ],
+            "attributes": {
+              "id": "#1",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--btn",
+              "cds--btn--md",
+              "cds--btn--secondary",
+              "cds--layout--size-md"
+            ],
+            "attributes": {
+              "type": "button",
+              "aria-describedby": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Add file"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--visually-hidden"
+            ],
+            "attributes": {
+              "for": "#2"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Add file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--visually-hidden"
+            ],
+            "attributes": {
+              "id": "#2",
+              "tabindex": "-1",
+              "type": "file"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--file-container"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    }
+  }
+}

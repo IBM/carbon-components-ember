@@ -98,7 +98,9 @@ export default class TextInput extends Component<Signature> {
         {{#if @labelText}}
           <label
             for={{this.id}}
-            class='cds--label {{if @hideLabel "cds--visually-hidden"}}'
+            class='cds--label
+              {{if @hideLabel "cds--visually-hidden"}}
+              {{if @disabled "cds--label--disabled"}}'
           >
             {{@labelText}}
           </label>
@@ -130,6 +132,7 @@ export default class TextInput extends Component<Signature> {
             type={{this.type}}
             class='cds--text-input
               {{if @size (concat "cds--text-input--" @size)}}
+              {{if @size (concat "cds--layout--size-" @size)}}
               {{if @light "cds--text-input--light"}}
               {{if this.isInvalid "cds--text-input--invalid"}}
               {{if this.isWarn "cds--text-input--warning"}}'

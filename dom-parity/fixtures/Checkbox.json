@@ -1,0 +1,292 @@
+{
+  "component": "Checkbox",
+  "generatedAt": "2026-09-22T05:28:07.605Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--checkbox-wrapper",
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--checkbox"
+            ],
+            "attributes": {
+              "id": "#1",
+              "type": "checkbox"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--checkbox-label"
+            ],
+            "attributes": {
+              "for": "#1",
+              "title": ""
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--checkbox-label-text"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Checkbox label"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox__validation-msg"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    },
+    "checked": {
+      "props": {
+        "checked": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--checkbox-wrapper",
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--checkbox"
+            ],
+            "attributes": {
+              "id": "#1",
+              "type": "checkbox",
+              "checked": true
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--checkbox-label"
+            ],
+            "attributes": {
+              "for": "#1",
+              "title": ""
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--checkbox-label-text"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Checkbox label"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox__validation-msg"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    },
+    "indeterminate": {
+      "props": {
+        "indeterminate": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--checkbox-wrapper",
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--checkbox"
+            ],
+            "attributes": {
+              "id": "#1",
+              "type": "checkbox"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--checkbox-label"
+            ],
+            "attributes": {
+              "for": "#1",
+              "title": ""
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--checkbox-label-text"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Checkbox label"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox__validation-msg"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    },
+    "disabled": {
+      "props": {
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--checkbox-wrapper",
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--checkbox"
+            ],
+            "attributes": {
+              "disabled": true,
+              "id": "#1",
+              "type": "checkbox"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--checkbox-label"
+            ],
+            "attributes": {
+              "for": "#1",
+              "title": ""
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--checkbox-label-text"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Checkbox label"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox__validation-msg"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    }
+  }
+}

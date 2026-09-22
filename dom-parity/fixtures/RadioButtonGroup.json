@@ -1,0 +1,840 @@
+{
+  "component": "RadioButtonGroup",
+  "generatedAt": "2026-09-22T05:28:07.617Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "fieldset",
+        "classes": [
+          "cds--radio-button-group",
+          "cds--radio-button-group--label-right"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "legend",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Choose one"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--radio-button-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--radio-button"
+                ],
+                "attributes": {
+                  "id": "#1",
+                  "type": "radio",
+                  "value": "a",
+                  "name": "radio-group"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--radio-button__label"
+                ],
+                "attributes": {
+                  "for": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__appearance"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Option A"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--radio-button-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--radio-button"
+                ],
+                "attributes": {
+                  "id": "#2",
+                  "type": "radio",
+                  "value": "b",
+                  "name": "radio-group"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--radio-button__label"
+                ],
+                "attributes": {
+                  "for": "#2"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__appearance"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Option B"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "vertical": {
+      "props": {
+        "orientation": "vertical"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "fieldset",
+        "classes": [
+          "cds--radio-button-group",
+          "cds--radio-button-group--label-right",
+          "cds--radio-button-group--vertical"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "legend",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Choose one"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--radio-button-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--radio-button"
+                ],
+                "attributes": {
+                  "id": "#1",
+                  "type": "radio",
+                  "value": "a",
+                  "name": "radio-group"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--radio-button__label"
+                ],
+                "attributes": {
+                  "for": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__appearance"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Option A"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--radio-button-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--radio-button"
+                ],
+                "attributes": {
+                  "id": "#2",
+                  "type": "radio",
+                  "value": "b",
+                  "name": "radio-group"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--radio-button__label"
+                ],
+                "attributes": {
+                  "for": "#2"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__appearance"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Option B"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "label-position-left": {
+      "props": {
+        "labelPosition": "left"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "fieldset",
+        "classes": [
+          "cds--radio-button-group",
+          "cds--radio-button-group--label-left"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "legend",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Choose one"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--radio-button-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--radio-button"
+                ],
+                "attributes": {
+                  "id": "#1",
+                  "type": "radio",
+                  "value": "a",
+                  "name": "radio-group"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--radio-button__label"
+                ],
+                "attributes": {
+                  "for": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__appearance"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Option A"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--radio-button-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--radio-button"
+                ],
+                "attributes": {
+                  "id": "#2",
+                  "type": "radio",
+                  "value": "b",
+                  "name": "radio-group"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--radio-button__label"
+                ],
+                "attributes": {
+                  "for": "#2"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__appearance"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Option B"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "disabled": {
+      "props": {
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "fieldset",
+        "classes": [
+          "cds--radio-button-group",
+          "cds--radio-button-group--label-right"
+        ],
+        "attributes": {
+          "disabled": true
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "legend",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Choose one"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--radio-button-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--radio-button"
+                ],
+                "attributes": {
+                  "id": "#1",
+                  "type": "radio",
+                  "value": "a",
+                  "name": "radio-group"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--radio-button__label"
+                ],
+                "attributes": {
+                  "for": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__appearance"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Option A"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--radio-button-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--radio-button"
+                ],
+                "attributes": {
+                  "id": "#2",
+                  "type": "radio",
+                  "value": "b",
+                  "name": "radio-group"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--radio-button__label"
+                ],
+                "attributes": {
+                  "for": "#2"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__appearance"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Option B"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "default-selected": {
+      "props": {
+        "defaultSelected": "a"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "fieldset",
+        "classes": [
+          "cds--radio-button-group",
+          "cds--radio-button-group--label-right"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "legend",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Choose one"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--radio-button-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--radio-button"
+                ],
+                "attributes": {
+                  "id": "#1",
+                  "type": "radio",
+                  "value": "a",
+                  "checked": true,
+                  "name": "radio-group"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--radio-button__label"
+                ],
+                "attributes": {
+                  "for": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__appearance"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Option A"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--radio-button-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--radio-button"
+                ],
+                "attributes": {
+                  "id": "#2",
+                  "type": "radio",
+                  "value": "b",
+                  "name": "radio-group"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--radio-button__label"
+                ],
+                "attributes": {
+                  "for": "#2"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__appearance"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Option B"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

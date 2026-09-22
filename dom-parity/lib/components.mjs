@@ -310,15 +310,17 @@
  * Coverage inventory (todo #854, 2026-09-20; recounted and corrected in a
  * review follow-up the same day - the first pass undercounted the total
  * and omitted ~20 real exports from every bucket below; updated again for
- * todo #861's Skeleton batch below): this file covers 21 of the ~98
- * non-ai-chat components exported from `src/components/index.ts` (24
+ * todo #861's Skeleton batch, and again for the static-form-controls batch
+ * below): this file covers 34 of the ~98
+ * non-ai-chat components exported from `src/components/index.ts` (37
  * fixture entries above, since the Tile family's
  * `Tile`/`ClickableTile`/`SelectableTile`/`ExpandableTile` all map to just
  * the single real `Tile` export, while `RadioTile` and `TileGroup` each map
  * 1:1 to their own real export - 6 fixture entries collapse to 3 real
  * exports, `Tile`/`RadioTile`/`TileGroup`; every other fixture entry,
- * including the 6 Skeleton ones, maps 1:1 to its own real export) - the
- * remaining ~77 are not a silent gap, they were never scheduled. The ~98
+ * including the 6 Skeleton ones and the 13 static-form-control ones, maps
+ * 1:1 to its own real export) - the
+ * remaining ~64 are not a silent gap, they were never scheduled. The ~98
  * total is every
  * `default as` export from `index.ts` outside `./ai-chat/`, plus the three
  * real secondary component exports on a shared line (`FlexGrid`,
@@ -359,12 +361,20 @@
  *    documented gap. The one gap that *is* documented rather than fixed:
  *    see the `SliderSkeleton` entry's own inline comment above for the
  *    `twoHandles` thumb-icon gap.
- * 3. Static form controls (Checkbox, RadioButton(+Group), Toggle,
- *    TextInput, TextArea, PasswordInput, NumberInput, FluidTextInput,
- *    Search, Select(+SelectItem/SelectItemGroup), TimePicker(+Select),
+ * 3. DONE in part - Checkbox, RadioButton(+Group), Toggle, TextInput,
+ *    TextArea, PasswordInput, NumberInput, FluidTextInput, Search, and
  *    FileUploader(+FileUploaderButton+FileUploaderDropContainer - the
  *    drop-target/trigger pieces, not FileUploaderItem, which needs item 1's
- *    decision's `defaultOpen`-on-its-embedded-Tooltip route instead)).
+ *    decision's `defaultOpen`-on-its-embedded-Tooltip route instead) are
+ *    covered below. Confirmed *not* gated by item 1 after all (checked
+ *    directly, not assumed): Search has no dropdown/floating-UI of its own,
+ *    and PasswordInput/FluidTextInput's embedded show/hide-password
+ *    `Tooltip` mounts cleanly closed, same as CopyButton's already-verified
+ *    case. Still open: Select(+SelectItem/SelectItemGroup) and
+ *    TimePicker(+Select) - both were already confirmed not gated by item 1
+ *    either (native `<select>`, no floating UI - see that decision's own
+ *    Select entry), so picking them up doesn't need any further
+ *    investigation, just fixturing.
  * 4. Layout/scaffolding wrappers (FormGroup, FormItem, FormLabel, FormInput,
  *    Stack, Layer, Theme, Text, Layout(+LayoutConstraint), LayoutDirection,
  *    TextDirection).
@@ -629,6 +639,165 @@ const sliderSkeleton = (name, props) => ({
   name,
   props,
   createElement: (React, Carbon) => React.createElement(Carbon.SliderSkeleton, props),
+});
+
+const checkbox = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Checkbox, { id: 'checkbox-1', labelText: 'Checkbox label', ...props }),
+});
+
+const radioButton = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.RadioButton, {
+      id: 'radio-button-1',
+      name: 'radio-group',
+      value: 'a',
+      labelText: 'Radio label',
+      ...props,
+    }),
+});
+
+// Renders two real `RadioButton` children, matching this addon's own
+// `RadioButtonGroup` block-param usage. Scoped to the `<fieldset>` upstream
+// renders (see `pickRoot` below) rather than upstream's own root, since
+// Ember's `RadioButtonGroup` root *is* the fieldset (its `Element` signature
+// is `HTMLFieldSetElement`) - upstream instead wraps that same fieldset in
+// an extra `cds--form-item` <div>, plus a sibling
+// `cds--radio-button__validation-msg` div Ember has no counterpart for at
+// all (Ember has no `invalid`/`warn` args on `RadioButtonGroup`). Comparing
+// the outer wrapper would only ever produce a single root-tag mismatch and
+// throw away every deeper comparison - scoping to the fieldset instead
+// compares the parts both sides actually share.
+const radioButtonGroup = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.RadioButtonGroup,
+      { name: 'radio-group', legendText: 'Choose one', ...props },
+      React.createElement(Carbon.RadioButton, { key: 'a', value: 'a', labelText: 'Option A' }),
+      React.createElement(Carbon.RadioButton, { key: 'b', value: 'b', labelText: 'Option B' }),
+    ),
+  pickRoot: (container) => container.querySelector('fieldset'),
+});
+
+const toggle = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Toggle, { id: 'toggle-1', labelText: 'Toggle label', ...props }),
+});
+
+const textInput = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.TextInput, {
+      id: 'text-input-1',
+      labelText: 'Text input label',
+      ...props,
+    }),
+});
+
+const textArea = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.TextArea, {
+      id: 'text-area-1',
+      labelText: 'Text area label',
+      ...props,
+    }),
+});
+
+const passwordInput = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.PasswordInput, {
+      id: 'password-input-1',
+      labelText: 'Password label',
+      ...props,
+    }),
+});
+
+const numberInput = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.NumberInput, {
+      id: 'number-input-1',
+      label: 'Number label',
+      ...props,
+    }),
+});
+
+const fluidTextInput = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.FluidTextInput, {
+      id: 'fluid-text-input-1',
+      labelText: 'Fluid text input label',
+      ...props,
+    }),
+});
+
+// Ember's `<FluidTextInput @isPassword={{true}}>` maps to a *separate*
+// upstream component, `FluidPasswordInput` - not `FluidTextInput` with
+// `isPassword` passed through (upstream's own `FluidTextInput` only reads
+// `isPassword` to pick which of the two to render internally). Same
+// one-Ember-component/several-upstream-ones shape as Loading/InlineLoading.
+const fluidPasswordInput = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.FluidPasswordInput, {
+      id: 'fluid-password-input-1',
+      labelText: 'Fluid password label',
+      ...props,
+    }),
+});
+
+const search = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Search, { labelText: 'Search label', ...props }),
+});
+
+// Upstream renders a Fragment of 3 sibling elements (the visible `<button>`,
+// a visually-hidden `<label>`, and a visually-hidden file `<input>`) rather
+// than one wrapping element. Ember's `file-uploader-button.gts` root (per
+// its `Element: HTMLButtonElement` signature) is just the `<button>` -
+// scope the comparison to that (see `pickRoot`), matching the component's
+// own addressable root rather than the whole 3-node Fragment.
+const fileUploaderButton = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) => React.createElement(Carbon.FileUploaderButton, props),
+  pickRoot: (container) => container.children[0],
+});
+
+const fileUploaderDropContainer = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) => React.createElement(Carbon.FileUploaderDropContainer, props),
+});
+
+// No files are ever added (simulating a real file pick/drop needs a File
+// API round-trip this offline jsdom harness doesn't attempt anywhere else
+// either), so every variant here only exercises the label/description/
+// button empty-state markup, not the per-file `cds--file-container` rows.
+const fileUploader = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.FileUploader, { filenameStatus: 'edit', ...props }),
 });
 
 export const COMPONENTS = [
@@ -1001,6 +1170,155 @@ export const COMPONENTS = [
         props: {},
         createElement: (React, Carbon) => React.createElement(Carbon.FileUploaderSkeleton, {}),
       },
+    ],
+  },
+  {
+    // `hideLabel` is a real @carbon/react Checkbox prop (wraps the label
+    // text in a `cds--visually-hidden` div) but checkbox.gts has no
+    // `@hideLabel` arg at all - out of scope per this file's own scoping
+    // rule (unlike RadioButton's `hide-label` variant below, which is a
+    // real arg on both sides).
+    name: 'Checkbox',
+    variants: [
+      checkbox('default', {}),
+      checkbox('checked', { checked: true }),
+      checkbox('indeterminate', { indeterminate: true }),
+      checkbox('disabled', { disabled: true }),
+    ],
+  },
+  {
+    name: 'RadioButton',
+    variants: [
+      radioButton('default', {}),
+      radioButton('checked', { checked: true }),
+      radioButton('disabled', { disabled: true }),
+      radioButton('label-position-left', { labelPosition: 'left' }),
+      radioButton('hide-label', { hideLabel: true }),
+    ],
+  },
+  {
+    name: 'RadioButtonGroup',
+    variants: [
+      radioButtonGroup('default', {}),
+      radioButtonGroup('vertical', { orientation: 'vertical' }),
+      radioButtonGroup('label-position-left', { labelPosition: 'left' }),
+      radioButtonGroup('disabled', { disabled: true }),
+      radioButtonGroup('default-selected', { defaultSelected: 'a' }),
+    ],
+  },
+  {
+    name: 'Toggle',
+    variants: [
+      toggle('default', {}),
+      toggle('toggled', { toggled: true }),
+      toggle('disabled', { disabled: true }),
+      toggle('size-sm', { size: 'sm' }),
+    ],
+  },
+  {
+    name: 'TextInput',
+    variants: [
+      textInput('default', {}),
+      textInput('with-value', { value: 'Hello' }),
+      textInput('disabled', { disabled: true }),
+      textInput('invalid', { invalid: true, invalidText: 'Invalid value' }),
+      textInput('warn', { warn: true, warnText: 'Warning message' }),
+      textInput('read-only', { readOnly: true }),
+      textInput('light', { light: true }),
+      textInput('size-sm', { size: 'sm' }),
+      textInput('size-lg', { size: 'lg' }),
+      textInput('helper-text', { helperText: 'Helper text' }),
+    ],
+  },
+  {
+    name: 'TextArea',
+    variants: [
+      textArea('default', {}),
+      textArea('with-value', { value: 'Hello' }),
+      textArea('disabled', { disabled: true }),
+      textArea('invalid', { invalid: true, invalidText: 'Invalid value' }),
+      textArea('warn', { warn: true, warnText: 'Warning message' }),
+      textArea('read-only', { readOnly: true }),
+      textArea('light', { light: true }),
+      textArea('helper-text', { helperText: 'Helper text' }),
+    ],
+  },
+  {
+    name: 'PasswordInput',
+    variants: [
+      passwordInput('default', {}),
+      passwordInput('disabled', { disabled: true }),
+      passwordInput('invalid', { invalid: true, invalidText: 'Invalid value' }),
+      passwordInput('warn', { warn: true, warnText: 'Warning message' }),
+      passwordInput('size-sm', { size: 'sm' }),
+    ],
+  },
+  {
+    name: 'NumberInput',
+    variants: [
+      numberInput('default', {}),
+      numberInput('disabled', { disabled: true }),
+      numberInput('invalid', { invalid: true, invalidText: 'Invalid value' }),
+      numberInput('warn', { warn: true, warnText: 'Warning message' }),
+      numberInput('read-only', { readOnly: true }),
+      numberInput('light', { light: true }),
+      numberInput('hide-steppers', { hideSteppers: true }),
+      numberInput('size-sm', { size: 'sm' }),
+    ],
+  },
+  {
+    // Ember's `<FluidTextInput @isPassword={{true}}>` is conflated the same
+    // way Loading's `@inline` is - see the `fluidPasswordInput` factory's
+    // own comment above for why the `password*` variants below render
+    // `Carbon.FluidPasswordInput`, a different upstream component, rather
+    // than `Carbon.FluidTextInput` with `isPassword` passed through.
+    name: 'FluidTextInput',
+    variants: [
+      fluidTextInput('default', {}),
+      fluidTextInput('disabled', { disabled: true }),
+      fluidTextInput('invalid', { invalid: true, invalidText: 'Invalid value' }),
+      fluidTextInput('warn', { warn: true, warnText: 'Warning message' }),
+      fluidTextInput('read-only', { readOnly: true }),
+      fluidPasswordInput('password', {}),
+      fluidPasswordInput('password-invalid', { invalid: true, invalidText: 'Invalid value' }),
+    ],
+  },
+  {
+    name: 'Search',
+    variants: [
+      search('default', {}),
+      search('with-value', { value: 'Search term' }),
+      search('disabled', { disabled: true }),
+      search('light', { light: true }),
+      search('size-sm', { size: 'sm' }),
+      search('size-lg', { size: 'lg' }),
+    ],
+  },
+  {
+    name: 'FileUploaderButton',
+    variants: [
+      fileUploaderButton('default', {}),
+      fileUploaderButton('disabled', { disabled: true }),
+      fileUploaderButton('button-kind-secondary', { buttonKind: 'secondary' }),
+      fileUploaderButton('size-sm', { size: 'sm' }),
+      fileUploaderButton('multiple', { multiple: true }),
+    ],
+  },
+  {
+    name: 'FileUploaderDropContainer',
+    variants: [
+      fileUploaderDropContainer('default', {}),
+      fileUploaderDropContainer('disabled', { disabled: true }),
+      fileUploaderDropContainer('multiple', { multiple: true }),
+    ],
+  },
+  {
+    name: 'FileUploader',
+    variants: [
+      fileUploader('default', {}),
+      fileUploader('with-labels', { labelTitle: 'Upload files', labelDescription: 'Max file size 500kb' }),
+      fileUploader('disabled', { disabled: true }),
+      fileUploader('button-kind-secondary', { buttonKind: 'secondary' }),
     ],
   },
 ];

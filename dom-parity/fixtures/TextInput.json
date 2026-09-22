@@ -1,0 +1,1128 @@
+{
+  "component": "TextInput",
+  "generatedAt": "2026-09-22T05:28:07.631Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item",
+          "cds--text-input-wrapper"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--text-input__label-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--label"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Text input label"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--text-input__field-outer-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--text-input__field-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--text-input"
+                    ],
+                    "attributes": {
+                      "id": "#1",
+                      "type": "text"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--text-input__counter-alert"
+                    ],
+                    "attributes": {
+                      "role": "alert",
+                      "aria-live": "assertive",
+                      "aria-atomic": "true"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "with-value": {
+      "props": {
+        "value": "Hello"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item",
+          "cds--text-input-wrapper"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--text-input__label-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--label"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Text input label"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--text-input__field-outer-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--text-input__field-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--text-input"
+                    ],
+                    "attributes": {
+                      "id": "#1",
+                      "type": "text",
+                      "value": "Hello"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--text-input__counter-alert"
+                    ],
+                    "attributes": {
+                      "role": "alert",
+                      "aria-live": "assertive",
+                      "aria-atomic": "true"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "disabled": {
+      "props": {
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item",
+          "cds--text-input-wrapper"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--text-input__label-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--label",
+                  "cds--label--disabled"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Text input label"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--text-input__field-outer-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--text-input__field-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--text-input"
+                    ],
+                    "attributes": {
+                      "id": "#1",
+                      "disabled": true,
+                      "type": "text"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--text-input__counter-alert"
+                    ],
+                    "attributes": {
+                      "role": "alert",
+                      "aria-live": "assertive",
+                      "aria-atomic": "true"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "invalid": {
+      "props": {
+        "invalid": true,
+        "invalidText": "Invalid value"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item",
+          "cds--text-input-wrapper"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--text-input__label-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--label"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Text input label"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--text-input__field-outer-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--text-input__field-wrapper"
+                ],
+                "attributes": {
+                  "data-invalid": "true"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--text-input",
+                      "cds--text-input--invalid"
+                    ],
+                    "attributes": {
+                      "id": "#1",
+                      "data-invalid": "true",
+                      "aria-invalid": "true",
+                      "aria-errormessage": "text-input-1-error-msg",
+                      "type": "text"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--text-input__invalid-icon"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M8,1C4.2,1,1,4.2,1,8s3.2,7,7,7s7-3.1,7-7S11.9,1,8,1z M7.5,4h1v5h-1C7.5,9,7.5,4,7.5,4z M8,12.2 c-0.4,0-0.8-0.4-0.8-0.8s0.3-0.8,0.8-0.8c0.4,0,0.8,0.4,0.8,0.8S8.4,12.2,8,12.2z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M7.5,4h1v5h-1C7.5,9,7.5,4,7.5,4z M8,12.2c-0.4,0-0.8-0.4-0.8-0.8s0.3-0.8,0.8-0.8 c0.4,0,0.8,0.4,0.8,0.8S8.4,12.2,8,12.2z",
+                          "data-icon-path": "inner-path",
+                          "opacity": "0"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--text-input__counter-alert"
+                    ],
+                    "attributes": {
+                      "role": "alert",
+                      "aria-live": "assertive",
+                      "aria-atomic": "true"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--form-requirement"
+                ],
+                "attributes": {
+                  "id": "#2",
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Invalid value"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "warn": {
+      "props": {
+        "warn": true,
+        "warnText": "Warning message"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item",
+          "cds--text-input-wrapper"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--text-input__label-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--label"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Text input label"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--text-input__field-outer-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--text-input__field-wrapper",
+                  "cds--text-input__field-wrapper--warning"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--text-input",
+                      "cds--text-input--warning"
+                    ],
+                    "attributes": {
+                      "id": "#1",
+                      "aria-describedby": "#2",
+                      "type": "text"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--text-input__invalid-icon",
+                      "cds--text-input__invalid-icon--warning"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 32 32",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "fill": "none",
+                          "d": "M16,26a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,16,26Zm-1.125-5h2.25V12h-2.25Z",
+                          "data-icon-path": "inner-path"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M16.002,6.1714h-.004L4.6487,27.9966,4.6506,28H27.3494l.0019-.0034ZM14.875,12h2.25v9h-2.25ZM16,26a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,16,26Z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M29,30H3a1,1,0,0,1-.8872-1.4614l13-25a1,1,0,0,1,1.7744,0l13,25A1,1,0,0,1,29,30ZM4.6507,28H27.3493l.002-.0033L16.002,6.1714h-.004L4.6487,27.9967Z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--text-input__counter-alert"
+                    ],
+                    "attributes": {
+                      "role": "alert",
+                      "aria-live": "assertive",
+                      "aria-atomic": "true"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--form-requirement"
+                ],
+                "attributes": {
+                  "id": "#2",
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Warning message"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "read-only": {
+      "props": {
+        "readOnly": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item",
+          "cds--text-input-wrapper",
+          "cds--text-input-wrapper--readonly"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--text-input__label-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--label"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Text input label"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--text-input__field-outer-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--text-input__field-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--text-input"
+                    ],
+                    "attributes": {
+                      "id": "#1",
+                      "readonly": true,
+                      "type": "text"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--text-input__counter-alert"
+                    ],
+                    "attributes": {
+                      "role": "alert",
+                      "aria-live": "assertive",
+                      "aria-atomic": "true"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "light": {
+      "props": {
+        "light": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item",
+          "cds--text-input-wrapper",
+          "cds--text-input-wrapper--light"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--text-input__label-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--label"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Text input label"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--text-input__field-outer-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--text-input__field-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--text-input",
+                      "cds--text-input--light"
+                    ],
+                    "attributes": {
+                      "id": "#1",
+                      "type": "text"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--text-input__counter-alert"
+                    ],
+                    "attributes": {
+                      "role": "alert",
+                      "aria-live": "assertive",
+                      "aria-atomic": "true"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "size-sm": {
+      "props": {
+        "size": "sm"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item",
+          "cds--text-input-wrapper"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--text-input__label-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--label"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Text input label"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--text-input__field-outer-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--text-input__field-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--layout--size-sm",
+                      "cds--text-input",
+                      "cds--text-input--sm"
+                    ],
+                    "attributes": {
+                      "id": "#1",
+                      "type": "text"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--text-input__counter-alert"
+                    ],
+                    "attributes": {
+                      "role": "alert",
+                      "aria-live": "assertive",
+                      "aria-atomic": "true"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "size-lg": {
+      "props": {
+        "size": "lg"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item",
+          "cds--text-input-wrapper"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--text-input__label-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--label"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Text input label"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--text-input__field-outer-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--text-input__field-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--layout--size-lg",
+                      "cds--text-input",
+                      "cds--text-input--lg"
+                    ],
+                    "attributes": {
+                      "id": "#1",
+                      "type": "text"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--text-input__counter-alert"
+                    ],
+                    "attributes": {
+                      "role": "alert",
+                      "aria-live": "assertive",
+                      "aria-atomic": "true"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "helper-text": {
+      "props": {
+        "helperText": "Helper text"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item",
+          "cds--text-input-wrapper"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--text-input__label-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--label"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Text input label"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--text-input__field-outer-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--text-input__field-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--text-input"
+                    ],
+                    "attributes": {
+                      "id": "#1",
+                      "aria-describedby": "#2",
+                      "type": "text"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--text-input__counter-alert"
+                    ],
+                    "attributes": {
+                      "role": "alert",
+                      "aria-live": "assertive",
+                      "aria-atomic": "true"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--form__helper-text"
+                ],
+                "attributes": {
+                  "id": "#2",
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Helper text"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

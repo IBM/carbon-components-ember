@@ -1,0 +1,133 @@
+{
+  "component": "FileUploaderButton",
+  "generatedAt": "2026-09-22T05:28:07.684Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--md",
+          "cds--btn--primary",
+          "cds--layout--size-md"
+        ],
+        "attributes": {
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Add file"
+          }
+        ]
+      }
+    },
+    "disabled": {
+      "props": {
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--disabled",
+          "cds--btn--md",
+          "cds--btn--primary",
+          "cds--layout--size-md"
+        ],
+        "attributes": {
+          "type": "button",
+          "disabled": true
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Add file"
+          }
+        ]
+      }
+    },
+    "button-kind-secondary": {
+      "props": {
+        "buttonKind": "secondary"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--md",
+          "cds--btn--secondary",
+          "cds--layout--size-md"
+        ],
+        "attributes": {
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Add file"
+          }
+        ]
+      }
+    },
+    "size-sm": {
+      "props": {
+        "size": "sm"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--primary",
+          "cds--btn--sm",
+          "cds--layout--size-sm"
+        ],
+        "attributes": {
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Add file"
+          }
+        ]
+      }
+    },
+    "multiple": {
+      "props": {
+        "multiple": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--md",
+          "cds--btn--primary",
+          "cds--layout--size-md"
+        ],
+        "attributes": {
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Add file"
+          }
+        ]
+      }
+    }
+  }
+}

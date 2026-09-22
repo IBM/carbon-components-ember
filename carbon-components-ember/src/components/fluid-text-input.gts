@@ -120,11 +120,11 @@ export default class FluidTextInput extends Component<Signature> {
     >
       <div class='cds--text-input__label-wrapper'>
         {{#if (has-block 'labelText')}}
-          <label for={{this.id}} class='cds--label'>
+          <label for={{this.id}} class='cds--label {{if @disabled "cds--label--disabled"}}'>
             {{yield to='labelText'}}
           </label>
         {{else if @labelText}}
-          <label for={{this.id}} class='cds--label'>
+          <label for={{this.id}} class='cds--label {{if @disabled "cds--label--disabled"}}'>
             {{@labelText}}
           </label>
         {{/if}}

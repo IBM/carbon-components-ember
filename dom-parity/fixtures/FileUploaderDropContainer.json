@@ -1,6 +1,6 @@
 {
-  "component": "OrderedList",
-  "generatedAt": "2026-09-22T05:28:07.523Z",
+  "component": "FileUploaderDropContainer",
+  "generatedAt": "2026-09-22T05:28:07.686Z",
   "carbonReactVersion": "1.114.0",
   "reactVersion": "19.3.0",
   "variants": {
@@ -8,198 +8,197 @@
       "props": {},
       "dom": {
         "type": "element",
-        "tag": "ol",
+        "tag": "div",
         "classes": [
-          "cds--list--ordered"
+          "cds--file"
         ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "element",
-            "tag": "li",
+            "tag": "button",
             "classes": [
-              "cds--list__item"
+              "cds--file-browse-btn",
+              "cds--file__drop-container"
             ],
             "attributes": {
-              "dir": "auto"
+              "type": "button"
             },
             "style": {},
             "children": [
               {
                 "type": "text",
-                "text": "Item 1"
+                "text": "Add file"
               }
             ]
           },
           {
             "type": "element",
-            "tag": "li",
+            "tag": "label",
             "classes": [
-              "cds--list__item"
+              "cds--visually-hidden"
             ],
             "attributes": {
-              "dir": "auto"
+              "for": "#1"
             },
             "style": {},
             "children": [
               {
                 "type": "text",
-                "text": "Item 2"
+                "text": "Add file"
               }
             ]
+          },
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--file-input"
+            ],
+            "attributes": {
+              "id": "#1",
+              "tabindex": "-1",
+              "accept": "",
+              "type": "file"
+            },
+            "style": {},
+            "children": []
           }
         ]
       }
     },
-    "nested": {
+    "disabled": {
       "props": {
-        "nested": true
+        "disabled": true
       },
       "dom": {
         "type": "element",
-        "tag": "ol",
+        "tag": "div",
         "classes": [
-          "cds--list--nested",
-          "cds--list--ordered"
+          "cds--file"
         ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "element",
-            "tag": "li",
+            "tag": "button",
             "classes": [
-              "cds--list__item"
+              "cds--file-browse-btn",
+              "cds--file-browse-btn--disabled",
+              "cds--file__drop-container"
             ],
             "attributes": {
-              "dir": "auto"
+              "type": "button"
             },
             "style": {},
             "children": [
               {
                 "type": "text",
-                "text": "Item 1"
+                "text": "Add file"
               }
             ]
           },
           {
             "type": "element",
-            "tag": "li",
+            "tag": "label",
             "classes": [
-              "cds--list__item"
+              "cds--visually-hidden"
             ],
             "attributes": {
-              "dir": "auto"
+              "for": "#1"
             },
             "style": {},
             "children": [
               {
                 "type": "text",
-                "text": "Item 2"
+                "text": "Add file"
               }
             ]
+          },
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--file-input"
+            ],
+            "attributes": {
+              "id": "#1",
+              "tabindex": "-1",
+              "disabled": true,
+              "accept": "",
+              "type": "file"
+            },
+            "style": {},
+            "children": []
           }
         ]
       }
     },
-    "expressive": {
+    "multiple": {
       "props": {
-        "isExpressive": true
+        "multiple": true
       },
       "dom": {
         "type": "element",
-        "tag": "ol",
+        "tag": "div",
         "classes": [
-          "cds--list--expressive",
-          "cds--list--ordered"
+          "cds--file"
         ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "element",
-            "tag": "li",
+            "tag": "button",
             "classes": [
-              "cds--list__item"
+              "cds--file-browse-btn",
+              "cds--file__drop-container"
             ],
             "attributes": {
-              "dir": "auto"
+              "type": "button"
             },
             "style": {},
             "children": [
               {
                 "type": "text",
-                "text": "Item 1"
+                "text": "Add file"
               }
             ]
           },
           {
             "type": "element",
-            "tag": "li",
+            "tag": "label",
             "classes": [
-              "cds--list__item"
+              "cds--visually-hidden"
             ],
             "attributes": {
-              "dir": "auto"
+              "for": "#1"
             },
             "style": {},
             "children": [
               {
                 "type": "text",
-                "text": "Item 2"
-              }
-            ]
-          }
-        ]
-      }
-    },
-    "native": {
-      "props": {
-        "native": true
-      },
-      "dom": {
-        "type": "element",
-        "tag": "ol",
-        "classes": [
-          "cds--list--ordered--native"
-        ],
-        "attributes": {},
-        "style": {},
-        "children": [
-          {
-            "type": "element",
-            "tag": "li",
-            "classes": [
-              "cds--list__item"
-            ],
-            "attributes": {
-              "dir": "auto"
-            },
-            "style": {},
-            "children": [
-              {
-                "type": "text",
-                "text": "Item 1"
+                "text": "Add file"
               }
             ]
           },
           {
             "type": "element",
-            "tag": "li",
+            "tag": "input",
             "classes": [
-              "cds--list__item"
+              "cds--file-input"
             ],
             "attributes": {
-              "dir": "auto"
+              "id": "#1",
+              "tabindex": "-1",
+              "accept": "",
+              "multiple": true,
+              "type": "file"
             },
             "style": {},
-            "children": [
-              {
-                "type": "text",
-                "text": "Item 2"
-              }
-            ]
+            "children": []
           }
         ]
       }

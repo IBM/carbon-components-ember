@@ -1,0 +1,1623 @@
+{
+  "component": "NumberInput",
+  "generatedAt": "2026-09-22T05:28:07.664Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--number",
+              "cds--number--helpertext",
+              "cds--number--md"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--label"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Number label"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--number__input-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [],
+                    "attributes": {
+                      "aria-invalid": "false",
+                      "id": "#1",
+                      "pattern": "[0-9]*",
+                      "inputmode": "decimal",
+                      "step": "1",
+                      "type": "number",
+                      "value": "0"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--number__controls"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--number__control-btn",
+                          "down-icon"
+                        ],
+                        "attributes": {
+                          "aria-label": "Decrement number",
+                          "tabindex": "-1",
+                          "title": "Decrement number",
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": [
+                              "down-icon"
+                            ],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 32 32",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M8 15H24V17H8z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--number__rule-divider"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--number__control-btn",
+                          "up-icon"
+                        ],
+                        "attributes": {
+                          "aria-label": "Increment number",
+                          "tabindex": "-1",
+                          "title": "Increment number",
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": [
+                              "up-icon"
+                            ],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 32 32",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M17 15 17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--number__rule-divider"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "disabled": {
+      "props": {
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--number",
+              "cds--number--helpertext",
+              "cds--number--md"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--label",
+                  "cds--label--disabled"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Number label"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--number__input-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [],
+                    "attributes": {
+                      "aria-invalid": "false",
+                      "disabled": true,
+                      "id": "#1",
+                      "pattern": "[0-9]*",
+                      "inputmode": "decimal",
+                      "step": "1",
+                      "type": "number",
+                      "value": "0"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--number__controls"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--number__control-btn",
+                          "down-icon"
+                        ],
+                        "attributes": {
+                          "aria-label": "Decrement number",
+                          "disabled": true,
+                          "tabindex": "-1",
+                          "title": "Decrement number",
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": [
+                              "down-icon"
+                            ],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 32 32",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M8 15H24V17H8z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--number__rule-divider"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--number__control-btn",
+                          "up-icon"
+                        ],
+                        "attributes": {
+                          "aria-label": "Increment number",
+                          "disabled": true,
+                          "tabindex": "-1",
+                          "title": "Increment number",
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": [
+                              "up-icon"
+                            ],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 32 32",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M17 15 17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--number__rule-divider"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "invalid": {
+      "props": {
+        "invalid": true,
+        "invalidText": "Invalid value"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--number",
+              "cds--number--helpertext",
+              "cds--number--md"
+            ],
+            "attributes": {
+              "data-invalid": "true"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--label"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Number label"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--number__input-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [],
+                    "attributes": {
+                      "data-invalid": "true",
+                      "aria-invalid": "true",
+                      "aria-describedby": "#2",
+                      "id": "#1",
+                      "pattern": "[0-9]*",
+                      "inputmode": "decimal",
+                      "step": "1",
+                      "type": "number",
+                      "value": "0"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--number__invalid"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M8,1C4.2,1,1,4.2,1,8s3.2,7,7,7s7-3.1,7-7S11.9,1,8,1z M7.5,4h1v5h-1C7.5,9,7.5,4,7.5,4z M8,12.2 c-0.4,0-0.8-0.4-0.8-0.8s0.3-0.8,0.8-0.8c0.4,0,0.8,0.4,0.8,0.8S8.4,12.2,8,12.2z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M7.5,4h1v5h-1C7.5,9,7.5,4,7.5,4z M8,12.2c-0.4,0-0.8-0.4-0.8-0.8s0.3-0.8,0.8-0.8 c0.4,0,0.8,0.4,0.8,0.8S8.4,12.2,8,12.2z",
+                          "data-icon-path": "inner-path",
+                          "opacity": "0"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--number__controls"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--number__control-btn",
+                          "down-icon"
+                        ],
+                        "attributes": {
+                          "aria-label": "Decrement number",
+                          "tabindex": "-1",
+                          "title": "Decrement number",
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": [
+                              "down-icon"
+                            ],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 32 32",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M8 15H24V17H8z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--number__rule-divider"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--number__control-btn",
+                          "up-icon"
+                        ],
+                        "attributes": {
+                          "aria-label": "Increment number",
+                          "tabindex": "-1",
+                          "title": "Increment number",
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": [
+                              "up-icon"
+                            ],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 32 32",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M17 15 17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--number__rule-divider"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--form-requirement"
+                ],
+                "attributes": {
+                  "id": "#2",
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Invalid value"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "warn": {
+      "props": {
+        "warn": true,
+        "warnText": "Warning message"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--number",
+              "cds--number--helpertext",
+              "cds--number--md"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--label"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Number label"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--number__input-wrapper",
+                  "cds--number__input-wrapper--warning"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [],
+                    "attributes": {
+                      "aria-invalid": "false",
+                      "aria-describedby": "#2",
+                      "id": "#1",
+                      "pattern": "[0-9]*",
+                      "inputmode": "decimal",
+                      "step": "1",
+                      "type": "number",
+                      "value": "0"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--number__invalid",
+                      "cds--number__invalid--warning"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 32 32",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "fill": "none",
+                          "d": "M16,26a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,16,26Zm-1.125-5h2.25V12h-2.25Z",
+                          "data-icon-path": "inner-path"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M16.002,6.1714h-.004L4.6487,27.9966,4.6506,28H27.3494l.0019-.0034ZM14.875,12h2.25v9h-2.25ZM16,26a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,16,26Z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M29,30H3a1,1,0,0,1-.8872-1.4614l13-25a1,1,0,0,1,1.7744,0l13,25A1,1,0,0,1,29,30ZM4.6507,28H27.3493l.002-.0033L16.002,6.1714h-.004L4.6487,27.9967Z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--number__controls"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--number__control-btn",
+                          "down-icon"
+                        ],
+                        "attributes": {
+                          "aria-label": "Decrement number",
+                          "tabindex": "-1",
+                          "title": "Decrement number",
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": [
+                              "down-icon"
+                            ],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 32 32",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M8 15H24V17H8z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--number__rule-divider"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--number__control-btn",
+                          "up-icon"
+                        ],
+                        "attributes": {
+                          "aria-label": "Increment number",
+                          "tabindex": "-1",
+                          "title": "Increment number",
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": [
+                              "up-icon"
+                            ],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 32 32",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M17 15 17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--number__rule-divider"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--form-requirement"
+                ],
+                "attributes": {
+                  "id": "#2",
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Warning message"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "read-only": {
+      "props": {
+        "readOnly": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--number",
+              "cds--number--helpertext",
+              "cds--number--md",
+              "cds--number--readonly"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--label"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Number label"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--number__input-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [],
+                    "attributes": {
+                      "aria-invalid": "false",
+                      "aria-readonly": "true",
+                      "id": "#1",
+                      "pattern": "[0-9]*",
+                      "inputmode": "decimal",
+                      "readonly": true,
+                      "step": "1",
+                      "type": "number",
+                      "value": "0"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--number__controls"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--number__control-btn",
+                          "down-icon"
+                        ],
+                        "attributes": {
+                          "aria-label": "Decrement number",
+                          "disabled": true,
+                          "tabindex": "-1",
+                          "title": "Decrement number",
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": [
+                              "down-icon"
+                            ],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 32 32",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M8 15H24V17H8z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--number__rule-divider"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--number__control-btn",
+                          "up-icon"
+                        ],
+                        "attributes": {
+                          "aria-label": "Increment number",
+                          "disabled": true,
+                          "tabindex": "-1",
+                          "title": "Increment number",
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": [
+                              "up-icon"
+                            ],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 32 32",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M17 15 17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--number__rule-divider"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "light": {
+      "props": {
+        "light": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--number",
+              "cds--number--helpertext",
+              "cds--number--light",
+              "cds--number--md"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--label"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Number label"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--number__input-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [],
+                    "attributes": {
+                      "aria-invalid": "false",
+                      "id": "#1",
+                      "pattern": "[0-9]*",
+                      "inputmode": "decimal",
+                      "step": "1",
+                      "type": "number",
+                      "value": "0"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--number__controls"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--number__control-btn",
+                          "down-icon"
+                        ],
+                        "attributes": {
+                          "aria-label": "Decrement number",
+                          "tabindex": "-1",
+                          "title": "Decrement number",
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": [
+                              "down-icon"
+                            ],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 32 32",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M8 15H24V17H8z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--number__rule-divider"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--number__control-btn",
+                          "up-icon"
+                        ],
+                        "attributes": {
+                          "aria-label": "Increment number",
+                          "tabindex": "-1",
+                          "title": "Increment number",
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": [
+                              "up-icon"
+                            ],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 32 32",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M17 15 17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--number__rule-divider"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "hide-steppers": {
+      "props": {
+        "hideSteppers": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--number",
+              "cds--number--helpertext",
+              "cds--number--md",
+              "cds--number--nosteppers"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--label"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Number label"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--number__input-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [],
+                    "attributes": {
+                      "aria-invalid": "false",
+                      "id": "#1",
+                      "pattern": "[0-9]*",
+                      "inputmode": "decimal",
+                      "step": "1",
+                      "type": "number",
+                      "value": "0"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "size-sm": {
+      "props": {
+        "size": "sm"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--number",
+              "cds--number--helpertext",
+              "cds--number--sm"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--label"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Number label"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--number__input-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [],
+                    "attributes": {
+                      "aria-invalid": "false",
+                      "id": "#1",
+                      "pattern": "[0-9]*",
+                      "inputmode": "decimal",
+                      "step": "1",
+                      "type": "number",
+                      "value": "0"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--number__controls"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--number__control-btn",
+                          "down-icon"
+                        ],
+                        "attributes": {
+                          "aria-label": "Decrement number",
+                          "tabindex": "-1",
+                          "title": "Decrement number",
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": [
+                              "down-icon"
+                            ],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 32 32",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M8 15H24V17H8z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--number__rule-divider"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--number__control-btn",
+                          "up-icon"
+                        ],
+                        "attributes": {
+                          "aria-label": "Increment number",
+                          "tabindex": "-1",
+                          "title": "Increment number",
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": [
+                              "up-icon"
+                            ],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 32 32",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M17 15 17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--number__rule-divider"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

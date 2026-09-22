@@ -1,0 +1,848 @@
+{
+  "component": "Search",
+  "generatedAt": "2026-09-22T05:28:07.681Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--search"
+        ],
+        "attributes": {
+          "role": "search",
+          "aria-labelledby": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--search-magnifier"
+            ],
+            "attributes": {
+              "tabindex": "-1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--search-magnifier-icon"
+                ],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M15,14.3L10.7,10c1.9-2.3,1.6-5.8-0.7-7.7S4.2,0.7,2.3,3S0.7,8.8,3,10.7c2,1.7,5,1.7,7,0l4.3,4.3L15,14.3z M2,6.5 C2,4,4,2,6.5,2S11,4,11,6.5S9,11,6.5,11S2,9,2,6.5z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {
+              "id": "#1",
+              "for": "#2"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Search label"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--search-input"
+            ],
+            "attributes": {
+              "autocomplete": "off",
+              "id": "#2",
+              "placeholder": "Search",
+              "type": "search"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--search-close",
+              "cds--search-close--hidden"
+            ],
+            "attributes": {
+              "aria-label": "Clear search input",
+              "title": "Clear search input",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 32 32",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "with-value": {
+      "props": {
+        "value": "Search term"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--search"
+        ],
+        "attributes": {
+          "role": "search",
+          "aria-labelledby": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--search-magnifier"
+            ],
+            "attributes": {
+              "tabindex": "-1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--search-magnifier-icon"
+                ],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M15,14.3L10.7,10c1.9-2.3,1.6-5.8-0.7-7.7S4.2,0.7,2.3,3S0.7,8.8,3,10.7c2,1.7,5,1.7,7,0l4.3,4.3L15,14.3z M2,6.5 C2,4,4,2,6.5,2S11,4,11,6.5S9,11,6.5,11S2,9,2,6.5z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {
+              "id": "#1",
+              "for": "#2"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Search label"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--search-input"
+            ],
+            "attributes": {
+              "autocomplete": "off",
+              "id": "#2",
+              "placeholder": "Search",
+              "type": "search",
+              "value": "Search term"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--search-close"
+            ],
+            "attributes": {
+              "aria-label": "Clear search input",
+              "title": "Clear search input",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 32 32",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "disabled": {
+      "props": {
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--search",
+          "cds--search--disabled"
+        ],
+        "attributes": {
+          "role": "search",
+          "aria-labelledby": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--search-magnifier"
+            ],
+            "attributes": {
+              "tabindex": "-1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--search-magnifier-icon"
+                ],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M15,14.3L10.7,10c1.9-2.3,1.6-5.8-0.7-7.7S4.2,0.7,2.3,3S0.7,8.8,3,10.7c2,1.7,5,1.7,7,0l4.3,4.3L15,14.3z M2,6.5 C2,4,4,2,6.5,2S11,4,11,6.5S9,11,6.5,11S2,9,2,6.5z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {
+              "id": "#1",
+              "for": "#2"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Search label"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--search-input"
+            ],
+            "attributes": {
+              "autocomplete": "off",
+              "disabled": true,
+              "id": "#2",
+              "placeholder": "Search",
+              "type": "search"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--search-close",
+              "cds--search-close--hidden"
+            ],
+            "attributes": {
+              "aria-label": "Clear search input",
+              "disabled": true,
+              "title": "Clear search input",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 32 32",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "light": {
+      "props": {
+        "light": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--search",
+          "cds--search--light"
+        ],
+        "attributes": {
+          "role": "search",
+          "aria-labelledby": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--search-magnifier"
+            ],
+            "attributes": {
+              "tabindex": "-1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--search-magnifier-icon"
+                ],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M15,14.3L10.7,10c1.9-2.3,1.6-5.8-0.7-7.7S4.2,0.7,2.3,3S0.7,8.8,3,10.7c2,1.7,5,1.7,7,0l4.3,4.3L15,14.3z M2,6.5 C2,4,4,2,6.5,2S11,4,11,6.5S9,11,6.5,11S2,9,2,6.5z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {
+              "id": "#1",
+              "for": "#2"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Search label"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--search-input"
+            ],
+            "attributes": {
+              "autocomplete": "off",
+              "id": "#2",
+              "placeholder": "Search",
+              "type": "search"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--search-close",
+              "cds--search-close--hidden"
+            ],
+            "attributes": {
+              "aria-label": "Clear search input",
+              "title": "Clear search input",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 32 32",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "size-sm": {
+      "props": {
+        "size": "sm"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--layout--size-sm",
+          "cds--search",
+          "cds--search--sm"
+        ],
+        "attributes": {
+          "role": "search",
+          "aria-labelledby": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--search-magnifier"
+            ],
+            "attributes": {
+              "tabindex": "-1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--search-magnifier-icon"
+                ],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M15,14.3L10.7,10c1.9-2.3,1.6-5.8-0.7-7.7S4.2,0.7,2.3,3S0.7,8.8,3,10.7c2,1.7,5,1.7,7,0l4.3,4.3L15,14.3z M2,6.5 C2,4,4,2,6.5,2S11,4,11,6.5S9,11,6.5,11S2,9,2,6.5z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {
+              "id": "#1",
+              "for": "#2"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Search label"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--search-input"
+            ],
+            "attributes": {
+              "autocomplete": "off",
+              "id": "#2",
+              "placeholder": "Search",
+              "type": "search"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--search-close",
+              "cds--search-close--hidden"
+            ],
+            "attributes": {
+              "aria-label": "Clear search input",
+              "title": "Clear search input",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 32 32",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "size-lg": {
+      "props": {
+        "size": "lg"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--layout--size-lg",
+          "cds--search",
+          "cds--search--lg"
+        ],
+        "attributes": {
+          "role": "search",
+          "aria-labelledby": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--search-magnifier"
+            ],
+            "attributes": {
+              "tabindex": "-1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--search-magnifier-icon"
+                ],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M15,14.3L10.7,10c1.9-2.3,1.6-5.8-0.7-7.7S4.2,0.7,2.3,3S0.7,8.8,3,10.7c2,1.7,5,1.7,7,0l4.3,4.3L15,14.3z M2,6.5 C2,4,4,2,6.5,2S11,4,11,6.5S9,11,6.5,11S2,9,2,6.5z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {
+              "id": "#1",
+              "for": "#2"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Search label"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "input",
+            "classes": [
+              "cds--search-input"
+            ],
+            "attributes": {
+              "autocomplete": "off",
+              "id": "#2",
+              "placeholder": "Search",
+              "type": "search"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--search-close",
+              "cds--search-close--hidden"
+            ],
+            "attributes": {
+              "aria-label": "Clear search input",
+              "title": "Clear search input",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 32 32",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

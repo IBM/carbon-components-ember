@@ -361,5 +361,577 @@
       "variant": "two-handles",
       "reason": "Same missing-icon gap as the lower thumb's entry above, for the upper thumb."
     }
+  ],
+  "Checkbox": [
+    {
+      "path": "div.classes[cds--form-item]",
+      "reason": "@carbon/react's Checkbox wraps its own `cds--checkbox-wrapper` class list with an additional `cds--form-item` (`classnames('cds--checkbox-wrapper', {...}, 'cds--form-item' via the outer wrapperClasses computation) - Ember's checkbox.gts root only ever renders `cds--checkbox-wrapper`. A real, minor gap (affects form-item spacing/layout rules), left as-is since checkbox.gts's structure is otherwise a deliberate, simpler port - see the three structural entries below for the bigger picture. Applies to every variant."
+    },
+    {
+      "path": "div > input[0]",
+      "reason": "Structural: @carbon/react's Checkbox renders `<input>` as a sibling of `<label>` (both direct children of the wrapper div); Ember's checkbox.gts nests the `<input>` INSIDE the `<label>` instead (a common, simpler, equally-valid HTML pattern for implicitly associating a control with its label - no `for`/`id` pairing is strictly required that way). This one tag-mismatch swallows the rest of the comparison at this position (diffing stops once tags disagree), so Ember's own nested input/label-text structure isn't cross-checked against upstream's - it's verified separately by this addon's own checkbox-test.gts instead. Applies to every variant."
+    },
+    {
+      "path": "div > label[1]",
+      "reason": "Same structural difference as the `div > input[0]` entry above - upstream's second top-level child (the `<label>`, now that `<input>` occupies index 0) has no separate counterpart in Ember's tree, since Ember's single `<label>` already appears (nested around the input) at index 0. Applies to every variant."
+    },
+    {
+      "path": "div > div[2]",
+      "reason": "@carbon/react's Checkbox always renders a `cds--checkbox__validation-msg` wrapper div (empty unless `invalid`/`warn` is set) as its third child. Ember's `checkbox.gts` has no `invalid`/`warn`/`helperText` args at all, so it never renders anything at this position - a real, larger API gap (this addon's Checkbox doesn't support upstream's invalid/warn states), out of scope for a DOM-parity-only pass. Applies to every variant."
+    }
+  ],
+  "RadioButton": [
+    {
+      "path": "div > input[0].attributes.checked",
+      "variant": "checked",
+      "reason": "Same harness limitation as RadioTile's entry of the same name (see that entry in this file) - Glimmer's bound `checked={{this.checked}}` sets the DOM `checked` IDL property, not a reflected HTML attribute, so `normalizeElement` (which only reads real attribute nodes) sees it as absent on the Ember side even though the radio button is genuinely checked."
+    }
+  ],
+  "RadioButtonGroup": [
+    {
+      "path": "fieldset.classes[cds--radio-button-group--horizontal]",
+      "reason": "Ember's radio-button/group.gts always renders `cds--radio-button-group--{{this.args.orientation}}` (defaulting to 'horizontal'), while @carbon/react's `RadioButtonGroup.js` only conditionally adds this class for the vertical case (`[`${prefix}--radio-button-group--${orientation}`]: orientation === 'vertical'` - it never emits a `--horizontal` variant at all, even though `orientation` defaults to 'horizontal'). Harmless either way (horizontal is the group's default flex layout regardless of this modifier class), but a real, disclosed divergence - fixing it would mean Ember's class list stops being unconditional, out of scope for a one-line fix. Applies to every variant that isn't 'vertical'."
+    },
+    {
+      "path": "fieldset > div[1].classes[cds--radio-button-wrapper--label-left]",
+      "variant": "label-position-left",
+      "reason": "A real, disclosed behavioral divergence: Ember's `RadioButton#labelPosition` getter falls back to `this.args.group?.args.labelPosition`, so every grouped radio button visually inherits the group's `@labelPosition`. Upstream's `RadioButtonGroup.js`'s `getRadioButtons()` never passes `labelPosition` down when cloning children (only `name`/`value`/`onChange`/`checked`/`required`) - each `RadioButton`'s own label position stays at its individual default ('right') regardless of the group's `labelPosition`, which only affects the group's own fieldset-level modifier class. This is the first (name='a') grouped RadioButton."
+    },
+    {
+      "path": "fieldset > div[2].classes[cds--radio-button-wrapper--label-left]",
+      "variant": "label-position-left",
+      "reason": "Same disclosed divergence as the `fieldset > div[1].classes[cds--radio-button-wrapper--label-left]` entry above, for the second (name='b') grouped RadioButton."
+    },
+    {
+      "path": "fieldset > div[1] > input[0].attributes.disabled",
+      "variant": "disabled",
+      "reason": "A real, disclosed divergence, not a markup bug: upstream's `getRadioButtonsWithWrappers`-style cloning (`RadioButtonGroup.js`) only ever passes `name`/`value`/`onChange`/`checked`/`required` down to each child `RadioButton` - never `disabled` - relying entirely on the surrounding `<fieldset disabled>` to actually disable the inputs. Ember's `RadioButton#disabled` getter falls back to `this.args.group?.args.disabled`, so a grouped input gets an explicit `disabled` attribute in addition to inheriting it from the fieldset. Functionally identical either way (`fieldset[disabled]` already makes every descendant control unfocusable regardless of its own `disabled`/`tabindex`), matching the same call already made for RadioTile/TileGroup - see AGENTS.md's own note on this. This is the first (name='a') grouped RadioButton."
+    },
+    {
+      "path": "fieldset > div[2] > input[0].attributes.disabled",
+      "variant": "disabled",
+      "reason": "Same disclosed divergence as the `fieldset > div[1] > input[0].attributes.disabled` entry above, for the second (name='b') grouped RadioButton."
+    },
+    {
+      "path": "fieldset > div[1] > input[0].attributes.checked",
+      "variant": "default-selected",
+      "reason": "Same harness limitation as RadioButton's own `div > input[0].attributes.checked` entry above (checked is a DOM property, not a reflected attribute) - for the first RadioButton, selected here via `@defaultSelected='a'`."
+    }
+  ],
+  "Toggle": [
+    {
+      "path": "div > button[0].attributes.aria-labelledby",
+      "reason": "@carbon/react's Toggle links its `<button role=\"switch\">` to its own label via `aria-labelledby={ariaLabelledby ?? (labelText ? labelId : undefined)}`, where `labelId` is a real, upstream-generated `{id}_label` id on the label element (see the `div > label[1].attributes.id` entry below). Ember's `toggle.gts` has no equivalent wiring - the button and the visible label text are never connected via ARIA at all, even though `@name` is Ember's direct analog of `labelText`. A real, disclosed accessibility gap (screen readers get no accessible name from the label association upstream provides), out of scope for a DOM-parity-only pass. Applies to every variant."
+    },
+    {
+      "path": "div > label[1].attributes.id",
+      "reason": "Same gap as the `aria-labelledby` entry above - the `{id}_label` id upstream generates for this exact linking purpose has no counterpart in Ember's `toggle.gts`, which renders its `<label>` with no `id` at all. Applies to every variant."
+    },
+    {
+      "path": "div > label[1] > span[0].attributes.dir",
+      "reason": "@carbon/react wraps the visible label text in its own `Text` component (default `as='span'`), which sets `dir='auto'` on itself (see this file's other `Text`-wrapper entries, e.g. Notification's). Ember's `<span class='cds--toggle__label-text'>` is a plain span with no `dir` attribute. Applies to every variant."
+    },
+    {
+      "path": "div > label[1] > div[1] > span[1].attributes.dir",
+      "reason": "Same `Text`-wrapper `dir='auto'` gap as the entry above, on the On/Off side-label span (`cds--toggle__text`) instead of the main label text span. Applies to every variant."
+    },
+    {
+      "path": "div > label[1] > div[1] > div[0] > svg[0]",
+      "variant": "size-sm",
+      "reason": "Upstream's Toggle renders a small checkmark `<svg>` inside the switch thumb whenever `size='sm'` (and not `readOnly`) - a real, purely decorative detail of the small variant (`Toggle.js`'s `isSm && !readOnly` branch). Ember's `toggle.gts` has no equivalent - it renders the same empty `cds--toggle__switch` div regardless of size. A real, undocumented-until-now gap, out of scope for a DOM-parity-only pass."
+    }
+  ],
+  "TextInput": [
+    {
+      "path": "div > div[0] > label[0].attributes.dir",
+      "reason": "@carbon/react wraps the label text in its own `Text` component (`as='label'`), which sets `dir='auto'` on itself. Ember's `<label>` in text-input.gts is a plain element with no `dir` attribute. Applies to every variant."
+    },
+    {
+      "path": "div > div[1] > div[0] > input[0].attributes.value",
+      "variant": "with-value",
+      "reason": "Harness limitation, not a functional gap: Glimmer's bound `value={{this.value}}` on an `<input>` sets the DOM `value` IDL property, not a reflected HTML attribute (the same class of gap already documented for `checked` on RadioTile/RadioButton) - `normalizeElement` only inspects real attribute nodes, so it sees the value as absent on the Ember side even though the input genuinely displays 'Hello'."
+    },
+    {
+      "path": "div > div[1] > div[0] > input[0]",
+      "variant": "invalid",
+      "reason": "Ordering difference, not a missing feature: @carbon/react's TextInput renders `[input, Icon]` (icon after the input) inside the field wrapper, while Ember's text-input.gts renders `{{#if isInvalid}}<WarningFilled/>{{/if}} <input>` (icon before the input). Both icons are positioned via `@carbon/styles`' own absolute positioning, so the swapped DOM order has no visual effect, but the harness's index-based diff sees the two elements at index 0 as different tags. This one entry, plus the matching `svg[1]` entry below, cover the position swap - the rest of both elements' own attributes are unaffected and still compared normally at their own (swapped) index."
+    },
+    {
+      "path": "div > div[1] > div[0] > svg[1]",
+      "variant": "invalid",
+      "reason": "The other half of the icon/input ordering swap described in the `input[0]` entry above."
+    },
+    {
+      "path": "div > div[1] > div[0] > input[0]",
+      "variant": "warn",
+      "reason": "Same icon/input ordering swap as the `invalid` variant's entries of the same name above, for the `WarningAltFilled` icon."
+    },
+    {
+      "path": "div > div[1] > div[0] > svg[1]",
+      "variant": "warn",
+      "reason": "The other half of the icon/input ordering swap described in the `input[0]` entry above."
+    },
+    {
+      "path": "div > div[1] > div[1].attributes.id",
+      "reason": "@carbon/react wraps its invalid/warn/helper text in its own `Text` component (`as='div'`), which upstream also gives a real `id` (`invalidId`/`warnId`/`helperId`) so the input can reference it via `aria-describedby`/`aria-errormessage`. Ember's plain `<div class='cds--form-requirement'>`/`<div class='cds--form__helper-text'>` in text-input.gts has neither an `id` nor the input-side `aria-*` link - a real, disclosed accessibility gap, out of scope for a DOM-parity-only pass. Applies wherever this div renders (invalid/warn/helper-text variants)."
+    },
+    {
+      "path": "div > div[1] > div[1].attributes.dir",
+      "reason": "Same `Text`-wrapper `dir='auto'` gap as the `div > div[0] > label[0].attributes.dir` entry above, on the invalid/warn/helper-text div instead of the label. Applies wherever this div renders."
+    },
+    {
+      "path": "div > div[1] > div[0] > input[0].attributes.aria-describedby",
+      "variant": "helper-text",
+      "reason": "The other half of the missing helper-text `id`/`aria-describedby` link described in the `div[1].attributes.id` entry above - the input itself has no `aria-describedby` pointing at the (also id-less) helper div."
+    }
+  ],
+  "TextArea": [
+    {
+      "path": "div > div[0] > label[0].attributes.dir",
+      "reason": "Same `Text`-wrapper `dir='auto'` gap as TextInput's entry of the same name. Applies to every variant."
+    },
+    {
+      "path": "div > div[1] > textarea[0].attributes.placeholder",
+      "reason": "@carbon/react's TextArea defaults `placeholder = \"\"`, so it's always a real (if empty) rendered attribute; Ember's `placeholder={{@placeholder}}` in text-area.gts omits the attribute entirely when `@placeholder` is absent. No visible difference (an empty placeholder renders no text either way). Applies to every variant that doesn't pass `@placeholder`, at whichever index the `<textarea>` occupies (index 0 when no icon renders before it)."
+    },
+    {
+      "path": "div > div[1] > textarea[1].attributes.placeholder",
+      "reason": "Same default-`placeholder=\"\"` gap as the `textarea[0]` entry above, at the index the `<textarea>` occupies once an invalid/warn icon renders before it."
+    },
+    {
+      "path": "div > div[1] > textarea[0].attributes.aria-invalid",
+      "reason": "@carbon/react's TextArea always sets `aria-invalid` (`true`/`false`); Ember's text-area.gts only renders the attribute at all when invalid (`aria-invalid={{if this.isInvalid 'true'}}` omits it otherwise, rather than rendering `'false'`). Applies to every variant that isn't already invalid, at whichever index the `<textarea>` occupies."
+    },
+    {
+      "path": "div > div[1] > textarea[1].attributes.aria-invalid",
+      "reason": "Same always-vs-only-when-true `aria-invalid` gap as the `textarea[0]` entry above, at the index the `<textarea>` occupies once a warn icon renders before it (the warn variant is legitimately not invalid, so this still applies there)."
+    },
+    {
+      "path": "div > div[1] > textarea[0].style.width",
+      "reason": "@carbon/react's TextArea imperatively sets `style.width = '100%'` on the `<textarea>` ref inside a `useIsomorphicEffect` (skipped only when `cols` is set). Ember's text-area.gts has no equivalent effect/modifier - width is left to CSS defaults, which resolve to the same rendered width in practice (a real Carbon stylesheet rule already applies `width: 100%` to `.cds--text-area`), so this is a harness-visible, not a visual, gap. Applies to every variant that doesn't pass `@cols`, at whichever index the `<textarea>` occupies."
+    },
+    {
+      "path": "div > div[1] > textarea[1].style.width",
+      "reason": "Same imperative-effect-set `width: 100%` gap as the `textarea[0]` entry above, at the index the `<textarea>` occupies once an invalid/warn icon renders before it."
+    },
+    {
+      "path": "div > div[1] > svg[0].attributes.preserveAspectRatio",
+      "reason": "Pre-existing, addon-wide icon-rendering gap - see the Notification/AiChatReasoningSteps entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is TextArea's invalid/warn icon. Applies to the invalid and warn variants."
+    },
+    {
+      "path": "div > div[1] > svg[0].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above. Applies to the invalid and warn variants."
+    },
+    {
+      "path": "div > div[1] > svg[0].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above. Applies to the invalid and warn variants."
+    },
+    {
+      "path": "div > div[1] > svg[0].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above (the extra-attribute direction of it). Applies to the invalid and warn variants."
+    },
+    {
+      "path": "div > div[1] > svg[0] > path[0].attributes.d",
+      "variant": "invalid",
+      "reason": "Harness limitation, not a real bug - same whitespace-only (tab vs. space between two path commands) diff already documented for Notification's warning-icon entry of the same name; the SVG path grammar treats the two as equivalent."
+    },
+    {
+      "path": "div > div[1] > svg[0] > path[1].attributes.d",
+      "variant": "invalid",
+      "reason": "Same whitespace-only harness limitation as the `path[0]` entry above, for the icon's second path segment."
+    },
+    {
+      "path": "div > div[1] > textarea[1].attributes.aria-errormessage",
+      "variant": "invalid",
+      "reason": "@carbon/react's invalid TextArea links the `<textarea>` to its own id-bearing error `Text` div via `aria-errormessage`. Ember's text-area.gts has no equivalent id/link (see the `div[2].attributes.id` entry below) - a real, disclosed accessibility gap, out of scope for a DOM-parity-only pass."
+    },
+    {
+      "path": "div > div[1] > textarea[1].attributes.data-invalid",
+      "variant": "invalid",
+      "reason": "Ember-only marker attribute (`data-invalid={{if this.isInvalid 'true'}}` on the `<textarea>` itself, in addition to the wrapper div's own `data-invalid`) with no React counterpart - used internally, not part of the rendered-markup contract this harness checks."
+    },
+    {
+      "path": "div > div[1] > textarea[0].attributes.aria-readonly",
+      "variant": "read-only",
+      "reason": "@carbon/react's TextArea always sets `aria-readonly` (mirroring `readOnly`); Ember's text-area.gts sets the `readonly` HTML attribute but never `aria-readonly`. A real, disclosed accessibility gap, out of scope for a DOM-parity-only pass."
+    },
+    {
+      "path": "div > div[1] > textarea[1].attributes.aria-describedby",
+      "variant": "warn",
+      "reason": "@carbon/react's warn TextArea links the `<textarea>` to its own id-bearing warning `Text` div via `aria-describedby`. Ember's text-area.gts has no equivalent id/link (see the `div[2].attributes.id` entry below) - a real, disclosed accessibility gap, out of scope for a DOM-parity-only pass."
+    },
+    {
+      "path": "div > div[1] > textarea[0].attributes.aria-describedby",
+      "variant": "helper-text",
+      "reason": "Same missing helper-text `id`/`aria-describedby` link as the `warn` variant's entry of the same name above, for the plain helper-text case."
+    },
+    {
+      "path": "div > div[2].attributes.role",
+      "reason": "@carbon/react wraps its invalid/warn text in its own `Text` component with `role='alert'`; Ember's plain `<div class='cds--form-requirement'>` in text-area.gts has no `role`. Applies to the invalid and warn variants."
+    },
+    {
+      "path": "div > div[2].attributes.id",
+      "reason": "Same missing-`id` gap as TextInput's `div[1].attributes.id` entry, on TextArea's invalid/warn/helper-text div instead. Applies wherever this div renders (invalid/warn/helper-text variants)."
+    },
+    {
+      "path": "div > div[2].attributes.dir",
+      "reason": "Same `Text`-wrapper `dir='auto'` gap as the label entry above, on the invalid/warn/helper-text div instead. Applies wherever this div renders."
+    }
+  ],
+  "PasswordInput": [
+    {
+      "path": "div > div[1] > div[0] > span[1]",
+      "reason": "Structural: this addon's own private `Tooltip` component (`-private/tooltip.gts`, wrapping the show/hide-password toggle button) renders a genuinely different internal DOM shape than @carbon/react's Popover-based `Tooltip` - a plain `<span>` wrapping the trigger plus a differently-shaped tooltip-panel span, vs. upstream's `<div>`-wrapped panel with a real `role='tooltip'`/`id`/`aria-hidden` triple. This single entry (scoped to wherever the tooltip is the second child of the field wrapper, i.e. no invalid/warn icon precedes it) swallows the whole internal-structure comparison rather than trying to match it element-by-element - the tooltip's own behavior/markup is covered by this addon's own tooltip tests, not this harness. Applies to the default, disabled, and size-sm variants."
+    },
+    {
+      "path": "div > div[1] > div[0] > span[2]",
+      "reason": "Same structural Tooltip-internals difference as the `span[1]` entry above, at the index the tooltip occupies once an invalid/warn icon renders before it. Applies to the invalid and warn variants."
+    },
+    {
+      "path": "div > div[1] > div[0] > svg[0].attributes.preserveAspectRatio",
+      "reason": "Pre-existing, addon-wide `renderSvgPartFunc` gap - see the Notification/TextArea entries of the same name. Applies to the invalid and warn variants."
+    },
+    {
+      "path": "div > div[1] > div[0] > svg[0].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above. Applies to the invalid and warn variants."
+    },
+    {
+      "path": "div > div[1] > div[0] > svg[0].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above. Applies to the invalid and warn variants."
+    },
+    {
+      "path": "div > div[1] > div[0] > svg[0].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above (the extra-attribute direction of it). Applies to the invalid and warn variants."
+    },
+    {
+      "path": "div > div[1] > div[0] > svg[0] > path[0].attributes.d",
+      "variant": "invalid",
+      "reason": "Harness limitation, not a real bug - same whitespace-only path-data diff already documented for Notification's warning-icon entry of the same name."
+    },
+    {
+      "path": "div > div[1] > div[0] > svg[0] > path[1].attributes.d",
+      "variant": "invalid",
+      "reason": "Same whitespace-only harness limitation as the `path[0]` entry above."
+    },
+    {
+      "path": "div > div[1] > div[0] > input[1].attributes.aria-errormessage",
+      "variant": "invalid",
+      "reason": "Same missing invalid-text `id`/`aria-errormessage` link already documented for TextArea's entry of the same name - Ember's password-input.gts `<div class='cds--form-requirement'>` has no `id` for the input to reference."
+    },
+    {
+      "path": "div > div[1] > div[0] > input[1].attributes.aria-describedby",
+      "variant": "warn",
+      "reason": "Same missing warn-text `id`/`aria-describedby` link already documented for TextArea's entry of the same name."
+    },
+    {
+      "path": "div > div[1] > div[1].attributes.id",
+      "reason": "Same missing-`id` gap as TextInput's/TextArea's entries of the same name, on PasswordInput's invalid/warn `Text`-wrapped div. Applies to the invalid and warn variants."
+    },
+    {
+      "path": "div > div[1] > div[1].attributes.dir",
+      "reason": "Same `Text`-wrapper `dir='auto'` gap as this file's other label/helper-text entries, on PasswordInput's invalid/warn div. Applies to the invalid and warn variants."
+    },
+    {
+      "path": "div.classes[cds--layout--size-sm]",
+      "variant": "size-sm",
+      "reason": "@carbon/react's PasswordInput puts `cds--layout--size-{size}` on the inner field-wrapper div (via `fieldWrapperClasses`), while Ember's password-input.gts puts it on the outer form-item wrapper div instead (see the matching `div > div[1] > div[0].classes[cds--layout--size-sm]` entry below) - a real placement divergence, not a missing class. Reworking which element carries this class is a structural template change (affects the CSS custom-property scoping documented in AGENTS.md's PR #838 list-box-padding write-up), out of scope for a DOM-parity-only pass; left as a known difference rather than moved."
+    },
+    {
+      "path": "div > div[1] > div[0].classes[cds--layout--size-sm]",
+      "variant": "size-sm",
+      "reason": "The other half of the `cds--layout--size-sm` placement divergence described in the `div.classes[cds--layout--size-sm]` entry above."
+    }
+  ],
+  "NumberInput": [
+    {
+      "path": "div > div[0] > label[0].attributes.dir",
+      "reason": "Same `Text`-wrapper `dir='auto'` gap as TextInput's entry of the same name, on NumberInput's `Label`. Applies to every variant."
+    },
+    {
+      "path": "div > div[0] > div[1] > input[0].attributes.aria-invalid",
+      "reason": "Same always-vs-only-when-true `aria-invalid` gap as TextArea's entry of the same name. Applies to every variant that isn't already invalid."
+    },
+    {
+      "path": "div > div[0] > div[1] > input[0].attributes.pattern",
+      "reason": "@carbon/react's NumberInput always sets a default `pattern=\"[0-9]*\"` on the `<input>` (used for its own text-mode input validation); Ember's number-input.gts never sets `pattern` at all - both render a native `type=\"number\"` input either way, so this has no visible effect. Applies to every variant."
+    },
+    {
+      "path": "div > div[0] > div[1] > input[0].attributes.inputmode",
+      "reason": "@carbon/react's NumberInput always sets a default `inputMode=\"decimal\"`; Ember's number-input.gts doesn't support an `inputmode` arg at all. A real, minor mobile-keyboard gap, out of scope for a DOM-parity-only pass. Applies to every variant."
+    },
+    {
+      "path": "div > div[0] > div[1] > input[0].attributes.value",
+      "reason": "Harness limitation, not a functional gap - same property-vs-attribute gap already documented for TextInput's `input[0].attributes.value` entry (Glimmer's bound `value={{this.value}}` sets the DOM property, not a reflected attribute). Applies to every variant (NumberInput's own internal default value is `0`, always present)."
+    },
+    {
+      "path": "div > div[0] > div[1] > div[1] > button[0] > svg[0].attributes.preserveAspectRatio",
+      "reason": "Pre-existing, addon-wide `renderSvgPartFunc` gap - see the Notification/TextArea entries of the same name. This is the decrement (down) stepper icon. Applies to every variant with visible steppers."
+    },
+    {
+      "path": "div > div[0] > div[1] > div[1] > button[0] > svg[0].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above, on the decrement stepper icon."
+    },
+    {
+      "path": "div > div[0] > div[1] > div[1] > button[0] > svg[0].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above, on the decrement stepper icon."
+    },
+    {
+      "path": "div > div[0] > div[1] > div[1] > button[0] > svg[0].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above (the extra-attribute direction of it), on the decrement stepper icon."
+    },
+    {
+      "path": "div > div[0] > div[1] > div[1] > button[2] > svg[0].attributes.preserveAspectRatio",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the decrement stepper's entry above, on the increment (up) stepper icon. Applies to every variant with visible steppers."
+    },
+    {
+      "path": "div > div[0] > div[1] > div[1] > button[2] > svg[0].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above, on the increment stepper icon."
+    },
+    {
+      "path": "div > div[0] > div[1] > div[1] > button[2] > svg[0].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above, on the increment stepper icon."
+    },
+    {
+      "path": "div > div[0] > div[1] > div[1] > button[2] > svg[0].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above (the extra-attribute direction of it), on the increment stepper icon."
+    },
+    {
+      "path": "div > div[0] > div[1] > svg[1].attributes.preserveAspectRatio",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the stepper-icon entries above, on the invalid/warn icon that renders before the steppers. Applies to the invalid and warn variants."
+    },
+    {
+      "path": "div > div[0] > div[1] > svg[1].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above."
+    },
+    {
+      "path": "div > div[0] > div[1] > svg[1].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above."
+    },
+    {
+      "path": "div > div[0] > div[1] > svg[1].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above (the extra-attribute direction of it)."
+    },
+    {
+      "path": "div > div[0] > div[1] > svg[1] > path[0].attributes.d",
+      "variant": "invalid",
+      "reason": "Harness limitation, not a real bug - same whitespace-only path-data diff already documented for Notification's warning-icon entry of the same name."
+    },
+    {
+      "path": "div > div[0] > div[1] > svg[1] > path[1].attributes.d",
+      "variant": "invalid",
+      "reason": "Same whitespace-only harness limitation as the `path[0]` entry above."
+    },
+    {
+      "path": "div > div[0] > div[1] > div[2] > button[0] > svg[0].attributes.preserveAspectRatio",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the stepper-icon entries above, on the decrement stepper icon once it's shifted to index 2 by a preceding invalid/warn icon. Applies to the invalid and warn variants."
+    },
+    {
+      "path": "div > div[0] > div[1] > div[2] > button[0] > svg[0].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above."
+    },
+    {
+      "path": "div > div[0] > div[1] > div[2] > button[0] > svg[0].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above."
+    },
+    {
+      "path": "div > div[0] > div[1] > div[2] > button[0] > svg[0].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above (the extra-attribute direction of it)."
+    },
+    {
+      "path": "div > div[0] > div[1] > div[2] > button[2] > svg[0].attributes.preserveAspectRatio",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entries above, on the increment stepper icon once shifted to index 2."
+    },
+    {
+      "path": "div > div[0] > div[1] > div[2] > button[2] > svg[0].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above."
+    },
+    {
+      "path": "div > div[0] > div[1] > div[2] > button[2] > svg[0].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above."
+    },
+    {
+      "path": "div > div[0] > div[1] > div[2] > button[2] > svg[0].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the entry above (the extra-attribute direction of it)."
+    },
+    {
+      "path": "div > div[0] > div[1] > input[0].attributes.aria-describedby",
+      "reason": "Same missing invalid/warn/helper-text `id`/`aria-describedby` link already documented for TextArea's/PasswordInput's entries of the same name - Ember's number-input.gts `<div class='cds--form-requirement'>`/`<div class='cds--form__helper-text'>` has no `id` for the input to reference. Applies to the invalid and warn variants."
+    },
+    {
+      "path": "div > div[0] > div[2].attributes.id",
+      "reason": "Same missing-`id` gap as this file's other label/helper-text entries, on NumberInput's invalid/warn `Text`-wrapped div. Applies to the invalid and warn variants."
+    },
+    {
+      "path": "div > div[0] > div[2].attributes.dir",
+      "reason": "Same `Text`-wrapper `dir='auto'` gap as this file's other label/helper-text entries, on NumberInput's invalid/warn div. Applies to the invalid and warn variants."
+    }
+  ],
+  "FluidTextInput": [
+    {
+      "path": "div > div[0] > label[0].attributes.dir",
+      "reason": "Same `Text`-wrapper `dir='auto'` gap as TextInput's entry of the same name. Applies to the default, disabled, invalid, warn, and read-only variants (the non-password branch, which reuses TextInput's own label rendering)."
+    },
+    {
+      "path": "div > div[1] > div[0] > input[0]",
+      "variant": "invalid",
+      "reason": "Same icon/input DOM-ordering swap already documented for TextInput's entries of the same name (upstream renders `[input, Icon]`, Ember renders `[Icon, input]`) - purely a DOM-order artifact, no visual effect since both are positioned via CSS."
+    },
+    {
+      "path": "div > div[1] > div[0] > svg[1]",
+      "variant": "invalid",
+      "reason": "The other half of the icon/input ordering swap described in the `input[0]` entry above."
+    },
+    {
+      "path": "div > div[1] > div[0] > input[0]",
+      "variant": "warn",
+      "reason": "Same icon/input ordering swap as the `invalid` variant's entries of the same name above, for the `WarningAltFilled` icon."
+    },
+    {
+      "path": "div > div[1] > div[0] > svg[1]",
+      "variant": "warn",
+      "reason": "The other half of the icon/input ordering swap described in the `input[0]` entry above."
+    },
+    {
+      "path": "div > div[1] > div[0] > div[4].attributes.id",
+      "reason": "Same missing-`id` gap as TextInput's `div[1].attributes.id` entry, on FluidTextInput's own invalid/warn validation div. Applies to the invalid and warn (non-password) variants."
+    },
+    {
+      "path": "div > div[1] > div[0] > div[4].attributes.dir",
+      "reason": "Same `Text`-wrapper `dir='auto'` gap as this file's other label/validation entries, on FluidTextInput's own invalid/warn validation div. Applies to the invalid and warn (non-password) variants."
+    },
+    {
+      "path": "div > label[0]",
+      "reason": "Structural: `@isPassword` renders through upstream's separate `FluidPasswordInput` component (see `fluidPasswordInput` in dom-parity/lib/components.mjs), whose root's first child is a plain `<label>` with no wrapping div - unlike the plain (non-password) `FluidTextInput`/`TextInput` path, which always wraps its label in a `cds--text-input__label-wrapper` div. Ember's fluid-text-input.gts reuses the exact same template/wrapper for both modes, so its root's first child is always that wrapper div. This one tag mismatch swallows the label's own deeper comparison (see the `div > input[0]` entry's own note on this file's checkbox entries for why that's an acceptable tradeoff) - reworking the password branch to drop the wrapper is a structural change out of scope here. Applies to the password and password-invalid variants."
+    },
+    {
+      "path": "div > div[1] > div[0] > input[0].classes[cds--text-input--fluid]",
+      "variant": "password",
+      "reason": "@carbon/react's `FluidPasswordInput` puts `cds--text-input--fluid` directly on the `<input>` (via its own `sharedTextInputProps.className`); Ember's fluid-text-input.gts only puts the class on the outer wrapper div. A real placement divergence, not a missing class - see PasswordInput's own `cds--layout--size-sm` placement entry for the same class of gap. Out of scope to move here."
+    },
+    {
+      "path": "div > div[1] > div[0] > input[0].attributes.data-toggle-password-visibility",
+      "variant": "password",
+      "reason": "Ember's `password-input.gts` sets a `data-toggle-password-visibility` marker attribute on its `<input>` (used internally to reflect the current visibility state); FluidTextInput's own password branch doesn't set this at all, since it renders its own template rather than delegating to `PasswordInput`. Not part of the rendered-markup contract this harness checks otherwise, but worth noting as a real inconsistency between this addon's two password-input components."
+    },
+    {
+      "path": "div > div[1] > div[0] > span[2]",
+      "variant": "password",
+      "reason": "Same structural Tooltip-internals difference already documented for PasswordInput's `span[1]`/`span[2]` entries (this addon's own private `Tooltip` vs. upstream's Popover-based one) - swallows the whole internal-structure comparison in one entry, at the index the tooltip occupies here."
+    },
+    {
+      "path": "div > div[1] > div[0] > svg[0].attributes.preserveAspectRatio",
+      "variant": "password-invalid",
+      "reason": "Pre-existing, addon-wide `renderSvgPartFunc` gap - see the Notification/TextArea entries of the same name. This is the invalid-state icon on the password branch."
+    },
+    {
+      "path": "div > div[1] > div[0] > svg[0].attributes.aria-hidden",
+      "variant": "password-invalid",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above."
+    },
+    {
+      "path": "div > div[1] > div[0] > svg[0].attributes.xmlns",
+      "variant": "password-invalid",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above."
+    },
+    {
+      "path": "div > div[1] > div[0] > svg[0].style.will-change",
+      "variant": "password-invalid",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above (the extra-attribute direction of it)."
+    },
+    {
+      "path": "div > div[1] > div[0] > svg[0] > path[0].attributes.d",
+      "variant": "password-invalid",
+      "reason": "Harness limitation, not a real bug - same whitespace-only path-data diff already documented for Notification's warning-icon entry of the same name."
+    },
+    {
+      "path": "div > div[1] > div[0] > svg[0] > path[1].attributes.d",
+      "variant": "password-invalid",
+      "reason": "Same whitespace-only harness limitation as the `path[0]` entry above."
+    },
+    {
+      "path": "div > div[1] > div[0] > input[1].classes[cds--text-input--fluid]",
+      "variant": "password-invalid",
+      "reason": "Same `cds--text-input--fluid` placement divergence as the `password` variant's entry of the same name above, at the index the input occupies once the invalid icon precedes it."
+    },
+    {
+      "path": "div > div[1] > div[0] > input[1].attributes.aria-errormessage",
+      "variant": "password-invalid",
+      "reason": "Same missing invalid-text `id`/`aria-errormessage` link already documented for TextArea's/PasswordInput's entries of the same name."
+    },
+    {
+      "path": "div > div[1] > div[0] > input[1].attributes.data-toggle-password-visibility",
+      "variant": "password-invalid",
+      "reason": "Same missing marker attribute as the `password` variant's entry of the same name above, at the index the input occupies once the invalid icon precedes it."
+    },
+    {
+      "path": "div > div[1] > div[0] > span[3]",
+      "variant": "password-invalid",
+      "reason": "Same structural Tooltip-internals difference already documented for the `password` variant's `span[2]` entry above, at the index the tooltip occupies once the invalid icon precedes it."
+    }
+  ],
+  "Search": [
+    {
+      "path": "div.classes[cds--toolbar-search-container-persistent]",
+      "reason": "Ember-only class (search.gts always renders either `--expandable` or `--persistent` depending on `@expandable`) with no counterpart in @carbon/react's plain `Search` - that behavior belongs entirely to a separate upstream component, `ExpandableSearch`, not exercised by this fixture. Applies to every variant."
+    },
+    {
+      "path": "div.attributes.data-search",
+      "reason": "Ember-only marker attribute (see search.gts's `data-search`) with no React counterpart - used internally, not part of the rendered-markup contract this harness checks. Applies to every variant."
+    },
+    {
+      "path": "div > div[0].attributes.tabindex",
+      "reason": "@carbon/react's Search always sets `tabIndex={isExpandableCollapsed ? 0 : -1}` on the magnifier div (resolving to `-1` here, since this fixture never sets `onExpand`); Ember's `<div class='cds--search-magnifier'>` in search.gts has no `tabindex` at all. Both are equally correct for the non-expandable case (a `-1` value contributes nothing to the tab order either), but the attribute's mere presence differs. Applies to every variant."
+    },
+    {
+      "path": "div > div[0] > svg[0].attributes.preserveAspectRatio",
+      "reason": "Pre-existing, addon-wide `renderSvgPartFunc` gap - see the Notification/TextArea entries of the same name. This is the magnifier icon. Applies to every variant."
+    },
+    {
+      "path": "div > div[0] > svg[0].attributes.aria-hidden",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above. Applies to every variant."
+    },
+    {
+      "path": "div > div[0] > svg[0].attributes.xmlns",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above. Applies to every variant."
+    },
+    {
+      "path": "div > div[0] > svg[0].style.will-change",
+      "reason": "Same pre-existing `renderSvgPartFunc` gap as the `preserveAspectRatio` entry above (the extra-attribute direction of it). Applies to every variant."
+    },
+    {
+      "path": "div > div[0] > svg[0] > path[0].attributes.d",
+      "reason": "Harness limitation, not a real bug - same whitespace-only (tab vs. space between two path commands) diff already documented for Notification's warning-icon entry of the same name; the SVG path grammar treats the two as equivalent. Applies to every variant."
+    },
+    {
+      "path": "div > input[2].attributes.value",
+      "variant": "with-value",
+      "reason": "Harness limitation, not a functional gap - same property-vs-attribute gap already documented for TextInput's `input[0].attributes.value` entry (Glimmer's bound `value={{this.value}}` sets the DOM property, not a reflected attribute)."
+    },
+    {
+      "path": "div > button[3]",
+      "reason": "@carbon/react's Search always renders the clear `<button>`, toggling a `cds--search-close--hidden` modifier class when there's no content to clear; Ember's `{{#if this.hasInput}}` in search.gts omits the element from the DOM entirely instead. Visually equivalent (both hide the button when there's nothing to clear), but a real structural difference. Applies to every variant without a value (default, disabled, light, size-sm, size-lg)."
+    }
+  ],
+  "FileUploaderDropContainer": [
+    {
+      "path": "div > input[2].attributes.accept",
+      "reason": "@carbon/react's FileUploaderDropContainer always sets `accept={accept.join(',')}` (an empty string when `@accept` is unset); Ember's `accept={{this.acceptAttr}}` in file-uploader-drop-container.gts omits the attribute entirely when `@accept` is absent (`this.args.accept?.join(',')` returns `undefined`). Both render no real file-type restriction either way. Applies to every variant that doesn't pass `@accept`."
+    }
+  ],
+  "FileUploader": [
+    {
+      "path": "div > p[0].attributes.dir",
+      "reason": "@carbon/react wraps `labelDescription` in its own `Text` component (`as='p'`), which sets `dir='auto'` on itself. Ember's `<p class='cds--label-description'>` in file-uploader.gts is a plain element with no `dir` attribute. Applies to every variant."
+    },
+    {
+      "path": "div > h3[0].attributes.dir",
+      "variant": "with-labels",
+      "reason": "Same `Text`-wrapper `dir='auto'` gap as the `p[0]` entry above, on the `labelTitle` heading instead - only reachable when `@labelTitle` is passed."
+    },
+    {
+      "path": "div > p[1].attributes.dir",
+      "variant": "with-labels",
+      "reason": "Same `Text`-wrapper `dir='auto'` gap as the `p[0]` entry above, at the index `labelDescription`'s `<p>` occupies once the `labelTitle` heading precedes it."
+    }
   ]
 }

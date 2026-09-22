@@ -24,6 +24,19 @@ import SkeletonText from 'carbon-components-ember/components/skeleton-text';
 import TextAreaSkeleton from 'carbon-components-ember/components/text-area-skeleton';
 import SliderSkeleton from 'carbon-components-ember/components/slider-skeleton';
 import FileUploaderSkeleton from 'carbon-components-ember/components/file-uploader/file-uploader-skeleton';
+import Checkbox from 'carbon-components-ember/components/checkbox';
+import RadioButton from 'carbon-components-ember/components/radio-button';
+import RadioButtonGroup from 'carbon-components-ember/components/radio-button/group';
+import Toggle from 'carbon-components-ember/components/toggle';
+import TextInput from 'carbon-components-ember/components/text-input';
+import TextArea from 'carbon-components-ember/components/text-area';
+import PasswordInput from 'carbon-components-ember/components/password-input';
+import NumberInput from 'carbon-components-ember/components/number-input';
+import FluidTextInput from 'carbon-components-ember/components/fluid-text-input';
+import Search from 'carbon-components-ember/components/search';
+import FileUploaderButton from 'carbon-components-ember/components/file-uploader/file-uploader-button';
+import FileUploaderDropContainer from 'carbon-components-ember/components/file-uploader/file-uploader-drop-container';
+import FileUploader from 'carbon-components-ember/components/file-uploader';
 import { normalizeElement } from '../../../dom-parity/lib/normalize-dom.mjs';
 import {
   diffNormalized,
@@ -54,6 +67,19 @@ import skeletonTextFixture from '../../../dom-parity/fixtures/SkeletonText.json'
 import textAreaSkeletonFixture from '../../../dom-parity/fixtures/TextAreaSkeleton.json';
 import sliderSkeletonFixture from '../../../dom-parity/fixtures/SliderSkeleton.json';
 import fileUploaderSkeletonFixture from '../../../dom-parity/fixtures/FileUploaderSkeleton.json';
+import checkboxFixture from '../../../dom-parity/fixtures/Checkbox.json';
+import radioButtonFixture from '../../../dom-parity/fixtures/RadioButton.json';
+import radioButtonGroupFixture from '../../../dom-parity/fixtures/RadioButtonGroup.json';
+import toggleFixture from '../../../dom-parity/fixtures/Toggle.json';
+import textInputFixture from '../../../dom-parity/fixtures/TextInput.json';
+import textAreaFixture from '../../../dom-parity/fixtures/TextArea.json';
+import passwordInputFixture from '../../../dom-parity/fixtures/PasswordInput.json';
+import numberInputFixture from '../../../dom-parity/fixtures/NumberInput.json';
+import fluidTextInputFixture from '../../../dom-parity/fixtures/FluidTextInput.json';
+import searchFixture from '../../../dom-parity/fixtures/Search.json';
+import fileUploaderButtonFixture from '../../../dom-parity/fixtures/FileUploaderButton.json';
+import fileUploaderDropContainerFixture from '../../../dom-parity/fixtures/FileUploaderDropContainer.json';
+import fileUploaderFixture from '../../../dom-parity/fixtures/FileUploader.json';
 
 type VariantFixture = { props: object; dom: object };
 type ComponentFixture = {
@@ -1107,6 +1133,869 @@ module('DOM parity | Carbon React', function (hooks) {
 
     test('every fixture variant is covered', function (assert) {
       assertFullCoverage(assert, fileUploaderSkeletonFixture, ['default']);
+    });
+  });
+
+  module('Checkbox', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><Checkbox @label='Checkbox label' /></template>);
+      assertDomParity(assert, checkboxFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('checked', async function (this: RenderingTestContext, assert) {
+      await render(<template><Checkbox @label='Checkbox label' @checked={{true}} /></template>);
+      assertDomParity(assert, checkboxFixture, 'checked', this.element.firstElementChild);
+    });
+
+    test('indeterminate', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><Checkbox @label='Checkbox label' @indeterminate={{true}} /></template>,
+      );
+      assertDomParity(assert, checkboxFixture, 'indeterminate', this.element.firstElementChild);
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(<template><Checkbox @label='Checkbox label' @disabled={{true}} /></template>);
+      assertDomParity(assert, checkboxFixture, 'disabled', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, checkboxFixture, ['default', 'checked', 'indeterminate', 'disabled']);
+    });
+  });
+
+  module('RadioButton', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <RadioButton @name='radio-group' @value='a' @labelText='Radio label' />
+        </template>,
+      );
+      assertDomParity(assert, radioButtonFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('checked', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <RadioButton
+            @name='radio-group'
+            @value='a'
+            @labelText='Radio label'
+            @checked={{true}}
+          />
+        </template>,
+      );
+      assertDomParity(assert, radioButtonFixture, 'checked', this.element.firstElementChild);
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <RadioButton
+            @name='radio-group'
+            @value='a'
+            @labelText='Radio label'
+            @disabled={{true}}
+          />
+        </template>,
+      );
+      assertDomParity(assert, radioButtonFixture, 'disabled', this.element.firstElementChild);
+    });
+
+    test('label-position-left', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <RadioButton
+            @name='radio-group'
+            @value='a'
+            @labelText='Radio label'
+            @labelPosition='left'
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        radioButtonFixture,
+        'label-position-left',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('hide-label', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <RadioButton
+            @name='radio-group'
+            @value='a'
+            @labelText='Radio label'
+            @hideLabel={{true}}
+          />
+        </template>,
+      );
+      assertDomParity(assert, radioButtonFixture, 'hide-label', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, radioButtonFixture, [
+        'default',
+        'checked',
+        'disabled',
+        'label-position-left',
+        'hide-label',
+      ]);
+    });
+  });
+
+  module('RadioButtonGroup', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <RadioButtonGroup @name='radio-group' @legendText='Choose one' as |Radio|>
+            <Radio @value='a' @labelText='Option A' />
+            <Radio @value='b' @labelText='Option B' />
+          </RadioButtonGroup>
+        </template>,
+      );
+      assertDomParity(assert, radioButtonGroupFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('vertical', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <RadioButtonGroup
+            @name='radio-group'
+            @legendText='Choose one'
+            @orientation='vertical'
+            as |Radio|
+          >
+            <Radio @value='a' @labelText='Option A' />
+            <Radio @value='b' @labelText='Option B' />
+          </RadioButtonGroup>
+        </template>,
+      );
+      assertDomParity(assert, radioButtonGroupFixture, 'vertical', this.element.firstElementChild);
+    });
+
+    test('label-position-left', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <RadioButtonGroup
+            @name='radio-group'
+            @legendText='Choose one'
+            @labelPosition='left'
+            as |Radio|
+          >
+            <Radio @value='a' @labelText='Option A' />
+            <Radio @value='b' @labelText='Option B' />
+          </RadioButtonGroup>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        radioButtonGroupFixture,
+        'label-position-left',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <RadioButtonGroup
+            @name='radio-group'
+            @legendText='Choose one'
+            @disabled={{true}}
+            as |Radio|
+          >
+            <Radio @value='a' @labelText='Option A' />
+            <Radio @value='b' @labelText='Option B' />
+          </RadioButtonGroup>
+        </template>,
+      );
+      assertDomParity(assert, radioButtonGroupFixture, 'disabled', this.element.firstElementChild);
+    });
+
+    test('default-selected', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <RadioButtonGroup
+            @name='radio-group'
+            @legendText='Choose one'
+            @defaultSelected='a'
+            as |Radio|
+          >
+            <Radio @value='a' @labelText='Option A' />
+            <Radio @value='b' @labelText='Option B' />
+          </RadioButtonGroup>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        radioButtonGroupFixture,
+        'default-selected',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, radioButtonGroupFixture, [
+        'default',
+        'vertical',
+        'label-position-left',
+        'disabled',
+        'default-selected',
+      ]);
+    });
+  });
+
+  module('Toggle', function () {
+    // @value={{false}} is passed explicitly (rather than left absent) on the
+    // non-toggled variants below because Glimmer's `aria-checked='{{@value}}'`
+    // binding omits the attribute entirely when the interpolated value is
+    // undefined - matching upstream's own `aria-checked` (which always
+    // reflects `checked`, defaulting to false) needs a real `false`, not an
+    // absent arg.
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><Toggle @name='Toggle label' @value={{false}} /></template>);
+      assertDomParity(assert, toggleFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('toggled', async function (this: RenderingTestContext, assert) {
+      await render(<template><Toggle @name='Toggle label' @value={{true}} /></template>);
+      assertDomParity(assert, toggleFixture, 'toggled', this.element.firstElementChild);
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><Toggle @name='Toggle label' @value={{false}} @disabled={{true}} /></template>,
+      );
+      assertDomParity(assert, toggleFixture, 'disabled', this.element.firstElementChild);
+    });
+
+    test('size-sm', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><Toggle @name='Toggle label' @value={{false}} @size='sm' /></template>,
+      );
+      assertDomParity(assert, toggleFixture, 'size-sm', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, toggleFixture, ['default', 'toggled', 'disabled', 'size-sm']);
+    });
+  });
+
+  module('TextInput', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><TextInput @labelText='Text input label' /></template>);
+      assertDomParity(assert, textInputFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('with-value', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><TextInput @labelText='Text input label' @value='Hello' /></template>,
+      );
+      assertDomParity(assert, textInputFixture, 'with-value', this.element.firstElementChild);
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><TextInput @labelText='Text input label' @disabled={{true}} /></template>,
+      );
+      assertDomParity(assert, textInputFixture, 'disabled', this.element.firstElementChild);
+    });
+
+    test('invalid', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <TextInput
+            @labelText='Text input label'
+            @invalid={{true}}
+            @invalidText='Invalid value'
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, textInputFixture, 'invalid', this.element.firstElementChild);
+    });
+
+    test('warn', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <TextInput @labelText='Text input label' @warn={{true}} @warnText='Warning message' />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, textInputFixture, 'warn', this.element.firstElementChild);
+    });
+
+    test('read-only', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><TextInput @labelText='Text input label' @readOnly={{true}} /></template>,
+      );
+      assertDomParity(assert, textInputFixture, 'read-only', this.element.firstElementChild);
+    });
+
+    test('light', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><TextInput @labelText='Text input label' @light={{true}} /></template>,
+      );
+      assertDomParity(assert, textInputFixture, 'light', this.element.firstElementChild);
+    });
+
+    test('size-sm', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><TextInput @labelText='Text input label' @size='sm' /></template>,
+      );
+      assertDomParity(assert, textInputFixture, 'size-sm', this.element.firstElementChild);
+    });
+
+    test('size-lg', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><TextInput @labelText='Text input label' @size='lg' /></template>,
+      );
+      assertDomParity(assert, textInputFixture, 'size-lg', this.element.firstElementChild);
+    });
+
+    test('helper-text', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <TextInput @labelText='Text input label' @helperText='Helper text' />
+        </template>,
+      );
+      assertDomParity(assert, textInputFixture, 'helper-text', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, textInputFixture, [
+        'default',
+        'with-value',
+        'disabled',
+        'invalid',
+        'warn',
+        'read-only',
+        'light',
+        'size-sm',
+        'size-lg',
+        'helper-text',
+      ]);
+    });
+  });
+
+  module('TextArea', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><TextArea @labelText='Text area label' /></template>);
+      assertDomParity(assert, textAreaFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('with-value', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><TextArea @labelText='Text area label' @value='Hello' /></template>,
+      );
+      assertDomParity(assert, textAreaFixture, 'with-value', this.element.firstElementChild);
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><TextArea @labelText='Text area label' @disabled={{true}} /></template>,
+      );
+      assertDomParity(assert, textAreaFixture, 'disabled', this.element.firstElementChild);
+    });
+
+    test('invalid', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <TextArea
+            @labelText='Text area label'
+            @invalid={{true}}
+            @invalidText='Invalid value'
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, textAreaFixture, 'invalid', this.element.firstElementChild);
+    });
+
+    test('warn', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <TextArea @labelText='Text area label' @warn={{true}} @warnText='Warning message' />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, textAreaFixture, 'warn', this.element.firstElementChild);
+    });
+
+    test('read-only', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><TextArea @labelText='Text area label' @readOnly={{true}} /></template>,
+      );
+      assertDomParity(assert, textAreaFixture, 'read-only', this.element.firstElementChild);
+    });
+
+    test('light', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><TextArea @labelText='Text area label' @light={{true}} /></template>,
+      );
+      assertDomParity(assert, textAreaFixture, 'light', this.element.firstElementChild);
+    });
+
+    test('helper-text', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <TextArea @labelText='Text area label' @helperText='Helper text' />
+        </template>,
+      );
+      assertDomParity(assert, textAreaFixture, 'helper-text', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, textAreaFixture, [
+        'default',
+        'with-value',
+        'disabled',
+        'invalid',
+        'warn',
+        'read-only',
+        'light',
+        'helper-text',
+      ]);
+    });
+  });
+
+  module('PasswordInput', function () {
+    // The show/hide-password toggle's View/ViewOff icon loads its SVG
+    // lazily via TrackedPromise - waitUntil before snapshotting, per the
+    // lazy-icon-test-pattern gotcha.
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><PasswordInput @labelText='Password label' /></template>);
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, passwordInputFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><PasswordInput @labelText='Password label' @disabled={{true}} /></template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, passwordInputFixture, 'disabled', this.element.firstElementChild);
+    });
+
+    test('invalid', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <PasswordInput
+            @labelText='Password label'
+            @invalid={{true}}
+            @invalidText='Invalid value'
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
+      assertDomParity(assert, passwordInputFixture, 'invalid', this.element.firstElementChild);
+    });
+
+    test('warn', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <PasswordInput
+            @labelText='Password label'
+            @warn={{true}}
+            @warnText='Warning message'
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
+      assertDomParity(assert, passwordInputFixture, 'warn', this.element.firstElementChild);
+    });
+
+    test('size-sm', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><PasswordInput @labelText='Password label' @size='sm' /></template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, passwordInputFixture, 'size-sm', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, passwordInputFixture, [
+        'default',
+        'disabled',
+        'invalid',
+        'warn',
+        'size-sm',
+      ]);
+    });
+  });
+
+  module('NumberInput', function () {
+    // NumberInput's stepper icons (Add/Subtract) load their SVG lazily via
+    // TrackedPromise - waitUntil for both before snapshotting the DOM, per
+    // the lazy-icon-test-pattern gotcha (await settled() alone is not
+    // reliable here).
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><NumberInput @label='Number label' /></template>);
+      await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
+      assertDomParity(assert, numberInputFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><NumberInput @label='Number label' @disabled={{true}} /></template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
+      assertDomParity(assert, numberInputFixture, 'disabled', this.element.firstElementChild);
+    });
+
+    test('invalid', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <NumberInput
+            @label='Number label'
+            @invalid={{true}}
+            @invalidText='Invalid value'
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length >= 3);
+      assertDomParity(assert, numberInputFixture, 'invalid', this.element.firstElementChild);
+    });
+
+    test('warn', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <NumberInput @label='Number label' @warn={{true}} @warnText='Warning message' />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length >= 3);
+      assertDomParity(assert, numberInputFixture, 'warn', this.element.firstElementChild);
+    });
+
+    test('read-only', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><NumberInput @label='Number label' @readOnly={{true}} /></template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
+      assertDomParity(assert, numberInputFixture, 'read-only', this.element.firstElementChild);
+    });
+
+    test('light', async function (this: RenderingTestContext, assert) {
+      await render(<template><NumberInput @label='Number label' @light={{true}} /></template>);
+      await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
+      assertDomParity(assert, numberInputFixture, 'light', this.element.firstElementChild);
+    });
+
+    test('hide-steppers', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><NumberInput @label='Number label' @hideSteppers={{true}} /></template>,
+      );
+      assertDomParity(assert, numberInputFixture, 'hide-steppers', this.element.firstElementChild);
+    });
+
+    test('size-sm', async function (this: RenderingTestContext, assert) {
+      await render(<template><NumberInput @label='Number label' @size='sm' /></template>);
+      await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
+      assertDomParity(assert, numberInputFixture, 'size-sm', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, numberInputFixture, [
+        'default',
+        'disabled',
+        'invalid',
+        'warn',
+        'read-only',
+        'light',
+        'hide-steppers',
+        'size-sm',
+      ]);
+    });
+  });
+
+  module('FluidTextInput', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><FluidTextInput @labelText='Fluid text input label' /></template>);
+      assertDomParity(assert, fluidTextInputFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <FluidTextInput @labelText='Fluid text input label' @disabled={{true}} />
+        </template>,
+      );
+      assertDomParity(assert, fluidTextInputFixture, 'disabled', this.element.firstElementChild);
+    });
+
+    test('invalid', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <FluidTextInput
+            @labelText='Fluid text input label'
+            @invalid={{true}}
+            @invalidText='Invalid value'
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, fluidTextInputFixture, 'invalid', this.element.firstElementChild);
+    });
+
+    test('warn', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <FluidTextInput
+            @labelText='Fluid text input label'
+            @warn={{true}}
+            @warnText='Warning message'
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, fluidTextInputFixture, 'warn', this.element.firstElementChild);
+    });
+
+    test('read-only', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <FluidTextInput @labelText='Fluid text input label' @readOnly={{true}} />
+        </template>,
+      );
+      assertDomParity(assert, fluidTextInputFixture, 'read-only', this.element.firstElementChild);
+    });
+
+    test('password', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <FluidTextInput @labelText='Fluid password label' @isPassword={{true}} />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, fluidTextInputFixture, 'password', this.element.firstElementChild);
+    });
+
+    test('password-invalid', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <FluidTextInput
+            @labelText='Fluid password label'
+            @isPassword={{true}}
+            @invalid={{true}}
+            @invalidText='Invalid value'
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
+      assertDomParity(
+        assert,
+        fluidTextInputFixture,
+        'password-invalid',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, fluidTextInputFixture, [
+        'default',
+        'disabled',
+        'invalid',
+        'warn',
+        'read-only',
+        'password',
+        'password-invalid',
+      ]);
+    });
+  });
+
+  module('Search', function () {
+    // The magnifier SearchIcon (and, once a value is present, the Close
+    // clear-button icon) loads its SVG lazily via TrackedPromise - waitUntil
+    // before snapshotting, per the lazy-icon-test-pattern gotcha.
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><Search @labelText='Search label' /></template>);
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, searchFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('with-value', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><Search @labelText='Search label' @value='Search term' /></template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
+      assertDomParity(assert, searchFixture, 'with-value', this.element.firstElementChild);
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><Search @labelText='Search label' @disabled={{true}} /></template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, searchFixture, 'disabled', this.element.firstElementChild);
+    });
+
+    test('light', async function (this: RenderingTestContext, assert) {
+      await render(<template><Search @labelText='Search label' @light={{true}} /></template>);
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, searchFixture, 'light', this.element.firstElementChild);
+    });
+
+    test('size-sm', async function (this: RenderingTestContext, assert) {
+      await render(<template><Search @labelText='Search label' @size='sm' /></template>);
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, searchFixture, 'size-sm', this.element.firstElementChild);
+    });
+
+    test('size-lg', async function (this: RenderingTestContext, assert) {
+      await render(<template><Search @labelText='Search label' @size='lg' /></template>);
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, searchFixture, 'size-lg', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, searchFixture, [
+        'default',
+        'with-value',
+        'disabled',
+        'light',
+        'size-sm',
+        'size-lg',
+      ]);
+    });
+  });
+
+  module('FileUploaderButton', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><FileUploaderButton /></template>);
+      assertDomParity(assert, fileUploaderButtonFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(<template><FileUploaderButton @disabled={{true}} /></template>);
+      assertDomParity(
+        assert,
+        fileUploaderButtonFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('button-kind-secondary', async function (this: RenderingTestContext, assert) {
+      await render(<template><FileUploaderButton @buttonKind='secondary' /></template>);
+      assertDomParity(
+        assert,
+        fileUploaderButtonFixture,
+        'button-kind-secondary',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('size-sm', async function (this: RenderingTestContext, assert) {
+      await render(<template><FileUploaderButton @size='sm' /></template>);
+      assertDomParity(assert, fileUploaderButtonFixture, 'size-sm', this.element.firstElementChild);
+    });
+
+    test('multiple', async function (this: RenderingTestContext, assert) {
+      await render(<template><FileUploaderButton @multiple={{true}} /></template>);
+      assertDomParity(assert, fileUploaderButtonFixture, 'multiple', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, fileUploaderButtonFixture, [
+        'default',
+        'disabled',
+        'button-kind-secondary',
+        'size-sm',
+        'multiple',
+      ]);
+    });
+  });
+
+  module('FileUploaderDropContainer', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><FileUploaderDropContainer /></template>);
+      assertDomParity(
+        assert,
+        fileUploaderDropContainerFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(<template><FileUploaderDropContainer @disabled={{true}} /></template>);
+      assertDomParity(
+        assert,
+        fileUploaderDropContainerFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('multiple', async function (this: RenderingTestContext, assert) {
+      await render(<template><FileUploaderDropContainer @multiple={{true}} /></template>);
+      assertDomParity(
+        assert,
+        fileUploaderDropContainerFixture,
+        'multiple',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, fileUploaderDropContainerFixture, [
+        'default',
+        'disabled',
+        'multiple',
+      ]);
+    });
+  });
+
+  module('FileUploader', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><FileUploader @filenameStatus='edit' /></template>);
+      assertDomParity(assert, fileUploaderFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('with-labels', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <FileUploader
+            @filenameStatus='edit'
+            @labelTitle='Upload files'
+            @labelDescription='Max file size 500kb'
+          />
+        </template>,
+      );
+      assertDomParity(assert, fileUploaderFixture, 'with-labels', this.element.firstElementChild);
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><FileUploader @filenameStatus='edit' @disabled={{true}} /></template>,
+      );
+      assertDomParity(assert, fileUploaderFixture, 'disabled', this.element.firstElementChild);
+    });
+
+    test('button-kind-secondary', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <FileUploader @filenameStatus='edit' @buttonKind='secondary' />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        fileUploaderFixture,
+        'button-kind-secondary',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, fileUploaderFixture, [
+        'default',
+        'with-labels',
+        'disabled',
+        'button-kind-secondary',
+      ]);
     });
   });
 });

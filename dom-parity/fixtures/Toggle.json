@@ -1,0 +1,446 @@
+{
+  "component": "Toggle",
+  "generatedAt": "2026-09-22T05:28:07.621Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--toggle"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--toggle__button"
+            ],
+            "attributes": {
+              "id": "#1",
+              "role": "switch",
+              "type": "button",
+              "aria-checked": "false",
+              "aria-labelledby": "#2"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--toggle__label"
+            ],
+            "attributes": {
+              "id": "#2",
+              "for": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--toggle__label-text"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Toggle label"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--toggle__appearance"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--toggle__switch"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--toggle__text"
+                    ],
+                    "attributes": {
+                      "aria-hidden": "true",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Off"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "toggled": {
+      "props": {
+        "toggled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--toggle"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--toggle__button"
+            ],
+            "attributes": {
+              "id": "#1",
+              "role": "switch",
+              "type": "button",
+              "aria-checked": "true",
+              "aria-labelledby": "#2"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--toggle__label"
+            ],
+            "attributes": {
+              "id": "#2",
+              "for": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--toggle__label-text"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Toggle label"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--toggle__appearance"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--toggle__switch",
+                      "cds--toggle__switch--checked"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--toggle__text"
+                    ],
+                    "attributes": {
+                      "aria-hidden": "true",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "On"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "disabled": {
+      "props": {
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--toggle",
+          "cds--toggle--disabled"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--toggle__button"
+            ],
+            "attributes": {
+              "id": "#1",
+              "role": "switch",
+              "type": "button",
+              "aria-checked": "false",
+              "aria-labelledby": "#2",
+              "disabled": true
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--toggle__label"
+            ],
+            "attributes": {
+              "id": "#2",
+              "for": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--toggle__label-text"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Toggle label"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--toggle__appearance"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--toggle__switch"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--toggle__text"
+                    ],
+                    "attributes": {
+                      "aria-hidden": "true",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Off"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "size-sm": {
+      "props": {
+        "size": "sm"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--toggle"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--toggle__button"
+            ],
+            "attributes": {
+              "id": "#1",
+              "role": "switch",
+              "type": "button",
+              "aria-checked": "false",
+              "aria-labelledby": "#2"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--toggle__label"
+            ],
+            "attributes": {
+              "id": "#2",
+              "for": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--toggle__label-text"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Toggle label"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--toggle__appearance",
+                  "cds--toggle__appearance--sm"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--toggle__switch"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [
+                          "cds--toggle__check"
+                        ],
+                        "attributes": {
+                          "aria-hidden": "true",
+                          "focusable": "false",
+                          "width": "6px",
+                          "height": "5px",
+                          "viewBox": "0 0 6 5"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M2.2 2.7L5 0 6 1 2.2 5 0 2.7 1 1.5z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--toggle__text"
+                    ],
+                    "attributes": {
+                      "aria-hidden": "true",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Off"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
