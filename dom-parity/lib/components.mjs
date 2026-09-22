@@ -321,11 +321,15 @@
  * exports, `Tile`/`RadioTile`/`TileGroup`; every other fixture entry,
  * including the 6 Skeleton ones, the 13 static-form-control ones, and the
  * 10 layout/scaffolding-wrapper ones, maps
- * 1:1 to its own real export) - of the remaining ~54, 2 (`FormInput`,
- * `TextDirection`) are explicit non-goals verified while working the
- * layout/scaffolding-wrappers batch (see the "explicit non-goals" bullets
- * further down), so ~52 are a true, still-unscheduled gap, not a silent
- * one - they were never scheduled. The ~98
+ * 1:1 to its own real export) - of the remaining ~54, `FormInput` and
+ * `TextDirection` (verified while working the layout/scaffolding-wrappers
+ * batch) join `Resizer`/`Portal`/`GridSettings`/`FlexGrid` (see the
+ * "explicit non-goals" bullets further down) as components with no real
+ * upstream DOM for this harness to ever diff against - counted here at
+ * face value like the rest of that list, not subtracted, so the ~54
+ * figure is a true, still-unscheduled gap using one consistent counting
+ * convention throughout this paragraph, not a silent one - they were
+ * never scheduled. The ~98
  * total is every
  * `default as` export from `index.ts` outside `./ai-chat/`, plus the three
  * real secondary component exports on a shared line (`FlexGrid`,
