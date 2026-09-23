@@ -85,8 +85,24 @@ Everything above covers only the `react` parity source. The Ember port
 target for the `carbon-ai-chat` source is `@carbon/ai-chat-components` - a
 framework-agnostic **Lit** widget library rendering into real shadow DOM
 (see `scripts/parity-check.mjs`'s `SOURCES` comment and AGENTS.md's
-"Porting Carbon AI Chat" section) - not a React tree, so there's nothing
-for this package's `react-dom/client` + jsdom pipeline to render.
+"Porting Carbon AI Chat" section).
+
+`@carbon/ai-chat-components` *does* also publish `@lit/react`-based React
+wrapper components (`es/react/*.js`, e.g. `es/react/markdown.js`,
+`es/react/file-uploads.js` - checked directly against the published 1.10.0
+package and its GitHub source, not assumed absent). They don't help here,
+though: each one is `createComponent({ tagName: '...', elementClass:
+SameLitClass, ... })` around the *identical* Lit custom element the plain
+Lit path already registers - same shadow DOM, same `elementClass` - not an
+independent React implementation with its own DOM the way `@carbon/react`'s
+components are. Mounting one via `react-dom/client` in jsdom would still be
+mounting that same Lit custom element underneath, hitting the exact same
+"jsdom doesn't faithfully reproduce Lit's shadow-DOM/custom-element upgrade
+timing" problem #2 below already documents as the reason this path runs
+live in real Chromium instead of as an offline fixture - so the React
+wrapper doesn't open a new `generate.mjs`-style coverage path, and doesn't
+change `FileUploads`' multi-root-shadow-DOM situation either (still the same
+underlying `FileUploadsElement`).
 
 That source is instead compared by a **second, independent** test module,
 `test-app/tests/components/ai-chat/dom-parity-test.gts`, with two real

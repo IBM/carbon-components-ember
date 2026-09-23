@@ -3234,10 +3234,20 @@ that way.
 PR #887 added `dom-parity/` - a harness that renders a pinned `@carbon/react`
 release offline and diffs its normalized DOM against the Ember port (see
 `dom-parity/README.md`). It only ever covered the `react` parity source:
-its `generate.mjs` mounts React components via `react-dom/client` in jsdom,
-which has nothing to render for `carbon-ai-chat` - that source's actual
-port target is `@carbon/ai-chat-components`, a Lit widget library (see this
-document's own opening paragraphs above), not a React tree.
+its `generate.mjs` mounts React components via `react-dom/client` in jsdom.
+That doesn't extend to `carbon-ai-chat` - not because upstream ships no
+React code at all (`@carbon/ai-chat-components` does publish `es/react/*.js`
+wrapper components, checked directly against the published package rather
+than assumed absent - see `dom-parity/README.md`'s "A second, live path"
+section for the full finding), but because every one of those wrappers is a
+thin `@lit/react` `createComponent()` shim around the *same* Lit
+`elementClass` the plain custom element already uses - mounting one via
+`react-dom/client` would still mount that identical Lit element underneath,
+hitting the same jsdom shadow-DOM/upgrade-timing unreliability documented
+below rather than opening a real `generate.mjs`-style path. This source's
+actual port target stays `@carbon/ai-chat-components`'s Lit widgets (see
+this document's own opening paragraphs above), not a React tree with its
+own independent DOM.
 
 Added a second, independent comparison path instead of trying to bend the
 first one to fit: `test-app/tests/components/ai-chat/dom-parity-test.gts`
