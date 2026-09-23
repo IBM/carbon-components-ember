@@ -413,11 +413,20 @@
  *    one-line-to-few-line changes with no existing test coverage to
  *    conflict with: (1) `progress-bar.gts` declared a private helper
  *    function literally named `div`, colliding with the `<div>` tag name -
- *    Ember's strict-mode template compiler treats any bare `div`
- *    identifier specially regardless of position, so invoking `(div ...)`
- *    as a subexpression crashed the whole app's component resolution the
- *    moment `<ProgressBar>` was rendered (`Assertion Failed: ... The
- *    definition was: div`) - renamed to `divide`. (2) `progress-bar.gts`'s
+ *    invoking it as a subexpression (`(div @value this.defaultArgs.max)`)
+ *    crashed the whole app's component resolution the instant
+ *    `<ProgressBar>` was rendered, in test-app's real Vite/Embroider dev
+ *    build (`Assertion Failed: Attempted to load a component, but there
+ *    wasn't a component manager associated with the definition. The
+ *    definition was: div`). Confirmed by direct A/B, not just inferred
+ *    from the error string: reverting only the rename reproduced the
+ *    crash (with the addon dist rebuilt and Vite's dep cache cleared each
+ *    time, to rule out a stale-build artifact), and reapplying it alone
+ *    fixed it - the exact mechanism inside Ember/Glimmer's resolver that
+ *    special-cases a bare `div` identifier wasn't traced further, since
+ *    the fix (renaming to `divide`) doesn't depend on knowing it. Whether
+ *    this also affects a real production build (docs-app) wasn't checked.
+ *    (2) `progress-bar.gts`'s
  *    finished/error status icons used the generic string-keyed `<Icon
  *    @icon='checkmark--filled'>`/`@icon='error--filled'` lookup
  *    (`IconMap`, populated only via `registerIcon()`) - grepping the whole
