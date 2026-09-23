@@ -1,12 +1,13 @@
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
-import Icon from '../components/icon.gts';
+import CheckmarkFilled from '../components/icons/checkmark-filled.ts';
+import ErrorFilled from '../components/icons/error-filled.ts';
 import eq from 'ember-truth-helpers/helpers/eq';
 import { htmlSafe } from '@ember/template';
 import { concat } from '@ember/helper';
 import type { WithRequired } from '../utils/type-helpers.ts';
 
-function div(numerator: number, denominator: number) {
+function divide(numerator: number, denominator: number) {
   return numerator / denominator;
 }
 
@@ -50,7 +51,7 @@ export default class ProgressBar extends Component<ProgressBarInterface> {
         status: 'active',
         value: undefined,
         max: 100,
-        size: undefined,
+        size: 'big',
         type: 'default',
         helperText: '',
         label: '',
@@ -70,15 +71,15 @@ export default class ProgressBar extends Component<ProgressBarInterface> {
           {{this.defaultArgs.label}}
         </span>
         {{#if (eq this.defaultArgs.status 'finished')}}
-          <Icon
-            @icon='checkmark--filled'
+          <CheckmarkFilled
+            @size={{16}}
             @fill='currentColor'
             @svgClass='cds--progress-bar__status-icon'
           />
         {{/if}}
         {{#if (eq this.defaultArgs.status 'error')}}
-          <Icon
-            @icon='error--filled'
+          <ErrorFilled
+            @size={{16}}
             @fill='currentColor'
             @svgClass='cds--progress-bar__status-icon'
           />
@@ -98,21 +99,23 @@ export default class ProgressBar extends Component<ProgressBarInterface> {
           style={{if
             @value
             (htmlSafe
-              (concat 'transform: scaleX(' (div @value this.defaultArgs.max) ');')
+              (concat 'transform: scaleX(' (divide @value this.defaultArgs.max) ');')
             )
           }}
         ></div>
       </div>
-      <div class='cds--progress-bar__helper-text'>
-        {{@helperText}}
-        <div
-          class='cds--visually-hidden'
-          aria-live='polite'
-          id='progress-bar-helper-{{this.guid}}'
-        >
-          Done
+      {{#if @helperText}}
+        <div class='cds--progress-bar__helper-text'>
+          {{@helperText}}
+          <div
+            class='cds--visually-hidden'
+            aria-live='polite'
+            id='progress-bar-helper-{{this.guid}}'
+          >
+            Done
+          </div>
         </div>
-      </div>
+      {{/if}}
     </div>
   </template>
 }

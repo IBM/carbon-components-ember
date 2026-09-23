@@ -46,6 +46,11 @@ import Theme from 'carbon-components-ember/components/theme';
 import Text from 'carbon-components-ember/components/text';
 import Layout, { LayoutConstraint } from 'carbon-components-ember/components/layout';
 import LayoutDirection from 'carbon-components-ember/components/layout-direction';
+import ProgressBar from 'carbon-components-ember/components/progress-bar';
+import ProgressIndicator from 'carbon-components-ember/components/progress-indicator';
+import IconIndicator from 'carbon-components-ember/components/icon-indicator';
+import ShapeIndicator from 'carbon-components-ember/components/shape-indicator';
+import Slider from 'carbon-components-ember/components/slider';
 import { normalizeElement } from '../../../dom-parity/lib/normalize-dom.mjs';
 import {
   diffNormalized,
@@ -99,6 +104,11 @@ import textFixture from '../../../dom-parity/fixtures/Text.json';
 import layoutFixture from '../../../dom-parity/fixtures/Layout.json';
 import layoutConstraintFixture from '../../../dom-parity/fixtures/LayoutConstraint.json';
 import layoutDirectionFixture from '../../../dom-parity/fixtures/LayoutDirection.json';
+import progressBarFixture from '../../../dom-parity/fixtures/ProgressBar.json';
+import progressIndicatorFixture from '../../../dom-parity/fixtures/ProgressIndicator.json';
+import iconIndicatorFixture from '../../../dom-parity/fixtures/IconIndicator.json';
+import shapeIndicatorFixture from '../../../dom-parity/fixtures/ShapeIndicator.json';
+import sliderFixture from '../../../dom-parity/fixtures/Slider.json';
 
 type VariantFixture = { props: object; dom: object };
 type ComponentFixture = {
@@ -2327,6 +2337,571 @@ module('DOM parity | Carbon React', function (hooks) {
 
     test('every fixture variant is covered', function (assert) {
       assertFullCoverage(assert, layoutDirectionFixture, ['ltr', 'rtl']);
+    });
+  });
+
+  module('ProgressBar', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><ProgressBar @label='Uploading file' @value={{50}} /></template>,
+      );
+      assertDomParity(assert, progressBarFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('size-small', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ProgressBar @label='Uploading file' @size='small' @value={{50}} />
+        </template>,
+      );
+      assertDomParity(assert, progressBarFixture, 'size-small', this.element.firstElementChild);
+    });
+
+    test('type-inline', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ProgressBar @label='Uploading file' @type='inline' @value={{30}} />
+        </template>,
+      );
+      assertDomParity(assert, progressBarFixture, 'type-inline', this.element.firstElementChild);
+    });
+
+    test('type-indented', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ProgressBar @label='Uploading file' @type='indented' @value={{30}} />
+        </template>,
+      );
+      assertDomParity(assert, progressBarFixture, 'type-indented', this.element.firstElementChild);
+    });
+
+    test('finished', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><ProgressBar @label='Uploading file' @status='finished' /></template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, progressBarFixture, 'finished', this.element.firstElementChild);
+    });
+
+    test('error', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><ProgressBar @label='Uploading file' @status='error' /></template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, progressBarFixture, 'error', this.element.firstElementChild);
+    });
+
+    test('indeterminate', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><ProgressBar @label='Uploading file' @status='indeterminate' /></template>,
+      );
+      assertDomParity(assert, progressBarFixture, 'indeterminate', this.element.firstElementChild);
+    });
+
+    test('helper-text', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ProgressBar
+            @label='Uploading file'
+            @value={{40}}
+            @helperText='Estimated time left: 2 minutes'
+          />
+        </template>,
+      );
+      assertDomParity(assert, progressBarFixture, 'helper-text', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, progressBarFixture, [
+        'default',
+        'size-small',
+        'type-inline',
+        'type-indented',
+        'finished',
+        'error',
+        'indeterminate',
+        'helper-text',
+      ]);
+    });
+  });
+
+  module('ProgressIndicator', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ProgressIndicator @currentIndex={{1}} as |Step|>
+            <Step @label='First step' />
+            <Step @label='Second step' />
+            <Step @label='Third step' />
+          </ProgressIndicator>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 3);
+      assertDomParity(assert, progressIndicatorFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('vertical', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ProgressIndicator @currentIndex={{1}} @vertical={{true}} as |Step|>
+            <Step @label='First step' />
+            <Step @label='Second step' />
+            <Step @label='Third step' />
+          </ProgressIndicator>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 3);
+      assertDomParity(assert, progressIndicatorFixture, 'vertical', this.element.firstElementChild);
+    });
+
+    test('space-equally', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ProgressIndicator @currentIndex={{0}} @spaceEqually={{true}} as |Step|>
+            <Step @label='First step' />
+            <Step @label='Second step' />
+            <Step @label='Third step' />
+          </ProgressIndicator>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 3);
+      assertDomParity(
+        assert,
+        progressIndicatorFixture,
+        'space-equally',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('secondary-label', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ProgressIndicator @currentIndex={{0}} as |Step|>
+            <Step @label='First step' @secondaryLabel='Optional' />
+            <Step @label='Second step' />
+            <Step @label='Third step' />
+          </ProgressIndicator>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 3);
+      assertDomParity(
+        assert,
+        progressIndicatorFixture,
+        'secondary-label',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('description', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ProgressIndicator @currentIndex={{0}} as |Step|>
+            <Step @label='First step' @description='Step description' />
+            <Step @label='Second step' />
+            <Step @label='Third step' />
+          </ProgressIndicator>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 3);
+      assertDomParity(assert, progressIndicatorFixture, 'description', this.element.firstElementChild);
+    });
+
+    test('invalid-step', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ProgressIndicator @currentIndex={{0}} as |Step|>
+            <Step @label='First step' @invalid={{true}} />
+            <Step @label='Second step' />
+            <Step @label='Third step' />
+          </ProgressIndicator>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 3);
+      assertDomParity(
+        assert,
+        progressIndicatorFixture,
+        'invalid-step',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('disabled-step', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ProgressIndicator @currentIndex={{2}} as |Step|>
+            <Step @label='First step' />
+            <Step @label='Second step' />
+            <Step @label='Third step' @disabled={{true}} />
+          </ProgressIndicator>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 3);
+      assertDomParity(
+        assert,
+        progressIndicatorFixture,
+        'disabled-step',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, progressIndicatorFixture, [
+        'default',
+        'vertical',
+        'space-equally',
+        'secondary-label',
+        'description',
+        'invalid-step',
+        'disabled-step',
+      ]);
+    });
+  });
+
+  module('IconIndicator', function () {
+    test('failed', async function (this: RenderingTestContext, assert) {
+      await render(<template><IconIndicator @kind='failed' @label='Failed' /></template>);
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, iconIndicatorFixture, 'failed', this.element.firstElementChild);
+    });
+
+    test('caution-major', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><IconIndicator @kind='caution-major' @label='Caution major' /></template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, iconIndicatorFixture, 'caution-major', this.element.firstElementChild);
+    });
+
+    test('caution-minor', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><IconIndicator @kind='caution-minor' @label='Caution minor' /></template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, iconIndicatorFixture, 'caution-minor', this.element.firstElementChild);
+    });
+
+    test('undefined', async function (this: RenderingTestContext, assert) {
+      await render(<template><IconIndicator @kind='undefined' @label='Undefined' /></template>);
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, iconIndicatorFixture, 'undefined', this.element.firstElementChild);
+    });
+
+    test('succeeded', async function (this: RenderingTestContext, assert) {
+      await render(<template><IconIndicator @kind='succeeded' @label='Succeeded' /></template>);
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, iconIndicatorFixture, 'succeeded', this.element.firstElementChild);
+    });
+
+    test('normal', async function (this: RenderingTestContext, assert) {
+      await render(<template><IconIndicator @kind='normal' @label='Normal' /></template>);
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, iconIndicatorFixture, 'normal', this.element.firstElementChild);
+    });
+
+    test('in-progress', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><IconIndicator @kind='in-progress' @label='In progress' /></template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, iconIndicatorFixture, 'in-progress', this.element.firstElementChild);
+    });
+
+    test('incomplete', async function (this: RenderingTestContext, assert) {
+      await render(<template><IconIndicator @kind='incomplete' @label='Incomplete' /></template>);
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, iconIndicatorFixture, 'incomplete', this.element.firstElementChild);
+    });
+
+    test('not-started', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><IconIndicator @kind='not-started' @label='Not started' /></template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, iconIndicatorFixture, 'not-started', this.element.firstElementChild);
+    });
+
+    test('pending', async function (this: RenderingTestContext, assert) {
+      await render(<template><IconIndicator @kind='pending' @label='Pending' /></template>);
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, iconIndicatorFixture, 'pending', this.element.firstElementChild);
+    });
+
+    test('unknown', async function (this: RenderingTestContext, assert) {
+      await render(<template><IconIndicator @kind='unknown' @label='Unknown' /></template>);
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, iconIndicatorFixture, 'unknown', this.element.firstElementChild);
+    });
+
+    test('informative', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><IconIndicator @kind='informative' @label='Informative' /></template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, iconIndicatorFixture, 'informative', this.element.firstElementChild);
+    });
+
+    test('size-20', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><IconIndicator @kind='succeeded' @label='Succeeded' @size={{20}} /></template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, iconIndicatorFixture, 'size-20', this.element.firstElementChild);
+    });
+
+    test('compact', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <IconIndicator @kind='succeeded' @label='Succeeded' @compact={{true}} />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, iconIndicatorFixture, 'compact', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, iconIndicatorFixture, [
+        'failed',
+        'caution-major',
+        'caution-minor',
+        'undefined',
+        'succeeded',
+        'normal',
+        'in-progress',
+        'incomplete',
+        'not-started',
+        'pending',
+        'unknown',
+        'informative',
+        'size-20',
+        'compact',
+      ]);
+    });
+  });
+
+  module('ShapeIndicator', function () {
+    test('failed', async function (this: RenderingTestContext, assert) {
+      await render(<template><ShapeIndicator @kind='failed' @label='Failed' /></template>);
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, shapeIndicatorFixture, 'failed', this.element.firstElementChild);
+    });
+
+    test('critical', async function (this: RenderingTestContext, assert) {
+      await render(<template><ShapeIndicator @kind='critical' @label='Critical' /></template>);
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, shapeIndicatorFixture, 'critical', this.element.firstElementChild);
+    });
+
+    test('high', async function (this: RenderingTestContext, assert) {
+      await render(<template><ShapeIndicator @kind='high' @label='High' /></template>);
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, shapeIndicatorFixture, 'high', this.element.firstElementChild);
+    });
+
+    test('medium', async function (this: RenderingTestContext, assert) {
+      await render(<template><ShapeIndicator @kind='medium' @label='Medium' /></template>);
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, shapeIndicatorFixture, 'medium', this.element.firstElementChild);
+    });
+
+    test('low', async function (this: RenderingTestContext, assert) {
+      await render(<template><ShapeIndicator @kind='low' @label='Low' /></template>);
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, shapeIndicatorFixture, 'low', this.element.firstElementChild);
+    });
+
+    test('cautious', async function (this: RenderingTestContext, assert) {
+      await render(<template><ShapeIndicator @kind='cautious' @label='Cautious' /></template>);
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, shapeIndicatorFixture, 'cautious', this.element.firstElementChild);
+    });
+
+    test('undefined', async function (this: RenderingTestContext, assert) {
+      await render(<template><ShapeIndicator @kind='undefined' @label='Undefined' /></template>);
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, shapeIndicatorFixture, 'undefined', this.element.firstElementChild);
+    });
+
+    test('stable', async function (this: RenderingTestContext, assert) {
+      await render(<template><ShapeIndicator @kind='stable' @label='Stable' /></template>);
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, shapeIndicatorFixture, 'stable', this.element.firstElementChild);
+    });
+
+    test('informative', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><ShapeIndicator @kind='informative' @label='Informative' /></template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, shapeIndicatorFixture, 'informative', this.element.firstElementChild);
+    });
+
+    test('incomplete', async function (this: RenderingTestContext, assert) {
+      await render(<template><ShapeIndicator @kind='incomplete' @label='Incomplete' /></template>);
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, shapeIndicatorFixture, 'incomplete', this.element.firstElementChild);
+    });
+
+    test('draft', async function (this: RenderingTestContext, assert) {
+      await render(<template><ShapeIndicator @kind='draft' @label='Draft' /></template>);
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, shapeIndicatorFixture, 'draft', this.element.firstElementChild);
+    });
+
+    test('text-size-14', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><ShapeIndicator @kind='stable' @label='Stable' @textSize={{14}} /></template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, shapeIndicatorFixture, 'text-size-14', this.element.firstElementChild);
+    });
+
+    test('compact', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><ShapeIndicator @kind='stable' @label='Stable' @compact={{true}} /></template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, shapeIndicatorFixture, 'compact', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, shapeIndicatorFixture, [
+        'failed',
+        'critical',
+        'high',
+        'medium',
+        'low',
+        'cautious',
+        'undefined',
+        'stable',
+        'informative',
+        'incomplete',
+        'draft',
+        'text-size-14',
+        'compact',
+      ]);
+    });
+  });
+
+  module('Slider', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Slider @id='slider-1' @labelText='Slider label' @min={{0}} @max={{100}} @value={{50}} />
+        </template>,
+      );
+      assertDomParity(assert, sliderFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Slider
+            @id='slider-1'
+            @labelText='Slider label'
+            @min={{0}}
+            @max={{100}}
+            @value={{50}}
+            @disabled={{true}}
+          />
+        </template>,
+      );
+      assertDomParity(assert, sliderFixture, 'disabled', this.element.firstElementChild);
+    });
+
+    test('read-only', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Slider
+            @id='slider-1'
+            @labelText='Slider label'
+            @min={{0}}
+            @max={{100}}
+            @value={{50}}
+            @readOnly={{true}}
+          />
+        </template>,
+      );
+      assertDomParity(assert, sliderFixture, 'read-only', this.element.firstElementChild);
+    });
+
+    test('invalid', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Slider
+            @id='slider-1'
+            @labelText='Slider label'
+            @min={{0}}
+            @max={{100}}
+            @value={{50}}
+            @invalid={{true}}
+            @invalidText='Invalid value'
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, sliderFixture, 'invalid', this.element.firstElementChild);
+    });
+
+    test('warn', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Slider
+            @id='slider-1'
+            @labelText='Slider label'
+            @min={{0}}
+            @max={{100}}
+            @value={{50}}
+            @warn={{true}}
+            @warnText='Warning message'
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(assert, sliderFixture, 'warn', this.element.firstElementChild);
+    });
+
+    test('hide-label', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Slider
+            @id='slider-1'
+            @labelText='Slider label'
+            @min={{0}}
+            @max={{100}}
+            @value={{50}}
+            @hideLabel={{true}}
+          />
+        </template>,
+      );
+      assertDomParity(assert, sliderFixture, 'hide-label', this.element.firstElementChild);
+    });
+
+    test('two-handles', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Slider
+            @id='slider-1'
+            @labelText='Slider label'
+            @min={{0}}
+            @max={{100}}
+            @value={{50}}
+            @valueUpper={{75}}
+          />
+        </template>,
+      );
+      assertDomParity(assert, sliderFixture, 'two-handles', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, sliderFixture, [
+        'default',
+        'disabled',
+        'read-only',
+        'invalid',
+        'warn',
+        'hide-label',
+        'two-handles',
+      ]);
     });
   });
 });

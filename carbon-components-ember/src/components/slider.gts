@@ -409,7 +409,7 @@ export default class Slider extends Component<SliderSignature> {
   <template>
     <div class='cds--form-item {{if @invalid "cds--form-item--invalid"}}' ...attributes>
       <label
-        for={{this.id}}
+        for={{unless this.twoHandles this.id}}
         class='cds--label
           {{if @hideLabel "cds--visually-hidden"}}
           {{if @disabled "cds--label--disabled"}}'
@@ -435,7 +435,7 @@ export default class Slider extends Component<SliderSignature> {
             @required={{@required}}
             @min={{@min}}
             @max={{@max}}
-            @step={{@step}}
+            @step={{this.step}}
             @readOnly={{@readOnly}}
             @invalid={{@invalid}}
             @warn={{@warn}}
@@ -510,7 +510,7 @@ export default class Slider extends Component<SliderSignature> {
           @required={{@required}}
           @min={{@min}}
           @max={{@max}}
-          @step={{@step}}
+          @step={{this.step}}
           @readOnly={{@readOnly}}
           @invalid={{@invalid}}
           @warn={{@warn}}
