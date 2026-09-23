@@ -3388,6 +3388,179 @@ surfacing here are repeated below.
   styling gap - that class carries `@carbon/styles`' own button-reset and
   focus-outline rules).
 
+### Full demo app — `docs-app`'s `/ai-chat-demo` route (2026-09-18)
+
+A standalone, fully-assembled demo of the `ai-chat/*` family, comparable in
+scope to upstream's own
+[`demo/` package](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/demo)
+— a real host application wiring the components together, not another
+per-component doc page. Lives at `docs-app/app/components/ai-chat-demo/`,
+routed at `/ai-chat-demo` and linked from `session-shell.gjs.md` and the
+`ai-chat` family's own `2-components/ai-chat/index.gjs.md` overview page (the
+sidebar's "Ai Chat" entry) — a `.gjs.md` file, matching every other family
+index page (`list/index.gjs.md`, `layout/index.gjs.md`,
+`select/index.gjs.md`, `text-input/index.gjs.md`), with a plain markdown
+prose link to the demo plus a real `<Link @href='../../ai-chat-demo'>`
+rendered inside a `gjs live preview` fence as a verifiable, clickable CTA.
+
+**Routing: a real Ember route registered alongside kolay's markdown pages,
+not one.** `router.ts` adds `this.route('ai-chat-demo')` next to
+`addRoutes(this)` (kolay's own `this.route('page', { path: '/*page' })`
+wildcard for every markdown page) — a static segment always wins a wildcard
+by route-recognizer specificity regardless of registration order, confirmed
+empirically rather than assumed. `docs-app/app/templates/ai-chat-demo.gts`
+follows the same `ember-route-template` `Route()` pattern as `page.gts`/
+`application.gts`, rendering `components/ai-chat-demo/index.gts`. Because
+this route is a sibling of `page`, not nested under it, it renders with none
+of `PageLayout`'s sidebar/prose chrome — the "own contained page" the task
+asked for, same as how the site's own `index.gts` (home page) opts out via
+`IndexPage` instead of `PageLayout`.
+
+**Real trap: `ember-route-template`'s `Route()` templates belong in
+`app/templates/`, not `app/routes/`, despite the name.** Tried
+`app/routes/ai-chat-demo.gts` first (it reads like the natural home for a
+route file) — Ember's resolver treats anything under `app/routes/` as a
+`route:` factory (a `Route` subclass), and `Route()` doesn't produce one; it
+produces the *template's* backing class. The failure mode is opaque: no
+build error, just a runtime `TypeError: this.class.create is not a function`
+inside `InternalFactoryManager.create` the moment the router tries to
+instantiate the route. `page.gts`/`application.gts`/`index.gts` all already
+live in `app/templates/` — should have been the tell.
+
+**Verifying against the dev server doesn't work — this hit the
+already-documented [[project_docs_app_dev_server_live_reload_unstable]]
+class of issue from the *routing* side, not just live-preview demos:** a
+real Playwright `page.goto('/ai-chat-demo', { waitUntil: 'load' })` against
+`pnpm vite dev` timed out repeatedly (120s+) even though `curl` got a 200
+for the SPA shell instantly — the dev server never finishes serving the
+full module graph this route pulls in (this app's `application.ts` already
+eagerly imports every component). Confirmed the route itself worked via a
+real `DOCS_URL=versions/main pnpm build` instead, per
+[[project_docs_app_local_browser_verification]] — that memory's guidance
+("the dev server isn't a trustworthy verification target") now also covers
+routing questions, not just component rendering.
+
+**No addon changes — `SessionShell` was deliberately left alone.** The
+obvious-looking approach (add an optional `<:messages>` override block to
+`SessionShell`, mirroring its existing `<:history>` has-block pattern) was
+considered and rejected: it would need a way to tag which messages get
+custom rendering, and the only place to carry that tag is `ChatMessage.text`
+itself (`ChatSession` has no per-message metadata field — see the class doc
+in `services/ai-chat-session.ts`) — i.e. inventing a wire protocol inside a
+shared string field to serve one demo page, exactly the kind of thing flagged
+elsewhere in this doc ("a no-op arg is worse than an absent one", "don't
+invent state upstream doesn't have"). Instead, the demo is a genuine *host
+application*: `full-window.gts` hand-assembles `ChatShell` directly (its own
+`@service('carbon.ai-chat-session')` injection, exactly what `SessionShell`
+itself does internally), which yields `<:messages>` already — full control
+over rendering with zero addon changes. "Custom response type" payloads are
+kept as demo-local state (`Map<messageId, RichResponse>`, populated by the
+demo's own reply handler from the id `receive()` returns), not encoded into
+`message.text` — see `rich-response.gts`'s class doc.
+
+**Two sections, two embedding styles, deliberately not unified into one
+mode-toggle:** `full-window.gts` hand-assembles `ChatShell` (fills its
+container, forces `session.open = true` since there's no launcher in this
+layout) to showcase custom response types (`AiChatCard`/`Table`/
+`AiChatCodeSnippet`/`AudioPlayer`/`VideoPlayer`, chosen by keyword-matching
+the user's message — a demo-only convention, not a real intent parser) and
+writeable elements (`<:headerAfter>`/`<:inputBefore>`/`<:footer>` — this
+addon's equivalent of upstream's named `WriteableElementName` slots is
+simply passing a named block, no separate registry API to build). `floating.gts`
+uses the one-line `<SessionShell />` container instead, positioned as a
+viewport-corner launcher widget via `demo.css`'s `position: fixed` wrapper —
+the "drop-in container" showcase, deliberately kept simple rather than
+duplicating `full-window.gts`'s complexity. Both drive independent
+`ChatSession`s (distinct `@instanceId`s and `enablePersistence()` storage
+keys) via the existing multi-instance isolation, and both fill the same
+`<:workspace>` block with a shared `workspace-panel.gts` component (built
+from `WorkspaceShell`) — the "custom panel" showcase, reused in both layouts
+since the panel itself is ordinary host content, not tied to either
+embedding style. Theming reuses `docs-app/docs-support/theme-switcher.gts`'s
+existing `ThemeSwitcher`/shared `currentCarbonTheme` cell directly (imported
+by its real module path, not through kolay's virtual `'docs-support'` module
+map, which only exists for markdown-rendered live-preview demos) — this is
+the *only* real (non-kolay-demo) route in the app that renders actual Carbon
+components, so it's also the only one that needs to include `<ThemeSupport />`
+itself for the CSS those components need.
+
+**`import.meta.env.BASE_URL` (used for the local `demo-support/` sample
+audio/video assets, same pattern as `audio-player.gjs.md`/`video-player.gjs.md`)
+must stay a direct, unaliased member expression.** Refactoring it to
+`const viteMeta = import.meta as unknown as {...}; viteMeta.env.BASE_URL`
+(to satisfy `@typescript-eslint/no-unsafe-member-access` without a
+`@ts-expect-error`) built cleanly but broke at runtime — `viteMeta.env` was
+`undefined` in the actual browser, caught by the real
+`DOCS_URL=versions/main pnpm build` + Playwright pass, not by any static
+check. This app's build has no runtime `import.meta.env` polyfill; `BASE_URL`
+only resolves via vite's own static substitution of the literal
+`import.meta.env.BASE_URL` expression shape, which an intermediate local
+binding defeats. Kept as `import.meta.env.BASE_URL` directly, with
+`@ts-expect-error` (glint) + a scoped `eslint-disable` (the unsafe-member-
+access rule) instead — same class of gap as `routes/application.ts`'s
+pre-existing untyped `import.meta.hot` check.
+
+### PR #886 review follow-up: message-area scroll, input focus ring, shell border
+
+Three visual reports against the demo app, all fixed on the same PR:
+
+- **`.cds-aichat-shell__messages` had no `overflow`, so a long conversation
+  pushed past the shell's own bounded height instead of scrolling
+  internally.** Upstream's own `.messages` rule has no `overflow` either —
+  it relies on the `messages` slot's caller content (its own message-list
+  widget) providing the scroll container, an intentional gap already
+  documented in `chat-shell.gts`'s class doc ("the `messages` block's
+  content is entirely up to the caller"). But `SessionShell`'s own default
+  `<:messages>` assembly yields raw content straight into that slot with no
+  scroll wrapper of its own — so the shipped, one-line `<SessionShell />`
+  was broken the same way as the demo's hand-assembled `ChatShell`, not
+  just the demo. Fixed in the shared `_chat-shell.scss` (`overflow-y: auto`
+  alongside the existing `min-block-size: 0`, completing the standard
+  flex-grow-scroll idiom) rather than duplicated in demo-only CSS, since
+  that's the one change that fixes both call sites — a consumer that
+  passes its own scrolling message-list component into `<:messages>` is
+  unaffected either way.
+- **The non-expanded prompt-line layout's `outline-color: var(--cds-focus)`
+  focus ring is real, intentional, byte-identical to upstream — not
+  touched.** Deleting it would be both an a11y regression and a parity
+  break for every `PromptLineShell` consumer (see the already-documented
+  `:focus-visible` investigation in the PromptLine batch-2 section — it
+  can't discriminate keyboard from pointer focus on a text-entry surface,
+  so there's no CSS-only way to show it only for keyboard users). Instead,
+  both the full-window demo's own `PromptLineShell` and `SessionShell`'s
+  internal one now pass `@expanded={{true}}` — upstream's real chat-prompt
+  layout already replaces that ring with a bottom border plus a focus
+  drop-shadow for exactly this look, so this is a real, already-ported
+  upstream variant, not a new suppression rule.
+- **`ChatShell`'s `frameless` class applies whenever `@showFrame` is
+  omitted, and neither demo (nor `SessionShell` itself) ever passed it** —
+  so every `ChatShell`/`SessionShell` consumer rendered with no border and
+  no shadow at all. `full-window.gts` now passes `@showFrame={{true}}`
+  directly; `SessionShell` (used by the floating demo) hardcodes it
+  internally, since a pre-assembled drop-in widget always renders as a
+  standalone surface. One interaction worth knowing: the floating demo
+  also passes `@aiEnabled={{true}}`, which applies `.ai-theme { border-
+  color: transparent; }` — so that shell gets `@showFrame`'s box-shadow but
+  no visible border line, confirmed via real `getComputedStyle` and a
+  screenshot to read as a distinct, separated surface anyway (matching
+  Carbon's AI-theme design intent of shadow-only elevation, not a bug to
+  work around).
+
+Verified with a real `DOCS_URL=versions/main pnpm build` + Playwright
+against the built `dist` (SPA-fallback static server, per
+[[project_docs_app_local_browser_verification]]): typed 15 messages into
+the full-window demo and confirmed `scrollHeight` (1807px) exceeds
+`clientHeight` (372px) inside `.cds-aichat-shell__messages` while the
+shell's own rendered height stayed fixed at the container's 700px; focused
+the input and confirmed `outlineColor` is transparent with a real
+`borderBottom`/`boxShadow` instead; confirmed both shells' `border`/
+`boxShadow` computed styles and a full-page screenshot of each layout.
+Local `test-app` Playwright suite hit the already-documented
+[[project_test_app_harness_json_parse_crash]] harness flake without
+producing results even with the addon freshly built; relied on `pnpm
+build`/`glint`/`lint` (all clean) plus the direct browser verification
+above instead of fighting it further.
+
 ## Key Resources
 
 - **Carbon React**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components
