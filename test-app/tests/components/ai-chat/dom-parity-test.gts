@@ -1,15 +1,17 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, waitUntil } from '@ember/test-helpers';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import Processing from 'carbon-components-ember/components/ai-chat/processing';
 import ReasoningSteps from 'carbon-components-ember/components/ai-chat/reasoning-steps';
+import Markdown from 'carbon-components-ember/components/ai-chat/markdown';
 
 // Registers the real custom elements as a side effect - see each import's
 // own package for the tag(s) it defines (`cds-aichat-processing`,
 // `cds-aichat-reasoning-steps` + `cds-aichat-reasoning-step`).
 import '@carbon/ai-chat-components/es/components/processing/index.js';
 import '@carbon/ai-chat-components/es/components/reasoning-steps/index.js';
+import '@carbon/ai-chat-components/es/components/markdown/index.js';
 
 import { normalizeElement } from '../../../../dom-parity/lib/normalize-dom.mjs';
 import {
@@ -120,6 +122,30 @@ async function mountUpstream(
   };
 }
 
+/** Like `mountUpstream`, but for `cds-aichat-markdown` specifically: its
+ * first real render is throttled (`scheduleRender`, 100ms leading+trailing),
+ * so `updateComplete` (which `waitForCustomElementsReady` awaits) can
+ * resolve before the throttled render actually lands - poll for real
+ * content instead of flattening immediately.
+ */
+async function mountUpstreamMarkdown(
+  markdown: string,
+): Promise<{ root: Element | null; cleanup: () => void }> {
+  const container = document.createElement('div');
+  document.body.appendChild(container);
+  const host = document.createElement('cds-aichat-markdown');
+  host.setAttribute('markdown', markdown);
+  container.appendChild(host);
+  await waitForCustomElementsReady(host);
+  await waitUntil(() => (host.shadowRoot?.textContent ?? '').trim().length > 0);
+
+  const flattened = flattenComposedTree(host);
+  return {
+    root: flattened instanceof Element ? flattened : null,
+    cleanup: () => container.remove(),
+  };
+}
+
 module('DOM parity | Carbon AI Chat', function (hooks) {
   setupRenderingTest(hooks);
 
@@ -192,6 +218,13 @@ module('DOM parity | Carbon AI Chat', function (hooks) {
         </template>,
       );
 
+      // The interactive step's chevron (ChevronRight) loads its SVG lazily
+      // via TrackedPromise - render() alone doesn't wait for it, and
+      // settled() doesn't reliably either (see
+      // project_lazy_icon_test_pattern). Only the interactive step has an
+      // icon (the static step uses a plain "-" character instead).
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
+
       assertAiChatDomParity(
         assert,
         'AiChatReasoningSteps',
@@ -218,6 +251,10 @@ module('DOM parity | Carbon AI Chat', function (hooks) {
         </template>,
       );
 
+      // See the "open, one static + one interactive step" test above -
+      // same lazy-icon race, same single-interactive-step icon count.
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
+
       assertAiChatDomParity(
         assert,
         'AiChatReasoningSteps',
@@ -228,4 +265,95 @@ module('DOM parity | Carbon AI Chat', function (hooks) {
       cleanup();
     });
   });
+
+  module('Markdown', function () {
+    test('headings, emphasis, and a paragraph', async function (this: RenderingTestContext, assert) {
+      const src = '# Title\n\nSome **bold** and _italic_ text.';
+      const { root, cleanup } = await mountUpstreamMarkdown(src);
+      await render(<template><Markdown @markdown={{src}} /></template>);
+      assertAiChatDomParity(
+        assert,
+        'AiChatMarkdown',
+        'headings-emphasis-paragraph',
+        root,
+        this.element.firstElementChild,
+      );
+      cleanup();
+    });
+  });
+
+  // The rest of this component family isn't coverable by this harness, for
+  // one of four reasons - confirmed empirically (mounting each and reading
+  // the real error/output), not just by reading source. See dom-parity/
+  // README.md's "Adding a component to this path" section for the general
+  // guidance this follows (slot-dominated shadow templates give weak
+  // coverage; pick a different variant or skip and say why).
+  //
+  // 1. Upstream's shadow root renders multiple sibling top-level elements,
+  //    which `flattenComposedTree`'s "a shadow root renders exactly one
+  //    root element" invariant doesn't support (throws
+  //    "expected exactly one rendered root element ... got N") - and
+  //    Ember's own root is always a single element, so there's no shared
+  //    node for `diffNormalized` even to start walking from:
+  //    - `FileUploads` (`cds-aichat-file-uploads`): two sibling live-region
+  //      `<div>`s even in the empty state ("got 2"), three once uploads are
+  //      shown.
+  //    - `FileUploadItem` (`cds-aichat-file-upload-item`): wraps `@carbon/
+  //      web-components`' `cds-file-uploader-item`, whose own shadow root
+  //      renders a `<p>`/`<span>`/`<div>` sibling trio ("got 4").
+  //    - `WorkspaceShellHeader`'s non-collapsible branch (no `@collapsible`):
+  //      a `<div class="...header-content">` and a `<slot name="header-
+  //      action">` sibling, not one wrapped root (its `@collapsible` branch
+  //      *is* single-root - see reason 3 below for why it's still skipped).
+  // 2. Real markup, but dominated by caller-supplied `<slot>` content with
+  //    little or no markup of the component's own - the README's own
+  //    "weak coverage" case:
+  //    - `ChatShell`: real wrapper `<div>`s, but every piece of actual
+  //      content (header/history/workspace/messages/footer/panels) is a
+  //      named `<slot>`.
+  //    - `WorkspaceShell`: five bare `<slot>`s, no wrapper element of its
+  //      own at all (also hits reason 1's multi-root problem the moment
+  //      more than one slot has assigned content).
+  //    - `WorkspaceShellBody`: `<slot></slot>`, nothing else.
+  //    - `PromptLineShell`: six named-slot wrapper `<div>`s
+  //      (editor/message-actions/file-uploads/autocomplete-content/field-
+  //      messaging/send-control), no other real markup - matches upstream's
+  //      own render(), which is the same slot scaffolding.
+  //    - `PromptLine`: a single `<div class="frame"><slot name="editor">
+  //      </slot></div>` on both sides.
+  // 3. Real markup, but only by way of a component this path doesn't (yet)
+  //    cover, or one gated behind todo #860's interaction/floating-ui
+  //    decision - a comparison here would mostly be diffing an unrelated
+  //    or not-yet-built piece, not this component's own structure:
+  //    - `Launcher` and `Carousel`: both wrap this addon's *own* `Tooltip`
+  //      around a plain `<button>`/its own `Button`, where upstream wraps
+  //      `cds-aichat-button`/`cds-icon-button` (which carry their *own*
+  //      built-in tooltip mechanism) - the two sides diverge at the second
+  //      level down with no shared shape, and `Tooltip`'s own dom-parity
+  //      coverage is itself blocked on #860.
+  //    - `WorkspaceShellHeader`'s `@collapsible` branch: single-root, but
+  //      its title renders through `cds-aichat-truncated-text`
+  //      (`TruncatedText`), not yet covered by this path - revisit once
+  //      that lands (todo #869).
+  //    - `PromptLineAutocomplete`: upstream's overlay is trigger/event
+  //      driven (typing "@"/"/" in a live Tiptap editor), not a simple
+  //      declarative-prop render - reaching a comparable "items shown"
+  //      state needs real editor interaction, not just setting config.
+  //    - `AiChatCodeSnippet`: renders through a real CodeMirror 6 instance
+  //      (version-sensitive internals) and embeds this addon's own
+  //      `AiChatToolbar`, which has the same `Tooltip`/`OverflowMenu`
+  //      entanglement as `Launcher`/`Carousel` above - matches this
+  //      component's own "split out for its own dependency review"
+  //      precedent (AGENTS.md).
+  // 4. Nothing to mount: `SessionShell` has no upstream Lit custom element
+  //    at all - it maps to upstream's React-only `AppShell.tsx` (confirmed:
+  //    no `session-shell` directory anywhere in the installed `@carbon/
+  //    ai-chat-components` package).
+  //
+  // `AudioPlayer`/`VideoPlayer` are excluded for a different, simpler
+  // reason: both are single-root wrappers around a real `<audio>`/
+  // `<video>` element (or an embedded third-party provider iframe/script)
+  // whose actual controls are native, internal browser UI with no DOM this
+  // harness (or any DOM API) can inspect - there's nothing structural left
+  // to compare once the outer wrapper divs are accounted for.
 });
