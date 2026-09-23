@@ -166,11 +166,11 @@ class ProgressStep extends Component<{
         {{#if @invalid}}
           <Warning @size={{16}} @svgClass='cds--progress__warning' @fill='currentColor' />
         {{else if this.isCurrent}}
-          <Incomplete @size={{16}} @fill='currentColor' />
+          <Incomplete @size={{16}} @svgClass='cds--progress-step-icon' @fill='currentColor' />
         {{else if this.isComplete}}
-          <CheckmarkOutline @size={{16}} @fill='currentColor' />
+          <CheckmarkOutline @size={{16}} @svgClass='cds--progress-step-icon' @fill='currentColor' />
         {{else}}
-          <CircleDash @size={{16}} @fill='currentColor' />
+          <CircleDash @size={{16}} @svgClass='cds--progress-step-icon' @fill='currentColor' />
         {{/if}}
         <div class='cds--progress-text'>
           <span class='cds--progress-label'>{{@label}}</span>

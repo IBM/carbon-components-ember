@@ -1,0 +1,1706 @@
+{
+  "component": "Slider",
+  "generatedAt": "2026-09-23T07:15:26.087Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {
+              "for": "#2",
+              "id": "#1",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Slider label"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--slider-container"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--slider__range-label"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "0"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--slider"
+                ],
+                "attributes": {
+                  "role": "presentation",
+                  "tabindex": "-1",
+                  "value": "50"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--icon-tooltip",
+                      "cds--slider__thumb-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {
+                      "inset-inline-start": "50%"
+                    },
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--slider__thumb"
+                        ],
+                        "attributes": {
+                          "role": "slider",
+                          "id": "#2",
+                          "tabindex": "0",
+                          "aria-valuetext": "50",
+                          "aria-valuemax": "100",
+                          "aria-valuemin": "0",
+                          "aria-valuenow": "50",
+                          "aria-labelledby": "#1"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--slider__track"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--slider__filled-track"
+                    ],
+                    "attributes": {},
+                    "style": {
+                      "transform": "translate(0%, -50%) scaleX(0.5)"
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--slider__range-label"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "100"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--slider-text-input-wrapper",
+                  "cds--slider-text-input-wrapper--upper",
+                  "cds--text-input-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--slider-text-input",
+                      "cds--slider-text-input--upper",
+                      "cds--text-input"
+                    ],
+                    "attributes": {
+                      "id": "#3",
+                      "aria-labelledby": "#1",
+                      "min": "0",
+                      "max": "100",
+                      "step": "1",
+                      "type": "number",
+                      "value": "50"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "disabled": {
+      "props": {
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--label",
+              "cds--label--disabled"
+            ],
+            "attributes": {
+              "for": "#2",
+              "id": "#1",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Slider label"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--slider-container",
+              "cds--slider-container--disabled"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--slider__range-label"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "0"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--slider",
+                  "cds--slider--disabled"
+                ],
+                "attributes": {
+                  "role": "presentation",
+                  "tabindex": "-1",
+                  "value": "50"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--icon-tooltip",
+                      "cds--slider__thumb-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {
+                      "inset-inline-start": "50%"
+                    },
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--slider__thumb"
+                        ],
+                        "attributes": {
+                          "role": "slider",
+                          "id": "#2",
+                          "aria-valuetext": "50",
+                          "aria-valuemax": "100",
+                          "aria-valuemin": "0",
+                          "aria-valuenow": "50",
+                          "aria-labelledby": "#1"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--slider__track"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--slider__filled-track"
+                    ],
+                    "attributes": {},
+                    "style": {
+                      "transform": "translate(0%, -50%) scaleX(0.5)"
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--slider__range-label"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "100"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--slider-text-input-wrapper",
+                  "cds--slider-text-input-wrapper--upper",
+                  "cds--text-input-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--slider-text-input",
+                      "cds--slider-text-input--upper",
+                      "cds--text-input"
+                    ],
+                    "attributes": {
+                      "id": "#3",
+                      "aria-labelledby": "#1",
+                      "disabled": true,
+                      "min": "0",
+                      "max": "100",
+                      "step": "1",
+                      "type": "number",
+                      "value": "50"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "read-only": {
+      "props": {
+        "readOnly": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {
+              "for": "#2",
+              "id": "#1",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Slider label"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--slider-container",
+              "cds--slider-container--readonly"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--slider__range-label"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "0"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--slider",
+                  "cds--slider--readonly"
+                ],
+                "attributes": {
+                  "role": "presentation",
+                  "tabindex": "-1",
+                  "value": "50"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--icon-tooltip",
+                      "cds--slider__thumb-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {
+                      "inset-inline-start": "50%"
+                    },
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--slider__thumb"
+                        ],
+                        "attributes": {
+                          "role": "slider",
+                          "id": "#2",
+                          "aria-valuetext": "50",
+                          "aria-valuemax": "100",
+                          "aria-valuemin": "0",
+                          "aria-valuenow": "50",
+                          "aria-labelledby": "#1"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--slider__track"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--slider__filled-track"
+                    ],
+                    "attributes": {},
+                    "style": {
+                      "transform": "translate(0%, -50%) scaleX(0.5)"
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--slider__range-label"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "100"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--slider-text-input-wrapper",
+                  "cds--slider-text-input-wrapper--upper",
+                  "cds--text-input-wrapper",
+                  "cds--text-input-wrapper--readonly"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--slider-text-input",
+                      "cds--slider-text-input--upper",
+                      "cds--text-input"
+                    ],
+                    "attributes": {
+                      "id": "#3",
+                      "aria-labelledby": "#1",
+                      "min": "0",
+                      "max": "100",
+                      "step": "1",
+                      "readonly": true,
+                      "type": "number",
+                      "value": "50"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "invalid": {
+      "props": {
+        "invalid": true,
+        "invalidText": "Invalid value"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {
+              "for": "#2",
+              "id": "#1",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Slider label"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--slider-container"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--slider__range-label"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "0"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--slider"
+                ],
+                "attributes": {
+                  "role": "presentation",
+                  "tabindex": "-1",
+                  "value": "50",
+                  "data-invalid": "true"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--icon-tooltip",
+                      "cds--slider__thumb-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {
+                      "inset-inline-start": "50%"
+                    },
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--slider__thumb"
+                        ],
+                        "attributes": {
+                          "role": "slider",
+                          "id": "#2",
+                          "tabindex": "0",
+                          "aria-valuetext": "50",
+                          "aria-valuemax": "100",
+                          "aria-valuemin": "0",
+                          "aria-valuenow": "50",
+                          "aria-labelledby": "#1"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--slider__track"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--slider__filled-track"
+                    ],
+                    "attributes": {},
+                    "style": {
+                      "transform": "translate(0%, -50%) scaleX(0.5)"
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--slider__range-label"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "100"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--slider-text-input-wrapper",
+                  "cds--slider-text-input-wrapper--upper",
+                  "cds--text-input-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--slider-text-input",
+                      "cds--slider-text-input--upper",
+                      "cds--text-input",
+                      "cds--text-input--invalid"
+                    ],
+                    "attributes": {
+                      "id": "#3",
+                      "aria-labelledby": "#1",
+                      "min": "0",
+                      "max": "100",
+                      "step": "1",
+                      "type": "number",
+                      "value": "50",
+                      "data-invalid": "true",
+                      "aria-invalid": "true"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--slider__invalid-icon"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M8,1C4.2,1,1,4.2,1,8s3.2,7,7,7s7-3.1,7-7S11.9,1,8,1z M7.5,4h1v5h-1C7.5,9,7.5,4,7.5,4z M8,12.2 c-0.4,0-0.8-0.4-0.8-0.8s0.3-0.8,0.8-0.8c0.4,0,0.8,0.4,0.8,0.8S8.4,12.2,8,12.2z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M7.5,4h1v5h-1C7.5,9,7.5,4,7.5,4z M8,12.2c-0.4,0-0.8-0.4-0.8-0.8s0.3-0.8,0.8-0.8 c0.4,0,0.8,0.4,0.8,0.8S8.4,12.2,8,12.2z",
+                          "data-icon-path": "inner-path",
+                          "opacity": "0"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--form-requirement",
+              "cds--slider__validation-msg",
+              "cds--slider__validation-msg--invalid"
+            ],
+            "attributes": {
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Invalid value"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "warn": {
+      "props": {
+        "warn": true,
+        "warnText": "Warning message"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {
+              "for": "#2",
+              "id": "#1",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Slider label"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--slider-container"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--slider__range-label"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "0"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--slider"
+                ],
+                "attributes": {
+                  "role": "presentation",
+                  "tabindex": "-1",
+                  "value": "50"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--icon-tooltip",
+                      "cds--slider__thumb-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {
+                      "inset-inline-start": "50%"
+                    },
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--slider__thumb"
+                        ],
+                        "attributes": {
+                          "role": "slider",
+                          "id": "#2",
+                          "tabindex": "0",
+                          "aria-valuetext": "50",
+                          "aria-valuemax": "100",
+                          "aria-valuemin": "0",
+                          "aria-valuenow": "50",
+                          "aria-labelledby": "#1"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--slider__track"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--slider__filled-track"
+                    ],
+                    "attributes": {},
+                    "style": {
+                      "transform": "translate(0%, -50%) scaleX(0.5)"
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--slider__range-label"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "100"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--slider-text-input-wrapper",
+                  "cds--slider-text-input-wrapper--upper",
+                  "cds--text-input-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--slider-text-input",
+                      "cds--slider-text-input--upper",
+                      "cds--slider-text-input--warn",
+                      "cds--text-input"
+                    ],
+                    "attributes": {
+                      "id": "#3",
+                      "aria-labelledby": "#1",
+                      "min": "0",
+                      "max": "100",
+                      "step": "1",
+                      "type": "number",
+                      "value": "50"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--slider__invalid-icon",
+                      "cds--slider__invalid-icon--warning"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 32 32",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "fill": "none",
+                          "d": "M16,26a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,16,26Zm-1.125-5h2.25V12h-2.25Z",
+                          "data-icon-path": "inner-path"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M16.002,6.1714h-.004L4.6487,27.9966,4.6506,28H27.3494l.0019-.0034ZM14.875,12h2.25v9h-2.25ZM16,26a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,16,26Z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M29,30H3a1,1,0,0,1-.8872-1.4614l13-25a1,1,0,0,1,1.7744,0l13,25A1,1,0,0,1,29,30ZM4.6507,28H27.3493l.002-.0033L16.002,6.1714h-.004L4.6487,27.9967Z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--form-requirement",
+              "cds--slider__validation-msg"
+            ],
+            "attributes": {
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Warning message"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "hide-label": {
+      "props": {
+        "hideLabel": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--label",
+              "cds--visually-hidden"
+            ],
+            "attributes": {
+              "for": "#2",
+              "id": "#1",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Slider label"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--slider-container"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--slider__range-label"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "0"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--slider"
+                ],
+                "attributes": {
+                  "role": "presentation",
+                  "tabindex": "-1",
+                  "value": "50"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--icon-tooltip",
+                      "cds--slider__thumb-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {
+                      "inset-inline-start": "50%"
+                    },
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--slider__thumb"
+                        ],
+                        "attributes": {
+                          "role": "slider",
+                          "id": "#2",
+                          "tabindex": "0",
+                          "aria-valuetext": "50",
+                          "aria-valuemax": "100",
+                          "aria-valuemin": "0",
+                          "aria-valuenow": "50",
+                          "aria-labelledby": "#1"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--slider__track"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--slider__filled-track"
+                    ],
+                    "attributes": {},
+                    "style": {
+                      "transform": "translate(0%, -50%) scaleX(0.5)"
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--slider__range-label"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "100"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--slider-text-input-wrapper",
+                  "cds--slider-text-input-wrapper--upper",
+                  "cds--text-input-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--slider-text-input",
+                      "cds--slider-text-input--upper",
+                      "cds--text-input"
+                    ],
+                    "attributes": {
+                      "id": "#3",
+                      "aria-labelledby": "#1",
+                      "min": "0",
+                      "max": "100",
+                      "step": "1",
+                      "type": "number",
+                      "value": "50"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "two-handles": {
+      "props": {
+        "unstable_valueUpper": 75
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--form-item"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "label",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {
+              "id": "#1",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Slider label"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--slider-container",
+              "cds--slider-container--two-handles"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--slider-text-input-wrapper",
+                  "cds--slider-text-input-wrapper--lower",
+                  "cds--text-input-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--slider-text-input",
+                      "cds--slider-text-input--lower",
+                      "cds--text-input"
+                    ],
+                    "attributes": {
+                      "id": "#2",
+                      "min": "0",
+                      "max": "100",
+                      "step": "1",
+                      "data-handle-position": "lower",
+                      "type": "number",
+                      "value": "50"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--slider__range-label"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "0"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--slider"
+                ],
+                "attributes": {
+                  "role": "presentation",
+                  "tabindex": "-1",
+                  "value": "50"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--icon-tooltip",
+                      "cds--slider__thumb-wrapper",
+                      "cds--slider__thumb-wrapper--lower"
+                    ],
+                    "attributes": {},
+                    "style": {
+                      "inset-inline-start": "50%"
+                    },
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--slider__thumb",
+                          "cds--slider__thumb--lower"
+                        ],
+                        "attributes": {
+                          "role": "slider",
+                          "tabindex": "0",
+                          "aria-valuetext": "50",
+                          "aria-valuemax": "75",
+                          "aria-valuemin": "0",
+                          "aria-valuenow": "50"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": [
+                              "cds--slider__thumb-icon",
+                              "cds--slider__thumb-icon--lower"
+                            ],
+                            "attributes": {
+                              "xmlns": "http://www.w3.org/2000/svg",
+                              "viewBox": "0 0 16 24"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M15.08 6.46H16v11.08h-.92zM4.46 17.54c-.25 0-.46-.21-.46-.46V6.92a.465.465 0 0 1 .69-.4l8.77 5.08a.46.46 0 0 1 0 .8l-8.77 5.08c-.07.04-.15.06-.23.06Z"
+                                },
+                                "style": {},
+                                "children": []
+                              },
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "fill": "none",
+                                  "d": "M-4 0h24v24H-4z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": [
+                              "cds--slider__thumb-icon",
+                              "cds--slider__thumb-icon--focus",
+                              "cds--slider__thumb-icon--lower"
+                            ],
+                            "attributes": {
+                              "xmlns": "http://www.w3.org/2000/svg",
+                              "viewBox": "0 0 16 24"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M15.08 6.46H16v11.08h-.92zM4.46 17.54c-.25 0-.46-.21-.46-.46V6.92a.465.465 0 0 1 .69-.4l8.77 5.08a.46.46 0 0 1 0 .8l-8.77 5.08c-.07.04-.15.06-.23.06Z"
+                                },
+                                "style": {},
+                                "children": []
+                              },
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "fill": "none",
+                                  "d": "M-4 0h24v24H-4z"
+                                },
+                                "style": {},
+                                "children": []
+                              },
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M15.08 0H16v6.46h-.92z"
+                                },
+                                "style": {},
+                                "children": []
+                              },
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M0 0h.92v24H0zM15.08 0H16v24h-.92z"
+                                },
+                                "style": {},
+                                "children": []
+                              },
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M0 .92V0h16v.92zM0 24v-.92h16V24z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--icon-tooltip",
+                      "cds--slider__thumb-wrapper",
+                      "cds--slider__thumb-wrapper--upper"
+                    ],
+                    "attributes": {},
+                    "style": {
+                      "inset-inline-start": "75%"
+                    },
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--slider__thumb",
+                          "cds--slider__thumb--upper"
+                        ],
+                        "attributes": {
+                          "role": "slider",
+                          "tabindex": "0",
+                          "aria-valuemax": "100",
+                          "aria-valuemin": "50",
+                          "aria-valuenow": "75"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": [
+                              "cds--slider__thumb-icon",
+                              "cds--slider__thumb-icon--upper"
+                            ],
+                            "attributes": {
+                              "xmlns": "http://www.w3.org/2000/svg",
+                              "viewBox": "0 0 16 24"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M0 6.46h.92v11.08H0zM11.54 6.46c.25 0 .46.21.46.46v10.15a.465.465 0 0 1-.69.4L2.54 12.4a.46.46 0 0 1 0-.8l8.77-5.08c.07-.04.15-.06.23-.06Z"
+                                },
+                                "style": {},
+                                "children": []
+                              },
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "fill": "none",
+                                  "d": "M-4 0h24v24H-4z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": [
+                              "cds--slider__thumb-icon",
+                              "cds--slider__thumb-icon--focus",
+                              "cds--slider__thumb-icon--upper"
+                            ],
+                            "attributes": {
+                              "xmlns": "http://www.w3.org/2000/svg",
+                              "viewBox": "0 0 16 24"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M0 6.46h.92v11.08H0zM11.54 6.46c.25 0 .46.21.46.46v10.15a.465.465 0 0 1-.69.4L2.54 12.4a.46.46 0 0 1 0-.8l8.77-5.08c.07-.04.15-.06.23-.06Z"
+                                },
+                                "style": {},
+                                "children": []
+                              },
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "fill": "none",
+                                  "d": "M-4 0h24v24H-4z"
+                                },
+                                "style": {},
+                                "children": []
+                              },
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M.92 24H0v-6.46h.92z"
+                                },
+                                "style": {},
+                                "children": []
+                              },
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M16 24h-.92V0H16zM.92 24H0V0h.92z"
+                                },
+                                "style": {},
+                                "children": []
+                              },
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M16 23.08V24H0v-.92zM16 0v.92H0V0z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--slider__track"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--slider__filled-track"
+                    ],
+                    "attributes": {},
+                    "style": {
+                      "transform": "translate(50%, -50%) scaleX(0.25)"
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--slider__range-label"
+                ],
+                "attributes": {
+                  "dir": "auto"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "100"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--slider-text-input-wrapper",
+                  "cds--slider-text-input-wrapper--upper",
+                  "cds--text-input-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--slider-text-input",
+                      "cds--slider-text-input--upper",
+                      "cds--text-input"
+                    ],
+                    "attributes": {
+                      "id": "#3",
+                      "min": "0",
+                      "max": "100",
+                      "step": "1",
+                      "data-handle-position": "upper",
+                      "type": "number",
+                      "value": "75"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
