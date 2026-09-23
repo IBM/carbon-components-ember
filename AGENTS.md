@@ -694,16 +694,26 @@ around the name.
 `icon.gts`'s base `Icon` component resolves a *string* `@icon` value
 through a module-level `IconMap`, populated only by calling its own
 exported `registerIcon(name, icon)` function
-(`export function registerIcon...`). As of this writing, **nothing in this
-repository — not the addon, not docs-app, not test-app — ever calls
-`registerIcon()`**, confirmed by grepping the whole tree for callers
-(`grep -rn "registerIcon(" carbon-components-ember/src docs-app/app
-test-app`, excluding the export line itself: zero hits). `IconMap` is
-therefore permanently empty, and `<Icon @icon='checkmark--filled'>`-style
-invocations render nothing at all, silently, in every environment
-including production — not a lazy-loading race (see the
-`renderIcon`-default-size gotcha above for that separate, real timing
-issue), a genuine permanent no-op.
+(`export function registerIcon...`). Within `carbon-components-ember/src`
+and `test-app`, **nothing ever calls `registerIcon()`**, confirmed by
+grepping both trees for callers (`grep -rn "registerIcon(" carbon-
+components-ember/src test-app`, excluding the export line itself: zero
+hits) — any `<Icon @icon='some-string'>` invocation added to the addon or
+tested from `test-app` renders nothing at all, silently, not a
+lazy-loading race (see the `renderIcon`-default-size gotcha above for that
+separate, real timing issue), a genuine no-op for whatever string it names.
+
+**One real, deliberate exception exists in `docs-app`**, so don't restate
+this as "zero hits repo-wide" without rerunning the grep against
+`docs-app/app` too: `docs-app/app/templates/2-components/icon.gjs.md`'s
+own live-preview demo imports `registerIcon` from
+`carbon-components-ember/components/icon` and calls
+`registerIcon('bookmark', BookmarkSvgInfo)` for real, then renders
+`<Icon @icon='bookmark' />` right below it — that one string *does*
+resolve, on that one docs page. No other string is ever registered
+anywhere in the repo (confirmed by the `list/-row.gts` finding below,
+which checked `'checkmark--filled'` specifically, not by assuming this
+paragraph's conclusion).
 
 Found via the DOM-parity harness (`progress-bar.gts`'s finished/error
 status icons, fixed to use the real per-icon components,
