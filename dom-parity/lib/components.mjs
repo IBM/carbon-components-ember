@@ -310,23 +310,24 @@
  * Coverage inventory (todo #854, 2026-09-20; recounted and corrected in a
  * review follow-up the same day - the first pass undercounted the total
  * and omitted ~20 real exports from every bucket below; updated again for
- * todo #861's Skeleton batch, again for the static-form-controls batch, and
- * again for the layout/scaffolding-wrappers batch below): this file covers
- * 44 of the ~98
- * non-ai-chat components exported from `src/components/index.ts` (47
+ * todo #861's Skeleton batch, again for the static-form-controls batch,
+ * again for the layout/scaffolding-wrappers batch, and again for the
+ * indicators batch below): this file covers
+ * 49 of the ~98
+ * non-ai-chat components exported from `src/components/index.ts` (52
  * fixture entries above, since the Tile family's
  * `Tile`/`ClickableTile`/`SelectableTile`/`ExpandableTile` all map to just
  * the single real `Tile` export, while `RadioTile` and `TileGroup` each map
  * 1:1 to their own real export - 6 fixture entries collapse to 3 real
  * exports, `Tile`/`RadioTile`/`TileGroup`; every other fixture entry,
- * including the 6 Skeleton ones, the 13 static-form-control ones, and the
- * 10 layout/scaffolding-wrapper ones, maps
- * 1:1 to its own real export) - of the remaining ~54, `FormInput` and
+ * including the 6 Skeleton ones, the 13 static-form-control ones, the
+ * 10 layout/scaffolding-wrapper ones, and the 5 indicator ones, maps
+ * 1:1 to its own real export) - of the remaining ~49, `FormInput` and
  * `TextDirection` (verified while working the layout/scaffolding-wrappers
  * batch) join `Resizer`/`Portal`/`GridSettings`/`FlexGrid` (see the
  * "explicit non-goals" bullets further down) as components with no real
  * upstream DOM for this harness to ever diff against - counted here at
- * face value like the rest of that list, not subtracted, so the ~54
+ * face value like the rest of that list, not subtracted, so the ~49
  * figure is a true, still-unscheduled gap using one consistent counting
  * convention throughout this paragraph, not a silent one - they were
  * never scheduled. The ~98
@@ -397,8 +398,84 @@
  *    stable, but upstream still marks them experimental, which is the same
  *    "a future @carbon/react bump can silently change this" caveat already
  *    recorded for Grid's feature flag.
- * 5. Indicators (ProgressBar, ProgressIndicator, IconIndicator,
- *    ShapeIndicator, Slider).
+ * 5. DONE - Indicators (ProgressBar, ProgressIndicator, IconIndicator,
+ *    ShapeIndicator, Slider). None gated by item 1 - all five render
+ *    inline, with no floating-ui popup in their base variants (`compact`
+ *    mode on IconIndicator/ShapeIndicator does embed a tooltip, but - like
+ *    PasswordInput/CopyButton before it - mounts fine closed with no
+ *    special handling). `IconIndicator`/`ShapeIndicator` have no bare
+ *    top-level `@carbon/react` export, only `preview__`/`unstable__`
+ *    prefixed ones (double underscore, unlike `preview_Text`'s single one -
+ *    confirmed via a throwaway `Object.keys` dump of the real package) -
+ *    same "still marked experimental upstream" caveat as Text/Layout/
+ *    LayoutConstraint/LayoutDirection above. Three real, previously-
+ *    undiscovered bugs were found and fixed along the way, all cheap/safe
+ *    one-line-to-few-line changes with no existing test coverage to
+ *    conflict with: (1) `progress-bar.gts` declared a private helper
+ *    function literally named `div`, colliding with the `<div>` tag name -
+ *    invoking it as a subexpression (`(div @value this.defaultArgs.max)`)
+ *    crashed the whole app's component resolution the instant
+ *    `<ProgressBar>` was rendered, in test-app's real Vite/Embroider dev
+ *    build (`Assertion Failed: Attempted to load a component, but there
+ *    wasn't a component manager associated with the definition. The
+ *    definition was: div`). Confirmed by direct A/B, not just inferred
+ *    from the error string: reverting only the rename reproduced the
+ *    crash (with the addon dist rebuilt and Vite's dep cache cleared each
+ *    time, to rule out a stale-build artifact), and reapplying it alone
+ *    fixed it - the exact mechanism inside Ember/Glimmer's resolver that
+ *    special-cases a bare `div` identifier wasn't traced further, since
+ *    the fix (renaming to `divide`) doesn't depend on knowing it. Whether
+ *    this also affects a real production build (docs-app) wasn't checked.
+ *    (2) `progress-bar.gts`'s
+ *    finished/error status icons used the generic string-keyed `<Icon
+ *    @icon='checkmark--filled'>`/`@icon='error--filled'` lookup
+ *    (`IconMap`, populated only via `registerIcon()`) - grepping the whole
+ *    repo found zero `registerIcon()` callers anywhere, so this lookup was
+ *    always empty and these icons never rendered at all, in production or
+ *    otherwise; switched to the same per-icon `CheckmarkFilled`/
+ *    `ErrorFilled` components every other icon-using component in this
+ *    addon already uses. (3) `progress-indicator.gts`'s `Incomplete`/
+ *    `CheckmarkOutline`/`CircleDash` icon invocations (unlike its
+ *    `Warning` one) passed no `@svgClass` - the AGENTS.md renderIcon-
+ *    default-size gotcha recurring a third time (after Tile/RadioTile) -
+ *    fixed with an inert `@svgClass='cds--progress-step-icon'`, matching
+ *    RadioTile's precedent. Two more were fixed as plain default-value/
+ *    conditional-rendering bugs, not icon issues: `progress-bar.gts`
+ *    defaulted `@size` to `undefined` (upstream defaults `'big'`), so a
+ *    default render silently emitted a malformed empty `cds--progress-
+ *    bar--` class; and its helper-text `<div>` rendered unconditionally
+ *    (with an empty label + a hardcoded "Done" sentinel) even when no
+ *    `@helperText` was passed at all, where upstream only renders it when
+ *    truthy - both fixed to match upstream's actual defaulting/gating.
+ *    `slider.gts` got two more small, verified-safe fixes (checked for
+ *    conflicting test assertions first, per this file's own established
+ *    practice): its label's `for` attribute is now `{{unless
+ *    this.twoHandles this.id}}` instead of always-`this.id` (matching
+ *    upstream, which never associates the label with a single input once
+ *    there are two handles), and both `SliderTextInput` invocations now
+ *    pass `@step={{this.step}}` (the getter, defaulting to `1`) instead of
+ *    the raw `@step` arg, so the `step` attribute is no longer silently
+ *    omitted whenever a caller doesn't pass one explicitly - this also
+ *    required a real `pnpm run test:ember:update-snapshot` (the existing
+ *    Slider style-snapshot fixtures had baked in the missing `step`
+ *    attribute). The `two-handles` fixture variant below passes
+ *    `unstable_valueUpper` (not a bare `valueUpper`) because that's
+ *    upstream's real, still-`unstable_`-prefixed two-handle prop name -
+ *    `@carbon/react`'s `Slider.js` destructures it literally as
+ *    `unstable_valueUpper: controlledValueUpper`, so a bare `valueUpper`
+ *    would land in `...other` (spread onto the DOM) and never actually
+ *    enable two-handle mode. Everything else found is a real, disclosed gap left as a
+ *    known difference rather than fixed - see `known-differences.json`'s
+ *    `ProgressBar`/`ProgressIndicator`/`IconIndicator`/`ShapeIndicator`/
+ *    `Slider` entries for the full per-gap reasoning (notably: ProgressBar
+ *    never reproduces upstream's `aria-busy`/`aria-invalid`/indeterminate-
+ *    `aria-value*` computations; IconIndicator's `compact` branch is
+ *    structurally close to upstream, since both use a real Popover-style
+ *    component, while ShapeIndicator's `compact` branch is structurally
+ *    far from upstream, since it uses this addon's own private,
+ *    astroturf-based `Tooltip` instead; and Slider's hand-copied thumb-
+ *    icon SVGs are missing an invisible hit-box path upstream's real
+ *    `SliderHandles` icons carry).
  * 6. Structural content, split into four (each large/distinct enough to
  *    warrant its own review): Accordion+Tabs/TabContent+StructuredList;
  *    TreeView+Pagination+List (Pagination's item-per-page control isn't
@@ -924,6 +1001,77 @@ const layoutDirection = (name, props) => ({
   props,
   createElement: (React, Carbon) =>
     React.createElement(Carbon.preview_LayoutDirection, props, 'Layout direction content'),
+});
+
+const progressBar = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.ProgressBar, { label: 'Uploading file', ...props }),
+});
+
+// Renders 3 real `ProgressStep` children (matching progress-indicator.gts's
+// own class-doc example) with per-step prop overrides, so a variant can
+// exercise e.g. one invalid/disabled/described step among otherwise-plain
+// ones without every variant needing its own bespoke step list.
+const progressIndicator = (name, props, stepOverrides = {}) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.ProgressIndicator,
+      props,
+      React.createElement(Carbon.ProgressStep, {
+        key: '0',
+        label: 'First step',
+        ...stepOverrides[0],
+      }),
+      React.createElement(Carbon.ProgressStep, {
+        key: '1',
+        label: 'Second step',
+        ...stepOverrides[1],
+      }),
+      React.createElement(Carbon.ProgressStep, {
+        key: '2',
+        label: 'Third step',
+        ...stepOverrides[2],
+      }),
+    ),
+});
+
+// Like Text/Layout/LayoutConstraint/LayoutDirection above, IconIndicator has
+// no bare top-level export - only `preview__IconIndicator`/
+// `unstable__IconIndicator` (confirmed via a throwaway `Object.keys` dump of
+// the real package - note the double underscore, unlike `preview_Text`'s
+// single one). Same "still marked experimental upstream" caveat applies.
+const iconIndicator = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.preview__IconIndicator, { kind: 'succeeded', label: 'Succeeded', ...props }),
+});
+
+// Same no-bare-export situation as IconIndicator above -
+// `preview__ShapeIndicator`/`unstable__ShapeIndicator` only.
+const shapeIndicator = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.preview__ShapeIndicator, { kind: 'stable', label: 'Stable', ...props }),
+});
+
+const slider = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Slider, {
+      id: 'slider-1',
+      labelText: 'Slider label',
+      min: 0,
+      max: 100,
+      value: 50,
+      ...props,
+    }),
 });
 
 export const COMPONENTS = [
@@ -1523,5 +1671,87 @@ export const COMPONENTS = [
   {
     name: 'LayoutDirection',
     variants: [layoutDirection('ltr', { dir: 'ltr' }), layoutDirection('rtl', { dir: 'rtl' })],
+  },
+  {
+    name: 'ProgressBar',
+    variants: [
+      // No `size` passed - Ember's `defaultArgs.size` now matches
+      // upstream's own `size = 'big'` default, so both sides render
+      // `cds--progress-bar--big` with nothing explicit needed here.
+      progressBar('default', { value: 50 }),
+      progressBar('size-small', { size: 'small', value: 50 }),
+      progressBar('type-inline', { type: 'inline', value: 30 }),
+      progressBar('type-indented', { type: 'indented', value: 30 }),
+      progressBar('finished', { status: 'finished' }),
+      progressBar('error', { status: 'error' }),
+      progressBar('indeterminate', { status: 'indeterminate' }),
+      progressBar('helper-text', { value: 40, helperText: 'Estimated time left: 2 minutes' }),
+    ],
+  },
+  {
+    name: 'ProgressIndicator',
+    variants: [
+      progressIndicator('default', { currentIndex: 1 }),
+      progressIndicator('vertical', { currentIndex: 1, vertical: true }),
+      progressIndicator('space-equally', { currentIndex: 0, spaceEqually: true }),
+      progressIndicator('secondary-label', { currentIndex: 0 }, { 0: { secondaryLabel: 'Optional' } }),
+      progressIndicator('description', { currentIndex: 0 }, { 0: { description: 'Step description' } }),
+      progressIndicator('invalid-step', { currentIndex: 0 }, { 0: { invalid: true } }),
+      progressIndicator('disabled-step', { currentIndex: 2 }, { 2: { disabled: true } }),
+    ],
+  },
+  {
+    name: 'IconIndicator',
+    variants: [
+      iconIndicator('failed', { kind: 'failed', label: 'Failed' }),
+      iconIndicator('caution-major', { kind: 'caution-major', label: 'Caution major' }),
+      iconIndicator('caution-minor', { kind: 'caution-minor', label: 'Caution minor' }),
+      iconIndicator('undefined', { kind: 'undefined', label: 'Undefined' }),
+      iconIndicator('succeeded', { kind: 'succeeded', label: 'Succeeded' }),
+      iconIndicator('normal', { kind: 'normal', label: 'Normal' }),
+      iconIndicator('in-progress', { kind: 'in-progress', label: 'In progress' }),
+      iconIndicator('incomplete', { kind: 'incomplete', label: 'Incomplete' }),
+      iconIndicator('not-started', { kind: 'not-started', label: 'Not started' }),
+      iconIndicator('pending', { kind: 'pending', label: 'Pending' }),
+      iconIndicator('unknown', { kind: 'unknown', label: 'Unknown' }),
+      iconIndicator('informative', { kind: 'informative', label: 'Informative' }),
+      iconIndicator('size-20', { kind: 'succeeded', label: 'Succeeded', size: 20 }),
+      iconIndicator('compact', { kind: 'succeeded', label: 'Succeeded', compact: true }),
+    ],
+  },
+  {
+    name: 'ShapeIndicator',
+    variants: [
+      shapeIndicator('failed', { kind: 'failed', label: 'Failed' }),
+      shapeIndicator('critical', { kind: 'critical', label: 'Critical' }),
+      shapeIndicator('high', { kind: 'high', label: 'High' }),
+      shapeIndicator('medium', { kind: 'medium', label: 'Medium' }),
+      shapeIndicator('low', { kind: 'low', label: 'Low' }),
+      shapeIndicator('cautious', { kind: 'cautious', label: 'Cautious' }),
+      shapeIndicator('undefined', { kind: 'undefined', label: 'Undefined' }),
+      shapeIndicator('stable', { kind: 'stable', label: 'Stable' }),
+      shapeIndicator('informative', { kind: 'informative', label: 'Informative' }),
+      shapeIndicator('incomplete', { kind: 'incomplete', label: 'Incomplete' }),
+      shapeIndicator('draft', { kind: 'draft', label: 'Draft' }),
+      shapeIndicator('text-size-14', { kind: 'stable', label: 'Stable', textSize: 14 }),
+      shapeIndicator('compact', { kind: 'stable', label: 'Stable', compact: true }),
+    ],
+  },
+  {
+    name: 'Slider',
+    variants: [
+      slider('default', {}),
+      slider('disabled', { disabled: true }),
+      slider('read-only', { readOnly: true }),
+      slider('invalid', { invalid: true, invalidText: 'Invalid value' }),
+      slider('warn', { warn: true, warnText: 'Warning message' }),
+      slider('hide-label', { hideLabel: true }),
+      // `unstable_valueUpper`/`unstable_ariaLabelInputUpper`/`unstable_nameUpper`
+      // are upstream's real (still-unstable-prefixed) two-handle prop names -
+      // a bare `valueUpper` would land in `...other` and never actually
+      // enable two-handle mode on the React side (see this file's top
+      // comment, item 5, for the full explanation).
+      slider('two-handles', { unstable_valueUpper: 75 }),
+    ],
   },
 ];

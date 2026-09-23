@@ -689,6 +689,56 @@ DOM-parity coverage for `radio-tile.gts`, where a comment describing
 `@carbon/react`'s `Text` component was originally written with backticks
 around the name.
 
+### ❌ Pitfall 7: The Generic `<Icon @icon='some-string'>` Path Is Dead Code
+
+`icon.gts`'s base `Icon` component resolves a *string* `@icon` value
+through a module-level `IconMap`, populated only by calling its own
+exported `registerIcon(name, icon)` function
+(`export function registerIcon...`). Within `carbon-components-ember/src`
+and `test-app`, **nothing ever calls `registerIcon()`**, confirmed by
+grepping both trees for callers (`grep -rn "registerIcon(" carbon-
+components-ember/src test-app`, excluding the export line itself: zero
+hits) — any `<Icon @icon='some-string'>` invocation added to the addon or
+tested from `test-app` renders nothing at all, silently, not a
+lazy-loading race (see the `renderIcon`-default-size gotcha above for that
+separate, real timing issue), a genuine no-op for whatever string it names.
+
+**One real, deliberate exception exists in `docs-app`**, so don't restate
+this as "zero hits repo-wide" without rerunning the grep against
+`docs-app/app` too: `docs-app/app/templates/2-components/icon.gjs.md`'s
+own live-preview demo imports `registerIcon` from
+`carbon-components-ember/components/icon` and calls
+`registerIcon('bookmark', BookmarkSvgInfo)` for real, then renders
+`<Icon @icon='bookmark' />` right below it — that one string *does*
+resolve, on that one docs page. No other string is ever registered
+anywhere in the repo (confirmed by the `list/-row.gts` finding below,
+which checked `'checkmark--filled'` specifically, not by assuming this
+paragraph's conclusion).
+
+Found via the DOM-parity harness (`progress-bar.gts`'s finished/error
+status icons, fixed to use the real per-icon components,
+`CheckmarkFilled`/`ErrorFilled` from `./icons/*.ts`, instead — see
+`dom-parity/lib/components.mjs`'s indicators-batch coverage-inventory
+entry for the full writeup). A second, still-open instance was found the
+same way but *not* fixed in that pass, since it's a more consequential,
+more visible component: `list/-row.gts`'s selectable-row checkmark
+(`<Icon @icon='checkmark--filled' @btnClass='cds--structured-list-svg'
+/>`) has *never* rendered either — and `@carbon/react`'s own
+`StructuredListInput` renders no icon/svg at all for this case (confirmed
+by reading its real source), so simply swapping in a working
+`CheckmarkFilled` would be a new, user-visible checkmark that's never
+existed before, not a straightforward bug fix; left as a documented gap
+rather than changed inline.
+
+**Never write a new `<Icon @icon='some-string'>` invocation** — always
+import and use the specific per-icon component (`./icons/*.ts`, re-
+exported from `../icons.ts`) instead, the pattern every other icon-using
+component in this addon already follows. If you find another existing
+`@icon='...'` string invocation of the generic `Icon` component while
+working on an unrelated task, treat it the same way this pitfall
+describes: a real, silent, pre-existing rendering gap, not something to
+assume is intentional.
+
 ## Component Implementation Checklist
 
 - [ ] Review React implementation at GitHub
@@ -3397,4 +3447,4 @@ surfacing here are repeated below.
 
 ---
 
-Last Updated: 2026-09-20
+Last Updated: 2026-09-23

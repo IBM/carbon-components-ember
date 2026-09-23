@@ -409,7 +409,7 @@
     }
   ],
   [
-    "<input id=\"slider-ember123-input-for-slider\" class=\"cds--text-input cds--slider-text-input\n          \n          \" aria-labelledby=\"slider-ember123-label\" min=\"0\" max=\"100\" type=\"number\" data-index=\"11\"></input>",
+    "<input id=\"slider-ember123-input-for-slider\" class=\"cds--text-input cds--slider-text-input\n          \n          \" aria-labelledby=\"slider-ember123-label\" min=\"0\" max=\"100\" step=\"1\" type=\"number\" data-index=\"11\"></input>",
     {
       "appearance": "textfield",
       "background": "rgb(57, 57, 57) none repeat scroll 0% 0% / auto padding-box border-box",
@@ -424,7 +424,7 @@
     }
   ],
   [
-    "<input:before id=\"slider-ember123-input-for-slider\" class=\"cds--text-input cds--slider-text-input\n          \n          \" aria-labelledby=\"slider-ember123-label\" min=\"0\" max=\"100\" type=\"number\" data-index=\"11\"></input:before>",
+    "<input:before id=\"slider-ember123-input-for-slider\" class=\"cds--text-input cds--slider-text-input\n          \n          \" aria-labelledby=\"slider-ember123-label\" min=\"0\" max=\"100\" step=\"1\" type=\"number\" data-index=\"11\"></input:before>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
@@ -433,7 +433,7 @@
     }
   ],
   [
-    "<input:after id=\"slider-ember123-input-for-slider\" class=\"cds--text-input cds--slider-text-input\n          \n          \" aria-labelledby=\"slider-ember123-label\" min=\"0\" max=\"100\" type=\"number\" data-index=\"11\"></input:after>",
+    "<input:after id=\"slider-ember123-input-for-slider\" class=\"cds--text-input cds--slider-text-input\n          \n          \" aria-labelledby=\"slider-ember123-label\" min=\"0\" max=\"100\" step=\"1\" type=\"number\" data-index=\"11\"></input:after>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",

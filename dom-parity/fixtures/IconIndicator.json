@@ -1,0 +1,1088 @@
+{
+  "component": "IconIndicator",
+  "generatedAt": "2026-09-23T07:15:26.068Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "failed": {
+      "props": {
+        "kind": "failed",
+        "label": "Failed"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--icon-indicator"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--icon-indicator--failed"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 16 16",
+              "aria-hidden": "true",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M8,1C4.1,1,1,4.1,1,8s3.1,7,7,7s7-3.1,7-7S11.9,1,8,1z M10.7,11.5L4.5,5.3l0.8-0.8l6.2,6.2L10.7,11.5z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "fill": "none",
+                  "d": "M10.7,11.5L4.5,5.3l0.8-0.8l6.2,6.2L10.7,11.5z",
+                  "data-icon-path": "inner-path",
+                  "opacity": "0"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Failed"
+          }
+        ]
+      }
+    },
+    "caution-major": {
+      "props": {
+        "kind": "caution-major",
+        "label": "Caution major"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--icon-indicator"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--icon-indicator--caution-major"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 32 32",
+              "aria-hidden": "true",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "fill": "none",
+                  "d": "M16,20a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,16,20Zm-1.125-5h2.25V6h-2.25Z",
+                  "data-icon-path": "inner-path"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M27.3494,4H4.6506l-.0019.0034L15.998,25.8286h.004L27.3513,4.0034ZM14.875,6h2.25v9h-2.25ZM16,20a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,16,20Z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M29.855,2.481a1.001,1.001,0,0,1,.0322.98l-13,25a1,1,0,0,1-1.7744,0l-13-25A1,1,0,0,1,3,2H29A1.0007,1.0007,0,0,1,29.855,2.481ZM4.6487,4.0033,15.998,25.8286h.004L27.3513,4.0033,27.3493,4H4.6507Z"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Caution major"
+          }
+        ]
+      }
+    },
+    "caution-minor": {
+      "props": {
+        "kind": "caution-minor",
+        "label": "Caution minor"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--icon-indicator"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--icon-indicator--caution-minor"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 32 32",
+              "aria-hidden": "true",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "fill": "none",
+                  "d": "M16,26a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,16,26Zm-1.125-5h2.25V12h-2.25Z",
+                  "data-icon-path": "inner-path"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M16.002,6.1714h-.004L4.6487,27.9966,4.6506,28H27.3494l.0019-.0034ZM14.875,12h2.25v9h-2.25ZM16,26a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,16,26Z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M29,30H3a1,1,0,0,1-.8872-1.4614l13-25a1,1,0,0,1,1.7744,0l13,25A1,1,0,0,1,29,30ZM4.6507,28H27.3493l.002-.0033L16.002,6.1714h-.004L4.6487,27.9967Z"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Caution minor"
+          }
+        ]
+      }
+    },
+    "undefined": {
+      "props": {
+        "kind": "undefined",
+        "label": "Undefined"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--icon-indicator"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--icon-indicator--undefined"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 32 32",
+              "aria-hidden": "true",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M29.391,14.527L17.473,2.609C17.067,2.203,16.533,2,16,2s-1.067,0.203-1.473,0.609L2.609,14.527C2.203,14.933,2,15.466,2,16 s0.203,1.067,0.609,1.473l11.917,11.917C14.933,29.797,15.467,30,16,30s1.067-0.203,1.473-0.609l11.917-11.917 C29.797,17.067,30,16.534,30,16S29.797,14.933,29.391,14.527z M21,18H11v-4h10V18z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "fill": "none",
+                  "d": "M11 14H21V18H11z",
+                  "data-icon-path": "inner-path"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Undefined"
+          }
+        ]
+      }
+    },
+    "succeeded": {
+      "props": {
+        "kind": "succeeded",
+        "label": "Succeeded"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--icon-indicator"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--icon-indicator--succeeded"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 16 16",
+              "aria-hidden": "true",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M8,1C4.1,1,1,4.1,1,8c0,3.9,3.1,7,7,7s7-3.1,7-7C15,4.1,11.9,1,8,1z M7,11L4.3,8.3l0.9-0.8L7,9.3l4-3.9l0.9,0.8L7,11z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M7,11L4.3,8.3l0.9-0.8L7,9.3l4-3.9l0.9,0.8L7,11z",
+                  "data-icon-path": "inner-path",
+                  "opacity": "0"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Succeeded"
+          }
+        ]
+      }
+    },
+    "normal": {
+      "props": {
+        "kind": "normal",
+        "label": "Normal"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--icon-indicator"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--icon-indicator--normal"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 32 32",
+              "aria-hidden": "true",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M14 21.414 9 16.413 10.413 15 14 18.586 21.585 11 23 12.415 14 21.414z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M16,2A14,14,0,1,0,30,16,14,14,0,0,0,16,2Zm0,26A12,12,0,1,1,28,16,12,12,0,0,1,16,28Z"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Normal"
+          }
+        ]
+      }
+    },
+    "in-progress": {
+      "props": {
+        "kind": "in-progress",
+        "label": "In progress"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--icon-indicator"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--icon-indicator--in-progress"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 32 32",
+              "aria-hidden": "true",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M16,2A14,14,0,1,0,30,16,14.0158,14.0158,0,0,0,16,2Zm0,26A12,12,0,0,1,16,4V16l8.4812,8.4814A11.9625,11.9625,0,0,1,16,28Z"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "In progress"
+          }
+        ]
+      }
+    },
+    "incomplete": {
+      "props": {
+        "kind": "incomplete",
+        "label": "Incomplete"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--icon-indicator"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--icon-indicator--incomplete"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 32 32",
+              "aria-hidden": "true",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M23.7642,6.8593l1.2851-1.5315A13.976,13.976,0,0,0,20.8672,2.887l-.6836,1.8776A11.9729,11.9729,0,0,1,23.7642,6.8593Z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M27.81,14l1.9677-.4128A13.8888,13.8888,0,0,0,28.14,9.0457L26.4087,10A12.52,12.52,0,0,1,27.81,14Z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M20.1836,27.2354l.6836,1.8776a13.976,13.976,0,0,0,4.1821-2.4408l-1.2851-1.5315A11.9729,11.9729,0,0,1,20.1836,27.2354Z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M26.4087,22,28.14,23a14.14,14.14,0,0,0,1.6382-4.5872L27.81,18.0659A12.1519,12.1519,0,0,1,26.4087,22Z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M16,30V2a14,14,0,0,0,0,28Z"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Incomplete"
+          }
+        ]
+      }
+    },
+    "not-started": {
+      "props": {
+        "kind": "not-started",
+        "label": "Not started"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--icon-indicator"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--icon-indicator--not-started"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 32 32",
+              "aria-hidden": "true",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M7.7,4.7a14.7,14.7,0,0,0-3,3.1L6.3,9A13.26,13.26,0,0,1,8.9,6.3Z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M4.6,12.3l-1.9-.6A12.51,12.51,0,0,0,2,16H4A11.48,11.48,0,0,1,4.6,12.3Z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M2.7,20.4a14.4,14.4,0,0,0,2,3.9l1.6-1.2a12.89,12.89,0,0,1-1.7-3.3Z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M7.8,27.3a14.4,14.4,0,0,0,3.9,2l.6-1.9A12.89,12.89,0,0,1,9,25.7Z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M11.7,2.7l.6,1.9A11.48,11.48,0,0,1,16,4V2A12.51,12.51,0,0,0,11.7,2.7Z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M24.2,27.3a15.18,15.18,0,0,0,3.1-3.1L25.7,23A11.53,11.53,0,0,1,23,25.7Z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M27.4,19.7l1.9.6A15.47,15.47,0,0,0,30,16H28A11.48,11.48,0,0,1,27.4,19.7Z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M29.2,11.6a14.4,14.4,0,0,0-2-3.9L25.6,8.9a12.89,12.89,0,0,1,1.7,3.3Z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M24.1,4.6a14.4,14.4,0,0,0-3.9-2l-.6,1.9a12.89,12.89,0,0,1,3.3,1.7Z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M20.3,29.3l-.6-1.9A11.48,11.48,0,0,1,16,28v2A21.42,21.42,0,0,0,20.3,29.3Z"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Not started"
+          }
+        ]
+      }
+    },
+    "pending": {
+      "props": {
+        "kind": "pending",
+        "label": "Pending"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--icon-indicator"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--icon-indicator--pending"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 32 32",
+              "aria-hidden": "true",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M16,2A14,14,0,1,0,30,16,14,14,0,0,0,16,2ZM8,18a2,2,0,1,1,2-2A2,2,0,0,1,8,18Zm8,0a2,2,0,1,1,2-2A2,2,0,0,1,16,18Zm8,0a2,2,0,1,1,2-2A2,2,0,0,1,24,18Z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "fill": "none",
+                  "d": "M10,16a2,2,0,1,1-2-2A2,2,0,0,1,10,16Zm6-2a2,2,0,1,0,2,2A2,2,0,0,0,16,14Zm8,0a2,2,0,1,0,2,2A2,2,0,0,0,24,14Z",
+                  "data-icon-path": "inner-path"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Pending"
+          }
+        ]
+      }
+    },
+    "unknown": {
+      "props": {
+        "kind": "unknown",
+        "label": "Unknown"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--icon-indicator"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--icon-indicator--unknown"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 32 32",
+              "aria-hidden": "true",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M29.391,14.527L17.473,2.609C17.067,2.203,16.533,2,16,2s-1.067,0.203-1.473,0.609L2.609,14.527C2.203,14.933,2,15.466,2,16 s0.203,1.067,0.609,1.473l11.917,11.917C14.933,29.797,15.467,30,16,30s1.067-0.203,1.473-0.609l11.917-11.917 C29.797,17.067,30,16.534,30,16S29.797,14.933,29.391,14.527z M16,24c-0.828,0-1.5-0.671-1.5-1.5S15.172,21,16,21s1.5,0.671,1.5,1.5 S16.828,24,16,24z M17.125,17.248v1.877h-2.25V15H17c1.034,0,1.875-0.841,1.875-1.875S18.034,11.25,17,11.25h-2 c-1.034,0-1.875,0.841-1.875,1.875v0.5h-2.25v-0.5C10.875,10.851,12.726,9,15,9h2c2.274,0,4.125,1.851,4.125,4.125 C21.125,15.358,19.342,17.182,17.125,17.248z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "fill": "none",
+                  "d": "M16,21c0.828,0,1.5,0.672,1.5,1.5S16.828,24,16,24c-0.828,0-1.5-0.672-1.5-1.5S15.172,21,16,21 z M17.125,17.248c2.217-0.066,4-1.89,4-4.123C21.125,10.851,19.274,9,17,9h-2c-2.274,0-4.125,1.851-4.125,4.125v0.5h2.25v-0.5 c0-1.034,0.841-1.875,1.875-1.875h2c1.034,0,1.875,0.841,1.875,1.875S18.034,15,17,15h-2.125v4.125h2.25V17.248z",
+                  "data-icon-path": "inner-path"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Unknown"
+          }
+        ]
+      }
+    },
+    "informative": {
+      "props": {
+        "kind": "informative",
+        "label": "Informative"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--icon-indicator"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--icon-indicator--informative"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 32 32",
+              "aria-hidden": "true",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M26.0022,4H5.998A1.998,1.998,0,0,0,4,5.998V26.002A1.998,1.998,0,0,0,5.998,28H26.0022A1.9979,1.9979,0,0,0,28,26.002V5.998A1.9979,1.9979,0,0,0,26.0022,4ZM14.8752,8h2.25V18h-2.25ZM16,24a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,16,24Z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "fill": "none",
+                  "d": "M14.8751,8h2.25V18h-2.25ZM16,24a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,16,24Z",
+                  "data-icon-path": "inner-path"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Informative"
+          }
+        ]
+      }
+    },
+    "size-20": {
+      "props": {
+        "kind": "succeeded",
+        "label": "Succeeded",
+        "size": 20
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--icon-indicator",
+          "cds--icon-indicator--20"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--icon-indicator--succeeded"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "width": "20",
+              "height": "20",
+              "viewBox": "0 0 20 20",
+              "aria-hidden": "true",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M10,1c-4.9,0-9,4.1-9,9s4.1,9,9,9s9-4,9-9S15,1,10,1z M8.7,13.5l-3.2-3.2l1-1l2.2,2.2l4.8-4.8l1,1L8.7,13.5z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "fill": "none",
+                  "d": "M8.7,13.5l-3.2-3.2l1-1l2.2,2.2l4.8-4.8l1,1L8.7,13.5z",
+                  "data-icon-path": "inner-path",
+                  "opacity": "0"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Succeeded"
+          }
+        ]
+      }
+    },
+    "compact": {
+      "props": {
+        "kind": "succeeded",
+        "label": "Succeeded",
+        "compact": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--icon-indicator"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--popover--caret",
+              "cds--popover--high-contrast",
+              "cds--popover--right",
+              "cds--popover-container"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--definition-term",
+                  "cds--icon-indicator__button"
+                ],
+                "attributes": {
+                  "aria-controls": "#1",
+                  "aria-describedby": "#1",
+                  "aria-expanded": "false",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--icon-indicator--succeeded"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M8,1C4.1,1,1,4.1,1,8c0,3.9,3.1,7,7,7s7-3.1,7-7C15,4.1,11.9,1,8,1z M7,11L4.3,8.3l0.9-0.8L7,9.3l4-3.9l0.9,0.8L7,11z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M7,11L4.3,8.3l0.9-0.8L7,9.3l4-3.9l0.9,0.8L7,11z",
+                          "data-icon-path": "inner-path",
+                          "opacity": "0"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Succeeded"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--popover"
+                ],
+                "attributes": {
+                  "id": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--definition-tooltip",
+                      "cds--popover-content"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Succeeded"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--popover-caret"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
