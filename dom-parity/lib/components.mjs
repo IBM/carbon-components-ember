@@ -458,7 +458,13 @@
  *    omitted whenever a caller doesn't pass one explicitly - this also
  *    required a real `pnpm run test:ember:update-snapshot` (the existing
  *    Slider style-snapshot fixtures had baked in the missing `step`
- *    attribute). Everything else found is a real, disclosed gap left as a
+ *    attribute). The `two-handles` fixture variant below passes
+ *    `unstable_valueUpper` (not a bare `valueUpper`) because that's
+ *    upstream's real, still-`unstable_`-prefixed two-handle prop name -
+ *    `@carbon/react`'s `Slider.js` destructures it literally as
+ *    `unstable_valueUpper: controlledValueUpper`, so a bare `valueUpper`
+ *    would land in `...other` (spread onto the DOM) and never actually
+ *    enable two-handle mode. Everything else found is a real, disclosed gap left as a
  *    known difference rather than fixed - see `known-differences.json`'s
  *    `ProgressBar`/`ProgressIndicator`/`IconIndicator`/`ShapeIndicator`/
  *    `Slider` entries for the full per-gap reasoning (notably: ProgressBar
@@ -1742,8 +1748,9 @@ export const COMPONENTS = [
       slider('hide-label', { hideLabel: true }),
       // `unstable_valueUpper`/`unstable_ariaLabelInputUpper`/`unstable_nameUpper`
       // are upstream's real (still-unstable-prefixed) two-handle prop names -
-      // see this file's top comment for why a bare `valueUpper` wouldn't
-      // actually enable two-handle mode on the React side.
+      // a bare `valueUpper` would land in `...other` and never actually
+      // enable two-handle mode on the React side (see this file's top
+      // comment, item 5, for the full explanation).
       slider('two-handles', { unstable_valueUpper: 75 }),
     ],
   },
