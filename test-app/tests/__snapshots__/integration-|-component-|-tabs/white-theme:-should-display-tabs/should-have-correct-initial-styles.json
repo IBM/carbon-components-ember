@@ -39,7 +39,7 @@
     }
   ],
   [
-    "<button aria-hidden=\"true\" aria-label=\"Scroll left\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--previous\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"1\"></button>",
+    "<button aria-hidden=\"true\" tabindex=\"-1\" aria-label=\"Scroll left\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--previous\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"1\"></button>",
     {
       "appearance": "none",
       "background": "rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box",
@@ -59,7 +59,7 @@
     }
   ],
   [
-    "<button:before aria-hidden=\"true\" aria-label=\"Scroll left\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--previous\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"1\"></button:before>",
+    "<button:before aria-hidden=\"true\" tabindex=\"-1\" aria-label=\"Scroll left\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--previous\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"1\"></button:before>",
     {
       "background": "rgba(0, 0, 0, 0) linear-gradient(to left, rgba(255, 255, 255, 0), rgb(255, 255, 255)) repeat scroll 0% 0% / auto padding-box border-box",
       "content": "\"\"",
@@ -74,7 +74,7 @@
     }
   ],
   [
-    "<button:after aria-hidden=\"true\" aria-label=\"Scroll left\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--previous\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"1\"></button:after>",
+    "<button:after aria-hidden=\"true\" tabindex=\"-1\" aria-label=\"Scroll left\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--previous\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"1\"></button:after>",
     {
       "cursor": "pointer",
       "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
@@ -105,7 +105,7 @@
     }
   ],
   [
-    "<path d=\"M5 8L10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z\" data-index=\"3\"></path>",
+    "<path d=\"M5 8 10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z\" data-index=\"3\"></path>",
     {
       "cursor": "pointer",
       "fill": "rgb(22, 22, 22)",
@@ -113,7 +113,7 @@
     }
   ],
   [
-    "<path:before d=\"M5 8L10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z\" data-index=\"3\"></path:before>",
+    "<path:before d=\"M5 8 10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z\" data-index=\"3\"></path:before>",
     {
       "cursor": "pointer",
       "fill": "rgb(22, 22, 22)",
@@ -121,7 +121,7 @@
     }
   ],
   [
-    "<path:after d=\"M5 8L10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z\" data-index=\"3\"></path:after>",
+    "<path:after d=\"M5 8 10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z\" data-index=\"3\"></path:after>",
     {
       "cursor": "pointer",
       "fill": "rgb(22, 22, 22)",
@@ -138,7 +138,7 @@
       "height": "40px",
       "outline": "rgb(22, 22, 22) none 3px",
       "overflow": "auto",
-      "width": "136.016px"
+      "width": "137.016px"
     }
   ],
   [
@@ -162,7 +162,7 @@
     }
   ],
   [
-    "<button aria-controls=\"ember1025-tabpanel-0\" aria-selected=\"true\" id=\"ember1025-tab-0\" role=\"tab\" data-tab-index=\"0\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  cds--tabs__nav-item--selected\n                  \" tabindex=\"0\" type=\"button\" data-index=\"5\"></button>",
+    "<button aria-controls=\"ember3613-tabpanel-0\" aria-selected=\"true\" id=\"ember3613-tab-0\" role=\"tab\" data-tab-index=\"0\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                cds--tabs__nav-item--selected\n                \" tabindex=\"0\" type=\"button\" data-index=\"5\"></button>",
     {
       "appearance": "none",
       "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
@@ -187,7 +187,7 @@
     }
   ],
   [
-    "<button:before aria-controls=\"ember1025-tabpanel-0\" aria-selected=\"true\" id=\"ember1025-tab-0\" role=\"tab\" data-tab-index=\"0\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  cds--tabs__nav-item--selected\n                  \" tabindex=\"0\" type=\"button\" data-index=\"5\"></button:before>",
+    "<button:before aria-controls=\"ember3613-tabpanel-0\" aria-selected=\"true\" id=\"ember3613-tab-0\" role=\"tab\" data-tab-index=\"0\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                cds--tabs__nav-item--selected\n                \" tabindex=\"0\" type=\"button\" data-index=\"5\"></button:before>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -197,7 +197,7 @@
     }
   ],
   [
-    "<button:after aria-controls=\"ember1025-tabpanel-0\" aria-selected=\"true\" id=\"ember1025-tab-0\" role=\"tab\" data-tab-index=\"0\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  cds--tabs__nav-item--selected\n                  \" tabindex=\"0\" type=\"button\" data-index=\"5\"></button:after>",
+    "<button:after aria-controls=\"ember3613-tabpanel-0\" aria-selected=\"true\" id=\"ember3613-tab-0\" role=\"tab\" data-tab-index=\"0\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                cds--tabs__nav-item--selected\n                \" tabindex=\"0\" type=\"button\" data-index=\"5\"></button:after>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -248,7 +248,7 @@
     }
   ],
   [
-    "<span class=\"cds--tabs__nav-item-label\" data-index=\"7\"></span>",
+    "<span class=\"cds--tabs__nav-item-label\" dir=\"auto\" data-index=\"7\"></span>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -261,7 +261,7 @@
     }
   ],
   [
-    "<span:before class=\"cds--tabs__nav-item-label\" data-index=\"7\"></span:before>",
+    "<span:before class=\"cds--tabs__nav-item-label\" dir=\"auto\" data-index=\"7\"></span:before>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -271,7 +271,7 @@
     }
   ],
   [
-    "<span:after class=\"cds--tabs__nav-item-label\" data-index=\"7\"></span:after>",
+    "<span:after class=\"cds--tabs__nav-item-label\" dir=\"auto\" data-index=\"7\"></span:after>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -281,7 +281,113 @@
     }
   ],
   [
-    "<button aria-controls=\"ember1025-tabpanel-1\" aria-selected=\"false\" id=\"ember1025-tab-1\" role=\"tab\" data-tab-index=\"1\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  \n                  \" tabindex=\"-1\" type=\"button\" data-index=\"8\"></button>",
+    "<div class=\"cds--tabs__nav-item--close--hidden\" data-index=\"8\"></div>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "clip": "rect(0px, 0px, 0px, 0px)",
+      "color": "rgb(22, 22, 22)",
+      "font": "",
+      "height": "1px",
+      "margin": "-1px",
+      "outline": "rgb(22, 22, 22) none 3px",
+      "overflow": "hidden",
+      "width": "3px"
+    }
+  ],
+  [
+    "<div:before class=\"cds--tabs__nav-item--close--hidden\" data-index=\"8\"></div:before>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "font": "",
+      "outline": "rgb(22, 22, 22) none 3px"
+    }
+  ],
+  [
+    "<div:after class=\"cds--tabs__nav-item--close--hidden\" data-index=\"8\"></div:after>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "font": "",
+      "outline": "rgb(22, 22, 22) none 3px"
+    }
+  ],
+  [
+    "<button title=\"Remove Tab 1 tab\" aria-hidden=\"true\" class=\"cds--visually-hidden\n                  cds--tabs__nav-item--close-icon--selected\n                  \" tabindex=\"-1\" type=\"button\" data-index=\"9\"></button>",
+    {
+      "border": "0px none rgb(0, 0, 0)",
+      "bottom": "42px",
+      "clip": "rect(0px, 0px, 0px, 0px)",
+      "display": "block",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "height": "1px",
+      "inset": "-1px 1210.12px 42px 66.875px",
+      "left": "66.875px",
+      "margin": "-1px",
+      "overflow": "hidden",
+      "padding": "0px",
+      "position": "absolute",
+      "right": "1210.12px",
+      "top": "-1px",
+      "width": "1px"
+    }
+  ],
+  [
+    "<button:before title=\"Remove Tab 1 tab\" aria-hidden=\"true\" class=\"cds--visually-hidden\n                  cds--tabs__nav-item--close-icon--selected\n                  \" tabindex=\"-1\" type=\"button\" data-index=\"9\"></button:before>",
+    {
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<button:after title=\"Remove Tab 1 tab\" aria-hidden=\"true\" class=\"cds--visually-hidden\n                  cds--tabs__nav-item--close-icon--selected\n                  \" tabindex=\"-1\" type=\"button\" data-index=\"9\"></button:after>",
+    {
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<svg focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 32 32\" aria-hidden=\"true\" aria-label=\"Press delete to remove Tab 1 tab\" role=\"img\" data-index=\"10\"></svg>",
+    {
+      "fill": "rgb(22, 22, 22)",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<svg:before focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 32 32\" aria-hidden=\"true\" aria-label=\"Press delete to remove Tab 1 tab\" role=\"img\" data-index=\"10\"></svg:before>",
+    {
+      "fill": "rgb(22, 22, 22)",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<svg:after focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 32 32\" aria-hidden=\"true\" aria-label=\"Press delete to remove Tab 1 tab\" role=\"img\" data-index=\"10\"></svg:after>",
+    {
+      "fill": "rgb(22, 22, 22)",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<path d=\"M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z\" data-index=\"11\"></path>",
+    {
+      "fill": "rgb(22, 22, 22)",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<path:before d=\"M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z\" data-index=\"11\"></path:before>",
+    {
+      "fill": "rgb(22, 22, 22)",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<path:after d=\"M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z\" data-index=\"11\"></path:after>",
+    {
+      "fill": "rgb(22, 22, 22)",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<button aria-controls=\"ember3613-tabpanel-1\" aria-selected=\"false\" id=\"ember3613-tab-1\" role=\"tab\" data-tab-index=\"1\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                \n                \" tabindex=\"-1\" type=\"button\" data-index=\"12\"></button>",
     {
       "appearance": "none",
       "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
@@ -295,7 +401,6 @@
       "height": "40px",
       "inset": "0px",
       "left": "0px",
-      "margin": "0px 0px 0px 1px",
       "outline": "rgba(0, 0, 0, 0) solid 2px",
       "overflow": "hidden",
       "padding": "0px 16px",
@@ -307,7 +412,7 @@
     }
   ],
   [
-    "<button:before aria-controls=\"ember1025-tabpanel-1\" aria-selected=\"false\" id=\"ember1025-tab-1\" role=\"tab\" data-tab-index=\"1\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  \n                  \" tabindex=\"-1\" type=\"button\" data-index=\"8\"></button:before>",
+    "<button:before aria-controls=\"ember3613-tabpanel-1\" aria-selected=\"false\" id=\"ember3613-tab-1\" role=\"tab\" data-tab-index=\"1\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                \n                \" tabindex=\"-1\" type=\"button\" data-index=\"12\"></button:before>",
     {
       "border": "0px none rgb(82, 82, 82)",
       "color": "rgb(82, 82, 82)",
@@ -317,7 +422,7 @@
     }
   ],
   [
-    "<button:after aria-controls=\"ember1025-tabpanel-1\" aria-selected=\"false\" id=\"ember1025-tab-1\" role=\"tab\" data-tab-index=\"1\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  \n                  \" tabindex=\"-1\" type=\"button\" data-index=\"8\"></button:after>",
+    "<button:after aria-controls=\"ember3613-tabpanel-1\" aria-selected=\"false\" id=\"ember3613-tab-1\" role=\"tab\" data-tab-index=\"1\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                \n                \" tabindex=\"-1\" type=\"button\" data-index=\"12\"></button:after>",
     {
       "border": "0px none rgb(82, 82, 82)",
       "color": "rgb(82, 82, 82)",
@@ -327,7 +432,7 @@
     }
   ],
   [
-    "<div class=\"cds--tabs__nav-item-label-wrapper\" data-index=\"9\"></div>",
+    "<div class=\"cds--tabs__nav-item-label-wrapper\" data-index=\"13\"></div>",
     {
       "border": "0px none rgb(82, 82, 82)",
       "bottom": "-1px",
@@ -346,7 +451,7 @@
     }
   ],
   [
-    "<div:before class=\"cds--tabs__nav-item-label-wrapper\" data-index=\"9\"></div:before>",
+    "<div:before class=\"cds--tabs__nav-item-label-wrapper\" data-index=\"13\"></div:before>",
     {
       "border": "0px none rgb(82, 82, 82)",
       "color": "rgb(82, 82, 82)",
@@ -357,7 +462,7 @@
     }
   ],
   [
-    "<div:after class=\"cds--tabs__nav-item-label-wrapper\" data-index=\"9\"></div:after>",
+    "<div:after class=\"cds--tabs__nav-item-label-wrapper\" data-index=\"13\"></div:after>",
     {
       "border": "0px none rgb(82, 82, 82)",
       "color": "rgb(82, 82, 82)",
@@ -368,7 +473,7 @@
     }
   ],
   [
-    "<span class=\"cds--tabs__nav-item-label\" data-index=\"10\"></span>",
+    "<span class=\"cds--tabs__nav-item-label\" dir=\"auto\" data-index=\"14\"></span>",
     {
       "border": "0px none rgb(82, 82, 82)",
       "color": "rgb(82, 82, 82)",
@@ -381,7 +486,7 @@
     }
   ],
   [
-    "<span:before class=\"cds--tabs__nav-item-label\" data-index=\"10\"></span:before>",
+    "<span:before class=\"cds--tabs__nav-item-label\" dir=\"auto\" data-index=\"14\"></span:before>",
     {
       "border": "0px none rgb(82, 82, 82)",
       "color": "rgb(82, 82, 82)",
@@ -391,7 +496,7 @@
     }
   ],
   [
-    "<span:after class=\"cds--tabs__nav-item-label\" data-index=\"10\"></span:after>",
+    "<span:after class=\"cds--tabs__nav-item-label\" dir=\"auto\" data-index=\"14\"></span:after>",
     {
       "border": "0px none rgb(82, 82, 82)",
       "color": "rgb(82, 82, 82)",
@@ -401,7 +506,107 @@
     }
   ],
   [
-    "<button aria-hidden=\"true\" aria-label=\"Scroll right\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--next\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"11\"></button>",
+    "<div class=\"cds--tabs__nav-item--close--hidden\" data-index=\"15\"></div>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "clip": "rect(0px, 0px, 0px, 0px)",
+      "color": "rgb(22, 22, 22)",
+      "font": "",
+      "height": "1px",
+      "margin": "-1px",
+      "outline": "rgb(22, 22, 22) none 3px",
+      "overflow": "hidden",
+      "width": "3px"
+    }
+  ],
+  [
+    "<div:before class=\"cds--tabs__nav-item--close--hidden\" data-index=\"15\"></div:before>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "font": "",
+      "outline": "rgb(22, 22, 22) none 3px"
+    }
+  ],
+  [
+    "<div:after class=\"cds--tabs__nav-item--close--hidden\" data-index=\"15\"></div:after>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "font": "",
+      "outline": "rgb(22, 22, 22) none 3px"
+    }
+  ],
+  [
+    "<button title=\"Remove Tab 2 tab\" aria-hidden=\"true\" class=\"cds--visually-hidden\n                  \n                  \" tabindex=\"-1\" type=\"button\" data-index=\"16\"></button>",
+    {
+      "border": "0px none rgb(0, 0, 0)",
+      "bottom": "42px",
+      "clip": "rect(0px, 0px, 0px, 0px)",
+      "display": "block",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "height": "1px",
+      "inset": "-1px 1141.98px 42px 135.016px",
+      "left": "135.016px",
+      "margin": "-1px",
+      "overflow": "hidden",
+      "padding": "0px",
+      "position": "absolute",
+      "right": "1141.98px",
+      "top": "-1px",
+      "width": "1px"
+    }
+  ],
+  [
+    "<button:before title=\"Remove Tab 2 tab\" aria-hidden=\"true\" class=\"cds--visually-hidden\n                  \n                  \" tabindex=\"-1\" type=\"button\" data-index=\"16\"></button:before>",
+    {
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<button:after title=\"Remove Tab 2 tab\" aria-hidden=\"true\" class=\"cds--visually-hidden\n                  \n                  \" tabindex=\"-1\" type=\"button\" data-index=\"16\"></button:after>",
+    {
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<svg focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 32 32\" aria-hidden=\"true\" aria-label=\"Press delete to remove Tab 2 tab\" role=\"img\" data-index=\"17\"></svg>",
+    {
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<svg:before focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 32 32\" aria-hidden=\"true\" aria-label=\"Press delete to remove Tab 2 tab\" role=\"img\" data-index=\"17\"></svg:before>",
+    {
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<svg:after focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 32 32\" aria-hidden=\"true\" aria-label=\"Press delete to remove Tab 2 tab\" role=\"img\" data-index=\"17\"></svg:after>",
+    {
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<path d=\"M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z\" data-index=\"18\"></path>",
+    {
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<path:before d=\"M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z\" data-index=\"18\"></path:before>",
+    {
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<path:after d=\"M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z\" data-index=\"18\"></path:after>",
+    {
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<button aria-hidden=\"true\" tabindex=\"-1\" aria-label=\"Scroll right\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--next\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"19\"></button>",
     {
       "appearance": "none",
       "background": "rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box",
@@ -421,7 +626,7 @@
     }
   ],
   [
-    "<button:before aria-hidden=\"true\" aria-label=\"Scroll right\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--next\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"11\"></button:before>",
+    "<button:before aria-hidden=\"true\" tabindex=\"-1\" aria-label=\"Scroll right\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--next\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"19\"></button:before>",
     {
       "background": "rgba(0, 0, 0, 0) linear-gradient(to right, rgba(255, 255, 255, 0), rgb(255, 255, 255)) repeat scroll 0% 0% / auto padding-box border-box",
       "content": "\"\"",
@@ -436,22 +641,14 @@
     }
   ],
   [
-    "<button:after aria-hidden=\"true\" aria-label=\"Scroll right\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--next\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"11\"></button:after>",
+    "<button:after aria-hidden=\"true\" tabindex=\"-1\" aria-label=\"Scroll right\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--next\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"19\"></button:after>",
     {
       "cursor": "pointer",
       "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
     }
   ],
   [
-    "<svg focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" data-index=\"12\"></svg>",
-    {
-      "cursor": "pointer",
-      "fill": "rgb(22, 22, 22)",
-      "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
-    }
-  ],
-  [
-    "<svg:before focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" data-index=\"12\"></svg:before>",
+    "<svg focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" data-index=\"20\"></svg>",
     {
       "cursor": "pointer",
       "fill": "rgb(22, 22, 22)",
@@ -459,7 +656,7 @@
     }
   ],
   [
-    "<svg:after focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" data-index=\"12\"></svg:after>",
+    "<svg:before focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" data-index=\"20\"></svg:before>",
     {
       "cursor": "pointer",
       "fill": "rgb(22, 22, 22)",
@@ -467,7 +664,7 @@
     }
   ],
   [
-    "<path d=\"M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"13\"></path>",
+    "<svg:after focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" data-index=\"20\"></svg:after>",
     {
       "cursor": "pointer",
       "fill": "rgb(22, 22, 22)",
@@ -475,7 +672,7 @@
     }
   ],
   [
-    "<path:before d=\"M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"13\"></path:before>",
+    "<path d=\"M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"21\"></path>",
     {
       "cursor": "pointer",
       "fill": "rgb(22, 22, 22)",
@@ -483,7 +680,15 @@
     }
   ],
   [
-    "<path:after d=\"M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"13\"></path:after>",
+    "<path:before d=\"M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"21\"></path:before>",
+    {
+      "cursor": "pointer",
+      "fill": "rgb(22, 22, 22)",
+      "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif"
+    }
+  ],
+  [
+    "<path:after d=\"M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"21\"></path:after>",
     {
       "cursor": "pointer",
       "fill": "rgb(22, 22, 22)",
