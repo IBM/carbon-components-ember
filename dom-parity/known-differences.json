@@ -2157,7 +2157,7 @@
   "Tabs": [
     {
       "path": "div > div[1] > button[0].attributes.aria-controls",
-      "reason": "Harness limitation, not a functional gap: each tab's `aria-controls` points at its `TabPanel`, which lives *outside* the picked `cds--tabs` subtree (upstream's panels are siblings of `TabList`, Ember's are siblings of its `cds--tabs` div), so normalize-dom.mjs can't canonicalize the reference and compares the raw generated ids (`ccs-<useId>-tabpanel-N` vs. `<guidFor>-tabpanel-N`). Both sides use the same `<base>-tabpanel-<index>` scheme and the Ember panel really does carry that id - see the `selected-panel` variant. Applies to every tablist variant."
+      "reason": "Harness limitation, not a functional gap: each tab's `aria-controls` points at its `TabPanel`, which lives *outside* the picked `cds--tabs` subtree (upstream's panels are siblings of `TabList`, Ember's are siblings of its `cds--tabs` div), so normalize-dom.mjs can't canonicalize the reference and compares the raw generated ids (`ccs-<useId>-tabpanel-N` vs. `<guidFor>-tabpanel-N`). Both sides use the same `<base>-tabpanel-<index>` scheme, but on the Ember side only the *selected* tab's target actually exists (see the `selected-panel` variant): Ember's yielded `TabPane` renders nothing at all while unselected, where upstream always renders every `TabPanel` (inactive ones `hidden`), so Ember's unselected tabs' `aria-controls` dangle - a real a11y gap this subtree-scoped harness can't surface, documented in lib/components.mjs's coverage inventory (item 6) instead. Applies to every tablist variant."
     },
     {
       "path": "div > div[1] > button[0].attributes.data-tab-index",
@@ -2197,7 +2197,7 @@
     {
       "path": "div.attributes.tabindex",
       "variant": "selected-panel",
-      "reason": "Ember's yielded `TabPane` renders `tabindex=\"0\"` on its panel; the pinned `@carbon/react`'s `TabPanel` renders none (earlier Carbon releases did). Left as-is: it only makes the panel itself focusable, which the WAI-ARIA tabs pattern recommends when a panel has no focusable content of its own, and removing it would silently change keyboard behaviour for existing consumers - a real, deliberate-looking divergence rather than a markup slip."
+      "reason": "Ember's yielded `TabPane` renders `tabindex=\"0\"` on its panel; the pinned `@carbon/react`'s `TabPanel` renders none. Left as-is: it only makes the panel itself focusable, which the WAI-ARIA tabs pattern recommends when a panel has no focusable content of its own, and removing it would silently change keyboard behaviour for existing consumers - a real, deliberate-looking divergence rather than a markup slip."
     }
   ]
 }

@@ -511,7 +511,13 @@
  *    One behavioural gap noted but not fixed, since it isn't DOM: Ember's
  *    `Tabs` selects nothing until a pane passes `@isDefault` (or
  *    `@selectedTab` is set), where upstream defaults to index 0 - every
- *    Ember render case here passes `@isDefault` explicitly. Everything else
+ *    Ember render case here passes `@isDefault` explicitly. A second one
+ *    this harness can't surface at all (the tablist subtree excludes the
+ *    panels, and `selected-panel` only compares the selected one): Ember's
+ *    yielded pane renders nothing while unselected, where upstream renders
+ *    every `TabPanel` and marks inactive ones `hidden` - so Ember's
+ *    unselected tabs' `aria-controls` point at ids that don't exist (the
+ *    standalone `TabContent` does render `hidden` correctly). Everything else
  *    found is recorded in `known-differences.json` (notably Tabs' native
  *    `disabled` attribute and viewport-gated `fullWidth`, and Accordion's
  *    hardcoded `cds--accordion--md` class). Still open under this item:
@@ -1189,7 +1195,14 @@ const structuredList = (name, props) => ({
 // (same shape as `progressIndicator` above). `aria-label` is always passed
 // explicitly: upstream leaves the tablist's `aria-label` unset unless given,
 // while Ember's defaults to "List of tabs" - passing the same string on
-// both sides keeps that default out of every variant's diff.
+// both sides keeps that default out of every variant's diff. The fixture
+// records raw React `useId` values in `aria-controls`/`aria-labelledby`
+// (e.g. `ccs-_r_58_-tabpanel-0` - they point outside the picked subtree, so
+// normalize-dom.mjs can't canonicalize them), and React's id counter is
+// global across roots: adding a variant to any registry entry *before*
+// Tabs shifts them on the next regeneration. Expected churn, not a
+// regression - the matching known-differences entries match by path, not
+// value.
 const TAB_TITLES = ['First tab', 'Second tab', 'Third tab'];
 const tabs = (name, props, { tabsProps = {}, tabOverrides = {}, pickPanel } = {}) => ({
   name,
