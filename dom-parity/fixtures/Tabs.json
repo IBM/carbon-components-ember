@@ -1,0 +1,4420 @@
+{
+  "component": "Tabs",
+  "generatedAt": "2026-09-25T02:41:59.728Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tabs"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--tab--overflow-nav-button",
+              "cds--tab--overflow-nav-button--hidden",
+              "cds--tab--overflow-nav-button--previous"
+            ],
+            "attributes": {
+              "aria-hidden": "true",
+              "tabindex": "-1",
+              "aria-label": "Scroll left",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M5 8 10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--tab--list"
+            ],
+            "attributes": {
+              "aria-label": "List of tabs",
+              "role": "tablist"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-item--selected",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_58_-tabpanel-0",
+                  "aria-selected": "true",
+                  "id": "#1",
+                  "role": "tab",
+                  "tabindex": "0",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "First tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--tabs__nav-item--close-icon--selected",
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove First tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove First tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_58_-tabpanel-1",
+                  "aria-selected": "false",
+                  "id": "#2",
+                  "role": "tab",
+                  "tabindex": "-1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Second tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove Second tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove Second tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_58_-tabpanel-2",
+                  "aria-selected": "false",
+                  "id": "#3",
+                  "role": "tab",
+                  "tabindex": "-1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Third tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove Third tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove Third tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--tab--overflow-nav-button",
+              "cds--tab--overflow-nav-button--hidden",
+              "cds--tab--overflow-nav-button--next"
+            ],
+            "attributes": {
+              "aria-hidden": "true",
+              "tabindex": "-1",
+              "aria-label": "Scroll right",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "selected-index": {
+      "props": {
+        "defaultSelectedIndex": 1
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tabs"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--tab--overflow-nav-button",
+              "cds--tab--overflow-nav-button--hidden",
+              "cds--tab--overflow-nav-button--previous"
+            ],
+            "attributes": {
+              "aria-hidden": "true",
+              "tabindex": "-1",
+              "aria-label": "Scroll left",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M5 8 10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--tab--list"
+            ],
+            "attributes": {
+              "aria-label": "List of tabs",
+              "role": "tablist"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_59_-tabpanel-0",
+                  "aria-selected": "false",
+                  "id": "#1",
+                  "role": "tab",
+                  "tabindex": "-1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "First tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove First tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove First tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-item--selected",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_59_-tabpanel-1",
+                  "aria-selected": "true",
+                  "id": "#2",
+                  "role": "tab",
+                  "tabindex": "0",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Second tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--tabs__nav-item--close-icon--selected",
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove Second tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove Second tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_59_-tabpanel-2",
+                  "aria-selected": "false",
+                  "id": "#3",
+                  "role": "tab",
+                  "tabindex": "-1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Third tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove Third tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove Third tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--tab--overflow-nav-button",
+              "cds--tab--overflow-nav-button--hidden",
+              "cds--tab--overflow-nav-button--next"
+            ],
+            "attributes": {
+              "aria-hidden": "true",
+              "tabindex": "-1",
+              "aria-label": "Scroll right",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "disabled-tab": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tabs"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--tab--overflow-nav-button",
+              "cds--tab--overflow-nav-button--hidden",
+              "cds--tab--overflow-nav-button--previous"
+            ],
+            "attributes": {
+              "aria-hidden": "true",
+              "tabindex": "-1",
+              "aria-label": "Scroll left",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M5 8 10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--tab--list"
+            ],
+            "attributes": {
+              "aria-label": "List of tabs",
+              "role": "tablist"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-item--selected",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5a_-tabpanel-0",
+                  "aria-selected": "true",
+                  "id": "#1",
+                  "role": "tab",
+                  "tabindex": "0",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "First tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--tabs__nav-item--close-icon--selected",
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove First tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove First tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-item--disabled",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5a_-tabpanel-1",
+                  "aria-disabled": "true",
+                  "aria-selected": "false",
+                  "id": "#2",
+                  "role": "tab",
+                  "disabled": true,
+                  "tabindex": "-1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Second tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--tabs__nav-item--close-icon--disabled",
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-disabled": "true",
+                      "aria-hidden": "true",
+                      "disabled": true,
+                      "title": "Remove Second tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove Second tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5a_-tabpanel-2",
+                  "aria-selected": "false",
+                  "id": "#3",
+                  "role": "tab",
+                  "tabindex": "-1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Third tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove Third tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove Third tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--tab--overflow-nav-button",
+              "cds--tab--overflow-nav-button--hidden",
+              "cds--tab--overflow-nav-button--next"
+            ],
+            "attributes": {
+              "aria-hidden": "true",
+              "tabindex": "-1",
+              "aria-label": "Scroll right",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "size-sm": {
+      "props": {
+        "size": "sm"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--layout--size-sm",
+          "cds--tabs"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--tab--overflow-nav-button",
+              "cds--tab--overflow-nav-button--hidden",
+              "cds--tab--overflow-nav-button--previous"
+            ],
+            "attributes": {
+              "aria-hidden": "true",
+              "tabindex": "-1",
+              "aria-label": "Scroll left",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M5 8 10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--tab--list"
+            ],
+            "attributes": {
+              "aria-label": "List of tabs",
+              "role": "tablist"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-item--selected",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5b_-tabpanel-0",
+                  "aria-selected": "true",
+                  "id": "#1",
+                  "role": "tab",
+                  "tabindex": "0",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "First tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--tabs__nav-item--close-icon--selected",
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove First tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove First tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5b_-tabpanel-1",
+                  "aria-selected": "false",
+                  "id": "#2",
+                  "role": "tab",
+                  "tabindex": "-1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Second tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove Second tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove Second tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5b_-tabpanel-2",
+                  "aria-selected": "false",
+                  "id": "#3",
+                  "role": "tab",
+                  "tabindex": "-1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Third tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove Third tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove Third tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--tab--overflow-nav-button",
+              "cds--tab--overflow-nav-button--hidden",
+              "cds--tab--overflow-nav-button--next"
+            ],
+            "attributes": {
+              "aria-hidden": "true",
+              "tabindex": "-1",
+              "aria-label": "Scroll right",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "manual-activation": {
+      "props": {
+        "activation": "manual"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tabs"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--tab--overflow-nav-button",
+              "cds--tab--overflow-nav-button--hidden",
+              "cds--tab--overflow-nav-button--previous"
+            ],
+            "attributes": {
+              "aria-hidden": "true",
+              "tabindex": "-1",
+              "aria-label": "Scroll left",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M5 8 10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--tab--list"
+            ],
+            "attributes": {
+              "aria-label": "List of tabs",
+              "role": "tablist"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-item--selected",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5c_-tabpanel-0",
+                  "aria-selected": "true",
+                  "id": "#1",
+                  "role": "tab",
+                  "tabindex": "0",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "First tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--tabs__nav-item--close-icon--selected",
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove First tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove First tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5c_-tabpanel-1",
+                  "aria-selected": "false",
+                  "id": "#2",
+                  "role": "tab",
+                  "tabindex": "-1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Second tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove Second tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove Second tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5c_-tabpanel-2",
+                  "aria-selected": "false",
+                  "id": "#3",
+                  "role": "tab",
+                  "tabindex": "-1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Third tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove Third tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove Third tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--tab--overflow-nav-button",
+              "cds--tab--overflow-nav-button--hidden",
+              "cds--tab--overflow-nav-button--next"
+            ],
+            "attributes": {
+              "aria-hidden": "true",
+              "tabindex": "-1",
+              "aria-label": "Scroll right",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "contained": {
+      "props": {
+        "contained": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tabs",
+          "cds--tabs--contained"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--tab--overflow-nav-button",
+              "cds--tab--overflow-nav-button--hidden",
+              "cds--tab--overflow-nav-button--previous"
+            ],
+            "attributes": {
+              "aria-hidden": "true",
+              "tabindex": "-1",
+              "aria-label": "Scroll left",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M5 8 10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--tab--list"
+            ],
+            "attributes": {
+              "aria-label": "List of tabs",
+              "role": "tablist"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-item--selected",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5d_-tabpanel-0",
+                  "aria-selected": "true",
+                  "id": "#1",
+                  "role": "tab",
+                  "tabindex": "0",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "First tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--tabs__nav-item--close-icon--selected",
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove First tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove First tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5d_-tabpanel-1",
+                  "aria-selected": "false",
+                  "id": "#2",
+                  "role": "tab",
+                  "tabindex": "-1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Second tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove Second tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove Second tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5d_-tabpanel-2",
+                  "aria-selected": "false",
+                  "id": "#3",
+                  "role": "tab",
+                  "tabindex": "-1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Third tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove Third tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove Third tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--tab--overflow-nav-button",
+              "cds--tab--overflow-nav-button--hidden",
+              "cds--tab--overflow-nav-button--next"
+            ],
+            "attributes": {
+              "aria-hidden": "true",
+              "tabindex": "-1",
+              "aria-label": "Scroll right",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "contained-size-lg": {
+      "props": {
+        "contained": true,
+        "size": "lg"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--layout--size-lg",
+          "cds--tabs",
+          "cds--tabs--contained"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--tab--overflow-nav-button",
+              "cds--tab--overflow-nav-button--hidden",
+              "cds--tab--overflow-nav-button--previous"
+            ],
+            "attributes": {
+              "aria-hidden": "true",
+              "tabindex": "-1",
+              "aria-label": "Scroll left",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M5 8 10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--tab--list"
+            ],
+            "attributes": {
+              "aria-label": "List of tabs",
+              "role": "tablist"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-item--selected",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5e_-tabpanel-0",
+                  "aria-selected": "true",
+                  "id": "#1",
+                  "role": "tab",
+                  "tabindex": "0",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "First tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--tabs__nav-item--close-icon--selected",
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove First tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove First tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5e_-tabpanel-1",
+                  "aria-selected": "false",
+                  "id": "#2",
+                  "role": "tab",
+                  "tabindex": "-1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Second tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove Second tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove Second tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5e_-tabpanel-2",
+                  "aria-selected": "false",
+                  "id": "#3",
+                  "role": "tab",
+                  "tabindex": "-1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Third tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove Third tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove Third tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--tab--overflow-nav-button",
+              "cds--tab--overflow-nav-button--hidden",
+              "cds--tab--overflow-nav-button--next"
+            ],
+            "attributes": {
+              "aria-hidden": "true",
+              "tabindex": "-1",
+              "aria-label": "Scroll right",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "contained-secondary-label": {
+      "props": {
+        "contained": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tabs",
+          "cds--tabs--contained",
+          "cds--tabs--tall"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--tab--overflow-nav-button",
+              "cds--tab--overflow-nav-button--hidden",
+              "cds--tab--overflow-nav-button--previous"
+            ],
+            "attributes": {
+              "aria-hidden": "true",
+              "tabindex": "-1",
+              "aria-label": "Scroll left",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M5 8 10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--tab--list"
+            ],
+            "attributes": {
+              "aria-label": "List of tabs",
+              "role": "tablist"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-item--selected",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5f_-tabpanel-0",
+                  "aria-selected": "true",
+                  "id": "#1",
+                  "role": "tab",
+                  "tabindex": "0",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "First tab"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-secondary-label"
+                    ],
+                    "attributes": {
+                      "title": "Secondary",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Secondary"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--tabs__nav-item--close-icon--selected",
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove First tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove First tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5f_-tabpanel-1",
+                  "aria-selected": "false",
+                  "id": "#2",
+                  "role": "tab",
+                  "tabindex": "-1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Second tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove Second tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove Second tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5f_-tabpanel-2",
+                  "aria-selected": "false",
+                  "id": "#3",
+                  "role": "tab",
+                  "tabindex": "-1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Third tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove Third tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove Third tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--tab--overflow-nav-button",
+              "cds--tab--overflow-nav-button--hidden",
+              "cds--tab--overflow-nav-button--next"
+            ],
+            "attributes": {
+              "aria-hidden": "true",
+              "tabindex": "-1",
+              "aria-label": "Scroll right",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "contained-full-width": {
+      "props": {
+        "contained": true,
+        "fullWidth": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tabs",
+          "cds--tabs--contained"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--tab--overflow-nav-button",
+              "cds--tab--overflow-nav-button--hidden",
+              "cds--tab--overflow-nav-button--previous"
+            ],
+            "attributes": {
+              "aria-hidden": "true",
+              "tabindex": "-1",
+              "aria-label": "Scroll left",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M5 8 10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--tab--list"
+            ],
+            "attributes": {
+              "aria-label": "List of tabs",
+              "role": "tablist"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-item--selected",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5g_-tabpanel-0",
+                  "aria-selected": "true",
+                  "id": "#1",
+                  "role": "tab",
+                  "tabindex": "0",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "First tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--tabs__nav-item--close-icon--selected",
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove First tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove First tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5g_-tabpanel-1",
+                  "aria-selected": "false",
+                  "id": "#2",
+                  "role": "tab",
+                  "tabindex": "-1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Second tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove Second tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove Second tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5g_-tabpanel-2",
+                  "aria-selected": "false",
+                  "id": "#3",
+                  "role": "tab",
+                  "tabindex": "-1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Third tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close--hidden"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove Third tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove Third tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--tab--overflow-nav-button",
+              "cds--tab--overflow-nav-button--hidden",
+              "cds--tab--overflow-nav-button--next"
+            ],
+            "attributes": {
+              "aria-hidden": "true",
+              "tabindex": "-1",
+              "aria-label": "Scroll right",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "dismissable": {
+      "props": {
+        "dismissable": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tabs",
+          "cds--tabs--dismissable"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--tab--overflow-nav-button",
+              "cds--tab--overflow-nav-button--hidden",
+              "cds--tab--overflow-nav-button--previous"
+            ],
+            "attributes": {
+              "aria-hidden": "true",
+              "tabindex": "-1",
+              "aria-label": "Scroll left",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M5 8 10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--tab--list"
+            ],
+            "attributes": {
+              "aria-label": "List of tabs",
+              "role": "tablist"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-item--selected",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5h_-tabpanel-0",
+                  "aria-selected": "true",
+                  "id": "#1",
+                  "role": "tab",
+                  "tabindex": "0",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "First tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--tabs__nav-item--close-icon",
+                      "cds--tabs__nav-item--close-icon--selected"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "false",
+                      "title": "Remove First tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "false",
+                          "aria-label": "Press delete to remove First tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5h_-tabpanel-1",
+                  "aria-selected": "false",
+                  "id": "#2",
+                  "role": "tab",
+                  "tabindex": "-1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Second tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--tabs__nav-item--close-icon"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove Second tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove Second tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--tabs__nav-item",
+                  "cds--tabs__nav-link"
+                ],
+                "attributes": {
+                  "aria-controls": "ccs-_r_5h_-tabpanel-2",
+                  "aria-selected": "false",
+                  "id": "#3",
+                  "role": "tab",
+                  "tabindex": "-1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--tabs__nav-item-label-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--tabs__nav-item-label"
+                        ],
+                        "attributes": {
+                          "dir": "auto"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Third tab"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tabs__nav-item--close"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--tabs__nav-item--close-icon"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "tabindex": "-1",
+                      "aria-hidden": "true",
+                      "title": "Remove Third tab tab"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-hidden": "true",
+                          "aria-label": "Press delete to remove Third tab tab",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--tab--overflow-nav-button",
+              "cds--tab--overflow-nav-button--hidden",
+              "cds--tab--overflow-nav-button--next"
+            ],
+            "attributes": {
+              "aria-hidden": "true",
+              "tabindex": "-1",
+              "aria-label": "Scroll right",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "selected-panel": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tab-content"
+        ],
+        "attributes": {
+          "aria-labelledby": "ccs-_r_5i_-tab-0",
+          "id": "#1",
+          "role": "tabpanel"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "First tab content"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -51,6 +51,10 @@ import ProgressIndicator from 'carbon-components-ember/components/progress-indic
 import IconIndicator from 'carbon-components-ember/components/icon-indicator';
 import ShapeIndicator from 'carbon-components-ember/components/shape-indicator';
 import Slider from 'carbon-components-ember/components/slider';
+import Accordion from 'carbon-components-ember/components/accordion';
+import StructuredList from 'carbon-components-ember/components/structured-list';
+import Tabs from 'carbon-components-ember/components/tabs';
+import TabContent from 'carbon-components-ember/components/tab-content';
 import { normalizeElement } from '../../../dom-parity/lib/normalize-dom.mjs';
 import {
   diffNormalized,
@@ -109,6 +113,10 @@ import progressIndicatorFixture from '../../../dom-parity/fixtures/ProgressIndic
 import iconIndicatorFixture from '../../../dom-parity/fixtures/IconIndicator.json';
 import shapeIndicatorFixture from '../../../dom-parity/fixtures/ShapeIndicator.json';
 import sliderFixture from '../../../dom-parity/fixtures/Slider.json';
+import accordionFixture from '../../../dom-parity/fixtures/Accordion.json';
+import structuredListFixture from '../../../dom-parity/fixtures/StructuredList.json';
+import tabsFixture from '../../../dom-parity/fixtures/Tabs.json';
+import tabContentFixture from '../../../dom-parity/fixtures/TabContent.json';
 
 type VariantFixture = { props: object; dom: object };
 type ComponentFixture = {
@@ -172,6 +180,10 @@ function assertFullCoverage(assert: Assert, fixture: ComponentFixture, coveredVa
     `every variant in dom-parity/fixtures/${fixture.component}.json should have a matching render case in this file`,
   );
 }
+
+// Bound once and passed by identifier - an inline arrow function isn't valid
+// inside a `{{ }}` mustache in a real .gts template (see AGENTS.md).
+const noop = () => {};
 
 module('DOM parity | Carbon React', function (hooks) {
   setupRenderingTest(hooks);
@@ -2902,6 +2914,419 @@ module('DOM parity | Carbon React', function (hooks) {
         'hide-label',
         'two-handles',
       ]);
+    });
+  });
+
+  module('Accordion', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Accordion as |Item|>
+            <Item @title='First section'>First section content</Item>
+            <Item @title='Second section'>Second section content</Item>
+            <Item @title='Third section'>Third section content</Item>
+          </Accordion>
+        </template>,
+      );
+      assertDomParity(assert, accordionFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('align-start', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Accordion @align='start' as |Item|>
+            <Item @title='First section'>First section content</Item>
+            <Item @title='Second section'>Second section content</Item>
+            <Item @title='Third section'>Third section content</Item>
+          </Accordion>
+        </template>,
+      );
+      assertDomParity(assert, accordionFixture, 'align-start', this.element.firstElementChild);
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Accordion @disabled={{true}} as |Item|>
+            <Item @title='First section'>First section content</Item>
+            <Item @title='Second section'>Second section content</Item>
+            <Item @title='Third section'>Third section content</Item>
+          </Accordion>
+        </template>,
+      );
+      assertDomParity(assert, accordionFixture, 'disabled', this.element.firstElementChild);
+    });
+
+    test('open-item', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Accordion as |Item|>
+            <Item @title='First section' @isOpen={{true}}>First section content</Item>
+            <Item @title='Second section'>Second section content</Item>
+            <Item @title='Third section'>Third section content</Item>
+          </Accordion>
+        </template>,
+      );
+      assertDomParity(assert, accordionFixture, 'open-item', this.element.firstElementChild);
+    });
+
+    test('disabled-item', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Accordion as |Item|>
+            <Item @title='First section'>First section content</Item>
+            <Item @title='Second section' @isDisabled={{true}}>Second section content</Item>
+            <Item @title='Third section'>Third section content</Item>
+          </Accordion>
+        </template>,
+      );
+      assertDomParity(assert, accordionFixture, 'disabled-item', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, accordionFixture, [
+        'default',
+        'align-start',
+        'disabled',
+        'open-item',
+        'disabled-item',
+      ]);
+    });
+  });
+
+  module('StructuredList', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <StructuredList as |SL|>
+            <SL.Head>
+              <SL.Row @head={{true}}>
+                <SL.Cell @head={{true}}>Column A</SL.Cell>
+                <SL.Cell @head={{true}}>Column B</SL.Cell>
+              </SL.Row>
+            </SL.Head>
+            <SL.Body>
+              <SL.Row @id='row-1' as |Input|>
+                <SL.Cell @noWrap={{true}}>Row 1 A</SL.Cell>
+                <SL.Cell>Row 1 B</SL.Cell>
+              </SL.Row>
+              <SL.Row @id='row-2' as |Input|>
+                <SL.Cell>Row 2 A</SL.Cell>
+                <SL.Cell>Row 2 B</SL.Cell>
+              </SL.Row>
+            </SL.Body>
+          </StructuredList>
+        </template>,
+      );
+      assertDomParity(assert, structuredListFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('condensed', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <StructuredList @isCondensed={{true}} as |SL|>
+            <SL.Head>
+              <SL.Row @head={{true}}>
+                <SL.Cell @head={{true}}>Column A</SL.Cell>
+                <SL.Cell @head={{true}}>Column B</SL.Cell>
+              </SL.Row>
+            </SL.Head>
+            <SL.Body>
+              <SL.Row @id='row-1' as |Input|>
+                <SL.Cell @noWrap={{true}}>Row 1 A</SL.Cell>
+                <SL.Cell>Row 1 B</SL.Cell>
+              </SL.Row>
+              <SL.Row @id='row-2' as |Input|>
+                <SL.Cell>Row 2 A</SL.Cell>
+                <SL.Cell>Row 2 B</SL.Cell>
+              </SL.Row>
+            </SL.Body>
+          </StructuredList>
+        </template>,
+      );
+      assertDomParity(assert, structuredListFixture, 'condensed', this.element.firstElementChild);
+    });
+
+    test('flush', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <StructuredList @isFlush={{true}} as |SL|>
+            <SL.Head>
+              <SL.Row @head={{true}}>
+                <SL.Cell @head={{true}}>Column A</SL.Cell>
+                <SL.Cell @head={{true}}>Column B</SL.Cell>
+              </SL.Row>
+            </SL.Head>
+            <SL.Body>
+              <SL.Row @id='row-1' as |Input|>
+                <SL.Cell @noWrap={{true}}>Row 1 A</SL.Cell>
+                <SL.Cell>Row 1 B</SL.Cell>
+              </SL.Row>
+              <SL.Row @id='row-2' as |Input|>
+                <SL.Cell>Row 2 A</SL.Cell>
+                <SL.Cell>Row 2 B</SL.Cell>
+              </SL.Row>
+            </SL.Body>
+          </StructuredList>
+        </template>,
+      );
+      assertDomParity(assert, structuredListFixture, 'flush', this.element.firstElementChild);
+    });
+
+    test('selection', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <StructuredList @selection={{true}} as |SL|>
+            <SL.Head>
+              <SL.Row @head={{true}}>
+                <SL.Cell @head={{true}}>Column A</SL.Cell>
+                <SL.Cell @head={{true}}>Column B</SL.Cell>
+              </SL.Row>
+            </SL.Head>
+            <SL.Body>
+              <SL.Row @id='row-1' as |Input|>
+                <Input @id='row-1-input' @name='structured-list-input' @title='Row 1' />
+                <SL.Cell @noWrap={{true}}>Row 1 A</SL.Cell>
+                <SL.Cell>Row 1 B</SL.Cell>
+              </SL.Row>
+              <SL.Row @id='row-2' as |Input|>
+                <Input @id='row-2-input' @name='structured-list-input' @title='Row 2' />
+                <SL.Cell>Row 2 A</SL.Cell>
+                <SL.Cell>Row 2 B</SL.Cell>
+              </SL.Row>
+            </SL.Body>
+          </StructuredList>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
+      assertDomParity(assert, structuredListFixture, 'selection', this.element.firstElementChild);
+    });
+
+    test('selection-initial-row', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <StructuredList @selection={{true}} @selectedInitialRow='row-2' as |SL|>
+            <SL.Head>
+              <SL.Row @head={{true}}>
+                <SL.Cell @head={{true}}>Column A</SL.Cell>
+                <SL.Cell @head={{true}}>Column B</SL.Cell>
+              </SL.Row>
+            </SL.Head>
+            <SL.Body>
+              <SL.Row @id='row-1' as |Input|>
+                <Input @id='row-1-input' @name='structured-list-input' @title='Row 1' />
+                <SL.Cell @noWrap={{true}}>Row 1 A</SL.Cell>
+                <SL.Cell>Row 1 B</SL.Cell>
+              </SL.Row>
+              <SL.Row @id='row-2' as |Input|>
+                <Input @id='row-2-input' @name='structured-list-input' @title='Row 2' />
+                <SL.Cell>Row 2 A</SL.Cell>
+                <SL.Cell>Row 2 B</SL.Cell>
+              </SL.Row>
+            </SL.Body>
+          </StructuredList>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
+      assertDomParity(assert, structuredListFixture, 'selection-initial-row', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, structuredListFixture, [
+        'default',
+        'condensed',
+        'flush',
+        'selection',
+        'selection-initial-row',
+      ]);
+    });
+  });
+
+  module('Tabs', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Tabs @ariaLabel='List of tabs' as |TabPane|>
+            <TabPane @title='First tab' @isDefault={{true}}>First tab content</TabPane>
+            <TabPane @title='Second tab'>Second tab content</TabPane>
+            <TabPane @title='Third tab'>Third tab content</TabPane>
+          </Tabs>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
+      assertDomParity(assert, tabsFixture, 'default', this.element.firstElementChild);
+    });
+
+    test('selected-index', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Tabs @ariaLabel='List of tabs' as |TabPane|>
+            <TabPane @title='First tab'>First tab content</TabPane>
+            <TabPane @title='Second tab' @isDefault={{true}}>Second tab content</TabPane>
+            <TabPane @title='Third tab'>Third tab content</TabPane>
+          </Tabs>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
+      assertDomParity(assert, tabsFixture, 'selected-index', this.element.firstElementChild);
+    });
+
+    test('disabled-tab', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Tabs @ariaLabel='List of tabs' as |TabPane|>
+            <TabPane @title='First tab' @isDefault={{true}}>First tab content</TabPane>
+            <TabPane @title='Second tab' @disabled={{true}}>Second tab content</TabPane>
+            <TabPane @title='Third tab'>Third tab content</TabPane>
+          </Tabs>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
+      assertDomParity(assert, tabsFixture, 'disabled-tab', this.element.firstElementChild);
+    });
+
+    test('size-sm', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Tabs @ariaLabel='List of tabs' @size='sm' as |TabPane|>
+            <TabPane @title='First tab' @isDefault={{true}}>First tab content</TabPane>
+            <TabPane @title='Second tab'>Second tab content</TabPane>
+            <TabPane @title='Third tab'>Third tab content</TabPane>
+          </Tabs>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
+      assertDomParity(assert, tabsFixture, 'size-sm', this.element.firstElementChild);
+    });
+
+    test('manual-activation', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Tabs @ariaLabel='List of tabs' @activation='manual' as |TabPane|>
+            <TabPane @title='First tab' @isDefault={{true}}>First tab content</TabPane>
+            <TabPane @title='Second tab'>Second tab content</TabPane>
+            <TabPane @title='Third tab'>Third tab content</TabPane>
+          </Tabs>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
+      assertDomParity(assert, tabsFixture, 'manual-activation', this.element.firstElementChild);
+    });
+
+    test('contained', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Tabs @ariaLabel='List of tabs' @contained={{true}} as |TabPane|>
+            <TabPane @title='First tab' @isDefault={{true}}>First tab content</TabPane>
+            <TabPane @title='Second tab'>Second tab content</TabPane>
+            <TabPane @title='Third tab'>Third tab content</TabPane>
+          </Tabs>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
+      assertDomParity(assert, tabsFixture, 'contained', this.element.firstElementChild);
+    });
+
+    test('contained-size-lg', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Tabs @ariaLabel='List of tabs' @contained={{true}} @size='lg' as |TabPane|>
+            <TabPane @title='First tab' @isDefault={{true}}>First tab content</TabPane>
+            <TabPane @title='Second tab'>Second tab content</TabPane>
+            <TabPane @title='Third tab'>Third tab content</TabPane>
+          </Tabs>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
+      assertDomParity(assert, tabsFixture, 'contained-size-lg', this.element.firstElementChild);
+    });
+
+    test('contained-secondary-label', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Tabs @ariaLabel='List of tabs' @contained={{true}} as |TabPane|>
+            <TabPane @title='First tab' @isDefault={{true}} @secondaryLabel='Secondary'>First tab content</TabPane>
+            <TabPane @title='Second tab'>Second tab content</TabPane>
+            <TabPane @title='Third tab'>Third tab content</TabPane>
+          </Tabs>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
+      assertDomParity(assert, tabsFixture, 'contained-secondary-label', this.element.firstElementChild);
+    });
+
+    test('contained-full-width', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Tabs @ariaLabel='List of tabs' @contained={{true}} @fullWidth={{true}} as |TabPane|>
+            <TabPane @title='First tab' @isDefault={{true}}>First tab content</TabPane>
+            <TabPane @title='Second tab'>Second tab content</TabPane>
+            <TabPane @title='Third tab'>Third tab content</TabPane>
+          </Tabs>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
+      assertDomParity(assert, tabsFixture, 'contained-full-width', this.element.firstElementChild);
+    });
+
+    test('dismissable', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Tabs @ariaLabel='List of tabs' @dismissable={{true}} @onTabCloseRequest={{noop}} as |TabPane|>
+            <TabPane @title='First tab' @isDefault={{true}}>First tab content</TabPane>
+            <TabPane @title='Second tab'>Second tab content</TabPane>
+            <TabPane @title='Third tab'>Third tab content</TabPane>
+          </Tabs>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
+      assertDomParity(assert, tabsFixture, 'dismissable', this.element.firstElementChild);
+    });
+
+    test('selected-panel', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Tabs @ariaLabel='List of tabs' as |TabPane|>
+            <TabPane @title='First tab' @isDefault={{true}}>First tab content</TabPane>
+            <TabPane @title='Second tab'>Second tab content</TabPane>
+            <TabPane @title='Third tab'>Third tab content</TabPane>
+          </Tabs>
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
+      assertDomParity(assert, tabsFixture, 'selected-panel', this.element.children[1] ?? null);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, tabsFixture, [
+        'default',
+        'selected-index',
+        'disabled-tab',
+        'size-sm',
+        'manual-activation',
+        'contained',
+        'contained-size-lg',
+        'contained-secondary-label',
+        'contained-full-width',
+        'dismissable',
+        'selected-panel',
+      ]);
+    });
+  });
+
+  module('TabContent', function () {
+    test('selected', async function (this: RenderingTestContext, assert) {
+      await render(<template><TabContent @selected={{true}}>Tab content</TabContent></template>);
+      assertDomParity(assert, tabContentFixture, 'selected', this.element.firstElementChild);
+    });
+
+    test('hidden', async function (this: RenderingTestContext, assert) {
+      await render(<template><TabContent @selected={{false}}>Tab content</TabContent></template>);
+      assertDomParity(assert, tabContentFixture, 'hidden', this.element.firstElementChild);
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, tabContentFixture, ['selected', 'hidden']);
     });
   });
 });
