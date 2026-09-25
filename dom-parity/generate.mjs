@@ -44,6 +44,24 @@ globalThis.ResizeObserver = class ResizeObserver {
   unobserve() {}
   disconnect() {}
 };
+// jsdom has no `window.matchMedia`; TabList calls it unconditionally (via
+// `useMatchMedia`) to gate `fullWidth` on the `lg` breakpoint. Stubbed to
+// never match - jsdom has no real viewport to measure, so "no media query
+// matches" is the only deterministic answer, and it's what the Tabs
+// fixture's `contained-full-width` variant records (see that variant's
+// known-differences entry for what it means for Ember's side).
+dom.window.matchMedia = (query) => ({
+  matches: false,
+  media: query,
+  onchange: null,
+  addEventListener() {},
+  removeEventListener() {},
+  addListener() {},
+  removeListener() {},
+  dispatchEvent() {
+    return false;
+  },
+});
 // Node has its own read-only global `navigator` getter; jsdom's must
 // replace it via defineProperty rather than plain assignment.
 Object.defineProperty(globalThis, 'navigator', {

@@ -91,7 +91,7 @@ module('Integration | Component | Tabs', (hooks) => {
     assert.dom('[role="tablist"]').exists();
     assert.dom('[role="tab"]').exists({ count: 2 });
     assert.dom('[role="tab"]:first-child').hasAttribute('aria-selected', 'true');
-    assert.dom('[role="tab"]:last-child').hasAttribute('aria-selected', 'false');
+    assert.dom('[role="tab"]:last-of-type').hasAttribute('aria-selected', 'false');
     assert.dom('[role="tabpanel"]').hasText('Content 1');
   });
 
@@ -105,9 +105,9 @@ module('Integration | Component | Tabs', (hooks) => {
       </template>,
     );
 
-    await click('[role="tab"]:last-child');
+    await click('[role="tab"]:last-of-type');
 
-    assert.dom('[role="tab"]:last-child').hasAttribute('aria-selected', 'true');
+    assert.dom('[role="tab"]:last-of-type').hasAttribute('aria-selected', 'true');
     assert.dom('[role="tabpanel"]').hasText('Content 2');
   });
 
@@ -131,10 +131,10 @@ module('Integration | Component | Tabs', (hooks) => {
 
     assert.dom('[role="tab"]:first-child').hasAttribute('aria-selected', 'true');
 
-    await click('[role="tab"]:last-child');
+    await click('[role="tab"]:last-of-type');
 
     assert.strictEqual(selected.current, 'Tab 2');
-    assert.dom('[role="tab"]:last-child').hasAttribute('aria-selected', 'true');
+    assert.dom('[role="tab"]:last-of-type').hasAttribute('aria-selected', 'true');
   });
 
   test('a disabled tab cannot be selected', async function (assert) {
@@ -147,9 +147,9 @@ module('Integration | Component | Tabs', (hooks) => {
       </template>,
     );
 
-    assert.dom('[role="tab"]:last-child').hasClass('cds--tabs__nav-item--disabled');
+    assert.dom('[role="tab"]:last-of-type').hasClass('cds--tabs__nav-item--disabled');
 
-    await click('[role="tab"]:last-child');
+    await click('[role="tab"]:last-of-type');
 
     assert.dom('[role="tab"]:first-child').hasAttribute('aria-selected', 'true');
   });
@@ -422,4 +422,38 @@ module('Integration | Component | Tabs', (hooks) => {
     assert.dom('.cds--tabs.cds--skeleton').hasClass('cds--tabs--contained');
     assert.dom('[role="tablist"]').doesNotExist();
   });
+
+  test('without @dismissable every tab still has a hidden close wrapper that cannot close it', async function (assert) {
+    let closed: string | undefined;
+    const onClose = (title: string) => {
+      closed = title;
+    };
+    await render(
+      <template>
+        <Tabs @onTabCloseRequest={{onClose}} as |TabPane|>
+          <TabPane @title='Tab 1' @isDefault={{true}}>Content 1</TabPane>
+          <TabPane @title='Tab 2'>Content 2</TabPane>
+        </Tabs>
+      </template>,
+    );
+
+    assert.dom('.cds--tabs__nav-item--close--hidden').exists({ count: 2 });
+    assert.dom('.cds--tabs__nav-item--close-icon').doesNotExist();
+    const hiddenButtons = document.querySelectorAll(
+      '.cds--tabs__nav-item--close--hidden button',
+    );
+    assert.strictEqual(hiddenButtons.length, 2);
+    for (const button of hiddenButtons) {
+      assert.dom(button).hasClass('cds--visually-hidden');
+      assert.dom(button).hasAttribute('aria-hidden', 'true');
+    }
+
+    await click(hiddenButtons[0] as HTMLElement);
+    assert.strictEqual(
+      closed,
+      undefined,
+      'clicking the hidden button does not call @onTabCloseRequest',
+    );
+  });
+
 });

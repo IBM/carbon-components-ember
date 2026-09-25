@@ -1,0 +1,1267 @@
+{
+  "component": "StructuredList",
+  "generatedAt": "2026-09-25T02:41:59.703Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--structured-list"
+        ],
+        "attributes": {
+          "role": "table",
+          "aria-label": "Structured list section"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--structured-list-thead"
+            ],
+            "attributes": {
+              "role": "rowgroup"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--structured-list-row",
+                  "cds--structured-list-row--header-row"
+                ],
+                "attributes": {
+                  "role": "row"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--structured-list-th"
+                    ],
+                    "attributes": {
+                      "role": "columnheader",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Column A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--structured-list-th"
+                    ],
+                    "attributes": {
+                      "role": "columnheader",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Column B"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--structured-list-tbody"
+            ],
+            "attributes": {
+              "role": "rowgroup"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--structured-list-row"
+                ],
+                "attributes": {
+                  "role": "row"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-content--nowrap",
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Row 1 A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Row 1 B"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--structured-list-row"
+                ],
+                "attributes": {
+                  "role": "row"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Row 2 A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Row 2 B"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "condensed": {
+      "props": {
+        "isCondensed": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--structured-list",
+          "cds--structured-list--condensed"
+        ],
+        "attributes": {
+          "role": "table",
+          "aria-label": "Structured list section"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--structured-list-thead"
+            ],
+            "attributes": {
+              "role": "rowgroup"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--structured-list-row",
+                  "cds--structured-list-row--header-row"
+                ],
+                "attributes": {
+                  "role": "row"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--structured-list-th"
+                    ],
+                    "attributes": {
+                      "role": "columnheader",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Column A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--structured-list-th"
+                    ],
+                    "attributes": {
+                      "role": "columnheader",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Column B"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--structured-list-tbody"
+            ],
+            "attributes": {
+              "role": "rowgroup"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--structured-list-row"
+                ],
+                "attributes": {
+                  "role": "row"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-content--nowrap",
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Row 1 A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Row 1 B"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--structured-list-row"
+                ],
+                "attributes": {
+                  "role": "row"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Row 2 A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Row 2 B"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "flush": {
+      "props": {
+        "isFlush": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--structured-list",
+          "cds--structured-list--flush"
+        ],
+        "attributes": {
+          "role": "table",
+          "aria-label": "Structured list section"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--structured-list-thead"
+            ],
+            "attributes": {
+              "role": "rowgroup"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--structured-list-row",
+                  "cds--structured-list-row--header-row"
+                ],
+                "attributes": {
+                  "role": "row"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--structured-list-th"
+                    ],
+                    "attributes": {
+                      "role": "columnheader",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Column A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--structured-list-th"
+                    ],
+                    "attributes": {
+                      "role": "columnheader",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Column B"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--structured-list-tbody"
+            ],
+            "attributes": {
+              "role": "rowgroup"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--structured-list-row"
+                ],
+                "attributes": {
+                  "role": "row"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-content--nowrap",
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Row 1 A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Row 1 B"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--structured-list-row"
+                ],
+                "attributes": {
+                  "role": "row"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Row 2 A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Row 2 B"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "selection": {
+      "props": {
+        "selection": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--structured-list",
+          "cds--structured-list--selection"
+        ],
+        "attributes": {
+          "role": "table",
+          "aria-label": "Structured list section"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--structured-list-thead"
+            ],
+            "attributes": {
+              "role": "rowgroup"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--structured-list-row",
+                  "cds--structured-list-row--header-row"
+                ],
+                "attributes": {
+                  "role": "row"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--structured-list-th"
+                    ],
+                    "attributes": {
+                      "role": "columnheader",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--structured-list-th"
+                    ],
+                    "attributes": {
+                      "role": "columnheader",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Column A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--structured-list-th"
+                    ],
+                    "attributes": {
+                      "role": "columnheader",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Column B"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--structured-list-tbody"
+            ],
+            "attributes": {
+              "role": "rowgroup"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--structured-list-row"
+                ],
+                "attributes": {
+                  "role": "row"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [
+                          "cds--structured-list__icon"
+                        ],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "aria-hidden": "true",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M16,2A14,14,0,1,0,30,16,14,14,0,0,0,16,2Zm0,26A12,12,0,1,1,28,16,12,12,0,0,1,16,28Z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--structured-list-input",
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "tabindex": "0",
+                      "id": "#1",
+                      "title": "Row 1",
+                      "type": "radio",
+                      "value": "row-1",
+                      "name": "structured-list-input"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-content--nowrap",
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Row 1 A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Row 1 B"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--structured-list-row"
+                ],
+                "attributes": {
+                  "role": "row"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [
+                          "cds--structured-list__icon"
+                        ],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "aria-hidden": "true",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M16,2A14,14,0,1,0,30,16,14,14,0,0,0,16,2Zm0,26A12,12,0,1,1,28,16,12,12,0,0,1,16,28Z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--structured-list-input",
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "tabindex": "0",
+                      "id": "#2",
+                      "title": "Row 2",
+                      "type": "radio",
+                      "value": "row-2",
+                      "name": "structured-list-input"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Row 2 A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Row 2 B"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "selection-initial-row": {
+      "props": {
+        "selection": true,
+        "selectedInitialRow": "row-2"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--structured-list",
+          "cds--structured-list--selection"
+        ],
+        "attributes": {
+          "role": "table",
+          "aria-label": "Structured list section"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--structured-list-thead"
+            ],
+            "attributes": {
+              "role": "rowgroup"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--structured-list-row",
+                  "cds--structured-list-row--header-row"
+                ],
+                "attributes": {
+                  "role": "row"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--structured-list-th"
+                    ],
+                    "attributes": {
+                      "role": "columnheader",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--structured-list-th"
+                    ],
+                    "attributes": {
+                      "role": "columnheader",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Column A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--structured-list-th"
+                    ],
+                    "attributes": {
+                      "role": "columnheader",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Column B"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--structured-list-tbody"
+            ],
+            "attributes": {
+              "role": "rowgroup"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--structured-list-row"
+                ],
+                "attributes": {
+                  "role": "row"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [
+                          "cds--structured-list__icon"
+                        ],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "aria-hidden": "true",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M16,2A14,14,0,1,0,30,16,14,14,0,0,0,16,2Zm0,26A12,12,0,1,1,28,16,12,12,0,0,1,16,28Z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--structured-list-input",
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "tabindex": "0",
+                      "id": "#1",
+                      "title": "Row 1",
+                      "type": "radio",
+                      "value": "row-1",
+                      "name": "structured-list-input"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-content--nowrap",
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Row 1 A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Row 1 B"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--structured-list-row",
+                  "cds--structured-list-row--selected"
+                ],
+                "attributes": {
+                  "role": "row"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [
+                          "cds--structured-list__icon"
+                        ],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "aria-hidden": "true",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M16,2A14,14,0,1,0,30,16,14,14,0,0,0,16,2Zm0,26A12,12,0,1,1,28,16,12,12,0,0,1,16,28Z"
+                            },
+                            "style": {},
+                            "children": []
+                          },
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M16,10a6,6,0,1,0,6,6A6,6,0,0,0,16,10Z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "input",
+                    "classes": [
+                      "cds--structured-list-input",
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "tabindex": "0",
+                      "id": "#2",
+                      "title": "Row 2",
+                      "type": "radio",
+                      "value": "row-2",
+                      "checked": true,
+                      "name": "structured-list-input"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Row 2 A"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--structured-list-td"
+                    ],
+                    "attributes": {
+                      "role": "cell",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Row 2 B"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

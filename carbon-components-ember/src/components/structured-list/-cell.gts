@@ -8,7 +8,7 @@
 import Component from '@glimmer/component';
 
 export interface StructuredListCellSignature {
-  Element: HTMLDivElement;
+  Element: HTMLDivElement | HTMLSpanElement;
   Args: {
     head?: boolean;
     noWrap?: boolean;
@@ -20,18 +20,23 @@ export interface StructuredListCellSignature {
 
 export default class StructuredListCell extends Component<StructuredListCellSignature> {
   <template>
+    {{! Matches @carbon/react, which renders both cells through its Text
+      component: a head cell uses Text's default span tag, a body cell passes
+      as div, and both get Text's default dir auto. }}
     {{#if @head}}
-      <div
+      <span
         role='columnheader'
+        dir='auto'
         class='cds--structured-list-th
           {{if @noWrap "cds--structured-list-content--nowrap"}}'
         ...attributes
       >
         {{yield}}
-      </div>
+      </span>
     {{else}}
       <div
         role='cell'
+        dir='auto'
         class='cds--structured-list-td
           {{if @noWrap "cds--structured-list-content--nowrap"}}'
         ...attributes
