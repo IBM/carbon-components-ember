@@ -39,7 +39,7 @@
     }
   ],
   [
-    "<button aria-hidden=\"true\" aria-label=\"Scroll left\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--previous\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"1\"></button>",
+    "<button aria-hidden=\"true\" tabindex=\"-1\" aria-label=\"Scroll left\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--previous\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"1\"></button>",
     {
       "appearance": "none",
       "background": "rgb(38, 38, 38) none repeat scroll 0% 0% / auto padding-box border-box",
@@ -61,7 +61,7 @@
     }
   ],
   [
-    "<button:before aria-hidden=\"true\" aria-label=\"Scroll left\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--previous\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"1\"></button:before>",
+    "<button:before aria-hidden=\"true\" tabindex=\"-1\" aria-label=\"Scroll left\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--previous\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"1\"></button:before>",
     {
       "background": "rgba(0, 0, 0, 0) linear-gradient(to left, rgba(255, 255, 255, 0), rgb(38, 38, 38)) repeat scroll 0% 0% / auto padding-box border-box",
       "border": "0px none rgb(255, 255, 255)",
@@ -79,7 +79,7 @@
     }
   ],
   [
-    "<button:after aria-hidden=\"true\" aria-label=\"Scroll left\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--previous\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"1\"></button:after>",
+    "<button:after aria-hidden=\"true\" tabindex=\"-1\" aria-label=\"Scroll left\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--previous\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"1\"></button:after>",
     {
       "border": "0px none rgb(255, 255, 255)",
       "color": "rgb(255, 255, 255)",
@@ -122,7 +122,7 @@
     }
   ],
   [
-    "<path d=\"M5 8L10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z\" data-index=\"3\"></path>",
+    "<path d=\"M5 8 10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z\" data-index=\"3\"></path>",
     {
       "border": "0px none rgb(255, 255, 255)",
       "color": "rgb(255, 255, 255)",
@@ -133,7 +133,7 @@
     }
   ],
   [
-    "<path:before d=\"M5 8L10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z\" data-index=\"3\"></path:before>",
+    "<path:before d=\"M5 8 10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z\" data-index=\"3\"></path:before>",
     {
       "border": "0px none rgb(255, 255, 255)",
       "color": "rgb(255, 255, 255)",
@@ -144,7 +144,7 @@
     }
   ],
   [
-    "<path:after d=\"M5 8L10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z\" data-index=\"3\"></path:after>",
+    "<path:after d=\"M5 8 10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z\" data-index=\"3\"></path:after>",
     {
       "border": "0px none rgb(255, 255, 255)",
       "color": "rgb(255, 255, 255)",
@@ -164,7 +164,7 @@
       "height": "40px",
       "outline": "rgb(244, 244, 244) none 3px",
       "overflow": "auto",
-      "width": "136.016px"
+      "width": "137.016px"
     }
   ],
   [
@@ -188,7 +188,7 @@
     }
   ],
   [
-    "<button aria-controls=\"ember64-tabpanel-0\" aria-selected=\"true\" id=\"ember64-tab-0\" role=\"tab\" data-tab-index=\"0\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  cds--tabs__nav-item--selected\n                  \" tabindex=\"0\" type=\"button\" data-index=\"5\"></button>",
+    "<button aria-controls=\"ember3616-tabpanel-0\" aria-selected=\"true\" id=\"ember3616-tab-0\" role=\"tab\" data-tab-index=\"0\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                cds--tabs__nav-item--selected\n                \" tabindex=\"0\" type=\"button\" data-index=\"5\"></button>",
     {
       "appearance": "none",
       "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
@@ -213,7 +213,7 @@
     }
   ],
   [
-    "<button:before aria-controls=\"ember64-tabpanel-0\" aria-selected=\"true\" id=\"ember64-tab-0\" role=\"tab\" data-tab-index=\"0\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  cds--tabs__nav-item--selected\n                  \" tabindex=\"0\" type=\"button\" data-index=\"5\"></button:before>",
+    "<button:before aria-controls=\"ember3616-tabpanel-0\" aria-selected=\"true\" id=\"ember3616-tab-0\" role=\"tab\" data-tab-index=\"0\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                cds--tabs__nav-item--selected\n                \" tabindex=\"0\" type=\"button\" data-index=\"5\"></button:before>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
@@ -223,7 +223,7 @@
     }
   ],
   [
-    "<button:after aria-controls=\"ember64-tabpanel-0\" aria-selected=\"true\" id=\"ember64-tab-0\" role=\"tab\" data-tab-index=\"0\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  cds--tabs__nav-item--selected\n                  \" tabindex=\"0\" type=\"button\" data-index=\"5\"></button:after>",
+    "<button:after aria-controls=\"ember3616-tabpanel-0\" aria-selected=\"true\" id=\"ember3616-tab-0\" role=\"tab\" data-tab-index=\"0\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                cds--tabs__nav-item--selected\n                \" tabindex=\"0\" type=\"button\" data-index=\"5\"></button:after>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
@@ -274,7 +274,7 @@
     }
   ],
   [
-    "<span class=\"cds--tabs__nav-item-label\" data-index=\"7\"></span>",
+    "<span class=\"cds--tabs__nav-item-label\" dir=\"auto\" data-index=\"7\"></span>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
@@ -287,7 +287,7 @@
     }
   ],
   [
-    "<span:before class=\"cds--tabs__nav-item-label\" data-index=\"7\"></span:before>",
+    "<span:before class=\"cds--tabs__nav-item-label\" dir=\"auto\" data-index=\"7\"></span:before>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
@@ -297,7 +297,7 @@
     }
   ],
   [
-    "<span:after class=\"cds--tabs__nav-item-label\" data-index=\"7\"></span:after>",
+    "<span:after class=\"cds--tabs__nav-item-label\" dir=\"auto\" data-index=\"7\"></span:after>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
@@ -307,7 +307,140 @@
     }
   ],
   [
-    "<button aria-controls=\"ember64-tabpanel-1\" aria-selected=\"false\" id=\"ember64-tab-1\" role=\"tab\" data-tab-index=\"1\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  \n                  \" tabindex=\"-1\" type=\"button\" data-index=\"8\"></button>",
+    "<div class=\"cds--tabs__nav-item--close--hidden\" data-index=\"8\"></div>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "clip": "rect(0px, 0px, 0px, 0px)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "height": "1px",
+      "margin": "-1px",
+      "outline": "rgb(244, 244, 244) none 3px",
+      "overflow": "hidden",
+      "width": "3px"
+    }
+  ],
+  [
+    "<div:before class=\"cds--tabs__nav-item--close--hidden\" data-index=\"8\"></div:before>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<div:after class=\"cds--tabs__nav-item--close--hidden\" data-index=\"8\"></div:after>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<button title=\"Remove Tab 1 tab\" aria-hidden=\"true\" class=\"cds--visually-hidden\n                  cds--tabs__nav-item--close-icon--selected\n                  \" tabindex=\"-1\" type=\"button\" data-index=\"9\"></button>",
+    {
+      "background": "rgb(107, 107, 107) none repeat scroll 0% 0% / auto padding-box border-box",
+      "border": "0px none rgb(255, 255, 255)",
+      "bottom": "42px",
+      "clip": "rect(0px, 0px, 0px, 0px)",
+      "color": "rgb(255, 255, 255)",
+      "display": "block",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "height": "1px",
+      "inset": "-1px 1210.12px 42px 66.875px",
+      "left": "66.875px",
+      "margin": "-1px",
+      "outline": "rgb(255, 255, 255) none 3px",
+      "overflow": "hidden",
+      "padding": "0px",
+      "position": "absolute",
+      "right": "1210.12px",
+      "top": "-1px",
+      "width": "1px"
+    }
+  ],
+  [
+    "<button:before title=\"Remove Tab 1 tab\" aria-hidden=\"true\" class=\"cds--visually-hidden\n                  cds--tabs__nav-item--close-icon--selected\n                  \" tabindex=\"-1\" type=\"button\" data-index=\"9\"></button:before>",
+    {
+      "border": "0px none rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(255, 255, 255) none 3px"
+    }
+  ],
+  [
+    "<button:after title=\"Remove Tab 1 tab\" aria-hidden=\"true\" class=\"cds--visually-hidden\n                  cds--tabs__nav-item--close-icon--selected\n                  \" tabindex=\"-1\" type=\"button\" data-index=\"9\"></button:after>",
+    {
+      "border": "0px none rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(255, 255, 255) none 3px"
+    }
+  ],
+  [
+    "<svg focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 32 32\" aria-hidden=\"true\" aria-label=\"Press delete to remove Tab 1 tab\" role=\"img\" data-index=\"10\"></svg>",
+    {
+      "border": "0px none rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "fill": "rgb(244, 244, 244)",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(255, 255, 255) none 3px"
+    }
+  ],
+  [
+    "<svg:before focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 32 32\" aria-hidden=\"true\" aria-label=\"Press delete to remove Tab 1 tab\" role=\"img\" data-index=\"10\"></svg:before>",
+    {
+      "border": "0px none rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "fill": "rgb(244, 244, 244)",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(255, 255, 255) none 3px"
+    }
+  ],
+  [
+    "<svg:after focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 32 32\" aria-hidden=\"true\" aria-label=\"Press delete to remove Tab 1 tab\" role=\"img\" data-index=\"10\"></svg:after>",
+    {
+      "border": "0px none rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "fill": "rgb(244, 244, 244)",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(255, 255, 255) none 3px"
+    }
+  ],
+  [
+    "<path d=\"M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z\" data-index=\"11\"></path>",
+    {
+      "border": "0px none rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "fill": "rgb(244, 244, 244)",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(255, 255, 255) none 3px"
+    }
+  ],
+  [
+    "<path:before d=\"M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z\" data-index=\"11\"></path:before>",
+    {
+      "border": "0px none rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "fill": "rgb(244, 244, 244)",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(255, 255, 255) none 3px"
+    }
+  ],
+  [
+    "<path:after d=\"M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z\" data-index=\"11\"></path:after>",
+    {
+      "border": "0px none rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "fill": "rgb(244, 244, 244)",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(255, 255, 255) none 3px"
+    }
+  ],
+  [
+    "<button aria-controls=\"ember3616-tabpanel-1\" aria-selected=\"false\" id=\"ember3616-tab-1\" role=\"tab\" data-tab-index=\"1\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                \n                \" tabindex=\"-1\" type=\"button\" data-index=\"12\"></button>",
     {
       "appearance": "none",
       "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
@@ -321,7 +454,6 @@
       "height": "40px",
       "inset": "0px",
       "left": "0px",
-      "margin": "0px 0px 0px 1px",
       "outline": "rgba(0, 0, 0, 0) solid 2px",
       "overflow": "hidden",
       "padding": "0px 16px",
@@ -333,7 +465,7 @@
     }
   ],
   [
-    "<button:before aria-controls=\"ember64-tabpanel-1\" aria-selected=\"false\" id=\"ember64-tab-1\" role=\"tab\" data-tab-index=\"1\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  \n                  \" tabindex=\"-1\" type=\"button\" data-index=\"8\"></button:before>",
+    "<button:before aria-controls=\"ember3616-tabpanel-1\" aria-selected=\"false\" id=\"ember3616-tab-1\" role=\"tab\" data-tab-index=\"1\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                \n                \" tabindex=\"-1\" type=\"button\" data-index=\"12\"></button:before>",
     {
       "border": "0px none rgb(198, 198, 198)",
       "color": "rgb(198, 198, 198)",
@@ -343,7 +475,7 @@
     }
   ],
   [
-    "<button:after aria-controls=\"ember64-tabpanel-1\" aria-selected=\"false\" id=\"ember64-tab-1\" role=\"tab\" data-tab-index=\"1\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                  \n                  \" tabindex=\"-1\" type=\"button\" data-index=\"8\"></button:after>",
+    "<button:after aria-controls=\"ember3616-tabpanel-1\" aria-selected=\"false\" id=\"ember3616-tab-1\" role=\"tab\" data-tab-index=\"1\" class=\"cds--tabs__nav-item cds--tabs__nav-link\n                \n                \" tabindex=\"-1\" type=\"button\" data-index=\"12\"></button:after>",
     {
       "border": "0px none rgb(198, 198, 198)",
       "color": "rgb(198, 198, 198)",
@@ -353,7 +485,7 @@
     }
   ],
   [
-    "<div class=\"cds--tabs__nav-item-label-wrapper\" data-index=\"9\"></div>",
+    "<div class=\"cds--tabs__nav-item-label-wrapper\" data-index=\"13\"></div>",
     {
       "border": "0px none rgb(198, 198, 198)",
       "bottom": "-1px",
@@ -372,7 +504,7 @@
     }
   ],
   [
-    "<div:before class=\"cds--tabs__nav-item-label-wrapper\" data-index=\"9\"></div:before>",
+    "<div:before class=\"cds--tabs__nav-item-label-wrapper\" data-index=\"13\"></div:before>",
     {
       "border": "0px none rgb(198, 198, 198)",
       "color": "rgb(198, 198, 198)",
@@ -383,7 +515,7 @@
     }
   ],
   [
-    "<div:after class=\"cds--tabs__nav-item-label-wrapper\" data-index=\"9\"></div:after>",
+    "<div:after class=\"cds--tabs__nav-item-label-wrapper\" data-index=\"13\"></div:after>",
     {
       "border": "0px none rgb(198, 198, 198)",
       "color": "rgb(198, 198, 198)",
@@ -394,7 +526,7 @@
     }
   ],
   [
-    "<span class=\"cds--tabs__nav-item-label\" data-index=\"10\"></span>",
+    "<span class=\"cds--tabs__nav-item-label\" dir=\"auto\" data-index=\"14\"></span>",
     {
       "border": "0px none rgb(198, 198, 198)",
       "color": "rgb(198, 198, 198)",
@@ -407,7 +539,7 @@
     }
   ],
   [
-    "<span:before class=\"cds--tabs__nav-item-label\" data-index=\"10\"></span:before>",
+    "<span:before class=\"cds--tabs__nav-item-label\" dir=\"auto\" data-index=\"14\"></span:before>",
     {
       "border": "0px none rgb(198, 198, 198)",
       "color": "rgb(198, 198, 198)",
@@ -417,7 +549,7 @@
     }
   ],
   [
-    "<span:after class=\"cds--tabs__nav-item-label\" data-index=\"10\"></span:after>",
+    "<span:after class=\"cds--tabs__nav-item-label\" dir=\"auto\" data-index=\"14\"></span:after>",
     {
       "border": "0px none rgb(198, 198, 198)",
       "color": "rgb(198, 198, 198)",
@@ -427,7 +559,140 @@
     }
   ],
   [
-    "<button aria-hidden=\"true\" aria-label=\"Scroll right\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--next\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"11\"></button>",
+    "<div class=\"cds--tabs__nav-item--close--hidden\" data-index=\"15\"></div>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "clip": "rect(0px, 0px, 0px, 0px)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "height": "1px",
+      "margin": "-1px",
+      "outline": "rgb(244, 244, 244) none 3px",
+      "overflow": "hidden",
+      "width": "3px"
+    }
+  ],
+  [
+    "<div:before class=\"cds--tabs__nav-item--close--hidden\" data-index=\"15\"></div:before>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<div:after class=\"cds--tabs__nav-item--close--hidden\" data-index=\"15\"></div:after>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<button title=\"Remove Tab 2 tab\" aria-hidden=\"true\" class=\"cds--visually-hidden\n                  \n                  \" tabindex=\"-1\" type=\"button\" data-index=\"16\"></button>",
+    {
+      "background": "rgb(107, 107, 107) none repeat scroll 0% 0% / auto padding-box border-box",
+      "border": "0px none rgb(255, 255, 255)",
+      "bottom": "42px",
+      "clip": "rect(0px, 0px, 0px, 0px)",
+      "color": "rgb(255, 255, 255)",
+      "display": "block",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "height": "1px",
+      "inset": "-1px 1141.98px 42px 135.016px",
+      "left": "135.016px",
+      "margin": "-1px",
+      "outline": "rgb(255, 255, 255) none 3px",
+      "overflow": "hidden",
+      "padding": "0px",
+      "position": "absolute",
+      "right": "1141.98px",
+      "top": "-1px",
+      "width": "1px"
+    }
+  ],
+  [
+    "<button:before title=\"Remove Tab 2 tab\" aria-hidden=\"true\" class=\"cds--visually-hidden\n                  \n                  \" tabindex=\"-1\" type=\"button\" data-index=\"16\"></button:before>",
+    {
+      "border": "0px none rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(255, 255, 255) none 3px"
+    }
+  ],
+  [
+    "<button:after title=\"Remove Tab 2 tab\" aria-hidden=\"true\" class=\"cds--visually-hidden\n                  \n                  \" tabindex=\"-1\" type=\"button\" data-index=\"16\"></button:after>",
+    {
+      "border": "0px none rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(255, 255, 255) none 3px"
+    }
+  ],
+  [
+    "<svg focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 32 32\" aria-hidden=\"true\" aria-label=\"Press delete to remove Tab 2 tab\" role=\"img\" data-index=\"17\"></svg>",
+    {
+      "border": "0px none rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "fill": "rgb(255, 255, 255)",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(255, 255, 255) none 3px"
+    }
+  ],
+  [
+    "<svg:before focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 32 32\" aria-hidden=\"true\" aria-label=\"Press delete to remove Tab 2 tab\" role=\"img\" data-index=\"17\"></svg:before>",
+    {
+      "border": "0px none rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "fill": "rgb(255, 255, 255)",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(255, 255, 255) none 3px"
+    }
+  ],
+  [
+    "<svg:after focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 32 32\" aria-hidden=\"true\" aria-label=\"Press delete to remove Tab 2 tab\" role=\"img\" data-index=\"17\"></svg:after>",
+    {
+      "border": "0px none rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "fill": "rgb(255, 255, 255)",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(255, 255, 255) none 3px"
+    }
+  ],
+  [
+    "<path d=\"M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z\" data-index=\"18\"></path>",
+    {
+      "border": "0px none rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "fill": "rgb(255, 255, 255)",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(255, 255, 255) none 3px"
+    }
+  ],
+  [
+    "<path:before d=\"M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z\" data-index=\"18\"></path:before>",
+    {
+      "border": "0px none rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "fill": "rgb(255, 255, 255)",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(255, 255, 255) none 3px"
+    }
+  ],
+  [
+    "<path:after d=\"M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z\" data-index=\"18\"></path:after>",
+    {
+      "border": "0px none rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "fill": "rgb(255, 255, 255)",
+      "font": "13.3333px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(255, 255, 255) none 3px"
+    }
+  ],
+  [
+    "<button aria-hidden=\"true\" tabindex=\"-1\" aria-label=\"Scroll right\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--next\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"19\"></button>",
     {
       "appearance": "none",
       "background": "rgb(38, 38, 38) none repeat scroll 0% 0% / auto padding-box border-box",
@@ -449,7 +714,7 @@
     }
   ],
   [
-    "<button:before aria-hidden=\"true\" aria-label=\"Scroll right\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--next\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"11\"></button:before>",
+    "<button:before aria-hidden=\"true\" tabindex=\"-1\" aria-label=\"Scroll right\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--next\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"19\"></button:before>",
     {
       "background": "rgba(0, 0, 0, 0) linear-gradient(to right, rgba(255, 255, 255, 0), rgb(38, 38, 38)) repeat scroll 0% 0% / auto padding-box border-box",
       "border": "0px none rgb(255, 255, 255)",
@@ -467,7 +732,7 @@
     }
   ],
   [
-    "<button:after aria-hidden=\"true\" aria-label=\"Scroll right\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--next\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"11\"></button:after>",
+    "<button:after aria-hidden=\"true\" tabindex=\"-1\" aria-label=\"Scroll right\" class=\"cds--tab--overflow-nav-button cds--tab--overflow-nav-button--next\n            cds--tab--overflow-nav-button--hidden\" type=\"button\" data-index=\"19\"></button:after>",
     {
       "border": "0px none rgb(255, 255, 255)",
       "color": "rgb(255, 255, 255)",
@@ -477,18 +742,7 @@
     }
   ],
   [
-    "<svg focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" data-index=\"12\"></svg>",
-    {
-      "border": "0px none rgb(255, 255, 255)",
-      "color": "rgb(255, 255, 255)",
-      "cursor": "pointer",
-      "fill": "rgb(244, 244, 244)",
-      "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
-      "outline": "rgb(255, 255, 255) none 3px"
-    }
-  ],
-  [
-    "<svg:before focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" data-index=\"12\"></svg:before>",
+    "<svg focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" data-index=\"20\"></svg>",
     {
       "border": "0px none rgb(255, 255, 255)",
       "color": "rgb(255, 255, 255)",
@@ -499,7 +753,7 @@
     }
   ],
   [
-    "<svg:after focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" data-index=\"12\"></svg:after>",
+    "<svg:before focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" data-index=\"20\"></svg:before>",
     {
       "border": "0px none rgb(255, 255, 255)",
       "color": "rgb(255, 255, 255)",
@@ -510,7 +764,7 @@
     }
   ],
   [
-    "<path d=\"M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"13\"></path>",
+    "<svg:after focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" data-index=\"20\"></svg:after>",
     {
       "border": "0px none rgb(255, 255, 255)",
       "color": "rgb(255, 255, 255)",
@@ -521,7 +775,7 @@
     }
   ],
   [
-    "<path:before d=\"M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"13\"></path:before>",
+    "<path d=\"M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"21\"></path>",
     {
       "border": "0px none rgb(255, 255, 255)",
       "color": "rgb(255, 255, 255)",
@@ -532,7 +786,18 @@
     }
   ],
   [
-    "<path:after d=\"M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"13\"></path:after>",
+    "<path:before d=\"M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"21\"></path:before>",
+    {
+      "border": "0px none rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "cursor": "pointer",
+      "fill": "rgb(244, 244, 244)",
+      "font": "14px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(255, 255, 255) none 3px"
+    }
+  ],
+  [
+    "<path:after d=\"M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"21\"></path:after>",
     {
       "border": "0px none rgb(255, 255, 255)",
       "color": "rgb(255, 255, 255)",

@@ -311,23 +311,25 @@
  * review follow-up the same day - the first pass undercounted the total
  * and omitted ~20 real exports from every bucket below; updated again for
  * todo #861's Skeleton batch, again for the static-form-controls batch,
- * again for the layout/scaffolding-wrappers batch, and again for the
- * indicators batch below): this file covers
- * 49 of the ~98
- * non-ai-chat components exported from `src/components/index.ts` (52
+ * again for the layout/scaffolding-wrappers batch, again for the
+ * indicators batch, and again for the Accordion/Tabs/StructuredList batch
+ * below): this file covers
+ * 53 of the ~98
+ * non-ai-chat components exported from `src/components/index.ts` (56
  * fixture entries above, since the Tile family's
  * `Tile`/`ClickableTile`/`SelectableTile`/`ExpandableTile` all map to just
  * the single real `Tile` export, while `RadioTile` and `TileGroup` each map
  * 1:1 to their own real export - 6 fixture entries collapse to 3 real
  * exports, `Tile`/`RadioTile`/`TileGroup`; every other fixture entry,
  * including the 6 Skeleton ones, the 13 static-form-control ones, the
- * 10 layout/scaffolding-wrapper ones, and the 5 indicator ones, maps
- * 1:1 to its own real export) - of the remaining ~49, `FormInput` and
+ * 10 layout/scaffolding-wrapper ones, the 5 indicator ones, and the 4
+ * Accordion/StructuredList/Tabs/TabContent ones, maps 1:1 to its own real
+ * export) - of the remaining ~45, `FormInput` and
  * `TextDirection` (verified while working the layout/scaffolding-wrappers
  * batch) join `Resizer`/`Portal`/`GridSettings`/`FlexGrid` (see the
  * "explicit non-goals" bullets further down) as components with no real
  * upstream DOM for this harness to ever diff against - counted here at
- * face value like the rest of that list, not subtracted, so the ~49
+ * face value like the rest of that list, not subtracted, so the ~45
  * figure is a true, still-unscheduled gap using one consistent counting
  * convention throughout this paragraph, not a silent one - they were
  * never scheduled. The ~98
@@ -477,7 +479,42 @@
  *    icon SVGs are missing an invisible hit-box path upstream's real
  *    `SliderHandles` icons carry).
  * 6. Structural content, split into four (each large/distinct enough to
- *    warrant its own review): Accordion+Tabs/TabContent+StructuredList;
+ *    warrant its own review). DONE (todo #865): Accordion, Tabs(+TabContent)
+ *    and StructuredList - none gated by item 1, as expected (Tabs' tablist
+ *    is always-visible inline markup). Per-component notes, each verified
+ *    against real `@carbon/react` source: Accordion's yielded `Item` now
+ *    honours its own `@isDisabled` (declared, but previously never read -
+ *    upstream's per-item `disabled` wins over the Accordion-level one
+ *    whenever it's a boolean). StructuredList's cells now render through
+ *    upstream's `Text` shape (`dir="auto"`, and a `<span>` - `Text`'s
+ *    default tag - for header cells), and body rows dropped a stray
+ *    `tabindex="-1"` upstream never had (it made a plain, non-selectable
+ *    row mouse-focusable, so clicking one lit up its `--focused-within`
+ *    style where upstream's doesn't). Upstream's `selection` is a per-Row
+ *    prop, not wrapper context - see the `structuredList` factory's own
+ *    comment. Tabs got the one real structural fix: upstream renders a
+ *    close-button wrapper `<div>` after *every* tab, visually hidden
+ *    (`cds--tabs__nav-item--close--hidden` + a `cds--visually-hidden`
+ *    button) when not dismissable, and Carbon's own CSS depends on it being
+ *    there - `.cds--tabs__nav-item + .cds--tabs__nav-item` (a 1px margin)
+ *    only ever matched Ember's un-interleaved tabs, and contained tabs'
+ *    `--selected + div + .cds--tabs__nav-item` separator rule never
+ *    matched at all. Ember now always renders it too (its tab button
+ *    markup was also de-duplicated into one template, with only the icon
+ *    position still varying by `@dismissable`), plus `dir="auto"` on the
+ *    label/secondary label, `tabindex="-1"` on the scroll buttons, and
+ *    upstream's `title`/svg `aria-label` naming on the close button in
+ *    place of Ember's own `aria-label="Close X tab"`. `TabContent` is
+ *    compared against upstream's real, still-exported standalone
+ *    `TabContent` (not `TabPanel`); the `Tabs` fixture's `selected-panel`
+ *    variant separately compares Ember's yielded pane against `TabPanel`.
+ *    One behavioural gap noted but not fixed, since it isn't DOM: Ember's
+ *    `Tabs` selects nothing until a pane passes `@isDefault` (or
+ *    `@selectedTab` is set), where upstream defaults to index 0 - every
+ *    Ember render case here passes `@isDefault` explicitly. Everything else
+ *    found is recorded in `known-differences.json` (notably Tabs' native
+ *    `disabled` attribute and viewport-gated `fullWidth`, and Accordion's
+ *    hardcoded `cds--accordion--md` class). Still open under this item:
  *    TreeView+Pagination+List (Pagination's item-per-page control isn't
  *    gated by the interaction/floating-ui decision above - React's own
  *    `Pagination` renders it with React's native `Select`/`SelectItem`, no
@@ -1072,6 +1109,123 @@ const slider = (name, props) => ({
       value: 50,
       ...props,
     }),
+});
+
+// Renders 3 real `AccordionItem` children with per-item prop overrides
+// (same shape as `progressIndicator` above), so a variant can exercise one
+// open/disabled item among otherwise-plain ones.
+const accordion = (name, props, itemOverrides = {}) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.Accordion,
+      props,
+      ['First section', 'Second section', 'Third section'].map((title, i) =>
+        React.createElement(
+          Carbon.AccordionItem,
+          { key: String(i), title, ...itemOverrides[i] },
+          `${title} content`,
+        ),
+      ),
+    ),
+});
+
+// Upstream's `selection` is a per-`StructuredListRow` prop, not read from
+// the wrapper's context (only the selected-row *state* is shared via
+// context) - so it's passed to the wrapper *and* every row here, header
+// row included, or the selection icon cell would never render. Every body
+// row gets an explicit `id` and its `StructuredListInput` an explicit
+// `name`: upstream's input `value` is the row id and its default `name` is
+// built from `useId`, and neither attribute is id-canonicalized by
+// normalize-dom.mjs (only `id` and id-*reference* attributes are), so
+// leaving them generated would record a guaranteed, meaningless diff.
+const STRUCTURED_LIST_ROWS = ['row-1', 'row-2'];
+const structuredList = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) => {
+    const { selection } = props;
+    return React.createElement(
+      Carbon.StructuredListWrapper,
+      props,
+      React.createElement(
+        Carbon.StructuredListHead,
+        null,
+        React.createElement(
+          Carbon.StructuredListRow,
+          { head: true, selection },
+          React.createElement(Carbon.StructuredListCell, { head: true }, 'Column A'),
+          React.createElement(Carbon.StructuredListCell, { head: true }, 'Column B'),
+        ),
+      ),
+      React.createElement(
+        Carbon.StructuredListBody,
+        null,
+        STRUCTURED_LIST_ROWS.map((id, i) =>
+          React.createElement(
+            Carbon.StructuredListRow,
+            { key: id, id, selection },
+            selection
+              ? React.createElement(Carbon.StructuredListInput, {
+                  id: `${id}-input`,
+                  name: 'structured-list-input',
+                  title: `Row ${i + 1}`,
+                })
+              : null,
+            React.createElement(Carbon.StructuredListCell, { noWrap: i === 0 }, `Row ${i + 1} A`),
+            React.createElement(Carbon.StructuredListCell, null, `Row ${i + 1} B`),
+          ),
+        ),
+      ),
+    );
+  },
+});
+
+// `Tabs` itself is a context provider with no DOM of its own - it renders
+// `TabList` (the `cds--tabs` root Ember's `Tabs` compares against, picked
+// via `pickRoot`) followed by `TabPanels`' sibling panel `<div>`s. Every
+// variant renders 3 real `Tab`/`TabPanel` pairs with per-tab prop overrides
+// (same shape as `progressIndicator` above). `aria-label` is always passed
+// explicitly: upstream leaves the tablist's `aria-label` unset unless given,
+// while Ember's defaults to "List of tabs" - passing the same string on
+// both sides keeps that default out of every variant's diff.
+const TAB_TITLES = ['First tab', 'Second tab', 'Third tab'];
+const tabs = (name, props, { tabsProps = {}, tabOverrides = {}, pickPanel } = {}) => ({
+  name,
+  props: { ...tabsProps, ...props },
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.Tabs,
+      tabsProps,
+      React.createElement(
+        Carbon.TabList,
+        { 'aria-label': 'List of tabs', ...props },
+        TAB_TITLES.map((title, i) =>
+          React.createElement(Carbon.Tab, { key: String(i), ...tabOverrides[i] }, title),
+        ),
+      ),
+      React.createElement(
+        Carbon.TabPanels,
+        null,
+        TAB_TITLES.map((title, i) =>
+          React.createElement(Carbon.TabPanel, { key: String(i) }, `${title} content`),
+        ),
+      ),
+    ),
+  // `pickPanel` compares the given panel instead of the tablist - `1` is the
+  // first `TabPanel`, since `TabList`'s root is container child `0`.
+  pickRoot: (container) => container.children[pickPanel ?? 0],
+});
+
+// The real, standalone `@carbon/react` `TabContent` export (still exported
+// upstream alongside `TabPanel`), not `TabPanel` - Ember's `TabContent` is
+// its 1:1 port (a bare `selected` arg driving `hidden`, no Tabs context).
+const tabContent = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.TabContent, props, 'Tab content'),
 });
 
 export const COMPONENTS = [
@@ -1752,6 +1906,51 @@ export const COMPONENTS = [
       // enable two-handle mode on the React side (see this file's top
       // comment, item 5, for the full explanation).
       slider('two-handles', { unstable_valueUpper: 75 }),
+    ],
+  },
+  {
+    name: 'Accordion',
+    variants: [
+      accordion('default', {}),
+      accordion('align-start', { align: 'start' }),
+      accordion('disabled', { disabled: true }),
+      accordion('open-item', {}, { 0: { open: true } }),
+      accordion('disabled-item', {}, { 1: { disabled: true } }),
+    ],
+  },
+  {
+    name: 'StructuredList',
+    variants: [
+      structuredList('default', {}),
+      structuredList('condensed', { isCondensed: true }),
+      structuredList('flush', { isFlush: true }),
+      structuredList('selection', { selection: true }),
+      structuredList('selection-initial-row', { selection: true, selectedInitialRow: 'row-2' }),
+    ],
+  },
+  {
+    name: 'Tabs',
+    variants: [
+      tabs('default', {}),
+      tabs('selected-index', {}, { tabsProps: { defaultSelectedIndex: 1 } }),
+      tabs('disabled-tab', {}, { tabOverrides: { 1: { disabled: true } } }),
+      tabs('size-sm', { size: 'sm' }),
+      tabs('manual-activation', { activation: 'manual' }),
+      tabs('contained', { contained: true }),
+      tabs('contained-size-lg', { contained: true, size: 'lg' }),
+      tabs('contained-secondary-label', { contained: true }, {
+        tabOverrides: { 0: { secondaryLabel: 'Secondary' } },
+      }),
+      tabs('contained-full-width', { contained: true, fullWidth: true }),
+      tabs('dismissable', {}, { tabsProps: { dismissable: true, onTabCloseRequest: () => {} } }),
+      tabs('selected-panel', {}, { pickPanel: 1 }),
+    ],
+  },
+  {
+    name: 'TabContent',
+    variants: [
+      tabContent('selected', { selected: true }),
+      tabContent('hidden', { selected: false }),
     ],
   },
 ];

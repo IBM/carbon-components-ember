@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import and from 'ember-truth-helpers/helpers/and';
+import not from 'ember-truth-helpers/helpers/not';
 import { fn, concat } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { registerDestructor } from '@ember/destroyable';
@@ -188,7 +189,9 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
   @action
   closeTab(tab: TabPane, event?: Event) {
     event?.stopPropagation();
-    if (this.isTabDisabled(tab)) return;
+    // The close button is always rendered (visually hidden when not
+    // dismissable, matching @carbon/react's DOM), so guard here too.
+    if (!this.args.dismissable || this.isTabDisabled(tab)) return;
     this.args.onTabCloseRequest?.(tab.args.title);
   }
 
@@ -365,6 +368,7 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
         <button
           {{on 'click' this.scrollLeft}}
           aria-hidden='true'
+          tabindex='-1'
           aria-label='Scroll left'
           class='cds--tab--overflow-nav-button cds--tab--overflow-nav-button--previous
             {{unless
@@ -383,7 +387,7 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
             viewBox='0 0 16 16'
             aria-hidden='true'
           >
-            <path d='M5 8L10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z'></path>
+            <path d='M5 8 10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z'></path>
           </svg>
         </button>
         <div
@@ -395,131 +399,116 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
           {{on 'scroll' this.onScroll}}
         >
           {{#each this.tabs as |tab index|}}
-            {{#if @dismissable}}
-              {{! template-lint-disable require-presentational-children }}
-              <button
-                aria-controls='{{this.guid}}-tabpanel-{{index}}'
-                aria-selected='{{if tab.isSelected "true" "false"}}'
-                aria-disabled='{{if (this.isTabDisabled tab) "true"}}'
-                id='{{this.guid}}-tab-{{index}}'
-                role='tab'
-                data-tab-index={{index}}
-                class='cds--tabs__nav-item cds--tabs__nav-link
-                  {{if tab.isSelected "cds--tabs__nav-item--selected"}}
-                  {{if
-                    (this.isTabDisabled tab)
-                    "cds--tabs__nav-item--disabled"
-                  }}'
-                tabindex='{{if tab.isFocusable "0" "-1"}}'
-                type='button'
-                {{on 'click' (fn this.tabSelected tab)}}
-                {{on 'keydown' (fn this.handleTabKeydown tab)}}
-              >
-                <div class='cds--tabs__nav-item-label-wrapper'>
-                  {{#if tab.args.renderIcon}}
-                    <div class='cds--tabs__nav-item--icon-left'>
-                      {{#let tab.args.renderIcon as |RenderIcon|}}
-                        <RenderIcon
-                          @size='16'
-                          @svgClass='cds--tabs__nav-item-icon-svg'
-                        />
-                      {{/let}}
-                    </div>
-                  {{/if}}
-                  <span class='cds--tabs__nav-item-label'>
-                    {{tab.args.title}}
-                  </span>
-                </div>
-                {{#if (and @contained tab.args.secondaryLabel)}}
-                  <div
-                    class='cds--tabs__nav-item-secondary-label'
-                    title={{tab.args.secondaryLabel}}
-                  >
-                    {{tab.args.secondaryLabel}}
+            {{! template-lint-disable require-presentational-children }}
+            <button
+              aria-controls='{{this.guid}}-tabpanel-{{index}}'
+              aria-selected='{{if tab.isSelected "true" "false"}}'
+              aria-disabled='{{if (this.isTabDisabled tab) "true"}}'
+              id='{{this.guid}}-tab-{{index}}'
+              role='tab'
+              data-tab-index={{index}}
+              class='cds--tabs__nav-item cds--tabs__nav-link
+                {{if tab.isSelected "cds--tabs__nav-item--selected"}}
+                {{if (this.isTabDisabled tab) "cds--tabs__nav-item--disabled"}}'
+              tabindex='{{if tab.isFocusable "0" "-1"}}'
+              type='button'
+              {{on 'click' (fn this.tabSelected tab)}}
+              {{on 'keydown' (fn this.handleTabKeydown tab)}}
+            >
+              <div class='cds--tabs__nav-item-label-wrapper'>
+                {{#if (and @dismissable tab.args.renderIcon)}}
+                  <div class='cds--tabs__nav-item--icon-left'>
+                    {{#let tab.args.renderIcon as |RenderIcon|}}
+                      <RenderIcon
+                        @size='16'
+                        @svgClass='cds--tabs__nav-item-icon-svg'
+                      />
+                    {{/let}}
                   </div>
                 {{/if}}
-              </button>
-              {{! A sibling of the tab button above, not a descendant: nesting a close button inside role=tab would be invalid HTML and break roving tabindex. }}
-              <div class='cds--tabs__nav-item--close'>
-                <button
-                  aria-label='Close {{tab.args.title}} tab'
-                  aria-disabled='{{if (this.isTabDisabled tab) "true"}}'
-                  class='cds--tabs__nav-item--close-icon
-                    {{if
-                      (this.isTabDisabled tab)
-                      "cds--tabs__nav-item--close-icon--disabled"
-                    }}'
-                  disabled={{this.isTabDisabled tab}}
-                  tabindex='-1'
-                  type='button'
-                  {{on 'click' (fn this.closeTab tab)}}
-                >
-                  <svg
-                    focusable='false'
-                    preserveAspectRatio='xMidYMid meet'
-                    xmlns='http://www.w3.org/2000/svg'
-                    fill='currentColor'
-                    width='16'
-                    height='16'
-                    viewBox='0 0 32 32'
-                    aria-hidden='true'
-                  >
-                    <path
-                      d='M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z'
-                    ></path>
-                  </svg>
-                </button>
+                <span class='cds--tabs__nav-item-label' dir='auto'>
+                  {{tab.args.title}}
+                </span>
+                {{#if (and (not @dismissable) tab.args.renderIcon)}}
+                  <div class='cds--tabs__nav-item--icon'>
+                    {{#let tab.args.renderIcon as |RenderIcon|}}
+                      <RenderIcon
+                        @size='16'
+                        @svgClass='cds--tabs__nav-item-icon-svg'
+                      />
+                    {{/let}}
+                  </div>
+                {{/if}}
               </div>
-            {{else}}
-              {{! template-lint-disable require-presentational-children }}
+              {{#if (and @contained tab.args.secondaryLabel)}}
+                <div
+                  class='cds--tabs__nav-item-secondary-label'
+                  title={{tab.args.secondaryLabel}}
+                  dir='auto'
+                >
+                  {{tab.args.secondaryLabel}}
+                </div>
+              {{/if}}
+            </button>
+            {{! A sibling of the tab button above, not a descendant: nesting a close button inside role=tab would be invalid HTML and break roving tabindex. Rendered after every tab even when not dismissable, visually hidden, matching @carbon/react - Carbon's own tab CSS relies on it being there (e.g. its contained-tabs selected + div + nav-item separator rule). }}
+            <div
+              class={{if
+                @dismissable
+                'cds--tabs__nav-item--close'
+                'cds--tabs__nav-item--close--hidden'
+              }}
+            >
               <button
-                aria-controls='{{this.guid}}-tabpanel-{{index}}'
-                aria-selected='{{if tab.isSelected "true" "false"}}'
+                title='Remove {{tab.args.title}} tab'
+                aria-hidden={{if
+                  (and tab.isSelected @dismissable)
+                  'false'
+                  'true'
+                }}
                 aria-disabled='{{if (this.isTabDisabled tab) "true"}}'
-                id='{{this.guid}}-tab-{{index}}'
-                role='tab'
-                data-tab-index={{index}}
-                class='cds--tabs__nav-item cds--tabs__nav-link
-                  {{if tab.isSelected "cds--tabs__nav-item--selected"}}
+                class='{{if
+                    @dismissable
+                    "cds--tabs__nav-item--close-icon"
+                    "cds--visually-hidden"
+                  }}
+                  {{if tab.isSelected "cds--tabs__nav-item--close-icon--selected"}}
                   {{if
                     (this.isTabDisabled tab)
-                    "cds--tabs__nav-item--disabled"
+                    "cds--tabs__nav-item--close-icon--disabled"
                   }}'
-                tabindex='{{if tab.isFocusable "0" "-1"}}'
+                disabled={{this.isTabDisabled tab}}
+                tabindex='-1'
                 type='button'
-                {{on 'click' (fn this.tabSelected tab)}}
-                {{on 'keydown' (fn this.handleTabKeydown tab)}}
+                {{on 'click' (fn this.closeTab tab)}}
               >
-                <div class='cds--tabs__nav-item-label-wrapper'>
-                  <span class='cds--tabs__nav-item-label'>
-                    {{tab.args.title}}
-                  </span>
-                  {{#if tab.args.renderIcon}}
-                    <div class='cds--tabs__nav-item--icon'>
-                      {{#let tab.args.renderIcon as |RenderIcon|}}
-                        <RenderIcon
-                          @size='16'
-                          @svgClass='cds--tabs__nav-item-icon-svg'
-                        />
-                      {{/let}}
-                    </div>
-                  {{/if}}
-                </div>
-                {{#if (and @contained tab.args.secondaryLabel)}}
-                  <div
-                    class='cds--tabs__nav-item-secondary-label'
-                    title={{tab.args.secondaryLabel}}
-                  >
-                    {{tab.args.secondaryLabel}}
-                  </div>
-                {{/if}}
+                <svg
+                  focusable='false'
+                  preserveAspectRatio='xMidYMid meet'
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='currentColor'
+                  width='16'
+                  height='16'
+                  viewBox='0 0 32 32'
+                  aria-hidden={{if
+                    (and tab.isSelected @dismissable)
+                    'false'
+                    'true'
+                  }}
+                  aria-label='Press delete to remove {{tab.args.title}} tab'
+                  role='img'
+                >
+                  <path
+                    d='M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z'
+                  ></path>
+                </svg>
               </button>
-            {{/if}}
+            </div>
           {{/each}}
         </div>
         <button
           {{on 'click' this.scrollRight}}
           aria-hidden='true'
+          tabindex='-1'
           aria-label='Scroll right'
           class='cds--tab--overflow-nav-button cds--tab--overflow-nav-button--next
             {{unless
@@ -538,7 +527,7 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
             viewBox='0 0 16 16'
             aria-hidden='true'
           >
-            <path d='M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z'></path>
+            <path d='M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z'></path>
           </svg>
         </button>
       </div>

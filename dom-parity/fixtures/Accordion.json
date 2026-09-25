@@ -1,0 +1,1611 @@
+{
+  "component": "Accordion",
+  "generatedAt": "2026-09-25T02:41:59.696Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "ul",
+        "classes": [
+          "cds--accordion",
+          "cds--accordion--end"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--accordion__item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--accordion__heading"
+                ],
+                "attributes": {
+                  "type": "button",
+                  "aria-controls": "#1",
+                  "aria-expanded": "false"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--accordion__arrow"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__title"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "First section"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--accordion__wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__content"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "First section content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--accordion__item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--accordion__heading"
+                ],
+                "attributes": {
+                  "type": "button",
+                  "aria-controls": "#2",
+                  "aria-expanded": "false"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--accordion__arrow"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__title"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Second section"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--accordion__wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__content"
+                    ],
+                    "attributes": {
+                      "id": "#2"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Second section content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--accordion__item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--accordion__heading"
+                ],
+                "attributes": {
+                  "type": "button",
+                  "aria-controls": "#3",
+                  "aria-expanded": "false"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--accordion__arrow"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__title"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Third section"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--accordion__wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__content"
+                    ],
+                    "attributes": {
+                      "id": "#3"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Third section content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "align-start": {
+      "props": {
+        "align": "start"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "ul",
+        "classes": [
+          "cds--accordion",
+          "cds--accordion--start"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--accordion__item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--accordion__heading"
+                ],
+                "attributes": {
+                  "type": "button",
+                  "aria-controls": "#1",
+                  "aria-expanded": "false"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--accordion__arrow"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__title"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "First section"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--accordion__wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__content"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "First section content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--accordion__item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--accordion__heading"
+                ],
+                "attributes": {
+                  "type": "button",
+                  "aria-controls": "#2",
+                  "aria-expanded": "false"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--accordion__arrow"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__title"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Second section"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--accordion__wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__content"
+                    ],
+                    "attributes": {
+                      "id": "#2"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Second section content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--accordion__item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--accordion__heading"
+                ],
+                "attributes": {
+                  "type": "button",
+                  "aria-controls": "#3",
+                  "aria-expanded": "false"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--accordion__arrow"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__title"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Third section"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--accordion__wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__content"
+                    ],
+                    "attributes": {
+                      "id": "#3"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Third section content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "disabled": {
+      "props": {
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "ul",
+        "classes": [
+          "cds--accordion",
+          "cds--accordion--end"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--accordion__item",
+              "cds--accordion__item--disabled"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--accordion__heading"
+                ],
+                "attributes": {
+                  "type": "button",
+                  "disabled": true,
+                  "aria-controls": "#1",
+                  "aria-expanded": "false"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--accordion__arrow"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__title"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "First section"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--accordion__wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__content"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "First section content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--accordion__item",
+              "cds--accordion__item--disabled"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--accordion__heading"
+                ],
+                "attributes": {
+                  "type": "button",
+                  "disabled": true,
+                  "aria-controls": "#2",
+                  "aria-expanded": "false"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--accordion__arrow"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__title"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Second section"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--accordion__wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__content"
+                    ],
+                    "attributes": {
+                      "id": "#2"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Second section content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--accordion__item",
+              "cds--accordion__item--disabled"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--accordion__heading"
+                ],
+                "attributes": {
+                  "type": "button",
+                  "disabled": true,
+                  "aria-controls": "#3",
+                  "aria-expanded": "false"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--accordion__arrow"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__title"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Third section"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--accordion__wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__content"
+                    ],
+                    "attributes": {
+                      "id": "#3"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Third section content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "open-item": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "ul",
+        "classes": [
+          "cds--accordion",
+          "cds--accordion--end"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--accordion__item",
+              "cds--accordion__item--active"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--accordion__heading"
+                ],
+                "attributes": {
+                  "type": "button",
+                  "aria-controls": "#1",
+                  "aria-expanded": "true"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--accordion__arrow"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__title"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "First section"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--accordion__wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__content"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "First section content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--accordion__item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--accordion__heading"
+                ],
+                "attributes": {
+                  "type": "button",
+                  "aria-controls": "#2",
+                  "aria-expanded": "false"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--accordion__arrow"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__title"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Second section"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--accordion__wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__content"
+                    ],
+                    "attributes": {
+                      "id": "#2"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Second section content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--accordion__item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--accordion__heading"
+                ],
+                "attributes": {
+                  "type": "button",
+                  "aria-controls": "#3",
+                  "aria-expanded": "false"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--accordion__arrow"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__title"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Third section"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--accordion__wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__content"
+                    ],
+                    "attributes": {
+                      "id": "#3"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Third section content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "disabled-item": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "ul",
+        "classes": [
+          "cds--accordion",
+          "cds--accordion--end"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--accordion__item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--accordion__heading"
+                ],
+                "attributes": {
+                  "type": "button",
+                  "aria-controls": "#1",
+                  "aria-expanded": "false"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--accordion__arrow"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__title"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "First section"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--accordion__wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__content"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "First section content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--accordion__item",
+              "cds--accordion__item--disabled"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--accordion__heading"
+                ],
+                "attributes": {
+                  "type": "button",
+                  "disabled": true,
+                  "aria-controls": "#2",
+                  "aria-expanded": "false"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--accordion__arrow"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__title"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Second section"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--accordion__wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__content"
+                    ],
+                    "attributes": {
+                      "id": "#2"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Second section content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--accordion__item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--accordion__heading"
+                ],
+                "attributes": {
+                  "type": "button",
+                  "aria-controls": "#3",
+                  "aria-expanded": "false"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--accordion__arrow"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__title"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Third section"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--accordion__wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--accordion__content"
+                    ],
+                    "attributes": {
+                      "id": "#3"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Third section content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

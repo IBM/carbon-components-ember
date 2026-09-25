@@ -91,7 +91,7 @@ module('Integration | Component | Tabs', (hooks) => {
     assert.dom('[role="tablist"]').exists();
     assert.dom('[role="tab"]').exists({ count: 2 });
     assert.dom('[role="tab"]:first-child').hasAttribute('aria-selected', 'true');
-    assert.dom('[role="tab"]:last-child').hasAttribute('aria-selected', 'false');
+    assert.dom('[role="tab"]:last-of-type').hasAttribute('aria-selected', 'false');
     assert.dom('[role="tabpanel"]').hasText('Content 1');
   });
 
@@ -105,9 +105,9 @@ module('Integration | Component | Tabs', (hooks) => {
       </template>,
     );
 
-    await click('[role="tab"]:last-child');
+    await click('[role="tab"]:last-of-type');
 
-    assert.dom('[role="tab"]:last-child').hasAttribute('aria-selected', 'true');
+    assert.dom('[role="tab"]:last-of-type').hasAttribute('aria-selected', 'true');
     assert.dom('[role="tabpanel"]').hasText('Content 2');
   });
 
@@ -131,10 +131,10 @@ module('Integration | Component | Tabs', (hooks) => {
 
     assert.dom('[role="tab"]:first-child').hasAttribute('aria-selected', 'true');
 
-    await click('[role="tab"]:last-child');
+    await click('[role="tab"]:last-of-type');
 
     assert.strictEqual(selected.current, 'Tab 2');
-    assert.dom('[role="tab"]:last-child').hasAttribute('aria-selected', 'true');
+    assert.dom('[role="tab"]:last-of-type').hasAttribute('aria-selected', 'true');
   });
 
   test('a disabled tab cannot be selected', async function (assert) {
@@ -147,9 +147,9 @@ module('Integration | Component | Tabs', (hooks) => {
       </template>,
     );
 
-    assert.dom('[role="tab"]:last-child').hasClass('cds--tabs__nav-item--disabled');
+    assert.dom('[role="tab"]:last-of-type').hasClass('cds--tabs__nav-item--disabled');
 
-    await click('[role="tab"]:last-child');
+    await click('[role="tab"]:last-of-type');
 
     assert.dom('[role="tab"]:first-child').hasAttribute('aria-selected', 'true');
   });

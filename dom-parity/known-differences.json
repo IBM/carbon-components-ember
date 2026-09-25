@@ -2048,5 +2048,156 @@
       "variant": "two-handles",
       "reason": "Terminal side effect of the same index shift described in the upper handle's `path[1].attributes.fill` entry above."
     }
+  ],
+  "Accordion": [
+    {
+      "path": "ul.classes[cds--accordion--md]",
+      "reason": "Ember's `Accordion` has no `@size` arg and always hardcodes `cds--accordion--md`, while upstream only adds `cds--accordion--${size}` (plus `cds--layout--size-${size}`) when a `size` prop is actually passed - by default it adds neither. Not fixed here: dropping the class changes the committed Accordion style-snapshot fixtures' HTML, and a real fix is adding upstream's `size` prop (`sm`/`md`/`lg`), which is feature work, not a markup tweak. Applies to every variant."
+    },
+    {
+      "path": "ul > li[0] > button[0] > svg[0] > path[0].attributes.d",
+      "reason": "Ember's hand-inlined `ChevronRight` path spells its first line segment with an explicit `L` command (`M11 8L6 13 ...`) where the real `@carbon/icons-react` icon relies on SVG's implicit lineto after a moveto (`M11 8 6 13 ...`) - byte-different, geometrically identical. Left as-is only because every committed Accordion style-snapshot fixture embeds the rendered HTML, so changing it churns three snapshot files for zero visual change (Tabs' identical chevron *was* updated, since its snapshots had to be regenerated for a real layout fix anyway). Applies to every variant."
+    },
+    {
+      "path": "ul > li[1] > button[0] > svg[0] > path[0].attributes.d",
+      "reason": "Same equivalent-path-syntax difference as the `li[0]` entry above. Applies to every variant."
+    },
+    {
+      "path": "ul > li[2] > button[0] > svg[0] > path[0].attributes.d",
+      "reason": "Same equivalent-path-syntax difference as the `li[0]` entry above. Applies to every variant."
+    }
+  ],
+  "StructuredList": [
+    {
+      "path": "div > div[1] > div[0] > div[0] > svg[0].attributes.preserveAspectRatio",
+      "variant": "selection",
+      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is row 1's selection-state `RadioButton`/`RadioButtonChecked` icon, which only renders with `selection`."
+    },
+    {
+      "path": "div > div[1] > div[0] > div[0] > svg[0].attributes.aria-hidden",
+      "variant": "selection",
+      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is row 1's selection-state `RadioButton`/`RadioButtonChecked` icon, which only renders with `selection`."
+    },
+    {
+      "path": "div > div[1] > div[0] > div[0] > svg[0].attributes.xmlns",
+      "variant": "selection",
+      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is row 1's selection-state `RadioButton`/`RadioButtonChecked` icon, which only renders with `selection`."
+    },
+    {
+      "path": "div > div[1] > div[0] > div[0] > svg[0].style.will-change",
+      "variant": "selection",
+      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is row 1's selection-state `RadioButton`/`RadioButtonChecked` icon, which only renders with `selection`."
+    },
+    {
+      "path": "div > div[1] > div[1] > div[0] > svg[0].attributes.preserveAspectRatio",
+      "variant": "selection",
+      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is row 2's selection-state `RadioButton`/`RadioButtonChecked` icon, which only renders with `selection`."
+    },
+    {
+      "path": "div > div[1] > div[1] > div[0] > svg[0].attributes.aria-hidden",
+      "variant": "selection",
+      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is row 2's selection-state `RadioButton`/`RadioButtonChecked` icon, which only renders with `selection`."
+    },
+    {
+      "path": "div > div[1] > div[1] > div[0] > svg[0].attributes.xmlns",
+      "variant": "selection",
+      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is row 2's selection-state `RadioButton`/`RadioButtonChecked` icon, which only renders with `selection`."
+    },
+    {
+      "path": "div > div[1] > div[1] > div[0] > svg[0].style.will-change",
+      "variant": "selection",
+      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is row 2's selection-state `RadioButton`/`RadioButtonChecked` icon, which only renders with `selection`."
+    },
+    {
+      "path": "div > div[1] > div[0] > div[0] > svg[0].attributes.preserveAspectRatio",
+      "variant": "selection-initial-row",
+      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is row 1's selection-state `RadioButton`/`RadioButtonChecked` icon, which only renders with `selection`."
+    },
+    {
+      "path": "div > div[1] > div[0] > div[0] > svg[0].attributes.aria-hidden",
+      "variant": "selection-initial-row",
+      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is row 1's selection-state `RadioButton`/`RadioButtonChecked` icon, which only renders with `selection`."
+    },
+    {
+      "path": "div > div[1] > div[0] > div[0] > svg[0].attributes.xmlns",
+      "variant": "selection-initial-row",
+      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is row 1's selection-state `RadioButton`/`RadioButtonChecked` icon, which only renders with `selection`."
+    },
+    {
+      "path": "div > div[1] > div[0] > div[0] > svg[0].style.will-change",
+      "variant": "selection-initial-row",
+      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is row 1's selection-state `RadioButton`/`RadioButtonChecked` icon, which only renders with `selection`."
+    },
+    {
+      "path": "div > div[1] > div[1] > div[0] > svg[0].attributes.preserveAspectRatio",
+      "variant": "selection-initial-row",
+      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is row 2's selection-state `RadioButton`/`RadioButtonChecked` icon, which only renders with `selection`."
+    },
+    {
+      "path": "div > div[1] > div[1] > div[0] > svg[0].attributes.aria-hidden",
+      "variant": "selection-initial-row",
+      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is row 2's selection-state `RadioButton`/`RadioButtonChecked` icon, which only renders with `selection`."
+    },
+    {
+      "path": "div > div[1] > div[1] > div[0] > svg[0].attributes.xmlns",
+      "variant": "selection-initial-row",
+      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is row 2's selection-state `RadioButton`/`RadioButtonChecked` icon, which only renders with `selection`."
+    },
+    {
+      "path": "div > div[1] > div[1] > div[0] > svg[0].style.will-change",
+      "variant": "selection-initial-row",
+      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is row 2's selection-state `RadioButton`/`RadioButtonChecked` icon, which only renders with `selection`."
+    },
+    {
+      "path": "div > div[1] > div[1] > input[1].attributes.checked",
+      "variant": "selection-initial-row",
+      "reason": "Same harness limitation as RadioTile's `div > input[0].attributes.checked` entry: Glimmer sets a bound `checked={{...}}` as the DOM `checked` property, not a reflected attribute, so `normalizeElement` (which only reads `el.attributes`) can't see it - `structured-list-test.gts`'s `selectedInitialRow pre-selects a row` test already asserts `isChecked()` on this exact input and passes."
+    }
+  ],
+  "Tabs": [
+    {
+      "path": "div > div[1] > button[0].attributes.aria-controls",
+      "reason": "Harness limitation, not a functional gap: each tab's `aria-controls` points at its `TabPanel`, which lives *outside* the picked `cds--tabs` subtree (upstream's panels are siblings of `TabList`, Ember's are siblings of its `cds--tabs` div), so normalize-dom.mjs can't canonicalize the reference and compares the raw generated ids (`ccs-<useId>-tabpanel-N` vs. `<guidFor>-tabpanel-N`). Both sides use the same `<base>-tabpanel-<index>` scheme and the Ember panel really does carry that id - see the `selected-panel` variant. Applies to every tablist variant."
+    },
+    {
+      "path": "div > div[1] > button[0].attributes.data-tab-index",
+      "reason": "Ember-only internal hook: `focusTabElement` uses `[data-tab-index=\"N\"]` to find the tab button to move roving focus to. Upstream keeps its tab nodes in a ref array instead, so renders nothing comparable. Harmless extra attribute. Applies to every tablist variant."
+    },
+    {
+      "path": "div > div[1] > button[2].attributes.aria-controls",
+      "reason": "Same out-of-subtree id-reference limitation as the `button[0]` entry above. Applies to every tablist variant."
+    },
+    {
+      "path": "div > div[1] > button[2].attributes.data-tab-index",
+      "reason": "Same Ember-only `data-tab-index` focus hook as the `button[0]` entry above. Applies to every tablist variant."
+    },
+    {
+      "path": "div > div[1] > button[4].attributes.aria-controls",
+      "reason": "Same out-of-subtree id-reference limitation as the `button[0]` entry above. Applies to every tablist variant."
+    },
+    {
+      "path": "div > div[1] > button[4].attributes.data-tab-index",
+      "reason": "Same Ember-only `data-tab-index` focus hook as the `button[0]` entry above. Applies to every tablist variant."
+    },
+    {
+      "path": "div > div[1] > button[2].attributes.disabled",
+      "variant": "disabled-tab",
+      "reason": "Upstream sets the native `disabled` attribute on a disabled tab (as well as `aria-disabled`); Ember only sets `aria-disabled=\"true\"` + the `cds--tabs__nav-item--disabled` class and guards selection/closing in JS (`isTabDisabled`), and its roving-tabindex logic already skips disabled tabs. Not changed here because it would alter real behaviour, not just markup - a natively disabled button can no longer receive the `keydown` events `tabs-test.gts`'s own `a disabled, dismissable tab cannot be closed by click or Delete key` test dispatches (and test-helpers refuses to fire events at a disabled control) - worth its own reviewed change."
+    },
+    {
+      "path": "div.classes[cds--tabs--full-width]",
+      "variant": "contained-full-width",
+      "reason": "Upstream only applies `cds--tabs--full-width` when its `lg`-breakpoint media query also matches (`distributeWidth = fullWidth && contained && isLg && ...`); Ember's `showFullWidthClass` never checks the viewport. The fixture was generated in jsdom, where generate.mjs's `matchMedia` stub never matches (there is no real viewport), so upstream records the narrow-viewport answer - a real, if small, Ember gap: below `lg` Ember still distributes tab widths where upstream doesn't."
+    },
+    {
+      "path": "div.attributes.aria-labelledby",
+      "variant": "selected-panel",
+      "reason": "Same out-of-subtree id-reference harness limitation as the tabs' `aria-controls` entries above, from the panel's side: its `aria-labelledby` points back at the tab button, outside the picked panel subtree, so the raw generated ids are compared (`ccs-<useId>-tab-0` vs. `<guidFor>-tab-0`) - same `<base>-tab-<index>` scheme on both sides."
+    },
+    {
+      "path": "div.attributes.tabindex",
+      "variant": "selected-panel",
+      "reason": "Ember's yielded `TabPane` renders `tabindex=\"0\"` on its panel; the pinned `@carbon/react`'s `TabPanel` renders none (earlier Carbon releases did). Left as-is: it only makes the panel itself focusable, which the WAI-ARIA tabs pattern recommends when a panel has no focusable content of its own, and removing it would silently change keyboard behaviour for existing consumers - a real, deliberate-looking divergence rather than a markup slip."
+    }
   ]
 }
