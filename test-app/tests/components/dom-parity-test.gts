@@ -3006,11 +3006,11 @@ module('DOM parity | Carbon React', function (hooks) {
               </SL.Row>
             </SL.Head>
             <SL.Body>
-              <SL.Row @id='row-1' as |Input|>
+              <SL.Row @id='row-1'>
                 <SL.Cell @noWrap={{true}}>Row 1 A</SL.Cell>
                 <SL.Cell>Row 1 B</SL.Cell>
               </SL.Row>
-              <SL.Row @id='row-2' as |Input|>
+              <SL.Row @id='row-2'>
                 <SL.Cell>Row 2 A</SL.Cell>
                 <SL.Cell>Row 2 B</SL.Cell>
               </SL.Row>
@@ -3032,11 +3032,11 @@ module('DOM parity | Carbon React', function (hooks) {
               </SL.Row>
             </SL.Head>
             <SL.Body>
-              <SL.Row @id='row-1' as |Input|>
+              <SL.Row @id='row-1'>
                 <SL.Cell @noWrap={{true}}>Row 1 A</SL.Cell>
                 <SL.Cell>Row 1 B</SL.Cell>
               </SL.Row>
-              <SL.Row @id='row-2' as |Input|>
+              <SL.Row @id='row-2'>
                 <SL.Cell>Row 2 A</SL.Cell>
                 <SL.Cell>Row 2 B</SL.Cell>
               </SL.Row>
@@ -3058,11 +3058,11 @@ module('DOM parity | Carbon React', function (hooks) {
               </SL.Row>
             </SL.Head>
             <SL.Body>
-              <SL.Row @id='row-1' as |Input|>
+              <SL.Row @id='row-1'>
                 <SL.Cell @noWrap={{true}}>Row 1 A</SL.Cell>
                 <SL.Cell>Row 1 B</SL.Cell>
               </SL.Row>
-              <SL.Row @id='row-2' as |Input|>
+              <SL.Row @id='row-2'>
                 <SL.Cell>Row 2 A</SL.Cell>
                 <SL.Cell>Row 2 B</SL.Cell>
               </SL.Row>
