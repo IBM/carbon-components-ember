@@ -381,4 +381,33 @@ module('Integration | Component | StructuredList', (hooks) => {
       .dom('.cds--structured-list-td.cds--structured-list-content--nowrap')
       .exists();
   });
+
+  test('body rows have no tabindex and cells match @carbon/react markup', async function (assert) {
+    await render(
+      <template>
+        <StructuredList as |SL|>
+          <SL.Head>
+            <SL.Row @head={{true}}>
+              <SL.Cell @head={{true}}>ColumnA</SL.Cell>
+            </SL.Row>
+          </SL.Head>
+          <SL.Body>
+            <SL.Row>
+              <SL.Cell>Row 1</SL.Cell>
+            </SL.Row>
+          </SL.Body>
+        </StructuredList>
+      </template>,
+    );
+
+    assert
+      .dom('.cds--structured-list-tbody .cds--structured-list-row')
+      .doesNotHaveAttribute('tabindex');
+    assert
+      .dom('span.cds--structured-list-th')
+      .hasAttribute('role', 'columnheader');
+    assert.dom('span.cds--structured-list-th').hasAttribute('dir', 'auto');
+    assert.dom('div.cds--structured-list-td').hasAttribute('role', 'cell');
+    assert.dom('div.cds--structured-list-td').hasAttribute('dir', 'auto');
+  });
 });
