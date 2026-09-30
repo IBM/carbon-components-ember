@@ -10,13 +10,18 @@ export function renderSvgPartFunc(
 ): ReturnType<typeof htmlSafe> {
   if (!svg) return htmlSafe('');
   if (typeof svg !== 'object') return svg as ReturnType<typeof htmlSafe>;
-  const base = `<svg class="${classes.join(' ')}"
-             focusable="false"
+  // Mirrors the root attributes @carbon/icons-react renders for an
+  // unlabelled icon (this helper has no way to label one, so it's always
+  // decorative and hidden from the accessibility tree).
+  const base = `<svg focusable="false"
+             preserveAspectRatio="xMidYMid meet"
+             xmlns="http://www.w3.org/2000/svg"
              fill="${fill}"
-             style="will-change: transform;"
              width="${size || svg.attrs.width}"
              height="${size || svg.attrs.height}"
-             viewBox="${svg.attrs.viewBox}">`;
+             viewBox="${svg.attrs.viewBox}"
+             aria-hidden="true"
+             class="${classes.join(' ')}">`;
   let rest = '';
   if (cache.has(guidFor(svg)+size)) {
     rest = cache.get(guidFor(svg)+size);

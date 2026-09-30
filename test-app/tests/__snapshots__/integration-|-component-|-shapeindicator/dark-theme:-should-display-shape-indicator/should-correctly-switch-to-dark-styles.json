@@ -33,7 +33,7 @@
     }
   ],
   [
-    "<svg class=\"cds--shape-indicator--stable \" focusable=\"false\" fill=\"currentColor\" style=\"will-change: transform;\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" data-index=\"1\"></svg>",
+    "<svg focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" class=\"cds--shape-indicator--stable \" data-index=\"1\"></svg>",
     {
       "border": "0px none rgb(198, 198, 198)",
       "color": "rgb(198, 198, 198)",
@@ -44,7 +44,7 @@
     }
   ],
   [
-    "<svg:before class=\"cds--shape-indicator--stable \" focusable=\"false\" fill=\"currentColor\" style=\"will-change: transform;\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" data-index=\"1\"></svg:before>",
+    "<svg:before focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" class=\"cds--shape-indicator--stable \" data-index=\"1\"></svg:before>",
     {
       "border": "0px none rgb(198, 198, 198)",
       "color": "rgb(198, 198, 198)",
@@ -54,7 +54,7 @@
     }
   ],
   [
-    "<svg:after class=\"cds--shape-indicator--stable \" focusable=\"false\" fill=\"currentColor\" style=\"will-change: transform;\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" data-index=\"1\"></svg:after>",
+    "<svg:after focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" class=\"cds--shape-indicator--stable \" data-index=\"1\"></svg:after>",
     {
       "border": "0px none rgb(198, 198, 198)",
       "color": "rgb(198, 198, 198)",
