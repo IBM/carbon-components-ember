@@ -58,6 +58,21 @@ module('Integration | Component | ProgressBar', (hooks) => {
       .hasAttribute('aria-busy', 'true');
   });
 
+  test("an explicit @status='indeterminate' ignores @value", async function (assert) {
+    await render(
+      <template>
+        <ProgressBar @label='L' @status='indeterminate' @value={{40}} />
+      </template>,
+    );
+    assert
+      .dom('.cds--progress-bar')
+      .hasClass('cds--progress-bar--indeterminate');
+    assert.dom('.cds--progress-bar__bar').doesNotHaveAttribute('style');
+    assert
+      .dom('.cds--progress-bar__track')
+      .doesNotHaveAttribute('aria-valuenow');
+  });
+
   test('helper text is described and its sentinel flips to Done when finished', async function (assert) {
     const status = cell<'active' | 'finished'>('active');
     await render(

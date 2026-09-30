@@ -480,10 +480,12 @@
  *    through a private port of `DefinitionTooltip`
  *    (`components/-private/definition-tooltip.gts`) with upstream's exact
  *    `<button class="cds--definition-term">` trigger and panel markup.
- *    What's left in `known-differences.json` for these five is the
- *    addon-wide icon-rendering gap (`<title>`/`@description`,
- *    `preserveAspectRatio`/`xmlns`/`aria-hidden`, the inert
- *    `cds--progress-step-icon` class - handled in its own PR), upstream
+ *    The svg root `preserveAspectRatio`/`xmlns`/`aria-hidden`/
+ *    `will-change` gap was fixed addon-wide in `render-svg-part.ts` (#911),
+ *    so none of these five allowlist it any more. What's left in
+ *    `known-differences.json` for them is ProgressIndicator's icon
+ *    `<title>`/`@description` gap and its inert `cds--progress-step-icon`
+ *    class (Ember's `Icon` has no way to inject a `<title>`), upstream
  *    quirks not worth copying (`scaleX(NaN)` on an indeterminate bar,
  *    ProgressStep's stray `index` attribute, Slider's stray `value` on its
  *    track div, ShapeIndicator's `size="16"` on its incomplete icon), and

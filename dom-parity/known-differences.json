@@ -674,46 +674,6 @@
   ],
   "ProgressBar": [
     {
-      "path": "div > div[0] > svg[1].attributes.preserveAspectRatio",
-      "variant": "finished",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the finished-status checkmark icon."
-    },
-    {
-      "path": "div > div[0] > svg[1].attributes.aria-hidden",
-      "variant": "finished",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the finished-status checkmark icon."
-    },
-    {
-      "path": "div > div[0] > svg[1].attributes.xmlns",
-      "variant": "finished",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the finished-status checkmark icon."
-    },
-    {
-      "path": "div > div[0] > svg[1].style.will-change",
-      "variant": "finished",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the finished-status checkmark icon."
-    },
-    {
-      "path": "div > div[0] > svg[1].attributes.preserveAspectRatio",
-      "variant": "error",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the error-status icon."
-    },
-    {
-      "path": "div > div[0] > svg[1].attributes.aria-hidden",
-      "variant": "error",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the error-status icon."
-    },
-    {
-      "path": "div > div[0] > svg[1].attributes.xmlns",
-      "variant": "error",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the error-status icon."
-    },
-    {
-      "path": "div > div[0] > svg[1].style.will-change",
-      "variant": "error",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the error-status icon."
-    },
-    {
       "path": "div > div[1] > div[0].style.transform",
       "variant": "indeterminate",
       "reason": "Harness artifact of upstream's own quirky indeterminate math, not a missing Ember feature worth reproducing: @carbon/react's `useIsomorphicEffect` always computes `percentage = (cappedValue ?? NaN) / max` and sets `ref.current.style.transform = 'scaleX(' + percentage + ')'` whenever the bar isn't finished/error - with no value passed (the indeterminate case), this literally becomes the broken CSS value `scaleX(NaN)`, which has no visual effect in a real browser. Ember's `{{if @value ...}}` guard simply omits the `style` attribute entirely when `@value` is absent, which is the more sensible behavior; reproducing upstream's `NaN` output here would mean intentionally copying its own bug."
@@ -733,24 +693,8 @@
       "reason": "@carbon/react's `ProgressStep` always wraps its status icon's `<title>{description}</title>` (rendering an empty `<title>` when no `description` is passed) - Ember's `progress-indicator.gts` accepts a `@description` arg but never renders it anywhere (this addon's icon components have no API to inject a `<title>` into the generated svg at all, an addon-wide limitation - see the Notification/AiChatReasoningSteps entries of the same name). Real, disclosed gap: `@description` is currently a no-op. The exact index this renders at shifts per step depending on how many `<path>`s that step's own icon has - applies wherever this file's variants happen to hit it, not scoped further per-variant since the path itself already disambiguates."
     },
     {
-      "path": "ul > li[0] > button[0] > svg[0].attributes.aria-hidden",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to ProgressIndicator - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). Applies to every variant."
-    },
-    {
-      "path": "ul > li[0] > button[0] > svg[0].attributes.preserveAspectRatio",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to ProgressIndicator - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). Applies to every variant."
-    },
-    {
-      "path": "ul > li[0] > button[0] > svg[0].attributes.xmlns",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to ProgressIndicator - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). Applies to every variant."
-    },
-    {
       "path": "ul > li[0] > button[0] > svg[0].classes[cds--progress-step-icon]",
       "reason": "`cds--progress-step-icon` is an inert class added to progress-indicator.gts's `Incomplete`/`CheckmarkOutline`/`CircleDash` icon invocations specifically to opt out of this addon's `Icon` base component's default hashed/margin-carrying class (see AGENTS.md's renderIcon-default-size gotcha) - @carbon/react's own icon has no class at all in this position (only the invalid-step's `Warning` icon carries a real class upstream, `cds--progress__warning`, already matched on both sides). Applies to every variant."
-    },
-    {
-      "path": "ul > li[0] > button[0] > svg[0].style.will-change",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to ProgressIndicator - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). Applies to every variant."
     },
     {
       "path": "ul > li[0] > button[0].attributes.index",
@@ -769,24 +713,8 @@
       "reason": "@carbon/react's `ProgressStep` always wraps its status icon's `<title>{description}</title>` (rendering an empty `<title>` when no `description` is passed) - Ember's `progress-indicator.gts` accepts a `@description` arg but never renders it anywhere (this addon's icon components have no API to inject a `<title>` into the generated svg at all, an addon-wide limitation - see the Notification/AiChatReasoningSteps entries of the same name). Real, disclosed gap: `@description` is currently a no-op. The exact index this renders at shifts per step depending on how many `<path>`s that step's own icon has - applies wherever this file's variants happen to hit it, not scoped further per-variant since the path itself already disambiguates."
     },
     {
-      "path": "ul > li[1] > button[0] > svg[0].attributes.aria-hidden",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to ProgressIndicator - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). Applies to every variant."
-    },
-    {
-      "path": "ul > li[1] > button[0] > svg[0].attributes.preserveAspectRatio",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to ProgressIndicator - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). Applies to every variant."
-    },
-    {
-      "path": "ul > li[1] > button[0] > svg[0].attributes.xmlns",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to ProgressIndicator - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). Applies to every variant."
-    },
-    {
       "path": "ul > li[1] > button[0] > svg[0].classes[cds--progress-step-icon]",
       "reason": "`cds--progress-step-icon` is an inert class added to progress-indicator.gts's `Incomplete`/`CheckmarkOutline`/`CircleDash` icon invocations specifically to opt out of this addon's `Icon` base component's default hashed/margin-carrying class (see AGENTS.md's renderIcon-default-size gotcha) - @carbon/react's own icon has no class at all in this position (only the invalid-step's `Warning` icon carries a real class upstream, `cds--progress__warning`, already matched on both sides). Applies to every variant."
-    },
-    {
-      "path": "ul > li[1] > button[0] > svg[0].style.will-change",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to ProgressIndicator - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). Applies to every variant."
     },
     {
       "path": "ul > li[1] > button[0].attributes.index",
@@ -801,24 +729,8 @@
       "reason": "@carbon/react's `ProgressStep` always wraps its status icon's `<title>{description}</title>` (rendering an empty `<title>` when no `description` is passed) - Ember's `progress-indicator.gts` accepts a `@description` arg but never renders it anywhere (this addon's icon components have no API to inject a `<title>` into the generated svg at all, an addon-wide limitation - see the Notification/AiChatReasoningSteps entries of the same name). Real, disclosed gap: `@description` is currently a no-op. The exact index this renders at shifts per step depending on how many `<path>`s that step's own icon has - applies wherever this file's variants happen to hit it, not scoped further per-variant since the path itself already disambiguates."
     },
     {
-      "path": "ul > li[2] > button[0] > svg[0].attributes.aria-hidden",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to ProgressIndicator - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). Applies to every variant."
-    },
-    {
-      "path": "ul > li[2] > button[0] > svg[0].attributes.preserveAspectRatio",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to ProgressIndicator - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). Applies to every variant."
-    },
-    {
-      "path": "ul > li[2] > button[0] > svg[0].attributes.xmlns",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to ProgressIndicator - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). Applies to every variant."
-    },
-    {
       "path": "ul > li[2] > button[0] > svg[0].classes[cds--progress-step-icon]",
       "reason": "`cds--progress-step-icon` is an inert class added to progress-indicator.gts's `Incomplete`/`CheckmarkOutline`/`CircleDash` icon invocations specifically to opt out of this addon's `Icon` base component's default hashed/margin-carrying class (see AGENTS.md's renderIcon-default-size gotcha) - @carbon/react's own icon has no class at all in this position (only the invalid-step's `Warning` icon carries a real class upstream, `cds--progress__warning`, already matched on both sides). Applies to every variant."
-    },
-    {
-      "path": "ul > li[2] > button[0] > svg[0].style.will-change",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to ProgressIndicator - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). Applies to every variant."
     },
     {
       "path": "ul > li[2] > button[0].attributes.index",
@@ -826,266 +738,6 @@
     }
   ],
   "IconIndicator": [
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "failed",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "failed",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "failed",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "failed",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "caution-major",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "caution-major",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "caution-major",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "caution-major",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "caution-minor",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "caution-minor",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "caution-minor",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "caution-minor",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "undefined",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "undefined",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "undefined",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "undefined",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "succeeded",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "succeeded",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "succeeded",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "succeeded",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "normal",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "normal",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "normal",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "normal",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "in-progress",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "in-progress",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "in-progress",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "in-progress",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "incomplete",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "incomplete",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "incomplete",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "incomplete",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "not-started",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "not-started",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "not-started",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "not-started",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "pending",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "pending",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "pending",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "pending",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "unknown",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "unknown",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "unknown",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "unknown",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "informative",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "informative",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "informative",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "informative",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "size-20",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "size-20",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "size-20",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "size-20",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
     {
       "path": "div > svg[0] > path[0].attributes.d",
       "variant": "undefined",
@@ -1125,249 +777,9 @@
       "path": "div > span[0] > span[1].attributes.id",
       "variant": "compact",
       "reason": "The panel side of the same id-canonicalization side effect as the trigger's `aria-controls` entry above - the id is rendered on the same `.cds--popover` span as upstream, it just canonicalizes to `#2`."
-    },
-    {
-      "path": "div > span[0] > button[0] > svg[0].attributes.preserveAspectRatio",
-      "variant": "compact",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the compact-mode icon inside the `DefinitionTooltip` trigger button."
-    },
-    {
-      "path": "div > span[0] > button[0] > svg[0].attributes.aria-hidden",
-      "variant": "compact",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the compact-mode icon inside the `DefinitionTooltip` trigger button."
-    },
-    {
-      "path": "div > span[0] > button[0] > svg[0].attributes.xmlns",
-      "variant": "compact",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the compact-mode icon inside the `DefinitionTooltip` trigger button."
-    },
-    {
-      "path": "div > span[0] > button[0] > svg[0].style.will-change",
-      "variant": "compact",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the compact-mode icon inside the `DefinitionTooltip` trigger button."
     }
   ],
   "ShapeIndicator": [
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "failed",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "failed",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "failed",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "failed",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "critical",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "critical",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "critical",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "critical",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "high",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "high",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "high",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "high",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "medium",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "medium",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "medium",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "medium",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "low",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "low",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "low",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "low",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "cautious",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "cautious",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "cautious",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "cautious",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "undefined",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "undefined",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "undefined",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "undefined",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "stable",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "stable",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "stable",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "stable",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "informative",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "informative",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "informative",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "informative",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "draft",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "draft",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "draft",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "draft",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.preserveAspectRatio",
-      "variant": "text-size-14",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "variant": "text-size-14",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].attributes.xmlns",
-      "variant": "text-size-14",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
-    {
-      "path": "div > svg[0].style.will-change",
-      "variant": "text-size-14",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`)."
-    },
     {
       "path": "div > svg[0].attributes.size",
       "variant": "incomplete",
@@ -1397,26 +809,6 @@
       "path": "div > span[0] > span[1].attributes.id",
       "variant": "compact",
       "reason": "The panel side of the same id-canonicalization side effect as the trigger's `aria-controls` entry above - the id is rendered on the same `.cds--popover` span as upstream, it just canonicalizes to `#2`."
-    },
-    {
-      "path": "div > span[0] > button[0] > svg[0].attributes.preserveAspectRatio",
-      "variant": "compact",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the compact-mode icon inside the `DefinitionTooltip` trigger button."
-    },
-    {
-      "path": "div > span[0] > button[0] > svg[0].attributes.aria-hidden",
-      "variant": "compact",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the compact-mode icon inside the `DefinitionTooltip` trigger button."
-    },
-    {
-      "path": "div > span[0] > button[0] > svg[0].attributes.xmlns",
-      "variant": "compact",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the compact-mode icon inside the `DefinitionTooltip` trigger button."
-    },
-    {
-      "path": "div > span[0] > button[0] > svg[0].style.will-change",
-      "variant": "compact",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the compact-mode icon inside the `DefinitionTooltip` trigger button."
     }
   ],
   "Slider": [
@@ -1444,26 +836,6 @@
       "reason": "Same property-vs-attribute harness limitation as the single-handle `div[3] > input[0].attributes.value` entry above, for the upper-handle input."
     },
     {
-      "path": "div > div[1] > div[3] > svg[1].attributes.preserveAspectRatio",
-      "variant": "invalid",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the invalid-state `WarningFilled` icon."
-    },
-    {
-      "path": "div > div[1] > div[3] > svg[1].attributes.aria-hidden",
-      "variant": "invalid",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the invalid-state `WarningFilled` icon."
-    },
-    {
-      "path": "div > div[1] > div[3] > svg[1].attributes.xmlns",
-      "variant": "invalid",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the invalid-state `WarningFilled` icon."
-    },
-    {
-      "path": "div > div[1] > div[3] > svg[1].style.will-change",
-      "variant": "invalid",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the invalid-state `WarningFilled` icon."
-    },
-    {
       "path": "div > div[1] > div[3] > svg[1] > path[0].attributes.d",
       "variant": "invalid",
       "reason": "Harness limitation, not a real bug - same whitespace-only (tab vs. space between two path commands) diff already documented for Notification's warning-icon entry of the same name; the SVG path grammar treats the two as equivalent."
@@ -1472,26 +844,6 @@
       "path": "div > div[1] > div[3] > svg[1] > path[1].attributes.d",
       "variant": "invalid",
       "reason": "Harness limitation, not a real bug - same whitespace-only (tab vs. space between two path commands) diff already documented for Notification's warning-icon entry of the same name; the SVG path grammar treats the two as equivalent."
-    },
-    {
-      "path": "div > div[1] > div[3] > svg[1].attributes.preserveAspectRatio",
-      "variant": "warn",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the warn-state `WarningAltFilled` icon."
-    },
-    {
-      "path": "div > div[1] > div[3] > svg[1].attributes.aria-hidden",
-      "variant": "warn",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the warn-state `WarningAltFilled` icon."
-    },
-    {
-      "path": "div > div[1] > div[3] > svg[1].attributes.xmlns",
-      "variant": "warn",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the warn-state `WarningAltFilled` icon."
-    },
-    {
-      "path": "div > div[1] > div[3] > svg[1].style.will-change",
-      "variant": "warn",
-      "reason": "Pre-existing, addon-wide icon-rendering gap, not specific to this component - see the Notification/RadioTile entries of the same name for the full explanation (Ember's `renderSvgPartFunc` never sets `preserveAspectRatio`/`xmlns`/svg-level `aria-hidden`, and always hardcodes `style=\"will-change: transform;\"`). This is the warn-state `WarningAltFilled` icon."
     }
   ]
 }

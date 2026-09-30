@@ -107,7 +107,15 @@ export default class ProgressBar extends Component<ProgressBarInterface> {
   }
 
   get barStyle() {
-    if (this.isFinished || this.isError || this.cappedValue === undefined) {
+    // An indeterminate bar is driven purely by its CSS animation - an
+    // explicit @status='indeterminate' alongside a @value must not also
+    // paint a partial fill underneath it.
+    if (
+      this.isFinished ||
+      this.isError ||
+      this.indeterminate ||
+      this.cappedValue === undefined
+    ) {
       return undefined;
     }
     return htmlSafe(
