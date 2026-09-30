@@ -196,10 +196,9 @@ module('Integration | Component | IconIndicator', (hooks) => {
     const trigger = '.cds--icon-indicator__button';
     const container = '.cds--popover-container';
     assert.dom(trigger).hasTagName('button').hasAttribute('aria-expanded', 'false');
-    assert
-      .dom(`#${find(trigger)?.getAttribute('aria-controls')}`)
-      .hasClass('cds--popover')
-      .hasText('Failed');
+    const tooltipId = find(trigger)?.getAttribute('aria-controls') ?? '';
+    assert.ok(tooltipId, 'the trigger references the tooltip panel');
+    assert.dom(document.getElementById(tooltipId)).hasClass('cds--popover').hasText('Failed');
 
     await triggerEvent(container, 'mouseenter');
     assert.dom(trigger).hasAttribute('aria-expanded', 'true', 'opens on hover');
