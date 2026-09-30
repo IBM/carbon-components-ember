@@ -3292,10 +3292,14 @@ way a custom element's `querySelectorAll` does; and `markLastVisibleStep()`'s
 class of finding - `preserveAspectRatio`/`xmlns`/`aria-hidden` missing and
 an extra `will-change: transform` style on every icon's `<svg>` - traces to
 `src/components/icon/render-svg-part.ts`'s hand-written SVG wrapper, a
-pre-existing, addon-wide gap unrelated to `ReasoningStep` specifically; this
-one *is* recorded in `known-differences.json`, since the harness does
-surface it and needs the allowlist entry for tests to pass; left unfixed
-here since a fix would touch every icon in the addon.
+pre-existing, addon-wide gap unrelated to `ReasoningStep` specifically. It
+was first recorded in `known-differences.json` (once per icon, across a
+dozen components), then fixed at the source (2026-09-30): `renderSvgPartFunc`
+now emits the same root attributes as `@carbon/icons-react` for an
+unlabelled icon (`focusable`, `preserveAspectRatio="xMidYMid meet"`,
+`xmlns`, `aria-hidden="true"`, no inline `style`) and every one of those
+allowlist entries was deleted. The helper still has no way to label an icon
+(or inject a `<title>`), so every icon it renders is decorative.
 
 **Adding more components to this path**: there's no `lib/components.mjs`-
 style registry or `generate` step to extend, just a new `test`/`module` in
