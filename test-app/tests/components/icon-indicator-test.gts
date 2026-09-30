@@ -1,6 +1,15 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, rerender, find, waitUntil } from '@ember/test-helpers';
+import {
+  render,
+  rerender,
+  find,
+  waitUntil,
+  triggerEvent,
+  triggerKeyEvent,
+  focus,
+  blur,
+} from '@ember/test-helpers';
 import { cell } from 'ember-resources';
 import IconIndicator from 'carbon-components-ember/components/icon-indicator';
 import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
@@ -174,5 +183,41 @@ module('Integration | Component | IconIndicator', (hooks) => {
       find('.cds--icon-indicator__button')?.getAttribute('aria-describedby'),
       'the button gets an aria-describedby pointing at the tooltip',
     );
+  });
+
+  test('compact mode opens and closes its definition tooltip like @carbon/react', async function (assert) {
+    await render(
+      <template>
+        <IconIndicator @kind='failed' @label='Failed' @compact={{true}} />
+      </template>,
+    );
+    await waitUntil(() => find('.cds--icon-indicator__button svg'));
+
+    const trigger = '.cds--icon-indicator__button';
+    const container = '.cds--popover-container';
+    assert.dom(trigger).hasTagName('button').hasAttribute('aria-expanded', 'false');
+    assert
+      .dom(`#${find(trigger)?.getAttribute('aria-controls')}`)
+      .hasClass('cds--popover')
+      .hasText('Failed');
+
+    await triggerEvent(container, 'mouseenter');
+    assert.dom(trigger).hasAttribute('aria-expanded', 'true', 'opens on hover');
+    assert.dom(container).hasClass('cds--popover--open');
+
+    await triggerEvent(container, 'mouseleave');
+    assert.dom(trigger).hasAttribute('aria-expanded', 'false', 'closes on mouseleave');
+
+    await focus(trigger);
+    assert.dom(trigger).hasAttribute('aria-expanded', 'true', 'opens on focus');
+
+    await triggerKeyEvent(trigger, 'keydown', 'Escape');
+    assert.dom(trigger).hasAttribute('aria-expanded', 'false', 'Escape closes');
+
+    await triggerKeyEvent(trigger, 'keydown', 'Enter');
+    assert.dom(trigger).hasAttribute('aria-expanded', 'true', 'Enter toggles open');
+
+    await blur(trigger);
+    assert.dom(trigger).hasAttribute('aria-expanded', 'false', 'closes on blur');
   });
 });

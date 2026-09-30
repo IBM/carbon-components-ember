@@ -407,13 +407,14 @@ export default class Slider extends Component<SliderSignature> {
   }
 
   <template>
-    <div class='cds--form-item {{if @invalid "cds--form-item--invalid"}}' ...attributes>
+    <div class='cds--form-item' ...attributes>
       <label
         for={{unless this.twoHandles this.id}}
         class='cds--label
           {{if @hideLabel "cds--visually-hidden"}}
           {{if @disabled "cds--label--disabled"}}'
         id='{{this.id}}-label'
+        dir='auto'
       >
         {{@labelText}}
       </label>
@@ -427,6 +428,7 @@ export default class Slider extends Component<SliderSignature> {
           <SliderTextInput
             @handle='lower'
             @suffix='lower'
+            @dataHandlePosition='lower'
             @id='{{this.id}}-lower-input-for-slider'
             @name={{@name}}
             @value={{this.lowerDisplayValue}}
@@ -446,7 +448,7 @@ export default class Slider extends Component<SliderSignature> {
           />
         {{/if}}
 
-        <span class='cds--slider__range-label'>{{this.formatLabel @min @minLabel}}</span>
+        <span class='cds--slider__range-label' dir='auto'>{{this.formatLabel @min @minLabel}}</span>
 
         <div
           class='cds--slider {{if @disabled "cds--slider--disabled"}} {{if @readOnly "cds--slider--readonly"}}'
@@ -496,11 +498,12 @@ export default class Slider extends Component<SliderSignature> {
           <div class='cds--slider__filled-track' style={{this.filledTrackStyle}}></div>
         </div>
 
-        <span class='cds--slider__range-label'>{{this.formatLabel @max @maxLabel}}</span>
+        <span class='cds--slider__range-label' dir='auto'>{{this.formatLabel @max @maxLabel}}</span>
 
         <SliderTextInput
           @handle={{if this.twoHandles 'upper' 'lower'}}
-          @suffix={{if this.twoHandles 'upper'}}
+          @suffix='upper'
+          @dataHandlePosition={{if this.twoHandles 'upper'}}
           @id='{{this.id}}-{{if this.twoHandles "upper-"}}input-for-slider'
           @name={{if this.twoHandles @nameUpper @name}}
           @value={{this.upperDisplayValue}}
@@ -521,11 +524,14 @@ export default class Slider extends Component<SliderSignature> {
         />
       </div>
       {{#if @invalid}}
-        <div class='cds--slider__validation-msg cds--slider__validation-msg--invalid cds--form-requirement'>
+        <div
+          class='cds--slider__validation-msg cds--slider__validation-msg--invalid cds--form-requirement'
+          dir='auto'
+        >
           {{@invalidText}}
         </div>
       {{else if @warn}}
-        <div class='cds--slider__validation-msg cds--form-requirement'>
+        <div class='cds--slider__validation-msg cds--form-requirement' dir='auto'>
           {{@warnText}}
         </div>
       {{/if}}

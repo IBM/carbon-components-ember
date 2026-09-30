@@ -6,10 +6,7 @@
  */
 
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
-import { guidFor } from '@ember/object/internals';
-import { on } from '@ember/modifier';
-import Popover, { PopoverContent } from './popover.gts';
+import DefinitionTooltip from './-private/definition-tooltip.gts';
 import ErrorFilled from './icons/error-filled.ts';
 import CheckmarkFilled from './icons/checkmark-filled.ts';
 import CheckmarkOutline from './icons/checkmark-outline.ts';
@@ -126,10 +123,6 @@ export interface IconIndicatorSignature {
  * a tooltip on hover/focus.
  */
 export default class IconIndicator extends Component<IconIndicatorSignature> {
-  @tracked isOpen = false;
-
-  tooltipId = `${guidFor(this)}-icon-indicator-tooltip`;
-
   get size() {
     return this.args.size ?? 16;
   }
@@ -152,47 +145,24 @@ export default class IconIndicator extends Component<IconIndicatorSignature> {
     return this.args.iconDescription ?? this.args.label;
   }
 
-  show = () => {
-    this.isOpen = true;
-  };
-
-  hide = () => {
-    this.isOpen = false;
-  };
-
   <template>
     {{#if this.icon}}
       <div class={{this.classes}} ...attributes>
         {{#if @compact}}
-          <Popover
-            @open={{this.isOpen}}
+          <DefinitionTooltip
             @align={{if @align @align 'right'}}
             @autoAlign={{@autoAlign}}
+            @openOnHover={{true}}
+            @definition={{@label}}
+            @triggerClassName='cds--icon-indicator__button'
           >
-            <span
-              class='cds--icon-indicator__button'
-              tabindex='0'
-              aria-describedby={{this.tooltipId}}
-              {{on 'mouseenter' this.show}}
-              {{on 'mouseleave' this.hide}}
-              {{on 'focusin' this.show}}
-              {{on 'focusout' this.hide}}
-            >
-              <this.icon
-                @size={{this.size}}
-                @svgClass={{this.iconClass}}
-                @fill='currentColor'
-              />
-              <span class='cds--visually-hidden'>{{this.accessibleLabel}}</span>
-            </span>
-            <PopoverContent
-              id={{this.tooltipId}}
-              role='tooltip'
-              aria-hidden={{if this.isOpen 'false' 'true'}}
-            >
-              {{@label}}
-            </PopoverContent>
-          </Popover>
+            <this.icon
+              @size={{this.size}}
+              @svgClass={{this.iconClass}}
+              @fill='currentColor'
+            />
+            <span class='cds--visually-hidden'>{{this.accessibleLabel}}</span>
+          </DefinitionTooltip>
         {{else}}
           <this.icon
             @size={{this.size}}

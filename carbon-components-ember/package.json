@@ -213,6 +213,7 @@
     "type": "addon",
     "main": "addon-main.cjs",
     "app-js": {
+      "./components/carbon/-private/definition-tooltip.js": "./dist/_app_/components/carbon/-private/definition-tooltip.js",
       "./components/carbon/-private/tooltip.js": "./dist/_app_/components/carbon/-private/tooltip.js",
       "./components/carbon/accordion.js": "./dist/_app_/components/carbon/accordion.js",
       "./components/carbon/ai-chat/-audio-player/base-provider.js": "./dist/_app_/components/carbon/ai-chat/-audio-player/base-provider.js",

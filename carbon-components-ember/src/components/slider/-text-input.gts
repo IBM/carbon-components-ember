@@ -7,13 +7,18 @@
 
 import Component from '@glimmer/component';
 import { on } from '@ember/modifier';
-import { concat, fn } from '@ember/helper';
+import { fn } from '@ember/helper';
 import { WarningFilled, WarningAltFilled } from '../../icons.ts';
 import type { HandlePosition } from '../slider.gts';
 
 export interface SliderTextInputArgs {
   handle: HandlePosition;
-  suffix?: string;
+  suffix: HandlePosition;
+  /**
+   * Rendered as `data-handle-position`; only set once there are two handles,
+   * matching `@carbon/react`.
+   */
+  dataHandlePosition?: HandlePosition;
   id: string;
   name?: string;
   value: string;
@@ -47,7 +52,7 @@ export default class SliderTextInput extends Component<SliderTextInputSignature>
   <template>
     <div
       class='cds--text-input-wrapper cds--slider-text-input-wrapper
-        {{if @suffix (concat "cds--slider-text-input-wrapper--" @suffix)}}
+        cds--slider-text-input-wrapper--{{@suffix}}
         {{if @readOnly "cds--text-input-wrapper--readonly"}}
         {{if @hideTextInput "cds--slider-text-input-wrapper--hidden"}}'
     >
@@ -57,8 +62,9 @@ export default class SliderTextInput extends Component<SliderTextInputSignature>
         id={{@id}}
         name={{@name}}
         class='cds--text-input cds--slider-text-input
-          {{if @suffix (concat "cds--slider-text-input--" @suffix)}}
-          {{if @invalid "cds--text-input--invalid"}}'
+          cds--slider-text-input--{{@suffix}}
+          {{if @invalid "cds--text-input--invalid"}}
+          {{if @warn "cds--slider-text-input--warn"}}'
         value={{@value}}
         aria-label={{@ariaLabel}}
         aria-labelledby={{@ariaLabelledby}}
@@ -68,6 +74,8 @@ export default class SliderTextInput extends Component<SliderTextInputSignature>
         max={{@max}}
         step={{@step}}
         readonly={{@readOnly}}
+        data-invalid={{if @invalid "true"}}
+        data-handle-position={{@dataHandlePosition}}
         aria-invalid={{if @invalid "true"}}
         {{on 'change' (fn @onChange @handle)}}
         {{on 'input' (fn @onChange @handle)}}

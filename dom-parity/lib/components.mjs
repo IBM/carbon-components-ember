@@ -464,18 +464,31 @@
  *    `@carbon/react`'s `Slider.js` destructures it literally as
  *    `unstable_valueUpper: controlledValueUpper`, so a bare `valueUpper`
  *    would land in `...other` (spread onto the DOM) and never actually
- *    enable two-handle mode. Everything else found is a real, disclosed gap left as a
- *    known difference rather than fixed - see `known-differences.json`'s
- *    `ProgressBar`/`ProgressIndicator`/`IconIndicator`/`ShapeIndicator`/
- *    `Slider` entries for the full per-gap reasoning (notably: ProgressBar
- *    never reproduces upstream's `aria-busy`/`aria-invalid`/indeterminate-
- *    `aria-value*` computations; IconIndicator's `compact` branch is
- *    structurally close to upstream, since both use a real Popover-style
- *    component, while ShapeIndicator's `compact` branch is structurally
- *    far from upstream, since it uses this addon's own private,
- *    astroturf-based `Tooltip` instead; and Slider's hand-copied thumb-
- *    icon SVGs are missing an invisible hit-box path upstream's real
- *    `SliderHandles` icons carry).
+ *    enable two-handle mode. A follow-up pass (PR #898 review) then fixed
+ *    the remaining component gaps instead of allowlisting them:
+ *    ProgressBar now mirrors upstream's `isFinished`/`isError`/
+ *    `indeterminate`/`cappedValue` logic (`aria-busy`, `aria-invalid`,
+ *    `aria-value*` omitted while indeterminate, `aria-valuenow` capped to
+ *    `max`/`0` once finished/errored, no stray `--active` class, the
+ *    helper text linked via `aria-describedby`, and a 'Loading'/'Done'
+ *    sentinel); ProgressIndicator's and Slider's `Text`-wrapped nodes carry
+ *    `dir="auto"`; Slider's single text input is always classed `--upper`,
+ *    both inputs carry `data-invalid`/`data-handle-position`/`--warn`, the
+ *    root drops the non-upstream `cds--form-item--invalid` class, and the
+ *    thumb icons gained upstream's invisible hit-box path; and both
+ *    IconIndicator's and ShapeIndicator's `compact` mode now render
+ *    through a private port of `DefinitionTooltip`
+ *    (`components/-private/definition-tooltip.gts`) with upstream's exact
+ *    `<button class="cds--definition-term">` trigger and panel markup.
+ *    What's left in `known-differences.json` for these five is the
+ *    addon-wide icon-rendering gap (`<title>`/`@description`,
+ *    `preserveAspectRatio`/`xmlns`/`aria-hidden`, the inert
+ *    `cds--progress-step-icon` class - handled in its own PR), upstream
+ *    quirks not worth copying (`scaleX(NaN)` on an indeterminate bar,
+ *    ProgressStep's stray `index` attribute, Slider's stray `value` on its
+ *    track div, ShapeIndicator's `size="16"` on its incomplete icon), and
+ *    harness limitations (input `value` property vs. attribute, path
+ *    whitespace, `ember-element-helper` ids).
  * 6. Structural content, split into four (each large/distinct enough to
  *    warrant its own review): Accordion+Tabs/TabContent+StructuredList;
  *    TreeView+Pagination+List (Pagination's item-per-page control isn't
