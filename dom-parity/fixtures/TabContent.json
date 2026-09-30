@@ -1,0 +1,53 @@
+{
+  "component": "TabContent",
+  "generatedAt": "2026-09-25T02:41:59.730Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "selected": {
+      "props": {
+        "selected": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tab-content"
+        ],
+        "attributes": {
+          "role": "tabpanel"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Tab content"
+          }
+        ]
+      }
+    },
+    "hidden": {
+      "props": {
+        "selected": false
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tab-content"
+        ],
+        "attributes": {
+          "role": "tabpanel",
+          "hidden": true
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Tab content"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -41,8 +41,17 @@ class Item extends Component<ItemSignature> {
     return guidFor(this);
   }
 
+  /**
+   * A per-item `@isDisabled` overrides the accordion-level `@disabled`,
+   * matching @carbon/react's `AccordionItem`, whose own `disabled` prop wins
+   * over the `Accordion`'s whenever it's a boolean.
+   */
+  get disabled() {
+    return this.args.isDisabled ?? this.args.accordion.args.disabled ?? false;
+  }
+
   get isActive() {
-    if (this.args.accordion.args.disabled) {
+    if (this.disabled) {
       return false;
     }
     return this.args.isOpen ?? this.args.accordion.isActive(this);
@@ -52,7 +61,7 @@ class Item extends Component<ItemSignature> {
     <li
       class='cds--accordion__item
         {{if this.isActive "cds--accordion__item--active"}}
-        {{if @accordion.args.disabled "cds--accordion__item--disabled"}}'
+        {{if this.disabled "cds--accordion__item--disabled"}}'
     >
       <button
         type='button'
@@ -60,7 +69,7 @@ class Item extends Component<ItemSignature> {
         aria-expanded={{if this.isActive 'true' 'false'}}
         class='cds--accordion__heading'
         {{on 'click' (fn @accordion.setActiveItem this)}}
-        disabled={{@accordion.args.disabled}}
+        disabled={{this.disabled}}
       >
         <svg
           focusable='false'
