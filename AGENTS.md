@@ -3307,6 +3307,23 @@ one *is* recorded in `known-differences.json`, since the harness does
 surface it and needs the allowlist entry for tests to pass; left unfixed
 here since a fix would touch every icon in the addon.
 
+**Shadow DOM: drop the boundary, follow what's inside it.** Upstream's
+shadow roots exist only because Lit web components encapsulate their
+styles (`static styles`/`:host`) and compose caller content through
+`<slot>`s - an implementation mechanism, not public API, so the Ember port
+renders light DOM and never mirrors it. The flattened content, though, is
+what actually renders and what the accessibility tree is built from, so
+that is what the harness compares (shadow roots, slots, `slot=`
+attributes, shadow `<style>`s and hosts are discarded). A host whose
+shadow root renders *several* top-level elements has nothing single to
+unwrap to, so `flattenComposedTree` keeps the host itself as a synthetic
+`<div>` - the counterpart of the Ember port's single `...attributes` root.
+That's what made `FileUploads` and `WorkspaceShellHeader`'s
+non-collapsible branch coverable (both previously threw "expected exactly
+one rendered root element"). `FileUploadItem` stays uncovered: the Ember
+port deliberately renders its own markup instead of `cds-file-uploader-
+item`'s, so the two diverge at the root tag.
+
 **Adding more components to this path**: there's no `lib/components.mjs`-
 style registry or `generate` step to extend, just a new `test`/`module` in
 the same file. Before picking one, check how deeply its upstream source

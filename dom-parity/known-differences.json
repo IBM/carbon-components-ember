@@ -173,6 +173,13 @@
       "reason": "Same whitespace-only, harness-limitation diff as the toast branch's `div > svg[0] > path[0].attributes.d` entry above, on the inline branch's nested main icon."
     }
   ],
+  "AiChatFileUploads": [
+    {
+      "path": "div > div[2] > div[0] > div[0]",
+      "variant": "one-upload",
+      "reason": "Deliberate, documented structural divergence (AGENTS.md, batch 3's FileUploads/FileUploadItem bullet): upstream's `cds-aichat-file-upload-item` wraps `@carbon/web-components`' `cds-file-uploader-item`, whose multi-root shadow content (a `<p class=\"cds--file-filename\">` holding the icon and name, a `cds--file__state-container` span with the remove button, and an always-present `hidden` `cds--form-requirement` error block) becomes a synthetic host `<div>` here (see flatten-composed-tree.mjs's `shadowHostReplacement`). The Ember `FileUploadItem` renders its own `<span>`-rooted markup instead (icon span, name span, status span, conditional `role=\"alert\"` error span), so the subtree diverges from its root tag down and isn't compared further. The wrapper/container `<div>`s above it and both live regions are still compared in full."
+    }
+  ],
   "AiChatReasoningSteps": [
     {
       "path": "div > div[0] > div[0] > div[0].attributes.role",

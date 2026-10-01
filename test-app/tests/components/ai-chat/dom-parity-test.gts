@@ -5,6 +5,8 @@ import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-c
 import Processing from 'carbon-components-ember/components/ai-chat/processing';
 import ReasoningSteps from 'carbon-components-ember/components/ai-chat/reasoning-steps';
 import Markdown from 'carbon-components-ember/components/ai-chat/markdown';
+import FileUploads from 'carbon-components-ember/components/ai-chat/file-uploads';
+import WorkspaceShellHeader from 'carbon-components-ember/components/ai-chat/workspace-shell-header';
 
 // Registers the real custom elements as a side effect - see each import's
 // own package for the tag(s) it defines (`cds-aichat-processing`,
@@ -12,6 +14,8 @@ import Markdown from 'carbon-components-ember/components/ai-chat/markdown';
 import '@carbon/ai-chat-components/es/components/processing/index.js';
 import '@carbon/ai-chat-components/es/components/reasoning-steps/index.js';
 import '@carbon/ai-chat-components/es/components/markdown/index.js';
+import '@carbon/ai-chat-components/es/components/file-uploads/index.js';
+import '@carbon/ai-chat-components/es/components/workspace-shell/index.js';
 
 import { normalizeElement } from '../../../../dom-parity/lib/normalize-dom.mjs';
 import {
@@ -103,10 +107,17 @@ function assertAiChatDomParity(
  * shadow DOM/slot assignment is live, and waits for it (and anything it
  * composes) to finish upgrading/rendering. Returns the flattened comparison
  * root - see flatten-composed-tree.mjs - plus a `cleanup` to remove it.
+ *
+ * `isReady` covers elements whose real render lands *after* `updateComplete`
+ * (which is all `waitForCustomElementsReady` awaits) - e.g.
+ * `cds-aichat-markdown`, which throttles its first render
+ * (`scheduleRender`, 100ms leading+trailing). Poll for real content there
+ * instead of flattening immediately.
  */
 async function mountUpstream(
   tagName: string,
   setup: (host: HTMLElement) => void,
+  isReady?: (host: HTMLElement) => boolean,
 ): Promise<{ root: Element | null; cleanup: () => void }> {
   const container = document.createElement('div');
   document.body.appendChild(container);
@@ -114,30 +125,7 @@ async function mountUpstream(
   setup(host);
   container.appendChild(host);
   await waitForCustomElementsReady(host);
-
-  const flattened = flattenComposedTree(host);
-  return {
-    root: flattened instanceof Element ? flattened : null,
-    cleanup: () => container.remove(),
-  };
-}
-
-/** Like `mountUpstream`, but for `cds-aichat-markdown` specifically: its
- * first real render is throttled (`scheduleRender`, 100ms leading+trailing),
- * so `updateComplete` (which `waitForCustomElementsReady` awaits) can
- * resolve before the throttled render actually lands - poll for real
- * content instead of flattening immediately.
- */
-async function mountUpstreamMarkdown(
-  markdown: string,
-): Promise<{ root: Element | null; cleanup: () => void }> {
-  const container = document.createElement('div');
-  document.body.appendChild(container);
-  const host = document.createElement('cds-aichat-markdown');
-  host.setAttribute('markdown', markdown);
-  container.appendChild(host);
-  await waitForCustomElementsReady(host);
-  await waitUntil(() => (host.shadowRoot?.textContent ?? '').trim().length > 0);
+  if (isReady) await waitUntil(() => isReady(host));
 
   const flattened = flattenComposedTree(host);
   return {
@@ -269,7 +257,11 @@ module('DOM parity | Carbon AI Chat', function (hooks) {
   module('Markdown', function () {
     test('headings, emphasis, and a paragraph', async function (this: RenderingTestContext, assert) {
       const src = '# Title\n\nSome **bold** and _italic_ text.';
-      const { root, cleanup } = await mountUpstreamMarkdown(src);
+      const { root, cleanup } = await mountUpstream(
+        'cds-aichat-markdown',
+        (host) => host.setAttribute('markdown', src),
+        (host) => (host.shadowRoot?.textContent ?? '').trim().length > 0,
+      );
       await render(<template><Markdown @markdown={{src}} /></template>);
       assertAiChatDomParity(
         assert,
@@ -282,29 +274,106 @@ module('DOM parity | Carbon AI Chat', function (hooks) {
     });
   });
 
-  // The rest of this component family isn't coverable by this harness, for
+  // Both upstream elements below render *several* top-level elements in
+  // their shadow root, so `flattenComposedTree` keeps their host as the
+  // comparison root (see its `shadowHostReplacement`) - the counterpart of
+  // the Ember port's own single `...attributes` root element.
+  module('FileUploads', function () {
+    test('empty', async function (this: RenderingTestContext, assert) {
+      const { root, cleanup } = await mountUpstream('cds-aichat-file-uploads', (host) => {
+        (host as HTMLElement & { uploads: unknown[] }).uploads = [];
+      });
+      const uploads: never[] = [];
+      await render(<template><FileUploads @uploads={{uploads}} /></template>);
+      assertAiChatDomParity(
+        assert,
+        'AiChatFileUploads',
+        'empty',
+        root,
+        this.element.firstElementChild,
+      );
+      cleanup();
+    });
+
+    test('one upload', async function (this: RenderingTestContext, assert) {
+      // A single upload: every upstream `cds-file-uploader-item` has its own
+      // shadow-root id scope, which flattening merges into one tree, so a
+      // second item could collide on ids in `normalizeElement`'s id map.
+      const file = new File(['a'], 'notes.txt', { type: 'text/plain' });
+      const { root, cleanup } = await mountUpstream(
+        'cds-aichat-file-uploads',
+        (host) => {
+          (host as HTMLElement & { uploads: unknown[] }).uploads = [
+            { id: '1', file, status: 'edit' },
+          ];
+        },
+        // `cds-aichat-file-upload-item` renders nothing until its `upload`
+        // property has been handed down and resolved.
+        (host) =>
+          (host.shadowRoot?.querySelector('cds-aichat-file-upload-item')?.shadowRoot
+            ?.childElementCount ?? 0) > 0,
+      );
+      const uploads = [{ id: '1', file, status: 'edit' as const }];
+      await render(<template><FileUploads @uploads={{uploads}} /></template>);
+      assertAiChatDomParity(
+        assert,
+        'AiChatFileUploads',
+        'one-upload',
+        root,
+        this.element.firstElementChild,
+      );
+      cleanup();
+    });
+  });
+
+  module('WorkspaceShellHeader', function () {
+    // No `@titleText`: the title renders through `cds-aichat-truncated-text`
+    // (`AiChatTruncatedText`), not yet covered by this path (todo #869).
+    // `header-action` is filled so upstream's shadow root has both of its
+    // top-level nodes populated - with that slot empty it collapses to a
+    // single root and would be unwrapped one level deeper than Ember's root.
+    test('non-collapsible, subtitle and action', async function (this: RenderingTestContext, assert) {
+      const { root, cleanup } = await mountUpstream('cds-aichat-workspace-shell-header', (host) => {
+        host.setAttribute('subtitle-text', 'Subtitle');
+        const action = document.createElement('button');
+        action.setAttribute('type', 'button');
+        action.setAttribute('slot', 'header-action');
+        action.textContent = 'Act';
+        host.appendChild(action);
+      });
+      await render(
+        <template>
+          <WorkspaceShellHeader @subTitleText='Subtitle'>
+            <:headerAction><button type='button'>Act</button></:headerAction>
+          </WorkspaceShellHeader>
+        </template>,
+      );
+      assertAiChatDomParity(
+        assert,
+        'AiChatWorkspaceShellHeader',
+        'non-collapsible-subtitle-action',
+        root,
+        this.element.firstElementChild,
+      );
+      cleanup();
+    });
+  });
+
+  // The rest of this component family isn't covered by this harness, for
   // one of four reasons - confirmed empirically (mounting each and reading
   // the real error/output), not just by reading source. See dom-parity/
   // README.md's "Adding a component to this path" section for the general
   // guidance this follows (slot-dominated shadow templates give weak
   // coverage; pick a different variant or skip and say why).
   //
-  // 1. Upstream's shadow root renders multiple sibling top-level elements,
-  //    which `flattenComposedTree`'s "a shadow root renders exactly one
-  //    root element" invariant doesn't support (throws
-  //    "expected exactly one rendered root element ... got N") - and
-  //    Ember's own root is always a single element, so there's no shared
-  //    node for `diffNormalized` even to start walking from:
-  //    - `FileUploads` (`cds-aichat-file-uploads`): two sibling live-region
-  //      `<div>`s even in the empty state ("got 2"), three once uploads are
-  //      shown.
-  //    - `FileUploadItem` (`cds-aichat-file-upload-item`): wraps `@carbon/
-  //      web-components`' `cds-file-uploader-item`, whose own shadow root
-  //      renders a `<p>`/`<span>`/`<div>` sibling trio ("got 4").
-  //    - `WorkspaceShellHeader`'s non-collapsible branch (no `@collapsible`):
-  //      a `<div class="...header-content">` and a `<slot name="header-
-  //      action">` sibling, not one wrapped root (its `@collapsible` branch
-  //      *is* single-root - see reason 3 below for why it's still skipped).
+  // 1. Structurally divergent by design, from the root down:
+  //    - `FileUploadItem` (`cds-aichat-file-upload-item`): upstream wraps
+  //      `@carbon/web-components`' `cds-file-uploader-item` (a `<p>` holding
+  //      icon + name, a state-container `<span>`, an always-present hidden
+  //      error block); the Ember port renders its own `<span>`-rooted markup
+  //      instead (AGENTS.md, batch 3). The diff stops at the root tag, so a
+  //      standalone test would assert nothing - see the `AiChatFileUploads`
+  //      `one-upload` known-difference, which documents the same subtree.
   // 2. Real markup, but dominated by caller-supplied `<slot>` content with
   //    little or no markup of the component's own - the README's own
   //    "weak coverage" case:
@@ -312,8 +381,7 @@ module('DOM parity | Carbon AI Chat', function (hooks) {
   //      content (header/history/workspace/messages/footer/panels) is a
   //      named `<slot>`.
   //    - `WorkspaceShell`: five bare `<slot>`s, no wrapper element of its
-  //      own at all (also hits reason 1's multi-root problem the moment
-  //      more than one slot has assigned content).
+  //      own at all.
   //    - `WorkspaceShellBody`: `<slot></slot>`, nothing else.
   //    - `PromptLineShell`: six named-slot wrapper `<div>`s
   //      (editor/message-actions/file-uploads/autocomplete-content/field-
