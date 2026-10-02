@@ -15,7 +15,7 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Node 24 (docs-app's kolay needs RegExp.escape) + the pinned pnpm
       - name: Setup Node and pnpm
@@ -30,7 +30,7 @@ jobs:
         run: DOCS_URL=pr-previews/pr-${{ github.event.pull_request.number }} pnpm run build
 
       - name: Checkout gh-pages branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: gh-pages
@@ -67,7 +67,7 @@ jobs:
           exit 1
 
       - name: Post or update preview comment
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const marker = '<!-- pr-docs-preview -->';
@@ -113,7 +113,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout gh-pages branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: gh-pages
@@ -149,7 +149,7 @@ jobs:
           fi
 
       - name: Update preview comment
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const marker = '<!-- pr-docs-preview -->';
