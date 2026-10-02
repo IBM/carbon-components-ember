@@ -51,6 +51,10 @@ if (typeof module !== 'undefined') {
           '--mute-audio',
           '--remote-debugging-port=0',
           '--window-size=1440,900',
+          // Matches what Playwright passes by default, and what the style
+          // snapshots were recorded with: Linux draws classic scrollbars,
+          // which would otherwise eat 15px of the (50%-zoomed) test container.
+          '--hide-scrollbars',
         ].filter(Boolean),
       },
     },
