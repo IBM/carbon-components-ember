@@ -24,11 +24,7 @@
       "types": "./declarations/*.d.ts",
       "default": "./dist/*.scss"
     },
-    "./styles.scss": {
-      "import": "./dist/styles/index.scss",
-      "require": "./dist/styles/index.scss",
-      "scss": "./dist/styles/index.scss"
-    },
+    "./styles.scss": "./dist/styles/index.scss",
     "./addon-main.js": "./addon-main.cjs"
   },
   "files": [

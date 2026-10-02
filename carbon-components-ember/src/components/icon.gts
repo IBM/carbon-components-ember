@@ -163,7 +163,7 @@ export default class CarbonIcon extends Component<Args> {
   }
 
   styles = stylesheet`
-    @import "@carbon/styles/scss/theme";
+    @use "@carbon/styles/scss/theme" as *;
 
     .icon {
       margin: 5px;
