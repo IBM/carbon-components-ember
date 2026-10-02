@@ -1,5 +1,5 @@
 import GlimmerComponent from '@glimmer/component';
-import * as all from 'carbon-components-ember/components/index';
+import * as all from 'carbon-components-ember/components';
 import * as carbonCompoenntStyle from 'carbon-components-ember/styles.scss?inline';
 import * as iconStyle from 'carbon-components-ember/components/iconIcon.module.scss?inline';
 import * as listStyle from 'carbon-components-ember/components/listList.module.scss?inline';
