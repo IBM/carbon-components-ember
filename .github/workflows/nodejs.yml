@@ -9,7 +9,7 @@ on:
 
 jobs:
   lint:
-    name: Lints
+    name: Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -27,7 +27,7 @@ jobs:
         run: pnpm run lint
 
   test:
-    name: Tests
+    name: Test
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
