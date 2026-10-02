@@ -43,4 +43,13 @@ export const Disabled = meta.story({
     type: 'teal',
     disabled: true,
   },
+  parameters: {
+    a11y: {
+      config: {
+        // WCAG 1.4.3 exempts inactive components from contrast minimums;
+        // axe can't tell a disabled tag (a <div>) is inactive.
+        rules: [{ id: 'color-contrast', enabled: false }],
+      },
+    },
+  },
 });

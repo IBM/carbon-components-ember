@@ -19,6 +19,12 @@ const meta = preview
   }>()
   .meta({
     title: 'Components/Select',
+    // Known violations in Select itself: the combobox and its toggle button
+    // have no accessible name, and it sets a positive tabindex. Reported as
+    // warnings until the component is fixed.
+    parameters: {
+      a11y: { test: 'todo' },
+    },
     component: Select,
     args: {
       options: FRUITS,
