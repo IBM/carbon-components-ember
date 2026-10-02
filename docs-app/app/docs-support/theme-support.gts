@@ -1,10 +1,10 @@
 import GlimmerComponent from '@glimmer/component';
 import * as all from 'carbon-components-ember/components/index';
 import * as carbonCompoenntStyle from 'carbon-components-ember/styles.scss?inline';
-import * as iconStyle from 'carbon-components-ember/components/icon_CarbonIcon.module.scss?inline';
-import * as listStyle from 'carbon-components-ember/components/list_ListComponent.module.scss?inline';
-import * as paginationStyle from 'carbon-components-ember/components/pagination_CarbonPagination.module.scss?inline';
-import * as privateTooltipStyle from 'carbon-components-ember/components/-private/tooltip_Tooltip.module.scss?inline';
+import * as iconStyle from 'carbon-components-ember/components/iconIcon.module.scss?inline';
+import * as listStyle from 'carbon-components-ember/components/listList.module.scss?inline';
+import * as paginationStyle from 'carbon-components-ember/components/paginationPagination.module.scss?inline';
+import * as privateTooltipStyle from 'carbon-components-ember/components/-private/tooltipTooltip.module.scss?inline';
 import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import * as carbonChartsStyle from '@carbon/charts/styles.css?inline';
 

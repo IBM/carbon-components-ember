@@ -115,6 +115,7 @@ export default class TagComponent extends Component<TagInterface> {
     <div
       class={{this.classes}}
       id={{this.id}}
+      {{! @glint-expect-error: matches @carbon/react, which renders disabled on the tag's div }}
       disabled={{if @disabled true}}
       ...attributes
     >

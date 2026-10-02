@@ -47,7 +47,7 @@
  *
  * Only standard DOM APIs are used, matching normalize-dom.mjs's own
  * constraint - this file is meant to run in a real browser (Playwright/
- * Chromium, via test-app's QUnit suite), not jsdom, since it depends on
+ * Chromium, via the addon's QUnit suite), not jsdom, since it depends on
  * `assignedNodes()`/shadow DOM being live and connected to a document.
  */
 

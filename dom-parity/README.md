@@ -16,8 +16,8 @@ fixture (`fixtures/<Name>.json`) is one file containing all of its variants,
 keyed by variant name, each with the exact `props` it was rendered with
 recorded alongside its normalized `dom` - see `lib/components.mjs`.
 
-The comparison itself lives in test-app's QUnit suite
-(`test-app/tests/components/dom-parity-test.gts`), which renders the Ember
+The comparison itself lives in the addon's QUnit suite
+(`carbon-components-ember/tests/components/dom-parity-test.gts`), which renders the Ember
 component for each variant and diffs its normalized DOM against the
 matching fixture entry. This package is only the offline fixture generator -
 the QUnit suite never runs it itself, it only reads `fixtures/*.json`. A
@@ -56,10 +56,10 @@ recorded per component.
    component for that variant.
 2. Run `pnpm --filter dom-parity generate` to (re)write its fixture.
 3. Add a matching render case to
-   `test-app/tests/components/dom-parity-test.gts`, passing the same props
+   `carbon-components-ember/tests/components/dom-parity-test.gts`, passing the same props
    on the Ember side, and add the variant's name to that component's
    "every fixture variant is covered" list.
-4. Run the test-app suite. Genuine, intentional gaps (not test bugs) go in
+4. Run the addon's test suite (`pnpm test`). Genuine, intentional gaps (not test bugs) go in
    `known-differences.json` with a `path` (matching the diff output's
    `path`) and a `reason` - don't silently drop a real difference just to
    get a green suite. An entry applies to every variant of the component by
@@ -89,17 +89,17 @@ framework-agnostic **Lit** widget library rendering into real shadow DOM
 for this package's `react-dom/client` + jsdom pipeline to render.
 
 That source is instead compared by a **second, independent** test module,
-`test-app/tests/components/ai-chat/dom-parity-test.gts`, with two real
+`carbon-components-ember/tests/components/ai-chat/dom-parity-test.gts`, with two real
 architectural differences from the path above - both explained in that
 file's own module doc, summarized here:
 
 1. **Live, not fixture-based.** Lit depends on real shadow DOM/custom-
    element upgrade timing that jsdom doesn't faithfully reproduce, so this
    path mounts the real, pinned `@carbon/ai-chat-components` custom
-   elements directly in test-app's own real-Chromium (Playwright) QUnit
+   elements directly in the addon's own real-Chromium (Playwright) QUnit
    run and compares live, every run - no `fixtures/*.json`, no `generate`
    step, no fixture-drift risk (the version pinned in
-   `test-app/package.json` is the only source of truth).
+   `carbon-components-ember/package.json` is the only source of truth).
 2. **Class names are excluded from the comparison.** `@carbon/react` and
    Ember are both meant to emit the same `cds--*` classes; `@carbon/ai-
    chat-components` renders into shadow DOM and styles itself with plain,

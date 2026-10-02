@@ -116,7 +116,6 @@ The `parity-check-weekly.yml` workflow runs every Monday at 9:00 AM UTC:
    ```bash
    cd carbon-components-ember
    pnpm build
-   cd ../test-app
    pnpm test
    ```
 

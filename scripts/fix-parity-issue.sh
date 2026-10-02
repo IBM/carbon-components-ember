@@ -706,7 +706,7 @@ Check for:
   - 'any' anywhere in a component signature; a missing 'Args' on a component that does take args; a missing 'Element' on a component that spreads '...attributes'; or a 'Blocks' entry for a block the component never yields. Do NOT flag an absent 'Args' on an argless wrapper, an absent 'Blocks' on a component with no '{{yield}}', or an absent 'Element' on one that doesn't spread attributes — all three are correct and common in this repo
 - Other deviations from AGENTS.md patterns (component structure, cds-- class prefixes, prop naming matching React)
 - Missing test coverage for the story variants this component has
-- Anything left broken: failing build ('cd carbon-components-ember && pnpm build'), failing lint ('pnpm lint'), or failing tests ('cd test-app && pnpm test')
+- Anything left broken: failing build ('cd carbon-components-ember && pnpm build'), failing lint ('pnpm lint'), or failing tests ('cd carbon-components-ember && pnpm test')
 
 For each idiom finding, name the specific replacement pattern and an existing component in this repo that already does it — a finding the fix round can act on directly, not 'this could be more idiomatic'. Judge idiom issues on the code this branch actually adds or touches; pre-existing legacy patterns elsewhere in an untouched file are not findings for this PR.
 

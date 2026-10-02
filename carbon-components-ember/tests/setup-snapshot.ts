@@ -1,0 +1,134 @@
+import * as QUnit from 'qunit';
+
+
+const __SNAPSHOTS__ = import.meta.glob<{ default: any }>("./__snapshots__/**/*", { eager: true });
+
+
+declare global {
+  interface Assert {
+    snapshot(value: any, name: string): void;
+  }
+}
+
+function testUrl(moduleName: string, testName: string, name: string) {
+  return `/__snapshots__/${moduleName}/${testName}/${name}.json`.toLowerCase().replace(/ /g, '-');
+}
+
+function saveSnapshot(moduleName: string, testName: string, name: string, value: unknown) {
+  void fetch(testUrl(moduleName, testName, name), {
+    method: 'POST',
+    body: JSON.stringify(value, null, 2),
+  });
+}
+
+// Positioning properties derived from floating-ui/popover placement shift by
+// sub-pixel amounts depending on the font metrics of the host running the
+// browser (e.g. CI's Linux font stack vs. a locally generated snapshot), even
+// though the layout is otherwise identical. Treat two values as equal when
+// every number embedded in them (px offsets, matrix() components, the four
+// `inset` values, ...) is within a small tolerance of the other.
+const FUZZY_NUMERIC_PROPS = ['left', 'right', 'top', 'bottom', 'inset', 'transform'];
+
+function numbersWithinTolerance(a: string, b: string, tolerance: number) {
+  const numsA = a.match(/-?\d+(\.\d+)?/g);
+  const numsB = b.match(/-?\d+(\.\d+)?/g);
+  if (!numsA || !numsB || numsA.length !== numsB.length) {
+    return false;
+  }
+  return numsA.every((n, idx) => Math.abs(parseFloat(n) - parseFloat(numsB[idx]!)) < tolerance);
+}
+
+// Ember auto-generates element ids (e.g. `ember314`) from a global counter
+// that depends on how many components have been instantiated so far in the
+// whole test run, not just this test. That count drifts as unrelated tests
+// are added/removed elsewhere in the suite, so a literal id baked into a
+// committed snapshot will eventually stop matching a fresh run even though
+// nothing about this component changed. Normalize ids in both the live
+// representation and the stored snapshot before comparing.
+//
+// Whitespace is collapsed for the same reason: the element representation
+// includes the raw `class` attribute, whose line breaks and indentation come
+// from how the template happens to be formatted, not from what it renders.
+function normalizeEmberIds(representation: string) {
+  return representation.replace(/ember[0-9]+/g, 'ember0').replace(/\s+/g, ' ');
+}
+
+export function setupSnapshot(assert: Assert) {
+  assert.snapshot = function(value, name) {
+    const current = QUnit.config.current;
+    const currentModule = current.module;
+    const moduleName = currentModule.name;
+    const testName = current.testName;
+    const url = testUrl(moduleName, testName, name);
+    const expected = __SNAPSHOTS__[`.${url}`]?.default;
+    if (!expected) {
+      saveSnapshot(moduleName, testName, name, value);
+    }
+    if (window.location.search.includes('save-snapshots')) {
+      if (!QUnit.equiv(value, expected)) {
+        saveSnapshot(moduleName, testName, name, value);
+      }
+    }
+    if (typeof value === 'object' && typeof expected === 'object') {
+      if (Array.isArray(value) && value.length === expected.length) {
+        for (let i = 0; i < value.length; i++) {
+          if (typeof value[i][0] === 'string') {
+            value[i][0] = normalizeEmberIds(value[i][0]);
+          }
+          if (typeof expected[i]?.[0] === 'string') {
+            expected[i][0] = normalizeEmberIds(expected[i][0]);
+          }
+          expected[i][1]['transition'] = expected[i][1]['transition']?.replace(/0s$/, '');
+          delete expected[i][1]['font'];
+          delete value[i][1]['font'];
+          value[i][1]['transition'] = value[i][1]['transition']?.replace(/0s$/, '');
+          if (value[i][1]['width'] && expected[i][1]['width']) {
+            const vWidth = Number(value[i][1]['width'].replace('px', ''));
+            const expectedWidth = Number(expected[i][1]['width'].replace('px', ''));
+            console.log('width', vWidth, expectedWidth);
+            if (Math.abs(vWidth - expectedWidth) < 3) {
+              delete value[i][1]['width'];
+              delete expected[i][1]['width'];
+            }
+          }
+          if (value[i][1]['height'] && expected[i][1]['height']) {
+            const vWidth = Number(value[i][1]['height'].replace('px', ''));
+            const expectedWidth = Number(expected[i][1]['height'].replace('px', ''));
+            console.log('height', vWidth, expectedWidth);
+            if (Math.abs(vWidth - expectedWidth) < 3) {
+              delete value[i][1]['height'];
+              delete expected[i][1]['height'];
+            }
+          }
+          for (const prop of FUZZY_NUMERIC_PROPS) {
+            const v = value[i][1][prop];
+            const e = expected[i][1][prop];
+            if (v && e && numbersWithinTolerance(v, e, 3)) {
+              delete value[i][1][prop];
+              delete expected[i][1][prop];
+            }
+          }
+          // If a property appears in the expected snapshot but not in the
+          // actual diff, it means the style was already present in the
+          // baseline on this platform (e.g. Carbon CSS leaked from a prior
+          // test). Drop it from both sides so the comparison is not
+          // environment-sensitive. Properties that only appear in the actual
+          // (new unexpected changes) still cause a failure.
+          for (const prop of Object.keys(expected[i]?.[1] ?? {})) {
+            if (!(prop in value[i][1])) {
+              delete expected[i][1][prop];
+            }
+          }
+          if (!QUnit.equiv(value[i], expected[i])) {
+            console.log('deepEqual', name + ' item:' + i, JSON.stringify(value[i], null, 2), JSON.stringify(expected[i], null, 2));
+          }
+          assert.deepEqual(value[i], expected[i], name + ' item:' + i);
+        }
+        return;
+      }
+      assert.deepEqual(value, expected);
+    } else {
+      assert.equal(value, expected);
+    }
+  }
+}

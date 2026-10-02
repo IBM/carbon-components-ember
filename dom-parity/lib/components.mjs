@@ -3,7 +3,7 @@
  * DOM-parity fixtures. Each variant describes how to render the upstream
  * `@carbon/react` component for one combination of args; the matching Ember
  * invocation lives alongside the comparison test in
- * test-app/tests/components/dom-parity-test.gts and is kept in sync with
+ * carbon-components-ember/tests/components/dom-parity-test.gts and is kept in sync with
  * these props by hand - there is no codegen linking the two. `props` is
  * recorded verbatim into the generated fixture purely so a reviewer can
  * check the Ember invocation against it without re-reading this file.
