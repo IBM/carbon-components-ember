@@ -51,11 +51,8 @@ jobs:
         with:
           fetch-depth: 0
           ref: "main"
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: pnpm
+      - name: Setup Node and pnpm
+        uses: ./.github/actions/setup-pnpm
 
       - run: pnpm install --frozen-lockfile
 
