@@ -22,13 +22,6 @@
     */
     "rootDir": "./src",
 
-    /**
-      The ai-chat media/file-upload helpers export string enums
-      (`VideoSource`, `AudioSource`, `FileStatusValue`) as public API, which
-      `erasableSyntaxOnly` would reject. Babel compiles them fine.
-    */
-    "erasableSyntaxOnly": false,
-
     "types": ["ember-source/types", "@glint/ember-tsc/types"]
   }
 }

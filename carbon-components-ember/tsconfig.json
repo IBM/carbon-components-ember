@@ -16,6 +16,8 @@
     // helpers, which live outside this package.
     "rootDir": "..",
     "allowJs": true,
+    // The tests import JSON fixtures (DOM parity).
+    "resolveJsonModule": true,
     "types": [
       "ember-source/types",
       "vite/client",
