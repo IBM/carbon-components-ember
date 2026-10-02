@@ -1,0 +1,48 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Introduction" />
+
+# Carbon Components Ember
+
+An Ember implementation of IBM's [Carbon Design System](https://carbondesignsystem.com),
+kept in parity with [`@carbon/react`](https://react.carbondesignsystem.com).
+
+## Installation
+
+```sh
+pnpm add carbon-components-ember
+```
+
+Load Carbon's styles and the addon's own stylesheet once, in your app's
+entry point:
+
+```ts
+import "@carbon/styles/css/styles.css";
+import "carbon-components-ember/styles.scss";
+```
+
+## Usage
+
+Import components straight into your `.gts` templates:
+
+```gts
+import { Button } from "carbon-components-ember/components";
+
+<template>
+  <Button @type="primary">Save</Button>
+</template>
+```
+
+Services are namespaced under `carbon.`:
+
+```ts
+import { service } from "@ember/service";
+
+class MyComponent {
+  @service("carbon.notifications") notifications;
+}
+```
+
+Every component page in the sidebar is generated from the component's own
+Glint signature: the args table, blocks and element come straight from the
+source, and each story doubles as a browser test.
