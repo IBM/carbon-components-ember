@@ -20,22 +20,34 @@ module('Integration | Component | ai-chat/ChatHistoryContent', (hooks) => {
   });
 
   test('shows "@resultsLabel: @resultsCount" when a count is passed', async function (assert) {
-    await render(<template><ChatHistoryContent @resultsCount={{5}} /></template>);
+    await render(
+      <template><ChatHistoryContent @resultsCount={{5}} /></template>,
+    );
 
-    assert.dom('.cds-aichat-history-content__results-count').hasText('Results: 5');
+    assert
+      .dom('.cds-aichat-history-content__results-count')
+      .hasText('Results: 5');
   });
 
   test('@resultsLabel overrides the default label', async function (assert) {
     await render(
-      <template><ChatHistoryContent @resultsLabel='Matches' @resultsCount={{3}} /></template>,
+      <template>
+        <ChatHistoryContent @resultsLabel="Matches" @resultsCount={{3}} />
+      </template>,
     );
 
-    assert.dom('.cds-aichat-history-content__results-count').hasText('Matches: 3');
+    assert
+      .dom('.cds-aichat-history-content__results-count')
+      .hasText('Matches: 3');
   });
 
   test('a resultsCount of 0 still displays (not treated as falsy)', async function (assert) {
-    await render(<template><ChatHistoryContent @resultsCount={{0}} /></template>);
+    await render(
+      <template><ChatHistoryContent @resultsCount={{0}} /></template>,
+    );
 
-    assert.dom('.cds-aichat-history-content__results-count').hasText('Results: 0');
+    assert
+      .dom('.cds-aichat-history-content__results-count')
+      .hasText('Results: 0');
   });
 });

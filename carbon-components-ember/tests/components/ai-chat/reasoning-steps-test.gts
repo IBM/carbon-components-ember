@@ -15,18 +15,20 @@ module('Integration | Component | ai-chat/ReasoningSteps', (hooks) => {
       </template>,
     );
 
-    assert.dom('.cds-aichat-reasoning-steps__wrapper').hasAttribute('aria-hidden', 'true');
-    assert.dom('.cds-aichat-reasoning-steps__wrapper').doesNotHaveClass(
-      'cds-aichat-reasoning-steps__wrapper--open',
-    );
+    assert
+      .dom('.cds-aichat-reasoning-steps__wrapper')
+      .hasAttribute('aria-hidden', 'true');
+    assert
+      .dom('.cds-aichat-reasoning-steps__wrapper')
+      .doesNotHaveClass('cds-aichat-reasoning-steps__wrapper--open');
   });
 
   test('renders each yielded step, static header when no body is passed', async function (assert) {
     await render(
       <template>
         <ReasoningSteps @open={{true}} as |Step|>
-          <Step @title='No body' />
-          <Step @title='Has body'>Body content</Step>
+          <Step @title="No body" />
+          <Step @title="Has body">Body content</Step>
         </ReasoningSteps>
       </template>,
     );
@@ -43,16 +45,22 @@ module('Integration | Component | ai-chat/ReasoningSteps', (hooks) => {
     await render(
       <template>
         <ReasoningSteps @open={{true}} as |Step|>
-          <Step @title='Step' @onToggle={{onToggle}}>Body</Step>
+          <Step @title="Step" @onToggle={{onToggle}}>Body</Step>
         </ReasoningSteps>
       </template>,
     );
 
-    assert.dom('.cds-aichat-reasoning-step__trigger').hasAttribute('aria-expanded', 'false');
+    assert
+      .dom('.cds-aichat-reasoning-step__trigger')
+      .hasAttribute('aria-expanded', 'false');
 
     await click('.cds-aichat-reasoning-step__trigger');
-    assert.dom('.cds-aichat-reasoning-step__trigger').hasAttribute('aria-expanded', 'true');
-    assert.dom('.cds-aichat-reasoning-step').hasClass('cds-aichat-reasoning-step--open');
+    assert
+      .dom('.cds-aichat-reasoning-step__trigger')
+      .hasAttribute('aria-expanded', 'true');
+    assert
+      .dom('.cds-aichat-reasoning-step')
+      .hasClass('cds-aichat-reasoning-step--open');
     assert.deepEqual(calls, [true]);
   });
 
@@ -63,7 +71,7 @@ module('Integration | Component | ai-chat/ReasoningSteps', (hooks) => {
     await render(
       <template>
         <ReasoningSteps @open={{true}} @controlled={{true}} as |Step|>
-          <Step @title='Step' @open={{false}} @onToggle={{onToggle}}>Body</Step>
+          <Step @title="Step" @open={{false}} @onToggle={{onToggle}}>Body</Step>
         </ReasoningSteps>
       </template>,
     );
@@ -72,6 +80,10 @@ module('Integration | Component | ai-chat/ReasoningSteps', (hooks) => {
     assert.deepEqual(calls, [true], 'still reports the requested next state');
     assert
       .dom('.cds-aichat-reasoning-step__trigger')
-      .hasAttribute('aria-expanded', 'false', 'but @open never changed, so nothing toggled');
+      .hasAttribute(
+        'aria-expanded',
+        'false',
+        'but @open never changed, so nothing toggled',
+      );
   });
 });

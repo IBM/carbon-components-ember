@@ -250,39 +250,42 @@ export default class SessionShell extends Component<SessionShellSignature> {
           @messagesAriaLabel={{this.messagesAriaLabel}}
         >
           <:header>
-            {{yield to='header'}}
-            <Tooltip @label='Chat history' @autoAlign={{true}}>
+            {{yield to="header"}}
+            <Tooltip @label="Chat history" @autoAlign={{true}}>
               <Button
                 @type={{undefined}}
                 @ghost={{true}}
-                @size='sm'
+                @size="sm"
                 @iconOnly={{true}}
                 @onClick={{this.session.toggleHistory}}
-                aria-label='Chat history'
+                aria-label="Chat history"
               >
-                <RecentlyViewed @size='16' />
+                <RecentlyViewed @size="16" />
               </Button>
             </Tooltip>
-            <Tooltip @label='Close' @autoAlign={{true}}>
+            <Tooltip @label="Close" @autoAlign={{true}}>
               <Button
                 @type={{undefined}}
                 @ghost={{true}}
-                @size='sm'
+                @size="sm"
                 @iconOnly={{true}}
                 @onClick={{this.session.toggleOpen}}
-                aria-label='Close chat'
+                aria-label="Close chat"
               >
-                <Close @size='16' />
+                <Close @size="16" />
               </Button>
             </Tooltip>
           </:header>
           <:history>
-            {{#if (has-block 'history')}}
-              {{yield to='history'}}
+            {{#if (has-block "history")}}
+              {{yield to="history"}}
             {{else}}
               <ChatHistory {{this.resetHistoryEditState}}>
                 <:header>
-                  <ChatHistoryHeader @showCloseAction={{true}} @onClose={{this.closeHistory}} />
+                  <ChatHistoryHeader
+                    @showCloseAction={{true}}
+                    @onClose={{this.closeHistory}}
+                  />
                 </:header>
                 <:toolbar>
                   <ChatHistoryToolbar @onNewChat={{this.newChat}} />
@@ -300,7 +303,10 @@ export default class SessionShell extends Component<SessionShellSignature> {
                             @actions={{this.historyItemActions}}
                             @onSelect={{this.selectHistoryItem}}
                             @onMenuAction={{this.handleHistoryMenuAction}}
-                            @onRenameSave={{fn this.saveHistoryItemRename item.id}}
+                            @onRenameSave={{fn
+                              this.saveHistoryItemRename
+                              item.id
+                            }}
                             @onRenameCancel={{this.cancelHistoryItemRename}}
                           />
                         {{/each}}
@@ -319,26 +325,27 @@ export default class SessionShell extends Component<SessionShellSignature> {
               </ChatHistory>
             {{/if}}
           </:history>
-          <:workspace>{{yield to='workspace'}}</:workspace>
+          <:workspace>{{yield to="workspace"}}</:workspace>
           <:messages>
-            {{#each this.session.messages key='id' as |message|}}
+            {{#each this.session.messages key="id" as |message|}}
               <div
-                class='cds-aichat-session-shell__message
-                  cds-aichat-session-shell__message--{{message.role}}'
+                class="cds-aichat-session-shell__message cds-aichat-session-shell__message--{{message.role}}"
               >
                 {{message.text}}
                 {{#if message.cancelled}}
-                  <span class='cds-aichat-session-shell__stopped-label'>(stopped)</span>
+                  <span
+                    class="cds-aichat-session-shell__stopped-label"
+                  >(stopped)</span>
                 {{/if}}
               </div>
             {{/each}}
             {{#if this.session.isStreaming}}
-              <div class='cds-aichat-session-shell__streaming-actions'>
+              <div class="cds-aichat-session-shell__streaming-actions">
                 <Processing />
                 <Button
                   @type={{undefined}}
                   @ghost={{true}}
-                  @size='sm'
+                  @size="sm"
                   @onClick={{this.stopStreaming}}
                 >
                   Stop generating
@@ -347,29 +354,32 @@ export default class SessionShell extends Component<SessionShellSignature> {
             {{/if}}
           </:messages>
           <:input>
-            <div class='cds-aichat-session-shell__input'>
-              <PromptLineShell @rounded={{true}} @disabled={{this.session.isReadonly}}>
+            <div class="cds-aichat-session-shell__input">
+              <PromptLineShell
+                @rounded={{true}}
+                @disabled={{this.session.isReadonly}}
+              >
                 <:editor>
                   <PromptLine
                     @content={{this.session.draft}}
-                    @placeholder='Type a message…'
+                    @placeholder="Type a message…"
                     @disabled={{this.session.isReadonly}}
                     @onChange={{this.session.setDraft}}
                     @onSendIntent={{this.session.send}}
                   />
                 </:editor>
                 <:sendControl>
-                  <Tooltip @label='Send' @autoAlign={{true}}>
+                  <Tooltip @label="Send" @autoAlign={{true}}>
                     <Button
                       @type={{undefined}}
                       @ghost={{true}}
-                      @size='sm'
+                      @size="sm"
                       @iconOnly={{true}}
                       @disabled={{this.session.isReadonly}}
                       @onClick={{this.sendMessage}}
-                      aria-label='Send'
+                      aria-label="Send"
                     >
-                      <Send @size='16' />
+                      <Send @size="16" />
                     </Button>
                   </Tooltip>
                 </:sendControl>

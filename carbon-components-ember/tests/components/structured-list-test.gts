@@ -37,9 +37,7 @@ module('Integration | Component | StructuredList', (hooks) => {
     assert.dom('.cds--structured-list-tbody').exists();
     assert.dom('.cds--structured-list-th').exists({ count: 2 });
     assert.dom('.cds--structured-list-td').exists({ count: 2 });
-    assert
-      .dom('.cds--structured-list-row--header-row')
-      .exists({ count: 1 });
+    assert.dom('.cds--structured-list-row--header-row').exists({ count: 1 });
   });
 
   test('should apply isCondensed and isFlush modifier classes', async function (assert) {
@@ -77,12 +75,12 @@ module('Integration | Component | StructuredList', (hooks) => {
       <template>
         <StructuredList @selection={{true}} as |SL|>
           <SL.Body>
-            <SL.Row @id='row-1' as |Row|>
-              <Row @name='rows' />
+            <SL.Row @id="row-1" as |Row|>
+              <Row @name="rows" />
               <SL.Cell>Row 1</SL.Cell>
             </SL.Row>
-            <SL.Row @id='row-2' as |Row|>
-              <Row @name='rows' />
+            <SL.Row @id="row-2" as |Row|>
+              <Row @name="rows" />
               <SL.Cell>Row 2</SL.Cell>
             </SL.Row>
           </SL.Body>
@@ -103,18 +101,14 @@ module('Integration | Component | StructuredList', (hooks) => {
   test('selectedInitialRow pre-selects a row', async function (assert) {
     await render(
       <template>
-        <StructuredList
-          @selection={{true}}
-          @selectedInitialRow='row-2'
-          as |SL|
-        >
+        <StructuredList @selection={{true}} @selectedInitialRow="row-2" as |SL|>
           <SL.Body>
-            <SL.Row @id='row-1' as |Row|>
-              <Row @name='rows' />
+            <SL.Row @id="row-1" as |Row|>
+              <Row @name="rows" />
               <SL.Cell>Row 1</SL.Cell>
             </SL.Row>
-            <SL.Row @id='row-2' as |Row|>
-              <Row @name='rows' />
+            <SL.Row @id="row-2" as |Row|>
+              <Row @name="rows" />
               <SL.Cell>Row 2</SL.Cell>
             </SL.Row>
           </SL.Body>
@@ -138,12 +132,12 @@ module('Integration | Component | StructuredList', (hooks) => {
           as |SL|
         >
           <SL.Body>
-            <SL.Row @id='row-1' as |Row|>
-              <Row @name='rows' />
+            <SL.Row @id="row-1" as |Row|>
+              <Row @name="rows" />
               <SL.Cell>Row 1</SL.Cell>
             </SL.Row>
-            <SL.Row @id='row-2' as |Row|>
-              <Row @name='rows' />
+            <SL.Row @id="row-2" as |Row|>
+              <Row @name="rows" />
               <SL.Cell>Row 2</SL.Cell>
             </SL.Row>
           </SL.Body>
@@ -172,12 +166,12 @@ module('Integration | Component | StructuredList', (hooks) => {
           as |SL|
         >
           <SL.Body>
-            <SL.Row @id='row-1' as |Row|>
-              <Row @name='rows' />
+            <SL.Row @id="row-1" as |Row|>
+              <Row @name="rows" />
               <SL.Cell>Row 1</SL.Cell>
             </SL.Row>
-            <SL.Row @id='row-2' as |Row|>
-              <Row @name='rows' />
+            <SL.Row @id="row-2" as |Row|>
+              <Row @name="rows" />
               <SL.Cell>Row 2</SL.Cell>
             </SL.Row>
           </SL.Body>
@@ -205,12 +199,12 @@ module('Integration | Component | StructuredList', (hooks) => {
       <template>
         <StructuredList @selection={{true}} @multiSelection={{true}} as |SL|>
           <SL.Body>
-            <SL.Row @id='row-1' as |Row|>
-              <Row @name='rows' />
+            <SL.Row @id="row-1" as |Row|>
+              <Row @name="rows" />
               <SL.Cell>Row 1</SL.Cell>
             </SL.Row>
-            <SL.Row @id='row-2' as |Row|>
-              <Row @name='rows' />
+            <SL.Row @id="row-2" as |Row|>
+              <Row @name="rows" />
               <SL.Cell>Row 2</SL.Cell>
             </SL.Row>
           </SL.Body>
@@ -238,20 +232,20 @@ module('Integration | Component | StructuredList', (hooks) => {
         <StructuredList
           @selection={{true}}
           @multiSelection={{true}}
-          @selectedInitialRows={{array 'row-1' 'row-2'}}
+          @selectedInitialRows={{array "row-1" "row-2"}}
           as |SL|
         >
           <SL.Body>
-            <SL.Row @id='row-1' as |Row|>
-              <Row @name='rows' />
+            <SL.Row @id="row-1" as |Row|>
+              <Row @name="rows" />
               <SL.Cell>Row 1</SL.Cell>
             </SL.Row>
-            <SL.Row @id='row-2' as |Row|>
-              <Row @name='rows' />
+            <SL.Row @id="row-2" as |Row|>
+              <Row @name="rows" />
               <SL.Cell>Row 2</SL.Cell>
             </SL.Row>
-            <SL.Row @id='row-3' as |Row|>
-              <Row @name='rows' />
+            <SL.Row @id="row-3" as |Row|>
+              <Row @name="rows" />
               <SL.Cell>Row 3</SL.Cell>
             </SL.Row>
           </SL.Body>
@@ -278,12 +272,12 @@ module('Integration | Component | StructuredList', (hooks) => {
           as |SL|
         >
           <SL.Body>
-            <SL.Row @id='row-1' as |Row|>
-              <Row @name='rows' />
+            <SL.Row @id="row-1" as |Row|>
+              <Row @name="rows" />
               <SL.Cell>Row 1</SL.Cell>
             </SL.Row>
-            <SL.Row @id='row-2' as |Row|>
-              <Row @name='rows' />
+            <SL.Row @id="row-2" as |Row|>
+              <Row @name="rows" />
               <SL.Cell>Row 2</SL.Cell>
             </SL.Row>
           </SL.Body>
@@ -316,12 +310,12 @@ module('Integration | Component | StructuredList', (hooks) => {
           as |SL|
         >
           <SL.Body>
-            <SL.Row @id='row-1' as |Row|>
-              <Row @name='rows' />
+            <SL.Row @id="row-1" as |Row|>
+              <Row @name="rows" />
               <SL.Cell>Row 1</SL.Cell>
             </SL.Row>
-            <SL.Row @id='row-2' as |Row|>
-              <Row @name='rows' />
+            <SL.Row @id="row-2" as |Row|>
+              <Row @name="rows" />
               <SL.Cell>Row 2</SL.Cell>
             </SL.Row>
           </SL.Body>

@@ -264,14 +264,14 @@ export default class DataTableComponent<T> extends Component<
 
   <template>
     <div
-      class='cds--data-table-container {{if @isLoading "bx-skeleton"}}'
+      class="cds--data-table-container {{if @isLoading 'bx-skeleton'}}"
       data-table
     >
-      <div class='cds--data-table-header' {{this.notifyRegisterState}}>
-        <h4 class='cds--data-table-header__title'>
+      <div class="cds--data-table-header" {{this.notifyRegisterState}}>
+        <h4 class="cds--data-table-header__title">
           {{@title}}
         </h4>
-        <p class='cds--data-table-header__description'>
+        <p class="cds--data-table-header__description">
           {{@description}}
         </p>
       </div>

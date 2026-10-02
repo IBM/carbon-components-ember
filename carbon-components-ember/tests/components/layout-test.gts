@@ -2,9 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hash } from '@ember/helper';
-import Layout, {
-  LayoutConstraint,
-} from '#src/components/layout.gts';
+import Layout, { LayoutConstraint } from '#src/components/layout.gts';
 
 module('Integration | Component | Layout', (hooks) => {
   setupRenderingTest(hooks);
@@ -23,7 +21,7 @@ module('Integration | Component | Layout', (hooks) => {
   test('@size adds the size modifier class', async function (assert) {
     await render(
       <template>
-        <Layout @size='sm'>content</Layout>
+        <Layout @size="sm">content</Layout>
       </template>,
     );
 
@@ -33,7 +31,7 @@ module('Integration | Component | Layout', (hooks) => {
   test('@density adds the density modifier class', async function (assert) {
     await render(
       <template>
-        <Layout @density='condensed'>content</Layout>
+        <Layout @density="condensed">content</Layout>
       </template>,
     );
 
@@ -43,7 +41,7 @@ module('Integration | Component | Layout', (hooks) => {
   test('@as renders a custom element type', async function (assert) {
     await render(
       <template>
-        <Layout @as='section'>content</Layout>
+        <Layout @as="section">content</Layout>
       </template>,
     );
 
@@ -55,8 +53,8 @@ module('Integration | Component | Layout', (hooks) => {
     await render(
       <template>
         <LayoutConstraint
-          @size={{hash default='md' min='sm' max='lg'}}
-          @density={{hash default='condensed'}}
+          @size={{hash default="md" min="sm" max="lg"}}
+          @density={{hash default="condensed"}}
         >
           content
         </LayoutConstraint>
@@ -72,7 +70,7 @@ module('Integration | Component | Layout', (hooks) => {
   test('LayoutConstraint @as renders a custom element type', async function (assert) {
     await render(
       <template>
-        <LayoutConstraint @as='section'>content</LayoutConstraint>
+        <LayoutConstraint @as="section">content</LayoutConstraint>
       </template>,
     );
 

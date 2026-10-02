@@ -13,6 +13,9 @@
 /src/icons.ts
 /unpublished-development-types/carbon-icons.d.ts
 
+# written by the snapshot tests themselves (JSON.stringify)
+/tests/__snapshots__/
+
 # misc
 /coverage/
 pnpm-lock.yaml

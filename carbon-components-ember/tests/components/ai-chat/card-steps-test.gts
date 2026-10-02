@@ -17,9 +17,13 @@ module('Integration | Component | ai-chat/AiChatCardSteps', (hooks) => {
     await render(<template><AiChatCardSteps @steps={{steps}} /></template>);
 
     assert.dom('.cds-aichat-card-step').exists({ count: 2 });
-    assert.dom('.cds-aichat-card-step:first-child .cds-aichat-card-step-title').hasText('Step 1');
     assert
-      .dom('.cds-aichat-card-step:first-child .cds-aichat-card-step-description')
+      .dom('.cds-aichat-card-step:first-child .cds-aichat-card-step-title')
+      .hasText('Step 1');
+    assert
+      .dom(
+        '.cds-aichat-card-step:first-child .cds-aichat-card-step-description',
+      )
       .hasText('First step');
     assert
       .dom('.cds-aichat-card-step:last-child .cds-aichat-card-step-description')
@@ -36,7 +40,9 @@ module('Integration | Component | ai-chat/AiChatCardSteps', (hooks) => {
   });
 
   test('it renders an IconIndicator for a kind other than in-progress', async function (assert) {
-    const steps: CardStep[] = [{ title: 'Step', kind: 'succeeded', label: 'Done' }];
+    const steps: CardStep[] = [
+      { title: 'Step', kind: 'succeeded', label: 'Done' },
+    ];
 
     await render(<template><AiChatCardSteps @steps={{steps}} /></template>);
     await waitUntil(() => find('.cds-aichat-card-step-indicator svg'));

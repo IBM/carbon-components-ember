@@ -7,7 +7,11 @@ module('Integration | Component | ai-chat/WorkspaceShellBody', (hooks) => {
   setupRenderingTest(hooks);
 
   test('renders yielded content', async function (assert) {
-    await render(<template><WorkspaceShellBody><p class='content'>Body</p></WorkspaceShellBody></template>);
+    await render(
+      <template>
+        <WorkspaceShellBody><p class="content">Body</p></WorkspaceShellBody>
+      </template>,
+    );
 
     assert.dom('.cds-aichat-workspace-shell__body .content').hasText('Body');
   });

@@ -6,10 +6,17 @@
  */
 
 import type { Extension } from '@tiptap/core';
-import { carbonAutocomplete, type ExcludedTrigger } from './carbon-autocomplete.ts';
+import {
+  carbonAutocomplete,
+  type ExcludedTrigger,
+} from './carbon-autocomplete.ts';
 import { carbonCommand, carbonMention } from './carbon-mention.ts';
 import { carbonStarterTrigger } from './carbon-starter-trigger.ts';
-import type { AutocompleteConfig, StartersConfig, TriggerSuggestionConfig } from './types.ts';
+import type {
+  AutocompleteConfig,
+  StartersConfig,
+  TriggerSuggestionConfig,
+} from './types.ts';
 
 /**
  * Ported from `@carbon/ai-chat-components`' `tiptap/build-extensions.ts`.
@@ -37,7 +44,9 @@ export interface BuildCarbonExtensionsConfig {
   starters?: StartersConfig;
 }
 
-export function buildCarbonExtensions(configs: BuildCarbonExtensionsConfig): Extension[] {
+export function buildCarbonExtensions(
+  configs: BuildCarbonExtensionsConfig,
+): Extension[] {
   const out: Extension[] = [];
   if (configs.mention) {
     out.push(carbonMention(configs.mention) as unknown as Extension);
@@ -50,19 +59,23 @@ export function buildCarbonExtensions(configs: BuildCarbonExtensionsConfig): Ext
     if (configs.mention) {
       excludeTriggers.push({
         char: configs.mention.trigger,
-        position: configs.mention.triggerPosition === 'start' ? 'start' : 'anywhere',
+        position:
+          configs.mention.triggerPosition === 'start' ? 'start' : 'anywhere',
       });
     }
     if (configs.command) {
       excludeTriggers.push({
         char: configs.command.trigger,
-        position: configs.command.triggerPosition === 'start' ? 'start' : 'anywhere',
+        position:
+          configs.command.triggerPosition === 'start' ? 'start' : 'anywhere',
       });
     }
     out.push(carbonAutocomplete(configs.autocomplete, excludeTriggers));
   }
   if (configs.starters) {
-    out.push(carbonStarterTrigger(configs.starters.items, configs.starters.isOn));
+    out.push(
+      carbonStarterTrigger(configs.starters.items, configs.starters.isOn),
+    );
   }
   return out;
 }

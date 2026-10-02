@@ -6,16 +6,14 @@ import { OverflowMenuVertical } from '../../icons.ts';
 
 export interface TableMenuComponentSignature {
   Blocks: {
-    default: [
-      WithBoundArgs<typeof MenuItemComponent, 'disabled' | 'isDelete'>,
-    ];
+    default: [WithBoundArgs<typeof MenuItemComponent, 'disabled' | 'isDelete'>];
   };
 }
 
 export default class TableMenuComponent extends Component<TableMenuComponentSignature> {
   <template>
-    <td class='cds--table-column-menu'>
-      <OverflowMenu @icon={{OverflowMenuVertical}} @direction='top' as |Item|>
+    <td class="cds--table-column-menu">
+      <OverflowMenu @icon={{OverflowMenuVertical}} @direction="top" as |Item|>
         {{yield Item}}
       </OverflowMenu>
     </td>

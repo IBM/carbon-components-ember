@@ -75,7 +75,10 @@ function assertAiChatDomParity(
     return;
   }
   if (!emberRoot) {
-    assert.ok(false, `${component}/${variant}: nothing rendered by the Ember port`);
+    assert.ok(
+      false,
+      `${component}/${variant}: nothing rendered by the Ember port`,
+    );
     return;
   }
 
@@ -83,9 +86,12 @@ function assertAiChatDomParity(
   const emberTree = stripClasses(normalizeElement(emberRoot));
   const differences = diffNormalized(upstreamTree, emberTree);
   const known =
-    (knownDifferences as Record<string, Array<{ path: string; reason: string; variant?: string }>>)[
-      component
-    ] ?? [];
+    (
+      knownDifferences as Record<
+        string,
+        Array<{ path: string; reason: string; variant?: string }>
+      >
+    )[component] ?? [];
   const unexpected = applyKnownDifferences(differences, known, variant);
 
   assert.deepEqual(
@@ -125,7 +131,10 @@ module('DOM parity | Carbon AI Chat', function (hooks) {
 
   module('Processing', function () {
     test('default', async function (this: RenderingTestContext, assert) {
-      const { root, cleanup } = await mountUpstream('cds-aichat-processing', () => {});
+      const { root, cleanup } = await mountUpstream(
+        'cds-aichat-processing',
+        () => {},
+      );
       await render(<template><Processing /></template>);
       assertAiChatDomParity(
         assert,
@@ -138,9 +147,12 @@ module('DOM parity | Carbon AI Chat', function (hooks) {
     });
 
     test('loop', async function (this: RenderingTestContext, assert) {
-      const { root, cleanup } = await mountUpstream('cds-aichat-processing', (host) => {
-        host.toggleAttribute('loop', true);
-      });
+      const { root, cleanup } = await mountUpstream(
+        'cds-aichat-processing',
+        (host) => {
+          host.toggleAttribute('loop', true);
+        },
+      );
       await render(<template><Processing @loop={{true}} /></template>);
       assertAiChatDomParity(
         assert,
@@ -153,9 +165,12 @@ module('DOM parity | Carbon AI Chat', function (hooks) {
     });
 
     test('quick-load', async function (this: RenderingTestContext, assert) {
-      const { root, cleanup } = await mountUpstream('cds-aichat-processing', (host) => {
-        host.toggleAttribute('quick-load', true);
-      });
+      const { root, cleanup } = await mountUpstream(
+        'cds-aichat-processing',
+        (host) => {
+          host.toggleAttribute('quick-load', true);
+        },
+      );
       await render(<template><Processing @quickLoad={{true}} /></template>);
       assertAiChatDomParity(
         assert,
@@ -170,24 +185,31 @@ module('DOM parity | Carbon AI Chat', function (hooks) {
 
   module('ReasoningSteps', function () {
     test('open, one static + one interactive step', async function (this: RenderingTestContext, assert) {
-      const { root, cleanup } = await mountUpstream('cds-aichat-reasoning-steps', (host) => {
-        host.toggleAttribute('open', true);
+      const { root, cleanup } = await mountUpstream(
+        'cds-aichat-reasoning-steps',
+        (host) => {
+          host.toggleAttribute('open', true);
 
-        const staticStep = document.createElement('cds-aichat-reasoning-step');
-        staticStep.setAttribute('title', 'No body');
-        host.appendChild(staticStep);
+          const staticStep = document.createElement(
+            'cds-aichat-reasoning-step',
+          );
+          staticStep.setAttribute('title', 'No body');
+          host.appendChild(staticStep);
 
-        const interactiveStep = document.createElement('cds-aichat-reasoning-step');
-        interactiveStep.setAttribute('title', 'Has body');
-        interactiveStep.textContent = 'Body content';
-        host.appendChild(interactiveStep);
-      });
+          const interactiveStep = document.createElement(
+            'cds-aichat-reasoning-step',
+          );
+          interactiveStep.setAttribute('title', 'Has body');
+          interactiveStep.textContent = 'Body content';
+          host.appendChild(interactiveStep);
+        },
+      );
 
       await render(
         <template>
           <ReasoningSteps @open={{true}} as |Step|>
-            <Step @title='No body' />
-            <Step @title='Has body'>Body content</Step>
+            <Step @title="No body" />
+            <Step @title="Has body">Body content</Step>
           </ReasoningSteps>
         </template>,
       );
@@ -203,17 +225,20 @@ module('DOM parity | Carbon AI Chat', function (hooks) {
     });
 
     test('closed, one interactive step', async function (this: RenderingTestContext, assert) {
-      const { root, cleanup } = await mountUpstream('cds-aichat-reasoning-steps', (host) => {
-        const step = document.createElement('cds-aichat-reasoning-step');
-        step.setAttribute('title', 'Has body');
-        step.textContent = 'Body content';
-        host.appendChild(step);
-      });
+      const { root, cleanup } = await mountUpstream(
+        'cds-aichat-reasoning-steps',
+        (host) => {
+          const step = document.createElement('cds-aichat-reasoning-step');
+          step.setAttribute('title', 'Has body');
+          step.textContent = 'Body content';
+          host.appendChild(step);
+        },
+      );
 
       await render(
         <template>
           <ReasoningSteps @open={{false}} as |Step|>
-            <Step @title='Has body'>Body content</Step>
+            <Step @title="Has body">Body content</Step>
           </ReasoningSteps>
         </template>,
       );

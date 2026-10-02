@@ -54,21 +54,21 @@ export default class ConfirmDialogComponent extends Component<DialogConfirmInter
 
       <:footer>
         <button
-          class='cds--btn cds--btn--secondary'
-          type='button'
+          class="cds--btn cds--btn--secondary"
+          type="button"
           data-modal-close
-          {{on 'click' this.onCancel}}
+          {{on "click" this.onCancel}}
         >
-          {{defaultTo @cancelText 'Cancel'}}
+          {{defaultTo @cancelText "Cancel"}}
         </button>
         <button
-          class='cds--btn cds--btn--{{@type}} cds--btn--primary'
-          type='button'
-          aria-label='Danger'
-          {{on 'click' this.onAccept}}
+          class="cds--btn cds--btn--{{@type}} cds--btn--primary"
+          type="button"
+          aria-label="Danger"
+          {{on "click" this.onAccept}}
           data-modal-primary-focus
         >
-          {{defaultTo @cancelText 'Okay'}}
+          {{defaultTo @cancelText "Okay"}}
         </button>
       </:footer>
     </Modal>

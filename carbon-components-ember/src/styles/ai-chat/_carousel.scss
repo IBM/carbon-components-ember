@@ -15,12 +15,12 @@
 // way plain filesystem-based Sass resolution (e.g. the `sass` CLI given a
 // `--load-path`) would. Vite's own sass resolver only retries the
 // `_`-prefixed partial once the specifier already ends in `index`.
-@use '@carbon/utilities/scss/carousel/index';
-@use '@carbon/layout';
-@use '@carbon/styles/scss/type';
+@use "@carbon/utilities/scss/carousel/index";
+@use "@carbon/layout";
+@use "@carbon/styles/scss/type";
 
 .cds-aichat-carousel__controls {
-  @include type.type-style('body-compact-01');
+  @include type.type-style("body-compact-01");
 
   display: flex;
   align-items: center;

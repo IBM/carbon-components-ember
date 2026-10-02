@@ -7,18 +7,18 @@ module('Integration | Component | ai-chat/Launcher', (hooks) => {
   setupRenderingTest(hooks);
 
   test('it renders the closed-state aria label and no badge by default', async function (assert) {
-    await render(
-      <template><Launcher @closedLabel='Open chat' /></template>,
-    );
+    await render(<template><Launcher @closedLabel="Open chat" /></template>);
 
-    assert.dom('.cds-aichat-launcher__button').hasAttribute('aria-label', 'Open chat');
+    assert
+      .dom('.cds-aichat-launcher__button')
+      .hasAttribute('aria-label', 'Open chat');
     assert.dom('.cds-aichat-launcher__count-indicator').doesNotExist();
   });
 
   test('it appends the unread label to the aria label', async function (assert) {
     await render(
       <template>
-        <Launcher @closedLabel='Open chat' @unreadLabel='3 unread messages' />
+        <Launcher @closedLabel="Open chat" @unreadLabel="3 unread messages" />
       </template>,
     );
 
@@ -28,9 +28,7 @@ module('Integration | Component | ai-chat/Launcher', (hooks) => {
   });
 
   test('it shows a count badge when @unreadMessageCount is greater than 0', async function (assert) {
-    await render(
-      <template><Launcher @unreadMessageCount={{3}} /></template>,
-    );
+    await render(<template><Launcher @unreadMessageCount={{3}} /></template>);
 
     assert.dom('.cds-aichat-launcher__count-indicator').exists();
     assert.dom('.cds-aichat-launcher__count-indicator').hasText('3');
@@ -48,7 +46,7 @@ module('Integration | Component | ai-chat/Launcher', (hooks) => {
   test('it renders an avatar image instead of the icon when @launcherAvatarUrl is set', async function (assert) {
     await render(
       <template>
-        <Launcher @launcherAvatarUrl='https://example.com/avatar.png' />
+        <Launcher @launcherAvatarUrl="https://example.com/avatar.png" />
       </template>,
     );
 

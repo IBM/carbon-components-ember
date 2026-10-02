@@ -12,7 +12,11 @@ module('Integration | Component | Tag', (hooks) => {
   setupRenderingTest(hooks);
 
   test('should render with the given type', async function (assert) {
-    await render(<template><Tag @type='red'>Tag content</Tag></template>);
+    await render(
+      <template>
+        <Tag @type="red">Tag content</Tag>
+      </template>,
+    );
 
     assert.dom('.cds--tag').exists();
     assert.dom('.cds--tag').hasClass('cds--tag--red');
@@ -21,23 +25,35 @@ module('Integration | Component | Tag', (hooks) => {
 
   test('should render the high-contrast and outline types', async function (assert) {
     await render(
-      <template><Tag @type='high-contrast'>Tag content</Tag></template>,
+      <template>
+        <Tag @type="high-contrast">Tag content</Tag>
+      </template>,
     );
     assert.dom('.cds--tag').hasClass('cds--tag--high-contrast');
 
-    await render(<template><Tag @type='outline'>Tag content</Tag></template>);
+    await render(
+      <template>
+        <Tag @type="outline">Tag content</Tag>
+      </template>,
+    );
     assert.dom('.cds--tag').hasClass('cds--tag--outline');
   });
 
   test('should generate a default id', async function (assert) {
-    await render(<template><Tag @type='red'>Tag content</Tag></template>);
+    await render(
+      <template>
+        <Tag @type="red">Tag content</Tag>
+      </template>,
+    );
 
     assert.dom('.cds--tag').hasAttribute('id', /^tag-/);
   });
 
   test('should use the provided id', async function (assert) {
     await render(
-      <template><Tag @type='red' @id='my-tag'>Tag content</Tag></template>,
+      <template>
+        <Tag @type="red" @id="my-tag">Tag content</Tag>
+      </template>,
     );
 
     assert.dom('.cds--tag').hasAttribute('id', 'my-tag');
@@ -45,7 +61,9 @@ module('Integration | Component | Tag', (hooks) => {
 
   test('should apply the disabled class', async function (assert) {
     await render(
-      <template><Tag @type='red' @disabled={{true}}>Tag content</Tag></template>,
+      <template>
+        <Tag @type="red" @disabled={{true}}>Tag content</Tag>
+      </template>,
     );
 
     assert.dom('.cds--tag').hasClass('cds--tag--disabled');
@@ -53,7 +71,9 @@ module('Integration | Component | Tag', (hooks) => {
 
   test('should apply the size classes', async function (assert) {
     await render(
-      <template><Tag @type='red' @size='lg'>Tag content</Tag></template>,
+      <template>
+        <Tag @type="red" @size="lg">Tag content</Tag>
+      </template>,
     );
 
     assert.dom('.cds--tag').hasClass('cds--tag--lg');
@@ -62,7 +82,9 @@ module('Integration | Component | Tag', (hooks) => {
 
   test('should render a renderIcon component', async function (assert) {
     await render(
-      <template><Tag @type='red' @renderIcon={{Add}}>Tag content</Tag></template>,
+      <template>
+        <Tag @type="red" @renderIcon={{Add}}>Tag content</Tag>
+      </template>,
     );
     await waitUntil(() => find('.cds--tag__custom-icon svg'));
 
@@ -75,8 +97,10 @@ module('Integration | Component | Tag', (hooks) => {
     const styleValue = cell('');
     await render(
       <template>
-        <Tag @type='red' @renderIcon={{Add}}>Tag content</Tag>
-        <style>{{styleValue.current}}</style>
+        <Tag @type="red" @renderIcon={{Add}}>Tag content</Tag>
+        <style>
+          {{styleValue.current}}
+        </style>
       </template>,
     );
     await waitUntil(() => find('.cds--tag__custom-icon svg'));
@@ -95,7 +119,8 @@ module('Integration | Component | Tag', (hooks) => {
       'the icon has no default margin pushing it out of its 16px box',
     );
     assert.true(
-      svgRect.width <= wrapperRect.width && svgRect.height <= wrapperRect.height,
+      svgRect.width <= wrapperRect.width &&
+        svgRect.height <= wrapperRect.height,
       'the icon fits inside its wrapper instead of overflowing it',
     );
   });
@@ -103,7 +128,7 @@ module('Integration | Component | Tag', (hooks) => {
   test('should not render the icon wrapper for the sm size', async function (assert) {
     await render(
       <template>
-        <Tag @type='red' @size='sm' @renderIcon={{Add}}>Tag content</Tag>
+        <Tag @type="red" @size="sm" @renderIcon={{Add}}>Tag content</Tag>
       </template>,
     );
 
@@ -112,7 +137,9 @@ module('Integration | Component | Tag', (hooks) => {
 
   test('should render a decorator component', async function (assert) {
     await render(
-      <template><Tag @type='red' @decorator={{Add}}>Tag content</Tag></template>,
+      <template>
+        <Tag @type="red" @decorator={{Add}}>Tag content</Tag>
+      </template>,
     );
     await waitUntil(() => find('.cds--tag__decorator svg'));
 
@@ -121,7 +148,9 @@ module('Integration | Component | Tag', (hooks) => {
 
   test('should render a deprecated slug component without the decorator wrapper', async function (assert) {
     await render(
-      <template><Tag @type='red' @slug={{Add}}>Tag content</Tag></template>,
+      <template>
+        <Tag @type="red" @slug={{Add}}>Tag content</Tag>
+      </template>,
     );
     await waitUntil(() => find('.cds--tag svg'));
 

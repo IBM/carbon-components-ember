@@ -28,10 +28,12 @@ module('Integration | Component | Tooltip', (hooks) => {
     const styleValue = cell('');
     await render(
       <template>
-        <Tooltip @label='Close' @defaultOpen={{true}}>
-          <button type='button'>Trigger</button>
+        <Tooltip @label="Close" @defaultOpen={{true}}>
+          <button type="button">Trigger</button>
         </Tooltip>
-        <style>{{styleValue.current}}</style>
+        <style>
+          {{styleValue.current}}
+        </style>
       </template>,
     );
 
@@ -54,11 +56,15 @@ module('Integration | Component | Tooltip', (hooks) => {
     const darkStyleValue = cell('');
     await render(
       <template>
-        <Tooltip @label='Close' @defaultOpen={{true}}>
-          <button type='button'>Trigger</button>
+        <Tooltip @label="Close" @defaultOpen={{true}}>
+          <button type="button">Trigger</button>
         </Tooltip>
-        <style>{{styleValue.current}}</style>
-        <style>{{darkStyleValue.current}}</style>
+        <style>
+          {{styleValue.current}}
+        </style>
+        <style>
+          {{darkStyleValue.current}}
+        </style>
       </template>,
     );
 
@@ -80,8 +86,8 @@ module('Integration | Component | Tooltip', (hooks) => {
   test('renders trigger and tooltip content', async function (assert) {
     await render(
       <template>
-        <Tooltip @label='Close'>
-          <button type='button'>Trigger</button>
+        <Tooltip @label="Close">
+          <button type="button">Trigger</button>
         </Tooltip>
       </template>,
     );
@@ -100,8 +106,8 @@ module('Integration | Component | Tooltip', (hooks) => {
   test('@defaultOpen renders the tooltip open', async function (assert) {
     await render(
       <template>
-        <Tooltip @label='Close' @defaultOpen={{true}}>
-          <button type='button'>Trigger</button>
+        <Tooltip @label="Close" @defaultOpen={{true}}>
+          <button type="button">Trigger</button>
         </Tooltip>
       </template>,
     );
@@ -113,8 +119,8 @@ module('Integration | Component | Tooltip', (hooks) => {
   test('@align sets the popover alignment class', async function (assert) {
     await render(
       <template>
-        <Tooltip @label='Close' @align='right'>
-          <button type='button'>Trigger</button>
+        <Tooltip @label="Close" @align="right">
+          <button type="button">Trigger</button>
         </Tooltip>
       </template>,
     );
@@ -125,8 +131,8 @@ module('Integration | Component | Tooltip', (hooks) => {
   test('@highContrast={{false}} and @dropShadow toggle classes', async function (assert) {
     await render(
       <template>
-        <Tooltip @label='Close' @highContrast={{false}} @dropShadow={{true}}>
-          <button type='button'>Trigger</button>
+        <Tooltip @label="Close" @highContrast={{false}} @dropShadow={{true}}>
+          <button type="button">Trigger</button>
         </Tooltip>
       </template>,
     );
@@ -138,8 +144,8 @@ module('Integration | Component | Tooltip', (hooks) => {
   test('@label sets aria-labelledby on the trigger wrapper', async function (assert) {
     await render(
       <template>
-        <Tooltip @label='Close'>
-          <button type='button'>Trigger</button>
+        <Tooltip @label="Close">
+          <button type="button">Trigger</button>
         </Tooltip>
       </template>,
     );
@@ -153,8 +159,8 @@ module('Integration | Component | Tooltip', (hooks) => {
   test('@description sets aria-describedby on the trigger wrapper', async function (assert) {
     await render(
       <template>
-        <Tooltip @description='Closes the dialog'>
-          <button type='button'>Trigger</button>
+        <Tooltip @description="Closes the dialog">
+          <button type="button">Trigger</button>
         </Tooltip>
       </template>,
     );
@@ -169,8 +175,8 @@ module('Integration | Component | Tooltip', (hooks) => {
   test('opens on focus and closes on blur', async function (assert) {
     await render(
       <template>
-        <Tooltip @label='Close'>
-          <button type='button'>Trigger</button>
+        <Tooltip @label="Close">
+          <button type="button">Trigger</button>
         </Tooltip>
       </template>,
     );
@@ -185,8 +191,8 @@ module('Integration | Component | Tooltip', (hooks) => {
   test('opens on mouseenter and closes on mouseleave', async function (assert) {
     await render(
       <template>
-        <Tooltip @label='Close' @enterDelayMs={{0}} @leaveDelayMs={{0}}>
-          <button type='button'>Trigger</button>
+        <Tooltip @label="Close" @enterDelayMs={{0}} @leaveDelayMs={{0}}>
+          <button type="button">Trigger</button>
         </Tooltip>
       </template>,
     );
@@ -212,8 +218,8 @@ module('Integration | Component | Tooltip', (hooks) => {
   test('closes on Escape', async function (assert) {
     await render(
       <template>
-        <Tooltip @label='Close'>
-          <button type='button'>Trigger</button>
+        <Tooltip @label="Close">
+          <button type="button">Trigger</button>
         </Tooltip>
       </template>,
     );
@@ -228,8 +234,8 @@ module('Integration | Component | Tooltip', (hooks) => {
   test('@closeOnActivation closes the tooltip on click', async function (assert) {
     await render(
       <template>
-        <Tooltip @label='Close' @closeOnActivation={{true}}>
-          <button type='button'>Trigger</button>
+        <Tooltip @label="Close" @closeOnActivation={{true}}>
+          <button type="button">Trigger</button>
         </Tooltip>
       </template>,
     );
@@ -245,7 +251,7 @@ module('Integration | Component | Tooltip', (hooks) => {
     await render(
       <template>
         <Tooltip @defaultOpen={{true}}>
-          <:default><button type='button'>Trigger</button></:default>
+          <:default><button type="button">Trigger</button></:default>
           <:content><span data-custom>Custom content</span></:content>
         </Tooltip>
       </template>,
@@ -271,15 +277,17 @@ module('Integration | Component | Tooltip', (hooks) => {
 
     await render(
       <template>
-        <style>{{styleValue.current}}</style>
+        <style>
+          {{styleValue.current}}
+        </style>
         <Tooltip
-          @label='Close'
-          @align='top'
+          @label="Close"
+          @align="top"
           @autoAlign={{true}}
           @autoAlignBoundary={{boundary}}
           @defaultOpen={{true}}
         >
-          <button type='button'>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       </template>,
     );
@@ -307,12 +315,12 @@ module('Integration | Component | Tooltip', (hooks) => {
     await render(
       <template>
         <Tooltip
-          @label='Close'
-          @align='top'
+          @label="Close"
+          @align="top"
           @autoAlignBoundary={{boundary}}
           @defaultOpen={{true}}
         >
-          <button type='button'>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       </template>,
     );
@@ -323,8 +331,8 @@ module('Integration | Component | Tooltip', (hooks) => {
   test('passes through html attributes', async function (assert) {
     await render(
       <template>
-        <Tooltip @label='Close' id='my-tooltip' class='custom-class'>
-          <button type='button'>Trigger</button>
+        <Tooltip @label="Close" id="my-tooltip" class="custom-class">
+          <button type="button">Trigger</button>
         </Tooltip>
       </template>,
     );

@@ -10,7 +10,10 @@ import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { modifier as eModifier } from 'ember-modifier';
 import { registerDestructor } from '@ember/destroyable';
-import { detectAudioSource, AudioSource } from './-audio-player/url-detector.ts';
+import {
+  detectAudioSource,
+  AudioSource,
+} from './-audio-player/url-detector.ts';
 import type { BaseProvider } from './-audio-player/base-provider.ts';
 import { NativeAudioProvider } from './-audio-player/native-audio-provider.ts';
 import { SoundCloudProvider } from './-audio-player/soundcloud-provider.ts';
@@ -217,7 +220,8 @@ export default class AudioPlayer extends Component<AudioPlayerSignature> {
     this.isLoading = true;
     this.hasError = false;
     this.isReady = false;
-    this.statusMessage = this.args.loadingStatusMessage ?? 'Audio player loading';
+    this.statusMessage =
+      this.args.loadingStatusMessage ?? 'Audio player loading';
 
     this.loadingTimeout = setTimeout(() => {
       if (generation === this.loadGeneration && this.isLoading) {
@@ -329,27 +333,29 @@ export default class AudioPlayer extends Component<AudioPlayerSignature> {
 
   <template>
     <div
-      class='cds-aichat-audio-player'
-      role='region'
+      class="cds-aichat-audio-player"
+      role="region"
       aria-label={{this.ariaLabel}}
       ...attributes
     >
       {{#if this.statusMessage}}
         <div
-          class='cds-aichat-audio-player__status'
-          role='status'
-          aria-live='polite'
-          aria-atomic='true'
+          class="cds-aichat-audio-player__status"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
         >{{this.statusMessage}}</div>
       {{/if}}
       <div class={{this.containerClasses}}>
         {{#if this.hasError}}
           <div
-            class='cds-aichat-audio-player__error'
-            role='alert'
-            aria-live='assertive'
+            class="cds-aichat-audio-player__error"
+            role="alert"
+            aria-live="assertive"
           >
-            <p class='cds-aichat-audio-player__error-message'>{{this.errorMessage}}</p>
+            <p
+              class="cds-aichat-audio-player__error-message"
+            >{{this.errorMessage}}</p>
           </div>
         {{/if}}
         <div

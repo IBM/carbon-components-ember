@@ -171,55 +171,59 @@ export default class Feedback extends Component<FeedbackSignature> {
   <template>
     <div
       id={{this.id}}
-      class='cds-aichat-feedback'
+      class="cds-aichat-feedback"
       {{this.watchInitialValues @initialValues}}
       ...attributes
     >
       <div
-        class='cds-aichat-feedback__container
-          {{unless @isOpen "cds-aichat-feedback__container--closed"}}'
+        class="cds-aichat-feedback__container
+          {{unless @isOpen 'cds-aichat-feedback__container--closed'}}"
       >
-        <div class='cds-aichat-feedback__close'>
-          <Tooltip @label='Close'>
+        <div class="cds-aichat-feedback__close">
+          <Tooltip @label="Close">
             <Button
               @ghost={{true}}
               @iconOnly={{true}}
-              @size='lg'
+              @size="lg"
               @disabled={{@isReadonly}}
               @onClick={{this.handleClose}}
             >
-              <Close @size='16' />
+              <Close @size="16" />
             </Button>
           </Tooltip>
         </div>
-        <div class='cds-aichat-feedback__title-row'>
-          <div class='cds-aichat-feedback__title'>
-            {{if @title @title 'Provide additional feedback'}}
+        <div class="cds-aichat-feedback__title-row">
+          <div class="cds-aichat-feedback__title">
+            {{if @title @title "Provide additional feedback"}}
           </div>
         </div>
-        <div class='cds-aichat-feedback__body-content'>
-          <div class='cds-aichat-feedback__prompt-categories'>
+        <div class="cds-aichat-feedback__body-content">
+          <div class="cds-aichat-feedback__prompt-categories">
             {{#if @showBody}}
-              <div class='cds-aichat-feedback__prompt'>
-                {{if @body @body 'What do you think of this response?'}}
+              <div class="cds-aichat-feedback__prompt">
+                {{if @body @body "What do you think of this response?"}}
               </div>
             {{/if}}
             {{#if @categories.length}}
               <div
-                class='cds-aichat-feedback__tag-list'
-                role='group'
-                aria-label={{if @categoriesLabel @categoriesLabel 'Feedback categories'}}
+                class="cds-aichat-feedback__tag-list"
+                role="group"
+                aria-label={{if
+                  @categoriesLabel
+                  @categoriesLabel
+                  "Feedback categories"
+                }}
               >
                 {{#each @categories as |category|}}
                   <button
-                    type='button'
-                    class='cds-aichat-feedback__tag
+                    type="button"
+                    class="cds-aichat-feedback__tag
                       {{if
                         (this.isCategorySelected category)
-                        "cds-aichat-feedback__tag--selected"
-                      }}'
+                        'cds-aichat-feedback__tag--selected'
+                      }}"
                     disabled={{@isReadonly}}
-                    {{on 'click' (fn this.toggleCategory category)}}
+                    {{on "click" (fn this.toggleCategory category)}}
                   >
                     {{category}}
                   </button>
@@ -227,34 +231,34 @@ export default class Feedback extends Component<FeedbackSignature> {
               </div>
             {{/if}}
           </div>
-          <div class='cds-aichat-feedback__text'>
+          <div class="cds-aichat-feedback__text">
             {{#if @showTextArea}}
-              <div class='cds-aichat-feedback__input'>
+              <div class="cds-aichat-feedback__input">
                 <textarea
-                  id='{{this.id}}-text-area'
-                  class='cds-aichat-feedback__text-area'
+                  id="{{this.id}}-text-area"
+                  class="cds-aichat-feedback__text-area"
                   disabled={{@isReadonly}}
                   placeholder={{if
                     @placeholder
                     @placeholder
-                    'Provide additional feedback...'
+                    "Provide additional feedback..."
                   }}
-                  rows='3'
+                  rows="3"
                   maxlength={{@maxLength}}
-                  {{on 'input' this.handleTextInput}}
+                  {{on "input" this.handleTextInput}}
                   {{this.syncTextInput this.textInput}}
                 ></textarea>
               </div>
             {{/if}}
             {{#if @disclaimer}}
-              <div class='cds-aichat-feedback__disclaimer'>
+              <div class="cds-aichat-feedback__disclaimer">
                 <Markdown @markdown={{@disclaimer}} />
               </div>
             {{/if}}
           </div>
           {{#if @disclaimerCheckbox}}
             <Checkbox
-              class='cds-aichat-feedback__disclaimer-checkbox'
+              class="cds-aichat-feedback__disclaimer-checkbox"
               @disabled={{@isReadonly}}
               @checked={{this.disclaimerChecked}}
               @onChange={{this.handleDisclaimerCheckboxChange}}
@@ -262,15 +266,15 @@ export default class Feedback extends Component<FeedbackSignature> {
             />
           {{/if}}
         </div>
-        <div class='cds-aichat-feedback__buttons'>
-          <div class='cds-aichat-feedback__submit'>
+        <div class="cds-aichat-feedback__buttons">
+          <div class="cds-aichat-feedback__submit">
             <Button
-              @type='primary'
-              @size='lg'
+              @type="primary"
+              @size="lg"
               @disabled={{this.isSubmitDisabled}}
               @onClick={{this.handleSubmit}}
             >
-              {{if @primaryLabel @primaryLabel 'Submit'}}
+              {{if @primaryLabel @primaryLabel "Submit"}}
             </Button>
           </div>
         </div>

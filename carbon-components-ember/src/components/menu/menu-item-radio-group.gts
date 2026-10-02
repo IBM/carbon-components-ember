@@ -42,9 +42,9 @@ export interface MenuItemRadioGroupSignature<Item = string> {
   };
 }
 
-export default class MenuItemRadioGroup<
-  Item = string,
-> extends Component<MenuItemRadioGroupSignature<Item>> {
+export default class MenuItemRadioGroup<Item = string> extends Component<
+  MenuItemRadioGroupSignature<Item>
+> {
   // Seeds the uncontrolled default once; `select()` and `@selectedItem`
   // drive subsequent state, matching MenuItemSelectable/TreeNode's pattern.
   // eslint-disable-next-line ember/no-tracked-properties-from-args
@@ -70,12 +70,12 @@ export default class MenuItemRadioGroup<
   }
 
   <template>
-    <li class='cds--menu-item-radio-group' role='none' ...attributes>
-      <ul role='group' aria-label={{@label}}>
+    <li class="cds--menu-item-radio-group" role="none" ...attributes>
+      <ul role="group" aria-label={{@label}}>
         {{#each this.entries as |entry|}}
           <MenuItem
             @label={{entry.label}}
-            @role='menuitemradio'
+            @role="menuitemradio"
             @ariaChecked={{entry.checked}}
             @onClick={{fn this.select entry.item}}
           />

@@ -15,7 +15,12 @@ import { and, eq, not, or } from 'ember-truth-helpers';
 import FileUploaderStatusIcon from '../file-uploader/-status-icon.gts';
 import { PlayFilledAlt } from '../../icons.ts';
 import { pickFileTypeIcon } from './-file-uploads/file-type-icon.ts';
-import { FileStatusValue, type FileAttachment, type FileRemoveEventDetail, type FileUpload } from './-file-uploads/types.ts';
+import {
+  FileStatusValue,
+  type FileAttachment,
+  type FileRemoveEventDetail,
+  type FileUpload,
+} from './-file-uploads/types.ts';
 
 export type Args = {
   upload: FileUpload | FileAttachment | null;
@@ -76,15 +81,31 @@ export default class FileUploadItem extends Component<FileUploadItemSignature> {
     });
   }
 
-  get resolved(): { name?: string; mimeType?: string; file?: File; url?: string } | null {
+  get resolved(): {
+    name?: string;
+    mimeType?: string;
+    file?: File;
+    url?: string;
+  } | null {
     const value = this.args.upload;
     if (!value) return null;
     const attachment = value as FileAttachment;
-    const file = (value as FileUpload).file instanceof File ? (value as FileUpload).file : undefined;
+    const file =
+      (value as FileUpload).file instanceof File
+        ? (value as FileUpload).file
+        : undefined;
     if (file) {
-      return { name: attachment.name ?? file.name, mimeType: attachment.mimeType ?? file.type, file };
+      return {
+        name: attachment.name ?? file.name,
+        mimeType: attachment.mimeType ?? file.type,
+        file,
+      };
     }
-    return { name: attachment.name, mimeType: attachment.mimeType, url: attachment.url };
+    return {
+      name: attachment.name,
+      mimeType: attachment.mimeType,
+      url: attachment.url,
+    };
   }
 
   get uploadStatus() {
@@ -110,7 +131,10 @@ export default class FileUploadItem extends Component<FileUploadItemSignature> {
   get uploadError() {
     const value = this.args.upload;
     if (!value || !isUpload(value)) return { isError: false, message: '' };
-    return { isError: Boolean(value.isError), message: value.errorMessage ?? '' };
+    return {
+      isError: Boolean(value.isError),
+      message: value.errorMessage ?? '',
+    };
   }
 
   get displayName() {
@@ -127,7 +151,9 @@ export default class FileUploadItem extends Component<FileUploadItemSignature> {
 
   get hasVideoPreview() {
     const resolved = this.resolved;
-    return Boolean(resolved?.file && (resolved.mimeType ?? '').startsWith('video/'));
+    return Boolean(
+      resolved?.file && (resolved.mimeType ?? '').startsWith('video/'),
+    );
   }
 
   get previewURL(): string | null {
@@ -172,65 +198,92 @@ export default class FileUploadItem extends Component<FileUploadItemSignature> {
   }
 
   <template>
-    <span class='cds-aichat-file-upload-item {{if @readOnly "cds-aichat-file-upload-item--read-only"}}' ...attributes>
+    <span
+      class="cds-aichat-file-upload-item
+        {{if @readOnly 'cds-aichat-file-upload-item--read-only'}}"
+      ...attributes
+    >
       {{#if this.hasImagePreview}}
-        <span class='cds-aichat-file-upload-item__preview-wrapper'>
+        <span class="cds-aichat-file-upload-item__preview-wrapper">
           {{! template-lint-disable require-valid-alt-text }}
           <img
-            class='cds-aichat-file-upload-item__preview'
+            class="cds-aichat-file-upload-item__preview"
             src={{this.previewURL}}
-            width='36'
-            height='36'
-            alt=''
-            aria-hidden='true'
-            {{on 'error' this.handleImageError}}
+            width="36"
+            height="36"
+            alt=""
+            aria-hidden="true"
+            {{on "error" this.handleImageError}}
           />
         </span>
       {{else if this.hasVideoPreview}}
         <button
-          type='button'
-          class='cds-aichat-file-upload-item__preview-wrapper cds-aichat-file-upload-item__video-preview-wrapper'
-          aria-label='Play video'
-          {{on 'click' this.openVideo}}
+          type="button"
+          class="cds-aichat-file-upload-item__preview-wrapper cds-aichat-file-upload-item__video-preview-wrapper"
+          aria-label="Play video"
+          {{on "click" this.openVideo}}
         >
           <video
-            class='cds-aichat-file-upload-item__preview'
+            class="cds-aichat-file-upload-item__preview"
             src={{this.previewURL}}
-            width='36'
-            height='36'
-            preload='metadata'
+            width="36"
+            height="36"
+            preload="metadata"
             muted
             playsinline
-            aria-hidden='true'
+            aria-hidden="true"
           ></video>
-          <span class='cds-aichat-file-upload-item__play-badge' aria-hidden='true'>
-            <PlayFilledAlt @size='16' />
+          <span
+            class="cds-aichat-file-upload-item__play-badge"
+            aria-hidden="true"
+          >
+            <PlayFilledAlt @size="16" />
           </span>
         </button>
       {{else if this.fileTypeIcon}}
-        <span class='cds-aichat-file-upload-item__icon' aria-hidden='true'>
+        <span class="cds-aichat-file-upload-item__icon" aria-hidden="true">
           <this.fileTypeIcon @size={{20}} />
         </span>
       {{/if}}
 
       <span
-        class='cds-aichat-file-upload-item__name {{if (and @readOnly (not this.hasImagePreview) (not this.hasVideoPreview) (not this.fileTypeIcon)) "cds-aichat-file-upload-item__name--no-icon"}}'
+        class="cds-aichat-file-upload-item__name
+          {{if
+            (and
+              @readOnly
+              (not this.hasImagePreview)
+              (not this.hasVideoPreview)
+              (not this.fileTypeIcon)
+            )
+            'cds-aichat-file-upload-item__name--no-icon'
+          }}"
         title={{this.displayName}}
       >{{this.displayName}}</span>
 
       {{#if (and (not @readOnly) this.iconStatus)}}
-        <span class='cds-aichat-file-upload-item__status cds--file__state-container'>
+        <span
+          class="cds-aichat-file-upload-item__status cds--file__state-container"
+        >
           <FileUploaderStatusIcon
             @status={{this.iconStatus}}
             @name={{this.displayName}}
-            @iconDescription={{if (eq this.iconStatus 'uploading') (or @uploadingFileLabel 'Uploading file') (or @removeFileLabel 'Remove file')}}
+            @iconDescription={{if
+              (eq this.iconStatus "uploading")
+              (or @uploadingFileLabel "Uploading file")
+              (or @removeFileLabel "Remove file")
+            }}
             @onActivate={{this.handleRemove}}
           />
         </span>
       {{/if}}
 
-      {{#if (and (not @readOnly) this.uploadError.isError this.uploadError.message)}}
-        <span class='cds-aichat-file-upload-item__error' role='alert'>{{this.uploadError.message}}</span>
+      {{#if
+        (and (not @readOnly) this.uploadError.isError this.uploadError.message)
+      }}
+        <span
+          class="cds-aichat-file-upload-item__error"
+          role="alert"
+        >{{this.uploadError.message}}</span>
       {{/if}}
     </span>
   </template>

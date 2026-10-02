@@ -18,8 +18,15 @@ import Placeholder from '@tiptap/extension-placeholder';
 import TextNode from '@tiptap/extension-text';
 import { UndoRedo } from '@tiptap/extensions';
 import { getRawText, textToDoc } from './text-utils.ts';
-import type { EditingSurfaceController, EditingSurfaceInit } from './controller.ts';
-import { dismissActiveSuggestion, hasActiveSuggestion, selectActiveSuggestion } from './tiptap/active-suggestion.ts';
+import type {
+  EditingSurfaceController,
+  EditingSurfaceInit,
+} from './controller.ts';
+import {
+  dismissActiveSuggestion,
+  hasActiveSuggestion,
+  selectActiveSuggestion,
+} from './tiptap/active-suggestion.ts';
 import { setHostOriginMeta } from './tiptap/origin-meta.ts';
 import type { SuggestionItem } from './tiptap/types.ts';
 
@@ -147,7 +154,10 @@ function linesToNodes(schema: Schema, lines: string[]): ProseMirrorNode[] {
  * insert silently produces extra, unmerged paragraphs instead.
  */
 function clampToTextRange(doc: ProseMirrorNode, pos: number): number {
-  return Math.min(Math.max(pos, TextSelection.atStart(doc).from), TextSelection.atEnd(doc).to);
+  return Math.min(
+    Math.max(pos, TextSelection.atStart(doc).from),
+    TextSelection.atEnd(doc).to,
+  );
 }
 
 /**
@@ -161,7 +171,13 @@ function clampToTextRange(doc: ProseMirrorNode, pos: number): number {
  * content already surrounding `from`/`to`, matching how a real multi-line
  * paste behaves in any other rich text editor.
  */
-function insertPlainText(view: EditorView, text: string, from: number, to: number, hostOrigin = false) {
+function insertPlainText(
+  view: EditorView,
+  text: string,
+  from: number,
+  to: number,
+  hostOrigin = false,
+) {
   const lines = text.replace(/\r\n?/g, '\n').split('\n');
   let tr =
     lines.length === 1
@@ -169,7 +185,11 @@ function insertPlainText(view: EditorView, text: string, from: number, to: numbe
       : view.state.tr.replace(
           from,
           to,
-          new Slice(Fragment.from(linesToNodes(view.state.schema, lines)), 1, 1),
+          new Slice(
+            Fragment.from(linesToNodes(view.state.schema, lines)),
+            1,
+            1,
+          ),
         );
   tr = tr.scrollIntoView();
   if (hostOrigin) {
@@ -207,7 +227,10 @@ const PlainTextPaste = Extension.create({
             if (!text) {
               return true;
             }
-            const pos = view.posAtCoords({ left: event.clientX, top: event.clientY });
+            const pos = view.posAtCoords({
+              left: event.clientX,
+              top: event.clientY,
+            });
             if (!pos) {
               return true;
             }
@@ -309,7 +332,10 @@ class RichController implements EditingSurfaceController {
       return;
     }
     const { view } = editor;
-    const at = typeof opts.at === 'number' ? clampToTextRange(view.state.doc, opts.at) : undefined;
+    const at =
+      typeof opts.at === 'number'
+        ? clampToTextRange(view.state.doc, opts.at)
+        : undefined;
     const from = at ?? view.state.selection.from;
     const to = at ?? view.state.selection.to;
     insertPlainText(view, text, from, to, /* hostOrigin */ true);
@@ -348,7 +374,9 @@ class RichController implements EditingSurfaceController {
 
   getSelection() {
     const selection = this.editor?.state.selection;
-    return selection ? { from: selection.from, to: selection.to } : { from: 0, to: 0 };
+    return selection
+      ? { from: selection.from, to: selection.to }
+      : { from: 0, to: 0 };
   }
 
   setTextSelection(pos: number | { from: number; to: number }) {

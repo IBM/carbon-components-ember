@@ -10,7 +10,11 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { modifier } from 'ember-modifier';
 import FileUploadItem from './file-upload-item.gts';
-import { FileStatusValue, type FileRemoveEventDetail, type FileUpload } from './-file-uploads/types.ts';
+import {
+  FileStatusValue,
+  type FileRemoveEventDetail,
+  type FileUpload,
+} from './-file-uploads/types.ts';
 
 export type Args = {
   uploads?: FileUpload[];
@@ -90,7 +94,12 @@ export default class FileUploads extends Component<FileUploadsSignature> {
   }
 
   snapshotOf(uploads: FileUpload[]): Map<string, UploadSnapshot> {
-    return new Map(uploads.map((upload) => [upload.id, { status: upload.status, isError: Boolean(upload.isError) }]));
+    return new Map(
+      uploads.map((upload) => [
+        upload.id,
+        { status: upload.status, isError: Boolean(upload.isError) },
+      ]),
+    );
   }
 
   watchOverflow = modifier((element: HTMLElement) => {
@@ -108,15 +117,17 @@ export default class FileUploads extends Component<FileUploadsSignature> {
   // `@uploads`' identity changes (a consumer is expected to pass a new
   // array reference on each real change, same as every other tracked-array
   // arg in this addon).
-  watchUploadsAction = modifier((_element: Element, positional: [FileUpload[]]) => {
-    const uploads = positional[0];
-    if (!this.hasSeededSnapshots) {
-      this.snapshots = this.snapshotOf(uploads);
-      this.hasSeededSnapshots = true;
-      return;
-    }
-    this.announceTransitions();
-  });
+  watchUploadsAction = modifier(
+    (_element: Element, positional: [FileUpload[]]) => {
+      const uploads = positional[0];
+      if (!this.hasSeededSnapshots) {
+        this.snapshots = this.snapshotOf(uploads);
+        this.hasSeededSnapshots = true;
+        return;
+      }
+      this.announceTransitions();
+    },
+  );
 
   announceTransitions() {
     const previous = this.snapshots;
@@ -131,15 +142,30 @@ export default class FileUploads extends Component<FileUploadsSignature> {
         if (upload.status === FileStatusValue.UPLOADING) {
           uploadingCount += 1;
         } else if (isError) {
-          this.announce(this.args.uploadFailureLabel ?? 'There was an error uploading the file.');
+          this.announce(
+            this.args.uploadFailureLabel ??
+              'There was an error uploading the file.',
+          );
         } else {
           addedCount += 1;
         }
       } else if (!before.isError && isError) {
-        this.announce(this.args.uploadFailureLabel ?? 'There was an error uploading the file.');
-      } else if (before.status === FileStatusValue.UPLOADING && upload.status !== FileStatusValue.UPLOADING && !isError) {
-        this.announce(this.args.uploadSuccessLabel ?? 'The file was uploaded successfully.');
-      } else if (before.status !== FileStatusValue.UPLOADING && upload.status === FileStatusValue.UPLOADING) {
+        this.announce(
+          this.args.uploadFailureLabel ??
+            'There was an error uploading the file.',
+        );
+      } else if (
+        before.status === FileStatusValue.UPLOADING &&
+        upload.status !== FileStatusValue.UPLOADING &&
+        !isError
+      ) {
+        this.announce(
+          this.args.uploadSuccessLabel ?? 'The file was uploaded successfully.',
+        );
+      } else if (
+        before.status !== FileStatusValue.UPLOADING &&
+        upload.status === FileStatusValue.UPLOADING
+      ) {
         uploadingCount += 1;
       }
     }
@@ -147,13 +173,17 @@ export default class FileUploads extends Component<FileUploadsSignature> {
     if (addedCount > 0) {
       const text = this.args.getFilesAddedText
         ? this.args.getFilesAddedText({ count: addedCount })
-        : addedCount === 1 ? 'File added.' : `${addedCount} files added.`;
+        : addedCount === 1
+          ? 'File added.'
+          : `${addedCount} files added.`;
       this.announce(text);
     }
     if (uploadingCount > 0) {
       const text = this.args.getFilesUploadingText
         ? this.args.getFilesUploadingText({ count: uploadingCount })
-        : uploadingCount === 1 ? 'Uploading file.' : `Uploading ${uploadingCount} files.`;
+        : uploadingCount === 1
+          ? 'Uploading file.'
+          : `Uploading ${uploadingCount} files.`;
       this.announce(text);
     }
 
@@ -173,13 +203,28 @@ export default class FileUploads extends Component<FileUploadsSignature> {
   // non-empty.
   <template>
     <div ...attributes {{this.watchUploadsAction this.uploads}}>
-      <div class='cds-aichat-file-uploads__live-region' aria-live='polite'>{{this.regionA}}</div>
-      <div class='cds-aichat-file-uploads__live-region' aria-live='polite'>{{this.regionB}}</div>
+      <div
+        class="cds-aichat-file-uploads__live-region"
+        aria-live="polite"
+      >{{this.regionA}}</div>
+      <div
+        class="cds-aichat-file-uploads__live-region"
+        aria-live="polite"
+      >{{this.regionB}}</div>
 
       {{#if this.uploads.length}}
-        <div class='cds-aichat-file-uploads__gradient-wrapper {{if this.hasOverflow "cds-aichat-file-uploads__gradient-wrapper--overflow"}}'>
-          <div class='cds-aichat-file-uploads__container' {{this.watchOverflow}}>
-            {{#each this.uploads key='id' as |upload|}}
+        <div
+          class="cds-aichat-file-uploads__gradient-wrapper
+            {{if
+              this.hasOverflow
+              'cds-aichat-file-uploads__gradient-wrapper--overflow'
+            }}"
+        >
+          <div
+            class="cds-aichat-file-uploads__container"
+            {{this.watchOverflow}}
+          >
+            {{#each this.uploads key="id" as |upload|}}
               <FileUploadItem
                 @upload={{upload}}
                 @removeFileLabel={{@removeFileLabel}}

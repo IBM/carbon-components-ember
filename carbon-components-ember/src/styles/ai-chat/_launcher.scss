@@ -9,7 +9,7 @@
 // upstream itself uses for its AI-specific shadow tokens) rather than the
 // Sass theme module, whose variable names have changed across versions.
 
-@use '@carbon/layout';
+@use "@carbon/layout";
 
 $launcher-default-size: 56px;
 $launcher-border-radius: 28px;
@@ -68,6 +68,6 @@ $launcher-border-radius: 28px;
   fill: var(--cds-text-on-color, #fff);
 }
 
-[dir='rtl'] .cds-aichat-launcher__count-indicator {
+[dir="rtl"] .cds-aichat-launcher__count-indicator {
   inset-inline: calc(-1 * #{layout.$spacing-01}) unset;
 }

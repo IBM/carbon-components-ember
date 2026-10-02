@@ -130,18 +130,16 @@ export default class StructuredList extends Component<StructuredListSignature> {
 
   <template>
     <div
-      role='table'
+      role="table"
       aria-label={{this.ariaLabel}}
-      class='cds--structured-list
-        {{if @selection "cds--structured-list--selection"}}
-        {{if @isCondensed "cds--structured-list--condensed"}}
-        {{if this.isFlush "cds--structured-list--flush"}}'
+      class="cds--structured-list
+        {{if @selection 'cds--structured-list--selection'}}
+        {{if @isCondensed 'cds--structured-list--condensed'}}
+        {{if this.isFlush 'cds--structured-list--flush'}}"
       ...attributes
     >
       {{yield
-        (hash
-          Head=Head Body=Body Row=(component Row wrapper=this) Cell=Cell
-        )
+        (hash Head=Head Body=Body Row=(component Row wrapper=this) Cell=Cell)
       }}
     </div>
   </template>

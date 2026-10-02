@@ -79,7 +79,7 @@ module('Integration | Component | Layer', (hooks) => {
   test('@as renders a custom element type', async function (assert) {
     await render(
       <template>
-        <Layer @as='section'>
+        <Layer @as="section">
           <span>Content</span>
         </Layer>
       </template>,
@@ -92,7 +92,7 @@ module('Integration | Component | Layer', (hooks) => {
   test('passes through html attributes', async function (assert) {
     await render(
       <template>
-        <Layer id='my-layer' class='custom-class'>
+        <Layer id="my-layer" class="custom-class">
           <span>Content</span>
         </Layer>
       </template>,

@@ -11,7 +11,7 @@
 // this addon), and colors reference `@carbon/styles`' compiled `--cds-*`
 // custom properties rather than its Sass theme module.
 
-@use '@carbon/layout';
+@use "@carbon/layout";
 
 // Layout tokens, matching ai-chat-components' own defaults
 // (packages/ai-chat-components/src/globals/scss/_tokens-layout.scss).
@@ -99,15 +99,16 @@ $history-width: 320px;
   max-inline-size: $history-width;
 }
 
-.cds-aichat-shell[history-location='end'] .cds-aichat-shell__history {
+.cds-aichat-shell[history-location="end"] .cds-aichat-shell__history {
   order: 3;
 }
 
-.cds-aichat-shell[history-location='end'] .cds-aichat-shell__input-and-messages {
+.cds-aichat-shell[history-location="end"]
+  .cds-aichat-shell__input-and-messages {
   order: 1;
 }
 
-.cds-aichat-shell.show-history.show-workspace[workspace-location='end']
+.cds-aichat-shell.show-history.show-workspace[workspace-location="end"]
   .cds-aichat-shell__workspace {
   order: 2;
 }

@@ -10,7 +10,10 @@ import type { Editor, Range } from '@tiptap/core';
 import type { Node as PMNode } from '@tiptap/pm/model';
 import { Plugin, PluginKey } from '@tiptap/pm/state';
 import { isHostOrigin } from './origin-meta.ts';
-import { registerSuggestionCommand, unregisterSuggestionCommand } from './active-suggestion.ts';
+import {
+  registerSuggestionCommand,
+  unregisterSuggestionCommand,
+} from './active-suggestion.ts';
 import { CarbonTokenNodeView } from './token-chip.ts';
 import { dispatchTriggerChange } from './trigger-utils.ts';
 import type { SuggestionItem, TriggerSuggestionConfig } from './types.ts';
@@ -46,7 +49,10 @@ interface BuildOptions {
   defaultPluginKeyName: string;
 }
 
-function buildTriggerExtension(config: TriggerSuggestionConfig, build: BuildOptions) {
+function buildTriggerExtension(
+  config: TriggerSuggestionConfig,
+  build: BuildOptions,
+) {
   const name = build.defaultName;
   const pluginKey = new PluginKey(`${build.defaultPluginKeyName}_${name}`);
 
@@ -94,7 +100,11 @@ function buildTriggerExtension(config: TriggerSuggestionConfig, build: BuildOpti
             if (view.state.doc === prevState.doc || lastBatchIsHost) {
               return;
             }
-            const removed = diffRemovedTokens(prevState.doc, view.state.doc, name);
+            const removed = diffRemovedTokens(
+              prevState.doc,
+              view.state.doc,
+              name,
+            );
             for (const item of removed) {
               onRemove(item);
             }
@@ -123,7 +133,11 @@ function buildTriggerExtension(config: TriggerSuggestionConfig, build: BuildOpti
                 id: item.id,
                 label: item.label,
                 value: item.value ?? item.label,
-                trigger: resolveShowTriggerInChip(item, config, build.defaultName === 'command')
+                trigger: resolveShowTriggerInChip(
+                  item,
+                  config,
+                  build.defaultName === 'command',
+                )
                   ? config.trigger
                   : null,
                 data: stripPresentationFields(item),
@@ -180,7 +194,10 @@ function emitTrigger(
  * instances were removed (duplicate chips with the same id are tracked by
  * count, not collapsed).
  */
-function collectTokenAttrsById(doc: PMNode, name: string): Map<string, Record<string, unknown>[]> {
+function collectTokenAttrsById(
+  doc: PMNode,
+  name: string,
+): Map<string, Record<string, unknown>[]> {
   const byId = new Map<string, Record<string, unknown>[]>();
   doc.descendants((node) => {
     if (node.type.name !== name) {
@@ -210,7 +227,11 @@ function attrsToItem(attrs: Record<string, unknown>): SuggestionItem {
 }
 
 /** Diff token nodes named `name` between `before` and `after`, returning reconstructed items for each removed node instance. */
-function diffRemovedTokens(before: PMNode, after: PMNode, name: string): SuggestionItem[] {
+function diffRemovedTokens(
+  before: PMNode,
+  after: PMNode,
+  name: string,
+): SuggestionItem[] {
   const beforeById = collectTokenAttrsById(before, name);
   const afterById = collectTokenAttrsById(after, name);
   const removed: SuggestionItem[] = [];
@@ -223,7 +244,10 @@ function diffRemovedTokens(before: PMNode, after: PMNode, name: string): Suggest
   return removed;
 }
 
-async function resolveItems(config: TriggerSuggestionConfig, query: string): Promise<SuggestionItem[]> {
+async function resolveItems(
+  config: TriggerSuggestionConfig,
+  query: string,
+): Promise<SuggestionItem[]> {
   const minQueryLength = config.minQueryLength ?? 0;
   if (query.length < minQueryLength) {
     return [];
@@ -235,7 +259,9 @@ async function resolveItems(config: TriggerSuggestionConfig, query: string): Pro
     return config.items;
   }
   const lower = query.toLowerCase();
-  return config.items.filter((item) => item.label.toLowerCase().includes(lower));
+  return config.items.filter((item) =>
+    item.label.toLowerCase().includes(lower),
+  );
 }
 
 /**
@@ -261,16 +287,26 @@ const PRESENTATION_FIELDS = new Set<keyof SuggestionItem>([
   'showTriggerInChip',
 ]);
 
-function stripPresentationFields(item: SuggestionItem): Record<string, unknown> {
+function stripPresentationFields(
+  item: SuggestionItem,
+): Record<string, unknown> {
   return Object.fromEntries(
-    Object.entries(item).filter(([key]) => !PRESENTATION_FIELDS.has(key as keyof SuggestionItem)),
+    Object.entries(item).filter(
+      ([key]) => !PRESENTATION_FIELDS.has(key as keyof SuggestionItem),
+    ),
   );
 }
 
 export function carbonMention(config: TriggerSuggestionConfig) {
-  return buildTriggerExtension(config, { defaultName: 'mention', defaultPluginKeyName: 'carbonMentionSuggestion' });
+  return buildTriggerExtension(config, {
+    defaultName: 'mention',
+    defaultPluginKeyName: 'carbonMentionSuggestion',
+  });
 }
 
 export function carbonCommand(config: TriggerSuggestionConfig) {
-  return buildTriggerExtension(config, { defaultName: 'command', defaultPluginKeyName: 'carbonCommandSuggestion' });
+  return buildTriggerExtension(config, {
+    defaultName: 'command',
+    defaultPluginKeyName: 'carbonCommandSuggestion',
+  });
 }

@@ -9,12 +9,14 @@ module('Integration | Component | CodeSnippet', (hooks) => {
   test('@type="default" wires the copy button to the real rendered code element', async function (assert) {
     await render(
       <template>
-        <CodeSnippet @type='default'>const x = 1;</CodeSnippet>
+        <CodeSnippet @type="default">const x = 1;</CodeSnippet>
       </template>,
     );
     await waitUntil(() => find('[data-copy-btn]'));
 
-    find('[data-copy-btn]')!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    find('[data-copy-btn]')!.dispatchEvent(
+      new MouseEvent('click', { bubbles: true }),
+    );
     await rerender();
 
     assert.dom('[data-copy-btn]').hasAttribute('aria-label', 'Copied!');
@@ -23,12 +25,14 @@ module('Integration | Component | CodeSnippet', (hooks) => {
   test('@type="multiline" wires the copy button to the real rendered code element', async function (assert) {
     await render(
       <template>
-        <CodeSnippet @type='multiline'>const x = 1;</CodeSnippet>
+        <CodeSnippet @type="multiline">const x = 1;</CodeSnippet>
       </template>,
     );
     await waitUntil(() => find('[data-copy-btn]'));
 
-    find('[data-copy-btn]')!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    find('[data-copy-btn]')!.dispatchEvent(
+      new MouseEvent('click', { bubbles: true }),
+    );
     await rerender();
 
     assert.dom('[data-copy-btn]').hasAttribute('aria-label', 'Copied!');
@@ -37,7 +41,7 @@ module('Integration | Component | CodeSnippet', (hooks) => {
   test('@type="inline" renders an inline CopyButton', async function (assert) {
     await render(
       <template>
-        <CodeSnippet @type='inline'>const x = 1;</CodeSnippet>
+        <CodeSnippet @type="inline">const x = 1;</CodeSnippet>
       </template>,
     );
 

@@ -82,7 +82,7 @@ export class LanguageController {
     const langDesc = LanguageDescription.matchLanguageName(
       languages,
       languageToUse,
-      true
+      true,
     );
 
     const detectedLanguage = langDesc ? languageToUse : null;
@@ -129,7 +129,7 @@ export class LanguageController {
         const langDesc = LanguageDescription.matchLanguageName(
           languages,
           detected,
-          true
+          true,
         );
 
         if (langDesc && !this.pendingLanguageLoad) {
@@ -191,7 +191,7 @@ export class LanguageController {
       const langDesc = LanguageDescription.matchLanguageName(
         languages,
         detected,
-        true
+        true,
       );
 
       if (!langDesc) {

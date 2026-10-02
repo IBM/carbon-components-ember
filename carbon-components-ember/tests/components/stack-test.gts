@@ -24,7 +24,9 @@ module('Integration | Component | Stack', (hooks) => {
           <div>Item 2</div>
           <div>Item 3</div>
         </Stack>
-        <style>{{styleValue.current}}</style>
+        <style>
+          {{styleValue.current}}
+        </style>
       </template>,
     );
 
@@ -52,8 +54,12 @@ module('Integration | Component | Stack', (hooks) => {
           <div>Item 2</div>
           <div>Item 3</div>
         </Stack>
-        <style>{{styleValue.current}}</style>
-        <style>{{darkStyleValue.current}}</style>
+        <style>
+          {{styleValue.current}}
+        </style>
+        <style>
+          {{darkStyleValue.current}}
+        </style>
       </template>,
     );
 
@@ -88,7 +94,7 @@ module('Integration | Component | Stack', (hooks) => {
   test('@orientation="horizontal" renders a horizontal stack', async function (assert) {
     await render(
       <template>
-        <Stack @orientation='horizontal'>
+        <Stack @orientation="horizontal">
           <div>Item 1</div>
         </Stack>
       </template>,
@@ -113,7 +119,7 @@ module('Integration | Component | Stack', (hooks) => {
   test('@gap as a string sets a custom gap style', async function (assert) {
     await render(
       <template>
-        <Stack @gap='2rem'>
+        <Stack @gap="2rem">
           <div>Item 1</div>
         </Stack>
       </template>,
@@ -125,7 +131,7 @@ module('Integration | Component | Stack', (hooks) => {
   test('@as renders a custom element type', async function (assert) {
     await render(
       <template>
-        <Stack @as='ul'>
+        <Stack @as="ul">
           <li>Item 1</li>
         </Stack>
       </template>,
@@ -139,7 +145,7 @@ module('Integration | Component | Stack', (hooks) => {
   test('passes through html attributes', async function (assert) {
     await render(
       <template>
-        <Stack id='my-stack' class='custom-class'>
+        <Stack id="my-stack" class="custom-class">
           <div>Item 1</div>
         </Stack>
       </template>,

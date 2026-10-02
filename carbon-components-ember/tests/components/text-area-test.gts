@@ -17,7 +17,7 @@ module('Integration | Component | TextArea', (hooks) => {
   setupRenderingTest(hooks);
 
   test('should render a labelled textarea', async function (assert) {
-    await render(<template><TextArea @labelText='Comments' /></template>);
+    await render(<template><TextArea @labelText="Comments" /></template>);
 
     assert.dom('.cds--form-item').exists();
     assert.dom('textarea.cds--text-area').exists();
@@ -26,14 +26,14 @@ module('Integration | Component | TextArea', (hooks) => {
 
   test('should hide the label visually when hideLabel is set', async function (assert) {
     await render(
-      <template><TextArea @labelText='Hidden' @hideLabel={{true}} /></template>,
+      <template><TextArea @labelText="Hidden" @hideLabel={{true}} /></template>,
     );
 
     assert.dom('label.cds--label').hasClass('cds--visually-hidden');
   });
 
   test('should render the defaultValue', async function (assert) {
-    await render(<template><TextArea @defaultValue='Hello world' /></template>);
+    await render(<template><TextArea @defaultValue="Hello world" /></template>);
 
     assert.dom('textarea.cds--text-area').hasValue('Hello world');
   });
@@ -64,9 +64,7 @@ module('Integration | Component | TextArea', (hooks) => {
     let received;
     const handleChange = (value: string) => (received = value);
 
-    await render(
-      <template><TextArea @onChange={{handleChange}} /></template>,
-    );
+    await render(<template><TextArea @onChange={{handleChange}} /></template>);
 
     await fillIn('textarea.cds--text-area', 'new value');
 
@@ -76,7 +74,7 @@ module('Integration | Component | TextArea', (hooks) => {
   test('should show the invalid state and message', async function (assert) {
     await render(
       <template>
-        <TextArea @invalid={{true}} @invalidText='This field is required' />
+        <TextArea @invalid={{true}} @invalidText="This field is required" />
       </template>,
     );
     await waitFor('.cds--text-area__invalid-icon');
@@ -89,7 +87,7 @@ module('Integration | Component | TextArea', (hooks) => {
   test('should show the warn state and message when not invalid', async function (assert) {
     await render(
       <template>
-        <TextArea @warn={{true}} @warnText='Careful with this' />
+        <TextArea @warn={{true}} @warnText="Careful with this" />
       </template>,
     );
 
@@ -102,9 +100,9 @@ module('Integration | Component | TextArea', (hooks) => {
       <template>
         <TextArea
           @invalid={{true}}
-          @invalidText='Invalid'
+          @invalidText="Invalid"
           @warn={{true}}
-          @warnText='Warn'
+          @warnText="Warn"
         />
       </template>,
     );
@@ -114,7 +112,7 @@ module('Integration | Component | TextArea', (hooks) => {
 
   test('should show the helper text when not invalid or warn', async function (assert) {
     await render(
-      <template><TextArea @helperText='Optional field' /></template>,
+      <template><TextArea @helperText="Optional field" /></template>,
     );
 
     assert.dom('.cds--form__helper-text').hasText('Optional field');
@@ -123,7 +121,11 @@ module('Integration | Component | TextArea', (hooks) => {
   test('should show a character counter when enableCounter and maxCount are set', async function (assert) {
     await render(
       <template>
-        <TextArea @defaultValue='hello' @enableCounter={{true}} @maxCount={{10}} />
+        <TextArea
+          @defaultValue="hello"
+          @enableCounter={{true}}
+          @maxCount={{10}}
+        />
       </template>,
     );
 
@@ -132,9 +134,7 @@ module('Integration | Component | TextArea', (hooks) => {
 
   test('should limit typed characters to maxCount in character counter mode', async function (assert) {
     await render(
-      <template>
-        <TextArea @enableCounter={{true}} @maxCount={{5}} />
-      </template>,
+      <template><TextArea @enableCounter={{true}} @maxCount={{5}} /></template>,
     );
 
     assert.dom('textarea.cds--text-area').hasAttribute('maxlength', '5');
@@ -143,11 +143,7 @@ module('Integration | Component | TextArea', (hooks) => {
   test('should not limit the textarea maxlength in word counter mode', async function (assert) {
     await render(
       <template>
-        <TextArea
-          @enableCounter={{true}}
-          @maxCount={{5}}
-          @counterMode='word'
-        />
+        <TextArea @enableCounter={{true}} @maxCount={{5}} @counterMode="word" />
       </template>,
     );
 
@@ -158,10 +154,10 @@ module('Integration | Component | TextArea', (hooks) => {
     await render(
       <template>
         <TextArea
-          @defaultValue='hello there friend'
+          @defaultValue="hello there friend"
           @enableCounter={{true}}
           @maxCount={{5}}
-          @counterMode='word'
+          @counterMode="word"
         />
       </template>,
     );
@@ -182,8 +178,7 @@ module('Integration | Component | TextArea', (hooks) => {
 
   test('should call onKeyDown when a key is pressed', async function (assert) {
     let received;
-    const handleKeyDown = (event: KeyboardEvent) =>
-      (received = event.key);
+    const handleKeyDown = (event: KeyboardEvent) => (received = event.key);
 
     await render(
       <template><TextArea @onKeyDown={{handleKeyDown}} /></template>,
@@ -196,9 +191,13 @@ module('Integration | Component | TextArea', (hooks) => {
 
   test('should render a decorator component and apply the decorator wrapper classes', async function (assert) {
     await render(<template><TextArea @decorator={{Add}} /></template>);
-    await waitUntil(() => find('.cds--text-area__inner-wrapper--decorator svg'));
+    await waitUntil(() =>
+      find('.cds--text-area__inner-wrapper--decorator svg'),
+    );
 
-    assert.dom('.cds--text-area__wrapper').hasClass('cds--text-area__wrapper--decorator');
+    assert
+      .dom('.cds--text-area__wrapper')
+      .hasClass('cds--text-area__wrapper--decorator');
     assert.dom('.cds--text-area__inner-wrapper--decorator svg').exists();
   });
 
@@ -206,7 +205,9 @@ module('Integration | Component | TextArea', (hooks) => {
     await render(<template><TextArea @slug={{Add}} /></template>);
     await waitUntil(() => find('.cds--text-area__wrapper svg'));
 
-    assert.dom('.cds--text-area__wrapper').hasClass('cds--text-area__wrapper--slug');
+    assert
+      .dom('.cds--text-area__wrapper')
+      .hasClass('cds--text-area__wrapper--slug');
     assert.dom('.cds--text-area__inner-wrapper--decorator').doesNotExist();
   });
 });

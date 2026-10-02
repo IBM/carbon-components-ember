@@ -13,12 +13,18 @@ module('Integration | Component | FileUploaderButton', (hooks) => {
   test('renders a button and a hidden file input with the default label', async function (assert) {
     await render(<template><FileUploaderButton /></template>);
 
-    assert.dom('button').hasClass('cds--btn').hasClass('cds--btn--primary').hasText('Add file');
+    assert
+      .dom('button')
+      .hasClass('cds--btn')
+      .hasClass('cds--btn--primary')
+      .hasText('Add file');
     assert.dom('input[type="file"]').exists();
   });
 
   test('@labelText sets the initial label', async function (assert) {
-    await render(<template><FileUploaderButton @labelText='Upload' /></template>);
+    await render(
+      <template><FileUploaderButton @labelText="Upload" /></template>,
+    );
 
     assert.dom('button').hasText('Upload');
   });
@@ -47,7 +53,9 @@ module('Integration | Component | FileUploaderButton', (hooks) => {
 
   test('@disableLabelChanges keeps the label fixed to @labelText', async function (assert) {
     await render(
-      <template><FileUploaderButton @labelText='Upload' @disableLabelChanges={{true}} /></template>,
+      <template>
+        <FileUploaderButton @labelText="Upload" @disableLabelChanges={{true}} />
+      </template>,
     );
 
     const input = find('input[type="file"]') as HTMLInputElement;
@@ -61,7 +69,9 @@ module('Integration | Component | FileUploaderButton', (hooks) => {
     let called = false;
     const onChange = () => (called = true);
 
-    await render(<template><FileUploaderButton @onChange={{onChange}} /></template>);
+    await render(
+      <template><FileUploaderButton @onChange={{onChange}} /></template>,
+    );
 
     const input = find('input[type="file"]') as HTMLInputElement;
     setInputFiles(input, [new File(['x'], 'a.txt')]);
@@ -71,7 +81,9 @@ module('Integration | Component | FileUploaderButton', (hooks) => {
   });
 
   test('@disabled disables both the button and the input', async function (assert) {
-    await render(<template><FileUploaderButton @disabled={{true}} /></template>);
+    await render(
+      <template><FileUploaderButton @disabled={{true}} /></template>,
+    );
 
     assert.dom('button').isDisabled();
     assert.dom('input[type="file"]').isDisabled();
@@ -79,7 +91,9 @@ module('Integration | Component | FileUploaderButton', (hooks) => {
 
   test('@buttonKind and @size affect the rendered classes', async function (assert) {
     await render(
-      <template><FileUploaderButton @buttonKind='ghost' @size='sm' /></template>,
+      <template>
+        <FileUploaderButton @buttonKind="ghost" @size="sm" />
+      </template>,
     );
 
     assert.dom('button').hasClass('cds--btn--ghost').hasClass('cds--btn--sm');
@@ -89,7 +103,11 @@ module('Integration | Component | FileUploaderButton', (hooks) => {
     let inserted: HTMLButtonElement | undefined;
     const onButtonInsert = (element: HTMLButtonElement) => (inserted = element);
 
-    await render(<template><FileUploaderButton @onButtonInsert={{onButtonInsert}} /></template>);
+    await render(
+      <template>
+        <FileUploaderButton @onButtonInsert={{onButtonInsert}} />
+      </template>,
+    );
 
     assert.strictEqual(inserted, find('button'));
   });

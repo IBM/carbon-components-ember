@@ -1,6 +1,12 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, waitUntil, find, triggerEvent } from '@ember/test-helpers';
+import {
+  render,
+  click,
+  waitUntil,
+  find,
+  triggerEvent,
+} from '@ember/test-helpers';
 import AiChatCardFooter, {
   type CardFooterAction,
 } from '#src/components/ai-chat/card-footer.gts';
@@ -36,7 +42,9 @@ module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
     );
 
     assert.dom('.cds-aichat-card-footer__actions button').exists({ count: 2 });
-    assert.dom('.cds-aichat-card-footer__actions button:first-child').hasText('Accept');
+    assert
+      .dom('.cds-aichat-card-footer__actions button:first-child')
+      .hasText('Accept');
 
     await click('.cds-aichat-card-footer__actions button:first-child');
     assert.deepEqual(calls, ['a']);
@@ -48,22 +56,30 @@ module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
       { id: 'b', label: '', tooltipText: 'Delete' },
     ];
 
-    await render(<template><AiChatCardFooter @actions={{actions}} /></template>);
+    await render(
+      <template><AiChatCardFooter @actions={{actions}} /></template>,
+    );
 
     assert.dom('.cds-aichat-card-footer__icon-actions').exists();
     assert.dom('.cds-aichat-card-footer__actions').doesNotExist();
-    assert.dom('.cds-aichat-card-footer__icon-actions button').exists({ count: 2 });
+    assert
+      .dom('.cds-aichat-card-footer__icon-actions button')
+      .exists({ count: 2 });
   });
 
-  test("icon-only action tooltips are not clipped by the icon-actions container", async function (assert) {
+  test('icon-only action tooltips are not clipped by the icon-actions container', async function (assert) {
     const actions: CardFooterAction[] = [
       { id: 'a', label: '', tooltipText: 'Copy' },
     ];
 
     await render(
       <template>
-        <style>{{carbonStyle.default}}</style>
-        <style>{{carbonComponentStyle.default}}</style>
+        <style>
+          {{carbonStyle.default}}
+        </style>
+        <style>
+          {{carbonComponentStyle.default}}
+        </style>
         <AiChatCardFooter @actions={{actions}} />
       </template>,
     );
@@ -83,9 +99,7 @@ module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
     );
 
     const containerRect = container.getBoundingClientRect();
-    const tooltipRect = find(
-      '.cds--popover-content',
-    )!.getBoundingClientRect();
+    const tooltipRect = find('.cds--popover-content')!.getBoundingClientRect();
 
     assert.true(
       tooltipRect.top < containerRect.top,
@@ -100,7 +114,9 @@ module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
       { id: 'c', label: 'Three' },
     ];
 
-    await render(<template><AiChatCardFooter @actions={{actions}} /></template>);
+    await render(
+      <template><AiChatCardFooter @actions={{actions}} /></template>,
+    );
 
     assert
       .dom('.cds-aichat-card-footer__actions')
@@ -123,7 +139,9 @@ module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
       { id: 'e', label: 'Danger', kind: 'danger' },
     ];
 
-    await render(<template><AiChatCardFooter @actions={{actions}} /></template>);
+    await render(
+      <template><AiChatCardFooter @actions={{actions}} /></template>,
+    );
 
     const buttons = document.querySelectorAll(
       '.cds-aichat-card-footer__actions button',
@@ -161,19 +179,25 @@ module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
       { id: 'b', label: '', tooltipText: 'Danger', kind: 'danger' },
     ];
 
-    await render(<template><AiChatCardFooter @actions={{actions}} /></template>);
+    await render(
+      <template><AiChatCardFooter @actions={{actions}} /></template>,
+    );
 
     const buttons = document.querySelectorAll(
       '.cds-aichat-card-footer__icon-actions button',
     );
 
     assert.deepEqual(
-      allKindClasses.filter((kindClass) => buttons[0]!.classList.contains(kindClass)),
+      allKindClasses.filter((kindClass) =>
+        buttons[0]!.classList.contains(kindClass),
+      ),
       ['cds--btn--ghost'],
       'icon-only action with no kind defaults to ghost',
     );
     assert.deepEqual(
-      allKindClasses.filter((kindClass) => buttons[1]!.classList.contains(kindClass)),
+      allKindClasses.filter((kindClass) =>
+        buttons[1]!.classList.contains(kindClass),
+      ),
       ['cds--btn--danger'],
       'icon-only action respects an explicit kind instead of always being ghost',
     );
@@ -184,7 +208,9 @@ module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
       { id: 'a', label: '', tooltipText: 'Copy', icon: Checkmark },
     ];
 
-    await render(<template><AiChatCardFooter @actions={{actions}} /></template>);
+    await render(
+      <template><AiChatCardFooter @actions={{actions}} /></template>,
+    );
     await waitUntil(() => find('.cds-aichat-card-footer__icon-actions svg'));
 
     assert
@@ -195,7 +221,9 @@ module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
       { id: 'a', label: 'Accept', icon: Checkmark },
     ];
 
-    await render(<template><AiChatCardFooter @actions={{labeledActions}} /></template>);
+    await render(
+      <template><AiChatCardFooter @actions={{labeledActions}} /></template>,
+    );
     await waitUntil(() => find('.cds-aichat-card-footer__actions svg'));
 
     assert

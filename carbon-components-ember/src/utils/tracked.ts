@@ -1,6 +1,5 @@
 import { tracked } from '@glimmer/tracking';
 
-
 export class TrackedPromise {
   @tracked value: any;
   promise?: Promise<any>;

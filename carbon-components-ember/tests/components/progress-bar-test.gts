@@ -9,16 +9,16 @@ module('Integration | Component | ProgressBar', (hooks) => {
 
   test('@hideLabel visually hides the label', async function (assert) {
     await render(
-      <template><ProgressBar @label='Loading' @value={{10}} @hideLabel={{true}} /></template>,
+      <template>
+        <ProgressBar @label="Loading" @value={{10}} @hideLabel={{true}} />
+      </template>,
     );
-    assert
-      .dom('.cds--progress-bar__label')
-      .hasClass('cds--visually-hidden');
+    assert.dom('.cds--progress-bar__label').hasClass('cds--visually-hidden');
   });
 
   test('label is visible by default', async function (assert) {
     await render(
-      <template><ProgressBar @label='Loading' @value={{10}} /></template>,
+      <template><ProgressBar @label="Loading" @value={{10}} /></template>,
     );
     assert
       .dom('.cds--progress-bar__label')
@@ -27,18 +27,20 @@ module('Integration | Component | ProgressBar', (hooks) => {
 
   test('a value above @max is clamped to max', async function (assert) {
     await render(
-      <template><ProgressBar @label='L' @value={{150}} @max={{100}} /></template>,
+      <template>
+        <ProgressBar @label="L" @value={{150}} @max={{100}} />
+      </template>,
     );
-    assert.dom('.cds--progress-bar__track').hasAttribute('aria-valuenow', '100');
+    assert
+      .dom('.cds--progress-bar__track')
+      .hasAttribute('aria-valuenow', '100');
     assert
       .dom('.cds--progress-bar__bar')
       .hasAttribute('style', 'transform: scaleX(1);');
   });
 
   test('a negative value is clamped to 0', async function (assert) {
-    await render(
-      <template><ProgressBar @label='L' @value={{-5}} /></template>,
-    );
+    await render(<template><ProgressBar @label="L" @value={{-5}} /></template>);
     assert.dom('.cds--progress-bar__track').hasAttribute('aria-valuenow', '0');
     assert
       .dom('.cds--progress-bar__bar')
@@ -46,7 +48,7 @@ module('Integration | Component | ProgressBar', (hooks) => {
   });
 
   test('an active bar without a value is indeterminate', async function (assert) {
-    await render(<template><ProgressBar @label='L' /></template>);
+    await render(<template><ProgressBar @label="L" /></template>);
     assert
       .dom('.cds--progress-bar')
       .hasClass('cds--progress-bar--indeterminate');
@@ -61,7 +63,7 @@ module('Integration | Component | ProgressBar', (hooks) => {
   test("an explicit @status='indeterminate' ignores @value", async function (assert) {
     await render(
       <template>
-        <ProgressBar @label='L' @status='indeterminate' @value={{40}} />
+        <ProgressBar @label="L" @status="indeterminate" @value={{40}} />
       </template>,
     );
     assert
@@ -78,9 +80,9 @@ module('Integration | Component | ProgressBar', (hooks) => {
     await render(
       <template>
         <ProgressBar
-          @label='L'
+          @label="L"
           @value={{50}}
-          @helperText='Helping'
+          @helperText="Helping"
           @status={{status.current}}
         />
       </template>,
@@ -92,10 +94,14 @@ module('Integration | Component | ProgressBar', (hooks) => {
     assert
       .dom('.cds--progress-bar__track')
       .hasAttribute('aria-describedby', helper.id);
-    assert.dom('.cds--progress-bar__helper-text .cds--visually-hidden').hasText('Loading');
+    assert
+      .dom('.cds--progress-bar__helper-text .cds--visually-hidden')
+      .hasText('Loading');
 
     status.current = 'finished';
     await rerender();
-    assert.dom('.cds--progress-bar__helper-text .cds--visually-hidden').hasText('Done');
+    assert
+      .dom('.cds--progress-bar__helper-text .cds--visually-hidden')
+      .hasText('Done');
   });
 });

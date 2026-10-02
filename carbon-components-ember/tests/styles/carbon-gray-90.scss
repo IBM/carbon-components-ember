@@ -1,8 +1,7 @@
-@use '@carbon/themes/scss/themes' as *;
-@use '@carbon/themes' with (
+@use "@carbon/themes/scss/themes" as *;
+@use "@carbon/themes" with (
   $theme: $g90
 );
-
 
 :root {
   // Emit CSS Custom Properties for the current theme

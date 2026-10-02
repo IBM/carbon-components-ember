@@ -141,52 +141,54 @@ export default class ChatHistoryPanelItemInput extends Component<ChatHistoryPane
 
   <template>
     <div
-      class='cds-aichat-history-panel-item-input
-        {{if @invalid "cds-aichat-history-panel-item-input--invalid"}}'
-      {{on 'focusout' this.handleFocusOut}}
+      class="cds-aichat-history-panel-item-input
+        {{if @invalid 'cds-aichat-history-panel-item-input--invalid'}}"
+      {{on "focusout" this.handleFocusOut}}
       ...attributes
     >
-      <div class='cds-aichat-history-panel-item-input__row'>
+      <div class="cds-aichat-history-panel-item-input__row">
         <input
-          type='text'
+          type="text"
           placeholder={{@placeholder}}
           value={{this.value}}
           aria-label={{@labelText}}
-          data-invalid={{if @invalid ''}}
-          {{on 'input' this.handleInput}}
-          {{on 'keydown' this.handleKeydown}}
+          data-invalid={{if @invalid ""}}
+          {{on "input" this.handleInput}}
+          {{on "keydown" this.handleKeydown}}
           {{this.focusAndSelect}}
         />
-        <div class='cds-aichat-history-panel-item-input__actions'>
-          <Tooltip @label={{or @cancelLabel 'Cancel'}} @align='top'>
+        <div class="cds-aichat-history-panel-item-input__actions">
+          <Tooltip @label={{or @cancelLabel "Cancel"}} @align="top">
             <Button
-              class='cds-aichat-history-panel-item-input__cancel'
+              class="cds-aichat-history-panel-item-input__cancel"
               @ghost={{true}}
               @iconOnly={{true}}
-              @size='sm'
+              @size="sm"
               @onClick={{this.handleCancel}}
             >
-              <Close @size='16' />
+              <Close @size="16" />
             </Button>
           </Tooltip>
-          <Tooltip @label={{or @saveLabel 'Save'}} @align='top'>
+          <Tooltip @label={{or @saveLabel "Save"}} @align="top">
             <Button
-              class='cds-aichat-history-panel-item-input__save'
+              class="cds-aichat-history-panel-item-input__save"
               @ghost={{true}}
               @iconOnly={{true}}
-              @size='sm'
+              @size="sm"
               @disabled={{not this.canSave}}
               @onClick={{this.handleSave}}
             >
-              <Checkmark @size='16' />
+              <Checkmark @size="16" />
             </Button>
           </Tooltip>
         </div>
       </div>
       {{#if (and @invalid @invalidMessage)}}
-        <div class='cds-aichat-history-panel-item-input__invalid-message'>
-          <div class='cds-aichat-history-panel-item-input__invalid-message-text'>{{@invalidMessage}}</div>
-          <WarningFilled @size='16' />
+        <div class="cds-aichat-history-panel-item-input__invalid-message">
+          <div
+            class="cds-aichat-history-panel-item-input__invalid-message-text"
+          >{{@invalidMessage}}</div>
+          <WarningFilled @size="16" />
         </div>
       {{/if}}
     </div>

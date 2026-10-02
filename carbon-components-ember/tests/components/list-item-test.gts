@@ -22,7 +22,7 @@ module('Integration | Component | ListItem', (hooks) => {
   test('passes through html attributes', async function (assert) {
     await render(
       <template>
-        <ListItem id='my-item' class='custom-class'>Item 1</ListItem>
+        <ListItem id="my-item" class="custom-class">Item 1</ListItem>
       </template>,
     );
 

@@ -7,7 +7,11 @@ module('Integration | Component | FormLabel', (hooks) => {
   setupRenderingTest(hooks);
 
   test('should render a label with the correct classes', async function (assert) {
-    await render(<template><FormLabel>Form label</FormLabel></template>);
+    await render(
+      <template>
+        <FormLabel>Form label</FormLabel>
+      </template>,
+    );
 
     assert.dom('label.cds--label').exists();
     assert.dom('label.cds--label').hasClass('cds--label--no-margin');
@@ -19,8 +23,8 @@ module('Integration | Component | FormLabel', (hooks) => {
       <template>
         {{! @id is the label's for target, not a second id }}
         {{! template-lint-disable no-duplicate-id }}
-        <FormLabel @id='my-input'>Form label</FormLabel>
-        <input id='my-input' type='text' />
+        <FormLabel @id="my-input">Form label</FormLabel>
+        <input id="my-input" type="text" />
       </template>,
     );
 
@@ -30,7 +34,7 @@ module('Integration | Component | FormLabel', (hooks) => {
   test('should support a custom className via ...attributes', async function (assert) {
     await render(
       <template>
-        <FormLabel class='custom-class'>Form label</FormLabel>
+        <FormLabel class="custom-class">Form label</FormLabel>
       </template>,
     );
 

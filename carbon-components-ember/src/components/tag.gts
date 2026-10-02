@@ -120,17 +120,17 @@ export default class TagComponent extends Component<TagInterface> {
       ...attributes
     >
       {{#if this.showIcon}}
-        <div class='cds--tag__custom-icon'>
-          <@renderIcon @size='16' @svgClass='cds--tag__custom-icon-svg' />
+        <div class="cds--tag__custom-icon">
+          <@renderIcon @size="16" @svgClass="cds--tag__custom-icon-svg" />
         </div>
       {{/if}}
-      <span class='cds--tag__label' dir='auto' {{this.syncLabelTitle}}>
+      <span class="cds--tag__label" dir="auto" {{this.syncLabelTitle}}>
         {{yield}}
       </span>
       {{#if @slug}}
         <@slug />
       {{else if @decorator}}
-        <div class='cds--tag__decorator'>
+        <div class="cds--tag__decorator">
           <@decorator />
         </div>
       {{/if}}

@@ -96,28 +96,28 @@ export default class DefinitionTooltip extends Component<DefinitionTooltipSignat
       @dropShadow={{false}}
       @highContrast={{true}}
       @open={{this.isOpen}}
-      {{on 'mouseenter' this.onMouseEnter}}
-      {{on 'mouseleave' this.close}}
-      {{on 'focusin' this.open}}
+      {{on "mouseenter" this.onMouseEnter}}
+      {{on "mouseleave" this.close}}
+      {{on "focusin" this.open}}
     >
       {{! template-lint-disable no-pointer-down-event-binding }}
       <button
-        type='button'
-        class='cds--definition-term {{@triggerClassName}}'
+        type="button"
+        class="cds--definition-term {{@triggerClassName}}"
         aria-controls={{this.tooltipId}}
         aria-describedby={{this.tooltipId}}
-        aria-expanded={{if this.isOpen 'true' 'false'}}
-        {{on 'blur' this.close}}
-        {{on 'mousedown' this.onMouseDown}}
-        {{on 'keydown' this.onKeyDown}}
+        aria-expanded={{if this.isOpen "true" "false"}}
+        {{on "blur" this.close}}
+        {{on "mousedown" this.onMouseDown}}
+        {{on "keydown" this.onKeyDown}}
       >
         {{yield}}
       </button>
-      <span class='cds--popover' id={{this.tooltipId}}>
-        <span class='cds--popover-content cds--definition-tooltip'>
+      <span class="cds--popover" id={{this.tooltipId}}>
+        <span class="cds--popover-content cds--definition-tooltip">
           {{@definition}}
         </span>
-        <span class='cds--popover-caret'></span>
+        <span class="cds--popover-caret"></span>
       </span>
     </Popover>
   </template>

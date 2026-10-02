@@ -15,10 +15,7 @@ module('Integration | Component | SkeletonIcon', (hooks) => {
   test('should pass through attributes', async function (assert) {
     await render(
       <template>
-        <SkeletonIcon
-          class="custom-class"
-          style="width: 2rem; height: 2rem;"
-        />
+        <SkeletonIcon class="custom-class" style="width: 2rem; height: 2rem;" />
       </template>,
     );
 

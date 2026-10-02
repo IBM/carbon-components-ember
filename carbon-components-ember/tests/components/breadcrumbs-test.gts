@@ -7,8 +7,11 @@ import { cell } from 'ember-resources';
 import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
-import { getAllElementComputedStyles, getStylesDiff, waitForAnimationFrame } from '../helpers';
-
+import {
+  getAllElementComputedStyles,
+  getStylesDiff,
+  waitForAnimationFrame,
+} from '../helpers';
 
 module('Integration | Component | Breadcrumbs', (hooks) => {
   setupRenderingTest(hooks);
@@ -17,8 +20,10 @@ module('Integration | Component | Breadcrumbs', (hooks) => {
     const styleValue = cell('');
     await render(
       <template>
-        <Breadcrumbs @crumbs={{array 'a' 'b' 'c'}} @current="b" />
-        <style>{{styleValue.current}}</style>
+        <Breadcrumbs @crumbs={{array "a" "b" "c"}} @current="b" />
+        <style>
+          {{styleValue.current}}
+        </style>
       </template>,
     );
 
@@ -27,7 +32,9 @@ module('Integration | Component | Breadcrumbs', (hooks) => {
     styleValue.current = carbonStyle.default;
     await rerender();
     await waitForAnimationFrame();
-    const withCarbonStyles = getAllElementComputedStyles(this.element.firstElementChild!);
+    const withCarbonStyles = getAllElementComputedStyles(
+      this.element.firstElementChild!,
+    );
 
     assert.equal(styles.length, 21);
 
@@ -40,11 +47,15 @@ module('Integration | Component | Breadcrumbs', (hooks) => {
     const styleValue = cell('');
     const darkStyleValue = cell('');
     await render(
-    <template>
-      <Breadcrumbs @crumbs={{array 'a' 'b' 'c'}} @current="b" />
-      <style>{{carbonStyle.default}}</style>
-      <style>{{darkStyleValue.current}}</style>
-    </template>,
+      <template>
+        <Breadcrumbs @crumbs={{array "a" "b" "c"}} @current="b" />
+        <style>
+          {{carbonStyle.default}}
+        </style>
+        <style>
+          {{darkStyleValue.current}}
+        </style>
+      </template>,
     );
 
     await waitForAnimationFrame();
@@ -53,7 +64,9 @@ module('Integration | Component | Breadcrumbs', (hooks) => {
     darkStyleValue.current = carbonDarkStyle.default;
     await rerender();
     await waitForAnimationFrame();
-    const withCarbonStyles = getAllElementComputedStyles(this.element.firstElementChild!);
+    const withCarbonStyles = getAllElementComputedStyles(
+      this.element.firstElementChild!,
+    );
 
     assert.equal(styles.length, 21);
 
@@ -65,7 +78,7 @@ module('Integration | Component | Breadcrumbs', (hooks) => {
   test('should allow click without handler', async function (assert) {
     assert.expect(0);
     await render(
-      <template><Breadcrumbs @crumbs={{array 'a' 'b' 'c'}} /></template>,
+      <template><Breadcrumbs @crumbs={{array "a" "b" "c"}} /></template>,
     );
 
     await click('.cds--breadcrumb-item');
@@ -74,10 +87,15 @@ module('Integration | Component | Breadcrumbs', (hooks) => {
   test('should change selected item style', async function (this: RenderingTestContext, assert) {
     const selected = cell('');
     await render(
-    <template>
-      <Breadcrumbs @crumbs={{array 'a' 'b' 'c'}} @current={{selected.current}} />
-      <style>{{carbonStyle.default}}</style>
-    </template>,
+      <template>
+        <Breadcrumbs
+          @crumbs={{array "a" "b" "c"}}
+          @current={{selected.current}}
+        />
+        <style>
+          {{carbonStyle.default}}
+        </style>
+      </template>,
     );
 
     await waitForAnimationFrame();
@@ -85,17 +103,24 @@ module('Integration | Component | Breadcrumbs', (hooks) => {
     selected.current = 'a';
     await rerender();
     await waitForAnimationFrame();
-    const aSelectedStyle = getAllElementComputedStyles(this.element.firstElementChild!);
+    const aSelectedStyle = getAllElementComputedStyles(
+      this.element.firstElementChild!,
+    );
 
     selected.current = 'b';
     await rerender();
     await waitForAnimationFrame();
-    const bSelectedStyle = getAllElementComputedStyles(this.element.firstElementChild!);
+    const bSelectedStyle = getAllElementComputedStyles(
+      this.element.firstElementChild!,
+    );
 
     const stylesDiffA = getStylesDiff(styles, aSelectedStyle);
     const stylesDiffB = getStylesDiff(aSelectedStyle, bSelectedStyle);
 
     assert.snapshot(stylesDiffA, 'does have correct initial styles');
-    assert.snapshot(stylesDiffB, 'does correctly change styles after selection');
+    assert.snapshot(
+      stylesDiffB,
+      'does correctly change styles after selection',
+    );
   });
 });

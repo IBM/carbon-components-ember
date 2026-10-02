@@ -101,7 +101,8 @@ const attachResizer = eModifier<{
     element.style[orientation === 'horizontal' ? 'blockSize' : 'inlineSize'] =
       `${thickness / 16}rem`;
 
-    const prevSibling = () => element.previousElementSibling as HTMLElement | null;
+    const prevSibling = () =>
+      element.previousElementSibling as HTMLElement | null;
     const nextSibling = () => element.nextElementSibling as HTMLElement | null;
 
     const initialSizes = {
@@ -254,11 +255,11 @@ export default class Resizer extends Component<ResizerSignature> {
 
   <template>
     <div
-      role='separator'
-      tabindex='0'
+      role="separator"
+      tabindex="0"
       aria-orientation={{@orientation}}
-      aria-live='assertive'
-      class={{concat 'cds--resizer cds--resizer--' @orientation}}
+      aria-live="assertive"
+      class={{concat "cds--resizer cds--resizer--" @orientation}}
       {{attachResizer
         orientation=@orientation
         thickness=this.thickness
@@ -269,7 +270,7 @@ export default class Resizer extends Component<ResizerSignature> {
       }}
       ...attributes
     >
-      <span class='cds--visually-hidden'>
+      <span class="cds--visually-hidden">
         Use arrow keys to resize, hold Shift for larger steps. Double-click to
         reset.
       </span>

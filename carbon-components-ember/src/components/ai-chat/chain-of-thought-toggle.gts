@@ -57,8 +57,8 @@ export default class ChainOfThoughtToggle extends Component<ChainOfThoughtToggle
 
   get labelText() {
     return this.open
-      ? this.args.openLabelText ?? 'Hide chain of thought'
-      : this.args.closedLabelText ?? 'Show chain of thought';
+      ? (this.args.openLabelText ?? 'Hide chain of thought')
+      : (this.args.closedLabelText ?? 'Show chain of thought');
   }
 
   @action
@@ -73,22 +73,25 @@ export default class ChainOfThoughtToggle extends Component<ChainOfThoughtToggle
 
   <template>
     <button
-      type='button'
-      class='cds-aichat-chain-of-thought-toggle cds-aichat-chain-of-thought-toggle__button'
-      aria-expanded={{if this.open 'true' 'false'}}
+      type="button"
+      class="cds-aichat-chain-of-thought-toggle cds-aichat-chain-of-thought-toggle__button"
+      aria-expanded={{if this.open "true" "false"}}
       aria-controls={{@panelId}}
       disabled={{@disabled}}
-      {{on 'click' this.handleClick}}
+      {{on "click" this.handleClick}}
       ...attributes
     >
       <span
-        class='cds-aichat-chain-of-thought-toggle__chevron
-          {{if this.open "cds-aichat-chain-of-thought-toggle--open"}}'
-        aria-hidden='true'
+        class="cds-aichat-chain-of-thought-toggle__chevron
+          {{if this.open 'cds-aichat-chain-of-thought-toggle--open'}}"
+        aria-hidden="true"
       >
-        <ChevronDown @size='16' />
+        <ChevronDown @size="16" />
       </span>
-      <span class='cds-aichat-chain-of-thought-toggle__label' title={{this.labelText}}>
+      <span
+        class="cds-aichat-chain-of-thought-toggle__label"
+        title={{this.labelText}}
+      >
         {{this.labelText}}
       </span>
     </button>

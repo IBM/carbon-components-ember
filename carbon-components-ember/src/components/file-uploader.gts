@@ -72,7 +72,10 @@ export interface FileUploaderSignature {
     /** Called when a selected file is removed (only reachable when `@filenameStatus` is `'edit'`) */
     onDelete?: (
       event: Event,
-      data: { deletedFile: FileUploaderFileItem; remainingFiles: FileUploaderFileItem[] },
+      data: {
+        deletedFile: FileUploaderFileItem;
+        remainingFiles: FileUploaderFileItem[];
+      },
     ) => void;
     /** Specify the size of the FileUploaderButton, from a list of available sizes */
     size?: 'sm' | 'small' | 'md' | 'field' | 'lg';
@@ -106,8 +109,10 @@ export default class FileUploader extends Component<FileUploaderSignature> {
   get selectedFileClasses() {
     const size = this.args.size ?? 'md';
     const classes = ['cds--file__selected-file'];
-    if (size === 'field' || size === 'md') classes.push('cds--file__selected-file--md');
-    if (size === 'small' || size === 'sm') classes.push('cds--file__selected-file--sm');
+    if (size === 'field' || size === 'md')
+      classes.push('cds--file__selected-file--md');
+    if (size === 'small' || size === 'sm')
+      classes.push('cds--file__selected-file--sm');
     return classes.join(' ');
   }
 
@@ -196,16 +201,16 @@ export default class FileUploader extends Component<FileUploaderSignature> {
   }
 
   <template>
-    <div class='cds--form-item' ...attributes>
+    <div class="cds--form-item" ...attributes>
       {{#if @labelTitle}}
         <h3
-          class='cds--file--label
-            {{if @disabled "cds--label-description--disabled"}}'
+          class="cds--file--label
+            {{if @disabled 'cds--label-description--disabled'}}"
         >{{@labelTitle}}</h3>
       {{/if}}
       <p
-        class='cds--label-description
-          {{if @disabled "cds--label-description--disabled"}}'
+        class="cds--label-description
+          {{if @disabled 'cds--label-description--disabled'}}"
         id={{this.helperTextId}}
       >{{@labelDescription}}</p>
       <FileUploaderButton
@@ -221,14 +226,14 @@ export default class FileUploader extends Component<FileUploaderSignature> {
         @onButtonInsert={{this.setButtonElement}}
         aria-describedby={{this.helperTextId}}
       />
-      <div class='cds--file-container'>
-        {{#each this.fileItems key='uuid' as |item index|}}
+      <div class="cds--file-container">
+        {{#each this.fileItems key="uuid" as |item index|}}
           <span class={{this.selectedFileClasses}}>
             <p
-              class='cds--file-filename'
-              id='{{this.guid}}-file-{{item.uuid}}'
+              class="cds--file-filename"
+              id="{{this.guid}}-file-{{item.uuid}}"
             >{{item.name}}</p>
-            <span class='cds--file__state-container'>
+            <span class="cds--file__state-container">
               <FileUploaderStatusIcon
                 @status={{@filenameStatus}}
                 @name={{item.name}}

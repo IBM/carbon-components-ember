@@ -97,16 +97,16 @@ export default class Link extends Component<LinkSignature> {
       <Tag
         class={{this.classes}}
         href={{unless @disabled @href}}
-        role={{if @disabled 'link'}}
-        aria-disabled={{if @disabled 'true'}}
+        role={{if @disabled "link"}}
+        aria-disabled={{if @disabled "true"}}
         target={{@target}}
         rel={{this.rel}}
-        {{on 'click' this.handleClick}}
+        {{on "click" this.handleClick}}
         ...attributes
       >
         {{yield}}
         {{#if this.showIcon}}
-          <span class='cds--link__icon'>
+          <span class="cds--link__icon">
             <@renderIcon />
           </span>
         {{/if}}

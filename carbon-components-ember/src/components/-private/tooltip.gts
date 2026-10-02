@@ -103,7 +103,7 @@ export default class Tooltip extends Component<Signature> {
   ` as { tooltip: string; arrow: string };
 
   <template>
-    <Popover @placement='top' as |p|>
+    <Popover @placement="top" as |p|>
       {{#let
         (modifier
           attachTrigger
@@ -114,17 +114,17 @@ export default class Tooltip extends Component<Signature> {
         )
         as |reference|
       }}
-        {{yield reference to='trigger'}}
+        {{yield reference to="trigger"}}
       {{/let}}
-      {{!-- Always present so aria-describedby on the trigger resolves to
+      {{! Always present so aria-describedby on the trigger resolves to
         something, regardless of hover/focus state. The floating bubble
-        below is purely visual and hidden from assistive tech. --}}
-      <span id={{this.contentId}} class='cds--visually-hidden'>
-        {{yield to='content'}}
+        below is purely visual and hidden from assistive tech. }}
+      <span id={{this.contentId}} class="cds--visually-hidden">
+        {{yield to="content"}}
       </span>
       {{#if this.isVisible}}
-        <p.Content class={{this.styles.tooltip}} aria-hidden='true'>
-          {{yield to='content'}}
+        <p.Content class={{this.styles.tooltip}} aria-hidden="true">
+          {{yield to="content"}}
           <div class={{this.styles.arrow}} {{p.arrow}}></div>
         </p.Content>
       {{/if}}

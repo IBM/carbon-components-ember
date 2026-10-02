@@ -41,14 +41,21 @@ export interface UIShellNavSignature {
 export default class UIShellNav extends Component<UIShellNavSignature> {
   <template>
     <nav
-      class='cds--side-nav__navigation cds--side-nav
-        {{if @open "cds--side-nav--expanded"}}'
-      role='navigation'
-      aria-label='Page Navigation'
+      class="cds--side-nav__navigation cds--side-nav
+        {{if @open 'cds--side-nav--expanded'}}"
+      role="navigation"
+      aria-label="Page Navigation"
     >
-      <ul class='cds--side-nav__items'>
+      <ul class="cds--side-nav__items">
         {{#unless @menuItems}}
-          {{yield Menu Divider SideNavHeader SideNavDetails SideNavIcon HeaderSideNavItems}}
+          {{yield
+            Menu
+            Divider
+            SideNavHeader
+            SideNavDetails
+            SideNavIcon
+            HeaderSideNavItems
+          }}
         {{/unless}}
         {{#each @menuItems as |menu|}}
           <Menu
@@ -71,7 +78,7 @@ export default class UIShellNav extends Component<UIShellNavSignature> {
           </Menu>
         {{/each}}
       </ul>
-      {{yield Footer to='footer'}}
+      {{yield Footer to="footer"}}
     </nav>
   </template>
 }

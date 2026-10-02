@@ -57,11 +57,15 @@ export interface FeedbackButtonsSignature {
  */
 export default class FeedbackButtons extends Component<FeedbackButtonsSignature> {
   get positiveControls() {
-    return this.args.panelId ? `${this.args.panelId}-feedback-positive` : undefined;
+    return this.args.panelId
+      ? `${this.args.panelId}-feedback-positive`
+      : undefined;
   }
 
   get negativeControls() {
-    return this.args.panelId ? `${this.args.panelId}-feedback-negative` : undefined;
+    return this.args.panelId
+      ? `${this.args.panelId}-feedback-negative`
+      : undefined;
   }
 
   get positiveExpanded() {
@@ -89,42 +93,48 @@ export default class FeedbackButtons extends Component<FeedbackButtonsSignature>
   }
 
   <template>
-    <div class='cds-aichat-feedback-buttons' ...attributes>
-      <Tooltip @label={{if @positiveLabel @positiveLabel 'Good response'}} @autoAlign={{true}}>
+    <div class="cds-aichat-feedback-buttons" ...attributes>
+      <Tooltip
+        @label={{if @positiveLabel @positiveLabel "Good response"}}
+        @autoAlign={{true}}
+      >
         <Button
-          class='cds-aichat-feedback-buttons__positive'
+          class="cds-aichat-feedback-buttons__positive"
           @ghost={{true}}
           @iconOnly={{true}}
-          @size='sm'
+          @size="sm"
           @disabled={{@isPositiveDisabled}}
           @onClick={{this.clickPositive}}
-          aria-pressed={{if @isPositiveSelected 'true' undefined}}
+          aria-pressed={{if @isPositiveSelected "true" undefined}}
           aria-expanded={{this.positiveExpanded}}
           aria-controls={{this.positiveControls}}
         >
           {{#if @isPositiveSelected}}
-            <ThumbsUpFilled @size='16' />
+            <ThumbsUpFilled @size="16" />
           {{else}}
-            <ThumbsUp @size='16' />
+            <ThumbsUp @size="16" />
           {{/if}}
         </Button>
       </Tooltip>
-      <Tooltip @label={{if @negativeLabel @negativeLabel 'Bad response'}} @autoAlign={{true}}>
+      <Tooltip
+        @label={{if @negativeLabel @negativeLabel "Bad response"}}
+        @autoAlign={{true}}
+      >
         <Button
-          class='cds-aichat-feedback-buttons__negative'
+          class="cds-aichat-feedback-buttons__negative"
           @ghost={{true}}
           @iconOnly={{true}}
-          @size='sm'
+          @size="sm"
           @disabled={{@isNegativeDisabled}}
           @onClick={{this.clickNegative}}
-          aria-pressed={{if @isNegativeSelected 'true' undefined}}
+          aria-pressed={{if @isNegativeSelected "true" undefined}}
           aria-expanded={{this.negativeExpanded}}
           aria-controls={{this.negativeControls}}
         >
           {{#if @isNegativeSelected}}
-            <ThumbsDownFilled @size='16' />
+            <ThumbsDownFilled @size="16" />
           {{else}}
-            <ThumbsDown @size='16' />
+            <ThumbsDown @size="16" />
           {{/if}}
         </Button>
       </Tooltip>

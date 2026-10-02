@@ -7,15 +7,25 @@ module('Integration | Component | CopyButton', (hooks) => {
   setupRenderingTest(hooks);
 
   test('should render with the default icon description', async function (assert) {
-    await render(<template><CopyButton>some code</CopyButton></template>);
+    await render(
+      <template>
+        <CopyButton>some code</CopyButton>
+      </template>,
+    );
     await waitUntil(() => find('[data-copy-btn]'));
 
-    assert.dom('[data-copy-btn]').hasAttribute('aria-label', 'Copy to clipboard');
+    assert
+      .dom('[data-copy-btn]')
+      .hasAttribute('aria-label', 'Copy to clipboard');
     assert.dom('[data-copy-btn] code').hasText('some code');
   });
 
   test('without @inline, block content is visually hidden behind the icon', async function (assert) {
-    await render(<template><CopyButton>some code</CopyButton></template>);
+    await render(
+      <template>
+        <CopyButton>some code</CopyButton>
+      </template>,
+    );
     await waitUntil(() => find('[data-copy-btn]'));
 
     assert.dom('[data-copy-btn] code').hasClass('cds--visually-hidden');
@@ -23,13 +33,19 @@ module('Integration | Component | CopyButton', (hooks) => {
   });
 
   test('should copy the block content to the clipboard and show feedback on click', async function (assert) {
-    await render(<template><CopyButton>copy me</CopyButton></template>);
+    await render(
+      <template>
+        <CopyButton>copy me</CopyButton>
+      </template>,
+    );
     await waitUntil(() => find('[data-copy-btn]'));
 
     // Dispatch a raw click and only wait for the DOM to re-render, rather
     // than the `click()` test helper's full `settled()`, which would also
     // wait out the feedback timeout task and observe the reverted state.
-    find('[data-copy-btn]')!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    find('[data-copy-btn]')!.dispatchEvent(
+      new MouseEvent('click', { bubbles: true }),
+    );
     await rerender();
 
     assert.dom('[data-copy-btn]').hasAttribute('aria-label', 'Copied!');
@@ -41,12 +57,14 @@ module('Integration | Component | CopyButton', (hooks) => {
   test('should support a custom feedback message', async function (assert) {
     await render(
       <template>
-        <CopyButton @feedback='Done!'>copy me</CopyButton>
+        <CopyButton @feedback="Done!">copy me</CopyButton>
       </template>,
     );
     await waitUntil(() => find('[data-copy-btn]'));
 
-    find('[data-copy-btn]')!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    find('[data-copy-btn]')!.dispatchEvent(
+      new MouseEvent('click', { bubbles: true }),
+    );
     await rerender();
 
     assert.dom('[data-copy-btn]').hasAttribute('aria-label', 'Done!');
@@ -55,7 +73,7 @@ module('Integration | Component | CopyButton', (hooks) => {
   test('should support a custom iconDescription', async function (assert) {
     await render(
       <template>
-        <CopyButton @iconDescription='Duplicate'>copy me</CopyButton>
+        <CopyButton @iconDescription="Duplicate">copy me</CopyButton>
       </template>,
     );
     await waitUntil(() => find('[data-copy-btn]'));
@@ -93,7 +111,7 @@ module('Integration | Component | CopyButton', (hooks) => {
   test('should support the align arg', async function (assert) {
     await render(
       <template>
-        <CopyButton @align='top'>copy me</CopyButton>
+        <CopyButton @align="top">copy me</CopyButton>
       </template>,
     );
     await waitUntil(() => find('[data-copy-btn]'));
@@ -104,13 +122,15 @@ module('Integration | Component | CopyButton', (hooks) => {
   test('should copy from a targetElement', async function (assert) {
     await render(
       <template>
-        <pre id='target'>target content</pre>
-        <CopyButton @targetElementId='target' />
+        <pre id="target">target content</pre>
+        <CopyButton @targetElementId="target" />
       </template>,
     );
     await waitUntil(() => find('[data-copy-btn]'));
 
-    find('[data-copy-btn]')!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    find('[data-copy-btn]')!.dispatchEvent(
+      new MouseEvent('click', { bubbles: true }),
+    );
     await rerender();
 
     assert.dom('[data-copy-btn]').hasAttribute('aria-label', 'Copied!');
@@ -118,7 +138,9 @@ module('Integration | Component | CopyButton', (hooks) => {
 
   test('should render inline snippet classes', async function (assert) {
     await render(
-      <template><CopyButton @inline={{true}}>inline code</CopyButton></template>,
+      <template>
+        <CopyButton @inline={{true}}>inline code</CopyButton>
+      </template>,
     );
     await waitUntil(() => find('[data-copy-btn]'));
 

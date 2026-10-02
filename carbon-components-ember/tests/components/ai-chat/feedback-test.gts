@@ -12,32 +12,42 @@ module('Integration | Component | ai-chat/Feedback', (hooks) => {
   setupRenderingTest(hooks);
 
   test('renders title/body defaults and toggles closed via the container class', async function (assert) {
-    await render(<template><Feedback @isOpen={{true}} @showBody={{true}} /></template>);
-
-    assert.dom('.cds-aichat-feedback__title').hasText('Provide additional feedback');
-    assert.dom('.cds-aichat-feedback__prompt').hasText('What do you think of this response?');
-    assert.dom('.cds-aichat-feedback__container').doesNotHaveClass(
-      'cds-aichat-feedback__container--closed',
+    await render(
+      <template><Feedback @isOpen={{true}} @showBody={{true}} /></template>,
     );
+
+    assert
+      .dom('.cds-aichat-feedback__title')
+      .hasText('Provide additional feedback');
+    assert
+      .dom('.cds-aichat-feedback__prompt')
+      .hasText('What do you think of this response?');
+    assert
+      .dom('.cds-aichat-feedback__container')
+      .doesNotHaveClass('cds-aichat-feedback__container--closed');
   });
 
   test('@isOpen false adds the closed modifier class', async function (assert) {
     await render(<template><Feedback @isOpen={{false}} /></template>);
 
-    assert.dom('.cds-aichat-feedback__container').hasClass('cds-aichat-feedback__container--closed');
+    assert
+      .dom('.cds-aichat-feedback__container')
+      .hasClass('cds-aichat-feedback__container--closed');
   });
 
   test('category chips toggle selection and are excluded when disabled (readonly)', async function (assert) {
     await render(
       <template>
-        <Feedback @isOpen={{true}} @categories={{array 'Accurate' 'Helpful'}} />
+        <Feedback @isOpen={{true}} @categories={{array "Accurate" "Helpful"}} />
       </template>,
     );
 
     assert.dom('.cds-aichat-feedback__tag').exists({ count: 2 });
 
     await click('.cds-aichat-feedback__tag:first-child');
-    assert.dom('.cds-aichat-feedback__tag:first-child').hasClass('cds-aichat-feedback__tag--selected');
+    assert
+      .dom('.cds-aichat-feedback__tag:first-child')
+      .hasClass('cds-aichat-feedback__tag--selected');
 
     await click('.cds-aichat-feedback__tag:first-child');
     assert
@@ -48,7 +58,7 @@ module('Integration | Component | ai-chat/Feedback', (hooks) => {
   test('submit is disabled by default when @disclaimerCheckbox is set, until checked', async function (assert) {
     await render(
       <template>
-        <Feedback @isOpen={{true}} @disclaimerCheckbox='I agree' />
+        <Feedback @isOpen={{true}} @disclaimerCheckbox="I agree" />
       </template>,
     );
 
@@ -68,7 +78,7 @@ module('Integration | Component | ai-chat/Feedback', (hooks) => {
         <Feedback
           @isOpen={{true}}
           @showTextArea={{true}}
-          @categories={{array 'Accurate'}}
+          @categories={{array "Accurate"}}
           @onSubmit={{onSubmit}}
         />
       </template>,
@@ -87,7 +97,9 @@ module('Integration | Component | ai-chat/Feedback', (hooks) => {
     let closed = false;
     const onClose = () => (closed = true);
 
-    await render(<template><Feedback @isOpen={{true}} @onClose={{onClose}} /></template>);
+    await render(
+      <template><Feedback @isOpen={{true}} @onClose={{onClose}} /></template>,
+    );
 
     await click('.cds-aichat-feedback__close button');
     assert.true(closed);
@@ -99,14 +111,19 @@ module('Integration | Component | ai-chat/Feedback', (hooks) => {
         <Feedback
           @isOpen={{true}}
           @showTextArea={{true}}
-          @categories={{array 'Accurate' 'Helpful'}}
-          @initialValues={{hash text='seed' selectedCategories=(array 'Accurate')}}
+          @categories={{array "Accurate" "Helpful"}}
+          @initialValues={{hash
+            text="seed"
+            selectedCategories=(array "Accurate")
+          }}
         />
       </template>,
     );
 
     assert.dom('.cds-aichat-feedback__text-area').hasValue('seed');
-    assert.dom('.cds-aichat-feedback__tag:first-child').hasClass('cds-aichat-feedback__tag--selected');
+    assert
+      .dom('.cds-aichat-feedback__tag:first-child')
+      .hasClass('cds-aichat-feedback__tag--selected');
   });
 
   test('changing @initialValues resets the text area and selected categories', async function (assert) {
@@ -118,16 +135,23 @@ module('Integration | Component | ai-chat/Feedback', (hooks) => {
     class Host extends Component {
       state = state;
       seed = () => {
-        this.state.initialValues = { text: 'seed', selectedCategories: ['Accurate'] };
+        this.state.initialValues = {
+          text: 'seed',
+          selectedCategories: ['Accurate'],
+        };
       };
       <template>
         <Feedback
           @isOpen={{true}}
           @showTextArea={{true}}
-          @categories={{array 'Accurate' 'Helpful'}}
+          @categories={{array "Accurate" "Helpful"}}
           @initialValues={{this.state.initialValues}}
         />
-        <button type='button' class='seed-button' {{on 'click' this.seed}}>Seed</button>
+        <button
+          type="button"
+          class="seed-button"
+          {{on "click" this.seed}}
+        >Seed</button>
       </template>
     }
 
@@ -138,7 +162,9 @@ module('Integration | Component | ai-chat/Feedback', (hooks) => {
     await click('.seed-button');
 
     assert.dom('.cds-aichat-feedback__text-area').hasValue('seed');
-    assert.dom('.cds-aichat-feedback__tag:first-child').hasClass('cds-aichat-feedback__tag--selected');
+    assert
+      .dom('.cds-aichat-feedback__tag:first-child')
+      .hasClass('cds-aichat-feedback__tag--selected');
   });
 
   test('changing @initialValues resets the text area even after the user has typed in it', async function (assert) {
@@ -158,7 +184,11 @@ module('Integration | Component | ai-chat/Feedback', (hooks) => {
           @showTextArea={{true}}
           @initialValues={{this.state.initialValues}}
         />
-        <button type='button' class='reseed-button' {{on 'click' this.reseed}}>Reseed</button>
+        <button
+          type="button"
+          class="reseed-button"
+          {{on "click" this.reseed}}
+        >Reseed</button>
       </template>
     }
 

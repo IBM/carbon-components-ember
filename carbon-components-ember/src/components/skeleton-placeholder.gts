@@ -6,6 +6,6 @@ export interface SkeletonPlaceholderSignature {
 
 export default class SkeletonPlaceholder extends Component<SkeletonPlaceholderSignature> {
   <template>
-    <div class='cds--skeleton__placeholder' ...attributes></div>
+    <div class="cds--skeleton__placeholder" ...attributes></div>
   </template>
 }

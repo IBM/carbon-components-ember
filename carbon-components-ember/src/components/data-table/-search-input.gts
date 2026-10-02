@@ -53,10 +53,10 @@ export default class TableSearchComponent extends Component<Args> {
       @expandable={{@expandable}}
       @size={{@size}}
       @onChange={{this.doSearch}}
-      class='{{if this.isSearching this.styles.is-searching}}'
+      class="{{if this.isSearching this.styles.is-searching}}"
     />
     <Loading
-      style='position: relative; top: -41px; right: 7px'
+      style="position: relative; top: -41px; right: 7px"
       @inline={{true}}
       @active={{this.isSearching}}
     />

@@ -10,8 +10,8 @@ module('Integration | Component | ai-chat/ChatHistoryPanelMenu', (hooks) => {
   test('renders the title, starts expanded, and toggles on click', async function (assert) {
     await render(
       <template>
-        <ChatHistoryPanelMenu @title='Yesterday' as |Item|>
-          <Item @name='Chat 1' />
+        <ChatHistoryPanelMenu @title="Yesterday" as |Item|>
+          <Item @name="Chat 1" />
         </ChatHistoryPanelMenu>
       </template>,
     );
@@ -20,7 +20,9 @@ module('Integration | Component | ai-chat/ChatHistoryPanelMenu', (hooks) => {
     assert.dom('.cds--side-nav__submenu').hasAttribute('aria-expanded', 'true');
 
     await click('.cds--side-nav__submenu');
-    assert.dom('.cds--side-nav__submenu').hasAttribute('aria-expanded', 'false');
+    assert
+      .dom('.cds--side-nav__submenu')
+      .hasAttribute('aria-expanded', 'false');
 
     await click('.cds--side-nav__submenu');
     assert.dom('.cds--side-nav__submenu').hasAttribute('aria-expanded', 'true');
@@ -36,33 +38,51 @@ module('Integration | Component | ai-chat/ChatHistoryPanelMenu', (hooks) => {
 
     await render(
       <template>
-        <ChatHistoryPanelMenu @title='Yesterday' @expanded={{expanded.current}} @onToggle={{onToggle}} />
+        <ChatHistoryPanelMenu
+          @title="Yesterday"
+          @expanded={{expanded.current}}
+          @onToggle={{onToggle}}
+        />
       </template>,
     );
 
     await click('.cds--side-nav__submenu');
     assert.deepEqual(calls, [false]);
-    assert.dom('.cds--side-nav__submenu').hasAttribute('aria-expanded', 'false');
+    assert
+      .dom('.cds--side-nav__submenu')
+      .hasAttribute('aria-expanded', 'false');
 
     // Simulate the host choosing NOT to update @expanded in response.
     expanded.current = true;
     await settled();
     await click('.cds--side-nav__submenu');
-    assert.deepEqual(calls, [false, false], 'still reads the live @expanded, not internal state');
+    assert.deepEqual(
+      calls,
+      [false, false],
+      'still reads the live @expanded, not internal state',
+    );
   });
 
   test('yields ChatHistoryPanelItem pre-bound with @parentMenuExpanded reflecting live expanded state', async function (assert) {
     await render(
       <template>
-        <ChatHistoryPanelMenu @title='Yesterday' @showActions={{true}} as |Item|>
-          <Item @name='Chat 1' @selected={{true}} />
+        <ChatHistoryPanelMenu
+          @title="Yesterday"
+          @showActions={{true}}
+          as |Item|
+        >
+          <Item @name="Chat 1" @selected={{true}} />
         </ChatHistoryPanelMenu>
       </template>,
     );
 
-    assert.dom('.cds-aichat-history-panel-item').hasAttribute('data-parent-menu-expanded', '');
+    assert
+      .dom('.cds-aichat-history-panel-item')
+      .hasAttribute('data-parent-menu-expanded', '');
 
     await click('.cds--side-nav__submenu');
-    assert.dom('.cds-aichat-history-panel-item').doesNotHaveAttribute('data-parent-menu-expanded');
+    assert
+      .dom('.cds-aichat-history-panel-item')
+      .doesNotHaveAttribute('data-parent-menu-expanded');
   });
 });

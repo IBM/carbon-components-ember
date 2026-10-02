@@ -26,7 +26,9 @@ module('Unit | Service | ai-chat-session', function (hooks) {
   // state, rather than just re-reading the already-live service.
   function getFreshService(context: TestContext) {
     // `unregister` exists at runtime on the test owner, but isn't on the public `Owner` type.
-    (context.owner as unknown as { unregister(name: string): void }).unregister('service:carbon.ai-chat-session');
+    (context.owner as unknown as { unregister(name: string): void }).unregister(
+      'service:carbon.ai-chat-session',
+    );
     return getService(context);
   }
 
@@ -55,7 +57,11 @@ module('Unit | Service | ai-chat-session', function (hooks) {
 
     assert.strictEqual(message?.role, 'user');
     assert.strictEqual(message?.text, 'hello there');
-    assert.strictEqual(session.draft, '', 'draft is cleared after an implicit send');
+    assert.strictEqual(
+      session.draft,
+      '',
+      'draft is cleared after an implicit send',
+    );
     assert.strictEqual(session.messages.length, 1);
   });
 
@@ -109,7 +115,11 @@ module('Unit | Service | ai-chat-session', function (hooks) {
     session.appendChunk(first.id, '!');
 
     assert.strictEqual(session.messages[0]?.text, 'first!');
-    assert.strictEqual(session.messages[1], beforeSecond, 'untouched message keeps its identity');
+    assert.strictEqual(
+      session.messages[1],
+      beforeSecond,
+      'untouched message keeps its identity',
+    );
     assert.strictEqual(second.id, session.messages[1]?.id);
   });
 
@@ -122,7 +132,10 @@ module('Unit | Service | ai-chat-session', function (hooks) {
     session.appendChunk(message.id, 'partial');
     session.cancelStreaming(message.id);
 
-    assert.true(signal?.aborted, 'cancelStreaming() aborts the response signal');
+    assert.true(
+      signal?.aborted,
+      'cancelStreaming() aborts the response signal',
+    );
     assert.false(session.messages[0]?.streaming);
     assert.true(session.messages[0]?.cancelled);
     assert.false(session.isStreaming);
@@ -132,8 +145,15 @@ module('Unit | Service | ai-chat-session', function (hooks) {
     // cancelStreaming() runs and keep calling appendChunk() afterward -
     // this must not resurrect the message.
     session.appendChunk(message.id, ' more text');
-    assert.strictEqual(session.messages[0]?.text, 'partial', 'a stale chunk after cancellation is dropped');
-    assert.false(session.messages[0]?.streaming, 'a stale chunk does not resurrect streaming');
+    assert.strictEqual(
+      session.messages[0]?.text,
+      'partial',
+      'a stale chunk after cancellation is dropped',
+    );
+    assert.false(
+      session.messages[0]?.streaming,
+      'a stale chunk does not resurrect streaming',
+    );
   });
 
   test('cancelStreaming() with no id defaults to the currently-streaming response', function (assert) {
@@ -145,7 +165,10 @@ module('Unit | Service | ai-chat-session', function (hooks) {
 
     assert.true(session.messages[1]?.cancelled);
     assert.strictEqual(session.messages[1]?.id, streamingMessage.id);
-    assert.notOk(session.messages[0]?.cancelled, 'the non-streaming message is untouched');
+    assert.notOk(
+      session.messages[0]?.cancelled,
+      'the non-streaming message is untouched',
+    );
   });
 
   test('cancelStreaming() emits a cancel event with the cancelled message', function (assert) {
@@ -178,8 +201,15 @@ module('Unit | Service | ai-chat-session', function (hooks) {
 
     session.cancelStreaming(message.id);
 
-    assert.notOk(session.messages[0]?.cancelled, 'a normally-completed message is not relabeled cancelled');
-    assert.strictEqual(received, undefined, 'cancel is not emitted for a message that was not streaming');
+    assert.notOk(
+      session.messages[0]?.cancelled,
+      'a normally-completed message is not relabeled cancelled',
+    );
+    assert.strictEqual(
+      received,
+      undefined,
+      'cancel is not emitted for a message that was not streaming',
+    );
   });
 
   test('cancelStreaming() called twice for the same id is a no-op the second time', function (assert) {
@@ -191,7 +221,11 @@ module('Unit | Service | ai-chat-session', function (hooks) {
     session.cancelStreaming(message.id);
     session.cancelStreaming(message.id);
 
-    assert.strictEqual(callCount, 1, 'cancel is only emitted once across both calls');
+    assert.strictEqual(
+      callCount,
+      1,
+      'cancel is only emitted once across both calls',
+    );
     assert.true(session.messages[0]?.cancelled);
   });
 
@@ -208,7 +242,11 @@ module('Unit | Service | ai-chat-session', function (hooks) {
     // The old (now-restarted-away) stream's loop keeps calling appendChunk()
     // with its stale id - must not resurrect a message.
     session.appendChunk(message.id, 'stale chunk');
-    assert.strictEqual(session.messages.length, 0, 'a stale chunk after restart() adds nothing');
+    assert.strictEqual(
+      session.messages.length,
+      0,
+      'a stale chunk after restart() adds nothing',
+    );
   });
 
   test('toggleOpen()/toggleHistory()/toggleWorkspace() flip their own flag independently', function (assert) {
@@ -259,8 +297,16 @@ module('Unit | Service | ai-chat-session', function (hooks) {
       const a2 = registry.for('widget-a');
       const b = registry.for('widget-b');
 
-      assert.strictEqual(a1, a2, 'the same id resolves to the same ChatSession every time');
-      assert.notStrictEqual(a1, b, 'a different id resolves to a distinct ChatSession');
+      assert.strictEqual(
+        a1,
+        a2,
+        'the same id resolves to the same ChatSession every time',
+      );
+      assert.notStrictEqual(
+        a1,
+        b,
+        'a different id resolves to a distinct ChatSession',
+      );
       assert.strictEqual(a1.id, 'widget-a');
       assert.strictEqual(b.id, 'widget-b');
     });
@@ -269,10 +315,13 @@ module('Unit | Service | ai-chat-session', function (hooks) {
       const registry = getRegistry(this);
 
       assert.strictEqual(registry.for(), registry.default);
-      assert.strictEqual(registry.for(DEFAULT_CHAT_SESSION_ID), registry.default);
+      assert.strictEqual(
+        registry.for(DEFAULT_CHAT_SESSION_ID),
+        registry.default,
+      );
     });
 
-    test('sending in one instance does not affect another instance\'s messages or draft', function (assert) {
+    test("sending in one instance does not affect another instance's messages or draft", function (assert) {
       const registry = getRegistry(this);
       const a = registry.for('widget-a');
       const b = registry.for('widget-b');
@@ -281,8 +330,16 @@ module('Unit | Service | ai-chat-session', function (hooks) {
       a.send();
 
       assert.strictEqual(a.messages.length, 1);
-      assert.strictEqual(b.messages.length, 0, 'a send in widget-a leaves widget-b untouched');
-      assert.strictEqual(b.draft, '', 'a draft set on widget-a leaves widget-b untouched');
+      assert.strictEqual(
+        b.messages.length,
+        0,
+        'a send in widget-a leaves widget-b untouched',
+      );
+      assert.strictEqual(
+        b.draft,
+        '',
+        'a draft set on widget-a leaves widget-b untouched',
+      );
     });
 
     test('panel/open state is independent per instance', function (assert) {
@@ -296,7 +353,10 @@ module('Unit | Service | ai-chat-session', function (hooks) {
       assert.true(a.open);
       assert.true(a.showHistory);
       assert.false(b.open, 'widget-b was not opened by toggling widget-a');
-      assert.false(b.showHistory, 'widget-b\'s history panel was not opened by toggling widget-a');
+      assert.false(
+        b.showHistory,
+        "widget-b's history panel was not opened by toggling widget-a",
+      );
     });
 
     test('event-bus listeners are independent per instance', function (assert) {
@@ -311,11 +371,19 @@ module('Unit | Service | ai-chat-session', function (hooks) {
 
       a.send('hello from a');
 
-      assert.strictEqual(aCalls, 1, 'widget-a\'s own listener fires for its own send');
-      assert.strictEqual(bCalls, 0, 'widget-b\'s listener does not fire for widget-a\'s send');
+      assert.strictEqual(
+        aCalls,
+        1,
+        "widget-a's own listener fires for its own send",
+      );
+      assert.strictEqual(
+        bCalls,
+        0,
+        "widget-b's listener does not fire for widget-a's send",
+      );
     });
 
-    test('restart() on one instance does not clear another instance\'s messages', function (assert) {
+    test("restart() on one instance does not clear another instance's messages", function (assert) {
       const registry = getRegistry(this);
       const a = registry.for('widget-a');
       const b = registry.for('widget-b');
@@ -326,7 +394,11 @@ module('Unit | Service | ai-chat-session', function (hooks) {
       a.restart();
 
       assert.strictEqual(a.messages.length, 0);
-      assert.strictEqual(b.messages.length, 1, 'restarting widget-a leaves widget-b\'s messages intact');
+      assert.strictEqual(
+        b.messages.length,
+        1,
+        "restarting widget-a leaves widget-b's messages intact",
+      );
     });
   });
 
@@ -367,7 +439,10 @@ module('Unit | Service | ai-chat-session', function (hooks) {
 
       const raw = storage.getItem('carbon-ai-chat-session');
       assert.true(raw !== null);
-      assert.strictEqual((JSON.parse(raw as string) as { messages: unknown[] }).messages.length, 0);
+      assert.strictEqual(
+        (JSON.parse(raw as string) as { messages: unknown[] }).messages.length,
+        0,
+      );
     });
 
     test('a message restored mid-stream comes back with streaming cleared', function (assert) {
@@ -404,7 +479,14 @@ module('Unit | Service | ai-chat-session', function (hooks) {
       const storage = createFakeStorage();
       storage.setItem(
         'carbon-ai-chat-session',
-        JSON.stringify({ version: 999, messages: [{ id: 'x', role: 'user', text: 'old' }], draft: '', open: false, showHistory: false, showWorkspace: false }),
+        JSON.stringify({
+          version: 999,
+          messages: [{ id: 'x', role: 'user', text: 'old' }],
+          draft: '',
+          open: false,
+          showHistory: false,
+          showWorkspace: false,
+        }),
       );
       const session = getService(this);
 
@@ -412,7 +494,11 @@ module('Unit | Service | ai-chat-session', function (hooks) {
 
       assert.false(restored);
       assert.strictEqual(session.messages.length, 0);
-      assert.strictEqual(storage.getItem('carbon-ai-chat-session'), null, 'stale session is cleared, not left behind');
+      assert.strictEqual(
+        storage.getItem('carbon-ai-chat-session'),
+        null,
+        'stale session is cleared, not left behind',
+      );
     });
 
     test('malformed stored JSON is discarded rather than throwing', function (assert) {
@@ -447,13 +533,20 @@ module('Unit | Service | ai-chat-session', function (hooks) {
       session.setDraft('h');
       session.setDraft('he');
       session.setDraft('hel');
-      assert.strictEqual(storage.getItem('carbon-ai-chat-session'), null, 'not written synchronously');
+      assert.strictEqual(
+        storage.getItem('carbon-ai-chat-session'),
+        null,
+        'not written synchronously',
+      );
 
       await wait(300);
 
       const raw = storage.getItem('carbon-ai-chat-session');
       assert.true(raw !== null);
-      assert.strictEqual((JSON.parse(raw as string) as { draft: string }).draft, 'hel');
+      assert.strictEqual(
+        (JSON.parse(raw as string) as { draft: string }).draft,
+        'hel',
+      );
     });
 
     test('disablePersistence() stops further writes', function (assert) {
@@ -466,7 +559,11 @@ module('Unit | Service | ai-chat-session', function (hooks) {
       session.send('two');
 
       const raw = storage.getItem('carbon-ai-chat-session');
-      assert.strictEqual((JSON.parse(raw as string) as { messages: unknown[] }).messages.length, 1, 'the second send() was never persisted');
+      assert.strictEqual(
+        (JSON.parse(raw as string) as { messages: unknown[] }).messages.length,
+        1,
+        'the second send() was never persisted',
+      );
     });
 
     test('clearPersistedSession() removes the stored session', function (assert) {
@@ -504,12 +601,15 @@ module('Unit | Service | ai-chat-session', function (hooks) {
 
       const restoredSales = sales.enablePersistence(storage);
 
-      assert.false(restoredSales, 'sales never wrote to support\'s key, so there is nothing to restore');
+      assert.false(
+        restoredSales,
+        "sales never wrote to support's key, so there is nothing to restore",
+      );
       assert.strictEqual(sales.messages.length, 0);
       assert.strictEqual(
         storage.getItem('carbon-ai-chat-session'),
         null,
-        'the default session\'s own plain key is untouched by either named instance',
+        "the default session's own plain key is untouched by either named instance",
       );
     });
 
@@ -543,7 +643,11 @@ module('Unit | Service | ai-chat-session', function (hooks) {
       // last-flushed snapshot.
       session.enablePersistence(storage);
 
-      assert.strictEqual(session.draft, 'not yet flushed', 'the live draft was not reverted');
+      assert.strictEqual(
+        session.draft,
+        'not yet flushed',
+        'the live draft was not reverted',
+      );
       const raw = storage.getItem('carbon-ai-chat-session');
       assert.strictEqual(
         (JSON.parse(raw as string) as { draft: string }).draft,

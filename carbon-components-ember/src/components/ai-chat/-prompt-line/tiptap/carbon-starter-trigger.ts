@@ -6,7 +6,10 @@
  */
 
 import { Extension, type Editor } from '@tiptap/core';
-import { dispatchTriggerChange, resetTriggerChangeState } from './trigger-utils.ts';
+import {
+  dispatchTriggerChange,
+  resetTriggerChangeState,
+} from './trigger-utils.ts';
 import type { SuggestionItem } from './types.ts';
 
 /**
@@ -24,7 +27,10 @@ import type { SuggestionItem } from './types.ts';
  * + `onSendIntent` directly (see `PromptLine`'s class doc), so there's no
  * `command` for `active-suggestion.ts` to capture here.
  */
-export function carbonStarterTrigger(initialItems: SuggestionItem[], initialIsOn = true): Extension {
+export function carbonStarterTrigger(
+  initialItems: SuggestionItem[],
+  initialIsOn = true,
+): Extension {
   return Extension.create<unknown, { items: SuggestionItem[]; isOn: boolean }>({
     name: 'carbonStarterTrigger',
 
@@ -55,14 +61,22 @@ export function carbonStarterTrigger(initialItems: SuggestionItem[], initialIsOn
 }
 
 function maybeEmit(editor: Editor): void {
-  const storage = (editor.storage as unknown as Record<string, unknown>)['carbonStarterTrigger'] as
-    | { items: SuggestionItem[]; isOn: boolean }
-    | undefined;
+  const storage = (editor.storage as unknown as Record<string, unknown>)[
+    'carbonStarterTrigger'
+  ] as { items: SuggestionItem[]; isOn: boolean } | undefined;
   const isActive =
-    storage?.isOn !== false && (storage?.items.length ?? 0) > 0 && editor.isEditable && editor.isFocused && editor.isEmpty;
+    storage?.isOn !== false &&
+    (storage?.items.length ?? 0) > 0 &&
+    editor.isEditable &&
+    editor.isFocused &&
+    editor.isEmpty;
   if (!isActive) {
     dispatchTriggerChange(editor, null);
     return;
   }
-  dispatchTriggerChange(editor, { type: 'starter', query: '', triggerOffset: 0 });
+  dispatchTriggerChange(editor, {
+    type: 'starter',
+    query: '',
+    triggerOffset: 0,
+  });
 }

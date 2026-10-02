@@ -54,16 +54,19 @@ module('Integration | Component | Tile', (hooks) => {
       </template>,
     );
 
-    assert.dom('.cds--tile--selectable').doesNotHaveClass('cds--tile--is-selected');
+    assert
+      .dom('.cds--tile--selectable')
+      .doesNotHaveClass('cds--tile--is-selected');
     await click('.cds--tile--selectable');
     assert.dom('.cds--tile--selectable').hasClass('cds--tile--is-selected');
     assert.dom('.cds--tile--selectable').hasAttribute('aria-checked', 'true');
   });
 
-  test('@selectable renders @id on its root and matches the content label\'s `for`, and renders neither when omitted', async function (assert) {
+  test("@selectable renders @id on its root and matches the content label's `for`, and renders neither when omitted", async function (assert) {
     await render(
       <template>
-        <Tile @selectable={{true}} @id='my-tile'><:content>Selectable</:content></Tile>
+        <Tile @selectable={{true}} @id="my-tile"><:content
+          >Selectable</:content></Tile>
       </template>,
     );
 
@@ -110,11 +113,15 @@ module('Integration | Component | Tile', (hooks) => {
     // Matches @carbon/react's ExpandableTile: the below-the-fold content is
     // always in the DOM (clipped via CSS), not only once @expanded is true.
     assert.dom('.cds--tile-content__below-the-fold').hasText('Below the fold');
-    assert.dom('.cds--tile__chevron--interactive').hasAttribute('aria-expanded', 'false');
+    assert
+      .dom('.cds--tile__chevron--interactive')
+      .hasAttribute('aria-expanded', 'false');
     await click('.cds--tile__chevron');
     assert.dom('.cds--tile--is-expanded').exists();
     assert.dom('.cds--tile-content__below-the-fold').hasText('Below the fold');
-    assert.dom('.cds--tile__chevron--interactive').hasAttribute('aria-expanded', 'true');
+    assert
+      .dom('.cds--tile__chevron--interactive')
+      .hasAttribute('aria-expanded', 'true');
   });
 
   test('@expandable puts aria-expanded/aria-controls on the chevron button, not the root', async function (assert) {
@@ -130,8 +137,9 @@ module('Integration | Component | Tile', (hooks) => {
     assert.dom('.cds--tile--expandable').doesNotHaveAttribute('aria-expanded');
     assert.dom('.cds--tile--expandable').doesNotHaveAttribute('aria-controls');
     const chevron = document.querySelector('.cds--tile__chevron--interactive');
-    const belowFold = document.querySelector('.cds--tile-content__below-the-fold')
-      ?.parentElement;
+    const belowFold = document.querySelector(
+      '.cds--tile-content__below-the-fold',
+    )?.parentElement;
     assert.dom(chevron).hasAttribute('aria-controls', belowFold?.id ?? '');
   });
 
@@ -141,13 +149,15 @@ module('Integration | Component | Tile', (hooks) => {
         <Tile @expandable={{true}}>
           <:above>Above the fold</:above>
           <:below>
-            <div style='height: 400px;'>tall below content</div>
+            <div style="height: 400px;">tall below content</div>
           </:below>
         </Tile>
       </template>,
     );
 
-    const tile = this.element.querySelector('.cds--tile--expandable') as HTMLElement;
+    const tile = this.element.querySelector(
+      '.cds--tile--expandable',
+    ) as HTMLElement;
     // The below-the-fold content is always in the DOM (see the previous
     // test), so without a real measured max-height the collapsed tile would
     // render at its full, expanded content height - `overflow: hidden` has
@@ -164,7 +174,11 @@ module('Integration | Component | Tile', (hooks) => {
     );
     const collapsedHeight = tile.offsetHeight;
     await click(tile.querySelector('.cds--tile__chevron') as HTMLElement);
-    assert.strictEqual(tile.style.maxHeight, '', 'max-height is cleared once expanded');
+    assert.strictEqual(
+      tile.style.maxHeight,
+      '',
+      'max-height is cleared once expanded',
+    );
     const expandedHeight = tile.offsetHeight;
     assert.ok(
       expandedHeight > collapsedHeight + 300,

@@ -102,17 +102,15 @@ export default class ToggletipComponent extends Component<ToggletipComponentSign
   <template>
     {{! template-lint-disable no-invalid-interactive }}
     <span
-      class='cds--popover-container
-        cds--popover--{{this.align}}
-        cds--popover--caret
-        cds--popover--high-contrast
-        {{if this.open "cds--popover--open"}}
+      class="cds--popover-container cds--popover--{{this.align}}
+        cds--popover--caret cds--popover--high-contrast
+        {{if this.open 'cds--popover--open'}}
         cds--toggletip
-        {{if this.open "cds--toggletip--open"}}'
+        {{if this.open 'cds--toggletip--open'}}"
       {{this.registerElement}}
       {{closeOnOutsideClick this.onOutsideClick capture=true onWindowBlur=true}}
-      {{on 'keydown' this.onKeyDown}}
-      {{on 'focusout' this.onFocusOut}}
+      {{on "keydown" this.onKeyDown}}
+      {{on "focusout" this.onFocusOut}}
       ...attributes
     >
       {{yield

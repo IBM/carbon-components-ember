@@ -35,13 +35,13 @@ module('Integration | Component | SkeletonText', (hooks) => {
   });
 
   test('should apply the given width', async function (assert) {
-    await render(<template><SkeletonText @width='75%' /></template>);
+    await render(<template><SkeletonText @width="75%" /></template>);
 
     assert.dom('p.cds--skeleton__text').hasAttribute('style', 'width: 75%;');
   });
 
   test('should pass through attributes on a single line', async function (assert) {
-    await render(<template><SkeletonText class='custom-class' /></template>);
+    await render(<template><SkeletonText class="custom-class" /></template>);
 
     assert.dom('p.cds--skeleton__text').hasClass('custom-class');
   });
@@ -49,7 +49,7 @@ module('Integration | Component | SkeletonText', (hooks) => {
   test('should pass through attributes on multiple lines', async function (assert) {
     await render(
       <template>
-        <SkeletonText @paragraph={{true}} class='custom-class' />
+        <SkeletonText @paragraph={{true}} class="custom-class" />
       </template>,
     );
 

@@ -46,7 +46,10 @@ export class VimeoProvider extends BaseProvider {
     element.setAttribute('aria-busy', state === 'loading' ? 'true' : 'false');
   }
 
-  async initialize(container: HTMLElement, config: ProviderConfig): Promise<void> {
+  async initialize(
+    container: HTMLElement,
+    config: ProviderConfig,
+  ): Promise<void> {
     await super.initialize(container, config);
 
     if (!this.container) {

@@ -2,9 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, triggerKeyEvent } from '@ember/test-helpers';
 import { cell } from 'ember-resources';
-import Popover, {
-  PopoverContent,
-} from '#src/components/popover.gts';
+import Popover, { PopoverContent } from '#src/components/popover.gts';
 
 module('Integration | Component | Popover', (hooks) => {
   setupRenderingTest(hooks);
@@ -13,7 +11,7 @@ module('Integration | Component | Popover', (hooks) => {
     await render(
       <template>
         <Popover @open={{true}}>
-          <button type='button'>Trigger</button>
+          <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
       </template>,
@@ -30,20 +28,22 @@ module('Integration | Component | Popover', (hooks) => {
     await render(
       <template>
         <Popover @open={{false}}>
-          <button type='button'>Trigger</button>
+          <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
       </template>,
     );
 
-    assert.dom('.cds--popover-container').doesNotHaveClass('cds--popover--open');
+    assert
+      .dom('.cds--popover-container')
+      .doesNotHaveClass('cds--popover--open');
   });
 
   test('defaults to bottom alignment and caret enabled', async function (assert) {
     await render(
       <template>
         <Popover @open={{true}}>
-          <button type='button'>Trigger</button>
+          <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
       </template>,
@@ -57,8 +57,8 @@ module('Integration | Component | Popover', (hooks) => {
   test('@align maps deprecated values to the new alignment classes', async function (assert) {
     await render(
       <template>
-        <Popover @open={{true}} @align='top-left'>
-          <button type='button'>Trigger</button>
+        <Popover @open={{true}} @align="top-left">
+          <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
       </template>,
@@ -71,20 +71,22 @@ module('Integration | Component | Popover', (hooks) => {
     await render(
       <template>
         <Popover @open={{true}} @caret={{false}}>
-          <button type='button'>Trigger</button>
+          <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
       </template>,
     );
 
-    assert.dom('.cds--popover-container').doesNotHaveClass('cds--popover--caret');
+    assert
+      .dom('.cds--popover-container')
+      .doesNotHaveClass('cds--popover--caret');
   });
 
   test('@dropShadow={{false}} removes the drop shadow class', async function (assert) {
     await render(
       <template>
         <Popover @open={{true}} @dropShadow={{false}}>
-          <button type='button'>Trigger</button>
+          <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
       </template>,
@@ -99,7 +101,7 @@ module('Integration | Component | Popover', (hooks) => {
     await render(
       <template>
         <Popover @open={{true}} @border={{true}}>
-          <button type='button'>Trigger</button>
+          <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
       </template>,
@@ -112,7 +114,7 @@ module('Integration | Component | Popover', (hooks) => {
     await render(
       <template>
         <Popover @open={{true}} @highContrast={{true}}>
-          <button type='button'>Trigger</button>
+          <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
       </template>,
@@ -126,8 +128,8 @@ module('Integration | Component | Popover', (hooks) => {
   test('@backgroundToken="background" adds the background-token class', async function (assert) {
     await render(
       <template>
-        <Popover @open={{true}} @backgroundToken='background'>
-          <button type='button'>Trigger</button>
+        <Popover @open={{true}} @backgroundToken="background">
+          <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
       </template>,
@@ -142,7 +144,7 @@ module('Integration | Component | Popover', (hooks) => {
     await render(
       <template>
         <Popover @open={{true}} @isTabTip={{true}}>
-          <button type='button'>Trigger</button>
+          <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
       </template>,
@@ -158,8 +160,8 @@ module('Integration | Component | Popover', (hooks) => {
   test('@as renders a custom element type', async function (assert) {
     await render(
       <template>
-        <Popover @open={{true}} @as='div'>
-          <button type='button'>Trigger</button>
+        <Popover @open={{true}} @as="div">
+          <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
       </template>,
@@ -175,9 +177,9 @@ module('Integration | Component | Popover', (hooks) => {
 
     await render(
       <template>
-        <div id='outside'>outside</div>
+        <div id="outside">outside</div>
         <Popover @open={{open.current}} @onRequestClose={{onRequestClose}}>
-          <button type='button'>Trigger</button>
+          <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
       </template>,
@@ -195,7 +197,7 @@ module('Integration | Component | Popover', (hooks) => {
     await render(
       <template>
         <Popover @open={{open.current}} @onRequestClose={{onRequestClose}}>
-          <button type='button'>Trigger</button>
+          <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
       </template>,
@@ -212,9 +214,9 @@ module('Integration | Component | Popover', (hooks) => {
     await render(
       <template>
         <Popover @open={{open.current}} @onRequestClose={{onRequestClose}}>
-          <button type='button'>Trigger</button>
+          <button type="button">Trigger</button>
           <PopoverContent>
-            <button type='button' id='inner'>Inner</button>
+            <button type="button" id="inner">Inner</button>
           </PopoverContent>
         </Popover>
       </template>,

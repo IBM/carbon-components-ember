@@ -113,70 +113,79 @@ export default class FluidTextInput extends Component<Signature> {
 
   <template>
     <div
-      class='cds--form-item cds--text-input-wrapper cds--text-input--fluid
-        {{if @isPassword "cds--password-input-wrapper"}}
-        {{if @readOnly "cds--text-input-wrapper--readonly"}}'
+      class="cds--form-item cds--text-input-wrapper cds--text-input--fluid
+        {{if @isPassword 'cds--password-input-wrapper'}}
+        {{if @readOnly 'cds--text-input-wrapper--readonly'}}"
       ...attributes
     >
-      <div class='cds--text-input__label-wrapper'>
-        {{#if (has-block 'labelText')}}
-          <label for={{this.id}} class='cds--label {{if @disabled "cds--label--disabled"}}'>
-            {{yield to='labelText'}}
+      <div class="cds--text-input__label-wrapper">
+        {{#if (has-block "labelText")}}
+          <label
+            for={{this.id}}
+            class="cds--label {{if @disabled 'cds--label--disabled'}}"
+          >
+            {{yield to="labelText"}}
           </label>
         {{else if @labelText}}
-          <label for={{this.id}} class='cds--label {{if @disabled "cds--label--disabled"}}'>
+          <label
+            for={{this.id}}
+            class="cds--label {{if @disabled 'cds--label--disabled'}}"
+          >
             {{@labelText}}
           </label>
         {{/if}}
         {{#if this.showCounter}}
           <label
-            class='cds--label cds--text-input__label-counter'
-            aria-live='polite'
-            aria-atomic='true'
+            class="cds--label cds--text-input__label-counter"
+            aria-live="polite"
+            aria-atomic="true"
           >{{this.count}}/{{@maxCount}}</label>
         {{/if}}
       </div>
-      <div class='cds--text-input__field-outer-wrapper'>
+      <div class="cds--text-input__field-outer-wrapper">
         <div
-          class='cds--text-input__field-wrapper
-            {{if this.isWarn "cds--text-input__field-wrapper--warning"}}'
-          data-invalid={{if this.isInvalid 'true'}}
+          class="cds--text-input__field-wrapper
+            {{if this.isWarn 'cds--text-input__field-wrapper--warning'}}"
+          data-invalid={{if this.isInvalid "true"}}
         >
           {{#if this.isInvalid}}
-            <WarningFilled @size='16' @svgClass='cds--text-input__invalid-icon' />
+            <WarningFilled
+              @size="16"
+              @svgClass="cds--text-input__invalid-icon"
+            />
           {{else if this.isWarn}}
             <WarningAltFilled
-              @size='16'
-              @svgClass='cds--text-input__invalid-icon cds--text-input__invalid-icon--warning'
+              @size="16"
+              @svgClass="cds--text-input__invalid-icon cds--text-input__invalid-icon--warning"
             />
           {{/if}}
           <input
             id={{this.id}}
             type={{this.type}}
-            class='cds--text-input
-              {{if @isPassword "cds--password-input"}}
-              {{if this.isInvalid "cds--text-input--invalid"}}
-              {{if this.isWarn "cds--text-input--warning"}}'
+            class="cds--text-input
+              {{if @isPassword 'cds--password-input'}}
+              {{if this.isInvalid 'cds--text-input--invalid'}}
+              {{if this.isWarn 'cds--text-input--warning'}}"
             placeholder={{@placeholder}}
             disabled={{@disabled}}
             readonly={{@readOnly}}
-            aria-invalid={{if this.isInvalid 'true'}}
-            data-invalid={{if this.isInvalid 'true'}}
+            aria-invalid={{if this.isInvalid "true"}}
+            data-invalid={{if this.isInvalid "true"}}
             value={{this.value}}
-            {{on 'input' this.updateValue}}
-            {{on 'click' this.handleClick}}
+            {{on "input" this.updateValue}}
+            {{on "click" this.handleClick}}
           />
           {{#unless @isPassword}}
             <span
-              class='cds--text-input__counter-alert'
-              role='alert'
-              aria-live='assertive'
-              aria-atomic='true'
+              class="cds--text-input__counter-alert"
+              role="alert"
+              aria-live="assertive"
+              aria-atomic="true"
             >
               {{#if this.isOverCountLimit}}{{this.count}}/{{@maxCount}}{{/if}}
             </span>
           {{/unless}}
-          <hr class='cds--text-input__divider' />
+          <hr class="cds--text-input__divider" />
           {{#if @isPassword}}
             <Tooltip
               @label={{if
@@ -184,32 +193,32 @@ export default class FluidTextInput extends Component<Signature> {
                 this.hidePasswordLabel
                 this.showPasswordLabel
               }}
-              @align='bottom-end'
-              class='cds--toggle-password-tooltip cds--icon-tooltip'
+              @align="bottom-end"
+              class="cds--toggle-password-tooltip cds--icon-tooltip"
             >
               <button
-                type='button'
-                class='cds--text-input--password__visibility__toggle cds--btn cds--btn--icon-only cds--tooltip__trigger cds--tooltip--a11y'
+                type="button"
+                class="cds--text-input--password__visibility__toggle cds--btn cds--btn--icon-only cds--tooltip__trigger cds--tooltip--a11y"
                 disabled={{@disabled}}
                 aria-label={{if
                   this.passwordVisible
                   this.hidePasswordLabel
                   this.showPasswordLabel
                 }}
-                {{on 'click' this.togglePasswordVisibility}}
+                {{on "click" this.togglePasswordVisibility}}
               >
                 {{#if this.passwordVisible}}
-                  <ViewOff @size='16' @svgClass='cds--icon-visibility-off' />
+                  <ViewOff @size="16" @svgClass="cds--icon-visibility-off" />
                 {{else}}
-                  <View @size='16' @svgClass='cds--icon-visibility-on' />
+                  <View @size="16" @svgClass="cds--icon-visibility-on" />
                 {{/if}}
               </button>
             </Tooltip>
           {{/if}}
           {{#if this.isInvalid}}
-            <div class='cds--form-requirement'>{{@invalidText}}</div>
+            <div class="cds--form-requirement">{{@invalidText}}</div>
           {{else if this.isWarn}}
-            <div class='cds--form-requirement'>{{@warnText}}</div>
+            <div class="cds--form-requirement">{{@warnText}}</div>
           {{/if}}
         </div>
       </div>

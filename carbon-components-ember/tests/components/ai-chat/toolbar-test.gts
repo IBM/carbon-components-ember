@@ -1,7 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, waitUntil, find } from '@ember/test-helpers';
-import Toolbar, { type ToolbarAction } from '#src/components/ai-chat/toolbar.gts';
+import Toolbar, {
+  type ToolbarAction,
+} from '#src/components/ai-chat/toolbar.gts';
 import { Add, Settings } from '#src/icons.ts';
 
 const noActions: ToolbarAction[] = [];
@@ -16,10 +18,16 @@ module('Integration | Component | ai-chat/Toolbar', (hooks) => {
       { text: 'Settings', icon: Settings, onClick: () => clicks++ },
     ];
 
-    await render(<template><Toolbar @titleText='My' @nameText='Toolbar' @actions={{actions}} /></template>);
+    await render(
+      <template>
+        <Toolbar @titleText="My" @nameText="Toolbar" @actions={{actions}} />
+      </template>,
+    );
 
     assert.dom('.cds-aichat-toolbar__title').hasText('My Toolbar');
-    assert.dom('.cds-aichat-toolbar__actions-container button').exists({ count: 2 });
+    assert
+      .dom('.cds-aichat-toolbar__actions-container button')
+      .exists({ count: 2 });
     assert.dom('.cds-aichat-toolbar .cds--overflow-menu').doesNotExist();
 
     await click('.cds-aichat-toolbar__actions-container button');
@@ -30,7 +38,10 @@ module('Integration | Component | ai-chat/Toolbar', (hooks) => {
     await render(
       <template>
         <Toolbar @actions={{noActions}}>
-          <:navigation><button type='button' class='nav-btn'>Back</button></:navigation>
+          <:navigation><button
+              type="button"
+              class="nav-btn"
+            >Back</button></:navigation>
         </Toolbar>
       </template>,
     );
@@ -41,8 +52,8 @@ module('Integration | Component | ai-chat/Toolbar', (hooks) => {
   test('a title block overrides @titleText', async function (assert) {
     await render(
       <template>
-        <Toolbar @titleText='Ignored' @actions={{noActions}}>
-          <:title><span class='custom-title'>Custom</span></:title>
+        <Toolbar @titleText="Ignored" @actions={{noActions}}>
+          <:title><span class="custom-title">Custom</span></:title>
         </Toolbar>
       </template>,
     );
@@ -68,8 +79,14 @@ module('Integration | Component | ai-chat/Toolbar', (hooks) => {
     // ResizeObserver driving this test) thrash.
     await render(
       <template>
-        <style>.cds-aichat-toolbar__measure { position: absolute; visibility: hidden; pointer-events: none; }</style>
-        <div style='max-inline-size: 80px;'>
+        <style>
+          .cds-aichat-toolbar__measure {
+            position: absolute;
+            visibility: hidden;
+            pointer-events: none;
+          }
+        </style>
+        <div style="max-inline-size: 80px;">
           <Toolbar @overflow={{true}} @actions={{actions}} />
         </div>
       </template>,
@@ -78,15 +95,23 @@ module('Integration | Component | ai-chat/Toolbar', (hooks) => {
     await waitUntil(() => find('.cds-aichat-toolbar .cds--overflow-menu'));
 
     assert.dom('.cds-aichat-toolbar .cds--overflow-menu').exists();
-    const visibleButtons = document.querySelectorAll('.cds-aichat-toolbar__actions-container > button');
-    assert.true(visibleButtons.length < actions.length, 'fewer than all actions render as visible buttons');
+    const visibleButtons = document.querySelectorAll(
+      '.cds-aichat-toolbar__actions-container > button',
+    );
+    assert.true(
+      visibleButtons.length < actions.length,
+      'fewer than all actions render as visible buttons',
+    );
   });
 
   test('a fixedActions block renders after the action list', async function (assert) {
     await render(
       <template>
         <Toolbar @actions={{noActions}}>
-          <:fixedActions><button type='button' class='fixed-btn'>Pinned</button></:fixedActions>
+          <:fixedActions><button
+              type="button"
+              class="fixed-btn"
+            >Pinned</button></:fixedActions>
         </Toolbar>
       </template>,
     );
@@ -95,20 +120,35 @@ module('Integration | Component | ai-chat/Toolbar', (hooks) => {
   });
 
   test('an href action renders as a link', async function (assert) {
-    const actions = [{ text: 'Docs', icon: Add, href: 'https://example.com/docs' }];
+    const actions = [
+      { text: 'Docs', icon: Add, href: 'https://example.com/docs' },
+    ];
 
     await render(<template><Toolbar @actions={{actions}} /></template>);
 
-    assert.dom('.cds-aichat-toolbar__actions-container a').hasAttribute('href', 'https://example.com/docs');
-    assert.dom('.cds-aichat-toolbar__actions-container a').doesNotHaveAttribute('aria-disabled');
+    assert
+      .dom('.cds-aichat-toolbar__actions-container a')
+      .hasAttribute('href', 'https://example.com/docs');
+    assert
+      .dom('.cds-aichat-toolbar__actions-container a')
+      .doesNotHaveAttribute('aria-disabled');
   });
 
   test('a disabled href action strips href and is not navigable', async function (assert) {
-    const actions = [{ text: 'Docs', icon: Add, href: 'https://example.com/docs', disabled: true }];
+    const actions = [
+      {
+        text: 'Docs',
+        icon: Add,
+        href: 'https://example.com/docs',
+        disabled: true,
+      },
+    ];
 
     await render(<template><Toolbar @actions={{actions}} /></template>);
 
-    const link = document.querySelector('.cds-aichat-toolbar__actions-container a');
+    const link = document.querySelector(
+      '.cds-aichat-toolbar__actions-container a',
+    );
     assert.dom(link).hasClass('cds--btn--disabled');
     assert.dom(link).doesNotHaveAttribute('href');
     assert.dom(link).hasAttribute('role', 'link');
@@ -121,29 +161,59 @@ module('Integration | Component | ai-chat/Toolbar', (hooks) => {
   test('without @overflow, actions render in their given order even when a @fixed action is not listed first', async function (assert) {
     const actions = [
       { text: 'Extra', icon: Add, onClick: () => {}, testId: 'extra' },
-      { text: 'Pinned', icon: Settings, onClick: () => {}, fixed: true, testId: 'pinned' },
+      {
+        text: 'Pinned',
+        icon: Settings,
+        onClick: () => {},
+        fixed: true,
+        testId: 'pinned',
+      },
     ];
 
     await render(<template><Toolbar @actions={{actions}} /></template>);
 
-    const testIds = [...document.querySelectorAll('.cds-aichat-toolbar__actions-container button')].map((el) =>
-      el.getAttribute('data-testid'),
+    const testIds = [
+      ...document.querySelectorAll(
+        '.cds-aichat-toolbar__actions-container button',
+      ),
+    ].map((el) => el.getAttribute('data-testid'));
+    assert.deepEqual(
+      testIds,
+      ['extra', 'pinned'],
+      'actions render in raw array order, not fixed-first',
     );
-    assert.deepEqual(testIds, ['extra', 'pinned'], 'actions render in raw array order, not fixed-first');
   });
 
   test('@fixed actions never collapse into the overflow menu, even when they do not all fit', async function (assert) {
     const actions = [
-      { text: 'Pinned 1', icon: Add, onClick: () => {}, fixed: true, testId: 'pinned-1' },
-      { text: 'Pinned 2', icon: Settings, onClick: () => {}, fixed: true, testId: 'pinned-2' },
+      {
+        text: 'Pinned 1',
+        icon: Add,
+        onClick: () => {},
+        fixed: true,
+        testId: 'pinned-1',
+      },
+      {
+        text: 'Pinned 2',
+        icon: Settings,
+        onClick: () => {},
+        fixed: true,
+        testId: 'pinned-2',
+      },
       { text: 'Extra 1', icon: Add, onClick: () => {}, testId: 'extra-1' },
       { text: 'Extra 2', icon: Settings, onClick: () => {}, testId: 'extra-2' },
     ];
 
     await render(
       <template>
-        <style>.cds-aichat-toolbar__measure { position: absolute; visibility: hidden; pointer-events: none; }</style>
-        <div style='max-inline-size: 60px;'>
+        <style>
+          .cds-aichat-toolbar__measure {
+            position: absolute;
+            visibility: hidden;
+            pointer-events: none;
+          }
+        </style>
+        <div style="max-inline-size: 60px;">
           <Toolbar @overflow={{true}} @actions={{actions}} />
         </div>
       </template>,
@@ -151,7 +221,11 @@ module('Integration | Component | ai-chat/Toolbar', (hooks) => {
 
     await waitUntil(() => find('.cds-aichat-toolbar .cds--overflow-menu'));
 
-    assert.dom('.cds-aichat-toolbar__actions-container [data-testid="pinned-1"]').exists();
-    assert.dom('.cds-aichat-toolbar__actions-container [data-testid="pinned-2"]').exists();
+    assert
+      .dom('.cds-aichat-toolbar__actions-container [data-testid="pinned-1"]')
+      .exists();
+    assert
+      .dom('.cds-aichat-toolbar__actions-container [data-testid="pinned-2"]')
+      .exists();
   });
 });

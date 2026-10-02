@@ -192,88 +192,91 @@ export default class NumberInput extends Component<Signature> {
   }
 
   <template>
-    <div class='cds--form-item' ...attributes>
+    <div class="cds--form-item" ...attributes>
       <div
-        class='cds--number cds--number--helpertext
-          {{if @readOnly "cds--number--readonly"}}
-          {{if @light "cds--number--light"}}
-          {{if @hideLabel "cds--number--nolabel"}}
-          {{if @hideSteppers "cds--number--nosteppers"}}
-          {{concat "cds--number--" (if @size @size "md")}}'
-        data-invalid={{if this.isInvalid 'true'}}
+        class="cds--number cds--number--helpertext
+          {{if @readOnly 'cds--number--readonly'}}
+          {{if @light 'cds--number--light'}}
+          {{if @hideLabel 'cds--number--nolabel'}}
+          {{if @hideSteppers 'cds--number--nosteppers'}}
+          {{concat 'cds--number--' (if @size @size 'md')}}"
+        data-invalid={{if this.isInvalid "true"}}
       >
         {{#if @label}}
           <label
             for={{this.id}}
-            class='cds--label {{if @disabled "cds--label--disabled"}} {{if @hideLabel "cds--visually-hidden"}}'
+            class="cds--label
+              {{if @disabled 'cds--label--disabled'}}
+              {{if @hideLabel 'cds--visually-hidden'}}"
           >
             {{@label}}
           </label>
         {{/if}}
         <div
-          class='cds--number__input-wrapper
-            {{if this.isWarn "cds--number__input-wrapper--warning"}}'
+          class="cds--number__input-wrapper
+            {{if this.isWarn 'cds--number__input-wrapper--warning'}}"
         >
           <input
             id={{this.id}}
-            type='number'
-            data-invalid={{if this.isInvalid 'true'}}
-            aria-invalid={{if this.isInvalid 'true'}}
-            aria-readonly={{if @readOnly 'true'}}
+            type="number"
+            data-invalid={{if this.isInvalid "true"}}
+            aria-invalid={{if this.isInvalid "true"}}
+            aria-readonly={{if @readOnly "true"}}
             disabled={{@disabled}}
             readonly={{@readOnly}}
             min={{@min}}
             max={{@max}}
             step={{this.step}}
             value={{this.value}}
-            {{on 'input' this.updateValue}}
-            {{on 'click' this.handleClick}}
-            {{on 'blur' this.handleBlur}}
+            {{on "input" this.updateValue}}
+            {{on "click" this.handleClick}}
+            {{on "blur" this.handleBlur}}
           />
           {{#if this.isInvalid}}
-            <WarningFilled @size='16' @svgClass='cds--number__invalid' />
+            <WarningFilled @size="16" @svgClass="cds--number__invalid" />
           {{else if this.isWarn}}
             <WarningAltFilled
-              @size='16'
-              @svgClass='cds--number__invalid cds--number__invalid--warning'
+              @size="16"
+              @svgClass="cds--number__invalid cds--number__invalid--warning"
             />
           {{/if}}
           {{#unless @hideSteppers}}
-            <div class='cds--number__controls'>
+            <div class="cds--number__controls">
               <button
-                type='button'
+                type="button"
                 aria-label={{this.decrementLabel}}
                 title={{this.decrementLabel}}
-                class='cds--number__control-btn down-icon'
+                class="cds--number__control-btn down-icon"
                 disabled={{this.steppersDisabled}}
-                tabindex='-1'
-                {{on 'click' (fn this.handleStepperClick 'down')}}
+                tabindex="-1"
+                {{on "click" (fn this.handleStepperClick "down")}}
               >
-                <Subtract @size='16' @svgClass='down-icon' />
+                <Subtract @size="16" @svgClass="down-icon" />
               </button>
-              <div class='cds--number__rule-divider'></div>
+              <div class="cds--number__rule-divider"></div>
               <button
-                type='button'
+                type="button"
                 aria-label={{this.incrementLabel}}
                 title={{this.incrementLabel}}
-                class='cds--number__control-btn up-icon'
+                class="cds--number__control-btn up-icon"
                 disabled={{this.steppersDisabled}}
-                tabindex='-1'
-                {{on 'click' (fn this.handleStepperClick 'up')}}
+                tabindex="-1"
+                {{on "click" (fn this.handleStepperClick "up")}}
               >
-                <Add @size='16' @svgClass='up-icon' />
+                <Add @size="16" @svgClass="up-icon" />
               </button>
-              <div class='cds--number__rule-divider'></div>
+              <div class="cds--number__rule-divider"></div>
             </div>
           {{/unless}}
         </div>
         {{#if this.isInvalid}}
-          <div class='cds--form-requirement'>{{@invalidText}}</div>
+          <div class="cds--form-requirement">{{@invalidText}}</div>
         {{else if this.isWarn}}
-          <div class='cds--form-requirement'>{{@warnText}}</div>
+          <div class="cds--form-requirement">{{@warnText}}</div>
         {{else if @helperText}}
           <div
-            class='cds--form__helper-text {{if @disabled "cds--form__helper-text--disabled"}}'
+            class="cds--form__helper-text
+              {{if @disabled 'cds--form__helper-text--disabled'}}"
           >{{@helperText}}</div>
         {{/if}}
       </div>

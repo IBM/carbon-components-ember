@@ -22,8 +22,8 @@ export interface MenuItemGroupSignature {
 
 export default class MenuItemGroup extends Component<MenuItemGroupSignature> {
   <template>
-    <li class='cds--menu-item-group' role='none' ...attributes>
-      <ul role='group' aria-label={{@label}}>
+    <li class="cds--menu-item-group" role="none" ...attributes>
+      <ul role="group" aria-label={{@label}}>
         {{yield}}
       </ul>
     </li>

@@ -1,19 +1,13 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import {
-  render,
-  fillIn,
-  click,
-  find,
-  triggerEvent,
-} from '@ember/test-helpers';
+import { render, fillIn, click, find, triggerEvent } from '@ember/test-helpers';
 import Search from '#src/components/search.gts';
 
 module('Integration | Component | Search', (hooks) => {
   setupRenderingTest(hooks);
 
   test('should render a labelled search input', async function (assert) {
-    await render(<template><Search @labelText='Search' /></template>);
+    await render(<template><Search @labelText="Search" /></template>);
 
     assert.dom('[role="search"].cds--search').exists();
     assert.dom('input.cds--search-input').exists();
@@ -21,7 +15,7 @@ module('Integration | Component | Search', (hooks) => {
   });
 
   test('defaults to a type="search" input with a "Search" placeholder', async function (assert) {
-    await render(<template><Search @labelText='Search' /></template>);
+    await render(<template><Search @labelText="Search" /></template>);
 
     assert.dom('input.cds--search-input').hasAttribute('type', 'search');
     assert.dom('input.cds--search-input').hasAttribute('placeholder', 'Search');
@@ -30,7 +24,7 @@ module('Integration | Component | Search', (hooks) => {
   test('respects the placeholder argument', async function (assert) {
     await render(
       <template>
-        <Search @labelText='Search' @placeholder='Find something' />
+        <Search @labelText="Search" @placeholder="Find something" />
       </template>,
     );
 
@@ -41,7 +35,7 @@ module('Integration | Component | Search', (hooks) => {
 
   test('respects the value argument', async function (assert) {
     await render(
-      <template><Search @labelText='Search' @value='my search' /></template>,
+      <template><Search @labelText="Search" @value="my search" /></template>,
     );
 
     assert.dom('input.cds--search-input').hasValue('my search');
@@ -49,7 +43,7 @@ module('Integration | Component | Search', (hooks) => {
 
   test('respects the disabled argument', async function (assert) {
     await render(
-      <template><Search @labelText='Search' @disabled={{true}} /></template>,
+      <template><Search @labelText="Search" @disabled={{true}} /></template>,
     );
 
     assert.dom('input.cds--search-input').isDisabled();
@@ -58,7 +52,7 @@ module('Integration | Component | Search', (hooks) => {
 
   test('applies the size class', async function (assert) {
     await render(
-      <template><Search @labelText='Search' @size='sm' /></template>,
+      <template><Search @labelText="Search" @size="sm" /></template>,
     );
 
     assert.dom('.cds--search').hasClass('cds--search--sm');
@@ -71,7 +65,9 @@ module('Integration | Component | Search', (hooks) => {
     };
 
     await render(
-      <template><Search @labelText='Search' @onChange={{onChange}} /></template>,
+      <template>
+        <Search @labelText="Search" @onChange={{onChange}} />
+      </template>,
     );
     await fillIn('input.cds--search-input', 'carbon');
 
@@ -79,7 +75,9 @@ module('Integration | Component | Search', (hooks) => {
   });
 
   test('shows a clear button once there is input and clears it on click', async function (assert) {
-    await render(<template><Search @labelText='Search' @value='abc' /></template>);
+    await render(
+      <template><Search @labelText="Search" @value="abc" /></template>,
+    );
 
     assert.dom('.cds--search-close').exists();
     await click('.cds--search-close');
@@ -96,7 +94,7 @@ module('Integration | Component | Search', (hooks) => {
 
     await render(
       <template>
-        <Search @labelText='Search' @value='abc' @onClear={{onClear}} />
+        <Search @labelText="Search" @value="abc" @onClear={{onClear}} />
       </template>,
     );
     await click('.cds--search-close');
@@ -117,8 +115,8 @@ module('Integration | Component | Search', (hooks) => {
     await render(
       <template>
         <Search
-          @labelText='Search'
-          @value='abc'
+          @labelText="Search"
+          @value="abc"
           @onChange={{onChange}}
           @onClear={{onClear}}
         />
@@ -137,7 +135,9 @@ module('Integration | Component | Search', (hooks) => {
     };
 
     await render(
-      <template><Search @labelText='Search' @onChange={{onChange}} /></template>,
+      <template>
+        <Search @labelText="Search" @onChange={{onChange}} />
+      </template>,
     );
 
     const input = find('input.cds--search-input') as HTMLInputElement;
@@ -152,9 +152,9 @@ module('Integration | Component | Search', (hooks) => {
     await render(
       <template>
         <Search
-          @labelText='Search'
-          @value='abc'
-          @closeButtonLabelText='Reset search'
+          @labelText="Search"
+          @value="abc"
+          @closeButtonLabelText="Reset search"
         />
       </template>,
     );

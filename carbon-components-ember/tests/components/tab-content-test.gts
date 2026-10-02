@@ -25,7 +25,7 @@ module('Integration | Component | TabContent', (hooks) => {
         <style>
           {{styleValue.current}}
         </style>
-      </template>
+      </template>,
     );
 
     await waitForAnimationFrame();
@@ -34,7 +34,7 @@ module('Integration | Component | TabContent', (hooks) => {
     await rerender();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(
-      this.element.firstElementChild!
+      this.element.firstElementChild!,
     );
 
     const stylesDiff = getStylesDiff(styles, withCarbonStyles);
@@ -50,9 +50,13 @@ module('Integration | Component | TabContent', (hooks) => {
         <TabContent @selected={{true}}>
           <p>Lorem ipsum</p>
         </TabContent>
-        <style>{{styleValue.current}}</style>
-        <style>{{darkStyleValue.current}}</style>
-      </template>
+        <style>
+          {{styleValue.current}}
+        </style>
+        <style>
+          {{darkStyleValue.current}}
+        </style>
+      </template>,
     );
 
     await waitForAnimationFrame();
@@ -62,7 +66,7 @@ module('Integration | Component | TabContent', (hooks) => {
     await rerender();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(
-      this.element.firstElementChild!
+      this.element.firstElementChild!,
     );
 
     const stylesDiff = getStylesDiff(styles, withCarbonStyles);
@@ -76,7 +80,7 @@ module('Integration | Component | TabContent', (hooks) => {
         <TabContent @selected={{true}}>
           <p>Lorem ipsum</p>
         </TabContent>
-      </template>
+      </template>,
     );
 
     assert.dom('.cds--tab-content').exists('renders tab content container');
@@ -91,7 +95,7 @@ module('Integration | Component | TabContent', (hooks) => {
         <TabContent @selected={{false}}>
           <p>Lorem ipsum</p>
         </TabContent>
-      </template>
+      </template>,
     );
 
     assert.dom('.cds--tab-content').hasAttribute('hidden');

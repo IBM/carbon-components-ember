@@ -23,7 +23,9 @@ module('Integration | Component | OrderedList', (hooks) => {
           <li>Item 1</li>
           <li>Item 2</li>
         </OrderedList>
-        <style>{{styleValue.current}}</style>
+        <style>
+          {{styleValue.current}}
+        </style>
       </template>,
     );
 
@@ -50,8 +52,12 @@ module('Integration | Component | OrderedList', (hooks) => {
           <li>Item 1</li>
           <li>Item 2</li>
         </OrderedList>
-        <style>{{styleValue.current}}</style>
-        <style>{{darkStyleValue.current}}</style>
+        <style>
+          {{styleValue.current}}
+        </style>
+        <style>
+          {{darkStyleValue.current}}
+        </style>
       </template>,
     );
 
@@ -113,7 +119,9 @@ module('Integration | Component | OrderedList', (hooks) => {
 
     items.current = [...items.current, 'Item 2'];
     await rerender();
-    await waitUntil(() => findAll('li').every((li) => li.classList.contains('cds--list__item')));
+    await waitUntil(() =>
+      findAll('li').every((li) => li.classList.contains('cds--list__item')),
+    );
 
     assert.dom('li').exists({ count: 2 });
     assert.dom('li:nth-of-type(2)').hasClass('cds--list__item');
@@ -159,7 +167,7 @@ module('Integration | Component | OrderedList', (hooks) => {
   test('passes through html attributes', async function (assert) {
     await render(
       <template>
-        <OrderedList id='my-list' class='custom-class'>
+        <OrderedList id="my-list" class="custom-class">
           <li>Item 1</li>
         </OrderedList>
       </template>,

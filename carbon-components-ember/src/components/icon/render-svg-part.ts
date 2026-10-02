@@ -6,7 +6,15 @@ const cache = new Map();
 
 export function renderSvgPartFunc(
   [svg]: [any],
-  { class: classes, fill, size }: { class: (string | undefined)[]; fill?: string; size: number|string|undefined },
+  {
+    class: classes,
+    fill,
+    size,
+  }: {
+    class: (string | undefined)[];
+    fill?: string;
+    size: number | string | undefined;
+  },
 ): ReturnType<typeof htmlSafe> {
   if (!svg) return htmlSafe('');
   if (typeof svg !== 'object') return svg as ReturnType<typeof htmlSafe>;
@@ -23,8 +31,8 @@ export function renderSvgPartFunc(
              aria-hidden="true"
              class="${classes.join(' ')}">`;
   let rest = '';
-  if (cache.has(guidFor(svg)+size)) {
-    rest = cache.get(guidFor(svg)+size);
+  if (cache.has(guidFor(svg) + size)) {
+    rest = cache.get(guidFor(svg) + size);
   } else {
     const part = svg.content
       .map((svgPart: any) => {
@@ -35,7 +43,7 @@ export function renderSvgPartFunc(
       })
       .join('');
     rest = part;
-    cache.set(guidFor(svg)+size, rest);
+    cache.set(guidFor(svg) + size, rest);
   }
   const html = (base + rest + '</svg>').trim();
   return htmlSafe(html);

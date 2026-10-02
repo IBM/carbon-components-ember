@@ -12,7 +12,7 @@ export interface ToggletipLabelComponentSignature {
  */
 export default class ToggletipLabelComponent extends Component<ToggletipLabelComponentSignature> {
   <template>
-    <span class='cds--toggletip-label' ...attributes>
+    <span class="cds--toggletip-label" ...attributes>
       {{yield}}
     </span>
   </template>

@@ -182,8 +182,11 @@ export default class AiChatTruncatedText extends Component<AiChatTruncatedTextSi
           <:default>
             <div
               id={{this.contentId}}
-              class='cds-aichat-truncated-text__content
-                {{if this.isExpanded "cds-aichat-truncated-text__content--expanded"}}'
+              class="cds-aichat-truncated-text__content
+                {{if
+                  this.isExpanded
+                  'cds-aichat-truncated-text__content--expanded'
+                }}"
               style={{this.contentStyle}}
               {{didInsert this.setup}}
               {{didUpdate this.recalculate @lines @value}}
@@ -202,9 +205,11 @@ export default class AiChatTruncatedText extends Component<AiChatTruncatedTextSi
       {{else}}
         <div
           id={{this.contentId}}
-          class='cds-aichat-truncated-text__content
-            cds-aichat-truncated-text__content--expand-type
-            {{if this.isExpanded "cds-aichat-truncated-text__content--expanded"}}'
+          class="cds-aichat-truncated-text__content cds-aichat-truncated-text__content--expand-type
+            {{if
+              this.isExpanded
+              'cds-aichat-truncated-text__content--expanded'
+            }}"
           style={{this.contentStyle}}
           {{didInsert this.setup}}
           {{didUpdate this.recalculate @lines @value}}
@@ -219,17 +224,17 @@ export default class AiChatTruncatedText extends Component<AiChatTruncatedTextSi
           <span
             aria-controls={{this.contentId}}
             aria-expanded={{this.isExpanded}}
-            class='cds-aichat-truncated-text__toggle
+            class="cds-aichat-truncated-text__toggle
               {{if
                 this.isExpanded
-                "cds-aichat-truncated-text__toggle--collapse"
-                "cds-aichat-truncated-text__toggle--expand"
+                'cds-aichat-truncated-text__toggle--collapse'
+                'cds-aichat-truncated-text__toggle--expand'
               }}
-              {{if @isLayered "cds-aichat-truncated-text__toggle--layered"}}'
-            role='button'
-            tabindex='0'
-            {{on 'click' this.toggleExpansion}}
-            {{on 'keydown' this.handleKeydown}}
+              {{if @isLayered 'cds-aichat-truncated-text__toggle--layered'}}"
+            role="button"
+            tabindex="0"
+            {{on "click" this.toggleExpansion}}
+            {{on "keydown" this.handleKeydown}}
           >
             {{if this.isExpanded @collapseLabel @expandLabel}}
           </span>

@@ -12,9 +12,9 @@ module('Integration | Component | ProgressIndicator', (hooks) => {
     await render(
       <template>
         <ProgressIndicator @currentIndex={{1}} as |Step|>
-          <Step @label='First step' />
-          <Step @label='Second step' />
-          <Step @label='Third step' />
+          <Step @label="First step" />
+          <Step @label="Second step" />
+          <Step @label="Third step" />
         </ProgressIndicator>
       </template>,
     );
@@ -27,9 +27,9 @@ module('Integration | Component | ProgressIndicator', (hooks) => {
     await render(
       <template>
         <ProgressIndicator @currentIndex={{1}} as |Step|>
-          <Step @label='First step' />
-          <Step @label='Second step' />
-          <Step @label='Third step' />
+          <Step @label="First step" />
+          <Step @label="Second step" />
+          <Step @label="Third step" />
         </ProgressIndicator>
       </template>,
     );
@@ -44,7 +44,7 @@ module('Integration | Component | ProgressIndicator', (hooks) => {
     await render(
       <template>
         <ProgressIndicator @vertical={{true}} as |Step|>
-          <Step @label='First step' />
+          <Step @label="First step" />
         </ProgressIndicator>
       </template>,
     );
@@ -56,7 +56,7 @@ module('Integration | Component | ProgressIndicator', (hooks) => {
     await render(
       <template>
         <ProgressIndicator @spaceEqually={{true}} as |Step|>
-          <Step @label='First step' />
+          <Step @label="First step" />
         </ProgressIndicator>
       </template>,
     );
@@ -68,16 +68,17 @@ module('Integration | Component | ProgressIndicator', (hooks) => {
     await render(
       <template>
         <ProgressIndicator @currentIndex={{1}} as |Step|>
-          <Step @label='First step' @invalid={{true}} />
-          <Step @label='Second step' @disabled={{true}} />
+          <Step @label="First step" @invalid={{true}} />
+          <Step @label="Second step" @disabled={{true}} />
         </ProgressIndicator>
       </template>,
     );
-    
 
     const steps = this.element.querySelectorAll('li.cds--progress-step');
     await waitUntil(() => steps[0]?.querySelector('svg'));
-    assert.dom(steps[0]?.querySelector('svg')).hasClass('cds--progress__warning');
+    assert
+      .dom(steps[0]?.querySelector('svg'))
+      .hasClass('cds--progress__warning');
     assert.dom(steps[1]).hasClass('cds--progress-step--disabled');
     assert.dom(steps[1]?.querySelector('button')).isDisabled();
   });
@@ -93,9 +94,9 @@ module('Integration | Component | ProgressIndicator', (hooks) => {
           @onChange={{onChange}}
           as |Step|
         >
-          <Step @label='First step' />
-          <Step @label='Second step' />
-          <Step @label='Third step' />
+          <Step @label="First step" />
+          <Step @label="Second step" />
+          <Step @label="Third step" />
         </ProgressIndicator>
       </template>,
     );
@@ -115,8 +116,8 @@ module('Integration | Component | ProgressIndicator', (hooks) => {
     await render(
       <template>
         <ProgressIndicator @currentIndex={{1}} @onChange={{onChange}} as |Step|>
-          <Step @label='First step' />
-          <Step @label='Second step' />
+          <Step @label="First step" />
+          <Step @label="Second step" />
         </ProgressIndicator>
       </template>,
     );
@@ -130,7 +131,7 @@ module('Integration | Component | ProgressIndicator', (hooks) => {
     await render(
       <template>
         <ProgressIndicator as |Step|>
-          <Step @label='First step' @secondaryLabel='Optional' />
+          <Step @label="First step" @secondaryLabel="Optional" />
         </ProgressIndicator>
       </template>,
     );

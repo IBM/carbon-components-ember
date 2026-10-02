@@ -23,7 +23,7 @@ module('Integration | Component | Button', (hooks) => {
         <style>
           {{styleValue.current}}
         </style>
-      </template>
+      </template>,
     );
 
     await waitForAnimationFrame();
@@ -32,7 +32,7 @@ module('Integration | Component | Button', (hooks) => {
     await rerender();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(
-      this.element.firstElementChild!
+      this.element.firstElementChild!,
     );
 
     const stylesDiff = getStylesDiff(styles, withCarbonStyles);
@@ -46,9 +46,13 @@ module('Integration | Component | Button', (hooks) => {
     await render(
       <template>
         <Button @type="primary">Button</Button>
-        <style>{{styleValue.current}}</style>
-        <style>{{darkStyleValue.current}}</style>
-      </template>
+        <style>
+          {{styleValue.current}}
+        </style>
+        <style>
+          {{darkStyleValue.current}}
+        </style>
+      </template>,
     );
 
     await waitForAnimationFrame();
@@ -58,7 +62,7 @@ module('Integration | Component | Button', (hooks) => {
     await rerender();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(
-      this.element.firstElementChild!
+      this.element.firstElementChild!,
     );
 
     const stylesDiff = getStylesDiff(styles, withCarbonStyles);
@@ -71,27 +75,29 @@ module('Integration | Component | Button', (hooks) => {
     await render(
       <template>
         <Button @type={{type.current}}>Button</Button>
-        <style>{{carbonStyle.default}}</style>
-      </template>
+        <style>
+          {{carbonStyle.default}}
+        </style>
+      </template>,
     );
 
     await waitForAnimationFrame();
     const primaryStyles = getAllElementComputedStyles(
-      this.element.firstElementChild!
+      this.element.firstElementChild!,
     );
 
     type.current = 'secondary';
     await rerender();
     await waitForAnimationFrame();
     const secondaryStyles = getAllElementComputedStyles(
-      this.element.firstElementChild!
+      this.element.firstElementChild!,
     );
 
     const stylesDiff = getStylesDiff(primaryStyles, secondaryStyles);
 
     assert.snapshot(
       stylesDiff,
-      'should correctly change styles when type is changed'
+      'should correctly change styles when type is changed',
     );
   });
 
@@ -105,7 +111,7 @@ module('Integration | Component | Button', (hooks) => {
     await render(
       <template>
         <Button @onClick={{onClick}} @type="secondary">Button</Button>
-      </template>
+      </template>,
     );
 
     await click('button');
@@ -131,23 +137,29 @@ module('Integration | Component | Button', (hooks) => {
 
     await render(
       <template>
-        <Button @onClick={{onClick}} @type="primary" @disabled={{disabled.current}}>
+        <Button
+          @onClick={{onClick}}
+          @type="primary"
+          @disabled={{disabled.current}}
+        >
           Button
         </Button>
-        <style>{{carbonStyle.default}}</style>
-      </template>
+        <style>
+          {{carbonStyle.default}}
+        </style>
+      </template>,
     );
 
     await waitForAnimationFrame();
     const enabledStyles = getAllElementComputedStyles(
-      this.element.firstElementChild!
+      this.element.firstElementChild!,
     );
 
     disabled.current = true;
     await rerender();
     await waitForAnimationFrame();
     const disabledStyles = getAllElementComputedStyles(
-      this.element.firstElementChild!
+      this.element.firstElementChild!,
     );
 
     const stylesDiff = getStylesDiff(enabledStyles, disabledStyles);
@@ -158,7 +170,7 @@ module('Integration | Component | Button', (hooks) => {
     } catch (e) {
       assert.ok(
         (e as Error).message.includes('Can not `click` disabled'),
-        'error message is correct when clicking disabled button'
+        'error message is correct when clicking disabled button',
       );
     }
 
@@ -166,7 +178,7 @@ module('Integration | Component | Button', (hooks) => {
       .dom('button')
       .hasClass(
         'cds--btn--disabled',
-        'class names should include cds--btn--disabled'
+        'class names should include cds--btn--disabled',
       );
   });
 });

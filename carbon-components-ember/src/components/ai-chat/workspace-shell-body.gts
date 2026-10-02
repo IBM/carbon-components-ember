@@ -24,7 +24,7 @@ export interface WorkspaceShellBodySignature {
  */
 export default class WorkspaceShellBody extends Component<WorkspaceShellBodySignature> {
   <template>
-    <div class='cds-aichat-workspace-shell__body' ...attributes>
+    <div class="cds-aichat-workspace-shell__body" ...attributes>
       {{yield}}
     </div>
   </template>

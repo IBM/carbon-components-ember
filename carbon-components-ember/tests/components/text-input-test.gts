@@ -7,7 +7,7 @@ module('Integration | Component | TextInput', (hooks) => {
   setupRenderingTest(hooks);
 
   test('should render a labelled input', async function (assert) {
-    await render(<template><TextInput @labelText='Name' /></template>);
+    await render(<template><TextInput @labelText="Name" /></template>);
 
     assert.dom('.cds--form-item').exists();
     assert.dom('input.cds--text-input').exists();
@@ -16,14 +16,18 @@ module('Integration | Component | TextInput', (hooks) => {
 
   test('should hide the label visually when hideLabel is set', async function (assert) {
     await render(
-      <template><TextInput @labelText='Hidden' @hideLabel={{true}} /></template>,
+      <template>
+        <TextInput @labelText="Hidden" @hideLabel={{true}} />
+      </template>,
     );
 
     assert.dom('label.cds--label').hasClass('cds--visually-hidden');
   });
 
   test('should render the defaultValue', async function (assert) {
-    await render(<template><TextInput @defaultValue='Hello world' /></template>);
+    await render(
+      <template><TextInput @defaultValue="Hello world" /></template>,
+    );
 
     assert.dom('input.cds--text-input').hasValue('Hello world');
   });
@@ -35,13 +39,13 @@ module('Integration | Component | TextInput', (hooks) => {
   });
 
   test('should apply the type argument', async function (assert) {
-    await render(<template><TextInput @type='password' /></template>);
+    await render(<template><TextInput @type="password" /></template>);
 
     assert.dom('input.cds--text-input').hasAttribute('type', 'password');
   });
 
   test('should apply the size class', async function (assert) {
-    await render(<template><TextInput @size='sm' /></template>);
+    await render(<template><TextInput @size="sm" /></template>);
 
     assert.dom('input.cds--text-input').hasClass('cds--text-input--sm');
   });
@@ -59,9 +63,7 @@ module('Integration | Component | TextInput', (hooks) => {
     let received;
     const handleChange = (value: string) => (received = value);
 
-    await render(
-      <template><TextInput @onChange={{handleChange}} /></template>,
-    );
+    await render(<template><TextInput @onChange={{handleChange}} /></template>);
 
     await fillIn('input.cds--text-input', 'new value');
 
@@ -71,7 +73,7 @@ module('Integration | Component | TextInput', (hooks) => {
   test('should show the invalid state and message', async function (assert) {
     await render(
       <template>
-        <TextInput @invalid={{true}} @invalidText='This field is required' />
+        <TextInput @invalid={{true}} @invalidText="This field is required" />
       </template>,
     );
     await waitFor('.cds--text-input__invalid-icon');
@@ -84,7 +86,7 @@ module('Integration | Component | TextInput', (hooks) => {
   test('should show the warn state and message when not invalid', async function (assert) {
     await render(
       <template>
-        <TextInput @warn={{true}} @warnText='Careful with this' />
+        <TextInput @warn={{true}} @warnText="Careful with this" />
       </template>,
     );
 
@@ -97,9 +99,9 @@ module('Integration | Component | TextInput', (hooks) => {
       <template>
         <TextInput
           @invalid={{true}}
-          @invalidText='Invalid'
+          @invalidText="Invalid"
           @warn={{true}}
-          @warnText='Warn'
+          @warnText="Warn"
         />
       </template>,
     );
@@ -109,7 +111,7 @@ module('Integration | Component | TextInput', (hooks) => {
 
   test('should show the helper text when not invalid or warn', async function (assert) {
     await render(
-      <template><TextInput @helperText='Optional field' /></template>,
+      <template><TextInput @helperText="Optional field" /></template>,
     );
 
     assert.dom('.cds--form__helper-text').hasText('Optional field');
@@ -118,7 +120,11 @@ module('Integration | Component | TextInput', (hooks) => {
   test('should show a character counter when enableCounter and maxCount are set', async function (assert) {
     await render(
       <template>
-        <TextInput @defaultValue='hello' @enableCounter={{true}} @maxCount={{10}} />
+        <TextInput
+          @defaultValue="hello"
+          @enableCounter={{true}}
+          @maxCount={{10}}
+        />
       </template>,
     );
 

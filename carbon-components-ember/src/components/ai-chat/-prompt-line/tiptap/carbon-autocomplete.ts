@@ -8,7 +8,10 @@
 import { Extension } from '@tiptap/core';
 import { PluginKey } from '@tiptap/pm/state';
 import Suggestion from '@tiptap/suggestion';
-import { registerSuggestionCommand, unregisterSuggestionCommand } from './active-suggestion.ts';
+import {
+  registerSuggestionCommand,
+  unregisterSuggestionCommand,
+} from './active-suggestion.ts';
 import { dispatchTriggerChange } from './trigger-utils.ts';
 import type { AutocompleteConfig, SuggestionItem } from './types.ts';
 
@@ -30,7 +33,10 @@ export interface ExcludedTrigger {
   position: 'anywhere' | 'start';
 }
 
-export function carbonAutocomplete(config: AutocompleteConfig, excludeTriggers: ExcludedTrigger[] = []): Extension {
+export function carbonAutocomplete(
+  config: AutocompleteConfig,
+  excludeTriggers: ExcludedTrigger[] = [],
+): Extension {
   const pluginKey = new PluginKey('carbonAutocompleteSuggestion');
 
   return Extension.create({
@@ -47,7 +53,12 @@ export function carbonAutocomplete(config: AutocompleteConfig, excludeTriggers: 
           pluginKey,
           allowedPrefixes: null,
           findSuggestionMatch: ({ $position }) => {
-            const text = $position.parent.textBetween(0, $position.parentOffset, '\n', '\0');
+            const text = $position.parent.textBetween(
+              0,
+              $position.parentOffset,
+              '\n',
+              '\0',
+            );
             if (!text || text.length === 0) {
               return null;
             }
@@ -67,9 +78,13 @@ export function carbonAutocomplete(config: AutocompleteConfig, excludeTriggers: 
                 return null;
               }
             }
-            const matchStart = $position.start() + $position.parentOffset - query.length;
+            const matchStart =
+              $position.start() + $position.parentOffset - query.length;
             return {
-              range: { from: matchStart, to: $position.start() + $position.parentOffset },
+              range: {
+                from: matchStart,
+                to: $position.start() + $position.parentOffset,
+              },
               query,
               text: query,
             };
@@ -78,7 +93,10 @@ export function carbonAutocomplete(config: AutocompleteConfig, excludeTriggers: 
           command: ({ editor: ed, range, props }) => {
             const item = props as SuggestionItem;
             const insertText = item.value ?? item.label;
-            ed.chain().focus().insertContentAt(range, [{ type: 'text', text: insertText }]).run();
+            ed.chain()
+              .focus()
+              .insertContentAt(range, [{ type: 'text', text: insertText }])
+              .run();
             config.onSelect?.(item);
           },
           render: () => ({
@@ -116,7 +134,10 @@ export function carbonAutocomplete(config: AutocompleteConfig, excludeTriggers: 
   });
 }
 
-async function resolveItems(config: AutocompleteConfig, query: string): Promise<SuggestionItem[]> {
+async function resolveItems(
+  config: AutocompleteConfig,
+  query: string,
+): Promise<SuggestionItem[]> {
   const minQueryLength = config.minQueryLength ?? 0;
   if (query.length < minQueryLength) {
     return [];
@@ -128,5 +149,7 @@ async function resolveItems(config: AutocompleteConfig, query: string): Promise<
     return config.items;
   }
   const lower = query.toLowerCase();
-  return config.items.filter((item) => item.label.toLowerCase().includes(lower));
+  return config.items.filter((item) =>
+    item.label.toLowerCase().includes(lower),
+  );
 }

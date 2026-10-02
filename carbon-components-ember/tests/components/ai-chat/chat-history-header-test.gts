@@ -14,7 +14,9 @@ module('Integration | Component | ai-chat/ChatHistoryHeader', (hooks) => {
   });
 
   test('@headerTitle overrides the default title', async function (assert) {
-    await render(<template><ChatHistoryHeader @headerTitle='My Chats' /></template>);
+    await render(
+      <template><ChatHistoryHeader @headerTitle="My Chats" /></template>,
+    );
 
     assert.dom('.cds-aichat-history-header__title').hasText('My Chats');
   });
@@ -24,7 +26,9 @@ module('Integration | Component | ai-chat/ChatHistoryHeader', (hooks) => {
     const onClose = () => calls++;
 
     await render(
-      <template><ChatHistoryHeader @showCloseAction={{true}} @onClose={{onClose}} /></template>,
+      <template>
+        <ChatHistoryHeader @showCloseAction={{true}} @onClose={{onClose}} />
+      </template>,
     );
 
     assert.dom('.cds-aichat-history-header__close-button').exists();

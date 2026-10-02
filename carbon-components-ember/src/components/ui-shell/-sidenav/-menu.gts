@@ -27,7 +27,6 @@ export interface Signature {
   };
 }
 
-
 export default class NavMenuComponent extends Component<Signature> {
   @tracked expanded = false;
 
@@ -37,35 +36,33 @@ export default class NavMenuComponent extends Component<Signature> {
 
   <template>
     {{#if @submenus}}
-      <li
-        class='cds--side-nav__item {{if @icon "cds--side-nav__item--icon"}}'
-      >
+      <li class="cds--side-nav__item {{if @icon 'cds--side-nav__item--icon'}}">
         <button
-          class='cds--side-nav__submenu'
-          aria-haspopup='true'
-          aria-expanded='{{or @open this.expanded}}'
-          type='button'
-          {{on 'click' this.toggleExpanded}}
+          class="cds--side-nav__submenu"
+          aria-haspopup="true"
+          aria-expanded="{{or @open this.expanded}}"
+          type="button"
+          {{on "click" this.toggleExpanded}}
         >
           {{#if @icon}}
-            <div class='cds--side-nav__icon'>
+            <div class="cds--side-nav__icon">
               <this.args.icon />
             </div>
           {{/if}}
-          <span class='cds--side-nav__submenu-title'>
+          <span class="cds--side-nav__submenu-title">
             {{@title}}
           </span>
           <div
-            class='cds--side-nav__icon cds--side-nav__icon--small cds--side-nav__submenu-chevron'
+            class="cds--side-nav__icon cds--side-nav__icon--small cds--side-nav__submenu-chevron"
           >
             <ChevronDown />
           </div>
         </button>
         {{#if (or @open this.expanded)}}
           <ul
-            role='menu'
-            class='cds--side-nav__menu'
-            style='    max-height: 93.75rem; visibility: inherit;'
+            role="menu"
+            class="cds--side-nav__menu"
+            style="    max-height: 93.75rem; visibility: inherit;"
           >
             {{yield SubMenuComponent}}
           </ul>
@@ -73,21 +70,21 @@ export default class NavMenuComponent extends Component<Signature> {
       </li>
     {{else}}
       {{#unless @hidden}}
-        <li class='cds--side-nav__item'>
+        <li class="cds--side-nav__item">
           {{! template-lint-disable require-presentational-children }}
           <a
-            href='#'
-            class='cds--side-nav__link'
-            aria-current='{{if @isCurrent "page"}}'
-            role='button'
-            {{on 'click' @transitionTo}}
+            href="#"
+            class="cds--side-nav__link"
+            aria-current="{{if @isCurrent 'page'}}"
+            role="button"
+            {{on "click" @transitionTo}}
           >
             {{#if @icon}}
-              <div class='cds--side-nav__icon cds--side-nav__icon--small'>
+              <div class="cds--side-nav__icon cds--side-nav__icon--small">
                 <this.args.icon />
               </div>
             {{/if}}
-            <span class='cds--side-nav__link-text'>
+            <span class="cds--side-nav__link-text">
               {{@title}}
             </span>
           </a>

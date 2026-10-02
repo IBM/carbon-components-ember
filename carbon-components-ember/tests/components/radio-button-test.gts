@@ -14,7 +14,7 @@ module('Integration | Component | RadioButton', (hooks) => {
   setupRenderingTest(hooks);
 
   test('should render a labelled radio button', async function (assert) {
-    await render(<template><RadioButton @labelText='Option' /></template>);
+    await render(<template><RadioButton @labelText="Option" /></template>);
 
     assert.dom('.cds--radio-button-wrapper').exists();
     assert.dom('input.cds--radio-button').exists();
@@ -24,7 +24,7 @@ module('Integration | Component | RadioButton', (hooks) => {
   test('should render label from block content', async function (assert) {
     await render(
       <template>
-        <RadioButton @labelText='ignored'>Block label</RadioButton>
+        <RadioButton @labelText="ignored">Block label</RadioButton>
       </template>,
     );
 
@@ -45,7 +45,9 @@ module('Integration | Component | RadioButton', (hooks) => {
 
   test('should hide the label visually when hideLabel is set', async function (assert) {
     await render(
-      <template><RadioButton @labelText='Hidden' @hideLabel={{true}} /></template>,
+      <template>
+        <RadioButton @labelText="Hidden" @hideLabel={{true}} />
+      </template>,
     );
 
     assert
@@ -54,9 +56,7 @@ module('Integration | Component | RadioButton', (hooks) => {
   });
 
   test('should add the label-left wrapper class when labelPosition is left', async function (assert) {
-    await render(
-      <template><RadioButton @labelPosition='left' /></template>,
-    );
+    await render(<template><RadioButton @labelPosition="left" /></template>);
 
     assert.dom('.cds--radio-button-wrapper--label-left').exists();
   });
@@ -72,8 +72,8 @@ module('Integration | Component | RadioButton', (hooks) => {
     await render(
       <template>
         <RadioButton
-          @value='my-value'
-          @name='my-name'
+          @value="my-value"
+          @name="my-name"
           @onChange={{handleChange}}
         />
       </template>,
@@ -88,9 +88,9 @@ module('Integration | Component | RadioButton', (hooks) => {
   test('RadioButtonGroup should render a legend and only allow one selection', async function (assert) {
     await render(
       <template>
-        <RadioButtonGroup @legendText='Choose one' as |Radio|>
-          <Radio @value='a' @labelText='A' />
-          <Radio @value='b' @labelText='B' />
+        <RadioButtonGroup @legendText="Choose one" as |Radio|>
+          <Radio @value="a" @labelText="A" />
+          <Radio @value="b" @labelText="B" />
         </RadioButtonGroup>
       </template>,
     );
@@ -113,8 +113,8 @@ module('Integration | Component | RadioButton', (hooks) => {
     await render(
       <template>
         <RadioButtonGroup as |Radio|>
-          <Radio @value='a' @labelText='A' @defaultChecked={{true}} />
-          <Radio @value='b' @labelText='B' />
+          <Radio @value="a" @labelText="A" @defaultChecked={{true}} />
+          <Radio @value="b" @labelText="B" />
         </RadioButtonGroup>
       </template>,
     );
@@ -130,8 +130,8 @@ module('Integration | Component | RadioButton', (hooks) => {
     await render(
       <template>
         <RadioButtonGroup @onChange={{fn setCell selected}} as |Radio|>
-          <Radio @value='a' @labelText='A' />
-          <Radio @value='b' @labelText='B' />
+          <Radio @value="a" @labelText="A" />
+          <Radio @value="b" @labelText="B" />
         </RadioButtonGroup>
       </template>,
     );
@@ -145,8 +145,8 @@ module('Integration | Component | RadioButton', (hooks) => {
   test('RadioButtonGroup should apply the vertical orientation class', async function (assert) {
     await render(
       <template>
-        <RadioButtonGroup @orientation='vertical' as |Radio|>
-          <Radio @value='a' @labelText='A' />
+        <RadioButtonGroup @orientation="vertical" as |Radio|>
+          <Radio @value="a" @labelText="A" />
         </RadioButtonGroup>
       </template>,
     );
@@ -158,8 +158,8 @@ module('Integration | Component | RadioButton', (hooks) => {
     await render(
       <template>
         <RadioButtonGroup @disabled={{true}} as |Radio|>
-          <Radio @value='a' @labelText='A' />
-          <Radio @value='b' @labelText='B' />
+          <Radio @value="a" @labelText="A" />
+          <Radio @value="b" @labelText="B" />
         </RadioButtonGroup>
       </template>,
     );

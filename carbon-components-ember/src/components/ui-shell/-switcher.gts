@@ -16,7 +16,7 @@ export interface UIShellSwitcherSignature {
 export default class UIShellSwitcher extends Component<UIShellSwitcherSignature> {
   <template>
     <ul
-      class='cds--switcher'
+      class="cds--switcher"
       aria-label={{@aria-label}}
       aria-labelledby={{@aria-labelledby}}
       ...attributes

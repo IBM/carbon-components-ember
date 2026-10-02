@@ -11,7 +11,7 @@ module('Integration | Component | Toggletip', (hooks) => {
     await render(
       <template>
         <Toggletip as |t|>
-          <t.Button @label='Show information'>i</t.Button>
+          <t.Button @label="Show information">i</t.Button>
           <t.Content>
             <p>Some more information</p>
           </t.Content>
@@ -21,14 +21,16 @@ module('Integration | Component | Toggletip', (hooks) => {
 
     assert.dom('.cds--toggletip-button').exists();
     assert.dom('.cds--toggletip-button').hasAttribute('aria-expanded', 'false');
-    assert.dom('.cds--popover-container').doesNotHaveClass('cds--popover--open');
+    assert
+      .dom('.cds--popover-container')
+      .doesNotHaveClass('cds--popover--open');
   });
 
   test('should open on click and toggle aria-expanded/aria-controls', async function (assert) {
     await render(
       <template>
         <Toggletip as |t|>
-          <t.Button @label='Show information'>i</t.Button>
+          <t.Button @label="Show information">i</t.Button>
           <t.Content>
             <p>Some more information</p>
           </t.Content>
@@ -45,10 +47,14 @@ module('Integration | Component | Toggletip', (hooks) => {
       ?.getAttribute('aria-controls');
     assert.ok(id);
     assert.dom(`#${id}`).exists();
-    assert.dom('.cds--toggletip-button').hasAttribute('aria-describedby', id as string);
+    assert
+      .dom('.cds--toggletip-button')
+      .hasAttribute('aria-describedby', id as string);
 
     await click('.cds--toggletip-button');
-    assert.dom('.cds--popover-container').doesNotHaveClass('cds--popover--open');
+    assert
+      .dom('.cds--popover-container')
+      .doesNotHaveClass('cds--popover--open');
   });
 
   test('should support defaultOpen', async function (assert) {
@@ -69,7 +75,7 @@ module('Integration | Component | Toggletip', (hooks) => {
   test('should apply the align class', async function (assert) {
     await render(
       <template>
-        <Toggletip @align='bottom-end' as |t|>
+        <Toggletip @align="bottom-end" as |t|>
           <t.Button>i</t.Button>
           <t.Content>
             <p>Some more information</p>
@@ -97,14 +103,16 @@ module('Integration | Component | Toggletip', (hooks) => {
 
     await triggerKeyEvent('.cds--popover-content', 'keydown', 'Escape');
 
-    assert.dom('.cds--popover-container').doesNotHaveClass('cds--popover--open');
+    assert
+      .dom('.cds--popover-container')
+      .doesNotHaveClass('cds--popover--open');
     assert.dom('.cds--toggletip-button').isFocused();
   });
 
   test('should close when clicking outside', async function (assert) {
     await render(
       <template>
-        <div id='outside'>outside</div>
+        <div id="outside">outside</div>
         <Toggletip @defaultOpen={{true}} as |t|>
           <t.Button>i</t.Button>
           <t.Content>
@@ -118,7 +126,9 @@ module('Integration | Component | Toggletip', (hooks) => {
 
     await click('#outside');
 
-    assert.dom('.cds--popover-container').doesNotHaveClass('cds--popover--open');
+    assert
+      .dom('.cds--popover-container')
+      .doesNotHaveClass('cds--popover--open');
   });
 
   test('should render ToggletipActions inside the content', async function (assert) {

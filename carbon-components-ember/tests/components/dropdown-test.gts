@@ -22,8 +22,8 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
         />
       </template>,
@@ -32,21 +32,17 @@ module('Integration | Component | Dropdown', (hooks) => {
     assert.dom('.cds--label').hasText('Choose an option');
     assert.dom('.cds--list-box__label').hasText('Select an option');
     assert.dom('.cds--dropdown').doesNotHaveClass('cds--dropdown--open');
-    assert
-      .dom('.cds--dropdown')
-      .doesNotHaveClass('cds--list-box--expanded');
+    assert.dom('.cds--dropdown').doesNotHaveClass('cds--list-box--expanded');
     assert.dom('[role="listbox"]').exists();
-    assert
-      .dom('.cds--list-box__field')
-      .hasAttribute('aria-expanded', 'false');
+    assert.dom('.cds--list-box__field').hasAttribute('aria-expanded', 'false');
   });
 
   test('clicking the trigger opens the menu and lists items', async function (assert) {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
         />
       </template>,
@@ -55,13 +51,9 @@ module('Integration | Component | Dropdown', (hooks) => {
     await click('.cds--list-box__field');
 
     assert.dom('.cds--dropdown').hasClass('cds--dropdown--open');
-    assert
-      .dom('.cds--list-box__field')
-      .hasAttribute('aria-expanded', 'true');
+    assert.dom('.cds--list-box__field').hasAttribute('aria-expanded', 'true');
     assert.dom('[role="option"]').exists({ count: 3 });
-    assert
-      .dom('[role="option"]:nth-child(1)')
-      .hasText('Option 1');
+    assert.dom('[role="option"]:nth-child(1)').hasText('Option 1');
   });
 
   test('clicking an item selects it, calls @onChange, and closes the menu', async function (assert) {
@@ -73,8 +65,8 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
           @onChange={{onChange}}
         />
@@ -93,10 +85,10 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
-          @selectedItem='Option 1'
+          @selectedItem="Option 1"
         />
       </template>,
     );
@@ -115,10 +107,10 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
-          @initialSelectedItem='Option 3'
+          @initialSelectedItem="Option 3"
         />
       </template>,
     );
@@ -137,8 +129,8 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
         />
       </template>,
@@ -167,8 +159,8 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
         />
       </template>,
@@ -187,8 +179,8 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
         />
       </template>,
@@ -228,8 +220,8 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
         />
       </template>,
@@ -273,8 +265,8 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
           @onChange={{onChange}}
         />
@@ -298,8 +290,8 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
           @disabled={{true}}
         />
@@ -319,11 +311,11 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
           @invalid={{true}}
-          @invalidText='This field is required'
+          @invalidText="This field is required"
         />
       </template>,
     );
@@ -341,11 +333,11 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
           @invalid={{true}}
-          @invalidText='This field is required'
+          @invalidText="This field is required"
           @decorator={{Add}}
         />
       </template>,
@@ -355,7 +347,9 @@ module('Integration | Component | Dropdown', (hooks) => {
 
     assert.dom('.cds--dropdown').hasClass('cds--dropdown--invalid');
     assert.dom('.cds--dropdown').hasClass('cds--list-box--invalid');
-    assert.dom('.cds--dropdown__wrapper').hasClass('cds--list-box__wrapper--decorator');
+    assert
+      .dom('.cds--dropdown__wrapper')
+      .hasClass('cds--list-box__wrapper--decorator');
     assert.dom('.cds--list-box__inner-wrapper--decorator svg').exists();
     assert
       .dom('.cds--list-box__inner-wrapper--decorator svg')
@@ -376,11 +370,11 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
           @warn={{true}}
-          @warnText='Careful with this'
+          @warnText="Careful with this"
         />
       </template>,
     );
@@ -394,10 +388,10 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
-          @direction='top'
+          @direction="top"
         />
       </template>,
     );
@@ -409,8 +403,8 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
           as |item|
         >
@@ -431,11 +425,11 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
           data-test-dropdown
-          class='custom-class'
+          class="custom-class"
         />
       </template>,
     );
@@ -448,8 +442,8 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
           @readOnly={{true}}
         />
@@ -476,8 +470,8 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
           @selectedItem={{state.selected}}
           @onChange={{onChange}}
@@ -499,8 +493,8 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{objectItems}}
         />
       </template>,
@@ -508,9 +502,7 @@ module('Integration | Component | Dropdown', (hooks) => {
 
     await click('.cds--list-box__field');
 
-    assert
-      .dom('[role="option"]:nth-child(1)')
-      .hasText('Option 1');
+    assert.dom('[role="option"]:nth-child(1)').hasText('Option 1');
 
     await click('[role="option"]:nth-child(2)');
 
@@ -523,8 +515,8 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{objectItems}}
         />
       </template>,
@@ -534,22 +526,28 @@ module('Integration | Component | Dropdown', (hooks) => {
 
     assert
       .dom('[role="option"]:nth-child(1)')
-      .hasText('', 'an object with no `label` renders as empty text, not "[object Object]"');
+      .hasText(
+        '',
+        'an object with no `label` renders as empty text, not "[object Object]"',
+      );
     assert
       .dom('[role="option"]:nth-child(2)')
       .hasText('', 'a non-string `label` also falls back to empty text');
   });
 
   test('a custom @itemToString overrides the default rendering', async function (assert) {
-    const objectItems = [{ id: 1, name: 'First' }, { id: 2, name: 'Second' }];
+    const objectItems = [
+      { id: 1, name: 'First' },
+      { id: 2, name: 'Second' },
+    ];
     const itemToString = (item: { id: number; name: string }) =>
       `#${item.id} ${item.name}`;
 
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{objectItems}}
           @itemToString={{itemToString}}
         />
@@ -558,9 +556,7 @@ module('Integration | Component | Dropdown', (hooks) => {
 
     await click('.cds--list-box__field');
 
-    assert
-      .dom('[role="option"]:nth-child(1)')
-      .hasText('#1 First');
+    assert.dom('[role="option"]:nth-child(1)').hasText('#1 First');
 
     await click('[role="option"]:nth-child(2)');
 
@@ -573,8 +569,8 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{typeaheadItems}}
         />
       </template>,
@@ -585,12 +581,27 @@ module('Integration | Component | Dropdown', (hooks) => {
 
     assert
       .dom('[role="option"]:nth-child(1)')
-      .hasClass('cds--list-box__menu-item--highlighted', 'opens highlighting the first item');
+      .hasClass(
+        'cds--list-box__menu-item--highlighted',
+        'opens highlighting the first item',
+      );
 
     // Fire both keydowns back-to-back with no awaited settle in between, so
     // neither one lets the 500ms search-buffer-reset window elapse first.
-    button.dispatchEvent(new KeyboardEvent('keydown', { key: 'o', bubbles: true, cancelable: true }));
-    button.dispatchEvent(new KeyboardEvent('keydown', { key: 'p', bubbles: true, cancelable: true }));
+    button.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: 'o',
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
+    button.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: 'p',
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
     await settled();
 
     assert
@@ -607,8 +618,8 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{typeaheadItems}}
         />
       </template>,
@@ -624,7 +635,10 @@ module('Integration | Component | Dropdown', (hooks) => {
 
     assert
       .dom('[role="option"]:nth-child(2)')
-      .hasClass('cds--list-box__menu-item--highlighted', '"o" alone matches "Olive"');
+      .hasClass(
+        'cds--list-box__menu-item--highlighted',
+        '"o" alone matches "Olive"',
+      );
 
     await triggerKeyEvent(button, 'keydown', 'P');
 
@@ -640,8 +654,8 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
         />
       </template>,
@@ -661,8 +675,8 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
         />
       </template>,
@@ -683,8 +697,8 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
         />
       </template>,
@@ -702,23 +716,29 @@ module('Integration | Component | Dropdown', (hooks) => {
 
     assert
       .dom('[role="option"]:nth-child(3)')
-      .hasClass('cds--list-box__menu-item--highlighted', 'End jumps to the last item');
+      .hasClass(
+        'cds--list-box__menu-item--highlighted',
+        'End jumps to the last item',
+      );
 
     await triggerKeyEvent(button, 'keydown', 'Home');
 
     assert
       .dom('[role="option"]:nth-child(1)')
-      .hasClass('cds--list-box__menu-item--highlighted', 'Home jumps to the first item');
+      .hasClass(
+        'cds--list-box__menu-item--highlighted',
+        'Home jumps to the first item',
+      );
   });
 
   test('aria-describedby points at the helper text element', async function (assert) {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
-          @helperText='Some helpful text'
+          @helperText="Some helpful text"
         />
       </template>,
     );
@@ -726,7 +746,10 @@ module('Integration | Component | Dropdown', (hooks) => {
     const button = find('.cds--list-box__field')!;
     const describedBy = button.getAttribute('aria-describedby');
 
-    assert.true(!!describedBy, 'aria-describedby is set when helper text is shown');
+    assert.true(
+      !!describedBy,
+      'aria-describedby is set when helper text is shown',
+    );
     assert.dom(`#${describedBy}`).hasText('Some helpful text');
   });
 
@@ -734,10 +757,10 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
-          @size='sm'
+          @size="sm"
         />
       </template>,
     );
@@ -750,28 +773,36 @@ module('Integration | Component | Dropdown', (hooks) => {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
-          @type='inline'
-          @helperText='Some helpful text'
+          @type="inline"
+          @helperText="Some helpful text"
         />
       </template>,
     );
 
-    assert.dom('.cds--dropdown__wrapper').hasClass('cds--dropdown__wrapper--inline');
-    assert.dom('.cds--dropdown__wrapper').hasClass('cds--list-box__wrapper--inline');
+    assert
+      .dom('.cds--dropdown__wrapper')
+      .hasClass('cds--dropdown__wrapper--inline');
+    assert
+      .dom('.cds--dropdown__wrapper')
+      .hasClass('cds--list-box__wrapper--inline');
     assert.dom('.cds--dropdown').hasClass('cds--dropdown--inline');
-    assert.dom('.cds--label').exists('the label row is still rendered when inline');
-    assert.dom('.cds--form__helper-text').doesNotExist('inline suppresses helper text');
+    assert
+      .dom('.cds--label')
+      .exists('the label row is still rendered when inline');
+    assert
+      .dom('.cds--form__helper-text')
+      .doesNotExist('inline suppresses helper text');
   });
 
   test('@hideLabel visually hides the label without removing it', async function (assert) {
     await render(
       <template>
         <Dropdown
-          @titleText='Choose an option'
-          @label='Select an option'
+          @titleText="Choose an option"
+          @label="Select an option"
           @items={{items}}
           @hideLabel={{true}}
         />

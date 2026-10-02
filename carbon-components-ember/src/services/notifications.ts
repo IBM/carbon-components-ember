@@ -10,12 +10,7 @@ export type NotificationOptions = {
   type?: 'info' | 'success' | 'warning' | 'error';
   display?: 'toast' | 'inline' | 'actionable';
   kind?:
-    | 'error'
-    | 'info'
-    | 'info-square'
-    | 'success'
-    | 'warning'
-    | 'warning-alt';
+    'error' | 'info' | 'info-square' | 'success' | 'warning' | 'warning-alt';
   actionTitle?: string;
 };
 

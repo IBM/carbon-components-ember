@@ -23,7 +23,9 @@ module('Integration | Component | UnorderedList', (hooks) => {
           <li>Item 1</li>
           <li>Item 2</li>
         </UnorderedList>
-        <style>{{styleValue.current}}</style>
+        <style>
+          {{styleValue.current}}
+        </style>
       </template>,
     );
 
@@ -50,8 +52,12 @@ module('Integration | Component | UnorderedList', (hooks) => {
           <li>Item 1</li>
           <li>Item 2</li>
         </UnorderedList>
-        <style>{{styleValue.current}}</style>
-        <style>{{darkStyleValue.current}}</style>
+        <style>
+          {{styleValue.current}}
+        </style>
+        <style>
+          {{darkStyleValue.current}}
+        </style>
       </template>,
     );
 
@@ -111,7 +117,7 @@ module('Integration | Component | UnorderedList', (hooks) => {
   test('passes through html attributes', async function (assert) {
     await render(
       <template>
-        <UnorderedList id='my-list' class='custom-class'>
+        <UnorderedList id="my-list" class="custom-class">
           <li>Item 1</li>
         </UnorderedList>
       </template>,

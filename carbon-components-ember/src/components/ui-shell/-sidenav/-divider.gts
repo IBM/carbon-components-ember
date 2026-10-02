@@ -6,6 +6,6 @@ export interface Signature {
 
 export default class UIShellSideNavDivider extends Component<Signature> {
   <template>
-    <li class='cds--side-nav__divider' ...attributes></li>
+    <li class="cds--side-nav__divider" ...attributes></li>
   </template>
 }
