@@ -67,14 +67,17 @@ jobs:
               echo "No changes to deploy"
               exit 0
             fi
-            git commit -m "Deploy docs preview for PR #${{ github.event.pull_request.number }} (${{ github.event.pull_request.head.sha }})"
-            if git push; then
+            # gh-pages only ever holds one commit: build an orphan commit from the
+            # staged tree and force-push it, leased on the tip we started from so a
+            # concurrent deploy is never overwritten (we retry on top of it instead).
+            BASE=$(git rev-parse HEAD)
+            COMMIT=$(git commit-tree "$(git write-tree)" -m "Deploy docs preview for PR #${{ github.event.pull_request.number }} (${{ github.event.pull_request.head.sha }})")
+            if git push --force-with-lease=gh-pages:"$BASE" origin "$COMMIT:refs/heads/gh-pages"; then
               exit 0
             fi
             echo "Push rejected (attempt $i), retrying against latest gh-pages..."
-            git reset --hard HEAD~1
             git fetch origin gh-pages
-            git reset --hard origin/gh-pages
+            git reset --hard FETCH_HEAD
             sleep $((RANDOM % 5 + 1))
           done
           echo "Failed to push to gh-pages after retries"
@@ -145,14 +148,17 @@ jobs:
                 exit 0
               fi
               git rm -rf pr-previews/pr-${{ github.event.pull_request.number }}
-              git commit -m "Remove docs preview for PR #${{ github.event.pull_request.number }}"
-              if git push; then
+              # gh-pages only ever holds one commit: build an orphan commit from the
+              # staged tree and force-push it, leased on the tip we started from so a
+              # concurrent deploy is never overwritten (we retry on top of it instead).
+              BASE=$(git rev-parse HEAD)
+              COMMIT=$(git commit-tree "$(git write-tree)" -m "Remove docs preview for PR #${{ github.event.pull_request.number }}")
+              if git push --force-with-lease=gh-pages:"$BASE" origin "$COMMIT:refs/heads/gh-pages"; then
                 exit 0
               fi
               echo "Push rejected (attempt $i), retrying against latest gh-pages..."
-              git reset --hard HEAD~1
               git fetch origin gh-pages
-              git reset --hard origin/gh-pages
+              git reset --hard FETCH_HEAD
               sleep $((RANDOM % 5 + 1))
             done
             echo "Failed to push to gh-pages after retries"
