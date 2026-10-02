@@ -1,10 +1,9 @@
 import { fn } from 'storybook/test';
 
+import preview from '#storybook/preview.ts';
 import Button from './button.gts';
 
-import type { Meta, StoryObj } from 'ember-storybook';
-
-export default {
+const meta = preview.meta({
   title: 'Components/Button',
   component: Button,
   args: {
@@ -24,42 +23,40 @@ export default {
       {{args.label}}
     </Button>
   </template>,
-} satisfies Meta;
+});
 
-export const Primary: StoryObj = {
+export const Primary = meta.story({
   args: {
     type: 'primary',
   },
-};
+});
 
-export const Secondary: StoryObj = {
+export const Secondary = meta.story({
   args: {
     type: 'secondary',
   },
-};
+});
 
-export const Tertiary: StoryObj = {
+export const Tertiary = meta.story({
   args: {
     tertiary: true,
   },
-};
+});
 
-export const Ghost: StoryObj = {
+export const Ghost = meta.story({
   args: {
     ghost: true,
   },
-};
+});
 
-export const Loading: StoryObj = {
+export const Loading = Primary.extend({
   args: {
-    type: 'primary',
     loading: true,
   },
-};
+});
 
-export const Disabled: StoryObj = {
+export const Disabled = Primary.extend({
   args: {
-    type: 'primary',
     disabled: true,
   },
-};
+});

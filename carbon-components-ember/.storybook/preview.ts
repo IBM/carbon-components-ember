@@ -3,11 +3,16 @@ import '@carbon/styles/css/styles.css';
 // `carbon-components-ember/styles.scss`.
 import '../src/styles/index.scss';
 
+import addonA11y from '@storybook/addon-a11y';
+import addonDocs from '@storybook/addon-docs';
+import addonVitest from '@storybook/addon-vitest';
+import { definePreview } from 'ember-storybook';
+
 import { createApp } from './app.ts';
 
-import type { Preview } from 'ember-storybook';
+export default definePreview({
+  addons: [addonDocs(), addonA11y(), addonVitest()],
 
-const preview: Preview = {
   parameters: {
     docs: {
       codePanel: true,
@@ -18,6 +23,4 @@ const preview: Preview = {
   },
 
   tags: ['autodocs', 'vitest'],
-};
-
-export default preview;
+});

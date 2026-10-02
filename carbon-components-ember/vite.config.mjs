@@ -148,11 +148,15 @@ export default defineConfig({
           // Same as `viteFinal` in .storybook/main.ts, which the vitest
           // plugin only takes plugins from.
           exclude: ['ember-storybook'],
-          // ember-storybook's own imports, which Vite would otherwise only
-          // discover mid-run and then reload the tests for.
+          // Imports Vite would otherwise only discover mid-run and then reload
+          // the tests for: ember-storybook's own, and the addons the CSF Next
+          // preview (imported by every story) registers.
           include: [
             'ember-source/@ember/owner/index.js',
             'ember-source/@ember/array/index.js',
+            '@storybook/addon-a11y',
+            '@storybook/addon-docs',
+            '@storybook/addon-vitest',
           ],
         },
         test: {

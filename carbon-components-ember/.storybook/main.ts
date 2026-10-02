@@ -1,8 +1,8 @@
 import { mergeConfig } from 'vite';
 
-import type { StorybookConfig } from 'ember-storybook';
+import { defineMain } from 'ember-storybook/node';
 
-const config: StorybookConfig = {
+export default defineMain({
   stories: ['./introduction.mdx', '../src/**/*.stories.g(j|t)s'],
 
   addons: [
@@ -31,6 +31,4 @@ const config: StorybookConfig = {
     disableTelemetry: true,
     disableWhatsNewNotifications: true,
   },
-};
-
-export default config;
+});
