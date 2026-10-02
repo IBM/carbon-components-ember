@@ -48,7 +48,7 @@ const GITHUB_LABEL = 'parity-check';
  */
 // Ember export name overrides for `carbon-ai-chat` components whose plain
 // PascalCase name would collide with an existing Carbon React component of
-// the same name in the shared `index.ts` export list (see the source's
+// the same name in the shared `src/components.ts` export list (see the source's
 // `nameToEmberExport` comment below for why that matters). Keyed by the
 // upstream kebab-case directory name.
 const AI_CHAT_EXPORT_OVERRIDES = {
@@ -118,7 +118,7 @@ const SOURCES = [
     // Upstream directory names are kebab-case (e.g. "chat-shell"); the
     // Ember port exports them as PascalCase (e.g. "ChatShell"). `emberComponents`
     // (see comparison below) is a single flat list built from the *entire*
-    // `index.ts` export list, shared across every source - so a plain 1:1
+    // `src/components.ts` export list, shared across every source - so a plain 1:1
     // name would collide with any Carbon React component of the same name
     // and silently satisfy that source's own "missing" check too (e.g.
     // exporting `Card` here would close out the react source's Card issue
@@ -292,7 +292,7 @@ async function fetchUpstreamComponents(source) {
 }
 
 /**
- * Get Ember components from index.ts. Shared across all sources: whatever
+ * Get Ember components from src/components.ts. Shared across all sources: whatever
  * gets added for a new source (e.g. `ChatShell`/`Launcher` for
  * `carbon-ai-chat`) is exported from the same public entrypoint, regardless
  * of which subfolder it lives under, so there is no need for a per-source
@@ -300,11 +300,14 @@ async function fetchUpstreamComponents(source) {
  */
 async function getEmberComponents() {
   try {
-    const indexPath = path.join(ROOT_DIR, 'carbon-components-ember/src/components/index.ts');
+    const indexPath = path.join(ROOT_DIR, 'carbon-components-ember/src/components.ts');
     const content = await fs.readFile(indexPath, 'utf-8');
 
     // Match export statements
-    const exportRegex = /export\s*\{\s*default\s+as\s+(\w+)\s*\}/g;
+    // Components can export named helpers next to their default (e.g.
+    // `export { default as Grid, FlexGrid }`), so don't require `}` right
+    // after the name.
+    const exportRegex = /export\s*\{\s*default\s+as\s+(\w+)\s*[,}]/g;
     const components = [];
     let match;
 

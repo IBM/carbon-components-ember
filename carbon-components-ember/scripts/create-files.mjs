@@ -2,7 +2,8 @@ import fs from 'fs';
 import path from 'path';
 
 function createIndexFiles() {
-  const files = fs.readdirSync('./src', { recursive: true });
+  // Sorted, so the generated barrels are the same on every OS.
+  const files = fs.readdirSync('./src', { recursive: true }).sort();
   const groups = {
     components: [],
     helpers: [],
@@ -108,10 +109,12 @@ function createIndexFiles() {
     ].map((m) => m[1]);
     const specifiers = [`default as ${camelCased}`, ...namedExports];
     componentIndexFile.push(
-      `export { ${specifiers.join(', ')} } from './${relativePath}'`,
+      `export { ${specifiers.join(', ')} } from './components/${relativePath}'`,
     );
   }
-  fs.writeFileSync('./src/components/index.ts', componentIndexFile.join('\n'));
+  // `carbon-components-ember/components` (dist/components.js, via the
+  // package.json `./*` export). src/components/index.ts re-exports it.
+  fs.writeFileSync('./src/components.ts', componentIndexFile.join('\n'));
 
   const iconsIndexFile = [];
   for (const comp of groups.icons) {
@@ -139,10 +142,11 @@ function createIndexFiles() {
         return g[1].toUpperCase();
       });
     helpersIndexFile.push(
-      `export { default as ${camelCased} } from './${comp.replace('helpers/', '')}'`,
+      `export { default as ${camelCased} } from './${comp}'`,
     );
   }
-  fs.writeFileSync('./src/helpers/index.ts', helpersIndexFile.join('\n'));
+  // `carbon-components-ember/helpers`; src/helpers/index.ts re-exports it.
+  fs.writeFileSync('./src/helpers.ts', helpersIndexFile.join('\n'));
 }
 
 function createIconIndex() {
