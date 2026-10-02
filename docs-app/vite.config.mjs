@@ -164,9 +164,10 @@ export default defineConfig((/* { mode } */) => {
       // Runs a classic ember-cli prebuild so @embroider/core's resolver has
       // the metadata (rewritten-packages, resolver.json, etc.) it needs to
       // resolve Ember virtual modules like @embroider/virtual/helpers/*.
-      // Without this, addon-owned templates using dynamic component
-      // invocation (e.g. ember-power-select's `ensure-safe-component`) fail
-      // to resolve in a fresh build (no stale node_modules/.embroider cache).
+      // It was added for ember-power-select@8's loose-mode templates
+      // (`ensure-safe-component`). power-select 9 is strict-mode, and a fresh
+      // build without this rendered all docs pages the same, so it can likely
+      // be dropped in a follow-up once `vite dev` is checked too.
       compatPrebuild(),
       ember(),
       kolay({
