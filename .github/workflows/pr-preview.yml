@@ -10,7 +10,7 @@ jobs:
     if: |
       (github.event.action == 'labeled' && github.event.label.name == 'preview') ||
       (contains(fromJSON('["opened", "synchronize", "reopened"]'), github.event.action) && contains(github.event.pull_request.labels.*.name, 'preview'))
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: write
       pull-requests: write
@@ -107,7 +107,7 @@ jobs:
     if: |
       (github.event.action == 'closed' && contains(github.event.pull_request.labels.*.name, 'preview')) ||
       (github.event.action == 'unlabeled' && github.event.label.name == 'preview')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: write
       pull-requests: write
