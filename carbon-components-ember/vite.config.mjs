@@ -5,8 +5,15 @@ import { transformAsync } from '@babel/core';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { basename, dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
+import { playwright } from '@vitest/browser-playwright';
 
 const require = createRequire(import.meta.url);
+const configDir = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  '.storybook',
+);
 
 // For scenario testing
 const isCompat = Boolean(process.env.ENABLE_COMPAT_BUILD);
@@ -120,5 +127,43 @@ export default defineConfig({
         tests: 'tests/index.html',
       },
     },
+  },
+  // `pnpm test:storybook` runs every story (and its `play` function) as a
+  // browser test. The QUnit suite still runs through testem (`pnpm test`).
+  test: {
+    projects: [
+      {
+        extends: true,
+        plugins: [
+          storybookTest({
+            configDir,
+            storybookScript: 'pnpm storybook --no-open',
+          }),
+        ],
+        optimizeDeps: {
+          // Same as `viteFinal` in .storybook/main.ts, which the vitest
+          // plugin only takes plugins from.
+          exclude: ['ember-storybook'],
+          // ember-storybook's own imports, which Vite would otherwise only
+          // discover mid-run and then reload the tests for.
+          include: [
+            'ember-source/@ember/owner/index.js',
+            'ember-source/@ember/array/index.js',
+          ],
+        },
+        test: {
+          name: 'storybook',
+          browser: {
+            enabled: true,
+            // A cold run pre-bundles the whole Ember dependency graph before
+            // the browser can connect, which takes longer than the default.
+            connectTimeout: 180_000,
+            provider: playwright({}),
+            headless: true,
+            instances: [{ browser: 'chromium' }],
+          },
+        },
+      },
+    ],
   },
 });

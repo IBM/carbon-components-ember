@@ -15,5 +15,15 @@ export default {
         'require-input-label': 'off',
       },
     },
+    {
+      files: ['**/*.stories.{gjs,gts}'],
+      rules: {
+        // Story templates read Storybook's `args` from the render function's
+        // scope (not `this.args`), and ember-storybook's <RenderStory> takes
+        // an `@args` argument.
+        'no-args-paths': 'off',
+        'no-capital-arguments': 'off',
+      },
+    },
   ],
 };
