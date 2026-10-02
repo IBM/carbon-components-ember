@@ -94,7 +94,6 @@ const toggleHighlightedClass = modifier(
   },
 );
 
-// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 const Options: TOC<OptionsComponentInterface & { Args: { guid: string } }> = <template>
   <OptionsComponent
     @options={{@options}}
@@ -342,6 +341,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
                   <span id="multiselect-field-label-id-:{{this.guid}}:" class="cds--list-box__label">{{@placeholder}}</span>
                 {{/unless}}
                 <div class="cds--list-box__menu-icon">
+                  {{! @glint-expect-error: name is not a standard svg attribute, but matches the markup @carbon/react renders }}
                   <svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor" name="chevron--down" aria-label="Open menu" width="16" height="16" viewBox="0 0 16 16" role="img" xmlns="http://www.w3.org/2000/svg">
                     <path d="M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"></path><title>Open menu</title>
                   </svg>

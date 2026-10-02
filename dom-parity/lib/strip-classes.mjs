@@ -4,7 +4,7 @@
  * its `part` attribute (if any) removed.
  *
  * Only used for the `carbon-ai-chat` DOM-parity source (see
- * test-app/tests/components/ai-chat/dom-parity-test.gts), not the `react`
+ * carbon-components-ember/tests/components/ai-chat/dom-parity-test.gts), not the `react`
  * one - both `classes` and `part` are shadow-DOM-specific styling hooks
  * with no Ember equivalent, not real structural/semantic differences:
  *

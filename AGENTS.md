@@ -467,7 +467,7 @@ Either way, don't hand-roll position maths.
 
 Note for tests: `assert.dom()`'s default root won't see portalled content —
 point `@container` at an element you appended to `document.body` and scope
-assertions to it (see `test-app/tests/components/portal-test.gts`).
+assertions to it (see `carbon-components-ember/tests/components/portal-test.gts`).
 
 ### 6. Handle Timing With Tasks and Destructors, Not Bare Timers
 
@@ -749,10 +749,56 @@ assume is intentional.
 - [ ] Use `cds--` prefix for CSS classes
 - [ ] Match React prop names (as `@args`)
 - [ ] Export in `carbon-components-ember/src/components/index.ts`
-- [ ] Create test file in `test-app/tests/components/`
+- [ ] Create test file in `carbon-components-ember/tests/components/`, importing the component from `#src/components/<name>.gts`
 - [ ] Build: `cd carbon-components-ember && pnpm build`
-- [ ] Test: `cd test-app && pnpm test`
+- [ ] Test: `cd carbon-components-ember && pnpm test`
 - [ ] If a docs example uses an icon, load the docs page (or an isolated render test) and confirm it actually renders — icons no longer need manual registration (see Pitfall 5), but this is still the only way to catch a genuinely missing/misnamed export
+
+## Addon Layout and Tests (`@ember/addon-blueprint`)
+
+The addon follows the [`@ember/addon-blueprint`](https://github.com/ember-cli/ember-addon-blueprint)
+layout (recorded in `carbon-components-ember/config/ember-cli-update.json`, so
+`ember-cli-update` can apply later blueprint changes). Stay as close to the
+blueprint as possible; the deliberate deviations are commented where they live.
+There is no separate `test-app` any more — older notes further down in this
+file that mention `test-app/...` paths predate the migration and now mean
+`carbon-components-ember/tests/...`.
+
+- **Tests run against `src/`, not `dist/`.** Import what you test through the
+  `#src/*` import map with the file extension
+  (`import Button from '#src/components/button.gts'`), never through the
+  package name. `pnpm test` = `vite build` + testem; no addon build needed.
+- **Browser is pinned.** `testem.cjs` points testem's `Chrome` launcher at
+  Playwright's bundled Chromium (`browser_paths`), because the style snapshots
+  in `tests/__snapshots__` depend on the exact browser build. Bump
+  `playwright-chromium` in its own commit, together with a deliberate
+  `pnpm test:update-snapshots`, so browser drift is reviewable on its own.
+- **Style snapshots** are written through a testem middleware (and, under
+  `pnpm start`, a Vite middleware at `/tests/?save-snapshots`). A missing
+  snapshot is recorded on the next run and fails that run once by design.
+  The comparison collapses whitespace and normalizes `emberNNN` ids in the
+  element representation, so template re-formatting doesn't churn snapshots.
+- **The addon's own stylesheet is loaded globally** in `tests/test-helper.ts`
+  (`import '#src/styles/index.scss'`), the way a consuming app loads
+  `carbon-components-ember/styles.scss`. Several snapshots (e.g. Grid's flex
+  layout) depend on it.
+- **Services** are registered in the strict test resolver under `carbon/`,
+  mirroring the app-tree re-exports (`service:carbon.dialog-manager`).
+- **`tests/power-select-modules.ts`, the `@embroider/util` alias in
+  `vite.config.mjs` and the `ember-assign-helper` stub in
+  `unpublished-development-types/index.d.ts` are temporary.** They exist only
+  because `ember-power-select`/`ember-basic-dropdown` 8 ship loose-mode
+  templates that resolve helpers/components by string name. Delete all three
+  when upgrading to v9.
+- **Published SCSS is copied, not kept.** `addon.keepAssets()` (addon-dev 8)
+  only keeps assets that JS imports, so `src/styles/**/*.scss` is copied into
+  `dist/` with `rollup-plugin-copy` at `writeBundle` (after `addon.clean()`,
+  which would otherwise delete it). See
+  [embroider#2461](https://github.com/embroider-build/embroider/issues/2461).
+  `pnpm lint:publish` (publint) is what catches a broken `exports` entry.
+- **Astroturf CSS-module filenames** are derived from the file name
+  (`iconIcon.module.scss`), since `decorator-transforms` keeps class fields
+  native. docs-app's `theme-support.gts` imports a few of them by name.
 
 ## Simplification Guidelines
 
@@ -3451,4 +3497,4 @@ surfacing here are repeated below.
 
 ---
 
-Last Updated: 2026-09-23
+Last Updated: 2026-10-02

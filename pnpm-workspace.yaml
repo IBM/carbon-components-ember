@@ -1,6 +1,5 @@
 packages:
   - carbon-components-ember
-  - test-app
   - docs-app
   - dom-parity
 allowBuilds:
@@ -42,6 +41,10 @@ patchedDependencies:
   ember-repl@8.2.1: patches/ember-repl@8.2.1.patch
   kolay@5.4.0: patches/kolay@5.4.0.patch
 overrides:
+  # Every package must share one copy of @glint/template: its `Invoke` symbol
+  # is unique per copy, and several addons (e.g. ember-element-helper) import
+  # it in their types without declaring it, so they get the hoisted copy.
+  '@glint/template': ^1.9.0
   # Security patches for transitive dev/build-tooling dependencies (issue #836).
   # Each is pinned to the minimum patched version within the major already
   # resolved in the tree, to avoid pulling in an unreviewed breaking upgrade.

@@ -182,7 +182,7 @@ export default class ${iconNames[icon]} extends Icon {
     typesContent += '\n';
     typesContent += `declare module '${fullPath}' { export default {} as Icon };\n`;
   }
-  fs.writeFileSync('./types/carbon-icons.d.ts', typesContent);
+  fs.writeFileSync('./unpublished-development-types/carbon-icons.d.ts', typesContent);
 }
 
 createIconIndex();

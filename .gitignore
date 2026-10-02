@@ -6,8 +6,6 @@
 !docs-app
 !docs-app/**/*
 docs-app/node_modules
-!test-app
-!test-app/**/*
 !dom-parity
 !dom-parity/**/*
 dom-parity/node_modules

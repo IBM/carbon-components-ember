@@ -46,7 +46,6 @@ export default class OverflowMenuComponent extends Component<OverflowMenuCompone
           <:trigger as |reference|>
             <dd.Trigger
               @stopPropagation={{false}}
-              {{! @glint-expect-error: @gavant/glint-template-types types eventType as required, but ember-basic-dropdown itself treats it as optional and defaults to 'click' }}
               @eventType={{@eventType}}
               class='cds--overflow-menu {{if dd.isOpen "cds--overflow-menu--open"}}'
               {{reference}}
@@ -61,7 +60,6 @@ export default class OverflowMenuComponent extends Component<OverflowMenuCompone
       {{else}}
         <dd.Trigger
           @stopPropagation={{false}}
-          {{! @glint-expect-error: @gavant/glint-template-types types eventType as required, but ember-basic-dropdown itself treats it as optional and defaults to 'click' }}
           @eventType={{@eventType}}
           class='cds--overflow-menu {{if dd.isOpen "cds--overflow-menu--open"}}'
         >
