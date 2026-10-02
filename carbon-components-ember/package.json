@@ -123,6 +123,7 @@
     "@rollup/plugin-babel": "^6.1.0",
     "@storybook/addon-a11y": "^10.6.1",
     "@storybook/addon-docs": "^10.6.1",
+    "@storybook/addon-themes": "^10.6.1",
     "@storybook/addon-vitest": "^10.6.1",
     "@types/markdown-it": "^14.2.0",
     "@types/qunit": "^2.19.14",

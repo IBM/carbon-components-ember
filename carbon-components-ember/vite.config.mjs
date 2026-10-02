@@ -156,6 +156,7 @@ export default defineConfig({
             'ember-source/@ember/array/index.js',
             '@storybook/addon-a11y',
             '@storybook/addon-docs',
+            '@storybook/addon-themes',
             '@storybook/addon-vitest',
           ],
         },

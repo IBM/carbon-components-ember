@@ -8,6 +8,7 @@ export default defineMain({
   addons: [
     '@storybook/addon-docs',
     '@storybook/addon-a11y',
+    '@storybook/addon-themes',
     '@storybook/addon-vitest',
   ],
 
