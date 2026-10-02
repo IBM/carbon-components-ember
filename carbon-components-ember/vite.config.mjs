@@ -122,6 +122,10 @@ export default defineConfig({
     snapshotWriter(),
   ],
   build: {
+    // This build only bundles the tests. Leave CSS unminified so style
+    // snapshots compare Carbon's own CSS, not a minifier's rewrite of it
+    // (Lightning CSS turns `background: none` into a 0px 0px position).
+    cssMinify: false,
     rollupOptions: {
       input: {
         tests: 'tests/index.html',
