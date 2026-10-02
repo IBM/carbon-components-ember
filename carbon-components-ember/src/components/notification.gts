@@ -1,13 +1,12 @@
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import { default as eq } from 'ember-truth-helpers/helpers/eq';
-import { default as Icon } from '../components/icon.gts';
+import type { default as Icon } from '../components/icon.gts';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import NotificationService, {
-  type NotificationOptions,
-} from '../services/notifications.ts';
+import type NotificationService from '../services/notifications.ts';
+import type { NotificationOptions } from '../services/notifications.ts';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import type { WithRequired } from '../utils/type-helpers.ts';

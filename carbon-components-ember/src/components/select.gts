@@ -2,9 +2,8 @@ import Component from '@glimmer/component';
 import { set, action } from '@ember/object';
 import { isBlank } from '@ember/utils';
 import { defaultArgs } from '../utils/decorators.ts';
-import PowerSelect, {
-  type PowerSelectArgs,
-} from 'ember-power-select/components/power-select';
+import PowerSelect from 'ember-power-select/components/power-select';
+import type { PowerSelectArgs } from 'ember-power-select/components/power-select';
 import type { ContentValue } from '@glint/template';
 import { modifier } from 'ember-modifier';
 import defaultTo from '../helpers/default-to.ts';
@@ -14,9 +13,8 @@ import { on } from '@ember/modifier';
 import { fn, hash } from '@ember/helper';
 import { and, eq, not } from 'ember-truth-helpers';
 import TriggerComponent from 'ember-power-select/components/power-select/trigger';
-import OptionsComponent, {
-  type PowerSelectOptionsSignature,
-} from 'ember-power-select/components/power-select/options';
+import OptionsComponent from 'ember-power-select/components/power-select/options';
+import type { PowerSelectOptionsSignature } from 'ember-power-select/components/power-select/options';
 import type {
   Option,
   PowerSelectSelectedItemSignature,

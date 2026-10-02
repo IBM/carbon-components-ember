@@ -15,11 +15,11 @@ import { and, eq, not, or } from 'ember-truth-helpers';
 import FileUploaderStatusIcon from '../file-uploader/-status-icon.gts';
 import { PlayFilledAlt } from '../../icons.ts';
 import { pickFileTypeIcon } from './-file-uploads/file-type-icon.ts';
-import {
-  FileStatusValue,
-  type FileAttachment,
-  type FileRemoveEventDetail,
-  type FileUpload,
+import { FileStatusValue } from './-file-uploads/types.ts';
+import type {
+  FileAttachment,
+  FileRemoveEventDetail,
+  FileUpload,
 } from './-file-uploads/types.ts';
 
 export type Args = {

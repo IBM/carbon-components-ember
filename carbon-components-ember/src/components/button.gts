@@ -1,10 +1,10 @@
 import Component from '@glimmer/component';
 import { defaultArgs } from '../utils/decorators.ts';
-import DialogManagerService from '../services/dialog-manager.ts';
+import type DialogManagerService from '../services/dialog-manager.ts';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import ConfirmDialogComponent from './dialogs/confirm.gts';
+import type ConfirmDialogComponent from './dialogs/confirm.gts';
 import or from '../helpers/or.ts';
 import Confirm from './dialogs/confirm.gts';
 import Loading from './loading.gts';

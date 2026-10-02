@@ -1,7 +1,7 @@
 import { default as ListRow } from './-row.gts';
 import Component from '@glimmer/component';
 import type { WithBoundArgs } from '@glint/template';
-import ListRowComponent from '../list/-row.gts';
+import type ListRowComponent from '../list/-row.gts';
 import type ListComponent from '../list.gts';
 import { hash } from '@ember/helper';
 

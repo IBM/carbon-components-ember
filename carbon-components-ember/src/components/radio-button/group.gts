@@ -4,7 +4,8 @@ import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { defaultArgs } from '../../utils/decorators.ts';
 import type { WithBoundArgs } from '@glint/template';
-import RadioButton, { type Value } from '../radio-button.gts';
+import RadioButton from '../radio-button.gts';
+import type { Value } from '../radio-button.gts';
 
 export interface Signature {
   Args: {

@@ -3,7 +3,7 @@ import { default as Button } from '../../button.gts';
 import { fn } from '@ember/helper';
 import { hash } from '@ember/helper';
 import Component from '@glimmer/component';
-import Table from '../../data-table.gts';
+import type Table from '../../data-table.gts';
 
 export interface Signature {
   Args: {

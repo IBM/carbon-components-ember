@@ -1,9 +1,10 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, fillIn, waitUntil, find } from '@ember/test-helpers';
-import AiChatTable, {
-  type AiChatTableRow,
-  type AiChatTableCell,
+import AiChatTable from '#src/components/ai-chat/table.gts';
+import type {
+  AiChatTableRow,
+  AiChatTableCell,
 } from '#src/components/ai-chat/table.gts';
 
 const headers: AiChatTableCell[] = [{ text: 'Name' }, { text: 'Status' }];

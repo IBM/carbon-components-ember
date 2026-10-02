@@ -7,9 +7,8 @@ import {
   find,
   triggerEvent,
 } from '@ember/test-helpers';
-import AiChatCardFooter, {
-  type CardFooterAction,
-} from '#src/components/ai-chat/card-footer.gts';
+import AiChatCardFooter from '#src/components/ai-chat/card-footer.gts';
+import type { CardFooterAction } from '#src/components/ai-chat/card-footer.gts';
 import Checkmark from '#src/components/icons/checkmark.ts';
 import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 // The addon's own custom SCSS (its `.cds-aichat-card-footer__icon-actions`

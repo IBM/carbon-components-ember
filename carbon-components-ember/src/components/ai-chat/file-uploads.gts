@@ -10,10 +10,10 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { modifier } from 'ember-modifier';
 import FileUploadItem from './file-upload-item.gts';
-import {
-  FileStatusValue,
-  type FileRemoveEventDetail,
-  type FileUpload,
+import { FileStatusValue } from './-file-uploads/types.ts';
+import type {
+  FileRemoveEventDetail,
+  FileUpload,
 } from './-file-uploads/types.ts';
 
 export type Args = {

@@ -2,7 +2,7 @@ import { default as Chart } from './-components/chart.gts';
 import { SimpleBarChart } from '@carbon/charts';
 import Component from '@glimmer/component';
 import { defaultArgs } from '../../utils/decorators.ts';
-import { type CarbonChartSignature } from './-components/chart.gts';
+import type { CarbonChartSignature } from './-components/chart.gts';
 
 /** @documenter yuidoc */
 

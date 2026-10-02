@@ -1,9 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, find, waitUntil } from '@ember/test-helpers';
-import AiChatCardSteps, {
-  type CardStep,
-} from '#src/components/ai-chat/card-steps.gts';
+import AiChatCardSteps from '#src/components/ai-chat/card-steps.gts';
+import type { CardStep } from '#src/components/ai-chat/card-steps.gts';
 
 module('Integration | Component | ai-chat/AiChatCardSteps', (hooks) => {
   setupRenderingTest(hooks);

@@ -9,10 +9,10 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { modifier as eModifier } from 'ember-modifier';
-import {
-  initCarousel,
-  type CarouselResponse,
-  type InitCarousel,
+import { initCarousel } from '@carbon/utilities/carousel';
+import type {
+  CarouselResponse,
+  InitCarousel,
 } from '@carbon/utilities/carousel';
 import { default as Button } from '../button.gts';
 import { default as Tooltip } from '../tooltip.gts';

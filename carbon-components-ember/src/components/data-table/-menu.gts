@@ -1,6 +1,6 @@
 import { default as OverflowMenu } from '../overflow-menu.gts';
 import Component from '@glimmer/component';
-import MenuItemComponent from '../overflow-menu/item.gts';
+import type MenuItemComponent from '../overflow-menu/item.gts';
 import type { WithBoundArgs } from '@glint/template';
 import { OverflowMenuVertical } from '../../icons.ts';
 

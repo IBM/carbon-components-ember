@@ -12,7 +12,8 @@ import { guidFor } from '@ember/object/internals';
 import { on } from '@ember/modifier';
 import { default as didInsert } from '@ember/render-modifiers/modifiers/did-insert';
 import { default as didUpdate } from '@ember/render-modifiers/modifiers/did-update';
-import { default as Tooltip, type TooltipAlignments } from '../tooltip.gts';
+import { default as Tooltip } from '../tooltip.gts';
+import type { TooltipAlignments } from '../tooltip.gts';
 
 export type Args = {
   /** Tooltip alignment when `@type` is `'tooltip'`. Defaults to `'top'`. */

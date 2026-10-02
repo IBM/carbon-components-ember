@@ -89,6 +89,9 @@ export default defineConfig([
       },
       ember.configs.gts,
     ],
+    plugins: {
+      import: importPlugin,
+    },
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
@@ -98,6 +101,14 @@ export default defineConfig([
       '@typescript-eslint/no-unsafe-call': 'off',
       'ember/no-empty-glimmer-component-classes': 'off',
       'ember/no-at-ember-render-modifiers': 'off',
+      // Type-only imports must be erased from the build; otherwise rollup
+      // reports unused externals and phantom circular dependencies. Types
+      // always go in their own `import type { ... }` statement.
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        { fixStyle: 'separate-type-imports', disallowTypeAnnotations: false },
+      ],
+      'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
     },
   },
   {

@@ -9,7 +9,7 @@ import { on } from '@ember/modifier';
 import set from '../helpers/set.ts';
 import not from 'ember-truth-helpers/helpers/not';
 import htmlSafe from '../helpers/html-safe.ts';
-import { type TemplateOnlyComponent } from '@ember/component/template-only';
+import type { TemplateOnlyComponent } from '@ember/component/template-only';
 
 export type Args = {
   type: 'default' | 'multiline' | 'inline';

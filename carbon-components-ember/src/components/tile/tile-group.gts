@@ -2,7 +2,8 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import type { WithBoundArgs } from '@glint/template';
-import RadioTile, { type Value } from '../radio-tile.gts';
+import RadioTile from '../radio-tile.gts';
+import type { Value } from '../radio-tile.gts';
 
 export interface Signature {
   Args: {

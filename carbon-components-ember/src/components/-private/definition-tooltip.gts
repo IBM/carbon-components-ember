@@ -9,7 +9,8 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { on } from '@ember/modifier';
-import Popover, { type NewPopoverAlignment } from '../popover.gts';
+import Popover from '../popover.gts';
+import type { NewPopoverAlignment } from '../popover.gts';
 
 export interface DefinitionTooltipSignature {
   Args: {

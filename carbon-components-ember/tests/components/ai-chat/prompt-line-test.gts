@@ -12,9 +12,8 @@ import {
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import { on } from '@ember/modifier';
-import PromptLine, {
-  type PromptLineApi,
-} from '#src/components/ai-chat/prompt-line.gts';
+import PromptLine from '#src/components/ai-chat/prompt-line.gts';
+import type { PromptLineApi } from '#src/components/ai-chat/prompt-line.gts';
 import { resetRichRuntimeForTests } from '#src/components/ai-chat/-prompt-line/rich-loader.ts';
 import { waitForAnimationFrame } from '../../helpers';
 

@@ -6,7 +6,7 @@
  */
 
 import Component from '@glimmer/component';
-import { type TemplateOnlyComponent } from '@ember/component/template-only';
+import type { TemplateOnlyComponent } from '@ember/component/template-only';
 import DefinitionTooltip from './-private/definition-tooltip.gts';
 import type { IconIndicatorAlignment } from './icon-indicator.gts';
 import Critical from './icons/critical.ts';
