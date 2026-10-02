@@ -18,8 +18,7 @@ import TriggerComponent from 'ember-power-select/components/power-select-multipl
 import OptionsComponent from 'ember-power-select/components/power-select/options';
 import { guidFor } from '@ember/object/internals';
 import { Close } from '../icons.ts';
-import type { TOC } from "@ember/component/template-only";
-
+import type { TOC } from '@ember/component/template-only';
 
 export type Args<T extends ContentValue> = {
   options: T[];
@@ -38,22 +37,22 @@ export type Args<T extends ContentValue> = {
   removeItem?: (item: T) => void;
 } & (
   | {
-  selected?: T[];
-  multiple: true;
-  onSelect?: (item: T[]) => void;
-  onOpen?: PowerSelectArgs['onOpen'];
-  search?: PowerSelectArgs['search'];
-  selectFocused?: PowerSelectArgs['onFocus'];
-}
+      selected?: T[];
+      multiple: true;
+      onSelect?: (item: T[]) => void;
+      onOpen?: PowerSelectArgs['onOpen'];
+      search?: PowerSelectArgs['search'];
+      selectFocused?: PowerSelectArgs['onFocus'];
+    }
   | {
-  selected?: T;
-  multiple?: false;
-  onSelect?: (item: T) => void;
-  onOpen?: PowerSelectArgs['onOpen'];
-  search?: PowerSelectArgs['search'];
-  selectFocused?: PowerSelectArgs['onFocus'];
-});
-
+      selected?: T;
+      multiple?: false;
+      onSelect?: (item: T) => void;
+      onOpen?: PowerSelectArgs['onOpen'];
+      search?: PowerSelectArgs['search'];
+      selectFocused?: PowerSelectArgs['onFocus'];
+    }
+);
 
 export interface SelectComponentSignature<T extends ContentValue> {
   Args: Args<T>;
@@ -94,53 +93,70 @@ const toggleHighlightedClass = modifier(
   },
 );
 
-const Options: TOC<OptionsComponentInterface & { Args: { guid: string } }> = <template>
-  <OptionsComponent
-    @options={{@options}}
-    @select={{@select}}
-    @groupIndex="{{@groupIndex}}"
-    @listboxId="{{@listboxId}}"
-    @loadingMessage="{{@loadingMessage}}"
-    @optionsComponent={{@optionsComponent}}
-    @groupComponent={{@groupComponent}}
-    @extra={{@extra}}
-    role="listbox"
-    aria-labelledby="downshift-:{{@guid}}:-label"
-    ...attributes
-    class='cds--list-box--expanded cds--list-box__menu'
-    as |option|
-  >
-    {{yield option @select}}
-  </OptionsComponent>
-</template>;
+const Options: TOC<OptionsComponentInterface & { Args: { guid: string } }> =
+  <template>
+    <OptionsComponent
+      @options={{@options}}
+      @select={{@select}}
+      @groupIndex="{{@groupIndex}}"
+      @listboxId="{{@listboxId}}"
+      @loadingMessage="{{@loadingMessage}}"
+      @optionsComponent={{@optionsComponent}}
+      @groupComponent={{@groupComponent}}
+      @extra={{@extra}}
+      role="listbox"
+      aria-labelledby="downshift-:{{@guid}}:-label"
+      ...attributes
+      class="cds--list-box--expanded cds--list-box__menu"
+      as |option|
+    >
+      {{yield option @select}}
+    </OptionsComponent>
+  </template>;
 
 const SelectedItem: TOC<{
   Args: {
-    select: OptionsComponentInterface['Args']['select'],
-    option: ArrayElement<OptionsComponentInterface['Args']['options']>
+    select: OptionsComponentInterface['Args']['select'];
+    option: ArrayElement<OptionsComponentInterface['Args']['options']>;
   };
   Blocks: {
     default: [string];
-  }
-}> =  <template>
-    <div class="cds--tag cds--tag--filter cds--tag--high-contrast">
-      <span class="cds--tag__label" title="1">
-        {{#if (has-block)}}
-          {{yield @option}}
-        {{else}}
-          {{@option}}
-        {{/if}}
-      </span>
-      {{! template-lint-disable require-presentational-children }}
-      <div {{on 'click' (fn @select.actions.select @option)}} role="button" tabindex="-1" class="cds--tag__close-icon" aria-label="Clear all selected items"
-                                                              title="Clear all selected items">
-        <svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor" width="16" height="16" viewBox="0 0 32 32" aria-hidden="true"
-             xmlns="http://www.w3.org/2000/svg">
-          <path d="M17.4141 16L24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"></path>
-        </svg>
-      </div>
+  };
+}> = <template>
+  <div class="cds--tag cds--tag--filter cds--tag--high-contrast">
+    <span class="cds--tag__label" title="1">
+      {{#if (has-block)}}
+        {{yield @option}}
+      {{else}}
+        {{@option}}
+      {{/if}}
+    </span>
+    {{! template-lint-disable require-presentational-children }}
+    <div
+      {{on "click" (fn @select.actions.select @option)}}
+      role="button"
+      tabindex="-1"
+      class="cds--tag__close-icon"
+      aria-label="Clear all selected items"
+      title="Clear all selected items"
+    >
+      <svg
+        focusable="false"
+        preserveAspectRatio="xMidYMid meet"
+        fill="currentColor"
+        width="16"
+        height="16"
+        viewBox="0 0 32 32"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M17.4141 16L24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+        ></path>
+      </svg>
     </div>
-  </template>
+  </div>
+</template>;
 
 export default class SelectComponent<T extends ContentValue> extends Component<
   SelectComponentSignature<T>
@@ -245,127 +261,193 @@ export default class SelectComponent<T extends ContentValue> extends Component<
       const selected = [...this.args.select.selected];
       const i = selected.indexOf(opt);
       selected.splice(i, 1);
-      this.args.select.actions.select(selected)
-    }
+      this.args.select.actions.select(selected);
+    };
 
     removeAll = () => {
       this.args.select.actions.select([]);
-    }
+    };
 
     doSearch = (event: Event) => {
       this.args.select.actions.search((event.target as HTMLInputElement).value);
-    }
+    };
 
     focus = modifier((element: HTMLElement) => {
       element.focus();
     });
 
-      <template>
-          {{#if @extra.title}}
-            <label class="cds--label {{if @select.disabled 'cds--label--disabled'}}" id="downshift-:{{this.guid}}:-label" for="downshift-:{{this.guid}}:-toggle-button">{{@extra.title}}</label>
-          {{/if}}
-          {{! template-lint-disable no-pointer-down-event-binding }}
-          {{! template-lint-disable no-unsupported-role-attributes }}
-          <div tabindex="1" class="cds--multi-select cds--combo-box cds--list-box
-                    {{if @select.disabled 'cds--list-box--disabled'}}
-                    {{if @searchEnabled 'cds--multi-select--filterable'}}
-                    {{if @select.isOpen 'cds--multi-select--open cds--multi-select--filterable--input-focused cds--list-box--expanded'}}"
-               style={{if @extra.inline 'background: transparent; border: none;'}}
-               aria-activedescendant={{if
-            (and @select.isOpen)
-            @ariaActiveDescendant
+    <template>
+      {{#if @extra.title}}
+        <label
+          class="cds--label {{if @select.disabled 'cds--label--disabled'}}"
+          id="downshift-:{{this.guid}}:-label"
+          for="downshift-:{{this.guid}}:-toggle-button"
+        >{{@extra.title}}</label>
+      {{/if}}
+      {{! template-lint-disable no-pointer-down-event-binding }}
+      {{! template-lint-disable no-unsupported-role-attributes }}
+      <div
+        tabindex="1"
+        class="cds--multi-select cds--combo-box cds--list-box
+          {{if @select.disabled 'cds--list-box--disabled'}}
+          {{if @searchEnabled 'cds--multi-select--filterable'}}
+          {{if
+            @select.isOpen
+            'cds--multi-select--open cds--multi-select--filterable--input-focused cds--list-box--expanded'
+          }}"
+        style={{if @extra.inline "background: transparent; border: none;"}}
+        aria-activedescendant={{if (and @select.isOpen) @ariaActiveDescendant}}
+        {{this.openChange @select.isOpen}}
+        {{on "touchstart" this.chooseOption}}
+        {{on "mousedown" this.chooseOption}}
+        ...attributes
+      >
+        <div class="cds--list-box__field--wrapper">
+          {{#if
+            (and
+              @extra.isSingleSelect (not (and @select.isOpen @searchEnabled))
+            )
           }}
-            {{this.openChange @select.isOpen}}
-            {{on "touchstart" this.chooseOption}}
-            {{on "mousedown" this.chooseOption}}
-               ...attributes
-          >
-            <div class="cds--list-box__field--wrapper">
-              {{#if  (and @extra.isSingleSelect (not (and @select.isOpen @searchEnabled)))}}
-                <div class="cds--list-box__label" style="margin-left: 15px; margin-right: 3px; width: -webkit-fill-available;">{{@select.selected}}</div>
-              {{/if}}
-              {{#if (and @extra.showNumber @select.selected.length)}}
-                <div class="cds--tag cds--tag--filter cds--tag--high-contrast" style="margin: 0;">
-                  <span class="cds--tag__label" title="{{@select.selected.length}}">{{@select.selected.length}}</span>
-                  {{! template-lint-disable require-presentational-children }}
-                  <div {{on 'click' this.removeAll}} role="button" tabindex="-1" class="cds--tag__close-icon" aria-label="Clear all selected items" title="Clear all selected items" >
-                    <Close />
-                  </div>
-                </div>
-              {{else}}
-                {{#each @select.selected as |opt|}}
-                  <div class="cds--tag cds--tag--filter cds--tag--high-contrast" style="margin: 0;">
-                    <span class="cds--tag__label" title="1">{{opt}}</span>
-                    {{! template-lint-disable require-presentational-children }}
-                    <div {{on 'click' (fn this.removeSelected opt)}} role="button" tabindex="-1" class="cds--tag__close-icon" aria-label="Clear all selected items" title="Clear all selected items" >
-                      <Close />
-                    </div>
-                  </div>
-                {{/each}}
-              {{/if}}
-              {{#if (and @searchEnabled @select.isOpen)}}
-                {{! template-lint-disable no-redundant-role }}
-                <input
-                  placeholder="{{@extra.searchPlaceholder}}"
-                  class="cds--text-input cds--text-input--empty"
-                  aria-activedescendant=""
-                  aria-autocomplete="list"
-                  aria-expanded="true"
-                  autocomplete="off"
-                  id="carbon-multiselect-{{this.guid}}-input"
-                  role="combobox"
-                  aria-describedby="filterablemultiselect-helper-text-id-:re8:"
-                  aria-haspopup="listbox"
-                  value=""
-                  aria-controls="carbon-multiselect-{{this.guid}}__menu"
-                  {{on 'input' this.doSearch}}
-                  {{this.focus}}
-                >
-              {{/if}}
-
-              <button
-                style={{if @extra.isSingleSelect 'overflow: visible; width: 50px;' 'overflow: visible; '}}
-                type="button"
-                class="cds--list-box__field"
-                aria-describedby="multiselect-helper-text-id-:r1m:"
-                aria-activedescendant=""
-                aria-controls="downshift-:{{this.guid}}:-menu"
-                aria-expanded="false"
-                aria-haspopup="listbox"
-                aria-labelledby="downshift-:{{this.guid}}:-label"
-                id="downshift-:{{this.guid}}:-toggle-button"
-                role="combobox"
-                tabindex="0"
+            <div
+              class="cds--list-box__label"
+              style="margin-left: 15px; margin-right: 3px; width: -webkit-fill-available;"
+            >{{@select.selected}}</div>
+          {{/if}}
+          {{#if (and @extra.showNumber @select.selected.length)}}
+            <div
+              class="cds--tag cds--tag--filter cds--tag--high-contrast"
+              style="margin: 0;"
+            >
+              <span
+                class="cds--tag__label"
+                title="{{@select.selected.length}}"
+              >{{@select.selected.length}}</span>
+              {{! template-lint-disable require-presentational-children }}
+              <div
+                {{on "click" this.removeAll}}
+                role="button"
+                tabindex="-1"
+                class="cds--tag__close-icon"
+                aria-label="Clear all selected items"
+                title="Clear all selected items"
               >
-                {{#unless @select.selected}}
-                  <span id="multiselect-field-label-id-:{{this.guid}}:" class="cds--list-box__label">{{@placeholder}}</span>
-                {{/unless}}
-                <div class="cds--list-box__menu-icon">
-                  {{! @glint-expect-error: name is not a standard svg attribute, but matches the markup @carbon/react renders }}
-                  <svg focusable="false" preserveAspectRatio="xMidYMid meet" fill="currentColor" name="chevron--down" aria-label="Open menu" width="16" height="16" viewBox="0 0 16 16" role="img" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"></path><title>Open menu</title>
-                  </svg>
-                </div>
-              </button>
+                <Close />
+              </div>
             </div>
-          <div id="multiselect-helper-text-id-:{{this.guid}}:" class="cds--form__helper-text">{{@extra.helperText}}</div>
+          {{else}}
+            {{#each @select.selected as |opt|}}
+              <div
+                class="cds--tag cds--tag--filter cds--tag--high-contrast"
+                style="margin: 0;"
+              >
+                <span class="cds--tag__label" title="1">{{opt}}</span>
+                {{! template-lint-disable require-presentational-children }}
+                <div
+                  {{on "click" (fn this.removeSelected opt)}}
+                  role="button"
+                  tabindex="-1"
+                  class="cds--tag__close-icon"
+                  aria-label="Clear all selected items"
+                  title="Clear all selected items"
+                >
+                  <Close />
+                </div>
+              </div>
+            {{/each}}
+          {{/if}}
+          {{#if (and @searchEnabled @select.isOpen)}}
+            {{! template-lint-disable no-redundant-role }}
+            <input
+              placeholder="{{@extra.searchPlaceholder}}"
+              class="cds--text-input cds--text-input--empty"
+              aria-activedescendant=""
+              aria-autocomplete="list"
+              aria-expanded="true"
+              autocomplete="off"
+              id="carbon-multiselect-{{this.guid}}-input"
+              role="combobox"
+              aria-describedby="filterablemultiselect-helper-text-id-:re8:"
+              aria-haspopup="listbox"
+              value=""
+              aria-controls="carbon-multiselect-{{this.guid}}__menu"
+              {{on "input" this.doSearch}}
+              {{this.focus}}
+            />
+          {{/if}}
+
+          <button
+            style={{if
+              @extra.isSingleSelect
+              "overflow: visible; width: 50px;"
+              "overflow: visible; "
+            }}
+            type="button"
+            class="cds--list-box__field"
+            aria-describedby="multiselect-helper-text-id-:r1m:"
+            aria-activedescendant=""
+            aria-controls="downshift-:{{this.guid}}:-menu"
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            aria-labelledby="downshift-:{{this.guid}}:-label"
+            id="downshift-:{{this.guid}}:-toggle-button"
+            role="combobox"
+            tabindex="0"
+          >
+            {{#unless @select.selected}}
+              <span
+                id="multiselect-field-label-id-:{{this.guid}}:"
+                class="cds--list-box__label"
+              >{{@placeholder}}</span>
+            {{/unless}}
+            <div class="cds--list-box__menu-icon">
+              <svg
+                focusable="false"
+                preserveAspectRatio="xMidYMid meet"
+                fill="currentColor"
+                {{! @glint-expect-error: name is not a standard svg attribute, but matches the markup @carbon/react renders }}
+                name="chevron--down"
+                aria-label="Open menu"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                role="img"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"></path><title
+                >Open menu</title>
+              </svg>
+            </div>
+          </button>
         </div>
-      </template>
+        <div
+          id="multiselect-helper-text-id-:{{this.guid}}:"
+          class="cds--form__helper-text"
+        >{{@extra.helperText}}</div>
+      </div>
+    </template>
   };
 
   <template>
     {{#if @multiple}}
       <PowerSelectMultiple
         ...attributes
-        class="cds--select cds--select-md {{if @inline 'cds--select--inline'}} {{if @disabled 'cds--select--disabled'}}"
+        class="cds--select cds--select-md
+          {{if @inline 'cds--select--inline'}}
+          {{if @disabled 'cds--select--disabled'}}"
         style="outline: none"
-        @extra={{hash helperText=@helperText title=@title showNumber=@showNumber searchPlaceholder=@searchPlaceholder inline=@inline}}
+        @extra={{hash
+          helperText=@helperText
+          title=@title
+          showNumber=@showNumber
+          searchPlaceholder=@searchPlaceholder
+          inline=@inline
+        }}
         @triggerComponent={{this.triggerComponent}}
         @optionsComponent={{this.optionsComponent}}
         @selectedItemComponent={{this.selectedItemComponent}}
         @renderInPlace={{defaultTo @renderInPlace false}}
         @disabled={{@disabled}}
-        @eventType='click'
+        @eventType="click"
         @searchEnabled={{defaultTo @searchEnabled false}}
         @search={{@search}}
         @options={{@options}}
@@ -381,7 +463,11 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         @closeOnSelect={{false}}
         as |option select|
       >
-        <div class='cds--list-box__menu-item__option' {{toggleHighlightedClass (eq option select.highlighted)}} {{addMenuItemClass}}>
+        <div
+          class="cds--list-box__menu-item__option"
+          {{toggleHighlightedClass (eq option select.highlighted)}}
+          {{addMenuItemClass}}
+        >
           <Checkbox
             @readonly={{true}}
             @checked={{isSelected option select.selected}}
@@ -397,9 +483,15 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     {{else}}
       <PowerSelect
         ...attributes
-        class="cds--select cds--select-md {{if @inline 'cds--select--inline'}} {{if @disabled 'cds--select--disabled'}}"
+        class="cds--select cds--select-md
+          {{if @inline 'cds--select--inline'}}
+          {{if @disabled 'cds--select--disabled'}}"
         style="outline: none"
-        @extra={{hash isSingleSelect=true searchPlaceholder=@searchPlaceholder inline=@inline}}
+        @extra={{hash
+          isSingleSelect=true
+          searchPlaceholder=@searchPlaceholder
+          inline=@inline
+        }}
         @renderInPlace={{defaultTo @renderInPlace false}}
         {{! @glint-expect-error: null is allowed }}
         @beforeOptionsComponent={{null}}
@@ -407,7 +499,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         @optionsComponent={{this.optionsComponent}}
         @selectedItemComponent={{this.selectedItemComponent}}
         @disabled={{@disabled}}
-        @eventType='click'
+        @eventType="click"
         @search={{@search}}
         @searchEnabled={{defaultTo @searchEnabled false}}
         @searchPlaceholder={{@searchPlaceholder}}
@@ -422,15 +514,21 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         @onChange={{this.onChange}}
         as |option select|
       >
-        <div class='cds--list-box__menu-item__option' {{toggleHighlightedClass (eq option select.highlighted)}} {{addMenuItemClass}}>
+        <div
+          class="cds--list-box__menu-item__option"
+          {{toggleHighlightedClass (eq option select.highlighted)}}
+          {{addMenuItemClass}}
+        >
           {{#if (isSelected option select.selected)}}
-            <span style="font-weight: bold; position: absolute; margin-left: -14px;">&check;</span>
+            <span
+              style="font-weight: bold; position: absolute; margin-left: -14px;"
+            >&check;</span>
           {{/if}}
-        {{#if (has-block)}}
-          {{yield option}}
-        {{else}}
-          {{option}}
-        {{/if}}
+          {{#if (has-block)}}
+            {{yield option}}
+          {{else}}
+            {{option}}
+          {{/if}}
         </div>
       </PowerSelect>
     {{/if}}

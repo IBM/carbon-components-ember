@@ -33,17 +33,18 @@ export default class DataTableBody<T> extends Component<
   <template>
     <tbody>
       {{#each @items as |item|}}
-        {{! @glint-expect-error }}
-        {{yield (hash Row=(component
-              ListRow
-              isExpandable=@isExpandable
-              isCheckable=@isCheckable
-              table=@table
-              item=item
-            )
+        {{#let
+          (component
+            ListRow
+            isExpandable=@isExpandable
+            isCheckable=@isCheckable
+            table=@table
             item=item
           )
+          as |Row|
         }}
+          {{yield (hash Row=Row item=item)}}
+        {{/let}}
       {{/each}}
     </tbody>
   </template>
