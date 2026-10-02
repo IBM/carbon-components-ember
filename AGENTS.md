@@ -773,6 +773,19 @@ file that mention `test-app/...` paths predate the migration and now mean
   in `tests/__snapshots__` depend on the exact browser build. Bump
   `playwright-chromium` in its own commit, together with a deliberate
   `pnpm test:update-snapshots`, so browser drift is reviewable on its own.
+  It also passes `--hide-scrollbars`, as Playwright does by default: Linux
+  draws classic scrollbars, which would otherwise take 30px out of the
+  50%-zoomed test container in CI and shift every width-based snapshot
+  (macOS uses overlay scrollbars, so this never reproduces locally).
+- **pnpm is pinned** in the root `package.json#packageManager` (with its
+  integrity hash). pnpm switches to that version itself; CI gets it through
+  Corepack in the local `.github/actions/setup-pnpm` action (IBM's org policy
+  doesn't allow `pnpm/action-setup`). pnpm 12 refuses dependencies published
+  less than a day ago, so a freshly released version can't be added until
+  it's a day old; Dependabot waits a day (`cooldown`) for the same reason.
+  pnpm 12 also dropped `-s`; use `--reporter=silent` / `--silent`.
+- **CI** (`.github/workflows/nodejs.yml`) runs Lints, Tests and the docs
+  build as separate jobs, then the `.try.mjs` scenarios.
 - **Style snapshots** are written through a testem middleware (and, under
   `pnpm start`, a Vite middleware at `/tests/?save-snapshots`). A missing
   snapshot is recorded on the next run and fails that run once by design.
