@@ -12,6 +12,12 @@ exactly as ported (stateless, always-controlled); `SessionShell` is the one
 place that injects `@service('carbon.ai-chat-session')` and passes session
 state down as plain args.
 
+See the [full Carbon AI Chat demo app](../../ai-chat-demo) for a larger,
+standalone assembly of these pieces — full-window and floating launcher
+layouts, a custom workspace panel, writeable-element content, and example
+custom response types — comparable in scope to upstream's own
+[`demo/` package](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/demo).
+
 Producing an assistant reply is left to the host application, matching
 upstream's own `customSendMessage` boundary — the demo below listens for the
 service's `'send'` event and calls `receive()`/`appendChunk()`/

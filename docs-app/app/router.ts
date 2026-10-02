@@ -15,5 +15,9 @@ export default class Router extends EmberRouter {
 }
 
 Router.map(function () {
+  // Registered before addRoutes()'s `/*page` wildcard so its static segment
+  // wins by route-recognizer specificity either way - kept first anyway so
+  // the ordering isn't relying on that alone.
+  this.route('ai-chat-demo');
   addRoutes(this);
 });
