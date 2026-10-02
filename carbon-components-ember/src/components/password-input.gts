@@ -63,6 +63,12 @@ export default class PasswordInput extends Component<Signature> {
   }
 
   get id() {
+  // Ember 7 writes a `value=""` attribute for an empty initial value; bind
+  // `undefined` instead so the input renders like Carbon React (no attribute).
+  get boundValue() {
+    return this.value === '' ? undefined : this.value;
+  }
+
     return this.args.id ?? `password-input-${this.guid}`;
   }
 
@@ -180,7 +186,7 @@ export default class PasswordInput extends Component<Signature> {
               "false"
               "true"
             }}
-            value={{this.value}}
+            value={{this.boundValue}}
             {{on "input" this.updateValue}}
             {{on "click" this.handleClick}}
           />

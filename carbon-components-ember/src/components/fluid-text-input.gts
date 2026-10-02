@@ -50,6 +50,12 @@ export default class FluidTextInput extends Component<Signature> {
     return this.args.value ?? this.internalValue;
   }
 
+  // Ember 7 writes a `value=""` attribute for an empty initial value; bind
+  // `undefined` instead so the input renders like Carbon React (no attribute).
+  get boundValue() {
+    return this.value === '' ? undefined : this.value;
+  }
+
   get id() {
     return this.args.id ?? `fluid-text-input-${this.guid}`;
   }
@@ -171,7 +177,7 @@ export default class FluidTextInput extends Component<Signature> {
             readonly={{@readOnly}}
             aria-invalid={{if this.isInvalid "true"}}
             data-invalid={{if this.isInvalid "true"}}
-            value={{this.value}}
+            value={{this.boundValue}}
             {{on "input" this.updateValue}}
             {{on "click" this.handleClick}}
           />
