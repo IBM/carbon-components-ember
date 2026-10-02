@@ -24,7 +24,21 @@
  * replaced by its shadow root's own single rendered root element. Without
  * this, comparing a nested step would fail on `tag` alone
  * (`cds-aichat-reasoning-step` vs. Ember's `div`) before ever reaching the
- * interesting content inside.
+ * interesting content inside. A shadow root with *several* top-level
+ * elements has nothing single to unwrap to, so its host is kept instead
+ * (as a synthetic `<div>`) with the shadow children inside it - see
+ * `shadowHostReplacement` below.
+ *
+ * Why follow the shadow DOM's contents at all, when the Ember port has no
+ * shadow DOM? Upstream uses it purely as Lit's encapsulation mechanism
+ * (shadow-scoped `static styles`/`:host` rules and `<slot>`-based content
+ * composition) - an implementation detail of being a framework-agnostic
+ * web component, not part of the public API, so the Ember port rightly
+ * doesn't reproduce the boundary itself (it renders light DOM, styled by
+ * global BEM classes). What the shadow root *contains*, though, is what
+ * actually renders and what the accessibility tree is built from - the
+ * flattened tree - and that is what the port has to match. Hence: drop
+ * the boundaries and hosts, compare the flattened content.
  *
  * The host element's *own* light-DOM attributes are deliberately dropped,
  * not folded onto the unwrapped root - a first version tried merging them
@@ -68,15 +82,34 @@ function flattenChildren(parent, target) {
   }
 }
 
-function firstAndOnlyElementChild(fragment, describeFor) {
-  const elementChildren = Array.from(fragment.childNodes).filter(isElement);
-  if (elementChildren.length > 1) {
-    throw new Error(
-      `flattenComposedTree: expected exactly one rendered root element in ${describeFor}'s ` +
-        `shadow root, got ${elementChildren.length}`,
-    );
-  }
-  return elementChildren[0] ?? null;
+/**
+ * Resolves a shadow host to the node that stands in for it in the comparison
+ * tree, given its already-flattened shadow content.
+ *
+ * - Exactly one rendered root element: the host is unwrapped to that
+ *   element (see this file's module doc).
+ * - More than one rendered root element (e.g. `cds-aichat-file-uploads`'
+ *   sibling live regions + upload list, or `@carbon/web-components`'
+ *   `cds-file-uploader-item`): there is no single inner element to unwrap
+ *   to, so the *host itself* is kept as the comparison node - it is the
+ *   real box `:host` styles and the one element a parent lays out, which is
+ *   exactly the role the Ember port's own single template root plays (its
+ *   `...attributes` element). It is emitted as a fresh, attribute-less
+ *   `<div>` holding every flattened shadow child (text included), so the
+ *   host's light-DOM configuration attributes are dropped for the same
+ *   reason as in the single-root case. Its tag is therefore synthetic -
+ *   a `div` on this side is not evidence of anything, and an Ember root
+ *   using a different tag shows up as an ordinary `tag` difference.
+ * - Nothing rendered at all: `null`.
+ */
+function shadowHostReplacement(shadowContent) {
+  const elementChildren = Array.from(shadowContent.childNodes).filter(isElement);
+  if (elementChildren.length === 0) return null;
+  if (elementChildren.length === 1) return elementChildren[0];
+
+  const host = document.createElement('div');
+  host.appendChild(shadowContent);
+  return host;
 }
 
 /**
@@ -120,11 +153,20 @@ export function flattenComposedTree(node) {
   }
 
   if (node.shadowRoot) {
-    const shadowContent = flattenComposedTree(node.shadowRoot);
-    return firstAndOnlyElementChild(shadowContent, tagName);
+    return shadowHostReplacement(flattenComposedTree(node.shadowRoot));
   }
 
+  // Shadow-scoped `<style>` elements (Lit's own, or ones a parent injects
+  // into a child's shadow root - e.g. `cds-aichat-file-upload-item` patching
+  // `cds-file-uploader-item`) are encapsulation machinery, not rendered
+  // content - the Ember port's styles live in the addon's global SCSS.
+  if (tagName === 'style') return null;
+
   const clone = node.cloneNode(false); // tag + attributes only, no children
+  // `slot="..."` only routes a light-DOM child into a named `<slot>`; once
+  // the slot is resolved it carries no meaning of its own, and the Ember
+  // port's named blocks have no equivalent attribute.
+  clone.removeAttribute('slot');
   flattenChildren(node, clone);
   return clone;
 }

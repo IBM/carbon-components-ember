@@ -109,6 +109,53 @@
       "reason": "Same whitespace-only, harness-limitation diff as the toast branch's `div > svg[0] > path[0].attributes.d` entry above, on the inline branch's nested main icon."
     }
   ],
+  "AiChatFileUploads": [
+    {
+      "path": "div > div[2] > div[0] > div[0] > span[1] > button[0].attributes.aria-label",
+      "variant": "one-upload",
+      "reason": "Deliberate: Ember's shared `FileUploaderStatusIcon` (mirroring Carbon React's `Filename`) labels the remove button \"<description> - <file name>\" so each chip's button is distinguishable to assistive tech; upstream's `cds-file-uploader-item` uses the bare description."
+    },
+    {
+      "path": "div > div[2] > div[0] > div[0] > span[1] > button[0] > svg[0].attributes.preserveAspectRatio",
+      "variant": "one-upload",
+      "reason": "Same pre-existing, addon-wide `renderSvgPartFunc` icon gap documented on the AiChatReasoningSteps `preserveAspectRatio` entry (not specific to FileUploads). On the remove button's close icon."
+    },
+    {
+      "path": "div > div[2] > div[0] > div[0] > span[1] > button[0] > svg[0].attributes.xmlns",
+      "variant": "one-upload",
+      "reason": "Same pre-existing, addon-wide `renderSvgPartFunc` icon gap documented on the AiChatReasoningSteps `preserveAspectRatio` entry (not specific to FileUploads). On the remove button's close icon."
+    },
+    {
+      "path": "div > div[2] > div[0] > div[0] > span[1] > button[0] > svg[0].attributes.aria-hidden",
+      "variant": "one-upload",
+      "reason": "Same pre-existing, addon-wide `renderSvgPartFunc` icon gap documented on the AiChatReasoningSteps `preserveAspectRatio` entry (not specific to FileUploads). On the remove button's close icon."
+    },
+    {
+      "path": "div > div[2] > div[0] > div[0] > span[1] > button[0] > svg[0].style.will-change",
+      "variant": "one-upload",
+      "reason": "Same pre-existing, addon-wide `renderSvgPartFunc` icon gap documented on the AiChatReasoningSteps `preserveAspectRatio` entry (not specific to FileUploads). On the remove button's close icon."
+    },
+    {
+      "path": "div > div[2] > div[0] > div[0] > p[0] > span[0] > svg[0].attributes.preserveAspectRatio",
+      "variant": "one-upload",
+      "reason": "Same pre-existing, addon-wide `renderSvgPartFunc` icon gap documented on the AiChatReasoningSteps `preserveAspectRatio` entry (not specific to FileUploads). On the file-type icon."
+    },
+    {
+      "path": "div > div[2] > div[0] > div[0] > p[0] > span[0] > svg[0].attributes.xmlns",
+      "variant": "one-upload",
+      "reason": "Same pre-existing, addon-wide `renderSvgPartFunc` icon gap documented on the AiChatReasoningSteps `preserveAspectRatio` entry (not specific to FileUploads). On the file-type icon."
+    },
+    {
+      "path": "div > div[2] > div[0] > div[0] > p[0] > span[0] > svg[0].attributes.aria-hidden",
+      "variant": "one-upload",
+      "reason": "Same pre-existing, addon-wide `renderSvgPartFunc` icon gap documented on the AiChatReasoningSteps `preserveAspectRatio` entry (not specific to FileUploads). On the file-type icon."
+    },
+    {
+      "path": "div > div[2] > div[0] > div[0] > p[0] > span[0] > svg[0].style.will-change",
+      "variant": "one-upload",
+      "reason": "Same pre-existing, addon-wide `renderSvgPartFunc` icon gap documented on the AiChatReasoningSteps `preserveAspectRatio` entry (not specific to FileUploads). On the file-type icon."
+    }
+  ],
   "AiChatReasoningSteps": [
     {
       "path": "div > div[0] > div[0] > div[0].attributes.role",

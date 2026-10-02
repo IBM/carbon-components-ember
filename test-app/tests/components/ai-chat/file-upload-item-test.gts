@@ -16,7 +16,7 @@ module('Integration | Component | ai-chat/FileUploadItem', (hooks) => {
 
     await render(<template><FileUploadItem @upload={{upload}} /></template>);
 
-    assert.dom('.cds-aichat-file-upload-item__name').hasText('report.pdf');
+    assert.dom('.cds--file-filename').hasText('report.pdf');
     // Icons load their SVG asynchronously via a TrackedPromise - settled() alone isn't enough.
     await waitUntil(() => find('.cds-aichat-file-upload-item__icon svg'));
     assert.dom('.cds-aichat-file-upload-item__icon svg').exists();
@@ -46,7 +46,7 @@ module('Integration | Component | ai-chat/FileUploadItem', (hooks) => {
 
     await render(<template><FileUploadItem @upload={{upload}} /></template>);
 
-    assert.dom('.cds-aichat-file-upload-item__status').hasClass('cds--file__state-container');
+    assert.dom('.cds--file__state-container').exists();
   });
 
   test('status "uploading" shows a loading indicator, not a remove button', async function (assert) {
@@ -86,7 +86,7 @@ module('Integration | Component | ai-chat/FileUploadItem', (hooks) => {
     assert.dom('.cds--file-loading').doesNotExist();
   });
 
-  test('an error message renders as an alert', async function (assert) {
+  test('an error message renders in the requirement block', async function (assert) {
     const upload = {
       id: '1',
       file: new File(['x'], 'a.txt', { type: 'text/plain' }),
@@ -97,7 +97,42 @@ module('Integration | Component | ai-chat/FileUploadItem', (hooks) => {
 
     await render(<template><FileUploadItem @upload={{upload}} /></template>);
 
-    assert.dom('.cds-aichat-file-upload-item__error').hasText('Too large');
+    assert.dom('.cds--form-requirement__title').hasText('Too large');
+  });
+
+  test('the error block is hidden when there is no error', async function (assert) {
+    const upload = { id: '1', file: new File(['x'], 'a.txt', { type: 'text/plain' }), status: 'edit' as const };
+
+    await render(<template><FileUploadItem @upload={{upload}} /></template>);
+
+    assert.dom('.cds--form-requirement').isNotVisible();
+  });
+
+  test('the error block is visible for isError with a message', async function (assert) {
+    const upload = {
+      id: '1',
+      file: new File(['x'], 'a.txt', { type: 'text/plain' }),
+      status: 'edit' as const,
+      isError: true,
+      errorMessage: 'Too large',
+    };
+
+    await render(<template><FileUploadItem @upload={{upload}} /></template>);
+
+    assert.dom('.cds--form-requirement').isVisible();
+  });
+
+  test('the error block is hidden when readOnly with isError but no message', async function (assert) {
+    const upload = {
+      id: '1',
+      file: new File(['x'], 'a.txt', { type: 'text/plain' }),
+      status: 'edit' as const,
+      isError: true,
+    };
+
+    await render(<template><FileUploadItem @readOnly={{true}} @upload={{upload}} /></template>);
+
+    assert.dom('.cds--form-requirement').isNotVisible();
   });
 
   test('a FileAttachment with no live File uses its stated name/type', async function (assert) {
@@ -105,7 +140,7 @@ module('Integration | Component | ai-chat/FileUploadItem', (hooks) => {
 
     await render(<template><FileUploadItem @readOnly={{true}} @upload={{attachment}} /></template>);
 
-    assert.dom('.cds-aichat-file-upload-item__name').hasText('archive.zip');
+    assert.dom('.cds--file-filename').hasText('archive.zip');
     await waitUntil(() => find('.cds-aichat-file-upload-item__icon svg'));
     assert.dom('.cds-aichat-file-upload-item__icon svg').exists();
   });

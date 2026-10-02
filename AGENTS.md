@@ -3234,10 +3234,20 @@ that way.
 PR #887 added `dom-parity/` - a harness that renders a pinned `@carbon/react`
 release offline and diffs its normalized DOM against the Ember port (see
 `dom-parity/README.md`). It only ever covered the `react` parity source:
-its `generate.mjs` mounts React components via `react-dom/client` in jsdom,
-which has nothing to render for `carbon-ai-chat` - that source's actual
-port target is `@carbon/ai-chat-components`, a Lit widget library (see this
-document's own opening paragraphs above), not a React tree.
+its `generate.mjs` mounts React components via `react-dom/client` in jsdom.
+That doesn't extend to `carbon-ai-chat` - not because upstream ships no
+React code at all (`@carbon/ai-chat-components` does publish `es/react/*.js`
+wrapper components, checked directly against the published package rather
+than assumed absent - see `dom-parity/README.md`'s "A second, live path"
+section for the full finding), but because every one of those wrappers is a
+thin `@lit/react` `createComponent()` shim around the *same* Lit
+`elementClass` the plain custom element already uses - mounting one via
+`react-dom/client` would still mount that identical Lit element underneath,
+hitting the same jsdom shadow-DOM/upgrade-timing unreliability documented
+below rather than opening a real `generate.mjs`-style path. This source's
+actual port target stays `@carbon/ai-chat-components`'s Lit widgets (see
+this document's own opening paragraphs above), not a React tree with its
+own independent DOM.
 
 Added a second, independent comparison path instead of trying to bend the
 first one to fit: `test-app/tests/components/ai-chat/dom-parity-test.gts`
@@ -3300,6 +3310,27 @@ unlabelled icon (`focusable`, `preserveAspectRatio="xMidYMid meet"`,
 `xmlns`, `aria-hidden="true"`, no inline `style`) and every one of those
 allowlist entries was deleted. The helper still has no way to label an icon
 (or inject a `<title>`), so every icon it renders is decorative.
+
+**Shadow DOM: drop the boundary, follow what's inside it.** Upstream's
+shadow roots exist only because Lit web components encapsulate their
+styles (`static styles`/`:host`) and compose caller content through
+`<slot>`s - an implementation mechanism, not public API, so the Ember port
+renders light DOM and never mirrors it. The flattened content, though, is
+what actually renders and what the accessibility tree is built from, so
+that is what the harness compares (shadow roots, slots, `slot=`
+attributes, shadow `<style>`s and hosts are discarded). A host whose
+shadow root renders *several* top-level elements has nothing single to
+unwrap to, so `flattenComposedTree` keeps the host itself as a synthetic
+`<div>` - the counterpart of the Ember port's single `...attributes` root.
+That's what made `FileUploads` and `WorkspaceShellHeader`'s
+non-collapsible branch coverable (both previously threw "expected exactly
+one rendered root element"). `FileUploadItem` is covered too, via
+`FileUploads`' `one-upload` test: it renders the same flattened DOM as
+`cds-file-uploader-item` (a `cds--file-filename` `<p>` with the preview and
+bare-text name, a `cds--file__state-container` span, an always-present
+`hidden` `cds--form-requirement` block). Deliberate remaining differences
+(no `title`/`role="alert"`, the remove button's name-suffixed `aria-label`)
+are in `known-differences.json`.
 
 **Adding more components to this path**: there's no `lib/components.mjs`-
 style registry or `generate` step to extend, just a new `test`/`module` in

@@ -85,8 +85,60 @@ Everything above covers only the `react` parity source. The Ember port
 target for the `carbon-ai-chat` source is `@carbon/ai-chat-components` - a
 framework-agnostic **Lit** widget library rendering into real shadow DOM
 (see `scripts/parity-check.mjs`'s `SOURCES` comment and AGENTS.md's
-"Porting Carbon AI Chat" section) - not a React tree, so there's nothing
-for this package's `react-dom/client` + jsdom pipeline to render.
+"Porting Carbon AI Chat" section).
+
+`@carbon/ai-chat-components` *does* also publish `@lit/react`-based React
+wrapper components (`es/react/*.js`, e.g. `es/react/markdown.js`,
+`es/react/file-uploads.js` - checked directly against the published 1.10.0
+package and its GitHub source, not assumed absent). They don't help here,
+though: each one is `createComponent({ tagName: '...', elementClass:
+SameLitClass, ... })` around the *identical* Lit custom element the plain
+Lit path already registers - same shadow DOM, same `elementClass` - not an
+independent React implementation with its own DOM the way `@carbon/react`'s
+components are. Mounting one via `react-dom/client` in jsdom would still be
+mounting that same Lit custom element underneath, hitting the exact same
+"jsdom doesn't faithfully reproduce Lit's shadow-DOM/custom-element upgrade
+timing" problem #2 below already documents as the reason this path runs
+live in real Chromium instead of as an offline fixture - so the React
+wrapper doesn't open a new `generate.mjs`-style coverage path.
+
+### Why is there a shadow DOM, and why compare what's inside it?
+
+Upstream is a set of Lit web components, and shadow DOM is how a web
+component encapsulates itself: its `static styles`/`:host` rules are scoped
+to its own shadow root, and caller content is composed in through `<slot>`s.
+That boundary is an implementation mechanism of being a framework-agnostic
+custom element, not part of the component's public API - so the Ember port
+deliberately does **not** reproduce it: it renders plain light DOM, styled by
+the addon's global BEM classes (AGENTS.md, "Porting Carbon AI Chat", §3).
+
+What the shadow root *contains* is a different matter: the browser renders,
+and builds the accessibility tree from, the flattened tree (shadow content
+with slots resolved), not from the host's light DOM. That is exactly what the
+Ember port has to reproduce, so this path follows the DOM inside the shadow
+root and throws away only the boundary itself - shadow roots, `<slot>`s,
+`slot="..."` attributes, shadow-scoped `<style>` elements and custom-element
+hosts (see `lib/flatten-composed-tree.mjs`). The one case where following
+the inner DOM says little is a slot-dominated template, where the flattened
+tree is mostly caller-supplied content (see "Adding a component" below).
+
+A host is represented in one of two ways, depending on what its shadow root
+renders:
+
+- **One root element** (e.g. `cds-aichat-processing`): the host is unwrapped
+  to that element - the Ember port's own template root *is* that element.
+- **Several root elements** (e.g. `cds-aichat-file-uploads`' two live
+  regions + upload list, or `@carbon/web-components`' `cds-file-uploader-
+  item`): there is nothing single to unwrap to, so the host itself is kept,
+  as a synthetic, attribute-less `<div>` holding the shadow children. It is
+  the real box `:host` styles, which is the role the Ember port's own single
+  `...attributes` root element plays. Its tag is synthetic, so an Ember root
+  using a different tag shows up as an ordinary `tag` difference.
+
+Which of the two applies can depend on slot occupancy (an empty named slot
+contributes no element), so pick a variant whose upstream root count lines
+up with the Ember template - e.g. `WorkspaceShellHeader`'s test fills
+`header-action` so upstream renders both of its top-level nodes.
 
 That source is instead compared by a **second, independent** test module,
 `test-app/tests/components/ai-chat/dom-parity-test.gts`, with two real
@@ -138,8 +190,7 @@ dir) for how deeply it composes `@carbon/web-components` custom elements
 (`chat-button` extends `CDSButton` directly) - those are real, in scope,
 and `flattenComposedTree` handles them structurally, but the Ember port
 frequently reuses this addon's *own* components instead of a 1:1 port of
-the nested web-component (e.g. `Toolbar` reuses `Tooltip`/`OverflowMenu`,
-`FileUploads` renders its own markup instead of `cds-file-uploader-item`),
+the nested web-component (e.g. `Toolbar` reuses `Tooltip`/`OverflowMenu`),
 so expect real, legitimate structural differences there that need their
 own `known-differences.json` reasoning per component - it isn't only a
 copy-paste of the `Processing`/`ReasoningSteps` pattern already in the
