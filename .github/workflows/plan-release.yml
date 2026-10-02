@@ -13,6 +13,9 @@ concurrency:
   group: plan-release # only the latest one of these should ever be running
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   check-plan:
     name: "Check Release Plan"

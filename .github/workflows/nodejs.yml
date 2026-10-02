@@ -7,6 +7,9 @@ on:
     tags:
       - v*
 
+permissions:
+  contents: read
+
 jobs:
   lint:
     name: Lint
@@ -113,6 +116,8 @@ jobs:
     needs: [lint, test, docs, try-scenarios]
     if: github.ref == 'refs/heads/main' || github.ref_type == 'tag'
     runs-on: ubuntu-26.04
+    permissions:
+      contents: write # pushes the built docs to gh-pages
     steps:
       - uses: actions/checkout@v7
 
