@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { Extension, type Editor } from '@tiptap/core';
+import { Extension } from '@tiptap/core';
+import type { Editor } from '@tiptap/core';
 import {
   dispatchTriggerChange,
   resetTriggerChangeState,

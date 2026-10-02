@@ -9,14 +9,13 @@
  * Ported verbatim from `@carbon/ai-chat-components`'
  * `code-snippet/src/codemirror/editor-manager.ts`.
  */
-import { EditorState, Compartment } from '@codemirror/state';
+import { EditorState } from '@codemirror/state';
+import type { Compartment } from '@codemirror/state';
 import { EditorView } from '@codemirror/view';
 import type { LanguageSupport } from '@codemirror/language';
 import { createCarbonTheme, makeScrollerFocusable } from './theme.ts';
-import {
-  baseCodeMirrorSetup,
-  type BaseCodeMirrorSetupOptions,
-} from './base-setup.ts';
+import { baseCodeMirrorSetup } from './base-setup.ts';
+import type { BaseCodeMirrorSetupOptions } from './base-setup.ts';
 
 interface EditorDocChangePayload {
   content: string;

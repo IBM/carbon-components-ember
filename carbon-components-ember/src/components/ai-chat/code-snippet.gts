@@ -14,7 +14,8 @@ import type { EditorView } from '@codemirror/view';
 import type { Compartment } from '@codemirror/state';
 import Button from '../button.gts';
 import SkeletonText from '../skeleton-text.gts';
-import AiChatToolbar, { type ToolbarAction } from './toolbar.gts';
+import AiChatToolbar from './toolbar.gts';
+import type { ToolbarAction } from './toolbar.gts';
 import { Copy, ChevronDown } from '../../icons.ts';
 import type {
   LanguageController,
@@ -25,14 +26,10 @@ import {
   buildContainerStyles,
   evaluateShowMoreButton,
 } from './-code-snippet/layout-utils.ts';
-import {
-  defaultLineCountText,
-  type LineCountFormatter,
-} from './-code-snippet/formatters.ts';
-import {
-  loadCodeMirrorRuntime,
-  type CodeMirrorRuntimeModule,
-} from './-code-snippet/codemirror-loader.ts';
+import { defaultLineCountText } from './-code-snippet/formatters.ts';
+import type { LineCountFormatter } from './-code-snippet/formatters.ts';
+import { loadCodeMirrorRuntime } from './-code-snippet/codemirror-loader.ts';
+import type { CodeMirrorRuntimeModule } from './-code-snippet/codemirror-loader.ts';
 
 export type Args = {
   /** The code to display/edit. The sole content source - see the class doc. */

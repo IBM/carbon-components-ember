@@ -11,7 +11,8 @@
  * that colors `diff`-language `+`/`-` lines (skipping `+++`/`---` metadata
  * lines).
  */
-import { ViewPlugin, Decoration, EditorView } from '@codemirror/view';
+import { ViewPlugin, Decoration } from '@codemirror/view';
+import type { EditorView } from '@codemirror/view';
 import type { DecorationSet, ViewUpdate } from '@codemirror/view';
 import { RangeSetBuilder } from '@codemirror/state';
 

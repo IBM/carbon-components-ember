@@ -12,7 +12,8 @@
  * https://github.com/cookpete/react-player/blob/v2.15.1/LICENSE
  */
 
-import { BaseProvider, type ProviderConfig } from './base-provider.ts';
+import { BaseProvider } from './base-provider.ts';
+import type { ProviderConfig } from './base-provider.ts';
 import { ScriptLoader } from '../-media/script-loader.ts';
 
 const SDK_URL = 'https://w.soundcloud.com/player/api.js';

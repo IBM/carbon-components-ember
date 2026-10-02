@@ -5,7 +5,8 @@ import { guidFor } from '@ember/object/internals';
 import { on } from '@ember/modifier';
 import { modifier as eModifier } from 'ember-modifier';
 import { task, timeout } from 'ember-concurrency';
-import Popover, { PopoverContent, type PopoverAlignment } from './popover.gts';
+import Popover, { PopoverContent } from './popover.gts';
+import type { PopoverAlignment } from './popover.gts';
 import Button from '../components/button.gts';
 
 export type Args = {

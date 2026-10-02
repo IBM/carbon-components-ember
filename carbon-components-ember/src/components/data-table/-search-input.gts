@@ -4,7 +4,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
-import { type TaskInstance } from 'ember-concurrency';
+import type { TaskInstance } from 'ember-concurrency';
 import { stylesheet } from 'astroturf';
 
 export type Args = {

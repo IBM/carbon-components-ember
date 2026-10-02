@@ -9,9 +9,8 @@ import {
   findAll,
 } from '@ember/test-helpers';
 import { cell } from 'ember-resources';
-import PromptLine, {
-  type PromptLineApi,
-} from '#src/components/ai-chat/prompt-line.gts';
+import PromptLine from '#src/components/ai-chat/prompt-line.gts';
+import type { PromptLineApi } from '#src/components/ai-chat/prompt-line.gts';
 import PromptLineAutocomplete from '#src/components/ai-chat/prompt-line-autocomplete.gts';
 import { resetRichRuntimeForTests } from '#src/components/ai-chat/-prompt-line/rich-loader.ts';
 import { buildCarbonExtensions } from '#src/components/ai-chat/-prompt-line/tiptap/build-extensions.ts';

@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
-import RadioButtonGroup from './radio-button/group.gts';
+import type RadioButtonGroup from './radio-button/group.gts';
 import { on } from '@ember/modifier';
 import { defaultArgs } from '../utils/decorators.ts';
 

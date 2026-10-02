@@ -5,7 +5,7 @@ import { default as has } from '../../helpers/has.ts';
 import { fn } from '@ember/helper';
 import { default as not } from 'ember-truth-helpers/helpers/not';
 import Component from '@glimmer/component';
-import DataTableComponent from '../data-table.gts';
+import type DataTableComponent from '../data-table.gts';
 import { tracked } from '@glimmer/tracking';
 
 export type Args<T> = {

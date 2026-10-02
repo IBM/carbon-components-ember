@@ -1,9 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, waitUntil, find } from '@ember/test-helpers';
-import Toolbar, {
-  type ToolbarAction,
-} from '#src/components/ai-chat/toolbar.gts';
+import Toolbar from '#src/components/ai-chat/toolbar.gts';
+import type { ToolbarAction } from '#src/components/ai-chat/toolbar.gts';
 import { Add, Settings } from '#src/icons.ts';
 
 const noActions: ToolbarAction[] = [];

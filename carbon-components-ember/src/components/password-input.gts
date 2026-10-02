@@ -14,7 +14,8 @@ import { on } from '@ember/modifier';
 import { concat } from '@ember/helper';
 import { and } from 'ember-truth-helpers';
 import { View, ViewOff, WarningFilled, WarningAltFilled } from '../icons.ts';
-import Tooltip, { type TooltipAlignment } from './tooltip.gts';
+import Tooltip from './tooltip.gts';
+import type { TooltipAlignment } from './tooltip.gts';
 
 export interface Signature {
   Args: {
@@ -62,13 +63,13 @@ export default class PasswordInput extends Component<Signature> {
     return this.args.value ?? this.internalValue;
   }
 
-  get id() {
   // Ember 7 writes a `value=""` attribute for an empty initial value; bind
   // `undefined` instead so the input renders like Carbon React (no attribute).
   get boundValue() {
     return this.value === '' ? undefined : this.value;
   }
 
+  get id() {
     return this.args.id ?? `password-input-${this.guid}`;
   }
 

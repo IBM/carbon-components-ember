@@ -6,10 +6,8 @@
  */
 
 import type { Extension } from '@tiptap/core';
-import {
-  carbonAutocomplete,
-  type ExcludedTrigger,
-} from './carbon-autocomplete.ts';
+import { carbonAutocomplete } from './carbon-autocomplete.ts';
+import type { ExcludedTrigger } from './carbon-autocomplete.ts';
 import { carbonCommand, carbonMention } from './carbon-mention.ts';
 import { carbonStarterTrigger } from './carbon-starter-trigger.ts';
 import type {

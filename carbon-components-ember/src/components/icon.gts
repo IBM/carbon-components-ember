@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
-import { htmlSafe as htmlSafeString } from '@ember/template';
+import type { htmlSafe as htmlSafeString } from '@ember/template';
 import { on } from '@ember/modifier';
 import Loading from '../components/loading.gts';
 import or from '../helpers/or.ts';
