@@ -7,7 +7,6 @@ import { start as qunitStart, setupEmberOnerrorValidation } from 'ember-qunit';
 import { setTesting } from '@embroider/macros';
 import { setConfig as setBasicDropdownConfig } from 'ember-basic-dropdown/config';
 import { setupSnapshot } from './setup-snapshot.ts';
-import { powerSelectTestModules } from './power-select-modules.ts';
 
 // The addon's own stylesheet (Carbon flex grid, component patches, ai-chat
 // partials), loaded the way a consuming app loads `carbon-components-ember/styles.scss`.
@@ -36,7 +35,6 @@ class TestApp extends EmberApp {
   modules = {
     './router': Router,
     ...services,
-    ...powerSelectTestModules,
   };
 }
 
