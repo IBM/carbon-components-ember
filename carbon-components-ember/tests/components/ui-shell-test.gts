@@ -14,7 +14,7 @@ module('Integration | Component | UIShell', (hooks) => {
       <template>
         <UIShell>
           <:shell as |s|>
-            <s.Header @title='IBM' @subtitle='Platform' />
+            <s.Header @title="IBM" @subtitle="Platform" />
           </:shell>
           <:content>
             <p>Page content</p>
@@ -38,8 +38,8 @@ module('Integration | Component | UIShell', (hooks) => {
         <UIShell>
           <:shell as |s|>
             <s.Header
-              @title='IBM'
-              @subtitle='Platform'
+              @title="IBM"
+              @subtitle="Platform"
               @open={{open.current}}
               @onToggle={{onToggle}}
             />
@@ -73,10 +73,10 @@ module('Integration | Component | UIShell', (hooks) => {
       <template>
         <UIShell>
           <:shell as |s|>
-            <s.Header @title='IBM' @subtitle='Platform'>
+            <s.Header @title="IBM" @subtitle="Platform">
               <:headerGlobal as |GlobalAction|>
                 <GlobalAction
-                  @aria-label='Notifications'
+                  @aria-label="Notifications"
                   @icon={{Notification}}
                   @onClick={{onClick}}
                 />
@@ -92,7 +92,9 @@ module('Integration | Component | UIShell', (hooks) => {
     assert
       .dom('.cds--header__global .cds--header__action')
       .hasClass('cds--btn--icon-only');
-    await waitUntil(() => find('.cds--header__global .cds--header__action svg'));
+    await waitUntil(() =>
+      find('.cds--header__global .cds--header__action svg'),
+    );
     assert.dom('.cds--header__global .cds--header__action svg').exists();
     await click('.cds--header__global .cds--header__action');
     assert.true(clicked.current);
@@ -131,7 +133,7 @@ module('Integration | Component | UIShell', (hooks) => {
             <s.Sidenav @open={{true}}>
               <:default as |Menu|>
                 {{! @glint-expect-error: @submenus is only used for its length here, but is typed as the full SubMenu[] }}
-                <Menu @title='Category 1' @submenus={{subLinks}} as |Sub|>
+                <Menu @title="Category 1" @submenus={{subLinks}} as |Sub|>
                   {{#each subLinks as |link|}}
                     {{! @glint-expect-error: Sidenav's Menu signature requires the full SubMenu shape, which this yielded usage doesn't need }}
                     <Sub
@@ -154,7 +156,9 @@ module('Integration | Component | UIShell', (hooks) => {
 
     await click('.cds--side-nav__submenu');
     assert.dom('.cds--side-nav__submenu').hasAria('expanded', 'true');
-    assert.dom('.cds--side-nav__menu .cds--side-nav__menu-item').exists({ count: 2 });
+    assert
+      .dom('.cds--side-nav__menu .cds--side-nav__menu-item')
+      .exists({ count: 2 });
 
     await click('.cds--side-nav__submenu');
     assert.dom('.cds--side-nav__submenu').hasAria('expanded', 'false');
@@ -166,11 +170,11 @@ module('Integration | Component | UIShell', (hooks) => {
       <template>
         <UIShell>
           <:shell as |s|>
-            <s.Header @title='IBM' @subtitle='Platform'>
+            <s.Header @title="IBM" @subtitle="Platform">
               <:header>
                 <s.Nav as |Item Menu|>
                   <Item>Link 1</Item>
-                  <Menu @menuLinkName='Link 2' as |MenuItem|>
+                  <Menu @menuLinkName="Link 2" as |MenuItem|>
                     <MenuItem>Sub-link 1</MenuItem>
                     <MenuItem @isActive={{true}}>Sub-link 2</MenuItem>
                   </Menu>
@@ -185,7 +189,9 @@ module('Integration | Component | UIShell', (hooks) => {
 
     assert.dom('.cds--header__submenu').exists();
     assert.dom('.cds--header__menu-title').hasAria('expanded', 'false');
-    assert.dom('.cds--header__menu .cds--header__menu-item').exists({ count: 2 });
+    assert
+      .dom('.cds--header__menu .cds--header__menu-item')
+      .exists({ count: 2 });
     assert
       .dom('.cds--header__menu .cds--header__menu-item--current')
       .exists({ count: 1 });
@@ -199,7 +205,7 @@ module('Integration | Component | UIShell', (hooks) => {
       <template>
         <UIShell>
           <:shell as |s|>
-            <s.Header @title='IBM' @subtitle='Platform'>
+            <s.Header @title="IBM" @subtitle="Platform">
               <:headerPanel as |Panel|>
                 <Panel @expanded={{true}}>Panel content</Panel>
               </:headerPanel>
@@ -219,7 +225,7 @@ module('Integration | Component | UIShell', (hooks) => {
       <template>
         <UIShell>
           <:shell as |s|>
-            <s.Switcher @aria-label='App switcher' as |Item Divider|>
+            <s.Switcher @aria-label="App switcher" as |Item Divider|>
               <Item @isSelected={{true}}>App 1</Item>
               <Divider />
               <Item>App 2</Item>
@@ -232,9 +238,7 @@ module('Integration | Component | UIShell', (hooks) => {
 
     assert.dom('.cds--switcher').exists();
     assert.dom('.cds--switcher__item').exists({ count: 2 });
-    assert
-      .dom('.cds--switcher__item-link--selected')
-      .hasText('App 1');
+    assert.dom('.cds--switcher__item-link--selected').hasText('App 1');
     assert.dom('.cds--switcher__item--divider').exists();
   });
 
@@ -245,9 +249,11 @@ module('Integration | Component | UIShell', (hooks) => {
           <:shell as |s|>
             {{! @glint-expect-error: see the Sidenav note above }}
             <s.Sidenav @open={{true}}>
-              <:default as |_Menu _Divider SideNavHeader SideNavDetails _SideNavIcon HeaderSideNavItems|>
+              <:default
+                as |_Menu _Divider SideNavHeader SideNavDetails _SideNavIcon HeaderSideNavItems|
+              >
                 <SideNavHeader @icon={{Notification}}>IBM</SideNavHeader>
-                <SideNavDetails @title='Account'>
+                <SideNavDetails @title="Account">
                   <p>Account details</p>
                 </SideNavDetails>
                 <HeaderSideNavItems @hasDivider={{true}}>
@@ -263,7 +269,9 @@ module('Integration | Component | UIShell', (hooks) => {
 
     assert.dom('.cds--side-nav__header').exists();
     assert.dom('.cds--side-nav__header .cds--side-nav__icon').exists();
-    assert.dom('.cds--side-nav__details .cds--side-nav__title').hasText('Account');
+    assert
+      .dom('.cds--side-nav__details .cds--side-nav__title')
+      .hasText('Account');
     assert
       .dom('.cds--side-nav__header-navigation.cds--side-nav__header-divider')
       .exists();
@@ -275,8 +283,8 @@ module('Integration | Component | UIShell', (hooks) => {
         <UIShell>
           <:shell as |s|>
             <s.HeaderContainer as |c|>
-              <button type='button' {{on 'click' c.onClickSideNavExpand}}>
-                {{if c.isSideNavExpanded 'expanded' 'collapsed'}}
+              <button type="button" {{on "click" c.onClickSideNavExpand}}>
+                {{if c.isSideNavExpanded "expanded" "collapsed"}}
               </button>
             </s.HeaderContainer>
           </:shell>

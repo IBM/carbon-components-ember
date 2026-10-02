@@ -137,41 +137,41 @@ export default class Carousel extends Component<CarouselSignature> {
   });
 
   <template>
-    <div class='cds-aichat-carousel' ...attributes>
+    <div class="cds-aichat-carousel" ...attributes>
       <div {{this.attachCarousel}}>
-        <div class='carousel__itemsWrapper'>{{yield}}</div>
+        <div class="carousel__itemsWrapper">{{yield}}</div>
       </div>
-      <div class='cds-aichat-carousel__controls'>
+      <div class="cds-aichat-carousel__controls">
         <Tooltip @label={{@previousBtnText}}>
           <Button
-            class='cds-aichat-carousel__previous-btn'
+            class="cds-aichat-carousel__previous-btn"
             @ghost={{true}}
             @iconOnly={{true}}
             @onClick={{this.prev}}
           >
             <ChevronLeft
               @size={{16}}
-              @fill='currentColor'
-              @svgClass='cds-aichat-carousel__nav-icon'
+              @fill="currentColor"
+              @svgClass="cds-aichat-carousel__nav-icon"
             />
           </Button>
         </Tooltip>
-        <span class='cds-aichat-carousel__indicator'>
+        <span class="cds-aichat-carousel__indicator">
           {{this.displayCurrentIndex}}
           /
           {{this.displayLastIndex}}
         </span>
         <Tooltip @label={{@nextBtnText}}>
           <Button
-            class='cds-aichat-carousel__next-btn'
+            class="cds-aichat-carousel__next-btn"
             @ghost={{true}}
             @iconOnly={{true}}
             @onClick={{this.next}}
           >
             <ChevronRight
               @size={{16}}
-              @fill='currentColor'
-              @svgClass='cds-aichat-carousel__nav-icon'
+              @fill="currentColor"
+              @svgClass="cds-aichat-carousel__nav-icon"
             />
           </Button>
         </Tooltip>

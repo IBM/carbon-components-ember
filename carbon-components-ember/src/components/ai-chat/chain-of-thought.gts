@@ -114,32 +114,35 @@ class ChainOfThoughtStep extends Component<ChainOfThoughtStepSignature> {
 
   <template>
     <div
-      class='cds-aichat-chain-of-thought-step {{this.stepParityClass}}'
-      role='listitem'
+      class="cds-aichat-chain-of-thought-step {{this.stepParityClass}}"
+      role="listitem"
       ...attributes
     >
       {{#if (has-block)}}
         <button
           id={{this.headerId}}
-          type='button'
-          class='cds-aichat-chain-of-thought-step__header'
-          aria-expanded={{if this.isOpen 'true' 'false'}}
+          type="button"
+          class="cds-aichat-chain-of-thought-step__header"
+          aria-expanded={{if this.isOpen "true" "false"}}
           aria-controls={{this.contentId}}
-          {{on 'click' this.toggle}}
-          {{on 'keydown' this.handleKeydown}}
+          {{on "click" this.toggle}}
+          {{on "keydown" this.handleKeydown}}
         >
           <span
-            class='cds-aichat-chain-of-thought-step__header-chevron
-              {{if this.isOpen "cds-aichat-chain-of-thought-step__header-chevron--open"}}'
-            aria-hidden='true'
+            class="cds-aichat-chain-of-thought-step__header-chevron
+              {{if
+                this.isOpen
+                'cds-aichat-chain-of-thought-step__header-chevron--open'
+              }}"
+            aria-hidden="true"
           >
-            <ChevronRight @size='16' />
+            <ChevronRight @size="16" />
           </span>
-          <span class='cds-aichat-chain-of-thought-step__header-title'>
+          <span class="cds-aichat-chain-of-thought-step__header-title">
             {{this.headerTitle}}
           </span>
-          <span class='cds-aichat-chain-of-thought-step__header-status'>
-            {{#if (eq this.status 'processing')}}
+          <span class="cds-aichat-chain-of-thought-step__header-status">
+            {{#if (eq this.status "processing")}}
               <Loading
                 @inline={{true}}
                 @small={{true}}
@@ -147,48 +150,58 @@ class ChainOfThoughtStep extends Component<ChainOfThoughtStepSignature> {
                 @description={{if
                   @statusProcessingLabelText
                   @statusProcessingLabelText
-                  'Processing'
+                  "Processing"
                 }}
               />
-            {{else if (eq this.status 'failure')}}
+            {{else if (eq this.status "failure")}}
               <span
-                class='cds-aichat-chain-of-thought-step__header-status--failure'
-                aria-label={{if @statusFailedLabelText @statusFailedLabelText 'Failed'}}
+                class="cds-aichat-chain-of-thought-step__header-status--failure"
+                aria-label={{if
+                  @statusFailedLabelText
+                  @statusFailedLabelText
+                  "Failed"
+                }}
               >
-                <ErrorFilled @size='16' />
+                <ErrorFilled @size="16" />
               </span>
             {{else}}
               <span
-                class='cds-aichat-chain-of-thought-step__header-status--success'
+                class="cds-aichat-chain-of-thought-step__header-status--success"
                 aria-label={{if
                   @statusSucceededLabelText
                   @statusSucceededLabelText
-                  'Succeeded'
+                  "Succeeded"
                 }}
               >
-                <CheckmarkFilled @size='16' />
+                <CheckmarkFilled @size="16" />
               </span>
             {{/if}}
           </span>
         </button>
       {{else}}
-        <div class='cds-aichat-chain-of-thought-step__static' id={{this.headerId}}>
-          <span class='cds-aichat-chain-of-thought-step__header-chevron' aria-hidden='true'>
+        <div
+          class="cds-aichat-chain-of-thought-step__static"
+          id={{this.headerId}}
+        >
+          <span
+            class="cds-aichat-chain-of-thought-step__header-chevron"
+            aria-hidden="true"
+          >
             &mdash;
           </span>
-          <span class='cds-aichat-chain-of-thought-step__header-title'>
+          <span class="cds-aichat-chain-of-thought-step__header-title">
             {{this.headerTitle}}
           </span>
         </div>
       {{/if}}
       <div
         id={{this.contentId}}
-        class='cds-aichat-chain-of-thought-step__content'
-        aria-hidden={{if this.isOpen 'false' 'true'}}
+        class="cds-aichat-chain-of-thought-step__content"
+        aria-hidden={{if this.isOpen "false" "true"}}
         hidden={{if (and (has-block) this.isOpen) false true}}
       >
         {{#if (has-block)}}
-          <div class='cds-aichat-chain-of-thought-step__item'>
+          <div class="cds-aichat-chain-of-thought-step__item">
             {{yield}}
           </div>
         {{/if}}
@@ -254,7 +267,9 @@ export default class ChainOfThought extends Component<ChainOfThoughtSignature> {
   }
 
   get panelId() {
-    return this.args.panelId ?? `cds-aichat-chain-of-thought-panel-${guidFor(this)}`;
+    return (
+      this.args.panelId ?? `cds-aichat-chain-of-thought-panel-${guidFor(this)}`
+    );
   }
 
   // Fires `@onToggle` whenever `@open` actually changes after the initial
@@ -271,12 +286,16 @@ export default class ChainOfThought extends Component<ChainOfThoughtSignature> {
   });
 
   <template>
-    <div class='cds-aichat-chain-of-thought' {{this.watchOpen this.open}} ...attributes>
+    <div
+      class="cds-aichat-chain-of-thought"
+      {{this.watchOpen this.open}}
+      ...attributes
+    >
       <div
         id={{this.panelId}}
-        class='cds-aichat-chain-of-thought__content
-          {{if this.open "cds-aichat-chain-of-thought__content--open"}}'
-        aria-hidden={{if this.open 'false' 'true'}}
+        class="cds-aichat-chain-of-thought__content
+          {{if this.open 'cds-aichat-chain-of-thought__content--open'}}"
+        aria-hidden={{if this.open "false" "true"}}
         hidden={{if this.open false true}}
       >
         {{yield (component ChainOfThoughtStep controlled=@controlled)}}

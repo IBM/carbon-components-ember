@@ -106,7 +106,7 @@ export function createEditorView({
 export function applyLanguageSupport(
   view: EditorView | undefined,
   languageCompartment: Compartment,
-  support: LanguageSupport | null
+  support: LanguageSupport | null,
 ) {
   if (!view) {
     return;
@@ -121,7 +121,7 @@ export function applyLanguageSupport(
 export function updateReadOnlyConfiguration(
   view: EditorView | undefined,
   readOnlyCompartment: Compartment,
-  { editable, disabled }: { editable: boolean; disabled: boolean }
+  { editable, disabled }: { editable: boolean; disabled: boolean },
 ) {
   if (!view) {
     return;
@@ -138,7 +138,7 @@ export function updateReadOnlyConfiguration(
 export function updateContentAttributes(
   view: EditorView | undefined,
   contentAttributesCompartment: Compartment,
-  ariaLabel: string
+  ariaLabel: string,
 ) {
   if (!view) {
     return;
@@ -148,7 +148,7 @@ export function updateContentAttributes(
     effects: contentAttributesCompartment.reconfigure(
       EditorView.contentAttributes.of({
         'aria-label': ariaLabel,
-      })
+      }),
     ),
   });
 }

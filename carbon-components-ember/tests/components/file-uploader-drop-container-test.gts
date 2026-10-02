@@ -13,7 +13,9 @@ module('Integration | Component | FileUploaderDropContainer', (hooks) => {
 
   test('renders the drop area with @labelText', async function (assert) {
     await render(
-      <template><FileUploaderDropContainer @labelText='Drag and drop a file' /></template>,
+      <template>
+        <FileUploaderDropContainer @labelText="Drag and drop a file" />
+      </template>,
     );
 
     assert.dom('.cds--file__drop-container').hasText('Drag and drop a file');
@@ -24,7 +26,9 @@ module('Integration | Component | FileUploaderDropContainer', (hooks) => {
     await render(<template><FileUploaderDropContainer /></template>);
 
     await triggerEvent('.cds--file', 'dragover', { dataTransfer: {} });
-    assert.dom('.cds--file__drop-container').hasClass('cds--file__drop-container--drag-over');
+    assert
+      .dom('.cds--file__drop-container')
+      .hasClass('cds--file__drop-container--drag-over');
 
     await triggerEvent('.cds--file', 'dragleave', { dataTransfer: {} });
     assert
@@ -39,11 +43,15 @@ module('Integration | Component | FileUploaderDropContainer', (hooks) => {
     };
 
     await render(
-      <template><FileUploaderDropContainer @onAddFiles={{onAddFiles}} /></template>,
+      <template>
+        <FileUploaderDropContainer @onAddFiles={{onAddFiles}} />
+      </template>,
     );
 
     const file = new File(['content'], 'photo.png', { type: 'image/png' });
-    await triggerEvent('.cds--file', 'drop', { dataTransfer: { files: [file] } });
+    await triggerEvent('.cds--file', 'drop', {
+      dataTransfer: { files: [file] },
+    });
 
     assert.strictEqual(received.length, 1);
     assert.strictEqual(received[0]?.name, 'photo.png');
@@ -60,12 +68,17 @@ module('Integration | Component | FileUploaderDropContainer', (hooks) => {
 
     await render(
       <template>
-        <FileUploaderDropContainer @maxFileSize={{5}} @onAddFiles={{onAddFiles}} />
+        <FileUploaderDropContainer
+          @maxFileSize={{5}}
+          @onAddFiles={{onAddFiles}}
+        />
       </template>,
     );
 
     const file = new File(['this is longer than five bytes'], 'big.txt');
-    await triggerEvent('.cds--file', 'drop', { dataTransfer: { files: [file] } });
+    await triggerEvent('.cds--file', 'drop', {
+      dataTransfer: { files: [file] },
+    });
 
     assert.strictEqual(received.length, 1);
     assert.true(received[0]?.invalidFileType);
@@ -82,12 +95,17 @@ module('Integration | Component | FileUploaderDropContainer', (hooks) => {
 
     await render(
       <template>
-        <FileUploaderDropContainer @accept={{array '.png'}} @onAddFiles={{onAddFiles}} />
+        <FileUploaderDropContainer
+          @accept={{array ".png"}}
+          @onAddFiles={{onAddFiles}}
+        />
       </template>,
     );
 
     const file = new File(['x'], 'notes.txt');
-    await triggerEvent('.cds--file', 'drop', { dataTransfer: { files: [file] } });
+    await triggerEvent('.cds--file', 'drop', {
+      dataTransfer: { files: [file] },
+    });
 
     assert.strictEqual(received.length, 1);
     assert.true(received[0]?.invalidFileType);
@@ -112,7 +130,9 @@ module('Integration | Component | FileUploaderDropContainer', (hooks) => {
     };
 
     await render(
-      <template><FileUploaderDropContainer @onAddFiles={{onAddFiles}} /></template>,
+      <template>
+        <FileUploaderDropContainer @onAddFiles={{onAddFiles}} />
+      </template>,
     );
 
     const input = find('input[type="file"]') as HTMLInputElement;
@@ -123,7 +143,9 @@ module('Integration | Component | FileUploaderDropContainer', (hooks) => {
   });
 
   test('@disabled prevents the click handler from opening the file picker', async function (assert) {
-    await render(<template><FileUploaderDropContainer @disabled={{true}} /></template>);
+    await render(
+      <template><FileUploaderDropContainer @disabled={{true}} /></template>,
+    );
 
     const input = find('input[type="file"]') as HTMLInputElement;
     let clicked = false;
@@ -132,6 +154,8 @@ module('Integration | Component | FileUploaderDropContainer', (hooks) => {
     await click('.cds--file-browse-btn');
 
     assert.false(clicked);
-    assert.dom('.cds--file-browse-btn').hasClass('cds--file-browse-btn--disabled');
+    assert
+      .dom('.cds--file-browse-btn')
+      .hasClass('cds--file-browse-btn--disabled');
   });
 });

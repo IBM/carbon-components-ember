@@ -10,7 +10,8 @@ import { modifier } from 'ember-modifier';
 import { eq } from 'ember-truth-helpers';
 import Button from '../button.gts';
 
-export type ChatButtonKind = 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'danger';
+export type ChatButtonKind =
+  'primary' | 'secondary' | 'tertiary' | 'ghost' | 'danger';
 export type ChatButtonSize = 'sm' | 'md' | 'lg';
 
 export type Args = {
@@ -40,15 +41,18 @@ export interface AiChatChatButtonSignature {
   };
 }
 
-const blockProgrammaticClickWhenSelected = modifier((element: HTMLButtonElement, [blocked]: [boolean]) => {
-  const handler = (event: Event) => {
-    if (blocked) {
-      event.stopImmediatePropagation();
-    }
-  };
-  element.addEventListener('click', handler, { capture: true });
-  return () => element.removeEventListener('click', handler, { capture: true });
-});
+const blockProgrammaticClickWhenSelected = modifier(
+  (element: HTMLButtonElement, [blocked]: [boolean]) => {
+    const handler = (event: Event) => {
+      if (blocked) {
+        event.stopImmediatePropagation();
+      }
+    };
+    element.addEventListener('click', handler, { capture: true });
+    return () =>
+      element.removeEventListener('click', handler, { capture: true });
+  },
+);
 
 /**
  * A button styled for use inside AI Chat surfaces: a taller pill radius than
@@ -99,25 +103,27 @@ export default class AiChatChatButton extends Component<AiChatChatButtonSignatur
   }
 
   get buttonType() {
-    return this.effectiveKind === 'ghost' || this.effectiveKind === 'tertiary' || this.effectiveKind === 'danger'
+    return this.effectiveKind === 'ghost' ||
+      this.effectiveKind === 'tertiary' ||
+      this.effectiveKind === 'danger'
       ? undefined
       : this.effectiveKind;
   }
 
   <template>
     <Button
-      class='cds-aichat-button
-        {{if @isQuickAction "cds-aichat-button--quick-action"}}
-        {{if (eq this.effectiveKind "danger") "cds--btn--danger"}}'
+      class="cds-aichat-button
+        {{if @isQuickAction 'cds-aichat-button--quick-action'}}
+        {{if (eq this.effectiveKind 'danger') 'cds--btn--danger'}}"
       @type={{this.buttonType}}
-      @tertiary={{eq this.effectiveKind 'tertiary'}}
-      @ghost={{eq this.effectiveKind 'ghost'}}
+      @tertiary={{eq this.effectiveKind "tertiary"}}
+      @ghost={{eq this.effectiveKind "ghost"}}
       @size={{this.effectiveSize}}
       @disabled={{@disabled}}
       @onClick={{@onClick}}
       inert={{if this.isBlocked true}}
-      tabindex={{if @isQuickAction (if this.isBlocked '-1' '0')}}
-      data-is-selected={{if @isSelected ''}}
+      tabindex={{if @isQuickAction (if this.isBlocked "-1" "0")}}
+      data-is-selected={{if @isSelected ""}}
       {{blockProgrammaticClickWhenSelected this.isBlocked}}
       ...attributes
     >

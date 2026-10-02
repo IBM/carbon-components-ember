@@ -36,21 +36,27 @@ export default class ChatHistoryHeader extends Component<ChatHistoryHeaderSignat
   handleClose = () => this.args.onClose?.();
 
   <template>
-    <div class='cds-aichat-history-header' ...attributes>
+    <div class="cds-aichat-history-header" ...attributes>
       {{#if @showCloseAction}}
-        <Tooltip @label={{or @closeButtonLabel 'Close chat history'}} @align='bottom'>
+        <Tooltip
+          @label={{or @closeButtonLabel "Close chat history"}}
+          @align="bottom"
+        >
           <Button
-            class='cds-aichat-history-header__close-button'
+            class="cds-aichat-history-header__close-button"
             @ghost={{true}}
             @iconOnly={{true}}
-            @size='sm'
+            @size="sm"
             @onClick={{this.handleClose}}
           >
-            <ChevronLeft @size='16' />
+            <ChevronLeft @size="16" />
           </Button>
         </Tooltip>
       {{/if}}
-      <span class='cds-aichat-history-header__title'>{{or @headerTitle 'Chats'}}</span>
+      <span class="cds-aichat-history-header__title">{{or
+          @headerTitle
+          "Chats"
+        }}</span>
     </div>
   </template>
 }

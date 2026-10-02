@@ -1,6 +1,12 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, rerender, waitUntil, find, settled } from '@ember/test-helpers';
+import {
+  render,
+  rerender,
+  waitUntil,
+  find,
+  settled,
+} from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import { array, hash } from '@ember/helper';
@@ -101,7 +107,9 @@ function stubKalturaSDK() {
   window.playerjs = { Player: FakePlayer };
 }
 
-async function waitForReady(selector = '.cds-aichat-video-player__provider--ready') {
+async function waitForReady(
+  selector = '.cds-aichat-video-player__provider--ready',
+) {
   await waitUntil(() => find(selector), { timeout: 3000 });
 }
 
@@ -122,8 +130,8 @@ module('Integration | Component | ai-chat/VideoPlayer', (hooks) => {
     await render(
       <template>
         <VideoPlayer
-          @source='https://example.com/not-a-video'
-          @errorMessage='Could not play this video'
+          @source="https://example.com/not-a-video"
+          @errorMessage="Could not play this video"
           @onError={{onError}}
         />
       </template>,
@@ -148,7 +156,9 @@ module('Integration | Component | ai-chat/VideoPlayer', (hooks) => {
           @source={{NATIVE_VIDEO_SOURCE}}
           @onReady={{onReady}}
           @subtitleTracks={{array
-            (hash src='/captions/en.vtt' language='en' label='English' default=true)
+            (hash
+              src="/captions/en.vtt" language="en" label="English" default=true
+            )
           }}
         />
       </template>,
@@ -160,7 +170,9 @@ module('Integration | Component | ai-chat/VideoPlayer', (hooks) => {
     assert
       .dom('.cds-aichat-video-player__provider video')
       .hasAttribute('crossorigin', 'anonymous');
-    assert.dom('.cds-aichat-video-player__provider video track').exists({ count: 1 });
+    assert
+      .dom('.cds-aichat-video-player__provider video track')
+      .exists({ count: 1 });
     assert
       .dom('.cds-aichat-video-player__provider video track')
       .hasAttribute('srclang', 'en');
@@ -176,7 +188,10 @@ module('Integration | Component | ai-chat/VideoPlayer', (hooks) => {
     class Host extends Component {
       state = state;
       <template>
-        <VideoPlayer @source={{NATIVE_VIDEO_SOURCE}} @aspectRatioPercentage={{this.state.ratio}} />
+        <VideoPlayer
+          @source={{NATIVE_VIDEO_SOURCE}}
+          @aspectRatioPercentage={{this.state.ratio}}
+        />
       </template>
     }
 
@@ -261,9 +276,7 @@ module('Integration | Component | ai-chat/VideoPlayer', (hooks) => {
 
     class Host extends Component {
       state = state;
-      <template>
-        <VideoPlayer @source={{this.state.source}} />
-      </template>
+      <template><VideoPlayer @source={{this.state.source}} /></template>
     }
 
     await render(<template><Host /></template>);
@@ -274,12 +287,16 @@ module('Integration | Component | ai-chat/VideoPlayer', (hooks) => {
     await waitUntil(() => find('.cds-aichat-video-player__provider iframe'));
     await waitForReady();
     assert.dom('.cds-aichat-video-player__provider video').doesNotExist();
-    assert.dom('.cds-aichat-video-player__provider iframe').exists({ count: 1 });
+    assert
+      .dom('.cds-aichat-video-player__provider iframe')
+      .exists({ count: 1 });
 
     state.source = VIMEO_SOURCE;
     await settled();
     await waitForReady();
-    assert.dom('.cds-aichat-video-player__provider iframe').exists({ count: 1 });
+    assert
+      .dom('.cds-aichat-video-player__provider iframe')
+      .exists({ count: 1 });
   });
 
   test('@playing toggling after ready calls the provider play/pause methods', async function (assert) {
@@ -307,7 +324,10 @@ module('Integration | Component | ai-chat/VideoPlayer', (hooks) => {
       class Host extends Component {
         state = state;
         <template>
-          <VideoPlayer @source={{NATIVE_VIDEO_SOURCE}} @playing={{this.state.playing}} />
+          <VideoPlayer
+            @source={{NATIVE_VIDEO_SOURCE}}
+            @playing={{this.state.playing}}
+          />
         </template>
       }
 
@@ -316,11 +336,19 @@ module('Integration | Component | ai-chat/VideoPlayer', (hooks) => {
 
       state.playing = true;
       await rerender();
-      assert.strictEqual(playCalls, 1, 'toggling @playing to true calls provider.play()');
+      assert.strictEqual(
+        playCalls,
+        1,
+        'toggling @playing to true calls provider.play()',
+      );
 
       state.playing = false;
       await rerender();
-      assert.strictEqual(pauseCalls, 1, 'toggling @playing to false calls provider.pause()');
+      assert.strictEqual(
+        pauseCalls,
+        1,
+        'toggling @playing to false calls provider.pause()',
+      );
     } finally {
       HTMLMediaElement.prototype.play = originalPlay;
       HTMLMediaElement.prototype.pause = originalPause;
@@ -358,7 +386,11 @@ module('Integration | Component | ai-chat/VideoPlayer', (hooks) => {
     state.playing = false;
     await rerender();
 
-    assert.strictEqual(readyCount, 1, 'the provider was not torn down and reloaded, so @onReady never fires a second time');
+    assert.strictEqual(
+      readyCount,
+      1,
+      'the provider was not torn down and reloaded, so @onReady never fires a second time',
+    );
     assert.strictEqual(
       find('.cds-aichat-video-player__provider video'),
       videoElementBefore,

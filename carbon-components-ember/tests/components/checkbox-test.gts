@@ -7,7 +7,7 @@ module('Integration | Component | Checkbox', (hooks) => {
   setupRenderingTest(hooks);
 
   test('renders with a stable, non-empty id linking the label and input on first render', async function (assert) {
-    await render(<template><Checkbox @label='Accept' /></template>);
+    await render(<template><Checkbox @label="Accept" /></template>);
 
     const input = find('input.cds--checkbox') as HTMLInputElement;
     const label = find('label.cds--checkbox-label') as HTMLLabelElement;
@@ -23,7 +23,7 @@ module('Integration | Component | Checkbox', (hooks) => {
     };
 
     await render(
-      <template><Checkbox @label='Accept' @onChange={{onChange}} /></template>,
+      <template><Checkbox @label="Accept" @onChange={{onChange}} /></template>,
     );
 
     await click('input.cds--checkbox');
@@ -32,9 +32,11 @@ module('Integration | Component | Checkbox', (hooks) => {
   });
 
   test('toggles the focus class on the label when the input is focused/blurred', async function (assert) {
-    await render(<template><Checkbox @label='Accept' /></template>);
+    await render(<template><Checkbox @label="Accept" /></template>);
 
-    assert.dom('.cds--checkbox-label').doesNotHaveClass('cds--checkbox-label__focus');
+    assert
+      .dom('.cds--checkbox-label')
+      .doesNotHaveClass('cds--checkbox-label__focus');
 
     find('label.cds--checkbox-label')!.dispatchEvent(new FocusEvent('focus'));
     await rerender();
@@ -42,6 +44,8 @@ module('Integration | Component | Checkbox', (hooks) => {
 
     find('label.cds--checkbox-label')!.dispatchEvent(new FocusEvent('blur'));
     await rerender();
-    assert.dom('.cds--checkbox-label').doesNotHaveClass('cds--checkbox-label__focus');
+    assert
+      .dom('.cds--checkbox-label')
+      .doesNotHaveClass('cds--checkbox-label__focus');
   });
 });

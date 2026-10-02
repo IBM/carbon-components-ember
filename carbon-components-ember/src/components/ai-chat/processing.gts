@@ -34,17 +34,35 @@ export interface ProcessingSignature {
 export default class Processing extends Component<ProcessingSignature> {
   get classes() {
     const classes = ['cds-aichat-processing'];
-    classes.push(this.args.loop ? 'cds-aichat-processing--linear' : 'cds-aichat-processing--linear-no-loop');
+    classes.push(
+      this.args.loop
+        ? 'cds-aichat-processing--linear'
+        : 'cds-aichat-processing--linear-no-loop',
+    );
     if (this.args.quickLoad) classes.push('cds-aichat-processing--quick-load');
     return classes.join(' ');
   }
 
   <template>
     <div class={{this.classes}} ...attributes>
-      <svg class='cds-aichat-processing__dots' viewBox='0 0 32 32'>
-        <circle class='cds-aichat-processing__dot cds-aichat-processing__dot--left' cx='8' cy='16' />
-        <circle class='cds-aichat-processing__dot cds-aichat-processing__dot--center' cx='16' cy='16' r='2' />
-        <circle class='cds-aichat-processing__dot cds-aichat-processing__dot--right' cx='24' cy='16' r='2' />
+      <svg class="cds-aichat-processing__dots" viewBox="0 0 32 32">
+        <circle
+          class="cds-aichat-processing__dot cds-aichat-processing__dot--left"
+          cx="8"
+          cy="16"
+        />
+        <circle
+          class="cds-aichat-processing__dot cds-aichat-processing__dot--center"
+          cx="16"
+          cy="16"
+          r="2"
+        />
+        <circle
+          class="cds-aichat-processing__dot cds-aichat-processing__dot--right"
+          cx="24"
+          cy="16"
+          r="2"
+        />
       </svg>
     </div>
   </template>

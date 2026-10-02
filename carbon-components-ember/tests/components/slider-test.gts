@@ -26,8 +26,15 @@ module('Integration | Component | Slider', (hooks) => {
     const styleValue = cell('');
     await render(
       <template>
-        <Slider @labelText='Slider label' @min={{0}} @max={{100}} @value={{50}} />
-        <style>{{styleValue.current}}</style>
+        <Slider
+          @labelText="Slider label"
+          @min={{0}}
+          @max={{100}}
+          @value={{50}}
+        />
+        <style>
+          {{styleValue.current}}
+        </style>
       </template>,
     );
 
@@ -50,9 +57,18 @@ module('Integration | Component | Slider', (hooks) => {
     const darkStyleValue = cell('');
     await render(
       <template>
-        <Slider @labelText='Slider label' @min={{0}} @max={{100}} @value={{50}} />
-        <style>{{styleValue.current}}</style>
-        <style>{{darkStyleValue.current}}</style>
+        <Slider
+          @labelText="Slider label"
+          @min={{0}}
+          @max={{100}}
+          @value={{50}}
+        />
+        <style>
+          {{styleValue.current}}
+        </style>
+        <style>
+          {{darkStyleValue.current}}
+        </style>
       </template>,
     );
 
@@ -74,7 +90,12 @@ module('Integration | Component | Slider', (hooks) => {
   test('renders label, range labels and current value', async function (assert) {
     await render(
       <template>
-        <Slider @labelText='Slider label' @min={{0}} @max={{100}} @value={{50}} />
+        <Slider
+          @labelText="Slider label"
+          @min={{0}}
+          @max={{100}}
+          @value={{50}}
+        />
       </template>,
     );
 
@@ -88,7 +109,7 @@ module('Integration | Component | Slider', (hooks) => {
     await render(
       <template>
         <Slider
-          @labelText='Slider label'
+          @labelText="Slider label"
           @min={{0}}
           @max={{100}}
           @value={{50}}
@@ -97,7 +118,9 @@ module('Integration | Component | Slider', (hooks) => {
       </template>,
     );
 
-    assert.dom('.cds--slider-container').hasClass('cds--slider-container--disabled');
+    assert
+      .dom('.cds--slider-container')
+      .hasClass('cds--slider-container--disabled');
     assert.dom('input.cds--slider-text-input').isDisabled();
   });
 
@@ -105,7 +128,7 @@ module('Integration | Component | Slider', (hooks) => {
     await render(
       <template>
         <Slider
-          @labelText='Slider label'
+          @labelText="Slider label"
           @min={{0}}
           @max={{100}}
           @value={{50}}
@@ -114,14 +137,16 @@ module('Integration | Component | Slider', (hooks) => {
       </template>,
     );
 
-    assert.dom('.cds--slider-container').hasClass('cds--slider-container--readonly');
+    assert
+      .dom('.cds--slider-container')
+      .hasClass('cds--slider-container--readonly');
   });
 
   test('renders a second thumb when @valueUpper is provided', async function (assert) {
     await render(
       <template>
         <Slider
-          @labelText='Slider label'
+          @labelText="Slider label"
           @min={{0}}
           @max={{100}}
           @value={{10}}
@@ -130,7 +155,9 @@ module('Integration | Component | Slider', (hooks) => {
       </template>,
     );
 
-    assert.dom('.cds--slider-container').hasClass('cds--slider-container--two-handles');
+    assert
+      .dom('.cds--slider-container')
+      .hasClass('cds--slider-container--two-handles');
     assert.dom('[role="slider"]').exists({ count: 2 });
   });
 
@@ -143,7 +170,7 @@ module('Integration | Component | Slider', (hooks) => {
     await render(
       <template>
         <Slider
-          @labelText='Slider label'
+          @labelText="Slider label"
           @min={{0}}
           @max={{100}}
           @value={{value.current}}
@@ -166,7 +193,7 @@ module('Integration | Component | Slider', (hooks) => {
     await render(
       <template>
         <Slider
-          @labelText='Slider label'
+          @labelText="Slider label"
           @min={{0}}
           @max={{100}}
           @value={{value.current}}
@@ -186,12 +213,12 @@ module('Integration | Component | Slider', (hooks) => {
     await render(
       <template>
         <Slider
-          @labelText='Slider label'
+          @labelText="Slider label"
           @min={{0}}
           @max={{100}}
           @value={{50}}
           @invalid={{true}}
-          @invalidText='Invalid message goes here'
+          @invalidText="Invalid message goes here"
         />
       </template>,
     );
@@ -205,24 +232,26 @@ module('Integration | Component | Slider', (hooks) => {
     await render(
       <template>
         <Slider
-          @labelText='Slider label'
+          @labelText="Slider label"
           @min={{0}}
           @max={{100}}
           @value={{50}}
           @warn={{true}}
-          @warnText='Warning message goes here'
+          @warnText="Warning message goes here"
         />
       </template>,
     );
 
-    assert.dom('.cds--slider__validation-msg').hasText('Warning message goes here');
+    assert
+      .dom('.cds--slider__validation-msg')
+      .hasText('Warning message goes here');
   });
 
   test('@hideTextInput hides the number input', async function (assert) {
     await render(
       <template>
         <Slider
-          @labelText='Slider label'
+          @labelText="Slider label"
           @min={{0}}
           @max={{100}}
           @value={{50}}
@@ -240,7 +269,7 @@ module('Integration | Component | Slider', (hooks) => {
     await render(
       <template>
         <Slider
-          @labelText='Slider label'
+          @labelText="Slider label"
           @min={{0}}
           @max={{100}}
           @value={{50}}
@@ -262,7 +291,7 @@ module('Integration | Component | Slider', (hooks) => {
     await render(
       <template>
         <Slider
-          @labelText='Slider label'
+          @labelText="Slider label"
           @min={{0}}
           @max={{100}}
           @step={{5}}
@@ -286,7 +315,7 @@ module('Integration | Component | Slider', (hooks) => {
     await render(
       <template>
         <Slider
-          @labelText='Slider label'
+          @labelText="Slider label"
           @min={{0}}
           @max={{100}}
           @step={{5}}

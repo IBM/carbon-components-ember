@@ -19,8 +19,10 @@ module('Integration | Component | ShapeIndicator', (hooks) => {
     const styleValue = cell('');
     await render(
       <template>
-        <ShapeIndicator @kind='stable' @label='Stable' />
-        <style>{{styleValue.current}}</style>
+        <ShapeIndicator @kind="stable" @label="Stable" />
+        <style>
+          {{styleValue.current}}
+        </style>
       </template>,
     );
 
@@ -43,9 +45,13 @@ module('Integration | Component | ShapeIndicator', (hooks) => {
     const darkStyleValue = cell('');
     await render(
       <template>
-        <ShapeIndicator @kind='stable' @label='Stable' />
-        <style>{{styleValue.current}}</style>
-        <style>{{darkStyleValue.current}}</style>
+        <ShapeIndicator @kind="stable" @label="Stable" />
+        <style>
+          {{styleValue.current}}
+        </style>
+        <style>
+          {{darkStyleValue.current}}
+        </style>
       </template>,
     );
 
@@ -66,7 +72,7 @@ module('Integration | Component | ShapeIndicator', (hooks) => {
 
   test('should display the label and the kind class', async function (assert) {
     await render(
-      <template><ShapeIndicator @kind='failed' @label='Failed' /></template>,
+      <template><ShapeIndicator @kind="failed" @label="Failed" /></template>,
     );
     await waitForAnimationFrame();
 
@@ -77,7 +83,7 @@ module('Integration | Component | ShapeIndicator', (hooks) => {
   test('should add the 14 text size class', async function (assert) {
     await render(
       <template>
-        <ShapeIndicator @kind='failed' @label='Failed' @textSize={{14}} />
+        <ShapeIndicator @kind="failed" @label="Failed" @textSize={{14}} />
       </template>,
     );
 
@@ -88,7 +94,7 @@ module('Integration | Component | ShapeIndicator', (hooks) => {
     await render(
       <template>
         {{! @glint-expect-error: intentionally invalid kind }}
-        <ShapeIndicator @kind='unknown' @label='Failed' />
+        <ShapeIndicator @kind="unknown" @label="Failed" />
       </template>,
     );
 
@@ -98,7 +104,7 @@ module('Integration | Component | ShapeIndicator', (hooks) => {
   test('should hide the label visually and expose it as an accessible tooltip in compact mode', async function (assert) {
     await render(
       <template>
-        <ShapeIndicator @kind='failed' @label='Failed' @compact={{true}} />
+        <ShapeIndicator @kind="failed" @label="Failed" @compact={{true}} />
       </template>,
     );
     await waitForAnimationFrame();
@@ -115,7 +121,7 @@ module('Integration | Component | ShapeIndicator', (hooks) => {
   test('compact trigger is a definition-term button with aria-expanded', async function (assert) {
     await render(
       <template>
-        <ShapeIndicator @kind='failed' @label='Failed' @compact={{true}} />
+        <ShapeIndicator @kind="failed" @label="Failed" @compact={{true}} />
       </template>,
     );
     await waitForAnimationFrame();
@@ -128,7 +134,7 @@ module('Integration | Component | ShapeIndicator', (hooks) => {
   test('compact tooltip aligns right by default', async function (assert) {
     await render(
       <template>
-        <ShapeIndicator @kind='failed' @label='Failed' @compact={{true}} />
+        <ShapeIndicator @kind="failed" @label="Failed" @compact={{true}} />
       </template>,
     );
     await waitForAnimationFrame();
@@ -140,16 +146,18 @@ module('Integration | Component | ShapeIndicator', (hooks) => {
     await render(
       <template>
         <ShapeIndicator
-          @kind='failed'
-          @label='Failed'
+          @kind="failed"
+          @label="Failed"
           @compact={{true}}
-          @align='bottom'
+          @align="bottom"
         />
       </template>,
     );
     await waitForAnimationFrame();
 
     assert.dom('.cds--popover-container').hasClass('cds--popover--bottom');
-    assert.dom('.cds--popover-container').doesNotHaveClass('cds--popover--right');
+    assert
+      .dom('.cds--popover-container')
+      .doesNotHaveClass('cds--popover--right');
   });
 });

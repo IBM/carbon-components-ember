@@ -49,10 +49,10 @@ export interface ChatHistorySignature {
  */
 export default class ChatHistory extends Component<ChatHistorySignature> {
   <template>
-    <div class='cds-aichat-history-shell' ...attributes>
-      {{yield to='header'}}
-      {{yield to='toolbar'}}
-      {{yield to='content'}}
+    <div class="cds-aichat-history-shell" ...attributes>
+      {{yield to="header"}}
+      {{yield to="toolbar"}}
+      {{yield to="content"}}
     </div>
   </template>
 }

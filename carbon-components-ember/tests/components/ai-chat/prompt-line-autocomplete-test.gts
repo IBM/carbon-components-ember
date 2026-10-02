@@ -1,12 +1,24 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, triggerKeyEvent, settled, find, findAll } from '@ember/test-helpers';
+import {
+  render,
+  click,
+  triggerKeyEvent,
+  settled,
+  find,
+  findAll,
+} from '@ember/test-helpers';
 import { cell } from 'ember-resources';
-import PromptLine, { type PromptLineApi } from '#src/components/ai-chat/prompt-line.gts';
+import PromptLine, {
+  type PromptLineApi,
+} from '#src/components/ai-chat/prompt-line.gts';
 import PromptLineAutocomplete from '#src/components/ai-chat/prompt-line-autocomplete.gts';
 import { resetRichRuntimeForTests } from '#src/components/ai-chat/-prompt-line/rich-loader.ts';
 import { buildCarbonExtensions } from '#src/components/ai-chat/-prompt-line/tiptap/build-extensions.ts';
-import type { SuggestionItem, TriggerChangeEventDetail } from '#src/components/ai-chat/-prompt-line/tiptap/types.ts';
+import type {
+  SuggestionItem,
+  TriggerChangeEventDetail,
+} from '#src/components/ai-chat/-prompt-line/tiptap/types.ts';
 import { waitForAnimationFrame } from '../../helpers';
 
 module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
@@ -72,8 +84,13 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
     async function renderWithContainer() {
       await render(
         <template>
-          <div class='cds-aichat-prompt-line-shell' data-test-container>
-            <PromptLineAutocomplete @promptLine={{api}} @mention={{mentionConfig}} @autocomplete={{autocompleteConfig}} @starters={{startersConfig}} />
+          <div class="cds-aichat-prompt-line-shell" data-test-container>
+            <PromptLineAutocomplete
+              @promptLine={{api}}
+              @mention={{mentionConfig}}
+              @autocomplete={{autocompleteConfig}}
+              @starters={{startersConfig}}
+            />
           </div>
         </template>,
       );
@@ -82,11 +99,14 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
     function dispatch(detail: TriggerChangeEventDetail | null) {
       const container = find('[data-test-container]')!;
       container.dispatchEvent(
-        new CustomEvent<TriggerChangeEventDetail | null>('cds-aichat-trigger-change', {
-          detail,
-          bubbles: true,
-          composed: true,
-        }),
+        new CustomEvent<TriggerChangeEventDetail | null>(
+          'cds-aichat-trigger-change',
+          {
+            detail,
+            bubbles: true,
+            composed: true,
+          },
+        ),
       );
     }
 
@@ -98,7 +118,9 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
       dispatch(null);
       await settled();
 
-      assert.dom('.cds-aichat-autocomplete-item').exists({ count: 2 }, 'mention items (Alice, Bob) are showing');
+      assert
+        .dom('.cds-aichat-autocomplete-item')
+        .exists({ count: 2 }, 'mention items (Alice, Bob) are showing');
       assert.dom(findAll('.cds-aichat-autocomplete-item')[0]).hasText('Alice');
     });
 
@@ -107,7 +129,9 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
 
       dispatch({ type: 'mention', query: '', triggerOffset: 0 });
       await settled();
-      assert.dom('.cds-aichat-autocomplete').exists('a mention trigger opened first');
+      assert
+        .dom('.cds-aichat-autocomplete')
+        .exists('a mention trigger opened first');
 
       dispatch(null);
       await settled();
@@ -148,10 +172,14 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
       // cancel before the microtask flush runs.
       dispatch({ type: 'mention', query: '', triggerOffset: 0 });
       await triggerKeyEvent('[data-test-container]', 'keydown', 'Escape');
-      assert.dom('.cds-aichat-autocomplete').doesNotExist('closes immediately, synchronously with the keydown');
+      assert
+        .dom('.cds-aichat-autocomplete')
+        .doesNotExist('closes immediately, synchronously with the keydown');
 
       await settled();
-      assert.dom('.cds-aichat-autocomplete').doesNotExist('the stale queued event does not reopen it');
+      assert
+        .dom('.cds-aichat-autocomplete')
+        .doesNotExist('the stale queued event does not reopen it');
     });
   });
 
@@ -163,25 +191,40 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
     const { handle: api, onReady } = apiHandle();
     const mentionConfig = { trigger: '@', items: PEOPLE };
     const startersConfig = { items: [{ id: 's1', label: 'Get started' }] };
-    const extensions = buildCarbonExtensions({ mention: mentionConfig, starters: startersConfig });
+    const extensions = buildCarbonExtensions({
+      mention: mentionConfig,
+      starters: startersConfig,
+    });
 
     await render(
       <template>
-        <div class='cds-aichat-prompt-line-shell'>
-          <PromptLine @rich={{true}} @extensions={{extensions}} @onReady={{onReady}} />
-          <PromptLineAutocomplete @promptLine={{api.current}} @mention={{mentionConfig}} @starters={{startersConfig}} />
+        <div class="cds-aichat-prompt-line-shell">
+          <PromptLine
+            @rich={{true}}
+            @extensions={{extensions}}
+            @onReady={{onReady}}
+          />
+          <PromptLineAutocomplete
+            @promptLine={{api.current}}
+            @mention={{mentionConfig}}
+            @starters={{startersConfig}}
+          />
         </div>
       </template>,
     );
     await api.current!.ensureEditor();
     api.current!.focus();
     await waitForAnimationFrame();
-    assert.dom('.cds-aichat-autocomplete-item').hasText('Get started', 'starters showed first');
+    assert
+      .dom('.cds-aichat-autocomplete-item')
+      .hasText('Get started', 'starters showed first');
 
     api.current!.getEditor()!.commands.insertContent('@');
     await settled();
 
-    assert.dom('.cds-aichat-autocomplete-item').exists({ count: 2 }, 'mention items are showing, not closed');
+    assert
+      .dom('.cds-aichat-autocomplete-item')
+      .exists({ count: 2 }, 'mention items are showing, not closed');
     assert.dom(findAll('.cds-aichat-autocomplete-item')[0]).hasText('Alice');
   });
 
@@ -194,9 +237,17 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
 
     await render(
       <template>
-        <div class='cds-aichat-prompt-line-shell'>
-          <PromptLine @rich={{true}} @extensions={{extensions}} @onReady={{onReady}} />
-          <PromptLineAutocomplete @promptLine={{api.current}} @mention={{mentionConfig}} @onItemSelected={{onItemSelected}} />
+        <div class="cds-aichat-prompt-line-shell">
+          <PromptLine
+            @rich={{true}}
+            @extensions={{extensions}}
+            @onReady={{onReady}}
+          />
+          <PromptLineAutocomplete
+            @promptLine={{api.current}}
+            @mention={{mentionConfig}}
+            @onItemSelected={{onItemSelected}}
+          />
         </div>
       </template>,
     );
@@ -206,8 +257,12 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
     await settled();
     await click('.cds-aichat-autocomplete-item');
 
-    assert.dom('.cds-aichat--token[data-token-type="mention"]').hasText('Alice');
-    assert.dom('.cds-aichat-autocomplete').doesNotExist('the popup closed after selection');
+    assert
+      .dom('.cds-aichat--token[data-token-type="mention"]')
+      .hasText('Alice');
+    assert
+      .dom('.cds-aichat-autocomplete')
+      .doesNotExist('the popup closed after selection');
     assert.deepEqual(
       selected.map((i) => i.id),
       ['1'],
@@ -220,13 +275,23 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
     const onItemSend = (text: string) => sent.push(text);
     const item = { id: 'w1', label: 'widget', value: 'widget-value' };
     const autocompleteConfig = { items: [item] };
-    const extensions = buildCarbonExtensions({ autocomplete: autocompleteConfig });
+    const extensions = buildCarbonExtensions({
+      autocomplete: autocompleteConfig,
+    });
 
     await render(
       <template>
-        <div class='cds-aichat-prompt-line-shell'>
-          <PromptLine @rich={{true}} @extensions={{extensions}} @onReady={{onReady}} />
-          <PromptLineAutocomplete @promptLine={{api.current}} @autocomplete={{autocompleteConfig}} @onItemSend={{onItemSend}} />
+        <div class="cds-aichat-prompt-line-shell">
+          <PromptLine
+            @rich={{true}}
+            @extensions={{extensions}}
+            @onReady={{onReady}}
+          />
+          <PromptLineAutocomplete
+            @promptLine={{api.current}}
+            @autocomplete={{autocompleteConfig}}
+            @onItemSend={{onItemSend}}
+          />
         </div>
       </template>,
     );
@@ -237,7 +302,11 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
     await click('.cds-aichat-autocomplete-item');
 
     assert.deepEqual(sent, ['widget-value']);
-    assert.strictEqual(api.current!.getValue(), 'wid', 'the editor content is untouched by the direct-send path');
+    assert.strictEqual(
+      api.current!.getValue(),
+      'wid',
+      'the editor content is untouched by the direct-send path',
+    );
   });
 
   test('@isSendDisabled makes the direct-send click path a no-op (no dismiss, no callback)', async function (assert) {
@@ -246,12 +315,18 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
     const onItemSend = (text: string) => sent.push(text);
     const item = { id: 'w1', label: 'widget' };
     const autocompleteConfig = { items: [item] };
-    const extensions = buildCarbonExtensions({ autocomplete: autocompleteConfig });
+    const extensions = buildCarbonExtensions({
+      autocomplete: autocompleteConfig,
+    });
 
     await render(
       <template>
-        <div class='cds-aichat-prompt-line-shell'>
-          <PromptLine @rich={{true}} @extensions={{extensions}} @onReady={{onReady}} />
+        <div class="cds-aichat-prompt-line-shell">
+          <PromptLine
+            @rich={{true}}
+            @extensions={{extensions}}
+            @onReady={{onReady}}
+          />
           <PromptLineAutocomplete
             @promptLine={{api.current}}
             @autocomplete={{autocompleteConfig}}
@@ -268,7 +343,9 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
     await click('.cds-aichat-autocomplete-item');
 
     assert.strictEqual(sent.length, 0);
-    assert.dom('.cds-aichat-autocomplete').exists('stays open - nothing happened');
+    assert
+      .dom('.cds-aichat-autocomplete')
+      .exists('stays open - nothing happened');
   });
 
   test('autocomplete with disableDirectSend: true inserts text and fires onItemSelected instead of sending', async function (assert) {
@@ -277,13 +354,23 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
     const onItemSelected = (item: SuggestionItem) => selected.push(item);
     const item = { id: 'w1', label: 'widget', value: 'widget-value' };
     const autocompleteConfig = { items: [item], disableDirectSend: true };
-    const extensions = buildCarbonExtensions({ autocomplete: autocompleteConfig });
+    const extensions = buildCarbonExtensions({
+      autocomplete: autocompleteConfig,
+    });
 
     await render(
       <template>
-        <div class='cds-aichat-prompt-line-shell'>
-          <PromptLine @rich={{true}} @extensions={{extensions}} @onReady={{onReady}} />
-          <PromptLineAutocomplete @promptLine={{api.current}} @autocomplete={{autocompleteConfig}} @onItemSelected={{onItemSelected}} />
+        <div class="cds-aichat-prompt-line-shell">
+          <PromptLine
+            @rich={{true}}
+            @extensions={{extensions}}
+            @onReady={{onReady}}
+          />
+          <PromptLineAutocomplete
+            @promptLine={{api.current}}
+            @autocomplete={{autocompleteConfig}}
+            @onItemSelected={{onItemSelected}}
+          />
         </div>
       </template>,
     );
@@ -309,9 +396,17 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
 
     await render(
       <template>
-        <div class='cds-aichat-prompt-line-shell'>
-          <PromptLine @rich={{true}} @extensions={{extensions}} @onReady={{onReady}} />
-          <PromptLineAutocomplete @promptLine={{api.current}} @starters={{startersConfig}} @onItemSend={{onItemSend}} />
+        <div class="cds-aichat-prompt-line-shell">
+          <PromptLine
+            @rich={{true}}
+            @extensions={{extensions}}
+            @onReady={{onReady}}
+          />
+          <PromptLineAutocomplete
+            @promptLine={{api.current}}
+            @starters={{startersConfig}}
+            @onItemSend={{onItemSend}}
+          />
         </div>
       </template>,
     );
@@ -329,14 +424,25 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
     const { handle: api, onReady } = apiHandle();
     const starterTexts: string[] = [];
     const onStarterSelected = (text: string) => starterTexts.push(text);
-    const startersConfig = { items: [{ id: 's1', label: 'Get started' }], disableDirectSend: true };
+    const startersConfig = {
+      items: [{ id: 's1', label: 'Get started' }],
+      disableDirectSend: true,
+    };
     const extensions = buildCarbonExtensions({ starters: startersConfig });
 
     await render(
       <template>
-        <div class='cds-aichat-prompt-line-shell'>
-          <PromptLine @rich={{true}} @extensions={{extensions}} @onReady={{onReady}} />
-          <PromptLineAutocomplete @promptLine={{api.current}} @starters={{startersConfig}} @onStarterSelected={{onStarterSelected}} />
+        <div class="cds-aichat-prompt-line-shell">
+          <PromptLine
+            @rich={{true}}
+            @extensions={{extensions}}
+            @onReady={{onReady}}
+          />
+          <PromptLineAutocomplete
+            @promptLine={{api.current}}
+            @starters={{startersConfig}}
+            @onStarterSelected={{onStarterSelected}}
+          />
         </div>
       </template>,
     );
@@ -362,9 +468,16 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
 
     await render(
       <template>
-        <div class='cds-aichat-prompt-line-shell'>
-          <PromptLine @rich={{true}} @extensions={{extensions}} @onReady={{onReady}} />
-          <PromptLineAutocomplete @promptLine={{api.current}} @mention={{mentionConfig}} />
+        <div class="cds-aichat-prompt-line-shell">
+          <PromptLine
+            @rich={{true}}
+            @extensions={{extensions}}
+            @onReady={{onReady}}
+          />
+          <PromptLineAutocomplete
+            @promptLine={{api.current}}
+            @mention={{mentionConfig}}
+          />
         </div>
       </template>,
     );
@@ -374,18 +487,32 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
     await settled();
 
     const pmContent = '.cds-aichat-prompt-line__pm-content';
-    assert.dom(findAll('.cds-aichat-autocomplete-item')[0]).hasClass('cds-aichat-autocomplete-item--active');
-    assert.dom(findAll('.cds-aichat-autocomplete-item')[0]).hasAttribute('aria-selected', 'true');
-    assert.dom(findAll('.cds-aichat-autocomplete-item')[2]).hasAttribute('aria-selected', 'false');
+    assert
+      .dom(findAll('.cds-aichat-autocomplete-item')[0])
+      .hasClass('cds-aichat-autocomplete-item--active');
+    assert
+      .dom(findAll('.cds-aichat-autocomplete-item')[0])
+      .hasAttribute('aria-selected', 'true');
+    assert
+      .dom(findAll('.cds-aichat-autocomplete-item')[2])
+      .hasAttribute('aria-selected', 'false');
 
     await triggerKeyEvent(pmContent, 'keydown', 'ArrowDown');
     // Bob is disabled - Carol (index 2) should become active, not Bob.
-    assert.dom(findAll('.cds-aichat-autocomplete-item')[2]).hasClass('cds-aichat-autocomplete-item--active');
-    assert.dom(findAll('.cds-aichat-autocomplete-item')[2]).hasAttribute('aria-selected', 'true');
-    assert.dom(findAll('.cds-aichat-autocomplete-item')[0]).hasAttribute('aria-selected', 'false');
+    assert
+      .dom(findAll('.cds-aichat-autocomplete-item')[2])
+      .hasClass('cds-aichat-autocomplete-item--active');
+    assert
+      .dom(findAll('.cds-aichat-autocomplete-item')[2])
+      .hasAttribute('aria-selected', 'true');
+    assert
+      .dom(findAll('.cds-aichat-autocomplete-item')[0])
+      .hasAttribute('aria-selected', 'false');
 
     await triggerKeyEvent(pmContent, 'keydown', 'Enter');
-    assert.dom('.cds-aichat--token[data-token-type="mention"]').hasText('Carol');
+    assert
+      .dom('.cds-aichat--token[data-token-type="mention"]')
+      .hasText('Carol');
   });
 
   test('Escape calls dismissSuggestion() and closes the list without inserting', async function (assert) {
@@ -395,9 +522,16 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
 
     await render(
       <template>
-        <div class='cds-aichat-prompt-line-shell'>
-          <PromptLine @rich={{true}} @extensions={{extensions}} @onReady={{onReady}} />
-          <PromptLineAutocomplete @promptLine={{api.current}} @mention={{mentionConfig}} />
+        <div class="cds-aichat-prompt-line-shell">
+          <PromptLine
+            @rich={{true}}
+            @extensions={{extensions}}
+            @onReady={{onReady}}
+          />
+          <PromptLineAutocomplete
+            @promptLine={{api.current}}
+            @mention={{mentionConfig}}
+          />
         </div>
       </template>,
     );
@@ -407,7 +541,11 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
     await settled();
     assert.dom('.cds-aichat-autocomplete').exists();
 
-    await triggerKeyEvent('.cds-aichat-prompt-line__pm-content', 'keydown', 'Escape');
+    await triggerKeyEvent(
+      '.cds-aichat-prompt-line__pm-content',
+      'keydown',
+      'Escape',
+    );
 
     assert.dom('.cds-aichat-autocomplete').doesNotExist();
     assert.dom('.cds-aichat--token').doesNotExist();
@@ -419,7 +557,9 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
     // still-open match range must NOT reopen it.
     api.current!.getEditor()!.commands.insertContent('l');
     await settled();
-    assert.dom('.cds-aichat-autocomplete').doesNotExist('typing more does not reopen the dismissed trigger');
+    assert
+      .dom('.cds-aichat-autocomplete')
+      .doesNotExist('typing more does not reopen the dismissed trigger');
   });
 
   test('clicking outside dismisses the list', async function (assert) {
@@ -430,11 +570,18 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
     await render(
       <template>
         <div>
-          <div class='cds-aichat-prompt-line-shell'>
-            <PromptLine @rich={{true}} @extensions={{extensions}} @onReady={{onReady}} />
-            <PromptLineAutocomplete @promptLine={{api.current}} @mention={{mentionConfig}} />
+          <div class="cds-aichat-prompt-line-shell">
+            <PromptLine
+              @rich={{true}}
+              @extensions={{extensions}}
+              @onReady={{onReady}}
+            />
+            <PromptLineAutocomplete
+              @promptLine={{api.current}}
+              @mention={{mentionConfig}}
+            />
           </div>
-          <button type='button' data-test-outside>Outside</button>
+          <button type="button" data-test-outside>Outside</button>
         </div>
       </template>,
     );
@@ -461,9 +608,16 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
 
     await render(
       <template>
-        <div class='cds-aichat-prompt-line-shell'>
-          <PromptLine @rich={{true}} @extensions={{extensions}} @onReady={{onReady}} />
-          <PromptLineAutocomplete @promptLine={{api.current}} @mention={{mentionConfig}} />
+        <div class="cds-aichat-prompt-line-shell">
+          <PromptLine
+            @rich={{true}}
+            @extensions={{extensions}}
+            @onReady={{onReady}}
+          />
+          <PromptLineAutocomplete
+            @promptLine={{api.current}}
+            @mention={{mentionConfig}}
+          />
         </div>
       </template>,
     );
@@ -472,9 +626,17 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
     api.current!.getEditor()!.commands.insertContent('@');
     await settled();
 
-    const groupTitles = findAll('.cds-aichat-autocomplete-item-group__title').map((el) => el.textContent?.trim());
+    const groupTitles = findAll(
+      '.cds-aichat-autocomplete-item-group__title',
+    ).map((el) => el.textContent?.trim());
     assert.deepEqual(groupTitles, ['People', 'Items']);
-    const itemLabels = findAll('.cds-aichat-autocomplete-item').map((el) => el.textContent?.trim());
-    assert.deepEqual(itemLabels, ['Bare', 'Alice', 'widget'], 'ungrouped items render first, then groups in first-occurrence order');
+    const itemLabels = findAll('.cds-aichat-autocomplete-item').map((el) =>
+      el.textContent?.trim(),
+    );
+    assert.deepEqual(
+      itemLabels,
+      ['Bare', 'Alice', 'widget'],
+      'ungrouped items render first, then groups in first-occurrence order',
+    );
   });
 });

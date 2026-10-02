@@ -7,7 +7,11 @@ module('Integration | Component | FormItem', (hooks) => {
   setupRenderingTest(hooks);
 
   test('should render a div with the correct class', async function (assert) {
-    await render(<template><FormItem>Form item content</FormItem></template>);
+    await render(
+      <template>
+        <FormItem>Form item content</FormItem>
+      </template>,
+    );
 
     assert.dom('div.cds--form-item').exists();
     assert.dom('div.cds--form-item').hasText('Form item content');
@@ -16,7 +20,7 @@ module('Integration | Component | FormItem', (hooks) => {
   test('should support a custom className via ...attributes', async function (assert) {
     await render(
       <template>
-        <FormItem class='custom-class'>Form item content</FormItem>
+        <FormItem class="custom-class">Form item content</FormItem>
       </template>,
     );
 

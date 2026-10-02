@@ -12,7 +12,10 @@ import { htmlSafe } from '@ember/template';
 import type { SafeString } from '@ember/template';
 import { modifier as eModifier } from 'ember-modifier';
 import { registerDestructor } from '@ember/destroyable';
-import { detectVideoSource, VideoSource } from './-video-player/url-detector.ts';
+import {
+  detectVideoSource,
+  VideoSource,
+} from './-video-player/url-detector.ts';
 import type {
   BaseProvider,
   SubtitleTrack,
@@ -223,7 +226,8 @@ export default class VideoPlayer extends Component<VideoPlayerSignature> {
     this.isLoading = true;
     this.hasError = false;
     this.isReady = false;
-    this.statusMessage = this.args.loadingStatusMessage ?? 'Video player loading';
+    this.statusMessage =
+      this.args.loadingStatusMessage ?? 'Video player loading';
 
     this.loadingTimeout = setTimeout(() => {
       if (generation === this.loadGeneration && this.isLoading) {
@@ -317,30 +321,32 @@ export default class VideoPlayer extends Component<VideoPlayerSignature> {
 
   <template>
     <div
-      class='cds-aichat-video-player'
-      role='region'
+      class="cds-aichat-video-player"
+      role="region"
       aria-label={{this.ariaLabel}}
       ...attributes
     >
       {{#if this.statusMessage}}
         <div
-          class='cds-aichat-video-player__status'
-          role='status'
-          aria-live='polite'
-          aria-atomic='true'
+          class="cds-aichat-video-player__status"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
         >{{this.statusMessage}}</div>
       {{/if}}
       <div
-        class='cds-aichat-video-player__container'
+        class="cds-aichat-video-player__container"
         style={{this.containerStyle}}
       >
         {{#if this.hasError}}
           <div
-            class='cds-aichat-video-player__error'
-            role='alert'
-            aria-live='assertive'
+            class="cds-aichat-video-player__error"
+            role="alert"
+            aria-live="assertive"
           >
-            <p class='cds-aichat-video-player__error-message'>{{this.errorMessage}}</p>
+            <p
+              class="cds-aichat-video-player__error-message"
+            >{{this.errorMessage}}</p>
           </div>
         {{/if}}
         <div

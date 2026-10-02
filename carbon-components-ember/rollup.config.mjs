@@ -68,7 +68,10 @@ function astroturf() {
                 },
                 getRequirePath(hostFile, _absoluteFilePath, identifier) {
                   return (
-                    './' + basename(hostFile, '.gts') + identifier + '.module.scss'
+                    './' +
+                    basename(hostFile, '.gts') +
+                    identifier +
+                    '.module.scss'
                   );
                 },
               },
@@ -81,7 +84,9 @@ function astroturf() {
           this.emitFile({
             source: style.value,
             type: 'asset',
-            fileName: style.absoluteFilePath.replace(process.cwd(), '').slice(1),
+            fileName: style.absoluteFilePath
+              .replace(process.cwd(), '')
+              .slice(1),
           });
         }
         return { code: transformedCode, map };

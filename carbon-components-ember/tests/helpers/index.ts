@@ -4,8 +4,12 @@ export {
   setupTest,
 } from 'ember-qunit';
 
-function styleSheetToObject(sheet: CSSStyleDeclaration): Record<string, string> {
-  return Object.fromEntries(Object.keys(sheet).map(key => [key, sheet.getPropertyValue(key)]))
+function styleSheetToObject(
+  sheet: CSSStyleDeclaration,
+): Record<string, string> {
+  return Object.fromEntries(
+    Object.keys(sheet).map((key) => [key, sheet.getPropertyValue(key)]),
+  );
 }
 
 let currentElementIndex = 0;
@@ -16,20 +20,22 @@ function getAllElementComputedStyles(el: Element) {
   }
   element.dataset.index = currentElementIndex.toString();
   currentElementIndex += 1;
-  const styles = [{
-    element,
-    pseudo: '',
-    styles: styleSheetToObject(window.getComputedStyle(element))
-  }];
+  const styles = [
+    {
+      element,
+      pseudo: '',
+      styles: styleSheetToObject(window.getComputedStyle(element)),
+    },
+  ];
   styles.push({
     element,
     pseudo: ':before',
-    styles: styleSheetToObject(window.getComputedStyle(element, ':before'))
+    styles: styleSheetToObject(window.getComputedStyle(element, ':before')),
   });
   styles.push({
     element,
     pseudo: ':after',
-    styles: styleSheetToObject(window.getComputedStyle(element, ':after'))
+    styles: styleSheetToObject(window.getComputedStyle(element, ':after')),
   });
   for (const child of element.children) {
     getAllElementComputedStyles(child).forEach((style) => styles.push(style));
@@ -37,7 +43,10 @@ function getAllElementComputedStyles(el: Element) {
   return styles;
 }
 
-function getChangedStyles(elementStyles1: Record<string, string>, elementStyles2: Record<string, string>) {
+function getChangedStyles(
+  elementStyles1: Record<string, string>,
+  elementStyles2: Record<string, string>,
+) {
   const changed: Record<string, string | undefined> = {};
   for (const [key, value] of Object.entries(elementStyles1)) {
     if (elementStyles2[key] !== value) {
@@ -50,10 +59,10 @@ function getChangedStyles(elementStyles1: Record<string, string>, elementStyles2
   return changed;
 }
 
-function elementRepresentation(element: Element, pseudo='') {
-  let rep = '<'  + element.tagName.toLowerCase() + pseudo;
+function elementRepresentation(element: Element, pseudo = '') {
+  let rep = '<' + element.tagName.toLowerCase() + pseudo;
   for (const attribute of element.attributes) {
-    const v = attribute.value.replace(/-ember[0-9]+/, '-ember123')
+    const v = attribute.value.replace(/-ember[0-9]+/, '-ember123');
     rep += ` ${attribute.name}="${v}"`;
   }
   rep += '>';
@@ -61,14 +70,24 @@ function elementRepresentation(element: Element, pseudo='') {
   return rep;
 }
 
-function getStylesDiff(styles: {pseudo: string; element: HTMLElement; styles: Record<string, string>}[], withCarbonStyles: {element: HTMLElement; styles: Record<string, string>}[]) {
+function getStylesDiff(
+  styles: {
+    pseudo: string;
+    element: HTMLElement;
+    styles: Record<string, string>;
+  }[],
+  withCarbonStyles: { element: HTMLElement; styles: Record<string, string> }[],
+) {
   const stylesDiff: [string, Record<string, string | undefined>][] = [];
   for (let i = 0; i < styles.length; i++) {
     const style = styles[i]!;
     const withCarbonStyle = withCarbonStyles[i]!;
     const diff = getChangedStyles(style.styles, withCarbonStyle.styles);
     if (Object.keys(diff).length > 0) {
-      stylesDiff.push([elementRepresentation(style.element, style.pseudo), diff]);
+      stylesDiff.push([
+        elementRepresentation(style.element, style.pseudo),
+        diff,
+      ]);
     }
   }
   return stylesDiff;
@@ -90,4 +109,9 @@ export async function waitForAnimationFrame() {
   });
 }
 
-export { getAllElementComputedStyles, getChangedStyles, elementRepresentation, getStylesDiff };
+export {
+  getAllElementComputedStyles,
+  getChangedStyles,
+  elementRepresentation,
+  getStylesDiff,
+};

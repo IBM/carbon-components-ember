@@ -45,18 +45,22 @@ export default class AiChatCardSteps extends Component<AiChatCardStepsSignature>
   }
 
   <template>
-    <div class='cds-aichat-card-steps' ...attributes>
+    <div class="cds-aichat-card-steps" ...attributes>
       {{#each this.steps as |step|}}
-        <div class='cds-aichat-card-step'>
+        <div class="cds-aichat-card-step">
           {{#if step.kind}}
-            <div class='cds-aichat-card-step-indicator'>
-              {{#if (eq step.kind 'in-progress')}}
-                <Loading @small={{true}} @withOverlay={{false}} @description='Loading' />
+            <div class="cds-aichat-card-step-indicator">
+              {{#if (eq step.kind "in-progress")}}
+                <Loading
+                  @small={{true}}
+                  @withOverlay={{false}}
+                  @description="Loading"
+                />
                 {{step.label}}
               {{else}}
                 <IconIndicator
                   @kind={{step.kind}}
-                  @label={{if step.label step.label ''}}
+                  @label={{if step.label step.label ""}}
                   @size={{16}}
                 />
               {{/if}}
@@ -64,10 +68,10 @@ export default class AiChatCardSteps extends Component<AiChatCardStepsSignature>
           {{else}}
             {{step.label}}
           {{/if}}
-          <div class='cds-aichat-card-step-content'>
-            <p class='cds-aichat-card-step-title'>{{step.title}}</p>
+          <div class="cds-aichat-card-step-content">
+            <p class="cds-aichat-card-step-title">{{step.title}}</p>
             {{#if step.description}}
-              <div class='cds-aichat-card-step-description'>
+              <div class="cds-aichat-card-step-description">
                 {{step.description}}
               </div>
             {{/if}}

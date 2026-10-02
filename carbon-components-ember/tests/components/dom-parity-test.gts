@@ -142,7 +142,10 @@ function assertDomParity(
 ) {
   const variantFixture = fixture.variants[variant];
   if (!variantFixture) {
-    assert.ok(false, `${fixture.component}: no fixture recorded for variant "${variant}"`);
+    assert.ok(
+      false,
+      `${fixture.component}: no fixture recorded for variant "${variant}"`,
+    );
     return;
   }
 
@@ -154,9 +157,12 @@ function assertDomParity(
   const emberTree = normalizeElement(rootElement, scope ?? rootElement);
   const differences = diffNormalized(variantFixture.dom, emberTree);
   const known =
-    (knownDifferences as Record<string, Array<{ path: string; reason: string; variant?: string }>>)[
-      fixture.component
-    ] ?? [];
+    (
+      knownDifferences as Record<
+        string,
+        Array<{ path: string; reason: string; variant?: string }>
+      >
+    )[fixture.component] ?? [];
   const unexpected = applyKnownDifferences(differences, known, variant);
 
   assert.deepEqual(
@@ -174,7 +180,11 @@ function assertDomParity(
  * untested - this is a static list, not populated at test-run time, so it
  * stays correct even when the suite is filtered down to a single test.
  */
-function assertFullCoverage(assert: Assert, fixture: ComponentFixture, coveredVariants: string[]) {
+function assertFullCoverage(
+  assert: Assert,
+  fixture: ComponentFixture,
+  coveredVariants: string[],
+) {
   assert.deepEqual(
     Object.keys(fixture.variants).sort(),
     [...coveredVariants].sort(),
@@ -193,82 +203,127 @@ module('DOM parity | Carbon React', function (hooks) {
     test('primary-lg', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Button @type='primary' @size='lg'>Button</Button>
+          <Button @type="primary" @size="lg">Button</Button>
         </template>,
       );
-      assertDomParity(assert, buttonFixture, 'primary-lg', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'primary-lg',
+        this.element.firstElementChild,
+      );
     });
 
     test('secondary', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Button @type='secondary' @size='md'>Button</Button>
+          <Button @type="secondary" @size="md">Button</Button>
         </template>,
       );
-      assertDomParity(assert, buttonFixture, 'secondary', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'secondary',
+        this.element.firstElementChild,
+      );
     });
 
     test('danger', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Button @type='danger' @size='md'>Button</Button>
+          <Button @type="danger" @size="md">Button</Button>
         </template>,
       );
-      assertDomParity(assert, buttonFixture, 'danger', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'danger',
+        this.element.firstElementChild,
+      );
     });
 
     test('tertiary', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Button @tertiary={{true}} @size='md'>Button</Button>
+          <Button @tertiary={{true}} @size="md">Button</Button>
         </template>,
       );
-      assertDomParity(assert, buttonFixture, 'tertiary', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'tertiary',
+        this.element.firstElementChild,
+      );
     });
 
     test('ghost', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Button @ghost={{true}} @size='md'>Button</Button>
+          <Button @ghost={{true}} @size="md">Button</Button>
         </template>,
       );
-      assertDomParity(assert, buttonFixture, 'ghost', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'ghost',
+        this.element.firstElementChild,
+      );
     });
 
     test('size-sm', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Button @type='primary' @size='sm'>Button</Button>
+          <Button @type="primary" @size="sm">Button</Button>
         </template>,
       );
-      assertDomParity(assert, buttonFixture, 'size-sm', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'size-sm',
+        this.element.firstElementChild,
+      );
     });
 
     test('size-md', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Button @type='primary' @size='md'>Button</Button>
+          <Button @type="primary" @size="md">Button</Button>
         </template>,
       );
-      assertDomParity(assert, buttonFixture, 'size-md', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'size-md',
+        this.element.firstElementChild,
+      );
     });
 
     test('size-xl', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Button @type='primary' @size='xl'>Button</Button>
+          <Button @type="primary" @size="xl">Button</Button>
         </template>,
       );
-      assertDomParity(assert, buttonFixture, 'size-xl', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'size-xl',
+        this.element.firstElementChild,
+      );
     });
 
     test('disabled', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Button @type='primary' @size='md' @disabled={{true}}>Button</Button>
+          <Button @type="primary" @size="md" @disabled={{true}}>Button</Button>
         </template>,
       );
-      assertDomParity(assert, buttonFixture, 'disabled', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -304,40 +359,69 @@ module('DOM parity | Carbon React', function (hooks) {
 
     for (const type of types) {
       test(type, async function (this: RenderingTestContext, assert) {
-        await render(<template><Tag @type={{type}}>Tag content</Tag></template>);
-        assertDomParity(assert, tagFixture, type, this.element.firstElementChild);
+        await render(
+          <template>
+            <Tag @type={{type}}>Tag content</Tag>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tagFixture,
+          type,
+          this.element.firstElementChild,
+        );
       });
     }
 
     test('disabled', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tag @type='gray' @disabled={{true}}>Tag content</Tag>
+          <Tag @type="gray" @disabled={{true}}>Tag content</Tag>
         </template>,
       );
-      assertDomParity(assert, tagFixture, 'disabled', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        tagFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
     });
 
     test('size-sm', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tag @type='gray' @size='sm'>Tag content</Tag>
+          <Tag @type="gray" @size="sm">Tag content</Tag>
         </template>,
       );
-      assertDomParity(assert, tagFixture, 'size-sm', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        tagFixture,
+        'size-sm',
+        this.element.firstElementChild,
+      );
     });
 
     test('size-lg', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tag @type='gray' @size='lg'>Tag content</Tag>
+          <Tag @type="gray" @size="lg">Tag content</Tag>
         </template>,
       );
-      assertDomParity(assert, tagFixture, 'size-lg', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        tagFixture,
+        'size-lg',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
-      assertFullCoverage(assert, tagFixture, [...types, 'disabled', 'size-sm', 'size-lg']);
+      assertFullCoverage(assert, tagFixture, [
+        ...types,
+        'disabled',
+        'size-sm',
+        'size-lg',
+      ]);
     });
   });
 
@@ -346,20 +430,25 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template>
           <Loading
-            @description='Active loading indicator'
+            @description="Active loading indicator"
             @withOverlay={{true}}
             @active={{true}}
           />
         </template>,
       );
-      assertDomParity(assert, loadingFixture, 'overlay-active', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        loadingFixture,
+        'overlay-active',
+        this.element.firstElementChild,
+      );
     });
 
     test('overlay-active-small', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <Loading
-            @description='Active loading indicator'
+            @description="Active loading indicator"
             @withOverlay={{true}}
             @active={{true}}
             @small={{true}}
@@ -378,20 +467,25 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template>
           <Loading
-            @description='Stopped loading indicator'
+            @description="Stopped loading indicator"
             @withOverlay={{true}}
             @active={{false}}
           />
         </template>,
       );
-      assertDomParity(assert, loadingFixture, 'overlay-inactive', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        loadingFixture,
+        'overlay-inactive',
+        this.element.firstElementChild,
+      );
     });
 
     test('overlay-inactive-small', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <Loading
-            @description='Stopped loading indicator'
+            @description="Stopped loading indicator"
             @withOverlay={{true}}
             @active={{false}}
             @small={{true}}
@@ -410,20 +504,25 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template>
           <Loading
-            @description='Active loading indicator'
+            @description="Active loading indicator"
             @withOverlay={{false}}
             @active={{true}}
           />
         </template>,
       );
-      assertDomParity(assert, loadingFixture, 'plain-active', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        loadingFixture,
+        'plain-active',
+        this.element.firstElementChild,
+      );
     });
 
     test('plain-active-small', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <Loading
-            @description='Active loading indicator'
+            @description="Active loading indicator"
             @withOverlay={{false}}
             @active={{true}}
             @small={{true}}
@@ -442,20 +541,25 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template>
           <Loading
-            @description='Stopped loading indicator'
+            @description="Stopped loading indicator"
             @withOverlay={{false}}
             @active={{false}}
           />
         </template>,
       );
-      assertDomParity(assert, loadingFixture, 'plain-inactive', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        loadingFixture,
+        'plain-inactive',
+        this.element.firstElementChild,
+      );
     });
 
     test('plain-inactive-small', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <Loading
-            @description='Stopped loading indicator'
+            @description="Stopped loading indicator"
             @withOverlay={{false}}
             @active={{false}}
             @small={{true}}
@@ -473,10 +577,19 @@ module('DOM parity | Carbon React', function (hooks) {
     test('inline', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Loading @description='Active loading indicator' @inline={{true}} @active={{true}} />
+          <Loading
+            @description="Active loading indicator"
+            @inline={{true}}
+            @active={{true}}
+          />
         </template>,
       );
-      assertDomParity(assert, loadingFixture, 'inline', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        loadingFixture,
+        'inline',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -496,71 +609,115 @@ module('DOM parity | Carbon React', function (hooks) {
 
   module('Link', function () {
     test('default', async function (this: RenderingTestContext, assert) {
-      await render(<template><Link @href='/about'>Link text</Link></template>);
-      assertDomParity(assert, linkFixture, 'default', this.element.firstElementChild);
+      await render(
+        <template>
+          <Link @href="/about">Link text</Link>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        linkFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('disabled', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Link @href='/about' @disabled={{true}}>Link text</Link>
+          <Link @href="/about" @disabled={{true}}>Link text</Link>
         </template>,
       );
-      assertDomParity(assert, linkFixture, 'disabled', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        linkFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
     });
 
     test('inline', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Link @href='/about' @inline={{true}}>Link text</Link>
+          <Link @href="/about" @inline={{true}}>Link text</Link>
         </template>,
       );
-      assertDomParity(assert, linkFixture, 'inline', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        linkFixture,
+        'inline',
+        this.element.firstElementChild,
+      );
     });
 
     test('visited', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Link @href='/about' @visited={{true}}>Link text</Link>
+          <Link @href="/about" @visited={{true}}>Link text</Link>
         </template>,
       );
-      assertDomParity(assert, linkFixture, 'visited', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        linkFixture,
+        'visited',
+        this.element.firstElementChild,
+      );
     });
 
     test('size-sm', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Link @href='/about' @size='sm'>Link text</Link>
+          <Link @href="/about" @size="sm">Link text</Link>
         </template>,
       );
-      assertDomParity(assert, linkFixture, 'size-sm', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        linkFixture,
+        'size-sm',
+        this.element.firstElementChild,
+      );
     });
 
     test('size-lg', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Link @href='/about' @size='lg'>Link text</Link>
+          <Link @href="/about" @size="lg">Link text</Link>
         </template>,
       );
-      assertDomParity(assert, linkFixture, 'size-lg', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        linkFixture,
+        'size-lg',
+        this.element.firstElementChild,
+      );
     });
 
     test('target-blank', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Link @href='/about' @target='_blank'>Link text</Link>
+          <Link @href="/about" @target="_blank">Link text</Link>
         </template>,
       );
-      assertDomParity(assert, linkFixture, 'target-blank', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        linkFixture,
+        'target-blank',
+        this.element.firstElementChild,
+      );
     });
 
     test('as-button', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Link @as='button' @href='/about'>Link text</Link>
+          <Link @as="button" @href="/about">Link text</Link>
         </template>,
       );
-      assertDomParity(assert, linkFixture, 'as-button', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        linkFixture,
+        'as-button',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -587,7 +744,12 @@ module('DOM parity | Carbon React', function (hooks) {
           </UnorderedList>
         </template>,
       );
-      assertDomParity(assert, unorderedListFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        unorderedListFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('nested', async function (this: RenderingTestContext, assert) {
@@ -599,7 +761,12 @@ module('DOM parity | Carbon React', function (hooks) {
           </UnorderedList>
         </template>,
       );
-      assertDomParity(assert, unorderedListFixture, 'nested', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        unorderedListFixture,
+        'nested',
+        this.element.firstElementChild,
+      );
     });
 
     test('expressive', async function (this: RenderingTestContext, assert) {
@@ -611,11 +778,20 @@ module('DOM parity | Carbon React', function (hooks) {
           </UnorderedList>
         </template>,
       );
-      assertDomParity(assert, unorderedListFixture, 'expressive', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        unorderedListFixture,
+        'expressive',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
-      assertFullCoverage(assert, unorderedListFixture, ['default', 'nested', 'expressive']);
+      assertFullCoverage(assert, unorderedListFixture, [
+        'default',
+        'nested',
+        'expressive',
+      ]);
     });
   });
 
@@ -629,7 +805,12 @@ module('DOM parity | Carbon React', function (hooks) {
           </OrderedList>
         </template>,
       );
-      assertDomParity(assert, orderedListFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        orderedListFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('nested', async function (this: RenderingTestContext, assert) {
@@ -641,7 +822,12 @@ module('DOM parity | Carbon React', function (hooks) {
           </OrderedList>
         </template>,
       );
-      assertDomParity(assert, orderedListFixture, 'nested', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        orderedListFixture,
+        'nested',
+        this.element.firstElementChild,
+      );
     });
 
     test('expressive', async function (this: RenderingTestContext, assert) {
@@ -653,7 +839,12 @@ module('DOM parity | Carbon React', function (hooks) {
           </OrderedList>
         </template>,
       );
-      assertDomParity(assert, orderedListFixture, 'expressive', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        orderedListFixture,
+        'expressive',
+        this.element.firstElementChild,
+      );
     });
 
     test('native', async function (this: RenderingTestContext, assert) {
@@ -665,7 +856,12 @@ module('DOM parity | Carbon React', function (hooks) {
           </OrderedList>
         </template>,
       );
-      assertDomParity(assert, orderedListFixture, 'native', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        orderedListFixture,
+        'native',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -680,8 +876,17 @@ module('DOM parity | Carbon React', function (hooks) {
 
   module('ListItem', function () {
     test('default', async function (this: RenderingTestContext, assert) {
-      await render(<template><ListItem>Item content</ListItem></template>);
-      assertDomParity(assert, listItemFixture, 'default', this.element.firstElementChild);
+      await render(
+        <template>
+          <ListItem>Item content</ListItem>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        listItemFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -695,8 +900,17 @@ module('DOM parity | Carbon React', function (hooks) {
   // children instead of nesting Grid components inside each other.
   module('Grid', function () {
     test('default', async function (this: RenderingTestContext, assert) {
-      await render(<template><Grid>Grid content</Grid></template>);
-      assertDomParity(assert, gridFixture, 'default', this.element.firstElementChild);
+      await render(
+        <template>
+          <Grid>Grid content</Grid>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        gridFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('condensed', async function (this: RenderingTestContext, assert) {
@@ -705,7 +919,12 @@ module('DOM parity | Carbon React', function (hooks) {
           <Grid @condensed={{true}}>Grid content</Grid>
         </template>,
       );
-      assertDomParity(assert, gridFixture, 'condensed', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        gridFixture,
+        'condensed',
+        this.element.firstElementChild,
+      );
     });
 
     test('narrow', async function (this: RenderingTestContext, assert) {
@@ -714,7 +933,12 @@ module('DOM parity | Carbon React', function (hooks) {
           <Grid @narrow={{true}}>Grid content</Grid>
         </template>,
       );
-      assertDomParity(assert, gridFixture, 'narrow', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        gridFixture,
+        'narrow',
+        this.element.firstElementChild,
+      );
     });
 
     test('full-width', async function (this: RenderingTestContext, assert) {
@@ -723,7 +947,12 @@ module('DOM parity | Carbon React', function (hooks) {
           <Grid @fullWidth={{true}}>Grid content</Grid>
         </template>,
       );
-      assertDomParity(assert, gridFixture, 'full-width', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        gridFixture,
+        'full-width',
+        this.element.firstElementChild,
+      );
     });
 
     test('with-row-gap', async function (this: RenderingTestContext, assert) {
@@ -732,7 +961,12 @@ module('DOM parity | Carbon React', function (hooks) {
           <Grid @withRowGap={{true}}>Grid content</Grid>
         </template>,
       );
-      assertDomParity(assert, gridFixture, 'with-row-gap', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        gridFixture,
+        'with-row-gap',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -748,8 +982,17 @@ module('DOM parity | Carbon React', function (hooks) {
 
   module('GridRow', function () {
     test('default', async function (this: RenderingTestContext, assert) {
-      await render(<template><GridRow>Row content</GridRow></template>);
-      assertDomParity(assert, gridRowFixture, 'default', this.element.firstElementChild);
+      await render(
+        <template>
+          <GridRow>Row content</GridRow>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        gridRowFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('condensed', async function (this: RenderingTestContext, assert) {
@@ -758,7 +1001,12 @@ module('DOM parity | Carbon React', function (hooks) {
           <GridRow @condensed={{true}}>Row content</GridRow>
         </template>,
       );
-      assertDomParity(assert, gridRowFixture, 'condensed', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        gridRowFixture,
+        'condensed',
+        this.element.firstElementChild,
+      );
     });
 
     test('narrow', async function (this: RenderingTestContext, assert) {
@@ -767,18 +1015,36 @@ module('DOM parity | Carbon React', function (hooks) {
           <GridRow @narrow={{true}}>Row content</GridRow>
         </template>,
       );
-      assertDomParity(assert, gridRowFixture, 'narrow', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        gridRowFixture,
+        'narrow',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
-      assertFullCoverage(assert, gridRowFixture, ['default', 'condensed', 'narrow']);
+      assertFullCoverage(assert, gridRowFixture, [
+        'default',
+        'condensed',
+        'narrow',
+      ]);
     });
   });
 
   module('GridColumn', function () {
     test('default', async function (this: RenderingTestContext, assert) {
-      await render(<template><GridColumn>Column content</GridColumn></template>);
-      assertDomParity(assert, gridColumnFixture, 'default', this.element.firstElementChild);
+      await render(
+        <template>
+          <GridColumn>Column content</GridColumn>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        gridColumnFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('sm', async function (this: RenderingTestContext, assert) {
@@ -787,7 +1053,12 @@ module('DOM parity | Carbon React', function (hooks) {
           <GridColumn @sm={{2}}>Column content</GridColumn>
         </template>,
       );
-      assertDomParity(assert, gridColumnFixture, 'sm', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        gridColumnFixture,
+        'sm',
+        this.element.firstElementChild,
+      );
     });
 
     test('multi-breakpoint', async function (this: RenderingTestContext, assert) {
@@ -810,7 +1081,12 @@ module('DOM parity | Carbon React', function (hooks) {
           <GridColumn @lg={{true}}>Column content</GridColumn>
         </template>,
       );
-      assertDomParity(assert, gridColumnFixture, 'auto', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        gridColumnFixture,
+        'auto',
+        this.element.firstElementChild,
+      );
     });
 
     test('offset', async function (this: RenderingTestContext, assert) {
@@ -819,7 +1095,12 @@ module('DOM parity | Carbon React', function (hooks) {
           <GridColumn @lg={{hash span=4 offset=2}}>Column content</GridColumn>
         </template>,
       );
-      assertDomParity(assert, gridColumnFixture, 'offset', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        gridColumnFixture,
+        'offset',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -835,8 +1116,17 @@ module('DOM parity | Carbon React', function (hooks) {
 
   module('GridColumnHang', function () {
     test('default', async function (this: RenderingTestContext, assert) {
-      await render(<template><GridColumnHang>Hang content</GridColumnHang></template>);
-      assertDomParity(assert, gridColumnHangFixture, 'default', this.element.firstElementChild);
+      await render(
+        <template>
+          <GridColumnHang>Hang content</GridColumnHang>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        gridColumnHangFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -848,7 +1138,14 @@ module('DOM parity | Carbon React', function (hooks) {
   // the `toast` and `inline` displays are covered (not `actionable`) and
   // why `title`/`text`/`caption` are always given non-empty values.
   module('Notification', function () {
-    const kinds = ['error', 'info', 'info-square', 'success', 'warning', 'warning-alt'] as const;
+    const kinds = [
+      'error',
+      'info',
+      'info-square',
+      'success',
+      'warning',
+      'warning-alt',
+    ] as const;
 
     for (const kind of kinds) {
       test(`toast-${kind}`, async function (this: RenderingTestContext, assert) {
@@ -856,9 +1153,9 @@ module('DOM parity | Carbon React', function (hooks) {
           <template>
             <Notification
               @kind={{kind}}
-              @title='Notification title'
-              @text='Notification subtitle'
-              @caption='Notification caption'
+              @title="Notification title"
+              @text="Notification subtitle"
+              @caption="Notification caption"
             />
           </template>,
         );
@@ -866,7 +1163,9 @@ module('DOM parity | Carbon React', function (hooks) {
         // icon) and, like every icon in this addon, each loads its SVG
         // asynchronously via a TrackedPromise - settled() alone doesn't
         // wait for it, so wait for both real <svg>s to land before diffing.
-        await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
+        await waitUntil(
+          () => this.element.querySelectorAll('svg').length === 2,
+        );
         assertDomParity(
           assert,
           notificationFixture,
@@ -879,14 +1178,16 @@ module('DOM parity | Carbon React', function (hooks) {
         await render(
           <template>
             <Notification
-              @display='inline'
+              @display="inline"
               @kind={{kind}}
-              @title='Notification title'
-              @text='Notification subtitle'
+              @title="Notification title"
+              @text="Notification subtitle"
             />
           </template>,
         );
-        await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
+        await waitUntil(
+          () => this.element.querySelectorAll('svg').length === 2,
+        );
         assertDomParity(
           assert,
           notificationFixture,
@@ -914,7 +1215,12 @@ module('DOM parity | Carbon React', function (hooks) {
           <Tile><:content>Tile content</:content></Tile>
         </template>,
       );
-      assertDomParity(assert, tileFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        tileFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -929,7 +1235,12 @@ module('DOM parity | Carbon React', function (hooks) {
           <Tile @clickable={{true}}><:content>Clickable tile content</:content></Tile>
         </template>,
       );
-      assertDomParity(assert, clickableTileFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        clickableTileFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -939,33 +1250,56 @@ module('DOM parity | Carbon React', function (hooks) {
 
   module('RadioTile', function () {
     test('default', async function (this: RenderingTestContext, assert) {
-      await render(<template><RadioTile @value='a'>Radio tile content</RadioTile></template>);
+      await render(
+        <template>
+          <RadioTile @value="a">Radio tile content</RadioTile>
+        </template>,
+      );
       await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
-      assertDomParity(assert, radioTileFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        radioTileFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('checked', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <RadioTile @value='a' @checked={{true}}>Radio tile content</RadioTile>
+          <RadioTile @value="a" @checked={{true}}>Radio tile content</RadioTile>
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
-      assertDomParity(assert, radioTileFixture, 'checked', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        radioTileFixture,
+        'checked',
+        this.element.firstElementChild,
+      );
     });
 
     test('disabled', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <RadioTile @value='a' @disabled={{true}}>Radio tile content</RadioTile>
+          <RadioTile @value="a" @disabled={{true}}>Radio tile content</RadioTile>
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
-      assertDomParity(assert, radioTileFixture, 'disabled', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        radioTileFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
-      assertFullCoverage(assert, radioTileFixture, ['default', 'checked', 'disabled']);
+      assertFullCoverage(assert, radioTileFixture, [
+        'default',
+        'checked',
+        'disabled',
+      ]);
     });
   });
 
@@ -973,14 +1307,24 @@ module('DOM parity | Carbon React', function (hooks) {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <TileGroup @name='tiles' @legend='Choose one' @defaultSelected='a' as |RadioTileItem|>
-            <RadioTileItem @value='a'>Option A</RadioTileItem>
-            <RadioTileItem @value='b'>Option B</RadioTileItem>
+          <TileGroup
+            @name="tiles"
+            @legend="Choose one"
+            @defaultSelected="a"
+            as |RadioTileItem|
+          >
+            <RadioTileItem @value="a">Option A</RadioTileItem>
+            <RadioTileItem @value="b">Option B</RadioTileItem>
           </TileGroup>
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
-      assertDomParity(assert, tileGroupFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        tileGroupFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -996,7 +1340,12 @@ module('DOM parity | Carbon React', function (hooks) {
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
-      assertDomParity(assert, selectableTileFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        selectableTileFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -1009,38 +1358,56 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template>
           <Tile @expandable={{true}}>
-            <:above><button type='button'>Above content</button></:above>
+            <:above><button type="button">Above content</button></:above>
             <:below>Below content</:below>
           </Tile>
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
-      assertDomParity(assert, expandableTileFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        expandableTileFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('expanded', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <Tile @expandable={{true}}>
-            <:above><button type='button'>Above content</button></:above>
+            <:above><button type="button">Above content</button></:above>
             <:below>Below content</:below>
           </Tile>
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
       await click('.cds--tile__chevron');
-      assertDomParity(assert, expandableTileFixture, 'expanded', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        expandableTileFixture,
+        'expanded',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
-      assertFullCoverage(assert, expandableTileFixture, ['default', 'expanded']);
+      assertFullCoverage(assert, expandableTileFixture, [
+        'default',
+        'expanded',
+      ]);
     });
   });
 
   module('SkeletonIcon', function () {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(<template><SkeletonIcon /></template>);
-      assertDomParity(assert, skeletonIconFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        skeletonIconFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -1067,22 +1434,39 @@ module('DOM parity | Carbon React', function (hooks) {
   module('SkeletonText', function () {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(<template><SkeletonText /></template>);
-      assertDomParity(assert, skeletonTextFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        skeletonTextFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('heading', async function (this: RenderingTestContext, assert) {
       await render(<template><SkeletonText @heading={{true}} /></template>);
-      assertDomParity(assert, skeletonTextFixture, 'heading', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        skeletonTextFixture,
+        'heading',
+        this.element.firstElementChild,
+      );
     });
 
     test('paragraph', async function (this: RenderingTestContext, assert) {
       await render(<template><SkeletonText @paragraph={{true}} /></template>);
-      assertDomParity(assert, skeletonTextFixture, 'paragraph', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        skeletonTextFixture,
+        'paragraph',
+        this.element.firstElementChild,
+      );
     });
 
     test('paragraph-line-count', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><SkeletonText @paragraph={{true}} @lineCount={{5}} /></template>,
+        <template>
+          <SkeletonText @paragraph={{true}} @lineCount={{5}} />
+        </template>,
       );
       assertDomParity(
         assert,
@@ -1094,7 +1478,9 @@ module('DOM parity | Carbon React', function (hooks) {
 
     test('paragraph-width-px', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><SkeletonText @paragraph={{true}} @width='300px' /></template>,
+        <template>
+          <SkeletonText @paragraph={{true}} @width="300px" />
+        </template>,
       );
       assertDomParity(
         assert,
@@ -1118,11 +1504,18 @@ module('DOM parity | Carbon React', function (hooks) {
   module('TextAreaSkeleton', function () {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(<template><TextAreaSkeleton /></template>);
-      assertDomParity(assert, textAreaSkeletonFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        textAreaSkeletonFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('hide-label', async function (this: RenderingTestContext, assert) {
-      await render(<template><TextAreaSkeleton @hideLabel={{true}} /></template>);
+      await render(
+        <template><TextAreaSkeleton @hideLabel={{true}} /></template>,
+      );
       assertDomParity(
         assert,
         textAreaSkeletonFixture,
@@ -1132,23 +1525,38 @@ module('DOM parity | Carbon React', function (hooks) {
     });
 
     test('every fixture variant is covered', function (assert) {
-      assertFullCoverage(assert, textAreaSkeletonFixture, ['default', 'hide-label']);
+      assertFullCoverage(assert, textAreaSkeletonFixture, [
+        'default',
+        'hide-label',
+      ]);
     });
   });
 
   module('SliderSkeleton', function () {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(<template><SliderSkeleton /></template>);
-      assertDomParity(assert, sliderSkeletonFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        sliderSkeletonFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('hide-label', async function (this: RenderingTestContext, assert) {
       await render(<template><SliderSkeleton @hideLabel={{true}} /></template>);
-      assertDomParity(assert, sliderSkeletonFixture, 'hide-label', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        sliderSkeletonFixture,
+        'hide-label',
+        this.element.firstElementChild,
+      );
     });
 
     test('two-handles', async function (this: RenderingTestContext, assert) {
-      await render(<template><SliderSkeleton @twoHandles={{true}} /></template>);
+      await render(
+        <template><SliderSkeleton @twoHandles={{true}} /></template>,
+      );
       assertDomParity(
         assert,
         sliderSkeletonFixture,
@@ -1158,7 +1566,11 @@ module('DOM parity | Carbon React', function (hooks) {
     });
 
     test('every fixture variant is covered', function (assert) {
-      assertFullCoverage(assert, sliderSkeletonFixture, ['default', 'hide-label', 'two-handles']);
+      assertFullCoverage(assert, sliderSkeletonFixture, [
+        'default',
+        'hide-label',
+        'two-handles',
+      ]);
     });
   });
 
@@ -1180,29 +1592,64 @@ module('DOM parity | Carbon React', function (hooks) {
 
   module('Checkbox', function () {
     test('default', async function (this: RenderingTestContext, assert) {
-      await render(<template><Checkbox @label='Checkbox label' /></template>);
-      assertDomParity(assert, checkboxFixture, 'default', this.element.firstElementChild);
+      await render(<template><Checkbox @label="Checkbox label" /></template>);
+      assertDomParity(
+        assert,
+        checkboxFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('checked', async function (this: RenderingTestContext, assert) {
-      await render(<template><Checkbox @label='Checkbox label' @checked={{true}} /></template>);
-      assertDomParity(assert, checkboxFixture, 'checked', this.element.firstElementChild);
+      await render(
+        <template>
+          <Checkbox @label="Checkbox label" @checked={{true}} />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        checkboxFixture,
+        'checked',
+        this.element.firstElementChild,
+      );
     });
 
     test('indeterminate', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><Checkbox @label='Checkbox label' @indeterminate={{true}} /></template>,
+        <template>
+          <Checkbox @label="Checkbox label" @indeterminate={{true}} />
+        </template>,
       );
-      assertDomParity(assert, checkboxFixture, 'indeterminate', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        checkboxFixture,
+        'indeterminate',
+        this.element.firstElementChild,
+      );
     });
 
     test('disabled', async function (this: RenderingTestContext, assert) {
-      await render(<template><Checkbox @label='Checkbox label' @disabled={{true}} /></template>);
-      assertDomParity(assert, checkboxFixture, 'disabled', this.element.firstElementChild);
+      await render(
+        <template>
+          <Checkbox @label="Checkbox label" @disabled={{true}} />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        checkboxFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
-      assertFullCoverage(assert, checkboxFixture, ['default', 'checked', 'indeterminate', 'disabled']);
+      assertFullCoverage(assert, checkboxFixture, [
+        'default',
+        'checked',
+        'indeterminate',
+        'disabled',
+      ]);
     });
   });
 
@@ -1210,48 +1657,67 @@ module('DOM parity | Carbon React', function (hooks) {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <RadioButton @name='radio-group' @value='a' @labelText='Radio label' />
+          <RadioButton
+            @name="radio-group"
+            @value="a"
+            @labelText="Radio label"
+          />
         </template>,
       );
-      assertDomParity(assert, radioButtonFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        radioButtonFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('checked', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <RadioButton
-            @name='radio-group'
-            @value='a'
-            @labelText='Radio label'
+            @name="radio-group"
+            @value="a"
+            @labelText="Radio label"
             @checked={{true}}
           />
         </template>,
       );
-      assertDomParity(assert, radioButtonFixture, 'checked', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        radioButtonFixture,
+        'checked',
+        this.element.firstElementChild,
+      );
     });
 
     test('disabled', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <RadioButton
-            @name='radio-group'
-            @value='a'
-            @labelText='Radio label'
+            @name="radio-group"
+            @value="a"
+            @labelText="Radio label"
             @disabled={{true}}
           />
         </template>,
       );
-      assertDomParity(assert, radioButtonFixture, 'disabled', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        radioButtonFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
     });
 
     test('label-position-left', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <RadioButton
-            @name='radio-group'
-            @value='a'
-            @labelText='Radio label'
-            @labelPosition='left'
+            @name="radio-group"
+            @value="a"
+            @labelText="Radio label"
+            @labelPosition="left"
           />
         </template>,
       );
@@ -1267,14 +1733,19 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template>
           <RadioButton
-            @name='radio-group'
-            @value='a'
-            @labelText='Radio label'
+            @name="radio-group"
+            @value="a"
+            @labelText="Radio label"
             @hideLabel={{true}}
           />
         </template>,
       );
-      assertDomParity(assert, radioButtonFixture, 'hide-label', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        radioButtonFixture,
+        'hide-label',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -1292,43 +1763,57 @@ module('DOM parity | Carbon React', function (hooks) {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <RadioButtonGroup @name='radio-group' @legendText='Choose one' as |Radio|>
-            <Radio @value='a' @labelText='Option A' />
-            <Radio @value='b' @labelText='Option B' />
+          <RadioButtonGroup
+            @name="radio-group"
+            @legendText="Choose one"
+            as |Radio|
+          >
+            <Radio @value="a" @labelText="Option A" />
+            <Radio @value="b" @labelText="Option B" />
           </RadioButtonGroup>
         </template>,
       );
-      assertDomParity(assert, radioButtonGroupFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        radioButtonGroupFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('vertical', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <RadioButtonGroup
-            @name='radio-group'
-            @legendText='Choose one'
-            @orientation='vertical'
+            @name="radio-group"
+            @legendText="Choose one"
+            @orientation="vertical"
             as |Radio|
           >
-            <Radio @value='a' @labelText='Option A' />
-            <Radio @value='b' @labelText='Option B' />
+            <Radio @value="a" @labelText="Option A" />
+            <Radio @value="b" @labelText="Option B" />
           </RadioButtonGroup>
         </template>,
       );
-      assertDomParity(assert, radioButtonGroupFixture, 'vertical', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        radioButtonGroupFixture,
+        'vertical',
+        this.element.firstElementChild,
+      );
     });
 
     test('label-position-left', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <RadioButtonGroup
-            @name='radio-group'
-            @legendText='Choose one'
-            @labelPosition='left'
+            @name="radio-group"
+            @legendText="Choose one"
+            @labelPosition="left"
             as |Radio|
           >
-            <Radio @value='a' @labelText='Option A' />
-            <Radio @value='b' @labelText='Option B' />
+            <Radio @value="a" @labelText="Option A" />
+            <Radio @value="b" @labelText="Option B" />
           </RadioButtonGroup>
         </template>,
       );
@@ -1344,30 +1829,35 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template>
           <RadioButtonGroup
-            @name='radio-group'
-            @legendText='Choose one'
+            @name="radio-group"
+            @legendText="Choose one"
             @disabled={{true}}
             as |Radio|
           >
-            <Radio @value='a' @labelText='Option A' />
-            <Radio @value='b' @labelText='Option B' />
+            <Radio @value="a" @labelText="Option A" />
+            <Radio @value="b" @labelText="Option B" />
           </RadioButtonGroup>
         </template>,
       );
-      assertDomParity(assert, radioButtonGroupFixture, 'disabled', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        radioButtonGroupFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
     });
 
     test('default-selected', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <RadioButtonGroup
-            @name='radio-group'
-            @legendText='Choose one'
-            @defaultSelected='a'
+            @name="radio-group"
+            @legendText="Choose one"
+            @defaultSelected="a"
             as |Radio|
           >
-            <Radio @value='a' @labelText='Option A' />
-            <Radio @value='b' @labelText='Option B' />
+            <Radio @value="a" @labelText="Option A" />
+            <Radio @value="b" @labelText="Option B" />
           </RadioButtonGroup>
         </template>,
       );
@@ -1398,113 +1888,214 @@ module('DOM parity | Carbon React', function (hooks) {
     // reflects `checked`, defaulting to false) needs a real `false`, not an
     // absent arg.
     test('default', async function (this: RenderingTestContext, assert) {
-      await render(<template><Toggle @name='Toggle label' @value={{false}} /></template>);
-      assertDomParity(assert, toggleFixture, 'default', this.element.firstElementChild);
+      await render(
+        <template><Toggle @name="Toggle label" @value={{false}} /></template>,
+      );
+      assertDomParity(
+        assert,
+        toggleFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('toggled', async function (this: RenderingTestContext, assert) {
-      await render(<template><Toggle @name='Toggle label' @value={{true}} /></template>);
-      assertDomParity(assert, toggleFixture, 'toggled', this.element.firstElementChild);
+      await render(
+        <template><Toggle @name="Toggle label" @value={{true}} /></template>,
+      );
+      assertDomParity(
+        assert,
+        toggleFixture,
+        'toggled',
+        this.element.firstElementChild,
+      );
     });
 
     test('disabled', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><Toggle @name='Toggle label' @value={{false}} @disabled={{true}} /></template>,
+        <template>
+          <Toggle @name="Toggle label" @value={{false}} @disabled={{true}} />
+        </template>,
       );
-      assertDomParity(assert, toggleFixture, 'disabled', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        toggleFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
     });
 
     test('size-sm', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><Toggle @name='Toggle label' @value={{false}} @size='sm' /></template>,
+        <template>
+          <Toggle @name="Toggle label" @value={{false}} @size="sm" />
+        </template>,
       );
-      assertDomParity(assert, toggleFixture, 'size-sm', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        toggleFixture,
+        'size-sm',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
-      assertFullCoverage(assert, toggleFixture, ['default', 'toggled', 'disabled', 'size-sm']);
+      assertFullCoverage(assert, toggleFixture, [
+        'default',
+        'toggled',
+        'disabled',
+        'size-sm',
+      ]);
     });
   });
 
   module('TextInput', function () {
     test('default', async function (this: RenderingTestContext, assert) {
-      await render(<template><TextInput @labelText='Text input label' /></template>);
-      assertDomParity(assert, textInputFixture, 'default', this.element.firstElementChild);
+      await render(
+        <template><TextInput @labelText="Text input label" /></template>,
+      );
+      assertDomParity(
+        assert,
+        textInputFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('with-value', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><TextInput @labelText='Text input label' @value='Hello' /></template>,
+        <template>
+          <TextInput @labelText="Text input label" @value="Hello" />
+        </template>,
       );
-      assertDomParity(assert, textInputFixture, 'with-value', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        textInputFixture,
+        'with-value',
+        this.element.firstElementChild,
+      );
     });
 
     test('disabled', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><TextInput @labelText='Text input label' @disabled={{true}} /></template>,
+        <template>
+          <TextInput @labelText="Text input label" @disabled={{true}} />
+        </template>,
       );
-      assertDomParity(assert, textInputFixture, 'disabled', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        textInputFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
     });
 
     test('invalid', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <TextInput
-            @labelText='Text input label'
+            @labelText="Text input label"
             @invalid={{true}}
-            @invalidText='Invalid value'
+            @invalidText="Invalid value"
           />
         </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, textInputFixture, 'invalid', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        textInputFixture,
+        'invalid',
+        this.element.firstElementChild,
+      );
     });
 
     test('warn', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <TextInput @labelText='Text input label' @warn={{true}} @warnText='Warning message' />
+          <TextInput
+            @labelText="Text input label"
+            @warn={{true}}
+            @warnText="Warning message"
+          />
         </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, textInputFixture, 'warn', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        textInputFixture,
+        'warn',
+        this.element.firstElementChild,
+      );
     });
 
     test('read-only', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><TextInput @labelText='Text input label' @readOnly={{true}} /></template>,
+        <template>
+          <TextInput @labelText="Text input label" @readOnly={{true}} />
+        </template>,
       );
-      assertDomParity(assert, textInputFixture, 'read-only', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        textInputFixture,
+        'read-only',
+        this.element.firstElementChild,
+      );
     });
 
     test('light', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><TextInput @labelText='Text input label' @light={{true}} /></template>,
+        <template>
+          <TextInput @labelText="Text input label" @light={{true}} />
+        </template>,
       );
-      assertDomParity(assert, textInputFixture, 'light', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        textInputFixture,
+        'light',
+        this.element.firstElementChild,
+      );
     });
 
     test('size-sm', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><TextInput @labelText='Text input label' @size='sm' /></template>,
+        <template>
+          <TextInput @labelText="Text input label" @size="sm" />
+        </template>,
       );
-      assertDomParity(assert, textInputFixture, 'size-sm', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        textInputFixture,
+        'size-sm',
+        this.element.firstElementChild,
+      );
     });
 
     test('size-lg', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><TextInput @labelText='Text input label' @size='lg' /></template>,
+        <template>
+          <TextInput @labelText="Text input label" @size="lg" />
+        </template>,
       );
-      assertDomParity(assert, textInputFixture, 'size-lg', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        textInputFixture,
+        'size-lg',
+        this.element.firstElementChild,
+      );
     });
 
     test('helper-text', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <TextInput @labelText='Text input label' @helperText='Helper text' />
+          <TextInput @labelText="Text input label" @helperText="Helper text" />
         </template>,
       );
-      assertDomParity(assert, textInputFixture, 'helper-text', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        textInputFixture,
+        'helper-text',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -1525,69 +2116,123 @@ module('DOM parity | Carbon React', function (hooks) {
 
   module('TextArea', function () {
     test('default', async function (this: RenderingTestContext, assert) {
-      await render(<template><TextArea @labelText='Text area label' /></template>);
-      assertDomParity(assert, textAreaFixture, 'default', this.element.firstElementChild);
+      await render(
+        <template><TextArea @labelText="Text area label" /></template>,
+      );
+      assertDomParity(
+        assert,
+        textAreaFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('with-value', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><TextArea @labelText='Text area label' @value='Hello' /></template>,
+        <template>
+          <TextArea @labelText="Text area label" @value="Hello" />
+        </template>,
       );
-      assertDomParity(assert, textAreaFixture, 'with-value', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        textAreaFixture,
+        'with-value',
+        this.element.firstElementChild,
+      );
     });
 
     test('disabled', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><TextArea @labelText='Text area label' @disabled={{true}} /></template>,
+        <template>
+          <TextArea @labelText="Text area label" @disabled={{true}} />
+        </template>,
       );
-      assertDomParity(assert, textAreaFixture, 'disabled', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        textAreaFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
     });
 
     test('invalid', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <TextArea
-            @labelText='Text area label'
+            @labelText="Text area label"
             @invalid={{true}}
-            @invalidText='Invalid value'
+            @invalidText="Invalid value"
           />
         </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, textAreaFixture, 'invalid', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        textAreaFixture,
+        'invalid',
+        this.element.firstElementChild,
+      );
     });
 
     test('warn', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <TextArea @labelText='Text area label' @warn={{true}} @warnText='Warning message' />
+          <TextArea
+            @labelText="Text area label"
+            @warn={{true}}
+            @warnText="Warning message"
+          />
         </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, textAreaFixture, 'warn', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        textAreaFixture,
+        'warn',
+        this.element.firstElementChild,
+      );
     });
 
     test('read-only', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><TextArea @labelText='Text area label' @readOnly={{true}} /></template>,
+        <template>
+          <TextArea @labelText="Text area label" @readOnly={{true}} />
+        </template>,
       );
-      assertDomParity(assert, textAreaFixture, 'read-only', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        textAreaFixture,
+        'read-only',
+        this.element.firstElementChild,
+      );
     });
 
     test('light', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><TextArea @labelText='Text area label' @light={{true}} /></template>,
+        <template>
+          <TextArea @labelText="Text area label" @light={{true}} />
+        </template>,
       );
-      assertDomParity(assert, textAreaFixture, 'light', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        textAreaFixture,
+        'light',
+        this.element.firstElementChild,
+      );
     });
 
     test('helper-text', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <TextArea @labelText='Text area label' @helperText='Helper text' />
+          <TextArea @labelText="Text area label" @helperText="Helper text" />
         </template>,
       );
-      assertDomParity(assert, textAreaFixture, 'helper-text', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        textAreaFixture,
+        'helper-text',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -1609,53 +2254,84 @@ module('DOM parity | Carbon React', function (hooks) {
     // lazily via TrackedPromise - waitUntil before snapshotting, per the
     // lazy-icon-test-pattern gotcha.
     test('default', async function (this: RenderingTestContext, assert) {
-      await render(<template><PasswordInput @labelText='Password label' /></template>);
+      await render(
+        <template><PasswordInput @labelText="Password label" /></template>,
+      );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, passwordInputFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        passwordInputFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('disabled', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><PasswordInput @labelText='Password label' @disabled={{true}} /></template>,
+        <template>
+          <PasswordInput @labelText="Password label" @disabled={{true}} />
+        </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, passwordInputFixture, 'disabled', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        passwordInputFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
     });
 
     test('invalid', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <PasswordInput
-            @labelText='Password label'
+            @labelText="Password label"
             @invalid={{true}}
-            @invalidText='Invalid value'
+            @invalidText="Invalid value"
           />
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
-      assertDomParity(assert, passwordInputFixture, 'invalid', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        passwordInputFixture,
+        'invalid',
+        this.element.firstElementChild,
+      );
     });
 
     test('warn', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <PasswordInput
-            @labelText='Password label'
+            @labelText="Password label"
             @warn={{true}}
-            @warnText='Warning message'
+            @warnText="Warning message"
           />
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
-      assertDomParity(assert, passwordInputFixture, 'warn', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        passwordInputFixture,
+        'warn',
+        this.element.firstElementChild,
+      );
     });
 
     test('size-sm', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><PasswordInput @labelText='Password label' @size='sm' /></template>,
+        <template>
+          <PasswordInput @labelText="Password label" @size="sm" />
+        </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, passwordInputFixture, 'size-sm', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        passwordInputFixture,
+        'size-sm',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -1675,68 +2351,124 @@ module('DOM parity | Carbon React', function (hooks) {
     // the lazy-icon-test-pattern gotcha (await settled() alone is not
     // reliable here).
     test('default', async function (this: RenderingTestContext, assert) {
-      await render(<template><NumberInput @label='Number label' /></template>);
+      await render(<template><NumberInput @label="Number label" /></template>);
       await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
-      assertDomParity(assert, numberInputFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        numberInputFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('disabled', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><NumberInput @label='Number label' @disabled={{true}} /></template>,
+        <template>
+          <NumberInput @label="Number label" @disabled={{true}} />
+        </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
-      assertDomParity(assert, numberInputFixture, 'disabled', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        numberInputFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
     });
 
     test('invalid', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <NumberInput
-            @label='Number label'
+            @label="Number label"
             @invalid={{true}}
-            @invalidText='Invalid value'
+            @invalidText="Invalid value"
           />
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('svg').length >= 3);
-      assertDomParity(assert, numberInputFixture, 'invalid', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        numberInputFixture,
+        'invalid',
+        this.element.firstElementChild,
+      );
     });
 
     test('warn', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <NumberInput @label='Number label' @warn={{true}} @warnText='Warning message' />
+          <NumberInput
+            @label="Number label"
+            @warn={{true}}
+            @warnText="Warning message"
+          />
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('svg').length >= 3);
-      assertDomParity(assert, numberInputFixture, 'warn', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        numberInputFixture,
+        'warn',
+        this.element.firstElementChild,
+      );
     });
 
     test('read-only', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><NumberInput @label='Number label' @readOnly={{true}} /></template>,
+        <template>
+          <NumberInput @label="Number label" @readOnly={{true}} />
+        </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
-      assertDomParity(assert, numberInputFixture, 'read-only', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        numberInputFixture,
+        'read-only',
+        this.element.firstElementChild,
+      );
     });
 
     test('light', async function (this: RenderingTestContext, assert) {
-      await render(<template><NumberInput @label='Number label' @light={{true}} /></template>);
+      await render(
+        <template>
+          <NumberInput @label="Number label" @light={{true}} />
+        </template>,
+      );
       await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
-      assertDomParity(assert, numberInputFixture, 'light', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        numberInputFixture,
+        'light',
+        this.element.firstElementChild,
+      );
     });
 
     test('hide-steppers', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><NumberInput @label='Number label' @hideSteppers={{true}} /></template>,
+        <template>
+          <NumberInput @label="Number label" @hideSteppers={{true}} />
+        </template>,
       );
-      assertDomParity(assert, numberInputFixture, 'hide-steppers', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        numberInputFixture,
+        'hide-steppers',
+        this.element.firstElementChild,
+      );
     });
 
     test('size-sm', async function (this: RenderingTestContext, assert) {
-      await render(<template><NumberInput @label='Number label' @size='sm' /></template>);
+      await render(
+        <template><NumberInput @label="Number label" @size="sm" /></template>,
+      );
       await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
-      assertDomParity(assert, numberInputFixture, 'size-sm', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        numberInputFixture,
+        'size-sm',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -1755,74 +2487,117 @@ module('DOM parity | Carbon React', function (hooks) {
 
   module('FluidTextInput', function () {
     test('default', async function (this: RenderingTestContext, assert) {
-      await render(<template><FluidTextInput @labelText='Fluid text input label' /></template>);
-      assertDomParity(assert, fluidTextInputFixture, 'default', this.element.firstElementChild);
+      await render(
+        <template>
+          <FluidTextInput @labelText="Fluid text input label" />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        fluidTextInputFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('disabled', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <FluidTextInput @labelText='Fluid text input label' @disabled={{true}} />
+          <FluidTextInput
+            @labelText="Fluid text input label"
+            @disabled={{true}}
+          />
         </template>,
       );
-      assertDomParity(assert, fluidTextInputFixture, 'disabled', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        fluidTextInputFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
     });
 
     test('invalid', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <FluidTextInput
-            @labelText='Fluid text input label'
+            @labelText="Fluid text input label"
             @invalid={{true}}
-            @invalidText='Invalid value'
+            @invalidText="Invalid value"
           />
         </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, fluidTextInputFixture, 'invalid', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        fluidTextInputFixture,
+        'invalid',
+        this.element.firstElementChild,
+      );
     });
 
     test('warn', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <FluidTextInput
-            @labelText='Fluid text input label'
+            @labelText="Fluid text input label"
             @warn={{true}}
-            @warnText='Warning message'
+            @warnText="Warning message"
           />
         </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, fluidTextInputFixture, 'warn', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        fluidTextInputFixture,
+        'warn',
+        this.element.firstElementChild,
+      );
     });
 
     test('read-only', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <FluidTextInput @labelText='Fluid text input label' @readOnly={{true}} />
+          <FluidTextInput
+            @labelText="Fluid text input label"
+            @readOnly={{true}}
+          />
         </template>,
       );
-      assertDomParity(assert, fluidTextInputFixture, 'read-only', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        fluidTextInputFixture,
+        'read-only',
+        this.element.firstElementChild,
+      );
     });
 
     test('password', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <FluidTextInput @labelText='Fluid password label' @isPassword={{true}} />
+          <FluidTextInput
+            @labelText="Fluid password label"
+            @isPassword={{true}}
+          />
         </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, fluidTextInputFixture, 'password', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        fluidTextInputFixture,
+        'password',
+        this.element.firstElementChild,
+      );
     });
 
     test('password-invalid', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <FluidTextInput
-            @labelText='Fluid password label'
+            @labelText="Fluid password label"
             @isPassword={{true}}
             @invalid={{true}}
-            @invalidText='Invalid value'
+            @invalidText="Invalid value"
           />
         </template>,
       );
@@ -1853,43 +2628,85 @@ module('DOM parity | Carbon React', function (hooks) {
     // clear-button icon) loads its SVG lazily via TrackedPromise - waitUntil
     // before snapshotting, per the lazy-icon-test-pattern gotcha.
     test('default', async function (this: RenderingTestContext, assert) {
-      await render(<template><Search @labelText='Search label' /></template>);
+      await render(<template><Search @labelText="Search label" /></template>);
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, searchFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        searchFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('with-value', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><Search @labelText='Search label' @value='Search term' /></template>,
+        <template>
+          <Search @labelText="Search label" @value="Search term" />
+        </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
-      assertDomParity(assert, searchFixture, 'with-value', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        searchFixture,
+        'with-value',
+        this.element.firstElementChild,
+      );
     });
 
     test('disabled', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><Search @labelText='Search label' @disabled={{true}} /></template>,
+        <template>
+          <Search @labelText="Search label" @disabled={{true}} />
+        </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, searchFixture, 'disabled', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        searchFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
     });
 
     test('light', async function (this: RenderingTestContext, assert) {
-      await render(<template><Search @labelText='Search label' @light={{true}} /></template>);
+      await render(
+        <template>
+          <Search @labelText="Search label" @light={{true}} />
+        </template>,
+      );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, searchFixture, 'light', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        searchFixture,
+        'light',
+        this.element.firstElementChild,
+      );
     });
 
     test('size-sm', async function (this: RenderingTestContext, assert) {
-      await render(<template><Search @labelText='Search label' @size='sm' /></template>);
+      await render(
+        <template><Search @labelText="Search label" @size="sm" /></template>,
+      );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, searchFixture, 'size-sm', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        searchFixture,
+        'size-sm',
+        this.element.firstElementChild,
+      );
     });
 
     test('size-lg', async function (this: RenderingTestContext, assert) {
-      await render(<template><Search @labelText='Search label' @size='lg' /></template>);
+      await render(
+        <template><Search @labelText="Search label" @size="lg" /></template>,
+      );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, searchFixture, 'size-lg', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        searchFixture,
+        'size-lg',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -1907,11 +2724,18 @@ module('DOM parity | Carbon React', function (hooks) {
   module('FileUploaderButton', function () {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(<template><FileUploaderButton /></template>);
-      assertDomParity(assert, fileUploaderButtonFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        fileUploaderButtonFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('disabled', async function (this: RenderingTestContext, assert) {
-      await render(<template><FileUploaderButton @disabled={{true}} /></template>);
+      await render(
+        <template><FileUploaderButton @disabled={{true}} /></template>,
+      );
       assertDomParity(
         assert,
         fileUploaderButtonFixture,
@@ -1921,7 +2745,9 @@ module('DOM parity | Carbon React', function (hooks) {
     });
 
     test('button-kind-secondary', async function (this: RenderingTestContext, assert) {
-      await render(<template><FileUploaderButton @buttonKind='secondary' /></template>);
+      await render(
+        <template><FileUploaderButton @buttonKind="secondary" /></template>,
+      );
       assertDomParity(
         assert,
         fileUploaderButtonFixture,
@@ -1931,13 +2757,25 @@ module('DOM parity | Carbon React', function (hooks) {
     });
 
     test('size-sm', async function (this: RenderingTestContext, assert) {
-      await render(<template><FileUploaderButton @size='sm' /></template>);
-      assertDomParity(assert, fileUploaderButtonFixture, 'size-sm', this.element.firstElementChild);
+      await render(<template><FileUploaderButton @size="sm" /></template>);
+      assertDomParity(
+        assert,
+        fileUploaderButtonFixture,
+        'size-sm',
+        this.element.firstElementChild,
+      );
     });
 
     test('multiple', async function (this: RenderingTestContext, assert) {
-      await render(<template><FileUploaderButton @multiple={{true}} /></template>);
-      assertDomParity(assert, fileUploaderButtonFixture, 'multiple', this.element.firstElementChild);
+      await render(
+        <template><FileUploaderButton @multiple={{true}} /></template>,
+      );
+      assertDomParity(
+        assert,
+        fileUploaderButtonFixture,
+        'multiple',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -1963,7 +2801,9 @@ module('DOM parity | Carbon React', function (hooks) {
     });
 
     test('disabled', async function (this: RenderingTestContext, assert) {
-      await render(<template><FileUploaderDropContainer @disabled={{true}} /></template>);
+      await render(
+        <template><FileUploaderDropContainer @disabled={{true}} /></template>,
+      );
       assertDomParity(
         assert,
         fileUploaderDropContainerFixture,
@@ -1973,7 +2813,9 @@ module('DOM parity | Carbon React', function (hooks) {
     });
 
     test('multiple', async function (this: RenderingTestContext, assert) {
-      await render(<template><FileUploaderDropContainer @multiple={{true}} /></template>);
+      await render(
+        <template><FileUploaderDropContainer @multiple={{true}} /></template>,
+      );
       assertDomParity(
         assert,
         fileUploaderDropContainerFixture,
@@ -1993,34 +2835,53 @@ module('DOM parity | Carbon React', function (hooks) {
 
   module('FileUploader', function () {
     test('default', async function (this: RenderingTestContext, assert) {
-      await render(<template><FileUploader @filenameStatus='edit' /></template>);
-      assertDomParity(assert, fileUploaderFixture, 'default', this.element.firstElementChild);
+      await render(
+        <template><FileUploader @filenameStatus="edit" /></template>,
+      );
+      assertDomParity(
+        assert,
+        fileUploaderFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('with-labels', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <FileUploader
-            @filenameStatus='edit'
-            @labelTitle='Upload files'
-            @labelDescription='Max file size 500kb'
+            @filenameStatus="edit"
+            @labelTitle="Upload files"
+            @labelDescription="Max file size 500kb"
           />
         </template>,
       );
-      assertDomParity(assert, fileUploaderFixture, 'with-labels', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        fileUploaderFixture,
+        'with-labels',
+        this.element.firstElementChild,
+      );
     });
 
     test('disabled', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><FileUploader @filenameStatus='edit' @disabled={{true}} /></template>,
+        <template>
+          <FileUploader @filenameStatus="edit" @disabled={{true}} />
+        </template>,
       );
-      assertDomParity(assert, fileUploaderFixture, 'disabled', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        fileUploaderFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
     });
 
     test('button-kind-secondary', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <FileUploader @filenameStatus='edit' @buttonKind='secondary' />
+          <FileUploader @filenameStatus="edit" @buttonKind="secondary" />
         </template>,
       );
       assertDomParity(
@@ -2045,53 +2906,80 @@ module('DOM parity | Carbon React', function (hooks) {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <FormGroup @legendText='Group label'>Form group content</FormGroup>
+          <FormGroup @legendText="Group label">Form group content</FormGroup>
         </template>,
       );
-      assertDomParity(assert, formGroupFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        formGroupFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('disabled', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <FormGroup @legendText='Group label' @disabled={{true}}>Form group content</FormGroup>
+          <FormGroup @legendText="Group label" @disabled={{true}}>Form group
+            content</FormGroup>
         </template>,
       );
-      assertDomParity(assert, formGroupFixture, 'disabled', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        formGroupFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
     });
 
     test('invalid', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <FormGroup @legendText='Group label' @invalid={{true}}>Form group content</FormGroup>
+          <FormGroup @legendText="Group label" @invalid={{true}}>Form group
+            content</FormGroup>
         </template>,
       );
-      assertDomParity(assert, formGroupFixture, 'invalid', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        formGroupFixture,
+        'invalid',
+        this.element.firstElementChild,
+      );
     });
 
     test('message', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <FormGroup
-            @legendText='Group label'
+            @legendText="Group label"
             @message={{true}}
-            @messageText='Helper message'
+            @messageText="Helper message"
           >Form group content</FormGroup>
         </template>,
       );
-      assertDomParity(assert, formGroupFixture, 'message', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        formGroupFixture,
+        'message',
+        this.element.firstElementChild,
+      );
     });
 
     test('legend-id', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <FormGroup
-            @legendText='Group label'
-            @legendId='form-group-legend-1'
+            @legendText="Group label"
+            @legendId="form-group-legend-1"
           >Form group content</FormGroup>
         </template>,
       );
-      assertDomParity(assert, formGroupFixture, 'legend-id', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        formGroupFixture,
+        'legend-id',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -2107,8 +2995,17 @@ module('DOM parity | Carbon React', function (hooks) {
 
   module('FormItem', function () {
     test('default', async function (this: RenderingTestContext, assert) {
-      await render(<template><FormItem>Form item content</FormItem></template>);
-      assertDomParity(assert, formItemFixture, 'default', this.element.firstElementChild);
+      await render(
+        <template>
+          <FormItem>Form item content</FormItem>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        formItemFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -2118,15 +3015,31 @@ module('DOM parity | Carbon React', function (hooks) {
 
   module('FormLabel', function () {
     test('default', async function (this: RenderingTestContext, assert) {
-      await render(<template><FormLabel>Form label</FormLabel></template>);
-      assertDomParity(assert, formLabelFixture, 'default', this.element.firstElementChild);
+      await render(
+        <template>
+          <FormLabel>Form label</FormLabel>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        formLabelFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('with-id', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><FormLabel @id='form-label-input-1'>Form label</FormLabel></template>,
+        <template>
+          <FormLabel @id="form-label-input-1">Form label</FormLabel>
+        </template>,
       );
-      assertDomParity(assert, formLabelFixture, 'with-id', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        formLabelFixture,
+        'with-id',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -2136,25 +3049,59 @@ module('DOM parity | Carbon React', function (hooks) {
 
   module('Stack', function () {
     test('default', async function (this: RenderingTestContext, assert) {
-      await render(<template><Stack>Stack content</Stack></template>);
-      assertDomParity(assert, stackFixture, 'default', this.element.firstElementChild);
+      await render(
+        <template>
+          <Stack>Stack content</Stack>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        stackFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('horizontal', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><Stack @orientation='horizontal'>Stack content</Stack></template>,
+        <template>
+          <Stack @orientation="horizontal">Stack content</Stack>
+        </template>,
       );
-      assertDomParity(assert, stackFixture, 'horizontal', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        stackFixture,
+        'horizontal',
+        this.element.firstElementChild,
+      );
     });
 
     test('gap-number', async function (this: RenderingTestContext, assert) {
-      await render(<template><Stack @gap={{4}}>Stack content</Stack></template>);
-      assertDomParity(assert, stackFixture, 'gap-number', this.element.firstElementChild);
+      await render(
+        <template>
+          <Stack @gap={{4}}>Stack content</Stack>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        stackFixture,
+        'gap-number',
+        this.element.firstElementChild,
+      );
     });
 
     test('gap-string', async function (this: RenderingTestContext, assert) {
-      await render(<template><Stack @gap='2rem'>Stack content</Stack></template>);
-      assertDomParity(assert, stackFixture, 'gap-string', this.element.firstElementChild);
+      await render(
+        <template>
+          <Stack @gap="2rem">Stack content</Stack>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        stackFixture,
+        'gap-string',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -2169,25 +3116,59 @@ module('DOM parity | Carbon React', function (hooks) {
 
   module('Layer', function () {
     test('default', async function (this: RenderingTestContext, assert) {
-      await render(<template><Layer>Layer content</Layer></template>);
-      assertDomParity(assert, layerFixture, 'default', this.element.firstElementChild);
+      await render(
+        <template>
+          <Layer>Layer content</Layer>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        layerFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('level-0', async function (this: RenderingTestContext, assert) {
-      await render(<template><Layer @level={{0}}>Layer content</Layer></template>);
-      assertDomParity(assert, layerFixture, 'level-0', this.element.firstElementChild);
+      await render(
+        <template>
+          <Layer @level={{0}}>Layer content</Layer>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        layerFixture,
+        'level-0',
+        this.element.firstElementChild,
+      );
     });
 
     test('level-2', async function (this: RenderingTestContext, assert) {
-      await render(<template><Layer @level={{2}}>Layer content</Layer></template>);
-      assertDomParity(assert, layerFixture, 'level-2', this.element.firstElementChild);
+      await render(
+        <template>
+          <Layer @level={{2}}>Layer content</Layer>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        layerFixture,
+        'level-2',
+        this.element.firstElementChild,
+      );
     });
 
     test('with-background', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><Layer @withBackground={{true}}>Layer content</Layer></template>,
+        <template>
+          <Layer @withBackground={{true}}>Layer content</Layer>
+        </template>,
       );
-      assertDomParity(assert, layerFixture, 'with-background', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        layerFixture,
+        'with-background',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -2202,23 +3183,59 @@ module('DOM parity | Carbon React', function (hooks) {
 
   module('Theme', function () {
     test('white', async function (this: RenderingTestContext, assert) {
-      await render(<template><Theme @theme='white'>Theme content</Theme></template>);
-      assertDomParity(assert, themeFixture, 'white', this.element.firstElementChild);
+      await render(
+        <template>
+          <Theme @theme="white">Theme content</Theme>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        themeFixture,
+        'white',
+        this.element.firstElementChild,
+      );
     });
 
     test('g10', async function (this: RenderingTestContext, assert) {
-      await render(<template><Theme @theme='g10'>Theme content</Theme></template>);
-      assertDomParity(assert, themeFixture, 'g10', this.element.firstElementChild);
+      await render(
+        <template>
+          <Theme @theme="g10">Theme content</Theme>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        themeFixture,
+        'g10',
+        this.element.firstElementChild,
+      );
     });
 
     test('g90', async function (this: RenderingTestContext, assert) {
-      await render(<template><Theme @theme='g90'>Theme content</Theme></template>);
-      assertDomParity(assert, themeFixture, 'g90', this.element.firstElementChild);
+      await render(
+        <template>
+          <Theme @theme="g90">Theme content</Theme>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        themeFixture,
+        'g90',
+        this.element.firstElementChild,
+      );
     });
 
     test('g100', async function (this: RenderingTestContext, assert) {
-      await render(<template><Theme @theme='g100'>Theme content</Theme></template>);
-      assertDomParity(assert, themeFixture, 'g100', this.element.firstElementChild);
+      await render(
+        <template>
+          <Theme @theme="g100">Theme content</Theme>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        themeFixture,
+        'g100',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -2228,50 +3245,111 @@ module('DOM parity | Carbon React', function (hooks) {
 
   module('Text', function () {
     test('default', async function (this: RenderingTestContext, assert) {
-      await render(<template><Text>Text content</Text></template>);
-      assertDomParity(assert, textFixture, 'default', this.element.firstElementChild);
+      await render(
+        <template>
+          <Text>Text content</Text>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        textFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('dir-ltr', async function (this: RenderingTestContext, assert) {
-      await render(<template><Text @dir='ltr'>Text content</Text></template>);
-      assertDomParity(assert, textFixture, 'dir-ltr', this.element.firstElementChild);
+      await render(
+        <template>
+          <Text @dir="ltr">Text content</Text>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        textFixture,
+        'dir-ltr',
+        this.element.firstElementChild,
+      );
     });
 
     test('dir-rtl', async function (this: RenderingTestContext, assert) {
-      await render(<template><Text @dir='rtl'>Text content</Text></template>);
-      assertDomParity(assert, textFixture, 'dir-rtl', this.element.firstElementChild);
+      await render(
+        <template>
+          <Text @dir="rtl">Text content</Text>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        textFixture,
+        'dir-rtl',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
-      assertFullCoverage(assert, textFixture, ['default', 'dir-ltr', 'dir-rtl']);
+      assertFullCoverage(assert, textFixture, [
+        'default',
+        'dir-ltr',
+        'dir-rtl',
+      ]);
     });
   });
 
   module('Layout', function () {
     test('default', async function (this: RenderingTestContext, assert) {
-      await render(<template><Layout>Layout content</Layout></template>);
-      assertDomParity(assert, layoutFixture, 'default', this.element.firstElementChild);
+      await render(
+        <template>
+          <Layout>Layout content</Layout>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        layoutFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('size-md', async function (this: RenderingTestContext, assert) {
-      await render(<template><Layout @size='md'>Layout content</Layout></template>);
-      assertDomParity(assert, layoutFixture, 'size-md', this.element.firstElementChild);
+      await render(
+        <template>
+          <Layout @size="md">Layout content</Layout>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        layoutFixture,
+        'size-md',
+        this.element.firstElementChild,
+      );
     });
 
     test('density-condensed', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><Layout @density='condensed'>Layout content</Layout></template>,
+        <template>
+          <Layout @density="condensed">Layout content</Layout>
+        </template>,
       );
-      assertDomParity(assert, layoutFixture, 'density-condensed', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        layoutFixture,
+        'density-condensed',
+        this.element.firstElementChild,
+      );
     });
 
     test('size-and-density', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Layout @size='lg' @density='normal'>Layout content</Layout>
+          <Layout @size="lg" @density="normal">Layout content</Layout>
         </template>,
       );
-      assertDomParity(assert, layoutFixture, 'size-and-density', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        layoutFixture,
+        'size-and-density',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -2287,15 +3365,22 @@ module('DOM parity | Carbon React', function (hooks) {
   module('LayoutConstraint', function () {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><LayoutConstraint>Layout constraint content</LayoutConstraint></template>,
+        <template>
+          <LayoutConstraint>Layout constraint content</LayoutConstraint>
+        </template>,
       );
-      assertDomParity(assert, layoutConstraintFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        layoutConstraintFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('size-constraint', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <LayoutConstraint @size={{hash default='md' min='sm' max='lg'}}>
+          <LayoutConstraint @size={{hash default="md" min="sm" max="lg"}}>
             Layout constraint content
           </LayoutConstraint>
         </template>,
@@ -2311,7 +3396,7 @@ module('DOM parity | Carbon React', function (hooks) {
     test('density-constraint', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <LayoutConstraint @density={{hash default='normal' min='condensed'}}>
+          <LayoutConstraint @density={{hash default="normal" min="condensed"}}>
             Layout constraint content
           </LayoutConstraint>
         </template>,
@@ -2336,16 +3421,30 @@ module('DOM parity | Carbon React', function (hooks) {
   module('LayoutDirection', function () {
     test('ltr', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><LayoutDirection @dir='ltr'>Layout direction content</LayoutDirection></template>,
+        <template>
+          <LayoutDirection @dir="ltr">Layout direction content</LayoutDirection>
+        </template>,
       );
-      assertDomParity(assert, layoutDirectionFixture, 'ltr', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        layoutDirectionFixture,
+        'ltr',
+        this.element.firstElementChild,
+      );
     });
 
     test('rtl', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><LayoutDirection @dir='rtl'>Layout direction content</LayoutDirection></template>,
+        <template>
+          <LayoutDirection @dir="rtl">Layout direction content</LayoutDirection>
+        </template>,
       );
-      assertDomParity(assert, layoutDirectionFixture, 'rtl', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        layoutDirectionFixture,
+        'rtl',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -2356,72 +3455,120 @@ module('DOM parity | Carbon React', function (hooks) {
   module('ProgressBar', function () {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><ProgressBar @label='Uploading file' @value={{50}} /></template>,
+        <template>
+          <ProgressBar @label="Uploading file" @value={{50}} />
+        </template>,
       );
-      assertDomParity(assert, progressBarFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        progressBarFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('size-small', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <ProgressBar @label='Uploading file' @size='small' @value={{50}} />
+          <ProgressBar @label="Uploading file" @size="small" @value={{50}} />
         </template>,
       );
-      assertDomParity(assert, progressBarFixture, 'size-small', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        progressBarFixture,
+        'size-small',
+        this.element.firstElementChild,
+      );
     });
 
     test('type-inline', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <ProgressBar @label='Uploading file' @type='inline' @value={{30}} />
+          <ProgressBar @label="Uploading file" @type="inline" @value={{30}} />
         </template>,
       );
-      assertDomParity(assert, progressBarFixture, 'type-inline', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        progressBarFixture,
+        'type-inline',
+        this.element.firstElementChild,
+      );
     });
 
     test('type-indented', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <ProgressBar @label='Uploading file' @type='indented' @value={{30}} />
+          <ProgressBar @label="Uploading file" @type="indented" @value={{30}} />
         </template>,
       );
-      assertDomParity(assert, progressBarFixture, 'type-indented', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        progressBarFixture,
+        'type-indented',
+        this.element.firstElementChild,
+      );
     });
 
     test('finished', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><ProgressBar @label='Uploading file' @status='finished' /></template>,
+        <template>
+          <ProgressBar @label="Uploading file" @status="finished" />
+        </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, progressBarFixture, 'finished', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        progressBarFixture,
+        'finished',
+        this.element.firstElementChild,
+      );
     });
 
     test('error', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><ProgressBar @label='Uploading file' @status='error' /></template>,
+        <template>
+          <ProgressBar @label="Uploading file" @status="error" />
+        </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, progressBarFixture, 'error', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        progressBarFixture,
+        'error',
+        this.element.firstElementChild,
+      );
     });
 
     test('indeterminate', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><ProgressBar @label='Uploading file' @status='indeterminate' /></template>,
+        <template>
+          <ProgressBar @label="Uploading file" @status="indeterminate" />
+        </template>,
       );
-      assertDomParity(assert, progressBarFixture, 'indeterminate', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        progressBarFixture,
+        'indeterminate',
+        this.element.firstElementChild,
+      );
     });
 
     test('helper-text', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <ProgressBar
-            @label='Uploading file'
+            @label="Uploading file"
             @value={{40}}
-            @helperText='Estimated time left: 2 minutes'
+            @helperText="Estimated time left: 2 minutes"
           />
         </template>,
       );
-      assertDomParity(assert, progressBarFixture, 'helper-text', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        progressBarFixture,
+        'helper-text',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -2443,37 +3590,51 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template>
           <ProgressIndicator @currentIndex={{1}} as |Step|>
-            <Step @label='First step' />
-            <Step @label='Second step' />
-            <Step @label='Third step' />
+            <Step @label="First step" />
+            <Step @label="Second step" />
+            <Step @label="Third step" />
           </ProgressIndicator>
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('svg').length === 3);
-      assertDomParity(assert, progressIndicatorFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        progressIndicatorFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('vertical', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <ProgressIndicator @currentIndex={{1}} @vertical={{true}} as |Step|>
-            <Step @label='First step' />
-            <Step @label='Second step' />
-            <Step @label='Third step' />
+            <Step @label="First step" />
+            <Step @label="Second step" />
+            <Step @label="Third step" />
           </ProgressIndicator>
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('svg').length === 3);
-      assertDomParity(assert, progressIndicatorFixture, 'vertical', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        progressIndicatorFixture,
+        'vertical',
+        this.element.firstElementChild,
+      );
     });
 
     test('space-equally', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <ProgressIndicator @currentIndex={{0}} @spaceEqually={{true}} as |Step|>
-            <Step @label='First step' />
-            <Step @label='Second step' />
-            <Step @label='Third step' />
+          <ProgressIndicator
+            @currentIndex={{0}}
+            @spaceEqually={{true}}
+            as |Step|
+          >
+            <Step @label="First step" />
+            <Step @label="Second step" />
+            <Step @label="Third step" />
           </ProgressIndicator>
         </template>,
       );
@@ -2490,9 +3651,9 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template>
           <ProgressIndicator @currentIndex={{0}} as |Step|>
-            <Step @label='First step' @secondaryLabel='Optional' />
-            <Step @label='Second step' />
-            <Step @label='Third step' />
+            <Step @label="First step" @secondaryLabel="Optional" />
+            <Step @label="Second step" />
+            <Step @label="Third step" />
           </ProgressIndicator>
         </template>,
       );
@@ -2509,23 +3670,28 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template>
           <ProgressIndicator @currentIndex={{0}} as |Step|>
-            <Step @label='First step' @description='Step description' />
-            <Step @label='Second step' />
-            <Step @label='Third step' />
+            <Step @label="First step" @description="Step description" />
+            <Step @label="Second step" />
+            <Step @label="Third step" />
           </ProgressIndicator>
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('svg').length === 3);
-      assertDomParity(assert, progressIndicatorFixture, 'description', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        progressIndicatorFixture,
+        'description',
+        this.element.firstElementChild,
+      );
     });
 
     test('invalid-step', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <ProgressIndicator @currentIndex={{0}} as |Step|>
-            <Step @label='First step' @invalid={{true}} />
-            <Step @label='Second step' />
-            <Step @label='Third step' />
+            <Step @label="First step" @invalid={{true}} />
+            <Step @label="Second step" />
+            <Step @label="Third step" />
           </ProgressIndicator>
         </template>,
       );
@@ -2542,9 +3708,9 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template>
           <ProgressIndicator @currentIndex={{2}} as |Step|>
-            <Step @label='First step' />
-            <Step @label='Second step' />
-            <Step @label='Third step' @disabled={{true}} />
+            <Step @label="First step" />
+            <Step @label="Second step" />
+            <Step @label="Third step" @disabled={{true}} />
           </ProgressIndicator>
         </template>,
       );
@@ -2572,103 +3738,209 @@ module('DOM parity | Carbon React', function (hooks) {
 
   module('IconIndicator', function () {
     test('failed', async function (this: RenderingTestContext, assert) {
-      await render(<template><IconIndicator @kind='failed' @label='Failed' /></template>);
+      await render(
+        <template><IconIndicator @kind="failed" @label="Failed" /></template>,
+      );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, iconIndicatorFixture, 'failed', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        iconIndicatorFixture,
+        'failed',
+        this.element.firstElementChild,
+      );
     });
 
     test('caution-major', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><IconIndicator @kind='caution-major' @label='Caution major' /></template>,
+        <template>
+          <IconIndicator @kind="caution-major" @label="Caution major" />
+        </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, iconIndicatorFixture, 'caution-major', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        iconIndicatorFixture,
+        'caution-major',
+        this.element.firstElementChild,
+      );
     });
 
     test('caution-minor', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><IconIndicator @kind='caution-minor' @label='Caution minor' /></template>,
+        <template>
+          <IconIndicator @kind="caution-minor" @label="Caution minor" />
+        </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, iconIndicatorFixture, 'caution-minor', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        iconIndicatorFixture,
+        'caution-minor',
+        this.element.firstElementChild,
+      );
     });
 
     test('undefined', async function (this: RenderingTestContext, assert) {
-      await render(<template><IconIndicator @kind='undefined' @label='Undefined' /></template>);
+      await render(
+        <template>
+          <IconIndicator @kind="undefined" @label="Undefined" />
+        </template>,
+      );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, iconIndicatorFixture, 'undefined', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        iconIndicatorFixture,
+        'undefined',
+        this.element.firstElementChild,
+      );
     });
 
     test('succeeded', async function (this: RenderingTestContext, assert) {
-      await render(<template><IconIndicator @kind='succeeded' @label='Succeeded' /></template>);
+      await render(
+        <template>
+          <IconIndicator @kind="succeeded" @label="Succeeded" />
+        </template>,
+      );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, iconIndicatorFixture, 'succeeded', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        iconIndicatorFixture,
+        'succeeded',
+        this.element.firstElementChild,
+      );
     });
 
     test('normal', async function (this: RenderingTestContext, assert) {
-      await render(<template><IconIndicator @kind='normal' @label='Normal' /></template>);
+      await render(
+        <template><IconIndicator @kind="normal" @label="Normal" /></template>,
+      );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, iconIndicatorFixture, 'normal', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        iconIndicatorFixture,
+        'normal',
+        this.element.firstElementChild,
+      );
     });
 
     test('in-progress', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><IconIndicator @kind='in-progress' @label='In progress' /></template>,
+        <template>
+          <IconIndicator @kind="in-progress" @label="In progress" />
+        </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, iconIndicatorFixture, 'in-progress', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        iconIndicatorFixture,
+        'in-progress',
+        this.element.firstElementChild,
+      );
     });
 
     test('incomplete', async function (this: RenderingTestContext, assert) {
-      await render(<template><IconIndicator @kind='incomplete' @label='Incomplete' /></template>);
+      await render(
+        <template>
+          <IconIndicator @kind="incomplete" @label="Incomplete" />
+        </template>,
+      );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, iconIndicatorFixture, 'incomplete', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        iconIndicatorFixture,
+        'incomplete',
+        this.element.firstElementChild,
+      );
     });
 
     test('not-started', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><IconIndicator @kind='not-started' @label='Not started' /></template>,
+        <template>
+          <IconIndicator @kind="not-started" @label="Not started" />
+        </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, iconIndicatorFixture, 'not-started', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        iconIndicatorFixture,
+        'not-started',
+        this.element.firstElementChild,
+      );
     });
 
     test('pending', async function (this: RenderingTestContext, assert) {
-      await render(<template><IconIndicator @kind='pending' @label='Pending' /></template>);
+      await render(
+        <template><IconIndicator @kind="pending" @label="Pending" /></template>,
+      );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, iconIndicatorFixture, 'pending', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        iconIndicatorFixture,
+        'pending',
+        this.element.firstElementChild,
+      );
     });
 
     test('unknown', async function (this: RenderingTestContext, assert) {
-      await render(<template><IconIndicator @kind='unknown' @label='Unknown' /></template>);
+      await render(
+        <template><IconIndicator @kind="unknown" @label="Unknown" /></template>,
+      );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, iconIndicatorFixture, 'unknown', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        iconIndicatorFixture,
+        'unknown',
+        this.element.firstElementChild,
+      );
     });
 
     test('informative', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><IconIndicator @kind='informative' @label='Informative' /></template>,
+        <template>
+          <IconIndicator @kind="informative" @label="Informative" />
+        </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, iconIndicatorFixture, 'informative', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        iconIndicatorFixture,
+        'informative',
+        this.element.firstElementChild,
+      );
     });
 
     test('size-20', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><IconIndicator @kind='succeeded' @label='Succeeded' @size={{20}} /></template>,
+        <template>
+          <IconIndicator @kind="succeeded" @label="Succeeded" @size={{20}} />
+        </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, iconIndicatorFixture, 'size-20', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        iconIndicatorFixture,
+        'size-20',
+        this.element.firstElementChild,
+      );
     });
 
     test('compact', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <IconIndicator @kind='succeeded' @label='Succeeded' @compact={{true}} />
+          <IconIndicator
+            @kind="succeeded"
+            @label="Succeeded"
+            @compact={{true}}
+          />
         </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, iconIndicatorFixture, 'compact', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        iconIndicatorFixture,
+        'compact',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -2693,87 +3965,186 @@ module('DOM parity | Carbon React', function (hooks) {
 
   module('ShapeIndicator', function () {
     test('failed', async function (this: RenderingTestContext, assert) {
-      await render(<template><ShapeIndicator @kind='failed' @label='Failed' /></template>);
+      await render(
+        <template><ShapeIndicator @kind="failed" @label="Failed" /></template>,
+      );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, shapeIndicatorFixture, 'failed', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        shapeIndicatorFixture,
+        'failed',
+        this.element.firstElementChild,
+      );
     });
 
     test('critical', async function (this: RenderingTestContext, assert) {
-      await render(<template><ShapeIndicator @kind='critical' @label='Critical' /></template>);
+      await render(
+        <template>
+          <ShapeIndicator @kind="critical" @label="Critical" />
+        </template>,
+      );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, shapeIndicatorFixture, 'critical', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        shapeIndicatorFixture,
+        'critical',
+        this.element.firstElementChild,
+      );
     });
 
     test('high', async function (this: RenderingTestContext, assert) {
-      await render(<template><ShapeIndicator @kind='high' @label='High' /></template>);
+      await render(
+        <template><ShapeIndicator @kind="high" @label="High" /></template>,
+      );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, shapeIndicatorFixture, 'high', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        shapeIndicatorFixture,
+        'high',
+        this.element.firstElementChild,
+      );
     });
 
     test('medium', async function (this: RenderingTestContext, assert) {
-      await render(<template><ShapeIndicator @kind='medium' @label='Medium' /></template>);
+      await render(
+        <template><ShapeIndicator @kind="medium" @label="Medium" /></template>,
+      );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, shapeIndicatorFixture, 'medium', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        shapeIndicatorFixture,
+        'medium',
+        this.element.firstElementChild,
+      );
     });
 
     test('low', async function (this: RenderingTestContext, assert) {
-      await render(<template><ShapeIndicator @kind='low' @label='Low' /></template>);
+      await render(
+        <template><ShapeIndicator @kind="low" @label="Low" /></template>,
+      );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, shapeIndicatorFixture, 'low', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        shapeIndicatorFixture,
+        'low',
+        this.element.firstElementChild,
+      );
     });
 
     test('cautious', async function (this: RenderingTestContext, assert) {
-      await render(<template><ShapeIndicator @kind='cautious' @label='Cautious' /></template>);
+      await render(
+        <template>
+          <ShapeIndicator @kind="cautious" @label="Cautious" />
+        </template>,
+      );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, shapeIndicatorFixture, 'cautious', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        shapeIndicatorFixture,
+        'cautious',
+        this.element.firstElementChild,
+      );
     });
 
     test('undefined', async function (this: RenderingTestContext, assert) {
-      await render(<template><ShapeIndicator @kind='undefined' @label='Undefined' /></template>);
+      await render(
+        <template>
+          <ShapeIndicator @kind="undefined" @label="Undefined" />
+        </template>,
+      );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, shapeIndicatorFixture, 'undefined', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        shapeIndicatorFixture,
+        'undefined',
+        this.element.firstElementChild,
+      );
     });
 
     test('stable', async function (this: RenderingTestContext, assert) {
-      await render(<template><ShapeIndicator @kind='stable' @label='Stable' /></template>);
+      await render(
+        <template><ShapeIndicator @kind="stable" @label="Stable" /></template>,
+      );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, shapeIndicatorFixture, 'stable', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        shapeIndicatorFixture,
+        'stable',
+        this.element.firstElementChild,
+      );
     });
 
     test('informative', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><ShapeIndicator @kind='informative' @label='Informative' /></template>,
+        <template>
+          <ShapeIndicator @kind="informative" @label="Informative" />
+        </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, shapeIndicatorFixture, 'informative', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        shapeIndicatorFixture,
+        'informative',
+        this.element.firstElementChild,
+      );
     });
 
     test('incomplete', async function (this: RenderingTestContext, assert) {
-      await render(<template><ShapeIndicator @kind='incomplete' @label='Incomplete' /></template>);
+      await render(
+        <template>
+          <ShapeIndicator @kind="incomplete" @label="Incomplete" />
+        </template>,
+      );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, shapeIndicatorFixture, 'incomplete', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        shapeIndicatorFixture,
+        'incomplete',
+        this.element.firstElementChild,
+      );
     });
 
     test('draft', async function (this: RenderingTestContext, assert) {
-      await render(<template><ShapeIndicator @kind='draft' @label='Draft' /></template>);
+      await render(
+        <template><ShapeIndicator @kind="draft" @label="Draft" /></template>,
+      );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, shapeIndicatorFixture, 'draft', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        shapeIndicatorFixture,
+        'draft',
+        this.element.firstElementChild,
+      );
     });
 
     test('text-size-14', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><ShapeIndicator @kind='stable' @label='Stable' @textSize={{14}} /></template>,
+        <template>
+          <ShapeIndicator @kind="stable" @label="Stable" @textSize={{14}} />
+        </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, shapeIndicatorFixture, 'text-size-14', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        shapeIndicatorFixture,
+        'text-size-14',
+        this.element.firstElementChild,
+      );
     });
 
     test('compact', async function (this: RenderingTestContext, assert) {
       await render(
-        <template><ShapeIndicator @kind='stable' @label='Stable' @compact={{true}} /></template>,
+        <template>
+          <ShapeIndicator @kind="stable" @label="Stable" @compact={{true}} />
+        </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, shapeIndicatorFixture, 'compact', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        shapeIndicatorFixture,
+        'compact',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -2799,18 +4170,29 @@ module('DOM parity | Carbon React', function (hooks) {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Slider @id='slider-1' @labelText='Slider label' @min={{0}} @max={{100}} @value={{50}} />
+          <Slider
+            @id="slider-1"
+            @labelText="Slider label"
+            @min={{0}}
+            @max={{100}}
+            @value={{50}}
+          />
         </template>,
       );
-      assertDomParity(assert, sliderFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        sliderFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('disabled', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <Slider
-            @id='slider-1'
-            @labelText='Slider label'
+            @id="slider-1"
+            @labelText="Slider label"
             @min={{0}}
             @max={{100}}
             @value={{50}}
@@ -2818,15 +4200,20 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      assertDomParity(assert, sliderFixture, 'disabled', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        sliderFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
     });
 
     test('read-only', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <Slider
-            @id='slider-1'
-            @labelText='Slider label'
+            @id="slider-1"
+            @labelText="Slider label"
             @min={{0}}
             @max={{100}}
             @value={{50}}
@@ -2834,51 +4221,66 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      assertDomParity(assert, sliderFixture, 'read-only', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        sliderFixture,
+        'read-only',
+        this.element.firstElementChild,
+      );
     });
 
     test('invalid', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <Slider
-            @id='slider-1'
-            @labelText='Slider label'
+            @id="slider-1"
+            @labelText="Slider label"
             @min={{0}}
             @max={{100}}
             @value={{50}}
             @invalid={{true}}
-            @invalidText='Invalid value'
+            @invalidText="Invalid value"
           />
         </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, sliderFixture, 'invalid', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        sliderFixture,
+        'invalid',
+        this.element.firstElementChild,
+      );
     });
 
     test('warn', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <Slider
-            @id='slider-1'
-            @labelText='Slider label'
+            @id="slider-1"
+            @labelText="Slider label"
             @min={{0}}
             @max={{100}}
             @value={{50}}
             @warn={{true}}
-            @warnText='Warning message'
+            @warnText="Warning message"
           />
         </template>,
       );
       await waitUntil(() => this.element.querySelector('svg'));
-      assertDomParity(assert, sliderFixture, 'warn', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        sliderFixture,
+        'warn',
+        this.element.firstElementChild,
+      );
     });
 
     test('hide-label', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <Slider
-            @id='slider-1'
-            @labelText='Slider label'
+            @id="slider-1"
+            @labelText="Slider label"
             @min={{0}}
             @max={{100}}
             @value={{50}}
@@ -2886,15 +4288,20 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      assertDomParity(assert, sliderFixture, 'hide-label', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        sliderFixture,
+        'hide-label',
+        this.element.firstElementChild,
+      );
     });
 
     test('two-handles', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <Slider
-            @id='slider-1'
-            @labelText='Slider label'
+            @id="slider-1"
+            @labelText="Slider label"
             @min={{0}}
             @max={{100}}
             @value={{50}}
@@ -2902,7 +4309,12 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      assertDomParity(assert, sliderFixture, 'two-handles', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        sliderFixture,
+        'two-handles',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {

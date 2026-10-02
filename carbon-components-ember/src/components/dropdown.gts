@@ -401,7 +401,12 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
         }
         break;
       default:
-        if (event.key.length === 1 && !event.altKey && !event.ctrlKey && !event.metaKey) {
+        if (
+          event.key.length === 1 &&
+          !event.altKey &&
+          !event.ctrlKey &&
+          !event.metaKey
+        ) {
           this.handleCharacterKey(event.key);
         }
         break;
@@ -490,83 +495,89 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
     <div class={{this.wrapperClasses}} ...attributes>
       <label
         id={{this.labelId}}
-        class='cds--label
-          {{if @disabled "cds--label--disabled"}}
-          {{if @hideLabel "cds--visually-hidden"}}'
+        class="cds--label
+          {{if @disabled 'cds--label--disabled'}}
+          {{if @hideLabel 'cds--visually-hidden'}}"
       >{{@titleText}}</label>
-      <div class={{this.boxClasses}} data-invalid={{if this.isInvalid 'true'}}>
+      <div class={{this.boxClasses}} data-invalid={{if this.isInvalid "true"}}>
         {{#if this.isInvalid}}
-          <WarningFilled @size='16' @svgClass='cds--list-box__invalid-icon' />
+          <WarningFilled @size="16" @svgClass="cds--list-box__invalid-icon" />
         {{else if this.isWarn}}
           <WarningAltFilled
-            @size='16'
-            @svgClass='cds--list-box__invalid-icon cds--list-box__invalid-icon--warning'
+            @size="16"
+            @svgClass="cds--list-box__invalid-icon cds--list-box__invalid-icon--warning"
           />
         {{/if}}
         <button
-          type='button'
+          type="button"
           id={{this.id}}
-          class='cds--list-box__field'
+          class="cds--list-box__field"
           title={{this.triggerText}}
-          role='combobox'
-          aria-haspopup='listbox'
-          aria-expanded={{if this.isOpen 'true' 'false'}}
+          role="combobox"
+          aria-haspopup="listbox"
+          aria-expanded={{if this.isOpen "true" "false"}}
           aria-controls={{this.menuId}}
           aria-activedescendant={{this.activeDescendant}}
-          aria-labelledby='{{this.labelId}} {{this.id}}'
+          aria-labelledby="{{this.labelId}} {{this.id}}"
           aria-describedby={{if this.hasDescription this.descriptionId}}
-          aria-disabled={{if @readOnly 'true'}}
+          aria-disabled={{if @readOnly "true"}}
           disabled={{@disabled}}
-          {{on 'click' this.handleTriggerClick}}
-          {{on 'keydown' this.handleTriggerKeydown}}
-          {{on 'focus' this.handleFocus}}
-          {{on 'blur' this.handleBlur}}
+          {{on "click" this.handleTriggerClick}}
+          {{on "keydown" this.handleTriggerKeydown}}
+          {{on "focus" this.handleFocus}}
+          {{on "blur" this.handleBlur}}
         >
-          <span class='cds--list-box__label'>{{this.triggerText}}</span>
+          <span class="cds--list-box__label">{{this.triggerText}}</span>
           <div
-            class='cds--list-box__menu-icon
-              {{if this.isOpen "cds--list-box__menu-icon--open"}}'
+            class="cds--list-box__menu-icon
+              {{if this.isOpen 'cds--list-box__menu-icon--open'}}"
           >
-            <ChevronDown @size='16' @svgClass='cds--list-box__menu-icon__svg' />
+            <ChevronDown @size="16" @svgClass="cds--list-box__menu-icon__svg" />
           </div>
         </button>
         {{#if @decorator}}
-          <div class='cds--list-box__inner-wrapper--decorator'>
-            <@decorator @size='16' @svgClass='cds--list-box__decorator-icon' />
+          <div class="cds--list-box__inner-wrapper--decorator">
+            <@decorator @size="16" @svgClass="cds--list-box__decorator-icon" />
           </div>
         {{/if}}
         {{! template-lint-disable no-invalid-interactive }}
         {{! template-lint-disable no-pointer-down-event-binding }}
         <ul
           id={{this.menuId}}
-          role='listbox'
-          class='cds--list-box__menu'
+          role="listbox"
+          class="cds--list-box__menu"
           aria-labelledby={{this.id}}
-          {{on 'mousedown' this.preventMenuMouseDown}}
+          {{on "mousedown" this.preventMenuMouseDown}}
         >
           {{#each @items as |item index|}}
             {{! template-lint-disable require-presentational-children }}
             <li
               id={{this.itemId index}}
-              role='option'
-              class='cds--list-box__menu-item
-                {{if (eq item this.selectedItem) "cds--list-box__menu-item--active"}}
-                {{if (eq index this.highlightedIndex) "cds--list-box__menu-item--highlighted"}}'
-              aria-selected={{if (eq item this.selectedItem) 'true' 'false'}}
+              role="option"
+              class="cds--list-box__menu-item
+                {{if
+                  (eq item this.selectedItem)
+                  'cds--list-box__menu-item--active'
+                }}
+                {{if
+                  (eq index this.highlightedIndex)
+                  'cds--list-box__menu-item--highlighted'
+                }}"
+              aria-selected={{if (eq item this.selectedItem) "true" "false"}}
               title={{this.itemToString item}}
-              {{on 'click' (fn this.handleItemClick item)}}
-              {{on 'mouseenter' (fn this.setHighlighted index)}}
+              {{on "click" (fn this.handleItemClick item)}}
+              {{on "mouseenter" (fn this.setHighlighted index)}}
             >
-              <div class='cds--list-box__menu-item__option'>
+              <div class="cds--list-box__menu-item__option">
                 {{#if (has-block)}}
                   {{yield item}}
                 {{else}}
                   {{this.itemToString item}}
                 {{/if}}
-                <span aria-hidden='true'>
+                <span aria-hidden="true">
                   <Checkmark
-                    @size='16'
-                    @svgClass='cds--list-box__menu-item__selected-icon'
+                    @size="16"
+                    @svgClass="cds--list-box__menu-item__selected-icon"
                   />
                 </span>
               </div>
@@ -575,13 +586,20 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
         </ul>
       </div>
       {{#if this.isInvalid}}
-        <div id={{this.descriptionId}} class='cds--form-requirement'>{{@invalidText}}</div>
+        <div
+          id={{this.descriptionId}}
+          class="cds--form-requirement"
+        >{{@invalidText}}</div>
       {{else if this.isWarn}}
-        <div id={{this.descriptionId}} class='cds--form-requirement'>{{@warnText}}</div>
+        <div
+          id={{this.descriptionId}}
+          class="cds--form-requirement"
+        >{{@warnText}}</div>
       {{else if this.showHelperText}}
         <div
           id={{this.descriptionId}}
-          class='cds--form__helper-text {{if @disabled "cds--form__helper-text--disabled"}}'
+          class="cds--form__helper-text
+            {{if @disabled 'cds--form__helper-text--disabled'}}"
         >{{@helperText}}</div>
       {{/if}}
     </div>

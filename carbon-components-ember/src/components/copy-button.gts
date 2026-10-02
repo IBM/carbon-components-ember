@@ -129,53 +129,53 @@ export default class CarbonCopyButton extends Component<CarbonCopyButtonSignatur
       @align={{this.align}}
       @autoAlign={{@autoAlign}}
       @highContrast={{true}}
-      class='cds--tooltip cds--icon-tooltip'
+      class="cds--tooltip cds--icon-tooltip"
     >
       <Button
         data-copy-btn
         aria-label={{this.label}}
         aria-describedby={{this.tooltipId}}
-        tabindex='0'
-        @type='primary'
-        @size='md'
+        tabindex="0"
+        @type="primary"
+        @size="md"
         @iconOnly={{true}}
         @disabled={{@disabled}}
         @onClick={{this.copyToClipboard}}
-        class='cds--copy
-          {{if @inline "cds--snippet cds--snippet--inline" "cds--copy-btn"}}'
+        class="cds--copy
+          {{if @inline 'cds--snippet cds--snippet--inline' 'cds--copy-btn'}}"
         ...attributes
-        {{on 'mouseenter' this.show}}
-        {{on 'mouseleave' this.hide}}
-        {{on 'focusin' this.show}}
-        {{on 'focusout' this.hide}}
+        {{on "mouseenter" this.show}}
+        {{on "mouseleave" this.hide}}
+        {{on "focusin" this.show}}
+        {{on "focusout" this.hide}}
         {{captureElement onInsert=this.captureCarbonElement}}
       >
         {{#if (has-block)}}
-          <code class={{unless @inline 'cds--visually-hidden'}}>
+          <code class={{unless @inline "cds--visually-hidden"}}>
             {{~yield~}}
           </code>
         {{/if}}
         {{#unless @inline}}
           <svg
-            class='cds--snippet__icon'
-            xmlns='http://www.w3.org/2000/svg'
-            width='16'
-            height='16'
-            viewBox='0 0 16 16'
+            class="cds--snippet__icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
           >
-            <path d='M1 10H0V2C0 .9.9 0 2 0h8v1H2c-.6 0-1 .5-1 1v8z' />
+            <path d="M1 10H0V2C0 .9.9 0 2 0h8v1H2c-.6 0-1 .5-1 1v8z" />
             <path
-              d='M11 4.2V8h3.8L11 4.2zM15 9h-4c-.6 0-1-.4-1-1V4H4.5c-.3 0-.5.2-.5.5v10c0 .3.2.5.5.5h10c.3 0 .5-.2.5-.5V9zm-4-6c.1 0 .3.1.4.1l4.5 4.5c0
-              .1.1.3.1.4v6.5c0 .8-.7 1.5-1.5 1.5h-10c-.8 0-1.5-.7-1.5-1.5v-10C3 3.7 3.7 3 4.5 3H11z'
+              d="M11 4.2V8h3.8L11 4.2zM15 9h-4c-.6 0-1-.4-1-1V4H4.5c-.3 0-.5.2-.5.5v10c0 .3.2.5.5.5h10c.3 0 .5-.2.5-.5V9zm-4-6c.1 0 .3.1.4.1l4.5 4.5c0
+              .1.1.3.1.4v6.5c0 .8-.7 1.5-1.5 1.5h-10c-.8 0-1.5-.7-1.5-1.5v-10C3 3.7 3.7 3 4.5 3H11z"
             />
           </svg>
         {{/unless}}
       </Button>
       <PopoverContent
         id={{this.tooltipId}}
-        role='tooltip'
-        class='cds--tooltip-content'
-        aria-hidden={{if this.isOpen 'false' 'true'}}
+        role="tooltip"
+        class="cds--tooltip-content"
+        aria-hidden={{if this.isOpen "false" "true"}}
       >
         {{this.label}}
       </PopoverContent>

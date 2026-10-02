@@ -30,7 +30,9 @@ module('Integration | Component | Grid', (hooks) => {
             <GridColumn>Column 2</GridColumn>
           </GridRow>
         </Grid>
-        <style>{{styleValue.current}}</style>
+        <style>
+          {{styleValue.current}}
+        </style>
       </template>,
     );
 
@@ -59,8 +61,12 @@ module('Integration | Component | Grid', (hooks) => {
             <GridColumn>Column 2</GridColumn>
           </GridRow>
         </Grid>
-        <style>{{styleValue.current}}</style>
-        <style>{{darkStyleValue.current}}</style>
+        <style>
+          {{styleValue.current}}
+        </style>
+        <style>
+          {{darkStyleValue.current}}
+        </style>
       </template>,
     );
 
@@ -80,28 +86,40 @@ module('Integration | Component | Grid', (hooks) => {
   });
 
   test('renders the base grid class', async function (assert) {
-    await render(<template><Grid>content</Grid></template>);
+    await render(
+      <template>
+        <Grid>content</Grid>
+      </template>,
+    );
 
     assert.dom('.cds--grid').exists();
   });
 
   test('@condensed adds the condensed class', async function (assert) {
     await render(
-      <template><Grid @condensed={{true}}>content</Grid></template>,
+      <template>
+        <Grid @condensed={{true}}>content</Grid>
+      </template>,
     );
 
     assert.dom('.cds--grid--condensed').exists();
   });
 
   test('@narrow adds the narrow class', async function (assert) {
-    await render(<template><Grid @narrow={{true}}>content</Grid></template>);
+    await render(
+      <template>
+        <Grid @narrow={{true}}>content</Grid>
+      </template>,
+    );
 
     assert.dom('.cds--grid--narrow').exists();
   });
 
   test('@fullWidth adds the full-width class', async function (assert) {
     await render(
-      <template><Grid @fullWidth={{true}}>content</Grid></template>,
+      <template>
+        <Grid @fullWidth={{true}}>content</Grid>
+      </template>,
     );
 
     assert.dom('.cds--grid--full-width').exists();
@@ -109,21 +127,31 @@ module('Integration | Component | Grid', (hooks) => {
 
   test('@withRowGap adds the with-row-gap class', async function (assert) {
     await render(
-      <template><Grid @withRowGap={{true}}>content</Grid></template>,
+      <template>
+        <Grid @withRowGap={{true}}>content</Grid>
+      </template>,
     );
 
     assert.dom('.cds--grid--with-row-gap').exists();
   });
 
   test('@as renders a custom element type', async function (assert) {
-    await render(<template><Grid @as='section'>content</Grid></template>);
+    await render(
+      <template>
+        <Grid @as="section">content</Grid>
+      </template>,
+    );
 
     assert.dom('div.cds--grid').doesNotExist();
     assert.dom('section.cds--grid').exists();
   });
 
   test('GridRow renders the base row class', async function (assert) {
-    await render(<template><GridRow>content</GridRow></template>);
+    await render(
+      <template>
+        <GridRow>content</GridRow>
+      </template>,
+    );
 
     assert.dom('.cds--row').exists();
   });
@@ -140,14 +168,20 @@ module('Integration | Component | Grid', (hooks) => {
   });
 
   test('GridColumn defaults to the auto-width col class', async function (assert) {
-    await render(<template><GridColumn>content</GridColumn></template>);
+    await render(
+      <template>
+        <GridColumn>content</GridColumn>
+      </template>,
+    );
 
     assert.dom('.cds--col').exists();
   });
 
   test('GridColumn @sm as true adds the auto column class for the breakpoint', async function (assert) {
     await render(
-      <template><GridColumn @sm={{true}}>content</GridColumn></template>,
+      <template>
+        <GridColumn @sm={{true}}>content</GridColumn>
+      </template>,
     );
 
     assert.dom('.cds--col-sm').exists();
@@ -178,7 +212,9 @@ module('Integration | Component | Grid', (hooks) => {
 
   test('FlexGrid renders the flexbox grid even when @mode is css-grid', async function (assert) {
     await render(
-      <template><FlexGrid @mode='css-grid'>content</FlexGrid></template>,
+      <template>
+        <FlexGrid @mode="css-grid">content</FlexGrid>
+      </template>,
     );
 
     assert.dom('.cds--grid').exists();
@@ -186,14 +222,22 @@ module('Integration | Component | Grid', (hooks) => {
   });
 
   test('GridColumnHang renders the column hang class', async function (assert) {
-    await render(<template><GridColumnHang>Text</GridColumnHang></template>);
+    await render(
+      <template>
+        <GridColumnHang>Text</GridColumnHang>
+      </template>,
+    );
 
     assert.dom('.cds--grid-column-hang').exists().hasText('Text');
   });
 
   module('css-grid mode', function () {
     test('@mode="css-grid" renders the css grid class', async function (assert) {
-      await render(<template><Grid @mode='css-grid'>content</Grid></template>);
+      await render(
+        <template>
+          <Grid @mode="css-grid">content</Grid>
+        </template>,
+      );
 
       assert.dom('.cds--css-grid').exists();
       assert.dom('.cds--grid').doesNotExist();
@@ -203,7 +247,7 @@ module('Integration | Component | Grid', (hooks) => {
       await render(
         <template>
           <Grid
-            @mode='css-grid'
+            @mode="css-grid"
             @condensed={{true}}
             @fullWidth={{true}}
             @withRowGap={{true}}
@@ -220,7 +264,7 @@ module('Integration | Component | Grid', (hooks) => {
       await render(
         <template>
           <Grid
-            @mode='css-grid'
+            @mode="css-grid"
             @narrow={{true}}
             @condensed={{true}}
           >content</Grid>
@@ -234,9 +278,9 @@ module('Integration | Component | Grid', (hooks) => {
     test('@align adds the alignment class', async function (assert) {
       await render(
         <template>
-          <Grid @mode='css-grid' @align='start'>content</Grid>
-          <Grid @mode='css-grid' @align='end'>content</Grid>
-          <Grid @mode='css-grid' @align='center'>content</Grid>
+          <Grid @mode="css-grid" @align="start">content</Grid>
+          <Grid @mode="css-grid" @align="end">content</Grid>
+          <Grid @mode="css-grid" @align="center">content</Grid>
         </template>,
       );
 
@@ -247,8 +291,8 @@ module('Integration | Component | Grid', (hooks) => {
     test('the yielded Column renders css grid column classes', async function (assert) {
       await render(
         <template>
-          <Grid @mode='css-grid' as |g|>
-            <g.Column @sm={{4}} @md={{true}} @lg='75%'>content</g.Column>
+          <Grid @mode="css-grid" as |g|>
+            <g.Column @sm={{4}} @md={{true}} @lg="75%">content</g.Column>
           </Grid>
         </template>,
       );
@@ -262,7 +306,7 @@ module('Integration | Component | Grid', (hooks) => {
     test('the yielded Column supports offset, start and end', async function (assert) {
       await render(
         <template>
-          <Grid @mode='css-grid' as |g|>
+          <Grid @mode="css-grid" as |g|>
             <g.Column @sm={{hash span=1 offset=3}}>offset</g.Column>
             <g.Column @md={{hash start=3 end=9}}>start/end</g.Column>
           </Grid>
@@ -278,7 +322,7 @@ module('Integration | Component | Grid', (hooks) => {
     test('the yielded Column supports a breakpoint-independent @span', async function (assert) {
       await render(
         <template>
-          <Grid @mode='css-grid' as |g|>
+          <Grid @mode="css-grid" as |g|>
             <g.Column @span={{8}}>span</g.Column>
             <g.Column @span={{hash start=2 end=6}}>start/end</g.Column>
           </Grid>
@@ -293,7 +337,7 @@ module('Integration | Component | Grid', (hooks) => {
     test('a nested Grid renders as a subgrid', async function (assert) {
       await render(
         <template>
-          <Grid @mode='css-grid' as |g|>
+          <Grid @mode="css-grid" as |g|>
             <g.Column @sm={{4}}>
               <g.Grid @narrow={{true}} @withRowGap={{true}}>nested</g.Grid>
             </g.Column>
@@ -310,7 +354,7 @@ module('Integration | Component | Grid', (hooks) => {
     test('a nested Grid defaults to the wide subgrid gutter mode', async function (assert) {
       await render(
         <template>
-          <Grid @mode='css-grid' as |g|>
+          <Grid @mode="css-grid" as |g|>
             <g.Grid>nested</g.Grid>
           </Grid>
         </template>,
@@ -337,7 +381,7 @@ module('Integration | Component | Grid', (hooks) => {
     test('yields components bound to the given mode', async function (assert) {
       await render(
         <template>
-          <GridSettings @mode='css-grid' as |g|>
+          <GridSettings @mode="css-grid" as |g|>
             <g.Grid>
               <g.Column @sm={{2}}>content</g.Column>
             </g.Grid>
@@ -353,7 +397,7 @@ module('Integration | Component | Grid', (hooks) => {
     test('@subgrid makes the yielded Grid render as a subgrid', async function (assert) {
       await render(
         <template>
-          <GridSettings @mode='css-grid' @subgrid={{true}} as |g|>
+          <GridSettings @mode="css-grid" @subgrid={{true}} as |g|>
             <g.Grid>content</g.Grid>
           </GridSettings>
         </template>,

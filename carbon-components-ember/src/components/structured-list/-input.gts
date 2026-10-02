@@ -28,7 +28,10 @@ export default class StructuredListInput extends Component<StructuredListInputSi
   }
 
   get name() {
-    return this.args.name ?? `structured-list-input-${guidFor(this.args.row.args.wrapper)}`;
+    return (
+      this.args.name ??
+      `structured-list-input-${guidFor(this.args.row.args.wrapper)}`
+    );
   }
 
   get type() {
@@ -44,14 +47,14 @@ export default class StructuredListInput extends Component<StructuredListInputSi
   <template>
     <input
       type={{this.type}}
-      tabindex='0'
+      tabindex="0"
       checked={{@row.isSelected}}
       value={{@row.rowId}}
       id={{this.id}}
-      class='cds--structured-list-input cds--visually-hidden'
+      class="cds--structured-list-input cds--visually-hidden"
       name={{this.name}}
       title={{@title}}
-      {{on 'change' this.handleChange}}
+      {{on "change" this.handleChange}}
       ...attributes
     />
   </template>

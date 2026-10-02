@@ -24,8 +24,8 @@ export default class TabContent extends Component<TabContentSignature> {
 
   <template>
     <div
-      class='cds--tab-content'
-      role='tabpanel'
+      class="cds--tab-content"
+      role="tabpanel"
       hidden={{this.isHidden}}
       ...attributes
     >

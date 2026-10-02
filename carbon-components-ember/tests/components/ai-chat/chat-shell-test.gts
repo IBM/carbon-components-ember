@@ -86,7 +86,7 @@ module('Integration | Component | ai-chat/ChatShell', (hooks) => {
   test('the workspace block renders when @showWorkspace is true', async function (assert) {
     await render(
       <template>
-        <ChatShell @showWorkspace={{true}} @workspaceLocation='end'>
+        <ChatShell @showWorkspace={{true}} @workspaceLocation="end">
           <:workspace>workspace content</:workspace>
           <:messages></:messages>
         </ChatShell>
@@ -100,7 +100,7 @@ module('Integration | Component | ai-chat/ChatShell', (hooks) => {
   test('it applies aiEnabled/showFrame/rounded modifier classes', async function (assert) {
     await render(
       <template>
-        <ChatShell @aiEnabled={{true}} @showFrame={{true}} @cornerAll='round'>
+        <ChatShell @aiEnabled={{true}} @showFrame={{true}} @cornerAll="round">
           <:messages></:messages>
         </ChatShell>
       </template>,
@@ -129,8 +129,8 @@ module('Integration | Component | ai-chat/ChatShell', (hooks) => {
       <template>
         <ChatShell
           @showHistory={{true}}
-          @historyAriaLabel='Custom history'
-          @messagesAriaLabel='Custom messages'
+          @historyAriaLabel="Custom history"
+          @messagesAriaLabel="Custom messages"
         >
           <:history></:history>
           <:messages></:messages>
@@ -180,8 +180,10 @@ module('Integration | Component | ai-chat/ChatShell', (hooks) => {
     // real layout instead of the browser's static default.
     await render(
       <template>
-        <style>{{carbonStyle.default}}</style>
-        <div style='inline-size: 480px'>
+        <style>
+          {{carbonStyle.default}}
+        </style>
+        <div style="inline-size: 480px">
           <ChatShell @showHistory={{true}}>
             <:history>history content</:history>
             <:messages></:messages>

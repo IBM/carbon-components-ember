@@ -37,7 +37,7 @@ export function createDiffDecorator() {
         const builder = new RangeSetBuilder<Decoration>();
 
         for (const { from, to } of view.visibleRanges) {
-          for (let pos = from; pos <= to; ) {
+          for (let pos = from; pos <= to;) {
             const line = view.state.doc.lineAt(pos);
             const text = line.text;
 
@@ -59,6 +59,6 @@ export function createDiffDecorator() {
     },
     {
       decorations: (v) => v.decorations,
-    }
+    },
   );
 }

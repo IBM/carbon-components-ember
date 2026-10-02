@@ -26,28 +26,28 @@ export default class UIShellHeaderMenu extends Component<UIShellHeaderMenuSignat
 
   <template>
     <li
-      class='cds--header__submenu
-        {{if @isActive "cds--header__menu-item--current"}}'
+      class="cds--header__submenu
+        {{if @isActive 'cds--header__menu-item--current'}}"
       ...attributes
     >
       {{! template-lint-disable no-unsupported-role-attributes }}
       <a
-        aria-haspopup='menu'
-        aria-expanded='{{if this.expanded "true" "false"}}'
+        aria-haspopup="menu"
+        aria-expanded="{{if this.expanded 'true' 'false'}}"
         aria-label={{@aria-label}}
         aria-labelledby={{@aria-labelledby}}
-        class='cds--header__menu-item cds--header__menu-title'
-        href='#'
-        tabindex='0'
-        {{on 'click' this.toggleExpanded}}
+        class="cds--header__menu-item cds--header__menu-title"
+        href="#"
+        tabindex="0"
+        {{on "click" this.toggleExpanded}}
       >
         {{@menuLinkName}}
-        <ChevronDown @svgClass='cds--header__menu-arrow' />
+        <ChevronDown @svgClass="cds--header__menu-arrow" />
       </a>
       <ul
         aria-label={{@aria-label}}
         aria-labelledby={{@aria-labelledby}}
-        class='cds--header__menu'
+        class="cds--header__menu"
       >
         {{yield UIShellHeaderMenuItem}}
       </ul>

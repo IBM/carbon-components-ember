@@ -28,10 +28,12 @@ module('Integration | Component | Tabs', (hooks) => {
     await render(
       <template>
         <Tabs as |TabPane|>
-          <TabPane @title='Tab 1' @isDefault={{true}}>Content 1</TabPane>
-          <TabPane @title='Tab 2'>Content 2</TabPane>
+          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
+          <TabPane @title="Tab 2">Content 2</TabPane>
         </Tabs>
-        <style>{{styleValue.current}}</style>
+        <style>
+          {{styleValue.current}}
+        </style>
       </template>,
     );
 
@@ -55,11 +57,15 @@ module('Integration | Component | Tabs', (hooks) => {
     await render(
       <template>
         <Tabs as |TabPane|>
-          <TabPane @title='Tab 1' @isDefault={{true}}>Content 1</TabPane>
-          <TabPane @title='Tab 2'>Content 2</TabPane>
+          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
+          <TabPane @title="Tab 2">Content 2</TabPane>
         </Tabs>
-        <style>{{styleValue.current}}</style>
-        <style>{{darkStyleValue.current}}</style>
+        <style>
+          {{styleValue.current}}
+        </style>
+        <style>
+          {{darkStyleValue.current}}
+        </style>
       </template>,
     );
 
@@ -82,16 +88,20 @@ module('Integration | Component | Tabs', (hooks) => {
     await render(
       <template>
         <Tabs as |TabPane|>
-          <TabPane @title='Tab 1' @isDefault={{true}}>Content 1</TabPane>
-          <TabPane @title='Tab 2'>Content 2</TabPane>
+          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
+          <TabPane @title="Tab 2">Content 2</TabPane>
         </Tabs>
       </template>,
     );
 
     assert.dom('[role="tablist"]').exists();
     assert.dom('[role="tab"]').exists({ count: 2 });
-    assert.dom('[role="tab"]:first-child').hasAttribute('aria-selected', 'true');
-    assert.dom('[role="tab"]:last-of-type').hasAttribute('aria-selected', 'false');
+    assert
+      .dom('[role="tab"]:first-child')
+      .hasAttribute('aria-selected', 'true');
+    assert
+      .dom('[role="tab"]:last-of-type')
+      .hasAttribute('aria-selected', 'false');
     assert.dom('[role="tabpanel"]:not([hidden])').hasText('Content 1');
   });
 
@@ -99,14 +109,18 @@ module('Integration | Component | Tabs', (hooks) => {
     await render(
       <template>
         <Tabs as |TabPane|>
-          <TabPane @title='Tab 1'>Content 1</TabPane>
-          <TabPane @title='Tab 2'>Content 2</TabPane>
+          <TabPane @title="Tab 1">Content 1</TabPane>
+          <TabPane @title="Tab 2">Content 2</TabPane>
         </Tabs>
       </template>,
     );
 
-    assert.dom('[role="tab"]:first-child').hasAttribute('aria-selected', 'true');
-    assert.dom('[role="tab"]:last-of-type').hasAttribute('aria-selected', 'false');
+    assert
+      .dom('[role="tab"]:first-child')
+      .hasAttribute('aria-selected', 'true');
+    assert
+      .dom('[role="tab"]:last-of-type')
+      .hasAttribute('aria-selected', 'false');
     assert.dom('[role="tabpanel"]:not([hidden])').hasText('Content 1');
   });
 
@@ -114,14 +128,18 @@ module('Integration | Component | Tabs', (hooks) => {
     await render(
       <template>
         <Tabs as |TabPane|>
-          <TabPane @title='Tab 1' @disabled={{true}}>Content 1</TabPane>
-          <TabPane @title='Tab 2'>Content 2</TabPane>
+          <TabPane @title="Tab 1" @disabled={{true}}>Content 1</TabPane>
+          <TabPane @title="Tab 2">Content 2</TabPane>
         </Tabs>
       </template>,
     );
 
-    assert.dom('[role="tab"]:first-child').hasAttribute('aria-selected', 'false');
-    assert.dom('[role="tab"]:last-of-type').hasAttribute('aria-selected', 'true');
+    assert
+      .dom('[role="tab"]:first-child')
+      .hasAttribute('aria-selected', 'false');
+    assert
+      .dom('[role="tab"]:last-of-type')
+      .hasAttribute('aria-selected', 'true');
     assert.dom('[role="tabpanel"]:not([hidden])').hasText('Content 2');
   });
 
@@ -129,9 +147,9 @@ module('Integration | Component | Tabs', (hooks) => {
     await render(
       <template>
         <Tabs as |TabPane|>
-          <TabPane @title='Tab 1'>Content 1</TabPane>
-          <TabPane @title='Tab 2'>Content 2</TabPane>
-          <TabPane @title='Tab 3'>Content 3</TabPane>
+          <TabPane @title="Tab 1">Content 1</TabPane>
+          <TabPane @title="Tab 2">Content 2</TabPane>
+          <TabPane @title="Tab 3">Content 3</TabPane>
         </Tabs>
       </template>,
     );
@@ -161,15 +179,17 @@ module('Integration | Component | Tabs', (hooks) => {
     await render(
       <template>
         <Tabs as |TabPane|>
-          <TabPane @title='Tab 1' @isDefault={{true}}>Content 1</TabPane>
-          <TabPane @title='Tab 2'>Content 2</TabPane>
+          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
+          <TabPane @title="Tab 2">Content 2</TabPane>
         </Tabs>
       </template>,
     );
 
     await click('[role="tab"]:last-of-type');
 
-    assert.dom('[role="tab"]:last-of-type').hasAttribute('aria-selected', 'true');
+    assert
+      .dom('[role="tab"]:last-of-type')
+      .hasAttribute('aria-selected', 'true');
     assert.dom('[role="tabpanel"]:not([hidden])').hasText('Content 2');
   });
 
@@ -185,45 +205,53 @@ module('Integration | Component | Tabs', (hooks) => {
           @tabSelected={{onSelect}}
           as |TabPane|
         >
-          <TabPane @title='Tab 1'>Content 1</TabPane>
-          <TabPane @title='Tab 2'>Content 2</TabPane>
+          <TabPane @title="Tab 1">Content 1</TabPane>
+          <TabPane @title="Tab 2">Content 2</TabPane>
         </Tabs>
       </template>,
     );
 
-    assert.dom('[role="tab"]:first-child').hasAttribute('aria-selected', 'true');
+    assert
+      .dom('[role="tab"]:first-child')
+      .hasAttribute('aria-selected', 'true');
 
     await click('[role="tab"]:last-of-type');
 
     assert.strictEqual(selected.current, 'Tab 2');
-    assert.dom('[role="tab"]:last-of-type').hasAttribute('aria-selected', 'true');
+    assert
+      .dom('[role="tab"]:last-of-type')
+      .hasAttribute('aria-selected', 'true');
   });
 
   test('a disabled tab cannot be selected', async function (assert) {
     await render(
       <template>
         <Tabs as |TabPane|>
-          <TabPane @title='Tab 1' @isDefault={{true}}>Content 1</TabPane>
-          <TabPane @title='Tab 2' @disabled={{true}}>Content 2</TabPane>
+          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
+          <TabPane @title="Tab 2" @disabled={{true}}>Content 2</TabPane>
         </Tabs>
       </template>,
     );
 
-    assert.dom('[role="tab"]:last-of-type').hasClass('cds--tabs__nav-item--disabled');
+    assert
+      .dom('[role="tab"]:last-of-type')
+      .hasClass('cds--tabs__nav-item--disabled');
     // The tab button now carries the native `disabled` attribute (matching
     // @carbon/react), so click() would throw — assert the disabled state
     // instead, which is sufficient proof it cannot be selected.
     assert.dom('[role="tab"]:last-of-type').isDisabled();
-    assert.dom('[role="tab"]:first-child').hasAttribute('aria-selected', 'true');
+    assert
+      .dom('[role="tab"]:first-child')
+      .hasAttribute('aria-selected', 'true');
   });
 
   test('ArrowRight/ArrowLeft/Home/End move focus and (in automatic mode) selection', async function (assert) {
     await render(
       <template>
         <Tabs as |TabPane|>
-          <TabPane @title='Tab 1' @isDefault={{true}}>Content 1</TabPane>
-          <TabPane @title='Tab 2'>Content 2</TabPane>
-          <TabPane @title='Tab 3'>Content 3</TabPane>
+          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
+          <TabPane @title="Tab 2">Content 2</TabPane>
+          <TabPane @title="Tab 3">Content 3</TabPane>
         </Tabs>
       </template>,
     );
@@ -242,15 +270,17 @@ module('Integration | Component | Tabs', (hooks) => {
     assert.dom(tabs()[0]).hasAttribute('aria-selected', 'true');
 
     await triggerKeyEvent(tabs()[0]!, 'keydown', 'ArrowLeft');
-    assert.dom(tabs()[2]).hasAttribute('aria-selected', 'true', 'wraps around to the last tab');
+    assert
+      .dom(tabs()[2])
+      .hasAttribute('aria-selected', 'true', 'wraps around to the last tab');
   });
 
   test('@activation="manual" only moves focus on arrow keys; Enter/Space selects', async function (assert) {
     await render(
       <template>
-        <Tabs @activation='manual' as |TabPane|>
-          <TabPane @title='Tab 1' @isDefault={{true}}>Content 1</TabPane>
-          <TabPane @title='Tab 2'>Content 2</TabPane>
+        <Tabs @activation="manual" as |TabPane|>
+          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
+          <TabPane @title="Tab 2">Content 2</TabPane>
         </Tabs>
       </template>,
     );
@@ -258,11 +288,21 @@ module('Integration | Component | Tabs', (hooks) => {
     const tabs = () => Array.from(document.querySelectorAll('[role="tab"]'));
 
     await triggerKeyEvent(tabs()[0]!, 'keydown', 'ArrowRight');
-    assert.dom(tabs()[0]).hasAttribute('aria-selected', 'true', 'selection unchanged by arrow key alone');
-    assert.dom(tabs()[1]).hasAttribute('tabindex', '0', 'focus moved to the next tab');
+    assert
+      .dom(tabs()[0])
+      .hasAttribute(
+        'aria-selected',
+        'true',
+        'selection unchanged by arrow key alone',
+      );
+    assert
+      .dom(tabs()[1])
+      .hasAttribute('tabindex', '0', 'focus moved to the next tab');
 
     await triggerKeyEvent(tabs()[1]!, 'keydown', 'Enter');
-    assert.dom(tabs()[1]).hasAttribute('aria-selected', 'true', 'Enter selects the focused tab');
+    assert
+      .dom(tabs()[1])
+      .hasAttribute('aria-selected', 'true', 'Enter selects the focused tab');
   });
 
   test('@dismissable renders a close button per tab and calls @onTabCloseRequest', async function (assert) {
@@ -273,8 +313,8 @@ module('Integration | Component | Tabs', (hooks) => {
     await render(
       <template>
         <Tabs @dismissable={{true}} @onTabCloseRequest={{onClose}} as |TabPane|>
-          <TabPane @title='Tab 1' @isDefault={{true}}>Content 1</TabPane>
-          <TabPane @title='Tab 2'>Content 2</TabPane>
+          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
+          <TabPane @title="Tab 2">Content 2</TabPane>
         </Tabs>
       </template>,
     );
@@ -288,14 +328,16 @@ module('Integration | Component | Tabs', (hooks) => {
 
     assert.strictEqual(closed, 'Tab 1');
     // Closing shouldn't also select the tab being closed.
-    assert.dom('[role="tab"]:first-child').hasAttribute('aria-selected', 'true');
+    assert
+      .dom('[role="tab"]:first-child')
+      .hasAttribute('aria-selected', 'true');
   });
 
   test('@renderIcon renders the given icon inside the tab at the 16px size Carbon expects', async function (assert) {
     await render(
       <template>
         <Tabs as |TabPane|>
-          <TabPane @title='Tab 1' @isDefault={{true}} @renderIcon={{Folder}}>
+          <TabPane @title="Tab 1" @isDefault={{true}} @renderIcon={{Folder}}>
             Content 1
           </TabPane>
         </Tabs>
@@ -312,7 +354,7 @@ module('Integration | Component | Tabs', (hooks) => {
     await render(
       <template>
         <Tabs @dismissable={{true}} as |TabPane|>
-          <TabPane @title='Tab 1' @isDefault={{true}} @renderIcon={{Folder}}>
+          <TabPane @title="Tab 1" @isDefault={{true}} @renderIcon={{Folder}}>
             Content 1
           </TabPane>
         </Tabs>
@@ -334,11 +376,13 @@ module('Integration | Component | Tabs', (hooks) => {
     await render(
       <template>
         <Tabs as |TabPane|>
-          <TabPane @title='Tab 1' @isDefault={{true}} @renderIcon={{Folder}}>
+          <TabPane @title="Tab 1" @isDefault={{true}} @renderIcon={{Folder}}>
             Content 1
           </TabPane>
         </Tabs>
-        <style>{{styleValue.current}}</style>
+        <style>
+          {{styleValue.current}}
+        </style>
       </template>,
     );
     await waitUntil(() => find('.cds--tabs__nav-item--icon svg'));
@@ -357,7 +401,8 @@ module('Integration | Component | Tabs', (hooks) => {
       'the icon has no default margin pushing it out of its 16px box',
     );
     assert.true(
-      svgRect.width <= wrapperRect.width && svgRect.height <= wrapperRect.height,
+      svgRect.width <= wrapperRect.width &&
+        svgRect.height <= wrapperRect.height,
       'the icon fits inside its wrapper instead of overflowing it',
     );
   });
@@ -366,7 +411,7 @@ module('Integration | Component | Tabs', (hooks) => {
     await render(
       <template>
         <Tabs as |TabPane|>
-          <TabPane @title='Tab 1' @isDefault={{true}} @secondaryLabel='Sub'>
+          <TabPane @title="Tab 1" @isDefault={{true}} @secondaryLabel="Sub">
             Content 1
           </TabPane>
         </Tabs>
@@ -378,7 +423,7 @@ module('Integration | Component | Tabs', (hooks) => {
     await render(
       <template>
         <Tabs @contained={{true}} as |TabPane|>
-          <TabPane @title='Tab 1' @isDefault={{true}} @secondaryLabel='Sub'>
+          <TabPane @title="Tab 1" @isDefault={{true}} @secondaryLabel="Sub">
             Content 1
           </TabPane>
         </Tabs>
@@ -391,8 +436,8 @@ module('Integration | Component | Tabs', (hooks) => {
   test('@contained, @fullWidth and @size add their modifier classes', async function (assert) {
     await render(
       <template>
-        <Tabs @contained={{true}} @fullWidth={{true}} @size='lg' as |TabPane|>
-          <TabPane @title='Tab 1' @isDefault={{true}}>Content 1</TabPane>
+        <Tabs @contained={{true}} @fullWidth={{true}} @size="lg" as |TabPane|>
+          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
         </Tabs>
       </template>,
     );
@@ -405,8 +450,8 @@ module('Integration | Component | Tabs', (hooks) => {
   test('@size="lg" without @contained does not add the size class (line tabs cap out at md)', async function (assert) {
     await render(
       <template>
-        <Tabs @size='lg' as |TabPane|>
-          <TabPane @title='Tab 1' @isDefault={{true}}>Content 1</TabPane>
+        <Tabs @size="lg" as |TabPane|>
+          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
         </Tabs>
       </template>,
     );
@@ -418,7 +463,7 @@ module('Integration | Component | Tabs', (hooks) => {
     await render(
       <template>
         <Tabs @fullWidth={{true}} as |TabPane|>
-          <TabPane @title='Tab 1' @isDefault={{true}}>Content 1</TabPane>
+          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
         </Tabs>
       </template>,
     );
@@ -430,7 +475,7 @@ module('Integration | Component | Tabs', (hooks) => {
     await render(
       <template>
         <Tabs @contained={{true}} as |TabPane|>
-          <TabPane @title='Tab 1' @isDefault={{true}} @secondaryLabel='Sub'>
+          <TabPane @title="Tab 1" @isDefault={{true}} @secondaryLabel="Sub">
             Content 1
           </TabPane>
         </Tabs>
@@ -445,8 +490,8 @@ module('Integration | Component | Tabs', (hooks) => {
     await render(
       <template>
         <Tabs @dismissable={{true}} @onTabCloseRequest={{noOp}} as |TabPane|>
-          <TabPane @title='Tab 1' @isDefault={{true}}>Content 1</TabPane>
-          <TabPane @title='Tab 2' @disabled={{true}}>Content 2</TabPane>
+          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
+          <TabPane @title="Tab 2" @disabled={{true}}>Content 2</TabPane>
         </Tabs>
       </template>,
     );
@@ -461,7 +506,9 @@ module('Integration | Component | Tabs', (hooks) => {
     assert.dom(disabledCloseButton).hasAttribute('aria-disabled', 'true');
     assert
       .dom(disabledCloseButton)
-      .isDisabled('the native disabled attribute prevents the button from being clicked at all');
+      .isDisabled(
+        'the native disabled attribute prevents the button from being clicked at all',
+      );
 
     // The disabled tab button itself also carries the native `disabled`
     // attribute (matching @carbon/react), so keyboard interaction is natively
@@ -474,9 +521,7 @@ module('Integration | Component | Tabs', (hooks) => {
 
   test('@loading renders a skeleton, honoring @contained', async function (assert) {
     await render(
-      <template>
-        <Tabs @loading={{true}} @contained={{true}} />
-      </template>,
+      <template><Tabs @loading={{true}} @contained={{true}} /></template>,
     );
 
     assert.dom('.cds--tabs.cds--skeleton').hasClass('cds--tabs--contained');
@@ -491,8 +536,8 @@ module('Integration | Component | Tabs', (hooks) => {
     await render(
       <template>
         <Tabs @onTabCloseRequest={{onClose}} as |TabPane|>
-          <TabPane @title='Tab 1' @isDefault={{true}}>Content 1</TabPane>
-          <TabPane @title='Tab 2'>Content 2</TabPane>
+          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
+          <TabPane @title="Tab 2">Content 2</TabPane>
         </Tabs>
       </template>,
     );
@@ -515,5 +560,4 @@ module('Integration | Component | Tabs', (hooks) => {
       'clicking the hidden button does not call @onTabCloseRequest',
     );
   });
-
 });

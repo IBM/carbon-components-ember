@@ -36,7 +36,10 @@ module('Integration | Component | Pagination', (hooks) => {
     assert.dom('[data-page-forward]').hasAttribute('aria-label', 'Next page');
 
     const tooltipContents = document.querySelectorAll('.cds--tooltip-content');
-    assert.strictEqual(tooltipContents[0]?.textContent?.trim(), 'Previous page');
+    assert.strictEqual(
+      tooltipContents[0]?.textContent?.trim(),
+      'Previous page',
+    );
     assert.strictEqual(tooltipContents[1]?.textContent?.trim(), 'Next page');
   });
 
@@ -46,8 +49,8 @@ module('Integration | Component | Pagination', (hooks) => {
         <Pagination
           @length={{25}}
           @onPageChanged={{noop}}
-          @backwardText='Prior'
-          @forwardText='Later'
+          @backwardText="Prior"
+          @forwardText="Later"
         />
       </template>,
     );
@@ -66,8 +69,8 @@ module('Integration | Component | Pagination', (hooks) => {
         <Pagination
           @length={{25}}
           @onPageChanged={{noop}}
-          @backwardTextTooltipPosition='left'
-          @forwardTextTooltipPosition='right'
+          @backwardTextTooltipPosition="left"
+          @forwardTextTooltipPosition="right"
         />
       </template>,
     );
@@ -104,11 +107,7 @@ module('Integration | Component | Pagination', (hooks) => {
   test('@disabled disables the navigation buttons', async function (assert) {
     await render(
       <template>
-        <Pagination
-          @length={{25}}
-          @onPageChanged={{noop}}
-          @disabled={{true}}
-        />
+        <Pagination @length={{25}} @onPageChanged={{noop}} @disabled={{true}} />
       </template>,
     );
 
@@ -127,11 +126,11 @@ module('Integration | Component | Pagination', (hooks) => {
       };
     }> = <template>
       <button
-        type='button'
+        type="button"
         data-custom-page-select
         {{! template-lint-disable require-button-type }}
         aria-label={{@pageSelectLabelText}}
-        {{on 'click' (fn @onSetPage 3)}}
+        {{on "click" (fn @onSetPage 3)}}
       >
         {{@currentPage}}/{{@totalPages}}
       </button>

@@ -16,7 +16,7 @@ module('Integration | Component | List', (hooks) => {
   test('renders all items once the initial page slice is applied after insert', async function (assert) {
     await render(
       <template>
-        <List @items={{array 'a' 'b' 'c'}} as |list|>
+        <List @items={{array "a" "b" "c"}} as |list|>
           <list.BodyRows as |row|>
             <row.Row>
               <list.Column>{{row.item}}</list.Column>
@@ -26,10 +26,9 @@ module('Integration | Component | List', (hooks) => {
       </template>,
     );
 
-    await waitUntil(
-      () => findAll('.cds--structured-list-row').length === 3,
-      { timeout: 2000 },
-    );
+    await waitUntil(() => findAll('.cds--structured-list-row').length === 3, {
+      timeout: 2000,
+    });
 
     assert.dom('.cds--structured-list-row').exists({ count: 3 });
   });
@@ -37,7 +36,7 @@ module('Integration | Component | List', (hooks) => {
   test('yields a SearchInput and Pagination that render inside the structured list section', async function (assert) {
     await render(
       <template>
-        <List @items={{array 'a' 'b' 'c'}} as |list|>
+        <List @items={{array "a" "b" "c"}} as |list|>
           <list.SearchInput />
           <list.Pagination />
           <list.BodyRows as |row|>

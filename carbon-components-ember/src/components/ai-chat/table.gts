@@ -163,12 +163,18 @@ export default class AiChatTable extends Component<AiChatTableSignature> {
     return [...this.filteredRows].sort(
       (a, b) =>
         direction *
-        collator.compare(a.cells[index]?.text ?? '', b.cells[index]?.text ?? ''),
+        collator.compare(
+          a.cells[index]?.text ?? '',
+          b.cells[index]?.text ?? '',
+        ),
     );
   }
 
   get pagedRows() {
-    return this.sortedRows.slice(this.currentSlice.start, this.currentSlice.end);
+    return this.sortedRows.slice(
+      this.currentSlice.start,
+      this.currentSlice.end,
+    );
   }
 
   get itemsPerPageOptions() {
@@ -207,7 +213,12 @@ export default class AiChatTable extends Component<AiChatTableSignature> {
       this.initialPageSizeApplied = true;
       const desired = this.args.defaultPageSize ?? 5;
       if (slice.itemsPerPage !== desired) {
-        this.currentSlice = { page: 1, itemsPerPage: desired, start: 0, end: desired };
+        this.currentSlice = {
+          page: 1,
+          itemsPerPage: desired,
+          start: 0,
+          end: desired,
+        };
         return;
       }
     }
@@ -256,34 +267,34 @@ export default class AiChatTable extends Component<AiChatTableSignature> {
   }
 
   <template>
-    <div class='cds-aichat-table-container' ...attributes>
+    <div class="cds-aichat-table-container" ...attributes>
       {{#if @loading}}
-        <div class='cds--data-table-container cds--skeleton' data-loading>
-          <table class='cds--data-table'>
+        <div class="cds--data-table-container cds--skeleton" data-loading>
+          <table class="cds--data-table">
             <tbody>
               {{#each this.skeletonRows}}
                 <tr>
-                  <td><div class='cds--skeleton__text'></div></td>
-                  <td><div class='cds--skeleton__text'></div></td>
+                  <td><div class="cds--skeleton__text"></div></td>
+                  <td><div class="cds--skeleton__text"></div></td>
                 </tr>
               {{/each}}
             </tbody>
           </table>
         </div>
       {{else}}
-        <div class='cds--data-table-container'>
+        <div class="cds--data-table-container">
           {{#if @tableTitle}}
-            <div class='cds--data-table-header'>
-              <h4 class='cds--data-table-header__title'>{{@tableTitle}}</h4>
+            <div class="cds--data-table-header">
+              <h4 class="cds--data-table-header__title">{{@tableTitle}}</h4>
               {{#if @tableDescription}}
-                <p class='cds--data-table-header__description'>
+                <p class="cds--data-table-header__description">
                   {{@tableDescription}}
                 </p>
               {{/if}}
             </div>
           {{/if}}
-          <div class='cds--table-toolbar'>
-            <div class='cds--toolbar-content'>
+          <div class="cds--table-toolbar">
+            <div class="cds--toolbar-content">
               <Search
                 @labelText={{@filterPlaceholderText}}
                 @placeholder={{@filterPlaceholderText}}
@@ -292,17 +303,21 @@ export default class AiChatTable extends Component<AiChatTableSignature> {
                 @expandable={{false}}
               />
               <Tooltip @label={{@downloadLabelText}}>
-                <Button @ghost={{true}} @iconOnly={{true}} @onClick={{this.download}}>
+                <Button
+                  @ghost={{true}}
+                  @iconOnly={{true}}
+                  @onClick={{this.download}}
+                >
                   <Download
                     @size={{16}}
-                    @fill='currentColor'
-                    @svgClass='cds-aichat-table__download-icon'
+                    @fill="currentColor"
+                    @svgClass="cds-aichat-table__download-icon"
                   />
                 </Button>
               </Tooltip>
             </div>
           </div>
-          <table class='cds--data-table cds--data-table--sort'>
+          <table class="cds--data-table cds--data-table--sort">
             <thead>
               <tr>
                 {{#each this.headers as |header index|}}
@@ -310,15 +325,15 @@ export default class AiChatTable extends Component<AiChatTableSignature> {
                     aria-sort={{if
                       (eq this.sortColumnIndex index)
                       this.sortDirection
-                      'none'
+                      "none"
                     }}
                   >
                     <button
-                      type='button'
-                      class='cds--table-sort'
-                      {{on 'click' (fn this.sortBy index)}}
+                      type="button"
+                      class="cds--table-sort"
+                      {{on "click" (fn this.sortBy index)}}
                     >
-                      <span class='cds--table-sort__flex'>
+                      <span class="cds--table-sort__flex">
                         {{#if header.component}}
                           <header.component />
                         {{else}}
@@ -347,9 +362,9 @@ export default class AiChatTable extends Component<AiChatTableSignature> {
             </tbody>
           </table>
           {{#if this.showPagination}}
-            {{!-- Pagination's own template has no ...attributes, so a
+            {{! Pagination's own template has no ...attributes, so a
               modifier attached directly to its invocation is silently
-              dropped - wrap it so willDestroy actually fires on unmount. --}}
+              dropped - wrap it so willDestroy actually fires on unmount. }}
             <div {{willDestroy this.resetPageSizeGuard}}>
               <Pagination
                 @length={{this.filteredRows.length}}

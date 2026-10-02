@@ -12,8 +12,16 @@ module('Integration | Component | ai-chat/FileUploads', (hooks) => {
 
   test('renders one FileUploadItem per upload, nothing when empty', async function (assert) {
     const uploads = [
-      { id: '1', file: new File(['a'], 'a.txt', { type: 'text/plain' }), status: FileStatusValue.EDIT },
-      { id: '2', file: new File(['b'], 'b.txt', { type: 'text/plain' }), status: FileStatusValue.EDIT },
+      {
+        id: '1',
+        file: new File(['a'], 'a.txt', { type: 'text/plain' }),
+        status: FileStatusValue.EDIT,
+      },
+      {
+        id: '2',
+        file: new File(['b'], 'b.txt', { type: 'text/plain' }),
+        status: FileStatusValue.EDIT,
+      },
     ];
 
     await render(<template><FileUploads @uploads={{uploads}} /></template>);
@@ -31,55 +39,96 @@ module('Integration | Component | ai-chat/FileUploads', (hooks) => {
   });
 
   test('seeding the initial uploads does not produce an "added" announcement', async function (assert) {
-    const uploads = [{ id: '1', file: new File(['a'], 'a.txt', { type: 'text/plain' }), status: FileStatusValue.EDIT }];
+    const uploads = [
+      {
+        id: '1',
+        file: new File(['a'], 'a.txt', { type: 'text/plain' }),
+        status: FileStatusValue.EDIT,
+      },
+    ];
 
     await render(<template><FileUploads @uploads={{uploads}} /></template>);
 
-    const regions = document.querySelectorAll('.cds-aichat-file-uploads__live-region');
+    const regions = document.querySelectorAll(
+      '.cds-aichat-file-uploads__live-region',
+    );
     assert.strictEqual(regions[0]?.textContent, '');
     assert.strictEqual(regions[1]?.textContent, '');
   });
 
   test('a newly-added file after initial render is announced', async function (assert) {
     class Demo extends Component {
-      @tracked uploads = [{ id: '1', file: new File(['a'], 'a.txt', { type: 'text/plain' }), status: FileStatusValue.EDIT }];
+      @tracked uploads = [
+        {
+          id: '1',
+          file: new File(['a'], 'a.txt', { type: 'text/plain' }),
+          status: FileStatusValue.EDIT,
+        },
+      ];
 
       addOne = () => {
         this.uploads = [
           ...this.uploads,
-          { id: '2', file: new File(['b'], 'b.txt', { type: 'text/plain' }), status: FileStatusValue.EDIT },
+          {
+            id: '2',
+            file: new File(['b'], 'b.txt', { type: 'text/plain' }),
+            status: FileStatusValue.EDIT,
+          },
         ];
       };
 
       <template>
         <FileUploads @uploads={{this.uploads}} />
-        <button type='button' class='add-one' {{on 'click' this.addOne}}>add</button>
+        <button
+          type="button"
+          class="add-one"
+          {{on "click" this.addOne}}
+        >add</button>
       </template>
     }
 
     await render(<template><Demo /></template>);
     await click('.add-one');
-    
 
-    const text = [...document.querySelectorAll('.cds-aichat-file-uploads__live-region')]
+    const text = [
+      ...document.querySelectorAll('.cds-aichat-file-uploads__live-region'),
+    ]
       .map((el) => el.textContent)
       .join('');
-    assert.true(text.includes('added'), `expected an "added" announcement, got: "${text}"`);
+    assert.true(
+      text.includes('added'),
+      `expected an "added" announcement, got: "${text}"`,
+    );
   });
 
   test('@onRemove is called and a removal is announced', async function (assert) {
     const calls: string[] = [];
     const onRemove = (detail: { fileId: string }) => calls.push(detail.fileId);
-    const uploads = [{ id: '1', file: new File(['a'], 'a.txt', { type: 'text/plain' }), status: FileStatusValue.EDIT }];
+    const uploads = [
+      {
+        id: '1',
+        file: new File(['a'], 'a.txt', { type: 'text/plain' }),
+        status: FileStatusValue.EDIT,
+      },
+    ];
 
-    await render(<template><FileUploads @uploads={{uploads}} @onRemove={{onRemove}} /></template>);
+    await render(
+      <template>
+        <FileUploads @uploads={{uploads}} @onRemove={{onRemove}} />
+      </template>,
+    );
 
     await click('.cds--file-close');
 
     assert.deepEqual(calls, ['1']);
-    const text = [...document.querySelectorAll('.cds-aichat-file-uploads__live-region')]
+    const text = [
+      ...document.querySelectorAll('.cds-aichat-file-uploads__live-region'),
+    ]
       .map((el) => el.textContent)
       .join('');
-    assert.true(text.includes('removed'), `expected a "removed" announcement, got: "${text}"`);
+    assert.true(
+      text.includes('removed'),
+      `expected a "removed" announcement, got: "${text}"`,
+    );
   });
 });

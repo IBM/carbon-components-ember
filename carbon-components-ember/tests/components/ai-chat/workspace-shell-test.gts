@@ -10,11 +10,11 @@ module('Integration | Component | ai-chat/WorkspaceShell', (hooks) => {
     await render(
       <template>
         <WorkspaceShell>
-          <:toolbar><div class='tb'>Toolbar</div></:toolbar>
-          <:notification><div class='nt'>Notification</div></:notification>
-          <:header as |Header|><Header @titleText='Order' /></:header>
-          <:body><div class='bd'>Body</div></:body>
-          <:footer><div class='ft'>Footer</div></:footer>
+          <:toolbar><div class="tb">Toolbar</div></:toolbar>
+          <:notification><div class="nt">Notification</div></:notification>
+          <:header as |Header|><Header @titleText="Order" /></:header>
+          <:body><div class="bd">Body</div></:body>
+          <:footer><div class="ft">Footer</div></:footer>
         </WorkspaceShell>
       </template>,
     );
@@ -22,7 +22,9 @@ module('Integration | Component | ai-chat/WorkspaceShell', (hooks) => {
     assert.dom('.cds-aichat-workspace-shell__toolbar .tb').exists();
     assert.dom('.cds-aichat-workspace-shell__notification .nt').exists();
     assert.dom('.cds-aichat-workspace-shell__header').exists();
-    assert.dom('.cds-aichat-workspace-shell__header-title').containsText('Order');
+    assert
+      .dom('.cds-aichat-workspace-shell__header-title')
+      .containsText('Order');
     assert.dom('.cds-aichat-workspace-shell__body-wrapper .bd').exists();
     assert.dom('.ft').exists();
   });
@@ -31,7 +33,7 @@ module('Integration | Component | ai-chat/WorkspaceShell', (hooks) => {
     await render(
       <template>
         <WorkspaceShell>
-          <:header as |Header|><Header @titleText='Order' /></:header>
+          <:header as |Header|><Header @titleText="Order" /></:header>
         </WorkspaceShell>
       </template>,
     );
@@ -43,9 +45,12 @@ module('Integration | Component | ai-chat/WorkspaceShell', (hooks) => {
   test('@autoCollapsibleHeader collapses the header once the shell is too short for it', async function (assert) {
     await render(
       <template>
-        <WorkspaceShell @autoCollapsibleHeader={{true}} style='block-size: 40px; overflow: hidden;'>
-          <:header as |Header|><Header @titleText='Order' /></:header>
-          <:body><div class='bd'>Body</div></:body>
+        <WorkspaceShell
+          @autoCollapsibleHeader={{true}}
+          style="block-size: 40px; overflow: hidden;"
+        >
+          <:header as |Header|><Header @titleText="Order" /></:header>
+          <:body><div class="bd">Body</div></:body>
         </WorkspaceShell>
       </template>,
     );
@@ -53,6 +58,8 @@ module('Integration | Component | ai-chat/WorkspaceShell', (hooks) => {
     await waitUntil(() => find('.cds-aichat-workspace-shell__header-details'));
 
     assert.dom('.cds-aichat-workspace-shell__header-details').exists();
-    assert.dom('.cds-aichat-workspace-shell__header-title').containsText('Order');
+    assert
+      .dom('.cds-aichat-workspace-shell__header-title')
+      .containsText('Order');
   });
 });

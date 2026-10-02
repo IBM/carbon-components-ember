@@ -43,7 +43,10 @@ function createDefaultChip(attrs: TokenChipAttrs): HTMLElement {
   return chip;
 }
 
-export function renderTokenChip(attrs: TokenChipAttrs, type: string): HTMLElement {
+export function renderTokenChip(
+  attrs: TokenChipAttrs,
+  type: string,
+): HTMLElement {
   const value = typeof attrs.value === 'string' ? attrs.value : null;
   const label = typeof attrs.label === 'string' ? attrs.label : null;
   const dom = document.createElement('span');

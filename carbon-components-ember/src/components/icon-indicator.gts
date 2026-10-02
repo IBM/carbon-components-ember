@@ -150,24 +150,24 @@ export default class IconIndicator extends Component<IconIndicatorSignature> {
       <div class={{this.classes}} ...attributes>
         {{#if @compact}}
           <DefinitionTooltip
-            @align={{if @align @align 'right'}}
+            @align={{if @align @align "right"}}
             @autoAlign={{@autoAlign}}
             @openOnHover={{true}}
             @definition={{@label}}
-            @triggerClassName='cds--icon-indicator__button'
+            @triggerClassName="cds--icon-indicator__button"
           >
             <this.icon
               @size={{this.size}}
               @svgClass={{this.iconClass}}
-              @fill='currentColor'
+              @fill="currentColor"
             />
-            <span class='cds--visually-hidden'>{{this.accessibleLabel}}</span>
+            <span class="cds--visually-hidden">{{this.accessibleLabel}}</span>
           </DefinitionTooltip>
         {{else}}
           <this.icon
             @size={{this.size}}
             @svgClass={{this.iconClass}}
-            @fill='currentColor'
+            @fill="currentColor"
           />
           {{@label}}
         {{/if}}

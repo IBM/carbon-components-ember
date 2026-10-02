@@ -126,57 +126,58 @@ export default class ProgressBar extends Component<ProgressBarInterface> {
   <template>
     <div class={{this.classes}}>
       <div
-        class='cds--progress-bar__label {{if @hideLabel "cds--visually-hidden"}}'
-        id='progress-bar-{{this.guid}}'
+        class="cds--progress-bar__label
+          {{if @hideLabel 'cds--visually-hidden'}}"
+        id="progress-bar-{{this.guid}}"
       >
-        <span class='cds--progress-bar__label-text'>
+        <span class="cds--progress-bar__label-text">
           {{this.defaultArgs.label}}
         </span>
         {{#if this.isFinished}}
           <CheckmarkFilled
             @size={{16}}
-            @fill='currentColor'
-            @svgClass='cds--progress-bar__status-icon'
+            @fill="currentColor"
+            @svgClass="cds--progress-bar__status-icon"
           />
         {{/if}}
         {{#if this.isError}}
           <ErrorFilled
             @size={{16}}
-            @fill='currentColor'
-            @svgClass='cds--progress-bar__status-icon'
+            @fill="currentColor"
+            @svgClass="cds--progress-bar__status-icon"
           />
         {{/if}}
       </div>
       {{! @carbon/react sets aria-invalid on the progressbar itself, even though ARIA doesn't list it for this role }}
       {{! template-lint-disable no-unsupported-role-attributes }}
       <div
-        class='cds--progress-bar__track'
-        role='progressbar'
-        aria-busy={{if this.isFinished 'false' 'true'}}
-        aria-invalid={{if this.isError 'true' 'false'}}
-        aria-labelledby='progress-bar-{{this.guid}}'
+        class="cds--progress-bar__track"
+        role="progressbar"
+        aria-busy={{if this.isFinished "false" "true"}}
+        aria-invalid={{if this.isError "true" "false"}}
+        aria-labelledby="progress-bar-{{this.guid}}"
         aria-describedby={{if
           @helperText
-          (concat 'progress-bar-helper-text-' this.guid)
+          (concat "progress-bar-helper-text-" this.guid)
         }}
-        aria-valuemin={{unless this.indeterminate '0'}}
+        aria-valuemin={{unless this.indeterminate "0"}}
         aria-valuemax={{unless this.indeterminate this.defaultArgs.max}}
         aria-valuenow={{unless this.indeterminate this.cappedValue}}
       >
-        <div class='cds--progress-bar__bar' style={{this.barStyle}}></div>
+        <div class="cds--progress-bar__bar" style={{this.barStyle}}></div>
       </div>
       {{#if @helperText}}
         <div
-          class='cds--progress-bar__helper-text'
-          id='progress-bar-helper-text-{{this.guid}}'
+          class="cds--progress-bar__helper-text"
+          id="progress-bar-helper-text-{{this.guid}}"
         >
           {{@helperText}}
           <div
-            class='cds--visually-hidden'
-            aria-live='polite'
-            id='progress-bar-helper-{{this.guid}}'
+            class="cds--visually-hidden"
+            aria-live="polite"
+            id="progress-bar-helper-{{this.guid}}"
           >
-            {{if this.isFinished 'Done' 'Loading'}}
+            {{if this.isFinished "Done" "Loading"}}
           </div>
         </div>
       {{/if}}

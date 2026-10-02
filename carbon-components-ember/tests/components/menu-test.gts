@@ -39,8 +39,8 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{false}} @target={{target}}>
-          <MenuItem @label='Cut' />
+        <Menu @label="Test menu" @open={{false}} @target={{target}}>
+          <MenuItem @label="Cut" />
         </Menu>
       </template>,
     );
@@ -54,10 +54,10 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{true}} @target={{target}}>
-          <MenuItem @label='Cut' />
+        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+          <MenuItem @label="Cut" />
           <MenuItemDivider />
-          <MenuItem @label='Delete' @kind='danger' />
+          <MenuItem @label="Delete" @kind="danger" />
         </Menu>
       </template>,
     );
@@ -89,12 +89,12 @@ module('Integration | Component | Menu', (hooks) => {
     await render(
       <template>
         <Menu
-          @label='Test menu'
+          @label="Test menu"
           @open={{true}}
           @target={{target}}
           @onClose={{onClose}}
         >
-          <MenuItem @label='Cut' @onClick={{onClick}} />
+          <MenuItem @label="Cut" @onClick={{onClick}} />
         </Menu>
       </template>,
     );
@@ -117,8 +117,8 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{true}} @target={{target}}>
-          <MenuItem @label='Cut' @disabled={{true}} @onClick={{onClick}} />
+        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+          <MenuItem @label="Cut" @disabled={{true}} @onClick={{onClick}} />
         </Menu>
       </template>,
     );
@@ -142,8 +142,8 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{true}} @target={{target}}>
-          <MenuItem @label='Copy' @renderIcon={{Copy}} />
+        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+          <MenuItem @label="Copy" @renderIcon={{Copy}} />
         </Menu>
       </template>,
     );
@@ -167,11 +167,11 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{true}} @target={{target}}>
-          <MenuItem @label='Cut' />
+        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+          <MenuItem @label="Cut" />
           {{#if state.extras}}
-            <MenuItem @label='Copy' @renderIcon={{Copy}} />
-            <MenuItemSelectable @label='Bold' />
+            <MenuItem @label="Copy" @renderIcon={{Copy}} />
+            <MenuItemSelectable @label="Bold" />
           {{/if}}
         </Menu>
       </template>,
@@ -189,7 +189,9 @@ module('Integration | Component | Menu', (hooks) => {
     state.extras = true;
     await settled();
 
-    assert.dom('[role="menu"]', this.container).hasClass('cds--menu--with-icons');
+    assert
+      .dom('[role="menu"]', this.container)
+      .hasClass('cds--menu--with-icons');
     assert
       .dom('[role="menu"]', this.container)
       .hasClass('cds--menu--with-selectable-items');
@@ -211,9 +213,9 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{true}} @target={{target}}>
-          <MenuItem @label='Share with'>
-            <MenuItemSelectable @label='Product team' />
+        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+          <MenuItem @label="Share with">
+            <MenuItemSelectable @label="Product team" />
           </MenuItem>
         </Menu>
       </template>,
@@ -243,9 +245,9 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{true}} @target={{target}}>
+        <Menu @label="Test menu" @open={{true}} @target={{target}}>
           <MenuItemSelectable
-            @label='Bold'
+            @label="Bold"
             @defaultSelected={{true}}
             @onChange={{onChange}}
           />
@@ -276,10 +278,10 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{true}} @target={{target}}>
-          <MenuItemGroup @label='Font style'>
-            <MenuItemSelectable @label='Bold' />
-            <MenuItemSelectable @label='Italic' />
+        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+          <MenuItemGroup @label="Font style">
+            <MenuItemSelectable @label="Bold" />
+            <MenuItemSelectable @label="Italic" />
           </MenuItemGroup>
         </Menu>
       </template>,
@@ -307,11 +309,11 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{true}} @target={{target}}>
+        <Menu @label="Test menu" @open={{true}} @target={{target}}>
           <MenuItemRadioGroup
-            @label='Text decoration'
-            @items={{array 'None' 'Underline'}}
-            @defaultSelectedItem='None'
+            @label="Text decoration"
+            @items={{array "None" "Underline"}}
+            @defaultSelectedItem="None"
             @onChange={{onChange}}
           />
         </Menu>
@@ -329,9 +331,7 @@ module('Integration | Component | Menu', (hooks) => {
       .hasAttribute('aria-checked', 'false');
 
     await click(
-      this.container.querySelector(
-        '[role="menuitemradio"]:nth-child(2)',
-      )!,
+      this.container.querySelector('[role="menuitemradio"]:nth-child(2)')!,
     );
 
     assert.strictEqual(selected, 'Underline');
@@ -349,9 +349,9 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{true}} @target={{target}}>
-          <MenuItem @label='Share with'>
-            <MenuItem @label='Product team' />
+        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+          <MenuItem @label="Share with">
+            <MenuItem @label="Product team" />
           </MenuItem>
         </Menu>
       </template>,
@@ -402,11 +402,13 @@ module('Integration | Component | Menu', (hooks) => {
 
     await render(
       <template>
-        <style>{{carbonStyle.default}}</style>
-        <Menu @label='Test menu' @open={{true}} @target={{target}}>
-          <MenuItem @label='Share with'>
-            <MenuItem @label='Product team'>
-              <MenuItem @label='Nested' />
+        <style>
+          {{carbonStyle.default}}
+        </style>
+        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+          <MenuItem @label="Share with">
+            <MenuItem @label="Product team">
+              <MenuItem @label="Nested" />
             </MenuItem>
           </MenuItem>
         </Menu>
@@ -418,9 +420,7 @@ module('Integration | Component | Menu', (hooks) => {
     await waitForAnimationFrame();
 
     let anchor = this.container.querySelector('[aria-haspopup="true"]')!;
-    const submenu = this.container.querySelector(
-      '.cds--menu-item .cds--menu',
-    )!;
+    const submenu = this.container.querySelector('.cds--menu-item .cds--menu')!;
     let anchorRect = anchor.getBoundingClientRect();
     const submenuRect = submenu.getBoundingClientRect();
 
@@ -465,12 +465,12 @@ module('Integration | Component | Menu', (hooks) => {
     await render(
       <template>
         <Menu
-          @label='Test menu'
+          @label="Test menu"
           @open={{true}}
           @target={{target}}
           @onClose={{onClose}}
         >
-          <MenuItem @label='Cut' />
+          <MenuItem @label="Cut" />
         </Menu>
       </template>,
     );
@@ -491,8 +491,8 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{true}} @target={{target}}>
-          <MenuItem @label='Cut' />
+        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+          <MenuItem @label="Cut" />
         </Menu>
       </template>,
     );
@@ -502,8 +502,8 @@ module('Integration | Component | Menu', (hooks) => {
 
     await render(
       <template>
-        <Menu @label='Test menu' @open={{true}} @target={{target}} @size='lg'>
-          <MenuItem @label='Cut' />
+        <Menu @label="Test menu" @open={{true}} @target={{target}} @size="lg">
+          <MenuItem @label="Cut" />
         </Menu>
       </template>,
     );
@@ -519,14 +519,14 @@ module('Integration | Component | Menu', (hooks) => {
     await render(
       <template>
         <Menu
-          @label='Test menu'
+          @label="Test menu"
           @open={{true}}
           @target={{target}}
           @border={{true}}
-          @backgroundToken='background'
-          @menuAlignment='top-start'
+          @backgroundToken="background"
+          @menuAlignment="top-start"
         >
-          <MenuItem @label='Cut' />
+          <MenuItem @label="Cut" />
         </Menu>
       </template>,
     );
@@ -548,10 +548,10 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{true}} @target={{target}}>
-          <MenuItem @label='Cut' />
-          <MenuItem @label='Copy' />
-          <MenuItem @label='Paste' />
+        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+          <MenuItem @label="Cut" />
+          <MenuItem @label="Copy" />
+          <MenuItem @label="Paste" />
         </Menu>
       </template>,
     );
@@ -590,14 +590,14 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{true}} @target={{target}}>
+        <Menu @label="Test menu" @open={{true}} @target={{target}}>
           <MenuItem
-            @label='Delete'
-            @kind='danger'
-            @dangerDescription='This cannot be undone'
+            @label="Delete"
+            @kind="danger"
+            @dangerDescription="This cannot be undone"
           />
-          <MenuItem @label='Share with' @kind='danger'>
-            <MenuItem @label='Product team' />
+          <MenuItem @label="Share with" @kind="danger">
+            <MenuItem @label="Product team" />
           </MenuItem>
         </Menu>
       </template>,
@@ -625,9 +625,9 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label='Test menu' @open={{true}} @target={{target}}>
-          <MenuItem @label='Share with' @disabled={{true}}>
-            <MenuItem @label='Product team' />
+        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+          <MenuItem @label="Share with" @disabled={{true}}>
+            <MenuItem @label="Product team" />
           </MenuItem>
         </Menu>
       </template>,

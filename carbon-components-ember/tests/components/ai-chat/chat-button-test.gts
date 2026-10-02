@@ -7,16 +7,26 @@ module('Integration | Component | ai-chat/AiChatChatButton', (hooks) => {
   setupRenderingTest(hooks);
 
   test('renders a primary button by default', async function (assert) {
-    await render(<template><AiChatChatButton>Click me</AiChatChatButton></template>);
+    await render(
+      <template>
+        <AiChatChatButton>Click me</AiChatChatButton>
+      </template>,
+    );
 
     assert.dom('.cds-aichat-button').hasClass('cds--btn--primary');
     assert.dom('.cds-aichat-button').hasText('Click me');
   });
 
   test('@isQuickAction forces sm size and ghost kind by default', async function (assert) {
-    await render(<template><AiChatChatButton @isQuickAction={{true}}>Option</AiChatChatButton></template>);
+    await render(
+      <template>
+        <AiChatChatButton @isQuickAction={{true}}>Option</AiChatChatButton>
+      </template>,
+    );
 
-    assert.dom('.cds-aichat-button').hasClass('cds-aichat-button--quick-action');
+    assert
+      .dom('.cds-aichat-button')
+      .hasClass('cds-aichat-button--quick-action');
     assert.dom('.cds-aichat-button').hasClass('cds--btn--ghost');
     assert.dom('.cds-aichat-button').hasClass('cds--layout--size-sm');
   });
@@ -27,7 +37,11 @@ module('Integration | Component | ai-chat/AiChatChatButton', (hooks) => {
 
     await render(
       <template>
-        <AiChatChatButton @isQuickAction={{true}} @isSelected={{true}} @onClick={{onClick}}>Option</AiChatChatButton>
+        <AiChatChatButton
+          @isQuickAction={{true}}
+          @isSelected={{true}}
+          @onClick={{onClick}}
+        >Option</AiChatChatButton>
       </template>,
     );
 
@@ -42,7 +56,14 @@ module('Integration | Component | ai-chat/AiChatChatButton', (hooks) => {
     let clicks = 0;
     const onClick = () => clicks++;
 
-    await render(<template><AiChatChatButton @isSelected={{true}} @onClick={{onClick}}>Go</AiChatChatButton></template>);
+    await render(
+      <template>
+        <AiChatChatButton
+          @isSelected={{true}}
+          @onClick={{onClick}}
+        >Go</AiChatChatButton>
+      </template>,
+    );
 
     assert.dom('.cds-aichat-button').doesNotHaveAttribute('inert');
 
@@ -52,14 +73,23 @@ module('Integration | Component | ai-chat/AiChatChatButton', (hooks) => {
 
   test('an explicit @kind is respected even for a quick action', async function (assert) {
     await render(
-      <template><AiChatChatButton @isQuickAction={{true}} @kind='secondary'>Option</AiChatChatButton></template>,
+      <template>
+        <AiChatChatButton
+          @isQuickAction={{true}}
+          @kind="secondary"
+        >Option</AiChatChatButton>
+      </template>,
     );
 
     assert.dom('.cds-aichat-button').hasClass('cds--btn--secondary');
   });
 
   test('@kind="danger" renders as a danger button', async function (assert) {
-    await render(<template><AiChatChatButton @kind='danger'>Delete</AiChatChatButton></template>);
+    await render(
+      <template>
+        <AiChatChatButton @kind="danger">Delete</AiChatChatButton>
+      </template>,
+    );
 
     assert.dom('.cds-aichat-button').hasClass('cds--btn--danger');
     assert.dom('.cds-aichat-button').doesNotHaveClass('cds--btn--primary');

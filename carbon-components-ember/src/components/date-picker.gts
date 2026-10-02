@@ -113,7 +113,9 @@ export interface DatePickerSignature {
      * and `@readOnly`. Render one for `simple`/`single`, two (start, then
      * end) for `range`.
      */
-    default: [WithBoundArgs<typeof DatePickerInput, 'datePickerType' | 'readOnly'>];
+    default: [
+      WithBoundArgs<typeof DatePickerInput, 'datePickerType' | 'readOnly'>,
+    ];
   };
 }
 
@@ -148,7 +150,9 @@ function chevronArrowSvg(icon: ChevronIcon): string {
   return `<svg xmlns="${xmlns}" viewBox="${viewBox}" width="${width}" height="${height}"><path d="${path}" /></svg>`;
 }
 const prevMonthArrow = chevronArrowSvg(chevronLeft16 as unknown as ChevronIcon);
-const nextMonthArrow = chevronArrowSvg(chevronRight16 as unknown as ChevronIcon);
+const nextMonthArrow = chevronArrowSvg(
+  chevronRight16 as unknown as ChevronIcon,
+);
 
 // flatpickr's own `positionCalendar` computes the calendar's `top`/`left`
 // as absolute **document** coordinates on a `position: absolute`
@@ -183,7 +187,8 @@ function positionCalendarWithinAppendTo(
   const positionElement = customPositionElement ?? instance._positionElement;
   if (!calendar || !positionElement) return;
 
-  const offsetParent = (calendar.offsetParent as HTMLElement | null) ?? document.body;
+  const offsetParent =
+    (calendar.offsetParent as HTMLElement | null) ?? document.body;
   const inputBounds = positionElement.getBoundingClientRect();
   const parentBounds = offsetParent.getBoundingClientRect();
   const calendarHeight = Array.from(calendar.children).reduce(
@@ -293,14 +298,21 @@ export default class DatePicker extends Component<DatePickerSignature> {
   }
 
   get datePickerClasses() {
-    const classes = ['cds--date-picker', `cds--date-picker--${this.datePickerType}`];
+    const classes = [
+      'cds--date-picker',
+      `cds--date-picker--${this.datePickerType}`,
+    ];
     if (this.args.short) classes.push('cds--date-picker--short');
     if (this.args.light) classes.push('cds--date-picker--light');
     return classes.join(' ');
   }
 
   @action
-  handleChange(selectedDates: Date[], dateStr: string, instance: FlatpickrInstance) {
+  handleChange(
+    selectedDates: Date[],
+    dateStr: string,
+    instance: FlatpickrInstance,
+  ) {
     if (this.readOnly) return;
     this.currentValue = selectedDates;
     this.args.onChange?.(selectedDates, dateStr, instance);
@@ -391,7 +403,9 @@ export default class DatePicker extends Component<DatePickerSignature> {
         // here would clobber its default `position: "auto"` string with
         // `undefined` and crash `positionCalendar`'s `self.config.position
         // .split(" ")`.
-        ...(effectiveAppendTo ? { position: positionCalendarWithinAppendTo } : {}),
+        ...(effectiveAppendTo
+          ? { position: positionCalendarWithinAppendTo }
+          : {}),
         prevArrow: prevMonthArrow,
         nextArrow: nextMonthArrow,
         plugins: end ? [rangePlugin({ input: end })] : [],
@@ -480,7 +494,7 @@ export default class DatePicker extends Component<DatePickerSignature> {
   });
 
   <template>
-    <div class='cds--form-item' ...attributes>
+    <div class="cds--form-item" ...attributes>
       <div
         class={{this.datePickerClasses}}
         {{this.attachFlatpickr

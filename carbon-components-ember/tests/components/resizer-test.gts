@@ -6,14 +6,19 @@ import Resizer from '#src/components/resizer.gts';
 import { cell } from 'ember-resources';
 
 function mouseEvent(type: string, options: MouseEventInit = {}) {
-  return new MouseEvent(type, { bubbles: true, cancelable: true, button: 0, ...options });
+  return new MouseEvent(type, {
+    bubbles: true,
+    cancelable: true,
+    button: 0,
+    ...options,
+  });
 }
 
 module('Integration | Component | Resizer', (hooks) => {
   setupRenderingTest(hooks);
 
   test('it renders with the correct role, orientation and classes', async function (this: RenderingTestContext, assert) {
-    await render(<template><Resizer @orientation='horizontal' /></template>);
+    await render(<template><Resizer @orientation="horizontal" /></template>);
 
     const resizer = this.element.querySelector('[role="separator"]');
     assert.dom(resizer).exists();
@@ -25,29 +30,35 @@ module('Integration | Component | Resizer', (hooks) => {
   });
 
   test('it applies the vertical orientation class', async function (this: RenderingTestContext, assert) {
-    await render(<template><Resizer @orientation='vertical' /></template>);
+    await render(<template><Resizer @orientation="vertical" /></template>);
 
     assert.dom('[role="separator"]').hasClass('cds--resizer--vertical');
   });
 
   test('it defaults the handle thickness to 4px', async function (this: RenderingTestContext, assert) {
-    await render(<template><Resizer @orientation='horizontal' /></template>);
+    await render(<template><Resizer @orientation="horizontal" /></template>);
 
-    const resizer = this.element.querySelector('[role="separator"]') as HTMLElement;
+    const resizer = this.element.querySelector(
+      '[role="separator"]',
+    ) as HTMLElement;
     assert.strictEqual(resizer.style.blockSize, '0.25rem');
   });
 
   test('it accepts a custom thickness', async function (this: RenderingTestContext, assert) {
-    await render(<template><Resizer @orientation='vertical' @thickness={{8}} /></template>);
+    await render(
+      <template><Resizer @orientation="vertical" @thickness={{8}} /></template>,
+    );
 
-    const resizer = this.element.querySelector('[role="separator"]') as HTMLElement;
+    const resizer = this.element.querySelector(
+      '[role="separator"]',
+    ) as HTMLElement;
     assert.strictEqual(resizer.style.inlineSize, '0.5rem');
   });
 
   test('it yields block content into the handle', async function (this: RenderingTestContext, assert) {
     await render(
       <template>
-        <Resizer @orientation='horizontal'>
+        <Resizer @orientation="horizontal">
           <span data-test-handle-icon>::</span>
         </Resizer>
       </template>,
@@ -59,13 +70,15 @@ module('Integration | Component | Resizer', (hooks) => {
   test('dragging resizes the previous and next siblings by default', async function (this: RenderingTestContext, assert) {
     await render(
       <template>
-        <div style='height: 100px;'></div>
-        <Resizer @orientation='horizontal' />
-        <div style='height: 100px;'></div>
+        <div style="height: 100px;"></div>
+        <Resizer @orientation="horizontal" />
+        <div style="height: 100px;"></div>
       </template>,
     );
 
-    const resizer = this.element.querySelector('[role="separator"]') as HTMLElement;
+    const resizer = this.element.querySelector(
+      '[role="separator"]',
+    ) as HTMLElement;
     const prev = resizer.previousElementSibling as HTMLElement;
     const next = resizer.nextElementSibling as HTMLElement;
     const prevHeight = prev.getBoundingClientRect().height;
@@ -81,17 +94,20 @@ module('Integration | Component | Resizer', (hooks) => {
 
   test('@onResize makes the component fully controlled', async function (this: RenderingTestContext, assert) {
     const deltas: number[] = [];
-    const onResize = (_event: MouseEvent | KeyboardEvent, delta: number) => deltas.push(delta);
+    const onResize = (_event: MouseEvent | KeyboardEvent, delta: number) =>
+      deltas.push(delta);
 
     await render(
       <template>
-        <div style='height: 100px;'></div>
-        <Resizer @orientation='horizontal' @onResize={{onResize}} />
-        <div style='height: 100px;'></div>
+        <div style="height: 100px;"></div>
+        <Resizer @orientation="horizontal" @onResize={{onResize}} />
+        <div style="height: 100px;"></div>
       </template>,
     );
 
-    const resizer = this.element.querySelector('[role="separator"]') as HTMLElement;
+    const resizer = this.element.querySelector(
+      '[role="separator"]',
+    ) as HTMLElement;
     const prev = resizer.previousElementSibling as HTMLElement;
     const next = resizer.nextElementSibling as HTMLElement;
 
@@ -100,24 +116,36 @@ module('Integration | Component | Resizer', (hooks) => {
     window.dispatchEvent(mouseEvent('mouseup', { clientX: 0, clientY: 15 }));
 
     assert.deepEqual(deltas, [15]);
-    assert.strictEqual(prev.style.height, '100px', 'siblings are not auto-resized when controlled');
-    assert.strictEqual(next.style.height, '100px', 'siblings are not auto-resized when controlled');
+    assert.strictEqual(
+      prev.style.height,
+      '100px',
+      'siblings are not auto-resized when controlled',
+    );
+    assert.strictEqual(
+      next.style.height,
+      '100px',
+      'siblings are not auto-resized when controlled',
+    );
   });
 
   test('@onResizeEnd is called on mouse-up with the resizer element', async function (this: RenderingTestContext, assert) {
     const calls: unknown[] = [];
-    const onResizeEnd = (_event: MouseEvent | KeyboardEvent, element: HTMLDivElement) =>
-      calls.push(element);
+    const onResizeEnd = (
+      _event: MouseEvent | KeyboardEvent,
+      element: HTMLDivElement,
+    ) => calls.push(element);
 
     await render(
       <template>
         <div></div>
-        <Resizer @orientation='horizontal' @onResizeEnd={{onResizeEnd}} />
+        <Resizer @orientation="horizontal" @onResizeEnd={{onResizeEnd}} />
         <div></div>
       </template>,
     );
 
-    const resizer = this.element.querySelector('[role="separator"]') as HTMLElement;
+    const resizer = this.element.querySelector(
+      '[role="separator"]',
+    ) as HTMLElement;
 
     resizer.dispatchEvent(mouseEvent('mousedown', { clientX: 0, clientY: 0 }));
     window.dispatchEvent(mouseEvent('mouseup', { clientX: 0, clientY: 0 }));
@@ -129,13 +157,15 @@ module('Integration | Component | Resizer', (hooks) => {
   test('arrow keys resize by 5px, and by 25px with Shift', async function (this: RenderingTestContext, assert) {
     await render(
       <template>
-        <div style='height: 100px;'></div>
-        <Resizer @orientation='horizontal' />
-        <div style='height: 100px;'></div>
+        <div style="height: 100px;"></div>
+        <Resizer @orientation="horizontal" />
+        <div style="height: 100px;"></div>
       </template>,
     );
 
-    const resizer = this.element.querySelector('[role="separator"]') as HTMLElement;
+    const resizer = this.element.querySelector(
+      '[role="separator"]',
+    ) as HTMLElement;
     const prev = resizer.previousElementSibling as HTMLElement;
 
     const beforeFirstPress = prev.getBoundingClientRect().height;
@@ -150,13 +180,15 @@ module('Integration | Component | Resizer', (hooks) => {
   test('Home key collapses the previous sibling to 0 and expands the next sibling', async function (this: RenderingTestContext, assert) {
     await render(
       <template>
-        <div style='height: 100px;'></div>
-        <Resizer @orientation='horizontal' />
-        <div style='height: 100px;'></div>
+        <div style="height: 100px;"></div>
+        <Resizer @orientation="horizontal" />
+        <div style="height: 100px;"></div>
       </template>,
     );
 
-    const resizer = this.element.querySelector('[role="separator"]') as HTMLElement;
+    const resizer = this.element.querySelector(
+      '[role="separator"]',
+    ) as HTMLElement;
     const prev = resizer.previousElementSibling as HTMLElement;
     const next = resizer.nextElementSibling as HTMLElement;
     const prevHeight = prev.getBoundingClientRect().height;
@@ -171,13 +203,15 @@ module('Integration | Component | Resizer', (hooks) => {
   test('End key collapses the next sibling to 0 and expands the previous sibling', async function (this: RenderingTestContext, assert) {
     await render(
       <template>
-        <div style='height: 100px;'></div>
-        <Resizer @orientation='horizontal' />
-        <div style='height: 100px;'></div>
+        <div style="height: 100px;"></div>
+        <Resizer @orientation="horizontal" />
+        <div style="height: 100px;"></div>
       </template>,
     );
 
-    const resizer = this.element.querySelector('[role="separator"]') as HTMLElement;
+    const resizer = this.element.querySelector(
+      '[role="separator"]',
+    ) as HTMLElement;
     const prev = resizer.previousElementSibling as HTMLElement;
     const next = resizer.nextElementSibling as HTMLElement;
     const prevHeight = prev.getBoundingClientRect().height;
@@ -196,12 +230,14 @@ module('Integration | Component | Resizer', (hooks) => {
     await render(
       <template>
         <div></div>
-        <Resizer @orientation='horizontal' @onResizeEnd={{onResizeEnd}} />
+        <Resizer @orientation="horizontal" @onResizeEnd={{onResizeEnd}} />
         <div></div>
       </template>,
     );
 
-    const resizer = this.element.querySelector('[role="separator"]') as HTMLElement;
+    const resizer = this.element.querySelector(
+      '[role="separator"]',
+    ) as HTMLElement;
     // `triggerKeyEvent` awaits Ember's settledness, which includes the
     // ember-concurrency debounce task, so the call has already landed by
     // the time this resolves — this asserts it fires at all, not its timing.
@@ -213,13 +249,15 @@ module('Integration | Component | Resizer', (hooks) => {
   test('double-click resets siblings to their initial size', async function (this: RenderingTestContext, assert) {
     await render(
       <template>
-        <div style='height: 100px;'></div>
-        <Resizer @orientation='horizontal' />
-        <div style='height: 100px;'></div>
+        <div style="height: 100px;"></div>
+        <Resizer @orientation="horizontal" />
+        <div style="height: 100px;"></div>
       </template>,
     );
 
-    const resizer = this.element.querySelector('[role="separator"]') as HTMLElement;
+    const resizer = this.element.querySelector(
+      '[role="separator"]',
+    ) as HTMLElement;
     const prev = resizer.previousElementSibling as HTMLElement;
     const initialHeight = prev.getBoundingClientRect().height;
 
@@ -238,13 +276,15 @@ module('Integration | Component | Resizer', (hooks) => {
 
     await render(
       <template>
-        <div style='height: 100px;'></div>
-        <Resizer @orientation='horizontal' @onDoubleClick={{onDoubleClick}} />
-        <div style='height: 100px;'></div>
+        <div style="height: 100px;"></div>
+        <Resizer @orientation="horizontal" @onDoubleClick={{onDoubleClick}} />
+        <div style="height: 100px;"></div>
       </template>,
     );
 
-    const resizer = this.element.querySelector('[role="separator"]') as HTMLElement;
+    const resizer = this.element.querySelector(
+      '[role="separator"]',
+    ) as HTMLElement;
     const prev = resizer.previousElementSibling as HTMLElement;
     const initialHeight = prev.getBoundingClientRect().height;
 

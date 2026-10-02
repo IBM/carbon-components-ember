@@ -15,10 +15,12 @@ export interface FileUploaderSkeletonSignature {
 /** A placeholder shown while a `FileUploader`'s surrounding data is loading. */
 export default class FileUploaderSkeleton extends Component<FileUploaderSkeletonSignature> {
   <template>
-    <div class='cds--form-item' ...attributes>
-      <SkeletonText @heading={{true}} @width='100px' />
-      <SkeletonText @width='225px' class='cds--label-description' />
-      <div class='cds--skeleton cds--btn cds--btn--lg cds--layout--size-lg'></div>
+    <div class="cds--form-item" ...attributes>
+      <SkeletonText @heading={{true}} @width="100px" />
+      <SkeletonText @width="225px" class="cds--label-description" />
+      <div
+        class="cds--skeleton cds--btn cds--btn--lg cds--layout--size-lg"
+      ></div>
     </div>
   </template>
 }

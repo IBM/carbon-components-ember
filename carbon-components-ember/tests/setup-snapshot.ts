@@ -1,8 +1,9 @@
 import * as QUnit from 'qunit';
 
-
-const __SNAPSHOTS__ = import.meta.glob<{ default: any }>("./__snapshots__/**/*", { eager: true });
-
+const __SNAPSHOTS__ = import.meta.glob<{ default: any }>(
+  './__snapshots__/**/*',
+  { eager: true },
+);
 
 declare global {
   interface Assert {
@@ -11,10 +12,17 @@ declare global {
 }
 
 function testUrl(moduleName: string, testName: string, name: string) {
-  return `/__snapshots__/${moduleName}/${testName}/${name}.json`.toLowerCase().replace(/ /g, '-');
+  return `/__snapshots__/${moduleName}/${testName}/${name}.json`
+    .toLowerCase()
+    .replace(/ /g, '-');
 }
 
-function saveSnapshot(moduleName: string, testName: string, name: string, value: unknown) {
+function saveSnapshot(
+  moduleName: string,
+  testName: string,
+  name: string,
+  value: unknown,
+) {
   void fetch(testUrl(moduleName, testName, name), {
     method: 'POST',
     body: JSON.stringify(value, null, 2),
@@ -27,7 +35,14 @@ function saveSnapshot(moduleName: string, testName: string, name: string, value:
 // though the layout is otherwise identical. Treat two values as equal when
 // every number embedded in them (px offsets, matrix() components, the four
 // `inset` values, ...) is within a small tolerance of the other.
-const FUZZY_NUMERIC_PROPS = ['left', 'right', 'top', 'bottom', 'inset', 'transform'];
+const FUZZY_NUMERIC_PROPS = [
+  'left',
+  'right',
+  'top',
+  'bottom',
+  'inset',
+  'transform',
+];
 
 function numbersWithinTolerance(a: string, b: string, tolerance: number) {
   const numsA = a.match(/-?\d+(\.\d+)?/g);
@@ -35,7 +50,9 @@ function numbersWithinTolerance(a: string, b: string, tolerance: number) {
   if (!numsA || !numsB || numsA.length !== numsB.length) {
     return false;
   }
-  return numsA.every((n, idx) => Math.abs(parseFloat(n) - parseFloat(numsB[idx]!)) < tolerance);
+  return numsA.every(
+    (n, idx) => Math.abs(parseFloat(n) - parseFloat(numsB[idx]!)) < tolerance,
+  );
 }
 
 // Ember auto-generates element ids (e.g. `ember314`) from a global counter
@@ -54,7 +71,7 @@ function normalizeEmberIds(representation: string) {
 }
 
 export function setupSnapshot(assert: Assert) {
-  assert.snapshot = function(value, name) {
+  assert.snapshot = function (value, name) {
     const current = QUnit.config.current;
     const currentModule = current.module;
     const moduleName = currentModule.name;
@@ -78,13 +95,21 @@ export function setupSnapshot(assert: Assert) {
           if (typeof expected[i]?.[0] === 'string') {
             expected[i][0] = normalizeEmberIds(expected[i][0]);
           }
-          expected[i][1]['transition'] = expected[i][1]['transition']?.replace(/0s$/, '');
+          expected[i][1]['transition'] = expected[i][1]['transition']?.replace(
+            /0s$/,
+            '',
+          );
           delete expected[i][1]['font'];
           delete value[i][1]['font'];
-          value[i][1]['transition'] = value[i][1]['transition']?.replace(/0s$/, '');
+          value[i][1]['transition'] = value[i][1]['transition']?.replace(
+            /0s$/,
+            '',
+          );
           if (value[i][1]['width'] && expected[i][1]['width']) {
             const vWidth = Number(value[i][1]['width'].replace('px', ''));
-            const expectedWidth = Number(expected[i][1]['width'].replace('px', ''));
+            const expectedWidth = Number(
+              expected[i][1]['width'].replace('px', ''),
+            );
             console.log('width', vWidth, expectedWidth);
             if (Math.abs(vWidth - expectedWidth) < 3) {
               delete value[i][1]['width'];
@@ -93,7 +118,9 @@ export function setupSnapshot(assert: Assert) {
           }
           if (value[i][1]['height'] && expected[i][1]['height']) {
             const vWidth = Number(value[i][1]['height'].replace('px', ''));
-            const expectedWidth = Number(expected[i][1]['height'].replace('px', ''));
+            const expectedWidth = Number(
+              expected[i][1]['height'].replace('px', ''),
+            );
             console.log('height', vWidth, expectedWidth);
             if (Math.abs(vWidth - expectedWidth) < 3) {
               delete value[i][1]['height'];
@@ -120,7 +147,12 @@ export function setupSnapshot(assert: Assert) {
             }
           }
           if (!QUnit.equiv(value[i], expected[i])) {
-            console.log('deepEqual', name + ' item:' + i, JSON.stringify(value[i], null, 2), JSON.stringify(expected[i], null, 2));
+            console.log(
+              'deepEqual',
+              name + ' item:' + i,
+              JSON.stringify(value[i], null, 2),
+              JSON.stringify(expected[i], null, 2),
+            );
           }
           assert.deepEqual(value[i], expected[i], name + ' item:' + i);
         }
@@ -130,5 +162,5 @@ export function setupSnapshot(assert: Assert) {
     } else {
       assert.equal(value, expected);
     }
-  }
+  };
 }

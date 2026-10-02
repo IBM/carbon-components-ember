@@ -138,7 +138,10 @@ export function evaluateShowMoreButton({
   // exclusive: only auto-collapse once there's no longer any reason to show
   // the toggle at all. Deliberate divergence from upstream, not a port gap.
   const shouldCollapse =
-    expanded && !shouldShowButton && minExpanded > 0 && height <= minExpanded * rowHeight;
+    expanded &&
+    !shouldShowButton &&
+    minExpanded > 0 &&
+    height <= minExpanded * rowHeight;
 
   return { shouldShowButton, shouldCollapse };
 }

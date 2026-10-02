@@ -10,9 +10,9 @@ module('Integration | Component | SelectItemGroup', (hooks) => {
     await render(
       <template>
         <select>
-          <SelectItemGroup @label='Group A'>
-            <option value='1'>Option 1</option>
-            <option value='2'>Option 2</option>
+          <SelectItemGroup @label="Group A">
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
           </SelectItemGroup>
         </select>
       </template>,
@@ -28,8 +28,8 @@ module('Integration | Component | SelectItemGroup', (hooks) => {
     await render(
       <template>
         <select>
-          <SelectItemGroup @label='Group A' @disabled={{true}}>
-            <option value='1'>Option 1</option>
+          <SelectItemGroup @label="Group A" @disabled={{true}}>
+            <option value="1">Option 1</option>
           </SelectItemGroup>
         </select>
       </template>,
@@ -42,8 +42,8 @@ module('Integration | Component | SelectItemGroup', (hooks) => {
     await render(
       <template>
         <select>
-          <SelectItemGroup @label='Group A'>
-            <option value='1'>Option 1</option>
+          <SelectItemGroup @label="Group A">
+            <option value="1">Option 1</option>
           </SelectItemGroup>
         </select>
       </template>,
@@ -56,8 +56,8 @@ module('Integration | Component | SelectItemGroup', (hooks) => {
     await render(
       <template>
         <select>
-          <SelectItemGroup @label='Group A' class='custom-class'>
-            <option value='1'>Option 1</option>
+          <SelectItemGroup @label="Group A" class="custom-class">
+            <option value="1">Option 1</option>
           </SelectItemGroup>
         </select>
       </template>,

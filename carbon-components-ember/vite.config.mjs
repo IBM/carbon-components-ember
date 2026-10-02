@@ -37,33 +37,37 @@ function astroturf() {
       if (!path.endsWith('.gts') || !code.includes('astroturf')) {
         return;
       }
-      const { metadata, code: transformedCode, map } = await transformAsync(
-        code,
-        {
-          babelrc: false,
-          configFile: false,
-          filename: path,
-          plugins: [
-            [
-              require.resolve('astroturf/plugin'),
-              {
-                writeFiles: false,
-                getFileName(hostFile, _pluginOptions, identifier) {
-                  return resolve(
-                    dirname(hostFile),
-                    basename(hostFile, '.gts') + identifier + '.module.scss',
-                  );
-                },
-                getRequirePath(hostFile, _absoluteFilePath, identifier) {
-                  return (
-                    './' + basename(hostFile, '.gts') + identifier + '.module.scss'
-                  );
-                },
+      const {
+        metadata,
+        code: transformedCode,
+        map,
+      } = await transformAsync(code, {
+        babelrc: false,
+        configFile: false,
+        filename: path,
+        plugins: [
+          [
+            require.resolve('astroturf/plugin'),
+            {
+              writeFiles: false,
+              getFileName(hostFile, _pluginOptions, identifier) {
+                return resolve(
+                  dirname(hostFile),
+                  basename(hostFile, '.gts') + identifier + '.module.scss',
+                );
               },
-            ],
+              getRequirePath(hostFile, _absoluteFilePath, identifier) {
+                return (
+                  './' +
+                  basename(hostFile, '.gts') +
+                  identifier +
+                  '.module.scss'
+                );
+              },
+            },
           ],
-        },
-      );
+        ],
+      });
       for (const style of metadata.astroturf.styles) {
         astroturfFiles[style.absoluteFilePath] = style.value;
       }

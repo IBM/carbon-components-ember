@@ -7,7 +7,10 @@
 
 import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import { associateDestroyableChild, registerDestructor } from '@ember/destroyable';
+import {
+  associateDestroyableChild,
+  registerDestructor,
+} from '@ember/destroyable';
 
 export type ChatMessageRole = 'user' | 'assistant';
 
@@ -71,7 +74,10 @@ function bumpMessageIdCounter(messages: ChatMessage[]): void {
  * if/when there is, matching this file's existing "don't speculatively
  * build" precedent (e.g. `on()`'s missing `.once()`).
  */
-export type ChatSessionStorage = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
+export type ChatSessionStorage = Pick<
+  Storage,
+  'getItem' | 'setItem' | 'removeItem'
+>;
 
 const STORAGE_VERSION = 1;
 const DEFAULT_STORAGE_KEY = 'carbon-ai-chat-session';
@@ -152,7 +158,10 @@ export class ChatSession {
   #persistTimer?: ReturnType<typeof setTimeout>;
 
   /** Equivalent of `instance.on()`. */
-  on = <T = unknown>(type: ChatEventType, handler: ChatEventHandler<T>): this => {
+  on = <T = unknown>(
+    type: ChatEventType,
+    handler: ChatEventHandler<T>,
+  ): this => {
     let handlers = this.#listeners.get(type);
     if (!handlers) {
       handlers = new Set();
@@ -163,7 +172,10 @@ export class ChatSession {
   };
 
   /** Equivalent of `instance.off()`. */
-  off = <T = unknown>(type: ChatEventType, handler: ChatEventHandler<T>): this => {
+  off = <T = unknown>(
+    type: ChatEventType,
+    handler: ChatEventHandler<T>,
+  ): this => {
     this.#listeners.get(type)?.delete(handler as ChatEventHandler<any>);
     return this;
   };
@@ -235,7 +247,10 @@ export class ChatSession {
    * Pass `{ streaming: true }` for a response that will receive further
    * `appendChunk()` calls (equivalent of upstream's `STREAMING_START`).
    */
-  receive = (text: string, options: { streaming?: boolean } = {}): ChatMessage => {
+  receive = (
+    text: string,
+    options: { streaming?: boolean } = {},
+  ): ChatMessage => {
     const message: ChatMessage = {
       id: generateMessageId(),
       role: 'assistant',

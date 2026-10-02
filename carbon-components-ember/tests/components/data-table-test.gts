@@ -19,14 +19,14 @@ module('Integration | Component | DataTable', (hooks) => {
     await render(
       <template>
         <DataTable
-          @title='Table title'
-          @description='Table description'
+          @title="Table title"
+          @description="Table description"
           @items={{items}}
           as |table|
         >
           <table.Table>
             <table.Header
-              @headers={{array (hash label='Name') (hash label='details')}}
+              @headers={{array (hash label="Name") (hash label="details")}}
             />
             <table.EachBodyRows as |row|>
               <row.Row>
@@ -51,10 +51,10 @@ module('Integration | Component | DataTable', (hooks) => {
   test('should associate each td with its column header via the headers attribute', async function (assert) {
     await render(
       <template>
-        <DataTable @title='Table title' @items={{items}} as |table|>
+        <DataTable @title="Table title" @items={{items}} as |table|>
           <table.Table>
             <table.Header
-              @headers={{array (hash label='Name') (hash label='details')}}
+              @headers={{array (hash label="Name") (hash label="details")}}
             />
             <table.EachBodyRows as |row|>
               <row.Row>
@@ -104,10 +104,10 @@ module('Integration | Component | DataTable', (hooks) => {
   test('should support an xs sized toolbar and forward size to the search input', async function (assert) {
     await render(
       <template>
-        <DataTable @title='Table title' @items={{items}} as |table|>
-          <table.Toolbar @size='xs' as |toolbar|>
+        <DataTable @title="Table title" @items={{items}} as |table|>
+          <table.Toolbar @size="xs" as |toolbar|>
             <toolbar.Content>
-              <table.SearchInput @size='xs' />
+              <table.SearchInput @size="xs" />
             </toolbar.Content>
           </table.Toolbar>
         </DataTable>
@@ -125,11 +125,11 @@ module('Integration | Component | DataTable', (hooks) => {
   test('should support checkable rows and selection', async function (assert) {
     await render(
       <template>
-        <DataTable @title='Table title' @items={{items}} as |table|>
+        <DataTable @title="Table title" @items={{items}} as |table|>
           <table.Table>
             <table.Header
               @isCheckable={{true}}
-              @headers={{array (hash label='Name') (hash label='details')}}
+              @headers={{array (hash label="Name") (hash label="details")}}
             />
             <table.EachBodyRows as |row|>
               <row.Row @isCheckable={{true}}>
@@ -165,11 +165,7 @@ module('Integration | Component | Pagination', (hooks) => {
   test('should support an xs size', async function (assert) {
     await render(
       <template>
-        <Pagination
-          @length={{10}}
-          @size='xs'
-          @onPageChanged={{noop}}
-        />
+        <Pagination @length={{10}} @size="xs" @onPageChanged={{noop}} />
       </template>,
     );
 

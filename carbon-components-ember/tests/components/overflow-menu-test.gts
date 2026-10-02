@@ -10,7 +10,7 @@ module('Integration | Component | OverflowMenu', (hooks) => {
   test('should render a trigger button with the overflow menu classes', async function (assert) {
     await render(
       <template>
-        <OverflowMenu @direction='bottom' as |Item|>
+        <OverflowMenu @direction="bottom" as |Item|>
           <Item>option 1</Item>
         </OverflowMenu>
       </template>,
@@ -22,7 +22,7 @@ module('Integration | Component | OverflowMenu', (hooks) => {
   test('should open the options list on click', async function (assert) {
     await render(
       <template>
-        <OverflowMenu @direction='bottom' as |Item|>
+        <OverflowMenu @direction="bottom" as |Item|>
           <Item>option 1</Item>
           <Item>option 2</Item>
         </OverflowMenu>
@@ -34,9 +34,7 @@ module('Integration | Component | OverflowMenu', (hooks) => {
     await click('.cds--overflow-menu');
 
     assert.dom('.cds--overflow-menu-options').exists();
-    assert
-      .dom('.cds--overflow-menu-options__option')
-      .exists({ count: 2 });
+    assert.dom('.cds--overflow-menu-options__option').exists({ count: 2 });
   });
 
   test('should stay open after a touch tap on the trigger (mobile)', async function (assert) {
@@ -47,7 +45,7 @@ module('Integration | Component | OverflowMenu', (hooks) => {
     try {
       await render(
         <template>
-          <OverflowMenu @direction='bottom' @tooltip='Options' as |Item|>
+          <OverflowMenu @direction="bottom" @tooltip="Options" as |Item|>
             <Item>option 1</Item>
             <Item>option 2</Item>
           </OverflowMenu>
@@ -74,7 +72,7 @@ module('Integration | Component | OverflowMenu', (hooks) => {
   test('should support configuring the trigger eventType', async function (assert) {
     await render(
       <template>
-        <OverflowMenu @direction='bottom' @eventType='mousedown' as |Item|>
+        <OverflowMenu @direction="bottom" @eventType="mousedown" as |Item|>
           <Item>option 1</Item>
         </OverflowMenu>
       </template>,
@@ -84,7 +82,11 @@ module('Integration | Component | OverflowMenu', (hooks) => {
 
     const trigger = document.querySelector('.cds--overflow-menu')!;
     trigger.dispatchEvent(
-      new MouseEvent('mousedown', { bubbles: true, cancelable: true, button: 0 }),
+      new MouseEvent('mousedown', {
+        bubbles: true,
+        cancelable: true,
+        button: 0,
+      }),
     );
     await settled();
 
@@ -97,7 +99,7 @@ module('Integration | Component | OverflowMenu', (hooks) => {
 
     await render(
       <template>
-        <OverflowMenu @direction='bottom' as |Item|>
+        <OverflowMenu @direction="bottom" as |Item|>
           <Item @onClick={{onClick}}>option 1</Item>
         </OverflowMenu>
       </template>,
@@ -112,7 +114,12 @@ module('Integration | Component | OverflowMenu', (hooks) => {
   test('should support the danger and disabled arguments on all items', async function (assert) {
     await render(
       <template>
-        <OverflowMenu @direction='bottom' @danger={{true}} @disabled={{true}} as |Item|>
+        <OverflowMenu
+          @direction="bottom"
+          @danger={{true}}
+          @disabled={{true}}
+          as |Item|
+        >
           <Item>option 1</Item>
         </OverflowMenu>
       </template>,
@@ -131,7 +138,7 @@ module('Integration | Component | OverflowMenu', (hooks) => {
   test('should render a tooltip when the tooltip argument is provided', async function (assert) {
     await render(
       <template>
-        <OverflowMenu @tooltip='Options' @direction='bottom' as |Item|>
+        <OverflowMenu @tooltip="Options" @direction="bottom" as |Item|>
           <Item>option 1</Item>
         </OverflowMenu>
       </template>,
@@ -143,7 +150,7 @@ module('Integration | Component | OverflowMenu', (hooks) => {
   test('should render a divider item', async function (assert) {
     await render(
       <template>
-        <OverflowMenu @direction='bottom' as |Item|>
+        <OverflowMenu @direction="bottom" as |Item|>
           <Item @hasDivider={{true}}>option 1</Item>
         </OverflowMenu>
       </template>,

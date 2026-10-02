@@ -26,30 +26,30 @@ export default class ToggleComponent extends Component<Args> {
   }
 
   <template>
-    <div class='cds--toggle {{if @disabled "cds--toggle--disabled"}}'>
+    <div class="cds--toggle {{if @disabled 'cds--toggle--disabled'}}">
       <button
-        id='toggle-{{this.guid}}'
-        class='cds--toggle__button'
-        role='switch'
-        type='button'
-        aria-checked='{{@value}}'
+        id="toggle-{{this.guid}}"
+        class="cds--toggle__button"
+        role="switch"
+        type="button"
+        aria-checked="{{@value}}"
         disabled={{@disabled}}
-        {{on 'click' this.onToggleChange}}
+        {{on "click" this.onToggleChange}}
       ></button>
-      <label class='cds--toggle__label' for='toggle-{{this.guid}}'>
-        <span class='cds--toggle__label-text'>
+      <label class="cds--toggle__label" for="toggle-{{this.guid}}">
+        <span class="cds--toggle__label-text">
           {{@name}}
         </span>
         <div
-          class='cds--toggle__appearance
-            {{if (eq @size "sm") "cds--toggle__appearance--sm"}}'
+          class="cds--toggle__appearance
+            {{if (eq @size 'sm') 'cds--toggle__appearance--sm'}}"
         >
           <div
-            class='cds--toggle__switch
-              {{if @value "cds--toggle__switch--checked"}}'
+            class="cds--toggle__switch
+              {{if @value 'cds--toggle__switch--checked'}}"
           ></div>
-          <span class='cds--toggle__text' aria-hidden='true'>
-            {{if @value 'On' 'Off'}}
+          <span class="cds--toggle__text" aria-hidden="true">
+            {{if @value "On" "Off"}}
           </span>
         </div>
       </label>

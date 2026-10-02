@@ -13,8 +13,8 @@ export interface ListColumnComponentSignature {
 export default class ListColumnComponent extends Component<ListColumnComponentSignature> {
   <template>
     <div
-      class='cds--structured-list-td
-        {{if @nowrap "cds--structured-list-content--nowrap"}}'
+      class="cds--structured-list-td
+        {{if @nowrap 'cds--structured-list-content--nowrap'}}"
       ...attributes
     >
       {{yield}}

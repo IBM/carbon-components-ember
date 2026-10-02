@@ -31,7 +31,9 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
   });
 
   test('renders @code inside the CodeMirror editor', async function (assert) {
-    await render(<template><AiChatCodeSnippet @code='const x = 1;' /></template>);
+    await render(
+      <template><AiChatCodeSnippet @code="const x = 1;" /></template>,
+    );
 
     await waitForEditor();
 
@@ -60,8 +62,12 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
     // source line becomes its own `.cm-line` DOM node with no literal
     // newline character joining them, so assert per-line rather than on
     // `.cm-content`'s concatenated `textContent`.
-    await waitUntil(() => document.querySelectorAll('.cm-content .cm-line').length === 2);
-    const lines = [...document.querySelectorAll('.cm-content .cm-line')].map((el) => el.textContent);
+    await waitUntil(
+      () => document.querySelectorAll('.cm-content .cm-line').length === 2,
+    );
+    const lines = [...document.querySelectorAll('.cm-content .cm-line')].map(
+      (el) => el.textContent,
+    );
     assert.deepEqual(lines, ['line one', 'line two']);
   });
 
@@ -69,11 +75,19 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
     const calls: string[] = [];
     const onChange = (value: string) => calls.push(value);
 
-    await render(<template><AiChatCodeSnippet @code='' @editable={{true}} @onChange={{onChange}} /></template>);
+    await render(
+      <template>
+        <AiChatCodeSnippet @code="" @editable={{true}} @onChange={{onChange}} />
+      </template>,
+    );
     await waitForEditor();
 
-    assert.dom('.cds-aichat-snippet-container').hasAttribute('aria-multiline', 'true');
-    assert.dom('.cds-aichat-snippet-container').hasAttribute('aria-readonly', 'false');
+    assert
+      .dom('.cds-aichat-snippet-container')
+      .hasAttribute('aria-multiline', 'true');
+    assert
+      .dom('.cds-aichat-snippet-container')
+      .hasAttribute('aria-readonly', 'false');
     assert.dom('.cm-content').hasAttribute('contenteditable', 'true');
 
     const content = find('.cm-content') as HTMLElement;
@@ -81,32 +95,47 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
     document.execCommand('insertText', false, 'hi');
     await settled();
 
-    assert.true(calls.includes('hi'), `expected an @onChange call with 'hi', got ${JSON.stringify(calls)}`);
+    assert.true(
+      calls.includes('hi'),
+      `expected an @onChange call with 'hi', got ${JSON.stringify(calls)}`,
+    );
   });
 
   test('a non-editable snippet has no contenteditable surface', async function (assert) {
-    await render(<template><AiChatCodeSnippet @code='const x = 1;' /></template>);
+    await render(
+      <template><AiChatCodeSnippet @code="const x = 1;" /></template>,
+    );
     await waitForEditor();
 
     assert.dom('.cm-content').hasAttribute('contenteditable', 'false');
   });
 
   test('@hideHeader hides the toolbar', async function (assert) {
-    await render(<template><AiChatCodeSnippet @code='x' @hideHeader={{true}} /></template>);
+    await render(
+      <template><AiChatCodeSnippet @code="x" @hideHeader={{true}} /></template>,
+    );
     await waitForEditor();
 
     assert.dom('.cds-aichat-snippet__header').doesNotExist();
   });
 
   test('the copy action is the first toolbar action unless @hideCopyButton is set', async function (assert) {
-    await render(<template><AiChatCodeSnippet @code='const x = 1;' /></template>);
+    await render(
+      <template><AiChatCodeSnippet @code="const x = 1;" /></template>,
+    );
     await waitForEditor();
 
-    assert.dom('.cds-aichat-toolbar__actions-container button').exists({ count: 1 });
+    assert
+      .dom('.cds-aichat-toolbar__actions-container button')
+      .exists({ count: 1 });
   });
 
   test('@hideCopyButton removes the copy action', async function (assert) {
-    await render(<template><AiChatCodeSnippet @code='const x = 1;' @hideCopyButton={{true}} /></template>);
+    await render(
+      <template>
+        <AiChatCodeSnippet @code="const x = 1;" @hideCopyButton={{true}} />
+      </template>,
+    );
     await waitForEditor();
 
     assert.dom('.cds-aichat-toolbar__actions-container button').doesNotExist();
@@ -118,11 +147,15 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
     let copied: string | undefined;
     Object.defineProperty(navigator, 'clipboard', {
       configurable: true,
-      value: { writeText: (text: string) => ((copied = text), Promise.resolve()) },
+      value: {
+        writeText: (text: string) => ((copied = text), Promise.resolve()),
+      },
     });
 
     try {
-      await render(<template><AiChatCodeSnippet @code='const x = 1;' /></template>);
+      await render(
+        <template><AiChatCodeSnippet @code="const x = 1;" /></template>,
+      );
       await waitForEditor();
 
       await click('.cds-aichat-toolbar__actions-container button');
@@ -139,23 +172,33 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
 
   test('@actions render after the copy action', async function (assert) {
     let clicks = 0;
-    const actions = [{ text: 'Regenerate', icon: Add, onClick: () => clicks++ }];
+    const actions = [
+      { text: 'Regenerate', icon: Add, onClick: () => clicks++ },
+    ];
 
-    await render(<template><AiChatCodeSnippet @code='x' @actions={{actions}} /></template>);
+    await render(
+      <template><AiChatCodeSnippet @code="x" @actions={{actions}} /></template>,
+    );
     await waitForEditor();
 
-    assert.dom('.cds-aichat-toolbar__actions-container button').exists({ count: 2 });
+    assert
+      .dom('.cds-aichat-toolbar__actions-container button')
+      .exists({ count: 2 });
   });
 
   test('@disabled applies the disabled modifier class', async function (assert) {
-    await render(<template><AiChatCodeSnippet @code='x' @disabled={{true}} /></template>);
+    await render(
+      <template><AiChatCodeSnippet @code="x" @disabled={{true}} /></template>,
+    );
     await waitForEditor();
 
     assert.dom('.cds-aichat-code-snippet--disabled').exists();
   });
 
   test('destroying the component tears down the CodeMirror editor without error', async function (assert) {
-    await render(<template><AiChatCodeSnippet @code='const x = 1;' /></template>);
+    await render(
+      <template><AiChatCodeSnippet @code="const x = 1;" /></template>,
+    );
     await waitForEditor();
 
     await render(<template></template>);
@@ -165,7 +208,12 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
   test('@language + @highlight + @detectLanguage locks in and renders the language label', async function (assert) {
     await render(
       <template>
-        <AiChatCodeSnippet @code='const x = 1;' @language='javascript' @highlight={{true}} @detectLanguage={{true}} />
+        <AiChatCodeSnippet
+          @code="const x = 1;"
+          @language="javascript"
+          @highlight={{true}}
+          @detectLanguage={{true}}
+        />
       </template>,
     );
     await waitForEditor();
@@ -175,31 +223,53 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
   });
 
   test('without @detectLanguage or @language, no language label renders', async function (assert) {
-    await render(<template><AiChatCodeSnippet @code='const x = 1;' @highlight={{true}} /></template>);
+    await render(
+      <template>
+        <AiChatCodeSnippet @code="const x = 1;" @highlight={{true}} />
+      </template>,
+    );
     await waitForEditor();
 
     assert.dom('.cds-aichat-snippet__language').doesNotExist();
   });
 
   test('pure content-based language detection locks in a language label after the detection delay', async function (assert) {
-    const pythonCode = ['def greet(name):', '    if name:', '        print(name)'].join('\n');
+    const pythonCode = [
+      'def greet(name):',
+      '    if name:',
+      '        print(name)',
+    ].join('\n');
 
     await render(
-      <template><AiChatCodeSnippet @code={{pythonCode}} @detectLanguage={{true}} /></template>,
+      <template>
+        <AiChatCodeSnippet @code={{pythonCode}} @detectLanguage={{true}} />
+      </template>,
     );
     await waitForEditor();
 
-    assert.dom('.cds-aichat-snippet__language').doesNotExist('no @language was given, so nothing is locked in yet');
+    assert
+      .dom('.cds-aichat-snippet__language')
+      .doesNotExist('no @language was given, so nothing is locked in yet');
 
-    await waitUntil(() => find('.cds-aichat-snippet__language'), { timeout: 2000 });
+    await waitUntil(() => find('.cds-aichat-snippet__language'), {
+      timeout: 2000,
+    });
     assert.dom('.cds-aichat-snippet__language').hasText('Python');
   });
 
   test('@maxCollapsedNumberOfRows shows a "Show more" button once content exceeds it, and toggling it expands/collapses the container', async function (assert) {
-    const manyLines = Array.from({ length: 20 }, (_, i) => `const line${i} = ${i};`).join('\n');
+    const manyLines = Array.from(
+      { length: 20 },
+      (_, i) => `const line${i} = ${i};`,
+    ).join('\n');
 
     await render(
-      <template><AiChatCodeSnippet @code={{manyLines}} @maxCollapsedNumberOfRows={{3}} /></template>,
+      <template>
+        <AiChatCodeSnippet
+          @code={{manyLines}}
+          @maxCollapsedNumberOfRows={{3}}
+        />
+      </template>,
     );
     await waitForEditor();
 
@@ -227,16 +297,28 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
     ].join('\n');
 
     await render(
-      <template><AiChatCodeSnippet @code={{diffCode}} @language='diff' @highlight={{true}} /></template>,
+      <template>
+        <AiChatCodeSnippet
+          @code={{diffCode}}
+          @language="diff"
+          @highlight={{true}}
+        />
+      </template>,
     );
     await waitForEditor();
 
-    await waitUntil(() => find('.cm-diff-line-inserted') && find('.cm-diff-line-deleted'));
+    await waitUntil(
+      () => find('.cm-diff-line-inserted') && find('.cm-diff-line-deleted'),
+    );
     assert.dom('.cm-diff-line-inserted').hasText('+new line');
     assert.dom('.cm-diff-line-deleted').hasText('-old line');
     // Metadata lines starting with `+++`/`---` are not colored as insert/delete.
-    const insertedLines = [...document.querySelectorAll('.cm-diff-line-inserted')].map((el) => el.textContent);
-    const deletedLines = [...document.querySelectorAll('.cm-diff-line-deleted')].map((el) => el.textContent);
+    const insertedLines = [
+      ...document.querySelectorAll('.cm-diff-line-inserted'),
+    ].map((el) => el.textContent);
+    const deletedLines = [
+      ...document.querySelectorAll('.cm-diff-line-deleted'),
+    ].map((el) => el.textContent);
     assert.false(insertedLines.includes('+++ b/file.txt'));
     assert.false(deletedLines.includes('--- a/file.txt'));
   });

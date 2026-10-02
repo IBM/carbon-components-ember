@@ -50,7 +50,10 @@ export class YouTubeProvider extends BaseProvider {
     return match ? (match[1] ?? null) : null;
   }
 
-  async initialize(container: HTMLElement, config: ProviderConfig): Promise<void> {
+  async initialize(
+    container: HTMLElement,
+    config: ProviderConfig,
+  ): Promise<void> {
     await super.initialize(container, config);
 
     if (!this.container) {

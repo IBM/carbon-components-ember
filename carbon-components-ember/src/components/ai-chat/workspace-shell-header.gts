@@ -35,11 +35,16 @@ export interface WorkspaceShellHeaderSignature {
   };
 }
 
-const watchToggle = modifier((element: HTMLDetailsElement, [onToggle]: [((open: boolean) => void) | undefined]) => {
-  const handler = () => onToggle?.(element.open);
-  element.addEventListener('toggle', handler);
-  return () => element.removeEventListener('toggle', handler);
-});
+const watchToggle = modifier(
+  (
+    element: HTMLDetailsElement,
+    [onToggle]: [((open: boolean) => void) | undefined],
+  ) => {
+    const handler = () => onToggle?.(element.open);
+    element.addEventListener('toggle', handler);
+    return () => element.removeEventListener('toggle', handler);
+  },
+);
 
 /**
  * The header section of a `WorkspaceShell`: a title, an optional
@@ -58,39 +63,55 @@ export default class WorkspaceShellHeader extends Component<WorkspaceShellHeader
 
   <template>
     {{#if @collapsible}}
-      <details class='cds-aichat-workspace-shell__header-details cds-aichat-workspace-shell__header-content' ...attributes {{watchToggle this.handleToggle}}>
-        <summary class='cds-aichat-workspace-shell__header-summary'>
+      <details
+        class="cds-aichat-workspace-shell__header-details cds-aichat-workspace-shell__header-content"
+        ...attributes
+        {{watchToggle this.handleToggle}}
+      >
+        <summary class="cds-aichat-workspace-shell__header-summary">
           {{#if @titleText}}
-            <h1 class='cds-aichat-workspace-shell__header-title'>
-              <AiChatTruncatedText @value={{@titleText}} @lines={{1}} @type='tooltip' />
+            <h1 class="cds-aichat-workspace-shell__header-title">
+              <AiChatTruncatedText
+                @value={{@titleText}}
+                @lines={{1}}
+                @type="tooltip"
+              />
             </h1>
           {{/if}}
-          <span class='cds-aichat-workspace-shell__header-chevron'>
-            <ChevronDown @size='16' />
+          <span class="cds-aichat-workspace-shell__header-chevron">
+            <ChevronDown @size="16" />
           </span>
         </summary>
-        <div class='cds-aichat-workspace-shell__header-content'>
+        <div class="cds-aichat-workspace-shell__header-content">
           {{#if @subTitleText}}
-            <h2 class='cds-aichat-workspace-shell__header-sub-title'>{{@subTitleText}}</h2>
+            <h2
+              class="cds-aichat-workspace-shell__header-sub-title"
+            >{{@subTitleText}}</h2>
           {{/if}}
-          {{yield to='headerDescription'}}
-          {{yield to='headerAction'}}
+          {{yield to="headerDescription"}}
+          {{yield to="headerAction"}}
         </div>
       </details>
     {{else}}
-      <div class='cds-aichat-workspace-shell__header' ...attributes>
-        <div class='cds-aichat-workspace-shell__header-content'>
+      <div class="cds-aichat-workspace-shell__header" ...attributes>
+        <div class="cds-aichat-workspace-shell__header-content">
           {{#if @titleText}}
-            <h1 class='cds-aichat-workspace-shell__header-title'>
-              <AiChatTruncatedText @value={{@titleText}} @lines={{1}} @type='tooltip' />
+            <h1 class="cds-aichat-workspace-shell__header-title">
+              <AiChatTruncatedText
+                @value={{@titleText}}
+                @lines={{1}}
+                @type="tooltip"
+              />
             </h1>
           {{/if}}
           {{#if @subTitleText}}
-            <h2 class='cds-aichat-workspace-shell__header-sub-title'>{{@subTitleText}}</h2>
+            <h2
+              class="cds-aichat-workspace-shell__header-sub-title"
+            >{{@subTitleText}}</h2>
           {{/if}}
-          {{yield to='headerDescription'}}
+          {{yield to="headerDescription"}}
         </div>
-        {{yield to='headerAction'}}
+        {{yield to="headerAction"}}
       </div>
     {{/if}}
   </template>

@@ -9,19 +9,21 @@ module('Integration | Component | FormGroup', (hooks) => {
   test('should render a fieldset with a legend', async function (assert) {
     await render(
       <template>
-        <FormGroup @legendText='FormGroup Legend'>Form content</FormGroup>
+        <FormGroup @legendText="FormGroup Legend">Form content</FormGroup>
       </template>,
     );
 
     assert.dom('fieldset.cds--fieldset').exists();
-    assert.dom('fieldset.cds--fieldset').hasText('FormGroup Legend Form content');
+    assert
+      .dom('fieldset.cds--fieldset')
+      .hasText('FormGroup Legend Form content');
     assert.dom('legend.cds--label').hasText('FormGroup Legend');
   });
 
   test('should support disabled', async function (assert) {
     await render(
       <template>
-        <FormGroup @legendText='Legend' @disabled={{true}}>Content</FormGroup>
+        <FormGroup @legendText="Legend" @disabled={{true}}>Content</FormGroup>
       </template>,
     );
 
@@ -31,7 +33,7 @@ module('Integration | Component | FormGroup', (hooks) => {
   test('should support invalid', async function (assert) {
     await render(
       <template>
-        <FormGroup @legendText='Legend' @invalid={{true}}>Content</FormGroup>
+        <FormGroup @legendText="Legend" @invalid={{true}}>Content</FormGroup>
       </template>,
     );
 
@@ -40,7 +42,9 @@ module('Integration | Component | FormGroup', (hooks) => {
 
   test('should not render data-invalid when not invalid', async function (assert) {
     await render(
-      <template><FormGroup @legendText='Legend'>Content</FormGroup></template>,
+      <template>
+        <FormGroup @legendText="Legend">Content</FormGroup>
+      </template>,
     );
 
     assert.dom('fieldset').doesNotHaveAttribute('data-invalid');
@@ -49,7 +53,7 @@ module('Integration | Component | FormGroup', (hooks) => {
   test('should support legendId with aria-labelledby', async function (assert) {
     await render(
       <template>
-        <FormGroup @legendText='Legend' @legendId='my-legend'>
+        <FormGroup @legendText="Legend" @legendId="my-legend">
           Content
         </FormGroup>
       </template>,
@@ -63,9 +67,9 @@ module('Integration | Component | FormGroup', (hooks) => {
     await render(
       <template>
         <FormGroup
-          @legendText='Legend'
+          @legendText="Legend"
           @message={{true}}
-          @messageText='Required message'
+          @messageText="Required message"
         >Content</FormGroup>
       </template>,
     );
@@ -76,7 +80,7 @@ module('Integration | Component | FormGroup', (hooks) => {
   test('should not render message when message is false', async function (assert) {
     await render(
       <template>
-        <FormGroup @legendText='Legend' @messageText='Required message'>
+        <FormGroup @legendText="Legend" @messageText="Required message">
           Content
         </FormGroup>
       </template>,
@@ -88,7 +92,7 @@ module('Integration | Component | FormGroup', (hooks) => {
   test('should support a custom className via ...attributes', async function (assert) {
     await render(
       <template>
-        <FormGroup @legendText='Legend' class='custom-class'>
+        <FormGroup @legendText="Legend" class="custom-class">
           Content
         </FormGroup>
       </template>,

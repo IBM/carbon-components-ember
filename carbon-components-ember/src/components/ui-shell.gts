@@ -32,10 +32,10 @@ export default class UIShell extends Component<UIShellSignature> {
         Switcher=Switcher
         HeaderContainer=HeaderContainer
       )
-      to='shell'
+      to="shell"
     }}
-    <main id='main-content' class='cds--content'>
-      {{yield to='content'}}
+    <main id="main-content" class="cds--content">
+      {{yield to="content"}}
     </main>
   </template>
 }

@@ -25,20 +25,20 @@ export default class StructuredListCell extends Component<StructuredListCellSign
       as div, and both get Text's default dir auto. }}
     {{#if @head}}
       <span
-        role='columnheader'
-        dir='auto'
-        class='cds--structured-list-th
-          {{if @noWrap "cds--structured-list-content--nowrap"}}'
+        role="columnheader"
+        dir="auto"
+        class="cds--structured-list-th
+          {{if @noWrap 'cds--structured-list-content--nowrap'}}"
         ...attributes
       >
         {{yield}}
       </span>
     {{else}}
       <div
-        role='cell'
-        dir='auto'
-        class='cds--structured-list-td
-          {{if @noWrap "cds--structured-list-content--nowrap"}}'
+        role="cell"
+        dir="auto"
+        class="cds--structured-list-td
+          {{if @noWrap 'cds--structured-list-content--nowrap'}}"
         ...attributes
       >
         {{yield}}

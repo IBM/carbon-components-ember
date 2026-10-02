@@ -1,10 +1,20 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn, triggerKeyEvent, find, click, settled, clearRender } from '@ember/test-helpers';
+import {
+  render,
+  fillIn,
+  triggerKeyEvent,
+  find,
+  click,
+  settled,
+  clearRender,
+} from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import { on } from '@ember/modifier';
-import PromptLine, { type PromptLineApi } from '#src/components/ai-chat/prompt-line.gts';
+import PromptLine, {
+  type PromptLineApi,
+} from '#src/components/ai-chat/prompt-line.gts';
 import { resetRichRuntimeForTests } from '#src/components/ai-chat/-prompt-line/rich-loader.ts';
 import { waitForAnimationFrame } from '../../helpers';
 
@@ -13,7 +23,13 @@ import { waitForAnimationFrame } from '../../helpers';
 function pasteText(target: Element, text: string) {
   const clipboardData = new DataTransfer();
   clipboardData.setData('text/plain', text);
-  target.dispatchEvent(new ClipboardEvent('paste', { clipboardData, bubbles: true, cancelable: true }));
+  target.dispatchEvent(
+    new ClipboardEvent('paste', {
+      clipboardData,
+      bubbles: true,
+      cancelable: true,
+    }),
+  );
 }
 
 module('Integration | Component | ai-chat/PromptLine', (hooks) => {
@@ -32,18 +48,28 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
   test('it renders the initial @content and placeholder/aria-label', async function (assert) {
     await render(
       <template>
-        <PromptLine @content='hello' @placeholder='Type a message' @ariaLabel='Chat input' />
+        <PromptLine
+          @content="hello"
+          @placeholder="Type a message"
+          @ariaLabel="Chat input"
+        />
       </template>,
     );
 
     assert.dom('.cds-aichat-prompt-line__field').hasValue('hello');
-    assert.dom('.cds-aichat-prompt-line__field').hasAttribute('placeholder', 'Type a message');
-    assert.dom('.cds-aichat-prompt-line__field').hasAttribute('aria-label', 'Chat input');
+    assert
+      .dom('.cds-aichat-prompt-line__field')
+      .hasAttribute('placeholder', 'Type a message');
+    assert
+      .dom('.cds-aichat-prompt-line__field')
+      .hasAttribute('aria-label', 'Chat input');
   });
 
   test('defaults aria-label to "Message"', async function (assert) {
     await render(<template><PromptLine /></template>);
-    assert.dom('.cds-aichat-prompt-line__field').hasAttribute('aria-label', 'Message');
+    assert
+      .dom('.cds-aichat-prompt-line__field')
+      .hasAttribute('aria-label', 'Message');
   });
 
   test('typing calls @onChange with the new value and keeps the mirror in sync', async function (assert) {
@@ -71,7 +97,11 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
       };
       <template>
         <PromptLine @content={{this.state.content}} />
-        <button type='button' class='set-button' {{on 'click' this.setContent}}>Set</button>
+        <button
+          type="button"
+          class="set-button"
+          {{on "click" this.setContent}}
+        >Set</button>
       </template>
     }
 
@@ -88,7 +118,11 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     let sent = 0;
     const onSendIntent = () => sent++;
 
-    await render(<template><PromptLine @content='ready to send' @onSendIntent={{onSendIntent}} /></template>);
+    await render(
+      <template>
+        <PromptLine @content="ready to send" @onSendIntent={{onSendIntent}} />
+      </template>,
+    );
 
     await triggerKeyEvent('.cds-aichat-prompt-line__field', 'keydown', 'Enter');
 
@@ -99,9 +133,18 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     let sent = 0;
     const onSendIntent = () => sent++;
 
-    await render(<template><PromptLine @content='draft' @onSendIntent={{onSendIntent}} /></template>);
+    await render(
+      <template>
+        <PromptLine @content="draft" @onSendIntent={{onSendIntent}} />
+      </template>,
+    );
 
-    await triggerKeyEvent('.cds-aichat-prompt-line__field', 'keydown', 'Enter', { shiftKey: true });
+    await triggerKeyEvent(
+      '.cds-aichat-prompt-line__field',
+      'keydown',
+      'Enter',
+      { shiftKey: true },
+    );
 
     assert.strictEqual(sent, 0);
   });
@@ -110,7 +153,9 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     let sent = 0;
     const onSendIntent = () => sent++;
 
-    await render(<template><PromptLine @onSendIntent={{onSendIntent}} /></template>);
+    await render(
+      <template><PromptLine @onSendIntent={{onSendIntent}} /></template>,
+    );
 
     await triggerKeyEvent('.cds-aichat-prompt-line__field', 'keydown', 'Enter');
 
@@ -121,9 +166,16 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     let sent = 0;
     const onSendIntent = () => sent++;
 
-    await render(<template><PromptLine @onSendIntent={{onSendIntent}} /></template>);
+    await render(
+      <template><PromptLine @onSendIntent={{onSendIntent}} /></template>,
+    );
 
-    await triggerKeyEvent('.cds-aichat-prompt-line__field', 'keydown', 'Enter', { ctrlKey: true });
+    await triggerKeyEvent(
+      '.cds-aichat-prompt-line__field',
+      'keydown',
+      'Enter',
+      { ctrlKey: true },
+    );
 
     assert.strictEqual(sent, 1);
   });
@@ -135,7 +187,11 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     field.focus();
     assert.strictEqual(document.activeElement, field);
 
-    await triggerKeyEvent('.cds-aichat-prompt-line__field', 'keydown', 'Escape');
+    await triggerKeyEvent(
+      '.cds-aichat-prompt-line__field',
+      'keydown',
+      'Escape',
+    );
 
     assert.notStrictEqual(document.activeElement, field);
   });
@@ -157,8 +213,14 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
 
     assert.dom('.cds-aichat-prompt-line__field').exists();
     assert.dom('.cds-aichat-prompt-line__pm-content').doesNotExist();
-    assert.strictEqual(api.getEditor(), null, 'getEditor() is a probe and never triggers the upgrade');
-    assert.dom('.cds-aichat-prompt-line__field').exists('probing getEditor() did not upgrade the surface');
+    assert.strictEqual(
+      api.getEditor(),
+      null,
+      'getEditor() is a probe and never triggers the upgrade',
+    );
+    assert
+      .dom('.cds-aichat-prompt-line__field')
+      .exists('probing getEditor() did not upgrade the surface');
   });
 
   test('@rich upgrades to the Tiptap surface, transferring text and caret losslessly', async function (assert) {
@@ -201,7 +263,11 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     );
     // "hello" is 5 plain-text characters in; textToDoc's single paragraph
     // costs +1 for the doc/paragraph boundary.
-    assert.strictEqual(editor!.state.selection.from, 6, 'caret offset carried over from the textarea');
+    assert.strictEqual(
+      editor!.state.selection.from,
+      6,
+      'caret offset carried over from the textarea',
+    );
   });
 
   test('multi-line content survives the textarea -> rich upgrade without doubled newlines', async function (assert) {
@@ -264,14 +330,20 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     let api!: PromptLineApi;
     const onReady = (fn: PromptLineApi) => (api = fn);
 
-    await render(<template><PromptLine @rich={{state.rich}} @onReady={{onReady}} /></template>);
+    await render(
+      <template>
+        <PromptLine @rich={{state.rich}} @onReady={{onReady}} />
+      </template>,
+    );
     await api.ensureEditor();
     assert.dom('.cds-aichat-prompt-line__pm-content').exists();
 
     state.rich = false;
     await settled();
 
-    assert.dom('.cds-aichat-prompt-line__pm-content').exists('still rich after @rich flips back to false');
+    assert
+      .dom('.cds-aichat-prompt-line__pm-content')
+      .exists('still rich after @rich flips back to false');
     assert.dom('.cds-aichat-prompt-line__field').doesNotExist();
   });
 
@@ -283,7 +355,11 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
 
     await render(
       <template>
-        <PromptLine @rich={{true}} @onChange={{onChange}} @onReady={{onReady}} />
+        <PromptLine
+          @rich={{true}}
+          @onChange={{onChange}}
+          @onReady={{onReady}}
+        />
       </template>,
     );
     await api.ensureEditor();
@@ -318,7 +394,9 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     state.content = 'set from outside';
     await settled();
 
-    assert.dom('.cds-aichat-prompt-line__pm-content').hasText('set from outside');
+    assert
+      .dom('.cds-aichat-prompt-line__pm-content')
+      .hasText('set from outside');
     assert.deepEqual(calls, [], 'no onChange echo for a controlled update');
   });
 
@@ -330,21 +408,38 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
 
     await render(
       <template>
-        <PromptLine @rich={{true}} @onSendIntent={{onSendIntent}} @onReady={{onReady}} />
+        <PromptLine
+          @rich={{true}}
+          @onSendIntent={{onSendIntent}}
+          @onReady={{onReady}}
+        />
       </template>,
     );
     await api.ensureEditor();
 
     // Enter on an empty field falls through to a newline, matching the
     // textarea's own empty-field guard.
-    await triggerKeyEvent('.cds-aichat-prompt-line__pm-content', 'keydown', 'Enter');
+    await triggerKeyEvent(
+      '.cds-aichat-prompt-line__pm-content',
+      'keydown',
+      'Enter',
+    );
     assert.strictEqual(sent, 0);
 
     api.getEditor()!.commands.insertContent('ready to send');
-    await triggerKeyEvent('.cds-aichat-prompt-line__pm-content', 'keydown', 'Enter');
+    await triggerKeyEvent(
+      '.cds-aichat-prompt-line__pm-content',
+      'keydown',
+      'Enter',
+    );
     assert.strictEqual(sent, 1);
 
-    await triggerKeyEvent('.cds-aichat-prompt-line__pm-content', 'keydown', 'Enter', { shiftKey: true });
+    await triggerKeyEvent(
+      '.cds-aichat-prompt-line__pm-content',
+      'keydown',
+      'Enter',
+      { shiftKey: true },
+    );
     assert.strictEqual(sent, 1, 'Shift+Enter does not send');
   });
 
@@ -356,7 +451,11 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
 
     await render(
       <template>
-        <PromptLine @rich={{true}} @onSendIntent={{onSendIntent}} @onReady={{onReady}} />
+        <PromptLine
+          @rich={{true}}
+          @onSendIntent={{onSendIntent}}
+          @onReady={{onReady}}
+        />
       </template>,
     );
     await api.ensureEditor();
@@ -383,7 +482,9 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     let api!: PromptLineApi;
     const onReady = (fn: PromptLineApi) => (api = fn);
 
-    await render(<template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>);
+    await render(
+      <template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>,
+    );
     await api.ensureEditor();
 
     api.getEditor()!.commands.insertContent('a change');
@@ -418,12 +519,18 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
 
     await render(
       <template>
-        <PromptLine @rich={{true}} @placeholder='Type a message' @onReady={{onReady}} />
+        <PromptLine
+          @rich={{true}}
+          @placeholder="Type a message"
+          @onReady={{onReady}}
+        />
       </template>,
     );
     await api.ensureEditor();
 
-    assert.dom('.cds-aichat-prompt-line__pm-content p').hasAttribute('data-placeholder', 'Type a message');
+    assert
+      .dom('.cds-aichat-prompt-line__pm-content p')
+      .hasAttribute('data-placeholder', 'Type a message');
   });
 
   test('a new @extensions array reference rebuilds the rich editor (resets undo, preserves content)', async function (assert) {
@@ -438,21 +545,32 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
 
     await render(
       <template>
-        <PromptLine @rich={{true}} @extensions={{state.extensions}} @onReady={{onReady}} />
+        <PromptLine
+          @rich={{true}}
+          @extensions={{state.extensions}}
+          @onReady={{onReady}}
+        />
       </template>,
     );
     await api.ensureEditor();
 
     api.getEditor()!.commands.insertContent('typed text');
     assert.strictEqual(api.getValue(), 'typed text');
-    assert.true(api.undo(), 'undo works before the @extensions reference changes');
+    assert.true(
+      api.undo(),
+      'undo works before the @extensions reference changes',
+    );
     assert.strictEqual(api.getValue(), '');
     assert.true(api.redo());
 
     state.extensions = [];
     await settled();
 
-    assert.strictEqual(api.getValue(), 'typed text', 'content survives the rebuild');
+    assert.strictEqual(
+      api.getValue(),
+      'typed text',
+      'content survives the rebuild',
+    );
     assert.false(api.undo(), 'undo history was reset by the rebuild');
   });
 
@@ -478,7 +596,11 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
 
     await render(
       <template>
-        <PromptLine @rich={{true}} @onChange={{onChange}} @onReady={{onReady}} />
+        <PromptLine
+          @rich={{true}}
+          @onChange={{onChange}}
+          @onReady={{onReady}}
+        />
       </template>,
     );
     await api.ensureEditor();
@@ -489,14 +611,20 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     api.clearContent();
 
     assert.strictEqual(api.getValue(), '');
-    assert.strictEqual(calls.at(-1), '', 'clearContent() fires @onChange with the emptied value');
+    assert.strictEqual(
+      calls.at(-1),
+      '',
+      'clearContent() fires @onChange with the emptied value',
+    );
   });
 
   test('api.insertContent() inserts at an explicit position, independent of the current selection', async function (assert) {
     let api!: PromptLineApi;
     const onReady = (fn: PromptLineApi) => (api = fn);
 
-    await render(<template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>);
+    await render(
+      <template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>,
+    );
     await api.ensureEditor();
 
     api.insertContent('world');
@@ -514,7 +642,9 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     let api!: PromptLineApi;
     const onReady = (fn: PromptLineApi) => (api = fn);
 
-    await render(<template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>);
+    await render(
+      <template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>,
+    );
     await api.ensureEditor();
 
     api.insertContent('a<br>b<p>c</p>');
@@ -530,7 +660,9 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     let api!: PromptLineApi;
     const onReady = (fn: PromptLineApi) => (api = fn);
 
-    await render(<template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>);
+    await render(
+      <template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>,
+    );
     await api.ensureEditor();
 
     api.insertContent('world');
@@ -548,7 +680,9 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     let api!: PromptLineApi;
     const onReady = (fn: PromptLineApi) => (api = fn);
 
-    await render(<template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>);
+    await render(
+      <template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>,
+    );
     await api.ensureEditor();
 
     api.insertContent('world');
@@ -566,7 +700,9 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     let api!: PromptLineApi;
     const onReady = (fn: PromptLineApi) => (api = fn);
 
-    await render(<template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>);
+    await render(
+      <template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>,
+    );
     await api.ensureEditor();
 
     api.getEditor()!.commands.insertContent('hello world');
@@ -574,12 +710,20 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     api.setTextSelection(1);
     let selection = api.getEditor()!.state.selection;
     assert.strictEqual(selection.from, 1);
-    assert.strictEqual(selection.to, 1, 'a single position collapses the selection there');
+    assert.strictEqual(
+      selection.to,
+      1,
+      'a single position collapses the selection there',
+    );
 
     api.setTextSelection({ from: 1, to: 6 });
     selection = api.getEditor()!.state.selection;
     assert.strictEqual(selection.from, 1);
-    assert.strictEqual(selection.to, 6, 'a {from, to} range selects that range');
+    assert.strictEqual(
+      selection.to,
+      6,
+      'a {from, to} range selects that range',
+    );
 
     api.selectAll();
     selection = api.getEditor()!.state.selection;
@@ -595,7 +739,9 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     let api!: PromptLineApi;
     const onReady = (fn: PromptLineApi) => (api = fn);
 
-    await render(<template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>);
+    await render(
+      <template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>,
+    );
     await api.ensureEditor();
 
     api.getEditor()!.commands.insertContent('hello world');
@@ -626,7 +772,9 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     let api!: PromptLineApi;
     const onReady = (fn: PromptLineApi) => (api = fn);
 
-    await render(<template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>);
+    await render(
+      <template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>,
+    );
     await api.ensureEditor();
 
     api.getEditor()!.commands.insertContent('hello world');
@@ -654,18 +802,26 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     await render(<template><PromptLine @rich={{state.rich}} /></template>);
 
     const field = find('.cds-aichat-prompt-line__field') as HTMLTextAreaElement;
-    field.dispatchEvent(new CompositionEvent('compositionstart', { bubbles: true }));
+    field.dispatchEvent(
+      new CompositionEvent('compositionstart', { bubbles: true }),
+    );
 
     state.rich = true;
     await settled();
 
-    assert.dom('.cds-aichat-prompt-line__field').exists('upgrade is withheld while a composition is in flight');
+    assert
+      .dom('.cds-aichat-prompt-line__field')
+      .exists('upgrade is withheld while a composition is in flight');
     assert.dom('.cds-aichat-prompt-line__pm-content').doesNotExist();
 
-    field.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true }));
+    field.dispatchEvent(
+      new CompositionEvent('compositionend', { bubbles: true }),
+    );
     await settled();
 
-    assert.dom('.cds-aichat-prompt-line__pm-content').exists('upgrade proceeds once composition ends');
+    assert
+      .dom('.cds-aichat-prompt-line__pm-content')
+      .exists('upgrade proceeds once composition ends');
     assert.dom('.cds-aichat-prompt-line__field').doesNotExist();
   });
 
@@ -681,24 +837,40 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
 
     await render(
       <template>
-        <PromptLine @rich={{true}} @extensions={{state.extensions}} @onReady={{onReady}} />
+        <PromptLine
+          @rich={{true}}
+          @extensions={{state.extensions}}
+          @onReady={{onReady}}
+        />
       </template>,
     );
     await api.ensureEditor();
 
     const editorBefore = api.getEditor();
     const pmContent = find('.cds-aichat-prompt-line__pm-content')!;
-    pmContent.dispatchEvent(new CompositionEvent('compositionstart', { bubbles: true }));
+    pmContent.dispatchEvent(
+      new CompositionEvent('compositionstart', { bubbles: true }),
+    );
 
     state.extensions = [];
     await settled();
 
-    assert.strictEqual(api.getEditor(), editorBefore, 'rebuild is withheld while composing');
+    assert.strictEqual(
+      api.getEditor(),
+      editorBefore,
+      'rebuild is withheld while composing',
+    );
 
-    pmContent.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true }));
+    pmContent.dispatchEvent(
+      new CompositionEvent('compositionend', { bubbles: true }),
+    );
     await settled();
 
-    assert.notStrictEqual(api.getEditor(), editorBefore, 'rebuild proceeds once composition ends');
+    assert.notStrictEqual(
+      api.getEditor(),
+      editorBefore,
+      'rebuild proceeds once composition ends',
+    );
   });
 
   test('destroying the component while a composition-deferred upgrade is pending rejects ensureEditor() instead of hanging forever', async function (assert) {
@@ -708,7 +880,9 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     await render(<template><PromptLine @onReady={{onReady}} /></template>);
 
     const field = find('.cds-aichat-prompt-line__field') as HTMLTextAreaElement;
-    field.dispatchEvent(new CompositionEvent('compositionstart', { bubbles: true }));
+    field.dispatchEvent(
+      new CompositionEvent('compositionstart', { bubbles: true }),
+    );
 
     // Attached immediately, before `clearRender()` below runs the teardown
     // that settles this - a handler added only after awaiting `clearRender()`
@@ -720,7 +894,9 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
 
     await clearRender();
 
-    const timeout = new Promise((resolve) => setTimeout(() => resolve('timed out'), 500));
+    const timeout = new Promise((resolve) =>
+      setTimeout(() => resolve('timed out'), 500),
+    );
     const outcome = await Promise.race([settledOutcome, timeout]);
 
     assert.strictEqual(
@@ -742,14 +918,18 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     assert.dom('.cds-aichat-prompt-line__pm-content').exists();
     assert
       .dom('.cds-aichat-prompt-line__field')
-      .doesNotExist('warm runtime skips the textarea entirely, no one-tick flash');
+      .doesNotExist(
+        'warm runtime skips the textarea entirely, no one-tick flash',
+      );
   });
 
   test('api.focus() and api.blur() move real DOM focus in rich mode', async function (assert) {
     let api!: PromptLineApi;
     const onReady = (fn: PromptLineApi) => (api = fn);
 
-    await render(<template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>);
+    await render(
+      <template><PromptLine @rich={{true}} @onReady={{onReady}} /></template>,
+    );
     await api.ensureEditor();
 
     // Tiptap's focus()/blur() commands both defer the actual DOM
@@ -758,11 +938,15 @@ module('Integration | Component | ai-chat/PromptLine', (hooks) => {
     api.focus();
     await waitForAnimationFrame();
     assert.true(api.hasFocus());
-    assert.dom(document.activeElement).hasClass('cds-aichat-prompt-line__pm-content');
+    assert
+      .dom(document.activeElement)
+      .hasClass('cds-aichat-prompt-line__pm-content');
 
     api.blur();
     await waitForAnimationFrame();
     assert.false(api.hasFocus());
-    assert.dom(document.activeElement).doesNotHaveClass('cds-aichat-prompt-line__pm-content');
+    assert
+      .dom(document.activeElement)
+      .doesNotHaveClass('cds-aichat-prompt-line__pm-content');
   });
 });

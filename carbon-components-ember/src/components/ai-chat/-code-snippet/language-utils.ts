@@ -99,7 +99,7 @@ function resolvePatternLanguage(code: string): string | null {
 
 function adjustDetectedLanguage(
   language: string | null,
-  code: string
+  code: string,
 ): string | null {
   if (
     (language === 'JavaScript' || language === 'CSS') &&
@@ -122,7 +122,7 @@ function normalizeLanguageKey(name: string): string {
  * their canonical `@codemirror/language-data` name.
  */
 export function mapLanguageName(
-  name: string | null | undefined
+  name: string | null | undefined,
 ): string | null {
   if (!name) {
     return null;

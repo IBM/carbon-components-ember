@@ -76,7 +76,11 @@ export type Args = {
    * entirely rather than accepting-and-ignoring it, and exposes the real
    * behavior as a single `@onMenuAction` callback instead.
    */
-  onMenuAction?: (detail: { action?: string; itemId?: string; itemName?: string }) => void;
+  onMenuAction?: (detail: {
+    action?: string;
+    itemId?: string;
+    itemName?: string;
+  }) => void;
 };
 
 export interface ChatHistoryPanelItemSignature {
@@ -181,14 +185,19 @@ export default class ChatHistoryPanelItem extends Component<ChatHistoryPanelItem
 
   @action
   handleMenuAction(actionText: string | undefined) {
-    this.args.onMenuAction?.({ action: actionText, itemId: this.args.id, itemName: this.args.name });
+    this.args.onMenuAction?.({
+      action: actionText,
+      itemId: this.args.id,
+      itemName: this.args.name,
+    });
   }
 
   <template>
     <div
-      class='cds-aichat-history-panel-item {{if this.rename "cds-aichat-history-panel-item--rename"}}'
-      data-selected={{if @selected ''}}
-      data-parent-menu-expanded={{if this.parentMenuExpanded ''}}
+      class="cds-aichat-history-panel-item
+        {{if this.rename 'cds-aichat-history-panel-item--rename'}}"
+      data-selected={{if @selected ""}}
+      data-parent-menu-expanded={{if this.parentMenuExpanded ""}}
       {{this.watchRename @rename}}
       ...attributes
     >
@@ -204,21 +213,25 @@ export default class ChatHistoryPanelItem extends Component<ChatHistoryPanelItem
         />
       {{else}}
         <button
-          type='button'
-          class='cds--side-nav__link {{if @selected "cds--side-nav__link--current"}}'
-          {{on 'click' this.handleClick}}
+          type="button"
+          class="cds--side-nav__link
+            {{if @selected 'cds--side-nav__link--current'}}"
+          {{on "click" this.handleClick}}
         >
-          <span class='cds--side-nav__link-text'>{{@name}}</span>
+          <span class="cds--side-nav__link-text">{{@name}}</span>
         </button>
         <span
-          class='cds-aichat-history-panel-item__actions
-            {{if @showActions "cds-aichat-history-panel-item__actions--always-show"}}'
+          class="cds-aichat-history-panel-item__actions
+            {{if
+              @showActions
+              'cds-aichat-history-panel-item__actions--always-show'
+            }}"
         >
           <OverflowMenu
-            @direction='bottom'
-            @tooltip={{or @overflowMenuLabel 'Options'}}
+            @direction="bottom"
+            @tooltip={{or @overflowMenuLabel "Options"}}
             @icon={{OverflowMenuVertical}}
-            @horizontalPosition='right'
+            @horizontalPosition="right"
           >
             {{#each @actions as |menuAction|}}
               <OverflowMenuItem

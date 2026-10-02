@@ -169,39 +169,33 @@ export default class MenuItem
       <li
         role={{this.role}}
         class={{this.classesFor hasChildren}}
-        tabindex={{if (this.isDisabled hasChildren) '-1' '0'}}
-        aria-disabled={{if (this.isDisabled hasChildren) 'true'}}
-        aria-haspopup={{if hasChildren 'true'}}
-        aria-expanded={{if
-          hasChildren
-          (if this.submenuOpen 'true' 'false')
-        }}
-        aria-checked={{if
-          this.hasAriaChecked
-          (if @ariaChecked 'true' 'false')
-        }}
+        tabindex={{if (this.isDisabled hasChildren) "-1" "0"}}
+        aria-disabled={{if (this.isDisabled hasChildren) "true"}}
+        aria-haspopup={{if hasChildren "true"}}
+        aria-expanded={{if hasChildren (if this.submenuOpen "true" "false")}}
+        aria-checked={{if this.hasAriaChecked (if @ariaChecked "true" "false")}}
         title={{@label}}
-        {{on 'click' (fn this.handleClick hasChildren)}}
-        {{on 'keydown' (fn this.handleKeyDown hasChildren)}}
+        {{on "click" (fn this.handleClick hasChildren)}}
+        {{on "keydown" (fn this.handleKeyDown hasChildren)}}
         {{this.registerWithMenu}}
         ...attributes
       >
-        <div class='cds--menu-item__selection-icon'>
+        <div class="cds--menu-item__selection-icon">
           {{#if @ariaChecked}}
             <Checkmark />
           {{/if}}
         </div>
-        <div class='cds--menu-item__icon'>
+        <div class="cds--menu-item__icon">
           {{#if @renderIcon}}
             <@renderIcon />
           {{/if}}
         </div>
-        <div class='cds--menu-item__label'>{{@label}}</div>
+        <div class="cds--menu-item__label">{{@label}}</div>
         {{#if (this.isDanger hasChildren)}}
           {{#if @dangerDescription}}
             <span
-              id='menu-item-danger-{{this.guid}}'
-              class='cds--visually-hidden'
+              id="menu-item-danger-{{this.guid}}"
+              class="cds--visually-hidden"
             >
               {{@dangerDescription}}
             </span>
@@ -209,11 +203,11 @@ export default class MenuItem
         {{/if}}
         {{#unless hasChildren}}
           {{#if @shortcut}}
-            <div class='cds--menu-item__shortcut'>{{@shortcut}}</div>
+            <div class="cds--menu-item__shortcut">{{@shortcut}}</div>
           {{/if}}
         {{/unless}}
         {{#if hasChildren}}
-          <div class='cds--menu-item__shortcut'>
+          <div class="cds--menu-item__shortcut">
             <CaretRight />
           </div>
           <Menu

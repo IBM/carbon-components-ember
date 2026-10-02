@@ -10,7 +10,10 @@ const headers: AiChatTableCell[] = [{ text: 'Name' }, { text: 'Status' }];
 
 function rowsOf(count: number): AiChatTableRow[] {
   return Array.from({ length: count }, (_, i) => ({
-    cells: [{ text: `Row ${i + 1}` }, { text: i % 2 === 0 ? 'Active' : 'Inactive' }],
+    cells: [
+      { text: `Row ${i + 1}` },
+      { text: i % 2 === 0 ? 'Active' : 'Inactive' },
+    ],
   }));
 }
 
@@ -22,7 +25,11 @@ module('Integration | Component | ai-chat/AiChatTable', (hooks) => {
 
     await render(
       <template>
-        <AiChatTable @tableTitle='My table' @headers={{headers}} @rows={{rows}} />
+        <AiChatTable
+          @tableTitle="My table"
+          @headers={{headers}}
+          @rows={{rows}}
+        />
       </template>,
     );
 
@@ -102,7 +109,11 @@ module('Integration | Component | ai-chat/AiChatTable', (hooks) => {
 
     await render(
       <template>
-        <AiChatTable @headers={{headers}} @rows={{rows}} @defaultPageSize={{5}} />
+        <AiChatTable
+          @headers={{headers}}
+          @rows={{rows}}
+          @defaultPageSize={{5}}
+        />
       </template>,
     );
 
@@ -114,7 +125,11 @@ module('Integration | Component | ai-chat/AiChatTable', (hooks) => {
 
     await render(
       <template>
-        <AiChatTable @headers={{headers}} @rows={{rows}} @defaultPageSize={{5}} />
+        <AiChatTable
+          @headers={{headers}}
+          @rows={{rows}}
+          @defaultPageSize={{5}}
+        />
       </template>,
     );
 
@@ -127,11 +142,17 @@ module('Integration | Component | ai-chat/AiChatTable', (hooks) => {
 
     await render(
       <template>
-        <AiChatTable @headers={{headers}} @rows={{rows}} @defaultPageSize={{5}} />
+        <AiChatTable
+          @headers={{headers}}
+          @rows={{rows}}
+          @defaultPageSize={{5}}
+        />
       </template>,
     );
 
-    assert.dom('.cds--pagination').exists('pagination shown for 8 rows at page size 5');
+    assert
+      .dom('.cds--pagination')
+      .exists('pagination shown for 8 rows at page size 5');
     assert.dom('tbody tr').exists({ count: 5 });
 
     // Narrow the filter to 2 matches, dropping Pagination from the DOM.
@@ -164,7 +185,7 @@ module('Integration | Component | ai-chat/AiChatTable', (hooks) => {
           <AiChatTable
             @headers={{headers}}
             @rows={{rows}}
-            @downloadLabelText='Download'
+            @downloadLabelText="Download"
           />
         </template>,
       );
@@ -172,7 +193,9 @@ module('Integration | Component | ai-chat/AiChatTable', (hooks) => {
       await click('.cds-aichat-table-container .cds--btn');
 
       assert.ok(capturedHref, 'a download link was clicked');
-      const csv = decodeURIComponent(capturedHref!.split(',').slice(1).join(','));
+      const csv = decodeURIComponent(
+        capturedHref!.split(',').slice(1).join(','),
+      );
       // Leading `sep=,` line forces Excel to parse with a comma delimiter
       // regardless of the OS/Excel locale's own list separator - see
       // `download()`'s comment for why this isn't part of `stringifyCSV`
@@ -186,7 +209,9 @@ module('Integration | Component | ai-chat/AiChatTable', (hooks) => {
   test('it opts the download icon out of the default icon margin', async function (assert) {
     const rows = rowsOf(3);
 
-    await render(<template><AiChatTable @headers={{headers}} @rows={{rows}} /></template>);
+    await render(
+      <template><AiChatTable @headers={{headers}} @rows={{rows}} /></template>,
+    );
     await waitUntil(() => find('.cds-aichat-table-container .cds--btn svg'));
 
     assert

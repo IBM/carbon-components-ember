@@ -15,7 +15,7 @@
 // whose selector doesn't match its own template's `<slot name="media">` —
 // a pre-existing dead rule upstream, not reproduced here.
 
-@use '@carbon/layout';
+@use "@carbon/layout";
 
 .cds-aichat-card {
   --cds-aichat-card-border-radius-start-start: #{layout.$spacing-03};
@@ -28,7 +28,10 @@
   border-end-end-radius: var(--cds-aichat-card-border-radius-end-end, 0);
   border-end-start-radius: var(--cds-aichat-card-border-radius-end-start, 0);
   border-start-end-radius: var(--cds-aichat-card-border-radius-start-end, 0);
-  border-start-start-radius: var(--cds-aichat-card-border-radius-start-start, 0);
+  border-start-start-radius: var(
+    --cds-aichat-card-border-radius-start-start,
+    0
+  );
 
   // The named blocks render directly one after another with no wrapping
   // element between them, so a `contenteditable` ancestor's inherited
@@ -94,7 +97,7 @@
 // each button in this addon's `Tooltip`, whose popover content renders
 // in-place (not portaled) and pops up *above* the trigger by default,
 // outside this container's box; `overflow: hidden` would clip it.
-.cds-aichat-card-footer__actions[data-rounded='bottom'] {
+.cds-aichat-card-footer__actions[data-rounded="bottom"] {
   border-end-start-radius: calc(
     var(--cds-aichat-card-border-radius-end-start, 0) - 1px
   );
@@ -116,7 +119,7 @@
     );
   }
 
-  &[data-stacked='true'] {
+  &[data-stacked="true"] {
     > :first-child,
     > :first-child button {
       border-end-start-radius: 0;
@@ -131,7 +134,7 @@
   }
 }
 
-.cds-aichat-card-footer__icon-actions[data-rounded='bottom-right'] {
+.cds-aichat-card-footer__icon-actions[data-rounded="bottom-right"] {
   border-end-end-radius: calc(
     var(--cds-aichat-card-border-radius-end-end, 0) - 1px
   );

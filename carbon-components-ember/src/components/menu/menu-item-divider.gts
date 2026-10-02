@@ -13,6 +13,6 @@ export interface MenuItemDividerSignature {
 
 export default class MenuItemDivider extends Component<MenuItemDividerSignature> {
   <template>
-    <li class='cds--menu-item-divider' role='separator' ...attributes></li>
+    <li class="cds--menu-item-divider" role="separator" ...attributes></li>
   </template>
 }

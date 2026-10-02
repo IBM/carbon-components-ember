@@ -3,7 +3,8 @@ import { evaluateShowMoreButton } from '#src/components/ai-chat/-code-snippet/la
 
 function containerWithHeight(height: number): ParentNode {
   return {
-    querySelector: () => ({ getBoundingClientRect: () => ({ height }) }) as unknown as Element,
+    querySelector: () =>
+      ({ getBoundingClientRect: () => ({ height }) }) as unknown as Element,
   } as unknown as ParentNode;
 }
 
@@ -23,7 +24,10 @@ module('Unit | Utility | ai-chat/code-snippet/layout-utils', function () {
       minExpanded: 16,
     });
 
-    assert.true(result.shouldShowButton, 'content still exceeds the collapsed cap');
+    assert.true(
+      result.shouldShowButton,
+      'content still exceeds the collapsed cap',
+    );
     assert.false(
       result.shouldCollapse,
       'expanding must not immediately snap back to collapsed while the button is still needed',
@@ -40,7 +44,13 @@ module('Unit | Utility | ai-chat/code-snippet/layout-utils', function () {
       minExpanded: 16,
     });
 
-    assert.false(result.shouldShowButton, 'content fits within the collapsed cap');
-    assert.true(result.shouldCollapse, 'auto-collapse is still expected once genuinely short');
+    assert.false(
+      result.shouldShowButton,
+      'content fits within the collapsed cap',
+    );
+    assert.true(
+      result.shouldCollapse,
+      'auto-collapse is still expected once genuinely short',
+    );
   });
 });

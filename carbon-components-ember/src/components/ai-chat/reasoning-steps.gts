@@ -70,47 +70,52 @@ class ReasoningStep extends Component<ReasoningStepSignature> {
   }
 
   <template>
-    <div class='cds-aichat-reasoning-step {{if this.isOpen "cds-aichat-reasoning-step--open"}}'
-      role='listitem'
+    <div
+      class="cds-aichat-reasoning-step
+        {{if this.isOpen 'cds-aichat-reasoning-step--open'}}"
+      role="listitem"
       ...attributes
     >
       {{#if (has-block)}}
         <button
           id={{this.headerId}}
-          type='button'
-          class='cds-aichat-reasoning-step__trigger'
-          aria-expanded={{if this.isOpen 'true' 'false'}}
+          type="button"
+          class="cds-aichat-reasoning-step__trigger"
+          aria-expanded={{if this.isOpen "true" "false"}}
           aria-controls={{this.contentId}}
-          {{on 'click' this.toggle}}
-          {{on 'keydown' this.handleKeydown}}
+          {{on "click" this.toggle}}
+          {{on "keydown" this.handleKeydown}}
         >
-          <span class='cds-aichat-reasoning-step__icon' aria-hidden='true'>
-            <ChevronRight @size='16' />
+          <span class="cds-aichat-reasoning-step__icon" aria-hidden="true">
+            <ChevronRight @size="16" />
           </span>
-          <div class='cds-aichat-reasoning-step__title'>
+          <div class="cds-aichat-reasoning-step__title">
             {{@title}}
           </div>
         </button>
       {{else}}
-        <div class='cds-aichat-reasoning-step__static' id={{this.headerId}}>
-          <span class='cds-aichat-reasoning-step__static-icon' aria-hidden='true'>&mdash;</span>
-          <div class='cds-aichat-reasoning-step__title'>
+        <div class="cds-aichat-reasoning-step__static" id={{this.headerId}}>
+          <span
+            class="cds-aichat-reasoning-step__static-icon"
+            aria-hidden="true"
+          >&mdash;</span>
+          <div class="cds-aichat-reasoning-step__title">
             {{@title}}
           </div>
         </div>
       {{/if}}
       <div
         id={{this.contentId}}
-        class='cds-aichat-reasoning-step__panel
-          {{unless (has-block) "cds-aichat-reasoning-step__panel--hidden"}}'
-        aria-hidden={{if this.isOpen 'false' 'true'}}
-        role={{if (has-block) 'region'}}
+        class="cds-aichat-reasoning-step__panel
+          {{unless (has-block) 'cds-aichat-reasoning-step__panel--hidden'}}"
+        aria-hidden={{if this.isOpen "false" "true"}}
+        role={{if (has-block) "region"}}
         aria-labelledby={{if (has-block) this.headerId}}
         hidden={{if (has-block) false true}}
       >
         <div
-          class='cds-aichat-reasoning-step__panel-body'
-          data-visible={{if (and this.isOpen (has-block)) 'true' 'false'}}
+          class="cds-aichat-reasoning-step__panel-body"
+          data-visible={{if (and this.isOpen (has-block)) "true" "false"}}
         >
           {{#if (has-block)}}
             {{yield}}
@@ -168,13 +173,13 @@ export default class ReasoningSteps extends Component<ReasoningStepsSignature> {
   }
 
   <template>
-    <div class='cds-aichat-reasoning-steps' ...attributes>
+    <div class="cds-aichat-reasoning-steps" ...attributes>
       <div
-        class='cds-aichat-reasoning-steps__wrapper
-          {{if this.open "cds-aichat-reasoning-steps__wrapper--open"}}'
-        aria-hidden={{if this.open 'false' 'true'}}
+        class="cds-aichat-reasoning-steps__wrapper
+          {{if this.open 'cds-aichat-reasoning-steps__wrapper--open'}}"
+        aria-hidden={{if this.open "false" "true"}}
       >
-        <div class='cds-aichat-reasoning-steps__body' role='list'>
+        <div class="cds-aichat-reasoning-steps__body" role="list">
           {{yield (component ReasoningStep controlled=@controlled)}}
         </div>
       </div>

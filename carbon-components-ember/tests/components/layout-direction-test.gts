@@ -9,7 +9,7 @@ module('Integration | Component | LayoutDirection', (hooks) => {
   test('renders as a div by default', async function (assert) {
     await render(
       <template>
-        <LayoutDirection @dir='ltr'>
+        <LayoutDirection @dir="ltr">
           <p>Hello world</p>
         </LayoutDirection>
       </template>,
@@ -22,7 +22,7 @@ module('Integration | Component | LayoutDirection', (hooks) => {
   test('@dir sets the layout direction', async function (assert) {
     await render(
       <template>
-        <LayoutDirection @dir='rtl'>
+        <LayoutDirection @dir="rtl">
           <p>مرحبا بالعالم</p>
         </LayoutDirection>
       </template>,
@@ -34,7 +34,7 @@ module('Integration | Component | LayoutDirection', (hooks) => {
   test('@as renders a custom element type', async function (assert) {
     await render(
       <template>
-        <LayoutDirection @as='span' @dir='ltr'>
+        <LayoutDirection @as="span" @dir="ltr">
           Hello world
         </LayoutDirection>
       </template>,
@@ -47,9 +47,9 @@ module('Integration | Component | LayoutDirection', (hooks) => {
   test('supports nesting to override direction for part of the page', async function (assert) {
     await render(
       <template>
-        <LayoutDirection id='outer' @dir='ltr'>
+        <LayoutDirection id="outer" @dir="ltr">
           <p>Outer</p>
-          <LayoutDirection id='inner' @dir='rtl'>
+          <LayoutDirection id="inner" @dir="rtl">
             <p>Inner</p>
           </LayoutDirection>
         </LayoutDirection>
@@ -63,9 +63,9 @@ module('Integration | Component | LayoutDirection', (hooks) => {
   test('yields dir and isRTL', async function (assert) {
     await render(
       <template>
-        <LayoutDirection @dir='rtl' as |ctx|>
+        <LayoutDirection @dir="rtl" as |ctx|>
           <span data-test-dir>{{ctx.dir}}</span>
-          <span data-test-rtl>{{if ctx.isRTL 'rtl' 'ltr'}}</span>
+          <span data-test-rtl>{{if ctx.isRTL "rtl" "ltr"}}</span>
         </LayoutDirection>
       </template>,
     );
@@ -77,8 +77,8 @@ module('Integration | Component | LayoutDirection', (hooks) => {
   test('isRTL is false for ltr', async function (assert) {
     await render(
       <template>
-        <LayoutDirection @dir='ltr' as |ctx|>
-          <span data-test-rtl>{{if ctx.isRTL 'rtl' 'ltr'}}</span>
+        <LayoutDirection @dir="ltr" as |ctx|>
+          <span data-test-rtl>{{if ctx.isRTL "rtl" "ltr"}}</span>
         </LayoutDirection>
       </template>,
     );
@@ -89,7 +89,11 @@ module('Integration | Component | LayoutDirection', (hooks) => {
   test('passes through html attributes', async function (assert) {
     await render(
       <template>
-        <LayoutDirection id='my-layout-direction' class='custom-class' @dir='ltr'>
+        <LayoutDirection
+          id="my-layout-direction"
+          class="custom-class"
+          @dir="ltr"
+        >
           Hello world
         </LayoutDirection>
       </template>,

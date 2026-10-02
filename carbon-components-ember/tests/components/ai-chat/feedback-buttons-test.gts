@@ -23,13 +23,15 @@ module('Integration | Component | ai-chat/FeedbackButtons', (hooks) => {
 
   test('selected state swaps the filled icon in and sets aria-pressed', async function (assert) {
     await render(
-      <template>
-        <FeedbackButtons @isPositiveSelected={{true}} />
-      </template>,
+      <template><FeedbackButtons @isPositiveSelected={{true}} /></template>,
     );
 
-    assert.dom('.cds-aichat-feedback-buttons__positive').hasAttribute('aria-pressed', 'true');
-    assert.dom('.cds-aichat-feedback-buttons__negative').doesNotHaveAttribute('aria-pressed');
+    assert
+      .dom('.cds-aichat-feedback-buttons__positive')
+      .hasAttribute('aria-pressed', 'true');
+    assert
+      .dom('.cds-aichat-feedback-buttons__negative')
+      .doesNotHaveAttribute('aria-pressed');
   });
 
   test('disabled state prevents clicks from firing @onClick', async function (assert) {
@@ -49,16 +51,23 @@ module('Integration | Component | ai-chat/FeedbackButtons', (hooks) => {
   test('aria-expanded only appears when the button actually has a details panel', async function (assert) {
     await render(
       <template>
-        <FeedbackButtons @hasPositiveDetails={{true}} @isPositiveOpen={{true}} />
+        <FeedbackButtons
+          @hasPositiveDetails={{true}}
+          @isPositiveOpen={{true}}
+        />
       </template>,
     );
 
-    assert.dom('.cds-aichat-feedback-buttons__positive').hasAttribute('aria-expanded', 'true');
-    assert.dom('.cds-aichat-feedback-buttons__negative').doesNotHaveAttribute('aria-expanded');
+    assert
+      .dom('.cds-aichat-feedback-buttons__positive')
+      .hasAttribute('aria-expanded', 'true');
+    assert
+      .dom('.cds-aichat-feedback-buttons__negative')
+      .doesNotHaveAttribute('aria-expanded');
   });
 
   test('aria-controls is built from @panelId', async function (assert) {
-    await render(<template><FeedbackButtons @panelId='msg-1' /></template>);
+    await render(<template><FeedbackButtons @panelId="msg-1" /></template>);
 
     assert
       .dom('.cds-aichat-feedback-buttons__positive')

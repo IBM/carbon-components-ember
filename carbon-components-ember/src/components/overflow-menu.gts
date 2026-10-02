@@ -28,9 +28,7 @@ export interface OverflowMenuComponentSignature {
     horizontalPosition?: 'auto' | 'auto-right' | 'right' | 'center' | 'left';
   };
   Blocks: {
-    default: [
-      WithBoundArgs<typeof MenuItemComponent, 'disabled' | 'isDelete'>,
-    ];
+    default: [WithBoundArgs<typeof MenuItemComponent, 'disabled' | 'isDelete'>];
   };
 }
 
@@ -47,12 +45,11 @@ export default class OverflowMenuComponent extends Component<OverflowMenuCompone
             <dd.Trigger
               @stopPropagation={{false}}
               @eventType={{@eventType}}
-              class='cds--overflow-menu {{if dd.isOpen "cds--overflow-menu--open"}}'
+              class="cds--overflow-menu
+                {{if dd.isOpen 'cds--overflow-menu--open'}}"
               {{reference}}
             >
-              <this.icon
-                @btnClass='cds--overflow-menu__icon'
-              />
+              <this.icon @btnClass="cds--overflow-menu__icon" />
             </dd.Trigger>
           </:trigger>
           <:content>{{@tooltip}}</:content>
@@ -61,20 +58,18 @@ export default class OverflowMenuComponent extends Component<OverflowMenuCompone
         <dd.Trigger
           @stopPropagation={{false}}
           @eventType={{@eventType}}
-          class='cds--overflow-menu {{if dd.isOpen "cds--overflow-menu--open"}}'
+          class="cds--overflow-menu {{if dd.isOpen 'cds--overflow-menu--open'}}"
         >
-          <this.icon
-            @btnClass='cds--overflow-menu__icon'
-          />
+          <this.icon @btnClass="cds--overflow-menu__icon" />
         </dd.Trigger>
       {{/if}}
       <dd.Content>
         <ul
-          {{on 'click' dd.actions.close}}
-          class='cds--overflow-menu-options cds--overflow-menu-options--open cds--overflow-menu-options--md'
+          {{on "click" dd.actions.close}}
+          class="cds--overflow-menu-options cds--overflow-menu-options--open cds--overflow-menu-options--md"
           style="inset-block-start: 0"
-          tabindex='-1'
-          data-floating-menu-direction={{defaultTo @direction 'buttom'}}
+          tabindex="-1"
+          data-floating-menu-direction={{defaultTo @direction "buttom"}}
         >
           {{yield
             (component MenuItemComponent disabled=@disabled isDelete=@danger)

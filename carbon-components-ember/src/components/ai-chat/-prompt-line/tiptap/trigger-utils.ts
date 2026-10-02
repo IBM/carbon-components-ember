@@ -20,20 +20,29 @@ import type { TriggerChangeEventDetail } from './types.ts';
  * already can for a real `keydown` (see `PromptLine`'s class doc), no
  * dedicated `@onTriggerChange` arg needed.
  */
-const lastDetailByEditor = new WeakMap<Editor, TriggerChangeEventDetail | null>();
+const lastDetailByEditor = new WeakMap<
+  Editor,
+  TriggerChangeEventDetail | null
+>();
 
-export function dispatchTriggerChange(editor: Editor, detail: TriggerChangeEventDetail | null): void {
+export function dispatchTriggerChange(
+  editor: Editor,
+  detail: TriggerChangeEventDetail | null,
+): void {
   const previous = lastDetailByEditor.get(editor) ?? null;
   if (areDetailsEqual(previous, detail)) {
     return;
   }
   lastDetailByEditor.set(editor, detail);
   editor.view.dom.dispatchEvent(
-    new CustomEvent<TriggerChangeEventDetail | null>('cds-aichat-trigger-change', {
-      detail,
-      bubbles: true,
-      composed: true,
-    }),
+    new CustomEvent<TriggerChangeEventDetail | null>(
+      'cds-aichat-trigger-change',
+      {
+        detail,
+        bubbles: true,
+        composed: true,
+      },
+    ),
   );
 }
 
@@ -42,9 +51,16 @@ export function resetTriggerChangeState(editor: Editor): void {
   lastDetailByEditor.delete(editor);
 }
 
-function areDetailsEqual(a: TriggerChangeEventDetail | null, b: TriggerChangeEventDetail | null): boolean {
+function areDetailsEqual(
+  a: TriggerChangeEventDetail | null,
+  b: TriggerChangeEventDetail | null,
+): boolean {
   if (a === null || b === null) {
     return a === b;
   }
-  return a.type === b.type && a.query === b.query && a.triggerOffset === b.triggerOffset;
+  return (
+    a.type === b.type &&
+    a.query === b.query &&
+    a.triggerOffset === b.triggerOffset
+  );
 }

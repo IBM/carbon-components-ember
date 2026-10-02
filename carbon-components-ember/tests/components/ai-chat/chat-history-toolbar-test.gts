@@ -15,7 +15,9 @@ module('Integration | Component | ai-chat/ChatHistoryToolbar', (hooks) => {
   });
 
   test('@searchOff hides the search field', async function (assert) {
-    await render(<template><ChatHistoryToolbar @searchOff={{true}} /></template>);
+    await render(
+      <template><ChatHistoryToolbar @searchOff={{true}} /></template>,
+    );
 
     assert.dom('.cds-aichat-history-toolbar__search').doesNotExist();
     assert.dom('.cds-aichat-history-toolbar__new-chat').exists();
@@ -24,25 +26,35 @@ module('Integration | Component | ai-chat/ChatHistoryToolbar', (hooks) => {
   test('the new-chat button renders with the primary (blue) button style', async function (assert) {
     await render(<template><ChatHistoryToolbar /></template>);
 
-    assert.dom('.cds-aichat-history-toolbar__new-chat').hasClass('cds--btn--primary');
-    assert.dom('.cds-aichat-history-toolbar__new-chat').doesNotHaveClass('cds--btn--ghost');
+    assert
+      .dom('.cds-aichat-history-toolbar__new-chat')
+      .hasClass('cds--btn--primary');
+    assert
+      .dom('.cds-aichat-history-toolbar__new-chat')
+      .doesNotHaveClass('cds--btn--ghost');
   });
 
   test('typing in the search field calls @onSearch with the value', async function (assert) {
     const calls: string[] = [];
     const onSearch = (value: string) => calls.push(value);
 
-    await render(<template><ChatHistoryToolbar @onSearch={{onSearch}} /></template>);
+    await render(
+      <template><ChatHistoryToolbar @onSearch={{onSearch}} /></template>,
+    );
 
     await fillIn('.cds-aichat-history-toolbar__search input', 'today');
     assert.deepEqual(calls, ['today']);
   });
 
-  test('clicking the search field\'s clear button calls @onSearchClear', async function (assert) {
+  test("clicking the search field's clear button calls @onSearchClear", async function (assert) {
     let clearCalls = 0;
     const onSearchClear = () => clearCalls++;
 
-    await render(<template><ChatHistoryToolbar @onSearchClear={{onSearchClear}} /></template>);
+    await render(
+      <template>
+        <ChatHistoryToolbar @onSearchClear={{onSearchClear}} />
+      </template>,
+    );
 
     await fillIn('.cds-aichat-history-toolbar__search input', 'today');
     await click('.cds-aichat-history-toolbar__search .cds--search-close');
@@ -55,7 +67,9 @@ module('Integration | Component | ai-chat/ChatHistoryToolbar', (hooks) => {
     let calls = 0;
     const onNewChat = () => calls++;
 
-    await render(<template><ChatHistoryToolbar @onNewChat={{onNewChat}} /></template>);
+    await render(
+      <template><ChatHistoryToolbar @onNewChat={{onNewChat}} /></template>,
+    );
 
     await click('.cds-aichat-history-toolbar__new-chat');
     assert.strictEqual(calls, 1);
@@ -65,12 +79,14 @@ module('Integration | Component | ai-chat/ChatHistoryToolbar', (hooks) => {
     await render(
       <template>
         <ChatHistoryToolbar
-          @searchAttributes={{hash placeholder='Search chats' value='hi'}}
+          @searchAttributes={{hash placeholder="Search chats" value="hi"}}
         />
       </template>,
     );
 
-    assert.dom('.cds-aichat-history-toolbar__search input').hasAttribute('placeholder', 'Search chats');
+    assert
+      .dom('.cds-aichat-history-toolbar__search input')
+      .hasAttribute('placeholder', 'Search chats');
     assert.dom('.cds-aichat-history-toolbar__search input').hasValue('hi');
   });
 });

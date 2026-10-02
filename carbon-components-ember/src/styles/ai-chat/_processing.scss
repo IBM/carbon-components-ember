@@ -2,7 +2,7 @@
 // adapted from upstream's shadow-DOM `:host`/plain classes to this addon's
 // own `.cds-aichat-processing` class + BEM-ish dot classes, matching the
 // pattern already used by `ai-chat/chain-of-thought` etc.
-@use '@carbon/styles/scss/theme';
+@use "@carbon/styles/scss/theme";
 
 .cds-aichat-processing {
   display: inline-block;
@@ -24,10 +24,8 @@
 .cds-aichat-processing--linear {
   .cds-aichat-processing__dot--left {
     animation:
-      cds-aichat-processing-load-size,
-      cds-aichat-processing-load-stroke,
-      cds-aichat-processing-loop-size,
-      cds-aichat-processing-loop-stroke;
+      cds-aichat-processing-load-size, cds-aichat-processing-load-stroke,
+      cds-aichat-processing-loop-size, cds-aichat-processing-loop-stroke;
     animation-delay: 1000ms, 1000ms, 2000ms, 2000ms;
     animation-duration: 1000ms;
     animation-fill-mode: forwards;
@@ -37,10 +35,8 @@
 
   .cds-aichat-processing__dot--center {
     animation:
-      cds-aichat-processing-load-size,
-      cds-aichat-processing-load-stroke,
-      cds-aichat-processing-loop-size,
-      cds-aichat-processing-loop-stroke;
+      cds-aichat-processing-load-size, cds-aichat-processing-load-stroke,
+      cds-aichat-processing-loop-size, cds-aichat-processing-loop-stroke;
     animation-delay: 1167ms, 1167ms, 2167ms, 2167ms;
     animation-duration: 1000ms;
     animation-fill-mode: forwards;
@@ -50,10 +46,8 @@
 
   .cds-aichat-processing__dot--right {
     animation:
-      cds-aichat-processing-load-size,
-      cds-aichat-processing-load-stroke,
-      cds-aichat-processing-loop-size,
-      cds-aichat-processing-loop-stroke;
+      cds-aichat-processing-load-size, cds-aichat-processing-load-stroke,
+      cds-aichat-processing-loop-size, cds-aichat-processing-loop-stroke;
     animation-delay: 1334ms, 1334ms, 2334ms, 2334ms;
     animation-duration: 1000ms;
     animation-fill-mode: forwards;
@@ -79,10 +73,8 @@
 .cds-aichat-processing--linear-no-loop {
   .cds-aichat-processing__dot--left {
     animation:
-      cds-aichat-processing-load-size,
-      cds-aichat-processing-load-stroke,
-      cds-aichat-processing-unload-size,
-      cds-aichat-processing-unload-stroke;
+      cds-aichat-processing-load-size, cds-aichat-processing-load-stroke,
+      cds-aichat-processing-unload-size, cds-aichat-processing-unload-stroke;
     animation-delay: 1000ms, 1000ms, 2000ms, 2000ms;
     animation-duration: 1000ms;
     animation-fill-mode: forwards;
@@ -92,10 +84,8 @@
 
   .cds-aichat-processing__dot--center {
     animation:
-      cds-aichat-processing-load-size,
-      cds-aichat-processing-load-stroke,
-      cds-aichat-processing-unload-size,
-      cds-aichat-processing-unload-stroke;
+      cds-aichat-processing-load-size, cds-aichat-processing-load-stroke,
+      cds-aichat-processing-unload-size, cds-aichat-processing-unload-stroke;
     animation-delay: 1167ms, 1167ms, 2167ms, 2167ms;
     animation-duration: 1000ms;
     animation-fill-mode: forwards;
@@ -105,10 +95,8 @@
 
   .cds-aichat-processing__dot--right {
     animation:
-      cds-aichat-processing-load-size,
-      cds-aichat-processing-load-stroke,
-      cds-aichat-processing-unload-size,
-      cds-aichat-processing-unload-stroke;
+      cds-aichat-processing-load-size, cds-aichat-processing-load-stroke,
+      cds-aichat-processing-unload-size, cds-aichat-processing-unload-stroke;
     animation-delay: 1334ms, 1334ms, 2334ms, 2334ms;
     animation-duration: 1000ms;
     animation-fill-mode: forwards;
@@ -141,7 +129,7 @@
   }
 }
 
-[dir='rtl'] {
+[dir="rtl"] {
   .cds-aichat-processing--linear {
     .cds-aichat-processing__dot--left {
       animation-delay: 1334ms, 1334ms, 2334ms, 2334ms, 7334ms, 7334ms;

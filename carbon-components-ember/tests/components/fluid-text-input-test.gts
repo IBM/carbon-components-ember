@@ -1,6 +1,13 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn, click, waitFor, settled, typeIn } from '@ember/test-helpers';
+import {
+  render,
+  fillIn,
+  click,
+  waitFor,
+  settled,
+  typeIn,
+} from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import { trackedObject } from '@ember/reactive/collections';
 import { cell } from 'ember-resources';
@@ -11,7 +18,7 @@ module('Integration | Component | FluidTextInput', (hooks) => {
   setupRenderingTest(hooks);
 
   test('should render a labelled input with the fluid class', async function (assert) {
-    await render(<template><FluidTextInput @labelText='Name' /></template>);
+    await render(<template><FluidTextInput @labelText="Name" /></template>);
 
     assert.dom('.cds--form-item').exists();
     assert.dom('.cds--text-input-wrapper').hasClass('cds--text-input--fluid');
@@ -23,7 +30,7 @@ module('Integration | Component | FluidTextInput', (hooks) => {
   test('should support a labelText block for rich label content', async function (assert) {
     await render(
       <template>
-        <FluidTextInput @placeholder='Placeholder text'>
+        <FluidTextInput @placeholder="Placeholder text">
           <:labelText>Custom Label</:labelText>
         </FluidTextInput>
       </template>,
@@ -35,10 +42,10 @@ module('Integration | Component | FluidTextInput', (hooks) => {
   test('should open a Toggletip rendered in the labelText block when its button is clicked', async function (assert) {
     await render(
       <template>
-        <FluidTextInput @placeholder='Placeholder text'>
+        <FluidTextInput @placeholder="Placeholder text">
           <:labelText>
             <Toggletip as |t|>
-              <t.Button @label='Show information'>i</t.Button>
+              <t.Button @label="Show information">i</t.Button>
               <t.Content>Additional field information here.</t.Content>
             </Toggletip>
           </:labelText>
@@ -46,17 +53,21 @@ module('Integration | Component | FluidTextInput', (hooks) => {
       </template>,
     );
 
-    assert.dom('.cds--popover-container').doesNotHaveClass('cds--popover--open');
+    assert
+      .dom('.cds--popover-container')
+      .doesNotHaveClass('cds--popover--open');
 
     await click('.cds--toggletip-button');
 
     assert.dom('.cds--popover-container').hasClass('cds--popover--open');
-    assert.dom('.cds--toggletip-content').hasText('Additional field information here.');
+    assert
+      .dom('.cds--toggletip-content')
+      .hasText('Additional field information here.');
   });
 
   test('should render the defaultValue', async function (assert) {
     await render(
-      <template><FluidTextInput @defaultValue='Hello world' /></template>,
+      <template><FluidTextInput @defaultValue="Hello world" /></template>,
     );
 
     assert.dom('input.cds--text-input').hasValue('Hello world');
@@ -119,8 +130,12 @@ module('Integration | Component | FluidTextInput', (hooks) => {
 
     await render(
       <template>
-        <FluidTextInput @labelText='Controlled' @value={{context.value}} @onChange={{update}} />
-        <div id='display'>value: {{context.value}}</div>
+        <FluidTextInput
+          @labelText="Controlled"
+          @value={{context.value}}
+          @onChange={{update}}
+        />
+        <div id="display">value: {{context.value}}</div>
       </template>,
     );
 
@@ -136,8 +151,12 @@ module('Integration | Component | FluidTextInput', (hooks) => {
 
     await render(
       <template>
-        <FluidTextInput @labelText='Controlled' @value={{value.current}} @onChange={{update}} />
-        <div id='display'>value: {{value.current}}</div>
+        <FluidTextInput
+          @labelText="Controlled"
+          @value={{value.current}}
+          @onChange={{update}}
+        />
+        <div id="display">value: {{value.current}}</div>
       </template>,
     );
 
@@ -150,7 +169,10 @@ module('Integration | Component | FluidTextInput', (hooks) => {
   test('should show the invalid state and message', async function (assert) {
     await render(
       <template>
-        <FluidTextInput @invalid={{true}} @invalidText='This field is required' />
+        <FluidTextInput
+          @invalid={{true}}
+          @invalidText="This field is required"
+        />
       </template>,
     );
     await waitFor('.cds--text-input__invalid-icon');
@@ -163,7 +185,7 @@ module('Integration | Component | FluidTextInput', (hooks) => {
   test('should show the warn state and message when not invalid', async function (assert) {
     await render(
       <template>
-        <FluidTextInput @warn={{true}} @warnText='Careful with this' />
+        <FluidTextInput @warn={{true}} @warnText="Careful with this" />
       </template>,
     );
 
@@ -176,9 +198,9 @@ module('Integration | Component | FluidTextInput', (hooks) => {
       <template>
         <FluidTextInput
           @invalid={{true}}
-          @invalidText='Invalid'
+          @invalidText="Invalid"
           @warn={{true}}
-          @warnText='Warn'
+          @warnText="Warn"
         />
       </template>,
     );
@@ -189,16 +211,18 @@ module('Integration | Component | FluidTextInput', (hooks) => {
       .dom('input.cds--text-input')
       .doesNotHaveClass('cds--text-input--warning');
     assert.dom('.cds--text-input__invalid-icon').exists();
-    assert
-      .dom('.cds--text-input__invalid-icon--warning')
-      .doesNotExist();
+    assert.dom('.cds--text-input__invalid-icon--warning').doesNotExist();
     assert.dom('.cds--form-requirement').hasText('Invalid');
   });
 
   test('should show a character counter when enableCounter and maxCount are set', async function (assert) {
     await render(
       <template>
-        <FluidTextInput @defaultValue='hello' @enableCounter={{true}} @maxCount={{10}} />
+        <FluidTextInput
+          @defaultValue="hello"
+          @enableCounter={{true}}
+          @maxCount={{10}}
+        />
       </template>,
     );
 
@@ -209,7 +233,7 @@ module('Integration | Component | FluidTextInput', (hooks) => {
     await render(
       <template>
         <FluidTextInput
-          @defaultValue='hello world'
+          @defaultValue="hello world"
           @enableCounter={{true}}
           @maxCount={{5}}
         />
@@ -222,7 +246,7 @@ module('Integration | Component | FluidTextInput', (hooks) => {
   test('should render a password toggle when isPassword is set', async function (assert) {
     await render(
       <template>
-        <FluidTextInput @labelText='Password' @isPassword={{true}} />
+        <FluidTextInput @labelText="Password" @isPassword={{true}} />
       </template>,
     );
 
@@ -247,16 +271,14 @@ module('Integration | Component | FluidTextInput', (hooks) => {
     await render(
       <template>
         <FluidTextInput
-          @labelText='Password'
+          @labelText="Password"
           @isPassword={{true}}
           @disabled={{true}}
         />
       </template>,
     );
 
-    assert
-      .dom('.cds--text-input--password__visibility__toggle')
-      .isDisabled();
+    assert.dom('.cds--text-input--password__visibility__toggle').isDisabled();
   });
 
   test('should support custom show/hide password labels and onTogglePasswordVisibility', async function (assert) {
@@ -266,10 +288,10 @@ module('Integration | Component | FluidTextInput', (hooks) => {
     await render(
       <template>
         <FluidTextInput
-          @labelText='Password'
+          @labelText="Password"
           @isPassword={{true}}
-          @showPasswordLabel='Reveal'
-          @hidePasswordLabel='Conceal'
+          @showPasswordLabel="Reveal"
+          @hidePasswordLabel="Conceal"
           @onTogglePasswordVisibility={{handleToggle}}
         />
       </template>,

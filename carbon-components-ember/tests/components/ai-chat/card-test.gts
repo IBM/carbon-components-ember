@@ -17,7 +17,9 @@ module('Integration | Component | ai-chat/AiChatCard', (hooks) => {
       </template>,
     );
 
-    assert.dom('.cds-aichat-card').hasText('Header content Body content Footer content');
+    assert
+      .dom('.cds-aichat-card')
+      .hasText('Header content Body content Footer content');
   });
 
   test('it applies is-layered/is-flush modifier classes', async function (assert) {

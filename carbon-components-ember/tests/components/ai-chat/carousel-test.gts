@@ -29,7 +29,7 @@ module('Integration | Component | ai-chat/Carousel', (hooks) => {
   hooks.beforeEach(function () {
     // eslint-disable-next-line @typescript-eslint/unbound-method -- saved only to restore after stubbing
     originalMatchMedia = window.matchMedia;
-    window.matchMedia = ((query: string) => ({
+    window.matchMedia = (query: string) => ({
       matches: query.includes('prefers-reduced-motion'),
       media: query,
       onchange: null,
@@ -38,7 +38,7 @@ module('Integration | Component | ai-chat/Carousel', (hooks) => {
       addEventListener() {},
       removeEventListener() {},
       dispatchEvent: () => false,
-    }));
+    });
   });
 
   hooks.afterEach(function () {
@@ -58,14 +58,16 @@ module('Integration | Component | ai-chat/Carousel', (hooks) => {
 
     await waitForInit();
 
-    assert.dom('.carousel__itemsWrapper > .carousel__view').exists({ count: 3 });
+    assert
+      .dom('.carousel__itemsWrapper > .carousel__view')
+      .exists({ count: 3 });
     assert.dom('.cds-aichat-carousel__indicator').hasText('1 / 3');
   });
 
   test('it navigates forward and back, updating the indicator and the active view class', async function (assert) {
     await render(
       <template>
-        <Carousel @previousBtnText='Previous' @nextBtnText='Next'>
+        <Carousel @previousBtnText="Previous" @nextBtnText="Next">
           <div>View 1</div>
           <div>View 2</div>
           <div>View 3</div>
@@ -143,9 +145,9 @@ module('Integration | Component | ai-chat/Carousel', (hooks) => {
           {{/each}}
         </Carousel>
         <button
-          type='button'
-          class='add-view-button'
-          {{on 'click' this.addView}}
+          type="button"
+          class="add-view-button"
+          {{on "click" this.addView}}
         >Add view</button>
       </template>
     }

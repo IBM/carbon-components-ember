@@ -10,7 +10,7 @@ module('Integration | Component | SelectItem', (hooks) => {
     await render(
       <template>
         <select>
-          <SelectItem @value='option-1' @text='Option 1' />
+          <SelectItem @value="option-1" @text="Option 1" />
         </select>
       </template>,
     );
@@ -25,7 +25,7 @@ module('Integration | Component | SelectItem', (hooks) => {
     await render(
       <template>
         <select>
-          <SelectItem @value='option-1' @text='Option 1' @disabled={{true}} />
+          <SelectItem @value="option-1" @text="Option 1" @disabled={{true}} />
         </select>
       </template>,
     );
@@ -37,7 +37,7 @@ module('Integration | Component | SelectItem', (hooks) => {
     await render(
       <template>
         <select>
-          <SelectItem @value='option-1' @text='Option 1' />
+          <SelectItem @value="option-1" @text="Option 1" />
         </select>
       </template>,
     );
@@ -49,7 +49,7 @@ module('Integration | Component | SelectItem', (hooks) => {
     await render(
       <template>
         <select>
-          <SelectItem @value='option-1' @text='Option 1' @hidden={{true}} />
+          <SelectItem @value="option-1" @text="Option 1" @hidden={{true}} />
         </select>
       </template>,
     );
@@ -61,7 +61,7 @@ module('Integration | Component | SelectItem', (hooks) => {
     await render(
       <template>
         <select>
-          <SelectItem @value='option-1' @text='Option 1' class='custom-class' />
+          <SelectItem @value="option-1" @text="Option 1" class="custom-class" />
         </select>
       </template>,
     );

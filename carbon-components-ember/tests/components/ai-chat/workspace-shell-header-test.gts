@@ -8,11 +8,20 @@ module('Integration | Component | ai-chat/WorkspaceShellHeader', (hooks) => {
 
   test('renders title/subtitle without a details/summary when not collapsible', async function (assert) {
     await render(
-      <template><WorkspaceShellHeader @titleText='Order #1234' @subTitleText='Placed 2 days ago' /></template>,
+      <template>
+        <WorkspaceShellHeader
+          @titleText="Order #1234"
+          @subTitleText="Placed 2 days ago"
+        />
+      </template>,
     );
 
-    assert.dom('.cds-aichat-workspace-shell__header-title').containsText('Order #1234');
-    assert.dom('.cds-aichat-workspace-shell__header-sub-title').hasText('Placed 2 days ago');
+    assert
+      .dom('.cds-aichat-workspace-shell__header-title')
+      .containsText('Order #1234');
+    assert
+      .dom('.cds-aichat-workspace-shell__header-sub-title')
+      .hasText('Placed 2 days ago');
     assert.dom('details').doesNotExist();
   });
 
@@ -21,7 +30,13 @@ module('Integration | Component | ai-chat/WorkspaceShellHeader', (hooks) => {
     const onToggle = (open: boolean) => calls.push(open);
 
     await render(
-      <template><WorkspaceShellHeader @titleText='Order #1234' @collapsible={{true}} @onToggle={{onToggle}} /></template>,
+      <template>
+        <WorkspaceShellHeader
+          @titleText="Order #1234"
+          @collapsible={{true}}
+          @onToggle={{onToggle}}
+        />
+      </template>,
     );
 
     assert.dom('details').exists();
@@ -36,9 +51,12 @@ module('Integration | Component | ai-chat/WorkspaceShellHeader', (hooks) => {
   test('headerDescription and headerAction blocks render', async function (assert) {
     await render(
       <template>
-        <WorkspaceShellHeader @titleText='Order'>
-          <:headerDescription><p class='desc'>Extra detail</p></:headerDescription>
-          <:headerAction><button type='button' class='action-btn'>Edit</button></:headerAction>
+        <WorkspaceShellHeader @titleText="Order">
+          <:headerDescription><p class="desc">Extra detail</p></:headerDescription>
+          <:headerAction><button
+              type="button"
+              class="action-btn"
+            >Edit</button></:headerAction>
         </WorkspaceShellHeader>
       </template>,
     );

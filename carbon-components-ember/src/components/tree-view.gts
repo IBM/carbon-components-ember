@@ -136,67 +136,72 @@ class TreeNode extends Component<TreeNodeSignature> {
 
   <template>
     <li
-      role='treeitem'
+      role="treeitem"
       id={{this.nodeId}}
-      aria-current={{if this.isActive 'true'}}
-      aria-selected={{unless @disabled (if this.isSelected 'true' 'false')}}
-      aria-disabled={{if @disabled 'true'}}
-      aria-expanded={{if (has-block) (if this.expanded 'true' 'false')}}
-      aria-owns={{if (has-block) (concat this.nodeId '__subtree')}}
-      tabindex={{unless @disabled '0'}}
-      class='cds--tree-node
-        {{if this.isSelected "cds--tree-node--selected"}}
-        {{if @disabled "cds--tree-node--disabled"}}
-        {{if this.isActive "cds--tree-node--active"}}
-        {{if @icon "cds--tree-node--with-icon"}}
-        {{if (has-block) "cds--tree-parent-node" "cds--tree-leaf-node"}}'
-      {{on 'click' this.select}}
-      {{on 'keydown' (fn this.handleKeydown (has-block))}}
+      aria-current={{if this.isActive "true"}}
+      aria-selected={{unless @disabled (if this.isSelected "true" "false")}}
+      aria-disabled={{if @disabled "true"}}
+      aria-expanded={{if (has-block) (if this.expanded "true" "false")}}
+      aria-owns={{if (has-block) (concat this.nodeId "__subtree")}}
+      tabindex={{unless @disabled "0"}}
+      class="cds--tree-node
+        {{if this.isSelected 'cds--tree-node--selected'}}
+        {{if @disabled 'cds--tree-node--disabled'}}
+        {{if this.isActive 'cds--tree-node--active'}}
+        {{if @icon 'cds--tree-node--with-icon'}}
+        {{if (has-block) 'cds--tree-parent-node' 'cds--tree-leaf-node'}}"
+      {{on "click" this.select}}
+      {{on "keydown" (fn this.handleKeydown (has-block))}}
       ...attributes
     >
       <div
-        class='cds--tree-node__label'
+        class="cds--tree-node__label"
         style={{if (has-block) this.parentLabelStyle this.leafLabelStyle}}
       >
         {{#if (has-block)}}
           {{! template-lint-disable no-invalid-interactive }}
           <span
-            class='cds--tree-parent-node__toggle'
-            {{on 'click' this.toggle}}
+            class="cds--tree-parent-node__toggle"
+            {{on "click" this.toggle}}
           >
             <svg
-              class='cds--tree-parent-node__toggle-icon
-                {{if this.expanded "cds--tree-parent-node__toggle-icon--expanded"}}'
-              focusable='false'
-              preserveAspectRatio='xMidYMid meet'
-              xmlns='http://www.w3.org/2000/svg'
-              width='16'
-              height='16'
-              viewBox='0 0 32 32'
-              aria-hidden='true'
+              class="cds--tree-parent-node__toggle-icon
+                {{if
+                  this.expanded
+                  'cds--tree-parent-node__toggle-icon--expanded'
+                }}"
+              focusable="false"
+              preserveAspectRatio="xMidYMid meet"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 32 32"
+              aria-hidden="true"
             >
-              <path d='M24 12 16 22 8 12z'></path>
+              <path d="M24 12 16 22 8 12z"></path>
             </svg>
           </span>
         {{/if}}
-        <span class='cds--tree-node__label__details'>
+        <span class="cds--tree-node__label__details">
           {{#if @icon}}
-            <@icon @svgClass='cds--tree-node__icon' />
+            <@icon @svgClass="cds--tree-node__icon" />
           {{/if}}
-          <span id='{{this.nodeId}}__label' class='cds--tree-node__label__text'>
+          <span id="{{this.nodeId}}__label" class="cds--tree-node__label__text">
             {{@label}}
           </span>
         </span>
       </div>
       {{#if (has-block)}}
         <ul
-          id='{{this.nodeId}}__subtree'
-          role='group'
-          aria-labelledby='{{this.nodeId}}__label'
-          class='cds--tree-node__children
-            {{unless this.expanded "cds--tree-node--hidden"}}'
+          id="{{this.nodeId}}__subtree"
+          role="group"
+          aria-labelledby="{{this.nodeId}}__label"
+          class="cds--tree-node__children
+            {{unless this.expanded 'cds--tree-node--hidden'}}"
         >
-          {{yield (component TreeNode treeView=@treeView depth=this.childDepth)}}
+          {{yield
+            (component TreeNode treeView=@treeView depth=this.childDepth)
+          }}
         </ul>
       {{/if}}
     </li>
@@ -258,14 +263,14 @@ export default class TreeView extends Component<TreeViewSignature> {
 
   <template>
     {{#unless @hideLabel}}
-      <label id={{this.labelId}} class='cds--label'>{{@label}}</label>
+      <label id={{this.labelId}} class="cds--label">{{@label}}</label>
     {{/unless}}
     <ul
-      role='tree'
+      role="tree"
       aria-label={{if @hideLabel @label}}
       aria-labelledby={{unless @hideLabel this.labelId}}
-      aria-multiselectable={{if @multiselect 'true'}}
-      class='cds--tree cds--tree--{{if @size @size "sm"}}'
+      aria-multiselectable={{if @multiselect "true"}}
+      class="cds--tree cds--tree--{{if @size @size 'sm'}}"
       ...attributes
     >
       {{yield (component TreeNode treeView=this depth=0)}}

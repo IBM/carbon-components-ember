@@ -33,7 +33,12 @@ export interface ChatHistoryPanelMenuSignature {
   Element: HTMLElement;
   Args: Args;
   Blocks: {
-    default: [WithBoundArgs<typeof ChatHistoryPanelItem, 'showActions' | 'parentMenuExpanded'>];
+    default: [
+      WithBoundArgs<
+        typeof ChatHistoryPanelItem,
+        'showActions' | 'parentMenuExpanded'
+      >,
+    ];
   };
 }
 
@@ -77,22 +82,30 @@ export default class ChatHistoryPanelMenu extends Component<ChatHistoryPanelMenu
   }
 
   <template>
-    <div role='listitem' class='cds-aichat-history-panel-menu' ...attributes>
+    <div role="listitem" class="cds-aichat-history-panel-menu" ...attributes>
       <button
-        type='button'
-        aria-haspopup='true'
-        aria-expanded={{if this.expanded 'true' 'false'}}
+        type="button"
+        aria-haspopup="true"
+        aria-expanded={{if this.expanded "true" "false"}}
         aria-controls={{this.menuId}}
-        class='cds--side-nav__submenu'
-        {{on 'click' this.toggle}}
+        class="cds--side-nav__submenu"
+        {{on "click" this.toggle}}
       >
-        <span class='cds--side-nav__submenu-title'>{{@title}}</span>
-        <div class='cds--side-nav__icon cds--side-nav__icon--small cds--side-nav__submenu-chevron'>
-          <ChevronDown @size='20' />
+        <span class="cds--side-nav__submenu-title">{{@title}}</span>
+        <div
+          class="cds--side-nav__icon cds--side-nav__icon--small cds--side-nav__submenu-chevron"
+        >
+          <ChevronDown @size="20" />
         </div>
       </button>
-      <ul id={{this.menuId}} class='cds--side-nav__menu'>
-        {{yield (component ChatHistoryPanelItem showActions=@showActions parentMenuExpanded=this.expanded)}}
+      <ul id={{this.menuId}} class="cds--side-nav__menu">
+        {{yield
+          (component
+            ChatHistoryPanelItem
+            showActions=@showActions
+            parentMenuExpanded=this.expanded
+          )
+        }}
       </ul>
     </div>
   </template>

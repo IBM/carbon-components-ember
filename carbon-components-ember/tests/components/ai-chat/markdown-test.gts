@@ -109,7 +109,9 @@ module('Integration | Component | ai-chat/Markdown', (hooks) => {
     const source = '<b>not bold</b>';
 
     await render(
-      <template><Markdown @markdown={{source}} @removeHTML={{true}} /></template>,
+      <template>
+        <Markdown @markdown={{source}} @removeHTML={{true}} />
+      </template>,
     );
 
     assert.dom('.cds-aichat-markdown b').doesNotExist();

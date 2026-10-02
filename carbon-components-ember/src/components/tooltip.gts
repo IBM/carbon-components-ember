@@ -171,16 +171,25 @@ export default class CarbonTooltip extends Component<CarbonTooltipSignature> {
     const boundary = this.args.autoAlignBoundary;
     const boundaryRect = boundary
       ? boundary.getBoundingClientRect()
-      : { top: 0, left: 0, right: window.innerWidth, bottom: window.innerHeight };
+      : {
+          top: 0,
+          left: 0,
+          right: window.innerWidth,
+          bottom: window.innerHeight,
+        };
     const rect = content.getBoundingClientRect();
 
     let align = this.args.align ?? 'top';
-    const overflowsVertically = rect.top < boundaryRect.top || rect.bottom > boundaryRect.bottom;
-    const overflowsHorizontally = rect.left < boundaryRect.left || rect.right > boundaryRect.right;
+    const overflowsVertically =
+      rect.top < boundaryRect.top || rect.bottom > boundaryRect.bottom;
+    const overflowsHorizontally =
+      rect.left < boundaryRect.left || rect.right > boundaryRect.right;
 
     if (
-      ((align.startsWith('top') || align.startsWith('bottom')) && overflowsVertically) ||
-      ((align.startsWith('left') || align.startsWith('right')) && overflowsHorizontally)
+      ((align.startsWith('top') || align.startsWith('bottom')) &&
+        overflowsVertically) ||
+      ((align.startsWith('left') || align.startsWith('right')) &&
+        overflowsHorizontally)
     ) {
       align = flippedAlignmentMap[align] ?? align;
     }
@@ -254,36 +263,36 @@ export default class CarbonTooltip extends Component<CarbonTooltipSignature> {
       class={{this.classes}}
       ...attributes
       {{this.manageAutoAlign}}
-      {{on 'mouseenter' this.onMouseEnter}}
-      {{on 'mouseleave' this.onMouseLeave}}
-      {{on 'focusin' this.onFocusIn}}
-      {{on 'focusout' this.onFocusOut}}
-      {{on 'keydown' this.onKeyDown}}
-      {{on 'click' this.onClick}}
+      {{on "mouseenter" this.onMouseEnter}}
+      {{on "mouseleave" this.onMouseLeave}}
+      {{on "focusin" this.onFocusIn}}
+      {{on "focusout" this.onFocusOut}}
+      {{on "keydown" this.onKeyDown}}
+      {{on "click" this.onClick}}
     >
       <span
-        class='cds--tooltip-trigger__wrapper'
+        class="cds--tooltip-trigger__wrapper"
         aria-labelledby={{if @label this.id}}
         aria-describedby={{unless @label this.id}}
       >
         {{yield}}
       </span>
-      <span class='cds--popover'>
+      <span class="cds--popover">
         <span
-          class='cds--popover-content cds--tooltip-content'
+          class="cds--popover-content cds--tooltip-content"
           id={{this.id}}
-          role='tooltip'
-          aria-hidden={{if this.open 'false' 'true'}}
+          role="tooltip"
+          aria-hidden={{if this.open "false" "true"}}
         >
-          {{#if (has-block 'content')}}
-            {{yield to='content'}}
+          {{#if (has-block "content")}}
+            {{yield to="content"}}
           {{else if @label}}
             {{@label}}
           {{else}}
             {{@description}}
           {{/if}}
         </span>
-        <span class='cds--popover-caret'></span>
+        <span class="cds--popover-caret"></span>
       </span>
     </span>
   </template>

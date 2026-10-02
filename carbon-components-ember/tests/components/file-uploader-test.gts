@@ -1,6 +1,12 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, find, triggerEvent, waitUntil } from '@ember/test-helpers';
+import {
+  render,
+  click,
+  find,
+  triggerEvent,
+  waitUntil,
+} from '@ember/test-helpers';
 import { on } from '@ember/modifier';
 import FileUploader from '#src/components/file-uploader.gts';
 
@@ -21,10 +27,10 @@ module('Integration | Component | FileUploader', (hooks) => {
     await render(
       <template>
         <FileUploader
-          @labelTitle='Upload files'
-          @labelDescription='Max file size is 1 MB.'
-          @buttonLabel='Add file'
-          @filenameStatus='uploading'
+          @labelTitle="Upload files"
+          @labelDescription="Max file size is 1 MB."
+          @buttonLabel="Add file"
+          @filenameStatus="uploading"
         />
       </template>,
     );
@@ -36,7 +42,9 @@ module('Integration | Component | FileUploader', (hooks) => {
   });
 
   test('selecting a file adds it to the list with @filenameStatus applied', async function (assert) {
-    await render(<template><FileUploader @filenameStatus='complete' /></template>);
+    await render(
+      <template><FileUploader @filenameStatus="complete" /></template>,
+    );
 
     await selectFiles([new File(['x'], 'report.pdf')]);
 
@@ -47,14 +55,20 @@ module('Integration | Component | FileUploader', (hooks) => {
   });
 
   test('@multiple accumulates files, single mode replaces the selection', async function (assert) {
-    await render(<template><FileUploader @filenameStatus='complete' @multiple={{true}} /></template>);
+    await render(
+      <template>
+        <FileUploader @filenameStatus="complete" @multiple={{true}} />
+      </template>,
+    );
 
     await selectFiles([new File(['x'], 'one.txt')]);
     await selectFiles([new File(['x'], 'two.txt')]);
 
     assert.dom('.cds--file__selected-file').exists({ count: 2 });
 
-    await render(<template><FileUploader @filenameStatus='complete' /></template>);
+    await render(
+      <template><FileUploader @filenameStatus="complete" /></template>,
+    );
 
     await selectFiles([new File(['x'], 'one.txt')]);
     await selectFiles([new File(['x'], 'two.txt')]);
@@ -65,10 +79,14 @@ module('Integration | Component | FileUploader', (hooks) => {
 
   test('@maxFileSize filters oversized files out of the rendered list', async function (assert) {
     await render(
-      <template><FileUploader @filenameStatus='complete' @maxFileSize={{5}} /></template>,
+      <template>
+        <FileUploader @filenameStatus="complete" @maxFileSize={{5}} />
+      </template>,
     );
 
-    await selectFiles([new File(['this is way more than five bytes'], 'big.txt')]);
+    await selectFiles([
+      new File(['this is way more than five bytes'], 'big.txt'),
+    ]);
 
     assert.dom('.cds--file__selected-file').doesNotExist();
   });
@@ -84,7 +102,7 @@ module('Integration | Component | FileUploader', (hooks) => {
     await render(
       <template>
         <FileUploader
-          @filenameStatus='complete'
+          @filenameStatus="complete"
           @onAddFiles={{onAddFiles}}
           @onChange={{onChange}}
         />
@@ -99,12 +117,17 @@ module('Integration | Component | FileUploader', (hooks) => {
 
   test('with @filenameStatus="edit", activating a file removes it and calls @onDelete', async function (assert) {
     let deletedName: string | undefined;
-    const onDelete = (_event: Event, data: { deletedFile: { name: string } }) => {
+    const onDelete = (
+      _event: Event,
+      data: { deletedFile: { name: string } },
+    ) => {
       deletedName = data.deletedFile.name;
     };
 
     await render(
-      <template><FileUploader @filenameStatus='edit' @onDelete={{onDelete}} /></template>,
+      <template>
+        <FileUploader @filenameStatus="edit" @onDelete={{onDelete}} />
+      </template>,
     );
 
     await selectFiles([new File(['x'], 'report.pdf')]);
@@ -117,7 +140,7 @@ module('Integration | Component | FileUploader', (hooks) => {
   });
 
   test('with @filenameStatus="edit", removing a file returns focus to the upload button', async function (assert) {
-    await render(<template><FileUploader @filenameStatus='edit' /></template>);
+    await render(<template><FileUploader @filenameStatus="edit" /></template>);
 
     await selectFiles([new File(['x'], 'report.pdf')]);
     await click('.cds--file-close');
@@ -133,8 +156,16 @@ module('Integration | Component | FileUploader', (hooks) => {
 
     await render(
       <template>
-        <FileUploader @filenameStatus='complete' @onChange={{onChange}} as |clearFiles|>
-          <button type='button' class='clear-files' {{on 'click' clearFiles}}>Clear</button>
+        <FileUploader
+          @filenameStatus="complete"
+          @onChange={{onChange}}
+          as |clearFiles|
+        >
+          <button
+            type="button"
+            class="clear-files"
+            {{on "click" clearFiles}}
+          >Clear</button>
         </FileUploader>
       </template>,
     );
@@ -149,7 +180,9 @@ module('Integration | Component | FileUploader', (hooks) => {
   });
 
   test('with @filenameStatus="uploading" or "complete", the status icon is not interactive', async function (assert) {
-    await render(<template><FileUploader @filenameStatus='uploading' /></template>);
+    await render(
+      <template><FileUploader @filenameStatus="uploading" /></template>,
+    );
 
     await selectFiles([new File(['x'], 'report.pdf')]);
 
@@ -157,7 +190,11 @@ module('Integration | Component | FileUploader', (hooks) => {
   });
 
   test('@disabled disables the upload button', async function (assert) {
-    await render(<template><FileUploader @filenameStatus='uploading' @disabled={{true}} /></template>);
+    await render(
+      <template>
+        <FileUploader @filenameStatus="uploading" @disabled={{true}} />
+      </template>,
+    );
 
     assert.dom('button').isDisabled();
   });

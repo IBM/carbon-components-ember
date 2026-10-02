@@ -1,7 +1,14 @@
 import { module, test } from 'qunit';
 import type { TestContext } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, fillIn, triggerKeyEvent, settled, clearRender } from '@ember/test-helpers';
+import {
+  render,
+  click,
+  fillIn,
+  triggerKeyEvent,
+  settled,
+  clearRender,
+} from '@ember/test-helpers';
 import Component from '@glimmer/component';
 import { registerDestructor } from '@ember/destroyable';
 import { service } from '@ember/service';
@@ -26,7 +33,9 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
   }
 
   test('renders the Launcher while closed, and ChatShell once opened', async function (assert) {
-    await render(<template><SessionShell @closedLabel='Open chat' /></template>);
+    await render(
+      <template><SessionShell @closedLabel="Open chat" /></template>,
+    );
 
     assert.dom('.cds-aichat-launcher').exists();
     assert.dom('.cds-aichat-shell').doesNotExist();
@@ -55,7 +64,9 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
     await fillIn('.cds-aichat-prompt-line__field', 'hello there');
     await triggerKeyEvent('.cds-aichat-prompt-line__field', 'keydown', 'Enter');
 
-    assert.dom('.cds-aichat-session-shell__message--user').hasText('hello there');
+    assert
+      .dom('.cds-aichat-session-shell__message--user')
+      .hasText('hello there');
     assert.strictEqual(session(this).draft, '');
   });
 
@@ -67,7 +78,9 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
     await fillIn('.cds-aichat-prompt-line__field', 'via button');
     await click('[aria-label="Send"]');
 
-    assert.dom('.cds-aichat-session-shell__message--user').hasText('via button');
+    assert
+      .dom('.cds-aichat-session-shell__message--user')
+      .hasText('via button');
   });
 
   test('a streaming assistant message shows the Processing indicator until finalized', async function (assert) {
@@ -94,7 +107,9 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
     const message = svc.receive('', { streaming: true });
     await settled();
 
-    const nodeBefore = document.querySelector('.cds-aichat-session-shell__message--assistant');
+    const nodeBefore = document.querySelector(
+      '.cds-aichat-session-shell__message--assistant',
+    );
     assert.ok(nodeBefore, 'the streaming bubble is rendered');
 
     svc.appendChunk(message.id, 'hello');
@@ -118,7 +133,9 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
       nodeBefore,
       'the DOM node survives a second appendChunk call',
     );
-    assert.dom('.cds-aichat-session-shell__message--assistant').hasText('hello there');
+    assert
+      .dom('.cds-aichat-session-shell__message--assistant')
+      .hasText('hello there');
   });
 
   test('the Stop generating button cancels the active stream and hides once cancelled', async function (assert) {
@@ -130,19 +147,28 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
     await settled();
 
     assert.dom('.cds-aichat-processing').exists();
-    assert.dom('.cds-aichat-session-shell__streaming-actions button').hasText('Stop generating');
+    assert
+      .dom('.cds-aichat-session-shell__streaming-actions button')
+      .hasText('Stop generating');
 
     await click('.cds-aichat-session-shell__streaming-actions button');
 
-    assert.dom('.cds-aichat-processing').doesNotExist('the Processing indicator disappears once cancelled');
-    assert.strictEqual(svc.messages.find((m) => m.id === message.id)?.cancelled, true);
+    assert
+      .dom('.cds-aichat-processing')
+      .doesNotExist('the Processing indicator disappears once cancelled');
+    assert.strictEqual(
+      svc.messages.find((m) => m.id === message.id)?.cancelled,
+      true,
+    );
     assert.dom('.cds-aichat-session-shell__stopped-label').exists();
   });
 
   test('@messagesAriaLabel and @aiEnabled are forwarded to ChatShell', async function (assert) {
     session(this).open = true;
     await render(
-      <template><SessionShell @messagesAriaLabel='Conversation' @aiEnabled={{true}} /></template>,
+      <template>
+        <SessionShell @messagesAriaLabel="Conversation" @aiEnabled={{true}} />
+      </template>,
     );
 
     assert.dom('[aria-label="Conversation"]').exists();
@@ -171,7 +197,11 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
     svc.draft = 'should not send';
     await triggerKeyEvent('.cds-aichat-prompt-line__field', 'keydown', 'Enter');
 
-    assert.strictEqual(svc.messages.length, 0, 'no message was added while readonly');
+    assert.strictEqual(
+      svc.messages.length,
+      0,
+      'no message was added while readonly',
+    );
     assert.dom('.cds-aichat-session-shell__message--user').doesNotExist();
   });
 
@@ -209,7 +239,11 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
 
     await fillIn('.cds-aichat-prompt-line__field', 'first mount');
     await triggerKeyEvent('.cds-aichat-prompt-line__field', 'keydown', 'Enter');
-    assert.strictEqual(replyCount, 1, 'listener fires once for the first mount');
+    assert.strictEqual(
+      replyCount,
+      1,
+      'listener fires once for the first mount',
+    );
 
     await clearRender();
     await render(<template><Host /></template>);
@@ -233,11 +267,11 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
 
     await render(
       <template>
-        <div data-test-widget='support'>
-          <SessionShell @instanceId='support' />
+        <div data-test-widget="support">
+          <SessionShell @instanceId="support" />
         </div>
-        <div data-test-widget='sales'>
-          <SessionShell @instanceId='sales' />
+        <div data-test-widget="sales">
+          <SessionShell @instanceId="sales" />
         </div>
       </template>,
     );
@@ -253,16 +287,22 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
     );
 
     assert
-      .dom('[data-test-widget="support"] .cds-aichat-session-shell__message--user')
+      .dom(
+        '[data-test-widget="support"] .cds-aichat-session-shell__message--user',
+      )
       .hasText('support question');
     assert
-      .dom('[data-test-widget="sales"] .cds-aichat-session-shell__message--user')
-      .doesNotExist('sending in the support widget left the sales widget untouched');
+      .dom(
+        '[data-test-widget="sales"] .cds-aichat-session-shell__message--user',
+      )
+      .doesNotExist(
+        'sending in the support widget left the sales widget untouched',
+      );
     assert.strictEqual(support.messages.length, 1);
     assert.strictEqual(sales.messages.length, 0);
   });
 
-  test('omitting @instanceId resolves the same default session as the registry\'s .default', async function (assert) {
+  test("omitting @instanceId resolves the same default session as the registry's .default", async function (assert) {
     const svc = registry(this).default;
     svc.open = true;
     await render(<template><SessionShell /></template>);
@@ -306,7 +346,7 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
         <template>
           <SessionShell
             @historyItems={{items}}
-            @selectedHistoryItemId='1'
+            @selectedHistoryItemId="1"
             @onHistoryItemSelect={{onSelect}}
           />
         </template>,
@@ -328,8 +368,15 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
 
       await click('.cds-aichat-history-toolbar__new-chat');
 
-      assert.strictEqual(svc.messages.length, 0, 'restart() cleared the conversation');
-      assert.false(svc.showHistory, 'the history panel closed back to the live conversation');
+      assert.strictEqual(
+        svc.messages.length,
+        0,
+        'restart() cleared the conversation',
+      );
+      assert.false(
+        svc.showHistory,
+        'the history panel closed back to the live conversation',
+      );
     });
 
     test('the header close button closes the history panel without closing the whole shell', async function (assert) {
@@ -351,7 +398,8 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
       const renameCalls: Array<[string, string]> = [];
       const deleteCalls: string[] = [];
       const items = [{ id: '1', name: 'Trip planning' }];
-      const onRename = (id: string, name: string) => renameCalls.push([id, name]);
+      const onRename = (id: string, name: string) =>
+        renameCalls.push([id, name]);
       const onDelete = (id: string) => deleteCalls.push(id);
 
       await render(
@@ -366,15 +414,22 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
 
       await click('.cds--overflow-menu');
       await click('.cds--overflow-menu-options__option:first-child button');
-      assert.dom('.cds-aichat-history-panel-item-input').exists('menu action switched the item into rename mode');
+      assert
+        .dom('.cds-aichat-history-panel-item-input')
+        .exists('menu action switched the item into rename mode');
 
-      await fillIn('.cds-aichat-history-panel-item-input input', 'Renamed chat');
+      await fillIn(
+        '.cds-aichat-history-panel-item-input input',
+        'Renamed chat',
+      );
       await click('.cds-aichat-history-panel-item-input__save');
       assert.deepEqual(renameCalls, [['1', 'Renamed chat']]);
 
       await click('.cds--overflow-menu');
       await click('.cds--overflow-menu-options__option:last-child button');
-      assert.dom('.cds-aichat-history-delete-panel').exists('menu action opened the delete-confirm overlay');
+      assert
+        .dom('.cds-aichat-history-delete-panel')
+        .exists('menu action opened the delete-confirm overlay');
 
       await click('.cds-aichat-history-delete-panel button:last-child');
       assert.deepEqual(deleteCalls, ['1']);
@@ -387,11 +442,15 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
       svc.showHistory = true;
       const items = [{ id: '1', name: 'Trip planning' }];
 
-      await render(<template><SessionShell @historyItems={{items}} /></template>);
+      await render(
+        <template><SessionShell @historyItems={{items}} /></template>,
+      );
 
       await click('.cds--overflow-menu');
       await click('.cds--overflow-menu-options__option:last-child button');
-      assert.dom('.cds-aichat-history-delete-panel').exists('delete-confirm overlay opened');
+      assert
+        .dom('.cds-aichat-history-delete-panel')
+        .exists('delete-confirm overlay opened');
 
       // Leave via the header's history toggle instead of Cancel/Confirm.
       await click('[aria-label="Chat history"]');
@@ -401,7 +460,9 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
       assert.dom('.cds-aichat-shell__history').exists();
       assert
         .dom('.cds-aichat-history-delete-panel')
-        .doesNotExist('reopening the panel does not resurrect the stale delete-confirm overlay');
+        .doesNotExist(
+          'reopening the panel does not resurrect the stale delete-confirm overlay',
+        );
     });
 
     test('closing the whole shell while mid-rename resets it so reopening the panel starts clean', async function (assert) {
@@ -410,11 +471,15 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
       svc.showHistory = true;
       const items = [{ id: '1', name: 'Trip planning' }];
 
-      await render(<template><SessionShell @historyItems={{items}} /></template>);
+      await render(
+        <template><SessionShell @historyItems={{items}} /></template>,
+      );
 
       await click('.cds--overflow-menu');
       await click('.cds--overflow-menu-options__option:first-child button');
-      assert.dom('.cds-aichat-history-panel-item-input').exists('menu action switched the item into rename mode');
+      assert
+        .dom('.cds-aichat-history-panel-item-input')
+        .exists('menu action switched the item into rename mode');
 
       // Close the whole shell via the service directly (not a real click on
       // a different element) so the rename input's own blur-triggered
@@ -442,8 +507,10 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
 
       await render(
         <template>
-          <SessionShell @historyItems={{array (hash id='1' name='Trip planning')}}>
-            <:history><div class='custom-history'>Custom history content</div></:history>
+          <SessionShell
+            @historyItems={{array (hash id="1" name="Trip planning")}}
+          >
+            <:history><div class="custom-history">Custom history content</div></:history>
           </SessionShell>
         </template>,
       );

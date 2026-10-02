@@ -8,11 +8,17 @@ module('Integration | Component | ai-chat/ChatHistorySearchItem', (hooks) => {
 
   test('renders the name and date, and calls @onSelect with itemId/itemName on click', async function (assert) {
     const calls: Array<{ itemId?: string; itemName?: string }> = [];
-    const onSelect = (detail: { itemId?: string; itemName?: string }) => calls.push(detail);
+    const onSelect = (detail: { itemId?: string; itemName?: string }) =>
+      calls.push(detail);
 
     await render(
       <template>
-        <ChatHistorySearchItem @id='chat-1' @name='My chat' @date='Sep 12' @onSelect={{onSelect}} />
+        <ChatHistorySearchItem
+          @id="chat-1"
+          @name="My chat"
+          @date="Sep 12"
+          @onSelect={{onSelect}}
+        />
       </template>,
     );
 
@@ -28,7 +34,13 @@ module('Integration | Component | ai-chat/ChatHistorySearchItem', (hooks) => {
     const onSelect = () => calls++;
 
     await render(
-      <template><ChatHistorySearchItem @name='My chat' @disabled={{true}} @onSelect={{onSelect}} /></template>,
+      <template>
+        <ChatHistorySearchItem
+          @name="My chat"
+          @disabled={{true}}
+          @onSelect={{onSelect}}
+        />
+      </template>,
     );
 
     assert.dom('.cds--side-nav__link').isDisabled();

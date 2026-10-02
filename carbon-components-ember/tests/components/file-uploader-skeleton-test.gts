@@ -16,7 +16,9 @@ module('Integration | Component | FileUploaderSkeleton', (hooks) => {
   });
 
   test('passes through html attributes', async function (assert) {
-    await render(<template><FileUploaderSkeleton id='my-skeleton' /></template>);
+    await render(
+      <template><FileUploaderSkeleton id="my-skeleton" /></template>,
+    );
 
     assert.dom('#my-skeleton').exists();
   });

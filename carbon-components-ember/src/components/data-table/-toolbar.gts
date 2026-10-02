@@ -26,10 +26,10 @@ export interface Signature {
 export default class TableToolbarComponent extends Component<Signature> {
   <template>
     <section
-      class='cds--table-toolbar
-        {{if @size (concat "cds--table-toolbar--" @size)}}'
-      role='group'
-      aria-label={{defaultTo @ariaLabel 'data table toolbar'}}
+      class="cds--table-toolbar
+        {{if @size (concat 'cds--table-toolbar--' @size)}}"
+      role="group"
+      aria-label={{defaultTo @ariaLabel "data table toolbar"}}
     >
       {{yield
         (hash

@@ -23,12 +23,12 @@ export interface ChatHistoryLoadingSignature {
  */
 export default class ChatHistoryLoading extends Component<ChatHistoryLoadingSignature> {
   <template>
-    <div class='cds-aichat-history-loading' ...attributes>
-      <div class='cds-aichat-history-loading__results'>
-        <SkeletonText @width='60%' />
-        <SkeletonText @width='60%' />
-        <SkeletonText @width='60%' />
-        <SkeletonText @width='60%' />
+    <div class="cds-aichat-history-loading" ...attributes>
+      <div class="cds-aichat-history-loading__results">
+        <SkeletonText @width="60%" />
+        <SkeletonText @width="60%" />
+        <SkeletonText @width="60%" />
+        <SkeletonText @width="60%" />
       </div>
       <SkeletonText @paragraph={{true}} @lineCount={{2}} />
       <SkeletonText @paragraph={{true}} @lineCount={{2}} />

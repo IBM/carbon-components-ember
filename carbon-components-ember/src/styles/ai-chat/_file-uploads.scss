@@ -4,9 +4,9 @@
 // chip's own visual styling (border/radius/status layout) is new, since
 // this port renders its own markup instead of wrapping
 // `cds-file-uploader-item` - see `file-upload-item.gts`'s class doc.
-@use '@carbon/layout';
-@use '@carbon/styles/scss/theme';
-@use '@carbon/styles/scss/type';
+@use "@carbon/layout";
+@use "@carbon/styles/scss/theme";
+@use "@carbon/styles/scss/type";
 
 @mixin gradient-bg($direction, $color) {
   background: linear-gradient(
@@ -36,7 +36,7 @@
 .cds-aichat-file-uploads__gradient-wrapper--overflow::after {
   position: absolute;
   display: block;
-  content: '';
+  content: "";
   inline-size: layout.$spacing-05;
   inset-block-end: 1px;
   inset-block-start: 0;
@@ -61,7 +61,7 @@
 }
 
 .cds-aichat-file-upload-item {
-  @include type.type-style('body-compact-01');
+  @include type.type-style("body-compact-01");
 
   display: inline-flex;
   flex-shrink: 0;
@@ -150,5 +150,5 @@
 .cds-aichat-file-upload-item__error {
   display: block;
   color: theme.$text-error;
-  @include type.type-style('label-01');
+  @include type.type-style("label-01");
 }

@@ -128,7 +128,7 @@ export default class CarbonChart extends Component<CarbonChartSignature> {
 
   update = () => {
     this.setData();
-  }
+  };
 
   @action
   updateChart() {
@@ -150,10 +150,10 @@ export default class CarbonChart extends Component<CarbonChartSignature> {
   hasUpdatedOnce = false;
 
   updateChartModifier = modifier(
-    (_element: HTMLDivElement, [legendClickable, resizable]: [
-      boolean | undefined,
-      boolean | undefined,
-    ]) => {
+    (
+      _element: HTMLDivElement,
+      [legendClickable, resizable]: [boolean | undefined, boolean | undefined],
+    ) => {
       void legendClickable;
       void resizable;
       if (!this.hasUpdatedOnce) {
@@ -190,8 +190,7 @@ export default class CarbonChart extends Component<CarbonChartSignature> {
 
   @action
   setColorScale(datasetName: string, color: string) {
-    this.options.color!.scale =
-      this.options.color!.scale || {};
+    this.options.color!.scale = this.options.color!.scale || {};
     (this.options.color!.scale as any)[datasetName] = color;
   }
 

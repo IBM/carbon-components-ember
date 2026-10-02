@@ -29,10 +29,14 @@ module('Integration | Component | ai-chat/AiChatTruncatedText', (hooks) => {
   test('it renders @value as plain text when short', async function (assert) {
     await render(
       <template>
-        <style>{{carbonStyle.default}}</style>
-        <style>{{lineClampStyle}}</style>
-        <div style='width: 200px'>
-          <AiChatTruncatedText @value='Short text' @lines={{2}} />
+        <style>
+          {{carbonStyle.default}}
+        </style>
+        <style>
+          {{lineClampStyle}}
+        </style>
+        <div style="width: 200px">
+          <AiChatTruncatedText @value="Short text" @lines={{2}} />
         </div>
       </template>,
     );
@@ -47,9 +51,13 @@ module('Integration | Component | ai-chat/AiChatTruncatedText', (hooks) => {
 
     await render(
       <template>
-        <style>{{carbonStyle.default}}</style>
-        <style>{{lineClampStyle}}</style>
-        <div style='width: 100px'>
+        <style>
+          {{carbonStyle.default}}
+        </style>
+        <style>
+          {{lineClampStyle}}
+        </style>
+        <div style="width: 100px">
           <AiChatTruncatedText @value={{longValue}} @lines={{1}} />
         </div>
       </template>,
@@ -66,15 +74,19 @@ module('Integration | Component | ai-chat/AiChatTruncatedText', (hooks) => {
 
     await render(
       <template>
-        <style>{{carbonStyle.default}}</style>
-        <style>{{lineClampStyle}}</style>
-        <div style='width: 100px'>
+        <style>
+          {{carbonStyle.default}}
+        </style>
+        <style>
+          {{lineClampStyle}}
+        </style>
+        <div style="width: 100px">
           <AiChatTruncatedText
             @value={{longValue}}
             @lines={{1}}
-            @type='expand'
-            @expandLabel='Show more'
-            @collapseLabel='Show less'
+            @type="expand"
+            @expandLabel="Show more"
+            @collapseLabel="Show less"
           />
         </div>
       </template>,
@@ -90,7 +102,11 @@ module('Integration | Component | ai-chat/AiChatTruncatedText', (hooks) => {
       .dom('.cds-aichat-truncated-text__content')
       .hasClass('cds-aichat-truncated-text__content--expanded');
 
-    await triggerKeyEvent('.cds-aichat-truncated-text__toggle', 'keydown', 'Enter');
+    await triggerKeyEvent(
+      '.cds-aichat-truncated-text__toggle',
+      'keydown',
+      'Enter',
+    );
     assert.dom('.cds-aichat-truncated-text__toggle').hasText('Show more');
   });
 
@@ -126,9 +142,13 @@ module('Integration | Component | ai-chat/AiChatTruncatedText', (hooks) => {
     try {
       await render(
         <template>
-          <style>{{carbonStyle.default}}</style>
-          <style>{{lineClampStyle}}</style>
-          <div style='width: 100px'>
+          <style>
+            {{carbonStyle.default}}
+          </style>
+          <style>
+            {{lineClampStyle}}
+          </style>
+          <div style="width: 100px">
             <AiChatTruncatedText @value={{longValue}} @lines={{1}} />
           </div>
         </template>,
@@ -137,9 +157,19 @@ module('Integration | Component | ai-chat/AiChatTruncatedText', (hooks) => {
       await waitForAnimationFrame();
 
       assert.dom('.cds--tooltip-trigger__wrapper').exists();
-      assert.strictEqual(observed.length, 2, 'a second ResizeObserver is created for the tooltip-wrapped content');
-      assert.true(observed[0]?.disconnected, 'the first (now-detached) ResizeObserver was disconnected');
-      assert.false(observed[1]?.disconnected, 'the current ResizeObserver is still connected');
+      assert.strictEqual(
+        observed.length,
+        2,
+        'a second ResizeObserver is created for the tooltip-wrapped content',
+      );
+      assert.true(
+        observed[0]?.disconnected,
+        'the first (now-detached) ResizeObserver was disconnected',
+      );
+      assert.false(
+        observed[1]?.disconnected,
+        'the current ResizeObserver is still connected',
+      );
     } finally {
       window.ResizeObserver = OriginalResizeObserver;
     }
@@ -148,10 +178,14 @@ module('Integration | Component | ai-chat/AiChatTruncatedText', (hooks) => {
   test('it renders default block content instead of @value when passed', async function (assert) {
     await render(
       <template>
-        <style>{{carbonStyle.default}}</style>
-        <style>{{lineClampStyle}}</style>
-        <div style='width: 200px'>
-          <AiChatTruncatedText @value='Tooltip text' @lines={{2}}>
+        <style>
+          {{carbonStyle.default}}
+        </style>
+        <style>
+          {{lineClampStyle}}
+        </style>
+        <div style="width: 200px">
+          <AiChatTruncatedText @value="Tooltip text" @lines={{2}}>
             <strong>Rich content</strong>
           </AiChatTruncatedText>
         </div>
@@ -159,6 +193,8 @@ module('Integration | Component | ai-chat/AiChatTruncatedText', (hooks) => {
     );
     await waitForAnimationFrame();
 
-    assert.dom('.cds-aichat-truncated-text__content strong').hasText('Rich content');
+    assert
+      .dom('.cds-aichat-truncated-text__content strong')
+      .hasText('Rich content');
   });
 });

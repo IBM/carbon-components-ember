@@ -36,17 +36,20 @@ export default class ToolbarActionButton extends Component<ToolbarActionButtonSi
   }
 
   <template>
-    <Tooltip @label={{@action.text}} @align='bottom' ...attributes>
+    <Tooltip @label={{@action.text}} @align="bottom" ...attributes>
       {{#if @action.href}}
         <a
           href={{unless @action.disabled @action.href}}
-          target={{if @action.href (or @action.target '_self')}}
-          class='cds--btn cds--btn--icon-only cds--btn--ghost cds--layout--size-{{or @action.size "md"}}
-            {{if @action.disabled "cds--btn--disabled"}}'
-          role={{if @action.disabled 'link'}}
-          aria-disabled={{if @action.disabled 'true'}}
+          target={{if @action.href (or @action.target "_self")}}
+          class="cds--btn cds--btn--icon-only cds--btn--ghost cds--layout--size-{{or
+              @action.size
+              'md'
+            }}
+            {{if @action.disabled 'cds--btn--disabled'}}"
+          role={{if @action.disabled "link"}}
+          aria-disabled={{if @action.disabled "true"}}
           data-testid={{@action.testId}}
-          {{on 'click' this.handleLinkClick}}
+          {{on "click" this.handleLinkClick}}
         >
           <@action.icon @size={{16}} />
         </a>
@@ -54,7 +57,7 @@ export default class ToolbarActionButton extends Component<ToolbarActionButtonSi
         <Button
           @ghost={{true}}
           @iconOnly={{true}}
-          @size={{or @action.size 'md'}}
+          @size={{or @action.size "md"}}
           @disabled={{@action.disabled}}
           @onClick={{@action.onClick}}
           data-testid={{@action.testId}}

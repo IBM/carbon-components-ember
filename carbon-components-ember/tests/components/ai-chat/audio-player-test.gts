@@ -1,6 +1,12 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, rerender, waitUntil, find, settled } from '@ember/test-helpers';
+import {
+  render,
+  rerender,
+  waitUntil,
+  find,
+  settled,
+} from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import AudioPlayer from '#src/components/ai-chat/audio-player.gts';
@@ -58,7 +64,9 @@ function stubSoundCloudSDK() {
   return { script, widget };
 }
 
-async function waitForReady(selector = '.cds-aichat-audio-player__provider--ready') {
+async function waitForReady(
+  selector = '.cds-aichat-audio-player__provider--ready',
+) {
   // Real `loadedmetadata`/network events back this, not app timing - give
   // CI's slower/contended runner more room than the 1000ms default.
   await waitUntil(() => find(selector), { timeout: 5000 });
@@ -82,8 +90,8 @@ module('Integration | Component | ai-chat/AudioPlayer', (hooks) => {
     await render(
       <template>
         <AudioPlayer
-          @source='https://example.com/not-audio'
-          @errorMessage='Could not play this audio'
+          @source="https://example.com/not-audio"
+          @errorMessage="Could not play this audio"
           @onError={{onError}}
         />
       </template>,
@@ -96,7 +104,9 @@ module('Integration | Component | ai-chat/AudioPlayer', (hooks) => {
       .hasText('Could not play this audio');
     assert.strictEqual(errors.length, 1);
     assert.strictEqual(errors[0]?.message, 'Could not play this audio');
-    assert.dom('.cds-aichat-audio-player__provider').hasClass('cds-aichat-audio-player__provider--hidden');
+    assert
+      .dom('.cds-aichat-audio-player__provider')
+      .hasClass('cds-aichat-audio-player__provider--hidden');
   });
 
   test('a native source renders a real <audio> element and fires @onReady', async function (assert) {
@@ -112,7 +122,9 @@ module('Integration | Component | ai-chat/AudioPlayer', (hooks) => {
     await waitForReady();
 
     assert.dom('.cds-aichat-audio-player__provider audio').exists();
-    assert.dom('.cds-aichat-audio-player__provider audio').hasAttribute('controls');
+    assert
+      .dom('.cds-aichat-audio-player__provider audio')
+      .hasAttribute('controls');
     assert
       .dom('.cds-aichat-audio-player__provider audio')
       .hasAttribute('crossorigin', 'anonymous');
@@ -126,13 +138,19 @@ module('Integration | Component | ai-chat/AudioPlayer', (hooks) => {
 
     await render(
       <template>
-        <AudioPlayer @source={{NATIVE_AUDIO_SOURCE}} @onPlay={{onPlay}} @onPause={{onPause}} />
+        <AudioPlayer
+          @source={{NATIVE_AUDIO_SOURCE}}
+          @onPlay={{onPlay}}
+          @onPause={{onPause}}
+        />
       </template>,
     );
 
     await waitForReady();
 
-    const audioElement = find('.cds-aichat-audio-player__provider audio') as HTMLAudioElement;
+    const audioElement = find(
+      '.cds-aichat-audio-player__provider audio',
+    ) as HTMLAudioElement;
     audioElement.dispatchEvent(new Event('play'));
     audioElement.dispatchEvent(new Event('pause'));
     await settled();
@@ -165,7 +183,10 @@ module('Integration | Component | ai-chat/AudioPlayer', (hooks) => {
       class Host extends Component {
         state = state;
         <template>
-          <AudioPlayer @source={{NATIVE_AUDIO_SOURCE}} @playing={{this.state.playing}} />
+          <AudioPlayer
+            @source={{NATIVE_AUDIO_SOURCE}}
+            @playing={{this.state.playing}}
+          />
         </template>
       }
 
@@ -175,11 +196,19 @@ module('Integration | Component | ai-chat/AudioPlayer', (hooks) => {
       const callsBeforeToggle = playCalls;
       state.playing = true;
       await rerender();
-      assert.strictEqual(playCalls, callsBeforeToggle + 1, 'toggling @playing to true calls provider.play()');
+      assert.strictEqual(
+        playCalls,
+        callsBeforeToggle + 1,
+        'toggling @playing to true calls provider.play()',
+      );
 
       state.playing = false;
       await rerender();
-      assert.strictEqual(pauseCalls, 1, 'toggling @playing to false calls provider.pause()');
+      assert.strictEqual(
+        pauseCalls,
+        1,
+        'toggling @playing to false calls provider.pause()',
+      );
     } finally {
       HTMLMediaElement.prototype.play = originalPlay;
       HTMLMediaElement.prototype.pause = originalPause;
@@ -217,7 +246,11 @@ module('Integration | Component | ai-chat/AudioPlayer', (hooks) => {
     state.playing = false;
     await rerender();
 
-    assert.strictEqual(readyCount, 1, 'the provider was not torn down and reloaded, so @onReady never fires a second time');
+    assert.strictEqual(
+      readyCount,
+      1,
+      'the provider was not torn down and reloaded, so @onReady never fires a second time',
+    );
     assert.strictEqual(
       find('.cds-aichat-audio-player__provider audio'),
       audioElementBefore,
@@ -235,9 +268,7 @@ module('Integration | Component | ai-chat/AudioPlayer', (hooks) => {
 
     class Host extends Component {
       state = state;
-      <template>
-        <AudioPlayer @source={{this.state.source}} />
-      </template>
+      <template><AudioPlayer @source={{this.state.source}} /></template>
     }
 
     await render(<template><Host /></template>);
@@ -251,7 +282,10 @@ module('Integration | Component | ai-chat/AudioPlayer', (hooks) => {
     assert.dom('.cds-aichat-audio-player__provider audio').doesNotExist();
     assert
       .dom('.cds-aichat-audio-player__provider iframe')
-      .hasAttribute('src', `https://w.soundcloud.com/player/?url=${encodeURIComponent(SOUNDCLOUD_SOURCE)}`);
+      .hasAttribute(
+        'src',
+        `https://w.soundcloud.com/player/?url=${encodeURIComponent(SOUNDCLOUD_SOURCE)}`,
+      );
 
     // `SoundCloudProvider.load()` awaits the iframe's real `load` event
     // before it considers the SDK widget ready - left alone, that's a real

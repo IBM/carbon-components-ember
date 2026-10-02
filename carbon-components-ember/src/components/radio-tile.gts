@@ -16,7 +16,11 @@ export interface Signature {
     tabindex?: string;
     required?: boolean;
     group?: RadioTileGroup;
-    onChange?: (value: Value | undefined, name: string | undefined, event: Event) => void;
+    onChange?: (
+      value: Value | undefined,
+      name: string | undefined,
+      event: Event,
+    ) => void;
   };
   Element: HTMLDivElement;
   Blocks: {
@@ -65,8 +69,8 @@ export default class RadioTile extends Component<Signature> {
   <template>
     <div ...attributes>
       <input
-        type='radio'
-        class='cds--tile-input'
+        type="radio"
+        class="cds--tile-input"
         id={{this.id}}
         value={{@value}}
         disabled={{this.disabled}}
@@ -74,19 +78,19 @@ export default class RadioTile extends Component<Signature> {
         name={{this.name}}
         checked={{this.checked}}
         tabindex={{this.tabindex}}
-        {{on 'change' this.handleChange}}
+        {{on "change" this.handleChange}}
       />
       <label
         for={{this.id}}
-        class='cds--tile cds--tile--selectable cds--tile--radio
-          {{if this.checked "cds--tile--is-selected"}}
-          {{if this.disabled "cds--tile--disabled"}}'
+        class="cds--tile cds--tile--selectable cds--tile--radio
+          {{if this.checked 'cds--tile--is-selected'}}
+          {{if this.disabled 'cds--tile--disabled'}}"
       >
-        <span class='cds--tile__checkmark'>
-          <CheckmarkFilled @size="16" @svgClass='cds--tile__checkmark-icon' />
+        <span class="cds--tile__checkmark">
+          <CheckmarkFilled @size="16" @svgClass="cds--tile__checkmark-icon" />
         </span>
         {{! @carbon/react wraps this in Text, which defaults to a span with dir='auto' - same Text/dir='auto' pattern as Tag/ListItem }}
-        <span class='cds--tile-content' dir='auto'>
+        <span class="cds--tile-content" dir="auto">
           {{yield}}
         </span>
       </label>

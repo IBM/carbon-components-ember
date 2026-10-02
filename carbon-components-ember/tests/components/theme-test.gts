@@ -22,7 +22,7 @@ module('Integration | Component | Theme', (hooks) => {
   test('@theme applies the matching zone class', async function (assert) {
     await render(
       <template>
-        <Theme @theme='g100'>
+        <Theme @theme="g100">
           <span>Content</span>
         </Theme>
       </template>,
@@ -36,9 +36,9 @@ module('Integration | Component | Theme', (hooks) => {
   test('yields theme and isDark', async function (assert) {
     await render(
       <template>
-        <Theme @theme='g90' as |ctx|>
+        <Theme @theme="g90" as |ctx|>
           <span data-test-theme>{{ctx.theme}}</span>
-          <span data-test-dark>{{if ctx.isDark 'dark' 'light'}}</span>
+          <span data-test-dark>{{if ctx.isDark "dark" "light"}}</span>
         </Theme>
       </template>,
     );
@@ -50,8 +50,8 @@ module('Integration | Component | Theme', (hooks) => {
   test('isDark is false for light themes', async function (assert) {
     await render(
       <template>
-        <Theme @theme='g10' as |ctx|>
-          <span data-test-dark>{{if ctx.isDark 'dark' 'light'}}</span>
+        <Theme @theme="g10" as |ctx|>
+          <span data-test-dark>{{if ctx.isDark "dark" "light"}}</span>
         </Theme>
       </template>,
     );
@@ -62,7 +62,7 @@ module('Integration | Component | Theme', (hooks) => {
   test('@as renders a custom element type', async function (assert) {
     await render(
       <template>
-        <Theme @as='section' @theme='g10'>
+        <Theme @as="section" @theme="g10">
           <span>Content</span>
         </Theme>
       </template>,
@@ -75,7 +75,7 @@ module('Integration | Component | Theme', (hooks) => {
   test('passes through html attributes', async function (assert) {
     await render(
       <template>
-        <Theme id='my-theme' class='custom-class'>
+        <Theme id="my-theme" class="custom-class">
           <span>Content</span>
         </Theme>
       </template>,

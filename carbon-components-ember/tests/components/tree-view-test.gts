@@ -21,13 +21,15 @@ module('Integration | Component | TreeView', (hooks) => {
     const styleValue = cell('');
     await render(
       <template>
-        <TreeView @label='Tree View' as |Node|>
-          <Node @id='node-1' @label='Node 1' />
-          <Node @id='node-2' @label='Node 2' @isExpanded={{true}} as |Child|>
-            <Child @id='node-2-1' @label='Node 2.1' />
+        <TreeView @label="Tree View" as |Node|>
+          <Node @id="node-1" @label="Node 1" />
+          <Node @id="node-2" @label="Node 2" @isExpanded={{true}} as |Child|>
+            <Child @id="node-2-1" @label="Node 2.1" />
           </Node>
         </TreeView>
-        <style>{{styleValue.current}}</style>
+        <style>
+          {{styleValue.current}}
+        </style>
       </template>,
     );
 
@@ -50,14 +52,18 @@ module('Integration | Component | TreeView', (hooks) => {
     const darkStyleValue = cell('');
     await render(
       <template>
-        <TreeView @label='Tree View' as |Node|>
-          <Node @id='node-1' @label='Node 1' />
-          <Node @id='node-2' @label='Node 2' @isExpanded={{true}} as |Child|>
-            <Child @id='node-2-1' @label='Node 2.1' />
+        <TreeView @label="Tree View" as |Node|>
+          <Node @id="node-1" @label="Node 1" />
+          <Node @id="node-2" @label="Node 2" @isExpanded={{true}} as |Child|>
+            <Child @id="node-2-1" @label="Node 2.1" />
           </Node>
         </TreeView>
-        <style>{{styleValue.current}}</style>
-        <style>{{darkStyleValue.current}}</style>
+        <style>
+          {{styleValue.current}}
+        </style>
+        <style>
+          {{darkStyleValue.current}}
+        </style>
       </template>,
     );
 
@@ -79,8 +85,8 @@ module('Integration | Component | TreeView', (hooks) => {
   test('renders a label and tree with the correct roles', async function (assert) {
     await render(
       <template>
-        <TreeView @label='Tree View' as |Node|>
-          <Node @id='node-1' @label='Node 1' />
+        <TreeView @label="Tree View" as |Node|>
+          <Node @id="node-1" @label="Node 1" />
         </TreeView>
       </template>,
     );
@@ -95,8 +101,8 @@ module('Integration | Component | TreeView', (hooks) => {
   test('@hideLabel visually hides the label but keeps it accessible', async function (assert) {
     await render(
       <template>
-        <TreeView @label='Tree View' @hideLabel={{true}} as |Node|>
-          <Node @id='node-1' @label='Node 1' />
+        <TreeView @label="Tree View" @hideLabel={{true}} as |Node|>
+          <Node @id="node-1" @label="Node 1" />
         </TreeView>
       </template>,
     );
@@ -108,9 +114,9 @@ module('Integration | Component | TreeView', (hooks) => {
   test('a node with children renders as a parent node and can be expanded/collapsed', async function (assert) {
     await render(
       <template>
-        <TreeView @label='Tree View' as |Node|>
-          <Node @id='parent' @label='Parent' as |Child|>
-            <Child @id='child' @label='Child' />
+        <TreeView @label="Tree View" as |Node|>
+          <Node @id="parent" @label="Parent" as |Child|>
+            <Child @id="child" @label="Child" />
           </Node>
         </TreeView>
       </template>,
@@ -123,19 +129,23 @@ module('Integration | Component | TreeView', (hooks) => {
     await click('.cds--tree-parent-node__toggle');
 
     assert.dom('.cds--tree-parent-node').hasAttribute('aria-expanded', 'true');
-    assert.dom('.cds--tree-node__children').doesNotHaveClass('cds--tree-node--hidden');
+    assert
+      .dom('.cds--tree-node__children')
+      .doesNotHaveClass('cds--tree-node--hidden');
   });
 
   test('collapsing a node actually hides its children under real Carbon styles', async function (this: RenderingTestContext, assert) {
     const styleValue = cell('');
     await render(
       <template>
-        <TreeView @label='Tree View' as |Node|>
-          <Node @id='parent' @label='Parent' as |Child|>
-            <Child @id='child' @label='Child' />
+        <TreeView @label="Tree View" as |Node|>
+          <Node @id="parent" @label="Parent" as |Child|>
+            <Child @id="child" @label="Child" />
           </Node>
         </TreeView>
-        <style>{{styleValue.current}}</style>
+        <style>
+          {{styleValue.current}}
+        </style>
       </template>,
     );
     styleValue.current = carbonStyle.default;
@@ -153,9 +163,9 @@ module('Integration | Component | TreeView', (hooks) => {
   test('@isExpanded sets the initial expansion state', async function (assert) {
     await render(
       <template>
-        <TreeView @label='Tree View' as |Node|>
-          <Node @id='parent' @label='Parent' @isExpanded={{true}} as |Child|>
-            <Child @id='child' @label='Child' />
+        <TreeView @label="Tree View" as |Node|>
+          <Node @id="parent" @label="Parent" @isExpanded={{true}} as |Child|>
+            <Child @id="child" @label="Child" />
           </Node>
         </TreeView>
       </template>,
@@ -171,9 +181,9 @@ module('Integration | Component | TreeView', (hooks) => {
     };
     await render(
       <template>
-        <TreeView @label='Tree View' @onSelect={{onSelect}} as |Node|>
-          <Node @id='node-1' @label='Node 1' />
-          <Node @id='node-2' @label='Node 2' />
+        <TreeView @label="Tree View" @onSelect={{onSelect}} as |Node|>
+          <Node @id="node-1" @label="Node 1" />
+          <Node @id="node-2" @label="Node 2" />
         </TreeView>
       </template>,
     );
@@ -192,8 +202,8 @@ module('Integration | Component | TreeView', (hooks) => {
   test('disabled nodes cannot be selected', async function (assert) {
     await render(
       <template>
-        <TreeView @label='Tree View' as |Node|>
-          <Node @id='node-1' @label='Node 1' @disabled={{true}} />
+        <TreeView @label="Tree View" as |Node|>
+          <Node @id="node-1" @label="Node 1" @disabled={{true}} />
         </TreeView>
       </template>,
     );
@@ -208,9 +218,9 @@ module('Integration | Component | TreeView', (hooks) => {
   test('@multiselect allows selecting multiple nodes with the meta key', async function (assert) {
     await render(
       <template>
-        <TreeView @label='Tree View' @multiselect={{true}} as |Node|>
-          <Node @id='node-1' @label='Node 1' />
-          <Node @id='node-2' @label='Node 2' />
+        <TreeView @label="Tree View" @multiselect={{true}} as |Node|>
+          <Node @id="node-1" @label="Node 1" />
+          <Node @id="node-2" @label="Node 2" />
         </TreeView>
       </template>,
     );
@@ -225,9 +235,9 @@ module('Integration | Component | TreeView', (hooks) => {
   test('the toggle caret points right when collapsed and down when expanded', async function (assert) {
     await render(
       <template>
-        <TreeView @label='Tree View' as |Node|>
-          <Node @id='parent' @label='Parent' as |Child|>
-            <Child @id='child' @label='Child' />
+        <TreeView @label="Tree View" as |Node|>
+          <Node @id="parent" @label="Parent" as |Child|>
+            <Child @id="child" @label="Child" />
           </Node>
         </TreeView>
       </template>,
@@ -254,13 +264,19 @@ module('Integration | Component | TreeView', (hooks) => {
     const styleValue = cell('');
     await render(
       <template>
-        <TreeView @label='Tree View' @selected={{array 'node-1' 'nested-child'}} as |Node|>
-          <Node @id='node-1' @label='A' />
-          <Node @id='parent' @label='Parent' @isExpanded={{true}} as |Child|>
-            <Child @id='nested-child' @label='B' />
+        <TreeView
+          @label="Tree View"
+          @selected={{array "node-1" "nested-child"}}
+          as |Node|
+        >
+          <Node @id="node-1" @label="A" />
+          <Node @id="parent" @label="Parent" @isExpanded={{true}} as |Child|>
+            <Child @id="nested-child" @label="B" />
           </Node>
         </TreeView>
-        <style>{{styleValue.current}}</style>
+        <style>
+          {{styleValue.current}}
+        </style>
       </template>,
     );
     styleValue.current = carbonStyle.default;
@@ -274,10 +290,16 @@ module('Integration | Component | TreeView', (hooks) => {
     const rowRect = topLevelRow.getBoundingClientRect();
     const labelRect = topLevelLabel.getBoundingClientRect();
 
-    assert
-      .strictEqual(labelRect.left, rowRect.left, 'label background starts flush with the row\'s left edge');
-    assert
-      .strictEqual(labelRect.right, rowRect.right, 'label background extends to the row\'s right edge');
+    assert.strictEqual(
+      labelRect.left,
+      rowRect.left,
+      "label background starts flush with the row's left edge",
+    );
+    assert.strictEqual(
+      labelRect.right,
+      rowRect.right,
+      "label background extends to the row's right edge",
+    );
 
     const nestedRow = document.querySelector('#nested-child') as HTMLElement;
     const nestedLabel = nestedRow.querySelector(
@@ -289,7 +311,7 @@ module('Integration | Component | TreeView', (hooks) => {
     assert.strictEqual(
       nestedLabelRect.left,
       labelRect.left,
-      'nested label background is also flush with the tree\'s absolute left edge, matching top-level rows',
+      "nested label background is also flush with the tree's absolute left edge, matching top-level rows",
     );
     assert.true(
       nestedRowRect.left > rowRect.left,
@@ -300,15 +322,17 @@ module('Integration | Component | TreeView', (hooks) => {
   test('@icon renders the given icon before the label and adds the with-icon modifier class', async function (assert) {
     await render(
       <template>
-        <TreeView @label='Tree View' as |Node|>
-          <Node @id='node-1' @label='Node 1' @icon={{Folder}} />
+        <TreeView @label="Tree View" as |Node|>
+          <Node @id="node-1" @label="Node 1" @icon={{Folder}} />
         </TreeView>
       </template>,
     );
 
     assert.dom('#node-1').hasClass('cds--tree-node--with-icon');
     // The icon's SVG is loaded via a dynamic import, so wait for it to resolve.
-    await waitUntil(() => document.querySelector('#node-1 .cds--tree-node__icon'));
+    await waitUntil(() =>
+      document.querySelector('#node-1 .cds--tree-node__icon'),
+    );
     assert.dom('#node-1 .cds--tree-node__icon').exists();
   });
 
@@ -320,28 +344,28 @@ module('Integration | Component | TreeView', (hooks) => {
     // instances of the same type (e.g. multiple `Document` icons at once).
     await render(
       <template>
-        <TreeView @label='Tree View' as |Node|>
+        <TreeView @label="Tree View" as |Node|>
           <Node
-            @id='ai'
-            @label='Artificial intelligence'
+            @id="ai"
+            @label="Artificial intelligence"
             @icon={{Folder}}
             @isExpanded={{true}}
             as |Child|
           >
-            <Child @id='ml' @label='Machine learning' @icon={{Document}} />
-            <Child @id='nlp' @label='NLP' @icon={{Document}} />
+            <Child @id="ml" @label="Machine learning" @icon={{Document}} />
+            <Child @id="nlp" @label="NLP" @icon={{Document}} />
           </Node>
           <Node
-            @id='cloud'
-            @label='Cloud computing'
+            @id="cloud"
+            @label="Cloud computing"
             @icon={{Folder}}
             @isExpanded={{true}}
             as |Child|
           >
-            <Child @id='iaas' @label='IaaS' @icon={{Document}} />
-            <Child @id='paas' @label='PaaS' @icon={{Document}} />
+            <Child @id="iaas" @label="IaaS" @icon={{Document}} />
+            <Child @id="paas" @label="PaaS" @icon={{Document}} />
           </Node>
-          <Node @id='security' @label='Security' @icon={{Document}} />
+          <Node @id="security" @label="Security" @icon={{Document}} />
         </TreeView>
       </template>,
     );
@@ -354,7 +378,9 @@ module('Integration | Component | TreeView', (hooks) => {
     );
 
     for (const id of nodeIds) {
-      assert.dom(`#${id} .cds--tree-node__icon`).exists(`icon for #${id} renders`);
+      assert
+        .dom(`#${id} .cds--tree-node__icon`)
+        .exists(`icon for #${id} renders`);
       assert
         .dom(`#${id} .cds--tree-node__icon`)
         .isVisible(`icon for #${id} is visible, not just present`);
@@ -364,8 +390,8 @@ module('Integration | Component | TreeView', (hooks) => {
   test('a node with no @icon does not render an icon or the with-icon modifier class', async function (assert) {
     await render(
       <template>
-        <TreeView @label='Tree View' as |Node|>
-          <Node @id='node-1' @label='Node 1' />
+        <TreeView @label="Tree View" as |Node|>
+          <Node @id="node-1" @label="Node 1" />
         </TreeView>
       </template>,
     );
@@ -377,9 +403,9 @@ module('Integration | Component | TreeView', (hooks) => {
   test('without @onToggle, @isExpanded only sets the initial state and the node can still be freely toggled', async function (assert) {
     await render(
       <template>
-        <TreeView @label='Tree View' as |Node|>
-          <Node @id='parent' @label='Parent' @isExpanded={{true}} as |Child|>
-            <Child @id='child' @label='Child' />
+        <TreeView @label="Tree View" as |Node|>
+          <Node @id="parent" @label="Parent" @isExpanded={{true}} as |Child|>
+            <Child @id="child" @label="Child" />
           </Node>
         </TreeView>
       </template>,
@@ -403,15 +429,15 @@ module('Integration | Component | TreeView', (hooks) => {
 
     await render(
       <template>
-        <TreeView @label='Tree View' as |Node|>
+        <TreeView @label="Tree View" as |Node|>
           <Node
-            @id='parent'
-            @label='Parent'
+            @id="parent"
+            @label="Parent"
             @isExpanded={{expanded.current}}
             @onToggle={{onToggle}}
             as |Child|
           >
-            <Child @id='child' @label='Child' />
+            <Child @id="child" @label="Child" />
           </Node>
         </TreeView>
       </template>,

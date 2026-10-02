@@ -22,7 +22,7 @@ module('Integration | Component | TextDirection', (hooks) => {
   test('@dir sets the text direction for its content', async function (assert) {
     await render(
       <template>
-        <TextDirection @dir='rtl'>
+        <TextDirection @dir="rtl">
           <p>مرحبا بالعالم</p>
         </TextDirection>
       </template>,
@@ -34,7 +34,7 @@ module('Integration | Component | TextDirection', (hooks) => {
   test('@as renders a custom element type', async function (assert) {
     await render(
       <template>
-        <TextDirection @as='span' @dir='ltr'>
+        <TextDirection @as="span" @dir="ltr">
           Hello world
         </TextDirection>
       </template>,

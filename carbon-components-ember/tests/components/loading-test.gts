@@ -38,12 +38,14 @@ module('Integration | Component | Loading', (hooks) => {
   test('@description sets the svg title and aria-label', async function (assert) {
     await render(
       <template>
-        <Loading @withOverlay={{false}} @description='fetching data' />
+        <Loading @withOverlay={{false}} @description="fetching data" />
       </template>,
     );
 
     assert.dom('.cds--loading__svg title').hasText('fetching data');
-    assert.dom('.cds--loading__svg').hasAttribute('aria-label', 'fetching data');
+    assert
+      .dom('.cds--loading__svg')
+      .hasAttribute('aria-label', 'fetching data');
   });
 
   test('@withOverlay defaults to true and wraps in a full-page overlay', async function (assert) {
@@ -54,9 +56,7 @@ module('Integration | Component | Loading', (hooks) => {
   });
 
   test('@withOverlay + @active=false hides the overlay', async function (assert) {
-    await render(
-      <template><Loading @active={{false}} /></template>,
-    );
+    await render(<template><Loading @active={{false}} /></template>);
 
     assert.dom('.cds--loading-overlay').hasClass('cds--loading-overlay--stop');
   });
@@ -64,8 +64,10 @@ module('Integration | Component | Loading', (hooks) => {
   test('@inline renders the inline loading variant with text', async function (assert) {
     await render(
       <template>
-        <Loading @inline={{true}} @description='saving' />
-        <style>{{carbonStyle.default}}</style>
+        <Loading @inline={{true}} @description="saving" />
+        <style>
+          {{carbonStyle.default}}
+        </style>
       </template>,
     );
 
@@ -89,9 +91,7 @@ module('Integration | Component | Loading', (hooks) => {
 
   test('@inline + @active=false renders nothing', async function (assert) {
     await render(
-      <template>
-        <Loading @inline={{true}} @active={{false}} />
-      </template>,
+      <template><Loading @inline={{true}} @active={{false}} /></template>,
     );
 
     assert.dom('.cds--inline-loading').doesNotExist();

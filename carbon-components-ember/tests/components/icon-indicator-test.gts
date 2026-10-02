@@ -28,8 +28,10 @@ module('Integration | Component | IconIndicator', (hooks) => {
     const styleValue = cell('');
     await render(
       <template>
-        <IconIndicator @kind='succeeded' @label='Succeeded' />
-        <style>{{styleValue.current}}</style>
+        <IconIndicator @kind="succeeded" @label="Succeeded" />
+        <style>
+          {{styleValue.current}}
+        </style>
       </template>,
     );
 
@@ -52,9 +54,13 @@ module('Integration | Component | IconIndicator', (hooks) => {
     const darkStyleValue = cell('');
     await render(
       <template>
-        <IconIndicator @kind='succeeded' @label='Succeeded' />
-        <style>{{styleValue.current}}</style>
-        <style>{{darkStyleValue.current}}</style>
+        <IconIndicator @kind="succeeded" @label="Succeeded" />
+        <style>
+          {{styleValue.current}}
+        </style>
+        <style>
+          {{darkStyleValue.current}}
+        </style>
       </template>,
     );
 
@@ -75,7 +81,7 @@ module('Integration | Component | IconIndicator', (hooks) => {
 
   test('should display the label and the kind class', async function (assert) {
     await render(
-      <template><IconIndicator @kind='failed' @label='Failed' /></template>,
+      <template><IconIndicator @kind="failed" @label="Failed" /></template>,
     );
     await waitUntil(() => find('.cds--icon-indicator svg'));
 
@@ -112,7 +118,7 @@ module('Integration | Component | IconIndicator', (hooks) => {
   test('should add the 20 size class', async function (assert) {
     await render(
       <template>
-        <IconIndicator @kind='failed' @label='Failed' @size={{20}} />
+        <IconIndicator @kind="failed" @label="Failed" @size={{20}} />
       </template>,
     );
 
@@ -123,7 +129,7 @@ module('Integration | Component | IconIndicator', (hooks) => {
     await render(
       <template>
         {{! @glint-expect-error: intentionally invalid kind }}
-        <IconIndicator @kind='bogus' @label='Failed' />
+        <IconIndicator @kind="bogus" @label="Failed" />
       </template>,
     );
 
@@ -133,7 +139,7 @@ module('Integration | Component | IconIndicator', (hooks) => {
   test('should hide the label visually and expose it as a tooltip in compact mode', async function (assert) {
     await render(
       <template>
-        <IconIndicator @kind='failed' @label='Failed' @compact={{true}} />
+        <IconIndicator @kind="failed" @label="Failed" @compact={{true}} />
       </template>,
     );
     await waitUntil(() => find('.cds--icon-indicator__button svg'));
@@ -152,9 +158,9 @@ module('Integration | Component | IconIndicator', (hooks) => {
     await render(
       <template>
         <IconIndicator
-          @kind='failed'
-          @label='Failed'
-          @iconDescription='Something failed'
+          @kind="failed"
+          @label="Failed"
+          @iconDescription="Something failed"
           @compact={{true}}
         />
       </template>,
@@ -170,10 +176,10 @@ module('Integration | Component | IconIndicator', (hooks) => {
     await render(
       <template>
         <IconIndicator
-          @kind='failed'
-          @label='Failed'
+          @kind="failed"
+          @label="Failed"
           @compact={{true}}
-          @align='top'
+          @align="top"
           @autoAlign={{true}}
         />
       </template>,
@@ -190,24 +196,32 @@ module('Integration | Component | IconIndicator', (hooks) => {
   test('compact mode opens and closes its definition tooltip like @carbon/react', async function (assert) {
     await render(
       <template>
-        <IconIndicator @kind='failed' @label='Failed' @compact={{true}} />
+        <IconIndicator @kind="failed" @label="Failed" @compact={{true}} />
       </template>,
     );
     await waitUntil(() => find('.cds--icon-indicator__button svg'));
 
     const trigger = '.cds--icon-indicator__button';
     const container = '.cds--popover-container';
-    assert.dom(trigger).hasTagName('button').hasAttribute('aria-expanded', 'false');
+    assert
+      .dom(trigger)
+      .hasTagName('button')
+      .hasAttribute('aria-expanded', 'false');
     const tooltipId = find(trigger)?.getAttribute('aria-controls') ?? '';
     assert.ok(tooltipId, 'the trigger references the tooltip panel');
-    assert.dom(document.getElementById(tooltipId)).hasClass('cds--popover').hasText('Failed');
+    assert
+      .dom(document.getElementById(tooltipId))
+      .hasClass('cds--popover')
+      .hasText('Failed');
 
     await triggerEvent(container, 'mouseenter');
     assert.dom(trigger).hasAttribute('aria-expanded', 'true', 'opens on hover');
     assert.dom(container).hasClass('cds--popover--open');
 
     await triggerEvent(container, 'mouseleave');
-    assert.dom(trigger).hasAttribute('aria-expanded', 'false', 'closes on mouseleave');
+    assert
+      .dom(trigger)
+      .hasAttribute('aria-expanded', 'false', 'closes on mouseleave');
 
     await focus(trigger);
     assert.dom(trigger).hasAttribute('aria-expanded', 'true', 'opens on focus');
@@ -216,9 +230,13 @@ module('Integration | Component | IconIndicator', (hooks) => {
     assert.dom(trigger).hasAttribute('aria-expanded', 'false', 'Escape closes');
 
     await triggerKeyEvent(trigger, 'keydown', 'Enter');
-    assert.dom(trigger).hasAttribute('aria-expanded', 'true', 'Enter toggles open');
+    assert
+      .dom(trigger)
+      .hasAttribute('aria-expanded', 'true', 'Enter toggles open');
 
     await blur(trigger);
-    assert.dom(trigger).hasAttribute('aria-expanded', 'false', 'closes on blur');
+    assert
+      .dom(trigger)
+      .hasAttribute('aria-expanded', 'false', 'closes on blur');
   });
 });

@@ -21,7 +21,7 @@ module('Integration | Component | Text', (hooks) => {
   test('@as renders a custom element type', async function (assert) {
     await render(
       <template>
-        <Text @as='p'>Hello world</Text>
+        <Text @as="p">Hello world</Text>
       </template>,
     );
 
@@ -33,7 +33,7 @@ module('Integration | Component | Text', (hooks) => {
   test('@dir sets the text direction', async function (assert) {
     await render(
       <template>
-        <Text @dir='rtl'>مرحبا بالعالم</Text>
+        <Text @dir="rtl">مرحبا بالعالم</Text>
       </template>,
     );
 
@@ -43,7 +43,7 @@ module('Integration | Component | Text', (hooks) => {
   test('passes through html attributes', async function (assert) {
     await render(
       <template>
-        <Text id='my-text' class='custom-class'>Hello world</Text>
+        <Text id="my-text" class="custom-class">Hello world</Text>
       </template>,
     );
 

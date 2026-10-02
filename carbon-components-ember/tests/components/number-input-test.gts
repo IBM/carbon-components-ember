@@ -8,7 +8,7 @@ module('Integration | Component | NumberInput', (hooks) => {
   setupRenderingTest(hooks);
 
   test('should render a labelled number input', async function (assert) {
-    await render(<template><NumberInput @label='Quantity' /></template>);
+    await render(<template><NumberInput @label="Quantity" /></template>);
 
     assert.dom('.cds--form-item').exists();
     assert.dom('.cds--number').exists();
@@ -30,9 +30,7 @@ module('Integration | Component | NumberInput', (hooks) => {
 
   test('should hide the label visually when hideLabel is set', async function (assert) {
     await render(
-      <template>
-        <NumberInput @label='Hidden' @hideLabel={{true}} />
-      </template>,
+      <template><NumberInput @label="Hidden" @hideLabel={{true}} /></template>,
     );
 
     assert.dom('label.cds--label').hasClass('cds--visually-hidden');
@@ -47,7 +45,7 @@ module('Integration | Component | NumberInput', (hooks) => {
   });
 
   test('should apply the size class', async function (assert) {
-    await render(<template><NumberInput @size='sm' /></template>);
+    await render(<template><NumberInput @size="sm" /></template>);
 
     assert.dom('.cds--number').hasClass('cds--number--sm');
   });
@@ -130,7 +128,7 @@ module('Integration | Component | NumberInput', (hooks) => {
         <NumberInput
           @defaultValue={{20}}
           @max={{10}}
-          @invalidText='Value must be 10 or less'
+          @invalidText="Value must be 10 or less"
         />
       </template>,
     );
@@ -138,15 +136,13 @@ module('Integration | Component | NumberInput', (hooks) => {
 
     assert.dom('.cds--number').hasAttribute('data-invalid', 'true');
     assert.dom('.cds--number__invalid').exists();
-    assert
-      .dom('.cds--form-requirement')
-      .hasText('Value must be 10 or less');
+    assert.dom('.cds--form-requirement').hasText('Value must be 10 or less');
   });
 
   test('should show the warn state and message when not invalid', async function (assert) {
     await render(
       <template>
-        <NumberInput @warn={{true}} @warnText='Careful with this' />
+        <NumberInput @warn={{true}} @warnText="Careful with this" />
       </template>,
     );
 
@@ -158,7 +154,7 @@ module('Integration | Component | NumberInput', (hooks) => {
 
   test('should show the helper text when not invalid or warn', async function (assert) {
     await render(
-      <template><NumberInput @helperText='Optional field' /></template>,
+      <template><NumberInput @helperText="Optional field" /></template>,
     );
 
     assert.dom('.cds--form__helper-text').hasText('Optional field');
@@ -173,7 +169,7 @@ module('Integration | Component | NumberInput', (hooks) => {
     await render(
       <template>
         <NumberInput @value={{context.value}} @onChange={{update}} />
-        <span id='out'>{{context.value}}</span>
+        <span id="out">{{context.value}}</span>
       </template>,
     );
 

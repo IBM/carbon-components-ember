@@ -12,15 +12,23 @@ module('Integration | Component | ai-chat/PromptLineShell', (hooks) => {
     await render(
       <template>
         <PromptLineShell>
-          <:editor><textarea class='my-editor'></textarea></:editor>
-          <:messageActions><button type='button' class='my-action'>Action</button></:messageActions>
-          <:sendControl><button type='button' class='my-send'>Send</button></:sendControl>
+          <:editor><textarea class="my-editor"></textarea></:editor>
+          <:messageActions><button
+              type="button"
+              class="my-action"
+            >Action</button></:messageActions>
+          <:sendControl><button
+              type="button"
+              class="my-send"
+            >Send</button></:sendControl>
         </PromptLineShell>
       </template>,
     );
 
     assert.dom('.cds-aichat-prompt-line-shell__text-area .my-editor').exists();
-    assert.dom('.cds-aichat-prompt-line-shell__message-actions .my-action').exists();
+    assert
+      .dom('.cds-aichat-prompt-line-shell__message-actions .my-action')
+      .exists();
     assert.dom('.cds-aichat-prompt-line-shell__send-control .my-send').exists();
   });
 
@@ -28,15 +36,17 @@ module('Integration | Component | ai-chat/PromptLineShell', (hooks) => {
     await render(<template><PromptLineShell /></template>);
     assert
       .dom('.cds-aichat-prompt-line-shell__input-container')
-      .doesNotHaveClass('cds-aichat-prompt-line-shell__input-container--has-message-actions');
+      .doesNotHaveClass(
+        'cds-aichat-prompt-line-shell__input-container--has-message-actions',
+      );
   });
 
   test('@expanded reflows via a container class, not by reordering the DOM', async function (assert) {
     await render(
       <template>
         <PromptLineShell @expanded={{true}}>
-          <:editor><span class='marker'>editor</span></:editor>
-          <:messageActions><span class='marker'>actions</span></:messageActions>
+          <:editor><span class="marker">editor</span></:editor>
+          <:messageActions><span class="marker">actions</span></:messageActions>
         </PromptLineShell>
       </template>,
     );
@@ -64,8 +74,11 @@ module('Integration | Component | ai-chat/PromptLineShell', (hooks) => {
       state = state;
       <template>
         <PromptLineShell @expanded={{this.state.expanded}}>
-          <:editor><textarea class='my-editor'></textarea></:editor>
-          <:messageActions><button type='button' class='my-action'>Action</button></:messageActions>
+          <:editor><textarea class="my-editor"></textarea></:editor>
+          <:messageActions><button
+              type="button"
+              class="my-action"
+            >Action</button></:messageActions>
         </PromptLineShell>
       </template>
     }
@@ -97,12 +110,22 @@ module('Integration | Component | ai-chat/PromptLineShell', (hooks) => {
   test('@rounded, @hasError, and @disabled reflect to modifier classes', async function (assert) {
     await render(
       <template>
-        <PromptLineShell @rounded={{true}} @hasError={{true}} @disabled={{true}} />
+        <PromptLineShell
+          @rounded={{true}}
+          @hasError={{true}}
+          @disabled={{true}}
+        />
       </template>,
     );
 
-    assert.dom('.cds-aichat-prompt-line-shell').hasClass('cds-aichat-prompt-line-shell--rounded');
-    assert.dom('.cds-aichat-prompt-line-shell').hasClass('cds-aichat-prompt-line-shell--has-error');
-    assert.dom('.cds-aichat-prompt-line-shell').hasClass('cds-aichat-prompt-line-shell--disabled');
+    assert
+      .dom('.cds-aichat-prompt-line-shell')
+      .hasClass('cds-aichat-prompt-line-shell--rounded');
+    assert
+      .dom('.cds-aichat-prompt-line-shell')
+      .hasClass('cds-aichat-prompt-line-shell--has-error');
+    assert
+      .dom('.cds-aichat-prompt-line-shell')
+      .hasClass('cds-aichat-prompt-line-shell--disabled');
   });
 });

@@ -53,8 +53,8 @@ export default class ReasoningStepsToggle extends Component<ReasoningStepsToggle
 
   get labelText() {
     return this.open
-      ? this.args.openLabelText ?? 'Hide reasoning steps'
-      : this.args.closedLabelText ?? 'Show reasoning steps';
+      ? (this.args.openLabelText ?? 'Hide reasoning steps')
+      : (this.args.closedLabelText ?? 'Show reasoning steps');
   }
 
   @action
@@ -69,18 +69,20 @@ export default class ReasoningStepsToggle extends Component<ReasoningStepsToggle
 
   <template>
     <button
-      type='button'
-      class='cds-aichat-reasoning-steps-toggle cds-aichat-reasoning-steps-toggle__button
-        {{if this.open "cds-aichat-reasoning-steps-toggle--open"}}'
-      aria-expanded={{if this.open 'true' 'false'}}
+      type="button"
+      class="cds-aichat-reasoning-steps-toggle cds-aichat-reasoning-steps-toggle__button
+        {{if this.open 'cds-aichat-reasoning-steps-toggle--open'}}"
+      aria-expanded={{if this.open "true" "false"}}
       aria-controls={{@panelId}}
       disabled={{@disabled}}
-      {{on 'click' this.handleClick}}
+      {{on "click" this.handleClick}}
       ...attributes
     >
-      <span class='cds-aichat-reasoning-steps-toggle__label'>{{this.labelText}}</span>
-      <span class='cds-aichat-reasoning-steps-toggle__caret' aria-hidden='true'>
-        <ChevronUp @size='16' />
+      <span
+        class="cds-aichat-reasoning-steps-toggle__label"
+      >{{this.labelText}}</span>
+      <span class="cds-aichat-reasoning-steps-toggle__caret" aria-hidden="true">
+        <ChevronUp @size="16" />
       </span>
     </button>
   </template>

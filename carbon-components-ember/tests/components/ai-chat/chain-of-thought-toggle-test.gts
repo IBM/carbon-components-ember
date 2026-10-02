@@ -9,18 +9,20 @@ module('Integration | Component | ai-chat/ChainOfThoughtToggle', (hooks) => {
 
   test('uncontrolled: it toggles its own label/aria-expanded on click', async function (assert) {
     await render(
-      <template>
-        <ChainOfThoughtToggle @panelId='my-panel' />
-      </template>,
+      <template><ChainOfThoughtToggle @panelId="my-panel" /></template>,
     );
 
     assert.dom('button').hasAttribute('aria-expanded', 'false');
     assert.dom('button').hasAttribute('aria-controls', 'my-panel');
-    assert.dom('.cds-aichat-chain-of-thought-toggle__label').hasText('Show chain of thought');
+    assert
+      .dom('.cds-aichat-chain-of-thought-toggle__label')
+      .hasText('Show chain of thought');
 
     await click('button');
     assert.dom('button').hasAttribute('aria-expanded', 'true');
-    assert.dom('.cds-aichat-chain-of-thought-toggle__label').hasText('Hide chain of thought');
+    assert
+      .dom('.cds-aichat-chain-of-thought-toggle__label')
+      .hasText('Hide chain of thought');
   });
 
   test('@onToggle makes it controlled: it follows @open and reports clicks instead of managing its own state', async function (assert) {
@@ -56,29 +58,37 @@ module('Integration | Component | ai-chat/ChainOfThoughtToggle', (hooks) => {
       <template>
         <ChainOfThoughtToggle
           @open={{true}}
-          @openLabelText='Custom open'
-          @closedLabelText='Custom closed'
+          @openLabelText="Custom open"
+          @closedLabelText="Custom closed"
           @disabled={{true}}
         />
       </template>,
     );
 
-    assert.dom('.cds-aichat-chain-of-thought-toggle__label').hasText('Custom open');
+    assert
+      .dom('.cds-aichat-chain-of-thought-toggle__label')
+      .hasText('Custom open');
     assert.dom('button').isDisabled();
   });
 
   test('an @open seed without @onToggle is only an initial value, not a permanent lock', async function (assert) {
-    await render(
-      <template><ChainOfThoughtToggle @open={{true}} /></template>,
-    );
+    await render(<template><ChainOfThoughtToggle @open={{true}} /></template>);
 
     assert.dom('button').hasAttribute('aria-expanded', 'true');
-    assert.dom('.cds-aichat-chain-of-thought-toggle__label').hasText('Hide chain of thought');
+    assert
+      .dom('.cds-aichat-chain-of-thought-toggle__label')
+      .hasText('Hide chain of thought');
 
     await click('button');
     assert
       .dom('button')
-      .hasAttribute('aria-expanded', 'false', 'click flips it, unlike a truly controlled usage');
-    assert.dom('.cds-aichat-chain-of-thought-toggle__label').hasText('Show chain of thought');
+      .hasAttribute(
+        'aria-expanded',
+        'false',
+        'click flips it, unlike a truly controlled usage',
+      );
+    assert
+      .dom('.cds-aichat-chain-of-thought-toggle__label')
+      .hasText('Show chain of thought');
   });
 });
