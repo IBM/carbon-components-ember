@@ -29,10 +29,14 @@ export default class ListBodyComponent<T> extends Component<
   ListBodyComponentSignature<T>
 > {
   <template>
-    <div class='cds--structured-list-tbody'>
+    <div class="cds--structured-list-tbody">
       {{#each @items as |item|}}
-        {{! @glint-expect-error: Glint 2 widens the bound item to T | undefined when inferring ListRow's generic, so Row no longer matches the declared WithBoundArgs<typeof ListRowComponent<T>> }}
-        {{yield (hash Row=(component ListRow item=item isHeader=false list=@list) item=item)}}
+        {{#let
+          (component ListRow item=item isHeader=false list=@list)
+          as |Row|
+        }}
+          {{yield (hash Row=Row item=item)}}
+        {{/let}}
       {{/each}}
     </div>
   </template>
