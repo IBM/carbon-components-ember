@@ -29,6 +29,10 @@ jobs:
       - name: Build docs-app
         run: DOCS_URL=pr-previews/pr-${{ github.event.pull_request.number }} pnpm run build
 
+      - name: Build Storybook
+        working-directory: ./carbon-components-ember
+        run: pnpm build-storybook
+
       - name: Checkout gh-pages branch
         uses: actions/checkout@v7
         with:
@@ -45,6 +49,7 @@ jobs:
             rm -rf pr-previews/pr-${{ github.event.pull_request.number }}
             mkdir -p pr-previews/pr-${{ github.event.pull_request.number }}
             cp -r $GITHUB_WORKSPACE/docs-app/dist/* pr-previews/pr-${{ github.event.pull_request.number }}/
+            cp -r $GITHUB_WORKSPACE/carbon-components-ember/storybook-static pr-previews/pr-${{ github.event.pull_request.number }}/storybook
             git add .
             if git diff --staged --quiet; then
               echo "No changes to deploy"
@@ -75,6 +80,7 @@ jobs:
             ## 📖 Docs Preview
 
             🔗 **Preview URL:** https://ibm.github.io/carbon-components-ember/pr-previews/pr-${{ github.event.pull_request.number }}/
+            📚 **Storybook:** https://ibm.github.io/carbon-components-ember/pr-previews/pr-${{ github.event.pull_request.number }}/storybook/
 
             _Built from commit ${{ github.event.pull_request.head.sha }}_`;
 
