@@ -784,12 +784,15 @@ file that mention `test-app/...` paths predate the migration and now mean
   layout) depend on it.
 - **Services** are registered in the strict test resolver under `carbon/`,
   mirroring the app-tree re-exports (`service:carbon.dialog-manager`).
-- **`tests/power-select-modules.ts`, the `@embroider/util` alias in
-  `vite.config.mjs` and the `ember-assign-helper` stub in
-  `unpublished-development-types/index.d.ts` are temporary.** They exist only
-  because `ember-power-select`/`ember-basic-dropdown` 8 ship loose-mode
-  templates that resolve helpers/components by string name. Delete all three
-  when upgrading to v9.
+- **ember-power-select / ember-basic-dropdown 9** are strict-mode, so the
+  test app needs no manual helper/component registration for them. The only
+  dropdown setup in `tests/test-helper.ts` is
+  `setConfig({ rootElement: '#ember-testing' })` from
+  `ember-basic-dropdown/config`, which makes dropdown content render inside
+  the test container. `Select`'s multiple mode is
+  `<PowerSelect @multiple={{true}}>` (v9 removed `PowerSelectMultiple`); its
+  internal option/trigger components use power-select's "any option"
+  signatures and read their `@extra` through a typed getter.
 - **Published SCSS is copied, not kept.** `addon.keepAssets()` (addon-dev 8)
   only keeps assets that JS imports, so `src/styles/**/*.scss` is copied into
   `dist/` with `rollup-plugin-copy` at `writeBundle` (after `addon.clean()`,

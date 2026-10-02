@@ -104,13 +104,6 @@ function snapshotWriter() {
 }
 
 export default defineConfig({
-  resolve: {
-    alias: {
-      // TEMPORARY until ember-basic-dropdown@9: v8 imports the classic (v1)
-      // @embroider/util addon, which has no package entry Vite can resolve.
-      '@embroider/util': '@embroider/util/addon/index.js',
-    },
-  },
   plugins: [
     ...(isCompat ? [classicEmberSupport()] : []),
     ember(),

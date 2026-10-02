@@ -6,7 +6,6 @@ import PowerSelect, {
   type PowerSelectArgs,
 } from 'ember-power-select/components/power-select';
 import type { ContentValue } from '@glint/template';
-import PowerSelectMultiple from 'ember-power-select/components/power-select-multiple';
 import { modifier } from 'ember-modifier';
 import defaultTo from '../helpers/default-to.ts';
 import Checkbox from '../components/checkbox.gts';
@@ -14,8 +13,14 @@ import isSelected from 'ember-power-select/helpers/ember-power-select-is-equal';
 import { on } from '@ember/modifier';
 import { fn, hash } from '@ember/helper';
 import { and, eq, not } from 'ember-truth-helpers';
-import TriggerComponent from 'ember-power-select/components/power-select-multiple/trigger';
-import OptionsComponent from 'ember-power-select/components/power-select/options';
+import TriggerComponent from 'ember-power-select/components/power-select/trigger';
+import OptionsComponent, {
+  type PowerSelectOptionsSignature,
+} from 'ember-power-select/components/power-select/options';
+import type {
+  Option,
+  PowerSelectSelectedItemSignature,
+} from 'ember-power-select/types';
 import { guidFor } from '@ember/object/internals';
 import { Close } from '../icons.ts';
 import type { TOC } from '@ember/component/template-only';
@@ -40,17 +45,17 @@ export type Args<T extends ContentValue> = {
       selected?: T[];
       multiple: true;
       onSelect?: (item: T[]) => void;
-      onOpen?: PowerSelectArgs['onOpen'];
-      search?: PowerSelectArgs['search'];
-      selectFocused?: PowerSelectArgs['onFocus'];
+      onOpen?: PowerSelectArgs<T, true>['onOpen'];
+      search?: PowerSelectArgs<T, true>['search'];
+      selectFocused?: PowerSelectArgs<T, true>['onFocus'];
     }
   | {
       selected?: T;
       multiple?: false;
       onSelect?: (item: T) => void;
-      onOpen?: PowerSelectArgs['onOpen'];
-      search?: PowerSelectArgs['search'];
-      selectFocused?: PowerSelectArgs['onFocus'];
+      onOpen?: PowerSelectArgs<T>['onOpen'];
+      search?: PowerSelectArgs<T>['search'];
+      selectFocused?: PowerSelectArgs<T>['onFocus'];
     }
 );
 
@@ -58,13 +63,24 @@ export interface SelectComponentSignature<T extends ContentValue> {
   Args: Args<T>;
   Element: HTMLElement;
   Blocks: {
-    default: [option: T];
+    default: [option: Option<T>];
   };
 }
 
-type ExtractInterface<C> = C extends Component<infer T> ? T : unknown;
-type ArrayElement<A> = A extends readonly (infer T)[] ? T : never;
-type OptionsComponentInterface = ExtractInterface<OptionsComponent>;
+/** What `Select` passes to its custom power-select components via `@extra`. */
+interface SelectExtra {
+  title?: string;
+  helperText?: string;
+  inline?: boolean;
+  isSingleSelect?: boolean;
+  showNumber?: boolean;
+  searchPlaceholder?: string;
+}
+
+// The internal components below serve both the single and multiple modes,
+// and every option type.
+type AnySelectMode = any;
+type AnyOption = any;
 
 const addClassToParent = (el: HTMLElement, cls: string, ifTrue: boolean) => {
   if (ifTrue !== false) {
@@ -93,47 +109,38 @@ const toggleHighlightedClass = modifier(
   },
 );
 
-const Options: TOC<OptionsComponentInterface & { Args: { guid: string } }> =
-  <template>
-    <OptionsComponent
-      @options={{@options}}
-      @select={{@select}}
-      @groupIndex="{{@groupIndex}}"
-      @listboxId="{{@listboxId}}"
-      @loadingMessage="{{@loadingMessage}}"
-      @optionsComponent={{@optionsComponent}}
-      @groupComponent={{@groupComponent}}
-      @extra={{@extra}}
-      role="listbox"
-      aria-labelledby="downshift-:{{@guid}}:-label"
-      ...attributes
-      class="cds--list-box--expanded cds--list-box__menu"
-      as |option|
-    >
-      {{yield option @select}}
-    </OptionsComponent>
-  </template>;
+const Options: TOC<
+  PowerSelectOptionsSignature<AnyOption, unknown, AnySelectMode> & {
+    Args: { guid?: string };
+  }
+> = <template>
+  <OptionsComponent
+    @options={{@options}}
+    @select={{@select}}
+    @groupIndex="{{@groupIndex}}"
+    @listboxId="{{@listboxId}}"
+    @loadingMessage="{{@loadingMessage}}"
+    @optionsComponent={{@optionsComponent}}
+    @groupComponent={{@groupComponent}}
+    @extra={{@extra}}
+    role="listbox"
+    aria-labelledby="downshift-:{{@guid}}:-label"
+    ...attributes
+    class="cds--list-box--expanded cds--list-box__menu"
+    as |option|
+  >
+    {{yield option @select}}
+  </OptionsComponent>
+</template>;
 
-const SelectedItem: TOC<{
-  Args: {
-    select: OptionsComponentInterface['Args']['select'];
-    option: ArrayElement<OptionsComponentInterface['Args']['options']>;
-  };
-  Blocks: {
-    default: [string];
-  };
-}> = <template>
+const SelectedItem: TOC<
+  PowerSelectSelectedItemSignature<AnyOption, unknown, AnySelectMode>
+> = <template>
   <div class="cds--tag cds--tag--filter cds--tag--high-contrast">
-    <span class="cds--tag__label" title="1">
-      {{#if (has-block)}}
-        {{yield @option}}
-      {{else}}
-        {{@option}}
-      {{/if}}
-    </span>
+    <span class="cds--tag__label" title="1">{{@selected}}</span>
     {{! template-lint-disable require-presentational-children }}
     <div
-      {{on "click" (fn @select.actions.select @option)}}
+      {{on "click" (fn @select.actions.select @selected)}}
       role="button"
       tabindex="-1"
       class="cds--tag__close-icon"
@@ -188,8 +195,17 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     return this.args.options.indexOf(opt);
   }
 
+  get selectedOption() {
+    return this.args.selected as Option<T> | undefined;
+  }
+
+  get selectedOptions() {
+    return this.args.selected as Option<T>[] | undefined;
+  }
+
   @action
-  onChange(choice: T | T[]) {
+  onChange(selection: Option<T> | Option<T>[] | undefined) {
+    const choice = selection as T | T[] | undefined;
     if (choice && this.args.multiple === true && Array.isArray(choice)) {
       choice.forEach((item) => {
         if (
@@ -252,7 +268,15 @@ export default class SelectComponent<T extends ContentValue> extends Component<
 
   selectedItemComponent = SelectedItem;
 
-  private triggerComponent = class CarbonTriggerComponent extends TriggerComponent {
+  private triggerComponent = class CarbonTriggerComponent extends TriggerComponent<
+    AnyOption,
+    unknown,
+    AnySelectMode
+  > {
+    get extra(): SelectExtra {
+      return this.args.extra ?? {};
+    }
+
     get guid() {
       return guidFor(this);
     }
@@ -277,12 +301,12 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     });
 
     <template>
-      {{#if @extra.title}}
+      {{#if this.extra.title}}
         <label
           class="cds--label {{if @select.disabled 'cds--label--disabled'}}"
           id="downshift-:{{this.guid}}:-label"
           for="downshift-:{{this.guid}}:-toggle-button"
-        >{{@extra.title}}</label>
+        >{{this.extra.title}}</label>
       {{/if}}
       {{! template-lint-disable no-pointer-down-event-binding }}
       {{! template-lint-disable no-unsupported-role-attributes }}
@@ -295,17 +319,19 @@ export default class SelectComponent<T extends ContentValue> extends Component<
             @select.isOpen
             'cds--multi-select--open cds--multi-select--filterable--input-focused cds--list-box--expanded'
           }}"
-        style={{if @extra.inline "background: transparent; border: none;"}}
+        style={{if this.extra.inline "background: transparent; border: none;"}}
         aria-activedescendant={{if (and @select.isOpen) @ariaActiveDescendant}}
         {{this.openChange @select.isOpen}}
         {{on "touchstart" this.chooseOption}}
         {{on "mousedown" this.chooseOption}}
+        {{! @glint-expect-error: power-select types its trigger as a <ul>; this one renders a <div> }}
         ...attributes
       >
         <div class="cds--list-box__field--wrapper">
           {{#if
             (and
-              @extra.isSingleSelect (not (and @select.isOpen @searchEnabled))
+              this.extra.isSingleSelect
+              (not (and @select.isOpen @searchEnabled))
             )
           }}
             <div
@@ -313,7 +339,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
               style="margin-left: 15px; margin-right: 3px; width: -webkit-fill-available;"
             >{{@select.selected}}</div>
           {{/if}}
-          {{#if (and @extra.showNumber @select.selected.length)}}
+          {{#if (and this.extra.showNumber @select.selected.length)}}
             <div
               class="cds--tag cds--tag--filter cds--tag--high-contrast"
               style="margin: 0;"
@@ -358,7 +384,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
           {{#if (and @searchEnabled @select.isOpen)}}
             {{! template-lint-disable no-redundant-role }}
             <input
-              placeholder="{{@extra.searchPlaceholder}}"
+              placeholder="{{this.extra.searchPlaceholder}}"
               class="cds--text-input cds--text-input--empty"
               aria-activedescendant=""
               aria-autocomplete="list"
@@ -377,7 +403,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
 
           <button
             style={{if
-              @extra.isSingleSelect
+              this.extra.isSingleSelect
               "overflow: visible; width: 50px;"
               "overflow: visible; "
             }}
@@ -422,14 +448,16 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         <div
           id="multiselect-helper-text-id-:{{this.guid}}:"
           class="cds--form__helper-text"
-        >{{@extra.helperText}}</div>
+        >{{this.extra.helperText}}</div>
       </div>
     </template>
   };
 
   <template>
     {{#if @multiple}}
-      <PowerSelectMultiple
+      <PowerSelect
+        @multiple={{true}}
+        {{! @glint-expect-error: power-select types its element as Element; it renders an HTMLElement }}
         ...attributes
         class="cds--select cds--select-md
           {{if @inline 'cds--select--inline'}}
@@ -456,7 +484,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         @searchPlaceholder={{@searchPlaceholder}}
         @loadingMessage={{@loadingMessage}}
         @matcher={{this.searchMatcher}}
-        @selected={{@selected}}
+        @selected={{this.selectedOptions}}
         @placeholder={{@placeholder}}
         @onChange={{this.onChange}}
         @onKeydown={{this.handleKeydown}}
@@ -479,9 +507,10 @@ export default class SelectComponent<T extends ContentValue> extends Component<
             {{/if}}
           </Checkbox>
         </div>
-      </PowerSelectMultiple>
+      </PowerSelect>
     {{else}}
       <PowerSelect
+        {{! @glint-expect-error: power-select types its element as Element; it renders an HTMLElement }}
         ...attributes
         class="cds--select cds--select-md
           {{if @inline 'cds--select--inline'}}
@@ -509,7 +538,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         @onOpen={{@onOpen}}
         @searchField={{@searchField}}
         @matcher={{this.searchMatcher}}
-        @selected={{@selected}}
+        @selected={{this.selectedOption}}
         @placeholder={{@placeholder}}
         @onChange={{this.onChange}}
         as |option select|
