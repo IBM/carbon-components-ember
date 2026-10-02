@@ -101,6 +101,11 @@ export function setupSnapshot(assert: Assert) {
           );
           delete expected[i][1]['font'];
           delete value[i][1]['font'];
+          // Chrome 153 added the `rule` shorthand (CSS gap decorations) to
+          // getComputedStyle(). It only mirrors the element's color, so it
+          // carries no information and would differ between browser builds.
+          delete expected[i][1]['rule'];
+          delete value[i][1]['rule'];
           value[i][1]['transition'] = value[i][1]['transition']?.replace(
             /0s$/,
             '',
