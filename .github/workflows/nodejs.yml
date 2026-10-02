@@ -13,7 +13,7 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
 
       # Node 24 (docs-app's kolay needs RegExp.escape) + the pinned pnpm
       - name: Setup Node and pnpm
@@ -49,7 +49,7 @@ jobs:
       matrix: ${{ fromJson(needs.test.outputs.matrix) }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # Node 24 (docs-app's kolay needs RegExp.escape) + the pinned pnpm
       - name: Setup Node and pnpm
@@ -76,7 +76,7 @@ jobs:
     if: github.ref == 'refs/heads/main' || github.ref_type == 'tag'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Node 24 (docs-app's kolay needs RegExp.escape) + the pinned pnpm
       - name: Setup Node and pnpm
@@ -95,7 +95,7 @@ jobs:
           DOCS_URL=versions/$GITHUB_REF_NAME pnpm run build
           mkdir -p ./docs-app/gh-pages/versions/$GITHUB_REF_NAME
           cp -r ./docs-app/dist/* ./docs-app/gh-pages/versions/$GITHUB_REF_NAME
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: gh-pages

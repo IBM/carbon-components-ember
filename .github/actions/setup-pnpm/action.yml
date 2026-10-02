@@ -15,10 +15,12 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@v7
       with:
         node-version: ${{ inputs.node-version }}
         registry-url: ${{ inputs.registry-url }}
+        # The pnpm store is cached below, once Corepack has enabled pnpm.
+        package-manager-cache: false
 
     - name: Enable pnpm via Corepack
       shell: bash
@@ -32,7 +34,7 @@ runs:
       shell: bash
       run: echo "STORE_PATH=$(pnpm store path --silent)" >> "$GITHUB_ENV"
 
-    - uses: actions/cache@v4
+    - uses: actions/cache@v6
       with:
         path: ${{ env.STORE_PATH }}
         key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
