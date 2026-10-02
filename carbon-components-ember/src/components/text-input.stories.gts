@@ -1,12 +1,11 @@
 import { expect, fn } from 'storybook/test';
 
+import preview from '#storybook/preview.ts';
 import TextInput from './text-input.gts';
-
-import type { Meta, StoryObj } from 'ember-storybook';
 
 // No `render`: TextInput takes no blocks, so every arg is passed straight
 // through as a named argument (`@labelText`, `@placeholder`, ...).
-export default {
+const meta = preview.meta({
   title: 'Components/TextInput',
   component: TextInput,
   args: {
@@ -14,10 +13,13 @@ export default {
     placeholder: 'Placeholder text',
     onChange: fn(),
   },
-} satisfies Meta;
+});
 
-export const Default: StoryObj = {
-  play: async ({ canvas, userEvent, args }) => {
+export const Default = meta.story();
+
+Default.test(
+  'reports typed text through onChange',
+  async ({ canvas, userEvent, args }) => {
     const input = canvas.getByRole('textbox', { name: 'Label' });
     await userEvent.type(input, 'Hello');
     await expect(input).toHaveValue('Hello');
@@ -26,38 +28,38 @@ export const Default: StoryObj = {
       expect.anything(),
     );
   },
-};
+);
 
-export const WithHelperText: StoryObj = {
+export const WithHelperText = meta.story({
   args: {
     helperText: 'Optional helper text',
   },
-};
+});
 
-export const Counter: StoryObj = {
+export const Counter = meta.story({
   args: {
     defaultValue: 'Hi',
     enableCounter: true,
     maxCount: 20,
   },
-};
+});
 
-export const Invalid: StoryObj = {
+export const Invalid = meta.story({
   args: {
     invalid: true,
     invalidText: 'Error message goes here',
   },
-};
+});
 
-export const Warning: StoryObj = {
+export const Warning = meta.story({
   args: {
     warn: true,
     warnText: 'Warning message goes here',
   },
-};
+});
 
-export const Disabled: StoryObj = {
+export const Disabled = meta.story({
   args: {
     disabled: true,
   },
-};
+});

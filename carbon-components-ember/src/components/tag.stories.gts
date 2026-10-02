@@ -1,8 +1,12 @@
+import preview from '#storybook/preview.ts';
 import Tag from './tag.gts';
 
-import type { Meta, StoryObj } from 'ember-storybook';
+import type { Args as TagArgs } from './tag.gts';
 
-export default {
+// `label` isn't one of Tag's args: it's the text the story yields into the
+// tag's block. `preview.type()` replaces the inferred args rather than adding
+// to them, so spell out Tag's own args too.
+const meta = preview.type<{ args: TagArgs & { label: string } }>().meta({
   title: 'Components/Tag',
   component: Tag,
   args: {
@@ -13,30 +17,30 @@ export default {
       {{args.label}}
     </Tag>
   </template>,
-} satisfies Meta;
+});
 
-export const Default: StoryObj = {
+export const Default = meta.story({
   args: {
     type: 'gray',
   },
-};
+});
 
-export const Blue: StoryObj = {
+export const Blue = meta.story({
   args: {
     type: 'blue',
   },
-};
+});
 
-export const Small: StoryObj = {
+export const Small = meta.story({
   args: {
     type: 'purple',
     size: 'sm',
   },
-};
+});
 
-export const Disabled: StoryObj = {
+export const Disabled = meta.story({
   args: {
     type: 'teal',
     disabled: true,
   },
-};
+});

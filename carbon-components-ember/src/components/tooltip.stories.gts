@@ -1,10 +1,9 @@
 import { RenderStory } from 'ember-storybook';
 
+import preview from '#storybook/preview.ts';
 import Tooltip from './tooltip.gts';
 
-import type { Meta, StoryObj } from 'ember-storybook';
-
-export default {
+const meta = preview.meta({
   title: 'Components/Tooltip',
   component: Tooltip,
   args: {
@@ -32,19 +31,19 @@ export default {
       </button>
     </Tooltip>
   </template>,
-} satisfies Meta;
+});
 
-export const Default: StoryObj = {};
+export const Default = meta.story();
 
-export const Open: StoryObj = {
+export const Open = meta.story({
   args: {
     defaultOpen: true,
   },
-};
+});
 
-export const AlignTop: StoryObj = {
+export const AlignTop = meta.story({
   args: {
     align: 'top',
     defaultOpen: true,
   },
-};
+});

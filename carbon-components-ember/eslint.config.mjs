@@ -123,6 +123,13 @@ export default defineConfig([
     },
   },
   {
+    files: ['**/*.stories.{gjs,gts}'],
+    rules: {
+      // CSF Next's `Story.extend({ args })` isn't EmberObject.extend().
+      'ember/avoid-leaking-state-in-ember-objects': 'off',
+    },
+  },
+  {
     files: ['tests/**/*-test.{js,gjs,ts,gts}'],
     plugins: {
       qunit,

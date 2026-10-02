@@ -9,7 +9,8 @@
   "license": "MIT",
   "author": "Patrick Pircher",
   "imports": {
-    "#src/*": "./src/*"
+    "#src/*": "./src/*",
+    "#storybook/*": "./.storybook/*"
   },
   "exports": {
     ".": {
