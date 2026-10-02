@@ -192,7 +192,10 @@ type Icon = {
     icons[commonPath].push(size);
     iconNames[commonPath] = exportName.replace(size, '').replace('Glyph', '');
   }
+  // Start clean, so icons renamed or removed upstream don't leave stale files.
+  fs.rmSync('./src/components/icons', { recursive: true, force: true });
   fs.mkdirSync('./src/components/icons', { recursive: true });
+  fs.writeFileSync('./src/components/icons/.gitkeep', 'auto generated icons\n');
   for (const [icon, sizes] of Object.entries(icons)) {
     const iconSizeMap = sizes
       .map(
