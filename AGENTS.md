@@ -3320,9 +3320,13 @@ unwrap to, so `flattenComposedTree` keeps the host itself as a synthetic
 `<div>` - the counterpart of the Ember port's single `...attributes` root.
 That's what made `FileUploads` and `WorkspaceShellHeader`'s
 non-collapsible branch coverable (both previously threw "expected exactly
-one rendered root element"). `FileUploadItem` stays uncovered: the Ember
-port deliberately renders its own markup instead of `cds-file-uploader-
-item`'s, so the two diverge at the root tag.
+one rendered root element"). `FileUploadItem` is covered too, via
+`FileUploads`' `one-upload` test: it renders the same flattened DOM as
+`cds-file-uploader-item` (a `cds--file-filename` `<p>` with the preview and
+bare-text name, a `cds--file__state-container` span, an always-present
+`hidden` `cds--form-requirement` block). Deliberate remaining differences
+(no `title`/`role="alert"`, the remove button's name-suffixed `aria-label`)
+are in `known-differences.json`.
 
 **Adding more components to this path**: there's no `lib/components.mjs`-
 style registry or `generate` step to extend, just a new `test`/`module` in

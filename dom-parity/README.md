@@ -190,8 +190,7 @@ dir) for how deeply it composes `@carbon/web-components` custom elements
 (`chat-button` extends `CDSButton` directly) - those are real, in scope,
 and `flattenComposedTree` handles them structurally, but the Ember port
 frequently reuses this addon's *own* components instead of a 1:1 port of
-the nested web-component (e.g. `Toolbar` reuses `Tooltip`/`OverflowMenu`,
-`FileUploadItem` renders its own markup instead of `cds-file-uploader-item`),
+the nested web-component (e.g. `Toolbar` reuses `Tooltip`/`OverflowMenu`),
 so expect real, legitimate structural differences there that need their
 own `known-differences.json` reasoning per component - it isn't only a
 copy-paste of the `Processing`/`ReasoningSteps` pattern already in the

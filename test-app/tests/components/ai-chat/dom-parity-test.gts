@@ -315,6 +315,8 @@ module('DOM parity | Carbon AI Chat', function (hooks) {
       );
       const uploads = [{ id: '1', file, status: 'edit' as const }];
       await render(<template><FileUploads @uploads={{uploads}} /></template>);
+      // The file-type icon loads its SVG asynchronously (TrackedPromise).
+      await waitUntil(() => this.element.querySelector('.cds--file-filename svg'));
       assertAiChatDomParity(
         assert,
         'AiChatFileUploads',
@@ -367,13 +369,9 @@ module('DOM parity | Carbon AI Chat', function (hooks) {
   // coverage; pick a different variant or skip and say why).
   //
   // 1. Structurally divergent by design, from the root down:
-  //    - `FileUploadItem` (`cds-aichat-file-upload-item`): upstream wraps
-  //      `@carbon/web-components`' `cds-file-uploader-item` (a `<p>` holding
-  //      icon + name, a state-container `<span>`, an always-present hidden
-  //      error block); the Ember port renders its own `<span>`-rooted markup
-  //      instead (AGENTS.md, batch 3). The diff stops at the root tag, so a
-  //      standalone test would assert nothing - see the `AiChatFileUploads`
-  //      `one-upload` known-difference, which documents the same subtree.
+  //    - (`FileUploadItem` used to be listed here; it now renders upstream's
+  //      flattened `cds-file-uploader-item` DOM and is compared in full via
+  //      the `FileUploads` `one-upload` test above.)
   // 2. Real markup, but dominated by caller-supplied `<slot>` content with
   //    little or no markup of the component's own - the README's own
   //    "weak coverage" case:

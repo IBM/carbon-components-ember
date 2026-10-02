@@ -132,23 +132,32 @@
   vertical-align: middle;
 }
 
-.cds-aichat-file-upload-item__name {
+.cds-aichat-file-upload-item .cds--file-filename {
   overflow: hidden;
   flex: 1;
+  margin: 0;
   min-inline-size: 0;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.cds-aichat-file-upload-item__status {
+.cds-aichat-file-upload-item .cds--file__state-container {
   display: inline-flex;
   flex-shrink: 0;
   align-items: center;
   margin-inline-start: layout.$spacing-03;
 }
 
-.cds-aichat-file-upload-item__error {
+.cds-aichat-file-upload-item--read-only .cds--file__state-container {
+  display: none;
+}
+
+.cds-aichat-file-upload-item .cds--form-requirement {
   display: block;
   color: theme.$text-error;
   @include type.type-style('label-01');
+
+  &[hidden] {
+    display: none;
+  }
 }
