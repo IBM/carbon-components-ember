@@ -215,8 +215,7 @@ const meta = preview
   });
 
 export const Default = meta.story({
-  // Component bugs (axe): the row Menu's OverflowMenu trigger has no name
-  // (aria-command-name); the menu column's header is empty
+  // Component bug (axe): the menu column's header is empty
   // (empty-table-header).
   parameters: { a11y: { test: 'todo' } },
 });
@@ -265,8 +264,7 @@ export const XLWithTwoLines = meta.story({
 
 export const ExtraSmall = meta.story({
   args: { size: 'xs' },
-  // Component bugs (axe): same as `Default` (aria-command-name,
-  // empty-table-header).
+  // Component bug (axe): same as `Default` (empty-table-header).
   parameters: {
     a11y: { test: 'todo' },
     docs: {
@@ -607,7 +605,7 @@ Filtering.test(
 export const SharedState = meta.story({
   args: { description: '' },
   // Component bugs (axe): everything `Default` and `Selection` report
-  // (aria-command-name, empty-table-header, label), plus landmark-unique: every DataTable search
+  // (empty-table-header, label), plus landmark-unique: every DataTable search
   // is a `role="search"` landmark labelled by an empty label, so two tables
   // on a page have indistinguishable landmarks.
   parameters: {
@@ -714,8 +712,7 @@ SharedState.test(
 
 export const Loading = meta.story({
   args: { isLoading: true },
-  // Component bugs (axe): aria-command-name and empty-table-header, as in
-  // `Default`.
+  // Component bug (axe): empty-table-header, as in `Default`.
   parameters: {
     a11y: { test: 'todo' },
     docs: {

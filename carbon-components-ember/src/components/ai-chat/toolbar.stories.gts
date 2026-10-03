@@ -262,11 +262,6 @@ export const WithTitleText = meta.story({
 // docs-app's demo: in a 20rem container the overflowing actions collapse
 // into an "Options" overflow menu, while the `fixed` Refresh action stays.
 export const NarrowWithOverflow = meta.story({
-  parameters: {
-    // Known violation in OverflowMenu: its trigger has no accessible name
-    // (aria-command-name). Reported as a warning until fixed.
-    a11y: { test: 'todo' },
-  },
   args: {
     titleText: 'Conversation',
     titleSlot: 'none',

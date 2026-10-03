@@ -25,10 +25,6 @@ const meta = preview.meta({
   component: ChatHistoryPanelItem,
   parameters: {
     // Known violations in the components (tracked as bugs):
-    // - OverflowMenu (each item's actions menu): `aria-command-name` (its
-    //   trigger is a role="button" with only an aria-describedby tooltip),
-    //   and, once open, `aria-required-parent` (role="menuitem" without a
-    //   menu) and `list` (its options `<ul>`).
     // - ChatHistoryPanelItemInput (while renaming): `label` (the item
     //   passes it no `@labelText`, so its input has no accessible name).
     a11y: { test: 'todo' },
