@@ -63,6 +63,7 @@ const meta = preview.meta({
           @header={{args.header}}
           @body={{args.body}}
           @cancelText={{args.cancelText}}
+          @acceptText={{args.acceptText}}
           @onAccept={{accept}}
           @onCancel={{cancel}}
         />
@@ -80,7 +81,7 @@ Default.test(
     await userEvent.click(canvas.getByRole('button', { name: 'Ask' }));
     const dialog = await canvas.findByRole('dialog');
     await expect(dialog).toHaveTextContent('This action cannot be undone.');
-    await userEvent.click(canvas.getByText('Okay'));
+    await userEvent.click(canvas.getByRole('button', { name: 'Okay' }));
     await expect(args.onAccept).toHaveBeenCalledOnce();
     await expect(args.onCancel).not.toHaveBeenCalled();
     await expect(canvas.queryByRole('dialog')).toBeNull();
@@ -106,5 +107,17 @@ export const Danger = meta.story({
     label: 'Account resources',
     header: 'Are you sure you want to delete this custom domain?',
     body: 'Deleting the custom domain will remove it permanently.',
+    acceptText: 'Delete',
   },
 });
+
+Danger.test(
+  'labels the buttons with @acceptText and @cancelText',
+  async ({ canvas, userEvent, args }) => {
+    await userEvent.click(canvas.getByRole('button', { name: 'Ask' }));
+    await canvas.findByRole('dialog');
+    await expect(canvas.getByRole('button', { name: 'Cancel' })).toBeVisible();
+    await userEvent.click(canvas.getByRole('button', { name: 'Delete' }));
+    await expect(args.onAccept).toHaveBeenCalledOnce();
+  },
+);
