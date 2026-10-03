@@ -5,6 +5,7 @@ import Pagination from '#src/components/pagination.gts';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import type { TOC } from '@ember/component/template-only';
+import { trackedObject } from '@ember/reactive/collections';
 
 const noop = () => null;
 
@@ -104,6 +105,59 @@ module('Integration | Component | Pagination', (hooks) => {
     assert.verifySteps(['page-1', 'page-2', 'page-1']);
   });
 
+  test('a length that divides evenly has no extra empty page', async function (assert) {
+    await render(
+      <template>
+        <Pagination @length={{20}} @onPageChanged={{noop}} />
+      </template>,
+    );
+
+    assert.dom('[data-page-forward]').isNotDisabled();
+    await click('[data-page-forward]');
+    assert.dom('[data-displayed-item-range]').hasText('10 - 20');
+    assert
+      .dom('[data-page-forward]')
+      .isDisabled('20 items at 10 per page are 2 pages, not 3');
+  });
+
+  test('pages forward when @state is fed back from @onPageChanged', async function (assert) {
+    // DataTable's setup: the parent keeps the slice and passes it back.
+    const state = trackedObject({ slice: { page: 1, itemsPerPage: 10 } });
+    const onPageChanged = (slice: { page: number; itemsPerPage: number }) => {
+      state.slice = { page: slice.page, itemsPerPage: slice.itemsPerPage };
+    };
+
+    await render(
+      <template>
+        <Pagination
+          @length={{25}}
+          @state={{state.slice}}
+          @onPageChanged={{onPageChanged}}
+        />
+      </template>,
+    );
+
+    await click('[data-page-forward]');
+    assert.dom('[data-displayed-item-range]').hasText('10 - 20');
+    assert.strictEqual(state.slice.page, 2);
+
+    await click('[data-page-forward]');
+    assert.dom('[data-displayed-item-range]').hasText('20 - 30');
+    assert.strictEqual(state.slice.page, 3);
+  });
+
+  test('starts from the initial @state', async function (assert) {
+    const state = { page: 2, itemsPerPage: 5 };
+
+    await render(
+      <template>
+        <Pagination @length={{25}} @state={{state}} @onPageChanged={{noop}} />
+      </template>,
+    );
+
+    assert.dom('[data-displayed-item-range]').hasText('5 - 10');
+  });
+
   test('@disabled disables the navigation buttons', async function (assert) {
     await render(
       <template>
@@ -147,13 +201,13 @@ module('Integration | Component | Pagination', (hooks) => {
     );
 
     assert.dom('[data-custom-page-select]').exists();
-    assert.dom('[data-custom-page-select]').hasText('1/11');
+    assert.dom('[data-custom-page-select]').hasText('1/10');
     assert
       .dom('.cds--pagination__right .cds--select__item-count')
       .doesNotExist();
 
     await click('[data-custom-page-select]');
 
-    assert.dom('[data-custom-page-select]').hasText('3/11');
+    assert.dom('[data-custom-page-select]').hasText('3/10');
   });
 });

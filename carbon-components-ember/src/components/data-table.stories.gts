@@ -546,22 +546,23 @@ export const Pagination = meta.story({
   </template>,
 });
 
-// Paging itself isn't asserted: it's broken in a DataTable. Pagination's
-// `syncState` modifier reads `currentPage`/`itemsPerPage` (via `setState` ->
-// `lengthChanged`), so it re-runs on every page change and restores the page
-// from the table's `@state`, undoing the click. Assert the paged slice and
-// the page count instead; extend this once the component is fixed.
 Pagination.test(
-  'shows the first page of the rows',
-  async ({ canvas, canvasElement }) => {
+  'pages through the rows',
+  async ({ canvas, canvasElement, userEvent }) => {
     await rowsRendered(canvasElement);
-    const body = within(canvas.getAllByRole('rowgroup')[1]!);
-    await waitFor(() => expect(body.getAllByRole('row')).toHaveLength(10));
-    await expect(body.getByText('Load Balancer 1')).toBeVisible();
-    await expect(body.queryByText('Load Balancer 11')).toBeNull();
+    const body = () => within(canvas.getAllByRole('rowgroup')[1]!);
+    await waitFor(() => expect(body().getAllByRole('row')).toHaveLength(10));
+    await expect(body().getByText('Load Balancer 1')).toBeVisible();
+    await expect(body().queryByText('Load Balancer 11')).toBeNull();
     await expect(
       canvasElement.querySelector('[data-total-items]'),
     ).toHaveTextContent('100');
+
+    await userEvent.click(canvas.getByRole('button', { name: 'Next page' }));
+    await waitFor(() =>
+      expect(body().getByText('Load Balancer 11')).toBeVisible(),
+    );
+    await expect(body().queryByText('Load Balancer 1')).toBeNull();
   },
 );
 

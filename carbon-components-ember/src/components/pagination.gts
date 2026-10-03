@@ -7,6 +7,7 @@ import { array, concat } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { default as or } from 'ember-truth-helpers/helpers/or';
 import Component from '@glimmer/component';
+import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { defaultArgs } from '../utils/decorators.ts';
@@ -72,8 +73,8 @@ export type Args = {
 };
 
 export default class CarbonPagination extends Component<Args> {
-  @tracked currentPage = 1;
-  @tracked itemsPerPage = 10;
+  @tracked currentPage: number;
+  @tracked itemsPerPage: number;
 
   args: Args = defaultArgs(this, {
     disabled: false,
@@ -89,6 +90,14 @@ export default class CarbonPagination extends Component<Args> {
     renderPageSelect: undefined,
   });
 
+  constructor(owner: Owner, args: Args) {
+    super(owner, args);
+    // Seeded from the initial `@state`; later changes are applied by
+    // `syncState`.
+    this.currentPage = args.state?.page ?? 1;
+    this.itemsPerPage = args.state?.itemsPerPage ?? 10;
+  }
+
   get defaultArgs() {
     return this.args;
   }
@@ -100,7 +109,7 @@ export default class CarbonPagination extends Component<Args> {
   }
 
   get pages() {
-    return parseInt((this.args.length / this.itemsPerPage).toString()) + 1;
+    return Math.max(1, Math.ceil(this.args.length / Number(this.itemsPerPage)));
   }
 
   get currentSlice(): Slice {
@@ -164,15 +173,28 @@ export default class CarbonPagination extends Component<Args> {
     this.pageChanged();
   });
 
+  // Re-runs only when `@state` or `@length` change (its positional args).
+  // Applying them is scheduled rather than done inline: a function modifier
+  // tracks everything it reads while running, so reading this component's
+  // own page here would re-run it on every page change and reset the page
+  // to the (stale) `@state`.
   syncedInitialState = false;
 
-  syncState = modifier(() => {
-    const state = this.args.state;
+  syncState = modifier<{
+    Element: HTMLElement;
+    Args: { Positional: [state: State | undefined, length: number] };
+  }>((_element, [state]) => {
     if (!this.syncedInitialState) {
       this.syncedInitialState = true;
       return;
     }
-    this.setState(state);
+    runTask(this, () => {
+      if (state) {
+        this.setState(state);
+      } else {
+        this.lengthChanged();
+      }
+    });
   });
 
   styles = stylesheet`
@@ -193,7 +215,7 @@ export default class CarbonPagination extends Component<Args> {
         {{if @isLoading 'cds--skeleton'}}"
       data-pagination
       {{this.notifyInitialPage}}
-      {{this.syncState}}
+      {{this.syncState @state @length}}
     >
       {{#if @isLoading}}
         <div class="cds--skeleton__text"></div>

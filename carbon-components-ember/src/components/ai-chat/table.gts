@@ -10,7 +10,6 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
-import willDestroy from '@ember/render-modifiers/modifiers/will-destroy';
 import { default as eq } from 'ember-truth-helpers/helpers/eq';
 import { default as Search } from '../search.gts';
 import { default as Pagination } from '../pagination.gts';
@@ -113,28 +112,6 @@ export default class AiChatTable extends Component<AiChatTableSignature> {
     end: this.args.defaultPageSize ?? 5,
   };
 
-  // The shared `Pagination` component's own initial `itemsPerPage` (10)
-  // is a hardcoded field default, not derived from `@state` - its
-  // `didInsert`-triggered first `pageChanged()` call always reports that
-  // default rather than the value we seeded above. Override just that
-  // one initial report back to `@defaultPageSize`; every later call is a
-  // real, user-driven page/size change and is trusted as-is.
-  //
-  // `Pagination` is only rendered while `showPagination` is true, and that
-  // can flip back to `false` and then `true` again purely from search
-  // filtering (independent of any real page-size change), remounting a
-  // brand-new `Pagination` instance that fires its own fresh initial
-  // report. Reset the guard on unmount (not on the next mount - a child
-  // component's `didInsert` fires before a parent/sibling modifier's, so
-  // resetting on mount would run too late to catch that instance's own
-  // initial report) so each mount gets exactly one correction.
-  initialPageSizeApplied = false;
-
-  @action
-  resetPageSizeGuard() {
-    this.initialPageSizeApplied = false;
-  }
-
   get headers() {
     return this.args.headers ?? [];
   }
@@ -209,19 +186,6 @@ export default class AiChatTable extends Component<AiChatTableSignature> {
 
   @action
   changePage(slice: Slice) {
-    if (!this.initialPageSizeApplied) {
-      this.initialPageSizeApplied = true;
-      const desired = this.args.defaultPageSize ?? 5;
-      if (slice.itemsPerPage !== desired) {
-        this.currentSlice = {
-          page: 1,
-          itemsPerPage: desired,
-          start: 0,
-          end: desired,
-        };
-        return;
-      }
-    }
     if (slice.itemsPerPage !== this.currentSlice.itemsPerPage) {
       this.rowsPerPageChanged = true;
     }
@@ -362,19 +326,14 @@ export default class AiChatTable extends Component<AiChatTableSignature> {
             </tbody>
           </table>
           {{#if this.showPagination}}
-            {{! Pagination's own template has no ...attributes, so a
-              modifier attached directly to its invocation is silently
-              dropped - wrap it so willDestroy actually fires on unmount. }}
-            <div {{willDestroy this.resetPageSizeGuard}}>
-              <Pagination
-                @length={{this.filteredRows.length}}
-                @state={{this.currentSlice}}
-                @onPageChanged={{this.changePage}}
-                @itemsPerPageOptions={{this.itemsPerPageOptions}}
-                @backwardText={{@previousPageText}}
-                @forwardText={{@nextPageText}}
-              />
-            </div>
+            <Pagination
+              @length={{this.filteredRows.length}}
+              @state={{this.currentSlice}}
+              @onPageChanged={{this.changePage}}
+              @itemsPerPageOptions={{this.itemsPerPageOptions}}
+              @backwardText={{@previousPageText}}
+              @forwardText={{@nextPageText}}
+            />
           {{/if}}
         </div>
       {{/if}}
