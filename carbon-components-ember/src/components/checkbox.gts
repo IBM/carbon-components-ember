@@ -16,6 +16,8 @@ export type Args = {
   onChange?: (checked: boolean) => void;
   state?: object;
   label?: string;
+  /** Visually hide the label, keeping it as the checkbox's accessible name (as Carbon React's `hideLabel`). */
+  hideLabel?: boolean;
 };
 
 export interface CarbonCheckboxSignature {
@@ -74,7 +76,10 @@ export default class CarbonCheckbox extends Component<CarbonCheckboxSignature> {
           {{on "change" this.onCheckChange}}
         />
 
-        <span class="cds--checkbox-label-text">
+        <span
+          class="cds--checkbox-label-text
+            {{if @hideLabel 'cds--visually-hidden'}}"
+        >
           {{#if (has-block)}}
             {{yield}}
           {{else}}

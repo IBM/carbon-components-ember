@@ -122,7 +122,8 @@ const HEADERS = [
 ];
 
 // The trailing `null` reserves the overflow-menu column.
-const HEADERS_WITH_MENU = [...HEADERS, null];
+// The row-actions column gets a visually hidden heading.
+const HEADERS_WITH_MENU = [...HEADERS, { label: 'Actions', hideLabel: true }];
 
 type Column = WithBoundArgs<typeof TableColumn, 'table'>;
 
@@ -214,11 +215,7 @@ const meta = preview
     </template>,
   });
 
-export const Default = meta.story({
-  // Component bug (axe): the menu column's header is empty
-  // (empty-table-header).
-  parameters: { a11y: { test: 'todo' } },
-});
+export const Default = meta.story();
 
 Default.test(
   'links each cell to its column header',
@@ -264,9 +261,7 @@ export const XLWithTwoLines = meta.story({
 
 export const ExtraSmall = meta.story({
   args: { size: 'xs' },
-  // Component bug (axe): same as `Default` (empty-table-header).
   parameters: {
-    a11y: { test: 'todo' },
     docs: {
       description: {
         story:
@@ -304,9 +299,6 @@ export const ExtraSmall = meta.story({
 
 export const Selection = meta.story({
   args: { description: 'With selection' },
-  // Component bugs (axe): the selection checkboxes have no label (label) and
-  // the select-all header cell has no text (empty-table-header).
-  parameters: { a11y: { test: 'todo' } },
   render: (args) => <template>
     <DataTable
       @title={{args.title}}
@@ -348,9 +340,6 @@ Selection.test(
 
 export const BatchActions = meta.story({
   args: { description: 'With batch actions' },
-  // Component bugs (axe): the selection checkboxes have no label (label) and
-  // the select-all header cell has no text (empty-table-header).
-  parameters: { a11y: { test: 'todo' } },
   render: (args) => {
     const state = trackedObject<{ selected: LoadBalancer[] }>({
       selected: [],
@@ -590,12 +579,17 @@ Filtering.test(
   async ({ canvas, canvasElement, userEvent }) => {
     await rowsRendered(canvasElement);
     await expect(canvas.getAllByRole('row')).toHaveLength(ROWS.length + 1);
-    await userEvent.type(canvas.getByPlaceholderText('Search'), 'dns');
+    await userEvent.type(
+      canvas.getByRole('searchbox', { name: 'Filter table' }),
+      'dns',
+    );
     await waitFor(() => expect(canvas.getAllByRole('row')).toHaveLength(3));
     await expect(canvas.getByText('Load Balancer 2')).toBeVisible();
     await expect(canvas.getByText('Load Balancer 5')).toBeVisible();
 
-    await userEvent.clear(canvas.getByPlaceholderText('Search'));
+    await userEvent.clear(
+      canvas.getByRole('searchbox', { name: 'Filter table' }),
+    );
     await waitFor(() =>
       expect(canvas.getAllByRole('row')).toHaveLength(ROWS.length + 1),
     );
@@ -604,12 +598,7 @@ Filtering.test(
 
 export const SharedState = meta.story({
   args: { description: '' },
-  // Component bugs (axe): everything `Default` and `Selection` report
-  // (empty-table-header, label), plus landmark-unique: every DataTable search
-  // is a `role="search"` landmark labelled by an empty label, so two tables
-  // on a page have indistinguishable landmarks.
   parameters: {
-    a11y: { test: 'todo' },
     docs: {
       description: {
         story:
@@ -661,9 +650,9 @@ export const SharedState = meta.story({
         @items={{ROWS}}
         as |table|
       >
-        <table.Toolbar as |toolbar|>
+        <table.Toolbar @ariaLabel="data table copy toolbar" as |toolbar|>
           <toolbar.Content>
-            <table.SearchInput />
+            <table.SearchInput @labelText="Filter table copy" />
           </toolbar.Content>
           <toolbar.Actions>
             <Button @type="primary">Save</Button>
@@ -712,9 +701,7 @@ SharedState.test(
 
 export const Loading = meta.story({
   args: { isLoading: true },
-  // Component bug (axe): empty-table-header, as in `Default`.
   parameters: {
-    a11y: { test: 'todo' },
     docs: {
       description: {
         story:
