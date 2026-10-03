@@ -5,7 +5,8 @@ name: Docs
 on:
   workflow_dispatch:
   push:
-    branches: "**"
+    branches:
+      - "**"
     tags:
       - v*
 
