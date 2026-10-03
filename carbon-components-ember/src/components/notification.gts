@@ -53,6 +53,10 @@ export default class NotificationComponent extends Component<NotificationCompone
     );
   }
 
+  get iconTitle(): string {
+    return `${this.defaultArgs.kind} icon`;
+  }
+
   get actionableTitleId(): string {
     return `actionable-notification-${guidFor(this)}`;
   }
@@ -79,6 +83,7 @@ export default class NotificationComponent extends Component<NotificationCompone
             @svgClass='cds--toast-notification__icon'
             @fill='currentColor'
             @size={{20}}
+            @title={{this.iconTitle}}
           />
           <div class='cds--toast-notification__details'>
             <div class='cds--toast-notification__title' dir='auto'>
@@ -118,6 +123,7 @@ export default class NotificationComponent extends Component<NotificationCompone
               @svgClass='cds--inline-notification__icon'
               @fill='currentColor'
               @size={{20}}
+              @title={{this.iconTitle}}
             />
             <div class='cds--inline-notification__text-wrapper'>
               <div class='cds--inline-notification__title' dir='auto'>
@@ -156,6 +162,7 @@ export default class NotificationComponent extends Component<NotificationCompone
               @svgClass='cds--toast-notification__icon'
               @fill='currentColor'
               @size={{20}}
+              @title={{this.iconTitle}}
             />
             <div class='cds--actionable-notification__text-wrapper'>
               <div class='cds--actionable-notification__content'>

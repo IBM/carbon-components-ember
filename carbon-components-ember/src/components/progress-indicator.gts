@@ -106,6 +106,11 @@ class ProgressStep extends Component<{
     return !this.args.indicator.args.onChange || this.isCurrent;
   }
 
+  /** Always a string — empty when no `@description` is set, matching @carbon/react's unconditional `<title>{description}</title>` children. */
+  get iconTitle() {
+    return this.args.description ?? '';
+  }
+
   get message() {
     if (this.args.invalid) {
       return 'Invalid';
@@ -163,13 +168,13 @@ class ProgressStep extends Component<{
         {{on 'keydown' this.handleKeyDown}}
       >
         {{#if @invalid}}
-          <Warning @size={{16}} @svgClass='cds--progress__warning' @fill='currentColor' />
+          <Warning @size={{16}} @svgClass='cds--progress__warning' @fill='currentColor' @title={{this.iconTitle}} />
         {{else if this.isCurrent}}
-          <Incomplete @size={{16}} @svgClass='cds--progress-step-icon' @fill='currentColor' />
+          <Incomplete @size={{16}} @svgClass='cds--progress-step-icon' @fill='currentColor' @title={{this.iconTitle}} />
         {{else if this.isComplete}}
-          <CheckmarkOutline @size={{16}} @svgClass='cds--progress-step-icon' @fill='currentColor' />
+          <CheckmarkOutline @size={{16}} @svgClass='cds--progress-step-icon' @fill='currentColor' @title={{this.iconTitle}} />
         {{else}}
-          <CircleDash @size={{16}} @svgClass='cds--progress-step-icon' @fill='currentColor' />
+          <CircleDash @size={{16}} @svgClass='cds--progress-step-icon' @fill='currentColor' @title={{this.iconTitle}} />
         {{/if}}
         <div class='cds--progress-text'>
           <span class='cds--progress-label' dir='auto'>{{@label}}</span>
