@@ -91,7 +91,9 @@ export default class StructuredListRow extends Component<StructuredListRowSignat
         ...attributes
       >
         {{#if this.selection}}
-          <Cell @head={{true}} />
+          <Cell @head={{true}}>
+            <span class="cds--visually-hidden">Selection</span>
+          </Cell>
         {{/if}}
         {{yield (component Input row=this)}}
       </div>

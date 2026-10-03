@@ -14,10 +14,9 @@ export interface Signature {
 
 export default class SubMenuComponent extends Component<Signature> {
   <template>
-    <li class="cds--side-nav__menu-item" role="menu">
+    <li class="cds--side-nav__menu-item">
       <a
         href="#"
-        role="menuitem"
         aria-current="{{if @isCurrent 'page'}}"
         class="cds--side-nav__link"
         {{on "click" @transitionTo}}

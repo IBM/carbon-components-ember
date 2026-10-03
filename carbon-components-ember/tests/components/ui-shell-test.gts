@@ -159,6 +159,9 @@ module('Integration | Component | UIShell', (hooks) => {
     assert
       .dom('.cds--side-nav__menu .cds--side-nav__menu-item')
       .exists({ count: 2 });
+    // A navigation list, as in Carbon React: no menu roles.
+    assert.dom('.cds--side-nav [role="menu"]').doesNotExist();
+    assert.dom('.cds--side-nav [role="menuitem"]').doesNotExist();
 
     await click('.cds--side-nav__submenu');
     assert.dom('.cds--side-nav__submenu').hasAria('expanded', 'false');
@@ -275,6 +278,12 @@ module('Integration | Component | UIShell', (hooks) => {
     assert
       .dom('.cds--side-nav__header-navigation.cds--side-nav__header-divider')
       .exists();
+    assert
+      .dom('.cds--side-nav__items > li > .cds--side-nav__header')
+      .exists('the header sits in a list item');
+    assert
+      .dom('.cds--side-nav__items > li > .cds--side-nav__details')
+      .exists('the details sit in a list item');
   });
 
   test('HeaderContainer yields expansion state and a toggle action', async function (assert) {

@@ -100,6 +100,20 @@
       "path": "div > div[0] > div[0] > div[1].attributes.role",
       "variant": "open-with-steps",
       "reason": "Same harness limitation as the div[0].role entry above, for the second (interactive) step - only reachable in the open-with-steps variant, which renders two steps."
+    },
+    {
+      "path": "div > div[0].attributes.inert",
+      "variant": "closed-with-steps",
+      "reason": "Deliberate a11y divergence: upstream's `ReasoningSteps` sets `inert` on each step host while closed (`propagateOpen()`), which the harness can't see (host-only attribute). The port sets `inert` on the closed wrapper instead, covering every step at once, so its aria-hidden content has nothing focusable (axe aria-hidden-focus)."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[0] > div[1].attributes.inert",
+      "reason": "Deliberate a11y divergence: a closed step's panel is aria-hidden, so the port also makes it `inert`, keeping any focusable body content out of the tab order (axe aria-hidden-focus). Upstream relies on its panel being collapsed by CSS only."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[1] > div[1].attributes.inert",
+      "variant": "open-with-steps",
+      "reason": "Same as the div[0] > div[1] inert entry above, for the second step."
     }
   ],
   "RadioTile": [
@@ -802,6 +816,18 @@
       "path": "div > div[1] > div[1] > input[1].attributes.checked",
       "variant": "selection-initial-row",
       "reason": "Same harness limitation as RadioTile's `div > input[0].attributes.checked` entry: Glimmer sets a bound `checked={{...}}` as the DOM `checked` property, not a reflected attribute, so `normalizeElement` (which only reads `el.attributes`) can't see it - `structured-list-test.gts`'s `selectedInitialRow pre-selects a row` test already asserts `isChecked()` on this exact input and passes."
+    },
+    {
+      "path": "div > div[0] > div[0] > span[0] > span[0]",
+      "reason": "Deliberate a11y divergence: @carbon/react leaves the selection column's header cell empty, which axe flags as an empty column header (empty-table-header). The Ember port puts visually hidden \"Selection\" text in it."
+    },
+    {
+      "path": "div > div[1] > div[0] > input[1]",
+      "reason": "Deliberate a11y divergence (axe aria-required-children/aria-required-parent): @carbon/react puts each row's visually hidden selection <input> directly inside role=\"row\", which may only own cells. The Ember port wraps it in an out-of-flow, visually hidden role=\"cell\" <div>, so the row only owns cells and no visible column is added. The input itself, its attributes and its behaviour are unchanged (see structured-list-test.gts)."
+    },
+    {
+      "path": "div > div[1] > div[1] > input[1]",
+      "reason": "Deliberate a11y divergence (axe aria-required-children/aria-required-parent): @carbon/react puts each row's visually hidden selection <input> directly inside role=\"row\", which may only own cells. The Ember port wraps it in an out-of-flow, visually hidden role=\"cell\" <div>, so the row only owns cells and no visible column is added. The input itself, its attributes and its behaviour are unchanged (see structured-list-test.gts)."
     }
   ],
   "Tabs": [

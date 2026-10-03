@@ -111,12 +111,6 @@ const SelectionList: TOC<SelectionListSignature> = <template>
   </StructuredList>
 </template>;
 
-// Known violations in StructuredList's selection mode (component bugs, to
-// fix): the row-bound input is a direct child of `role="row"`
-// (aria-required-children), and the selection column's header cell is empty
-// (empty-table-header). Reported as warnings until the component is fixed.
-const selectionA11y = { test: 'todo' } as const;
-
 const meta = preview.meta({
   title: 'Components/StructuredList',
   component: StructuredList,
@@ -215,7 +209,6 @@ export const Selection = meta.story({
     onSelectionChange: fn(),
   },
   parameters: {
-    a11y: selectionA11y,
     controls: { include: ['ariaLabel', 'isCondensed'] },
     docs: { description: { story: selectionDescription } },
   },
@@ -261,7 +254,6 @@ export const InitialSelection = meta.story({
     },
   },
   parameters: {
-    a11y: selectionA11y,
     controls: { include: ['ariaLabel', 'isCondensed', 'selectedInitialRow'] },
   },
   render: (args) => <template>
@@ -286,7 +278,6 @@ export const WithBackgroundLayer = meta.story({
     selection: true,
   },
   parameters: {
-    a11y: selectionA11y,
     controls: { include: ['ariaLabel', 'isCondensed'] },
   },
   render: (args) => <template>
@@ -308,7 +299,6 @@ export const MultiSelection = meta.story({
     onMultiSelectionChange: fn(),
   },
   parameters: {
-    a11y: selectionA11y,
     controls: { include: ['ariaLabel', 'isCondensed'] },
     docs: {
       description: {

@@ -12,11 +12,14 @@ export interface UIShellSideNavDetailsSignature {
 
 export default class UIShellSideNavDetails extends Component<UIShellSideNavDetailsSignature> {
   <template>
-    <div class="cds--side-nav__details" ...attributes>
-      <h2 class="cds--side-nav__title" title={{@title}}>
-        {{@title}}
-      </h2>
-      {{yield}}
-    </div>
+    {{! Yielded into the side nav's list, so it sits in a list item. }}
+    <li>
+      <div class="cds--side-nav__details" ...attributes>
+        <h2 class="cds--side-nav__title" title={{@title}}>
+          {{@title}}
+        </h2>
+        {{yield}}
+      </div>
+    </li>
   </template>
 }

@@ -109,6 +109,7 @@ class ReasoningStep extends Component<ReasoningStepSignature> {
         class="cds-aichat-reasoning-step__panel
           {{unless (has-block) 'cds-aichat-reasoning-step__panel--hidden'}}"
         aria-hidden={{if this.isOpen "false" "true"}}
+        inert={{unless this.isOpen true}}
         role={{if (has-block) "region"}}
         aria-labelledby={{if (has-block) this.headerId}}
         hidden={{if (has-block) false true}}
@@ -178,6 +179,9 @@ export default class ReasoningSteps extends Component<ReasoningStepsSignature> {
         class="cds-aichat-reasoning-steps__wrapper
           {{if this.open 'cds-aichat-reasoning-steps__wrapper--open'}}"
         aria-hidden={{if this.open "false" "true"}}
+        {{! Upstream marks each step inert while closed; inert on the wrapper
+          covers them all, so nothing hidden stays focusable. }}
+        inert={{unless this.open true}}
       >
         <div class="cds-aichat-reasoning-steps__body" role="list">
           {{yield (component ReasoningStep controlled=@controlled)}}
