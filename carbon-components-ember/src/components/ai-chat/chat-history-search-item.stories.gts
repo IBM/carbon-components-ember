@@ -15,10 +15,6 @@ const meta = preview.meta({
   title: 'AI Chat/Chat history/Search item',
   component: ChatHistorySearchItem,
   parameters: {
-    // Known violations in the components (tracked as bugs):
-    // - ChatHistorySearchItem: `color-contrast` (its date subtitle is
-    //   #a2a2a2 on white, 2.55:1).
-    a11y: { test: 'todo' },
     docs: {
       description: {
         component:
@@ -37,7 +33,7 @@ const meta = preview.meta({
     };
 
     return <template>
-      <div style="max-inline-size: 20rem;">
+      <ul style="max-inline-size: 20rem;">
         <ChatHistorySearchItem
           @id="chat-1"
           @name="Trip planning"
@@ -50,7 +46,7 @@ const meta = preview.meta({
           @date="Sep 10"
           @onSelect={{handleSelect}}
         />
-      </div>
+      </ul>
       <p>selected: <output>{{state.selected}}</output></p>
     </template>;
   },
@@ -90,10 +86,10 @@ export const Disabled = meta.story({
     disabled: true,
   },
   render: (args: SearchItemArgs) => <template>
-    <div style="max-inline-size: 20rem;">
+    <ul style="max-inline-size: 20rem;">
       <ChatHistorySearchItem @disabled={{args.disabled}}>
         No available chats
       </ChatHistorySearchItem>
-    </div>
+    </ul>
   </template>,
 });

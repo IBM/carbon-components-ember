@@ -37,6 +37,28 @@ module('Integration | Component | ai-chat/ChatHistoryPanelItem', (hooks) => {
     assert.deepEqual(calls, [{ itemId: 'chat-1', itemName: 'My chat' }]);
   });
 
+  test('renders a list item', async function (assert) {
+    await render(
+      <template>
+        <ul><ChatHistoryPanelItem @name="My chat" /></ul>
+      </template>,
+    );
+
+    assert.dom('li.cds-aichat-history-panel-item').exists();
+  });
+
+  test('the rename input is named "Chat name"', async function (assert) {
+    await render(
+      <template>
+        <ul><ChatHistoryPanelItem @name="My chat" @rename={{true}} /></ul>
+      </template>,
+    );
+
+    assert
+      .dom('.cds-aichat-history-panel-item-input input')
+      .hasAttribute('aria-label', 'Chat name');
+  });
+
   test('@selected adds the current-link class', async function (assert) {
     await render(
       <template>

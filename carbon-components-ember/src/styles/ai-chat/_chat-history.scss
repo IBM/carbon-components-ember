@@ -282,7 +282,9 @@
   .cds--side-nav__link-subtitle {
     @include type.type-style("label-01");
 
-    color: var(--cds-text-placeholder, #a8a8a8);
+    // Upstream uses text-placeholder, which fails WCAG AA contrast (2.5:1
+    // on white); text-secondary is Carbon's token for secondary copy.
+    color: var(--cds-text-secondary, #525252);
     padding-block-start: layout.$spacing-01;
   }
 }

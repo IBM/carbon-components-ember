@@ -403,14 +403,6 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'AI Chat/Chat history',
   component: ChatHistory,
   parameters: {
-    // Known violations in the components (tracked as bugs):
-    // - ChatHistoryPanelMenu: `list` (its `<ul>` holds the items' `<div>`s,
-    //   not `<li>`s).
-    // - ChatHistoryPanelItems: `aria-required-children` (role="list" whose
-    //   items have no listitem role).
-    // - ChatHistorySearchItem: `color-contrast` (its date subtitle is
-    //   #a2a2a2 on white, 2.55:1).
-    a11y: { test: 'todo' },
     docs: {
       description: {
         component: `\`ChatHistory\` is the entry-point shell for the chat history feature: a
