@@ -30,13 +30,7 @@ const meta = preview
   .meta({
     title: 'Components/Select',
     component: Select,
-    // Known violations in Select itself: the combobox and its toggle button
-    // have no accessible name (aria-input-field-name, button-name), it sets a
-    // positive tabindex (tabindex), and the open multiple-select listbox
-    // nests checkboxes in options (nested-interactive, aria-allowed-attr).
-    // Reported as warnings until the component is fixed.
     parameters: {
-      a11y: { test: 'todo' },
       docs: {
         description: {
           component:
@@ -136,6 +130,11 @@ Multiple.test(
     await expect(args.onSelect).toHaveBeenLastCalledWith(['Apple']);
     await userEvent.click(await wormhole().findByText('Durian'));
     await expect(args.onSelect).toHaveBeenLastCalledWith(['Apple', 'Durian']);
+
+    // Close the list: ember-storybook doesn't tear down the previous story's
+    // render, so a list left open in the wormhole leaks into the next story.
+    await userEvent.click(trigger());
+    await waitFor(() => expect(wormhole().queryByRole('listbox')).toBeNull());
   },
 );
 

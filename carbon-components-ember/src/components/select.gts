@@ -7,7 +7,6 @@ import type { PowerSelectArgs } from 'ember-power-select/components/power-select
 import type { ContentValue } from '@glint/template';
 import { modifier } from 'ember-modifier';
 import defaultTo from '../helpers/default-to.ts';
-import Checkbox from '../components/checkbox.gts';
 import isSelected from 'ember-power-select/helpers/ember-power-select-is-equal';
 import { on } from '@ember/modifier';
 import { fn, hash } from '@ember/helper';
@@ -29,6 +28,12 @@ export type Args<T extends ContentValue> = {
   placeholder?: string;
   loadingMessage?: string;
   searchPlaceholder?: string;
+  /**
+   * id of an element that labels the select, for a visible label rendered
+   * outside it (e.g. Pagination's "Items per page:"). Otherwise `@title` is
+   * the label, and the placeholder names it as a last resort.
+   */
+  ariaLabelledBy?: string;
   helperText?: string;
   title?: string;
   disabled?: boolean;
@@ -69,6 +74,14 @@ export interface SelectComponentSignature<T extends ContentValue> {
 interface SelectExtra {
   title?: string;
   helperText?: string;
+  /** id of the visible label, which names the trigger */
+  labelId?: string;
+  /** id of whatever labels the select (`@ariaLabelledBy` or the title) */
+  labelledBy?: string;
+  /** id of the helper text, which describes the trigger */
+  helperTextId?: string;
+  /** names the select and its options when nothing labels them */
+  ariaLabel?: string;
   inline?: boolean;
   isSingleSelect?: boolean;
   showNumber?: boolean;
@@ -107,28 +120,33 @@ const toggleHighlightedClass = modifier(
   },
 );
 
+// power-select types `@extra` per invocation; Select always passes a
+// SelectExtra.
+const selectExtra = (extra: unknown) => (extra ?? {}) as SelectExtra;
+
 const Options: TOC<
-  PowerSelectOptionsSignature<AnyOption, unknown, AnySelectMode> & {
-    Args: { guid?: string };
-  }
+  PowerSelectOptionsSignature<AnyOption, unknown, AnySelectMode>
 > = <template>
-  <OptionsComponent
-    @options={{@options}}
-    @select={{@select}}
-    @groupIndex="{{@groupIndex}}"
-    @listboxId="{{@listboxId}}"
-    @loadingMessage="{{@loadingMessage}}"
-    @optionsComponent={{@optionsComponent}}
-    @groupComponent={{@groupComponent}}
-    @extra={{@extra}}
-    role="listbox"
-    aria-labelledby="downshift-:{{@guid}}:-label"
-    ...attributes
-    class="cds--list-box--expanded cds--list-box__menu"
-    as |option|
-  >
-    {{yield option @select}}
-  </OptionsComponent>
+  {{#let (selectExtra @extra) as |extra|}}
+    <OptionsComponent
+      @options={{@options}}
+      @select={{@select}}
+      @groupIndex="{{@groupIndex}}"
+      @listboxId="{{@listboxId}}"
+      @loadingMessage="{{@loadingMessage}}"
+      @optionsComponent={{@optionsComponent}}
+      @groupComponent={{@groupComponent}}
+      @extra={{@extra}}
+      role="listbox"
+      aria-labelledby={{extra.labelledBy}}
+      aria-label={{unless extra.labelledBy extra.ariaLabel}}
+      ...attributes
+      class="cds--list-box--expanded cds--list-box__menu"
+      as |option|
+    >
+      {{yield option @select}}
+    </OptionsComponent>
+  {{/let}}
 </template>;
 
 const SelectedItem: TOC<
@@ -262,6 +280,20 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     return guidFor(this);
   }
 
+  get labelId() {
+    return `${this.guid}-label`;
+  }
+
+  get helperTextId() {
+    return `${this.guid}-helper-text`;
+  }
+
+  get labelledBy() {
+    return (
+      this.args.ariaLabelledBy ?? (this.args.title ? this.labelId : undefined)
+    );
+  }
+
   private optionsComponent = Options;
 
   selectedItemComponent = SelectedItem;
@@ -300,16 +332,20 @@ export default class SelectComponent<T extends ContentValue> extends Component<
 
     <template>
       {{#if this.extra.title}}
+        {{! It names power-select's trigger (the real combobox) through
+          aria-labelledby; the trigger isn't a labelable element for "for". }}
         <label
           class="cds--label {{if @select.disabled 'cds--label--disabled'}}"
-          id="downshift-:{{this.guid}}:-label"
-          for="downshift-:{{this.guid}}:-toggle-button"
+          id={{this.extra.labelId}}
         >{{this.extra.title}}</label>
       {{/if}}
       {{! template-lint-disable no-pointer-down-event-binding }}
       {{! template-lint-disable no-unsupported-role-attributes }}
+      {{! power-select's own trigger handlers (removing selected items on
+        mousedown), as in its stock trigger; this sits inside power-select's
+        focusable trigger, which is the interactive element. }}
+      {{! template-lint-disable no-invalid-interactive }}
       <div
-        tabindex="1"
         class="cds--multi-select cds--combo-box cds--list-box
           {{if @select.disabled 'cds--list-box--disabled'}}
           {{if @searchEnabled 'cds--multi-select--filterable'}}
@@ -318,7 +354,6 @@ export default class SelectComponent<T extends ContentValue> extends Component<
             'cds--multi-select--open cds--multi-select--filterable--input-focused cds--list-box--expanded'
           }}"
         style={{if this.extra.inline "background: transparent; border: none;"}}
-        aria-activedescendant={{if (and @select.isOpen) @ariaActiveDescendant}}
         {{this.openChange @select.isOpen}}
         {{on "touchstart" this.chooseOption}}
         {{on "mousedown" this.chooseOption}}
@@ -384,13 +419,16 @@ export default class SelectComponent<T extends ContentValue> extends Component<
             <input
               placeholder="{{this.extra.searchPlaceholder}}"
               class="cds--text-input cds--text-input--empty"
-              aria-activedescendant=""
+              aria-activedescendant={{@ariaActiveDescendant}}
               aria-autocomplete="list"
               aria-expanded="true"
               autocomplete="off"
               id="carbon-multiselect-{{this.guid}}-input"
               role="combobox"
-              aria-describedby="filterablemultiselect-helper-text-id-:re8:"
+              aria-describedby={{if
+                this.extra.helperText
+                this.extra.helperTextId
+              }}
               aria-haspopup="listbox"
               value=""
               aria-controls="carbon-multiselect-{{this.guid}}__menu"
@@ -399,23 +437,16 @@ export default class SelectComponent<T extends ContentValue> extends Component<
             />
           {{/if}}
 
-          <button
+          {{! Styling only: power-select's own trigger is the focusable
+            combobox, so this must not be a second one. }}
+          <div
             style={{if
               this.extra.isSingleSelect
               "overflow: visible; width: 50px;"
               "overflow: visible; "
             }}
-            type="button"
             class="cds--list-box__field"
-            aria-describedby="multiselect-helper-text-id-:r1m:"
-            aria-activedescendant=""
-            aria-controls="downshift-:{{this.guid}}:-menu"
-            aria-expanded="false"
-            aria-haspopup="listbox"
-            aria-labelledby="downshift-:{{this.guid}}:-label"
-            id="downshift-:{{this.guid}}:-toggle-button"
-            role="combobox"
-            tabindex="0"
+            aria-hidden="true"
           >
             {{#unless @select.selected}}
               <span
@@ -441,12 +472,13 @@ export default class SelectComponent<T extends ContentValue> extends Component<
                 >Open menu</title>
               </svg>
             </div>
-          </button>
+          </div>
         </div>
-        <div
-          id="multiselect-helper-text-id-:{{this.guid}}:"
-          class="cds--form__helper-text"
-        >{{this.extra.helperText}}</div>
+        {{#if this.extra.helperText}}
+          <div id={{this.extra.helperTextId}} class="cds--form__helper-text">
+            {{this.extra.helperText}}
+          </div>
+        {{/if}}
       </div>
     </template>
   };
@@ -463,11 +495,18 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         style="outline: none"
         @extra={{hash
           helperText=@helperText
+          helperTextId=this.helperTextId
           title=@title
+          labelId=this.labelId
+          labelledBy=this.labelledBy
+          ariaLabel=@placeholder
           showNumber=@showNumber
           searchPlaceholder=@searchPlaceholder
           inline=@inline
         }}
+        @ariaLabelledBy={{this.labelledBy}}
+        @ariaLabel={{unless this.labelledBy @placeholder}}
+        @ariaDescribedBy={{if @helperText this.helperTextId}}
         @triggerComponent={{this.triggerComponent}}
         @optionsComponent={{this.optionsComponent}}
         @selectedItemComponent={{this.selectedItemComponent}}
@@ -494,16 +533,27 @@ export default class SelectComponent<T extends ContentValue> extends Component<
           {{toggleHighlightedClass (eq option select.highlighted)}}
           {{addMenuItemClass}}
         >
-          <Checkbox
-            @readonly={{true}}
-            @checked={{isSelected option select.selected}}
-          >
-            {{#if (has-block)}}
-              {{yield option}}
-            {{else}}
-              {{option}}
-            {{/if}}
-          </Checkbox>
+          {{! A drawn checkbox, as in Carbon React's MultiSelect: the option
+            itself carries the selection (aria-selected), so a real checkbox
+            here would be a control nested in a control. }}
+          <div class="cds--checkbox-wrapper">
+            <span
+              class="cds--checkbox-label"
+              data-contained-checkbox-state={{if
+                (isSelected option select.selected)
+                "true"
+                "false"
+              }}
+            >
+              <span class="cds--checkbox-label-text">
+                {{#if (has-block)}}
+                  {{yield option}}
+                {{else}}
+                  {{option}}
+                {{/if}}
+              </span>
+            </span>
+          </div>
         </div>
       </PowerSelect>
     {{else}}
@@ -516,9 +566,18 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         style="outline: none"
         @extra={{hash
           isSingleSelect=true
+          helperText=@helperText
+          helperTextId=this.helperTextId
+          title=@title
+          labelId=this.labelId
+          labelledBy=this.labelledBy
+          ariaLabel=@placeholder
           searchPlaceholder=@searchPlaceholder
           inline=@inline
         }}
+        @ariaLabelledBy={{this.labelledBy}}
+        @ariaLabel={{unless this.labelledBy @placeholder}}
+        @ariaDescribedBy={{if @helperText this.helperTextId}}
         @renderInPlace={{defaultTo @renderInPlace false}}
         {{! @glint-expect-error: null is allowed }}
         @beforeOptionsComponent={{null}}

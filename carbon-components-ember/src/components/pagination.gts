@@ -224,12 +224,12 @@ export default class CarbonPagination extends Component<Args> {
           <label
             id="select-{{this.guid}}-pagination-count-label"
             class="cds--pagination__text"
-            for="select-{{this.guid}}-pagination-count"
           >
             Items per page:
           </label>
           <div class="cds--form-item cds--select__item-count">
             <Select
+              @ariaLabelledBy="select-{{this.guid}}-pagination-count-label"
               @inline={{true}}
               @disabled={{@disabled}}
               @searchEnabled={{false}}
@@ -266,6 +266,7 @@ export default class CarbonPagination extends Component<Args> {
           {{else}}
             <div class="cds--form-item cds--select__item-count">
               <Select
+                @ariaLabelledBy="select-{{this.guid}}-pagination-page-label"
                 @inline={{true}}
                 @multiple={{false}}
                 @disabled={{@disabled}}
@@ -279,7 +280,6 @@ export default class CarbonPagination extends Component<Args> {
           <label
             id="select-{{this.guid}}-pagination-page-label"
             class="cds--pagination__text"
-            for="select-{{this.guid}}-pagination-page"
           >
             {{this.currentPage}}
             of
