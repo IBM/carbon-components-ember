@@ -7,14 +7,6 @@ import Portal from '#src/components/portal.gts';
 module('Integration | Component | Portal', (hooks) => {
   setupRenderingTest(hooks);
 
-  // Note: there is no test here for the default (no `@container`) case,
-  // which portals into `document.body`. Doing so via a real `render()` call
-  // corrupts `#qunit-fixture` on teardown and breaks every test that runs
-  // afterwards in the same suite - an interaction between `{{in-element}}`
-  // targeting `document.body` and the rendering-test harness itself, not a
-  // problem with the component. The fallback is a single `?? document.body`
-  // expression; the container test below covers the actual portal
-  // mechanism end-to-end.
   test('it renders its content into a custom container', async function (this: RenderingTestContext, assert) {
     const container = document.createElement('div');
     document.body.appendChild(container);
@@ -33,6 +25,41 @@ module('Integration | Component | Portal', (hooks) => {
     assert.notOk(
       this.element.querySelector('[data-test-portal-content]'),
       'content is not rendered in place',
+    );
+  });
+
+  test('it keeps what is already in the container', async function (assert) {
+    const container = document.createElement('div');
+    container.innerHTML = '<p data-test-existing>Existing</p>';
+    document.body.appendChild(container);
+
+    await render(
+      <template>
+        <Portal @container={{container}}>
+          <span data-test-portal-content>Hello</span>
+        </Portal>
+      </template>,
+    );
+
+    assert.dom('[data-test-existing]', container).hasText('Existing');
+    assert.dom('[data-test-portal-content]', container).hasText('Hello');
+    container.remove();
+  });
+
+  test('without @container it appends to document.body', async function (assert) {
+    await render(
+      <template>
+        <Portal>
+          <span data-test-body-portal>In body</span>
+        </Portal>
+      </template>,
+    );
+
+    const content = document.querySelector('[data-test-body-portal]');
+    assert.strictEqual(content?.parentElement, document.body);
+    assert.ok(
+      document.getElementById('qunit-fixture'),
+      'the rest of the page is left in place',
     );
   });
 });
