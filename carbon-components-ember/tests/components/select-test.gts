@@ -97,12 +97,24 @@ module('Integration | Component | Select', function (hooks) {
       await clickTrigger();
 
       assert.deepEqual(optionTexts(), OPTIONS);
+      // A drawn checkbox (as in Carbon React's MultiSelect): the option
+      // itself is what's selected, so it holds no real checkbox input.
+      assert
+        .dom('.ember-power-select-option input[type="checkbox"]')
+        .doesNotExist();
       const checkboxes = findAll(
-        '.ember-power-select-option input[type="checkbox"]',
-      ) as HTMLInputElement[];
+        '.ember-power-select-option .cds--checkbox-label',
+      );
       assert.deepEqual(
-        checkboxes.map((input) => input.checked),
-        [false, false, true],
+        checkboxes.map((box) =>
+          box.getAttribute('data-contained-checkbox-state'),
+        ),
+        ['false', 'false', 'true'],
+      );
+      const options = findAll('.ember-power-select-option');
+      assert.deepEqual(
+        options.map((option) => option.getAttribute('aria-selected')),
+        ['false', 'false', 'true'],
       );
     });
 
@@ -187,6 +199,56 @@ module('Integration | Component | Select', function (hooks) {
       );
 
       assert.deepEqual(tagLabels(), ['2']);
+    });
+  });
+
+  module('accessibility', function () {
+    test('@title labels the combobox and its options, @helperText describes it', async function (assert) {
+      await render(
+        <template>
+          <Select @options={{OPTIONS}} @title="Fruit" @helperText="Pick one" />
+        </template>,
+      );
+
+      const label = find('.cds--label')!;
+      const helper = find('.cds--form__helper-text')!;
+      assert.dom(label).hasText('Fruit');
+      assert.dom(helper).hasText('Pick one');
+      assert
+        .dom('.ember-power-select-trigger')
+        .hasAttribute('role', 'combobox')
+        .hasAttribute('aria-labelledby', label.id)
+        .hasAttribute('aria-describedby', helper.id);
+
+      await clickTrigger();
+      assert
+        .dom('.ember-power-select-options')
+        .hasAttribute('aria-labelledby', label.id);
+    });
+
+    test('without @title the placeholder names the combobox', async function (assert) {
+      await render(
+        <template>
+          <Select @options={{OPTIONS}} @placeholder="Choose a fruit" />
+        </template>,
+      );
+
+      assert
+        .dom('.ember-power-select-trigger')
+        .hasAttribute('aria-label', 'Choose a fruit')
+        .doesNotHaveAttribute('aria-labelledby');
+    });
+
+    test('the trigger is the only focusable element', async function (assert) {
+      await render(
+        <template>
+          <Select @options={{OPTIONS}} @placeholder="Choose a fruit" />
+        </template>,
+      );
+
+      assert.dom('.ember-power-select-trigger').hasAttribute('tabindex', '0');
+      assert.dom('.ember-power-select-trigger [tabindex]').doesNotExist();
+      assert.dom('.ember-power-select-trigger button').doesNotExist();
     });
   });
 });

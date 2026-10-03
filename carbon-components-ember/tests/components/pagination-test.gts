@@ -146,6 +146,23 @@ module('Integration | Component | Pagination', (hooks) => {
     assert.strictEqual(state.slice.page, 3);
   });
 
+  test('its selects are named by their visible labels', async function (assert) {
+    await render(
+      <template>
+        <Pagination @length={{25}} @onPageChanged={{noop}} />
+      </template>,
+    );
+
+    const triggers = document.querySelectorAll('.ember-power-select-trigger');
+    const names = Array.from(triggers).map((trigger) =>
+      document
+        .getElementById(trigger.getAttribute('aria-labelledby') ?? '')
+        ?.textContent?.replace(/\s+/g, ' ')
+        .trim(),
+    );
+    assert.deepEqual(names, ['Items per page:', '1 of 3 pages']);
+  });
+
   test('starts from the initial @state', async function (assert) {
     const state = { page: 2, itemsPerPage: 5 };
 

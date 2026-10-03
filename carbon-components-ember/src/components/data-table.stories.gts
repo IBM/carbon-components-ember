@@ -215,9 +215,7 @@ const meta = preview
   });
 
 export const Default = meta.story({
-  // Component bugs (axe): the yielded Pagination's item/page Selects have no
-  // accessible name and a positive tabindex (aria-input-field-name,
-  // button-name, tabindex); the row Menu's OverflowMenu trigger has no name
+  // Component bugs (axe): the row Menu's OverflowMenu trigger has no name
   // (aria-command-name); the menu column's header is empty
   // (empty-table-header).
   parameters: { a11y: { test: 'todo' } },
@@ -267,8 +265,8 @@ export const XLWithTwoLines = meta.story({
 
 export const ExtraSmall = meta.story({
   args: { size: 'xs' },
-  // Component bugs (axe): same as `Default` (aria-input-field-name,
-  // button-name, tabindex, aria-command-name, empty-table-header).
+  // Component bugs (axe): same as `Default` (aria-command-name,
+  // empty-table-header).
   parameters: {
     a11y: { test: 'todo' },
     docs: {
@@ -517,9 +515,6 @@ export const Pagination = meta.story({
     title: 'Load Balancers',
     description: 'Paginated data table with persistent toolbar',
   },
-  // Component bugs (axe): the Pagination Selects have no accessible name and
-  // a positive tabindex (aria-input-field-name, button-name, tabindex).
-  parameters: { a11y: { test: 'todo' } },
   render: (args) => <template>
     <DataTable
       @title={{args.title}}
@@ -612,8 +607,7 @@ Filtering.test(
 export const SharedState = meta.story({
   args: { description: '' },
   // Component bugs (axe): everything `Default` and `Selection` report
-  // (aria-input-field-name, button-name, tabindex, aria-command-name,
-  // empty-table-header, label), plus landmark-unique: every DataTable search
+  // (aria-command-name, empty-table-header, label), plus landmark-unique: every DataTable search
   // is a `role="search"` landmark labelled by an empty label, so two tables
   // on a page have indistinguishable landmarks.
   parameters: {
