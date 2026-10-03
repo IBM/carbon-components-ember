@@ -102,6 +102,14 @@ export type Args = {
   btnClass?: string;
   svgClass?: string;
   fill?: string;
+  /**
+   * Text for an SVG `<title>` element inside the icon, making it accessible
+   * to screen readers. Matches `@carbon/icons-react`'s `children` pattern
+   * (callers pass `<title>{description}</title>` as children). An empty string
+   * renders an empty `<title></title>`, matching React's behaviour when a
+   * description prop is present but empty.
+   */
+  title?: string;
 };
 
 export default class CarbonIcon extends Component<Args> {
@@ -225,6 +233,7 @@ export default class CarbonIcon extends Component<Args> {
             class=(array (or @svgClass this.styles.icon) this.classes)
             fill=(or @fill 'currentColor')
             size=@size
+            title=@title
           }}
         </button>
       {{else}}
@@ -233,6 +242,7 @@ export default class CarbonIcon extends Component<Args> {
           class=(array (or @svgClass this.styles.icon) this.classes)
           fill=(or @fill 'currentColor')
           size=@size
+          title=@title
         }}
       {{/if}}
     {{/if}}
