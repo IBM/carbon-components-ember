@@ -21,7 +21,6 @@ type StoryArgs = GroupSignature['Args'] & { hideLabel?: boolean };
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'Components/RadioButton',
   component: RadioButton,
-  subcomponents: { RadioButtonGroup },
   parameters: {
     docs: {
       description: {
