@@ -111,7 +111,10 @@ export default {
     // up your addon's public API. Also make sure your package.json#exports
     // is aligned to the config here.
     // See https://github.com/embroider-build/embroider/blob/main/docs/v2-faq.md#how-can-i-define-the-public-exports-of-my-addon
-    addon.publicEntrypoints(['**/*.js', 'index.js', 'template-registry.js']),
+    addon.publicEntrypoints(['**/*.js', 'index.js', 'template-registry.js'], {
+      // Storybook stories are colocated with components but never published.
+      exclude: ['**/*.stories.*'],
+    }),
 
     // These are the modules that should get reexported into the traditional
     // "app" tree. Things in here should also be in publicEntrypoints above, but
@@ -127,6 +130,7 @@ export default {
         'services/**/*.js',
       ],
       {
+        exclude: ['**/*.stories.*'],
         mapFilename: (filename) => {
           const parts = filename.split(sep);
           parts.splice(1, 0, 'carbon');

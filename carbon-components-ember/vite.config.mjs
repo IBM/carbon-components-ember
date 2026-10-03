@@ -5,8 +5,15 @@ import { transformAsync } from '@babel/core';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { basename, dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
+import { playwright } from '@vitest/browser-playwright';
 
 const require = createRequire(import.meta.url);
+const configDir = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  '.storybook',
+);
 
 // For scenario testing
 const isCompat = Boolean(process.env.ENABLE_COMPAT_BUILD);
@@ -115,10 +122,67 @@ export default defineConfig({
     snapshotWriter(),
   ],
   build: {
+    // This build only bundles the tests. Leave CSS unminified so style
+    // snapshots compare Carbon's own CSS, not a minifier's rewrite of it
+    // (Lightning CSS turns `background: none` into a 0px 0px position).
+    cssMinify: false,
     rollupOptions: {
       input: {
         tests: 'tests/index.html',
       },
     },
+  },
+  // `pnpm test:storybook` runs every story (and its `play` function) as a
+  // browser test. The QUnit suite still runs through testem (`pnpm test`).
+  test: {
+    projects: [
+      {
+        extends: true,
+        plugins: [
+          storybookTest({
+            configDir,
+            storybookScript: 'pnpm storybook --no-open',
+          }),
+        ],
+        // Same as `oxc` in .storybook/main.ts: Babel compiles TypeScript.
+        oxc: false,
+        optimizeDeps: {
+          // Scan every story up front, so dependencies aren't discovered
+          // mid-run (Vite then reloads the page and the run breaks).
+          entries: ['.storybook/preview.ts', 'src/**/*.stories.{gjs,gts}'],
+          // Same as `viteFinal` in .storybook/main.ts, which the vitest
+          // plugin only takes plugins from.
+          exclude: ['ember-storybook'],
+          // Imports Vite would otherwise only discover mid-run and then reload
+          // the tests for: ember-storybook's own, and the addons the CSF Next
+          // preview (imported by every story) registers.
+          include: [
+            'ember-source/@ember/owner/index.js',
+            'ember-source/@ember/array/index.js',
+            '@storybook/addon-a11y',
+            // Loaded lazily by @storybook/addon-a11y.
+            '@storybook/addon-a11y > axe-core',
+            // Pulled in by the Ember app ember-storybook boots.
+            'ember-page-title',
+            'ember-page-title/services/page-title',
+            '@storybook/addon-docs',
+            '@storybook/addon-themes',
+            '@storybook/addon-vitest',
+          ],
+        },
+        test: {
+          name: 'storybook',
+          browser: {
+            enabled: true,
+            // A cold run pre-bundles the whole Ember dependency graph before
+            // the browser can connect, which takes longer than the default.
+            connectTimeout: 180_000,
+            provider: playwright({}),
+            headless: true,
+            instances: [{ browser: 'chromium' }],
+          },
+        },
+      },
+    ],
   },
 });
