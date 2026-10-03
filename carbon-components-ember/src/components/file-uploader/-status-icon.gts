@@ -63,8 +63,9 @@ export default class FileUploaderStatusIcon extends Component<FileUploaderStatus
         <Close @size="16" @svgClass="cds--file-close__icon" />
       </button>
     {{else if (eq this.status "complete")}}
-      <span aria-label={{this.iconDescription}} tabindex="-1">
+      <span tabindex="-1">
         <CheckmarkFilled @size="16" @svgClass="cds--file-complete" />
+        <span class="cds--visually-hidden">{{this.iconDescription}}</span>
       </span>
     {{/if}}
   </template>

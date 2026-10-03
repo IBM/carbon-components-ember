@@ -121,12 +121,6 @@ export const Multiline = meta.story({
     type: 'multiline',
     code: multilineCode,
   },
-  // Known violation in CodeSnippet itself: its overflowing code container
-  // isn't keyboard-focusable (axe: scrollable-region-focusable). React makes
-  // it focusable (tabIndex 0, role textbox) when it overflows.
-  parameters: {
-    a11y: { test: 'todo' },
-  },
 });
 
 Multiline.test('expands with Show more', async ({ canvas, userEvent }) => {
@@ -142,13 +136,16 @@ export const Singleline = meta.story({
     type: 'default',
     code: singlelineCode,
   },
-  // Known violation in CodeSnippet itself: its overflowing code container
-  // isn't keyboard-focusable (axe: scrollable-region-focusable). React makes
-  // it focusable (tabIndex 0, role textbox) when it overflows.
-  parameters: {
-    a11y: { test: 'todo' },
-  },
 });
+
+Singleline.test(
+  'the scrolling code is a focusable read-only textbox',
+  async ({ canvas }) => {
+    const textbox = canvas.getByRole('textbox', { name: 'Code Snippet Text' });
+    await expect(textbox).toHaveAttribute('tabindex', '0');
+    await expect(textbox).toHaveAttribute('aria-readonly', 'true');
+  },
+);
 
 Singleline.test('copies the snippet', async ({ canvas, userEvent }) => {
   const button = canvas.getByRole('button', { name: 'Copy to clipboard' });

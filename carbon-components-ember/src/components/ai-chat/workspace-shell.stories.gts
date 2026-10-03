@@ -254,13 +254,6 @@ const meta = preview
   });
 
 export const Default = meta.story({
-  // Known violation in a component this story composes (reported as a
-  // warning until fixed): with `bodyContent: 'long'`, `AiChatCodeSnippet`'s
-  // read-only container puts `aria-label` on a role-less div
-  // (aria-prohibited-attr).
-  parameters: {
-    a11y: { test: 'todo' },
-  },
   render: (args) => {
     const toolbarActions = TOOLBAR_ACTION_LISTS[args.toolbarAction].map(
       (action) => ({

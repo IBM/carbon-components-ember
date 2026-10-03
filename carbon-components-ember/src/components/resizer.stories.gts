@@ -74,9 +74,6 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'Utilities/Resizer',
   component: Resizer,
   parameters: {
-    // Known violation in Resizer itself: the focusable role="separator" has
-    // no aria-valuenow (aria-required-attr).
-    a11y: { test: 'todo' },
     docs: {
       description: {
         component:
@@ -244,14 +241,14 @@ export const TwoPanelsVertical = meta.story({
       style="display: flex; width: 100%; max-width: 600px; height: 300px; overflow: hidden;"
     >
       <div
-        style="background: var(--cds-layer); padding: 1rem; overflow: auto; min-inline-size: 48px;"
+        style="background: var(--cds-layer); padding: 1rem; overflow: hidden; min-inline-size: 48px;"
         data-test-left
       >
         <h5>Left panel</h5>
       </div>
       <Resizer @orientation="vertical" />
       <div
-        style="background: var(--cds-layer); padding: 1rem; overflow: auto; min-inline-size: 48px;"
+        style="background: var(--cds-layer); padding: 1rem; overflow: hidden; min-inline-size: 48px;"
       >
         <h5>Right panel</h5>
       </div>

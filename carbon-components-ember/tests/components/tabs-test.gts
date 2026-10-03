@@ -245,6 +245,13 @@ module('Integration | Component | Tabs', (hooks) => {
     );
 
     assert.dom('.cds--tabs__nav-item--close-icon').exists({ count: 2 });
+    // The tablist may only own tabs: the close buttons are a pointer
+    // affordance, and the tab's Delete shortcut is the keyboard path.
+    assert
+      .dom('.cds--tabs__nav-item--close-icon')
+      .hasAttribute('aria-hidden', 'true')
+      .hasAttribute('title', 'Close Tab 1 tab');
+    assert.dom('[role="tab"]').hasAttribute('aria-keyshortcuts', 'Delete');
 
     const firstCloseButton = document.querySelectorAll(
       '.cds--tabs__nav-item--close-icon',

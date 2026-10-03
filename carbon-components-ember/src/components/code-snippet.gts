@@ -31,11 +31,20 @@ const captureElement = eModifier<{
   onInsert(element);
 });
 
+// As Carbon React: a multi-line snippet's `<pre>` is the focusable,
+// read-only textbox, so its scrollable content is keyboard reachable.
 const PreCode: TemplateOnlyComponent<{
   Element: HTMLElement;
+  Args: { multiline?: boolean };
   Blocks: { default: [] };
 }> = <template>
-  <pre>
+  <pre
+    role={{if @multiline "textbox"}}
+    tabindex={{if @multiline "0"}}
+    aria-label={{if @multiline "Code Snippet Text"}}
+    aria-readonly={{if @multiline "true"}}
+    aria-multiline={{if @multiline "true"}}
+  >
     {{~noop~}}
     <code ...attributes>
       {{~yield~}}
@@ -57,7 +66,16 @@ export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignat
   <template>
     {{#if (eq @type "default")}}
       <div class="cds--snippet cds--snippet--single">
-        <div class="cds--snippet-container" aria-label="Code Snippet Text">
+        {{! As Carbon React: the single-line container is a focusable,
+          read-only textbox, so its horizontally scrolling content is
+          keyboard reachable. }}
+        <div
+          class="cds--snippet-container"
+          role="textbox"
+          tabindex="0"
+          aria-label="Code Snippet Text"
+          aria-readonly="true"
+        >
           <PreCode {{captureElement onInsert=(set this "carbonElement")}}>
             {{~yield~}}
           </PreCode>
@@ -73,7 +91,6 @@ export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignat
       >
         <div
           class="cds--snippet-container"
-          aria-label="Code Snippet Text"
           style={{htmlSafe
             (concat
               "width: 100%; min-height: 48px;"
@@ -81,7 +98,10 @@ export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignat
             )
           }}
         >
-          <PreCode {{captureElement onInsert=(set this "codeElement")}}>
+          <PreCode
+            @multiline={{true}}
+            {{captureElement onInsert=(set this "codeElement")}}
+          >
             {{~yield~}}
           </PreCode>
         </div>

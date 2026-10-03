@@ -66,6 +66,11 @@ module('Integration | Component | ai-chat/Markdown', (hooks) => {
     assert.true(checkboxes[0]?.checked, 'first item is checked');
     assert.true(checkboxes[0]?.disabled, 'checkboxes are read-only');
     assert.false(checkboxes[1]?.checked, 'second item is unchecked');
+    assert.strictEqual(
+      checkboxes[0]?.labels?.[0]?.textContent?.trim(),
+      'Done',
+      'each checkbox is labelled by its item text',
+    );
   });
 
   test('it always sanitizes a <script> tag, regardless of @sanitizeHTML', async function (this: RenderingTestContext, assert) {

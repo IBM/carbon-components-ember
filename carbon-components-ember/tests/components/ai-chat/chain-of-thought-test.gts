@@ -25,6 +25,9 @@ module('Integration | Component | ai-chat/ChainOfThought', (hooks) => {
     assert
       .dom('.cds-aichat-chain-of-thought-step__header')
       .exists({ count: 1 });
+    assert
+      .dom('[role="list"] > .cds-aichat-chain-of-thought-step[role="listitem"]')
+      .exists({ count: 2 }, 'the steps are items of a list');
   });
 
   test('numbers the title from @stepNumber, and @labelText overrides it entirely', async function (assert) {

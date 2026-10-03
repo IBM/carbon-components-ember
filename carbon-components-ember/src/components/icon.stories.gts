@@ -1,4 +1,4 @@
-import { expect, fn, waitFor } from 'storybook/test';
+import { expect, fn } from 'storybook/test';
 import BookmarkSvg from '@carbon/icons/es/bookmark/32';
 
 import preview from '#storybook/preview.ts';
@@ -87,24 +87,15 @@ export const Clickable = meta.story({
   args: {
     onClick: fn(),
   },
-  // Component bug: the `@onClick` button has no accessible name (the SVG is
-  // aria-hidden and there is no label arg). axe: button-name.
-  parameters: {
-    a11y: { test: 'todo' },
-  },
   render: (args) => <template>
-    <Icons.Task @onClick={{args.onClick}} />
+    <Icons.Task @onClick={{args.onClick}} @iconDescription="Add task" />
   </template>,
 });
 
 Clickable.test(
   'calls onClick when the icon button is pressed',
-  async ({ canvasElement, userEvent, args }) => {
-    const button = await waitFor(() => {
-      const el = canvasElement.querySelector('button');
-      if (!el) throw new Error('no button yet');
-      return el;
-    });
+  async ({ canvas, userEvent, args }) => {
+    const button = await canvas.findByRole('button', { name: 'Add task' });
     await userEvent.click(button);
     await expect(args.onClick).toHaveBeenCalledOnce();
   },
