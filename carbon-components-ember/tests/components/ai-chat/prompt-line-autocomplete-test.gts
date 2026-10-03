@@ -180,6 +180,24 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
         .dom('.cds-aichat-autocomplete')
         .doesNotExist('the stale queued event does not reopen it');
     });
+
+    test('hovering moves the active option without re-rendering the list', async function (assert) {
+      await renderWithContainer();
+
+      dispatch({ type: 'mention', query: '', triggerOffset: 0 });
+      await settled();
+      const [alice, bob] = findAll('.cds-aichat-autocomplete-item');
+      assert.dom(alice).hasAttribute('aria-selected', 'true');
+
+      bob!.dispatchEvent(new MouseEvent('mouseenter'));
+      await settled();
+
+      const [aliceAfter, bobAfter] = findAll('.cds-aichat-autocomplete-item');
+      assert.strictEqual(aliceAfter, alice, 'keeps the first option node');
+      assert.strictEqual(bobAfter, bob, 'keeps the second option node');
+      assert.dom(alice).hasAttribute('aria-selected', 'false');
+      assert.dom(bob).hasAttribute('aria-selected', 'true');
+    });
   });
 
   // -----------------------------------------------------------------------

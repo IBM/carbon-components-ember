@@ -6,10 +6,11 @@
  */
 
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
+import { cached, tracked } from '@glimmer/tracking';
 import { modifier as eModifier } from 'ember-modifier';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
+import { eq } from 'ember-truth-helpers';
 import { guidFor } from '@ember/object/internals';
 import type { TemplateOnlyComponent } from '@ember/component/template-only';
 import type { ComponentLike } from '@glint/template';
@@ -122,7 +123,6 @@ interface ListEntry {
   item: SuggestionItem;
   index: number;
   optionId: string;
-  isActive: boolean;
   isDisabled: boolean;
   isFirst: boolean;
   isLast: boolean;
@@ -145,6 +145,7 @@ interface ItemRowSignature {
   Element: HTMLLIElement;
   Args: {
     entry: ListEntry;
+    isActive: boolean;
     onItemClick: (item: SuggestionItem) => void;
     onItemMouseEnter: (index: number) => void;
   };
@@ -156,10 +157,10 @@ const ItemRow: TemplateOnlyComponent<ItemRowSignature> = <template>
     id={{@entry.optionId}}
     role="option"
     tabindex="-1"
-    aria-selected={{if @entry.isActive "true" "false"}}
+    aria-selected={{if @isActive "true" "false"}}
     aria-disabled={{if @entry.isDisabled "true" "false"}}
     class="cds-aichat-autocomplete-item
-      {{if @entry.isActive 'cds-aichat-autocomplete-item--active'}}
+      {{if @isActive 'cds-aichat-autocomplete-item--active'}}
       {{if @entry.isDisabled 'cds-aichat-autocomplete-item--disabled'}}
       {{if @entry.isFirst 'cds-aichat-autocomplete-item--first'}}
       {{if @entry.isLast 'cds-aichat-autocomplete-item--last'}}"
@@ -348,6 +349,9 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
     return this.partition.groups.length > 0;
   }
 
+  // Cached and independent of `focusedIndex`, so moving the active option
+  // (hover, arrow keys) doesn't rebuild every entry and re-render the list.
+  @cached
   get listGroups(): ListGroup[] {
     const { items, groups } = this.partition;
     const showSendIcon = !this.disableDirectSend;
@@ -358,7 +362,6 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
         item,
         index,
         optionId: `${item.id}--option`,
-        isActive: index === this.focusedIndex,
         isDisabled: !!item.disabled,
         isFirst: false,
         isLast: false,
@@ -871,7 +874,7 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
             aria-label={{this.i18n.listboxLabel}}
             aria-activedescendant={{this.activeOptionId}}
           >
-            {{#each this.listGroups as |group|}}
+            {{#each this.listGroups key="key" as |group|}}
               {{#if this.hasGroups}}
                 <ul
                   role="group"
@@ -888,18 +891,20 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
                       {{group.title}}
                     </li>
                   {{/if}}
-                  {{#each group.entries as |entry|}}
+                  {{#each group.entries key="optionId" as |entry|}}
                     <ItemRow
                       @entry={{entry}}
+                      @isActive={{eq entry.index this.focusedIndex}}
                       @onItemClick={{this.handleItemClick}}
                       @onItemMouseEnter={{this.handleItemMouseEnter}}
                     />
                   {{/each}}
                 </ul>
               {{else}}
-                {{#each group.entries as |entry|}}
+                {{#each group.entries key="optionId" as |entry|}}
                   <ItemRow
                     @entry={{entry}}
+                    @isActive={{eq entry.index this.focusedIndex}}
                     @onItemClick={{this.handleItemClick}}
                     @onItemMouseEnter={{this.handleItemMouseEnter}}
                   />
