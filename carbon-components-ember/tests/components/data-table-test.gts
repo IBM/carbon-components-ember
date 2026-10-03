@@ -120,6 +120,15 @@ module('Integration | Component | DataTable', (hooks) => {
       .dom('.cds--table-toolbar')
       .hasAttribute('aria-label', 'data table toolbar');
     assert.dom('.cds--search').hasClass('cds--search--xs');
+    assert
+      .dom('[role="search"] .cds--label')
+      .hasText(
+        'Filter table',
+        'the search landmark is named, as in Carbon React',
+      );
+    assert
+      .dom('.cds--search-input')
+      .hasAttribute('placeholder', 'Filter table');
   });
 
   test('should support checkable rows and selection', async function (assert) {
@@ -146,6 +155,36 @@ module('Integration | Component | DataTable', (hooks) => {
     assert.dom('tbody .cds--table-column-checkbox input').exists({
       count: 2,
     });
+    assert
+      .dom('thead .cds--table-column-checkbox .cds--checkbox-label-text')
+      .hasText('Select all rows in the table')
+      .hasClass('cds--visually-hidden');
+    assert
+      .dom('tbody .cds--table-column-checkbox .cds--checkbox-label-text')
+      .hasText('Select row')
+      .hasClass('cds--visually-hidden');
+  });
+
+  test('a header with hideLabel keeps its name but hides it visually', async function (assert) {
+    await render(
+      <template>
+        <DataTable @title="Table title" @items={{items}} as |table|>
+          <table.Table>
+            <table.Header
+              @headers={{array
+                (hash label="Name")
+                (hash label="Actions" hideLabel=true)
+              }}
+            />
+          </table.Table>
+        </DataTable>
+      </template>,
+    );
+
+    assert
+      .dom('th:last-child .cds--table-header-label')
+      .hasText('Actions')
+      .hasClass('cds--visually-hidden');
   });
 });
 

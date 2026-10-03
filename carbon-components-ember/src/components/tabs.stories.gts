@@ -149,11 +149,6 @@ const SECONDARY_LABEL_TABS: TabDef[] = [
   { title: 'Monitoring', secondaryLabel: '(0/10)', disabled: true },
 ];
 
-// Known violation in Tabs itself: with `@dismissable`, each tab's close
-// button is rendered inside the role="tablist" element, which may only
-// contain tabs (aria-required-children).
-const DISMISSABLE_A11Y = { a11y: { test: 'todo' } } as const;
-
 // Removing a tab is up to the consumer: `@onTabCloseRequest` receives the
 // closed tab's title, and the story filters it out of its list.
 function dismissableRender(initial: TabDef[]) {
@@ -199,7 +194,6 @@ const DISMISSABLE_TABS: TabDef[] = [
 ];
 
 export const Dismissable = meta.story({
-  parameters: DISMISSABLE_A11Y,
   args: {
     onTabCloseRequest: fn(),
   },
@@ -209,9 +203,8 @@ export const Dismissable = meta.story({
 Dismissable.test(
   'closing a tab removes it',
   async ({ canvas, userEvent, args }) => {
-    await userEvent.click(
-      await canvas.findByRole('button', { name: 'Close Monitoring tab' }),
-    );
+    // The close button is a pointer affordance, hidden from the a11y tree.
+    await userEvent.click(await canvas.findByTitle('Close Monitoring tab'));
     await expect(args.onTabCloseRequest).toHaveBeenCalledWith('Monitoring');
     await waitFor(() =>
       expect(canvas.queryByRole('tab', { name: 'Monitoring' })).toBeNull(),
@@ -223,8 +216,19 @@ Dismissable.test(
   },
 );
 
+Dismissable.test(
+  'Delete closes the focused tab',
+  async ({ canvas, userEvent, args }) => {
+    const tab = await canvas.findByRole('tab', { name: 'Monitoring' });
+    await expect(tab).toHaveAttribute('aria-keyshortcuts', 'Delete');
+    tab.focus();
+    await userEvent.keyboard('{Delete}');
+    await expect(args.onTabCloseRequest).toHaveBeenCalledWith('Monitoring');
+    await userEvent.click(canvas.getByRole('button', { name: 'Reset' }));
+  },
+);
+
 export const DismissableContained = meta.story({
-  parameters: DISMISSABLE_A11Y,
   args: {
     contained: true,
     onTabCloseRequest: fn(),
@@ -233,7 +237,6 @@ export const DismissableContained = meta.story({
 });
 
 export const DismissableWithIcons = meta.story({
-  parameters: DISMISSABLE_A11Y,
   args: {
     onTabCloseRequest: fn(),
   },

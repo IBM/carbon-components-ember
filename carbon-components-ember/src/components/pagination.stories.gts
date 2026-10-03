@@ -28,12 +28,6 @@ type Slice = Parameters<PaginationArgs['onPageChanged']>[0];
 const meta = preview.type<{ args: PaginationArgs }>().meta({
   title: 'Components/Pagination',
   component: Pagination,
-  // Known violations in the page-size/page selects (built on the addon's
-  // Select, see select.stories.gts): the comboboxes have no accessible name
-  // and use a positive tabindex.
-  parameters: {
-    a11y: { test: 'todo' },
-  },
   decorators: [
     (Story, context) => <template>
       <div style="max-width: 800px; margin-top: 15px">

@@ -15,11 +15,6 @@ const meta = preview.meta({
   title: 'AI Chat/Chat history/Panel item input',
   component: ChatHistoryPanelItemInput,
   parameters: {
-    // Known violations in the shared `Tooltip` wrapping the icon-only
-    // cancel/save buttons: `aria-prohibited-attr` (aria-labelledby on its
-    // role-less trigger span) and `button-name` (`@cancelLabel`/
-    // `@saveLabel` never name the buttons).
-    a11y: { test: 'todo' },
     docs: {
       description: {
         component:

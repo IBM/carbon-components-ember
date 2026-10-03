@@ -42,7 +42,7 @@ const STYLE = htmlSafe('height: 400px; width: 600px; display: inline-block');
  * chart follows changes to its `TabularData`.
  */
 interface SinusSignature {
-  Args: { resizable?: boolean; legendClickable?: boolean };
+  Args: { title?: string; resizable?: boolean; legendClickable?: boolean };
 }
 
 class Sinus extends Component<SinusSignature> {
@@ -78,6 +78,7 @@ class Sinus extends Component<SinusSignature> {
 
   <template>
     <LineChart
+      @title={{@title}}
       @resizable={{@resizable}}
       @legendClickable={{@legendClickable}}
       style={{STYLE}}
@@ -94,11 +95,14 @@ const meta = preview.meta({
   title: 'Charts/LineChart',
   component: LineChart,
   parameters: {
-    // Bugs (axe): the wrapper exposes no chart `title` option, so
-    // @carbon/charts always renders an empty `<p role="heading">`
-    // (empty-heading); @carbon/charts' own toolbar nests focusable elements
-    // in its `role="button"` controls (nested-interactive).
-    a11y: { test: 'todo' },
+    a11y: {
+      config: {
+        // @carbon/charts' own toolbar nests focusable elements in its
+        // role="button" controls (carbon-design-system/carbon-charts#2130);
+        // the wrapper renders no interactive controls of its own.
+        rules: [{ id: 'nested-interactive', enabled: false }],
+      },
+    },
     docs: {
       description: {
         component:
@@ -107,6 +111,7 @@ const meta = preview.meta({
     },
   },
   args: {
+    title: 'Sales over time',
     resizable: true,
     legendClickable: true,
   },
@@ -116,6 +121,7 @@ const meta = preview.meta({
 
     return <template>
       <LineChart
+        @title={{args.title}}
         @resizable={{args.resizable}}
         @legendClickable={{args.legendClickable}}
         style={{STYLE}}
@@ -139,6 +145,7 @@ export const Default = meta.story();
 export const Discrete = meta.story({
   render: (args) => <template>
     <LineChart
+      @title={{args.title}}
       @resizable={{args.resizable}}
       @legendClickable={{args.legendClickable}}
       style={{STYLE}}
@@ -175,6 +182,7 @@ Discrete.test(
 export const TimeSeries = meta.story({
   render: (args) => <template>
     <LineChart
+      @title={{args.title}}
       @resizable={{args.resizable}}
       @legendClickable={{args.legendClickable}}
       style={{STYLE}}
@@ -204,6 +212,7 @@ export const ColorPairing = meta.story({
   },
   render: (args) => <template>
     <LineChart
+      @title={{args.title}}
       @resizable={{args.resizable}}
       @legendClickable={{args.legendClickable}}
       style={{STYLE}}
@@ -237,6 +246,7 @@ export const CustomColors = meta.story({
   },
   render: (args) => <template>
     <LineChart
+      @title={{args.title}}
       @resizable={{args.resizable}}
       @legendClickable={{args.legendClickable}}
       style={{STYLE}}
@@ -275,6 +285,7 @@ export const SineWave = meta.story({
   },
   render: (args) => <template>
     <Sinus
+      @title={{args.title}}
       @resizable={{args.resizable}}
       @legendClickable={{args.legendClickable}}
     />

@@ -96,16 +96,22 @@ export default class WorkspaceShellFooter extends Component<WorkspaceShellFooter
   /**
    * Resolves `action.kind` to `Button`'s own `@type`/`@tertiary`/`@ghost`
    * args, exactly like `AiChatCardFooter`'s `buttonType`/`buttonTertiary`/
-   * `buttonGhost` helpers: `@type` covers `'primary'`/`'secondary'`/
-   * `'danger'`, `undefined` (with `@tertiary`/`@ghost` instead) covers
-   * `'tertiary'`/`'ghost'`.
+   * `buttonGhost`/`buttonDanger` helpers: `@type` covers `'primary'`/
+   * `'secondary'`, `undefined` (with `@tertiary`/`@ghost` instead) covers
+   * `'tertiary'`/`'ghost'`, and `'danger'` is the `cds--btn--danger` class
+   * (`Button`'s `@type='danger'` would also ask for confirmation first).
    */
   buttonType = (kind: WorkspaceShellFooterAction['kind']) => {
     const resolved = kind ?? 'primary';
-    return resolved === 'tertiary' || resolved === 'ghost'
+    return resolved === 'tertiary' ||
+      resolved === 'ghost' ||
+      resolved === 'danger'
       ? undefined
       : resolved;
   };
+
+  buttonDanger = (kind: WorkspaceShellFooterAction['kind']) =>
+    kind === 'danger';
 
   buttonTertiary = (kind: WorkspaceShellFooterAction['kind']) =>
     (kind ?? 'primary') === 'tertiary';
@@ -127,6 +133,7 @@ export default class WorkspaceShellFooter extends Component<WorkspaceShellFooter
     >
       {{#each this.sortedActions as |footerAction|}}
         <Button
+          class={{if (this.buttonDanger footerAction.kind) "cds--btn--danger"}}
           @type={{this.buttonType footerAction.kind}}
           @tertiary={{this.buttonTertiary footerAction.kind}}
           @ghost={{this.buttonGhost footerAction.kind}}

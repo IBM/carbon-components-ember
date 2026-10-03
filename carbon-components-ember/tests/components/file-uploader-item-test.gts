@@ -31,6 +31,12 @@ module('Integration | Component | FileUploaderItem', (hooks) => {
     await waitUntil(() => find('.cds--file-complete'));
 
     assert.dom('.cds--file-complete').exists();
+    assert
+      .dom('.cds--file-complete')
+      .hasAttribute('aria-hidden', 'true', 'the svg itself is decorative');
+    assert
+      .dom('.cds--file-complete + .cds--visually-hidden')
+      .hasAnyText('the checkmark is described by visually hidden text');
     assert.dom('.cds--file-loading').doesNotExist();
     assert.dom('.cds--file-close').doesNotExist();
   });

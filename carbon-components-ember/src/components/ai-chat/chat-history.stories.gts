@@ -403,21 +403,6 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'AI Chat/Chat history',
   component: ChatHistory,
   parameters: {
-    // Known violations in the components (tracked as bugs):
-    // - Tooltip around icon-only buttons: `aria-prohibited-attr`
-    //   (aria-labelledby on its role-less trigger span) and `button-name`
-    //   (the tooltip label never names the button).
-    // - OverflowMenu (each item's actions menu): `aria-command-name` (its
-    //   trigger is a role="button" with only an aria-describedby tooltip),
-    //   and, once open, `aria-required-parent` (role="menuitem" without a
-    //   menu) and `list` (its options `<ul>`).
-    // - ChatHistoryPanelMenu: `list` (its `<ul>` holds the items' `<div>`s,
-    //   not `<li>`s).
-    // - ChatHistoryPanelItems: `aria-required-children` (role="list" whose
-    //   items have no listitem role).
-    // - ChatHistorySearchItem: `color-contrast` (its date subtitle is
-    //   #a2a2a2 on white, 2.55:1).
-    a11y: { test: 'todo' },
     docs: {
       description: {
         component: `\`ChatHistory\` is the entry-point shell for the chat history feature: a

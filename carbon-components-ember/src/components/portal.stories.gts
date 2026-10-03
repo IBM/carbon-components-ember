@@ -7,11 +7,6 @@ import Portal from './portal.gts';
 
 // Carbon React has no Portal stories (its Portal is an internal utility), so
 // these mirror the docs-app page.
-//
-// KNOWN COMPONENT BUG: portal.gts uses `{{#in-element}}` without
-// `insertBefore=null`, which *replaces* the destination's content. With the
-// default destination (`document.body`) that wipes the whole page, so there
-// is no story for the default container until that is fixed.
 
 const meta = preview.meta({
   title: 'Components/Portal',
@@ -70,5 +65,25 @@ Default.test(
     await expect(
       within(origin).queryByText(/rendered into the target above/),
     ).toBeNull();
+  },
+);
+
+// Without `@container`, the content is appended to `document.body`, after
+// everything already there.
+export const DocumentBody = meta.story({
+  render: () => <template>
+    <p>The portaled content is appended to the end of the page.</p>
+    <Portal>
+      <div data-test-body-portal>This content is rendered into document.body.</div>
+    </Portal>
+  </template>,
+});
+
+DocumentBody.test(
+  'appends its block to document.body without replacing the page',
+  async ({ canvasElement }) => {
+    const content = document.querySelector('[data-test-body-portal]');
+    await expect(content?.parentElement).toBe(document.body);
+    await expect(document.body).toContainElement(canvasElement);
   },
 );

@@ -1,4 +1,5 @@
 import Component from '@glimmer/component';
+import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { on } from '@ember/modifier';
@@ -54,7 +55,12 @@ export interface ToggletipComponentSignature {
  */
 export default class ToggletipComponent extends Component<ToggletipComponentSignature> {
   guid = guidFor(this);
-  @tracked open = this.args.defaultOpen ?? false;
+  @tracked open: boolean;
+
+  constructor(owner: Owner, args: ToggletipComponentSignature['Args']) {
+    super(owner, args);
+    this.open = args.defaultOpen ?? false;
+  }
   element?: HTMLElement;
 
   get id() {

@@ -293,6 +293,7 @@ export default class ChainOfThought extends Component<ChainOfThoughtSignature> {
     >
       <div
         id={{this.panelId}}
+        role="list"
         class="cds-aichat-chain-of-thought__content
           {{if this.open 'cds-aichat-chain-of-thought__content--open'}}"
         aria-hidden={{if this.open "false" "true"}}

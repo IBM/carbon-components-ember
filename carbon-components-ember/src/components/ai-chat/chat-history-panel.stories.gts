@@ -11,12 +11,6 @@ const meta = preview.meta({
   title: 'AI Chat/Chat history/Panel',
   component: ChatHistoryPanel,
   parameters: {
-    // Known violations in the components (tracked as bugs):
-    // - OverflowMenu (each item's actions menu): `aria-command-name` (its
-    //   trigger is a role="button" with only an aria-describedby tooltip).
-    // - ChatHistoryPanelItems: `aria-required-children` (role="list" whose
-    //   items have no listitem role).
-    a11y: { test: 'todo' },
     docs: {
       description: {
         component:

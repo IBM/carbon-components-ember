@@ -78,14 +78,31 @@ export function setupSnapshot(assert: Assert) {
     const testName = current.testName;
     const url = testUrl(moduleName, testName, name);
     const expected = __SNAPSHOTS__[`.${url}`]?.default;
+    // Chrome 153 added the `rule` shorthand (CSS gap decorations) to
+    // getComputedStyle(). It only mirrors the element's color, so drop it
+    // before saving too; otherwise updating snapshots rewrites every file.
+    if (Array.isArray(value)) {
+      for (const entry of value) {
+        if (entry?.[1] && typeof entry[1] === 'object') {
+          delete (entry[1] as Record<string, unknown>)['rule'];
+        }
+      }
+    }
     if (!expected) {
       saveSnapshot(moduleName, testName, name, value);
     }
-    if (window.location.search.includes('save-snapshots')) {
-      if (!QUnit.equiv(value, expected)) {
-        saveSnapshot(moduleName, testName, name, value);
+    // Saved as captured; compared below only after normalizing (ids,
+    // whitespace, sub-pixel sizes...), so updating snapshots only rewrites
+    // the ones whose normalized content actually changed.
+    const raw: unknown = JSON.parse(JSON.stringify(value ?? null));
+    const saveIfChanged = () => {
+      if (
+        window.location.search.includes('save-snapshots') &&
+        !QUnit.equiv(value, expected)
+      ) {
+        saveSnapshot(moduleName, testName, name, raw);
       }
-    }
+    };
     if (typeof value === 'object' && typeof expected === 'object') {
       if (Array.isArray(value) && value.length === expected.length) {
         for (let i = 0; i < value.length; i++) {
@@ -140,6 +157,9 @@ export function setupSnapshot(assert: Assert) {
               delete expected[i][1][prop];
             }
           }
+        }
+        saveIfChanged();
+        for (let i = 0; i < value.length; i++) {
           if (!QUnit.equiv(value[i], expected[i])) {
             console.log(
               'deepEqual',
@@ -152,8 +172,10 @@ export function setupSnapshot(assert: Assert) {
         }
         return;
       }
+      saveIfChanged();
       assert.deepEqual(value, expected);
     } else {
+      saveIfChanged();
       assert.equal(value, expected);
     }
   };

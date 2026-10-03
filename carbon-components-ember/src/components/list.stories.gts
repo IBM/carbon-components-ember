@@ -52,15 +52,7 @@ const meta = preview.type<{ args: ListArgs<string> }>().meta({
   </template>,
 });
 
-export const Default = meta.story({
-  parameters: {
-    // Known violations in the yielded Pagination's page-size/page Selects
-    // (component bugs, to fix): the combobox and its toggle button have no
-    // accessible name (aria-input-field-name, button-name) and it sets a
-    // positive tabindex (tabindex). Reported as warnings until fixed.
-    a11y: { test: 'todo' },
-  },
-});
+export const Default = meta.story({});
 
 Default.test(
   'filters the items through the search input',

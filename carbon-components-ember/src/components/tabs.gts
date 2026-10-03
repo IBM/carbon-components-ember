@@ -413,6 +413,7 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
                   }}"
                 tabindex="{{if tab.isFocusable '0' '-1'}}"
                 type="button"
+                aria-keyshortcuts="Delete"
                 {{on "click" (fn this.tabSelected tab)}}
                 {{on "keydown" (fn this.handleTabKeydown tab)}}
               >
@@ -441,9 +442,11 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
                 {{/if}}
               </button>
               {{! A sibling of the tab button above, not a descendant: nesting a close button inside role=tab would be invalid HTML and break roving tabindex. }}
+              {{! Hidden from assistive technology: a tablist may only own tabs, and the tab's Delete shortcut (aria-keyshortcuts) closes it; this button is the pointer affordance. }}
               <div class="cds--tabs__nav-item--close">
                 <button
-                  aria-label="Close {{tab.args.title}} tab"
+                  aria-hidden="true"
+                  title="Close {{tab.args.title}} tab"
                   aria-disabled="{{if (this.isTabDisabled tab) 'true'}}"
                   class="cds--tabs__nav-item--close-icon
                     {{if

@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import type { RenderingTestContext } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, triggerKeyEvent } from '@ember/test-helpers';
+import { render, triggerKeyEvent, waitUntil } from '@ember/test-helpers';
 import Resizer from '#src/components/resizer.gts';
 import { cell } from 'ember-resources';
 
@@ -152,6 +152,27 @@ module('Integration | Component | Resizer', (hooks) => {
 
     assert.strictEqual(calls.length, 1);
     assert.strictEqual(calls[0], resizer);
+  });
+
+  test("it reports the previous pane's share as aria-valuenow", async function (this: RenderingTestContext, assert) {
+    await render(
+      <template>
+        <div style="height: 100px;"></div>
+        <Resizer @orientation="horizontal" />
+        <div style="height: 100px;"></div>
+      </template>,
+    );
+
+    const resizer = this.element.querySelector(
+      '[role="separator"]',
+    ) as HTMLElement;
+    assert.dom(resizer).hasAttribute('aria-valuemin', '0');
+    assert.dom(resizer).hasAttribute('aria-valuemax', '100');
+    assert.dom(resizer).hasAttribute('aria-valuenow', '50');
+
+    await triggerKeyEvent(resizer, 'keydown', 'Home');
+    await waitUntil(() => resizer.getAttribute('aria-valuenow') === '0');
+    assert.dom(resizer).hasAttribute('aria-valuenow', '0');
   });
 
   test('arrow keys resize by 5px, and by 25px with Shift', async function (this: RenderingTestContext, assert) {

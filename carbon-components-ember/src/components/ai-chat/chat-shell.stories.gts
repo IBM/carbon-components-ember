@@ -324,9 +324,6 @@ const DUMMY_ACTIONS = [
 export const Input = meta.story({
   parameters: {
     controls: { disable: true },
-    // Known violation in the shared `Tooltip` around the send button:
-    // `aria-prohibited-attr` (aria-labelledby on its role-less trigger span).
-    a11y: { test: 'todo' },
   },
   args: { onSend: fn() },
   decorators: [
@@ -442,9 +439,6 @@ export const InputExpanded = Input.extend({
 
 export const WithPromptLine = meta.story({
   parameters: {
-    // Known violation in the shared `Tooltip` around the send button:
-    // `aria-prohibited-attr` (aria-labelledby on its role-less trigger span).
-    a11y: { test: 'todo' },
     docs: {
       description: {
         story:

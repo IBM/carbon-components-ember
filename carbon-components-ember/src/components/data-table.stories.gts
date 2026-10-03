@@ -122,7 +122,8 @@ const HEADERS = [
 ];
 
 // The trailing `null` reserves the overflow-menu column.
-const HEADERS_WITH_MENU = [...HEADERS, null];
+// The row-actions column gets a visually hidden heading.
+const HEADERS_WITH_MENU = [...HEADERS, { label: 'Actions', hideLabel: true }];
 
 type Column = WithBoundArgs<typeof TableColumn, 'table'>;
 
@@ -214,14 +215,7 @@ const meta = preview
     </template>,
   });
 
-export const Default = meta.story({
-  // Component bugs (axe): the yielded Pagination's item/page Selects have no
-  // accessible name and a positive tabindex (aria-input-field-name,
-  // button-name, tabindex); the row Menu's OverflowMenu trigger has no name
-  // (aria-command-name); the menu column's header is empty
-  // (empty-table-header).
-  parameters: { a11y: { test: 'todo' } },
-});
+export const Default = meta.story();
 
 Default.test(
   'links each cell to its column header',
@@ -267,10 +261,7 @@ export const XLWithTwoLines = meta.story({
 
 export const ExtraSmall = meta.story({
   args: { size: 'xs' },
-  // Component bugs (axe): same as `Default` (aria-input-field-name,
-  // button-name, tabindex, aria-command-name, empty-table-header).
   parameters: {
-    a11y: { test: 'todo' },
     docs: {
       description: {
         story:
@@ -308,9 +299,6 @@ export const ExtraSmall = meta.story({
 
 export const Selection = meta.story({
   args: { description: 'With selection' },
-  // Component bugs (axe): the selection checkboxes have no label (label) and
-  // the select-all header cell has no text (empty-table-header).
-  parameters: { a11y: { test: 'todo' } },
   render: (args) => <template>
     <DataTable
       @title={{args.title}}
@@ -352,9 +340,6 @@ Selection.test(
 
 export const BatchActions = meta.story({
   args: { description: 'With batch actions' },
-  // Component bugs (axe): the selection checkboxes have no label (label) and
-  // the select-all header cell has no text (empty-table-header).
-  parameters: { a11y: { test: 'todo' } },
   render: (args) => {
     const state = trackedObject<{ selected: LoadBalancer[] }>({
       selected: [],
@@ -517,9 +502,6 @@ export const Pagination = meta.story({
     title: 'Load Balancers',
     description: 'Paginated data table with persistent toolbar',
   },
-  // Component bugs (axe): the Pagination Selects have no accessible name and
-  // a positive tabindex (aria-input-field-name, button-name, tabindex).
-  parameters: { a11y: { test: 'todo' } },
   render: (args) => <template>
     <DataTable
       @title={{args.title}}
@@ -546,22 +528,23 @@ export const Pagination = meta.story({
   </template>,
 });
 
-// Paging itself isn't asserted: it's broken in a DataTable. Pagination's
-// `syncState` modifier reads `currentPage`/`itemsPerPage` (via `setState` ->
-// `lengthChanged`), so it re-runs on every page change and restores the page
-// from the table's `@state`, undoing the click. Assert the paged slice and
-// the page count instead; extend this once the component is fixed.
 Pagination.test(
-  'shows the first page of the rows',
-  async ({ canvas, canvasElement }) => {
+  'pages through the rows',
+  async ({ canvas, canvasElement, userEvent }) => {
     await rowsRendered(canvasElement);
-    const body = within(canvas.getAllByRole('rowgroup')[1]!);
-    await waitFor(() => expect(body.getAllByRole('row')).toHaveLength(10));
-    await expect(body.getByText('Load Balancer 1')).toBeVisible();
-    await expect(body.queryByText('Load Balancer 11')).toBeNull();
+    const body = () => within(canvas.getAllByRole('rowgroup')[1]!);
+    await waitFor(() => expect(body().getAllByRole('row')).toHaveLength(10));
+    await expect(body().getByText('Load Balancer 1')).toBeVisible();
+    await expect(body().queryByText('Load Balancer 11')).toBeNull();
     await expect(
       canvasElement.querySelector('[data-total-items]'),
     ).toHaveTextContent('100');
+
+    await userEvent.click(canvas.getByRole('button', { name: 'Next page' }));
+    await waitFor(() =>
+      expect(body().getByText('Load Balancer 11')).toBeVisible(),
+    );
+    await expect(body().queryByText('Load Balancer 1')).toBeNull();
   },
 );
 
@@ -596,12 +579,17 @@ Filtering.test(
   async ({ canvas, canvasElement, userEvent }) => {
     await rowsRendered(canvasElement);
     await expect(canvas.getAllByRole('row')).toHaveLength(ROWS.length + 1);
-    await userEvent.type(canvas.getByPlaceholderText('Search'), 'dns');
+    await userEvent.type(
+      canvas.getByRole('searchbox', { name: 'Filter table' }),
+      'dns',
+    );
     await waitFor(() => expect(canvas.getAllByRole('row')).toHaveLength(3));
     await expect(canvas.getByText('Load Balancer 2')).toBeVisible();
     await expect(canvas.getByText('Load Balancer 5')).toBeVisible();
 
-    await userEvent.clear(canvas.getByPlaceholderText('Search'));
+    await userEvent.clear(
+      canvas.getByRole('searchbox', { name: 'Filter table' }),
+    );
     await waitFor(() =>
       expect(canvas.getAllByRole('row')).toHaveLength(ROWS.length + 1),
     );
@@ -610,13 +598,7 @@ Filtering.test(
 
 export const SharedState = meta.story({
   args: { description: '' },
-  // Component bugs (axe): everything `Default` and `Selection` report
-  // (aria-input-field-name, button-name, tabindex, aria-command-name,
-  // empty-table-header, label), plus landmark-unique: every DataTable search
-  // is a `role="search"` landmark labelled by an empty label, so two tables
-  // on a page have indistinguishable landmarks.
   parameters: {
-    a11y: { test: 'todo' },
     docs: {
       description: {
         story:
@@ -668,9 +650,9 @@ export const SharedState = meta.story({
         @items={{ROWS}}
         as |table|
       >
-        <table.Toolbar as |toolbar|>
+        <table.Toolbar @ariaLabel="data table copy toolbar" as |toolbar|>
           <toolbar.Content>
-            <table.SearchInput />
+            <table.SearchInput @labelText="Filter table copy" />
           </toolbar.Content>
           <toolbar.Actions>
             <Button @type="primary">Save</Button>
@@ -719,10 +701,7 @@ SharedState.test(
 
 export const Loading = meta.story({
   args: { isLoading: true },
-  // Component bugs (axe): aria-command-name and empty-table-header, as in
-  // `Default`.
   parameters: {
-    a11y: { test: 'todo' },
     docs: {
       description: {
         story:

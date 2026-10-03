@@ -6,6 +6,7 @@
  */
 
 import Component from '@glimmer/component';
+import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
@@ -50,7 +51,12 @@ export interface TreeNodeSignature {
 }
 
 class TreeNode extends Component<TreeNodeSignature> {
-  @tracked uncontrolledExpanded = this.args.isExpanded ?? false;
+  @tracked uncontrolledExpanded: boolean;
+
+  constructor(owner: Owner, args: TreeNodeSignature['Args']) {
+    super(owner, args);
+    this.uncontrolledExpanded = args.isExpanded ?? false;
+  }
 
   get expanded() {
     // `@isExpanded` only sets the initial state unless `@onToggle` is also
@@ -184,7 +190,7 @@ class TreeNode extends Component<TreeNodeSignature> {
         {{/if}}
         <span class="cds--tree-node__label__details">
           {{#if @icon}}
-            <@icon @svgClass="cds--tree-node__icon" />
+            <@icon @size="16" @svgClass="cds--tree-node__icon" />
           {{/if}}
           <span id="{{this.nodeId}}__label" class="cds--tree-node__label__text">
             {{@label}}

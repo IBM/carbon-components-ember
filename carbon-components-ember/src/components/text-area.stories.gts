@@ -47,7 +47,6 @@ const disabledContrast = {
 const meta = preview.meta({
   title: 'Components/TextArea',
   component: TextArea,
-  subcomponents: { TextAreaSkeleton },
   parameters: {
     docs: {
       description: {

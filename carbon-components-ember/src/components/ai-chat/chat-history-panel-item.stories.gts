@@ -24,18 +24,6 @@ const meta = preview.meta({
   title: 'AI Chat/Chat history/Panel item',
   component: ChatHistoryPanelItem,
   parameters: {
-    // Known violations in the components (tracked as bugs):
-    // - OverflowMenu (each item's actions menu): `aria-command-name` (its
-    //   trigger is a role="button" with only an aria-describedby tooltip),
-    //   and, once open, `aria-required-parent` (role="menuitem" without a
-    //   menu) and `list` (its options `<ul>`).
-    // - Tooltip around the rename input's icon-only
-    //   cancel/save buttons: `aria-prohibited-attr`
-    //   (aria-labelledby on its role-less trigger span) and `button-name`
-    //   (the tooltip label never names the button).
-    // - ChatHistoryPanelItemInput (while renaming): `label` (the item
-    //   passes it no `@labelText`, so its input has no accessible name).
-    a11y: { test: 'todo' },
     docs: {
       description: {
         component:
@@ -62,7 +50,7 @@ const meta = preview.meta({
     };
 
     return <template>
-      <div style="max-inline-size: 20rem;">
+      <ul style="max-inline-size: 20rem;">
         <ChatHistoryPanelItem
           @id={{args.id}}
           @name={{args.name}}
@@ -78,7 +66,7 @@ const meta = preview.meta({
           @onRenameSave={{args.onRenameSave}}
           @onRenameCancel={{args.onRenameCancel}}
         />
-      </div>
+      </ul>
       <p>selected: <output>{{state.selected}}</output></p>
     </template>;
   },

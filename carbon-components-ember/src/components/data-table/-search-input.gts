@@ -13,6 +13,13 @@ export type Args = {
   expandable?: boolean;
   value: string;
   size?: 'xs' | 'sm' | 'md' | 'lg';
+  /**
+   * Names the search (and its `role="search"` landmark). Defaults to
+   * "Filter table", as Carbon React; give each table on a page its own.
+   */
+  labelText?: string;
+  /** Defaults to "Filter table", as Carbon React. */
+  placeholder?: string;
 };
 
 export default class TableSearchComponent extends Component<Args> {
@@ -52,6 +59,8 @@ export default class TableSearchComponent extends Component<Args> {
       @value={{@value}}
       @expandable={{@expandable}}
       @size={{@size}}
+      @labelText={{if @labelText @labelText "Filter table"}}
+      @placeholder={{if @placeholder @placeholder "Filter table"}}
       @onChange={{this.doSearch}}
       class="{{if this.isSearching this.styles.is-searching}}"
     />

@@ -88,6 +88,12 @@ export type Args = {
   onClick?: () => void | Promise<never>;
 
   /**
+   * Names the `@onClick` button for assistive technology (the icon itself is
+   * decorative). Required whenever `@onClick` is passed.
+   */
+  iconDescription?: string;
+
+  /**
    * button style
    @argument btnStyle
    @type string
@@ -218,6 +224,7 @@ export default class CarbonIcon extends Component<Args> {
           class="cds--btn cds--btn--sm cds--btn--ghost {{@btnClass}}"
           style={{if @btnStyle (htmlSafe @btnStyle)}}
           type="button"
+          aria-label={{@iconDescription}}
           {{on "click" this.onIconClick}}
         >
           {{renderSvgPart

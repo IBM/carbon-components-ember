@@ -19,11 +19,6 @@ const meta = preview.meta({
   title: 'AI Chat/Carousel',
   component: Carousel,
   parameters: {
-    // Known violations in the shared `Tooltip` wrapping the icon-only
-    // previous/next buttons: `aria-prohibited-attr` (aria-labelledby on its
-    // role-less trigger span) and `button-name` (`@previousBtnText`/
-    // `@nextBtnText` never name the buttons).
-    a11y: { test: 'todo' },
     docs: {
       description: {
         component: `\`Carousel\` is a view-stack carousel for

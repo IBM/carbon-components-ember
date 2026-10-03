@@ -9,6 +9,8 @@ import type DataTableComponent from '../data-table.gts';
 export type Header = {
   sortable?: boolean;
   label?: string;
+  /** Visually hide the label, e.g. to name an actions column without showing a heading. */
+  hideLabel?: boolean;
 };
 
 export type Args = {
@@ -73,6 +75,8 @@ export default class ListHeaderComponent extends Component<Args> {
             <Checkbox
               @checked={{@table.allChecked}}
               @onChange={{@table.toggleSelectAllItems}}
+              @label="Select all rows in the table"
+              @hideLabel={{true}}
             />
           </th>
         {{/if}}
@@ -115,7 +119,10 @@ export default class ListHeaderComponent extends Component<Args> {
                 </svg>
               </Button>
             {{else}}
-              <span class="cds--table-header-label">
+              <span
+                class="cds--table-header-label
+                  {{if h.hideLabel 'cds--visually-hidden'}}"
+              >
                 {{h.label}}
               </span>
             {{/if}}

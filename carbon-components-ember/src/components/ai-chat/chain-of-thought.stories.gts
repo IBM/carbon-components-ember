@@ -208,10 +208,6 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'AI Chat/Chain of thought',
   component: ChainOfThought,
   parameters: {
-    // Known violation in ChainOfThought: each step is a
-    // `role="listitem"` without a `role="list"` parent
-    // (`aria-required-parent`).
-    a11y: { test: 'todo' },
     docs: {
       description: {
         component: `\`ChainOfThought\` and its yielded \`ChainOfThoughtStep\` render a

@@ -37,6 +37,51 @@ module('Integration | Component | OverflowMenu', (hooks) => {
     assert.dom('.cds--overflow-menu-options__option').exists({ count: 2 });
   });
 
+  test('names the trigger and gives the options a menu role', async function (assert) {
+    await render(
+      <template>
+        <OverflowMenu @direction="bottom" as |Item|>
+          <Item>option 1</Item>
+        </OverflowMenu>
+      </template>,
+    );
+
+    assert
+      .dom('.cds--overflow-menu')
+      .hasAttribute('aria-label', 'Options', 'defaults to "Options"');
+
+    await click('.cds--overflow-menu');
+
+    assert
+      .dom('.cds--overflow-menu-options')
+      .hasAttribute('role', 'menu')
+      .hasAttribute('aria-label', 'Options');
+    assert.dom('.cds--overflow-menu-options [role="menuitem"]').exists();
+  });
+
+  test('names the trigger from @iconDescription, then @tooltip', async function (assert) {
+    const state = cell<string | undefined>('Row actions');
+    await render(
+      <template>
+        <OverflowMenu
+          @direction="bottom"
+          @tooltip="More"
+          @iconDescription={{state.current}}
+          as |Item|
+        >
+          <Item>option 1</Item>
+        </OverflowMenu>
+      </template>,
+    );
+
+    assert.dom('.cds--overflow-menu').hasAttribute('aria-label', 'Row actions');
+
+    state.current = undefined;
+    await settled();
+
+    assert.dom('.cds--overflow-menu').hasAttribute('aria-label', 'More');
+  });
+
   test('should stay open after a touch tap on the trigger (mobile)', async function (assert) {
     // Simulate a touch-capable device (real phones have this; desktop
     // headless Chrome does not), since ember-basic-dropdown branches on it

@@ -366,12 +366,6 @@ export const Overview = meta.story({
   args: {
     markdown: docsSample,
   },
-  parameters: {
-    // Known violation in Markdown itself: GFM task-list checkboxes render as
-    // bare <input type="checkbox"> without an associated label (label).
-    // Reported as warnings until the component is fixed.
-    a11y: { test: 'todo' },
-  },
 });
 
 Overview.test(
