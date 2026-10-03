@@ -1,6 +1,5 @@
 packages:
   - carbon-components-ember
-  - docs-app
   - dom-parity
 allowBuilds:
   '@carbon/ai-chat-components': true
@@ -30,15 +29,9 @@ allowBuilds:
   '@ibm/plex-sans-thai-looped': true
   '@ibm/plex-serif': true
   '@parcel/watcher': true
-  # Its postinstall only prints a donation banner.
-  core-js: false
   esbuild: true
   playwright-chromium: true
   unrs-resolver: true
-patchedDependencies:
-  '@universal-ember/docs-support@0.9.12': patches/@universal-ember__docs-support@0.9.12.patch
-  ember-repl@8.2.1: patches/ember-repl@8.2.1.patch
-  kolay@5.4.0: patches/kolay@5.4.0.patch
 overrides:
   # Every package must share one copy of @glint/template: its `Invoke` symbol
   # is unique per copy, and several addons (e.g. ember-element-helper) import
