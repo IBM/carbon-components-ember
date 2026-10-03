@@ -24,13 +24,6 @@ type StoryArgs = OverflowMenuComponentSignature['Args'] & {
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'Components/OverflowMenu',
   component: OverflowMenu,
-  // Known violations in OverflowMenu itself: the menu items have
-  // role="menuitem" but the list around them has no role="menu"
-  // (aria-required-parent), and without `@tooltip` the trigger has no
-  // accessible name (aria-command-name).
-  parameters: {
-    a11y: { test: 'todo' },
-  },
   args: {
     direction: 'bottom',
     tooltip: 'Options',
