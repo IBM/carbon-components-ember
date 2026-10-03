@@ -29,6 +29,17 @@ module('Integration | Component | ai-chat/ChatHistorySearchItem', (hooks) => {
     assert.deepEqual(calls, [{ itemId: 'chat-1', itemName: 'My chat' }]);
   });
 
+  test('renders a list item, without an empty subtitle when there is no @date', async function (assert) {
+    await render(
+      <template>
+        <ul><ChatHistorySearchItem @name="My chat" /></ul>
+      </template>,
+    );
+
+    assert.dom('li.cds-aichat-history-search-item').exists();
+    assert.dom('.cds--side-nav__link-subtitle').doesNotExist();
+  });
+
   test('@disabled prevents @onSelect from firing', async function (assert) {
     let calls = 0;
     const onSelect = () => calls++;

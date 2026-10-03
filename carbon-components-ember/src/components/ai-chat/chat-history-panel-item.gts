@@ -85,7 +85,7 @@ export type Args = {
 };
 
 export interface ChatHistoryPanelItemSignature {
-  Element: HTMLDivElement;
+  Element: HTMLLIElement;
   Args: Args;
 }
 
@@ -161,7 +161,7 @@ export default class ChatHistoryPanelItem extends Component<ChatHistoryPanelItem
   // without waiting for a matching `@rename` change, see the class doc
   // above.
   watchRename = eModifier<{
-    Element: HTMLDivElement;
+    Element: HTMLLIElement;
     Args: { Positional: [boolean | undefined] };
   }>((_element, [rename]) => {
     this.internalRename = Boolean(rename);
@@ -199,7 +199,7 @@ export default class ChatHistoryPanelItem extends Component<ChatHistoryPanelItem
   }
 
   <template>
-    <div
+    <li
       class="cds-aichat-history-panel-item
         {{if this.rename 'cds-aichat-history-panel-item--rename'}}"
       data-selected={{if @selected ""}}
@@ -254,6 +254,6 @@ export default class ChatHistoryPanelItem extends Component<ChatHistoryPanelItem
           </OverflowMenu>
         </span>
       {{/if}}
-    </div>
+    </li>
   </template>
 }

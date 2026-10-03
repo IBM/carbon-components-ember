@@ -21,7 +21,7 @@ import { Checkmark, Close, WarningFilled } from '../../icons.ts';
 export type Args = {
   value?: string;
   placeholder?: string;
-  /** Text read by a screen reader when visiting the input. */
+  /** Text read by a screen reader when visiting the input. Defaults to `'Chat name'`. */
   labelText?: string;
   /** Defaults to `'Cancel'`. */
   cancelLabel?: string;
@@ -157,7 +157,7 @@ export default class ChatHistoryPanelItemInput extends Component<ChatHistoryPane
           type="text"
           placeholder={{@placeholder}}
           value={{this.value}}
-          aria-label={{@labelText}}
+          aria-label={{or @labelText "Chat name"}}
           data-invalid={{if @invalid ""}}
           {{on "input" this.handleInput}}
           {{on "keydown" this.handleKeydown}}

@@ -20,7 +20,7 @@ export type Args = {
 };
 
 export interface ChatHistorySearchItemSignature {
-  Element: HTMLDivElement;
+  Element: HTMLLIElement;
   Args: Args;
   Blocks: {
     /** Overrides `@name` as the visible label - matches upstream's default (unnamed) slot. */
@@ -46,7 +46,7 @@ export default class ChatHistorySearchItem extends Component<ChatHistorySearchIt
   }
 
   <template>
-    <div class="cds-aichat-history-search-item" ...attributes>
+    <li class="cds-aichat-history-search-item" ...attributes>
       <button
         type="button"
         class="cds--side-nav__link"
@@ -60,8 +60,10 @@ export default class ChatHistorySearchItem extends Component<ChatHistorySearchIt
             {{@name}}
           {{/if}}
         </span>
-        <span class="cds--side-nav__link-subtitle">{{@date}}</span>
+        {{#if @date}}
+          <span class="cds--side-nav__link-subtitle">{{@date}}</span>
+        {{/if}}
       </button>
-    </div>
+    </li>
   </template>
 }

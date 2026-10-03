@@ -11,12 +11,6 @@ const meta = preview.meta({
   title: 'AI Chat/Chat history/Panel items',
   component: ChatHistoryPanelItems,
   parameters: {
-    // Known violations in the components (tracked as bugs):
-    // - ChatHistoryPanelItems: `aria-required-children` (role="list" whose
-    //   items have no listitem role).
-    // - ChatHistoryPanelMenu: `list` (its `<ul>` holds the items' `<div>`s,
-    //   not `<li>`s).
-    a11y: { test: 'todo' },
     docs: {
       description: {
         component:

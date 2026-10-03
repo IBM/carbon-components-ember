@@ -24,10 +24,6 @@ const meta = preview.meta({
   title: 'AI Chat/Chat history/Panel item',
   component: ChatHistoryPanelItem,
   parameters: {
-    // Known violations in the components (tracked as bugs):
-    // - ChatHistoryPanelItemInput (while renaming): `label` (the item
-    //   passes it no `@labelText`, so its input has no accessible name).
-    a11y: { test: 'todo' },
     docs: {
       description: {
         component:
@@ -54,7 +50,7 @@ const meta = preview.meta({
     };
 
     return <template>
-      <div style="max-inline-size: 20rem;">
+      <ul style="max-inline-size: 20rem;">
         <ChatHistoryPanelItem
           @id={{args.id}}
           @name={{args.name}}
@@ -70,7 +66,7 @@ const meta = preview.meta({
           @onRenameSave={{args.onRenameSave}}
           @onRenameCancel={{args.onRenameCancel}}
         />
-      </div>
+      </ul>
       <p>selected: <output>{{state.selected}}</output></p>
     </template>;
   },
