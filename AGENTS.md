@@ -964,6 +964,23 @@ npm `files` list.
 - Services resolve as in apps (`service:carbon.*`), and dropdowns render into
   `#ember-basic-dropdown-wormhole` (added via `previewBody`).
 
+### Gotchas found while porting docs-app
+
+- A meta-level `args` default for an arg the component *requires* widens its
+  literal to `string`, and CSF then demands that arg in every story. Assert
+  the arg's type (`kind: 'failed' as IconIndicatorKind`); `as const` narrows
+  too far for the other stories.
+- Stories that can't run in Vitest (remote embeds such as YouTube or
+  SoundCloud) opt out with `tags: ['!test']` (not `!vitest`).
+- `<RenderStory @args>` is ignored in favour of the story's own context, so a
+  decorator can't render the same story twice with different args; render the
+  copies directly.
+- Content that loads lazily (icons, CodeMirror, Tiptap) needs a `waitFor`,
+  and anything Vite only discovers while the tests run makes it reload the
+  page and break the run. `vite.config.mjs`'s storybook project scans every
+  story up front and pre-bundles the lazily loaded modules; add new ones
+  there if a cold run reports "optimized dependencies changed".
+
 ## Porting Carbon AI Chat (`@carbon/ai-chat-components`)
 
 Carbon AI Chat (https://github.com/carbon-design-system/carbon-ai-chat) is a
