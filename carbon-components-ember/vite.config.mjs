@@ -147,7 +147,7 @@ export default defineConfig({
         // Babel compiles TypeScript (and its decorators, e.g. @tracked).
         // @embroider/vite only turns Vite's oxc transform off when nothing has
         // configured it yet, but Vitest's own config hook runs first and sets
-        // it. Fixed upstream in embroider-build/embroider (PR pending).
+        // it. Drop once embroider-build/embroider#2826 is released.
         oxc: false,
         optimizeDeps: {
           // Scan every story up front, so dependencies aren't discovered

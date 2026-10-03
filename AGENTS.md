@@ -997,7 +997,9 @@ npm `files` list.
   unsupported. See Args documentation for your framework." Give each
   sub-component its own story file instead (its docs page gets its own args
   table). Story tests don't catch this, since they never render docs pages;
-  check the docs page itself after a build.
+  check the docs page itself after a build. Fixed upstream in
+  ember-integrations/ember-storybook#81; once released, the `subcomponents`
+  can come back.
 
 ## Porting Carbon AI Chat (`@carbon/ai-chat-components`)
 
