@@ -158,6 +158,10 @@ Service.test(
     );
     await userEvent.click(canvas.getByRole('button', { name: 'Notify' }));
     await expect(queue.getByRole('alert')).toHaveTextContent('Info');
+    // It keeps the type it was queued with (`info`).
+    await expect(queue.getByRole('alert')).toHaveClass(
+      'cds--toast-notification--info',
+    );
     await userEvent.click(
       queue.getByRole('button', { name: 'close notification' }),
     );

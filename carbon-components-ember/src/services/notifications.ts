@@ -25,25 +25,25 @@ export default class NotificationService extends Service {
 
   info(opts: NotificationOptions) {
     const options: NotificationOptions = {};
-    Object.assign(options, opts, this.defaults, { type: 'info' });
+    Object.assign(options, this.defaults, opts, { type: 'info' });
     this.notify(options);
   }
 
   success(opts: NotificationOptions) {
     const options: NotificationOptions = {};
-    Object.assign(options, opts, this.defaults, { type: 'success' });
+    Object.assign(options, this.defaults, opts, { type: 'success' });
     this.notify(options);
   }
 
   warning(opts: NotificationOptions) {
     const options: NotificationOptions = {};
-    Object.assign(options, opts, this.defaults, { type: 'warning' });
+    Object.assign(options, this.defaults, opts, { type: 'warning' });
     this.notify(options);
   }
 
   error(opts: NotificationOptions) {
     const options: NotificationOptions = {};
-    Object.assign(options, opts, this.defaults, { type: 'error' });
+    Object.assign(options, this.defaults, opts, { type: 'error' });
     this.notify(options);
   }
 
