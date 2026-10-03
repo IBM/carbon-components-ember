@@ -5,6 +5,11 @@ import { defaultArgs } from '../../utils/decorators.ts';
 import type { CarbonChartSignature } from '../../components/charts/-components/chart.gts';
 
 export type Args = {
+  /**
+   * The chart's title, rendered by @carbon/charts as the chart's heading
+   * (its `title` option).
+   */
+  title?: string;
   resizable?: boolean;
   legendClickable?: boolean;
 };
@@ -50,6 +55,7 @@ export default class CarbonPieChart extends Component<CarbonPieChartSignature> {
     <Chart
       {{! template-lint-disable  no-capital-arguments }}
       @ChartClass={{this.ChartClass}}
+      @title={{@title}}
       @resizable={{@resizable}}
       @legendClickable={{@legendClickable}}
       ...attributes
