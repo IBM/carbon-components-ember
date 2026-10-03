@@ -8,27 +8,10 @@ import ProgressBar from './progress-bar.gts';
 // Parity gaps with Carbon React's ProgressBar stories:
 // - `hideLabel` isn't supported by the Ember component.
 // - `_WithLayer` isn't ported: there is no `WithLayer` story helper here.
-//
-// KNOWN COMPONENT BUG: progress-bar.gts declares a module-scope `div()`
-// helper, which shadows the `<div>` element in its strict-mode template, so
-// every render throws "Attempted to load a component, but there wasn't a
-// component manager associated with the definition. The definition was:
-// div" (the same error that breaks the docs-app page). The stories below
-// document the intended API and are excluded from the test run (`!test`)
-// until the helper is renamed.
 
 const meta = preview.meta({
   title: 'Components/ProgressBar',
   component: ProgressBar,
-  tags: ['!test'],
-  parameters: {
-    docs: {
-      description: {
-        component:
-          '**Known issue:** `ProgressBar` currently fails to render (its internal `div` helper shadows the `<div>` element in its template), so these stories show an error until the component is fixed.',
-      },
-    },
-  },
   args: {
     helperText: '75 MB of 100 MB',
     label: 'Uploading files',
