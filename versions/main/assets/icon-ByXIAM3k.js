@@ -1,0 +1,3 @@
+const icon = "<ThemeSwitcher />\n\n# SkeletonIcon\n\n```gjs live preview\nimport { SkeletonIcon } from 'carbon-components-ember/components';\nimport { ThemeSupport } from 'docs-support';\n\n<template>\n    <ThemeSupport />\n    <SkeletonIcon style='margin: 50px' />\n    <SkeletonIcon style='margin: 50px; width: 24px; height: 24px;' />\n</template>\n```\n## API Reference\n\n<details>\n<summary><h3>SkeletonIcon</h3></summary>\n\n```gjs live no-shadow\nimport { ComponentSignature } from 'kolay';\n\n<template>\n  <ComponentSignature \n    @package=\"carbon-components-ember\" \n    @module='declarations/components/skeleton-icon' \n    @name='default' \n  />\n</template>\n```\n</details>\n";
+
+export { icon as default };

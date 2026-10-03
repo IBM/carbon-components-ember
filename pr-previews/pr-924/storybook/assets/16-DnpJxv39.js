@@ -1,0 +1,1 @@
+import{n as t}from"./rolldown-runtime-BpgvRg6H.js";var r;function e(){return(e=t(()=>{r={elem:"svg",attrs:{xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 16 16",fill:"currentColor",width:16,height:16},content:[{elem:"path",attrs:{d:"M8 14 4.5 10.5 5.2 9.8 8 12.6 10.8 9.8 11.5 10.5z"}}],name:"chevron--sort--down",size:16}}))()}e();export{r as default};

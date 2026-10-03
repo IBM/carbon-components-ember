@@ -1,0 +1,1 @@
+import{n as t}from"./rolldown-runtime-BpgvRg6H.js";import{$ as r,et as o,tt as n}from"./preview-Djda4A6j.js";function e(t){return"object"==typeof t&&t&&"isTruthy"in t&&"boolean"==typeof t.isTruthy?t.isTruthy:n(t)?0!==t.length:!!t}function s(){return(s=t(()=>{r()}))()}export{e as n,s as t};

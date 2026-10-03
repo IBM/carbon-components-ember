@@ -1,0 +1,1 @@
+var t={elem:"svg",attrs:{xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 5 8",fill:"currentColor",width:"5",height:"8"},content:[{elem:"path",attrs:{d:"M0 0L5 4 0 8z"}}],name:"caret--right",size:"glyph"};export{t as default};

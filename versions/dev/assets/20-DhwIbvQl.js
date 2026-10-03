@@ -1,0 +1,1 @@
+var t={elem:"svg",attrs:{xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 32 32",fill:"currentColor",width:20,height:20},content:[{elem:"path",attrs:{d:"M4,28V4h24v24H4z M8.5,8.5v15H16v-12h4.5v12h3v-15H8.5z"}}],name:"logo--npm",size:20};export{t as default};

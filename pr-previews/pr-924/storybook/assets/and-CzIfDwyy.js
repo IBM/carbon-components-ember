@@ -1,0 +1,1 @@
+import{n as r}from"./rolldown-runtime-BpgvRg6H.js";import{r as t,t as e}from"./helper-BRM-1E7c.js";import{n,t as o}from"./truth-convert-DfUnN921.js";var s;function a(){return(a=r(()=>{t(),o(),s=class extends e{compute(r){for(let t=0,e=r.length;t<e;t++)if(!1===n(r[t]))return r[t];return r[r.length-1]}}}))()}export{a as n,s as t};

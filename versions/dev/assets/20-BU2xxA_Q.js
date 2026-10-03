@@ -1,0 +1,1 @@
+var e={elem:"svg",attrs:{xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 32 32",fill:"currentColor",width:20,height:20},content:[{elem:"path",attrs:{d:"M22 30H10V25H6l10-9 10 9H22zM16 16L6 7h4V2H22V7h4z"}}],name:"pressure--filled",size:20};export{e as default};

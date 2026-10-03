@@ -1,0 +1,1 @@
+var t={elem:"svg",attrs:{xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 32 32",fill:"currentColor",width:32,height:32},content:[{elem:"path",attrs:{d:"M18 5H28V7H18zM10.6 5L4 5 4 7 9.4 7 18.4 27 28 27 28 25 19.6 25z"}}],name:"mac--option",size:32};export{t as default};
