@@ -19,10 +19,11 @@ export interface UIShellHeaderContainerSignature {
 }
 
 export default class UIShellHeaderContainer extends Component<UIShellHeaderContainerSignature> {
-  @tracked isSideNavExpanded = this.args.isSideNavExpanded ?? false;
+  @tracked isSideNavExpanded: boolean;
 
   constructor(owner: Owner, args: UIShellHeaderContainerSignature['Args']) {
     super(owner, args);
+    this.isSideNavExpanded = args.isSideNavExpanded ?? false;
     window.addEventListener('keydown', this.handleWindowKeydown);
     registerDestructor(this, () => {
       window.removeEventListener('keydown', this.handleWindowKeydown);

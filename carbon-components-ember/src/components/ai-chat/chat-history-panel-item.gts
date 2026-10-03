@@ -6,6 +6,7 @@
  */
 
 import Component from '@glimmer/component';
+import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
@@ -138,7 +139,12 @@ export interface ChatHistoryPanelItemSignature {
  * instead, keeping it within the panel's own bounds.
  */
 export default class ChatHistoryPanelItem extends Component<ChatHistoryPanelItemSignature> {
-  @tracked internalRename = this.args.rename ?? false;
+  @tracked internalRename: boolean;
+
+  constructor(owner: Owner, args: ChatHistoryPanelItemSignature['Args']) {
+    super(owner, args);
+    this.internalRename = args.rename ?? false;
+  }
 
   get rename() {
     return this.internalRename;

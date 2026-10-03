@@ -167,7 +167,7 @@ export default class CarbonTooltip extends Component<CarbonTooltipSignature> {
     leaveDelayMs: 300,
   };
 
-  @tracked open = this.args.defaultOpen ?? false;
+  @tracked open: boolean;
   @tracked autoAlignResult: TooltipAlignment | null = null;
 
   timer?: ReturnType<typeof setTimeout>;
@@ -175,6 +175,7 @@ export default class CarbonTooltip extends Component<CarbonTooltipSignature> {
 
   constructor(owner: Owner, args: Args) {
     super(owner, args);
+    this.open = args.defaultOpen ?? false;
     registerDestructor(this, () => clearTimeout(this.timer));
   }
 

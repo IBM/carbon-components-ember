@@ -6,6 +6,7 @@
  */
 
 import Component from '@glimmer/component';
+import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { fn } from '@ember/helper';
@@ -47,8 +48,12 @@ export default class MenuItemRadioGroup<Item = string> extends Component<
 > {
   // Seeds the uncontrolled default once; `select()` and `@selectedItem`
   // drive subsequent state, matching MenuItemSelectable/TreeNode's pattern.
-  // eslint-disable-next-line ember/no-tracked-properties-from-args
-  @tracked uncontrolledSelection = this.args.defaultSelectedItem;
+  @tracked uncontrolledSelection: Item | undefined;
+
+  constructor(owner: Owner, args: MenuItemRadioGroupSignature<Item>['Args']) {
+    super(owner, args);
+    this.uncontrolledSelection = args.defaultSelectedItem;
+  }
 
   get selection() {
     return this.args.selectedItem ?? this.uncontrolledSelection;

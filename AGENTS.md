@@ -379,7 +379,12 @@ update it. Otherwise it just seeds tracked state — without this, a static
 `@isExpanded={{true}}` would permanently lock the component open:
 
 ```typescript
-@tracked uncontrolledExpanded = this.args.isExpanded ?? false;
+@tracked uncontrolledExpanded: boolean;
+
+constructor(owner: Owner, args: Signature['Args']) {
+  super(owner, args);
+  this.uncontrolledExpanded = args.isExpanded ?? false;
+}
 
 get expanded() {
   if (this.args.onToggle) {
@@ -562,6 +567,12 @@ for the reader of the docs site, not for yourself.
   `modifiers/close-on-outside-click.ts` (`{ capture, onWindowBlur }`
   options cover the two differing behaviors); reach for that modifier
   instead of adding a third bespoke copy elsewhere.
+- **Seeding `@tracked` fields from `this.args` in a field initializer**
+  (`@tracked open = this.args.defaultOpen ?? false;`). Declare the field
+  (`@tracked open: boolean;`) and seed it in the constructor from the `args`
+  parameter, as in §3. `eslint-plugin-ember`'s
+  `no-tracked-properties-from-args` only catches the bare `= this.args.x`
+  form, not `?? default`, so this is on reviewers.
 - **`constructor(owner: any, args: any)`** — as of the 2026-09-09 mechanical
   cleanup, no component in this codebase types the owner `any` anymore; the
   last 12 (`time-picker.gts`, `text-area.gts`, `slider.gts`, `popover.gts`,
