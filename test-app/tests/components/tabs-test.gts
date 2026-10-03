@@ -148,9 +148,10 @@ module('Integration | Component | Tabs', (hooks) => {
     );
 
     assert.dom('[role="tab"]:last-of-type').hasClass('cds--tabs__nav-item--disabled');
-
-    await click('[role="tab"]:last-of-type');
-
+    // The tab button now carries the native `disabled` attribute (matching
+    // @carbon/react), so click() would throw — assert the disabled state
+    // instead, which is sufficient proof it cannot be selected.
+    assert.dom('[role="tab"]:last-of-type').isDisabled();
     assert.dom('[role="tab"]:first-child').hasAttribute('aria-selected', 'true');
   });
 
