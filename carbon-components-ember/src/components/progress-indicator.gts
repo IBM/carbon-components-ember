@@ -12,7 +12,6 @@ import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { registerDestructor } from '@ember/destroyable';
 import { runTask } from 'ember-lifeline';
-import { A, type NativeArray } from '@ember/array';
 import type { WithBoundArgs } from '@glint/template';
 import CheckmarkOutline from './icons/checkmark-outline.ts';
 import Warning from './icons/warning.ts';
@@ -166,16 +165,16 @@ class ProgressStep extends Component<{
         {{#if @invalid}}
           <Warning @size={{16}} @svgClass='cds--progress__warning' @fill='currentColor' />
         {{else if this.isCurrent}}
-          <Incomplete @size={{16}} @fill='currentColor' />
+          <Incomplete @size={{16}} @svgClass='cds--progress-step-icon' @fill='currentColor' />
         {{else if this.isComplete}}
-          <CheckmarkOutline @size={{16}} @fill='currentColor' />
+          <CheckmarkOutline @size={{16}} @svgClass='cds--progress-step-icon' @fill='currentColor' />
         {{else}}
-          <CircleDash @size={{16}} @fill='currentColor' />
+          <CircleDash @size={{16}} @svgClass='cds--progress-step-icon' @fill='currentColor' />
         {{/if}}
         <div class='cds--progress-text'>
-          <span class='cds--progress-label'>{{@label}}</span>
+          <span class='cds--progress-label' dir='auto'>{{@label}}</span>
           {{#if @secondaryLabel}}
-            <span class='cds--progress-optional'>{{@secondaryLabel}}</span>
+            <span class='cds--progress-optional' dir='auto'>{{@secondaryLabel}}</span>
           {{/if}}
         </div>
         <span class='cds--assistive-text'>{{this.message}}</span>
@@ -207,7 +206,7 @@ export interface ProgressIndicatorSignature {
  @public
  **/
 export default class ProgressIndicator extends Component<ProgressIndicatorSignature> {
-  @tracked steps: NativeArray<ProgressStep> = A([]);
+  @tracked steps: ProgressStep[] = [];
 
   get currentIndex() {
     return this.args.currentIndex ?? 0;
@@ -223,11 +222,11 @@ export default class ProgressIndicator extends Component<ProgressIndicatorSignat
   }
 
   registerStep(step: ProgressStep) {
-    this.steps.pushObject(step);
+    this.steps = [...this.steps, step];
   }
 
   unregisterStep(step: ProgressStep) {
-    this.steps.removeObject(step);
+    this.steps = this.steps.filter((s) => s !== step);
   }
 
   <template>

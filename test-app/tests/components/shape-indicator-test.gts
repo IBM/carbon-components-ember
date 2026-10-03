@@ -110,4 +110,44 @@ module('Integration | Component | ShapeIndicator', (hooks) => {
       'the button gets an aria-describedby pointing at the tooltip',
     );
   });
+  test('compact trigger is a definition-term button with aria-expanded', async function (assert) {
+    await render(
+      <template>
+        <ShapeIndicator @kind='failed' @label='Failed' @compact={{true}} />
+      </template>,
+    );
+    await waitForAnimationFrame();
+
+    assert
+      .dom('button.cds--definition-term.cds--shape-indicator__button')
+      .hasAttribute('aria-expanded', 'false');
+  });
+
+  test('compact tooltip aligns right by default', async function (assert) {
+    await render(
+      <template>
+        <ShapeIndicator @kind='failed' @label='Failed' @compact={{true}} />
+      </template>,
+    );
+    await waitForAnimationFrame();
+
+    assert.dom('.cds--popover-container').hasClass('cds--popover--right');
+  });
+
+  test('@align reaches the popover container', async function (assert) {
+    await render(
+      <template>
+        <ShapeIndicator
+          @kind='failed'
+          @label='Failed'
+          @compact={{true}}
+          @align='bottom'
+        />
+      </template>,
+    );
+    await waitForAnimationFrame();
+
+    assert.dom('.cds--popover-container').hasClass('cds--popover--bottom');
+    assert.dom('.cds--popover-container').doesNotHaveClass('cds--popover--right');
+  });
 });

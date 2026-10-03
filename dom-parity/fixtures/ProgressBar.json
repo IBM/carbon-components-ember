@@ -1,0 +1,745 @@
+{
+  "component": "ProgressBar",
+  "generatedAt": "2026-09-23T07:15:26.047Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {
+        "value": 50
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--progress-bar",
+          "cds--progress-bar--big",
+          "cds--progress-bar--default"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--progress-bar__label"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--progress-bar__label-text"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Uploading file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--progress-bar__track"
+            ],
+            "attributes": {
+              "role": "progressbar",
+              "aria-busy": "true",
+              "aria-invalid": "false",
+              "aria-labelledby": "#1",
+              "aria-valuemin": "0",
+              "aria-valuemax": "100",
+              "aria-valuenow": "50"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--progress-bar__bar"
+                ],
+                "attributes": {},
+                "style": {
+                  "transform": "scaleX(0.5)"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "size-small": {
+      "props": {
+        "size": "small",
+        "value": 50
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--progress-bar",
+          "cds--progress-bar--default",
+          "cds--progress-bar--small"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--progress-bar__label"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--progress-bar__label-text"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Uploading file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--progress-bar__track"
+            ],
+            "attributes": {
+              "role": "progressbar",
+              "aria-busy": "true",
+              "aria-invalid": "false",
+              "aria-labelledby": "#1",
+              "aria-valuemin": "0",
+              "aria-valuemax": "100",
+              "aria-valuenow": "50"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--progress-bar__bar"
+                ],
+                "attributes": {},
+                "style": {
+                  "transform": "scaleX(0.5)"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "type-inline": {
+      "props": {
+        "type": "inline",
+        "value": 30
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--progress-bar",
+          "cds--progress-bar--big",
+          "cds--progress-bar--inline"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--progress-bar__label"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--progress-bar__label-text"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Uploading file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--progress-bar__track"
+            ],
+            "attributes": {
+              "role": "progressbar",
+              "aria-busy": "true",
+              "aria-invalid": "false",
+              "aria-labelledby": "#1",
+              "aria-valuemin": "0",
+              "aria-valuemax": "100",
+              "aria-valuenow": "30"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--progress-bar__bar"
+                ],
+                "attributes": {},
+                "style": {
+                  "transform": "scaleX(0.3)"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "type-indented": {
+      "props": {
+        "type": "indented",
+        "value": 30
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--progress-bar",
+          "cds--progress-bar--big",
+          "cds--progress-bar--indented"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--progress-bar__label"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--progress-bar__label-text"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Uploading file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--progress-bar__track"
+            ],
+            "attributes": {
+              "role": "progressbar",
+              "aria-busy": "true",
+              "aria-invalid": "false",
+              "aria-labelledby": "#1",
+              "aria-valuemin": "0",
+              "aria-valuemax": "100",
+              "aria-valuenow": "30"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--progress-bar__bar"
+                ],
+                "attributes": {},
+                "style": {
+                  "transform": "scaleX(0.3)"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "finished": {
+      "props": {
+        "status": "finished"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--progress-bar",
+          "cds--progress-bar--big",
+          "cds--progress-bar--default",
+          "cds--progress-bar--finished"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--progress-bar__label"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--progress-bar__label-text"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Uploading file"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--progress-bar__status-icon"
+                ],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M8,1C4.1,1,1,4.1,1,8c0,3.9,3.1,7,7,7s7-3.1,7-7C15,4.1,11.9,1,8,1z M7,11L4.3,8.3l0.9-0.8L7,9.3l4-3.9l0.9,0.8L7,11z"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M7,11L4.3,8.3l0.9-0.8L7,9.3l4-3.9l0.9,0.8L7,11z",
+                      "data-icon-path": "inner-path",
+                      "opacity": "0"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--progress-bar__track"
+            ],
+            "attributes": {
+              "role": "progressbar",
+              "aria-busy": "false",
+              "aria-invalid": "false",
+              "aria-labelledby": "#1",
+              "aria-valuemin": "0",
+              "aria-valuemax": "100",
+              "aria-valuenow": "100"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--progress-bar__bar"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "error": {
+      "props": {
+        "status": "error"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--progress-bar",
+          "cds--progress-bar--big",
+          "cds--progress-bar--default",
+          "cds--progress-bar--error"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--progress-bar__label"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--progress-bar__label-text"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Uploading file"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--progress-bar__status-icon"
+                ],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M8,1C4.1,1,1,4.1,1,8s3.1,7,7,7s7-3.1,7-7S11.9,1,8,1z M10.7,11.5L4.5,5.3l0.8-0.8l6.2,6.2L10.7,11.5z"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "fill": "none",
+                      "d": "M10.7,11.5L4.5,5.3l0.8-0.8l6.2,6.2L10.7,11.5z",
+                      "data-icon-path": "inner-path",
+                      "opacity": "0"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--progress-bar__track"
+            ],
+            "attributes": {
+              "role": "progressbar",
+              "aria-busy": "true",
+              "aria-invalid": "true",
+              "aria-labelledby": "#1",
+              "aria-valuemin": "0",
+              "aria-valuemax": "100",
+              "aria-valuenow": "0"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--progress-bar__bar"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "indeterminate": {
+      "props": {
+        "status": "indeterminate"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--progress-bar",
+          "cds--progress-bar--big",
+          "cds--progress-bar--default",
+          "cds--progress-bar--indeterminate"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--progress-bar__label"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--progress-bar__label-text"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Uploading file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--progress-bar__track"
+            ],
+            "attributes": {
+              "role": "progressbar",
+              "aria-busy": "true",
+              "aria-invalid": "false",
+              "aria-labelledby": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--progress-bar__bar"
+                ],
+                "attributes": {},
+                "style": {
+                  "transform": "scaleX(NaN)"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "helper-text": {
+      "props": {
+        "value": 40,
+        "helperText": "Estimated time left: 2 minutes"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--progress-bar",
+          "cds--progress-bar--big",
+          "cds--progress-bar--default"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--progress-bar__label"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--progress-bar__label-text"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Uploading file"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--progress-bar__track"
+            ],
+            "attributes": {
+              "role": "progressbar",
+              "aria-busy": "true",
+              "aria-invalid": "false",
+              "aria-labelledby": "#1",
+              "aria-describedby": "#2",
+              "aria-valuemin": "0",
+              "aria-valuemax": "100",
+              "aria-valuenow": "40"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--progress-bar__bar"
+                ],
+                "attributes": {},
+                "style": {
+                  "transform": "scaleX(0.4)"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--progress-bar__helper-text"
+            ],
+            "attributes": {
+              "id": "#2"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Estimated time left: 2 minutes"
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--visually-hidden"
+                ],
+                "attributes": {
+                  "aria-live": "polite",
+                  "id": "#3"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Loading"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -671,5 +671,179 @@
       "path": "div.attributes.id",
       "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
     }
+  ],
+  "ProgressBar": [
+    {
+      "path": "div > div[1] > div[0].style.transform",
+      "variant": "indeterminate",
+      "reason": "Harness artifact of upstream's own quirky indeterminate math, not a missing Ember feature worth reproducing: @carbon/react's `useIsomorphicEffect` always computes `percentage = (cappedValue ?? NaN) / max` and sets `ref.current.style.transform = 'scaleX(' + percentage + ')'` whenever the bar isn't finished/error - with no value passed (the indeterminate case), this literally becomes the broken CSS value `scaleX(NaN)`, which has no visual effect in a real browser. Ember's `{{if @value ...}}` guard simply omits the `style` attribute entirely when `@value` is absent, which is the more sensible behavior; reproducing upstream's `NaN` output here would mean intentionally copying its own bug."
+    }
+  ],
+  "ProgressIndicator": [
+    {
+      "path": "ul > li[0] > button[0] > svg[0] > title[2]",
+      "reason": "@carbon/react's `ProgressStep` always wraps its status icon's `<title>{description}</title>` (rendering an empty `<title>` when no `description` is passed) - Ember's `progress-indicator.gts` accepts a `@description` arg but never renders it anywhere (this addon's icon components have no API to inject a `<title>` into the generated svg at all, an addon-wide limitation - see the Notification/AiChatReasoningSteps entries of the same name). Real, disclosed gap: `@description` is currently a no-op. The exact index this renders at shifts per step depending on how many `<path>`s that step's own icon has - applies wherever this file's variants happen to hit it, not scoped further per-variant since the path itself already disambiguates."
+    },
+    {
+      "path": "ul > li[0] > button[0] > svg[0] > title[3]",
+      "reason": "@carbon/react's `ProgressStep` always wraps its status icon's `<title>{description}</title>` (rendering an empty `<title>` when no `description` is passed) - Ember's `progress-indicator.gts` accepts a `@description` arg but never renders it anywhere (this addon's icon components have no API to inject a `<title>` into the generated svg at all, an addon-wide limitation - see the Notification/AiChatReasoningSteps entries of the same name). Real, disclosed gap: `@description` is currently a no-op. The exact index this renders at shifts per step depending on how many `<path>`s that step's own icon has - applies wherever this file's variants happen to hit it, not scoped further per-variant since the path itself already disambiguates."
+    },
+    {
+      "path": "ul > li[0] > button[0] > svg[0] > title[5]",
+      "reason": "@carbon/react's `ProgressStep` always wraps its status icon's `<title>{description}</title>` (rendering an empty `<title>` when no `description` is passed) - Ember's `progress-indicator.gts` accepts a `@description` arg but never renders it anywhere (this addon's icon components have no API to inject a `<title>` into the generated svg at all, an addon-wide limitation - see the Notification/AiChatReasoningSteps entries of the same name). Real, disclosed gap: `@description` is currently a no-op. The exact index this renders at shifts per step depending on how many `<path>`s that step's own icon has - applies wherever this file's variants happen to hit it, not scoped further per-variant since the path itself already disambiguates."
+    },
+    {
+      "path": "ul > li[0] > button[0] > svg[0].classes[cds--progress-step-icon]",
+      "reason": "`cds--progress-step-icon` is an inert class added to progress-indicator.gts's `Incomplete`/`CheckmarkOutline`/`CircleDash` icon invocations specifically to opt out of this addon's `Icon` base component's default hashed/margin-carrying class (see AGENTS.md's renderIcon-default-size gotcha) - @carbon/react's own icon has no class at all in this position (only the invalid-step's `Warning` icon carries a real class upstream, `cds--progress__warning`, already matched on both sides). Applies to every variant."
+    },
+    {
+      "path": "ul > li[0] > button[0].attributes.index",
+      "reason": "@carbon/react's `ProgressIndicator` clones each child with `{ complete, current, index, onClick }` via `React.Children.map`/`cloneElement`, and `ProgressStep`'s own destructuring (`{ label, description, className, current, complete, invalid, secondaryLabel, disabled, onClick, translateWithId: t, ...rest }`) never picks `index` out of its props - it falls into `...rest` and gets spread onto the `<button>` as a literal, non-standard `index` attribute. Ember's `progress-indicator.gts` has no equivalent - a harmless React-only quirk, not a real feature to reproduce. Applies to every variant."
+    },
+    {
+      "path": "ul > li[1] > button[0] > svg[0] > title[10]",
+      "reason": "@carbon/react's `ProgressStep` always wraps its status icon's `<title>{description}</title>` (rendering an empty `<title>` when no `description` is passed) - Ember's `progress-indicator.gts` accepts a `@description` arg but never renders it anywhere (this addon's icon components have no API to inject a `<title>` into the generated svg at all, an addon-wide limitation - see the Notification/AiChatReasoningSteps entries of the same name). Real, disclosed gap: `@description` is currently a no-op. The exact index this renders at shifts per step depending on how many `<path>`s that step's own icon has - applies wherever this file's variants happen to hit it, not scoped further per-variant since the path itself already disambiguates."
+    },
+    {
+      "path": "ul > li[1] > button[0] > svg[0] > title[2]",
+      "reason": "@carbon/react's `ProgressStep` always wraps its status icon's `<title>{description}</title>` (rendering an empty `<title>` when no `description` is passed) - Ember's `progress-indicator.gts` accepts a `@description` arg but never renders it anywhere (this addon's icon components have no API to inject a `<title>` into the generated svg at all, an addon-wide limitation - see the Notification/AiChatReasoningSteps entries of the same name). Real, disclosed gap: `@description` is currently a no-op. The exact index this renders at shifts per step depending on how many `<path>`s that step's own icon has - applies wherever this file's variants happen to hit it, not scoped further per-variant since the path itself already disambiguates."
+    },
+    {
+      "path": "ul > li[1] > button[0] > svg[0] > title[5]",
+      "reason": "@carbon/react's `ProgressStep` always wraps its status icon's `<title>{description}</title>` (rendering an empty `<title>` when no `description` is passed) - Ember's `progress-indicator.gts` accepts a `@description` arg but never renders it anywhere (this addon's icon components have no API to inject a `<title>` into the generated svg at all, an addon-wide limitation - see the Notification/AiChatReasoningSteps entries of the same name). Real, disclosed gap: `@description` is currently a no-op. The exact index this renders at shifts per step depending on how many `<path>`s that step's own icon has - applies wherever this file's variants happen to hit it, not scoped further per-variant since the path itself already disambiguates."
+    },
+    {
+      "path": "ul > li[1] > button[0] > svg[0].classes[cds--progress-step-icon]",
+      "reason": "`cds--progress-step-icon` is an inert class added to progress-indicator.gts's `Incomplete`/`CheckmarkOutline`/`CircleDash` icon invocations specifically to opt out of this addon's `Icon` base component's default hashed/margin-carrying class (see AGENTS.md's renderIcon-default-size gotcha) - @carbon/react's own icon has no class at all in this position (only the invalid-step's `Warning` icon carries a real class upstream, `cds--progress__warning`, already matched on both sides). Applies to every variant."
+    },
+    {
+      "path": "ul > li[1] > button[0].attributes.index",
+      "reason": "@carbon/react's `ProgressIndicator` clones each child with `{ complete, current, index, onClick }` via `React.Children.map`/`cloneElement`, and `ProgressStep`'s own destructuring (`{ label, description, className, current, complete, invalid, secondaryLabel, disabled, onClick, translateWithId: t, ...rest }`) never picks `index` out of its props - it falls into `...rest` and gets spread onto the `<button>` as a literal, non-standard `index` attribute. Ember's `progress-indicator.gts` has no equivalent - a harmless React-only quirk, not a real feature to reproduce. Applies to every variant."
+    },
+    {
+      "path": "ul > li[2] > button[0] > svg[0] > title[10]",
+      "reason": "@carbon/react's `ProgressStep` always wraps its status icon's `<title>{description}</title>` (rendering an empty `<title>` when no `description` is passed) - Ember's `progress-indicator.gts` accepts a `@description` arg but never renders it anywhere (this addon's icon components have no API to inject a `<title>` into the generated svg at all, an addon-wide limitation - see the Notification/AiChatReasoningSteps entries of the same name). Real, disclosed gap: `@description` is currently a no-op. The exact index this renders at shifts per step depending on how many `<path>`s that step's own icon has - applies wherever this file's variants happen to hit it, not scoped further per-variant since the path itself already disambiguates."
+    },
+    {
+      "path": "ul > li[2] > button[0] > svg[0] > title[5]",
+      "reason": "@carbon/react's `ProgressStep` always wraps its status icon's `<title>{description}</title>` (rendering an empty `<title>` when no `description` is passed) - Ember's `progress-indicator.gts` accepts a `@description` arg but never renders it anywhere (this addon's icon components have no API to inject a `<title>` into the generated svg at all, an addon-wide limitation - see the Notification/AiChatReasoningSteps entries of the same name). Real, disclosed gap: `@description` is currently a no-op. The exact index this renders at shifts per step depending on how many `<path>`s that step's own icon has - applies wherever this file's variants happen to hit it, not scoped further per-variant since the path itself already disambiguates."
+    },
+    {
+      "path": "ul > li[2] > button[0] > svg[0].classes[cds--progress-step-icon]",
+      "reason": "`cds--progress-step-icon` is an inert class added to progress-indicator.gts's `Incomplete`/`CheckmarkOutline`/`CircleDash` icon invocations specifically to opt out of this addon's `Icon` base component's default hashed/margin-carrying class (see AGENTS.md's renderIcon-default-size gotcha) - @carbon/react's own icon has no class at all in this position (only the invalid-step's `Warning` icon carries a real class upstream, `cds--progress__warning`, already matched on both sides). Applies to every variant."
+    },
+    {
+      "path": "ul > li[2] > button[0].attributes.index",
+      "reason": "@carbon/react's `ProgressIndicator` clones each child with `{ complete, current, index, onClick }` via `React.Children.map`/`cloneElement`, and `ProgressStep`'s own destructuring (`{ label, description, className, current, complete, invalid, secondaryLabel, disabled, onClick, translateWithId: t, ...rest }`) never picks `index` out of its props - it falls into `...rest` and gets spread onto the `<button>` as a literal, non-standard `index` attribute. Ember's `progress-indicator.gts` has no equivalent - a harmless React-only quirk, not a real feature to reproduce. Applies to every variant."
+    }
+  ],
+  "IconIndicator": [
+    {
+      "path": "div > svg[0] > path[0].attributes.d",
+      "variant": "undefined",
+      "reason": "Harness limitation, not a real bug - same whitespace-only (tab vs. space between two path commands) diff already documented for Notification's/Slider's warning-icon entries of the same name; the SVG path grammar treats the two as equivalent."
+    },
+    {
+      "path": "div > svg[0] > path[0].attributes.d",
+      "variant": "unknown",
+      "reason": "Harness limitation, not a real bug - same whitespace-only (tab vs. space between two path commands) diff already documented for Notification's/Slider's warning-icon entries of the same name; the SVG path grammar treats the two as equivalent."
+    },
+    {
+      "path": "div > svg[0] > path[1].attributes.d",
+      "variant": "unknown",
+      "reason": "Harness limitation, not a real bug - same whitespace-only (tab vs. space between two path commands) diff already documented for Notification's/Slider's warning-icon entries of the same name; the SVG path grammar treats the two as equivalent."
+    },
+    {
+      "path": "div > span[0].classes[ember-view]",
+      "variant": "compact",
+      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry elsewhere in this file - `Popover`'s root renders its tag through `element` too, to support `@as`."
+    },
+    {
+      "path": "div > span[0].attributes.id",
+      "variant": "compact",
+      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry elsewhere in this file, canonicalized here to `#1` since it collides positionally with upstream's own (differently-placed) first id."
+    },
+    {
+      "path": "div > span[0] > button[0].attributes.aria-controls",
+      "variant": "compact",
+      "reason": "Harness id-canonicalization side effect of the ember-element-helper id on `Popover`'s root (see the `div > span[0].attributes.id` entry): that auto id is the first id in Ember's tree, so the tooltip id this references canonicalizes to `#2` instead of upstream's `#1`. The reference itself is correct - both sides point the trigger at the `.cds--popover` panel."
+    },
+    {
+      "path": "div > span[0] > button[0].attributes.aria-describedby",
+      "variant": "compact",
+      "reason": "Harness id-canonicalization side effect of the ember-element-helper id on `Popover`'s root (see the `div > span[0].attributes.id` entry): that auto id is the first id in Ember's tree, so the tooltip id this references canonicalizes to `#2` instead of upstream's `#1`. The reference itself is correct - both sides point the trigger at the `.cds--popover` panel."
+    },
+    {
+      "path": "div > span[0] > span[1].attributes.id",
+      "variant": "compact",
+      "reason": "The panel side of the same id-canonicalization side effect as the trigger's `aria-controls` entry above - the id is rendered on the same `.cds--popover` span as upstream, it just canonicalizes to `#2`."
+    }
+  ],
+  "ShapeIndicator": [
+    {
+      "path": "div > svg[0].attributes.size",
+      "variant": "incomplete",
+      "reason": "@carbon/react's `incompleteIcon` fallback (used when a `ShapeIndicatorKind` has no real @carbon/icons-react icon) spreads `{ size, className }` straight onto a hand-written `<svg>`, so the `size: 16` prop it's always called with lands as a literal, non-standard `size=\"16\"` DOM attribute (SVG has no `size` attribute - this has no visual effect, the icon's real dimensions come from its `width`/`height`). Ember's own matching `IncompleteIcon` (shape-indicator.gts) hardcodes `width`/`height` and takes no `@size` arg at all, so it never renders this stray attribute."
+    },
+    {
+      "path": "div > span[0].classes[ember-view]",
+      "variant": "compact",
+      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry elsewhere in this file - `Popover`'s root (used by the private `DefinitionTooltip`) renders its tag through `element` too, to support `@as`."
+    },
+    {
+      "path": "div > span[0].attributes.id",
+      "variant": "compact",
+      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry elsewhere in this file, canonicalized here to `#1` since it collides positionally with upstream's own (differently-placed) first id."
+    },
+    {
+      "path": "div > span[0] > button[0].attributes.aria-controls",
+      "variant": "compact",
+      "reason": "Harness id-canonicalization side effect of the ember-element-helper id on `Popover`'s root (see the `div > span[0].attributes.id` entry): that auto id is the first id in Ember's tree, so the tooltip id this references canonicalizes to `#2` instead of upstream's `#1`. The reference itself is correct - both sides point the trigger at the `.cds--popover` panel."
+    },
+    {
+      "path": "div > span[0] > button[0].attributes.aria-describedby",
+      "variant": "compact",
+      "reason": "Harness id-canonicalization side effect of the ember-element-helper id on `Popover`'s root (see the `div > span[0].attributes.id` entry): that auto id is the first id in Ember's tree, so the tooltip id this references canonicalizes to `#2` instead of upstream's `#1`. The reference itself is correct - both sides point the trigger at the `.cds--popover` panel."
+    },
+    {
+      "path": "div > span[0] > span[1].attributes.id",
+      "variant": "compact",
+      "reason": "The panel side of the same id-canonicalization side effect as the trigger's `aria-controls` entry above - the id is rendered on the same `.cds--popover` span as upstream, it just canonicalizes to `#2`."
+    }
+  ],
+  "Slider": [
+    {
+      "path": "div > div[1] > div[1].attributes.value",
+      "reason": "@carbon/react's Slider spreads `passthroughProps` (which includes the controlled `value`) directly onto the `.cds--slider` track div's own props (`{...passthroughProps}` in `Slider.js`), so a real, literal `value=\"...\"` attribute lands on that div as a side effect - not a meaningful feature, just what spreading `value` alongside `onBlur`/`onChange` onto a plain `<div>` produces. Ember's slider.gts has no equivalent spread. Applies to every single-handle variant, on the `.cds--slider` track div."
+    },
+    {
+      "path": "div > div[1] > div[2].attributes.value",
+      "variant": "two-handles",
+      "reason": "Same stray-`value`-via-`passthroughProps`-spread quirk as the single-handle `div[1].attributes.value` entry above, on the `.cds--slider` track div - shifted to index 2 once the two-handle variant's lower text-input wrapper and min-label span occupy indices 0-1."
+    },
+    {
+      "path": "div > div[1] > div[3] > input[0].attributes.value",
+      "reason": "Harness limitation, not a functional gap - same property-vs-attribute gap already documented for TextInput's `input[0].attributes.value` entry (Glimmer's bound `value={{this.upperDisplayValue}}` on an `<input>` sets the DOM `value` IDL property, not a reflected HTML attribute). Applies to every single-handle variant, and since Slider always has a real `@value`, applies regardless of whether a variant's own name calls attention to it."
+    },
+    {
+      "path": "div > div[1] > div[0] > input[0].attributes.value",
+      "variant": "two-handles",
+      "reason": "Same property-vs-attribute harness limitation as the single-handle `div[3] > input[0].attributes.value` entry above, for the lower-handle input."
+    },
+    {
+      "path": "div > div[1] > div[4] > input[0].attributes.value",
+      "variant": "two-handles",
+      "reason": "Same property-vs-attribute harness limitation as the single-handle `div[3] > input[0].attributes.value` entry above, for the upper-handle input."
+    },
+    {
+      "path": "div > div[1] > div[3] > svg[1] > path[0].attributes.d",
+      "variant": "invalid",
+      "reason": "Harness limitation, not a real bug - same whitespace-only (tab vs. space between two path commands) diff already documented for Notification's warning-icon entry of the same name; the SVG path grammar treats the two as equivalent."
+    },
+    {
+      "path": "div > div[1] > div[3] > svg[1] > path[1].attributes.d",
+      "variant": "invalid",
+      "reason": "Harness limitation, not a real bug - same whitespace-only (tab vs. space between two path commands) diff already documented for Notification's warning-icon entry of the same name; the SVG path grammar treats the two as equivalent."
+    }
   ]
 }

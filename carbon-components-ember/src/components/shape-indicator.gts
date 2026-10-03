@@ -7,7 +7,8 @@
 
 import Component from '@glimmer/component';
 import { type TemplateOnlyComponent } from '@ember/component/template-only';
-import Tooltip from './-private/tooltip.gts';
+import DefinitionTooltip from './-private/definition-tooltip.gts';
+import type { IconIndicatorAlignment } from './icon-indicator.gts';
 import Critical from './icons/critical.ts';
 import CriticalSeverity from './icons/critical-severity.ts';
 import Caution from './icons/caution.ts';
@@ -33,6 +34,15 @@ export const ShapeIndicatorKinds = [
 export type ShapeIndicatorKind = (typeof ShapeIndicatorKinds)[number];
 
 export type Args = {
+  /**
+   * Specify how the tooltip should align with the shape in compact mode
+   */
+  align?: IconIndicatorAlignment;
+  /**
+   * Will auto-align the tooltip in compact mode so it stays within the
+   * viewport, flipping to the opposite side when it would otherwise overflow
+   */
+  autoAlign?: boolean;
   kind: ShapeIndicatorKind;
   label: string;
   compact?: boolean;
@@ -109,23 +119,24 @@ export default class ShapeIndicator extends Component<ShapeIndicatorSignature> {
     {{#if this.isValidKind}}
       <div class={{this.classes}} ...attributes>
         {{#if @compact}}
-          <Tooltip>
-            <:trigger as |reference|>
-              <span class='cds--shape-indicator__button' tabindex='0' {{reference}}>
-                {{#if this.shapeIcon}}
-                  <this.shapeIcon
-                    @size={{16}}
-                    @svgClass={{this.iconClass}}
-                    @fill='currentColor'
-                  />
-                {{else}}
-                  <IncompleteIcon class={{this.iconClass}} />
-                {{/if}}
-                <span class='cds--visually-hidden'>{{this.accessibleLabel}}</span>
-              </span>
-            </:trigger>
-            <:content>{{@label}}</:content>
-          </Tooltip>
+          <DefinitionTooltip
+            @align={{if @align @align 'right'}}
+            @autoAlign={{@autoAlign}}
+            @openOnHover={{true}}
+            @definition={{@label}}
+            @triggerClassName='cds--shape-indicator__button'
+          >
+            {{#if this.shapeIcon}}
+              <this.shapeIcon
+                @size={{16}}
+                @svgClass={{this.iconClass}}
+                @fill='currentColor'
+              />
+            {{else}}
+              <IncompleteIcon class={{this.iconClass}} />
+            {{/if}}
+            <span class='cds--visually-hidden'>{{this.accessibleLabel}}</span>
+          </DefinitionTooltip>
         {{else}}
           {{#if this.shapeIcon}}
             <this.shapeIcon
