@@ -991,6 +991,13 @@ npm `files` list.
   page and break the run. `vite.config.mjs`'s storybook project scans every
   story up front and pre-bundles the lazily loaded modules; add new ones
   there if a cold run reports "optimized dependencies changed".
+- Don't set `subcomponents` on a meta. Storybook builds the subcomponent
+  argTypes tabs through `parameters.docs.extractArgTypes`, which
+  ember-storybook doesn't provide, so the whole docs page fails with "Args
+  unsupported. See Args documentation for your framework." Give each
+  sub-component its own story file instead (its docs page gets its own args
+  table). Story tests don't catch this, since they never render docs pages;
+  check the docs page itself after a build.
 
 ## Porting Carbon AI Chat (`@carbon/ai-chat-components`)
 
