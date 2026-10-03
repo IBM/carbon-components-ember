@@ -404,6 +404,7 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
               aria-controls='{{this.guid}}-tabpanel-{{index}}'
               aria-selected='{{if tab.isSelected "true" "false"}}'
               aria-disabled='{{if (this.isTabDisabled tab) "true"}}'
+              disabled={{this.isTabDisabled tab}}
               id='{{this.guid}}-tab-{{index}}'
               role='tab'
               data-tab-index={{index}}
