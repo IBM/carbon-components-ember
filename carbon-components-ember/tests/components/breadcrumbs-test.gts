@@ -84,6 +84,25 @@ module('Integration | Component | Breadcrumbs', (hooks) => {
     await click('.cds--breadcrumb-item');
   });
 
+  test('selecting a crumb does not follow its href="#"', async function (assert) {
+    const selected: string[] = [];
+    const onSelect = (crumb: string) => selected.push(crumb);
+    await render(
+      <template>
+        <Breadcrumbs @crumbs={{array "a" "b"}} @onSelect={{onSelect}} />
+      </template>,
+    );
+
+    const link = document.querySelector<HTMLAnchorElement>(
+      '.cds--breadcrumb-item a',
+    )!;
+    const event = new MouseEvent('click', { bubbles: true, cancelable: true });
+    link.dispatchEvent(event);
+
+    assert.true(event.defaultPrevented, 'navigation to "#" is cancelled');
+    assert.deepEqual(selected, ['a']);
+  });
+
   test('should change selected item style', async function (this: RenderingTestContext, assert) {
     const selected = cell('');
     await render(

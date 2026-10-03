@@ -181,7 +181,7 @@ export default class CarbonButton extends Component<ButtonSignature> {
   }
 
   get layout() {
-    return `cds--layout--size-${this.args.size}`;
+    return this.args.size ? `cds--layout--size-${this.args.size}` : '';
   }
 
   get classes() {

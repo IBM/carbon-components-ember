@@ -32,9 +32,11 @@ export interface LinkSignature {
      */
     inline?: boolean;
     /**
-     * A component used to render an icon.
+     * A component used to render an icon, drawn at 16px (as Carbon React).
      */
-    renderIcon?: ComponentLike;
+    renderIcon?: ComponentLike<{
+      Args: { size?: number | string; svgClass?: string };
+    }>;
     /**
      * Specify the size of the Link. Currently supports either `sm`, `md`
      * (default) or `lg` as an option.
@@ -107,7 +109,7 @@ export default class Link extends Component<LinkSignature> {
         {{yield}}
         {{#if this.showIcon}}
           <span class="cds--link__icon">
-            <@renderIcon />
+            <@renderIcon @size="16" @svgClass="cds--link__icon-svg" />
           </span>
         {{/if}}
       </Tag>

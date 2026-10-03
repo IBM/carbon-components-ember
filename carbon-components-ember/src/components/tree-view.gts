@@ -190,7 +190,7 @@ class TreeNode extends Component<TreeNodeSignature> {
         {{/if}}
         <span class="cds--tree-node__label__details">
           {{#if @icon}}
-            <@icon @svgClass="cds--tree-node__icon" />
+            <@icon @size="16" @svgClass="cds--tree-node__icon" />
           {{/if}}
           <span id="{{this.nodeId}}__label" class="cds--tree-node__label__text">
             {{@label}}

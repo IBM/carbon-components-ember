@@ -95,9 +95,15 @@ module('Integration | Component | ai-chat/AiChatTruncatedText', (hooks) => {
     await waitForAnimationFrame();
 
     assert.dom('.cds-aichat-truncated-text__toggle').hasText('Show more');
+    assert
+      .dom('.cds-aichat-truncated-text__toggle')
+      .hasAttribute('aria-expanded', 'false');
 
     await click('.cds-aichat-truncated-text__toggle');
     assert.dom('.cds-aichat-truncated-text__toggle').hasText('Show less');
+    assert
+      .dom('.cds-aichat-truncated-text__toggle')
+      .hasAttribute('aria-expanded', 'true');
     assert
       .dom('.cds-aichat-truncated-text__content')
       .hasClass('cds-aichat-truncated-text__content--expanded');
