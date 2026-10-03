@@ -7,17 +7,16 @@
   "license": "MIT",
   "author": "",
   "scripts": {
-    "build": "pnpm build:carbon && pnpm build:docs",
+    "build": "pnpm build:carbon && pnpm build:storybook",
     "build:carbon": "pnpm --filter carbon-components-ember build",
-    "build:docs": "pnpm --filter docs-app build",
+    "build:storybook": "pnpm --filter carbon-components-ember build-storybook",
     "lint": "pnpm --filter carbon-components-ember lint",
     "lint:fix": "pnpm --filter carbon-components-ember lint:fix",
     "start": "pnpm --filter carbon-components-ember start",
-    "start:docs": "concurrently 'pnpm --filter carbon-components-ember build:watch' 'pnpm --filter docs-app start' --names addon,docs --prefix-colors cyan,yellow",
+    "storybook": "pnpm --filter carbon-components-ember storybook",
     "test": "pnpm --filter carbon-components-ember test"
   },
   "devDependencies": {
-    "concurrently": "^9.1.2",
     "release-plan": "^0.20.1",
     "yaml": "^2.7.0"
   },
