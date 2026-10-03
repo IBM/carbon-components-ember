@@ -108,6 +108,10 @@ export interface TabsComponentSignature {
   };
 }
 
+// Carbon's `lg` breakpoint — same `rem` value upstream uses in `Tabs.js`
+// (`breakpoints.lg.width` from `@carbon/layout`, which is `66rem`).
+const LG_BREAKPOINT = '(min-width: 66rem)';
+
 export default class TabsComponent extends Component<TabsComponentSignature> {
   @tracked resized: number = 1;
   @tracked scrolled: number = 1;
@@ -115,6 +119,22 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
   @tracked focusedTab?: TabPane;
   @tracked tabsDivElement?: HTMLDivElement;
   @tracked tabs: TabPane[] = [];
+  @tracked isLg: boolean =
+    typeof window !== 'undefined'
+      ? window.matchMedia(LG_BREAKPOINT).matches
+      : true;
+
+  constructor(owner: Owner, args: TabsComponentSignature['Args']) {
+    super(owner, args);
+    if (typeof window !== 'undefined') {
+      const mql = window.matchMedia(LG_BREAKPOINT);
+      const onChange = (e: MediaQueryListEvent) => {
+        this.isLg = e.matches;
+      };
+      mql.addEventListener('change', onChange);
+      registerDestructor(this, () => mql.removeEventListener('change', onChange));
+    }
+  }
 
   get guid() {
     return guidFor(this);
@@ -174,7 +194,10 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
 
   get showFullWidthClass() {
     return (
-      !!this.args.fullWidth && !!this.args.contained && this.tabs.length < 9
+      !!this.args.fullWidth &&
+      !!this.args.contained &&
+      this.tabs.length < 9 &&
+      this.isLg
     );
   }
 
