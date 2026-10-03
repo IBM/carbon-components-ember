@@ -110,12 +110,22 @@ function sortByFixed(actions: ToolbarAction[]) {
  * every resize and correctly grows back.
  */
 export default class Toolbar extends Component<ToolbarSignature> {
-  @tracked visibleActions: ToolbarAction[] = [];
-  @tracked hiddenActions: ToolbarAction[] = [];
+  // How many of the sorted actions fit before the overflow menu. Only the
+  // index is stored, so the rendered actions always come from the current
+  // `@actions`, even when they change without the split changing.
+  @tracked splitIndex = 0;
   @tracked measured = false;
 
   get sortedActions() {
     return sortByFixed(this.args.actions ?? []);
+  }
+
+  get visibleActions() {
+    return this.sortedActions.slice(0, this.splitIndex);
+  }
+
+  get hiddenActions() {
+    return this.sortedActions.slice(this.splitIndex);
   }
 
   get showOverflowMenu() {
@@ -136,10 +146,9 @@ export default class Toolbar extends Component<ToolbarSignature> {
     return this.showOverflowMenu ? this.hiddenActions : [];
   }
 
-  // Not @tracked: purely a guard to skip reassigning `visibleActions`/
-  // `hiddenActions` (and so triggering a re-render) when a resize produces
-  // the same split as before. Without this, a real DOM change from *any*
-  // reassignment (even to a new array with identical content) can nudge
+  // Not @tracked: purely a guard to skip reassigning `splitIndex` (and so
+  // triggering a re-render) when a resize produces the same split as
+  // before. Without this, a real DOM change from *any* reassignment can nudge
   // `.cds-aichat-toolbar__end`'s own layout enough to refire the
   // ResizeObserver observing it, which recomputes the same idx and
   // reassigns again - an infinite loop the browser eventually reports as
@@ -194,8 +203,7 @@ export default class Toolbar extends Component<ToolbarSignature> {
     this.measured = true;
     if (idx === this.lastIdx) return;
     this.lastIdx = idx;
-    this.visibleActions = sorted.slice(0, idx);
-    this.hiddenActions = sorted.slice(idx);
+    this.splitIndex = idx;
   }
 
   // Only observes the container's own width. A consumer changing the size
@@ -203,7 +211,7 @@ export default class Toolbar extends Component<ToolbarSignature> {
   // container itself resizing (rare - both are typically fixed-size icon
   // slots) won't trigger a recompute; not observing them also sidesteps a
   // feedback loop `recomputeOverflow` would otherwise create by rewriting
-  // `visibleActions`/`hiddenActions`, which live inside this same subtree.
+  // `splitIndex`, whose actions render inside this same subtree.
   observeOverflow = modifier((element: HTMLElement) => {
     if (!this.args.overflow) return undefined;
     let raf: number | undefined;
