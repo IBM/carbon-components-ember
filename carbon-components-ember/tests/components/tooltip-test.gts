@@ -9,7 +9,9 @@ import {
   triggerEvent,
   triggerKeyEvent,
   waitUntil,
+  settled,
 } from '@ember/test-helpers';
+import { trackedObject } from '@ember/reactive/collections';
 import Tooltip from '#src/components/tooltip.gts';
 import { cell } from 'ember-resources';
 import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
@@ -141,35 +143,68 @@ module('Integration | Component | Tooltip', (hooks) => {
     assert.dom('.cds--tooltip').hasClass('cds--popover--drop-shadow');
   });
 
-  test('@label sets aria-labelledby on the trigger wrapper', async function (assert) {
+  test('@label names the trigger itself through aria-labelledby', async function (assert) {
     await render(
       <template>
         <Tooltip @label="Close">
-          <button type="button">Trigger</button>
+          <button type="button" class="trigger"></button>
         </Tooltip>
       </template>,
     );
 
     const content = document.querySelector('.cds--tooltip-content')!;
+    assert.dom('.trigger').hasAttribute('aria-labelledby', content.id);
+    // The wrapper has no role, so ARIA naming attributes aren't allowed on it.
     assert
       .dom('.cds--tooltip-trigger__wrapper')
-      .hasAttribute('aria-labelledby', content.id);
+      .doesNotHaveAttribute('aria-labelledby')
+      .doesNotHaveAttribute('aria-describedby');
   });
 
-  test('@description sets aria-describedby on the trigger wrapper', async function (assert) {
+  test('@description describes the trigger through aria-describedby', async function (assert) {
     await render(
       <template>
         <Tooltip @description="Closes the dialog">
-          <button type="button">Trigger</button>
+          <button type="button" class="trigger">Trigger</button>
         </Tooltip>
       </template>,
     );
 
     const content = document.querySelector('.cds--tooltip-content')!;
-    assert
-      .dom('.cds--tooltip-trigger__wrapper')
-      .hasAttribute('aria-describedby', content.id);
+    assert.dom('.trigger').hasAttribute('aria-describedby', content.id);
+    assert.dom('.trigger').doesNotHaveAttribute('aria-labelledby');
     assert.dom('.cds--tooltip-content').hasText('Closes the dialog');
+  });
+
+  test('the trigger keeps its own aria attribute once the tooltip is removed', async function (assert) {
+    const state = trackedObject({ withTooltip: true });
+
+    await render(
+      <template>
+        {{#if state.withTooltip}}
+          <Tooltip @description="Tooltip">
+            <button
+              type="button"
+              class="trigger"
+              aria-describedby="own-description"
+            >Trigger</button>
+          </Tooltip>
+        {{/if}}
+        <span id="own-description">Own</span>
+      </template>,
+    );
+
+    const content = document.querySelector('.cds--tooltip-content')!;
+    const trigger = document.querySelector('.trigger')!;
+    assert.strictEqual(trigger.getAttribute('aria-describedby'), content.id);
+
+    state.withTooltip = false;
+    await settled();
+    assert.strictEqual(
+      trigger.getAttribute('aria-describedby'),
+      'own-description',
+      'the original value is restored on teardown',
+    );
   });
 
   test('opens on focus and closes on blur', async function (assert) {

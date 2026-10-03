@@ -175,12 +175,6 @@ CardFooter.test(
 
 export const IconButtons = meta.story({
   args: { footerActions: '2 ghost icon buttons' },
-  parameters: {
-    // Known violations in the shared `Tooltip` wrapping each icon-only
-    // button: `aria-prohibited-attr` (aria-labelledby on its role-less
-    // trigger span) and `button-name` (the label never names the button).
-    a11y: { test: 'todo' },
-  },
 });
 
 export const DisabledAction = meta.story({
@@ -202,10 +196,6 @@ export const ViewingAction = DisabledAction.extend({
 
 export const InACard = meta.story({
   parameters: {
-    // Known violations in the shared `Tooltip` wrapping each icon-only
-    // button: `aria-prohibited-attr` (aria-labelledby on its role-less
-    // trigger span) and `button-name` (the label never names the button).
-    a11y: { test: 'todo' },
     docs: {
       description: {
         story:

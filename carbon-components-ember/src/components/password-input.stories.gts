@@ -16,12 +16,7 @@ type Args = Signature['Args'];
 const meta = preview.meta({
   title: 'Components/PasswordInput',
   component: PasswordInput,
-  // Known violations in PasswordInput itself: the visibility toggle has no
-  // accessible name (button-name; the tooltip label isn't wired to it), and
-  // its Tooltip wrapper puts `aria-labelledby` on a role-less span
-  // (aria-prohibited-attr).
   parameters: {
-    a11y: { test: 'todo' },
     docs: {
       description: {
         component:

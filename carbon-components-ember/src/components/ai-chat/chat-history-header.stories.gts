@@ -47,15 +47,7 @@ const meta = preview.meta({
   },
 });
 
-export const Default = meta.story({
-  parameters: {
-    // Known violations in the shared `Tooltip` wrapping the icon-only close
-    // button: `aria-prohibited-attr` (aria-labelledby on its role-less
-    // trigger span) and `button-name` (`@closeButtonLabel` never names the
-    // button).
-    a11y: { test: 'todo' },
-  },
-});
+export const Default = meta.story({});
 
 Default.test(
   'the close button calls @onClose',

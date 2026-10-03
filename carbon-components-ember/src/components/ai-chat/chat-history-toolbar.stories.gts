@@ -14,11 +14,6 @@ const meta = preview.meta({
   title: 'AI Chat/Chat history/Toolbar',
   component: ChatHistoryToolbar,
   parameters: {
-    // Known violations in the shared `Tooltip` wrapping the icon-only
-    // "new chat" button: `aria-prohibited-attr` (aria-labelledby on its
-    // role-less trigger span) and `button-name` (`@newChatLabel` never names
-    // the button).
-    a11y: { test: 'todo' },
     docs: {
       description: {
         component:

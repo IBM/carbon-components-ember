@@ -261,12 +261,10 @@ const meta = preview
   });
 
 export const Default = meta.story({
-  // Known violations in components this story composes (reported as
-  // warnings until fixed): `Toolbar`'s icon-only action buttons have no
-  // accessible name (button-name), and the `Tooltip` wrapping each one puts
-  // `aria-labelledby` on a role-less span (aria-prohibited-attr). With
-  // `bodyContent: 'long'`, `AiChatCodeSnippet`'s read-only container also
-  // puts `aria-label` on a role-less div (aria-prohibited-attr).
+  // Known violation in a component this story composes (reported as a
+  // warning until fixed): with `bodyContent: 'long'`, `AiChatCodeSnippet`'s
+  // read-only container puts `aria-label` on a role-less div
+  // (aria-prohibited-attr).
   parameters: {
     a11y: { test: 'todo' },
   },

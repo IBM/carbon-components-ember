@@ -29,10 +29,6 @@ const meta = preview.meta({
     //   trigger is a role="button" with only an aria-describedby tooltip),
     //   and, once open, `aria-required-parent` (role="menuitem" without a
     //   menu) and `list` (its options `<ul>`).
-    // - Tooltip around the rename input's icon-only
-    //   cancel/save buttons: `aria-prohibited-attr`
-    //   (aria-labelledby on its role-less trigger span) and `button-name`
-    //   (the tooltip label never names the button).
     // - ChatHistoryPanelItemInput (while renaming): `label` (the item
     //   passes it no `@labelText`, so its input has no accessible name).
     a11y: { test: 'todo' },
