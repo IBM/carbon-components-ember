@@ -12,6 +12,9 @@ export default defineMain({
 
   framework: 'ember-storybook',
 
+  // Sample media for the AudioPlayer and VideoPlayer stories.
+  staticDirs: ['./public'],
+
   // ember-basic-dropdown (behind Select, Dropdown, ...) renders its content
   // into this element, which apps add to their application template.
   previewBody: (body) => `${body}
