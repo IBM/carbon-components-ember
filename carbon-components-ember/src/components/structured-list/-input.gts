@@ -45,17 +45,21 @@ export default class StructuredListInput extends Component<StructuredListInputSi
   }
 
   <template>
-    <input
-      type={{this.type}}
-      tabindex="0"
-      checked={{@row.isSelected}}
-      value={{@row.rowId}}
-      id={{this.id}}
-      class="cds--structured-list-input cds--visually-hidden"
-      name={{this.name}}
-      title={{@title}}
-      {{on "change" this.handleChange}}
-      ...attributes
-    />
+    {{! A row may only own cells, so the (visually hidden) input sits in one;
+      being out of flow, the cell adds no column. }}
+    <div role="cell" class="cds--visually-hidden">
+      <input
+        type={{this.type}}
+        tabindex="0"
+        checked={{@row.isSelected}}
+        value={{@row.rowId}}
+        id={{this.id}}
+        class="cds--structured-list-input cds--visually-hidden"
+        name={{this.name}}
+        title={{@title}}
+        {{on "change" this.handleChange}}
+        ...attributes
+      />
+    </div>
   </template>
 }

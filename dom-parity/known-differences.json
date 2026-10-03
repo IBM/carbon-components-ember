@@ -118,6 +118,20 @@
       "path": "div > div[0] > div[0] > div[1].attributes.role",
       "variant": "open-with-steps",
       "reason": "Same harness limitation as the div[0].role entry above, for the second (interactive) step - only reachable in the open-with-steps variant, which renders two steps."
+    },
+    {
+      "path": "div > div[0].attributes.inert",
+      "variant": "closed-with-steps",
+      "reason": "Deliberate a11y divergence: upstream's `ReasoningSteps` sets `inert` on each step host while closed (`propagateOpen()`), which the harness can't see (host-only attribute). The port sets `inert` on the closed wrapper instead, covering every step at once, so its aria-hidden content has nothing focusable (axe aria-hidden-focus)."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[0] > div[1].attributes.inert",
+      "reason": "Deliberate a11y divergence: a closed step's panel is aria-hidden, so the port also makes it `inert`, keeping any focusable body content out of the tab order (axe aria-hidden-focus). Upstream relies on its panel being collapsed by CSS only."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[1] > div[1].attributes.inert",
+      "variant": "open-with-steps",
+      "reason": "Same as the div[0] > div[1] inert entry above, for the second step."
     }
   ],
   "RadioTile": [
