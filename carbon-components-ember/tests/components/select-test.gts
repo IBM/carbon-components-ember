@@ -30,9 +30,12 @@ module('Integration | Component | Select', function (hooks) {
         </template>,
       );
 
+      // In the wide label area, left of the chevron, not inside the narrow
+      // chevron field.
       assert
-        .dom('.cds--list-box__field .cds--list-box__label')
+        .dom('.cds--list-box__field--wrapper > .cds--list-box__label')
         .hasText('Choose a fruit');
+      assert.dom('.cds--list-box__field .cds--list-box__label').doesNotExist();
       assert
         .dom('.ember-power-select-option')
         .doesNotExist('closed by default');

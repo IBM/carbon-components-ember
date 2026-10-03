@@ -104,6 +104,18 @@ const wormhole = () =>
 
 export const Single = meta.story();
 
+Single.test(
+  'shows the placeholder at the left, ahead of the chevron',
+  async ({ canvas, canvasElement }) => {
+    const placeholder = await canvas.findByText('Choose a fruit');
+    const chevron = canvasElement.querySelector('.cds--list-box__menu-icon')!;
+    const placeholderBox = placeholder.getBoundingClientRect();
+    const chevronBox = chevron.getBoundingClientRect();
+    await expect(placeholderBox.left).toBeLessThan(chevronBox.left);
+    await expect(placeholderBox.right).toBeLessThanOrEqual(chevronBox.left);
+  },
+);
+
 Single.test('selects an option', async ({ canvasElement, userEvent, args }) => {
   const trigger = canvasElement.querySelector<HTMLElement>(
     '.ember-power-select-trigger',
