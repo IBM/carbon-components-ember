@@ -118,7 +118,8 @@ Danger.test(
     ).toBeInTheDocument();
     await expect(args.onClick).not.toHaveBeenCalled();
 
-    await userEvent.click(canvas.getByRole('button', { name: 'Danger' }));
+    // The dialog's accept button, named by its text.
+    await userEvent.click(canvas.getByRole('button', { name: 'Okay' }));
     await expect(args.onClick).toHaveBeenCalledOnce();
   },
 );
