@@ -1,6 +1,6 @@
 [
   [
-    "<ul class=\"cds--accordion cds--accordion--end\n        cds--accordion--md\" data-index=\"0\"></ul>",
+    "<ul class=\"cds--accordion cds--accordion--end\n        \" data-index=\"0\"></ul>",
     {
       "height": "42px"
     }

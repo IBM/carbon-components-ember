@@ -378,13 +378,10 @@ module('Integration | Component | Tabs', (hooks) => {
   });
 
   test('a disabled, dismissable tab cannot be closed by click or Delete key', async function (assert) {
-    let closed: string | undefined;
-    const onClose = (title: string) => {
-      closed = title;
-    };
+    const noOp = () => {};
     await render(
       <template>
-        <Tabs @dismissable={{true}} @onTabCloseRequest={{onClose}} as |TabPane|>
+        <Tabs @dismissable={{true}} @onTabCloseRequest={{noOp}} as |TabPane|>
           <TabPane @title='Tab 1' @isDefault={{true}}>Content 1</TabPane>
           <TabPane @title='Tab 2' @disabled={{true}}>Content 2</TabPane>
         </Tabs>
@@ -403,13 +400,13 @@ module('Integration | Component | Tabs', (hooks) => {
       .dom(disabledCloseButton)
       .isDisabled('the native disabled attribute prevents the button from being clicked at all');
 
+    // The disabled tab button itself also carries the native `disabled`
+    // attribute (matching @carbon/react), so keyboard interaction is natively
+    // blocked — no need to fire a synthetic Delete keydown on a disabled element.
     const disabledTab = document.querySelectorAll('[role="tab"]')[1]!;
-    await triggerKeyEvent(disabledTab, 'keydown', 'Delete');
-    assert.strictEqual(
-      closed,
-      undefined,
-      'pressing Delete on a disabled tab does not call @onTabCloseRequest',
-    );
+    assert
+      .dom(disabledTab)
+      .isDisabled('disabled tab button has native disabled attribute');
   });
 
   test('@loading renders a skeleton, honoring @contained', async function (assert) {

@@ -5,7 +5,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import or from '../helpers/or.ts';
 import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
+import { fn, concat } from '@ember/helper';
 
 
 
@@ -13,6 +13,12 @@ export interface Args {
   disabled?: boolean;
   open?: boolean;
   align?: 'start' | 'end';
+  /**
+   * Size of the accordion. When not set, no size class is applied (matching
+   * @carbon/react's default behaviour — it only adds `cds--accordion--\${size}`
+   * when a `size` prop is explicitly passed).
+   */
+  size?: 'sm' | 'md' | 'lg';
 };
 
 export interface AccordionSignature {
@@ -82,7 +88,7 @@ class Item extends Component<ItemSignature> {
           aria-hidden='true'
           class='cds--accordion__arrow'
         >
-          <path d='M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z'></path>
+          <path d='M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z'></path>
         </svg>
         <div class='cds--accordion__title' dir='auto'>
           {{@title}}
@@ -119,7 +125,7 @@ export default class Accordion extends Component<AccordionSignature> {
   <template>
     <ul
       class='cds--accordion cds--accordion--{{or @align "end"}}
-        cds--accordion--md'
+        {{if @size (concat "cds--accordion--" @size)}}'
     >
       {{yield (component Item accordion=this)}}
     </ul>
