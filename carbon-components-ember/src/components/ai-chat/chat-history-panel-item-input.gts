@@ -6,6 +6,7 @@
  */
 
 import Component from '@glimmer/component';
+import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
@@ -54,7 +55,12 @@ export interface ChatHistoryPanelItemInputSignature {
  * button) hardcodes its own alignment the same way.
  */
 export default class ChatHistoryPanelItemInput extends Component<ChatHistoryPanelItemInputSignature> {
-  @tracked value = this.args.value ?? '';
+  @tracked value: string;
+
+  constructor(owner: Owner, args: ChatHistoryPanelItemInputSignature['Args']) {
+    super(owner, args);
+    this.value = args.value ?? '';
+  }
   @tracked valueChanged = false;
   initialValue = this.args.value ?? '';
   actionTriggered = false;
