@@ -26,6 +26,10 @@ export default defineMain({
   viteFinal: (config) =>
     mergeConfig(config, {
       optimizeDeps: { exclude: ['ember-storybook'] },
+      // Babel compiles TypeScript (and its decorators, e.g. @tracked).
+      // @embroider/vite only turns Vite's own transform off when nothing has
+      // configured it yet, which isn't the case under Storybook.
+      oxc: false,
     }),
 
   core: {
