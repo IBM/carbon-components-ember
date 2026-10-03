@@ -41,7 +41,10 @@ export default class CarbonBreadcrumb extends Component<BreadcrumbSignature> {
   });
 
   @action
-  onSelect(crumb: string) {
+  onSelect(crumb: string, event: MouseEvent) {
+    // The crumbs are `href="#"` links driven by `@onSelect`; don't follow
+    // them (it would jump the page and add a history entry).
+    event.preventDefault();
     this.args.onSelect?.(crumb);
   }
 

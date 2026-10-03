@@ -333,7 +333,9 @@ module('Integration | Component | TreeView', (hooks) => {
     await waitUntil(() =>
       document.querySelector('#node-1 .cds--tree-node__icon'),
     );
-    assert.dom('#node-1 .cds--tree-node__icon').exists();
+    assert
+      .dom('#node-1 .cds--tree-node__icon')
+      .hasAttribute('width', '16', 'drawn at 16px, as Carbon React');
   });
 
   test('every icon in a tree with multiple mixed parent/leaf icons at different depths becomes visible', async function (assert) {

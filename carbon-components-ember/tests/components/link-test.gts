@@ -112,7 +112,9 @@ module('Integration | Component | Link', (hooks) => {
     await waitUntil(() => find('.cds--link__icon svg'));
 
     assert.dom('a.cds--link').hasClass('cds--link--icon');
-    assert.dom('.cds--link__icon svg').exists();
+    assert
+      .dom('.cds--link__icon svg')
+      .hasAttribute('width', '16', 'drawn at 16px, as Carbon React');
   });
 
   test('should not render the icon wrapper when inline', async function (assert) {
