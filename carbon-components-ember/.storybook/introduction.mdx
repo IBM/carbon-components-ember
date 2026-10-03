@@ -13,6 +13,14 @@ kept in parity with [`@carbon/react`](https://react.carbondesignsystem.com).
 pnpm add carbon-components-ember
 ```
 
+### Compatibility
+
+- **Ember:** tested against `ember-source` 7 (the current release), and in CI
+  against the beta and alpha channels too.
+- **Apps:** it's a v2 addon. Embroider/Vite apps work as-is; classic ember-cli
+  apps need `ember-auto-import` 2. Apps compile its stylesheets, so they need
+  `sass`.
+
 Load Carbon's styles and the addon's own stylesheet once, in your app's
 entry point:
 
