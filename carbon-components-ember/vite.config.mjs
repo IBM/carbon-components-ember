@@ -144,6 +144,8 @@ export default defineConfig({
             storybookScript: 'pnpm storybook --no-open',
           }),
         ],
+        // Same as `oxc` in .storybook/main.ts: Babel compiles TypeScript.
+        oxc: false,
         optimizeDeps: {
           // Same as `viteFinal` in .storybook/main.ts, which the vitest
           // plugin only takes plugins from.
@@ -155,6 +157,8 @@ export default defineConfig({
             'ember-source/@ember/owner/index.js',
             'ember-source/@ember/array/index.js',
             '@storybook/addon-a11y',
+            // Loaded lazily by @storybook/addon-a11y.
+            'axe-core',
             '@storybook/addon-docs',
             '@storybook/addon-themes',
             '@storybook/addon-vitest',

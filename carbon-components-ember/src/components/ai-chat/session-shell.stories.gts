@@ -43,26 +43,6 @@ import type {
 const REPLY = 'This is a simulated streamed reply from the host application.';
 const PERSISTENCE_KEY = 'storybook:ai-chat/session-shell/with-persistence';
 
-// WORKAROUND (Storybook build only - remove once fixed): under the vitest
-// Storybook project, plain `.ts` modules are transpiled by Vite's esbuild
-// (TS `experimentalDecorators` + define-semantics class fields) instead of
-// Babel, so `ChatSession`'s `@tracked` fields end up as own data properties
-// that shadow the tracked accessors on its prototype and never re-render
-// anything (the docs-app/test-app builds use Babel and aren't affected).
-// Moving each shadowing own value back onto its accessor restores the real
-// reactive behavior; it's a no-op when the build is correct.
-function restoreTrackedFields(session: ChatSession) {
-  const record = session as unknown as Record<string, unknown>;
-  const proto = Object.getPrototypeOf(session) as object;
-  for (const key of Object.keys(session)) {
-    if (Object.getOwnPropertyDescriptor(proto, key)?.get) {
-      const value = record[key];
-      delete record[key];
-      record[key] = value;
-    }
-  }
-}
-
 let renderCount = 0;
 const uniqueId = (prefix: string) => `${prefix}-${++renderCount}`;
 
@@ -98,7 +78,6 @@ class SessionShellHost extends Component<{ Args: HostArgs }> {
   constructor(owner: Owner, args: HostArgs) {
     super(owner, args);
     this.session = this.sessions.for(args.instanceId);
-    restoreTrackedFields(this.session);
 
     // Restoring/seeding reads and then writes the session's tracked state,
     // which mustn't happen inside the render that constructs this component
