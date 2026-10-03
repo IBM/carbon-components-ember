@@ -29,6 +29,14 @@ source, following the [`@ember/addon-blueprint`](https://github.com/ember-cli/em
 - `pnpm --filter carbon-components-ember test:update-snapshots` – re-records the style
   snapshots in `carbon-components-ember/tests/__snapshots__`
 
-## Running the docs app
+## Docs (Storybook)
 
-- `pnpm start:docs`
+The documentation site is a Storybook: each component has a colocated
+`*.stories.gts` file, and its docs page is generated from the component's Glint
+signature and JSDoc.
+
+- `pnpm storybook` – starts Storybook on http://localhost:6006
+- `pnpm --filter carbon-components-ember test:storybook` – runs every story as a
+  browser test, axe accessibility checks included
+- `pnpm build:storybook` – builds the static site (published at
+  `versions/<version>/` on GitHub Pages)

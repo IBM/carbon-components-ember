@@ -635,14 +635,14 @@ are easy to name generically (`group.gts`, `item.gts`, `row.gts`...). If a
 **publicly exported** component (one re-exported from
 `src/components.ts`) shares its exact filename with another publicly
 exported component elsewhere in the tree — even in a different
-directory — docs-app's production Vite build (which uses an aggressive
-`treeshake: 'smallest'` rollup setting) has been observed to silently
+directory — a consuming app's production Vite build (docs-app's, with an
+aggressive `treeshake: 'smallest'` rollup setting) has been observed to silently
 mis-name one of the two exports in the generated component registry. The
 addon's own build (`pnpm build:carbon`) looks completely correct and every
 test/lint passes; the failure only shows up as a runtime
 `TypeError: Cannot convert undefined or null to object` (at
-`getPrototypeOf`) in the browser console on the deployed docs preview, where
-the affected component's demo silently fails to render. This bit `TileGroup`
+`getPrototypeOf`) in the browser console of the built app (here the old
+docs-app preview), where the affected component silently fails to render. This bit `TileGroup`
 (`tile/group.gts`) because `radio-button/group.gts` already existed with the
 same basename `group.gts` — renaming to `tile/tile-group.gts` fixed it.
 
@@ -714,14 +714,13 @@ tested from `test-app` renders nothing at all, silently, not a
 lazy-loading race (see the `renderIcon`-default-size gotcha above for that
 separate, real timing issue), a genuine no-op for whatever string it names.
 
-**One real, deliberate exception exists in `docs-app`**, so don't restate
-this as "zero hits repo-wide" without rerunning the grep against
-`docs-app/app` too: `docs-app/app/templates/2-components/icon.gjs.md`'s
-own live-preview demo imports `registerIcon` from
-`carbon-components-ember/components/icon` and calls
-`registerIcon('bookmark', BookmarkSvgInfo)` for real, then renders
-`<Icon @icon='bookmark' />` right below it — that one string *does*
-resolve, on that one docs page. No other string is ever registered
+**One real, deliberate exception exists in the stories**, so don't restate
+this as "zero hits repo-wide" without rerunning the grep against the
+`*.stories.gts` files too: `src/components/icon.stories.gts` imports
+`registerIcon` from `./icon.gts` and calls
+`registerIcon('bookmark', BookmarkSvg)` for real, then renders
+`<Icon @icon='bookmark' />` — that one string *does* resolve, in that one
+story (it was docs-app's icon page demo before docs-app was retired). No other string is ever registered
 anywhere in the repo (confirmed by the `list/-row.gts` finding below,
 which checked `'checkmark--filled'` specifically, not by assuming this
 paragraph's conclusion).
@@ -764,7 +763,7 @@ assume is intentional.
 - [ ] Add a colocated `<name>.stories.gts` (see "Storybook" below) mirroring Carbon React's stories for the component
 - [ ] Build: `cd carbon-components-ember && pnpm build`
 - [ ] Test: `cd carbon-components-ember && pnpm test`
-- [ ] If a docs example uses an icon, load the docs page (or an isolated render test) and confirm it actually renders — icons no longer need manual registration (see Pitfall 5), but this is still the only way to catch a genuinely missing/misnamed export
+- [ ] Story tests: `cd carbon-components-ember && pnpm exec vitest run --project storybook src/components/<name>.stories.gts` (axe included); a story that uses an icon must show it rendering
 
 ## Addon Layout and Tests (`@ember/addon-blueprint`)
 
@@ -826,7 +825,7 @@ file that mention `test-app/...` paths predate the migration and now mean
   `pnpm lint:publish` (publint) is what catches a broken `exports` entry.
 - **Astroturf CSS-module filenames** are derived from the file name
   (`iconIcon.module.scss`), since `decorator-transforms` keeps class fields
-  native. docs-app's `theme-support.gts` imports a few of them by name.
+  native.
 
 ## Simplification Guidelines
 
@@ -916,9 +915,11 @@ both.
 
 ## Storybook (`ember-storybook`)
 
-Stories live next to their component as `src/components/**/<name>.stories.gts`
-and are being ported from docs-app's `.gjs.md` pages (docs-app stays deployed
-alongside until the port is complete). Setup lives in
+Stories live next to their component as `src/components/**/<name>.stories.gts`.
+The Storybook **is** the documentation site: it's published at
+`versions/<version>/` on GitHub Pages (and `pr-previews/pr-<n>/` for PRs with
+the `preview` label). It replaced docs-app, whose `.gjs.md` pages were all
+ported to stories before docs-app was removed. Setup lives in
 `carbon-components-ember/.storybook/` and follows the
 [ember-storybook guide](https://ember-integrations.github.io/ember-storybook/getting-started).
 
@@ -949,11 +950,18 @@ npm `files` list.
   note it in the stories file, don't fake it. AI Chat stories mirror
   `@carbon/ai-chat-components`' stories (`<component>/__stories__/*.stories.js`
   in carbon-design-system/carbon-ai-chat) under `AI Chat/<upstream name>`.
-- **Nothing from docs-app is lost.** Every live demo on the docs-app page
-  becomes a story (or is covered by a parity story), and its prose moves to
-  `parameters.docs.description.component` / `.story` (markdown). The API table
-  is generated from the signature, so JSDoc on the component's args is the
-  place to improve it.
+- **Docs prose** goes in `parameters.docs.description.component` / `.story`
+  (markdown). The API table is generated from the signature, so JSDoc on the
+  component's args is the place to improve it.
+- **Sub-components get their own story file** (titled under the parent, e.g.
+  `Components/FileUploader/FileUploaderItem`), not `subcomponents` on the
+  parent's meta (see the gotcha below).
+- **Static files** (e.g. sample media) go in `.storybook/public/` and are
+  referenced by relative URLs (`demo-support/sample-audio.mp3`), so they work
+  under any deploy path.
+- **Toolbar tools** (`.storybook/site-tools.ts`): a version switcher (lists
+  `versions/*` on gh-pages) and an "Edit this page" link to the current story
+  file.
 - **Rendering.** Blockless components need no `render`: every arg is passed as
   `@named`. Components with blocks get a `render: (args) => <template>...`
   that reads `args.x`. Story-only args (e.g. the text yielded into a block)
@@ -3612,4 +3620,4 @@ surfacing here are repeated below.
 
 ---
 
-Last Updated: 2026-10-02
+Last Updated: 2026-10-03

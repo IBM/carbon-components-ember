@@ -106,8 +106,8 @@ interface PersistedChatSession {
  * See AGENTS.md's "Porting Carbon AI Chat" -> "Orchestration layer" section
  * for the full React -> Ember mapping table and the list of upstream
  * responsibilities deliberately left out of this first pass (human-agent
- * handoff, custom panels, theming - docs-app's own `ThemeSupport` already
- * owns that last one here) and the "Persistence" subsection for
+ * handoff, custom panels, theming - the host app's (here Storybook's) theme
+ * switcher owns that last one) and the "Persistence" subsection for
  * `enablePersistence()`'s design.
  */
 export class ChatSession {

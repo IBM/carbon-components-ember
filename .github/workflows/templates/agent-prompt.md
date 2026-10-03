@@ -154,12 +154,13 @@ component synced and push that update (see Phase 4, step 3).
    - Test edge cases
 
 
-5. **Add Documentation**
-   - Create or update docs at `docs-app/app/templates/2-components/{{COMPONENT_NAME_KEBAB}}.md` (a `gjs live preview` code block per example — look at an existing file there, e.g. `tree-view.md`, for the pattern). This is the only location kolay globs for the sidenav/routes; a doc under `docs-app/public/` is served as a static file but never appears in the docs app. There is no `docs-app/app/routes/components/` directory
-   - If the component belongs to a family that already has its own folder there (`form/`, `indicator/`, `layout/`, `list/`, `progress/`, `select/`, `skeleton/`, `text-input/`), put the doc inside that folder under its family-relative name instead — e.g. `SkeletonTile` goes to `skeleton/tile.md`, not `skeleton-tile.md`. Folders are what group entries in the sidenav
-   - Add one live-preview example per story from the Phase 1 step 2 story list — don't stop at a single default example. If the React Storybook has separate stories for things like controlled state, icons, disabled state, multiselect, or sizing, mirror each as its own docs example
-   - Document all props/args (an API-reference block via `ComponentSignature`, like the bottom of `tree-view.md`, is generated from the TS signature — but any prose/example coverage still needs to be added by hand)
-   - If any example uses an icon from `carbon-components-ember/icons`, register that icon in `docs-app/app/routes/application.ts` (import it and add it to the `carbon-components-ember/icons` resolve map) — otherwise it silently fails to render in the live preview with no error. See AGENTS.md's "New Icons Used in Docs Examples Don't Render" pitfall
+5. **Add Documentation (stories)**
+   - The docs site is Storybook. Add a colocated story file next to the component, `carbon-components-ember/src/components/{{COMPONENT_NAME_KEBAB}}.stories.gts`, following the conventions in AGENTS.md's "Storybook (`ember-storybook`)" section (CSF Next: `preview.meta()` / `meta.story()`, the `component` in the meta, a `docs.description.component` paragraph). Look at an existing file, e.g. `tree-view.stories.gts`, for the pattern
+   - Its docs page (args table, element, blocks) is generated from the component's Glint signature and JSDoc, so document every arg with JSDoc in the component itself
+   - Title it like its siblings: `Components/<Name>`, or under its parent for a sub-component (e.g. `Components/FileUploader/FileUploaderItem`). Sub-components get their own story file; don't list them as `subcomponents` (unsupported by ember-storybook 0.4.2)
+   - Add one story per story from the Phase 1 step 2 story list — don't stop at a single default story. If the React Storybook has separate stories for things like controlled state, icons, disabled state, multiselect, or sizing, mirror each as its own story
+   - Add `Story.test(...)` interaction tests for the behaviour that matters; stories are browser tests (`pnpm test:storybook`), and axe accessibility violations fail them
+   - Icons from `carbon-components-ember/icons` need no registration; just import them
    - Reference Carbon Design System docs
 
 #### Path C: Exclude - Doesn't Apply to Ember
@@ -199,7 +200,7 @@ Use this path only when the component genuinely doesn't belong as a standalone E
    *publicly exported* component (one listed in `src/components/index.ts`;
    private sub-components prefixed with `-` don't count) must be renamed to
    something more specific before you finish. This isn't a style nit —
-   docs-app's production build has silently mis-registered one of two
+   a production build has silently mis-registered one of two
    same-named exported components before (`TileGroup`'s `tile/group.gts`
    collided with the pre-existing `radio-button/group.gts`, both just named
    `group.gts`), causing the deployed docs preview to crash with
@@ -304,8 +305,7 @@ Otherwise, your implementation is complete when ALL of these are true:
 - [ ] Component file created/updated in correct location (skip if no code changes were needed)
 - [ ] Component exported in `index.ts` (skip if no code changes were needed)
 - [ ] Tests created and cover main functionality (skip if no code changes were needed)
-- [ ] Documentation added at `docs-app/app/templates/2-components/{{COMPONENT_NAME_KEBAB}}.md` (or inside the matching family folder there), with one live-preview example per story enumerated in Phase 1 step 2 — not just a single default example (skip if no code changes were needed)
-- [ ] Any icon used in a docs example is registered in `docs-app/app/routes/application.ts` and actually renders (skip if no icons are used)
+- [ ] Stories added at `carbon-components-ember/src/components/{{COMPONENT_NAME_KEBAB}}.stories.gts`, with one story per story enumerated in Phase 1 step 2 — not just a single default story — and `pnpm test:storybook` passing for that file, axe included (skip if no code changes were needed)
 - [ ] Build succeeds: `cd carbon-components-ember && pnpm build`
 - [ ] CSS classes use `cds--` prefix
 - [ ] Each React construct was translated to its Ember idiom per Phase 1 step 4 / AGENTS.md, not transliterated (skip if no code changes were needed)
