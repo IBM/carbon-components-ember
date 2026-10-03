@@ -73,12 +73,6 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'AI Chat/Table',
   component: Table,
   parameters: {
-    // Known violations in the shared `Tooltip` around the download button:
-    // it puts `aria-labelledby` on its generic wrapper `<span>` instead of
-    // the trigger (axe `aria-prohibited-attr`), leaving the icon-only button
-    // without an accessible name (axe `button-name`). Reported as warnings
-    // until `Tooltip` is fixed.
-    a11y: { test: 'todo' },
     docs: {
       description: {
         component: [
@@ -224,9 +218,6 @@ export const Loading = meta.story({
   },
   // The skeleton has no download button, so none of the meta's known
   // violations apply: hold it to the default bar.
-  parameters: {
-    a11y: { test: 'error' },
-  },
 });
 
 Loading.test(

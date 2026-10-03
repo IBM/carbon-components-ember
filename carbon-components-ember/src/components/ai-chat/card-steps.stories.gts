@@ -184,14 +184,7 @@ The other stories here mirror upstream's preview-card compositions of
   </template>,
 });
 
-export const Small = meta.story({
-  parameters: {
-    // Known violations in the shared `Tooltip` wrapping each icon-only
-    // button: `aria-prohibited-attr` (aria-labelledby on its role-less
-    // trigger span) and `button-name` (the label never names the button).
-    a11y: { test: 'todo' },
-  },
-});
+export const Small = meta.story({});
 
 export const Default = meta.story({
   args: {
@@ -225,12 +218,6 @@ export const WithToolbar = meta.story({
   args: {
     maxWidth: 'lg',
     footerActions: 'none',
-  },
-  parameters: {
-    // Known violations in the shared `Tooltip` wrapping each toolbar
-    // action: `aria-prohibited-attr` (aria-labelledby on its role-less
-    // trigger span) and `button-name` (the label never names the button).
-    a11y: { test: 'todo' },
   },
   render: (args) => <template>
     <div style={{wrapperStyle args.maxWidth}}>

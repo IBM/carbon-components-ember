@@ -160,12 +160,6 @@ const meta = preview.meta({
   title: 'AI Chat/Feedback/Buttons',
   component: FeedbackButtons,
   parameters: {
-    // Known violations in the shared `Tooltip` each button sits in: it puts
-    // `aria-labelledby` on its generic wrapper `<span>` instead of the
-    // trigger (axe `aria-prohibited-attr`), so the icon-only thumbs buttons
-    // have no accessible name (axe `button-name`). Reported as warnings
-    // until `Tooltip` is fixed.
-    a11y: { test: 'todo' },
     docs: {
       description: {
         component:
