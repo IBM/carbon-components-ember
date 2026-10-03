@@ -12,7 +12,10 @@ export type Args = {
   body?: string;
   header?: string;
   type: string;
+  /** Text of the cancel button */
   cancelText?: string;
+  /** Text of the accept (primary) button */
+  acceptText?: string;
   label?: string;
 };
 
@@ -64,11 +67,10 @@ export default class ConfirmDialogComponent extends Component<DialogConfirmInter
         <button
           class="cds--btn cds--btn--{{@type}} cds--btn--primary"
           type="button"
-          aria-label="Danger"
           {{on "click" this.onAccept}}
           data-modal-primary-focus
         >
-          {{defaultTo @cancelText "Okay"}}
+          {{defaultTo @acceptText "Okay"}}
         </button>
       </:footer>
     </Modal>
