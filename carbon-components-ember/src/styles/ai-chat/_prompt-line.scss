@@ -64,11 +64,13 @@
   outline-color: var(--cds-focus, #0f62fe);
 }
 
-.cds-aichat-prompt-line-shell--rounded .cds-aichat-prompt-line-shell__input-container {
+.cds-aichat-prompt-line-shell--rounded
+  .cds-aichat-prompt-line-shell__input-container {
   border-radius: 0.5rem;
 }
 
-.cds-aichat-prompt-line-shell--has-error .cds-aichat-prompt-line-shell__input-container {
+.cds-aichat-prompt-line-shell--has-error
+  .cds-aichat-prompt-line-shell__input-container {
   outline: 2px solid var(--cds-support-error, #da1e28);
   outline-offset: -2px;
 }

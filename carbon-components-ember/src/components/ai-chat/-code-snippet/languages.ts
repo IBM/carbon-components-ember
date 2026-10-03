@@ -24,5 +24,5 @@ import { languages as allLanguages } from '@codemirror/language-data';
  * upstream by hand.
  */
 export const languages = allLanguages.filter(
-  (language) => language.name !== 'Brainfuck'
+  (language) => language.name !== 'Brainfuck',
 );

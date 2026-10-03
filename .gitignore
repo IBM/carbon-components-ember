@@ -6,8 +6,6 @@
 !docs-app
 !docs-app/**/*
 docs-app/node_modules
-!test-app
-!test-app/**/*
 !dom-parity
 !dom-parity/**/*
 dom-parity/node_modules
@@ -15,6 +13,7 @@ dom-parity/node_modules
 !patches/**/*
 !.editorconfig
 !.gitignore
+!.git-blame-ignore-revs
 !CHANGELOG.md
 !CONTRIBUTING.md
 !LICENSE.md

@@ -2,14 +2,14 @@
 // four sibling components share one stylesheet upstream). Selectors are
 // adapted from upstream's shadow-DOM `:host(...)`/`::slotted()` to plain
 // classes.
-@use '@carbon/layout';
-@use '@carbon/styles/scss/theme';
-@use '@carbon/styles/scss/type';
-@use '@carbon/styles/scss/utilities/convert' as *;
-@use '@carbon/styles/scss/breakpoint' as *;
+@use "@carbon/layout";
+@use "@carbon/styles/scss/theme";
+@use "@carbon/styles/scss/type";
+@use "@carbon/styles/scss/utilities/convert" as *;
+@use "@carbon/styles/scss/breakpoint" as *;
 
 .cds-aichat-workspace-shell {
-  @include type.type-style('body-01');
+  @include type.type-style("body-01");
 
   display: flex;
   overflow: auto;
@@ -46,7 +46,7 @@
 .cds-aichat-workspace-shell__toolbar > .cds-aichat-toolbar {
   --cds-aichat-toolbar-title-padding-inline-start: #{layout.$spacing-07};
 
-  @include type.type-style('heading-03');
+  @include type.type-style("heading-03");
 
   box-sizing: border-box;
   border-block-end: 0.0625rem solid var(--cds-chat-bubble-border);
@@ -73,14 +73,14 @@
   color: theme.$text-secondary;
   gap: layout.$spacing-05;
 
-  @include type.type-style('body-01');
+  @include type.type-style("body-01");
 
-  @include breakpoint-up('md') {
+  @include breakpoint-up("md") {
     flex-direction: row;
   }
 
   ::marker {
-    content: '';
+    content: "";
   }
 
   &::-webkit-details-marker {
@@ -110,13 +110,13 @@
 
 .cds-aichat-workspace-shell__header-title {
   color: theme.$text-primary;
-  @include type.type-style('heading-04');
+  @include type.type-style("heading-04");
 }
 
 .cds-aichat-workspace-shell__header-sub-title {
   color: theme.$text-secondary;
   margin-block-start: rem(-14px);
-  @include type.type-style('label-01');
+  @include type.type-style("label-01");
 }
 
 .cds-aichat-workspace-shell__header-summary {

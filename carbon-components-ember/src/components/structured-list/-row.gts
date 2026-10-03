@@ -85,7 +85,11 @@ export default class StructuredListRow extends Component<StructuredListRowSignat
 
   <template>
     {{#if @head}}
-      <div role='row' class='cds--structured-list-row cds--structured-list-row--header-row' ...attributes>
+      <div
+        role="row"
+        class="cds--structured-list-row cds--structured-list-row--header-row"
+        ...attributes
+      >
         {{#if this.selection}}
           <Cell @head={{true}} />
         {{/if}}
@@ -93,15 +97,15 @@ export default class StructuredListRow extends Component<StructuredListRowSignat
       </div>
     {{else}}
       <div
-        role='row'
-        tabindex='-1'
-        class='cds--structured-list-row
-          {{if this.hasFocusWithin "cds--structured-list-row--focused-within"}}
-          {{if this.isSelected "cds--structured-list-row--selected"}}'
-        {{on 'click' this.handleClick}}
-        {{on 'focusin' this.handleFocusIn}}
-        {{on 'focusout' this.handleFocusOut}}
-        {{on 'keydown' this.handleKeyDown}}
+        role="row"
+        tabindex="-1"
+        class="cds--structured-list-row
+          {{if this.hasFocusWithin 'cds--structured-list-row--focused-within'}}
+          {{if this.isSelected 'cds--structured-list-row--selected'}}"
+        {{on "click" this.handleClick}}
+        {{on "focusin" this.handleFocusIn}}
+        {{on "focusout" this.handleFocusOut}}
+        {{on "keydown" this.handleKeyDown}}
         ...attributes
       >
         {{#if this.selection}}
@@ -110,24 +114,21 @@ export default class StructuredListRow extends Component<StructuredListRowSignat
               {{#if this.isSelected}}
                 <CheckboxChecked
                   @size={{16}}
-                  @svgClass='cds--structured-list__icon'
+                  @svgClass="cds--structured-list__icon"
                 />
               {{else}}
-                <Checkbox
-                  @size={{16}}
-                  @svgClass='cds--structured-list__icon'
-                />
+                <Checkbox @size={{16}} @svgClass="cds--structured-list__icon" />
               {{/if}}
             {{else}}
               {{#if this.isSelected}}
                 <RadioButtonChecked
                   @size={{16}}
-                  @svgClass='cds--structured-list__icon'
+                  @svgClass="cds--structured-list__icon"
                 />
               {{else}}
                 <RadioButton
                   @size={{16}}
-                  @svgClass='cds--structured-list__icon'
+                  @svgClass="cds--structured-list__icon"
                 />
               {{/if}}
             {{/if}}

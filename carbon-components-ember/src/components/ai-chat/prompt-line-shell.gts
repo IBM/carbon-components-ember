@@ -98,46 +98,55 @@ export default class PromptLineShell extends Component<PromptLineShellSignature>
 
   <template>
     <div
-      class='cds-aichat-prompt-line-shell
-        {{if @rounded "cds-aichat-prompt-line-shell--rounded"}}
-        {{if @expanded "cds-aichat-prompt-line-shell--expanded"}}
-        {{if @hasError "cds-aichat-prompt-line-shell--has-error"}}
-        {{if @disabled "cds-aichat-prompt-line-shell--disabled"}}'
+      class="cds-aichat-prompt-line-shell
+        {{if @rounded 'cds-aichat-prompt-line-shell--rounded'}}
+        {{if @expanded 'cds-aichat-prompt-line-shell--expanded'}}
+        {{if @hasError 'cds-aichat-prompt-line-shell--has-error'}}
+        {{if @disabled 'cds-aichat-prompt-line-shell--disabled'}}"
       ...attributes
     >
       <div
-        class='cds-aichat-prompt-line-shell__input-container
-          {{if (has-block "messageActions") "cds-aichat-prompt-line-shell__input-container--has-message-actions"}}
-          {{if @expanded "cds-aichat-prompt-line-shell__input-container--expanded"}}'
+        class="cds-aichat-prompt-line-shell__input-container
+          {{if
+            (has-block 'messageActions')
+            'cds-aichat-prompt-line-shell__input-container--has-message-actions'
+          }}
+          {{if
+            @expanded
+            'cds-aichat-prompt-line-shell__input-container--expanded'
+          }}"
       >
         <div
-          class='cds-aichat-prompt-line-shell__uploads-and-autocomplete
-            {{if this.hasFileUploads "cds-aichat-prompt-line-shell__uploads-and-autocomplete--has-uploads"}}'
+          class="cds-aichat-prompt-line-shell__uploads-and-autocomplete
+            {{if
+              this.hasFileUploads
+              'cds-aichat-prompt-line-shell__uploads-and-autocomplete--has-uploads'
+            }}"
         >
           {{#if (has-block "fileUploads")}}
-            <div class='cds-aichat-prompt-line-shell__file-uploads'>
-              {{yield to='fileUploads'}}
+            <div class="cds-aichat-prompt-line-shell__file-uploads">
+              {{yield to="fileUploads"}}
             </div>
           {{/if}}
           {{#if (has-block "autocompleteContent")}}
-            <div class='cds-aichat-prompt-line-shell__autocomplete-content'>
-              {{yield to='autocompleteContent'}}
+            <div class="cds-aichat-prompt-line-shell__autocomplete-content">
+              {{yield to="autocompleteContent"}}
             </div>
           {{/if}}
         </div>
-        <div class='cds-aichat-prompt-line-shell__field-messaging'>
-          {{yield to='fieldMessaging'}}
+        <div class="cds-aichat-prompt-line-shell__field-messaging">
+          {{yield to="fieldMessaging"}}
         </div>
-        <div class='cds-aichat-prompt-line-shell__text-and-actions'>
-          <div class='cds-aichat-prompt-line-shell__message-actions'>
-            {{yield to='messageActions'}}
+        <div class="cds-aichat-prompt-line-shell__text-and-actions">
+          <div class="cds-aichat-prompt-line-shell__message-actions">
+            {{yield to="messageActions"}}
           </div>
-          <div class='cds-aichat-prompt-line-shell__text-area'>
-            {{yield to='editor'}}
+          <div class="cds-aichat-prompt-line-shell__text-area">
+            {{yield to="editor"}}
           </div>
         </div>
-        <div class='cds-aichat-prompt-line-shell__send-control'>
-          {{yield to='sendControl'}}
+        <div class="cds-aichat-prompt-line-shell__send-control">
+          {{yield to="sendControl"}}
         </div>
       </div>
     </div>

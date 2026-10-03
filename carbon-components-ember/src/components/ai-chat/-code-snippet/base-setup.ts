@@ -46,7 +46,7 @@ export interface BaseCodeMirrorSetupOptions {
 }
 
 export function baseCodeMirrorSetup(
-  options: BaseCodeMirrorSetupOptions = {}
+  options: BaseCodeMirrorSetupOptions = {},
 ): Extension {
   const {
     foldCollapseLabel = 'Collapse code block',

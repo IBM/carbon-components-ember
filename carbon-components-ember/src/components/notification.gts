@@ -1,17 +1,24 @@
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import { default as eq } from 'ember-truth-helpers/helpers/eq';
-import { default as Icon } from '../components/icon.gts';
+import type { default as Icon } from '../components/icon.gts';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import NotificationService, {
-  type NotificationOptions,
-} from '../services/notifications.ts';
+import type NotificationService from '../services/notifications.ts';
+import type { NotificationOptions } from '../services/notifications.ts';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import type { WithRequired } from '../utils/type-helpers.ts';
-import { CheckmarkFilled, Close, ErrorFilled, InformationFilled, InformationSquareFilled, WarningFilled, WarningAltFilled } from '../icons.ts';
+import {
+  CheckmarkFilled,
+  Close,
+  ErrorFilled,
+  InformationFilled,
+  InformationSquareFilled,
+  WarningFilled,
+  WarningAltFilled,
+} from '../icons.ts';
 
 export type Args = {
   onClick?: (args: never) => never;
@@ -29,14 +36,15 @@ export default class NotificationComponent extends Component<NotificationCompone
   notifications!: NotificationService;
 
   get icon(): typeof Icon {
-    const mapping: Record<Required<NotificationOptions>['kind'], typeof Icon> = {
-      info: InformationFilled,
-      error: ErrorFilled,
-      'info-square': InformationSquareFilled,
-      success: CheckmarkFilled,
-      warning: WarningFilled,
-      'warning-alt': WarningAltFilled,
-    };
+    const mapping: Record<Required<NotificationOptions>['kind'], typeof Icon> =
+      {
+        info: InformationFilled,
+        error: ErrorFilled,
+        'info-square': InformationSquareFilled,
+        success: CheckmarkFilled,
+        warning: WarningFilled,
+        'warning-alt': WarningAltFilled,
+      };
     return mapping[this.defaultArgs.kind];
   }
 
@@ -68,124 +76,124 @@ export default class NotificationComponent extends Component<NotificationCompone
 
   <template>
     {{#if this.show}}
-      {{#if (eq this.defaultArgs.display 'toast')}}
+      {{#if (eq this.defaultArgs.display "toast")}}
         <div
           data-notification
-          class='cds--toast-notification cds--toast-notification--{{this.defaultArgs.kind}}'
-          role='alert'
+          class="cds--toast-notification cds--toast-notification--{{this.defaultArgs.kind}}"
+          role="alert"
           ...attributes
         >
           <this.icon
-            @svgClass='cds--toast-notification__icon'
-            @fill='currentColor'
+            @svgClass="cds--toast-notification__icon"
+            @fill="currentColor"
             @size={{20}}
           />
-          <div class='cds--toast-notification__details'>
-            <div class='cds--toast-notification__title' dir='auto'>
+          <div class="cds--toast-notification__details">
+            <div class="cds--toast-notification__title" dir="auto">
               {{this.defaultArgs.title}}
             </div>
-            <div class='cds--toast-notification__subtitle' dir='auto'>
+            <div class="cds--toast-notification__subtitle" dir="auto">
               {{this.defaultArgs.text}}
             </div>
-            <div class='cds--toast-notification__caption' dir='auto'>
+            <div class="cds--toast-notification__caption" dir="auto">
               {{this.defaultArgs.caption}}
             </div>
           </div>
           <button
-            {{on 'click' (fn this.onNotificationClick this.defaultArgs)}}
+            {{on "click" (fn this.onNotificationClick this.defaultArgs)}}
             data-notification-btn
-            class='cds--toast-notification__close-button'
-            type='button'
-            aria-label='close notification'
-            title='close notification'
+            class="cds--toast-notification__close-button"
+            type="button"
+            aria-label="close notification"
+            title="close notification"
           >
             <Close
-              @icon='close'
-              @svgClass='cds--toast-notification__close-icon'
-              @fill='currentColor'
+              @icon="close"
+              @svgClass="cds--toast-notification__close-icon"
+              @fill="currentColor"
               @size={{16}}
             />
           </button>
         </div>
       {{/if}}
-      {{#if (eq this.defaultArgs.display 'inline')}}
+      {{#if (eq this.defaultArgs.display "inline")}}
         <div
-          role='status'
-          class='cds--inline-notification cds--inline-notification--{{this.defaultArgs.kind}}'
+          role="status"
+          class="cds--inline-notification cds--inline-notification--{{this.defaultArgs.kind}}"
         >
-          <div class='cds--inline-notification__details'>
+          <div class="cds--inline-notification__details">
             <this.icon
-              @svgClass='cds--inline-notification__icon'
-              @fill='currentColor'
+              @svgClass="cds--inline-notification__icon"
+              @fill="currentColor"
               @size={{20}}
             />
-            <div class='cds--inline-notification__text-wrapper'>
-              <div class='cds--inline-notification__title' dir='auto'>
+            <div class="cds--inline-notification__text-wrapper">
+              <div class="cds--inline-notification__title" dir="auto">
                 {{this.defaultArgs.title}}
               </div>
-              <div class='cds--inline-notification__subtitle' dir='auto'>
+              <div class="cds--inline-notification__subtitle" dir="auto">
                 {{this.defaultArgs.text}}
               </div>
             </div>
           </div>
           <button
-            aria-hidden='true'
-            tabindex='-1'
-            type='button'
-            aria-label='close notification'
-            title='close notification'
-            class='cds--inline-notification__close-button'
+            aria-hidden="true"
+            tabindex="-1"
+            type="button"
+            aria-label="close notification"
+            title="close notification"
+            class="cds--inline-notification__close-button"
           >
             <Close
-              @svgClass='cds--inline-notification__close-icon'
-              @fill='currentColor'
+              @svgClass="cds--inline-notification__close-icon"
+              @fill="currentColor"
               @size={{16}}
             />
           </button>
         </div>
       {{/if}}
 
-      {{#if (eq this.defaultArgs.display 'actionable')}}
+      {{#if (eq this.defaultArgs.display "actionable")}}
         <div
-          role='alertdialog'
-          class='cds--actionable-notification cds--actionable-notification--toast cds--actionable-notification--{{this.defaultArgs.kind}}'
+          role="alertdialog"
+          class="cds--actionable-notification cds--actionable-notification--toast cds--actionable-notification--{{this.defaultArgs.kind}}"
           aria-labelledby={{this.actionableTitleId}}
         >
-          <div class='cds--actionable-notification__details'>
+          <div class="cds--actionable-notification__details">
             <this.icon
-              @svgClass='cds--toast-notification__icon'
-              @fill='currentColor'
+              @svgClass="cds--toast-notification__icon"
+              @fill="currentColor"
               @size={{20}}
             />
-            <div class='cds--actionable-notification__text-wrapper'>
-              <div class='cds--actionable-notification__content'>
+            <div class="cds--actionable-notification__text-wrapper">
+              <div class="cds--actionable-notification__content">
                 <div
-                  class='cds--actionable-notification__title'
+                  class="cds--actionable-notification__title"
                   id={{this.actionableTitleId}}
                 >
                   {{this.defaultArgs.title}}
                 </div>
-                <div class='cds--actionable-notification__subtitle'>
+                <div class="cds--actionable-notification__subtitle">
                   {{this.defaultArgs.text}}
                 </div>
               </div>
             </div>
           </div>
           <button
-            class='cds--actionable-notification__action-button cds--btn cds--btn--sm cds--layout--size-sm cds--btn--tertiary'
-            type='button'
+            class="cds--actionable-notification__action-button cds--btn cds--btn--sm cds--layout--size-sm cds--btn--tertiary"
+            type="button"
           >
             {{this.defaultArgs.actionTitle}}
           </button>
           <button
-            aria-label='close notification'
-            type='button'
-            title='close notification'
-            class='cds--actionable-notification__close-button'
+            aria-label="close notification"
+            type="button"
+            title="close notification"
+            class="cds--actionable-notification__close-button"
           >
             <Close
-              @svgClass='cds--actionable-notification__close-icon'
-              @fill='currentColor'
+              @svgClass="cds--actionable-notification__close-icon"
+              @fill="currentColor"
               @size={{16}}
             />
           </button>

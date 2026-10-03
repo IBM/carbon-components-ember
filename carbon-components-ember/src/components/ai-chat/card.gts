@@ -72,16 +72,16 @@ export interface AiChatCardSignature {
 export default class AiChatCard extends Component<AiChatCardSignature> {
   <template>
     <div
-      class='cds-aichat-card cds--tile
-        {{if @isLayered "cds-aichat-card--layered"}}
-        {{if @isFlush "cds-aichat-card--flush"}}'
+      class="cds-aichat-card cds--tile
+        {{if @isLayered 'cds-aichat-card--layered'}}
+        {{if @isFlush 'cds-aichat-card--flush'}}"
       ...attributes
     >
-      {{yield to='header'}}
-      {{yield to='media'}}
-      {{yield to='body'}}
-      {{yield to='footer'}}
-      {{yield to='decorator'}}
+      {{yield to="header"}}
+      {{yield to="media"}}
+      {{yield to="body"}}
+      {{yield to="footer"}}
+      {{yield to="decorator"}}
     </div>
   </template>
 }

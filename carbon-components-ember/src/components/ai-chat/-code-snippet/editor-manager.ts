@@ -9,14 +9,13 @@
  * Ported verbatim from `@carbon/ai-chat-components`'
  * `code-snippet/src/codemirror/editor-manager.ts`.
  */
-import { EditorState, Compartment } from '@codemirror/state';
+import { EditorState } from '@codemirror/state';
+import type { Compartment } from '@codemirror/state';
 import { EditorView } from '@codemirror/view';
 import type { LanguageSupport } from '@codemirror/language';
 import { createCarbonTheme, makeScrollerFocusable } from './theme.ts';
-import {
-  baseCodeMirrorSetup,
-  type BaseCodeMirrorSetupOptions,
-} from './base-setup.ts';
+import { baseCodeMirrorSetup } from './base-setup.ts';
+import type { BaseCodeMirrorSetupOptions } from './base-setup.ts';
 
 interface EditorDocChangePayload {
   content: string;
@@ -106,7 +105,7 @@ export function createEditorView({
 export function applyLanguageSupport(
   view: EditorView | undefined,
   languageCompartment: Compartment,
-  support: LanguageSupport | null
+  support: LanguageSupport | null,
 ) {
   if (!view) {
     return;
@@ -121,7 +120,7 @@ export function applyLanguageSupport(
 export function updateReadOnlyConfiguration(
   view: EditorView | undefined,
   readOnlyCompartment: Compartment,
-  { editable, disabled }: { editable: boolean; disabled: boolean }
+  { editable, disabled }: { editable: boolean; disabled: boolean },
 ) {
   if (!view) {
     return;
@@ -138,7 +137,7 @@ export function updateReadOnlyConfiguration(
 export function updateContentAttributes(
   view: EditorView | undefined,
   contentAttributesCompartment: Compartment,
-  ariaLabel: string
+  ariaLabel: string,
 ) {
   if (!view) {
     return;
@@ -148,7 +147,7 @@ export function updateContentAttributes(
     effects: contentAttributesCompartment.reconfigure(
       EditorView.contentAttributes.of({
         'aria-label': ariaLabel,
-      })
+      }),
     ),
   });
 }

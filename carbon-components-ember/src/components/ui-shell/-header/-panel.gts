@@ -22,9 +22,8 @@ export default class UIShellHeaderPanel extends Component<UIShellHeaderPanelSign
   <template>
     {{! template-lint-disable no-invalid-interactive }}
     <div
-      class='cds--header-panel
-        {{if @expanded "cds--header-panel--expanded"}}'
-      {{on 'keydown' this.handleKeydown}}
+      class="cds--header-panel {{if @expanded 'cds--header-panel--expanded'}}"
+      {{on "keydown" this.handleKeydown}}
       ...attributes
     >
       {{yield}}

@@ -22,18 +22,18 @@ export default class StructuredListCell extends Component<StructuredListCellSign
   <template>
     {{#if @head}}
       <div
-        role='columnheader'
-        class='cds--structured-list-th
-          {{if @noWrap "cds--structured-list-content--nowrap"}}'
+        role="columnheader"
+        class="cds--structured-list-th
+          {{if @noWrap 'cds--structured-list-content--nowrap'}}"
         ...attributes
       >
         {{yield}}
       </div>
     {{else}}
       <div
-        role='cell'
-        class='cds--structured-list-td
-          {{if @noWrap "cds--structured-list-content--nowrap"}}'
+        role="cell"
+        class="cds--structured-list-td
+          {{if @noWrap 'cds--structured-list-content--nowrap'}}"
         ...attributes
       >
         {{yield}}

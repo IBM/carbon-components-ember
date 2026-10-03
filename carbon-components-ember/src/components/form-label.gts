@@ -33,8 +33,8 @@ export default class FormLabel extends Component<FormLabelSignature> {
       the common, unnested case. }}
     <label
       for={{@id}}
-      dir='auto'
-      class='cds--label cds--label--no-margin'
+      dir="auto"
+      class="cds--label cds--label--no-margin"
       ...attributes
     >
       {{yield}}

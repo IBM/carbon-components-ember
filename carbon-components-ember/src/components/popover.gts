@@ -173,7 +173,8 @@ export default class Popover extends Component<PopoverSignature> {
   }
 
   get baseAlign(): NewPopoverAlignment {
-    const align = this.args.align ?? (this.args.isTabTip ? 'bottom-start' : 'bottom');
+    const align =
+      this.args.align ?? (this.args.isTabTip ? 'bottom-start' : 'bottom');
     return mapPopoverAlign(align);
   }
 
@@ -222,7 +223,10 @@ export default class Popover extends Component<PopoverSignature> {
     const trigger = this.containerElement?.querySelector<HTMLElement>(
       ':scope > *:not(.cds--popover)',
     );
-    trigger?.classList.toggle('cds--popover--tab-tip__button', !!this.args.isTabTip);
+    trigger?.classList.toggle(
+      'cds--popover--tab-tip__button',
+      !!this.args.isTabTip,
+    );
   }
 
   updateAutoAlign() {
@@ -241,16 +245,25 @@ export default class Popover extends Component<PopoverSignature> {
     const boundary = this.args.autoAlignBoundary;
     const boundaryRect = boundary
       ? boundary.getBoundingClientRect()
-      : { top: 0, left: 0, right: window.innerWidth, bottom: window.innerHeight };
+      : {
+          top: 0,
+          left: 0,
+          right: window.innerWidth,
+          bottom: window.innerHeight,
+        };
     const rect = content.getBoundingClientRect();
 
     let align = this.baseAlign;
-    const overflowsVertically = rect.top < boundaryRect.top || rect.bottom > boundaryRect.bottom;
-    const overflowsHorizontally = rect.left < boundaryRect.left || rect.right > boundaryRect.right;
+    const overflowsVertically =
+      rect.top < boundaryRect.top || rect.bottom > boundaryRect.bottom;
+    const overflowsHorizontally =
+      rect.left < boundaryRect.left || rect.right > boundaryRect.right;
 
     if (
-      ((align.startsWith('top') || align.startsWith('bottom')) && overflowsVertically) ||
-      ((align.startsWith('left') || align.startsWith('right')) && overflowsHorizontally)
+      ((align.startsWith('top') || align.startsWith('bottom')) &&
+        overflowsVertically) ||
+      ((align.startsWith('left') || align.startsWith('right')) &&
+        overflowsHorizontally)
     ) {
       align = flippedAlignmentMap[align] ?? align;
     }
@@ -269,7 +282,10 @@ export default class Popover extends Component<PopoverSignature> {
       return;
     }
     const target = event.target;
-    if (!(target instanceof Element) || !target.closest('.cds--popover-content')) {
+    if (
+      !(target instanceof Element) ||
+      !target.closest('.cds--popover-content')
+    ) {
       return;
     }
     if (!this.containerElement.contains(target)) {
@@ -309,11 +325,11 @@ export interface PopoverContentSignature {
  */
 export class PopoverContent extends Component<PopoverContentSignature> {
   <template>
-    <span class='cds--popover'>
-      <span class='cds--popover-content' ...attributes>
+    <span class="cds--popover">
+      <span class="cds--popover-content" ...attributes>
         {{yield}}
       </span>
-      <span class='cds--popover-caret'></span>
+      <span class="cds--popover-caret"></span>
     </span>
   </template>
 }

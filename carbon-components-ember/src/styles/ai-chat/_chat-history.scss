@@ -12,8 +12,8 @@
 // same set upstream's own file re-declares for the same reason (its
 // `history-panel-item`/`history-search-item` render a `<button>`, not the
 // `<a>` tag `@carbon/styles`' own `.cds--side-nav__link` rules require).
-@use '@carbon/layout';
-@use '@carbon/styles/scss/type';
+@use "@carbon/layout";
+@use "@carbon/styles/scss/type";
 
 .cds-aichat-history-shell {
   position: relative;
@@ -42,7 +42,7 @@
   }
 
   .cds-aichat-history-header__title {
-    @include type.type-style('heading-compact-01');
+    @include type.type-style("heading-compact-01");
 
     overflow: hidden;
     inline-size: 100%;
@@ -75,7 +75,7 @@
   .cds-aichat-history-content__results-count {
     display: block;
     padding: layout.$spacing-04 0 layout.$spacing-02 layout.$spacing-04;
-    @include type.type-style('label-01');
+    @include type.type-style("label-01");
   }
 }
 
@@ -119,7 +119,7 @@
   }
 
   .cds--side-nav__submenu-title {
-    @include type.type-style('label-01');
+    @include type.type-style("label-01");
 
     padding-inline-start: layout.$spacing-02;
   }
@@ -136,7 +136,7 @@
   align-items: center;
 
   .cds--side-nav__link {
-    @include type.type-style('body-compact-01');
+    @include type.type-style("body-compact-01");
 
     position: relative;
     display: flex;
@@ -179,7 +179,8 @@
 .cds-aichat-history-panel-item[data-selected][data-parent-menu-expanded]
   .cds-aichat-history-panel-item__actions,
 .cds-aichat-history-panel-item:hover .cds-aichat-history-panel-item__actions,
-.cds-aichat-history-panel-item:focus-within .cds-aichat-history-panel-item__actions,
+.cds-aichat-history-panel-item:focus-within
+  .cds-aichat-history-panel-item__actions,
 .cds-aichat-history-panel-item__actions--always-show,
 .cds-aichat-history-panel-item__actions:has(.cds--overflow-menu--open) {
   visibility: visible;
@@ -199,7 +200,7 @@
 .cds-aichat-history-panel-item[data-selected] .cds--side-nav__link::before {
   position: absolute;
   background-color: var(--cds-border-interactive, #0f62fe);
-  content: '';
+  content: "";
   inline-size: 3px;
   inset-block: 0;
   inset-inline-start: 0;
@@ -218,7 +219,7 @@
   }
 
   input {
-    @include type.type-style('body-compact-01');
+    @include type.type-style("body-compact-01");
 
     overflow: hidden;
     flex-grow: 2;
@@ -235,7 +236,8 @@
   }
 }
 
-.cds-aichat-history-panel-item-input--invalid .cds-aichat-history-panel-item-input__row {
+.cds-aichat-history-panel-item-input--invalid
+  .cds-aichat-history-panel-item-input__row {
   outline: layout.$spacing-01 solid var(--cds-support-error, #da1e28);
 }
 
@@ -248,7 +250,7 @@
   padding-inline-start: layout.$spacing-05;
 
   .cds-aichat-history-panel-item-input__invalid-message-text {
-    @include type.type-style('body-compact-01');
+    @include type.type-style("body-compact-01");
 
     flex-grow: 1;
     color: var(--cds-support-error, #da1e28);
@@ -278,7 +280,7 @@
   // untagged-vs-tagged) - it's chat-history's own addition, same as
   // upstream's own file authors it from scratch.
   .cds--side-nav__link-subtitle {
-    @include type.type-style('label-01');
+    @include type.type-style("label-01");
 
     color: var(--cds-text-placeholder, #a8a8a8);
     padding-block-start: layout.$spacing-01;
@@ -304,7 +306,7 @@
     position: absolute;
     z-index: -1;
     background: var(--cds-background, #fff);
-    content: '';
+    content: "";
     inset: 0;
     opacity: 0.95;
   }
@@ -315,13 +317,13 @@
   }
 
   h1 {
-    @include type.type-style('heading-03');
+    @include type.type-style("heading-03");
 
     margin: 0 0 layout.$spacing-03 0;
   }
 
   span {
-    @include type.type-style('body-01');
+    @include type.type-style("body-01");
   }
 
   .cds-aichat-history-delete-panel__actions {

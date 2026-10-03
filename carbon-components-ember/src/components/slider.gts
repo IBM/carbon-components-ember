@@ -283,9 +283,10 @@ export default class Slider extends Component<SliderSignature> {
       }
     }
     this.activeHandle = handle;
-    (handle === 'lower' ? this.lowerThumbElement : this.upperThumbElement)?.focus(
-      { preventScroll: true },
-    );
+    (handle === 'lower'
+      ? this.lowerThumbElement
+      : this.upperThumbElement
+    )?.focus({ preventScroll: true });
 
     document.addEventListener('mousemove', this.onDrag);
     document.addEventListener('touchmove', this.onDrag);
@@ -331,9 +332,13 @@ export default class Slider extends Component<SliderSignature> {
       delta *= this.stepMultiplier;
     }
 
-    const handle: HandlePosition = this.twoHandles ? this.activeHandle : 'lower';
+    const handle: HandlePosition = this.twoHandles
+      ? this.activeHandle
+      : 'lower';
     const current =
-      handle === 'upper' ? (this.args.valueUpper ?? this.args.min) : this.args.value;
+      handle === 'upper'
+        ? (this.args.valueUpper ?? this.args.min)
+        : this.args.value;
     const newValue = this.clampValue(this.roundToStep(current + delta));
     this.updateValueForHandle(handle, newValue);
   }
@@ -407,29 +412,29 @@ export default class Slider extends Component<SliderSignature> {
   }
 
   <template>
-    <div class='cds--form-item' ...attributes>
+    <div class="cds--form-item" ...attributes>
       <label
         for={{unless this.twoHandles this.id}}
-        class='cds--label
-          {{if @hideLabel "cds--visually-hidden"}}
-          {{if @disabled "cds--label--disabled"}}'
-        id='{{this.id}}-label'
-        dir='auto'
+        class="cds--label
+          {{if @hideLabel 'cds--visually-hidden'}}
+          {{if @disabled 'cds--label--disabled'}}"
+        id="{{this.id}}-label"
+        dir="auto"
       >
         {{@labelText}}
       </label>
       <div
-        class='cds--slider-container
-          {{if this.twoHandles "cds--slider-container--two-handles"}}
-          {{if @disabled "cds--slider-container--disabled"}}
-          {{if @readOnly "cds--slider-container--readonly"}}'
+        class="cds--slider-container
+          {{if this.twoHandles 'cds--slider-container--two-handles'}}
+          {{if @disabled 'cds--slider-container--disabled'}}
+          {{if @readOnly 'cds--slider-container--readonly'}}"
       >
         {{#if this.twoHandles}}
           <SliderTextInput
-            @handle='lower'
-            @suffix='lower'
-            @dataHandlePosition='lower'
-            @id='{{this.id}}-lower-input-for-slider'
+            @handle="lower"
+            @suffix="lower"
+            @dataHandlePosition="lower"
+            @id="{{this.id}}-lower-input-for-slider"
             @name={{@name}}
             @value={{this.lowerDisplayValue}}
             @ariaLabel={{@ariaLabelInput}}
@@ -448,21 +453,26 @@ export default class Slider extends Component<SliderSignature> {
           />
         {{/if}}
 
-        <span class='cds--slider__range-label' dir='auto'>{{this.formatLabel @min @minLabel}}</span>
+        <span class="cds--slider__range-label" dir="auto">{{this.formatLabel
+            @min
+            @minLabel
+          }}</span>
 
         <div
-          class='cds--slider {{if @disabled "cds--slider--disabled"}} {{if @readOnly "cds--slider--readonly"}}'
-          role='presentation'
-          tabindex='-1'
+          class="cds--slider
+            {{if @disabled 'cds--slider--disabled'}}
+            {{if @readOnly 'cds--slider--readonly'}}"
+          role="presentation"
+          tabindex="-1"
           data-invalid={{if @invalid "true"}}
           {{registerElement this.registerTrack}}
           {{! template-lint-disable no-pointer-down-event-binding }}
-          {{on 'mousedown' this.onDragStart}}
-          {{on 'touchstart' this.onDragStart}}
-          {{on 'keydown' this.onKeyDown}}
+          {{on "mousedown" this.onDragStart}}
+          {{on "touchstart" this.onDragStart}}
+          {{on "keydown" this.onKeyDown}}
         >
           <SliderThumb
-            @position='lower'
+            @position="lower"
             @twoHandles={{this.twoHandles}}
             @style={{this.lowerThumbStyle}}
             @id={{unless this.twoHandles this.id}}
@@ -480,7 +490,7 @@ export default class Slider extends Component<SliderSignature> {
 
           {{#if this.twoHandles}}
             <SliderThumb
-              @position='upper'
+              @position="upper"
               @twoHandles={{this.twoHandles}}
               @style={{this.upperThumbStyle}}
               @disabled={{@disabled}}
@@ -494,17 +504,23 @@ export default class Slider extends Component<SliderSignature> {
             />
           {{/if}}
 
-          <div class='cds--slider__track'></div>
-          <div class='cds--slider__filled-track' style={{this.filledTrackStyle}}></div>
+          <div class="cds--slider__track"></div>
+          <div
+            class="cds--slider__filled-track"
+            style={{this.filledTrackStyle}}
+          ></div>
         </div>
 
-        <span class='cds--slider__range-label' dir='auto'>{{this.formatLabel @max @maxLabel}}</span>
+        <span class="cds--slider__range-label" dir="auto">{{this.formatLabel
+            @max
+            @maxLabel
+          }}</span>
 
         <SliderTextInput
-          @handle={{if this.twoHandles 'upper' 'lower'}}
-          @suffix='upper'
-          @dataHandlePosition={{if this.twoHandles 'upper'}}
-          @id='{{this.id}}-{{if this.twoHandles "upper-"}}input-for-slider'
+          @handle={{if this.twoHandles "upper" "lower"}}
+          @suffix="upper"
+          @dataHandlePosition={{if this.twoHandles "upper"}}
+          @id="{{this.id}}-{{if this.twoHandles 'upper-'}}input-for-slider"
           @name={{if this.twoHandles @nameUpper @name}}
           @value={{this.upperDisplayValue}}
           @ariaLabel={{if this.twoHandles @ariaLabelInputUpper @ariaLabelInput}}
@@ -525,13 +541,16 @@ export default class Slider extends Component<SliderSignature> {
       </div>
       {{#if @invalid}}
         <div
-          class='cds--slider__validation-msg cds--slider__validation-msg--invalid cds--form-requirement'
-          dir='auto'
+          class="cds--slider__validation-msg cds--slider__validation-msg--invalid cds--form-requirement"
+          dir="auto"
         >
           {{@invalidText}}
         </div>
       {{else if @warn}}
-        <div class='cds--slider__validation-msg cds--form-requirement' dir='auto'>
+        <div
+          class="cds--slider__validation-msg cds--form-requirement"
+          dir="auto"
+        >
           {{@warnText}}
         </div>
       {{/if}}

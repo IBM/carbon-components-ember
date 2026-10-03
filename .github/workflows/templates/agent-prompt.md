@@ -147,7 +147,8 @@ component synced and push that update (see Phase 4, step 3).
    - Keep alphabetical order
 
 4. **Create Tests**
-   - File: `test-app/tests/components/{{COMPONENT_NAME_KEBAB}}-test.gts`
+   - File: `carbon-components-ember/tests/components/{{COMPONENT_NAME_KEBAB}}-test.gts`
+   - Import the component from `#src/components/...` (with its file extension), not from the package name
    - Test default rendering
    - Test all variants/props
    - Test edge cases
@@ -185,7 +186,7 @@ Use this path only when the component genuinely doesn't belong as a standalone E
 
 2. **Test** (if time permits)
    ```bash
-   cd test-app && pnpm test -- --filter="*{{COMPONENT_NAME_KEBAB}}*"
+   cd carbon-components-ember && pnpm test
    ```
 
 3. **Check for `.gts` filename collisions** (required if you added a new nested

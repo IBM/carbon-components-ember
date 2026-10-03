@@ -119,13 +119,17 @@ export default class Toolbar extends Component<ToolbarSignature> {
   }
 
   get showOverflowMenu() {
-    return Boolean(this.args.overflow && this.measured && this.hiddenActions.length > 1);
+    return Boolean(
+      this.args.overflow && this.measured && this.hiddenActions.length > 1,
+    );
   }
 
   get displayedVisibleActions() {
     if (!this.args.overflow) return this.args.actions ?? [];
     if (!this.measured) return this.sortedActions;
-    return this.showOverflowMenu ? this.visibleActions : [...this.visibleActions, ...this.hiddenActions];
+    return this.showOverflowMenu
+      ? this.visibleActions
+      : [...this.visibleActions, ...this.hiddenActions];
   }
 
   get displayedHiddenActions() {
@@ -144,18 +148,29 @@ export default class Toolbar extends Component<ToolbarSignature> {
 
   @action
   recomputeOverflow(endContainer: HTMLElement) {
-    const actionsContainer = endContainer.querySelector<HTMLElement>('.cds-aichat-toolbar__actions-container');
-    const measureRow = endContainer.querySelector<HTMLElement>('.cds-aichat-toolbar__measure');
-    const fixedActions = endContainer.querySelector<HTMLElement>('.cds-aichat-toolbar__fixed-actions');
-    const decorator = endContainer.querySelector<HTMLElement>('.cds-aichat-toolbar__decorator-container');
+    const actionsContainer = endContainer.querySelector<HTMLElement>(
+      '.cds-aichat-toolbar__actions-container',
+    );
+    const measureRow = endContainer.querySelector<HTMLElement>(
+      '.cds-aichat-toolbar__measure',
+    );
+    const fixedActions = endContainer.querySelector<HTMLElement>(
+      '.cds-aichat-toolbar__fixed-actions',
+    );
+    const decorator = endContainer.querySelector<HTMLElement>(
+      '.cds-aichat-toolbar__decorator-container',
+    );
     if (!actionsContainer || !measureRow) return;
 
-    const actionsContainerWidth = actionsContainer.getBoundingClientRect().width;
+    const actionsContainerWidth =
+      actionsContainer.getBoundingClientRect().width;
     if (actionsContainerWidth === 0) return;
 
     const fixedActionsWidth = fixedActions?.getBoundingClientRect().width || 0;
     const decoratorWidth = decorator?.getBoundingClientRect().width || 0;
-    const availableWidth = actionsContainerWidth - (OVERFLOW_MENU_ICON_WIDTH + fixedActionsWidth + decoratorWidth);
+    const availableWidth =
+      actionsContainerWidth -
+      (OVERFLOW_MENU_ICON_WIDTH + fixedActionsWidth + decoratorWidth);
 
     const sorted = this.sortedActions;
     const measureChildren = Array.from(measureRow.children) as HTMLElement[];
@@ -211,33 +226,39 @@ export default class Toolbar extends Component<ToolbarSignature> {
   });
 
   <template>
-    <div data-rounded='top' class='cds-aichat-toolbar' ...attributes>
-      <div data-fixed class='cds-aichat-toolbar__start'>
-        <div data-fixed class='cds-aichat-toolbar__navigation'>
-          {{yield to='navigation'}}
+    <div data-rounded="top" class="cds-aichat-toolbar" ...attributes>
+      <div data-fixed class="cds-aichat-toolbar__start">
+        <div data-fixed class="cds-aichat-toolbar__navigation">
+          {{yield to="navigation"}}
         </div>
 
-        <div data-fixed class='cds-aichat-toolbar__title'>
-          {{#if (has-block 'title')}}
-            {{yield to='title'}}
+        <div data-fixed class="cds-aichat-toolbar__title">
+          {{#if (has-block "title")}}
+            {{yield to="title"}}
           {{else if (or @titleText @nameText)}}
             <AiChatTruncatedText
               @lines={{1}}
-              @type='tooltip'
-              @align='bottom-start'
-              @value='{{@titleText}} {{@nameText}}'
+              @type="tooltip"
+              @align="bottom-start"
+              @value="{{@titleText}} {{@nameText}}"
             >
               {{#if @titleText}}<span>{{@titleText}}</span>{{/if}}
-              {{#if @nameText}}<span class='cds-aichat-toolbar__name'>{{@nameText}}</span>{{/if}}
+              {{#if @nameText}}<span
+                  class="cds-aichat-toolbar__name"
+                >{{@nameText}}</span>{{/if}}
             </AiChatTruncatedText>
           {{/if}}
         </div>
       </div>
 
-      <div class='cds-aichat-toolbar__end' data-rounded='top-right' {{this.observeOverflow}}>
-        <div class='cds-aichat-toolbar__actions-container'>
-          <div class='cds-aichat-toolbar__decorator-container'>
-            {{yield to='decorator'}}
+      <div
+        class="cds-aichat-toolbar__end"
+        data-rounded="top-right"
+        {{this.observeOverflow}}
+      >
+        <div class="cds-aichat-toolbar__actions-container">
+          <div class="cds-aichat-toolbar__decorator-container">
+            {{yield to="decorator"}}
           </div>
 
           {{#each this.displayedVisibleActions as |toolbarAction|}}
@@ -245,7 +266,11 @@ export default class Toolbar extends Component<ToolbarSignature> {
           {{/each}}
 
           {{#if this.showOverflowMenu}}
-            <OverflowMenu @direction='bottom' @tooltip='Options' @icon={{OverflowMenuVertical}}>
+            <OverflowMenu
+              @direction="bottom"
+              @tooltip="Options"
+              @icon={{OverflowMenuVertical}}
+            >
               {{#each this.displayedHiddenActions as |toolbarAction|}}
                 <OverflowMenuItem
                   @itemText={{toolbarAction.text}}
@@ -260,13 +285,13 @@ export default class Toolbar extends Component<ToolbarSignature> {
             </OverflowMenu>
           {{/if}}
 
-          <div data-fixed class='cds-aichat-toolbar__fixed-actions'>
-            {{yield to='fixedActions'}}
+          <div data-fixed class="cds-aichat-toolbar__fixed-actions">
+            {{yield to="fixedActions"}}
           </div>
         </div>
 
         {{#if @overflow}}
-          <div class='cds-aichat-toolbar__measure' aria-hidden='true'>
+          <div class="cds-aichat-toolbar__measure" aria-hidden="true">
             {{#each this.sortedActions as |toolbarAction|}}
               <ToolbarActionButton @action={{toolbarAction}} />
             {{/each}}

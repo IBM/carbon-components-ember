@@ -141,7 +141,7 @@ export default class AiChatMarkdown extends Component<AiChatMarkdownSignature> {
 
   <template>
     <div
-      class='cds-aichat-markdown'
+      class="cds-aichat-markdown"
       {{this.throttle @markdown @streaming}}
       ...attributes
     >{{this.renderedHtml}}</div>

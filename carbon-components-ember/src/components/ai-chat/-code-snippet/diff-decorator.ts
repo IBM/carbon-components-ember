@@ -11,7 +11,8 @@
  * that colors `diff`-language `+`/`-` lines (skipping `+++`/`---` metadata
  * lines).
  */
-import { ViewPlugin, Decoration, EditorView } from '@codemirror/view';
+import { ViewPlugin, Decoration } from '@codemirror/view';
+import type { EditorView } from '@codemirror/view';
 import type { DecorationSet, ViewUpdate } from '@codemirror/view';
 import { RangeSetBuilder } from '@codemirror/state';
 
@@ -37,7 +38,7 @@ export function createDiffDecorator() {
         const builder = new RangeSetBuilder<Decoration>();
 
         for (const { from, to } of view.visibleRanges) {
-          for (let pos = from; pos <= to; ) {
+          for (let pos = from; pos <= to;) {
             const line = view.state.doc.lineAt(pos);
             const text = line.text;
 
@@ -59,6 +60,6 @@ export function createDiffDecorator() {
     },
     {
       decorations: (v) => v.decorations,
-    }
+    },
   );
 }

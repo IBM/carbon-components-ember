@@ -12,7 +12,8 @@
  * https://github.com/cookpete/react-player/blob/v2.15.1/LICENSE
  */
 
-import { BaseProvider, type ProviderConfig } from './base-provider.ts';
+import { BaseProvider } from './base-provider.ts';
+import type { ProviderConfig } from './base-provider.ts';
 import { ScriptLoader } from '../-media/script-loader.ts';
 
 const SDK_URL = 'https://www.youtube.com/iframe_api';
@@ -50,7 +51,10 @@ export class YouTubeProvider extends BaseProvider {
     return match ? (match[1] ?? null) : null;
   }
 
-  async initialize(container: HTMLElement, config: ProviderConfig): Promise<void> {
+  async initialize(
+    container: HTMLElement,
+    config: ProviderConfig,
+  ): Promise<void> {
     await super.initialize(container, config);
 
     if (!this.container) {

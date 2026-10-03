@@ -105,15 +105,19 @@ export default class FileUploaderItem extends Component<FileUploaderItemSignatur
         <div
           class={{if
             @invalid
-            'cds--file-filename-container-wrap-invalid'
-            'cds--file-filename-container-wrap'
+            "cds--file-filename-container-wrap-invalid"
+            "cds--file-filename-container-wrap"
           }}
         >
-          <Tooltip @label={{@name}} @align='bottom' class='cds--file-filename-tooltip'>
-            <button type='button' class='cds--file-filename-button'>
+          <Tooltip
+            @label={{@name}}
+            @align="bottom"
+            class="cds--file-filename-tooltip"
+          >
+            <button type="button" class="cds--file-filename-button">
               <p
                 title={{@name}}
-                class='cds--file-filename-button'
+                class="cds--file-filename-button"
                 id={{this.filteredName}}
                 {{measureEllipsis onMeasure=this.setEllipsisApplied name=@name}}
               >{{@name}}</p>
@@ -123,14 +127,14 @@ export default class FileUploaderItem extends Component<FileUploaderItemSignatur
       {{else}}
         <p
           title={{@name}}
-          class='cds--file-filename'
+          class="cds--file-filename"
           id={{this.filteredName}}
           {{measureEllipsis onMeasure=this.setEllipsisApplied name=@name}}
         >{{@name}}</p>
       {{/if}}
 
-      <div class='cds--file-container-item'>
-        <span class='cds--file__state-container'>
+      <div class="cds--file-container-item">
+        <span class="cds--file__state-container">
           <FileUploaderStatusIcon
             @status={{this.status}}
             @name={{@name}}
@@ -143,10 +147,10 @@ export default class FileUploaderItem extends Component<FileUploaderItemSignatur
       </div>
 
       {{#if (and @invalid @errorSubject)}}
-        <div class='cds--form-requirement' role='alert' id={{this.errorId}}>
-          <div class='cds--form-requirement__title'>{{@errorSubject}}</div>
+        <div class="cds--form-requirement" role="alert" id={{this.errorId}}>
+          <div class="cds--form-requirement__title">{{@errorSubject}}</div>
           {{#if @errorBody}}
-            <p class='cds--form-requirement__supplement'>{{@errorBody}}</p>
+            <p class="cds--form-requirement__supplement">{{@errorBody}}</p>
           {{/if}}
         </div>
       {{/if}}

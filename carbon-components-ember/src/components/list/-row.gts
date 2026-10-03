@@ -4,7 +4,7 @@ import { fn } from '@ember/helper';
 import { default as eq } from 'ember-truth-helpers/helpers/eq';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import ListComponent from '../../components/list.gts';
+import type ListComponent from '../../components/list.gts';
 
 export type Args<T> = {
   onSelect?(item: any): void;
@@ -31,23 +31,23 @@ export default class ListRowComponent<T> extends Component<
 
   <template>
     <div
-      class='cds--structured-list-row
-        {{if @isHeader "cds--structured-list-row--header-row"}}'
+      class="cds--structured-list-row
+        {{if @isHeader 'cds--structured-list-row--header-row'}}"
       ...attributes
     >
       {{yield}}
       {{#if @list.args.selectable}}
         <input
-          aria-label='none'
-          type='radio'
+          aria-label="none"
+          type="radio"
           checked={{eq @list.currentItem @item}}
-          class='cds--structured-list-input cds--visually-hidden'
-          {{on 'click' (fn this.onSelect @item)}}
+          class="cds--structured-list-input cds--visually-hidden"
+          {{on "click" (fn this.onSelect @item)}}
         />
-        <div class='cds--structured-list-td'>
+        <div class="cds--structured-list-td">
           <Icon
-            @icon='checkmark--filled'
-            @btnClass='cds--structured-list-svg'
+            @icon="checkmark--filled"
+            @btnClass="cds--structured-list-svg"
           />
         </div>
       {{/if}}

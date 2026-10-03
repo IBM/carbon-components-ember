@@ -44,16 +44,16 @@ export interface FormGroupSignature {
 export default class FormGroup extends Component<FormGroupSignature> {
   <template>
     <fieldset
-      class='cds--fieldset'
+      class="cds--fieldset"
       disabled={{@disabled}}
-      data-invalid={{if @invalid ''}}
+      data-invalid={{if @invalid ""}}
       aria-labelledby={{@legendId}}
       ...attributes
     >
-      <legend class='cds--label' id={{@legendId}}>{{@legendText}}</legend>
+      <legend class="cds--label" id={{@legendId}}>{{@legendText}}</legend>
       {{yield}}
       {{#if @message}}
-        <div class='cds--form__requirements'>{{@messageText}}</div>
+        <div class="cds--form__requirements">{{@messageText}}</div>
       {{/if}}
     </fieldset>
   </template>

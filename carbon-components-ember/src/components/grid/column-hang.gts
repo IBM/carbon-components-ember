@@ -37,7 +37,7 @@ export default class GridColumnHang extends Component<GridColumnHangSignature> {
 
   <template>
     {{#let (element this.tag) as |Tag|}}
-      <Tag class='cds--grid-column-hang' ...attributes>
+      <Tag class="cds--grid-column-hang" ...attributes>
         {{yield}}
       </Tag>
     {{/let}}

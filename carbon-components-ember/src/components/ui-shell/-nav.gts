@@ -11,8 +11,8 @@ export interface Signature {
 
 export default class InnerClass extends Component<Signature> {
   <template>
-    <nav aria-label='IBM [Platform]' class='cds--header__nav'>
-      <ul class='cds--header__menu-bar'>
+    <nav aria-label="IBM [Platform]" class="cds--header__nav">
+      <ul class="cds--header__menu-bar">
         {{yield UIShellNavItem UIShellHeaderMenu}}
       </ul>
     </nav>

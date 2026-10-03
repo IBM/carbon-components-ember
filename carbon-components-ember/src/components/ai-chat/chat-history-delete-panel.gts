@@ -58,29 +58,38 @@ export default class ChatHistoryDeletePanel extends Component<ChatHistoryDeleteP
   handleDelete = () => this.args.onConfirm?.({ itemId: this.args.itemId });
 
   <template>
-    <div class='cds-aichat-history-delete-panel' ...attributes>
-      <div aria-live='polite' class='cds-aichat-history-delete-panel__content'>
+    <div class="cds-aichat-history-delete-panel" ...attributes>
+      <div aria-live="polite" class="cds-aichat-history-delete-panel__content">
         <h1>
-          {{#if (has-block 'title')}}
-            {{yield to='title'}}
+          {{#if (has-block "title")}}
+            {{yield to="title"}}
           {{else}}
             Confirm Delete
           {{/if}}
         </h1>
         <span>
-          {{#if (has-block 'description')}}
-            {{yield to='description'}}
+          {{#if (has-block "description")}}
+            {{yield to="description"}}
           {{else}}
             This conversation will be permanently deleted.
           {{/if}}
         </span>
-        <div class='cds-aichat-history-delete-panel__actions'>
-          <AiChatChatButton @kind='tertiary' @size='sm' @onClick={{this.handleCancel}}>
-            {{or @cancelText 'Cancel'}}
+        <div class="cds-aichat-history-delete-panel__actions">
+          <AiChatChatButton
+            @kind="tertiary"
+            @size="sm"
+            @onClick={{this.handleCancel}}
+          >
+            {{or @cancelText "Cancel"}}
           </AiChatChatButton>
-          <AiChatChatButton @kind='danger' @size='sm' @onClick={{this.handleDelete}} {{autofocus}}>
-            {{or @deleteText 'Delete'}}
-            <TrashCan @size='16' />
+          <AiChatChatButton
+            @kind="danger"
+            @size="sm"
+            @onClick={{this.handleDelete}}
+            {{autofocus}}
+          >
+            {{or @deleteText "Delete"}}
+            <TrashCan @size="16" />
           </AiChatChatButton>
         </div>
       </div>

@@ -9,7 +9,7 @@ import { on } from '@ember/modifier';
 import set from '../helpers/set.ts';
 import not from 'ember-truth-helpers/helpers/not';
 import htmlSafe from '../helpers/html-safe.ts';
-import { type TemplateOnlyComponent } from '@ember/component/template-only';
+import type { TemplateOnlyComponent } from '@ember/component/template-only';
 
 export type Args = {
   type: 'default' | 'multiline' | 'inline';
@@ -55,69 +55,69 @@ export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignat
   };
 
   <template>
-    {{#if (eq @type 'default')}}
-      <div class='cds--snippet cds--snippet--single'>
-        <div class='cds--snippet-container' aria-label='Code Snippet Text'>
-          <PreCode {{captureElement onInsert=(set this 'carbonElement')}}>
+    {{#if (eq @type "default")}}
+      <div class="cds--snippet cds--snippet--single">
+        <div class="cds--snippet-container" aria-label="Code Snippet Text">
+          <PreCode {{captureElement onInsert=(set this "carbonElement")}}>
             {{~yield~}}
           </PreCode>
         </div>
         <CopyButton @targetElement={{this.carbonElement}} />
       </div>
     {{/if}}
-    {{#if (eq @type 'multiline')}}
+    {{#if (eq @type "multiline")}}
       <div
-        class='cds--snippet cds--snippet--multi
-          {{if this.expanded "cds--snippet--expand"}}'
+        class="cds--snippet cds--snippet--multi
+          {{if this.expanded 'cds--snippet--expand'}}"
         data-code-snippet
       >
         <div
-          class='cds--snippet-container'
-          aria-label='Code Snippet Text'
+          class="cds--snippet-container"
+          aria-label="Code Snippet Text"
           style={{htmlSafe
             (concat
-              'width: 100%; min-height: 48px;'
-              (unless this.expanded 'max-height: 240px;')
+              "width: 100%; min-height: 48px;"
+              (unless this.expanded "max-height: 240px;")
             )
           }}
         >
-          <PreCode {{captureElement onInsert=(set this 'codeElement')}}>
+          <PreCode {{captureElement onInsert=(set this "codeElement")}}>
             {{~yield~}}
           </PreCode>
         </div>
-        <div class='cds--snippet__overflow-indicator--right'></div>
+        <div class="cds--snippet__overflow-indicator--right"></div>
         <CopyButton @targetElement={{this.codeElement}} />
         <button
-          {{on 'click' (fn (set this 'expanded') (not this.expanded))}}
-          class='cds--btn cds--btn--ghost cds--btn--sm cds--snippet-btn--expand'
-          type='button'
+          {{on "click" (fn (set this "expanded") (not this.expanded))}}
+          class="cds--btn cds--btn--ghost cds--btn--sm cds--snippet-btn--expand"
+          type="button"
         >
           <span
-            class='cds--snippet-btn--text'
-            data-show-more-text='Show more'
-            data-show-less-text='Show less'
+            class="cds--snippet-btn--text"
+            data-show-more-text="Show more"
+            data-show-less-text="Show less"
           >
             Show more
           </span>
           <svg
-            class='cds--icon-chevron--down'
-            width='12'
-            height='7'
-            viewBox='0 0 12 7'
-            aria-label='Show more icon'
+            class="cds--icon-chevron--down"
+            width="12"
+            height="7"
+            viewBox="0 0 12 7"
+            aria-label="Show more icon"
           >
             <title>
               Show more icon
             </title>
             <path
-              fill-rule='nonzero'
-              d='M6.002 5.55L11.27 0l.726.685L6.003 7 0 .685.726 0z'
+              fill-rule="nonzero"
+              d="M6.002 5.55L11.27 0l.726.685L6.003 7 0 .685.726 0z"
             />
           </svg>
         </button>
       </div>
     {{/if}}
-    {{#if (eq @type 'inline')}}
+    {{#if (eq @type "inline")}}
       <CopyButton @inline={{true}}>
         {{~yield~}}
       </CopyButton>

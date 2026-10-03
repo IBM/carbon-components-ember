@@ -8,7 +8,7 @@
  * fixture per component to ./fixtures/<Name>.json, keyed by variant name.
  *
  * This is an offline step: fixtures are committed, and the QUnit suite in
- * test-app only ever reads them - it never runs this script itself. Rerun
+ * the addon's tests only ever read them - it never runs this script itself. Rerun
  * manually (`pnpm generate`) after bumping the pinned @carbon/react version
  * in package.json, or after adding/changing an entry in lib/components.mjs.
  *

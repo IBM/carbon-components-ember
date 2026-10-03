@@ -4,7 +4,7 @@ import { default as Nav } from './ui-shell/-nav.gts';
 import { default as Switcher } from './ui-shell/-switcher.gts';
 import { default as HeaderContainer } from './ui-shell/-header-container.gts';
 import Component from '@glimmer/component';
-import UIShellHeader from './ui-shell/-header.gts';
+import type UIShellHeader from './ui-shell/-header.gts';
 import { hash } from '@ember/helper';
 
 export interface UIShellSignature {
@@ -32,10 +32,10 @@ export default class UIShell extends Component<UIShellSignature> {
         Switcher=Switcher
         HeaderContainer=HeaderContainer
       )
-      to='shell'
+      to="shell"
     }}
-    <main id='main-content' class='cds--content'>
-      {{yield to='content'}}
+    <main id="main-content" class="cds--content">
+      {{yield to="content"}}
     </main>
   </template>
 }

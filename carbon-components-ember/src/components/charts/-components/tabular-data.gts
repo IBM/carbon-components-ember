@@ -4,9 +4,8 @@ import type Owner from '@ember/owner';
 import { action } from '@ember/object';
 import { registerDestructor } from '@ember/destroyable';
 import { defaultArgs } from '../../../utils/decorators.ts';
-import CarbonChart, {
-  type ChartData,
-} from '../../charts/-components/chart.gts';
+import type CarbonChart from '../../charts/-components/chart.gts';
+import type { ChartData } from '../../charts/-components/chart.gts';
 
 export type Args = {
   backgroundColors?: string[];

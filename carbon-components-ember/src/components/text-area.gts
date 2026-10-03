@@ -82,7 +82,9 @@ export default class TextArea extends Component<Signature> {
   }
 
   get count() {
-    return this.args.counterMode === 'word' ? this.wordCount : this.value.length;
+    return this.args.counterMode === 'word'
+      ? this.wordCount
+      : this.value.length;
   }
 
   get showCounter() {
@@ -117,84 +119,85 @@ export default class TextArea extends Component<Signature> {
   }
 
   <template>
-    <div class='cds--form-item' ...attributes>
-      <div class='cds--text-area__label-wrapper'>
+    <div class="cds--form-item" ...attributes>
+      <div class="cds--text-area__label-wrapper">
         {{#if @labelText}}
           <label
             for={{this.id}}
-            class='cds--label
-              {{if @hideLabel "cds--visually-hidden"}}
-              {{if @disabled "cds--label--disabled"}}'
+            class="cds--label
+              {{if @hideLabel 'cds--visually-hidden'}}
+              {{if @disabled 'cds--label--disabled'}}"
           >
             {{@labelText}}
           </label>
         {{/if}}
         {{#if this.showCounter}}
           <label
-            class='cds--label cds--text-area__label-counter'
-            aria-live='polite'
-            aria-atomic='true'
+            class="cds--label cds--text-area__label-counter"
+            aria-live="polite"
+            aria-atomic="true"
           >{{this.count}}/{{@maxCount}}</label>
         {{/if}}
       </div>
       <div
-        class='cds--text-area__wrapper
-          {{if @cols "cds--text-area__wrapper--cols"}}
-          {{if @readOnly "cds--text-area__wrapper--readonly"}}
-          {{if this.isWarn "cds--text-area__wrapper--warn"}}
-          {{if @slug "cds--text-area__wrapper--slug"}}
-          {{if @decorator "cds--text-area__wrapper--decorator"}}'
-        data-invalid={{if this.isInvalid 'true'}}
+        class="cds--text-area__wrapper
+          {{if @cols 'cds--text-area__wrapper--cols'}}
+          {{if @readOnly 'cds--text-area__wrapper--readonly'}}
+          {{if this.isWarn 'cds--text-area__wrapper--warn'}}
+          {{if @slug 'cds--text-area__wrapper--slug'}}
+          {{if @decorator 'cds--text-area__wrapper--decorator'}}"
+        data-invalid={{if this.isInvalid "true"}}
       >
         {{#if this.isInvalid}}
-          <WarningFilled @size='16' @svgClass='cds--text-area__invalid-icon' />
+          <WarningFilled @size="16" @svgClass="cds--text-area__invalid-icon" />
         {{else if this.isWarn}}
           <WarningAltFilled
-            @size='16'
-            @svgClass='cds--text-area__invalid-icon cds--text-area__invalid-icon--warning'
+            @size="16"
+            @svgClass="cds--text-area__invalid-icon cds--text-area__invalid-icon--warning"
           />
         {{/if}}
         <textarea
           id={{this.id}}
-          class='cds--text-area
-            {{if @light "cds--text-area--light"}}
-            {{if this.isInvalid "cds--text-area--invalid"}}
-            {{if this.isWarn "cds--text-area--warn"}}'
+          class="cds--text-area
+            {{if @light 'cds--text-area--light'}}
+            {{if this.isInvalid 'cds--text-area--invalid'}}
+            {{if this.isWarn 'cds--text-area--warn'}}"
           rows={{this.rows}}
           cols={{@cols}}
           placeholder={{@placeholder}}
           disabled={{@disabled}}
           readonly={{@readOnly}}
           maxlength={{this.maxLength}}
-          aria-invalid={{if this.isInvalid 'true'}}
-          data-invalid={{if this.isInvalid 'true'}}
-          {{on 'input' this.updateValue}}
-          {{on 'click' this.handleClick}}
-          {{on 'keydown' this.handleKeyDown}}
+          aria-invalid={{if this.isInvalid "true"}}
+          data-invalid={{if this.isInvalid "true"}}
+          {{on "input" this.updateValue}}
+          {{on "click" this.handleClick}}
+          {{on "keydown" this.handleKeyDown}}
         >{{this.value}}</textarea>
         {{#if @slug}}
           <@slug />
         {{else if @decorator}}
-          <div class='cds--text-area__inner-wrapper--decorator'>
+          <div class="cds--text-area__inner-wrapper--decorator">
             <@decorator />
           </div>
         {{/if}}
         <span
-          class='cds--text-area__counter-alert'
-          role='alert'
-          aria-live='assertive'
-          aria-atomic='true'
+          class="cds--text-area__counter-alert"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
         >
           {{#if this.isOverCountLimit}}{{this.count}}/{{@maxCount}}{{/if}}
         </span>
       </div>
       {{#if this.isInvalid}}
-        <div class='cds--form-requirement'>{{@invalidText}}</div>
+        <div class="cds--form-requirement">{{@invalidText}}</div>
       {{else if this.isWarn}}
-        <div class='cds--form-requirement'>{{@warnText}}</div>
+        <div class="cds--form-requirement">{{@warnText}}</div>
       {{else if @helperText}}
         <div
-          class='cds--form__helper-text {{if @disabled "cds--form__helper-text--disabled"}}'
+          class="cds--form__helper-text
+            {{if @disabled 'cds--form__helper-text--disabled'}}"
         >{{@helperText}}</div>
       {{/if}}
     </div>

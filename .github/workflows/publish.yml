@@ -15,15 +15,18 @@ concurrency:
   group: publish-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   check-plan:
     name: "Check Release Plan"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     outputs:
       command: ${{ steps.check-release.outputs.command }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           ref: "main"
@@ -35,7 +38,7 @@ jobs:
 
   publish:
     name: "NPM Publish"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     needs: check-plan
     if: needs.check-plan.outputs.command == 'release'
     permissions:
@@ -43,15 +46,12 @@ jobs:
       pull-requests: write
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - name: Setup Node and pnpm
+        uses: ./.github/actions/setup-pnpm
         with:
-          node-version: 18
           # This creates an .npmrc that reads the NODE_AUTH_TOKEN environment variable
           registry-url: "https://registry.npmjs.org"
-
-      - name: install pnpm
-        run: npm i -g pnpm
       - run: pnpm install --frozen-lockfile
       - name: npm publish
         run: pnpm release-plan publish

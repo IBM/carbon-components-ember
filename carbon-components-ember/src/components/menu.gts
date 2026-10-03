@@ -129,12 +129,12 @@ class MenuList extends Component<MenuListSignature> {
   <template>
     <ul
       class={{@menu.classes}}
-      role='menu'
+      role="menu"
       aria-label={{@menu.args.label}}
-      tabindex='-1'
-      {{on 'keydown' @menu.handleKeyDown}}
-      {{on 'focusout' @menu.handleBlur}}
-      {{on 'click' @menu.handleClick}}
+      tabindex="-1"
+      {{on "keydown" @menu.handleKeyDown}}
+      {{on "focusout" @menu.handleBlur}}
+      {{on "click" @menu.handleClick}}
       {{@menu.registerList}}
       {{@menu.positionMenu}}
       ...attributes

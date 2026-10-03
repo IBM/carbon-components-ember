@@ -37,6 +37,9 @@ export default class AiChatChatButtonSkeleton extends Component<AiChatChatButton
   }
 
   <template>
-    <div class='cds-aichat-button-skeleton cds-aichat-button-skeleton--{{this.size}}' ...attributes></div>
+    <div
+      class="cds-aichat-button-skeleton cds-aichat-button-skeleton--{{this.size}}"
+      ...attributes
+    ></div>
   </template>
 }

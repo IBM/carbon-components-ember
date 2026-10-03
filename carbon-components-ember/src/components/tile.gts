@@ -160,24 +160,27 @@ export default class TileComponent extends Component<TileComponentSignature> {
       {{! template-lint-disable require-presentational-children }}
       <div
         id={{@id}}
-        class='cds--tile cds--tile--selectable
-          {{if this.selected "cds--tile--is-selected"}}'
-        role='checkbox'
+        class="cds--tile cds--tile--selectable
+          {{if this.selected 'cds--tile--is-selected'}}"
+        role="checkbox"
         aria-checked={{if this.selected "true" "false"}}
         tabindex={{this.tabindex}}
-        title='title'
-        {{on 'click' this.onSelectableClick}}
-        {{on 'keydown' this.onSelectableKeyDown}}
+        title="title"
+        {{on "click" this.onSelectableClick}}
+        {{on "keydown" this.onSelectableKeyDown}}
       >
-        <span class='cds--tile__checkmark cds--tile__checkmark--persistent'>
+        <span class="cds--tile__checkmark cds--tile__checkmark--persistent">
           {{#if this.selected}}
-            <CheckboxCheckedFilled @size="16" @svgClass='cds--tile__checkmark-icon' />
+            <CheckboxCheckedFilled
+              @size="16"
+              @svgClass="cds--tile__checkmark-icon"
+            />
           {{else}}
-            <Checkbox @size="16" @svgClass='cds--tile__checkmark-icon' />
+            <Checkbox @size="16" @svgClass="cds--tile__checkmark-icon" />
           {{/if}}
         </span>
-        <label for={{@id}} class='cds--tile-content' dir='auto'>
-          {{yield to='content'}}
+        <label for={{@id}} class="cds--tile-content" dir="auto">
+          {{yield to="content"}}
         </label>
       </div>
     {{/if}}
@@ -194,48 +197,48 @@ export default class TileComponent extends Component<TileComponentSignature> {
         upstream, not just CSS alone - rather than only once @expanded is
         true. }}
       <div
-        class='cds--tile cds--tile--expandable cds--tile--expandable--interactive
-          {{if this.expanded "cds--tile--is-expanded"}}'
+        class="cds--tile cds--tile--expandable cds--tile--expandable--interactive
+          {{if this.expanded 'cds--tile--is-expanded'}}"
       >
         <div>
-          <div class='cds--tile-content' {{clipExpandableTile this.expanded}}>
-            {{yield to='above'}}
+          <div class="cds--tile-content" {{clipExpandableTile this.expanded}}>
+            {{yield to="above"}}
           </div>
           <button
-            type='button'
+            type="button"
             aria-expanded={{if this.expanded "true" "false"}}
-            aria-controls='tile-below-{{this.guid}}'
+            aria-controls="tile-below-{{this.guid}}"
             aria-label={{if
               this.expanded
-              'Interact to collapse Tile'
-              'Interact to expand Tile'
+              "Interact to collapse Tile"
+              "Interact to expand Tile"
             }}
-            class='cds--tile__chevron cds--tile__chevron--interactive'
-            {{on 'click' this.toggleExpanded}}
+            class="cds--tile__chevron cds--tile__chevron--interactive"
+            {{on "click" this.toggleExpanded}}
           >
-            <ChevronDown @size="16" @svgClass='cds--tile__chevron-icon' />
+            <ChevronDown @size="16" @svgClass="cds--tile__chevron-icon" />
           </button>
-          <div class='cds--tile-content' id='tile-below-{{this.guid}}'>
-            <span class='cds--tile-content__below-the-fold'>
-              {{yield to='below'}}
+          <div class="cds--tile-content" id="tile-below-{{this.guid}}">
+            <span class="cds--tile-content__below-the-fold">
+              {{yield to="below"}}
             </span>
           </div>
         </div>
       </div>
     {{/if}}
     {{#if this.default}}
-      <div class='cds--tile'>
-        {{yield to='content'}}
+      <div class="cds--tile">
+        {{yield to="content"}}
       </div>
     {{/if}}
     {{#if @clickable}}
       {{! @carbon/react's Link never sets role='button' on a real <a href> (only role='link' when disabled) - a real <a href> already conveys link semantics on its own }}
       <a
-        class='cds--link cds--tile cds--tile--clickable'
-        href='#'
-        {{on 'click' this.onClick}}
+        class="cds--link cds--tile cds--tile--clickable"
+        href="#"
+        {{on "click" this.onClick}}
       >
-        {{yield to='content'}}
+        {{yield to="content"}}
       </a>
     {{/if}}
   </template>

@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
-import { htmlSafe as htmlSafeString } from '@ember/template';
+import type { htmlSafe as htmlSafeString } from '@ember/template';
 import { on } from '@ember/modifier';
 import Loading from '../components/loading.gts';
 import or from '../helpers/or.ts';
@@ -15,11 +15,11 @@ import type DialogManagerService from '../services/dialog-manager';
 export type IconType = {
   name: string;
   elem: string;
-  attrs: Record<string,string>;
+  attrs: Record<string, string>;
   content: {
     elem: string;
-    attrs: Record<string,string>;
-  },
+    attrs: Record<string, string>;
+  };
   size: number;
 };
 
@@ -163,7 +163,7 @@ export default class CarbonIcon extends Component<Args> {
   }
 
   styles = stylesheet`
-    @import "@carbon/styles/scss/theme";
+    @use "@carbon/styles/scss/theme" as *;
 
     .icon {
       margin: 5px;
@@ -205,9 +205,9 @@ export default class CarbonIcon extends Component<Args> {
 
   <template>
     {{#if (or @loading this.loading)}}
-      <span style='display: inline-block;'>
+      <span style="display: inline-block;">
         <Loading
-          @classNames='{{this.styles.icon}} {{this.classes}} loader'
+          @classNames="{{this.styles.icon}} {{this.classes}} loader"
           @small={{true}}
           @inline={{true}}
         />
@@ -215,15 +215,15 @@ export default class CarbonIcon extends Component<Args> {
     {{else}}
       {{#if @onClick}}
         <button
-          class='cds--btn cds--btn--sm cds--btn--ghost {{@btnClass}}'
+          class="cds--btn cds--btn--sm cds--btn--ghost {{@btnClass}}"
           style={{if @btnStyle (htmlSafe @btnStyle)}}
-          type='button'
-          {{on 'click' this.onIconClick}}
+          type="button"
+          {{on "click" this.onIconClick}}
         >
           {{renderSvgPart
             this.svg
             class=(array (or @svgClass this.styles.icon) this.classes)
-            fill=(or @fill 'currentColor')
+            fill=(or @fill "currentColor")
             size=@size
           }}
         </button>
@@ -231,12 +231,10 @@ export default class CarbonIcon extends Component<Args> {
         {{renderSvgPart
           this.svg
           class=(array (or @svgClass this.styles.icon) this.classes)
-          fill=(or @fill 'currentColor')
+          fill=(or @fill "currentColor")
           size=@size
         }}
       {{/if}}
     {{/if}}
   </template>
 }
-
-

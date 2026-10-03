@@ -38,7 +38,10 @@ export abstract class BaseProvider {
   protected errorCallback: ((error: Error) => void) | null = null;
 
   // eslint-disable-next-line @typescript-eslint/require-await -- overridden by every subclass with a real await; kept async here so `super.initialize()` composes uniformly.
-  async initialize(container: HTMLElement, config: ProviderConfig): Promise<void> {
+  async initialize(
+    container: HTMLElement,
+    config: ProviderConfig,
+  ): Promise<void> {
     this.container = container;
     this.config = config;
   }

@@ -64,8 +64,12 @@ export default class ChatHistoryPanel extends Component<ChatHistoryPanelSignatur
 
   <template>
     <nav
-      class='cds-aichat-history-panel cds--side-nav__navigation cds--side-nav
-        {{if this.expanded "cds--side-nav--expanded" "cds--side-nav--collapsed"}}'
+      class="cds-aichat-history-panel cds--side-nav__navigation cds--side-nav
+        {{if
+          this.expanded
+          'cds--side-nav--expanded'
+          'cds--side-nav--collapsed'
+        }}"
       ...attributes
     >
       {{yield (component ChatHistoryPanelItems showActions=@showActions)}}

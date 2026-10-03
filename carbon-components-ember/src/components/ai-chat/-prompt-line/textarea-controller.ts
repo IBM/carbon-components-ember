@@ -6,7 +6,10 @@
  */
 
 import type { Editor } from '@tiptap/core';
-import type { EditingSurfaceController, EditingSurfaceInit } from './controller.ts';
+import type {
+  EditingSurfaceController,
+  EditingSurfaceInit,
+} from './controller.ts';
 
 /**
  * `<textarea>`-backed controller, ported from `@carbon/ai-chat-components`'
@@ -116,7 +119,10 @@ export class TextareaController implements EditingSurfaceController {
       return;
     }
     const value = ta.value;
-    const at = typeof opts.at === 'number' ? Math.max(0, Math.min(opts.at, value.length)) : (ta.selectionStart ?? value.length);
+    const at =
+      typeof opts.at === 'number'
+        ? Math.max(0, Math.min(opts.at, value.length))
+        : (ta.selectionStart ?? value.length);
     const end = typeof opts.at === 'number' ? at : (ta.selectionEnd ?? at);
     const nextValue = value.slice(0, at) + text + value.slice(end);
     const caret = at + text.length;
@@ -172,7 +178,10 @@ export class TextareaController implements EditingSurfaceController {
       ta.setSelectionRange(p, p);
       return;
     }
-    ta.setSelectionRange(Math.max(0, Math.min(pos.from, len)), Math.max(0, Math.min(pos.to, len)));
+    ta.setSelectionRange(
+      Math.max(0, Math.min(pos.from, len)),
+      Math.max(0, Math.min(pos.to, len)),
+    );
   }
 
   selectAll() {

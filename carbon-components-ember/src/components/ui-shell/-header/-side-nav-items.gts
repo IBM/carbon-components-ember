@@ -13,8 +13,8 @@ export interface UIShellHeaderSideNavItemsSignature {
 export default class UIShellHeaderSideNavItems extends Component<UIShellHeaderSideNavItemsSignature> {
   <template>
     <ul
-      class='cds--side-nav__header-navigation
-        {{if @hasDivider "cds--side-nav__header-divider"}}'
+      class="cds--side-nav__header-navigation
+        {{if @hasDivider 'cds--side-nav__header-divider'}}"
       ...attributes
     >
       {{yield}}

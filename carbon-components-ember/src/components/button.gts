@@ -1,10 +1,10 @@
 import Component from '@glimmer/component';
 import { defaultArgs } from '../utils/decorators.ts';
-import DialogManagerService from '../services/dialog-manager.ts';
+import type DialogManagerService from '../services/dialog-manager.ts';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import ConfirmDialogComponent from './dialogs/confirm.gts';
+import type ConfirmDialogComponent from './dialogs/confirm.gts';
 import or from '../helpers/or.ts';
 import Confirm from './dialogs/confirm.gts';
 import Loading from './loading.gts';
@@ -125,12 +125,12 @@ export default class CarbonButton extends Component<ButtonSignature> {
   <template>
     <button
       onclick={{this.onButtonClick}}
-      class='cds--btn
+      class="cds--btn
         {{this.classes}}
         {{this.layout}}
-        {{if (or this.loading @loading) "cds--btn--ghost"}}'
+        {{if (or this.loading @loading) 'cds--btn--ghost'}}"
       disabled={{or @disabled this.loading @loading}}
-      type='button'
+      type="button"
       ...attributes
     >
       {{#if this.showDialog}}
@@ -139,9 +139,9 @@ export default class CarbonButton extends Component<ButtonSignature> {
             <Dialog
               @onAccept={{this.runButtonClick}}
               @onCancel={{this.cancel}}
-              @header='Danger'
-              @body={{or @confirmText 'Confirm this operation'}}
-              @type='danger'
+              @header="Danger"
+              @body={{or @confirmText "Confirm this operation"}}
+              @type="danger"
             />
           {{/in-element}}
         {{/let}}

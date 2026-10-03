@@ -1,8 +1,8 @@
 import { default as ListRow } from './-row.gts';
 import Component from '@glimmer/component';
-import DataTableComponent from '../../components/data-table.gts';
+import type DataTableComponent from '../../components/data-table.gts';
 import type { WithBoundArgs } from '@glint/template';
-import DataTableRow from '../../components/data-table/-row.gts';
+import type DataTableRow from '../../components/data-table/-row.gts';
 import { hash } from '@ember/helper';
 
 export type Args<T> = {
@@ -33,17 +33,18 @@ export default class DataTableBody<T> extends Component<
   <template>
     <tbody>
       {{#each @items as |item|}}
-        {{! @glint-expect-error }}
-        {{yield (hash Row=(component
-              ListRow
-              isExpandable=@isExpandable
-              isCheckable=@isCheckable
-              table=@table
-              item=item
-            )
+        {{#let
+          (component
+            ListRow
+            isExpandable=@isExpandable
+            isCheckable=@isCheckable
+            table=@table
             item=item
           )
+          as |Row|
         }}
+          {{yield (hash Row=Row item=item)}}
+        {{/let}}
       {{/each}}
     </tbody>
   </template>

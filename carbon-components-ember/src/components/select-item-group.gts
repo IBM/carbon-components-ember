@@ -27,7 +27,7 @@ export interface SelectItemGroupSignature {
 export default class SelectItemGroup extends Component<SelectItemGroupSignature> {
   <template>
     <optgroup
-      class='cds--select-optgroup'
+      class="cds--select-optgroup"
       label={{@label}}
       disabled={{@disabled}}
       ...attributes

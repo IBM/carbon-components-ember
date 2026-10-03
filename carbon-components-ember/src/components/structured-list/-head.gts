@@ -16,7 +16,7 @@ export interface StructuredListHeadSignature {
 
 export default class StructuredListHead extends Component<StructuredListHeadSignature> {
   <template>
-    <div role='rowgroup' class='cds--structured-list-thead' ...attributes>
+    <div role="rowgroup" class="cds--structured-list-thead" ...attributes>
       {{yield}}
     </div>
   </template>

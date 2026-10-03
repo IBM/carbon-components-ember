@@ -6,35 +6,20 @@
   },
   "license": "MIT",
   "author": "",
-  "workspaces": [
-    "carbon-components-ember",
-    "test-app"
-  ],
   "scripts": {
     "build": "pnpm build:carbon && pnpm build:docs",
-    "build:carbon": "pnpm run --filter carbon-components-ember build",
-    "build:docs": "pnpm run --filter docs-app build",
-    "build:test": "pnpm run --filter test-app build",
-    "lint": "pnpm run --filter carbon-components-ember lint",
-    "lint:fix": "pnpm run --filter '*' lint:fix",
-    "start": "concurrently 'npm:start:*' --restart-after 5000 --prefix-colors cyan,white,yellow",
-    "start:addon": "npm start --workspace carbon-components-ember -- --no-watch.clearScreen",
-    "start:test-app": "npm start --workspace test-app",
-    "test": "npm run test --workspaces --if-present",
-    "test:ember": "npm run test:ember --workspaces --if-present"
+    "build:carbon": "pnpm --filter carbon-components-ember build",
+    "build:docs": "pnpm --filter docs-app build",
+    "lint": "pnpm --filter carbon-components-ember lint",
+    "lint:fix": "pnpm --filter carbon-components-ember lint:fix",
+    "start": "pnpm --filter carbon-components-ember start",
+    "start:docs": "concurrently 'pnpm --filter carbon-components-ember build:watch' 'pnpm --filter docs-app start' --names addon,docs --prefix-colors cyan,yellow",
+    "test": "pnpm --filter carbon-components-ember test"
   },
   "devDependencies": {
-    "@glint/core": "^1.5.2",
     "concurrently": "^9.1.2",
     "release-plan": "^0.16.0",
     "yaml": "^2.7.0"
   },
-  "overrides": {
-    "@types/ember": "-",
-    "@glint/template": "1.5.2",
-    "@glimmer/validator": "-",
-    "ember-composable-helpers": "-",
-    "babel-plugin-ember-template-compilation": "4.0.0",
-    "broccoli-babel-transpiler": "^8.0.2"
-  }
+  "packageManager": "pnpm@12.8.1+sha512.f64ba907507f5ceafe06c8d38e6052d0179444580ec1279ddd5bfc11cb48aa8a2644b66598e07e761da84872a9fc57d5f902b87fa49d024198d558612aabbe45"
 }

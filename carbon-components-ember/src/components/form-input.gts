@@ -34,36 +34,52 @@ export default class FormInput extends Component<FormInputSignature> {
     <div class="cds--form-item some-class cds--text-input-wrapper">
       <div class="cds--text-input__label-wrapper">
         {{#if @label}}
-          <label for='text-input-{{this.guid}}' class='cds--label'>
+          <label for="text-input-{{this.guid}}" class="cds--label">
             {{@label}}
           </label>
         {{/if}}
       </div>
       <div class="cds--text-input__field-outer-wrapper">
-        <div class="cds--text-input__field-wrapper" data-invalid={{if @errors 'true'}}>
+        <div
+          class="cds--text-input__field-wrapper"
+          data-invalid={{if @errors "true"}}
+        >
           {{#if @errors}}
-            <WarningFilled @size="16" @svgClass="cds--text-input__invalid-icon" />
+            <WarningFilled
+              @size="16"
+              @svgClass="cds--text-input__invalid-icon"
+            />
           {{/if}}
           <input
-            {{on 'change' this.onInputChange}}
-            id='text-input-{{this.guid}}'
-            aria-invalid={{if @errors 'true'}}
-            data-invalid={{if @errors 'true'}}
-            type='{{defaultTo @type "text"}}'
+            {{on "change" this.onInputChange}}
+            id="text-input-{{this.guid}}"
+            aria-invalid={{if @errors "true"}}
+            data-invalid={{if @errors "true"}}
+            type="{{defaultTo @type 'text'}}"
             value={{@value}}
-            class='cds--text-input {{if @errors 'cds--text-input--invalid'}}'
-            placeholder='{{@placeholder}}'
+            class="cds--text-input {{if @errors 'cds--text-input--invalid'}}"
+            placeholder="{{@placeholder}}"
           />
           {{#if @errors}}
-            <span class="cds--text-input__counter-alert" role="alert" aria-live="assertive" aria-atomic="true"></span>
+            <span
+              class="cds--text-input__counter-alert"
+              role="alert"
+              aria-live="assertive"
+              aria-atomic="true"
+            ></span>
           {{/if}}
         </div>
-        <div class='cds--form__helper-text'>
+        <div class="cds--form__helper-text">
           {{@help}}
         </div>
         {{#if @errors}}
-          <span class="cds--text-input__counter-alert" role="alert" aria-live="assertive" aria-atomic="true"></span>
-          <div class='cds--form-requirement'>
+          <span
+            class="cds--text-input__counter-alert"
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+          ></span>
+          <div class="cds--form-requirement">
             {{@errors}}
           </div>
         {{/if}}

@@ -28,13 +28,13 @@ export default class ToggletipButtonComponent extends Component<ToggletipButtonC
 
   <template>
     <button
-      type='button'
-      class='cds--toggletip-button'
+      type="button"
+      class="cds--toggletip-button"
       aria-label={{this.label}}
-      aria-expanded={{if @open 'true' 'false'}}
+      aria-expanded={{if @open "true" "false"}}
       aria-controls={{@id}}
       aria-describedby={{if @open @id}}
-      {{on 'click' @toggle}}
+      {{on "click" @toggle}}
       ...attributes
     >
       {{yield}}

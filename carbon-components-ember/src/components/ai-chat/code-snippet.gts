@@ -14,7 +14,8 @@ import type { EditorView } from '@codemirror/view';
 import type { Compartment } from '@codemirror/state';
 import Button from '../button.gts';
 import SkeletonText from '../skeleton-text.gts';
-import AiChatToolbar, { type ToolbarAction } from './toolbar.gts';
+import AiChatToolbar from './toolbar.gts';
+import type { ToolbarAction } from './toolbar.gts';
 import { Copy, ChevronDown } from '../../icons.ts';
 import type {
   LanguageController,
@@ -25,14 +26,10 @@ import {
   buildContainerStyles,
   evaluateShowMoreButton,
 } from './-code-snippet/layout-utils.ts';
-import {
-  defaultLineCountText,
-  type LineCountFormatter,
-} from './-code-snippet/formatters.ts';
-import {
-  loadCodeMirrorRuntime,
-  type CodeMirrorRuntimeModule,
-} from './-code-snippet/codemirror-loader.ts';
+import { defaultLineCountText } from './-code-snippet/formatters.ts';
+import type { LineCountFormatter } from './-code-snippet/formatters.ts';
+import { loadCodeMirrorRuntime } from './-code-snippet/codemirror-loader.ts';
+import type { CodeMirrorRuntimeModule } from './-code-snippet/codemirror-loader.ts';
 
 export type Args = {
   /** The code to display/edit. The sole content source - see the class doc. */
@@ -161,7 +158,8 @@ export default class AiChatCodeSnippet extends Component<AiChatCodeSnippetSignat
   private contentSync: ContentSyncHandle | undefined;
   private languageController: LanguageController | null = null;
   private codemirrorRuntime: CodeMirrorRuntimeModule | null = null;
-  private codemirrorRuntimePromise: Promise<CodeMirrorRuntimeModule> | null = null;
+  private codemirrorRuntimePromise: Promise<CodeMirrorRuntimeModule> | null =
+    null;
   private languageCompartment: Compartment | null = null;
   private readOnlyCompartment: Compartment | null = null;
   private wrapCompartment: Compartment | null = null;
@@ -195,7 +193,9 @@ export default class AiChatCodeSnippet extends Component<AiChatCodeSnippetSignat
   }
 
   get isFillMode(): boolean {
-    return this.maxCollapsedNumberOfRows === 0 && this.maxExpandedNumberOfRows === 0;
+    return (
+      this.maxCollapsedNumberOfRows === 0 && this.maxExpandedNumberOfRows === 0
+    );
   }
 
   get containerStyle(): string {
@@ -223,12 +223,16 @@ export default class AiChatCodeSnippet extends Component<AiChatCodeSnippetSignat
 
   private get ariaLabel(): string {
     const language = this.detectedLanguage;
-    const label = this.args.editable ? this.ariaLabelEditable : this.ariaLabelReadOnly;
+    const label = this.args.editable
+      ? this.ariaLabelEditable
+      : this.ariaLabelReadOnly;
     return language ? label.replace('{language}', language) : label;
   }
 
   get containerAriaLabel(): string {
-    return this.args.editable ? this.ariaLabelEditable : this.code || 'code-snippet';
+    return this.args.editable
+      ? this.ariaLabelEditable
+      : this.code || 'code-snippet';
   }
 
   get showLanguageLabel(): boolean {
@@ -432,7 +436,8 @@ export default class AiChatCodeSnippet extends Component<AiChatCodeSnippetSignat
           }
         },
         setupOptions: {
-          foldCollapseLabel: this.args.foldCollapseLabel ?? 'Collapse code block',
+          foldCollapseLabel:
+            this.args.foldCollapseLabel ?? 'Collapse code block',
           foldExpandLabel: this.args.foldExpandLabel ?? 'Expand code block',
           hideLineNumbers: !!this.args.hideLineNumbers,
           hideFold: !!this.args.hideFold,
@@ -514,7 +519,13 @@ export default class AiChatCodeSnippet extends Component<AiChatCodeSnippetSignat
    */
   mountEditor = eModifier<{
     Element: HTMLDivElement;
-    Args: { Positional: [boolean | undefined, boolean | undefined, boolean | undefined] };
+    Args: {
+      Positional: [
+        boolean | undefined,
+        boolean | undefined,
+        boolean | undefined,
+      ];
+    };
   }>((element) => {
     this.editorContainer = element;
     void this.recreateEditor();
@@ -527,7 +538,12 @@ export default class AiChatCodeSnippet extends Component<AiChatCodeSnippetSignat
   }>((_element, [code]) => {
     void (async () => {
       const ready = await this.ensureCodeMirrorRuntime();
-      if (!ready || !this.editorView || !this.codemirrorRuntime || !this.languageController) {
+      if (
+        !ready ||
+        !this.editorView ||
+        !this.codemirrorRuntime ||
+        !this.languageController
+      ) {
         return;
       }
       const { createContentSync } = this.codemirrorRuntime;
@@ -564,11 +580,12 @@ export default class AiChatCodeSnippet extends Component<AiChatCodeSnippetSignat
       ) {
         return;
       }
-      const languageSupport = await this.languageController.resolveLanguageSupport();
+      const languageSupport =
+        await this.languageController.resolveLanguageSupport();
       this.codemirrorRuntime.applyLanguageSupport(
         this.editorView,
         this.languageCompartment,
-        languageSupport
+        languageSupport,
       );
     })();
   });
@@ -580,13 +597,18 @@ export default class AiChatCodeSnippet extends Component<AiChatCodeSnippetSignat
   }>((_element, [disabled]) => {
     void (async () => {
       const ready = await this.ensureCodeMirrorRuntime();
-      if (!ready || !this.editorView || !this.codemirrorRuntime || !this.readOnlyCompartment) {
+      if (
+        !ready ||
+        !this.editorView ||
+        !this.codemirrorRuntime ||
+        !this.readOnlyCompartment
+      ) {
         return;
       }
       this.codemirrorRuntime.updateReadOnlyConfiguration(
         this.editorView,
         this.readOnlyCompartment,
-        { editable: !!this.args.editable, disabled: !!disabled }
+        { editable: !!this.args.editable, disabled: !!disabled },
       );
     })();
   });
@@ -606,41 +628,52 @@ export default class AiChatCodeSnippet extends Component<AiChatCodeSnippetSignat
   }>(() => {
     void (async () => {
       const ready = await this.ensureCodeMirrorRuntime();
-      if (!ready || !this.editorView || !this.codemirrorRuntime || !this.contentAttributesCompartment) {
+      if (
+        !ready ||
+        !this.editorView ||
+        !this.codemirrorRuntime ||
+        !this.contentAttributesCompartment
+      ) {
         return;
       }
       this.codemirrorRuntime.updateContentAttributes(
         this.editorView,
         this.contentAttributesCompartment,
-        this.ariaLabel
+        this.ariaLabel,
       );
     })();
   });
 
   <template>
     <div
-      class='cds-aichat-code-snippet
-        {{if this.isFillMode "cds-aichat-code-snippet--fill-mode"}}
-        {{if @disabled "cds-aichat-code-snippet--disabled"}}'
+      class="cds-aichat-code-snippet
+        {{if this.isFillMode 'cds-aichat-code-snippet--fill-mode'}}
+        {{if @disabled 'cds-aichat-code-snippet--disabled'}}"
       ...attributes
     >
-      <div class='cds-aichat-snippet'>
+      <div class="cds-aichat-snippet">
         {{#unless @hideHeader}}
           <AiChatToolbar
-            class='cds-aichat-snippet__header'
+            class="cds-aichat-snippet__header"
             @actions={{this.toolbarActions}}
             @overflow={{@overflow}}
           >
             <:title>
-              <div class='cds-aichat-snippet__meta'>
+              <div class="cds-aichat-snippet__meta">
                 {{#if this.showLanguageLabel}}
-                  <div class='cds-aichat-snippet__language'>{{this.detectedLanguage}}</div>
+                  <div
+                    class="cds-aichat-snippet__language"
+                  >{{this.detectedLanguage}}</div>
                 {{/if}}
                 {{#if (and this.showLanguageLabel this.lineCount)}}
-                  <div class='cds-aichat-snippet__header-separator'>&mdash;</div>
+                  <div
+                    class="cds-aichat-snippet__header-separator"
+                  >&mdash;</div>
                 {{/if}}
                 {{#if this.lineCount}}
-                  <div class='cds-aichat-snippet__linecount'>{{this.lineCountText}}</div>
+                  <div
+                    class="cds-aichat-snippet__linecount"
+                  >{{this.lineCountText}}</div>
                 {{/if}}
               </div>
             </:title>
@@ -648,45 +681,58 @@ export default class AiChatCodeSnippet extends Component<AiChatCodeSnippetSignat
         {{/unless}}
 
         <div
-          class='cds-aichat-snippet-container
-            {{if this.isFillMode
-              "cds-aichat-snippet-container--fill-mode"
-              (unless this.expandedCode "cds-aichat-snippet-container--collapsed")
-            }}'
+          class="cds-aichat-snippet-container
+            {{if
+              this.isFillMode
+              'cds-aichat-snippet-container--fill-mode'
+              (unless
+                this.expandedCode 'cds-aichat-snippet-container--collapsed'
+              )
+            }}"
           style={{this.containerStyle}}
-          role={{if @editable 'textbox'}}
+          role={{if @editable "textbox"}}
           aria-label={{this.containerAriaLabel}}
-          aria-readonly={{if @editable 'false'}}
-          aria-multiline={{if @editable 'true'}}
+          aria-readonly={{if @editable "false"}}
+          aria-multiline={{if @editable "true"}}
           {{this.mountContainer}}
         >
           <div
-            class='cds-aichat-code-editor'
+            class="cds-aichat-code-editor"
             {{this.mountEditor @editable @hideLineNumbers @hideFold}}
             {{this.syncContent this.code}}
             {{this.syncLanguage @language @highlight}}
             {{this.syncDisabled @disabled}}
-            {{this.syncAriaAttrs this.detectedLanguage @editable this.ariaLabelReadOnly this.ariaLabelEditable}}
+            {{this.syncAriaAttrs
+              this.detectedLanguage
+              @editable
+              this.ariaLabelReadOnly
+              this.ariaLabelEditable
+            }}
           ></div>
           {{#if this.isEditorLoading}}
-            <div class='cds-aichat-snippet__editor-skeleton' aria-hidden='true'>
+            <div class="cds-aichat-snippet__editor-skeleton" aria-hidden="true">
               <SkeletonText @paragraph={{true}} @lineCount={{4}} />
             </div>
           {{/if}}
         </div>
 
         {{#if this.shouldShowMoreLessButton}}
-          <div class='cds-aichat-snippet__footer'>
+          <div class="cds-aichat-snippet__footer">
             <Button
               @ghost={{true}}
-              @size='sm'
+              @size="sm"
               @disabled={{@disabled}}
               @onClick={{this.toggleExpanded}}
             >
-              <span class='cds-aichat-snippet-btn--text'>{{this.expandButtonText}}</span>
+              <span
+                class="cds-aichat-snippet-btn--text"
+              >{{this.expandButtonText}}</span>
               <ChevronDown
                 @size={{16}}
-                @svgClass='cds-aichat-snippet__icon cds-aichat-icon-chevron--down {{if this.expandedCode "cds-aichat-icon-chevron--down--expanded"}}'
+                @svgClass="cds-aichat-snippet__icon cds-aichat-icon-chevron--down {{if
+                  this.expandedCode
+                  'cds-aichat-icon-chevron--down--expanded'
+                }}"
               />
             </Button>
           </div>

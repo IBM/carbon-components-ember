@@ -50,7 +50,7 @@ export interface CarbonFoldMarkerOptions {
  * keyboard support (paired with `carbonFoldMarkerKeyHandler()`).
  */
 export function createCarbonFoldMarker(
-  options: CarbonFoldMarkerOptions = {}
+  options: CarbonFoldMarkerOptions = {},
 ): (open: boolean) => HTMLElement {
   const {
     collapseLabel = 'Collapse code block',
@@ -82,7 +82,7 @@ export function createCarbonFoldMarker(
       if (item.elem === 'path') {
         const path = document.createElementNS(
           'http://www.w3.org/2000/svg',
-          'path'
+          'path',
         );
         Object.entries(item.attrs).forEach(([key, value]) => {
           path.setAttribute(key, String(value));

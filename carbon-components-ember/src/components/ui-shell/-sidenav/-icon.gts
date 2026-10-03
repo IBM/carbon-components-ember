@@ -13,7 +13,7 @@ export interface UIShellSideNavIconSignature {
 export default class UIShellSideNavIcon extends Component<UIShellSideNavIconSignature> {
   <template>
     <div
-      class='cds--side-nav__icon {{if @small "cds--side-nav__icon--small"}}'
+      class="cds--side-nav__icon {{if @small 'cds--side-nav__icon--small'}}"
       ...attributes
     >
       {{yield}}

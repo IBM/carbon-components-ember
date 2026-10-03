@@ -1,64 +1,28 @@
+/**
+ * This tsconfig is not used for publishing.
+ * It's only for the local editing experience
+ * (and linting)
+ */
 {
-  "extends": "@tsconfig/ember/tsconfig.json",
-  "compilerOptions": {
-    "allowJs": true,
-    "declaration": true,
-    "declarationDir": "declarations",
-    "target": "ES2020",
-    /**
-      https://www.typescriptlang.org/tsconfig#noEmit
-
-      We want to emit declarations, so this option must be set to `false`.
-      @tsconfig/ember sets this to `true`, which is incompatible with our need to set `emitDeclarationOnly`.
-      @tsconfig/ember is more optimized for apps, which wouldn't emit anything, only type check.
-    */
-    /**
-      https://www.typescriptlang.org/tsconfig#emitDeclarationOnly
-      We want to only emit declarations as we use Rollup to emit JavaScript.
-    */
-    "emitDeclarationOnly": true,
-    /**
-      https://www.typescriptlang.org/tsconfig#noEmitOnError
-      Do not block emit on TS errors.
-    */
-    "noEmitOnError": false,
-    /**
-      https://www.typescriptlang.org/tsconfig#rootDir
-      "Default: The longest common path of all non-declaration input files."
-
-      Because we want our declarations' structure to match our rollup output,
-      we need this "rootDir" to match the "srcDir" in the rollup.config.mjs.
-
-      This way, we can have simpler `package.json#exports` that matches
-      imports to files on disk
-    */
-    "rootDir": "./src",
-    /**
-      https://www.typescriptlang.org/tsconfig#allowImportingTsExtensions
-
-      We want our tooling to know how to resolve our custom files so the appropriate plugins
-      can do the proper transformations on those files.
-    */
-    "allowImportingTsExtensions": true
-  },
-  "exclude": [
-    "declarations"
-  ],
+  "extends": "@ember/app-tsconfig",
   "include": [
-    "node_modules/@gavant/glint-template-types/types/ember-truth-helpers/*.d.ts",
-    "node_modules/@gavant/glint-template-types/types/ember-basic-dropdown/components/basic-dropdown.d.ts",
-    "node_modules/@gavant/glint-template-types/types/ember-basic-dropdown/components/basic-dropdown-content.d.ts",
-    "node_modules/@gavant/glint-template-types/types/ember-basic-dropdown/components/basic-dropdown-trigger.d.ts",
-    "node_modules/@gavant/glint-template-types/types/ember-basic-dropdown/utils/calculate-position.d.ts",
-    "types/carbon-icons.d.ts",
-    "types/globals.d.ts",
-    "types/glint.d.ts",
-    "types/ember.d.ts",
-    "index.d.ts",
     "src/**/*",
-    "unpublished-development-types/**/*"
+    "tests/**/*",
+    "unpublished-development-types/**/*",
+    "demo-app/**/*"
   ],
-  "glint": {
-    "environment": ["ember-template-imports"]
+  "compilerOptions": {
+    // The DOM-parity tests import the untyped ../dom-parity/lib/*.mjs
+    // helpers, which live outside this package.
+    "rootDir": "..",
+    "allowJs": true,
+    // The tests import JSON fixtures (DOM parity).
+    "resolveJsonModule": true,
+    "types": [
+      "ember-source/types",
+      "vite/client",
+      "@embroider/core/virtual",
+      "@glint/ember-tsc/types"
+    ]
   }
 }

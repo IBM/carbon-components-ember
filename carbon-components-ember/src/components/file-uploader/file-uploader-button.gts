@@ -82,7 +82,10 @@ export default class FileUploaderButton extends Component<FileUploaderButtonSign
 
   get classes() {
     const size = this.args.size ?? 'md';
-    const classes = ['cds--btn', `cds--btn--${this.args.buttonKind ?? 'primary'}`];
+    const classes = [
+      'cds--btn',
+      `cds--btn--${this.args.buttonKind ?? 'primary'}`,
+    ];
     if (this.args.disabled) classes.push('cds--btn--disabled');
     if (size === 'field' || size === 'md') classes.push('cds--btn--md');
     if (size === 'small' || size === 'sm') classes.push('cds--btn--sm');
@@ -123,27 +126,27 @@ export default class FileUploaderButton extends Component<FileUploaderButtonSign
 
   <template>
     <button
-      type='button'
+      type="button"
       disabled={{@disabled}}
       class={{this.classes}}
-      {{on 'click' this.handleButtonClick}}
+      {{on "click" this.handleButtonClick}}
       {{captureElement onInsert=this.setButtonElement}}
       ...attributes
     >{{this.label}}</button>
-    <label class='cds--visually-hidden' for={{this.inputId}}>
+    <label class="cds--visually-hidden" for={{this.inputId}}>
       <span>{{this.label}}</span>
     </label>
     <input
-      class='cds--visually-hidden'
+      class="cds--visually-hidden"
       id={{this.inputId}}
-      type='file'
-      tabindex='-1'
+      type="file"
+      tabindex="-1"
       disabled={{@disabled}}
       multiple={{@multiple}}
       accept={{this.acceptAttr}}
       name={{@name}}
       {{captureElement onInsert=this.setInputElement}}
-      {{on 'change' this.handleFileChange}}
+      {{on "change" this.handleFileChange}}
     />
   </template>
 }

@@ -52,19 +52,35 @@ class CollapseTracker {
   private expandedHeaderHeight?: number;
 
   measure(root: HTMLElement): boolean {
-    const height = (selector: string) => (root.querySelector<HTMLElement>(selector)?.offsetHeight ?? 0);
+    const height = (selector: string) =>
+      root.querySelector<HTMLElement>(selector)?.offsetHeight ?? 0;
     const toolbarHeight = height('.cds-aichat-workspace-shell__toolbar');
-    const notificationHeight = height('.cds-aichat-workspace-shell__notification');
+    const notificationHeight = height(
+      '.cds-aichat-workspace-shell__notification',
+    );
     const footerHeight = height('.cds-aichat-workspace-shell__footer');
-    const currentHeaderHeight = height('.cds-aichat-workspace-shell__header, .cds-aichat-workspace-shell__header-details');
+    const currentHeaderHeight = height(
+      '.cds-aichat-workspace-shell__header, .cds-aichat-workspace-shell__header-details',
+    );
 
-    const isCurrentlyCollapsed = Boolean(root.querySelector('.cds-aichat-workspace-shell__header-details'));
-    if (!this.expandedHeaderHeight && !isCurrentlyCollapsed && currentHeaderHeight > 0) {
+    const isCurrentlyCollapsed = Boolean(
+      root.querySelector('.cds-aichat-workspace-shell__header-details'),
+    );
+    if (
+      !this.expandedHeaderHeight &&
+      !isCurrentlyCollapsed &&
+      currentHeaderHeight > 0
+    ) {
       this.expandedHeaderHeight = currentHeaderHeight;
     }
 
     const headerHeight = this.expandedHeaderHeight || currentHeaderHeight;
-    const availableBodyHeight = root.offsetHeight - toolbarHeight - notificationHeight - headerHeight - footerHeight;
+    const availableBodyHeight =
+      root.offsetHeight -
+      toolbarHeight -
+      notificationHeight -
+      headerHeight -
+      footerHeight;
     return availableBodyHeight < headerHeight;
   }
 }
@@ -105,18 +121,28 @@ export default class WorkspaceShell extends Component<WorkspaceShellSignature> {
   });
 
   <template>
-    <div class='cds-aichat-workspace-shell' ...attributes {{this.observeCollapse}}>
-      <div class='cds-aichat-workspace-shell__toolbar'>
-        {{yield to='toolbar'}}
+    <div
+      class="cds-aichat-workspace-shell"
+      ...attributes
+      {{this.observeCollapse}}
+    >
+      <div class="cds-aichat-workspace-shell__toolbar">
+        {{yield to="toolbar"}}
       </div>
-      <div class='cds-aichat-workspace-shell__notification'>
-        {{yield to='notification'}}
+      <div class="cds-aichat-workspace-shell__notification">
+        {{yield to="notification"}}
       </div>
-      {{yield (component WorkspaceShellHeader collapsible=(if @autoCollapsibleHeader this.shouldCollapseHeader)) to='header'}}
-      <div class='cds-aichat-workspace-shell__body-wrapper'>
-        {{yield to='body'}}
+      {{yield
+        (component
+          WorkspaceShellHeader
+          collapsible=(if @autoCollapsibleHeader this.shouldCollapseHeader)
+        )
+        to="header"
+      }}
+      <div class="cds-aichat-workspace-shell__body-wrapper">
+        {{yield to="body"}}
       </div>
-      {{yield to='footer'}}
+      {{yield to="footer"}}
     </div>
   </template>
 }

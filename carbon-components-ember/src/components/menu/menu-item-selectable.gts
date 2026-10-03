@@ -57,10 +57,10 @@ export default class MenuItemSelectable extends Component<MenuItemSelectableSign
       @shortcut={{@shortcut}}
       @renderIcon={{@renderIcon}}
       @disabled={{@disabled}}
-      @role='menuitemcheckbox'
+      @role="menuitemcheckbox"
       @ariaChecked={{this.checked}}
       @onClick={{this.handleClick}}
-      class='cds--menu-item-selectable--selected'
+      class="cds--menu-item-selectable--selected"
       ...attributes
     />
   </template>

@@ -88,7 +88,9 @@ export default class Launcher extends Component<LauncherSignature> {
   }
 
   get showBadge() {
-    return this.unreadMessageCount > 0 || Boolean(this.args.showUnreadIndicator);
+    return (
+      this.unreadMessageCount > 0 || Boolean(this.args.showUnreadIndicator)
+    );
   }
 
   get badgeText() {
@@ -96,7 +98,9 @@ export default class Launcher extends Component<LauncherSignature> {
   }
 
   get ariaLabel() {
-    return [this.args.closedLabel, this.args.unreadLabel].filter(Boolean).join('. ');
+    return [this.args.closedLabel, this.args.unreadLabel]
+      .filter(Boolean)
+      .join('. ');
   }
 
   get icon() {
@@ -108,34 +112,34 @@ export default class Launcher extends Component<LauncherSignature> {
   };
 
   <template>
-    <div class='cds-aichat-launcher' ...attributes>
+    <div class="cds-aichat-launcher" ...attributes>
       <Tooltip @label={{this.ariaLabel}} @align={{@tooltipPosition}}>
         <button
-          type='button'
-          class='cds--btn cds--btn--primary cds-aichat-launcher__button'
+          type="button"
+          class="cds--btn cds--btn--primary cds-aichat-launcher__button"
           aria-label={{this.ariaLabel}}
-          {{on 'click' this.handleClick}}
+          {{on "click" this.handleClick}}
         >
-          <span class='cds-aichat-launcher__wrapper'>
-            <span class='cds-aichat-launcher__icon-holder'>
+          <span class="cds-aichat-launcher__wrapper">
+            <span class="cds-aichat-launcher__icon-holder">
               {{#if @launcherAvatarUrl}}
                 <img
-                  class='cds-aichat-launcher__avatar'
+                  class="cds-aichat-launcher__avatar"
                   src={{@launcherAvatarUrl}}
-                  aria-hidden='true'
-                  alt=''
+                  aria-hidden="true"
+                  alt=""
                 />
               {{else}}
                 <this.icon
                   @size={{24}}
-                  @svgClass='cds-aichat-launcher__svg'
-                  @fill='currentColor'
+                  @svgClass="cds-aichat-launcher__svg"
+                  @fill="currentColor"
                 />
               {{/if}}
             </span>
           </span>
           {{#if this.showBadge}}
-            <div class='cds-aichat-launcher__count-indicator'>
+            <div class="cds-aichat-launcher__count-indicator">
               {{this.badgeText}}
             </div>
           {{/if}}

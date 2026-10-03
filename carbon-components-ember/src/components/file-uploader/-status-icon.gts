@@ -44,27 +44,27 @@ export default class FileUploaderStatusIcon extends Component<FileUploaderStatus
   }
 
   <template>
-    {{#if (eq this.status 'uploading')}}
+    {{#if (eq this.status "uploading")}}
       <Loading
         @description={{this.iconDescription}}
         @small={{true}}
         @withOverlay={{false}}
-        class='cds--file-loading'
+        class="cds--file-loading"
       />
-    {{else if (eq this.status 'edit')}}
+    {{else if (eq this.status "edit")}}
       <button
-        type='button'
+        type="button"
         disabled={{@disabled}}
-        aria-label='{{this.iconDescription}} - {{@name}}'
+        aria-label="{{this.iconDescription}} - {{@name}}"
         aria-describedby={{@ariaDescribedby}}
-        class='cds--file-close'
-        {{on 'click' this.handleClick}}
+        class="cds--file-close"
+        {{on "click" this.handleClick}}
       >
-        <Close @size='16' @svgClass='cds--file-close__icon' />
+        <Close @size="16" @svgClass="cds--file-close__icon" />
       </button>
-    {{else if (eq this.status 'complete')}}
-      <span aria-label={{this.iconDescription}} tabindex='-1'>
-        <CheckmarkFilled @size='16' @svgClass='cds--file-complete' />
+    {{else if (eq this.status "complete")}}
+      <span aria-label={{this.iconDescription}} tabindex="-1">
+        <CheckmarkFilled @size="16" @svgClass="cds--file-complete" />
       </span>
     {{/if}}
   </template>

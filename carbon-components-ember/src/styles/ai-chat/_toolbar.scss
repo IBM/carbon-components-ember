@@ -1,9 +1,9 @@
 // Ported from `@carbon/ai-chat-components`' `toolbar.scss`. Selectors are
 // adapted from upstream's shadow-DOM `:host`/`::slotted()` to plain classes,
 // matching the pattern already used by `ai-chat/chat-shell` etc.
-@use '@carbon/styles/scss/theme';
-@use '@carbon/layout';
-@use '@carbon/styles/scss/type';
+@use "@carbon/styles/scss/theme";
+@use "@carbon/layout";
+@use "@carbon/styles/scss/type";
 
 // Upstream's `data-rounded="top"`/`data-rounded="top-right"` attributes are
 // driven by a shared `rounded-modifiers` mixin this port hasn't brought
@@ -29,14 +29,17 @@
 }
 
 .cds-aichat-toolbar__title {
-  @include type.type-style('body-compact-01');
+  @include type.type-style("body-compact-01");
 
   flex: 1;
   margin-block: auto;
   margin-inline-end: auto;
   min-inline-size: layout.$spacing-10;
   padding-inline-end: layout.$spacing-04;
-  padding-inline-start: var(--cds-aichat-toolbar-title-padding-inline-start, #{layout.$spacing-04});
+  padding-inline-start: var(
+    --cds-aichat-toolbar-title-padding-inline-start,
+    #{layout.$spacing-04}
+  );
 }
 
 .cds-aichat-toolbar__navigation:has(> *) ~ .cds-aichat-toolbar__title {

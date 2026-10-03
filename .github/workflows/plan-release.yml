@@ -13,15 +13,18 @@ concurrency:
   group: plan-release # only the latest one of these should ever be running
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   check-plan:
     name: "Check Release Plan"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     outputs:
       command: ${{ steps.check-release.outputs.command }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           ref: "main"
@@ -32,7 +35,7 @@ jobs:
 
   prepare_release_notes:
     name: Prepare Release Notes
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     needs: check-plan
     permissions:
@@ -45,18 +48,14 @@ jobs:
     if: (github.event_name == 'push' && needs.check-plan.outputs.command != 'release') || (github.event_name == 'pull_request_target' && github.event.pull_request.merged == true)
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         # We need to download lots of history so that
         # github-changelog can discover what's changed since the last release
         with:
           fetch-depth: 0
           ref: "main"
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
-      - name: install pnpm
-        run: npm i -g pnpm
+      - name: Setup Node and pnpm
+        uses: ./.github/actions/setup-pnpm
 
       - run: pnpm install --frozen-lockfile
 

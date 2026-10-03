@@ -219,106 +219,128 @@ export default class ChatShell extends Component<ChatShellSignature> {
   <template>
     <div
       class={{this.shellClasses}}
+      {{! @glint-expect-error: non-standard host attributes mirrored from upstream cds-aichat-shell; _chat-shell.scss selects on them }}
       workspace-location={{this.workspaceLocation}}
+      {{! @glint-expect-error: see workspace-location above }}
       history-location={{this.historyLocation}}
       ...attributes
     >
       {{! Screen-reader announcement regions -- structural parity only, see class doc. }}
-      <div class='cds-aichat-shell__visually-hidden' aria-live='polite' aria-atomic='true'></div>
-      <div class='cds-aichat-shell__visually-hidden' aria-live='polite' aria-atomic='true'></div>
+      <div
+        class="cds-aichat-shell__visually-hidden"
+        aria-live="polite"
+        aria-atomic="true"
+      ></div>
+      <div
+        class="cds-aichat-shell__visually-hidden"
+        aria-live="polite"
+        aria-atomic="true"
+      ></div>
 
-      <div class='cds-aichat-shell__main-chat'>
-        <div class='cds-aichat-shell__header-with-header-after'>
-          {{#if (has-block 'header')}}
-            <div class='cds-aichat-shell__header has-content' data-panel-slot='header'>
-              {{yield to='header'}}
+      <div class="cds-aichat-shell__main-chat">
+        <div class="cds-aichat-shell__header-with-header-after">
+          {{#if (has-block "header")}}
+            <div
+              class="cds-aichat-shell__header has-content"
+              data-panel-slot="header"
+            >
+              {{yield to="header"}}
             </div>
           {{/if}}
-          {{#if (has-block 'headerAfter')}}
-            <div class='cds-aichat-shell__header-after has-content' data-panel-slot='header-after'>
-              {{yield to='headerAfter'}}
+          {{#if (has-block "headerAfter")}}
+            <div
+              class="cds-aichat-shell__header-after has-content"
+              data-panel-slot="header-after"
+            >
+              {{yield to="headerAfter"}}
             </div>
           {{/if}}
         </div>
 
-        <div class='cds-aichat-shell__main-content'>
-          <div class='cds-aichat-shell__main-content-body'>
+        <div class="cds-aichat-shell__main-content">
+          <div class="cds-aichat-shell__main-content-body">
             {{#if this.showHistory}}
               <div
-                class='cds-aichat-shell__history'
-                role='region'
+                class="cds-aichat-shell__history"
+                role="region"
                 aria-label={{this.historyAriaLabel}}
               >
-                <div data-panel-slot='history'>{{yield to='history'}}</div>
+                <div data-panel-slot="history">{{yield to="history"}}</div>
               </div>
             {{/if}}
 
             {{#if this.showWorkspace}}
               <div
-                class='cds-aichat-shell__workspace'
-                role='region'
+                class="cds-aichat-shell__workspace"
+                role="region"
                 aria-label={{this.workspaceAriaLabel}}
               >
-                <div class='cds-aichat-shell__workspace-content'>
-                  {{yield to='workspace'}}
+                <div class="cds-aichat-shell__workspace-content">
+                  {{yield to="workspace"}}
                 </div>
               </div>
             {{/if}}
 
             <div
               class={{this.inputAndMessagesClasses}}
-              role='region'
+              role="region"
               aria-label={{this.messagesAriaLabel}}
             >
-              <div class='cds-aichat-shell__messages has-content' data-panel-slot='messages'>
-                {{yield to='messages'}}
+              <div
+                class="cds-aichat-shell__messages has-content"
+                data-panel-slot="messages"
+              >
+                {{yield to="messages"}}
               </div>
-              {{#if (has-block 'inputBefore')}}
+              {{#if (has-block "inputBefore")}}
                 <div
                   class={{concat
-                    'cds-aichat-shell__input-before has-content'
-                    (if @contentMaxWidth ' messages-max-width' '')
+                    "cds-aichat-shell__input-before has-content"
+                    (if @contentMaxWidth " messages-max-width" "")
                   }}
-                  data-panel-slot='input-before'
+                  data-panel-slot="input-before"
                 >
-                  {{yield to='inputBefore'}}
+                  {{yield to="inputBefore"}}
                 </div>
               {{/if}}
-              {{#if (has-block 'input')}}
+              {{#if (has-block "input")}}
                 <div
                   class={{concat
-                    'cds-aichat-shell__input has-content'
-                    (if @contentMaxWidth ' messages-max-width' '')
+                    "cds-aichat-shell__input has-content"
+                    (if @contentMaxWidth " messages-max-width" "")
                   }}
-                  data-panel-slot='input'
+                  data-panel-slot="input"
                 >
-                  {{yield to='input'}}
+                  {{yield to="input"}}
                 </div>
               {{/if}}
-              {{#if (has-block 'inputAfter')}}
+              {{#if (has-block "inputAfter")}}
                 <div
                   class={{concat
-                    'cds-aichat-shell__input-after has-content'
-                    (if @contentMaxWidth ' messages-max-width' '')
+                    "cds-aichat-shell__input-after has-content"
+                    (if @contentMaxWidth " messages-max-width" "")
                   }}
-                  data-panel-slot='input-after'
+                  data-panel-slot="input-after"
                 >
-                  {{yield to='inputAfter'}}
+                  {{yield to="inputAfter"}}
                 </div>
               {{/if}}
             </div>
           </div>
 
-          {{#if (has-block 'footer')}}
-            <div class='cds-aichat-shell__footer has-content' data-panel-slot='footer'>
-              {{yield to='footer'}}
+          {{#if (has-block "footer")}}
+            <div
+              class="cds-aichat-shell__footer has-content"
+              data-panel-slot="footer"
+            >
+              {{yield to="footer"}}
             </div>
           {{/if}}
         </div>
       </div>
 
-      <div class='cds-aichat-shell__panels' data-panel-slot='panels'>
-        {{yield to='panels'}}
+      <div class="cds-aichat-shell__panels" data-panel-slot="panels">
+        {{yield to="panels"}}
       </div>
     </div>
   </template>

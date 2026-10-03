@@ -13,7 +13,7 @@ export interface ToggletipActionsComponentSignature {
  */
 export default class ToggletipActionsComponent extends Component<ToggletipActionsComponentSignature> {
   <template>
-    <div class='cds--toggletip-actions' ...attributes>
+    <div class="cds--toggletip-actions" ...attributes>
       {{yield}}
     </div>
   </template>
