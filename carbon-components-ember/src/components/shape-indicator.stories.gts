@@ -1,5 +1,5 @@
 import { htmlSafe } from '@ember/template';
-import { expect, waitFor } from 'storybook/test';
+import { expect } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import ShapeIndicator, { ShapeIndicatorKinds } from './shape-indicator.gts';
@@ -109,19 +109,22 @@ export const Compact = meta.story({
 });
 
 Compact.test(
-  'shows the label in a tooltip on focus',
-  async ({ canvas, canvasElement, userEvent }) => {
+  'shows the label in a definition tooltip on focus',
+  async ({ canvasElement, userEvent }) => {
     const trigger = canvasElement.querySelector<HTMLElement>(
       '.cds--shape-indicator__button',
     )!;
-    // Only the always-present, visually hidden description exists at rest.
-    await expect(canvas.getAllByText('Failed')).toHaveLength(2);
+    const definition = canvasElement.ownerDocument.getElementById(
+      trigger.getAttribute('aria-describedby')!,
+    );
+    await expect(definition).toHaveTextContent('Failed');
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
 
     await userEvent.tab();
     await expect(trigger).toHaveFocus();
-    await waitFor(() => expect(canvas.getAllByText('Failed')).toHaveLength(3));
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
 
     await userEvent.tab();
-    await waitFor(() => expect(canvas.getAllByText('Failed')).toHaveLength(2));
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
   },
 );

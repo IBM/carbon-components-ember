@@ -121,18 +121,19 @@ export const Compact = meta.story({
 });
 
 Compact.test(
-  'shows the label in a tooltip on hover',
-  async ({ canvas, userEvent }) => {
-    const trigger = canvas.getByText('Build failed').parentElement!;
-    const tooltip = canvas.getByRole('tooltip', { hidden: true });
-    await expect(tooltip).toHaveAttribute('aria-hidden', 'true');
-    await expect(trigger).toHaveAttribute('aria-describedby', tooltip.id);
+  'shows the label in a definition tooltip on hover',
+  async ({ canvas, canvasElement, userEvent }) => {
+    const trigger = canvas.getByRole('button', { name: 'Build failed' });
+    const definition = canvasElement.ownerDocument.getElementById(
+      trigger.getAttribute('aria-describedby')!,
+    );
+    await expect(definition).toHaveTextContent('Failed');
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
 
     await userEvent.hover(trigger);
-    await expect(tooltip).toHaveAttribute('aria-hidden', 'false');
-    await expect(tooltip).toHaveTextContent('Failed');
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
 
     await userEvent.unhover(trigger);
-    await expect(tooltip).toHaveAttribute('aria-hidden', 'true');
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
   },
 );
