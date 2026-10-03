@@ -1,5 +1,5 @@
 import { trackedObject } from '@ember/reactive/collections';
-import { fn } from 'storybook/test';
+import { expect, fn, waitFor, within } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Select from './select.gts';
@@ -7,6 +7,16 @@ import Select from './select.gts';
 import type { Args as SelectArgs } from './select.gts';
 
 const FRUITS = ['Apple', 'Banana', 'Cherry', 'Durian', 'Elderberry'];
+
+// Carbon React parity gaps (Components/Select): React's Select wraps a
+// native `<select>` of SelectItem/SelectItemGroup options; this Select is a
+// custom listbox built on ember-power-select (see `SelectItem` and
+// `SelectItemGroup` for the native option elements).
+// - `Default` is `Single` here; the `Inline` story is supported.
+// - `Skeleton`: there is no SelectSkeleton.
+// - `withAILabel`: no `decorator`/`slug` arg.
+// - No `invalid`/`invalidText`, `warn`/`warnText`, `readOnly`, `size` or
+//   `hideLabel`; the label is `@title` (React's `labelText`).
 
 // Select is generic over its option type, which signature inference can't
 // follow, so declare the story's args explicitly.
@@ -19,13 +29,21 @@ const meta = preview
   }>()
   .meta({
     title: 'Components/Select',
+    component: Select,
     // Known violations in Select itself: the combobox and its toggle button
-    // have no accessible name, and it sets a positive tabindex. Reported as
-    // warnings until the component is fixed.
+    // have no accessible name (aria-input-field-name, button-name), it sets a
+    // positive tabindex (tabindex), and the open multiple-select listbox
+    // nests checkboxes in options (nested-interactive, aria-allowed-attr).
+    // Reported as warnings until the component is fixed.
     parameters: {
       a11y: { test: 'todo' },
+      docs: {
+        description: {
+          component:
+            "A select lets the user pick one option (or several, with `@multiple`) from a dropdown list. Select is controlled: pass `@selected` and update it from `@onSelect`. Options can be any value; the block renders each one. The dropdown renders through ember-basic-dropdown's wormhole (`#ember-basic-dropdown-wormhole`) unless `@renderInPlace` is set.",
+        },
+      },
     },
-    component: Select,
     args: {
       options: FRUITS,
       placeholder: 'Choose a fruit',
@@ -56,6 +74,7 @@ const meta = preview
             @title={{args.title}}
             @helperText={{args.helperText}}
             @disabled={{args.disabled}}
+            @inline={{args.inline}}
             @searchEnabled={{args.searchEnabled}}
             @multiple={{true}}
             @selected={{state.many}}
@@ -71,6 +90,7 @@ const meta = preview
             @title={{args.title}}
             @helperText={{args.helperText}}
             @disabled={{args.disabled}}
+            @inline={{args.inline}}
             @searchEnabled={{args.searchEnabled}}
             @selected={{state.one}}
             @onSelect={{selectOne}}
@@ -83,11 +103,45 @@ const meta = preview
     },
   });
 
+// The open dropdown renders into ember-basic-dropdown's wormhole, outside
+// the story's canvas.
+const wormhole = () =>
+  within(document.getElementById('ember-basic-dropdown-wormhole')!);
+
 export const Single = meta.story();
+
+Single.test('selects an option', async ({ canvasElement, userEvent, args }) => {
+  const trigger = canvasElement.querySelector<HTMLElement>(
+    '.ember-power-select-trigger',
+  )!;
+  await userEvent.click(trigger);
+  await userEvent.click(await wormhole().findByText('Cherry'));
+  await expect(args.onSelect).toHaveBeenCalledWith('Cherry');
+  await waitFor(() => expect(trigger).toHaveTextContent('Cherry'));
+});
 
 export const Multiple = meta.story({
   args: {
     multiple: true,
+  },
+});
+
+Multiple.test(
+  'selects several options',
+  async ({ canvasElement, userEvent, args }) => {
+    const trigger = () =>
+      canvasElement.querySelector<HTMLElement>('.ember-power-select-trigger')!;
+    await userEvent.click(trigger());
+    await userEvent.click(await wormhole().findByText('Apple'));
+    await expect(args.onSelect).toHaveBeenLastCalledWith(['Apple']);
+    await userEvent.click(await wormhole().findByText('Durian'));
+    await expect(args.onSelect).toHaveBeenLastCalledWith(['Apple', 'Durian']);
+  },
+);
+
+export const Inline = meta.story({
+  args: {
+    inline: true,
   },
 });
 
