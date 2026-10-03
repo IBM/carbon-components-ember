@@ -45,13 +45,13 @@ globalThis.ResizeObserver = class ResizeObserver {
   disconnect() {}
 };
 // jsdom has no `window.matchMedia`; TabList calls it unconditionally (via
-// `useMatchMedia`) to gate `fullWidth` on the `lg` breakpoint. Stubbed to
-// never match - jsdom has no real viewport to measure, so "no media query
-// matches" is the only deterministic answer, and it's what the Tabs
-// fixture's `contained-full-width` variant records (see that variant's
-// known-differences entry for what it means for Ember's side).
+// `useMatchMedia`) to gate `fullWidth` on the `lg` breakpoint. Simulate the
+// `lg` breakpoint matching (1056px) so the fixture captures the same
+// `cds--tabs--full-width` class the dom-parity test sees in its 1440px
+// Playwright window - both sides agree and no known-difference entry is needed.
 dom.window.matchMedia = (query) => ({
-  matches: false,
+  // Carbon's lg breakpoint is 66rem (= 1056px at base 16px font size).
+  matches: query === '(min-width: 66rem)',
   media: query,
   onchange: null,
   addEventListener() {},

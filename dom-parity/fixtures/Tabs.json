@@ -1,6 +1,6 @@
 {
   "component": "Tabs",
-  "generatedAt": "2026-09-25T02:41:59.728Z",
+  "generatedAt": "2026-10-03T12:25:29.858Z",
   "carbonReactVersion": "1.114.0",
   "reactVersion": "19.3.0",
   "variants": {
@@ -3529,7 +3529,8 @@
         "tag": "div",
         "classes": [
           "cds--tabs",
-          "cds--tabs--contained"
+          "cds--tabs--contained",
+          "cds--tabs--full-width"
         ],
         "attributes": {},
         "style": {},

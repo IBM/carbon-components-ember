@@ -880,11 +880,6 @@
       "reason": "Same Ember-only `data-tab-index` focus hook as the `button[0]` entry above. Applies to every tablist variant."
     },
     {
-      "path": "div.classes[cds--tabs--full-width]",
-      "variant": "contained-full-width",
-      "reason": "Upstream only applies `cds--tabs--full-width` when its `lg`-breakpoint media query also matches (`distributeWidth = fullWidth && contained && isLg && ...`); Ember's `showFullWidthClass` never checks the viewport. The fixture was generated in jsdom, where generate.mjs's `matchMedia` stub never matches (there is no real viewport), so upstream records the narrow-viewport answer - a real, if small, Ember gap: below `lg` Ember still distributes tab widths where upstream doesn't."
-    },
-    {
       "path": "div.attributes.aria-labelledby",
       "variant": "selected-panel",
       "reason": "Same out-of-subtree id-reference harness limitation as the tabs' `aria-controls` entries above, from the panel's side: its `aria-labelledby` points back at the tab button, outside the picked panel subtree, so the raw generated ids are compared (`ccs-<useId>-tab-0` vs. `<guidFor>-tab-0`) - same `<base>-tab-<index>` scheme on both sides."
