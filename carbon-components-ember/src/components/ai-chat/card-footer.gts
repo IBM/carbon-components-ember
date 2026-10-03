@@ -87,18 +87,30 @@ export default class AiChatCardFooter extends Component<AiChatCardFooterSignatur
    * `@type`/`@tertiary`/`@ghost` args. `Button` treats those three as
    * independently-truthy flags rather than a single mutually-exclusive
    * variant, so exactly one of them must be set per resolved kind:
-   * `@type` for `'primary'`/`'secondary'`/`'danger'`, and `undefined`
-   * (with `@tertiary`/`@ghost` instead) for `'tertiary'`/`'ghost'`.
+   * `@type` for `'primary'`/`'secondary'`, and `undefined` (with
+   * `@tertiary`/`@ghost` instead) for `'tertiary'`/`'ghost'`.
+   *
+   * `'danger'` is styled with the `cds--btn--danger` class rather than
+   * `Button`'s `@type='danger'`, which also makes `Button` ask for
+   * confirmation before calling `@onClick` (upstream's danger kind is
+   * styling only) - the same approach as `AiChatChatButton`.
    */
   buttonType = (
     kind: CardFooterActionKind | undefined,
     fallback: CardFooterActionKind,
   ) => {
     const resolved = kind ?? fallback;
-    return resolved === 'tertiary' || resolved === 'ghost'
+    return resolved === 'tertiary' ||
+      resolved === 'ghost' ||
+      resolved === 'danger'
       ? undefined
       : resolved;
   };
+
+  buttonDanger = (
+    kind: CardFooterActionKind | undefined,
+    fallback: CardFooterActionKind,
+  ) => (kind ?? fallback) === 'danger';
 
   buttonTertiary = (
     kind: CardFooterActionKind | undefined,
@@ -122,6 +134,10 @@ export default class AiChatCardFooter extends Component<AiChatCardFooterSignatur
           {{#each this.actions as |cardAction|}}
             <Tooltip @label={{cardAction.tooltipText}}>
               <Button
+                class={{if
+                  (this.buttonDanger cardAction.kind "ghost")
+                  "cds--btn--danger"
+                }}
                 @type={{this.buttonType cardAction.kind "ghost"}}
                 @tertiary={{this.buttonTertiary cardAction.kind "ghost"}}
                 @ghost={{this.buttonGhost cardAction.kind "ghost"}}
@@ -150,15 +166,19 @@ export default class AiChatCardFooter extends Component<AiChatCardFooterSignatur
         >
           {{#each this.actions as |cardAction|}}
             <Button
+              class="{{if
+                  (this.buttonDanger cardAction.kind 'secondary')
+                  'cds--btn--danger'
+                }}
+                {{if
+                  cardAction.isViewing
+                  'cds-aichat-card-footer__action-viewing'
+                }}"
               @type={{this.buttonType cardAction.kind "secondary"}}
               @tertiary={{this.buttonTertiary cardAction.kind "secondary"}}
               @ghost={{this.buttonGhost cardAction.kind "secondary"}}
               @disabled={{or cardAction.disabled cardAction.isViewing}}
               @onClick={{fn this.handleAction cardAction}}
-              class={{if
-                cardAction.isViewing
-                "cds-aichat-card-footer__action-viewing"
-              }}
             >
               {{#if cardAction.isViewing}}
                 {{#if cardAction.icon}}<cardAction.icon

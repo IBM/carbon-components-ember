@@ -43,13 +43,6 @@ import type { WorkspaceShellFooterAction } from './workspace-shell-footer.gts';
 //   `cds-table` (a full `@carbon/web-components` data table with toolbar
 //   search) isn't reproduced here - the Ember port's `WorkspaceShellBody`
 //   takes arbitrary content, so it has no bearing on the component itself.
-// - Footer actions with `kind: 'danger'` go through this addon's `Button`
-//   with `@type='danger'`, which opens Button's own confirm dialog before
-//   `@onClick` fires (and needs a dialog mount point Storybook doesn't
-//   provide). That's a component bug in `WorkspaceShellFooter` (same trap
-//   `AiChatChatButton` already works around); the "Three buttons with one
-//   danger" / "Danger actions" presets render, but clicking the danger
-//   button doesn't report through `onFooterAction`.
 // - `size="2xl"` footer buttons aren't available (`Button` tops out at
 //   `xl`), see `WorkspaceShellFooter`'s class doc.
 

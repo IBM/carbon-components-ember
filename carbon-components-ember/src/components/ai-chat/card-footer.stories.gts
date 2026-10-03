@@ -26,11 +26,6 @@ import type {
 // Parity gaps:
 // - No `size` arg (upstream's `footerSize` `md`/`lg`) and no per-action
 //   `payload`.
-//
-// Known bug: an action with `kind: 'danger'` is rendered as `Button
-// @type='danger'`, which opens `Button`'s own confirm dialog instead of
-// calling `@onAction` (AiChatChatButton had the same bug and was fixed by
-// applying `cds--btn--danger` itself). The tests click non-danger actions.
 
 // upstream card/__stories__/story-data.js `cardFooterPresets` and
 // `previewCardFooterPresets`, minus `payload`.
@@ -169,6 +164,18 @@ CardFooter.test(
     await userEvent.click(canvas.getByRole('button', { name: 'Primary' }));
     await expect(args.onAction).toHaveBeenCalledWith(
       expect.objectContaining({ id: 'primary', label: 'Primary' }),
+    );
+  },
+);
+
+CardFooter.test(
+  'a danger action is styled as danger and calls @onAction directly',
+  async ({ canvas, userEvent, args }) => {
+    const danger = canvas.getByRole('button', { name: 'Danger' });
+    await expect(danger).toHaveClass('cds--btn--danger');
+    await userEvent.click(danger);
+    await expect(args.onAction).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 'danger', kind: 'danger' }),
     );
   },
 );
