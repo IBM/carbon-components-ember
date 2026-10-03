@@ -147,6 +147,9 @@ export default defineConfig({
         // Same as `oxc` in .storybook/main.ts: Babel compiles TypeScript.
         oxc: false,
         optimizeDeps: {
+          // Scan every story up front, so dependencies aren't discovered
+          // mid-run (Vite then reloads the page and the run breaks).
+          entries: ['.storybook/preview.ts', 'src/**/*.stories.{gjs,gts}'],
           // Same as `viteFinal` in .storybook/main.ts, which the vitest
           // plugin only takes plugins from.
           exclude: ['ember-storybook'],
@@ -158,7 +161,10 @@ export default defineConfig({
             'ember-source/@ember/array/index.js',
             '@storybook/addon-a11y',
             // Loaded lazily by @storybook/addon-a11y.
-            'axe-core',
+            '@storybook/addon-a11y > axe-core',
+            // Pulled in by the Ember app ember-storybook boots.
+            'ember-page-title',
+            'ember-page-title/services/page-title',
             '@storybook/addon-docs',
             '@storybook/addon-themes',
             '@storybook/addon-vitest',
