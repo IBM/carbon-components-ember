@@ -10,7 +10,7 @@ import defaultTo from '../helpers/default-to.ts';
 import isSelected from 'ember-power-select/helpers/ember-power-select-is-equal';
 import { on } from '@ember/modifier';
 import { fn, hash } from '@ember/helper';
-import { and, eq, not } from 'ember-truth-helpers';
+import { and, eq, not, or } from 'ember-truth-helpers';
 import TriggerComponent from 'ember-power-select/components/power-select/trigger';
 import OptionsComponent from 'ember-power-select/components/power-select/options';
 import type { PowerSelectOptionsSignature } from 'ember-power-select/components/power-select/options';
@@ -370,7 +370,9 @@ export default class SelectComponent<T extends ContentValue> extends Component<
             <div
               class="cds--list-box__label"
               style="margin-left: 15px; margin-right: 3px; width: -webkit-fill-available;"
-            >{{@select.selected}}</div>
+            >{{#if
+                @select.selected
+              }}{{@select.selected}}{{else}}{{@placeholder}}{{/if}}</div>
           {{/if}}
           {{#if (and this.extra.showNumber @select.selected.length)}}
             <div
@@ -448,7 +450,9 @@ export default class SelectComponent<T extends ContentValue> extends Component<
             class="cds--list-box__field"
             aria-hidden="true"
           >
-            {{#unless @select.selected}}
+            {{! A single select shows its placeholder where the selection goes
+              (above); this narrow field only holds the chevron. }}
+            {{#unless (or @select.selected this.extra.isSingleSelect)}}
               <span
                 id="multiselect-field-label-id-:{{this.guid}}:"
                 class="cds--list-box__label"
