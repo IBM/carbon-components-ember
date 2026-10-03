@@ -48,17 +48,20 @@ export default class NotificationComponent extends Component<NotificationCompone
     return mapping[this.defaultArgs.kind];
   }
 
+  // Each option comes from its `@arg` if given, else from `@notification`
+  // (a queued notification), else the default.
   get defaultArgs(): WithRequired<Args, 'display' | 'kind'> {
-    const type = this.args.type || 'error';
-    return Object.assign(
-      {},
-      this.args.notification || {},
-      {
-        display: 'toast',
-        kind: this.args.kind || type,
-      },
-      this.args,
-    );
+    const merged: Args = { ...this.args.notification };
+    for (const [key, value] of Object.entries(this.args)) {
+      if (value !== undefined) {
+        (merged as Record<string, unknown>)[key] = value;
+      }
+    }
+    return {
+      ...merged,
+      display: merged.display ?? 'toast',
+      kind: merged.kind ?? merged.type ?? 'error',
+    };
   }
 
   get actionableTitleId(): string {
