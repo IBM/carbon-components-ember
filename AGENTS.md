@@ -795,8 +795,11 @@ file that mention `test-app/...` paths predate the migration and now mean
   less than a day ago, so a freshly released version can't be added until
   it's a day old; Dependabot waits a day (`cooldown`) for the same reason.
   pnpm 12 also dropped `-s`; use `--reporter=silent` / `--silent`.
-- **CI** (`.github/workflows/nodejs.yml`) runs the Lint, Test and Docs
-  build as separate jobs, then the `.try.mjs` scenarios.
+- **CI** (`.github/workflows/nodejs.yml`) runs Lint and Test as separate
+  jobs, then the `.try.mjs` scenarios. **Docs** (`.github/workflows/docs.yml`)
+  runs the story tests in shards and builds the Storybook in parallel; its
+  `Docs` job is the one check to require for them. On main and tags it
+  deploys that build to gh-pages.
 - **Style snapshots** are written through a testem middleware (and, under
   `pnpm start`, a Vite middleware at `/tests/?save-snapshots`). A missing
   snapshot is recorded on the next run and fails that run once by design.
