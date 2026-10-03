@@ -1,5 +1,3 @@
-import { mergeConfig } from 'vite';
-
 import { defineMain } from 'ember-storybook/node';
 
 export default defineMain({
@@ -19,18 +17,6 @@ export default defineMain({
   previewBody: (body) => `${body}
     <div id="ember-basic-dropdown-wormhole"></div>
   `,
-
-  // Vite's dev-time dependency pre-bundling can't resolve the framework's
-  // `virtual:ember-storybook` module when the framework comes from npm, so
-  // serve it unbundled like the rest of the Ember code.
-  viteFinal: (config) =>
-    mergeConfig(config, {
-      optimizeDeps: { exclude: ['ember-storybook'] },
-      // Babel compiles TypeScript (and its decorators, e.g. @tracked).
-      // @embroider/vite only turns Vite's own transform off when nothing has
-      // configured it yet, which isn't the case under Storybook.
-      oxc: false,
-    }),
 
   core: {
     disableTelemetry: true,
