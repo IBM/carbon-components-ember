@@ -28,11 +28,14 @@ const meta = preview.meta({
   title: 'Charts/BarChart',
   component: BarChart,
   parameters: {
-    // Bugs (axe): the wrapper exposes no chart `title` option, so
-    // @carbon/charts always renders an empty `<p role="heading">`
-    // (empty-heading); @carbon/charts' own toolbar nests focusable elements
-    // in its `role="button"` controls (nested-interactive).
-    a11y: { test: 'todo' },
+    a11y: {
+      config: {
+        // @carbon/charts' own toolbar nests focusable elements in its
+        // role="button" controls (carbon-design-system/carbon-charts#2130);
+        // the wrapper renders no interactive controls of its own.
+        rules: [{ id: 'nested-interactive', enabled: false }],
+      },
+    },
     docs: {
       description: {
         component:
@@ -41,11 +44,13 @@ const meta = preview.meta({
     },
   },
   args: {
+    title: 'Inventory by category',
     resizable: true,
     legendClickable: true,
   },
   render: (args) => <template>
     <BarChart
+      @title={{args.title}}
       @resizable={{args.resizable}}
       @legendClickable={{args.legendClickable}}
       style="height: 400px; width: 600px; display: inline-block"
@@ -73,9 +78,16 @@ Discrete.test('draws a bar per key', async ({ canvasElement }) => {
   await expect(canvasElement).toHaveTextContent('2018 Annual Sales');
 });
 
+Discrete.test('renders @title as the chart heading', async ({ canvas }) => {
+  await expect(
+    await canvas.findByRole('heading', { name: 'Inventory by category' }),
+  ).toBeInTheDocument();
+});
+
 export const TimeSeries = meta.story({
   render: (args) => <template>
     <BarChart
+      @title={{args.title}}
       @resizable={{args.resizable}}
       @legendClickable={{args.legendClickable}}
       style="height: 400px; width: 600px; display: inline-block"
@@ -99,6 +111,7 @@ export const CustomColors = meta.story({
   },
   render: (args) => <template>
     <BarChart
+      @title={{args.title}}
       @resizable={{args.resizable}}
       @legendClickable={{args.legendClickable}}
       style="height: 400px; width: 600px; display: inline-block"

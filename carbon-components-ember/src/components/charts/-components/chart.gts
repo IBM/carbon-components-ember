@@ -24,6 +24,11 @@ export type ChartData = {
 };
 
 export type Args = {
+  /**
+   * The chart's title, rendered by @carbon/charts as the chart's heading
+   * (its `title` option).
+   */
+  title?: string;
   resizable?: boolean;
   legendClickable?: boolean;
   ChartClass?: typeof Chart;
@@ -99,6 +104,7 @@ export default class CarbonChart extends Component<CarbonChartSignature> {
     this.options.legend = {};
     this.options.legend.clickable = this.args.legendClickable!;
     this.options.resizable = this.args.resizable!;
+    this.options.title = this.args.title;
     if (!this.data.length) return;
     if (!(this.options as AxisChartOptions)?.axes?.left) return;
     if (!(this.options as AxisChartOptions)?.axes?.bottom) return;
