@@ -72,11 +72,16 @@ function parseStyle(styleValue) {
  * aria-describedby link is a real parity bug, and simply stripping ids
  * would hide it.
  */
-function collectIdMap(root) {
+function collectIdMap(root, scope = root) {
   const map = new Map();
   let counter = 0;
   const walk = (node) => {
     if (!isElement(node)) return;
+    // Don't index the test runner's own container ID (e.g. `ember-testing`).
+    if (node.id === 'ember-testing' || node.id === 'ember-testing-container') {
+      for (const child of node.childNodes) walk(child);
+      return;
+    }
     const id = node.getAttribute('id');
     if (id && !map.has(id)) {
       counter += 1;
@@ -84,7 +89,7 @@ function collectIdMap(root) {
     }
     for (const child of node.childNodes) walk(child);
   };
-  walk(root);
+  walk(scope ?? root);
   return map;
 }
 
@@ -160,8 +165,13 @@ function normalizeNode(node, idMap) {
   };
 }
 
-/** Normalizes a single root element (and its subtree) for comparison. */
-export function normalizeElement(root) {
-  const idMap = collectIdMap(root);
+/**
+ * Normalizes a single root element (and its subtree) for comparison.
+ * If `scope` is provided, ID discovery walks `scope` (e.g. a parent container)
+ * so that IDs on sibling elements outside `root` (like Tabs' `TabPanel` elements)
+ * are also discovered in document order and canonicalized.
+ */
+export function normalizeElement(root, scope = root) {
+  const idMap = collectIdMap(root, scope);
   return normalizeNode(root, idMap);
 }

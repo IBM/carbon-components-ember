@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, waitFor } from '@ember/test-helpers';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import Processing from 'carbon-components-ember/components/ai-chat/processing';
 import ReasoningSteps from 'carbon-components-ember/components/ai-chat/reasoning-steps';
@@ -191,6 +191,7 @@ module('DOM parity | Carbon AI Chat', function (hooks) {
           </ReasoningSteps>
         </template>,
       );
+      await waitFor('.cds-aichat-reasoning-step__icon svg');
 
       assertAiChatDomParity(
         assert,
@@ -217,6 +218,7 @@ module('DOM parity | Carbon AI Chat', function (hooks) {
           </ReasoningSteps>
         </template>,
       );
+      await waitFor('.cds-aichat-reasoning-step__icon svg');
 
       assertAiChatDomParity(
         assert,

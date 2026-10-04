@@ -3,9 +3,20 @@ import QUnit from 'qunit';
 
 export function setupQunit() {
   if (hasFlag('ci')) {
-    const runner = autoRegister();
-    const tap = QUnit.reporters.tap;
-    tap.init(runner, { log: console.info });
+    QUnit.testDone((details) => {
+      if (details.failed > 0) {
+        console.error(`not ok ${details.module} > ${details.name}`);
+        details.assertions.forEach((assertion) => {
+          if (!assertion.result) {
+            console.error(`  ${assertion.message || 'Assertion failed'}`);
+            if (assertion.actual !== undefined || assertion.expected !== undefined) {
+              console.error(`    actual: ${JSON.stringify(assertion.actual)}`);
+              console.error(`    expected: ${JSON.stringify(assertion.expected)}`);
+            }
+          }
+        });
+      }
+    });
 
     QUnit.config.urlConfig.push({
       id: 'smoke_tests',

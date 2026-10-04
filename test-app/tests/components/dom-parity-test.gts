@@ -138,6 +138,7 @@ function assertDomParity(
   fixture: ComponentFixture,
   variant: string,
   rootElement: Element | null,
+  scope?: Element | null,
 ) {
   const variantFixture = fixture.variants[variant];
   if (!variantFixture) {
@@ -150,7 +151,7 @@ function assertDomParity(
     return;
   }
 
-  const emberTree = normalizeElement(rootElement);
+  const emberTree = normalizeElement(rootElement, scope ?? rootElement);
   const differences = diffNormalized(variantFixture.dom, emberTree);
   const known =
     (knownDifferences as Record<string, Array<{ path: string; reason: string; variant?: string }>>)[
@@ -3154,7 +3155,7 @@ module('DOM parity | Carbon React', function (hooks) {
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
-      assertDomParity(assert, tabsFixture, 'default', this.element.firstElementChild);
+      assertDomParity(assert, tabsFixture, 'default', this.element.firstElementChild, this.element);
     });
 
     test('selected-index', async function (this: RenderingTestContext, assert) {
@@ -3168,7 +3169,7 @@ module('DOM parity | Carbon React', function (hooks) {
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
-      assertDomParity(assert, tabsFixture, 'selected-index', this.element.firstElementChild);
+      assertDomParity(assert, tabsFixture, 'selected-index', this.element.firstElementChild, this.element);
     });
 
     test('disabled-tab', async function (this: RenderingTestContext, assert) {
@@ -3182,7 +3183,7 @@ module('DOM parity | Carbon React', function (hooks) {
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
-      assertDomParity(assert, tabsFixture, 'disabled-tab', this.element.firstElementChild);
+      assertDomParity(assert, tabsFixture, 'disabled-tab', this.element.firstElementChild, this.element);
     });
 
     test('size-sm', async function (this: RenderingTestContext, assert) {
@@ -3196,7 +3197,7 @@ module('DOM parity | Carbon React', function (hooks) {
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
-      assertDomParity(assert, tabsFixture, 'size-sm', this.element.firstElementChild);
+      assertDomParity(assert, tabsFixture, 'size-sm', this.element.firstElementChild, this.element);
     });
 
     test('manual-activation', async function (this: RenderingTestContext, assert) {
@@ -3210,7 +3211,7 @@ module('DOM parity | Carbon React', function (hooks) {
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
-      assertDomParity(assert, tabsFixture, 'manual-activation', this.element.firstElementChild);
+      assertDomParity(assert, tabsFixture, 'manual-activation', this.element.firstElementChild, this.element);
     });
 
     test('contained', async function (this: RenderingTestContext, assert) {
@@ -3224,7 +3225,7 @@ module('DOM parity | Carbon React', function (hooks) {
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
-      assertDomParity(assert, tabsFixture, 'contained', this.element.firstElementChild);
+      assertDomParity(assert, tabsFixture, 'contained', this.element.firstElementChild, this.element);
     });
 
     test('contained-size-lg', async function (this: RenderingTestContext, assert) {
@@ -3238,7 +3239,7 @@ module('DOM parity | Carbon React', function (hooks) {
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
-      assertDomParity(assert, tabsFixture, 'contained-size-lg', this.element.firstElementChild);
+      assertDomParity(assert, tabsFixture, 'contained-size-lg', this.element.firstElementChild, this.element);
     });
 
     test('contained-secondary-label', async function (this: RenderingTestContext, assert) {
@@ -3252,7 +3253,7 @@ module('DOM parity | Carbon React', function (hooks) {
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
-      assertDomParity(assert, tabsFixture, 'contained-secondary-label', this.element.firstElementChild);
+      assertDomParity(assert, tabsFixture, 'contained-secondary-label', this.element.firstElementChild, this.element);
     });
 
     test('contained-full-width', async function (this: RenderingTestContext, assert) {
@@ -3266,7 +3267,7 @@ module('DOM parity | Carbon React', function (hooks) {
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
-      assertDomParity(assert, tabsFixture, 'contained-full-width', this.element.firstElementChild);
+      assertDomParity(assert, tabsFixture, 'contained-full-width', this.element.firstElementChild, this.element);
     });
 
     test('dismissable', async function (this: RenderingTestContext, assert) {
@@ -3280,7 +3281,7 @@ module('DOM parity | Carbon React', function (hooks) {
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
-      assertDomParity(assert, tabsFixture, 'dismissable', this.element.firstElementChild);
+      assertDomParity(assert, tabsFixture, 'dismissable', this.element.firstElementChild, this.element);
     });
 
     test('selected-panel', async function (this: RenderingTestContext, assert) {
@@ -3294,7 +3295,7 @@ module('DOM parity | Carbon React', function (hooks) {
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
-      assertDomParity(assert, tabsFixture, 'selected-panel', this.element.children[1] ?? null);
+      assertDomParity(assert, tabsFixture, 'selected-panel', this.element.children[1] ?? null, this.element);
     });
 
     test('every fixture variant is covered', function (assert) {

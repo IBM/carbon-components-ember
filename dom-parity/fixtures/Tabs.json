@@ -1,6 +1,6 @@
 {
   "component": "Tabs",
-  "generatedAt": "2026-10-03T15:12:31.435Z",
+  "generatedAt": "2026-10-04T14:24:39.088Z",
   "carbonReactVersion": "1.114.0",
   "reactVersion": "19.3.0",
   "variants": {
@@ -82,7 +82,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_58_-tabpanel-0",
+                  "aria-controls": "#4",
                   "aria-selected": "true",
                   "id": "#1",
                   "role": "tab",
@@ -187,7 +187,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_58_-tabpanel-1",
+                  "aria-controls": "#5",
                   "aria-selected": "false",
                   "id": "#2",
                   "role": "tab",
@@ -291,7 +291,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_58_-tabpanel-2",
+                  "aria-controls": "#6",
                   "aria-selected": "false",
                   "id": "#3",
                   "role": "tab",
@@ -517,7 +517,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_59_-tabpanel-0",
+                  "aria-controls": "#4",
                   "aria-selected": "false",
                   "id": "#1",
                   "role": "tab",
@@ -622,7 +622,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_59_-tabpanel-1",
+                  "aria-controls": "#5",
                   "aria-selected": "true",
                   "id": "#2",
                   "role": "tab",
@@ -727,7 +727,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_59_-tabpanel-2",
+                  "aria-controls": "#6",
                   "aria-selected": "false",
                   "id": "#3",
                   "role": "tab",
@@ -952,7 +952,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5a_-tabpanel-0",
+                  "aria-controls": "#4",
                   "aria-selected": "true",
                   "id": "#1",
                   "role": "tab",
@@ -1058,7 +1058,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5a_-tabpanel-1",
+                  "aria-controls": "#5",
                   "aria-disabled": "true",
                   "aria-selected": "false",
                   "id": "#2",
@@ -1167,7 +1167,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5a_-tabpanel-2",
+                  "aria-controls": "#6",
                   "aria-selected": "false",
                   "id": "#3",
                   "role": "tab",
@@ -1395,7 +1395,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5b_-tabpanel-0",
+                  "aria-controls": "#4",
                   "aria-selected": "true",
                   "id": "#1",
                   "role": "tab",
@@ -1500,7 +1500,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5b_-tabpanel-1",
+                  "aria-controls": "#5",
                   "aria-selected": "false",
                   "id": "#2",
                   "role": "tab",
@@ -1604,7 +1604,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5b_-tabpanel-2",
+                  "aria-controls": "#6",
                   "aria-selected": "false",
                   "id": "#3",
                   "role": "tab",
@@ -1831,7 +1831,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5c_-tabpanel-0",
+                  "aria-controls": "#4",
                   "aria-selected": "true",
                   "id": "#1",
                   "role": "tab",
@@ -1936,7 +1936,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5c_-tabpanel-1",
+                  "aria-controls": "#5",
                   "aria-selected": "false",
                   "id": "#2",
                   "role": "tab",
@@ -2040,7 +2040,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5c_-tabpanel-2",
+                  "aria-controls": "#6",
                   "aria-selected": "false",
                   "id": "#3",
                   "role": "tab",
@@ -2268,7 +2268,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5d_-tabpanel-0",
+                  "aria-controls": "#4",
                   "aria-selected": "true",
                   "id": "#1",
                   "role": "tab",
@@ -2373,7 +2373,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5d_-tabpanel-1",
+                  "aria-controls": "#5",
                   "aria-selected": "false",
                   "id": "#2",
                   "role": "tab",
@@ -2477,7 +2477,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5d_-tabpanel-2",
+                  "aria-controls": "#6",
                   "aria-selected": "false",
                   "id": "#3",
                   "role": "tab",
@@ -2707,7 +2707,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5e_-tabpanel-0",
+                  "aria-controls": "#4",
                   "aria-selected": "true",
                   "id": "#1",
                   "role": "tab",
@@ -2812,7 +2812,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5e_-tabpanel-1",
+                  "aria-controls": "#5",
                   "aria-selected": "false",
                   "id": "#2",
                   "role": "tab",
@@ -2916,7 +2916,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5e_-tabpanel-2",
+                  "aria-controls": "#6",
                   "aria-selected": "false",
                   "id": "#3",
                   "role": "tab",
@@ -3145,7 +3145,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5f_-tabpanel-0",
+                  "aria-controls": "#4",
                   "aria-selected": "true",
                   "id": "#1",
                   "role": "tab",
@@ -3268,7 +3268,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5f_-tabpanel-1",
+                  "aria-controls": "#5",
                   "aria-selected": "false",
                   "id": "#2",
                   "role": "tab",
@@ -3372,7 +3372,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5f_-tabpanel-2",
+                  "aria-controls": "#6",
                   "aria-selected": "false",
                   "id": "#3",
                   "role": "tab",
@@ -3602,7 +3602,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5g_-tabpanel-0",
+                  "aria-controls": "#4",
                   "aria-selected": "true",
                   "id": "#1",
                   "role": "tab",
@@ -3707,7 +3707,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5g_-tabpanel-1",
+                  "aria-controls": "#5",
                   "aria-selected": "false",
                   "id": "#2",
                   "role": "tab",
@@ -3811,7 +3811,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5g_-tabpanel-2",
+                  "aria-controls": "#6",
                   "aria-selected": "false",
                   "id": "#3",
                   "role": "tab",
@@ -4039,7 +4039,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5h_-tabpanel-0",
+                  "aria-controls": "#4",
                   "aria-selected": "true",
                   "id": "#1",
                   "role": "tab",
@@ -4144,7 +4144,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5h_-tabpanel-1",
+                  "aria-controls": "#5",
                   "aria-selected": "false",
                   "id": "#2",
                   "role": "tab",
@@ -4248,7 +4248,7 @@
                   "cds--tabs__nav-link"
                 ],
                 "attributes": {
-                  "aria-controls": "ccs-_r_5h_-tabpanel-2",
+                  "aria-controls": "#6",
                   "aria-selected": "false",
                   "id": "#3",
                   "role": "tab",
@@ -4404,8 +4404,8 @@
           "cds--tab-content"
         ],
         "attributes": {
-          "aria-labelledby": "ccs-_r_5i_-tab-0",
-          "id": "#1",
+          "aria-labelledby": "#1",
+          "id": "#4",
           "role": "tabpanel"
         },
         "style": {},

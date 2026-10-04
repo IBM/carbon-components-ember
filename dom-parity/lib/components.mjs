@@ -1204,14 +1204,10 @@ const structuredList = (name, props) => ({
 // (same shape as `progressIndicator` above). `aria-label` is always passed
 // explicitly: upstream leaves the tablist's `aria-label` unset unless given,
 // while Ember's defaults to "List of tabs" - passing the same string on
-// both sides keeps that default out of every variant's diff. The fixture
-// records raw React `useId` values in `aria-controls`/`aria-labelledby`
-// (e.g. `ccs-_r_58_-tabpanel-0` - they point outside the picked subtree, so
-// normalize-dom.mjs can't canonicalize them), and React's id counter is
-// global across roots: adding a variant to any registry entry *before*
-// Tabs shifts them on the next regeneration. Expected churn, not a
-// regression - the matching known-differences entries match by path, not
-// value.
+// both sides keeps that default out of every variant's diff. Out-of-subtree
+// ID references in `aria-controls` / `aria-labelledby` (pointing between the
+// tab buttons in `TabList` and their sibling `TabPanel`s) are canonicalized
+// by `normalize-dom.mjs` via parent container scanning.
 const TAB_TITLES = ['First tab', 'Second tab', 'Third tab'];
 const tabs = (name, props, { tabsProps = {}, tabOverrides = {}, pickPanel } = {}) => ({
   name,
@@ -1238,6 +1234,7 @@ const tabs = (name, props, { tabsProps = {}, tabOverrides = {}, pickPanel } = {}
   // `pickPanel` compares the given panel instead of the tablist - `1` is the
   // first `TabPanel`, since `TabList`'s root is container child `0`.
   pickRoot: (container) => container.children[pickPanel ?? 0],
+  idScope: (container) => container,
 });
 
 // The real, standalone `@carbon/react` `TabContent` export (still exported

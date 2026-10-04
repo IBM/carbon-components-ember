@@ -25,7 +25,6 @@ async function run() {
 
       runvite.stdout.on('data', (data) => {
         const chunk = String(data);
-        console.log('stdout', chunk);
         if (chunk.includes('Local') && chunk.includes('60173')) {
           fulfill(1);
         }
@@ -56,28 +55,33 @@ async function run() {
 
       page.on('console', (msg) => {
         const text = msg.text();
-        const location = msg.location();
-        if (text.includes('HARNESS')) {
+        if (text.includes('HARNESS') && text.startsWith('{')) {
           try {
             const parsed = JSON.parse(text);
             if (parsed.type === '[HARNESS] done') {
+              console.log('[HARNESS] summary:', parsed);
               return fulfill(parsed.failed > 0 ? 1 : 0);
             }
           } catch (e) {
             console.log(e);
           }
         }
-        if (location.url?.includes(`/qunit.js`)) {
+        if (msg.type() === 'error' || text.includes('failed:') || text.startsWith('# module:') || text.startsWith('not ok')) {
           console.log(text);
-        } else {
-          console.debug(text);
         }
       });
 
       let params = '';
-      if (process.argv[2] === 'update-snapshots') {
+      if (process.argv.includes('update-snapshots')) {
         params = '&save-snapshots';
       }
+      for (let i = 2; i < process.argv.length; i++) {
+        if (process.argv[i] === '--filter' && process.argv[i + 1]) {
+          params += `&filter=${encodeURIComponent(process.argv[i + 1])}`;
+          i++;
+        }
+      }
+      console.log('[ci] navigating to url with params:', params);
       // Test completion is signaled by the '[HARNESS] done' console message
       // above, not by this navigation. Vite's first compile of the test
       // bundle (incl. vendor.css) can take well over a minute in CI, so

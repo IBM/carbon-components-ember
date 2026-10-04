@@ -806,23 +806,6 @@
   ],
   "Tabs": [
     {
-      "path": "div > div[1] > button[0].attributes.aria-controls",
-      "reason": "Harness limitation, not a functional gap: each tab's `aria-controls` points at its `TabPanel`, which lives *outside* the picked `cds--tabs` subtree (upstream's panels are siblings of `TabList`, Ember's are siblings of its `cds--tabs` div), so normalize-dom.mjs can't canonicalize the reference and compares the raw generated ids (`ccs-<useId>-tabpanel-N` vs. `<guidFor>-tabpanel-N`). Both sides use the same `<base>-tabpanel-<index>` scheme, and all panels are always mounted (inactive ones `hidden`, matching upstream). Applies to every tablist variant."
-    },
-    {
-      "path": "div > div[1] > button[2].attributes.aria-controls",
-      "reason": "Same out-of-subtree id-reference limitation as the `button[0]` entry above. Applies to every tablist variant."
-    },
-    {
-      "path": "div > div[1] > button[4].attributes.aria-controls",
-      "reason": "Same out-of-subtree id-reference limitation as the `button[0]` entry above. Applies to every tablist variant."
-    },
-    {
-      "path": "div.attributes.aria-labelledby",
-      "variant": "selected-panel",
-      "reason": "Same out-of-subtree id-reference harness limitation as the tabs' `aria-controls` entries above, from the panel's side: its `aria-labelledby` points back at the tab button, outside the picked panel subtree, so the raw generated ids are compared (`ccs-<useId>-tab-0` vs. `<guidFor>-tab-0`) - same `<base>-tab-<index>` scheme on both sides."
-    },
-    {
       "path": "div.attributes.tabindex",
       "variant": "selected-panel",
       "reason": "Ember's yielded `TabPane` renders `tabindex=\"0\"` on its panel; the pinned `@carbon/react`'s `TabPanel` renders none. Left as-is: it only makes the panel itself focusable, which the WAI-ARIA tabs pattern recommends when a panel has no focusable content of its own, and removing it would silently change keyboard behaviour for existing consumers - a real, deliberate-looking divergence rather than a markup slip."

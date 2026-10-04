@@ -119,9 +119,11 @@ for (const component of COMPONENTS) {
       ? variant.pickRoot(container)
       : container.firstElementChild;
 
+    const scope = variant.idScope ? variant.idScope(container) : root;
+
     variants[variant.name] = {
       props: variant.props,
-      dom: normalizeElement(root),
+      dom: normalizeElement(root, scope),
     };
 
     act(() => {
