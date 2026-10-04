@@ -165,14 +165,14 @@ module('Integration | Component | Tabs', (hooks) => {
       assert.ok(targetPanel, `panel with id="${controlsId}" exists in the DOM`);
     });
 
-    assert.dom(panels[0]!).doesNotHaveAttribute('hidden');
-    assert.dom(panels[0]!).hasAttribute('tabindex', '0');
+    assert.dom(panels[0]).doesNotHaveAttribute('hidden');
+    assert.dom(panels[0]).hasAttribute('tabindex', '0');
 
-    assert.dom(panels[1]!).hasAttribute('hidden');
-    assert.dom(panels[1]!).doesNotHaveAttribute('tabindex');
+    assert.dom(panels[1]).hasAttribute('hidden');
+    assert.dom(panels[1]).doesNotHaveAttribute('tabindex');
 
-    assert.dom(panels[2]!).hasAttribute('hidden');
-    assert.dom(panels[2]!).doesNotHaveAttribute('tabindex');
+    assert.dom(panels[2]).hasAttribute('hidden');
+    assert.dom(panels[2]).doesNotHaveAttribute('tabindex');
   });
 
   test('clicking a tab selects it', async function (assert) {

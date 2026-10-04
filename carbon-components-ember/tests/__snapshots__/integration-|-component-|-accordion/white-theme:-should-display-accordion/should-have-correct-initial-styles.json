@@ -1,6 +1,6 @@
 [
   [
-    "<ul class=\"cds--accordion cds--accordion--end\n    cds--accordion--md\" data-index=\"0\"></ul>",
+    "<ul class=\"cds--accordion cds--accordion--end\n    \" data-index=\"0\"></ul>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -13,7 +13,7 @@
     }
   ],
   [
-    "<ul:before class=\"cds--accordion cds--accordion--end\n    cds--accordion--md\" data-index=\"0\"></ul:before>",
+    "<ul:before class=\"cds--accordion cds--accordion--end\n    \" data-index=\"0\"></ul:before>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -22,7 +22,7 @@
     }
   ],
   [
-    "<ul:after class=\"cds--accordion cds--accordion--end\n    cds--accordion--md\" data-index=\"0\"></ul:after>",
+    "<ul:after class=\"cds--accordion cds--accordion--end\n    \" data-index=\"0\"></ul:after>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -142,7 +142,7 @@
     }
   ],
   [
-    "<path d=\"M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"4\"></path>",
+    "<path d=\"M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"4\"></path>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -153,7 +153,7 @@
     }
   ],
   [
-    "<path:before d=\"M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"4\"></path:before>",
+    "<path:before d=\"M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"4\"></path:before>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -164,7 +164,7 @@
     }
   ],
   [
-    "<path:after d=\"M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"4\"></path:after>",
+    "<path:after d=\"M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"4\"></path:after>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",

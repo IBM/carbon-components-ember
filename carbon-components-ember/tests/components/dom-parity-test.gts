@@ -4335,65 +4335,91 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template>
           <Accordion as |Item|>
-            <Item @title='First section'>First section content</Item>
-            <Item @title='Second section'>Second section content</Item>
-            <Item @title='Third section'>Third section content</Item>
+            <Item @title="First section">First section content</Item>
+            <Item @title="Second section">Second section content</Item>
+            <Item @title="Third section">Third section content</Item>
           </Accordion>
         </template>,
       );
-      assertDomParity(assert, accordionFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        accordionFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('align-start', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Accordion @align='start' as |Item|>
-            <Item @title='First section'>First section content</Item>
-            <Item @title='Second section'>Second section content</Item>
-            <Item @title='Third section'>Third section content</Item>
+          <Accordion @align="start" as |Item|>
+            <Item @title="First section">First section content</Item>
+            <Item @title="Second section">Second section content</Item>
+            <Item @title="Third section">Third section content</Item>
           </Accordion>
         </template>,
       );
-      assertDomParity(assert, accordionFixture, 'align-start', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        accordionFixture,
+        'align-start',
+        this.element.firstElementChild,
+      );
     });
 
     test('disabled', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <Accordion @disabled={{true}} as |Item|>
-            <Item @title='First section'>First section content</Item>
-            <Item @title='Second section'>Second section content</Item>
-            <Item @title='Third section'>Third section content</Item>
+            <Item @title="First section">First section content</Item>
+            <Item @title="Second section">Second section content</Item>
+            <Item @title="Third section">Third section content</Item>
           </Accordion>
         </template>,
       );
-      assertDomParity(assert, accordionFixture, 'disabled', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        accordionFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
     });
 
     test('open-item', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <Accordion as |Item|>
-            <Item @title='First section' @isOpen={{true}}>First section content</Item>
-            <Item @title='Second section'>Second section content</Item>
-            <Item @title='Third section'>Third section content</Item>
+            <Item @title="First section" @isOpen={{true}}>First section content</Item>
+            <Item @title="Second section">Second section content</Item>
+            <Item @title="Third section">Third section content</Item>
           </Accordion>
         </template>,
       );
-      assertDomParity(assert, accordionFixture, 'open-item', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        accordionFixture,
+        'open-item',
+        this.element.firstElementChild,
+      );
     });
 
     test('disabled-item', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
           <Accordion as |Item|>
-            <Item @title='First section'>First section content</Item>
-            <Item @title='Second section' @isDisabled={{true}}>Second section content</Item>
-            <Item @title='Third section'>Third section content</Item>
+            <Item @title="First section">First section content</Item>
+            <Item @title="Second section" @isDisabled={{true}}>Second section
+              content</Item>
+            <Item @title="Third section">Third section content</Item>
           </Accordion>
         </template>,
       );
-      assertDomParity(assert, accordionFixture, 'disabled-item', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        accordionFixture,
+        'disabled-item',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -4419,11 +4445,11 @@ module('DOM parity | Carbon React', function (hooks) {
               </SL.Row>
             </SL.Head>
             <SL.Body>
-              <SL.Row @id='row-1'>
+              <SL.Row @id="row-1">
                 <SL.Cell @noWrap={{true}}>Row 1 A</SL.Cell>
                 <SL.Cell>Row 1 B</SL.Cell>
               </SL.Row>
-              <SL.Row @id='row-2'>
+              <SL.Row @id="row-2">
                 <SL.Cell>Row 2 A</SL.Cell>
                 <SL.Cell>Row 2 B</SL.Cell>
               </SL.Row>
@@ -4431,7 +4457,12 @@ module('DOM parity | Carbon React', function (hooks) {
           </StructuredList>
         </template>,
       );
-      assertDomParity(assert, structuredListFixture, 'default', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        structuredListFixture,
+        'default',
+        this.element.firstElementChild,
+      );
     });
 
     test('condensed', async function (this: RenderingTestContext, assert) {
@@ -4445,11 +4476,11 @@ module('DOM parity | Carbon React', function (hooks) {
               </SL.Row>
             </SL.Head>
             <SL.Body>
-              <SL.Row @id='row-1'>
+              <SL.Row @id="row-1">
                 <SL.Cell @noWrap={{true}}>Row 1 A</SL.Cell>
                 <SL.Cell>Row 1 B</SL.Cell>
               </SL.Row>
-              <SL.Row @id='row-2'>
+              <SL.Row @id="row-2">
                 <SL.Cell>Row 2 A</SL.Cell>
                 <SL.Cell>Row 2 B</SL.Cell>
               </SL.Row>
@@ -4457,7 +4488,12 @@ module('DOM parity | Carbon React', function (hooks) {
           </StructuredList>
         </template>,
       );
-      assertDomParity(assert, structuredListFixture, 'condensed', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        structuredListFixture,
+        'condensed',
+        this.element.firstElementChild,
+      );
     });
 
     test('flush', async function (this: RenderingTestContext, assert) {
@@ -4471,11 +4507,11 @@ module('DOM parity | Carbon React', function (hooks) {
               </SL.Row>
             </SL.Head>
             <SL.Body>
-              <SL.Row @id='row-1'>
+              <SL.Row @id="row-1">
                 <SL.Cell @noWrap={{true}}>Row 1 A</SL.Cell>
                 <SL.Cell>Row 1 B</SL.Cell>
               </SL.Row>
-              <SL.Row @id='row-2'>
+              <SL.Row @id="row-2">
                 <SL.Cell>Row 2 A</SL.Cell>
                 <SL.Cell>Row 2 B</SL.Cell>
               </SL.Row>
@@ -4483,7 +4519,12 @@ module('DOM parity | Carbon React', function (hooks) {
           </StructuredList>
         </template>,
       );
-      assertDomParity(assert, structuredListFixture, 'flush', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        structuredListFixture,
+        'flush',
+        this.element.firstElementChild,
+      );
     });
 
     test('selection', async function (this: RenderingTestContext, assert) {
@@ -4497,13 +4538,21 @@ module('DOM parity | Carbon React', function (hooks) {
               </SL.Row>
             </SL.Head>
             <SL.Body>
-              <SL.Row @id='row-1' as |Input|>
-                <Input @id='row-1-input' @name='structured-list-input' @title='Row 1' />
+              <SL.Row @id="row-1" as |Input|>
+                <Input
+                  @id="row-1-input"
+                  @name="structured-list-input"
+                  @title="Row 1"
+                />
                 <SL.Cell @noWrap={{true}}>Row 1 A</SL.Cell>
                 <SL.Cell>Row 1 B</SL.Cell>
               </SL.Row>
-              <SL.Row @id='row-2' as |Input|>
-                <Input @id='row-2-input' @name='structured-list-input' @title='Row 2' />
+              <SL.Row @id="row-2" as |Input|>
+                <Input
+                  @id="row-2-input"
+                  @name="structured-list-input"
+                  @title="Row 2"
+                />
                 <SL.Cell>Row 2 A</SL.Cell>
                 <SL.Cell>Row 2 B</SL.Cell>
               </SL.Row>
@@ -4512,13 +4561,22 @@ module('DOM parity | Carbon React', function (hooks) {
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
-      assertDomParity(assert, structuredListFixture, 'selection', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        structuredListFixture,
+        'selection',
+        this.element.firstElementChild,
+      );
     });
 
     test('selection-initial-row', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <StructuredList @selection={{true}} @selectedInitialRow='row-2' as |SL|>
+          <StructuredList
+            @selection={{true}}
+            @selectedInitialRow="row-2"
+            as |SL|
+          >
             <SL.Head>
               <SL.Row @head={{true}}>
                 <SL.Cell @head={{true}}>Column A</SL.Cell>
@@ -4526,13 +4584,21 @@ module('DOM parity | Carbon React', function (hooks) {
               </SL.Row>
             </SL.Head>
             <SL.Body>
-              <SL.Row @id='row-1' as |Input|>
-                <Input @id='row-1-input' @name='structured-list-input' @title='Row 1' />
+              <SL.Row @id="row-1" as |Input|>
+                <Input
+                  @id="row-1-input"
+                  @name="structured-list-input"
+                  @title="Row 1"
+                />
                 <SL.Cell @noWrap={{true}}>Row 1 A</SL.Cell>
                 <SL.Cell>Row 1 B</SL.Cell>
               </SL.Row>
-              <SL.Row @id='row-2' as |Input|>
-                <Input @id='row-2-input' @name='structured-list-input' @title='Row 2' />
+              <SL.Row @id="row-2" as |Input|>
+                <Input
+                  @id="row-2-input"
+                  @name="structured-list-input"
+                  @title="Row 2"
+                />
                 <SL.Cell>Row 2 A</SL.Cell>
                 <SL.Cell>Row 2 B</SL.Cell>
               </SL.Row>
@@ -4541,7 +4607,12 @@ module('DOM parity | Carbon React', function (hooks) {
         </template>,
       );
       await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
-      assertDomParity(assert, structuredListFixture, 'selection-initial-row', this.element.firstElementChild);
+      assertDomParity(
+        assert,
+        structuredListFixture,
+        'selection-initial-row',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -4559,155 +4630,262 @@ module('DOM parity | Carbon React', function (hooks) {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tabs @ariaLabel='List of tabs' as |TabPane|>
-            <TabPane @title='First tab' @isDefault={{true}}>First tab content</TabPane>
-            <TabPane @title='Second tab'>Second tab content</TabPane>
-            <TabPane @title='Third tab'>Third tab content</TabPane>
+          <Tabs @ariaLabel="List of tabs" as |TabPane|>
+            <TabPane @title="First tab" @isDefault={{true}}>First tab content</TabPane>
+            <TabPane @title="Second tab">Second tab content</TabPane>
+            <TabPane @title="Third tab">Third tab content</TabPane>
           </Tabs>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
-      assertDomParity(assert, tabsFixture, 'default', this.element.firstElementChild, this.element);
+      await waitUntil(
+        () => this.element.querySelectorAll('[role="tab"]').length === 3,
+      );
+      assertDomParity(
+        assert,
+        tabsFixture,
+        'default',
+        this.element.firstElementChild,
+        this.element as Element,
+      );
     });
 
     test('selected-index', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tabs @ariaLabel='List of tabs' as |TabPane|>
-            <TabPane @title='First tab'>First tab content</TabPane>
-            <TabPane @title='Second tab' @isDefault={{true}}>Second tab content</TabPane>
-            <TabPane @title='Third tab'>Third tab content</TabPane>
+          <Tabs @ariaLabel="List of tabs" as |TabPane|>
+            <TabPane @title="First tab">First tab content</TabPane>
+            <TabPane @title="Second tab" @isDefault={{true}}>Second tab content</TabPane>
+            <TabPane @title="Third tab">Third tab content</TabPane>
           </Tabs>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
-      assertDomParity(assert, tabsFixture, 'selected-index', this.element.firstElementChild, this.element);
+      await waitUntil(
+        () => this.element.querySelectorAll('[role="tab"]').length === 3,
+      );
+      assertDomParity(
+        assert,
+        tabsFixture,
+        'selected-index',
+        this.element.firstElementChild,
+        this.element as Element,
+      );
     });
 
     test('disabled-tab', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tabs @ariaLabel='List of tabs' as |TabPane|>
-            <TabPane @title='First tab' @isDefault={{true}}>First tab content</TabPane>
-            <TabPane @title='Second tab' @disabled={{true}}>Second tab content</TabPane>
-            <TabPane @title='Third tab'>Third tab content</TabPane>
+          <Tabs @ariaLabel="List of tabs" as |TabPane|>
+            <TabPane @title="First tab" @isDefault={{true}}>First tab content</TabPane>
+            <TabPane @title="Second tab" @disabled={{true}}>Second tab content</TabPane>
+            <TabPane @title="Third tab">Third tab content</TabPane>
           </Tabs>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
-      assertDomParity(assert, tabsFixture, 'disabled-tab', this.element.firstElementChild, this.element);
+      await waitUntil(
+        () => this.element.querySelectorAll('[role="tab"]').length === 3,
+      );
+      assertDomParity(
+        assert,
+        tabsFixture,
+        'disabled-tab',
+        this.element.firstElementChild,
+        this.element as Element,
+      );
     });
 
     test('size-sm', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tabs @ariaLabel='List of tabs' @size='sm' as |TabPane|>
-            <TabPane @title='First tab' @isDefault={{true}}>First tab content</TabPane>
-            <TabPane @title='Second tab'>Second tab content</TabPane>
-            <TabPane @title='Third tab'>Third tab content</TabPane>
+          <Tabs @ariaLabel="List of tabs" @size="sm" as |TabPane|>
+            <TabPane @title="First tab" @isDefault={{true}}>First tab content</TabPane>
+            <TabPane @title="Second tab">Second tab content</TabPane>
+            <TabPane @title="Third tab">Third tab content</TabPane>
           </Tabs>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
-      assertDomParity(assert, tabsFixture, 'size-sm', this.element.firstElementChild, this.element);
+      await waitUntil(
+        () => this.element.querySelectorAll('[role="tab"]').length === 3,
+      );
+      assertDomParity(
+        assert,
+        tabsFixture,
+        'size-sm',
+        this.element.firstElementChild,
+        this.element as Element,
+      );
     });
 
     test('manual-activation', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tabs @ariaLabel='List of tabs' @activation='manual' as |TabPane|>
-            <TabPane @title='First tab' @isDefault={{true}}>First tab content</TabPane>
-            <TabPane @title='Second tab'>Second tab content</TabPane>
-            <TabPane @title='Third tab'>Third tab content</TabPane>
+          <Tabs @ariaLabel="List of tabs" @activation="manual" as |TabPane|>
+            <TabPane @title="First tab" @isDefault={{true}}>First tab content</TabPane>
+            <TabPane @title="Second tab">Second tab content</TabPane>
+            <TabPane @title="Third tab">Third tab content</TabPane>
           </Tabs>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
-      assertDomParity(assert, tabsFixture, 'manual-activation', this.element.firstElementChild, this.element);
+      await waitUntil(
+        () => this.element.querySelectorAll('[role="tab"]').length === 3,
+      );
+      assertDomParity(
+        assert,
+        tabsFixture,
+        'manual-activation',
+        this.element.firstElementChild,
+        this.element as Element,
+      );
     });
 
     test('contained', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tabs @ariaLabel='List of tabs' @contained={{true}} as |TabPane|>
-            <TabPane @title='First tab' @isDefault={{true}}>First tab content</TabPane>
-            <TabPane @title='Second tab'>Second tab content</TabPane>
-            <TabPane @title='Third tab'>Third tab content</TabPane>
+          <Tabs @ariaLabel="List of tabs" @contained={{true}} as |TabPane|>
+            <TabPane @title="First tab" @isDefault={{true}}>First tab content</TabPane>
+            <TabPane @title="Second tab">Second tab content</TabPane>
+            <TabPane @title="Third tab">Third tab content</TabPane>
           </Tabs>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
-      assertDomParity(assert, tabsFixture, 'contained', this.element.firstElementChild, this.element);
+      await waitUntil(
+        () => this.element.querySelectorAll('[role="tab"]').length === 3,
+      );
+      assertDomParity(
+        assert,
+        tabsFixture,
+        'contained',
+        this.element.firstElementChild,
+        this.element as Element,
+      );
     });
 
     test('contained-size-lg', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tabs @ariaLabel='List of tabs' @contained={{true}} @size='lg' as |TabPane|>
-            <TabPane @title='First tab' @isDefault={{true}}>First tab content</TabPane>
-            <TabPane @title='Second tab'>Second tab content</TabPane>
-            <TabPane @title='Third tab'>Third tab content</TabPane>
+          <Tabs
+            @ariaLabel="List of tabs"
+            @contained={{true}}
+            @size="lg"
+            as |TabPane|
+          >
+            <TabPane @title="First tab" @isDefault={{true}}>First tab content</TabPane>
+            <TabPane @title="Second tab">Second tab content</TabPane>
+            <TabPane @title="Third tab">Third tab content</TabPane>
           </Tabs>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
-      assertDomParity(assert, tabsFixture, 'contained-size-lg', this.element.firstElementChild, this.element);
+      await waitUntil(
+        () => this.element.querySelectorAll('[role="tab"]').length === 3,
+      );
+      assertDomParity(
+        assert,
+        tabsFixture,
+        'contained-size-lg',
+        this.element.firstElementChild,
+        this.element as Element,
+      );
     });
 
     test('contained-secondary-label', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tabs @ariaLabel='List of tabs' @contained={{true}} as |TabPane|>
-            <TabPane @title='First tab' @isDefault={{true}} @secondaryLabel='Secondary'>First tab content</TabPane>
-            <TabPane @title='Second tab'>Second tab content</TabPane>
-            <TabPane @title='Third tab'>Third tab content</TabPane>
+          <Tabs @ariaLabel="List of tabs" @contained={{true}} as |TabPane|>
+            <TabPane
+              @title="First tab"
+              @isDefault={{true}}
+              @secondaryLabel="Secondary"
+            >First tab content</TabPane>
+            <TabPane @title="Second tab">Second tab content</TabPane>
+            <TabPane @title="Third tab">Third tab content</TabPane>
           </Tabs>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
-      assertDomParity(assert, tabsFixture, 'contained-secondary-label', this.element.firstElementChild, this.element);
+      await waitUntil(
+        () => this.element.querySelectorAll('[role="tab"]').length === 3,
+      );
+      assertDomParity(
+        assert,
+        tabsFixture,
+        'contained-secondary-label',
+        this.element.firstElementChild,
+        this.element as Element,
+      );
     });
 
     test('contained-full-width', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tabs @ariaLabel='List of tabs' @contained={{true}} @fullWidth={{true}} as |TabPane|>
-            <TabPane @title='First tab' @isDefault={{true}}>First tab content</TabPane>
-            <TabPane @title='Second tab'>Second tab content</TabPane>
-            <TabPane @title='Third tab'>Third tab content</TabPane>
+          <Tabs
+            @ariaLabel="List of tabs"
+            @contained={{true}}
+            @fullWidth={{true}}
+            as |TabPane|
+          >
+            <TabPane @title="First tab" @isDefault={{true}}>First tab content</TabPane>
+            <TabPane @title="Second tab">Second tab content</TabPane>
+            <TabPane @title="Third tab">Third tab content</TabPane>
           </Tabs>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
-      assertDomParity(assert, tabsFixture, 'contained-full-width', this.element.firstElementChild, this.element);
+      await waitUntil(
+        () => this.element.querySelectorAll('[role="tab"]').length === 3,
+      );
+      assertDomParity(
+        assert,
+        tabsFixture,
+        'contained-full-width',
+        this.element.firstElementChild,
+        this.element as Element,
+      );
     });
 
     test('dismissable', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tabs @ariaLabel='List of tabs' @dismissable={{true}} @onTabCloseRequest={{noop}} as |TabPane|>
-            <TabPane @title='First tab' @isDefault={{true}}>First tab content</TabPane>
-            <TabPane @title='Second tab'>Second tab content</TabPane>
-            <TabPane @title='Third tab'>Third tab content</TabPane>
+          <Tabs
+            @ariaLabel="List of tabs"
+            @dismissable={{true}}
+            @onTabCloseRequest={{noop}}
+            as |TabPane|
+          >
+            <TabPane @title="First tab" @isDefault={{true}}>First tab content</TabPane>
+            <TabPane @title="Second tab">Second tab content</TabPane>
+            <TabPane @title="Third tab">Third tab content</TabPane>
           </Tabs>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
-      assertDomParity(assert, tabsFixture, 'dismissable', this.element.firstElementChild, this.element);
+      await waitUntil(
+        () => this.element.querySelectorAll('[role="tab"]').length === 3,
+      );
+      assertDomParity(
+        assert,
+        tabsFixture,
+        'dismissable',
+        this.element.firstElementChild,
+        this.element as Element,
+      );
     });
 
     test('selected-panel', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tabs @ariaLabel='List of tabs' as |TabPane|>
-            <TabPane @title='First tab' @isDefault={{true}}>First tab content</TabPane>
-            <TabPane @title='Second tab'>Second tab content</TabPane>
-            <TabPane @title='Third tab'>Third tab content</TabPane>
+          <Tabs @ariaLabel="List of tabs" as |TabPane|>
+            <TabPane @title="First tab" @isDefault={{true}}>First tab content</TabPane>
+            <TabPane @title="Second tab">Second tab content</TabPane>
+            <TabPane @title="Third tab">Third tab content</TabPane>
           </Tabs>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('[role="tab"]').length === 3);
-      assertDomParity(assert, tabsFixture, 'selected-panel', this.element.children[1] ?? null, this.element);
+      await waitUntil(
+        () => this.element.querySelectorAll('[role="tab"]').length === 3,
+      );
+      assertDomParity(
+        assert,
+        tabsFixture,
+        'selected-panel',
+        this.element.children[1] ?? null,
+        this.element as Element,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
@@ -4729,13 +4907,31 @@ module('DOM parity | Carbon React', function (hooks) {
 
   module('TabContent', function () {
     test('selected', async function (this: RenderingTestContext, assert) {
-      await render(<template><TabContent @selected={{true}}>Tab content</TabContent></template>);
-      assertDomParity(assert, tabContentFixture, 'selected', this.element.firstElementChild);
+      await render(
+        <template>
+          <TabContent @selected={{true}}>Tab content</TabContent>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        tabContentFixture,
+        'selected',
+        this.element.firstElementChild,
+      );
     });
 
     test('hidden', async function (this: RenderingTestContext, assert) {
-      await render(<template><TabContent @selected={{false}}>Tab content</TabContent></template>);
-      assertDomParity(assert, tabContentFixture, 'hidden', this.element.firstElementChild);
+      await render(
+        <template>
+          <TabContent @selected={{false}}>Tab content</TabContent>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        tabContentFixture,
+        'hidden',
+        this.element.firstElementChild,
+      );
     });
 
     test('every fixture variant is covered', function (assert) {
