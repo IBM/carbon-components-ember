@@ -83,14 +83,10 @@ export const Uploading = meta.story({
 });
 
 export const Success = meta.story({
-  // Known violation in FileUploaderStatusIcon (shared with FileUploader): its
-  // checkmark state puts `aria-label` on a role-less span
-  // (aria-prohibited-attr). Reported as a warning until fixed.
   args: {
     upload: { id: '1', file: notesFile, status: FileStatusValue.SUCCESS },
   },
   parameters: {
-    a11y: { test: 'todo' },
     docs: {
       description: {
         story:

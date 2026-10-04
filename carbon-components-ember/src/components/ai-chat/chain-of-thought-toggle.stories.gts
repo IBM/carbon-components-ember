@@ -57,10 +57,6 @@ const meta = preview.meta({
   title: 'AI Chat/Chain of thought/Toggle',
   component: ChainOfThoughtToggle,
   parameters: {
-    // Known violation in the paired ChainOfThought (not the toggle): each
-    // step is a `role="listitem"` without a `role="list"` parent
-    // (`aria-required-parent`).
-    a11y: { test: 'todo' },
     docs: {
       description: {
         component: `A standalone disclosure button for a \`ChainOfThought\` panel. Upstream keeps

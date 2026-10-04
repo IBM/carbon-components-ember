@@ -229,12 +229,6 @@ export default class AiChatCodeSnippet extends Component<AiChatCodeSnippetSignat
     return language ? label.replace('{language}', language) : label;
   }
 
-  get containerAriaLabel(): string {
-    return this.args.editable
-      ? this.ariaLabelEditable
-      : this.code || 'code-snippet';
-  }
-
   get showLanguageLabel(): boolean {
     return (
       !!this.detectedLanguage &&
@@ -691,7 +685,10 @@ export default class AiChatCodeSnippet extends Component<AiChatCodeSnippetSignat
             }}"
           style={{this.containerStyle}}
           role={{if @editable "textbox"}}
-          aria-label={{this.containerAriaLabel}}
+          {{! Upstream also labels the read-only container (with the whole code),
+            but a role-less div can't carry a name; the editor content inside
+            is labelled either way. }}
+          aria-label={{if @editable this.ariaLabelEditable}}
           aria-readonly={{if @editable "false"}}
           aria-multiline={{if @editable "true"}}
           {{this.mountContainer}}

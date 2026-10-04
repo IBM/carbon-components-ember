@@ -43,9 +43,11 @@ function createMarkdownIt(html: boolean): MarkdownIt {
   // `<cds-checkbox>` element.
   md.renderer.rules['task_checkbox_open'] = (tokens, index) => {
     const checked = tokens[index]!.attrGet('checked') === 'true';
-    return `<input type="checkbox" class="cds-aichat-markdown__checkbox"${checked ? ' checked' : ''} disabled>`;
+    // The open/close tokens bracket the item's text, so wrapping it in a
+    // `<label>` names the checkbox.
+    return `<label><input type="checkbox" class="cds-aichat-markdown__checkbox"${checked ? ' checked' : ''} disabled>`;
   };
-  md.renderer.rules['task_checkbox_close'] = () => '';
+  md.renderer.rules['task_checkbox_close'] = () => '</label>';
 
   return md;
 }

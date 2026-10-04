@@ -259,10 +259,6 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'AI Chat/Code snippet',
   component: AiChatCodeSnippet,
   parameters: {
-    // Known violations in the components (tracked as bugs):
-    // - AiChatCodeSnippet: `aria-prohibited-attr` (aria-label on its
-    //   role-less `.cds-aichat-snippet-container` div).
-    a11y: { test: 'todo' },
     docs: {
       description: {
         component: `\`AiChatCodeSnippet\` is a CodeMirror 6 powered code display/editor: syntax
