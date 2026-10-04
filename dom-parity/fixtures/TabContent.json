@@ -1,45 +1,50 @@
 {
-  "component": "LayoutDirection",
-  "generatedAt": "2026-10-04T14:24:38.987Z",
+  "component": "TabContent",
+  "generatedAt": "2026-10-04T14:24:39.089Z",
   "carbonReactVersion": "1.114.0",
   "reactVersion": "19.3.0",
   "variants": {
-    "ltr": {
+    "selected": {
       "props": {
-        "dir": "ltr"
+        "selected": true
       },
       "dom": {
         "type": "element",
         "tag": "div",
-        "classes": [],
+        "classes": [
+          "cds--tab-content"
+        ],
         "attributes": {
-          "dir": "ltr"
+          "role": "tabpanel"
         },
         "style": {},
         "children": [
           {
             "type": "text",
-            "text": "Layout direction content"
+            "text": "Tab content"
           }
         ]
       }
     },
-    "rtl": {
+    "hidden": {
       "props": {
-        "dir": "rtl"
+        "selected": false
       },
       "dom": {
         "type": "element",
         "tag": "div",
-        "classes": [],
+        "classes": [
+          "cds--tab-content"
+        ],
         "attributes": {
-          "dir": "rtl"
+          "role": "tabpanel",
+          "hidden": true
         },
         "style": {},
         "children": [
           {
             "type": "text",
-            "text": "Layout direction content"
+            "text": "Tab content"
           }
         ]
       }

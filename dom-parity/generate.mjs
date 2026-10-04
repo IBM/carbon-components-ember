@@ -44,6 +44,24 @@ globalThis.ResizeObserver = class ResizeObserver {
   unobserve() {}
   disconnect() {}
 };
+// jsdom has no `window.matchMedia`; TabList calls it unconditionally (via
+// `useMatchMedia`) to gate `fullWidth` on the `lg` breakpoint. Simulate the
+// `lg` breakpoint matching (1056px) so the fixture captures the same
+// `cds--tabs--full-width` class the dom-parity test sees in its 1440px
+// Playwright window - both sides agree and no known-difference entry is needed.
+dom.window.matchMedia = (query) => ({
+  // Carbon's lg breakpoint is 66rem (= 1056px at base 16px font size).
+  matches: query === '(min-width: 66rem)',
+  media: query,
+  onchange: null,
+  addEventListener() {},
+  removeEventListener() {},
+  addListener() {},
+  removeListener() {},
+  dispatchEvent() {
+    return false;
+  },
+});
 // Node has its own read-only global `navigator` getter; jsdom's must
 // replace it via defineProperty rather than plain assignment.
 Object.defineProperty(globalThis, 'navigator', {
@@ -101,9 +119,11 @@ for (const component of COMPONENTS) {
       ? variant.pickRoot(container)
       : container.firstElementChild;
 
+    const scope = variant.idScope ? variant.idScope(container) : root;
+
     variants[variant.name] = {
       props: variant.props,
-      dom: normalizeElement(root),
+      dom: normalizeElement(root, scope),
     };
 
     act(() => {

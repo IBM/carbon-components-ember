@@ -91,8 +91,70 @@ module('Integration | Component | Tabs', (hooks) => {
     assert.dom('[role="tablist"]').exists();
     assert.dom('[role="tab"]').exists({ count: 2 });
     assert.dom('[role="tab"]:first-child').hasAttribute('aria-selected', 'true');
-    assert.dom('[role="tab"]:last-child').hasAttribute('aria-selected', 'false');
-    assert.dom('[role="tabpanel"]').hasText('Content 1');
+    assert.dom('[role="tab"]:last-of-type').hasAttribute('aria-selected', 'false');
+    assert.dom('[role="tabpanel"]:not([hidden])').hasText('Content 1');
+  });
+
+  test('without @isDefault or @selectedTab, the first enabled tab is selected by default', async function (assert) {
+    await render(
+      <template>
+        <Tabs as |TabPane|>
+          <TabPane @title='Tab 1'>Content 1</TabPane>
+          <TabPane @title='Tab 2'>Content 2</TabPane>
+        </Tabs>
+      </template>,
+    );
+
+    assert.dom('[role="tab"]:first-child').hasAttribute('aria-selected', 'true');
+    assert.dom('[role="tab"]:last-of-type').hasAttribute('aria-selected', 'false');
+    assert.dom('[role="tabpanel"]:not([hidden])').hasText('Content 1');
+  });
+
+  test('without @isDefault, if the first tab is disabled, the first enabled tab is selected', async function (assert) {
+    await render(
+      <template>
+        <Tabs as |TabPane|>
+          <TabPane @title='Tab 1' @disabled={{true}}>Content 1</TabPane>
+          <TabPane @title='Tab 2'>Content 2</TabPane>
+        </Tabs>
+      </template>,
+    );
+
+    assert.dom('[role="tab"]:first-child').hasAttribute('aria-selected', 'false');
+    assert.dom('[role="tab"]:last-of-type').hasAttribute('aria-selected', 'true');
+    assert.dom('[role="tabpanel"]:not([hidden])').hasText('Content 2');
+  });
+
+  test('all tab panels are always rendered in the DOM, with unselected panels marked hidden', async function (assert) {
+    await render(
+      <template>
+        <Tabs as |TabPane|>
+          <TabPane @title='Tab 1'>Content 1</TabPane>
+          <TabPane @title='Tab 2'>Content 2</TabPane>
+          <TabPane @title='Tab 3'>Content 3</TabPane>
+        </Tabs>
+      </template>,
+    );
+
+    const panels = document.querySelectorAll('[role="tabpanel"]');
+    assert.strictEqual(panels.length, 3, 'all 3 panels are mounted in the DOM');
+
+    const tabs = document.querySelectorAll('[role="tab"]');
+    tabs.forEach((tab, index) => {
+      const controlsId = tab.getAttribute('aria-controls');
+      assert.ok(controlsId, `tab ${index} has aria-controls`);
+      const targetPanel = document.getElementById(controlsId!);
+      assert.ok(targetPanel, `panel with id="${controlsId}" exists in the DOM`);
+    });
+
+    assert.dom(panels[0]!).doesNotHaveAttribute('hidden');
+    assert.dom(panels[0]!).hasAttribute('tabindex', '0');
+
+    assert.dom(panels[1]!).hasAttribute('hidden');
+    assert.dom(panels[1]!).doesNotHaveAttribute('tabindex');
+
+    assert.dom(panels[2]!).hasAttribute('hidden');
+    assert.dom(panels[2]!).doesNotHaveAttribute('tabindex');
   });
 
   test('clicking a tab selects it', async function (assert) {
@@ -105,10 +167,10 @@ module('Integration | Component | Tabs', (hooks) => {
       </template>,
     );
 
-    await click('[role="tab"]:last-child');
+    await click('[role="tab"]:last-of-type');
 
-    assert.dom('[role="tab"]:last-child').hasAttribute('aria-selected', 'true');
-    assert.dom('[role="tabpanel"]').hasText('Content 2');
+    assert.dom('[role="tab"]:last-of-type').hasAttribute('aria-selected', 'true');
+    assert.dom('[role="tabpanel"]:not([hidden])').hasText('Content 2');
   });
 
   test('@selectedTab/@tabSelected support controlled selection', async function (assert) {
@@ -131,10 +193,10 @@ module('Integration | Component | Tabs', (hooks) => {
 
     assert.dom('[role="tab"]:first-child').hasAttribute('aria-selected', 'true');
 
-    await click('[role="tab"]:last-child');
+    await click('[role="tab"]:last-of-type');
 
     assert.strictEqual(selected.current, 'Tab 2');
-    assert.dom('[role="tab"]:last-child').hasAttribute('aria-selected', 'true');
+    assert.dom('[role="tab"]:last-of-type').hasAttribute('aria-selected', 'true');
   });
 
   test('a disabled tab cannot be selected', async function (assert) {
@@ -147,10 +209,11 @@ module('Integration | Component | Tabs', (hooks) => {
       </template>,
     );
 
-    assert.dom('[role="tab"]:last-child').hasClass('cds--tabs__nav-item--disabled');
-
-    await click('[role="tab"]:last-child');
-
+    assert.dom('[role="tab"]:last-of-type').hasClass('cds--tabs__nav-item--disabled');
+    // The tab button now carries the native `disabled` attribute (matching
+    // @carbon/react), so click() would throw — assert the disabled state
+    // instead, which is sufficient proof it cannot be selected.
+    assert.dom('[role="tab"]:last-of-type').isDisabled();
     assert.dom('[role="tab"]:first-child').hasAttribute('aria-selected', 'true');
   });
 
@@ -378,13 +441,10 @@ module('Integration | Component | Tabs', (hooks) => {
   });
 
   test('a disabled, dismissable tab cannot be closed by click or Delete key', async function (assert) {
-    let closed: string | undefined;
-    const onClose = (title: string) => {
-      closed = title;
-    };
+    const noOp = () => {};
     await render(
       <template>
-        <Tabs @dismissable={{true}} @onTabCloseRequest={{onClose}} as |TabPane|>
+        <Tabs @dismissable={{true}} @onTabCloseRequest={{noOp}} as |TabPane|>
           <TabPane @title='Tab 1' @isDefault={{true}}>Content 1</TabPane>
           <TabPane @title='Tab 2' @disabled={{true}}>Content 2</TabPane>
         </Tabs>
@@ -403,13 +463,13 @@ module('Integration | Component | Tabs', (hooks) => {
       .dom(disabledCloseButton)
       .isDisabled('the native disabled attribute prevents the button from being clicked at all');
 
+    // The disabled tab button itself also carries the native `disabled`
+    // attribute (matching @carbon/react), so keyboard interaction is natively
+    // blocked — no need to fire a synthetic Delete keydown on a disabled element.
     const disabledTab = document.querySelectorAll('[role="tab"]')[1]!;
-    await triggerKeyEvent(disabledTab, 'keydown', 'Delete');
-    assert.strictEqual(
-      closed,
-      undefined,
-      'pressing Delete on a disabled tab does not call @onTabCloseRequest',
-    );
+    assert
+      .dom(disabledTab)
+      .isDisabled('disabled tab button has native disabled attribute');
   });
 
   test('@loading renders a skeleton, honoring @contained', async function (assert) {
@@ -422,4 +482,38 @@ module('Integration | Component | Tabs', (hooks) => {
     assert.dom('.cds--tabs.cds--skeleton').hasClass('cds--tabs--contained');
     assert.dom('[role="tablist"]').doesNotExist();
   });
+
+  test('without @dismissable every tab still has a hidden close wrapper that cannot close it', async function (assert) {
+    let closed: string | undefined;
+    const onClose = (title: string) => {
+      closed = title;
+    };
+    await render(
+      <template>
+        <Tabs @onTabCloseRequest={{onClose}} as |TabPane|>
+          <TabPane @title='Tab 1' @isDefault={{true}}>Content 1</TabPane>
+          <TabPane @title='Tab 2'>Content 2</TabPane>
+        </Tabs>
+      </template>,
+    );
+
+    assert.dom('.cds--tabs__nav-item--close--hidden').exists({ count: 2 });
+    assert.dom('.cds--tabs__nav-item--close-icon').doesNotExist();
+    const hiddenButtons = document.querySelectorAll(
+      '.cds--tabs__nav-item--close--hidden button',
+    );
+    assert.strictEqual(hiddenButtons.length, 2);
+    for (const button of hiddenButtons) {
+      assert.dom(button).hasClass('cds--visually-hidden');
+      assert.dom(button).hasAttribute('aria-hidden', 'true');
+    }
+
+    await click(hiddenButtons[0] as HTMLElement);
+    assert.strictEqual(
+      closed,
+      undefined,
+      'clicking the hidden button does not call @onTabCloseRequest',
+    );
+  });
+
 });

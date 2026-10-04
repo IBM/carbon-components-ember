@@ -81,24 +81,6 @@
       "reason": "Same non-functional-close-button gap as the `aria-hidden` entry above. Applies to every inline-* variant."
     },
     {
-      "path": "div > svg[0] > title[2]",
-      "reason": "@carbon/react's `NotificationIcon` wraps the icon in an inner `<title>{kind} icon</title>` for an accessible name; Ember's `Icon`/`renderSvgPart` has no API to inject a description element into the generated svg at all (an addon-wide icon limitation, not Notification-specific). Applies to every toast-* variant except warning-alt, whose icon has one extra `<path>` shifting the title to index 3 (see the `title[3]` entry below)."
-    },
-    {
-      "path": "div > svg[0] > title[3]",
-      "variant": "toast-warning-alt",
-      "reason": "Same missing-title gap as `div > svg[0] > title[2]` above - WarningAltFilled's icon has an extra `<path>` compared to the other kind icons, shifting where the (missing) title would land."
-    },
-    {
-      "path": "div > div[0] > svg[0] > title[2]",
-      "reason": "Same missing-title gap as the toast branch's `div > svg[0] > title[2]` entry above, on the inline branch's nested main icon. Applies to every inline-* variant except warning-alt (see the `title[3]` entry below)."
-    },
-    {
-      "path": "div > div[0] > svg[0] > title[3]",
-      "variant": "inline-warning-alt",
-      "reason": "Same missing-title gap as `div > div[0] > svg[0] > title[2]` above, shifted to index 3 for the same WarningAltFilled extra-`<path>` reason as the toast branch's `title[3]` entry."
-    },
-    {
       "path": "div > svg[0] > path[0].attributes.d",
       "variant": "toast-warning",
       "reason": "Harness limitation, not a real bug: the `d` attribute is byte-identical between @carbon/icons' and @carbon/icons-react's copies of the Warning icon except for one whitespace separator (a literal tab vs. a space between two path commands), which the SVG path grammar treats as equivalent - this diffs as a text mismatch only because the comparison is a raw string diff, not an SVG-path-aware one."
@@ -681,18 +663,6 @@
   ],
   "ProgressIndicator": [
     {
-      "path": "ul > li[0] > button[0] > svg[0] > title[2]",
-      "reason": "@carbon/react's `ProgressStep` always wraps its status icon's `<title>{description}</title>` (rendering an empty `<title>` when no `description` is passed) - Ember's `progress-indicator.gts` accepts a `@description` arg but never renders it anywhere (this addon's icon components have no API to inject a `<title>` into the generated svg at all, an addon-wide limitation - see the Notification/AiChatReasoningSteps entries of the same name). Real, disclosed gap: `@description` is currently a no-op. The exact index this renders at shifts per step depending on how many `<path>`s that step's own icon has - applies wherever this file's variants happen to hit it, not scoped further per-variant since the path itself already disambiguates."
-    },
-    {
-      "path": "ul > li[0] > button[0] > svg[0] > title[3]",
-      "reason": "@carbon/react's `ProgressStep` always wraps its status icon's `<title>{description}</title>` (rendering an empty `<title>` when no `description` is passed) - Ember's `progress-indicator.gts` accepts a `@description` arg but never renders it anywhere (this addon's icon components have no API to inject a `<title>` into the generated svg at all, an addon-wide limitation - see the Notification/AiChatReasoningSteps entries of the same name). Real, disclosed gap: `@description` is currently a no-op. The exact index this renders at shifts per step depending on how many `<path>`s that step's own icon has - applies wherever this file's variants happen to hit it, not scoped further per-variant since the path itself already disambiguates."
-    },
-    {
-      "path": "ul > li[0] > button[0] > svg[0] > title[5]",
-      "reason": "@carbon/react's `ProgressStep` always wraps its status icon's `<title>{description}</title>` (rendering an empty `<title>` when no `description` is passed) - Ember's `progress-indicator.gts` accepts a `@description` arg but never renders it anywhere (this addon's icon components have no API to inject a `<title>` into the generated svg at all, an addon-wide limitation - see the Notification/AiChatReasoningSteps entries of the same name). Real, disclosed gap: `@description` is currently a no-op. The exact index this renders at shifts per step depending on how many `<path>`s that step's own icon has - applies wherever this file's variants happen to hit it, not scoped further per-variant since the path itself already disambiguates."
-    },
-    {
       "path": "ul > li[0] > button[0] > svg[0].classes[cds--progress-step-icon]",
       "reason": "`cds--progress-step-icon` is an inert class added to progress-indicator.gts's `Incomplete`/`CheckmarkOutline`/`CircleDash` icon invocations specifically to opt out of this addon's `Icon` base component's default hashed/margin-carrying class (see AGENTS.md's renderIcon-default-size gotcha) - @carbon/react's own icon has no class at all in this position (only the invalid-step's `Warning` icon carries a real class upstream, `cds--progress__warning`, already matched on both sides). Applies to every variant."
     },
@@ -701,32 +671,12 @@
       "reason": "@carbon/react's `ProgressIndicator` clones each child with `{ complete, current, index, onClick }` via `React.Children.map`/`cloneElement`, and `ProgressStep`'s own destructuring (`{ label, description, className, current, complete, invalid, secondaryLabel, disabled, onClick, translateWithId: t, ...rest }`) never picks `index` out of its props - it falls into `...rest` and gets spread onto the `<button>` as a literal, non-standard `index` attribute. Ember's `progress-indicator.gts` has no equivalent - a harmless React-only quirk, not a real feature to reproduce. Applies to every variant."
     },
     {
-      "path": "ul > li[1] > button[0] > svg[0] > title[10]",
-      "reason": "@carbon/react's `ProgressStep` always wraps its status icon's `<title>{description}</title>` (rendering an empty `<title>` when no `description` is passed) - Ember's `progress-indicator.gts` accepts a `@description` arg but never renders it anywhere (this addon's icon components have no API to inject a `<title>` into the generated svg at all, an addon-wide limitation - see the Notification/AiChatReasoningSteps entries of the same name). Real, disclosed gap: `@description` is currently a no-op. The exact index this renders at shifts per step depending on how many `<path>`s that step's own icon has - applies wherever this file's variants happen to hit it, not scoped further per-variant since the path itself already disambiguates."
-    },
-    {
-      "path": "ul > li[1] > button[0] > svg[0] > title[2]",
-      "reason": "@carbon/react's `ProgressStep` always wraps its status icon's `<title>{description}</title>` (rendering an empty `<title>` when no `description` is passed) - Ember's `progress-indicator.gts` accepts a `@description` arg but never renders it anywhere (this addon's icon components have no API to inject a `<title>` into the generated svg at all, an addon-wide limitation - see the Notification/AiChatReasoningSteps entries of the same name). Real, disclosed gap: `@description` is currently a no-op. The exact index this renders at shifts per step depending on how many `<path>`s that step's own icon has - applies wherever this file's variants happen to hit it, not scoped further per-variant since the path itself already disambiguates."
-    },
-    {
-      "path": "ul > li[1] > button[0] > svg[0] > title[5]",
-      "reason": "@carbon/react's `ProgressStep` always wraps its status icon's `<title>{description}</title>` (rendering an empty `<title>` when no `description` is passed) - Ember's `progress-indicator.gts` accepts a `@description` arg but never renders it anywhere (this addon's icon components have no API to inject a `<title>` into the generated svg at all, an addon-wide limitation - see the Notification/AiChatReasoningSteps entries of the same name). Real, disclosed gap: `@description` is currently a no-op. The exact index this renders at shifts per step depending on how many `<path>`s that step's own icon has - applies wherever this file's variants happen to hit it, not scoped further per-variant since the path itself already disambiguates."
-    },
-    {
       "path": "ul > li[1] > button[0] > svg[0].classes[cds--progress-step-icon]",
       "reason": "`cds--progress-step-icon` is an inert class added to progress-indicator.gts's `Incomplete`/`CheckmarkOutline`/`CircleDash` icon invocations specifically to opt out of this addon's `Icon` base component's default hashed/margin-carrying class (see AGENTS.md's renderIcon-default-size gotcha) - @carbon/react's own icon has no class at all in this position (only the invalid-step's `Warning` icon carries a real class upstream, `cds--progress__warning`, already matched on both sides). Applies to every variant."
     },
     {
       "path": "ul > li[1] > button[0].attributes.index",
       "reason": "@carbon/react's `ProgressIndicator` clones each child with `{ complete, current, index, onClick }` via `React.Children.map`/`cloneElement`, and `ProgressStep`'s own destructuring (`{ label, description, className, current, complete, invalid, secondaryLabel, disabled, onClick, translateWithId: t, ...rest }`) never picks `index` out of its props - it falls into `...rest` and gets spread onto the `<button>` as a literal, non-standard `index` attribute. Ember's `progress-indicator.gts` has no equivalent - a harmless React-only quirk, not a real feature to reproduce. Applies to every variant."
-    },
-    {
-      "path": "ul > li[2] > button[0] > svg[0] > title[10]",
-      "reason": "@carbon/react's `ProgressStep` always wraps its status icon's `<title>{description}</title>` (rendering an empty `<title>` when no `description` is passed) - Ember's `progress-indicator.gts` accepts a `@description` arg but never renders it anywhere (this addon's icon components have no API to inject a `<title>` into the generated svg at all, an addon-wide limitation - see the Notification/AiChatReasoningSteps entries of the same name). Real, disclosed gap: `@description` is currently a no-op. The exact index this renders at shifts per step depending on how many `<path>`s that step's own icon has - applies wherever this file's variants happen to hit it, not scoped further per-variant since the path itself already disambiguates."
-    },
-    {
-      "path": "ul > li[2] > button[0] > svg[0] > title[5]",
-      "reason": "@carbon/react's `ProgressStep` always wraps its status icon's `<title>{description}</title>` (rendering an empty `<title>` when no `description` is passed) - Ember's `progress-indicator.gts` accepts a `@description` arg but never renders it anywhere (this addon's icon components have no API to inject a `<title>` into the generated svg at all, an addon-wide limitation - see the Notification/AiChatReasoningSteps entries of the same name). Real, disclosed gap: `@description` is currently a no-op. The exact index this renders at shifts per step depending on how many `<path>`s that step's own icon has - applies wherever this file's variants happen to hit it, not scoped further per-variant since the path itself already disambiguates."
     },
     {
       "path": "ul > li[2] > button[0] > svg[0].classes[cds--progress-step-icon]",
@@ -844,6 +794,21 @@
       "path": "div > div[1] > div[3] > svg[1] > path[1].attributes.d",
       "variant": "invalid",
       "reason": "Harness limitation, not a real bug - same whitespace-only (tab vs. space between two path commands) diff already documented for Notification's warning-icon entry of the same name; the SVG path grammar treats the two as equivalent."
+    }
+  ],
+  "Accordion": [],
+  "StructuredList": [
+    {
+      "path": "div > div[1] > div[1] > input[1].attributes.checked",
+      "variant": "selection-initial-row",
+      "reason": "Same harness limitation as RadioTile's `div > input[0].attributes.checked` entry: Glimmer sets a bound `checked={{...}}` as the DOM `checked` property, not a reflected attribute, so `normalizeElement` (which only reads `el.attributes`) can't see it - `structured-list-test.gts`'s `selectedInitialRow pre-selects a row` test already asserts `isChecked()` on this exact input and passes."
+    }
+  ],
+  "Tabs": [
+    {
+      "path": "div.attributes.tabindex",
+      "variant": "selected-panel",
+      "reason": "Ember's yielded `TabPane` renders `tabindex=\"0\"` on its panel; the pinned `@carbon/react`'s `TabPanel` renders none. Left as-is: it only makes the panel itself focusable, which the WAI-ARIA tabs pattern recommends when a panel has no focusable content of its own, and removing it would silently change keyboard behaviour for existing consumers - a real, deliberate-looking divergence rather than a markup slip."
     }
   ]
 }

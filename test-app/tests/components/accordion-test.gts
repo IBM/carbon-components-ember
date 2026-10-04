@@ -146,4 +146,54 @@ module('Integration | Component | Accordion', (hooks) => {
     const stylesDiff = getStylesDiff(disabledStyles, stylesAfterClick);
     assert.deepEqual(stylesDiff, [], 'styles should not change after click');
   });
+
+  test('a per-item @isDisabled disables only that item and cannot be opened', async function (assert) {
+    await render(
+      <template>
+        <Accordion as |Item|>
+          <Item @title='Section 1' @isDisabled={{true}}>
+            <p>Disabled body</p>
+          </Item>
+          <Item @title='Section 2'>
+            <p>Enabled body</p>
+          </Item>
+        </Accordion>
+      </template>
+    );
+
+    const headings = document.querySelectorAll('.cds--accordion__heading');
+    const items = document.querySelectorAll('.cds--accordion__item');
+    assert.dom(headings[0]!).isDisabled('the @isDisabled item heading is disabled');
+    assert.dom(items[0]!).hasClass('cds--accordion__item--disabled');
+    assert.dom(headings[1]!).isNotDisabled('sibling heading stays enabled');
+    assert.dom(items[1]!).doesNotHaveClass('cds--accordion__item--disabled');
+
+    await click(headings[1]!);
+    assert.dom(items[1]!).hasClass('cds--accordion__item--active', 'enabled sibling opens');
+    assert.dom(items[0]!).doesNotHaveClass('cds--accordion__item--active', 'disabled item stays closed');
+  });
+
+  test('a per-item @isDisabled={{false}} overrides Accordion @disabled', async function (assert) {
+    await render(
+      <template>
+        <Accordion @disabled={{true}} as |Item|>
+          <Item @title='Section 1' @isDisabled={{false}}>
+            <p>Body 1</p>
+          </Item>
+          <Item @title='Section 2'>
+            <p>Body 2</p>
+          </Item>
+        </Accordion>
+      </template>
+    );
+
+    const headings = document.querySelectorAll('.cds--accordion__heading');
+    const items = document.querySelectorAll('.cds--accordion__item');
+    assert.dom(headings[0]!).isNotDisabled('the per-item override wins');
+    assert.dom(items[0]!).doesNotHaveClass('cds--accordion__item--disabled');
+    assert.dom(headings[1]!).isDisabled('items without an override inherit @disabled');
+
+    await click(headings[0]!);
+    assert.dom(items[0]!).hasClass('cds--accordion__item--active');
+  });
 });

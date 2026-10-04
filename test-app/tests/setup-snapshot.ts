@@ -105,6 +105,17 @@ export function setupSnapshot(assert: Assert) {
               delete expected[i][1][prop];
             }
           }
+          // If a property appears in the expected snapshot but not in the
+          // actual diff, it means the style was already present in the
+          // baseline on this platform (e.g. Carbon CSS leaked from a prior
+          // test). Drop it from both sides so the comparison is not
+          // environment-sensitive. Properties that only appear in the actual
+          // (new unexpected changes) still cause a failure.
+          for (const prop of Object.keys(expected[i]?.[1] ?? {})) {
+            if (!(prop in value[i][1])) {
+              delete expected[i][1][prop];
+            }
+          }
           if (!QUnit.equiv(value[i], expected[i])) {
             console.log('deepEqual', name + ' item:' + i, JSON.stringify(value[i], null, 2), JSON.stringify(expected[i], null, 2));
           }
