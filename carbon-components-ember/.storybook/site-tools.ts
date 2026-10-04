@@ -7,11 +7,7 @@ import {
   useStorybookApi,
   useStorybookState,
 } from 'storybook/manager-api';
-import {
-  IconButton,
-  TooltipLinkList,
-  WithTooltip,
-} from 'storybook/internal/components';
+import { Button, Select } from 'storybook/internal/components';
 
 const REPO = 'IBM/carbon-components-ember';
 const SITE = 'https://ibm.github.io/carbon-components-ember/';
@@ -71,35 +67,36 @@ function VersionTool() {
     loadVersions().then(setVersions, () => setVersions('error'));
   }, []);
 
-  const links = Array.isArray(versions)
-    ? versions.map((version) => ({
-        id: version,
-        title: version,
-        active: version === deploy.name,
-        // Keep the current page: newer versions are Storybooks too.
-        href: `${deploy.root}versions/${version}/${window.location.search}`,
-      }))
-    : [
-        {
-          id: versions,
-          title:
-            versions === 'loading'
-              ? 'Loading versions…'
-              : 'Versions unavailable',
-        },
-      ];
+  const href = (version: string) =>
+    // Keep the current page: newer versions are Storybooks too.
+    `${deploy.root}versions/${version}/${window.location.search}`;
 
-  return h(WithTooltip, {
-    placement: 'bottom',
-    trigger: 'click',
-    closeOnOutsideClick: true,
-    tooltip: h(TooltipLinkList, { links }),
-    children: h(
-      IconButton,
-      { title: 'Switch the documented version' },
-      `Version: ${deploy.name}`,
-    ),
-  });
+  return h(
+    Select,
+    {
+      ariaLabel: 'Documented version',
+      size: 'small',
+      padding: 'small',
+      disabled: !Array.isArray(versions),
+      tooltip:
+        versions === 'error' ? 'Versions unavailable' : 'Documented version',
+      // Nothing is preselected, so the label keeps saying which version
+      // this is; the list marks it instead.
+      options: Array.isArray(versions)
+        ? versions.map((version) => ({
+            title: version,
+            value: version,
+            aside: version === deploy.name ? 'current' : undefined,
+          }))
+        : [],
+      onSelect: (version) => {
+        if (typeof version === 'string' && version !== deploy.name) {
+          window.location.assign(href(version));
+        }
+      },
+    },
+    `Version: ${deploy.name}`,
+  );
 }
 
 function EditTool() {
@@ -116,13 +113,20 @@ function EditTool() {
     tagged ? deploy.name : 'main'
   }/carbon-components-ember/${importPath.replace(/^\.\//, '')}`;
 
+  const label = tagged ? 'View source' : 'Edit this page';
   return h(
-    IconButton,
-    {
-      title: 'Edit this page on GitHub',
-      onClick: () => window.open(href, '_blank', 'noopener'),
-    },
-    tagged ? 'View source' : 'Edit this page',
+    Button,
+    { asChild: true, ariaLabel: false, size: 'small', variant: 'ghost' },
+    h(
+      'a',
+      {
+        href,
+        target: '_blank',
+        rel: 'noopener noreferrer',
+        title: `${label} on GitHub`,
+      },
+      label,
+    ),
   );
 }
 
