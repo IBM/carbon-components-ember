@@ -47,8 +47,8 @@ overrides:
   # socket.io-adapter (via testem) pins ws with a ~ range.
   ws@8: ^8.21.0
 patchedDependencies:
-  # `storybook build` indexes the stories while Vite builds, so ember-storybook
-  # could read an empty story list and ship no args tables or story sources.
-  # The patch waits for the index first. Drop it once ember-storybook releases
-  # the fix (ember-integrations/ember-storybook, fix/build-waits-for-story-index).
+  # Our two unreleased ember-storybook fixes: CSF `subcomponents` support
+  # (ember-integrations/ember-storybook#81), and waiting for the story index in
+  # `storybook build` so the docs data (args tables, "Show code") isn't empty.
+  # See AGENTS.md ("patches/ember-storybook"). Drop once both are released.
   ember-storybook@0.4.2: patches/ember-storybook@0.4.2.patch

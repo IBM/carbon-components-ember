@@ -11,6 +11,7 @@ const NATIVE_TAIL = Array.from({ length: 8 });
 const meta = preview.meta({
   title: 'Components/OrderedList',
   component: OrderedList,
+  subcomponents: { ListItem },
   parameters: {
     docs: {
       description: {

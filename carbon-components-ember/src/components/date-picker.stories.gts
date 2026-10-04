@@ -4,6 +4,7 @@ import { expect, fn } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import DatePicker from './date-picker.gts';
+import DatePickerInput from './date-picker-input.gts';
 import Layer from './layer.gts';
 
 import type { DatePickerSignature } from './date-picker.gts';
@@ -54,6 +55,7 @@ const withLayer: Decorator = (Story, context) => <template>
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'Components/DatePicker',
   component: DatePicker,
+  subcomponents: { DatePickerInput },
   parameters: {
     docs: {
       description: {

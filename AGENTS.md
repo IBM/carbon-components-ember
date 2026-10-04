@@ -961,9 +961,10 @@ npm `files` list.
 - **Docs prose** goes in `parameters.docs.description.component` / `.story`
   (markdown). The API table is generated from the signature, so JSDoc on the
   component's args is the place to improve it.
-- **Sub-components get their own story file** (titled under the parent, e.g.
-  `Components/FileUploader/FileUploaderItem`), not `subcomponents` on the
-  parent's meta (see the gotcha below).
+- **Sub-components** go in the parent's meta as `subcomponents: { ... }`, so
+  the parent's docs page shows a tab per sub-component in its args table.
+  Sub-components a consumer uses on their own also get their own story file
+  (titled under the parent, e.g. `Components/FileUploader/FileUploaderItem`).
 - **Static files** (e.g. sample media) go in `.storybook/public/` and are
   referenced by relative URLs (`demo-support/sample-audio.mp3`), so they work
   under any deploy path.
@@ -1008,20 +1009,18 @@ npm `files` list.
   page and break the run. `vite.config.mjs`'s storybook project scans every
   story up front and pre-bundles the lazily loaded modules; add new ones
   there if a cold run reports "optimized dependencies changed".
-- Don't set `subcomponents` on a meta. Storybook builds the subcomponent
-  argTypes tabs through `parameters.docs.extractArgTypes`, which
-  ember-storybook doesn't provide, so the whole docs page fails with "Args
-  unsupported. See Args documentation for your framework." Give each
-  sub-component its own story file instead (its docs page gets its own args
-  table). Story tests don't catch this, since they never render docs pages;
-  check the docs page itself after a build. Fixed upstream in
-  ember-integrations/ember-storybook#81; once released, the `subcomponents`
-  can come back.
 - `storybook build` indexes the stories while Vite builds the preview, and
   ember-storybook 0.4.2 reads the story list in `buildStart` without waiting:
   a build that wins the race ships no args tables and an empty "Show code",
-  and nothing fails. `patches/ember-storybook@0.4.2.patch` waits for the
-  index until ember-storybook releases the fix.
+  and nothing fails.
+- **`patches/ember-storybook@0.4.2.patch`** carries our two upstream fixes
+  until they're released: CSF `subcomponents` support
+  (ember-integrations/ember-storybook#81) and waiting for the story index in
+  `storybook build` (the race above). It's a build of that repo's `main` with
+  both merged, `dist/*.mjs` only (no source maps). To regenerate it, build
+  the merged branch and diff its `dist` against the published 0.4.2 with
+  `git diff --no-index --no-renames`: pnpm can't apply a patch with renames,
+  and tsdown renames hashed chunks. Drop the patch once both are released.
 
 ## Porting Carbon AI Chat (`@carbon/ai-chat-components`)
 

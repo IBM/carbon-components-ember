@@ -49,6 +49,7 @@ const Demo: TOC<{ Element: null }> = <template>
 const meta = preview.meta({
   title: 'Preview/preview__Layout',
   component: Layout,
+  subcomponents: { LayoutConstraint },
   parameters: {
     controls: { include: ['density', 'size'] },
     docs: {

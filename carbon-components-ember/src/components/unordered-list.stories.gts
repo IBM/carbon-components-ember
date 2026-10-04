@@ -7,6 +7,7 @@ import UnorderedList from './unordered-list.gts';
 const meta = preview.meta({
   title: 'Components/UnorderedList',
   component: UnorderedList,
+  subcomponents: { ListItem },
   parameters: {
     docs: {
       description: {
