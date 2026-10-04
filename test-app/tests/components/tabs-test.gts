@@ -92,7 +92,69 @@ module('Integration | Component | Tabs', (hooks) => {
     assert.dom('[role="tab"]').exists({ count: 2 });
     assert.dom('[role="tab"]:first-child').hasAttribute('aria-selected', 'true');
     assert.dom('[role="tab"]:last-of-type').hasAttribute('aria-selected', 'false');
-    assert.dom('[role="tabpanel"]').hasText('Content 1');
+    assert.dom('[role="tabpanel"]:not([hidden])').hasText('Content 1');
+  });
+
+  test('without @isDefault or @selectedTab, the first enabled tab is selected by default', async function (assert) {
+    await render(
+      <template>
+        <Tabs as |TabPane|>
+          <TabPane @title='Tab 1'>Content 1</TabPane>
+          <TabPane @title='Tab 2'>Content 2</TabPane>
+        </Tabs>
+      </template>,
+    );
+
+    assert.dom('[role="tab"]:first-child').hasAttribute('aria-selected', 'true');
+    assert.dom('[role="tab"]:last-of-type').hasAttribute('aria-selected', 'false');
+    assert.dom('[role="tabpanel"]:not([hidden])').hasText('Content 1');
+  });
+
+  test('without @isDefault, if the first tab is disabled, the first enabled tab is selected', async function (assert) {
+    await render(
+      <template>
+        <Tabs as |TabPane|>
+          <TabPane @title='Tab 1' @disabled={{true}}>Content 1</TabPane>
+          <TabPane @title='Tab 2'>Content 2</TabPane>
+        </Tabs>
+      </template>,
+    );
+
+    assert.dom('[role="tab"]:first-child').hasAttribute('aria-selected', 'false');
+    assert.dom('[role="tab"]:last-of-type').hasAttribute('aria-selected', 'true');
+    assert.dom('[role="tabpanel"]:not([hidden])').hasText('Content 2');
+  });
+
+  test('all tab panels are always rendered in the DOM, with unselected panels marked hidden', async function (assert) {
+    await render(
+      <template>
+        <Tabs as |TabPane|>
+          <TabPane @title='Tab 1'>Content 1</TabPane>
+          <TabPane @title='Tab 2'>Content 2</TabPane>
+          <TabPane @title='Tab 3'>Content 3</TabPane>
+        </Tabs>
+      </template>,
+    );
+
+    const panels = document.querySelectorAll('[role="tabpanel"]');
+    assert.strictEqual(panels.length, 3, 'all 3 panels are mounted in the DOM');
+
+    const tabs = document.querySelectorAll('[role="tab"]');
+    tabs.forEach((tab, index) => {
+      const controlsId = tab.getAttribute('aria-controls');
+      assert.ok(controlsId, `tab ${index} has aria-controls`);
+      const targetPanel = document.getElementById(controlsId!);
+      assert.ok(targetPanel, `panel with id="${controlsId}" exists in the DOM`);
+    });
+
+    assert.dom(panels[0]!).doesNotHaveAttribute('hidden');
+    assert.dom(panels[0]!).hasAttribute('tabindex', '0');
+
+    assert.dom(panels[1]!).hasAttribute('hidden');
+    assert.dom(panels[1]!).doesNotHaveAttribute('tabindex');
+
+    assert.dom(panels[2]!).hasAttribute('hidden');
+    assert.dom(panels[2]!).doesNotHaveAttribute('tabindex');
   });
 
   test('clicking a tab selects it', async function (assert) {
@@ -108,7 +170,7 @@ module('Integration | Component | Tabs', (hooks) => {
     await click('[role="tab"]:last-of-type');
 
     assert.dom('[role="tab"]:last-of-type').hasAttribute('aria-selected', 'true');
-    assert.dom('[role="tabpanel"]').hasText('Content 2');
+    assert.dom('[role="tabpanel"]:not([hidden])').hasText('Content 2');
   });
 
   test('@selectedTab/@tabSelected support controlled selection', async function (assert) {

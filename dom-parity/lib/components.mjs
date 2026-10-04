@@ -523,19 +523,13 @@
  *    compared against upstream's real, still-exported standalone
  *    `TabContent` (not `TabPanel`); the `Tabs` fixture's `selected-panel`
  *    variant separately compares Ember's yielded pane against `TabPanel`.
- *    One behavioural gap noted but not fixed, since it isn't DOM: Ember's
- *    `Tabs` selects nothing until a pane passes `@isDefault` (or
- *    `@selectedTab` is set), where upstream defaults to index 0 - every
- *    Ember render case here passes `@isDefault` explicitly. A second one
- *    this harness can't surface at all (the tablist subtree excludes the
- *    panels, and `selected-panel` only compares the selected one): Ember's
- *    yielded pane renders nothing while unselected, where upstream renders
- *    every `TabPanel` and marks inactive ones `hidden` - so Ember's
- *    unselected tabs' `aria-controls` point at ids that don't exist (the
- *    standalone `TabContent` does render `hidden` correctly). Everything else
- *    found is recorded in `known-differences.json` (notably Tabs' native
- *    `disabled` attribute and viewport-gated `fullWidth`, and Accordion's
- *    hardcoded `cds--accordion--md` class). Still open under this item:
+ *    Two former behavioural gaps now fixed: Ember's `Tabs` now selects
+ *    the first enabled tab by default when neither `@isDefault` nor
+ *    `@selectedTab` is set (matching upstream's `defaultSelectedIndex=0`),
+ *    and unselected `TabPane` instances are now always rendered with
+ *    `hidden` (matching upstream's `TabPanel` behaviour) so `aria-controls`
+ *    always resolves to an existing DOM id. All remaining parity items
+ *    found are recorded in `known-differences.json`. Still open under this item:
  *    TreeView+Pagination+List (Pagination's item-per-page control isn't
  *    gated by the interaction/floating-ui decision above - React's own
  *    `Pagination` renders it with React's native `Select`/`SelectItem`, no

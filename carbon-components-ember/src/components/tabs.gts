@@ -86,17 +86,19 @@ class TabPane extends Component<TabPaneSignature> {
     });
   }
   <template>
-    {{#if this.isSelected}}
-      <div
-        class='cds--tab-content'
-        aria-labelledby='{{@tab.guid}}-tab-{{this.index}}'
-        id='{{@tab.guid}}-tabpanel-{{this.index}}'
-        tabindex='0'
-        role='tabpanel'
-      >
-        {{yield}}
-      </div>
-    {{/if}}
+    {{! Always rendered (matching @carbon/react which always mounts every
+        TabPanel); hidden when not selected so that aria-controls on the
+        tab buttons always points at an existing element. }}
+    <div
+      class='cds--tab-content'
+      aria-labelledby='{{@tab.guid}}-tab-{{this.index}}'
+      id='{{@tab.guid}}-tabpanel-{{this.index}}'
+      tabindex={{if this.isSelected '0'}}
+      role='tabpanel'
+      hidden={{unless this.isSelected true}}
+    >
+      {{yield}}
+    </div>
   </template>
 }
 
@@ -155,7 +157,10 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
     if (this.args.selectedTab) {
       return this.tabs.find((t) => t.args.title === this.args.selectedTab);
     }
-    return this.currentTab;
+    // Uncontrolled: fall back to the first enabled tab when no explicit
+    // default has been set yet (matching @carbon/react which always selects
+    // index 0 unless overridden via defaultSelectedIndex).
+    return this.currentTab ?? this.enabledTabs[0];
   }
 
   get focusableTab(): TabPane | undefined {
