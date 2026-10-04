@@ -1,13 +1,15 @@
 name: Setup Node and pnpm
 description: >
-  Installs Node, enables the pnpm version pinned in package.json#packageManager
-  (via Corepack, which also verifies its integrity hash) and restores the pnpm
-  store cache. Uses only GitHub-owned actions, as the IBM org policy requires.
+  Installs the Node version pinned in package.json#devEngines.runtime, enables
+  the pnpm version pinned in package.json#packageManager (via Corepack, which
+  also verifies its integrity hash) and restores the pnpm store cache. Uses
+  only GitHub-owned actions, as the IBM org policy requires (it blocks
+  pnpm/action-setup).
 
 inputs:
   node-version:
-    description: Node.js version
-    default: '24'
+    description: Node.js version, instead of the one package.json pins
+    default: ''
   registry-url:
     description: Optional registry for an .npmrc that reads NODE_AUTH_TOKEN
     default: ''
@@ -18,6 +20,7 @@ runs:
     - uses: actions/setup-node@v7
       with:
         node-version: ${{ inputs.node-version }}
+        node-version-file: package.json
         registry-url: ${{ inputs.registry-url }}
         # The pnpm store is cached below, once Corepack has enabled pnpm.
         package-manager-cache: false

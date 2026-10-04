@@ -795,6 +795,11 @@ file that mention `test-app/...` paths predate the migration and now mean
   less than a day ago, so a freshly released version can't be added until
   it's a day old; Dependabot waits a day (`cooldown`) for the same reason.
   pnpm 12 also dropped `-s`; use `--reporter=silent` / `--silent`.
+- **Node is pinned** in the root `package.json#devEngines.runtime` (`^24`,
+  `onFail: download`): pnpm resolves it into the lockfile with a checksum per
+  platform and runs scripts (and `pnpm exec node`) with that version. CI's
+  `setup-node` reads the same field (`node-version-file: package.json`), so
+  bump the version there, nowhere else.
 - **CI** (`.github/workflows/nodejs.yml`) runs Lint and Test as separate
   jobs, then the `.try.mjs` scenarios. **Docs** (`.github/workflows/docs.yml`)
   runs the story tests in shards and builds the Storybook in parallel; its
