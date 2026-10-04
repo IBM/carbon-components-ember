@@ -1,0 +1,81 @@
+diff --git a/dist/preset.mjs b/dist/preset.mjs
+index ee1116a4c2fd217dce9875f3c80f267300916488..08828ddcd31c9aaa4bbf7500ea47c54b061f783a 100644
+--- a/dist/preset.mjs
++++ b/dist/preset.mjs
+@@ -1149,6 +1149,7 @@ function signaturesContributor(api) {
+ 	return {
+ 		name: "ember-storybook:signatures",
+ 		async buildStart() {
++			await api.storyFilesReady();
+ 			discoverAll();
+ 			const allPaths = [...new Set(Array.from(state.storyToRef.values(), (r) => r.componentPath))];
+ 			state = await addSignatures(state, allPaths);
+@@ -1246,7 +1247,8 @@ function metaContributor(api) {
+ 	}
+ 	return {
+ 		name: "ember-storybook:meta",
+-		buildStart() {
++		async buildStart() {
++			await api.storyFilesReady();
+ 			syncAll();
+ 		},
+ 		configureServer(server) {
+@@ -1299,7 +1301,8 @@ function sourceContributor(api) {
+ 	}
+ 	return {
+ 		name: "ember-storybook:source",
+-		buildStart() {
++		async buildStart() {
++			await api.storyFilesReady();
+ 			const files = getStoryFiles().filter((f) => isStoryFile(f));
+ 			const data = {};
+ 			for (const file of files) data[file] = extractSource(file);
+@@ -1325,16 +1328,27 @@ function sourceContributor(api) {
+ }
+ //#endregion
+ //#region src/node/vite-plugin.ts
+-function emberStorybookPlugin() {
++function emberStorybookPlugin(options = {}) {
+ 	const contributions = /* @__PURE__ */ new Map();
++	let isBuild = false;
+ 	const api = {
+ 		contribute(name, data) {
+ 			contributions.set(name, data);
+ 			api.invalidate?.();
+ 		},
+-		getContributions: () => contributions
++		getContributions: () => contributions,
++		async storyFilesReady() {
++			if (isBuild) await options.waitForStoryIndex?.();
++		}
++	};
++	const buildMode = {
++		name: "ember-storybook:build-mode",
++		configResolved(config) {
++			isBuild = config.command === "build";
++		}
+ 	};
+ 	return [
++		buildMode,
+ 		emberStorybookVitePlugin(api),
+ 		metaContributor(api),
+ 		sourceContributor(api),
+@@ -1366,13 +1380,16 @@ const previewAnnotations = async (entries = [], options) => {
+ 	return annotations;
+ };
+ const managerEntries = (entries = []) => [...entries, fileURLToPath(import.meta.resolve("ember-storybook/manager"))];
+-const viteFinal = async (config) => {
++const viteFinal = async (config, options) => {
+ 	const { mergeConfig } = await import("vite");
+ 	config.plugins = await withoutVitePlugins(config.plugins, ["embroider-content-for"]);
+ 	const docsPreviewPatch = fileURLToPath(import.meta.resolve("ember-storybook/client/docs/preview-patch"));
+ 	const docsAddonFactory = fileURLToPath(import.meta.resolve("ember-storybook/client/docs/addon-preview"));
+ 	return mergeConfig(config, {
+-		plugins: [...emberStorybookPlugin(), docsRendererPlugin(docsPreviewPatch, docsAddonFactory)],
++		plugins: [...emberStorybookPlugin({ waitForStoryIndex: async () => {
++			const generator = await options.presets.apply("storyIndexGenerator");
++			await generator?.getIndex();
++		} }), docsRendererPlugin(docsPreviewPatch, docsAddonFactory)],
+ 		optimizeDeps: { exclude: ["object-inspect"] },
+ 		resolve: { dedupe: ["ember-source"] }
+ 	});

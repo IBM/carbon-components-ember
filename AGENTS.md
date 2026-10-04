@@ -969,7 +969,8 @@ npm `files` list.
   under any deploy path.
 - **Toolbar tools** (`.storybook/site-tools.ts`): a version switcher (lists
   `versions/*` on gh-pages) and an "Edit this page" link to the current story
-  file.
+  file. They use Storybook's `Select` and `Button` (with `ariaLabel`);
+  `IconButton`, `TooltipLinkList` and `ListItem` are deprecated in 10.6.
 - **Rendering.** Blockless components need no `render`: every arg is passed as
   `@named`. Components with blocks get a `render: (args) => <template>...`
   that reads `args.x`. Story-only args (e.g. the text yielded into a block)
@@ -1016,6 +1017,11 @@ npm `files` list.
   check the docs page itself after a build. Fixed upstream in
   ember-integrations/ember-storybook#81; once released, the `subcomponents`
   can come back.
+- `storybook build` indexes the stories while Vite builds the preview, and
+  ember-storybook 0.4.2 reads the story list in `buildStart` without waiting:
+  a build that wins the race ships no args tables and an empty "Show code",
+  and nothing fails. `patches/ember-storybook@0.4.2.patch` waits for the
+  index until ember-storybook releases the fix.
 
 ## Porting Carbon AI Chat (`@carbon/ai-chat-components`)
 
