@@ -253,9 +253,7 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
   focusTabElement(tab?: TabPane) {
     if (!tab) return;
     const index = this.tabs.indexOf(tab);
-    const element = this.tabsDivElement?.querySelector<HTMLElement>(
-      `[data-tab-index="${index}"]`,
-    );
+    const element = document.getElementById(`${this.guid}-tab-${index}`);
     element?.focus();
   }
 
@@ -435,7 +433,6 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
               disabled={{this.isTabDisabled tab}}
               id='{{this.guid}}-tab-{{index}}'
               role='tab'
-              data-tab-index={{index}}
               class='cds--tabs__nav-item cds--tabs__nav-link
                 {{if tab.isSelected "cds--tabs__nav-item--selected"}}
                 {{if (this.isTabDisabled tab) "cds--tabs__nav-item--disabled"}}'

@@ -810,24 +810,12 @@
       "reason": "Harness limitation, not a functional gap: each tab's `aria-controls` points at its `TabPanel`, which lives *outside* the picked `cds--tabs` subtree (upstream's panels are siblings of `TabList`, Ember's are siblings of its `cds--tabs` div), so normalize-dom.mjs can't canonicalize the reference and compares the raw generated ids (`ccs-<useId>-tabpanel-N` vs. `<guidFor>-tabpanel-N`). Both sides use the same `<base>-tabpanel-<index>` scheme, and all panels are always mounted (inactive ones `hidden`, matching upstream). Applies to every tablist variant."
     },
     {
-      "path": "div > div[1] > button[0].attributes.data-tab-index",
-      "reason": "Ember-only internal hook: `focusTabElement` uses `[data-tab-index=\"N\"]` to find the tab button to move roving focus to. Upstream keeps its tab nodes in a ref array instead, so renders nothing comparable. Harmless extra attribute. Applies to every tablist variant."
-    },
-    {
       "path": "div > div[1] > button[2].attributes.aria-controls",
       "reason": "Same out-of-subtree id-reference limitation as the `button[0]` entry above. Applies to every tablist variant."
     },
     {
-      "path": "div > div[1] > button[2].attributes.data-tab-index",
-      "reason": "Same Ember-only `data-tab-index` focus hook as the `button[0]` entry above. Applies to every tablist variant."
-    },
-    {
       "path": "div > div[1] > button[4].attributes.aria-controls",
       "reason": "Same out-of-subtree id-reference limitation as the `button[0]` entry above. Applies to every tablist variant."
-    },
-    {
-      "path": "div > div[1] > button[4].attributes.data-tab-index",
-      "reason": "Same Ember-only `data-tab-index` focus hook as the `button[0]` entry above. Applies to every tablist variant."
     },
     {
       "path": "div.attributes.aria-labelledby",
