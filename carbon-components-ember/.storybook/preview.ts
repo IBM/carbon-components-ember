@@ -10,6 +10,7 @@ import addonVitest from '@storybook/addon-vitest';
 import { definePreview } from 'ember-storybook';
 
 import { createApp } from './app.ts';
+import theme from './theme.ts';
 
 export default definePreview({
   addons: [addonDocs(), addonA11y(), addonThemes(), addonVitest()],
@@ -36,6 +37,7 @@ export default definePreview({
     },
     docs: {
       codePanel: true,
+      theme,
     },
     ember: {
       app: createApp,

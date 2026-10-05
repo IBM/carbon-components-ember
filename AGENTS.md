@@ -1013,14 +1013,31 @@ npm `files` list.
   ember-storybook 0.4.2 reads the story list in `buildStart` without waiting:
   a build that wins the race ships no args tables and an empty "Show code",
   and nothing fails.
-- **`patches/ember-storybook@0.4.2.patch`** carries our two upstream fixes
-  until they're released: CSF `subcomponents` support
-  (ember-integrations/ember-storybook#81) and waiting for the story index in
-  `storybook build` (the race above). It's a build of that repo's `main` with
-  both merged, `dist/*.mjs` only (no source maps). To regenerate it, build
-  the merged branch and diff its `dist` against the published 0.4.2 with
+- **`patches/ember-storybook@0.4.2.patch`** carries our three upstream fixes
+  until they're released:
+  - CSF `subcomponents` support (ember-integrations/ember-storybook#81);
+  - waiting for the story index in `storybook build` (the race above);
+  - sharing one `@mdx-js/react` with the MDX pages. 0.4.2 bundles its own
+    copy, so `.mdx` pages (the Introduction) never got Storybook's
+    components: code blocks rendered as bare `<pre>`, unhighlighted and
+    unreadable in dark mode. `packageExtensions` in `pnpm-workspace.yaml`
+    declares the dependency the patched build imports.
+
+  The patch is a build of that repo's `main` with all three merged,
+  `dist/*.mjs` only (no source maps). To regenerate it, build the merged
+  branch and diff its `dist` against the published 0.4.2 with
   `git diff --no-index --no-renames`: pnpm can't apply a patch with renames,
-  and tsdown renames hashed chunks. Drop the patch once both are released.
+  and tsdown renames hashed chunks. Drop the patch (and the
+  `packageExtensions` entry) once all three are released.
+- **Look and feel** follows @carbon/react's Storybook: `.storybook/theme.ts`
+  (manager and docs pages) follows the OS light/dark preference and uses IBM
+  Plex (the manager gets Carbon's Plex `@font-face` rules via `managerHead`).
+  Story blocks show the Carbon theme picked in the toolbar
+  (`var(--cds-background)`, in `previewHead`), and Storybook's loading
+  placeholders are dark in dark mode. The logo lightens its outline in dark
+  mode; the Introduction page swaps in `ember-carbon-components-dark.svg`
+  through `<picture>`, since Carbon's theme class forces `color-scheme:
+  light` on the preview page, which an `<img>` SVG follows.
 
 ## Porting Carbon AI Chat (`@carbon/ai-chat-components`)
 

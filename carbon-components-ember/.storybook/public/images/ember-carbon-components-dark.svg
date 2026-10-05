@@ -2,10 +2,7 @@
      height="254" viewBox="0 0 1080 1080" xml:space="preserve">
 <desc>Created with Fabric.js 5.2.4</desc>
 <style>
-  /* The outline is black on light backgrounds; light on dark ones. */
-  @media (prefers-color-scheme: dark) {
-    path:not([style*="fill:"]) { fill: #f4f4f4; }
-  }
+  path:not([style*="fill:"]) { fill: #f4f4f4; }
 </style>
   <defs>
 </defs>
