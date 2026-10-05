@@ -12,8 +12,15 @@ export default defineMain({
 
   framework: 'ember-storybook',
 
-  // Sample media for the AudioPlayer and VideoPlayer stories.
+  // The logo, and sample media for the AudioPlayer and VideoPlayer stories.
   staticDirs: ['./public'],
+
+  // The project logo as the favicon (relative, so it works under any
+  // deploy path). Browsers use the last icon link, so it wins over
+  // Storybook's own.
+  managerHead: (head) => `${head}
+    <link rel="icon" type="image/svg+xml" href="images/ember-carbon-components.svg" />
+  `,
 
   // ember-basic-dropdown (behind Select, Dropdown, ...) renders its content
   // into this element, which apps add to their application template.
