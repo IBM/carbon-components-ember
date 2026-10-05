@@ -357,6 +357,19 @@ index 09c0a8a..107863b 100644
  import { t as Page } from "../../page-BACn1xH0.mjs";
  //#region src/client/docs/config.ts
  const docs = parameters$1.docs;
+diff --git a/dist/client/docs/renderer.mjs b/dist/client/docs/renderer.mjs
+index c8df731..6ab3bca 100644
+--- a/dist/client/docs/renderer.mjs
++++ b/dist/client/docs/renderer.mjs
+@@ -21,7 +21,7 @@ var ErrorBoundary = class extends Component {
+ };
+ var DocsRenderer = class {
+ 	render = async (context, docsParameter, element) => {
+-		const { MDXProvider } = await import("../../react-BcVz11Jd.mjs");
++		const { MDXProvider } = await import("@mdx-js/react");
+ 		const components = {
+ 			...defaultComponents,
+ 			...docsParameter.components
 diff --git a/dist/client/index.mjs b/dist/client/index.mjs
 index d90a7f7..be9841a 100644
 --- a/dist/client/index.mjs
@@ -1005,3 +1018,74 @@ index ee1116a..6640b92 100644
  		optimizeDeps: { exclude: ["object-inspect"] },
  		resolve: { dedupe: ["ember-source"] }
  	});
+diff --git a/dist/react-BcVz11Jd.mjs b/dist/react-BcVz11Jd.mjs
+deleted file mode 100644
+index b474ca5..0000000
+--- a/dist/react-BcVz11Jd.mjs
++++ /dev/null
+@@ -1,64 +0,0 @@
+-import React from "react";
+-//#region ../node_modules/.pnpm/@mdx-js+react@3.1.1_@types+react@19.2.17_react@19.2.7/node_modules/@mdx-js/react/lib/index.js
+-/**
+-* @import {MDXComponents} from 'mdx/types.js'
+-* @import {Component, ReactElement, ReactNode} from 'react'
+-*/
+-/**
+-* @callback MergeComponents
+-*   Custom merge function.
+-* @param {Readonly<MDXComponents>} currentComponents
+-*   Current components from the context.
+-* @returns {MDXComponents}
+-*   Additional components.
+-*
+-* @typedef Props
+-*   Configuration for `MDXProvider`.
+-* @property {ReactNode | null | undefined} [children]
+-*   Children (optional).
+-* @property {Readonly<MDXComponents> | MergeComponents | null | undefined} [components]
+-*   Additional components to use or a function that creates them (optional).
+-* @property {boolean | null | undefined} [disableParentContext=false]
+-*   Turn off outer component context (default: `false`).
+-*/
+-/** @type {Readonly<MDXComponents>} */
+-const emptyComponents = {};
+-const MDXContext = React.createContext(emptyComponents);
+-/**
+-* Get current components from the MDX Context.
+-*
+-* @param {Readonly<MDXComponents> | MergeComponents | null | undefined} [components]
+-*   Additional components to use or a function that creates them (optional).
+-* @returns {MDXComponents}
+-*   Current components.
+-*/
+-function useMDXComponents(components) {
+-	const contextComponents = React.useContext(MDXContext);
+-	return React.useMemo(function() {
+-		if (typeof components === "function") return components(contextComponents);
+-		return {
+-			...contextComponents,
+-			...components
+-		};
+-	}, [contextComponents, components]);
+-}
+-/**
+-* Provider for MDX context.
+-*
+-* @param {Readonly<Props>} properties
+-*   Properties.
+-* @returns {ReactElement}
+-*   Element.
+-* @satisfies {Component}
+-*/
+-function MDXProvider(properties) {
+-	/** @type {Readonly<MDXComponents>} */
+-	let allComponents;
+-	if (properties.disableParentContext) allComponents = typeof properties.components === "function" ? properties.components(emptyComponents) : properties.components || emptyComponents;
+-	else allComponents = useMDXComponents(properties.components);
+-	return React.createElement(MDXContext.Provider, { value: allComponents }, properties.children);
+-}
+-//#endregion
+-export { MDXProvider };
+-
+-//# sourceMappingURL=react-BcVz11Jd.mjs.map
+\ No newline at end of file
