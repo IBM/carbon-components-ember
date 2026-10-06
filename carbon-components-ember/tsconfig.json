@@ -9,7 +9,8 @@
     "src/**/*",
     "tests/**/*",
     "unpublished-development-types/**/*",
-    "demo-app/**/*"
+    "demo-app/**/*",
+    ".storybook/**/*"
   ],
   "compilerOptions": {
     // The DOM-parity tests import the untyped ../dom-parity/lib/*.mjs

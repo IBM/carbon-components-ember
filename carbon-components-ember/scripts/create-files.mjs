@@ -12,6 +12,7 @@ function createIndexFiles() {
   for (const addonFilename of files) {
     if (!addonFilename.includes('.')) continue;
     if (addonFilename.includes('.gitkeep')) continue;
+    if (/\.stories\.[gt]?[jt]s$|\.mdx$/.test(addonFilename)) continue;
     if (addonFilename.includes('components/index.ts')) continue;
     if (addonFilename.includes('helpers/index.ts')) continue;
     if (addonFilename.includes('render-svg-part.ts')) continue;

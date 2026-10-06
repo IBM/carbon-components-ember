@@ -1,0 +1,11 @@
+import { addons } from 'storybook/manager-api';
+import { create } from 'storybook/theming';
+
+addons.setConfig({
+  theme: create({
+    base: 'light',
+    brandTitle: 'Carbon Components Ember',
+    brandUrl: 'https://github.com/IBM/carbon-components-ember',
+    brandTarget: '_blank',
+  }),
+});

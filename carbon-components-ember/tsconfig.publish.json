@@ -6,6 +6,8 @@
 {
   "extends": "@ember/library-tsconfig",
   "include": ["./src/**/*", "./unpublished-development-types/**/*"],
+  // Storybook stories are colocated with components but never published.
+  "exclude": ["./src/**/*.stories.*"],
   "compilerOptions": {
     "allowJs": true,
     "declarationDir": "declarations",

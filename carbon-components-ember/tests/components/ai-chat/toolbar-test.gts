@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, waitUntil, find } from '@ember/test-helpers';
+import { render, click, waitUntil, find, settled } from '@ember/test-helpers';
+import { trackedObject } from '@ember/reactive/collections';
 import Toolbar from '#src/components/ai-chat/toolbar.gts';
 import type { ToolbarAction } from '#src/components/ai-chat/toolbar.gts';
 import { Add, Settings } from '#src/icons.ts';
@@ -101,6 +102,42 @@ module('Integration | Component | ai-chat/Toolbar', (hooks) => {
       visibleButtons.length < actions.length,
       'fewer than all actions render as visible buttons',
     );
+  });
+
+  test('@overflow renders the current @actions after they change (no stale measurement)', async function (assert) {
+    const calls: string[] = [];
+    const state = trackedObject({
+      actions: [
+        { text: 'Add', icon: Add, onClick: () => calls.push('old') },
+      ] as ToolbarAction[],
+    });
+
+    await render(
+      <template>
+        <style>
+          .cds-aichat-toolbar__measure {
+            position: absolute;
+            visibility: hidden;
+            pointer-events: none;
+          }
+        </style>
+        <Toolbar @overflow={{true}} @actions={{state.actions}} />
+      </template>,
+    );
+
+    // Let the ResizeObserver fire and the deferred measurement run.
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    await settled();
+
+    // Same number of actions, so the overflow split doesn't change.
+    state.actions = [
+      { text: 'Add', icon: Add, onClick: () => calls.push('new') },
+    ];
+    await settled();
+
+    await click('.cds-aichat-toolbar__actions-container button');
+    assert.deepEqual(calls, ['new'], 'the current action handler runs');
   });
 
   test('a fixedActions block renders after the action list', async function (assert) {

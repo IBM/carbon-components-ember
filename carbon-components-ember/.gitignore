@@ -22,3 +22,7 @@ node_modules/
 
 # potentially containing secrets
 *.local
+
+# storybook
+storybook-static/
+*storybook.log
