@@ -39,7 +39,10 @@ export function registerSuggestionCommand(
 }
 
 /** No-ops unless `pluginKey` is still the one currently registered — avoids one trigger's `onExit` clobbering another's just-started state. */
-export function unregisterSuggestionCommand(editor: Editor, pluginKey: PluginKey): void {
+export function unregisterSuggestionCommand(
+  editor: Editor,
+  pluginKey: PluginKey,
+): void {
   if (activeByEditor.get(editor)?.pluginKey === pluginKey) {
     activeByEditor.delete(editor);
   }
@@ -50,7 +53,10 @@ export function hasActiveSuggestion(editor: Editor): boolean {
 }
 
 /** Completes the active mention/command/autocomplete trigger with `item`. Returns `false` if none is active. */
-export function selectActiveSuggestion(editor: Editor, item: SuggestionItem): boolean {
+export function selectActiveSuggestion(
+  editor: Editor,
+  item: SuggestionItem,
+): boolean {
   const active = activeByEditor.get(editor);
   if (!active) {
     return false;

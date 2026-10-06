@@ -115,8 +115,10 @@
   cursor: default;
 }
 
-.cds-aichat-chain-of-thought-step--odd .cds-aichat-chain-of-thought-step__header,
-.cds-aichat-chain-of-thought-step--odd .cds-aichat-chain-of-thought-step__static {
+.cds-aichat-chain-of-thought-step--odd
+  .cds-aichat-chain-of-thought-step__header,
+.cds-aichat-chain-of-thought-step--odd
+  .cds-aichat-chain-of-thought-step__static {
   background: var(--cds-layer-02, #ffffff);
 }
 
@@ -175,7 +177,9 @@
   max-inline-size: 100%;
 }
 
-.cds-aichat-chain-of-thought-toggle--open .cds-aichat-chain-of-thought-toggle__chevron svg {
+.cds-aichat-chain-of-thought-toggle--open
+  .cds-aichat-chain-of-thought-toggle__chevron
+  svg {
   transform: rotate(0deg);
 }
 

@@ -31,19 +31,27 @@ export interface ChatHistoryContentSignature {
  */
 export default class ChatHistoryContent extends Component<ChatHistoryContentSignature> {
   get shouldDisplay() {
-    return this.args.resultsCount !== undefined && this.args.resultsCount !== null && this.args.resultsCount !== '';
+    return (
+      this.args.resultsCount !== undefined &&
+      this.args.resultsCount !== null &&
+      this.args.resultsCount !== ''
+    );
   }
 
   get displayText() {
     const label = this.args.resultsLabel ?? 'Results';
-    return this.shouldDisplay && label ? `${label}: ${this.args.resultsCount}` : this.args.resultsCount;
+    return this.shouldDisplay && label
+      ? `${label}: ${this.args.resultsCount}`
+      : this.args.resultsCount;
   }
 
   <template>
-    <div class='cds-aichat-history-content' ...attributes>
-      <div class='cds-aichat-history-content__container' aria-live='polite'>
+    <div class="cds-aichat-history-content" ...attributes>
+      <div class="cds-aichat-history-content__container" aria-live="polite">
         {{#if this.shouldDisplay}}
-          <span class='cds-aichat-history-content__results-count'>{{this.displayText}}</span>
+          <span
+            class="cds-aichat-history-content__results-count"
+          >{{this.displayText}}</span>
         {{/if}}
       </div>
       {{yield}}

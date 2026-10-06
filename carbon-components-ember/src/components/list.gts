@@ -107,10 +107,10 @@ export default class ListComponent<T> extends Component<
       <ListSkeletonComponent />
     {{else}}
       <section
-        class='cds--structured-list
+        class="cds--structured-list
           {{this.styles.namespace}}
-          {{if @selectable "cds--structured-list--selection"}}'
-        style='position: relative;'
+          {{if @selectable 'cds--structured-list--selection'}}"
+        style="position: relative;"
         {{this.delayItems}}
       >
         {{yield
@@ -121,7 +121,7 @@ export default class ListComponent<T> extends Component<
               value=this.currentSearch
               onChange=(fn (mut this.currentSearch))
               light=true
-              size='sm'
+              size="sm"
             )
             Pagination=(component
               CarbonPagination

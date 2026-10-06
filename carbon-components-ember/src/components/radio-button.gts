@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
-import RadioButtonGroup from './radio-button/group.gts';
+import type RadioButtonGroup from './radio-button/group.gts';
 import { on } from '@ember/modifier';
 import { defaultArgs } from '../utils/decorators.ts';
 
@@ -20,7 +20,11 @@ export interface Signature {
     readOnly?: boolean;
     required?: boolean;
     group?: RadioButtonGroup;
-    onChange?: (value: Value | undefined, name: string | undefined, event: Event) => void;
+    onChange?: (
+      value: Value | undefined,
+      name: string | undefined,
+      event: Event,
+    ) => void;
     onClick?: (event: MouseEvent) => void;
   };
   Element: HTMLDivElement;
@@ -65,7 +69,9 @@ export default class RadioButton extends Component<Signature> {
   }
 
   get labelPosition() {
-    return this.args.labelPosition ?? this.args.group?.args.labelPosition ?? 'right';
+    return (
+      this.args.labelPosition ?? this.args.group?.args.labelPosition ?? 'right'
+    );
   }
 
   get wrapperClass() {
@@ -98,8 +104,8 @@ export default class RadioButton extends Component<Signature> {
   <template>
     <div class={{this.wrapperClass}} ...attributes>
       <input
-        type='radio'
-        class='cds--radio-button'
+        type="radio"
+        class="cds--radio-button"
         id={{this.id}}
         value={{@value}}
         disabled={{this.disabled}}
@@ -107,15 +113,15 @@ export default class RadioButton extends Component<Signature> {
         required={{this.required}}
         name={{this.name}}
         checked={{this.checked}}
-        {{on 'click' this.handleClick}}
-        {{on 'change' this.handleChange}}
+        {{on "click" this.handleClick}}
+        {{on "change" this.handleChange}}
       />
-      <label for={{this.id}} class='cds--radio-button__label'>
-        <span class='cds--radio-button__appearance'></span>
+      <label for={{this.id}} class="cds--radio-button__label">
+        <span class="cds--radio-button__appearance"></span>
         <span
-          class='cds--radio-button__label-text
-            {{if @hideLabel "cds--visually-hidden"}}'
-          dir='auto'
+          class="cds--radio-button__label-text
+            {{if @hideLabel 'cds--visually-hidden'}}"
+          dir="auto"
         >
           {{#if (has-block)}}
             {{yield}}

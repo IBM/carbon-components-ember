@@ -11,7 +11,7 @@ import { modifier as eModifier } from 'ember-modifier';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import { guidFor } from '@ember/object/internals';
-import { type TemplateOnlyComponent } from '@ember/component/template-only';
+import type { TemplateOnlyComponent } from '@ember/component/template-only';
 import type { ComponentLike } from '@glint/template';
 import { SendFilled } from '../../icons.ts';
 import { resetTriggerChangeState } from './-prompt-line/tiptap/trigger-utils.ts';
@@ -127,7 +127,9 @@ interface ListEntry {
   isFirst: boolean;
   isLast: boolean;
   avatarUrl?: string;
-  avatarIcon?: ComponentLike<{ Args: { size?: number; svgClass?: string; fill?: string } }>;
+  avatarIcon?: ComponentLike<{
+    Args: { size?: number; svgClass?: string; fill?: string };
+  }>;
   showSendIcon: boolean;
 }
 
@@ -152,41 +154,45 @@ const ItemRow: TemplateOnlyComponent<ItemRowSignature> = <template>
   {{! template-lint-disable require-presentational-children }}
   <li
     id={{@entry.optionId}}
-    role='option'
-    tabindex='-1'
-    aria-selected={{if @entry.isActive 'true' 'false'}}
-    aria-disabled={{if @entry.isDisabled 'true' 'false'}}
-    class='cds-aichat-autocomplete-item
-      {{if @entry.isActive "cds-aichat-autocomplete-item--active"}}
-      {{if @entry.isDisabled "cds-aichat-autocomplete-item--disabled"}}
-      {{if @entry.isFirst "cds-aichat-autocomplete-item--first"}}
-      {{if @entry.isLast "cds-aichat-autocomplete-item--last"}}'
-    {{on 'click' (fn @onItemClick @entry.item)}}
-    {{on 'mouseenter' (fn @onItemMouseEnter @entry.index)}}
+    role="option"
+    tabindex="-1"
+    aria-selected={{if @entry.isActive "true" "false"}}
+    aria-disabled={{if @entry.isDisabled "true" "false"}}
+    class="cds-aichat-autocomplete-item
+      {{if @entry.isActive 'cds-aichat-autocomplete-item--active'}}
+      {{if @entry.isDisabled 'cds-aichat-autocomplete-item--disabled'}}
+      {{if @entry.isFirst 'cds-aichat-autocomplete-item--first'}}
+      {{if @entry.isLast 'cds-aichat-autocomplete-item--last'}}"
+    {{on "click" (fn @onItemClick @entry.item)}}
+    {{on "mouseenter" (fn @onItemMouseEnter @entry.index)}}
   >
-    <div class='cds-aichat-autocomplete-item__content'>
+    <div class="cds-aichat-autocomplete-item__content">
       {{#if @entry.avatarUrl}}
-        <div class='cds-aichat-autocomplete-item__avatar'>
-          <img src={{@entry.avatarUrl}} alt='' />
+        <div class="cds-aichat-autocomplete-item__avatar">
+          <img src={{@entry.avatarUrl}} alt="" />
         </div>
       {{else if @entry.avatarIcon}}
-        <div class='cds-aichat-autocomplete-item__avatar'>
+        <div class="cds-aichat-autocomplete-item__avatar">
           <@entry.avatarIcon @size={{16}} />
         </div>
       {{/if}}
-      <div class='cds-aichat-autocomplete-item__text'>
-        <div class='cds-aichat-autocomplete-item__label'>
-          {{!-- Upstream's typed/remainder label split is permanently dead code (see class doc) - always rendered plain, under __label-remainder so the disabled-state color rule still applies. --}}
-          <span class='cds-aichat-autocomplete-item__label-remainder'>{{@entry.item.label}}</span>
+      <div class="cds-aichat-autocomplete-item__text">
+        <div class="cds-aichat-autocomplete-item__label">
+          {{! Upstream's typed/remainder label split is permanently dead code (see class doc) - always rendered plain, under __label-remainder so the disabled-state color rule still applies. }}
+          <span
+            class="cds-aichat-autocomplete-item__label-remainder"
+          >{{@entry.item.label}}</span>
         </div>
         {{#if @entry.item.description}}
-          <div class='cds-aichat-autocomplete-item__description'>{{@entry.item.description}}</div>
+          <div
+            class="cds-aichat-autocomplete-item__description"
+          >{{@entry.item.description}}</div>
         {{/if}}
       </div>
     </div>
     {{#if @entry.showSendIcon}}
-      <span aria-hidden='true' class='cds-aichat-autocomplete-item__send-icon'>
-        <SendFilled @size='16' />
+      <span aria-hidden="true" class="cds-aichat-autocomplete-item__send-icon">
+        <SendFilled @size="16" />
       </span>
     {{/if}}
   </li>
@@ -198,7 +204,10 @@ const ItemRow: TemplateOnlyComponent<ItemRowSignature> = <template>
  * `groupId`. Ported from `@carbon/ai-chat-components`' `autocomplete-controller.ts`'s
  * `itemsToGroups`, unchanged in substance.
  */
-function itemsToGroups(flat: SuggestionItem[]): { items: SuggestionItem[]; groups: SuggestionItemGroup[] } {
+function itemsToGroups(flat: SuggestionItem[]): {
+  items: SuggestionItem[];
+  groups: SuggestionItemGroup[];
+} {
   const items: SuggestionItem[] = [];
   const groupMap = new Map<string, SuggestionItemGroup>();
   const groupOrder: string[] = [];
@@ -217,12 +226,17 @@ function itemsToGroups(flat: SuggestionItem[]): { items: SuggestionItem[]; group
   }
   return {
     items,
-    groups: groupOrder.map((id) => groupMap.get(id)).filter((g): g is SuggestionItemGroup => g !== undefined),
+    groups: groupOrder
+      .map((id) => groupMap.get(id))
+      .filter((g): g is SuggestionItemGroup => g !== undefined),
   };
 }
 
 /** Resolve a config's `items` field (array or async resolver), applying `minQueryLength` filtering. Ported unchanged. */
-async function resolveConfigItems(config: BaseSuggestionConfig, query: string): Promise<SuggestionItem[]> {
+async function resolveConfigItems(
+  config: BaseSuggestionConfig,
+  query: string,
+): Promise<SuggestionItem[]> {
   const minQueryLength = config.minQueryLength ?? 0;
   if (query.length < minQueryLength) {
     return [];
@@ -234,7 +248,9 @@ async function resolveConfigItems(config: BaseSuggestionConfig, query: string): 
     return config.items;
   }
   const lower = query.toLowerCase();
-  return config.items.filter((item) => item.label.toLowerCase().includes(lower));
+  return config.items.filter((item) =>
+    item.label.toLowerCase().includes(lower),
+  );
 }
 
 /**
@@ -347,7 +363,10 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
         isFirst: false,
         isLast: false,
         avatarUrl: typeof item.avatar === 'string' ? item.avatar : undefined,
-        avatarIcon: typeof item.avatar === 'string' || !item.avatar ? undefined : item.avatar,
+        avatarIcon:
+          typeof item.avatar === 'string' || !item.avatar
+            ? undefined
+            : item.avatar,
         showSendIcon,
       };
     };
@@ -355,7 +374,8 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
     if (items.length > 0) {
       result.push({
         key: '__ungrouped__',
-        ariaLabel: groups.length > 0 ? this.i18n.nonGroupedItemsLabel : undefined,
+        ariaLabel:
+          groups.length > 0 ? this.i18n.nonGroupedItemsLabel : undefined,
         entries: items.map(makeEntry),
       });
     }
@@ -426,7 +446,9 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
     }
   }
 
-  private configFor(type: string): BaseSuggestionConfig | TriggerSuggestionConfig | undefined {
+  private configFor(
+    type: string,
+  ): BaseSuggestionConfig | TriggerSuggestionConfig | undefined {
     switch (type) {
       case 'mention':
         return this.args.mention;
@@ -455,7 +477,8 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
   // ---------------------------------------------------------------------
 
   private readonly handleTriggerChangeEvent = (event: Event) => {
-    const detail = (event as CustomEvent<TriggerChangeEventDetail | null>).detail ?? null;
+    const detail =
+      (event as CustomEvent<TriggerChangeEventDetail | null>).detail ?? null;
     this.pendingBatch.push(detail);
     if (this.batchScheduled) {
       return;
@@ -512,7 +535,9 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
     })();
   }
 
-  private async resolveItems(trigger: TriggerChangeEventDetail): Promise<SuggestionItem[]> {
+  private async resolveItems(
+    trigger: TriggerChangeEventDetail,
+  ): Promise<SuggestionItem[]> {
     if (trigger.type === 'starter') {
       return this.args.starters?.items ?? [];
     }
@@ -637,7 +662,14 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
         return;
       }
       const position = `${index + 1} of ${total}`;
-      this.announce(this.i18n.itemNavigation(item.label, item.description, this.groupTitleAt(index), position));
+      this.announce(
+        this.i18n.itemNavigation(
+          item.label,
+          item.description,
+          this.groupTitleAt(index),
+          position,
+        ),
+      );
     }, 50);
   }
 
@@ -647,7 +679,8 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
       if (this.isDestroying) {
         return;
       }
-      const options = this.popupElement?.querySelectorAll<HTMLElement>('li[role="option"]');
+      const options =
+        this.popupElement?.querySelectorAll<HTMLElement>('li[role="option"]');
       options?.[index]?.scrollIntoView({ block: 'nearest' });
     });
   }
@@ -747,17 +780,26 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
 
   attachListeners = eModifier<{ Element: HTMLDivElement }>((element) => {
     this.popupElement = element;
-    const target = this.args.target ?? element.closest<HTMLElement>('.cds-aichat-prompt-line-shell') ?? element.parentElement;
+    const target =
+      this.args.target ??
+      element.closest<HTMLElement>('.cds-aichat-prompt-line-shell') ??
+      element.parentElement;
     this.listenTarget = target ?? null;
     if (target) {
-      target.addEventListener('cds-aichat-trigger-change', this.handleTriggerChangeEvent);
+      target.addEventListener(
+        'cds-aichat-trigger-change',
+        this.handleTriggerChangeEvent,
+      );
       target.addEventListener('keydown', this.handleEditorKeyDown, true);
       target.addEventListener('focusout', this.handleEditorFocusOut);
     }
     document.addEventListener('click', this.handleDocumentClick);
     return () => {
       if (target) {
-        target.removeEventListener('cds-aichat-trigger-change', this.handleTriggerChangeEvent);
+        target.removeEventListener(
+          'cds-aichat-trigger-change',
+          this.handleTriggerChangeEvent,
+        );
         target.removeEventListener('keydown', this.handleEditorKeyDown, true);
         target.removeEventListener('focusout', this.handleEditorFocusOut);
       }
@@ -778,7 +820,12 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
   watchConfigs = eModifier<{
     Element: HTMLDivElement;
     Args: {
-      Positional: [TriggerSuggestionConfig | undefined, TriggerSuggestionConfig | undefined, AutocompleteConfig | undefined, StartersConfig | undefined];
+      Positional: [
+        TriggerSuggestionConfig | undefined,
+        TriggerSuggestionConfig | undefined,
+        AutocompleteConfig | undefined,
+        StartersConfig | undefined,
+      ];
     };
   }>(() => {
     if (this.trigger) {
@@ -788,49 +835,74 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
 
   <template>
     <div
-      class='cds-aichat-autocomplete-controller'
+      class="cds-aichat-autocomplete-controller"
       {{this.attachListeners}}
       {{this.watchConfigs @mention @command @autocomplete @starters}}
       ...attributes
     >
-      <div class='cds-aichat-autocomplete__live-region' aria-live='polite' aria-atomic='false'>{{this.regionA}}</div>
-      <div class='cds-aichat-autocomplete__live-region' aria-live='polite' aria-atomic='false'>{{this.regionB}}</div>
+      <div
+        class="cds-aichat-autocomplete__live-region"
+        aria-live="polite"
+        aria-atomic="false"
+      >{{this.regionA}}</div>
+      <div
+        class="cds-aichat-autocomplete__live-region"
+        aria-live="polite"
+        aria-atomic="false"
+      >{{this.regionB}}</div>
       {{#if this.hasItems}}
         {{! template-lint-disable no-invalid-interactive }}
         {{! template-lint-disable no-pointer-down-event-binding }}
-        <div class='cds-aichat-autocomplete' {{on 'mousedown' this.preventMousedown}}>
+        <div
+          class="cds-aichat-autocomplete"
+          {{on "mousedown" this.preventMousedown}}
+        >
           {{#if @headerConfig.showHeader}}
-            <div class='cds-aichat-autocomplete__header'>
-              <span class='cds-aichat-autocomplete__title'>{{@headerConfig.title}}</span>
+            <div class="cds-aichat-autocomplete__header">
+              <span
+                class="cds-aichat-autocomplete__title"
+              >{{@headerConfig.title}}</span>
             </div>
           {{/if}}
           <ul
-            class='cds-aichat-autocomplete__items'
-            role='listbox'
-            tabindex='0'
+            class="cds-aichat-autocomplete__items"
+            role="listbox"
+            tabindex="0"
             aria-label={{this.i18n.listboxLabel}}
             aria-activedescendant={{this.activeOptionId}}
           >
             {{#each this.listGroups as |group|}}
               {{#if this.hasGroups}}
                 <ul
-                  role='group'
-                  class='cds-aichat-autocomplete-item-group__items'
+                  role="group"
+                  class="cds-aichat-autocomplete-item-group__items"
                   aria-label={{group.ariaLabel}}
                   aria-labelledby={{group.labelId}}
                 >
                   {{#if group.title}}
-                    <li role='presentation' id={{group.labelId}} class='cds-aichat-autocomplete-item-group__title'>
+                    <li
+                      role="presentation"
+                      id={{group.labelId}}
+                      class="cds-aichat-autocomplete-item-group__title"
+                    >
                       {{group.title}}
                     </li>
                   {{/if}}
                   {{#each group.entries as |entry|}}
-                    <ItemRow @entry={{entry}} @onItemClick={{this.handleItemClick}} @onItemMouseEnter={{this.handleItemMouseEnter}} />
+                    <ItemRow
+                      @entry={{entry}}
+                      @onItemClick={{this.handleItemClick}}
+                      @onItemMouseEnter={{this.handleItemMouseEnter}}
+                    />
                   {{/each}}
                 </ul>
               {{else}}
                 {{#each group.entries as |entry|}}
-                  <ItemRow @entry={{entry}} @onItemClick={{this.handleItemClick}} @onItemMouseEnter={{this.handleItemMouseEnter}} />
+                  <ItemRow
+                    @entry={{entry}}
+                    @onItemClick={{this.handleItemClick}}
+                    @onItemMouseEnter={{this.handleItemMouseEnter}}
+                  />
                 {{/each}}
               {{/if}}
             {{/each}}

@@ -30,8 +30,10 @@ export default class OverflowMenuItem extends Component<OverflowMenuItemComponen
   get wrapperClass() {
     const classes = ['cds--overflow-menu-options__option'];
     if (this.args.hasDivider) classes.push('cds--overflow-menu--divider');
-    if (this.args.isDelete) classes.push('cds--overflow-menu-options__option--danger');
-    if (this.args.disabled) classes.push('cds--overflow-menu-options__option--disabled');
+    if (this.args.isDelete)
+      classes.push('cds--overflow-menu-options__option--danger');
+    if (this.args.disabled)
+      classes.push('cds--overflow-menu-options__option--disabled');
     if (this.args.wrapperClassName) classes.push(this.args.wrapperClassName);
     return classes.join(' ');
   }
@@ -53,28 +55,28 @@ export default class OverflowMenuItem extends Component<OverflowMenuItemComponen
 
   <template>
     {{#let (element this.tag) as |Tag|}}
-      <li class={{this.wrapperClass}} role='none'>
+      <li class={{this.wrapperClass}} role="none">
         <Tag
-          {{on 'click' this.onClick}}
+          {{on "click" this.onClick}}
           class={{this.btnClass}}
           href={{@href}}
           title={{this.title}}
           disabled={{@disabled}}
-          role='menuitem'
-          tabindex='-1'
+          role="menuitem"
+          tabindex="-1"
           ...attributes
         >
-          <span class='cds--overflow-menu-options__option-content'>
+          <span class="cds--overflow-menu-options__option-content">
             {{@itemText}}
           </span>
           {{#if (has-block)}}
-            <span class='cds--overflow-menu-options__option-icon'>
+            <span class="cds--overflow-menu-options__option-icon">
               {{yield}}
             </span>
           {{/if}}
           {{#if @dangerDescription}}
             {{#if @isDelete}}
-              <span class='cds--visually-hidden'>{{@dangerDescription}}</span>
+              <span class="cds--visually-hidden">{{@dangerDescription}}</span>
             {{/if}}
           {{/if}}
         </Tag>

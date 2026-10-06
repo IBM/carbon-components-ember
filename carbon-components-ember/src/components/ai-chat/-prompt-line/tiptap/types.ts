@@ -36,7 +36,11 @@ export interface SuggestionItem {
    * matching the `ComponentLike` icon-arg pattern used elsewhere in this
    * addon (e.g. `AiChatCardFooter`'s `CardFooterAction.icon`).
    */
-  avatar?: string | ComponentLike<{ Args: { size?: number; svgClass?: string; fill?: string } }>;
+  avatar?:
+    | string
+    | ComponentLike<{
+        Args: { size?: number; svgClass?: string; fill?: string };
+      }>;
   /** Whether the item is disabled and cannot be selected. */
   disabled?: boolean;
   /**
@@ -71,7 +75,9 @@ export interface SuggestionItemGroup {
 
 export interface BaseSuggestionConfig {
   /** Static item list or async function called with the current query string. */
-  items: SuggestionItem[] | ((query: string) => Promise<SuggestionItem[]> | SuggestionItem[]);
+  items:
+    | SuggestionItem[]
+    | ((query: string) => Promise<SuggestionItem[]> | SuggestionItem[]);
   /** Minimum query length before `items()` is called. Defaults to 0. */
   minQueryLength?: number;
   /** Called after the user selects an item and insertion is complete. */
@@ -91,7 +97,10 @@ export interface BaseSuggestionConfig {
  * Trigger-character-driven suggestion config, shared by `carbonMention` and
  * `carbonCommand`.
  */
-export interface TriggerSuggestionConfig extends Omit<BaseSuggestionConfig, 'disableDirectSend'> {
+export interface TriggerSuggestionConfig extends Omit<
+  BaseSuggestionConfig,
+  'disableDirectSend'
+> {
   /** Character that activates the suggestion (e.g. `"@"`, `"/"`). */
   trigger: string;
   /** Whether the trigger must start the line, or may appear anywhere. Defaults to `'anywhere'`. */

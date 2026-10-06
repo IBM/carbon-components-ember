@@ -187,21 +187,22 @@ export default class CarbonPagination extends Component<Args> {
 
   <template>
     <div
-      class='cds--pagination {{concat "cds--pagination--" this.defaultArgs.size}}
+      class="cds--pagination
+        {{concat 'cds--pagination--' this.defaultArgs.size}}
         {{this.styles.namespace}}
-        {{if @isLoading "cds--skeleton"}}'
+        {{if @isLoading 'cds--skeleton'}}"
       data-pagination
       {{this.notifyInitialPage}}
       {{this.syncState}}
     >
       {{#if @isLoading}}
-        <div class='cds--skeleton__text'></div>
+        <div class="cds--skeleton__text"></div>
       {{else}}
-        <div class='cds--pagination__left'>
+        <div class="cds--pagination__left">
           <label
-            id='select-{{this.guid}}-pagination-count-label'
-            class='cds--pagination__text'
-            for='select-{{this.guid}}-pagination-count'
+            id="select-{{this.guid}}-pagination-count-label"
+            class="cds--pagination__text"
+            for="select-{{this.guid}}-pagination-count"
           >
             Items per page:
           </label>
@@ -211,14 +212,14 @@ export default class CarbonPagination extends Component<Args> {
               @disabled={{@disabled}}
               @searchEnabled={{false}}
               @options={{defaultTo
-              this.defaultArgs.itemsPerPageOptions
-              (array 10 20 30 40 50 100)
-            }}
+                this.defaultArgs.itemsPerPageOptions
+                (array 10 20 30 40 50 100)
+              }}
               @onSelect={{this.setItemsPerPage}}
               @selected={{this.itemsPerPage}}
             />
           </div>
-          <span class='cds--pagination__text'>
+          <span class="cds--pagination__text">
             <span data-displayed-item-range>
               {{this.currentSlice.start}}
               -
@@ -231,7 +232,7 @@ export default class CarbonPagination extends Component<Args> {
             items
           </span>
         </div>
-        <div class='cds--pagination__right'>
+        <div class="cds--pagination__right">
           {{#if @renderPageSelect}}
             <@renderPageSelect
               @currentPage={{this.currentPage}}
@@ -254,30 +255,30 @@ export default class CarbonPagination extends Component<Args> {
             </div>
           {{/if}}
           <label
-            id='select-{{this.guid}}-pagination-page-label'
-            class='cds--pagination__text'
-            for='select-{{this.guid}}-pagination-page'
+            id="select-{{this.guid}}-pagination-page-label"
+            class="cds--pagination__text"
+            for="select-{{this.guid}}-pagination-page"
           >
             {{this.currentPage}}
             of
             {{this.pages}}
             pages
           </label>
-          <div class='cds--pagination__control-buttons'>
+          <div class="cds--pagination__control-buttons">
             <Tooltip
               @align={{this.defaultArgs.backwardTextTooltipPosition}}
               @label={{this.defaultArgs.backwardText}}
             >
               <button
                 disabled={{or (eq this.currentPage 1) @disabled}}
-                class='cds--btn--icon-only cds--pagination__button cds--pagination__button--backward cds--btn cds--btn--md cds--btn--ghost'
-                tabindex='0'
+                class="cds--btn--icon-only cds--pagination__button cds--pagination__button--backward cds--btn cds--btn--md cds--btn--ghost"
+                tabindex="0"
                 data-page-backward
                 aria-label={{this.defaultArgs.backwardText}}
-                type='button'
-                {{on 'click' this.pageBack}}
+                type="button"
+                {{on "click" this.pageBack}}
               >
-                <ChevronLeft @btnClass='cds--pagination__nav-arrow' />
+                <ChevronLeft @btnClass="cds--pagination__nav-arrow" />
               </button>
             </Tooltip>
             <Tooltip
@@ -286,12 +287,12 @@ export default class CarbonPagination extends Component<Args> {
             >
               <button
                 disabled={{or (eq this.currentPage this.pages) @disabled}}
-                class='cds--btn--icon-only cds--pagination__button cds--pagination__button--forward cds--btn cds--btn--md cds--btn--ghost'
-                tabindex='0'
+                class="cds--btn--icon-only cds--pagination__button cds--pagination__button--forward cds--btn cds--btn--md cds--btn--ghost"
+                tabindex="0"
                 data-page-forward
                 aria-label={{this.defaultArgs.forwardText}}
-                type='button'
-                {{on 'click' this.pageForward}}
+                type="button"
+                {{on "click" this.pageForward}}
               >
                 <ChevronRight @btnClass="cds--pagination__nav-arrow" />
               </button>

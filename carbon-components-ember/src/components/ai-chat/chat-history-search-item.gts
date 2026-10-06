@@ -46,16 +46,21 @@ export default class ChatHistorySearchItem extends Component<ChatHistorySearchIt
   }
 
   <template>
-    <div class='cds-aichat-history-search-item' ...attributes>
-      <button type='button' class='cds--side-nav__link' disabled={{@disabled}} {{on 'click' this.handleClick}}>
-        <span class='cds--side-nav__link-text'>
+    <div class="cds-aichat-history-search-item" ...attributes>
+      <button
+        type="button"
+        class="cds--side-nav__link"
+        disabled={{@disabled}}
+        {{on "click" this.handleClick}}
+      >
+        <span class="cds--side-nav__link-text">
           {{#if (has-block)}}
             {{yield}}
           {{else}}
             {{@name}}
           {{/if}}
         </span>
-        <span class='cds--side-nav__link-subtitle'>{{@date}}</span>
+        <span class="cds--side-nav__link-subtitle">{{@date}}</span>
       </button>
     </div>
   </template>

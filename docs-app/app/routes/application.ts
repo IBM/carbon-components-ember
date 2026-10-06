@@ -18,7 +18,7 @@ import { rehypeShadowDemo } from 'docs-app/docs-support/rehype-shadow-demo';
 // @ts-expect-error ignore
 import { Bookmark32 } from '@carbon/icons/es/index.js';
 import { trackedObject } from '@ember/reactive/collections';
-import * as Components from 'carbon-components-ember/components/index';
+import * as Components from 'carbon-components-ember/components';
 import * as Icons from 'carbon-components-ember/icons';
 
 ComponentSignature.name = 'ComponentSignature';
@@ -84,7 +84,7 @@ export default class Application extends Route {
           '@ember/helper': () => import('@ember/helper'),
           'ember-truth-helpers': () => import('ember-truth-helpers'),
           'carbon-components-ember/components': () => Promise.resolve(CarbonComponents),
-          'carbon-components-ember/helpers': () => import('carbon-components-ember/helpers/index'),
+          'carbon-components-ember/helpers': () => import('carbon-components-ember/helpers'),
           'carbon-components-ember/components/icon': () => import('carbon-components-ember/components/icon'),
           'ember-primitives/floating-ui': () => import('ember-primitives/floating-ui'),
           'ember-primitives/on-resize': () => import('ember-primitives/on-resize'),

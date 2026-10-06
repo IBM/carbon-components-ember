@@ -135,7 +135,8 @@ class ProgressStep extends Component<{
 
   get buttonClasses() {
     const classes = ['cds--progress-step-button'];
-    if (this.isUnclickable) classes.push('cds--progress-step-button--unclickable');
+    if (this.isUnclickable)
+      classes.push('cds--progress-step-button--unclickable');
     return classes.join(' ');
   }
 
@@ -158,32 +159,55 @@ class ProgressStep extends Component<{
   <template>
     <li class={{this.liClasses}} ...attributes>
       <button
-        type='button'
+        type="button"
         class={{this.buttonClasses}}
         disabled={{@disabled}}
-        aria-disabled={{if @disabled 'true'}}
-        tabindex={{if @disabled '-1' '0'}}
+        aria-disabled={{if @disabled "true"}}
+        tabindex={{if @disabled "-1" "0"}}
         title={{@label}}
-        {{on 'click' this.handleClick}}
-        {{on 'keydown' this.handleKeyDown}}
+        {{on "click" this.handleClick}}
+        {{on "keydown" this.handleKeyDown}}
       >
         {{#if @invalid}}
-          <Warning @size={{16}} @svgClass='cds--progress__warning' @fill='currentColor' @title={{this.iconTitle}} />
+          <Warning
+            @size={{16}}
+            @svgClass="cds--progress__warning"
+            @fill="currentColor"
+            @title={{this.iconTitle}}
+          />
         {{else if this.isCurrent}}
-          <Incomplete @size={{16}} @svgClass='cds--progress-step-icon' @fill='currentColor' @title={{this.iconTitle}} />
+          <Incomplete
+            @size={{16}}
+            @svgClass="cds--progress-step-icon"
+            @fill="currentColor"
+            @title={{this.iconTitle}}
+          />
         {{else if this.isComplete}}
-          <CheckmarkOutline @size={{16}} @svgClass='cds--progress-step-icon' @fill='currentColor' @title={{this.iconTitle}} />
+          <CheckmarkOutline
+            @size={{16}}
+            @svgClass="cds--progress-step-icon"
+            @fill="currentColor"
+            @title={{this.iconTitle}}
+          />
         {{else}}
-          <CircleDash @size={{16}} @svgClass='cds--progress-step-icon' @fill='currentColor' @title={{this.iconTitle}} />
+          <CircleDash
+            @size={{16}}
+            @svgClass="cds--progress-step-icon"
+            @fill="currentColor"
+            @title={{this.iconTitle}}
+          />
         {{/if}}
-        <div class='cds--progress-text'>
-          <span class='cds--progress-label' dir='auto'>{{@label}}</span>
+        <div class="cds--progress-text">
+          <span class="cds--progress-label" dir="auto">{{@label}}</span>
           {{#if @secondaryLabel}}
-            <span class='cds--progress-optional' dir='auto'>{{@secondaryLabel}}</span>
+            <span
+              class="cds--progress-optional"
+              dir="auto"
+            >{{@secondaryLabel}}</span>
           {{/if}}
         </div>
-        <span class='cds--assistive-text'>{{this.message}}</span>
-        <span class='cds--progress-line'></span>
+        <span class="cds--assistive-text">{{this.message}}</span>
+        <span class="cds--progress-line"></span>
       </button>
     </li>
   </template>

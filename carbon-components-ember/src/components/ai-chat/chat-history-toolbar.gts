@@ -62,29 +62,32 @@ export default class ChatHistoryToolbar extends Component<ChatHistoryToolbarSign
   handleNewChat = () => this.args.onNewChat?.();
 
   <template>
-    <div class='cds-aichat-history-toolbar' ...attributes>
-      {{yield to='actionsStart'}}
+    <div class="cds-aichat-history-toolbar" ...attributes>
+      {{yield to="actionsStart"}}
       {{#unless @searchOff}}
         <Search
-          class='cds-aichat-history-toolbar__search'
+          class="cds-aichat-history-toolbar__search"
           @labelText={{@searchAttributes.labelText}}
           @placeholder={{@searchAttributes.placeholder}}
           @disabled={{@searchAttributes.disabled}}
           @value={{@searchAttributes.value}}
-          @closeButtonLabelText={{or @searchAttributes.closeButtonLabelText 'Clear search'}}
+          @closeButtonLabelText={{or
+            @searchAttributes.closeButtonLabelText
+            "Clear search"
+          }}
           @onChange={{@onSearch}}
           @onClear={{@onSearchClear}}
         />
       {{/unless}}
-      {{yield to='actionsEnd'}}
-      <Tooltip @label={{or @newChatLabel 'New chat'}} @align='top-right'>
+      {{yield to="actionsEnd"}}
+      <Tooltip @label={{or @newChatLabel "New chat"}} @align="top-right">
         <Button
-          class='cds-aichat-history-toolbar__new-chat'
+          class="cds-aichat-history-toolbar__new-chat"
           @iconOnly={{true}}
-          @size='md'
+          @size="md"
           @onClick={{this.handleNewChat}}
         >
-          <AddComment @size='16' />
+          <AddComment @size="16" />
         </Button>
       </Tooltip>
     </div>

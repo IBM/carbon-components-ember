@@ -2,7 +2,8 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import type { WithBoundArgs } from '@glint/template';
-import RadioTile, { type Value } from '../radio-tile.gts';
+import RadioTile from '../radio-tile.gts';
+import type { Value } from '../radio-tile.gts';
 
 export interface Signature {
   Args: {
@@ -12,7 +13,11 @@ export interface Signature {
     required?: boolean;
     valueSelected?: Value;
     defaultSelected?: Value;
-    onChange?: (value: Value | undefined, name: string | undefined, event: Event) => void;
+    onChange?: (
+      value: Value | undefined,
+      name: string | undefined,
+      event: Event,
+    ) => void;
   };
   Element: HTMLFieldSetElement;
   Blocks: {
@@ -24,7 +29,11 @@ export default class TileGroup extends Component<Signature> {
   @tracked _selectedValue?: Value;
 
   get selectedValue() {
-    return this.args.valueSelected ?? this._selectedValue ?? this.args.defaultSelected;
+    return (
+      this.args.valueSelected ??
+      this._selectedValue ??
+      this.args.defaultSelected
+    );
   }
 
   @action
@@ -34,9 +43,9 @@ export default class TileGroup extends Component<Signature> {
   }
 
   <template>
-    <fieldset class='cds--tile-group' disabled={{@disabled}} ...attributes>
+    <fieldset class="cds--tile-group" disabled={{@disabled}} ...attributes>
       {{#if @legend}}
-        <legend class='cds--label'>{{@legend}}</legend>
+        <legend class="cds--label">{{@legend}}</legend>
       {{/if}}
       <div>
         {{yield (component RadioTile group=this onChange=this.setCurrent)}}

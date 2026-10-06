@@ -4,7 +4,8 @@ import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { defaultArgs } from '../../utils/decorators.ts';
 import type { WithBoundArgs } from '@glint/template';
-import RadioButton, { type Value } from '../radio-button.gts';
+import RadioButton from '../radio-button.gts';
+import type { Value } from '../radio-button.gts';
 
 export interface Signature {
   Args: {
@@ -17,7 +18,11 @@ export interface Signature {
     required?: boolean;
     valueSelected?: Value;
     defaultSelected?: Value;
-    onChange?: (value: Value | undefined, name: string | undefined, event: Event) => void;
+    onChange?: (
+      value: Value | undefined,
+      name: string | undefined,
+      event: Event,
+    ) => void;
   };
   Element: HTMLFieldSetElement;
   Blocks: {
@@ -45,7 +50,11 @@ export default class RadioButtonGroup extends Component<Signature> {
   }
 
   get selectedValue() {
-    return this.args.valueSelected ?? this._selectedValue ?? this.args.defaultSelected;
+    return (
+      this.args.valueSelected ??
+      this._selectedValue ??
+      this.args.defaultSelected
+    );
   }
 
   @action
@@ -56,14 +65,14 @@ export default class RadioButtonGroup extends Component<Signature> {
 
   <template>
     <fieldset
-      class='cds--radio-button-group cds--radio-button-group--{{this.orientation}}
-        cds--radio-button-group--label-{{this.labelPosition}}'
+      class="cds--radio-button-group cds--radio-button-group--{{this.orientation}}
+        cds--radio-button-group--label-{{this.labelPosition}}"
       disabled={{@disabled}}
       ...attributes
     >
-      <legend class='cds--label' dir='auto'>
+      <legend class="cds--label" dir="auto">
         {{#if (has-block "heading")}}
-          {{yield to='heading'}}
+          {{yield to="heading"}}
         {{else}}
           {{@legendText}}
         {{/if}}

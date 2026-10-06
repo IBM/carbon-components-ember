@@ -15,15 +15,15 @@ export interface UIShellSideNavFooterSignature {
 export default class UIShellSideNavFooter extends Component<UIShellSideNavFooterSignature> {
   <template>
     <button
-      aria-label={{if @open 'Collapse' 'Expand'}}
-      class='cds--side-nav__footer'
-      type='button'
-      {{on 'click' (fn @onToggle (not @open))}}
+      aria-label={{if @open "Collapse" "Expand"}}
+      class="cds--side-nav__footer"
+      type="button"
+      {{on "click" (fn @onToggle (not @open))}}
       ...attributes
     >
       <div
-        class='cds--side-nav__icon cds--side-nav__icon--sm cds--side-nav__toggle
-          {{if @open "cds--side-nav__icon--expanded"}}'
+        class="cds--side-nav__icon cds--side-nav__icon--sm cds--side-nav__toggle
+          {{if @open 'cds--side-nav__icon--expanded'}}"
       >
         <ChevronRight />
       </div>

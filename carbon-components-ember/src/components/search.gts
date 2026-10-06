@@ -3,7 +3,8 @@ import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { cached, tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
-import { timeout, type TaskInstance } from 'ember-concurrency';
+import { timeout } from 'ember-concurrency';
+import type { TaskInstance } from 'ember-concurrency';
 import { concat } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { runTask } from 'ember-lifeline';
@@ -107,54 +108,55 @@ export default class SearchComponent extends Component<SearchComponentSignature>
     {{this.setValue @value}}
     <div
       data-search
-      role='search'
-      aria-labelledby='search-input-label-{{this.guid}}'
-      class='cds--search {{if @size (concat "cds--search--" @size)}}
-        {{if @size (concat "cds--layout--size-" @size)}}
-        {{if @light "cds--search--light"}}
-        {{if @isLoading "cds--skeleton"}}
-        {{if @disabled "cds--search--disabled"}}
+      role="search"
+      aria-labelledby="search-input-label-{{this.guid}}"
+      class="cds--search
+        {{if @size (concat 'cds--search--' @size)}}
+        {{if @size (concat 'cds--layout--size-' @size)}}
+        {{if @light 'cds--search--light'}}
+        {{if @isLoading 'cds--skeleton'}}
+        {{if @disabled 'cds--search--disabled'}}
         {{if
           @expandable
-          "cds--toolbar-search-container-expandable"
-          "cds--toolbar-search-container-persistent"
+          'cds--toolbar-search-container-expandable'
+          'cds--toolbar-search-container-persistent'
         }}
-        {{if this.isActive "cds--toolbar-search-container-active"}}'
+        {{if this.isActive 'cds--toolbar-search-container-active'}}"
       ...attributes
     >
-      <div class='cds--search-magnifier'>
-        <SearchIcon @size='16' @svgClass='cds--search-magnifier-icon' />
+      <div class="cds--search-magnifier">
+        <SearchIcon @size="16" @svgClass="cds--search-magnifier-icon" />
       </div>
       <label
-        id='search-input-label-{{this.guid}}'
+        id="search-input-label-{{this.guid}}"
         for={{this.inputId}}
-        class='cds--label'
+        class="cds--label"
       >
         {{@labelText}}
       </label>
       <input
-        class='cds--search-input'
-        type={{defaultTo @type 'search'}}
+        class="cds--search-input"
+        type={{defaultTo @type "search"}}
         id={{this.inputId}}
-        placeholder={{defaultTo @placeholder 'Search'}}
-        autocomplete={{defaultTo @autoComplete 'off'}}
+        placeholder={{defaultTo @placeholder "Search"}}
+        autocomplete={{defaultTo @autoComplete "off"}}
         value={{this.value}}
         disabled={{@disabled}}
-        {{on 'change' this.setValue}}
-        {{on 'input' this.setValue}}
+        {{on "change" this.setValue}}
+        {{on "input" this.setValue}}
         {{! template-lint-disable }}
-        {{on 'mousedown' this.activate}}
+        {{on "mousedown" this.activate}}
       />
       {{#if this.hasInput}}
         <button
-          class='cds--search-close'
-          title={{defaultTo @closeButtonLabelText 'Clear search input'}}
-          aria-label={{defaultTo @closeButtonLabelText 'Clear search input'}}
-          type='button'
+          class="cds--search-close"
+          title={{defaultTo @closeButtonLabelText "Clear search input"}}
+          aria-label={{defaultTo @closeButtonLabelText "Clear search input"}}
+          type="button"
           disabled={{@disabled}}
-          {{on 'click' this.onSearchClear}}
+          {{on "click" this.onSearchClear}}
         >
-          <Close @size='16' @svgClass='cds--search-clear' />
+          <Close @size="16" @svgClass="cds--search-clear" />
         </button>
       {{/if}}
     </div>

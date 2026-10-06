@@ -3,7 +3,7 @@
 // upstream widget - there is no upstream `.scss` to port from, unlike every
 // other partial in this directory.
 
-@use '@carbon/layout';
+@use "@carbon/layout";
 
 .cds-aichat-session-shell__message {
   max-inline-size: 80%;

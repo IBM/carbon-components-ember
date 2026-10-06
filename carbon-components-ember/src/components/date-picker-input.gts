@@ -140,7 +140,9 @@ export default class DatePickerInput extends Component<DatePickerInputSignature>
   get showCalendarIcon() {
     // A `simple` picker has no calendar, so no calendar icon either, unless
     // there's an invalid/warn icon to show in its place.
-    return this.args.datePickerType !== 'simple' || this.isInvalid || this.isWarn;
+    return (
+      this.args.datePickerType !== 'simple' || this.isInvalid || this.isWarn
+    );
   }
 
   // Disabled/read-only fields always show the plain calendar icon, even when
@@ -174,72 +176,83 @@ export default class DatePickerInput extends Component<DatePickerInputSignature>
 
   <template>
     <div
-      class='cds--date-picker-container {{unless @labelText "cds--date-picker--nolabel"}}'
+      class="cds--date-picker-container
+        {{unless @labelText 'cds--date-picker--nolabel'}}"
       ...attributes
     >
       {{#if @labelText}}
         <label
           for={{this.id}}
-          class='cds--label
-            {{if @hideLabel "cds--visually-hidden"}}
-            {{if @disabled "cds--label--disabled"}}'
+          class="cds--label
+            {{if @hideLabel 'cds--visually-hidden'}}
+            {{if @disabled 'cds--label--disabled'}}"
         >{{@labelText}}</label>
       {{/if}}
       <div
-        class='cds--date-picker-input__wrapper
-          {{if this.isInvalid "cds--date-picker-input__wrapper--invalid"}}
-          {{if this.isWarn "cds--date-picker-input__wrapper--warn"}}
-          {{if @decorator "cds--date-picker-input__wrapper--decorator"}}'
-        data-invalid={{if this.isInvalid 'true'}}
+        class="cds--date-picker-input__wrapper
+          {{if this.isInvalid 'cds--date-picker-input__wrapper--invalid'}}
+          {{if this.isWarn 'cds--date-picker-input__wrapper--warn'}}
+          {{if @decorator 'cds--date-picker-input__wrapper--decorator'}}"
+        data-invalid={{if this.isInvalid "true"}}
       >
         <span>
           <input
             id={{this.id}}
             type={{this.type}}
-            class='cds--date-picker__input
-              {{concat "cds--date-picker__input--" this.size}}
-              {{if this.isInvalid "cds--date-picker__input--invalid"}}
-              {{if this.isWarn "cds--date-picker__input--warn"}}'
+            class="cds--date-picker__input
+              {{concat 'cds--date-picker__input--' this.size}}
+              {{if this.isInvalid 'cds--date-picker__input--invalid'}}
+              {{if this.isWarn 'cds--date-picker__input--warn'}}"
             placeholder={{@placeholder}}
             pattern={{this.pattern}}
             disabled={{@disabled}}
             readonly={{@readOnly}}
-            aria-invalid={{if this.isInvalid 'true'}}
-            data-invalid={{if this.isInvalid 'true'}}
+            aria-invalid={{if this.isInvalid "true"}}
+            data-invalid={{if this.isInvalid "true"}}
             aria-describedby={{if this.hasDescription this.descriptionId}}
-            {{on 'change' this.handleChange}}
-            {{on 'click' this.handleClick}}
+            {{on "change" this.handleChange}}
+            {{on "click" this.handleClick}}
           />
           {{#if @decorator}}
-            <div class='cds--date-picker-input-inner-wrapper--decorator'>
-              <@decorator @size='16' @svgClass='cds--date-picker__decorator-icon' />
+            <div class="cds--date-picker-input-inner-wrapper--decorator">
+              <@decorator
+                @size="16"
+                @svgClass="cds--date-picker__decorator-icon"
+              />
             </div>
           {{/if}}
           {{#if this.showCalendarIcon}}
             {{#if this.calendarIconIsInvalid}}
               <WarningFilled
-                @size='16'
-                @svgClass='cds--date-picker__icon cds--date-picker__icon--invalid'
+                @size="16"
+                @svgClass="cds--date-picker__icon cds--date-picker__icon--invalid"
               />
             {{else if this.calendarIconIsWarn}}
               <WarningAltFilled
-                @size='16'
-                @svgClass='cds--date-picker__icon cds--date-picker__icon--warn'
+                @size="16"
+                @svgClass="cds--date-picker__icon cds--date-picker__icon--warn"
               />
             {{else}}
-              <Calendar @size='16' @svgClass='cds--date-picker__icon' />
+              <Calendar @size="16" @svgClass="cds--date-picker__icon" />
             {{/if}}
           {{/if}}
         </span>
       </div>
       {{#if this.isInvalid}}
-        <div id={{this.descriptionId}} class='cds--form-requirement'>{{@invalidText}}</div>
+        <div
+          id={{this.descriptionId}}
+          class="cds--form-requirement"
+        >{{@invalidText}}</div>
       {{else if this.isWarn}}
-        <div id={{this.descriptionId}} class='cds--form-requirement'>{{@warnText}}</div>
+        <div
+          id={{this.descriptionId}}
+          class="cds--form-requirement"
+        >{{@warnText}}</div>
       {{else if @helperText}}
         <div
           id={{this.descriptionId}}
-          class='cds--form__helper-text {{if @disabled "cds--form__helper-text--disabled"}}'
+          class="cds--form__helper-text
+            {{if @disabled 'cds--form__helper-text--disabled'}}"
         >{{@helperText}}</div>
       {{/if}}
     </div>

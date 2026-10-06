@@ -9,11 +9,11 @@ export interface TextAreaSkeletonSignature {
 
 export default class TextAreaSkeleton extends Component<TextAreaSkeletonSignature> {
   <template>
-    <div class='cds--form-item' ...attributes>
+    <div class="cds--form-item" ...attributes>
       {{#unless @hideLabel}}
-        <span class='cds--label cds--skeleton'></span>
+        <span class="cds--label cds--skeleton"></span>
       {{/unless}}
-      <div class='cds--skeleton cds--text-area'></div>
+      <div class="cds--skeleton cds--text-area"></div>
     </div>
   </template>
 }

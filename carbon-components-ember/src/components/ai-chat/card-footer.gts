@@ -18,11 +18,7 @@ import type { ComponentLike } from '@glint/template';
  * equivalents).
  */
 export type CardFooterActionKind =
-  | 'primary'
-  | 'secondary'
-  | 'tertiary'
-  | 'ghost'
-  | 'danger';
+  'primary' | 'secondary' | 'tertiary' | 'ghost' | 'danger';
 
 export type CardFooterAction = {
   label: string;
@@ -118,17 +114,17 @@ export default class AiChatCardFooter extends Component<AiChatCardFooterSignatur
     {{#if this.actions.length}}
       {{#if this.isIconButton}}
         <div
-          class='cds-aichat-card-footer__icon-actions'
-          data-rounded='bottom-right'
+          class="cds-aichat-card-footer__icon-actions"
+          data-rounded="bottom-right"
           data-stacked={{this.isStacked}}
           ...attributes
         >
           {{#each this.actions as |cardAction|}}
             <Tooltip @label={{cardAction.tooltipText}}>
               <Button
-                @type={{this.buttonType cardAction.kind 'ghost'}}
-                @tertiary={{this.buttonTertiary cardAction.kind 'ghost'}}
-                @ghost={{this.buttonGhost cardAction.kind 'ghost'}}
+                @type={{this.buttonType cardAction.kind "ghost"}}
+                @tertiary={{this.buttonTertiary cardAction.kind "ghost"}}
+                @ghost={{this.buttonGhost cardAction.kind "ghost"}}
                 @iconOnly={{true}}
                 @disabled={{cardAction.disabled}}
                 @onClick={{fn this.handleAction cardAction}}
@@ -136,8 +132,8 @@ export default class AiChatCardFooter extends Component<AiChatCardFooterSignatur
                 {{#if cardAction.icon}}
                   <cardAction.icon
                     @size={{16}}
-                    @fill='currentColor'
-                    @svgClass='cds-aichat-card-footer__action-icon'
+                    @fill="currentColor"
+                    @svgClass="cds-aichat-card-footer__action-icon"
                   />
                 {{/if}}
               </Button>
@@ -146,37 +142,37 @@ export default class AiChatCardFooter extends Component<AiChatCardFooterSignatur
         </div>
       {{else}}
         <div
-          class='cds-aichat-card-footer__actions
-            {{if this.isStacked "cds-aichat-card-footer__actions--stacked"}}'
-          data-rounded='bottom'
+          class="cds-aichat-card-footer__actions
+            {{if this.isStacked 'cds-aichat-card-footer__actions--stacked'}}"
+          data-rounded="bottom"
           data-stacked={{this.isStacked}}
           ...attributes
         >
           {{#each this.actions as |cardAction|}}
             <Button
-              @type={{this.buttonType cardAction.kind 'secondary'}}
-              @tertiary={{this.buttonTertiary cardAction.kind 'secondary'}}
-              @ghost={{this.buttonGhost cardAction.kind 'secondary'}}
+              @type={{this.buttonType cardAction.kind "secondary"}}
+              @tertiary={{this.buttonTertiary cardAction.kind "secondary"}}
+              @ghost={{this.buttonGhost cardAction.kind "secondary"}}
               @disabled={{or cardAction.disabled cardAction.isViewing}}
               @onClick={{fn this.handleAction cardAction}}
               class={{if
                 cardAction.isViewing
-                'cds-aichat-card-footer__action-viewing'
+                "cds-aichat-card-footer__action-viewing"
               }}
             >
               {{#if cardAction.isViewing}}
                 {{#if cardAction.icon}}<cardAction.icon
                     @size={{16}}
-                    @fill='currentColor'
-                    @svgClass='cds-aichat-card-footer__action-icon'
+                    @fill="currentColor"
+                    @svgClass="cds-aichat-card-footer__action-icon"
                   />{{/if}}
                 {{cardAction.label}}
               {{else}}
                 {{cardAction.label}}
                 {{#if cardAction.icon}}<cardAction.icon
                     @size={{16}}
-                    @fill='currentColor'
-                    @svgClass='cds-aichat-card-footer__action-icon'
+                    @fill="currentColor"
+                    @svgClass="cds-aichat-card-footer__action-icon"
                   />{{/if}}
               {{/if}}
             </Button>

@@ -9,7 +9,7 @@
 // `rounded-modifiers`/`data-rounded` host-attribute mixins are skipped -
 // see `audio-player.gts`'s class doc.
 
-@use '@carbon/layout';
+@use "@carbon/layout";
 
 .cds-aichat-audio-player {
   display: block;

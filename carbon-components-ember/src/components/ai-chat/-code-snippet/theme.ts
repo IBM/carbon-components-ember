@@ -40,7 +40,7 @@ export function makeScrollerFocusable() {
           scroller.setAttribute('tabindex', '0');
         }
       }
-    }
+    },
   );
 }
 
@@ -305,7 +305,7 @@ const manualTokenStyles: StyleSpec[] = manualConfigs
   .filter((style): style is StyleSpec => Boolean(style));
 
 const autoTagStyles: StyleSpec[] = BASE_TAG_NAMES.filter(
-  (tagName) => !MANUAL_TAG_NAMES.has(tagName)
+  (tagName) => !MANUAL_TAG_NAMES.has(tagName),
 )
   .map((tagName) => {
     const tag = resolveTag(tagName);

@@ -10,7 +10,10 @@ import { modifier as eModifier } from 'ember-modifier';
 import type Owner from '@ember/owner';
 import type { Editor, Extension } from '@tiptap/core';
 import type { EditingSurfaceController } from './-prompt-line/controller.ts';
-import { getRichRuntimeIfLoaded, loadRichRuntime } from './-prompt-line/rich-loader.ts';
+import {
+  getRichRuntimeIfLoaded,
+  loadRichRuntime,
+} from './-prompt-line/rich-loader.ts';
 import { TextareaController } from './-prompt-line/textarea-controller.ts';
 import { textOffsetToDocPos } from './-prompt-line/text-utils.ts';
 import type { SuggestionItem } from './-prompt-line/tiptap/types.ts';
@@ -237,7 +240,8 @@ export default class PromptLine extends Component<PromptLineSignature> {
     selectAll: () => this.controller?.selectAll(),
     undo: () => this.controller?.undo() ?? false,
     redo: () => this.controller?.redo() ?? false,
-    selectSuggestion: (item) => this.controller?.selectSuggestion(item) ?? false,
+    selectSuggestion: (item) =>
+      this.controller?.selectSuggestion(item) ?? false,
     dismissSuggestion: () => this.controller?.dismissSuggestion() ?? false,
   };
 
@@ -284,7 +288,8 @@ export default class PromptLine extends Component<PromptLineSignature> {
     }
     this.upgrading = true;
     try {
-      const { createRichController } = getRichRuntimeIfLoaded() ?? (await loadRichRuntime());
+      const { createRichController } =
+        getRichRuntimeIfLoaded() ?? (await loadRichRuntime());
       const host = this.editorHost;
       const previous = this.controller;
       if (!host || !previous) {
@@ -326,7 +331,9 @@ export default class PromptLine extends Component<PromptLineSignature> {
       }
       this.settleRichReady();
     } catch (error) {
-      this.failRichReady(error instanceof Error ? error : new Error(String(error)));
+      this.failRichReady(
+        error instanceof Error ? error : new Error(String(error)),
+      );
     } finally {
       this.upgrading = false;
     }
@@ -361,7 +368,9 @@ export default class PromptLine extends Component<PromptLineSignature> {
     element.addEventListener('compositionend', this.onCompositionEnd);
 
     const warmModule = this.initialRich ? getRichRuntimeIfLoaded() : null;
-    const controller = warmModule ? warmModule.createRichController() : new TextareaController();
+    const controller = warmModule
+      ? warmModule.createRichController()
+      : new TextareaController();
     this.controller = controller;
     this.mode = warmModule ? 'rich' : 'textarea';
     controller.mount(element, {
@@ -396,7 +405,11 @@ export default class PromptLine extends Component<PromptLineSignature> {
         // if the component is torn down before composition ends, fail it
         // here instead of leaving an `ensureEditor()` caller awaiting
         // forever.
-        this.failRichReady(new Error('PromptLine was destroyed before the rich editor upgrade completed'));
+        this.failRichReady(
+          new Error(
+            'PromptLine was destroyed before the rich editor upgrade completed',
+          ),
+        );
       }
       this.controller?.destroy();
       this.controller = null;
@@ -444,22 +457,28 @@ export default class PromptLine extends Component<PromptLineSignature> {
         testId: string | undefined;
       };
     };
-  }>((_element, _positional, { content, disabled, placeholder, ariaLabel, testId }) => {
-    const controller = this.controller;
-    if (!controller) {
-      return;
-    }
-    controller.setContent(content ?? '');
-    controller.setEditable(!disabled);
-    controller.setPlaceholder(placeholder);
-    controller.setAriaLabel(ariaLabel);
-    controller.setTestId(testId);
-  });
+  }>(
+    (
+      _element,
+      _positional,
+      { content, disabled, placeholder, ariaLabel, testId },
+    ) => {
+      const controller = this.controller;
+      if (!controller) {
+        return;
+      }
+      controller.setContent(content ?? '');
+      controller.setEditable(!disabled);
+      controller.setPlaceholder(placeholder);
+      controller.setAriaLabel(ariaLabel);
+      controller.setTestId(testId);
+    },
+  );
 
   <template>
-    <div class='cds-aichat-prompt-line' ...attributes>
+    <div class="cds-aichat-prompt-line" ...attributes>
       <div
-        class='frame'
+        class="frame"
         {{this.mountSurface}}
         {{this.watchRich @rich}}
         {{this.watchExtensions @extensions}}

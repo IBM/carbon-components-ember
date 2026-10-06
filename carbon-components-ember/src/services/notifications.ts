@@ -1,5 +1,6 @@
 import Service from '@ember/service';
-import { A, NativeArray } from '@ember/array';
+import { A } from '@ember/array';
+import type { NativeArray } from '@ember/array';
 
 export type NotificationOptions = {
   timeout?: number;
@@ -10,12 +11,7 @@ export type NotificationOptions = {
   type?: 'info' | 'success' | 'warning' | 'error';
   display?: 'toast' | 'inline' | 'actionable';
   kind?:
-    | 'error'
-    | 'info'
-    | 'info-square'
-    | 'success'
-    | 'warning'
-    | 'warning-alt';
+    'error' | 'info' | 'info-square' | 'success' | 'warning' | 'warning-alt';
   actionTitle?: string;
 };
 

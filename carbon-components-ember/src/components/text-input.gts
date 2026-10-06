@@ -47,6 +47,12 @@ export default class TextInput extends Component<Signature> {
     return this.args.value ?? this.internalValue;
   }
 
+  // Ember 7 writes a `value=""` attribute for an empty initial value; bind
+  // `undefined` instead so the input renders like Carbon React (no attribute).
+  get boundValue() {
+    return this.value === '' ? undefined : this.value;
+  }
+
   get id() {
     return this.args.id ?? `text-input-${this.guid}`;
   }
@@ -89,78 +95,82 @@ export default class TextInput extends Component<Signature> {
 
   <template>
     <div
-      class='cds--form-item cds--text-input-wrapper
-        {{if @readOnly "cds--text-input-wrapper--readonly"}}
-        {{if @light "cds--text-input-wrapper--light"}}'
+      class="cds--form-item cds--text-input-wrapper
+        {{if @readOnly 'cds--text-input-wrapper--readonly'}}
+        {{if @light 'cds--text-input-wrapper--light'}}"
       ...attributes
     >
-      <div class='cds--text-input__label-wrapper'>
+      <div class="cds--text-input__label-wrapper">
         {{#if @labelText}}
           <label
             for={{this.id}}
-            class='cds--label
-              {{if @hideLabel "cds--visually-hidden"}}
-              {{if @disabled "cds--label--disabled"}}'
+            class="cds--label
+              {{if @hideLabel 'cds--visually-hidden'}}
+              {{if @disabled 'cds--label--disabled'}}"
           >
             {{@labelText}}
           </label>
         {{/if}}
         {{#if this.showCounter}}
           <label
-            class='cds--label cds--text-input__label-counter'
-            aria-live='polite'
-            aria-atomic='true'
+            class="cds--label cds--text-input__label-counter"
+            aria-live="polite"
+            aria-atomic="true"
           >{{this.count}}/{{@maxCount}}</label>
         {{/if}}
       </div>
-      <div class='cds--text-input__field-outer-wrapper'>
+      <div class="cds--text-input__field-outer-wrapper">
         <div
-          class='cds--text-input__field-wrapper
-            {{if this.isWarn "cds--text-input__field-wrapper--warning"}}'
-          data-invalid={{if this.isInvalid 'true'}}
+          class="cds--text-input__field-wrapper
+            {{if this.isWarn 'cds--text-input__field-wrapper--warning'}}"
+          data-invalid={{if this.isInvalid "true"}}
         >
           {{#if this.isInvalid}}
-            <WarningFilled @size='16' @svgClass='cds--text-input__invalid-icon' />
+            <WarningFilled
+              @size="16"
+              @svgClass="cds--text-input__invalid-icon"
+            />
           {{else if this.isWarn}}
             <WarningAltFilled
-              @size='16'
-              @svgClass='cds--text-input__invalid-icon cds--text-input__invalid-icon--warning'
+              @size="16"
+              @svgClass="cds--text-input__invalid-icon cds--text-input__invalid-icon--warning"
             />
           {{/if}}
           <input
             id={{this.id}}
             type={{this.type}}
-            class='cds--text-input
-              {{if @size (concat "cds--text-input--" @size)}}
-              {{if @size (concat "cds--layout--size-" @size)}}
-              {{if @light "cds--text-input--light"}}
-              {{if this.isInvalid "cds--text-input--invalid"}}
-              {{if this.isWarn "cds--text-input--warning"}}'
+            class="cds--text-input
+              {{if @size (concat 'cds--text-input--' @size)}}
+              {{if @size (concat 'cds--layout--size-' @size)}}
+              {{if @light 'cds--text-input--light'}}
+              {{if this.isInvalid 'cds--text-input--invalid'}}
+              {{if this.isWarn 'cds--text-input--warning'}}"
             placeholder={{@placeholder}}
             disabled={{@disabled}}
             readonly={{@readOnly}}
-            aria-invalid={{if this.isInvalid 'true'}}
-            data-invalid={{if this.isInvalid 'true'}}
-            value={{this.value}}
-            {{on 'input' this.updateValue}}
-            {{on 'click' this.handleClick}}
+            aria-invalid={{if this.isInvalid "true"}}
+            data-invalid={{if this.isInvalid "true"}}
+            value={{this.boundValue}}
+            {{on "input" this.updateValue}}
+            {{on "click" this.handleClick}}
           />
           <span
-            class='cds--text-input__counter-alert'
-            role='alert'
-            aria-live='assertive'
-            aria-atomic='true'
+            class="cds--text-input__counter-alert"
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
           >
             {{#if this.isOverCountLimit}}{{this.count}}/{{@maxCount}}{{/if}}
           </span>
         </div>
         {{#if this.isInvalid}}
-          <div class='cds--form-requirement'>{{@invalidText}}</div>
+          <div class="cds--form-requirement">{{@invalidText}}</div>
         {{else if this.isWarn}}
-          <div class='cds--form-requirement'>{{@warnText}}</div>
+          <div class="cds--form-requirement">{{@warnText}}</div>
         {{else if @helperText}}
           <div
-            class='cds--form__helper-text {{if @disabled "cds--form__helper-text--disabled"}}'
+            class="cds--form__helper-text
+              {{if @disabled 'cds--form__helper-text--disabled'}}"
           >{{@helperText}}</div>
         {{/if}}
       </div>

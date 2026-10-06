@@ -4,7 +4,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
-import { type TaskInstance } from 'ember-concurrency';
+import type { TaskInstance } from 'ember-concurrency';
 import { stylesheet } from 'astroturf';
 
 export type Args = {
@@ -53,10 +53,10 @@ export default class TableSearchComponent extends Component<Args> {
       @expandable={{@expandable}}
       @size={{@size}}
       @onChange={{this.doSearch}}
-      class='{{if this.isSearching this.styles.is-searching}}'
+      class="{{if this.isSearching this.styles.is-searching}}"
     />
     <Loading
-      style='position: relative; top: -41px; right: 7px'
+      style="position: relative; top: -41px; right: 7px"
       @inline={{true}}
       @active={{this.isSearching}}
     />

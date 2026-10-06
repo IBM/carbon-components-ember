@@ -32,7 +32,7 @@ export interface SelectItemSignature {
 export default class SelectItem extends Component<SelectItemSignature> {
   <template>
     <option
-      class='cds--select-option'
+      class="cds--select-option"
       value={{@value}}
       disabled={{@disabled}}
       hidden={{@hidden}}

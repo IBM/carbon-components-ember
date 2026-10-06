@@ -90,11 +90,11 @@ class TabPane extends Component<TabPaneSignature> {
         TabPanel); hidden when not selected so that aria-controls on the
         tab buttons always points at an existing element. }}
     <div
-      class='cds--tab-content'
-      aria-labelledby='{{@tab.guid}}-tab-{{this.index}}'
-      id='{{@tab.guid}}-tabpanel-{{this.index}}'
-      tabindex={{if this.isSelected '0'}}
-      role='tabpanel'
+      class="cds--tab-content"
+      aria-labelledby="{{@tab.guid}}-tab-{{this.index}}"
+      id="{{@tab.guid}}-tabpanel-{{this.index}}"
+      tabindex={{if this.isSelected "0"}}
+      role="tabpanel"
       hidden={{unless this.isSelected true}}
     >
       {{yield}}
@@ -134,7 +134,9 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
         this.isLg = e.matches;
       };
       mql.addEventListener('change', onChange);
-      registerDestructor(this, () => mql.removeEventListener('change', onChange));
+      registerDestructor(this, () =>
+        mql.removeEventListener('change', onChange),
+      );
     }
   }
 
@@ -349,33 +351,34 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
 
   <template>
     {{#if @loading}}
-      <div style='max-width: 100%;'>
+      <div style="max-width: 100%;">
         <div
-          class='cds--tabs cds--skeleton {{if @contained "cds--tabs--contained"}}'
+          class="cds--tabs cds--skeleton
+            {{if @contained 'cds--tabs--contained'}}"
         >
-          <ul class='cds--tabs__nav'>
-            <li class='cds--tabs__nav-item'>
-              <div class='cds--tabs__nav-link'>
+          <ul class="cds--tabs__nav">
+            <li class="cds--tabs__nav-item">
+              <div class="cds--tabs__nav-link">
                 <span></span>
               </div>
             </li>
-            <li class='cds--tabs__nav-item'>
-              <div class='cds--tabs__nav-link'>
+            <li class="cds--tabs__nav-item">
+              <div class="cds--tabs__nav-link">
                 <span></span>
               </div>
             </li>
-            <li class='cds--tabs__nav-item'>
-              <div class='cds--tabs__nav-link'>
+            <li class="cds--tabs__nav-item">
+              <div class="cds--tabs__nav-link">
                 <span></span>
               </div>
             </li>
-            <li class='cds--tabs__nav-item'>
-              <div class='cds--tabs__nav-link'>
+            <li class="cds--tabs__nav-item">
+              <div class="cds--tabs__nav-link">
                 <span></span>
               </div>
             </li>
-            <li class='cds--tabs__nav-item'>
-              <div class='cds--tabs__nav-link'>
+            <li class="cds--tabs__nav-item">
+              <div class="cds--tabs__nav-link">
                 <span></span>
               </div>
             </li>
@@ -384,83 +387,83 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
       </div>
     {{else}}
       <div
-        class='cds--tabs
-          {{if @contained "cds--tabs--contained"}}
-          {{if this.showFullWidthClass "cds--tabs--full-width"}}
-          {{if @dismissable "cds--tabs--dismissable"}}
-          {{if this.showSizeClass (concat "cds--layout--size-" @size)}}
-          {{if this.hasSecondaryLabelTabs "cds--tabs--tall"}}'
+        class="cds--tabs
+          {{if @contained 'cds--tabs--contained'}}
+          {{if this.showFullWidthClass 'cds--tabs--full-width'}}
+          {{if @dismissable 'cds--tabs--dismissable'}}
+          {{if this.showSizeClass (concat 'cds--layout--size-' @size)}}
+          {{if this.hasSecondaryLabelTabs 'cds--tabs--tall'}}"
       >
         <button
-          {{on 'click' this.scrollLeft}}
-          aria-hidden='true'
-          tabindex='-1'
-          aria-label='Scroll left'
-          class='cds--tab--overflow-nav-button cds--tab--overflow-nav-button--previous
+          {{on "click" this.scrollLeft}}
+          aria-hidden="true"
+          tabindex="-1"
+          aria-label="Scroll left"
+          class="cds--tab--overflow-nav-button cds--tab--overflow-nav-button--previous
             {{unless
               this.showScrollLeft
-              "cds--tab--overflow-nav-button--hidden"
-            }}'
-          type='button'
+              'cds--tab--overflow-nav-button--hidden'
+            }}"
+          type="button"
         >
           <svg
-            focusable='false'
-            preserveAspectRatio='xMidYMid meet'
-            xmlns='http://www.w3.org/2000/svg'
-            fill='currentColor'
-            width='16'
-            height='16'
-            viewBox='0 0 16 16'
-            aria-hidden='true'
+            focusable="false"
+            preserveAspectRatio="xMidYMid meet"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            aria-hidden="true"
           >
-            <path d='M5 8 10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z'></path>
+            <path d="M5 8 10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z"></path>
           </svg>
         </button>
         <div
-          aria-label='{{if @ariaLabel @ariaLabel "List of tabs"}}'
-          role='tablist'
-          class='cds--tab--list'
+          aria-label="{{if @ariaLabel @ariaLabel 'List of tabs'}}"
+          role="tablist"
+          class="cds--tab--list"
           {{this.registerTabsDiv}}
           {{didResize this.onResize}}
-          {{on 'scroll' this.onScroll}}
+          {{on "scroll" this.onScroll}}
         >
           {{#each this.tabs as |tab index|}}
             {{! template-lint-disable require-presentational-children }}
             <button
-              aria-controls='{{this.guid}}-tabpanel-{{index}}'
-              aria-selected='{{if tab.isSelected "true" "false"}}'
-              aria-disabled='{{if (this.isTabDisabled tab) "true"}}'
+              aria-controls="{{this.guid}}-tabpanel-{{index}}"
+              aria-selected="{{if tab.isSelected 'true' 'false'}}"
+              aria-disabled="{{if (this.isTabDisabled tab) 'true'}}"
               disabled={{this.isTabDisabled tab}}
-              id='{{this.guid}}-tab-{{index}}'
-              role='tab'
-              class='cds--tabs__nav-item cds--tabs__nav-link
-                {{if tab.isSelected "cds--tabs__nav-item--selected"}}
-                {{if (this.isTabDisabled tab) "cds--tabs__nav-item--disabled"}}'
-              tabindex='{{if tab.isFocusable "0" "-1"}}'
-              type='button'
-              {{on 'click' (fn this.tabSelected tab)}}
-              {{on 'keydown' (fn this.handleTabKeydown tab)}}
+              id="{{this.guid}}-tab-{{index}}"
+              role="tab"
+              class="cds--tabs__nav-item cds--tabs__nav-link
+                {{if tab.isSelected 'cds--tabs__nav-item--selected'}}
+                {{if (this.isTabDisabled tab) 'cds--tabs__nav-item--disabled'}}"
+              tabindex="{{if tab.isFocusable '0' '-1'}}"
+              type="button"
+              {{on "click" (fn this.tabSelected tab)}}
+              {{on "keydown" (fn this.handleTabKeydown tab)}}
             >
-              <div class='cds--tabs__nav-item-label-wrapper'>
+              <div class="cds--tabs__nav-item-label-wrapper">
                 {{#if (and @dismissable tab.args.renderIcon)}}
-                  <div class='cds--tabs__nav-item--icon-left'>
+                  <div class="cds--tabs__nav-item--icon-left">
                     {{#let tab.args.renderIcon as |RenderIcon|}}
                       <RenderIcon
-                        @size='16'
-                        @svgClass='cds--tabs__nav-item-icon-svg'
+                        @size="16"
+                        @svgClass="cds--tabs__nav-item-icon-svg"
                       />
                     {{/let}}
                   </div>
                 {{/if}}
-                <span class='cds--tabs__nav-item-label' dir='auto'>
+                <span class="cds--tabs__nav-item-label" dir="auto">
                   {{tab.args.title}}
                 </span>
                 {{#if (and (not @dismissable) tab.args.renderIcon)}}
-                  <div class='cds--tabs__nav-item--icon'>
+                  <div class="cds--tabs__nav-item--icon">
                     {{#let tab.args.renderIcon as |RenderIcon|}}
                       <RenderIcon
-                        @size='16'
-                        @svgClass='cds--tabs__nav-item-icon-svg'
+                        @size="16"
+                        @svgClass="cds--tabs__nav-item-icon-svg"
                       />
                     {{/let}}
                   </div>
@@ -468,9 +471,9 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
               </div>
               {{#if (and @contained tab.args.secondaryLabel)}}
                 <div
-                  class='cds--tabs__nav-item-secondary-label'
+                  class="cds--tabs__nav-item-secondary-label"
                   title={{tab.args.secondaryLabel}}
-                  dir='auto'
+                  dir="auto"
                 >
                   {{tab.args.secondaryLabel}}
                 </div>
@@ -480,51 +483,54 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
             <div
               class={{if
                 @dismissable
-                'cds--tabs__nav-item--close'
-                'cds--tabs__nav-item--close--hidden'
+                "cds--tabs__nav-item--close"
+                "cds--tabs__nav-item--close--hidden"
               }}
             >
               <button
-                title='Remove {{tab.args.title}} tab'
+                title="Remove {{tab.args.title}} tab"
                 aria-hidden={{if
                   (and tab.isSelected @dismissable)
-                  'false'
-                  'true'
+                  "false"
+                  "true"
                 }}
-                aria-disabled='{{if (this.isTabDisabled tab) "true"}}'
-                class='{{if
+                aria-disabled="{{if (this.isTabDisabled tab) 'true'}}"
+                class="{{if
                     @dismissable
-                    "cds--tabs__nav-item--close-icon"
-                    "cds--visually-hidden"
+                    'cds--tabs__nav-item--close-icon'
+                    'cds--visually-hidden'
                   }}
-                  {{if tab.isSelected "cds--tabs__nav-item--close-icon--selected"}}
+                  {{if
+                    tab.isSelected
+                    'cds--tabs__nav-item--close-icon--selected'
+                  }}
                   {{if
                     (this.isTabDisabled tab)
-                    "cds--tabs__nav-item--close-icon--disabled"
-                  }}'
+                    'cds--tabs__nav-item--close-icon--disabled'
+                  }}"
                 disabled={{this.isTabDisabled tab}}
-                tabindex='-1'
-                type='button'
-                {{on 'click' (fn this.closeTab tab)}}
+                tabindex="-1"
+                type="button"
+                {{on "click" (fn this.closeTab tab)}}
               >
                 <svg
-                  focusable='false'
-                  preserveAspectRatio='xMidYMid meet'
-                  xmlns='http://www.w3.org/2000/svg'
-                  fill='currentColor'
-                  width='16'
-                  height='16'
-                  viewBox='0 0 32 32'
+                  focusable="false"
+                  preserveAspectRatio="xMidYMid meet"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 32 32"
                   aria-hidden={{if
                     (and tab.isSelected @dismissable)
-                    'false'
-                    'true'
+                    "false"
+                    "true"
                   }}
-                  aria-label='Press delete to remove {{tab.args.title}} tab'
-                  role='img'
+                  aria-label="Press delete to remove {{tab.args.title}} tab"
+                  role="img"
                 >
                   <path
-                    d='M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z'
+                    d="M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
                   ></path>
                 </svg>
               </button>
@@ -532,28 +538,28 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
           {{/each}}
         </div>
         <button
-          {{on 'click' this.scrollRight}}
-          aria-hidden='true'
-          tabindex='-1'
-          aria-label='Scroll right'
-          class='cds--tab--overflow-nav-button cds--tab--overflow-nav-button--next
+          {{on "click" this.scrollRight}}
+          aria-hidden="true"
+          tabindex="-1"
+          aria-label="Scroll right"
+          class="cds--tab--overflow-nav-button cds--tab--overflow-nav-button--next
             {{unless
               this.showScrollRight
-              "cds--tab--overflow-nav-button--hidden"
-            }}'
-          type='button'
+              'cds--tab--overflow-nav-button--hidden'
+            }}"
+          type="button"
         >
           <svg
-            focusable='false'
-            preserveAspectRatio='xMidYMid meet'
-            xmlns='http://www.w3.org/2000/svg'
-            fill='currentColor'
-            width='16'
-            height='16'
-            viewBox='0 0 16 16'
-            aria-hidden='true'
+            focusable="false"
+            preserveAspectRatio="xMidYMid meet"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            aria-hidden="true"
           >
-            <path d='M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z'></path>
+            <path d="M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"></path>
           </svg>
         </button>
       </div>

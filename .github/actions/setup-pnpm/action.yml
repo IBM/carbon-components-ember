@@ -1,0 +1,42 @@
+name: Setup Node and pnpm
+description: >
+  Installs Node, enables the pnpm version pinned in package.json#packageManager
+  (via Corepack, which also verifies its integrity hash) and restores the pnpm
+  store cache. Uses only GitHub-owned actions, as the IBM org policy requires.
+
+inputs:
+  node-version:
+    description: Node.js version
+    default: '24'
+  registry-url:
+    description: Optional registry for an .npmrc that reads NODE_AUTH_TOKEN
+    default: ''
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v7
+      with:
+        node-version: ${{ inputs.node-version }}
+        registry-url: ${{ inputs.registry-url }}
+        # The pnpm store is cached below, once Corepack has enabled pnpm.
+        package-manager-cache: false
+
+    - name: Enable pnpm via Corepack
+      shell: bash
+      # Corepack releases before 0.31 can't verify npm's current signing keys.
+      run: |
+        npm install --global corepack@latest
+        corepack enable
+        pnpm --version
+
+    - name: Get pnpm store directory
+      shell: bash
+      run: echo "STORE_PATH=$(pnpm store path --silent)" >> "$GITHUB_ENV"
+
+    - uses: actions/cache@v6
+      with:
+        path: ${{ env.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-

@@ -6,7 +6,17 @@
  */
 
 import type { ComponentLike } from '@glint/template';
-import { Csv, Doc, Html, Json, Pdf, Ppt, Txt, Xls, Zip } from '../../../icons.ts';
+import {
+  Csv,
+  Doc,
+  Html,
+  Json,
+  Pdf,
+  Ppt,
+  Txt,
+  Xls,
+  Zip,
+} from '../../../icons.ts';
 
 type FileTypeIconComponent = ComponentLike<{ Args: { size?: number } }>;
 
@@ -26,10 +36,17 @@ const FILE_TYPE_ICONS: FileTypeIconEntry[] = [
   { icon: Txt, mimes: ['text/plain'], extensions: ['txt'] },
   {
     icon: Xls,
-    mimes: ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
+    mimes: [
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    ],
     extensions: ['xls', 'xlsx'],
   },
-  { icon: Zip, mimes: ['application/zip', 'application/x-zip-compressed'], extensions: ['zip'] },
+  {
+    icon: Zip,
+    mimes: ['application/zip', 'application/x-zip-compressed'],
+    extensions: ['zip'],
+  },
   {
     icon: Ppt,
     mimes: [
@@ -41,7 +58,10 @@ const FILE_TYPE_ICONS: FileTypeIconEntry[] = [
   { icon: Csv, mimes: ['text/csv'], extensions: ['csv'] },
   {
     icon: Doc,
-    mimes: ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
+    mimes: [
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    ],
     extensions: ['doc', 'docx'],
   },
   { icon: Html, mimes: ['text/html'], extensions: ['html', 'htm'] },
@@ -54,9 +74,15 @@ const FILE_TYPE_ICONS: FileTypeIconEntry[] = [
  * optional so this also serves an attachment restored from conversation
  * history, where only one of the two may be known.
  */
-export function pickFileTypeIcon(name?: string, mimeType?: string): FileTypeIconComponent | null {
+export function pickFileTypeIcon(
+  name?: string,
+  mimeType?: string,
+): FileTypeIconComponent | null {
   const extension = name?.split('.').pop()?.toLowerCase() ?? '';
   const mime = mimeType?.toLowerCase() ?? '';
-  const match = FILE_TYPE_ICONS.find((entry) => entry.mimes.includes(mime) || entry.extensions.includes(extension));
+  const match = FILE_TYPE_ICONS.find(
+    (entry) =>
+      entry.mimes.includes(mime) || entry.extensions.includes(extension),
+  );
   return match?.icon ?? null;
 }

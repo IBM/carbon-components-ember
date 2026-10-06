@@ -39,13 +39,15 @@ const RANK: Record<string, number> = {
   primary: 6,
 };
 
-const watchStacked = modifier((element: HTMLElement, [onChange]: [(stacked: boolean) => void]) => {
-  const observer = new ResizeObserver(() => {
-    requestAnimationFrame(() => onChange(element.offsetWidth < 671));
-  });
-  observer.observe(element);
-  return () => observer.disconnect();
-});
+const watchStacked = modifier(
+  (element: HTMLElement, [onChange]: [(stacked: boolean) => void]) => {
+    const observer = new ResizeObserver(() => {
+      requestAnimationFrame(() => onChange(element.offsetWidth < 671));
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
+  },
+);
 
 /**
  * The footer section of a `WorkspaceShell`: a row of action buttons that
@@ -69,7 +71,8 @@ export default class WorkspaceShellFooter extends Component<WorkspaceShellFooter
   @tracked isStacked = false;
 
   get sortedActions() {
-    const rank = (a: WorkspaceShellFooterAction) => RANK[a.kind ?? 'primary'] ?? 4;
+    const rank = (a: WorkspaceShellFooterAction) =>
+      RANK[a.kind ?? 'primary'] ?? 4;
     return [...(this.args.actions ?? [])].sort((a, b) => {
       const diff = rank(a) - rank(b);
       return this.isStacked ? -diff : diff;
@@ -112,9 +115,13 @@ export default class WorkspaceShellFooter extends Component<WorkspaceShellFooter
 
   <template>
     <div
-      data-rounded='bottom'
-      data-stacked={{if this.isStacked ''}}
-      class='cds-aichat-workspace-shell__footer {{if this.isThreeButtons "cds-aichat-workspace-shell__footer--three-buttons"}}'
+      data-rounded="bottom"
+      data-stacked={{if this.isStacked ""}}
+      class="cds-aichat-workspace-shell__footer
+        {{if
+          this.isThreeButtons
+          'cds-aichat-workspace-shell__footer--three-buttons'
+        }}"
       ...attributes
       {{watchStacked this.setStacked}}
     >
@@ -123,7 +130,7 @@ export default class WorkspaceShellFooter extends Component<WorkspaceShellFooter
           @type={{this.buttonType footerAction.kind}}
           @tertiary={{this.buttonTertiary footerAction.kind}}
           @ghost={{this.buttonGhost footerAction.kind}}
-          @size='xl'
+          @size="xl"
           @disabled={{footerAction.disabled}}
           @onClick={{fn this.handleClick footerAction}}
         >

@@ -44,7 +44,7 @@ export interface ChatHistoryPanelItemsSignature {
  */
 export default class ChatHistoryPanelItems extends Component<ChatHistoryPanelItemsSignature> {
   <template>
-    <div role='list' class='cds-aichat-history-panel-items' ...attributes>
+    <div role="list" class="cds-aichat-history-panel-items" ...attributes>
       {{yield
         (component ChatHistoryPanelItem showActions=@showActions)
         (component ChatHistoryPanelMenu showActions=@showActions)

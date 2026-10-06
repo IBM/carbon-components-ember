@@ -6,7 +6,7 @@
  */
 
 import Component from '@glimmer/component';
-import { type TemplateOnlyComponent } from '@ember/component/template-only';
+import type { TemplateOnlyComponent } from '@ember/component/template-only';
 import DefinitionTooltip from './-private/definition-tooltip.gts';
 import type { IconIndicatorAlignment } from './icon-indicator.gts';
 import Critical from './icons/critical.ts';
@@ -70,27 +70,28 @@ const shapeIcons: Record<string, typeof Critical> = {
 
 // `incomplete` has no dedicated icon in `@carbon/icons`, so it's reproduced
 // here as an inline svg, matching the react implementation.
-const IncompleteIcon: TemplateOnlyComponent<{ Element: SVGElement }> = <template>
-  <svg
-    xmlns='http://www.w3.org/2000/svg'
-    width='16'
-    height='16'
-    fill='none'
-    aria-hidden='true'
-    ...attributes
-  >
-    <path
-      fill='#fff'
-      fill-opacity='0.01'
-      d='M0 0h16v16H0z'
-      style='mix-blend-mode: multiply;'
-    />
-    <path
-      fill='#161616'
-      d='M8 2a6 6 0 1 0 0 12A6 6 0 0 0 8 2Zm0 2a4.004 4.004 0 0 1 4 4H4a4.004 4.004 0 0 1 4-4Z'
-    />
-  </svg>
-</template>;
+const IncompleteIcon: TemplateOnlyComponent<{ Element: SVGElement }> =
+  <template>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      fill="none"
+      aria-hidden="true"
+      ...attributes
+    >
+      <path
+        fill="#fff"
+        fill-opacity="0.01"
+        d="M0 0h16v16H0z"
+        style="mix-blend-mode: multiply;"
+      />
+      <path
+        fill="#161616"
+        d="M8 2a6 6 0 1 0 0 12A6 6 0 0 0 8 2Zm0 2a4.004 4.004 0 0 1 4 4H4a4.004 4.004 0 0 1 4-4Z"
+      />
+    </svg>
+  </template>;
 
 export default class ShapeIndicator extends Component<ShapeIndicatorSignature> {
   get isValidKind() {
@@ -120,29 +121,29 @@ export default class ShapeIndicator extends Component<ShapeIndicatorSignature> {
       <div class={{this.classes}} ...attributes>
         {{#if @compact}}
           <DefinitionTooltip
-            @align={{if @align @align 'right'}}
+            @align={{if @align @align "right"}}
             @autoAlign={{@autoAlign}}
             @openOnHover={{true}}
             @definition={{@label}}
-            @triggerClassName='cds--shape-indicator__button'
+            @triggerClassName="cds--shape-indicator__button"
           >
             {{#if this.shapeIcon}}
               <this.shapeIcon
                 @size={{16}}
                 @svgClass={{this.iconClass}}
-                @fill='currentColor'
+                @fill="currentColor"
               />
             {{else}}
               <IncompleteIcon class={{this.iconClass}} />
             {{/if}}
-            <span class='cds--visually-hidden'>{{this.accessibleLabel}}</span>
+            <span class="cds--visually-hidden">{{this.accessibleLabel}}</span>
           </DefinitionTooltip>
         {{else}}
           {{#if this.shapeIcon}}
             <this.shapeIcon
               @size={{16}}
               @svgClass={{this.iconClass}}
-              @fill='currentColor'
+              @fill="currentColor"
             />
           {{else}}
             <IncompleteIcon class={{this.iconClass}} />

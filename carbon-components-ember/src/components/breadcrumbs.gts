@@ -49,17 +49,20 @@ export default class CarbonBreadcrumb extends Component<BreadcrumbSignature> {
 
   <template>
     <nav
-      class='cds--breadcrumb cds--breadcrumb--no-trailing-slash'
-      aria-label='breadcrumb'
+      class="cds--breadcrumb cds--breadcrumb--no-trailing-slash"
+      aria-label="breadcrumb"
       ...attributes
     >
       {{#each @crumbs as |crumb|}}
-        <div class='cds--breadcrumb-item {{if (this.isCurrent crumb)'cds--breadcrumb-item--current'}}'>
+        <div
+          class="cds--breadcrumb-item
+            {{if (this.isCurrent crumb) 'cds--breadcrumb-item--current'}}"
+        >
           <a
-            href='#'
-            {{on 'click' (fn this.onSelect crumb)}}
-            class='cds--link'
-            aria-current='{{if (this.isCurrent crumb) "true"}}'
+            href="#"
+            {{on "click" (fn this.onSelect crumb)}}
+            class="cds--link"
+            aria-current="{{if (this.isCurrent crumb) 'true'}}"
           >
             {{crumb}}
           </a>

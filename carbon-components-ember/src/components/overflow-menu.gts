@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import Icon from '../components/icon.gts';
+import type Icon from '../components/icon.gts';
 import MenuItemComponent from '../components/overflow-menu/item.gts';
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 import defaultTo from '../helpers/default-to.ts';
@@ -28,9 +28,7 @@ export interface OverflowMenuComponentSignature {
     horizontalPosition?: 'auto' | 'auto-right' | 'right' | 'center' | 'left';
   };
   Blocks: {
-    default: [
-      WithBoundArgs<typeof MenuItemComponent, 'disabled' | 'isDelete'>,
-    ];
+    default: [WithBoundArgs<typeof MenuItemComponent, 'disabled' | 'isDelete'>];
   };
 }
 
@@ -46,14 +44,12 @@ export default class OverflowMenuComponent extends Component<OverflowMenuCompone
           <:trigger as |reference|>
             <dd.Trigger
               @stopPropagation={{false}}
-              {{! @glint-expect-error: @gavant/glint-template-types types eventType as required, but ember-basic-dropdown itself treats it as optional and defaults to 'click' }}
               @eventType={{@eventType}}
-              class='cds--overflow-menu {{if dd.isOpen "cds--overflow-menu--open"}}'
+              class="cds--overflow-menu
+                {{if dd.isOpen 'cds--overflow-menu--open'}}"
               {{reference}}
             >
-              <this.icon
-                @btnClass='cds--overflow-menu__icon'
-              />
+              <this.icon @btnClass="cds--overflow-menu__icon" />
             </dd.Trigger>
           </:trigger>
           <:content>{{@tooltip}}</:content>
@@ -61,22 +57,19 @@ export default class OverflowMenuComponent extends Component<OverflowMenuCompone
       {{else}}
         <dd.Trigger
           @stopPropagation={{false}}
-          {{! @glint-expect-error: @gavant/glint-template-types types eventType as required, but ember-basic-dropdown itself treats it as optional and defaults to 'click' }}
           @eventType={{@eventType}}
-          class='cds--overflow-menu {{if dd.isOpen "cds--overflow-menu--open"}}'
+          class="cds--overflow-menu {{if dd.isOpen 'cds--overflow-menu--open'}}"
         >
-          <this.icon
-            @btnClass='cds--overflow-menu__icon'
-          />
+          <this.icon @btnClass="cds--overflow-menu__icon" />
         </dd.Trigger>
       {{/if}}
       <dd.Content>
         <ul
-          {{on 'click' dd.actions.close}}
-          class='cds--overflow-menu-options cds--overflow-menu-options--open cds--overflow-menu-options--md'
+          {{on "click" dd.actions.close}}
+          class="cds--overflow-menu-options cds--overflow-menu-options--open cds--overflow-menu-options--md"
           style="inset-block-start: 0"
-          tabindex='-1'
-          data-floating-menu-direction={{defaultTo @direction 'buttom'}}
+          tabindex="-1"
+          data-floating-menu-direction={{defaultTo @direction "buttom"}}
         >
           {{yield
             (component MenuItemComponent disabled=@disabled isDelete=@danger)

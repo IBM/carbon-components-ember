@@ -6,6 +6,6 @@ export interface SkeletonIconSignature {
 
 export default class SkeletonIcon extends Component<SkeletonIconSignature> {
   <template>
-    <div class='cds--icon--skeleton' ...attributes></div>
+    <div class="cds--icon--skeleton" ...attributes></div>
   </template>
 }

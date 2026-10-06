@@ -142,18 +142,6 @@ export default defineConfig((/* { mode } */) => {
         // routes/application.ts); this alias is only exercised by build-time
         // `.gjs.md` docs.
         { find: "docs-support", replacement: resolve("./app/docs-support/index.ts") },
-        // Demo fences conventionally import from these two extension-less
-        // specifiers, but the addon's package.json `exports` only maps
-        // `./*` to `dist/*.js` -- there is no `dist/components.js` or
-        // `dist/helpers.js`, only `dist/components/index.js` and
-        // `dist/helpers/index.js`. Runtime `.md` docs never hit real module
-        // resolution for these (setupKolay's `modules` map short-circuits
-        // it with the `/index` forms), so build-time `.gjs.md` docs need
-        // the same specifiers aliased to their real, resolvable form.
-        // Anchored `RegExp`s so already-correct `/index` (or `/icon`, etc.)
-        // specifiers elsewhere in the app don't also match and recurse.
-        { find: /^carbon-components-ember\/components$/, replacement: "carbon-components-ember/components/index" },
-        { find: /^carbon-components-ember\/helpers$/, replacement: "carbon-components-ember/helpers/index" },
       ],
     },
     plugins: [
@@ -164,9 +152,10 @@ export default defineConfig((/* { mode } */) => {
       // Runs a classic ember-cli prebuild so @embroider/core's resolver has
       // the metadata (rewritten-packages, resolver.json, etc.) it needs to
       // resolve Ember virtual modules like @embroider/virtual/helpers/*.
-      // Without this, addon-owned templates using dynamic component
-      // invocation (e.g. ember-power-select's `ensure-safe-component`) fail
-      // to resolve in a fresh build (no stale node_modules/.embroider cache).
+      // It was added for ember-power-select@8's loose-mode templates
+      // (`ensure-safe-component`). power-select 9 is strict-mode, and a fresh
+      // build without this rendered all docs pages the same, so it can likely
+      // be dropped in a follow-up once `vite dev` is checked too.
       compatPrebuild(),
       ember(),
       kolay({

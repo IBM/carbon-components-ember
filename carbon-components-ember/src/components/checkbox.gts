@@ -52,29 +52,29 @@ export default class CarbonCheckbox extends Component<CarbonCheckboxSignature> {
   }
 
   <template>
-    <div class='cds--checkbox-wrapper' ...attributes>
+    <div class="cds--checkbox-wrapper" ...attributes>
       <label
-        tabindex='0'
-        {{on 'focus' (fn (set this 'isFocus') true)}}
-        {{on 'blur' (fn (set this 'isFocus') false)}}
-        for='checkbox-{{this.guid}}'
-        class='cds--checkbox-label
-          {{if this.isFocus "cds--checkbox-label__focus"}}'
-        data-contained-checkbox-disabled='{{if @disabled "true" "false"}}'
-        data-contained-checkbox-state='{{if @indeterminate "mixed" @checked}}'
+        tabindex="0"
+        {{on "focus" (fn (set this "isFocus") true)}}
+        {{on "blur" (fn (set this "isFocus") false)}}
+        for="checkbox-{{this.guid}}"
+        class="cds--checkbox-label
+          {{if this.isFocus 'cds--checkbox-label__focus'}}"
+        data-contained-checkbox-disabled="{{if @disabled 'true' 'false'}}"
+        data-contained-checkbox-state="{{if @indeterminate 'mixed' @checked}}"
       >
         <input
           disabled={{if @disabled true false}}
-          id='checkbox-{{this.guid}}'
+          id="checkbox-{{this.guid}}"
           readonly={{@readonly}}
-          class='cds--checkbox'
-          type='checkbox'
-          name='{{@name}}'
+          class="cds--checkbox"
+          type="checkbox"
+          name="{{@name}}"
           checked={{if @indeterminate true @checked}}
-          {{on 'change' this.onCheckChange}}
+          {{on "change" this.onCheckChange}}
         />
 
-        <span class='cds--checkbox-label-text'>
+        <span class="cds--checkbox-label-text">
           {{#if (has-block)}}
             {{yield}}
           {{else}}

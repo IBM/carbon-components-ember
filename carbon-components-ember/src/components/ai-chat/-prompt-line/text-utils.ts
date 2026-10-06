@@ -55,7 +55,11 @@ export function getRawText(json: JSONContent): string {
   return parts.join('');
 }
 
-function collect(node: JSONContent, out: string[], paragraphIndex: { count: number }) {
+function collect(
+  node: JSONContent,
+  out: string[],
+  paragraphIndex: { count: number },
+) {
   switch (node.type) {
     case 'text':
       out.push(node.text ?? '');

@@ -9,7 +9,7 @@ export interface Signature {
 
 export default class TableToolbarContentComponent extends Component<Signature> {
   <template>
-    <div class='cds--toolbar-content'>
+    <div class="cds--toolbar-content">
       {{yield}}
     </div>
   </template>

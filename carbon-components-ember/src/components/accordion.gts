@@ -7,8 +7,6 @@ import or from '../helpers/or.ts';
 import { on } from '@ember/modifier';
 import { fn, concat } from '@ember/helper';
 
-
-
 export interface Args {
   disabled?: boolean;
   open?: boolean;
@@ -19,7 +17,7 @@ export interface Args {
    * when a `size` prop is explicitly passed).
    */
   size?: 'sm' | 'md' | 'lg';
-};
+}
 
 export interface AccordionSignature {
   Args: Args;
@@ -65,39 +63,39 @@ class Item extends Component<ItemSignature> {
 
   <template>
     <li
-      class='cds--accordion__item
-        {{if this.isActive "cds--accordion__item--active"}}
-        {{if this.disabled "cds--accordion__item--disabled"}}'
+      class="cds--accordion__item
+        {{if this.isActive 'cds--accordion__item--active'}}
+        {{if this.disabled 'cds--accordion__item--disabled'}}"
     >
       <button
-        type='button'
-        aria-controls='accordion-item-{{this.itemId}}'
-        aria-expanded={{if this.isActive 'true' 'false'}}
-        class='cds--accordion__heading'
-        {{on 'click' (fn @accordion.setActiveItem this)}}
+        type="button"
+        aria-controls="accordion-item-{{this.itemId}}"
+        aria-expanded={{if this.isActive "true" "false"}}
+        class="cds--accordion__heading"
+        {{on "click" (fn @accordion.setActiveItem this)}}
         disabled={{this.disabled}}
       >
         <svg
-          focusable='false'
-          preserveAspectRatio='xMidYMid meet'
-          xmlns='http://www.w3.org/2000/svg'
-          fill='currentColor'
-          width='16'
-          height='16'
-          viewBox='0 0 16 16'
-          aria-hidden='true'
-          class='cds--accordion__arrow'
+          focusable="false"
+          preserveAspectRatio="xMidYMid meet"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          aria-hidden="true"
+          class="cds--accordion__arrow"
         >
-          <path d='M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z'></path>
+          <path d="M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"></path>
         </svg>
-        <div class='cds--accordion__title' dir='auto'>
+        <div class="cds--accordion__title" dir="auto">
           {{@title}}
         </div>
       </button>
-      <div class='cds--accordion__wrapper'>
+      <div class="cds--accordion__wrapper">
         <div
-          id='accordion-item-{{this.itemId}}'
-          class='cds--accordion__content'
+          id="accordion-item-{{this.itemId}}"
+          class="cds--accordion__content"
         >
           {{yield}}
         </div>
@@ -124,8 +122,8 @@ export default class Accordion extends Component<AccordionSignature> {
 
   <template>
     <ul
-      class='cds--accordion cds--accordion--{{or @align "end"}}
-        {{if @size (concat "cds--accordion--" @size)}}'
+      class="cds--accordion cds--accordion--{{or @align 'end'}}
+        {{if @size (concat 'cds--accordion--' @size)}}"
     >
       {{yield (component Item accordion=this)}}
     </ul>

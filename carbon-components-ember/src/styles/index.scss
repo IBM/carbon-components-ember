@@ -1,33 +1,33 @@
-@use 'ember-basic-dropdown';
+@use "ember-basic-dropdown";
 // `ai-chat/carousel` transitively pulls in `@carbon/styles`' Sass theme
 // module (via `@carbon/utilities/scss/carousel`'s own `focus-outline`
 // dependency), which configures `@carbon/grid` via `@forward ... with (...)`
 // - Sass only allows a module's *first* load to configure it, so this has
 // to come before the plain, unconfigured `@use '@carbon/grid';` below or
 // that load wins first and the configured load errors.
-@use 'ai-chat/carousel';
-@use '@carbon/grid';
-@use 'ai-chat/launcher';
-@use 'ai-chat/chat-shell';
-@use 'ai-chat/code-snippet';
-@use 'ai-chat/card';
-@use 'ai-chat/truncated-text';
-@use 'ai-chat/table';
-@use 'ai-chat/markdown';
-@use 'ai-chat/chain-of-thought';
-@use 'ai-chat/reasoning-steps';
-@use 'ai-chat/feedback';
-@use 'ai-chat/prompt-line';
-@use 'ai-chat/prompt-line-autocomplete';
-@use 'ai-chat/processing';
-@use 'ai-chat/chat-button';
-@use 'ai-chat/toolbar';
-@use 'ai-chat/workspace-shell';
-@use 'ai-chat/audio-player';
-@use 'ai-chat/video-player';
-@use 'ai-chat/file-uploads';
-@use 'ai-chat/chat-history';
-@use 'ai-chat/session-shell';
+@use "ai-chat/carousel";
+@use "@carbon/grid";
+@use "ai-chat/launcher";
+@use "ai-chat/chat-shell";
+@use "ai-chat/code-snippet";
+@use "ai-chat/card";
+@use "ai-chat/truncated-text";
+@use "ai-chat/table";
+@use "ai-chat/markdown";
+@use "ai-chat/chain-of-thought";
+@use "ai-chat/reasoning-steps";
+@use "ai-chat/feedback";
+@use "ai-chat/prompt-line";
+@use "ai-chat/prompt-line-autocomplete";
+@use "ai-chat/processing";
+@use "ai-chat/chat-button";
+@use "ai-chat/toolbar";
+@use "ai-chat/workspace-shell";
+@use "ai-chat/audio-player";
+@use "ai-chat/video-player";
+@use "ai-chat/file-uploads";
+@use "ai-chat/chat-history";
+@use "ai-chat/session-shell";
 
 // `Grid`/`GridRow`/`GridColumn` render the `cds--grid`/`cds--row`/`cds--col-*`
 // class names from Carbon's Flexbox Grid, but `@carbon/styles`'s prebuilt

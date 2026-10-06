@@ -7,7 +7,7 @@ export interface UIShellSwitcherDividerSignature {
 export default class UIShellSwitcherDivider extends Component<UIShellSwitcherDividerSignature> {
   <template>
     <li ...attributes>
-      <hr class='cds--switcher__item--divider' />
+      <hr class="cds--switcher__item--divider" />
     </li>
   </template>
 }

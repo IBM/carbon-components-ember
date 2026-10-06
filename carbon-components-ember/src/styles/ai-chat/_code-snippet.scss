@@ -16,8 +16,8 @@
 // ~90 `--cds-syntax-*` tokens, correctly theme-scoped (distinct light/dark
 // values), for every one of the 4 standard Carbon themes. Emitting them a
 // second time here would be redundant, not additive.
-@use '@carbon/layout';
-@use '@carbon/styles/scss/type';
+@use "@carbon/layout";
+@use "@carbon/styles/scss/type";
 
 .cds-aichat-code-snippet {
   display: block;
@@ -47,7 +47,7 @@
   white-space: normal;
 
   code {
-    @include type.type-style('code-01');
+    @include type.type-style("code-01");
   }
 }
 
@@ -176,7 +176,7 @@
 .cds-aichat-snippet__language,
 .cds-aichat-snippet__header-separator,
 .cds-aichat-snippet__linecount {
-  @include type.type-style('label-01');
+  @include type.type-style("label-01");
 }
 
 .cds-aichat-snippet__header-separator {

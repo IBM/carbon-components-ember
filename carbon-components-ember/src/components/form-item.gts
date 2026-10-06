@@ -19,7 +19,7 @@ export interface FormItemSignature {
 
 export default class FormItem extends Component<FormItemSignature> {
   <template>
-    <div class='cds--form-item' ...attributes>
+    <div class="cds--form-item" ...attributes>
       {{yield}}
     </div>
   </template>

@@ -16,13 +16,13 @@ export interface ToggletipContentComponentSignature {
  */
 export default class ToggletipContentComponent extends Component<ToggletipContentComponentSignature> {
   <template>
-    <span class='cds--popover'>
-      <span id={{@id}} class='cds--popover-content' ...attributes>
-        <div class='cds--toggletip-content'>
+    <span class="cds--popover">
+      <span id={{@id}} class="cds--popover-content" ...attributes>
+        <div class="cds--toggletip-content">
           {{yield}}
         </div>
       </span>
-      <span class='cds--popover-caret'></span>
+      <span class="cds--popover-caret"></span>
     </span>
   </template>
 }

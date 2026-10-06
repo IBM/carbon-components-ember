@@ -16,7 +16,7 @@ export interface StructuredListBodySignature {
 
 export default class StructuredListBody extends Component<StructuredListBodySignature> {
   <template>
-    <div role='rowgroup' class='cds--structured-list-tbody' ...attributes>
+    <div role="rowgroup" class="cds--structured-list-tbody" ...attributes>
       {{yield}}
     </div>
   </template>

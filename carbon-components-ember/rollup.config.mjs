@@ -1,12 +1,10 @@
-import path from 'path';
-import fs from 'fs';
 import { babel } from '@rollup/plugin-babel';
-import copy from 'rollup-plugin-copy';
 import { Addon } from '@embroider/addon-dev/rollup';
 import { transformAsync } from '@babel/core';
-
-// rollup-plugin-astroturf mjs has wrong import specifiers...
-import { createRequire } from 'module';
+import copy from 'rollup-plugin-copy';
+import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
+import { basename, dirname, join, relative, resolve, sep } from 'node:path';
 
 const require = createRequire(import.meta.url);
 
@@ -15,30 +13,27 @@ const addon = new Addon({
   destDir: 'dist',
 });
 
-const rootImport = (options) => ({
-  resolveId: (importee) => {
-    if (importee[0] === '/') {
-      const rootPath = `${options.root}${importee}`;
-      const absPath = path.resolve('.', rootPath);
-      return fs.existsSync(absPath) ? absPath : null;
-    }
-    return null;
-  },
-});
+const rootDirectory = dirname(fileURLToPath(import.meta.url));
+const babelConfig = resolve(rootDirectory, './babel.publish.config.cjs');
+const tsConfig = resolve(rootDirectory, './tsconfig.publish.json');
 
-export function astroturf() {
-
+/**
+ * Extracts astroturf's `stylesheet` tagged templates out of .gts files into
+ * sibling `*.module.scss` assets, which are published alongside the JS and
+ * compiled by the consuming app's own CSS-modules pipeline.
+ */
+function astroturf() {
   const astroturfFiles = {};
   return {
     name: 'astroturf',
-    resolveId(id, importee) {
+    resolveId(id, importer) {
       if (id.includes('.scss')) {
         if (astroturfFiles[id]) {
           return id;
         }
-        const fullPath = path.resolve(path.dirname(importee), id);
+        const fullPath = resolve(dirname(importer), id);
         if (astroturfFiles[fullPath]) {
-          return fullPath
+          return fullPath;
         }
       }
     },
@@ -50,35 +45,54 @@ export function astroturf() {
         return;
       }
       if (id.endsWith('.gjs') || id.endsWith('.gts')) {
-        const { metadata, code: transformedCode, map } = await transformAsync(code, {
-          plugins: [[require.resolve('astroturf/plugin'), {
-            writeFiles: false,
-            getFileName: function(hostFile, pluginOptions, identifier) {
-              const relative = path.relative(path.resolve(process.cwd(), 'src'), hostFile);
-              const r = path.join(path.dirname(relative), path.basename(hostFile, '.gts') + identifier + '.module.scss');
-              return path.resolve(r);
-            },
-            getRequirePath(hostFile, absoluteFilePath, identifier) {
-              return './' + path.basename(hostFile, '.gts') + identifier   + '.module.scss'
-            }
-          }]],
+        const {
+          metadata,
+          code: transformedCode,
+          map,
+        } = await transformAsync(code, {
+          babelrc: false,
+          configFile: false,
+          plugins: [
+            [
+              require.resolve('astroturf/plugin'),
+              {
+                writeFiles: false,
+                getFileName(hostFile, _pluginOptions, identifier) {
+                  const rel = relative(resolve(rootDirectory, 'src'), hostFile);
+                  return resolve(
+                    join(
+                      dirname(rel),
+                      basename(hostFile, '.gts') + identifier + '.module.scss',
+                    ),
+                  );
+                },
+                getRequirePath(hostFile, _absoluteFilePath, identifier) {
+                  return (
+                    './' +
+                    basename(hostFile, '.gts') +
+                    identifier +
+                    '.module.scss'
+                  );
+                },
+              },
+            ],
+          ],
           filename: id,
         });
-        const generatedFiles = metadata.astroturf.styles
-          .map(({absoluteFilePath, requirePath, value}) => ({importPath: requirePath, fullPath: absoluteFilePath, code: value}))
-        for (const gen of generatedFiles) {
-          astroturfFiles[gen.fullPath] = gen.code;
-          const fname =  gen.fullPath.replace(process.cwd(), '').slice(1);
+        for (const style of metadata.astroturf.styles) {
+          astroturfFiles[style.absoluteFilePath] = style.value;
           this.emitFile({
-            source: gen.code,
+            source: style.value,
             type: 'asset',
-            fileName: fname,
-          })
+            fileName: style.absoluteFilePath
+              .replace(process.cwd(), '')
+              .slice(1),
+          });
         }
         return { code: transformedCode, map };
       }
-    }
-  }
+    },
+  };
 }
 
 export default {
@@ -86,9 +100,8 @@ export default {
   // You can augment this if you need to.
   output: addon.output(),
 
+  // Sass is compiled by the consuming app, not by this build.
   external: [/\.scss$/],
-
-  treeshake: true,
 
   plugins: [
     // These are the modules that users should be able to import from your
@@ -98,27 +111,26 @@ export default {
     // up your addon's public API. Also make sure your package.json#exports
     // is aligned to the config here.
     // See https://github.com/embroider-build/embroider/blob/main/docs/v2-faq.md#how-can-i-define-the-public-exports-of-my-addon
-    addon.publicEntrypoints([
-      '**/*.{js,ts}',
-      'index.js',
-      'template-registry.js',
-    ]),
+    addon.publicEntrypoints(['**/*.js', 'index.js', 'template-registry.js']),
 
     // These are the modules that should get reexported into the traditional
     // "app" tree. Things in here should also be in publicEntrypoints above, but
     // not everything in publicEntrypoints necessarily needs to go here.
+    //
+    // Everything is namespaced under `carbon/` in the app tree, so e.g.
+    // `services/dialog-manager` is looked up as `service:carbon.dialog-manager`.
     addon.appReexports(
       [
-        'components/**/*.{js,ts,gts,gjs}',
-        'helpers/**/*.{js,ts}',
-        'modifiers/**/*.{js,ts}',
-        'services/**/*.{js,ts}',
+        'components/**/*.js',
+        'helpers/**/*.js',
+        'modifiers/**/*.js',
+        'services/**/*.js',
       ],
       {
-        mapFilename: (fn) => {
-          const parts = fn.split(path.sep);
+        mapFilename: (filename) => {
+          const parts = filename.split(sep);
           parts.splice(1, 0, 'carbon');
-          return parts.join(path.sep);
+          return parts.join(sep);
         },
       },
     ),
@@ -137,6 +149,7 @@ export default {
     babel({
       extensions: ['.js', '.gjs', '.ts', '.gts'],
       babelHelpers: 'bundled',
+      configFile: babelConfig,
     }),
 
     // Ensure that standalone .hbs files are properly integrated as Javascript.
@@ -145,28 +158,37 @@ export default {
     // Ensure that .gjs files are properly integrated as Javascript
     addon.gjs(),
 
+    // Emit .d.ts declaration files
+    addon.declarations(
+      'declarations',
+      `pnpm ember-tsc --declaration --project ${tsConfig}`,
+    ),
+
     // addons are allowed to contain imports of .css files, which we want rollup
     // to leave alone and keep in the published output.
-    addon.keepAssets(['styles/**/*.scss']),
+    addon.keepAssets(['**/*.css']),
 
-    // Remove leftover build artifacts when starting a new build.
-    //addon.clean({}),
+    astroturf(),
 
-    rootImport({
-      // Will first look in `client/src/*` and then `common/src/*`.
-      root: './src',
-    }),
-
-    // Copy Readme and License into published package
     copy({
+      // Run after addon.clean(), which deletes anything in dist/ that rollup
+      // itself did not emit.
+      hook: 'writeBundle',
+      // Keep paths relative to src/, so src/styles/** lands in dist/styles/**.
+      flatten: false,
       targets: [
+        // Published for consumers to `@use` (`carbon-components-ember/styles.scss`).
+        // addon.keepAssets() only keeps assets that JS imports, so these
+        // stylesheets are copied instead. See
+        // https://github.com/embroider-build/embroider/issues/2461
+        { src: 'src/styles/**/*.scss', dest: 'dist' },
+        // The repository-level README and LICENSE are the ones published to npm.
         { src: '../README.md', dest: '.' },
         { src: '../LICENSE.md', dest: '.' },
       ],
     }),
 
-    astroturf(),
-
-    addon.clean()
+    // Remove leftover build artifacts when starting a new build.
+    addon.clean(),
   ],
 };

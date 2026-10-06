@@ -202,30 +202,33 @@ export default class FileUploaderDropContainer extends Component<FileUploaderDro
 
   <template>
     <div
-      class='cds--file'
-      {{on 'dragover' this.handleDragOver}}
-      {{on 'dragleave' this.handleDragLeave}}
-      {{on 'drop' this.handleDrop}}
+      class="cds--file"
+      {{on "dragover" this.handleDragOver}}
+      {{on "dragleave" this.handleDragLeave}}
+      {{on "drop" this.handleDrop}}
       ...attributes
     >
       <button
-        type='button'
+        type="button"
         class={{this.dropareaClasses}}
-        {{on 'click' this.handleButtonClick}}
+        {{on "click" this.handleButtonClick}}
       >{{this.labelText}}</button>
-      <label for={{this.inputId}} class='cds--visually-hidden'>{{this.labelText}}</label>
+      <label
+        for={{this.inputId}}
+        class="cds--visually-hidden"
+      >{{this.labelText}}</label>
       <input
-        type='file'
+        type="file"
         id={{this.inputId}}
-        class='cds--file-input'
-        tabindex='-1'
+        class="cds--file-input"
+        tabindex="-1"
         disabled={{@disabled}}
         accept={{this.acceptAttr}}
         name={{@name}}
         multiple={{@multiple}}
         {{captureElement onInsert=this.setInputElement}}
-        {{on 'change' this.handleInputChange}}
-        {{on 'click' this.resetInputValue}}
+        {{on "change" this.handleInputChange}}
+        {{on "click" this.resetInputValue}}
       />
     </div>
   </template>

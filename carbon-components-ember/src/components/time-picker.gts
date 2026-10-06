@@ -192,54 +192,57 @@ export default class TimePicker extends Component<Signature> {
   }
 
   <template>
-    <div class='cds--form-item' ...attributes>
+    <div class="cds--form-item" ...attributes>
       {{#if @labelText}}
         <label
           for={{this.id}}
-          class='cds--label
-            {{if @hideLabel "cds--visually-hidden"}}
-            {{if @disabled "cds--label--disabled"}}'
+          class="cds--label
+            {{if @hideLabel 'cds--visually-hidden'}}
+            {{if @disabled 'cds--label--disabled'}}"
         >{{@labelText}}</label>
       {{/if}}
       <div
-        class='cds--time-picker
-          {{if @light "cds--time-picker--light"}}
-          {{if this.isInvalid "cds--time-picker--invalid"}}
-          {{if this.isWarn "cds--time-picker--warning"}}
-          {{if @readOnly "cds--time-picker--readonly"}}
-          {{concat "cds--time-picker--" this.size}}
-          {{@pickerClassName}}'
+        class="cds--time-picker
+          {{if @light 'cds--time-picker--light'}}
+          {{if this.isInvalid 'cds--time-picker--invalid'}}
+          {{if this.isWarn 'cds--time-picker--warning'}}
+          {{if @readOnly 'cds--time-picker--readonly'}}
+          {{concat 'cds--time-picker--' this.size}}
+          {{@pickerClassName}}"
       >
-        <div class='cds--time-picker__input'>
+        <div class="cds--time-picker__input">
           <input
             id={{this.id}}
             type={{this.type}}
-            class='cds--time-picker__input-field cds--text-input
+            class="cds--time-picker__input-field cds--text-input
               {{@inputClassName}}
-              {{if @light "cds--text-input--light"}}
-              {{if this.isInvalid "cds--time-picker__input-field-error"}}
-              {{if this.isWarn "cds--time-picker__input-field-error"}}'
+              {{if @light 'cds--text-input--light'}}
+              {{if this.isInvalid 'cds--time-picker__input-field-error'}}
+              {{if this.isWarn 'cds--time-picker__input-field-error'}}"
             maxlength={{this.maxLength}}
             pattern={{this.pattern}}
             placeholder={{this.placeholder}}
             disabled={{@disabled}}
             readonly={{@readOnly}}
             value={{this.value}}
-            aria-invalid={{if this.isInvalid 'true'}}
-            data-invalid={{if this.isInvalid 'true'}}
-            {{on 'input' this.handleChange}}
-            {{on 'click' this.handleClick}}
-            {{on 'blur' this.handleBlur}}
+            aria-invalid={{if this.isInvalid "true"}}
+            data-invalid={{if this.isInvalid "true"}}
+            {{on "input" this.handleChange}}
+            {{on "click" this.handleClick}}
+            {{on "blur" this.handleBlur}}
           />
           {{#if this.isInvalid}}
-            <div class='cds--time-picker__error__icon'>
-              <WarningFilled @size='16' @svgClass='cds--checkbox__invalid-icon' />
+            <div class="cds--time-picker__error__icon">
+              <WarningFilled
+                @size="16"
+                @svgClass="cds--checkbox__invalid-icon"
+              />
             </div>
           {{else if this.isWarn}}
-            <div class='cds--time-picker__error__icon'>
+            <div class="cds--time-picker__error__icon">
               <WarningAltFilled
-                @size='16'
-                @svgClass='cds--text-input__invalid-icon--warning'
+                @size="16"
+                @svgClass="cds--text-input__invalid-icon--warning"
               />
             </div>
           {{/if}}
@@ -247,9 +250,9 @@ export default class TimePicker extends Component<Signature> {
         {{yield}}
       </div>
       {{#if this.isInvalid}}
-        <div class='cds--form-requirement'>{{@invalidText}}</div>
+        <div class="cds--form-requirement">{{@invalidText}}</div>
       {{else if this.isWarn}}
-        <div class='cds--form-requirement'>{{@warningText}}</div>
+        <div class="cds--form-requirement">{{@warningText}}</div>
       {{/if}}
     </div>
   </template>

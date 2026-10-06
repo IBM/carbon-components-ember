@@ -11,19 +11,19 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { defaultArgs } from '../utils/decorators.ts';
-import { A, type NativeArray } from '@ember/array';
+import { A } from '@ember/array';
+import type { NativeArray } from '@ember/array';
 import { task } from 'ember-concurrency';
-import TableToolbarComponent from '../components/data-table/-toolbar.gts';
-import TableSearchComponent from '../components/data-table/-search-input.gts';
-import CarbonPagination from '../components/pagination.gts';
-import TableComponent from '../components/data-table/-table.gts';
-import DataTableBody from '../components/data-table/-body.gts';
-import TableMenuComponent from '../components/data-table/-menu.gts';
-import TableColumn from '../components/data-table/-column.gts';
+import type TableToolbarComponent from '../components/data-table/-toolbar.gts';
+import type TableSearchComponent from '../components/data-table/-search-input.gts';
+import type CarbonPagination from '../components/pagination.gts';
+import type TableComponent from '../components/data-table/-table.gts';
+import type DataTableBody from '../components/data-table/-body.gts';
+import type TableMenuComponent from '../components/data-table/-menu.gts';
+import type TableColumn from '../components/data-table/-column.gts';
 import type { WithBoundArgs } from '@glint/template';
-import ListHeaderComponent, {
-  type Header,
-} from '../components/data-table/-header.gts';
+import type ListHeaderComponent from '../components/data-table/-header.gts';
+import type { Header } from '../components/data-table/-header.gts';
 import { hash } from '@ember/helper';
 import { runTask } from 'ember-lifeline';
 
@@ -264,14 +264,14 @@ export default class DataTableComponent<T> extends Component<
 
   <template>
     <div
-      class='cds--data-table-container {{if @isLoading "bx-skeleton"}}'
+      class="cds--data-table-container {{if @isLoading 'bx-skeleton'}}"
       data-table
     >
-      <div class='cds--data-table-header' {{this.notifyRegisterState}}>
-        <h4 class='cds--data-table-header__title'>
+      <div class="cds--data-table-header" {{this.notifyRegisterState}}>
+        <h4 class="cds--data-table-header__title">
           {{@title}}
         </h4>
-        <p class='cds--data-table-header__description'>
+        <p class="cds--data-table-header__description">
           {{@description}}
         </p>
       </div>

@@ -1,0 +1,303 @@
+[
+  [
+    "<ul class=\"cds--accordion cds--accordion--end\n    \" data-index=\"0\"></ul>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "height": "42px",
+      "margin": "0px",
+      "outline": "rgb(244, 244, 244) none 3px",
+      "padding": "0px",
+      "width": "1276px"
+    }
+  ],
+  [
+    "<ul:before class=\"cds--accordion cds--accordion--end\n    \" data-index=\"0\"></ul:before>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<ul:after class=\"cds--accordion cds--accordion--end\n    \" data-index=\"0\"></ul:after>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<li class=\"cds--accordion__item\n    \n    \" data-index=\"1\"></li>",
+    {
+      "border": "",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "height": "42px",
+      "outline": "rgb(244, 244, 244) none 3px",
+      "transition": "border-color 0.11s cubic-bezier(0.2, 0, 0.38, 0.9)",
+      "width": "1276px"
+    }
+  ],
+  [
+    "<li:before class=\"cds--accordion__item\n    \n    \" data-index=\"1\"></li:before>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<li:after class=\"cds--accordion__item\n    \n    \" data-index=\"1\"></li:after>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<button aria-controls=\"accordion-item-ember123\" aria-expanded=\"false\" class=\"cds--accordion__heading\" type=\"button\" data-index=\"2\"></button>",
+    {
+      "appearance": "none",
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "border": "0px none rgb(244, 244, 244)",
+      "bottom": "0px",
+      "color": "rgb(244, 244, 244)",
+      "cursor": "pointer",
+      "display": "flex",
+      "font": "16px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "inset": "0px",
+      "left": "0px",
+      "outline": "rgb(244, 244, 244) none 3px",
+      "padding": "0px 16px 0px 0px",
+      "position": "relative",
+      "right": "0px",
+      "top": "0px",
+      "transition": "background-color 0.11s cubic-bezier(0.2, 0, 0.38, 0.9)",
+      "width": "1276px"
+    }
+  ],
+  [
+    "<button:before aria-controls=\"accordion-item-ember123\" aria-expanded=\"false\" class=\"cds--accordion__heading\" type=\"button\" data-index=\"2\"></button:before>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "cursor": "pointer",
+      "display": "block",
+      "font": "16px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<button:after aria-controls=\"accordion-item-ember123\" aria-expanded=\"false\" class=\"cds--accordion__heading\" type=\"button\" data-index=\"2\"></button:after>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "cursor": "pointer",
+      "display": "block",
+      "font": "16px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<svg focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" class=\"cds--accordion__arrow\" data-index=\"3\"></svg>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "cursor": "pointer",
+      "display": "block",
+      "fill": "rgb(244, 244, 244)",
+      "flex": "0 0 16px",
+      "font": "16px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgba(0, 0, 0, 0) solid 2px",
+      "transform": "matrix(0, 1, -1, 0, 0, 0)",
+      "transition": "0.11s cubic-bezier(0.2, 0, 0.38, 0.9)"
+    }
+  ],
+  [
+    "<svg:before focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" class=\"cds--accordion__arrow\" data-index=\"3\"></svg:before>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "cursor": "pointer",
+      "fill": "rgb(244, 244, 244)",
+      "font": "16px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<svg:after focusable=\"false\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" class=\"cds--accordion__arrow\" data-index=\"3\"></svg:after>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "cursor": "pointer",
+      "fill": "rgb(244, 244, 244)",
+      "font": "16px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<path d=\"M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"4\"></path>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "cursor": "pointer",
+      "fill": "rgb(244, 244, 244)",
+      "font": "16px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<path:before d=\"M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"4\"></path:before>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "cursor": "pointer",
+      "fill": "rgb(244, 244, 244)",
+      "font": "16px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<path:after d=\"M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z\" data-index=\"4\"></path:after>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "cursor": "pointer",
+      "fill": "rgb(244, 244, 244)",
+      "font": "16px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<div class=\"cds--accordion__title\" dir=\"auto\" data-index=\"5\"></div>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "cursor": "pointer",
+      "font": "",
+      "height": "19.9844px",
+      "outline": "rgb(244, 244, 244) none 3px",
+      "padding": "0px 0px 0px 16px",
+      "width": "1244px"
+    }
+  ],
+  [
+    "<div:before class=\"cds--accordion__title\" dir=\"auto\" data-index=\"5\"></div:before>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "cursor": "pointer",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<div:after class=\"cds--accordion__title\" dir=\"auto\" data-index=\"5\"></div:after>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "cursor": "pointer",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<div class=\"cds--accordion__wrapper\" data-index=\"6\"></div>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "display": "none",
+      "font": "",
+      "height": "auto",
+      "opacity": "0",
+      "outline": "rgb(244, 244, 244) none 3px",
+      "overflow": "hidden",
+      "transition": "0.11s cubic-bezier(0, 0, 0.38, 0.9) allow-discrete",
+      "width": "auto"
+    }
+  ],
+  [
+    "<div:before class=\"cds--accordion__wrapper\" data-index=\"6\"></div:before>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<div:after class=\"cds--accordion__wrapper\" data-index=\"6\"></div:after>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<div id=\"accordion-item-ember123\" class=\"cds--accordion__content\" data-index=\"7\"></div>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "height": "auto",
+      "outline": "rgb(244, 244, 244) none 3px",
+      "padding": "0px 25% 0px 16px",
+      "width": "auto"
+    }
+  ],
+  [
+    "<div:before id=\"accordion-item-ember123\" class=\"cds--accordion__content\" data-index=\"7\"></div:before>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<div:after id=\"accordion-item-ember123\" class=\"cds--accordion__content\" data-index=\"7\"></div:after>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<p data-index=\"8\"></p>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "height": "auto",
+      "margin": "0px",
+      "outline": "rgb(244, 244, 244) none 3px",
+      "width": "auto"
+    }
+  ],
+  [
+    "<p:before data-index=\"8\"></p:before>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ],
+  [
+    "<p:after data-index=\"8\"></p:after>",
+    {
+      "border": "0px none rgb(244, 244, 244)",
+      "color": "rgb(244, 244, 244)",
+      "font": "",
+      "outline": "rgb(244, 244, 244) none 3px"
+    }
+  ]
+]

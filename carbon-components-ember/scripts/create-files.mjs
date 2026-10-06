@@ -1,9 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 
-
 function createIndexFiles() {
-  const files = fs.readdirSync('./src', { recursive: true });
+  // Sorted, so the generated barrels are the same on every OS.
+  const files = fs.readdirSync('./src', { recursive: true }).sort();
   const groups = {
     components: [],
     helpers: [],
@@ -15,11 +15,17 @@ function createIndexFiles() {
     if (addonFilename.includes('components/index.ts')) continue;
     if (addonFilename.includes('helpers/index.ts')) continue;
     if (addonFilename.includes('render-svg-part.ts')) continue;
-    if (addonFilename.startsWith('components/icons') && !addonFilename.includes('/-')) {
+    if (
+      addonFilename.startsWith('components/icons') &&
+      !addonFilename.includes('/-')
+    ) {
       groups.icons.push(addonFilename);
-      continue
+      continue;
     }
-    if (addonFilename.startsWith('components/') && !addonFilename.includes('/-')) {
+    if (
+      addonFilename.startsWith('components/') &&
+      !addonFilename.includes('/-')
+    ) {
       groups.components.push(addonFilename);
     }
     if (addonFilename.startsWith('helpers/') && !addonFilename.includes('/-')) {
@@ -28,7 +34,14 @@ function createIndexFiles() {
   }
   const componentIndexFile = [];
   for (const comp of groups.components) {
-    let camelCased = comp.split('/').at(-1).split('.').at().replace(/-([a-zA-Z])/g, function (g) { return g[1].toUpperCase(); });
+    let camelCased = comp
+      .split('/')
+      .at(-1)
+      .split('.')
+      .at()
+      .replace(/-([a-zA-Z])/g, function (g) {
+        return g[1].toUpperCase();
+      });
     camelCased = camelCased[0].toUpperCase() + camelCased.slice(1);
     if (comp.includes('charts')) {
       camelCased += 'Chart';
@@ -81,22 +94,38 @@ function createIndexFiles() {
     ) {
       camelCased = 'AiChat' + camelCased;
     }
-    if (comp.split('/').at(-1) === 'item.gts' && comp.includes('overflow-menu/')) {
+    if (
+      comp.split('/').at(-1) === 'item.gts' &&
+      comp.includes('overflow-menu/')
+    ) {
       camelCased = 'OverflowMenuItem';
     }
     const relativePath = comp.replace('components/', '');
-    const source = fs.readFileSync(path.join('./src/components', relativePath)).toString();
-    const namedExports = [...source.matchAll(/^export (?:class|const|function) ([A-Za-z0-9_]+)/gm)].map(
-      (m) => m[1],
-    );
+    const source = fs
+      .readFileSync(path.join('./src/components', relativePath))
+      .toString();
+    const namedExports = [
+      ...source.matchAll(/^export (?:class|const|function) ([A-Za-z0-9_]+)/gm),
+    ].map((m) => m[1]);
     const specifiers = [`default as ${camelCased}`, ...namedExports];
-    componentIndexFile.push(`export { ${specifiers.join(', ')} } from './${relativePath}'`);
+    componentIndexFile.push(
+      `export { ${specifiers.join(', ')} } from './components/${relativePath}'`,
+    );
   }
-  fs.writeFileSync('./src/components/index.ts', componentIndexFile.join('\n'));
+  // `carbon-components-ember/components` (dist/components.js, via the
+  // package.json `./*` export). src/components/index.ts re-exports it.
+  fs.writeFileSync('./src/components.ts', componentIndexFile.join('\n'));
 
   const iconsIndexFile = [];
   for (const comp of groups.icons) {
-    let camelCased = comp.split('/').at(-1).split('.').at().replace(/-([a-zA-Z])/g, function (g) { return g[1].toUpperCase(); });
+    let camelCased = comp
+      .split('/')
+      .at(-1)
+      .split('.')
+      .at()
+      .replace(/-([a-zA-Z])/g, function (g) {
+        return g[1].toUpperCase();
+      });
     camelCased = camelCased[0].toUpperCase() + camelCased.slice(1);
     iconsIndexFile.push(`export { default as ${camelCased} } from './${comp}'`);
   }
@@ -104,10 +133,20 @@ function createIndexFiles() {
 
   const helpersIndexFile = [];
   for (const comp of groups.helpers) {
-    let camelCased = comp.split('/').at(-1).split('.').at().replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
-    helpersIndexFile.push(`export { default as ${camelCased} } from './${comp.replace('helpers/', '')}'`);
+    let camelCased = comp
+      .split('/')
+      .at(-1)
+      .split('.')
+      .at()
+      .replace(/-([a-z])/g, function (g) {
+        return g[1].toUpperCase();
+      });
+    helpersIndexFile.push(
+      `export { default as ${camelCased} } from './${comp}'`,
+    );
   }
-  fs.writeFileSync('./src/helpers/index.ts', helpersIndexFile.join('\n'));
+  // `carbon-components-ember/helpers`; src/helpers/index.ts re-exports it.
+  fs.writeFileSync('./src/helpers.ts', helpersIndexFile.join('\n'));
 }
 
 function createIconIndex() {
@@ -157,9 +196,17 @@ type Icon = {
     icons[commonPath].push(size);
     iconNames[commonPath] = exportName.replace(size, '').replace('Glyph', '');
   }
+  // Start clean, so icons renamed or removed upstream don't leave stale files.
+  fs.rmSync('./src/components/icons', { recursive: true, force: true });
   fs.mkdirSync('./src/components/icons', { recursive: true });
+  fs.writeFileSync('./src/components/icons/.gitkeep', 'auto generated icons\n');
   for (const [icon, sizes] of Object.entries(icons)) {
-    const iconSizeMap = sizes.map(size => `'${size}': new TrackedPromise(() => import('${icon}/${size}')),`).join('\n  ');
+    const iconSizeMap = sizes
+      .map(
+        (size) =>
+          `'${size}': new TrackedPromise(() => import('${icon}/${size}')),`,
+      )
+      .join('\n  ');
     const index = sizes.includes('index') ? 'index' : '32';
     const content = `
 import Icon from '../icon.gts';
@@ -175,14 +222,19 @@ export default class ${iconNames[icon]} extends Icon {
   }
 }
     `;
-    let dashed = iconNames[icon].replace(/[A-Z]/g, m => "-" + m.toLowerCase()).replace(/^-/, '');
+    let dashed = iconNames[icon]
+      .replace(/[A-Z]/g, (m) => '-' + m.toLowerCase())
+      .replace(/^-/, '');
     fs.writeFileSync(`./src/components/icons/${dashed}.ts`, content);
   }
   for (const [, fullPath] of matchList) {
     typesContent += '\n';
     typesContent += `declare module '${fullPath}' { export default {} as Icon };\n`;
   }
-  fs.writeFileSync('./types/carbon-icons.d.ts', typesContent);
+  fs.writeFileSync(
+    './unpublished-development-types/carbon-icons.d.ts',
+    typesContent,
+  );
 }
 
 createIconIndex();

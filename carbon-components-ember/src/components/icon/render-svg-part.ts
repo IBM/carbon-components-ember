@@ -6,7 +6,17 @@ const cache = new Map();
 
 export function renderSvgPartFunc(
   [svg]: [any],
-  { class: classes, fill, size, title }: { class: (string | undefined)[]; fill?: string; size: number|string|undefined; title?: string },
+  {
+    class: classes,
+    fill,
+    size,
+    title,
+  }: {
+    class: (string | undefined)[];
+    fill?: string;
+    size: number | string | undefined;
+    title?: string;
+  },
 ): ReturnType<typeof htmlSafe> {
   if (!svg) return htmlSafe('');
   if (typeof svg !== 'object') return svg as ReturnType<typeof htmlSafe>;
@@ -29,8 +39,8 @@ export function renderSvgPartFunc(
   // exactly as React does.
   const titleEl = title !== undefined ? `<title>${title}</title>` : '';
   let rest = '';
-  if (cache.has(guidFor(svg)+size)) {
-    rest = cache.get(guidFor(svg)+size);
+  if (cache.has(guidFor(svg) + size)) {
+    rest = cache.get(guidFor(svg) + size);
   } else {
     const part = svg.content
       .map((svgPart: any) => {
@@ -41,7 +51,7 @@ export function renderSvgPartFunc(
       })
       .join('');
     rest = part;
-    cache.set(guidFor(svg)+size, rest);
+    cache.set(guidFor(svg) + size, rest);
   }
   // React appends `children` after the icon's own path elements, so the
   // <title> lands at the end - match that order so dom-parity index paths agree.

@@ -81,19 +81,19 @@ export default class TimePickerSelect extends Component<Signature> {
   }
 
   <template>
-    <div class='cds--select cds--time-picker__select'>
+    <div class="cds--select cds--time-picker__select">
       <select
         aria-label={{this.ariaLabel}}
-        class='cds--select-input'
+        class="cds--select-input"
         id={{this.id}}
         disabled={{@disabled}}
         value={{this.value}}
-        {{on 'change' this.handleChange}}
+        {{on "change" this.handleChange}}
         ...attributes
       >
         {{yield}}
       </select>
-      <ChevronDown @size='16' @svgClass='cds--select__arrow' />
+      <ChevronDown @size="16" @svgClass="cds--select__arrow" />
     </div>
   </template>
 }

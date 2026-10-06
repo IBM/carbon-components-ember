@@ -9,8 +9,8 @@ export interface Signature {
 export default class UIShellNavItem extends Component<Signature> {
   <template>
     <li>
-      <a href='#' class='cds--header__menu-item' tabindex='0'>
-        <span class='cds--text-truncate--end'>
+      <a href="#" class="cds--header__menu-item" tabindex="0">
+        <span class="cds--text-truncate--end">
           {{yield}}
         </span>
       </a>

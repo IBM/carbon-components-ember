@@ -1,0 +1,5 @@
+# Mechanical formatting commits, ignored by `git blame`
+# (GitHub applies this file automatically; locally: git config blame.ignoreRevsFile .git-blame-ignore-revs)
+
+# style: format addon with the blueprint prettier config
+1c2117951f40dcc1441d25476cd8e1dae0a3a6f2

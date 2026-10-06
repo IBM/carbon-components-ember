@@ -14,7 +14,8 @@ import { on } from '@ember/modifier';
 import { concat } from '@ember/helper';
 import { and } from 'ember-truth-helpers';
 import { View, ViewOff, WarningFilled, WarningAltFilled } from '../icons.ts';
-import Tooltip, { type TooltipAlignment } from './tooltip.gts';
+import Tooltip from './tooltip.gts';
+import type { TooltipAlignment } from './tooltip.gts';
 
 export interface Signature {
   Args: {
@@ -62,6 +63,12 @@ export default class PasswordInput extends Component<Signature> {
     return this.args.value ?? this.internalValue;
   }
 
+  // Ember 7 writes a `value=""` attribute for an empty initial value; bind
+  // `undefined` instead so the input renders like Carbon React (no attribute).
+  get boundValue() {
+    return this.value === '' ? undefined : this.value;
+  }
+
   get id() {
     return this.args.id ?? `password-input-${this.guid}`;
   }
@@ -87,7 +94,9 @@ export default class PasswordInput extends Component<Signature> {
   }
 
   get toggleLabel() {
-    return this.passwordVisible ? this.hidePasswordLabel : this.showPasswordLabel;
+    return this.passwordVisible
+      ? this.hidePasswordLabel
+      : this.showPasswordLabel;
   }
 
   get tooltipAlign(): TooltipAlignment {
@@ -119,85 +128,96 @@ export default class PasswordInput extends Component<Signature> {
 
   <template>
     <div
-      class='cds--form-item cds--text-input-wrapper cds--password-input-wrapper
-        {{if @readOnly "cds--text-input-wrapper--readonly"}}
-        {{if @light "cds--text-input-wrapper--light"}}
-        {{if @inline "cds--text-input-wrapper--inline"}}
-        {{if (and @inline this.isInvalid) "cds--text-input-wrapper--inline--invalid"}}
-        {{if @size (concat "cds--layout--size-" @size)}}'
+      class="cds--form-item cds--text-input-wrapper cds--password-input-wrapper
+        {{if @readOnly 'cds--text-input-wrapper--readonly'}}
+        {{if @light 'cds--text-input-wrapper--light'}}
+        {{if @inline 'cds--text-input-wrapper--inline'}}
+        {{if
+          (and @inline this.isInvalid)
+          'cds--text-input-wrapper--inline--invalid'
+        }}
+        {{if @size (concat 'cds--layout--size-' @size)}}"
       ...attributes
     >
       {{#if @labelText}}
         <label
           for={{this.id}}
-          class='cds--label
-            {{if @hideLabel "cds--visually-hidden"}}
-            {{if @disabled "cds--label--disabled"}}'
+          class="cds--label
+            {{if @hideLabel 'cds--visually-hidden'}}
+            {{if @disabled 'cds--label--disabled'}}"
         >
           {{@labelText}}
         </label>
       {{/if}}
       <div
-        class='cds--text-input__field-outer-wrapper
-          {{if @inline "cds--text-input__field-outer-wrapper--inline"}}'
+        class="cds--text-input__field-outer-wrapper
+          {{if @inline 'cds--text-input__field-outer-wrapper--inline'}}"
       >
         <div
-          class='cds--text-input__field-wrapper
-            {{if this.isWarn "cds--text-input__field-wrapper--warning"}}'
-          data-invalid={{if this.isInvalid 'true'}}
+          class="cds--text-input__field-wrapper
+            {{if this.isWarn 'cds--text-input__field-wrapper--warning'}}"
+          data-invalid={{if this.isInvalid "true"}}
         >
           {{#if this.isInvalid}}
-            <WarningFilled @size='16' @svgClass='cds--text-input__invalid-icon' />
+            <WarningFilled
+              @size="16"
+              @svgClass="cds--text-input__invalid-icon"
+            />
           {{else if this.isWarn}}
             <WarningAltFilled
-              @size='16'
-              @svgClass='cds--text-input__invalid-icon cds--text-input__invalid-icon--warning'
+              @size="16"
+              @svgClass="cds--text-input__invalid-icon cds--text-input__invalid-icon--warning"
             />
           {{/if}}
           <input
             id={{this.id}}
             type={{this.inputType}}
-            class='cds--text-input cds--password-input
-              {{if @size (concat "cds--text-input--" @size)}}
-              {{if @light "cds--text-input--light"}}
-              {{if this.isInvalid "cds--text-input--invalid"}}
-              {{if this.isWarn "cds--text-input--warning"}}'
+            class="cds--text-input cds--password-input
+              {{if @size (concat 'cds--text-input--' @size)}}
+              {{if @light 'cds--text-input--light'}}
+              {{if this.isInvalid 'cds--text-input--invalid'}}
+              {{if this.isWarn 'cds--text-input--warning'}}"
             placeholder={{@placeholder}}
             disabled={{@disabled}}
             readonly={{@readOnly}}
-            aria-invalid={{if this.isInvalid 'true'}}
-            data-invalid={{if this.isInvalid 'true'}}
-            data-toggle-password-visibility={{if this.passwordVisible 'false' 'true'}}
-            value={{this.value}}
-            {{on 'input' this.updateValue}}
-            {{on 'click' this.handleClick}}
+            aria-invalid={{if this.isInvalid "true"}}
+            data-invalid={{if this.isInvalid "true"}}
+            data-toggle-password-visibility={{if
+              this.passwordVisible
+              "false"
+              "true"
+            }}
+            value={{this.boundValue}}
+            {{on "input" this.updateValue}}
+            {{on "click" this.handleClick}}
           />
           <Tooltip
             @label={{this.toggleLabel}}
             @align={{this.tooltipAlign}}
-            class='cds--toggle-password-tooltip cds--icon-tooltip'
+            class="cds--toggle-password-tooltip cds--icon-tooltip"
           >
             <button
-              type='button'
-              class='cds--text-input--password__visibility__toggle cds--btn cds--btn--icon-only cds--tooltip__trigger cds--tooltip--a11y'
+              type="button"
+              class="cds--text-input--password__visibility__toggle cds--btn cds--btn--icon-only cds--tooltip__trigger cds--tooltip--a11y"
               disabled={{@disabled}}
-              {{on 'click' this.toggleVisibility}}
+              {{on "click" this.toggleVisibility}}
             >
               {{#if this.passwordVisible}}
-                <ViewOff @size='16' @svgClass='cds--icon-visibility-off' />
+                <ViewOff @size="16" @svgClass="cds--icon-visibility-off" />
               {{else}}
-                <View @size='16' @svgClass='cds--icon-visibility-on' />
+                <View @size="16" @svgClass="cds--icon-visibility-on" />
               {{/if}}
             </button>
           </Tooltip>
         </div>
         {{#if this.isInvalid}}
-          <div class='cds--form-requirement'>{{@invalidText}}</div>
+          <div class="cds--form-requirement">{{@invalidText}}</div>
         {{else if this.isWarn}}
-          <div class='cds--form-requirement'>{{@warnText}}</div>
+          <div class="cds--form-requirement">{{@warnText}}</div>
         {{else if @helperText}}
           <div
-            class='cds--form__helper-text {{if @disabled "cds--form__helper-text--disabled"}}'
+            class="cds--form__helper-text
+              {{if @disabled 'cds--form__helper-text--disabled'}}"
           >{{@helperText}}</div>
         {{/if}}
       </div>
