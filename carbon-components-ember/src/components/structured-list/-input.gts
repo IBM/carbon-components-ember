@@ -6,7 +6,6 @@
  */
 
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import type StructuredListRow from './-row.gts';
 
@@ -37,11 +36,10 @@ export default class StructuredListInput extends Component<StructuredListInputSi
     return this.args.row.multiSelection ? 'checkbox' : 'radio';
   }
 
-  @action
-  handleChange(event: Event) {
+  handleChange = (event: Event) => {
     this.args.row.args.wrapper.selectRow(this.args.row.rowId);
     this.args.onChange?.(event);
-  }
+  };
 
   <template>
     {{! A row may only own cells, so the (visually hidden) input sits in one;

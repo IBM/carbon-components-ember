@@ -1,5 +1,4 @@
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
 import { htmlSafe } from '@ember/template';
@@ -136,8 +135,7 @@ export default class CarbonIcon extends Component<Args> {
     return this.args.icon;
   }
 
-  @action
-  onIconClick() {
+  onIconClick = () => {
     const run = () => {
       const promise = this.args.onClick && this.args.onClick();
       this.loading = true;
@@ -170,7 +168,7 @@ export default class CarbonIcon extends Component<Args> {
     } else {
       run();
     }
-  }
+  };
 
   styles = stylesheet`
     @use "@carbon/styles/scss/theme" as *;

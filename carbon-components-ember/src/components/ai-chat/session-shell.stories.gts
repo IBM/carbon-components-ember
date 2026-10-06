@@ -1,6 +1,5 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { registerDestructor } from '@ember/destroyable';
 import { service } from '@ember/service';
 import { runTask } from 'ember-lifeline';
@@ -124,22 +123,19 @@ class SessionShellHost extends Component<{ Args: HostArgs }> {
     this.session.finalizeStreaming(response.id);
   }
 
-  @action
-  selectHistoryItem(id: string) {
+  selectHistoryItem = (id: string) => {
     this.selectedHistoryItemId = id;
-  }
+  };
 
-  @action
-  renameHistoryItem(id: string, name: string) {
+  renameHistoryItem = (id: string, name: string) => {
     this.historyItems = this.historyItems.map((item) =>
       item.id === id ? { ...item, name } : item,
     );
-  }
+  };
 
-  @action
-  deleteHistoryItem(id: string) {
+  deleteHistoryItem = (id: string) => {
     this.historyItems = this.historyItems.filter((item) => item.id !== id);
-  }
+  };
 
   <template>
     {{#if @withHistory}}

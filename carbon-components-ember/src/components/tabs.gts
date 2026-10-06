@@ -4,7 +4,6 @@ import { guidFor } from '@ember/object/internals';
 import { concat } from '@ember/helper';
 import { registerDestructor } from '@ember/destroyable';
 import type { WithBoundArgs } from '@glint/template';
-import { action } from '@ember/object';
 import type Owner from '@ember/owner';
 import type Icon from './icon.gts';
 import didResize from 'ember-resize-modifier/modifiers/did-resize';
@@ -166,10 +165,9 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
     return this.focusedTab ?? this.selectedTab ?? this.enabledTabs[0];
   }
 
-  @action
-  isTabDisabled(tab: TabPane) {
+  isTabDisabled = (tab: TabPane) => {
     return !!(this.args.disabled || tab.args.disabled);
-  }
+  };
 
   get enabledTabs() {
     return this.tabs.filter((t) => !this.isTabDisabled(t));
@@ -205,22 +203,20 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
     );
   }
 
-  @action
-  tabSelected(tab: TabPane) {
+  tabSelected = (tab: TabPane) => {
     if (this.isTabDisabled(tab)) return;
     this.currentTab = tab;
     this.focusedTab = tab;
     this.args.tabSelected?.(tab.args.title);
-  }
+  };
 
-  @action
-  closeTab(tab: TabPane, event?: Event) {
+  closeTab = (tab: TabPane, event?: Event) => {
     event?.stopPropagation();
     // The close button is always rendered (visually hidden when not
     // dismissable, matching @carbon/react's DOM), so guard here too.
     if (!this.args.dismissable || this.isTabDisabled(tab)) return;
     this.args.onTabCloseRequest?.(tab.args.title);
-  }
+  };
 
   get scrollButtonCheckConditions() {
     return this.resized && this.tabs.length && this.scrolled;
@@ -256,32 +252,27 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
     element?.focus();
   }
 
-  @action
-  scrollRight() {
+  scrollRight = () => {
     this.tabsDivElement?.scrollBy({
       left: 100,
     });
-  }
+  };
 
-  @action
-  scrollLeft() {
+  scrollLeft = () => {
     this.tabsDivElement?.scrollBy({
       left: -100,
     });
-  }
+  };
 
-  @action
-  onResize() {
+  onResize = () => {
     this.resized++;
-  }
+  };
 
-  @action
-  onScroll() {
+  onScroll = () => {
     this.scrolled++;
-  }
+  };
 
-  @action
-  moveFocus(direction: 1 | -1) {
+  moveFocus = (direction: 1 | -1) => {
     const enabled = this.enabledTabs;
     if (!enabled.length) return;
     const current = this.focusableTab;
@@ -291,14 +282,13 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
         ? 0
         : (currentIndex + direction + enabled.length) % enabled.length;
     this.focusTab(enabled[nextIndex]);
-  }
+  };
 
-  @action
-  focusEdge(edge: 'first' | 'last') {
+  focusEdge = (edge: 'first' | 'last') => {
     const enabled = this.enabledTabs;
     if (!enabled.length) return;
     this.focusTab(edge === 'first' ? enabled[0] : enabled[enabled.length - 1]);
-  }
+  };
 
   focusTab(tab?: TabPane) {
     if (!tab) return;
@@ -309,8 +299,7 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
     this.focusTabElement(tab);
   }
 
-  @action
-  handleTabKeydown(tab: TabPane, event: KeyboardEvent) {
+  handleTabKeydown = (tab: TabPane, event: KeyboardEvent) => {
     switch (event.key) {
       case 'ArrowRight':
         event.preventDefault();
@@ -344,7 +333,7 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
       default:
         break;
     }
-  }
+  };
 
   <template>
     {{#if @loading}}

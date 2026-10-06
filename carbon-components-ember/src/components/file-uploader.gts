@@ -7,7 +7,6 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import FileUploaderButton from './file-uploader/file-uploader-button.gts';
 import FileUploaderStatusIcon from './file-uploader/-status-icon.gts';
@@ -115,14 +114,12 @@ export default class FileUploader extends Component<FileUploaderSignature> {
     return classes.join(' ');
   }
 
-  @action
-  setButtonElement(element: HTMLButtonElement) {
+  setButtonElement = (element: HTMLButtonElement) => {
     this.buttonElement = element;
-  }
+  };
 
   /** Resets the selected-file list, e.g. after a successful upload. Yielded to callers as `clearFiles`. */
-  @action
-  clear() {
+  clear = () => {
     const previousItems = this.fileItems;
     if (!previousItems.length) return;
 
@@ -133,10 +130,9 @@ export default class FileUploader extends Component<FileUploaderSignature> {
       currentFiles: [],
       action: 'clear',
     });
-  }
+  };
 
-  @action
-  handleFilesAdded(event: Event) {
+  handleFilesAdded = (event: Event) => {
     const incoming = Array.from((event.target as HTMLInputElement).files ?? []);
     const files: FileUploaderAddedFile[] = this.args.multiple
       ? incoming
@@ -177,10 +173,9 @@ export default class FileUploader extends Component<FileUploaderSignature> {
       currentFiles: updated,
       action: 'add',
     });
-  }
+  };
 
-  @action
-  handleItemActivate(index: number, event: Event) {
+  handleItemActivate = (index: number, event: Event) => {
     if (this.args.filenameStatus !== 'edit') return;
     const deletedFile = this.fileItems[index];
     if (!deletedFile) return;
@@ -197,7 +192,7 @@ export default class FileUploader extends Component<FileUploaderSignature> {
     });
     this.args.onClick?.(event);
     this.buttonElement?.focus();
-  }
+  };
 
   <template>
     <div class="cds--form-item" ...attributes>

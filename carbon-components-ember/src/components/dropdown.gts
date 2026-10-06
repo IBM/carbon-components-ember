@@ -7,7 +7,6 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { task, timeout } from 'ember-concurrency';
 import type Owner from '@ember/owner';
@@ -192,10 +191,9 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
     return `${this.id}-description`;
   }
 
-  @action
-  itemId(index: number): string {
+  itemId = (index: number): string => {
     return `${this.menuId}-item-${index}`;
-  }
+  };
 
   get activeDescendant(): string | undefined {
     return this.isOpen && this.highlightedIndex >= 0
@@ -282,8 +280,7 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
     return classes.join(' ');
   }
 
-  @action
-  itemToString(item: T): string {
+  itemToString = (item: T): string => {
     if (this.args.itemToString) {
       return this.args.itemToString(item);
     }
@@ -298,7 +295,7 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
       return (item as Record<string, unknown>)['label'] as string;
     }
     return '';
-  }
+  };
 
   openMenu(offset: -1 | 1 = 1) {
     this.isOpen = true;
@@ -319,27 +316,24 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
     this.highlightedIndex = -1;
   }
 
-  @action
-  selectItem(item: T) {
+  selectItem = (item: T) => {
     if (this.args.selectedItem === undefined) {
       this.internalSelectedItem = item;
     }
     this.args.onChange?.({ selectedItem: item });
     this.close();
-  }
+  };
 
-  @action
-  handleTriggerClick() {
+  handleTriggerClick = () => {
     if (this.args.disabled || this.args.readOnly) return;
     if (this.isOpen) {
       this.close();
     } else {
       this.openMenu();
     }
-  }
+  };
 
-  @action
-  handleTriggerKeydown(event: KeyboardEvent) {
+  handleTriggerKeydown = (event: KeyboardEvent) => {
     if (this.args.disabled || this.args.readOnly) return;
     const items = this.args.items;
     switch (event.key) {
@@ -408,7 +402,7 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
         }
         break;
     }
-  }
+  };
 
   // Jumps the highlight (or, when closed, the selection) to the next item
   // whose text starts with the characters typed so far, the same
@@ -454,39 +448,34 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
     }
   }
 
-  @action
-  handleItemClick(item: T) {
+  handleItemClick = (item: T) => {
     if (this.args.disabled || this.args.readOnly) return;
     this.selectItem(item);
-  }
+  };
 
-  @action
-  setHighlighted(index: number) {
+  setHighlighted = (index: number) => {
     this.highlightedIndex = index;
-  }
+  };
 
-  @action
-  handleFocus() {
+  handleFocus = () => {
     this.isFocused = true;
-  }
+  };
 
-  @action
-  handleBlur() {
+  handleBlur = () => {
     this.isFocused = false;
     // Only the field button is ever focusable, so a blur means focus moved
     // somewhere else entirely (another field, Tab, or a click outside) -
     // `preventMenuMouseDown` below stops a click on a menu item from
     // triggering this in the first place.
     this.close();
-  }
+  };
 
-  @action
-  preventMenuMouseDown(event: MouseEvent) {
+  preventMenuMouseDown = (event: MouseEvent) => {
     // Keeps focus on the field button when clicking an item, the same way
     // downshift does - otherwise the button would blur (and the menu would
     // close, see `handleBlur`) before the item's own click handler runs.
     event.preventDefault();
-  }
+  };
 
   <template>
     <div class={{this.wrapperClasses}} ...attributes>

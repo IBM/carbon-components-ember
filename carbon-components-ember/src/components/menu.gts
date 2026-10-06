@@ -7,7 +7,6 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { modifier } from 'ember-modifier';
 
 const SPACING = 8;
@@ -326,8 +325,7 @@ export default class Menu extends Component<MenuSignature> {
     items[index]?.focus();
   }
 
-  @action
-  handleKeyDown(event: KeyboardEvent) {
+  handleKeyDown = (event: KeyboardEvent) => {
     event.stopPropagation();
     const closesMenu =
       (event.key === 'Escape' ||
@@ -346,26 +344,24 @@ export default class Menu extends Component<MenuSignature> {
         event.key === 'ArrowUp' ? 'up' : 'down',
       );
     }
-  }
+  };
 
-  @action
-  handleBlur(event: FocusEvent) {
+  handleBlur = (event: FocusEvent) => {
     if (!this.isRoot || !this.args.open) return;
     const related = event.relatedTarget as Node | null;
     const menu = event.currentTarget as HTMLUListElement;
     if (related && menu.contains(related)) return;
     this.args.onClose?.();
-  }
+  };
 
-  @action
-  handleClick(event: MouseEvent) {
+  handleClick = (event: MouseEvent) => {
     if (!this.isRoot) return;
     const item = (event.target as HTMLElement).closest('.cds--menu-item');
     if (!item) return;
     if (item.getAttribute('aria-disabled') === 'true') return;
     if (item.getAttribute('aria-haspopup') === 'true') return;
     this.args.onClose?.();
-  }
+  };
 
   <template>
     {{#if this.isRoot}}

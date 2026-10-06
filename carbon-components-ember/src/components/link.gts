@@ -6,7 +6,6 @@
  */
 
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import type { ComponentLike } from '@glint/template';
 
 export interface LinkSignature {
@@ -82,15 +81,14 @@ export default class Link extends Component<LinkSignature> {
     return !this.args.inline && !!this.args.renderIcon;
   }
 
-  @action
-  handleClick(event: MouseEvent) {
+  handleClick = (event: MouseEvent) => {
     if (this.args.disabled) {
       event.preventDefault();
       event.stopPropagation();
     } else {
       this.args.onClick?.(event);
     }
-  }
+  };
 
   <template>
     {{#let (element this.tag) as |Tag|}}

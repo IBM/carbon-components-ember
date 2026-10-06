@@ -1,6 +1,5 @@
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import Modal from '../modal.gts';
 import type DialogManagerService from '../../services/dialog-manager';
 
@@ -25,19 +24,17 @@ export default class ConfirmDialogComponent extends Component<DialogConfirmInter
   @service('carbon.dialog-manager')
   dialogManager!: DialogManagerService;
 
-  @action
-  onCancel() {
+  onCancel = () => {
     this.dialogManager.close();
     if (this.args.onCancel) this.args.onCancel();
     return false;
-  }
+  };
 
-  @action
-  onAccept() {
+  onAccept = () => {
     this.dialogManager.close();
     if (this.args.onAccept) this.args.onAccept();
     return false;
-  }
+  };
 
   <template>
     <Modal @onClose={{this.onCancel}}>

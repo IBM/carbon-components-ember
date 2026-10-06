@@ -6,7 +6,6 @@
  */
 
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import { modifier as eModifier } from 'ember-modifier';
 import type Owner from '@ember/owner';
 import type { WithBoundArgs } from '@glint/template';
@@ -307,16 +306,15 @@ export default class DatePicker extends Component<DatePickerSignature> {
     return classes.join(' ');
   }
 
-  @action
-  handleChange(
+  handleChange = (
     selectedDates: Date[],
     dateStr: string,
     instance: FlatpickrInstance,
-  ) {
+  ) => {
     if (this.readOnly) return;
     this.currentValue = selectedDates;
     this.args.onChange?.(selectedDates, dateStr, instance);
-  }
+  };
 
   // Constructs the flatpickr instance once its two (or one, for
   // `single`/`simple`) `DatePickerInput`s are in the DOM, and destroys it on

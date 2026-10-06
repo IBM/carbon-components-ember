@@ -1,6 +1,5 @@
 import type Icon from '../components/icon.gts';
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import type NotificationService from '../services/notifications.ts';
 import type { NotificationOptions } from '../services/notifications.ts';
@@ -69,14 +68,13 @@ export default class NotificationComponent extends Component<NotificationCompone
     return `actionable-notification-${guidFor(this)}`;
   }
 
-  @action
-  onNotificationClick(notification: NotificationOptions) {
+  onNotificationClick = (notification: NotificationOptions) => {
     if (this.notifications.has(notification)) {
       this.notifications.remove(notification);
     } else {
       this.show = false;
     }
-  }
+  };
 
   <template>
     {{#if this.show}}

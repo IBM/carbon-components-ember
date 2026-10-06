@@ -6,7 +6,6 @@
  */
 
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import Button from '../button.gts';
 import Tooltip from '../tooltip.gts';
 import type { ToolbarAction } from './toolbar.gts';
@@ -25,13 +24,12 @@ export interface ToolbarActionButtonSignature {
  * measurement row - see `toolbar.gts`.
  */
 export default class ToolbarActionButton extends Component<ToolbarActionButtonSignature> {
-  @action
-  handleLinkClick(event: MouseEvent) {
+  handleLinkClick = (event: MouseEvent) => {
     if (this.args.action.disabled) {
       event.preventDefault();
       event.stopPropagation();
     }
-  }
+  };
 
   <template>
     <Tooltip @label={{@action.text}} @align="bottom" ...attributes>

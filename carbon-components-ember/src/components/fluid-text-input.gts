@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { WarningFilled, WarningAltFilled, View, ViewOff } from '../icons.ts';
 import Tooltip from './tooltip.gts';
@@ -98,23 +97,20 @@ export default class FluidTextInput extends Component<Signature> {
     return this.args.hidePasswordLabel ?? 'Hide password';
   }
 
-  @action
-  updateValue(event: Event) {
+  updateValue = (event: Event) => {
     const value = (event.target as HTMLInputElement).value;
     this.internalValue = value;
     this.args.onChange?.(value, event);
-  }
+  };
 
-  @action
-  handleClick(event: MouseEvent) {
+  handleClick = (event: MouseEvent) => {
     this.args.onClick?.(event);
-  }
+  };
 
-  @action
-  togglePasswordVisibility(event: MouseEvent) {
+  togglePasswordVisibility = (event: MouseEvent) => {
     this.passwordVisible = !this.passwordVisible;
     this.args.onTogglePasswordVisibility?.(event);
-  }
+  };
 
   <template>
     <div

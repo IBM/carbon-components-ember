@@ -8,7 +8,6 @@
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import type { WithBoundArgs } from '@glint/template';
 import ChatHistoryPanelItem from './chat-history-panel-item.gts';
@@ -79,12 +78,11 @@ export default class ChatHistoryPanelMenu extends Component<ChatHistoryPanelMenu
     return this.internalExpanded;
   }
 
-  @action
-  toggle() {
+  toggle = () => {
     const next = !this.expanded;
     this.internalExpanded = next;
     this.args.onToggle?.(next);
-  }
+  };
 
   <template>
     <div role="listitem" class="cds-aichat-history-panel-menu" ...attributes>

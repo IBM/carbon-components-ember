@@ -7,7 +7,6 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { modifier as eModifier } from 'ember-modifier';
 import Tooltip from '../tooltip.gts';
@@ -88,15 +87,13 @@ export default class FileUploaderItem extends Component<FileUploaderItemSignatur
     return classes.join(' ');
   }
 
-  @action
-  setEllipsisApplied(active: boolean) {
+  setEllipsisApplied = (active: boolean) => {
     this.isEllipsisApplied = active;
-  }
+  };
 
-  @action
-  handleDelete(event: Event) {
+  handleDelete = (event: Event) => {
     this.args.onDelete?.(event, { uuid: this.uuid });
-  }
+  };
 
   <template>
     <span class={{this.classes}} ...attributes>

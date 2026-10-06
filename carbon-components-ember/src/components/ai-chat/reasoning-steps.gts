@@ -7,7 +7,6 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import type { WithBoundArgs } from '@glint/template';
 import { ChevronRight } from '../../icons.ts';
@@ -47,17 +46,15 @@ class ReasoningStep extends Component<ReasoningStepSignature> {
     return this.args.controlled ? Boolean(this.args.open) : this.internalOpen;
   }
 
-  @action
-  toggle() {
+  toggle = () => {
     const next = !this.isOpen;
     if (!this.args.controlled) {
       this.internalOpen = next;
     }
     this.args.onToggle?.(next);
-  }
+  };
 
-  @action
-  handleKeydown(event: KeyboardEvent) {
+  handleKeydown = (event: KeyboardEvent) => {
     if (this.isOpen && (event.key === 'Escape' || event.key === 'Esc')) {
       event.stopPropagation();
       if (!this.args.controlled) {
@@ -65,7 +62,7 @@ class ReasoningStep extends Component<ReasoningStepSignature> {
       }
       this.args.onToggle?.(false);
     }
-  }
+  };
 
   <template>
     <div

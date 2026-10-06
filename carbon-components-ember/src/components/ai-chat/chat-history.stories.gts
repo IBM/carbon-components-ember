@@ -1,6 +1,5 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { RenderStory } from 'ember-storybook';
 import { expect, fn as spy, waitFor, within } from 'storybook/test';
 
@@ -199,19 +198,16 @@ class ChatHistoryDemo extends Component<DemoSignature> {
     }));
   }
 
-  @action
-  search(value: string) {
+  search = (value: string) => {
     this.searchValue = value.toLowerCase();
-  }
+  };
 
-  @action
-  select(detail: { itemId?: string }) {
+  select = (detail: { itemId?: string }) => {
     this.selectedId = detail.itemId;
     if (detail.itemId) this.args.onSelect?.(detail.itemId);
-  }
+  };
 
-  @action
-  handleMenuAction(detail: { action?: string; itemId?: string }) {
+  handleMenuAction = (detail: { action?: string; itemId?: string }) => {
     const { itemId } = detail;
     if (!itemId) return;
     switch (detail.action) {
@@ -228,7 +224,7 @@ class ChatHistoryDemo extends Component<DemoSignature> {
         this.unpin(itemId);
         break;
     }
-  }
+  };
 
   pin(itemId: string) {
     const chat = this.regularItems
@@ -259,8 +255,7 @@ class ChatHistoryDemo extends Component<DemoSignature> {
     });
   }
 
-  @action
-  renameChange(itemId: string, value: string) {
+  renameChange = (itemId: string, value: string) => {
     const invalid = value.length > 75;
     this.mapChats((chats) =>
       updateChat(chats, itemId, {
@@ -270,30 +265,26 @@ class ChatHistoryDemo extends Component<DemoSignature> {
           : '',
       }),
     );
-  }
+  };
 
-  @action
-  renameSave(itemId: string, name: string) {
+  renameSave = (itemId: string, name: string) => {
     this.mapChats((chats) => updateChat(chats, itemId, { name }));
     this.renamingId = undefined;
-  }
+  };
 
-  @action
-  renameCancel() {
+  renameCancel = () => {
     this.renamingId = undefined;
-  }
+  };
 
-  @action
-  cancelDelete() {
+  cancelDelete = () => {
     this.itemToDelete = undefined;
-  }
+  };
 
-  @action
-  confirmDelete() {
+  confirmDelete = () => {
     const id = this.itemToDelete;
     this.mapChats((chats) => chats.filter((chat) => chat.id !== id));
     this.itemToDelete = undefined;
-  }
+  };
 
   <template>
     <ChatHistory>
@@ -556,50 +547,43 @@ class RenameAndDeleteDemo extends Component {
 
   itemActions = ITEM_ACTIONS;
 
-  @action
-  select(detail: { itemId?: string }) {
+  select = (detail: { itemId?: string }) => {
     if (detail.itemId) this.selectedId = detail.itemId;
-  }
+  };
 
-  @action
-  handleMenuAction(detail: { action?: string; itemId?: string }) {
+  handleMenuAction = (detail: { action?: string; itemId?: string }) => {
     if (detail.action === 'Rename') {
       this.renamingId = detail.itemId;
     } else if (detail.action === 'Delete') {
       this.deletingId = detail.itemId;
     }
-  }
+  };
 
-  @action
-  saveRename(itemId: string, newName: string) {
+  saveRename = (itemId: string, newName: string) => {
     this.chats = this.chats.map((chat) =>
       chat.id === itemId ? { ...chat, name: newName } : chat,
     );
     this.renamingId = undefined;
-  }
+  };
 
-  @action
-  cancelRename() {
+  cancelRename = () => {
     this.renamingId = undefined;
-  }
+  };
 
-  @action
-  confirmDelete(detail: { itemId?: string }) {
+  confirmDelete = (detail: { itemId?: string }) => {
     this.chats = this.chats.filter((chat) => chat.id !== detail.itemId);
     this.deletingId = undefined;
-  }
+  };
 
-  @action
-  cancelDelete() {
+  cancelDelete = () => {
     this.deletingId = undefined;
-  }
+  };
 
-  @action
-  newChat() {
+  newChat = () => {
     const id = String(Date.now());
     this.chats = [{ id, name: 'New chat' }, ...this.chats];
     this.selectedId = id;
-  }
+  };
 
   <template>
     <ChatHistory>

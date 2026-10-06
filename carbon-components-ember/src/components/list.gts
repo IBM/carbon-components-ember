@@ -1,7 +1,6 @@
 import { modifier } from 'ember-modifier';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import SearchComponent from '../components/search.gts';
 import type { WithBoundArgs } from '@glint/template';
 import CarbonPagination from '../components/pagination.gts';
@@ -79,11 +78,10 @@ export default class ListComponent<T> extends Component<
     return () => clearTimeout(timer);
   });
 
-  @action
-  onSelect(item: T) {
+  onSelect = (item: T) => {
     this.currentItem = item;
     this.args.onSelect?.(item);
-  }
+  };
 
   styles = stylesheet`
     .namespace {

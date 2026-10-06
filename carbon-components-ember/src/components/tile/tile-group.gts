@@ -1,6 +1,5 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import type { WithBoundArgs } from '@glint/template';
 import RadioTile from '../radio-tile.gts';
 import type { Value } from '../radio-tile.gts';
@@ -36,11 +35,14 @@ export default class TileGroup extends Component<Signature> {
     );
   }
 
-  @action
-  setCurrent(value: Value | undefined, name: string | undefined, event: Event) {
+  setCurrent = (
+    value: Value | undefined,
+    name: string | undefined,
+    event: Event,
+  ) => {
     this._selectedValue = value;
     this.args.onChange?.(value, name, event);
-  }
+  };
 
   <template>
     <fieldset class="cds--tile-group" disabled={{@disabled}} ...attributes>

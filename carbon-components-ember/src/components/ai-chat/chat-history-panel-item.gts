@@ -8,7 +8,6 @@
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { modifier as eModifier } from 'ember-modifier';
 import type { ComponentLike } from '@glint/template';
 import OverflowMenu from '../overflow-menu.gts';
@@ -164,36 +163,31 @@ export default class ChatHistoryPanelItem extends Component<ChatHistoryPanelItem
     this.internalRename = Boolean(rename);
   });
 
-  @action
-  handleClick() {
+  handleClick = () => {
     this.args.onSelect?.({ itemId: this.args.id, itemName: this.args.name });
-  }
+  };
 
-  @action
-  handleRenameChange(value: string) {
+  handleRenameChange = (value: string) => {
     this.args.onRenameChange?.(value);
-  }
+  };
 
-  @action
-  handleRenameCancel() {
+  handleRenameCancel = () => {
     this.internalRename = false;
     this.args.onRenameCancel?.();
-  }
+  };
 
-  @action
-  handleRenameSave(newName: string) {
+  handleRenameSave = (newName: string) => {
     this.internalRename = false;
     this.args.onRenameSave?.(newName);
-  }
+  };
 
-  @action
-  handleMenuAction(actionText: string | undefined) {
+  handleMenuAction = (actionText: string | undefined) => {
     this.args.onMenuAction?.({
       action: actionText,
       itemId: this.args.id,
       itemName: this.args.name,
     });
-  }
+  };
 
   <template>
     <li

@@ -8,7 +8,6 @@
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { concat } from '@ember/helper';
 import { View, ViewOff, WarningFilled, WarningAltFilled } from '../icons.ts';
@@ -106,23 +105,20 @@ export default class PasswordInput extends Component<Signature> {
     return position;
   }
 
-  @action
-  updateValue(event: Event) {
+  updateValue = (event: Event) => {
     const value = (event.target as HTMLInputElement).value;
     this.internalValue = value;
     this.args.onChange?.(value, event);
-  }
+  };
 
-  @action
-  handleClick(event: MouseEvent) {
+  handleClick = (event: MouseEvent) => {
     this.args.onClick?.(event);
-  }
+  };
 
-  @action
-  toggleVisibility(event: MouseEvent) {
+  toggleVisibility = (event: MouseEvent) => {
     this.passwordVisible = !this.passwordVisible;
     this.args.onTogglePasswordVisibility?.(event);
-  }
+  };
 
   <template>
     <div

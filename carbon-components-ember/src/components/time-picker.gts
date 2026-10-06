@@ -8,7 +8,6 @@
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { concat } from '@ember/helper';
 import { WarningFilled, WarningAltFilled } from '../icons.ts';
@@ -170,25 +169,22 @@ export default class TimePicker extends Component<Signature> {
     return this.isInvalid ? false : !!this.args.warning;
   }
 
-  @action
-  handleChange(event: Event) {
+  handleChange = (event: Event) => {
     if (this.args.disabled || this.args.readOnly) return;
     const value = (event.target as HTMLInputElement).value;
     this.internalValue = value;
     this.args.onChange?.(value, event);
-  }
+  };
 
-  @action
-  handleClick(event: MouseEvent) {
+  handleClick = (event: MouseEvent) => {
     if (this.args.disabled) return;
     this.args.onClick?.(event);
-  }
+  };
 
-  @action
-  handleBlur(event: FocusEvent) {
+  handleBlur = (event: FocusEvent) => {
     if (this.args.disabled) return;
     this.args.onBlur?.(event);
-  }
+  };
 
   <template>
     <div class="cds--form-item" ...attributes>

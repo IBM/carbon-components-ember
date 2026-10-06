@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { set, action } from '@ember/object';
+import { set } from '@ember/object';
 import { isBlank } from '@ember/utils';
 import { defaultArgs } from '../utils/decorators.ts';
 import PowerSelect from 'ember-power-select/components/power-select';
@@ -202,10 +202,9 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     return -1;
   }
 
-  @action
-  indexOfOption(opt: T) {
+  indexOfOption = (opt: T) => {
     return this.args.options.indexOf(opt);
-  }
+  };
 
   get selectedOption() {
     return this.args.selected as Option<T> | undefined;
@@ -215,8 +214,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     return this.args.selected as Option<T>[] | undefined;
   }
 
-  @action
-  onChange(selection: Option<T> | Option<T>[] | undefined) {
+  onChange = (selection: Option<T> | Option<T>[] | undefined) => {
     const choice = selection as T | T[] | undefined;
     if (choice && this.args.multiple === true && Array.isArray(choice)) {
       choice.forEach((item) => {
@@ -236,15 +234,13 @@ export default class SelectComponent<T extends ContentValue> extends Component<
       }
     }
     if (this.args.onSelect) this.args.onSelect(choice as any);
-  }
+  };
 
-  @action
-  selectFocused(select: any, event: any) {
+  selectFocused = (select: any, event: any) => {
     return this.args.selectFocused && this.args.selectFocused?.(select, event);
-  }
+  };
 
-  @action
-  handleKeydown(select: any, event: any) {
+  handleKeydown = (select: any, event: any) => {
     const selected = this.args.selected || ([] as T[]);
 
     let backspaceHandled = false;
@@ -270,7 +266,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
       event.preventDefault();
     }
     return undefined;
-  }
+  };
 
   get guid() {
     return guidFor(this);

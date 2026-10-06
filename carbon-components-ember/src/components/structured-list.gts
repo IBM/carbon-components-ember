@@ -8,7 +8,6 @@
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import type { WithBoundArgs } from '@glint/template';
 import Head from './structured-list/-head.gts';
 import Body from './structured-list/-body.gts';
@@ -107,31 +106,28 @@ export default class StructuredList extends Component<StructuredListSignature> {
    * Applies a row selection triggered by user interaction, dispatching to
    * single- or multi-selection handling depending on `@multiSelection`.
    */
-  @action
-  selectRow(id: string) {
+  selectRow = (id: string) => {
     if (this.args.multiSelection) {
       this.toggleSelectedRow(id);
     } else {
       this.setSelectedRow(id);
     }
-  }
+  };
 
-  @action
-  setSelectedRow(id: string) {
+  setSelectedRow = (id: string) => {
     if (this.internalSelectedRow === id) return;
     this.internalSelectedRow = id;
     this.args.onSelectionChange?.(id);
-  }
+  };
 
-  @action
-  toggleSelectedRow(id: string) {
+  toggleSelectedRow = (id: string) => {
     const current = this.selectedRows;
     const next = current.includes(id)
       ? current.filter((rowId) => rowId !== id)
       : [...current, id];
     this.internalSelectedRows = next;
     this.args.onMultiSelectionChange?.(next);
-  }
+  };
 
   <template>
     <div

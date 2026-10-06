@@ -1,7 +1,6 @@
 import SearchInput from '../search.gts';
 import Loading from '../loading.gts';
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 import type { TaskInstance } from 'ember-concurrency';
@@ -37,13 +36,12 @@ export default class TableSearchComponent extends Component<Args> {
     }
   });
 
-  @action
-  doSearch(term: string) {
+  doSearch = (term: string) => {
     if (this.lastTerm === term) return;
     this.lastTerm = term;
     void this.runSearch.cancelAll();
     return this.runSearch.perform(term);
-  }
+  };
 
   styles = stylesheet`
     .is-searching {

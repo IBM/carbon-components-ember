@@ -1,6 +1,5 @@
 import Component from '@glimmer/component';
 import { cached, tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { modifier as eModifier } from 'ember-modifier';
 import { Checkbox, CheckboxCheckedFilled, ChevronDown } from '../icons.ts';
@@ -112,32 +111,28 @@ export default class TileComponent extends Component<TileComponentSignature> {
     return this.args.tabindex ?? '0';
   }
 
-  @action
-  onClick(event: any) {
+  onClick = (event: any) => {
     event.preventDefault();
     this.args.onClick?.();
-  }
+  };
 
-  @action
-  onSelectableClick(event: Event) {
+  onSelectableClick = (event: Event) => {
     event.preventDefault();
     this.selected = !this.selected;
     this.args.onSelect?.();
-  }
+  };
 
-  @action
-  onSelectableKeyDown(event: KeyboardEvent) {
+  onSelectableKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       this.selected = !this.selected;
       this.args.onSelect?.();
     }
-  }
+  };
 
-  @action
-  toggleExpanded() {
+  toggleExpanded = () => {
     this.expanded = !this.expanded;
-  }
+  };
 
   <template>
     {{#if @selectable}}

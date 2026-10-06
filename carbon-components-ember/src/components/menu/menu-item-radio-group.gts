@@ -8,7 +8,6 @@
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import MenuItem from './menu-item.gts';
 
 export interface MenuItemRadioGroupSignature<Item = string> {
@@ -67,11 +66,10 @@ export default class MenuItemRadioGroup<Item = string> extends Component<
     }));
   }
 
-  @action
-  select(item: Item) {
+  select = (item: Item) => {
     this.uncontrolledSelection = item;
     this.args.onChange?.(item);
-  }
+  };
 
   <template>
     <li class="cds--menu-item-radio-group" role="none" ...attributes>

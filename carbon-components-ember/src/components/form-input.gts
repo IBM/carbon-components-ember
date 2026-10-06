@@ -1,6 +1,5 @@
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
-import { action } from '@ember/object';
 import { WarningFilled } from '../icons.ts';
 
 export type Args = {
@@ -23,10 +22,9 @@ export default class FormInput extends Component<FormInputSignature> {
     return guidFor(this);
   }
 
-  @action
-  onInputChange(evt: any) {
+  onInputChange = (evt: any) => {
     this.args.onChange?.(evt.target?.value);
-  }
+  };
 
   <template>
     <div class="cds--form-item some-class cds--text-input-wrapper">

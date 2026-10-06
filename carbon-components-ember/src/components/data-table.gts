@@ -8,7 +8,6 @@ import SearchInput from './data-table/-search-input.gts';
 import Menu from './data-table/-menu.gts';
 import { modifier } from 'ember-modifier';
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { defaultArgs } from '../utils/decorators.ts';
 import { A } from '@ember/array';
@@ -224,8 +223,7 @@ export default class DataTableComponent<T> extends Component<
     runTask(this, () => this.args.registerState?.(this.state));
   });
 
-  @action
-  search(term?: string) {
+  search = (term?: string) => {
     this.state.currentSearchTerm = term;
     if (!term) {
       this.state.currentSearch = undefined;
@@ -233,10 +231,9 @@ export default class DataTableComponent<T> extends Component<
       return;
     }
     return this.applySearch.perform(this.args.items || [], term);
-  }
+  };
 
-  @action
-  toggleItemSelection(item: T, selected: boolean) {
+  toggleItemSelection = (item: T, selected: boolean) => {
     if (selected && !this.state.selectedItems.has(item)) {
       this.state.selectedItems.add(item);
     }
@@ -244,22 +241,20 @@ export default class DataTableComponent<T> extends Component<
       this.state.selectedItems.delete(item);
     }
     this.args.onSelectionChange?.(this.state.selectedItems.toArray());
-  }
+  };
 
-  @action
-  toggleSelectAllItems(select: boolean) {
+  toggleSelectAllItems = (select: boolean) => {
     if (select) {
       this.state.selectedItems.setTo(this.currentItems.slice());
     } else {
       this.state.selectedItems.setTo([]);
     }
     this.args.onSelectionChange?.(this.state.selectedItems.toArray());
-  }
+  };
 
-  @action
-  changePage(slice: Slice) {
+  changePage = (slice: Slice) => {
     this.state.currentItemsSlice = slice;
-  }
+  };
 
   <template>
     <div

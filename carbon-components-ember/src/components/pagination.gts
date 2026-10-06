@@ -5,7 +5,6 @@ import { concat } from '@ember/helper';
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { cached, tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { defaultArgs } from '../utils/decorators.ts';
 import { stylesheet } from 'astroturf';
 import { runTask } from 'ember-lifeline';
@@ -127,52 +126,45 @@ export default class CarbonPagination extends Component<Args> {
     };
   }
 
-  @action
-  setState(state?: State) {
+  setState = (state?: State) => {
     if (!state) return;
     this.currentPage = state.page;
     this.itemsPerPage = state.itemsPerPage;
     this.lengthChanged();
-  }
+  };
 
-  @action
-  setItemsPerPage(items: number) {
+  setItemsPerPage = (items: number) => {
     this.itemsPerPage = items;
     this.pageChanged();
-  }
+  };
 
-  @action
-  setCurrentPage(p: number) {
+  setCurrentPage = (p: number) => {
     this.currentPage = p;
     this.pageChanged();
-  }
+  };
 
-  @action
-  pageBack() {
+  pageBack = () => {
     this.currentPage -= 1;
     this.pageChanged();
-  }
+  };
 
-  @action
-  pageForward() {
+  pageForward = () => {
     this.currentPage += 1;
     this.pageChanged();
-  }
+  };
 
-  @action
-  pageChanged() {
+  pageChanged = () => {
     runTask(this, () => {
       this.args.onPageChanged(this.currentSlice);
     });
-  }
+  };
 
-  @action
-  lengthChanged() {
+  lengthChanged = () => {
     if (this.currentPage > this.pages) {
       this.currentPage = this.pages;
       this.pageChanged();
     }
-  }
+  };
 
   notifyInitialPage = modifier(() => {
     this.pageChanged();

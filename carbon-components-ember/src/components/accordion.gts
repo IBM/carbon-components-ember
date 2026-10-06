@@ -2,7 +2,6 @@ import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
 import type { WithBoundArgs } from '@glint/template';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { concat } from '@ember/helper';
 
 export interface Args {
@@ -109,14 +108,13 @@ export default class Accordion extends Component<AccordionSignature> {
     return this.currentItem === item || this.args.open;
   }
 
-  @action
-  setActiveItem(item: Item) {
+  setActiveItem = (item: Item) => {
     if (this.currentItem === item) {
       this.currentItem = undefined;
       return;
     }
     this.currentItem = item;
-  }
+  };
 
   <template>
     <ul

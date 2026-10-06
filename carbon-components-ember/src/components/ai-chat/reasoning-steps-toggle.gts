@@ -8,7 +8,6 @@
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { ChevronUp } from '../../icons.ts';
 
 export type Args = {
@@ -62,15 +61,14 @@ export default class ReasoningStepsToggle extends Component<ReasoningStepsToggle
       : (this.args.closedLabelText ?? 'Show reasoning steps');
   }
 
-  @action
-  handleClick() {
+  handleClick = () => {
     if (this.args.disabled) {
       return;
     }
     const next = !this.open;
     this.internalOpen = next;
     this.args.onToggle?.(next);
-  }
+  };
 
   <template>
     <button

@@ -7,7 +7,6 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { modifier as eModifier } from 'ember-modifier';
 import { initCarousel } from '@carbon/utilities/carousel';
 import type {
@@ -100,22 +99,19 @@ export default class Carousel extends Component<CarouselSignature> {
     return this.lastIndex + 1;
   }
 
-  @action
-  handleViewChangeEnd(data: CarouselResponse) {
+  handleViewChangeEnd = (data: CarouselResponse) => {
     this.currentIndex = data.currentIndex;
     this.lastIndex = data.lastIndex;
     this.args.onChange?.(data);
-  }
+  };
 
-  @action
-  prev() {
+  prev = () => {
     this.carousel?.prev();
-  }
+  };
 
-  @action
-  next() {
+  next = () => {
     this.carousel?.next();
-  }
+  };
 
   // Deliberately takes no named args: `initCarousel` fully owns the DOM it's
   // given once constructed, so re-running this on every arg-identity change

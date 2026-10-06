@@ -7,7 +7,6 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import captureElement from './-capture-element.ts';
 
@@ -76,10 +75,9 @@ export default class FileUploaderDropContainer extends Component<FileUploaderDro
     return classes.join(' ');
   }
 
-  @action
-  setInputElement(element: HTMLElement) {
+  setInputElement = (element: HTMLElement) => {
     this.inputElement = element as HTMLInputElement;
-  }
+  };
 
   validateFiles(files: File[]): FileUploaderAddedFile[] {
     const accept = this.args.accept ?? [];
@@ -122,26 +120,23 @@ export default class FileUploaderDropContainer extends Component<FileUploaderDro
     return this.validateFiles(filesToValidate);
   }
 
-  @action
-  handleDragOver(event: DragEvent) {
+  handleDragOver = (event: DragEvent) => {
     event.stopPropagation();
     event.preventDefault();
     if (this.args.disabled) return;
     this.isActive = true;
     if (event.dataTransfer) event.dataTransfer.dropEffect = 'copy';
-  }
+  };
 
-  @action
-  handleDragLeave(event: DragEvent) {
+  handleDragLeave = (event: DragEvent) => {
     event.stopPropagation();
     event.preventDefault();
     if (this.args.disabled) return;
     this.isActive = false;
     if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
-  }
+  };
 
-  @action
-  handleDrop(event: DragEvent) {
+  handleDrop = (event: DragEvent) => {
     event.stopPropagation();
     event.preventDefault();
     if (this.args.disabled) return;
@@ -178,26 +173,23 @@ export default class FileUploaderDropContainer extends Component<FileUploaderDro
     }
 
     this.args.onAddFiles?.(event, { addedFiles });
-  }
+  };
 
-  @action
-  handleInputChange(event: Event) {
+  handleInputChange = (event: Event) => {
     const files = Array.from((event.target as HTMLInputElement).files ?? []);
     this.args.onAddFiles?.(event, { addedFiles: this.getAddedFiles(files) });
-  }
+  };
 
-  @action
-  resetInputValue(event: Event) {
+  resetInputValue = (event: Event) => {
     (event.target as HTMLInputElement).value = '';
-  }
+  };
 
-  @action
-  handleButtonClick(event: MouseEvent) {
+  handleButtonClick = (event: MouseEvent) => {
     this.args.onClick?.(event);
     if (!this.args.disabled) {
       this.inputElement?.click();
     }
-  }
+  };
 
   <template>
     <div

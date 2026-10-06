@@ -8,7 +8,6 @@
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { ChevronDown } from '../../icons.ts';
 
@@ -72,12 +71,11 @@ export default class TimePickerSelect extends Component<Signature> {
     return this.args.ariaLabel ?? 'open list of options';
   }
 
-  @action
-  handleChange(event: Event) {
+  handleChange = (event: Event) => {
     const value = (event.target as HTMLSelectElement).value;
     this.internalValue = value;
     this.args.onChange?.(value, event);
-  }
+  };
 
   <template>
     <div class="cds--select cds--time-picker__select">

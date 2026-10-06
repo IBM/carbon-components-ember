@@ -1,6 +1,5 @@
 import Icon from '../../components/icon.gts';
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import type ListComponent from '../../components/list.gts';
 
 export type Args<T> = {
@@ -21,10 +20,9 @@ export interface ListRowComponentSignature<T> {
 export default class ListRowComponent<T> extends Component<
   ListRowComponentSignature<T>
 > {
-  @action
-  onSelect(item: T) {
+  onSelect = (item: T) => {
     this.args.onSelect?.(item);
-  }
+  };
 
   <template>
     <div

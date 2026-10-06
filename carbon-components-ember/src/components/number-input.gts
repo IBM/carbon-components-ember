@@ -8,7 +8,6 @@
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { concat } from '@ember/helper';
 import { Add, Subtract, WarningFilled, WarningAltFilled } from '../icons.ts';
@@ -116,8 +115,7 @@ export default class NumberInput extends Component<Signature> {
     this.args.onChange?.(newValue, event, direction);
   }
 
-  @action
-  updateValue(event: Event) {
+  updateValue = (event: Event) => {
     const raw = (event.target as HTMLInputElement).value;
     const previousValue = this.value;
     const newValue = this.args.allowEmpty && raw === '' ? '' : Number(raw);
@@ -128,10 +126,9 @@ export default class NumberInput extends Component<Signature> {
         ? 'up'
         : 'down';
     this.setValue(newValue, event, direction);
-  }
+  };
 
-  @action
-  handleStep(direction: 'up' | 'down', event: Event) {
+  handleStep = (direction: 'up' | 'down', event: Event) => {
     if (this.args.disabled || this.args.readOnly) {
       return;
     }
@@ -172,23 +169,20 @@ export default class NumberInput extends Component<Signature> {
     const newValue = clamp(floatValue, min ?? -Infinity, max ?? Infinity);
 
     this.setValue(newValue, event, direction);
-  }
+  };
 
-  @action
-  handleStepperClick(direction: 'up' | 'down', event: MouseEvent) {
+  handleStepperClick = (direction: 'up' | 'down', event: MouseEvent) => {
     this.handleStep(direction, event);
     this.args.onClick?.(event);
-  }
+  };
 
-  @action
-  handleClick(event: MouseEvent) {
+  handleClick = (event: MouseEvent) => {
     this.args.onClick?.(event);
-  }
+  };
 
-  @action
-  handleBlur(event: FocusEvent) {
+  handleBlur = (event: FocusEvent) => {
     this.args.onBlur?.(event);
-  }
+  };
 
   <template>
     <div class="cds--form-item" ...attributes>

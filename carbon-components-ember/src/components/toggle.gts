@@ -1,5 +1,4 @@
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 
 export type Args = {
@@ -16,12 +15,11 @@ export default class ToggleComponent extends Component<Args> {
     return guidFor(this);
   }
 
-  @action
-  onToggleChange() {
+  onToggleChange = () => {
     if (this.args.readonly) return;
     const value = !this.args.value;
     this.args.onChange?.(value);
-  }
+  };
 
   <template>
     <div class="cds--toggle {{if @disabled 'cds--toggle--disabled'}}">

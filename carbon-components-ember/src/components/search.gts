@@ -1,5 +1,4 @@
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { cached, tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
@@ -67,15 +66,13 @@ export default class SearchComponent extends Component<SearchComponentSignature>
     }
   });
 
-  @action
-  onSearchClear() {
+  onSearchClear = () => {
     this.value = null;
     void this.runSearch.perform();
     this.args.onClear?.();
-  }
+  };
 
-  @action
-  setValue(v: any) {
+  setValue = (v: any) => {
     if (v && v.target) {
       const next = v.target.value;
       if (next === this.value) return;
@@ -84,10 +81,9 @@ export default class SearchComponent extends Component<SearchComponentSignature>
       return;
     }
     this.value = v;
-  }
+  };
 
-  @action
-  activate(mouseEvent: Event) {
+  activate = (mouseEvent: Event) => {
     if (this.isActive) {
       return;
     }
@@ -106,7 +102,7 @@ export default class SearchComponent extends Component<SearchComponentSignature>
       };
       document.addEventListener('mousedown', listener);
     });
-  }
+  };
 
   <template>
     {{this.setValue @value}}

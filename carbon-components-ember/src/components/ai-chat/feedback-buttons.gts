@@ -6,7 +6,6 @@
  */
 
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import Button from '../button.gts';
 import Tooltip from '../tooltip.gts';
 import {
@@ -82,15 +81,13 @@ export default class FeedbackButtons extends Component<FeedbackButtonsSignature>
     return this.args.isNegativeOpen ? 'true' : 'false';
   }
 
-  @action
-  clickPositive() {
+  clickPositive = () => {
     this.args.onClick?.(true);
-  }
+  };
 
-  @action
-  clickNegative() {
+  clickNegative = () => {
     this.args.onClick?.(false);
-  }
+  };
 
   <template>
     <div class="cds-aichat-feedback-buttons" ...attributes>

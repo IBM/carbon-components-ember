@@ -7,7 +7,6 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { modifier as eModifier } from 'ember-modifier';
 import Button from '../button.gts';
@@ -112,10 +111,9 @@ export default class Feedback extends Component<FeedbackSignature> {
     this.applyInitialValues();
   });
 
-  @action
-  handleTextInput(event: Event) {
+  handleTextInput = (event: Event) => {
     this.textInput = (event.currentTarget as HTMLTextAreaElement).value;
-  }
+  };
 
   // A plain `{{this.textInput}}` child-text mustache only sets the
   // textarea's *initial* value — once a user types, the browser detaches
@@ -133,38 +131,33 @@ export default class Feedback extends Component<FeedbackSignature> {
     }
   });
 
-  @action
-  isCategorySelected(category: string) {
+  isCategorySelected = (category: string) => {
     return this.selectedCategories.includes(category);
-  }
+  };
 
-  @action
-  toggleCategory(category: string) {
+  toggleCategory = (category: string) => {
     if (this.args.isReadonly) {
       return;
     }
     this.selectedCategories = this.selectedCategories.includes(category)
       ? this.selectedCategories.filter((c) => c !== category)
       : [...this.selectedCategories, category];
-  }
+  };
 
-  @action
-  handleDisclaimerCheckboxChange(checked: boolean) {
+  handleDisclaimerCheckboxChange = (checked: boolean) => {
     this.disclaimerChecked = checked;
-  }
+  };
 
-  @action
-  handleSubmit() {
+  handleSubmit = () => {
     this.args.onSubmit?.({
       text: this.textInput,
       selectedCategories: this.selectedCategories,
     });
-  }
+  };
 
-  @action
-  handleClose() {
+  handleClose = () => {
     this.args.onClose?.();
-  }
+  };
 
   <template>
     <div

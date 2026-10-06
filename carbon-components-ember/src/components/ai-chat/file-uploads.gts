@@ -7,7 +7,6 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { modifier } from 'ember-modifier';
 import FileUploadItem from './file-upload-item.gts';
 import { FileStatusValue } from './-file-uploads/types.ts';
@@ -190,11 +189,10 @@ export default class FileUploads extends Component<FileUploadsSignature> {
     this.snapshots = this.snapshotOf(this.uploads);
   }
 
-  @action
-  handleRemove(detail: FileRemoveEventDetail) {
+  handleRemove = (detail: FileRemoveEventDetail) => {
     this.announce(this.args.fileRemovedLabel ?? 'File removed.');
     this.args.onRemove?.(detail);
-  }
+  };
 
   // The outer element - and this modifier - stay mounted for the whole
   // component lifetime, even while @uploads is empty, so the live regions

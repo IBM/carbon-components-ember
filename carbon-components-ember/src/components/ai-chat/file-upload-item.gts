@@ -7,7 +7,6 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { registerDestructor } from '@ember/destroyable';
 import type Owner from '@ember/owner';
 import FileUploaderStatusIcon from '../file-uploader/-status-icon.gts';
@@ -178,22 +177,19 @@ export default class FileUploadItem extends Component<FileUploadItemSignature> {
     return this.objectURL;
   }
 
-  @action
-  handleImageError() {
+  handleImageError = () => {
     this.failedPreviewURL = this.resolved?.url ?? null;
-  }
+  };
 
-  @action
-  openVideo() {
+  openVideo = () => {
     if (this.previewURL) window.open(this.previewURL, '_blank', 'noopener');
-  }
+  };
 
-  @action
-  handleRemove() {
+  handleRemove = () => {
     const upload = this.args.upload;
     if (!upload) return;
     this.args.onRemove?.({ fileId: upload.id });
-  }
+  };
 
   <template>
     <span
