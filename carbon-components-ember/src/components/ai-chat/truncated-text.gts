@@ -136,8 +136,8 @@ export default class AiChatTruncatedText extends Component<AiChatTruncatedTextSi
 
   // Re-measures whenever '@lines' or '@value' change; kept separate from
   // 'observeContent' so those changes don't rebuild the observer. Function
-  // modifiers only track the args they actually read, hence the explicit
-  // check on both.
+  // modifiers only track the args they actually read, which the positional
+  // destructuring below does for both.
   remeasure = modifier(
     (_element: HTMLElement, [lines, value]: [number, string | undefined]) => {
       if (lines > 0 || value !== undefined) {
