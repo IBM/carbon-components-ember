@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, rerender, waitUntil, findAll } from '@ember/test-helpers';
+import { render, rerender } from '@ember/test-helpers';
 import OrderedList from '#src/components/ordered-list.gts';
 import { cell } from 'ember-resources';
 import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
@@ -19,9 +19,9 @@ module('Integration | Component | OrderedList', (hooks) => {
     const styleValue = cell('');
     await render(
       <template>
-        <OrderedList>
-          <li>Item 1</li>
-          <li>Item 2</li>
+        <OrderedList as |Item|>
+          <Item>Item 1</Item>
+          <Item>Item 2</Item>
         </OrderedList>
         <style>
           {{styleValue.current}}
@@ -48,9 +48,9 @@ module('Integration | Component | OrderedList', (hooks) => {
     const darkStyleValue = cell('');
     await render(
       <template>
-        <OrderedList>
-          <li>Item 1</li>
-          <li>Item 2</li>
+        <OrderedList as |Item|>
+          <Item>Item 1</Item>
+          <Item>Item 2</Item>
         </OrderedList>
         <style>
           {{styleValue.current}}

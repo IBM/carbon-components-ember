@@ -31,7 +31,7 @@
     }
   ],
   [
-    "<li class=\"cds--list__item\" data-index=\"1\"></li>",
+    "<li class=\"cds--list__item\" dir=\"auto\" data-index=\"1\"></li>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "bottom": "0px",
@@ -48,7 +48,7 @@
     }
   ],
   [
-    "<li:before class=\"cds--list__item\" data-index=\"1\"></li:before>",
+    "<li:before class=\"cds--list__item\" dir=\"auto\" data-index=\"1\"></li:before>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "bottom": "0px",
@@ -67,7 +67,7 @@
     }
   ],
   [
-    "<li:after class=\"cds--list__item\" data-index=\"1\"></li:after>",
+    "<li:after class=\"cds--list__item\" dir=\"auto\" data-index=\"1\"></li:after>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
@@ -76,7 +76,7 @@
     }
   ],
   [
-    "<li class=\"cds--list__item\" data-index=\"2\"></li>",
+    "<li class=\"cds--list__item\" dir=\"auto\" data-index=\"2\"></li>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "bottom": "0px",
@@ -93,7 +93,7 @@
     }
   ],
   [
-    "<li:before class=\"cds--list__item\" data-index=\"2\"></li:before>",
+    "<li:before class=\"cds--list__item\" dir=\"auto\" data-index=\"2\"></li:before>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "bottom": "0px",
@@ -112,7 +112,7 @@
     }
   ],
   [
-    "<li:after class=\"cds--list__item\" data-index=\"2\"></li:after>",
+    "<li:after class=\"cds--list__item\" dir=\"auto\" data-index=\"2\"></li:after>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
