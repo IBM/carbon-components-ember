@@ -7,7 +7,6 @@
 
 import Component from '@glimmer/component';
 import { modifier } from 'ember-modifier';
-import { eq } from 'ember-truth-helpers';
 import Button from '../button.gts';
 
 export type ChatButtonKind =

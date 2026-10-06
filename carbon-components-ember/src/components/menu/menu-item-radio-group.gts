@@ -9,7 +9,6 @@ import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { fn } from '@ember/helper';
 import MenuItem from './menu-item.gts';
 
 export interface MenuItemRadioGroupSignature<Item = string> {

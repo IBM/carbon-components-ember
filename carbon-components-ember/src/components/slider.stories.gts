@@ -1,5 +1,4 @@
 import { trackedObject } from '@ember/reactive/collections';
-import { on } from '@ember/modifier';
 import type { Decorator } from 'ember-storybook';
 import { RenderStory } from 'ember-storybook';
 import { expect, fn } from 'storybook/test';

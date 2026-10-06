@@ -9,7 +9,6 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { modifier } from 'ember-modifier';
-import { or } from 'ember-truth-helpers';
 import type { ComponentLike } from '@glint/template';
 import OverflowMenu from '../overflow-menu.gts';
 import OverflowMenuItem from '../overflow-menu/item.gts';

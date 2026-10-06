@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, rerender } from '@ember/test-helpers';
-import { hash } from '@ember/helper';
 import Grid, { FlexGrid } from '#src/components/grid.gts';
 import GridRow from '#src/components/grid/row.gts';
 import GridColumn from '#src/components/grid/column.gts';

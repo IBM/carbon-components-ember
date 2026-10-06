@@ -3,7 +3,6 @@ import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { cached, tracked } from '@glimmer/tracking';
 import { defaultArgs } from '../utils/decorators.ts';
-import { on } from '@ember/modifier';
 
 /** @documenter yuidoc */
 

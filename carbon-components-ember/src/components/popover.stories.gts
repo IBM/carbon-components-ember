@@ -1,4 +1,3 @@
-import { on } from '@ember/modifier';
 import { trackedObject } from '@ember/reactive/collections';
 import { modifier } from 'ember-modifier';
 import { RenderStory } from 'ember-storybook';

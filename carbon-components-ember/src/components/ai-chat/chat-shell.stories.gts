@@ -1,5 +1,4 @@
 import { fn as curry } from '@ember/helper';
-import { on } from '@ember/modifier';
 import { htmlSafe } from '@ember/template';
 import { trackedArray, trackedObject } from '@ember/reactive/collections';
 import { RenderStory } from 'ember-storybook';

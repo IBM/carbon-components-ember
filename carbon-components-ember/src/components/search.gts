@@ -6,7 +6,6 @@ import { task } from 'ember-concurrency';
 import { timeout } from 'ember-concurrency';
 import type { TaskInstance } from 'ember-concurrency';
 import { concat } from '@ember/helper';
-import { on } from '@ember/modifier';
 import { runTask } from 'ember-lifeline';
 import { default as defaultTo } from '../helpers/default-to.ts';
 import { Close, Search as SearchIcon } from '../icons.ts';

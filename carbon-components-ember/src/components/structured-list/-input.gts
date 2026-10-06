@@ -8,7 +8,6 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { on } from '@ember/modifier';
 import type StructuredListRow from './-row.gts';
 
 export interface StructuredListInputSignature {

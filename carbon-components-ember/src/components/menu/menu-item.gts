@@ -9,8 +9,6 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
 import { modifier } from 'ember-modifier';
 import { runTask, cancelTask } from 'ember-lifeline';
 import Menu, { findParentMenu } from '../menu.gts';

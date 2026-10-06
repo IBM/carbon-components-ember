@@ -8,9 +8,6 @@
 import Component from '@glimmer/component';
 import { cached, tracked } from '@glimmer/tracking';
 import { modifier as eModifier } from 'ember-modifier';
-import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
-import { eq } from 'ember-truth-helpers';
 import { guidFor } from '@ember/object/internals';
 import type { TemplateOnlyComponent } from '@ember/component/template-only';
 import type { ComponentLike } from '@glint/template';

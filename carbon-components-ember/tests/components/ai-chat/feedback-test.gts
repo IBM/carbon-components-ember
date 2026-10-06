@@ -1,8 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, fillIn } from '@ember/test-helpers';
-import { array, hash } from '@ember/helper';
-import { on } from '@ember/modifier';
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import Feedback from '#src/components/ai-chat/feedback.gts';

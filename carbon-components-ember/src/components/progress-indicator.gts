@@ -9,7 +9,6 @@ import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { on } from '@ember/modifier';
 import { registerDestructor } from '@ember/destroyable';
 import { runTask } from 'ember-lifeline';
 import type { WithBoundArgs } from '@glint/template';

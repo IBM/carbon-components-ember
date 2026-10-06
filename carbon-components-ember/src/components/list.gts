@@ -1,4 +1,3 @@
-import { fn, hash } from '@ember/helper';
 import { modifier } from 'ember-modifier';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';

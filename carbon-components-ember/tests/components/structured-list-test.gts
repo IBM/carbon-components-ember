@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
-import { array } from '@ember/helper';
 import StructuredList from '#src/components/structured-list.gts';
 
 module('Integration | Component | StructuredList', (hooks) => {

@@ -9,7 +9,6 @@ import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { on } from '@ember/modifier';
 import { guidFor } from '@ember/object/internals';
 import type { WithBoundArgs } from '@glint/template';
 import ChatHistoryPanelItem from './chat-history-panel-item.gts';

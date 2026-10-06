@@ -9,7 +9,6 @@ import {
 } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
-import { array, hash } from '@ember/helper';
 import VideoPlayer from '#src/components/ai-chat/video-player.gts';
 import { ScriptLoader } from '#src/components/ai-chat/-media/script-loader.ts';
 

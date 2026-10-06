@@ -1,8 +1,6 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { fn } from '@ember/helper';
 import { action } from '@ember/object';
-import { eq } from 'ember-truth-helpers';
 import { RenderStory } from 'ember-storybook';
 import { expect, fn as spy, waitFor, within } from 'storybook/test';
 

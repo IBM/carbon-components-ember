@@ -8,9 +8,6 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
-import { default as eq } from 'ember-truth-helpers/helpers/eq';
 import { default as Search } from '../search.gts';
 import { default as Pagination } from '../pagination.gts';
 import { default as Button } from '../button.gts';

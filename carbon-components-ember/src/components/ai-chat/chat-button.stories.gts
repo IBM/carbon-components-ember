@@ -1,6 +1,5 @@
-import { array, fn as curry } from '@ember/helper';
+import { fn as curry } from '@ember/helper';
 import { trackedObject } from '@ember/reactive/collections';
-import { eq } from 'ember-truth-helpers';
 import { expect, fn } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';

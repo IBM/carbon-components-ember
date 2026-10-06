@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { FileStatusValue } from '#src/components/ai-chat/-file-uploads/types.ts';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
-import { on } from '@ember/modifier';
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import FileUploads from '#src/components/ai-chat/file-uploads.gts';

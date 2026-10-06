@@ -2,12 +2,9 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { defaultArgs } from '../utils/decorators.ts';
 import CopyButton from '../components/copy-button.gts';
-import { concat, fn } from '@ember/helper';
+import { concat } from '@ember/helper';
 import { modifier as eModifier } from 'ember-modifier';
-import eq from 'ember-truth-helpers/helpers/eq';
-import { on } from '@ember/modifier';
 import set from '../helpers/set.ts';
-import not from 'ember-truth-helpers/helpers/not';
 import htmlSafe from '../helpers/html-safe.ts';
 import type { TemplateOnlyComponent } from '@ember/component/template-only';
 

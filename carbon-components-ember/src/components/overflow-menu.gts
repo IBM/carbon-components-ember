@@ -3,7 +3,6 @@ import type Icon from '../components/icon.gts';
 import MenuItemComponent from '../components/overflow-menu/item.gts';
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 import defaultTo from '../helpers/default-to.ts';
-import { on } from '@ember/modifier';
 import Tooltip from './-private/tooltip.gts';
 import type { WithBoundArgs } from '@glint/template';
 import { OverflowMenuVertical } from '../icons.ts';

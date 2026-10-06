@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, triggerKeyEvent, settled } from '@ember/test-helpers';
-import { on } from '@ember/modifier';
 import PromptLine from '#src/components/ai-chat/prompt-line.gts';
 import type { PromptLineApi } from '#src/components/ai-chat/prompt-line.gts';
 import { resetRichRuntimeForTests } from '#src/components/ai-chat/-prompt-line/rich-loader.ts';

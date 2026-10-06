@@ -9,7 +9,6 @@ import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { hash } from '@ember/helper';
 import type { WithBoundArgs } from '@glint/template';
 import Head from './structured-list/-head.gts';
 import Body from './structured-list/-body.gts';

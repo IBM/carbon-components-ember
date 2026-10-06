@@ -1,6 +1,5 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { on } from '@ember/modifier';
 import { ChevronDown } from '../../../icons.ts';
 import UIShellHeaderMenuItem from './-menu-item.gts';
 

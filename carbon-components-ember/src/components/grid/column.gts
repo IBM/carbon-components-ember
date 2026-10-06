@@ -6,7 +6,6 @@
  */
 
 import Component from '@glimmer/component';
-import { element } from 'ember-element-helper';
 import { BREAKPOINTS } from './-types.ts';
 import type {
   ColumnSpan,

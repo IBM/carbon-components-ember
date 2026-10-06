@@ -1,11 +1,8 @@
 import { default as Select } from './select.gts';
 import { default as Tooltip } from './tooltip.gts';
 import { default as defaultTo } from '../helpers/default-to.ts';
-import { default as eq } from 'ember-truth-helpers/helpers/eq';
 import { modifier } from 'ember-modifier';
-import { array, concat } from '@ember/helper';
-import { on } from '@ember/modifier';
-import { default as or } from 'ember-truth-helpers/helpers/or';
+import { concat } from '@ember/helper';
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';

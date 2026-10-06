@@ -1,10 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import and from 'ember-truth-helpers/helpers/and';
-import not from 'ember-truth-helpers/helpers/not';
-import { fn, concat } from '@ember/helper';
-import { on } from '@ember/modifier';
+import { concat } from '@ember/helper';
 import { registerDestructor } from '@ember/destroyable';
 import type { WithBoundArgs } from '@glint/template';
 import { action } from '@ember/object';

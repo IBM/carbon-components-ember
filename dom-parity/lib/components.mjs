@@ -492,7 +492,9 @@
  *    ProgressStep's stray `index` attribute, Slider's stray `value` on its
  *    track div, ShapeIndicator's `size="16"` on its incomplete icon), and
  *    harness limitations (input `value` property vs. attribute, path
- *    whitespace, `ember-element-helper` ids).
+ *    whitespace). The `ember-element-helper` `ember-view`/id entries are
+ *    gone: `element` is now Ember's built-in keyword, which renders no
+ *    classic-component wrapper attributes.
  * 6. Structural content, split into four (each large/distinct enough to
  *    warrant its own review). DONE (todo #865): Accordion, Tabs(+TabContent)
  *    and StructuredList - none gated by item 1, as expected (Tabs' tablist

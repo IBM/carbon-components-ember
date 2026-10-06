@@ -1,6 +1,4 @@
 import Component from '@glimmer/component';
-import { hash } from '@ember/helper';
-import { element } from 'ember-element-helper';
 
 export type CarbonTheme = 'white' | 'g10' | 'g90' | 'g100';
 

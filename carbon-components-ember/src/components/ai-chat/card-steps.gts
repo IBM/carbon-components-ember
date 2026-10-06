@@ -6,7 +6,6 @@
  */
 
 import Component from '@glimmer/component';
-import { default as eq } from 'ember-truth-helpers/helpers/eq';
 import { default as Loading } from '../loading.gts';
 import { default as IconIndicator } from '../icon-indicator.gts';
 import type { IconIndicatorKind } from '../icon-indicator.gts';

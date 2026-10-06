@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, waitUntil, findAll } from '@ember/test-helpers';
-import { array } from '@ember/helper';
 import List from '#src/components/list.gts';
 
 module('Integration | Component | List', (hooks) => {

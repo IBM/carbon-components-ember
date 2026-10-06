@@ -5,7 +5,6 @@ import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import type ConfirmDialogComponent from './dialogs/confirm.gts';
-import or from '../helpers/or.ts';
 import Confirm from './dialogs/confirm.gts';
 import Loading from './loading.gts';
 

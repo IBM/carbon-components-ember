@@ -1,5 +1,4 @@
 import Component from '@glimmer/component';
-import { element } from 'ember-element-helper';
 
 export type TextDir = 'ltr' | 'rtl' | 'auto';
 

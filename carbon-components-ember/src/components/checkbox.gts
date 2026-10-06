@@ -3,8 +3,6 @@ import { cached, tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { defaultArgs } from '../utils/decorators.ts';
-import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
 import set from '../helpers/set.ts';
 
 export type Args = {

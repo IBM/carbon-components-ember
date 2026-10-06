@@ -1,7 +1,4 @@
 import { Close, Menu } from '../../icons.ts';
-import { default as not } from 'ember-truth-helpers/helpers/not';
-import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
 import Component from '@glimmer/component';
 import UIShellHeaderGlobalAction from './-header/-global-action.gts';
 import UIShellHeaderPanel from './-header/-panel.gts';

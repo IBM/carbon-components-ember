@@ -2,7 +2,6 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import { on } from '@ember/modifier';
 import { modifier as eModifier } from 'ember-modifier';
 import { task, timeout } from 'ember-concurrency';
 import Popover, { PopoverContent } from './popover.gts';

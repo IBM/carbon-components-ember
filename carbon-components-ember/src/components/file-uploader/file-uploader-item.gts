@@ -9,7 +9,6 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { and } from 'ember-truth-helpers';
 import { modifier as eModifier } from 'ember-modifier';
 import Tooltip from '../tooltip.gts';
 import FileUploaderStatusIcon from './-status-icon.gts';

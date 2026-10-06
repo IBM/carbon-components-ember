@@ -6,8 +6,6 @@
  */
 
 import Component from '@glimmer/component';
-import { element } from 'ember-element-helper';
-import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import type { ComponentLike } from '@glint/template';
 

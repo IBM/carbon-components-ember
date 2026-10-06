@@ -10,7 +10,6 @@ import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { on } from '@ember/modifier';
 import { ChevronDown } from '../../icons.ts';
 
 export interface Signature {

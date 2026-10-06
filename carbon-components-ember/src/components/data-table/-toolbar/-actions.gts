@@ -1,7 +1,5 @@
 import { default as getFn } from '../../../helpers/get-fn.ts';
 import { default as Button } from '../../button.gts';
-import { fn } from '@ember/helper';
-import { hash } from '@ember/helper';
 import Component from '@glimmer/component';
 import type Table from '../../data-table.gts';
 

@@ -1,8 +1,6 @@
 import Component from '@glimmer/component';
 import { defaultArgs } from '../utils/decorators.ts';
 import { action } from '@ember/object';
-import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
 /** @documenter yuidoc */
 
 export type Args = {

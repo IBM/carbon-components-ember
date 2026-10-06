@@ -3,7 +3,6 @@ import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { on } from '@ember/modifier';
 import type { ComponentLike } from '@glint/template';
 import { WarningFilled, WarningAltFilled } from '../icons.ts';
 

@@ -11,7 +11,6 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { registerDestructor } from '@ember/destroyable';
-import { on } from '@ember/modifier';
 import { modifier } from 'ember-modifier';
 import { defaultArgs } from '../utils/decorators.ts';
 import { scheduleTask } from 'ember-lifeline';

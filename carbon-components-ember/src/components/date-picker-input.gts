@@ -8,7 +8,6 @@
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
 import { action } from '@ember/object';
-import { on } from '@ember/modifier';
 import { concat } from '@ember/helper';
 import type { ComponentLike } from '@glint/template';
 import { Calendar, WarningFilled, WarningAltFilled } from '../icons.ts';

@@ -4,7 +4,6 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { registerDestructor } from '@ember/destroyable';
-import { on } from '@ember/modifier';
 import { concat } from '@ember/helper';
 import { htmlSafe } from '@ember/template';
 import { modifier } from 'ember-modifier';

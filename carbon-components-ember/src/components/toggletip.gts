@@ -2,8 +2,6 @@ import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import { on } from '@ember/modifier';
-import { hash } from '@ember/helper';
 import { modifier } from 'ember-modifier';
 import type { WithBoundArgs } from '@glint/template';
 import ToggletipButtonComponent from './toggletip/button.gts';

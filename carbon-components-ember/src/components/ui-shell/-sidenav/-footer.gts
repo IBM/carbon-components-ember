@@ -1,7 +1,4 @@
 import Component from '@glimmer/component';
-import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
-import { default as not } from 'ember-truth-helpers/helpers/not';
 import { ChevronRight } from '../../../icons.ts';
 
 export interface UIShellSideNavFooterSignature {

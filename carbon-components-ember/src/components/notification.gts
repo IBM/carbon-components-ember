@@ -1,6 +1,3 @@
-import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
-import { default as eq } from 'ember-truth-helpers/helpers/eq';
 import type { default as Icon } from '../components/icon.gts';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';

@@ -11,7 +11,6 @@ import type { AxisChartOptions, BaseChartOptions } from '@carbon/charts';
 import type CarbonChartTabularData from '../../charts/-components/tabular-data.gts';
 import type { WithBoundArgs } from '@glint/template';
 import type ChartAxis from '../../charts/-components/axis.gts';
-import { hash } from '@ember/helper';
 import { throttle } from '@ember/runloop';
 
 /** @documenter yuidoc */

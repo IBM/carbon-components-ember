@@ -2,7 +2,6 @@ import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { registerDestructor } from '@ember/destroyable';
-import { hash } from '@ember/helper';
 
 export interface UIShellHeaderContainerSignature {
   Args: {

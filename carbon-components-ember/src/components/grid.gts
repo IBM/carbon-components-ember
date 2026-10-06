@@ -6,8 +6,6 @@
  */
 
 import Component from '@glimmer/component';
-import { hash } from '@ember/helper';
-import { element } from 'ember-element-helper';
 import GridColumn from './grid/column.gts';
 import GridColumnHang from './grid/column-hang.gts';
 import GridRow from './grid/row.gts';

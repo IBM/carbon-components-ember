@@ -8,10 +8,8 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { on } from '@ember/modifier';
 import { registerDestructor } from '@ember/destroyable';
 import type Owner from '@ember/owner';
-import { and, eq, not, or } from 'ember-truth-helpers';
 import FileUploaderStatusIcon from '../file-uploader/-status-icon.gts';
 import { PlayFilledAlt } from '../../icons.ts';
 import { pickFileTypeIcon } from './-file-uploads/file-type-icon.ts';

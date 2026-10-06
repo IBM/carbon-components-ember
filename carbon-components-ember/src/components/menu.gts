@@ -8,7 +8,6 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { on } from '@ember/modifier';
 import { modifier } from 'ember-modifier';
 
 const SPACING = 8;

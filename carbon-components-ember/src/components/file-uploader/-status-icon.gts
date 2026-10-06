@@ -7,8 +7,6 @@
 
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { on } from '@ember/modifier';
-import { eq } from 'ember-truth-helpers';
 import Loading from '../loading.gts';
 import { Close, CheckmarkFilled } from '../../icons.ts';
 

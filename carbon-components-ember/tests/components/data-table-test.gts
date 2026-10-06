@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, waitUntil, findAll } from '@ember/test-helpers';
-import { array, hash } from '@ember/helper';
 import DataTable from '#src/components/data-table.gts';
 import Pagination from '#src/components/pagination.gts';
 

@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { registerDestructor } from '@ember/destroyable';
-import { on } from '@ember/modifier';
 import { trackedObject } from '@ember/reactive/collections';
 import { RenderStory } from 'ember-storybook';
 import { expect, fn, waitFor } from 'storybook/test';

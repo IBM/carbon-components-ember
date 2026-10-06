@@ -3,7 +3,6 @@ import { default as toBool } from '../-helpers/to-bool.ts';
 import { default as newObj } from '../../../helpers/new-obj.ts';
 import type CarbonChart from '../../charts/-components/chart.gts';
 import type { ScaleTypes } from '@carbon/charts';
-import { fn } from '@ember/helper';
 import type { TOC } from '@ember/component/template-only';
 
 export type Args = {

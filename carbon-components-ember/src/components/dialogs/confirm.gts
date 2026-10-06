@@ -3,7 +3,6 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import defaultTo from '../../helpers/default-to.ts';
 import Modal from '../modal.gts';
-import { on } from '@ember/modifier';
 import type DialogManagerService from '../../services/dialog-manager';
 
 export type Args = {

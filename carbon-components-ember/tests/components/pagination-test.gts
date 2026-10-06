@@ -2,8 +2,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
 import Pagination from '#src/components/pagination.gts';
-import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
 import type { TOC } from '@ember/component/template-only';
 import { trackedObject } from '@ember/reactive/collections';
 

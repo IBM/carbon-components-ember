@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, rerender, waitUntil } from '@ember/test-helpers';
-import { array } from '@ember/helper';
 import TreeView from '#src/components/tree-view.gts';
 import { Folder, Document } from '#src/icons.ts';
 import { cell } from 'ember-resources';

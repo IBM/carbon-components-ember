@@ -6,7 +6,6 @@
  */
 
 import Component from '@glimmer/component';
-import { element } from 'ember-element-helper';
 import type { WithBoundArgs } from '@glint/template';
 
 export type LayerLevel = 0 | 1 | 2;

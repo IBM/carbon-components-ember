@@ -24,7 +24,6 @@ import type TableColumn from '../components/data-table/-column.gts';
 import type { WithBoundArgs } from '@glint/template';
 import type ListHeaderComponent from '../components/data-table/-header.gts';
 import type { Header } from '../components/data-table/-header.gts';
-import { hash } from '@ember/helper';
 import { runTask } from 'ember-lifeline';
 
 class TrackedSet<T> extends Set<T> {

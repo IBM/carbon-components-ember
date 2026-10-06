@@ -8,7 +8,6 @@ import {
   waitUntil,
   find,
 } from '@ember/test-helpers';
-import { array, hash } from '@ember/helper';
 import { cell } from 'ember-resources';
 import ChatHistoryPanelItem from '#src/components/ai-chat/chat-history-panel-item.gts';
 import { Delete } from '#src/icons.ts';

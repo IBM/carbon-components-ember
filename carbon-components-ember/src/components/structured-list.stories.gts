@@ -1,4 +1,4 @@
-import { array, concat } from '@ember/helper';
+import { concat } from '@ember/helper';
 import { htmlSafe } from '@ember/template';
 import { expect, fn } from 'storybook/test';
 

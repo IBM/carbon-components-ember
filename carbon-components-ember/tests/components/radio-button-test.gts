@@ -3,7 +3,6 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
 import RadioButton from '#src/components/radio-button.gts';
 import RadioButtonGroup from '#src/components/radio-button/group.gts';
-import { fn } from '@ember/helper';
 import { cell } from 'ember-resources';
 
 function setCell(theCell: { current: unknown }, value: unknown) {

@@ -1,6 +1,4 @@
 import type { default as Icon } from '../../../components/icon.gts';
-import { on } from '@ember/modifier';
-import { default as or } from 'ember-truth-helpers/helpers/or';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import SubMenuComponent from './-sub-menu.gts';

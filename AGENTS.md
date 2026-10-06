@@ -81,9 +81,7 @@ Use `{{on}}` modifier instead of React's event props:
 ```
 
 ### 5. Dynamic Element Types
-Use the `element` helper from `ember-element-helper`:
-```typescript
-import { element } from 'ember-element-helper';
+Use the built-in `element` keyword (Ember 7.1+); it needs no import:
 
 <template>
   {{#let (element this.elementType) as |Tag|}}
@@ -165,8 +163,8 @@ Fully type Glint signatures. Declare `Args`, `Element` (for `...attributes`), an
 
 ## Common Pitfalls and Solutions
 
-### ❌ Pitfall 1: Forgetting to Import `element`
-Ensure you import `element` helper from `ember-element-helper`.
+### ❌ Pitfall 1: Shadowing a Built-in Keyword
+Template keywords such as `fn`, `on`, `eq`, and `element` resolve to a same-named JavaScript binding in scope. Alias such imports (for example Storybook's `fn` spy) when using the template keyword.
 
 ### ❌ Pitfall 2: Reusing a `.gts` Basename in Public Exports
 If two publicly exported components share an exact basename (e.g. `tile/group.gts` vs `radio-button/group.gts`), the production rollup build can silently mis-name exports, causing runtime errors. **Solution**: Use specific names (e.g. `tile/tile-group.gts`).

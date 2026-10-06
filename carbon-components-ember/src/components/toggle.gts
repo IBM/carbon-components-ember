@@ -1,8 +1,6 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { on } from '@ember/modifier';
-import eq from 'ember-truth-helpers/helpers/eq';
 
 export type Args = {
   onChange?: (v: any) => void;

@@ -2,7 +2,6 @@ import Component from '@glimmer/component';
 import { cached, tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { on } from '@ember/modifier';
 import { modifier as eModifier } from 'ember-modifier';
 import { Checkbox, CheckboxCheckedFilled, ChevronDown } from '../icons.ts';
 

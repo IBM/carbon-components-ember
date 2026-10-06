@@ -9,7 +9,6 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { on } from '@ember/modifier';
 import captureElement from './-capture-element.ts';
 
 export type FileUploaderAddedFile = File & { invalidFileType?: boolean };

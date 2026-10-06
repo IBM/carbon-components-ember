@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
-import { hash } from '@ember/helper';
 import Layout, { LayoutConstraint } from '#src/components/layout.gts';
 
 module('Integration | Component | Layout', (hooks) => {
