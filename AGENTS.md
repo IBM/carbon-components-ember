@@ -635,14 +635,14 @@ are easy to name generically (`group.gts`, `item.gts`, `row.gts`...). If a
 **publicly exported** component (one re-exported from
 `src/components.ts`) shares its exact filename with another publicly
 exported component elsewhere in the tree — even in a different
-directory — docs-app's production Vite build (which uses an aggressive
-`treeshake: 'smallest'` rollup setting) has been observed to silently
+directory — a consuming app's production Vite build (docs-app's, with an
+aggressive `treeshake: 'smallest'` rollup setting) has been observed to silently
 mis-name one of the two exports in the generated component registry. The
 addon's own build (`pnpm build:carbon`) looks completely correct and every
 test/lint passes; the failure only shows up as a runtime
 `TypeError: Cannot convert undefined or null to object` (at
-`getPrototypeOf`) in the browser console on the deployed docs preview, where
-the affected component's demo silently fails to render. This bit `TileGroup`
+`getPrototypeOf`) in the browser console of the built app (here the old
+docs-app preview), where the affected component silently fails to render. This bit `TileGroup`
 (`tile/group.gts`) because `radio-button/group.gts` already existed with the
 same basename `group.gts` — renaming to `tile/tile-group.gts` fixed it.
 
@@ -714,14 +714,13 @@ tested from `test-app` renders nothing at all, silently, not a
 lazy-loading race (see the `renderIcon`-default-size gotcha above for that
 separate, real timing issue), a genuine no-op for whatever string it names.
 
-**One real, deliberate exception exists in `docs-app`**, so don't restate
-this as "zero hits repo-wide" without rerunning the grep against
-`docs-app/app` too: `docs-app/app/templates/2-components/icon.gjs.md`'s
-own live-preview demo imports `registerIcon` from
-`carbon-components-ember/components/icon` and calls
-`registerIcon('bookmark', BookmarkSvgInfo)` for real, then renders
-`<Icon @icon='bookmark' />` right below it — that one string *does*
-resolve, on that one docs page. No other string is ever registered
+**One real, deliberate exception exists in the stories**, so don't restate
+this as "zero hits repo-wide" without rerunning the grep against the
+`*.stories.gts` files too: `src/components/icon.stories.gts` imports
+`registerIcon` from `./icon.gts` and calls
+`registerIcon('bookmark', BookmarkSvg)` for real, then renders
+`<Icon @icon='bookmark' />` — that one string *does* resolve, in that one
+story (it was docs-app's icon page demo before docs-app was retired). No other string is ever registered
 anywhere in the repo (confirmed by the `list/-row.gts` finding below,
 which checked `'checkmark--filled'` specifically, not by assuming this
 paragraph's conclusion).
@@ -764,7 +763,7 @@ assume is intentional.
 - [ ] Add a colocated `<name>.stories.gts` (see "Storybook" below) mirroring Carbon React's stories for the component
 - [ ] Build: `cd carbon-components-ember && pnpm build`
 - [ ] Test: `cd carbon-components-ember && pnpm test`
-- [ ] If a docs example uses an icon, load the docs page (or an isolated render test) and confirm it actually renders — icons no longer need manual registration (see Pitfall 5), but this is still the only way to catch a genuinely missing/misnamed export
+- [ ] Story tests: `cd carbon-components-ember && pnpm exec vitest run --project storybook src/components/<name>.stories.gts` (axe included); a story that uses an icon must show it rendering
 
 ## Addon Layout and Tests (`@ember/addon-blueprint`)
 
@@ -796,8 +795,16 @@ file that mention `test-app/...` paths predate the migration and now mean
   less than a day ago, so a freshly released version can't be added until
   it's a day old; Dependabot waits a day (`cooldown`) for the same reason.
   pnpm 12 also dropped `-s`; use `--reporter=silent` / `--silent`.
-- **CI** (`.github/workflows/nodejs.yml`) runs the Lint, Test and Docs
-  build as separate jobs, then the `.try.mjs` scenarios.
+- **Node is pinned** in the root `package.json#devEngines.runtime` (`^24`,
+  `onFail: download`): pnpm resolves it into the lockfile with a checksum per
+  platform and runs scripts (and `pnpm exec node`) with that version. CI's
+  `setup-node` reads the same field (`node-version-file: package.json`), so
+  bump the version there, nowhere else.
+- **CI** (`.github/workflows/nodejs.yml`) runs Lint and Test as separate
+  jobs, then the `.try.mjs` scenarios. **Docs** (`.github/workflows/docs.yml`)
+  runs the story tests in shards and builds the Storybook in parallel; its
+  `Docs` job is the one check to require for them. On main and tags it
+  deploys that build to gh-pages.
 - **Style snapshots** are written through a testem middleware (and, under
   `pnpm start`, a Vite middleware at `/tests/?save-snapshots`). A missing
   snapshot is recorded on the next run and fails that run once by design.
@@ -826,7 +833,7 @@ file that mention `test-app/...` paths predate the migration and now mean
   `pnpm lint:publish` (publint) is what catches a broken `exports` entry.
 - **Astroturf CSS-module filenames** are derived from the file name
   (`iconIcon.module.scss`), since `decorator-transforms` keeps class fields
-  native. docs-app's `theme-support.gts` imports a few of them by name.
+  native.
 
 ## Simplification Guidelines
 
@@ -916,9 +923,11 @@ both.
 
 ## Storybook (`ember-storybook`)
 
-Stories live next to their component as `src/components/**/<name>.stories.gts`
-and are being ported from docs-app's `.gjs.md` pages (docs-app stays deployed
-alongside until the port is complete). Setup lives in
+Stories live next to their component as `src/components/**/<name>.stories.gts`.
+The Storybook **is** the documentation site: it's published at
+`versions/<version>/` on GitHub Pages (and `pr-previews/pr-<n>/` for PRs with
+the `preview` label). It replaced docs-app, whose `.gjs.md` pages were all
+ported to stories before docs-app was removed. Setup lives in
 `carbon-components-ember/.storybook/` and follows the
 [ember-storybook guide](https://ember-integrations.github.io/ember-storybook/getting-started).
 
@@ -949,11 +958,20 @@ npm `files` list.
   note it in the stories file, don't fake it. AI Chat stories mirror
   `@carbon/ai-chat-components`' stories (`<component>/__stories__/*.stories.js`
   in carbon-design-system/carbon-ai-chat) under `AI Chat/<upstream name>`.
-- **Nothing from docs-app is lost.** Every live demo on the docs-app page
-  becomes a story (or is covered by a parity story), and its prose moves to
-  `parameters.docs.description.component` / `.story` (markdown). The API table
-  is generated from the signature, so JSDoc on the component's args is the
-  place to improve it.
+- **Docs prose** goes in `parameters.docs.description.component` / `.story`
+  (markdown). The API table is generated from the signature, so JSDoc on the
+  component's args is the place to improve it.
+- **Sub-components** go in the parent's meta as `subcomponents: { ... }`, so
+  the parent's docs page shows a tab per sub-component in its args table.
+  Sub-components a consumer uses on their own also get their own story file
+  (titled under the parent, e.g. `Components/FileUploader/FileUploaderItem`).
+- **Static files** (e.g. sample media) go in `.storybook/public/` and are
+  referenced by relative URLs (`demo-support/sample-audio.mp3`), so they work
+  under any deploy path.
+- **Toolbar tools** (`.storybook/site-tools.ts`): a version switcher (lists
+  `versions/*` on gh-pages) and an "Edit this page" link to the current story
+  file. They use Storybook's `Select` and `Button` (with `ariaLabel`);
+  `IconButton`, `TooltipLinkList` and `ListItem` are deprecated in 10.6.
 - **Rendering.** Blockless components need no `render`: every arg is passed as
   `@named`. Components with blocks get a `render: (args) => <template>...`
   that reads `args.x`. Story-only args (e.g. the text yielded into a block)
@@ -991,15 +1009,35 @@ npm `files` list.
   page and break the run. `vite.config.mjs`'s storybook project scans every
   story up front and pre-bundles the lazily loaded modules; add new ones
   there if a cold run reports "optimized dependencies changed".
-- Don't set `subcomponents` on a meta. Storybook builds the subcomponent
-  argTypes tabs through `parameters.docs.extractArgTypes`, which
-  ember-storybook doesn't provide, so the whole docs page fails with "Args
-  unsupported. See Args documentation for your framework." Give each
-  sub-component its own story file instead (its docs page gets its own args
-  table). Story tests don't catch this, since they never render docs pages;
-  check the docs page itself after a build. Fixed upstream in
-  ember-integrations/ember-storybook#81; once released, the `subcomponents`
-  can come back.
+- `storybook build` indexes the stories while Vite builds the preview, and
+  ember-storybook 0.4.2 reads the story list in `buildStart` without waiting:
+  a build that wins the race ships no args tables and an empty "Show code",
+  and nothing fails.
+- **`patches/ember-storybook@0.4.2.patch`** carries our three upstream fixes
+  until they're released:
+  - CSF `subcomponents` support (ember-integrations/ember-storybook#81);
+  - waiting for the story index in `storybook build` (the race above);
+  - sharing one `@mdx-js/react` with the MDX pages. 0.4.2 bundles its own
+    copy, so `.mdx` pages (the Introduction) never got Storybook's
+    components: code blocks rendered as bare `<pre>`, unhighlighted and
+    unreadable in dark mode. `packageExtensions` in `pnpm-workspace.yaml`
+    declares the dependency the patched build imports.
+
+  The patch is a build of that repo's `main` with all three merged,
+  `dist/*.mjs` only (no source maps). To regenerate it, build the merged
+  branch and diff its `dist` against the published 0.4.2 with
+  `git diff --no-index --no-renames`: pnpm can't apply a patch with renames,
+  and tsdown renames hashed chunks. Drop the patch (and the
+  `packageExtensions` entry) once all three are released.
+- **Look and feel** follows @carbon/react's Storybook: `.storybook/theme.ts`
+  (manager and docs pages) follows the OS light/dark preference and uses IBM
+  Plex (the manager gets Carbon's Plex `@font-face` rules via `managerHead`).
+  Story blocks show the Carbon theme picked in the toolbar
+  (`var(--cds-background)`, in `previewHead`), and Storybook's loading
+  placeholders are dark in dark mode. The logo lightens its outline in dark
+  mode; the Introduction page swaps in `ember-carbon-components-dark.svg`
+  through `<picture>`, since Carbon's theme class forces `color-scheme:
+  light` on the preview page, which an `<img>` SVG follows.
 
 ## Porting Carbon AI Chat (`@carbon/ai-chat-components`)
 
@@ -3612,4 +3650,4 @@ surfacing here are repeated below.
 
 ---
 
-Last Updated: 2026-10-02
+Last Updated: 2026-10-03

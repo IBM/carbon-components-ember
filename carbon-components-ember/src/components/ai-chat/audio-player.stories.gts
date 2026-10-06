@@ -20,16 +20,14 @@ import type { Args as AudioPlayerArgs } from './audio-player.gts';
 // - Upstream sets `data-rounded="top"` on the player inside a card; the
 //   rounded-modifiers mixins aren't ported (see AudioPlayer's class doc).
 //
-// The docs-app demos played `/demo-support/sample-audio.mp3`, a docs-app
-// public asset. Storybook doesn't serve that folder, so the native-audio
-// stories use the tiny WAV data URI upstream itself uses for Chromatic
-// instead, which also keeps the tests offline.
+// The native-audio stories play a real sample, `demo-support/sample-audio.mp3`,
+// served from `.storybook/public/` (relative to the preview, so it works under
+// any deploy path, and keeps the tests offline).
 //
 // SoundCloud stories load the SoundCloud Widget API from the network, so
 // they are excluded from the test run (`!test` tag) to keep it deterministic.
 
-const NATIVE_AUDIO_SOURCE =
-  'data:audio/wav;base64,UklGRiUAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQEAAACA';
+const NATIVE_AUDIO_SOURCE = 'demo-support/sample-audio.mp3';
 
 const SOUNDCLOUD_SOURCE =
   'https://soundcloud.com/ibmthinkleaders/leveraging-ai-to-tackle-large-problems-being-an-optimistic-futurist-feat-kate-oneill';

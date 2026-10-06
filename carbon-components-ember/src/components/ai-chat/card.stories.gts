@@ -102,6 +102,7 @@ const CardContent = <template>
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'AI Chat/Card',
   component: AiChatCard,
+  subcomponents: { AiChatCardFooter },
   parameters: {
     docs: {
       description: {

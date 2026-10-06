@@ -16,6 +16,7 @@ type Args = Signature['Args'];
 const meta = preview.meta({
   title: 'Components/TimePicker',
   component: TimePicker,
+  subcomponents: { TimePickerSelect },
   parameters: {
     docs: {
       description: {

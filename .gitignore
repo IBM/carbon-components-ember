@@ -3,9 +3,6 @@
 !carbon-components-ember/**/*
 !config
 !config/**/*
-!docs-app
-!docs-app/**/*
-docs-app/node_modules
 !dom-parity
 !dom-parity/**/*
 dom-parity/node_modules

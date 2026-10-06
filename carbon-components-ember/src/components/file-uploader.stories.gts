@@ -6,6 +6,7 @@ import { expect, fn, waitFor } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import Button from './button.gts';
 import FileUploader from './file-uploader.gts';
+import FileUploaderButton from './file-uploader/file-uploader-button.gts';
 import FileUploaderDropContainer from './file-uploader/file-uploader-drop-container.gts';
 import FileUploaderItem from './file-uploader/file-uploader-item.gts';
 import FileUploaderSkeleton from './file-uploader/file-uploader-skeleton.gts';
@@ -254,6 +255,12 @@ const dropContainerControls = Object.keys(dropContainerArgs).filter(
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'Components/FileUploader',
   component: FileUploader,
+  subcomponents: {
+    FileUploaderButton,
+    FileUploaderSkeleton,
+    FileUploaderItem,
+    FileUploaderDropContainer,
+  },
   parameters: {
     docs: {
       description: {
