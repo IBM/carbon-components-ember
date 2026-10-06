@@ -1,11 +1,10 @@
-import { helper as buildHelper } from '@ember/component/helper';
 import { htmlSafe } from '@ember/template';
 import { guidFor } from '@ember/object/internals';
 
 const cache = new Map();
 
-export function renderSvgPartFunc(
-  [svg]: [any],
+export default function renderSvgPart(
+  svg: any,
   {
     class: classes,
     fill,
@@ -58,6 +57,3 @@ export function renderSvgPartFunc(
   const html = (base + rest + titleEl + '</svg>').trim();
   return htmlSafe(html);
 }
-
-export const renderSvgPart = buildHelper(renderSvgPartFunc);
-export default renderSvgPart;

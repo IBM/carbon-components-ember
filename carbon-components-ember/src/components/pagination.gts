@@ -1,11 +1,10 @@
 import Select from './select.gts';
 import Tooltip from './tooltip.gts';
-import defaultTo from '../helpers/default-to.ts';
 import { modifier } from 'ember-modifier';
 import { concat } from '@ember/helper';
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
-import { tracked } from '@glimmer/tracking';
+import { cached, tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { defaultArgs } from '../utils/decorators.ts';
 import { stylesheet } from 'astroturf';
@@ -97,6 +96,15 @@ export default class CarbonPagination extends Component<Args> {
 
   get defaultArgs() {
     return this.args;
+  }
+
+  // `@itemsPerPageOptions` accepts strings too, but the selected value is
+  // always the numeric `itemsPerPage`, so normalize the options to match.
+  @cached
+  get itemsPerPageOptions(): number[] {
+    return (
+      this.defaultArgs.itemsPerPageOptions ?? [10, 20, 30, 40, 50, 100]
+    ).map(Number);
   }
 
   get pageSelectLabelText() {
@@ -230,10 +238,7 @@ export default class CarbonPagination extends Component<Args> {
               @inline={{true}}
               @disabled={{@disabled}}
               @searchEnabled={{false}}
-              @options={{defaultTo
-                this.defaultArgs.itemsPerPageOptions
-                (array 10 20 30 40 50 100)
-              }}
+              @options={{this.itemsPerPageOptions}}
               @onSelect={{this.setItemsPerPage}}
               @selected={{this.itemsPerPage}}
             />

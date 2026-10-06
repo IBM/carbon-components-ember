@@ -2,7 +2,6 @@ import Component from '@glimmer/component';
 import type Icon from '../components/icon.gts';
 import MenuItemComponent from '../components/overflow-menu/item.gts';
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
-import defaultTo from '../helpers/default-to.ts';
 import Tooltip from './-private/tooltip.gts';
 import type { WithBoundArgs } from '@glint/template';
 import { OverflowMenuVertical } from '../icons.ts';
@@ -81,7 +80,7 @@ export default class OverflowMenuComponent extends Component<OverflowMenuCompone
           class="cds--overflow-menu-options cds--overflow-menu-options--open cds--overflow-menu-options--md"
           style="inset-block-start: 0"
           tabindex="-1"
-          data-floating-menu-direction={{defaultTo @direction "buttom"}}
+          data-floating-menu-direction={{or @direction "bottom"}}
         >
           {{yield
             (component MenuItemComponent disabled=@disabled isDelete=@danger)

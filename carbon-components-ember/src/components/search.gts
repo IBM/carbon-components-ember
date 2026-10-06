@@ -7,7 +7,6 @@ import { timeout } from 'ember-concurrency';
 import type { TaskInstance } from 'ember-concurrency';
 import { concat } from '@ember/helper';
 import { runTask } from 'ember-lifeline';
-import defaultTo from '../helpers/default-to.ts';
 import { Close, Search as SearchIcon } from '../icons.ts';
 
 export type Args = {
@@ -42,6 +41,12 @@ export default class SearchComponent extends Component<SearchComponentSignature>
   }
 
   @cached
+  // An explicit empty `@placeholder` means no placeholder, as in Carbon
+  // React, so only fall back to the default when it's undefined.
+  get placeholder() {
+    return this.args.placeholder ?? 'Search';
+  }
+
   get guid() {
     return guidFor(this);
   }
@@ -135,10 +140,10 @@ export default class SearchComponent extends Component<SearchComponentSignature>
       </label>
       <input
         class="cds--search-input"
-        type={{defaultTo @type "search"}}
+        type={{or @type "search"}}
         id={{this.inputId}}
-        placeholder={{defaultTo @placeholder "Search"}}
-        autocomplete={{defaultTo @autoComplete "off"}}
+        placeholder={{this.placeholder}}
+        autocomplete={{or @autoComplete "off"}}
         value={{this.value}}
         disabled={{@disabled}}
         {{on "change" this.setValue}}
@@ -149,8 +154,8 @@ export default class SearchComponent extends Component<SearchComponentSignature>
       {{#if this.hasInput}}
         <button
           class="cds--search-close"
-          title={{defaultTo @closeButtonLabelText "Clear search input"}}
-          aria-label={{defaultTo @closeButtonLabelText "Clear search input"}}
+          title={{or @closeButtonLabelText "Clear search input"}}
+          aria-label={{or @closeButtonLabelText "Clear search input"}}
           type="button"
           disabled={{@disabled}}
           {{on "click" this.onSearchClear}}

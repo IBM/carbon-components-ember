@@ -4,7 +4,6 @@ import TableActionsComponent from '../data-table/-toolbar/-actions.gts';
 import type { WithBoundArgs } from '@glint/template';
 import type DataTableComponent from '../data-table.gts';
 import { concat } from '@ember/helper';
-import defaultTo from '../../helpers/default-to.ts';
 
 export interface Signature {
   Args: {
@@ -29,7 +28,7 @@ export default class TableToolbarComponent extends Component<Signature> {
       class="cds--table-toolbar
         {{if @size (concat 'cds--table-toolbar--' @size)}}"
       role="group"
-      aria-label={{defaultTo @ariaLabel "data table toolbar"}}
+      aria-label={{or @ariaLabel "data table toolbar"}}
     >
       {{yield
         (hash

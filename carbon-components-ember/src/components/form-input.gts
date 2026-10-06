@@ -1,4 +1,3 @@
-import defaultTo from '../helpers/default-to.ts';
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
 import { action } from '@ember/object';
@@ -54,7 +53,7 @@ export default class FormInput extends Component<FormInputSignature> {
             id="text-input-{{this.guid}}"
             aria-invalid={{if @errors "true"}}
             data-invalid={{if @errors "true"}}
-            type="{{defaultTo @type 'text'}}"
+            type="{{or @type 'text'}}"
             value={{@value}}
             class="cds--text-input {{if @errors 'cds--text-input--invalid'}}"
             placeholder="{{@placeholder}}"

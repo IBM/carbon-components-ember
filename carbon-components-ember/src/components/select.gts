@@ -6,7 +6,6 @@ import PowerSelect from 'ember-power-select/components/power-select';
 import type { PowerSelectArgs } from 'ember-power-select/components/power-select';
 import type { ContentValue } from '@glint/template';
 import { modifier } from 'ember-modifier';
-import defaultTo from '../helpers/default-to.ts';
 import isSelected from 'ember-power-select/helpers/ember-power-select-is-equal';
 import TriggerComponent from 'ember-power-select/components/power-select/trigger';
 import OptionsComponent from 'ember-power-select/components/power-select/options';
@@ -511,10 +510,10 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         @triggerComponent={{this.triggerComponent}}
         @optionsComponent={{this.optionsComponent}}
         @selectedItemComponent={{this.selectedItemComponent}}
-        @renderInPlace={{defaultTo @renderInPlace false}}
+        @renderInPlace={{or @renderInPlace false}}
         @disabled={{@disabled}}
         @eventType="click"
-        @searchEnabled={{defaultTo @searchEnabled false}}
+        @searchEnabled={{or @searchEnabled false}}
         @search={{@search}}
         @options={{@options}}
         @onFocus={{this.selectFocused}}
@@ -579,7 +578,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         @ariaLabelledBy={{this.labelledBy}}
         @ariaLabel={{unless this.labelledBy @placeholder}}
         @ariaDescribedBy={{if @helperText this.helperTextId}}
-        @renderInPlace={{defaultTo @renderInPlace false}}
+        @renderInPlace={{or @renderInPlace false}}
         {{! @glint-expect-error: null is allowed }}
         @beforeOptionsComponent={{null}}
         @triggerComponent={{this.triggerComponent}}
@@ -588,7 +587,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         @disabled={{@disabled}}
         @eventType="click"
         @search={{@search}}
-        @searchEnabled={{defaultTo @searchEnabled false}}
+        @searchEnabled={{or @searchEnabled false}}
         @searchPlaceholder={{@searchPlaceholder}}
         @loadingMessage={{@loadingMessage}}
         @options={{@options}}

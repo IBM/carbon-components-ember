@@ -2,10 +2,9 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
-import type { htmlSafe as htmlSafeString } from '@ember/template';
+import { htmlSafe } from '@ember/template';
 import Loading from '../components/loading.gts';
 import renderSvgPart from '../components/icon/render-svg-part.ts';
-import htmlSafe from '../helpers/html-safe.ts';
 import { stylesheet } from 'astroturf';
 import type DialogManagerService from '../services/dialog-manager';
 
@@ -69,7 +68,7 @@ export type Args = {
    * must be a htmlSafe string
    @argument icon
    */
-  iconSvg?: ReturnType<typeof htmlSafeString>;
+  iconSvg?: ReturnType<typeof htmlSafe>;
   /**
    * Size of icon
    @argument size

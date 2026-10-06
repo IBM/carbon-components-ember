@@ -1,4 +1,3 @@
-import getFn from '../../../helpers/get-fn.ts';
 import Button from '../../button.gts';
 import Component from '@glimmer/component';
 import type Table from '../../data-table.gts';
@@ -17,6 +16,8 @@ export interface Signature {
   };
 }
 
+const clearSelection = (table: Table<any>) => table.state.selectedItems.clear();
+
 export default class TableActionsComponent extends Component<Signature> {
   <template>
     {{#if @table.state.selectedItems.size}}
@@ -25,11 +26,8 @@ export default class TableActionsComponent extends Component<Signature> {
         aria-label="Table Action Bar"
       >
         <div class="cds--action-list">
-          {{yield (hash close=(fn (getFn @table.state.selectedItems "clear")))}}
-          <Button
-            @type="primary"
-            @onClick={{fn (getFn @table.state.selectedItems "clear")}}
-          >
+          {{yield (hash close=(fn clearSelection @table))}}
+          <Button @type="primary" @onClick={{fn clearSelection @table}}>
             Cancel
           </Button>
         </div>

@@ -1,7 +1,1 @@
-export { default as defaultTo } from './helpers/default-to.ts'
-export { default as generic } from './helpers/generic.ts'
-export { default as getFn } from './helpers/get-fn.ts'
-export { default as has } from './helpers/has.ts'
-export { default as htmlSafe } from './helpers/html-safe.ts'
 export { default as newObj } from './helpers/new-obj.ts'
-export { default as set } from './helpers/set.ts'
