@@ -244,10 +244,12 @@ Other components (like `Launcher`, `ChatShell`, `Table`, `Toolbar`, `WorkspaceSh
 
 ## Guidelines for Updating This Document
 
-This document is a living resource for AI agents and developers. When updating it:
-- **Do not write chronological logs, PR-specific histories, diaries, or review-round narratives.**
-- **Do add newly discovered technical gotchas, generalizable pitfalls, or core architectural decisions.**
-- **Keep additions extremely concise, structured, and immediately actionable.** Frame all issues as general rules (e.g. "Always do X because of Y") rather than stories (e.g. "In PR #123, we found...").
+This document is a living resource for AI agents and developers. **You are strongly encouraged and expected to actively update this document whenever you discover a new undocumented gotcha, generalizable pitfall, or core architectural constraint.**
+
+To maintain the high quality of this guide and prevent future bloat, adhere to these strict rules when making updates:
+- **Do add newly discovered technical gotchas or constraints.** Focus on high-value, reusable patterns.
+- **Keep additions extremely concise, structured, and immediately actionable.** Frame issues as general rules (e.g., "Always do X because of Y") rather than stories (e.g., "In PR #123, we found...").
+- **Do not write chronological logs, PR-specific histories, diaries, progress logs, or review-round narratives.** Keep the history in git, and the guidelines in this file.
 
 ---
 
