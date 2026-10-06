@@ -32,7 +32,7 @@ export default class Portal extends Component<PortalSignature> {
   }
 
   <template>
-    {{#in-element this.destination}}
+    {{#in-element this.destination insertBefore=null}}
       {{yield}}
     {{/in-element}}
   </template>

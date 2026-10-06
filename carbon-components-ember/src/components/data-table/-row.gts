@@ -72,6 +72,8 @@ export default class DataTableRow<T> extends Component<
           <Checkbox
             @checked={{has @table.state.selectedItems @item}}
             @onChange={{fn @table.toggleItemSelection @item}}
+            @label="Select row"
+            @hideLabel={{true}}
           />
         </td>
       {{/if}}

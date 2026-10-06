@@ -64,12 +64,61 @@ const flippedAlignmentMap: Record<TooltipAlignment, TooltipAlignment> = {
   'right-start': 'left-start',
 };
 
+/**
+ * Puts `attribute` (aria-labelledby / aria-describedby) on the trigger the
+ * consumer yields: the wrapper's first element child. Carbon React clones the
+ * trigger to add it; the wrapper span itself has no role, so ARIA naming
+ * attributes aren't allowed there. Re-applies when the trigger is replaced
+ * and restores the trigger's own value on teardown.
+ */
+const describeTrigger = modifier(
+  (
+    wrapper: HTMLElement,
+    [attribute, id]: ['aria-labelledby' | 'aria-describedby', string],
+  ) => {
+    let trigger: Element | null = null;
+    let previous: string | null = null;
+
+    const release = () => {
+      if (!trigger) return;
+      if (previous === null) {
+        trigger.removeAttribute(attribute);
+      } else {
+        trigger.setAttribute(attribute, previous);
+      }
+      trigger = null;
+    };
+
+    const apply = () => {
+      const next = wrapper.firstElementChild;
+      if (next === trigger) return;
+      release();
+      trigger = next;
+      if (!trigger) return;
+      previous = trigger.getAttribute(attribute);
+      trigger.setAttribute(attribute, id);
+    };
+
+    apply();
+    const observer = new MutationObserver(apply);
+    observer.observe(wrapper, { childList: true });
+
+    return () => {
+      observer.disconnect();
+      release();
+    };
+  },
+);
+
 export type Args = {
   /** Where the tooltip is placed relative to the trigger */
   align?: TooltipAlignment;
-  /** Label text identifying the trigger, announced via aria-labelledby */
+  /**
+   * Label text identifying the trigger. It names the trigger element through
+   * `aria-labelledby` (use it for icon-only triggers).
+   */
   label?: string;
-  /** Description text for the trigger, announced via aria-describedby */
+  /** Description text for the trigger, linked through `aria-describedby` */
   description?: string;
   /**
    * Will auto-align the tooltip on open if it is not visible within the
@@ -118,7 +167,7 @@ export default class CarbonTooltip extends Component<CarbonTooltipSignature> {
     leaveDelayMs: 300,
   };
 
-  @tracked open = this.args.defaultOpen ?? false;
+  @tracked open: boolean;
   @tracked autoAlignResult: TooltipAlignment | null = null;
 
   timer?: ReturnType<typeof setTimeout>;
@@ -126,11 +175,16 @@ export default class CarbonTooltip extends Component<CarbonTooltipSignature> {
 
   constructor(owner: Owner, args: Args) {
     super(owner, args);
+    this.open = args.defaultOpen ?? false;
     registerDestructor(this, () => clearTimeout(this.timer));
   }
 
   get id() {
     return `${guidFor(this)}-tooltip`;
+  }
+
+  get triggerAttribute() {
+    return this.args.label ? 'aria-labelledby' : 'aria-describedby';
   }
 
   get align(): TooltipAlignment {
@@ -272,8 +326,7 @@ export default class CarbonTooltip extends Component<CarbonTooltipSignature> {
     >
       <span
         class="cds--tooltip-trigger__wrapper"
-        aria-labelledby={{if @label this.id}}
-        aria-describedby={{unless @label this.id}}
+        {{describeTrigger this.triggerAttribute this.id}}
       >
         {{yield}}
       </span>

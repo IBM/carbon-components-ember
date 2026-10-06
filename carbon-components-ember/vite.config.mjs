@@ -144,21 +144,19 @@ export default defineConfig({
             storybookScript: 'pnpm storybook --no-open',
           }),
         ],
-        // Same as `oxc` in .storybook/main.ts: Babel compiles TypeScript.
+        // Babel compiles TypeScript (and its decorators, e.g. @tracked).
+        // @embroider/vite only turns Vite's oxc transform off when nothing has
+        // configured it yet, but Vitest's own config hook runs first and sets
+        // it. Drop once embroider-build/embroider#2826 is released.
         oxc: false,
         optimizeDeps: {
           // Scan every story up front, so dependencies aren't discovered
           // mid-run (Vite then reloads the page and the run breaks).
           entries: ['.storybook/preview.ts', 'src/**/*.stories.{gjs,gts}'],
-          // Same as `viteFinal` in .storybook/main.ts, which the vitest
-          // plugin only takes plugins from.
-          exclude: ['ember-storybook'],
           // Imports Vite would otherwise only discover mid-run and then reload
-          // the tests for: ember-storybook's own, and the addons the CSF Next
-          // preview (imported by every story) registers.
+          // the tests for: the addons the CSF Next preview (imported by every
+          // story) registers.
           include: [
-            'ember-source/@ember/owner/index.js',
-            'ember-source/@ember/array/index.js',
             '@storybook/addon-a11y',
             // Loaded lazily by @storybook/addon-a11y.
             '@storybook/addon-a11y > axe-core',

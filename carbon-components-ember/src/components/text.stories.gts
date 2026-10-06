@@ -14,7 +14,6 @@ import TextDirection from './text-direction.gts';
 const meta = preview.meta({
   title: 'Preview/preview_Text',
   component: Text,
-  subcomponents: { TextDirection },
   parameters: {
     docs: {
       description: {

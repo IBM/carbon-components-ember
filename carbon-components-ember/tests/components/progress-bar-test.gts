@@ -104,4 +104,30 @@ module('Integration | Component | ProgressBar', (hooks) => {
       .dom('.cds--progress-bar__helper-text .cds--visually-hidden')
       .hasText('Done');
   });
+
+  test('it renders the label, helper text and progress', async function (assert) {
+    await render(
+      <template>
+        <ProgressBar
+          @label="Uploading files"
+          @helperText="75 MB of 100 MB"
+          @value={{75}}
+          @max={{100}}
+        />
+      </template>,
+    );
+
+    assert.dom('.cds--progress-bar__label-text').hasText('Uploading files');
+    assert
+      .dom('.cds--progress-bar__helper-text')
+      .containsText('75 MB of 100 MB');
+    assert
+      .dom('.cds--progress-bar__track')
+      .hasAttribute('role', 'progressbar')
+      .hasAttribute('aria-valuenow', '75')
+      .hasAttribute('aria-valuemax', '100');
+    assert
+      .dom('.cds--progress-bar__bar')
+      .hasAttribute('style', 'transform: scaleX(0.75);');
+  });
 });

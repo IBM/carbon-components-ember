@@ -112,6 +112,23 @@ const attachResizer = eModifier<{
     let dragSizes = initialSizes;
     let startPos = { x: 0, y: 0 };
 
+    // A focusable separator must expose its position (aria-valuenow); report
+    // the previous pane's share of the two panes, kept current through every
+    // resize path (drag, keys, double-click reset, or a controlled
+    // `@onResize`) by observing the panes themselves.
+    const updateValue = () => {
+      const prop = orientation === 'horizontal' ? 'height' : 'width';
+      const prev = sizeOf(prevSibling())[prop];
+      const total = prev + sizeOf(nextSibling())[prop];
+      const value = total > 0 ? Math.round((prev / total) * 100) : 50;
+      element.setAttribute('aria-valuenow', String(value));
+    };
+    updateValue();
+    const observer = new ResizeObserver(updateValue);
+    for (const sibling of [prevSibling(), nextSibling()]) {
+      if (sibling) observer.observe(sibling);
+    }
+
     const updateSizes = (event: MouseEvent | KeyboardEvent, delta: number) => {
       if (onResize) {
         onResize(event, delta);
@@ -210,6 +227,7 @@ const attachResizer = eModifier<{
     element.addEventListener('keydown', handleKeyDown);
 
     return () => {
+      observer.disconnect();
       element.removeEventListener('mousedown', handleMouseDown);
       element.removeEventListener('dblclick', handleDoubleClick);
       element.removeEventListener('keydown', handleKeyDown);
@@ -258,6 +276,8 @@ export default class Resizer extends Component<ResizerSignature> {
       role="separator"
       tabindex="0"
       aria-orientation={{@orientation}}
+      aria-valuemin="0"
+      aria-valuemax="100"
       aria-live="assertive"
       class={{concat "cds--resizer cds--resizer--" @orientation}}
       {{attachResizer

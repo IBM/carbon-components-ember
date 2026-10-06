@@ -77,12 +77,13 @@ export const AlignTop = meta.story({
 
 Default.test(
   'shows on focus and hides on Escape',
-  async ({ canvas, canvasElement, userEvent }) => {
+  async ({ canvas, canvasElement, userEvent, args }) => {
     const tooltip = canvasElement.querySelector('[role="tooltip"]')!;
     await expect(tooltip).toHaveAttribute('aria-hidden', 'true');
     await userEvent.tab();
+    // `@label` names the trigger, as in Carbon React.
     await expect(
-      canvas.getByRole('button', { name: 'Hover or focus me' }),
+      canvas.getByRole('button', { name: args.label }),
     ).toHaveFocus();
     await waitFor(() =>
       expect(tooltip).toHaveAttribute('aria-hidden', 'false'),
@@ -94,13 +95,6 @@ Default.test(
 
 // Carbon React's Default story: an icon-only button named by the tooltip.
 export const IconTrigger = meta.story({
-  // Known violations in Tooltip itself: `@label` sets `aria-labelledby` on
-  // the wrapper <span> around the trigger instead of on the trigger
-  // (aria-prohibited-attr), so an icon-only trigger has no accessible name
-  // (button-name).
-  parameters: {
-    a11y: { test: 'todo' },
-  },
   args: {
     label: 'Options',
     closeOnActivation: false,
@@ -216,17 +210,14 @@ export const Duration = meta.story({
 
 Duration.test(
   'shows on hover and hides after the leave delay',
-  async ({ canvas, canvasElement, userEvent }) => {
+  async ({ canvas, canvasElement, userEvent, args }) => {
     const tooltip = canvasElement.querySelector('[role="tooltip"]')!;
-    await userEvent.hover(
-      canvas.getByRole('button', { name: 'This button has a tooltip' }),
-    );
+    const trigger = canvas.getByRole('button', { name: args.label });
+    await userEvent.hover(trigger);
     await waitFor(() =>
       expect(tooltip).toHaveAttribute('aria-hidden', 'false'),
     );
-    await userEvent.unhover(
-      canvas.getByRole('button', { name: 'This button has a tooltip' }),
-    );
+    await userEvent.unhover(trigger);
     await waitFor(() => expect(tooltip).toHaveAttribute('aria-hidden', 'true'));
   },
 );

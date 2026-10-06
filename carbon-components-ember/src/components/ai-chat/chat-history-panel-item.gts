@@ -6,6 +6,7 @@
  */
 
 import Component from '@glimmer/component';
+import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
@@ -84,7 +85,7 @@ export type Args = {
 };
 
 export interface ChatHistoryPanelItemSignature {
-  Element: HTMLDivElement;
+  Element: HTMLLIElement;
   Args: Args;
 }
 
@@ -138,7 +139,12 @@ export interface ChatHistoryPanelItemSignature {
  * instead, keeping it within the panel's own bounds.
  */
 export default class ChatHistoryPanelItem extends Component<ChatHistoryPanelItemSignature> {
-  @tracked internalRename = this.args.rename ?? false;
+  @tracked internalRename: boolean;
+
+  constructor(owner: Owner, args: ChatHistoryPanelItemSignature['Args']) {
+    super(owner, args);
+    this.internalRename = args.rename ?? false;
+  }
 
   get rename() {
     return this.internalRename;
@@ -155,7 +161,7 @@ export default class ChatHistoryPanelItem extends Component<ChatHistoryPanelItem
   // without waiting for a matching `@rename` change, see the class doc
   // above.
   watchRename = eModifier<{
-    Element: HTMLDivElement;
+    Element: HTMLLIElement;
     Args: { Positional: [boolean | undefined] };
   }>((_element, [rename]) => {
     this.internalRename = Boolean(rename);
@@ -193,7 +199,7 @@ export default class ChatHistoryPanelItem extends Component<ChatHistoryPanelItem
   }
 
   <template>
-    <div
+    <li
       class="cds-aichat-history-panel-item
         {{if this.rename 'cds-aichat-history-panel-item--rename'}}"
       data-selected={{if @selected ""}}
@@ -248,6 +254,6 @@ export default class ChatHistoryPanelItem extends Component<ChatHistoryPanelItem
           </OverflowMenu>
         </span>
       {{/if}}
-    </div>
+    </li>
   </template>
 }

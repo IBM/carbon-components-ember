@@ -6,6 +6,7 @@
  */
 
 import Component from '@glimmer/component';
+import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { hash } from '@ember/helper';
@@ -64,7 +65,12 @@ export interface StructuredListSignature {
 export default class StructuredList extends Component<StructuredListSignature> {
   @tracked internalSelectedRow: string | null =
     this.args.selectedInitialRow ?? null;
-  @tracked internalSelectedRows: string[] = this.args.selectedInitialRows ?? [];
+  @tracked internalSelectedRows: string[];
+
+  constructor(owner: Owner, args: StructuredListSignature['Args']) {
+    super(owner, args);
+    this.internalSelectedRows = args.selectedInitialRows ?? [];
+  }
 
   get ariaLabel() {
     return this.args.ariaLabel ?? 'Structured list section';

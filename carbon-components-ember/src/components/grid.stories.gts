@@ -4,9 +4,6 @@ import { expect } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Grid from './grid.gts';
-import GridColumn from './grid/column.gts';
-import GridColumnHang from './grid/column-hang.gts';
-import GridRow from './grid/row.gts';
 import GridSettings from './grid/settings.gts';
 
 import type { TOC } from '@ember/component/template-only';
@@ -53,7 +50,6 @@ const HANG = htmlSafe(
 const meta = preview.meta({
   title: 'Elements/Grid',
   component: Grid,
-  subcomponents: { GridColumn, GridColumnHang, GridRow, GridSettings },
   parameters: {
     layout: 'fullscreen',
     docs: {

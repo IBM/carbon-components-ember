@@ -15,11 +15,14 @@ const meta = preview.meta({
   title: 'Charts/PieChart',
   component: PieChart,
   parameters: {
-    // Bugs (axe): the wrapper exposes no chart `title` option, so
-    // @carbon/charts always renders an empty `<p role="heading">`
-    // (empty-heading); @carbon/charts' own toolbar nests focusable elements
-    // in its `role="button"` controls (nested-interactive).
-    a11y: { test: 'todo' },
+    a11y: {
+      config: {
+        // @carbon/charts' own toolbar nests focusable elements in its
+        // role="button" controls (carbon-design-system/carbon-charts#2130);
+        // the wrapper renders no interactive controls of its own.
+        rules: [{ id: 'nested-interactive', enabled: false }],
+      },
+    },
     docs: {
       description: {
         component:
@@ -28,6 +31,7 @@ const meta = preview.meta({
     },
   },
   args: {
+    title: 'Share by category',
     resizable: true,
     legendClickable: true,
   },
@@ -40,6 +44,7 @@ const meta = preview.meta({
 
     return <template>
       <PieChart
+        @title={{args.title}}
         @resizable={{args.resizable}}
         @legendClickable={{args.legendClickable}}
         style="height: 400px; width: 600px; display: inline-block"

@@ -6,6 +6,7 @@
  */
 
 import Component from '@glimmer/component';
+import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
@@ -62,7 +63,12 @@ export interface ChatHistoryPanelMenuSignature {
  * plain bound arg.
  */
 export default class ChatHistoryPanelMenu extends Component<ChatHistoryPanelMenuSignature> {
-  @tracked internalExpanded = this.args.expanded ?? true;
+  @tracked internalExpanded: boolean;
+
+  constructor(owner: Owner, args: ChatHistoryPanelMenuSignature['Args']) {
+    super(owner, args);
+    this.internalExpanded = args.expanded ?? true;
+  }
 
   guid = guidFor(this);
   menuId = `cds-aichat-history-panel-menu-${this.guid}`;

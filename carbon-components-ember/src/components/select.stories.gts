@@ -30,13 +30,7 @@ const meta = preview
   .meta({
     title: 'Components/Select',
     component: Select,
-    // Known violations in Select itself: the combobox and its toggle button
-    // have no accessible name (aria-input-field-name, button-name), it sets a
-    // positive tabindex (tabindex), and the open multiple-select listbox
-    // nests checkboxes in options (nested-interactive, aria-allowed-attr).
-    // Reported as warnings until the component is fixed.
     parameters: {
-      a11y: { test: 'todo' },
       docs: {
         description: {
           component:
@@ -110,6 +104,18 @@ const wormhole = () =>
 
 export const Single = meta.story();
 
+Single.test(
+  'shows the placeholder at the left, ahead of the chevron',
+  async ({ canvas, canvasElement }) => {
+    const placeholder = await canvas.findByText('Choose a fruit');
+    const chevron = canvasElement.querySelector('.cds--list-box__menu-icon')!;
+    const placeholderBox = placeholder.getBoundingClientRect();
+    const chevronBox = chevron.getBoundingClientRect();
+    await expect(placeholderBox.left).toBeLessThan(chevronBox.left);
+    await expect(placeholderBox.right).toBeLessThanOrEqual(chevronBox.left);
+  },
+);
+
 Single.test('selects an option', async ({ canvasElement, userEvent, args }) => {
   const trigger = canvasElement.querySelector<HTMLElement>(
     '.ember-power-select-trigger',
@@ -136,6 +142,11 @@ Multiple.test(
     await expect(args.onSelect).toHaveBeenLastCalledWith(['Apple']);
     await userEvent.click(await wormhole().findByText('Durian'));
     await expect(args.onSelect).toHaveBeenLastCalledWith(['Apple', 'Durian']);
+
+    // Close the list: ember-storybook doesn't tear down the previous story's
+    // render, so a list left open in the wormhole leaks into the next story.
+    await userEvent.click(trigger());
+    await waitFor(() => expect(wormhole().queryByRole('listbox')).toBeNull());
   },
 );
 

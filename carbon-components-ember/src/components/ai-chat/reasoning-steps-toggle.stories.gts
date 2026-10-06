@@ -130,13 +130,6 @@ export const Collapsed = meta.story({
     open: false,
     panelId: 'rs-panel',
   },
-  parameters: {
-    // Known violation in ReasoningSteps itself: while closed, its wrapper is
-    // aria-hidden but its steps' buttons stay focusable (upstream marks them
-    // inert; the port doesn't) (aria-hidden-focus). Reported as warnings
-    // until the component is fixed.
-    a11y: { test: 'todo' },
-  },
   render: (args) => {
     const state = trackedObject({ open: args.open ?? false });
     const toggle = (open: boolean) => {

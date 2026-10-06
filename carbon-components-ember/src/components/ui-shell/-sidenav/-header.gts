@@ -14,11 +14,14 @@ export interface UIShellSideNavHeaderSignature {
 
 export default class UIShellSideNavHeader extends Component<UIShellSideNavHeaderSignature> {
   <template>
-    <header class="cds--side-nav__header" ...attributes>
-      <UIShellSideNavIcon>
-        <this.args.icon />
-      </UIShellSideNavIcon>
-      {{yield}}
-    </header>
+    {{! Yielded into the side nav's list, so it sits in a list item. }}
+    <li>
+      <header class="cds--side-nav__header" ...attributes>
+        <UIShellSideNavIcon>
+          <this.args.icon />
+        </UIShellSideNavIcon>
+        {{yield}}
+      </header>
+    </li>
   </template>
 }

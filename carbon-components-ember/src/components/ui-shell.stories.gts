@@ -74,14 +74,6 @@ const frame = (height: string) =>
 const FRAME = frame('26rem');
 const SMALL_FRAME = frame('14rem');
 
-// Known violations in the side nav itself, shown by the stories that render
-// it expanded with submenus or with SideNavHeader/SideNavDetails:
-// - submenu items are `<li role="menu">` (aria-allowed-role, in
-//   ui-shell/-sidenav/-sub-menu.gts);
-// - SideNavHeader/SideNavDetails render `<header>`/`<div>` directly inside
-//   the side nav's `<ul>` (list).
-const SIDENAV_A11Y = { a11y: { test: 'todo' } } as const;
-
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'Components/UI Shell',
   component: UIShell,
@@ -259,7 +251,6 @@ HeaderWNavigationActionsAndSideNav.test(
 );
 
 export const HeaderWSideNav = meta.story({
-  parameters: SIDENAV_A11Y,
   name: 'Header with Side Nav',
   render: (args: StoryArgs) => {
     const state = trackedObject({ open: true });
@@ -402,7 +393,6 @@ export const HeaderWActionsAndSwitcher = meta.story({
 });
 
 export const FixedSideNav = meta.story({
-  parameters: SIDENAV_A11Y,
   name: 'Fixed Side Nav',
   render: () => <template>
     <UIShell>
@@ -420,7 +410,6 @@ export const FixedSideNav = meta.story({
 });
 
 export const FixedSideNavWIcons = meta.story({
-  parameters: SIDENAV_A11Y,
   name: 'Fixed Side Nav with Icons',
   render: () => <template>
     <UIShell>
@@ -581,7 +570,6 @@ export const Overview = meta.story({
 // HeaderSideNavItems (mirrors the top Header nav items into the side nav on
 // smaller viewports).
 export const SideNavHeaderAndDetails = meta.story({
-  parameters: SIDENAV_A11Y,
   name: 'Side nav header, details and mirrored header items',
   render: () => <template>
     <UIShell>

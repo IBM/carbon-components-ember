@@ -99,28 +99,17 @@ const eq = (a: unknown, b: unknown) => a === b;
 // The icon buttons get no accessible name (see the a11y note on the meta), so
 // tests find them through the tooltip that labels their wrapper. Buttons in
 // the toolbar's hidden measurement row are skipped.
+// Toolbar's icon-only buttons are named by their Tooltip label. The hidden
+// measurement row isn't in the accessibility tree, so this finds the visible
+// button.
 function buttonLabelled(root: HTMLElement, label: string): HTMLButtonElement {
-  for (const wrapper of root.querySelectorAll<HTMLElement>(
-    '[aria-labelledby]',
-  )) {
-    if (wrapper.closest('.cds-aichat-toolbar__measure')) continue;
-    const id = wrapper.getAttribute('aria-labelledby') ?? '';
-    const text = document.getElementById(id)?.textContent?.trim();
-    const button = wrapper.querySelector('button');
-    if (text === label && button) return button;
-  }
-  throw new Error(`No button labelled "${label}"`);
+  return within(root).getByRole('button', { name: label });
 }
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'AI Chat/Toolbar',
   component: Toolbar,
   parameters: {
-    // Known violations in this addon's `Tooltip` (used by every toolbar
-    // action): it puts `aria-labelledby` on its wrapper <span> instead of the
-    // trigger (aria-prohibited-attr), so the icon-only buttons have no
-    // accessible name (button-name). Reported as warnings until fixed.
-    a11y: { test: 'todo' },
     docs: {
       description: {
         component: `\`Toolbar\` renders a horizontal action bar: a navigation area, a title, and a row of icon-button actions. Setting \`@overflow\` collapses actions that don't fit the available width into an overflow menu; actions marked \`fixed\` never overflow.

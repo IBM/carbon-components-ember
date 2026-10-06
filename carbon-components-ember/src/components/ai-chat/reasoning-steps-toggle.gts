@@ -6,6 +6,7 @@
  */
 
 import Component from '@glimmer/component';
+import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
@@ -42,7 +43,12 @@ export interface ReasoningStepsToggleSignature {
 export default class ReasoningStepsToggle extends Component<ReasoningStepsToggleSignature> {
   // Seeded from `@open` so a static `@open={{true}}` (without `@onToggle`)
   // still sets the initial state — it just isn't a permanent lock afterward.
-  @tracked internalOpen = this.args.open ?? false;
+  @tracked internalOpen: boolean;
+
+  constructor(owner: Owner, args: ReasoningStepsToggleSignature['Args']) {
+    super(owner, args);
+    this.internalOpen = args.open ?? false;
+  }
 
   get open() {
     if (this.args.onToggle) {

@@ -224,7 +224,7 @@ export default class AiChatTruncatedText extends Component<AiChatTruncatedTextSi
         {{#if this.showToggleButton}}
           <span
             aria-controls={{this.contentId}}
-            aria-expanded={{this.isExpanded}}
+            aria-expanded={{if this.isExpanded "true" "false"}}
             class="cds-aichat-truncated-text__toggle
               {{if
                 this.isExpanded

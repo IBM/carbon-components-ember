@@ -17,10 +17,6 @@ const meta = preview.meta({
   title: 'AI Chat/Chat history/Panel menu',
   component: ChatHistoryPanelMenu,
   parameters: {
-    // Known violations in the components (tracked as bugs):
-    // - ChatHistoryPanelMenu: `list` (its `<ul>` holds the items' `<div>`s,
-    //   not `<li>`s).
-    a11y: { test: 'todo' },
     docs: {
       description: {
         component:

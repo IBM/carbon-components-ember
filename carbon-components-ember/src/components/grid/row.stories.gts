@@ -3,8 +3,6 @@ import { expect } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import { FlexGrid } from '../grid.gts';
-import GridColumn from './column.gts';
-import GridRow from './row.gts';
 
 import type { TOC } from '@ember/component/template-only';
 
@@ -28,7 +26,6 @@ const DemoContent: TOC<{ Blocks: { default: [] } }> = <template>
 const meta = preview.meta({
   title: 'Elements/FlexGrid',
   component: FlexGrid,
-  subcomponents: { GridRow, GridColumn },
   parameters: {
     layout: 'fullscreen',
     docs: {

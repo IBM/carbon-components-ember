@@ -13,6 +13,11 @@ export interface OverflowMenuComponentSignature {
     icon?: typeof Icon;
     direction: 'bottom' | 'top';
     tooltip?: string;
+    /**
+     * Names the trigger for assistive technology, as Carbon React's
+     * `iconDescription`. Defaults to `@tooltip`, or "Options".
+     */
+    iconDescription?: string;
     disabled?: boolean;
     danger?: boolean;
     eventType?: 'click' | 'mousedown';
@@ -37,6 +42,10 @@ export default class OverflowMenuComponent extends Component<OverflowMenuCompone
     return this.args.icon || OverflowMenuVertical;
   }
 
+  get iconDescription() {
+    return this.args.iconDescription ?? this.args.tooltip ?? 'Options';
+  }
+
   <template>
     <BasicDropdown @horizontalPosition={{@horizontalPosition}} as |dd|>
       {{#if @tooltip}}
@@ -47,6 +56,7 @@ export default class OverflowMenuComponent extends Component<OverflowMenuCompone
               @eventType={{@eventType}}
               class="cds--overflow-menu
                 {{if dd.isOpen 'cds--overflow-menu--open'}}"
+              aria-label={{this.iconDescription}}
               {{reference}}
             >
               <this.icon @btnClass="cds--overflow-menu__icon" />
@@ -59,6 +69,7 @@ export default class OverflowMenuComponent extends Component<OverflowMenuCompone
           @stopPropagation={{false}}
           @eventType={{@eventType}}
           class="cds--overflow-menu {{if dd.isOpen 'cds--overflow-menu--open'}}"
+          aria-label={{this.iconDescription}}
         >
           <this.icon @btnClass="cds--overflow-menu__icon" />
         </dd.Trigger>
@@ -66,6 +77,8 @@ export default class OverflowMenuComponent extends Component<OverflowMenuCompone
       <dd.Content>
         <ul
           {{on "click" dd.actions.close}}
+          role="menu"
+          aria-label={{this.iconDescription}}
           class="cds--overflow-menu-options cds--overflow-menu-options--open cds--overflow-menu-options--md"
           style="inset-block-start: 0"
           tabindex="-1"

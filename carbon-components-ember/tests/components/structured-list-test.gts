@@ -98,6 +98,32 @@ module('Integration | Component | StructuredList', (hooks) => {
     assert.dom('[value="row-2"]').isChecked();
   });
 
+  test('selection mode keeps rows to cells and names the selection column', async function (assert) {
+    await render(
+      <template>
+        <StructuredList @selection={{true}} as |SL|>
+          <SL.Head>
+            <SL.Row @head={{true}}>
+              <SL.Cell @head={{true}}>Name</SL.Cell>
+            </SL.Row>
+          </SL.Head>
+          <SL.Body>
+            <SL.Row @id="row-1" as |Row|>
+              <Row @name="rows" aria-label="Row 1" />
+              <SL.Cell>Row 1</SL.Cell>
+            </SL.Row>
+          </SL.Body>
+        </StructuredList>
+      </template>,
+    );
+
+    assert
+      .dom('[role="row"] > [role="columnheader"]:first-child')
+      .hasText('Selection');
+    assert.dom('[role="row"] > [role="cell"] > input[value="row-1"]').exists();
+    assert.dom('[role="row"] > input').doesNotExist();
+  });
+
   test('selectedInitialRow pre-selects a row', async function (assert) {
     await render(
       <template>

@@ -26,11 +26,6 @@ import type {
 // Parity gaps:
 // - No `size` arg (upstream's `footerSize` `md`/`lg`) and no per-action
 //   `payload`.
-//
-// Known bug: an action with `kind: 'danger'` is rendered as `Button
-// @type='danger'`, which opens `Button`'s own confirm dialog instead of
-// calling `@onAction` (AiChatChatButton had the same bug and was fixed by
-// applying `cds--btn--danger` itself). The tests click non-danger actions.
 
 // upstream card/__stories__/story-data.js `cardFooterPresets` and
 // `previewCardFooterPresets`, minus `payload`.
@@ -173,14 +168,20 @@ CardFooter.test(
   },
 );
 
+CardFooter.test(
+  'a danger action is styled as danger and calls @onAction directly',
+  async ({ canvas, userEvent, args }) => {
+    const danger = canvas.getByRole('button', { name: 'Danger' });
+    await expect(danger).toHaveClass('cds--btn--danger');
+    await userEvent.click(danger);
+    await expect(args.onAction).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 'danger', kind: 'danger' }),
+    );
+  },
+);
+
 export const IconButtons = meta.story({
   args: { footerActions: '2 ghost icon buttons' },
-  parameters: {
-    // Known violations in the shared `Tooltip` wrapping each icon-only
-    // button: `aria-prohibited-attr` (aria-labelledby on its role-less
-    // trigger span) and `button-name` (the label never names the button).
-    a11y: { test: 'todo' },
-  },
 });
 
 export const DisabledAction = meta.story({
@@ -202,10 +203,6 @@ export const ViewingAction = DisabledAction.extend({
 
 export const InACard = meta.story({
   parameters: {
-    // Known violations in the shared `Tooltip` wrapping each icon-only
-    // button: `aria-prohibited-attr` (aria-labelledby on its role-less
-    // trigger span) and `button-name` (the label never names the button).
-    a11y: { test: 'todo' },
     docs: {
       description: {
         story:

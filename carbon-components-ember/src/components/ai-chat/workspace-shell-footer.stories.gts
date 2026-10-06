@@ -22,12 +22,6 @@ import type {
 // Parity gaps (not faked):
 // - Upstream renders `size="2xl"` buttons; this addon's `Button` tops out at
 //   `xl` (see `WorkspaceShellFooter`'s class doc).
-// - A `kind: 'danger'` action goes through `Button @type='danger'`, which
-//   opens Button's own confirm dialog before `@onClick` fires (and needs a
-//   dialog mount point Storybook doesn't provide) - a component bug, the
-//   same trap `AiChatChatButton` already works around. `DangerActions`
-//   renders correctly, but clicking "Delete" doesn't report through
-//   `@onClick` like upstream's event does, so it has no test.
 
 const payload = { test: 'value' };
 
@@ -163,6 +157,18 @@ export const DangerActions = meta.story({
     actionPreset: 'Danger actions',
   },
 });
+
+DangerActions.test(
+  'a danger action is styled as danger and reports through onClick',
+  async ({ canvas, userEvent, args }) => {
+    const remove = canvas.getByRole('button', { name: 'Delete' });
+    await expect(remove).toHaveClass('cds--btn--danger');
+    await userEvent.click(remove);
+    await expect(args.onClick).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 'danger', kind: 'danger', payload }),
+    );
+  },
+);
 
 // docs-app's live demo: the footer on its own, showing the last action
 // clicked.

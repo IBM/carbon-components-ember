@@ -36,7 +36,6 @@ const withLayer: Decorator = (Story, context) => <template>
 const meta = preview.meta({
   title: 'Components/Slider',
   component: Slider,
-  subcomponents: { SliderSkeleton },
   parameters: {
     docs: {
       description: {

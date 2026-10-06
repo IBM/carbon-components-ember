@@ -6,6 +6,7 @@
  */
 
 import Component from '@glimmer/component';
+import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
@@ -20,7 +21,7 @@ import { Checkmark, Close, WarningFilled } from '../../icons.ts';
 export type Args = {
   value?: string;
   placeholder?: string;
-  /** Text read by a screen reader when visiting the input. */
+  /** Text read by a screen reader when visiting the input. Defaults to `'Chat name'`. */
   labelText?: string;
   /** Defaults to `'Cancel'`. */
   cancelLabel?: string;
@@ -54,7 +55,12 @@ export interface ChatHistoryPanelItemInputSignature {
  * button) hardcodes its own alignment the same way.
  */
 export default class ChatHistoryPanelItemInput extends Component<ChatHistoryPanelItemInputSignature> {
-  @tracked value = this.args.value ?? '';
+  @tracked value: string;
+
+  constructor(owner: Owner, args: ChatHistoryPanelItemInputSignature['Args']) {
+    super(owner, args);
+    this.value = args.value ?? '';
+  }
   @tracked valueChanged = false;
   initialValue = this.args.value ?? '';
   actionTriggered = false;
@@ -151,7 +157,7 @@ export default class ChatHistoryPanelItemInput extends Component<ChatHistoryPane
           type="text"
           placeholder={{@placeholder}}
           value={{this.value}}
-          aria-label={{@labelText}}
+          aria-label={{or @labelText "Chat name"}}
           data-invalid={{if @invalid ""}}
           {{on "input" this.handleInput}}
           {{on "keydown" this.handleKeydown}}

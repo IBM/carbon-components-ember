@@ -6,6 +6,7 @@
  */
 
 import Component from '@glimmer/component';
+import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
@@ -46,7 +47,12 @@ export interface ChainOfThoughtToggleSignature {
 export default class ChainOfThoughtToggle extends Component<ChainOfThoughtToggleSignature> {
   // Seeded from `@open` so a static `@open={{true}}` (without `@onToggle`)
   // still sets the initial state — it just isn't a permanent lock afterward.
-  @tracked internalOpen = this.args.open ?? false;
+  @tracked internalOpen: boolean;
+
+  constructor(owner: Owner, args: ChainOfThoughtToggleSignature['Args']) {
+    super(owner, args);
+    this.internalOpen = args.open ?? false;
+  }
 
   get open() {
     if (this.args.onToggle) {

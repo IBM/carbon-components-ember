@@ -101,6 +101,21 @@ module('Integration | Component | Button', (hooks) => {
     );
   });
 
+  test('an unset @size adds no size classes', async function (assert) {
+    const size = undefined;
+    await render(
+      <template>
+        <Button @size={{size}}>Go</Button>
+      </template>,
+    );
+
+    const button = document.querySelector('#ember-testing button')!;
+    assert.false(
+      button.className.includes('undefined'),
+      `no "undefined" class (got "${button.className}")`,
+    );
+  });
+
   test('should show loading indicator for async click handler', async function (assert) {
     let promise: Promise<unknown> | undefined;
     const onClick = function () {

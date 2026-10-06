@@ -23,6 +23,33 @@ module('Integration | Component | ai-chat/ReasoningSteps', (hooks) => {
       .doesNotHaveClass('cds-aichat-reasoning-steps__wrapper--open');
   });
 
+  test('closed content is inert, so nothing aria-hidden stays focusable', async function (assert) {
+    await render(
+      <template>
+        <ReasoningSteps @open={{false}} as |Step|>
+          <Step @title="Step">Body</Step>
+        </ReasoningSteps>
+        <ReasoningSteps @open={{true}} as |Step|>
+          <Step @title="Open container">Body</Step>
+        </ReasoningSteps>
+      </template>,
+    );
+
+    const [closed, open] = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        '#ember-testing .cds-aichat-reasoning-steps__wrapper',
+      ),
+    );
+    const panel = () =>
+      open!.querySelector<HTMLElement>('.cds-aichat-reasoning-step__panel')!;
+    assert.true(closed!.inert, 'a closed container is inert');
+    assert.false(open!.inert, 'an open container is not');
+    assert.true(panel().inert, "a closed step's panel is inert");
+
+    await click(open!.querySelector('.cds-aichat-reasoning-step__trigger')!);
+    assert.false(panel().inert, "an opened step's panel is not");
+  });
+
   test('renders each yielded step, static header when no body is passed', async function (assert) {
     await render(
       <template>
