@@ -91,40 +91,21 @@ module('Integration | Component | OrderedList', (hooks) => {
     assert.dom('ol').doesNotHaveClass('cds--list--expressive');
   });
 
-  test('adds cds--list__item to direct li children so the counter and spacing styles apply', async function (assert) {
+  test('yields ListItem as contextual component', async function (assert) {
     await render(
       <template>
-        <OrderedList>
-          <li>Item 1</li>
-          <li>Item 2</li>
+        <OrderedList as |Item|>
+          <Item>Item 1</Item>
+          <Item>Item 2</Item>
         </OrderedList>
       </template>,
     );
 
+    assert.dom('ol > li').exists({ count: 2 });
     assert.dom('li:nth-of-type(1)').hasClass('cds--list__item');
+    assert.dom('li:nth-of-type(1)').hasText('Item 1');
     assert.dom('li:nth-of-type(2)').hasClass('cds--list__item');
-  });
-
-  test('adds cds--list__item to li elements added after the initial render', async function (assert) {
-    const items = cell(['Item 1']);
-    await render(
-      <template>
-        <OrderedList>
-          {{#each items.current as |item|}}
-            <li>{{item}}</li>
-          {{/each}}
-        </OrderedList>
-      </template>,
-    );
-
-    items.current = [...items.current, 'Item 2'];
-    await rerender();
-    await waitUntil(() =>
-      findAll('li').every((li) => li.classList.contains('cds--list__item')),
-    );
-
-    assert.dom('li').exists({ count: 2 });
-    assert.dom('li:nth-of-type(2)').hasClass('cds--list__item');
+    assert.dom('li:nth-of-type(2)').hasText('Item 2');
   });
 
   test('@native adds the native class instead of the default one', async function (assert) {

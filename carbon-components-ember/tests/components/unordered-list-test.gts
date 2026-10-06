@@ -90,6 +90,23 @@ module('Integration | Component | UnorderedList', (hooks) => {
     assert.dom('ul').doesNotHaveClass('cds--list--expressive');
   });
 
+  test('yields ListItem as contextual component', async function (assert) {
+    await render(
+      <template>
+        <UnorderedList as |Item|>
+          <Item>Item 1</Item>
+          <Item>Item 2</Item>
+        </UnorderedList>
+      </template>,
+    );
+
+    assert.dom('ul > li').exists({ count: 2 });
+    assert.dom('li:nth-of-type(1)').hasClass('cds--list__item');
+    assert.dom('li:nth-of-type(1)').hasText('Item 1');
+    assert.dom('li:nth-of-type(2)').hasClass('cds--list__item');
+    assert.dom('li:nth-of-type(2)').hasText('Item 2');
+  });
+
   test('@nested adds the nested class', async function (assert) {
     await render(
       <template>

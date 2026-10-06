@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { modifier } from 'ember-modifier';
+import ListItem from './list-item.gts';
 
 export type Args = {
   nested?: boolean;
@@ -11,7 +11,7 @@ export interface OrderedListSignature {
   Element: HTMLOListElement;
   Args: Args;
   Blocks: {
-    default: [];
+    default: [typeof ListItem];
   };
 }
 
@@ -25,27 +25,9 @@ export default class OrderedList extends Component<OrderedListSignature> {
     return classes.join(' ');
   }
 
-  // Carbon's counter-based numbering and nested-item spacing only apply to
-  // `<li>` elements carrying `cds--list__item`. Consumers author plain `<li>`
-  // tags, so add the class to the direct children ourselves, keeping it in
-  // sync if items are added or removed later.
-  addItemClass = modifier((element: HTMLOListElement) => {
-    const apply = () => {
-      for (const child of element.children) {
-        if (child.tagName === 'LI') {
-          child.classList.add('cds--list__item');
-        }
-      }
-    };
-    apply();
-    const observer = new MutationObserver(apply);
-    observer.observe(element, { childList: true });
-    return () => observer.disconnect();
-  });
-
   <template>
-    <ol class={{this.classes}} {{this.addItemClass}} ...attributes>
-      {{yield}}
+    <ol class={{this.classes}} ...attributes>
+      {{yield ListItem}}
     </ol>
   </template>
 }
