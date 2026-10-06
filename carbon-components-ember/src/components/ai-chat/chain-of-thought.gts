@@ -11,7 +11,7 @@ import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { modifier as eModifier } from 'ember-modifier';
 import type { WithBoundArgs } from '@glint/template';
-import { default as Loading } from '../loading.gts';
+import Loading from '../loading.gts';
 import { CheckmarkFilled, ChevronRight, ErrorFilled } from '../../icons.ts';
 
 export type ChainOfThoughtStepStatus = 'processing' | 'failure' | 'success';

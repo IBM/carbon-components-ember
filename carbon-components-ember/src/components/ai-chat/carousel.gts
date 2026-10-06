@@ -14,10 +14,10 @@ import type {
   CarouselResponse,
   InitCarousel,
 } from '@carbon/utilities/carousel';
-import { default as Button } from '../button.gts';
-import { default as Tooltip } from '../tooltip.gts';
-import { default as ChevronLeft } from '../icons/chevron-left.ts';
-import { default as ChevronRight } from '../icons/chevron-right.ts';
+import Button from '../button.gts';
+import Tooltip from '../tooltip.gts';
+import ChevronLeft from '../icons/chevron-left.ts';
+import ChevronRight from '../icons/chevron-right.ts';
 
 export type Args = {
   /** Tooltip/assistive text for the "next" button. */

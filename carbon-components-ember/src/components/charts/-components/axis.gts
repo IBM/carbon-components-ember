@@ -1,6 +1,6 @@
-import { default as onUpdate } from '../-helpers/on-update.ts';
-import { default as toBool } from '../-helpers/to-bool.ts';
-import { default as newObj } from '../../../helpers/new-obj.ts';
+import onUpdate from '../-helpers/on-update.ts';
+import toBool from '../-helpers/to-bool.ts';
+import newObj from '../../../helpers/new-obj.ts';
 import type CarbonChart from '../../charts/-components/chart.gts';
 import type { ScaleTypes } from '@carbon/charts';
 import type { TOC } from '@ember/component/template-only';

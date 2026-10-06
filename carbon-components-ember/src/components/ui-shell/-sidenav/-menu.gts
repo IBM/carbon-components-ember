@@ -1,4 +1,4 @@
-import type { default as Icon } from '../../../components/icon.gts';
+import type Icon from '../../../components/icon.gts';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import SubMenuComponent from './-sub-menu.gts';

@@ -1,5 +1,5 @@
-import { default as getFn } from '../../../helpers/get-fn.ts';
-import { default as Button } from '../../button.gts';
+import getFn from '../../../helpers/get-fn.ts';
+import Button from '../../button.gts';
 import Component from '@glimmer/component';
 import type Table from '../../data-table.gts';
 

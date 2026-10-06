@@ -1,4 +1,4 @@
-import { default as onUpdate } from '../../charts/-helpers/on-update.ts';
+import onUpdate from '../../charts/-helpers/on-update.ts';
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { action } from '@ember/object';

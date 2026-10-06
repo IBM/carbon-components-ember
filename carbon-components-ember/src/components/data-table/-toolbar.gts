@@ -4,7 +4,7 @@ import TableActionsComponent from '../data-table/-toolbar/-actions.gts';
 import type { WithBoundArgs } from '@glint/template';
 import type DataTableComponent from '../data-table.gts';
 import { concat } from '@ember/helper';
-import { default as defaultTo } from '../../helpers/default-to.ts';
+import defaultTo from '../../helpers/default-to.ts';
 
 export interface Signature {
   Args: {

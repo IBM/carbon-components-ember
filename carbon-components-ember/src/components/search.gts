@@ -7,7 +7,7 @@ import { timeout } from 'ember-concurrency';
 import type { TaskInstance } from 'ember-concurrency';
 import { concat } from '@ember/helper';
 import { runTask } from 'ember-lifeline';
-import { default as defaultTo } from '../helpers/default-to.ts';
+import defaultTo from '../helpers/default-to.ts';
 import { Close, Search as SearchIcon } from '../icons.ts';
 
 export type Args = {

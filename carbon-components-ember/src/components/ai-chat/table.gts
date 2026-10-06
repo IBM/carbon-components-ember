@@ -8,11 +8,11 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { default as Search } from '../search.gts';
-import { default as Pagination } from '../pagination.gts';
-import { default as Button } from '../button.gts';
-import { default as Tooltip } from '../tooltip.gts';
-import { default as Download } from '../icons/download.ts';
+import Search from '../search.gts';
+import Pagination from '../pagination.gts';
+import Button from '../button.gts';
+import Tooltip from '../tooltip.gts';
+import Download from '../icons/download.ts';
 import { stringifyCSV } from './-csv.ts';
 import type { ComponentLike } from '@glint/template';
 

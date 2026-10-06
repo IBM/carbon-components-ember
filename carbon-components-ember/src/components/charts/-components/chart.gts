@@ -1,7 +1,7 @@
-import { default as TabularData } from '../../charts/-components/tabular-data.gts';
-import { default as Axis } from '../../charts/-components/axis.gts';
-import { default as ColorPairing } from '../../charts/-components/color/pairing.gts';
-import { default as ColorScale } from '../../charts/-components/color/scale.gts';
+import TabularData from '../../charts/-components/tabular-data.gts';
+import Axis from '../../charts/-components/axis.gts';
+import ColorPairing from '../../charts/-components/color/pairing.gts';
+import ColorScale from '../../charts/-components/color/scale.gts';
 import { modifier } from 'ember-modifier';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';

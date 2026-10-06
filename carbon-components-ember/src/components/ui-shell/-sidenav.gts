@@ -1,4 +1,4 @@
-import { default as Menu } from '../../components/ui-shell/-sidenav/-menu.gts';
+import Menu from '../../components/ui-shell/-sidenav/-menu.gts';
 import Component from '@glimmer/component';
 import type NavMenuComponent from './-sidenav/-menu.gts';
 import type { SubMenu } from './-sidenav/-menu.gts';

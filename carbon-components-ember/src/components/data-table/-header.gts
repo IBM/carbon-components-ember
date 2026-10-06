@@ -1,5 +1,5 @@
-import { default as Button } from '../button.gts';
-import { default as Checkbox } from '../checkbox.gts';
+import Button from '../button.gts';
+import Checkbox from '../checkbox.gts';
 import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';

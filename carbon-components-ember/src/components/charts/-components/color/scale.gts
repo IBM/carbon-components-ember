@@ -1,4 +1,4 @@
-import { default as onUpdate } from '../../../../components/charts/-helpers/on-update.ts';
+import onUpdate from '../../../../components/charts/-helpers/on-update.ts';
 import Component from '@glimmer/component';
 import { defaultArgs } from '../../../../utils/decorators.ts';
 import type CarbonChart from '../../../../components/charts/-components/chart.gts';

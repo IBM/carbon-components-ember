@@ -1,7 +1,7 @@
-import { default as Button } from '../button.gts';
-import { default as Checkbox } from '../checkbox.gts';
-import { default as set } from '../../helpers/set.ts';
-import { default as has } from '../../helpers/has.ts';
+import Button from '../button.gts';
+import Checkbox from '../checkbox.gts';
+import set from '../../helpers/set.ts';
+import has from '../../helpers/has.ts';
 import Component from '@glimmer/component';
 import type DataTableComponent from '../data-table.gts';
 import { tracked } from '@glimmer/tracking';

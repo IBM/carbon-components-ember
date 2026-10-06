@@ -1,4 +1,4 @@
-import { default as OverflowMenu } from '../overflow-menu.gts';
+import OverflowMenu from '../overflow-menu.gts';
 import Component from '@glimmer/component';
 import type MenuItemComponent from '../overflow-menu/item.gts';
 import type { WithBoundArgs } from '@glint/template';

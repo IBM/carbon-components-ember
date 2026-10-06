@@ -10,10 +10,10 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { modifier as eModifier } from 'ember-modifier';
-import { default as Button } from '../button.gts';
-import { default as Tooltip } from '../tooltip.gts';
-import { default as Checkbox } from '../checkbox.gts';
-import { default as Markdown } from './markdown.gts';
+import Button from '../button.gts';
+import Tooltip from '../tooltip.gts';
+import Checkbox from '../checkbox.gts';
+import Markdown from './markdown.gts';
 import { Close } from '../../icons.ts';
 
 export type FeedbackDetails = {

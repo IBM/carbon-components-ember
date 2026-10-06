@@ -7,8 +7,8 @@
 
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { default as Button } from '../button.gts';
-import { default as Tooltip } from '../tooltip.gts';
+import Button from '../button.gts';
+import Tooltip from '../tooltip.gts';
 import {
   ThumbsDown,
   ThumbsDownFilled,

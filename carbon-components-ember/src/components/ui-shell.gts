@@ -1,8 +1,8 @@
-import { default as Header } from './ui-shell/-header.gts';
-import { default as Sidenav } from './ui-shell/-sidenav.gts';
-import { default as Nav } from './ui-shell/-nav.gts';
-import { default as Switcher } from './ui-shell/-switcher.gts';
-import { default as HeaderContainer } from './ui-shell/-header-container.gts';
+import Header from './ui-shell/-header.gts';
+import Sidenav from './ui-shell/-sidenav.gts';
+import Nav from './ui-shell/-nav.gts';
+import Switcher from './ui-shell/-switcher.gts';
+import HeaderContainer from './ui-shell/-header-container.gts';
 import Component from '@glimmer/component';
 import type UIShellHeader from './ui-shell/-header.gts';
 

@@ -1,4 +1,4 @@
-import { default as defaultTo } from '../helpers/default-to.ts';
+import defaultTo from '../helpers/default-to.ts';
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
 import { action } from '@ember/object';

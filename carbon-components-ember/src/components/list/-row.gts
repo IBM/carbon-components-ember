@@ -1,4 +1,4 @@
-import { default as Icon } from '../../components/icon.gts';
+import Icon from '../../components/icon.gts';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import type ListComponent from '../../components/list.gts';

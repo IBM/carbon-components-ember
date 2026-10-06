@@ -6,7 +6,7 @@
  */
 
 import Component from '@glimmer/component';
-import { default as Search } from '../search.gts';
+import Search from '../search.gts';
 import Button from '../button.gts';
 import Tooltip from '../tooltip.gts';
 import { AddComment } from '../../icons.ts';

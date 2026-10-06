@@ -1,6 +1,6 @@
-import { default as Select } from './select.gts';
-import { default as Tooltip } from './tooltip.gts';
-import { default as defaultTo } from '../helpers/default-to.ts';
+import Select from './select.gts';
+import Tooltip from './tooltip.gts';
+import defaultTo from '../helpers/default-to.ts';
 import { modifier } from 'ember-modifier';
 import { concat } from '@ember/helper';
 import Component from '@glimmer/component';
