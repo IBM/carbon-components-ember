@@ -231,9 +231,6 @@ importers:
       '@codemirror/view':
         specifier: 6.43.9
         version: 6.43.9
-      '@ember/render-modifiers':
-        specifier: ^4.0.0
-        version: 4.0.0(supports-color@8.1.1)
       '@embroider/addon-shim':
         specifier: ^1.10.3
         version: 1.10.3(supports-color@8.1.1)
@@ -1296,9 +1293,6 @@ packages:
 
   '@ember/library-tsconfig@2.0.0':
     resolution: {integrity: sha512-DTGt9TYZ3bhObUviQXx4C0v46oWM7HsRrUTbgONw2QBhJVHlmXA89uXenlvuqVrCQkA0g5kz7wwyOlcjIZ8h0w==}
-
-  '@ember/render-modifiers@4.0.0':
-    resolution: {integrity: sha512-QWo6rBJ9EwCLWbAzdppco2/Lh86Op3ad5UAn34yE9QaRgoMSf08XkMoE+5ftPiYOo08SG/QsNBDcxbpe3OgqWA==}
 
   '@ember/test-helpers@5.5.2':
     resolution: {integrity: sha512-XaSfroyfmOZf1d1J8QgqWnulxY3etBd7QEbOMCxfhdhphfadOoijoDVlzNUxkk91S6+C/G8NkjN7IMILTrMnZg==}
@@ -9870,12 +9864,6 @@ snapshots:
   '@ember/app-tsconfig@2.0.0': {}
 
   '@ember/library-tsconfig@2.0.0': {}
-
-  '@ember/render-modifiers@4.0.0(supports-color@8.1.1)':
-    dependencies:
-      '@embroider/addon-shim': 1.10.3(supports-color@8.1.1)
-    transitivePeerDependencies:
-      - supports-color
 
   '@ember/test-helpers@5.5.2(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1)':
     dependencies:
