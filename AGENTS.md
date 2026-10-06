@@ -186,7 +186,7 @@ closest existing pattern rather than inventing a new one.
 
 | Carbon React construct | Idiomatic Ember equivalent | Live example in this repo |
 | --- | --- | --- |
-| `children` inspected/cloned via `React.Children.map` + `cloneElement` | Yield a contextual component with its wiring pre-bound (`WithBoundArgs`) | `components/data-table.gts`, `components/tree-view.gts`, `components/tabs.gts` (see caveat in §1) |
+| `children` inspected/cloned via `React.Children.map` + `cloneElement` | Yield a contextual component with its wiring pre-bound (`WithBoundArgs`) or typed subcomponent (`typeof SubComponent`) | `components/data-table.gts`, `components/tree-view.gts`, `components/ordered-list.gts`, `components/unordered-list.gts`, `components/tabs.gts` (see caveat in §1) |
 | Component passed as a prop (`renderIcon={Add}`, `slug={<AILabel />}`) | A `ComponentLike` arg, invoked as `<@renderIcon />` | `components/link.gts`, `components/text-area.gts` |
 | `value` + `defaultValue` + `onChange` triple | Keep **both** args: `@defaultValue` seeds private `@tracked` state, `@value` wins whenever it is defined | `components/text-input.gts`, `components/number-input.gts` |
 | A single prop that is both initial state and controllable (`isExpanded` + `onToggle`) | One arg plus a private `@tracked` fallback; the arg is the source of truth only when the change handler was also passed | `TreeNode.expanded` in `components/tree-view.gts` |
@@ -232,6 +232,11 @@ instance for `Toolbar`/`Header`/`EachBodyRows`, loading and paging state for
 which are yielded as a plain `typeof`. Bind what the child needs, not the
 parent wholesale. That is all it demonstrates; it has no child→parent
 registration.
+
+Similarly, list wrappers (`OrderedList` and `UnorderedList`) yield `ListItem`
+as `[typeof ListItem]` (`<OrderedList as |Item|><Item>…</Item></OrderedList>`),
+so consumers get correctly styled `<li>` elements without requiring the
+parent to inspect or mutate child DOM nodes.
 
 `Tabs` goes one step further: because the parent needs to know which children
 exist and in what order, its children register themselves with the parent on
@@ -528,7 +533,10 @@ for the reader of the docs site, not for yourself.
   It observes render rather than state, doesn't compose, and has no teardown
   story. Write a real modifier instead (§4). All components in this
   addon have been migrated off `@ember/render-modifiers` and the dependency
-  has been removed.
+  has been removed completely.
+- **`MutationObserver` to inspect or inject classes onto children** (e.g.
+  watching children to add `cds--list__item` to `<li>` tags). Yield a
+  contextual child component instead (§1).
 - **An ad-hoc `willDestroy()` lifecycle override** instead of
   `registerDestructor` or a modifier's own teardown function (see §6). Two
   components did this; both are now fixed — `ordered-list.gts`'s was
@@ -907,7 +915,11 @@ bullet above, now updated to reflect both. `popover.gts` was migrated off
 `toggletip.gts`'s into the shared `closeOnOutsideClick` modifier in a
 further follow-up PR, since both changes touched the same file — see the
 two relevant "What NOT to Reach For" entries above, now updated to reflect
-both.
+both. The final remaining component (`truncated-text.gts`) was migrated
+off `@ember/render-modifiers` to a functional `observeContent` modifier,
+allowing `@ember/render-modifiers` to be removed from `package.json` entirely.
+`OrderedList` was also refactored to remove its DOM-mutating `MutationObserver`
+in favor of yielding `ListItem` as a contextual component, matching `UnorderedList`.
 
 ## Storybook (`ember-storybook`)
 
