@@ -8,7 +8,7 @@ import type { TOC } from '@ember/component/template-only';
 
 // Parity gaps with Carbon React's Tag stories:
 // - `Skeleton`: there is no TagSkeleton component.
-// - No `filter`/`title` args, and no DismissibleTag, OperationalTag or
+// - No `filter` arg, and no DismissibleTag, OperationalTag or
 //   SelectableTag components (React's separate Tag story files).
 // - `withAILabel`: there is no AILabel component yet (see #406); the
 //   `WithDecorator` story shows the `@decorator` slot with a placeholder.

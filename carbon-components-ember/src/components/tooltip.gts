@@ -68,44 +68,25 @@ const flippedAlignmentMap: Record<TooltipAlignment, TooltipAlignment> = {
  * Puts `attribute` (aria-labelledby / aria-describedby) on the trigger the
  * consumer yields: the wrapper's first element child. Carbon React clones the
  * trigger to add it; the wrapper span itself has no role, so ARIA naming
- * attributes aren't allowed there. Re-applies when the trigger is replaced
- * and restores the trigger's own value on teardown.
+ * attributes aren't allowed there. Restores the trigger's own value on teardown.
  */
 const describeTrigger = modifier(
   (
     wrapper: HTMLElement,
     [attribute, id]: ['aria-labelledby' | 'aria-describedby', string],
   ) => {
-    let trigger: Element | null = null;
-    let previous: string | null = null;
+    const trigger = wrapper.firstElementChild;
+    if (!trigger) return;
 
-    const release = () => {
-      if (!trigger) return;
+    const previous = trigger.getAttribute(attribute);
+    trigger.setAttribute(attribute, id);
+
+    return () => {
       if (previous === null) {
         trigger.removeAttribute(attribute);
       } else {
         trigger.setAttribute(attribute, previous);
       }
-      trigger = null;
-    };
-
-    const apply = () => {
-      const next = wrapper.firstElementChild;
-      if (next === trigger) return;
-      release();
-      trigger = next;
-      if (!trigger) return;
-      previous = trigger.getAttribute(attribute);
-      trigger.setAttribute(attribute, id);
-    };
-
-    apply();
-    const observer = new MutationObserver(apply);
-    observer.observe(wrapper, { childList: true });
-
-    return () => {
-      observer.disconnect();
-      release();
     };
   },
 );

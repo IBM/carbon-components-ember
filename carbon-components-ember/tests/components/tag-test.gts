@@ -157,4 +157,24 @@ module('Integration | Component | Tag', (hooks) => {
     assert.dom('.cds--tag__decorator').doesNotExist();
     assert.dom('.cds--tag > svg').exists();
   });
+
+  test('should set title on label from text content', async function (assert) {
+    await render(
+      <template>
+        <Tag @type="red">Tag content</Tag>
+      </template>,
+    );
+
+    assert.dom('.cds--tag__label').hasAttribute('title', 'Tag content');
+  });
+
+  test('should use provided @title when specified', async function (assert) {
+    await render(
+      <template>
+        <Tag @type="red" @title="Custom Title">Tag content</Tag>
+      </template>,
+    );
+
+    assert.dom('.cds--tag__label').hasAttribute('title', 'Custom Title');
+  });
 });
