@@ -526,15 +526,9 @@ for the reader of the docs site, not for yourself.
 
 - **`@ember/render-modifiers`** (`did-insert`, `did-update`) in new code.
   It observes render rather than state, doesn't compose, and has no teardown
-  story. Write a real modifier instead (§4). As of the 2026-09-09 audit,
-  13 components still imported it; `checkbox.gts`, `code-snippet.gts`,
-  `list.gts`, `ordered-list.gts`, `search.gts`, `toggletip.gts`,
-  `slider.gts`, `data-table.gts`, `pagination.gts`, `select.gts`, and
-  `charts/-components/chart.gts` have since been migrated off it. 3
-  components still import it: `popover.gts`, `select.gts`, `tooltip.gts`.
-  Migrating one of these to a real modifier while you're already touching
-  it for something else is in-scope cleanup, not scope creep — don't do a
-  drive-by rewrite of an unrelated file just to cross it off this list.
+  story. Write a real modifier instead (§4). All components in this
+  addon have been migrated off `@ember/render-modifiers` and the dependency
+  has been removed.
 - **An ad-hoc `willDestroy()` lifecycle override** instead of
   `registerDestructor` or a modifier's own teardown function (see §6). Two
   components did this; both are now fixed — `ordered-list.gts`'s was
@@ -573,14 +567,8 @@ for the reader of the docs site, not for yourself.
   parameter, as in §3. `eslint-plugin-ember`'s
   `no-tracked-properties-from-args` only catches the bare `= this.args.x`
   form, not `?? default`, so this is on reviewers.
-- **`constructor(owner: any, args: any)`** — as of the 2026-09-09 mechanical
-  cleanup, no component in this codebase types the owner `any` anymore; the
-  last 12 (`time-picker.gts`, `text-area.gts`, `slider.gts`, `popover.gts`,
-  `fluid-text-input.gts`, `progress-indicator.gts`, `tooltip.gts`,
-  `number-input.gts`, `password-input.gts`, `text-input.gts`,
-  `time-picker/time-picker-select.gts`, `ui-shell/-header-container.gts`)
-  were fixed to match the `text-input.gts` / `number-input.gts` exemplars §3
-  tells you to follow. New code writes `import type Owner from
+- **`constructor(owner: any, args: any)`** — no component in this codebase
+  types the owner `any` anymore. Always write `import type Owner from
   '@ember/owner'` and `constructor(owner: Owner, args: Signature['Args'])`;
   don't reintroduce `any` here.
 

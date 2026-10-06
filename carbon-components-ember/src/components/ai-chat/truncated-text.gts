@@ -6,12 +6,11 @@
  */
 
 import Component from '@glimmer/component';
+import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
-import { registerDestructor } from '@ember/destroyable';
 import { guidFor } from '@ember/object/internals';
 import { on } from '@ember/modifier';
-import { default as didInsert } from '@ember/render-modifiers/modifiers/did-insert';
-import { default as didUpdate } from '@ember/render-modifiers/modifiers/did-update';
+import { modifier } from 'ember-modifier';
 import { default as Tooltip } from '../tooltip.gts';
 import type { TooltipAlignments } from '../tooltip.gts';
 
@@ -110,26 +109,11 @@ export default class AiChatTruncatedText extends Component<AiChatTruncatedTextSi
     return this.isOverflowing || this.isExpanded;
   }
 
-  constructor(owner: any, args: AiChatTruncatedTextSignature['Args']) {
+  constructor(owner: Owner, args: AiChatTruncatedTextSignature['Args']) {
     super(owner, args);
-    registerDestructor(this, this.teardown);
   }
 
-  teardown = () => {
-    if (this.pendingRaf !== undefined) {
-      cancelAnimationFrame(this.pendingRaf);
-      this.pendingRaf = undefined;
-    }
-    this.resizeObserver?.disconnect();
-    this.resizeObserver = undefined;
-  };
-
-  setup = (element: HTMLElement) => {
-    // Each toggle between the tooltip/expand `{{#if}}` branches tears down
-    // and recreates this element (and re-fires `didInsert`), so any
-    // observer/RAF from a previous `setup()` call must be cleaned up here
-    // rather than only at component destroy time.
-    this.teardown();
+  observeContent = modifier((element: HTMLElement, [_lines, _value]: [number, string | undefined]) => {
     this.contentElement = element;
     this.pendingRaf = requestAnimationFrame(() => {
       this.lineHeight = parseFloat(getComputedStyle(element).lineHeight);
@@ -137,11 +121,21 @@ export default class AiChatTruncatedText extends Component<AiChatTruncatedTextSi
     });
     this.resizeObserver = new ResizeObserver(() => this.updateOverflowStatus());
     this.resizeObserver.observe(element);
-  };
 
-  recalculate = () => {
     this.updateOverflowStatus();
-  };
+
+    return () => {
+      if (this.pendingRaf !== undefined) {
+        cancelAnimationFrame(this.pendingRaf);
+        this.pendingRaf = undefined;
+      }
+      this.resizeObserver?.disconnect();
+      this.resizeObserver = undefined;
+      if (this.contentElement === element) {
+        this.contentElement = undefined;
+      }
+    };
+  });
 
   updateOverflowStatus = () => {
     const element = this.contentElement;
@@ -189,8 +183,7 @@ export default class AiChatTruncatedText extends Component<AiChatTruncatedTextSi
                   'cds-aichat-truncated-text__content--expanded'
                 }}"
               style={{this.contentStyle}}
-              {{didInsert this.setup}}
-              {{didUpdate this.recalculate @lines @value}}
+              {{this.observeContent this.lines @value}}
             >
               {{#if (has-block)}}
                 {{yield}}
@@ -212,8 +205,7 @@ export default class AiChatTruncatedText extends Component<AiChatTruncatedTextSi
               'cds-aichat-truncated-text__content--expanded'
             }}"
           style={{this.contentStyle}}
-          {{didInsert this.setup}}
-          {{didUpdate this.recalculate @lines @value}}
+          {{this.observeContent this.lines @value}}
         >
           {{#if (has-block)}}
             {{yield}}
