@@ -1,6 +1,5 @@
 import onUpdate from '../-helpers/on-update.ts';
 import toBool from '../-helpers/to-bool.ts';
-import newObj from '../../../helpers/new-obj.ts';
 import type CarbonChart from '../../charts/-components/chart.gts';
 import type { ScaleTypes } from '@carbon/charts';
 import type { TOC } from '@ember/component/template-only';
@@ -53,7 +52,7 @@ const ChartAxis: TOC<Args> = <template>
       (fn
         @chart.setAxis
         @axis
-        (newObj title=@title stacked=(toBool @stacked) scaleType=@scaleType)
+        (hash title=@title stacked=(toBool @stacked) scaleType=@scaleType)
       )
       @axis
       @title

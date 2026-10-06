@@ -1,1 +1,0 @@
-export { default as newObj } from './helpers/new-obj.ts'

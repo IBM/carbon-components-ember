@@ -6,7 +6,6 @@ function createIndexFiles() {
   const files = fs.readdirSync('./src', { recursive: true }).sort();
   const groups = {
     components: [],
-    helpers: [],
     icons: [],
   };
   for (const addonFilename of files) {
@@ -14,7 +13,6 @@ function createIndexFiles() {
     if (addonFilename.includes('.gitkeep')) continue;
     if (/\.stories\.[gt]?[jt]s$|\.mdx$/.test(addonFilename)) continue;
     if (addonFilename.includes('components/index.ts')) continue;
-    if (addonFilename.includes('helpers/index.ts')) continue;
     if (addonFilename.includes('render-svg-part.ts')) continue;
     if (
       addonFilename.startsWith('components/icons') &&
@@ -28,9 +26,6 @@ function createIndexFiles() {
       !addonFilename.includes('/-')
     ) {
       groups.components.push(addonFilename);
-    }
-    if (addonFilename.startsWith('helpers/') && !addonFilename.includes('/-')) {
-      groups.helpers.push(addonFilename);
     }
   }
   const componentIndexFile = [];
@@ -131,23 +126,6 @@ function createIndexFiles() {
     iconsIndexFile.push(`export { default as ${camelCased} } from './${comp}'`);
   }
   fs.writeFileSync('./src/icons.ts', iconsIndexFile.join('\n'));
-
-  const helpersIndexFile = [];
-  for (const comp of groups.helpers) {
-    let camelCased = comp
-      .split('/')
-      .at(-1)
-      .split('.')
-      .at()
-      .replace(/-([a-z])/g, function (g) {
-        return g[1].toUpperCase();
-      });
-    helpersIndexFile.push(
-      `export { default as ${camelCased} } from './${comp}'`,
-    );
-  }
-  // `carbon-components-ember/helpers`; src/helpers/index.ts re-exports it.
-  fs.writeFileSync('./src/helpers.ts', helpersIndexFile.join('\n'));
 }
 
 function createIconIndex() {
