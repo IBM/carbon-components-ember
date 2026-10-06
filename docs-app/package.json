@@ -103,7 +103,7 @@
     "ember-resources": "^7.1.0",
     "ember-source": "^7.3.0",
     "ember-template-lint": "^7.9.3",
-    "ember-welcome-page": "^7.0.2",
+    "ember-welcome-page": "^8.0.6",
     "eslint": "^9.38.0",
     "file-loader": "^6.2.0",
     "globals": "^16.1.0",
