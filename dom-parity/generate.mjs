@@ -79,7 +79,10 @@ const { COMPONENTS } = await import('./lib/components.mjs');
 const { normalizeElement } = await import('./lib/normalize-dom.mjs');
 
 const carbonReactVersion = JSON.parse(
-  readFileSync(join(__dirname, 'node_modules/@carbon/react/package.json'), 'utf8'),
+  readFileSync(
+    join(__dirname, 'node_modules/@carbon/react/package.json'),
+    'utf8',
+  ),
 ).version;
 const reactVersion = JSON.parse(
   readFileSync(join(__dirname, 'node_modules/react/package.json'), 'utf8'),

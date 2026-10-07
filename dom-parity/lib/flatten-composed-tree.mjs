@@ -140,7 +140,8 @@ function collectCustomElements(root, seen = new Set()) {
     if (!node || seen.has(node)) return;
     if (isElement(node)) {
       if (node.tagName.includes('-')) seen.add(node);
-      if (node.shadowRoot) for (const child of node.shadowRoot.childNodes) visit(child);
+      if (node.shadowRoot)
+        for (const child of node.shadowRoot.childNodes) visit(child);
       for (const child of node.childNodes) visit(child);
     } else if (isFragmentLike(node)) {
       for (const child of node.childNodes) visit(child);
@@ -167,7 +168,9 @@ export async function waitForCustomElementsReady(root) {
   for (let pass = 0; pass < 10; pass++) {
     const elements = collectCustomElements(root);
     await Promise.all(
-      elements.map((element) => customElements.whenDefined(element.tagName.toLowerCase())),
+      elements.map((element) =>
+        customElements.whenDefined(element.tagName.toLowerCase()),
+      ),
     );
     await Promise.all(
       elements

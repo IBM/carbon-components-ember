@@ -14,6 +14,7 @@ independently (see the `SOURCES` array at the top of the script):
 - `carbon-ai-chat` - Carbon AI Chat (`carbon-design-system/carbon-ai-chat`, `packages/ai-chat-components/src/components` - the reusable Lit widget library, i.e. the actual Ember port target, not the React application internals or the web-component shell). Issue creation is **disabled** for this source until the first Ember component under this namespace lands - with zero components implemented so far, every upstream component would otherwise show up as "missing" and flood the issue tracker on the first run. Flip `createIssues: true` for this source once that changes.
 
 **Usage:**
+
 ```bash
 pnpm install                                      # from the repo root; scripts/ is a workspace package
 cd scripts
@@ -23,6 +24,7 @@ node parity-check.mjs --source carbon-ai-chat --mark-synced Launcher   # source-
 ```
 
 **Features:**
+
 - Fetches each source's component list from its GitHub repo
 - Compares with Ember implementation (shared `carbon-components-ember/src/components.ts` export list across all sources)
 - Generates one combined parity report with a section per source (PARITY_REPORT.md)
@@ -32,10 +34,12 @@ node parity-check.mjs --source carbon-ai-chat --mark-synced Launcher   # source-
 - Can create GitHub issues for missing and outdated components, gated by both the global `CREATE_ISSUES`/`--create-issues` flag and each source's own `createIssues` setting
 
 **Environment Variables:**
+
 - `GITHUB_TOKEN` - GitHub personal access token (required for API access)
 - `CREATE_ISSUES` - Set to 'true' to automatically create issues (default: false; also requires the target source's `createIssues: true`)
 
 **CLI flags:**
+
 - `--source <id>` - scope the run to a single source: the main fetch/compare/report/issue-creation pipeline, as well as `--mark-synced` (default source for that flag: `react`); valid ids are the `id` fields in `SOURCES`. Omit it to run every configured source.
 - `--mark-synced Name1,Name2` / `--exclude Name --reason "..."` / `--include Name` / `--list-exclusions` - unchanged, see below (exclusions are a single flat list shared across sources, since upstream naming conventions don't currently collide - PascalCase React directories vs. kebab-case carbon-ai-chat ones)
 
@@ -44,22 +48,26 @@ node parity-check.mjs --source carbon-ai-chat --mark-synced Launcher   # source-
 Local script to investigate and fix parity issues using agent.
 
 **Prerequisites:**
+
 - AI agent installed
 - [GitHub CLI](https://cli.github.com/) installed (`gh` command)
 - Node.js and pnpm
 - Playwright (will be installed automatically if missing)
 
 **Usage:**
+
 ```bash
 ./scripts/fix-parity-issue.sh <issue_number>
 ```
 
 **Example:**
+
 ```bash
 ./scripts/fix-parity-issue.sh 123
 ```
 
 **What it does:**
+
 1. Fetches issue details from GitHub
 2. Extracts component name from issue title
 3. Takes screenshot of React Storybook for visual reference
@@ -73,11 +81,13 @@ Local script to investigate and fix parity issues using agent.
    - Add 'preview' label for deployment
 
 **Output:**
+
 - Screenshot: `/tmp/screenshots/<ComponentName>-react.png`
 - Context file: `/tmp/component-context-<issue_number>.md`
 - agent will create commits and PR automatically
 
 **Tips:**
+
 - Review AGENTS.md for component implementation patterns
 - Check .github/workflows/templates/agent-prompt.md for the structured prompt
 - The script uses the same prompt template as the automated workflow
@@ -88,6 +98,7 @@ Local script to investigate and fix parity issues using agent.
 ### Weekly Parity Check (Automated)
 
 The `parity-check-weekly.yml` workflow runs every Monday at 9:00 AM UTC:
+
 - Runs `parity-check.mjs` with `CREATE_ISSUES=true`
 - Creates GitHub issues for missing components
 - Commits parity data to repository
@@ -96,6 +107,7 @@ The `parity-check-weekly.yml` workflow runs every Monday at 9:00 AM UTC:
 ### Local Development Workflow
 
 1. **Check for missing components:**
+
    ```bash
    cd scripts
    pnpm check-parity
@@ -103,16 +115,19 @@ The `parity-check-weekly.yml` workflow runs every Monday at 9:00 AM UTC:
    ```
 
 2. **Pick an issue to work on:**
+
    ```bash
    gh issue list --label parity-check
    ```
 
 3. **Fix the issue locally:**
+
    ```bash
    ./scripts/fix-parity-issue.sh <issue_number>
    ```
 
 4. **Review and test:**
+
    ```bash
    cd carbon-components-ember
    pnpm build
@@ -165,7 +180,7 @@ node parity-check.mjs --exclude ComponentName --reason "why this doesn't apply t
 
 Exclusions are stored in `.parity-check-exclusions.json` (committed to the repo) and filtered out before any comparison runs, so they never appear in the parity data file or report.
 
-Components that are simply missing from Ember under the *same* name but exist under a *different* name should not be excluded - align the Ember name to match React instead.
+Components that are simply missing from Ember under the _same_ name but exist under a _different_ name should not be excluded - align the Ember name to match React instead.
 
 ```bash
 # Undo an exclusion:
@@ -180,7 +195,7 @@ node parity-check.mjs --list-exclusions
 The enhanced parity check now tracks changes at the commit level:
 
 1. **Initial Run**: Records current commit SHA for React components directory
-2. **Subsequent Runs**: 
+2. **Subsequent Runs**:
    - Fetches latest commit SHA
    - If changed, checks each implemented component for updates
    - Uses GitHub API to get commit history per component
@@ -194,6 +209,7 @@ The enhanced parity check now tracks changes at the commit level:
    - Change counts and update dates
 
 **Benefits:**
+
 - Detects when React components get new features/fixes
 - Creates targeted update issues with commit links
 - Tracks sync status per component

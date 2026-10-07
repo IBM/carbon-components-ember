@@ -17,12 +17,20 @@ function diffArray(prefix, key, a, b, out) {
   const bSet = new Set(b);
   for (const value of a) {
     if (!bSet.has(value)) {
-      out.push({ path: `${prefix}.${key}[${value}]`, kind: `${key}-missing`, detail: value });
+      out.push({
+        path: `${prefix}.${key}[${value}]`,
+        kind: `${key}-missing`,
+        detail: value,
+      });
     }
   }
   for (const value of b) {
     if (!aSet.has(value)) {
-      out.push({ path: `${prefix}.${key}[${value}]`, kind: `${key}-extra`, detail: value });
+      out.push({
+        path: `${prefix}.${key}[${value}]`,
+        kind: `${key}-extra`,
+        detail: value,
+      });
     }
   }
 }
@@ -32,7 +40,11 @@ function diffRecord(prefix, key, a, b, out) {
   const bKeys = Object.keys(b);
   for (const k of aKeys) {
     if (!(k in b)) {
-      out.push({ path: `${prefix}.${key}.${k}`, kind: `${key}-missing`, detail: a[k] });
+      out.push({
+        path: `${prefix}.${key}.${k}`,
+        kind: `${key}-missing`,
+        detail: a[k],
+      });
     } else if (JSON.stringify(a[k]) !== JSON.stringify(b[k])) {
       out.push({
         path: `${prefix}.${key}.${k}`,
@@ -43,7 +55,11 @@ function diffRecord(prefix, key, a, b, out) {
   }
   for (const k of bKeys) {
     if (!(k in a)) {
-      out.push({ path: `${prefix}.${key}.${k}`, kind: `${key}-extra`, detail: b[k] });
+      out.push({
+        path: `${prefix}.${key}.${k}`,
+        kind: `${key}-extra`,
+        detail: b[k],
+      });
     }
   }
 }
@@ -71,13 +87,21 @@ function diffNode(react, ember, path, out) {
 
   if (react.type === 'text') {
     if (react.text !== ember.text) {
-      out.push({ path, kind: 'text', detail: { react: react.text, ember: ember.text } });
+      out.push({
+        path,
+        kind: 'text',
+        detail: { react: react.text, ember: ember.text },
+      });
     }
     return;
   }
 
   if (react.tag !== ember.tag) {
-    out.push({ path, kind: 'tag', detail: { react: react.tag, ember: ember.tag } });
+    out.push({
+      path,
+      kind: 'tag',
+      detail: { react: react.tag, ember: ember.tag },
+    });
     return;
   }
 
@@ -88,14 +112,24 @@ function diffNode(react, ember, path, out) {
   const max = Math.max(react.children.length, ember.children.length);
   for (let i = 0; i < max; i++) {
     const childPath = `${path} > ${describeNode(react.children[i] ?? ember.children[i])}[${i}]`;
-    diffNode(react.children[i] ?? null, ember.children[i] ?? null, childPath, out);
+    diffNode(
+      react.children[i] ?? null,
+      ember.children[i] ?? null,
+      childPath,
+      out,
+    );
   }
 }
 
 /** Returns a flat array of `{ path, kind, detail }` differences. */
 export function diffNormalized(reactTree, emberTree) {
   const out = [];
-  diffNode(reactTree, emberTree, reactTree?.tag ?? emberTree?.tag ?? 'root', out);
+  diffNode(
+    reactTree,
+    emberTree,
+    reactTree?.tag ?? emberTree?.tag ?? 'root',
+    out,
+  );
   return out;
 }
 
@@ -107,11 +141,16 @@ export function diffNormalized(reactTree, emberTree) {
  * component) or names this exact `variant`.
  */
 export function applyKnownDifferences(differences, knownDifferences, variant) {
-  const applicable = knownDifferences.filter((known) => !known.variant || known.variant === variant);
+  const applicable = knownDifferences.filter(
+    (known) => !known.variant || known.variant === variant,
+  );
   return differences.filter((diff) => {
     return !applicable.some((known) => {
       if (known.path === diff.path) return true;
-      return diff.path.startsWith(`${known.path} `) || diff.path.startsWith(`${known.path}.`);
+      return (
+        diff.path.startsWith(`${known.path} `) ||
+        diff.path.startsWith(`${known.path}.`)
+      );
     });
   });
 }

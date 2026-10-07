@@ -102,7 +102,7 @@ file's own module doc, summarized here:
    `carbon-components-ember/package.json` is the only source of truth).
 2. **Class names are excluded from the comparison.** `@carbon/react` and
    Ember are both meant to emit the same `cds--*` classes; `@carbon/ai-
-   chat-components` renders into shadow DOM and styles itself with plain,
+chat-components` renders into shadow DOM and styles itself with plain,
    shadow-scoped class names, while the Ember port deliberately uses
    unrelated, globally-scoped BEM names instead (it has no shadow boundary
    to scope styles within) - see AGENTS.md, "Porting Carbon AI Chat", §3.
@@ -137,7 +137,7 @@ dir) for how deeply it composes `@carbon/web-components` custom elements
 (`cds-button`, `cds-tooltip`, ...) or extends one via subclassing
 (`chat-button` extends `CDSButton` directly) - those are real, in scope,
 and `flattenComposedTree` handles them structurally, but the Ember port
-frequently reuses this addon's *own* components instead of a 1:1 port of
+frequently reuses this addon's _own_ components instead of a 1:1 port of
 the nested web-component (e.g. `Toolbar` reuses `Tooltip`/`OverflowMenu`,
 `FileUploads` renders its own markup instead of `cds-file-uploader-item`),
 so expect real, legitimate structural differences there that need their
