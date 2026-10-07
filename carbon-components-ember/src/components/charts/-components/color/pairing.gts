@@ -1,5 +1,4 @@
-import onUpdate from '../../../charts/-helpers/on-update.ts';
-import Component from '@glimmer/component';
+import ChartPart from '../chart-part.ts';
 import type CarbonChart from '../../../charts/-components/chart.gts';
 
 export type Args = {
@@ -27,17 +26,13 @@ export type Args = {
  @class ColorPairing
  @public
  **/
-export default class ColorPairing extends Component<Args> {
-  <template>
-    {{#if @chart.setColorPairing}}
-      {{onUpdate
-        (fn
-          @chart.setColorPairing
-          (hash option=@option numberOfVariants=@numberOfVariants)
-        )
-        @numberOfVariants
-        @option
-      }}
-    {{/if}}
-  </template>
+export default class ColorPairing extends ChartPart<{ Args: Args }> {
+  get pairing() {
+    return {
+      option: this.args.option,
+      numberOfVariants: this.args.numberOfVariants,
+    };
+  }
+
+  <template></template>
 }

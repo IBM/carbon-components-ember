@@ -1,5 +1,4 @@
-import onUpdate from '../../../../components/charts/-helpers/on-update.ts';
-import Component from '@glimmer/component';
+import ChartPart from '../chart-part.ts';
 import { defaultArgs } from '../../../../utils/decorators.ts';
 import type CarbonChart from '../../../../components/charts/-components/chart.gts';
 
@@ -18,7 +17,7 @@ export type Args = {
  @class ColorScale
  @public
  **/
-export default class ColorScale extends Component<Args> {
+export default class ColorScale extends ChartPart<{ Args: Args }> {
   @defaultArgs
   args: Args = {
     /**
@@ -36,9 +35,5 @@ export default class ColorScale extends Component<Args> {
     chart: null,
   };
 
-  <template>
-    {{#if @chart.setColorScale}}
-      {{onUpdate (fn @chart.setColorScale @name @color) @name @color}}
-    {{/if}}
-  </template>
+  <template></template>
 }

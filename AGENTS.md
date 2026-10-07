@@ -130,6 +130,7 @@ export default class TabPane extends Component<TabPaneSignature> {
   }
 }
 ```
+For a cleaner registration example, read the charts: every yielded part extends `charts/-components/chart-part.ts`, which registers with the chart this way, and the chart derives its options and data from the registered parts' args with plain getters. Don't write a template helper that exists for its side effect.
 
 ### 2. Accept Components as Args & Icon Size Gotcha
 When invoking a `renderIcon`-style `ComponentLike` arg, **always pass `@size` (and an inert `@svgClass`)**. The base `Icon` component defaults to a 24px SVG with 5px margins unless `@size` and `@svgClass` are passed, causing alignment/overflow issues:

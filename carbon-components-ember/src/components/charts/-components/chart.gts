@@ -4,13 +4,13 @@ import ColorPairing from '../../charts/-components/color/pairing.gts';
 import ColorScale from '../../charts/-components/color/scale.gts';
 import { modifier } from 'ember-modifier';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { defaultArgs } from '../../../utils/decorators.ts';
-import type { Chart, ScaleTypes } from '@carbon/charts';
-import type { AxisChartOptions, BaseChartOptions } from '@carbon/charts';
+import type { AxisChartOptions, Chart } from '@carbon/charts';
 import type CarbonChartTabularData from '../../charts/-components/tabular-data.gts';
 import type { WithBoundArgs } from '@glint/template';
 import type ChartAxis from '../../charts/-components/axis.gts';
-import { throttle } from '@ember/runloop';
+import type { AnyChartPart } from './chart-part.ts';
 
 /** @documenter yuidoc */
 
@@ -59,18 +59,6 @@ export interface CarbonChartSignature {
  @yield {Component} api.Axis <a href='-components/axis' >ChartAxis</a>
  **/
 export default class CarbonChart extends Component<CarbonChartSignature> {
-  data: ChartData[] = [];
-  options: BaseChartOptions | AxisChartOptions = {
-    axes: {},
-    color: {},
-    legend: {
-      clickable: true,
-    },
-    resizable: true,
-    timeScale: {},
-  };
-  chartDiv?: HTMLDivElement = undefined;
-
   @defaultArgs
   args: Args = {
     /**
@@ -95,141 +83,106 @@ export default class CarbonChart extends Component<CarbonChartSignature> {
     ChartClass: undefined,
   };
 
-  private chart?: Chart;
-  private childChart?: HTMLDivElement;
+  /**
+   * The yielded `Axis`, `TabularData`, `ColorScale` and `ColorPairing`
+   * components register themselves here. The chart's options and data are
+   * derived from their args, so nothing is written while rendering.
+   */
+  @tracked parts: AnyChartPart[] = [];
 
-  setData() {
-    this.options.legend = {};
-    this.options.legend.clickable = this.args.legendClickable!;
-    this.options.resizable = this.args.resizable!;
-    this.options.title = this.args.title;
-    if (!this.data.length) return;
-    if (!(this.options as AxisChartOptions)?.axes?.left) return;
-    if (!(this.options as AxisChartOptions)?.axes?.bottom) return;
-    const data = this.data.slice();
+  register = (part: AnyChartPart) => {
+    this.parts = [...this.parts, part];
+  };
 
-    if (!this.chart && this.args.ChartClass && this.chartDiv) {
-      const d = document.createElement('div');
-      this.chartDiv.appendChild(d);
-      this.childChart = d;
-      this.chart = new this.args.ChartClass(d, {
-        options: this.options,
-        data: data,
-      });
-      this.chart.model.setOptions(this.options);
+  unregister = (part: AnyChartPart) => {
+    this.parts = this.parts.filter((p) => p !== part);
+  };
+
+  get options(): AxisChartOptions {
+    const axes: AxisChartOptions['axes'] = {};
+    const scale: Record<string, string> = {};
+    let pairing: ColorPairing['pairing'] | undefined;
+    for (const part of this.parts) {
+      if (part instanceof Axis) axes[part.args.axis] = part.options;
+      if (part instanceof ColorScale) scale[part.args.name] = part.args.color;
+      if (part instanceof ColorPairing) pairing = part.pairing;
     }
-    if (this.childChart && this.chart) {
-      this.childChart.style.height = this.chartDiv!.style.height;
-      this.chart?.model?.setData(data);
-    }
+    const hasScale = this.parts.some((part) => part instanceof ColorScale);
+    return {
+      axes,
+      color: {
+        ...(hasScale ? { scale } : {}),
+        ...(pairing ? { pairing } : {}),
+      },
+      legend: { clickable: this.args.legendClickable! },
+      resizable: this.args.resizable!,
+      timeScale: {},
+      title: this.args.title,
+    };
   }
 
-  loadChart = (chartDiv: HTMLDivElement) => {
-    this.chartDiv = chartDiv;
-    this.setData();
-  };
+  get data(): ChartData[] {
+    return this.parts.flatMap((part) =>
+      part instanceof TabularData ? part.data : [],
+    );
+  }
 
-  update = () => {
-    this.setData();
-  };
+  private chart?: Chart;
+  private chartContainer?: HTMLDivElement;
+  private appliedOptions?: AxisChartOptions;
+  private appliedData?: ChartData[];
 
-  updateChart = () => {
-    // eslint-disable-next-line ember/no-runloop
-    throttle(this, this.update, 50, false);
-  };
-
-  destroyChart = () => {
+  // Owns the @carbon/charts instance's lifetime; `syncChart` creates it.
+  mountChart = modifier(() => () => {
     this.chart?.destroy();
     this.chart = undefined;
-  };
-
-  loadChartModifier = modifier((element: HTMLDivElement) => {
-    this.loadChart(element);
-    return () => this.destroyChart();
+    this.chartContainer?.remove();
+    this.chartContainer = undefined;
   });
 
-  hasUpdatedOnce = false;
-
-  updateChartModifier = modifier(
+  // Applies the derived options and data. It's only re-invoked when they
+  // change, but compares them anyway, since a modifier can re-run on an
+  // unrelated re-render (see AGENTS.md's AudioPlayer notes).
+  syncChart = modifier(
     (
-      _element: HTMLDivElement,
-      [legendClickable, resizable]: [boolean | undefined, boolean | undefined],
+      element: HTMLDivElement,
+      [options, data]: [AxisChartOptions, ChartData[]],
     ) => {
-      void legendClickable;
-      void resizable;
-      if (!this.hasUpdatedOnce) {
-        this.hasUpdatedOnce = true;
+      const optionsChanged = options !== this.appliedOptions;
+      const dataChanged = data !== this.appliedData;
+      this.appliedOptions = options;
+      this.appliedData = data;
+
+      if (!this.chart) {
+        // Wait for the data and both axes before creating the chart.
+        if (!data.length || !options.axes?.left || !options.axes?.bottom) {
+          return;
+        }
+        if (!this.args.ChartClass) return;
+        this.chartContainer = document.createElement('div');
+        this.chartContainer.style.height = element.style.height;
+        element.appendChild(this.chartContainer);
+        this.chart = new this.args.ChartClass(this.chartContainer, {
+          options,
+          data: data.slice(),
+        });
+        this.chart.model.setOptions(options);
         return;
       }
-      this.updateChart();
+
+      if (this.chartContainer) {
+        this.chartContainer.style.height = element.style.height;
+      }
+      if (optionsChanged) this.chart.model.setOptions(options);
+      if (dataChanged) this.chart.model.setData(data.slice());
     },
   );
-
-  setAxis = (
-    axis: 'left' | 'bottom',
-    options?: {
-      title: string;
-      stacked?: boolean;
-      scaleType?: ScaleTypes[keyof ScaleTypes];
-    },
-  ) => {
-    (this.options as AxisChartOptions).axes = Object.assign(
-      (this.options as AxisChartOptions).axes!,
-      {},
-      {
-        [axis]: options,
-      },
-    );
-    this.updateChart();
-  };
-
-  setColorPairing = (values: any) => {
-    this.options.color!.pairing = values;
-  };
-
-  setColorScale = (datasetName: string, color: string) => {
-    this.options.color!.scale = this.options.color!.scale || {};
-    (this.options.color!.scale as any)[datasetName] = color;
-  };
-
-  removeDataset = (group: string) => {
-    this.data
-      .slice()
-      .reverse()
-      .forEach((v, i, array) => {
-        if (v.group === group) {
-          this.data.splice(array.length - i - 1, 1);
-        }
-      });
-    this.setData();
-  };
-
-  updateDataset = (
-    group?: string,
-    fillColors?: string[],
-    data?: ChartData[],
-  ) => {
-    if (!group || !data) return;
-    this.data
-      .slice()
-      .reverse()
-      .forEach((v, i, array) => {
-        if (v.group === group) {
-          this.data.splice(array.length - i - 1, 1);
-        }
-      });
-    data.forEach((v) => {
-      this.data.push(v);
-    });
-
-    this.updateChart();
-  };
 
   <template>
     <div
       ...attributes
-      {{this.loadChartModifier}}
-      {{this.updateChartModifier @legendClickable @resizable}}
+      {{this.mountChart}}
+      {{this.syncChart this.options this.data}}
     >
     </div>
 

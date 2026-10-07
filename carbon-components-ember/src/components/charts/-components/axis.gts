@@ -1,8 +1,7 @@
-import onUpdate from '../-helpers/on-update.ts';
 import toBool from '../-helpers/to-bool.ts';
+import ChartPart from './chart-part.ts';
 import type CarbonChart from '../../charts/-components/chart.gts';
 import type { ScaleTypes } from '@carbon/charts';
-import type { TOC } from '@ember/component/template-only';
 
 export type Args = {
   /**
@@ -30,7 +29,7 @@ export type Args = {
    * @argument scaleType
    * @type String
    */
-  scaleType?: ScaleTypes[keyof ScaleTypes];
+  scaleType?: `${ScaleTypes}`;
 
   chart: CarbonChart;
 
@@ -46,19 +45,14 @@ export type Args = {
  @class ChartAxis
  @public
  **/
-const ChartAxis: TOC<Args> = <template>
-  {{#if @chart.setAxis}}
-    {{onUpdate
-      (fn
-        @chart.setAxis
-        @axis
-        (hash title=@title stacked=(toBool @stacked) scaleType=@scaleType)
-      )
-      @axis
-      @title
-      @stacked
-    }}
-  {{/if}}
-</template>;
+export default class ChartAxis extends ChartPart<{ Args: Args }> {
+  get options() {
+    return {
+      title: this.args.title,
+      stacked: toBool(this.args.stacked),
+      scaleType: this.args.scaleType as ScaleTypes | undefined,
+    };
+  }
 
-export default ChartAxis;
+  <template></template>
+}
