@@ -1,6 +1,7 @@
 packages:
   - carbon-components-ember
   - dom-parity
+  - scripts
 
 allowBuilds:
   '@carbon/ai-chat-components': false

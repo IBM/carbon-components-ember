@@ -15,9 +15,9 @@ independently (see the `SOURCES` array at the top of the script):
 
 **Usage:**
 ```bash
+pnpm install                                      # from the repo root; scripts/ is a workspace package
 cd scripts
-npm install
-npm run check-parity                              # all sources, report-only unless CREATE_ISSUES=true
+pnpm check-parity                                 # all sources, report-only unless CREATE_ISSUES=true
 node parity-check.mjs --source carbon-ai-chat                          # run just one source
 node parity-check.mjs --source carbon-ai-chat --mark-synced Launcher   # source-scoped CLI flags
 ```
@@ -46,7 +46,7 @@ Local script to investigate and fix parity issues using agent.
 **Prerequisites:**
 - AI agent installed
 - [GitHub CLI](https://cli.github.com/) installed (`gh` command)
-- Node.js and npm
+- Node.js and pnpm
 - Playwright (will be installed automatically if missing)
 
 **Usage:**
@@ -98,7 +98,7 @@ The `parity-check-weekly.yml` workflow runs every Monday at 9:00 AM UTC:
 1. **Check for missing components:**
    ```bash
    cd scripts
-   npm run check-parity
+   pnpm check-parity
    cat ../PARITY_REPORT.md
    ```
 
@@ -128,15 +128,14 @@ The `parity-check-weekly.yml` workflow runs every Monday at 9:00 AM UTC:
 ### Updating Dependencies
 
 ```bash
-cd scripts
-npm update
+pnpm --filter scripts update
 ```
 
 ### Testing Parity Check Locally
 
 ```bash
+pnpm install
 cd scripts
-npm install
 GITHUB_TOKEN=your_token node parity-check.mjs
 ```
 

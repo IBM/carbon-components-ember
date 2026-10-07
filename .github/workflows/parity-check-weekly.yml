@@ -25,15 +25,11 @@ jobs:
           fetch-depth: 0
           token: '${{ secrets.GITHUB_TOKEN }}'
 
-      - name: 'Setup Node.js'
-        uses: 'actions/setup-node@v7'
-        with:
-          node-version-file: 'package.json'
+      - name: 'Setup Node and pnpm'
+        uses: './.github/actions/setup-pnpm'
 
       - name: 'Install dependencies'
-        run: |
-          cd scripts
-          npm install @octokit/rest
+        run: pnpm install --frozen-lockfile --filter scripts
 
       - name: 'Run parity check'
         env:
