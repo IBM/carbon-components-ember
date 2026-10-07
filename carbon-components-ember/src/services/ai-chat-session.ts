@@ -134,7 +134,7 @@ export class ChatSession {
   /** `true` once `enablePersistence()` has restored a previously-persisted session. */
   @tracked wasRehydrated = false;
 
-  #listeners = new Map<ChatEventType, Set<ChatEventHandler<any>>>();
+  #listeners = new Map<ChatEventType, Set<ChatEventHandler>>();
   /**
    * One `AbortController` per still-streaming response, for
    * `getAbortSignal()`/`cancelStreaming()`. Equivalent of upstream's
@@ -167,7 +167,7 @@ export class ChatSession {
       handlers = new Set();
       this.#listeners.set(type, handlers);
     }
-    handlers.add(handler as ChatEventHandler<any>);
+    handlers.add(handler as ChatEventHandler);
     return this;
   };
 
@@ -176,7 +176,7 @@ export class ChatSession {
     type: ChatEventType,
     handler: ChatEventHandler<T>,
   ): this => {
-    this.#listeners.get(type)?.delete(handler as ChatEventHandler<any>);
+    this.#listeners.get(type)?.delete(handler as ChatEventHandler);
     return this;
   };
 

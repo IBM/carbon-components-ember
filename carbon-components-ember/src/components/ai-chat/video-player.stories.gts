@@ -303,7 +303,7 @@ export const ControllingPlayback = meta.story({
       },
     },
   },
-  render: (args) => {
+  render: (args: StoryArgs) => {
     const state = trackedObject({ playing: false, status: 'paused' });
     const toggle = () => {
       state.playing = !state.playing;

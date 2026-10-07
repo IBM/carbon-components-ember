@@ -1,10 +1,10 @@
 import { tracked } from '@glimmer/tracking';
 
-export class TrackedPromise {
-  @tracked value: any;
-  promise?: Promise<any>;
-  load: () => Promise<any>;
-  getValue() {
+export class TrackedPromise<T> {
+  @tracked value: T | undefined;
+  promise?: Promise<T>;
+  load: () => Promise<T>;
+  getValue(): T | undefined {
     if (!this.promise) {
       this.promise = this.load();
       this.promise.then(
@@ -27,7 +27,7 @@ export class TrackedPromise {
     return this.value;
   }
 
-  constructor(load: () => Promise<any>) {
+  constructor(load: () => Promise<T>) {
     this.load = load;
   }
 }

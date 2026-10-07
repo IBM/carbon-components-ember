@@ -38,8 +38,8 @@ export default class CarbonCheckbox extends Component<CarbonCheckboxSignature> {
     return guidFor(this);
   }
 
-  onCheckChange = (element: any) => {
-    const value = element.target.checked;
+  onCheckChange = (event: Event) => {
+    const value = (event.target as HTMLInputElement).checked;
     if (this.args.onChange) this.args.onChange(value);
   };
 

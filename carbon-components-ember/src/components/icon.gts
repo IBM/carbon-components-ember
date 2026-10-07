@@ -7,14 +7,15 @@ import renderSvgPart from '../components/icon/render-svg-part.ts';
 import { stylesheet } from 'astroturf';
 import type DialogManagerService from '../services/dialog-manager';
 
+/** An icon descriptor from `@carbon/icons` (e.g. `@carbon/icons/es/add/16`). */
 export type IconType = {
   name: string;
   elem: string;
-  attrs: Record<string, string>;
+  attrs: Record<string, string | number>;
   content: {
     elem: string;
-    attrs: Record<string, string>;
-  };
+    attrs: Record<string, string | number>;
+  }[];
   size: number;
 };
 

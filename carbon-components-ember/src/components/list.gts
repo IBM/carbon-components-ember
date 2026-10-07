@@ -13,7 +13,7 @@ import ListSkeletonComponent from '../components/list/-skeleton.gts';
 export type Args<T> = {
   items?: T[];
   loading?: boolean;
-  onSelect?(item: any): void;
+  onSelect?(item: T): void;
   selectable?: boolean;
 };
 
@@ -46,14 +46,20 @@ export default class ListComponent<T> extends Component<
   @tracked currentItemsSlice: { start: number; end?: number } | null = null;
   @tracked currentItem?: T;
 
-  filter(items: any[], term: string) {
+  filter(items: T[], term: string) {
     term = term && term.toLowerCase();
-    const ensureString = (v: any) =>
+    const ensureString = (v: unknown) =>
       typeof v === 'string' ? v.toLowerCase() : JSON.stringify(v).toLowerCase();
     return items.filter((t) => {
       if (!term || term === '') return true;
-      return Object.values(t.toJSON ? t.toJSON() : t)
-        .filter((v: any) => v && !v.defaultAdapter)
+      const item = t as { toJSON?: () => object };
+      return Object.values(
+        typeof item.toJSON === 'function' ? item.toJSON() : (t as object),
+      )
+        .filter(
+          (v: unknown) =>
+            v && !(v as { defaultAdapter?: unknown }).defaultAdapter,
+        )
         .some((v) => v && ensureString(v).includes(term));
     });
   }

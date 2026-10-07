@@ -44,7 +44,7 @@ export default class CarbonBreadcrumb extends Component<BreadcrumbSignature> {
     this.args.onSelect?.(crumb);
   };
 
-  isCurrent = (item: any) => item === this.args.current;
+  isCurrent = (item: string) => item === this.args.current;
 
   <template>
     <nav

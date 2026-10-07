@@ -111,7 +111,7 @@ export default class TileComponent extends Component<TileComponentSignature> {
     return this.args.tabindex ?? '0';
   }
 
-  onClick = (event: any) => {
+  onClick = (event: Event) => {
     event.preventDefault();
     this.args.onClick?.();
   };

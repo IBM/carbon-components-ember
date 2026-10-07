@@ -7,7 +7,7 @@ import type { TaskInstance } from 'ember-concurrency';
 import { stylesheet } from 'astroturf';
 
 export type Args = {
-  onChange: (value: string) => TaskInstance<any> | undefined;
+  onChange: (value: string) => TaskInstance<unknown> | undefined;
   isLoading: boolean;
   expandable?: boolean;
   value: string;
@@ -25,7 +25,7 @@ export default class TableSearchComponent extends Component<Args> {
   @tracked isSearching: boolean = false;
   lastTerm?: string = undefined;
 
-  runSearch = task({ restartable: true }, async (term) => {
+  runSearch = task({ restartable: true }, async (term: string) => {
     this.isSearching = true;
     const task = this.args.onChange(term);
     try {

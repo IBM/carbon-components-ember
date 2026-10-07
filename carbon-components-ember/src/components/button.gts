@@ -30,7 +30,7 @@ export type Args = {
    @argument onClick
    @type function
    */
-  onClick?: () => void | null | Promise<any>;
+  onClick?: () => void | null | Promise<unknown>;
 
   /**
    * Indicates the type of the button
@@ -38,6 +38,15 @@ export type Args = {
    @type string
    */
   type?: 'primary' | 'secondary' | 'danger';
+  /** Same as `@type="primary"`. */
+  primary?: boolean;
+  /** Same as `@type="secondary"`. */
+  secondary?: boolean;
+  /**
+   * Same as `@type="danger"`, including the confirmation dialog before
+   * `@onClick` runs.
+   */
+  danger?: boolean;
 
   /**
    * If the action is dangerous, this text message will be shown in the dialog
@@ -165,17 +174,17 @@ export default class CarbonButton extends Component<ButtonSignature> {
   // only way @type ever resolves to its real default) is unaffected.
   get primary() {
     if (this.args.tertiary || this.args.ghost) return false;
-    return (this.args as any).primary || this.args.type === 'primary';
+    return this.args.primary || this.args.type === 'primary';
   }
 
   get secondary() {
     if (this.args.tertiary || this.args.ghost) return false;
-    return (this.args as any).secondary || this.args.type === 'secondary';
+    return this.args.secondary || this.args.type === 'secondary';
   }
 
   get danger() {
     if (this.args.tertiary || this.args.ghost) return false;
-    return (this.args as any).danger || this.args.type === 'danger';
+    return this.args.danger || this.args.type === 'danger';
   }
 
   get layout() {

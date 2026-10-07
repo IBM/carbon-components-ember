@@ -38,7 +38,7 @@ export default class CarbonChartTabularData extends ChartPart<{ Args: Args }> {
     values: [],
     keys: [],
     dates: [],
-    chart: null as any,
+    chart: undefined,
     data: [],
     backgroundColors: undefined,
   };

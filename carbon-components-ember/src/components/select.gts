@@ -4,6 +4,7 @@ import { isBlank } from '@ember/utils';
 import { defaultArgs } from '../utils/decorators.ts';
 import PowerSelect from 'ember-power-select/components/power-select';
 import type { PowerSelectArgs } from 'ember-power-select/components/power-select';
+import type { Select } from 'ember-power-select/types';
 import type { ContentValue } from '@glint/template';
 import { modifier } from 'ember-modifier';
 import isSelected from 'ember-power-select/helpers/ember-power-select-is-equal';
@@ -86,9 +87,13 @@ interface SelectExtra {
 }
 
 // The internal components below serve both the single and multiple modes,
-// and every option type.
+// and every option type. ember-power-select types its component args per
+// mode and option type, so typing these honestly would mean a copy of each
+// component per mode.
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type AnySelectMode = any;
 type AnyOption = any;
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 const addClassToParent = (el: HTMLElement, cls: string, ifTrue: boolean) => {
   if (ifTrue !== false) {
@@ -142,6 +147,11 @@ const styles = stylesheet`
     margin-left: -14px;
   }
 ` as { trigger: string; label: string; tag: string; check: string };
+
+const hasToJSON = (item: unknown): item is { toJSON(): unknown } =>
+  typeof item === 'object' &&
+  item !== null &&
+  typeof (item as { toJSON?: unknown }).toJSON === 'function';
 
 const selectExtra = (extra: unknown) => (extra ?? {}) as SelectExtra;
 
@@ -215,10 +225,14 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     removeItem: () => null,
   });
 
-  searchMatcher(item: any, term: string) {
+  searchMatcher(item: unknown, term: string) {
     if (!term || term === '') return 1;
-    const pass = Object.values(item.toJSON ? item.toJSON() : item)
-      .filter((v: any) => v && !v.defaultAdapter)
+    const source = hasToJSON(item) ? item.toJSON() : item;
+    const pass = Object.values(source as object)
+      .filter(
+        (v: unknown) =>
+          v && !(v as { defaultAdapter?: unknown }).defaultAdapter,
+      )
       .some((v) =>
         typeof v === 'string'
           ? v.includes(term)
@@ -259,20 +273,39 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         });
       }
     }
-    if (this.args.onSelect) this.args.onSelect(choice as any);
+    const { args } = this;
+    if (args.multiple === true) {
+      args.onSelect?.(choice as T[]);
+    } else {
+      args.onSelect?.(choice as T);
+    }
   };
 
-  selectFocused = (select: any, event: any) => {
-    return this.args.selectFocused && this.args.selectFocused?.(select, event);
+  selectFocused = (
+    select: Select<T, true> | Select<T, false>,
+    event: FocusEvent,
+  ) => {
+    const { args } = this;
+    if (args.multiple === true) {
+      args.selectFocused?.(select as Select<T, true>, event);
+    } else {
+      args.selectFocused?.(select as Select<T, false>, event);
+    }
   };
 
-  handleKeydown = (select: any, event: any) => {
+  handleKeydown = (
+    select: Select<T, true> | Select<T, false>,
+    event: KeyboardEvent,
+  ) => {
     const selected = this.args.selected || ([] as T[]);
 
     let backspaceHandled = false;
 
     // Delete the entire last tag if backspacing into the tags area.
-    if (event.keyCode === 8 && isBlank(event.target.value)) {
+    if (
+      event.keyCode === 8 &&
+      isBlank((event.target as HTMLInputElement).value)
+    ) {
       // BACKSPACE === 8
       if (Array.isArray(selected)) {
         if (this.args.removeItem) this.args.removeItem(selected.slice(-1)[0]!);
@@ -328,8 +361,8 @@ export default class SelectComponent<T extends ContentValue> extends Component<
       return guidFor(this);
     }
 
-    removeSelected = (opt: any) => {
-      const selected = [...this.args.select.selected];
+    removeSelected = (opt: unknown) => {
+      const selected = [...(this.args.select.selected as unknown[])];
       const i = selected.indexOf(opt);
       selected.splice(i, 1);
       this.args.select.actions.select(selected);

@@ -124,6 +124,18 @@ export interface DataTableComponentSignature<T> {
   };
 }
 
+/**
+ * The parts of a table its yielded Column, Header and Toolbar use. None of
+ * them depend on the item type, so those components accept any table.
+ */
+export interface DataTableContext {
+  columnIndexCounter: number;
+  headerIds: (string | undefined)[];
+  allChecked: boolean;
+  toggleSelectAllItems: (select: boolean) => void;
+  state: { selectedItems: { size: number; clear(): void } };
+}
+
 export default class DataTableComponent<T> extends Component<
   DataTableComponentSignature<T>
 > {
@@ -154,11 +166,19 @@ export default class DataTableComponent<T> extends Component<
     if (this.args.search) return this.args.search;
     const ensureString = (v: unknown) =>
       typeof v === 'string' ? v.toLowerCase() : JSON.stringify(v).toLowerCase();
-    const f = (t: any, term: string) => {
+    const f = (t: T, term: string) => {
       if (!term || term === '') return true;
-      if (t.id && t.id.toLowerCase().includes(term)) return true;
-      return Object.values(t.toJSON ? t.toJSON() : t)
-        .filter((v: any) => v && !v.defaultAdapter)
+      const item = t as { id?: unknown; toJSON?: () => object };
+      if (typeof item.id === 'string' && item.id.toLowerCase().includes(term)) {
+        return true;
+      }
+      return Object.values(
+        typeof item.toJSON === 'function' ? item.toJSON() : (t as object),
+      )
+        .filter(
+          (v: unknown) =>
+            v && !(v as { defaultAdapter?: unknown }).defaultAdapter,
+        )
         .some((v) => v && ensureString(v).includes(term));
     };
     return f;
@@ -195,17 +215,20 @@ export default class DataTableComponent<T> extends Component<
     return this.args.items;
   }
 
-  applySearch = task({ restartable: true }, async (items, term) => {
-    this.state.currentSearch = A([]);
-    term = term && term.toLowerCase();
-    const f = this.searchFunction;
-    for (const t of items) {
-      const r = await f(t, term);
-      if (r) {
-        this.state.currentSearch.pushObject(t);
+  applySearch = task(
+    { restartable: true },
+    async (items: T[], term: string | undefined) => {
+      this.state.currentSearch = A([]);
+      term = term && term.toLowerCase();
+      const f = this.searchFunction;
+      for (const t of items) {
+        const r = await f(t, term ?? '');
+        if (r) {
+          this.state.currentSearch.pushObject(t);
+        }
       }
-    }
-  });
+    },
+  );
 
   get currentItems() {
     if (!this.items || !this.state.currentItemsSlice) return [];
