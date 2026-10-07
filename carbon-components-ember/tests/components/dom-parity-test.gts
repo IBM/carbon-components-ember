@@ -55,6 +55,7 @@ import StructuredList from '#src/components/structured-list.gts';
 import Tabs from '#src/components/tabs.gts';
 import TabContent from '#src/components/tab-content.gts';
 import { normalizeElement } from '../../../dom-parity/lib/normalize-dom.mjs';
+import type { NormalizedNode } from '../../../dom-parity/lib/normalize-dom.mjs';
 import {
   diffNormalized,
   applyKnownDifferences,
@@ -117,7 +118,9 @@ import structuredListFixture from '../../../dom-parity/fixtures/StructuredList.j
 import tabsFixture from '../../../dom-parity/fixtures/Tabs.json';
 import tabContentFixture from '../../../dom-parity/fixtures/TabContent.json';
 
-type VariantFixture = { props: object; dom: object };
+// JSON imports widen string literals (`"type": "element"` reads as `string`),
+// so the fixture's DOM is narrowed once, where it's compared.
+type VariantFixture = { props: object; dom: object | null };
 type ComponentFixture = {
   component: string;
   carbonReactVersion: string;
@@ -154,7 +157,10 @@ function assertDomParity(
   }
 
   const emberTree = normalizeElement(rootElement, scope ?? rootElement);
-  const differences = diffNormalized(variantFixture.dom, emberTree);
+  const differences = diffNormalized(
+    variantFixture.dom as NormalizedNode | null,
+    emberTree,
+  );
   const known =
     (
       knownDifferences as Record<
