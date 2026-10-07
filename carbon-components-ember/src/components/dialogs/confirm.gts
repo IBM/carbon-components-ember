@@ -1,7 +1,7 @@
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import Modal from '../modal.gts';
-import type DialogManagerService from '../../services/dialog-manager';
+import type DialogManagerService from '../../services/dialog-manager.ts';
 
 export type Args = {
   onAccept: () => void;
