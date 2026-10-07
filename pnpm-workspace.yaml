@@ -60,6 +60,11 @@ packageExtensions:
     dependencies:
       '@mdx-js/react': ^3.1.0
 patchedDependencies:
+  # Marks template references as value references, which typescript-eslint
+  # >= 8.71.1 needs; without it no-unused-vars reports every variable a
+  # template uses as "only used as a type". Drop once the upstream fix
+  # (ember-tooling/ember-eslint-parser#253) is released.
+  ember-eslint-parser@0.14.6: patches/ember-eslint-parser@0.14.6.patch
   # Unreleased ember-storybook fixes: a build of upstream main with these
   # merged, diffed against the published 0.4.2 (dist/*.mjs only):
   # - CSF `subcomponents` in the docs Args table

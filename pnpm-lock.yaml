@@ -176,6 +176,7 @@ overrides:
 packageExtensionsChecksum: sha256-y+rO5oN1sZXT6Avb59m6u6cdf+810X4p3Lqt8NpVv1Y=
 
 patchedDependencies:
+  ember-eslint-parser@0.14.6: 744be6ca8b8b69d3526fd2c83d538f7d87288a9dbeb1fc50e9692a27bafc0c73
   ember-storybook@0.4.2: 7f436276d4b364c48c2b10934200ee54af30ada557cd5d38cdcaf9b5322442f1
 
 importers:
@@ -14453,7 +14454,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  ember-eslint-parser@0.14.6(@babel/eslint-parser@8.0.6(@babel/core@8.0.6)(eslint@10.12.0(jiti@2.7.0)(supports-color@8.1.1)))(@typescript-eslint/parser@8.71.1(eslint@10.12.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(typescript@6.0.3):
+  ember-eslint-parser@0.14.6(patch_hash=744be6ca8b8b69d3526fd2c83d538f7d87288a9dbeb1fc50e9692a27bafc0c73)(@babel/eslint-parser@8.0.6(@babel/core@8.0.6)(eslint@10.12.0(jiti@2.7.0)(supports-color@8.1.1)))(@typescript-eslint/parser@8.71.1(eslint@10.12.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(typescript@6.0.3):
     dependencies:
       '@glimmer/syntax': 0.95.0
       '@typescript-eslint/tsconfig-utils': 8.71.1(typescript@6.0.3)
@@ -14896,7 +14897,7 @@ snapshots:
       axobject-query: 4.1.0
       css-tree: 3.2.1
       editorconfig: 3.0.2
-      ember-eslint-parser: 0.14.6(@babel/eslint-parser@8.0.6(@babel/core@8.0.6)(eslint@10.12.0(jiti@2.7.0)(supports-color@8.1.1)))(@typescript-eslint/parser@8.71.1(eslint@10.12.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(typescript@6.0.3)
+      ember-eslint-parser: 0.14.6(patch_hash=744be6ca8b8b69d3526fd2c83d538f7d87288a9dbeb1fc50e9692a27bafc0c73)(@babel/eslint-parser@8.0.6(@babel/core@8.0.6)(eslint@10.12.0(jiti@2.7.0)(supports-color@8.1.1)))(@typescript-eslint/parser@8.71.1(eslint@10.12.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(typescript@6.0.3)
       ember-rfc176-data: 0.3.18
       eslint: 10.12.0(jiti@2.7.0)(supports-color@8.1.1)
       eslint-utils: 3.0.0(eslint@10.12.0(jiti@2.7.0)(supports-color@8.1.1))
