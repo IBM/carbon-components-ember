@@ -7,10 +7,10 @@ import {
   waitUntil,
   settled,
 } from '@ember/test-helpers';
-import { cell } from 'ember-resources';
 import DatePicker from '#src/components/date-picker.gts';
 import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import { waitForAnimationFrame } from '../helpers';
+import { tracked } from '@glimmer/tracking';
 
 // `DatePicker` defaults flatpickr's calendar to append inside its own
 // container (so it can't escape a shadow root - see `appendTo`'s doc
@@ -94,15 +94,11 @@ module('Integration | Component | DatePicker', (hooks) => {
 
   test('simple: re-syncs the input when a controlled @value changes after mount', async function (assert) {
     const jan15 = new Date(2024, 0, 15);
-    const value = cell<Date>(jan15);
+    const value = tracked<Date>(jan15);
 
     await render(
       <template>
-        <DatePicker
-          @datePickerType="simple"
-          @value={{value.current}}
-          as |Input|
-        >
+        <DatePicker @datePickerType="simple" @value={{value.value}} as |Input|>
           <Input @labelText="Date" />
         </DatePicker>
       </template>,
@@ -114,7 +110,7 @@ module('Integration | Component | DatePicker', (hooks) => {
     // through to the raw `<input>` directly (`syncValue`'s no-calendar
     // branch) - there is no `minDate`/`allowInput`/etc. change here to
     // trigger `attachFlatpickr`'s rebuild path instead.
-    value.current = new Date(2024, 0, 20);
+    value.value = new Date(2024, 0, 20);
     await settled();
 
     assert.dom('input.cds--date-picker__input').hasValue('01/20/2024');
@@ -300,16 +296,16 @@ module('Integration | Component | DatePicker', (hooks) => {
   });
 
   test('single: the calendar stays interactive across two selections when @value is controlled', async function (assert) {
-    const date = cell<Date | undefined>(new Date(2024, 0, 15));
+    const date = tracked<Date | undefined>(new Date(2024, 0, 15));
     const handleChange = (dates: Date[]) => {
-      date.current = dates[0];
+      date.value = dates[0];
     };
 
     await render(
       <template>
         <DatePicker
           @datePickerType="single"
-          @value={{date.current}}
+          @value={{date.value}}
           @onChange={{handleChange}}
           as |Input|
         >
@@ -387,11 +383,11 @@ module('Integration | Component | DatePicker', (hooks) => {
     // the end field would keep showing the initial value below.
     const initial = new Date(2024, 0, 10);
     const initialEnd = new Date(2024, 0, 15);
-    const value = cell<Date[]>([initial, initialEnd]);
+    const value = tracked<Date[]>([initial, initialEnd]);
 
     await render(
       <template>
-        <DatePicker @datePickerType="range" @value={{value.current}} as |Input|>
+        <DatePicker @datePickerType="range" @value={{value.value}} as |Input|>
           <Input @labelText="Start date" />
           <Input @labelText="End date" />
         </DatePicker>
@@ -410,7 +406,7 @@ module('Integration | Component | DatePicker', (hooks) => {
 
     const newStart = new Date(2024, 1, 5);
     const newEnd = new Date(2024, 1, 10);
-    value.current = [newStart, newEnd];
+    value.value = [newStart, newEnd];
     await settled();
 
     assert.strictEqual(inputs()[0]?.value, mdyFor(newStart));
@@ -448,14 +444,14 @@ module('Integration | Component | DatePicker', (hooks) => {
 
   test('single: changing minDate after a selection preserves the current value instead of reverting to the initial @value', async function (assert) {
     const jan15 = new Date(2024, 0, 15);
-    const minDate = cell(new Date(2024, 0, 1));
+    const minDate = tracked(new Date(2024, 0, 1));
 
     await render(
       <template>
         <DatePicker
           @datePickerType="single"
           @value={{jan15}}
-          @minDate={{minDate.current}}
+          @minDate={{minDate.value}}
           as |Input|
         >
           <Input @labelText="Date" />
@@ -472,7 +468,7 @@ module('Integration | Component | DatePicker', (hooks) => {
     // tears down and rebuilds the flatpickr instance - the rebuild must
     // reseed from the user's current selection, not the original `@value`
     // the picker was constructed with.
-    minDate.current = new Date(2024, 0, 2);
+    minDate.value = new Date(2024, 0, 2);
     await settled();
 
     assert.dom('input.cds--date-picker__input').hasValue('01/20/2024');
@@ -491,11 +487,11 @@ module('Integration | Component | DatePicker', (hooks) => {
   });
 
   test('destroys the flatpickr instance on teardown', async function (assert) {
-    const show = cell(true);
+    const show = tracked(true);
 
     await render(
       <template>
-        {{#if show.current}}
+        {{#if show.value}}
           <DatePicker @datePickerType="single" as |Input|>
             <Input @labelText="Date" />
           </DatePicker>
@@ -505,7 +501,7 @@ module('Integration | Component | DatePicker', (hooks) => {
 
     assert.ok(flatpickrCalendar(), 'the calendar is created on render');
 
-    show.current = false;
+    show.value = false;
     await settled();
 
     assert.notOk(flatpickrCalendar(), 'the calendar is removed on teardown');

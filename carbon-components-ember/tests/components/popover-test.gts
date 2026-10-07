@@ -1,8 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, triggerKeyEvent } from '@ember/test-helpers';
-import { cell } from 'ember-resources';
 import Popover, { PopoverContent } from '#src/components/popover.gts';
+import { tracked } from '@glimmer/tracking';
 
 module('Integration | Component | Popover', (hooks) => {
   setupRenderingTest(hooks);
@@ -172,31 +172,31 @@ module('Integration | Component | Popover', (hooks) => {
   });
 
   test('clicking outside the popover calls onRequestClose', async function (assert) {
-    const open = cell(true);
-    const onRequestClose = () => (open.current = false);
+    const open = tracked(true);
+    const onRequestClose = () => (open.value = false);
 
     await render(
       <template>
         <div id="outside">outside</div>
-        <Popover @open={{open.current}} @onRequestClose={{onRequestClose}}>
+        <Popover @open={{open.value}} @onRequestClose={{onRequestClose}}>
           <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
       </template>,
     );
 
-    assert.true(open.current);
+    assert.true(open.value);
     await click('#outside');
-    assert.false(open.current);
+    assert.false(open.value);
   });
 
   test('clicking inside the popover content does not call onRequestClose', async function (assert) {
-    const open = cell(true);
-    const onRequestClose = () => (open.current = false);
+    const open = tracked(true);
+    const onRequestClose = () => (open.value = false);
 
     await render(
       <template>
-        <Popover @open={{open.current}} @onRequestClose={{onRequestClose}}>
+        <Popover @open={{open.value}} @onRequestClose={{onRequestClose}}>
           <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
@@ -204,16 +204,16 @@ module('Integration | Component | Popover', (hooks) => {
     );
 
     await click('.cds--popover-content');
-    assert.true(open.current);
+    assert.true(open.value);
   });
 
   test('pressing Escape while focus is inside the content calls onRequestClose', async function (assert) {
-    const open = cell(true);
-    const onRequestClose = () => (open.current = false);
+    const open = tracked(true);
+    const onRequestClose = () => (open.value = false);
 
     await render(
       <template>
-        <Popover @open={{open.current}} @onRequestClose={{onRequestClose}}>
+        <Popover @open={{open.value}} @onRequestClose={{onRequestClose}}>
           <button type="button">Trigger</button>
           <PopoverContent>
             <button type="button" id="inner">Inner</button>
@@ -223,6 +223,6 @@ module('Integration | Component | Popover', (hooks) => {
     );
 
     await triggerKeyEvent('#inner', 'keydown', 'Escape');
-    assert.false(open.current);
+    assert.false(open.value);
   });
 });

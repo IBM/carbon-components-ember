@@ -8,9 +8,9 @@ import {
   waitUntil,
   find,
 } from '@ember/test-helpers';
-import { cell } from 'ember-resources';
 import ChatHistoryPanelItem from '#src/components/ai-chat/chat-history-panel-item.gts';
 import { Delete } from '#src/icons.ts';
+import { tracked } from '@glimmer/tracking';
 
 module('Integration | Component | ai-chat/ChatHistoryPanelItem', (hooks) => {
   setupRenderingTest(hooks);
@@ -128,18 +128,18 @@ module('Integration | Component | ai-chat/ChatHistoryPanelItem', (hooks) => {
   });
 
   test("a falling edge on @rename (e.g. the host switched to renaming a different item) closes this item's rename UI too", async function (assert) {
-    const rename = cell(true);
+    const rename = tracked(true);
 
     await render(
       <template>
-        <ChatHistoryPanelItem @name="My chat" @rename={{rename.current}} />
+        <ChatHistoryPanelItem @name="My chat" @rename={{rename.value}} />
       </template>,
     );
     assert
       .dom('.cds-aichat-history-panel-item-input')
       .exists('rename mode starts open per @rename');
 
-    rename.current = false;
+    rename.value = false;
     await settled();
     assert
       .dom('.cds-aichat-history-panel-item-input')

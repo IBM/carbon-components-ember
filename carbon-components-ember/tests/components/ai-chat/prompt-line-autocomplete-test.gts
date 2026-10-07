@@ -8,7 +8,6 @@ import {
   find,
   findAll,
 } from '@ember/test-helpers';
-import { cell } from 'ember-resources';
 import PromptLine from '#src/components/ai-chat/prompt-line.gts';
 import type { PromptLineApi } from '#src/components/ai-chat/prompt-line.gts';
 import PromptLineAutocomplete from '#src/components/ai-chat/prompt-line-autocomplete.gts';
@@ -19,6 +18,7 @@ import type {
   TriggerChangeEventDetail,
 } from '#src/components/ai-chat/-prompt-line/tiptap/types.ts';
 import { waitForAnimationFrame } from '../../helpers';
+import { tracked } from '@glimmer/tracking';
 
 module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
   setupRenderingTest(hooks);
@@ -59,11 +59,11 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
    * ever read `api` from *test code*) doesn't work here, since reassigning
    * a plain untracked variable never schedules a rerender, so `{{api}}}`
    * passed as an arg stays frozen at its initial (`undefined`) value
-   * forever. `cell()` gives `onReady` a real tracked target instead.
+   * forever. `tracked()` gives `onReady` a real tracked target instead.
    */
   function apiHandle() {
-    const handle = cell<PromptLineApi | undefined>(undefined);
-    const onReady = (fn: PromptLineApi) => (handle.current = fn);
+    const handle = tracked<PromptLineApi | undefined>(undefined);
+    const onReady = (fn: PromptLineApi) => (handle.value = fn);
     return { handle, onReady };
   }
 
@@ -222,21 +222,21 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
             @onReady={{onReady}}
           />
           <PromptLineAutocomplete
-            @promptLine={{api.current}}
+            @promptLine={{api.value}}
             @mention={{mentionConfig}}
             @starters={{startersConfig}}
           />
         </div>
       </template>,
     );
-    await api.current!.ensureEditor();
-    api.current!.focus();
+    await api.value!.ensureEditor();
+    api.value!.focus();
     await waitForAnimationFrame();
     assert
       .dom('.cds-aichat-autocomplete-item')
       .hasText('Get started', 'starters showed first');
 
-    api.current!.getEditor()!.commands.insertContent('@');
+    api.value!.getEditor()!.commands.insertContent('@');
     await settled();
 
     assert
@@ -261,16 +261,16 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
             @onReady={{onReady}}
           />
           <PromptLineAutocomplete
-            @promptLine={{api.current}}
+            @promptLine={{api.value}}
             @mention={{mentionConfig}}
             @onItemSelected={{onItemSelected}}
           />
         </div>
       </template>,
     );
-    await api.current!.ensureEditor();
+    await api.value!.ensureEditor();
 
-    api.current!.getEditor()!.commands.insertContent('@');
+    api.value!.getEditor()!.commands.insertContent('@');
     await settled();
     await click('.cds-aichat-autocomplete-item');
 
@@ -305,22 +305,22 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
             @onReady={{onReady}}
           />
           <PromptLineAutocomplete
-            @promptLine={{api.current}}
+            @promptLine={{api.value}}
             @autocomplete={{autocompleteConfig}}
             @onItemSend={{onItemSend}}
           />
         </div>
       </template>,
     );
-    await api.current!.ensureEditor();
+    await api.value!.ensureEditor();
 
-    api.current!.getEditor()!.commands.insertContent('wid');
+    api.value!.getEditor()!.commands.insertContent('wid');
     await settled();
     await click('.cds-aichat-autocomplete-item');
 
     assert.deepEqual(sent, ['widget-value']);
     assert.strictEqual(
-      api.current!.getValue(),
+      api.value!.getValue(),
       'wid',
       'the editor content is untouched by the direct-send path',
     );
@@ -345,7 +345,7 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
             @onReady={{onReady}}
           />
           <PromptLineAutocomplete
-            @promptLine={{api.current}}
+            @promptLine={{api.value}}
             @autocomplete={{autocompleteConfig}}
             @isSendDisabled={{true}}
             @onItemSend={{onItemSend}}
@@ -353,9 +353,9 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
         </div>
       </template>,
     );
-    await api.current!.ensureEditor();
+    await api.value!.ensureEditor();
 
-    api.current!.getEditor()!.commands.insertContent('wid');
+    api.value!.getEditor()!.commands.insertContent('wid');
     await settled();
     await click('.cds-aichat-autocomplete-item');
 
@@ -384,20 +384,20 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
             @onReady={{onReady}}
           />
           <PromptLineAutocomplete
-            @promptLine={{api.current}}
+            @promptLine={{api.value}}
             @autocomplete={{autocompleteConfig}}
             @onItemSelected={{onItemSelected}}
           />
         </div>
       </template>,
     );
-    await api.current!.ensureEditor();
+    await api.value!.ensureEditor();
 
-    api.current!.getEditor()!.commands.insertContent('wid');
+    api.value!.getEditor()!.commands.insertContent('wid');
     await settled();
     await click('.cds-aichat-autocomplete-item');
 
-    assert.strictEqual(api.current!.getValue(), 'widget-value');
+    assert.strictEqual(api.value!.getValue(), 'widget-value');
     assert.deepEqual(
       selected.map((i) => i.id),
       ['w1'],
@@ -420,21 +420,21 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
             @onReady={{onReady}}
           />
           <PromptLineAutocomplete
-            @promptLine={{api.current}}
+            @promptLine={{api.value}}
             @starters={{startersConfig}}
             @onItemSend={{onItemSend}}
           />
         </div>
       </template>,
     );
-    await api.current!.ensureEditor();
-    api.current!.focus();
+    await api.value!.ensureEditor();
+    api.value!.focus();
     await waitForAnimationFrame();
 
     await click('.cds-aichat-autocomplete-item');
 
     assert.deepEqual(sent, ['Get started']);
-    assert.strictEqual(api.current!.getValue(), '');
+    assert.strictEqual(api.value!.getValue(), '');
   });
 
   test('a starter with disableDirectSend: true inserts its text and fires onStarterSelected with the full value', async function (assert) {
@@ -456,20 +456,20 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
             @onReady={{onReady}}
           />
           <PromptLineAutocomplete
-            @promptLine={{api.current}}
+            @promptLine={{api.value}}
             @starters={{startersConfig}}
             @onStarterSelected={{onStarterSelected}}
           />
         </div>
       </template>,
     );
-    await api.current!.ensureEditor();
-    api.current!.focus();
+    await api.value!.ensureEditor();
+    api.value!.focus();
     await waitForAnimationFrame();
 
     await click('.cds-aichat-autocomplete-item');
 
-    assert.strictEqual(api.current!.getValue(), 'Get started');
+    assert.strictEqual(api.value!.getValue(), 'Get started');
     assert.deepEqual(starterTexts, ['Get started']);
   });
 
@@ -492,15 +492,15 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
             @onReady={{onReady}}
           />
           <PromptLineAutocomplete
-            @promptLine={{api.current}}
+            @promptLine={{api.value}}
             @mention={{mentionConfig}}
           />
         </div>
       </template>,
     );
-    await api.current!.ensureEditor();
+    await api.value!.ensureEditor();
 
-    api.current!.getEditor()!.commands.insertContent('@');
+    api.value!.getEditor()!.commands.insertContent('@');
     await settled();
 
     const pmContent = '.cds-aichat-prompt-line__pm-content';
@@ -546,15 +546,15 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
             @onReady={{onReady}}
           />
           <PromptLineAutocomplete
-            @promptLine={{api.current}}
+            @promptLine={{api.value}}
             @mention={{mentionConfig}}
           />
         </div>
       </template>,
     );
-    await api.current!.ensureEditor();
+    await api.value!.ensureEditor();
 
-    api.current!.getEditor()!.commands.insertContent('@');
+    api.value!.getEditor()!.commands.insertContent('@');
     await settled();
     assert.dom('.cds-aichat-autocomplete').exists();
 
@@ -566,13 +566,13 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
 
     assert.dom('.cds-aichat-autocomplete').doesNotExist();
     assert.dom('.cds-aichat--token').doesNotExist();
-    assert.strictEqual(api.current!.getValue(), '@');
+    assert.strictEqual(api.value!.getValue(), '@');
 
     // A real assertion that dismissSuggestion() actually closed the
     // Suggestion plugin's own match-tracking state, not just this
     // component's local UI - typing another character within the same
     // still-open match range must NOT reopen it.
-    api.current!.getEditor()!.commands.insertContent('l');
+    api.value!.getEditor()!.commands.insertContent('l');
     await settled();
     assert
       .dom('.cds-aichat-autocomplete')
@@ -594,7 +594,7 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
               @onReady={{onReady}}
             />
             <PromptLineAutocomplete
-              @promptLine={{api.current}}
+              @promptLine={{api.value}}
               @mention={{mentionConfig}}
             />
           </div>
@@ -602,9 +602,9 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
         </div>
       </template>,
     );
-    await api.current!.ensureEditor();
+    await api.value!.ensureEditor();
 
-    api.current!.getEditor()!.commands.insertContent('@');
+    api.value!.getEditor()!.commands.insertContent('@');
     await settled();
     assert.dom('.cds-aichat-autocomplete').exists();
 
@@ -632,15 +632,15 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
             @onReady={{onReady}}
           />
           <PromptLineAutocomplete
-            @promptLine={{api.current}}
+            @promptLine={{api.value}}
             @mention={{mentionConfig}}
           />
         </div>
       </template>,
     );
-    await api.current!.ensureEditor();
+    await api.value!.ensureEditor();
 
-    api.current!.getEditor()!.commands.insertContent('@');
+    api.value!.getEditor()!.commands.insertContent('@');
     await settled();
 
     const groupTitles = findAll(

@@ -406,9 +406,6 @@ importers:
       ember-qunit:
         specifier: ^9.2.0
         version: 9.2.0(@ember/test-helpers@5.5.2(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(qunit@2.26.0)(supports-color@8.1.1)
-      ember-resources:
-        specifier: ^7.1.0
-        version: 7.1.0(@glimmer/component@2.1.1(supports-color@8.1.1))(@glint/template@1.9.0)(supports-color@8.1.1)
       ember-source:
         specifier: ^7.3.0
         version: 7.3.0(@glimmer/component@2.1.1(supports-color@8.1.1))(supports-color@8.1.1)

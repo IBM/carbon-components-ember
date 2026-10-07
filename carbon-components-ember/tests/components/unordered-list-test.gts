@@ -2,10 +2,10 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, rerender } from '@ember/test-helpers';
 import UnorderedList from '#src/components/unordered-list.gts';
-import { cell } from 'ember-resources';
 import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
+import { tracked } from '@glimmer/tracking';
 import {
   getAllElementComputedStyles,
   getStylesDiff,
@@ -16,7 +16,7 @@ module('Integration | Component | UnorderedList', (hooks) => {
   setupRenderingTest(hooks);
 
   test('white theme: should display list', async function (this: RenderingTestContext, assert) {
-    const styleValue = cell('');
+    const styleValue = tracked('');
     await render(
       <template>
         <UnorderedList>
@@ -24,14 +24,14 @@ module('Integration | Component | UnorderedList', (hooks) => {
           <li>Item 2</li>
         </UnorderedList>
         <style>
-          {{styleValue.current}}
+          {{styleValue.value}}
         </style>
       </template>,
     );
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.current = carbonStyle.default;
+    styleValue.value = carbonStyle.default;
     await rerender();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(
@@ -44,8 +44,8 @@ module('Integration | Component | UnorderedList', (hooks) => {
   });
 
   test('dark theme: should display list', async function (this: RenderingTestContext, assert) {
-    const styleValue = cell('');
-    const darkStyleValue = cell('');
+    const styleValue = tracked('');
+    const darkStyleValue = tracked('');
     await render(
       <template>
         <UnorderedList>
@@ -53,18 +53,18 @@ module('Integration | Component | UnorderedList', (hooks) => {
           <li>Item 2</li>
         </UnorderedList>
         <style>
-          {{styleValue.current}}
+          {{styleValue.value}}
         </style>
         <style>
-          {{darkStyleValue.current}}
+          {{darkStyleValue.value}}
         </style>
       </template>,
     );
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.current = carbonStyle.default;
-    darkStyleValue.current = carbonDarkStyle.default;
+    styleValue.value = carbonStyle.default;
+    darkStyleValue.value = carbonDarkStyle.default;
     await rerender();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(

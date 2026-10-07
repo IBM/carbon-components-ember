@@ -3,10 +3,10 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, rerender, waitUntil, find } from '@ember/test-helpers';
 import Tag from '#src/components/tag.gts';
 import { Add } from '#src/icons.ts';
-import { cell } from 'ember-resources';
 import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import { waitForAnimationFrame } from '../helpers';
+import { tracked } from '@glimmer/tracking';
 
 module('Integration | Component | Tag', (hooks) => {
   setupRenderingTest(hooks);
@@ -94,17 +94,17 @@ module('Integration | Component | Tag', (hooks) => {
   });
 
   test('positions the custom icon inside its wrapper under real Carbon styles', async function (this: RenderingTestContext, assert) {
-    const styleValue = cell('');
+    const styleValue = tracked('');
     await render(
       <template>
         <Tag @type="red" @renderIcon={{Add}}>Tag content</Tag>
         <style>
-          {{styleValue.current}}
+          {{styleValue.value}}
         </style>
       </template>,
     );
     await waitUntil(() => find('.cds--tag__custom-icon svg'));
-    styleValue.current = carbonStyle.default;
+    styleValue.value = carbonStyle.default;
     await rerender();
     await waitForAnimationFrame();
 

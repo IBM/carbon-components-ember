@@ -10,7 +10,6 @@ import {
 } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import { trackedObject } from '@ember/reactive/collections';
-import { cell } from 'ember-resources';
 import FluidTextInput from '#src/components/fluid-text-input.gts';
 import Toggletip from '#src/components/toggletip.gts';
 
@@ -145,18 +144,18 @@ module('Integration | Component | FluidTextInput', (hooks) => {
     assert.dom('#display').hasText('value: hi');
   });
 
-  test('should keep an ember-resources cell-backed controlled value in sync while typing, matching the docs demo', async function (assert) {
-    const value = cell('');
-    const update = (newValue: string) => (value.current = newValue);
+  test('should keep a tracked-value-backed controlled value in sync while typing, matching the docs demo', async function (assert) {
+    const value = tracked('');
+    const update = (newValue: string) => (value.value = newValue);
 
     await render(
       <template>
         <FluidTextInput
           @labelText="Controlled"
-          @value={{value.current}}
+          @value={{value.value}}
           @onChange={{update}}
         />
-        <div id="display">value: {{value.current}}</div>
+        <div id="display">value: {{value.value}}</div>
       </template>,
     );
 

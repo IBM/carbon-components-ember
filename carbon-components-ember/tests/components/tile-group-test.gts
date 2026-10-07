@@ -3,10 +3,10 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
 import RadioTile from '#src/components/radio-tile.gts';
 import TileGroup from '#src/components/tile/tile-group.gts';
-import { cell } from 'ember-resources';
+import { tracked } from '@glimmer/tracking';
 
-function setCell(theCell: { current: unknown }, value: unknown) {
-  theCell.current = value;
+function setValue(target: { value: unknown }, value: unknown) {
+  target.value = value;
 }
 
 module('Integration | Component | TileGroup', (hooks) => {
@@ -85,11 +85,11 @@ module('Integration | Component | TileGroup', (hooks) => {
   });
 
   test('TileGroup should call onChange with the selected value', async function (assert) {
-    const selected = cell<string | undefined>(undefined);
+    const selected = tracked<string | undefined>(undefined);
 
     await render(
       <template>
-        <TileGroup @name="tiles" @onChange={{fn setCell selected}} as |Tile|>
+        <TileGroup @name="tiles" @onChange={{fn setValue selected}} as |Tile|>
           <Tile @value="a">A</Tile>
           <Tile @value="b">B</Tile>
         </TileGroup>
@@ -99,7 +99,7 @@ module('Integration | Component | TileGroup', (hooks) => {
     const inputs = document.querySelectorAll('.cds--tile-group input');
     await click(inputs[1] as Element);
 
-    assert.strictEqual(selected.current, 'b');
+    assert.strictEqual(selected.value, 'b');
   });
 
   test('TileGroup should disable all radio tiles when disabled', async function (assert) {

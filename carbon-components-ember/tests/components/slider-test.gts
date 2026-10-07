@@ -9,10 +9,10 @@ import {
 } from '@ember/test-helpers';
 import Slider from '#src/components/slider.gts';
 import SliderSkeleton from '#src/components/slider-skeleton.gts';
-import { cell } from 'ember-resources';
 import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
+import { tracked } from '@glimmer/tracking';
 import {
   getAllElementComputedStyles,
   getStylesDiff,
@@ -23,7 +23,7 @@ module('Integration | Component | Slider', (hooks) => {
   setupRenderingTest(hooks);
 
   test('white theme: should display slider', async function (this: RenderingTestContext, assert) {
-    const styleValue = cell('');
+    const styleValue = tracked('');
     await render(
       <template>
         <Slider
@@ -33,14 +33,14 @@ module('Integration | Component | Slider', (hooks) => {
           @value={{50}}
         />
         <style>
-          {{styleValue.current}}
+          {{styleValue.value}}
         </style>
       </template>,
     );
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.current = carbonStyle.default;
+    styleValue.value = carbonStyle.default;
     await rerender();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(
@@ -53,8 +53,8 @@ module('Integration | Component | Slider', (hooks) => {
   });
 
   test('dark theme: should display slider', async function (this: RenderingTestContext, assert) {
-    const styleValue = cell('');
-    const darkStyleValue = cell('');
+    const styleValue = tracked('');
+    const darkStyleValue = tracked('');
     await render(
       <template>
         <Slider
@@ -64,18 +64,18 @@ module('Integration | Component | Slider', (hooks) => {
           @value={{50}}
         />
         <style>
-          {{styleValue.current}}
+          {{styleValue.value}}
         </style>
         <style>
-          {{darkStyleValue.current}}
+          {{darkStyleValue.value}}
         </style>
       </template>,
     );
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.current = carbonStyle.default;
-    darkStyleValue.current = carbonDarkStyle.default;
+    styleValue.value = carbonStyle.default;
+    darkStyleValue.value = carbonDarkStyle.default;
     await rerender();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(
@@ -162,9 +162,9 @@ module('Integration | Component | Slider', (hooks) => {
   });
 
   test('typing a valid value in the input calls @onChange with the parsed value', async function (assert) {
-    const value = cell(50);
+    const value = tracked(50);
     const onChange = (data: { value: number }) => {
-      value.current = data.value;
+      value.value = data.value;
     };
 
     await render(
@@ -173,7 +173,7 @@ module('Integration | Component | Slider', (hooks) => {
           @labelText="Slider label"
           @min={{0}}
           @max={{100}}
-          @value={{value.current}}
+          @value={{value.value}}
           @onChange={{onChange}}
         />
       </template>,
@@ -181,13 +181,13 @@ module('Integration | Component | Slider', (hooks) => {
 
     await fillIn('input.cds--slider-text-input', '75');
 
-    assert.strictEqual(value.current, 75);
+    assert.strictEqual(value.value, 75);
   });
 
   test('blurring the input clamps out-of-range values', async function (assert) {
-    const value = cell(50);
+    const value = tracked(50);
     const onChange = (data: { value: number }) => {
-      value.current = data.value;
+      value.value = data.value;
     };
 
     await render(
@@ -196,7 +196,7 @@ module('Integration | Component | Slider', (hooks) => {
           @labelText="Slider label"
           @min={{0}}
           @max={{100}}
-          @value={{value.current}}
+          @value={{value.value}}
           @onChange={{onChange}}
         />
       </template>,
@@ -205,7 +205,7 @@ module('Integration | Component | Slider', (hooks) => {
     await fillIn('input.cds--slider-text-input', '500');
     await blur('input.cds--slider-text-input');
 
-    assert.strictEqual(value.current, 100);
+    assert.strictEqual(value.value, 100);
     assert.dom('input.cds--slider-text-input').hasValue('100');
   });
 
@@ -283,9 +283,9 @@ module('Integration | Component | Slider', (hooks) => {
   });
 
   test('keyboard ArrowUp increases the value by @step', async function (assert) {
-    const value = cell(50);
+    const value = tracked(50);
     const onChange = (data: { value: number }) => {
-      value.current = data.value;
+      value.value = data.value;
     };
 
     await render(
@@ -295,7 +295,7 @@ module('Integration | Component | Slider', (hooks) => {
           @min={{0}}
           @max={{100}}
           @step={{5}}
-          @value={{value.current}}
+          @value={{value.value}}
           @onChange={{onChange}}
         />
       </template>,
@@ -303,13 +303,13 @@ module('Integration | Component | Slider', (hooks) => {
 
     await triggerKeyEvent('[role="slider"]', 'keydown', 'ArrowUp');
 
-    assert.strictEqual(value.current, 55);
+    assert.strictEqual(value.value, 55);
   });
 
   test('keyboard ArrowDown decreases the value by @step', async function (assert) {
-    const value = cell(50);
+    const value = tracked(50);
     const onChange = (data: { value: number }) => {
-      value.current = data.value;
+      value.value = data.value;
     };
 
     await render(
@@ -319,7 +319,7 @@ module('Integration | Component | Slider', (hooks) => {
           @min={{0}}
           @max={{100}}
           @step={{5}}
-          @value={{value.current}}
+          @value={{value.value}}
           @onChange={{onChange}}
         />
       </template>,
@@ -327,7 +327,7 @@ module('Integration | Component | Slider', (hooks) => {
 
     await triggerKeyEvent('[role="slider"]', 'keydown', 'ArrowDown');
 
-    assert.strictEqual(value.current, 45);
+    assert.strictEqual(value.value, 45);
   });
 });
 

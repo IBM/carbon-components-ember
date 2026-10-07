@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click, find, waitUntil } from '@ember/test-helpers';
 import UIShell from '#src/components/ui-shell.gts';
 import { Notification } from '#src/icons.ts';
-import { cell } from 'ember-resources';
+import { tracked } from '@glimmer/tracking';
 
 module('Integration | Component | UIShell', (hooks) => {
   setupRenderingTest(hooks);
@@ -29,8 +29,8 @@ module('Integration | Component | UIShell', (hooks) => {
   });
 
   test('header menu toggle calls onToggle with the inverse of open', async function (assert) {
-    const open = cell(false);
-    const onToggle = (value: boolean) => (open.current = value);
+    const open = tracked(false);
+    const onToggle = (value: boolean) => (open.value = value);
 
     await render(
       <template>
@@ -39,7 +39,7 @@ module('Integration | Component | UIShell', (hooks) => {
             <s.Header
               @title="IBM"
               @subtitle="Platform"
-              @open={{open.current}}
+              @open={{open.value}}
               @onToggle={{onToggle}}
             />
           </:shell>
@@ -54,7 +54,7 @@ module('Integration | Component | UIShell', (hooks) => {
     const beforeIcon = find('.cds--header__menu-toggle svg')?.innerHTML;
 
     await click('.cds--header__menu-toggle');
-    assert.true(open.current);
+    assert.true(open.value);
     await waitUntil(() => find('.cds--header__menu-toggle svg'));
     const afterIcon = find('.cds--header__menu-toggle svg')?.innerHTML;
     assert.notStrictEqual(
@@ -65,8 +65,8 @@ module('Integration | Component | UIShell', (hooks) => {
   });
 
   test('header global action renders a button and calls onClick', async function (assert) {
-    const clicked = cell(false);
-    const onClick = () => (clicked.current = true);
+    const clicked = tracked(false);
+    const onClick = () => (clicked.value = true);
 
     await render(
       <template>
@@ -96,7 +96,7 @@ module('Integration | Component | UIShell', (hooks) => {
     );
     assert.dom('.cds--header__global .cds--header__action svg').exists();
     await click('.cds--header__global .cds--header__action');
-    assert.true(clicked.current);
+    assert.true(clicked.value);
   });
 
   test('sidenav renders a divider between yielded menus', async function (assert) {
@@ -307,17 +307,17 @@ module('Integration | Component | UIShell', (hooks) => {
   });
 
   test('sidenav footer toggles open state', async function (assert) {
-    const open = cell(false);
-    const onToggle = (value: boolean) => (open.current = value);
+    const open = tracked(false);
+    const onToggle = (value: boolean) => (open.value = value);
 
     await render(
       <template>
         <UIShell>
           <:shell as |s|>
             {{! @glint-expect-error: Sidenav's yielded-block mode doesn't need @menuItems/@currentMenu/@transitionTo, but its signature marks them required }}
-            <s.Sidenav @open={{open.current}}>
+            <s.Sidenav @open={{open.value}}>
               <:footer as |SideNavFooter|>
-                <SideNavFooter @open={{open.current}} @onToggle={{onToggle}} />
+                <SideNavFooter @open={{open.value}} @onToggle={{onToggle}} />
               </:footer>
             </s.Sidenav>
           </:shell>
@@ -328,6 +328,6 @@ module('Integration | Component | UIShell', (hooks) => {
 
     assert.dom('.cds--side-nav__footer').exists();
     await click('.cds--side-nav__footer');
-    assert.true(open.current);
+    assert.true(open.value);
   });
 });

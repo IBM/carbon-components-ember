@@ -1,8 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, rerender } from '@ember/test-helpers';
-import { cell } from 'ember-resources';
 import ProgressBar from '#src/components/progress-bar.gts';
+import { tracked } from '@glimmer/tracking';
 
 module('Integration | Component | ProgressBar', (hooks) => {
   setupRenderingTest(hooks);
@@ -76,14 +76,14 @@ module('Integration | Component | ProgressBar', (hooks) => {
   });
 
   test('helper text is described and its sentinel flips to Done when finished', async function (assert) {
-    const status = cell<'active' | 'finished'>('active');
+    const status = tracked<'active' | 'finished'>('active');
     await render(
       <template>
         <ProgressBar
           @label="L"
           @value={{50}}
           @helperText="Helping"
-          @status={{status.current}}
+          @status={{status.value}}
         />
       </template>,
     );
@@ -98,7 +98,7 @@ module('Integration | Component | ProgressBar', (hooks) => {
       .dom('.cds--progress-bar__helper-text .cds--visually-hidden')
       .hasText('Loading');
 
-    status.current = 'finished';
+    status.value = 'finished';
     await rerender();
     assert
       .dom('.cds--progress-bar__helper-text .cds--visually-hidden')
