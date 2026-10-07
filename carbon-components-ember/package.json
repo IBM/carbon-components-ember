@@ -128,7 +128,6 @@
     "astroturf": "^1.2.0",
     "babel-plugin-ember-template-compilation": "^4.0.0",
     "concurrently": "^10.0.5",
-    "ember-eslint-parser": "^0.14.7",
     "ember-page-title": "^9.0.3",
     "ember-qunit": "^9.2.0",
     "ember-source": "^7.3.0",

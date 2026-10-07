@@ -402,9 +402,6 @@ importers:
       concurrently:
         specifier: ^10.0.5
         version: 10.0.5
-      ember-eslint-parser:
-        specifier: ^0.14.7
-        version: 0.14.7(@babel/eslint-parser@8.0.6(@babel/core@8.0.6)(eslint@10.12.0(jiti@2.7.0)(supports-color@8.1.1)))(@typescript-eslint/parser@8.71.1(eslint@10.12.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(typescript@6.0.3)
       ember-page-title:
         specifier: ^9.0.3
         version: 9.0.3(supports-color@8.1.1)
