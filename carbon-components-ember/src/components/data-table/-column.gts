@@ -1,8 +1,8 @@
 import Component from '@glimmer/component';
-import type DataTableComponent from '../data-table.gts';
+import type { DataTableContext } from '../data-table.gts';
 
 export type Args = {
-  table?: DataTableComponent<any>;
+  table?: DataTableContext;
   // overrides the auto-associated header id used for the `headers` attribute
   header?: string;
 };

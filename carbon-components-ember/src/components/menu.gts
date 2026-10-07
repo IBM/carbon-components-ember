@@ -8,6 +8,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
+import type { TOC } from '@ember/component/template-only';
 
 const SPACING = 8;
 
@@ -123,24 +124,22 @@ interface MenuListSignature {
   };
 }
 
-class MenuList extends Component<MenuListSignature> {
-  <template>
-    <ul
-      class={{@menu.classes}}
-      role="menu"
-      aria-label={{@menu.args.label}}
-      tabindex="-1"
-      {{on "keydown" @menu.handleKeyDown}}
-      {{on "focusout" @menu.handleBlur}}
-      {{on "click" @menu.handleClick}}
-      {{@menu.registerList}}
-      {{@menu.positionMenu}}
-      ...attributes
-    >
-      {{yield}}
-    </ul>
-  </template>
-}
+const MenuList: TOC<MenuListSignature> = <template>
+  <ul
+    class={{@menu.classes}}
+    role="menu"
+    aria-label={{@menu.args.label}}
+    tabindex="-1"
+    {{on "keydown" @menu.handleKeyDown}}
+    {{on "focusout" @menu.handleBlur}}
+    {{on "click" @menu.handleClick}}
+    {{@menu.registerList}}
+    {{@menu.positionMenu}}
+    ...attributes
+  >
+    {{yield}}
+  </ul>
+</template>;
 
 export default class Menu extends Component<MenuSignature> {
   @tracked items: readonly MenuItemFeatures[] = [];

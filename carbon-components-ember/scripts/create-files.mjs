@@ -158,11 +158,11 @@ function createIconIndex() {
 type Icon = {
   name: IconNames;
   elem: string;
-  attrs: Record<string,string>;
+  attrs: Record<string, string | number>;
   content: {
     elem: string;
-    attrs: Record<string,string>;
-  },
+    attrs: Record<string, string | number>;
+  }[];
   size: number;
 };
   `;

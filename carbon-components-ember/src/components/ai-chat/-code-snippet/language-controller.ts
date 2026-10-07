@@ -46,7 +46,11 @@ export class LanguageController {
   private editableLanguageDetectionTimeout: number | null = null;
   private canDetectForHighlighting = true;
 
-  constructor(private readonly config: LanguageControllerConfig) {}
+  private readonly config: LanguageControllerConfig;
+
+  constructor(config: LanguageControllerConfig) {
+    this.config = config;
+  }
 
   async resolveLanguageSupport(): Promise<LanguageSupport | null> {
     const languageAttr = this.config.getLanguageAttribute();

@@ -125,6 +125,10 @@ export const OverlayLoadingBehindModal = meta.story({
     };
 
     return <template>
+      {{! Like Carbon React's story, this wraps in <main>. Both overlay stories
+        render in their own iframe (docs.story.inline is false), so a page
+        never has two. }}
+      {{! eslint-disable-next-line ember/template-no-duplicate-landmark-elements }}
       <main {{cleanup}}>
         <Button @onClick={{openModal}}>Open modal</Button>
         {{#if state.modalOpen}}

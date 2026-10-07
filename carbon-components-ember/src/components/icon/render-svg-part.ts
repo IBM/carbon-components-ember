@@ -1,10 +1,11 @@
 import { htmlSafe } from '@ember/template';
 import { guidFor } from '@ember/object/internals';
+import type { IconType } from '../icon.gts';
 
-const cache = new Map();
+const cache = new Map<string, string>();
 
 export default function renderSvgPart(
-  svg: any,
+  svg: IconType | undefined,
   {
     class: classes,
     fill,
@@ -18,7 +19,6 @@ export default function renderSvgPart(
   },
 ): ReturnType<typeof htmlSafe> {
   if (!svg) return htmlSafe('');
-  if (typeof svg !== 'object') return svg as ReturnType<typeof htmlSafe>;
   // Mirrors the root attributes @carbon/icons-react renders for an
   // unlabelled icon (this helper has no way to label one, so it's always
   // decorative and hidden from the accessibility tree).
@@ -37,20 +37,18 @@ export default function renderSvgPart(
   // want an accessible label.  Emit it first, before the cached path content,
   // exactly as React does.
   const titleEl = title !== undefined ? `<title>${title}</title>` : '';
-  let rest = '';
-  if (cache.has(guidFor(svg) + size)) {
-    rest = cache.get(guidFor(svg) + size);
-  } else {
-    const part = svg.content
-      .map((svgPart: any) => {
-        const attrs = Object.keys(svgPart.attrs)
-          .map((a) => `${a}="${svgPart.attrs[a]}"`)
+  const cacheKey = `${guidFor(svg)}${size}`;
+  let rest = cache.get(cacheKey);
+  if (rest === undefined) {
+    rest = svg.content
+      .map((svgPart) => {
+        const attrs = Object.entries(svgPart.attrs)
+          .map(([name, value]) => `${name}="${value}"`)
           .join(' ');
         return `<${svgPart.elem} ${attrs} />`;
       })
       .join('');
-    rest = part;
-    cache.set(guidFor(svg) + size, rest);
+    cache.set(cacheKey, rest);
   }
   // React appends `children` after the icon's own path elements, so the
   // <title> lands at the end - match that order so dom-parity index paths agree.

@@ -1,14 +1,24 @@
 import * as QUnit from 'qunit';
 
-const __SNAPSHOTS__ = import.meta.glob<{ default: any }>(
+/** A style snapshot: each element's representation and its changed styles. */
+export type StyleSnapshot = [element: string, styles: StyleDiff][];
+type StyleDiff = Record<string, string | undefined>;
+
+const __SNAPSHOTS__ = import.meta.glob<{ default: StyleSnapshot }>(
   './__snapshots__/**/*',
   { eager: true },
 );
 
 declare global {
   interface Assert {
-    snapshot(value: any, name: string): void;
+    snapshot(value: StyleSnapshot, name: string): void;
   }
+}
+
+// @types/qunit types `QUnit.config.current` as `any`.
+interface CurrentTest {
+  module: { name: string };
+  testName: string;
 }
 
 function testUrl(moduleName: string, testName: string, name: string) {
@@ -72,21 +82,16 @@ function normalizeEmberIds(representation: string) {
 
 export function setupSnapshot(assert: Assert) {
   assert.snapshot = function (value, name) {
-    const current = QUnit.config.current;
-    const currentModule = current.module;
-    const moduleName = currentModule.name;
+    const current = QUnit.config.current as CurrentTest;
+    const moduleName = current.module.name;
     const testName = current.testName;
     const url = testUrl(moduleName, testName, name);
     const expected = __SNAPSHOTS__[`.${url}`]?.default;
     // Chrome 153 added the `rule` shorthand (CSS gap decorations) to
     // getComputedStyle(). It only mirrors the element's color, so drop it
     // before saving too; otherwise updating snapshots rewrites every file.
-    if (Array.isArray(value)) {
-      for (const entry of value) {
-        if (entry?.[1] && typeof entry[1] === 'object') {
-          delete (entry[1] as Record<string, unknown>)['rule'];
-        }
-      }
+    for (const [, styles] of value) {
+      delete styles['rule'];
     }
     if (!expected) {
       saveSnapshot(moduleName, testName, name, value);
@@ -94,7 +99,7 @@ export function setupSnapshot(assert: Assert) {
     // Saved as captured; compared below only after normalizing (ids,
     // whitespace, sub-pixel sizes...), so updating snapshots only rewrites
     // the ones whose normalized content actually changed.
-    const raw: unknown = JSON.parse(JSON.stringify(value ?? null));
+    const raw = JSON.parse(JSON.stringify(value)) as StyleSnapshot;
     const saveIfChanged = () => {
       if (
         window.location.search.includes('save-snapshots') &&
@@ -103,91 +108,81 @@ export function setupSnapshot(assert: Assert) {
         saveSnapshot(moduleName, testName, name, raw);
       }
     };
-    if (typeof value === 'object' && typeof expected === 'object') {
-      if (Array.isArray(value) && value.length === expected.length) {
-        for (let i = 0; i < value.length; i++) {
-          if (typeof value[i][0] === 'string') {
-            value[i][0] = normalizeEmberIds(value[i][0]);
-          }
-          if (typeof expected[i]?.[0] === 'string') {
-            expected[i][0] = normalizeEmberIds(expected[i][0]);
-          }
-          expected[i][1]['transition'] = expected[i][1]['transition']?.replace(
-            /0s$/,
-            '',
-          );
-          delete expected[i][1]['font'];
-          delete value[i][1]['font'];
-          // Chrome 153 added the `rule` shorthand (CSS gap decorations) to
-          // getComputedStyle(). It only mirrors the element's color, so it
-          // carries no information and would differ between browser builds.
-          delete expected[i][1]['rule'];
-          delete value[i][1]['rule'];
-          value[i][1]['transition'] = value[i][1]['transition']?.replace(
-            /0s$/,
-            '',
-          );
-          if (value[i][1]['width'] && expected[i][1]['width']) {
-            const vWidth = Number(value[i][1]['width'].replace('px', ''));
-            const expectedWidth = Number(
-              expected[i][1]['width'].replace('px', ''),
-            );
-            console.log('width', vWidth, expectedWidth);
-            if (Math.abs(vWidth - expectedWidth) < 3) {
-              delete value[i][1]['width'];
-              delete expected[i][1]['width'];
-            }
-          }
-          if (value[i][1]['height'] && expected[i][1]['height']) {
-            const vWidth = Number(value[i][1]['height'].replace('px', ''));
-            const expectedWidth = Number(
-              expected[i][1]['height'].replace('px', ''),
-            );
-            console.log('height', vWidth, expectedWidth);
-            if (Math.abs(vWidth - expectedWidth) < 3) {
-              delete value[i][1]['height'];
-              delete expected[i][1]['height'];
-            }
-          }
-          for (const prop of FUZZY_NUMERIC_PROPS) {
-            const v = value[i][1][prop];
-            const e = expected[i][1][prop];
-            if (v && e && numbersWithinTolerance(v, e, 3)) {
-              delete value[i][1][prop];
-              delete expected[i][1][prop];
-            }
-          }
-          // If a property appears in the expected snapshot but not in the
-          // actual diff, it means the style was already present in the
-          // baseline on this platform (e.g. Carbon CSS leaked from a prior
-          // test). Drop it from both sides so the comparison is not
-          // environment-sensitive. Properties that only appear in the actual
-          // (new unexpected changes) still cause a failure.
-          for (const prop of Object.keys(expected[i]?.[1] ?? {})) {
-            if (!(prop in value[i][1])) {
-              delete expected[i][1][prop];
-            }
-          }
-        }
-        saveIfChanged();
-        for (let i = 0; i < value.length; i++) {
-          if (!QUnit.equiv(value[i], expected[i])) {
-            console.log(
-              'deepEqual',
-              name + ' item:' + i,
-              JSON.stringify(value[i], null, 2),
-              JSON.stringify(expected[i], null, 2),
-            );
-          }
-          assert.deepEqual(value[i], expected[i], name + ' item:' + i);
-        }
-        return;
-      }
+    if (!expected || value.length !== expected.length) {
       saveIfChanged();
       assert.deepEqual(value, expected);
-    } else {
-      saveIfChanged();
-      assert.equal(value, expected);
+      return;
+    }
+    for (let i = 0; i < value.length; i++) {
+      const actualEntry = value[i]!;
+      const expectedEntry = expected[i]!;
+      actualEntry[0] = normalizeEmberIds(actualEntry[0]);
+      expectedEntry[0] = normalizeEmberIds(expectedEntry[0]);
+      const actualStyles = actualEntry[1];
+      const expectedStyles = expectedEntry[1];
+      expectedStyles['transition'] = expectedStyles['transition']?.replace(
+        /0s$/,
+        '',
+      );
+      actualStyles['transition'] = actualStyles['transition']?.replace(
+        /0s$/,
+        '',
+      );
+      delete expectedStyles['font'];
+      delete actualStyles['font'];
+      // Chrome 153 added the `rule` shorthand (CSS gap decorations) to
+      // getComputedStyle(). It only mirrors the element's color, so it
+      // carries no information and would differ between browser builds.
+      delete expectedStyles['rule'];
+      delete actualStyles['rule'];
+      for (const size of ['width', 'height']) {
+        const actualSize = actualStyles[size];
+        const expectedSize = expectedStyles[size];
+        if (actualSize && expectedSize) {
+          const actualPx = Number(actualSize.replace('px', ''));
+          const expectedPx = Number(expectedSize.replace('px', ''));
+          console.log(size, actualPx, expectedPx);
+          if (Math.abs(actualPx - expectedPx) < 3) {
+            delete actualStyles[size];
+            delete expectedStyles[size];
+          }
+        }
+      }
+      for (const prop of FUZZY_NUMERIC_PROPS) {
+        const actualProp = actualStyles[prop];
+        const expectedProp = expectedStyles[prop];
+        if (
+          actualProp &&
+          expectedProp &&
+          numbersWithinTolerance(actualProp, expectedProp, 3)
+        ) {
+          delete actualStyles[prop];
+          delete expectedStyles[prop];
+        }
+      }
+      // If a property appears in the expected snapshot but not in the
+      // actual diff, it means the style was already present in the
+      // baseline on this platform (e.g. Carbon CSS leaked from a prior
+      // test). Drop it from both sides so the comparison is not
+      // environment-sensitive. Properties that only appear in the actual
+      // (new unexpected changes) still cause a failure.
+      for (const prop of Object.keys(expectedStyles)) {
+        if (!(prop in actualStyles)) {
+          delete expectedStyles[prop];
+        }
+      }
+    }
+    saveIfChanged();
+    for (let i = 0; i < value.length; i++) {
+      if (!QUnit.equiv(value[i], expected[i])) {
+        console.log(
+          'deepEqual',
+          name + ' item:' + i,
+          JSON.stringify(value[i], null, 2),
+          JSON.stringify(expected[i], null, 2),
+        );
+      }
+      assert.deepEqual(value[i], expected[i], name + ' item:' + i);
     }
   };
 }

@@ -10,7 +10,7 @@ export type Args = {
    * @argument onClose
    * @type function
    */
-  onClose?: (args?: any) => any;
+  onClose?: () => unknown;
   type?: 'danger' | 'default' | 'passive';
 };
 

@@ -1,11 +1,10 @@
+import type { TOC } from '@ember/component/template-only';
 /**
  * Copyright IBM Corp. 2016, 2026
  *
  * This source code is licensed under the Apache-2.0 license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
-import Component from '@glimmer/component';
 
 export interface ListItemSignature {
   Element: HTMLLIElement;
@@ -32,10 +31,10 @@ export interface ListItemSignature {
  * </template>
  * ```
  */
-export default class ListItem extends Component<ListItemSignature> {
-  <template>
-    <li class="cds--list__item" dir="auto" ...attributes>
-      {{yield}}
-    </li>
-  </template>
-}
+const ListItem: TOC<ListItemSignature> = <template>
+  <li class="cds--list__item" dir="auto" ...attributes>
+    {{yield}}
+  </li>
+</template>;
+
+export default ListItem;

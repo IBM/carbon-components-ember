@@ -4,6 +4,7 @@ import { isBlank } from '@ember/utils';
 import { defaultArgs } from '../utils/decorators.ts';
 import PowerSelect from 'ember-power-select/components/power-select';
 import type { PowerSelectArgs } from 'ember-power-select/components/power-select';
+import type { Select } from 'ember-power-select/types';
 import type { ContentValue } from '@glint/template';
 import { modifier } from 'ember-modifier';
 import isSelected from 'ember-power-select/helpers/ember-power-select-is-equal';
@@ -16,6 +17,7 @@ import type {
 } from 'ember-power-select/types';
 import { guidFor } from '@ember/object/internals';
 import { Close } from '../icons.ts';
+import { stylesheet } from 'astroturf';
 import type { TOC } from '@ember/component/template-only';
 
 export type Args<T extends ContentValue> = {
@@ -85,9 +87,13 @@ interface SelectExtra {
 }
 
 // The internal components below serve both the single and multiple modes,
-// and every option type.
+// and every option type. ember-power-select types its component args per
+// mode and option type, so typing these honestly would mean a copy of each
+// component per mode.
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type AnySelectMode = any;
 type AnyOption = any;
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 const addClassToParent = (el: HTMLElement, cls: string, ifTrue: boolean) => {
   if (ifTrue !== false) {
@@ -118,6 +124,35 @@ const toggleHighlightedClass = modifier(
 
 // power-select types `@extra` per invocation; Select always passes a
 // SelectExtra.
+// Layout fixes for ember-power-select's markup, which Carbon's CSS doesn't
+// cover.
+const styles = stylesheet`
+  .trigger {
+    outline: none;
+  }
+
+  .label {
+    margin-left: 15px;
+    margin-right: 3px;
+    width: -webkit-fill-available;
+  }
+
+  .tag {
+    margin: 0;
+  }
+
+  .check {
+    font-weight: bold;
+    position: absolute;
+    margin-left: -14px;
+  }
+` as { trigger: string; label: string; tag: string; check: string };
+
+const hasToJSON = (item: unknown): item is { toJSON(): unknown } =>
+  typeof item === 'object' &&
+  item !== null &&
+  typeof (item as { toJSON?: unknown }).toJSON === 'function';
+
 const selectExtra = (extra: unknown) => (extra ?? {}) as SelectExtra;
 
 const Options: TOC<
@@ -150,7 +185,6 @@ const SelectedItem: TOC<
 > = <template>
   <div class="cds--tag cds--tag--filter cds--tag--high-contrast">
     <span class="cds--tag__label" title="1">{{@selected}}</span>
-    {{! template-lint-disable require-presentational-children }}
     <div
       {{on "click" (fn @select.actions.select @selected)}}
       role="button"
@@ -159,6 +193,7 @@ const SelectedItem: TOC<
       aria-label="Clear all selected items"
       title="Clear all selected items"
     >
+      {{! eslint-disable-next-line ember/template-require-presentational-children }}
       <svg
         focusable="false"
         preserveAspectRatio="xMidYMid meet"
@@ -169,6 +204,7 @@ const SelectedItem: TOC<
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
       >
+        {{! eslint-disable-next-line ember/template-require-presentational-children }}
         <path
           d="M17.4141 16L24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
         ></path>
@@ -189,10 +225,14 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     removeItem: () => null,
   });
 
-  searchMatcher(item: any, term: string) {
+  searchMatcher(item: unknown, term: string) {
     if (!term || term === '') return 1;
-    const pass = Object.values(item.toJSON ? item.toJSON() : item)
-      .filter((v: any) => v && !v.defaultAdapter)
+    const source = hasToJSON(item) ? item.toJSON() : item;
+    const pass = Object.values(source as object)
+      .filter(
+        (v: unknown) =>
+          v && !(v as { defaultAdapter?: unknown }).defaultAdapter,
+      )
       .some((v) =>
         typeof v === 'string'
           ? v.includes(term)
@@ -233,26 +273,44 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         });
       }
     }
-    if (this.args.onSelect) this.args.onSelect(choice as any);
+    const { args } = this;
+    if (args.multiple === true) {
+      args.onSelect?.(choice as T[]);
+    } else {
+      args.onSelect?.(choice as T);
+    }
   };
 
-  selectFocused = (select: any, event: any) => {
-    return this.args.selectFocused && this.args.selectFocused?.(select, event);
+  selectFocused = (
+    select: Select<T, true> | Select<T, false>,
+    event: FocusEvent,
+  ) => {
+    const { args } = this;
+    if (args.multiple === true) {
+      args.selectFocused?.(select as Select<T, true>, event);
+    } else {
+      args.selectFocused?.(select as Select<T, false>, event);
+    }
   };
 
-  handleKeydown = (select: any, event: any) => {
+  handleKeydown = (
+    select: Select<T, true> | Select<T, false>,
+    event: KeyboardEvent,
+  ) => {
     const selected = this.args.selected || ([] as T[]);
 
     let backspaceHandled = false;
 
     // Delete the entire last tag if backspacing into the tags area.
-    if (event.keyCode === 8 && isBlank(event.target.value)) {
+    if (
+      event.keyCode === 8 &&
+      isBlank((event.target as HTMLInputElement).value)
+    ) {
       // BACKSPACE === 8
       if (Array.isArray(selected)) {
         if (this.args.removeItem) this.args.removeItem(selected.slice(-1)[0]!);
       }
       event.preventDefault();
-      backspaceHandled = true;
       return false;
     }
 
@@ -303,8 +361,8 @@ export default class SelectComponent<T extends ContentValue> extends Component<
       return guidFor(this);
     }
 
-    removeSelected = (opt: any) => {
-      const selected = [...this.args.select.selected];
+    removeSelected = (opt: unknown) => {
+      const selected = [...(this.args.select.selected as unknown[])];
       const i = selected.indexOf(opt);
       selected.splice(i, 1);
       this.args.select.actions.select(selected);
@@ -331,12 +389,10 @@ export default class SelectComponent<T extends ContentValue> extends Component<
           id={{this.extra.labelId}}
         >{{this.extra.title}}</label>
       {{/if}}
-      {{! template-lint-disable no-pointer-down-event-binding }}
-      {{! template-lint-disable no-unsupported-role-attributes }}
       {{! power-select's own trigger handlers (removing selected items on
         mousedown), as in its stock trigger; this sits inside power-select's
         focusable trigger, which is the interactive element. }}
-      {{! template-lint-disable no-invalid-interactive }}
+      {{! eslint-disable-next-line ember/template-no-invalid-interactive }}
       <div
         class="cds--multi-select cds--combo-box cds--list-box
           {{if @select.disabled 'cds--list-box--disabled'}}
@@ -348,6 +404,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         style={{if this.extra.inline "background: transparent; border: none;"}}
         {{this.openChange @select.isOpen}}
         {{on "touchstart" this.chooseOption}}
+        {{! eslint-disable-next-line ember/template-no-pointer-down-event-binding }}
         {{on "mousedown" this.chooseOption}}
         {{! @glint-expect-error: power-select types its trigger as a <ul>; this one renders a <div> }}
         ...attributes
@@ -359,23 +416,19 @@ export default class SelectComponent<T extends ContentValue> extends Component<
               (not (and @select.isOpen @searchEnabled))
             )
           }}
-            <div
-              class="cds--list-box__label"
-              style="margin-left: 15px; margin-right: 3px; width: -webkit-fill-available;"
-            >{{#if
+            <div class="cds--list-box__label {{styles.label}}">{{#if
                 @select.selected
               }}{{@select.selected}}{{else}}{{@placeholder}}{{/if}}</div>
           {{/if}}
           {{#if (and this.extra.showNumber @select.selected.length)}}
             <div
-              class="cds--tag cds--tag--filter cds--tag--high-contrast"
-              style="margin: 0;"
+              class="cds--tag cds--tag--filter cds--tag--high-contrast
+                {{styles.tag}}"
             >
               <span
                 class="cds--tag__label"
                 title="{{@select.selected.length}}"
               >{{@select.selected.length}}</span>
-              {{! template-lint-disable require-presentational-children }}
               <div
                 {{on "click" this.removeAll}}
                 role="button"
@@ -384,17 +437,17 @@ export default class SelectComponent<T extends ContentValue> extends Component<
                 aria-label="Clear all selected items"
                 title="Clear all selected items"
               >
+                {{! eslint-disable-next-line ember/template-require-presentational-children }}
                 <Close />
               </div>
             </div>
           {{else}}
             {{#each @select.selected as |opt|}}
               <div
-                class="cds--tag cds--tag--filter cds--tag--high-contrast"
-                style="margin: 0;"
+                class="cds--tag cds--tag--filter cds--tag--high-contrast
+                  {{styles.tag}}"
               >
                 <span class="cds--tag__label" title="1">{{opt}}</span>
-                {{! template-lint-disable require-presentational-children }}
                 <div
                   {{on "click" (fn this.removeSelected opt)}}
                   role="button"
@@ -403,13 +456,13 @@ export default class SelectComponent<T extends ContentValue> extends Component<
                   aria-label="Clear all selected items"
                   title="Clear all selected items"
                 >
+                  {{! eslint-disable-next-line ember/template-require-presentational-children }}
                   <Close />
                 </div>
               </div>
             {{/each}}
           {{/if}}
           {{#if (and @searchEnabled @select.isOpen)}}
-            {{! template-lint-disable no-redundant-role }}
             <input
               placeholder="{{this.extra.searchPlaceholder}}"
               class="cds--text-input cds--text-input--empty"
@@ -486,9 +539,9 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         {{! @glint-expect-error: power-select types its element as Element; it renders an HTMLElement }}
         ...attributes
         class="cds--select cds--select-md
+          {{styles.trigger}}
           {{if @inline 'cds--select--inline'}}
           {{if @disabled 'cds--select--disabled'}}"
-        style="outline: none"
         @extra={{hash
           helperText=@helperText
           helperTextId=this.helperTextId
@@ -557,9 +610,9 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         {{! @glint-expect-error: power-select types its element as Element; it renders an HTMLElement }}
         ...attributes
         class="cds--select cds--select-md
+          {{styles.trigger}}
           {{if @inline 'cds--select--inline'}}
           {{if @disabled 'cds--select--disabled'}}"
-        style="outline: none"
         @extra={{hash
           isSingleSelect=true
           helperText=@helperText
@@ -602,9 +655,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
           {{addMenuItemClass}}
         >
           {{#if (isSelected option select.selected)}}
-            <span
-              style="font-weight: bold; position: absolute; margin-left: -14px;"
-            >&check;</span>
+            <span class={{styles.check}}>&check;</span>
           {{/if}}
           {{#if (has-block)}}
             {{yield option}}

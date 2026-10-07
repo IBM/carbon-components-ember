@@ -13,7 +13,7 @@ import ListSkeletonComponent from '../components/list/-skeleton.gts';
 export type Args<T> = {
   items?: T[];
   loading?: boolean;
-  onSelect?(item: any): void;
+  onSelect?(item: T): void;
   selectable?: boolean;
 };
 
@@ -43,17 +43,23 @@ export default class ListComponent<T> extends Component<
   ListComponentSignature<T>
 > {
   @tracked currentSearch?: string;
-  @tracked currentItemsSlice: any = null;
+  @tracked currentItemsSlice: { start: number; end?: number } | null = null;
   @tracked currentItem?: T;
 
-  filter(items: any[], term: string) {
+  filter(items: T[], term: string) {
     term = term && term.toLowerCase();
-    const ensureString = (v: any) =>
+    const ensureString = (v: unknown) =>
       typeof v === 'string' ? v.toLowerCase() : JSON.stringify(v).toLowerCase();
     return items.filter((t) => {
       if (!term || term === '') return true;
-      return Object.values(t.toJSON ? t.toJSON() : t)
-        .filter((v: any) => v && !v.defaultAdapter)
+      const item = t as { toJSON?: () => object };
+      return Object.values(
+        typeof item.toJSON === 'function' ? item.toJSON() : (t as object),
+      )
+        .filter(
+          (v: unknown) =>
+            v && !(v as { defaultAdapter?: unknown }).defaultAdapter,
+        )
         .some((v) => v && ensureString(v).includes(term));
     });
   }
@@ -68,6 +74,14 @@ export default class ListComponent<T> extends Component<
       this.currentItemsSlice.end,
     );
   }
+
+  setCurrentSearch = (search: string) => {
+    this.currentSearch = search;
+  };
+
+  setCurrentItemsSlice = (slice: { start: number; end: number }) => {
+    this.currentItemsSlice = slice;
+  };
 
   delayItems = modifier(() => {
     const timer = setTimeout(() => {
@@ -85,6 +99,7 @@ export default class ListComponent<T> extends Component<
 
   styles = stylesheet`
     .namespace {
+      position: relative;
       :global(.cds--pagination) {
         position: absolute;
         right: 0;
@@ -107,7 +122,6 @@ export default class ListComponent<T> extends Component<
         class="cds--structured-list
           {{this.styles.namespace}}
           {{if @selectable 'cds--structured-list--selection'}}"
-        style="position: relative;"
         {{this.delayItems}}
       >
         {{yield
@@ -116,14 +130,14 @@ export default class ListComponent<T> extends Component<
             SearchInput=(component
               SearchComponent
               value=this.currentSearch
-              onChange=(fn (mut this.currentSearch))
+              onChange=this.setCurrentSearch
               light=true
               size="sm"
             )
             Pagination=(component
               CarbonPagination
               length=@items.length
-              onPageChanged=(fn (mut this.currentItemsSlice))
+              onPageChanged=this.setCurrentItemsSlice
             )
             Column=ListColumnComponent
             BodyRows=(component

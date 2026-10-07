@@ -3,7 +3,7 @@ import Component from '@glimmer/component';
 import type ListComponent from '../../components/list.gts';
 
 export type Args<T> = {
-  onSelect?(item: any): void;
+  onSelect?(item: T): void;
   list: ListComponent<T>;
   isHeader: boolean;
   item: T;

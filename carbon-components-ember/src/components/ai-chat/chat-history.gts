@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Component from '@glimmer/component';
+import type { TOC } from '@ember/component/template-only';
 
 export interface ChatHistorySignature {
   Element: HTMLDivElement;
@@ -47,12 +47,12 @@ export interface ChatHistorySignature {
  * to its own item-list logic instead of relying on implicit DOM event
  * bubbling plus a DOM query.
  */
-export default class ChatHistory extends Component<ChatHistorySignature> {
-  <template>
-    <div class="cds-aichat-history-shell" ...attributes>
-      {{yield to="header"}}
-      {{yield to="toolbar"}}
-      {{yield to="content"}}
-    </div>
-  </template>
-}
+const ChatHistory: TOC<ChatHistorySignature> = <template>
+  <div class="cds-aichat-history-shell" ...attributes>
+    {{yield to="header"}}
+    {{yield to="toolbar"}}
+    {{yield to="content"}}
+  </div>
+</template>;
+
+export default ChatHistory;

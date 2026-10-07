@@ -5,7 +5,7 @@ import FormItem from './form-item.gts';
 import FormLabel from './form-label.gts';
 
 // FormLabel's `@id` is the `for` of its label, so it has to match the
-// input's `id`; template-lint's no-duplicate-id counts `@id` as an id.
+// input's `id`; ember/template-no-duplicate-id counts `@id` as an id.
 //
 // Carbon React ships no FormItem stories (it's documented only as a building
 // block of other controls), so these are the docs-app examples.
@@ -26,7 +26,7 @@ export const Default = meta.story({
   render: () => <template>
     <FormItem>
       <FormLabel @id="name-input">Name</FormLabel>
-      {{! template-lint-disable no-duplicate-id }}
+      {{! eslint-disable-next-line ember/template-no-duplicate-id }}
       <input id="name-input" class="cds--text-input" type="text" />
     </FormItem>
   </template>,
@@ -44,7 +44,7 @@ export const CustomAttributes = meta.story({
   render: () => <template>
     <FormItem class="custom-form-item" data-test-form-item>
       <FormLabel @id="email-input">Email</FormLabel>
-      {{! template-lint-disable no-duplicate-id }}
+      {{! eslint-disable-next-line ember/template-no-duplicate-id }}
       <input id="email-input" class="cds--text-input" type="email" />
     </FormItem>
   </template>,

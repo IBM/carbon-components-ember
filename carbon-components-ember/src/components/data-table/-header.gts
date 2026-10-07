@@ -4,7 +4,7 @@ import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { get } from '@ember/helper';
-import type DataTableComponent from '../data-table.gts';
+import type { DataTableContext } from '../data-table.gts';
 
 export type Header = {
   sortable?: boolean;
@@ -14,7 +14,7 @@ export type Header = {
 };
 
 export type Args = {
-  table: DataTableComponent<any>;
+  table: DataTableContext;
   headers: (Header | undefined | null)[];
   isExpandable?: boolean;
   isCheckable?: boolean;
@@ -22,7 +22,7 @@ export type Args = {
 
 export default class ListHeaderComponent extends Component<Args> {
   didSetup = false;
-  table?: DataTableComponent<any>;
+  table?: DataTableContext;
 
   @cached
   get guid() {
@@ -90,7 +90,6 @@ export default class ListHeaderComponent extends Component<Args> {
                 <svg
                   focusable="false"
                   preserveAspectRatio="xMidYMid meet"
-                  style="will-change: transform;"
                   xmlns="http://www.w3.org/2000/svg"
                   class="cds--table-sort__icon"
                   width="16"
@@ -105,7 +104,6 @@ export default class ListHeaderComponent extends Component<Args> {
                 <svg
                   focusable="false"
                   preserveAspectRatio="xMidYMid meet"
-                  style="will-change: transform;"
                   xmlns="http://www.w3.org/2000/svg"
                   class="cds--table-sort__icon-unsorted"
                   width="16"

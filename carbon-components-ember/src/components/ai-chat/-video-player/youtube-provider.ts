@@ -20,10 +20,38 @@ const SDK_URL = 'https://www.youtube.com/iframe_api';
 const MATCH_URL_YOUTUBE =
   /(?:youtu\.be\/|youtube(?:-nocookie|education)?\.com\/(?:embed\/|v\/|watch\/|watch\?v=|watch\?.+&v=|shorts\/|live\/))((\w|-){11})/;
 
+/** The parts of the YouTube IFrame Player API this provider uses. */
+export interface YouTubePlayer {
+  loadVideoById(videoId: string): void;
+  playVideo(): void;
+  pauseVideo(): void;
+  destroy(): void;
+}
+
+export interface YouTubePlayerOptions {
+  width: string;
+  height: string;
+  videoId: string;
+  playerVars: Record<string, string | number>;
+  events: {
+    onReady: () => void;
+    onStateChange: (event: { data: number }) => void;
+    onError: () => void;
+  };
+}
+
+export interface YouTubeSDK {
+  Player: new (
+    element: HTMLElement,
+    options: YouTubePlayerOptions,
+  ) => YouTubePlayer;
+  PlayerState: Record<'PLAYING' | 'PAUSED' | 'ENDED', number>;
+}
+
 declare global {
   interface Window {
-    YT: any;
-    onYouTubeIframeAPIReady: () => void;
+    YT?: YouTubeSDK;
+    onYouTubeIframeAPIReady?: () => void;
   }
 }
 
@@ -33,7 +61,7 @@ declare global {
  * drives it through `window.YT.Player`.
  */
 export class YouTubeProvider extends BaseProvider {
-  private player: any = null;
+  private player: YouTubePlayer | null = null;
   private playerContainer: HTMLDivElement | null = null;
   private iframe: HTMLIFrameElement | null = null;
   private isReady = false;
@@ -99,10 +127,15 @@ export class YouTubeProvider extends BaseProvider {
       await this.loadYouTubeAPI();
     }
 
+    const { YT } = window;
+    if (!YT) {
+      throw new Error(this.config.errorMessage);
+    }
+
     if (this.isReady && this.player) {
       this.player.loadVideoById(videoId);
     } else {
-      this.player = new window.YT.Player(this.playerContainer, {
+      this.player = new YT.Player(this.playerContainer, {
         width: '100%',
         height: '100%',
         videoId,
@@ -124,7 +157,7 @@ export class YouTubeProvider extends BaseProvider {
             this.isReady = true;
             this.triggerReady();
           },
-          onStateChange: (event: any) => {
+          onStateChange: (event) => {
             this.handleStateChange(event);
           },
           onError: () => {
@@ -144,7 +177,7 @@ export class YouTubeProvider extends BaseProvider {
     }
   }
 
-  private handleStateChange(event: any): void {
+  private handleStateChange(event: { data: number }): void {
     const { YT } = window;
     if (!YT) {
       return;

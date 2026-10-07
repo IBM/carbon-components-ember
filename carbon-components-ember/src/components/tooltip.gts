@@ -285,7 +285,7 @@ export default class CarbonTooltip extends Component<CarbonTooltipSignature> {
   };
 
   <template>
-    {{! template-lint-disable no-invalid-interactive }}
+    {{! eslint-disable-next-line ember/template-no-invalid-interactive }}
     <span
       class={{this.classes}}
       ...attributes

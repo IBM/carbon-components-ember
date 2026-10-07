@@ -526,17 +526,15 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
             <@decorator @size="16" @svgClass="cds--list-box__decorator-icon" />
           </div>
         {{/if}}
-        {{! template-lint-disable no-invalid-interactive }}
-        {{! template-lint-disable no-pointer-down-event-binding }}
         <ul
           id={{this.menuId}}
           role="listbox"
           class="cds--list-box__menu"
           aria-labelledby={{this.id}}
+          {{! eslint-disable-next-line ember/template-no-pointer-down-event-binding }}
           {{on "mousedown" this.preventMenuMouseDown}}
         >
           {{#each @items as |item index|}}
-            {{! template-lint-disable require-presentational-children }}
             <li
               id={{this.itemId index}}
               role="option"
@@ -561,6 +559,7 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
                   {{this.itemToString item}}
                 {{/if}}
                 <span aria-hidden="true">
+                  {{! eslint-disable-next-line ember/template-require-presentational-children }}
                   <Checkmark
                     @size="16"
                     @svgClass="cds--list-box__menu-item__selected-icon"

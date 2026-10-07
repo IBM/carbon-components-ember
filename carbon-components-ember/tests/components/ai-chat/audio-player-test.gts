@@ -11,6 +11,7 @@ import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import AudioPlayer from '#src/components/ai-chat/audio-player.gts';
 import { ScriptLoader } from '#src/components/ai-chat/-media/script-loader.ts';
+import type { SoundCloudWidget } from '#src/components/ai-chat/-audio-player/soundcloud-provider.ts';
 
 // A real, tiny (10-sample, 8kHz mono) WAV encoded as a data URI - loads
 // instantly with no network request and reliably fires a real
@@ -27,25 +28,26 @@ function stubSoundCloudSDK() {
   script.src = SOUNDCLOUD_SDK_URL;
   document.head.appendChild(script);
 
-  const listeners = new Map<string, Array<() => void>>();
+  type Listener = Parameters<SoundCloudWidget['bind']>[1];
+  const listeners = new Map<string, Listener[]>();
   const widget = {
-    bind(event: string, callback: () => void) {
+    bind(event: string, callback: Listener) {
       const existing = listeners.get(event) ?? [];
       existing.push(callback);
       listeners.set(event, existing);
     },
     unbind() {},
-    load(_url: string, options: { callback: () => void }) {
+    load(_url: string, options: { auto_play: boolean; callback: () => void }) {
       options.callback();
     },
     getDuration(callback: (duration: number) => void) {
       callback(1000);
     },
     play() {
-      listeners.get('play')?.forEach((cb) => cb());
+      listeners.get('play')?.forEach((cb) => cb({ currentPosition: 0 }));
     },
     pause() {
-      listeners.get('pause')?.forEach((cb) => cb());
+      listeners.get('pause')?.forEach((cb) => cb({ currentPosition: 0 }));
     },
   };
 

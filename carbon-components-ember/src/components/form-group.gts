@@ -1,11 +1,10 @@
+import type { TOC } from '@ember/component/template-only';
 /**
  * Copyright IBM Corp. 2016, 2026
  *
  * This source code is licensed under the Apache-2.0 license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
-import Component from '@glimmer/component';
 
 export interface FormGroupSignature {
   Args: {
@@ -41,20 +40,20 @@ export interface FormGroupSignature {
   };
 }
 
-export default class FormGroup extends Component<FormGroupSignature> {
-  <template>
-    <fieldset
-      class="cds--fieldset"
-      disabled={{@disabled}}
-      data-invalid={{if @invalid ""}}
-      aria-labelledby={{@legendId}}
-      ...attributes
-    >
-      <legend class="cds--label" id={{@legendId}}>{{@legendText}}</legend>
-      {{yield}}
-      {{#if @message}}
-        <div class="cds--form__requirements">{{@messageText}}</div>
-      {{/if}}
-    </fieldset>
-  </template>
-}
+const FormGroup: TOC<FormGroupSignature> = <template>
+  <fieldset
+    class="cds--fieldset"
+    disabled={{@disabled}}
+    data-invalid={{if @invalid ""}}
+    aria-labelledby={{@legendId}}
+    ...attributes
+  >
+    <legend class="cds--label" id={{@legendId}}>{{@legendText}}</legend>
+    {{yield}}
+    {{#if @message}}
+      <div class="cds--form__requirements">{{@messageText}}</div>
+    {{/if}}
+  </fieldset>
+</template>;
+
+export default FormGroup;

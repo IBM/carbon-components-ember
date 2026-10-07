@@ -7,14 +7,15 @@ import renderSvgPart from '../components/icon/render-svg-part.ts';
 import { stylesheet } from 'astroturf';
 import type DialogManagerService from '../services/dialog-manager';
 
+/** An icon descriptor from `@carbon/icons` (e.g. `@carbon/icons/es/add/16`). */
 export type IconType = {
   name: string;
   elem: string;
-  attrs: Record<string, string>;
+  attrs: Record<string, string | number>;
   content: {
     elem: string;
-    attrs: Record<string, string>;
-  };
+    attrs: Record<string, string | number>;
+  }[];
   size: number;
 };
 
@@ -173,6 +174,10 @@ export default class CarbonIcon extends Component<Args> {
   styles = stylesheet`
     @use "@carbon/styles/scss/theme" as *;
 
+    .loading {
+      display: inline-block;
+    }
+
     .icon {
       margin: 5px;
       fill: $icon-primary;
@@ -209,11 +214,12 @@ export default class CarbonIcon extends Component<Args> {
     }
   ` as {
     icon: string;
+    loading: string;
   };
 
   <template>
     {{#if (or @loading this.loading)}}
-      <span style="display: inline-block;">
+      <span class={{this.styles.loading}}>
         <Loading
           @classNames="{{this.styles.icon}} {{this.classes}} loader"
           @small={{true}}

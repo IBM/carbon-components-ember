@@ -130,7 +130,7 @@ export const Collapsed = meta.story({
     open: false,
     panelId: 'rs-panel',
   },
-  render: (args) => {
+  render: (args: StoryArgs) => {
     const state = trackedObject({ open: args.open ?? false });
     const toggle = (open: boolean) => {
       state.open = open;

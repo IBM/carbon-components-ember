@@ -76,6 +76,8 @@ export default class RadioTile extends Component<Signature> {
         required={{this.required}}
         name={{this.name}}
         checked={{this.checked}}
+        {{! Forwards @tabindex, as Carbon React's tabIndex prop does. }}
+        {{! eslint-disable-next-line ember/template-no-positive-tabindex }}
         tabindex={{this.tabindex}}
         {{on "change" this.handleChange}}
       />

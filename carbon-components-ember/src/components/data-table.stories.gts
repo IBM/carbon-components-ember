@@ -153,68 +153,63 @@ type TableState = Parameters<
 // DataTable is generic over its item type, which signature inference can't
 // follow, so declare the story's args explicitly. `size`/`useZebraStyles`
 // are the yielded `Table`'s args; `onBatchAction` is the story's own spy.
-const meta = preview
-  .type<{
-    args: Omit<DataTableArgs<LoadBalancer>, 'items'> & {
-      size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-      useZebraStyles?: boolean;
-      onBatchAction: (action: string, items: LoadBalancer[]) => void;
-    };
-  }>()
-  .meta({
-    title: 'Components/DataTable',
-    component: DataTable,
-    parameters: {
-      docs: {
-        description: {
-          component: `Data tables are used to organize and display data efficiently. The data table component allows for customization with additional functionality, as needed by your product’s users.
+type StoryArgs = Omit<DataTableArgs<LoadBalancer>, 'items'> & {
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  useZebraStyles?: boolean;
+  onBatchAction: (action: string, items: LoadBalancer[]) => void;
+};
+
+const meta = preview.type<{ args: StoryArgs }>().meta({
+  title: 'Components/DataTable',
+  component: DataTable,
+  parameters: {
+    docs: {
+      description: {
+        component: `Data tables are used to organize and display data efficiently. The data table component allows for customization with additional functionality, as needed by your product’s users.
 
 \`DataTable\` yields its building blocks already wired to the table: \`Toolbar\` (with \`Content\` and the batch-action bar \`Actions\`), \`SearchInput\`, \`Table\`, \`Header\`, \`EachBodyRows\` (yielding a \`Row\` per item), \`Column\`, \`Menu\` and \`Pagination\`. Every \`<td>\` is automatically linked to its column's \`<th>\` via the \`headers\` attribute for screen-reader users.`,
-        },
       },
     },
-    args: {
-      title: 'DataTable',
-      description: 'With toolbar',
-      size: 'lg',
-      useZebraStyles: false,
-      onSelectionChange: fn(),
-      onBatchAction: fn(),
-    },
-    argTypes: {
-      size: { control: 'select', options: ['xs', 'sm', 'md', 'lg', 'xl'] },
-    },
-    render: (args) => <template>
-      <DataTable
-        @title={{args.title}}
-        @description={{args.description}}
-        @isLoading={{args.isLoading}}
-        @items={{ROWS}}
-        as |table|
-      >
-        <table.Toolbar as |toolbar|>
-          <toolbar.Content>
-            <table.SearchInput @expandable={{true}} />
-          </toolbar.Content>
-        </table.Toolbar>
-        <table.Table
-          @size={{args.size}}
-          @useZebraStyles={{args.useZebraStyles}}
-        >
-          <table.Header @headers={{HEADERS_WITH_MENU}} />
-          <table.EachBodyRows as |row|>
-            <row.Row>
-              <Cells @Column={{table.Column}} @item={{row.item}} />
-              <table.Menu as |Item|>
-                <Item>Edit</Item>
-              </table.Menu>
-            </row.Row>
-          </table.EachBodyRows>
-        </table.Table>
-        <table.Pagination />
-      </DataTable>
-    </template>,
-  });
+  },
+  args: {
+    title: 'DataTable',
+    description: 'With toolbar',
+    size: 'lg',
+    useZebraStyles: false,
+    onSelectionChange: fn(),
+    onBatchAction: fn(),
+  },
+  argTypes: {
+    size: { control: 'select', options: ['xs', 'sm', 'md', 'lg', 'xl'] },
+  },
+  render: (args: StoryArgs) => <template>
+    <DataTable
+      @title={{args.title}}
+      @description={{args.description}}
+      @isLoading={{args.isLoading}}
+      @items={{ROWS}}
+      as |table|
+    >
+      <table.Toolbar as |toolbar|>
+        <toolbar.Content>
+          <table.SearchInput @expandable={{true}} />
+        </toolbar.Content>
+      </table.Toolbar>
+      <table.Table @size={{args.size}} @useZebraStyles={{args.useZebraStyles}}>
+        <table.Header @headers={{HEADERS_WITH_MENU}} />
+        <table.EachBodyRows as |row|>
+          <row.Row>
+            <Cells @Column={{table.Column}} @item={{row.item}} />
+            <table.Menu as |Item|>
+              <Item>Edit</Item>
+            </table.Menu>
+          </row.Row>
+        </table.EachBodyRows>
+      </table.Table>
+      <table.Pagination />
+    </DataTable>
+  </template>,
+});
 
 export const Default = meta.story();
 
@@ -233,7 +228,7 @@ export const XLWithTwoLines = meta.story({
     size: 'xl',
     description: 'Extra-large rows with two lines of content',
   },
-  render: (args) => <template>
+  render: (args: StoryArgs) => <template>
     <DataTable
       @title={{args.title}}
       @description={{args.description}}
@@ -270,7 +265,7 @@ export const ExtraSmall = meta.story({
       },
     },
   },
-  render: (args) => <template>
+  render: (args: StoryArgs) => <template>
     <DataTable
       @title={{args.title}}
       @description={{args.description}}
@@ -300,7 +295,7 @@ export const ExtraSmall = meta.story({
 
 export const Selection = meta.story({
   args: { description: 'With selection' },
-  render: (args) => <template>
+  render: (args: StoryArgs) => <template>
     <DataTable
       @title={{args.title}}
       @description={{args.description}}
@@ -341,7 +336,7 @@ Selection.test(
 
 export const BatchActions = meta.story({
   args: { description: 'With batch actions' },
-  render: (args) => {
+  render: (args: StoryArgs) => {
     const state = trackedObject<{ selected: LoadBalancer[] }>({
       selected: [],
     });
@@ -477,7 +472,7 @@ Expansion.test(
 
 export const Toolbar = meta.story({
   args: { description: 'With toolbar' },
-  render: (args) => <template>
+  render: (args: StoryArgs) => <template>
     <DataTable
       @title={{args.title}}
       @description={{args.description}}
@@ -504,7 +499,7 @@ export const Toolbar = meta.story({
 
 export const PersistentToolbar = meta.story({
   args: { description: 'With a persistent search' },
-  render: (args) => <template>
+  render: (args: StoryArgs) => <template>
     <DataTable
       @title={{args.title}}
       @description={{args.description}}
@@ -531,7 +526,7 @@ export const PersistentToolbar = meta.story({
 
 export const SmallPersistentToolbar = meta.story({
   args: { description: 'With a small persistent toolbar', size: 'sm' },
-  render: (args) => <template>
+  render: (args: StoryArgs) => <template>
     <DataTable
       @title={{args.title}}
       @description={{args.description}}
@@ -561,7 +556,7 @@ export const Pagination = meta.story({
     title: 'Load Balancers',
     description: 'Paginated data table with persistent toolbar',
   },
-  render: (args) => <template>
+  render: (args: StoryArgs) => <template>
     <DataTable
       @title={{args.title}}
       @description={{args.description}}
@@ -609,7 +604,7 @@ Pagination.test(
 
 export const Filtering = meta.story({
   args: { description: 'Filter rows with the toolbar search' },
-  render: (args) => <template>
+  render: (args: StoryArgs) => <template>
     <DataTable
       @title={{args.title}}
       @description={{args.description}}
@@ -665,7 +660,7 @@ export const SharedState = meta.story({
       },
     },
   },
-  render: (args) => {
+  render: (args: StoryArgs) => {
     const shared = trackedObject<{ state?: TableState }>({});
     const register = (state: TableState) => {
       shared.state = state;

@@ -199,7 +199,6 @@ export default class FileUploadItem extends Component<FileUploadItemSignature> {
     >
       {{#if this.hasImagePreview}}
         <span class="cds-aichat-file-upload-item__preview-wrapper">
-          {{! template-lint-disable require-valid-alt-text }}
           <img
             class="cds-aichat-file-upload-item__preview"
             src={{this.previewURL}}

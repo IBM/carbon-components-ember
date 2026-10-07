@@ -12,11 +12,12 @@
  * `audio-player.ts` (or anything else this port needs), so they're left out
  * rather than carried along unused.
  */
-export enum AudioSource {
-  SOUNDCLOUD = 'soundcloud',
-  NATIVE = 'native',
-  UNKNOWN = 'unknown',
-}
+export const AudioSource = {
+  SOUNDCLOUD: 'soundcloud',
+  NATIVE: 'native',
+  UNKNOWN: 'unknown',
+} as const;
+export type AudioSource = (typeof AudioSource)[keyof typeof AudioSource];
 
 const MATCH_URL_SOUNDCLOUD = /(?:soundcloud\.com|snd\.sc)\/[^.]+$/;
 const MATCH_DATA_AUDIO_URI = /^data:audio\/[a-z0-9.+-]+(?:;[^,]*)?,/i;

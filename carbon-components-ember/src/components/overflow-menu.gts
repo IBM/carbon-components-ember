@@ -78,7 +78,6 @@ export default class OverflowMenuComponent extends Component<OverflowMenuCompone
           role="menu"
           aria-label={{this.iconDescription}}
           class="cds--overflow-menu-options cds--overflow-menu-options--open cds--overflow-menu-options--md"
-          style="inset-block-start: 0"
           tabindex="-1"
           data-floating-menu-direction={{or @direction "bottom"}}
         >

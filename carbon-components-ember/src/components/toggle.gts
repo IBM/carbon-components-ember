@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
 
 export type Args = {
-  onChange?: (v: any) => void;
+  onChange?: (checked: boolean) => void;
   value?: boolean;
   readonly?: boolean;
   disabled?: boolean;

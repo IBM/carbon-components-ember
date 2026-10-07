@@ -18,9 +18,33 @@ import { ScriptLoader } from '../-media/script-loader.ts';
 
 const SDK_URL = 'https://player.vimeo.com/api/player.js';
 
+/** The parts of the Vimeo Player SDK this provider uses. */
+export interface VimeoPlayer {
+  ready(): Promise<void>;
+  on(
+    event: 'loaded' | 'play' | 'pause' | 'ended' | 'error',
+    callback: () => void,
+  ): void;
+  play(): Promise<void>;
+  pause(): Promise<void>;
+  destroy(): Promise<void>;
+}
+
+export interface VimeoSDK {
+  Player: new (
+    element: HTMLElement,
+    options: {
+      url: string;
+      autoplay: boolean;
+      controls: boolean;
+      playsinline: boolean;
+    },
+  ) => VimeoPlayer;
+}
+
 declare global {
   interface Window {
-    Vimeo: any;
+    Vimeo?: VimeoSDK;
   }
 }
 
@@ -34,7 +58,7 @@ function cleanUrl(url: string): string {
  * drives it through `window.Vimeo.Player`.
  */
 export class VimeoProvider extends BaseProvider {
-  private player: any = null;
+  private player: VimeoPlayer | null = null;
   private playerContainer: HTMLDivElement | null = null;
   private iframe: HTMLIFrameElement | null = null;
   private isReady = false;
@@ -99,22 +123,29 @@ export class VimeoProvider extends BaseProvider {
 
     const cleanedUrl = cleanUrl(url);
 
+    const { Vimeo } = window;
+    if (!Vimeo) {
+      this.handleError();
+      return;
+    }
+
     try {
-      this.player = new window.Vimeo.Player(this.playerContainer, {
+      const player = new Vimeo.Player(this.playerContainer, {
         url: cleanedUrl,
         autoplay: this.config.playing || false,
         controls: true,
         playsinline: true,
       });
+      this.player = player;
 
-      await this.player.ready();
+      await player.ready();
 
       this.iframe = this.playerContainer.querySelector('iframe');
       if (this.iframe) {
         this.updateAriaAttributes(this.iframe, 'loading');
       }
 
-      this.player.on('loaded', () => {
+      player.on('loaded', () => {
         if (this.iframe) {
           this.updateAriaAttributes(this.iframe, 'ready');
         }
@@ -122,19 +153,19 @@ export class VimeoProvider extends BaseProvider {
         this.triggerReady();
       });
 
-      this.player.on('play', () => {
+      player.on('play', () => {
         this.triggerPlay();
       });
 
-      this.player.on('pause', () => {
+      player.on('pause', () => {
         this.triggerPause();
       });
 
-      this.player.on('ended', () => {
+      player.on('ended', () => {
         this.triggerPause();
       });
 
-      this.player.on('error', () => {
+      player.on('error', () => {
         this.handleError();
       });
     } catch {

@@ -1,11 +1,11 @@
-import Component from '@glimmer/component';
+import type { TOC } from '@ember/component/template-only';
 
 export interface Signature {
   Element: HTMLLIElement;
 }
 
-export default class UIShellSideNavDivider extends Component<Signature> {
-  <template>
-    <li class="cds--side-nav__divider" ...attributes></li>
-  </template>
-}
+const UIShellSideNavDivider: TOC<Signature> = <template>
+  <li class="cds--side-nav__divider" ...attributes></li>
+</template>;
+
+export default UIShellSideNavDivider;

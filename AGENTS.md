@@ -196,6 +196,12 @@ Stories live as `src/components/**/<name>.stories.gts` next to their components.
 
 ---
 
+## Linting
+- **Templates are linted by ESLint**, not ember-template-lint (being deprecated, emberjs/rfcs#1214): `eslint.config.mjs` spreads `eslint-plugin-ember`'s `template-lint-migration` config, so `pnpm lint:js` covers both.
+- Silence a template rule with `{{! eslint-disable-next-line ember/template-<rule> }}` directly above the line, with a comment saying why. A bare `{{! eslint-disable ... }}` disables the rule for the rest of the file.
+
+---
+
 ## Porting Carbon AI Chat (`@carbon/ai-chat-components`)
 
 The port target is the Lit-based framework-agnostic widget library `@carbon/ai-chat-components`, **not** the React shell application.

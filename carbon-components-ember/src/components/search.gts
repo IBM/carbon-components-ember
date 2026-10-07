@@ -9,7 +9,7 @@ import { runTask } from 'ember-lifeline';
 import { Close, Search as SearchIcon } from '../icons.ts';
 
 export type Args = {
-  onChange?(value: any): TaskInstance<any> | undefined | void;
+  onChange?(value: string | null): TaskInstance<unknown> | undefined | void;
   onClear?(): void;
   labelText?: string;
   value?: string;
@@ -31,7 +31,7 @@ export interface SearchComponentSignature {
 }
 
 export default class SearchComponent extends Component<SearchComponentSignature> {
-  @tracked value = null;
+  @tracked value: string | null = null;
   @tracked isActive: boolean = false;
   isSearching: boolean = false;
 
@@ -72,15 +72,15 @@ export default class SearchComponent extends Component<SearchComponentSignature>
     this.args.onClear?.();
   };
 
-  setValue = (v: any) => {
-    if (v && v.target) {
-      const next = v.target.value;
+  setValue = (v: Event | string | null | undefined) => {
+    if (v instanceof Event) {
+      const next = (v.target as HTMLInputElement).value;
       if (next === this.value) return;
       this.value = next;
       void this.runSearch.perform();
       return;
     }
-    this.value = v;
+    this.value = v ?? null;
   };
 
   activate = (mouseEvent: Event) => {
@@ -144,7 +144,7 @@ export default class SearchComponent extends Component<SearchComponentSignature>
         disabled={{@disabled}}
         {{on "change" this.setValue}}
         {{on "input" this.setValue}}
-        {{! template-lint-disable }}
+        {{! eslint-disable-next-line ember/template-no-pointer-down-event-binding }}
         {{on "mousedown" this.activate}}
       />
       {{#if this.hasInput}}

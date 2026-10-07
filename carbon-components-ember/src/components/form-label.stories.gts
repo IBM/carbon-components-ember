@@ -98,10 +98,10 @@ export const AssociatedWithInput = meta.story({
     },
   },
   // FormLabel's `@id` is the `for` of its label, so it has to match the
-  // input's `id`; template-lint's no-duplicate-id counts `@id` as an id.
+  // input's `id`; ember/template-no-duplicate-id counts `@id` as an id.
   render: (args) => <template>
     <FormLabel @id={{args.id}}>{{args.label}}</FormLabel>
-    {{! template-lint-disable no-duplicate-id }}
+    {{! eslint-disable-next-line ember/template-no-duplicate-id }}
     <input id={{args.id}} class="cds--text-input" type="text" />
   </template>,
 });

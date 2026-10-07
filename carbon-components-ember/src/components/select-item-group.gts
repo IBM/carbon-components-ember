@@ -1,11 +1,10 @@
+import type { TOC } from '@ember/component/template-only';
 /**
  * Copyright IBM Corp. 2026
  *
  * This source code is licensed under the Apache-2.0 license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
-import Component from '@glimmer/component';
 
 export interface SelectItemGroupSignature {
   Element: HTMLOptGroupElement;
@@ -24,15 +23,15 @@ export interface SelectItemGroupSignature {
   };
 }
 
-export default class SelectItemGroup extends Component<SelectItemGroupSignature> {
-  <template>
-    <optgroup
-      class="cds--select-optgroup"
-      label={{@label}}
-      disabled={{@disabled}}
-      ...attributes
-    >
-      {{yield}}
-    </optgroup>
-  </template>
-}
+const SelectItemGroup: TOC<SelectItemGroupSignature> = <template>
+  <optgroup
+    class="cds--select-optgroup"
+    label={{@label}}
+    disabled={{@disabled}}
+    ...attributes
+  >
+    {{yield}}
+  </optgroup>
+</template>;
+
+export default SelectItemGroup;

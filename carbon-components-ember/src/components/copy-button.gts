@@ -87,17 +87,17 @@ export default class CarbonCopyButton extends Component<CarbonCopyButtonSignatur
   });
 
   copyToClipboard = () => {
-    let targetElement: any = this.options.targetElement;
+    let targetElement: Element | null | undefined = this.options.targetElement;
     if (!targetElement && this.options.targetElementId) {
       targetElement = document.getElementById(this.options.targetElementId);
     }
     targetElement = targetElement || this.carbonElement;
     const el = document.createElement('textarea'); // Create a <textarea> element
     // Set its value to the string that you want copied
-    el.value = targetElement.textContent
+    el.value = (targetElement?.textContent ?? '')
       .trim()
       .split('\n')
-      .map((x: string) => x.trim())
+      .map((x) => x.trim())
       .join('\n');
     el.setAttribute('readonly', ''); // Make it readonly to be tamper-proof
     el.style.position = 'absolute';

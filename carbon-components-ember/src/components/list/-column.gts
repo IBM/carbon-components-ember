@@ -1,4 +1,4 @@
-import Component from '@glimmer/component';
+import type { TOC } from '@ember/component/template-only';
 
 export interface ListColumnComponentSignature {
   Args: {
@@ -10,14 +10,14 @@ export interface ListColumnComponentSignature {
   };
 }
 
-export default class ListColumnComponent extends Component<ListColumnComponentSignature> {
-  <template>
-    <div
-      class="cds--structured-list-td
-        {{if @nowrap 'cds--structured-list-content--nowrap'}}"
-      ...attributes
-    >
-      {{yield}}
-    </div>
-  </template>
-}
+const ListColumnComponent: TOC<ListColumnComponentSignature> = <template>
+  <div
+    class="cds--structured-list-td
+      {{if @nowrap 'cds--structured-list-content--nowrap'}}"
+    ...attributes
+  >
+    {{yield}}
+  </div>
+</template>;
+
+export default ListColumnComponent;

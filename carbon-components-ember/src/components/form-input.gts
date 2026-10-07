@@ -9,7 +9,7 @@ export type Args = {
   type?: string;
   value?: string;
   placeholder?: string;
-  onChange: (value: any) => void;
+  onChange: (value: string) => void;
 };
 
 export interface FormInputSignature {
@@ -22,8 +22,8 @@ export default class FormInput extends Component<FormInputSignature> {
     return guidFor(this);
   }
 
-  onInputChange = (evt: any) => {
-    this.args.onChange?.(evt.target?.value);
+  onInputChange = (evt: Event) => {
+    this.args.onChange?.((evt.target as HTMLInputElement).value);
   };
 
   <template>

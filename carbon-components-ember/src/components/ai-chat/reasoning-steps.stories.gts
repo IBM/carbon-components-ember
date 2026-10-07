@@ -179,7 +179,7 @@ Default.test(
 );
 
 export const WithStaticSteps = meta.story({
-  render: (args) => <template>
+  render: (args: StoryArgs) => <template>
     <ReasoningSteps
       @open={{args.open}}
       @controlled={{args.controlled}}
@@ -219,7 +219,7 @@ export const Controlled = meta.story({
   args: {
     controlled: true,
   },
-  render: (args) => {
+  render: (args: StoryArgs) => {
     const state = trackedObject<{ openIds: string[]; wrapperOpen: boolean }>({
       openIds: ['gather-context'],
       wrapperOpen: true,
@@ -327,7 +327,7 @@ export const StepDefault = meta.story({
       },
     },
   },
-  render: (args) => <template>
+  render: (args: StoryArgs) => <template>
     <ReasoningSteps @open={{true}} @controlled={{args.controlled}} as |Step|>
       <Step
         @title={{args.stepTitle}}

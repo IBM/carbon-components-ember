@@ -12,11 +12,12 @@
  *     npx eslint --inspect-config
  *
  */
-import babelParser from '@babel/eslint-parser/experimental-worker';
+import babelParser from '@babel/eslint-parser';
 import js from '@eslint/js';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import prettier from 'eslint-config-prettier';
 import ember from 'eslint-plugin-ember/recommended';
+import emberTemplateLintMigration from 'eslint-plugin-ember/configs/template-lint-migration';
 import importPlugin from 'eslint-plugin-import';
 import n from 'eslint-plugin-n';
 import qunit from 'eslint-plugin-qunit';
@@ -49,6 +50,16 @@ export default defineConfig([
   ember.configs.base,
   ember.configs.gjs,
   ember.configs.gts,
+  // Template rules: the equivalent of ember-template-lint's `recommended`
+  // preset, which this replaces (ember-template-lint is being deprecated in
+  // favour of eslint-plugin-ember, emberjs/rfcs#1214).
+  ...emberTemplateLintMigration,
+  {
+    rules: {
+      'ember/template-no-inline-styles': 'warn',
+      'ember/template-no-positive-tabindex': 'warn',
+    },
+  },
   /**
    * https://eslint.org/docs/latest/use/configure/configuration-files#configuring-linter-options
    */
@@ -94,14 +105,6 @@ export default defineConfig([
       import: importPlugin,
     },
     rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-unsafe-member-access': 'off',
-      '@typescript-eslint/no-unsafe-assignment': 'off',
-      '@typescript-eslint/no-unsafe-return': 'off',
-      '@typescript-eslint/no-unsafe-argument': 'off',
-      '@typescript-eslint/no-unsafe-call': 'off',
-      'ember/no-empty-glimmer-component-classes': 'off',
-      'ember/no-at-ember-render-modifiers': 'off',
       // Type-only imports must be erased from the build; otherwise rollup
       // reports unused externals and phantom circular dependencies. Types
       // always go in their own `import type { ... }` statement.
@@ -127,12 +130,33 @@ export default defineConfig([
     rules: {
       // CSF Next's `Story.extend({ args })` isn't EmberObject.extend().
       'ember/avoid-leaking-state-in-ember-objects': 'off',
+      // Story templates read Storybook's `args` from the render function's
+      // scope (not `this.args`), and ember-storybook's <RenderStory> takes
+      // an `@args` argument.
+      'ember/template-no-args-paths': 'off',
+      'ember/template-no-capital-arguments': 'off',
+      // Inline styles lay out the demos; they aren't part of the components.
+      'ember/template-no-inline-styles': 'off',
     },
   },
   {
     files: ['tests/**/*-test.{js,gjs,ts,gts}'],
     plugins: {
       qunit,
+    },
+  },
+  {
+    files: ['tests/**/*'],
+    rules: {
+      // Style snapshot tests inject Carbon's stylesheets with <style> tags.
+      'ember/template-no-forbidden-elements': [
+        'error',
+        ['meta', 'html', 'script'],
+      ],
+      // Bare inputs are test fixtures, not UI.
+      'ember/template-require-input-label': 'off',
+      // Inline styles size and place test fixtures.
+      'ember/template-no-inline-styles': 'off',
     },
   },
   /**

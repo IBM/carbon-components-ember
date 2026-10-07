@@ -111,7 +111,7 @@ export default class TileComponent extends Component<TileComponentSignature> {
     return this.args.tabindex ?? '0';
   }
 
-  onClick = (event: any) => {
+  onClick = (event: Event) => {
     event.preventDefault();
     this.args.onClick?.();
   };
@@ -150,14 +150,14 @@ export default class TileComponent extends Component<TileComponentSignature> {
         now-removed, visually-hidden <input>, so hovering a selectable tile
         now shows a native "title" tooltip where it didn't before; that's
         expected, not a bug introduced here. }}
-      {{! template-lint-disable no-nested-interactive }}
-      {{! template-lint-disable require-presentational-children }}
       <div
         id={{@id}}
         class="cds--tile cds--tile--selectable
           {{if this.selected 'cds--tile--is-selected'}}"
         role="checkbox"
         aria-checked={{if this.selected "true" "false"}}
+        {{! Forwards @tabindex, as Carbon React's tabIndex prop does. }}
+        {{! eslint-disable-next-line ember/template-no-positive-tabindex }}
         tabindex={{this.tabindex}}
         title="title"
         {{on "click" this.onSelectableClick}}
@@ -173,6 +173,7 @@ export default class TileComponent extends Component<TileComponentSignature> {
             <Checkbox @size="16" @svgClass="cds--tile__checkmark-icon" />
           {{/if}}
         </span>
+        {{! eslint-disable-next-line ember/template-require-presentational-children, ember/template-no-nested-interactive }}
         <label for={{@id}} class="cds--tile-content" dir="auto">
           {{yield to="content"}}
         </label>

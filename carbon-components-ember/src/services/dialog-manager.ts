@@ -1,17 +1,25 @@
 import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import type Component from '@glimmer/component';
+
+/** What `open()` passes to the confirmation dialog. */
+export interface DialogOptions {
+  type?: 'danger' | 'default' | 'passive';
+  header?: string;
+  body?: string;
+  onAccept?: () => void;
+}
 
 export default class DialogManagerService extends Service {
-  @tracked currentDialog?: typeof Component<any>;
-  @tracked options = null;
+  /** The dialog to show: a component's module path. */
+  @tracked currentDialog?: string;
+  @tracked options: DialogOptions | null = null;
   id = 'carbon-components-dialog-id';
 
   get destinationElement(): HTMLElement {
     return document.getElementById(this.id)!;
   }
 
-  open(ref: any, options: any) {
+  open(ref: string, options: DialogOptions) {
     this.currentDialog = ref;
     this.options = options;
   }

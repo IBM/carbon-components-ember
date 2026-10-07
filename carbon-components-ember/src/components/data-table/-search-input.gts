@@ -7,7 +7,7 @@ import type { TaskInstance } from 'ember-concurrency';
 import { stylesheet } from 'astroturf';
 
 export type Args = {
-  onChange: (value: string) => TaskInstance<any> | undefined;
+  onChange: (value: string) => TaskInstance<unknown> | undefined;
   isLoading: boolean;
   expandable?: boolean;
   value: string;
@@ -25,7 +25,7 @@ export default class TableSearchComponent extends Component<Args> {
   @tracked isSearching: boolean = false;
   lastTerm?: string = undefined;
 
-  runSearch = task({ restartable: true }, async (term) => {
+  runSearch = task({ restartable: true }, async (term: string) => {
     this.isSearching = true;
     const task = this.args.onChange(term);
     try {
@@ -49,7 +49,13 @@ export default class TableSearchComponent extends Component<Args> {
         display: none;
       }
     }
-  ` as { 'is-searching': string };
+
+    .loading {
+      position: relative;
+      top: -41px;
+      right: 7px;
+    }
+  ` as { 'is-searching': string; loading: string };
 
   <template>
     <SearchInput
@@ -63,7 +69,7 @@ export default class TableSearchComponent extends Component<Args> {
       class="{{if this.isSearching this.styles.is-searching}}"
     />
     <Loading
-      style="position: relative; top: -41px; right: 7px"
+      class={{this.styles.loading}}
       @inline={{true}}
       @active={{this.isSearching}}
     />

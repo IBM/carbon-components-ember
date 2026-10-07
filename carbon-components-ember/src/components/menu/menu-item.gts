@@ -117,7 +117,8 @@ export default class MenuItem
     // its parent, so it isn't registered yet at this point. Look it up once
     // the render pass is done - which also keeps the class recomputation
     // this triggers out of the render that just read those classes.
-    const timer = runTask(this, () => {
+    // ember-lifeline types the timer as `any`.
+    const timer: unknown = runTask(this, () => {
       const menu = findParentMenu(element);
       if (!menu) return;
       menu.registerItem(this);

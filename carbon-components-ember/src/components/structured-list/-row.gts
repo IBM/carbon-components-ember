@@ -93,7 +93,6 @@ export default class StructuredListRow extends Component<StructuredListRowSignat
       </div>
     {{else}}
       {{! Matches @carbon/react, whose row is also not itself focusable (no tabindex) yet carries click/keydown listeners - keyboard selection goes through the row's own StructuredListInput radio, the click is a mouse convenience. }}
-      {{! template-lint-disable no-invalid-interactive }}
       <div
         role="row"
         class="cds--structured-list-row

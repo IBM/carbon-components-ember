@@ -1,3 +1,4 @@
+import type { TOC } from '@ember/component/template-only';
 /**
  * Copyright IBM Corp. 2016, 2026
  *
@@ -5,14 +6,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Component from '@glimmer/component';
-
 export interface MenuItemDividerSignature {
   Element: HTMLLIElement;
 }
 
-export default class MenuItemDivider extends Component<MenuItemDividerSignature> {
-  <template>
-    <li class="cds--menu-item-divider" role="separator" ...attributes></li>
-  </template>
-}
+const MenuItemDivider: TOC<MenuItemDividerSignature> = <template>
+  <li class="cds--menu-item-divider" role="separator" ...attributes></li>
+</template>;
+
+export default MenuItemDivider;

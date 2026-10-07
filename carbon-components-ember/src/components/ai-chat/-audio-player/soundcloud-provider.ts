@@ -18,9 +18,34 @@ import { ScriptLoader } from '../-media/script-loader.ts';
 
 const SDK_URL = 'https://w.soundcloud.com/player/api.js';
 
+/** The parts of the SoundCloud Widget API this provider uses. */
+export interface SoundCloudWidget {
+  bind(
+    event: string,
+    listener: (event: { currentPosition: number }) => void,
+  ): void;
+  unbind(event: string): void;
+  load(
+    url: string,
+    options: { auto_play: boolean; callback: () => void },
+  ): void;
+  getDuration(callback: (duration: number) => void): void;
+  play(): void;
+  pause(): void;
+}
+
+export interface SoundCloudSDK {
+  Widget: ((iframe: HTMLIFrameElement) => SoundCloudWidget) & {
+    Events: Record<
+      'PLAY' | 'PLAY_PROGRESS' | 'PAUSE' | 'FINISH' | 'ERROR',
+      string
+    >;
+  };
+}
+
 declare global {
   interface Window {
-    SC: any;
+    SC?: SoundCloudSDK;
   }
 }
 
@@ -30,7 +55,7 @@ declare global {
  * and drives an `<iframe>` through `window.SC.Widget`.
  */
 export class SoundCloudProvider extends BaseProvider {
-  private player: any = null;
+  private player: SoundCloudWidget | null = null;
   private iframe: HTMLIFrameElement | null = null;
   private isReady = false;
   private duration = 0;
@@ -108,6 +133,9 @@ export class SoundCloudProvider extends BaseProvider {
     }
 
     const { SC } = window;
+    if (!SC) {
+      throw new Error(this.config.errorMessage);
+    }
     const { PLAY, PLAY_PROGRESS, PAUSE, FINISH, ERROR } = SC.Widget.Events;
 
     this.iframe.src = `https://w.soundcloud.com/player/?url=${encodeURIComponent(url)}`;
@@ -118,38 +146,39 @@ export class SoundCloudProvider extends BaseProvider {
       }
     });
 
-    this.player = SC.Widget(this.iframe);
+    const player = SC.Widget(this.iframe);
+    this.player = player;
 
-    this.player.bind(PLAY, () => {
+    player.bind(PLAY, () => {
       this.triggerPlay();
     });
 
-    this.player.bind(PAUSE, () => {
+    player.bind(PAUSE, () => {
       const remaining = this.duration - this.currentTime;
       if (remaining >= 0.05) {
         this.triggerPause();
       }
     });
 
-    this.player.bind(PLAY_PROGRESS, (e: any) => {
+    player.bind(PLAY_PROGRESS, (e) => {
       this.currentTime = e.currentPosition / 1000;
     });
 
-    this.player.bind(FINISH, () => {
+    player.bind(FINISH, () => {
       this.triggerPause();
     });
 
-    this.player.bind(ERROR, () => {
+    player.bind(ERROR, () => {
       if (this.iframe) {
         this.updateAriaAttributes(this.iframe, 'error');
       }
       this.triggerError(new Error(this.config.errorMessage));
     });
 
-    this.player.load(url, {
+    player.load(url, {
       auto_play: this.config.playing || false,
       callback: () => {
-        this.player.getDuration((duration: number) => {
+        player.getDuration((duration) => {
           this.duration = duration / 1000;
           this.isReady = true;
           if (this.iframe) {

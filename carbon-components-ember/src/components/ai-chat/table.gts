@@ -169,7 +169,7 @@ export default class AiChatTable extends Component<AiChatTableSignature> {
     return Array.from({ length: this.currentSlice.itemsPerPage }, (_, i) => i);
   }
 
-  search = (term?: string) => {
+  search = (term?: string | null) => {
     this.filterTerm = term ?? '';
     this.currentSlice = {
       ...this.currentSlice,

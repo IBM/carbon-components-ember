@@ -9,6 +9,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
 import closeOnOutsideClick from '../modifiers/close-on-outside-click.ts';
+import type { TOC } from '@ember/component/template-only';
 
 /**
  * @deprecated Use NewPopoverAlignment instead.
@@ -322,13 +323,11 @@ export interface PopoverContentSignature {
  * `PopoverContent` renders the floating content of a `Popover`. It must be
  * used as a direct child of `Popover`, alongside the trigger element.
  */
-export class PopoverContent extends Component<PopoverContentSignature> {
-  <template>
-    <span class="cds--popover">
-      <span class="cds--popover-content" ...attributes>
-        {{yield}}
-      </span>
-      <span class="cds--popover-caret"></span>
+export const PopoverContent: TOC<PopoverContentSignature> = <template>
+  <span class="cds--popover">
+    <span class="cds--popover-content" ...attributes>
+      {{yield}}
     </span>
-  </template>
-}
+    <span class="cds--popover-caret"></span>
+  </span>
+</template>;

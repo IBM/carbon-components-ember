@@ -57,10 +57,7 @@ export default class NavMenuComponent extends Component<Signature> {
           </div>
         </button>
         {{#if (or @open this.expanded)}}
-          <ul
-            class="cds--side-nav__menu"
-            style="    max-height: 93.75rem; visibility: inherit;"
-          >
+          <ul class="cds--side-nav__menu">
             {{yield SubMenuComponent}}
           </ul>
         {{/if}}
@@ -68,7 +65,6 @@ export default class NavMenuComponent extends Component<Signature> {
     {{else}}
       {{#unless @hidden}}
         <li class="cds--side-nav__item">
-          {{! template-lint-disable require-presentational-children }}
           <a
             href="#"
             class="cds--side-nav__link"

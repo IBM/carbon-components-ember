@@ -1,11 +1,10 @@
+import type { TOC } from '@ember/component/template-only';
 /**
  * Copyright IBM Corp. 2026
  *
  * This source code is licensed under the Apache-2.0 license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
-import Component from '@glimmer/component';
 
 export type Args = {
   /**
@@ -69,19 +68,19 @@ export interface AiChatCardSignature {
  * </template>
  * ```
  */
-export default class AiChatCard extends Component<AiChatCardSignature> {
-  <template>
-    <div
-      class="cds-aichat-card cds--tile
-        {{if @isLayered 'cds-aichat-card--layered'}}
-        {{if @isFlush 'cds-aichat-card--flush'}}"
-      ...attributes
-    >
-      {{yield to="header"}}
-      {{yield to="media"}}
-      {{yield to="body"}}
-      {{yield to="footer"}}
-      {{yield to="decorator"}}
-    </div>
-  </template>
-}
+const AiChatCard: TOC<AiChatCardSignature> = <template>
+  <div
+    class="cds-aichat-card cds--tile
+      {{if @isLayered 'cds-aichat-card--layered'}}
+      {{if @isFlush 'cds-aichat-card--flush'}}"
+    ...attributes
+  >
+    {{yield to="header"}}
+    {{yield to="media"}}
+    {{yield to="body"}}
+    {{yield to="footer"}}
+    {{yield to="decorator"}}
+  </div>
+</template>;
+
+export default AiChatCard;

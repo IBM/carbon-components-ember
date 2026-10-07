@@ -310,7 +310,7 @@ export default class Slider extends Component<SliderSignature> {
   onKeyDown = (event: KeyboardEvent) => {
     if (this.args.disabled || this.args.readOnly) return;
 
-    let delta = 0;
+    let delta: number;
     if (event.key === 'ArrowDown' || event.key === 'ArrowLeft') {
       delta = -this.step;
     } else if (event.key === 'ArrowUp' || event.key === 'ArrowRight') {
@@ -453,7 +453,7 @@ export default class Slider extends Component<SliderSignature> {
           tabindex="-1"
           data-invalid={{if @invalid "true"}}
           {{registerElement this.registerTrack}}
-          {{! template-lint-disable no-pointer-down-event-binding }}
+          {{! eslint-disable-next-line ember/template-no-pointer-down-event-binding }}
           {{on "mousedown" this.onDragStart}}
           {{on "touchstart" this.onDragStart}}
           {{on "keydown" this.onKeyDown}}

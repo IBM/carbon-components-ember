@@ -197,7 +197,6 @@ module('Integration | Component | Pagination', (hooks) => {
       <button
         type="button"
         data-custom-page-select
-        {{! template-lint-disable require-button-type }}
         aria-label={{@pageSelectLabelText}}
         {{on "click" (fn @onSetPage 3)}}
       >

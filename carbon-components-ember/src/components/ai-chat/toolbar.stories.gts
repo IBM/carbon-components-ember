@@ -145,7 +145,7 @@ The \`navigation\`, \`title\`, \`fixedActions\` and \`decorator\` named blocks m
     borderRadius: false,
     onActionClick: fn(),
   },
-  render: (args) => {
+  render: (args: StoryArgs) => {
     const actions = actionLists(args.onActionClick)[args.actionList];
     const navClick = () => args.onActionClick('navigation');
     const fixedClick = () => args.onActionClick('fixed');
@@ -267,7 +267,7 @@ export const NarrowWithOverflow = meta.story({
     titleSlot: 'none',
     navigation: 'none',
   },
-  render: (args) => {
+  render: (args: StoryArgs) => {
     const click = (text: string) => () => args.onActionClick(text);
     const actions: ToolbarAction[] = [
       { text: 'Add', icon: Add, onClick: click('Add') },
@@ -329,7 +329,7 @@ export const Toggle = meta.story({
       },
     },
   },
-  render: (args) => {
+  render: (args: StoryArgs) => {
     const state = trackedObject({ isOn: false });
     const getActions = (isOn: boolean): ToolbarAction[] => [
       {

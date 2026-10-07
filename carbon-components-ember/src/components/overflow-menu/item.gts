@@ -12,7 +12,7 @@ export interface OverflowMenuItemComponentSignature {
     href?: string;
     className?: string;
     wrapperClassName?: string;
-    onClick?: (...args: any) => void;
+    onClick?: (event: MouseEvent) => void;
   };
   Element: HTMLButtonElement | HTMLAnchorElement;
   Blocks: {
