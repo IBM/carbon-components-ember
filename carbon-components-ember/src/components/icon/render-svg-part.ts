@@ -37,7 +37,7 @@ export default function renderSvgPart(
   // want an accessible label.  Emit it first, before the cached path content,
   // exactly as React does.
   const titleEl = title !== undefined ? `<title>${title}</title>` : '';
-  let rest = '';
+  let rest: string;
   if (cache.has(guidFor(svg) + size)) {
     rest = cache.get(guidFor(svg) + size);
   } else {

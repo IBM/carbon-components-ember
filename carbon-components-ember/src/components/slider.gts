@@ -310,7 +310,7 @@ export default class Slider extends Component<SliderSignature> {
   onKeyDown = (event: KeyboardEvent) => {
     if (this.args.disabled || this.args.readOnly) return;
 
-    let delta = 0;
+    let delta: number;
     if (event.key === 'ArrowDown' || event.key === 'ArrowLeft') {
       delta = -this.step;
     } else if (event.key === 'ArrowUp' || event.key === 'ArrowRight') {

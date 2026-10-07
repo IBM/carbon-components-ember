@@ -252,7 +252,6 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         if (this.args.removeItem) this.args.removeItem(selected.slice(-1)[0]!);
       }
       event.preventDefault();
-      backspaceHandled = true;
       return false;
     }
 
