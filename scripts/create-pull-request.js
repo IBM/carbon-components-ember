@@ -1,6 +1,5 @@
 import { execSync, fork } from 'node:child_process';
 import fs from 'fs';
-import yaml from 'yaml';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -25,6 +24,8 @@ const file = fs.readFileSync(
   join(__dirname, "./node_modules/create-pull-request/action.yml"),
   "utf8",
 );
+// Installed with this directory's package.json by the `npm i` above.
+const { default: yaml } = await import('yaml');
 const info = yaml.parse(file);
 
 process.env.GITHUB_WORKSPACE = process.cwd();
