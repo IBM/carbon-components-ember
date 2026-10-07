@@ -1,4 +1,4 @@
-import Component from '@glimmer/component';
+import type { TOC } from '@ember/component/template-only';
 
 export interface ToggletipContentComponentSignature {
   Args: {
@@ -14,7 +14,7 @@ export interface ToggletipContentComponentSignature {
  * Renders the popover content of a `Toggletip`. Yielded by `Toggletip` as
  * `t.Content`.
  */
-export default class ToggletipContentComponent extends Component<ToggletipContentComponentSignature> {
+const ToggletipContentComponent: TOC<ToggletipContentComponentSignature> =
   <template>
     <span class="cds--popover">
       <span id={{@id}} class="cds--popover-content" ...attributes>
@@ -24,5 +24,6 @@ export default class ToggletipContentComponent extends Component<ToggletipConten
       </span>
       <span class="cds--popover-caret"></span>
     </span>
-  </template>
-}
+  </template>;
+
+export default ToggletipContentComponent;

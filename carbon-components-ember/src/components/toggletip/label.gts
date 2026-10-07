@@ -1,4 +1,4 @@
-import Component from '@glimmer/component';
+import type { TOC } from '@ember/component/template-only';
 
 export interface ToggletipLabelComponentSignature {
   Element: HTMLSpanElement;
@@ -10,10 +10,11 @@ export interface ToggletipLabelComponentSignature {
 /**
  * Used to render the label for a `Toggletip`.
  */
-export default class ToggletipLabelComponent extends Component<ToggletipLabelComponentSignature> {
+const ToggletipLabelComponent: TOC<ToggletipLabelComponentSignature> =
   <template>
     <span class="cds--toggletip-label" ...attributes>
       {{yield}}
     </span>
-  </template>
-}
+  </template>;
+
+export default ToggletipLabelComponent;

@@ -1,5 +1,5 @@
-import Component from '@glimmer/component';
 import type Icon from '../../icon.gts';
+import type { TOC } from '@ember/component/template-only';
 
 export interface Signature {
   Args: {
@@ -11,24 +11,24 @@ export interface Signature {
   Element: null;
 }
 
-export default class SubMenuComponent extends Component<Signature> {
-  <template>
-    <li class="cds--side-nav__menu-item">
-      <a
-        href="#"
-        aria-current="{{if @isCurrent 'page'}}"
-        class="cds--side-nav__link"
-        {{on "click" @transitionTo}}
-      >
-        {{#if @icon}}
-          <div class="cds--side-nav__icon">
-            <this.args.icon />
-          </div>
-        {{/if}}
-        <span class="cds--side-nav__link-text">
-          {{@title}}
-        </span>
-      </a>
-    </li>
-  </template>
-}
+const SubMenuComponent: TOC<Signature> = <template>
+  <li class="cds--side-nav__menu-item">
+    <a
+      href="#"
+      aria-current="{{if @isCurrent 'page'}}"
+      class="cds--side-nav__link"
+      {{on "click" @transitionTo}}
+    >
+      {{#if @icon}}
+        <div class="cds--side-nav__icon">
+          <@icon />
+        </div>
+      {{/if}}
+      <span class="cds--side-nav__link-text">
+        {{@title}}
+      </span>
+    </a>
+  </li>
+</template>;
+
+export default SubMenuComponent;

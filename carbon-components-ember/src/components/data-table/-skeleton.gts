@@ -1,23 +1,23 @@
-import Component from '@glimmer/component';
+import type { TOC } from '@ember/component/template-only';
 
 export type Args = {
   headers: string[];
 };
 
-export default class ListSkeletonComponent extends Component<Args> {
-  <template>
-    <section class="cds--structured-list cds--skeleton">
-      <div class="cds--structured-list-tbody">
-        <div class="cds--structured-list-row">
-          {{#each @headers}}
-            <div
-              class="cds--structured-list-td cds--structured-list-content--nowrap"
-            >
-              <div class="cds--skeleton__text"></div>
-            </div>
-          {{/each}}
-        </div>
+const ListSkeletonComponent: TOC<{ Args: Args }> = <template>
+  <section class="cds--structured-list cds--skeleton">
+    <div class="cds--structured-list-tbody">
+      <div class="cds--structured-list-row">
+        {{#each @headers}}
+          <div
+            class="cds--structured-list-td cds--structured-list-content--nowrap"
+          >
+            <div class="cds--skeleton__text"></div>
+          </div>
+        {{/each}}
       </div>
-    </section>
-  </template>
-}
+    </div>
+  </section>
+</template>;
+
+export default ListSkeletonComponent;

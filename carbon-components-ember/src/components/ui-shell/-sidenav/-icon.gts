@@ -1,4 +1,4 @@
-import Component from '@glimmer/component';
+import type { TOC } from '@ember/component/template-only';
 
 export interface UIShellSideNavIconSignature {
   Element: HTMLDivElement;
@@ -10,13 +10,13 @@ export interface UIShellSideNavIconSignature {
   };
 }
 
-export default class UIShellSideNavIcon extends Component<UIShellSideNavIconSignature> {
-  <template>
-    <div
-      class="cds--side-nav__icon {{if @small 'cds--side-nav__icon--small'}}"
-      ...attributes
-    >
-      {{yield}}
-    </div>
-  </template>
-}
+const UIShellSideNavIcon: TOC<UIShellSideNavIconSignature> = <template>
+  <div
+    class="cds--side-nav__icon {{if @small 'cds--side-nav__icon--small'}}"
+    ...attributes
+  >
+    {{yield}}
+  </div>
+</template>;
+
+export default UIShellSideNavIcon;

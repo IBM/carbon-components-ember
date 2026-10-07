@@ -1,4 +1,4 @@
-import Component from '@glimmer/component';
+import type { TOC } from '@ember/component/template-only';
 
 export interface UIShellHeaderSideNavItemsSignature {
   Element: HTMLUListElement;
@@ -10,7 +10,7 @@ export interface UIShellHeaderSideNavItemsSignature {
   };
 }
 
-export default class UIShellHeaderSideNavItems extends Component<UIShellHeaderSideNavItemsSignature> {
+const UIShellHeaderSideNavItems: TOC<UIShellHeaderSideNavItemsSignature> =
   <template>
     <ul
       class="cds--side-nav__header-navigation
@@ -19,5 +19,6 @@ export default class UIShellHeaderSideNavItems extends Component<UIShellHeaderSi
     >
       {{yield}}
     </ul>
-  </template>
-}
+  </template>;
+
+export default UIShellHeaderSideNavItems;

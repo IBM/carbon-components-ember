@@ -1,13 +1,13 @@
-import Component from '@glimmer/component';
+import type { TOC } from '@ember/component/template-only';
 
 export interface UIShellSwitcherDividerSignature {
   Element: HTMLLIElement;
 }
 
-export default class UIShellSwitcherDivider extends Component<UIShellSwitcherDividerSignature> {
-  <template>
-    <li ...attributes>
-      <hr class="cds--switcher__item--divider" />
-    </li>
-  </template>
-}
+const UIShellSwitcherDivider: TOC<UIShellSwitcherDividerSignature> = <template>
+  <li ...attributes>
+    <hr class="cds--switcher__item--divider" />
+  </li>
+</template>;
+
+export default UIShellSwitcherDivider;

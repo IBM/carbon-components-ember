@@ -5,22 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Component from '@glimmer/component';
 import SkeletonText from '../skeleton-text.gts';
+import type { TOC } from '@ember/component/template-only';
 
 export interface FileUploaderSkeletonSignature {
   Element: HTMLDivElement;
 }
 
 /** A placeholder shown while a `FileUploader`'s surrounding data is loading. */
-export default class FileUploaderSkeleton extends Component<FileUploaderSkeletonSignature> {
-  <template>
-    <div class="cds--form-item" ...attributes>
-      <SkeletonText @heading={{true}} @width="100px" />
-      <SkeletonText @width="225px" class="cds--label-description" />
-      <div
-        class="cds--skeleton cds--btn cds--btn--lg cds--layout--size-lg"
-      ></div>
-    </div>
-  </template>
-}
+const FileUploaderSkeleton: TOC<FileUploaderSkeletonSignature> = <template>
+  <div class="cds--form-item" ...attributes>
+    <SkeletonText @heading={{true}} @width="100px" />
+    <SkeletonText @width="225px" class="cds--label-description" />
+    <div class="cds--skeleton cds--btn cds--btn--lg cds--layout--size-lg"></div>
+  </div>
+</template>;
+
+export default FileUploaderSkeleton;

@@ -1,11 +1,10 @@
+import type { TOC } from '@ember/component/template-only';
 /**
  * Copyright IBM Corp. 2026
  *
  * This source code is licensed under the Apache-2.0 license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
-import Component from '@glimmer/component';
 
 export interface WorkspaceShellBodySignature {
   Element: HTMLDivElement;
@@ -22,10 +21,10 @@ export interface WorkspaceShellBodySignature {
  * Doesn't collide with any Carbon React component name, so it stays
  * unprefixed.
  */
-export default class WorkspaceShellBody extends Component<WorkspaceShellBodySignature> {
-  <template>
-    <div class="cds-aichat-workspace-shell__body" ...attributes>
-      {{yield}}
-    </div>
-  </template>
-}
+const WorkspaceShellBody: TOC<WorkspaceShellBodySignature> = <template>
+  <div class="cds-aichat-workspace-shell__body" ...attributes>
+    {{yield}}
+  </div>
+</template>;
+
+export default WorkspaceShellBody;

@@ -1,4 +1,4 @@
-import Component from '@glimmer/component';
+import type { TOC } from '@ember/component/template-only';
 
 export interface Signature {
   Element: null;
@@ -7,10 +7,10 @@ export interface Signature {
   };
 }
 
-export default class TableToolbarContentComponent extends Component<Signature> {
-  <template>
-    <div class="cds--toolbar-content">
-      {{yield}}
-    </div>
-  </template>
-}
+const TableToolbarContentComponent: TOC<Signature> = <template>
+  <div class="cds--toolbar-content">
+    {{yield}}
+  </div>
+</template>;
+
+export default TableToolbarContentComponent;

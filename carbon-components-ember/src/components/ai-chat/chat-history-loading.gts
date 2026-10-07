@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Component from '@glimmer/component';
 import SkeletonText from '../skeleton-text.gts';
+import type { TOC } from '@ember/component/template-only';
 
 export interface ChatHistoryLoadingSignature {
   Element: HTMLDivElement;
@@ -21,19 +21,19 @@ export interface ChatHistoryLoadingSignature {
  * [`cds-aichat-history-loading`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/chat-history),
  * which renders the same fixed shape (no configurable count).
  */
-export default class ChatHistoryLoading extends Component<ChatHistoryLoadingSignature> {
-  <template>
-    <div class="cds-aichat-history-loading" ...attributes>
-      <div class="cds-aichat-history-loading__results">
-        <SkeletonText @width="60%" />
-        <SkeletonText @width="60%" />
-        <SkeletonText @width="60%" />
-        <SkeletonText @width="60%" />
-      </div>
-      <SkeletonText @paragraph={{true}} @lineCount={{2}} />
-      <SkeletonText @paragraph={{true}} @lineCount={{2}} />
-      <SkeletonText @paragraph={{true}} @lineCount={{2}} />
-      <SkeletonText @paragraph={{true}} @lineCount={{2}} />
+const ChatHistoryLoading: TOC<ChatHistoryLoadingSignature> = <template>
+  <div class="cds-aichat-history-loading" ...attributes>
+    <div class="cds-aichat-history-loading__results">
+      <SkeletonText @width="60%" />
+      <SkeletonText @width="60%" />
+      <SkeletonText @width="60%" />
+      <SkeletonText @width="60%" />
     </div>
-  </template>
-}
+    <SkeletonText @paragraph={{true}} @lineCount={{2}} />
+    <SkeletonText @paragraph={{true}} @lineCount={{2}} />
+    <SkeletonText @paragraph={{true}} @lineCount={{2}} />
+    <SkeletonText @paragraph={{true}} @lineCount={{2}} />
+  </div>
+</template>;
+
+export default ChatHistoryLoading;

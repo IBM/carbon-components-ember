@@ -1,5 +1,5 @@
-import Component from '@glimmer/component';
 import type Icon from '../../icon.gts';
+import type { TOC } from '@ember/component/template-only';
 
 export interface UIShellHeaderGlobalActionSignature {
   Element: HTMLButtonElement;
@@ -10,7 +10,7 @@ export interface UIShellHeaderGlobalActionSignature {
   };
 }
 
-export default class UIShellHeaderGlobalAction extends Component<UIShellHeaderGlobalActionSignature> {
+const UIShellHeaderGlobalAction: TOC<UIShellHeaderGlobalActionSignature> =
   <template>
     <button
       aria-label={{@aria-label}}
@@ -20,7 +20,8 @@ export default class UIShellHeaderGlobalAction extends Component<UIShellHeaderGl
       {{on "click" @onClick}}
       ...attributes
     >
-      <this.args.icon @size={{20}} />
+      <@icon @size={{20}} />
     </button>
-  </template>
-}
+  </template>;
+
+export default UIShellHeaderGlobalAction;

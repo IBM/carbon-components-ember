@@ -3,8 +3,8 @@ import Sidenav from './ui-shell/-sidenav.gts';
 import Nav from './ui-shell/-nav.gts';
 import Switcher from './ui-shell/-switcher.gts';
 import HeaderContainer from './ui-shell/-header-container.gts';
-import Component from '@glimmer/component';
 import type UIShellHeader from './ui-shell/-header.gts';
+import type { TOC } from '@ember/component/template-only';
 
 export interface UIShellSignature {
   Blocks: {
@@ -21,20 +21,20 @@ export interface UIShellSignature {
   };
 }
 
-export default class UIShell extends Component<UIShellSignature> {
-  <template>
-    {{yield
-      (hash
-        Header=Header
-        Sidenav=Sidenav
-        Nav=Nav
-        Switcher=Switcher
-        HeaderContainer=HeaderContainer
-      )
-      to="shell"
-    }}
-    <main id="main-content" class="cds--content">
-      {{yield to="content"}}
-    </main>
-  </template>
-}
+const UIShell: TOC<UIShellSignature> = <template>
+  {{yield
+    (hash
+      Header=Header
+      Sidenav=Sidenav
+      Nav=Nav
+      Switcher=Switcher
+      HeaderContainer=HeaderContainer
+    )
+    to="shell"
+  }}
+  <main id="main-content" class="cds--content">
+    {{yield to="content"}}
+  </main>
+</template>;
+
+export default UIShell;

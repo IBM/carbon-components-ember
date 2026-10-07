@@ -1,11 +1,11 @@
-import Component from '@glimmer/component';
+import type { TOC } from '@ember/component/template-only';
 
 export interface SkeletonIconSignature {
   Element: HTMLDivElement;
 }
 
-export default class SkeletonIcon extends Component<SkeletonIconSignature> {
-  <template>
-    <div class="cds--icon--skeleton" ...attributes></div>
-  </template>
-}
+const SkeletonIcon: TOC<SkeletonIconSignature> = <template>
+  <div class="cds--icon--skeleton" ...attributes></div>
+</template>;
+
+export default SkeletonIcon;

@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Component from '@glimmer/component';
 import type { WithBoundArgs } from '@glint/template';
 import ChatHistoryPanelItem from './chat-history-panel-item.gts';
 import ChatHistoryPanelMenu from './chat-history-panel-menu.gts';
+import type { TOC } from '@ember/component/template-only';
 
 export type Args = {
   /** Propagated down to every yielded `ChatHistoryPanelItem`/`ChatHistoryPanelMenu`. */
@@ -42,13 +42,13 @@ export interface ChatHistoryPanelItemsSignature {
  * this addon's `OverflowMenu` already wormholes its content to
  * `document.body` via `ember-basic-dropdown`.
  */
-export default class ChatHistoryPanelItems extends Component<ChatHistoryPanelItemsSignature> {
-  <template>
-    <div role="list" class="cds-aichat-history-panel-items" ...attributes>
-      {{yield
-        (component ChatHistoryPanelItem showActions=@showActions)
-        (component ChatHistoryPanelMenu showActions=@showActions)
-      }}
-    </div>
-  </template>
-}
+const ChatHistoryPanelItems: TOC<ChatHistoryPanelItemsSignature> = <template>
+  <div role="list" class="cds-aichat-history-panel-items" ...attributes>
+    {{yield
+      (component ChatHistoryPanelItem showActions=@showActions)
+      (component ChatHistoryPanelMenu showActions=@showActions)
+    }}
+  </div>
+</template>;
+
+export default ChatHistoryPanelItems;

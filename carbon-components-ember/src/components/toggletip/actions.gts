@@ -1,4 +1,4 @@
-import Component from '@glimmer/component';
+import type { TOC } from '@ember/component/template-only';
 
 export interface ToggletipActionsComponentSignature {
   Element: HTMLDivElement;
@@ -11,10 +11,11 @@ export interface ToggletipActionsComponentSignature {
  * Container for one or two actions rendered at the base of a `Toggletip`.
  * It is only responsible for the layout of the actions passed in as children.
  */
-export default class ToggletipActionsComponent extends Component<ToggletipActionsComponentSignature> {
+const ToggletipActionsComponent: TOC<ToggletipActionsComponentSignature> =
   <template>
     <div class="cds--toggletip-actions" ...attributes>
       {{yield}}
     </div>
-  </template>
-}
+  </template>;
+
+export default ToggletipActionsComponent;
