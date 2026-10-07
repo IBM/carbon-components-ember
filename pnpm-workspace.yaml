@@ -43,7 +43,7 @@ overrides:
   # so no in-range update can fix it. Everything else is kept current by
   # updating within ranges; re-check `pnpm audit` before adding to this list.
   # ember-cli-babel@7 pins an old @babel/runtime.
-  '@babel/runtime': ^7.29.7
+  '@babel/runtime@<7.26.10': ^7.29.7
   compression@<1.8.2: ^1.8.2
   http-cache-semantics@<=4.2.0: ^4.3.0
   postcss-selector-parser@<7.1.6: ^7.1.6
