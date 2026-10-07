@@ -3,36 +3,36 @@ packages:
   - dom-parity
 
 allowBuilds:
-  '@carbon/ai-chat-components': true
-  '@carbon/charts': true
-  '@carbon/colors': true
-  '@carbon/feature-flags': true
-  '@carbon/grid': true
-  '@carbon/icon-helpers': true
-  '@carbon/icons': true
-  '@carbon/icons-react': true
-  '@carbon/react': true
-  '@carbon/layout': true
-  '@carbon/motion': true
-  '@carbon/styles': true
-  '@carbon/themes': true
-  '@carbon/type': true
-  '@carbon/utilities': true
-  '@carbon/utils-position': true
-  '@carbon/web-components': true
-  '@ibm/plex': true
-  '@ibm/plex-mono': true
-  '@ibm/plex-sans': true
-  '@ibm/plex-sans-arabic': true
-  '@ibm/plex-sans-devanagari': true
-  '@ibm/plex-sans-hebrew': true
-  '@ibm/plex-sans-thai': true
-  '@ibm/plex-sans-thai-looped': true
-  '@ibm/plex-serif': true
-  '@parcel/watcher': true
+  '@carbon/ai-chat-components': false
+  '@carbon/charts': false
+  '@carbon/colors': false
+  '@carbon/feature-flags': false
+  '@carbon/grid': false
+  '@carbon/icon-helpers': false
+  '@carbon/icons': false
+  '@carbon/icons-react': false
+  '@carbon/react': false
+  '@carbon/layout': false
+  '@carbon/motion': false
+  '@carbon/styles': false
+  '@carbon/themes': false
+  '@carbon/type': false
+  '@carbon/utilities': false
+  '@carbon/utils-position': false
+  '@carbon/web-components': false
+  '@ibm/plex': false
+  '@ibm/plex-mono': false
+  '@ibm/plex-sans': false
+  '@ibm/plex-sans-arabic': false
+  '@ibm/plex-sans-devanagari': false
+  '@ibm/plex-sans-hebrew': false
+  '@ibm/plex-sans-thai': false
+  '@ibm/plex-sans-thai-looped': false
+  '@ibm/plex-serif': false
+  '@parcel/watcher': false
   esbuild: true
   playwright-chromium: true
-  unrs-resolver: true
+  unrs-resolver: false
 
 autoDedupe: true
 
