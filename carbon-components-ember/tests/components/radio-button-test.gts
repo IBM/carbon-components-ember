@@ -3,10 +3,10 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
 import RadioButton from '#src/components/radio-button.gts';
 import RadioButtonGroup from '#src/components/radio-button/group.gts';
-import { cell } from 'ember-resources';
+import { tracked } from '@glimmer/tracking';
 
-function setCell(theCell: { current: unknown }, value: unknown) {
-  theCell.current = value;
+function setValue(target: { value: unknown }, value: unknown) {
+  target.value = value;
 }
 
 module('Integration | Component | RadioButton', (hooks) => {
@@ -124,11 +124,11 @@ module('Integration | Component | RadioButton', (hooks) => {
   });
 
   test('RadioButtonGroup should call onChange with the selected value', async function (assert) {
-    const selected = cell<string | undefined>(undefined);
+    const selected = tracked<string | undefined>(undefined);
 
     await render(
       <template>
-        <RadioButtonGroup @onChange={{fn setCell selected}} as |Radio|>
+        <RadioButtonGroup @onChange={{fn setValue selected}} as |Radio|>
           <Radio @value="a" @labelText="A" />
           <Radio @value="b" @labelText="B" />
         </RadioButtonGroup>
@@ -138,7 +138,7 @@ module('Integration | Component | RadioButton', (hooks) => {
     const inputs = document.querySelectorAll('.cds--radio-button-group input');
     await click(inputs[1] as Element);
 
-    assert.strictEqual(selected.current, 'b');
+    assert.strictEqual(selected.value, 'b');
   });
 
   test('RadioButtonGroup should apply the vertical orientation class', async function (assert) {

@@ -1,8 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, rerender, click, waitUntil, find } from '@ember/test-helpers';
-import { cell } from 'ember-resources';
 import FileUploadItem from '#src/components/ai-chat/file-upload-item.gts';
+import { tracked } from '@glimmer/tracking';
 
 module('Integration | Component | ai-chat/FileUploadItem', (hooks) => {
   setupRenderingTest(hooks);
@@ -192,20 +192,20 @@ module('Integration | Component | ai-chat/FileUploadItem', (hooks) => {
     };
 
     try {
-      const upload = cell({
+      const upload = tracked({
         id: '1',
         file: new File(['a'], 'first.png', { type: 'image/png' }),
         status: 'edit' as const,
       });
 
       await render(
-        <template><FileUploadItem @upload={{upload.current}} /></template>,
+        <template><FileUploadItem @upload={{upload.value}} /></template>,
       );
       const firstSrc = find(
         '.cds-aichat-file-upload-item__preview',
       )?.getAttribute('src');
 
-      upload.current = {
+      upload.value = {
         id: '1',
         file: new File(['b'], 'second.png', { type: 'image/png' }),
         status: 'edit' as const,

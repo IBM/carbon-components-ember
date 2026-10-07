@@ -3,7 +3,7 @@ import type { RenderingTestContext } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, triggerKeyEvent, waitUntil } from '@ember/test-helpers';
 import Resizer from '#src/components/resizer.gts';
-import { cell } from 'ember-resources';
+import { tracked } from '@glimmer/tracking';
 
 function mouseEvent(type: string, options: MouseEventInit = {}) {
   return new MouseEvent(type, {
@@ -292,8 +292,8 @@ module('Integration | Component | Resizer', (hooks) => {
   });
 
   test('@onDoubleClick suppresses the default reset behavior', async function (this: RenderingTestContext, assert) {
-    const called = cell(false);
-    const onDoubleClick = () => (called.current = true);
+    const called = tracked(false);
+    const onDoubleClick = () => (called.value = true);
 
     await render(
       <template>
@@ -315,7 +315,7 @@ module('Integration | Component | Resizer', (hooks) => {
 
     resizer.dispatchEvent(mouseEvent('dblclick'));
 
-    assert.true(called.current);
+    assert.true(called.value);
     assert.strictEqual(
       prev.style.height,
       `${initialHeight + 30}px`,

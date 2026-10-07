@@ -2,8 +2,8 @@ import { module, test } from 'qunit';
 import type { RenderingTestContext } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, waitUntil } from '@ember/test-helpers';
-import { cell } from 'ember-resources';
 import ProgressIndicator from '#src/components/progress-indicator.gts';
+import { tracked } from '@glimmer/tracking';
 
 module('Integration | Component | ProgressIndicator', (hooks) => {
   setupRenderingTest(hooks);
@@ -84,13 +84,13 @@ module('Integration | Component | ProgressIndicator', (hooks) => {
   });
 
   test('should call onChange with the clicked step index', async function (this: RenderingTestContext, assert) {
-    const currentIndex = cell(1);
-    const onChange = (index: number) => (currentIndex.current = index);
+    const currentIndex = tracked(1);
+    const onChange = (index: number) => (currentIndex.value = index);
 
     await render(
       <template>
         <ProgressIndicator
-          @currentIndex={{currentIndex.current}}
+          @currentIndex={{currentIndex.value}}
           @onChange={{onChange}}
           as |Step|
         >
@@ -103,10 +103,10 @@ module('Integration | Component | ProgressIndicator', (hooks) => {
 
     const steps = this.element.querySelectorAll('li.cds--progress-step button');
     await click(steps[0]!);
-    assert.strictEqual(currentIndex.current, 0);
+    assert.strictEqual(currentIndex.value, 0);
 
     await click(steps[2]!);
-    assert.strictEqual(currentIndex.current, 2);
+    assert.strictEqual(currentIndex.value, 2);
   });
 
   test('should not call onChange when clicking the current step', async function (this: RenderingTestContext, assert) {

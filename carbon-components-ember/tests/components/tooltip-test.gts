@@ -13,10 +13,10 @@ import {
 } from '@ember/test-helpers';
 import { trackedObject } from '@ember/reactive/collections';
 import Tooltip from '#src/components/tooltip.gts';
-import { cell } from 'ember-resources';
 import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
+import { tracked } from '@glimmer/tracking';
 import {
   getAllElementComputedStyles,
   getStylesDiff,
@@ -27,21 +27,21 @@ module('Integration | Component | Tooltip', (hooks) => {
   setupRenderingTest(hooks);
 
   test('white theme: should display tooltip', async function (this: RenderingTestContext, assert) {
-    const styleValue = cell('');
+    const styleValue = tracked('');
     await render(
       <template>
         <Tooltip @label="Close" @defaultOpen={{true}}>
           <button type="button">Trigger</button>
         </Tooltip>
         <style>
-          {{styleValue.current}}
+          {{styleValue.value}}
         </style>
       </template>,
     );
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.current = carbonStyle.default;
+    styleValue.value = carbonStyle.default;
     await rerender();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(
@@ -54,26 +54,26 @@ module('Integration | Component | Tooltip', (hooks) => {
   });
 
   test('dark theme: should display tooltip', async function (this: RenderingTestContext, assert) {
-    const styleValue = cell('');
-    const darkStyleValue = cell('');
+    const styleValue = tracked('');
+    const darkStyleValue = tracked('');
     await render(
       <template>
         <Tooltip @label="Close" @defaultOpen={{true}}>
           <button type="button">Trigger</button>
         </Tooltip>
         <style>
-          {{styleValue.current}}
+          {{styleValue.value}}
         </style>
         <style>
-          {{darkStyleValue.current}}
+          {{darkStyleValue.value}}
         </style>
       </template>,
     );
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.current = carbonStyle.default;
-    darkStyleValue.current = carbonDarkStyle.default;
+    styleValue.value = carbonStyle.default;
+    darkStyleValue.value = carbonDarkStyle.default;
     await rerender();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(
@@ -296,7 +296,7 @@ module('Integration | Component | Tooltip', (hooks) => {
   });
 
   test('@autoAlign flips the alignment when the tooltip would overflow @autoAlignBoundary', async function (this: RenderingTestContext, assert) {
-    const styleValue = cell(carbonStyle.default);
+    const styleValue = tracked(carbonStyle.default);
     // A fake boundary positioned far below the trigger guarantees the
     // rendered tooltip content (which sits above the trigger for a 'top'
     // alignment) overflows it, regardless of the trigger's real page
@@ -313,7 +313,7 @@ module('Integration | Component | Tooltip', (hooks) => {
     await render(
       <template>
         <style>
-          {{styleValue.current}}
+          {{styleValue.value}}
         </style>
         <Tooltip
           @label="Close"

@@ -2,10 +2,10 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, rerender, settled } from '@ember/test-helpers';
 import Button from '#src/components/button.gts';
-import { cell } from 'ember-resources';
 import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
+import { tracked } from '@glimmer/tracking';
 import {
   getAllElementComputedStyles,
   getStylesDiff,
@@ -16,19 +16,19 @@ module('Integration | Component | Button', (hooks) => {
   setupRenderingTest(hooks);
 
   test('white theme: should display button', async function (this: RenderingTestContext, assert) {
-    const styleValue = cell('');
+    const styleValue = tracked('');
     await render(
       <template>
         <Button @type="primary">Button</Button>
         <style>
-          {{styleValue.current}}
+          {{styleValue.value}}
         </style>
       </template>,
     );
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.current = carbonStyle.default;
+    styleValue.value = carbonStyle.default;
     await rerender();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(
@@ -41,24 +41,24 @@ module('Integration | Component | Button', (hooks) => {
   });
 
   test('dark theme: should display button', async function (this: RenderingTestContext, assert) {
-    const styleValue = cell('');
-    const darkStyleValue = cell('');
+    const styleValue = tracked('');
+    const darkStyleValue = tracked('');
     await render(
       <template>
         <Button @type="primary">Button</Button>
         <style>
-          {{styleValue.current}}
+          {{styleValue.value}}
         </style>
         <style>
-          {{darkStyleValue.current}}
+          {{darkStyleValue.value}}
         </style>
       </template>,
     );
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.current = carbonStyle.default;
-    darkStyleValue.current = carbonDarkStyle.default;
+    styleValue.value = carbonStyle.default;
+    darkStyleValue.value = carbonDarkStyle.default;
     await rerender();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(
@@ -71,10 +71,10 @@ module('Integration | Component | Button', (hooks) => {
   });
 
   test('should change button type style', async function (this: RenderingTestContext, assert) {
-    const type = cell<'primary' | 'secondary' | 'danger'>('primary');
+    const type = tracked<'primary' | 'secondary' | 'danger'>('primary');
     await render(
       <template>
-        <Button @type={{type.current}}>Button</Button>
+        <Button @type={{type.value}}>Button</Button>
         <style>
           {{carbonStyle.default}}
         </style>
@@ -86,7 +86,7 @@ module('Integration | Component | Button', (hooks) => {
       this.element.firstElementChild!,
     );
 
-    type.current = 'secondary';
+    type.value = 'secondary';
     await rerender();
     await waitForAnimationFrame();
     const secondaryStyles = getAllElementComputedStyles(
@@ -148,14 +148,14 @@ module('Integration | Component | Button', (hooks) => {
       // Should not be called
     };
 
-    const disabled = cell(false);
+    const disabled = tracked(false);
 
     await render(
       <template>
         <Button
           @onClick={{onClick}}
           @type="primary"
-          @disabled={{disabled.current}}
+          @disabled={{disabled.value}}
         >
           Button
         </Button>
@@ -170,7 +170,7 @@ module('Integration | Component | Button', (hooks) => {
       this.element.firstElementChild!,
     );
 
-    disabled.current = true;
+    disabled.value = true;
     await rerender();
     await waitForAnimationFrame();
     const disabledStyles = getAllElementComputedStyles(

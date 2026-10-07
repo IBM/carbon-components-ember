@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
 import OverflowMenu from '#src/components/overflow-menu.gts';
-import { cell } from 'ember-resources';
+import { tracked } from '@glimmer/tracking';
 
 module('Integration | Component | OverflowMenuItem', (hooks) => {
   setupRenderingTest(hooks);
@@ -116,8 +116,8 @@ module('Integration | Component | OverflowMenuItem', (hooks) => {
   });
 
   test('should call onClick when clicked', async function (assert) {
-    const clicked = cell(false);
-    const onClick = () => (clicked.current = true);
+    const clicked = tracked(false);
+    const onClick = () => (clicked.value = true);
 
     await render(
       <template>
@@ -130,7 +130,7 @@ module('Integration | Component | OverflowMenuItem', (hooks) => {
     await click('.cds--overflow-menu');
     await click('.cds--overflow-menu-options__btn');
 
-    assert.true(clicked.current);
+    assert.true(clicked.value);
   });
 
   test('should apply className and wrapperClassName', async function (assert) {

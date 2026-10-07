@@ -1,8 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, settled } from '@ember/test-helpers';
-import { cell } from 'ember-resources';
 import ChatHistoryPanelMenu from '#src/components/ai-chat/chat-history-panel-menu.gts';
+import { tracked } from '@glimmer/tracking';
 
 module('Integration | Component | ai-chat/ChatHistoryPanelMenu', (hooks) => {
   setupRenderingTest(hooks);
@@ -29,18 +29,18 @@ module('Integration | Component | ai-chat/ChatHistoryPanelMenu', (hooks) => {
   });
 
   test('a controlled menu (@onToggle passed, @expanded round-tripped) never toggles itself; @expanded is the sole source of truth', async function (assert) {
-    const expanded = cell(true);
+    const expanded = tracked(true);
     const calls: boolean[] = [];
     const onToggle = (next: boolean) => {
       calls.push(next);
-      expanded.current = next;
+      expanded.value = next;
     };
 
     await render(
       <template>
         <ChatHistoryPanelMenu
           @title="Yesterday"
-          @expanded={{expanded.current}}
+          @expanded={{expanded.value}}
           @onToggle={{onToggle}}
         />
       </template>,
@@ -53,7 +53,7 @@ module('Integration | Component | ai-chat/ChatHistoryPanelMenu', (hooks) => {
       .hasAttribute('aria-expanded', 'false');
 
     // Simulate the host choosing NOT to update @expanded in response.
-    expanded.current = true;
+    expanded.value = true;
     await settled();
     await click('.cds--side-nav__submenu');
     assert.deepEqual(

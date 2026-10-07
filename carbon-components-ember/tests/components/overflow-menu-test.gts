@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, settled } from '@ember/test-helpers';
 import OverflowMenu from '#src/components/overflow-menu.gts';
-import { cell } from 'ember-resources';
+import { tracked } from '@glimmer/tracking';
 
 module('Integration | Component | OverflowMenu', (hooks) => {
   setupRenderingTest(hooks);
@@ -60,13 +60,13 @@ module('Integration | Component | OverflowMenu', (hooks) => {
   });
 
   test('names the trigger from @iconDescription, then @tooltip', async function (assert) {
-    const state = cell<string | undefined>('Row actions');
+    const state = tracked<string | undefined>('Row actions');
     await render(
       <template>
         <OverflowMenu
           @direction="bottom"
           @tooltip="More"
-          @iconDescription={{state.current}}
+          @iconDescription={{state.value}}
           as |Item|
         >
           <Item>option 1</Item>
@@ -76,7 +76,7 @@ module('Integration | Component | OverflowMenu', (hooks) => {
 
     assert.dom('.cds--overflow-menu').hasAttribute('aria-label', 'Row actions');
 
-    state.current = undefined;
+    state.value = undefined;
     await settled();
 
     assert.dom('.cds--overflow-menu').hasAttribute('aria-label', 'More');
@@ -139,8 +139,8 @@ module('Integration | Component | OverflowMenu', (hooks) => {
   });
 
   test('should call onClick when an item is clicked', async function (assert) {
-    const clicked = cell(false);
-    const onClick = () => (clicked.current = true);
+    const clicked = tracked(false);
+    const onClick = () => (clicked.value = true);
 
     await render(
       <template>
@@ -153,7 +153,7 @@ module('Integration | Component | OverflowMenu', (hooks) => {
     await click('.cds--overflow-menu');
     await click('.cds--overflow-menu-options__btn');
 
-    assert.true(clicked.current);
+    assert.true(clicked.value);
   });
 
   test('should support the danger and disabled arguments on all items', async function (assert) {

@@ -10,10 +10,10 @@ import {
 } from '@ember/test-helpers';
 import Tabs from '#src/components/tabs.gts';
 import { Folder } from '#src/icons.ts';
-import { cell } from 'ember-resources';
 import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
+import { tracked } from '@glimmer/tracking';
 import {
   getAllElementComputedStyles,
   getStylesDiff,
@@ -24,7 +24,7 @@ module('Integration | Component | Tabs', (hooks) => {
   setupRenderingTest(hooks);
 
   test('white theme: should display tabs', async function (this: RenderingTestContext, assert) {
-    const styleValue = cell('');
+    const styleValue = tracked('');
     await render(
       <template>
         <Tabs as |TabPane|>
@@ -32,14 +32,14 @@ module('Integration | Component | Tabs', (hooks) => {
           <TabPane @title="Tab 2">Content 2</TabPane>
         </Tabs>
         <style>
-          {{styleValue.current}}
+          {{styleValue.value}}
         </style>
       </template>,
     );
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.current = carbonStyle.default;
+    styleValue.value = carbonStyle.default;
     await rerender();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(
@@ -52,8 +52,8 @@ module('Integration | Component | Tabs', (hooks) => {
   });
 
   test('dark theme: should display tabs', async function (this: RenderingTestContext, assert) {
-    const styleValue = cell('');
-    const darkStyleValue = cell('');
+    const styleValue = tracked('');
+    const darkStyleValue = tracked('');
     await render(
       <template>
         <Tabs as |TabPane|>
@@ -61,18 +61,18 @@ module('Integration | Component | Tabs', (hooks) => {
           <TabPane @title="Tab 2">Content 2</TabPane>
         </Tabs>
         <style>
-          {{styleValue.current}}
+          {{styleValue.value}}
         </style>
         <style>
-          {{darkStyleValue.current}}
+          {{darkStyleValue.value}}
         </style>
       </template>,
     );
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.current = carbonStyle.default;
-    darkStyleValue.current = carbonDarkStyle.default;
+    styleValue.value = carbonStyle.default;
+    darkStyleValue.value = carbonDarkStyle.default;
     await rerender();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(
@@ -194,14 +194,14 @@ module('Integration | Component | Tabs', (hooks) => {
   });
 
   test('@selectedTab/@tabSelected support controlled selection', async function (assert) {
-    const selected = cell('Tab 1');
+    const selected = tracked('Tab 1');
     const onSelect = (title: string) => {
-      selected.current = title;
+      selected.value = title;
     };
     await render(
       <template>
         <Tabs
-          @selectedTab={{selected.current}}
+          @selectedTab={{selected.value}}
           @tabSelected={{onSelect}}
           as |TabPane|
         >
@@ -217,7 +217,7 @@ module('Integration | Component | Tabs', (hooks) => {
 
     await click('[role="tab"]:last-of-type');
 
-    assert.strictEqual(selected.current, 'Tab 2');
+    assert.strictEqual(selected.value, 'Tab 2');
     assert
       .dom('[role="tab"]:last-of-type')
       .hasAttribute('aria-selected', 'true');
@@ -372,7 +372,7 @@ module('Integration | Component | Tabs', (hooks) => {
   });
 
   test('@renderIcon fits inside its wrapper under real Carbon styles, without the default icon margin', async function (this: RenderingTestContext, assert) {
-    const styleValue = cell('');
+    const styleValue = tracked('');
     await render(
       <template>
         <Tabs as |TabPane|>
@@ -381,12 +381,12 @@ module('Integration | Component | Tabs', (hooks) => {
           </TabPane>
         </Tabs>
         <style>
-          {{styleValue.current}}
+          {{styleValue.value}}
         </style>
       </template>,
     );
     await waitUntil(() => find('.cds--tabs__nav-item--icon svg'));
-    styleValue.current = carbonStyle.default;
+    styleValue.value = carbonStyle.default;
     await rerender();
     await waitForAnimationFrame();
 

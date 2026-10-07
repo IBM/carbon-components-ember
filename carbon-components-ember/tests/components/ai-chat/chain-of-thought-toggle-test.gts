@@ -1,8 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, rerender } from '@ember/test-helpers';
-import { cell } from 'ember-resources';
 import ChainOfThoughtToggle from '#src/components/ai-chat/chain-of-thought-toggle.gts';
+import { tracked } from '@glimmer/tracking';
 
 module('Integration | Component | ai-chat/ChainOfThoughtToggle', (hooks) => {
   setupRenderingTest(hooks);
@@ -26,7 +26,7 @@ module('Integration | Component | ai-chat/ChainOfThoughtToggle', (hooks) => {
   });
 
   test('@onToggle makes it controlled: it follows @open and reports clicks instead of managing its own state', async function (assert) {
-    const open = cell(false);
+    const open = tracked(false);
     let reportedOpen: boolean | undefined;
     const onToggle = (value: boolean) => {
       reportedOpen = value;
@@ -34,7 +34,7 @@ module('Integration | Component | ai-chat/ChainOfThoughtToggle', (hooks) => {
 
     await render(
       <template>
-        <ChainOfThoughtToggle @open={{open.current}} @onToggle={{onToggle}} />
+        <ChainOfThoughtToggle @open={{open.value}} @onToggle={{onToggle}} />
       </template>,
     );
 
@@ -47,7 +47,7 @@ module('Integration | Component | ai-chat/ChainOfThoughtToggle', (hooks) => {
     assert.strictEqual(reportedOpen, true);
     assert.dom('button').hasAttribute('aria-expanded', 'false');
 
-    open.current = true;
+    open.value = true;
     await rerender();
 
     assert.dom('button').hasAttribute('aria-expanded', 'true');

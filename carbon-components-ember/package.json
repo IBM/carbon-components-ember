@@ -132,7 +132,6 @@
     "concurrently": "^9.2.4",
     "ember-page-title": "^9.0.3",
     "ember-qunit": "^9.2.0",
-    "ember-resources": "^7.1.0",
     "ember-source": "^7.3.0",
     "ember-storybook": "^0.4.2",
     "ember-strict-application-resolver": "^0.1.1",

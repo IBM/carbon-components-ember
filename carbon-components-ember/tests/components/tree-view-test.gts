@@ -3,10 +3,10 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click, rerender, waitUntil } from '@ember/test-helpers';
 import TreeView from '#src/components/tree-view.gts';
 import { Folder, Document } from '#src/icons.ts';
-import { cell } from 'ember-resources';
 import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
+import { tracked } from '@glimmer/tracking';
 import {
   getAllElementComputedStyles,
   getStylesDiff,
@@ -17,7 +17,7 @@ module('Integration | Component | TreeView', (hooks) => {
   setupRenderingTest(hooks);
 
   test('white theme: should display tree view', async function (this: RenderingTestContext, assert) {
-    const styleValue = cell('');
+    const styleValue = tracked('');
     await render(
       <template>
         <TreeView @label="Tree View" as |Node|>
@@ -27,14 +27,14 @@ module('Integration | Component | TreeView', (hooks) => {
           </Node>
         </TreeView>
         <style>
-          {{styleValue.current}}
+          {{styleValue.value}}
         </style>
       </template>,
     );
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.current = carbonStyle.default;
+    styleValue.value = carbonStyle.default;
     await rerender();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(
@@ -47,8 +47,8 @@ module('Integration | Component | TreeView', (hooks) => {
   });
 
   test('dark theme: should display tree view', async function (this: RenderingTestContext, assert) {
-    const styleValue = cell('');
-    const darkStyleValue = cell('');
+    const styleValue = tracked('');
+    const darkStyleValue = tracked('');
     await render(
       <template>
         <TreeView @label="Tree View" as |Node|>
@@ -58,18 +58,18 @@ module('Integration | Component | TreeView', (hooks) => {
           </Node>
         </TreeView>
         <style>
-          {{styleValue.current}}
+          {{styleValue.value}}
         </style>
         <style>
-          {{darkStyleValue.current}}
+          {{darkStyleValue.value}}
         </style>
       </template>,
     );
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.current = carbonStyle.default;
-    darkStyleValue.current = carbonDarkStyle.default;
+    styleValue.value = carbonStyle.default;
+    darkStyleValue.value = carbonDarkStyle.default;
     await rerender();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(
@@ -134,7 +134,7 @@ module('Integration | Component | TreeView', (hooks) => {
   });
 
   test('collapsing a node actually hides its children under real Carbon styles', async function (this: RenderingTestContext, assert) {
-    const styleValue = cell('');
+    const styleValue = tracked('');
     await render(
       <template>
         <TreeView @label="Tree View" as |Node|>
@@ -143,11 +143,11 @@ module('Integration | Component | TreeView', (hooks) => {
           </Node>
         </TreeView>
         <style>
-          {{styleValue.current}}
+          {{styleValue.value}}
         </style>
       </template>,
     );
-    styleValue.current = carbonStyle.default;
+    styleValue.value = carbonStyle.default;
     await rerender();
     await waitForAnimationFrame();
 
@@ -260,7 +260,7 @@ module('Integration | Component | TreeView', (hooks) => {
   });
 
   test('a selected row highlights the full row width under real Carbon styles, not just the label text', async function (this: RenderingTestContext, assert) {
-    const styleValue = cell('');
+    const styleValue = tracked('');
     await render(
       <template>
         <TreeView
@@ -274,11 +274,11 @@ module('Integration | Component | TreeView', (hooks) => {
           </Node>
         </TreeView>
         <style>
-          {{styleValue.current}}
+          {{styleValue.value}}
         </style>
       </template>,
     );
-    styleValue.current = carbonStyle.default;
+    styleValue.value = carbonStyle.default;
     await rerender();
     await waitForAnimationFrame();
 
@@ -422,7 +422,7 @@ module('Integration | Component | TreeView', (hooks) => {
   });
 
   test('@onToggle makes expansion controlled: the node follows @isExpanded and reports toggles instead of managing its own state', async function (assert) {
-    const expanded = cell(false);
+    const expanded = tracked(false);
     let reportedExpanded: boolean | undefined;
     const onToggle = (value: boolean) => {
       reportedExpanded = value;
@@ -434,7 +434,7 @@ module('Integration | Component | TreeView', (hooks) => {
           <Node
             @id="parent"
             @label="Parent"
-            @isExpanded={{expanded.current}}
+            @isExpanded={{expanded.value}}
             @onToggle={{onToggle}}
             as |Child|
           >
@@ -453,7 +453,7 @@ module('Integration | Component | TreeView', (hooks) => {
     assert.strictEqual(reportedExpanded, true);
     assert.dom('.cds--tree-parent-node').hasAttribute('aria-expanded', 'false');
 
-    expanded.current = true;
+    expanded.value = true;
     await rerender();
 
     assert.dom('.cds--tree-parent-node').hasAttribute('aria-expanded', 'true');
