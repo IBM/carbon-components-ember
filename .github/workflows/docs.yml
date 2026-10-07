@@ -14,11 +14,27 @@ permissions:
   contents: read
 
 jobs:
+  changes:
+    name: Changes
+    runs-on: ubuntu-26.04
+    outputs:
+      addon: ${{ steps.changes.outputs.addon }}
+      packages: ${{ steps.changes.outputs.packages }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - id: changes
+        uses: ./.github/actions/changes
+
   # Every story (and its tests) renders in Chromium through Vitest. Most of
   # the time goes on booting Ember once per story file, so the files are
   # split across shards.
   stories:
     name: Stories (${{ matrix.shard }}/${{ strategy.job-total }})
+    needs: changes
+    if: needs.changes.outputs.addon == 'true'
     runs-on: ubuntu-26.04
     timeout-minutes: 20
     strategy:
@@ -45,6 +61,8 @@ jobs:
 
   build-storybook:
     name: Build Storybook
+    needs: changes
+    if: needs.changes.outputs.addon == 'true'
     runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7
@@ -74,7 +92,7 @@ jobs:
   # the site builds.
   docs:
     name: Docs
-    needs: [stories, build-storybook]
+    needs: [changes, stories, build-storybook]
     # Run (and fail) when a needed job failed, rather than being skipped:
     # a skipped required check counts as passing.
     if: always()
@@ -84,8 +102,11 @@ jobs:
         run: |
           echo "Stories: ${{ needs.stories.result }}"
           echo "Build Storybook: ${{ needs.build-storybook.result }}"
-          test "${{ needs.stories.result }}" = success
-          test "${{ needs.build-storybook.result }}" = success
+          test "${{ needs.changes.result }}" = success
+          # Both are skipped when the addon didn't change.
+          for result in "${{ needs.stories.result }}" "${{ needs.build-storybook.result }}"; do
+            [[ $result == success || $result == skipped ]] || exit 1
+          done
 
   # Publishes the site for this version at versions/<version>/ on gh-pages.
   deploy:
