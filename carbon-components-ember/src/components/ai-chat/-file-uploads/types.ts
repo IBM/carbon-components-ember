@@ -12,12 +12,14 @@
  * brief checkmark), while `COMPLETE` is the settled, persisted terminal
  * state (no progress or success affordance shown at all).
  */
-export enum FileStatusValue {
-  COMPLETE = 'complete',
-  EDIT = 'edit',
-  UPLOADING = 'uploading',
-  SUCCESS = 'success',
-}
+export const FileStatusValue = {
+  COMPLETE: 'complete',
+  EDIT: 'edit',
+  UPLOADING: 'uploading',
+  SUCCESS: 'success',
+} as const;
+export type FileStatusValue =
+  (typeof FileStatusValue)[keyof typeof FileStatusValue];
 
 /** A file staged in the input area, with the live `File` and its upload status. */
 export interface FileUpload {

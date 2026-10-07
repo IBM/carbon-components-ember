@@ -12,13 +12,14 @@
  * wrappers are never used by `video-player.ts` (or anything else this port
  * needs), so they're left out rather than carried along unused.
  */
-export enum VideoSource {
-  YOUTUBE = 'youtube',
-  VIMEO = 'vimeo',
-  KALTURA = 'kaltura',
-  NATIVE = 'native',
-  UNKNOWN = 'unknown',
-}
+export const VideoSource = {
+  YOUTUBE: 'youtube',
+  VIMEO: 'vimeo',
+  KALTURA: 'kaltura',
+  NATIVE: 'native',
+  UNKNOWN: 'unknown',
+} as const;
+export type VideoSource = (typeof VideoSource)[keyof typeof VideoSource];
 
 const MATCH_URL_YOUTUBE =
   /(?:youtu\.be\/|youtube(?:-nocookie|education)?\.com\/(?:embed\/|v\/|watch\/|watch\?v=|watch\?.+&v=|shorts\/|live\/))((\w|-){11})|youtube\.com\/playlist\?list=|youtube\.com\/user\//;
