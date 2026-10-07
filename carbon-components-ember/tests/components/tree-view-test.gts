@@ -3,7 +3,6 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click, rerender, waitUntil } from '@ember/test-helpers';
 import TreeView from '#src/components/tree-view.gts';
 import { Folder, Document } from '#src/icons.ts';
-import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import { tracked } from '@glimmer/tracking';
@@ -11,13 +10,15 @@ import {
   getAllElementComputedStyles,
   getStylesDiff,
   waitForAnimationFrame,
+  disableCarbonStyles,
+  enableCarbonStyles,
 } from '../helpers';
 
 module('Integration | Component | TreeView', (hooks) => {
   setupRenderingTest(hooks);
 
   test('white theme: should display tree view', async function (this: RenderingTestContext, assert) {
-    const styleValue = tracked('');
+    disableCarbonStyles();
     await render(
       <template>
         <TreeView @label="Tree View" as |Node|>
@@ -26,16 +27,12 @@ module('Integration | Component | TreeView', (hooks) => {
             <Child @id="node-2-1" @label="Node 2.1" />
           </Node>
         </TreeView>
-        <style>
-          {{styleValue.value}}
-        </style>
       </template>,
     );
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.value = carbonStyle.default;
-    await rerender();
+    enableCarbonStyles();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(
       this.element.firstElementChild!,
@@ -47,7 +44,7 @@ module('Integration | Component | TreeView', (hooks) => {
   });
 
   test('dark theme: should display tree view', async function (this: RenderingTestContext, assert) {
-    const styleValue = tracked('');
+    disableCarbonStyles();
     const darkStyleValue = tracked('');
     await render(
       <template>
@@ -58,9 +55,6 @@ module('Integration | Component | TreeView', (hooks) => {
           </Node>
         </TreeView>
         <style>
-          {{styleValue.value}}
-        </style>
-        <style>
           {{darkStyleValue.value}}
         </style>
       </template>,
@@ -68,7 +62,7 @@ module('Integration | Component | TreeView', (hooks) => {
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.value = carbonStyle.default;
+    enableCarbonStyles();
     darkStyleValue.value = carbonDarkStyle.default;
     await rerender();
     await waitForAnimationFrame();
@@ -134,7 +128,6 @@ module('Integration | Component | TreeView', (hooks) => {
   });
 
   test('collapsing a node actually hides its children under real Carbon styles', async function (this: RenderingTestContext, assert) {
-    const styleValue = tracked('');
     await render(
       <template>
         <TreeView @label="Tree View" as |Node|>
@@ -142,13 +135,8 @@ module('Integration | Component | TreeView', (hooks) => {
             <Child @id="child" @label="Child" />
           </Node>
         </TreeView>
-        <style>
-          {{styleValue.value}}
-        </style>
       </template>,
     );
-    styleValue.value = carbonStyle.default;
-    await rerender();
     await waitForAnimationFrame();
 
     assert.dom('.cds--tree-node__children').isNotVisible();
@@ -260,7 +248,6 @@ module('Integration | Component | TreeView', (hooks) => {
   });
 
   test('a selected row highlights the full row width under real Carbon styles, not just the label text', async function (this: RenderingTestContext, assert) {
-    const styleValue = tracked('');
     await render(
       <template>
         <TreeView
@@ -273,13 +260,8 @@ module('Integration | Component | TreeView', (hooks) => {
             <Child @id="nested-child" @label="B" />
           </Node>
         </TreeView>
-        <style>
-          {{styleValue.value}}
-        </style>
       </template>,
     );
-    styleValue.value = carbonStyle.default;
-    await rerender();
     await waitForAnimationFrame();
 
     const topLevelRow = document.querySelector('#node-1') as HTMLElement;

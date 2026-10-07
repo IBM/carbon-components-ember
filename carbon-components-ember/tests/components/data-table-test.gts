@@ -8,7 +8,6 @@ import {
   waitUntil,
 } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
-import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import DataTable from '#src/components/data-table.gts';
 import Pagination from '#src/components/pagination.gts';
 
@@ -204,10 +203,6 @@ module('Integration | Component | DataTable', (hooks) => {
               </table.EachBodyRows>
             </table.Table>
           </DataTable>
-          {{! Carbon's CSS is what collapses the child row. }}
-          <style>
-            {{carbonStyle.default}}
-          </style>
         </template>,
       );
 

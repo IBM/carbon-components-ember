@@ -10,11 +10,6 @@ import {
 import AiChatCardFooter from '#src/components/ai-chat/card-footer.gts';
 import type { CardFooterAction } from '#src/components/ai-chat/card-footer.gts';
 import Checkmark from '#src/components/icons/checkmark.ts';
-import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
-// The addon's own custom SCSS (its `.cds-aichat-card-footer__icon-actions`
-// rules, incl. whether it clips its own overflow) — not part of
-// `@carbon/styles`' prebuilt bundle above.
-import * as carbonComponentStyle from '#src/styles/index.scss?inline';
 
 module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
   setupRenderingTest(hooks);
@@ -72,15 +67,7 @@ module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
     ];
 
     await render(
-      <template>
-        <style>
-          {{carbonStyle.default}}
-        </style>
-        <style>
-          {{carbonComponentStyle.default}}
-        </style>
-        <AiChatCardFooter @actions={{actions}} />
-      </template>,
+      <template><AiChatCardFooter @actions={{actions}} /></template>,
     );
 
     const container = find(

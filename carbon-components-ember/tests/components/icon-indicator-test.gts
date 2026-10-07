@@ -11,7 +11,6 @@ import {
   blur,
 } from '@ember/test-helpers';
 import IconIndicator from '#src/components/icon-indicator.gts';
-import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import { tracked } from '@glimmer/tracking';
@@ -19,26 +18,24 @@ import {
   getAllElementComputedStyles,
   getStylesDiff,
   waitForAnimationFrame,
+  disableCarbonStyles,
+  enableCarbonStyles,
 } from '../helpers';
 
 module('Integration | Component | IconIndicator', (hooks) => {
   setupRenderingTest(hooks);
 
   test('white theme: should display icon indicator', async function (this: RenderingTestContext, assert) {
-    const styleValue = tracked('');
+    disableCarbonStyles();
     await render(
       <template>
         <IconIndicator @kind="succeeded" @label="Succeeded" />
-        <style>
-          {{styleValue.value}}
-        </style>
       </template>,
     );
 
     await waitUntil(() => find('.cds--icon-indicator svg'));
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.value = carbonStyle.default;
-    await rerender();
+    enableCarbonStyles();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(
       this.element.firstElementChild!,
@@ -50,14 +47,11 @@ module('Integration | Component | IconIndicator', (hooks) => {
   });
 
   test('dark theme: should display icon indicator', async function (this: RenderingTestContext, assert) {
-    const styleValue = tracked('');
+    disableCarbonStyles();
     const darkStyleValue = tracked('');
     await render(
       <template>
         <IconIndicator @kind="succeeded" @label="Succeeded" />
-        <style>
-          {{styleValue.value}}
-        </style>
         <style>
           {{darkStyleValue.value}}
         </style>
@@ -66,7 +60,7 @@ module('Integration | Component | IconIndicator', (hooks) => {
 
     await waitUntil(() => find('.cds--icon-indicator svg'));
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.value = carbonStyle.default;
+    enableCarbonStyles();
     darkStyleValue.value = carbonDarkStyle.default;
     await rerender();
     await waitForAnimationFrame();

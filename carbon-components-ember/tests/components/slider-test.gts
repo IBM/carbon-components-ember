@@ -9,7 +9,6 @@ import {
 } from '@ember/test-helpers';
 import Slider from '#src/components/slider.gts';
 import SliderSkeleton from '#src/components/slider-skeleton.gts';
-import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import { tracked } from '@glimmer/tracking';
@@ -17,13 +16,15 @@ import {
   getAllElementComputedStyles,
   getStylesDiff,
   waitForAnimationFrame,
+  disableCarbonStyles,
+  enableCarbonStyles,
 } from '../helpers';
 
 module('Integration | Component | Slider', (hooks) => {
   setupRenderingTest(hooks);
 
   test('white theme: should display slider', async function (this: RenderingTestContext, assert) {
-    const styleValue = tracked('');
+    disableCarbonStyles();
     await render(
       <template>
         <Slider
@@ -32,16 +33,12 @@ module('Integration | Component | Slider', (hooks) => {
           @max={{100}}
           @value={{50}}
         />
-        <style>
-          {{styleValue.value}}
-        </style>
       </template>,
     );
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.value = carbonStyle.default;
-    await rerender();
+    enableCarbonStyles();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(
       this.element.firstElementChild!,
@@ -53,7 +50,7 @@ module('Integration | Component | Slider', (hooks) => {
   });
 
   test('dark theme: should display slider', async function (this: RenderingTestContext, assert) {
-    const styleValue = tracked('');
+    disableCarbonStyles();
     const darkStyleValue = tracked('');
     await render(
       <template>
@@ -64,9 +61,6 @@ module('Integration | Component | Slider', (hooks) => {
           @value={{50}}
         />
         <style>
-          {{styleValue.value}}
-        </style>
-        <style>
           {{darkStyleValue.value}}
         </style>
       </template>,
@@ -74,7 +68,7 @@ module('Integration | Component | Slider', (hooks) => {
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.value = carbonStyle.default;
+    enableCarbonStyles();
     darkStyleValue.value = carbonDarkStyle.default;
     await rerender();
     await waitForAnimationFrame();

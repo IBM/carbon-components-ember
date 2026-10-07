@@ -6,7 +6,6 @@ import GridRow from '#src/components/grid/row.gts';
 import GridColumn from '#src/components/grid/column.gts';
 import GridColumnHang from '#src/components/grid/column-hang.gts';
 import GridSettings from '#src/components/grid/settings.gts';
-import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import { tracked } from '@glimmer/tracking';
@@ -14,13 +13,15 @@ import {
   getAllElementComputedStyles,
   getStylesDiff,
   waitForAnimationFrame,
+  disableCarbonStyles,
+  enableCarbonStyles,
 } from '../helpers';
 
 module('Integration | Component | Grid', (hooks) => {
   setupRenderingTest(hooks);
 
   test('white theme: should display grid', async function (this: RenderingTestContext, assert) {
-    const styleValue = tracked('');
+    disableCarbonStyles();
     await render(
       <template>
         <Grid>
@@ -29,16 +30,12 @@ module('Integration | Component | Grid', (hooks) => {
             <GridColumn>Column 2</GridColumn>
           </GridRow>
         </Grid>
-        <style>
-          {{styleValue.value}}
-        </style>
       </template>,
     );
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.value = carbonStyle.default;
-    await rerender();
+    enableCarbonStyles();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(
       this.element.firstElementChild!,
@@ -50,7 +47,7 @@ module('Integration | Component | Grid', (hooks) => {
   });
 
   test('dark theme: should display grid', async function (this: RenderingTestContext, assert) {
-    const styleValue = tracked('');
+    disableCarbonStyles();
     const darkStyleValue = tracked('');
     await render(
       <template>
@@ -61,9 +58,6 @@ module('Integration | Component | Grid', (hooks) => {
           </GridRow>
         </Grid>
         <style>
-          {{styleValue.value}}
-        </style>
-        <style>
           {{darkStyleValue.value}}
         </style>
       </template>,
@@ -71,7 +65,7 @@ module('Integration | Component | Grid', (hooks) => {
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.value = carbonStyle.default;
+    enableCarbonStyles();
     darkStyleValue.value = carbonDarkStyle.default;
     await rerender();
     await waitForAnimationFrame();

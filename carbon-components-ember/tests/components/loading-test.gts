@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { find, render } from '@ember/test-helpers';
 import Loading from '#src/components/loading.gts';
-import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 
 module('Integration | Component | Loading', (hooks) => {
   setupRenderingTest(hooks);
@@ -63,12 +62,7 @@ module('Integration | Component | Loading', (hooks) => {
 
   test('@inline renders the inline loading variant with text', async function (assert) {
     await render(
-      <template>
-        <Loading @inline={{true}} @description="saving" />
-        <style>
-          {{carbonStyle.default}}
-        </style>
-      </template>,
+      <template><Loading @inline={{true}} @description="saving" /></template>,
     );
 
     assert.dom('.cds--inline-loading').exists();

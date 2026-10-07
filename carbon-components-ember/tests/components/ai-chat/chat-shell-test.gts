@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
-import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import { waitForAnimationFrame } from '../../helpers';
 import ChatShell from '#src/components/ai-chat/chat-shell.gts';
 
@@ -180,9 +179,6 @@ module('Integration | Component | ai-chat/ChatShell', (hooks) => {
     // real layout instead of the browser's static default.
     await render(
       <template>
-        <style>
-          {{carbonStyle.default}}
-        </style>
         <div style="inline-size: 480px">
           <ChatShell @showHistory={{true}}>
             <:history>history content</:history>

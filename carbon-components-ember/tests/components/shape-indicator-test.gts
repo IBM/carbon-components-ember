@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, rerender, find } from '@ember/test-helpers';
 import ShapeIndicator from '#src/components/shape-indicator.gts';
-import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import { tracked } from '@glimmer/tracking';
@@ -10,26 +9,22 @@ import {
   getAllElementComputedStyles,
   getStylesDiff,
   waitForAnimationFrame,
+  disableCarbonStyles,
+  enableCarbonStyles,
 } from '../helpers';
 
 module('Integration | Component | ShapeIndicator', (hooks) => {
   setupRenderingTest(hooks);
 
   test('white theme: should display shape indicator', async function (this: RenderingTestContext, assert) {
-    const styleValue = tracked('');
+    disableCarbonStyles();
     await render(
-      <template>
-        <ShapeIndicator @kind="stable" @label="Stable" />
-        <style>
-          {{styleValue.value}}
-        </style>
-      </template>,
+      <template><ShapeIndicator @kind="stable" @label="Stable" /></template>,
     );
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.value = carbonStyle.default;
-    await rerender();
+    enableCarbonStyles();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(
       this.element.firstElementChild!,
@@ -41,14 +36,11 @@ module('Integration | Component | ShapeIndicator', (hooks) => {
   });
 
   test('dark theme: should display shape indicator', async function (this: RenderingTestContext, assert) {
-    const styleValue = tracked('');
+    disableCarbonStyles();
     const darkStyleValue = tracked('');
     await render(
       <template>
         <ShapeIndicator @kind="stable" @label="Stable" />
-        <style>
-          {{styleValue.value}}
-        </style>
         <style>
           {{darkStyleValue.value}}
         </style>
@@ -57,7 +49,7 @@ module('Integration | Component | ShapeIndicator', (hooks) => {
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.value = carbonStyle.default;
+    enableCarbonStyles();
     darkStyleValue.value = carbonDarkStyle.default;
     await rerender();
     await waitForAnimationFrame();
