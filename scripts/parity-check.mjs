@@ -390,7 +390,7 @@ async function loadParityData() {
       };
     }
     return data;
-  } catch (error) {
+  } catch {
     return {
       lastCheckedVersion: null,
       lastCheckDate: null,
@@ -419,7 +419,7 @@ async function loadExclusions() {
   try {
     const content = await fs.readFile(EXCLUSIONS_FILE, 'utf-8');
     return JSON.parse(content);
-  } catch (error) {
+  } catch {
     return {};
   }
 }
@@ -883,7 +883,6 @@ async function runSource(source, exclusions) {
   console.log(`Ember-specific: ${comparison.extra.length}`);
   console.log(`New since last check: ${comparison.newComponents.length}\n`);
 
-  const commitChanged = previousSourceData.lastCheckedCommitSHA !== currentCommitInfo?.sha;
   const versionChanged = previousSourceData.lastCheckedVersion !== currentVersion;
   const globalCreateIssues = process.env.CREATE_ISSUES === 'true' || process.argv.includes('--create-issues');
   const shouldCreateIssues = globalCreateIssues && source.createIssues;

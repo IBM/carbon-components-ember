@@ -10,8 +10,8 @@
     "build": "pnpm build:carbon && pnpm build:storybook",
     "build:carbon": "pnpm --filter carbon-components-ember build",
     "build:storybook": "pnpm --filter carbon-components-ember build-storybook",
-    "lint": "pnpm --filter carbon-components-ember lint",
-    "lint:fix": "pnpm --filter carbon-components-ember lint:fix",
+    "lint": "pnpm -r --if-present lint",
+    "lint:fix": "pnpm -r --if-present lint:fix",
     "start": "pnpm --filter carbon-components-ember start",
     "storybook": "pnpm --filter carbon-components-ember storybook",
     "test": "pnpm --filter carbon-components-ember test"

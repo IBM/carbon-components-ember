@@ -89,8 +89,8 @@ for (const component of COMPONENTS) {
   const variants = {};
 
   for (const variant of component.variants) {
-    const container = document.createElement('div');
-    document.body.appendChild(container);
+    const container = dom.window.document.createElement('div');
+    dom.window.document.body.appendChild(container);
     const reactRoot = createRoot(container);
 
     act(() => {
