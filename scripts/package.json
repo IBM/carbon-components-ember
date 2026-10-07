@@ -11,6 +11,7 @@
   "scripts": {
     "check-parity": "node parity-check.mjs",
     "check-parity:create-issues": "CREATE_ISSUES=true node parity-check.mjs",
+    "format": "prettier . --write",
     "lint": "pnpm lint:js && pnpm lint:format",
     "lint:fix": "eslint . --fix && prettier . --write",
     "lint:format": "prettier . --check",

@@ -5,6 +5,7 @@
   "description": "Generates DOM-parity fixtures by rendering a pinned @carbon/react release, for comparison against carbon-components-ember's own render output in the addon's QUnit suite.",
   "type": "module",
   "scripts": {
+    "format": "prettier . --write",
     "generate": "node ./generate.mjs",
     "lint": "pnpm lint:js && pnpm lint:format",
     "lint:fix": "eslint . --fix && prettier . --write",
