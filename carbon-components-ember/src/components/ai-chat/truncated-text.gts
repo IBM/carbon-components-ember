@@ -7,11 +7,9 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { registerDestructor } from '@ember/destroyable';
 import { guidFor } from '@ember/object/internals';
 import { on } from '@ember/modifier';
-import { default as didInsert } from '@ember/render-modifiers/modifiers/did-insert';
-import { default as didUpdate } from '@ember/render-modifiers/modifiers/did-update';
+import { modifier } from 'ember-modifier';
 import { default as Tooltip } from '../tooltip.gts';
 import type { TooltipAlignments } from '../tooltip.gts';
 
@@ -74,9 +72,7 @@ export default class AiChatTruncatedText extends Component<AiChatTruncatedTextSi
   @tracked isExpanded = false;
   @tracked maxHeight = 'none';
   lineHeight = 0;
-  resizeObserver?: ResizeObserver;
   contentElement?: HTMLElement;
-  pendingRaf?: number;
 
   get type() {
     return this.args.type ?? 'tooltip';
@@ -110,38 +106,45 @@ export default class AiChatTruncatedText extends Component<AiChatTruncatedTextSi
     return this.isOverflowing || this.isExpanded;
   }
 
-  constructor(owner: any, args: AiChatTruncatedTextSignature['Args']) {
-    super(owner, args);
-    registerDestructor(this, this.teardown);
-  }
-
-  teardown = () => {
-    if (this.pendingRaf !== undefined) {
-      cancelAnimationFrame(this.pendingRaf);
-      this.pendingRaf = undefined;
-    }
-    this.resizeObserver?.disconnect();
-    this.resizeObserver = undefined;
-  };
-
-  setup = (element: HTMLElement) => {
-    // Each toggle between the tooltip/expand `{{#if}}` branches tears down
-    // and recreates this element (and re-fires `didInsert`), so any
-    // observer/RAF from a previous `setup()` call must be cleaned up here
-    // rather than only at component destroy time.
-    this.teardown();
+  // Each toggle between the tooltip/expand '{{#if}}' branches tears down and
+  // recreates the content element, and Glimmer may install the new element's
+  // modifier before tearing down the old one. The RAF/observer handles are
+  // therefore kept per element (closure locals), so one element's teardown
+  // can never cancel the next element's setup.
+  observeContent = modifier((element: HTMLElement) => {
     this.contentElement = element;
-    this.pendingRaf = requestAnimationFrame(() => {
+    let pendingRaf: number | undefined = requestAnimationFrame(() => {
+      pendingRaf = undefined;
       this.lineHeight = parseFloat(getComputedStyle(element).lineHeight);
       this.updateOverflowStatus();
     });
-    this.resizeObserver = new ResizeObserver(() => this.updateOverflowStatus());
-    this.resizeObserver.observe(element);
-  };
+    const resizeObserver = new ResizeObserver(() =>
+      this.updateOverflowStatus(),
+    );
+    resizeObserver.observe(element);
 
-  recalculate = () => {
-    this.updateOverflowStatus();
-  };
+    return () => {
+      if (pendingRaf !== undefined) {
+        cancelAnimationFrame(pendingRaf);
+      }
+      resizeObserver.disconnect();
+      if (this.contentElement === element) {
+        this.contentElement = undefined;
+      }
+    };
+  });
+
+  // Re-measures whenever '@lines' or '@value' change; kept separate from
+  // 'observeContent' so those changes don't rebuild the observer. Function
+  // modifiers only track the args they actually read, which the positional
+  // destructuring below does for both.
+  remeasure = modifier(
+    (_element: HTMLElement, [lines, value]: [number, string | undefined]) => {
+      if (lines > 0 || value !== undefined) {
+        this.updateOverflowStatus();
+      }
+    },
+  );
 
   updateOverflowStatus = () => {
     const element = this.contentElement;
@@ -189,8 +192,8 @@ export default class AiChatTruncatedText extends Component<AiChatTruncatedTextSi
                   'cds-aichat-truncated-text__content--expanded'
                 }}"
               style={{this.contentStyle}}
-              {{didInsert this.setup}}
-              {{didUpdate this.recalculate @lines @value}}
+              {{this.observeContent}}
+              {{this.remeasure this.lines @value}}
             >
               {{#if (has-block)}}
                 {{yield}}
@@ -212,8 +215,8 @@ export default class AiChatTruncatedText extends Component<AiChatTruncatedTextSi
               'cds-aichat-truncated-text__content--expanded'
             }}"
           style={{this.contentStyle}}
-          {{didInsert this.setup}}
-          {{didUpdate this.recalculate @lines @value}}
+          {{this.observeContent}}
+          {{this.remeasure this.lines @value}}
         >
           {{#if (has-block)}}
             {{yield}}

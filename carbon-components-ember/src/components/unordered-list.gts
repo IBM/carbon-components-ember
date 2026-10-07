@@ -1,4 +1,5 @@
 import Component from '@glimmer/component';
+import ListItem from './list-item.gts';
 
 export type Args = {
   nested?: boolean;
@@ -9,7 +10,7 @@ export interface UnorderedListSignature {
   Element: HTMLUListElement;
   Args: Args;
   Blocks: {
-    default: [];
+    default: [typeof ListItem];
   };
 }
 
@@ -23,7 +24,7 @@ export default class UnorderedList extends Component<UnorderedListSignature> {
 
   <template>
     <ul class={{this.classes}} ...attributes>
-      {{yield}}
+      {{yield ListItem}}
     </ul>
   </template>
 }

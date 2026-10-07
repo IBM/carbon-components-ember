@@ -10,6 +10,11 @@ export type Args = {
    */
   id?: string;
   /**
+   * Provide a custom title for the tag. If not provided, the title will be
+   * derived from the text content.
+   */
+  title?: string;
+  /**
    * Specify if the `Tag` is disabled.
    */
   disabled?: boolean;
@@ -93,23 +98,24 @@ export default class TagComponent extends Component<TagInterface> {
   }
 
   // @carbon/react's Tag derives the label's `title` (used for a truncation
-  // tooltip) from its `children` prop directly, recomputed on every render -
-  // there's no Ember equivalent of "read a yielded block's content as a
-  // string", so this mirrors it off the rendered text instead, kept in sync
-  // if the yielded content changes.
-  syncLabelTitle = modifier((element: HTMLElement) => {
-    const apply = () => {
-      element.title = (element.textContent ?? '').replace(/\s+/g, ' ').trim();
-    };
-    apply();
-    const observer = new MutationObserver(apply);
-    observer.observe(element, {
-      childList: true,
-      characterData: true,
-      subtree: true,
-    });
-    return () => observer.disconnect();
-  });
+  // tooltip) from its `children` prop or explicit `title` prop. In Ember, we set
+  // the title attribute from `@title` or fallback to the element's text content.
+  syncLabelTitle = modifier(
+    (element: HTMLElement, [title]: [string | undefined]) => {
+      if (title !== undefined) {
+        element.title = title;
+      } else {
+        const text = (element.textContent ?? '').replace(/\s+/g, ' ').trim();
+        if (text) {
+          element.title = text;
+        }
+      }
+
+      return () => {
+        element.removeAttribute('title');
+      };
+    },
+  );
 
   <template>
     <div
@@ -124,7 +130,7 @@ export default class TagComponent extends Component<TagInterface> {
           <@renderIcon @size="16" @svgClass="cds--tag__custom-icon-svg" />
         </div>
       {{/if}}
-      <span class="cds--tag__label" dir="auto" {{this.syncLabelTitle}}>
+      <span class="cds--tag__label" dir="auto" {{this.syncLabelTitle @title}}>
         {{yield}}
       </span>
       {{#if @slug}}
