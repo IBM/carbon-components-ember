@@ -291,3 +291,14 @@ export const SineWave = meta.story({
     />
   </template>,
 });
+
+SineWave.test('redraws when its data changes', async ({ canvasElement }) => {
+  const line = () => canvasElement.querySelector('path.line');
+  await waitFor(() => expect(line()?.getAttribute('d')).toBeTruthy(), {
+    timeout: 5000,
+  });
+  const first = line()!.getAttribute('d');
+  await waitFor(() => expect(line()!.getAttribute('d')).not.toBe(first), {
+    timeout: 5000,
+  });
+});

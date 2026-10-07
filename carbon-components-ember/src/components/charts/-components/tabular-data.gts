@@ -1,7 +1,4 @@
-import onUpdate from '../../charts/-helpers/on-update.ts';
-import Component from '@glimmer/component';
-import type Owner from '@ember/owner';
-import { registerDestructor } from '@ember/destroyable';
+import ChartPart from './chart-part.ts';
 import { defaultArgs } from '../../../utils/decorators.ts';
 import type CarbonChart from '../../charts/-components/chart.gts';
 import type { ChartData } from '../../charts/-components/chart.gts';
@@ -25,7 +22,7 @@ export type Args = {
  @class CarbonChartDataSet
  @public
  **/
-export default class CarbonChartTabularData extends Component<Args> {
+export default class CarbonChartTabularData extends ChartPart<{ Args: Args }> {
   @defaultArgs
   args: Args = {
     /**
@@ -45,53 +42,23 @@ export default class CarbonChartTabularData extends Component<Args> {
     data: [],
     backgroundColors: undefined,
   };
-  private oldGroup?: string;
-  defaultColor?: string[];
 
-  constructor(owner: Owner, args: Args) {
-    super(owner, args);
-    registerDestructor(this, () => {
-      this.args.chart?.removeDataset(this.oldGroup!);
-    });
+  /**
+   * This group's points: a copy of `@data` tagged with `@group`, or one point
+   * per `@values` entry with the matching `@keys`/`@dates` entry.
+   */
+  get data(): ChartData[] {
+    const group = this.args.group;
+    if (this.args.data?.length) {
+      return this.args.data.map((point) => ({ ...point, group }));
+    }
+    return (this.args.values ?? []).map((value, i) => ({
+      date: this.args.dates?.[i] || undefined,
+      key: this.args.keys?.[i] || undefined,
+      value,
+      group,
+    }));
   }
 
-  didUpdateArgs = () => {
-    if (this.oldGroup && this.oldGroup !== this.args.group) {
-      this.args.chart?.removeDataset(this.oldGroup);
-      this.oldGroup = this.args.group;
-    }
-    let data: ChartData[] = [];
-    if (this.args.data?.length) {
-      data = this.args.data
-        .slice()
-        .map((x) => Object.assign(x, { group: this.args.group }));
-    } else if (this.args.values) {
-      this.args.values.forEach((v, i) => {
-        data.push({
-          date: this.args.dates?.[i] || undefined,
-          key: this.args.keys?.[i] || undefined,
-          value: this.args.values![i]!,
-          group: this.args.group,
-        });
-      });
-    }
-    this.args.chart?.updateDataset(
-      this.args.group,
-      this.args.backgroundColors || this.defaultColor || [],
-      data,
-    );
-  };
-
-  <template>
-    {{#if @chart.updateDataset}}
-      {{onUpdate
-        this.didUpdateArgs
-        @values
-        @keys
-        @group
-        @backgroundColors
-        @data
-      }}
-    {{/if}}
-  </template>
+  <template></template>
 }
