@@ -337,7 +337,7 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
 
   <template>
     {{#if @loading}}
-      <div style="max-width: 100%;">
+      <div>
         <div
           class="cds--tabs cds--skeleton
             {{if @contained 'cds--tabs--contained'}}"

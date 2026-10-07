@@ -90,7 +90,6 @@ export default class ListHeaderComponent extends Component<Args> {
                 <svg
                   focusable="false"
                   preserveAspectRatio="xMidYMid meet"
-                  style="will-change: transform;"
                   xmlns="http://www.w3.org/2000/svg"
                   class="cds--table-sort__icon"
                   width="16"
@@ -105,7 +104,6 @@ export default class ListHeaderComponent extends Component<Args> {
                 <svg
                   focusable="false"
                   preserveAspectRatio="xMidYMid meet"
-                  style="will-change: transform;"
                   xmlns="http://www.w3.org/2000/svg"
                   class="cds--table-sort__icon-unsorted"
                   width="16"

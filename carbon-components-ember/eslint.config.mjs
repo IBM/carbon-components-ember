@@ -135,6 +135,8 @@ export default defineConfig([
       // an `@args` argument.
       'ember/template-no-args-paths': 'off',
       'ember/template-no-capital-arguments': 'off',
+      // Inline styles lay out the demos; they aren't part of the components.
+      'ember/template-no-inline-styles': 'off',
     },
   },
   {
@@ -153,6 +155,8 @@ export default defineConfig([
       ],
       // Bare inputs are test fixtures, not UI.
       'ember/template-require-input-label': 'off',
+      // Inline styles size and place test fixtures.
+      'ember/template-no-inline-styles': 'off',
     },
   },
   /**

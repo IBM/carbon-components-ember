@@ -121,6 +121,8 @@ export default class AiChatChatButton extends Component<AiChatChatButtonSignatur
       @disabled={{@disabled}}
       @onClick={{@onClick}}
       inert={{if this.isBlocked true}}
+      {{! Only ever -1 or 0; the rule can't read the nested if. }}
+      {{! eslint-disable-next-line ember/template-no-positive-tabindex }}
       tabindex={{if @isQuickAction (if this.isBlocked "-1" "0")}}
       data-is-selected={{if @isSelected ""}}
       {{blockProgrammaticClickWhenSelected this.isBlocked}}

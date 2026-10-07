@@ -57,10 +57,7 @@ export default class NavMenuComponent extends Component<Signature> {
           </div>
         </button>
         {{#if (or @open this.expanded)}}
-          <ul
-            class="cds--side-nav__menu"
-            style="    max-height: 93.75rem; visibility: inherit;"
-          >
+          <ul class="cds--side-nav__menu">
             {{yield SubMenuComponent}}
           </ul>
         {{/if}}

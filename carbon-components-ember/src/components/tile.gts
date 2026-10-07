@@ -156,6 +156,8 @@ export default class TileComponent extends Component<TileComponentSignature> {
           {{if this.selected 'cds--tile--is-selected'}}"
         role="checkbox"
         aria-checked={{if this.selected "true" "false"}}
+        {{! Forwards @tabindex, as Carbon React's tabIndex prop does. }}
+        {{! eslint-disable-next-line ember/template-no-positive-tabindex }}
         tabindex={{this.tabindex}}
         title="title"
         {{on "click" this.onSelectableClick}}

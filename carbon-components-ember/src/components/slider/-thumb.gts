@@ -65,6 +65,8 @@ export default class SliderThumb extends Component<SliderThumbSignature> {
           {{if this.suffix (concat 'cds--slider__thumb--' this.suffix)}}"
         role="slider"
         id={{@id}}
+        {{! Forwards the slider's tabindex, as Carbon React's tabIndex prop does. }}
+        {{! eslint-disable-next-line ember/template-no-positive-tabindex }}
         tabindex={{this.tabindex}}
         aria-valuetext={{@ariaValueText}}
         aria-valuemax={{@ariaValueMax}}

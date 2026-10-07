@@ -100,3 +100,10 @@
   align-items: center;
   flex: 0 0 auto;
 }
+
+// `OverflowMenu`'s options list is positioned by ember-basic-dropdown, whose
+// content wrapper already sits below the trigger; Carbon's own offset for the
+// React variant's floating menu would push it down a second time.
+.ember-basic-dropdown-content .cds--overflow-menu-options {
+  inset-block-start: 0;
+}

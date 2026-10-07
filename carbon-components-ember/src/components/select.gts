@@ -16,6 +16,7 @@ import type {
 } from 'ember-power-select/types';
 import { guidFor } from '@ember/object/internals';
 import { Close } from '../icons.ts';
+import { stylesheet } from 'astroturf';
 import type { TOC } from '@ember/component/template-only';
 
 export type Args<T extends ContentValue> = {
@@ -118,6 +119,30 @@ const toggleHighlightedClass = modifier(
 
 // power-select types `@extra` per invocation; Select always passes a
 // SelectExtra.
+// Layout fixes for ember-power-select's markup, which Carbon's CSS doesn't
+// cover.
+const styles = stylesheet`
+  .trigger {
+    outline: none;
+  }
+
+  .label {
+    margin-left: 15px;
+    margin-right: 3px;
+    width: -webkit-fill-available;
+  }
+
+  .tag {
+    margin: 0;
+  }
+
+  .check {
+    font-weight: bold;
+    position: absolute;
+    margin-left: -14px;
+  }
+` as { trigger: string; label: string; tag: string; check: string };
+
 const selectExtra = (extra: unknown) => (extra ?? {}) as SelectExtra;
 
 const Options: TOC<
@@ -358,17 +383,14 @@ export default class SelectComponent<T extends ContentValue> extends Component<
               (not (and @select.isOpen @searchEnabled))
             )
           }}
-            <div
-              class="cds--list-box__label"
-              style="margin-left: 15px; margin-right: 3px; width: -webkit-fill-available;"
-            >{{#if
+            <div class="cds--list-box__label {{styles.label}}">{{#if
                 @select.selected
               }}{{@select.selected}}{{else}}{{@placeholder}}{{/if}}</div>
           {{/if}}
           {{#if (and this.extra.showNumber @select.selected.length)}}
             <div
-              class="cds--tag cds--tag--filter cds--tag--high-contrast"
-              style="margin: 0;"
+              class="cds--tag cds--tag--filter cds--tag--high-contrast
+                {{styles.tag}}"
             >
               <span
                 class="cds--tag__label"
@@ -389,8 +411,8 @@ export default class SelectComponent<T extends ContentValue> extends Component<
           {{else}}
             {{#each @select.selected as |opt|}}
               <div
-                class="cds--tag cds--tag--filter cds--tag--high-contrast"
-                style="margin: 0;"
+                class="cds--tag cds--tag--filter cds--tag--high-contrast
+                  {{styles.tag}}"
               >
                 <span class="cds--tag__label" title="1">{{opt}}</span>
                 <div
@@ -484,9 +506,9 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         {{! @glint-expect-error: power-select types its element as Element; it renders an HTMLElement }}
         ...attributes
         class="cds--select cds--select-md
+          {{styles.trigger}}
           {{if @inline 'cds--select--inline'}}
           {{if @disabled 'cds--select--disabled'}}"
-        style="outline: none"
         @extra={{hash
           helperText=@helperText
           helperTextId=this.helperTextId
@@ -555,9 +577,9 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         {{! @glint-expect-error: power-select types its element as Element; it renders an HTMLElement }}
         ...attributes
         class="cds--select cds--select-md
+          {{styles.trigger}}
           {{if @inline 'cds--select--inline'}}
           {{if @disabled 'cds--select--disabled'}}"
-        style="outline: none"
         @extra={{hash
           isSingleSelect=true
           helperText=@helperText
@@ -600,9 +622,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
           {{addMenuItemClass}}
         >
           {{#if (isSelected option select.selected)}}
-            <span
-              style="font-weight: bold; position: absolute; margin-left: -14px;"
-            >&check;</span>
+            <span class={{styles.check}}>&check;</span>
           {{/if}}
           {{#if (has-block)}}
             {{yield option}}

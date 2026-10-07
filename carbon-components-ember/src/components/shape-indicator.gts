@@ -84,6 +84,8 @@ const IncompleteIcon: TemplateOnlyComponent<{ Element: SVGElement }> =
         fill="#fff"
         fill-opacity="0.01"
         d="M0 0h16v16H0z"
+        {{! Carbon React sets this inline too (DOM-parity covers it). }}
+        {{! eslint-disable-next-line ember/template-no-inline-styles }}
         style="mix-blend-mode: multiply;"
       />
       <path

@@ -93,6 +93,7 @@ export default class ListComponent<T> extends Component<
 
   styles = stylesheet`
     .namespace {
+      position: relative;
       :global(.cds--pagination) {
         position: absolute;
         right: 0;
@@ -115,7 +116,6 @@ export default class ListComponent<T> extends Component<
         class="cds--structured-list
           {{this.styles.namespace}}
           {{if @selectable 'cds--structured-list--selection'}}"
-        style="position: relative;"
         {{this.delayItems}}
       >
         {{yield

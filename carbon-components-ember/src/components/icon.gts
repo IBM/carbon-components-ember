@@ -173,6 +173,10 @@ export default class CarbonIcon extends Component<Args> {
   styles = stylesheet`
     @use "@carbon/styles/scss/theme" as *;
 
+    .loading {
+      display: inline-block;
+    }
+
     .icon {
       margin: 5px;
       fill: $icon-primary;
@@ -209,11 +213,12 @@ export default class CarbonIcon extends Component<Args> {
     }
   ` as {
     icon: string;
+    loading: string;
   };
 
   <template>
     {{#if (or @loading this.loading)}}
-      <span style="display: inline-block;">
+      <span class={{this.styles.loading}}>
         <Loading
           @classNames="{{this.styles.icon}} {{this.classes}} loader"
           @small={{true}}
