@@ -104,7 +104,7 @@ export default class ToggletipComponent extends Component<ToggletipComponentSign
   };
 
   <template>
-    {{! template-lint-disable no-invalid-interactive }}
+    {{! eslint-disable-next-line ember/template-no-invalid-interactive }}
     <span
       class="cds--popover-container cds--popover--{{this.align}}
         cds--popover--caret cds--popover--high-contrast

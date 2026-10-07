@@ -68,7 +68,6 @@ export default class NavMenuComponent extends Component<Signature> {
     {{else}}
       {{#unless @hidden}}
         <li class="cds--side-nav__item">
-          {{! template-lint-disable require-presentational-children }}
           <a
             href="#"
             class="cds--side-nav__link"

@@ -22,8 +22,8 @@ module('Integration | Component | FormLabel', (hooks) => {
     await render(
       <template>
         {{! @id is the label's for target, not a second id }}
-        {{! template-lint-disable no-duplicate-id }}
         <FormLabel @id="my-input">Form label</FormLabel>
+        {{! eslint-disable-next-line ember/template-no-duplicate-id }}
         <input id="my-input" type="text" />
       </template>,
     );

@@ -160,7 +160,7 @@ class TreeNode extends Component<TreeNodeSignature> {
         style={{if (has-block) this.parentLabelStyle this.leafLabelStyle}}
       >
         {{#if (has-block)}}
-          {{! template-lint-disable no-invalid-interactive }}
+          {{! eslint-disable-next-line ember/template-no-invalid-interactive }}
           <span
             class="cds--tree-parent-node__toggle"
             {{on "click" this.toggle}}

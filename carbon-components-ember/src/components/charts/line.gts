@@ -50,7 +50,7 @@ export default class CarbonLineChart extends Component<CarbonLineChartSignature>
 
   <template>
     <Chart
-      {{! template-lint-disable  no-capital-arguments }}
+      {{! eslint-disable-next-line ember/template-no-capital-arguments }}
       @ChartClass={{this.ChartClass}}
       @title={{@title}}
       @resizable={{@resizable}}

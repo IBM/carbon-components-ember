@@ -149,7 +149,7 @@ export default class ProgressBar extends Component<ProgressBarInterface> {
         {{/if}}
       </div>
       {{! @carbon/react sets aria-invalid on the progressbar itself, even though ARIA doesn't list it for this role }}
-      {{! template-lint-disable no-unsupported-role-attributes }}
+      {{! eslint-disable-next-line ember/template-no-unsupported-role-attributes }}
       <div
         class="cds--progress-bar__track"
         role="progressbar"

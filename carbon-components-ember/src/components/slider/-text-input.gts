@@ -53,7 +53,7 @@ export default class SliderTextInput extends Component<SliderTextInputSignature>
         {{if @readOnly 'cds--text-input-wrapper--readonly'}}
         {{if @hideTextInput 'cds--slider-text-input-wrapper--hidden'}}"
     >
-      {{! template-lint-disable require-input-label }}
+      {{! eslint-disable-next-line ember/template-require-input-label }}
       <input
         type={{if @hideTextInput "hidden" "number"}}
         id={{@id}}

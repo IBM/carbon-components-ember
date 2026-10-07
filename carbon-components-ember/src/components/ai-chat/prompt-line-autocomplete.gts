@@ -149,7 +149,6 @@ interface ItemRowSignature {
 }
 
 const ItemRow: TemplateOnlyComponent<ItemRowSignature> = <template>
-  {{! template-lint-disable require-presentational-children }}
   <li
     id={{@entry.optionId}}
     role="option"
@@ -851,10 +850,10 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
         aria-atomic="false"
       >{{this.regionB}}</div>
       {{#if this.hasItems}}
-        {{! template-lint-disable no-invalid-interactive }}
-        {{! template-lint-disable no-pointer-down-event-binding }}
+        {{! eslint-disable-next-line ember/template-no-invalid-interactive }}
         <div
           class="cds-aichat-autocomplete"
+          {{! eslint-disable-next-line ember/template-no-pointer-down-event-binding }}
           {{on "mousedown" this.preventMousedown}}
         >
           {{#if @headerConfig.showHeader}}

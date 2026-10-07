@@ -150,7 +150,6 @@ const SelectedItem: TOC<
 > = <template>
   <div class="cds--tag cds--tag--filter cds--tag--high-contrast">
     <span class="cds--tag__label" title="1">{{@selected}}</span>
-    {{! template-lint-disable require-presentational-children }}
     <div
       {{on "click" (fn @select.actions.select @selected)}}
       role="button"
@@ -159,6 +158,7 @@ const SelectedItem: TOC<
       aria-label="Clear all selected items"
       title="Clear all selected items"
     >
+      {{! eslint-disable-next-line ember/template-require-presentational-children }}
       <svg
         focusable="false"
         preserveAspectRatio="xMidYMid meet"
@@ -169,6 +169,7 @@ const SelectedItem: TOC<
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
       >
+        {{! eslint-disable-next-line ember/template-require-presentational-children }}
         <path
           d="M17.4141 16L24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
         ></path>
@@ -330,12 +331,10 @@ export default class SelectComponent<T extends ContentValue> extends Component<
           id={{this.extra.labelId}}
         >{{this.extra.title}}</label>
       {{/if}}
-      {{! template-lint-disable no-pointer-down-event-binding }}
-      {{! template-lint-disable no-unsupported-role-attributes }}
       {{! power-select's own trigger handlers (removing selected items on
         mousedown), as in its stock trigger; this sits inside power-select's
         focusable trigger, which is the interactive element. }}
-      {{! template-lint-disable no-invalid-interactive }}
+      {{! eslint-disable-next-line ember/template-no-invalid-interactive }}
       <div
         class="cds--multi-select cds--combo-box cds--list-box
           {{if @select.disabled 'cds--list-box--disabled'}}
@@ -347,6 +346,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
         style={{if this.extra.inline "background: transparent; border: none;"}}
         {{this.openChange @select.isOpen}}
         {{on "touchstart" this.chooseOption}}
+        {{! eslint-disable-next-line ember/template-no-pointer-down-event-binding }}
         {{on "mousedown" this.chooseOption}}
         {{! @glint-expect-error: power-select types its trigger as a <ul>; this one renders a <div> }}
         ...attributes
@@ -374,7 +374,6 @@ export default class SelectComponent<T extends ContentValue> extends Component<
                 class="cds--tag__label"
                 title="{{@select.selected.length}}"
               >{{@select.selected.length}}</span>
-              {{! template-lint-disable require-presentational-children }}
               <div
                 {{on "click" this.removeAll}}
                 role="button"
@@ -383,6 +382,7 @@ export default class SelectComponent<T extends ContentValue> extends Component<
                 aria-label="Clear all selected items"
                 title="Clear all selected items"
               >
+                {{! eslint-disable-next-line ember/template-require-presentational-children }}
                 <Close />
               </div>
             </div>
@@ -393,7 +393,6 @@ export default class SelectComponent<T extends ContentValue> extends Component<
                 style="margin: 0;"
               >
                 <span class="cds--tag__label" title="1">{{opt}}</span>
-                {{! template-lint-disable require-presentational-children }}
                 <div
                   {{on "click" (fn this.removeSelected opt)}}
                   role="button"
@@ -402,13 +401,13 @@ export default class SelectComponent<T extends ContentValue> extends Component<
                   aria-label="Clear all selected items"
                   title="Clear all selected items"
                 >
+                  {{! eslint-disable-next-line ember/template-require-presentational-children }}
                   <Close />
                 </div>
               </div>
             {{/each}}
           {{/if}}
           {{#if (and @searchEnabled @select.isOpen)}}
-            {{! template-lint-disable no-redundant-role }}
             <input
               placeholder="{{this.extra.searchPlaceholder}}"
               class="cds--text-input cds--text-input--empty"

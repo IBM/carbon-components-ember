@@ -60,7 +60,6 @@ export default class SliderThumb extends Component<SliderThumbSignature> {
         {{if this.suffix (concat 'cds--slider__thumb-wrapper--' this.suffix)}}"
       style={{@style}}
     >
-      {{! template-lint-disable require-presentational-children }}
       <div
         class="cds--slider__thumb
           {{if this.suffix (concat 'cds--slider__thumb--' this.suffix)}}"

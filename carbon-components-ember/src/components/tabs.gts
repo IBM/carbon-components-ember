@@ -414,7 +414,6 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
           {{on "scroll" this.onScroll}}
         >
           {{#each this.tabs as |tab index|}}
-            {{! template-lint-disable require-presentational-children }}
             <button
               aria-controls="{{this.guid}}-tabpanel-{{index}}"
               aria-selected="{{if tab.isSelected 'true' 'false'}}"
@@ -473,6 +472,10 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
                 "cds--tabs__nav-item--close--hidden"
               }}
             >
+              {{! The close button sits in the tablist, as in Carbon React; it is
+                aria-hidden and tabindex -1, so assistive tech and the tab order
+                only see the tabs. }}
+              {{! eslint-disable-next-line ember/template-no-nested-interactive }}
               <button
                 title="Remove {{tab.args.title}} tab"
                 aria-hidden={{if

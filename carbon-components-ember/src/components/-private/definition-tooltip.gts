@@ -100,7 +100,6 @@ export default class DefinitionTooltip extends Component<DefinitionTooltipSignat
       {{on "mouseleave" this.close}}
       {{on "focusin" this.open}}
     >
-      {{! template-lint-disable no-pointer-down-event-binding }}
       <button
         type="button"
         class="cds--definition-term {{@triggerClassName}}"
@@ -108,6 +107,7 @@ export default class DefinitionTooltip extends Component<DefinitionTooltipSignat
         aria-describedby={{this.tooltipId}}
         aria-expanded={{if this.isOpen "true" "false"}}
         {{on "blur" this.close}}
+        {{! eslint-disable-next-line ember/template-no-pointer-down-event-binding }}
         {{on "mousedown" this.onMouseDown}}
         {{on "keydown" this.onKeyDown}}
       >

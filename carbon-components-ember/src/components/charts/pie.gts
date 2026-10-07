@@ -53,7 +53,7 @@ export default class CarbonPieChart extends Component<CarbonPieChartSignature> {
 
   <template>
     <Chart
-      {{! template-lint-disable  no-capital-arguments }}
+      {{! eslint-disable-next-line ember/template-no-capital-arguments }}
       @ChartClass={{this.ChartClass}}
       @title={{@title}}
       @resizable={{@resizable}}

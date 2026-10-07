@@ -144,7 +144,7 @@ export default class SearchComponent extends Component<SearchComponentSignature>
         disabled={{@disabled}}
         {{on "change" this.setValue}}
         {{on "input" this.setValue}}
-        {{! template-lint-disable }}
+        {{! eslint-disable-next-line ember/template-no-pointer-down-event-binding }}
         {{on "mousedown" this.activate}}
       />
       {{#if this.hasInput}}
