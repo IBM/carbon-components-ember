@@ -53,10 +53,19 @@ packageExtensions:
     dependencies:
       '@mdx-js/react': ^3.1.0
 patchedDependencies:
-  # Our three unreleased ember-storybook fixes: CSF `subcomponents` support
-  # (ember-integrations/ember-storybook#81); waiting for the story index in
-  # `storybook build`, so the docs data (args tables, "Show code") isn't
-  # empty; and sharing one @mdx-js/react with the MDX pages, so their code
-  # blocks, links and headings get Storybook's components.
-  # See AGENTS.md ("patches/ember-storybook"). Drop once all are released.
+  # Unreleased ember-storybook fixes: a build of upstream main with these
+  # merged, diffed against the published 0.4.2 (dist/*.mjs only):
+  # - CSF `subcomponents` in the docs Args table
+  #   (ember-integrations/ember-storybook#81)
+  # - `storybook build` waits for the story index, so the docs data (args
+  #   tables, "Show code") isn't empty (ember-integrations/ember-storybook#86)
+  # - one @mdx-js/react shared with the MDX pages, so their code blocks,
+  #   links and headings get Storybook's components
+  #   (ember-integrations/ember-storybook#87)
+  # - "Show code" for stories with a multi-word export name
+  #   (ember-integrations/ember-storybook#78)
+  # - "Show code" for stories that inherit their render from the meta or
+  #   from the story they extend(), or use a helper's
+  #   (ember-integrations/ember-storybook#85)
+  # Drop once all are released.
   ember-storybook@0.4.2: patches/ember-storybook@0.4.2.patch

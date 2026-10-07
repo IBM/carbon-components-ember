@@ -661,9 +661,17 @@ index 910683b..b9d4b92 100644
  import { t as OutletPlaceholder } from "./outlet-placeholder-CgO7fIDo.mjs";
  export { OutletPlaceholder, RenderStory, definePreview, renderToCanvas, setProjectAnnotations };
 diff --git a/dist/preset.mjs b/dist/preset.mjs
-index ee1116a..6640b92 100644
+index ee1116a..5eb5278 100644
 --- a/dist/preset.mjs
 +++ b/dist/preset.mjs
+@@ -1,6 +1,6 @@
+ import { t as unwrapBlockParams$1 } from "./block-params-wjiT2Ht6.mjs";
+ import { createRequire } from "node:module";
+-import { sanitize } from "storybook/internal/csf";
++import { sanitize, storyNameFromExport } from "storybook/internal/csf";
+ import { fileURLToPath } from "node:url";
+ import { withoutVitePlugins } from "@storybook/builder-vite";
+ import { readFile } from "node:fs/promises";
 @@ -793,6 +793,10 @@ function parseProcessedCode(processedCode, filePath) {
  	}).program;
  }
@@ -675,10 +683,15 @@ index ee1116a..6640b92 100644
  * Result of parsing a story file, covering all subsystem needs.
  */
  function firstVarExportName(declarations) {
-@@ -893,6 +897,39 @@ function resolveLocalComponentFile(storyPath, source) {
+@@ -892,6 +896,52 @@ function resolveLocalComponentFile(storyPath, source) {
+ 	const resolved = path.resolve(path.dirname(storyPath), source);
  	return existsSync(resolved) ? normalizeFilePath(resolved) : void 0;
  }
- /**
++/** Whether an object property is a `render` (`render: …` or `render() { … }`). */
++function isRenderKey(node) {
++	return !node.computed && node.key.type === "Identifier" && node.key.name === "render";
++}
++/**
 +* Resolve a component's local name in a story file (as used in the meta's
 +* `component` or `subcomponents`) to its file and signature.
 +*/
@@ -712,14 +725,25 @@ index ee1116a..6640b92 100644
 +	return names;
 +}
 +/**
++* The local function a `render` refers to: `render: renderX` → `renderX`,
++* `render: makeRender(…)` → `makeRender`.
++*/
++function referencedFunctionName(node) {
++	let current = node;
++	while (typeof current === "object" && current !== null && "type" in current && current.type === "CallExpression" && "callee" in current) current = current.callee;
++	if (typeof current === "object" && current !== null && "type" in current && current.type === "Identifier" && "name" in current && typeof current.name === "string") return current.name;
++}
+ /**
  * Parse a story file and return metadata about the component it references,
  * including template sources for each named story export.
- */
-@@ -900,13 +937,16 @@ function parseStoryFile(storyPath) {
+@@ -900,17 +950,46 @@ function parseStoryFile(storyPath) {
  	const { processedCode } = readAndPreprocess(storyPath);
  	let meta = {};
  	let stories = [];
 +	let subcomponentNames = {};
++	let metaVariableName;
++	let metaRender;
++	let storyAnnotations = {};
  	try {
 -		const parsed = loadCsf(processedCode, {
 +		const csf = loadCsf(processedCode, {
@@ -731,11 +755,91 @@ index ee1116a..6640b92 100644
  		meta = parsed.meta;
  		stories = parsed.stories;
 +		subcomponentNames = readSubcomponentNames(csf._metaAnnotations.subcomponents);
++		metaVariableName = csf._metaVariableName;
++		metaRender = csf._metaAnnotations.render;
++		storyAnnotations = csf._storyAnnotations;
  	} catch {}
  	const program = parseProcessedCode(processedCode, storyPath);
  	const importMap = /* @__PURE__ */ new Map();
-@@ -946,33 +986,11 @@ function parseStoryFile(storyPath) {
- 			if (raw) currentStory.inlineTemplate = raw;
+ 	const exportStack = [];
++	const storiesByExport = /* @__PURE__ */ new Map();
++	const extendedStories = /* @__PURE__ */ new Map();
++	let metaDepth = 0;
++	let metaRenderDepth = 0;
++	let metaTemplate;
++	const helpers = [];
++	const helperTemplates = /* @__PURE__ */ new Map();
++	for (const statement of program.body) if (statement.type === "FunctionDeclaration" && statement.id) helpers.push({
++		name: statement.id.name,
++		start: statement.start,
++		end: statement.end
++	});
++	else if (statement.type === "VariableDeclaration") {
++		for (const declarator of statement.declarations) if (declarator.id.type === "Identifier") helpers.push({
++			name: declarator.id.name,
++			start: declarator.start,
++			end: declarator.end
++		});
++	}
++	const isMetaDeclarator = (node) => metaVariableName !== void 0 && node.id.type === "Identifier" && node.id.name === metaVariableName;
+ 	new Visitor({
+ 		ImportDeclaration(node) {
+ 			for (const spec of node.specifiers) {
+@@ -927,52 +1006,78 @@ function parseStoryFile(storyPath) {
+ 			const first = node.declaration.declarations[0];
+ 			if (first.id.type !== "Identifier") return;
+ 			const name = first.id.name;
+-			const suffix = `--${sanitize(name)}`;
++			const suffix = `--${sanitize(storyNameFromExport(name))}`;
+ 			const story = stories.find((s) => (s.localName ?? s.name) === name || s.id.endsWith(suffix));
++			if (story) storiesByExport.set(name, story);
++			const init = first.init;
++			if (init?.type === "CallExpression" && init.callee.type === "MemberExpression" && !init.callee.computed && init.callee.object.type === "Identifier" && init.callee.property.type === "Identifier" && init.callee.property.name === "extend") extendedStories.set(name, init.callee.object.name);
+ 			exportStack.push(story);
+ 		},
+ 		"ExportNamedDeclaration:exit"() {
+ 			exportStack.pop();
+ 		},
++		ExportDefaultDeclaration() {
++			metaDepth++;
++		},
++		"ExportDefaultDeclaration:exit"() {
++			metaDepth--;
++		},
++		VariableDeclarator(node) {
++			if (isMetaDeclarator(node)) metaDepth++;
++		},
++		"VariableDeclarator:exit"(node) {
++			if (isMetaDeclarator(node)) metaDepth--;
++		},
++		Property(node) {
++			if (metaDepth > 0 && isRenderKey(node)) metaRenderDepth++;
++		},
++		"Property:exit"(node) {
++			if (metaDepth > 0 && isRenderKey(node)) metaRenderDepth--;
++		},
+ 		CallExpression(node) {
+-			const currentStory = exportStack.at(-1);
+-			if (!currentStory || currentStory.inlineTemplate) return;
+ 			if (node.callee.type !== "Identifier") return;
+ 			if (!node.callee.name.startsWith("template_")) return;
+ 			if (node.arguments.length === 0) return;
+ 			const firstArg = node.arguments[0];
+ 			if (firstArg.type !== "TemplateLiteral") return;
+ 			const raw = firstArg.quasis[0]?.value?.raw;
+-			if (raw) currentStory.inlineTemplate = raw;
++			if (!raw) return;
++			if (metaDepth > 0) {
++				if (metaRenderDepth > 0) metaTemplate ??= raw;
++				return;
++			}
++			const currentStory = exportStack.at(-1);
++			if (currentStory) {
++				currentStory.inlineTemplate ??= raw;
++				return;
++			}
++			const helper = helpers.find((h) => node.start >= h.start && node.end <= h.end);
++			if (helper && !helperTemplates.has(helper.name)) helperTemplates.set(helper.name, raw);
  		}
  	}).visit(program);
 -	const localComponentName = meta.component;
@@ -743,7 +847,10 @@ index ee1116a..6640b92 100644
 -		meta,
 -		component: {},
 -		stories
--	};
++	const helperTemplate = (render) => {
++		const name = referencedFunctionName(render);
++		return name === void 0 ? void 0 : helperTemplates.get(name);
+ 	};
 -	const importInfo = importMap.get(localComponentName);
 -	if (!importInfo) return {
 -		meta,
@@ -755,9 +862,22 @@ index ee1116a..6640b92 100644
 -		meta,
 -		component: { signatureName: localComponentName },
 -		stories
--	};
++	const inheritedTemplate = (name, seen) => {
++		const story = storiesByExport.get(name);
++		if (story?.inlineTemplate) return story.inlineTemplate;
++		if (!story && helperTemplates.has(name)) return helperTemplates.get(name);
++		const render = storyAnnotations[name]?.render;
++		if (render) return helperTemplate(render);
++		const base = extendedStories.get(name);
++		if (base && !seen.has(base)) {
++			seen.add(base);
++			return inheritedTemplate(base, seen);
++		}
++		return metaRender ? metaTemplate ?? helperTemplate(metaRender) : void 0;
+ 	};
 -	const compMeta = parseComponentFile(compPath);
 -	const signatureName = findSignatureName(compMeta, importInfo.importedName);
++	for (const [name, story] of storiesByExport) story.inlineTemplate ??= inheritedTemplate(name, /* @__PURE__ */ new Set([name]));
 +	const resolve = (localName) => resolveComponentReference(storyPath, importMap, localName);
  	return {
  		meta,
@@ -771,7 +891,7 @@ index ee1116a..6640b92 100644
  		stories
  	};
  }
-@@ -980,6 +998,19 @@ function parseStoryFile(storyPath) {
+@@ -980,6 +1085,19 @@ function parseStoryFile(storyPath) {
  //#region src/node/vite-plugin-orchestrator.ts
  const VIRTUAL = "virtual:ember-storybook";
  const RESOLVED = "\0virtual:ember-storybook";
@@ -791,7 +911,7 @@ index ee1116a..6640b92 100644
  function emberStorybookVitePlugin(api) {
  	let server;
  	function invalidate() {
-@@ -1000,18 +1031,7 @@ function emberStorybookVitePlugin(api) {
+@@ -1000,18 +1118,7 @@ function emberStorybookVitePlugin(api) {
  			if (id !== RESOLVED) return;
  			const contributions = api.getContributions();
  			const merged = {};
@@ -811,7 +931,7 @@ index ee1116a..6640b92 100644
  			return {
  				code: `export default ${JSON.stringify(merged)};`,
  				map: void 0
-@@ -1071,16 +1091,17 @@ async function runTypeDoc(entryPoints) {
+@@ -1071,16 +1178,17 @@ async function runTypeDoc(entryPoints) {
  //#region src/node/docgen/vite-plugin.ts
  function isReferenced(state, componentFile) {
  	const abs = path.resolve(componentFile);
@@ -832,7 +952,7 @@ index ee1116a..6640b92 100644
  	};
  }
  async function addSignatures(state, componentPaths) {
-@@ -1118,13 +1139,16 @@ function signaturesContributor(api) {
+@@ -1118,13 +1226,16 @@ function signaturesContributor(api) {
  		const ref = resolveComponentRef(storyFile);
  		if (!ref) return;
  		state.storyToRef.set(storyFile, ref);
@@ -852,7 +972,7 @@ index ee1116a..6640b92 100644
  		contributeState();
  	}
  	function processStoryUnlink(storyFile) {
-@@ -1149,8 +1173,9 @@ function signaturesContributor(api) {
+@@ -1149,8 +1260,9 @@ function signaturesContributor(api) {
  	return {
  		name: "ember-storybook:signatures",
  		async buildStart() {
@@ -863,7 +983,7 @@ index ee1116a..6640b92 100644
  			state = await addSignatures(state, allPaths);
  			contributeState();
  		},
-@@ -1177,10 +1202,15 @@ function computeDataForStory(file) {
+@@ -1177,10 +1289,15 @@ function computeDataForStory(file) {
  	if (!storyResult?.meta.component) return {
  		meta: {},
  		component: {},
@@ -881,7 +1001,7 @@ index ee1116a..6640b92 100644
  	return {
  		meta: { [file]: storyResult.meta },
  		component: { [file]: {
-@@ -1188,12 +1218,14 @@ function computeDataForStory(file) {
+@@ -1188,12 +1305,14 @@ function computeDataForStory(file) {
  			signatureName: storyResult.component.signatureName,
  			name: storyResult.component.name
  		} },
@@ -897,7 +1017,7 @@ index ee1116a..6640b92 100644
  	let fileComponentMaps = {};
  	function recontribute() {
  		api.contribute("meta", {
-@@ -1201,10 +1233,12 @@ function metaContributor(api) {
+@@ -1201,10 +1320,12 @@ function metaContributor(api) {
  			...fileComponentMaps
  		});
  		api.contribute("component", { ...fileComponent });
@@ -910,7 +1030,7 @@ index ee1116a..6640b92 100644
  		let componentMaps = {};
  		for (const file of getStoryFiles()) {
  			const data = computeDataForStory(file);
-@@ -1216,6 +1250,10 @@ function metaContributor(api) {
+@@ -1216,6 +1337,10 @@ function metaContributor(api) {
  				...component,
  				...data.component
  			};
@@ -921,7 +1041,7 @@ index ee1116a..6640b92 100644
  			componentMaps = {
  				...componentMaps,
  				...data.componentMap
-@@ -1223,11 +1261,13 @@ function metaContributor(api) {
+@@ -1223,11 +1348,13 @@ function metaContributor(api) {
  		}
  		fileMeta = meta;
  		fileComponent = component;
@@ -936,7 +1056,7 @@ index ee1116a..6640b92 100644
  	}
  	function syncStory(storyPath) {
  		const data = computeDataForStory(storyPath);
-@@ -1243,10 +1283,15 @@ function metaContributor(api) {
+@@ -1243,10 +1370,15 @@ function metaContributor(api) {
  			...fileComponentMaps,
  			...data.componentMap
  		};
@@ -953,7 +1073,7 @@ index ee1116a..6640b92 100644
  			syncAll();
  		},
  		configureServer(server) {
-@@ -1269,6 +1314,7 @@ function metaContributor(api) {
+@@ -1269,6 +1401,7 @@ function metaContributor(api) {
  				if (!(isStoryFile(changedPath) || isComponentFile(changedPath))) return;
  				delete fileMeta[changedPath];
  				delete fileComponent[changedPath];
@@ -961,7 +1081,7 @@ index ee1116a..6640b92 100644
  				recontribute();
  			});
  		}
-@@ -1299,7 +1345,8 @@ function sourceContributor(api) {
+@@ -1299,7 +1432,8 @@ function sourceContributor(api) {
  	}
  	return {
  		name: "ember-storybook:source",
@@ -971,7 +1091,7 @@ index ee1116a..6640b92 100644
  			const files = getStoryFiles().filter((f) => isStoryFile(f));
  			const data = {};
  			for (const file of files) data[file] = extractSource(file);
-@@ -1325,16 +1372,26 @@ function sourceContributor(api) {
+@@ -1325,16 +1459,26 @@ function sourceContributor(api) {
  }
  //#endregion
  //#region src/node/vite-plugin.ts
@@ -1000,7 +1120,7 @@ index ee1116a..6640b92 100644
  		emberStorybookVitePlugin(api),
  		metaContributor(api),
  		sourceContributor(api),
-@@ -1366,13 +1423,15 @@ const previewAnnotations = async (entries = [], options) => {
+@@ -1366,13 +1510,15 @@ const previewAnnotations = async (entries = [], options) => {
  	return annotations;
  };
  const managerEntries = (entries = []) => [...entries, fileURLToPath(import.meta.resolve("ember-storybook/manager"))];
