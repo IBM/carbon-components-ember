@@ -8,7 +8,6 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { modifier as eModifier } from 'ember-modifier';
-import { and } from 'ember-truth-helpers';
 import type Owner from '@ember/owner';
 import type { EditorView } from '@codemirror/view';
 import type { Compartment } from '@codemirror/state';

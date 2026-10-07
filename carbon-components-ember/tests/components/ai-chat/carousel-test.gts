@@ -3,7 +3,6 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click, waitUntil, find, findAll } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
-import { on } from '@ember/modifier';
 import Carousel from '#src/components/ai-chat/carousel.gts';
 import type { CarouselResponse } from '@carbon/utilities/carousel';
 

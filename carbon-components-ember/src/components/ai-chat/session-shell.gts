@@ -8,10 +8,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
-import { action } from '@ember/object';
-import { fn } from '@ember/helper';
 import { modifier } from 'ember-modifier';
-import { eq } from 'ember-truth-helpers';
 import Button from '../button.gts';
 import Tooltip from '../tooltip.gts';
 import Launcher from './launcher.gts';
@@ -191,21 +188,21 @@ export default class SessionShell extends Component<SessionShellSignature> {
     this.session.toggleHistory();
   };
 
-  @action
-  newChat(): void {
+  newChat = (): void => {
     this.session.restart();
     this.closeHistory();
-  }
+  };
 
-  @action
-  selectHistoryItem(detail: { itemId?: string }): void {
+  selectHistoryItem = (detail: { itemId?: string }): void => {
     if (detail.itemId) {
       this.args.onHistoryItemSelect?.(detail.itemId);
     }
-  }
+  };
 
-  @action
-  handleHistoryMenuAction(detail: { action?: string; itemId?: string }): void {
+  handleHistoryMenuAction = (detail: {
+    action?: string;
+    itemId?: string;
+  }): void => {
     if (!detail.itemId) {
       return;
     }
@@ -214,31 +211,27 @@ export default class SessionShell extends Component<SessionShellSignature> {
     } else if (detail.action === 'Delete') {
       this.deletingId = detail.itemId;
     }
-  }
+  };
 
-  @action
-  saveHistoryItemRename(itemId: string, newName: string): void {
+  saveHistoryItemRename = (itemId: string, newName: string): void => {
     this.renamingId = null;
     this.args.onHistoryItemRename?.(itemId, newName);
-  }
+  };
 
-  @action
-  cancelHistoryItemRename(): void {
+  cancelHistoryItemRename = (): void => {
     this.renamingId = null;
-  }
+  };
 
-  @action
-  confirmHistoryItemDelete(detail: { itemId?: string }): void {
+  confirmHistoryItemDelete = (detail: { itemId?: string }): void => {
     this.deletingId = null;
     if (detail.itemId) {
       this.args.onHistoryItemDelete?.(detail.itemId);
     }
-  }
+  };
 
-  @action
-  cancelHistoryItemDelete(): void {
+  cancelHistoryItemDelete = (): void => {
     this.deletingId = null;
-  }
+  };
 
   <template>
     <div ...attributes>

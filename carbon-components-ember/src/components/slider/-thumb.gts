@@ -6,11 +6,9 @@
  */
 
 import Component from '@glimmer/component';
-import { on } from '@ember/modifier';
 import { concat } from '@ember/helper';
 import type { SafeString } from '@ember/template';
 import { modifier } from 'ember-modifier';
-import { eq } from 'ember-truth-helpers';
 import type { HandlePosition } from '../slider.gts';
 
 const registerElement = modifier<{

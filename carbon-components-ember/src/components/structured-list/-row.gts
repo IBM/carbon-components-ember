@@ -7,9 +7,7 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { on } from '@ember/modifier';
 import type { WithBoundArgs } from '@glint/template';
 import Cell from './-cell.gts';
 import Input from './-input.gts';
@@ -54,8 +52,7 @@ export default class StructuredListRow extends Component<StructuredListRowSignat
     return this.args.wrapper.isRowSelected(this.rowId);
   }
 
-  @action
-  handleClick(event: MouseEvent) {
+  handleClick = (event: MouseEvent) => {
     // Clicking the row's own input fires both this click handler and the
     // input's change handler; skip here so the input's handler is the one
     // that applies the selection, avoiding a double toggle in multi-select.
@@ -66,22 +63,19 @@ export default class StructuredListRow extends Component<StructuredListRowSignat
     if (this.selection) {
       this.hasFocusWithin = true;
     }
-  }
+  };
 
-  @action
-  handleFocusIn() {
+  handleFocusIn = () => {
     this.hasFocusWithin = true;
-  }
+  };
 
-  @action
-  handleFocusOut() {
+  handleFocusOut = () => {
     this.hasFocusWithin = false;
-  }
+  };
 
-  @action
-  handleKeyDown(event: KeyboardEvent) {
+  handleKeyDown = (event: KeyboardEvent) => {
     this.args.onKeyDown?.(event);
-  }
+  };
 
   <template>
     {{#if @head}}

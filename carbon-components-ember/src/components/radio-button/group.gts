@@ -1,6 +1,5 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { defaultArgs } from '../../utils/decorators.ts';
 import type { WithBoundArgs } from '@glint/template';
@@ -57,11 +56,14 @@ export default class RadioButtonGroup extends Component<Signature> {
     );
   }
 
-  @action
-  setCurrent(value: Value | undefined, name: string | undefined, event: Event) {
+  setCurrent = (
+    value: Value | undefined,
+    name: string | undefined,
+    event: Event,
+  ) => {
     this._selectedValue = value;
     this.args.onChange?.(value, name, event);
-  }
+  };
 
   <template>
     <fieldset

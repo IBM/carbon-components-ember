@@ -2,13 +2,9 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { defaultArgs } from '../utils/decorators.ts';
 import CopyButton from '../components/copy-button.gts';
-import { concat, fn } from '@ember/helper';
+import { concat } from '@ember/helper';
 import { modifier as eModifier } from 'ember-modifier';
-import eq from 'ember-truth-helpers/helpers/eq';
-import { on } from '@ember/modifier';
-import set from '../helpers/set.ts';
-import not from 'ember-truth-helpers/helpers/not';
-import htmlSafe from '../helpers/html-safe.ts';
+import { htmlSafe } from '@ember/template';
 import type { TemplateOnlyComponent } from '@ember/component/template-only';
 
 export type Args = {
@@ -55,8 +51,20 @@ const PreCode: TemplateOnlyComponent<{
 
 export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignature> {
   @tracked expanded = false;
-  codeElement?: Element;
-  carbonElement?: Element;
+  @tracked codeElement?: Element;
+  @tracked carbonElement?: Element;
+
+  setCodeElement = (element: Element) => {
+    this.codeElement = element;
+  };
+
+  setCarbonElement = (element: Element) => {
+    this.carbonElement = element;
+  };
+
+  toggleExpanded = () => {
+    this.expanded = !this.expanded;
+  };
 
   @defaultArgs
   args: Args = {
@@ -76,7 +84,7 @@ export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignat
           aria-label="Code Snippet Text"
           aria-readonly="true"
         >
-          <PreCode {{captureElement onInsert=(set this "carbonElement")}}>
+          <PreCode {{captureElement onInsert=this.setCarbonElement}}>
             {{~yield~}}
           </PreCode>
         </div>
@@ -100,7 +108,7 @@ export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignat
         >
           <PreCode
             @multiline={{true}}
-            {{captureElement onInsert=(set this "codeElement")}}
+            {{captureElement onInsert=this.setCodeElement}}
           >
             {{~yield~}}
           </PreCode>
@@ -108,7 +116,7 @@ export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignat
         <div class="cds--snippet__overflow-indicator--right"></div>
         <CopyButton @targetElement={{this.codeElement}} />
         <button
-          {{on "click" (fn (set this "expanded") (not this.expanded))}}
+          {{on "click" this.toggleExpanded}}
           class="cds--btn cds--btn--ghost cds--btn--sm cds--snippet-btn--expand"
           type="button"
         >

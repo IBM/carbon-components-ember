@@ -1,6 +1,5 @@
 import Component from '@glimmer/component';
 import type Icon from '../../icon.gts';
-import { on } from '@ember/modifier';
 
 export interface Signature {
   Args: {

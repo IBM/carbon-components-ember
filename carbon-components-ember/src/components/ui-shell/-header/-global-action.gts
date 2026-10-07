@@ -1,5 +1,4 @@
 import Component from '@glimmer/component';
-import { on } from '@ember/modifier';
 import type Icon from '../../icon.gts';
 
 export interface UIShellHeaderGlobalActionSignature {

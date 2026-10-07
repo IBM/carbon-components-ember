@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, settled, triggerKeyEvent } from '@ember/test-helpers';
-import { array } from '@ember/helper';
 import { tracked } from '@glimmer/tracking';
 import Menu from '#src/components/menu.gts';
 import MenuItem from '#src/components/menu/menu-item.gts';

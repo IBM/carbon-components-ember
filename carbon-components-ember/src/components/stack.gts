@@ -6,7 +6,6 @@
  */
 
 import Component from '@glimmer/component';
-import { element } from 'ember-element-helper';
 import { htmlSafe } from '@ember/template';
 
 export type StackOrientation = 'horizontal' | 'vertical';

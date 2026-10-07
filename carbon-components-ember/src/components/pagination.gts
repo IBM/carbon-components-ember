@@ -1,15 +1,10 @@
-import { default as Select } from './select.gts';
-import { default as Tooltip } from './tooltip.gts';
-import { default as defaultTo } from '../helpers/default-to.ts';
-import { default as eq } from 'ember-truth-helpers/helpers/eq';
+import Select from './select.gts';
+import Tooltip from './tooltip.gts';
 import { modifier } from 'ember-modifier';
-import { array, concat } from '@ember/helper';
-import { on } from '@ember/modifier';
-import { default as or } from 'ember-truth-helpers/helpers/or';
+import { concat } from '@ember/helper';
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
-import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
+import { cached, tracked } from '@glimmer/tracking';
 import { defaultArgs } from '../utils/decorators.ts';
 import { stylesheet } from 'astroturf';
 import { runTask } from 'ember-lifeline';
@@ -102,6 +97,15 @@ export default class CarbonPagination extends Component<Args> {
     return this.args;
   }
 
+  // `@itemsPerPageOptions` accepts strings too, but the selected value is
+  // always the numeric `itemsPerPage`, so normalize the options to match.
+  @cached
+  get itemsPerPageOptions(): number[] {
+    return (
+      this.defaultArgs.itemsPerPageOptions ?? [10, 20, 30, 40, 50, 100]
+    ).map(Number);
+  }
+
   get pageSelectLabelText() {
     return `Page ${this.currentPage} of ${this.pages} ${
       this.pages === 1 ? 'page' : 'pages'
@@ -122,52 +126,45 @@ export default class CarbonPagination extends Component<Args> {
     };
   }
 
-  @action
-  setState(state?: State) {
+  setState = (state?: State) => {
     if (!state) return;
     this.currentPage = state.page;
     this.itemsPerPage = state.itemsPerPage;
     this.lengthChanged();
-  }
+  };
 
-  @action
-  setItemsPerPage(items: number) {
+  setItemsPerPage = (items: number) => {
     this.itemsPerPage = items;
     this.pageChanged();
-  }
+  };
 
-  @action
-  setCurrentPage(p: number) {
+  setCurrentPage = (p: number) => {
     this.currentPage = p;
     this.pageChanged();
-  }
+  };
 
-  @action
-  pageBack() {
+  pageBack = () => {
     this.currentPage -= 1;
     this.pageChanged();
-  }
+  };
 
-  @action
-  pageForward() {
+  pageForward = () => {
     this.currentPage += 1;
     this.pageChanged();
-  }
+  };
 
-  @action
-  pageChanged() {
+  pageChanged = () => {
     runTask(this, () => {
       this.args.onPageChanged(this.currentSlice);
     });
-  }
+  };
 
-  @action
-  lengthChanged() {
+  lengthChanged = () => {
     if (this.currentPage > this.pages) {
       this.currentPage = this.pages;
       this.pageChanged();
     }
-  }
+  };
 
   notifyInitialPage = modifier(() => {
     this.pageChanged();
@@ -233,10 +230,7 @@ export default class CarbonPagination extends Component<Args> {
               @inline={{true}}
               @disabled={{@disabled}}
               @searchEnabled={{false}}
-              @options={{defaultTo
-                this.defaultArgs.itemsPerPageOptions
-                (array 10 20 30 40 50 100)
-              }}
+              @options={{this.itemsPerPageOptions}}
               @onSelect={{this.setItemsPerPage}}
               @selected={{this.itemsPerPage}}
             />

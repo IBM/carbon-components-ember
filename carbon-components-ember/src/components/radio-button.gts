@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
 import type RadioButtonGroup from './radio-button/group.gts';
-import { on } from '@ember/modifier';
 import { defaultArgs } from '../utils/decorators.ts';
 
 export type Value = string | number;

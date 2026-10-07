@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, find, waitUntil } from '@ember/test-helpers';
-import { on } from '@ember/modifier';
 import UIShell from '#src/components/ui-shell.gts';
 import { Notification } from '#src/icons.ts';
 import { cell } from 'ember-resources';

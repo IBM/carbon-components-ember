@@ -1,9 +1,8 @@
-import { default as ListRow } from './-row.gts';
+import ListRow from './-row.gts';
 import Component from '@glimmer/component';
 import type DataTableComponent from '../../components/data-table.gts';
 import type { WithBoundArgs } from '@glint/template';
 import type DataTableRow from '../../components/data-table/-row.gts';
-import { hash } from '@ember/helper';
 
 export type Args<T> = {
   isExpandable: boolean;

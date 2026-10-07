@@ -6,7 +6,6 @@
  */
 
 import Component from '@glimmer/component';
-import { default as or } from 'ember-truth-helpers/helpers/or';
 import Button from '../button.gts';
 import Tooltip from '../tooltip.gts';
 import { ChevronLeft } from '../../icons.ts';

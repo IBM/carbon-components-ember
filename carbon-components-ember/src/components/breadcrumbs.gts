@@ -1,8 +1,5 @@
 import Component from '@glimmer/component';
 import { defaultArgs } from '../utils/decorators.ts';
-import { action } from '@ember/object';
-import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
 /** @documenter yuidoc */
 
 export type Args = {
@@ -40,13 +37,12 @@ export default class CarbonBreadcrumb extends Component<BreadcrumbSignature> {
     crumbs: [],
   });
 
-  @action
-  onSelect(crumb: string, event: MouseEvent) {
+  onSelect = (crumb: string, event: MouseEvent) => {
     // The crumbs are `href="#"` links driven by `@onSelect`; don't follow
     // them (it would jump the page and add a history entry).
     event.preventDefault();
     this.args.onSelect?.(crumb);
-  }
+  };
 
   isCurrent = (item: any) => item === this.args.current;
 

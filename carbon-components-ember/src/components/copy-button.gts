@@ -1,8 +1,6 @@
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import { on } from '@ember/modifier';
 import { modifier as eModifier } from 'ember-modifier';
 import { task, timeout } from 'ember-concurrency';
 import Popover, { PopoverContent } from './popover.gts';
@@ -79,18 +77,16 @@ export default class CarbonCopyButton extends Component<CarbonCopyButtonSignatur
     this.isHovered = false;
   };
 
-  @action
-  captureCarbonElement(element: HTMLElement) {
+  captureCarbonElement = (element: HTMLElement) => {
     this.carbonElement = element;
-  }
+  };
 
   hideFeedback = task({ restartable: true }, async () => {
     await timeout(this.args.feedbackTimeout ?? 2000);
     this.didCopy = false;
   });
 
-  @action
-  copyToClipboard() {
+  copyToClipboard = () => {
     let targetElement: any = this.options.targetElement;
     if (!targetElement && this.options.targetElementId) {
       targetElement = document.getElementById(this.options.targetElementId);
@@ -122,7 +118,7 @@ export default class CarbonCopyButton extends Component<CarbonCopyButtonSignatur
     this.didCopy = true;
     void this.hideFeedback.perform();
     this.args.onClick?.();
-  }
+  };
 
   <template>
     <Popover

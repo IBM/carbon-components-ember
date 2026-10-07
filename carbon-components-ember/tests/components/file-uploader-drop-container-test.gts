@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, find, triggerEvent } from '@ember/test-helpers';
-import { array } from '@ember/helper';
 import FileUploaderDropContainer from '#src/components/file-uploader/file-uploader-drop-container.gts';
 
 function setInputFiles(input: HTMLInputElement, files: File[]) {

@@ -1,9 +1,5 @@
-import { default as Button } from '../button.gts';
-import { default as Checkbox } from '../checkbox.gts';
-import { default as set } from '../../helpers/set.ts';
-import { default as has } from '../../helpers/has.ts';
-import { fn } from '@ember/helper';
-import { default as not } from 'ember-truth-helpers/helpers/not';
+import Button from '../button.gts';
+import Checkbox from '../checkbox.gts';
 import Component from '@glimmer/component';
 import type DataTableComponent from '../data-table.gts';
 import { tracked } from '@glimmer/tracking';
@@ -29,6 +25,14 @@ export default class DataTableRow<T> extends Component<
 > {
   @tracked isExpanded: boolean = false;
 
+  get isSelected() {
+    return this.args.table?.state.selectedItems.has(this.args.item) ?? false;
+  }
+
+  toggleExpanded = () => {
+    this.isExpanded = !this.isExpanded;
+  };
+
   constructor(
     ...args: ConstructorParameters<typeof Component<DataTableRowSignature<T>>>
   ) {
@@ -39,17 +43,12 @@ export default class DataTableRow<T> extends Component<
   }
 
   <template>
-    <tr
-      class="{{if
-          (has @table.state.selectedItems @item)
-          'cds--data-table--selected'
-        }}"
-    >
+    <tr class="{{if this.isSelected 'cds--data-table--selected'}}">
       {{#if @isExpandable}}
         <td class="cds--table-expand" data-event="expand">
           <Button
             class="cds--table-expand__button"
-            @onClick={{fn (set this "isExpanded") (not this.isExpanded)}}
+            @onClick={{this.toggleExpanded}}
           >
             <svg
               focusable="false"
@@ -70,7 +69,7 @@ export default class DataTableRow<T> extends Component<
       {{#if @isCheckable}}
         <td class="cds--table-column-checkbox">
           <Checkbox
-            @checked={{has @table.state.selectedItems @item}}
+            @checked={{this.isSelected}}
             @onChange={{fn @table.toggleItemSelection @item}}
             @label="Select row"
             @hideLabel={{true}}

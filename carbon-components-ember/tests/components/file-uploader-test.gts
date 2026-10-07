@@ -7,7 +7,6 @@ import {
   triggerEvent,
   waitUntil,
 } from '@ember/test-helpers';
-import { on } from '@ember/modifier';
 import FileUploader from '#src/components/file-uploader.gts';
 
 function setInputFiles(input: HTMLInputElement, files: File[]) {

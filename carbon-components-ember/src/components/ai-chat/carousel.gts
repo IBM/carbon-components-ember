@@ -7,17 +7,16 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { modifier as eModifier } from 'ember-modifier';
 import { initCarousel } from '@carbon/utilities/carousel';
 import type {
   CarouselResponse,
   InitCarousel,
 } from '@carbon/utilities/carousel';
-import { default as Button } from '../button.gts';
-import { default as Tooltip } from '../tooltip.gts';
-import { default as ChevronLeft } from '../icons/chevron-left.ts';
-import { default as ChevronRight } from '../icons/chevron-right.ts';
+import Button from '../button.gts';
+import Tooltip from '../tooltip.gts';
+import ChevronLeft from '../icons/chevron-left.ts';
+import ChevronRight from '../icons/chevron-right.ts';
 
 export type Args = {
   /** Tooltip/assistive text for the "next" button. */
@@ -100,22 +99,19 @@ export default class Carousel extends Component<CarouselSignature> {
     return this.lastIndex + 1;
   }
 
-  @action
-  handleViewChangeEnd(data: CarouselResponse) {
+  handleViewChangeEnd = (data: CarouselResponse) => {
     this.currentIndex = data.currentIndex;
     this.lastIndex = data.lastIndex;
     this.args.onChange?.(data);
-  }
+  };
 
-  @action
-  prev() {
+  prev = () => {
     this.carousel?.prev();
-  }
+  };
 
-  @action
-  next() {
+  next = () => {
     this.carousel?.next();
-  }
+  };
 
   // Deliberately takes no named args: `initCarousel` fully owns the DOM it's
   // given once constructed, so re-running this on every arg-identity change

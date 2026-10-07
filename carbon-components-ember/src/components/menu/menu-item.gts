@@ -7,10 +7,7 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
 import { modifier } from 'ember-modifier';
 import { runTask, cancelTask } from 'ember-lifeline';
 import Menu, { findParentMenu } from '../menu.gts';
@@ -97,23 +94,20 @@ export default class MenuItem
   // A submenu-parent item can't be individually disabled or marked danger,
   // matching React's `isDisabled = disabled && !hasChildren` /
   // `isDanger = kind === 'danger' && !hasChildren`.
-  @action
-  isDisabled(hasChildren: boolean) {
+  isDisabled = (hasChildren: boolean) => {
     return !!this.args.disabled && !hasChildren;
-  }
+  };
 
-  @action
-  isDanger(hasChildren: boolean) {
+  isDanger = (hasChildren: boolean) => {
     return this.args.kind === 'danger' && !hasChildren;
-  }
+  };
 
-  @action
-  classesFor(hasChildren: boolean) {
+  classesFor = (hasChildren: boolean) => {
     const classes = ['cds--menu-item'];
     if (this.isDisabled(hasChildren)) classes.push('cds--menu-item--disabled');
     if (this.isDanger(hasChildren)) classes.push('cds--menu-item--danger');
     return classes.join(' ');
-  }
+  };
 
   registerWithMenu = modifier((element: HTMLLIElement) => {
     this.liElement = element;
@@ -135,18 +129,16 @@ export default class MenuItem
     };
   });
 
-  @action
-  handleClick(hasChildren: boolean, event: MouseEvent | KeyboardEvent) {
+  handleClick = (hasChildren: boolean, event: MouseEvent | KeyboardEvent) => {
     if (this.isDisabled(hasChildren)) return;
     if (hasChildren) {
       this.submenuOpen = true;
     } else {
       this.args.onClick?.(event);
     }
-  }
+  };
 
-  @action
-  handleKeyDown(hasChildren: boolean, event: KeyboardEvent) {
+  handleKeyDown = (hasChildren: boolean, event: KeyboardEvent) => {
     if (hasChildren && event.key === 'ArrowRight') {
       event.stopPropagation();
       event.preventDefault();
@@ -157,13 +149,12 @@ export default class MenuItem
       event.preventDefault();
       this.handleClick(hasChildren, event);
     }
-  }
+  };
 
-  @action
-  closeSubmenu() {
+  closeSubmenu = () => {
     this.submenuOpen = false;
     this.liElement?.focus();
-  }
+  };
 
   <template>
     {{#let (has-block) as |hasChildren|}}

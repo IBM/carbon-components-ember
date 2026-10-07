@@ -1,10 +1,8 @@
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { registerDestructor } from '@ember/destroyable';
-import { on } from '@ember/modifier';
 import { concat } from '@ember/helper';
 import { htmlSafe } from '@ember/template';
 import { modifier } from 'ember-modifier';
@@ -93,12 +91,11 @@ export default class Slider extends Component<SliderSignature> {
     return (this.step.toString().split('.')[1] ?? '').length;
   }
 
-  @action
-  formatLabel(value?: number, label?: string) {
+  formatLabel = (value?: number, label?: string) => {
     if (typeof value === 'undefined') return '';
     if (this.args.formatLabel) return this.args.formatLabel(value, label);
     return `${value}${label ?? ''}`;
-  }
+  };
 
   roundToStep(value: number) {
     return Number(value.toFixed(this.decimals));
@@ -235,20 +232,17 @@ export default class Slider extends Component<SliderSignature> {
     return true;
   }
 
-  @action
-  registerTrack(element: HTMLDivElement) {
+  registerTrack = (element: HTMLDivElement) => {
     this.trackElement = element;
-  }
+  };
 
-  @action
-  registerLowerThumb(element: HTMLDivElement) {
+  registerLowerThumb = (element: HTMLDivElement) => {
     this.lowerThumbElement = element;
-  }
+  };
 
-  @action
-  registerUpperThumb(element: HTMLDivElement) {
+  registerUpperThumb = (element: HTMLDivElement) => {
     this.upperThumbElement = element;
-  }
+  };
 
   removeDragListeners() {
     document.removeEventListener('mousemove', this.onDrag);
@@ -258,8 +252,7 @@ export default class Slider extends Component<SliderSignature> {
     document.removeEventListener('touchcancel', this.onDragStop);
   }
 
-  @action
-  onDragStart(event: MouseEvent | TouchEvent) {
+  onDragStart = (event: MouseEvent | TouchEvent) => {
     if (this.args.disabled || this.args.readOnly) return;
     event.preventDefault();
 
@@ -295,7 +288,7 @@ export default class Slider extends Component<SliderSignature> {
     document.addEventListener('touchcancel', this.onDragStop);
 
     this.onDrag(event);
-  }
+  };
 
   onDrag = (event: MouseEvent | TouchEvent) => {
     if (this.args.disabled || this.args.readOnly) return;
@@ -314,8 +307,7 @@ export default class Slider extends Component<SliderSignature> {
     });
   };
 
-  @action
-  onKeyDown(event: KeyboardEvent) {
+  onKeyDown = (event: KeyboardEvent) => {
     if (this.args.disabled || this.args.readOnly) return;
 
     let delta = 0;
@@ -341,20 +333,17 @@ export default class Slider extends Component<SliderSignature> {
         : this.args.value;
     const newValue = this.clampValue(this.roundToStep(current + delta));
     this.updateValueForHandle(handle, newValue);
-  }
+  };
 
-  @action
-  onLowerFocus() {
+  onLowerFocus = () => {
     this.activeHandle = 'lower';
-  }
+  };
 
-  @action
-  onUpperFocus() {
+  onUpperFocus = () => {
     this.activeHandle = 'upper';
-  }
+  };
 
-  @action
-  onInputChange(handle: HandlePosition, event: Event) {
+  onInputChange = (handle: HandlePosition, event: Event) => {
     if (this.args.disabled || this.args.readOnly) return;
     const raw = (event.target as HTMLInputElement).value;
     const num = Number.parseFloat(raw);
@@ -373,7 +362,7 @@ export default class Slider extends Component<SliderSignature> {
       if (handle === 'lower') this.editingLower = raw;
       else this.editingUpper = raw;
     }
-  }
+  };
 
   commitInputValue(handle: HandlePosition, raw: string) {
     const num = Number.parseFloat(raw);
@@ -394,22 +383,20 @@ export default class Slider extends Component<SliderSignature> {
     this.updateValueForHandle(handle, this.roundToStep(adjusted));
   }
 
-  @action
-  onInputBlur(handle: HandlePosition, event: FocusEvent) {
+  onInputBlur = (handle: HandlePosition, event: FocusEvent) => {
     const raw = (event.target as HTMLInputElement).value;
     this.commitInputValue(handle, raw);
     this.args.onBlur?.({
       value: raw,
       handlePosition: this.twoHandles ? handle : undefined,
     });
-  }
+  };
 
-  @action
-  onInputKeyDown(handle: HandlePosition, event: KeyboardEvent) {
+  onInputKeyDown = (handle: HandlePosition, event: KeyboardEvent) => {
     if (event.key === 'Enter') {
       this.commitInputValue(handle, (event.target as HTMLInputElement).value);
     }
-  }
+  };
 
   <template>
     <div class="cds--form-item" ...attributes>

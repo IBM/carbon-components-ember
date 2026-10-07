@@ -1,14 +1,9 @@
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
-import type { htmlSafe as htmlSafeString } from '@ember/template';
-import { on } from '@ember/modifier';
+import { htmlSafe } from '@ember/template';
 import Loading from '../components/loading.gts';
-import or from '../helpers/or.ts';
 import renderSvgPart from '../components/icon/render-svg-part.ts';
-import { array } from '@ember/helper';
-import htmlSafe from '../helpers/html-safe.ts';
 import { stylesheet } from 'astroturf';
 import type DialogManagerService from '../services/dialog-manager';
 
@@ -72,7 +67,7 @@ export type Args = {
    * must be a htmlSafe string
    @argument icon
    */
-  iconSvg?: ReturnType<typeof htmlSafeString>;
+  iconSvg?: ReturnType<typeof htmlSafe>;
   /**
    * Size of icon
    @argument size
@@ -140,8 +135,7 @@ export default class CarbonIcon extends Component<Args> {
     return this.args.icon;
   }
 
-  @action
-  onIconClick() {
+  onIconClick = () => {
     const run = () => {
       const promise = this.args.onClick && this.args.onClick();
       this.loading = true;
@@ -174,7 +168,7 @@ export default class CarbonIcon extends Component<Args> {
     } else {
       run();
     }
-  }
+  };
 
   styles = stylesheet`
     @use "@carbon/styles/scss/theme" as *;

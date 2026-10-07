@@ -7,7 +7,6 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { element } from 'ember-element-helper';
 import { modifier } from 'ember-modifier';
 import closeOnOutsideClick from '../modifiers/close-on-outside-click.ts';
 

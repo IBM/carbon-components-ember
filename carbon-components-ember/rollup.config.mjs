@@ -123,12 +123,7 @@ export default {
     // Everything is namespaced under `carbon/` in the app tree, so e.g.
     // `services/dialog-manager` is looked up as `service:carbon.dialog-manager`.
     addon.appReexports(
-      [
-        'components/**/*.js',
-        'helpers/**/*.js',
-        'modifiers/**/*.js',
-        'services/**/*.js',
-      ],
+      ['components/**/*.js', 'modifiers/**/*.js', 'services/**/*.js'],
       {
         exclude: ['**/*.stories.*'],
         mapFilename: (filename) => {

@@ -6,9 +6,6 @@
  */
 
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
-import { on } from '@ember/modifier';
-import { eq } from 'ember-truth-helpers';
 import Loading from '../loading.gts';
 import { Close, CheckmarkFilled } from '../../icons.ts';
 
@@ -38,10 +35,9 @@ export default class FileUploaderStatusIcon extends Component<FileUploaderStatus
     return this.args.iconDescription ?? 'Uploading file';
   }
 
-  @action
-  handleClick(event: Event) {
+  handleClick = (event: Event) => {
     this.args.onActivate?.(event);
-  }
+  };
 
   <template>
     {{#if (eq this.status "uploading")}}

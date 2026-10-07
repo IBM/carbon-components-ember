@@ -1,7 +1,6 @@
-import { default as onUpdate } from '../../charts/-helpers/on-update.ts';
+import onUpdate from '../../charts/-helpers/on-update.ts';
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
-import { action } from '@ember/object';
 import { registerDestructor } from '@ember/destroyable';
 import { defaultArgs } from '../../../utils/decorators.ts';
 import type CarbonChart from '../../charts/-components/chart.gts';
@@ -56,8 +55,7 @@ export default class CarbonChartTabularData extends Component<Args> {
     });
   }
 
-  @action
-  didUpdateArgs() {
+  didUpdateArgs = () => {
     if (this.oldGroup && this.oldGroup !== this.args.group) {
       this.args.chart?.removeDataset(this.oldGroup);
       this.oldGroup = this.args.group;
@@ -82,7 +80,7 @@ export default class CarbonChartTabularData extends Component<Args> {
       this.args.backgroundColors || this.defaultColor || [],
       data,
     );
-  }
+  };
 
   <template>
     {{#if @chart.updateDataset}}

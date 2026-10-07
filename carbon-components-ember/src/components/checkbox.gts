@@ -1,11 +1,7 @@
 import Component from '@glimmer/component';
 import { cached, tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { defaultArgs } from '../utils/decorators.ts';
-import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
-import set from '../helpers/set.ts';
 
 export type Args = {
   name?: string;
@@ -42,23 +38,21 @@ export default class CarbonCheckbox extends Component<CarbonCheckboxSignature> {
     return guidFor(this);
   }
 
-  @action
-  onCheckChange(element: any) {
+  onCheckChange = (element: any) => {
     const value = element.target.checked;
     if (this.args.onChange) this.args.onChange(value);
-  }
+  };
 
-  @action
-  setFocus(val: boolean) {
+  setFocus = (val: boolean) => {
     this.isFocus = val;
-  }
+  };
 
   <template>
     <div class="cds--checkbox-wrapper" ...attributes>
       <label
         tabindex="0"
-        {{on "focus" (fn (set this "isFocus") true)}}
-        {{on "blur" (fn (set this "isFocus") false)}}
+        {{on "focus" (fn this.setFocus true)}}
+        {{on "blur" (fn this.setFocus false)}}
         for="checkbox-{{this.guid}}"
         class="cds--checkbox-label
           {{if this.isFocus 'cds--checkbox-label__focus'}}"

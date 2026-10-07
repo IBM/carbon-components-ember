@@ -6,7 +6,6 @@
  */
 
 import Component from '@glimmer/component';
-import { on } from '@ember/modifier';
 import Tooltip from '../tooltip.gts';
 import AiLaunch from '../icons/ai-launch.ts';
 import ChatLaunch from '../icons/chat-launch.ts';

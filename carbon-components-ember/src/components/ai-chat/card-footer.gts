@@ -6,10 +6,8 @@
  */
 
 import Component from '@glimmer/component';
-import { fn } from '@ember/helper';
-import { default as Button } from '../button.gts';
-import { default as Tooltip } from '../tooltip.gts';
-import { default as or } from 'ember-truth-helpers/helpers/or';
+import Button from '../button.gts';
+import Tooltip from '../tooltip.gts';
 import type { ComponentLike } from '@glint/template';
 
 /**

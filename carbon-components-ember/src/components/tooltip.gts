@@ -8,10 +8,8 @@
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { registerDestructor } from '@ember/destroyable';
-import { on } from '@ember/modifier';
 import { modifier } from 'ember-modifier';
 import { defaultArgs } from '../utils/decorators.ts';
 import { scheduleTask } from 'ember-lifeline';
@@ -241,18 +239,15 @@ export default class CarbonTooltip extends Component<CarbonTooltipSignature> {
     }, delayMs ?? 0);
   }
 
-  @action
-  onMouseEnter() {
+  onMouseEnter = () => {
     this.setOpen(true, this.args.enterDelayMs);
-  }
+  };
 
-  @action
-  onMouseLeave() {
+  onMouseLeave = () => {
     this.setOpen(false, this.args.leaveDelayMs);
-  }
+  };
 
-  @action
-  onFocusIn() {
+  onFocusIn = () => {
     clearTimeout(this.timer);
     // Deferred via the runloop: a focusin/focusout can fire synchronously as
     // a side effect of a DOM mutation (e.g. a focused trigger becoming
@@ -262,18 +257,16 @@ export default class CarbonTooltip extends Component<CarbonTooltipSignature> {
     scheduleTask(this, 'actions', () => {
       this.open = true;
     });
-  }
+  };
 
-  @action
-  onFocusOut() {
+  onFocusOut = () => {
     clearTimeout(this.timer);
     scheduleTask(this, 'actions', () => {
       this.open = false;
     });
-  }
+  };
 
-  @action
-  onKeyDown(event: KeyboardEvent) {
+  onKeyDown = (event: KeyboardEvent) => {
     if (this.open && event.key === 'Escape') {
       event.stopPropagation();
       this.open = false;
@@ -282,15 +275,14 @@ export default class CarbonTooltip extends Component<CarbonTooltipSignature> {
       clearTimeout(this.timer);
       this.open = false;
     }
-  }
+  };
 
-  @action
-  onClick() {
+  onClick = () => {
     if (this.args.closeOnActivation) {
       clearTimeout(this.timer);
       this.open = false;
     }
-  }
+  };
 
   <template>
     {{! template-lint-disable no-invalid-interactive }}

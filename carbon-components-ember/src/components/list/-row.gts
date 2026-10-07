@@ -1,9 +1,5 @@
-import { default as Icon } from '../../components/icon.gts';
-import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
-import { default as eq } from 'ember-truth-helpers/helpers/eq';
+import Icon from '../../components/icon.gts';
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import type ListComponent from '../../components/list.gts';
 
 export type Args<T> = {
@@ -24,10 +20,9 @@ export interface ListRowComponentSignature<T> {
 export default class ListRowComponent<T> extends Component<
   ListRowComponentSignature<T>
 > {
-  @action
-  onSelect(item: T) {
+  onSelect = (item: T) => {
     this.args.onSelect?.(item);
-  }
+  };
 
   <template>
     <div

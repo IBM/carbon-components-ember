@@ -7,9 +7,7 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { on } from '@ember/modifier';
 import type Owner from '@ember/owner';
 import captureElement from './-capture-element.ts';
 
@@ -93,26 +91,22 @@ export default class FileUploaderButton extends Component<FileUploaderButtonSign
     return classes.join(' ');
   }
 
-  @action
-  setInputElement(element: HTMLElement) {
+  setInputElement = (element: HTMLElement) => {
     this.inputElement = element as HTMLInputElement;
-  }
+  };
 
-  @action
-  setButtonElement(element: HTMLElement) {
+  setButtonElement = (element: HTMLElement) => {
     this.args.onButtonInsert?.(element as HTMLButtonElement);
-  }
+  };
 
-  @action
-  handleButtonClick() {
+  handleButtonClick = () => {
     if (this.inputElement) {
       this.inputElement.value = '';
       this.inputElement.click();
     }
-  }
+  };
 
-  @action
-  handleFileChange(event: Event) {
+  handleFileChange = (event: Event) => {
     const files = (event.target as HTMLInputElement).files;
     if (files && !this.args.disableLabelChanges) {
       if (files.length > 1) {
@@ -122,7 +116,7 @@ export default class FileUploaderButton extends Component<FileUploaderButtonSign
       }
     }
     this.args.onChange?.(event);
-  }
+  };
 
   <template>
     <button

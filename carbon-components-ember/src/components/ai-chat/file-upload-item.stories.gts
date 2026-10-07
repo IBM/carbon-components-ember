@@ -1,4 +1,3 @@
-import { hash } from '@ember/helper';
 import { expect, fn } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';

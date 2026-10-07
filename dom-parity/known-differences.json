@@ -1,62 +1,9 @@
 {
   "Link": [
     {
-      "path": "a.classes[ember-view]",
-      "reason": "Verified against ember-element-helper@0.8.8's actual source (dist/helpers/element.js): `element` (used here for @as) resolves to a dynamically-generated class that extends classic `@ember/component`, and classic tag-having components always add the framework's own `ember-view` class to their root element. @carbon/react's Link has no equivalent. This is unavoidable *while the root tag is rendered through `element`* - not an inherent Link limitation: `element` is only needed to support @as, so a `{{#if @as}}` branch rendering a literal `<a>` for the common no-@as case would avoid this (and the sibling id entry below) for every variant except as-button. Left as-is here since restructuring Link is out of scope for adding this parity test; worth doing as its own follow-up. The same artifact will hit Grid/GridColumn/GridRow when that family is added to this harness, since they also render their root tag via `element`. Applies to every variant, including as-button (button.classes[ember-view])."
-    },
-    {
-      "path": "a.attributes.id",
-      "reason": "Same ember-element-helper artifact as the ember-view class above - a classic tag-having component also gets an auto-generated `elementId` (rendered as the `id` attribute) by default, canonicalized here to `#1` since it's not referenced by anything else in the tree. Applies to every variant, including as-button (button.attributes.id)."
-    },
-    {
-      "path": "button.classes[ember-view]",
-      "variant": "as-button",
-      "reason": "Same ember-view artifact as the `a.classes[ember-view]` entry above, for the as-button variant's <button> root."
-    },
-    {
       "path": "button.attributes.id",
       "variant": "as-button",
       "reason": "Same auto-generated-id artifact as the `a.attributes.id` entry above, for the as-button variant's <button> root."
-    }
-  ],
-  "Grid": [
-    {
-      "path": "div.classes[ember-view]",
-      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above (see that entry for the full explanation) - Grid renders its root tag through `element` too, to support `@as`. Applies to every variant."
-    },
-    {
-      "path": "div.attributes.id",
-      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
-    }
-  ],
-  "GridRow": [
-    {
-      "path": "div.classes[ember-view]",
-      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above - GridRow renders its root tag through `element` too, to support `@as`. Applies to every variant."
-    },
-    {
-      "path": "div.attributes.id",
-      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
-    }
-  ],
-  "GridColumn": [
-    {
-      "path": "div.classes[ember-view]",
-      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above - GridColumn renders its root tag through `element` too, to support `@as`. Applies to every variant."
-    },
-    {
-      "path": "div.attributes.id",
-      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
-    }
-  ],
-  "GridColumnHang": [
-    {
-      "path": "div.classes[ember-view]",
-      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above - GridColumnHang renders its root tag through `element` too, to support `@as`. Applies to every variant."
-    },
-    {
-      "path": "div.attributes.id",
-      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
     }
   ],
   "Notification": [
@@ -598,76 +545,6 @@
       "reason": "Same `Text`-wrapper `dir='auto'` gap as the `p[0]` entry above, at the index `labelDescription`'s `<p>` occupies once the `labelTitle` heading precedes it."
     }
   ],
-  "Stack": [
-    {
-      "path": "div.classes[ember-view]",
-      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above - Stack renders its root tag through `element` too, to support `@as`. Applies to every variant."
-    },
-    {
-      "path": "div.attributes.id",
-      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
-    }
-  ],
-  "Layer": [
-    {
-      "path": "div.classes[ember-view]",
-      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above - Layer renders its root tag through `element` too, to support `@as`. Applies to every variant."
-    },
-    {
-      "path": "div.attributes.id",
-      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
-    }
-  ],
-  "Theme": [
-    {
-      "path": "div.classes[ember-view]",
-      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above - Theme renders its root tag through `element` too, to support `@as`. Applies to every variant."
-    },
-    {
-      "path": "div.attributes.id",
-      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
-    }
-  ],
-  "Text": [
-    {
-      "path": "span.classes[ember-view]",
-      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above - Text renders its root tag through `element` too, to support `@as`. Applies to every variant."
-    },
-    {
-      "path": "span.attributes.id",
-      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
-    }
-  ],
-  "Layout": [
-    {
-      "path": "div.classes[ember-view]",
-      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above - Layout renders its root tag through `element` too, to support `@as`. Applies to every variant."
-    },
-    {
-      "path": "div.attributes.id",
-      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
-    }
-  ],
-  "LayoutConstraint": [
-    {
-      "path": "div.classes[ember-view]",
-      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above - LayoutConstraint renders its root tag through `element` too, to support `@as`. Applies to every variant."
-    },
-    {
-      "path": "div.attributes.id",
-      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
-    }
-  ],
-  "LayoutDirection": [
-    {
-      "path": "div.classes[ember-view]",
-      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry above - LayoutDirection renders its root tag through `element` too, to support `@as`. Applies to every variant."
-    },
-    {
-      "path": "div.attributes.id",
-      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry above. Applies to every variant."
-    }
-  ],
   "ProgressBar": [
     {
       "path": "div > div[1] > div[0].style.transform",
@@ -718,26 +595,6 @@
       "reason": "Harness limitation, not a real bug - same whitespace-only (tab vs. space between two path commands) diff already documented for Notification's/Slider's warning-icon entries of the same name; the SVG path grammar treats the two as equivalent."
     },
     {
-      "path": "div > span[0].classes[ember-view]",
-      "variant": "compact",
-      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry elsewhere in this file - `Popover`'s root renders its tag through `element` too, to support `@as`."
-    },
-    {
-      "path": "div > span[0].attributes.id",
-      "variant": "compact",
-      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry elsewhere in this file, canonicalized here to `#1` since it collides positionally with upstream's own (differently-placed) first id."
-    },
-    {
-      "path": "div > span[0] > button[0].attributes.aria-controls",
-      "variant": "compact",
-      "reason": "Harness id-canonicalization side effect of the ember-element-helper id on `Popover`'s root (see the `div > span[0].attributes.id` entry): that auto id is the first id in Ember's tree, so the tooltip id this references canonicalizes to `#2` instead of upstream's `#1`. The reference itself is correct - both sides point the trigger at the `.cds--popover` panel."
-    },
-    {
-      "path": "div > span[0] > button[0].attributes.aria-describedby",
-      "variant": "compact",
-      "reason": "Harness id-canonicalization side effect of the ember-element-helper id on `Popover`'s root (see the `div > span[0].attributes.id` entry): that auto id is the first id in Ember's tree, so the tooltip id this references canonicalizes to `#2` instead of upstream's `#1`. The reference itself is correct - both sides point the trigger at the `.cds--popover` panel."
-    },
-    {
       "path": "div > span[0] > span[1].attributes.id",
       "variant": "compact",
       "reason": "The panel side of the same id-canonicalization side effect as the trigger's `aria-controls` entry above - the id is rendered on the same `.cds--popover` span as upstream, it just canonicalizes to `#2`."
@@ -748,26 +605,6 @@
       "path": "div > svg[0].attributes.size",
       "variant": "incomplete",
       "reason": "@carbon/react's `incompleteIcon` fallback (used when a `ShapeIndicatorKind` has no real @carbon/icons-react icon) spreads `{ size, className }` straight onto a hand-written `<svg>`, so the `size: 16` prop it's always called with lands as a literal, non-standard `size=\"16\"` DOM attribute (SVG has no `size` attribute - this has no visual effect, the icon's real dimensions come from its `width`/`height`). Ember's own matching `IncompleteIcon` (shape-indicator.gts) hardcodes `width`/`height` and takes no `@size` arg at all, so it never renders this stray attribute."
-    },
-    {
-      "path": "div > span[0].classes[ember-view]",
-      "variant": "compact",
-      "reason": "Same ember-element-helper artifact as Link's `a.classes[ember-view]` entry elsewhere in this file - `Popover`'s root (used by the private `DefinitionTooltip`) renders its tag through `element` too, to support `@as`."
-    },
-    {
-      "path": "div > span[0].attributes.id",
-      "variant": "compact",
-      "reason": "Same ember-element-helper auto-generated-id artifact as Link's `a.attributes.id` entry elsewhere in this file, canonicalized here to `#1` since it collides positionally with upstream's own (differently-placed) first id."
-    },
-    {
-      "path": "div > span[0] > button[0].attributes.aria-controls",
-      "variant": "compact",
-      "reason": "Harness id-canonicalization side effect of the ember-element-helper id on `Popover`'s root (see the `div > span[0].attributes.id` entry): that auto id is the first id in Ember's tree, so the tooltip id this references canonicalizes to `#2` instead of upstream's `#1`. The reference itself is correct - both sides point the trigger at the `.cds--popover` panel."
-    },
-    {
-      "path": "div > span[0] > button[0].attributes.aria-describedby",
-      "variant": "compact",
-      "reason": "Harness id-canonicalization side effect of the ember-element-helper id on `Popover`'s root (see the `div > span[0].attributes.id` entry): that auto id is the first id in Ember's tree, so the tooltip id this references canonicalizes to `#2` instead of upstream's `#1`. The reference itself is correct - both sides point the trigger at the `.cds--popover` panel."
     },
     {
       "path": "div > span[0] > span[1].attributes.id",
@@ -810,7 +647,6 @@
       "reason": "Harness limitation, not a real bug - same whitespace-only (tab vs. space between two path commands) diff already documented for Notification's warning-icon entry of the same name; the SVG path grammar treats the two as equivalent."
     }
   ],
-  "Accordion": [],
   "StructuredList": [
     {
       "path": "div > div[1] > div[1] > input[1].attributes.checked",

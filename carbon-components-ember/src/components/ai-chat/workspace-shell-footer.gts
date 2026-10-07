@@ -7,8 +7,6 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
-import { fn } from '@ember/helper';
 import { modifier } from 'ember-modifier';
 import type { ComponentLike } from '@glint/template';
 import Button from '../button.gts';
@@ -83,15 +81,13 @@ export default class WorkspaceShellFooter extends Component<WorkspaceShellFooter
     return (this.args.actions ?? []).length === 3;
   }
 
-  @action
-  setStacked(stacked: boolean) {
+  setStacked = (stacked: boolean) => {
     this.isStacked = stacked;
-  }
+  };
 
-  @action
-  handleClick(footerAction: WorkspaceShellFooterAction) {
+  handleClick = (footerAction: WorkspaceShellFooterAction) => {
     this.args.onClick?.(footerAction);
-  }
+  };
 
   /**
    * Resolves `action.kind` to `Button`'s own `@type`/`@tertiary`/`@ghost`

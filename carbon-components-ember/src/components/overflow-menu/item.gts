@@ -1,6 +1,4 @@
 import Component from '@glimmer/component';
-import { on } from '@ember/modifier';
-import { element } from 'ember-element-helper';
 
 export interface OverflowMenuItemComponentSignature {
   Args: {

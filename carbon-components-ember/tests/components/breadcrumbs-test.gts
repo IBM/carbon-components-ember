@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, rerender } from '@ember/test-helpers';
 import Breadcrumbs from '#src/components/breadcrumbs.gts';
-import { array } from '@ember/helper';
 import { cell } from 'ember-resources';
 import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';

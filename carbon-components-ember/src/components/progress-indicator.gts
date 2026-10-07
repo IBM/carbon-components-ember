@@ -8,8 +8,6 @@
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
-import { on } from '@ember/modifier';
 import { registerDestructor } from '@ember/destroyable';
 import { runTask } from 'ember-lifeline';
 import type { WithBoundArgs } from '@glint/template';
@@ -140,21 +138,19 @@ class ProgressStep extends Component<{
     return classes.join(' ');
   }
 
-  @action
-  handleClick() {
+  handleClick = () => {
     if (this.args.disabled || this.isCurrent) {
       return;
     }
     this.args.indicator.args.onChange?.(this.index);
-  }
+  };
 
-  @action
-  handleKeyDown(event: KeyboardEvent) {
+  handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       this.handleClick();
     }
-  }
+  };
 
   <template>
     <li class={{this.liClasses}} ...attributes>

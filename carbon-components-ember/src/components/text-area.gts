@@ -1,9 +1,7 @@
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { on } from '@ember/modifier';
 import type { ComponentLike } from '@glint/template';
 import { WarningFilled, WarningAltFilled } from '../icons.ts';
 
@@ -101,22 +99,19 @@ export default class TextArea extends Component<Signature> {
       : undefined;
   }
 
-  @action
-  updateValue(event: Event) {
+  updateValue = (event: Event) => {
     const value = (event.target as HTMLTextAreaElement).value;
     this.internalValue = value;
     this.args.onChange?.(value, event);
-  }
+  };
 
-  @action
-  handleClick(event: MouseEvent) {
+  handleClick = (event: MouseEvent) => {
     this.args.onClick?.(event);
-  }
+  };
 
-  @action
-  handleKeyDown(event: KeyboardEvent) {
+  handleKeyDown = (event: KeyboardEvent) => {
     this.args.onKeyDown?.(event);
-  }
+  };
 
   <template>
     <div class="cds--form-item" ...attributes>

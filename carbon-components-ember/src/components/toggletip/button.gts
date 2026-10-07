@@ -1,5 +1,4 @@
 import Component from '@glimmer/component';
-import { on } from '@ember/modifier';
 
 export interface ToggletipButtonComponentSignature {
   Args: {

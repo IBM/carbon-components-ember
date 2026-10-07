@@ -1,9 +1,6 @@
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
-import defaultTo from '../../helpers/default-to.ts';
 import Modal from '../modal.gts';
-import { on } from '@ember/modifier';
 import type DialogManagerService from '../../services/dialog-manager';
 
 export type Args = {
@@ -27,19 +24,17 @@ export default class ConfirmDialogComponent extends Component<DialogConfirmInter
   @service('carbon.dialog-manager')
   dialogManager!: DialogManagerService;
 
-  @action
-  onCancel() {
+  onCancel = () => {
     this.dialogManager.close();
     if (this.args.onCancel) this.args.onCancel();
     return false;
-  }
+  };
 
-  @action
-  onAccept() {
+  onAccept = () => {
     this.dialogManager.close();
     if (this.args.onAccept) this.args.onAccept();
     return false;
-  }
+  };
 
   <template>
     <Modal @onClose={{this.onCancel}}>
@@ -62,7 +57,7 @@ export default class ConfirmDialogComponent extends Component<DialogConfirmInter
           data-modal-close
           {{on "click" this.onCancel}}
         >
-          {{defaultTo @cancelText "Cancel"}}
+          {{or @cancelText "Cancel"}}
         </button>
         <button
           class="cds--btn cds--btn--{{@type}} cds--btn--primary"
@@ -70,7 +65,7 @@ export default class ConfirmDialogComponent extends Component<DialogConfirmInter
           {{on "click" this.onAccept}}
           data-modal-primary-focus
         >
-          {{defaultTo @acceptText "Okay"}}
+          {{or @acceptText "Okay"}}
         </button>
       </:footer>
     </Modal>

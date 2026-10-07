@@ -7,15 +7,11 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
-import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
-import { default as eq } from 'ember-truth-helpers/helpers/eq';
-import { default as Search } from '../search.gts';
-import { default as Pagination } from '../pagination.gts';
-import { default as Button } from '../button.gts';
-import { default as Tooltip } from '../tooltip.gts';
-import { default as Download } from '../icons/download.ts';
+import Search from '../search.gts';
+import Pagination from '../pagination.gts';
+import Button from '../button.gts';
+import Tooltip from '../tooltip.gts';
+import Download from '../icons/download.ts';
 import { stringifyCSV } from './-csv.ts';
 import type { ComponentLike } from '@glint/template';
 
@@ -173,8 +169,7 @@ export default class AiChatTable extends Component<AiChatTableSignature> {
     return Array.from({ length: this.currentSlice.itemsPerPage }, (_, i) => i);
   }
 
-  @action
-  search(term?: string) {
+  search = (term?: string) => {
     this.filterTerm = term ?? '';
     this.currentSlice = {
       ...this.currentSlice,
@@ -182,18 +177,16 @@ export default class AiChatTable extends Component<AiChatTableSignature> {
       start: 0,
       end: this.currentSlice.itemsPerPage,
     };
-  }
+  };
 
-  @action
-  changePage(slice: Slice) {
+  changePage = (slice: Slice) => {
     if (slice.itemsPerPage !== this.currentSlice.itemsPerPage) {
       this.rowsPerPageChanged = true;
     }
     this.currentSlice = slice;
-  }
+  };
 
-  @action
-  sortBy(index: number) {
+  sortBy = (index: number) => {
     if (this.sortColumnIndex === index) {
       this.sortDirection =
         this.sortDirection === 'ascending' ? 'descending' : 'ascending';
@@ -201,10 +194,9 @@ export default class AiChatTable extends Component<AiChatTableSignature> {
       this.sortColumnIndex = index;
       this.sortDirection = 'ascending';
     }
-  }
+  };
 
-  @action
-  download() {
+  download = () => {
     const table = [
       this.headers.map((cell) => cell.text),
       ...this.rows.map((row) => row.cells.map((cell) => cell.text)),
@@ -228,7 +220,7 @@ export default class AiChatTable extends Component<AiChatTableSignature> {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  }
+  };
 
   <template>
     <div class="cds-aichat-table-container" ...attributes>

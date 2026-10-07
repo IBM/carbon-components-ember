@@ -1,5 +1,4 @@
-import { default as eq } from 'ember-truth-helpers/helpers/eq';
-import { default as Menu } from '../../components/ui-shell/-sidenav/-menu.gts';
+import Menu from '../../components/ui-shell/-sidenav/-menu.gts';
 import Component from '@glimmer/component';
 import type NavMenuComponent from './-sidenav/-menu.gts';
 import type { SubMenu } from './-sidenav/-menu.gts';
@@ -9,7 +8,6 @@ import SideNavHeader from './-sidenav/-header.gts';
 import SideNavDetails from './-sidenav/-details.gts';
 import SideNavIcon from './-sidenav/-icon.gts';
 import HeaderSideNavItems from './-header/-side-nav-items.gts';
-import { fn } from '@ember/helper';
 import type Icon from '../icon';
 
 export type MenuItem = {

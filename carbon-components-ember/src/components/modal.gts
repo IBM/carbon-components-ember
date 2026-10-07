@@ -1,9 +1,7 @@
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { cached, tracked } from '@glimmer/tracking';
 import { defaultArgs } from '../utils/decorators.ts';
-import { on } from '@ember/modifier';
 
 /** @documenter yuidoc */
 
@@ -41,12 +39,11 @@ export default class Modal extends Component<ModalComponentSignature> {
     return guidFor(this);
   }
 
-  @action
-  closeModal() {
+  closeModal = () => {
     this.isVisible = false;
     this.args.onClose?.();
     return false;
-  }
+  };
 
   <template>
     <div

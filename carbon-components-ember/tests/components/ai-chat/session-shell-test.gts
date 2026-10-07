@@ -12,7 +12,6 @@ import {
 import Component from '@glimmer/component';
 import { registerDestructor } from '@ember/destroyable';
 import { service } from '@ember/service';
-import { array, hash } from '@ember/helper';
 import type Owner from '@ember/owner';
 import SessionShell from '#src/components/ai-chat/session-shell.gts';
 import type ChatSessionService from '#src/services/ai-chat-session.ts';

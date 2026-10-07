@@ -1,8 +1,5 @@
-import { default as defaultTo } from '../helpers/default-to.ts';
-import { on } from '@ember/modifier';
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
-import { action } from '@ember/object';
 import { WarningFilled } from '../icons.ts';
 
 export type Args = {
@@ -25,10 +22,9 @@ export default class FormInput extends Component<FormInputSignature> {
     return guidFor(this);
   }
 
-  @action
-  onInputChange(evt: any) {
+  onInputChange = (evt: any) => {
     this.args.onChange?.(evt.target?.value);
-  }
+  };
 
   <template>
     <div class="cds--form-item some-class cds--text-input-wrapper">
@@ -55,7 +51,7 @@ export default class FormInput extends Component<FormInputSignature> {
             id="text-input-{{this.guid}}"
             aria-invalid={{if @errors "true"}}
             data-invalid={{if @errors "true"}}
-            type="{{defaultTo @type 'text'}}"
+            type="{{or @type 'text'}}"
             value={{@value}}
             class="cds--text-input {{if @errors 'cds--text-input--invalid'}}"
             placeholder="{{@placeholder}}"

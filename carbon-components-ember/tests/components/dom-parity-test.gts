@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, waitUntil, click } from '@ember/test-helpers';
-import { hash } from '@ember/helper';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import Button from '#src/components/button.gts';
 import Tag from '#src/components/tag.gts';

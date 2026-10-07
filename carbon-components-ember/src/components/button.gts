@@ -2,10 +2,8 @@ import Component from '@glimmer/component';
 import { defaultArgs } from '../utils/decorators.ts';
 import type DialogManagerService from '../services/dialog-manager.ts';
 import { service } from '@ember/service';
-import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import type ConfirmDialogComponent from './dialogs/confirm.gts';
-import or from '../helpers/or.ts';
 import Confirm from './dialogs/confirm.gts';
 import Loading from './loading.gts';
 
@@ -197,8 +195,7 @@ export default class CarbonButton extends Component<ButtonSignature> {
     return classes.join(' ');
   }
 
-  @action
-  runButtonClick() {
+  runButtonClick = () => {
     const ac = this.args.onClick;
     if (ac) {
       const ret = ac();
@@ -214,15 +211,13 @@ export default class CarbonButton extends Component<ButtonSignature> {
       }
     }
     this.showDialog = false;
-  }
+  };
 
-  @action
-  cancel() {
+  cancel = () => {
     this.showDialog = false;
-  }
+  };
 
-  @action
-  onButtonClick() {
+  onButtonClick = () => {
     if (this.danger) {
       this.showDialog = true;
     } else {
@@ -230,5 +225,5 @@ export default class CarbonButton extends Component<ButtonSignature> {
     }
     // Prevent bubbling, if specified. If undefined, the event will bubble.
     return this.args.bubbles;
-  }
+  };
 }

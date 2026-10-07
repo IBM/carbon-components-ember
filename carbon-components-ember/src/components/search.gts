@@ -1,14 +1,11 @@
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { cached, tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 import { timeout } from 'ember-concurrency';
 import type { TaskInstance } from 'ember-concurrency';
 import { concat } from '@ember/helper';
-import { on } from '@ember/modifier';
 import { runTask } from 'ember-lifeline';
-import { default as defaultTo } from '../helpers/default-to.ts';
 import { Close, Search as SearchIcon } from '../icons.ts';
 
 export type Args = {
@@ -43,6 +40,12 @@ export default class SearchComponent extends Component<SearchComponentSignature>
   }
 
   @cached
+  // An explicit empty `@placeholder` means no placeholder, as in Carbon
+  // React, so only fall back to the default when it's undefined.
+  get placeholder() {
+    return this.args.placeholder ?? 'Search';
+  }
+
   get guid() {
     return guidFor(this);
   }
@@ -63,15 +66,13 @@ export default class SearchComponent extends Component<SearchComponentSignature>
     }
   });
 
-  @action
-  onSearchClear() {
+  onSearchClear = () => {
     this.value = null;
     void this.runSearch.perform();
     this.args.onClear?.();
-  }
+  };
 
-  @action
-  setValue(v: any) {
+  setValue = (v: any) => {
     if (v && v.target) {
       const next = v.target.value;
       if (next === this.value) return;
@@ -80,10 +81,9 @@ export default class SearchComponent extends Component<SearchComponentSignature>
       return;
     }
     this.value = v;
-  }
+  };
 
-  @action
-  activate(mouseEvent: Event) {
+  activate = (mouseEvent: Event) => {
     if (this.isActive) {
       return;
     }
@@ -102,7 +102,7 @@ export default class SearchComponent extends Component<SearchComponentSignature>
       };
       document.addEventListener('mousedown', listener);
     });
-  }
+  };
 
   <template>
     {{this.setValue @value}}
@@ -136,10 +136,10 @@ export default class SearchComponent extends Component<SearchComponentSignature>
       </label>
       <input
         class="cds--search-input"
-        type={{defaultTo @type "search"}}
+        type={{or @type "search"}}
         id={{this.inputId}}
-        placeholder={{defaultTo @placeholder "Search"}}
-        autocomplete={{defaultTo @autoComplete "off"}}
+        placeholder={{this.placeholder}}
+        autocomplete={{or @autoComplete "off"}}
         value={{this.value}}
         disabled={{@disabled}}
         {{on "change" this.setValue}}
@@ -150,8 +150,8 @@ export default class SearchComponent extends Component<SearchComponentSignature>
       {{#if this.hasInput}}
         <button
           class="cds--search-close"
-          title={{defaultTo @closeButtonLabelText "Clear search input"}}
-          aria-label={{defaultTo @closeButtonLabelText "Clear search input"}}
+          title={{or @closeButtonLabelText "Clear search input"}}
+          aria-label={{or @closeButtonLabelText "Clear search input"}}
           type="button"
           disabled={{@disabled}}
           {{on "click" this.onSearchClear}}

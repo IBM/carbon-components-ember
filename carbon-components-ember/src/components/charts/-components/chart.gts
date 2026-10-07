@@ -1,17 +1,15 @@
-import { default as TabularData } from '../../charts/-components/tabular-data.gts';
-import { default as Axis } from '../../charts/-components/axis.gts';
-import { default as ColorPairing } from '../../charts/-components/color/pairing.gts';
-import { default as ColorScale } from '../../charts/-components/color/scale.gts';
+import TabularData from '../../charts/-components/tabular-data.gts';
+import Axis from '../../charts/-components/axis.gts';
+import ColorPairing from '../../charts/-components/color/pairing.gts';
+import ColorScale from '../../charts/-components/color/scale.gts';
 import { modifier } from 'ember-modifier';
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import { defaultArgs } from '../../../utils/decorators.ts';
 import type { Chart, ScaleTypes } from '@carbon/charts';
 import type { AxisChartOptions, BaseChartOptions } from '@carbon/charts';
 import type CarbonChartTabularData from '../../charts/-components/tabular-data.gts';
 import type { WithBoundArgs } from '@glint/template';
 import type ChartAxis from '../../charts/-components/axis.gts';
-import { hash } from '@ember/helper';
 import { throttle } from '@ember/runloop';
 
 /** @documenter yuidoc */
@@ -126,27 +124,24 @@ export default class CarbonChart extends Component<CarbonChartSignature> {
     }
   }
 
-  @action
-  loadChart(chartDiv: HTMLDivElement) {
+  loadChart = (chartDiv: HTMLDivElement) => {
     this.chartDiv = chartDiv;
     this.setData();
-  }
+  };
 
   update = () => {
     this.setData();
   };
 
-  @action
-  updateChart() {
+  updateChart = () => {
     // eslint-disable-next-line ember/no-runloop
     throttle(this, this.update, 50, false);
-  }
+  };
 
-  @action
-  destroyChart() {
+  destroyChart = () => {
     this.chart?.destroy();
     this.chart = undefined;
-  }
+  };
 
   loadChartModifier = modifier((element: HTMLDivElement) => {
     this.loadChart(element);
@@ -170,15 +165,14 @@ export default class CarbonChart extends Component<CarbonChartSignature> {
     },
   );
 
-  @action
-  setAxis(
+  setAxis = (
     axis: 'left' | 'bottom',
     options?: {
       title: string;
       stacked?: boolean;
       scaleType?: ScaleTypes[keyof ScaleTypes];
     },
-  ) {
+  ) => {
     (this.options as AxisChartOptions).axes = Object.assign(
       (this.options as AxisChartOptions).axes!,
       {},
@@ -187,21 +181,18 @@ export default class CarbonChart extends Component<CarbonChartSignature> {
       },
     );
     this.updateChart();
-  }
+  };
 
-  @action
-  setColorPairing(values: any) {
+  setColorPairing = (values: any) => {
     this.options.color!.pairing = values;
-  }
+  };
 
-  @action
-  setColorScale(datasetName: string, color: string) {
+  setColorScale = (datasetName: string, color: string) => {
     this.options.color!.scale = this.options.color!.scale || {};
     (this.options.color!.scale as any)[datasetName] = color;
-  }
+  };
 
-  @action
-  removeDataset(group: string) {
+  removeDataset = (group: string) => {
     this.data
       .slice()
       .reverse()
@@ -211,10 +202,13 @@ export default class CarbonChart extends Component<CarbonChartSignature> {
         }
       });
     this.setData();
-  }
+  };
 
-  @action
-  updateDataset(group?: string, fillColors?: string[], data?: ChartData[]) {
+  updateDataset = (
+    group?: string,
+    fillColors?: string[],
+    data?: ChartData[],
+  ) => {
     if (!group || !data) return;
     this.data
       .slice()
@@ -229,7 +223,7 @@ export default class CarbonChart extends Component<CarbonChartSignature> {
     });
 
     this.updateChart();
-  }
+  };
 
   <template>
     <div

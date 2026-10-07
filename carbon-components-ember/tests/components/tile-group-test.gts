@@ -3,7 +3,6 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
 import RadioTile from '#src/components/radio-tile.gts';
 import TileGroup from '#src/components/tile/tile-group.gts';
-import { fn } from '@ember/helper';
 import { cell } from 'ember-resources';
 
 function setCell(theCell: { current: unknown }, value: unknown) {

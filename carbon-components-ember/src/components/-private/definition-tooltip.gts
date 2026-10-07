@@ -8,7 +8,6 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import { on } from '@ember/modifier';
 import Popover from '../popover.gts';
 import type { NewPopoverAlignment } from '../popover.gts';
 

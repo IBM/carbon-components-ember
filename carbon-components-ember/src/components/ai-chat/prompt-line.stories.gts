@@ -1,5 +1,4 @@
 import { tracked } from '@glimmer/tracking';
-import { on } from '@ember/modifier';
 import { fn as curry } from '@ember/helper';
 import { expect, fn, waitFor } from 'storybook/test';
 

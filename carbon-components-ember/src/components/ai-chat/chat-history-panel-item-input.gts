@@ -8,12 +8,7 @@
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
-import { on } from '@ember/modifier';
 import { modifier as eModifier } from 'ember-modifier';
-import { default as or } from 'ember-truth-helpers/helpers/or';
-import { default as and } from 'ember-truth-helpers/helpers/and';
-import { default as not } from 'ember-truth-helpers/helpers/not';
 import Button from '../button.gts';
 import Tooltip from '../tooltip.gts';
 import { Checkmark, Close, WarningFilled } from '../../icons.ts';
@@ -69,28 +64,24 @@ export default class ChatHistoryPanelItemInput extends Component<ChatHistoryPane
     return this.valueChanged && !this.args.invalid;
   }
 
-  @action
-  handleInput(event: Event) {
+  handleInput = (event: Event) => {
     this.value = (event.target as HTMLInputElement).value;
     this.valueChanged = this.value !== this.initialValue;
     this.args.onChange?.(this.value);
-  }
+  };
 
-  @action
-  handleCancel() {
+  handleCancel = () => {
     this.actionTriggered = true;
     this.args.onCancel?.();
-  }
+  };
 
-  @action
-  handleSave() {
+  handleSave = () => {
     if (!this.canSave) return;
     this.actionTriggered = true;
     this.args.onSave?.(this.value);
-  }
+  };
 
-  @action
-  handleKeydown(event: KeyboardEvent) {
+  handleKeydown = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
       this.handleCancel();
     } else if (event.key === 'Enter') {
@@ -100,10 +91,9 @@ export default class ChatHistoryPanelItemInput extends Component<ChatHistoryPane
         this.handleCancel();
       }
     }
-  }
+  };
 
-  @action
-  handleFocusOut(event: FocusEvent) {
+  handleFocusOut = (event: FocusEvent) => {
     if (this.actionTriggered) {
       this.actionTriggered = false;
       return;
@@ -136,7 +126,7 @@ export default class ChatHistoryPanelItemInput extends Component<ChatHistoryPane
         this.handleCancel();
       }
     });
-  }
+  };
 
   focusAndSelect = eModifier((element: HTMLInputElement) => {
     requestAnimationFrame(() => {

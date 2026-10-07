@@ -7,14 +7,10 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { on } from '@ember/modifier';
 import { modifier as eModifier } from 'ember-modifier';
-import { default as eq } from 'ember-truth-helpers/helpers/eq';
-import { default as and } from 'ember-truth-helpers/helpers/and';
 import type { WithBoundArgs } from '@glint/template';
-import { default as Loading } from '../loading.gts';
+import Loading from '../loading.gts';
 import { CheckmarkFilled, ChevronRight, ErrorFilled } from '../../icons.ts';
 
 export type ChainOfThoughtStepStatus = 'processing' | 'failure' | 'success';
@@ -92,17 +88,15 @@ class ChainOfThoughtStep extends Component<ChainOfThoughtStepSignature> {
   contentId = `cds-aichat-chain-of-thought-step-content-${this.guid}`;
   headerId = `cds-aichat-chain-of-thought-step-header-${this.guid}`;
 
-  @action
-  toggle() {
+  toggle = () => {
     const next = !this.isOpen;
     if (!this.args.controlled) {
       this.internalOpen = next;
     }
     this.args.onToggle?.(next);
-  }
+  };
 
-  @action
-  handleKeydown(event: KeyboardEvent) {
+  handleKeydown = (event: KeyboardEvent) => {
     if (this.isOpen && (event.key === 'Escape' || event.key === 'Esc')) {
       event.stopPropagation();
       if (!this.args.controlled) {
@@ -110,7 +104,7 @@ class ChainOfThoughtStep extends Component<ChainOfThoughtStepSignature> {
       }
       this.args.onToggle?.(false);
     }
-  }
+  };
 
   <template>
     <div

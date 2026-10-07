@@ -1,11 +1,6 @@
-import { helper as buildHelper } from '@ember/component/helper';
-
-export function onUpdate([fn, ...args]: [
-  fn: (...args: any) => any,
-  ...args: any[],
-]) {
+export default function onUpdate(
+  fn: (...args: any[]) => unknown,
+  ...args: unknown[]
+): void {
   fn(...args);
 }
-
-export const helper = buildHelper(onUpdate);
-export default helper;

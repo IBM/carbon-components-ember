@@ -8,10 +8,8 @@
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { on } from '@ember/modifier';
-import { fn, concat } from '@ember/helper';
+import { concat } from '@ember/helper';
 import type { WithBoundArgs } from '@glint/template';
 import { htmlSafe } from '@ember/template';
 import type Icon from './icon.gts';
@@ -107,26 +105,23 @@ class TreeNode extends Component<TreeNodeSignature> {
     );
   }
 
-  @action
-  select(event: MouseEvent) {
+  select = (event: MouseEvent) => {
     if (this.args.disabled) return;
     event.stopPropagation();
     this.args.treeView.select(this, event);
-  }
+  };
 
   setExpanded(expanded: boolean) {
     this.uncontrolledExpanded = expanded;
     this.args.onToggle?.(expanded, this);
   }
 
-  @action
-  toggle(event: MouseEvent) {
+  toggle = (event: MouseEvent) => {
     event.stopPropagation();
     this.setExpanded(!this.expanded);
-  }
+  };
 
-  @action
-  handleKeydown(hasChildren: boolean, event: KeyboardEvent) {
+  handleKeydown = (hasChildren: boolean, event: KeyboardEvent) => {
     if (this.args.disabled) return;
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
@@ -138,7 +133,7 @@ class TreeNode extends Component<TreeNodeSignature> {
       event.preventDefault();
       this.setExpanded(false);
     }
-  }
+  };
 
   <template>
     <li
@@ -249,8 +244,7 @@ export default class TreeView extends Component<TreeViewSignature> {
     return this.activeId === id || this.args.active === id;
   }
 
-  @action
-  select(node: TreeNode, event: Event) {
+  select = (node: TreeNode, event: Event) => {
     const id = node.nodeId;
     const isMultiselectClick =
       this.args.multiselect &&
@@ -265,7 +259,7 @@ export default class TreeView extends Component<TreeViewSignature> {
     this.activeId = id;
     this.args.onSelect?.(this.selectedIds, node);
     this.args.onActivate?.(id);
-  }
+  };
 
   <template>
     {{#unless @hideLabel}}

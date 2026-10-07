@@ -6,7 +6,6 @@
  */
 
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import { modifier } from 'ember-modifier';
 import { ChevronDown } from '../../icons.ts';
 import AiChatTruncatedText from './truncated-text.gts';
@@ -56,10 +55,9 @@ const watchToggle = modifier(
  * unprefixed.
  */
 export default class WorkspaceShellHeader extends Component<WorkspaceShellHeaderSignature> {
-  @action
-  handleToggle(open: boolean) {
+  handleToggle = (open: boolean) => {
     this.args.onToggle?.(open);
-  }
+  };
 
   <template>
     {{#if @collapsible}}

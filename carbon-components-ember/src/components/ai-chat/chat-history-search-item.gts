@@ -6,8 +6,6 @@
  */
 
 import Component from '@glimmer/component';
-import { on } from '@ember/modifier';
-import { action } from '@ember/object';
 
 export type Args = {
   name?: string;
@@ -39,11 +37,10 @@ export interface ChatHistorySearchItemSignature {
  * needed - a native button already activates on both.
  */
 export default class ChatHistorySearchItem extends Component<ChatHistorySearchItemSignature> {
-  @action
-  handleClick() {
+  handleClick = () => {
     if (this.args.disabled) return;
     this.args.onSelect?.({ itemId: this.args.id, itemName: this.args.name });
-  }
+  };
 
   <template>
     <li class="cds-aichat-history-search-item" ...attributes>

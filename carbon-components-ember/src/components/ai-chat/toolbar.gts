@@ -7,9 +7,7 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { modifier } from 'ember-modifier';
-import { or } from 'ember-truth-helpers';
 import type { ComponentLike } from '@glint/template';
 import OverflowMenu from '../overflow-menu.gts';
 import OverflowMenuItem from '../overflow-menu/item.gts';
@@ -155,8 +153,7 @@ export default class Toolbar extends Component<ToolbarSignature> {
   // "ResizeObserver loop completed with undelivered notifications".
   private lastIdx: number | undefined;
 
-  @action
-  recomputeOverflow(endContainer: HTMLElement) {
+  recomputeOverflow = (endContainer: HTMLElement) => {
     const actionsContainer = endContainer.querySelector<HTMLElement>(
       '.cds-aichat-toolbar__actions-container',
     );
@@ -204,7 +201,7 @@ export default class Toolbar extends Component<ToolbarSignature> {
     if (idx === this.lastIdx) return;
     this.lastIdx = idx;
     this.splitIndex = idx;
-  }
+  };
 
   // Only observes the container's own width. A consumer changing the size
   // of the `fixedActions`/`decorator` blocks' *content* without the

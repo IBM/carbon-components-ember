@@ -7,8 +7,6 @@
 
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
-import { action } from '@ember/object';
-import { on } from '@ember/modifier';
 import { concat } from '@ember/helper';
 import type { ComponentLike } from '@glint/template';
 import { Calendar, WarningFilled, WarningAltFilled } from '../icons.ts';
@@ -163,16 +161,14 @@ export default class DatePickerInput extends Component<DatePickerInputSignature>
     return !!(this.isInvalid || this.isWarn || this.args.helperText);
   }
 
-  @action
-  handleChange(event: Event) {
+  handleChange = (event: Event) => {
     this.args.onChange?.(event);
-  }
+  };
 
-  @action
-  handleClick(event: MouseEvent) {
+  handleClick = (event: MouseEvent) => {
     if (this.args.disabled) return;
     this.args.onClick?.(event);
-  }
+  };
 
   <template>
     <div

@@ -1,5 +1,4 @@
 import Component from '@glimmer/component';
-import { element } from 'ember-element-helper';
 import type { TextDir } from './text.gts';
 
 export interface TextDirectionSignature {

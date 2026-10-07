@@ -340,8 +340,9 @@ it happened before stopping.
 - **Translate, don't transliterate**: match React's API and behaviour using
   Ember's idioms — see AGENTS.md's "Idiomatic Ember Patterns"
 - **CSS Prefix**: Always use `cds--` not `carbon--` or `bx--`
-- **Native Helpers**: `element` comes from `ember-element-helper` (already
-  installed); `on`, `fn`, `concat` and friends come from `@ember/modifier` /
+- **Native Helpers**: `element`, `on`, `fn`, `hash`, `array` and the
+  `eq`/`and`/`or`/`not` family are built-in template keywords (Ember 7.1+),
+  so don't import them; `concat`, `get` and `uniqueId` still come from
   `@ember/helper`
 - **Reference**: Check AGENTS.md for patterns and examples
 - **Focus**: Complete one component well, don't start others

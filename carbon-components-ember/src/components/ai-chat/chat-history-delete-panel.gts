@@ -7,7 +7,6 @@
 
 import Component from '@glimmer/component';
 import { modifier as eModifier } from 'ember-modifier';
-import { default as or } from 'ember-truth-helpers/helpers/or';
 import AiChatChatButton from './chat-button.gts';
 import { TrashCan } from '../../icons.ts';
 

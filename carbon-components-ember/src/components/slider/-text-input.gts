@@ -6,8 +6,6 @@
  */
 
 import Component from '@glimmer/component';
-import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
 import { WarningFilled, WarningAltFilled } from '../../icons.ts';
 import type { HandlePosition } from '../slider.gts';
 

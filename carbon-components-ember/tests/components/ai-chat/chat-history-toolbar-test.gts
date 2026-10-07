@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, fillIn } from '@ember/test-helpers';
-import { hash } from '@ember/helper';
 import ChatHistoryToolbar from '#src/components/ai-chat/chat-history-toolbar.gts';
 
 module('Integration | Component | ai-chat/ChatHistoryToolbar', (hooks) => {

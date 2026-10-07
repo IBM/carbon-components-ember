@@ -1,4 +1,3 @@
-import { hash } from '@ember/helper';
 import { htmlSafe } from '@ember/template';
 import { expect } from 'storybook/test';
 

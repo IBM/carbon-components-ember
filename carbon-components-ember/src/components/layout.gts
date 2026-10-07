@@ -6,7 +6,6 @@
  */
 
 import Component from '@glimmer/component';
-import { element } from 'ember-element-helper';
 
 export type LayoutDensity = 'condensed' | 'normal';
 

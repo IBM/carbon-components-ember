@@ -1,4 +1,4 @@
-import { default as Chart } from './-components/chart.gts';
+import Chart from './-components/chart.gts';
 import { LineChart } from '@carbon/charts';
 import Component from '@glimmer/component';
 import type { CarbonChartSignature } from './-components/chart.gts';
