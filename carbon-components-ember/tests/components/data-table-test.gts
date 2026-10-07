@@ -1,6 +1,14 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, waitUntil, findAll } from '@ember/test-helpers';
+import {
+  click,
+  findAll,
+  render,
+  settled,
+  waitUntil,
+} from '@ember/test-helpers';
+import { tracked } from '@glimmer/tracking';
+import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import DataTable from '#src/components/data-table.gts';
 import Pagination from '#src/components/pagination.gts';
 
@@ -162,6 +170,188 @@ module('Integration | Component | DataTable', (hooks) => {
       .dom('tbody .cds--table-column-checkbox .cds--checkbox-label-text')
       .hasText('Select row')
       .hasClass('cds--visually-hidden');
+  });
+
+  module('expandable rows', function () {
+    const headers = [{ label: 'Name' }, { label: 'details' }];
+    const parentRow = (index: number) =>
+      document.querySelectorAll<HTMLElement>('tr[data-parent-row]')[index]!;
+    const childRow = (index: number) =>
+      document.querySelectorAll<HTMLElement>('tr[data-child-row]')[index]!;
+    const expandButton = (index: number) =>
+      parentRow(index).querySelector<HTMLButtonElement>(
+        '.cds--table-expand__button',
+      )!;
+    const contentHeight = (index: number) =>
+      childRow(index)
+        .querySelector('.cds--child-row-inner-container')!
+        .getBoundingClientRect().height;
+
+    test('the expand button toggles the expanded content', async function (assert) {
+      await render(
+        <template>
+          <DataTable @title="Table title" @items={{items}} as |table|>
+            <table.Table>
+              <table.Header @isExpandable={{true}} @headers={{headers}} />
+              <table.EachBodyRows as |row|>
+                <row.Row>
+                  <:default>
+                    <table.Column>{{row.item.name}}</table.Column>
+                    <table.Column>{{row.item.b}}</table.Column>
+                  </:default>
+                  <:expanded>Details for {{row.item.name}}</:expanded>
+                </row.Row>
+              </table.EachBodyRows>
+            </table.Table>
+          </DataTable>
+          {{! Carbon's CSS is what collapses the child row. }}
+          <style>
+            {{carbonStyle.default}}
+          </style>
+        </template>,
+      );
+
+      assert.dom('tr[data-parent-row]').exists({ count: 2 });
+      assert.dom('tr[data-child-row]').exists({ count: 2 });
+      assert
+        .dom(childRow(0))
+        .hasClass('cds--expandable-row')
+        .hasText('Details for a');
+      // Two data columns plus the expand column.
+      assert.dom(childRow(0).querySelector('td')).hasAttribute('colspan', '3');
+      assert
+        .dom(expandButton(0))
+        .hasAttribute('aria-expanded', 'false')
+        .hasAttribute('aria-label', 'Expand current row')
+        .hasAttribute('aria-controls', childRow(0).id);
+      assert.dom(parentRow(0)).doesNotHaveClass('cds--expandable-row');
+      assert.strictEqual(contentHeight(0), 0, 'collapsed content is hidden');
+
+      await click(expandButton(0));
+
+      assert.dom(parentRow(0)).hasClass('cds--parent-row');
+      assert.dom(parentRow(0)).hasClass('cds--expandable-row');
+      assert
+        .dom(parentRow(0).querySelector('.cds--table-expand'))
+        .hasAttribute('data-previous-value', 'collapsed');
+      assert
+        .dom(expandButton(0))
+        .hasAttribute('aria-expanded', 'true')
+        .hasAttribute('aria-label', 'Collapse current row');
+      assert.true(contentHeight(0) > 0, 'expanded content is shown');
+      assert
+        .dom(parentRow(1))
+        .doesNotHaveClass('cds--expandable-row', 'other rows stay collapsed');
+
+      await click(expandButton(0));
+
+      assert.dom(parentRow(0)).doesNotHaveClass('cds--expandable-row');
+      assert.dom(expandButton(0)).hasAttribute('aria-expanded', 'false');
+    });
+
+    test('@isExpanded sets the initial state without onExpand', async function (assert) {
+      await render(
+        <template>
+          <DataTable @title="Table title" @items={{items}} as |table|>
+            <table.Table>
+              <table.Header @isExpandable={{true}} @headers={{headers}} />
+              <table.EachBodyRows as |row|>
+                <row.Row @isExpanded={{true}}>
+                  <:default>
+                    <table.Column>{{row.item.name}}</table.Column>
+                    <table.Column>{{row.item.b}}</table.Column>
+                  </:default>
+                  <:expanded>Details</:expanded>
+                </row.Row>
+              </table.EachBodyRows>
+            </table.Table>
+          </DataTable>
+        </template>,
+      );
+
+      assert.dom(parentRow(0)).hasClass('cds--expandable-row');
+
+      await click(expandButton(0));
+
+      assert
+        .dom(parentRow(0))
+        .doesNotHaveClass(
+          'cds--expandable-row',
+          'a static @isExpanded does not lock the row open',
+        );
+    });
+
+    test('@isExpanded with @onExpand is controlled', async function (assert) {
+      const expanded = tracked(false);
+      const calls: boolean[] = [];
+      const onExpand = (isExpanded: boolean) => calls.push(isExpanded);
+
+      await render(
+        <template>
+          <DataTable @title="Table title" @items={{items}} as |table|>
+            <table.Table>
+              <table.Header @isExpandable={{true}} @headers={{headers}} />
+              <table.EachBodyRows as |row|>
+                <row.Row @isExpanded={{expanded.value}} @onExpand={{onExpand}}>
+                  <:default>
+                    <table.Column>{{row.item.name}}</table.Column>
+                    <table.Column>{{row.item.b}}</table.Column>
+                  </:default>
+                  <:expanded>Details</:expanded>
+                </row.Row>
+              </table.EachBodyRows>
+            </table.Table>
+          </DataTable>
+        </template>,
+      );
+
+      await click(expandButton(0));
+
+      assert.deepEqual(calls, [true]);
+      assert
+        .dom(parentRow(0))
+        .doesNotHaveClass(
+          'cds--expandable-row',
+          'the row waits for @isExpanded to change',
+        );
+
+      expanded.value = true;
+      await settled();
+
+      assert.dom(parentRow(0)).hasClass('cds--expandable-row');
+      assert.dom(parentRow(1)).hasClass('cds--expandable-row');
+
+      await click(expandButton(0));
+
+      assert.deepEqual(calls, [true, false]);
+    });
+
+    test('the expanded row also spans the selection column', async function (assert) {
+      await render(
+        <template>
+          <DataTable @title="Table title" @items={{items}} as |table|>
+            <table.Table>
+              <table.Header
+                @isExpandable={{true}}
+                @isCheckable={{true}}
+                @headers={{headers}}
+              />
+              <table.EachBodyRows as |row|>
+                <row.Row @isCheckable={{true}}>
+                  <:default>
+                    <table.Column>{{row.item.name}}</table.Column>
+                    <table.Column>{{row.item.b}}</table.Column>
+                  </:default>
+                  <:expanded>Details</:expanded>
+                </row.Row>
+              </table.EachBodyRows>
+            </table.Table>
+          </DataTable>
+        </template>,
+      );
+
+      assert.dom(childRow(0).querySelector('td')).hasAttribute('colspan', '4');
+    });
   });
 
   test('a header with hideLabel keeps its name but hides it visually', async function (assert) {
