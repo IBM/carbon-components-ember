@@ -75,8 +75,8 @@ jobs:
             # `release-plan prepare` exits before touching .release-plan.json/
             # CHANGELOG.md/package.json when the plan is incomplete (e.g. some
             # merged PRs are missing a semver label), so there is nothing left
-            # for create-pull-request to diff and it silently skips opening or
-            # updating the preview PR. Commit the explanation to a tracked
+            # to commit and no preview PR gets opened or updated. Commit the
+            # explanation to a tracked
             # placeholder file instead, so a PR still gets created/updated to
             # surface which PRs need labels. Keep this filename clear of the
             # ".release-plan.json" substring the release-trigger `grep -w -q`
@@ -95,18 +95,33 @@ jobs:
         env:
           GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: create pull request
-        run: node ./scripts/create-pull-request.js
+      - name: Open or update the release PR
         env:
-          INPUT_COMMIT-MESSAGE: "Prepare Release using 'release-plan'"
-          INPUT_LABELS: "internal"
-          INPUT_BRANCH: release-preview
-          INPUT_TITLE: "${{ steps.explanation.outputs.status == 'blocked' && 'Release Plan Incomplete' || 'Prepare Release' }}"
-          INPUT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          INPUT_AUTHOR: "${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>"
-          INPUT_BODY: |
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: release-preview
+          AUTHOR: "${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>"
+          TITLE: "${{ steps.explanation.outputs.status == 'blocked' && 'Release Plan Incomplete' || 'Prepare Release' }}"
+          BODY: |
             ${{ steps.explanation.outputs.status == 'blocked' && 'This PR is not ready to merge. release-plan could not compute the next release - see the explanation below for why, and what needs to change. This PR will update automatically once that is resolved and pushed to main.' || 'This PR is a preview of the release that [release-plan](https://github.com/embroider-build/release-plan) has prepared. To release you should just merge this PR 👍' }}
 
             -----------------------------------------
 
             ${{ steps.explanation.outputs.text }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout -B "$BRANCH"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "Nothing to release"
+            exit 0
+          fi
+          git commit -s --author="$AUTHOR" -m "Prepare Release using 'release-plan'"
+          git push --force origin "$BRANCH"
+
+          PR=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')
+          if [ -n "$PR" ]; then
+            gh pr edit "$PR" --title "$TITLE" --body "$BODY"
+          else
+            gh pr create --base main --head "$BRANCH" --title "$TITLE" --body "$BODY" --label internal
+          fi
