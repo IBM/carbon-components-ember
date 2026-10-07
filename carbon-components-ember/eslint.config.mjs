@@ -12,7 +12,7 @@
  *     npx eslint --inspect-config
  *
  */
-import babelParser from '@babel/eslint-parser/experimental-worker';
+import babelParser from '@babel/eslint-parser';
 import js from '@eslint/js';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import prettier from 'eslint-config-prettier';
@@ -94,13 +94,6 @@ export default defineConfig([
       import: importPlugin,
     },
     rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-unsafe-member-access': 'off',
-      '@typescript-eslint/no-unsafe-assignment': 'off',
-      '@typescript-eslint/no-unsafe-return': 'off',
-      '@typescript-eslint/no-unsafe-argument': 'off',
-      '@typescript-eslint/no-unsafe-call': 'off',
-      'ember/no-empty-glimmer-component-classes': 'off',
       'ember/no-at-ember-render-modifiers': 'off',
       // Type-only imports must be erased from the build; otherwise rollup
       // reports unused externals and phantom circular dependencies. Types

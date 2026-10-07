@@ -1,6 +1,7 @@
 packages:
   - carbon-components-ember
   - dom-parity
+
 allowBuilds:
   '@carbon/ai-chat-components': true
   '@carbon/charts': true
@@ -32,20 +33,26 @@ allowBuilds:
   esbuild: true
   playwright-chromium: true
   unrs-resolver: true
+
+autoDedupe: true
+
 overrides:
-  # Every package must share one copy of @glint/template: its `Invoke` symbol
-  # is unique per copy, and several addons (e.g. ember-element-helper) import
-  # it in their types without declaring it, so they get the hoisted copy.
-  '@glint/template': ^1.9.0
   # Security floors for transitive dev tooling that pins a vulnerable range,
   # so no in-range update can fix it. Everything else is kept current by
   # updating within ranges; re-check `pnpm audit` before adding to this list.
   # ember-cli-babel@7 pins an old @babel/runtime.
   '@babel/runtime': ^7.29.7
+  compression@<1.8.2: ^1.8.2
+  http-cache-semantics@<=4.2.0: ^4.3.0
+  postcss-selector-parser@<7.1.6: ^7.1.6
+  proxy-addr@>=1.1.0 <2.0.8: ^2.0.8
+  shell-quote@>=1.8.4 <1.11.0: ^1.11.0
+  source-map-js@>=1.0.0 <1.2.2: ^1.2.2
   # Old broccoli tooling (watch-detector, can-symlink) pins tmp@0.0.x.
   tmp: ^0.2.7
   # socket.io-adapter (via testem) pins ws with a ~ range.
   ws@8: ^8.21.0
+
 packageExtensions:
   # The patch below makes ember-storybook import @mdx-js/react instead of a
   # bundled copy; this declares the dependency (as its fix upstream does).
