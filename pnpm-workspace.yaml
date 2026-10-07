@@ -58,12 +58,14 @@ patchedDependencies:
   # - CSF `subcomponents` in the docs Args table
   #   (ember-integrations/ember-storybook#81)
   # - `storybook build` waits for the story index, so the docs data (args
-  #   tables, "Show code") isn't empty
+  #   tables, "Show code") isn't empty (ember-integrations/ember-storybook#86)
   # - one @mdx-js/react shared with the MDX pages, so their code blocks,
   #   links and headings get Storybook's components
+  #   (ember-integrations/ember-storybook#87)
   # - "Show code" for stories with a multi-word export name
   #   (ember-integrations/ember-storybook#78)
   # - "Show code" for stories that inherit their render from the meta or
-  #   from the story they extend()
+  #   from the story they extend(), or use a helper's
+  #   (ember-integrations/ember-storybook#85)
   # Drop once all are released.
   ember-storybook@0.4.2: patches/ember-storybook@0.4.2.patch
