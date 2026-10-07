@@ -18,9 +18,23 @@ import { ScriptLoader } from '../-media/script-loader.ts';
 
 const SDK_URL = 'https://cdn.embed.ly/player-0.1.0.min.js';
 
+/** The parts of player.js (embed.ly's iframe player API) this provider uses. */
+export interface PlayerJsPlayer {
+  on(
+    event: 'ready' | 'play' | 'pause' | 'ended' | 'error',
+    callback: () => void,
+  ): void;
+  play(): void;
+  pause(): void;
+}
+
+export interface PlayerJsSDK {
+  Player: new (iframe: HTMLIFrameElement) => PlayerJsPlayer;
+}
+
 declare global {
   interface Window {
-    playerjs: any;
+    playerjs?: PlayerJsSDK;
   }
 }
 
@@ -30,7 +44,7 @@ declare global {
  * loaded via the shared `ScriptLoader`.
  */
 export class KalturaProvider extends BaseProvider {
-  private player: any = null;
+  private player: PlayerJsPlayer | null = null;
   private iframe: HTMLIFrameElement | null = null;
   private isReady = false;
 
@@ -114,9 +128,14 @@ export class KalturaProvider extends BaseProvider {
       }
     });
 
-    this.player = new window.playerjs.Player(this.iframe);
+    const { playerjs } = window;
+    if (!playerjs) {
+      throw new Error(this.config.errorMessage);
+    }
+    const player = new playerjs.Player(this.iframe);
+    this.player = player;
 
-    this.player.on('ready', () => {
+    player.on('ready', () => {
       // Arbitrary timeout required for event listeners to work, matching
       // upstream (player.js docs call this out as a known quirk).
       setTimeout(() => {
