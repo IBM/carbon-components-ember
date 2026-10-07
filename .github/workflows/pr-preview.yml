@@ -103,8 +103,11 @@ jobs:
 
   cleanup-preview:
     name: Cleanup Preview
+    # Every closed PR, whatever its labels: gating on `preview` left previews
+    # of closed PRs behind on gh-pages, and enough of them stop GitHub Pages
+    # from building. The removal step is a no-op when there's no preview.
     if: |
-      (github.event.action == 'closed' && contains(github.event.pull_request.labels.*.name, 'preview')) ||
+      github.event.action == 'closed' ||
       (github.event.action == 'unlabeled' && github.event.label.name == 'preview')
     runs-on: ubuntu-26.04
     permissions:
