@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, triggerKeyEvent } from '@ember/test-helpers';
 import AiChatTruncatedText from '#src/components/ai-chat/truncated-text.gts';
-import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import { waitForAnimationFrame } from '../../helpers';
 
 // `AiChatTruncatedText`'s overflow detection reads real `scrollHeight`/
@@ -30,9 +29,6 @@ module('Integration | Component | ai-chat/AiChatTruncatedText', (hooks) => {
     await render(
       <template>
         <style>
-          {{carbonStyle.default}}
-        </style>
-        <style>
           {{lineClampStyle}}
         </style>
         <div style="width: 200px">
@@ -51,9 +47,6 @@ module('Integration | Component | ai-chat/AiChatTruncatedText', (hooks) => {
 
     await render(
       <template>
-        <style>
-          {{carbonStyle.default}}
-        </style>
         <style>
           {{lineClampStyle}}
         </style>
@@ -74,9 +67,6 @@ module('Integration | Component | ai-chat/AiChatTruncatedText', (hooks) => {
 
     await render(
       <template>
-        <style>
-          {{carbonStyle.default}}
-        </style>
         <style>
           {{lineClampStyle}}
         </style>
@@ -149,9 +139,6 @@ module('Integration | Component | ai-chat/AiChatTruncatedText', (hooks) => {
       await render(
         <template>
           <style>
-            {{carbonStyle.default}}
-          </style>
-          <style>
             {{lineClampStyle}}
           </style>
           <div style="width: 100px">
@@ -184,9 +171,6 @@ module('Integration | Component | ai-chat/AiChatTruncatedText', (hooks) => {
   test('it renders default block content instead of @value when passed', async function (assert) {
     await render(
       <template>
-        <style>
-          {{carbonStyle.default}}
-        </style>
         <style>
           {{lineClampStyle}}
         </style>

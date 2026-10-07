@@ -9,7 +9,6 @@ import MenuItemGroup from '#src/components/menu/menu-item-group.gts';
 import MenuItemRadioGroup from '#src/components/menu/menu-item-radio-group.gts';
 import MenuItemSelectable from '#src/components/menu/menu-item-selectable.gts';
 import { Copy } from '#src/icons.ts';
-import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import { waitForAnimationFrame } from '../helpers';
 
 module('Integration | Component | Menu', (hooks) => {
@@ -401,9 +400,6 @@ module('Integration | Component | Menu', (hooks) => {
 
     await render(
       <template>
-        <style>
-          {{carbonStyle.default}}
-        </style>
         <Menu @label="Test menu" @open={{true}} @target={{target}}>
           <MenuItem @label="Share with">
             <MenuItem @label="Product team">

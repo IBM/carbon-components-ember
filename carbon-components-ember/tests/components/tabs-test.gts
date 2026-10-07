@@ -10,7 +10,6 @@ import {
 } from '@ember/test-helpers';
 import Tabs from '#src/components/tabs.gts';
 import { Folder } from '#src/icons.ts';
-import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import { tracked } from '@glimmer/tracking';
@@ -18,29 +17,27 @@ import {
   getAllElementComputedStyles,
   getStylesDiff,
   waitForAnimationFrame,
+  disableCarbonStyles,
+  enableCarbonStyles,
 } from '../helpers';
 
 module('Integration | Component | Tabs', (hooks) => {
   setupRenderingTest(hooks);
 
   test('white theme: should display tabs', async function (this: RenderingTestContext, assert) {
-    const styleValue = tracked('');
+    disableCarbonStyles();
     await render(
       <template>
         <Tabs as |TabPane|>
           <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
           <TabPane @title="Tab 2">Content 2</TabPane>
         </Tabs>
-        <style>
-          {{styleValue.value}}
-        </style>
       </template>,
     );
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.value = carbonStyle.default;
-    await rerender();
+    enableCarbonStyles();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(
       this.element.firstElementChild!,
@@ -52,7 +49,7 @@ module('Integration | Component | Tabs', (hooks) => {
   });
 
   test('dark theme: should display tabs', async function (this: RenderingTestContext, assert) {
-    const styleValue = tracked('');
+    disableCarbonStyles();
     const darkStyleValue = tracked('');
     await render(
       <template>
@@ -61,9 +58,6 @@ module('Integration | Component | Tabs', (hooks) => {
           <TabPane @title="Tab 2">Content 2</TabPane>
         </Tabs>
         <style>
-          {{styleValue.value}}
-        </style>
-        <style>
           {{darkStyleValue.value}}
         </style>
       </template>,
@@ -71,7 +65,7 @@ module('Integration | Component | Tabs', (hooks) => {
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.value = carbonStyle.default;
+    enableCarbonStyles();
     darkStyleValue.value = carbonDarkStyle.default;
     await rerender();
     await waitForAnimationFrame();
@@ -372,7 +366,6 @@ module('Integration | Component | Tabs', (hooks) => {
   });
 
   test('@renderIcon fits inside its wrapper under real Carbon styles, without the default icon margin', async function (this: RenderingTestContext, assert) {
-    const styleValue = tracked('');
     await render(
       <template>
         <Tabs as |TabPane|>
@@ -380,14 +373,9 @@ module('Integration | Component | Tabs', (hooks) => {
             Content 1
           </TabPane>
         </Tabs>
-        <style>
-          {{styleValue.value}}
-        </style>
       </template>,
     );
     await waitUntil(() => find('.cds--tabs__nav-item--icon svg'));
-    styleValue.value = carbonStyle.default;
-    await rerender();
     await waitForAnimationFrame();
 
     const wrapper = find('.cds--tabs__nav-item--icon') as HTMLElement;

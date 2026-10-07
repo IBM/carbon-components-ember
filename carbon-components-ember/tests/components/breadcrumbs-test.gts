@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, rerender } from '@ember/test-helpers';
 import Breadcrumbs from '#src/components/breadcrumbs.gts';
-import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import { tracked } from '@glimmer/tracking';
@@ -10,26 +9,24 @@ import {
   getAllElementComputedStyles,
   getStylesDiff,
   waitForAnimationFrame,
+  disableCarbonStyles,
+  enableCarbonStyles,
 } from '../helpers';
 
 module('Integration | Component | Breadcrumbs', (hooks) => {
   setupRenderingTest(hooks);
 
   test('white theme: should display items', async function (this: RenderingTestContext, assert) {
-    const styleValue = tracked('');
+    disableCarbonStyles();
     await render(
       <template>
         <Breadcrumbs @crumbs={{array "a" "b" "c"}} @current="b" />
-        <style>
-          {{styleValue.value}}
-        </style>
       </template>,
     );
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.value = carbonStyle.default;
-    await rerender();
+    enableCarbonStyles();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(
       this.element.firstElementChild!,
@@ -43,14 +40,11 @@ module('Integration | Component | Breadcrumbs', (hooks) => {
   });
 
   test('dark theme: should display items', async function (this: RenderingTestContext, assert) {
-    const styleValue = tracked('');
+    // Carbon stays on: this snapshot is the switch from white to dark.
     const darkStyleValue = tracked('');
     await render(
       <template>
         <Breadcrumbs @crumbs={{array "a" "b" "c"}} @current="b" />
-        <style>
-          {{carbonStyle.default}}
-        </style>
         <style>
           {{darkStyleValue.value}}
         </style>
@@ -59,7 +53,6 @@ module('Integration | Component | Breadcrumbs', (hooks) => {
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.value = carbonStyle.default;
     darkStyleValue.value = carbonDarkStyle.default;
     await rerender();
     await waitForAnimationFrame();
@@ -110,9 +103,6 @@ module('Integration | Component | Breadcrumbs', (hooks) => {
           @crumbs={{array "a" "b" "c"}}
           @current={{selected.value}}
         />
-        <style>
-          {{carbonStyle.default}}
-        </style>
       </template>,
     );
 

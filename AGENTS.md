@@ -181,6 +181,12 @@ Nothing registers icons with `IconMap` in app code, so string-based icon lookups
 
 ---
 
+## Tests
+- **Carbon's and the addon's stylesheets load globally** in `tests/test-helper.ts`, in an app's order (`@carbon/styles`, then `#src/styles/index.scss`). Never inline Carbon's CSS in a test.
+- **Style snapshots** record the diff from an unstyled baseline: call `disableCarbonStyles()` before rendering, capture the baseline, then `enableCarbonStyles()` and `waitForAnimationFrame()` (from `tests/helpers`) so Carbon's transitions finish. A global hook re-enables Carbon after every test.
+
+---
+
 ## Storybook Conventions
 Stories live as `src/components/**/<name>.stories.gts` next to their components.
 - **CSF Next**: Use CSF Next format (`preview.meta()`, `meta.story()`).

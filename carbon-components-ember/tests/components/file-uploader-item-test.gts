@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, waitUntil, find } from '@ember/test-helpers';
 import FileUploaderItem from '#src/components/file-uploader/file-uploader-item.gts';
-import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import { waitForAnimationFrame } from '../helpers';
 
 module('Integration | Component | FileUploaderItem', (hooks) => {
@@ -106,9 +105,6 @@ module('Integration | Component | FileUploaderItem', (hooks) => {
   test('long filenames become ellipsis-truncated and wrapped in a tooltip trigger', async function (assert) {
     await render(
       <template>
-        <style>
-          {{carbonStyle.default}}
-        </style>
         <div style="width: 100px">
           <FileUploaderItem
             @name="this-is-a-very-long-filename-that-will-definitely-overflow-its-container.txt"

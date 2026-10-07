@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, rerender } from '@ember/test-helpers';
 import Accordion from '#src/components/accordion.gts';
-import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import { tracked } from '@glimmer/tracking';
@@ -10,13 +9,15 @@ import {
   getAllElementComputedStyles,
   getStylesDiff,
   waitForAnimationFrame,
+  disableCarbonStyles,
+  enableCarbonStyles,
 } from '../helpers';
 
 module('Integration | Component | Accordion', (hooks) => {
   setupRenderingTest(hooks);
 
   test('white theme: should display accordion', async function (this: RenderingTestContext, assert) {
-    const styleValue = tracked('');
+    disableCarbonStyles();
     await render(
       <template>
         <Accordion as |A|>
@@ -24,16 +25,12 @@ module('Integration | Component | Accordion', (hooks) => {
             <p>Lorem ipsum</p>
           </A>
         </Accordion>
-        <style>
-          {{styleValue.value}}
-        </style>
       </template>,
     );
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.value = carbonStyle.default;
-    await rerender();
+    enableCarbonStyles();
     await waitForAnimationFrame();
     const withCarbonStyles = getAllElementComputedStyles(
       this.element.firstElementChild!,
@@ -45,7 +42,7 @@ module('Integration | Component | Accordion', (hooks) => {
   });
 
   test('dark theme: should display accordion', async function (this: RenderingTestContext, assert) {
-    const styleValue = tracked('');
+    disableCarbonStyles();
     const darkStyleValue = tracked('');
     await render(
       <template>
@@ -55,9 +52,6 @@ module('Integration | Component | Accordion', (hooks) => {
           </A>
         </Accordion>
         <style>
-          {{styleValue.value}}
-        </style>
-        <style>
           {{darkStyleValue.value}}
         </style>
       </template>,
@@ -65,7 +59,7 @@ module('Integration | Component | Accordion', (hooks) => {
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    styleValue.value = carbonStyle.default;
+    enableCarbonStyles();
     darkStyleValue.value = carbonDarkStyle.default;
     await rerender();
     await waitForAnimationFrame();
@@ -86,9 +80,6 @@ module('Integration | Component | Accordion', (hooks) => {
             <p>Lorem ipsum</p>
           </Item>
         </Accordion>
-        <style>
-          {{carbonStyle.default}}
-        </style>
       </template>,
     );
 
@@ -131,9 +122,6 @@ module('Integration | Component | Accordion', (hooks) => {
             <p>Lorem ipsum</p>
           </Item>
         </Accordion>
-        <style>
-          {{carbonStyle.default}}
-        </style>
       </template>,
     );
 

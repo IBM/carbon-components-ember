@@ -8,7 +8,6 @@ import {
   settled,
 } from '@ember/test-helpers';
 import DatePicker from '#src/components/date-picker.gts';
-import * as carbonStyle from '@carbon/styles/css/styles.css?inline';
 import { waitForAnimationFrame } from '../helpers';
 import { tracked } from '@glimmer/tracking';
 
@@ -261,9 +260,6 @@ module('Integration | Component | DatePicker', (hooks) => {
     try {
       await render(
         <template>
-          <style>
-            {{carbonStyle.default}}
-          </style>
           <DatePicker
             @datePickerType="single"
             @appendTo={{container}}

@@ -110,6 +110,12 @@ export async function waitForAnimationFrame() {
 }
 
 export {
+  disableCarbonStyles,
+  enableCarbonStyles,
+  installCarbonStyles,
+} from './carbon-styles.ts';
+
+export {
   getAllElementComputedStyles,
   getChangedStyles,
   elementRepresentation,
