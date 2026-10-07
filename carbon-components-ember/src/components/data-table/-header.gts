@@ -65,9 +65,9 @@ export default class ListHeaderComponent extends Component<Args> {
       <tr>
         {{#if @isExpandable}}
           <th class="cds--table-expand">
-            {{! checkbox th }}
-            {{! sortable th  }}
-            <span class="cds--table-header-label"></span>
+            <span class="cds--table-header-label cds--visually-hidden">
+              Expand row
+            </span>
           </th>
         {{/if}}
         {{#if @isCheckable}}
