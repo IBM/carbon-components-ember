@@ -672,7 +672,7 @@ index 910683b..974237d 100644
  import { t as OutletPlaceholder } from "./outlet-placeholder-CgO7fIDo.mjs";
  export { OutletPlaceholder, RenderStory, definePreview, renderToCanvas, setProjectAnnotations };
 diff --git a/dist/preset.mjs b/dist/preset.mjs
-index ee1116a..d9c7a50 100644
+index ee1116a..57c00bd 100644
 --- a/dist/preset.mjs
 +++ b/dist/preset.mjs
 @@ -1,6 +1,6 @@
@@ -683,7 +683,68 @@ index ee1116a..d9c7a50 100644
  import { fileURLToPath } from "node:url";
  import { withoutVitePlugins } from "@storybook/builder-vite";
  import { readFile } from "node:fs/promises";
-@@ -793,6 +793,10 @@ function parseProcessedCode(processedCode, filePath) {
+@@ -14,7 +14,7 @@ import "tinyglobby";
+ import { createEmberHost, isEmberTemplateWithAppendix, originalPath, virtualPath } from "typedoc-plugin-ember";
+ //#region ../packages/ember-docgen/dist/index.mjs
+ var __require = /* #__PURE__ */ (() => createRequire(import.meta.url))();
+-function isBlockParam(param) {
++function isBlockParam$1(param) {
+ 	return Object.hasOwn(param, "name") && Object.hasOwn(param, "type");
+ }
+ /**
+@@ -25,7 +25,7 @@ function isBlockParam(param) {
+ */
+ function unwrapBlockParams(params) {
+ 	const result = [];
+-	for (const param of params) if (isBlockParam(param)) {
++	for (const param of params) if (isBlockParam$1(param)) {
+ 		result.push(param);
+ 		const nested = param.nested;
+ 		if (nested && nested.length > 0) result.push(...unwrapBlockParams(nested));
+@@ -765,6 +765,42 @@ const emberIndexer = {
+ 	}
+ };
+ //#endregion
++//#region src/node/docgen/docgen.ts
++/**
++* Resolve the directory of the project's tsconfig, replicating TypeDoc's
++* discovery: walk up from cwd. parseSignatures keys its output relative
++* to this directory.
++*/
++function resolveTsconfigBase() {
++	const findUp = (dir) => {
++		if (existsSync(path.join(dir, "tsconfig.json"))) return dir;
++		const parent = path.dirname(dir);
++		return parent === dir ? void 0 : findUp(parent);
++	};
++	return findUp(process.cwd());
++}
++/**
++* Rewrite componentRef.filePath from tsconfig-relative to project-root-relative
++* (`./`-prefixed) paths, so consumers can look signatures up in the meta map.
++*/
++function rewriteFilePaths(mapped, base) {
++	for (const compSigs of Object.values(mapped)) for (const compSig of Object.values(compSigs)) for (const blockInfo of Object.values(compSig.blocks)) for (const param of unwrapBlockParams$1(blockInfo.params)) if (param.componentRef?.filePath) param.componentRef.filePath = normalizeFilePath(path.resolve(base, param.componentRef.filePath));
++}
++async function runTypeDoc(entryPoints) {
++	const existing = entryPoints.filter((entryPoint) => existsSync(entryPoint));
++	if (existing.length === 0) return {};
++	const base = resolveTsconfigBase();
++	if (!base) return {};
++	try {
++		const extracted = await parseSignatures(existing, { tsconfigFile: path.join(base, "tsconfig.json") });
++		rewriteFilePaths(extracted, base);
++		return extracted;
++	} catch (error) {
++		console.warn("[ember-storybook] TypeDoc extraction failed:", error);
++		return {};
++	}
++}
++//#endregion
+ //#region src/node/parser.ts
+ /**
+ * A map with contents of a component file:
+@@ -793,6 +829,10 @@ function parseProcessedCode(processedCode, filePath) {
  	}).program;
  }
  /**
@@ -694,7 +755,7 @@ index ee1116a..d9c7a50 100644
  * Result of parsing a story file, covering all subsystem needs.
  */
  function firstVarExportName(declarations) {
-@@ -892,6 +896,52 @@ function resolveLocalComponentFile(storyPath, source) {
+@@ -892,6 +932,52 @@ function resolveLocalComponentFile(storyPath, source) {
  	const resolved = path.resolve(path.dirname(storyPath), source);
  	return existsSync(resolved) ? normalizeFilePath(resolved) : void 0;
  }
@@ -747,7 +808,7 @@ index ee1116a..d9c7a50 100644
  /**
  * Parse a story file and return metadata about the component it references,
  * including template sources for each named story export.
-@@ -900,17 +950,46 @@ function parseStoryFile(storyPath) {
+@@ -900,17 +986,46 @@ function parseStoryFile(storyPath) {
  	const { processedCode } = readAndPreprocess(storyPath);
  	let meta = {};
  	let stories = [];
@@ -796,7 +857,7 @@ index ee1116a..d9c7a50 100644
  	new Visitor({
  		ImportDeclaration(node) {
  			for (const spec of node.specifiers) {
-@@ -927,52 +1006,78 @@ function parseStoryFile(storyPath) {
+@@ -927,59 +1042,212 @@ function parseStoryFile(storyPath) {
  			const first = node.declaration.declarations[0];
  			if (first.id.type !== "Identifier") return;
  			const name = first.id.name;
@@ -867,12 +928,6 @@ index ee1116a..d9c7a50 100644
 -		meta,
 -		component: { signatureName: localComponentName },
 -		stories
--	};
--	const compPath = resolveLocalComponentFile(storyPath, importInfo.source);
--	if (!compPath) return {
--		meta,
--		component: { signatureName: localComponentName },
--		stories
 +	const inheritedTemplate = (name, seen) => {
 +		const story = storiesByExport.get(name);
 +		if (story?.inlineTemplate) return story.inlineTemplate;
@@ -886,23 +941,142 @@ index ee1116a..d9c7a50 100644
 +		}
 +		return metaRender ? metaTemplate ?? helperTemplate(metaRender) : void 0;
  	};
--	const compMeta = parseComponentFile(compPath);
--	const signatureName = findSignatureName(compMeta, importInfo.importedName);
+-	const compPath = resolveLocalComponentFile(storyPath, importInfo.source);
+-	if (!compPath) return {
 +	for (const [name, story] of storiesByExport) story.inlineTemplate ??= inheritedTemplate(name, /* @__PURE__ */ new Set([name]));
 +	const resolve = (localName) => resolveComponentReference(storyPath, importMap, localName);
- 	return {
++	return {
  		meta,
+-		component: { signatureName: localComponentName },
++		component: meta.component ? resolve(meta.component) : {},
++		subcomponents: Object.fromEntries(Object.entries(subcomponentNames).map(([key, localName]) => [key, resolve(localName)])),
+ 		stories
+ 	};
+-	const compMeta = parseComponentFile(compPath);
+-	const signatureName = findSignatureName(compMeta, importInfo.importedName);
++}
++//#endregion
++//#region src/node/manifest.ts
++function cell(text) {
++	return text.replaceAll("|", String.raw`\|`).replaceAll(/\s*\n\s*/g, " ");
++}
++function isBlockParam(param) {
++	return Object.hasOwn(param, "name") && Object.hasOwn(param, "type");
++}
++function paramType(param) {
++	return param.componentRef ? "component" : `\`${cell(param.type)}\``;
++}
++function describeParam(param) {
++	const description = param.description ? `: ${cell(param.description)}` : "";
++	return `\`${param.name}\` (${paramType(param)})${description}`;
++}
++function describeBlock(name, block) {
++	const lines = [`- ${name === "default" ? "default block" : `\`<:${name}>\``}${block.description ? `: ${cell(block.description)}` : ""}`];
++	for (const param of block.params) if (isBlockParam(param)) lines.push(`  - yields ${describeParam(param)}`);
++	else {
++		lines.push("  - yields a hash:");
++		for (const [key, entry] of Object.entries(param)) lines.push(`    - \`${key}\`: ${paramType(entry)}`);
++	}
++	return lines;
++}
++/** The signature as Markdown, in place of the props table React docgen gives Storybook. */
++function apiDescription(signature) {
++	const sections = [];
++	const args = Object.entries(signature.args);
++	if (args.length > 0) sections.push([
++		"## Arguments",
++		"",
++		"| Name | Type | Default | Description |",
++		"| --- | --- | --- | --- |",
++		...args.map(([name, arg]) => `| \`@${name}\`${arg.required ? " (required)" : ""} | \`${cell(arg.type.raw)}\` | ${arg.defaultValue ? `\`${cell(arg.defaultValue)}\`` : ""} | ${cell(arg.description)} |`)
++	].join("\n"));
++	const blocks = Object.entries(signature.blocks);
++	if (blocks.length > 0) sections.push([
++		"## Blocks",
++		"",
++		...blocks.flatMap(([name, block]) => describeBlock(name, block))
++	].join("\n"));
++	if (signature.element) sections.push(`## Element\n\n\`...attributes\` are applied to \`${signature.element}\`.`);
++	return sections.join("\n\n");
++}
++function findPackage(from) {
++	let dir = path.dirname(from);
++	while (dir !== path.dirname(dir)) {
++		const file = path.join(dir, "package.json");
++		if (existsSync(file)) {
++			const { name } = JSON.parse(readFileSync(file, "utf8"));
++			return name ? {
++				name,
++				dir
++			} : void 0;
++		}
++		dir = path.dirname(dir);
++	}
++}
++/** `import Button from 'my-addon/components/button';`, assuming a v2 addon's `src/` maps to its exports. */
++function importStatement(componentFile, name) {
++	const pkg = findPackage(componentFile);
++	if (!pkg) return void 0;
++	const specifier = path.relative(pkg.dir, componentFile).replace(/^src\//, "").replace(/\.[gj]ts$|\.[jt]s$/, "");
++	return `import ${name} from '${pkg.name}/${specifier}';`;
++}
++function componentId(storyId) {
++	return storyId.split("--", 1)[0] ?? storyId;
++}
++/** Storybook's components manifest, read by `@storybook/addon-mcp` and served at `/manifests/components.json`. */
++async function buildComponentsManifest(entries) {
++	const byStoryFile = /* @__PURE__ */ new Map();
++	for (const entry of entries) {
++		const group = byStoryFile.get(entry.importPath) ?? [];
++		group.push(entry);
++		byStoryFile.set(entry.importPath, group);
++	}
++	const storyFiles = /* @__PURE__ */ new Map();
++	for (const file of byStoryFile.keys()) storyFiles.set(file, parseStoryFile(path.resolve(file)));
++	const componentFiles = new Set(storyFiles.values().flatMap((parsed) => parsed?.component.file ? [path.resolve(parsed.component.file)] : []));
++	const base = resolveTsconfigBase() ?? process.cwd();
++	const extracted = await runTypeDoc(componentFiles.values().toArray());
++	const signatures = new Map(Object.entries(extracted).map(([file, sigs]) => [path.resolve(base, file), sigs]));
++	const components = {};
++	for (const [file, group] of byStoryFile) {
++		const parsed = storyFiles.get(file);
++		const [first] = group;
++		if (group.every((entry) => entry.type !== "story")) continue;
++		const id = componentId(first.id);
++		const componentFile = parsed?.component.file ? path.resolve(parsed.component.file) : void 0;
++		const signatureName = parsed?.component.signatureName;
++		const signature = componentFile && signatureName ? signatures.get(componentFile)?.[signatureName] : void 0;
++		const name = parsed?.component.name ?? first.title.split("/").at(-1) ?? id;
++		components[id] = {
++			id,
++			name,
++			path: file,
++			import: componentFile ? importStatement(componentFile, name) : void 0,
++			apiDescription: signature ? apiDescription(signature) : void 0,
++			jsDocTags: {},
++			stories: group.filter((entry) => entry.type === "story").map((entry) => {
++				const story = parsed?.stories.find((candidate) => candidate.id === entry.id);
++				return {
++					id: entry.id,
++					name: entry.name,
++					snippet: story?.inlineTemplate
++				};
++			})
++		};
++	}
+ 	return {
+-		meta,
 -		component: {
 -			file: compPath,
 -			signatureName: signatureName ?? localComponentName,
 -			name: signatureName === "__DEFAULT__" ? compMeta?.["__DEFAULT__"] ?? localComponentName : void 0
 -		},
-+		component: meta.component ? resolve(meta.component) : {},
-+		subcomponents: Object.fromEntries(Object.entries(subcomponentNames).map(([key, localName]) => [key, resolve(localName)])),
- 		stories
+-		stories
++		v: 0,
++		components
  	};
  }
-@@ -980,6 +1085,19 @@ function parseStoryFile(storyPath) {
+ //#endregion
  //#region src/node/vite-plugin-orchestrator.ts
  const VIRTUAL = "virtual:ember-storybook";
  const RESOLVED = "\0virtual:ember-storybook";
@@ -922,7 +1096,7 @@ index ee1116a..d9c7a50 100644
  function emberStorybookVitePlugin(api) {
  	let server;
  	function invalidate() {
-@@ -1000,18 +1118,7 @@ function emberStorybookVitePlugin(api) {
+@@ -1000,18 +1268,7 @@ function emberStorybookVitePlugin(api) {
  			if (id !== RESOLVED) return;
  			const contributions = api.getContributions();
  			const merged = {};
@@ -942,7 +1116,46 @@ index ee1116a..d9c7a50 100644
  			return {
  				code: `export default ${JSON.stringify(merged)};`,
  				map: void 0
-@@ -1071,16 +1178,17 @@ async function runTypeDoc(entryPoints) {
+@@ -1032,55 +1289,20 @@ function emberStorybookVitePlugin(api) {
+ 	};
+ }
+ //#endregion
+-//#region src/node/docgen/docgen.ts
+-/**
+-* Resolve the directory of the project's tsconfig, replicating TypeDoc's
+-* discovery: walk up from cwd. parseSignatures keys its output relative
+-* to this directory.
+-*/
+-function resolveTsconfigBase() {
+-	const findUp = (dir) => {
+-		if (existsSync(path.join(dir, "tsconfig.json"))) return dir;
+-		const parent = path.dirname(dir);
+-		return parent === dir ? void 0 : findUp(parent);
+-	};
+-	return findUp(process.cwd());
+-}
+-/**
+-* Rewrite componentRef.filePath from tsconfig-relative to project-root-relative
+-* (`./`-prefixed) paths, so consumers can look signatures up in the meta map.
+-*/
+-function rewriteFilePaths(mapped, base) {
+-	for (const compSigs of Object.values(mapped)) for (const compSig of Object.values(compSigs)) for (const blockInfo of Object.values(compSig.blocks)) for (const param of unwrapBlockParams$1(blockInfo.params)) if (param.componentRef?.filePath) param.componentRef.filePath = normalizeFilePath(path.resolve(base, param.componentRef.filePath));
+-}
+-async function runTypeDoc(entryPoints) {
+-	const existing = entryPoints.filter((entryPoint) => existsSync(entryPoint));
+-	if (existing.length === 0) return {};
+-	const base = resolveTsconfigBase();
+-	if (!base) return {};
+-	try {
+-		const extracted = await parseSignatures(existing, { tsconfigFile: path.join(base, "tsconfig.json") });
+-		rewriteFilePaths(extracted, base);
+-		return extracted;
+-	} catch (error) {
+-		console.warn("[ember-storybook] TypeDoc extraction failed:", error);
+-		return {};
+-	}
+-}
+-//#endregion
  //#region src/node/docgen/vite-plugin.ts
  function isReferenced(state, componentFile) {
  	const abs = path.resolve(componentFile);
@@ -963,7 +1176,7 @@ index ee1116a..d9c7a50 100644
  	};
  }
  async function addSignatures(state, componentPaths) {
-@@ -1118,13 +1226,16 @@ function signaturesContributor(api) {
+@@ -1118,13 +1340,16 @@ function signaturesContributor(api) {
  		const ref = resolveComponentRef(storyFile);
  		if (!ref) return;
  		state.storyToRef.set(storyFile, ref);
@@ -983,7 +1196,7 @@ index ee1116a..d9c7a50 100644
  		contributeState();
  	}
  	function processStoryUnlink(storyFile) {
-@@ -1149,8 +1260,9 @@ function signaturesContributor(api) {
+@@ -1149,8 +1374,9 @@ function signaturesContributor(api) {
  	return {
  		name: "ember-storybook:signatures",
  		async buildStart() {
@@ -994,7 +1207,7 @@ index ee1116a..d9c7a50 100644
  			state = await addSignatures(state, allPaths);
  			contributeState();
  		},
-@@ -1177,10 +1289,15 @@ function computeDataForStory(file) {
+@@ -1177,10 +1403,15 @@ function computeDataForStory(file) {
  	if (!storyResult?.meta.component) return {
  		meta: {},
  		component: {},
@@ -1012,7 +1225,7 @@ index ee1116a..d9c7a50 100644
  	return {
  		meta: { [file]: storyResult.meta },
  		component: { [file]: {
-@@ -1188,12 +1305,14 @@ function computeDataForStory(file) {
+@@ -1188,12 +1419,14 @@ function computeDataForStory(file) {
  			signatureName: storyResult.component.signatureName,
  			name: storyResult.component.name
  		} },
@@ -1028,7 +1241,7 @@ index ee1116a..d9c7a50 100644
  	let fileComponentMaps = {};
  	function recontribute() {
  		api.contribute("meta", {
-@@ -1201,10 +1320,12 @@ function metaContributor(api) {
+@@ -1201,10 +1434,12 @@ function metaContributor(api) {
  			...fileComponentMaps
  		});
  		api.contribute("component", { ...fileComponent });
@@ -1041,7 +1254,7 @@ index ee1116a..d9c7a50 100644
  		let componentMaps = {};
  		for (const file of getStoryFiles()) {
  			const data = computeDataForStory(file);
-@@ -1216,6 +1337,10 @@ function metaContributor(api) {
+@@ -1216,6 +1451,10 @@ function metaContributor(api) {
  				...component,
  				...data.component
  			};
@@ -1052,7 +1265,7 @@ index ee1116a..d9c7a50 100644
  			componentMaps = {
  				...componentMaps,
  				...data.componentMap
-@@ -1223,11 +1348,13 @@ function metaContributor(api) {
+@@ -1223,11 +1462,13 @@ function metaContributor(api) {
  		}
  		fileMeta = meta;
  		fileComponent = component;
@@ -1067,7 +1280,7 @@ index ee1116a..d9c7a50 100644
  	}
  	function syncStory(storyPath) {
  		const data = computeDataForStory(storyPath);
-@@ -1243,10 +1370,15 @@ function metaContributor(api) {
+@@ -1243,10 +1484,15 @@ function metaContributor(api) {
  			...fileComponentMaps,
  			...data.componentMap
  		};
@@ -1084,7 +1297,7 @@ index ee1116a..d9c7a50 100644
  			syncAll();
  		},
  		configureServer(server) {
-@@ -1269,6 +1401,7 @@ function metaContributor(api) {
+@@ -1269,6 +1515,7 @@ function metaContributor(api) {
  				if (!(isStoryFile(changedPath) || isComponentFile(changedPath))) return;
  				delete fileMeta[changedPath];
  				delete fileComponent[changedPath];
@@ -1092,7 +1305,7 @@ index ee1116a..d9c7a50 100644
  				recontribute();
  			});
  		}
-@@ -1299,7 +1432,8 @@ function sourceContributor(api) {
+@@ -1299,7 +1546,8 @@ function sourceContributor(api) {
  	}
  	return {
  		name: "ember-storybook:source",
@@ -1102,7 +1315,7 @@ index ee1116a..d9c7a50 100644
  			const files = getStoryFiles().filter((f) => isStoryFile(f));
  			const data = {};
  			for (const file of files) data[file] = extractSource(file);
-@@ -1325,16 +1459,26 @@ function sourceContributor(api) {
+@@ -1325,16 +1573,26 @@ function sourceContributor(api) {
  }
  //#endregion
  //#region src/node/vite-plugin.ts
@@ -1131,7 +1344,7 @@ index ee1116a..d9c7a50 100644
  		emberStorybookVitePlugin(api),
  		metaContributor(api),
  		sourceContributor(api),
-@@ -1366,13 +1510,15 @@ const previewAnnotations = async (entries = [], options) => {
+@@ -1366,13 +1624,15 @@ const previewAnnotations = async (entries = [], options) => {
  	return annotations;
  };
  const managerEntries = (entries = []) => [...entries, fileURLToPath(import.meta.resolve("ember-storybook/manager"))];
@@ -1149,13 +1362,26 @@ index ee1116a..d9c7a50 100644
  		optimizeDeps: { exclude: ["object-inspect"] },
  		resolve: { dedupe: ["ember-source"] }
  	});
-@@ -1392,5 +1538,3 @@ const core = async (config, options) => {
+@@ -1380,6 +1640,10 @@ const viteFinal = async (config) => {
+ const experimental_indexers = (indexers) => {
+ 	return [emberIndexer, ...indexers ?? []];
+ };
++const experimental_manifests = async (existing, options) => ({
++	...existing,
++	components: await buildComponentsManifest(options.manifestEntries ?? [])
++});
+ const core = async (config, options) => {
+ 	const framework = await options.presets.apply("framework");
+ 	return {
+@@ -1391,6 +1655,4 @@ const core = async (config, options) => {
+ 	};
  };
  //#endregion
- export { core, experimental_indexers, managerEntries, previewAnnotations, viteFinal };
+-export { core, experimental_indexers, managerEntries, previewAnnotations, viteFinal };
 -
 -//# sourceMappingURL=preset.mjs.map
 \ No newline at end of file
++export { core, experimental_indexers, experimental_manifests, managerEntries, previewAnnotations, viteFinal };
 diff --git a/dist/react-BcVz11Jd.mjs b/dist/react-BcVz11Jd.mjs
 deleted file mode 100644
 index b474ca5..0000000
