@@ -1,0 +1,30 @@
+// The explanation's styles, from Carbon React's ailabel-story.scss.
+@use "@carbon/styles/scss/theme";
+@use "@carbon/styles/scss/type";
+
+.ai-label-explanation {
+  p {
+    @include type.type-style("body-compact-01");
+  }
+
+  .secondary {
+    color: theme.$text-secondary;
+  }
+
+  .bold {
+    font-weight: 600;
+  }
+
+  .heading {
+    margin-block-end: 1rem;
+    font-size: 2.625rem;
+    font-weight: 300;
+  }
+
+  hr {
+    block-size: 1px;
+    border: 0;
+    margin-block: 2rem;
+    background: theme.$border-subtle;
+  }
+}

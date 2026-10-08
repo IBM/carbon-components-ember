@@ -1,6 +1,7 @@
 import { trackedObject } from '@ember/reactive/collections';
 import { expect, fn } from 'storybook/test';
 
+import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
 import preview from '#storybook/preview.ts';
 import RadioButton from './radio-button.gts';
 import RadioButtonGroup from './radio-button/group.gts';
@@ -12,7 +13,6 @@ import type { Value } from './radio-button.gts';
 // - RadioButtonGroup has no `helperText`, `invalid`/`invalidText` or
 //   `warn`/`warnText` (React's `Default` story exposes all of them).
 // - `Skeleton`: there is no RadioButtonSkeleton.
-// - `withAILabel`: no `decorator`/`slug` arg.
 
 // The stories render a RadioButtonGroup; `hideLabel` is passed on to each
 // RadioButton.
@@ -248,3 +248,74 @@ Standalone.test(
     await expect(canvas.getByText('is checked: true')).toBeInTheDocument();
   },
 );
+
+// The group's AI label follows its legend; a radio button's follows its
+// label. Carbon React sizes an inline one `md`, so pass `@size="md"` with
+// `@kind="inline"`.
+export const WithAILabel = meta.story({
+  render: () => <template>
+    <RadioButtonGroup
+      @legendText="Group label"
+      @name="radio-button-ai-label-group"
+      @orientation="vertical"
+      @defaultSelected="radio-1"
+    >
+      <:decorator as |AILabel|>
+        <AILabel @align="bottom-start" as |label|>
+          <label.Content><AIExplanation /></label.Content>
+        </AILabel>
+      </:decorator>
+      <:default as |Radio|>
+        <Radio @labelText="Radio button label" @value="radio-1" />
+        <Radio @labelText="Radio button label" @value="radio-2" />
+        <Radio @labelText="Radio button label" @value="radio-3" />
+      </:default>
+    </RadioButtonGroup>
+    <RadioButtonGroup
+      @legendText="Group label"
+      @name="radio-button-ai-label-items"
+      @orientation="vertical"
+      @defaultSelected="radio-1"
+      as |Radio|
+    >
+      <Radio @labelText="Radio button label" @value="radio-1">
+        <:decorator as |AILabel|>
+          <AILabel @align="bottom-start" as |label|>
+            <label.Content><AIExplanation /></label.Content>
+          </AILabel>
+        </:decorator>
+      </Radio>
+      <Radio @labelText="Radio button label" @value="radio-2">
+        <:decorator as |AILabel|>
+          <AILabel @align="bottom-start" as |label|>
+            <label.Content><AIExplanation /></label.Content>
+          </AILabel>
+        </:decorator>
+      </Radio>
+      <Radio @labelText="Radio button label" @value="radio-3" />
+    </RadioButtonGroup>
+    <RadioButtonGroup
+      @legendText="Group label"
+      @name="radio-button-ai-label-inline"
+      @orientation="vertical"
+      @defaultSelected="radio-1"
+      as |Radio|
+    >
+      <Radio @labelText="Radio button label" @value="radio-1">
+        <:decorator as |AILabel|>
+          <AILabel @kind="inline" @size="md" @align="bottom-start" as |label|>
+            <label.Content><AIExplanation /></label.Content>
+          </AILabel>
+        </:decorator>
+      </Radio>
+      <Radio @labelText="Radio button label" @value="radio-2">
+        <:decorator as |AILabel|>
+          <AILabel @kind="inline" @size="md" @align="bottom-start" as |label|>
+            <label.Content><AIExplanation /></label.Content>
+          </AILabel>
+        </:decorator>
+      </Radio>
+      <Radio @labelText="Radio button label" @value="radio-3" />
+    </RadioButtonGroup>
+  </template>,
+});

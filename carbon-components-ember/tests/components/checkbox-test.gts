@@ -48,4 +48,26 @@ module('Integration | Component | Checkbox', (hooks) => {
       .dom('.cds--checkbox-label')
       .doesNotHaveClass('cds--checkbox-label__focus');
   });
+
+  test('renders an AI label after its label', async function (assert) {
+    await render(
+      <template>
+        <Checkbox @label="Checkbox label">
+          <:decorator as |AILabel|><AILabel /></:decorator>
+        </Checkbox>
+      </template>,
+    );
+
+    assert
+      .dom('.cds--checkbox-wrapper')
+      .hasClass('cds--checkbox-wrapper--decorator');
+    assert
+      .dom('.cds--checkbox-label .cds--ai-label')
+      .doesNotExist('the AI label is not inside the label');
+    assert
+      .dom(
+        '.cds--checkbox-wrapper-inner--decorator .cds--ai-label__button--mini',
+      )
+      .exists('the yielded AI label is mini, as in Carbon React');
+  });
 });

@@ -190,4 +190,23 @@ module('Integration | Component | NumberInput', (hooks) => {
     assert.dom('input').hasValue('43');
     assert.dom('#out').hasText('43');
   });
+
+  test('renders an AI label in its decorator block with the decorator wrapper classes', async function (assert) {
+    await render(
+      <template>
+        <NumberInput @label="Amount">
+          <:decorator as |AILabel|><AILabel /></:decorator>
+        </NumberInput>
+      </template>,
+    );
+
+    assert
+      .dom('.cds--number__input-wrapper')
+      .hasClass('cds--number__input-wrapper--decorator');
+    assert
+      .dom(
+        '.cds--number__input-inner-wrapper--decorator .cds--ai-label__button--mini',
+      )
+      .exists('the yielded AI label is mini, as in Carbon React');
+  });
 });

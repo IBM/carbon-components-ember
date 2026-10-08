@@ -2,6 +2,7 @@ import { trackedObject } from '@ember/reactive/collections';
 import { expect, fn } from 'storybook/test';
 
 import { withLayer } from '#storybook/decorators.gts';
+import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
 import preview from '#storybook/preview.ts';
 import TextInput from './text-input.gts';
 
@@ -11,14 +12,13 @@ type Args = TextInputSignature['Args'];
 
 // Carbon React parity gaps (Components/TextInput):
 // - `Inline`: no `inline` arg.
-// - `withAILabel`: no `decorator`/`slug` arg.
 // - `Skeleton`: there is no TextInputSkeleton.
 // - No `labelText` as a node, `xs` size or `TestInvalidTextNoOverlap`
 //   visual-regression story. PasswordInput and FluidTextInput are their own
 //   components with their own stories.
 
-// No `render`: TextInput takes no blocks, so every arg is passed straight
-// through as a named argument (`@labelText`, `@placeholder`, ...).
+// No `render`: every arg is passed straight through as a named argument
+// (`@labelText`, `@placeholder`, ...).
 const meta = preview.meta({
   title: 'Components/TextInput',
   component: TextInput,
@@ -161,4 +161,20 @@ export const Disabled = meta.story({
   args: {
     disabled: true,
   },
+});
+
+export const WithAILabel = meta.story({
+  render: (args: TextInputSignature['Args']) => <template>
+    <TextInput
+      @labelText={{args.labelText}}
+      @placeholder={{args.placeholder}}
+      @onChange={{args.onChange}}
+    >
+      <:decorator as |AILabel|>
+        <AILabel @align="bottom-end" as |label|>
+          <label.Content><AIExplanation /></label.Content>
+        </AILabel>
+      </:decorator>
+    </TextInput>
+  </template>,
 });

@@ -14,7 +14,8 @@ const FRUITS = ['Apple', 'Banana', 'Cherry', 'Durian', 'Elderberry'];
 // custom listbox built on ember-power-select (see `SelectItem` and
 // `SelectItemGroup` for the native option elements).
 // - `Skeleton`: there is no SelectSkeleton.
-// - `withAILabel`: no `decorator`/`slug` arg.
+// - `withAILabel`: Select's field renders inside ember-power-select's
+//   trigger, so an AI label there would be a button inside a combobox.
 // - No `invalid`/`invalidText`, `warn`/`warnText`, `readOnly`, `size` or
 //   `hideLabel`; the label is `@title` (React's `labelText`).
 

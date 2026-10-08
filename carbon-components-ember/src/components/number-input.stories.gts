@@ -1,6 +1,7 @@
 import { trackedObject } from '@ember/reactive/collections';
 import { expect, fn } from 'storybook/test';
 
+import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
 import preview from '#storybook/preview.ts';
 import NumberInput from './number-input.gts';
 
@@ -11,7 +12,6 @@ import type { NumberInputSignature } from './number-input.gts';
 //   `WithTypeOfCustomValidation`: no `type="text"` mode, so no `locale`,
 //   `formatOptions`, `inputMode` or custom `validate`.
 // - `Skeleton`: there is no NumberInputSkeleton.
-// - `withAILabel`: no `decorator`/`slug` arg.
 // - No `disableWheel` or `translateWithId`.
 
 type Args = NumberInputSignature['Args'];
@@ -236,4 +236,24 @@ export const ReadOnly = meta.story({
     readOnly: true,
     defaultValue: 42,
   },
+});
+
+export const WithAILabel = meta.story({
+  render: (args: Args) => <template>
+    <NumberInput
+      @label={{args.label}}
+      @helperText={{args.helperText}}
+      @min={{args.min}}
+      @max={{args.max}}
+      @step={{args.step}}
+      @defaultValue={{50}}
+      @onChange={{args.onChange}}
+    >
+      <:decorator as |AILabel|>
+        <AILabel @align="bottom-end" as |label|>
+          <label.Content><AIExplanation /></label.Content>
+        </AILabel>
+      </:decorator>
+    </NumberInput>
+  </template>,
 });

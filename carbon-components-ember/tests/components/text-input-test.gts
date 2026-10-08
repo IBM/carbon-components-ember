@@ -130,4 +130,23 @@ module('Integration | Component | TextInput', (hooks) => {
 
     assert.dom('.cds--text-input__label-counter').hasText('5/10');
   });
+
+  test('renders an AI label in its decorator block with the decorator wrapper classes', async function (assert) {
+    await render(
+      <template>
+        <TextInput @labelText="Name">
+          <:decorator as |AILabel|><AILabel /></:decorator>
+        </TextInput>
+      </template>,
+    );
+
+    assert
+      .dom('.cds--text-input__field-wrapper')
+      .hasClass('cds--text-input__field-wrapper--decorator');
+    assert
+      .dom(
+        '.cds--text-input__field-inner-wrapper--decorator .cds--ai-label__button--mini',
+      )
+      .exists('the yielded AI label is mini, as in Carbon React');
+  });
 });

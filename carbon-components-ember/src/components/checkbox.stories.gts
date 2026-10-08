@@ -1,6 +1,7 @@
 import { trackedObject } from '@ember/reactive/collections';
 import { expect, fn } from 'storybook/test';
 
+import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
 import preview from '#storybook/preview.ts';
 import Checkbox from './checkbox.gts';
 
@@ -8,7 +9,8 @@ import Checkbox from './checkbox.gts';
 // - `Default` / `Horizontal`: there is no CheckboxGroup (legend, helper
 //   text, orientation, invalid/warn states for a set of checkboxes).
 // - `Skeleton`: there is no CheckboxSkeleton.
-// - `withAILabel`: no `decorator`/`slot` arg.
+// - `withAILabel`: without a CheckboxGroup there is no label on a group;
+//   the story shows labels on single checkboxes.
 // - Checkbox itself has no `helperText`, `invalid`/`invalidText`,
 //   `warn`/`warnText` or `hideLabel` args; its label is `@label` (or the
 //   block) rather than `labelText`.
@@ -131,3 +133,46 @@ LabelInBlock.test(
     await expect(canvas.getByText('checked: true')).toBeInTheDocument();
   },
 );
+
+// An inline AI label sits next to the label text; Carbon React sizes it
+// `md`, so pass `@size="md"` with `@kind="inline"`.
+export const WithAILabel = meta.story({
+  render: () => <template>
+    <div style="display: flex; flex-direction: column; gap: 2rem">
+      <div class="cds--form-item">
+        <Checkbox @label="Checkbox label">
+          <:decorator as |AILabel|>
+            <AILabel @align="bottom-start" as |label|>
+              <label.Content><AIExplanation /></label.Content>
+            </AILabel>
+          </:decorator>
+        </Checkbox>
+        <Checkbox @label="Checkbox label">
+          <:decorator as |AILabel|>
+            <AILabel @align="bottom-start" as |label|>
+              <label.Content><AIExplanation /></label.Content>
+            </AILabel>
+          </:decorator>
+        </Checkbox>
+        <Checkbox @label="Checkbox label" />
+      </div>
+      <div class="cds--form-item">
+        <Checkbox @label="Checkbox label">
+          <:decorator as |AILabel|>
+            <AILabel @kind="inline" @size="md" @align="bottom-start" as |label|>
+              <label.Content><AIExplanation /></label.Content>
+            </AILabel>
+          </:decorator>
+        </Checkbox>
+        <Checkbox @label="Checkbox label">
+          <:decorator as |AILabel|>
+            <AILabel @kind="inline" @size="md" @align="bottom-start" as |label|>
+              <label.Content><AIExplanation /></label.Content>
+            </AILabel>
+          </:decorator>
+        </Checkbox>
+        <Checkbox @label="Checkbox label" />
+      </div>
+    </div>
+  </template>,
+});

@@ -11,6 +11,8 @@ import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { concat } from '@ember/helper';
 import { Add, Subtract, WarningFilled, WarningAltFilled } from '../icons.ts';
+import AILabel from './ai-label.gts';
+import type { WithBoundArgs } from '@glint/template';
 
 export interface NumberInputSignature {
   Args: {
@@ -44,6 +46,13 @@ export interface NumberInputSignature {
     onBlur?: (event: FocusEvent) => void;
   };
   Element: HTMLDivElement;
+  Blocks: {
+    /**
+     * **Experimental:** an AI label, or any other decorator, shown in the field.
+     * Yields an `AILabel` already set up for it.
+     */
+    decorator: [AILabel: WithBoundArgs<typeof AILabel, 'size'>];
+  };
 }
 
 function decimalPlaces(num: number): number {
@@ -207,7 +216,11 @@ export default class NumberInput extends Component<NumberInputSignature> {
         {{/if}}
         <div
           class="cds--number__input-wrapper
-            {{if this.isWarn 'cds--number__input-wrapper--warning'}}"
+            {{if this.isWarn 'cds--number__input-wrapper--warning'}}
+            {{if
+              (has-block 'decorator')
+              'cds--number__input-wrapper--decorator'
+            }}"
         >
           <input
             id={{this.id}}
@@ -225,6 +238,11 @@ export default class NumberInput extends Component<NumberInputSignature> {
             {{on "click" this.handleClick}}
             {{on "blur" this.handleBlur}}
           />
+          {{#if (has-block "decorator")}}
+            <div class="cds--number__input-inner-wrapper--decorator">
+              {{yield (component AILabel size="mini") to="decorator"}}
+            </div>
+          {{/if}}
           {{#if this.isInvalid}}
             <WarningFilled @size="16" @svgClass="cds--number__invalid" />
           {{else if this.isWarn}}
