@@ -9,7 +9,7 @@ import Component from '@glimmer/component';
 import { cached, tracked } from '@glimmer/tracking';
 import { modifier as eModifier } from 'ember-modifier';
 import { guidFor } from '@ember/object/internals';
-import type { TemplateOnlyComponent } from '@ember/component/template-only';
+import type { TOC } from '@ember/component/template-only';
 import type { ComponentLike } from '@glint/template';
 import { SendFilled } from '../../icons.ts';
 import { resetTriggerChangeState } from './-prompt-line/tiptap/trigger-utils.ts';
@@ -146,7 +146,7 @@ interface ItemRowSignature {
   };
 }
 
-const ItemRow: TemplateOnlyComponent<ItemRowSignature> = <template>
+const ItemRow: TOC<ItemRowSignature> = <template>
   <li
     id={{@entry.optionId}}
     role="option"

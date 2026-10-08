@@ -5,7 +5,7 @@ import CopyButton from '../components/copy-button.gts';
 import { concat } from '@ember/helper';
 import { modifier as eModifier } from 'ember-modifier';
 import { htmlSafe } from '@ember/template';
-import type { TemplateOnlyComponent } from '@ember/component/template-only';
+import type { TOC } from '@ember/component/template-only';
 
 export interface CodeSnippetSignature {
   Args: {
@@ -25,13 +25,15 @@ const captureElement = eModifier<{
   onInsert(element);
 });
 
-// As Carbon React: a multi-line snippet's `<pre>` is the focusable,
-// read-only textbox, so its scrollable content is keyboard reachable.
-const PreCode: TemplateOnlyComponent<{
+interface PreCodeSignature {
   Element: HTMLElement;
   Args: { multiline?: boolean };
   Blocks: { default: [] };
-}> = <template>
+}
+
+// As Carbon React: a multi-line snippet's `<pre>` is the focusable,
+// read-only textbox, so its scrollable content is keyboard reachable.
+const PreCode: TOC<PreCodeSignature> = <template>
   <pre
     role={{if @multiline "textbox"}}
     tabindex={{if @multiline "0"}}

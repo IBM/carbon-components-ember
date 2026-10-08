@@ -11,12 +11,14 @@ import type { SafeString } from '@ember/template';
 import { modifier } from 'ember-modifier';
 import type { HandlePosition } from '../slider.gts';
 
-const registerElement = modifier<{
-  Element: HTMLDivElement;
-  Args: { Positional: [(element: HTMLDivElement) => void] };
-}>((element, [onInsert]) => {
-  onInsert(element);
-});
+const registerElement = modifier(
+  (
+    element: HTMLDivElement,
+    [onInsert]: [onInsert: (element: HTMLDivElement) => void],
+  ) => {
+    onInsert(element);
+  },
+);
 
 export interface SliderThumbSignature {
   Args: {

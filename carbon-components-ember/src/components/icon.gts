@@ -96,7 +96,6 @@ export interface IconSignature {
 }
 
 export default class Icon extends Component<IconSignature> {
-  static positionalParams = ['icon'];
   @service('carbon.dialog-manager')
   dialogManager!: DialogManagerService;
   @tracked loading: boolean = false;

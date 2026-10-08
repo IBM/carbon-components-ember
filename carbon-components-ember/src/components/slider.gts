@@ -11,12 +11,14 @@ import SliderTextInput from './slider/-text-input.gts';
 
 export type HandlePosition = 'lower' | 'upper';
 
-const registerElement = modifier<{
-  Element: HTMLDivElement;
-  Args: { Positional: [(element: HTMLDivElement) => void] };
-}>((element, [onInsert]) => {
-  onInsert(element);
-});
+const registerElement = modifier(
+  (
+    element: HTMLDivElement,
+    [onInsert]: [onInsert: (element: HTMLDivElement) => void],
+  ) => {
+    onInsert(element);
+  },
+);
 
 export interface SliderSignature {
   Args: {

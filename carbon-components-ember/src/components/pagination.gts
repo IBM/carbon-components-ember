@@ -178,22 +178,24 @@ export default class Pagination extends Component<PaginationSignature> {
   // to the (stale) `@state`.
   syncedInitialState = false;
 
-  syncState = modifier<{
-    Element: HTMLElement;
-    Args: { Positional: [state: State | undefined, length: number] };
-  }>((_element, [state]) => {
-    if (!this.syncedInitialState) {
-      this.syncedInitialState = true;
-      return;
-    }
-    runTask(this, () => {
-      if (state) {
-        this.setState(state);
-      } else {
-        this.lengthChanged();
+  syncState = modifier(
+    (
+      _element: HTMLElement,
+      [state]: [state: State | undefined, length: number],
+    ) => {
+      if (!this.syncedInitialState) {
+        this.syncedInitialState = true;
+        return;
       }
-    });
-  });
+      runTask(this, () => {
+        if (state) {
+          this.setState(state);
+        } else {
+          this.lengthChanged();
+        }
+      });
+    },
+  );
 
   styles = stylesheet`
     .namespace {
