@@ -50,6 +50,23 @@ jobs:
           for p in $PACKAGES; do pnpm --filter "$p" lint || status=1; done
           exit $status
 
+  mcp:
+    name: MCP server
+    needs: changes
+    if: contains(needs.changes.outputs.packages, 'carbon-components-ember-mcp')
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Node and pnpm
+        uses: ./.github/actions/setup-pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --filter carbon-components-ember-mcp
+
+      - name: Test
+        run: pnpm --filter carbon-components-ember-mcp test
+
   test:
     name: Test
     needs: changes

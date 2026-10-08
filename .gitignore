@@ -1,6 +1,9 @@
 *
 !carbon-components-ember
 !carbon-components-ember/**/*
+!carbon-components-ember-mcp
+!carbon-components-ember-mcp/**/*
+carbon-components-ember-mcp/node_modules
 !config
 !config/**/*
 !dom-parity

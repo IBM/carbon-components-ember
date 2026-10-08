@@ -1,0 +1,19 @@
+{
+  "v": 0,
+  "components": {
+    "components-button": {
+      "id": "components-button",
+      "name": "Button",
+      "description": "Buttons are used to initialize an action.",
+      "import": "import Button from 'carbon-components-ember/components/button';",
+      "apiDescription": "## Arguments\n\n| Name | Type |\n| --- | --- |\n| `@kind` | `'primary' \\| 'secondary'` |",
+      "stories": [
+        {
+          "id": "components-button--default",
+          "name": "Default",
+          "snippet": "<Button @kind=\"primary\">Button</Button>"
+        }
+      ]
+    }
+  }
+}
