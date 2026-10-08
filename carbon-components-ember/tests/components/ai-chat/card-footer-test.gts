@@ -109,6 +109,45 @@ module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
       .hasClass('cds-aichat-card-footer__actions--stacked');
   });
 
+  test('its buttons fill the footer, side by side or stacked', async function (assert) {
+    const two: CardFooterAction[] = [
+      { id: 'a', label: 'One' },
+      { id: 'b', label: 'Two' },
+    ];
+    const three: CardFooterAction[] = [...two, { id: 'c', label: 'Three' }];
+    const widths = () => {
+      const footer = find('.cds-aichat-card-footer__actions')!;
+      return {
+        footer: footer.getBoundingClientRect().width,
+        buttons: [...footer.querySelectorAll('.cds--btn')].map(
+          (button) => button.getBoundingClientRect().width,
+        ),
+      };
+    };
+
+    await render(
+      <template>
+        <div style="width: 500px"><AiChatCardFooter @actions={{two}} /></div>
+      </template>,
+    );
+    let { footer, buttons } = widths();
+    assert.true(
+      Math.abs(buttons.reduce((sum, w) => sum + w, 0) + 1 - footer) < 1,
+      'side by side, the buttons and the 1px gap between them fill the row',
+    );
+
+    await render(
+      <template>
+        <div style="width: 500px"><AiChatCardFooter @actions={{three}} /></div>
+      </template>,
+    );
+    ({ footer, buttons } = widths());
+    assert.true(
+      buttons.every((w) => Math.abs(w - footer) < 1),
+      'stacked, each button spans the footer',
+    );
+  });
+
   test('it renders each labeled action kind as exactly one Button variant', async function (assert) {
     const allKindClasses = [
       'cds--btn--primary',
