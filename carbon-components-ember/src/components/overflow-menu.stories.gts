@@ -7,10 +7,8 @@ import Filter from './icons/filter.ts';
 import type { OverflowMenuSignature } from './overflow-menu.gts';
 
 // Parity gaps with Carbon React's OverflowMenu stories:
-// - No `size`, `align`, `autoAlign`, `flipped`, `focusTrap`, `open`/
-//   `defaultOpen`, `iconDescription` or tooltip `enterDelayMs`/
-//   `leaveDelayMs` args. The trigger's accessible name only comes from the
-//   optional `@tooltip`.
+// - No `size`, `align`, `autoAlign`, `focusTrap`, `open`/`defaultOpen` or
+//   tooltip `enterDelayMs`/`leaveDelayMs` args.
 // - `@disabled`/`@danger` disable or mark *every item* rather than the
 //   trigger.
 //
@@ -26,12 +24,14 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
   component: OverflowMenu,
   args: {
     direction: 'bottom',
+    flipped: false,
     tooltip: 'Options',
     onItemClick: fn(),
   },
   render: (args: StoryArgs) => <template>
     <OverflowMenu
       @direction={{args.direction}}
+      @flipped={{args.flipped}}
       @tooltip={{args.tooltip}}
       @disabled={{args.disabled}}
       @danger={{args.danger}}
@@ -81,6 +81,7 @@ export const RenderCustomIcon = meta.story({
   render: (args: StoryArgs) => <template>
     <OverflowMenu
       @direction={{args.direction}}
+      @flipped={{args.flipped}}
       @tooltip={{args.tooltip}}
       @icon={{args.icon}}
       as |Item|
@@ -98,6 +99,7 @@ export const ItemVariants = meta.story({
   render: (args: StoryArgs) => <template>
     <OverflowMenu
       @direction={{args.direction}}
+      @flipped={{args.flipped}}
       @tooltip={{args.tooltip}}
       @danger={{args.danger}}
       @disabled={{args.disabled}}

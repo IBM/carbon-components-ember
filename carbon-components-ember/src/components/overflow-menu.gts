@@ -15,11 +15,14 @@ export interface OverflowMenuSignature {
   Args: {
     icon?: typeof Icon;
     /**
-     * Where the menu opens: `top` opens above the trigger; `bottom` opens
-     * below it, or above when there isn't room below.
+     * The side of the trigger the menu opens on, when there's room for it
+     * there; otherwise it opens on the other side.
      */
     direction: 'bottom' | 'top';
-    /** Aligns the menu's right edge with the trigger, as Carbon React's `flipped`. */
+    /**
+     * Aligns the menu's end edge with the trigger's, as Carbon React's
+     * `flipped`.
+     */
     flipped?: boolean;
     tooltip?: string;
     /**
@@ -34,7 +37,7 @@ export interface OverflowMenuSignature {
      * Passed straight through to the underlying `BasicDropdown` (whose own
      * declared type isn't cleanly importable - its published `.d.ts`
      * re-exports it from a sibling module via a broken `.ts`-extension
-     * specifier). Defaults to `'auto'` (its own default) - only needed when
+     * specifier). Defaults to `'auto'` (`'right'` with `@flipped`) - only needed when
      * the trigger sits near the right edge of a container narrower than
      * the viewport, where `'auto'` would otherwise pick `'left'` (fits the
      * viewport) and let the menu overflow that container instead.
@@ -64,7 +67,7 @@ export default class OverflowMenu extends Component<OverflowMenuSignature> {
   // @flipped when it doesn't fit; Carbon draws the menu's join to the
   // trigger from these.
   @tracked placedAbove?: boolean;
-  @tracked placedRight?: boolean;
+  @tracked placedFlipped?: boolean;
 
   get horizontalPosition() {
     return (
@@ -78,20 +81,39 @@ export default class OverflowMenu extends Component<OverflowMenuSignature> {
   }
 
   get isFlipped() {
-    return this.placedRight ?? this.args.flipped;
+    return this.placedFlipped ?? this.args.flipped;
   }
 
-  calculatePosition: CalculatePosition = (...args) => {
-    const position = calculatePosition(...args);
-    this.placedAbove = position.verticalPosition === 'above';
-    this.placedRight = position.horizontalPosition === 'right';
+  calculatePosition: CalculatePosition = (
+    trigger,
+    content,
+    target,
+    options,
+  ) => {
+    // ember-basic-dropdown aligns physical edges; Carbon's flip is logical.
+    const rtl = getComputedStyle(trigger).direction === 'rtl';
+    const end = rtl ? 'left' : 'right';
+    const position = calculatePosition(trigger, content, target, {
+      ...options,
+      horizontalPosition:
+        this.args.flipped && !this.args.horizontalPosition
+          ? end
+          : options.horizontalPosition,
+      // `auto` keeps the previous side while it fits: start on @direction's.
+      previousVerticalPosition:
+        options.previousVerticalPosition ??
+        (this.args.direction === 'top' ? 'above' : undefined),
+    });
+    const above = position.verticalPosition === 'above';
+    const flipped = position.horizontalPosition === end;
+    if (this.placedAbove !== above) this.placedAbove = above;
+    if (this.placedFlipped !== flipped) this.placedFlipped = flipped;
     return position;
   };
 
   <template>
     <BasicDropdown
       @horizontalPosition={{this.horizontalPosition}}
-      @verticalPosition={{if (eq @direction "top") "above" "auto"}}
       @calculatePosition={{this.calculatePosition}}
       as |dd|
     >

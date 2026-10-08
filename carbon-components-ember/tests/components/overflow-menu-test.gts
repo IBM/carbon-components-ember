@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, settled } from '@ember/test-helpers';
+import { render, click, find, findAll, settled } from '@ember/test-helpers';
 import OverflowMenu from '#src/components/overflow-menu.gts';
 import { tracked } from '@glimmer/tracking';
 
@@ -208,40 +208,47 @@ module('Integration | Component | OverflowMenu', (hooks) => {
       .hasClass('cds--overflow-menu--divider');
   });
 
-  test('tells Carbon which side the menu opened on', async function (assert) {
+  test('lines the menu up with its trigger', async function (assert) {
     await render(
       <template>
-        <OverflowMenu @direction="top" as |Item|>
+        <OverflowMenu @direction="bottom" as |Item|>
           <Item @itemText="Option 1" />
         </OverflowMenu>
       </template>,
     );
     await click('.cds--overflow-menu');
 
-    assert
-      .dom('.ember-basic-dropdown-content')
-      .hasClass('ember-basic-dropdown-content--above');
+    assert.true(
+      find('.ember-basic-dropdown-content')!.getBoundingClientRect().width > 0,
+      'the dropdown wrapper takes the size of the options list',
+    );
     assert
       .dom('.cds--overflow-menu-options')
-      .hasAttribute('data-floating-menu-direction', 'top');
+      .hasAttribute('data-floating-menu-direction', 'bottom')
+      .doesNotHaveClass('cds--overflow-menu--flip');
   });
 
-  test('@flipped aligns the menu with the right edge of its trigger', async function (assert) {
+  test('flips the menu when it opens aligned to the right, as @flipped does', async function (assert) {
     await render(
       <template>
+        <OverflowMenu @direction="bottom" @horizontalPosition="right" as |Item|>
+          <Item @itemText="Option 1" />
+        </OverflowMenu>
         <OverflowMenu @direction="bottom" @flipped={{true}} as |Item|>
           <Item @itemText="Option 1" />
         </OverflowMenu>
       </template>,
     );
-    await click('.cds--overflow-menu');
 
-    assert
-      .dom('.ember-basic-dropdown-content')
-      .hasClass('ember-basic-dropdown-content--right');
-    assert
-      .dom('.cds--overflow-menu-options')
-      .hasClass('cds--overflow-menu--flip')
-      .hasAttribute('data-floating-menu-direction', 'bottom');
+    for (const trigger of findAll('.cds--overflow-menu')) {
+      await click(trigger);
+      assert
+        .dom('.ember-basic-dropdown-content')
+        .hasClass('ember-basic-dropdown-content--right');
+      assert
+        .dom('.cds--overflow-menu-options')
+        .hasClass('cds--overflow-menu--flip');
+      await click(trigger);
+    }
   });
 });
