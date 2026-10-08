@@ -204,8 +204,8 @@ importers:
         specifier: ^11.68.0
         version: 11.88.0
       '@carbon/layout':
-        specifier: ^11.34.0
-        version: 11.60.0
+        specifier: ^11.61.0
+        version: 11.61.0
       '@carbon/styles':
         specifier: ^1.113.0
         version: 1.115.0(sass@1.105.1)
@@ -1278,8 +1278,8 @@ packages:
   '@carbon/icons@11.88.0':
     resolution: {integrity: sha512-roUCNGQ4ts6dLibTbsbXdT9VZP92kz9b8vHr1waJ9tE4XwCpJNM8NfS5221/Ad05qwavKVMsN8dKDyi7yICMwQ==}
 
-  '@carbon/layout@11.60.0':
-    resolution: {integrity: sha512-ZrY1nkJt5UN1n93HCS7OH6C7dloMFdl01MhT6C1zRBv+FL5dODz+NEYxxUOM45ATP7z78XnpvQsTdTnu3kaiUg==}
+  '@carbon/layout@11.61.0':
+    resolution: {integrity: sha512-+j3wKiGe4XaJyub31TUhDXDL8py2cCg/ZqQ1y0BWp3/yi5IvlbH5lXhBjV/iJwpMgtbiGJuKkKBCKMgqDlf8tQ==}
 
   '@carbon/motion@11.52.0':
     resolution: {integrity: sha512-/H2ytsuH7nEAQoIEP+wannT25Il8E0p89AYnafx62hdWGcL2pY3EGZ+ACvmRxkwsIMdptIJJ/tbPhLmlvKYwQQ==}
@@ -10588,7 +10588,7 @@ snapshots:
 
   '@carbon/grid@11.63.0':
     dependencies:
-      '@carbon/layout': 11.60.0
+      '@carbon/layout': 11.61.0
       '@ibm/telemetry-js': 1.11.0
 
   '@carbon/icon-helpers@10.47.0':
@@ -10610,7 +10610,7 @@ snapshots:
     dependencies:
       '@ibm/telemetry-js': 1.11.0
 
-  '@carbon/layout@11.60.0':
+  '@carbon/layout@11.61.0':
     dependencies:
       '@ibm/telemetry-js': 1.11.0
 
@@ -10623,7 +10623,7 @@ snapshots:
       '@babel/runtime': 7.29.7
       '@carbon/feature-flags': 1.9.0
       '@carbon/icons-react': 11.88.0(react@19.3.0)
-      '@carbon/layout': 11.60.0
+      '@carbon/layout': 11.61.0
       '@carbon/motion': 11.52.0
       '@carbon/styles': 1.115.0(sass@1.105.1)
       '@carbon/utilities': 0.24.0
@@ -10651,7 +10651,7 @@ snapshots:
       '@carbon/colors': 11.59.0
       '@carbon/feature-flags': 1.9.0
       '@carbon/grid': 11.63.0
-      '@carbon/layout': 11.60.0
+      '@carbon/layout': 11.61.0
       '@carbon/motion': 11.52.0
       '@carbon/themes': 11.82.0
       '@carbon/type': 11.68.0
@@ -10671,7 +10671,7 @@ snapshots:
   '@carbon/themes@11.82.0':
     dependencies:
       '@carbon/colors': 11.59.0
-      '@carbon/layout': 11.60.0
+      '@carbon/layout': 11.61.0
       '@carbon/type': 11.68.0
       '@ibm/telemetry-js': 1.11.0
       color: 4.2.3
@@ -10679,7 +10679,7 @@ snapshots:
   '@carbon/type@11.68.0':
     dependencies:
       '@carbon/grid': 11.63.0
-      '@carbon/layout': 11.60.0
+      '@carbon/layout': 11.61.0
       '@ibm/telemetry-js': 1.11.0
 
   '@carbon/utilities@0.24.0':
