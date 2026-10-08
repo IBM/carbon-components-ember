@@ -2,6 +2,7 @@ import type { Decorator } from 'ember-storybook';
 import { RenderStory } from 'ember-storybook';
 import { expect, fn } from 'storybook/test';
 
+import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
 import preview from '#storybook/preview.ts';
 import DatePicker from './date-picker.gts';
 import DatePickerInput from './date-picker-input.gts';
@@ -12,8 +13,6 @@ import type { DatePickerInputSignature } from './date-picker-input.gts';
 
 // Carbon React parity gaps (Components/DatePicker):
 // - `Skeleton`: there is no DatePickerSkeleton.
-// - `withAILabel`: DatePickerInput takes a `decorator` component, but there
-//   is no AILabel component to pass to it yet (#406).
 // - No `locale`, `inline`, `disable`/`enable` date lists or
 //   `parseDate`/`invalidText` per-picker args.
 
@@ -287,4 +286,22 @@ export const Warning = meta.story({
     warn: true,
     warnText: 'Double check this date',
   },
+});
+
+export const WithAILabel = meta.story({
+  render: (args: StoryArgs) => <template>
+    <DatePicker
+      @datePickerType={{args.datePickerType}}
+      @onChange={{args.onChange}}
+      as |Input|
+    >
+      <Input @labelText={{args.labelText}} @placeholder={{args.placeholder}}>
+        <:decorator as |AILabel|>
+          <AILabel as |label|>
+            <label.Content><AIExplanation /></label.Content>
+          </AILabel>
+        </:decorator>
+      </Input>
+    </DatePicker>
+  </template>,
 });

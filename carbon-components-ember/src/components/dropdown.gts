@@ -10,13 +10,14 @@ import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { task, timeout } from 'ember-concurrency';
 import type Owner from '@ember/owner';
-import type { ComponentLike } from '@glint/template';
 import {
   ChevronDown,
   Checkmark,
   WarningFilled,
   WarningAltFilled,
 } from '../icons.ts';
+import AILabel from './ai-label.gts';
+import type { WithBoundArgs } from '@glint/template';
 
 export interface DropdownSignature<T> {
   Element: HTMLDivElement;
@@ -109,14 +110,6 @@ export interface DropdownSignature<T> {
      * The direction the menu should open in.
      */
     direction?: 'top' | 'bottom';
-    /**
-     * A component (for example an icon, or `AILabel` once implemented)
-     * rendered inside the field. Invoked with `@size='16'` and an inert
-     * `@svgClass`, so it must accept both.
-     */
-    decorator?: ComponentLike<{
-      Args: { size?: string; svgClass?: string };
-    }>;
   };
   Blocks: {
     /**
@@ -126,6 +119,11 @@ export interface DropdownSignature<T> {
      * when `renderSelectedItem` is not passed.
      */
     default: [item: T];
+    /**
+     * **Experimental:** an AI label, or any other decorator, shown in the field.
+     * Yields an `AILabel` already set up for it.
+     */
+    decorator: [AILabel: WithBoundArgs<typeof AILabel, 'size'>];
   };
 }
 
@@ -244,9 +242,6 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
         'cds--dropdown__wrapper--inline',
         'cds--list-box__wrapper--inline',
       );
-    }
-    if (this.args.decorator) {
-      classes.push('cds--list-box__wrapper--decorator');
     }
     return classes.join(' ');
   }
@@ -478,7 +473,11 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
   };
 
   <template>
-    <div class={{this.wrapperClasses}} ...attributes>
+    <div
+      class="{{this.wrapperClasses}}
+        {{if (has-block 'decorator') 'cds--list-box__wrapper--decorator'}}"
+      ...attributes
+    >
       <label
         id={{this.labelId}}
         class="cds--label
@@ -521,9 +520,9 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
             <ChevronDown @size="16" @svgClass="cds--list-box__menu-icon__svg" />
           </div>
         </button>
-        {{#if @decorator}}
+        {{#if (has-block "decorator")}}
           <div class="cds--list-box__inner-wrapper--decorator">
-            <@decorator @size="16" @svgClass="cds--list-box__decorator-icon" />
+            {{yield (component AILabel size="mini") to="decorator"}}
           </div>
         {{/if}}
         <ul

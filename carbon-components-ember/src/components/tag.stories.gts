@@ -1,17 +1,14 @@
+import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
 import preview from '#storybook/preview.ts';
 import Tag from './tag.gts';
-import Add from './icons/add.ts';
 import Asleep from './icons/asleep.ts';
 
 import type { TagSignature } from './tag.gts';
-import type { TOC } from '@ember/component/template-only';
 
 // Parity gaps with Carbon React's Tag stories:
 // - `Skeleton`: there is no TagSkeleton component.
 // - No `filter` arg, and no DismissibleTag, OperationalTag or
 //   SelectableTag components (React's separate Tag story files).
-// - `withAILabel`: there is no AILabel component yet (see #406); the
-//   `WithDecorator` story shows the `@decorator` slot with a placeholder.
 
 const TYPES: TagSignature['Args']['type'][] = [
   'red',
@@ -50,7 +47,6 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
       @size={{args.size}}
       @disabled={{args.disabled}}
       @renderIcon={{args.renderIcon}}
-      @decorator={{args.decorator}}
     >
       {{args.label}}
     </Tag>
@@ -124,18 +120,22 @@ export const WithIcon = meta.story({
   },
 });
 
-const DecoratorPlaceholder: TOC<object> = <template>
-  <Add @size="16" />
-</template>;
-
-// **Experimental:** `@decorator` (or the deprecated `@slug`) renders a
-// component inside the tag, such as an AILabel once it's available (see
-// #406). Any component can be used as a placeholder in the meantime.
-export const WithDecorator = meta.story({
+// **Experimental:** the `<:decorator>` block yields an `AILabel` already
+// sized for the tag (small and inline); the tag's text then goes in
+// `<:default>`.
+export const WithAILabel = meta.story({
   args: {
     type: 'red',
-    label: 'With decorator',
-    renderIcon: Add,
-    decorator: DecoratorPlaceholder,
+    label: 'With AI label',
   },
+  render: (args: StoryArgs) => <template>
+    <Tag @type={{args.type}} @size={{args.size}}>
+      <:default>{{args.label}}</:default>
+      <:decorator as |AILabel|>
+        <AILabel as |label|>
+          <label.Content><AIExplanation /></label.Content>
+        </AILabel>
+      </:decorator>
+    </Tag>
+  </template>,
 });

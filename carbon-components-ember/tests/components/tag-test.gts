@@ -127,28 +127,23 @@ module('Integration | Component | Tag', (hooks) => {
     assert.dom('.cds--tag__custom-icon').doesNotExist();
   });
 
-  test('should render a decorator component', async function (assert) {
+  test('renders an AI label in its decorator block', async function (assert) {
     await render(
       <template>
-        <Tag @type="red" @decorator={{Add}}>Tag content</Tag>
+        <Tag @type="red">
+          <:default>Tag content</:default>
+          <:decorator as |AILabel|><AILabel /></:decorator>
+        </Tag>
       </template>,
     );
-    await waitUntil(() => find('.cds--tag__decorator svg'));
 
-    assert.dom('.cds--tag__decorator svg').exists();
-  });
-
-  test('should render a deprecated slug component without the decorator wrapper', async function (assert) {
-    await render(
-      <template>
-        {{! eslint-disable-next-line ember/template-no-deprecated -- covers the deprecated arg }}
-        <Tag @type="red" @slug={{Add}}>Tag content</Tag>
-      </template>,
-    );
-    await waitUntil(() => find('.cds--tag svg'));
-
-    assert.dom('.cds--tag__decorator').doesNotExist();
-    assert.dom('.cds--tag > svg').exists();
+    assert
+      .dom('.cds--tag__decorator .cds--ai-label__button')
+      .hasClass('cds--ai-label__button--sm')
+      .hasClass(
+        'cds--ai-label__button--inline',
+        'the yielded AI label is small and inline, as in Carbon React',
+      );
   });
 
   test('should set title on label from text content', async function (assert) {

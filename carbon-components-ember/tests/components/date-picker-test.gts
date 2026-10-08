@@ -591,21 +591,21 @@ module('Integration | Component | DatePicker', (hooks) => {
     assert.dom('.cds--form__helper-text').hasText('Format: mm/dd/yyyy');
   });
 
-  test('DatePickerInput: renders a decorator', async function (assert) {
-    const Badge = <template>
-      <span class="my-badge">*</span>
-    </template>;
-
+  test('DatePickerInput: renders an AI label in its decorator block', async function (assert) {
     await render(
       <template>
         <DatePicker @datePickerType="single" as |Input|>
-          <Input @labelText="Date" @decorator={{Badge}} />
+          <Input @labelText="Date">
+            <:decorator as |AILabel|><AILabel /></:decorator>
+          </Input>
         </DatePicker>
       </template>,
     );
 
     assert
-      .dom('.cds--date-picker-input__wrapper--decorator .my-badge')
-      .exists();
+      .dom(
+        '.cds--date-picker-input__wrapper--decorator .cds--date-picker-input-inner-wrapper--decorator .cds--ai-label__button--mini',
+      )
+      .exists('the yielded AI label is mini, as in Carbon React');
   });
 });

@@ -2,8 +2,9 @@ import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import type { ComponentLike } from '@glint/template';
 import { WarningFilled, WarningAltFilled } from '../icons.ts';
+import AILabel from './ai-label.gts';
+import type { WithBoundArgs } from '@glint/template';
 
 export interface TextAreaSignature {
   Args: {
@@ -26,22 +27,18 @@ export interface TextAreaSignature {
     maxCount?: number;
     counterMode?: 'character' | 'word';
     light?: boolean;
-    /**
-     * **Experimental**: Provide a decorator component (e.g. AILabel) to be
-     * rendered inside the TextArea.
-     */
-    decorator?: ComponentLike;
-    /**
-     * @deprecated please use `decorator` instead.
-     * **Experimental**: Provide a Slug/AILabel component to be rendered
-     * inside the TextArea.
-     */
-    slug?: ComponentLike;
     onChange?: (value: string, event: Event) => void;
     onClick?: (event: MouseEvent) => void;
     onKeyDown?: (event: KeyboardEvent) => void;
   };
   Element: HTMLDivElement;
+  Blocks: {
+    /**
+     * **Experimental:** an AI label, or any other decorator, shown in the field.
+     * Yields an `AILabel` already set up for it.
+     */
+    decorator: [AILabel: WithBoundArgs<typeof AILabel, 'size'>];
+  };
 }
 
 export default class TextArea extends Component<TextAreaSignature> {
@@ -139,8 +136,7 @@ export default class TextArea extends Component<TextAreaSignature> {
           {{if @cols 'cds--text-area__wrapper--cols'}}
           {{if @readOnly 'cds--text-area__wrapper--readonly'}}
           {{if this.isWarn 'cds--text-area__wrapper--warn'}}
-          {{if @slug 'cds--text-area__wrapper--slug'}}
-          {{if @decorator 'cds--text-area__wrapper--decorator'}}"
+          {{if (has-block 'decorator') 'cds--text-area__wrapper--decorator'}}"
         data-invalid={{if this.isInvalid "true"}}
       >
         {{#if this.isInvalid}}
@@ -169,11 +165,9 @@ export default class TextArea extends Component<TextAreaSignature> {
           {{on "click" this.handleClick}}
           {{on "keydown" this.handleKeyDown}}
         >{{this.value}}</textarea>
-        {{#if @slug}}
-          <@slug />
-        {{else if @decorator}}
+        {{#if (has-block "decorator")}}
           <div class="cds--text-area__inner-wrapper--decorator">
-            <@decorator />
+            {{yield (component AILabel size="mini") to="decorator"}}
           </div>
         {{/if}}
         <span

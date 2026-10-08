@@ -11,7 +11,6 @@ import {
 } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import Dropdown from '#src/components/dropdown.gts';
-import { Add } from '#src/icons.ts';
 
 module('Integration | Component | Dropdown', (hooks) => {
   setupRenderingTest(hooks);
@@ -329,7 +328,7 @@ module('Integration | Component | Dropdown', (hooks) => {
     assert.dom('.cds--form-requirement').hasText('This field is required');
   });
 
-  test('@invalid combined with @decorator adds both state and decorator classes', async function (assert) {
+  test('@invalid combined with a decorator block adds both state and decorator classes', async function (assert) {
     await render(
       <template>
         <Dropdown
@@ -338,32 +337,22 @@ module('Integration | Component | Dropdown', (hooks) => {
           @items={{items}}
           @invalid={{true}}
           @invalidText="This field is required"
-          @decorator={{Add}}
-        />
+        >
+          <:decorator as |AILabel|><AILabel /></:decorator>
+        </Dropdown>
       </template>,
     );
-
-    await waitFor('.cds--list-box__inner-wrapper--decorator svg');
 
     assert.dom('.cds--dropdown').hasClass('cds--dropdown--invalid');
     assert.dom('.cds--dropdown').hasClass('cds--list-box--invalid');
     assert
       .dom('.cds--dropdown__wrapper')
       .hasClass('cds--list-box__wrapper--decorator');
-    assert.dom('.cds--list-box__inner-wrapper--decorator svg').exists();
     assert
-      .dom('.cds--list-box__inner-wrapper--decorator svg')
-      .hasClass(
-        'cds--list-box__decorator-icon',
-        'decorator icon opts out of the default 24px Icon margin class',
-      );
-    assert
-      .dom('.cds--list-box__inner-wrapper--decorator svg')
-      .hasAttribute(
-        'width',
-        '16',
-        'decorator icon is rendered at 16px, not the default 24px',
-      );
+      .dom(
+        '.cds--list-box__inner-wrapper--decorator .cds--ai-label__button--mini',
+      )
+      .exists('the yielded AI label is mini, as in Carbon React');
   });
 
   test('@warn and @warnText render the warning state when not invalid', async function (assert) {

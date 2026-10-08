@@ -4,14 +4,11 @@ import {
   render,
   fillIn,
   waitFor,
-  waitUntil,
-  find,
   click,
   triggerKeyEvent,
 } from '@ember/test-helpers';
 import TextArea from '#src/components/text-area.gts';
 import TextAreaSkeleton from '#src/components/text-area-skeleton.gts';
-import { Add } from '#src/icons.ts';
 
 module('Integration | Component | TextArea', (hooks) => {
   setupRenderingTest(hooks);
@@ -189,31 +186,23 @@ module('Integration | Component | TextArea', (hooks) => {
     assert.strictEqual(received, 'A');
   });
 
-  test('should render a decorator component and apply the decorator wrapper classes', async function (assert) {
-    await render(<template><TextArea @decorator={{Add}} /></template>);
-    await waitUntil(() =>
-      find('.cds--text-area__inner-wrapper--decorator svg'),
+  test('renders an AI label in its decorator block with the decorator wrapper classes', async function (assert) {
+    await render(
+      <template>
+        <TextArea>
+          <:decorator as |AILabel|><AILabel /></:decorator>
+        </TextArea>
+      </template>,
     );
 
     assert
       .dom('.cds--text-area__wrapper')
       .hasClass('cds--text-area__wrapper--decorator');
-    assert.dom('.cds--text-area__inner-wrapper--decorator svg').exists();
-  });
-
-  test('should render a slug component without the inner-wrapper and apply the slug wrapper class', async function (assert) {
-    await render(
-      <template>
-        {{! eslint-disable-next-line ember/template-no-deprecated -- covers the deprecated arg }}
-        <TextArea @slug={{Add}} />
-      </template>,
-    );
-    await waitUntil(() => find('.cds--text-area__wrapper svg'));
-
     assert
-      .dom('.cds--text-area__wrapper')
-      .hasClass('cds--text-area__wrapper--slug');
-    assert.dom('.cds--text-area__inner-wrapper--decorator').doesNotExist();
+      .dom(
+        '.cds--text-area__inner-wrapper--decorator .cds--ai-label__button--mini',
+      )
+      .exists('the yielded AI label is mini, as in Carbon React');
   });
 });
 

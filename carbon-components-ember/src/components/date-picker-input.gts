@@ -8,11 +8,19 @@
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
 import { concat } from '@ember/helper';
-import type { ComponentLike } from '@glint/template';
 import { Calendar, WarningFilled, WarningAltFilled } from '../icons.ts';
+import AILabel from './ai-label.gts';
+import type { WithBoundArgs } from '@glint/template';
 
 export interface DatePickerInputSignature {
   Element: HTMLDivElement;
+  Blocks: {
+    /**
+     * **Experimental:** an AI label, or any other decorator, shown in the field.
+     * Yields an `AILabel` already set up for it.
+     */
+    decorator: [AILabel: WithBoundArgs<typeof AILabel, 'size'>];
+  };
   Args: {
     /**
      * The id of the `<input>`. Also used to associate the label with the
@@ -80,14 +88,6 @@ export interface DatePickerInputSignature {
      * help.
      */
     helperText?: string;
-    /**
-     * A component (for example `AILabel` once implemented) rendered inside
-     * the field. Invoked with `@size='16'` and an inert `@svgClass`, so it
-     * must accept both.
-     */
-    decorator?: ComponentLike<{
-      Args: { size?: string; svgClass?: string };
-    }>;
     /**
      * Called whenever the raw `<input>` fires a `change` event. `DatePicker`
      * drives the actual value through flatpickr directly on the DOM node;
@@ -188,7 +188,10 @@ export default class DatePickerInput extends Component<DatePickerInputSignature>
         class="cds--date-picker-input__wrapper
           {{if this.isInvalid 'cds--date-picker-input__wrapper--invalid'}}
           {{if this.isWarn 'cds--date-picker-input__wrapper--warn'}}
-          {{if @decorator 'cds--date-picker-input__wrapper--decorator'}}"
+          {{if
+            (has-block 'decorator')
+            'cds--date-picker-input__wrapper--decorator'
+          }}"
         data-invalid={{if this.isInvalid "true"}}
       >
         <span>
@@ -209,12 +212,9 @@ export default class DatePickerInput extends Component<DatePickerInputSignature>
             {{on "change" this.handleChange}}
             {{on "click" this.handleClick}}
           />
-          {{#if @decorator}}
+          {{#if (has-block "decorator")}}
             <div class="cds--date-picker-input-inner-wrapper--decorator">
-              <@decorator
-                @size="16"
-                @svgClass="cds--date-picker__decorator-icon"
-              />
+              {{yield (component AILabel size="mini") to="decorator"}}
             </div>
           {{/if}}
           {{#if this.showCalendarIcon}}
