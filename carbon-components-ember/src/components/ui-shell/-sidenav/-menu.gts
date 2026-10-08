@@ -5,7 +5,7 @@ import UIShellSideNavSubMenu from './-sub-menu.gts';
 import { ChevronDown } from '../../../icons.ts';
 
 export type SubMenu = {
-  icon: typeof Icon;
+  icon?: typeof Icon;
   title: string;
 };
 
@@ -16,7 +16,7 @@ export interface UIShellSideNavMenuSignature {
     hidden?: boolean;
     open?: boolean;
     isCurrent: boolean;
-    icon: typeof Icon;
+    icon?: typeof Icon;
     title: string;
     submenus: SubMenu[];
   };
@@ -47,7 +47,7 @@ export default class UIShellSideNavMenu extends Component<UIShellSideNavMenuSign
         >
           {{#if @icon}}
             <div class="cds--side-nav__icon">
-              <this.args.icon />
+              <@icon />
             </div>
           {{/if}}
           <span class="cds--side-nav__submenu-title">
@@ -77,7 +77,7 @@ export default class UIShellSideNavMenu extends Component<UIShellSideNavMenuSign
           >
             {{#if @icon}}
               <div class="cds--side-nav__icon cds--side-nav__icon--small">
-                <this.args.icon />
+                <@icon />
               </div>
             {{/if}}
             <span class="cds--side-nav__link-text">

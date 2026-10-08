@@ -12,7 +12,7 @@ import type { TOC } from '@ember/component/template-only';
 
 export type MenuItem = {
   submenus: SubMenu[];
-  icon: typeof Icon;
+  icon?: typeof Icon;
   title: string;
 };
 

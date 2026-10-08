@@ -134,7 +134,6 @@ module('Integration | Component | UIShell', (hooks) => {
                 {{! @glint-expect-error: @submenus is only used for its length here, but is typed as the full SubMenu[] }}
                 <Menu @title="Category 1" @submenus={{subLinks}} as |Sub|>
                   {{#each subLinks as |link|}}
-                    {{! @glint-expect-error: Sidenav's Menu signature requires the full SubMenu shape, which this yielded usage doesn't need }}
                     <Sub
                       @title={{link.title}}
                       @isCurrent={{false}}

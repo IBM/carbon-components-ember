@@ -28,13 +28,11 @@ export const MENU_ITEMS: MenuItem[] = [
   { title: 'Link', icon: Fade, submenus: [] },
 ];
 
-// The templates only render an icon when there is one; the cast is needed
-// because MenuItem/SubMenu declare `icon` as required.
-export const MENU_ITEMS_WITHOUT_ICONS = MENU_ITEMS.map((item) => ({
+export const MENU_ITEMS_WITHOUT_ICONS: MenuItem[] = MENU_ITEMS.map((item) => ({
   ...item,
   icon: undefined,
   submenus: item.submenus.map((sub) => ({ ...sub, icon: undefined })),
-})) as unknown as MenuItem[];
+}));
 
 export const CURRENT = MENU_ITEMS[3]!;
 export const CURRENT_WITHOUT_ICONS = MENU_ITEMS_WITHOUT_ICONS[3]!;
