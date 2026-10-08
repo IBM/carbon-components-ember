@@ -41,7 +41,6 @@ const meta = preview.type<{ args: Args }>().meta({
       options: ['simple', 'single', 'range'],
     },
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
-    decorator: { control: false },
   },
   args: {
     labelText: 'Date Picker label',

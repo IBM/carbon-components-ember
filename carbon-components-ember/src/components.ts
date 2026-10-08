@@ -43,6 +43,7 @@ export { default as WorkspaceShellBody } from './components/ai-chat/workspace-sh
 export { default as WorkspaceShellFooter } from './components/ai-chat/workspace-shell-footer.gts'
 export { default as WorkspaceShellHeader } from './components/ai-chat/workspace-shell-header.gts'
 export { default as WorkspaceShell } from './components/ai-chat/workspace-shell.gts'
+export { default as AILabel } from './components/ai-label.gts'
 export { default as Breadcrumbs } from './components/breadcrumbs.gts'
 export { default as Button } from './components/button.gts'
 export { default as BarChart } from './components/charts/bar.gts'

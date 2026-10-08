@@ -3,8 +3,8 @@ import type { Decorator } from 'ember-storybook';
 import { RenderStory } from 'ember-storybook';
 import { expect, fn } from 'storybook/test';
 
+import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
 import preview from '#storybook/preview.ts';
-import Add from './icons/add.ts';
 import Layer from './layer.gts';
 import TextArea from './text-area.gts';
 import TextAreaSkeleton from './text-area-skeleton.gts';
@@ -12,11 +12,6 @@ import TextAreaSkeleton from './text-area-skeleton.gts';
 import type { TextAreaSignature } from './text-area.gts';
 
 type Args = TextAreaSignature['Args'];
-
-// Carbon React parity gaps (Components/TextArea):
-// - `withAILabel`: TextArea takes a `decorator` component (shown in
-//   `WithDecorator`), but there is no AILabel component to pass to it yet
-//   (#406).
 
 // Renders the story on the background and on two nested layers, like
 // Carbon React's `WithLayer` story template.
@@ -96,20 +91,28 @@ export const WithLayer = meta.story({
   decorators: [withLayer],
 });
 
-export const WithDecorator = meta.story({
+export const WithAILabel = meta.story({
   args: {
-    labelText: 'With a decorator',
+    labelText: 'With an AI label',
     helperText: 'Optional helper text',
-    decorator: Add,
   },
   parameters: {
     docs: {
       description: {
         story:
-          '**Experimental**: `@decorator` (or the deprecated `@slug`) renders a component inside the TextArea, such as an AILabel once it is available ([#406](https://github.com/IBM/carbon-components-ember/issues/406)). Any component can be used in the meantime; this example uses an icon as a stand-in.',
+          '**Experimental**: the `<:decorator>` block yields an `AILabel` already sized for the field.',
       },
     },
   },
+  render: (args: Args) => <template>
+    <TextArea @labelText={{args.labelText}} @helperText={{args.helperText}}>
+      <:decorator as |AILabel|>
+        <AILabel as |label|>
+          <label.Content><AIExplanation /></label.Content>
+        </AILabel>
+      </:decorator>
+    </TextArea>
+  </template>,
 });
 
 export const Skeleton = meta.story({

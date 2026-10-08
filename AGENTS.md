@@ -99,7 +99,8 @@ Parity means matching Carbon React's **public API surface and behaviour**, not i
 | Carbon React construct | Idiomatic Ember equivalent | Live example in this repo |
 | --- | --- | --- |
 | `children` inspected/cloned | Yield a contextual component pre-bound (`WithBoundArgs`) or typed subcomponent (`typeof SubComponent`) | `components/data-table.gts`, `components/tree-view.gts` |
-| Component passed as a prop | A `ComponentLike` arg, invoked as `<@renderIcon />` | `components/link.gts`, `components/text-area.gts` |
+| Component passed as a prop | A `ComponentLike` arg, invoked as `<@renderIcon />` | `components/link.gts` |
+| Component slot (`decorator`, `slug`) | A named block yielding the component pre-bound for the host: `<:decorator as \|AILabel\|>` | `components/tag.gts` |
 | `value` + `defaultValue` + `onChange` | Keep both: `@defaultValue` seeds `@tracked` state, `@value` wins whenever defined | `components/text-input.gts` |
 | State/controllable single prop | One arg plus a private `@tracked` fallback; arg is source of truth only when change handler is passed | `components/tree-view.gts` |
 | `useRef` + `useEffect` DOM listeners | A functional `modifier()` from `ember-modifier` returning its teardown | `components/-private/tooltip.gts` |

@@ -1,8 +1,9 @@
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
 import { modifier } from 'ember-modifier';
-import type { ComponentLike } from '@glint/template';
 import type Icon from './icon.gts';
+import AILabel from './ai-label.gts';
+import type { WithBoundArgs } from '@glint/template';
 
 export interface TagSignature {
   Args: {
@@ -28,17 +29,6 @@ export interface TagSignature {
      * (default) or `lg` sizes.
      */
     size?: 'sm' | 'md' | 'lg';
-    /**
-     * **Experimental:** Provide a `decorator` component (e.g. AILabel) to be
-     * rendered inside the Tag.
-     */
-    decorator?: ComponentLike;
-    /**
-     * @deprecated please use `decorator` instead.
-     * **Experimental:** Provide a Slug/AILabel component to be rendered
-     * inside the Tag.
-     */
-    slug?: ComponentLike;
     type:
       | 'red'
       | 'magenta'
@@ -56,6 +46,11 @@ export interface TagSignature {
   Element: HTMLDivElement;
   Blocks: {
     default: [];
+    /**
+     * **Experimental:** an AI label, or any other decorator, shown after the tag's text.
+     * Yields an `AILabel` already set up for it.
+     */
+    decorator: [AILabel: WithBoundArgs<typeof AILabel, 'size' | 'kind'>];
   };
 }
 
@@ -131,11 +126,9 @@ export default class Tag extends Component<TagSignature> {
       <span class="cds--tag__label" dir="auto" {{this.syncLabelTitle @title}}>
         {{yield}}
       </span>
-      {{#if @slug}}
-        <@slug />
-      {{else if @decorator}}
+      {{#if (has-block "decorator")}}
         <div class="cds--tag__decorator">
-          <@decorator />
+          {{yield (component AILabel size="sm" kind="inline") to="decorator"}}
         </div>
       {{/if}}
     </div>

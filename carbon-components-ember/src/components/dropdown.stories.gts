@@ -3,6 +3,7 @@ import type { Decorator } from 'ember-storybook';
 import { RenderStory } from 'ember-storybook';
 import { expect, fn } from 'storybook/test';
 
+import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
 import preview from '#storybook/preview.ts';
 import Dropdown from './dropdown.gts';
 import Layer from './layer.gts';
@@ -14,8 +15,6 @@ import type { DropdownSignature } from './dropdown.gts';
 // - `ExperimentalAutoAlign`: no `autoAlign`; the menu opens downwards or,
 //   with `@direction="top"`, upwards.
 // - `Skeleton`: there is no DropdownSkeleton.
-// - `withAILabel`: Dropdown takes a `decorator` component, but there is no
-//   AILabel component to pass to it yet (#406).
 // - No `renderSelectedItem`, `translateWithId` or `downshiftProps`; a block
 //   can render each item instead.
 
@@ -231,4 +230,22 @@ export const Disabled = meta.story({
       },
     },
   },
+});
+
+export const WithAILabel = meta.story({
+  render: (args: StoryArgs) => <template>
+    <Dropdown
+      @titleText={{args.titleText}}
+      @label={{args.label}}
+      @items={{args.items}}
+      @itemToString={{args.itemToString}}
+      @onChange={{args.onChange}}
+    >
+      <:decorator as |AILabel|>
+        <AILabel as |label|>
+          <label.Content><AIExplanation /></label.Content>
+        </AILabel>
+      </:decorator>
+    </Dropdown>
+  </template>,
 });
