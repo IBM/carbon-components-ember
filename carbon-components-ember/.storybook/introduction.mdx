@@ -18,7 +18,8 @@ kept in parity with [`@carbon/react`](https://react.carbondesignsystem.com).
 ## Installation
 
 ```sh
-pnpm add carbon-components-ember
+pnpm add carbon-components-ember @carbon/styles
+pnpm add -D sass
 ```
 
 ### Compatibility
@@ -35,6 +36,20 @@ entry point:
 ```ts
 import "@carbon/styles/css/styles.css";
 import "carbon-components-ember/styles.scss";
+```
+
+Some components render elsewhere in the page, so add their two targets to
+your application template:
+
+```gts
+<template>
+  {{outlet}}
+
+  {{! Dropdown, Select and OverflowMenu menus }}
+  <div id="ember-basic-dropdown-wormhole"></div>
+  {{! The confirmation dialog of a @danger Button or Icon }}
+  <div id="carbon-components-dialog-id"></div>
+</template>
 ```
 
 ## Usage
@@ -61,4 +76,6 @@ class MyComponent {
 
 Every component page in the sidebar is generated from the component's own
 Glint signature: the args table, blocks and element come straight from the
-source, and each story doubles as a browser test.
+source, and each story doubles as a browser test. Stories follow Carbon
+React's: the same pages, names and variants, and each story file lists any
+React story it can't match yet.
