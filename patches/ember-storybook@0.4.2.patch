@@ -347,13 +347,166 @@ index 0000000..fcb1761
 +const decorators = [sourceDecorator];
 +//#endregion
 +export { parameters as i, argTypesEnhancers as n, decorators as r, annotations_exports as t };
+diff --git a/dist/annotations-Vj3orCf3.mjs b/dist/annotations-Vj3orCf3.mjs
+new file mode 100644
+index 0000000..f122659
+--- /dev/null
++++ b/dist/annotations-Vj3orCf3.mjs
+@@ -0,0 +1,147 @@
++import { i as __exportAll, n as isEmberStoryResult } from "./story-result-Ds8Z5TZx.mjs";
++import { n as mergeArgTypes, t as buildArgTypes } from "./extractArgTypes-DNDT7G5O.mjs";
++import { n as resolveTemplateArgs, t as componentSource } from "./source-code-BxKRCGI7.mjs";
++import { SourceType } from "storybook/internal/docs-tools";
++import emberData from "virtual:ember-storybook";
++import { emitTransformCode, useEffect, useRef } from "storybook/preview-api";
++//#region src/client/docs/source-decorator.ts
++const data$1 = emberData;
++function skipSourceRender(context) {
++	const sourceParams = context.parameters.docs?.source;
++	if (sourceParams?.type === SourceType.DYNAMIC) return false;
++	return (!context.parameters.__isArgsStory || sourceParams?.code) ?? sourceParams?.type === SourceType.CODE;
++}
++let byStoryId;
++function getByStoryId() {
++	if (byStoryId) return byStoryId;
++	byStoryId = {};
++	for (const entry of Object.values(data$1)) for (const [storyId, source] of Object.entries(entry.source ?? {})) byStoryId[storyId] = {
++		componentName: source.componentName,
++		signatureName: source.signatureName,
++		inlineTemplate: source.inlineTemplate,
++		componentFile: entry.component?.file
++	};
++	return byStoryId;
++}
++/**
++* The signature of the component a story renders, from that component's own
++* file: every default export has the same `__DEFAULT__` signature name.
++*/
++function signatureForStory(story, name) {
++	const file = story?.componentFile;
++	if (!file || !Object.hasOwn(data$1, file)) return void 0;
++	return data$1[file].signatures?.[story.signatureName ?? name];
++}
++function generateSource(component, args, argTypes, storyId) {
++	const meta = storyId ? getByStoryId()[storyId] : void 0;
++	if (meta?.inlineTemplate) return resolveTemplateArgs(meta.inlineTemplate, args);
++	const name = meta?.componentName ?? component.name;
++	if (!name || name === "(unknown template-only component)") return;
++	return componentSource(name, signatureForStory(meta, name), args, argTypes);
++}
++const sourceDecorator = (storyFn, context) => {
++	const source = useRef(void 0);
++	const story = storyFn();
++	useEffect(() => {
++		const rendered = context.originalStoryFn(context.args, context);
++		const renderedForSource = isEmberStoryResult(rendered) ? rendered.component : rendered;
++		if (!skipSourceRender(context)) {
++			const code = generateSource(renderedForSource, context.args, context.argTypes, context.id) ?? void 0;
++			emitTransformCode(code, context);
++			source.current = code;
++		}
++	});
++	return story;
++};
++//#endregion
++//#region src/client/docs/annotations.ts
++var annotations_exports = /* @__PURE__ */ __exportAll({
++	argTypesEnhancers: () => argTypesEnhancers,
++	decorators: () => decorators,
++	extractArgTypes: () => extractArgTypes,
++	parameters: () => parameters
++});
++const data = emberData;
++function signatureFor(ref) {
++	if (!ref?.signatureName) return void 0;
++	const compEntry = ref.file ? data[ref.file] : void 0;
++	if (!compEntry || !("signatures" in compEntry)) return void 0;
++	return compEntry.signatures[ref.signatureName];
++}
++function resolveSig(entry) {
++	if (!("component" in entry)) return void 0;
++	return signatureFor(entry.component);
++}
++/**
++* With `subcomponents`, the `Controls` block shows the main component as a tab
++* too, labelled `__docgenInfo.displayName ?? component.name`. A production
++* build minifies class names, so the tab would read e.g. `Pe`; label it with
++* the name the story file uses instead.
++*/
++function nameMainComponent(component, displayName) {
++	if (!displayName || typeof component !== "object" && typeof component !== "function") return;
++	if (component === null || Object.hasOwn(component, "__docgenInfo")) return;
++	Object.defineProperty(component, "__docgenInfo", {
++		value: { displayName },
++		configurable: true
++	});
++}
++/**
++* The signatures of the components listed in a meta's CSF `subcomponents`,
++* keyed by the component itself — the only handle Storybook passes to
++* `parameters.docs.extractArgTypes`.
++*/
++const subcomponentSignatures = /* @__PURE__ */ new WeakMap();
++function registerSubcomponents(context, entry) {
++	if (!("component" in entry) || !entry.subcomponents) return;
++	for (const [key, component] of Object.entries(context.subcomponents ?? {})) {
++		const sig = signatureFor(entry.subcomponents[key]);
++		if (sig && (typeof component === "object" || typeof component === "function")) subcomponentSignatures.set(component, sig);
++	}
++	nameMainComponent(context.component, entry.meta.component);
++}
++/**
++* Storybook's `Controls` / `ArgTypes` blocks build the tab of each CSF
++* `subcomponents` entry through `parameters.docs.extractArgTypes`, and throw
++* ("Args unsupported") when the framework doesn't provide it.
++*
++* Returns the args of a subcomponent registered by the argTypes enhancer, and
++* no args (an empty tab) for anything else, e.g. a component whose signature
++* could not be extracted.
++*/
++function extractArgTypes(component) {
++	const sig = component && (typeof component === "object" || typeof component === "function") ? subcomponentSignatures.get(component) : void 0;
++	return sig ? buildArgTypes(sig) : {};
++}
++/** Last path segment of a CSF title — used to match stories without `fileName`. */
++function titleLeaf(title) {
++	return title?.split("/").pop();
++}
++const argTypesEnhancers = [(context) => {
++	const filePath = context.parameters.fileName;
++	if (filePath && Object.hasOwn(data, filePath)) {
++		registerSubcomponents(context, data[filePath]);
++		const sig = resolveSig(data[filePath]);
++		if (sig) return mergeArgTypes(buildArgTypes(sig), context.argTypes);
++		return context.argTypes;
++	}
++	const leaf = titleLeaf(context.title);
++	if (leaf) for (const entry of Object.values(data)) {
++		if (!("meta" in entry)) continue;
++		if (titleLeaf(entry.meta.title) !== leaf) continue;
++		registerSubcomponents(context, entry);
++		const sig = resolveSig(entry);
++		if (sig) return mergeArgTypes(buildArgTypes(sig), context.argTypes);
++	}
++	return context.argTypes;
++}];
++const parameters = { docs: {
++	extractArgTypes,
++	source: {
++		type: SourceType.DYNAMIC,
++		language: "html"
++	}
++} };
++const decorators = [sourceDecorator];
++//#endregion
++export { parameters as i, argTypesEnhancers as n, decorators as r, annotations_exports as t };
 diff --git a/dist/client/docs/config.mjs b/dist/client/docs/config.mjs
-index 09c0a8a..2e00a68 100644
+index 09c0a8a..37139d7 100644
 --- a/dist/client/docs/config.mjs
 +++ b/dist/client/docs/config.mjs
 @@ -1,4 +1,4 @@
 -import { i as parameters$1, n as argTypesEnhancers, r as decorators } from "../../annotations-DRGjlECb.mjs";
-+import { i as parameters$1, n as argTypesEnhancers, r as decorators } from "../../annotations-HtJRJsb3.mjs";
++import { i as parameters$1, n as argTypesEnhancers, r as decorators } from "../../annotations-Vj3orCf3.mjs";
  import { t as Page } from "../../page-BACn1xH0.mjs";
  //#region src/client/docs/config.ts
  const docs = parameters$1.docs;
@@ -385,12 +538,12 @@ index c8df731..7659652 100644
 -//# sourceMappingURL=renderer.mjs.map
 \ No newline at end of file
 diff --git a/dist/client/index.mjs b/dist/client/index.mjs
-index d90a7f7..8f738c4 100644
+index d90a7f7..d3aaa21 100644
 --- a/dist/client/index.mjs
 +++ b/dist/client/index.mjs
 @@ -1,4 +1,4 @@
 -import { n as setProjectAnnotations, r as definePreview, t as RenderStory } from "../client-DdSMlQeh.mjs";
-+import { n as setProjectAnnotations, r as definePreview, t as RenderStory } from "../client-TpyQkcLq.mjs";
++import { n as setProjectAnnotations, r as definePreview, t as RenderStory } from "../client-Dr0YoKT1.mjs";
  import { o as renderToCanvas } from "../config-DGk6BP_3.mjs";
  import { t as OutletPlaceholder } from "../outlet-placeholder-CgO7fIDo.mjs";
  export { OutletPlaceholder, RenderStory, definePreview, renderToCanvas, setProjectAnnotations };
@@ -529,6 +682,138 @@ index 0c09d66..0000000
 -
 -//# sourceMappingURL=client-DdSMlQeh.mjs.map
 \ No newline at end of file
+diff --git a/dist/client-Dr0YoKT1.mjs b/dist/client-Dr0YoKT1.mjs
+new file mode 100644
+index 0000000..c067b63
+--- /dev/null
++++ b/dist/client-Dr0YoKT1.mjs
+@@ -0,0 +1,126 @@
++import { r as normalizeStoryResult } from "./story-result-Ds8Z5TZx.mjs";
++import { c as templateUsesOutlet, n as config_exports, s as render_exports } from "./config-DGk6BP_3.mjs";
++import { t as annotations_exports } from "./annotations-Vj3orCf3.mjs";
++import "./outlet-placeholder-CgO7fIDo.mjs";
++import { definePreview } from "storybook/internal/csf";
++import { renderComponent } from "@ember/renderer";
++import { setDefaultProjectAnnotations, setProjectAnnotations } from "storybook/preview-api";
++import { template } from "@ember/template-compiler";
++import Component from "@glimmer/component";
++import { getOwner } from "@ember/owner";
++import { modifier } from "ember-modifier";
++//#region src/client/globals.ts
++globalThis.STORYBOOK_ENV = "ember";
++//#endregion
++//#region src/client/define-preview.ts
++/**
++* The component shapes whose args `preview.meta()` infers from:
++*
++* - template-only components (`TOC<S>` / `TemplateOnlyComponent<S>`)
++* - class components (`Component<S>` — matched through the instance `args`)
++*
++* Anything else (untyped components, plain templates) falls back to loose
++* args; `preview.type<{ args: … }>()` overrides the inference explicitly.
++*/
++/**
++* The framework's own preview annotations.
++*
++* In CSF Next mode Storybook bypasses the preset `previewAnnotations` entirely
++* (the generated iframe entry uses `preview.composed` alone), so `definePreview`
++* must inject them here — the same way `@storybook/react` folds its
++* `entry-preview` modules into the base factory.
++*
++* `./config` carries the renderer (`render`, `renderToCanvas`), the `renderer:
++* 'ember'` parameter and the outlet global; `./docs/annotations` carries the
++* docgen argTypes enhancers and the source decorator. The addon-docs-dependent
++* pieces (the autodocs `Page`, the patched `DocsRenderer`) are NOT imported
++* here: they arrive through the user's own `addonDocs()` registration, which
++* the preset redirects to `./docs/addon-preview` — keeping `@storybook/addon-docs`
++* out of this module's static import graph.
++*/
++const internalAnnotations = [config_exports, annotations_exports];
++/**
++* The renderer type parameter all `definePreview` factories carry: the Ember
++* renderer merged with whatever types the registered addons contribute.
++*
++* `InferTypes` collapses to `never` when no addons are registered (the empty
++* array case poisons the whole intersection), so it is neutralized here.
++*/
++/**
++* Type-safe preview configuration for Ember (the CSF Next entry point).
++*
++* ```ts
++* // .storybook/preview.ts
++* import { definePreview } from 'ember-storybook';
++* import addonDocs from '@storybook/addon-docs';
++*
++* export default definePreview({
++*   addons: [addonDocs()],
++*   parameters: {
++*     ember: { app: createApp },
++*   },
++* });
++* ```
++*/
++function definePreview$1(input) {
++	return definePreview({
++		...input,
++		addons: [...input.addons ?? [], ...internalAnnotations]
++	});
++}
++/**
++* The CSF Next `Preview` specialized for Ember: `preview.meta()` infers story
++* args from the component's signature.
++*/
++//#endregion
++//#region src/client/portable-stories.ts
++/**
++* Function that sets the globalConfig of your storybook. The global config is the preview module of
++* your .storybook folder.
++*
++* It should be run a single time, so that your global config (e.g. decorators) is applied to your
++* stories when using `composeStories` or `composeStory`.
++*
++* Example:
++*
++* ```jsx
++* // setup-file.js
++* import { setProjectAnnotations } from '@storybook/preact';
++* import projectAnnotations from './.storybook/preview';
++*
++* setProjectAnnotations(projectAnnotations);
++* ```
++*
++* @param projectAnnotations - E.g. (import projectAnnotations from '../.storybook/preview')
++*/
++function setProjectAnnotations$1(projectAnnotations) {
++	setDefaultProjectAnnotations(render_exports);
++	return setProjectAnnotations(projectAnnotations);
++}
++//#endregion
++//#region src/client/render-story.gts
++var RenderStory = class extends Component {
++	render = modifier((element) => {
++		const { component, args, route } = normalizeStoryResult(this.args.story(), this.args.args);
++		const owner = getOwner(this);
++		if (route || templateUsesOutlet(component)) throw new Error("ember-storybook: this story renders a route template (it uses `{{outlet}}`), but route stories can only be rendered by `renderToCanvas`, not through <RenderStory> (portable stories).");
++		const result = renderComponent(component, {
++			args,
++			into: element,
++			owner
++		});
++		return () => {
++			result.destroy();
++		};
++	});
++	static {
++		template(`<div {{this.render}}></div>`, {
++			component: this,
++			eval() {
++				return eval(arguments[0]);
++			}
++		});
++	}
++};
++//#endregion
++export { setProjectAnnotations$1 as n, definePreview$1 as r, RenderStory as t };
 diff --git a/dist/client-TpyQkcLq.mjs b/dist/client-TpyQkcLq.mjs
 new file mode 100644
 index 0000000..e249efe
@@ -662,28 +947,29 @@ index 0000000..e249efe
 +//#endregion
 +export { setProjectAnnotations$1 as n, definePreview$1 as r, RenderStory as t };
 diff --git a/dist/index.mjs b/dist/index.mjs
-index 910683b..974237d 100644
+index 910683b..28b20c1 100644
 --- a/dist/index.mjs
 +++ b/dist/index.mjs
 @@ -1,4 +1,4 @@
 -import { n as setProjectAnnotations, r as definePreview, t as RenderStory } from "./client-DdSMlQeh.mjs";
-+import { n as setProjectAnnotations, r as definePreview, t as RenderStory } from "./client-TpyQkcLq.mjs";
++import { n as setProjectAnnotations, r as definePreview, t as RenderStory } from "./client-Dr0YoKT1.mjs";
  import { o as renderToCanvas } from "./config-DGk6BP_3.mjs";
  import { t as OutletPlaceholder } from "./outlet-placeholder-CgO7fIDo.mjs";
  export { OutletPlaceholder, RenderStory, definePreview, renderToCanvas, setProjectAnnotations };
 diff --git a/dist/preset.mjs b/dist/preset.mjs
-index ee1116a..57c00bd 100644
+index ee1116a..27e5d4d 100644
 --- a/dist/preset.mjs
 +++ b/dist/preset.mjs
-@@ -1,6 +1,6 @@
+@@ -1,6 +1,7 @@
  import { t as unwrapBlockParams$1 } from "./block-params-wjiT2Ht6.mjs";
++import { n as resolveTemplateArgs, t as componentSource } from "./source-code-BxKRCGI7.mjs";
  import { createRequire } from "node:module";
 -import { sanitize } from "storybook/internal/csf";
 +import { sanitize, storyNameFromExport } from "storybook/internal/csf";
  import { fileURLToPath } from "node:url";
  import { withoutVitePlugins } from "@storybook/builder-vite";
  import { readFile } from "node:fs/promises";
-@@ -14,7 +14,7 @@ import "tinyglobby";
+@@ -14,7 +15,7 @@ import "tinyglobby";
  import { createEmberHost, isEmberTemplateWithAppendix, originalPath, virtualPath } from "typedoc-plugin-ember";
  //#region ../packages/ember-docgen/dist/index.mjs
  var __require = /* #__PURE__ */ (() => createRequire(import.meta.url))();
@@ -692,7 +978,7 @@ index ee1116a..57c00bd 100644
  	return Object.hasOwn(param, "name") && Object.hasOwn(param, "type");
  }
  /**
-@@ -25,7 +25,7 @@ function isBlockParam(param) {
+@@ -25,7 +26,7 @@ function isBlockParam(param) {
  */
  function unwrapBlockParams(params) {
  	const result = [];
@@ -701,7 +987,7 @@ index ee1116a..57c00bd 100644
  		result.push(param);
  		const nested = param.nested;
  		if (nested && nested.length > 0) result.push(...unwrapBlockParams(nested));
-@@ -765,6 +765,42 @@ const emberIndexer = {
+@@ -765,6 +766,111 @@ const emberIndexer = {
  	}
  };
  //#endregion
@@ -741,10 +1027,79 @@ index ee1116a..57c00bd 100644
 +	}
 +}
 +//#endregion
++//#region src/node/static-value.ts
++/**
++* Read plain values (strings, numbers, booleans, null, and arrays and objects of
++* those) out of the Babel AST nodes Storybook's CSF parser keeps for meta and
++* story annotations. Anything computed, like a `fn()` spy, is not static.
++*/
++const NOT_STATIC = Symbol("not static");
++function isNode(value) {
++	return typeof value === "object" && value !== null && "type" in value;
++}
++function propertyKey(property) {
++	if (property.computed) return void 0;
++	const key = property.key;
++	if (key.type === "Identifier") return key.name;
++	if (key.type === "StringLiteral") return key.value;
++}
++function evaluate(node) {
++	switch (node.type) {
++		case "StringLiteral":
++		case "NumericLiteral":
++		case "BooleanLiteral": return node.value;
++		case "NullLiteral": return;
++		case "TemplateLiteral": {
++			const quasis = node.quasis;
++			return node.expressions.length === 0 ? (quasis[0]?.value).cooked : NOT_STATIC;
++		}
++		case "UnaryExpression": {
++			const argument = node.argument;
++			return node.operator === "-" && argument.type === "NumericLiteral" ? -argument.value : NOT_STATIC;
++		}
++		case "ArrayExpression": {
++			const values = node.elements.map((element) => element ? evaluate(element) : NOT_STATIC);
++			return values.includes(NOT_STATIC) ? NOT_STATIC : values;
++		}
++		case "ObjectExpression": {
++			const result = {};
++			for (const property of node.properties) {
++				const key = property.type === "ObjectProperty" ? propertyKey(property) : void 0;
++				const value = key === void 0 ? NOT_STATIC : evaluate(property.value);
++				if (key === void 0 || value === NOT_STATIC) return NOT_STATIC;
++				result[key] = value;
++			}
++			return result;
++		}
++		default: return NOT_STATIC;
++	}
++}
++/** The properties of an object literal whose values are static; the rest are left out. */
++function staticProperties(node) {
++	if (!isNode(node) || node.type !== "ObjectExpression") return {};
++	const result = {};
++	for (const property of node.properties) {
++		if (property.type !== "ObjectProperty") continue;
++		const key = propertyKey(property);
++		const value = evaluate(property.value);
++		if (key !== void 0 && value !== NOT_STATIC) result[key] = value;
++	}
++	return result;
++}
++function staticPropertyNode(node, name) {
++	if (!isNode(node) || node.type !== "ObjectExpression") return void 0;
++	for (const property of node.properties) if (property.type === "ObjectProperty" && propertyKey(property) === name) return property.value;
++}
++/** `parameters.docs.description.<kind>`, when it's a string literal. */
++function docsDescription(parameters, kind) {
++	const value = staticProperties(staticPropertyNode(staticPropertyNode(parameters, "docs"), "description"))[kind];
++	return typeof value === "string" ? value : void 0;
++}
++//#endregion
  //#region src/node/parser.ts
  /**
  * A map with contents of a component file:
-@@ -793,6 +829,10 @@ function parseProcessedCode(processedCode, filePath) {
+@@ -793,6 +899,10 @@ function parseProcessedCode(processedCode, filePath) {
  	}).program;
  }
  /**
@@ -755,7 +1110,7 @@ index ee1116a..57c00bd 100644
  * Result of parsing a story file, covering all subsystem needs.
  */
  function firstVarExportName(declarations) {
-@@ -892,6 +932,52 @@ function resolveLocalComponentFile(storyPath, source) {
+@@ -892,6 +1002,52 @@ function resolveLocalComponentFile(storyPath, source) {
  	const resolved = path.resolve(path.dirname(storyPath), source);
  	return existsSync(resolved) ? normalizeFilePath(resolved) : void 0;
  }
@@ -808,7 +1163,7 @@ index ee1116a..57c00bd 100644
  /**
  * Parse a story file and return metadata about the component it references,
  * including template sources for each named story export.
-@@ -900,17 +986,46 @@ function parseStoryFile(storyPath) {
+@@ -900,17 +1056,62 @@ function parseStoryFile(storyPath) {
  	const { processedCode } = readAndPreprocess(storyPath);
  	let meta = {};
  	let stories = [];
@@ -816,6 +1171,10 @@ index ee1116a..57c00bd 100644
 +	let metaVariableName;
 +	let metaRender;
 +	let storyAnnotations = {};
++	let docs = {
++		args: {},
++		stories: {}
++	};
  	try {
 -		const parsed = loadCsf(processedCode, {
 +		const csf = loadCsf(processedCode, {
@@ -830,6 +1189,18 @@ index ee1116a..57c00bd 100644
 +		metaVariableName = csf._metaVariableName;
 +		metaRender = csf._metaAnnotations.render;
 +		storyAnnotations = csf._storyAnnotations;
++		docs = {
++			args: staticProperties(csf._metaAnnotations.args),
++			description: docsDescription(csf._metaAnnotations.parameters, "component"),
++			stories: Object.fromEntries(stories.map((story) => {
++				const exportName = story.localName ?? story.name;
++				const annotations = exportName ? csf._storyAnnotations[exportName] ?? {} : {};
++				return [story.id, {
++					args: staticProperties(annotations.args),
++					description: docsDescription(annotations.parameters, "story")
++				}];
++			}))
++		};
  	} catch {}
  	const program = parseProcessedCode(processedCode, storyPath);
  	const importMap = /* @__PURE__ */ new Map();
@@ -857,7 +1228,7 @@ index ee1116a..57c00bd 100644
  	new Visitor({
  		ImportDeclaration(node) {
  			for (const spec of node.specifiers) {
-@@ -927,59 +1042,212 @@ function parseStoryFile(storyPath) {
+@@ -927,59 +1128,221 @@ function parseStoryFile(storyPath) {
  			const first = node.declaration.declarations[0];
  			if (first.id.type !== "Identifier") return;
  			const name = first.id.name;
@@ -948,9 +1319,11 @@ index ee1116a..57c00bd 100644
 +	return {
  		meta,
 -		component: { signatureName: localComponentName },
+-		stories
 +		component: meta.component ? resolve(meta.component) : {},
 +		subcomponents: Object.fromEntries(Object.entries(subcomponentNames).map(([key, localName]) => [key, resolve(localName)])),
- 		stories
++		stories,
++		docs
  	};
 -	const compMeta = parseComponentFile(compPath);
 -	const signatureName = findSignatureName(compMeta, importInfo.importedName);
@@ -1046,20 +1419,28 @@ index ee1116a..57c00bd 100644
 +		const componentFile = parsed?.component.file ? path.resolve(parsed.component.file) : void 0;
 +		const signatureName = parsed?.component.signatureName;
 +		const signature = componentFile && signatureName ? signatures.get(componentFile)?.[signatureName] : void 0;
-+		const name = parsed?.component.name ?? first.title.split("/").at(-1) ?? id;
++		const name = parsed?.component.name ?? (signatureName && signatureName !== "__DEFAULT__" ? signatureName : void 0) ?? parsed?.meta.component ?? first.title.split("/").at(-1) ?? id;
 +		components[id] = {
 +			id,
 +			name,
 +			path: file,
++			description: parsed?.docs.description,
 +			import: componentFile ? importStatement(componentFile, name) : void 0,
 +			apiDescription: signature ? apiDescription(signature) : void 0,
 +			jsDocTags: {},
-+			stories: group.filter((entry) => entry.type === "story").map((entry) => {
++			stories: group.filter((entry) => entry.type === "story" && entry.subtype !== "test").map((entry) => {
 +				const story = parsed?.stories.find((candidate) => candidate.id === entry.id);
++				const docs = parsed?.docs.stories[entry.id];
++				const args = {
++					...parsed?.docs.args,
++					...docs?.args
++				};
++				const snippet = story?.inlineTemplate ? resolveTemplateArgs(story.inlineTemplate, args) : componentSource(name, signature, args, {});
 +				return {
 +					id: entry.id,
 +					name: entry.name,
-+					snippet: story?.inlineTemplate
++					description: docs?.description,
++					snippet
 +				};
 +			})
 +		};
@@ -1096,7 +1477,7 @@ index ee1116a..57c00bd 100644
  function emberStorybookVitePlugin(api) {
  	let server;
  	function invalidate() {
-@@ -1000,18 +1268,7 @@ function emberStorybookVitePlugin(api) {
+@@ -1000,18 +1363,7 @@ function emberStorybookVitePlugin(api) {
  			if (id !== RESOLVED) return;
  			const contributions = api.getContributions();
  			const merged = {};
@@ -1116,7 +1497,7 @@ index ee1116a..57c00bd 100644
  			return {
  				code: `export default ${JSON.stringify(merged)};`,
  				map: void 0
-@@ -1032,55 +1289,20 @@ function emberStorybookVitePlugin(api) {
+@@ -1032,55 +1384,20 @@ function emberStorybookVitePlugin(api) {
  	};
  }
  //#endregion
@@ -1176,7 +1557,7 @@ index ee1116a..57c00bd 100644
  	};
  }
  async function addSignatures(state, componentPaths) {
-@@ -1118,13 +1340,16 @@ function signaturesContributor(api) {
+@@ -1118,13 +1435,16 @@ function signaturesContributor(api) {
  		const ref = resolveComponentRef(storyFile);
  		if (!ref) return;
  		state.storyToRef.set(storyFile, ref);
@@ -1196,7 +1577,7 @@ index ee1116a..57c00bd 100644
  		contributeState();
  	}
  	function processStoryUnlink(storyFile) {
-@@ -1149,8 +1374,9 @@ function signaturesContributor(api) {
+@@ -1149,8 +1469,9 @@ function signaturesContributor(api) {
  	return {
  		name: "ember-storybook:signatures",
  		async buildStart() {
@@ -1207,7 +1588,7 @@ index ee1116a..57c00bd 100644
  			state = await addSignatures(state, allPaths);
  			contributeState();
  		},
-@@ -1177,10 +1403,15 @@ function computeDataForStory(file) {
+@@ -1177,10 +1498,15 @@ function computeDataForStory(file) {
  	if (!storyResult?.meta.component) return {
  		meta: {},
  		component: {},
@@ -1225,7 +1606,7 @@ index ee1116a..57c00bd 100644
  	return {
  		meta: { [file]: storyResult.meta },
  		component: { [file]: {
-@@ -1188,12 +1419,14 @@ function computeDataForStory(file) {
+@@ -1188,12 +1514,14 @@ function computeDataForStory(file) {
  			signatureName: storyResult.component.signatureName,
  			name: storyResult.component.name
  		} },
@@ -1241,7 +1622,7 @@ index ee1116a..57c00bd 100644
  	let fileComponentMaps = {};
  	function recontribute() {
  		api.contribute("meta", {
-@@ -1201,10 +1434,12 @@ function metaContributor(api) {
+@@ -1201,10 +1529,12 @@ function metaContributor(api) {
  			...fileComponentMaps
  		});
  		api.contribute("component", { ...fileComponent });
@@ -1254,7 +1635,7 @@ index ee1116a..57c00bd 100644
  		let componentMaps = {};
  		for (const file of getStoryFiles()) {
  			const data = computeDataForStory(file);
-@@ -1216,6 +1451,10 @@ function metaContributor(api) {
+@@ -1216,6 +1546,10 @@ function metaContributor(api) {
  				...component,
  				...data.component
  			};
@@ -1265,7 +1646,7 @@ index ee1116a..57c00bd 100644
  			componentMaps = {
  				...componentMaps,
  				...data.componentMap
-@@ -1223,11 +1462,13 @@ function metaContributor(api) {
+@@ -1223,11 +1557,13 @@ function metaContributor(api) {
  		}
  		fileMeta = meta;
  		fileComponent = component;
@@ -1280,7 +1661,7 @@ index ee1116a..57c00bd 100644
  	}
  	function syncStory(storyPath) {
  		const data = computeDataForStory(storyPath);
-@@ -1243,10 +1484,15 @@ function metaContributor(api) {
+@@ -1243,10 +1579,15 @@ function metaContributor(api) {
  			...fileComponentMaps,
  			...data.componentMap
  		};
@@ -1297,7 +1678,7 @@ index ee1116a..57c00bd 100644
  			syncAll();
  		},
  		configureServer(server) {
-@@ -1269,6 +1515,7 @@ function metaContributor(api) {
+@@ -1269,6 +1610,7 @@ function metaContributor(api) {
  				if (!(isStoryFile(changedPath) || isComponentFile(changedPath))) return;
  				delete fileMeta[changedPath];
  				delete fileComponent[changedPath];
@@ -1305,7 +1686,7 @@ index ee1116a..57c00bd 100644
  				recontribute();
  			});
  		}
-@@ -1299,7 +1546,8 @@ function sourceContributor(api) {
+@@ -1299,7 +1641,8 @@ function sourceContributor(api) {
  	}
  	return {
  		name: "ember-storybook:source",
@@ -1315,7 +1696,7 @@ index ee1116a..57c00bd 100644
  			const files = getStoryFiles().filter((f) => isStoryFile(f));
  			const data = {};
  			for (const file of files) data[file] = extractSource(file);
-@@ -1325,16 +1573,26 @@ function sourceContributor(api) {
+@@ -1325,16 +1668,26 @@ function sourceContributor(api) {
  }
  //#endregion
  //#region src/node/vite-plugin.ts
@@ -1344,7 +1725,7 @@ index ee1116a..57c00bd 100644
  		emberStorybookVitePlugin(api),
  		metaContributor(api),
  		sourceContributor(api),
-@@ -1366,13 +1624,15 @@ const previewAnnotations = async (entries = [], options) => {
+@@ -1366,13 +1719,15 @@ const previewAnnotations = async (entries = [], options) => {
  	return annotations;
  };
  const managerEntries = (entries = []) => [...entries, fileURLToPath(import.meta.resolve("ember-storybook/manager"))];
@@ -1362,7 +1743,7 @@ index ee1116a..57c00bd 100644
  		optimizeDeps: { exclude: ["object-inspect"] },
  		resolve: { dedupe: ["ember-source"] }
  	});
-@@ -1380,6 +1640,10 @@ const viteFinal = async (config) => {
+@@ -1380,6 +1735,10 @@ const viteFinal = async (config) => {
  const experimental_indexers = (indexers) => {
  	return [emberIndexer, ...indexers ?? []];
  };
@@ -1373,7 +1754,7 @@ index ee1116a..57c00bd 100644
  const core = async (config, options) => {
  	const framework = await options.presets.apply("framework");
  	return {
-@@ -1391,6 +1655,4 @@ const core = async (config, options) => {
+@@ -1391,6 +1750,4 @@ const core = async (config, options) => {
  	};
  };
  //#endregion
@@ -1453,3 +1834,66 @@ index b474ca5..0000000
 -
 -//# sourceMappingURL=react-BcVz11Jd.mjs.map
 \ No newline at end of file
+diff --git a/dist/source-code-BxKRCGI7.mjs b/dist/source-code-BxKRCGI7.mjs
+new file mode 100644
+index 0000000..db02b6f
+--- /dev/null
++++ b/dist/source-code-BxKRCGI7.mjs
+@@ -0,0 +1,57 @@
++import { n as unwrapBlockParamsShallow } from "./block-params-wjiT2Ht6.mjs";
++//#region src/client/docs/source-code.ts
++function toArgument(key, value, argTypes) {
++	if (value !== void 0 && value !== null) {
++		if (typeof value === "string") return `@${key}=${JSON.stringify(value)}`;
++		if (typeof value === "number" || typeof value === "boolean") return `@${key}={{${String(value)}}}`;
++		if (Object.hasOwn(argTypes, key)) return `@${key}={{@${key}}}`;
++		return;
++	}
++	if (value === void 0 && Object.hasOwn(argTypes, key)) return `@${key}={{@${key}}}`;
++}
++function generateBlockContent(blockInfo) {
++	if (blockInfo.params.length === 0) return "...";
++	return `{{yield ${unwrapBlockParamsShallow(blockInfo.params).map((p) => p.name).join(", ")}}}`;
++}
++function generateBlockSourceCode(sig, args, indent) {
++	const blockNames = Object.keys(sig.blocks);
++	if (blockNames.length === 0) return "";
++	const blocks = [];
++	for (const blockName of blockNames) {
++		const blockInfo = sig.blocks[blockName];
++		if (args[blockName] === void 0 && blockInfo.params.length === 0) continue;
++		const params = unwrapBlockParamsShallow(blockInfo.params).map((p) => p.name).join(" ");
++		const slotBindings = params ? ` as |${params}|` : "";
++		const content = generateBlockContent(blockInfo);
++		if (blockName === "default" && !slotBindings) blocks.push(content);
++		else blocks.push(`${indent}  <:${blockName}${slotBindings}>${content}</:${blockName}>`);
++	}
++	return blocks.join("\n");
++}
++/**
++* Fill a story template's `{{args.name}}` with the story's values: as an
++* attribute or argument value (`@name="Ada"`) or as text (`Hello, Ada`).
++*/
++function resolveTemplateArgs(template, args) {
++	return template.replaceAll(/(=)?\{\{args\.(\w+)\}\}/g, (_match, assign, key) => {
++		const value = args[key];
++		if (typeof value === "string") return assign ? `=${JSON.stringify(value)}` : value;
++		if (typeof value === "number" || typeof value === "boolean") return assign ? `={{${String(value)}}}` : String(value);
++		return `${assign ?? ""}{{@${key}}}`;
++	});
++}
++/** An invocation of the component with the given args, for a story without its own template. */
++function componentSource(name, sig, args, argTypes) {
++	const propsArray = Object.entries(args).filter(([k]) => !sig || !Object.hasOwn(sig.blocks, k)).map(([k, v]) => toArgument(k, v, argTypes)).filter(Boolean);
++	const blockCode = sig ? generateBlockSourceCode(sig, args, "") : "";
++	const propsStr = propsArray.join(" ");
++	if (!blockCode) {
++		if (propsArray.length === 0) return `<${name} />`;
++		if (propsArray.length > 3) return `<${name}\n  ${propsArray.join("\n  ")}\n/>`;
++		return `<${name} ${propsStr} />`;
++	}
++	if (propsArray.length === 0) return `<${name}>\n${blockCode}\n</${name}>`;
++	return `<${name} ${propsStr}>\n${blockCode}\n</${name}>`;
++}
++//#endregion
++export { resolveTemplateArgs as n, componentSource as t };
