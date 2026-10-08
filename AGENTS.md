@@ -230,6 +230,7 @@ Stories live as `src/components/**/<name>.stories.gts` next to their components.
 - `pnpm storybook` serves an MCP endpoint at `http://localhost:6006/mcp` (`@storybook/addon-mcp`). Use its `docs-list`, `docs-show` and `docs-show-story` tools for a component's API and examples rather than reading its source. The repo's `.mcp.json` registers it for Claude Code; it connects while Storybook runs.
 - Its manifest is generated from component signatures and stories (the ember-storybook patch). An argument's JSDoc, a block's labelled params and a story's description are what agents read, so keep them accurate.
 - `/manifests/components.html` on the running Storybook shows what agents get.
+- Apps get the same tools from `carbon-components-ember-mcp`, which reads the manifest published with each release's docs. Try changes to it against your running Storybook with `node carbon-components-ember-mcp/bin.mjs --manifests http://localhost:6006`.
 
 ---
 
