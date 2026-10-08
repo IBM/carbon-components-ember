@@ -4,40 +4,38 @@ import type { WithBoundArgs } from '@glint/template';
 import { tracked } from '@glimmer/tracking';
 import { concat } from '@ember/helper';
 
-export interface Args {
-  disabled?: boolean;
-  open?: boolean;
-  align?: 'start' | 'end';
-  /**
-   * Size of the accordion. When not set, no size class is applied (matching
-   * @carbon/react's default behaviour — it only adds `cds--accordion--\${size}`
-   * when a `size` prop is explicitly passed).
-   */
-  size?: 'sm' | 'md' | 'lg';
-}
-
 export interface AccordionSignature {
-  Args: Args;
-  Element: null;
+  Element: HTMLUListElement;
+  Args: {
+    disabled?: boolean;
+    open?: boolean;
+    align?: 'start' | 'end';
+    /**
+     * Size of the accordion. When not set, no size class is applied (matching
+     * @carbon/react's default behaviour — it only adds `cds--accordion--\${size}`
+     * when a `size` prop is explicitly passed).
+     */
+    size?: 'sm' | 'md' | 'lg';
+  };
   Blocks: {
-    default: [WithBoundArgs<typeof Item, 'accordion'>];
+    default: [AccordionItem: WithBoundArgs<typeof AccordionItem, 'accordion'>];
   };
 }
 
-export interface ItemSignature {
+export interface AccordionItemSignature {
+  Element: HTMLLIElement;
   Args: {
     accordion: Accordion;
     isOpen?: boolean;
     isDisabled?: boolean;
     title: string;
   };
-  Element: null;
   Blocks: {
     default: [];
   };
 }
 
-class Item extends Component<ItemSignature> {
+class AccordionItem extends Component<AccordionItemSignature> {
   get itemId() {
     return guidFor(this);
   }
@@ -63,6 +61,7 @@ class Item extends Component<ItemSignature> {
       class="cds--accordion__item
         {{if this.isActive 'cds--accordion__item--active'}}
         {{if this.disabled 'cds--accordion__item--disabled'}}"
+      ...attributes
     >
       <button
         type="button"
@@ -102,13 +101,13 @@ class Item extends Component<ItemSignature> {
 }
 
 export default class Accordion extends Component<AccordionSignature> {
-  @tracked currentItem?: Item;
+  @tracked currentItem?: AccordionItem;
 
-  isActive(item: Item) {
+  isActive(item: AccordionItem) {
     return this.currentItem === item || this.args.open;
   }
 
-  setActiveItem = (item: Item) => {
+  setActiveItem = (item: AccordionItem) => {
     if (this.currentItem === item) {
       this.currentItem = undefined;
       return;
@@ -120,8 +119,9 @@ export default class Accordion extends Component<AccordionSignature> {
     <ul
       class="cds--accordion cds--accordion--{{or @align 'end'}}
         {{if @size (concat 'cds--accordion--' @size)}}"
+      ...attributes
     >
-      {{yield (component Item accordion=this)}}
+      {{yield (component AccordionItem accordion=this)}}
     </ul>
   </template>
 }

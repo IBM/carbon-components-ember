@@ -1,8 +1,7 @@
-import { fn as curry } from '@ember/helper';
 import { htmlSafe } from '@ember/template';
 import { trackedArray, trackedObject } from '@ember/reactive/collections';
 import { RenderStory } from 'ember-storybook';
-import { expect, fn, within } from 'storybook/test';
+import { expect, fn as spy, within } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Button from '../button.gts';
@@ -15,7 +14,7 @@ import ChatShell from './chat-shell.gts';
 import PromptLine from './prompt-line.gts';
 import PromptLineShell from './prompt-line-shell.gts';
 
-import type { Args as ChatShellArgs } from './chat-shell.gts';
+import type { ChatShellSignature } from './chat-shell.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `Preview/Chat shell` stories
 // (chat-shell/__stories__/shell.stories.js) and, as `Input`/
@@ -47,7 +46,7 @@ const SLOTS = [
 
 type SlotName = (typeof SLOTS)[number]['name'];
 
-type StoryArgs = ChatShellArgs & {
+type StoryArgs = ChatShellSignature['Args'] & {
   /** Story-only: `--cds-aichat-messages-max-width`. */
   messagesMaxWidth?: string;
   /** Story-only: `--cds-aichat-messages-min-width`. */
@@ -162,7 +161,7 @@ component) into it.`,
             <input
               type="checkbox"
               checked={{isVisible slot.name}}
-              {{on "change" (curry toggle slot.name)}}
+              {{on "change" (fn toggle slot.name)}}
             />
             {{slot.label}}
           </label>
@@ -324,7 +323,7 @@ export const Input = meta.story({
   parameters: {
     controls: { disable: true },
   },
-  args: { onSend: fn() },
+  args: { onSend: spy() },
   decorators: [
     (Story, context) => <template>
       <ChatShell
@@ -449,7 +448,7 @@ export const WithPromptLine = meta.story({
     messagesAriaLabel: 'Chat messages',
     historyAriaLabel: 'Conversation history',
     workspaceAriaLabel: 'Workspace panel',
-    onSend: fn(),
+    onSend: spy(),
   },
   render: (args: StoryArgs) => {
     const state = trackedObject({

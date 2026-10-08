@@ -60,7 +60,7 @@ const WithLayer: TOC<{ Blocks: { default: [number] } }> = <template>
   </Layer>
 </template>;
 
-type SelectionListSignature = {
+interface SelectionListSignature {
   Args: {
     ariaLabel?: string;
     isCondensed?: boolean;
@@ -72,7 +72,7 @@ type SelectionListSignature = {
     /** Prefix for row ids and the input group name. */
     prefix: string;
   };
-};
+}
 
 // Carbon React's `structuredListBodyRowGenerator(4)` under a header row.
 const SelectionList: TOC<SelectionListSignature> = <template>

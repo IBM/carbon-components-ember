@@ -31,6 +31,7 @@ export default class Portal extends Component<PortalSignature> {
     return this.args.container ?? document.body;
   }
 
+  // eslint-disable-next-line ember/template-require-splattributes -- renders its block elsewhere; no element of its own
   <template>
     {{#in-element this.destination insertBefore=null}}
       {{yield}}

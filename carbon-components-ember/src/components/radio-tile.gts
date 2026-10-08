@@ -5,7 +5,7 @@ import type RadioTileGroup from './tile/tile-group.gts';
 
 export type Value = string | number;
 
-export interface Signature {
+export interface RadioTileSignature {
   Args: {
     id?: string;
     value: Value;
@@ -27,7 +27,7 @@ export interface Signature {
   };
 }
 
-export default class RadioTile extends Component<Signature> {
+export default class RadioTile extends Component<RadioTileSignature> {
   guid = guidFor(this);
 
   get id() {

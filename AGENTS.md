@@ -16,7 +16,7 @@ This document provides essential context and patterns for AI agents (like Bob Sh
 ## Component Implementation Patterns
 
 ### 1. Basic Component Structure
-All components follow this pattern:
+All components follow this pattern. The license header is always the first thing in the file; new imports go below it.
 
 ```typescript
 /**
@@ -149,8 +149,22 @@ Functional or class-based modifiers are Ember's replacement for `useRef` + `useE
 ### 5. Timing and Destructors
 Never use bare `setTimeout`. Use `ember-concurrency` restartable tasks which auto-cancel on component destruction. Anything else that must be cleaned up belongs in `registerDestructor` or a modifier teardown.
 
-### 6. Type Signatures Fully
-Fully type Glint signatures. Declare `Args`, `Element` (for `...attributes`), and `Blocks`. Do not use `any` anywhere in a signature.
+### 6. Signatures
+Signatures follow the [Ember guides](https://guides.emberjs.com/release/typescript/core-concepts/invokables/) and [Glint](https://typed-ember.gitbook.io/glint/environments/ember/component-signatures), and must match what the template does. Lint enforces the mechanical parts.
+- **Name:** `export interface <Name>Signature`, where `<Name>` is the component's public export name. The class or `TOC` const is named the same. A signature is never a `type` alias.
+- **`Args`:** written inline in the signature. Code elsewhere refers to them as `<Name>Signature['Args']`; there is no separate `Args` type.
+- **`Element`:** the element `...attributes` is spread on.
+  - A DOM element gets its own type, a union when branches differ.
+  - When spreading onto another component, derive it: `Element: ButtonSignature['Element']`.
+  - No `...attributes`, no `Element`. Never write `Element: null`.
+- **`...attributes`:** every component spreads it, on its root or on the element Carbon React spreads its rest props onto (Toggle's `<button>`). A component with no element of its own opts out of `ember/template-require-splattributes` inline, with the reason.
+- **`Blocks`:** only the blocks the template yields.
+  - Label positional params: `default: [TabPane: WithBoundArgs<typeof TabPane, 'tab'>]`. The label becomes the block param name in editors and Storybook's "Show code".
+  - A yielded hash stays unlabelled, since its keys name its entries.
+- **Yielded components:** `typeof X` when yielding the class itself, `WithBoundArgs<typeof X, 'a'>` for `(component X a=…)`.
+- **Template-only components:** `const X: TOC<XSignature> = <template>…`.
+- **Helpers and modifiers:** helpers are plain functions. Modifiers use `modifier()` with the types written on the function's parameters. Neither needs a signature interface.
+- **No `any`, and no YUIDoc tags** (`@argument`, `@type`, `@class`): the types document themselves.
 
 ### 7. What NOT to Reach For
 - **`@ember/render-modifiers`** (`did-insert`, `did-update`) - write a real functional modifier instead.
@@ -165,7 +179,7 @@ Fully type Glint signatures. Declare `Args`, `Element` (for `...attributes`), an
 ## Common Pitfalls and Solutions
 
 ### ❌ Pitfall 1: Shadowing a Built-in Keyword
-Template keywords such as `fn`, `on`, `eq`, and `element` resolve to a same-named JavaScript binding in scope. Alias such imports (for example Storybook's `fn` spy) when using the template keyword.
+Template keywords such as `fn`, `on`, `eq`, and `element` resolve to a same-named JavaScript binding in scope. Alias such imports when using the template keyword: import Storybook's spy as `fn as spy`. Never import `fn` or `on` from Ember (`ember/no-legacy-helper-imports`).
 
 ### ❌ Pitfall 2: Reusing a `.gts` Basename in Public Exports
 If two publicly exported components share an exact basename (e.g. `tile/group.gts` vs `radio-button/group.gts`), the production rollup build can silently mis-name exports, causing runtime errors. **Solution**: Use specific names (e.g. `tile/tile-group.gts`).

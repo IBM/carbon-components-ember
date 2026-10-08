@@ -1,17 +1,15 @@
 import Component from '@glimmer/component';
 import ListItem from './list-item.gts';
 
-export type Args = {
-  nested?: boolean;
-  native?: boolean;
-  isExpressive?: boolean;
-};
-
 export interface OrderedListSignature {
   Element: HTMLOListElement;
-  Args: Args;
+  Args: {
+    nested?: boolean;
+    native?: boolean;
+    isExpressive?: boolean;
+  };
   Blocks: {
-    default: [typeof ListItem];
+    default: [ListItem: typeof ListItem];
   };
 }
 

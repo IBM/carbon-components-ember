@@ -7,7 +7,7 @@ import TrashCan from '../icons/trash-can.ts';
 import ChatHistoryPanelItem from './chat-history-panel-item.gts';
 
 import type {
-  Args as PanelItemArgs,
+  ChatHistoryPanelItemSignature,
   ChatHistoryItemAction,
 } from './chat-history-panel-item.gts';
 
@@ -42,7 +42,7 @@ const meta = preview.meta({
     onRenameSave: fn(),
     onRenameCancel: fn(),
   },
-  render: (args: PanelItemArgs) => {
+  render: (args: ChatHistoryPanelItemSignature['Args']) => {
     const state = trackedObject({ selected: '(none yet)' });
     const handleSelect = (detail: { itemId?: string; itemName?: string }) => {
       state.selected = detail.itemName ?? '';

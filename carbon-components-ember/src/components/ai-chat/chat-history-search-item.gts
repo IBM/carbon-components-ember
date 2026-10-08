@@ -7,19 +7,17 @@
 
 import Component from '@glimmer/component';
 
-export type Args = {
-  name?: string;
-  /** Displayed as a subtitle below `@name`. */
-  date?: string;
-  /** Id of this search result, threaded through to `@onSelect`. */
-  id?: string;
-  disabled?: boolean;
-  onSelect?: (detail: { itemId?: string; itemName?: string }) => void;
-};
-
 export interface ChatHistorySearchItemSignature {
   Element: HTMLLIElement;
-  Args: Args;
+  Args: {
+    name?: string;
+    /** Displayed as a subtitle below `@name`. */
+    date?: string;
+    /** Id of this search result, threaded through to `@onSelect`. */
+    id?: string;
+    disabled?: boolean;
+    onSelect?: (detail: { itemId?: string; itemName?: string }) => void;
+  };
   Blocks: {
     /** Overrides `@name` as the visible label - matches upstream's default (unnamed) slot. */
     default: [];

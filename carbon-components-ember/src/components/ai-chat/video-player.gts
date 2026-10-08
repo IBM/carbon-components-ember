@@ -30,38 +30,36 @@ const DEFAULT_ASPECT_RATIO_PERCENTAGE = 56.25;
 
 export type { SubtitleTrack };
 
-export type Args = {
-  /** Video source URL (required). */
-  source: string;
-  /** Defaults to `'Video player'`. */
-  ariaLabel?: string;
-  /** Whether the video should be playing. Only reacted to on later change - the initial value is applied via provider autoplay. */
-  playing?: boolean;
-  /** Aspect ratio as a padding-top percentage. Defaults to `56.25` (16:9). */
-  aspectRatioPercentage?: number;
-  /** WebVTT caption/subtitle tracks - only honored by the native `<video>` provider, ignored by embed providers (matches upstream). */
-  subtitleTracks?: SubtitleTrack[];
-  /** Generic error message shown/reported regardless of the actual failure. Defaults to `'Failed to load video'`. */
-  errorMessage?: string;
-  /** Defaults to `'Video player loading'`. */
-  loadingStatusMessage?: string;
-  /** Defaults to `'Video player ready'`. */
-  readyStatusMessage?: string;
-  /** Defaults to `'Loading'`. */
-  loadingLabel?: string;
-  /** Defaults to `'Ready'`. */
-  readyLabel?: string;
-  /** Defaults to `'Error'`. */
-  errorLabel?: string;
-  onReady?: () => void;
-  onPlay?: () => void;
-  onPause?: () => void;
-  onError?: (detail: { message: string }) => void;
-};
-
 export interface VideoPlayerSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /** Video source URL (required). */
+    source: string;
+    /** Defaults to `'Video player'`. */
+    ariaLabel?: string;
+    /** Whether the video should be playing. Only reacted to on later change - the initial value is applied via provider autoplay. */
+    playing?: boolean;
+    /** Aspect ratio as a padding-top percentage. Defaults to `56.25` (16:9). */
+    aspectRatioPercentage?: number;
+    /** WebVTT caption/subtitle tracks - only honored by the native `<video>` provider, ignored by embed providers (matches upstream). */
+    subtitleTracks?: SubtitleTrack[];
+    /** Generic error message shown/reported regardless of the actual failure. Defaults to `'Failed to load video'`. */
+    errorMessage?: string;
+    /** Defaults to `'Video player loading'`. */
+    loadingStatusMessage?: string;
+    /** Defaults to `'Video player ready'`. */
+    readyStatusMessage?: string;
+    /** Defaults to `'Loading'`. */
+    loadingLabel?: string;
+    /** Defaults to `'Ready'`. */
+    readyLabel?: string;
+    /** Defaults to `'Error'`. */
+    errorLabel?: string;
+    onReady?: () => void;
+    onPlay?: () => void;
+    onPause?: () => void;
+    onError?: (detail: { message: string }) => void;
+  };
 }
 
 /**

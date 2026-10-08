@@ -5,23 +5,27 @@ import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 import type { TaskInstance } from 'ember-concurrency';
 import { stylesheet } from 'astroturf';
+import type { SearchSignature } from '../search.gts';
 
-export type Args = {
-  onChange: (value: string) => TaskInstance<unknown> | undefined;
-  isLoading: boolean;
-  expandable?: boolean;
-  value: string;
-  size?: 'xs' | 'sm' | 'md' | 'lg';
-  /**
-   * Names the search (and its `role="search"` landmark). Defaults to
-   * "Filter table", as Carbon React; give each table on a page its own.
-   */
-  labelText?: string;
-  /** Defaults to "Filter table", as Carbon React. */
-  placeholder?: string;
-};
+export interface TableToolbarSearchSignature {
+  Element: SearchSignature['Element'];
+  Args: {
+    onChange: (value: string) => TaskInstance<unknown> | undefined;
+    isLoading: boolean;
+    expandable?: boolean;
+    value: string;
+    size?: 'xs' | 'sm' | 'md' | 'lg';
+    /**
+     * Names the search (and its `role="search"` landmark). Defaults to
+     * "Filter table", as Carbon React; give each table on a page its own.
+     */
+    labelText?: string;
+    /** Defaults to "Filter table", as Carbon React. */
+    placeholder?: string;
+  };
+}
 
-export default class TableSearchComponent extends Component<Args> {
+export default class TableToolbarSearch extends Component<TableToolbarSearchSignature> {
   @tracked isSearching: boolean = false;
   lastTerm?: string = undefined;
 
@@ -67,6 +71,7 @@ export default class TableSearchComponent extends Component<Args> {
       @placeholder={{if @placeholder @placeholder "Filter table"}}
       @onChange={{this.doSearch}}
       class="{{if this.isSearching this.styles.is-searching}}"
+      ...attributes
     />
     <Loading
       class={{this.styles.loading}}

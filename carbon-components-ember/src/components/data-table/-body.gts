@@ -4,15 +4,14 @@ import type DataTableComponent from '../../components/data-table.gts';
 import type { WithBoundArgs } from '@glint/template';
 import type DataTableRow from '../../components/data-table/-row.gts';
 
-export type Args<T> = {
-  isExpandable: boolean;
-  isCheckable: boolean;
-  table: DataTableComponent<T>;
-  items: T[];
-};
-
 export interface DataTableBodySignature<T> {
-  Args: Args<T>;
+  Element: HTMLTableSectionElement;
+  Args: {
+    isExpandable: boolean;
+    isCheckable: boolean;
+    table: DataTableComponent<T>;
+    items: T[];
+  };
   Blocks: {
     default: [
       {
@@ -30,7 +29,7 @@ export default class DataTableBody<T> extends Component<
   DataTableBodySignature<T>
 > {
   <template>
-    <tbody>
+    <tbody ...attributes>
       {{#each @items as |item|}}
         {{#let
           (component

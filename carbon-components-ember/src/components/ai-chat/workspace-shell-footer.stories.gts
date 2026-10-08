@@ -7,7 +7,7 @@ import WorkspaceShellBody from './workspace-shell-body.gts';
 import WorkspaceShellFooter from './workspace-shell-footer.gts';
 
 import type {
-  Args as WorkspaceShellFooterArgs,
+  WorkspaceShellFooterSignature,
   WorkspaceShellFooterAction,
 } from './workspace-shell-footer.gts';
 
@@ -61,7 +61,9 @@ const BODY_TEXT =
   'This is sample content to demonstrate the footer positioning. The footer will be pushed to the bottom of the workspace shell. Shrink the workspace width below 671px to see the footer buttons stack vertically with primary actions appearing first.';
 
 type ActionPreset = keyof typeof FOOTER_ACTION_LIST;
-type StoryArgs = WorkspaceShellFooterArgs & { actionPreset?: ActionPreset };
+type StoryArgs = WorkspaceShellFooterSignature['Args'] & {
+  actionPreset?: ActionPreset;
+};
 
 const actionsFor = (args: StoryArgs) =>
   args.actions ??

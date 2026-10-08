@@ -1,6 +1,5 @@
 import { tracked } from '@glimmer/tracking';
-import { fn as curry } from '@ember/helper';
-import { expect, fn, waitFor } from 'storybook/test';
+import { expect, fn as spy, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Button from '../button.gts';
@@ -34,7 +33,7 @@ import type { TOC } from '@ember/component/template-only';
 import type { ComponentLike } from '@glint/template';
 import type { userEvent as UserEventApi } from 'storybook/test';
 import type { Editor, Extension } from '@tiptap/core';
-import type { Args as PromptLineArgs, PromptLineApi } from './prompt-line.gts';
+import type { PromptLineSignature, PromptLineApi } from './prompt-line.gts';
 import type {
   FileRemoveEventDetail,
   FileUpload,
@@ -70,7 +69,7 @@ import type {
 // - Upstream's `carbonTheme` arg isn't ported: the Storybook toolbar's theme
 //   switcher applies Carbon's theme classes instead.
 
-type StoryArgs = PromptLineArgs & {
+type StoryArgs = PromptLineSignature['Args'] & {
   /** Shell: rounded corners. */
   rounded?: boolean;
   /** Shell: full-width editor row with the inline actions beneath it. */
@@ -398,7 +397,7 @@ const InlineActions: TOC<{
           @size="sm"
           @iconOnly={{true}}
           @disabled={{@disabled}}
-          @onClick={{curry @onAction action.text}}
+          @onClick={{fn @onAction action.text}}
           aria-label={{action.text}}
         >
           <action.icon @size={{16}} />
@@ -472,14 +471,14 @@ Mention, command, autocomplete, and starter extensions each react to the *same* 
     disableSend: false,
     buttonLabel: 'Send',
     disableDirectSend: false,
-    onChange: fn(),
-    onSendIntent: fn(),
-    onSend: fn(),
-    onAction: fn(),
-    onItemSelected: fn(),
-    onItemSend: fn(),
-    onTokenRemove: fn(),
-    onFileRemove: fn(),
+    onChange: spy(),
+    onSendIntent: spy(),
+    onSend: spy(),
+    onAction: spy(),
+    onItemSelected: spy(),
+    onItemSend: spy(),
+    onTokenRemove: spy(),
+    onFileRemove: spy(),
   },
 });
 

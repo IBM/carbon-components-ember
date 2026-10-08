@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 
-export interface OverflowMenuItemComponentSignature {
+export interface OverflowMenuItemSignature {
   Args: {
     itemText?: string;
     title?: string;
@@ -20,7 +20,7 @@ export interface OverflowMenuItemComponentSignature {
   };
 }
 
-export default class OverflowMenuItem extends Component<OverflowMenuItemComponentSignature> {
+export default class OverflowMenuItem extends Component<OverflowMenuItemSignature> {
   get tag() {
     return this.args.href ? 'a' : 'button';
   }

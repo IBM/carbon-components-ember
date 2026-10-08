@@ -8,9 +8,14 @@ import addonDocs from '@storybook/addon-docs';
 import addonThemes, { withThemeByClassName } from '@storybook/addon-themes';
 import addonVitest from '@storybook/addon-vitest';
 import { definePreview } from 'ember-storybook';
+import { configure } from 'storybook/test';
 
 import { createApp } from './app.ts';
 import theme from './theme.ts';
+
+// Testing Library's 1s default for `waitFor`/`findBy*` is too short on CI for
+// media metadata and lazily imported icons.
+configure({ asyncUtilTimeout: 5000 });
 
 export default definePreview({
   addons: [addonDocs(), addonA11y(), addonThemes(), addonVitest()],

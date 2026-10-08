@@ -40,7 +40,7 @@ export function findParentMenu(element: Element): Menu | undefined {
 }
 
 export interface MenuSignature {
-  Element: HTMLUListElement;
+  Element: MenuListSignature['Element'];
   Args: {
     /**
      * A required label describing the Menu (used as `aria-label`).
@@ -114,7 +114,7 @@ export interface MenuSignature {
   };
 }
 
-interface MenuListSignature {
+export interface MenuListSignature {
   Element: HTMLUListElement;
   Args: {
     menu: Menu;

@@ -7,7 +7,7 @@ import { Popover } from 'ember-primitives/components/popover';
 
 import type { ModifierLike } from '@glint/template';
 
-export interface Signature {
+export interface BaseTooltipSignature {
   Args: {
     /**
      * When set, overrides hover/focus detection and forces the tooltip to
@@ -18,7 +18,7 @@ export interface Signature {
     isShown?: boolean;
   };
   Blocks: {
-    trigger: [ModifierLike<{ Element: HTMLElement | SVGElement }>];
+    trigger: [trigger: ModifierLike<{ Element: HTMLElement | SVGElement }>];
     content: [];
   };
 }
@@ -55,7 +55,7 @@ const attachTrigger = eModifier<{
  * `Popover` (Floating UI positioning + native `popover` top-layer
  * promotion). Not part of the public component set (`-private`).
  */
-export default class Tooltip extends Component<Signature> {
+export default class BaseTooltip extends Component<BaseTooltipSignature> {
   @tracked isHovered = false;
 
   show = () => {
@@ -103,6 +103,7 @@ export default class Tooltip extends Component<Signature> {
   ` as { tooltip: string; arrow: string };
 
   <template>
+    {{! eslint-disable-next-line ember/template-require-splattributes -- the trigger is the caller's element }}
     <Popover @placement="top" as |p|>
       {{#let
         (modifier

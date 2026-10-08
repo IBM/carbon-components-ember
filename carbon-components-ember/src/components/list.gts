@@ -10,15 +10,14 @@ import ListHeaderComponent from '../components/list/-header.gts';
 import { stylesheet } from 'astroturf';
 import ListSkeletonComponent from '../components/list/-skeleton.gts';
 
-export type Args<T> = {
-  items?: T[];
-  loading?: boolean;
-  onSelect?(item: T): void;
-  selectable?: boolean;
-};
-
-export interface ListComponentSignature<T> {
-  Args: Args<T>;
+export interface ListSignature<T> {
+  Element: HTMLElement;
+  Args: {
+    items?: T[];
+    loading?: boolean;
+    onSelect?(item: T): void;
+    selectable?: boolean;
+  };
   Blocks: {
     default: [
       {
@@ -39,9 +38,7 @@ export interface ListComponentSignature<T> {
   };
 }
 
-export default class ListComponent<T> extends Component<
-  ListComponentSignature<T>
-> {
+export default class List<T> extends Component<ListSignature<T>> {
   @tracked currentSearch?: string;
   @tracked currentItemsSlice: { start: number; end?: number } | null = null;
   @tracked currentItem?: T;
@@ -116,13 +113,14 @@ export default class ListComponent<T> extends Component<
 
   <template>
     {{#if @loading}}
-      <ListSkeletonComponent />
+      <ListSkeletonComponent ...attributes />
     {{else}}
       <section
         class="cds--structured-list
           {{this.styles.namespace}}
           {{if @selectable 'cds--structured-list--selection'}}"
         {{this.delayItems}}
+        ...attributes
       >
         {{yield
           (hash

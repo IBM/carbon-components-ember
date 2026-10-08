@@ -3,7 +3,7 @@ import { expect, waitFor } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import List from './list.gts';
 
-import type { Args as ListArgs } from './list.gts';
+import type { ListSignature } from './list.gts';
 
 // `List` is an Ember-only component (a structured list with search and
 // pagination); Carbon React has no counterpart, so there's nothing to mirror.
@@ -16,7 +16,7 @@ const asString = (item: unknown) => String(item);
 
 // List is generic over its item type, which signature inference can't
 // follow, so declare the story's args explicitly.
-const meta = preview.type<{ args: ListArgs<string> }>().meta({
+const meta = preview.type<{ args: ListSignature<string>['Args'] }>().meta({
   title: 'Components/List',
   component: List,
   parameters: {

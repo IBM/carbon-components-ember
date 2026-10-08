@@ -1,4 +1,3 @@
-import type { TOC } from '@ember/component/template-only';
 /**
  * Copyright IBM Corp. 2026
  *
@@ -6,22 +5,22 @@ import type { TOC } from '@ember/component/template-only';
  * LICENSE file in the root directory of this source tree.
  */
 
-export type Args = {
-  /**
-   * When `true`, follows Carbon's layered-tile styling instead of the chat
-   * shell's default background.
-   */
-  isLayered?: boolean;
-  /**
-   * When `true`, removes the default padding, useful when the card is used
-   * as a container for content that needs to be flush against its edges.
-   */
-  isFlush?: boolean;
-};
+import type { TOC } from '@ember/component/template-only';
 
 export interface AiChatCardSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /**
+     * When `true`, follows Carbon's layered-tile styling instead of the chat
+     * shell's default background.
+     */
+    isLayered?: boolean;
+    /**
+     * When `true`, removes the default padding, useful when the card is used
+     * as a container for content that needs to be flush against its edges.
+     */
+    isFlush?: boolean;
+  };
   Blocks: {
     /** Upstream `header` slot. */
     header: [];

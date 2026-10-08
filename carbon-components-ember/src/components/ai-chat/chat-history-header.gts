@@ -10,19 +10,17 @@ import Button from '../button.gts';
 import Tooltip from '../tooltip.gts';
 import { ChevronLeft } from '../../icons.ts';
 
-export type Args = {
-  /** Defaults to `'Chats'`. */
-  headerTitle?: string;
-  /** Defaults to `'Close chat history'`. */
-  closeButtonLabel?: string;
-  /** Renders the close button. Defaults to `false`. */
-  showCloseAction?: boolean;
-  onClose?: () => void;
-};
-
 export interface ChatHistoryHeaderSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /** Defaults to `'Chats'`. */
+    headerTitle?: string;
+    /** Defaults to `'Close chat history'`. */
+    closeButtonLabel?: string;
+    /** Renders the close button. Defaults to `false`. */
+    showCloseAction?: boolean;
+    onClose?: () => void;
+  };
 }
 
 /**

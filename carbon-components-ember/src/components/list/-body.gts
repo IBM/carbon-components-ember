@@ -4,13 +4,12 @@ import type { WithBoundArgs } from '@glint/template';
 import type ListRowComponent from '../list/-row.gts';
 import type ListComponent from '../list.gts';
 
-export type Args<T> = {
-  items: T[];
-  list: ListComponent<T>;
-};
-
-export interface ListBodyComponentSignature<T> {
-  Args: Args<T>;
+export interface ListBodySignature<T> {
+  Element: HTMLDivElement;
+  Args: {
+    items: T[];
+    list: ListComponent<T>;
+  };
   Blocks: {
     default: [
       {
@@ -24,11 +23,9 @@ export interface ListBodyComponentSignature<T> {
   };
 }
 
-export default class ListBodyComponent<T> extends Component<
-  ListBodyComponentSignature<T>
-> {
+export default class ListBody<T> extends Component<ListBodySignature<T>> {
   <template>
-    <div class="cds--structured-list-tbody">
+    <div class="cds--structured-list-tbody" ...attributes>
       {{#each @items as |item|}}
         {{#let
           (component ListRow item=item isHeader=false list=@list)

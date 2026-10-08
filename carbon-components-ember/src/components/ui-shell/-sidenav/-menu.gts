@@ -1,7 +1,7 @@
 import type Icon from '../../../components/icon.gts';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import SubMenuComponent from './-sub-menu.gts';
+import UIShellSideNavSubMenu from './-sub-menu.gts';
 import { ChevronDown } from '../../../icons.ts';
 
 export type SubMenu = {
@@ -9,7 +9,8 @@ export type SubMenu = {
   title: string;
 };
 
-export interface Signature {
+export interface UIShellSideNavMenuSignature {
+  Element: HTMLLIElement;
   Args: {
     transitionTo: () => void;
     hidden?: boolean;
@@ -19,13 +20,12 @@ export interface Signature {
     title: string;
     submenus: SubMenu[];
   };
-  Element: null;
   Blocks: {
-    default: [typeof SubMenuComponent];
+    default: [UIShellSideNavSubMenu: typeof UIShellSideNavSubMenu];
   };
 }
 
-export default class NavMenuComponent extends Component<Signature> {
+export default class UIShellSideNavMenu extends Component<UIShellSideNavMenuSignature> {
   @tracked expanded = false;
 
   toggleExpanded = () => {
@@ -34,7 +34,10 @@ export default class NavMenuComponent extends Component<Signature> {
 
   <template>
     {{#if @submenus}}
-      <li class="cds--side-nav__item {{if @icon 'cds--side-nav__item--icon'}}">
+      <li
+        class="cds--side-nav__item {{if @icon 'cds--side-nav__item--icon'}}"
+        ...attributes
+      >
         <button
           class="cds--side-nav__submenu"
           aria-haspopup="true"
@@ -58,13 +61,13 @@ export default class NavMenuComponent extends Component<Signature> {
         </button>
         {{#if (or @open this.expanded)}}
           <ul class="cds--side-nav__menu">
-            {{yield SubMenuComponent}}
+            {{yield UIShellSideNavSubMenu}}
           </ul>
         {{/if}}
       </li>
     {{else}}
       {{#unless @hidden}}
-        <li class="cds--side-nav__item">
+        <li class="cds--side-nav__item" ...attributes>
           <a
             href="#"
             class="cds--side-nav__link"

@@ -1,29 +1,27 @@
 import Component from '@glimmer/component';
 import { defaultArgs } from '../utils/decorators.ts';
 
-export type Args = {
-  active?: boolean;
-  small?: boolean;
-  withOverlay?: boolean;
-  description?: string;
-  inline?: boolean;
-  classNames?: string;
-  /**
-   * Specify the description for the inline loading icon. Only used when
-   * `@inline` is true - matches @carbon/react's InlineLoading `iconDescription`
-   * prop, which labels the spinner icon separately from `@description` (the
-   * visible text shown next to it). Defaults to `'loading'`.
-   */
-  iconDescription?: string;
-};
-
-export interface LoadingComponentSignature {
-  Args: Args;
+export interface LoadingSignature {
+  Args: {
+    active?: boolean;
+    small?: boolean;
+    withOverlay?: boolean;
+    description?: string;
+    inline?: boolean;
+    classNames?: string;
+    /**
+     * Specify the description for the inline loading icon. Only used when
+     * `@inline` is true - matches @carbon/react's InlineLoading `iconDescription`
+     * prop, which labels the spinner icon separately from `@description` (the
+     * visible text shown next to it). Defaults to `'loading'`.
+     */
+    iconDescription?: string;
+  };
   Element: HTMLDivElement;
 }
 
-export default class LoadingComponent extends Component<LoadingComponentSignature> {
-  args: Args = defaultArgs(this, {
+export default class Loading extends Component<LoadingSignature> {
+  args: LoadingSignature['Args'] = defaultArgs(this, {
     active: true,
     small: false,
     withOverlay: true,

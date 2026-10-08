@@ -32,44 +32,42 @@ type Slice = {
   end: number;
 };
 
-export type Args = {
-  tableTitle?: string;
-  tableDescription?: string;
-  headers?: AiChatTableCell[];
-  rows?: AiChatTableRow[];
-  loading?: boolean;
-  filterPlaceholderText?: string;
-  previousPageText?: string;
-  nextPageText?: string;
-  /**
-   * Text for the pagination's "items per page" label. Accepted for parity
-   * with upstream, but not wired: the shared `Pagination` component this
-   * addon already has hardcodes that label rather than accepting an
-   * override, and changing `Pagination` itself is out of scope here.
-   */
-  itemsPerPageText?: string;
-  downloadLabelText?: string;
-  /** BCP 47 locale used for sorting column values via `Intl.Collator`. */
-  locale?: string;
-  /**
-   * Initial page size. Upstream calculates this from the rendered
-   * component's width (10 above ~400px, 5 below); this port skips that
-   * DOM-measurement heuristic and simply defaults to `5`.
-   */
-  defaultPageSize?: number;
-  /** Accepted for parity; not wired, see `itemsPerPageText` above. */
-  getPaginationSupplementalText?: (info: { count: number }) => string;
-  /** Accepted for parity; not wired, see `itemsPerPageText` above. */
-  getPaginationStatusText?: (info: {
-    start: number;
-    end: number;
-    count: number;
-  }) => string;
-};
-
-export interface AiChatTableSignature {
+export interface TableSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    tableTitle?: string;
+    tableDescription?: string;
+    headers?: AiChatTableCell[];
+    rows?: AiChatTableRow[];
+    loading?: boolean;
+    filterPlaceholderText?: string;
+    previousPageText?: string;
+    nextPageText?: string;
+    /**
+     * Text for the pagination's "items per page" label. Accepted for parity
+     * with upstream, but not wired: the shared `Pagination` component this
+     * addon already has hardcodes that label rather than accepting an
+     * override, and changing `Pagination` itself is out of scope here.
+     */
+    itemsPerPageText?: string;
+    downloadLabelText?: string;
+    /** BCP 47 locale used for sorting column values via `Intl.Collator`. */
+    locale?: string;
+    /**
+     * Initial page size. Upstream calculates this from the rendered
+     * component's width (10 above ~400px, 5 below); this port skips that
+     * DOM-measurement heuristic and simply defaults to `5`.
+     */
+    defaultPageSize?: number;
+    /** Accepted for parity; not wired, see `itemsPerPageText` above. */
+    getPaginationSupplementalText?: (info: { count: number }) => string;
+    /** Accepted for parity; not wired, see `itemsPerPageText` above. */
+    getPaginationStatusText?: (info: {
+      start: number;
+      end: number;
+      count: number;
+    }) => string;
+  };
 }
 
 const PAGE_SIZE_OPTIONS = [5, 10, 15, 20, 50];
@@ -96,7 +94,7 @@ const PAGE_SIZE_OPTIONS = [5, 10, 15, 20, 50];
  * exposed here for the same reason `AiChatCard` doesn't expose it either —
  * nothing in this port provides that outer shell context.
  */
-export default class AiChatTable extends Component<AiChatTableSignature> {
+export default class Table extends Component<TableSignature> {
   @tracked filterTerm = '';
   @tracked sortColumnIndex: number | null = null;
   @tracked sortDirection: 'ascending' | 'descending' = 'ascending';

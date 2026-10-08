@@ -8,33 +8,32 @@
 import Component from '@glimmer/component';
 import { modifier } from 'ember-modifier';
 import Button from '../button.gts';
+import type { ButtonSignature } from '../button.gts';
 
 export type ChatButtonKind =
   'primary' | 'secondary' | 'tertiary' | 'ghost' | 'danger';
 export type ChatButtonSize = 'sm' | 'md' | 'lg';
 
-export type Args = {
-  /** Button kind. Defaults to `'primary'` (or `'ghost'` when `@isQuickAction` is set and no kind is given). */
-  kind?: ChatButtonKind;
-  /** Button size. Defaults to `'lg'` (or `'sm'` when `@isQuickAction` is set). */
-  size?: ChatButtonSize;
-  /** Renders as a small, pill-shaped quick-action chip rather than a full-size button. */
-  isQuickAction?: boolean;
-  /**
-   * Marks a quick-action chip as the currently-selected option. Blocks both
-   * user interaction and programmatic clicks (via `inert` plus a capture-
-   * phase click guard), matching upstream's behavior. Only takes effect
-   * when `@isQuickAction` is set - upstream's own normalization only
-   * applies it on that branch.
-   */
-  isSelected?: boolean;
-  disabled?: boolean;
-  onClick?: () => void;
-};
-
 export interface AiChatChatButtonSignature {
-  Element: HTMLButtonElement;
-  Args: Args;
+  Element: ButtonSignature['Element'];
+  Args: {
+    /** Button kind. Defaults to `'primary'` (or `'ghost'` when `@isQuickAction` is set and no kind is given). */
+    kind?: ChatButtonKind;
+    /** Button size. Defaults to `'lg'` (or `'sm'` when `@isQuickAction` is set). */
+    size?: ChatButtonSize;
+    /** Renders as a small, pill-shaped quick-action chip rather than a full-size button. */
+    isQuickAction?: boolean;
+    /**
+     * Marks a quick-action chip as the currently-selected option. Blocks both
+     * user interaction and programmatic clicks (via `inert` plus a capture-
+     * phase click guard), matching upstream's behavior. Only takes effect
+     * when `@isQuickAction` is set - upstream's own normalization only
+     * applies it on that branch.
+     */
+    isSelected?: boolean;
+    disabled?: boolean;
+    onClick?: () => void;
+  };
   Blocks: {
     default: [];
   };

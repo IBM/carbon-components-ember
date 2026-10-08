@@ -3,49 +3,28 @@ import ChartPart from './chart-part.ts';
 import type CarbonChart from '../../charts/-components/chart.gts';
 import type { ScaleTypes } from '@carbon/charts';
 
-export type Args = {
-  /**
-   * The Axis Title
-   * @argument title
-   * @type String
-   */
-  title: string;
-  /**
-   * @argument stacked
-   * @type boolean
-   */
-  stacked?: boolean | string;
-  /**
-   * @argument primary
-   * @type boolean
-   */
-  primary?: boolean;
-  /**
-   * @argument secondary
-   * @type boolean
-   */
-  secondary?: boolean;
-  /**
-   * @argument scaleType
-   * @type String
-   */
-  scaleType?: `${ScaleTypes}`;
+export interface ChartAxisSignature {
+  Args: {
+    /**
+     * The Axis Title
+     */
+    title: string;
 
-  chart: CarbonChart;
+    stacked?: boolean | string;
 
-  axis: 'left' | 'bottom';
-};
+    primary?: boolean;
 
-/** @documenter yuidoc */
-/**
- The ChartAxis
+    secondary?: boolean;
 
- ```handlebars
- ```
- @class ChartAxis
- @public
- **/
-export default class ChartAxis extends ChartPart<{ Args: Args }> {
+    scaleType?: `${ScaleTypes}`;
+
+    chart: CarbonChart;
+
+    axis: 'left' | 'bottom';
+  };
+}
+
+export default class ChartAxis extends ChartPart<ChartAxisSignature> {
   get options() {
     return {
       title: this.args.title,
@@ -54,5 +33,6 @@ export default class ChartAxis extends ChartPart<{ Args: Args }> {
     };
   }
 
+  // eslint-disable-next-line ember/template-require-splattributes -- configures its chart; renders nothing
   <template></template>
 }

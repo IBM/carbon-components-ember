@@ -1,10 +1,10 @@
 import type { TOC } from '@ember/component/template-only';
 
-export interface Signature {
+export interface UIShellSideNavDividerSignature {
   Element: HTMLLIElement;
 }
 
-const UIShellSideNavDivider: TOC<Signature> = <template>
+const UIShellSideNavDivider: TOC<UIShellSideNavDividerSignature> = <template>
   <li class="cds--side-nav__divider" ...attributes></li>
 </template>;
 

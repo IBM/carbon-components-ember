@@ -5,14 +5,12 @@ import CopyButton from '../components/copy-button.gts';
 import { concat } from '@ember/helper';
 import { modifier as eModifier } from 'ember-modifier';
 import { htmlSafe } from '@ember/template';
-import type { TemplateOnlyComponent } from '@ember/component/template-only';
+import type { TOC } from '@ember/component/template-only';
 
-export type Args = {
-  type: 'default' | 'multiline' | 'inline';
-};
-
-export interface CarbonCodeSnippetSignature {
-  Args: Args;
+export interface CodeSnippetSignature {
+  Args: {
+    type: 'default' | 'multiline' | 'inline';
+  };
   Blocks: {
     default: [];
   };
@@ -27,13 +25,15 @@ const captureElement = eModifier<{
   onInsert(element);
 });
 
-// As Carbon React: a multi-line snippet's `<pre>` is the focusable,
-// read-only textbox, so its scrollable content is keyboard reachable.
-const PreCode: TemplateOnlyComponent<{
+interface PreCodeSignature {
   Element: HTMLElement;
   Args: { multiline?: boolean };
   Blocks: { default: [] };
-}> = <template>
+}
+
+// As Carbon React: a multi-line snippet's `<pre>` is the focusable,
+// read-only textbox, so its scrollable content is keyboard reachable.
+const PreCode: TOC<PreCodeSignature> = <template>
   <pre
     role={{if @multiline "textbox"}}
     tabindex={{if @multiline "0"}}
@@ -49,7 +49,7 @@ const PreCode: TemplateOnlyComponent<{
   </pre>
 </template>;
 
-export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignature> {
+export default class CodeSnippet extends Component<CodeSnippetSignature> {
   @tracked expanded = false;
   @tracked codeElement?: Element;
   @tracked carbonElement?: Element;
@@ -67,7 +67,7 @@ export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignat
   };
 
   @defaultArgs
-  args: Args = {
+  args: CodeSnippetSignature['Args'] = {
     type: 'default',
   };
 

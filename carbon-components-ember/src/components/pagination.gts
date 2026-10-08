@@ -11,7 +11,6 @@ import { runTask } from 'ember-lifeline';
 import { guidFor } from '@ember/object/internals';
 import { ChevronLeft, ChevronRight } from '../icons.ts';
 import type { ComponentLike } from '@glint/template';
-/** @documenter yuidoc */
 
 type TooltipPosition = 'top' | 'right' | 'bottom' | 'left';
 
@@ -27,51 +26,54 @@ type State = {
   itemsPerPage: number;
 };
 
-export type Args = {
-  disabled?: boolean;
-  isLoading?: boolean;
-  length: number;
-  onPageChanged: (currentSlice: Slice) => void;
-  state?: State;
-  itemsPerPageOptions?: (number | string)[];
-  size?: 'xs' | 'sm' | 'md' | 'lg';
-  /**
-   * The description for the backward icon, also used as its tooltip content.
-   */
-  backwardText?: string;
-  /**
-   * The tooltip position for the backward button.
-   */
-  backwardTextTooltipPosition?: TooltipPosition;
-  /**
-   * The description for the forward icon, also used as its tooltip content.
-   */
-  forwardText?: string;
-  /**
-   * The tooltip position for the forward button.
-   */
-  forwardTextTooltipPosition?: TooltipPosition;
-  /**
-   * Provide a custom component to render in place of the default page-select
-   * control. Receives `@currentPage`, `@totalPages`, `@currentPageSize`,
-   * `@pageSelectLabelText` and `@onSetPage`.
-   */
-  renderPageSelect?: ComponentLike<{
-    Args: {
-      currentPage: number;
-      totalPages: number;
-      currentPageSize: number;
-      pageSelectLabelText: string;
-      onSetPage: (page: number) => void;
-    };
-  }>;
-};
+export interface PaginationSignature {
+  Element: HTMLDivElement;
+  Args: {
+    disabled?: boolean;
+    isLoading?: boolean;
+    length: number;
+    onPageChanged: (currentSlice: Slice) => void;
+    state?: State;
+    itemsPerPageOptions?: (number | string)[];
+    size?: 'xs' | 'sm' | 'md' | 'lg';
+    /**
+     * The description for the backward icon, also used as its tooltip content.
+     */
+    backwardText?: string;
+    /**
+     * The tooltip position for the backward button.
+     */
+    backwardTextTooltipPosition?: TooltipPosition;
+    /**
+     * The description for the forward icon, also used as its tooltip content.
+     */
+    forwardText?: string;
+    /**
+     * The tooltip position for the forward button.
+     */
+    forwardTextTooltipPosition?: TooltipPosition;
+    /**
+     * Provide a custom component to render in place of the default page-select
+     * control. Receives `@currentPage`, `@totalPages`, `@currentPageSize`,
+     * `@pageSelectLabelText` and `@onSetPage`.
+     */
+    renderPageSelect?: ComponentLike<{
+      Args: {
+        currentPage: number;
+        totalPages: number;
+        currentPageSize: number;
+        pageSelectLabelText: string;
+        onSetPage: (page: number) => void;
+      };
+    }>;
+  };
+}
 
-export default class CarbonPagination extends Component<Args> {
+export default class Pagination extends Component<PaginationSignature> {
   @tracked currentPage: number;
   @tracked itemsPerPage: number;
 
-  args: Args = defaultArgs(this, {
+  args: PaginationSignature['Args'] = defaultArgs(this, {
     disabled: false,
     length: 1,
     onPageChanged: () => null,
@@ -85,7 +87,7 @@ export default class CarbonPagination extends Component<Args> {
     renderPageSelect: undefined,
   });
 
-  constructor(owner: Owner, args: Args) {
+  constructor(owner: Owner, args: PaginationSignature['Args']) {
     super(owner, args);
     // Seeded from the initial `@state`; later changes are applied by
     // `syncState`.
@@ -177,22 +179,24 @@ export default class CarbonPagination extends Component<Args> {
   // to the (stale) `@state`.
   syncedInitialState = false;
 
-  syncState = modifier<{
-    Element: HTMLElement;
-    Args: { Positional: [state: State | undefined, length: number] };
-  }>((_element, [state]) => {
-    if (!this.syncedInitialState) {
-      this.syncedInitialState = true;
-      return;
-    }
-    runTask(this, () => {
-      if (state) {
-        this.setState(state);
-      } else {
-        this.lengthChanged();
+  syncState = modifier(
+    (
+      _element: HTMLElement,
+      [state]: [state: State | undefined, length: number],
+    ) => {
+      if (!this.syncedInitialState) {
+        this.syncedInitialState = true;
+        return;
       }
-    });
-  });
+      runTask(this, () => {
+        if (state) {
+          this.setState(state);
+        } else {
+          this.lengthChanged();
+        }
+      });
+    },
+  );
 
   styles = stylesheet`
     .namespace {
@@ -213,6 +217,7 @@ export default class CarbonPagination extends Component<Args> {
       data-pagination
       {{this.notifyInitialPage}}
       {{this.syncState @state @length}}
+      ...attributes
     >
       {{#if @isLoading}}
         <div class="cds--skeleton__text"></div>

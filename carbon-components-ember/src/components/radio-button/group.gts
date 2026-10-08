@@ -6,7 +6,7 @@ import type { WithBoundArgs } from '@glint/template';
 import RadioButton from '../radio-button.gts';
 import type { Value } from '../radio-button.gts';
 
-export interface Signature {
+export interface RadioButtonGroupSignature {
   Args: {
     orientation?: 'horizontal' | 'vertical';
     labelPosition?: 'left' | 'right';
@@ -26,12 +26,14 @@ export interface Signature {
   Element: HTMLFieldSetElement;
   Blocks: {
     heading: [];
-    default: [WithBoundArgs<typeof RadioButton, 'group' | 'onChange'>];
+    default: [
+      RadioButton: WithBoundArgs<typeof RadioButton, 'group' | 'onChange'>,
+    ];
   };
 }
 
-export default class RadioButtonGroup extends Component<Signature> {
-  args: Signature['Args'] = defaultArgs(this, {
+export default class RadioButtonGroup extends Component<RadioButtonGroupSignature> {
+  args: RadioButtonGroupSignature['Args'] = defaultArgs(this, {
     orientation: 'horizontal',
     labelPosition: 'right',
   });

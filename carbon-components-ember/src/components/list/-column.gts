@@ -1,6 +1,6 @@
 import type { TOC } from '@ember/component/template-only';
 
-export interface ListColumnComponentSignature {
+export interface ListColumnSignature {
   Args: {
     nowrap?: boolean;
   };
@@ -10,7 +10,7 @@ export interface ListColumnComponentSignature {
   };
 }
 
-const ListColumnComponent: TOC<ListColumnComponentSignature> = <template>
+const ListColumn: TOC<ListColumnSignature> = <template>
   <div
     class="cds--structured-list-td
       {{if @nowrap 'cds--structured-list-content--nowrap'}}"
@@ -20,4 +20,4 @@ const ListColumnComponent: TOC<ListColumnComponentSignature> = <template>
   </div>
 </template>;
 
-export default ListColumnComponent;
+export default ListColumn;

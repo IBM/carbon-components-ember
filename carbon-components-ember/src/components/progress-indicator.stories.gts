@@ -4,7 +4,7 @@ import { expect, fn } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import ProgressIndicator from './progress-indicator.gts';
 
-import type { Args as ProgressIndicatorArgs } from './progress-indicator.gts';
+import type { ProgressIndicatorSignature } from './progress-indicator.gts';
 
 // Parity gaps with Carbon React's ProgressIndicator stories:
 // - `Skeleton`: there is no ProgressIndicatorSkeleton component.
@@ -19,7 +19,7 @@ const meta = preview.meta({
     spaceEqually: false,
     vertical: false,
   },
-  render: (args: ProgressIndicatorArgs) => <template>
+  render: (args: ProgressIndicatorSignature['Args']) => <template>
     <ProgressIndicator
       @currentIndex={{args.currentIndex}}
       @spaceEqually={{args.spaceEqually}}
@@ -65,7 +65,7 @@ export const Interactive = meta.story({
     currentIndex: 1,
     onChange: fn(),
   },
-  render: (args: ProgressIndicatorArgs) => {
+  render: (args: ProgressIndicatorSignature['Args']) => {
     const state = trackedObject({ currentIndex: args.currentIndex ?? 1 });
     const onChange = (index: number) => {
       state.currentIndex = index;

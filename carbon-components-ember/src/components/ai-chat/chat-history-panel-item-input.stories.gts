@@ -4,7 +4,7 @@ import { expect, fn, waitFor } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import ChatHistoryPanelItemInput from './chat-history-panel-item-input.gts';
 
-import type { Args as ItemInputArgs } from './chat-history-panel-item-input.gts';
+import type { ChatHistoryPanelItemInputSignature } from './chat-history-panel-item-input.gts';
 
 // Upstream documents `cds-aichat-history-panel-item-input` only through the
 // rename flow of its `Components/Chat history` stories (see
@@ -29,7 +29,7 @@ const meta = preview.meta({
     onSave: fn(),
     onCancel: fn(),
   },
-  render: (args: ItemInputArgs) => {
+  render: (args: ChatHistoryPanelItemInputSignature['Args']) => {
     const state = trackedObject({ result: '(none yet)' });
     const handleSave = (value: string) => {
       state.result = `saved "${value}"`;

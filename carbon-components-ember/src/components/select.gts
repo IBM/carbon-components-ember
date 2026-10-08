@@ -3,8 +3,11 @@ import { set } from '@ember/object';
 import { isBlank } from '@ember/utils';
 import { defaultArgs } from '../utils/decorators.ts';
 import PowerSelect from 'ember-power-select/components/power-select';
-import type { PowerSelectArgs } from 'ember-power-select/components/power-select';
-import type { Select } from 'ember-power-select/types';
+import type {
+  PowerSelectArgs,
+  PowerSelectSignature,
+} from 'ember-power-select/components/power-select';
+import type { Select as PowerSelectApi } from 'ember-power-select/types';
 import type { ContentValue } from '@glint/template';
 import { modifier } from 'ember-modifier';
 import isSelected from 'ember-power-select/helpers/ember-power-select-is-equal';
@@ -20,49 +23,47 @@ import { Close } from '../icons.ts';
 import { stylesheet } from 'astroturf';
 import type { TOC } from '@ember/component/template-only';
 
-export type Args<T extends ContentValue> = {
-  options: T[];
-  searchField?: string;
-  placeholder?: string;
-  loadingMessage?: string;
-  searchPlaceholder?: string;
-  /**
-   * id of an element that labels the select, for a visible label rendered
-   * outside it (e.g. Pagination's "Items per page:"). Otherwise `@title` is
-   * the label, and the placeholder names it as a last resort.
-   */
-  ariaLabelledBy?: string;
-  helperText?: string;
-  title?: string;
-  disabled?: boolean;
-  inline?: boolean;
-  showNumber?: boolean;
-  searchEnabled?: boolean;
-  renderInPlace?: boolean;
-  addItem?: (item: T) => void;
-  removeItem?: (item: T) => void;
-} & (
-  | {
-      selected?: T[];
-      multiple: true;
-      onSelect?: (item: T[]) => void;
-      onOpen?: PowerSelectArgs<T, true>['onOpen'];
-      search?: PowerSelectArgs<T, true>['search'];
-      selectFocused?: PowerSelectArgs<T, true>['onFocus'];
-    }
-  | {
-      selected?: T;
-      multiple?: false;
-      onSelect?: (item: T) => void;
-      onOpen?: PowerSelectArgs<T>['onOpen'];
-      search?: PowerSelectArgs<T>['search'];
-      selectFocused?: PowerSelectArgs<T>['onFocus'];
-    }
-);
-
-export interface SelectComponentSignature<T extends ContentValue> {
-  Args: Args<T>;
-  Element: HTMLElement;
+export interface SelectSignature<T extends ContentValue> {
+  Args: {
+    options: T[];
+    searchField?: string;
+    placeholder?: string;
+    loadingMessage?: string;
+    searchPlaceholder?: string;
+    /**
+     * id of an element that labels the select, for a visible label rendered
+     * outside it (e.g. Pagination's "Items per page:"). Otherwise `@title` is
+     * the label, and the placeholder names it as a last resort.
+     */
+    ariaLabelledBy?: string;
+    helperText?: string;
+    title?: string;
+    disabled?: boolean;
+    inline?: boolean;
+    showNumber?: boolean;
+    searchEnabled?: boolean;
+    renderInPlace?: boolean;
+    addItem?: (item: T) => void;
+    removeItem?: (item: T) => void;
+  } & (
+    | {
+        selected?: T[];
+        multiple: true;
+        onSelect?: (item: T[]) => void;
+        onOpen?: PowerSelectArgs<T, true>['onOpen'];
+        search?: PowerSelectArgs<T, true>['search'];
+        selectFocused?: PowerSelectArgs<T, true>['onFocus'];
+      }
+    | {
+        selected?: T;
+        multiple?: false;
+        onSelect?: (item: T) => void;
+        onOpen?: PowerSelectArgs<T>['onOpen'];
+        search?: PowerSelectArgs<T>['search'];
+        selectFocused?: PowerSelectArgs<T>['onFocus'];
+      }
+  );
+  Element: PowerSelectSignature<T>['Element'];
   Blocks: {
     default: [option: Option<T>];
   };
@@ -213,10 +214,10 @@ const SelectedItem: TOC<
   </div>
 </template>;
 
-export default class SelectComponent<T extends ContentValue> extends Component<
-  SelectComponentSignature<T>
+export default class Select<T extends ContentValue> extends Component<
+  SelectSignature<T>
 > {
-  args: Args<T> = defaultArgs(this, {
+  args: SelectSignature<T>['Args'] = defaultArgs(this, {
     options: [] as T[],
     multiple: false,
     disabled: false,
@@ -282,19 +283,19 @@ export default class SelectComponent<T extends ContentValue> extends Component<
   };
 
   selectFocused = (
-    select: Select<T, true> | Select<T, false>,
+    select: PowerSelectApi<T, true> | PowerSelectApi<T, false>,
     event: FocusEvent,
   ) => {
     const { args } = this;
     if (args.multiple === true) {
-      args.selectFocused?.(select as Select<T, true>, event);
+      args.selectFocused?.(select as PowerSelectApi<T, true>, event);
     } else {
-      args.selectFocused?.(select as Select<T, false>, event);
+      args.selectFocused?.(select as PowerSelectApi<T, false>, event);
     }
   };
 
   handleKeydown = (
-    select: Select<T, true> | Select<T, false>,
+    select: PowerSelectApi<T, true> | PowerSelectApi<T, false>,
     event: KeyboardEvent,
   ) => {
     const selected = this.args.selected || ([] as T[]);
@@ -536,7 +537,6 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     {{#if @multiple}}
       <PowerSelect
         @multiple={{true}}
-        {{! @glint-expect-error: power-select types its element as Element; it renders an HTMLElement }}
         ...attributes
         class="cds--select cds--select-md
           {{styles.trigger}}
@@ -607,7 +607,6 @@ export default class SelectComponent<T extends ContentValue> extends Component<
       </PowerSelect>
     {{else}}
       <PowerSelect
-        {{! @glint-expect-error: power-select types its element as Element; it renders an HTMLElement }}
         ...attributes
         class="cds--select cds--select-md
           {{styles.trigger}}

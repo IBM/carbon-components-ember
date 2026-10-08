@@ -16,58 +16,40 @@ import Warning from './icons/warning.ts';
 import CircleDash from './icons/circle-dash.ts';
 import Incomplete from './icons/incomplete.ts';
 
-export type Args = {
-  /**
-   * Optionally specify the current step array index
-   */
-  currentIndex?: number;
-  /**
-   * Optional callback called if a ProgressStep is clicked on. Returns the index of the step.
-   */
-  onChange?: (index: number) => void;
-  /**
-   * Specify whether the progress steps should be split equally in size in the div
-   */
-  spaceEqually?: boolean;
-  /**
-   * Determines whether or not the ProgressIndicator should be rendered vertically.
-   */
-  vertical?: boolean;
-};
-
-export type ProgressStepArgs = {
-  /**
-   * Provide the label for the ProgressStep
-   */
-  label: string;
-  /**
-   * Provide a description for the ProgressStep
-   */
-  description?: string;
-  /**
-   * Provide an optional secondary label
-   */
-  secondaryLabel?: string;
-  /**
-   * Specify whether the step is invalid
-   */
-  invalid?: boolean;
-  /**
-   * Specify whether the step is disabled
-   */
-  disabled?: boolean;
-  /**
-   * Specify whether the step has been completed. Only relevant for steps
-   * that are not before the current step, since earlier steps are always
-   * considered complete.
-   */
-  complete?: boolean;
-};
-
-class ProgressStep extends Component<{
-  Args: ProgressStepArgs & { indicator: ProgressIndicator };
+export interface ProgressStepSignature {
+  Args: {
+    /**
+     * Provide the label for the ProgressStep
+     */
+    label: string;
+    /**
+     * Provide a description for the ProgressStep
+     */
+    description?: string;
+    /**
+     * Provide an optional secondary label
+     */
+    secondaryLabel?: string;
+    /**
+     * Specify whether the step is invalid
+     */
+    invalid?: boolean;
+    /**
+     * Specify whether the step is disabled
+     */
+    disabled?: boolean;
+    /**
+     * Specify whether the step has been completed. Only relevant for steps
+     * that are not before the current step, since earlier steps are always
+     * considered complete.
+     */
+    complete?: boolean;
+    indicator: ProgressIndicator;
+  };
   Element: HTMLLIElement;
-}> {
+}
+
+class ProgressStep extends Component<ProgressStepSignature> {
   constructor(owner: Owner, args: ProgressStep['args']) {
     super(owner, args);
     runTask(this, () => {
@@ -210,26 +192,30 @@ class ProgressStep extends Component<{
 }
 
 export interface ProgressIndicatorSignature {
-  Args: Args;
+  Args: {
+    /**
+     * Optionally specify the current step array index
+     */
+    currentIndex?: number;
+    /**
+     * Optional callback called if a ProgressStep is clicked on. Returns the index of the step.
+     */
+    onChange?: (index: number) => void;
+    /**
+     * Specify whether the progress steps should be split equally in size in the div
+     */
+    spaceEqually?: boolean;
+    /**
+     * Determines whether or not the ProgressIndicator should be rendered vertically.
+     */
+    vertical?: boolean;
+  };
   Element: HTMLUListElement;
   Blocks: {
-    default: [WithBoundArgs<typeof ProgressStep, 'indicator'>];
+    default: [ProgressStep: WithBoundArgs<typeof ProgressStep, 'indicator'>];
   };
 }
 
-/**
- The Carbon ProgressIndicator
-
- ```handlebars
- <ProgressIndicator @currentIndex={{1}} as |Step|>
-   <Step @label='First step' />
-   <Step @label='Second step' />
-   <Step @label='Third step' />
- </ProgressIndicator>
- ```
- @class ProgressIndicator
- @public
- **/
 export default class ProgressIndicator extends Component<ProgressIndicatorSignature> {
   @tracked steps: ProgressStep[] = [];
 

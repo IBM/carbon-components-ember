@@ -141,6 +141,7 @@ module('Integration | Component | Tag', (hooks) => {
   test('should render a deprecated slug component without the decorator wrapper', async function (assert) {
     await render(
       <template>
+        {{! eslint-disable-next-line ember/template-no-deprecated -- covers the deprecated arg }}
         <Tag @type="red" @slug={{Add}}>Tag content</Tag>
       </template>,
     );

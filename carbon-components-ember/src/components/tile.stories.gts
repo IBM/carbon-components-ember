@@ -8,7 +8,7 @@ import TextInput from './text-input.gts';
 import Tile from './tile.gts';
 import TileGroup from './tile/tile-group.gts';
 
-import type { Args as TileArgs } from './tile.gts';
+import type { TileSignature } from './tile.gts';
 
 // Parity gaps with Carbon React's Tile stories:
 // - `DefaultWithLayer`, `ClickableWithLayer`, `RadioWithLayer`,
@@ -23,7 +23,9 @@ import type { Args as TileArgs } from './tile.gts';
 // - `withAILabel`: no AILabel / `decorator` support.
 
 type Value = string | number;
-type StoryArgs = TileArgs & { onChange?: (value: Value | undefined) => void };
+type StoryArgs = TileSignature['Args'] & {
+  onChange?: (value: Value | undefined) => void;
+};
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'Components/Tile',

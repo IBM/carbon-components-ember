@@ -9,30 +9,33 @@ import Component from '@glimmer/component';
 import type { WithBoundArgs } from '@glint/template';
 import ChatHistoryPanelItems from './chat-history-panel-items.gts';
 
-export type Args = {
-  /**
-   * Defaults to `true`. Upstream's `history-panel` always forces its
-   * underlying `CDSSideNav`'s `collapse-mode` to `'fixed'` (see its
-   * `connectedCallback`) - this port always renders in that fixed mode
-   * too, so `@expanded` only toggles between the "expanded"/"collapsed"
-   * CSS classes, never the hover/rail/responsive behavior a plain
-   * `CDSSideNav` would otherwise have. Those responsive modes aren't part
-   * of what `history-panel` itself exposes, so they aren't ported.
-   */
-  expanded?: boolean;
-  /**
-   * `true` to always show every descendant `ChatHistoryPanelItem`'s
-   * overflow-actions menu, instead of only on hover/focus/selection.
-   * Propagated down to every yielded item.
-   */
-  showActions?: boolean;
-};
-
 export interface ChatHistoryPanelSignature {
   Element: HTMLElement;
-  Args: Args;
+  Args: {
+    /**
+     * Defaults to `true`. Upstream's `history-panel` always forces its
+     * underlying `CDSSideNav`'s `collapse-mode` to `'fixed'` (see its
+     * `connectedCallback`) - this port always renders in that fixed mode
+     * too, so `@expanded` only toggles between the "expanded"/"collapsed"
+     * CSS classes, never the hover/rail/responsive behavior a plain
+     * `CDSSideNav` would otherwise have. Those responsive modes aren't part
+     * of what `history-panel` itself exposes, so they aren't ported.
+     */
+    expanded?: boolean;
+    /**
+     * `true` to always show every descendant `ChatHistoryPanelItem`'s
+     * overflow-actions menu, instead of only on hover/focus/selection.
+     * Propagated down to every yielded item.
+     */
+    showActions?: boolean;
+  };
   Blocks: {
-    default: [WithBoundArgs<typeof ChatHistoryPanelItems, 'showActions'>];
+    default: [
+      ChatHistoryPanelItems: WithBoundArgs<
+        typeof ChatHistoryPanelItems,
+        'showActions'
+      >,
+    ];
   };
 }
 

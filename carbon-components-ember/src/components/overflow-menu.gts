@@ -1,12 +1,14 @@
 import Component from '@glimmer/component';
 import type Icon from '../components/icon.gts';
-import MenuItemComponent from '../components/overflow-menu/item.gts';
+import OverflowMenuItem from '../components/overflow-menu/item.gts';
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 import Tooltip from './-private/tooltip.gts';
 import type { WithBoundArgs } from '@glint/template';
 import { OverflowMenuVertical } from '../icons.ts';
+import type { BasicDropdownTriggerSignature } from 'ember-basic-dropdown/components/basic-dropdown-trigger';
 
-export interface OverflowMenuComponentSignature {
+export interface OverflowMenuSignature {
+  Element: BasicDropdownTriggerSignature['Element'];
   Args: {
     icon?: typeof Icon;
     direction: 'bottom' | 'top';
@@ -31,11 +33,16 @@ export interface OverflowMenuComponentSignature {
     horizontalPosition?: 'auto' | 'auto-right' | 'right' | 'center' | 'left';
   };
   Blocks: {
-    default: [WithBoundArgs<typeof MenuItemComponent, 'disabled' | 'isDelete'>];
+    default: [
+      OverflowMenuItem: WithBoundArgs<
+        typeof OverflowMenuItem,
+        'disabled' | 'isDelete'
+      >,
+    ];
   };
 }
 
-export default class OverflowMenuComponent extends Component<OverflowMenuComponentSignature> {
+export default class OverflowMenu extends Component<OverflowMenuSignature> {
   get icon() {
     return this.args.icon || OverflowMenuVertical;
   }
@@ -56,6 +63,7 @@ export default class OverflowMenuComponent extends Component<OverflowMenuCompone
                 {{if dd.isOpen 'cds--overflow-menu--open'}}"
               aria-label={{this.iconDescription}}
               {{reference}}
+              ...attributes
             >
               <this.icon @btnClass="cds--overflow-menu__icon" />
             </dd.Trigger>
@@ -68,6 +76,7 @@ export default class OverflowMenuComponent extends Component<OverflowMenuCompone
           @eventType={{@eventType}}
           class="cds--overflow-menu {{if dd.isOpen 'cds--overflow-menu--open'}}"
           aria-label={{this.iconDescription}}
+          ...attributes
         >
           <this.icon @btnClass="cds--overflow-menu__icon" />
         </dd.Trigger>
@@ -82,7 +91,7 @@ export default class OverflowMenuComponent extends Component<OverflowMenuCompone
           data-floating-menu-direction={{or @direction "bottom"}}
         >
           {{yield
-            (component MenuItemComponent disabled=@disabled isDelete=@danger)
+            (component OverflowMenuItem disabled=@disabled isDelete=@danger)
           }}
         </ul>
       </dd.Content>

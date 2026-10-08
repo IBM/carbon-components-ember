@@ -8,14 +8,14 @@ import ToggletipActions from './toggletip/actions.gts';
 import ToggletipLabel from './toggletip/label.gts';
 import Information from './icons/information.ts';
 
-import type { ToggletipComponentSignature } from './toggletip.gts';
+import type { ToggletipSignature } from './toggletip.gts';
 
 // Parity gaps with Carbon React's Toggletip stories:
 // - `ExperimentalAutoAlign`: no `autoAlign` (or `alignmentAxisOffset`) arg;
 //   use `@align` to pick a static position instead.
 // - The deprecated `alignDeprecated` values aren't accepted.
 
-type StoryArgs = ToggletipComponentSignature['Args'] & {
+type StoryArgs = ToggletipSignature['Args'] & {
   labelText: string;
   buttonLabel: string;
   bodyText: string;

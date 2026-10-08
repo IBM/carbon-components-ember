@@ -5,7 +5,7 @@ import { guidFor } from '@ember/object/internals';
 import type { ComponentLike } from '@glint/template';
 import { WarningFilled, WarningAltFilled } from '../icons.ts';
 
-export interface Signature {
+export interface TextAreaSignature {
   Args: {
     id?: string;
     labelText?: string;
@@ -44,12 +44,12 @@ export interface Signature {
   Element: HTMLDivElement;
 }
 
-export default class TextArea extends Component<Signature> {
+export default class TextArea extends Component<TextAreaSignature> {
   @tracked internalValue: string;
 
   guid = guidFor(this);
 
-  constructor(owner: Owner, args: Signature['Args']) {
+  constructor(owner: Owner, args: TextAreaSignature['Args']) {
     super(owner, args);
     this.internalValue = args.defaultValue ?? '';
   }

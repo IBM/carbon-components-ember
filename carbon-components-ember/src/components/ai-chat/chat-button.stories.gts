@@ -1,13 +1,12 @@
-import { fn as curry } from '@ember/helper';
 import { trackedObject } from '@ember/reactive/collections';
-import { expect, fn } from 'storybook/test';
+import { expect, fn as spy } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Add from '../icons/add.ts';
 import Link from '../icons/link.ts';
 import AiChatChatButton from './chat-button.gts';
 
-import type { Args as ChatButtonArgs } from './chat-button.gts';
+import type { AiChatChatButtonSignature } from './chat-button.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `Components/Chat button` stories
 // (chat-button/__stories__/chat-button.stories.js). Its `Skeleton` story is
@@ -27,7 +26,7 @@ import type { Args as ChatButtonArgs } from './chat-button.gts';
 
 const ICONS = { None: undefined, Add16: Add, Link16: Link } as const;
 
-type StoryArgs = ChatButtonArgs & {
+type StoryArgs = AiChatChatButtonSignature['Args'] & {
   /** Story-only: the button text. */
   buttonText?: string;
   /** Story-only: icon placed in the button after its text. */
@@ -59,7 +58,7 @@ implemented) \`ChatButton\`.`,
     disabled: false,
     iconSlot: 'None',
     buttonText: 'Button',
-    onClick: fn(),
+    onClick: spy(),
   },
   render: (args: StoryArgs) => <template>
     <AiChatChatButton
@@ -193,10 +192,10 @@ export const SelectingQuickActions = meta.story({
 
     return <template>
       <div style="display: flex; gap: 1rem; margin-block-end: 1rem;">
-        <AiChatChatButton @onClick={{curry select "primary"}}>Primary action</AiChatChatButton>
+        <AiChatChatButton @onClick={{fn select "primary"}}>Primary action</AiChatChatButton>
         <AiChatChatButton
           @kind="secondary"
-          @onClick={{curry select "secondary"}}
+          @onClick={{fn select "secondary"}}
         >Secondary action</AiChatChatButton>
       </div>
       <div style="display: flex; gap: 0.5rem;">
@@ -204,7 +203,7 @@ export const SelectingQuickActions = meta.story({
           <AiChatChatButton
             @isQuickAction={{true}}
             @isSelected={{eq state.selected color}}
-            @onClick={{curry select color}}
+            @onClick={{fn select color}}
           >{{color}}</AiChatChatButton>
         {{/each}}
       </div>

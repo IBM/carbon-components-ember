@@ -12,7 +12,7 @@ import { guidFor } from '@ember/object/internals';
 import { concat } from '@ember/helper';
 import { Add, Subtract, WarningFilled, WarningAltFilled } from '../icons.ts';
 
-export interface Signature {
+export interface NumberInputSignature {
   Args: {
     id?: string;
     label?: string;
@@ -55,12 +55,12 @@ function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
 }
 
-export default class NumberInput extends Component<Signature> {
+export default class NumberInput extends Component<NumberInputSignature> {
   @tracked internalValue: number | '';
 
   guid = guidFor(this);
 
-  constructor(owner: Owner, args: Signature['Args']) {
+  constructor(owner: Owner, args: NumberInputSignature['Args']) {
     super(owner, args);
     this.internalValue = args.defaultValue ?? 0;
   }

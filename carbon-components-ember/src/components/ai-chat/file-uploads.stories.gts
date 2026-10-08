@@ -5,7 +5,7 @@ import preview from '#storybook/preview.ts';
 import FileUploads from './file-uploads.gts';
 import { FileStatusValue } from './-file-uploads/types.ts';
 
-import type { Args as FileUploadsArgs } from './file-uploads.gts';
+import type { FileUploadsSignature } from './file-uploads.gts';
 import type {
   FileRemoveEventDetail,
   FileUpload,
@@ -51,7 +51,7 @@ function sampleUploads(): FileUpload[] {
   ];
 }
 
-type StoryArgs = FileUploadsArgs & {
+type StoryArgs = FileUploadsSignature['Args'] & {
   onRemove: (detail: FileRemoveEventDetail) => void;
 };
 

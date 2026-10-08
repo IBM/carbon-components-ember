@@ -4,7 +4,7 @@ import { expect, fn } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import CopyButton from './copy-button.gts';
 
-import type { Args as CopyButtonArgs } from './copy-button.gts';
+import type { CopyButtonSignature } from './copy-button.gts';
 
 // Carbon React parity: Components/CopyButton only has a `Default` story,
 // which this file mirrors. React's CopyButton has no text to copy of its
@@ -14,7 +14,7 @@ import type { Args as CopyButtonArgs } from './copy-button.gts';
 // `code` isn't one of CopyButton's args: it's the text yielded into the
 // button's block, which is what gets copied. `render` is annotated so the
 // story-only arg is part of the inferred args.
-type StoryArgs = CopyButtonArgs & { code: string };
+type StoryArgs = CopyButtonSignature['Args'] & { code: string };
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'Components/CopyButton',

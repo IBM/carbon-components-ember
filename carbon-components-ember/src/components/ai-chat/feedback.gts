@@ -20,44 +20,42 @@ export type FeedbackDetails = {
   selectedCategories?: string[];
 };
 
-export type Args = {
-  /** Whether the feedback panel is expanded. */
-  isOpen?: boolean;
-  /** Renders every control disabled/non-interactive without dimming the panel. */
-  isReadonly?: boolean;
-  /** Seeds (and, on identity change, resets) the text area and selected categories. */
-  initialValues?: FeedbackDetails | null;
-  maxLength?: number;
-  /** Defaults to `'Provide additional feedback'`. */
-  title?: string;
-  /** Shown only when `@showBody` is `true`. Defaults to `'What do you think of this response?'`. */
-  body?: string;
-  /** Toggle-able category chips. */
-  categories?: string[];
-  /** Rendered through `Markdown` below the categories/text area. */
-  disclaimer?: string;
-  /**
-   * Label for a checkbox gating the submit button. When set, submit starts
-   * disabled until the checkbox is checked; when omitted, no checkbox
-   * renders and submit is enabled from the start (matching upstream).
-   */
-  disclaimerCheckbox?: string;
-  /** Defaults to `'Provide additional feedback...'`. */
-  placeholder?: string;
-  /** Defaults to `'Submit'`. */
-  primaryLabel?: string;
-  /** Defaults to `'Feedback categories'`. */
-  categoriesLabel?: string;
-  showTextArea?: boolean;
-  showBody?: boolean;
-  id?: string;
-  onSubmit?: (details: FeedbackDetails) => void;
-  onClose?: () => void;
-};
-
 export interface FeedbackSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /** Whether the feedback panel is expanded. */
+    isOpen?: boolean;
+    /** Renders every control disabled/non-interactive without dimming the panel. */
+    isReadonly?: boolean;
+    /** Seeds (and, on identity change, resets) the text area and selected categories. */
+    initialValues?: FeedbackDetails | null;
+    maxLength?: number;
+    /** Defaults to `'Provide additional feedback'`. */
+    title?: string;
+    /** Shown only when `@showBody` is `true`. Defaults to `'What do you think of this response?'`. */
+    body?: string;
+    /** Toggle-able category chips. */
+    categories?: string[];
+    /** Rendered through `Markdown` below the categories/text area. */
+    disclaimer?: string;
+    /**
+     * Label for a checkbox gating the submit button. When set, submit starts
+     * disabled until the checkbox is checked; when omitted, no checkbox
+     * renders and submit is enabled from the start (matching upstream).
+     */
+    disclaimerCheckbox?: string;
+    /** Defaults to `'Provide additional feedback...'`. */
+    placeholder?: string;
+    /** Defaults to `'Submit'`. */
+    primaryLabel?: string;
+    /** Defaults to `'Feedback categories'`. */
+    categoriesLabel?: string;
+    showTextArea?: boolean;
+    showBody?: boolean;
+    id?: string;
+    onSubmit?: (details: FeedbackDetails) => void;
+    onClose?: () => void;
+  };
 }
 
 /**

@@ -1,13 +1,12 @@
-import { fn as fnHelper } from '@ember/helper';
 import { trackedObject } from '@ember/reactive/collections';
-import { expect, fn } from 'storybook/test';
+import { expect, fn as spy } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Button from '../button.gts';
 import Markdown from './markdown.gts';
 import ReasoningSteps from './reasoning-steps.gts';
 
-import type { Args as ReasoningStepsArgs } from './reasoning-steps.gts';
+import type { ReasoningStepsSignature } from './reasoning-steps.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `reasoning-steps.stories.js`
 // (`Components/Reasoning steps`: Default, WithStaticSteps, Controlled) AND
@@ -34,7 +33,7 @@ import type { Args as ReasoningStepsArgs } from './reasoning-steps.gts';
 // - Upstream's `carbonTheme` arg isn't ported: the Storybook toolbar's
 //   theme switcher applies Carbon's theme classes instead.
 
-type StoryArgs = ReasoningStepsArgs & {
+type StoryArgs = ReasoningStepsSignature['Args'] & {
   /** Story-only: called by every step's `@onToggle`. */
   onToggle: (open: boolean) => void;
   /** Story-only (`StepDefault`): the step's title. */
@@ -123,7 +122,7 @@ The \`Step*\` stories mirror upstream's separate \`Reasoning steps/Step\` storie
   args: {
     open: true,
     controlled: false,
-    onToggle: fn(),
+    onToggle: spy(),
   },
   // Annotated: otherwise `render` is typed with the component's inferred
   // args instead of the story-only ones declared via `preview.type()`.
@@ -265,7 +264,7 @@ export const Controlled = meta.story({
             <ReasoningStep
               @title={{step.title}}
               @open={{isOpen step.id}}
-              @onToggle={{fnHelper toggleStep step.id}}
+              @onToggle={{fn toggleStep step.id}}
               data-step-id={{step.id}}
             >
               <Markdown @markdown={{step.body}} />

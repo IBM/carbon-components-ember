@@ -5,9 +5,9 @@ import preview from '#storybook/preview.ts';
 import TimePicker from './time-picker.gts';
 import TimePickerSelect from './time-picker/time-picker-select.gts';
 
-import type { Signature } from './time-picker.gts';
+import type { TimePickerSignature } from './time-picker.gts';
 
-type Args = Signature['Args'];
+type Args = TimePickerSignature['Args'];
 
 // Carbon React parity: Components/TimePicker only has a `Default` story,
 // mirrored here (React fills TimePickerSelect with SelectItems; plain

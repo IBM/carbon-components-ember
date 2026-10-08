@@ -1,20 +1,23 @@
-import UIShellNavItem from '../../components/ui-shell/-nav/-item.gts';
+import UIShellHeaderNavItem from '../../components/ui-shell/-nav/-item.gts';
 import UIShellHeaderMenu from '../../components/ui-shell/-header/-menu.gts';
 import type { TOC } from '@ember/component/template-only';
 
-export interface Signature {
-  Element: null;
+export interface UIShellHeaderNavSignature {
+  Element: HTMLElement;
   Blocks: {
-    default: [typeof UIShellNavItem, typeof UIShellHeaderMenu];
+    default: [
+      UIShellHeaderNavItem: typeof UIShellHeaderNavItem,
+      UIShellHeaderMenu: typeof UIShellHeaderMenu,
+    ];
   };
 }
 
-const InnerClass: TOC<Signature> = <template>
-  <nav aria-label="IBM [Platform]" class="cds--header__nav">
+const UIShellHeaderNav: TOC<UIShellHeaderNavSignature> = <template>
+  <nav aria-label="IBM [Platform]" class="cds--header__nav" ...attributes>
     <ul class="cds--header__menu-bar">
-      {{yield UIShellNavItem UIShellHeaderMenu}}
+      {{yield UIShellHeaderNavItem UIShellHeaderMenu}}
     </ul>
   </nav>
 </template>;
 
-export default InnerClass;
+export default UIShellHeaderNav;

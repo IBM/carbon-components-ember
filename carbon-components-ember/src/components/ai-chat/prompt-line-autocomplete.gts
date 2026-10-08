@@ -9,7 +9,7 @@ import Component from '@glimmer/component';
 import { cached, tracked } from '@glimmer/tracking';
 import { modifier as eModifier } from 'ember-modifier';
 import { guidFor } from '@ember/object/internals';
-import type { TemplateOnlyComponent } from '@ember/component/template-only';
+import type { TOC } from '@ember/component/template-only';
 import type { ComponentLike } from '@glint/template';
 import { SendFilled } from '../../icons.ts';
 import { resetTriggerChangeState } from './-prompt-line/tiptap/trigger-utils.ts';
@@ -64,56 +64,54 @@ export const defaultAutocompleteI18n: AutocompleteI18n = {
   nonGroupedItemsLabel: 'Non-grouped options',
 };
 
-export type Args = {
-  /**
-   * The `PromptLineApi` handle from the paired `PromptLine`'s `@onReady`.
-   * Read only inside event handlers (click, keydown, outside-click) — never
-   * during render/modifier setup — so there is no ordering requirement
-   * against when the paired `PromptLine`'s `@onReady` actually fires.
-   */
-  promptLine?: PromptLineApi;
-  /** `@`-style mention trigger config. */
-  mention?: TriggerSuggestionConfig;
-  /** `/`-style command trigger config. */
-  command?: TriggerSuggestionConfig;
-  /** Live-typeahead autocomplete config (no trigger character). */
-  autocomplete?: AutocompleteConfig;
-  /** Starter prompts shown while the editor is empty and focused. */
-  starters?: StartersConfig;
-  /** When `true`, the "send directly" click path (see `BaseSuggestionConfig.disableDirectSend`) becomes a no-op instead of firing `@onItemSend`. */
-  isSendDisabled?: boolean;
-  i18n?: Partial<AutocompleteI18n>;
-  headerConfig?: HeaderConfig;
-  /**
-   * Fires after a starter is inserted into the editor (the
-   * `disableDirectSend: true` path only) with the editor's full raw text, so
-   * the host can trigger send. Skipped when `@isSendDisabled`.
-   */
-  onStarterSelected?: (text: string) => void;
-  /** Fires after any item is inserted into the editor (the `disableDirectSend: true` path, all trigger types). */
-  onItemSelected?: (item: SuggestionItem) => void;
-  /**
-   * Fires when an item is activated on the default "send directly" path
-   * (`disableDirectSend` unset/false) with the item's `value ?? label` —
-   * this component never touches the editor for this path, the host owns
-   * actually sending. Skipped (and the popup stays open) when `@isSendDisabled`.
-   */
-  onItemSend?: (text: string) => void;
-  /**
-   * Ancestor element to listen on for the bubbling `cds-aichat-trigger-change`
-   * DOM event, editor keydown forwarding, and outside-click/focusout
-   * detection. Defaults to the closest `.cds-aichat-prompt-line-shell`
-   * ancestor, or this component's own parent element if there isn't one —
-   * override for standalone use (a `PromptLine` not inside a
-   * `PromptLineShell`), same spirit as `Menu`'s `@target`/`DatePicker`'s
-   * `@appendTo`.
-   */
-  target?: HTMLElement;
-};
-
 export interface PromptLineAutocompleteSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /**
+     * The `PromptLineApi` handle from the paired `PromptLine`'s `@onReady`.
+     * Read only inside event handlers (click, keydown, outside-click) — never
+     * during render/modifier setup — so there is no ordering requirement
+     * against when the paired `PromptLine`'s `@onReady` actually fires.
+     */
+    promptLine?: PromptLineApi;
+    /** `@`-style mention trigger config. */
+    mention?: TriggerSuggestionConfig;
+    /** `/`-style command trigger config. */
+    command?: TriggerSuggestionConfig;
+    /** Live-typeahead autocomplete config (no trigger character). */
+    autocomplete?: AutocompleteConfig;
+    /** Starter prompts shown while the editor is empty and focused. */
+    starters?: StartersConfig;
+    /** When `true`, the "send directly" click path (see `BaseSuggestionConfig.disableDirectSend`) becomes a no-op instead of firing `@onItemSend`. */
+    isSendDisabled?: boolean;
+    i18n?: Partial<AutocompleteI18n>;
+    headerConfig?: HeaderConfig;
+    /**
+     * Fires after a starter is inserted into the editor (the
+     * `disableDirectSend: true` path only) with the editor's full raw text, so
+     * the host can trigger send. Skipped when `@isSendDisabled`.
+     */
+    onStarterSelected?: (text: string) => void;
+    /** Fires after any item is inserted into the editor (the `disableDirectSend: true` path, all trigger types). */
+    onItemSelected?: (item: SuggestionItem) => void;
+    /**
+     * Fires when an item is activated on the default "send directly" path
+     * (`disableDirectSend` unset/false) with the item's `value ?? label` —
+     * this component never touches the editor for this path, the host owns
+     * actually sending. Skipped (and the popup stays open) when `@isSendDisabled`.
+     */
+    onItemSend?: (text: string) => void;
+    /**
+     * Ancestor element to listen on for the bubbling `cds-aichat-trigger-change`
+     * DOM event, editor keydown forwarding, and outside-click/focusout
+     * detection. Defaults to the closest `.cds-aichat-prompt-line-shell`
+     * ancestor, or this component's own parent element if there isn't one —
+     * override for standalone use (a `PromptLine` not inside a
+     * `PromptLineShell`), same spirit as `Menu`'s `@target`/`DatePicker`'s
+     * `@appendTo`.
+     */
+    target?: HTMLElement;
+  };
 }
 
 interface ListEntry {
@@ -148,7 +146,7 @@ interface ItemRowSignature {
   };
 }
 
-const ItemRow: TemplateOnlyComponent<ItemRowSignature> = <template>
+const ItemRow: TOC<ItemRowSignature> = <template>
   <li
     id={{@entry.optionId}}
     role="option"
@@ -162,6 +160,7 @@ const ItemRow: TemplateOnlyComponent<ItemRowSignature> = <template>
       {{if @entry.isLast 'cds-aichat-autocomplete-item--last'}}"
     {{on "click" (fn @onItemClick @entry.item)}}
     {{on "mouseenter" (fn @onItemMouseEnter @entry.index)}}
+    ...attributes
   >
     <div class="cds-aichat-autocomplete-item__content">
       {{#if @entry.avatarUrl}}

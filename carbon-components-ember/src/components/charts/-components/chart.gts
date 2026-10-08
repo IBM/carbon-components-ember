@@ -6,13 +6,14 @@ import { modifier } from 'ember-modifier';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { defaultArgs } from '../../../utils/decorators.ts';
-import type { AxisChartOptions, Chart } from '@carbon/charts';
+import type {
+  AxisChartOptions,
+  Chart as CarbonChartsChart,
+} from '@carbon/charts';
 import type CarbonChartTabularData from '../../charts/-components/tabular-data.gts';
 import type { WithBoundArgs } from '@glint/template';
 import type ChartAxis from '../../charts/-components/axis.gts';
 import type { AnyChartPart } from './chart-part.ts';
-
-/** @documenter yuidoc */
 
 export type ChartData = {
   group: string;
@@ -21,19 +22,17 @@ export type ChartData = {
   value: number;
 };
 
-export type Args = {
-  /**
-   * The chart's title, rendered by @carbon/charts as the chart's heading
-   * (its `title` option).
-   */
-  title?: string;
-  resizable?: boolean;
-  legendClickable?: boolean;
-  ChartClass?: typeof Chart;
-};
-
-export interface CarbonChartSignature {
-  Args: Args;
+export interface ChartSignature {
+  Args: {
+    /**
+     * The chart's title, rendered by @carbon/charts as the chart's heading
+     * (its `title` option).
+     */
+    title?: string;
+    resizable?: boolean;
+    legendClickable?: boolean;
+    ChartClass?: typeof CarbonChartsChart;
+  };
   Element: HTMLDivElement;
   Blocks: {
     default: [
@@ -47,38 +46,21 @@ export interface CarbonChartSignature {
   };
 }
 
-/**
- The CarbonChart
-
- Base Chart Class
-
- @class CarbonChart
- @public
- @yield {Object} api
- @yield {Component} api.DataSet <a href='-components/dataset' >Dataset</a>
- @yield {Component} api.Axis <a href='-components/axis' >ChartAxis</a>
- **/
-export default class CarbonChart extends Component<CarbonChartSignature> {
+export default class Chart extends Component<ChartSignature> {
   @defaultArgs
-  args: Args = {
+  args: ChartSignature['Args'] = {
     /**
      * Is resizable
-     @argument resizable
-     @type boolean
      */
     resizable: true,
 
     /**
      * Is legendClickable
-     @argument legendClickable
-     @type boolean
      */
     legendClickable: true,
 
     /**
      * Chart class
-     @argument ChartClass
-     @type Chart
      */
     ChartClass: undefined,
   };
@@ -127,7 +109,7 @@ export default class CarbonChart extends Component<CarbonChartSignature> {
     );
   }
 
-  private chart?: Chart;
+  private chart?: CarbonChartsChart;
   private chartContainer?: HTMLDivElement;
   private appliedOptions?: AxisChartOptions;
   private appliedData?: ChartData[];

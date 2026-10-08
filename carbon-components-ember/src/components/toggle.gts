@@ -1,16 +1,19 @@
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
 
-export type Args = {
-  onChange?: (checked: boolean) => void;
-  value?: boolean;
-  readonly?: boolean;
-  disabled?: boolean;
-  name?: string;
-  size?: 'sm' | 'md';
-};
+export interface ToggleSignature {
+  Element: HTMLButtonElement;
+  Args: {
+    onChange?: (checked: boolean) => void;
+    value?: boolean;
+    readonly?: boolean;
+    disabled?: boolean;
+    name?: string;
+    size?: 'sm' | 'md';
+  };
+}
 
-export default class ToggleComponent extends Component<Args> {
+export default class Toggle extends Component<ToggleSignature> {
   get guid() {
     return guidFor(this);
   }
@@ -31,6 +34,7 @@ export default class ToggleComponent extends Component<Args> {
         aria-checked="{{@value}}"
         disabled={{@disabled}}
         {{on "click" this.onToggleChange}}
+        ...attributes
       ></button>
       <label class="cds--toggle__label" for="toggle-{{this.guid}}">
         <span class="cds--toggle__label-text">

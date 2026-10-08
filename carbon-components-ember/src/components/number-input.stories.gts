@@ -4,7 +4,7 @@ import { expect, fn } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import NumberInput from './number-input.gts';
 
-import type { Signature } from './number-input.gts';
+import type { NumberInputSignature } from './number-input.gts';
 
 // Carbon React parity gaps (Components/NumberInput):
 // - `WithTypeOfText` / `WithTypeOfTextControlled` /
@@ -14,7 +14,7 @@ import type { Signature } from './number-input.gts';
 // - `withAILabel`: no `decorator`/`slug` arg.
 // - No `disableWheel` or `translateWithId`.
 
-type Args = Signature['Args'];
+type Args = NumberInputSignature['Args'];
 
 const meta = preview.meta({
   title: 'Components/NumberInput',

@@ -11,20 +11,18 @@ import { guidFor } from '@ember/object/internals';
 import type { WithBoundArgs } from '@glint/template';
 import { ChevronRight } from '../../icons.ts';
 
-export type StepArgs = {
-  /** Title shown in the step's own trigger/static header. */
-  title?: string;
-  /** Whether the step's body panel is expanded. */
-  open?: boolean;
-  /** When `true`, `@open` is the sole source of truth; a click only calls `@onToggle`. */
-  controlled?: boolean;
-  /** Called after the step's open state changes. */
-  onToggle?: (open: boolean) => void;
-};
-
 export interface ReasoningStepSignature {
   Element: HTMLDivElement;
-  Args: StepArgs;
+  Args: {
+    /** Title shown in the step's own trigger/static header. */
+    title?: string;
+    /** Whether the step's body panel is expanded. */
+    open?: boolean;
+    /** When `true`, `@open` is the sole source of truth; a click only calls `@onToggle`. */
+    controlled?: boolean;
+    /** Called after the step's open state changes. */
+    onToggle?: (open: boolean) => void;
+  };
   Blocks: {
     /**
      * The step's body content. As with `ChainOfThoughtStep`, whether a
@@ -122,23 +120,21 @@ class ReasoningStep extends Component<ReasoningStepSignature> {
   </template>
 }
 
-export type Args = {
-  /** Whether the panel that wraps this reasoning-steps list is open. */
-  open?: boolean;
-  /** When `true`, propagated to every yielded step as its own `@controlled`. */
-  controlled?: boolean;
-};
-
 export interface ReasoningStepsSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /** Whether the panel that wraps this reasoning-steps list is open. */
+    open?: boolean;
+    /** When `true`, propagated to every yielded step as its own `@controlled`. */
+    controlled?: boolean;
+  };
   Blocks: {
     /**
      * Renders one `<ReasoningStep>` per step. Yields the step component
      * pre-bound with `@controlled`, mirroring `Layer`'s `WithBoundArgs`
      * pattern.
      */
-    default: [WithBoundArgs<typeof ReasoningStep, 'controlled'>];
+    default: [ReasoningStep: WithBoundArgs<typeof ReasoningStep, 'controlled'>];
   };
 }
 

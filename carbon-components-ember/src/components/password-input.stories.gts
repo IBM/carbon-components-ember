@@ -5,9 +5,9 @@ import { expect, fn } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import PasswordInput from './password-input.gts';
 
-import type { Signature } from './password-input.gts';
+import type { PasswordInputSignature } from './password-input.gts';
 
-type Args = Signature['Args'];
+type Args = PasswordInputSignature['Args'];
 
 // Carbon React parity: Components/PasswordInput only has a `Default`
 // story, mirrored here. Gaps: no `decorator`/`slug`, `autoComplete` or

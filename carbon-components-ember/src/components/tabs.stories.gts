@@ -13,7 +13,7 @@ import Settings from './icons/settings.ts';
 import Star from './icons/star.ts';
 import UserAvatar from './icons/user-avatar.ts';
 
-import type { Args as TabsArgs } from './tabs.gts';
+import type { TabsSignature } from './tabs.gts';
 import type Icon from './icon.gts';
 
 // Parity gaps with Carbon React's Tabs stories:
@@ -36,7 +36,7 @@ type TabDef = {
   secondaryLabel?: string;
 };
 
-type StoryArgs = TabsArgs & { tabs: TabDef[] };
+type StoryArgs = TabsSignature['Args'] & { tabs: TabDef[] };
 
 const DEFAULT_TABS: TabDef[] = [
   { title: 'Dashboard' },

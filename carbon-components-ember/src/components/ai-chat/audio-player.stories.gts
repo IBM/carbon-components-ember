@@ -6,7 +6,7 @@ import Button from '../button.gts';
 import AudioPlayer from './audio-player.gts';
 import AiChatCard from './card.gts';
 
-import type { Args as AudioPlayerArgs } from './audio-player.gts';
+import type { AudioPlayerSignature } from './audio-player.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `Components/Audio player` stories
 // (audio-player/__stories__/audio-player.stories.js).
@@ -32,7 +32,7 @@ const NATIVE_AUDIO_SOURCE = 'demo-support/sample-audio.mp3';
 const SOUNDCLOUD_SOURCE =
   'https://soundcloud.com/ibmthinkleaders/leveraging-ai-to-tackle-large-problems-being-an-optimistic-futurist-feat-kate-oneill';
 
-type StoryArgs = AudioPlayerArgs & {
+type StoryArgs = AudioPlayerSignature['Args'] & {
   /** Story-only: wrap the player in an `AiChatCard` with a title/description. */
   useCard?: boolean;
   /** Story-only: card title. */

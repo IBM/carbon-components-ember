@@ -16,17 +16,15 @@ import {
   WarningAltFilled,
 } from '../icons.ts';
 
-export type Args = {
-  onClick?: (args: never) => never;
-  notification?: NotificationOptions;
-} & NotificationOptions;
-
-export interface NotificationComponentSignature {
-  Args: Args;
+export interface NotificationSignature {
+  Args: {
+    onClick?: (args: never) => never;
+    notification?: NotificationOptions;
+  } & NotificationOptions;
   Element: HTMLDivElement;
 }
 
-export default class NotificationComponent extends Component<NotificationComponentSignature> {
+export default class Notification extends Component<NotificationSignature> {
   @tracked show = true;
   @service('carbon.notifications')
   notifications!: NotificationService;
@@ -46,8 +44,11 @@ export default class NotificationComponent extends Component<NotificationCompone
 
   // Each option comes from its `@arg` if given, else from `@notification`
   // (a queued notification), else the default.
-  get defaultArgs(): WithRequired<Args, 'display' | 'kind'> {
-    const merged: Args = { ...this.args.notification };
+  get defaultArgs(): WithRequired<
+    NotificationSignature['Args'],
+    'display' | 'kind'
+  > {
+    const merged: NotificationSignature['Args'] = { ...this.args.notification };
     for (const [key, value] of Object.entries(this.args)) {
       if (value !== undefined) {
         (merged as Record<string, unknown>)[key] = value;

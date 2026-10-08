@@ -10,7 +10,7 @@ import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import type { WithBoundArgs } from '@glint/template';
 import Cell from './-cell.gts';
-import Input from './-input.gts';
+import StructuredListInput from './-input.gts';
 import type StructuredList from '../structured-list.gts';
 import {
   RadioButtonChecked,
@@ -29,7 +29,9 @@ export interface StructuredListRowSignature {
     onKeyDown?: (event: KeyboardEvent) => void;
   };
   Blocks: {
-    default: [WithBoundArgs<typeof Input, 'row'>];
+    default: [
+      StructuredListInput: WithBoundArgs<typeof StructuredListInput, 'row'>,
+    ];
   };
 }
 
@@ -89,7 +91,7 @@ export default class StructuredListRow extends Component<StructuredListRowSignat
             <span class="cds--visually-hidden">Selection</span>
           </Cell>
         {{/if}}
-        {{yield (component Input row=this)}}
+        {{yield (component StructuredListInput row=this)}}
       </div>
     {{else}}
       {{! Matches @carbon/react, whose row is also not itself focusable (no tabindex) yet carries click/keydown listeners - keyboard selection goes through the row's own StructuredListInput radio, the click is a mouse convenience. }}
@@ -130,7 +132,7 @@ export default class StructuredListRow extends Component<StructuredListRowSignat
             {{/if}}
           </Cell>
         {{/if}}
-        {{yield (component Input row=this)}}
+        {{yield (component StructuredListInput row=this)}}
       </div>
     {{/if}}
   </template>

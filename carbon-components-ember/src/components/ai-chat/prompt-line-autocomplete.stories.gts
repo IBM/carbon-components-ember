@@ -18,7 +18,7 @@ import { buildCarbonExtensions } from './-prompt-line/tiptap/build-extensions.ts
 
 import type { userEvent as UserEventApi } from 'storybook/test';
 import type { PromptLineApi } from './prompt-line.gts';
-import type { Args as AutocompleteArgs } from './prompt-line-autocomplete.gts';
+import type { PromptLineAutocompleteSignature } from './prompt-line-autocomplete.gts';
 import type {
   AutocompleteConfig,
   StartersConfig,
@@ -45,7 +45,7 @@ import type {
 // - Upstream's `carbonTheme` arg isn't ported: the Storybook toolbar's theme
 //   switcher applies Carbon's theme classes instead.
 
-type StoryArgs = AutocompleteArgs & {
+type StoryArgs = PromptLineAutocompleteSignature['Args'] & {
   /** Story-only: the live-typeahead suggestions (filtered by the word being typed). */
   suggestions: SuggestionItem[];
   /** Story-only: clicking an item inserts it into the editor (`@onItemSelected`) instead of sending it (`@onItemSend`). */

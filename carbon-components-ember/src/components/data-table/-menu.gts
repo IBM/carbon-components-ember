@@ -1,21 +1,27 @@
 import OverflowMenu from '../overflow-menu.gts';
-import type MenuItemComponent from '../overflow-menu/item.gts';
+import type OverflowMenuItem from '../overflow-menu/item.gts';
 import type { WithBoundArgs } from '@glint/template';
 import { OverflowMenuVertical } from '../../icons.ts';
 import type { TOC } from '@ember/component/template-only';
 
-export interface TableMenuComponentSignature {
+export interface TableMenuSignature {
+  Element: HTMLTableCellElement;
   Blocks: {
-    default: [WithBoundArgs<typeof MenuItemComponent, 'disabled' | 'isDelete'>];
+    default: [
+      OverflowMenuItem: WithBoundArgs<
+        typeof OverflowMenuItem,
+        'disabled' | 'isDelete'
+      >,
+    ];
   };
 }
 
-const TableMenuComponent: TOC<TableMenuComponentSignature> = <template>
-  <td class="cds--table-column-menu">
+const TableMenu: TOC<TableMenuSignature> = <template>
+  <td class="cds--table-column-menu" ...attributes>
     <OverflowMenu @icon={{OverflowMenuVertical}} @direction="top" as |Item|>
       {{yield Item}}
     </OverflowMenu>
   </td>
 </template>;
 
-export default TableMenuComponent;
+export default TableMenu;

@@ -6,7 +6,7 @@ import preview from '#storybook/preview.ts';
 import CodeSnippet from './code-snippet.gts';
 import Layer from './layer.gts';
 
-import type { Args as CodeSnippetArgs } from './code-snippet.gts';
+import type { CodeSnippetSignature } from './code-snippet.gts';
 
 // Carbon React parity gaps (Components/CodeSnippet):
 // - `Skeleton`: there is no CodeSnippetSkeleton.
@@ -71,7 +71,7 @@ const withLayer: Decorator = (Story, context) => <template>
 // `code` isn't one of CodeSnippet's args: it's the text yielded into the
 // snippet's block. `render` is annotated so the story-only arg is part of
 // the inferred args.
-type StoryArgs = CodeSnippetArgs & { code: string };
+type StoryArgs = CodeSnippetSignature['Args'] & { code: string };
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'Components/CodeSnippet',

@@ -8,7 +8,7 @@ import Send from '../icons/send.ts';
 import PromptLine from './prompt-line.gts';
 import PromptLineShell from './prompt-line-shell.gts';
 
-import type { Args as PromptLineShellArgs } from './prompt-line-shell.gts';
+import type { PromptLineShellSignature } from './prompt-line-shell.gts';
 
 // `@carbon/ai-chat-components` has no stories of its own for
 // `cds-aichat-prompt-line-shell`: the shell's variants (`rounded`,
@@ -24,7 +24,7 @@ import type { Args as PromptLineShellArgs } from './prompt-line-shell.gts';
 // content. Upstream's `carbonTheme` arg isn't ported: the Storybook
 // toolbar's theme switcher applies Carbon's theme classes instead.
 
-type StoryArgs = PromptLineShellArgs & {
+type StoryArgs = PromptLineShellSignature['Args'] & {
   /** Story-only: the message shown in `<:fieldMessaging>` when `hasError` is set. */
   errorTitle?: string;
   /** Story-only: the host sent a message. */

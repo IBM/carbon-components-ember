@@ -5,7 +5,7 @@ import { guidFor } from '@ember/object/internals';
 import { concat } from '@ember/helper';
 import { WarningFilled, WarningAltFilled } from '../icons.ts';
 
-export interface Signature {
+export interface TextInputSignature {
   Args: {
     id?: string;
     labelText?: string;
@@ -31,12 +31,12 @@ export interface Signature {
   Element: HTMLDivElement;
 }
 
-export default class TextInput extends Component<Signature> {
+export default class TextInput extends Component<TextInputSignature> {
   @tracked internalValue: string;
 
   guid = guidFor(this);
 
-  constructor(owner: Owner, args: Signature['Args']) {
+  constructor(owner: Owner, args: TextInputSignature['Args']) {
     super(owner, args);
     this.internalValue = args.defaultValue ?? '';
   }

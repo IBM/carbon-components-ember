@@ -52,35 +52,34 @@ const clipExpandableTile = eModifier<{
   };
 });
 
-export type Args = {
-  selectable?: boolean;
-  clickable?: boolean;
-  expandable?: boolean;
-  onClick?: () => null;
-  onSelect?: () => null;
-  /**
-   * Only applies to `@selectable` tiles - matches @carbon/react's
-   * `SelectableTile#tabIndex`, defaulting to `'0'`. `@expandable` tiles
-   * ignore this arg entirely: upstream's own `ExpandableTile` destructures
-   * its `tabIndex` prop out before spreading `...rest` onto its interactive
-   * (root `<div>`) branch's DOM node, so the prop has no effect there
-   * either - it's only ever applied on the non-interactive (root `<button>`)
-   * branch this port doesn't render. Passing `@tabindex` to an `@expandable`
-   * tile is a silent no-op, matching upstream's own behavior rather than a
-   * port gap.
-   */
-  tabindex?: string;
-  /**
-   * The id of the `@selectable` tile's root element, also used as the
-   * `for` target of its content `<label>`. Matches @carbon/react's
-   * `SelectableTile#id` - undefined by default, in which case neither
-   * attribute is rendered (upstream leaves both unset too).
-   */
-  id?: string;
-};
-
-export interface TileComponentSignature {
-  Args: Args;
+export interface TileSignature {
+  Element: HTMLDivElement | HTMLAnchorElement;
+  Args: {
+    selectable?: boolean;
+    clickable?: boolean;
+    expandable?: boolean;
+    onClick?: () => null;
+    onSelect?: () => null;
+    /**
+     * Only applies to `@selectable` tiles - matches @carbon/react's
+     * `SelectableTile#tabIndex`, defaulting to `'0'`. `@expandable` tiles
+     * ignore this arg entirely: upstream's own `ExpandableTile` destructures
+     * its `tabIndex` prop out before spreading `...rest` onto its interactive
+     * (root `<div>`) branch's DOM node, so the prop has no effect there
+     * either - it's only ever applied on the non-interactive (root `<button>`)
+     * branch this port doesn't render. Passing `@tabindex` to an `@expandable`
+     * tile is a silent no-op, matching upstream's own behavior rather than a
+     * port gap.
+     */
+    tabindex?: string;
+    /**
+     * The id of the `@selectable` tile's root element, also used as the
+     * `for` target of its content `<label>`. Matches @carbon/react's
+     * `SelectableTile#id` - undefined by default, in which case neither
+     * attribute is rendered (upstream leaves both unset too).
+     */
+    id?: string;
+  };
   Blocks: {
     above: [];
     content: [];
@@ -88,7 +87,7 @@ export interface TileComponentSignature {
   };
 }
 
-export default class TileComponent extends Component<TileComponentSignature> {
+export default class Tile extends Component<TileSignature> {
   @tracked selected = false;
   @tracked expanded: boolean = false;
 
@@ -162,6 +161,7 @@ export default class TileComponent extends Component<TileComponentSignature> {
         title="title"
         {{on "click" this.onSelectableClick}}
         {{on "keydown" this.onSelectableKeyDown}}
+        ...attributes
       >
         <span class="cds--tile__checkmark cds--tile__checkmark--persistent">
           {{#if this.selected}}
@@ -194,6 +194,7 @@ export default class TileComponent extends Component<TileComponentSignature> {
       <div
         class="cds--tile cds--tile--expandable cds--tile--expandable--interactive
           {{if this.expanded 'cds--tile--is-expanded'}}"
+        ...attributes
       >
         <div>
           <div class="cds--tile-content" {{clipExpandableTile this.expanded}}>
@@ -222,12 +223,12 @@ export default class TileComponent extends Component<TileComponentSignature> {
       </div>
     {{/if}}
     {{#if this.default}}
-      <div class="cds--tile">
+      <div class="cds--tile" ...attributes>
         {{yield to="content"}}
       </div>
     {{/if}}
     {{#if @clickable}}
-      {{! @carbon/react's Link never sets role='button' on a real <a href> (only role='link' when disabled) - a real <a href> already conveys link semantics on its own }}
+      {{! @carbon/react's Link never sets role='button' on a real <a href ...attributes> (only role='link' when disabled) - a real <a href> already conveys link semantics on its own }}
       <a
         class="cds--link cds--tile cds--tile--clickable"
         href="#"

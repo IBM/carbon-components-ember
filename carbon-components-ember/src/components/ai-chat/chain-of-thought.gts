@@ -15,29 +15,27 @@ import { CheckmarkFilled, ChevronRight, ErrorFilled } from '../../icons.ts';
 
 export type ChainOfThoughtStepStatus = 'processing' | 'failure' | 'success';
 
-export type StepArgs = {
-  /** Numbered label, e.g. `"1: Searching the web"`. Ignored if `@labelText` is set. */
-  title?: string;
-  /** 1-based position, used to number the title and alternate row shading. */
-  stepNumber?: number;
-  /** Overrides the numbered `@title` entirely when set. */
-  labelText?: string;
-  /** Defaults to `'success'`. */
-  status?: ChainOfThoughtStepStatus;
-  /** Whether the step's body panel is expanded. */
-  open?: boolean;
-  /** When `true`, `@open` is the sole source of truth; a click only calls `@onToggle`. */
-  controlled?: boolean;
-  statusSucceededLabelText?: string;
-  statusFailedLabelText?: string;
-  statusProcessingLabelText?: string;
-  /** Called after the step's open state changes (click, or an external `@open` update). */
-  onToggle?: (open: boolean) => void;
-};
-
 export interface ChainOfThoughtStepSignature {
   Element: HTMLDivElement;
-  Args: StepArgs;
+  Args: {
+    /** Numbered label, e.g. `"1: Searching the web"`. Ignored if `@labelText` is set. */
+    title?: string;
+    /** 1-based position, used to number the title and alternate row shading. */
+    stepNumber?: number;
+    /** Overrides the numbered `@title` entirely when set. */
+    labelText?: string;
+    /** Defaults to `'success'`. */
+    status?: ChainOfThoughtStepStatus;
+    /** Whether the step's body panel is expanded. */
+    open?: boolean;
+    /** When `true`, `@open` is the sole source of truth; a click only calls `@onToggle`. */
+    controlled?: boolean;
+    statusSucceededLabelText?: string;
+    statusFailedLabelText?: string;
+    statusProcessingLabelText?: string;
+    /** Called after the step's open state changes (click, or an external `@open` update). */
+    onToggle?: (open: boolean) => void;
+  };
   Blocks: {
     /**
      * The step's body content. Upstream derives whether a header is
@@ -204,26 +202,24 @@ class ChainOfThoughtStep extends Component<ChainOfThoughtStepSignature> {
   </template>
 }
 
-export type Args = {
-  /** Whether the panel that wraps this chain of thought's steps is open. */
-  open?: boolean;
-  /** When `true`, propagated to every yielded step as its own `@controlled`. */
-  controlled?: boolean;
-  /** ID applied to the content panel `<div>`. */
-  panelId?: string;
-  /**
-   * Called whenever `@open` changes after initial render, including
-   * externally-driven changes (not just user interaction) — mirrors
-   * upstream's `updated()`-driven `chain-of-thought-toggled` event. Passes
-   * just the new open state, not upstream's panel element, for consistency
-   * with this port's other `onToggle` callbacks (e.g. `ChainOfThoughtStep`).
-   */
-  onToggle?: (open: boolean) => void;
-};
-
 export interface ChainOfThoughtSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /** Whether the panel that wraps this chain of thought's steps is open. */
+    open?: boolean;
+    /** When `true`, propagated to every yielded step as its own `@controlled`. */
+    controlled?: boolean;
+    /** ID applied to the content panel `<div>`. */
+    panelId?: string;
+    /**
+     * Called whenever `@open` changes after initial render, including
+     * externally-driven changes (not just user interaction) — mirrors
+     * upstream's `updated()`-driven `chain-of-thought-toggled` event. Passes
+     * just the new open state, not upstream's panel element, for consistency
+     * with this port's other `onToggle` callbacks (e.g. `ChainOfThoughtStep`).
+     */
+    onToggle?: (open: boolean) => void;
+  };
   Blocks: {
     /**
      * Renders one `<ChainOfThoughtStep>` per step. Yields the step
@@ -231,7 +227,12 @@ export interface ChainOfThoughtSignature {
      * `WithBoundArgs` pattern for propagating a single arg down an
      * arbitrary number of children.
      */
-    default: [WithBoundArgs<typeof ChainOfThoughtStep, 'controlled'>];
+    default: [
+      ChainOfThoughtStep: WithBoundArgs<
+        typeof ChainOfThoughtStep,
+        'controlled'
+      >,
+    ];
   };
 }
 

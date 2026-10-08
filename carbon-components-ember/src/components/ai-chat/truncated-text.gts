@@ -8,43 +8,40 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import { on } from '@ember/modifier';
 import { modifier } from 'ember-modifier';
 import { default as Tooltip } from '../tooltip.gts';
 import type { TooltipAlignments } from '../tooltip.gts';
 
-export type Args = {
-  /** Tooltip alignment when `@type` is `'tooltip'`. Defaults to `'top'`. */
-  align?: (typeof TooltipAlignments)[number];
-  /** Auto-align the tooltip so it stays within the viewport. */
-  autoalign?: boolean;
-  /** Label for the collapse ("show less") button in `'expand'` mode. */
-  collapseLabel?: string;
-  /** Label for the expand ("show more") button in `'expand'` mode. */
-  expandLabel?: string;
-  id?: string;
-  /** Maximum number of lines to show before truncating. Defaults to `0` (no clamping). */
-  lines?: number;
-  /**
-   * How the full text is revealed once truncated: a `'tooltip'` on
-   * hover/focus, or an inline `'expand'`/collapse toggle. Defaults to
-   * `'tooltip'`.
-   */
-  type?: 'tooltip' | 'expand';
-  /** The string to truncate. Ignored if a default block is passed. */
-  value?: string;
-  /**
-   * When `true`, renders the `'expand'` toggle button's layered
-   * background variant. Upstream derives this by sniffing for a
-   * `cds-layer` DOM ancestor at connect time; this port exposes it as a
-   * plain arg instead rather than reproducing that ancestry sniffing.
-   */
-  isLayered?: boolean;
-};
-
 export interface AiChatTruncatedTextSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /** Tooltip alignment when `@type` is `'tooltip'`. Defaults to `'top'`. */
+    align?: (typeof TooltipAlignments)[number];
+    /** Auto-align the tooltip so it stays within the viewport. */
+    autoalign?: boolean;
+    /** Label for the collapse ("show less") button in `'expand'` mode. */
+    collapseLabel?: string;
+    /** Label for the expand ("show more") button in `'expand'` mode. */
+    expandLabel?: string;
+    id?: string;
+    /** Maximum number of lines to show before truncating. Defaults to `0` (no clamping). */
+    lines?: number;
+    /**
+     * How the full text is revealed once truncated: a `'tooltip'` on
+     * hover/focus, or an inline `'expand'`/collapse toggle. Defaults to
+     * `'tooltip'`.
+     */
+    type?: 'tooltip' | 'expand';
+    /** The string to truncate. Ignored if a default block is passed. */
+    value?: string;
+    /**
+     * When `true`, renders the `'expand'` toggle button's layered
+     * background variant. Upstream derives this by sniffing for a
+     * `cds-layer` DOM ancestor at connect time; this port exposes it as a
+     * plain arg instead rather than reproducing that ancestry sniffing.
+     */
+    isLayered?: boolean;
+  };
   Blocks: {
     /** Alternative to `@value` for rich/slotted content. */
     default: [];

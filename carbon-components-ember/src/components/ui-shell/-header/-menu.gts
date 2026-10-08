@@ -12,7 +12,7 @@ export interface UIShellHeaderMenuSignature {
     isActive?: boolean;
   };
   Blocks: {
-    default: [typeof UIShellHeaderMenuItem];
+    default: [UIShellHeaderMenuItem: typeof UIShellHeaderMenuItem];
   };
 }
 

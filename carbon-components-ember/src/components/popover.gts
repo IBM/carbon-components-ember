@@ -70,71 +70,69 @@ const flippedAlignmentMap: Record<string, NewPopoverAlignment> = {
   'right-end': 'left-end',
 };
 
-export interface PopoverArgs {
-  /**
-   * Specify how the popover should align with the trigger element.
-   */
-  align?: PopoverAlignment;
-  /**
-   * **Experimental:** Provide an offset value for alignment axis. Only takes
-   * effect when `autoAlign` is enabled. Not currently implemented in this
-   * Ember port.
-   */
-  alignmentAxisOffset?: number;
-  /**
-   * The element type to render the outermost node as.
-   */
-  as?: keyof HTMLElementTagNameMap;
-  /**
-   * Will auto-align the popover on first render if it is not visible within
-   * the viewport (or `autoAlignBoundary`, if provided).
-   */
-  autoAlign?: boolean;
-  /**
-   * Specify a bounding element to be used for autoAlign calculations. The
-   * viewport is used by default.
-   */
-  autoAlignBoundary?: HTMLElement;
-  /**
-   * Specify the background token to use. Default is 'layer'.
-   */
-  backgroundToken?: 'layer' | 'background';
-  /**
-   * Specify whether a border should be rendered on the popover.
-   */
-  border?: boolean;
-  /**
-   * Specify whether a caret should be rendered.
-   */
-  caret?: boolean;
-  /**
-   * Specify whether a drop shadow should be rendered on the popover.
-   */
-  dropShadow?: boolean;
-  /**
-   * Render the component using the high-contrast variant.
-   */
-  highContrast?: boolean;
-  /**
-   * Render the component using the tab tip variant.
-   */
-  isTabTip?: boolean;
-  /**
-   * Specify a handler for closing the popover. The handler should take care
-   * of closing the popover, e.g. changing the `open` argument. Called when
-   * the user clicks outside of the popover or presses Escape while focus is
-   * inside the popover content.
-   */
-  onRequestClose?: () => void;
-  /**
-   * Specify whether the component is currently open or closed.
-   */
-  open: boolean;
-}
-
 export interface PopoverSignature {
   Element: HTMLElement;
-  Args: PopoverArgs;
+  Args: {
+    /**
+     * Specify how the popover should align with the trigger element.
+     */
+    align?: PopoverAlignment;
+    /**
+     * **Experimental:** Provide an offset value for alignment axis. Only takes
+     * effect when `autoAlign` is enabled. Not currently implemented in this
+     * Ember port.
+     */
+    alignmentAxisOffset?: number;
+    /**
+     * The element type to render the outermost node as.
+     */
+    as?: keyof HTMLElementTagNameMap;
+    /**
+     * Will auto-align the popover on first render if it is not visible within
+     * the viewport (or `autoAlignBoundary`, if provided).
+     */
+    autoAlign?: boolean;
+    /**
+     * Specify a bounding element to be used for autoAlign calculations. The
+     * viewport is used by default.
+     */
+    autoAlignBoundary?: HTMLElement;
+    /**
+     * Specify the background token to use. Default is 'layer'.
+     */
+    backgroundToken?: 'layer' | 'background';
+    /**
+     * Specify whether a border should be rendered on the popover.
+     */
+    border?: boolean;
+    /**
+     * Specify whether a caret should be rendered.
+     */
+    caret?: boolean;
+    /**
+     * Specify whether a drop shadow should be rendered on the popover.
+     */
+    dropShadow?: boolean;
+    /**
+     * Render the component using the high-contrast variant.
+     */
+    highContrast?: boolean;
+    /**
+     * Render the component using the tab tip variant.
+     */
+    isTabTip?: boolean;
+    /**
+     * Specify a handler for closing the popover. The handler should take care
+     * of closing the popover, e.g. changing the `open` argument. Called when
+     * the user clicks outside of the popover or presses Escape while focus is
+     * inside the popover content.
+     */
+    onRequestClose?: () => void;
+    /**
+     * Specify whether the component is currently open or closed.
+     */
+    open: boolean;
+  };
   Blocks: {
     default: [];
   };
@@ -313,7 +311,6 @@ export default class Popover extends Component<PopoverSignature> {
 
 export interface PopoverContentSignature {
   Element: HTMLSpanElement;
-  Args: object;
   Blocks: {
     default: [];
   };

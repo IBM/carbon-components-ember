@@ -25,97 +25,77 @@ export function registerIcon(name: string, icon: IconType) {
   IconMap[name] = icon;
 }
 
-export type Args = {
-  /**
-   * Indicates if the icon is in loading state
-   @argument loading
-   @type boolean
-   */
-  loading?: boolean;
-  /**
-   * Indicates if the icon is informative
-   @argument info
-   @type boolean
-   */
-  info?: boolean;
-  /**
-   * Indicates if the action is dangerous, showing a confirmation dialog before calling `onClick`
-   @argument danger
-   @type boolean
-   */
-  danger?: boolean;
-  /**
-   * If the action is dangerous, this text message will be shown in the dialog
-   @argument confirmText
-   @type String
-   */
-  confirmText?: string;
-  /**
-   * Use this component as dialog
-   @argument confirmDialog
-   @type String
-   */
-  confirmDialog?: string;
-  /**
-   * Use this icon to display
-   @argument icon
-   @type String
-   */
-  icon?: string | IconType;
+export interface IconSignature {
+  Args: {
+    /**
+     * Indicates if the icon is in loading state
+     */
+    loading?: boolean;
+    /**
+     * Indicates if the icon is informative
+     */
+    info?: boolean;
+    /**
+     * Indicates if the action is dangerous, showing a confirmation dialog before calling `onClick`
+     */
+    danger?: boolean;
+    /**
+     * If the action is dangerous, this text message will be shown in the dialog
+     */
+    confirmText?: string;
+    /**
+     * Use this component as dialog
+     */
+    confirmDialog?: string;
+    /**
+     * Use this icon to display
+     */
+    icon?: string | IconType;
 
-  /**
-   * Use this icon svg to display,
-   * must be a htmlSafe string
-   @argument icon
-   */
-  iconSvg?: ReturnType<typeof htmlSafe>;
-  /**
-   * Size of icon
-   @argument size
-   @type number
-   */
-  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-  size?: 16 | 20 | 24 | 32 | number | string;
-  /**
-   * action to trigger on click
-   @argument onClick
-   @type function
-   */
-  onClick?: () => void | Promise<never>;
+    /**
+     * Use this icon svg to display,
+     * must be a htmlSafe string
+     */
+    iconSvg?: ReturnType<typeof htmlSafe>;
+    /**
+     * Size of icon
+     */
+    // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
+    size?: 16 | 20 | 24 | 32 | number | string;
+    /**
+     * action to trigger on click
+     */
+    onClick?: () => void | Promise<never>;
 
-  /**
-   * Names the `@onClick` button for assistive technology (the icon itself is
-   * decorative). Required whenever `@onClick` is passed.
-   */
-  iconDescription?: string;
+    /**
+     * Names the `@onClick` button for assistive technology (the icon itself is
+     * decorative). Required whenever `@onClick` is passed.
+     */
+    iconDescription?: string;
 
-  /**
-   * button style
-   @argument btnStyle
-   @type string
-   */
-  btnStyle?: string;
+    /**
+     * button style
+     */
+    btnStyle?: string;
 
-  /**
-   * button classes
-   @argument btnClass
-   @type string
-   */
-  btnClass?: string;
-  svgClass?: string;
-  fill?: string;
-  /**
-   * Text for an SVG `<title>` element inside the icon, making it accessible
-   * to screen readers. Matches `@carbon/icons-react`'s `children` pattern
-   * (callers pass `<title>{description}</title>` as children). An empty string
-   * renders an empty `<title></title>`, matching React's behaviour when a
-   * description prop is present but empty.
-   */
-  title?: string;
-};
+    /**
+     * button classes
+     */
+    btnClass?: string;
+    svgClass?: string;
+    fill?: string;
+    /**
+     * Text for an SVG `<title>` element inside the icon, making it accessible
+     * to screen readers. Matches `@carbon/icons-react`'s `children` pattern
+     * (callers pass `<title>{description}</title>` as children). An empty string
+     * renders an empty `<title></title>`, matching React's behaviour when a
+     * description prop is present but empty.
+     */
+    title?: string;
+  };
+}
 
-export default class CarbonIcon extends Component<Args> {
-  static positionalParams = ['icon'];
+export default class Icon extends Component<IconSignature> {
   @service('carbon.dialog-manager')
   dialogManager!: DialogManagerService;
   @tracked loading: boolean = false;
@@ -217,6 +197,7 @@ export default class CarbonIcon extends Component<Args> {
     loading: string;
   };
 
+  // eslint-disable-next-line ember/template-require-splattributes -- the svg comes from a helper; use @svgClass
   <template>
     {{#if (or @loading this.loading)}}
       <span class={{this.styles.loading}}>

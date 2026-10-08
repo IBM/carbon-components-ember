@@ -58,6 +58,7 @@ export default defineConfig([
     rules: {
       'ember/template-no-inline-styles': 'warn',
       'ember/template-no-positive-tabindex': 'warn',
+      'ember/no-legacy-helper-imports': 'error',
     },
   },
   /**
@@ -113,6 +114,31 @@ export default defineConfig([
         { fixStyle: 'separate-type-imports', disallowTypeAnnotations: false },
       ],
       'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
+      'ember/template-no-deprecated': 'error',
+      // Signature conventions; see AGENTS.md.
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'TSTypeAliasDeclaration[id.name=/Signature$/]',
+          message: 'Declare signatures with `interface`.',
+        },
+        {
+          selector:
+            "TSInterfaceDeclaration[id.name=/Signature$/] > TSInterfaceBody > TSPropertySignature[key.name='Element'] TSNullKeyword",
+          message: 'Leave out `Element` when nothing spreads `...attributes`.',
+        },
+        {
+          selector:
+            "TSInterfaceDeclaration[id.name=/Signature$/] > TSInterfaceBody > TSPropertySignature[key.name='Args'] > TSTypeAnnotation > TSTypeReference",
+          message:
+            "Declare `Args` inline; elsewhere refer to them as `<Name>Signature['Args']`.",
+        },
+        {
+          selector:
+            "TSInterfaceDeclaration[id.name=/Signature$/] > TSInterfaceBody > TSPropertySignature[key.name='Blocks'] TSTupleType > :not(TSNamedTupleMember, TSTypeLiteral)",
+          message: 'Label block params: `default: [item: Item]`.',
+        },
+      ],
     },
   },
   {
@@ -127,6 +153,13 @@ export default defineConfig([
         'always',
         { ignorePackages: true, checkTypeImports: true },
       ],
+    },
+  },
+  {
+    files: ['src/components/**/*.gts'],
+    ignores: ['**/*.stories.gts'],
+    rules: {
+      'ember/template-require-splattributes': 'error',
     },
   },
   {

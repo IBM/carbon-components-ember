@@ -6,44 +6,29 @@ import { htmlSafe } from '@ember/template';
 import { concat } from '@ember/helper';
 import type { WithRequired } from '../utils/type-helpers.ts';
 
-export type Args = {
-  status?: 'active' | 'finished' | 'error' | 'indeterminate';
-  size?: 'small' | 'big';
-  type?: 'default' | 'inline' | 'indented';
-  value?: number;
-  max?: number;
-  label?: string;
-  helperText?: string;
-  /**
-   * Whether the label should be visually hidden.
-   */
-  hideLabel?: boolean;
-};
-
-export interface ProgressBarInterface {
-  Args: Args;
+export interface ProgressBarSignature {
   Element: HTMLDivElement;
-  Blocks: {
-    default: [];
+  Args: {
+    status?: 'active' | 'finished' | 'error' | 'indeterminate';
+    size?: 'small' | 'big';
+    type?: 'default' | 'inline' | 'indented';
+    value?: number;
+    max?: number;
+    label?: string;
+    helperText?: string;
+    /**
+     * Whether the label should be visually hidden.
+     */
+    hideLabel?: boolean;
   };
 }
 
-/**
- The Carbon ProgressBar
-
- ```handlebars
-
- <Carbon::ProgressBar />
- ```
- @class CarbonButton
- @public
- **/
-export default class ProgressBar extends Component<ProgressBarInterface> {
+export default class ProgressBar extends Component<ProgressBarSignature> {
   get guid() {
     return guidFor(this);
   }
 
-  get defaultArgs(): WithRequired<Args, 'max'> {
+  get defaultArgs(): WithRequired<ProgressBarSignature['Args'], 'max'> {
     return Object.assign(
       {},
       {
@@ -124,7 +109,7 @@ export default class ProgressBar extends Component<ProgressBarInterface> {
   }
 
   <template>
-    <div class={{this.classes}}>
+    <div class={{this.classes}} ...attributes>
       <div
         class="cds--progress-bar__label
           {{if @hideLabel 'cds--visually-hidden'}}"

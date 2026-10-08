@@ -7,7 +7,7 @@ import ChainOfThoughtToggle from './chain-of-thought-toggle.gts';
 import Markdown from './markdown.gts';
 
 import type { ChainOfThoughtStepStatus } from './chain-of-thought.gts';
-import type { Args as ToggleArgs } from './chain-of-thought-toggle.gts';
+import type { ChainOfThoughtToggleSignature } from './chain-of-thought-toggle.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `Components/Chain of thought/Toggle`
 // stories (chain-of-thought/__stories__/chain-of-thought-toggle.stories.js).
@@ -73,7 +73,7 @@ should happen, typically setting a \`ChainOfThought\`'s own \`@open\`.`,
     open: true,
     onToggle: fn(),
   },
-  render: (args: ToggleArgs) => {
+  render: (args: ChainOfThoughtToggleSignature['Args']) => {
     const state = trackedObject({ open: args.open ?? false });
     const toggle = (open: boolean) => {
       state.open = open;

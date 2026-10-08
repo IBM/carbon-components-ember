@@ -4,7 +4,7 @@ import { expect, fn, waitFor } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import ChatHistoryToolbar from './chat-history-toolbar.gts';
 
-import type { Args as ToolbarArgs } from './chat-history-toolbar.gts';
+import type { ChatHistoryToolbarSignature } from './chat-history-toolbar.gts';
 
 // Upstream documents `cds-aichat-history-toolbar` only inside its
 // `Components/Chat history` stories (see chat-history.stories.gts); these
@@ -26,7 +26,7 @@ const meta = preview.meta({
     onSearch: fn(),
     onNewChat: fn(),
   },
-  render: (args: ToolbarArgs) => {
+  render: (args: ChatHistoryToolbarSignature['Args']) => {
     const state = trackedObject({ search: '', newChats: 0 });
     const handleSearch = (value: string) => {
       state.search = value;

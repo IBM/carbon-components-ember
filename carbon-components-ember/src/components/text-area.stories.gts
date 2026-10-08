@@ -9,9 +9,9 @@ import Layer from './layer.gts';
 import TextArea from './text-area.gts';
 import TextAreaSkeleton from './text-area-skeleton.gts';
 
-import type { Signature } from './text-area.gts';
+import type { TextAreaSignature } from './text-area.gts';
 
-type Args = Signature['Args'];
+type Args = TextAreaSignature['Args'];
 
 // Carbon React parity gaps (Components/TextArea):
 // - `withAILabel`: TextArea takes a `decorator` component (shown in

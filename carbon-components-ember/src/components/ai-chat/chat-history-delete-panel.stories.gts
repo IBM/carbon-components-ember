@@ -4,14 +4,14 @@ import { expect, fn } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import ChatHistoryDeletePanel from './chat-history-delete-panel.gts';
 
-import type { Args as DeletePanelArgs } from './chat-history-delete-panel.gts';
+import type { ChatHistoryDeletePanelSignature } from './chat-history-delete-panel.gts';
 
 // Upstream documents `cds-aichat-history-delete-panel` only as part of the
 // `DeleteFlow` story of `Components/Chat history` (see
 // chat-history.stories.gts); these stories carry the docs-app page for the
 // component itself.
 
-type StoryArgs = DeletePanelArgs & {
+type StoryArgs = ChatHistoryDeletePanelSignature['Args'] & {
   /** Story-only: text yielded to the `title` block. */
   title?: string;
   /** Story-only: text yielded to the `description` block. */

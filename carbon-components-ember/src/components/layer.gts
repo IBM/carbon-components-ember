@@ -41,7 +41,7 @@ export interface LayerSignature {
      * `Layer`s more than one level deep so each one's level increments
      * correctly.
      */
-    default: [WithBoundArgs<typeof Layer, 'level'>];
+    default: [Layer: WithBoundArgs<typeof Layer, 'level'>];
   };
 }
 

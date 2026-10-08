@@ -1,23 +1,24 @@
 import type Icon from '../../icon.gts';
 import type { TOC } from '@ember/component/template-only';
 
-export interface Signature {
+export interface UIShellSideNavSubMenuSignature {
+  Element: HTMLAnchorElement;
   Args: {
     isCurrent: boolean;
     transitionTo: () => void;
     icon: typeof Icon;
     title: string;
   };
-  Element: null;
 }
 
-const SubMenuComponent: TOC<Signature> = <template>
+const UIShellSideNavSubMenu: TOC<UIShellSideNavSubMenuSignature> = <template>
   <li class="cds--side-nav__menu-item">
     <a
       href="#"
       aria-current="{{if @isCurrent 'page'}}"
       class="cds--side-nav__link"
       {{on "click" @transitionTo}}
+      ...attributes
     >
       {{#if @icon}}
         <div class="cds--side-nav__icon">
@@ -31,4 +32,4 @@ const SubMenuComponent: TOC<Signature> = <template>
   </li>
 </template>;
 
-export default SubMenuComponent;
+export default UIShellSideNavSubMenu;

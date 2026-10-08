@@ -5,7 +5,7 @@ import preview from '#storybook/preview.ts';
 import RadioButton from './radio-button.gts';
 import RadioButtonGroup from './radio-button/group.gts';
 
-import type { Signature as GroupSignature } from './radio-button/group.gts';
+import type { RadioButtonGroupSignature as GroupSignature } from './radio-button/group.gts';
 import type { Value } from './radio-button.gts';
 
 // Carbon React parity gaps (Components/RadioButton):

@@ -13,29 +13,27 @@ import { renderMarkdown } from './-markdown-render.ts';
 
 const STREAM_THROTTLE_MS = 100;
 
-export type Args = {
-  /** Direct markdown source input. Always-controlled, always-authoritative. */
-  markdown?: string;
-  /**
-   * Accepted for API parity with upstream's `sanitize-html` attribute, but
-   * not wired to anything: this port always sanitizes rendered HTML via
-   * DOMPurify, regardless of this flag. See `-markdown-render.ts`'s
-   * `renderMarkdown` doc for why.
-   */
-  sanitizeHTML?: boolean;
-  /** Strip all raw HTML from the parsed markdown. Defaults to `false`. */
-  removeHTML?: boolean;
-  /**
-   * Throttles re-render to at most once per 100ms (leading + trailing),
-   * matching upstream's own default streaming throttle - reduces layout
-   * thrash while a caller is appending markdown token-by-token.
-   */
-  streaming?: boolean;
-};
-
-export interface AiChatMarkdownSignature {
+export interface MarkdownSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /** Direct markdown source input. Always-controlled, always-authoritative. */
+    markdown?: string;
+    /**
+     * Accepted for API parity with upstream's `sanitize-html` attribute, but
+     * not wired to anything: this port always sanitizes rendered HTML via
+     * DOMPurify, regardless of this flag. See `-markdown-render.ts`'s
+     * `renderMarkdown` doc for why.
+     */
+    sanitizeHTML?: boolean;
+    /** Strip all raw HTML from the parsed markdown. Defaults to `false`. */
+    removeHTML?: boolean;
+    /**
+     * Throttles re-render to at most once per 100ms (leading + trailing),
+     * matching upstream's own default streaming throttle - reduces layout
+     * thrash while a caller is appending markdown token-by-token.
+     */
+    streaming?: boolean;
+  };
 }
 
 /**
@@ -92,7 +90,7 @@ export interface AiChatMarkdownSignature {
  * source (when `markdown` is never set as a property) isn't reproduced
  * either - this port's `@markdown` is the only source, always.
  */
-export default class AiChatMarkdown extends Component<AiChatMarkdownSignature> {
+export default class Markdown extends Component<MarkdownSignature> {
   @tracked private displayedMarkdown = this.args.markdown ?? '';
   private pendingTimer?: ReturnType<typeof setTimeout>;
   private lastRenderedAt = 0;

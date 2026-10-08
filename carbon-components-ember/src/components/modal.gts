@@ -3,19 +3,12 @@ import { guidFor } from '@ember/object/internals';
 import { cached, tracked } from '@glimmer/tracking';
 import { defaultArgs } from '../utils/decorators.ts';
 
-/** @documenter yuidoc */
-
-export type Args = {
-  /**
-   * @argument onClose
-   * @type function
-   */
-  onClose?: () => unknown;
-  type?: 'danger' | 'default' | 'passive';
-};
-
-export interface ModalComponentSignature {
-  Args: Args;
+export interface ModalSignature {
+  Element: HTMLDivElement;
+  Args: {
+    onClose?: () => unknown;
+    type?: 'danger' | 'default' | 'passive';
+  };
   Blocks: {
     label: [];
     header: [];
@@ -24,13 +17,10 @@ export interface ModalComponentSignature {
   };
 }
 
-/**
- * @class Modal
- */
-export default class Modal extends Component<ModalComponentSignature> {
+export default class Modal extends Component<ModalSignature> {
   @tracked isVisible = true;
 
-  args: Args = defaultArgs(this, {
+  args: ModalSignature['Args'] = defaultArgs(this, {
     onClose: undefined,
   });
 
@@ -56,6 +46,7 @@ export default class Modal extends Component<ModalComponentSignature> {
       aria-labelledby="modal-{{this.guid}}-label"
       aria-describedby="modal-{{this.guid}}-heading"
       tabindex="-1"
+      ...attributes
     >
       <div class="cds--modal-container">
         <div class="cds--modal-header">

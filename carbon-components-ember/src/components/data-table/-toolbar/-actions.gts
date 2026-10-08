@@ -2,11 +2,11 @@ import Button from '../../button.gts';
 import type { DataTableContext } from '../../data-table.gts';
 import type { TOC } from '@ember/component/template-only';
 
-export interface Signature {
+export interface TableBatchActionsSignature {
+  Element: HTMLDivElement;
   Args: {
     table: DataTableContext;
   };
-  Element: null;
   Blocks: {
     default: [
       {
@@ -19,11 +19,12 @@ export interface Signature {
 const clearSelection = (table: DataTableContext) =>
   table.state.selectedItems.clear();
 
-const TableActionsComponent: TOC<Signature> = <template>
+const TableBatchActions: TOC<TableBatchActionsSignature> = <template>
   {{#if @table.state.selectedItems.size}}
     <div
       class="cds--batch-actions cds--batch-actions--active"
       aria-label="Table Action Bar"
+      ...attributes
     >
       <div class="cds--action-list">
         {{yield (hash close=(fn clearSelection @table))}}
@@ -43,4 +44,4 @@ const TableActionsComponent: TOC<Signature> = <template>
   {{/if}}
 </template>;
 
-export default TableActionsComponent;
+export default TableBatchActions;

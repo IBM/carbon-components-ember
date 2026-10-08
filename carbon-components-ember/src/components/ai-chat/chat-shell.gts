@@ -11,80 +11,78 @@ import { concat } from '@ember/helper';
 export type CornerStyle = 'round' | 'square';
 export type StartOrEnd = 'start' | 'end';
 
-export type Args = {
-  /** Enables AI-specific theming for the chat shell. */
-  aiEnabled?: boolean;
-  /** Shows a frame border around the chat shell. */
-  showFrame?: boolean;
-  /**
-   * Sets the corner style for all corners. Individual `@cornerStartStart` /
-   * `@cornerStartEnd` / `@cornerEndStart` / `@cornerEndEnd` args override
-   * this value. Defaults to `'square'`.
-   *
-   * Upstream renders each corner independently via a per-instance dynamic
-   * stylesheet (`CornerManager`). This port only distinguishes "at least one
-   * corner is round" vs. "all square" (a single `.rounded` modifier class) —
-   * genuinely mixed round/square corners on one shell aren't yet supported.
-   */
-  cornerAll?: CornerStyle;
-  /** Controls the start-start corner (top-left in LTR). Overrides `@cornerAll` if set. */
-  cornerStartStart?: CornerStyle;
-  /** Controls the start-end corner (top-right in LTR). Overrides `@cornerAll` if set. */
-  cornerStartEnd?: CornerStyle;
-  /** Controls the end-start corner (bottom-left in LTR). Overrides `@cornerAll` if set. */
-  cornerEndStart?: CornerStyle;
-  /** Controls the end-end corner (bottom-right in LTR). Overrides `@cornerAll` if set. */
-  cornerEndEnd?: CornerStyle;
-  /**
-   * Shows the history panel. Always-controlled boolean — matches upstream's
-   * `show-history` attribute, which has no `default-show-history`
-   * counterpart and no change event, so there's no uncontrolled path to
-   * offer (see AGENTS.md §3).
-   */
-  showHistory?: boolean;
-  /** Shows the workspace panel. Always-controlled, same shape as `@showHistory`. */
-  showWorkspace?: boolean;
-  /** Location of the workspace panel. Defaults to `'start'`. */
-  workspaceLocation?: StartOrEnd;
-  /** Location of the history panel. Defaults to `'start'`. */
-  historyLocation?: StartOrEnd;
-  /** Aria label for the workspace region. */
-  workspaceAriaLabel?: string;
-  /** Aria label for the history region. */
-  historyAriaLabel?: string;
-  /** Aria label for the messages region. */
-  messagesAriaLabel?: string;
-  /**
-   * Announcement text for when a (non-workspace) panel opens. Accepted for
-   * API parity; nothing in this port dispatches the panel open/close events
-   * upstream keys this announcement off, since the `panels` block's content
-   * is entirely up to the caller here (see class doc).
-   */
-  panelOpenedAnnouncement?: string;
-  /** Announcement text for when a (non-workspace) panel closes. See `@panelOpenedAnnouncement`. */
-  panelClosedAnnouncement?: string;
-  /**
-   * Announcement text for when the workspace opens. Accepted for API
-   * parity; not yet wired to an actual screen-reader announcement in this
-   * port (see class doc).
-   */
-  workspaceOpenedAnnouncement?: string;
-  /** Announcement text for when the workspace closes. See `@workspaceOpenedAnnouncement`. */
-  workspaceClosedAnnouncement?: string;
-  /** Announcement text for when history becomes visible. See `@workspaceOpenedAnnouncement`. */
-  historyShownAnnouncement?: string;
-  /** Announcement text for when history becomes hidden. See `@workspaceOpenedAnnouncement`. */
-  historyHiddenAnnouncement?: string;
-  /**
-   * Constrains the input/messages column to a maximum width. When `false`,
-   * those slots extend to the full container width.
-   */
-  contentMaxWidth?: boolean;
-};
-
 export interface ChatShellSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /** Enables AI-specific theming for the chat shell. */
+    aiEnabled?: boolean;
+    /** Shows a frame border around the chat shell. */
+    showFrame?: boolean;
+    /**
+     * Sets the corner style for all corners. Individual `@cornerStartStart` /
+     * `@cornerStartEnd` / `@cornerEndStart` / `@cornerEndEnd` args override
+     * this value. Defaults to `'square'`.
+     *
+     * Upstream renders each corner independently via a per-instance dynamic
+     * stylesheet (`CornerManager`). This port only distinguishes "at least one
+     * corner is round" vs. "all square" (a single `.rounded` modifier class) —
+     * genuinely mixed round/square corners on one shell aren't yet supported.
+     */
+    cornerAll?: CornerStyle;
+    /** Controls the start-start corner (top-left in LTR). Overrides `@cornerAll` if set. */
+    cornerStartStart?: CornerStyle;
+    /** Controls the start-end corner (top-right in LTR). Overrides `@cornerAll` if set. */
+    cornerStartEnd?: CornerStyle;
+    /** Controls the end-start corner (bottom-left in LTR). Overrides `@cornerAll` if set. */
+    cornerEndStart?: CornerStyle;
+    /** Controls the end-end corner (bottom-right in LTR). Overrides `@cornerAll` if set. */
+    cornerEndEnd?: CornerStyle;
+    /**
+     * Shows the history panel. Always-controlled boolean — matches upstream's
+     * `show-history` attribute, which has no `default-show-history`
+     * counterpart and no change event, so there's no uncontrolled path to
+     * offer (see AGENTS.md §3).
+     */
+    showHistory?: boolean;
+    /** Shows the workspace panel. Always-controlled, same shape as `@showHistory`. */
+    showWorkspace?: boolean;
+    /** Location of the workspace panel. Defaults to `'start'`. */
+    workspaceLocation?: StartOrEnd;
+    /** Location of the history panel. Defaults to `'start'`. */
+    historyLocation?: StartOrEnd;
+    /** Aria label for the workspace region. */
+    workspaceAriaLabel?: string;
+    /** Aria label for the history region. */
+    historyAriaLabel?: string;
+    /** Aria label for the messages region. */
+    messagesAriaLabel?: string;
+    /**
+     * Announcement text for when a (non-workspace) panel opens. Accepted for
+     * API parity; nothing in this port dispatches the panel open/close events
+     * upstream keys this announcement off, since the `panels` block's content
+     * is entirely up to the caller here (see class doc).
+     */
+    panelOpenedAnnouncement?: string;
+    /** Announcement text for when a (non-workspace) panel closes. See `@panelOpenedAnnouncement`. */
+    panelClosedAnnouncement?: string;
+    /**
+     * Announcement text for when the workspace opens. Accepted for API
+     * parity; not yet wired to an actual screen-reader announcement in this
+     * port (see class doc).
+     */
+    workspaceOpenedAnnouncement?: string;
+    /** Announcement text for when the workspace closes. See `@workspaceOpenedAnnouncement`. */
+    workspaceClosedAnnouncement?: string;
+    /** Announcement text for when history becomes visible. See `@workspaceOpenedAnnouncement`. */
+    historyShownAnnouncement?: string;
+    /** Announcement text for when history becomes hidden. See `@workspaceOpenedAnnouncement`. */
+    historyHiddenAnnouncement?: string;
+    /**
+     * Constrains the input/messages column to a maximum width. When `false`,
+     * those slots extend to the full container width.
+     */
+    contentMaxWidth?: boolean;
+  };
   Blocks: {
     /** Upstream `header` slot. */
     header: [];

@@ -5,13 +5,13 @@ import type { DataTableContext } from '../data-table.gts';
 import { concat } from '@ember/helper';
 import type { TOC } from '@ember/component/template-only';
 
-export interface Signature {
+export interface TableToolbarSignature {
+  Element: HTMLElement;
   Args: {
     table: DataTableContext;
     size?: 'xs' | 'sm' | 'lg';
     ariaLabel?: string;
   };
-  Element: null;
   Blocks: {
     default: [
       {
@@ -22,12 +22,13 @@ export interface Signature {
   };
 }
 
-const TableToolbarComponent: TOC<Signature> = <template>
+const TableToolbar: TOC<TableToolbarSignature> = <template>
   <section
     class="cds--table-toolbar
       {{if @size (concat 'cds--table-toolbar--' @size)}}"
     role="group"
     aria-label={{or @ariaLabel "data table toolbar"}}
+    ...attributes
   >
     {{yield
       (hash
@@ -38,4 +39,4 @@ const TableToolbarComponent: TOC<Signature> = <template>
   </section>
 </template>;
 
-export default TableToolbarComponent;
+export default TableToolbar;

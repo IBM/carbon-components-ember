@@ -17,7 +17,7 @@ import AiChatCodeSnippet from './code-snippet.gts';
 import './-code-snippet/codemirror-runtime.ts';
 
 import type Owner from '@ember/owner';
-import type { Args as CodeSnippetArgs } from './code-snippet.gts';
+import type { AiChatCodeSnippetSignature } from './code-snippet.gts';
 import type { ToolbarAction } from './toolbar.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `Components/Code snippet` stories
@@ -249,7 +249,7 @@ const MANY_LINES = Array.from(
   (_, i) => `line ${i + 1} = ${i};`,
 ).join('\n');
 
-type StoryArgs = CodeSnippetArgs & {
+type StoryArgs = AiChatCodeSnippetSignature['Args'] & {
   /** Story-only: wrap the snippet in a flush `AiChatCard`. */
   useCard?: boolean;
 };

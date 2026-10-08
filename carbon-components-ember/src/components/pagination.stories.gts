@@ -1,12 +1,11 @@
-import { fn as bind } from '@ember/helper';
 import { trackedObject } from '@ember/reactive/collections';
 import { RenderStory } from 'ember-storybook';
-import { expect, fn, waitFor } from 'storybook/test';
+import { expect, fn as spy, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Pagination from './pagination.gts';
 
-import type { Args as PaginationArgs } from './pagination.gts';
+import type { PaginationSignature } from './pagination.gts';
 import type { TOC } from '@ember/component/template-only';
 
 // Parity gaps with Carbon React's Pagination stories:
@@ -22,9 +21,9 @@ import type { TOC } from '@ember/component/template-only';
 // - `TooltipHover` (a visual-snapshot-only story upstream) is covered by the
 //   Default story's test hovering the forward button.
 
-type Slice = Parameters<PaginationArgs['onPageChanged']>[0];
+type Slice = Parameters<PaginationSignature['Args']['onPageChanged']>[0];
 
-const meta = preview.type<{ args: PaginationArgs }>().meta({
+const meta = preview.type<{ args: PaginationSignature['Args'] }>().meta({
   title: 'Components/Pagination',
   component: Pagination,
   decorators: [
@@ -42,7 +41,7 @@ const meta = preview.type<{ args: PaginationArgs }>().meta({
     forwardText: 'Next page',
     backwardTextTooltipPosition: 'top',
     forwardTextTooltipPosition: 'top',
-    onPageChanged: fn(),
+    onPageChanged: spy(),
   },
   argTypes: {
     size: { control: 'select', options: ['xs', 'sm', 'md', 'lg'] },
@@ -60,7 +59,7 @@ const meta = preview.type<{ args: PaginationArgs }>().meta({
 // `@onPageChanged` reports the current slice (page, items per page and the
 // start/end indexes of the visible items), shown below the pagination.
 export const Default = meta.story({
-  render: (args: PaginationArgs) => {
+  render: (args: PaginationSignature['Args']) => {
     const state = trackedObject<{ slice?: Slice }>({});
     const onPageChanged = (slice: Slice) => {
       state.slice = slice;
@@ -110,7 +109,7 @@ Default.test(
 
 export const MultiplePaginationComponents = meta.story({
   name: 'Multiple Pagination components',
-  render: (args: PaginationArgs) => <template>
+  render: (args: PaginationSignature['Args']) => <template>
     <div>
       <Pagination
         @length={{args.length}}
@@ -127,7 +126,7 @@ export const MultiplePaginationComponents = meta.story({
 });
 
 export const Sizes = meta.story({
-  render: (args: PaginationArgs) => <template>
+  render: (args: PaginationSignature['Args']) => <template>
     <Pagination
       @size="xs"
       @length={{args.length}}
@@ -200,7 +199,7 @@ const CustomPageSelect: TOC<{
 }> = <template>
   <span aria-label={{@pageSelectLabelText}}>
     Page
-    <button type="button" {{on "click" (bind @onSetPage 1)}}>1</button>
+    <button type="button" {{on "click" (fn @onSetPage 1)}}>1</button>
     of
     {{@totalPages}}
   </span>

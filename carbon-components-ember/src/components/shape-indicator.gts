@@ -6,7 +6,7 @@
  */
 
 import Component from '@glimmer/component';
-import type { TemplateOnlyComponent } from '@ember/component/template-only';
+import type { TOC } from '@ember/component/template-only';
 import DefinitionTooltip from './-private/definition-tooltip.gts';
 import type { IconIndicatorAlignment } from './icon-indicator.gts';
 import Critical from './icons/critical.ts';
@@ -33,26 +33,24 @@ export const ShapeIndicatorKinds = [
 
 export type ShapeIndicatorKind = (typeof ShapeIndicatorKinds)[number];
 
-export type Args = {
-  /**
-   * Specify how the tooltip should align with the shape in compact mode
-   */
-  align?: IconIndicatorAlignment;
-  /**
-   * Will auto-align the tooltip in compact mode so it stays within the
-   * viewport, flipping to the opposite side when it would otherwise overflow
-   */
-  autoAlign?: boolean;
-  kind: ShapeIndicatorKind;
-  label: string;
-  compact?: boolean;
-  shapeDescription?: string;
-  textSize?: 12 | 14;
-};
-
 export interface ShapeIndicatorSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /**
+     * Specify how the tooltip should align with the shape in compact mode
+     */
+    align?: IconIndicatorAlignment;
+    /**
+     * Will auto-align the tooltip in compact mode so it stays within the
+     * viewport, flipping to the opposite side when it would otherwise overflow
+     */
+    autoAlign?: boolean;
+    kind: ShapeIndicatorKind;
+    label: string;
+    compact?: boolean;
+    shapeDescription?: string;
+    textSize?: 12 | 14;
+  };
 }
 
 const shapeIcons: Record<string, typeof Critical> = {
@@ -68,32 +66,35 @@ const shapeIcons: Record<string, typeof Critical> = {
   draft: CircleStroke,
 };
 
+interface IncompleteIconSignature {
+  Element: SVGElement;
+}
+
 // `incomplete` has no dedicated icon in `@carbon/icons`, so it's reproduced
 // here as an inline svg, matching the react implementation.
-const IncompleteIcon: TemplateOnlyComponent<{ Element: SVGElement }> =
-  <template>
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      fill="none"
-      aria-hidden="true"
-      ...attributes
-    >
-      <path
-        fill="#fff"
-        fill-opacity="0.01"
-        d="M0 0h16v16H0z"
-        {{! Carbon React sets this inline too (DOM-parity covers it). }}
-        {{! eslint-disable-next-line ember/template-no-inline-styles }}
-        style="mix-blend-mode: multiply;"
-      />
-      <path
-        fill="#161616"
-        d="M8 2a6 6 0 1 0 0 12A6 6 0 0 0 8 2Zm0 2a4.004 4.004 0 0 1 4 4H4a4.004 4.004 0 0 1 4-4Z"
-      />
-    </svg>
-  </template>;
+const IncompleteIcon: TOC<IncompleteIconSignature> = <template>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    fill="none"
+    aria-hidden="true"
+    ...attributes
+  >
+    <path
+      fill="#fff"
+      fill-opacity="0.01"
+      d="M0 0h16v16H0z"
+      {{! Carbon React sets this inline too (DOM-parity covers it). }}
+      {{! eslint-disable-next-line ember/template-no-inline-styles }}
+      style="mix-blend-mode: multiply;"
+    />
+    <path
+      fill="#161616"
+      d="M8 2a6 6 0 1 0 0 12A6 6 0 0 0 8 2Zm0 2a4.004 4.004 0 0 1 4 4H4a4.004 4.004 0 0 1 4-4Z"
+    />
+  </svg>
+</template>;
 
 export default class ShapeIndicator extends Component<ShapeIndicatorSignature> {
   get isValidKind() {

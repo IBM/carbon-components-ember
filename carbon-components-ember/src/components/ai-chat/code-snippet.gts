@@ -30,55 +30,53 @@ import type { LineCountFormatter } from './-code-snippet/formatters.ts';
 import { loadCodeMirrorRuntime } from './-code-snippet/codemirror-loader.ts';
 import type { CodeMirrorRuntimeModule } from './-code-snippet/codemirror-loader.ts';
 
-export type Args = {
-  /** The code to display/edit. The sole content source - see the class doc. */
-  code?: string;
-  /** Language used for syntax highlighting (an exact `@codemirror/language-data` name, or a common alias/extension - see `-code-snippet/language-utils.ts`). */
-  language?: string;
-  /** Whether the snippet is an editable surface rather than a read-only display. */
-  editable?: boolean;
-  /** Enables syntax highlighting (language detection/label-locking still runs either way). */
-  highlight?: boolean;
-  /** Fallback language used for empty editable content when nothing else resolves one. Defaults to `'javascript'`. */
-  defaultLanguage?: string;
-  /** Show the detected language label in the header. When `false` (the default), only an explicit `@language` renders a label. */
-  detectLanguage?: boolean;
-  disabled?: boolean;
-  hideCopyButton?: boolean;
-  hideHeader?: boolean;
-  hideLineNumbers?: boolean;
-  /** Hides the fold gutter, removing the ability to collapse/expand code blocks (drops the fold keymap too). */
-  hideFold?: boolean;
-  /** Max rows shown when collapsed. `0` (with `@maxExpandedNumberOfRows` also `0`) enables fill-container mode; `Infinity` grows with content instead of scrolling. Defaults to `15`. */
-  maxCollapsedNumberOfRows?: number;
-  /** Max rows shown when expanded (`0` = unlimited). Defaults to `0`. */
-  maxExpandedNumberOfRows?: number;
-  /** Min rows shown when collapsed. Defaults to `3`. */
-  minCollapsedNumberOfRows?: number;
-  /** Min rows shown when expanded. Defaults to `16`. */
-  minExpandedNumberOfRows?: number;
-  showLessText?: string;
-  showMoreText?: string;
-  copyButtonTooltipContent?: string;
-  foldCollapseLabel?: string;
-  foldExpandLabel?: string;
-  /** Aria-label for the editable surface. `{language}` is replaced with the detected/declared language once locked in. Defaults to `'Code editor'`. */
-  ariaLabelEditable?: string;
-  /** Aria-label for the read-only surface. `{language}` is replaced with the detected/declared language once locked in. Defaults to `'Code snippet'`. */
-  ariaLabelReadOnly?: string;
-  /** Formats the line-count label. Defaults to `${count} lines`. */
-  getLineCountText?: LineCountFormatter;
-  /** Extra toolbar actions, rendered after the copy button (unless `@hideCopyButton`). */
-  actions?: ToolbarAction[];
-  /** Enables responsive overflow on the toolbar - see `Toolbar`'s own `@overflow`. */
-  overflow?: boolean;
-  /** Fires with the new content on every edit. Only meaningful with `@editable={{true}}` - a read-only snippet never changes its own doc. */
-  onChange?: (content: string) => void;
-};
-
 export interface AiChatCodeSnippetSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /** The code to display/edit. The sole content source - see the class doc. */
+    code?: string;
+    /** Language used for syntax highlighting (an exact `@codemirror/language-data` name, or a common alias/extension - see `-code-snippet/language-utils.ts`). */
+    language?: string;
+    /** Whether the snippet is an editable surface rather than a read-only display. */
+    editable?: boolean;
+    /** Enables syntax highlighting (language detection/label-locking still runs either way). */
+    highlight?: boolean;
+    /** Fallback language used for empty editable content when nothing else resolves one. Defaults to `'javascript'`. */
+    defaultLanguage?: string;
+    /** Show the detected language label in the header. When `false` (the default), only an explicit `@language` renders a label. */
+    detectLanguage?: boolean;
+    disabled?: boolean;
+    hideCopyButton?: boolean;
+    hideHeader?: boolean;
+    hideLineNumbers?: boolean;
+    /** Hides the fold gutter, removing the ability to collapse/expand code blocks (drops the fold keymap too). */
+    hideFold?: boolean;
+    /** Max rows shown when collapsed. `0` (with `@maxExpandedNumberOfRows` also `0`) enables fill-container mode; `Infinity` grows with content instead of scrolling. Defaults to `15`. */
+    maxCollapsedNumberOfRows?: number;
+    /** Max rows shown when expanded (`0` = unlimited). Defaults to `0`. */
+    maxExpandedNumberOfRows?: number;
+    /** Min rows shown when collapsed. Defaults to `3`. */
+    minCollapsedNumberOfRows?: number;
+    /** Min rows shown when expanded. Defaults to `16`. */
+    minExpandedNumberOfRows?: number;
+    showLessText?: string;
+    showMoreText?: string;
+    copyButtonTooltipContent?: string;
+    foldCollapseLabel?: string;
+    foldExpandLabel?: string;
+    /** Aria-label for the editable surface. `{language}` is replaced with the detected/declared language once locked in. Defaults to `'Code editor'`. */
+    ariaLabelEditable?: string;
+    /** Aria-label for the read-only surface. `{language}` is replaced with the detected/declared language once locked in. Defaults to `'Code snippet'`. */
+    ariaLabelReadOnly?: string;
+    /** Formats the line-count label. Defaults to `${count} lines`. */
+    getLineCountText?: LineCountFormatter;
+    /** Extra toolbar actions, rendered after the copy button (unless `@hideCopyButton`). */
+    actions?: ToolbarAction[];
+    /** Enables responsive overflow on the toolbar - see `Toolbar`'s own `@overflow`. */
+    overflow?: boolean;
+    /** Fires with the new content on every edit. Only meaningful with `@editable={{true}}` - a read-only snippet never changes its own doc. */
+    onChange?: (content: string) => void;
+  };
 }
 
 /**
@@ -167,7 +165,7 @@ export default class AiChatCodeSnippet extends Component<AiChatCodeSnippetSignat
   private fontSettleScheduled = false;
   private readonly rowHeightInPixels = 16;
 
-  constructor(owner: Owner, args: Args) {
+  constructor(owner: Owner, args: AiChatCodeSnippetSignature['Args']) {
     super(owner, args);
   }
 

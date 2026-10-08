@@ -1,12 +1,10 @@
 import type { TOC } from '@ember/component/template-only';
 
-export type Args = {
-  hideLabel?: boolean;
-  twoHandles?: boolean;
-};
-
 export interface SliderSkeletonSignature {
-  Args: Args;
+  Args: {
+    hideLabel?: boolean;
+    twoHandles?: boolean;
+  };
   Element: HTMLDivElement;
 }
 

@@ -1,6 +1,6 @@
 import type { TOC } from '@ember/component/template-only';
 
-export interface ToggletipContentComponentSignature {
+export interface ToggletipContentSignature {
   Args: {
     id: string;
   };
@@ -14,16 +14,15 @@ export interface ToggletipContentComponentSignature {
  * Renders the popover content of a `Toggletip`. Yielded by `Toggletip` as
  * `t.Content`.
  */
-const ToggletipContentComponent: TOC<ToggletipContentComponentSignature> =
-  <template>
-    <span class="cds--popover">
-      <span id={{@id}} class="cds--popover-content" ...attributes>
-        <div class="cds--toggletip-content">
-          {{yield}}
-        </div>
-      </span>
-      <span class="cds--popover-caret"></span>
+const ToggletipContent: TOC<ToggletipContentSignature> = <template>
+  <span class="cds--popover">
+    <span id={{@id}} class="cds--popover-content" ...attributes>
+      <div class="cds--toggletip-content">
+        {{yield}}
+      </div>
     </span>
-  </template>;
+    <span class="cds--popover-caret"></span>
+  </span>
+</template>;
 
-export default ToggletipContentComponent;
+export default ToggletipContent;

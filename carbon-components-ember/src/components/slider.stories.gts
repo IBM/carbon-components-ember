@@ -8,7 +8,7 @@ import Layer from './layer.gts';
 import Slider from './slider.gts';
 import SliderSkeleton from './slider-skeleton.gts';
 
-import type { Args } from './slider.gts';
+import type { SliderSignature } from './slider.gts';
 
 // Carbon React parity gaps (Components/Slider):
 // - Slider is always controlled (`@value`/`@valueUpper` + `@onChange`);
@@ -53,7 +53,7 @@ const meta = preview.meta({
     value: 50,
     onChange: fn(),
   },
-  render: (args: Args) => {
+  render: (args: SliderSignature['Args']) => {
     const state = trackedObject({
       value: args.value,
       valueUpper: args.valueUpper,
@@ -190,7 +190,7 @@ export const ControlledSlider = meta.story({
       },
     },
   },
-  render: (args: Args) => {
+  render: (args: SliderSignature['Args']) => {
     const state = trackedObject({ value: args.value });
     const onChange = (data: { value: number }) => {
       state.value = data.value;

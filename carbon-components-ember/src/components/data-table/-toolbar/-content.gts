@@ -1,16 +1,16 @@
 import type { TOC } from '@ember/component/template-only';
 
-export interface Signature {
-  Element: null;
+export interface TableToolbarContentSignature {
+  Element: HTMLDivElement;
   Blocks: {
     default: [];
   };
 }
 
-const TableToolbarContentComponent: TOC<Signature> = <template>
-  <div class="cds--toolbar-content">
+const TableToolbarContent: TOC<TableToolbarContentSignature> = <template>
+  <div class="cds--toolbar-content" ...attributes>
     {{yield}}
   </div>
 </template>;
 
-export default TableToolbarContentComponent;
+export default TableToolbarContent;

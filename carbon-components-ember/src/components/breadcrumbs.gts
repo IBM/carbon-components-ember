@@ -1,39 +1,17 @@
 import Component from '@glimmer/component';
 import { defaultArgs } from '../utils/decorators.ts';
-/** @documenter yuidoc */
-
-export type Args = {
-  crumbs: string[];
-  current?: string;
-  onSelect?(crumb: string): void;
-};
-
-export interface BreadcrumbSignature {
-  // We have a `<table>` as our root element
+export interface BreadcrumbsSignature {
   Element: HTMLElement;
-  // We accept an array of items, one per row
-  Args: Args;
-  // We accept two named blocks: a parameter-less `header` block
-  // and a `row` block which will be invoked with each item and
-  // its index sequentially.
-  Blocks: {
-    default: [];
+
+  Args: {
+    crumbs: string[];
+    current?: string;
+    onSelect?(crumb: string): void;
   };
 }
 
-/**
- The Carbon Breadcrumb
-
- ```handlebars
- {{import Breadcrumbs from '/components/breadcrumbs.ts'}}
-
- <Button @onClick={{fn this.onclick}} @danger={{false}} > Button Text </Button>
- ```
- @class CarbonBreadcrumb
- @public
- **/
-export default class CarbonBreadcrumb extends Component<BreadcrumbSignature> {
-  args: Args = defaultArgs(this, {
+export default class Breadcrumbs extends Component<BreadcrumbsSignature> {
+  args: BreadcrumbsSignature['Args'] = defaultArgs(this, {
     crumbs: [],
   });
 

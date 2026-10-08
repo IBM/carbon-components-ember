@@ -86,19 +86,18 @@ class State<T> {
   @tracked selectedItems = new TrackedSet<T>();
 }
 
-export type Args<T> = {
-  onSelectionChange?: (items: T[]) => void;
-  registerState?: (state: State<T>) => void;
-  search?: () => Promise<boolean>;
-  state?: State<T>;
-  items: T[];
-  isLoading?: boolean;
-  title?: string;
-  description?: string;
-};
-
-export interface DataTableComponentSignature<T> {
-  Args: Args<T>;
+export interface DataTableSignature<T> {
+  Element: HTMLDivElement;
+  Args: {
+    onSelectionChange?: (items: T[]) => void;
+    registerState?: (state: State<T>) => void;
+    search?: () => Promise<boolean>;
+    state?: State<T>;
+    items: T[];
+    isLoading?: boolean;
+    title?: string;
+    description?: string;
+  };
   Blocks: {
     default: [
       {
@@ -136,9 +135,7 @@ export interface DataTableContext {
   state: { selectedItems: { size: number; clear(): void } };
 }
 
-export default class DataTableComponent<T> extends Component<
-  DataTableComponentSignature<T>
-> {
+export default class DataTable<T> extends Component<DataTableSignature<T>> {
   // this is set by the Header Component
   declare isExpandable: boolean;
   declare isCheckable: boolean;
@@ -149,7 +146,7 @@ export default class DataTableComponent<T> extends Component<
   columnIndexCounter = 0;
 
   @defaultArgs
-  args: Args<T> = {
+  args: DataTableSignature<T>['Args'] = {
     onSelectionChange: () => null,
     registerState: () => null,
     search: undefined,
@@ -283,6 +280,7 @@ export default class DataTableComponent<T> extends Component<
     <div
       class="cds--data-table-container {{if @isLoading 'bx-skeleton'}}"
       data-table
+      ...attributes
     >
       <div class="cds--data-table-header" {{this.notifyRegisterState}}>
         <h4 class="cds--data-table-header__title">

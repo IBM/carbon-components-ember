@@ -1,7 +1,11 @@
 import type { TOC } from '@ember/component/template-only';
 
-const ListSkeletonComponent: TOC<unknown> = <template>
-  <section class="cds--structured-list cds--skeleton">
+export interface ListSkeletonSignature {
+  Element: HTMLElement;
+}
+
+const ListSkeleton: TOC<ListSkeletonSignature> = <template>
+  <section class="cds--structured-list cds--skeleton" ...attributes>
     <div class="cds--structured-list-thead">
       <div
         class="cds--structured-list-row cds--structured-list-row--header-row"
@@ -31,4 +35,4 @@ const ListSkeletonComponent: TOC<unknown> = <template>
   </section>
 </template>;
 
-export default ListSkeletonComponent;
+export default ListSkeleton;

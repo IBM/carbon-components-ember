@@ -5,7 +5,7 @@ import preview from '#storybook/preview.ts';
 import Button from './button.gts';
 import DataTable from './data-table.gts';
 
-import type { Args as DataTableArgs } from './data-table.gts';
+import type { DataTableSignature } from './data-table.gts';
 import type TableColumn from './data-table/-column.gts';
 import type { TOC } from '@ember/component/template-only';
 import type { WithBoundArgs } from '@glint/template';
@@ -147,13 +147,13 @@ const rowsRendered = (canvasElement: HTMLElement) =>
   );
 
 type TableState = Parameters<
-  NonNullable<DataTableArgs<LoadBalancer>['registerState']>
+  NonNullable<DataTableSignature<LoadBalancer>['Args']['registerState']>
 >[0];
 
 // DataTable is generic over its item type, which signature inference can't
 // follow, so declare the story's args explicitly. `size`/`useZebraStyles`
 // are the yielded `Table`'s args; `onBatchAction` is the story's own spy.
-type StoryArgs = Omit<DataTableArgs<LoadBalancer>, 'items'> & {
+type StoryArgs = Omit<DataTableSignature<LoadBalancer>['Args'], 'items'> & {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   useZebraStyles?: boolean;
   onBatchAction: (action: string, items: LoadBalancer[]) => void;

@@ -6,7 +6,7 @@ import Markdown from './markdown.gts';
 import ReasoningSteps from './reasoning-steps.gts';
 import ReasoningStepsToggle from './reasoning-steps-toggle.gts';
 
-import type { Args as ReasoningStepsToggleArgs } from './reasoning-steps-toggle.gts';
+import type { ReasoningStepsToggleSignature } from './reasoning-steps-toggle.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `reasoning-steps-toggle.stories.js`
 // (`Components/Reasoning steps/Toggle`: Default). Like upstream's demo
@@ -24,7 +24,7 @@ import type { Args as ReasoningStepsToggleArgs } from './reasoning-steps-toggle.
 // - Upstream's `carbonTheme` arg isn't ported: the Storybook toolbar's
 //   theme switcher applies Carbon's theme classes instead.
 
-type StoryArgs = ReasoningStepsToggleArgs & {
+type StoryArgs = ReasoningStepsToggleSignature['Args'] & {
   onToggle: (open: boolean) => void;
 };
 

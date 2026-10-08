@@ -36,22 +36,20 @@ export type ToolbarAction = {
   testId?: string;
 };
 
-export type Args = {
-  actions?: ToolbarAction[];
-  /**
-   * Enables responsive overflow: actions that don't fit the available
-   * width collapse into an overflow menu. When `false` (the default), all
-   * actions render inline in their given order, with no measurement and no
-   * overflow menu.
-   */
-  overflow?: boolean;
-  titleText?: string;
-  nameText?: string;
-};
-
 export interface ToolbarSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    actions?: ToolbarAction[];
+    /**
+     * Enables responsive overflow: actions that don't fit the available
+     * width collapse into an overflow menu. When `false` (the default), all
+     * actions render inline in their given order, with no measurement and no
+     * overflow menu.
+     */
+    overflow?: boolean;
+    titleText?: string;
+    nameText?: string;
+  };
   Blocks: {
     /** The toolbar's leading navigation area. */
     navigation: [];
