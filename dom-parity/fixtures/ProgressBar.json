@@ -1,6 +1,6 @@
 {
   "component": "ProgressBar",
-  "generatedAt": "2026-10-04T14:24:38.990Z",
+  "generatedAt": "2026-10-08T10:40:30.082Z",
   "carbonReactVersion": "1.114.0",
   "reactVersion": "19.3.0",
   "variants": {
@@ -617,9 +617,7 @@
                   "cds--progress-bar__bar"
                 ],
                 "attributes": {},
-                "style": {
-                  "transform": "scaleX(NaN)"
-                },
+                "style": {},
                 "children": []
               }
             ]

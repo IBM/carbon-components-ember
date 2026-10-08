@@ -57,7 +57,6 @@ export default defineConfig([
   {
     rules: {
       'ember/template-no-inline-styles': 'warn',
-      'ember/template-no-positive-tabindex': 'warn',
       'ember/no-legacy-helper-imports': 'error',
     },
   },
