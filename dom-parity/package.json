@@ -13,7 +13,7 @@
     "lint:js": "eslint ."
   },
   "devDependencies": {
-    "@carbon/react": "1.114.0",
+    "@carbon/react": "1.118.0",
     "@eslint/js": "^10.0.1",
     "eslint": "^10.12.0",
     "eslint-config-prettier": "^10.1.8",
