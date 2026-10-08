@@ -14,7 +14,6 @@ export type Args = {
 
 export interface FormInputSignature {
   Args: Args;
-  Element: HTMLDivElement;
 }
 
 export default class FormInput extends Component<FormInputSignature> {

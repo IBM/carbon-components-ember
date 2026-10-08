@@ -6,6 +6,7 @@ import { task, timeout } from 'ember-concurrency';
 import Popover, { PopoverContent } from './popover.gts';
 import type { PopoverAlignment } from './popover.gts';
 import Button from '../components/button.gts';
+import type { ButtonSignature } from '../components/button.gts';
 
 export type Args = {
   targetElementId?: string;
@@ -22,7 +23,7 @@ export type Args = {
 
 export interface CarbonCopyButtonSignature {
   Args: Args;
-  Element: HTMLButtonElement;
+  Element: ButtonSignature['Element'];
   Blocks: {
     default: [];
   };

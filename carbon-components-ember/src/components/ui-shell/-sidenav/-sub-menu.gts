@@ -8,7 +8,6 @@ export interface Signature {
     icon: typeof Icon;
     title: string;
   };
-  Element: null;
 }
 
 const SubMenuComponent: TOC<Signature> = <template>

@@ -19,7 +19,6 @@ export interface Signature {
     title: string;
     submenus: SubMenu[];
   };
-  Element: null;
   Blocks: {
     default: [typeof SubMenuComponent];
   };

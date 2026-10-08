@@ -1,7 +1,6 @@
 import type { TOC } from '@ember/component/template-only';
 
 export interface Signature {
-  Element: null;
   Blocks: {
     default: [];
   };

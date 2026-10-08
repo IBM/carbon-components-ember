@@ -150,7 +150,10 @@ Functional or class-based modifiers are Ember's replacement for `useRef` + `useE
 Never use bare `setTimeout`. Use `ember-concurrency` restartable tasks which auto-cancel on component destruction. Anything else that must be cleaned up belongs in `registerDestructor` or a modifier teardown.
 
 ### 6. Type Signatures Fully
-Fully type Glint signatures: `Args`, `Element` when the component spreads `...attributes`, and `Blocks` only for the blocks its template yields. No `{{yield}}`, no `Blocks`. Do not use `any` anywhere in a signature.
+Fully type Glint signatures, matching what the template does:
+- `Element`: the element `...attributes` is spread on. A DOM element gets its own type (`HTMLDivElement` for a `<div>`, a union when it varies); another component's is derived from its signature (`Element: ButtonSignature['Element']`). No `...attributes`, no `Element`.
+- `Blocks`: only the blocks the template yields. No `{{yield}}`, no `Blocks`.
+- No `any` anywhere in a signature.
 
 ### 7. What NOT to Reach For
 - **`@ember/render-modifiers`** (`did-insert`, `did-update`) - write a real functional modifier instead.

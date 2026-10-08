@@ -29,7 +29,7 @@ export type Args = {
 };
 
 export interface ChatHistoryPanelMenuSignature {
-  Element: HTMLElement;
+  Element: HTMLDivElement;
   Args: Args;
   Blocks: {
     default: [

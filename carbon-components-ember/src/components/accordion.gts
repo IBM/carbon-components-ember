@@ -18,7 +18,6 @@ export interface Args {
 
 export interface AccordionSignature {
   Args: Args;
-  Element: null;
   Blocks: {
     default: [WithBoundArgs<typeof Item, 'accordion'>];
   };
@@ -31,7 +30,6 @@ export interface ItemSignature {
     isDisabled?: boolean;
     title: string;
   };
-  Element: null;
   Blocks: {
     default: [];
   };

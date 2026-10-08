@@ -18,7 +18,7 @@ export type Args = {
 
 export interface CarbonBarChartSignature {
   Args: Args;
-  Element: HTMLDivElement;
+  Element: CarbonChartSignature['Element'];
   Blocks: {
     default: CarbonChartSignature['Blocks']['default'];
   };

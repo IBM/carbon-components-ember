@@ -11,7 +11,6 @@ export interface Signature {
     size?: 'xs' | 'sm' | 'lg';
     ariaLabel?: string;
   };
-  Element: null;
   Blocks: {
     default: [
       {

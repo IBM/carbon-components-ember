@@ -3,7 +3,10 @@ import { set } from '@ember/object';
 import { isBlank } from '@ember/utils';
 import { defaultArgs } from '../utils/decorators.ts';
 import PowerSelect from 'ember-power-select/components/power-select';
-import type { PowerSelectArgs } from 'ember-power-select/components/power-select';
+import type {
+  PowerSelectArgs,
+  PowerSelectSignature,
+} from 'ember-power-select/components/power-select';
 import type { Select } from 'ember-power-select/types';
 import type { ContentValue } from '@glint/template';
 import { modifier } from 'ember-modifier';
@@ -62,7 +65,7 @@ export type Args<T extends ContentValue> = {
 
 export interface SelectComponentSignature<T extends ContentValue> {
   Args: Args<T>;
-  Element: HTMLElement;
+  Element: PowerSelectSignature<T>['Element'];
   Blocks: {
     default: [option: Option<T>];
   };
@@ -536,7 +539,6 @@ export default class SelectComponent<T extends ContentValue> extends Component<
     {{#if @multiple}}
       <PowerSelect
         @multiple={{true}}
-        {{! @glint-expect-error: power-select types its element as Element; it renders an HTMLElement }}
         ...attributes
         class="cds--select cds--select-md
           {{styles.trigger}}
@@ -607,7 +609,6 @@ export default class SelectComponent<T extends ContentValue> extends Component<
       </PowerSelect>
     {{else}}
       <PowerSelect
-        {{! @glint-expect-error: power-select types its element as Element; it renders an HTMLElement }}
         ...attributes
         class="cds--select cds--select-md
           {{styles.trigger}}

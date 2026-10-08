@@ -8,6 +8,7 @@
 import Component from '@glimmer/component';
 import { modifier } from 'ember-modifier';
 import Button from '../button.gts';
+import type { ButtonSignature } from '../button.gts';
 
 export type ChatButtonKind =
   'primary' | 'secondary' | 'tertiary' | 'ghost' | 'danger';
@@ -33,7 +34,7 @@ export type Args = {
 };
 
 export interface AiChatChatButtonSignature {
-  Element: HTMLButtonElement;
+  Element: ButtonSignature['Element'];
   Args: Args;
   Blocks: {
     default: [];

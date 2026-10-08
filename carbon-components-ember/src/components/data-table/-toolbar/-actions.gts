@@ -6,7 +6,6 @@ export interface Signature {
   Args: {
     table: DataTableContext;
   };
-  Element: null;
   Blocks: {
     default: [
       {

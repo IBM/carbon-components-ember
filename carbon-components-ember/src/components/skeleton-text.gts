@@ -19,7 +19,7 @@ function getRandomInt(min: number, max: number, n: number) {
 }
 
 export interface SkeletonTextSignature {
-  Element: HTMLElement;
+  Element: HTMLDivElement | HTMLParagraphElement;
   Args: {
     /**
      * Generates skeleton text at a larger size.

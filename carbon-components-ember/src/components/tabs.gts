@@ -100,7 +100,6 @@ class TabPane extends Component<TabPaneSignature> {
 
 export interface TabsComponentSignature {
   Args: Args;
-  Element: HTMLDivElement;
   Blocks: {
     default: [WithBoundArgs<typeof TabPane, 'tab'>];
   };
