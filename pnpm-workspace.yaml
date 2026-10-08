@@ -37,8 +37,6 @@ allowBuilds:
 
 autoDedupe: true
 
-minimumReleaseAgeExclude:
-  - ember-eslint-parser
 overrides:
   # Security floors for transitive dev tooling that pins a vulnerable range,
   # so no in-range update can fix it. Everything else is kept current by
