@@ -95,10 +95,10 @@
     "markdown-it": "14.3.2"
   },
   "devDependencies": {
-    "@babel/core": "^8.0.6",
-    "@babel/eslint-parser": "^8.0.6",
+    "@babel/core": "^8.0.7",
+    "@babel/eslint-parser": "^8.0.7",
     "@babel/plugin-transform-typescript": "^8.0.6",
-    "@babel/runtime": "^8.0.5",
+    "@babel/runtime": "^8.0.7",
     "@carbon/ai-chat-components": "1.11.0",
     "@carbon/themes": "^11.82.0",
     "@ember/app-tsconfig": "^2.1.0",
@@ -149,7 +149,7 @@
     "qunit-dom": "^3.6.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "rollup": "^4.64.0",
+    "rollup": "^4.64.1",
     "rollup-plugin-copy": "^3.5.0",
     "sass-embedded": "^1.105.1",
     "storybook": "^10.6.1",
