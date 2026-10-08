@@ -5,7 +5,6 @@ import { defaultArgs } from '../../utils/decorators.ts';
 import type { ChartSignature } from './-components/chart.gts';
 
 export interface BarChartSignature {
-  /** @documenter yuidoc */
   Args: {
     /**
      * The chart's title, rendered by @carbon/charts as the chart's heading
@@ -21,15 +20,6 @@ export interface BarChartSignature {
   };
 }
 
-/**
- The BarChart
-
- @class BarChart
- @public
- @yield {Object} api
- @yield {Component} api.DataSet <a href='-components/dataset' >Dataset</a>
- @yield {Component} api.Axis <a href='-components/axis' >ChartAxis</a>
- **/
 export default class BarChart extends Component<BarChartSignature> {
   ChartClass = SimpleBarChart;
 
@@ -37,15 +27,11 @@ export default class BarChart extends Component<BarChartSignature> {
   args: BarChartSignature['Args'] = {
     /**
      * Is resizable
-     @argument resizable
-     @type boolean
      */
     resizable: true,
 
     /**
      * Is legendClickable
-     @argument legendClickable
-     @type boolean
      */
     legendClickable: true,
   };

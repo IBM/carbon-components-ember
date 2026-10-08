@@ -22,16 +22,6 @@ export interface ProgressBarSignature {
   };
 }
 
-/**
- The Carbon ProgressBar
-
- ```handlebars
-
- <Carbon::ProgressBar />
- ```
- @class CarbonButton
- @public
- **/
 export default class ProgressBar extends Component<ProgressBarSignature> {
   get guid() {
     return guidFor(this);

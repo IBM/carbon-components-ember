@@ -15,8 +15,6 @@ import type { WithBoundArgs } from '@glint/template';
 import type ChartAxis from '../../charts/-components/axis.gts';
 import type { AnyChartPart } from './chart-part.ts';
 
-/** @documenter yuidoc */
-
 export type ChartData = {
   group: string;
   date?: Date | number;
@@ -48,38 +46,21 @@ export interface ChartSignature {
   };
 }
 
-/**
- The Chart
-
- Base Chart Class
-
- @class Chart
- @public
- @yield {Object} api
- @yield {Component} api.DataSet <a href='-components/dataset' >Dataset</a>
- @yield {Component} api.Axis <a href='-components/axis' >ChartAxis</a>
- **/
 export default class Chart extends Component<ChartSignature> {
   @defaultArgs
   args: ChartSignature['Args'] = {
     /**
      * Is resizable
-     @argument resizable
-     @type boolean
      */
     resizable: true,
 
     /**
      * Is legendClickable
-     @argument legendClickable
-     @type boolean
      */
     legendClickable: true,
 
     /**
      * Chart class
-     @argument ChartClass
-     @type Chart
      */
     ChartClass: undefined,
   };

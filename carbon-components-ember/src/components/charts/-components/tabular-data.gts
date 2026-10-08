@@ -3,7 +3,6 @@ import { defaultArgs } from '../../../utils/decorators.ts';
 import type CarbonChart from '../../charts/-components/chart.gts';
 import type { ChartData } from '../../charts/-components/chart.gts';
 
-/** @documenter yuidoc */
 export interface ChartTabularDataSignature {
   Args: {
     backgroundColors?: string[];
@@ -16,27 +15,14 @@ export interface ChartTabularDataSignature {
   };
 }
 
-/**
- The CarbonChartDataSet
-
- ```handlebars
- ```
- @class CarbonChartDataSet
- @public
- **/
 export default class ChartTabularData extends ChartPart<ChartTabularDataSignature> {
   @defaultArgs
   args: ChartTabularDataSignature['Args'] = {
     /**
      * The Dataset label
-     * @argument label
-     * @type String
      */
     group: '',
-    /**
-     * @argument data
-     * @type number[]
-     */
+
     values: [],
     keys: [],
     dates: [],

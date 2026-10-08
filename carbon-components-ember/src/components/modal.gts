@@ -4,12 +4,7 @@ import { cached, tracked } from '@glimmer/tracking';
 import { defaultArgs } from '../utils/decorators.ts';
 
 export interface ModalSignature {
-  /** @documenter yuidoc */
   Args: {
-    /**
-     * @argument onClose
-     * @type function
-     */
     onClose?: () => unknown;
     type?: 'danger' | 'default' | 'passive';
   };
@@ -21,9 +16,6 @@ export interface ModalSignature {
   };
 }
 
-/**
- * @class Modal
- */
 export default class Modal extends Component<ModalSignature> {
   @tracked isVisible = true;
 

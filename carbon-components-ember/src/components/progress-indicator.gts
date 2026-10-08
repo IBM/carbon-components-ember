@@ -216,19 +216,6 @@ export interface ProgressIndicatorSignature {
   };
 }
 
-/**
- The Carbon ProgressIndicator
-
- ```handlebars
- <ProgressIndicator @currentIndex={{1}} as |Step|>
-   <Step @label='First step' />
-   <Step @label='Second step' />
-   <Step @label='Third step' />
- </ProgressIndicator>
- ```
- @class ProgressIndicator
- @public
- **/
 export default class ProgressIndicator extends Component<ProgressIndicatorSignature> {
   @tracked steps: ProgressStep[] = [];
 

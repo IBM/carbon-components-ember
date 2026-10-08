@@ -11,7 +11,6 @@ import { runTask } from 'ember-lifeline';
 import { guidFor } from '@ember/object/internals';
 import { ChevronLeft, ChevronRight } from '../icons.ts';
 import type { ComponentLike } from '@glint/template';
-/** @documenter yuidoc */
 
 type TooltipPosition = 'top' | 'right' | 'bottom' | 'left';
 

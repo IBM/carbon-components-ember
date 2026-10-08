@@ -8,37 +8,21 @@ import Confirm from './dialogs/confirm.gts';
 import Loading from './loading.gts';
 
 export interface ButtonSignature {
-  // We have a `<table>` as our root element
   Element: HTMLButtonElement;
-  // We accept an array of items, one per row
-  /** @documenter yuidoc */
   Args: {
     /**
      * Will display a spinning Wheel inside the button
-     @argument loading
-     @type boolean
      */
     loading?: boolean;
-    /**
-     @argument disabled
-     @type boolean
-     */
+
     disabled?: boolean;
-    /**
-     @argument bubbles
-     @type boolean
-     */
+
     bubbles?: boolean;
-    /**
-     @argument onClick
-     @type function
-     */
+
     onClick?: () => void | null | Promise<unknown>;
 
     /**
      * Indicates the type of the button
-     @argument type
-     @type string
      */
     type?: 'primary' | 'secondary' | 'danger';
     /** Same as `@type="primary"`. */
@@ -53,32 +37,22 @@ export interface ButtonSignature {
 
     /**
      * If the action is dangerous, this text message will be shown in the dialog
-     @argument confirmText
-     @type String
      */
     confirmText?: string;
     /**
      * Use this component as dialog
-     @argument confirmDialog
-     @type ConfirmDialogComponent
      */
     confirmDialog?: typeof ConfirmDialogComponent;
     /**
      * If the button is tertiary
-     @argument tertiary
-     @type boolean
      */
     tertiary?: boolean;
     /**
      * the button size
-     @argument small
-     @type 'sm' | 'md' | 'lg' | 'xl'
      */
     size?: 'sm' | 'md' | 'lg' | 'xl';
     /**
      * If the button is a ghost button
-     @argument ghost
-     @type boolean
      */
     ghost?: boolean;
 
@@ -86,25 +60,11 @@ export interface ButtonSignature {
 
     iconOnly?: boolean;
   };
-  // We accept two named blocks: a parameter-less `header` block
-  // and a `row` block which will be invoked with each item and
-  // its index sequentially.
   Blocks: {
     default: [];
   };
 }
 
-/**
- The Carbon Button
-
- ```handlebars
- {{import Button from '/components/button.ts'}}
-
- <Button @onClick={{fn this.onclick}} @danger={{false}} > Button Text </Button>
- ```
- @class Button
- @public
- **/
 export default class Button extends Component<ButtonSignature> {
   @tracked loading: boolean = false;
   @tracked disabled = false;

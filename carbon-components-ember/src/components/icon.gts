@@ -29,58 +29,41 @@ export interface IconSignature {
   Args: {
     /**
      * Indicates if the icon is in loading state
-     @argument loading
-     @type boolean
      */
     loading?: boolean;
     /**
      * Indicates if the icon is informative
-     @argument info
-     @type boolean
      */
     info?: boolean;
     /**
      * Indicates if the action is dangerous, showing a confirmation dialog before calling `onClick`
-     @argument danger
-     @type boolean
      */
     danger?: boolean;
     /**
      * If the action is dangerous, this text message will be shown in the dialog
-     @argument confirmText
-     @type String
      */
     confirmText?: string;
     /**
      * Use this component as dialog
-     @argument confirmDialog
-     @type String
      */
     confirmDialog?: string;
     /**
      * Use this icon to display
-     @argument icon
-     @type String
      */
     icon?: string | IconType;
 
     /**
      * Use this icon svg to display,
      * must be a htmlSafe string
-     @argument icon
      */
     iconSvg?: ReturnType<typeof htmlSafe>;
     /**
      * Size of icon
-     @argument size
-     @type number
      */
     // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
     size?: 16 | 20 | 24 | 32 | number | string;
     /**
      * action to trigger on click
-     @argument onClick
-     @type function
      */
     onClick?: () => void | Promise<never>;
 
@@ -92,15 +75,11 @@ export interface IconSignature {
 
     /**
      * button style
-     @argument btnStyle
-     @type string
      */
     btnStyle?: string;
 
     /**
      * button classes
-     @argument btnClass
-     @type string
      */
     btnClass?: string;
     svgClass?: string;

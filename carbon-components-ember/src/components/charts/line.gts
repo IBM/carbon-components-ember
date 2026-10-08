@@ -19,29 +19,16 @@ export interface LineChartSignature {
   };
 }
 
-/**
- The LineChart
-
- @class LineChart
- @public
- @yield {Object} api
- @yield {Component} api.DataSet <a href='-components/dataset' >Dataset</a>
- @yield {Component} api.Axis <a href='-components/axis' >ChartAxis</a>
- **/
 export default class LineChart extends Component<LineChartSignature> {
   ChartClass = CarbonChartsLineChart;
   args: LineChartSignature['Args'] = {
     /**
      * Is resizable
-     @argument resizable
-     @type boolean
      */
     resizable: true,
 
     /**
      * Is legendClickable
-     @argument legendClickable
-     @type boolean
      */
     legendClickable: true,
   };

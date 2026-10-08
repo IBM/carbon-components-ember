@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { defaultArgs } from '../utils/decorators.ts';
 export interface BreadcrumbsSignature {
   Element: HTMLElement;
-  /** @documenter yuidoc */
+
   Args: {
     crumbs: string[];
     current?: string;
@@ -10,17 +10,6 @@ export interface BreadcrumbsSignature {
   };
 }
 
-/**
- The Carbon Breadcrumb
-
- ```handlebars
- {{import Breadcrumbs from '/components/breadcrumbs.ts'}}
-
- <Button @onClick={{fn this.onclick}} @danger={{false}} > Button Text </Button>
- ```
- @class Breadcrumbs
- @public
- **/
 export default class Breadcrumbs extends Component<BreadcrumbsSignature> {
   args: BreadcrumbsSignature['Args'] = defaultArgs(this, {
     crumbs: [],
