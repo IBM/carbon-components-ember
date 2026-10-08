@@ -148,12 +148,12 @@ index 781b16c..0000000
 -
 -//# sourceMappingURL=annotations-DRGjlECb.mjs.map
 \ No newline at end of file
-diff --git a/dist/annotations-QoL3XsfQ.mjs b/dist/annotations-QoL3XsfQ.mjs
+diff --git a/dist/annotations-HtJRJsb3.mjs b/dist/annotations-HtJRJsb3.mjs
 new file mode 100644
-index 0000000..d3eef0f
+index 0000000..f3cf9f3
 --- /dev/null
-+++ b/dist/annotations-QoL3XsfQ.mjs
-@@ -0,0 +1,192 @@
++++ b/dist/annotations-HtJRJsb3.mjs
+@@ -0,0 +1,195 @@
 +import { i as __exportAll, n as isEmberStoryResult } from "./story-result-Ds8Z5TZx.mjs";
 +import { n as mergeArgTypes, t as buildArgTypes } from "./extractArgTypes-DNDT7G5O.mjs";
 +import { n as unwrapBlockParamsShallow } from "./block-params-wjiT2Ht6.mjs";
@@ -202,16 +202,19 @@ index 0000000..d3eef0f
 +	for (const entry of Object.values(data$1)) for (const [storyId, source] of Object.entries(entry.source ?? {})) byStoryId[storyId] = {
 +		componentName: source.componentName,
 +		signatureName: source.signatureName,
-+		inlineTemplate: source.inlineTemplate
++		inlineTemplate: source.inlineTemplate,
++		componentFile: entry.component?.file
 +	};
 +	return byStoryId;
 +}
-+function signatureForComponent(name) {
-+	for (const entry of Object.values(data$1)) {
-+		const comp = entry.component;
-+		if (comp?.signatureName !== name) continue;
-+		return (comp.file ? data$1[comp.file] : void 0)?.signatures?.[comp.signatureName];
-+	}
++/**
++* The signature of the component a story renders, from that component's own
++* file: every default export has the same `__DEFAULT__` signature name.
++*/
++function signatureForStory(story, name) {
++	const file = story?.componentFile;
++	if (!file || !Object.hasOwn(data$1, file)) return void 0;
++	return data$1[file].signatures?.[story.signatureName ?? name];
 +}
 +function resolveTemplateArgs(template, args) {
 +	return template.replaceAll(/\{\{args\.(\w+)\}\}/g, (_match, key) => {
@@ -226,7 +229,7 @@ index 0000000..d3eef0f
 +	if (meta?.inlineTemplate) return resolveTemplateArgs(meta.inlineTemplate, args);
 +	const name = meta?.componentName ?? component.name;
 +	if (!name || name === "(unknown template-only component)") return;
-+	const sig = signatureForComponent(meta?.signatureName ?? name);
++	const sig = signatureForStory(meta, name);
 +	const propsArray = Object.entries(args).filter(([k]) => !sig || !Object.hasOwn(sig.blocks, k)).map(([k, v]) => toArgument(k, v, argTypes)).filter(Boolean);
 +	const blockCode = sig ? generateBlockSourceCode(sig, args, "") : "";
 +	const propsStr = propsArray.join(" ");
@@ -345,15 +348,15 @@ index 0000000..d3eef0f
 +//#endregion
 +export { parameters as i, argTypesEnhancers as n, decorators as r, annotations_exports as t };
 +
-+//# sourceMappingURL=annotations-QoL3XsfQ.mjs.map
++//# sourceMappingURL=annotations-HtJRJsb3.mjs.map
 \ No newline at end of file
 diff --git a/dist/client/docs/config.mjs b/dist/client/docs/config.mjs
-index 09c0a8a..107863b 100644
+index 09c0a8a..a112617 100644
 --- a/dist/client/docs/config.mjs
 +++ b/dist/client/docs/config.mjs
 @@ -1,4 +1,4 @@
 -import { i as parameters$1, n as argTypesEnhancers, r as decorators } from "../../annotations-DRGjlECb.mjs";
-+import { i as parameters$1, n as argTypesEnhancers, r as decorators } from "../../annotations-QoL3XsfQ.mjs";
++import { i as parameters$1, n as argTypesEnhancers, r as decorators } from "../../annotations-HtJRJsb3.mjs";
  import { t as Page } from "../../page-BACn1xH0.mjs";
  //#region src/client/docs/config.ts
  const docs = parameters$1.docs;
@@ -371,150 +374,15 @@ index c8df731..6ab3bca 100644
  			...defaultComponents,
  			...docsParameter.components
 diff --git a/dist/client/index.mjs b/dist/client/index.mjs
-index d90a7f7..be9841a 100644
+index d90a7f7..8f738c4 100644
 --- a/dist/client/index.mjs
 +++ b/dist/client/index.mjs
 @@ -1,4 +1,4 @@
 -import { n as setProjectAnnotations, r as definePreview, t as RenderStory } from "../client-DdSMlQeh.mjs";
-+import { n as setProjectAnnotations, r as definePreview, t as RenderStory } from "../client-C_QYAHqG.mjs";
++import { n as setProjectAnnotations, r as definePreview, t as RenderStory } from "../client-TpyQkcLq.mjs";
  import { o as renderToCanvas } from "../config-DGk6BP_3.mjs";
  import { t as OutletPlaceholder } from "../outlet-placeholder-CgO7fIDo.mjs";
  export { OutletPlaceholder, RenderStory, definePreview, renderToCanvas, setProjectAnnotations };
-diff --git a/dist/client-C_QYAHqG.mjs b/dist/client-C_QYAHqG.mjs
-new file mode 100644
-index 0000000..de00d14
---- /dev/null
-+++ b/dist/client-C_QYAHqG.mjs
-@@ -0,0 +1,128 @@
-+import { r as normalizeStoryResult } from "./story-result-Ds8Z5TZx.mjs";
-+import { c as templateUsesOutlet, n as config_exports, s as render_exports } from "./config-DGk6BP_3.mjs";
-+import { t as annotations_exports } from "./annotations-QoL3XsfQ.mjs";
-+import "./outlet-placeholder-CgO7fIDo.mjs";
-+import { definePreview } from "storybook/internal/csf";
-+import { renderComponent } from "@ember/renderer";
-+import { setDefaultProjectAnnotations, setProjectAnnotations } from "storybook/preview-api";
-+import { template } from "@ember/template-compiler";
-+import Component from "@glimmer/component";
-+import { getOwner } from "@ember/owner";
-+import { modifier } from "ember-modifier";
-+//#region src/client/globals.ts
-+globalThis.STORYBOOK_ENV = "ember";
-+//#endregion
-+//#region src/client/define-preview.ts
-+/**
-+* The component shapes whose args `preview.meta()` infers from:
-+*
-+* - template-only components (`TOC<S>` / `TemplateOnlyComponent<S>`)
-+* - class components (`Component<S>` — matched through the instance `args`)
-+*
-+* Anything else (untyped components, plain templates) falls back to loose
-+* args; `preview.type<{ args: … }>()` overrides the inference explicitly.
-+*/
-+/**
-+* The framework's own preview annotations.
-+*
-+* In CSF Next mode Storybook bypasses the preset `previewAnnotations` entirely
-+* (the generated iframe entry uses `preview.composed` alone), so `definePreview`
-+* must inject them here — the same way `@storybook/react` folds its
-+* `entry-preview` modules into the base factory.
-+*
-+* `./config` carries the renderer (`render`, `renderToCanvas`), the `renderer:
-+* 'ember'` parameter and the outlet global; `./docs/annotations` carries the
-+* docgen argTypes enhancers and the source decorator. The addon-docs-dependent
-+* pieces (the autodocs `Page`, the patched `DocsRenderer`) are NOT imported
-+* here: they arrive through the user's own `addonDocs()` registration, which
-+* the preset redirects to `./docs/addon-preview` — keeping `@storybook/addon-docs`
-+* out of this module's static import graph.
-+*/
-+const internalAnnotations = [config_exports, annotations_exports];
-+/**
-+* The renderer type parameter all `definePreview` factories carry: the Ember
-+* renderer merged with whatever types the registered addons contribute.
-+*
-+* `InferTypes` collapses to `never` when no addons are registered (the empty
-+* array case poisons the whole intersection), so it is neutralized here.
-+*/
-+/**
-+* Type-safe preview configuration for Ember (the CSF Next entry point).
-+*
-+* ```ts
-+* // .storybook/preview.ts
-+* import { definePreview } from 'ember-storybook';
-+* import addonDocs from '@storybook/addon-docs';
-+*
-+* export default definePreview({
-+*   addons: [addonDocs()],
-+*   parameters: {
-+*     ember: { app: createApp },
-+*   },
-+* });
-+* ```
-+*/
-+function definePreview$1(input) {
-+	return definePreview({
-+		...input,
-+		addons: [...input.addons ?? [], ...internalAnnotations]
-+	});
-+}
-+/**
-+* The CSF Next `Preview` specialized for Ember: `preview.meta()` infers story
-+* args from the component's signature.
-+*/
-+//#endregion
-+//#region src/client/portable-stories.ts
-+/**
-+* Function that sets the globalConfig of your storybook. The global config is the preview module of
-+* your .storybook folder.
-+*
-+* It should be run a single time, so that your global config (e.g. decorators) is applied to your
-+* stories when using `composeStories` or `composeStory`.
-+*
-+* Example:
-+*
-+* ```jsx
-+* // setup-file.js
-+* import { setProjectAnnotations } from '@storybook/preact';
-+* import projectAnnotations from './.storybook/preview';
-+*
-+* setProjectAnnotations(projectAnnotations);
-+* ```
-+*
-+* @param projectAnnotations - E.g. (import projectAnnotations from '../.storybook/preview')
-+*/
-+function setProjectAnnotations$1(projectAnnotations) {
-+	setDefaultProjectAnnotations(render_exports);
-+	return setProjectAnnotations(projectAnnotations);
-+}
-+//#endregion
-+//#region src/client/render-story.gts
-+var RenderStory = class extends Component {
-+	render = modifier((element) => {
-+		const { component, args, route } = normalizeStoryResult(this.args.story(), this.args.args);
-+		const owner = getOwner(this);
-+		if (route || templateUsesOutlet(component)) throw new Error("ember-storybook: this story renders a route template (it uses `{{outlet}}`), but route stories can only be rendered by `renderToCanvas`, not through <RenderStory> (portable stories).");
-+		const result = renderComponent(component, {
-+			args,
-+			into: element,
-+			owner
-+		});
-+		return () => {
-+			result.destroy();
-+		};
-+	});
-+	static {
-+		template(`<div {{this.render}}></div>`, {
-+			component: this,
-+			eval() {
-+				return eval(arguments[0]);
-+			}
-+		});
-+	}
-+};
-+//#endregion
-+export { setProjectAnnotations$1 as n, definePreview$1 as r, RenderStory as t };
-+
-+//# sourceMappingURL=client-C_QYAHqG.mjs.map
-\ No newline at end of file
 diff --git a/dist/client-DdSMlQeh.mjs b/dist/client-DdSMlQeh.mjs
 deleted file mode 100644
 index 0c09d66..0000000
@@ -650,13 +518,148 @@ index 0c09d66..0000000
 -
 -//# sourceMappingURL=client-DdSMlQeh.mjs.map
 \ No newline at end of file
+diff --git a/dist/client-TpyQkcLq.mjs b/dist/client-TpyQkcLq.mjs
+new file mode 100644
+index 0000000..4aff065
+--- /dev/null
++++ b/dist/client-TpyQkcLq.mjs
+@@ -0,0 +1,128 @@
++import { r as normalizeStoryResult } from "./story-result-Ds8Z5TZx.mjs";
++import { c as templateUsesOutlet, n as config_exports, s as render_exports } from "./config-DGk6BP_3.mjs";
++import { t as annotations_exports } from "./annotations-HtJRJsb3.mjs";
++import "./outlet-placeholder-CgO7fIDo.mjs";
++import { definePreview } from "storybook/internal/csf";
++import { renderComponent } from "@ember/renderer";
++import { setDefaultProjectAnnotations, setProjectAnnotations } from "storybook/preview-api";
++import { template } from "@ember/template-compiler";
++import Component from "@glimmer/component";
++import { getOwner } from "@ember/owner";
++import { modifier } from "ember-modifier";
++//#region src/client/globals.ts
++globalThis.STORYBOOK_ENV = "ember";
++//#endregion
++//#region src/client/define-preview.ts
++/**
++* The component shapes whose args `preview.meta()` infers from:
++*
++* - template-only components (`TOC<S>` / `TemplateOnlyComponent<S>`)
++* - class components (`Component<S>` — matched through the instance `args`)
++*
++* Anything else (untyped components, plain templates) falls back to loose
++* args; `preview.type<{ args: … }>()` overrides the inference explicitly.
++*/
++/**
++* The framework's own preview annotations.
++*
++* In CSF Next mode Storybook bypasses the preset `previewAnnotations` entirely
++* (the generated iframe entry uses `preview.composed` alone), so `definePreview`
++* must inject them here — the same way `@storybook/react` folds its
++* `entry-preview` modules into the base factory.
++*
++* `./config` carries the renderer (`render`, `renderToCanvas`), the `renderer:
++* 'ember'` parameter and the outlet global; `./docs/annotations` carries the
++* docgen argTypes enhancers and the source decorator. The addon-docs-dependent
++* pieces (the autodocs `Page`, the patched `DocsRenderer`) are NOT imported
++* here: they arrive through the user's own `addonDocs()` registration, which
++* the preset redirects to `./docs/addon-preview` — keeping `@storybook/addon-docs`
++* out of this module's static import graph.
++*/
++const internalAnnotations = [config_exports, annotations_exports];
++/**
++* The renderer type parameter all `definePreview` factories carry: the Ember
++* renderer merged with whatever types the registered addons contribute.
++*
++* `InferTypes` collapses to `never` when no addons are registered (the empty
++* array case poisons the whole intersection), so it is neutralized here.
++*/
++/**
++* Type-safe preview configuration for Ember (the CSF Next entry point).
++*
++* ```ts
++* // .storybook/preview.ts
++* import { definePreview } from 'ember-storybook';
++* import addonDocs from '@storybook/addon-docs';
++*
++* export default definePreview({
++*   addons: [addonDocs()],
++*   parameters: {
++*     ember: { app: createApp },
++*   },
++* });
++* ```
++*/
++function definePreview$1(input) {
++	return definePreview({
++		...input,
++		addons: [...input.addons ?? [], ...internalAnnotations]
++	});
++}
++/**
++* The CSF Next `Preview` specialized for Ember: `preview.meta()` infers story
++* args from the component's signature.
++*/
++//#endregion
++//#region src/client/portable-stories.ts
++/**
++* Function that sets the globalConfig of your storybook. The global config is the preview module of
++* your .storybook folder.
++*
++* It should be run a single time, so that your global config (e.g. decorators) is applied to your
++* stories when using `composeStories` or `composeStory`.
++*
++* Example:
++*
++* ```jsx
++* // setup-file.js
++* import { setProjectAnnotations } from '@storybook/preact';
++* import projectAnnotations from './.storybook/preview';
++*
++* setProjectAnnotations(projectAnnotations);
++* ```
++*
++* @param projectAnnotations - E.g. (import projectAnnotations from '../.storybook/preview')
++*/
++function setProjectAnnotations$1(projectAnnotations) {
++	setDefaultProjectAnnotations(render_exports);
++	return setProjectAnnotations(projectAnnotations);
++}
++//#endregion
++//#region src/client/render-story.gts
++var RenderStory = class extends Component {
++	render = modifier((element) => {
++		const { component, args, route } = normalizeStoryResult(this.args.story(), this.args.args);
++		const owner = getOwner(this);
++		if (route || templateUsesOutlet(component)) throw new Error("ember-storybook: this story renders a route template (it uses `{{outlet}}`), but route stories can only be rendered by `renderToCanvas`, not through <RenderStory> (portable stories).");
++		const result = renderComponent(component, {
++			args,
++			into: element,
++			owner
++		});
++		return () => {
++			result.destroy();
++		};
++	});
++	static {
++		template(`<div {{this.render}}></div>`, {
++			component: this,
++			eval() {
++				return eval(arguments[0]);
++			}
++		});
++	}
++};
++//#endregion
++export { setProjectAnnotations$1 as n, definePreview$1 as r, RenderStory as t };
++
++//# sourceMappingURL=client-TpyQkcLq.mjs.map
+\ No newline at end of file
 diff --git a/dist/index.mjs b/dist/index.mjs
-index 910683b..b9d4b92 100644
+index 910683b..974237d 100644
 --- a/dist/index.mjs
 +++ b/dist/index.mjs
 @@ -1,4 +1,4 @@
 -import { n as setProjectAnnotations, r as definePreview, t as RenderStory } from "./client-DdSMlQeh.mjs";
-+import { n as setProjectAnnotations, r as definePreview, t as RenderStory } from "./client-C_QYAHqG.mjs";
++import { n as setProjectAnnotations, r as definePreview, t as RenderStory } from "./client-TpyQkcLq.mjs";
  import { o as renderToCanvas } from "./config-DGk6BP_3.mjs";
  import { t as OutletPlaceholder } from "./outlet-placeholder-CgO7fIDo.mjs";
  export { OutletPlaceholder, RenderStory, definePreview, renderToCanvas, setProjectAnnotations };
