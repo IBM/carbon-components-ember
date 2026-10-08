@@ -46,13 +46,14 @@ module('Integration | Component | SkeletonText', (hooks) => {
     assert.dom('p.cds--skeleton__text').hasClass('custom-class');
   });
 
-  test('should pass through attributes on multiple lines', async function (assert) {
+  test('should pass attributes to every line', async function (assert) {
     await render(
       <template>
         <SkeletonText @paragraph={{true}} class="custom-class" />
       </template>,
     );
 
-    assert.dom('div.custom-class').exists();
+    assert.dom('p.cds--skeleton__text.custom-class').exists({ count: 3 });
+    assert.dom('div.custom-class').doesNotExist();
   });
 });

@@ -3,11 +3,11 @@ import { expect } from 'storybook/test';
 import { withLayer } from '#storybook/decorators.gts';
 import preview from '#storybook/preview.ts';
 import CodeSnippet from './code-snippet.gts';
+import CodeSnippetSkeleton from './code-snippet-skeleton.gts';
 
 import type { CodeSnippetSignature } from './code-snippet.gts';
 
 // Carbon React parity gaps (Components/CodeSnippet):
-// - `Skeleton`: there is no CodeSnippetSkeleton.
 // - CodeSnippet only takes `type`; React's `align`, `autoAlign`,
 //   `copyButtonDescription`, `feedback`, `feedbackTimeout`, `copyText`,
 //   `disabled`, `hideCopyButton`, `wrapText`, `showMoreText`/`showLessText`
@@ -168,4 +168,17 @@ export const InlineInText = meta.story({
       here
     </p>
   </template>,
+});
+
+export const Skeleton = meta.story({
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          '`CodeSnippetSkeleton` stands in for the component while its content loads. Its own page has controls for its arguments.',
+      },
+    },
+  },
+  render: () => <template><CodeSnippetSkeleton /></template>,
 });

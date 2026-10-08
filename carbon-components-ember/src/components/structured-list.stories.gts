@@ -5,11 +5,11 @@ import { expect, fn } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import Layer from './layer.gts';
 import StructuredList from './structured-list.gts';
+import StructuredListSkeleton from './structured-list-skeleton.gts';
 
 import type { TOC } from '@ember/component/template-only';
 
 // Carbon React parity gaps:
-// - `Skeleton`: Ember has no StructuredList skeleton component.
 // - React's `StructuredListInput` + checkmark cell are composed by hand in its
 //   selection stories; Ember renders the selection icon cell itself, and the
 //   input is the component yielded by `SL.Row`.
@@ -361,4 +361,21 @@ export const Flush = Default.extend({
       },
     },
   },
+});
+
+export const Skeleton = meta.story({
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          '`StructuredListSkeleton` stands in for the component while its content loads. Its own page has controls for its arguments.',
+      },
+    },
+  },
+  render: () => <template>
+    <div style="width: 800px">
+      <StructuredListSkeleton />
+    </div>
+  </template>,
 });

@@ -3,6 +3,7 @@ import { expect, fn } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Button from './button.gts';
+import ButtonSkeleton from './button-skeleton.gts';
 import Add from './icons/add.ts';
 
 // Carbon React parity gaps (Components/Button):
@@ -10,7 +11,6 @@ import Add from './icons/add.ts';
 //   `@type`, so a danger button can't also be tertiary or ghost.
 // - `Radius`: no corner-radius tokens.
 // - `IconButtonWithBadge`: no `badgeCount`.
-// - `Skeleton`: there is no ButtonSkeleton.
 // - No `renderIcon` (an icon next to the label), `href` (rendering as a
 //   link), `iconDescription`/tooltip for icon-only buttons (use
 //   `aria-label`) or `2xl` size.
@@ -223,4 +223,17 @@ export const Disabled = Default.extend({
   args: {
     disabled: true,
   },
+});
+
+export const Skeleton = meta.story({
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          '`ButtonSkeleton` stands in for the component while its content loads. Its own page has controls for its arguments.',
+      },
+    },
+  },
+  render: () => <template><ButtonSkeleton /></template>,
 });

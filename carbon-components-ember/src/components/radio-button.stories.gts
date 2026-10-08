@@ -4,6 +4,7 @@ import { expect, fn } from 'storybook/test';
 import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
 import preview from '#storybook/preview.ts';
 import RadioButton from './radio-button.gts';
+import RadioButtonSkeleton from './radio-button-skeleton.gts';
 import RadioButtonGroup from './radio-button/group.gts';
 
 import type { RadioButtonGroupSignature as GroupSignature } from './radio-button/group.gts';
@@ -12,7 +13,6 @@ import type { Value } from './radio-button.gts';
 // Carbon React parity gaps (Components/RadioButton):
 // - RadioButtonGroup has no `helperText`, `invalid`/`invalidText` or
 //   `warn`/`warnText` (React's `Default` story exposes all of them).
-// - `Skeleton`: there is no RadioButtonSkeleton.
 
 // The stories render a RadioButtonGroup; `hideLabel` is passed on to each
 // RadioButton.
@@ -320,4 +320,17 @@ export const WithAILabel = meta.story({
       </RadioButtonGroup>
     </div>
   </template>,
+});
+
+export const Skeleton = meta.story({
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          '`RadioButtonSkeleton` stands in for the component while its content loads.',
+      },
+    },
+  },
+  render: () => <template><RadioButtonSkeleton /></template>,
 });

@@ -1,43 +1,70 @@
-import { fn } from 'storybook/test';
-
 import {
   ROWS,
+  HEADERS,
   HEADERS_WITH_MENU,
   Cells,
 } from '#storybook/fixtures/data-table.gts';
 import preview from '#storybook/preview.ts';
 import DataTable from '../data-table.gts';
+import DataTableSkeleton from '../data-table-skeleton.gts';
 
-import type { StoryArgs } from '#storybook/fixtures/data-table.gts';
+import type { DataTableSkeletonSignature } from '../data-table-skeleton.gts';
 
-const meta = preview.type<{ args: StoryArgs }>().meta({
+const meta = preview.type<{ args: DataTableSkeletonSignature['Args'] }>().meta({
   title: 'Components/DataTable/Skeleton',
-  component: DataTable,
+  component: DataTableSkeleton,
   parameters: {
     docs: {
       description: {
-        component: `Data tables are used to organize and display data efficiently. The data table component allows for customization with additional functionality, as needed by your product’s users.
-
-\`DataTable\` yields its building blocks already wired to the table: \`Toolbar\` (with \`Content\` and the batch-action bar \`Actions\`), \`SearchInput\`, \`Table\`, \`Header\`, \`EachBodyRows\` (yielding a \`Row\` per item), \`Column\`, \`Menu\` and \`Pagination\`. Every \`<td>\` is automatically linked to its column's \`<th>\` via the \`headers\` attribute for screen-reader users.`,
+        component:
+          'A loading placeholder for a `DataTable`, for before there is any data to give it. Pass it the headers you will give the table, and it shows a column for each. A `DataTable` that already has its data can show `@isLoading` instead.',
       },
     },
   },
   args: {
-    title: 'DataTable',
-    description: 'With toolbar',
+    rowCount: 5,
+    showHeader: true,
+    showToolbar: true,
     size: 'lg',
-    useZebraStyles: false,
-    onSelectionChange: fn(),
-    onBatchAction: fn(),
+    zebra: false,
   },
   argTypes: {
     size: { control: 'select', options: ['xs', 'sm', 'md', 'lg', 'xl'] },
+    headers: { control: false },
   },
-  render: (args: StoryArgs) => <template>
+  render: (args) => <template>
+    <div style="width: 800px">
+      <DataTableSkeleton
+        @headers={{HEADERS}}
+        @columnCount={{args.columnCount}}
+        @rowCount={{args.rowCount}}
+        @showHeader={{args.showHeader}}
+        @showToolbar={{args.showToolbar}}
+        @size={{args.size}}
+        @zebra={{args.zebra}}
+        aria-label="sample table"
+      />
+    </div>
+  </template>,
+});
+
+export const Skeleton = meta.story();
+
+export const Loading = meta.story({
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          '`@isLoading` puts a `DataTable`, its search and its pagination into their loading state.',
+      },
+    },
+  },
+  render: () => <template>
     <DataTable
-      @title={{args.title}}
-      @description={{args.description}}
-      @isLoading={{args.isLoading}}
+      @title="DataTable"
+      @description="With toolbar"
+      @isLoading={{true}}
       @items={{ROWS}}
       as |table|
     >
@@ -46,7 +73,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
           <table.SearchInput @expandable={{true}} />
         </toolbar.Content>
       </table.Toolbar>
-      <table.Table @size={{args.size}} @useZebraStyles={{args.useZebraStyles}}>
+      <table.Table>
         <table.Header @headers={{HEADERS_WITH_MENU}} />
         <table.EachBodyRows as |row|>
           <row.Row>
@@ -60,16 +87,4 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
       <table.Pagination />
     </DataTable>
   </template>,
-});
-
-export const Skeleton = meta.story({
-  args: { isLoading: true },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          '`@isLoading` puts the table, its search and its pagination into their loading/skeleton state.',
-      },
-    },
-  },
 });

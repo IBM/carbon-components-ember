@@ -4,6 +4,7 @@ import { expect, fn } from 'storybook/test';
 import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
 import preview from '#storybook/preview.ts';
 import NumberInput from './number-input.gts';
+import NumberInputSkeleton from './number-input-skeleton.gts';
 
 import type { NumberInputSignature } from './number-input.gts';
 
@@ -11,7 +12,6 @@ import type { NumberInputSignature } from './number-input.gts';
 // - `WithTypeOfText` / `WithTypeOfTextControlled` /
 //   `WithTypeOfCustomValidation`: no `type="text"` mode, so no `locale`,
 //   `formatOptions`, `inputMode` or custom `validate`.
-// - `Skeleton`: there is no NumberInputSkeleton.
 // - No `disableWheel` or `translateWithId`.
 
 type Args = NumberInputSignature['Args'];
@@ -270,4 +270,17 @@ export const WithAILabel = meta.story({
       </:decorator>
     </NumberInput>
   </template>,
+});
+
+export const Skeleton = meta.story({
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          '`NumberInputSkeleton` stands in for the component while its content loads. Its own page has controls for its arguments.',
+      },
+    },
+  },
+  render: () => <template><NumberInputSkeleton /></template>,
 });

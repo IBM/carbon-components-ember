@@ -4,6 +4,7 @@ import { expect, fn } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import FluidTextInput from './fluid-text-input.gts';
+import FluidTextInputSkeleton from './fluid-text-input-skeleton.gts';
 import Information from './icons/information.ts';
 import Toggletip from './toggletip.gts';
 import ToggletipLabel from './toggletip/label.gts';
@@ -13,7 +14,6 @@ import type { FluidTextInputSignature } from './fluid-text-input.gts';
 type Args = FluidTextInputSignature['Args'];
 
 // Carbon React parity gaps (Components/Fluid Components/FluidTextInput):
-// - `Skeleton`: there is no FluidTextInputSkeleton.
 // - `DefaultWithToggletip`: the `labelText` block renders inside the
 //   `<label>`, so the toggletip ends up in the label (React keeps it next
 //   to the label, since interactive content is invalid in labels).
@@ -211,4 +211,17 @@ Password.test('reveals the password', async ({ canvas, userEvent, args }) => {
   await expect(
     canvas.getByRole('textbox', { name: 'Password' }),
   ).toHaveAttribute('type', 'text');
+});
+
+export const Skeleton = meta.story({
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          '`FluidTextInputSkeleton` stands in for the component while its content loads.',
+      },
+    },
+  },
+  render: () => <template><FluidTextInputSkeleton /></template>,
 });

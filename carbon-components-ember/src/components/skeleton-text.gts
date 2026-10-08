@@ -19,7 +19,7 @@ function getRandomInt(min: number, max: number, n: number) {
 }
 
 export interface SkeletonTextSignature {
-  Element: HTMLDivElement | HTMLParagraphElement;
+  Element: HTMLParagraphElement;
   Args: {
     /**
      * Generates skeleton text at a larger size.
@@ -90,9 +90,9 @@ export default class SkeletonText extends Component<SkeletonTextSignature> {
 
   <template>
     {{#if this.isMultiLine}}
-      <div ...attributes>
+      <div>
         {{#each this.lineStyles as |style|}}
-          <p class={{this.skeletonTextClass}} style={{style}}></p>
+          <p class={{this.skeletonTextClass}} style={{style}} ...attributes></p>
         {{/each}}
       </div>
     {{else}}
