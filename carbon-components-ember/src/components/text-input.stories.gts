@@ -1,10 +1,8 @@
 import { trackedObject } from '@ember/reactive/collections';
-import type { Decorator } from 'ember-storybook';
-import { RenderStory } from 'ember-storybook';
 import { expect, fn } from 'storybook/test';
 
+import { withLayer } from '#storybook/decorators.gts';
 import preview from '#storybook/preview.ts';
-import Layer from './layer.gts';
 import TextInput from './text-input.gts';
 
 import type { TextInputSignature } from './text-input.gts';
@@ -18,20 +16,6 @@ type Args = TextInputSignature['Args'];
 // - No `labelText` as a node, `xs` size or `TestInvalidTextNoOverlap`
 //   visual-regression story. PasswordInput and FluidTextInput are their own
 //   components with their own stories.
-
-// Renders the story on the background and on two nested layers, like
-// Carbon React's `WithLayer` story template.
-const withLayer: Decorator = (Story, context) => <template>
-  <div style="padding: 1rem">
-    <RenderStory @story={{Story}} @args={{context.args}} />
-  </div>
-  <Layer @withBackground={{true}} style="padding: 1rem" as |NextLayer|>
-    <RenderStory @story={{Story}} @args={{context.args}} />
-    <NextLayer @withBackground={{true}} style="padding: 1rem; margin-top: 1rem">
-      <RenderStory @story={{Story}} @args={{context.args}} />
-    </NextLayer>
-  </Layer>
-</template>;
 
 // No `render`: TextInput takes no blocks, so every arg is passed straight
 // through as a named argument (`@labelText`, `@placeholder`, ...).

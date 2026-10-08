@@ -162,7 +162,7 @@ export default defineConfig([
     },
   },
   {
-    files: ['**/*.stories.{gjs,gts}'],
+    files: ['**/*.stories.{gjs,gts}', '.storybook/**/*.{gjs,gts}'],
     rules: {
       // CSF Next's `Story.extend({ args })` isn't EmberObject.extend().
       'ember/avoid-leaking-state-in-ember-objects': 'off',

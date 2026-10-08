@@ -1,12 +1,11 @@
-import type { Decorator } from 'ember-storybook';
 import { RenderStory } from 'ember-storybook';
 import { expect, fn } from 'storybook/test';
 
+import { withLayer } from '#storybook/decorators.gts';
 import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
 import preview from '#storybook/preview.ts';
 import DatePicker from './date-picker.gts';
 import DatePickerInput from './date-picker-input.gts';
-import Layer from './layer.gts';
 
 import type { DatePickerSignature } from './date-picker.gts';
 import type { DatePickerInputSignature } from './date-picker-input.gts';
@@ -36,20 +35,6 @@ type StoryArgs = DatePickerSignature['Args'] &
   >;
 
 const isRange = (type: string | undefined) => type === 'range';
-
-// Renders the story on the background and on two nested layers, like
-// Carbon React's `WithLayer` story template.
-const withLayer: Decorator = (Story, context) => <template>
-  <div style="padding: 1rem">
-    <RenderStory @story={{Story}} @args={{context.args}} />
-  </div>
-  <Layer @withBackground={{true}} style="padding: 1rem" as |NextLayer|>
-    <RenderStory @story={{Story}} @args={{context.args}} />
-    <NextLayer @withBackground={{true}} style="padding: 1rem; margin-top: 1rem">
-      <RenderStory @story={{Story}} @args={{context.args}} />
-    </NextLayer>
-  </Layer>
-</template>;
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'Components/DatePicker',

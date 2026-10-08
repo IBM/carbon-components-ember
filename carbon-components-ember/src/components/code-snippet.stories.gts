@@ -1,10 +1,8 @@
-import type { Decorator } from 'ember-storybook';
-import { RenderStory } from 'ember-storybook';
 import { expect } from 'storybook/test';
 
+import { withLayer } from '#storybook/decorators.gts';
 import preview from '#storybook/preview.ts';
 import CodeSnippet from './code-snippet.gts';
-import Layer from './layer.gts';
 
 import type { CodeSnippetSignature } from './code-snippet.gts';
 
@@ -53,20 +51,6 @@ const multilineCode = `{
     "@commitlint/cli": "^8.3.5"
   }
 }`;
-
-// Renders the story on the background and on two nested layers, like
-// Carbon React's `WithLayer` story template.
-const withLayer: Decorator = (Story, context) => <template>
-  <div style="padding: 1rem">
-    <RenderStory @story={{Story}} @args={{context.args}} />
-  </div>
-  <Layer @withBackground={{true}} style="padding: 1rem" as |NextLayer|>
-    <RenderStory @story={{Story}} @args={{context.args}} />
-    <NextLayer @withBackground={{true}} style="padding: 1rem; margin-top: 1rem">
-      <RenderStory @story={{Story}} @args={{context.args}} />
-    </NextLayer>
-  </Layer>
-</template>;
 
 // `code` isn't one of CodeSnippet's args: it's the text yielded into the
 // snippet's block. `render` is annotated so the story-only arg is part of
