@@ -54,48 +54,46 @@ export interface PromptLineApi {
   dismissSuggestion(): boolean;
 }
 
-export type Args = {
-  /** Current plain-text value. Always-controlled: typing only fires `@onChange`. */
-  content?: string;
-  disabled?: boolean;
-  placeholder?: string;
-  /** Defaults to `'Message'`. */
-  ariaLabel?: string;
-  testId?: string;
-  autofocus?: boolean;
-  /** Fires with the new value on every input, in either mode. */
-  onChange?: (value: string) => void;
-  /**
-   * Fires on plain Enter (non-empty field) or Mod-Enter (any field),
-   * mirroring upstream's Enter-to-send keymap. Identical in both modes.
-   */
-  onSendIntent?: () => void;
-  /**
-   * Selects the rich Tiptap editor. Defaults to the textarea. The element
-   * lazy-loads Tiptap (a dynamic `import()`, so a chat that never sets this
-   * never ships it) and upgrades the textarea to it in place — text, caret,
-   * and focus all carry over, so the swap is a same-frame handoff, not a
-   * visible reset. The upgrade is **sticky**: once rich, later setting this
-   * back to `false` does not downgrade.
-   */
-  rich?: boolean;
-  /**
-   * Host-supplied Tiptap `Extension`s, appended to the base Carbon bundle
-   * (schema, undo/redo, placeholder, plain-text paste, the Enter/Mod-Enter/
-   * Escape keymap) when the rich editor (re)builds. Ignored in textarea
-   * mode — setting these alone does not trigger the upgrade. Compared by
-   * reference: a fresh array every render rebuilds the live editor
-   * (preserving content/selection/focus but resetting undo history), so
-   * memoize it rather than passing an inline literal.
-   */
-  extensions?: Extension[];
-  /** Called once, right after mount, with an imperative handle to the surface. */
-  onReady?: (api: PromptLineApi) => void;
-};
-
 export interface PromptLineSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /** Current plain-text value. Always-controlled: typing only fires `@onChange`. */
+    content?: string;
+    disabled?: boolean;
+    placeholder?: string;
+    /** Defaults to `'Message'`. */
+    ariaLabel?: string;
+    testId?: string;
+    autofocus?: boolean;
+    /** Fires with the new value on every input, in either mode. */
+    onChange?: (value: string) => void;
+    /**
+     * Fires on plain Enter (non-empty field) or Mod-Enter (any field),
+     * mirroring upstream's Enter-to-send keymap. Identical in both modes.
+     */
+    onSendIntent?: () => void;
+    /**
+     * Selects the rich Tiptap editor. Defaults to the textarea. The element
+     * lazy-loads Tiptap (a dynamic `import()`, so a chat that never sets this
+     * never ships it) and upgrades the textarea to it in place — text, caret,
+     * and focus all carry over, so the swap is a same-frame handoff, not a
+     * visible reset. The upgrade is **sticky**: once rich, later setting this
+     * back to `false` does not downgrade.
+     */
+    rich?: boolean;
+    /**
+     * Host-supplied Tiptap `Extension`s, appended to the base Carbon bundle
+     * (schema, undo/redo, placeholder, plain-text paste, the Enter/Mod-Enter/
+     * Escape keymap) when the rich editor (re)builds. Ignored in textarea
+     * mode — setting these alone does not trigger the upgrade. Compared by
+     * reference: a fresh array every render rebuilds the live editor
+     * (preserving content/selection/focus but resetting undo history), so
+     * memoize it rather than passing an inline literal.
+     */
+    extensions?: Extension[];
+    /** Called once, right after mount, with an imperative handle to the surface. */
+    onReady?: (api: PromptLineApi) => void;
+  };
 }
 
 /**
@@ -186,7 +184,7 @@ export default class PromptLine extends Component<PromptLineSignature> {
   /** Set when `@rich`/`ensureEditor()` requested an upgrade mid-composition. */
   private pendingUpgrade = false;
 
-  constructor(owner: Owner, args: Args) {
+  constructor(owner: Owner, args: PromptLineSignature['Args']) {
     super(owner, args);
     this.initialContent = args.content ?? '';
     this.initialPlaceholder = args.placeholder ?? '';

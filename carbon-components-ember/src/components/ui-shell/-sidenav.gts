@@ -16,7 +16,7 @@ export type MenuItem = {
   title: string;
 };
 
-export interface UIShellNavSignature {
+export interface UIShellSideNavSignature {
   Args: {
     open: boolean;
     menuItems: MenuItem[];
@@ -36,7 +36,7 @@ export interface UIShellNavSignature {
   };
 }
 
-const UIShellNav: TOC<UIShellNavSignature> = <template>
+const UIShellSideNav: TOC<UIShellSideNavSignature> = <template>
   <nav
     class="cds--side-nav__navigation cds--side-nav
       {{if @open 'cds--side-nav--expanded'}}"
@@ -79,4 +79,4 @@ const UIShellNav: TOC<UIShellNavSignature> = <template>
   </nav>
 </template>;
 
-export default UIShellNav;
+export default UIShellSideNav;

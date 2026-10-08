@@ -5,7 +5,7 @@ import { defaultArgs } from '../utils/decorators.ts';
 
 export type Value = string | number;
 
-export interface Signature {
+export interface RadioButtonSignature {
   Args: {
     id?: string;
     labelText?: string;
@@ -32,8 +32,8 @@ export interface Signature {
   };
 }
 
-export default class RadioButton extends Component<Signature> {
-  args: Signature['Args'] = defaultArgs(this, {
+export default class RadioButton extends Component<RadioButtonSignature> {
+  args: RadioButtonSignature['Args'] = defaultArgs(this, {
     hideLabel: false,
   });
 

@@ -19,20 +19,18 @@ import type {
   FileUpload,
 } from './-file-uploads/types.ts';
 
-export type Args = {
-  upload: FileUpload | FileAttachment | null;
-  /** Renders the chip without status or a remove button, for a file on an already-sent message. */
-  readOnly?: boolean;
-  removeFileLabel?: string;
-  uploadingFileLabel?: string;
-  /** Text shown when the file's name is not known. */
-  fallbackLabel?: string;
-  onRemove?: (detail: FileRemoveEventDetail) => void;
-};
-
 export interface FileUploadItemSignature {
   Element: HTMLSpanElement;
-  Args: Args;
+  Args: {
+    upload: FileUpload | FileAttachment | null;
+    /** Renders the chip without status or a remove button, for a file on an already-sent message. */
+    readOnly?: boolean;
+    removeFileLabel?: string;
+    uploadingFileLabel?: string;
+    /** Text shown when the file's name is not known. */
+    fallbackLabel?: string;
+    onRemove?: (detail: FileRemoveEventDetail) => void;
+  };
 }
 
 function isUpload(value: FileUpload | FileAttachment): value is FileUpload {

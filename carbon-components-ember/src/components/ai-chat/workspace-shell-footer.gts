@@ -20,14 +20,12 @@ export type WorkspaceShellFooterAction = {
   icon?: ComponentLike<{ Args: { size?: number } }>;
 };
 
-export type Args = {
-  actions?: WorkspaceShellFooterAction[];
-  onClick?: (action: WorkspaceShellFooterAction) => void;
-};
-
 export interface WorkspaceShellFooterSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    actions?: WorkspaceShellFooterAction[];
+    onClick?: (action: WorkspaceShellFooterAction) => void;
+  };
 }
 
 const RANK: Record<string, number> = {

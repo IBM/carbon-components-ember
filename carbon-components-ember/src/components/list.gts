@@ -10,15 +10,13 @@ import ListHeaderComponent from '../components/list/-header.gts';
 import { stylesheet } from 'astroturf';
 import ListSkeletonComponent from '../components/list/-skeleton.gts';
 
-export type Args<T> = {
-  items?: T[];
-  loading?: boolean;
-  onSelect?(item: T): void;
-  selectable?: boolean;
-};
-
-export interface ListComponentSignature<T> {
-  Args: Args<T>;
+export interface ListSignature<T> {
+  Args: {
+    items?: T[];
+    loading?: boolean;
+    onSelect?(item: T): void;
+    selectable?: boolean;
+  };
   Blocks: {
     default: [
       {
@@ -39,9 +37,7 @@ export interface ListComponentSignature<T> {
   };
 }
 
-export default class ListComponent<T> extends Component<
-  ListComponentSignature<T>
-> {
+export default class List<T> extends Component<ListSignature<T>> {
   @tracked currentSearch?: string;
   @tracked currentItemsSlice: { start: number; end?: number } | null = null;
   @tracked currentItem?: T;

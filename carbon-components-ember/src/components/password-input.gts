@@ -14,7 +14,7 @@ import { View, ViewOff, WarningFilled, WarningAltFilled } from '../icons.ts';
 import Tooltip from './tooltip.gts';
 import type { TooltipAlignment } from './tooltip.gts';
 
-export interface Signature {
+export interface PasswordInputSignature {
   Args: {
     id?: string;
     labelText?: string;
@@ -44,13 +44,13 @@ export interface Signature {
   Element: HTMLDivElement;
 }
 
-export default class PasswordInput extends Component<Signature> {
+export default class PasswordInput extends Component<PasswordInputSignature> {
   @tracked internalValue: string;
   @tracked passwordVisible: boolean;
 
   guid = guidFor(this);
 
-  constructor(owner: Owner, args: Signature['Args']) {
+  constructor(owner: Owner, args: PasswordInputSignature['Args']) {
     super(owner, args);
     this.internalValue = args.defaultValue ?? '';
     this.passwordVisible = (args.type ?? 'password') === 'text';

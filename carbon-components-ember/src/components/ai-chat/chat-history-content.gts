@@ -7,16 +7,14 @@
 
 import Component from '@glimmer/component';
 
-export type Args = {
-  /** Label prefixed to the results count, e.g. `"Results: 12"`. Defaults to `'Results'`. */
-  resultsLabel?: string;
-  /** The results count to display. Omit (or pass `undefined`/`''`) to hide the count line entirely. */
-  resultsCount?: string | number;
-};
-
 export interface ChatHistoryContentSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /** Label prefixed to the results count, e.g. `"Results: 12"`. Defaults to `'Results'`. */
+    resultsLabel?: string;
+    /** The results count to display. Omit (or pass `undefined`/`''`) to hide the count line entirely. */
+    resultsCount?: string | number;
+  };
   Blocks: {
     default: [];
   };

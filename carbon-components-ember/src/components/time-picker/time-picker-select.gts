@@ -11,7 +11,7 @@ import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { ChevronDown } from '../../icons.ts';
 
-export interface Signature {
+export interface TimePickerSelectSignature {
   Args: {
     /**
      * Specify a custom `id` for the `<select>`
@@ -49,12 +49,12 @@ export interface Signature {
   };
 }
 
-export default class TimePickerSelect extends Component<Signature> {
+export default class TimePickerSelect extends Component<TimePickerSelectSignature> {
   @tracked internalValue: string;
 
   guid = guidFor(this);
 
-  constructor(owner: Owner, args: Signature['Args']) {
+  constructor(owner: Owner, args: TimePickerSelectSignature['Args']) {
     super(owner, args);
     this.internalValue = args.defaultValue ?? '';
   }

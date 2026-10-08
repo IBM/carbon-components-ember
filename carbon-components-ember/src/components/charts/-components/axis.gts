@@ -3,40 +3,42 @@ import ChartPart from './chart-part.ts';
 import type CarbonChart from '../../charts/-components/chart.gts';
 import type { ScaleTypes } from '@carbon/charts';
 
-export type Args = {
-  /**
-   * The Axis Title
-   * @argument title
-   * @type String
-   */
-  title: string;
-  /**
-   * @argument stacked
-   * @type boolean
-   */
-  stacked?: boolean | string;
-  /**
-   * @argument primary
-   * @type boolean
-   */
-  primary?: boolean;
-  /**
-   * @argument secondary
-   * @type boolean
-   */
-  secondary?: boolean;
-  /**
-   * @argument scaleType
-   * @type String
-   */
-  scaleType?: `${ScaleTypes}`;
-
-  chart: CarbonChart;
-
-  axis: 'left' | 'bottom';
-};
-
 /** @documenter yuidoc */
+export interface ChartAxisSignature {
+  Args: {
+    /**
+     * The Axis Title
+     * @argument title
+     * @type String
+     */
+    title: string;
+    /**
+     * @argument stacked
+     * @type boolean
+     */
+    stacked?: boolean | string;
+    /**
+     * @argument primary
+     * @type boolean
+     */
+    primary?: boolean;
+    /**
+     * @argument secondary
+     * @type boolean
+     */
+    secondary?: boolean;
+    /**
+     * @argument scaleType
+     * @type String
+     */
+    scaleType?: `${ScaleTypes}`;
+
+    chart: CarbonChart;
+
+    axis: 'left' | 'bottom';
+  };
+}
+
 /**
  The ChartAxis
 
@@ -45,7 +47,7 @@ export type Args = {
  @class ChartAxis
  @public
  **/
-export default class ChartAxis extends ChartPart<{ Args: Args }> {
+export default class ChartAxis extends ChartPart<ChartAxisSignature> {
   get options() {
     return {
       title: this.args.title,

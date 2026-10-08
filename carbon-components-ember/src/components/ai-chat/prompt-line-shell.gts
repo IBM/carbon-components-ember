@@ -7,32 +7,30 @@
 
 import Component from '@glimmer/component';
 
-export type Args = {
-  /** Reflects to a class so consumer CSS can target the rounded variant. */
-  rounded?: boolean;
-  /**
-   * Expanded layout: the editor fills its own full-width row, with the
-   * message actions and send control on a second row beneath it. The
-   * reflow is driven purely by a container class — the rendered DOM is
-   * identical in both modes.
-   */
-  expanded?: boolean;
-  hasError?: boolean;
-  disabled?: boolean;
-  /**
-   * Whether the `<:fileUploads>` block currently has real uploads to show.
-   * Upstream derives this by watching the slotted file-uploads element's
-   * own `has-uploads` attribute via a `MutationObserver`; Ember has no
-   * equivalent DOM-introspection hook for a block's rendered content, so
-   * this port takes it as a plain controlled arg instead — pass it
-   * straight through from whatever tracks the upload list.
-   */
-  hasFileUploads?: boolean;
-};
-
 export interface PromptLineShellSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /** Reflects to a class so consumer CSS can target the rounded variant. */
+    rounded?: boolean;
+    /**
+     * Expanded layout: the editor fills its own full-width row, with the
+     * message actions and send control on a second row beneath it. The
+     * reflow is driven purely by a container class — the rendered DOM is
+     * identical in both modes.
+     */
+    expanded?: boolean;
+    hasError?: boolean;
+    disabled?: boolean;
+    /**
+     * Whether the `<:fileUploads>` block currently has real uploads to show.
+     * Upstream derives this by watching the slotted file-uploads element's
+     * own `has-uploads` attribute via a `MutationObserver`; Ember has no
+     * equivalent DOM-introspection hook for a block's rendered content, so
+     * this port takes it as a plain controlled arg instead — pass it
+     * straight through from whatever tracks the upload list.
+     */
+    hasFileUploads?: boolean;
+  };
   Blocks: {
     /** A `PromptLine` (or equivalent) the caller owns directly; no fallback is rendered. */
     editor: [];

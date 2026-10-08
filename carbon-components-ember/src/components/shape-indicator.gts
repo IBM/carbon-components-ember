@@ -33,26 +33,24 @@ export const ShapeIndicatorKinds = [
 
 export type ShapeIndicatorKind = (typeof ShapeIndicatorKinds)[number];
 
-export type Args = {
-  /**
-   * Specify how the tooltip should align with the shape in compact mode
-   */
-  align?: IconIndicatorAlignment;
-  /**
-   * Will auto-align the tooltip in compact mode so it stays within the
-   * viewport, flipping to the opposite side when it would otherwise overflow
-   */
-  autoAlign?: boolean;
-  kind: ShapeIndicatorKind;
-  label: string;
-  compact?: boolean;
-  shapeDescription?: string;
-  textSize?: 12 | 14;
-};
-
 export interface ShapeIndicatorSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /**
+     * Specify how the tooltip should align with the shape in compact mode
+     */
+    align?: IconIndicatorAlignment;
+    /**
+     * Will auto-align the tooltip in compact mode so it stays within the
+     * viewport, flipping to the opposite side when it would otherwise overflow
+     */
+    autoAlign?: boolean;
+    kind: ShapeIndicatorKind;
+    label: string;
+    compact?: boolean;
+    shapeDescription?: string;
+    textSize?: 12 | 14;
+  };
 }
 
 const shapeIcons: Record<string, typeof Critical> = {

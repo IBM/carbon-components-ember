@@ -2,24 +2,20 @@ import Icon from '../../components/icon.gts';
 import Component from '@glimmer/component';
 import type ListComponent from '../../components/list.gts';
 
-export type Args<T> = {
-  onSelect?(item: T): void;
-  list: ListComponent<T>;
-  isHeader: boolean;
-  item: T;
-};
-
-export interface ListRowComponentSignature<T> {
-  Args: Args<T>;
+export interface ListRowSignature<T> {
+  Args: {
+    onSelect?(item: T): void;
+    list: ListComponent<T>;
+    isHeader: boolean;
+    item: T;
+  };
   Element: HTMLDivElement;
   Blocks: {
     default: [];
   };
 }
 
-export default class ListRowComponent<T> extends Component<
-  ListRowComponentSignature<T>
-> {
+export default class ListRow<T> extends Component<ListRowSignature<T>> {
   onSelect = (item: T) => {
     this.args.onSelect?.(item);
   };

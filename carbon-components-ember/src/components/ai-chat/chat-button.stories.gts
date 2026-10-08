@@ -7,7 +7,7 @@ import Add from '../icons/add.ts';
 import Link from '../icons/link.ts';
 import AiChatChatButton from './chat-button.gts';
 
-import type { Args as ChatButtonArgs } from './chat-button.gts';
+import type { AiChatChatButtonSignature } from './chat-button.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `Components/Chat button` stories
 // (chat-button/__stories__/chat-button.stories.js). Its `Skeleton` story is
@@ -27,7 +27,7 @@ import type { Args as ChatButtonArgs } from './chat-button.gts';
 
 const ICONS = { None: undefined, Add16: Add, Link16: Link } as const;
 
-type StoryArgs = ChatButtonArgs & {
+type StoryArgs = AiChatChatButtonSignature['Args'] & {
   /** Story-only: the button text. */
   buttonText?: string;
   /** Story-only: icon placed in the button after its text. */

@@ -6,7 +6,7 @@ import Button from '../button.gts';
 import AiChatCard from './card.gts';
 import VideoPlayer from './video-player.gts';
 
-import type { Args as VideoPlayerArgs } from './video-player.gts';
+import type { VideoPlayerSignature } from './video-player.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `video-player.stories.js`
 // (`Components/Video player`): Default, Standalone, WithMetadata, ErrorState
@@ -42,7 +42,7 @@ const sampleCaptionsSource = 'demo-support/sample-captions.vtt';
 const youTubeSource = 'https://www.youtube.com/watch?v=eZ1NizUx9U4';
 const vimeoSource = 'https://vimeo.com/22439234';
 
-type StoryArgs = VideoPlayerArgs & {
+type StoryArgs = VideoPlayerSignature['Args'] & {
   /** Story-only: wrap the player in an `AiChatCard` with a title/description. */
   useCard: boolean;
   /** Story-only: card title (when `useCard`). */

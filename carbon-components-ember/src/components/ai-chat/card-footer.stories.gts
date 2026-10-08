@@ -14,7 +14,7 @@ import AiChatCard from './card.gts';
 import AiChatCardFooter from './card-footer.gts';
 
 import type {
-  Args as CardFooterArgs,
+  AiChatCardFooterSignature,
   CardFooterAction,
 } from './card-footer.gts';
 
@@ -102,7 +102,7 @@ const MAX_WIDTHS = {
   lg: '535px',
 } as const;
 
-type StoryArgs = CardFooterArgs & {
+type StoryArgs = AiChatCardFooterSignature['Args'] & {
   /** Story-only: preset `@actions`. */
   footerActions?: string;
   /** Story-only: max width of the story wrapper. */

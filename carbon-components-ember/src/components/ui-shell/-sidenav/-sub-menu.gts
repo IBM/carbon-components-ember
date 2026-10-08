@@ -1,7 +1,7 @@
 import type Icon from '../../icon.gts';
 import type { TOC } from '@ember/component/template-only';
 
-export interface Signature {
+export interface UIShellSideNavSubMenuSignature {
   Args: {
     isCurrent: boolean;
     transitionTo: () => void;
@@ -10,7 +10,7 @@ export interface Signature {
   };
 }
 
-const SubMenuComponent: TOC<Signature> = <template>
+const UIShellSideNavSubMenu: TOC<UIShellSideNavSubMenuSignature> = <template>
   <li class="cds--side-nav__menu-item">
     <a
       href="#"
@@ -30,4 +30,4 @@ const SubMenuComponent: TOC<Signature> = <template>
   </li>
 </template>;
 
-export default SubMenuComponent;
+export default UIShellSideNavSubMenu;

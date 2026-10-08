@@ -18,38 +18,36 @@ const registerElement = modifier<{
   onInsert(element);
 });
 
-export type Args = {
-  ariaLabelInput?: string;
-  ariaLabelInputUpper?: string;
-  disabled?: boolean;
-  formatLabel?: (value: number, label?: string) => string;
-  hideLabel?: boolean;
-  hideTextInput?: boolean;
-  id?: string;
-  invalid?: boolean;
-  invalidText?: string;
-  labelText?: string;
-  max: number;
-  maxLabel?: string;
-  min: number;
-  minLabel?: string;
-  name?: string;
-  nameUpper?: string;
-  onBlur?: (data: { value: string; handlePosition?: HandlePosition }) => void;
-  onChange?: (data: { value: number; valueUpper?: number }) => void;
-  onRelease?: (data: { value: number; valueUpper?: number }) => void;
-  readOnly?: boolean;
-  required?: boolean;
-  step?: number;
-  stepMultiplier?: number;
-  value: number;
-  valueUpper?: number;
-  warn?: boolean;
-  warnText?: string;
-};
-
 export interface SliderSignature {
-  Args: Args;
+  Args: {
+    ariaLabelInput?: string;
+    ariaLabelInputUpper?: string;
+    disabled?: boolean;
+    formatLabel?: (value: number, label?: string) => string;
+    hideLabel?: boolean;
+    hideTextInput?: boolean;
+    id?: string;
+    invalid?: boolean;
+    invalidText?: string;
+    labelText?: string;
+    max: number;
+    maxLabel?: string;
+    min: number;
+    minLabel?: string;
+    name?: string;
+    nameUpper?: string;
+    onBlur?: (data: { value: string; handlePosition?: HandlePosition }) => void;
+    onChange?: (data: { value: number; valueUpper?: number }) => void;
+    onRelease?: (data: { value: number; valueUpper?: number }) => void;
+    readOnly?: boolean;
+    required?: boolean;
+    step?: number;
+    stepMultiplier?: number;
+    value: number;
+    valueUpper?: number;
+    warn?: boolean;
+    warnText?: string;
+  };
   Element: HTMLDivElement;
 }
 
@@ -62,7 +60,7 @@ export default class Slider extends Component<SliderSignature> {
   lowerThumbElement?: HTMLDivElement;
   upperThumbElement?: HTMLDivElement;
 
-  constructor(owner: Owner, args: Args) {
+  constructor(owner: Owner, args: SliderSignature['Args']) {
     super(owner, args);
     registerDestructor(this, () => this.removeDragListeners());
   }

@@ -6,7 +6,7 @@ import Tooltip from './-private/tooltip.gts';
 import type { WithBoundArgs } from '@glint/template';
 import { OverflowMenuVertical } from '../icons.ts';
 
-export interface OverflowMenuComponentSignature {
+export interface OverflowMenuSignature {
   Args: {
     icon?: typeof Icon;
     direction: 'bottom' | 'top';
@@ -35,7 +35,7 @@ export interface OverflowMenuComponentSignature {
   };
 }
 
-export default class OverflowMenuComponent extends Component<OverflowMenuComponentSignature> {
+export default class OverflowMenu extends Component<OverflowMenuSignature> {
   get icon() {
     return this.args.icon || OverflowMenuVertical;
   }

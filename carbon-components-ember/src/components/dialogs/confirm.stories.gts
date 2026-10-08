@@ -5,7 +5,7 @@ import preview from '#storybook/preview.ts';
 import Button from '../button.gts';
 import ConfirmDialog from './confirm.gts';
 
-import type { Args as ConfirmDialogArgs } from './confirm.gts';
+import type { ConfirmDialogSignature } from './confirm.gts';
 
 // Carbon React has no ConfirmDialog; it's an Ember-only convenience built on
 // the addon's Modal, closest to React's `Modal` `DangerModal` story. The
@@ -36,7 +36,7 @@ const meta = preview.meta({
   },
   // Like the docs-app demo: a button opens the dialog, and the answer is
   // shown once it closes.
-  render: (args: ConfirmDialogArgs) => {
+  render: (args: ConfirmDialogSignature['Args']) => {
     const state = trackedObject<{ open: boolean; answer?: string }>({
       open: false,
     });

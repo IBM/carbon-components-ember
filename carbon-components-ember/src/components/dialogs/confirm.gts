@@ -3,24 +3,22 @@ import Component from '@glimmer/component';
 import Modal from '../modal.gts';
 import type DialogManagerService from '../../services/dialog-manager.ts';
 
-export type Args = {
-  onAccept: () => void;
-  onCancel: () => void;
-  body?: string;
-  header?: string;
-  type: string;
-  /** Text of the cancel button */
-  cancelText?: string;
-  /** Text of the accept (primary) button */
-  acceptText?: string;
-  label?: string;
-};
-
-export interface DialogConfirmInterface {
-  Args: Args;
+export interface ConfirmDialogSignature {
+  Args: {
+    onAccept: () => void;
+    onCancel: () => void;
+    body?: string;
+    header?: string;
+    type: string;
+    /** Text of the cancel button */
+    cancelText?: string;
+    /** Text of the accept (primary) button */
+    acceptText?: string;
+    label?: string;
+  };
 }
 
-export default class ConfirmDialogComponent extends Component<DialogConfirmInterface> {
+export default class ConfirmDialog extends Component<ConfirmDialogSignature> {
   @service('carbon.dialog-manager')
   dialogManager!: DialogManagerService;
 

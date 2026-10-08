@@ -1,12 +1,12 @@
 import type { TOC } from '@ember/component/template-only';
 
-export interface Signature {
+export interface UIShellHeaderNavItemSignature {
   Blocks: {
     default: [];
   };
 }
 
-const UIShellNavItem: TOC<Signature> = <template>
+const UIShellHeaderNavItem: TOC<UIShellHeaderNavItemSignature> = <template>
   <li>
     <a href="#" class="cds--header__menu-item" tabindex="0">
       <span class="cds--text-truncate--end">
@@ -16,4 +16,4 @@ const UIShellNavItem: TOC<Signature> = <template>
   </li>
 </template>;
 
-export default UIShellNavItem;
+export default UIShellHeaderNavItem;

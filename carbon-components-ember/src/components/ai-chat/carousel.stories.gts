@@ -6,7 +6,7 @@ import AiChatCard from './card.gts';
 import Carousel from './carousel.gts';
 
 import type { CarouselResponse } from '@carbon/utilities/carousel';
-import type { Args as CarouselArgs } from './carousel.gts';
+import type { CarouselSignature } from './carousel.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `Components/Carousel` stories
 // (carousel/__stories__/carousel.stories.js): eight `AiChatCard`s as views.
@@ -36,7 +36,7 @@ itself uses.`,
     previousBtnText: 'Previous',
     onChange: fn(),
   },
-  render: (args: CarouselArgs) => <template>
+  render: (args: CarouselSignature['Args']) => <template>
     <Carousel
       @nextBtnText={{args.nextBtnText}}
       @previousBtnText={{args.previousBtnText}}
@@ -78,7 +78,7 @@ export const ReactingToViewChanges = meta.story({
       },
     },
   },
-  render: (args: CarouselArgs) => {
+  render: (args: CarouselSignature['Args']) => {
     const state = trackedObject({ lastChange: 'none yet' });
     const onChange = (data: CarouselResponse) => {
       state.lastChange = `view ${data.currentIndex + 1} of ${data.totalViews}`;

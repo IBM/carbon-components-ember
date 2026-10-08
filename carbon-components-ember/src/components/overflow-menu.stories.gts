@@ -4,7 +4,7 @@ import preview from '#storybook/preview.ts';
 import OverflowMenu from './overflow-menu.gts';
 import Filter from './icons/filter.ts';
 
-import type { OverflowMenuComponentSignature } from './overflow-menu.gts';
+import type { OverflowMenuSignature } from './overflow-menu.gts';
 
 // Parity gaps with Carbon React's OverflowMenu stories:
 // - No `size`, `align`, `autoAlign`, `flipped`, `focusTrap`, `open`/
@@ -17,7 +17,7 @@ import type { OverflowMenuComponentSignature } from './overflow-menu.gts';
 // The menu renders into ember-basic-dropdown's wormhole, outside the story
 // canvas, so the tests query `document.body` for it.
 
-type StoryArgs = OverflowMenuComponentSignature['Args'] & {
+type StoryArgs = OverflowMenuSignature['Args'] & {
   onItemClick?: () => void;
 };
 

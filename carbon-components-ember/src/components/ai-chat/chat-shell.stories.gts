@@ -15,7 +15,7 @@ import ChatShell from './chat-shell.gts';
 import PromptLine from './prompt-line.gts';
 import PromptLineShell from './prompt-line-shell.gts';
 
-import type { Args as ChatShellArgs } from './chat-shell.gts';
+import type { ChatShellSignature } from './chat-shell.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `Preview/Chat shell` stories
 // (chat-shell/__stories__/shell.stories.js) and, as `Input`/
@@ -47,7 +47,7 @@ const SLOTS = [
 
 type SlotName = (typeof SLOTS)[number]['name'];
 
-type StoryArgs = ChatShellArgs & {
+type StoryArgs = ChatShellSignature['Args'] & {
   /** Story-only: `--cds-aichat-messages-max-width`. */
   messagesMaxWidth?: string;
   /** Story-only: `--cds-aichat-messages-min-width`. */

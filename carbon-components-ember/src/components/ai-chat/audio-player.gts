@@ -20,34 +20,32 @@ import { SoundCloudProvider } from './-audio-player/soundcloud-provider.ts';
 
 const LOADING_TIMEOUT_MS = 10000;
 
-export type Args = {
-  /** Audio source URL (required). */
-  source: string;
-  /** Defaults to `'Audio player'`. */
-  ariaLabel?: string;
-  /** Whether the audio should be playing. Only reacted to on later change - the initial value is applied via provider autoplay. */
-  playing?: boolean;
-  /** Generic error message shown/reported regardless of the actual failure. Defaults to `'Failed to load audio'`. */
-  errorMessage?: string;
-  /** Defaults to `'Audio player loading'`. */
-  loadingStatusMessage?: string;
-  /** Defaults to `'Audio player ready'`. */
-  readyStatusMessage?: string;
-  /** Defaults to `'Loading'`. */
-  loadingLabel?: string;
-  /** Defaults to `'Ready'`. */
-  readyLabel?: string;
-  /** Defaults to `'Error'`. */
-  errorLabel?: string;
-  onReady?: () => void;
-  onPlay?: () => void;
-  onPause?: () => void;
-  onError?: (detail: { message: string }) => void;
-};
-
 export interface AudioPlayerSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /** Audio source URL (required). */
+    source: string;
+    /** Defaults to `'Audio player'`. */
+    ariaLabel?: string;
+    /** Whether the audio should be playing. Only reacted to on later change - the initial value is applied via provider autoplay. */
+    playing?: boolean;
+    /** Generic error message shown/reported regardless of the actual failure. Defaults to `'Failed to load audio'`. */
+    errorMessage?: string;
+    /** Defaults to `'Audio player loading'`. */
+    loadingStatusMessage?: string;
+    /** Defaults to `'Audio player ready'`. */
+    readyStatusMessage?: string;
+    /** Defaults to `'Loading'`. */
+    loadingLabel?: string;
+    /** Defaults to `'Ready'`. */
+    readyLabel?: string;
+    /** Defaults to `'Error'`. */
+    errorLabel?: string;
+    onReady?: () => void;
+    onPlay?: () => void;
+    onPause?: () => void;
+    onError?: (detail: { message: string }) => void;
+  };
 }
 
 /**

@@ -5,7 +5,7 @@ import { guidFor } from '@ember/object/internals';
 import { WarningFilled, WarningAltFilled, View, ViewOff } from '../icons.ts';
 import Tooltip from './tooltip.gts';
 
-export interface Signature {
+export interface FluidTextInputSignature {
   Args: {
     id?: string;
     labelText?: string;
@@ -33,13 +33,13 @@ export interface Signature {
   Element: HTMLDivElement;
 }
 
-export default class FluidTextInput extends Component<Signature> {
+export default class FluidTextInput extends Component<FluidTextInputSignature> {
   @tracked internalValue: string;
   @tracked passwordVisible = false;
 
   guid = guidFor(this);
 
-  constructor(owner: Owner, args: Signature['Args']) {
+  constructor(owner: Owner, args: FluidTextInputSignature['Args']) {
     super(owner, args);
     this.internalValue = args.defaultValue ?? '';
   }

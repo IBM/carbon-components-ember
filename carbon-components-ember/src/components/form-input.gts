@@ -2,18 +2,16 @@ import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
 import { WarningFilled } from '../icons.ts';
 
-export type Args = {
-  label?: string;
-  help?: string;
-  errors?: string;
-  type?: string;
-  value?: string;
-  placeholder?: string;
-  onChange: (value: string) => void;
-};
-
 export interface FormInputSignature {
-  Args: Args;
+  Args: {
+    label?: string;
+    help?: string;
+    errors?: string;
+    type?: string;
+    value?: string;
+    placeholder?: string;
+    onChange: (value: string) => void;
+  };
 }
 
 export default class FormInput extends Component<FormInputSignature> {

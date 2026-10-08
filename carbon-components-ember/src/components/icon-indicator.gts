@@ -69,42 +69,40 @@ const icons: Record<IconIndicatorKind, typeof ErrorFilled> = {
   informative: WarningSquareFilled,
 };
 
-export type Args = {
-  /**
-   * Specify how the tooltip should align with the icon in compact mode
-   */
-  align?: IconIndicatorAlignment;
-  /**
-   * Will auto-align the tooltip in compact mode so it stays within the
-   * viewport, flipping to the opposite side when it would otherwise overflow
-   */
-  autoAlign?: boolean;
-  /**
-   * When true, displays only the icon with the label in a tooltip
-   */
-  compact?: boolean;
-  /**
-   * Description for the icon announced to screen readers in compact mode.
-   * Defaults to `label` when not provided.
-   */
-  iconDescription?: string;
-  /**
-   * Specify the kind of icon to be used
-   */
-  kind: IconIndicatorKind;
-  /**
-   * Label next to the icon
-   */
-  label: string;
-  /**
-   * Specify the size of the Icon Indicator. Defaults to 16.
-   */
-  size?: 16 | 20;
-};
-
 export interface IconIndicatorSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /**
+     * Specify how the tooltip should align with the icon in compact mode
+     */
+    align?: IconIndicatorAlignment;
+    /**
+     * Will auto-align the tooltip in compact mode so it stays within the
+     * viewport, flipping to the opposite side when it would otherwise overflow
+     */
+    autoAlign?: boolean;
+    /**
+     * When true, displays only the icon with the label in a tooltip
+     */
+    compact?: boolean;
+    /**
+     * Description for the icon announced to screen readers in compact mode.
+     * Defaults to `label` when not provided.
+     */
+    iconDescription?: string;
+    /**
+     * Specify the kind of icon to be used
+     */
+    kind: IconIndicatorKind;
+    /**
+     * Label next to the icon
+     */
+    label: string;
+    /**
+     * Specify the size of the Icon Indicator. Defaults to 16.
+     */
+    size?: 16 | 20;
+  };
 }
 
 /**

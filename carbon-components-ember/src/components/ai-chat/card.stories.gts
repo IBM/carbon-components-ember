@@ -7,7 +7,7 @@ import AiChatCardFooter from './card-footer.gts';
 import ArrowRight from '../icons/arrow-right.ts';
 import Launch from '../icons/launch.ts';
 
-import type { Args as CardArgs } from './card.gts';
+import type { AiChatCardSignature } from './card.gts';
 import type { CardFooterAction } from './card-footer.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `Components/Card` stories
@@ -67,7 +67,7 @@ const MAX_WIDTHS = {
   lg: '535px',
 } as const;
 
-type StoryArgs = CardArgs & {
+type StoryArgs = AiChatCardSignature['Args'] & {
   /** Story-only: max width of the story wrapper (not the card itself). */
   maxWidth?: keyof typeof MAX_WIDTHS;
   /** Story-only: preset actions shown in an `AiChatCardFooter`. */

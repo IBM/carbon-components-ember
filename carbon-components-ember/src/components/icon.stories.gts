@@ -5,7 +5,7 @@ import preview from '#storybook/preview.ts';
 import Icon, { registerIcon } from './icon.gts';
 import * as Icons from '../icons.ts';
 
-import type { Args as IconArgs } from './icon.gts';
+import type { IconSignature } from './icon.gts';
 
 // Carbon React has no `Icon` component story to mirror (React consumes
 // `@carbon/icons-react` components directly). The equivalents here are the
@@ -22,7 +22,7 @@ const ICONS = Object.entries(
 ).map(([name, component]) => ({ name, component }));
 
 const meta = preview
-  .type<{ args: IconArgs & { filter?: string; limit?: number } }>()
+  .type<{ args: IconSignature['Args'] & { filter?: string; limit?: number } }>()
   .meta({
     title: 'Components/Icon',
     component: Icon,

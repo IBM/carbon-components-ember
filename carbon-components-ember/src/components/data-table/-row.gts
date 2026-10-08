@@ -5,28 +5,26 @@ import { guidFor } from '@ember/object/internals';
 import type DataTableComponent from '../data-table.gts';
 import { tracked } from '@glimmer/tracking';
 
-export type Args<T> = {
-  table: DataTableComponent<T>;
-  isExpandable?: boolean;
-  /**
-   * Whether the row's `<:expanded>` content is shown. Without `@onExpand` it
-   * only sets the initial state and the expand button toggles the row
-   * itself; with `@onExpand` the row is controlled and shows exactly
-   * `@isExpanded`.
-   */
-  isExpanded?: boolean;
-  /**
-   * Called with the new expanded state when the expand button is clicked.
-   * Passing it makes `@isExpanded` the source of truth.
-   */
-  onExpand?: (isExpanded: boolean) => void;
-  isCheckable?: boolean;
-  length?: number;
-  item: T;
-};
-
 export interface DataTableRowSignature<T> {
-  Args: Args<T>;
+  Args: {
+    table: DataTableComponent<T>;
+    isExpandable?: boolean;
+    /**
+     * Whether the row's `<:expanded>` content is shown. Without `@onExpand` it
+     * only sets the initial state and the expand button toggles the row
+     * itself; with `@onExpand` the row is controlled and shows exactly
+     * `@isExpanded`.
+     */
+    isExpanded?: boolean;
+    /**
+     * Called with the new expanded state when the expand button is clicked.
+     * Passing it makes `@isExpanded` the source of truth.
+     */
+    onExpand?: (isExpanded: boolean) => void;
+    isCheckable?: boolean;
+    length?: number;
+    item: T;
+  };
   Blocks: {
     /** The row's cells. */
     default: [];

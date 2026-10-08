@@ -4,7 +4,7 @@ import { expect, fn } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import ChatHistorySearchItem from './chat-history-search-item.gts';
 
-import type { Args as SearchItemArgs } from './chat-history-search-item.gts';
+import type { ChatHistorySearchItemSignature } from './chat-history-search-item.gts';
 
 // Upstream documents `cds-aichat-history-search-item` only inside its
 // `Components/Chat history` stories (`SearchResults`, see
@@ -25,7 +25,7 @@ const meta = preview.meta({
   args: {
     onSelect: fn(),
   },
-  render: (args: SearchItemArgs) => {
+  render: (args: ChatHistorySearchItemSignature['Args']) => {
     const state = trackedObject({ selected: '(none yet)' });
     const handleSelect = (detail: { itemId?: string; itemName?: string }) => {
       state.selected = detail.itemName ?? '';
@@ -85,7 +85,7 @@ export const Disabled = meta.story({
   args: {
     disabled: true,
   },
-  render: (args: SearchItemArgs) => <template>
+  render: (args: ChatHistorySearchItemSignature['Args']) => <template>
     <ul style="max-inline-size: 20rem;">
       <ChatHistorySearchItem @disabled={{args.disabled}}>
         No available chats

@@ -8,7 +8,7 @@ import WorkspaceShell from './workspace-shell.gts';
 import WorkspaceShellBody from './workspace-shell-body.gts';
 import WorkspaceShellHeader from './workspace-shell-header.gts';
 
-import type { Args as WorkspaceShellHeaderArgs } from './workspace-shell-header.gts';
+import type { WorkspaceShellHeaderSignature } from './workspace-shell-header.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `workspace-shell-header.stories.js`
 // (`Components/Workspace shell/Header`): `Default`, `WithDescription`,
@@ -23,7 +23,7 @@ import type { Args as WorkspaceShellHeaderArgs } from './workspace-shell-header.
 
 type DescriptionType = 'none' | 'basic' | 'withTags';
 
-type StoryArgs = WorkspaceShellHeaderArgs & {
+type StoryArgs = WorkspaceShellHeaderSignature['Args'] & {
   descriptionType: DescriptionType;
   showAction: boolean;
 };

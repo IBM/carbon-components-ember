@@ -4,7 +4,7 @@ import { expect, fn } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import ChatHistoryPanelMenu from './chat-history-panel-menu.gts';
 
-import type { Args as PanelMenuArgs } from './chat-history-panel-menu.gts';
+import type { ChatHistoryPanelMenuSignature } from './chat-history-panel-menu.gts';
 
 // Upstream documents `cds-aichat-history-panel-menu` only inside its
 // `Components/Chat history` stories (see chat-history.stories.gts); these
@@ -27,7 +27,7 @@ const meta = preview.meta({
   args: {
     title: 'Yesterday',
   },
-  render: (args: PanelMenuArgs) => <template>
+  render: (args: ChatHistoryPanelMenuSignature['Args']) => <template>
     <div style="max-inline-size: 20rem;" role="list">
       <ChatHistoryPanelMenu
         @title={{args.title}}
@@ -66,7 +66,7 @@ export const Controlled = meta.story({
     expanded: false,
     onToggle: fn(),
   },
-  render: (args: PanelMenuArgs) => {
+  render: (args: ChatHistoryPanelMenuSignature['Args']) => {
     const state = trackedObject({ expanded: args.expanded ?? true });
     const toggle = (expanded: boolean) => {
       state.expanded = expanded;

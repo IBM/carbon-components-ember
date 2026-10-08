@@ -7,19 +7,17 @@
 
 import Component from '@glimmer/component';
 
-export type Args = {
-  /** Enables the linear looping animation variant. */
-  loop?: boolean;
-  /**
-   * Removes the ~1s entry delay so the dots appear immediately. Composes
-   * with both the looping and non-looping variants.
-   */
-  quickLoad?: boolean;
-};
-
 export interface ProcessingSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /** Enables the linear looping animation variant. */
+    loop?: boolean;
+    /**
+     * Removes the ~1s entry delay so the dots appear immediately. Composes
+     * with both the looping and non-looping variants.
+     */
+    quickLoad?: boolean;
+  };
 }
 
 /**

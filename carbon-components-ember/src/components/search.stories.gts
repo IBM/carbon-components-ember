@@ -6,7 +6,7 @@ import preview from '#storybook/preview.ts';
 import Layer from './layer.gts';
 import Search from './search.gts';
 
-import type { Args } from './search.gts';
+import type { SearchSignature } from './search.gts';
 
 // Carbon React parity gaps (Components/Search):
 // - `Expandable`: there is no separate ExpandableSearch; `@expandable`
@@ -32,9 +32,11 @@ const SearchOnLayer = <template>
     @onChange={{@args.onChange}}
     @onClear={{@args.onClear}}
   />
-</template> satisfies TOC<{ Args: { args: Args; layer: string } }>;
+</template> satisfies TOC<{
+  Args: { args: SearchSignature['Args']; layer: string };
+}>;
 
-const renderOnLayers = (args: Args) => <template>
+const renderOnLayers = (args: SearchSignature['Args']) => <template>
   <div style="padding: 1rem">
     <SearchOnLayer @args={{args}} @layer="background" />
   </div>

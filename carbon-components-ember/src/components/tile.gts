@@ -52,35 +52,33 @@ const clipExpandableTile = eModifier<{
   };
 });
 
-export type Args = {
-  selectable?: boolean;
-  clickable?: boolean;
-  expandable?: boolean;
-  onClick?: () => null;
-  onSelect?: () => null;
-  /**
-   * Only applies to `@selectable` tiles - matches @carbon/react's
-   * `SelectableTile#tabIndex`, defaulting to `'0'`. `@expandable` tiles
-   * ignore this arg entirely: upstream's own `ExpandableTile` destructures
-   * its `tabIndex` prop out before spreading `...rest` onto its interactive
-   * (root `<div>`) branch's DOM node, so the prop has no effect there
-   * either - it's only ever applied on the non-interactive (root `<button>`)
-   * branch this port doesn't render. Passing `@tabindex` to an `@expandable`
-   * tile is a silent no-op, matching upstream's own behavior rather than a
-   * port gap.
-   */
-  tabindex?: string;
-  /**
-   * The id of the `@selectable` tile's root element, also used as the
-   * `for` target of its content `<label>`. Matches @carbon/react's
-   * `SelectableTile#id` - undefined by default, in which case neither
-   * attribute is rendered (upstream leaves both unset too).
-   */
-  id?: string;
-};
-
-export interface TileComponentSignature {
-  Args: Args;
+export interface TileSignature {
+  Args: {
+    selectable?: boolean;
+    clickable?: boolean;
+    expandable?: boolean;
+    onClick?: () => null;
+    onSelect?: () => null;
+    /**
+     * Only applies to `@selectable` tiles - matches @carbon/react's
+     * `SelectableTile#tabIndex`, defaulting to `'0'`. `@expandable` tiles
+     * ignore this arg entirely: upstream's own `ExpandableTile` destructures
+     * its `tabIndex` prop out before spreading `...rest` onto its interactive
+     * (root `<div>`) branch's DOM node, so the prop has no effect there
+     * either - it's only ever applied on the non-interactive (root `<button>`)
+     * branch this port doesn't render. Passing `@tabindex` to an `@expandable`
+     * tile is a silent no-op, matching upstream's own behavior rather than a
+     * port gap.
+     */
+    tabindex?: string;
+    /**
+     * The id of the `@selectable` tile's root element, also used as the
+     * `for` target of its content `<label>`. Matches @carbon/react's
+     * `SelectableTile#id` - undefined by default, in which case neither
+     * attribute is rendered (upstream leaves both unset too).
+     */
+    id?: string;
+  };
   Blocks: {
     above: [];
     content: [];
@@ -88,7 +86,7 @@ export interface TileComponentSignature {
   };
 }
 
-export default class TileComponent extends Component<TileComponentSignature> {
+export default class Tile extends Component<TileSignature> {
   @tracked selected = false;
   @tracked expanded: boolean = false;
 

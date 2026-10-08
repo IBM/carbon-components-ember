@@ -24,65 +24,63 @@ export type ChatHistoryItemAction = {
   divider?: boolean;
 };
 
-export type Args = {
-  /** `true` if this item is the currently-selected chat. */
-  selected?: boolean;
-  /** Id of this chat history item, threaded through to every callback. */
-  id?: string;
-  name?: string;
-  /**
-   * `true` to enter rename mode (swaps to a `ChatHistoryPanelItemInput`).
-   * Upstream's own `history-panel-item.ts` mutates its own `rename` field
-   * back to `false` directly once a rename is saved/canceled, rather than
-   * treating it as a value the host exclusively owns (a looser convention
-   * common in plain web components, not a strict controlled/uncontrolled
-   * split) - this port matches that: a local save/cancel always exits
-   * rename mode immediately (without waiting for `@rename` to change),
-   * while `@onRenameSave`/`@onRenameCancel` still fire so a host can keep
-   * its own state in sync. `@rename` itself is mirrored in both
-   * directions by `watchRename` below, so a host resetting `@rename` back
-   * to `false` (e.g. because it switched to renaming a *different* item)
-   * also closes this item's rename UI.
-   */
-  rename?: boolean;
-  actions?: ChatHistoryItemAction[];
-  /** Defaults to `'Options'`. */
-  overflowMenuLabel?: string;
-  /** `true` to always show the overflow-actions menu (usually bound from `ChatHistoryPanel`/`ChatHistoryPanelItems`). */
-  showActions?: boolean;
-  renameInvalid?: boolean;
-  renameInvalidMessage?: string;
-  /**
-   * `true` if this item's parent `ChatHistoryPanelMenu` group is expanded
-   * (or if it has no parent group). Controls whether the overflow menu is
-   * even reachable while collapsed - bound down from `ChatHistoryPanelMenu`.
-   * Defaults to `true`.
-   */
-  parentMenuExpanded?: boolean;
-  onSelect?: (detail: { itemId?: string; itemName?: string }) => void;
-  onRenameChange?: (value: string) => void;
-  onRenameCancel?: () => void;
-  onRenameSave?: (newName: string) => void;
-  /**
-   * Upstream's own `Action` type declares a per-action `onClick`, but its
-   * actual render() wires every `cds-overflow-menu-item` to one shared
-   * handler that dispatches a single `history-item-menu-action` event
-   * with the action's text - `action.onClick` is never actually invoked
-   * (matches this port's "match behavior over intent" principle
-   * elsewhere). This port omits `onClick` from `ChatHistoryItemAction`
-   * entirely rather than accepting-and-ignoring it, and exposes the real
-   * behavior as a single `@onMenuAction` callback instead.
-   */
-  onMenuAction?: (detail: {
-    action?: string;
-    itemId?: string;
-    itemName?: string;
-  }) => void;
-};
-
 export interface ChatHistoryPanelItemSignature {
   Element: HTMLLIElement;
-  Args: Args;
+  Args: {
+    /** `true` if this item is the currently-selected chat. */
+    selected?: boolean;
+    /** Id of this chat history item, threaded through to every callback. */
+    id?: string;
+    name?: string;
+    /**
+     * `true` to enter rename mode (swaps to a `ChatHistoryPanelItemInput`).
+     * Upstream's own `history-panel-item.ts` mutates its own `rename` field
+     * back to `false` directly once a rename is saved/canceled, rather than
+     * treating it as a value the host exclusively owns (a looser convention
+     * common in plain web components, not a strict controlled/uncontrolled
+     * split) - this port matches that: a local save/cancel always exits
+     * rename mode immediately (without waiting for `@rename` to change),
+     * while `@onRenameSave`/`@onRenameCancel` still fire so a host can keep
+     * its own state in sync. `@rename` itself is mirrored in both
+     * directions by `watchRename` below, so a host resetting `@rename` back
+     * to `false` (e.g. because it switched to renaming a *different* item)
+     * also closes this item's rename UI.
+     */
+    rename?: boolean;
+    actions?: ChatHistoryItemAction[];
+    /** Defaults to `'Options'`. */
+    overflowMenuLabel?: string;
+    /** `true` to always show the overflow-actions menu (usually bound from `ChatHistoryPanel`/`ChatHistoryPanelItems`). */
+    showActions?: boolean;
+    renameInvalid?: boolean;
+    renameInvalidMessage?: string;
+    /**
+     * `true` if this item's parent `ChatHistoryPanelMenu` group is expanded
+     * (or if it has no parent group). Controls whether the overflow menu is
+     * even reachable while collapsed - bound down from `ChatHistoryPanelMenu`.
+     * Defaults to `true`.
+     */
+    parentMenuExpanded?: boolean;
+    onSelect?: (detail: { itemId?: string; itemName?: string }) => void;
+    onRenameChange?: (value: string) => void;
+    onRenameCancel?: () => void;
+    onRenameSave?: (newName: string) => void;
+    /**
+     * Upstream's own `Action` type declares a per-action `onClick`, but its
+     * actual render() wires every `cds-overflow-menu-item` to one shared
+     * handler that dispatches a single `history-item-menu-action` event
+     * with the action's text - `action.onClick` is never actually invoked
+     * (matches this port's "match behavior over intent" principle
+     * elsewhere). This port omits `onClick` from `ChatHistoryItemAction`
+     * entirely rather than accepting-and-ignoring it, and exposes the real
+     * behavior as a single `@onMenuAction` callback instead.
+     */
+    onMenuAction?: (detail: {
+      action?: string;
+      itemId?: string;
+      itemName?: string;
+    }) => void;
+  };
 }
 
 /**

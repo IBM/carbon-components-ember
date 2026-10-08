@@ -1,16 +1,13 @@
 import Component from '@glimmer/component';
 import { defaultArgs } from '../utils/decorators.ts';
-/** @documenter yuidoc */
-
-export type Args = {
-  crumbs: string[];
-  current?: string;
-  onSelect?(crumb: string): void;
-};
-
-export interface BreadcrumbSignature {
+export interface BreadcrumbsSignature {
   Element: HTMLElement;
-  Args: Args;
+  /** @documenter yuidoc */
+  Args: {
+    crumbs: string[];
+    current?: string;
+    onSelect?(crumb: string): void;
+  };
 }
 
 /**
@@ -21,11 +18,11 @@ export interface BreadcrumbSignature {
 
  <Button @onClick={{fn this.onclick}} @danger={{false}} > Button Text </Button>
  ```
- @class CarbonBreadcrumb
+ @class Breadcrumbs
  @public
  **/
-export default class CarbonBreadcrumb extends Component<BreadcrumbSignature> {
-  args: Args = defaultArgs(this, {
+export default class Breadcrumbs extends Component<BreadcrumbsSignature> {
+  args: BreadcrumbsSignature['Args'] = defaultArgs(this, {
     crumbs: [],
   });
 

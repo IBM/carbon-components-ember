@@ -36,14 +36,12 @@ export type CardFooterAction = {
   isViewing?: boolean;
 };
 
-export type Args = {
-  actions?: CardFooterAction[];
-  onAction?: (action: CardFooterAction) => void;
-};
-
 export interface AiChatCardFooterSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    actions?: CardFooterAction[];
+    onAction?: (action: CardFooterAction) => void;
+  };
 }
 
 /**

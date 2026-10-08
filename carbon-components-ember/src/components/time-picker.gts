@@ -12,7 +12,7 @@ import { guidFor } from '@ember/object/internals';
 import { concat } from '@ember/helper';
 import { WarningFilled, WarningAltFilled } from '../icons.ts';
 
-export interface Signature {
+export interface TimePickerSignature {
   Args: {
     /**
      * Specify a custom `id` for the `<input>`
@@ -123,12 +123,12 @@ export interface Signature {
   };
 }
 
-export default class TimePicker extends Component<Signature> {
+export default class TimePicker extends Component<TimePickerSignature> {
   @tracked internalValue: string;
 
   guid = guidFor(this);
 
-  constructor(owner: Owner, args: Signature['Args']) {
+  constructor(owner: Owner, args: TimePickerSignature['Args']) {
     super(owner, args);
     this.internalValue = args.defaultValue ?? '';
   }

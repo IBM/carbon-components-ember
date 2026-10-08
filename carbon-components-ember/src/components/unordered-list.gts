@@ -1,14 +1,12 @@
 import Component from '@glimmer/component';
 import ListItem from './list-item.gts';
 
-export type Args = {
-  nested?: boolean;
-  isExpressive?: boolean;
-};
-
 export interface UnorderedListSignature {
   Element: HTMLUListElement;
-  Args: Args;
+  Args: {
+    nested?: boolean;
+    isExpressive?: boolean;
+  };
   Blocks: {
     default: [typeof ListItem];
   };

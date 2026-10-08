@@ -3,7 +3,7 @@ import { expect } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import ChatHistoryContent from './chat-history-content.gts';
 
-import type { Args as ContentArgs } from './chat-history-content.gts';
+import type { ChatHistoryContentSignature } from './chat-history-content.gts';
 
 // Upstream documents `cds-aichat-history-content` only inside its
 // `Components/Chat history` stories (see chat-history.stories.gts); these
@@ -23,7 +23,7 @@ const meta = preview.meta({
   args: {
     resultsCount: 3,
   },
-  render: (args: ContentArgs) => <template>
+  render: (args: ChatHistoryContentSignature['Args']) => <template>
     <div style="max-inline-size: 20rem; block-size: 8rem;">
       <ChatHistoryContent
         @resultsLabel={{args.resultsLabel}}

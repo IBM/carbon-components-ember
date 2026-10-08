@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 
-export interface ToggletipButtonComponentSignature {
+export interface ToggletipButtonSignature {
   Args: {
     open: boolean;
     toggle: () => void;
@@ -20,7 +20,7 @@ export interface ToggletipButtonComponentSignature {
  * Controls the visibility of a `Toggletip` through mouse clicks and keyboard
  * interactions. Yielded by `Toggletip` as `t.Button`.
  */
-export default class ToggletipButtonComponent extends Component<ToggletipButtonComponentSignature> {
+export default class ToggletipButton extends Component<ToggletipButtonSignature> {
   get label() {
     return this.args.label ?? 'Show information';
   }

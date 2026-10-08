@@ -3,17 +3,19 @@ import { defaultArgs } from '../../../utils/decorators.ts';
 import type CarbonChart from '../../charts/-components/chart.gts';
 import type { ChartData } from '../../charts/-components/chart.gts';
 
-export type Args = {
-  backgroundColors?: string[];
-  group: string;
-  chart?: CarbonChart;
-  values?: number[];
-  dates?: Date[];
-  keys?: string[];
-  data?: ChartData[];
-};
-
 /** @documenter yuidoc */
+export interface ChartTabularDataSignature {
+  Args: {
+    backgroundColors?: string[];
+    group: string;
+    chart?: CarbonChart;
+    values?: number[];
+    dates?: Date[];
+    keys?: string[];
+    data?: ChartData[];
+  };
+}
+
 /**
  The CarbonChartDataSet
 
@@ -22,9 +24,9 @@ export type Args = {
  @class CarbonChartDataSet
  @public
  **/
-export default class CarbonChartTabularData extends ChartPart<{ Args: Args }> {
+export default class ChartTabularData extends ChartPart<ChartTabularDataSignature> {
   @defaultArgs
-  args: Args = {
+  args: ChartTabularDataSignature['Args'] = {
     /**
      * The Dataset label
      * @argument label

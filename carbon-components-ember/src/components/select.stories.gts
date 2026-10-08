@@ -4,7 +4,7 @@ import { expect, fn, waitFor, within } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import Select from './select.gts';
 
-import type { Args as SelectArgs } from './select.gts';
+import type { SelectSignature } from './select.gts';
 
 const FRUITS = ['Apple', 'Banana', 'Cherry', 'Durian', 'Elderberry'];
 
@@ -22,7 +22,10 @@ const FRUITS = ['Apple', 'Banana', 'Cherry', 'Durian', 'Elderberry'];
 // follow, so declare the story's args explicitly.
 const meta = preview
   .type<{
-    args: Omit<SelectArgs<string>, 'multiple' | 'selected' | 'onSelect'> & {
+    args: Omit<
+      SelectSignature<string>['Args'],
+      'multiple' | 'selected' | 'onSelect'
+    > & {
       multiple?: boolean;
       onSelect: (selected: string | string[]) => void;
     };

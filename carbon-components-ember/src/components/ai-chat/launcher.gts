@@ -10,56 +10,54 @@ import Tooltip from '../tooltip.gts';
 import AiLaunch from '../icons/ai-launch.ts';
 import ChatLaunch from '../icons/chat-launch.ts';
 
-export type Args = {
-  /**
-   * Shows the unread indicator dot when `true` and `@unreadMessageCount` is
-   * 0.
-   */
-  showUnreadIndicator?: boolean;
-  /**
-   * Number of unread messages. Displays a count badge when greater than 0.
-   */
-  unreadMessageCount?: number;
-  /**
-   * Aria label shown when the chat window is closed (launcher is in its
-   * "open chat" state).
-   */
-  closedLabel?: string;
-  /**
-   * Aria label for the launcher's "close chat" state. Declared for parity
-   * with upstream's `cds-aichat-launcher` (it takes an `open-label`
-   * attribute), but upstream's own computed aria-label never actually reads
-   * it — only `closedLabel`/`unreadLabel` feed it, in every released
-   * version through 1.9.0. This port matches that behaviour rather than
-   * "fixing" it, since the launcher itself has no open/closed state to key
-   * off (see the class doc below).
-   */
-  openLabel?: string;
-  /**
-   * When `true`, renders the AI launch icon. When `false`, renders the
-   * standard chat launch icon.
-   */
-  aiEnabled?: boolean;
-  /**
-   * Optional URL for a custom avatar image. When provided, the avatar
-   * replaces the default icon.
-   */
-  launcherAvatarUrl?: string;
-  /**
-   * Pre-formatted screen-reader label suffix for the unread message count
-   * (e.g. "3 unread messages"). Appended to the button's aria-label when
-   * set.
-   */
-  unreadLabel?: string;
-  /** Tooltip position when hovering over the launcher. Defaults to `'top'`. */
-  tooltipPosition?: 'top' | 'right' | 'bottom' | 'left';
-  /** Called when the user clicks the launcher button. */
-  onToggle?: () => void;
-};
-
 export interface LauncherSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /**
+     * Shows the unread indicator dot when `true` and `@unreadMessageCount` is
+     * 0.
+     */
+    showUnreadIndicator?: boolean;
+    /**
+     * Number of unread messages. Displays a count badge when greater than 0.
+     */
+    unreadMessageCount?: number;
+    /**
+     * Aria label shown when the chat window is closed (launcher is in its
+     * "open chat" state).
+     */
+    closedLabel?: string;
+    /**
+     * Aria label for the launcher's "close chat" state. Declared for parity
+     * with upstream's `cds-aichat-launcher` (it takes an `open-label`
+     * attribute), but upstream's own computed aria-label never actually reads
+     * it — only `closedLabel`/`unreadLabel` feed it, in every released
+     * version through 1.9.0. This port matches that behaviour rather than
+     * "fixing" it, since the launcher itself has no open/closed state to key
+     * off (see the class doc below).
+     */
+    openLabel?: string;
+    /**
+     * When `true`, renders the AI launch icon. When `false`, renders the
+     * standard chat launch icon.
+     */
+    aiEnabled?: boolean;
+    /**
+     * Optional URL for a custom avatar image. When provided, the avatar
+     * replaces the default icon.
+     */
+    launcherAvatarUrl?: string;
+    /**
+     * Pre-formatted screen-reader label suffix for the unread message count
+     * (e.g. "3 unread messages"). Appended to the button's aria-label when
+     * set.
+     */
+    unreadLabel?: string;
+    /** Tooltip position when hovering over the launcher. Defaults to `'top'`. */
+    tooltipPosition?: 'top' | 'right' | 'bottom' | 'left';
+    /** Called when the user clicks the launcher button. */
+    onToggle?: () => void;
+  };
 }
 
 /**

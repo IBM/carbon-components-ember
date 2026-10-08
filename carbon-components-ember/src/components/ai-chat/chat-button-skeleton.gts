@@ -8,14 +8,12 @@
 import Component from '@glimmer/component';
 import type { ChatButtonSize } from './chat-button.gts';
 
-export type Args = {
-  /** Button size. Defaults to `'lg'`. */
-  size?: ChatButtonSize;
-};
-
 export interface AiChatChatButtonSkeletonSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /** Button size. Defaults to `'lg'`. */
+    size?: ChatButtonSize;
+  };
 }
 
 /**

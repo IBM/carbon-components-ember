@@ -10,47 +10,17 @@ import didResize from 'ember-resize-modifier/modifiers/did-resize';
 import { modifier as eModifier } from 'ember-modifier';
 import { runTask } from 'ember-lifeline';
 
-export type Args = {
-  selectedTab?: string;
-  tabSelected?: (tab: string) => void;
-  loading?: boolean;
-  contained?: boolean;
-  disabled?: boolean;
-  /**
-   * Size of the tabs. `sm` and `md` apply to line tabs; `lg` only takes
-   * effect when `@contained` is also set (a no-op on line tabs otherwise).
-   */
-  size?: 'sm' | 'md' | 'lg';
-  /**
-   * When `@contained`, stretches tabs to fill the available width in equal
-   * shares.
-   */
-  fullWidth?: boolean;
-  /**
-   * `automatic` (default) selects a tab as soon as it receives keyboard
-   * focus. `manual` only moves focus with the arrow keys; Enter/Space
-   * selects the focused tab.
-   */
-  activation?: 'automatic' | 'manual';
-  /** Renders a close button on every tab. Requires `@onTabCloseRequest`. */
-  dismissable?: boolean;
-  onTabCloseRequest?: (tab: string) => void;
-  ariaLabel?: string;
-};
-
-export interface TabPaneArgs {
-  tab: TabsComponent;
-  title: string;
-  disabled?: boolean;
-  isDefault?: boolean;
-  /** Icon rendered alongside the tab label, e.g. from `carbon-components-ember/icons`. */
-  renderIcon?: typeof Icon;
-  /** Subtitle rendered under the label. Only shown when the parent `Tabs` is `@contained`. */
-  secondaryLabel?: string;
-}
-
 export interface TabPaneSignature {
-  Args: TabPaneArgs;
+  Args: {
+    tab: Tabs;
+    title: string;
+    disabled?: boolean;
+    isDefault?: boolean;
+    /** Icon rendered alongside the tab label, e.g. from `carbon-components-ember/icons`. */
+    renderIcon?: typeof Icon;
+    /** Subtitle rendered under the label. Only shown when the parent `Tabs` is `@contained`. */
+    secondaryLabel?: string;
+  };
   Blocks: {
     default: [];
   };
@@ -98,8 +68,34 @@ class TabPane extends Component<TabPaneSignature> {
   </template>
 }
 
-export interface TabsComponentSignature {
-  Args: Args;
+export interface TabsSignature {
+  Args: {
+    selectedTab?: string;
+    tabSelected?: (tab: string) => void;
+    loading?: boolean;
+    contained?: boolean;
+    disabled?: boolean;
+    /**
+     * Size of the tabs. `sm` and `md` apply to line tabs; `lg` only takes
+     * effect when `@contained` is also set (a no-op on line tabs otherwise).
+     */
+    size?: 'sm' | 'md' | 'lg';
+    /**
+     * When `@contained`, stretches tabs to fill the available width in equal
+     * shares.
+     */
+    fullWidth?: boolean;
+    /**
+     * `automatic` (default) selects a tab as soon as it receives keyboard
+     * focus. `manual` only moves focus with the arrow keys; Enter/Space
+     * selects the focused tab.
+     */
+    activation?: 'automatic' | 'manual';
+    /** Renders a close button on every tab. Requires `@onTabCloseRequest`. */
+    dismissable?: boolean;
+    onTabCloseRequest?: (tab: string) => void;
+    ariaLabel?: string;
+  };
   Blocks: {
     default: [WithBoundArgs<typeof TabPane, 'tab'>];
   };
@@ -109,7 +105,7 @@ export interface TabsComponentSignature {
 // (`breakpoints.lg.width` from `@carbon/layout`, which is `66rem`).
 const LG_BREAKPOINT = '(min-width: 66rem)';
 
-export default class TabsComponent extends Component<TabsComponentSignature> {
+export default class Tabs extends Component<TabsSignature> {
   @tracked resized: number = 1;
   @tracked scrolled: number = 1;
   @tracked currentTab?: TabPane;
@@ -121,7 +117,7 @@ export default class TabsComponent extends Component<TabsComponentSignature> {
       ? window.matchMedia(LG_BREAKPOINT).matches
       : true;
 
-  constructor(owner: Owner, args: TabsComponentSignature['Args']) {
+  constructor(owner: Owner, args: TabsSignature['Args']) {
     super(owner, args);
     if (typeof window !== 'undefined') {
       const mql = window.matchMedia(LG_BREAKPOINT);

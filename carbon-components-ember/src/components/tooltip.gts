@@ -89,43 +89,41 @@ const describeTrigger = modifier(
   },
 );
 
-export type Args = {
-  /** Where the tooltip is placed relative to the trigger */
-  align?: TooltipAlignment;
-  /**
-   * Label text identifying the trigger. It names the trigger element through
-   * `aria-labelledby` (use it for icon-only triggers).
-   */
-  label?: string;
-  /** Description text for the trigger, linked through `aria-describedby` */
-  description?: string;
-  /**
-   * Will auto-align the tooltip on open if it is not visible within the
-   * viewport (or `autoAlignBoundary`, if provided).
-   */
-  autoAlign?: boolean;
-  /**
-   * Specify a bounding element to be used for autoAlign calculations. The
-   * viewport is used by default.
-   */
-  autoAlignBoundary?: HTMLElement;
-  /** Close the tooltip when the trigger is activated (click, Enter, Space) */
-  closeOnActivation?: boolean;
-  /** Render the tooltip open on initial render */
-  defaultOpen?: boolean;
-  /** Render a drop shadow on the tooltip */
-  dropShadow?: boolean;
-  /** Delay in ms before the tooltip shows on hover */
-  enterDelayMs?: number;
-  /** Render with the high contrast theme */
-  highContrast?: boolean;
-  /** Delay in ms before the tooltip hides after the pointer leaves */
-  leaveDelayMs?: number;
-};
-
-export interface CarbonTooltipSignature {
+export interface TooltipSignature {
   Element: HTMLSpanElement;
-  Args: Args;
+  Args: {
+    /** Where the tooltip is placed relative to the trigger */
+    align?: TooltipAlignment;
+    /**
+     * Label text identifying the trigger. It names the trigger element through
+     * `aria-labelledby` (use it for icon-only triggers).
+     */
+    label?: string;
+    /** Description text for the trigger, linked through `aria-describedby` */
+    description?: string;
+    /**
+     * Will auto-align the tooltip on open if it is not visible within the
+     * viewport (or `autoAlignBoundary`, if provided).
+     */
+    autoAlign?: boolean;
+    /**
+     * Specify a bounding element to be used for autoAlign calculations. The
+     * viewport is used by default.
+     */
+    autoAlignBoundary?: HTMLElement;
+    /** Close the tooltip when the trigger is activated (click, Enter, Space) */
+    closeOnActivation?: boolean;
+    /** Render the tooltip open on initial render */
+    defaultOpen?: boolean;
+    /** Render a drop shadow on the tooltip */
+    dropShadow?: boolean;
+    /** Delay in ms before the tooltip shows on hover */
+    enterDelayMs?: number;
+    /** Render with the high contrast theme */
+    highContrast?: boolean;
+    /** Delay in ms before the tooltip hides after the pointer leaves */
+    leaveDelayMs?: number;
+  };
   Blocks: {
     /** The trigger element the tooltip is attached to */
     default: [];
@@ -134,9 +132,9 @@ export interface CarbonTooltipSignature {
   };
 }
 
-export default class CarbonTooltip extends Component<CarbonTooltipSignature> {
+export default class Tooltip extends Component<TooltipSignature> {
   @defaultArgs
-  args: Args = {
+  args: TooltipSignature['Args'] = {
     align: 'top',
     closeOnActivation: false,
     defaultOpen: false,
@@ -152,7 +150,7 @@ export default class CarbonTooltip extends Component<CarbonTooltipSignature> {
   timer?: ReturnType<typeof setTimeout>;
   containerElement?: HTMLElement;
 
-  constructor(owner: Owner, args: Args) {
+  constructor(owner: Owner, args: TooltipSignature['Args']) {
     super(owner, args);
     this.open = args.defaultOpen ?? false;
     registerDestructor(this, () => clearTimeout(this.timer));

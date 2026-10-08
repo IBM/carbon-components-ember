@@ -22,7 +22,7 @@ export type ToggletipAlignment =
   | 'right-start'
   | 'right-end';
 
-export interface ToggletipComponentSignature {
+export interface ToggletipSignature {
   Args: {
     /**
      * Specify how the toggletip should align with its trigger button.
@@ -51,11 +51,11 @@ export interface ToggletipComponentSignature {
  * Used as a container for the button and content of a toggletip. Coordinates
  * between interactions with the button and the visibility of the content.
  */
-export default class ToggletipComponent extends Component<ToggletipComponentSignature> {
+export default class Toggletip extends Component<ToggletipSignature> {
   guid = guidFor(this);
   @tracked open: boolean;
 
-  constructor(owner: Owner, args: ToggletipComponentSignature['Args']) {
+  constructor(owner: Owner, args: ToggletipSignature['Args']) {
     super(owner, args);
     this.open = args.defaultOpen ?? false;
   }

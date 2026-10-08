@@ -4,7 +4,7 @@ import preview from '#storybook/preview.ts';
 import FileUploadItem from './file-upload-item.gts';
 import { FileStatusValue } from './-file-uploads/types.ts';
 
-import type { Args as FileUploadItemArgs } from './file-upload-item.gts';
+import type { FileUploadItemSignature } from './file-upload-item.gts';
 
 // `@carbon/ai-chat-components` ships no stories for
 // `cds-aichat-file-upload-item`, so these are based on the docs-app page;
@@ -41,7 +41,7 @@ const defaultUpload = {
   id: '1',
   file: notesFile,
   status: FileStatusValue.EDIT,
-} as FileUploadItemArgs['upload'];
+} as FileUploadItemSignature['Args']['upload'];
 
 const meta = preview.meta({
   title: 'AI Chat/File uploads/Item',

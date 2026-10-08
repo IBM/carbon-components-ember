@@ -8,21 +8,19 @@ import type { PopoverAlignment } from './popover.gts';
 import Button from '../components/button.gts';
 import type { ButtonSignature } from '../components/button.gts';
 
-export type Args = {
-  targetElementId?: string;
-  targetElement?: Element;
-  inline?: boolean;
-  align?: PopoverAlignment;
-  autoAlign?: boolean;
-  disabled?: boolean;
-  feedback?: string;
-  feedbackTimeout?: number;
-  iconDescription?: string;
-  onClick?: () => void;
-};
-
-export interface CarbonCopyButtonSignature {
-  Args: Args;
+export interface CopyButtonSignature {
+  Args: {
+    targetElementId?: string;
+    targetElement?: Element;
+    inline?: boolean;
+    align?: PopoverAlignment;
+    autoAlign?: boolean;
+    disabled?: boolean;
+    feedback?: string;
+    feedbackTimeout?: number;
+    iconDescription?: string;
+    onClick?: () => void;
+  };
   Element: ButtonSignature['Element'];
   Blocks: {
     default: [];
@@ -36,7 +34,7 @@ const captureElement = eModifier<{
   onInsert(element);
 });
 
-export default class CarbonCopyButton extends Component<CarbonCopyButtonSignature> {
+export default class CopyButton extends Component<CopyButtonSignature> {
   @tracked didCopy: boolean = false;
   @tracked isHovered: boolean = false;
   carbonElement?: HTMLElement;

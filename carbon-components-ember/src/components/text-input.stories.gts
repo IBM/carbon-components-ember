@@ -7,9 +7,9 @@ import preview from '#storybook/preview.ts';
 import Layer from './layer.gts';
 import TextInput from './text-input.gts';
 
-import type { Signature } from './text-input.gts';
+import type { TextInputSignature } from './text-input.gts';
 
-type Args = Signature['Args'];
+type Args = TextInputSignature['Args'];
 
 // Carbon React parity gaps (Components/TextInput):
 // - `Inline`: no `inline` arg.

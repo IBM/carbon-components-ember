@@ -7,7 +7,7 @@ import Button from './button.gts';
 import Loading from './loading.gts';
 import Modal from './modal.gts';
 
-import type { Args as LoadingArgs } from './loading.gts';
+import type { LoadingSignature } from './loading.gts';
 
 // Parity notes on Carbon React's Loading stories:
 // - React's `withOverlay` defaults to `false`; the Ember component defaults it
@@ -72,7 +72,7 @@ export const OverlayLoading = meta.story({
   parameters: {
     docs: { story: { inline: false, iframeHeight: '200px' } },
   },
-  render: (args: LoadingArgs) => {
+  render: (args: LoadingSignature['Args']) => {
     const { state, startLoading, cleanup } = overlayState();
 
     return <template>
@@ -115,7 +115,7 @@ export const OverlayLoadingBehindModal = meta.story({
   parameters: {
     docs: { story: { inline: false, iframeHeight: '500px' } },
   },
-  render: (args: LoadingArgs) => {
+  render: (args: LoadingSignature['Args']) => {
     const { state, startLoading, cleanup } = overlayState();
     const openModal = () => {
       state.modalOpen = true;

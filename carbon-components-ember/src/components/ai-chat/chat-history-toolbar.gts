@@ -25,20 +25,18 @@ export type SearchAttributes = {
   closeButtonLabelText?: string;
 };
 
-export type Args = {
-  /** Defaults to `'New chat'`. */
-  newChatLabel?: string;
-  /** `true` to remove the search field from the toolbar. */
-  searchOff?: boolean;
-  searchAttributes?: SearchAttributes;
-  onNewChat?: () => void;
-  onSearch?: (value: string) => void;
-  onSearchClear?: () => void;
-};
-
 export interface ChatHistoryToolbarSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /** Defaults to `'New chat'`. */
+    newChatLabel?: string;
+    /** `true` to remove the search field from the toolbar. */
+    searchOff?: boolean;
+    searchAttributes?: SearchAttributes;
+    onNewChat?: () => void;
+    onSearch?: (value: string) => void;
+    onSearchClear?: () => void;
+  };
   Blocks: {
     /** Upstream slot `actions-start`. */
     actionsStart: [];

@@ -19,7 +19,7 @@ import Toolbar from './toolbar.gts';
 import type Owner from '@ember/owner';
 import type { IconIndicatorKind } from '../icon-indicator.gts';
 import type { CardFooterAction } from './card-footer.gts';
-import type { Args as CardStepsArgs, CardStep } from './card-steps.gts';
+import type { AiChatCardStepsSignature, CardStep } from './card-steps.gts';
 import type { ToolbarAction } from './toolbar.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `Components/Card/Preview Card`
@@ -81,7 +81,7 @@ const PREVIEW_FOOTER_PRESETS: Record<string, CardFooterAction[] | undefined> = {
   none: undefined,
 };
 
-type StoryArgs = CardStepsArgs & {
+type StoryArgs = AiChatCardStepsSignature['Args'] & {
   /** Story-only: `AiChatCard`'s `@isLayered`. */
   isLayered?: boolean;
   /** Story-only: `AiChatCard`'s `@isFlush`. */

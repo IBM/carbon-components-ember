@@ -9,7 +9,7 @@ export type SubMenu = {
   title: string;
 };
 
-export interface Signature {
+export interface UIShellSideNavMenuSignature {
   Args: {
     transitionTo: () => void;
     hidden?: boolean;
@@ -24,7 +24,7 @@ export interface Signature {
   };
 }
 
-export default class NavMenuComponent extends Component<Signature> {
+export default class UIShellSideNavMenu extends Component<UIShellSideNavMenuSignature> {
   @tracked expanded = false;
 
   toggleExpanded = () => {

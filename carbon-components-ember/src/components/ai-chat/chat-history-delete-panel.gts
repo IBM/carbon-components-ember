@@ -10,20 +10,18 @@ import { modifier as eModifier } from 'ember-modifier';
 import AiChatChatButton from './chat-button.gts';
 import { TrashCan } from '../../icons.ts';
 
-export type Args = {
-  /** Defaults to `'Cancel'`. */
-  cancelText?: string;
-  /** Defaults to `'Delete'`. */
-  deleteText?: string;
-  /** Id of the chat item being deleted, threaded through to `@onConfirm`. */
-  itemId?: string;
-  onCancel?: () => void;
-  onConfirm?: (detail: { itemId?: string }) => void;
-};
-
 export interface ChatHistoryDeletePanelSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /** Defaults to `'Cancel'`. */
+    cancelText?: string;
+    /** Defaults to `'Delete'`. */
+    deleteText?: string;
+    /** Id of the chat item being deleted, threaded through to `@onConfirm`. */
+    itemId?: string;
+    onCancel?: () => void;
+    onConfirm?: (detail: { itemId?: string }) => void;
+  };
   Blocks: {
     /** Defaults to `'Confirm Delete'`. */
     title: [];

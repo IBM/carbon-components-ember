@@ -13,27 +13,25 @@ import Button from '../button.gts';
 import Tooltip from '../tooltip.gts';
 import { Checkmark, Close, WarningFilled } from '../../icons.ts';
 
-export type Args = {
-  value?: string;
-  placeholder?: string;
-  /** Text read by a screen reader when visiting the input. Defaults to `'Chat name'`. */
-  labelText?: string;
-  /** Defaults to `'Cancel'`. */
-  cancelLabel?: string;
-  /** Defaults to `'Save'`. */
-  saveLabel?: string;
-  invalid?: boolean;
-  invalidMessage?: string;
-  /** Id of the parent `ChatHistoryPanelItem`, threaded through to every callback. */
-  itemId?: string;
-  onChange?: (value: string) => void;
-  onCancel?: () => void;
-  onSave?: (newName: string) => void;
-};
-
 export interface ChatHistoryPanelItemInputSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    value?: string;
+    placeholder?: string;
+    /** Text read by a screen reader when visiting the input. Defaults to `'Chat name'`. */
+    labelText?: string;
+    /** Defaults to `'Cancel'`. */
+    cancelLabel?: string;
+    /** Defaults to `'Save'`. */
+    saveLabel?: string;
+    invalid?: boolean;
+    invalidMessage?: string;
+    /** Id of the parent `ChatHistoryPanelItem`, threaded through to every callback. */
+    itemId?: string;
+    onChange?: (value: string) => void;
+    onCancel?: () => void;
+    onSave?: (newName: string) => void;
+  };
 }
 
 /**

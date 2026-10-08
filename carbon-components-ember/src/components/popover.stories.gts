@@ -16,7 +16,7 @@ import RadioButtonGroup from './radio-button/group.gts';
 import CheckboxIcon from './icons/checkbox.ts';
 import Settings from './icons/settings.ts';
 
-import type { PopoverArgs } from './popover.gts';
+import type { PopoverSignature } from './popover.gts';
 
 // Parity notes on Carbon React's Popover stories:
 // - `@autoAlign` is a lighter approximation of React's floating-ui based
@@ -44,7 +44,10 @@ const ALIGNMENTS = [
 // Popover is controlled: each story keeps `open` in local state, toggles it
 // from the trigger, and closes it (reporting to the `onRequestClose` action)
 // when Popover asks to.
-function openState(args: Partial<PopoverArgs>, initial = args.open ?? true) {
+function openState(
+  args: Partial<PopoverSignature['Args']>,
+  initial = args.open ?? true,
+) {
   const state = trackedObject({ open: initial });
   const toggle = () => {
     state.open = !state.open;
@@ -96,7 +99,7 @@ export const Default = meta.story({
       </div>
     </template>,
   ],
-  render: (args: PopoverArgs) => {
+  render: (args: PopoverSignature['Args']) => {
     const { state, toggle, close } = openState(args);
 
     return <template>
@@ -159,7 +162,7 @@ Default.test(
 // customization menu: it defaults `@align` to `bottom-start`, disables the
 // caret and adds `cds--popover--tab-tip__button` to the trigger.
 export const TabTip = meta.story({
-  render: (args: PopoverArgs) => {
+  render: (args: PopoverSignature['Args']) => {
     const one = openState(args, true);
     const two = openState(args, false);
 
@@ -249,7 +252,7 @@ export const ExperimentalAutoAlign = meta.story({
   parameters: {
     docs: { story: { inline: false, iframeHeight: '400px' } },
   },
-  render: (args: PopoverArgs) => {
+  render: (args: PopoverSignature['Args']) => {
     const { state, toggle, close } = openState(args);
 
     return <template>
@@ -286,7 +289,7 @@ export const ExperimentalAutoAlign = meta.story({
 // Same, but the space is measured against `@autoAlignBoundary` (the dashed,
 // scrollable box) rather than the viewport.
 export const ExperimentalAutoAlignBoundary = meta.story({
-  render: (args: PopoverArgs) => {
+  render: (args: PopoverSignature['Args']) => {
     const { state, toggle, close } = openState(args);
     const boundary = trackedObject<{ element?: HTMLElement }>({});
     const setBoundary = modifier((element: HTMLElement) => {
@@ -338,7 +341,7 @@ export const TabTipExperimentalAutoAlign = meta.story({
   parameters: {
     docs: { story: { inline: false, iframeHeight: '400px' } },
   },
-  render: (args: PopoverArgs) => {
+  render: (args: PopoverSignature['Args']) => {
     const { state, toggle, close } = openState(args);
 
     return <template>
@@ -381,7 +384,7 @@ export const AutoAlignFlipsToBottom = meta.story({
       },
     },
   },
-  render: (args: PopoverArgs) => {
+  render: (args: PopoverSignature['Args']) => {
     const { state, toggle, close } = openState(args);
 
     return <template>

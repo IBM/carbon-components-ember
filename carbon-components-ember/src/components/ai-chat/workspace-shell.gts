@@ -11,18 +11,16 @@ import { modifier } from 'ember-modifier';
 import type { WithBoundArgs } from '@glint/template';
 import WorkspaceShellHeader from './workspace-shell-header.gts';
 
-export type Args = {
-  /**
-   * Enables automatic header collapsible behavior: the header yielded to
-   * the `header` block becomes collapsible whenever the body would
-   * otherwise have less room than the header itself takes up.
-   */
-  autoCollapsibleHeader?: boolean;
-};
-
 export interface WorkspaceShellSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /**
+     * Enables automatic header collapsible behavior: the header yielded to
+     * the `header` block becomes collapsible whenever the body would
+     * otherwise have less room than the header itself takes up.
+     */
+    autoCollapsibleHeader?: boolean;
+  };
   Blocks: {
     toolbar: [];
     notification: [];

@@ -15,28 +15,26 @@ import {
   ThumbsUpFilled,
 } from '../../icons.ts';
 
-export type Args = {
-  isPositiveOpen?: boolean;
-  isNegativeOpen?: boolean;
-  isPositiveSelected?: boolean;
-  isNegativeSelected?: boolean;
-  hasPositiveDetails?: boolean;
-  hasNegativeDetails?: boolean;
-  isPositiveDisabled?: boolean;
-  isNegativeDisabled?: boolean;
-  /** Defaults to `'Good response'`. */
-  positiveLabel?: string;
-  /** Defaults to `'Bad response'`. */
-  negativeLabel?: string;
-  /** ID prefix used to build `aria-controls` for each button's own details panel. */
-  panelId?: string;
-  /** Called with `true` for the thumbs-up button, `false` for thumbs-down. */
-  onClick?: (isPositive: boolean) => void;
-};
-
 export interface FeedbackButtonsSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    isPositiveOpen?: boolean;
+    isNegativeOpen?: boolean;
+    isPositiveSelected?: boolean;
+    isNegativeSelected?: boolean;
+    hasPositiveDetails?: boolean;
+    hasNegativeDetails?: boolean;
+    isPositiveDisabled?: boolean;
+    isNegativeDisabled?: boolean;
+    /** Defaults to `'Good response'`. */
+    positiveLabel?: string;
+    /** Defaults to `'Bad response'`. */
+    negativeLabel?: string;
+    /** ID prefix used to build `aria-controls` for each button's own details panel. */
+    panelId?: string;
+    /** Called with `true` for the thumbs-up button, `false` for thumbs-down. */
+    onClick?: (isPositive: boolean) => void;
+  };
 }
 
 /**

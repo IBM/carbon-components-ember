@@ -4,13 +4,13 @@ import type { WithBoundArgs } from '@glint/template';
 import { OverflowMenuVertical } from '../../icons.ts';
 import type { TOC } from '@ember/component/template-only';
 
-export interface TableMenuComponentSignature {
+export interface TableMenuSignature {
   Blocks: {
     default: [WithBoundArgs<typeof MenuItemComponent, 'disabled' | 'isDelete'>];
   };
 }
 
-const TableMenuComponent: TOC<TableMenuComponentSignature> = <template>
+const TableMenu: TOC<TableMenuSignature> = <template>
   <td class="cds--table-column-menu">
     <OverflowMenu @icon={{OverflowMenuVertical}} @direction="top" as |Item|>
       {{yield Item}}
@@ -18,4 +18,4 @@ const TableMenuComponent: TOC<TableMenuComponentSignature> = <template>
   </td>
 </template>;
 
-export default TableMenuComponent;
+export default TableMenu;

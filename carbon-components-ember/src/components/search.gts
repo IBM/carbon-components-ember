@@ -8,29 +8,27 @@ import { concat } from '@ember/helper';
 import { runTask } from 'ember-lifeline';
 import { Close, Search as SearchIcon } from '../icons.ts';
 
-export type Args = {
-  onChange?(value: string | null): TaskInstance<unknown> | undefined | void;
-  onClear?(): void;
-  labelText?: string;
-  value?: string;
-  placeholder?: string;
-  size?: 'xs' | 'sm' | 'md' | 'lg';
-  isLoading?: boolean;
-  expandable?: boolean;
-  light?: boolean;
-  disabled?: boolean;
-  id?: string;
-  closeButtonLabelText?: string;
-  autoComplete?: string;
-  type?: string;
-};
-
-export interface SearchComponentSignature {
-  Args: Args;
+export interface SearchSignature {
+  Args: {
+    onChange?(value: string | null): TaskInstance<unknown> | undefined | void;
+    onClear?(): void;
+    labelText?: string;
+    value?: string;
+    placeholder?: string;
+    size?: 'xs' | 'sm' | 'md' | 'lg';
+    isLoading?: boolean;
+    expandable?: boolean;
+    light?: boolean;
+    disabled?: boolean;
+    id?: string;
+    closeButtonLabelText?: string;
+    autoComplete?: string;
+    type?: string;
+  };
   Element: HTMLDivElement;
 }
 
-export default class SearchComponent extends Component<SearchComponentSignature> {
+export default class Search extends Component<SearchSignature> {
   @tracked value: string | null = null;
   @tracked isActive: boolean = false;
   isSearching: boolean = false;

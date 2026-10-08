@@ -114,7 +114,7 @@ export interface MenuSignature {
   };
 }
 
-interface MenuListSignature {
+export interface MenuListSignature {
   Element: HTMLUListElement;
   Args: {
     menu: Menu;

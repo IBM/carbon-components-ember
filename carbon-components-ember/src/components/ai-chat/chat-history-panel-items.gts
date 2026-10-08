@@ -10,14 +10,12 @@ import ChatHistoryPanelItem from './chat-history-panel-item.gts';
 import ChatHistoryPanelMenu from './chat-history-panel-menu.gts';
 import type { TOC } from '@ember/component/template-only';
 
-export type Args = {
-  /** Propagated down to every yielded `ChatHistoryPanelItem`/`ChatHistoryPanelMenu`. */
-  showActions?: boolean;
-};
-
 export interface ChatHistoryPanelItemsSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /** Propagated down to every yielded `ChatHistoryPanelItem`/`ChatHistoryPanelMenu`. */
+    showActions?: boolean;
+  };
   Blocks: {
     default: [
       WithBoundArgs<typeof ChatHistoryPanelItem, 'showActions'>,

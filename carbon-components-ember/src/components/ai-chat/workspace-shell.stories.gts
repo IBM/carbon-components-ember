@@ -21,7 +21,7 @@ import WorkspaceShellBody from './workspace-shell-body.gts';
 import WorkspaceShellFooter from './workspace-shell-footer.gts';
 
 import type { ToolbarAction } from './toolbar.gts';
-import type { Args as WorkspaceShellArgs } from './workspace-shell.gts';
+import type { WorkspaceShellSignature } from './workspace-shell.gts';
 import type { WorkspaceShellFooterAction } from './workspace-shell-footer.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `workspace-shell.stories.js`
@@ -151,7 +151,7 @@ export class TokenShowcase<T extends TokenSwatch> {
 
 const meta = preview
   .type<{
-    args: WorkspaceShellArgs & {
+    args: WorkspaceShellSignature['Args'] & {
       toolbarTitle: string;
       toolbarAction: ToolbarPreset;
       toolbarOverflow: boolean;

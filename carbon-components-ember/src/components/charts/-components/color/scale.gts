@@ -2,13 +2,15 @@ import ChartPart from '../chart-part.ts';
 import { defaultArgs } from '../../../../utils/decorators.ts';
 import type CarbonChart from '../../../../components/charts/-components/chart.gts';
 
-export type Args = {
-  name: string;
-  color: string;
-  chart: CarbonChart | null;
-};
-
 /** @documenter yuidoc */
+export interface ColorScaleSignature {
+  Args: {
+    name: string;
+    color: string;
+    chart: CarbonChart | null;
+  };
+}
+
 /**
  The ColorScale
 
@@ -17,9 +19,9 @@ export type Args = {
  @class ColorScale
  @public
  **/
-export default class ColorScale extends ChartPart<{ Args: Args }> {
+export default class ColorScale extends ChartPart<ColorScaleSignature> {
   @defaultArgs
-  args: Args = {
+  args: ColorScaleSignature['Args'] = {
     /**
      * The Axis Title
      * @argument title

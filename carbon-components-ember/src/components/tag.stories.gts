@@ -3,7 +3,7 @@ import Tag from './tag.gts';
 import Add from './icons/add.ts';
 import Asleep from './icons/asleep.ts';
 
-import type { Args as TagArgs } from './tag.gts';
+import type { TagSignature } from './tag.gts';
 import type { TOC } from '@ember/component/template-only';
 
 // Parity gaps with Carbon React's Tag stories:
@@ -13,7 +13,7 @@ import type { TOC } from '@ember/component/template-only';
 // - `withAILabel`: there is no AILabel component yet (see #406); the
 //   `WithDecorator` story shows the `@decorator` slot with a placeholder.
 
-const TYPES: TagArgs['type'][] = [
+const TYPES: TagSignature['Args']['type'][] = [
   'red',
   'magenta',
   'purple',
@@ -31,7 +31,7 @@ const TYPES: TagArgs['type'][] = [
 // `label` isn't one of Tag's args: it's the text the story yields into the
 // tag's block. `preview.type()` replaces the inferred args rather than adding
 // to them, so spell out Tag's own args too.
-type StoryArgs = TagArgs & { label: string };
+type StoryArgs = TagSignature['Args'] & { label: string };
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'Components/Tag',

@@ -34,7 +34,7 @@ import type { TOC } from '@ember/component/template-only';
 import type { ComponentLike } from '@glint/template';
 import type { userEvent as UserEventApi } from 'storybook/test';
 import type { Editor, Extension } from '@tiptap/core';
-import type { Args as PromptLineArgs, PromptLineApi } from './prompt-line.gts';
+import type { PromptLineSignature, PromptLineApi } from './prompt-line.gts';
 import type {
   FileRemoveEventDetail,
   FileUpload,
@@ -70,7 +70,7 @@ import type {
 // - Upstream's `carbonTheme` arg isn't ported: the Storybook toolbar's theme
 //   switcher applies Carbon's theme classes instead.
 
-type StoryArgs = PromptLineArgs & {
+type StoryArgs = PromptLineSignature['Args'] & {
   /** Shell: rounded corners. */
   rounded?: boolean;
   /** Shell: full-width editor row with the inline actions beneath it. */

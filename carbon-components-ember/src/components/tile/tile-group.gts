@@ -4,7 +4,7 @@ import type { WithBoundArgs } from '@glint/template';
 import RadioTile from '../radio-tile.gts';
 import type { Value } from '../radio-tile.gts';
 
-export interface Signature {
+export interface TileGroupSignature {
   Args: {
     legend?: string;
     name: string;
@@ -24,7 +24,7 @@ export interface Signature {
   };
 }
 
-export default class TileGroup extends Component<Signature> {
+export default class TileGroup extends Component<TileGroupSignature> {
   @tracked _selectedValue?: Value;
 
   get selectedValue() {

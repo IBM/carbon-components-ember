@@ -1,7 +1,7 @@
 import preview from '#storybook/preview.ts';
 import ChatHistoryPanel from './chat-history-panel.gts';
 
-import type { Args as PanelArgs } from './chat-history-panel.gts';
+import type { ChatHistoryPanelSignature } from './chat-history-panel.gts';
 
 // Upstream documents `cds-aichat-history-panel` only inside its
 // `Components/Chat history` stories (see chat-history.stories.gts); this
@@ -18,7 +18,7 @@ const meta = preview.meta({
       },
     },
   },
-  render: (args: PanelArgs) => <template>
+  render: (args: ChatHistoryPanelSignature['Args']) => <template>
     <div style="max-inline-size: 20rem; block-size: 10rem;">
       <ChatHistoryPanel
         @expanded={{args.expanded}}

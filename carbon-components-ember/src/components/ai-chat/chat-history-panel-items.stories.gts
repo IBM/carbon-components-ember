@@ -1,7 +1,7 @@
 import preview from '#storybook/preview.ts';
 import ChatHistoryPanelItems from './chat-history-panel-items.gts';
 
-import type { Args as PanelItemsArgs } from './chat-history-panel-items.gts';
+import type { ChatHistoryPanelItemsSignature } from './chat-history-panel-items.gts';
 
 // Upstream documents `cds-aichat-history-panel-items` only inside its
 // `Components/Chat history` stories (see chat-history.stories.gts); this
@@ -18,7 +18,7 @@ const meta = preview.meta({
       },
     },
   },
-  render: (args: PanelItemsArgs) => <template>
+  render: (args: ChatHistoryPanelItemsSignature['Args']) => <template>
     <div style="max-inline-size: 20rem;">
       <ChatHistoryPanelItems @showActions={{args.showActions}} as |Item Menu|>
         <Item @id="chat-1" @name="Trip planning" @selected={{true}} />

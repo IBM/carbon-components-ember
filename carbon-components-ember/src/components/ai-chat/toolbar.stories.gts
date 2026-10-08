@@ -24,7 +24,7 @@ import OverflowMenuItem from '../overflow-menu/item.gts';
 import Tooltip from '../tooltip.gts';
 import Toolbar from './toolbar.gts';
 
-import type { Args as ToolbarArgs, ToolbarAction } from './toolbar.gts';
+import type { ToolbarSignature, ToolbarAction } from './toolbar.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `toolbar.stories.js`
 // (`Components/Toolbar`): Default (with the same `title`/`navigation`/
@@ -45,7 +45,7 @@ import type { Args as ToolbarArgs, ToolbarAction } from './toolbar.gts';
 // - Upstream's `carbonTheme` arg isn't ported: the Storybook toolbar's
 //   theme switcher applies Carbon's theme classes instead.
 
-type StoryArgs = ToolbarArgs & {
+type StoryArgs = ToolbarSignature['Args'] & {
   /** Story-only: which predefined action list to render. */
   actionList: 'Advanced list' | 'Basic list' | 'Close only' | 'None';
   /** Story-only: content of the `title` block (upstream `title` slot). */

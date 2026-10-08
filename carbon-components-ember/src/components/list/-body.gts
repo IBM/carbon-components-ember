@@ -4,13 +4,11 @@ import type { WithBoundArgs } from '@glint/template';
 import type ListRowComponent from '../list/-row.gts';
 import type ListComponent from '../list.gts';
 
-export type Args<T> = {
-  items: T[];
-  list: ListComponent<T>;
-};
-
-export interface ListBodyComponentSignature<T> {
-  Args: Args<T>;
+export interface ListBodySignature<T> {
+  Args: {
+    items: T[];
+    list: ListComponent<T>;
+  };
   Blocks: {
     default: [
       {
@@ -24,9 +22,7 @@ export interface ListBodyComponentSignature<T> {
   };
 }
 
-export default class ListBodyComponent<T> extends Component<
-  ListBodyComponentSignature<T>
-> {
+export default class ListBody<T> extends Component<ListBodySignature<T>> {
   <template>
     <div class="cds--structured-list-tbody">
       {{#each @items as |item|}}

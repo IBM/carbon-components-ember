@@ -13,14 +13,16 @@ export type Header = {
   hideLabel?: boolean;
 };
 
-export type Args = {
-  table: DataTableContext;
-  headers: (Header | undefined | null)[];
-  isExpandable?: boolean;
-  isCheckable?: boolean;
-};
+export interface TableHeaderSignature {
+  Args: {
+    table: DataTableContext;
+    headers: (Header | undefined | null)[];
+    isExpandable?: boolean;
+    isCheckable?: boolean;
+  };
+}
 
-export default class ListHeaderComponent extends Component<Args> {
+export default class TableHeader extends Component<TableHeaderSignature> {
   didSetup = false;
   table?: DataTableContext;
 
@@ -36,7 +38,11 @@ export default class ListHeaderComponent extends Component<Args> {
     );
   }
 
-  constructor(...args: ConstructorParameters<typeof Component<Args>>) {
+  constructor(
+    ...args: ConstructorParameters<
+      typeof Component<TableHeaderSignature['Args']>
+    >
+  ) {
     super(...args);
     if (this.args.table) {
       this.table = this.args.table;

@@ -1,21 +1,19 @@
 import { concat } from '@ember/helper';
 import type { TOC } from '@ember/component/template-only';
 
-export type Args = {
-  isLoading?: boolean;
-  isSortable?: boolean;
-  useZebraStyles?: boolean;
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-};
-
-export interface TableComponentSignature {
-  Args: Args;
+export interface TableSignature {
+  Args: {
+    isLoading?: boolean;
+    isSortable?: boolean;
+    useZebraStyles?: boolean;
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  };
   Blocks: {
     default: [];
   };
 }
 
-const TableComponent: TOC<TableComponentSignature> = <template>
+const Table: TOC<TableSignature> = <template>
   <table
     class="cds--data-table
       {{if @size (concat 'cds--data-table--' @size)}}
@@ -27,4 +25,4 @@ const TableComponent: TOC<TableComponentSignature> = <template>
   </table>
 </template>;
 
-export default TableComponent;
+export default Table;

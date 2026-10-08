@@ -7,12 +7,10 @@ import { modifier as eModifier } from 'ember-modifier';
 import { htmlSafe } from '@ember/template';
 import type { TemplateOnlyComponent } from '@ember/component/template-only';
 
-export type Args = {
-  type: 'default' | 'multiline' | 'inline';
-};
-
-export interface CarbonCodeSnippetSignature {
-  Args: Args;
+export interface CodeSnippetSignature {
+  Args: {
+    type: 'default' | 'multiline' | 'inline';
+  };
   Blocks: {
     default: [];
   };
@@ -49,7 +47,7 @@ const PreCode: TemplateOnlyComponent<{
   </pre>
 </template>;
 
-export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignature> {
+export default class CodeSnippet extends Component<CodeSnippetSignature> {
   @tracked expanded = false;
   @tracked codeElement?: Element;
   @tracked carbonElement?: Element;
@@ -67,7 +65,7 @@ export default class CarbonCodeSnippet extends Component<CarbonCodeSnippetSignat
   };
 
   @defaultArgs
-  args: Args = {
+  args: CodeSnippetSignature['Args'] = {
     type: 'default',
   };
 

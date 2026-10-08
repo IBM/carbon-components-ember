@@ -9,35 +9,33 @@ import { WarningFilled, WarningAltFilled } from '../../icons.ts';
 import type { HandlePosition } from '../slider.gts';
 import type { TOC } from '@ember/component/template-only';
 
-export interface SliderTextInputArgs {
-  handle: HandlePosition;
-  suffix: HandlePosition;
-  /**
-   * Rendered as `data-handle-position`; only set once there are two handles,
-   * matching `@carbon/react`.
-   */
-  dataHandlePosition?: HandlePosition;
-  id: string;
-  name?: string;
-  value: string;
-  ariaLabel?: string;
-  ariaLabelledby?: string;
-  disabled?: boolean;
-  required?: boolean;
-  min: number;
-  max: number;
-  step?: number;
-  readOnly?: boolean;
-  invalid?: boolean;
-  warn?: boolean;
-  hideTextInput?: boolean;
-  onChange: (handle: HandlePosition, event: Event) => void;
-  onBlur: (handle: HandlePosition, event: FocusEvent) => void;
-  onKeyDown: (handle: HandlePosition, event: KeyboardEvent) => void;
-}
-
 export interface SliderTextInputSignature {
-  Args: SliderTextInputArgs;
+  Args: {
+    handle: HandlePosition;
+    suffix: HandlePosition;
+    /**
+     * Rendered as `data-handle-position`; only set once there are two handles,
+     * matching `@carbon/react`.
+     */
+    dataHandlePosition?: HandlePosition;
+    id: string;
+    name?: string;
+    value: string;
+    ariaLabel?: string;
+    ariaLabelledby?: string;
+    disabled?: boolean;
+    required?: boolean;
+    min: number;
+    max: number;
+    step?: number;
+    readOnly?: boolean;
+    invalid?: boolean;
+    warn?: boolean;
+    hideTextInput?: boolean;
+    onChange: (handle: HandlePosition, event: Event) => void;
+    onBlur: (handle: HandlePosition, event: FocusEvent) => void;
+    onKeyDown: (handle: HandlePosition, event: KeyboardEvent) => void;
+  };
 }
 
 /**

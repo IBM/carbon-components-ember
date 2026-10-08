@@ -13,24 +13,22 @@ import type { WithBoundArgs } from '@glint/template';
 import ChatHistoryPanelItem from './chat-history-panel-item.gts';
 import { ChevronDown } from '../../icons.ts';
 
-export type Args = {
-  title?: string;
-  /**
-   * Whether this group's items are expanded. Case B: seeded from `@expanded`
-   * (defaulting to `true`, matching upstream's own default), and owned
-   * internally unless `@onToggle` is passed - see `ChainOfThoughtToggle`
-   * for the same convention.
-   */
-  expanded?: boolean;
-  /** Called with the new expanded state whenever the header is clicked. */
-  onToggle?: (expanded: boolean) => void;
-  /** Propagated down to every yielded `ChatHistoryPanelItem`. */
-  showActions?: boolean;
-};
-
 export interface ChatHistoryPanelMenuSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    title?: string;
+    /**
+     * Whether this group's items are expanded. Case B: seeded from `@expanded`
+     * (defaulting to `true`, matching upstream's own default), and owned
+     * internally unless `@onToggle` is passed - see `ChainOfThoughtToggle`
+     * for the same convention.
+     */
+    expanded?: boolean;
+    /** Called with the new expanded state whenever the header is clicked. */
+    onToggle?: (expanded: boolean) => void;
+    /** Propagated down to every yielded `ChatHistoryPanelItem`. */
+    showActions?: boolean;
+  };
   Blocks: {
     default: [
       WithBoundArgs<

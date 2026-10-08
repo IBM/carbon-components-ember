@@ -8,7 +8,7 @@ import TreeView from './tree-view.gts';
 import DocumentIcon from './icons/document.ts';
 import Folder from './icons/folder.ts';
 
-import type { TreeViewArgs, TreeViewSignature } from './tree-view.gts';
+import type { TreeViewSignature } from './tree-view.gts';
 import type Icon from './icon.gts';
 import type { TOC } from '@ember/component/template-only';
 
@@ -35,7 +35,7 @@ type NodeDef = {
   children?: NodeDef[];
 };
 
-type StoryArgs = TreeViewArgs & {
+type StoryArgs = TreeViewSignature['Args'] & {
   nodes: NodeDef[];
   withIcons?: boolean;
 };

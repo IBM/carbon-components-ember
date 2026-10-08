@@ -4,7 +4,7 @@ import { expect, fn } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import ChatHistoryHeader from './chat-history-header.gts';
 
-import type { Args as HeaderArgs } from './chat-history-header.gts';
+import type { ChatHistoryHeaderSignature } from './chat-history-header.gts';
 
 // Upstream documents `cds-aichat-history-header` only inside its
 // `Components/Chat history` stories (see chat-history.stories.gts); these
@@ -26,7 +26,7 @@ const meta = preview.meta({
     showCloseAction: true,
     onClose: fn(),
   },
-  render: (args: HeaderArgs) => {
+  render: (args: ChatHistoryHeaderSignature['Args']) => {
     const state = trackedObject({ closed: false });
     const handleClose = () => {
       state.closed = true;

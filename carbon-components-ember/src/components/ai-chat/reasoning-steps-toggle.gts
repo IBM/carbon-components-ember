@@ -10,23 +10,21 @@ import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { ChevronUp } from '../../icons.ts';
 
-export type Args = {
-  /** Whether the panel this toggle controls is open. */
-  open?: boolean;
-  /** Defaults to `'Hide reasoning steps'`. */
-  openLabelText?: string;
-  /** Defaults to `'Show reasoning steps'`. */
-  closedLabelText?: string;
-  /** `aria-controls` target — typically a `ReasoningSteps`' own id. */
-  panelId?: string;
-  disabled?: boolean;
-  /** Called with the new open state whenever the button is clicked. */
-  onToggle?: (open: boolean) => void;
-};
-
 export interface ReasoningStepsToggleSignature {
   Element: HTMLButtonElement;
-  Args: Args;
+  Args: {
+    /** Whether the panel this toggle controls is open. */
+    open?: boolean;
+    /** Defaults to `'Hide reasoning steps'`. */
+    openLabelText?: string;
+    /** Defaults to `'Show reasoning steps'`. */
+    closedLabelText?: string;
+    /** `aria-controls` target — typically a `ReasoningSteps`' own id. */
+    panelId?: string;
+    disabled?: boolean;
+    /** Called with the new open state whenever the button is clicked. */
+    onToggle?: (open: boolean) => void;
+  };
 }
 
 /**

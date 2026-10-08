@@ -1,14 +1,12 @@
 import Component from '@glimmer/component';
 import type { DataTableContext } from '../data-table.gts';
 
-export type Args = {
-  table?: DataTableContext;
-  // overrides the auto-associated header id used for the `headers` attribute
-  header?: string;
-};
-
 export interface TableColumnSignature {
-  Args: Args;
+  Args: {
+    table?: DataTableContext;
+    // overrides the auto-associated header id used for the `headers` attribute
+    header?: string;
+  };
   Element: HTMLTableCellElement;
   Blocks: {
     default: [];

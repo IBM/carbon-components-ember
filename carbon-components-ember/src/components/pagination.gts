@@ -27,51 +27,53 @@ type State = {
   itemsPerPage: number;
 };
 
-export type Args = {
-  disabled?: boolean;
-  isLoading?: boolean;
-  length: number;
-  onPageChanged: (currentSlice: Slice) => void;
-  state?: State;
-  itemsPerPageOptions?: (number | string)[];
-  size?: 'xs' | 'sm' | 'md' | 'lg';
-  /**
-   * The description for the backward icon, also used as its tooltip content.
-   */
-  backwardText?: string;
-  /**
-   * The tooltip position for the backward button.
-   */
-  backwardTextTooltipPosition?: TooltipPosition;
-  /**
-   * The description for the forward icon, also used as its tooltip content.
-   */
-  forwardText?: string;
-  /**
-   * The tooltip position for the forward button.
-   */
-  forwardTextTooltipPosition?: TooltipPosition;
-  /**
-   * Provide a custom component to render in place of the default page-select
-   * control. Receives `@currentPage`, `@totalPages`, `@currentPageSize`,
-   * `@pageSelectLabelText` and `@onSetPage`.
-   */
-  renderPageSelect?: ComponentLike<{
-    Args: {
-      currentPage: number;
-      totalPages: number;
-      currentPageSize: number;
-      pageSelectLabelText: string;
-      onSetPage: (page: number) => void;
-    };
-  }>;
-};
+export interface PaginationSignature {
+  Args: {
+    disabled?: boolean;
+    isLoading?: boolean;
+    length: number;
+    onPageChanged: (currentSlice: Slice) => void;
+    state?: State;
+    itemsPerPageOptions?: (number | string)[];
+    size?: 'xs' | 'sm' | 'md' | 'lg';
+    /**
+     * The description for the backward icon, also used as its tooltip content.
+     */
+    backwardText?: string;
+    /**
+     * The tooltip position for the backward button.
+     */
+    backwardTextTooltipPosition?: TooltipPosition;
+    /**
+     * The description for the forward icon, also used as its tooltip content.
+     */
+    forwardText?: string;
+    /**
+     * The tooltip position for the forward button.
+     */
+    forwardTextTooltipPosition?: TooltipPosition;
+    /**
+     * Provide a custom component to render in place of the default page-select
+     * control. Receives `@currentPage`, `@totalPages`, `@currentPageSize`,
+     * `@pageSelectLabelText` and `@onSetPage`.
+     */
+    renderPageSelect?: ComponentLike<{
+      Args: {
+        currentPage: number;
+        totalPages: number;
+        currentPageSize: number;
+        pageSelectLabelText: string;
+        onSetPage: (page: number) => void;
+      };
+    }>;
+  };
+}
 
-export default class CarbonPagination extends Component<Args> {
+export default class Pagination extends Component<PaginationSignature> {
   @tracked currentPage: number;
   @tracked itemsPerPage: number;
 
-  args: Args = defaultArgs(this, {
+  args: PaginationSignature['Args'] = defaultArgs(this, {
     disabled: false,
     length: 1,
     onPageChanged: () => null,
@@ -85,7 +87,7 @@ export default class CarbonPagination extends Component<Args> {
     renderPageSelect: undefined,
   });
 
-  constructor(owner: Owner, args: Args) {
+  constructor(owner: Owner, args: PaginationSignature['Args']) {
     super(owner, args);
     // Seeded from the initial `@state`; later changes are applied by
     // `syncState`.

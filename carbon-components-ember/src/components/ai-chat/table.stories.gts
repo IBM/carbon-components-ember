@@ -5,7 +5,7 @@ import preview from '#storybook/preview.ts';
 import AiChatCard from './card.gts';
 import Table from './table.gts';
 
-import type { Args as TableArgs } from './table.gts';
+import type { TableSignature } from './table.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `table.stories.js` (`Default`,
 // `Loading`), including its `useCard` wrapper toggle (renders the table in
@@ -64,7 +64,7 @@ const bodyRowNames = (canvasElement: HTMLElement) =>
     (cell) => cell.textContent?.trim(),
   );
 
-type StoryArgs = TableArgs & {
+type StoryArgs = TableSignature['Args'] & {
   /** Story-only: wrap the table in a flush `AiChatCard` (upstream `useCard`). */
   useCard?: boolean;
 };

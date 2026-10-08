@@ -4,64 +4,62 @@ import { modifier } from 'ember-modifier';
 import type { ComponentLike } from '@glint/template';
 import type Icon from './icon.gts';
 
-export type Args = {
-  /**
-   * Specify the id for the tag.
-   */
-  id?: string;
-  /**
-   * Provide a custom title for the tag. If not provided, the title will be
-   * derived from the text content.
-   */
-  title?: string;
-  /**
-   * Specify if the `Tag` is disabled.
-   */
-  disabled?: boolean;
-  /**
-   * A component used to render an icon.
-   */
-  renderIcon?: typeof Icon;
-  /**
-   * Specify the size of the Tag. Currently supports either `sm`, `md`
-   * (default) or `lg` sizes.
-   */
-  size?: 'sm' | 'md' | 'lg';
-  /**
-   * **Experimental:** Provide a `decorator` component (e.g. AILabel) to be
-   * rendered inside the Tag.
-   */
-  decorator?: ComponentLike;
-  /**
-   * @deprecated please use `decorator` instead.
-   * **Experimental:** Provide a Slug/AILabel component to be rendered
-   * inside the Tag.
-   */
-  slug?: ComponentLike;
-  type:
-    | 'red'
-    | 'magenta'
-    | 'purple'
-    | 'blue'
-    | 'cyan'
-    | 'teal'
-    | 'green'
-    | 'gray'
-    | 'cool-gray'
-    | 'warm-gray'
-    | 'high-contrast'
-    | 'outline';
-};
-
-export interface TagInterface {
-  Args: Args;
+export interface TagSignature {
+  Args: {
+    /**
+     * Specify the id for the tag.
+     */
+    id?: string;
+    /**
+     * Provide a custom title for the tag. If not provided, the title will be
+     * derived from the text content.
+     */
+    title?: string;
+    /**
+     * Specify if the `Tag` is disabled.
+     */
+    disabled?: boolean;
+    /**
+     * A component used to render an icon.
+     */
+    renderIcon?: typeof Icon;
+    /**
+     * Specify the size of the Tag. Currently supports either `sm`, `md`
+     * (default) or `lg` sizes.
+     */
+    size?: 'sm' | 'md' | 'lg';
+    /**
+     * **Experimental:** Provide a `decorator` component (e.g. AILabel) to be
+     * rendered inside the Tag.
+     */
+    decorator?: ComponentLike;
+    /**
+     * @deprecated please use `decorator` instead.
+     * **Experimental:** Provide a Slug/AILabel component to be rendered
+     * inside the Tag.
+     */
+    slug?: ComponentLike;
+    type:
+      | 'red'
+      | 'magenta'
+      | 'purple'
+      | 'blue'
+      | 'cyan'
+      | 'teal'
+      | 'green'
+      | 'gray'
+      | 'cool-gray'
+      | 'warm-gray'
+      | 'high-contrast'
+      | 'outline';
+  };
   Element: HTMLDivElement;
   Blocks: {
     default: [];
   };
 }
 
-export default class TagComponent extends Component<TagInterface> {
+export default class Tag extends Component<TagSignature> {
   guid = guidFor(this);
 
   get id() {

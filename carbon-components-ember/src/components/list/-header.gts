@@ -1,10 +1,12 @@
 import type { TOC } from '@ember/component/template-only';
 
-export type Args = {
-  headers: string[];
-};
+export interface ListHeaderSignature {
+  Args: {
+    headers: string[];
+  };
+}
 
-const ListHeaderComponent: TOC<{ Args: Args }> = <template>
+const ListHeader: TOC<ListHeaderSignature> = <template>
   <div class="cds--structured-list-thead">
     <div class="cds--structured-list-row cds--structured-list-row--header-row">
       {{#each @headers as |h|}}
@@ -16,4 +18,4 @@ const ListHeaderComponent: TOC<{ Args: Args }> = <template>
   </div>
 </template>;
 
-export default ListHeaderComponent;
+export default ListHeader;

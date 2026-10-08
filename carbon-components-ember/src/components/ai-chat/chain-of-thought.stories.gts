@@ -7,7 +7,7 @@ import ChainOfThoughtToggle from './chain-of-thought-toggle.gts';
 import Markdown from './markdown.gts';
 
 import type {
-  Args as ChainOfThoughtArgs,
+  ChainOfThoughtSignature,
   ChainOfThoughtStepStatus,
 } from './chain-of-thought.gts';
 import type { TOC } from '@ember/component/template-only';
@@ -193,7 +193,7 @@ const ToolCallData: TOC<{ Args: { step: ToolStep } }> = <template>
   </div>
 </template>;
 
-type StoryArgs = ChainOfThoughtArgs & {
+type StoryArgs = ChainOfThoughtSignature['Args'] & {
   /** Story-only: the toggle's label while open. */
   openLabelText?: string;
   /** Story-only: the toggle's label while closed. */

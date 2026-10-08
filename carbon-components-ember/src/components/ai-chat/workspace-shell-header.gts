@@ -10,22 +10,20 @@ import { modifier } from 'ember-modifier';
 import { ChevronDown } from '../../icons.ts';
 import AiChatTruncatedText from './truncated-text.gts';
 
-export type Args = {
-  titleText?: string;
-  subTitleText?: string;
-  /**
-   * When `true`, the header renders as a `<details>`/`<summary>` that
-   * starts collapsed and can be toggled open. When `false` (the default),
-   * the header always renders fully expanded.
-   */
-  collapsible?: boolean;
-  /** Called with the new open state whenever a collapsible header is toggled. */
-  onToggle?: (open: boolean) => void;
-};
-
 export interface WorkspaceShellHeaderSignature {
   Element: HTMLDivElement | HTMLDetailsElement;
-  Args: Args;
+  Args: {
+    titleText?: string;
+    subTitleText?: string;
+    /**
+     * When `true`, the header renders as a `<details>`/`<summary>` that
+     * starts collapsed and can be toggled open. When `false` (the default),
+     * the header always renders fully expanded.
+     */
+    collapsible?: boolean;
+    /** Called with the new open state whenever a collapsible header is toggled. */
+    onToggle?: (open: boolean) => void;
+  };
   Blocks: {
     /** Extra description content, rendered after `@subTitleText`. */
     headerDescription: [];

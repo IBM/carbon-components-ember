@@ -17,13 +17,11 @@ export type CardStep = {
   label?: string;
 };
 
-export type Args = {
-  steps?: CardStep[];
-};
-
 export interface AiChatCardStepsSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    steps?: CardStep[];
+  };
 }
 
 /**

@@ -8,9 +8,9 @@ import Information from './icons/information.ts';
 import Toggletip from './toggletip.gts';
 import ToggletipLabel from './toggletip/label.gts';
 
-import type { Signature } from './fluid-text-input.gts';
+import type { FluidTextInputSignature } from './fluid-text-input.gts';
 
-type Args = Signature['Args'];
+type Args = FluidTextInputSignature['Args'];
 
 // Carbon React parity gaps (Components/Fluid Components/FluidTextInput):
 // - `Skeleton`: there is no FluidTextInputSkeleton.

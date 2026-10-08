@@ -15,26 +15,24 @@ import type {
   FileUpload,
 } from './-file-uploads/types.ts';
 
-export type Args = {
-  uploads?: FileUpload[];
-  removeFileLabel?: string;
-  uploadingFileLabel?: string;
-  /** Announced when a file is removed. */
-  fileRemovedLabel?: string;
-  /** Announced when a file finishes uploading successfully. */
-  uploadSuccessLabel?: string;
-  /** Announced when a file fails to upload. */
-  uploadFailureLabel?: string;
-  /** Announcement made when one or more files are added in the same frame. Receives the batch count. */
-  getFilesAddedText?: (args: { count: number }) => string;
-  /** Announcement made when one or more files begin uploading in the same frame. Receives the batch count. */
-  getFilesUploadingText?: (args: { count: number }) => string;
-  onRemove?: (detail: FileRemoveEventDetail) => void;
-};
-
 export interface FileUploadsSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    uploads?: FileUpload[];
+    removeFileLabel?: string;
+    uploadingFileLabel?: string;
+    /** Announced when a file is removed. */
+    fileRemovedLabel?: string;
+    /** Announced when a file finishes uploading successfully. */
+    uploadSuccessLabel?: string;
+    /** Announced when a file fails to upload. */
+    uploadFailureLabel?: string;
+    /** Announcement made when one or more files are added in the same frame. Receives the batch count. */
+    getFilesAddedText?: (args: { count: number }) => string;
+    /** Announcement made when one or more files begin uploading in the same frame. Receives the batch count. */
+    getFilesUploadingText?: (args: { count: number }) => string;
+    onRemove?: (detail: FileRemoveEventDetail) => void;
+  };
 }
 
 interface UploadSnapshot {

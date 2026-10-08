@@ -2,7 +2,7 @@ import Button from '../../button.gts';
 import type { DataTableContext } from '../../data-table.gts';
 import type { TOC } from '@ember/component/template-only';
 
-export interface Signature {
+export interface TableBatchActionsSignature {
   Args: {
     table: DataTableContext;
   };
@@ -18,7 +18,7 @@ export interface Signature {
 const clearSelection = (table: DataTableContext) =>
   table.state.selectedItems.clear();
 
-const TableActionsComponent: TOC<Signature> = <template>
+const TableBatchActions: TOC<TableBatchActionsSignature> = <template>
   {{#if @table.state.selectedItems.size}}
     <div
       class="cds--batch-actions cds--batch-actions--active"
@@ -42,4 +42,4 @@ const TableActionsComponent: TOC<Signature> = <template>
   {{/if}}
 </template>;
 
-export default TableActionsComponent;
+export default TableBatchActions;

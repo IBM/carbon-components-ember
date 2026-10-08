@@ -18,18 +18,16 @@ import Tooltip from '../tooltip.gts';
 import ChevronLeft from '../icons/chevron-left.ts';
 import ChevronRight from '../icons/chevron-right.ts';
 
-export type Args = {
-  /** Tooltip/assistive text for the "next" button. */
-  nextBtnText?: string;
-  /** Tooltip/assistive text for the "previous" button. */
-  previousBtnText?: string;
-  /** Called whenever the active view finishes transitioning. */
-  onChange?: (data: CarouselResponse) => void;
-};
-
 export interface CarouselSignature {
   Element: HTMLDivElement;
-  Args: Args;
+  Args: {
+    /** Tooltip/assistive text for the "next" button. */
+    nextBtnText?: string;
+    /** Tooltip/assistive text for the "previous" button. */
+    previousBtnText?: string;
+    /** Called whenever the active view finishes transitioning. */
+    onChange?: (data: CarouselResponse) => void;
+  };
   Blocks: {
     /**
      * Each direct child rendered here becomes one carousel view (upstream's

@@ -2,42 +2,39 @@ import Chart from './-components/chart.gts';
 import { SimpleBarChart } from '@carbon/charts';
 import Component from '@glimmer/component';
 import { defaultArgs } from '../../utils/decorators.ts';
-import type { CarbonChartSignature } from './-components/chart.gts';
+import type { ChartSignature } from './-components/chart.gts';
 
-/** @documenter yuidoc */
-
-export type Args = {
-  /**
-   * The chart's title, rendered by @carbon/charts as the chart's heading
-   * (its `title` option).
-   */
-  title?: string;
-  resizable?: boolean;
-  legendClickable?: boolean;
-};
-
-export interface CarbonBarChartSignature {
-  Args: Args;
-  Element: CarbonChartSignature['Element'];
+export interface BarChartSignature {
+  /** @documenter yuidoc */
+  Args: {
+    /**
+     * The chart's title, rendered by @carbon/charts as the chart's heading
+     * (its `title` option).
+     */
+    title?: string;
+    resizable?: boolean;
+    legendClickable?: boolean;
+  };
+  Element: ChartSignature['Element'];
   Blocks: {
-    default: CarbonChartSignature['Blocks']['default'];
+    default: ChartSignature['Blocks']['default'];
   };
 }
 
 /**
- The CarbonBarChart
+ The BarChart
 
- @class CarbonBarChart
+ @class BarChart
  @public
  @yield {Object} api
  @yield {Component} api.DataSet <a href='-components/dataset' >Dataset</a>
  @yield {Component} api.Axis <a href='-components/axis' >ChartAxis</a>
  **/
-export default class CarbonBarChart extends Component<CarbonBarChartSignature> {
+export default class BarChart extends Component<BarChartSignature> {
   ChartClass = SimpleBarChart;
 
   @defaultArgs
-  args: Args = {
+  args: BarChartSignature['Args'] = {
     /**
      * Is resizable
      @argument resizable

@@ -14,35 +14,33 @@ import type { WithBoundArgs } from '@glint/template';
 import { htmlSafe } from '@ember/template';
 import type Icon from './icon.gts';
 
-export interface TreeNodeArgs {
-  treeView: TreeView;
-  id?: string;
-  label: string;
-  disabled?: boolean;
-  /**
-   * Whether the node is expanded. Uncontrolled (just sets the initial
-   * state) unless `@onToggle` is also passed, in which case this becomes
-   * the source of truth and the consumer is expected to update it from
-   * `@onToggle` — see the "Controlled expansion" docs example.
-   */
-  isExpanded?: boolean;
-  onToggle?: (expanded: boolean, node: TreeNode) => void;
-  /**
-   * Icon rendered before the node's label, e.g. `Folder`/`Document` from
-   * `carbon-components-ember/icons`.
-   */
-  icon?: typeof Icon;
-  /**
-   * Nesting depth of this node within the tree, starting at 0 for
-   * top-level nodes. Set automatically when nodes are yielded — do not
-   * pass this manually.
-   */
-  depth?: number;
-}
-
 export interface TreeNodeSignature {
   Element: HTMLLIElement;
-  Args: TreeNodeArgs;
+  Args: {
+    treeView: TreeView;
+    id?: string;
+    label: string;
+    disabled?: boolean;
+    /**
+     * Whether the node is expanded. Uncontrolled (just sets the initial
+     * state) unless `@onToggle` is also passed, in which case this becomes
+     * the source of truth and the consumer is expected to update it from
+     * `@onToggle` — see the "Controlled expansion" docs example.
+     */
+    isExpanded?: boolean;
+    onToggle?: (expanded: boolean, node: TreeNode) => void;
+    /**
+     * Icon rendered before the node's label, e.g. `Folder`/`Document` from
+     * `carbon-components-ember/icons`.
+     */
+    icon?: typeof Icon;
+    /**
+     * Nesting depth of this node within the tree, starting at 0 for
+     * top-level nodes. Set automatically when nodes are yielded — do not
+     * pass this manually.
+     */
+    depth?: number;
+  };
   Blocks: {
     default: [WithBoundArgs<typeof TreeNode, 'treeView'>];
   };
@@ -209,20 +207,18 @@ class TreeNode extends Component<TreeNodeSignature> {
   </template>
 }
 
-export interface TreeViewArgs {
-  label: string;
-  hideLabel?: boolean;
-  multiselect?: boolean;
-  selected?: Array<string>;
-  active?: string;
-  size?: 'xs' | 'sm';
-  onSelect?: (selected: Array<string>, node: TreeNode) => void;
-  onActivate?: (active: string) => void;
-}
-
 export interface TreeViewSignature {
   Element: HTMLUListElement;
-  Args: TreeViewArgs;
+  Args: {
+    label: string;
+    hideLabel?: boolean;
+    multiselect?: boolean;
+    selected?: Array<string>;
+    active?: string;
+    size?: 'xs' | 'sm';
+    onSelect?: (selected: Array<string>, node: TreeNode) => void;
+    onActivate?: (active: string) => void;
+  };
   Blocks: {
     default: [WithBoundArgs<typeof TreeNode, 'treeView'>];
   };

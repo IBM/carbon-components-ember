@@ -2,13 +2,13 @@ import UIShellNavItem from '../../components/ui-shell/-nav/-item.gts';
 import UIShellHeaderMenu from '../../components/ui-shell/-header/-menu.gts';
 import type { TOC } from '@ember/component/template-only';
 
-export interface Signature {
+export interface UIShellHeaderNavSignature {
   Blocks: {
     default: [typeof UIShellNavItem, typeof UIShellHeaderMenu];
   };
 }
 
-const InnerClass: TOC<Signature> = <template>
+const UIShellHeaderNav: TOC<UIShellHeaderNavSignature> = <template>
   <nav aria-label="IBM [Platform]" class="cds--header__nav">
     <ul class="cds--header__menu-bar">
       {{yield UIShellNavItem UIShellHeaderMenu}}
@@ -16,4 +16,4 @@ const InnerClass: TOC<Signature> = <template>
   </nav>
 </template>;
 
-export default InnerClass;
+export default UIShellHeaderNav;

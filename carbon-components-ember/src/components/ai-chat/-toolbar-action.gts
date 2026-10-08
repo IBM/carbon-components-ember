@@ -8,11 +8,11 @@
 import Component from '@glimmer/component';
 import Button from '../button.gts';
 import Tooltip from '../tooltip.gts';
-import type { CarbonTooltipSignature } from '../tooltip.gts';
+import type { TooltipSignature } from '../tooltip.gts';
 import type { ToolbarAction } from './toolbar.gts';
 
 export interface ToolbarActionButtonSignature {
-  Element: CarbonTooltipSignature['Element'];
+  Element: TooltipSignature['Element'];
   Args: {
     action: ToolbarAction;
   };

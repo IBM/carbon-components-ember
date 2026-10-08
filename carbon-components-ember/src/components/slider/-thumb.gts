@@ -18,25 +18,23 @@ const registerElement = modifier<{
   onInsert(element);
 });
 
-export interface SliderThumbArgs {
-  position: HandlePosition;
-  twoHandles: boolean;
-  style: SafeString;
-  id?: string;
-  disabled?: boolean;
-  readOnly?: boolean;
-  ariaValueText?: string;
-  ariaValueMax?: number;
-  ariaValueMin?: number;
-  ariaValueNow?: number;
-  ariaLabel?: string;
-  ariaLabelledby?: string;
-  onFocus: () => void;
-  registerElement: (element: HTMLDivElement) => void;
-}
-
 export interface SliderThumbSignature {
-  Args: SliderThumbArgs;
+  Args: {
+    position: HandlePosition;
+    twoHandles: boolean;
+    style: SafeString;
+    id?: string;
+    disabled?: boolean;
+    readOnly?: boolean;
+    ariaValueText?: string;
+    ariaValueMax?: number;
+    ariaValueMin?: number;
+    ariaValueNow?: number;
+    ariaLabel?: string;
+    ariaLabelledby?: string;
+    onFocus: () => void;
+    registerElement: (element: HTMLDivElement) => void;
+  };
 }
 
 /**

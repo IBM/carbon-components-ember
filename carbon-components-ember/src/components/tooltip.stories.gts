@@ -7,7 +7,7 @@ import Button from './button.gts';
 import Tooltip, { TooltipAlignments } from './tooltip.gts';
 import OverflowMenuVertical from './icons/overflow-menu-vertical.ts';
 
-import type { Args as TooltipArgs } from './tooltip.gts';
+import type { TooltipSignature } from './tooltip.gts';
 
 // Parity with Carbon React's Tooltip stories (Default, Alignment,
 // ExperimentalAutoAlign, Duration): React's `Default` is the
@@ -99,7 +99,7 @@ export const IconTrigger = meta.story({
     label: 'Options',
     closeOnActivation: false,
   },
-  render: (args: TooltipArgs) => <template>
+  render: (args: TooltipSignature['Args']) => <template>
     <Tooltip
       @label={{args.label}}
       @align={{args.align}}
@@ -120,7 +120,7 @@ export const Alignment = meta.story({
     label: 'Tooltip alignment',
     align: 'bottom-left',
   },
-  render: (args: TooltipArgs) => <template>
+  render: (args: TooltipSignature['Args']) => <template>
     <Tooltip @label={{args.label}} @align={{args.align}}>
       <Button @type="secondary">This button has a tooltip</Button>
     </Tooltip>
@@ -135,7 +135,7 @@ export const Description = meta.story({
     description:
       'Occasionally, services are updated in a specified time window to ensure no down time for customers.',
   },
-  render: (args: TooltipArgs) => <template>
+  render: (args: TooltipSignature['Args']) => <template>
     <Tooltip @description={{args.description}} @align={{args.align}}>
       <Button @type="secondary">Large text</Button>
     </Tooltip>
@@ -149,7 +149,7 @@ export const CustomContent = meta.story({
     dropShadow: true,
     highContrast: false,
   },
-  render: (args: TooltipArgs) => <template>
+  render: (args: TooltipSignature['Args']) => <template>
     <Tooltip
       @align={{args.align}}
       @dropShadow={{args.dropShadow}}
@@ -173,7 +173,7 @@ export const ExperimentalAutoAlign = meta.story({
   parameters: {
     docs: { story: { inline: false, iframeHeight: '400px' } },
   },
-  render: (args: TooltipArgs) => <template>
+  render: (args: TooltipSignature['Args']) => <template>
     <div
       style="display: grid; place-items: center; width: 200vw; min-width: 1200px; height: 200vh; min-height: 1200px;"
     >
@@ -196,7 +196,7 @@ export const Duration = meta.story({
     enterDelayMs: 0,
     leaveDelayMs: 300,
   },
-  render: (args: TooltipArgs) => <template>
+  render: (args: TooltipSignature['Args']) => <template>
     <Tooltip
       @label={{args.label}}
       @align={{args.align}}
