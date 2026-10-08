@@ -52,7 +52,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
           <row.Row>
             <Cells @Column={{table.Column}} @item={{row.item}} />
             <table.Menu as |Item|>
-              <Item>Edit</Item>
+              <Item @itemText="Edit" />
             </table.Menu>
           </row.Row>
         </table.EachBodyRows>
