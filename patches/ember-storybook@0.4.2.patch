@@ -150,10 +150,10 @@ index 781b16c..0000000
 \ No newline at end of file
 diff --git a/dist/annotations-HtJRJsb3.mjs b/dist/annotations-HtJRJsb3.mjs
 new file mode 100644
-index 0000000..f3cf9f3
+index 0000000..fcb1761
 --- /dev/null
 +++ b/dist/annotations-HtJRJsb3.mjs
-@@ -0,0 +1,195 @@
+@@ -0,0 +1,193 @@
 +import { i as __exportAll, n as isEmberStoryResult } from "./story-result-Ds8Z5TZx.mjs";
 +import { n as mergeArgTypes, t as buildArgTypes } from "./extractArgTypes-DNDT7G5O.mjs";
 +import { n as unwrapBlockParamsShallow } from "./block-params-wjiT2Ht6.mjs";
@@ -347,11 +347,8 @@ index 0000000..f3cf9f3
 +const decorators = [sourceDecorator];
 +//#endregion
 +export { parameters as i, argTypesEnhancers as n, decorators as r, annotations_exports as t };
-+
-+//# sourceMappingURL=annotations-HtJRJsb3.mjs.map
-\ No newline at end of file
 diff --git a/dist/client/docs/config.mjs b/dist/client/docs/config.mjs
-index 09c0a8a..a112617 100644
+index 09c0a8a..2e00a68 100644
 --- a/dist/client/docs/config.mjs
 +++ b/dist/client/docs/config.mjs
 @@ -1,4 +1,4 @@
@@ -360,8 +357,15 @@ index 09c0a8a..a112617 100644
  import { t as Page } from "../../page-BACn1xH0.mjs";
  //#region src/client/docs/config.ts
  const docs = parameters$1.docs;
+@@ -11,5 +11,3 @@ const parameters = {
+ };
+ //#endregion
+ export { argTypesEnhancers, decorators, parameters };
+-
+-//# sourceMappingURL=config.mjs.map
+\ No newline at end of file
 diff --git a/dist/client/docs/renderer.mjs b/dist/client/docs/renderer.mjs
-index c8df731..6ab3bca 100644
+index c8df731..7659652 100644
 --- a/dist/client/docs/renderer.mjs
 +++ b/dist/client/docs/renderer.mjs
 @@ -21,7 +21,7 @@ var ErrorBoundary = class extends Component {
@@ -373,6 +377,13 @@ index c8df731..6ab3bca 100644
  		const components = {
  			...defaultComponents,
  			...docsParameter.components
+@@ -44,5 +44,3 @@ var DocsRenderer = class {
+ };
+ //#endregion
+ export { DocsRenderer };
+-
+-//# sourceMappingURL=renderer.mjs.map
+\ No newline at end of file
 diff --git a/dist/client/index.mjs b/dist/client/index.mjs
 index d90a7f7..8f738c4 100644
 --- a/dist/client/index.mjs
@@ -520,10 +531,10 @@ index 0c09d66..0000000
 \ No newline at end of file
 diff --git a/dist/client-TpyQkcLq.mjs b/dist/client-TpyQkcLq.mjs
 new file mode 100644
-index 0000000..4aff065
+index 0000000..e249efe
 --- /dev/null
 +++ b/dist/client-TpyQkcLq.mjs
-@@ -0,0 +1,128 @@
+@@ -0,0 +1,126 @@
 +import { r as normalizeStoryResult } from "./story-result-Ds8Z5TZx.mjs";
 +import { c as templateUsesOutlet, n as config_exports, s as render_exports } from "./config-DGk6BP_3.mjs";
 +import { t as annotations_exports } from "./annotations-HtJRJsb3.mjs";
@@ -650,9 +661,6 @@ index 0000000..4aff065
 +};
 +//#endregion
 +export { setProjectAnnotations$1 as n, definePreview$1 as r, RenderStory as t };
-+
-+//# sourceMappingURL=client-TpyQkcLq.mjs.map
-\ No newline at end of file
 diff --git a/dist/index.mjs b/dist/index.mjs
 index 910683b..974237d 100644
 --- a/dist/index.mjs
@@ -664,7 +672,7 @@ index 910683b..974237d 100644
  import { t as OutletPlaceholder } from "./outlet-placeholder-CgO7fIDo.mjs";
  export { OutletPlaceholder, RenderStory, definePreview, renderToCanvas, setProjectAnnotations };
 diff --git a/dist/preset.mjs b/dist/preset.mjs
-index ee1116a..5eb5278 100644
+index ee1116a..d9c7a50 100644
 --- a/dist/preset.mjs
 +++ b/dist/preset.mjs
 @@ -1,6 +1,6 @@
@@ -1141,6 +1149,13 @@ index ee1116a..5eb5278 100644
  		optimizeDeps: { exclude: ["object-inspect"] },
  		resolve: { dedupe: ["ember-source"] }
  	});
+@@ -1392,5 +1538,3 @@ const core = async (config, options) => {
+ };
+ //#endregion
+ export { core, experimental_indexers, managerEntries, previewAnnotations, viteFinal };
+-
+-//# sourceMappingURL=preset.mjs.map
+\ No newline at end of file
 diff --git a/dist/react-BcVz11Jd.mjs b/dist/react-BcVz11Jd.mjs
 deleted file mode 100644
 index b474ca5..0000000
