@@ -56,7 +56,7 @@
     "test:storybook": "vitest run --project storybook"
   },
   "dependencies": {
-    "@carbon/charts": "^1.27.0",
+    "@carbon/charts": "^1.27.21",
     "@carbon/grid": "^11.15.0",
     "@carbon/icon-helpers": "^10.41.0",
     "@carbon/icons": "^11.68.0",

@@ -192,8 +192,8 @@ importers:
   carbon-components-ember:
     dependencies:
       '@carbon/charts':
-        specifier: ^1.27.0
-        version: 1.27.11
+        specifier: ^1.27.21
+        version: 1.27.21
       '@carbon/grid':
         specifier: ^11.15.0
         version: 11.63.0
@@ -1252,8 +1252,8 @@ packages:
     peerDependencies:
       react: '>=17.0.0 <20.0.0'
 
-  '@carbon/charts@1.27.11':
-    resolution: {integrity: sha512-nPEOmBj9Sy1uveK8hUXEyPMJqEyiCwlrYIychr4PpPtQ+6aL94xQ6c3OlbZrPQL03nX0syELpX7SEcsFX1fADA==}
+  '@carbon/charts@1.27.21':
+    resolution: {integrity: sha512-2BH0nPUguK15ZHS8cetcp+dEM8QifbA1ctptxj01dEEhtgXkcro4O1CDguug/nMlMys73UWcuwkiwSEk1+CHvA==}
 
   '@carbon/colors@11.59.0':
     resolution: {integrity: sha512-8Uz0KatyYgVYcujtCZeNmDX03BniD/WIy77uN2PuXoYCKMyv/kziSHHWBJ3DPhvsZb1734796lyESMvrgL8NBg==}
@@ -10561,7 +10561,7 @@ snapshots:
       - '@types/react'
       - sass
 
-  '@carbon/charts@1.27.11':
+  '@carbon/charts@1.27.21':
     dependencies:
       '@carbon/colors': 11.59.0
       '@carbon/utils-position': 1.3.0
