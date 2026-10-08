@@ -56,6 +56,12 @@
   flex-direction: column;
 }
 
+// Upstream's `cds-button { flex: 1; }`: the buttons share the footer's width.
+.cds-aichat-card-footer__actions > .cds--btn {
+  flex: 1;
+  max-inline-size: none;
+}
+
 .cds-aichat-card-footer__actions:not(:has(.cds--btn--ghost)) {
   gap: 1px;
   background-color: var(--cds-button-separator, #e0e0e0);
