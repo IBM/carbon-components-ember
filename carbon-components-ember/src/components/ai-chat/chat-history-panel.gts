@@ -30,7 +30,12 @@ export interface ChatHistoryPanelSignature {
     showActions?: boolean;
   };
   Blocks: {
-    default: [WithBoundArgs<typeof ChatHistoryPanelItems, 'showActions'>];
+    default: [
+      ChatHistoryPanelItems: WithBoundArgs<
+        typeof ChatHistoryPanelItems,
+        'showActions'
+      >,
+    ];
   };
 }
 

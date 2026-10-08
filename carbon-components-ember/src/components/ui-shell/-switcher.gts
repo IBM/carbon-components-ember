@@ -9,7 +9,10 @@ export interface UIShellSwitcherSignature {
     'aria-labelledby'?: string;
   };
   Blocks: {
-    default: [typeof UIShellSwitcherItem, typeof UIShellSwitcherDivider];
+    default: [
+      UIShellSwitcherItem: typeof UIShellSwitcherItem,
+      UIShellSwitcherDivider: typeof UIShellSwitcherDivider,
+    ];
   };
 }
 

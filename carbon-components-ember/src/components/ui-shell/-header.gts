@@ -12,8 +12,8 @@ export interface UIShellHeaderSignature {
   };
   Blocks: {
     header: [];
-    headerGlobal: [typeof UIShellHeaderGlobalAction];
-    headerPanel: [typeof UIShellHeaderPanel];
+    headerGlobal: [UIShellHeaderGlobalAction: typeof UIShellHeaderGlobalAction];
+    headerPanel: [UIShellHeaderPanel: typeof UIShellHeaderPanel];
   };
 }
 

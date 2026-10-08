@@ -20,7 +20,7 @@ export interface TileGroupSignature {
   };
   Element: HTMLFieldSetElement;
   Blocks: {
-    default: [WithBoundArgs<typeof RadioTile, 'group' | 'onChange'>];
+    default: [RadioTile: WithBoundArgs<typeof RadioTile, 'group' | 'onChange'>];
   };
 }
 

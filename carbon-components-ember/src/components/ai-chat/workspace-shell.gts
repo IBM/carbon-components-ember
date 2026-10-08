@@ -30,7 +30,12 @@ export interface WorkspaceShellSignature {
      * `WorkspaceShellHeader` directly to get the automatic behavior (same
      * `WithBoundArgs` pattern `Layer` uses for its own ambient context).
      */
-    header: [WithBoundArgs<typeof WorkspaceShellHeader, 'collapsible'>];
+    header: [
+      WorkspaceShellHeader: WithBoundArgs<
+        typeof WorkspaceShellHeader,
+        'collapsible'
+      >,
+    ];
     body: [];
     footer: [];
   };

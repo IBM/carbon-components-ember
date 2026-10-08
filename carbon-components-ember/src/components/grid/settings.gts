@@ -27,7 +27,7 @@ export interface GridSettingsSignature {
     subgrid?: boolean;
   };
   Blocks: {
-    default: [GridBlock];
+    default: [grid: GridBlock];
   };
 }
 

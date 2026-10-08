@@ -212,7 +212,7 @@ export interface ProgressIndicatorSignature {
   };
   Element: HTMLUListElement;
   Blocks: {
-    default: [WithBoundArgs<typeof ProgressStep, 'indicator'>];
+    default: [ProgressStep: WithBoundArgs<typeof ProgressStep, 'indicator'>];
   };
 }
 

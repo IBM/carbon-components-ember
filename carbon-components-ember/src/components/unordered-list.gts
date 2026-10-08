@@ -8,7 +8,7 @@ export interface UnorderedListSignature {
     isExpressive?: boolean;
   };
   Blocks: {
-    default: [typeof ListItem];
+    default: [ListItem: typeof ListItem];
   };
 }
 

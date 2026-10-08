@@ -31,7 +31,7 @@ export interface ChatHistoryPanelMenuSignature {
   };
   Blocks: {
     default: [
-      WithBoundArgs<
+      ChatHistoryPanelItem: WithBoundArgs<
         typeof ChatHistoryPanelItem,
         'showActions' | 'parentMenuExpanded'
       >,

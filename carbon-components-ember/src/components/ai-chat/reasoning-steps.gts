@@ -134,7 +134,7 @@ export interface ReasoningStepsSignature {
      * pre-bound with `@controlled`, mirroring `Layer`'s `WithBoundArgs`
      * pattern.
      */
-    default: [WithBoundArgs<typeof ReasoningStep, 'controlled'>];
+    default: [ReasoningStep: WithBoundArgs<typeof ReasoningStep, 'controlled'>];
   };
 }
 

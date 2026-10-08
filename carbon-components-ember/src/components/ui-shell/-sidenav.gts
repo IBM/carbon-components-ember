@@ -1,12 +1,12 @@
 import Menu from '../../components/ui-shell/-sidenav/-menu.gts';
-import type NavMenuComponent from './-sidenav/-menu.gts';
+import type UIShellSideNavMenu from './-sidenav/-menu.gts';
 import type { SubMenu } from './-sidenav/-menu.gts';
-import Divider from './-sidenav/-divider.gts';
-import Footer from './-sidenav/-footer.gts';
-import SideNavHeader from './-sidenav/-header.gts';
-import SideNavDetails from './-sidenav/-details.gts';
-import SideNavIcon from './-sidenav/-icon.gts';
-import HeaderSideNavItems from './-header/-side-nav-items.gts';
+import UIShellSideNavDivider from './-sidenav/-divider.gts';
+import UIShellSideNavFooter from './-sidenav/-footer.gts';
+import UIShellSideNavHeader from './-sidenav/-header.gts';
+import UIShellSideNavDetails from './-sidenav/-details.gts';
+import UIShellSideNavIcon from './-sidenav/-icon.gts';
+import UIShellHeaderSideNavItems from './-header/-side-nav-items.gts';
 import type Icon from '../icon.gts';
 import type { TOC } from '@ember/component/template-only';
 
@@ -25,14 +25,14 @@ export interface UIShellSideNavSignature {
   };
   Blocks: {
     default: [
-      typeof NavMenuComponent,
-      typeof Divider,
-      typeof SideNavHeader,
-      typeof SideNavDetails,
-      typeof SideNavIcon,
-      typeof HeaderSideNavItems,
+      UIShellSideNavMenu: typeof UIShellSideNavMenu,
+      UIShellSideNavDivider: typeof UIShellSideNavDivider,
+      UIShellSideNavHeader: typeof UIShellSideNavHeader,
+      UIShellSideNavDetails: typeof UIShellSideNavDetails,
+      UIShellSideNavIcon: typeof UIShellSideNavIcon,
+      UIShellHeaderSideNavItems: typeof UIShellHeaderSideNavItems,
     ];
-    footer: [typeof Footer];
+    footer: [UIShellSideNavFooter: typeof UIShellSideNavFooter];
   };
 }
 
@@ -47,11 +47,11 @@ const UIShellSideNav: TOC<UIShellSideNavSignature> = <template>
       {{#unless @menuItems}}
         {{yield
           Menu
-          Divider
-          SideNavHeader
-          SideNavDetails
-          SideNavIcon
-          HeaderSideNavItems
+          UIShellSideNavDivider
+          UIShellSideNavHeader
+          UIShellSideNavDetails
+          UIShellSideNavIcon
+          UIShellHeaderSideNavItems
         }}
       {{/unless}}
       {{#each @menuItems as |menu|}}
@@ -75,7 +75,7 @@ const UIShellSideNav: TOC<UIShellSideNavSignature> = <template>
         </Menu>
       {{/each}}
     </ul>
-    {{yield Footer to="footer"}}
+    {{yield UIShellSideNavFooter to="footer"}}
   </nav>
 </template>;
 

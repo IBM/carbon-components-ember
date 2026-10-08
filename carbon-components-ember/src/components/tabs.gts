@@ -97,7 +97,7 @@ export interface TabsSignature {
     ariaLabel?: string;
   };
   Blocks: {
-    default: [WithBoundArgs<typeof TabPane, 'tab'>];
+    default: [TabPane: WithBoundArgs<typeof TabPane, 'tab'>];
   };
 }
 

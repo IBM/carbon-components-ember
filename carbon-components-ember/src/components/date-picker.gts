@@ -113,7 +113,10 @@ export interface DatePickerSignature {
      * end) for `range`.
      */
     default: [
-      WithBoundArgs<typeof DatePickerInput, 'datePickerType' | 'readOnly'>,
+      DatePickerInput: WithBoundArgs<
+        typeof DatePickerInput,
+        'datePickerType' | 'readOnly'
+      >,
     ];
   };
 }

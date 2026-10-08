@@ -18,7 +18,7 @@ export interface BaseTooltipSignature {
     isShown?: boolean;
   };
   Blocks: {
-    trigger: [ModifierLike<{ Element: HTMLElement | SVGElement }>];
+    trigger: [trigger: ModifierLike<{ Element: HTMLElement | SVGElement }>];
     content: [];
   };
 }

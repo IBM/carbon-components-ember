@@ -18,8 +18,14 @@ export interface ChatHistoryPanelItemsSignature {
   };
   Blocks: {
     default: [
-      WithBoundArgs<typeof ChatHistoryPanelItem, 'showActions'>,
-      WithBoundArgs<typeof ChatHistoryPanelMenu, 'showActions'>,
+      ChatHistoryPanelItem: WithBoundArgs<
+        typeof ChatHistoryPanelItem,
+        'showActions'
+      >,
+      ChatHistoryPanelMenu: WithBoundArgs<
+        typeof ChatHistoryPanelMenu,
+        'showActions'
+      >,
     ];
   };
 }

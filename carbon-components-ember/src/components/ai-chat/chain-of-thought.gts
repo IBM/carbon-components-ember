@@ -227,7 +227,12 @@ export interface ChainOfThoughtSignature {
      * `WithBoundArgs` pattern for propagating a single arg down an
      * arbitrary number of children.
      */
-    default: [WithBoundArgs<typeof ChainOfThoughtStep, 'controlled'>];
+    default: [
+      ChainOfThoughtStep: WithBoundArgs<
+        typeof ChainOfThoughtStep,
+        'controlled'
+      >,
+    ];
   };
 }
 

@@ -81,7 +81,7 @@ export interface GridSignature {
     withRowGap?: boolean;
   };
   Blocks: {
-    default: [GridBlock];
+    default: [grid: GridBlock];
   };
 }
 

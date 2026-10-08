@@ -9,7 +9,7 @@ export interface OrderedListSignature {
     isExpressive?: boolean;
   };
   Blocks: {
-    default: [typeof ListItem];
+    default: [ListItem: typeof ListItem];
   };
 }
 

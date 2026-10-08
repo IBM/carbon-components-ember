@@ -26,7 +26,9 @@ export interface RadioButtonGroupSignature {
   Element: HTMLFieldSetElement;
   Blocks: {
     heading: [];
-    default: [WithBoundArgs<typeof RadioButton, 'group' | 'onChange'>];
+    default: [
+      RadioButton: WithBoundArgs<typeof RadioButton, 'group' | 'onChange'>,
+    ];
   };
 }
 

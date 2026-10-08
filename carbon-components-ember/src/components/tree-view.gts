@@ -42,7 +42,7 @@ export interface TreeNodeSignature {
     depth?: number;
   };
   Blocks: {
-    default: [WithBoundArgs<typeof TreeNode, 'treeView'>];
+    default: [TreeNode: WithBoundArgs<typeof TreeNode, 'treeView'>];
   };
 }
 
@@ -220,7 +220,7 @@ export interface TreeViewSignature {
     onActivate?: (active: string) => void;
   };
   Blocks: {
-    default: [WithBoundArgs<typeof TreeNode, 'treeView'>];
+    default: [TreeNode: WithBoundArgs<typeof TreeNode, 'treeView'>];
   };
 }
 

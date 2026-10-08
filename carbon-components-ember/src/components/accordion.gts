@@ -17,7 +17,7 @@ export interface AccordionSignature {
     size?: 'sm' | 'md' | 'lg';
   };
   Blocks: {
-    default: [WithBoundArgs<typeof AccordionItem, 'accordion'>];
+    default: [AccordionItem: WithBoundArgs<typeof AccordionItem, 'accordion'>];
   };
 }
 

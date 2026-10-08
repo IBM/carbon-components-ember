@@ -1,7 +1,7 @@
 import type Icon from '../../../components/icon.gts';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import SubMenuComponent from './-sub-menu.gts';
+import UIShellSideNavSubMenu from './-sub-menu.gts';
 import { ChevronDown } from '../../../icons.ts';
 
 export type SubMenu = {
@@ -20,7 +20,7 @@ export interface UIShellSideNavMenuSignature {
     submenus: SubMenu[];
   };
   Blocks: {
-    default: [typeof SubMenuComponent];
+    default: [UIShellSideNavSubMenu: typeof UIShellSideNavSubMenu];
   };
 }
 
@@ -57,7 +57,7 @@ export default class UIShellSideNavMenu extends Component<UIShellSideNavMenuSign
         </button>
         {{#if (or @open this.expanded)}}
           <ul class="cds--side-nav__menu">
-            {{yield SubMenuComponent}}
+            {{yield UIShellSideNavSubMenu}}
           </ul>
         {{/if}}
       </li>
