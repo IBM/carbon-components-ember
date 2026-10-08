@@ -172,7 +172,7 @@ Discrete.test(
   'toggles a dataset from the legend',
   async ({ canvas, canvasElement, userEvent }) => {
     const lines = () => canvasElement.querySelectorAll('path.line');
-    await waitFor(() => expect(lines()).toHaveLength(4), { timeout: 5000 });
+    await waitFor(() => expect(lines()).toHaveLength(4));
 
     await userEvent.click(canvas.getByText('Dataset 1'));
     await waitFor(() => expect(lines().length).not.toBe(4));
