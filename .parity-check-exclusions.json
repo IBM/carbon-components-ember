@@ -28,5 +28,10 @@
     "reason": "React's PrimaryButton is a thin wrapper — <Button kind=\"primary\" {...props} /> — with no distinct props, stories, or behavior of its own beyond the fixed kind (which is also Button's default kind). It is fully covered by the existing Ember Button component's @type='primary' argument (see carbon-components-ember/src/components/button.gts), consistent with the SecondaryButton exclusion (#699).",
     "excludedAt": "2026-08-13T21:05:39.480Z",
     "issue": "698"
+  },
+  "AISkeleton": {
+    "reason": "Ported as its three components, AISkeletonIcon, AISkeletonPlaceholder and AISkeletonText: React's AISkeleton directory exports no AISkeleton component of its own.",
+    "excludedAt": "2026-10-08T23:22:31.329Z",
+    "issue": null
   }
 }
