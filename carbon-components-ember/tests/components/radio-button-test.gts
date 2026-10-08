@@ -186,6 +186,9 @@ module('Integration | Component | RadioButton', (hooks) => {
       .dom('.cds--radio-button-group')
       .hasClass('cds--radio-button-group--decorator');
     assert
+      .dom('legend .cds--ai-label')
+      .doesNotExist('the AI label is not inside the legend');
+    assert
       .dom('.cds--radio-button-group-inner--decorator .cds--ai-label__button')
       .hasClass('cds--ai-label__button--mini')
       .hasClass('cds--ai-label__button--default');

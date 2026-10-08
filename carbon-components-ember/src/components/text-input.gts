@@ -134,17 +134,6 @@ export default class TextInput extends Component<TextInputSignature> {
             }}"
           data-invalid={{if this.isInvalid "true"}}
         >
-          {{#if this.isInvalid}}
-            <WarningFilled
-              @size="16"
-              @svgClass="cds--text-input__invalid-icon"
-            />
-          {{else if this.isWarn}}
-            <WarningAltFilled
-              @size="16"
-              @svgClass="cds--text-input__invalid-icon cds--text-input__invalid-icon--warning"
-            />
-          {{/if}}
           <input
             id={{this.id}}
             type={{this.type}}
@@ -163,6 +152,17 @@ export default class TextInput extends Component<TextInputSignature> {
             {{on "input" this.updateValue}}
             {{on "click" this.handleClick}}
           />
+          {{#if this.isInvalid}}
+            <WarningFilled
+              @size="16"
+              @svgClass="cds--text-input__invalid-icon"
+            />
+          {{else if this.isWarn}}
+            <WarningAltFilled
+              @size="16"
+              @svgClass="cds--text-input__invalid-icon cds--text-input__invalid-icon--warning"
+            />
+          {{/if}}
           {{#if (has-block "decorator")}}
             <div class="cds--text-input__field-inner-wrapper--decorator">
               {{yield (component AILabel size="mini") to="decorator"}}

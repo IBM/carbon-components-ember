@@ -254,68 +254,70 @@ Standalone.test(
 // `@kind="inline"`.
 export const WithAILabel = meta.story({
   render: () => <template>
-    <RadioButtonGroup
-      @legendText="Group label"
-      @name="radio-button-ai-label-group"
-      @orientation="vertical"
-      @defaultSelected="radio-1"
-    >
-      <:decorator as |AILabel|>
-        <AILabel @align="bottom-start" as |label|>
-          <label.Content><AIExplanation /></label.Content>
-        </AILabel>
-      </:decorator>
-      <:default as |Radio|>
-        <Radio @labelText="Radio button label" @value="radio-1" />
-        <Radio @labelText="Radio button label" @value="radio-2" />
+    <div style="display: flex; flex-direction: column; gap: 2rem">
+      <RadioButtonGroup
+        @legendText="Group label"
+        @name="radio-button-ai-label-group"
+        @orientation="vertical"
+        @defaultSelected="radio-1"
+      >
+        <:decorator as |AILabel|>
+          <AILabel @align="bottom-start" as |label|>
+            <label.Content><AIExplanation /></label.Content>
+          </AILabel>
+        </:decorator>
+        <:default as |Radio|>
+          <Radio @labelText="Radio button label" @value="radio-1" />
+          <Radio @labelText="Radio button label" @value="radio-2" />
+          <Radio @labelText="Radio button label" @value="radio-3" />
+        </:default>
+      </RadioButtonGroup>
+      <RadioButtonGroup
+        @legendText="Group label"
+        @name="radio-button-ai-label-items"
+        @orientation="vertical"
+        @defaultSelected="radio-1"
+        as |Radio|
+      >
+        <Radio @labelText="Radio button label" @value="radio-1">
+          <:decorator as |AILabel|>
+            <AILabel @align="bottom-start" as |label|>
+              <label.Content><AIExplanation /></label.Content>
+            </AILabel>
+          </:decorator>
+        </Radio>
+        <Radio @labelText="Radio button label" @value="radio-2">
+          <:decorator as |AILabel|>
+            <AILabel @align="bottom-start" as |label|>
+              <label.Content><AIExplanation /></label.Content>
+            </AILabel>
+          </:decorator>
+        </Radio>
         <Radio @labelText="Radio button label" @value="radio-3" />
-      </:default>
-    </RadioButtonGroup>
-    <RadioButtonGroup
-      @legendText="Group label"
-      @name="radio-button-ai-label-items"
-      @orientation="vertical"
-      @defaultSelected="radio-1"
-      as |Radio|
-    >
-      <Radio @labelText="Radio button label" @value="radio-1">
-        <:decorator as |AILabel|>
-          <AILabel @align="bottom-start" as |label|>
-            <label.Content><AIExplanation /></label.Content>
-          </AILabel>
-        </:decorator>
-      </Radio>
-      <Radio @labelText="Radio button label" @value="radio-2">
-        <:decorator as |AILabel|>
-          <AILabel @align="bottom-start" as |label|>
-            <label.Content><AIExplanation /></label.Content>
-          </AILabel>
-        </:decorator>
-      </Radio>
-      <Radio @labelText="Radio button label" @value="radio-3" />
-    </RadioButtonGroup>
-    <RadioButtonGroup
-      @legendText="Group label"
-      @name="radio-button-ai-label-inline"
-      @orientation="vertical"
-      @defaultSelected="radio-1"
-      as |Radio|
-    >
-      <Radio @labelText="Radio button label" @value="radio-1">
-        <:decorator as |AILabel|>
-          <AILabel @kind="inline" @size="md" @align="bottom-start" as |label|>
-            <label.Content><AIExplanation /></label.Content>
-          </AILabel>
-        </:decorator>
-      </Radio>
-      <Radio @labelText="Radio button label" @value="radio-2">
-        <:decorator as |AILabel|>
-          <AILabel @kind="inline" @size="md" @align="bottom-start" as |label|>
-            <label.Content><AIExplanation /></label.Content>
-          </AILabel>
-        </:decorator>
-      </Radio>
-      <Radio @labelText="Radio button label" @value="radio-3" />
-    </RadioButtonGroup>
+      </RadioButtonGroup>
+      <RadioButtonGroup
+        @legendText="Group label"
+        @name="radio-button-ai-label-inline"
+        @orientation="vertical"
+        @defaultSelected="radio-1"
+        as |Radio|
+      >
+        <Radio @labelText="Radio button label" @value="radio-1">
+          <:decorator as |AILabel|>
+            <AILabel @kind="inline" @size="md" @align="bottom-start" as |label|>
+              <label.Content><AIExplanation /></label.Content>
+            </AILabel>
+          </:decorator>
+        </Radio>
+        <Radio @labelText="Radio button label" @value="radio-2">
+          <:decorator as |AILabel|>
+            <AILabel @kind="inline" @size="md" @align="bottom-start" as |label|>
+              <label.Content><AIExplanation /></label.Content>
+            </AILabel>
+          </:decorator>
+        </Radio>
+        <Radio @labelText="Radio button label" @value="radio-3" />
+      </RadioButtonGroup>
+    </div>
   </template>,
 });

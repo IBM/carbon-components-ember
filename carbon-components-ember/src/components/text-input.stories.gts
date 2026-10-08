@@ -167,7 +167,18 @@ export const WithAILabel = meta.story({
   render: (args: TextInputSignature['Args']) => <template>
     <TextInput
       @labelText={{args.labelText}}
+      @hideLabel={{args.hideLabel}}
+      @defaultValue={{args.defaultValue}}
       @placeholder={{args.placeholder}}
+      @helperText={{args.helperText}}
+      @size={{args.size}}
+      @disabled={{args.disabled}}
+      @readOnly={{args.readOnly}}
+      @invalid={{args.invalid}}
+      @invalidText={{args.invalidText}}
+      @warn={{args.warn}}
+      @warnText={{args.warnText}}
+      @light={{args.light}}
       @onChange={{args.onChange}}
     >
       <:decorator as |AILabel|>

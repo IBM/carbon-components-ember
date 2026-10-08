@@ -30,6 +30,7 @@ export interface RadioButtonSignature {
   };
   Element: HTMLDivElement;
   Blocks: {
+    /** The label's content. Keep it text: put an AI label or other controls in `<:decorator>`. */
     default: [];
     /**
      * **Experimental:** an AI label, or any other decorator, shown after the label.

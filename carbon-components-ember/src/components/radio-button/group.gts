@@ -26,13 +26,15 @@ export interface RadioButtonGroupSignature {
   };
   Element: HTMLFieldSetElement;
   Blocks: {
+    /** The legend's content. Keep it text: put an AI label in `<:decorator>`. */
     heading: [];
     default: [
       RadioButton: WithBoundArgs<typeof RadioButton, 'group' | 'onChange'>,
     ];
     /**
      * **Experimental:** an AI label, or any other decorator, shown after the
-     * legend. Yields an `AILabel` already set up for it.
+     * legend. Yields an `AILabel` already set up for it; keep its default
+     * kind, as Carbon React does.
      */
     decorator: [AILabel: WithBoundArgs<typeof AILabel, 'size' | 'kind'>];
   };

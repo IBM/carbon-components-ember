@@ -70,4 +70,21 @@ module('Integration | Component | Checkbox', (hooks) => {
       )
       .exists('the yielded AI label is mini, as in Carbon React');
   });
+
+  test('the yielded AI label takes the arguments it is given', async function (assert) {
+    await render(
+      <template>
+        <Checkbox @label="Checkbox label">
+          <:decorator as |AILabel|>
+            <AILabel @kind="inline" @size="md" />
+          </:decorator>
+        </Checkbox>
+      </template>,
+    );
+
+    assert
+      .dom('.cds--ai-label__button')
+      .hasClass('cds--ai-label__button--md')
+      .hasClass('cds--ai-label__button--inline');
+  });
 });

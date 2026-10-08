@@ -239,14 +239,28 @@ export const ReadOnly = meta.story({
 });
 
 export const WithAILabel = meta.story({
+  args: {
+    defaultValue: 50,
+    invalidText: 'Number is not valid',
+  },
   render: (args: Args) => <template>
     <NumberInput
       @label={{args.label}}
+      @hideLabel={{args.hideLabel}}
+      @defaultValue={{args.defaultValue}}
       @helperText={{args.helperText}}
       @min={{args.min}}
       @max={{args.max}}
       @step={{args.step}}
-      @defaultValue={{50}}
+      @size={{args.size}}
+      @hideSteppers={{args.hideSteppers}}
+      @disabled={{args.disabled}}
+      @readOnly={{args.readOnly}}
+      @invalid={{args.invalid}}
+      @invalidText={{args.invalidText}}
+      @warn={{args.warn}}
+      @warnText={{args.warnText}}
+      @light={{args.light}}
       @onChange={{args.onChange}}
     >
       <:decorator as |AILabel|>

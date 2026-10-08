@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn, waitFor } from '@ember/test-helpers';
+import { render, fillIn, find, waitFor } from '@ember/test-helpers';
 import TextInput from '#src/components/text-input.gts';
 
 module('Integration | Component | TextInput', (hooks) => {
@@ -148,5 +148,22 @@ module('Integration | Component | TextInput', (hooks) => {
         '.cds--text-input__field-inner-wrapper--decorator .cds--ai-label__button--mini',
       )
       .exists('the yielded AI label is mini, as in Carbon React');
+  });
+
+  test('moves the invalid icon clear of an AI label', async function (assert) {
+    await render(
+      <template>
+        <TextInput @labelText="Name" @invalid={{true}} @invalidText="Required">
+          <:decorator as |AILabel|><AILabel /></:decorator>
+        </TextInput>
+      </template>,
+    );
+    await waitFor('.cds--text-input__invalid-icon');
+
+    assert.strictEqual(
+      getComputedStyle(find('.cds--text-input__invalid-icon')!).insetInlineEnd,
+      '40px',
+      "Carbon's decorator offset applies, as the icon follows the input",
+    );
   });
 });
