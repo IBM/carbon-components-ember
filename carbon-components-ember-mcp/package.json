@@ -24,11 +24,12 @@
     "server.mjs"
   ],
   "scripts": {
-    "format": "prettier . --write",
-    "lint": "pnpm lint:js && pnpm lint:format",
-    "lint:fix": "eslint . --fix && prettier . --write",
-    "lint:format": "prettier . --check",
+    "format": "prettier . --cache --write",
+    "lint": "concurrently \"pnpm:lint:*(!fix)\" --names \"lint:\" --prefixColors auto",
+    "lint:fix": "concurrently \"pnpm:lint:*:fix\" --names \"fix:\" --prefixColors auto && pnpm run format",
+    "lint:format": "prettier . --cache --check",
     "lint:js": "eslint .",
+    "lint:js:fix": "eslint . --fix",
     "test": "node --test"
   },
   "dependencies": {
@@ -40,6 +41,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "concurrently": "^10.0.5",
     "eslint": "^10.12.0",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^17.13.0",
