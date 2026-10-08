@@ -1,21 +1,28 @@
 import { trackedObject } from '@ember/reactive/collections';
-import { htmlSafe } from '@ember/template';
 import { RenderStory } from 'ember-storybook';
 import { expect, fn } from 'storybook/test';
 
+import {
+  MENU_ITEMS,
+  CURRENT,
+  NO_ITEMS,
+  HOME,
+  noop,
+  SMALL_FRAME,
+  withShellFrame,
+} from '#storybook/fixtures/ui-shell.gts';
 import preview from '#storybook/preview.ts';
-import UIShell from './ui-shell.gts';
-import Fade from './icons/fade.ts';
-import Notification from './icons/notification.ts';
-import Search from './icons/search.ts';
-import SwitcherIcon from './icons/switcher.ts';
-import UserAvatar from './icons/user-avatar.ts';
+import UIShell from '../ui-shell.gts';
+import Fade from '../icons/fade.ts';
+import Notification from '../icons/notification.ts';
+import Search from '../icons/search.ts';
+import SwitcherIcon from '../icons/switcher.ts';
+import UserAvatar from '../icons/user-avatar.ts';
 
-import type { MenuItem } from './ui-shell/-sidenav.gts';
+import type { StoryArgs } from '#storybook/fixtures/ui-shell.gts';
 
-// Carbon React splits these into `Components/UI Shell/Header` and
-// `Components/UI Shell/SideNav`; one Ember stories file has one meta, so
-// both sets of story names live under `Components/UI Shell`.
+// Carbon React's UI Shell story pages: Header (with the Ember-only Overview
+// and HeaderContainer stories) and SideNav.
 //
 // Parity gaps:
 // - `Side Nav Rail with Header`: no rail (`isRail`) mode.
@@ -28,54 +35,9 @@ import type { MenuItem } from './ui-shell/-sidenav.gts';
 //   `@transitionTo` even when it is composed through its block, and every
 //   menu/submenu `icon` is required although the templates render fine
 //   without one. The `Fixed Side Nav` story casts its icon-less items.
-//
-// The shell's header and side nav are `position: fixed`; each story renders
-// it inside a box whose `transform` makes it their containing block, so the
-// shell stays inside the story instead of covering the page.
-
-type StoryArgs = {
-  title: string;
-  subtitle: string;
-  onAction: () => void;
-};
-
-const SUB_LINKS = [
-  { title: 'Link', icon: Fade },
-  { title: 'Link', icon: Fade },
-  { title: 'Link', icon: Fade },
-];
-
-const MENU_ITEMS: MenuItem[] = [
-  { title: 'Category title', icon: Fade, submenus: SUB_LINKS },
-  { title: 'Category title', icon: Fade, submenus: SUB_LINKS },
-  { title: 'Category title', icon: Fade, submenus: SUB_LINKS },
-  { title: 'Link', icon: Fade, submenus: [] },
-  { title: 'Link', icon: Fade, submenus: [] },
-];
-
-// The templates only render an icon when there is one; the cast is needed
-// because MenuItem/SubMenu declare `icon` as required.
-const MENU_ITEMS_WITHOUT_ICONS = MENU_ITEMS.map((item) => ({
-  ...item,
-  icon: undefined,
-  submenus: item.submenus.map((sub) => ({ ...sub, icon: undefined })),
-})) as unknown as MenuItem[];
-
-const CURRENT = MENU_ITEMS[3]!;
-const CURRENT_WITHOUT_ICONS = MENU_ITEMS_WITHOUT_ICONS[3]!;
-const NO_ITEMS: MenuItem[] = [];
-const HOME: MenuItem = { title: 'Home', icon: Fade, submenus: [] };
-const noop = () => {};
-
-const frame = (height: string) =>
-  htmlSafe(
-    `position: relative; height: ${height}; overflow: hidden; transform: translate(0); border: 1px solid var(--cds-border-subtle-01, #e0e0e0);`,
-  );
-const FRAME = frame('26rem');
-const SMALL_FRAME = frame('14rem');
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
-  title: 'Components/UI Shell',
+  title: 'Components/UI Shell/Header',
   component: UIShell,
   parameters: {
     docs: {
@@ -90,13 +52,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     subtitle: '[Platform]',
     onAction: fn(),
   },
-  decorators: [
-    (Story, context) => <template>
-      <div style={{FRAME}}>
-        <RenderStory @story={{Story}} @args={{context.args}} />
-      </div>
-    </template>,
-  ],
+  decorators: [withShellFrame],
 });
 
 export const HeaderWNavigation = meta.story({
@@ -184,8 +140,9 @@ HeaderWNavigationAndActions.test(
 );
 
 // The header's menu button and the side nav share the `open` state.
+
 export const HeaderWNavigationActionsAndSideNav = meta.story({
-  name: 'Header with Navigation, Actions and SideNav',
+  name: 'Header with Navigation, Actions and Side Nav',
   render: (args: StoryArgs) => {
     const state = trackedObject({ open: false });
     const onToggle = (open: boolean) => {
@@ -281,6 +238,7 @@ export const HeaderWSideNav = meta.story({
 });
 
 // A GlobalAction toggles a HeaderPanel's `@expanded`.
+
 export const HeaderWActionsAndRightPanel = meta.story({
   name: 'Header with Actions and Right Panel',
   render: (args: StoryArgs) => {
@@ -344,6 +302,7 @@ HeaderWActionsAndRightPanel.test(
 
 // The top-level UIShell yields a Switcher (with Item and Divider) for the
 // contents of an application switcher panel.
+
 export const HeaderWActionsAndSwitcher = meta.story({
   name: 'Header with Actions and Switcher',
   render: (args: StoryArgs) => {
@@ -392,95 +351,6 @@ export const HeaderWActionsAndSwitcher = meta.story({
   },
 });
 
-export const FixedSideNav = meta.story({
-  name: 'Fixed Side Nav',
-  render: () => <template>
-    <UIShell>
-      <:shell as |s|>
-        <s.Sidenav
-          @open={{true}}
-          @menuItems={{MENU_ITEMS_WITHOUT_ICONS}}
-          @currentMenu={{CURRENT_WITHOUT_ICONS}}
-          @transitionTo={{noop}}
-        />
-      </:shell>
-      <:content></:content>
-    </UIShell>
-  </template>,
-});
-
-export const FixedSideNavWIcons = meta.story({
-  name: 'Fixed Side Nav with Icons',
-  render: () => <template>
-    <UIShell>
-      <:shell as |s|>
-        <s.Sidenav
-          @open={{true}}
-          @menuItems={{MENU_ITEMS}}
-          @currentMenu={{CURRENT}}
-          @transitionTo={{noop}}
-        />
-      </:shell>
-      <:content></:content>
-    </UIShell>
-  </template>,
-});
-
-// The Sidenav block yields a Divider to separate groups of items.
-export const FixedSideNavWDivider = meta.story({
-  name: 'Fixed Side Nav with Divider',
-  render: () => <template>
-    <UIShell>
-      <:shell as |s|>
-        <s.Sidenav
-          @open={{true}}
-          @menuItems={{NO_ITEMS}}
-          @currentMenu={{HOME}}
-          @transitionTo={{noop}}
-        >
-          <:default as |Menu Divider|>
-            <Menu
-              @title="Category title"
-              @icon={{Fade}}
-              @isCurrent={{false}}
-              @submenus={{SUB_LINKS}}
-              @transitionTo={{noop}}
-              as |Sub|
-            >
-              {{#each SUB_LINKS as |link|}}
-                <Sub
-                  @title={{link.title}}
-                  @icon={{link.icon}}
-                  @isCurrent={{false}}
-                  @transitionTo={{noop}}
-                />
-              {{/each}}
-            </Menu>
-            <Divider />
-            <Menu
-              @title="Link"
-              @icon={{Fade}}
-              @isCurrent={{true}}
-              @submenus={{NO_ITEMS}}
-              @transitionTo={{noop}}
-            />
-            <Menu
-              @title="Link"
-              @icon={{Fade}}
-              @isCurrent={{false}}
-              @submenus={{NO_ITEMS}}
-              @transitionTo={{noop}}
-            />
-          </:default>
-        </s.Sidenav>
-      </:shell>
-      <:content></:content>
-    </UIShell>
-  </template>,
-});
-
-// The docs-app overview: header with navigation and global actions, and a
-// side nav composed through its block, with a divider and a footer toggle.
 export const Overview = meta.story({
   render: (args: StoryArgs) => {
     const state = trackedObject({ open: true });
@@ -569,38 +439,7 @@ export const Overview = meta.story({
 // rail), SideNavDetails (a titled block, e.g. for account info) and
 // HeaderSideNavItems (mirrors the top Header nav items into the side nav on
 // smaller viewports).
-export const SideNavHeaderAndDetails = meta.story({
-  name: 'Side nav header, details and mirrored header items',
-  render: () => <template>
-    <UIShell>
-      <:shell as |s|>
-        <s.Sidenav
-          @open={{true}}
-          @menuItems={{NO_ITEMS}}
-          @currentMenu={{HOME}}
-          @transitionTo={{noop}}
-        >
-          <:default
-            as |_Menu _Divider SideNavHeader SideNavDetails _SideNavIcon HeaderSideNavItems|
-          >
-            <SideNavHeader @icon={{UserAvatar}}>IBM</SideNavHeader>
-            <SideNavDetails @title="Account">
-              <p>jane.doe@example.com</p>
-            </SideNavDetails>
-            <HeaderSideNavItems @hasDivider={{true}}>
-              <li>Mirrored link 1</li>
-              <li>Mirrored link 2</li>
-            </HeaderSideNavItems>
-          </:default>
-        </s.Sidenav>
-      </:shell>
-      <:content></:content>
-    </UIShell>
-  </template>,
-});
 
-// HeaderContainer manages the side nav's expanded state (and collapses it on
-// Escape), yielding `isSideNavExpanded` and `onClickSideNavExpand`.
 export const HeaderContainer = meta.story({
   decorators: [
     (Story, context) => <template>
