@@ -9,16 +9,8 @@ export type Args = {
 };
 
 export interface BreadcrumbSignature {
-  // We have a `<table>` as our root element
   Element: HTMLElement;
-  // We accept an array of items, one per row
   Args: Args;
-  // We accept two named blocks: a parameter-less `header` block
-  // and a `row` block which will be invoked with each item and
-  // its index sequentially.
-  Blocks: {
-    default: [];
-  };
 }
 
 /**

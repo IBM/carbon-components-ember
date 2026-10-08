@@ -23,9 +23,6 @@ export type Args = {
 export interface ProgressBarInterface {
   Args: Args;
   Element: HTMLDivElement;
-  Blocks: {
-    default: [];
-  };
 }
 
 /**

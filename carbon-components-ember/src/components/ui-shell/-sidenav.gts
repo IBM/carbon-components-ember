@@ -32,7 +32,6 @@ export interface UIShellNavSignature {
       typeof SideNavIcon,
       typeof HeaderSideNavItems,
     ];
-    content: [];
     footer: [typeof Footer];
   };
 }
