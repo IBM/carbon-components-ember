@@ -22,6 +22,7 @@ export default defineMain({
     '@storybook/addon-a11y',
     '@storybook/addon-themes',
     '@storybook/addon-vitest',
+    '@storybook/addon-mcp',
   ],
 
   framework: 'ember-storybook',

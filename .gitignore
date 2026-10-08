@@ -10,6 +10,7 @@ dom-parity/node_modules
 !patches/**/*
 !.editorconfig
 !.gitignore
+!.mcp.json
 !.git-blame-ignore-revs
 !CHANGELOG.md
 !CONTRIBUTING.md

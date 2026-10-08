@@ -211,6 +211,13 @@ Stories live as `src/components/**/<name>.stories.gts` next to their components.
 
 ---
 
+## Component Docs for Agents (Storybook MCP)
+- `pnpm storybook` serves an MCP endpoint at `http://localhost:6006/mcp` (`@storybook/addon-mcp`). Use its `docs-list`, `docs-show` and `docs-show-story` tools for a component's API and examples rather than reading its source. The repo's `.mcp.json` registers it for Claude Code; it connects while Storybook runs.
+- Its manifest is generated from component signatures and stories (the ember-storybook patch). An argument's JSDoc, a block's labelled params and a story's description are what agents read, so keep them accurate.
+- `/manifests/components.html` on the running Storybook shows what agents get.
+
+---
+
 ## Linting
 - **Templates are linted by ESLint**, not ember-template-lint (being deprecated, emberjs/rfcs#1214): `eslint.config.mjs` spreads `eslint-plugin-ember`'s `template-lint-migration` config, so `pnpm lint:js` covers both.
 - Silence a template rule with `{{! eslint-disable-next-line ember/template-<rule> }}` directly above the line, with a comment saying why. A bare `{{! eslint-disable ... }}` disables the rule for the rest of the file.
