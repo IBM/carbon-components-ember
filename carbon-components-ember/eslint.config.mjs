@@ -130,6 +130,13 @@ export default defineConfig([
     },
   },
   {
+    files: ['src/components/**/*.gts'],
+    ignores: ['**/*.stories.gts'],
+    rules: {
+      'ember/template-require-splattributes': 'error',
+    },
+  },
+  {
     files: ['**/*.stories.{gjs,gts}'],
     rules: {
       // CSF Next's `Story.extend({ args })` isn't EmberObject.extend().

@@ -3,6 +3,7 @@ import type { DataTableContext } from '../../data-table.gts';
 import type { TOC } from '@ember/component/template-only';
 
 export interface TableBatchActionsSignature {
+  Element: HTMLDivElement;
   Args: {
     table: DataTableContext;
   };
@@ -23,6 +24,7 @@ const TableBatchActions: TOC<TableBatchActionsSignature> = <template>
     <div
       class="cds--batch-actions cds--batch-actions--active"
       aria-label="Table Action Bar"
+      ...attributes
     >
       <div class="cds--action-list">
         {{yield (hash close=(fn clearSelection @table))}}

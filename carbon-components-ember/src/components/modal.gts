@@ -4,6 +4,7 @@ import { cached, tracked } from '@glimmer/tracking';
 import { defaultArgs } from '../utils/decorators.ts';
 
 export interface ModalSignature {
+  Element: HTMLDivElement;
   Args: {
     onClose?: () => unknown;
     type?: 'danger' | 'default' | 'passive';
@@ -45,6 +46,7 @@ export default class Modal extends Component<ModalSignature> {
       aria-labelledby="modal-{{this.guid}}-label"
       aria-describedby="modal-{{this.guid}}-heading"
       tabindex="-1"
+      ...attributes
     >
       <div class="cds--modal-container">
         <div class="cds--modal-header">

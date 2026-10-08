@@ -39,6 +39,7 @@ export default class UIShellHeaderContainer extends Component<UIShellHeaderConta
     this.isSideNavExpanded = !this.isSideNavExpanded;
   };
 
+  // eslint-disable-next-line ember/template-require-splattributes -- only yields state
   <template>
     {{yield
       (hash

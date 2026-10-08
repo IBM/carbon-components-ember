@@ -2,6 +2,7 @@ import { concat } from '@ember/helper';
 import type { TOC } from '@ember/component/template-only';
 
 export interface TableSignature {
+  Element: HTMLTableElement;
   Args: {
     isLoading?: boolean;
     isSortable?: boolean;
@@ -20,6 +21,7 @@ const Table: TOC<TableSignature> = <template>
       {{if @useZebraStyles 'cds--data-table--zebra'}}
       {{if @isSortable 'cds--data-table--sort'}}
       {{if @isLoading 'cds--skeleton'}}"
+    ...attributes
   >
     {{yield}}
   </table>

@@ -7,6 +7,7 @@ import type UIShellHeader from './ui-shell/-header.gts';
 import type { TOC } from '@ember/component/template-only';
 
 export interface UIShellSignature {
+  Element: HTMLElement;
   Blocks: {
     shell: [
       {
@@ -32,7 +33,7 @@ const UIShell: TOC<UIShellSignature> = <template>
     )
     to="shell"
   }}
-  <main id="main-content" class="cds--content">
+  <main id="main-content" class="cds--content" ...attributes>
     {{yield to="content"}}
   </main>
 </template>;

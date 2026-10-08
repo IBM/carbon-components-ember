@@ -53,6 +53,7 @@ export default class GridSettings extends Component<GridSettingsSignature> {
     return this.args.subgrid ?? false;
   }
 
+  // eslint-disable-next-line ember/template-require-splattributes -- only yields pre-configured grid components
   <template>
     {{yield
       (hash

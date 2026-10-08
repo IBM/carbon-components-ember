@@ -27,6 +27,7 @@ type State = {
 };
 
 export interface PaginationSignature {
+  Element: HTMLDivElement;
   Args: {
     disabled?: boolean;
     isLoading?: boolean;
@@ -216,6 +217,7 @@ export default class Pagination extends Component<PaginationSignature> {
       data-pagination
       {{this.notifyInitialPage}}
       {{this.syncState @state @length}}
+      ...attributes
     >
       {{#if @isLoading}}
         <div class="cds--skeleton__text"></div>

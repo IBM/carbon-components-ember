@@ -21,6 +21,7 @@ const registerElement = modifier(
 );
 
 export interface SliderThumbSignature {
+  Element: HTMLDivElement;
   Args: {
     position: HandlePosition;
     twoHandles: boolean;
@@ -59,6 +60,7 @@ export default class SliderThumb extends Component<SliderThumbSignature> {
       class="cds--icon-tooltip cds--slider__thumb-wrapper
         {{if this.suffix (concat 'cds--slider__thumb-wrapper--' this.suffix)}}"
       style={{@style}}
+      ...attributes
     >
       <div
         class="cds--slider__thumb

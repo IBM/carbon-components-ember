@@ -3,6 +3,7 @@ import { guidFor } from '@ember/object/internals';
 import { WarningFilled } from '../icons.ts';
 
 export interface FormInputSignature {
+  Element: HTMLDivElement;
   Args: {
     label?: string;
     help?: string;
@@ -24,7 +25,10 @@ export default class FormInput extends Component<FormInputSignature> {
   };
 
   <template>
-    <div class="cds--form-item some-class cds--text-input-wrapper">
+    <div
+      class="cds--form-item some-class cds--text-input-wrapper"
+      ...attributes
+    >
       <div class="cds--text-input__label-wrapper">
         {{#if @label}}
           <label for="text-input-{{this.guid}}" class="cds--label">

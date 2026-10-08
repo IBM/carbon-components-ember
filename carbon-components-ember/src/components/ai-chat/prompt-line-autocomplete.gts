@@ -160,6 +160,7 @@ const ItemRow: TOC<ItemRowSignature> = <template>
       {{if @entry.isLast 'cds-aichat-autocomplete-item--last'}}"
     {{on "click" (fn @onItemClick @entry.item)}}
     {{on "mouseenter" (fn @onItemMouseEnter @entry.index)}}
+    ...attributes
   >
     <div class="cds-aichat-autocomplete-item__content">
       {{#if @entry.avatarUrl}}

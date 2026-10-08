@@ -11,6 +11,7 @@ import { modifier as eModifier } from 'ember-modifier';
 import { runTask } from 'ember-lifeline';
 
 export interface TabPaneSignature {
+  Element: HTMLDivElement;
   Args: {
     tab: Tabs;
     title: string;
@@ -62,6 +63,7 @@ class TabPane extends Component<TabPaneSignature> {
       tabindex={{if this.isSelected "0"}}
       role="tabpanel"
       hidden={{unless this.isSelected true}}
+      ...attributes
     >
       {{yield}}
     </div>
@@ -69,6 +71,7 @@ class TabPane extends Component<TabPaneSignature> {
 }
 
 export interface TabsSignature {
+  Element: HTMLDivElement;
   Args: {
     selectedTab?: string;
     tabSelected?: (tab: string) => void;
@@ -332,7 +335,7 @@ export default class Tabs extends Component<TabsSignature> {
 
   <template>
     {{#if @loading}}
-      <div>
+      <div ...attributes>
         <div
           class="cds--tabs cds--skeleton
             {{if @contained 'cds--tabs--contained'}}"
@@ -374,6 +377,7 @@ export default class Tabs extends Component<TabsSignature> {
           {{if @dismissable 'cds--tabs--dismissable'}}
           {{if this.showSizeClass (concat 'cds--layout--size-' @size)}}
           {{if this.hasSecondaryLabelTabs 'cds--tabs--tall'}}"
+        ...attributes
       >
         <button
           {{on "click" this.scrollLeft}}

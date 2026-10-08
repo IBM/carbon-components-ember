@@ -1,6 +1,7 @@
 import type { TOC } from '@ember/component/template-only';
 
 export interface UIShellHeaderNavItemSignature {
+  Element: HTMLAnchorElement;
   Blocks: {
     default: [];
   };
@@ -8,7 +9,7 @@ export interface UIShellHeaderNavItemSignature {
 
 const UIShellHeaderNavItem: TOC<UIShellHeaderNavItemSignature> = <template>
   <li>
-    <a href="#" class="cds--header__menu-item" tabindex="0">
+    <a href="#" class="cds--header__menu-item" tabindex="0" ...attributes>
       <span class="cds--text-truncate--end">
         {{yield}}
       </span>

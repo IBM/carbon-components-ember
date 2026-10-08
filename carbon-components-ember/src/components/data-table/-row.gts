@@ -6,6 +6,7 @@ import type DataTableComponent from '../data-table.gts';
 import { tracked } from '@glimmer/tracking';
 
 export interface DataTableRowSignature<T> {
+  Element: HTMLTableRowElement;
   Args: {
     table: DataTableComponent<T>;
     isExpandable?: boolean;
@@ -88,7 +89,11 @@ export default class DataTableRow<T> extends Component<
   };
 
   <template>
-    <tr class={{this.classes}} data-parent-row={{if @isExpandable "true"}}>
+    <tr
+      class={{this.classes}}
+      data-parent-row={{if @isExpandable "true"}}
+      ...attributes
+    >
       {{#if @isExpandable}}
         <td
           class="cds--table-expand"

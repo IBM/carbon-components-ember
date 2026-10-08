@@ -2,8 +2,10 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import Modal from '../modal.gts';
 import type DialogManagerService from '../../services/dialog-manager.ts';
+import type { ModalSignature } from '../modal.gts';
 
 export interface ConfirmDialogSignature {
+  Element: ModalSignature['Element'];
   Args: {
     onAccept: () => void;
     onCancel: () => void;
@@ -35,7 +37,7 @@ export default class ConfirmDialog extends Component<ConfirmDialogSignature> {
   };
 
   <template>
-    <Modal @onClose={{this.onCancel}}>
+    <Modal @onClose={{this.onCancel}} ...attributes>
       <:label>
         {{@label}}
       </:label>

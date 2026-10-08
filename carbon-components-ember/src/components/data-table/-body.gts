@@ -5,6 +5,7 @@ import type { WithBoundArgs } from '@glint/template';
 import type DataTableRow from '../../components/data-table/-row.gts';
 
 export interface DataTableBodySignature<T> {
+  Element: HTMLTableSectionElement;
   Args: {
     isExpandable: boolean;
     isCheckable: boolean;
@@ -28,7 +29,7 @@ export default class DataTableBody<T> extends Component<
   DataTableBodySignature<T>
 > {
   <template>
-    <tbody>
+    <tbody ...attributes>
       {{#each @items as |item|}}
         {{#let
           (component

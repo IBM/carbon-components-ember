@@ -53,6 +53,7 @@ const clipExpandableTile = eModifier<{
 });
 
 export interface TileSignature {
+  Element: HTMLDivElement | HTMLAnchorElement;
   Args: {
     selectable?: boolean;
     clickable?: boolean;
@@ -160,6 +161,7 @@ export default class Tile extends Component<TileSignature> {
         title="title"
         {{on "click" this.onSelectableClick}}
         {{on "keydown" this.onSelectableKeyDown}}
+        ...attributes
       >
         <span class="cds--tile__checkmark cds--tile__checkmark--persistent">
           {{#if this.selected}}
@@ -192,6 +194,7 @@ export default class Tile extends Component<TileSignature> {
       <div
         class="cds--tile cds--tile--expandable cds--tile--expandable--interactive
           {{if this.expanded 'cds--tile--is-expanded'}}"
+        ...attributes
       >
         <div>
           <div class="cds--tile-content" {{clipExpandableTile this.expanded}}>
@@ -220,12 +223,12 @@ export default class Tile extends Component<TileSignature> {
       </div>
     {{/if}}
     {{#if this.default}}
-      <div class="cds--tile">
+      <div class="cds--tile" ...attributes>
         {{yield to="content"}}
       </div>
     {{/if}}
     {{#if @clickable}}
-      {{! @carbon/react's Link never sets role='button' on a real <a href> (only role='link' when disabled) - a real <a href> already conveys link semantics on its own }}
+      {{! @carbon/react's Link never sets role='button' on a real <a href ...attributes> (only role='link' when disabled) - a real <a href> already conveys link semantics on its own }}
       <a
         class="cds--link cds--tile cds--tile--clickable"
         href="#"

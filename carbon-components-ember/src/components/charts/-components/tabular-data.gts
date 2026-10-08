@@ -48,5 +48,6 @@ export default class ChartTabularData extends ChartPart<ChartTabularDataSignatur
     }));
   }
 
+  // eslint-disable-next-line ember/template-require-splattributes -- configures its chart; renders nothing
   <template></template>
 }

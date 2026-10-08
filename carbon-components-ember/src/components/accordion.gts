@@ -5,6 +5,7 @@ import { tracked } from '@glimmer/tracking';
 import { concat } from '@ember/helper';
 
 export interface AccordionSignature {
+  Element: HTMLUListElement;
   Args: {
     disabled?: boolean;
     open?: boolean;
@@ -22,6 +23,7 @@ export interface AccordionSignature {
 }
 
 export interface AccordionItemSignature {
+  Element: HTMLLIElement;
   Args: {
     accordion: Accordion;
     isOpen?: boolean;
@@ -59,6 +61,7 @@ class AccordionItem extends Component<AccordionItemSignature> {
       class="cds--accordion__item
         {{if this.isActive 'cds--accordion__item--active'}}
         {{if this.disabled 'cds--accordion__item--disabled'}}"
+      ...attributes
     >
       <button
         type="button"
@@ -116,6 +119,7 @@ export default class Accordion extends Component<AccordionSignature> {
     <ul
       class="cds--accordion cds--accordion--{{or @align 'end'}}
         {{if @size (concat 'cds--accordion--' @size)}}"
+      ...attributes
     >
       {{yield (component AccordionItem accordion=this)}}
     </ul>

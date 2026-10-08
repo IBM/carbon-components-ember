@@ -14,6 +14,7 @@ export type Header = {
 };
 
 export interface TableHeaderSignature {
+  Element: HTMLTableSectionElement;
   Args: {
     table: DataTableContext;
     headers: (Header | undefined | null)[];
@@ -67,7 +68,7 @@ export default class TableHeader extends Component<TableHeaderSignature> {
   }
 
   <template>
-    <thead>
+    <thead ...attributes>
       <tr>
         {{#if @isExpandable}}
           <th class="cds--table-expand">

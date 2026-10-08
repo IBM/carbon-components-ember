@@ -5,8 +5,10 @@ import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 import Tooltip from './-private/tooltip.gts';
 import type { WithBoundArgs } from '@glint/template';
 import { OverflowMenuVertical } from '../icons.ts';
+import type { BasicDropdownTriggerSignature } from 'ember-basic-dropdown/components/basic-dropdown-trigger';
 
 export interface OverflowMenuSignature {
+  Element: BasicDropdownTriggerSignature['Element'];
   Args: {
     icon?: typeof Icon;
     direction: 'bottom' | 'top';
@@ -61,6 +63,7 @@ export default class OverflowMenu extends Component<OverflowMenuSignature> {
                 {{if dd.isOpen 'cds--overflow-menu--open'}}"
               aria-label={{this.iconDescription}}
               {{reference}}
+              ...attributes
             >
               <this.icon @btnClass="cds--overflow-menu__icon" />
             </dd.Trigger>
@@ -73,6 +76,7 @@ export default class OverflowMenu extends Component<OverflowMenuSignature> {
           @eventType={{@eventType}}
           class="cds--overflow-menu {{if dd.isOpen 'cds--overflow-menu--open'}}"
           aria-label={{this.iconDescription}}
+          ...attributes
         >
           <this.icon @btnClass="cds--overflow-menu__icon" />
         </dd.Trigger>

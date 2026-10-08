@@ -5,6 +5,7 @@ import { OverflowMenuVertical } from '../../icons.ts';
 import type { TOC } from '@ember/component/template-only';
 
 export interface TableMenuSignature {
+  Element: HTMLTableCellElement;
   Blocks: {
     default: [
       OverflowMenuItem: WithBoundArgs<
@@ -16,7 +17,7 @@ export interface TableMenuSignature {
 }
 
 const TableMenu: TOC<TableMenuSignature> = <template>
-  <td class="cds--table-column-menu">
+  <td class="cds--table-column-menu" ...attributes>
     <OverflowMenu @icon={{OverflowMenuVertical}} @direction="top" as |Item|>
       {{yield Item}}
     </OverflowMenu>

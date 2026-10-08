@@ -1,13 +1,14 @@
 import type { TOC } from '@ember/component/template-only';
 
 export interface DataTableSkeletonSignature {
+  Element: HTMLElement;
   Args: {
     headers: string[];
   };
 }
 
 const DataTableSkeleton: TOC<DataTableSkeletonSignature> = <template>
-  <section class="cds--structured-list cds--skeleton">
+  <section class="cds--structured-list cds--skeleton" ...attributes>
     <div class="cds--structured-list-tbody">
       <div class="cds--structured-list-row">
         {{#each @headers}}

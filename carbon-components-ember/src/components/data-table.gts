@@ -87,6 +87,7 @@ class State<T> {
 }
 
 export interface DataTableSignature<T> {
+  Element: HTMLDivElement;
   Args: {
     onSelectionChange?: (items: T[]) => void;
     registerState?: (state: State<T>) => void;
@@ -279,6 +280,7 @@ export default class DataTable<T> extends Component<DataTableSignature<T>> {
     <div
       class="cds--data-table-container {{if @isLoading 'bx-skeleton'}}"
       data-table
+      ...attributes
     >
       <div class="cds--data-table-header" {{this.notifyRegisterState}}>
         <h4 class="cds--data-table-header__title">

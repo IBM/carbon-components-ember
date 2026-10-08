@@ -10,6 +10,7 @@ import type { HandlePosition } from '../slider.gts';
 import type { TOC } from '@ember/component/template-only';
 
 export interface SliderTextInputSignature {
+  Element: HTMLDivElement;
   Args: {
     handle: HandlePosition;
     suffix: HandlePosition;
@@ -49,6 +50,7 @@ const SliderTextInput: TOC<SliderTextInputSignature> = <template>
     class="cds--text-input-wrapper cds--slider-text-input-wrapper cds--slider-text-input-wrapper--{{@suffix}}
       {{if @readOnly 'cds--text-input-wrapper--readonly'}}
       {{if @hideTextInput 'cds--slider-text-input-wrapper--hidden'}}"
+    ...attributes
   >
     {{! eslint-disable-next-line ember/template-require-input-label }}
     <input

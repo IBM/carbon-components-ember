@@ -197,6 +197,7 @@ export default class Icon extends Component<IconSignature> {
     loading: string;
   };
 
+  // eslint-disable-next-line ember/template-require-splattributes -- the svg comes from a helper; use @svgClass
   <template>
     {{#if (or @loading this.loading)}}
       <span class={{this.styles.loading}}>

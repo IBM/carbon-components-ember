@@ -11,6 +11,7 @@ import { stylesheet } from 'astroturf';
 import ListSkeletonComponent from '../components/list/-skeleton.gts';
 
 export interface ListSignature<T> {
+  Element: HTMLElement;
   Args: {
     items?: T[];
     loading?: boolean;
@@ -112,13 +113,14 @@ export default class List<T> extends Component<ListSignature<T>> {
 
   <template>
     {{#if @loading}}
-      <ListSkeletonComponent />
+      <ListSkeletonComponent ...attributes />
     {{else}}
       <section
         class="cds--structured-list
           {{this.styles.namespace}}
           {{if @selectable 'cds--structured-list--selection'}}"
         {{this.delayItems}}
+        ...attributes
       >
         {{yield
           (hash

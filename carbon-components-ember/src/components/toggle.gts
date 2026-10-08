@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
 
 export interface ToggleSignature {
+  Element: HTMLButtonElement;
   Args: {
     onChange?: (checked: boolean) => void;
     value?: boolean;
@@ -33,6 +34,7 @@ export default class Toggle extends Component<ToggleSignature> {
         aria-checked="{{@value}}"
         disabled={{@disabled}}
         {{on "click" this.onToggleChange}}
+        ...attributes
       ></button>
       <label class="cds--toggle__label" for="toggle-{{this.guid}}">
         <span class="cds--toggle__label-text">

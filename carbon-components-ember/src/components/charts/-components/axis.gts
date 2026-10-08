@@ -33,5 +33,6 @@ export default class ChartAxis extends ChartPart<ChartAxisSignature> {
     };
   }
 
+  // eslint-disable-next-line ember/template-require-splattributes -- configures its chart; renders nothing
   <template></template>
 }

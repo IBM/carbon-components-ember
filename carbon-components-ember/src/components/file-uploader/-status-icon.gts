@@ -8,8 +8,10 @@
 import Component from '@glimmer/component';
 import Loading from '../loading.gts';
 import { Close, CheckmarkFilled } from '../../icons.ts';
+import type { LoadingSignature } from '../loading.gts';
 
 export interface FileUploaderStatusIconSignature {
+  Element: LoadingSignature['Element'] | HTMLButtonElement | HTMLSpanElement;
   Args: {
     status?: 'uploading' | 'edit' | 'complete';
     name?: string;
@@ -46,6 +48,7 @@ export default class FileUploaderStatusIcon extends Component<FileUploaderStatus
         @small={{true}}
         @withOverlay={{false}}
         class="cds--file-loading"
+        ...attributes
       />
     {{else if (eq this.status "edit")}}
       <button
@@ -55,11 +58,12 @@ export default class FileUploaderStatusIcon extends Component<FileUploaderStatus
         aria-describedby={{@ariaDescribedby}}
         class="cds--file-close"
         {{on "click" this.handleClick}}
+        ...attributes
       >
         <Close @size="16" @svgClass="cds--file-close__icon" />
       </button>
     {{else if (eq this.status "complete")}}
-      <span tabindex="-1">
+      <span tabindex="-1" ...attributes>
         <CheckmarkFilled @size="16" @svgClass="cds--file-complete" />
         <span class="cds--visually-hidden">{{this.iconDescription}}</span>
       </span>

@@ -4,6 +4,7 @@ import UIShellHeaderPanel from './-header/-panel.gts';
 import type { TOC } from '@ember/component/template-only';
 
 export interface UIShellHeaderSignature {
+  Element: HTMLElement;
   Args: {
     title: string;
     subtitle: string;
@@ -18,7 +19,7 @@ export interface UIShellHeaderSignature {
 }
 
 const UIShellHeader: TOC<UIShellHeaderSignature> = <template>
-  <header aria-label="IBM Platform Name" class="cds--header">
+  <header aria-label="IBM Platform Name" class="cds--header" ...attributes>
     <a class="cds--skip-to-content" href="#main-content" tabindex="0">
       Skip to main content
     </a>

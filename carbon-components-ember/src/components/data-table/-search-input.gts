@@ -5,8 +5,10 @@ import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 import type { TaskInstance } from 'ember-concurrency';
 import { stylesheet } from 'astroturf';
+import type { SearchSignature } from '../search.gts';
 
 export interface TableToolbarSearchSignature {
+  Element: SearchSignature['Element'];
   Args: {
     onChange: (value: string) => TaskInstance<unknown> | undefined;
     isLoading: boolean;
@@ -69,6 +71,7 @@ export default class TableToolbarSearch extends Component<TableToolbarSearchSign
       @placeholder={{if @placeholder @placeholder "Filter table"}}
       @onChange={{this.doSearch}}
       class="{{if this.isSearching this.styles.is-searching}}"
+      ...attributes
     />
     <Loading
       class={{this.styles.loading}}

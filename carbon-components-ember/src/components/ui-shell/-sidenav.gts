@@ -17,6 +17,7 @@ export type MenuItem = {
 };
 
 export interface UIShellSideNavSignature {
+  Element: HTMLElement;
   Args: {
     open: boolean;
     menuItems: MenuItem[];
@@ -42,6 +43,7 @@ const UIShellSideNav: TOC<UIShellSideNavSignature> = <template>
       {{if @open 'cds--side-nav--expanded'}}"
     role="navigation"
     aria-label="Page Navigation"
+    ...attributes
   >
     <ul class="cds--side-nav__items">
       {{#unless @menuItems}}

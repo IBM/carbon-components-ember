@@ -103,6 +103,7 @@ export default class BaseTooltip extends Component<BaseTooltipSignature> {
   ` as { tooltip: string; arrow: string };
 
   <template>
+    {{! eslint-disable-next-line ember/template-require-splattributes -- the trigger is the caller's element }}
     <Popover @placement="top" as |p|>
       {{#let
         (modifier

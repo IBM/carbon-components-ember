@@ -23,5 +23,6 @@ export default class ColorScale extends ChartPart<ColorScaleSignature> {
     chart: null,
   };
 
+  // eslint-disable-next-line ember/template-require-splattributes -- configures its chart; renders nothing
   <template></template>
 }

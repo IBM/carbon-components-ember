@@ -10,6 +10,7 @@ export type SubMenu = {
 };
 
 export interface UIShellSideNavMenuSignature {
+  Element: HTMLLIElement;
   Args: {
     transitionTo: () => void;
     hidden?: boolean;
@@ -33,7 +34,10 @@ export default class UIShellSideNavMenu extends Component<UIShellSideNavMenuSign
 
   <template>
     {{#if @submenus}}
-      <li class="cds--side-nav__item {{if @icon 'cds--side-nav__item--icon'}}">
+      <li
+        class="cds--side-nav__item {{if @icon 'cds--side-nav__item--icon'}}"
+        ...attributes
+      >
         <button
           class="cds--side-nav__submenu"
           aria-haspopup="true"
@@ -63,7 +67,7 @@ export default class UIShellSideNavMenu extends Component<UIShellSideNavMenuSign
       </li>
     {{else}}
       {{#unless @hidden}}
-        <li class="cds--side-nav__item">
+        <li class="cds--side-nav__item" ...attributes>
           <a
             href="#"
             class="cds--side-nav__link"

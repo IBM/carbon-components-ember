@@ -6,6 +6,7 @@ import { concat } from '@ember/helper';
 import type { TOC } from '@ember/component/template-only';
 
 export interface TableToolbarSignature {
+  Element: HTMLElement;
   Args: {
     table: DataTableContext;
     size?: 'xs' | 'sm' | 'lg';
@@ -27,6 +28,7 @@ const TableToolbar: TOC<TableToolbarSignature> = <template>
       {{if @size (concat 'cds--table-toolbar--' @size)}}"
     role="group"
     aria-label={{or @ariaLabel "data table toolbar"}}
+    ...attributes
   >
     {{yield
       (hash

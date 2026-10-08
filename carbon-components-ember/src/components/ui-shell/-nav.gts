@@ -3,6 +3,7 @@ import UIShellHeaderMenu from '../../components/ui-shell/-header/-menu.gts';
 import type { TOC } from '@ember/component/template-only';
 
 export interface UIShellHeaderNavSignature {
+  Element: HTMLElement;
   Blocks: {
     default: [
       UIShellHeaderNavItem: typeof UIShellHeaderNavItem,
@@ -12,7 +13,7 @@ export interface UIShellHeaderNavSignature {
 }
 
 const UIShellHeaderNav: TOC<UIShellHeaderNavSignature> = <template>
-  <nav aria-label="IBM [Platform]" class="cds--header__nav">
+  <nav aria-label="IBM [Platform]" class="cds--header__nav" ...attributes>
     <ul class="cds--header__menu-bar">
       {{yield UIShellHeaderNavItem UIShellHeaderMenu}}
     </ul>

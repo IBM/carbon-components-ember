@@ -7,6 +7,7 @@ import { concat } from '@ember/helper';
 import type { WithRequired } from '../utils/type-helpers.ts';
 
 export interface ProgressBarSignature {
+  Element: HTMLDivElement;
   Args: {
     status?: 'active' | 'finished' | 'error' | 'indeterminate';
     size?: 'small' | 'big';
@@ -108,7 +109,7 @@ export default class ProgressBar extends Component<ProgressBarSignature> {
   }
 
   <template>
-    <div class={{this.classes}}>
+    <div class={{this.classes}} ...attributes>
       <div
         class="cds--progress-bar__label
           {{if @hideLabel 'cds--visually-hidden'}}"
