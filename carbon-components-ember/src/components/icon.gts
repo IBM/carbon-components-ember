@@ -5,7 +5,7 @@ import { htmlSafe } from '@ember/template';
 import Loading from '../components/loading.gts';
 import renderSvgPart from '../components/icon/render-svg-part.ts';
 import { stylesheet } from 'astroturf';
-import type DialogManagerService from '../services/dialog-manager';
+import type DialogManagerService from '../services/dialog-manager.ts';
 
 /** An icon descriptor from `@carbon/icons` (e.g. `@carbon/icons/es/add/16`). */
 export type IconType = {

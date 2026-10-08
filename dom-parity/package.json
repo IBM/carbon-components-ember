@@ -5,11 +5,21 @@
   "description": "Generates DOM-parity fixtures by rendering a pinned @carbon/react release, for comparison against carbon-components-ember's own render output in the addon's QUnit suite.",
   "type": "module",
   "scripts": {
-    "generate": "node ./generate.mjs"
+    "format": "prettier . --write",
+    "generate": "node ./generate.mjs",
+    "lint": "pnpm lint:js && pnpm lint:format",
+    "lint:fix": "eslint . --fix && prettier . --write",
+    "lint:format": "prettier . --check",
+    "lint:js": "eslint ."
   },
   "devDependencies": {
     "@carbon/react": "1.114.0",
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.12.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.13.0",
     "jsdom": "^25.0.1",
+    "prettier": "^3.9.9",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   }

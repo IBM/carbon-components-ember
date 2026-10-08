@@ -122,7 +122,11 @@ export default defineConfig([
     },
     rules: {
       // require relative imports use full extensions
-      'import/extensions': ['error', 'always', { ignorePackages: true }],
+      'import/extensions': [
+        'error',
+        'always',
+        { ignorePackages: true, checkTypeImports: true },
+      ],
     },
   },
   {

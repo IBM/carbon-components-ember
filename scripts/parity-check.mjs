@@ -20,7 +20,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Support running from a different repo (standalone mode)
-const TARGET_REPO_PATH = process.env.TARGET_REPO_PATH || path.resolve(__dirname, '..');
+const TARGET_REPO_PATH =
+  process.env.TARGET_REPO_PATH || path.resolve(__dirname, '..');
 const ROOT_DIR = TARGET_REPO_PATH;
 
 const PARITY_DATA_FILE = path.join(ROOT_DIR, '.parity-check-data.json');
@@ -138,7 +139,9 @@ const SOURCES = [
 function getSource(id) {
   const source = SOURCES.find((s) => s.id === id);
   if (!source) {
-    throw new Error(`Unknown parity source "${id}". Known sources: ${SOURCES.map((s) => s.id).join(', ')}`);
+    throw new Error(
+      `Unknown parity source "${id}". Known sources: ${SOURCES.map((s) => s.id).join(', ')}`,
+    );
   }
   return source;
 }
@@ -157,7 +160,7 @@ function kebabToPascalCase(name) {
 
 // Initialize Octokit
 const octokit = new Octokit({
-  auth: process.env.GITHUB_TOKEN || process.env.GH_TOKEN
+  auth: process.env.GITHUB_TOKEN || process.env.GH_TOKEN,
 });
 
 /**
@@ -167,11 +170,14 @@ async function fetchLatestVersion(source) {
   try {
     const { data } = await octokit.repos.getLatestRelease({
       owner: source.owner,
-      repo: source.repo
+      repo: source.repo,
     });
     return data.tag_name.replace(/^v/, '');
   } catch (error) {
-    console.error(`Error fetching latest ${source.label} version:`, error.message);
+    console.error(
+      `Error fetching latest ${source.label} version:`,
+      error.message,
+    );
     return 'unknown';
   }
 }
@@ -184,14 +190,14 @@ async function fetchLatestReleaseCommitSHA(source) {
     // Get latest release
     const { data: release } = await octokit.repos.getLatestRelease({
       owner: source.owner,
-      repo: source.repo
+      repo: source.repo,
     });
 
     // Get the tag reference
     const { data: tag } = await octokit.git.getRef({
       owner: source.owner,
       repo: source.repo,
-      ref: `tags/${release.tag_name}`
+      ref: `tags/${release.tag_name}`,
     });
 
     // The tag object contains the commit SHA
@@ -204,7 +210,7 @@ async function fetchLatestReleaseCommitSHA(source) {
       const { data: tagObject } = await octokit.git.getTag({
         owner: source.owner,
         repo: source.repo,
-        tag_sha: tag.object.sha
+        tag_sha: tag.object.sha,
       });
       commitSha = tagObject.object.sha;
     }
@@ -213,17 +219,20 @@ async function fetchLatestReleaseCommitSHA(source) {
     const { data: commit } = await octokit.repos.getCommit({
       owner: source.owner,
       repo: source.repo,
-      ref: commitSha
+      ref: commitSha,
     });
 
     return {
       sha: commitSha,
       date: commit.commit.committer.date,
       message: commit.commit.message.split('\n')[0],
-      tag: release.tag_name
+      tag: release.tag_name,
     };
   } catch (error) {
-    console.error(`Error fetching release commit for ${source.label}:`, error.message);
+    console.error(
+      `Error fetching release commit for ${source.label}:`,
+      error.message,
+    );
     return null;
   }
 }
@@ -240,11 +249,11 @@ async function fetchComponentChanges(source, componentName, sinceSHA) {
       repo: source.repo,
       path: `${source.componentsPath}/${componentName}`,
       since: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString(), // Last 90 days
-      per_page: 100
+      per_page: 100,
     });
 
     // Find commits after sinceSHA
-    const sinceIndex = data.findIndex(commit => commit.sha === sinceSHA);
+    const sinceIndex = data.findIndex((commit) => commit.sha === sinceSHA);
     if (sinceIndex === -1) {
       // SHA not found in recent history, return all
       return data;
@@ -252,7 +261,10 @@ async function fetchComponentChanges(source, componentName, sinceSHA) {
 
     return data.slice(0, sinceIndex);
   } catch (error) {
-    console.error(`Error fetching changes for ${componentName} (${source.label}):`, error.message);
+    console.error(
+      `Error fetching changes for ${componentName} (${source.label}):`,
+      error.message,
+    );
     return [];
   }
 }
@@ -261,12 +273,16 @@ async function fetchComponentChanges(source, componentName, sinceSHA) {
  * Check if a component has been updated since last check
  */
 async function checkComponentUpdates(source, componentName, lastCheckedSHA) {
-  const changes = await fetchComponentChanges(source, componentName, lastCheckedSHA);
+  const changes = await fetchComponentChanges(
+    source,
+    componentName,
+    lastCheckedSHA,
+  );
   return {
     hasChanges: changes.length > 0,
     changeCount: changes.length,
     latestCommit: changes[0] || null,
-    commits: changes.slice(0, 5) // Keep only last 5 for report
+    commits: changes.slice(0, 5), // Keep only last 5 for report
   };
 }
 
@@ -278,12 +294,15 @@ async function fetchUpstreamComponents(source) {
     const { data } = await octokit.repos.getContent({
       owner: source.owner,
       repo: source.repo,
-      path: source.componentsPath
+      path: source.componentsPath,
     });
 
     return data
-      .filter(item => item.type === 'dir' && !source.excludeDirs?.includes(item.name))
-      .map(item => item.name)
+      .filter(
+        (item) =>
+          item.type === 'dir' && !source.excludeDirs?.includes(item.name),
+      )
+      .map((item) => item.name)
       .sort();
   } catch (error) {
     console.error(`Error fetching ${source.label} components:`, error.message);
@@ -300,7 +319,10 @@ async function fetchUpstreamComponents(source) {
  */
 async function getEmberComponents() {
   try {
-    const indexPath = path.join(ROOT_DIR, 'carbon-components-ember/src/components.ts');
+    const indexPath = path.join(
+      ROOT_DIR,
+      'carbon-components-ember/src/components.ts',
+    );
     const content = await fs.readFile(indexPath, 'utf-8');
 
     // Match export statements
@@ -340,7 +362,7 @@ async function scrapeStorybookComponents(source) {
 
     // Extract component names from stories
     const components = new Set();
-    Object.keys(data.stories || {}).forEach(key => {
+    Object.keys(data.stories || {}).forEach((key) => {
       const story = data.stories[key];
       if (story.title) {
         // Extract component name from title like "Components/Accordion"
@@ -353,7 +375,10 @@ async function scrapeStorybookComponents(source) {
 
     return Array.from(components).sort();
   } catch (error) {
-    console.error(`Error scraping Storybook for ${source.label}:`, error.message);
+    console.error(
+      `Error scraping Storybook for ${source.label}:`,
+      error.message,
+    );
     return [];
   }
 }
@@ -386,17 +411,17 @@ async function loadParityData() {
         // Legacy shape stored the upstream component list as
         // `components.react`; the new shape calls it `components.upstream`.
         components: { ...data.components, upstream: data.components?.react },
-        componentMetadata: data.componentMetadata ?? {}
+        componentMetadata: data.componentMetadata ?? {},
       };
     }
     return data;
-  } catch (error) {
+  } catch {
     return {
       lastCheckedVersion: null,
       lastCheckDate: null,
       components: {},
       componentMetadata: {},
-      sources: {}
+      sources: {},
     };
   }
 }
@@ -419,7 +444,7 @@ async function loadExclusions() {
   try {
     const content = await fs.readFile(EXCLUSIONS_FILE, 'utf-8');
     return JSON.parse(content);
-  } catch (error) {
+  } catch {
     return {};
   }
 }
@@ -448,7 +473,7 @@ async function excludeComponent(componentName, reason, issueNumber) {
   exclusions[componentName] = {
     reason,
     excludedAt: new Date().toISOString(),
-    issue: issueNumber || null
+    issue: issueNumber || null,
   };
   await saveExclusions(exclusions);
   console.log(`Excluded ${componentName} from parity tracking: ${reason}`);
@@ -461,14 +486,14 @@ async function excludeComponent(componentName, reason, issueNumber) {
           owner,
           repo,
           issue_number: Number(issueNumber),
-          body: `Excluded \`${componentName}\` from parity tracking.\n\n**Reason**: ${reason}\n\nIt will no longer appear in \`.parity-check-data.json\` or \`PARITY_REPORT.md\`.`
+          body: `Excluded \`${componentName}\` from parity tracking.\n\n**Reason**: ${reason}\n\nIt will no longer appear in \`.parity-check-data.json\` or \`PARITY_REPORT.md\`.`,
         });
         await octokit.issues.update({
           owner,
           repo,
           issue_number: Number(issueNumber),
           state: 'closed',
-          labels: [GITHUB_LABEL, 'wontfix']
+          labels: [GITHUB_LABEL, 'wontfix'],
         });
         console.log(`Closed issue #${issueNumber} with exclusion reason.`);
       } catch (error) {
@@ -489,69 +514,103 @@ async function includeComponent(componentName) {
   }
   delete exclusions[componentName];
   await saveExclusions(exclusions);
-  console.log(`Removed exclusion for ${componentName}. It will be tracked again.`);
+  console.log(
+    `Removed exclusion for ${componentName}. It will be tracked again.`,
+  );
 }
 
 /**
  * Compare component lists and identify changes for a single source
  */
-async function compareComponents(source, upstreamComponents, emberComponents, previousSourceData, currentCommitSHA) {
-  const missing = upstreamComponents.filter(c => !emberComponents.includes(source.nameToEmberExport(c)));
-  const implemented = upstreamComponents.filter(c => emberComponents.includes(source.nameToEmberExport(c)));
+async function compareComponents(
+  source,
+  upstreamComponents,
+  emberComponents,
+  previousSourceData,
+  currentCommitSHA,
+) {
+  const missing = upstreamComponents.filter(
+    (c) => !emberComponents.includes(source.nameToEmberExport(c)),
+  );
+  const implemented = upstreamComponents.filter((c) =>
+    emberComponents.includes(source.nameToEmberExport(c)),
+  );
   // Meaningless for sources with no naming overlap against the Ember
   // export list yet (see `trackExtra` on the source config).
-  const extra = source.trackExtra ? emberComponents.filter(c => !upstreamComponents.includes(c)) : [];
+  const extra = source.trackExtra
+    ? emberComponents.filter((c) => !upstreamComponents.includes(c))
+    : [];
 
   // Identify new components since last check
   const newComponents = [];
   if (previousSourceData.components?.upstream) {
-    newComponents.push(...upstreamComponents.filter(c => !previousSourceData.components.upstream.includes(c)));
+    newComponents.push(
+      ...upstreamComponents.filter(
+        (c) => !previousSourceData.components.upstream.includes(c),
+      ),
+    );
   }
 
   // Check for outdated components (implemented but upstream version changed)
   const outdatedComponents = [];
   const componentMetadata = {};
 
-  if (previousSourceData.lastCheckedCommitSHA && currentCommitSHA !== previousSourceData.lastCheckedCommitSHA) {
+  if (
+    previousSourceData.lastCheckedCommitSHA &&
+    currentCommitSHA !== previousSourceData.lastCheckedCommitSHA
+  ) {
     console.log(`\nChecking for component updates (${source.label})...`);
 
     for (const component of implemented) {
-      const storedLastSyncedCommit = previousSourceData.componentMetadata?.[component]?.lastSyncedCommit;
-      const lastSyncedSHA = (storedLastSyncedCommit && storedLastSyncedCommit !== 'N/A') ? storedLastSyncedCommit : previousSourceData.lastCheckedCommitSHA;
-      const updateInfo = await checkComponentUpdates(source, component, lastSyncedSHA);
+      const storedLastSyncedCommit =
+        previousSourceData.componentMetadata?.[component]?.lastSyncedCommit;
+      const lastSyncedSHA =
+        storedLastSyncedCommit && storedLastSyncedCommit !== 'N/A'
+          ? storedLastSyncedCommit
+          : previousSourceData.lastCheckedCommitSHA;
+      const updateInfo = await checkComponentUpdates(
+        source,
+        component,
+        lastSyncedSHA,
+      );
 
       componentMetadata[component] = {
         lastCheckedCommit: currentCommitSHA,
         lastSyncedCommit: lastSyncedSHA,
         hasChanges: updateInfo.hasChanges,
         changeCount: updateInfo.changeCount,
-        lastUpdate: updateInfo.latestCommit?.commit?.committer?.date || null
+        lastUpdate: updateInfo.latestCommit?.commit?.committer?.date || null,
       };
 
       if (updateInfo.hasChanges) {
         outdatedComponents.push({
           name: component,
           changeCount: updateInfo.changeCount,
-          commits: updateInfo.commits
+          commits: updateInfo.commits,
         });
-        console.log(`  ⚠️  ${component}: ${updateInfo.changeCount} changes since last sync`);
+        console.log(
+          `  ⚠️  ${component}: ${updateInfo.changeCount} changes since last sync`,
+        );
       }
 
       // Rate limiting
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
     }
   } else {
     // Initialize metadata for all implemented components
     for (const component of implemented) {
       // For components without prior metadata, set lastSyncedCommit to N/A
-      const hasExistingMetadata = previousSourceData.componentMetadata?.[component] !== undefined;
+      const hasExistingMetadata =
+        previousSourceData.componentMetadata?.[component] !== undefined;
 
       componentMetadata[component] = {
         lastCheckedCommit: currentCommitSHA,
-        lastSyncedCommit: hasExistingMetadata ? previousSourceData.componentMetadata[component].lastSyncedCommit : 'N/A',
+        lastSyncedCommit: hasExistingMetadata
+          ? previousSourceData.componentMetadata[component].lastSyncedCommit
+          : 'N/A',
         hasChanges: false,
         changeCount: 0,
-        lastUpdate: null
+        lastUpdate: null,
       };
     }
   }
@@ -563,7 +622,10 @@ async function compareComponents(source, upstreamComponents, emberComponents, pr
     newComponents,
     outdatedComponents,
     componentMetadata,
-    parity: upstreamComponents.length > 0 ? Math.round((implemented.length / upstreamComponents.length) * 100) : 0
+    parity:
+      upstreamComponents.length > 0
+        ? Math.round((implemented.length / upstreamComponents.length) * 100)
+        : 0,
   };
 }
 
@@ -579,20 +641,28 @@ async function fetchOpenParityIssueTitles(owner, repo) {
     repo,
     labels: GITHUB_LABEL,
     state: 'open',
-    per_page: 100
+    per_page: 100,
   });
 
-  return new Set(issues.map(issue => issue.title));
+  return new Set(issues.map((issue) => issue.title));
 }
 
 /**
  * Create GitHub issue for a missing component
  */
-async function createGitHubIssue(source, componentName, version, commitSHA, existingTitles) {
+async function createGitHubIssue(
+  source,
+  componentName,
+  version,
+  commitSHA,
+  existingTitles,
+) {
   const [owner, repo] = process.env.GITHUB_REPOSITORY?.split('/') || ['', ''];
 
   if (!owner || !repo) {
-    console.log(`Would create issue for: ${componentName} (no GITHUB_REPOSITORY set)`);
+    console.log(
+      `Would create issue for: ${componentName} (no GITHUB_REPOSITORY set)`,
+    );
     return null;
   }
 
@@ -639,7 +709,7 @@ ${storybookResource}- [${source.label}](https://github.com/${source.owner}/${sou
       repo,
       title,
       body,
-      labels: [GITHUB_LABEL, 'enhancement']
+      labels: [GITHUB_LABEL, 'enhancement'],
     });
 
     console.log(`Created issue #${issue.number} for ${componentName}`);
@@ -654,19 +724,30 @@ ${storybookResource}- [${source.label}](https://github.com/${source.owner}/${sou
 /**
  * Create GitHub issue for an outdated component
  */
-async function createOutdatedComponentIssue(source, componentInfo, version, commitSHA, existingTitles) {
+async function createOutdatedComponentIssue(
+  source,
+  componentInfo,
+  version,
+  commitSHA,
+  existingTitles,
+) {
   const [owner, repo] = process.env.GITHUB_REPOSITORY?.split('/') || ['', ''];
 
   if (!owner || !repo) {
-    console.log(`Would create issue for outdated: ${componentInfo.name} (no GITHUB_REPOSITORY set)`);
+    console.log(
+      `Would create issue for outdated: ${componentInfo.name} (no GITHUB_REPOSITORY set)`,
+    );
     return null;
   }
 
   const title = `${source.issueTitlePrefix} Update ${componentInfo.name} component`;
 
-  const commitsList = componentInfo.commits.map(commit =>
-    `- [\`${commit.sha.substring(0, 7)}\`](${commit.html_url}) ${commit.commit.message.split('\n')[0]}`
-  ).join('\n');
+  const commitsList = componentInfo.commits
+    .map(
+      (commit) =>
+        `- [\`${commit.sha.substring(0, 7)}\`](${commit.html_url}) ${commit.commit.message.split('\n')[0]}`,
+    )
+    .join('\n');
 
   const body = `## Component Update Required
 
@@ -703,7 +784,9 @@ ${componentInfo.changeCount > 5 ? `\n*...and ${componentInfo.changeCount - 5} mo
 
   try {
     if (existingTitles.has(title)) {
-      console.log(`Update issue for ${componentInfo.name} already exists, skipping...`);
+      console.log(
+        `Update issue for ${componentInfo.name} already exists, skipping...`,
+      );
       return null;
     }
 
@@ -712,14 +795,19 @@ ${componentInfo.changeCount > 5 ? `\n*...and ${componentInfo.changeCount - 5} mo
       repo,
       title,
       body,
-      labels: [GITHUB_LABEL, 'enhancement', 'needs-update']
+      labels: [GITHUB_LABEL, 'enhancement', 'needs-update'],
     });
 
-    console.log(`Created update issue #${issue.number} for ${componentInfo.name}`);
+    console.log(
+      `Created update issue #${issue.number} for ${componentInfo.name}`,
+    );
     existingTitles.add(title);
     return issue;
   } catch (error) {
-    console.error(`Error creating update issue for ${componentInfo.name}:`, error.message);
+    console.error(
+      `Error creating update issue for ${componentInfo.name}:`,
+      error.message,
+    );
     return null;
   }
 }
@@ -735,33 +823,49 @@ Version: ${version}
 Latest Commit: ${commitInfo?.sha?.substring(0, 7) || 'unknown'} (${commitInfo?.date || 'unknown'})
 
 ## Summary
-- Total Upstream Components: ${comparison.implemented.length + comparison.missing.length}${source.trackExtra ? `
-- Total Ember Components (in this namespace): ${comparison.implemented.length + comparison.extra.length}` : ''}
+- Total Upstream Components: ${comparison.implemented.length + comparison.missing.length}${
+    source.trackExtra
+      ? `
+- Total Ember Components (in this namespace): ${comparison.implemented.length + comparison.extra.length}`
+      : ''
+  }
 - Parity: ${comparison.parity}%
 - Outdated Components: ${comparison.outdatedComponents?.length || 0}
 - Issue creation for this source: ${source.createIssues ? 'enabled' : 'disabled (report-only)'}
 
 ## Missing in Ember (${comparison.missing.length})
-${comparison.missing.map(c => `- [ ] ${c}`).join('\n')}
+${comparison.missing.map((c) => `- [ ] ${c}`).join('\n')}
 
 ## Implemented in Both (${comparison.implemented.length})
-${comparison.implemented.map(c => `- [x] ${c}`).join('\n')}
+${comparison.implemented.map((c) => `- [x] ${c}`).join('\n')}
 
-${comparison.outdatedComponents && comparison.outdatedComponents.length > 0 ? `
+${
+  comparison.outdatedComponents && comparison.outdatedComponents.length > 0
+    ? `
 ## Outdated Components (${comparison.outdatedComponents.length})
 These components exist in Ember but have updates upstream that need to be synced:
 
-${comparison.outdatedComponents.map(c => `- [ ] ${c.name} (${c.changeCount} changes)`).join('\n')}
-` : ''}
+${comparison.outdatedComponents.map((c) => `- [ ] ${c.name} (${c.changeCount} changes)`).join('\n')}
+`
+    : ''
+}
 
-${source.trackExtra ? `
+${
+  source.trackExtra
+    ? `
 ## Ember-Specific (${comparison.extra.length})
-${comparison.extra.map(c => `- ${c}`).join('\n')}
-` : ''}
-${comparison.newComponents.length > 0 ? `
+${comparison.extra.map((c) => `- ${c}`).join('\n')}
+`
+    : ''
+}
+${
+  comparison.newComponents.length > 0
+    ? `
 ## New Components Since Last Check (${comparison.newComponents.length})
-${comparison.newComponents.map(c => `- ${c}`).join('\n')}
-` : ''}
+${comparison.newComponents.map((c) => `- ${c}`).join('\n')}
+`
+    : ''
+}
 `;
 }
 
@@ -795,7 +899,8 @@ async function markComponentsSynced(componentNames, sourceId) {
 
   for (const componentName of componentNames) {
     if (sourceData.componentMetadata?.[componentName]) {
-      sourceData.componentMetadata[componentName].lastSyncedCommit = currentCommitInfo.sha;
+      sourceData.componentMetadata[componentName].lastSyncedCommit =
+        currentCommitInfo.sha;
       sourceData.componentMetadata[componentName].hasChanges = false;
       sourceData.componentMetadata[componentName].changeCount = 0;
       updated.push(componentName);
@@ -811,13 +916,15 @@ async function markComponentsSynced(componentNames, sourceId) {
       previousData.componentMetadata = sourceData.componentMetadata;
     }
     await saveParityData(previousData);
-    console.log(`✅ Marked as synced (${currentCommitInfo.sha.substring(0, 7)}):`);
-    updated.forEach(name => console.log(`   - ${name}`));
+    console.log(
+      `✅ Marked as synced (${currentCommitInfo.sha.substring(0, 7)}):`,
+    );
+    updated.forEach((name) => console.log(`   - ${name}`));
   }
 
   if (notFound.length > 0) {
     console.log(`\n⚠️  Not found in metadata for source "${source.id}":`);
-    notFound.forEach(name => console.log(`   - ${name}`));
+    notFound.forEach((name) => console.log(`   - ${name}`));
   }
 }
 
@@ -838,14 +945,20 @@ async function runSource(source, exclusions) {
   const previousData = await loadParityData();
   const previousSourceData = previousData.sources?.[source.id] || {};
 
-  console.log(`Last checked version: ${previousSourceData.lastCheckedVersion || 'Never'}`);
-  console.log(`Last checked commit: ${previousSourceData.lastCheckedCommitSHA?.substring(0, 7) || 'Never'}`);
+  console.log(
+    `Last checked version: ${previousSourceData.lastCheckedVersion || 'Never'}`,
+  );
+  console.log(
+    `Last checked commit: ${previousSourceData.lastCheckedCommitSHA?.substring(0, 7) || 'Never'}`,
+  );
 
   const currentVersion = await fetchLatestVersion(source);
   console.log(`Current ${source.label} version: ${currentVersion}`);
 
   const currentCommitInfo = await fetchLatestReleaseCommitSHA(source);
-  console.log(`Current release commit: ${currentCommitInfo?.sha?.substring(0, 7) || 'unknown'} (${currentCommitInfo?.tag || 'unknown'}, ${currentCommitInfo?.date || 'unknown'})\n`);
+  console.log(
+    `Current release commit: ${currentCommitInfo?.sha?.substring(0, 7) || 'unknown'} (${currentCommitInfo?.tag || 'unknown'}, ${currentCommitInfo?.date || 'unknown'})\n`,
+  );
 
   console.log(`Fetching ${source.label} components from GitHub...`);
   const upstreamDirComponents = await fetchUpstreamComponents(source);
@@ -856,13 +969,21 @@ async function runSource(source, exclusions) {
     console.log(`Found ${storybookComponents.length} components in Storybook`);
   }
 
-  const mergedUpstreamComponents = Array.from(new Set([...upstreamDirComponents, ...storybookComponents])).sort();
-  console.log(`Total unique ${source.label} components: ${mergedUpstreamComponents.length}`);
+  const mergedUpstreamComponents = Array.from(
+    new Set([...upstreamDirComponents, ...storybookComponents]),
+  ).sort();
+  console.log(
+    `Total unique ${source.label} components: ${mergedUpstreamComponents.length}`,
+  );
 
   const excludedNames = Object.keys(exclusions);
-  const allUpstreamComponents = mergedUpstreamComponents.filter(c => !excludedNames.includes(c));
+  const allUpstreamComponents = mergedUpstreamComponents.filter(
+    (c) => !excludedNames.includes(c),
+  );
   if (excludedNames.length > 0) {
-    console.log(`Excluding ${excludedNames.length} component(s) from tracking: ${excludedNames.join(', ')}`);
+    console.log(
+      `Excluding ${excludedNames.length} component(s) from tracking: ${excludedNames.join(', ')}`,
+    );
   }
 
   const emberComponents = await getEmberComponents();
@@ -871,8 +992,11 @@ async function runSource(source, exclusions) {
     source,
     allUpstreamComponents,
     emberComponents,
-    { ...previousSourceData, components: { upstream: previousSourceData.components?.upstream } },
-    currentCommitInfo?.sha
+    {
+      ...previousSourceData,
+      components: { upstream: previousSourceData.components?.upstream },
+    },
+    currentCommitInfo?.sha,
   );
 
   console.log(`\n=== ${source.label} Comparison Results ===`);
@@ -883,38 +1007,62 @@ async function runSource(source, exclusions) {
   console.log(`Ember-specific: ${comparison.extra.length}`);
   console.log(`New since last check: ${comparison.newComponents.length}\n`);
 
-  const commitChanged = previousSourceData.lastCheckedCommitSHA !== currentCommitInfo?.sha;
-  const versionChanged = previousSourceData.lastCheckedVersion !== currentVersion;
-  const globalCreateIssues = process.env.CREATE_ISSUES === 'true' || process.argv.includes('--create-issues');
+  const versionChanged =
+    previousSourceData.lastCheckedVersion !== currentVersion;
+  const globalCreateIssues =
+    process.env.CREATE_ISSUES === 'true' ||
+    process.argv.includes('--create-issues');
   const shouldCreateIssues = globalCreateIssues && source.createIssues;
 
   if (globalCreateIssues && !source.createIssues) {
-    console.log(`Issue creation requested but disabled for source "${source.id}" (createIssues: false) - report-only.`);
+    console.log(
+      `Issue creation requested but disabled for source "${source.id}" (createIssues: false) - report-only.`,
+    );
   }
 
   if (shouldCreateIssues) {
     console.log(`\n=== Creating GitHub Issues (${source.label}) ===`);
 
     const [owner, repo] = process.env.GITHUB_REPOSITORY?.split('/') || ['', ''];
-    const existingTitles = (owner && repo)
-      ? await fetchOpenParityIssueTitles(owner, repo)
-      : new Set();
+    const existingTitles =
+      owner && repo ? await fetchOpenParityIssueTitles(owner, repo) : new Set();
 
-    const componentsToInvestigate = versionChanged ? comparison.missing : comparison.newComponents;
+    const componentsToInvestigate = versionChanged
+      ? comparison.missing
+      : comparison.newComponents;
 
     if (componentsToInvestigate.length > 0) {
-      console.log(`Creating issues for ${componentsToInvestigate.length} missing components...`);
+      console.log(
+        `Creating issues for ${componentsToInvestigate.length} missing components...`,
+      );
       for (const component of componentsToInvestigate) {
-        await createGitHubIssue(source, component, currentVersion, currentCommitInfo?.sha, existingTitles);
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await createGitHubIssue(
+          source,
+          component,
+          currentVersion,
+          currentCommitInfo?.sha,
+          existingTitles,
+        );
+        await new Promise((resolve) => setTimeout(resolve, 1000));
       }
     }
 
-    if (comparison.outdatedComponents && comparison.outdatedComponents.length > 0) {
-      console.log(`Creating issues for ${comparison.outdatedComponents.length} outdated components...`);
+    if (
+      comparison.outdatedComponents &&
+      comparison.outdatedComponents.length > 0
+    ) {
+      console.log(
+        `Creating issues for ${comparison.outdatedComponents.length} outdated components...`,
+      );
       for (const componentInfo of comparison.outdatedComponents) {
-        await createOutdatedComponentIssue(source, componentInfo, currentVersion, currentCommitInfo?.sha, existingTitles);
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await createOutdatedComponentIssue(
+          source,
+          componentInfo,
+          currentVersion,
+          currentCommitInfo?.sha,
+          existingTitles,
+        );
+        await new Promise((resolve) => setTimeout(resolve, 1000));
       }
     }
   }
@@ -929,9 +1077,9 @@ async function runSource(source, exclusions) {
       ember: emberComponents,
       missing: comparison.missing,
       implemented: comparison.implemented,
-      outdated: comparison.outdatedComponents?.map(c => c.name) || []
+      outdated: comparison.outdatedComponents?.map((c) => c.name) || [],
     },
-    componentMetadata: comparison.componentMetadata || {}
+    componentMetadata: comparison.componentMetadata || {},
   };
 
   return {
@@ -940,7 +1088,12 @@ async function runSource(source, exclusions) {
     currentVersion,
     currentCommitInfo,
     newSourceData,
-    reportSection: generateReportSection(source, comparison, currentVersion, currentCommitInfo)
+    reportSection: generateReportSection(
+      source,
+      comparison,
+      currentVersion,
+      currentCommitInfo,
+    ),
   };
 }
 
@@ -954,7 +1107,9 @@ async function main() {
   // Check for --mark-synced flag
   const markSyncedIndex = process.argv.indexOf('--mark-synced');
   if (markSyncedIndex !== -1 && process.argv[markSyncedIndex + 1]) {
-    const components = process.argv[markSyncedIndex + 1].split(',').map(s => s.trim());
+    const components = process.argv[markSyncedIndex + 1]
+      .split(',')
+      .map((s) => s.trim());
     await markComponentsSynced(components, sourceId);
     return;
   }
@@ -962,7 +1117,11 @@ async function main() {
   // Check for --exclude flag: exclude a component from parity tracking
   const excludeName = getArgValue('--exclude');
   if (excludeName) {
-    await excludeComponent(excludeName, getArgValue('--reason'), getArgValue('--issue'));
+    await excludeComponent(
+      excludeName,
+      getArgValue('--reason'),
+      getArgValue('--issue'),
+    );
     return;
   }
 
@@ -981,7 +1140,9 @@ async function main() {
       console.log('No components are excluded.');
     } else {
       console.log('Excluded components:');
-      names.forEach(name => console.log(`  - ${name}: ${exclusions[name].reason}`));
+      names.forEach((name) =>
+        console.log(`  - ${name}: ${exclusions[name].reason}`),
+      );
     }
     return;
   }
@@ -998,22 +1159,28 @@ async function main() {
     results.push(await runSource(source, exclusions));
   }
 
-  await generateReport(results.map(r => r.reportSection));
+  await generateReport(results.map((r) => r.reportSection));
 
   const sources = { ...previousData.sources };
   for (const result of results) {
     sources[result.source.id] = result.newSourceData;
   }
 
-  const reactResult = results.find(r => r.source.id === 'react');
+  const reactResult = results.find((r) => r.source.id === 'react');
 
   const newData = {
     // Legacy top-level shape, mirroring the `react` source, kept for
     // backward compatibility with anything still reading the pre-multi-
     // source file layout (see loadParityData()).
-    lastCheckedVersion: reactResult?.newSourceData.lastCheckedVersion ?? previousData.lastCheckedVersion,
-    lastCheckedCommitSHA: reactResult?.newSourceData.lastCheckedCommitSHA ?? previousData.lastCheckedCommitSHA,
-    lastCheckedCommitDate: reactResult?.newSourceData.lastCheckedCommitDate ?? previousData.lastCheckedCommitDate,
+    lastCheckedVersion:
+      reactResult?.newSourceData.lastCheckedVersion ??
+      previousData.lastCheckedVersion,
+    lastCheckedCommitSHA:
+      reactResult?.newSourceData.lastCheckedCommitSHA ??
+      previousData.lastCheckedCommitSHA,
+    lastCheckedCommitDate:
+      reactResult?.newSourceData.lastCheckedCommitDate ??
+      previousData.lastCheckedCommitDate,
     lastCheckDate: new Date().toISOString(),
     components: reactResult
       ? {
@@ -1021,11 +1188,13 @@ async function main() {
           ember: reactResult.newSourceData.components.ember,
           missing: reactResult.newSourceData.components.missing,
           implemented: reactResult.newSourceData.components.implemented,
-          outdated: reactResult.newSourceData.components.outdated
+          outdated: reactResult.newSourceData.components.outdated,
         }
       : previousData.components,
-    componentMetadata: reactResult?.newSourceData.componentMetadata ?? previousData.componentMetadata,
-    sources
+    componentMetadata:
+      reactResult?.newSourceData.componentMetadata ??
+      previousData.componentMetadata,
+    sources,
   };
 
   await saveParityData(newData);
@@ -1033,7 +1202,7 @@ async function main() {
   console.log('Done!');
 }
 
-main().catch(error => {
+main().catch((error) => {
   console.error('Fatal error:', error);
   process.exit(1);
 });

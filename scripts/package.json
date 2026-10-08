@@ -10,11 +10,22 @@
   "type": "module",
   "scripts": {
     "check-parity": "node parity-check.mjs",
-    "check-parity:create-issues": "CREATE_ISSUES=true node parity-check.mjs"
+    "check-parity:create-issues": "CREATE_ISSUES=true node parity-check.mjs",
+    "format": "prettier . --write",
+    "lint": "pnpm lint:js && pnpm lint:format",
+    "lint:fix": "eslint . --fix && prettier . --write",
+    "lint:format": "prettier . --check",
+    "lint:js": "eslint ."
   },
   "dependencies": {
     "@octokit/rest": "^20.0.0",
-    "playwright": "^1.61.1",
-    "yaml": "^2.9.1"
+    "playwright": "^1.61.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.12.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.13.0",
+    "prettier": "^3.9.9"
   }
 }

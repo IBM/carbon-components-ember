@@ -1,0 +1,50 @@
+name: Changed packages
+description: >
+  Which workspace packages a branch changes compared with main. Needs a
+  checkout with full history. On main, tags and manual runs, or when shared
+  files change, every package counts as changed.
+
+outputs:
+  addon:
+    description: '"true" when carbon-components-ember (or dom-parity, which its tests import) changed'
+    value: ${{ steps.changes.outputs.addon }}
+  packages:
+    description: Space-separated names of the changed packages
+    value: ${{ steps.changes.outputs.packages }}
+
+runs:
+  using: composite
+  steps:
+    - id: changes
+      shell: bash
+      run: |
+        all=(carbon-components-ember dom-parity scripts)
+        report() {
+          local addon=false
+          [[ " $* " == *" carbon-components-ember "* ]] && addon=true
+          echo "addon=$addon" >> "$GITHUB_OUTPUT"
+          echo "packages=$*" >> "$GITHUB_OUTPUT"
+          echo "Changed packages: ${*:-none}"
+        }
+
+        if [[ "$GITHUB_REF" != refs/heads/* || "$GITHUB_REF" == refs/heads/main || "$GITHUB_EVENT_NAME" == workflow_dispatch ]]; then
+          report "${all[@]}"
+          exit 0
+        fi
+
+        base=$(git merge-base origin/main HEAD) || { report "${all[@]}"; exit 0; }
+        changed=$(git diff --name-only "$base" HEAD)
+
+        if grep -qE '^(package\.json|pnpm-lock\.yaml|pnpm-workspace\.yaml|patches/|\.github/)' <<< "$changed"; then
+          report "${all[@]}"
+          exit 0
+        fi
+
+        packages=()
+        for p in "${all[@]}"; do
+          grep -q "^$p/" <<< "$changed" && packages+=("$p")
+        done
+        if [[ " ${packages[*]} " == *" dom-parity "* && " ${packages[*]} " != *" carbon-components-ember "* ]]; then
+          packages+=(carbon-components-ember)
+        fi
+        report "${packages[@]}"

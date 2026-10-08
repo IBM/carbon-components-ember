@@ -647,19 +647,22 @@ import { LayoutConstraint as CarbonLayoutConstraint } from '@carbon/react/lib/co
 const button = (name, props) => ({
   name,
   props,
-  createElement: (React, Carbon) => React.createElement(Carbon.Button, props, 'Button'),
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Button, props, 'Button'),
 });
 
 const tag = (name, props) => ({
   name,
   props,
-  createElement: (React, Carbon) => React.createElement(Carbon.Tag, props, 'Tag content'),
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Tag, props, 'Tag content'),
 });
 
 const link = (name, props) => ({
   name,
   props,
-  createElement: (React, Carbon) => React.createElement(Carbon.Link, props, 'Link text'),
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Link, props, 'Link text'),
 });
 
 // Both list factories render two `ListItem`s so a regression in the
@@ -703,7 +706,8 @@ const grid = (name, props) => ({
 const gridRow = (name, props) => ({
   name,
   props,
-  createElement: (React, Carbon) => React.createElement(Carbon.Row, props, 'Row content'),
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Row, props, 'Row content'),
 });
 
 const gridColumn = (name, props) => ({
@@ -744,7 +748,8 @@ const inlineNotification = (name, kind) => ({
 const tile = (name, props) => ({
   name,
   props,
-  createElement: (React, Carbon) => React.createElement(Carbon.Tile, props, 'Tile content'),
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Tile, props, 'Tile content'),
 });
 
 const clickableTile = (name, props) => ({
@@ -771,8 +776,16 @@ const tileGroup = (name, props) => ({
     React.createElement(
       Carbon.TileGroup,
       props,
-      React.createElement(Carbon.RadioTile, { key: 'a', value: 'a' }, 'Option A'),
-      React.createElement(Carbon.RadioTile, { key: 'b', value: 'b' }, 'Option B'),
+      React.createElement(
+        Carbon.RadioTile,
+        { key: 'a', value: 'a' },
+        'Option A',
+      ),
+      React.createElement(
+        Carbon.RadioTile,
+        { key: 'b', value: 'b' },
+        'Option B',
+      ),
     ),
 });
 
@@ -780,7 +793,11 @@ const selectableTile = (name, props) => ({
   name,
   props,
   createElement: (React, Carbon) =>
-    React.createElement(Carbon.SelectableTile, props, 'Selectable tile content'),
+    React.createElement(
+      Carbon.SelectableTile,
+      props,
+      'Selectable tile content',
+    ),
 });
 
 // Renders a real `<button>` as the "above" content so upstream's own
@@ -796,7 +813,11 @@ const expandableTile = (name, props) => ({
     React.createElement(
       Carbon.ExpandableTile,
       props,
-      React.createElement('button', { key: 'above', type: 'button' }, 'Above content'),
+      React.createElement(
+        'button',
+        { key: 'above', type: 'button' },
+        'Above content',
+      ),
       'Below content',
     ),
 });
@@ -804,26 +825,33 @@ const expandableTile = (name, props) => ({
 const skeletonText = (name, props) => ({
   name,
   props,
-  createElement: (React, Carbon) => React.createElement(Carbon.SkeletonText, props),
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.SkeletonText, props),
 });
 
 const textAreaSkeleton = (name, props) => ({
   name,
   props,
-  createElement: (React, Carbon) => React.createElement(Carbon.TextAreaSkeleton, props),
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.TextAreaSkeleton, props),
 });
 
 const sliderSkeleton = (name, props) => ({
   name,
   props,
-  createElement: (React, Carbon) => React.createElement(Carbon.SliderSkeleton, props),
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.SliderSkeleton, props),
 });
 
 const checkbox = (name, props) => ({
   name,
   props,
   createElement: (React, Carbon) =>
-    React.createElement(Carbon.Checkbox, { id: 'checkbox-1', labelText: 'Checkbox label', ...props }),
+    React.createElement(Carbon.Checkbox, {
+      id: 'checkbox-1',
+      labelText: 'Checkbox label',
+      ...props,
+    }),
 });
 
 const radioButton = (name, props) => ({
@@ -857,8 +885,16 @@ const radioButtonGroup = (name, props) => ({
     React.createElement(
       Carbon.RadioButtonGroup,
       { name: 'radio-group', legendText: 'Choose one', ...props },
-      React.createElement(Carbon.RadioButton, { key: 'a', value: 'a', labelText: 'Option A' }),
-      React.createElement(Carbon.RadioButton, { key: 'b', value: 'b', labelText: 'Option B' }),
+      React.createElement(Carbon.RadioButton, {
+        key: 'a',
+        value: 'a',
+        labelText: 'Option A',
+      }),
+      React.createElement(Carbon.RadioButton, {
+        key: 'b',
+        value: 'b',
+        labelText: 'Option B',
+      }),
     ),
   pickRoot: (container) => container.querySelector('fieldset'),
 });
@@ -867,7 +903,11 @@ const toggle = (name, props) => ({
   name,
   props,
   createElement: (React, Carbon) =>
-    React.createElement(Carbon.Toggle, { id: 'toggle-1', labelText: 'Toggle label', ...props }),
+    React.createElement(Carbon.Toggle, {
+      id: 'toggle-1',
+      labelText: 'Toggle label',
+      ...props,
+    }),
 });
 
 const textInput = (name, props) => ({
@@ -957,14 +997,16 @@ const search = (name, props) => ({
 const fileUploaderButton = (name, props) => ({
   name,
   props,
-  createElement: (React, Carbon) => React.createElement(Carbon.FileUploaderButton, props),
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.FileUploaderButton, props),
   pickRoot: (container) => container.children[0],
 });
 
 const fileUploaderDropContainer = (name, props) => ({
   name,
   props,
-  createElement: (React, Carbon) => React.createElement(Carbon.FileUploaderDropContainer, props),
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.FileUploaderDropContainer, props),
 });
 
 // No files are ever added (simulating a real file pick/drop needs a File
@@ -975,38 +1017,49 @@ const fileUploader = (name, props) => ({
   name,
   props,
   createElement: (React, Carbon) =>
-    React.createElement(Carbon.FileUploader, { filenameStatus: 'edit', ...props }),
+    React.createElement(Carbon.FileUploader, {
+      filenameStatus: 'edit',
+      ...props,
+    }),
 });
 
 const formGroup = (name, props) => ({
   name,
   props,
   createElement: (React, Carbon) =>
-    React.createElement(Carbon.FormGroup, { legendText: 'Group label', ...props }, 'Form group content'),
+    React.createElement(
+      Carbon.FormGroup,
+      { legendText: 'Group label', ...props },
+      'Form group content',
+    ),
 });
 
 const formItem = (name, props) => ({
   name,
   props,
-  createElement: (React, Carbon) => React.createElement(Carbon.FormItem, props, 'Form item content'),
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.FormItem, props, 'Form item content'),
 });
 
 const formLabel = (name, props) => ({
   name,
   props,
-  createElement: (React, Carbon) => React.createElement(Carbon.FormLabel, props, 'Form label'),
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.FormLabel, props, 'Form label'),
 });
 
 const stack = (name, props) => ({
   name,
   props,
-  createElement: (React, Carbon) => React.createElement(Carbon.Stack, props, 'Stack content'),
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Stack, props, 'Stack content'),
 });
 
 const layer = (name, props) => ({
   name,
   props,
-  createElement: (React, Carbon) => React.createElement(Carbon.Layer, props, 'Layer content'),
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Layer, props, 'Layer content'),
 });
 
 // Upstream's `theme` prop has no default of its own - a theme-less render
@@ -1019,7 +1072,11 @@ const theme = (name, props) => ({
   name,
   props,
   createElement: (React, Carbon) =>
-    React.createElement(Carbon.Theme, { theme: 'white', ...props }, 'Theme content'),
+    React.createElement(
+      Carbon.Theme,
+      { theme: 'white', ...props },
+      'Theme content',
+    ),
 });
 
 // Rendered standalone, with no ambient `TextDirectionContext` - matching
@@ -1030,7 +1087,8 @@ const theme = (name, props) => ({
 const text = (name, props) => ({
   name,
   props,
-  createElement: (React, Carbon) => React.createElement(Carbon.preview_Text, props, 'Text content'),
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.preview_Text, props, 'Text content'),
 });
 
 const layout = (name, props) => ({
@@ -1047,21 +1105,32 @@ const layoutConstraint = (name, props) => ({
   name,
   props,
   createElement: (React) =>
-    React.createElement(CarbonLayoutConstraint, props, 'Layout constraint content'),
+    React.createElement(
+      CarbonLayoutConstraint,
+      props,
+      'Layout constraint content',
+    ),
 });
 
 const layoutDirection = (name, props) => ({
   name,
   props,
   createElement: (React, Carbon) =>
-    React.createElement(Carbon.preview_LayoutDirection, props, 'Layout direction content'),
+    React.createElement(
+      Carbon.preview_LayoutDirection,
+      props,
+      'Layout direction content',
+    ),
 });
 
 const progressBar = (name, props) => ({
   name,
   props,
   createElement: (React, Carbon) =>
-    React.createElement(Carbon.ProgressBar, { label: 'Uploading file', ...props }),
+    React.createElement(Carbon.ProgressBar, {
+      label: 'Uploading file',
+      ...props,
+    }),
 });
 
 // Renders 3 real `ProgressStep` children (matching progress-indicator.gts's
@@ -1102,7 +1171,11 @@ const iconIndicator = (name, props) => ({
   name,
   props,
   createElement: (React, Carbon) =>
-    React.createElement(Carbon.preview__IconIndicator, { kind: 'succeeded', label: 'Succeeded', ...props }),
+    React.createElement(Carbon.preview__IconIndicator, {
+      kind: 'succeeded',
+      label: 'Succeeded',
+      ...props,
+    }),
 });
 
 // Same no-bare-export situation as IconIndicator above -
@@ -1111,7 +1184,11 @@ const shapeIndicator = (name, props) => ({
   name,
   props,
   createElement: (React, Carbon) =>
-    React.createElement(Carbon.preview__ShapeIndicator, { kind: 'stable', label: 'Stable', ...props }),
+    React.createElement(Carbon.preview__ShapeIndicator, {
+      kind: 'stable',
+      label: 'Stable',
+      ...props,
+    }),
 });
 
 const slider = (name, props) => ({
@@ -1172,8 +1249,16 @@ const structuredList = (name, props) => ({
         React.createElement(
           Carbon.StructuredListRow,
           { head: true, selection },
-          React.createElement(Carbon.StructuredListCell, { head: true }, 'Column A'),
-          React.createElement(Carbon.StructuredListCell, { head: true }, 'Column B'),
+          React.createElement(
+            Carbon.StructuredListCell,
+            { head: true },
+            'Column A',
+          ),
+          React.createElement(
+            Carbon.StructuredListCell,
+            { head: true },
+            'Column B',
+          ),
         ),
       ),
       React.createElement(
@@ -1190,8 +1275,16 @@ const structuredList = (name, props) => ({
                   title: `Row ${i + 1}`,
                 })
               : null,
-            React.createElement(Carbon.StructuredListCell, { noWrap: i === 0 }, `Row ${i + 1} A`),
-            React.createElement(Carbon.StructuredListCell, null, `Row ${i + 1} B`),
+            React.createElement(
+              Carbon.StructuredListCell,
+              { noWrap: i === 0 },
+              `Row ${i + 1} A`,
+            ),
+            React.createElement(
+              Carbon.StructuredListCell,
+              null,
+              `Row ${i + 1} B`,
+            ),
           ),
         ),
       ),
@@ -1211,7 +1304,11 @@ const structuredList = (name, props) => ({
 // tab buttons in `TabList` and their sibling `TabPanel`s) are canonicalized
 // by `normalize-dom.mjs` via parent container scanning.
 const TAB_TITLES = ['First tab', 'Second tab', 'Third tab'];
-const tabs = (name, props, { tabsProps = {}, tabOverrides = {}, pickPanel } = {}) => ({
+const tabs = (
+  name,
+  props,
+  { tabsProps = {}, tabOverrides = {}, pickPanel } = {},
+) => ({
   name,
   props: { ...tabsProps, ...props },
   createElement: (React, Carbon) =>
@@ -1222,14 +1319,22 @@ const tabs = (name, props, { tabsProps = {}, tabOverrides = {}, pickPanel } = {}
         Carbon.TabList,
         { 'aria-label': 'List of tabs', ...props },
         TAB_TITLES.map((title, i) =>
-          React.createElement(Carbon.Tab, { key: String(i), ...tabOverrides[i] }, title),
+          React.createElement(
+            Carbon.Tab,
+            { key: String(i), ...tabOverrides[i] },
+            title,
+          ),
         ),
       ),
       React.createElement(
         Carbon.TabPanels,
         null,
         TAB_TITLES.map((title, i) =>
-          React.createElement(Carbon.TabPanel, { key: String(i) }, `${title} content`),
+          React.createElement(
+            Carbon.TabPanel,
+            { key: String(i) },
+            `${title} content`,
+          ),
         ),
       ),
     ),
@@ -1295,7 +1400,11 @@ export const COMPONENTS = [
       // variant below), not `Loading` with some extra prop.
       {
         name: 'overlay-active',
-        props: { withOverlay: true, active: true, description: 'Active loading indicator' },
+        props: {
+          withOverlay: true,
+          active: true,
+          description: 'Active loading indicator',
+        },
         createElement: (React, Carbon) =>
           React.createElement(Carbon.Loading, {
             withOverlay: true,
@@ -1321,7 +1430,11 @@ export const COMPONENTS = [
       },
       {
         name: 'overlay-inactive',
-        props: { withOverlay: true, active: false, description: 'Stopped loading indicator' },
+        props: {
+          withOverlay: true,
+          active: false,
+          description: 'Stopped loading indicator',
+        },
         createElement: (React, Carbon) =>
           React.createElement(Carbon.Loading, {
             withOverlay: true,
@@ -1347,7 +1460,11 @@ export const COMPONENTS = [
       },
       {
         name: 'plain-active',
-        props: { withOverlay: false, active: true, description: 'Active loading indicator' },
+        props: {
+          withOverlay: false,
+          active: true,
+          description: 'Active loading indicator',
+        },
         createElement: (React, Carbon) =>
           React.createElement(Carbon.Loading, {
             withOverlay: false,
@@ -1373,7 +1490,11 @@ export const COMPONENTS = [
       },
       {
         name: 'plain-inactive',
-        props: { withOverlay: false, active: false, description: 'Stopped loading indicator' },
+        props: {
+          withOverlay: false,
+          active: false,
+          description: 'Stopped loading indicator',
+        },
         createElement: (React, Carbon) =>
           React.createElement(Carbon.Loading, {
             withOverlay: false,
@@ -1451,7 +1572,8 @@ export const COMPONENTS = [
       {
         name: 'default',
         props: {},
-        createElement: (React, Carbon) => React.createElement(Carbon.ListItem, {}, 'Item content'),
+        createElement: (React, Carbon) =>
+          React.createElement(Carbon.ListItem, {}, 'Item content'),
       },
     ],
   },
@@ -1530,7 +1652,11 @@ export const COMPONENTS = [
   {
     name: 'TileGroup',
     variants: [
-      tileGroup('default', { name: 'tiles', legend: 'Choose one', defaultSelected: 'a' }),
+      tileGroup('default', {
+        name: 'tiles',
+        legend: 'Choose one',
+        defaultSelected: 'a',
+      }),
     ],
   },
   {
@@ -1550,7 +1676,8 @@ export const COMPONENTS = [
       {
         name: 'default',
         props: {},
-        createElement: (React, Carbon) => React.createElement(Carbon.SkeletonIcon, {}),
+        createElement: (React, Carbon) =>
+          React.createElement(Carbon.SkeletonIcon, {}),
       },
     ],
   },
@@ -1560,7 +1687,8 @@ export const COMPONENTS = [
       {
         name: 'default',
         props: {},
-        createElement: (React, Carbon) => React.createElement(Carbon.SkeletonPlaceholder, {}),
+        createElement: (React, Carbon) =>
+          React.createElement(Carbon.SkeletonPlaceholder, {}),
       },
     ],
   },
@@ -1617,7 +1745,8 @@ export const COMPONENTS = [
       {
         name: 'default',
         props: {},
-        createElement: (React, Carbon) => React.createElement(Carbon.FileUploaderSkeleton, {}),
+        createElement: (React, Carbon) =>
+          React.createElement(Carbon.FileUploaderSkeleton, {}),
       },
     ],
   },
@@ -1725,11 +1854,17 @@ export const COMPONENTS = [
     variants: [
       fluidTextInput('default', {}),
       fluidTextInput('disabled', { disabled: true }),
-      fluidTextInput('invalid', { invalid: true, invalidText: 'Invalid value' }),
+      fluidTextInput('invalid', {
+        invalid: true,
+        invalidText: 'Invalid value',
+      }),
       fluidTextInput('warn', { warn: true, warnText: 'Warning message' }),
       fluidTextInput('read-only', { readOnly: true }),
       fluidPasswordInput('password', {}),
-      fluidPasswordInput('password-invalid', { invalid: true, invalidText: 'Invalid value' }),
+      fluidPasswordInput('password-invalid', {
+        invalid: true,
+        invalidText: 'Invalid value',
+      }),
     ],
   },
   {
@@ -1765,7 +1900,10 @@ export const COMPONENTS = [
     name: 'FileUploader',
     variants: [
       fileUploader('default', {}),
-      fileUploader('with-labels', { labelTitle: 'Upload files', labelDescription: 'Max file size 500kb' }),
+      fileUploader('with-labels', {
+        labelTitle: 'Upload files',
+        labelDescription: 'Max file size 500kb',
+      }),
       fileUploader('disabled', { disabled: true }),
       fileUploader('button-kind-secondary', { buttonKind: 'secondary' }),
     ],
@@ -1786,7 +1924,10 @@ export const COMPONENTS = [
   },
   {
     name: 'FormLabel',
-    variants: [formLabel('default', {}), formLabel('with-id', { id: 'form-label-input-1' })],
+    variants: [
+      formLabel('default', {}),
+      formLabel('with-id', { id: 'form-label-input-1' }),
+    ],
   },
   {
     name: 'Stack',
@@ -1824,7 +1965,11 @@ export const COMPONENTS = [
   },
   {
     name: 'Text',
-    variants: [text('default', {}), text('dir-ltr', { dir: 'ltr' }), text('dir-rtl', { dir: 'rtl' })],
+    variants: [
+      text('default', {}),
+      text('dir-ltr', { dir: 'ltr' }),
+      text('dir-rtl', { dir: 'rtl' }),
+    ],
   },
   {
     name: 'Layout',
@@ -1839,13 +1984,20 @@ export const COMPONENTS = [
     name: 'LayoutConstraint',
     variants: [
       layoutConstraint('default', {}),
-      layoutConstraint('size-constraint', { size: { default: 'md', min: 'sm', max: 'lg' } }),
-      layoutConstraint('density-constraint', { density: { default: 'normal', min: 'condensed' } }),
+      layoutConstraint('size-constraint', {
+        size: { default: 'md', min: 'sm', max: 'lg' },
+      }),
+      layoutConstraint('density-constraint', {
+        density: { default: 'normal', min: 'condensed' },
+      }),
     ],
   },
   {
     name: 'LayoutDirection',
-    variants: [layoutDirection('ltr', { dir: 'ltr' }), layoutDirection('rtl', { dir: 'rtl' })],
+    variants: [
+      layoutDirection('ltr', { dir: 'ltr' }),
+      layoutDirection('rtl', { dir: 'rtl' }),
+    ],
   },
   {
     name: 'ProgressBar',
@@ -1860,7 +2012,10 @@ export const COMPONENTS = [
       progressBar('finished', { status: 'finished' }),
       progressBar('error', { status: 'error' }),
       progressBar('indeterminate', { status: 'indeterminate' }),
-      progressBar('helper-text', { value: 40, helperText: 'Estimated time left: 2 minutes' }),
+      progressBar('helper-text', {
+        value: 40,
+        helperText: 'Estimated time left: 2 minutes',
+      }),
     ],
   },
   {
@@ -1868,30 +2023,72 @@ export const COMPONENTS = [
     variants: [
       progressIndicator('default', { currentIndex: 1 }),
       progressIndicator('vertical', { currentIndex: 1, vertical: true }),
-      progressIndicator('space-equally', { currentIndex: 0, spaceEqually: true }),
-      progressIndicator('secondary-label', { currentIndex: 0 }, { 0: { secondaryLabel: 'Optional' } }),
-      progressIndicator('description', { currentIndex: 0 }, { 0: { description: 'Step description' } }),
-      progressIndicator('invalid-step', { currentIndex: 0 }, { 0: { invalid: true } }),
-      progressIndicator('disabled-step', { currentIndex: 2 }, { 2: { disabled: true } }),
+      progressIndicator('space-equally', {
+        currentIndex: 0,
+        spaceEqually: true,
+      }),
+      progressIndicator(
+        'secondary-label',
+        { currentIndex: 0 },
+        { 0: { secondaryLabel: 'Optional' } },
+      ),
+      progressIndicator(
+        'description',
+        { currentIndex: 0 },
+        { 0: { description: 'Step description' } },
+      ),
+      progressIndicator(
+        'invalid-step',
+        { currentIndex: 0 },
+        { 0: { invalid: true } },
+      ),
+      progressIndicator(
+        'disabled-step',
+        { currentIndex: 2 },
+        { 2: { disabled: true } },
+      ),
     ],
   },
   {
     name: 'IconIndicator',
     variants: [
       iconIndicator('failed', { kind: 'failed', label: 'Failed' }),
-      iconIndicator('caution-major', { kind: 'caution-major', label: 'Caution major' }),
-      iconIndicator('caution-minor', { kind: 'caution-minor', label: 'Caution minor' }),
+      iconIndicator('caution-major', {
+        kind: 'caution-major',
+        label: 'Caution major',
+      }),
+      iconIndicator('caution-minor', {
+        kind: 'caution-minor',
+        label: 'Caution minor',
+      }),
       iconIndicator('undefined', { kind: 'undefined', label: 'Undefined' }),
       iconIndicator('succeeded', { kind: 'succeeded', label: 'Succeeded' }),
       iconIndicator('normal', { kind: 'normal', label: 'Normal' }),
-      iconIndicator('in-progress', { kind: 'in-progress', label: 'In progress' }),
+      iconIndicator('in-progress', {
+        kind: 'in-progress',
+        label: 'In progress',
+      }),
       iconIndicator('incomplete', { kind: 'incomplete', label: 'Incomplete' }),
-      iconIndicator('not-started', { kind: 'not-started', label: 'Not started' }),
+      iconIndicator('not-started', {
+        kind: 'not-started',
+        label: 'Not started',
+      }),
       iconIndicator('pending', { kind: 'pending', label: 'Pending' }),
       iconIndicator('unknown', { kind: 'unknown', label: 'Unknown' }),
-      iconIndicator('informative', { kind: 'informative', label: 'Informative' }),
-      iconIndicator('size-20', { kind: 'succeeded', label: 'Succeeded', size: 20 }),
-      iconIndicator('compact', { kind: 'succeeded', label: 'Succeeded', compact: true }),
+      iconIndicator('informative', {
+        kind: 'informative',
+        label: 'Informative',
+      }),
+      iconIndicator('size-20', {
+        kind: 'succeeded',
+        label: 'Succeeded',
+        size: 20,
+      }),
+      iconIndicator('compact', {
+        kind: 'succeeded',
+        label: 'Succeeded',
+        compact: true,
+      }),
     ],
   },
   {
@@ -1905,11 +2102,22 @@ export const COMPONENTS = [
       shapeIndicator('cautious', { kind: 'cautious', label: 'Cautious' }),
       shapeIndicator('undefined', { kind: 'undefined', label: 'Undefined' }),
       shapeIndicator('stable', { kind: 'stable', label: 'Stable' }),
-      shapeIndicator('informative', { kind: 'informative', label: 'Informative' }),
+      shapeIndicator('informative', {
+        kind: 'informative',
+        label: 'Informative',
+      }),
       shapeIndicator('incomplete', { kind: 'incomplete', label: 'Incomplete' }),
       shapeIndicator('draft', { kind: 'draft', label: 'Draft' }),
-      shapeIndicator('text-size-14', { kind: 'stable', label: 'Stable', textSize: 14 }),
-      shapeIndicator('compact', { kind: 'stable', label: 'Stable', compact: true }),
+      shapeIndicator('text-size-14', {
+        kind: 'stable',
+        label: 'Stable',
+        textSize: 14,
+      }),
+      shapeIndicator('compact', {
+        kind: 'stable',
+        label: 'Stable',
+        compact: true,
+      }),
     ],
   },
   {
@@ -1946,7 +2154,10 @@ export const COMPONENTS = [
       structuredList('condensed', { isCondensed: true }),
       structuredList('flush', { isFlush: true }),
       structuredList('selection', { selection: true }),
-      structuredList('selection-initial-row', { selection: true, selectedInitialRow: 'row-2' }),
+      structuredList('selection-initial-row', {
+        selection: true,
+        selectedInitialRow: 'row-2',
+      }),
     ],
   },
   {
@@ -1959,11 +2170,19 @@ export const COMPONENTS = [
       tabs('manual-activation', { activation: 'manual' }),
       tabs('contained', { contained: true }),
       tabs('contained-size-lg', { contained: true, size: 'lg' }),
-      tabs('contained-secondary-label', { contained: true }, {
-        tabOverrides: { 0: { secondaryLabel: 'Secondary' } },
-      }),
+      tabs(
+        'contained-secondary-label',
+        { contained: true },
+        {
+          tabOverrides: { 0: { secondaryLabel: 'Secondary' } },
+        },
+      ),
       tabs('contained-full-width', { contained: true, fullWidth: true }),
-      tabs('dismissable', {}, { tabsProps: { dismissable: true, onTabCloseRequest: () => {} } }),
+      tabs(
+        'dismissable',
+        {},
+        { tabsProps: { dismissable: true, onTabCloseRequest: () => {} } },
+      ),
       tabs('selected-panel', {}, { pickPanel: 1 }),
     ],
   },

@@ -79,7 +79,10 @@ const { COMPONENTS } = await import('./lib/components.mjs');
 const { normalizeElement } = await import('./lib/normalize-dom.mjs');
 
 const carbonReactVersion = JSON.parse(
-  readFileSync(join(__dirname, 'node_modules/@carbon/react/package.json'), 'utf8'),
+  readFileSync(
+    join(__dirname, 'node_modules/@carbon/react/package.json'),
+    'utf8',
+  ),
 ).version;
 const reactVersion = JSON.parse(
   readFileSync(join(__dirname, 'node_modules/react/package.json'), 'utf8'),
@@ -89,8 +92,8 @@ for (const component of COMPONENTS) {
   const variants = {};
 
   for (const variant of component.variants) {
-    const container = document.createElement('div');
-    document.body.appendChild(container);
+    const container = dom.window.document.createElement('div');
+    dom.window.document.body.appendChild(container);
     const reactRoot = createRoot(container);
 
     act(() => {

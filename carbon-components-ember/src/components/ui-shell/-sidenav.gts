@@ -7,7 +7,7 @@ import SideNavHeader from './-sidenav/-header.gts';
 import SideNavDetails from './-sidenav/-details.gts';
 import SideNavIcon from './-sidenav/-icon.gts';
 import HeaderSideNavItems from './-header/-side-nav-items.gts';
-import type Icon from '../icon';
+import type Icon from '../icon.gts';
 import type { TOC } from '@ember/component/template-only';
 
 export type MenuItem = {
