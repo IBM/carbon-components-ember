@@ -1,6 +1,7 @@
 import { trackedObject } from '@ember/reactive/collections';
 import { expect, fn, waitFor, within } from 'storybook/test';
 
+import { withLayer } from '#storybook/decorators.gts';
 import preview from '#storybook/preview.ts';
 import Select from './select.gts';
 
@@ -12,7 +13,6 @@ const FRUITS = ['Apple', 'Banana', 'Cherry', 'Durian', 'Elderberry'];
 // native `<select>` of SelectItem/SelectItemGroup options; this Select is a
 // custom listbox built on ember-power-select (see `SelectItem` and
 // `SelectItemGroup` for the native option elements).
-// - `Default` is `Single` here; the `Inline` story is supported.
 // - `Skeleton`: there is no SelectSkeleton.
 // - `withAILabel`: no `decorator`/`slug` arg.
 // - No `invalid`/`invalidText`, `warn`/`warnText`, `readOnly`, `size` or
@@ -105,9 +105,9 @@ const meta = preview
 const wormhole = () =>
   within(document.getElementById('ember-basic-dropdown-wormhole')!);
 
-export const Single = meta.story();
+export const Default = meta.story();
 
-Single.test(
+Default.test(
   'shows the placeholder at the left, ahead of the chevron',
   async ({ canvas, canvasElement }) => {
     const placeholder = await canvas.findByText('Choose a fruit');
@@ -119,15 +119,18 @@ Single.test(
   },
 );
 
-Single.test('selects an option', async ({ canvasElement, userEvent, args }) => {
-  const trigger = canvasElement.querySelector<HTMLElement>(
-    '.ember-power-select-trigger',
-  )!;
-  await userEvent.click(trigger);
-  await userEvent.click(await wormhole().findByText('Cherry'));
-  await expect(args.onSelect).toHaveBeenCalledWith('Cherry');
-  await waitFor(() => expect(trigger).toHaveTextContent('Cherry'));
-});
+Default.test(
+  'selects an option',
+  async ({ canvasElement, userEvent, args }) => {
+    const trigger = canvasElement.querySelector<HTMLElement>(
+      '.ember-power-select-trigger',
+    )!;
+    await userEvent.click(trigger);
+    await userEvent.click(await wormhole().findByText('Cherry'));
+    await expect(args.onSelect).toHaveBeenCalledWith('Cherry');
+    await waitFor(() => expect(trigger).toHaveTextContent('Cherry'));
+  },
+);
 
 export const Multiple = meta.story({
   args: {
@@ -176,3 +179,5 @@ export const Disabled = meta.story({
     disabled: true,
   },
 });
+
+export const WithLayer = Default.extend({ decorators: [withLayer] });

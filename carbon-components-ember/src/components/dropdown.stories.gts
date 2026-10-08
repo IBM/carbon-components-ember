@@ -234,3 +234,5 @@ export const WithAILabel = meta.story({
     </Dropdown>
   </template>,
 });
+
+export const WithLayer = Default.extend({ decorators: [withLayer] });
