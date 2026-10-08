@@ -16,7 +16,7 @@ This document provides essential context and patterns for AI agents (like Bob Sh
 ## Component Implementation Patterns
 
 ### 1. Basic Component Structure
-All components follow this pattern:
+All components follow this pattern. The license header is always the first thing in the file; new imports go below it.
 
 ```typescript
 /**
