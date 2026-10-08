@@ -198,8 +198,8 @@ importers:
         specifier: ^11.15.0
         version: 11.63.0
       '@carbon/icon-helpers':
-        specifier: ^10.41.0
-        version: 10.82.0
+        specifier: ^10.84.0
+        version: 10.84.0
       '@carbon/icons':
         specifier: ^11.68.0
         version: 11.88.0
@@ -1267,8 +1267,8 @@ packages:
   '@carbon/icon-helpers@10.47.0':
     resolution: {integrity: sha512-vv2Wkuw7lYkYVKrn5ABzlZD+6ioAYwMuyKi2XPqYY3hrHYoL4CQUnuSFDhlj0DR2HHCB0L5MGRLxHLucx5cc7g==}
 
-  '@carbon/icon-helpers@10.82.0':
-    resolution: {integrity: sha512-HwyUn3iOzV7ahnf2oBaDL4fui7FBbTDBf+0N+sFfs+x17PFD3WkTz4BRefnWjlfLyKmuQTUwRuoOAVBSN1qY0Q==}
+  '@carbon/icon-helpers@10.84.0':
+    resolution: {integrity: sha512-G+LVR42568CbluBzu7uV+ZMmI5tT2ojnWCmRgDB8Z3xKls1D5DU6fQHyiAg10JjLo+zBGUih6eEVSCqq9oXkEw==}
 
   '@carbon/icons-react@11.88.0':
     resolution: {integrity: sha512-RvlzTmAxIJ/ujFB1vsb7IWKAhJvaBh9ims5qBQUW/OTV8Rf9If/FHFiSMyMoK7JdQB1yfn+0RQaB7t1wqZ2wag==}
@@ -10504,7 +10504,7 @@ snapshots:
 
   '@carbon/ai-chat-components@1.11.0(@floating-ui/dom@1.8.0)(@types/react@19.3.0)(react@19.3.0)(sass@1.105.1)':
     dependencies:
-      '@carbon/icon-helpers': 10.82.0
+      '@carbon/icon-helpers': 10.84.0
       '@carbon/icons': 11.88.0
       '@carbon/styles': 1.115.0(sass@1.105.1)
       '@carbon/utilities': 0.24.0
@@ -10595,13 +10595,13 @@ snapshots:
     dependencies:
       '@ibm/telemetry-js': 1.11.0
 
-  '@carbon/icon-helpers@10.82.0':
+  '@carbon/icon-helpers@10.84.0':
     dependencies:
       '@ibm/telemetry-js': 1.11.0
 
   '@carbon/icons-react@11.88.0(react@19.3.0)':
     dependencies:
-      '@carbon/icon-helpers': 10.82.0
+      '@carbon/icon-helpers': 10.84.0
       '@ibm/telemetry-js': 1.11.0
       prop-types: 15.8.1
       react: 19.3.0

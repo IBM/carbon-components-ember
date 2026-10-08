@@ -58,7 +58,7 @@
   "dependencies": {
     "@carbon/charts": "^1.27.0",
     "@carbon/grid": "^11.15.0",
-    "@carbon/icon-helpers": "^10.41.0",
+    "@carbon/icon-helpers": "^10.84.0",
     "@carbon/icons": "^11.68.0",
     "@carbon/layout": "^11.34.0",
     "@carbon/styles": "^1.113.0",
