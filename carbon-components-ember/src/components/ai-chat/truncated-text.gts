@@ -8,7 +8,6 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import { on } from '@ember/modifier';
 import { modifier } from 'ember-modifier';
 import { default as Tooltip } from '../tooltip.gts';
 import type { TooltipAlignments } from '../tooltip.gts';

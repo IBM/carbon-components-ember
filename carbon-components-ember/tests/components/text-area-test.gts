@@ -202,7 +202,12 @@ module('Integration | Component | TextArea', (hooks) => {
   });
 
   test('should render a slug component without the inner-wrapper and apply the slug wrapper class', async function (assert) {
-    await render(<template><TextArea @slug={{Add}} /></template>);
+    await render(
+      <template>
+        {{! eslint-disable-next-line ember/template-no-deprecated -- covers the deprecated arg }}
+        <TextArea @slug={{Add}} />
+      </template>,
+    );
     await waitUntil(() => find('.cds--text-area__wrapper svg'));
 
     assert

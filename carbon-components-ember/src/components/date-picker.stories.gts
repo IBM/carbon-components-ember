@@ -96,7 +96,6 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
       @closeOnSelect={{args.closeOnSelect}}
       @readOnly={{args.readOnly}}
       @short={{args.short}}
-      @light={{args.light}}
       @onChange={{args.onChange}}
       @onOpen={{args.onOpen}}
       @onClose={{args.onClose}}

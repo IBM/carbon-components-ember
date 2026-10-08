@@ -1,7 +1,6 @@
-import { fn as bind } from '@ember/helper';
 import { trackedObject } from '@ember/reactive/collections';
 import { RenderStory } from 'ember-storybook';
-import { expect, fn, waitFor } from 'storybook/test';
+import { expect, fn as spy, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Pagination from './pagination.gts';
@@ -42,7 +41,7 @@ const meta = preview.type<{ args: PaginationSignature['Args'] }>().meta({
     forwardText: 'Next page',
     backwardTextTooltipPosition: 'top',
     forwardTextTooltipPosition: 'top',
-    onPageChanged: fn(),
+    onPageChanged: spy(),
   },
   argTypes: {
     size: { control: 'select', options: ['xs', 'sm', 'md', 'lg'] },
@@ -200,7 +199,7 @@ const CustomPageSelect: TOC<{
 }> = <template>
   <span aria-label={{@pageSelectLabelText}}>
     Page
-    <button type="button" {{on "click" (bind @onSetPage 1)}}>1</button>
+    <button type="button" {{on "click" (fn @onSetPage 1)}}>1</button>
     of
     {{@totalPages}}
   </span>

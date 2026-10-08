@@ -1,6 +1,5 @@
-import { fn as bind } from '@ember/helper';
 import { trackedMap, trackedObject } from '@ember/reactive/collections';
-import { expect, fn } from 'storybook/test';
+import { expect, fn as spy } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Button from './button.gts';
@@ -69,7 +68,7 @@ const TreeNodes: TOC<{
         @disabled={{node.disabled}}
         @icon={{if @withIcons node.icon}}
         @isExpanded={{isExpanded node @expansion}}
-        @onToggle={{if @expansion (bind @expansion.set node.id)}}
+        @onToggle={{if @expansion (fn @expansion.set node.id)}}
         as |Child|
       >
         <TreeNodes
@@ -169,8 +168,8 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     size: 'sm',
     nodes: NODES,
     withIcons: false,
-    onSelect: fn(),
-    onActivate: fn(),
+    onSelect: spy(),
+    onActivate: spy(),
   },
   argTypes: {
     size: { control: 'select', options: ['xs', 'sm'] },

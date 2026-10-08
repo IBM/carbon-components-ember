@@ -1,6 +1,5 @@
-import { fn as fnHelper } from '@ember/helper';
 import { trackedObject } from '@ember/reactive/collections';
-import { expect, fn } from 'storybook/test';
+import { expect, fn as spy } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Button from '../button.gts';
@@ -123,7 +122,7 @@ The \`Step*\` stories mirror upstream's separate \`Reasoning steps/Step\` storie
   args: {
     open: true,
     controlled: false,
-    onToggle: fn(),
+    onToggle: spy(),
   },
   // Annotated: otherwise `render` is typed with the component's inferred
   // args instead of the story-only ones declared via `preview.type()`.
@@ -265,7 +264,7 @@ export const Controlled = meta.story({
             <ReasoningStep
               @title={{step.title}}
               @open={{isOpen step.id}}
-              @onToggle={{fnHelper toggleStep step.id}}
+              @onToggle={{fn toggleStep step.id}}
               data-step-id={{step.id}}
             >
               <Markdown @markdown={{step.body}} />

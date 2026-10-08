@@ -146,7 +146,7 @@ const sectionFor = (timestamp: number) => {
   return 'Previous 7 days';
 };
 
-type DemoSignature = {
+interface DemoSignature {
   Args: {
     headerTitle?: string;
     searchOff?: boolean;
@@ -155,7 +155,7 @@ type DemoSignature = {
     showActions?: boolean;
     onSelect?: (itemId: string) => void;
   };
-};
+}
 
 /** Ember counterpart of upstream's `cds-aichat-history-demo` element. */
 class ChatHistoryDemo extends Component<DemoSignature> {

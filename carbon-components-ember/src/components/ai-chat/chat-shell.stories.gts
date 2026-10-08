@@ -1,8 +1,7 @@
-import { fn as curry } from '@ember/helper';
 import { htmlSafe } from '@ember/template';
 import { trackedArray, trackedObject } from '@ember/reactive/collections';
 import { RenderStory } from 'ember-storybook';
-import { expect, fn, within } from 'storybook/test';
+import { expect, fn as spy, within } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Button from '../button.gts';
@@ -162,7 +161,7 @@ component) into it.`,
             <input
               type="checkbox"
               checked={{isVisible slot.name}}
-              {{on "change" (curry toggle slot.name)}}
+              {{on "change" (fn toggle slot.name)}}
             />
             {{slot.label}}
           </label>
@@ -324,7 +323,7 @@ export const Input = meta.story({
   parameters: {
     controls: { disable: true },
   },
-  args: { onSend: fn() },
+  args: { onSend: spy() },
   decorators: [
     (Story, context) => <template>
       <ChatShell
@@ -449,7 +448,7 @@ export const WithPromptLine = meta.story({
     messagesAriaLabel: 'Chat messages',
     historyAriaLabel: 'Conversation history',
     workspaceAriaLabel: 'Workspace panel',
-    onSend: fn(),
+    onSend: spy(),
   },
   render: (args: StoryArgs) => {
     const state = trackedObject({
