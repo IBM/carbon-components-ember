@@ -92,7 +92,7 @@
     "ember-primitives": "^0.62.0",
     "ember-resize-modifier": "^1.1.0",
     "flatpickr": "^4.6.13",
-    "markdown-it": "14.3.2"
+    "markdown-it": "15.0.2"
   },
   "devDependencies": {
     "@babel/core": "^8.0.6",
