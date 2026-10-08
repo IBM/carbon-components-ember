@@ -77,7 +77,7 @@ patchedDependencies:
   #   (ember-integrations/ember-storybook#85)
   # - "Show code" for default-exported components uses their own signature
   #   (ember-integrations/ember-storybook#88)
-  # - a components manifest for Storybook's MCP addon (not yet proposed
-  #   upstream; aklkv/ember-storybook feat/components-manifest)
+  # - a components manifest for Storybook's MCP addon
+  #   (ember-integrations/ember-storybook#89)
   # Drop once all are released.
   ember-storybook@0.4.2: patches/ember-storybook@0.4.2.patch
