@@ -1,0 +1,575 @@
+{
+  "Accordion": {
+    "missing": [
+      "isFlush",
+      "ordered"
+    ],
+    "extra": [
+      "open"
+    ]
+  },
+  "AILabel": {
+    "missing": [
+      "AILabelContent",
+      "aiTextLabel",
+      "alignmentAxisOffset",
+      "autoAlign",
+      "autoAlignBoundary",
+      "backgroundToken",
+      "border",
+      "caret",
+      "dropShadow",
+      "highContrast",
+      "isTabTip",
+      "onRequestClose",
+      "slugLabel"
+    ],
+    "extra": [
+      "ariaLabel"
+    ],
+    "values": [
+      "align"
+    ]
+  },
+  "Button": {
+    "missing": [
+      "as",
+      "dangerDescription",
+      "hasIconOnly",
+      "href",
+      "iconDescription",
+      "isExpressive",
+      "isSelected",
+      "kind",
+      "rel",
+      "renderIcon",
+      "target",
+      "tooltipAlignment",
+      "tooltipDropShadow",
+      "tooltipHighContrast",
+      "tooltipPosition"
+    ],
+    "extra": [
+      "bubbles",
+      "confirmDialog",
+      "confirmText",
+      "danger",
+      "ghost",
+      "iconOnly",
+      "label",
+      "loading",
+      "primary",
+      "secondary",
+      "tertiary"
+    ],
+    "values": [
+      "size",
+      "type"
+    ]
+  },
+  "Checkbox": {
+    "missing": [
+      "decorator",
+      "defaultChecked",
+      "helperText",
+      "id",
+      "invalid",
+      "invalidText",
+      "labelText",
+      "warn",
+      "warnText"
+    ],
+    "extra": [
+      "label",
+      "readonly",
+      "state"
+    ]
+  },
+  "CodeSnippet": {
+    "missing": [
+      "align",
+      "ariaLabel",
+      "autoAlign",
+      "copyButtonDescription",
+      "copyText",
+      "disabled",
+      "feedback",
+      "feedbackTimeout",
+      "hideCopyButton",
+      "light",
+      "maxCollapsedNumberOfRows",
+      "maxExpandedNumberOfRows",
+      "minCollapsedNumberOfRows",
+      "minExpandedNumberOfRows",
+      "showLessText",
+      "showMoreText",
+      "wrapText"
+    ],
+    "values": [
+      "type"
+    ]
+  },
+  "CopyButton": {
+    "missing": [
+      "as",
+      "dangerDescription",
+      "hasIconOnly",
+      "href",
+      "isExpressive",
+      "isSelected",
+      "kind",
+      "rel",
+      "renderIcon",
+      "size",
+      "target",
+      "tooltipAlignment",
+      "tooltipDropShadow",
+      "tooltipHighContrast",
+      "tooltipPosition"
+    ],
+    "extra": [
+      "inline",
+      "targetElement",
+      "targetElementId"
+    ]
+  },
+  "DataTable": {
+    "missing": [
+      "experimentalAutoAlign",
+      "filterRows",
+      "headers",
+      "isSortable",
+      "locale",
+      "overflowMenuOnHover",
+      "radio",
+      "rows",
+      "size",
+      "sortRow",
+      "stickyHeader",
+      "translateWithId",
+      "useStaticWidth",
+      "useZebraStyles"
+    ],
+    "extra": [
+      "description",
+      "isLoading",
+      "items",
+      "onSelectionChange",
+      "registerState",
+      "search",
+      "state",
+      "title"
+    ]
+  },
+  "DatePicker": {
+    "missing": [
+      "invalid",
+      "locale",
+      "nextMonthAriaLabel",
+      "prevMonthAriaLabel",
+      "warn"
+    ]
+  },
+  "Dropdown": {
+    "missing": [
+      "autoAlign",
+      "downshiftProps",
+      "itemToElement",
+      "renderSelectedItem",
+      "translateWithId"
+    ],
+    "values": [
+      "size"
+    ]
+  },
+  "FileUploaderButton": {
+    "extra": [
+      "onButtonInsert"
+    ]
+  },
+  "FileUploaderItem": {
+    "missing": [
+      "onAddFiles"
+    ]
+  },
+  "FluidTextInput": {
+    "extra": [
+      "hidePasswordLabel",
+      "onTogglePasswordVisibility",
+      "showPasswordLabel"
+    ]
+  },
+  "Loading": {
+    "extra": [
+      "classNames",
+      "iconDescription",
+      "inline"
+    ]
+  },
+  "Menu": {
+    "extra": [
+      "anchor",
+      "isRoot"
+    ]
+  },
+  "MenuItem": {
+    "extra": [
+      "ariaChecked"
+    ]
+  },
+  "MenuItemSelectable": {
+    "missing": [
+      "dangerDescription",
+      "kind"
+    ]
+  },
+  "Modal": {
+    "missing": [
+      "alert",
+      "closeButtonLabel",
+      "danger",
+      "dangerDescription",
+      "decorator",
+      "hasScrollingContent",
+      "id",
+      "isFullWidth",
+      "loadingDescription",
+      "loadingIconDescription",
+      "loadingStatus",
+      "modalAriaLabel",
+      "modalHeading",
+      "modalLabel",
+      "onLoadingSuccess",
+      "onRequestClose",
+      "onRequestSubmit",
+      "onSecondarySubmit",
+      "open",
+      "passiveModal",
+      "preventCloseOnClickOutside",
+      "primaryButtonDisabled",
+      "primaryButtonText",
+      "secondaryButtonText",
+      "secondaryButtons",
+      "selectorPrimaryFocus",
+      "selectorsFloatingMenus",
+      "shouldSubmitOnEnter",
+      "size"
+    ],
+    "extra": [
+      "onClose",
+      "type"
+    ]
+  },
+  "NumberInput": {
+    "missing": [
+      "decorator",
+      "disableWheel",
+      "formatOptions",
+      "inputMode",
+      "locale",
+      "onStepperBlur",
+      "pattern",
+      "translateWithId",
+      "type",
+      "validate"
+    ]
+  },
+  "OverflowMenu": {
+    "missing": [
+      "align",
+      "autoAlign",
+      "badgeCount",
+      "closeOnActivation",
+      "defaultOpen",
+      "dropShadow",
+      "enterDelayMs",
+      "flipped",
+      "highContrast",
+      "href",
+      "iconClass",
+      "id",
+      "isSelected",
+      "leaveDelayMs",
+      "light",
+      "menuOffset",
+      "menuOffsetFlip",
+      "menuOptionsClass",
+      "onClick",
+      "onClose",
+      "onOpen",
+      "open",
+      "rel",
+      "renderIcon",
+      "selectorPrimaryFocus",
+      "size",
+      "target",
+      "wrapperClasses"
+    ],
+    "extra": [
+      "danger",
+      "eventType",
+      "horizontalPosition",
+      "icon",
+      "tooltip"
+    ],
+    "values": [
+      "direction"
+    ]
+  },
+  "OverflowMenuItem": {
+    "missing": [
+      "closeMenu",
+      "handleOverflowMenuItemFocus",
+      "index"
+    ]
+  },
+  "Pagination": {
+    "missing": [
+      "id",
+      "isLastPage",
+      "itemRangeText",
+      "itemText",
+      "itemsPerPageText",
+      "onChange",
+      "page",
+      "pageInputDisabled",
+      "pageNumberText",
+      "pageRangeText",
+      "pageSelectLabelText",
+      "pageSize",
+      "pageSizeInputDisabled",
+      "pageSizes",
+      "pageText",
+      "pagesUnknown",
+      "totalItems"
+    ],
+    "extra": [
+      "itemsPerPageOptions"
+    ]
+  },
+  "PasswordInput": {
+    "missing": [
+      "enableCounter",
+      "maxCount"
+    ]
+  },
+  "ProgressBar": {
+    "values": [
+      "status"
+    ]
+  },
+  "RadioButton": {
+    "missing": [
+      "decorator",
+      "invalid",
+      "invalidText",
+      "warn",
+      "warnText"
+    ]
+  },
+  "RadioButtonGroup": {
+    "missing": [
+      "decorator",
+      "helperText",
+      "invalid",
+      "invalidText",
+      "warn",
+      "warnText"
+    ]
+  },
+  "RadioTile": {
+    "missing": [
+      "decorator",
+      "hasRoundedCorners"
+    ],
+    "extra": [
+      "tabindex"
+    ]
+  },
+  "Search": {
+    "missing": [
+      "defaultValue",
+      "isExpanded",
+      "onExpand",
+      "renderIcon"
+    ],
+    "extra": [
+      "expandable",
+      "isLoading"
+    ]
+  },
+  "Select": {
+    "missing": [
+      "decorator",
+      "defaultValue",
+      "hideLabel",
+      "id",
+      "invalid",
+      "invalidText",
+      "labelText",
+      "noLabel",
+      "readOnly",
+      "size",
+      "warn",
+      "warnText"
+    ],
+    "extra": [
+      "addItem",
+      "ariaLabelledBy",
+      "loadingMessage",
+      "onOpen",
+      "options",
+      "placeholder",
+      "removeItem",
+      "renderInPlace",
+      "search",
+      "searchEnabled",
+      "searchField",
+      "searchPlaceholder",
+      "selectFocused",
+      "selected",
+      "showNumber"
+    ]
+  },
+  "Slider": {
+    "missing": [
+      "inputType",
+      "onInputKeyUp",
+      "translateWithId",
+      "unstable_ariaLabelInputUpper",
+      "unstable_nameUpper",
+      "unstable_valueUpper"
+    ],
+    "extra": [
+      "ariaLabelInputUpper",
+      "nameUpper",
+      "valueUpper"
+    ]
+  },
+  "SliderSkeleton": {
+    "missing": [
+      "ariaLabel",
+      "unstable_ariaLabelHandleUpper"
+    ]
+  },
+  "Table": {
+    "missing": [
+      "experimentalAutoAlign",
+      "isSortable",
+      "overflowMenuOnHover",
+      "size",
+      "stickyHeader",
+      "useStaticWidth",
+      "useZebraStyles"
+    ],
+    "extra": [
+      "defaultPageSize",
+      "downloadLabelText",
+      "filterPlaceholderText",
+      "getPaginationStatusText",
+      "getPaginationSupplementalText",
+      "headers",
+      "itemsPerPageText",
+      "loading",
+      "locale",
+      "nextPageText",
+      "previousPageText",
+      "rows",
+      "tableDescription",
+      "tableTitle"
+    ]
+  },
+  "Tabs": {
+    "missing": [
+      "defaultSelectedIndex",
+      "onChange",
+      "selectedIndex"
+    ],
+    "extra": [
+      "activation",
+      "ariaLabel",
+      "contained",
+      "disabled",
+      "fullWidth",
+      "loading",
+      "selectedTab",
+      "size",
+      "tabSelected"
+    ]
+  },
+  "Tag": {
+    "missing": [
+      "as"
+    ]
+  },
+  "TextInput": {
+    "missing": [
+      "decorator",
+      "inline"
+    ],
+    "values": [
+      "size"
+    ]
+  },
+  "Tile": {
+    "missing": [
+      "decorator",
+      "hasRoundedCorners"
+    ],
+    "extra": [
+      "clickable",
+      "expandable",
+      "selectable",
+      "tabindex"
+    ]
+  },
+  "TimePickerSelect": {
+    "extra": [
+      "ariaLabel"
+    ]
+  },
+  "Toggle": {
+    "missing": [
+      "defaultToggled",
+      "hideLabel",
+      "id",
+      "labelA",
+      "labelB",
+      "labelText",
+      "onToggle",
+      "readOnly",
+      "toggled"
+    ],
+    "extra": [
+      "readonly"
+    ]
+  },
+  "Toggletip": {
+    "missing": [
+      "alignmentAxisOffset",
+      "as",
+      "autoAlign",
+      "autoAlignBoundary",
+      "backgroundToken",
+      "border",
+      "caret",
+      "dropShadow",
+      "highContrast",
+      "isTabTip",
+      "onRequestClose"
+    ],
+    "values": [
+      "align"
+    ]
+  },
+  "ToggletipLabel": {
+    "missing": [
+      "as"
+    ]
+  },
+  "Tooltip": {
+    "missing": [
+      "as"
+    ]
+  }
+}
