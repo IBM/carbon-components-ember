@@ -150,7 +150,7 @@
     "qunit-dom": "^3.6.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "rollup": "^4.64.1",
+    "rollup": "^4.64.2",
     "rollup-plugin-copy": "^3.5.0",
     "sass-embedded": "^1.105.1",
     "storybook": "^10.6.1",
