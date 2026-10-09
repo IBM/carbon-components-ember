@@ -91,7 +91,7 @@ export const WithAILabel = meta.story({
   render: (args: Args) => <template>
     <TextArea @labelText={{args.labelText}} @helperText={{args.helperText}}>
       <:decorator as |AILabel|>
-        <AILabel as |label|>
+        <AILabel @align="bottom-end" as |label|>
           <label.Content><AIExplanation /></label.Content>
         </AILabel>
       </:decorator>

@@ -4,6 +4,8 @@ import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { concat } from '@ember/helper';
 import { WarningFilled, WarningAltFilled } from '../icons.ts';
+import AILabel from './ai-label.gts';
+import type { WithBoundArgs } from '@glint/template';
 
 export interface TextInputSignature {
   Args: {
@@ -29,6 +31,13 @@ export interface TextInputSignature {
     onClick?: (event: MouseEvent) => void;
   };
   Element: HTMLDivElement;
+  Blocks: {
+    /**
+     * **Experimental:** an AI label, or any other decorator, shown in the field.
+     * Yields an `AILabel` already set up for it.
+     */
+    decorator: [AILabel: WithBoundArgs<typeof AILabel, 'size'>];
+  };
 }
 
 export default class TextInput extends Component<TextInputSignature> {
@@ -118,20 +127,13 @@ export default class TextInput extends Component<TextInputSignature> {
       <div class="cds--text-input__field-outer-wrapper">
         <div
           class="cds--text-input__field-wrapper
-            {{if this.isWarn 'cds--text-input__field-wrapper--warning'}}"
+            {{if this.isWarn 'cds--text-input__field-wrapper--warning'}}
+            {{if
+              (has-block 'decorator')
+              'cds--text-input__field-wrapper--decorator'
+            }}"
           data-invalid={{if this.isInvalid "true"}}
         >
-          {{#if this.isInvalid}}
-            <WarningFilled
-              @size="16"
-              @svgClass="cds--text-input__invalid-icon"
-            />
-          {{else if this.isWarn}}
-            <WarningAltFilled
-              @size="16"
-              @svgClass="cds--text-input__invalid-icon cds--text-input__invalid-icon--warning"
-            />
-          {{/if}}
           <input
             id={{this.id}}
             type={{this.type}}
@@ -150,6 +152,22 @@ export default class TextInput extends Component<TextInputSignature> {
             {{on "input" this.updateValue}}
             {{on "click" this.handleClick}}
           />
+          {{#if this.isInvalid}}
+            <WarningFilled
+              @size="16"
+              @svgClass="cds--text-input__invalid-icon"
+            />
+          {{else if this.isWarn}}
+            <WarningAltFilled
+              @size="16"
+              @svgClass="cds--text-input__invalid-icon cds--text-input__invalid-icon--warning"
+            />
+          {{/if}}
+          {{#if (has-block "decorator")}}
+            <div class="cds--text-input__field-inner-wrapper--decorator">
+              {{yield (component AILabel size="mini") to="decorator"}}
+            </div>
+          {{/if}}
           <span
             class="cds--text-input__counter-alert"
             role="alert"

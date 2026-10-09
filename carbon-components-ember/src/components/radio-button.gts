@@ -2,6 +2,8 @@ import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
 import type RadioButtonGroup from './radio-button/group.gts';
 import { defaultArgs } from '../utils/decorators.ts';
+import AILabel from './ai-label.gts';
+import type { WithBoundArgs } from '@glint/template';
 
 export type Value = string | number;
 
@@ -28,7 +30,14 @@ export interface RadioButtonSignature {
   };
   Element: HTMLDivElement;
   Blocks: {
+    /** The label's content. Keep it text: put an AI label or other controls in `<:decorator>`. */
     default: [];
+    /**
+     * **Experimental:** an AI label, or any other decorator, shown after the label.
+     * Yields an `AILabel` already set up for it;
+     * with `@kind="inline"`, also pass `@size="md"`.
+     */
+    decorator: [AILabel: WithBoundArgs<typeof AILabel, 'size'>];
   };
 }
 
@@ -101,7 +110,11 @@ export default class RadioButton extends Component<RadioButtonSignature> {
   };
 
   <template>
-    <div class={{this.wrapperClass}} ...attributes>
+    <div
+      class="{{this.wrapperClass}}
+        {{if (has-block 'decorator') 'cds--radio-button-wrapper--decorator'}}"
+      ...attributes
+    >
       <input
         type="radio"
         class="cds--radio-button"
@@ -129,6 +142,11 @@ export default class RadioButton extends Component<RadioButtonSignature> {
           {{/if}}
         </span>
       </label>
+      {{#if (has-block "decorator")}}
+        <div class="cds--radio-button-wrapper-inner--decorator">
+          {{yield (component AILabel size="mini") to="decorator"}}
+        </div>
+      {{/if}}
     </div>
   </template>
 }

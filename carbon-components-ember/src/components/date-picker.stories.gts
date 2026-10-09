@@ -282,7 +282,7 @@ export const WithAILabel = meta.story({
     >
       <Input @labelText={{args.labelText}} @placeholder={{args.placeholder}}>
         <:decorator as |AILabel|>
-          <AILabel as |label|>
+          <AILabel @align="bottom-start" as |label|>
             <label.Content><AIExplanation /></label.Content>
           </AILabel>
         </:decorator>

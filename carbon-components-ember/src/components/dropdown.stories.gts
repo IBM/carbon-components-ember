@@ -227,7 +227,7 @@ export const WithAILabel = meta.story({
       @onChange={{args.onChange}}
     >
       <:decorator as |AILabel|>
-        <AILabel as |label|>
+        <AILabel @align="bottom-end" as |label|>
           <label.Content><AIExplanation /></label.Content>
         </AILabel>
       </:decorator>

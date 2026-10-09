@@ -167,4 +167,41 @@ module('Integration | Component | RadioButton', (hooks) => {
     assert.dom(inputs[0]).isDisabled();
     assert.dom(inputs[1]).isDisabled();
   });
+
+  test('renders an AI label after a radio button label and after the group legend', async function (assert) {
+    await render(
+      <template>
+        <RadioButtonGroup @legendText="Group" @name="ai-label">
+          <:decorator as |AILabel|><AILabel /></:decorator>
+          <:default as |Radio|>
+            <Radio @labelText="Option" @value="one">
+              <:decorator as |AILabel|><AILabel /></:decorator>
+            </Radio>
+          </:default>
+        </RadioButtonGroup>
+      </template>,
+    );
+
+    assert
+      .dom('.cds--radio-button-group')
+      .hasClass('cds--radio-button-group--decorator');
+    assert
+      .dom('legend .cds--ai-label')
+      .doesNotExist('the AI label is not inside the legend');
+    assert
+      .dom('.cds--radio-button-group-inner--decorator .cds--ai-label__button')
+      .hasClass('cds--ai-label__button--mini')
+      .hasClass('cds--ai-label__button--default');
+    assert
+      .dom('.cds--radio-button-wrapper')
+      .hasClass('cds--radio-button-wrapper--decorator');
+    assert
+      .dom('.cds--radio-button__label .cds--ai-label')
+      .doesNotExist('the AI label is not inside the label');
+    assert
+      .dom(
+        '.cds--radio-button-wrapper-inner--decorator .cds--ai-label__button--mini',
+      )
+      .exists();
+  });
 });

@@ -211,26 +211,6 @@
       "reason": "Harness limitation, not a functional gap: Glimmer's bound `value={{this.value}}` on an `<input>` sets the DOM `value` IDL property, not a reflected HTML attribute (the same class of gap already documented for `checked` on RadioTile/RadioButton) - `normalizeElement` only inspects real attribute nodes, so it sees the value as absent on the Ember side even though the input genuinely displays 'Hello'."
     },
     {
-      "path": "div > div[1] > div[0] > input[0]",
-      "variant": "invalid",
-      "reason": "Ordering difference, not a missing feature: @carbon/react's TextInput renders `[input, Icon]` (icon after the input) inside the field wrapper, while Ember's text-input.gts renders `{{#if isInvalid}}<WarningFilled/>{{/if}} <input>` (icon before the input). Both icons are positioned via `@carbon/styles`' own absolute positioning, so the swapped DOM order has no visual effect, but the harness's index-based diff sees the two elements at index 0 as different tags. This one entry, plus the matching `svg[1]` entry below, cover the position swap - the rest of both elements' own attributes are unaffected and still compared normally at their own (swapped) index."
-    },
-    {
-      "path": "div > div[1] > div[0] > svg[1]",
-      "variant": "invalid",
-      "reason": "The other half of the icon/input ordering swap described in the `input[0]` entry above."
-    },
-    {
-      "path": "div > div[1] > div[0] > input[0]",
-      "variant": "warn",
-      "reason": "Same icon/input ordering swap as the `invalid` variant's entries of the same name above, for the `WarningAltFilled` icon."
-    },
-    {
-      "path": "div > div[1] > div[0] > svg[1]",
-      "variant": "warn",
-      "reason": "The other half of the icon/input ordering swap described in the `input[0]` entry above."
-    },
-    {
       "path": "div > div[1] > div[1].attributes.id",
       "reason": "@carbon/react wraps its invalid/warn/helper text in its own `Text` component (`as='div'`), which upstream also gives a real `id` (`invalidId`/`warnId`/`helperId`) so the input can reference it via `aria-describedby`/`aria-errormessage`. Ember's plain `<div class='cds--form-requirement'>`/`<div class='cds--form__helper-text'>` in text-input.gts has neither an `id` nor the input-side `aria-*` link - a real, disclosed accessibility gap, out of scope for a DOM-parity-only pass. Applies wherever this div renders (invalid/warn/helper-text variants)."
     },
@@ -242,6 +222,26 @@
       "path": "div > div[1] > div[0] > input[0].attributes.aria-describedby",
       "variant": "helper-text",
       "reason": "The other half of the missing helper-text `id`/`aria-describedby` link described in the `div[1].attributes.id` entry above - the input itself has no `aria-describedby` pointing at the (also id-less) helper div."
+    },
+    {
+      "path": "div > div[1] > div[0] > input[0].attributes.aria-errormessage",
+      "variant": "invalid",
+      "reason": "The input-side half of the disclosed gap in the `div > div[1] > div[1].attributes.id` entry: the invalid text has no `id`, so the input has no `aria-errormessage` pointing at it."
+    },
+    {
+      "path": "div > div[1] > div[0] > input[0].attributes.aria-describedby",
+      "variant": "warn",
+      "reason": "The input-side half of the disclosed gap in the `div > div[1] > div[1].attributes.id` entry: the warning text has no `id`, so the input has no `aria-describedby` pointing at it."
+    },
+    {
+      "path": "div > div[1] > div[0] > svg[1] > path[0].attributes.d",
+      "variant": "invalid",
+      "reason": "Same whitespace-only, harness-limitation diff as Notification's `div > svg[0] > path[0].attributes.d` entry: @carbon/icons and @carbon/icons-react differ by one tab vs. space between two path commands, which the SVG path grammar treats as equivalent."
+    },
+    {
+      "path": "div > div[1] > div[0] > svg[1] > path[1].attributes.d",
+      "variant": "invalid",
+      "reason": "Same whitespace-only diff as the `svg[1] > path[0].attributes.d` entry above, on the icon's second path."
     }
   ],
   "TextArea": [
