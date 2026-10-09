@@ -205,7 +205,15 @@ Nothing registers icons with `IconMap` in app code, so string-based icon lookups
 ## Storybook Conventions
 Stories live as `src/components/**/<name>.stories.gts` next to their components.
 - **CSF Next**: Use CSF Next format (`preview.meta()`, `meta.story()`).
-- **React Parity**: Mirror upstream story structures, titles, names, and variants.
+- **React Parity**: Mirror [Carbon React's Storybook](https://react.carbondesignsystem.com/) (its `index.json` lists every title and story):
+  - Use its titles, story export names (`Default`, `WithLayer`) and variants.
+  - Where React splits a component into pages (`Notifications/Toast`, `DataTable/Selection`), use one story file per page.
+  - Keep useful Ember-only stories.
+  - List the React stories that can't be ported, and why, in a "parity gaps" comment at the top of the file.
+- **Shared story code** lives in `.storybook/`, imported through `#storybook/*`: fixtures in `.storybook/fixtures/<component>.gts`, decorators such as `withLayer` in `.storybook/decorators.gts`. Never put it in `src/`, which ships.
+- **Descriptions and args**:
+  - Every story file sets `parameters.docs.description.component`; it introduces the docs page and is what AI agents read about the component.
+  - Write story `args` as plain values (strings, numbers, booleans, arrays and objects of those). "Show code" and the agent-facing snippets fill them in; computed values show up as `{{@name}}`.
 - **Controlled Components**: Keep state in a `trackedObject` in `render` and forward changes to `fn()` spy args.
 - **Axe/a11y**: Axe violations fail Storybook tests (`pnpm test:storybook`). Set `parameters: { a11y: { test: 'todo' } }` only with a comment explaining the rules to fix.
 

@@ -1,5 +1,6 @@
 import { expect } from 'storybook/test';
 
+import { withLayer } from '#storybook/decorators.gts';
 import preview from '#storybook/preview.ts';
 import Accordion from './accordion.gts';
 
@@ -126,3 +127,5 @@ Disabled.test('disables every heading', async ({ canvas }) => {
     await expect(heading).toHaveAttribute('aria-expanded', 'false');
   }
 });
+
+export const WithLayer = Default.extend({ decorators: [withLayer] });

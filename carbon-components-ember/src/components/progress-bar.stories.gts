@@ -2,12 +2,12 @@ import { trackedObject } from '@ember/reactive/collections';
 import { modifier } from 'ember-modifier';
 import { expect } from 'storybook/test';
 
+import { withLayer } from '#storybook/decorators.gts';
 import preview from '#storybook/preview.ts';
 import ProgressBar from './progress-bar.gts';
 
 // Parity gaps with Carbon React's ProgressBar stories:
 // - `hideLabel` isn't supported by the Ember component.
-// - `_WithLayer` isn't ported: there is no `WithLayer` story helper here.
 
 const meta = preview.meta({
   title: 'Components/ProgressBar',
@@ -130,3 +130,5 @@ export const Indented = meta.story({
     value: 50,
   },
 });
+
+export const WithLayer = Default.extend({ decorators: [withLayer] });

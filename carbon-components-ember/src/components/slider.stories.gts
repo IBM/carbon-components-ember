@@ -1,10 +1,8 @@
 import { trackedObject } from '@ember/reactive/collections';
-import type { Decorator } from 'ember-storybook';
-import { RenderStory } from 'ember-storybook';
 import { expect, fn } from 'storybook/test';
 
+import { withLayer } from '#storybook/decorators.gts';
 import preview from '#storybook/preview.ts';
-import Layer from './layer.gts';
 import Slider from './slider.gts';
 import SliderSkeleton from './slider-skeleton.gts';
 
@@ -17,20 +15,6 @@ import type { SliderSignature } from './slider.gts';
 // - No `light` or `noValidate`. React's `unstable_valueUpper` and
 //   `unstable_ariaLabelInputUpper` are the stable `@valueUpper` and
 //   `@ariaLabelInputUpper` here.
-
-// Renders the story on the background and on two nested layers, like
-// Carbon React's `WithLayer` story template.
-const withLayer: Decorator = (Story, context) => <template>
-  <div style="padding: 1rem">
-    <RenderStory @story={{Story}} @args={{context.args}} />
-  </div>
-  <Layer @withBackground={{true}} style="padding: 1rem" as |NextLayer|>
-    <RenderStory @story={{Story}} @args={{context.args}} />
-    <NextLayer @withBackground={{true}} style="padding: 1rem; margin-top: 1rem">
-      <RenderStory @story={{Story}} @args={{context.args}} />
-    </NextLayer>
-  </Layer>
-</template>;
 
 const meta = preview.meta({
   title: 'Components/Slider',

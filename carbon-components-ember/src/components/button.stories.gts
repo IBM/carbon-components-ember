@@ -6,7 +6,6 @@ import Button from './button.gts';
 import Add from './icons/add.ts';
 
 // Carbon React parity gaps (Components/Button):
-// - React's `Default` is the primary button; it's `Primary` here.
 // - `DangerTertiary` / `DangerGhost`: `@tertiary`/`@ghost` override
 //   `@type`, so a danger button can't also be tertiary or ghost.
 // - `Radius`: no corner-radius tokens.
@@ -56,13 +55,13 @@ const meta = preview.meta({
   </template>,
 });
 
-export const Primary = meta.story({
+export const Default = meta.story({
   args: {
     type: 'primary',
   },
 });
 
-Primary.test('calls onClick', async ({ canvas, userEvent, args }) => {
+Default.test('calls onClick', async ({ canvas, userEvent, args }) => {
   await userEvent.click(canvas.getByRole('button', { name: 'Button' }));
   await expect(args.onClick).toHaveBeenCalledOnce();
 });
@@ -174,7 +173,7 @@ IconButton.test(
   },
 );
 
-export const Loading = Primary.extend({
+export const Loading = Default.extend({
   args: {
     loading: true,
   },
@@ -220,7 +219,7 @@ PromiseLoading.test(
   },
 );
 
-export const Disabled = Primary.extend({
+export const Disabled = Default.extend({
   args: {
     disabled: true,
   },

@@ -1,6 +1,7 @@
 import { trackedObject } from '@ember/reactive/collections';
 import { expect, fn } from 'storybook/test';
 
+import { withLayer } from '#storybook/decorators.gts';
 import preview from '#storybook/preview.ts';
 import Button from './button.gts';
 import Link from './link.gts';
@@ -11,8 +12,6 @@ import TileGroup from './tile/tile-group.gts';
 import type { TileSignature } from './tile.gts';
 
 // Parity gaps with Carbon React's Tile stories:
-// - `DefaultWithLayer`, `ClickableWithLayer`, `RadioWithLayer`,
-//   `ExpandableWithLayer`: there is no `WithLayer` story helper here.
 // - `ClickableWithCustomIcon`: clickable tiles have no `renderIcon`, `href`
 //   or `disabled` args (they always render `href="#"`).
 // - Selectable tiles have no `selected`/`disabled`/`name`/`value` args; the
@@ -261,3 +260,13 @@ export const AllKinds = meta.story({
     </Tile>
   </template>,
 });
+
+export const DefaultWithLayer = Default.extend({ decorators: [withLayer] });
+
+export const ClickableWithLayer = Clickable.extend({ decorators: [withLayer] });
+
+export const ExpandableWithLayer = Expandable.extend({
+  decorators: [withLayer],
+});
+
+export const RadioWithLayer = Radio.extend({ decorators: [withLayer] });

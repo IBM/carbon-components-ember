@@ -3,16 +3,13 @@ import { service } from '@ember/service';
 import { expect, waitFor, within } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
-import Button from './button.gts';
-import Notification from './notification.gts';
+import Button from '../button.gts';
+import Notification from '../notification.gts';
 
-import type NotificationService from '../services/notifications.ts';
+import type NotificationService from '../../services/notifications.ts';
 
-// Carbon React splits notifications into separate components and story
-// files (Components/Notifications/Toast, /Inline, /Actionable, /Callout). The
-// Ember addon has a single `Notification` component whose `@display` picks
-// the variant, so those become the `Toast`, `Inline` and `Actionable`
-// stories here.
+// Carbon React has a component per notification kind; the Ember addon has one
+// `Notification` whose `@display` picks it, so these pages each fix `@display`.
 //
 // Parity gaps:
 // - No Callout / StaticNotification variant.
@@ -25,23 +22,23 @@ import type NotificationService from '../services/notifications.ts';
 //   the actionable variant other than `@text`.
 
 const meta = preview.meta({
-  title: 'Components/Notifications',
+  title: 'Components/Notifications/Toast',
   component: Notification,
   parameters: {
     docs: {
       description: {
         component:
-          'Notifications are messages that communicate information to the user. `@display` selects a `toast` (default), `inline` or `actionable` notification and `@type` (or `@kind`) its status. Toasts can also be queued through the `carbon.notifications` service (see the *Service* story).',
+          'Toast notifications are non-modal, time-based messages that appear at the edge of the screen. A `Notification` is a toast by default (`@display="toast"`); `@type` (or `@kind`) sets its status. Toasts can also be queued through the `carbon.notifications` service (see the *Service* story).',
       },
     },
   },
   args: {
+    display: 'toast',
     type: 'error',
     title: 'Notification title',
     text: 'Subtitle text goes here',
   },
   argTypes: {
-    display: { control: 'select', options: ['toast', 'inline', 'actionable'] },
     type: {
       control: 'select',
       options: ['info', 'success', 'warning', 'error'],
@@ -49,14 +46,13 @@ const meta = preview.meta({
   },
 });
 
-export const Toast = meta.story({
+export const Default = meta.story({
   args: {
-    display: 'toast',
     caption: '00:00:00 AM',
   },
 });
 
-Toast.test(
+Default.test(
   'the close button hides the toast',
   async ({ canvas, userEvent }) => {
     await expect(canvas.getByRole('alert')).toHaveTextContent(
@@ -69,36 +65,12 @@ Toast.test(
   },
 );
 
-export const Inline = meta.story({
-  args: {
-    display: 'inline',
-  },
-});
-
-export const Actionable = meta.story({
-  args: {
-    display: 'actionable',
-    actionTitle: 'Action',
-  },
-});
-
 export const Success = meta.story({
   args: {
     type: 'success',
     caption: 'success',
     title: 'Success',
     text: 'a long long long long message',
-  },
-});
-
-export const Info = meta.story({
-  args: {
-    display: 'actionable',
-    type: 'info',
-    caption: 'info',
-    title: 'Actionable title',
-    actionTitle: 'Actionable subtitle text goes here',
-    text: undefined,
   },
 });
 

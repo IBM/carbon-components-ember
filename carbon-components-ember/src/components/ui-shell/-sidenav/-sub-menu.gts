@@ -6,7 +6,7 @@ export interface UIShellSideNavSubMenuSignature {
   Args: {
     isCurrent: boolean;
     transitionTo: () => void;
-    icon: typeof Icon;
+    icon?: typeof Icon;
     title: string;
   };
 }

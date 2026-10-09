@@ -1,6 +1,7 @@
 import { trackedObject } from '@ember/reactive/collections';
 import { expect, fn } from 'storybook/test';
 
+import { withLayer } from '#storybook/decorators.gts';
 import preview from '#storybook/preview.ts';
 import TimePicker from './time-picker.gts';
 import TimePickerSelect from './time-picker/time-picker-select.gts';
@@ -198,3 +199,5 @@ HiddenLabel.test('keeps the accessible name', async ({ canvas }) => {
     canvas.getByRole('textbox', { name: 'Select a time' }),
   ).toBeInTheDocument();
 });
+
+export const WithLayer = Default.extend({ decorators: [withLayer] });
