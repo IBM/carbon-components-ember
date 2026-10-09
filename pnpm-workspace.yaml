@@ -1,5 +1,6 @@
 packages:
   - carbon-components-ember
+  - carbon-components-ember-mcp
   - dom-parity
   - scripts
 

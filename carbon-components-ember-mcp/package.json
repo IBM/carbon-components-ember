@@ -1,0 +1,53 @@
+{
+  "name": "carbon-components-ember-mcp",
+  "version": "0.0.0",
+  "description": "An MCP server with the docs of the carbon-components-ember version your project uses",
+  "keywords": [
+    "carbon",
+    "ember",
+    "mcp",
+    "storybook"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IBM/carbon-components-ember",
+    "directory": "carbon-components-ember-mcp"
+  },
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "carbon-components-ember-mcp": "./bin.mjs"
+  },
+  "files": [
+    "bin.mjs",
+    "README.md",
+    "server.mjs"
+  ],
+  "scripts": {
+    "format": "prettier . --cache --write",
+    "lint": "concurrently \"pnpm:lint:*(!fix)\" --names \"lint:\" --prefixColors auto",
+    "lint:fix": "concurrently \"pnpm:lint:*:fix\" --names \"fix:\" --prefixColors auto && pnpm run format",
+    "lint:format": "prettier . --cache --check",
+    "lint:js": "eslint .",
+    "lint:js:fix": "eslint . --fix",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@storybook/mcp": "^10.6.1",
+    "@tmcp/adapter-valibot": "^0.1.6",
+    "@tmcp/transport-stdio": "^0.5.0",
+    "tmcp": "^1.20.0",
+    "valibot": "^1.5.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "concurrently": "^10.0.5",
+    "eslint": "^10.12.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.13.0",
+    "prettier": "^3.9.9"
+  },
+  "engines": {
+    "node": ">= 20"
+  }
+}

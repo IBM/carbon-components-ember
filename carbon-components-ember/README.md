@@ -68,6 +68,16 @@ class Save extends Component {
 }
 ```
 
+## Use with AI agents
+
+[`carbon-components-ember-mcp`](https://github.com/IBM/carbon-components-ember/tree/main/carbon-components-ember-mcp#readme) gives coding agents the docs for the version your app has installed: each component's import, arguments, blocks and examples. Add it from your app's directory, for example in Claude Code:
+
+```sh
+claude mcp add carbon-components-ember -- npx -y carbon-components-ember-mcp
+```
+
+Its README covers VS Code and Cursor.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). [AGENTS.md](AGENTS.md) holds the conventions the codebase follows, for people and AI agents alike.

@@ -18,7 +18,7 @@ runs:
     - id: changes
       shell: bash
       run: |
-        all=(carbon-components-ember dom-parity scripts)
+        all=(carbon-components-ember carbon-components-ember-mcp dom-parity scripts)
         report() {
           local addon=false
           [[ " $* " == *" carbon-components-ember "* ]] && addon=true
