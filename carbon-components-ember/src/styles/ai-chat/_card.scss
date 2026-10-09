@@ -56,6 +56,14 @@
   flex-direction: column;
 }
 
+// Upstream's `cds-button { flex: 1; }`: the buttons share the footer's width,
+// or each takes all of it when stacked.
+.cds-aichat-card-footer__actions > .cds--btn {
+  flex: 1;
+  inline-size: auto;
+  max-inline-size: none;
+}
+
 .cds-aichat-card-footer__actions:not(:has(.cds--btn--ghost)) {
   gap: 1px;
   background-color: var(--cds-button-separator, #e0e0e0);
@@ -152,11 +160,9 @@
 
 .cds-aichat-card-footer__action-viewing {
   flex-direction: row-reverse;
-  flex-grow: 0;
   align-items: center;
   justify-content: flex-end;
   gap: layout.$spacing-03;
-  inline-size: 100%;
 }
 
 .cds-aichat-card-steps {
