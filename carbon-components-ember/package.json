@@ -62,7 +62,7 @@
     "@carbon/icons": "^11.68.0",
     "@carbon/layout": "^11.34.0",
     "@carbon/styles": "^1.113.0",
-    "@carbon/utilities": "0.25.0",
+    "@carbon/utilities": "0.27.0",
     "@codemirror/autocomplete": "6.20.3",
     "@codemirror/commands": "6.11.1",
     "@codemirror/language": "6.12.4",
