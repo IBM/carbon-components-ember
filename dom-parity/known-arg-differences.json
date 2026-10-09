@@ -69,7 +69,6 @@
   },
   "Checkbox": {
     "missing": [
-      "decorator",
       "defaultChecked",
       "helperText",
       "id",
@@ -199,13 +198,6 @@
       "showPasswordLabel"
     ]
   },
-  "Loading": {
-    "extra": [
-      "classNames",
-      "iconDescription",
-      "inline"
-    ]
-  },
   "Menu": {
     "extra": [
       "anchor",
@@ -262,7 +254,6 @@
   },
   "NumberInput": {
     "missing": [
-      "decorator",
       "disableWheel",
       "formatOptions",
       "inputMode",
@@ -283,7 +274,6 @@
       "defaultOpen",
       "dropShadow",
       "enterDelayMs",
-      "flipped",
       "highContrast",
       "href",
       "iconClass",
@@ -360,7 +350,6 @@
   },
   "RadioButton": {
     "missing": [
-      "decorator",
       "invalid",
       "invalidText",
       "warn",
@@ -369,7 +358,6 @@
   },
   "RadioButtonGroup": {
     "missing": [
-      "decorator",
       "helperText",
       "invalid",
       "invalidText",
@@ -504,7 +492,6 @@
   },
   "TextInput": {
     "missing": [
-      "decorator",
       "inline"
     ],
     "values": [
