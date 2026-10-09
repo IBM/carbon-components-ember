@@ -18,7 +18,12 @@ export interface TableMenuSignature {
 
 const TableMenu: TOC<TableMenuSignature> = <template>
   <td class="cds--table-column-menu" ...attributes>
-    <OverflowMenu @icon={{OverflowMenuVertical}} @direction="top" as |Item|>
+    <OverflowMenu
+      @icon={{OverflowMenuVertical}}
+      @direction="bottom"
+      @flipped={{true}}
+      as |Item|
+    >
       {{yield Item}}
     </OverflowMenu>
   </td>
