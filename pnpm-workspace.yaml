@@ -3,6 +3,24 @@ packages:
   - dom-parity
   - scripts
 
+# Dependencies we upgrade by hand (see AGENTS.md); Dependabot ignores them.
+catalogs:
+  # The Carbon packages we keep in parity with; @carbon/react leads, and
+  # AGENTS.md says where the others' versions come from.
+  carbon:
+    '@carbon/ai-chat-components': 1.11.0
+    '@carbon/grid': ^11.63.0
+    '@carbon/icon-helpers': ^10.82.0
+    '@carbon/icons': ^11.88.0
+    '@carbon/layout': ^11.60.0
+    '@carbon/react': 1.114.0
+    '@carbon/styles': ^1.115.0
+    '@carbon/themes': 11.82.0
+    '@carbon/utilities': 0.25.0
+  # Glint doesn't support TypeScript 7 yet; #948 tracks the upgrade.
+  typescript:
+    typescript: 6.0.3
+
 allowBuilds:
   '@carbon/ai-chat-components': false
   '@carbon/charts': false

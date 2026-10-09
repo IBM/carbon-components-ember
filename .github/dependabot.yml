@@ -13,6 +13,19 @@ updates:
     # than a day ago, so don't propose them before then.
     cooldown:
       default-days: 1
+    # pnpm-workspace.yaml's catalogs are upgraded by hand (see AGENTS.md).
+    # This also stops security-update PRs for them; alerts still show.
+    ignore:
+      - dependency-name: "@carbon/ai-chat-components"
+      - dependency-name: "@carbon/grid"
+      - dependency-name: "@carbon/icon-helpers"
+      - dependency-name: "@carbon/icons"
+      - dependency-name: "@carbon/layout"
+      - dependency-name: "@carbon/react"
+      - dependency-name: "@carbon/styles"
+      - dependency-name: "@carbon/themes"
+      - dependency-name: "@carbon/utilities"
+      - dependency-name: "typescript"
 
   - package-ecosystem: "github-actions"
     # "/" covers .github/workflows; composite actions need their own entry.

@@ -162,6 +162,40 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  carbon:
+    '@carbon/ai-chat-components':
+      specifier: 1.11.0
+      version: 1.11.0
+    '@carbon/grid':
+      specifier: ^11.63.0
+      version: 11.63.0
+    '@carbon/icon-helpers':
+      specifier: ^10.82.0
+      version: 10.82.0
+    '@carbon/icons':
+      specifier: ^11.88.0
+      version: 11.88.0
+    '@carbon/layout':
+      specifier: ^11.60.0
+      version: 11.60.0
+    '@carbon/react':
+      specifier: 1.114.0
+      version: 1.114.0
+    '@carbon/styles':
+      specifier: ^1.115.0
+      version: 1.115.0
+    '@carbon/themes':
+      specifier: 11.82.0
+      version: 11.82.0
+    '@carbon/utilities':
+      specifier: 0.25.0
+      version: 0.25.0
+  typescript:
+    typescript:
+      specifier: 6.0.3
+      version: 6.0.3
+
 overrides:
   '@babel/runtime@<7.26.10': ^7.29.7
   compression@<1.8.2: ^1.8.2
@@ -195,22 +229,22 @@ importers:
         specifier: ^1.27.0
         version: 1.27.11
       '@carbon/grid':
-        specifier: ^11.15.0
+        specifier: catalog:carbon
         version: 11.63.0
       '@carbon/icon-helpers':
-        specifier: ^10.41.0
+        specifier: catalog:carbon
         version: 10.82.0
       '@carbon/icons':
-        specifier: ^11.68.0
+        specifier: catalog:carbon
         version: 11.88.0
       '@carbon/layout':
-        specifier: ^11.34.0
+        specifier: catalog:carbon
         version: 11.60.0
       '@carbon/styles':
-        specifier: ^1.113.0
+        specifier: catalog:carbon
         version: 1.115.0(sass@1.105.1)
       '@carbon/utilities':
-        specifier: 0.25.0
+        specifier: catalog:carbon
         version: 0.25.0
       '@codemirror/autocomplete':
         specifier: 6.20.3
@@ -316,10 +350,10 @@ importers:
         specifier: ^8.0.7
         version: 8.0.7
       '@carbon/ai-chat-components':
-        specifier: 1.11.0
+        specifier: catalog:carbon
         version: 1.11.0(@floating-ui/dom@1.8.0)(@types/react@19.3.0)(react@19.3.0)(sass@1.105.1)
       '@carbon/themes':
-        specifier: ^11.82.0
+        specifier: catalog:carbon
         version: 11.82.0
       '@ember/app-tsconfig':
         specifier: ^2.1.0
@@ -484,7 +518,7 @@ importers:
         specifier: ^3.21.3
         version: 3.21.3(@babel/core@8.0.7)(ejs@3.1.10)(handlebars@4.7.9)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(supports-color@8.1.1)(underscore@1.13.8)
       typescript:
-        specifier: ~6.0.3
+        specifier: catalog:typescript
         version: 6.0.3
       typescript-eslint:
         specifier: ^8.71.1
@@ -499,7 +533,7 @@ importers:
   dom-parity:
     devDependencies:
       '@carbon/react':
-        specifier: 1.114.0
+        specifier: catalog:carbon
         version: 1.114.0(react-dom@19.3.0(react@19.3.0))(react-is@18.3.1)(react@19.3.0)(sass@1.105.1)
       '@eslint/js':
         specifier: ^10.0.1

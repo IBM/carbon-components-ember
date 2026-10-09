@@ -32,8 +32,8 @@ variant silently going untested.
 pnpm --filter dom-parity generate
 ```
 
-Rerun this after bumping the pinned `@carbon/react` version in
-`package.json`, or after adding/changing a variant in `lib/components.mjs`.
+Rerun this after upgrading Carbon (see "Version pinning" below), or after
+adding/changing a variant in `lib/components.mjs`.
 
 This is currently a manual step - there is no scheduled CI job that reruns
 `generate` against a newer `@carbon/react` release and diffs the result, so
@@ -70,13 +70,15 @@ recorded per component.
 
 ## Version pinning
 
-`@carbon/react`'s version should track the `@carbon/styles` range this
-addon itself already depends on (see `carbon-components-ember/package.json`),
-since that's the class/markup generation these components share - not
-just "latest". Check with:
+`@carbon/react` is pinned in `pnpm-workspace.yaml`'s `carbon` catalog,
+alongside the `@carbon/styles`, icons and other Carbon packages the addon
+uses, since they share the class and markup generation. Dependabot ignores
+the catalog: upgrade it by hand, in one change led by `@carbon/react`, then
+rerun `generate`. AGENTS.md ("Upgrading Carbon and TypeScript") says where
+each package's version comes from; start with:
 
 ```sh
-npm view @carbon/react@<candidate> dependencies.@carbon/styles
+npm view @carbon/react@<candidate> dependencies
 ```
 
 ## A second, live path: `@carbon/ai-chat-components`
@@ -98,8 +100,8 @@ file's own module doc, summarized here:
    path mounts the real, pinned `@carbon/ai-chat-components` custom
    elements directly in the addon's own real-Chromium (Playwright) QUnit
    run and compares live, every run - no `fixtures/*.json`, no `generate`
-   step, no fixture-drift risk (the version pinned in
-   `carbon-components-ember/package.json` is the only source of truth).
+   step, no fixture-drift risk (the version pinned in the `carbon`
+   catalog is the only source of truth).
 2. **Class names are excluded from the comparison.** `@carbon/react` and
    Ember are both meant to emit the same `cds--*` classes; `@carbon/ai-
 chat-components` renders into shadow DOM and styles itself with plain,
