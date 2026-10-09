@@ -207,4 +207,41 @@ module('Integration | Component | OverflowMenu', (hooks) => {
       .dom('.cds--overflow-menu-options__option')
       .hasClass('cds--overflow-menu--divider');
   });
+
+  test('tells Carbon which side the menu opened on', async function (assert) {
+    await render(
+      <template>
+        <OverflowMenu @direction="top" as |Item|>
+          <Item @itemText="Option 1" />
+        </OverflowMenu>
+      </template>,
+    );
+    await click('.cds--overflow-menu');
+
+    assert
+      .dom('.ember-basic-dropdown-content')
+      .hasClass('ember-basic-dropdown-content--above');
+    assert
+      .dom('.cds--overflow-menu-options')
+      .hasAttribute('data-floating-menu-direction', 'top');
+  });
+
+  test('@flipped aligns the menu with the right edge of its trigger', async function (assert) {
+    await render(
+      <template>
+        <OverflowMenu @direction="bottom" @flipped={{true}} as |Item|>
+          <Item @itemText="Option 1" />
+        </OverflowMenu>
+      </template>,
+    );
+    await click('.cds--overflow-menu');
+
+    assert
+      .dom('.ember-basic-dropdown-content')
+      .hasClass('ember-basic-dropdown-content--right');
+    assert
+      .dom('.cds--overflow-menu-options')
+      .hasClass('cds--overflow-menu--flip')
+      .hasAttribute('data-floating-menu-direction', 'bottom');
+  });
 });
