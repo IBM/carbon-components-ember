@@ -16,6 +16,63 @@ import {
 module('Integration | Component | Button', (hooks) => {
   setupRenderingTest(hooks);
 
+  test('a type="submit" Button submits its form', async function (assert) {
+    const submits: string[] = [];
+    const onSubmit = (event: SubmitEvent) => {
+      event.preventDefault();
+      submits.push(event.submitter?.textContent?.trim() ?? '');
+    };
+    await render(
+      <template>
+        <form aria-label="Save or cancel" {{on "submit" onSubmit}}>
+          <Button>Cancel</Button>
+          <Button type="submit">Save</Button>
+        </form>
+      </template>,
+    );
+
+    await click('button[type="button"]');
+    await click('button[type="submit"]');
+    assert.deepEqual(submits, ['Save'], 'only the submit button submits');
+  });
+
+  test('a @danger submit Button does not submit on the confirming click', async function (assert) {
+    let submitted = false;
+    const onSubmit = (event: SubmitEvent) => {
+      event.preventDefault();
+      submitted = true;
+    };
+    await render(
+      <template>
+        <form aria-label="Delete" {{on "submit" onSubmit}}>
+          <Button type="submit" @danger={{true}}>Delete</Button>
+        </form>
+        <div id="carbon-components-dialog-id"></div>
+      </template>,
+    );
+
+    await click('button');
+    assert.false(submitted);
+  });
+
+  test('@bubbles={{false}} cancels the submit', async function (assert) {
+    let submitted = false;
+    const onSubmit = (event: SubmitEvent) => {
+      event.preventDefault();
+      submitted = true;
+    };
+    await render(
+      <template>
+        <form aria-label="Cancelled save" {{on "submit" onSubmit}}>
+          <Button type="submit" @bubbles={{false}}>Save</Button>
+        </form>
+      </template>,
+    );
+
+    await click('button');
+    assert.false(submitted);
+  });
+
   test('white theme: should display button', async function (this: RenderingTestContext, assert) {
     disableCarbonStyles();
     await render(

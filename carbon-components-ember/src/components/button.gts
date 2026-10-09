@@ -17,6 +17,10 @@ export interface ButtonSignature {
 
     disabled?: boolean;
 
+    /**
+     * Pass `false` to cancel the click's default action, such as a
+     * `type="submit"` button submitting its form. The click still bubbles.
+     */
     bubbles?: boolean;
 
     onClick?: () => void | null | Promise<unknown>;
@@ -76,7 +80,6 @@ export default class Button extends Component<ButtonSignature> {
   args: ButtonSignature['Args'] = {
     loading: false,
     disabled: false,
-    bubbles: false,
     onClick: undefined,
     type: 'primary',
     confirmText: '',
@@ -189,7 +192,8 @@ export default class Button extends Component<ButtonSignature> {
     } else {
       this.runButtonClick();
     }
-    // Prevent bubbling, if specified. If undefined, the event will bubble.
-    return this.args.bubbles;
+    // Returning false cancels the default action; undefined leaves it. A
+    // danger button cancels it, so a submit waits for the confirmation.
+    return this.danger ? false : this.args.bubbles;
   };
 }
