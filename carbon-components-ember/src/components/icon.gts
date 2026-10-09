@@ -202,9 +202,9 @@ export default class Icon extends Component<IconSignature> {
     {{#if (or @loading this.loading)}}
       <span class={{this.styles.loading}}>
         <Loading
-          @classNames="{{this.styles.icon}} {{this.classes}} loader"
           @small={{true}}
-          @inline={{true}}
+          @withOverlay={{false}}
+          class="{{this.styles.icon}} {{this.classes}} loader"
         />
       </span>
     {{else}}

@@ -1,6 +1,6 @@
 {
   "component": "Loading",
-  "generatedAt": "2026-10-04T14:24:38.805Z",
+  "generatedAt": "2026-10-09T01:09:16.078Z",
   "carbonReactVersion": "1.114.0",
   "reactVersion": "19.3.0",
   "variants": {
@@ -616,122 +616,6 @@
                 },
                 "style": {},
                 "children": []
-              }
-            ]
-          }
-        ]
-      }
-    },
-    "inline": {
-      "props": {
-        "status": "active",
-        "description": "Active loading indicator"
-      },
-      "dom": {
-        "type": "element",
-        "tag": "div",
-        "classes": [
-          "cds--inline-loading"
-        ],
-        "attributes": {
-          "aria-live": "assertive"
-        },
-        "style": {},
-        "children": [
-          {
-            "type": "element",
-            "tag": "div",
-            "classes": [
-              "cds--inline-loading__animation"
-            ],
-            "attributes": {},
-            "style": {},
-            "children": [
-              {
-                "type": "element",
-                "tag": "div",
-                "classes": [
-                  "cds--loading",
-                  "cds--loading--small"
-                ],
-                "attributes": {
-                  "aria-atomic": "true",
-                  "aria-live": "assertive"
-                },
-                "style": {},
-                "children": [
-                  {
-                    "type": "element",
-                    "tag": "svg",
-                    "classes": [
-                      "cds--loading__svg"
-                    ],
-                    "attributes": {
-                      "viewBox": "0 0 100 100",
-                      "role": "img",
-                      "aria-label": "loading"
-                    },
-                    "style": {},
-                    "children": [
-                      {
-                        "type": "element",
-                        "tag": "title",
-                        "classes": [],
-                        "attributes": {},
-                        "style": {},
-                        "children": [
-                          {
-                            "type": "text",
-                            "text": "loading"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "element",
-                        "tag": "circle",
-                        "classes": [
-                          "cds--loading__background"
-                        ],
-                        "attributes": {
-                          "cx": "50%",
-                          "cy": "50%",
-                          "r": "42"
-                        },
-                        "style": {},
-                        "children": []
-                      },
-                      {
-                        "type": "element",
-                        "tag": "circle",
-                        "classes": [
-                          "cds--loading__stroke"
-                        ],
-                        "attributes": {
-                          "cx": "50%",
-                          "cy": "50%",
-                          "r": "42"
-                        },
-                        "style": {},
-                        "children": []
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "element",
-            "tag": "div",
-            "classes": [
-              "cds--inline-loading__text"
-            ],
-            "attributes": {},
-            "style": {},
-            "children": [
-              {
-                "type": "text",
-                "text": "Active loading indicator"
               }
             ]
           }

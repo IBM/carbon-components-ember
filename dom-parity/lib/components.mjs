@@ -284,8 +284,7 @@
  * Notification is a single Ember component that conflates three upstream
  * ones behind `@display` - `toast`/`inline`/`actionable` map to
  * `Carbon.ToastNotification`/`InlineNotification`/`ActionableNotification`
- * respectively, the same "one Ember component, several upstream ones"
- * shape as Loading's `@inline`. Only `toast` and `inline` are covered
+ * respectively. Only `toast` and `inline` are covered
  * here: `actionable` additionally renders a `focus-wrapper`/
  * `button-wrapper` structure and (unless a feature flag is on - another
  * flag-dependent shape, like Grid's) two hidden focus-sentinel `<span>`s
@@ -665,6 +664,13 @@ const link = (name, props) => ({
     React.createElement(Carbon.Link, props, 'Link text'),
 });
 
+const inlineLoading = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.InlineLoading, props),
+});
+
 // Both list factories render two `ListItem`s so a regression in the
 // `cds--list__item` class the parent list stamps onto its children (see
 // ordered-list.gts's `addItemClass` modifier) would show up here too, not
@@ -968,8 +974,7 @@ const fluidTextInput = (name, props) => ({
 // Ember's `<FluidTextInput @isPassword={{true}}>` maps to a *separate*
 // upstream component, `FluidPasswordInput` - not `FluidTextInput` with
 // `isPassword` passed through (upstream's own `FluidTextInput` only reads
-// `isPassword` to pick which of the two to render internally). Same
-// one-Ember-component/several-upstream-ones shape as Loading/InlineLoading.
+// `isPassword` to pick which of the two to render internally).
 const fluidPasswordInput = (name, props) => ({
   name,
   props,
@@ -1392,12 +1397,6 @@ export const COMPONENTS = [
   {
     name: 'Loading',
     variants: [
-      // Ember's Loading conflates three upstream shapes (overlay / plain /
-      // inline) behind one component via @withOverlay/@inline - see
-      // loading.gts. The overlay and plain branches both come from
-      // @carbon/react's own `Loading`; the inline branch is a genuinely
-      // different upstream component, `InlineLoading` (see the `inline`
-      // variant below), not `Loading` with some extra prop.
       {
         name: 'overlay-active',
         props: {
@@ -1518,18 +1517,25 @@ export const COMPONENTS = [
             description: 'Stopped loading indicator',
           }),
       },
-      {
-        // Ember's @inline={{true}} @active={{false}} renders nothing at
-        // all (see loading.gts), so there's no non-degenerate "inactive"
-        // inline variant to generate a fixture for.
-        name: 'inline',
-        props: { status: 'active', description: 'Active loading indicator' },
-        createElement: (React, Carbon) =>
-          React.createElement(Carbon.InlineLoading, {
-            status: 'active',
-            description: 'Active loading indicator',
-          }),
-      },
+    ],
+  },
+  {
+    name: 'InlineLoading',
+    variants: [
+      inlineLoading('active', {
+        status: 'active',
+        description: 'Active loading indicator',
+      }),
+      inlineLoading('icon-description', {
+        status: 'active',
+        iconDescription: 'Loading data...',
+      }),
+      inlineLoading('inactive', { status: 'inactive', description: 'Idle' }),
+      inlineLoading('finished', {
+        status: 'finished',
+        description: 'Submitted!',
+      }),
+      inlineLoading('error', { status: 'error', description: 'Failed' }),
     ],
   },
   {
