@@ -1,3 +1,6 @@
+// Hand-written stand-ins for @carbon/react's types, for arg-parity.test.mjs.
+// Layer, Tooltip and Tag copy the shapes of Carbon's real types that need
+// special handling; the real comparison reads the pinned @carbon/react.
 import type {
   ButtonHTMLAttributes,
   ChangeEvent,
