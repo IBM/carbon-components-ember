@@ -12,8 +12,6 @@ import type { LoadingSignature } from './loading.gts';
 // Parity notes on Carbon React's Loading stories:
 // - React's `withOverlay` defaults to `false`; the Ember component defaults it
 //   to `true`, so every story here sets it explicitly.
-// - The `Inline` story covers Carbon React's separate `InlineLoading`
-//   component, which the Ember component renders with `@inline={{true}}`.
 // - The overlay stories render in their own iframe on the docs page, since
 //   the overlay covers the whole viewport.
 
@@ -58,13 +56,6 @@ export const Inactive = meta.story({
   name: 'Inactive (active=false)',
   args: {
     active: false,
-  },
-});
-
-export const Inline = meta.story({
-  args: {
-    inline: true,
-    description: 'inline loading',
   },
 });
 

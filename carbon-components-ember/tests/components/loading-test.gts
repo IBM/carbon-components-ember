@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { find, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import Loading from '#src/components/loading.gts';
 
 module('Integration | Component | Loading', (hooks) => {
@@ -58,36 +58,5 @@ module('Integration | Component | Loading', (hooks) => {
     await render(<template><Loading @active={{false}} /></template>);
 
     assert.dom('.cds--loading-overlay').hasClass('cds--loading-overlay--stop');
-  });
-
-  test('@inline renders the inline loading variant with text', async function (assert) {
-    await render(
-      <template><Loading @inline={{true}} @description="saving" /></template>,
-    );
-
-    assert.dom('.cds--inline-loading').exists();
-    assert.dom('.cds--inline-loading__text').hasText('saving');
-    assert.strictEqual(
-      getComputedStyle(find('.cds--inline-loading') as Element).display,
-      'flex',
-      'the animation and text lay out side-by-side instead of stacking, per @carbon/styles’ own .cds--inline-loading rule',
-    );
-  });
-
-  test('@inline without @description does not leak the default description as visible text', async function (assert) {
-    await render(<template><Loading @inline={{true}} /></template>);
-
-    assert.dom('.cds--inline-loading__text').hasText('');
-    assert
-      .dom('.cds--inline-loading .cds--loading__svg')
-      .hasAttribute('aria-label', 'loading');
-  });
-
-  test('@inline + @active=false renders nothing', async function (assert) {
-    await render(
-      <template><Loading @inline={{true}} @active={{false}} /></template>,
-    );
-
-    assert.dom('.cds--inline-loading').doesNotExist();
   });
 });

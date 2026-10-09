@@ -5,7 +5,7 @@ import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import type ConfirmDialogComponent from './dialogs/confirm.gts';
 import Confirm from './dialogs/confirm.gts';
-import Loading from './loading.gts';
+import InlineLoading from './inline-loading.gts';
 
 export interface ButtonSignature {
   Element: HTMLButtonElement;
@@ -114,7 +114,7 @@ export default class Button extends Component<ButtonSignature> {
         {{/let}}
       {{/if}}
       {{#if (or this.loading @loading)}}
-        <Loading @inline={{true}} />
+        <InlineLoading />
       {{else}}
         {{#if (has-block)}}
           {{yield}}

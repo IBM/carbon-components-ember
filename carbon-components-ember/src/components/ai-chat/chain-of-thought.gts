@@ -10,7 +10,7 @@ import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { modifier as eModifier } from 'ember-modifier';
 import type { WithBoundArgs } from '@glint/template';
-import Loading from '../loading.gts';
+import InlineLoading from '../inline-loading.gts';
 import { CheckmarkFilled, ChevronRight, ErrorFilled } from '../../icons.ts';
 
 export type ChainOfThoughtStepStatus = 'processing' | 'failure' | 'success';
@@ -135,10 +135,7 @@ class ChainOfThoughtStep extends Component<ChainOfThoughtStepSignature> {
           </span>
           <span class="cds-aichat-chain-of-thought-step__header-status">
             {{#if (eq this.status "processing")}}
-              <Loading
-                @inline={{true}}
-                @small={{true}}
-                @withOverlay={{false}}
+              <InlineLoading
                 @description={{if
                   @statusProcessingLabelText
                   @statusProcessingLabelText

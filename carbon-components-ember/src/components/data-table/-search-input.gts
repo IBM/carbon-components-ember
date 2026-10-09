@@ -1,5 +1,5 @@
 import SearchInput from '../search.gts';
-import Loading from '../loading.gts';
+import InlineLoading from '../inline-loading.gts';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
@@ -73,10 +73,8 @@ export default class TableToolbarSearch extends Component<TableToolbarSearchSign
       class="{{if this.isSearching this.styles.is-searching}}"
       ...attributes
     />
-    <Loading
-      class={{this.styles.loading}}
-      @inline={{true}}
-      @active={{this.isSearching}}
-    />
+    {{#if this.isSearching}}
+      <InlineLoading class={{this.styles.loading}} />
+    {{/if}}
   </template>
 }

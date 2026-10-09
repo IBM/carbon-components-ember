@@ -4,6 +4,7 @@ import { render, waitUntil, click } from '@ember/test-helpers';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import Button from '#src/components/button.gts';
 import Tag from '#src/components/tag.gts';
+import InlineLoading from '#src/components/inline-loading.gts';
 import Loading from '#src/components/loading.gts';
 import Link from '#src/components/link.gts';
 import UnorderedList from '#src/components/unordered-list.gts';
@@ -64,6 +65,7 @@ import knownDifferences from '../../../dom-parity/known-differences.json';
 import buttonFixture from '../../../dom-parity/fixtures/Button.json';
 import tagFixture from '../../../dom-parity/fixtures/Tag.json';
 import loadingFixture from '../../../dom-parity/fixtures/Loading.json';
+import inlineLoadingFixture from '../../../dom-parity/fixtures/InlineLoading.json';
 import linkFixture from '../../../dom-parity/fixtures/Link.json';
 import unorderedListFixture from '../../../dom-parity/fixtures/UnorderedList.json';
 import orderedListFixture from '../../../dom-parity/fixtures/OrderedList.json';
@@ -579,24 +581,6 @@ module('DOM parity | Carbon React', function (hooks) {
       );
     });
 
-    test('inline', async function (this: RenderingTestContext, assert) {
-      await render(
-        <template>
-          <Loading
-            @description="Active loading indicator"
-            @inline={{true}}
-            @active={{true}}
-          />
-        </template>,
-      );
-      assertDomParity(
-        assert,
-        loadingFixture,
-        'inline',
-        this.element.firstElementChild,
-      );
-    });
-
     test('every fixture variant is covered', function (assert) {
       assertFullCoverage(assert, loadingFixture, [
         'overlay-active',
@@ -607,7 +591,99 @@ module('DOM parity | Carbon React', function (hooks) {
         'plain-active-small',
         'plain-inactive',
         'plain-inactive-small',
-        'inline',
+      ]);
+    });
+  });
+
+  module('InlineLoading', function () {
+    test('active', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <InlineLoading
+            @status="active"
+            @description="Active loading indicator"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        inlineLoadingFixture,
+        'active',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('icon-description', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <InlineLoading @status="active" @iconDescription="Loading data..." />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        inlineLoadingFixture,
+        'icon-description',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('inactive', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <InlineLoading @status="inactive" @description="Idle" />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        inlineLoadingFixture,
+        'inactive',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('finished', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <InlineLoading
+            @status="finished"
+            @description="Submitted!"
+            @successDelay={{0}}
+          />
+        </template>,
+      );
+      // Icons load their SVG asynchronously; settled() doesn't wait for it.
+      await waitUntil(() => this.element.querySelector('svg') !== null);
+      assertDomParity(
+        assert,
+        inlineLoadingFixture,
+        'finished',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('error', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <InlineLoading @status="error" @description="Failed" />
+        </template>,
+      );
+      // Icons load their SVG asynchronously; settled() doesn't wait for it.
+      await waitUntil(() => this.element.querySelector('svg') !== null);
+      assertDomParity(
+        assert,
+        inlineLoadingFixture,
+        'error',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, inlineLoadingFixture, [
+        'active',
+        'icon-description',
+        'inactive',
+        'finished',
+        'error',
       ]);
     });
   });

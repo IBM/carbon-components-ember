@@ -1,0 +1,460 @@
+{
+  "component": "InlineLoading",
+  "generatedAt": "2026-10-09T01:09:16.082Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "active": {
+      "props": {
+        "status": "active",
+        "description": "Active loading indicator"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--inline-loading"
+        ],
+        "attributes": {
+          "aria-live": "assertive"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--inline-loading__animation"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--loading",
+                  "cds--loading--small"
+                ],
+                "attributes": {
+                  "aria-atomic": "true",
+                  "aria-live": "assertive"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--loading__svg"
+                    ],
+                    "attributes": {
+                      "viewBox": "0 0 100 100",
+                      "role": "img",
+                      "aria-label": "loading"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "title",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "loading"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "circle",
+                        "classes": [
+                          "cds--loading__background"
+                        ],
+                        "attributes": {
+                          "cx": "50%",
+                          "cy": "50%",
+                          "r": "42"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "circle",
+                        "classes": [
+                          "cds--loading__stroke"
+                        ],
+                        "attributes": {
+                          "cx": "50%",
+                          "cy": "50%",
+                          "r": "42"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--inline-loading__text"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Active loading indicator"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "icon-description": {
+      "props": {
+        "status": "active",
+        "iconDescription": "Loading data..."
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--inline-loading"
+        ],
+        "attributes": {
+          "aria-live": "assertive"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--inline-loading__animation"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--loading",
+                  "cds--loading--small"
+                ],
+                "attributes": {
+                  "aria-atomic": "true",
+                  "aria-live": "assertive"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--loading__svg"
+                    ],
+                    "attributes": {
+                      "viewBox": "0 0 100 100",
+                      "role": "img",
+                      "aria-label": "Loading data..."
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "title",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Loading data..."
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "circle",
+                        "classes": [
+                          "cds--loading__background"
+                        ],
+                        "attributes": {
+                          "cx": "50%",
+                          "cy": "50%",
+                          "r": "42"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "circle",
+                        "classes": [
+                          "cds--loading__stroke"
+                        ],
+                        "attributes": {
+                          "cx": "50%",
+                          "cy": "50%",
+                          "r": "42"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "inactive": {
+      "props": {
+        "status": "inactive",
+        "description": "Idle"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--inline-loading"
+        ],
+        "attributes": {
+          "aria-live": "off"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--inline-loading__text"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Idle"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "finished": {
+      "props": {
+        "status": "finished",
+        "description": "Submitted!"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--inline-loading"
+        ],
+        "attributes": {
+          "aria-live": "assertive"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--inline-loading__animation"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--inline-loading__checkmark-container"
+                ],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M8,1C4.1,1,1,4.1,1,8c0,3.9,3.1,7,7,7s7-3.1,7-7C15,4.1,11.9,1,8,1z M7,11L4.3,8.3l0.9-0.8L7,9.3l4-3.9l0.9,0.8L7,11z"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M7,11L4.3,8.3l0.9-0.8L7,9.3l4-3.9l0.9,0.8L7,11z",
+                      "data-icon-path": "inner-path",
+                      "opacity": "0"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "title",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "finished"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--inline-loading__text"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Submitted!"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "error": {
+      "props": {
+        "status": "error",
+        "description": "Failed"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--inline-loading"
+        ],
+        "attributes": {
+          "aria-live": "assertive"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--inline-loading__animation"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--inline-loading--error"
+                ],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M8,1C4.1,1,1,4.1,1,8s3.1,7,7,7s7-3.1,7-7S11.9,1,8,1z M10.7,11.5L4.5,5.3l0.8-0.8l6.2,6.2L10.7,11.5z"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "fill": "none",
+                      "d": "M10.7,11.5L4.5,5.3l0.8-0.8l6.2,6.2L10.7,11.5z",
+                      "data-icon-path": "inner-path",
+                      "opacity": "0"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "title",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "error"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--inline-loading__text"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Failed"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
