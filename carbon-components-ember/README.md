@@ -76,7 +76,7 @@ class Save extends Component {
 claude mcp add carbon-components-ember -- npx -y carbon-components-ember-mcp
 ```
 
-Its README covers VS Code and Cursor.
+Its README covers VS Code and Cursor, and the [instructions](https://github.com/IBM/carbon-components-ember/blob/main/carbon-components-ember-mcp/instructions.md) the server gives agents: look components up rather than guess, and type-check what they write with Glint. Copy them into your `AGENTS.md` to give them to every agent.
 
 ## Contributing
 

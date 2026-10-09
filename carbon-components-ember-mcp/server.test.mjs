@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { spawn } from 'node:child_process';
+import { execFileSync, spawn } from 'node:child_process';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
@@ -8,6 +8,7 @@ import { test } from 'node:test';
 import {
   DOCS_URL,
   installedVersion,
+  instructions,
   manifestProvider,
   releaseUrl,
   resolveManifests,
@@ -112,7 +113,8 @@ test("serves Storybook's docs tools over stdio", async (t) => {
     clientInfo: { name: 'test', version: '0' },
   });
   assert.equal(init.serverInfo.name, 'carbon-components-ember-mcp');
-  assert.match(init.instructions, /Ember components/);
+  assert.match(init.instructions, /docs for carbon-components-ember/);
+  assert.ok(init.instructions.includes(await instructions()));
   client.notify('notifications/initialized');
 
   const { result: tools } = await client.request('tools/list', {});
@@ -133,4 +135,22 @@ test("serves Storybook's docs tools over stdio", async (t) => {
   });
   assert.match(show.content[0].text, /import Button from/);
   assert.match(show.content[0].text, /@kind/);
+});
+
+test('publishes the files the server reads', () => {
+  // npm 12 keys the result by package name; older versions return an array.
+  const [{ files }] = Object.values(
+    JSON.parse(
+      execFileSync('npm', ['pack', '--dry-run', '--json'], {
+        cwd: import.meta.dirname,
+        encoding: 'utf-8',
+        // Windows runs npm.cmd, which needs a shell.
+        shell: process.platform === 'win32',
+      }),
+    ),
+  );
+  const packed = files.map((file) => file.path);
+  for (const file of ['bin.mjs', 'server.mjs', 'instructions.md']) {
+    assert.ok(packed.includes(file), `${file} isn't published`);
+  }
 });

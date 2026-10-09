@@ -51,6 +51,12 @@ Other agents take the same command: `npx -y carbon-components-ember-mcp`.
 | `docs-show`       | One component: its description, import, arguments, blocks and story examples |
 | `docs-show-story` | One story's example code                                                     |
 
+## Instructions for your agent
+
+When an agent connects, the server sends it [instructions](https://github.com/IBM/carbon-components-ember/blob/main/carbon-components-ember-mcp/instructions.md) for using the components: look each component up before using it, write Ember rather than React, and type-check the result with Glint. Agents that support MCP server instructions, such as Claude Code, add them to their context.
+
+To give every agent on your app these instructions, whether or not it uses the server, copy them into your `AGENTS.md`, `CLAUDE.md` or `.github/copilot-instructions.md`.
+
 ## Which docs it serves
 
 The server starts in your agent's working directory. It looks for `node_modules/carbon-components-ember` there and in each parent directory, and serves the docs published with that release: `https://ibm.github.io/carbon-components-ember/versions/v<version>-carbon-components-ember/`.
