@@ -9,8 +9,8 @@
  *
  * This is an offline step: fixtures are committed, and the QUnit suite in
  * the addon's tests only ever read them - it never runs this script itself. Rerun
- * manually (`pnpm generate`) after bumping the pinned @carbon/react version
- * in package.json, or after adding/changing an entry in lib/components.mjs.
+ * manually (`pnpm generate`) after upgrading the `carbon` catalog in
+ * pnpm-workspace.yaml, or after adding/changing an entry in lib/components.mjs.
  *
  * There is currently no scheduled CI job that reruns this and diffs the
  * result, so fixture drift against a newer @carbon/react release is only
