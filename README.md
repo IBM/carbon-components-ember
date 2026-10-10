@@ -70,13 +70,19 @@ class Save extends Component {
 
 ## Use with AI agents
 
-[`carbon-components-ember-mcp`](https://github.com/IBM/carbon-components-ember/tree/main/carbon-components-ember-mcp#readme) gives coding agents the docs for the version your app has installed: each component's import, arguments, blocks and examples. Add it from your app's directory, for example in Claude Code:
+The package ships an [agent skill](https://agentskills.io) that teaches coding agents to use the components: look each one up rather than guess, write Ember rather than React, and type-check with Glint. It carries every component's import, arguments, blocks and examples for the version your app has installed.
+
+- **pnpm 12.11 or later** links it into your project's agent skills folders, such as `.claude/skills` or `.cursor/skills`, once you approve it: `pnpm approve carbon-components-ember`.
+- **npm and Yarn:** [`skills-npm`](https://github.com/antfu/skills-npm) links it on every install.
+- **Any other agent:** tell it in your `AGENTS.md` to read `node_modules/carbon-components-ember/skills/carbon-components-ember/SKILL.md` before working on the UI.
+
+[`carbon-components-ember-mcp`](https://github.com/IBM/carbon-components-ember/tree/main/carbon-components-ember-mcp#readme) serves the same docs over MCP, and gives agents the skill's instructions when they connect. Add it from your app's directory, for example in Claude Code:
 
 ```sh
 claude mcp add carbon-components-ember -- npx -y carbon-components-ember-mcp
 ```
 
-Its README covers VS Code and Cursor, and the [instructions](https://github.com/IBM/carbon-components-ember/blob/main/carbon-components-ember-mcp/instructions.md) the server gives agents: look components up rather than guess, and type-check what they write with Glint. Copy them into your `AGENTS.md` to give them to every agent.
+Its README covers VS Code and Cursor.
 
 ## Contributing
 

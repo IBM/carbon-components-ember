@@ -233,7 +233,7 @@ Stories live as `src/components/**/<name>.stories.gts` next to their components.
 - Its manifest is generated from component signatures and stories (the ember-storybook patch). An argument's JSDoc, a block's labelled params and a story's description are what agents read, so keep them accurate.
 - `/manifests/components.html` on the running Storybook shows what agents get.
 - Apps get the same tools from `carbon-components-ember-mcp`, which reads the manifest published with each release's docs. Try changes to it against your running Storybook with `node carbon-components-ember-mcp/bin.mjs --manifests http://localhost:6006`.
-- `carbon-components-ember-mcp/instructions.md` is what that server tells apps' agents, and apps copy it into their own AGENTS.md. Update it when a setup step or app-facing convention changes (imports, icons, the wormhole elements).
+- `carbon-components-ember/skills/carbon-components-ember/` is the agent skill apps install with the package, and that server sends its `SKILL.md` as instructions. Update it when a setup step or app-facing convention changes (imports, icons, the wormhole elements). Its `references/components*` are written from the Storybook manifest when the package is packed (`pnpm build:skill`), so they're not committed.
 
 ---
 
