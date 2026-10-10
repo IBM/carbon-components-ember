@@ -22,9 +22,8 @@ export interface AiChatChatButtonSkeletonSignature {
  * Ember port of `@carbon/ai-chat-components`'
  * [`cds-aichat-button-skeleton`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/chat-button).
  * Upstream extends `@carbon/web-components`' `cds-button-skeleton`; this
- * addon has no `ButtonSkeleton` of its own to wrap (a Carbon React parity
- * gap, out of scope here), so this renders the same shimmering pill shape
- * directly with plain markup, styled via `@carbon/styles`' `skeleton`
+ * renders the same shimmering pill shape directly with plain markup rather
+ * than wrapping this addon's `ButtonSkeleton`, styled via `@carbon/styles`' `skeleton`
  * Sass mixin (not the `cds--skeleton` class - that has no standalone CSS
  * rule of its own, it only exists as a compound modifier paired with a
  * specific component's own class like `cds--btn`/`cds--text-input`).

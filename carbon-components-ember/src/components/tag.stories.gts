@@ -1,12 +1,12 @@
 import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
 import preview from '#storybook/preview.ts';
 import Tag from './tag.gts';
+import TagSkeleton from './tag-skeleton.gts';
 import Asleep from './icons/asleep.ts';
 
 import type { TagSignature } from './tag.gts';
 
 // Parity gaps with Carbon React's Tag stories:
-// - `Skeleton`: there is no TagSkeleton component.
 // - No `filter` arg, and no DismissibleTag, OperationalTag or
 //   SelectableTag components (React's separate Tag story files).
 
@@ -138,4 +138,17 @@ export const WithAILabel = meta.story({
       </:decorator>
     </Tag>
   </template>,
+});
+
+export const Skeleton = meta.story({
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          '`TagSkeleton` stands in for the component while its content loads. Its own page has controls for its arguments.',
+      },
+    },
+  },
+  render: () => <template><TagSkeleton /></template>,
 });

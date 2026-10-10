@@ -5,6 +5,7 @@ import { withLayer } from '#storybook/decorators.gts';
 import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
 import preview from '#storybook/preview.ts';
 import TextInput from './text-input.gts';
+import TextInputSkeleton from './text-input-skeleton.gts';
 
 import type { TextInputSignature } from './text-input.gts';
 
@@ -12,7 +13,6 @@ type Args = TextInputSignature['Args'];
 
 // Carbon React parity gaps (Components/TextInput):
 // - `Inline`: no `inline` arg.
-// - `Skeleton`: there is no TextInputSkeleton.
 // - No `labelText` as a node, `xs` size or `TestInvalidTextNoOverlap`
 //   visual-regression story. PasswordInput and FluidTextInput are their own
 //   components with their own stories.
@@ -188,4 +188,17 @@ export const WithAILabel = meta.story({
       </:decorator>
     </TextInput>
   </template>,
+});
+
+export const Skeleton = meta.story({
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          '`TextInputSkeleton` stands in for the component while its content loads. Its own page has controls for its arguments.',
+      },
+    },
+  },
+  render: () => <template><TextInputSkeleton /></template>,
 });

@@ -4,11 +4,11 @@ import { expect, fn } from 'storybook/test';
 import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
 import preview from '#storybook/preview.ts';
 import Checkbox from './checkbox.gts';
+import CheckboxSkeleton from './checkbox-skeleton.gts';
 
 // Carbon React parity gaps (Components/Checkbox):
 // - `Default` / `Horizontal`: there is no CheckboxGroup (legend, helper
 //   text, orientation, invalid/warn states for a set of checkboxes).
-// - `Skeleton`: there is no CheckboxSkeleton.
 // - `withAILabel`: without a CheckboxGroup there is no label on a group;
 //   the story shows labels on single checkboxes.
 // - Checkbox itself has no `helperText`, `invalid`/`invalidText`,
@@ -175,4 +175,17 @@ export const WithAILabel = meta.story({
       </div>
     </div>
   </template>,
+});
+
+export const Skeleton = meta.story({
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          '`CheckboxSkeleton` stands in for the component while its content loads.',
+      },
+    },
+  },
+  render: () => <template><CheckboxSkeleton /></template>,
 });

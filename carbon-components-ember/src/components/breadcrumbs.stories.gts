@@ -2,13 +2,13 @@ import { expect, fn } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Breadcrumbs from './breadcrumbs.gts';
+import BreadcrumbSkeleton from './breadcrumb-skeleton.gts';
 
 // Carbon React parity gaps (Components/Breadcrumb):
 // - Crumbs are plain strings that report clicks through `@onSelect`; there
 //   is no BreadcrumbItem with its own `href`, so items can't be real links.
 // - `BreadcrumbWithOverflowMenu` / `...SizeSmall`: no overflow menu and no
 //   `size` arg.
-// - `Skeleton`: there is no BreadcrumbSkeleton.
 // - `noTrailingSlash` is always on.
 const meta = preview.meta({
   title: 'Components/Breadcrumb',
@@ -58,4 +58,17 @@ CurrentPage.test('marks the current crumb', async ({ canvas }) => {
   await expect(
     canvas.getByRole('link', { name: 'Breadcrumb 3' }),
   ).toHaveAttribute('aria-current', 'true');
+});
+
+export const Skeleton = meta.story({
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          '`BreadcrumbSkeleton` stands in for the component while its content loads. Its own page has controls for its arguments.',
+      },
+    },
+  },
+  render: () => <template><BreadcrumbSkeleton /></template>,
 });

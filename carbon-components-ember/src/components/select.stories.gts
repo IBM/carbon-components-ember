@@ -4,6 +4,7 @@ import { expect, fn, waitFor, within } from 'storybook/test';
 import { withLayer } from '#storybook/decorators.gts';
 import preview from '#storybook/preview.ts';
 import Select from './select.gts';
+import SelectSkeleton from './select-skeleton.gts';
 
 import type { SelectSignature } from './select.gts';
 
@@ -13,7 +14,6 @@ const FRUITS = ['Apple', 'Banana', 'Cherry', 'Durian', 'Elderberry'];
 // native `<select>` of SelectItem/SelectItemGroup options; this Select is a
 // custom listbox built on ember-power-select (see `SelectItem` and
 // `SelectItemGroup` for the native option elements).
-// - `Skeleton`: there is no SelectSkeleton.
 // - `withAILabel`: Select's field renders inside ember-power-select's
 //   trigger, so an AI label there would be a button inside a combobox.
 // - No `invalid`/`invalidText`, `warn`/`warnText`, `readOnly`, `size` or
@@ -182,3 +182,16 @@ export const Disabled = meta.story({
 });
 
 export const WithLayer = Default.extend({ decorators: [withLayer] });
+
+export const Skeleton = meta.story({
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          '`SelectSkeleton` stands in for the component while its content loads. Its own page has controls for its arguments.',
+      },
+    },
+  },
+  render: () => <template><SelectSkeleton /></template>,
+});

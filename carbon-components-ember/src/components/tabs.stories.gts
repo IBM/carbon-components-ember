@@ -5,6 +5,7 @@ import preview from '#storybook/preview.ts';
 import Button from './button.gts';
 import TabContent from './tab-content.gts';
 import Tabs from './tabs.gts';
+import TabsSkeleton from './tabs-skeleton.gts';
 import Activity from './icons/activity.ts';
 import CloudMonitoring from './icons/cloud-monitoring.ts';
 import Dashboard from './icons/dashboard.ts';
@@ -25,7 +26,6 @@ import type Icon from './icon.gts';
 //   `selectedIndex`.
 // - React's TabList/Tab/TabPanels/TabPanel split is a single TabPane here:
 //   each yielded TabPane is both the tab and its panel.
-// - `Skeleton` uses `@loading` on Tabs rather than a TabsSkeleton component.
 // - Nothing is selected initially unless a TabPane sets `@isDefault` (React
 //   selects the first tab), so the stories mark their first tab.
 
@@ -351,7 +351,16 @@ export const ContainedFullWidth = meta.story({
 });
 
 export const Skeleton = meta.story({
-  render: () => <template><Tabs @loading={{true}} /></template>,
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          '`TabsSkeleton` stands in for the component while its content loads. Its own page has controls for its arguments. `<Tabs @loading={{true}} />` renders the same placeholder.',
+      },
+    },
+  },
+  render: () => <template><TabsSkeleton /></template>,
 });
 
 // `@size` accepts `sm` and `md` for line tabs; `lg` only takes effect when

@@ -3,11 +3,11 @@ import { expect, fn } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import ProgressIndicator from './progress-indicator.gts';
+import ProgressIndicatorSkeleton from './progress-indicator-skeleton.gts';
 
 import type { ProgressIndicatorSignature } from './progress-indicator.gts';
 
 // Parity gaps with Carbon React's ProgressIndicator stories:
-// - `Skeleton`: there is no ProgressIndicatorSkeleton component.
 // - ProgressStep has no `current` arg; the current step is always the one at
 //   `@currentIndex`.
 
@@ -115,4 +115,17 @@ export const Vertical = meta.story({
     currentIndex: 1,
     vertical: true,
   },
+});
+
+export const Skeleton = meta.story({
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          '`ProgressIndicatorSkeleton` stands in for the component while its content loads. Its own page has controls for its arguments.',
+      },
+    },
+  },
+  render: () => <template><ProgressIndicatorSkeleton /></template>,
 });

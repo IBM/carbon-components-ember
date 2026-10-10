@@ -3,13 +3,13 @@ import { expect, fn } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Toggle from './toggle.gts';
+import ToggleSkeleton from './toggle-skeleton.gts';
 
 // Carbon React parity gaps (Components/Toggle):
 // - The label is `@name`; there is no `labelText`/`hideLabel`, and the
 //   state text is always "On"/"Off" (no `labelA`/`labelB`).
 // - `WithAccessibleLabels`: Toggle doesn't spread `...attributes`, so it
 //   can't be labelled with `aria-labelledby`, and there's no `hideLabel`.
-// - `Skeleton`: there is no ToggleSkeleton.
 // - React's `toggled`/`defaultToggled` + `onToggle` are a single controlled
 //   `@value` + `@onChange` here; there is no uncontrolled mode.
 const meta = preview.meta({
@@ -113,4 +113,17 @@ ReadOnly.test('ignores clicks', async ({ canvas, userEvent, args }) => {
   await userEvent.click(toggle);
   await expect(toggle).not.toBeChecked();
   await expect(args.onChange).not.toHaveBeenCalled();
+});
+
+export const Skeleton = meta.story({
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          '`ToggleSkeleton` stands in for the component while its content loads.',
+      },
+    },
+  },
+  render: () => <template><ToggleSkeleton /></template>,
 });

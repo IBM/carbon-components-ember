@@ -10,6 +10,8 @@ import didResize from 'ember-resize-modifier/modifiers/did-resize';
 import { modifier as eModifier } from 'ember-modifier';
 import { runTask } from 'ember-lifeline';
 
+import TabsSkeleton from './tabs-skeleton.gts';
+
 export interface TabPaneSignature {
   Element: HTMLDivElement;
   Args: {
@@ -336,38 +338,7 @@ export default class Tabs extends Component<TabsSignature> {
   <template>
     {{#if @loading}}
       <div ...attributes>
-        <div
-          class="cds--tabs cds--skeleton
-            {{if @contained 'cds--tabs--contained'}}"
-        >
-          <ul class="cds--tabs__nav">
-            <li class="cds--tabs__nav-item">
-              <div class="cds--tabs__nav-link">
-                <span></span>
-              </div>
-            </li>
-            <li class="cds--tabs__nav-item">
-              <div class="cds--tabs__nav-link">
-                <span></span>
-              </div>
-            </li>
-            <li class="cds--tabs__nav-item">
-              <div class="cds--tabs__nav-link">
-                <span></span>
-              </div>
-            </li>
-            <li class="cds--tabs__nav-item">
-              <div class="cds--tabs__nav-link">
-                <span></span>
-              </div>
-            </li>
-            <li class="cds--tabs__nav-item">
-              <div class="cds--tabs__nav-link">
-                <span></span>
-              </div>
-            </li>
-          </ul>
-        </div>
+        <TabsSkeleton @contained={{@contained}} />
       </div>
     {{else}}
       <div

@@ -60,11 +60,11 @@ function createIndexFiles() {
     if (comp.includes('grid/settings')) {
       camelCased = 'GridSettings';
     }
+    if (/^components\/ai-(?!chat\/)/.test(comp)) {
+      camelCased = 'AI' + camelCased.slice(2);
+    }
     if (comp.split('/').at(-1) === 'ui-shell.gts') {
       camelCased = 'UIShell';
-    }
-    if (comp.split('/').at(-1) === 'ai-label.gts') {
-      camelCased = 'AILabel';
     }
     if (comp.includes('toggletip/')) {
       camelCased = 'Toggletip' + camelCased;

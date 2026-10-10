@@ -3,11 +3,11 @@ import { expect } from 'storybook/test';
 import { withLayer } from '#storybook/decorators.gts';
 import preview from '#storybook/preview.ts';
 import Accordion from './accordion.gts';
+import AccordionSkeleton from './accordion-skeleton.gts';
 
 // Carbon React parity gaps (Components/Accordion):
 // - `Controlled`: AccordionItem has no `onHeadingClick` callback, so the
 //   open state can't be driven from outside per item.
-// - `Skeleton`: there is no AccordionSkeleton.
 // - Accordion has no `size`, `isFlush` or `ordered` args; AccordionItem's
 //   `title` is a string only (React accepts a node) and its `isDisabled`
 //   arg is accepted but not rendered.
@@ -129,3 +129,20 @@ Disabled.test('disables every heading', async ({ canvas }) => {
 });
 
 export const WithLayer = Default.extend({ decorators: [withLayer] });
+
+export const Skeleton = meta.story({
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          '`AccordionSkeleton` stands in for the component while its content loads. Its own page has controls for its arguments.',
+      },
+    },
+  },
+  render: () => <template>
+    <div style="width: 500px">
+      <AccordionSkeleton @open={{true}} @count={{4}} />
+    </div>
+  </template>,
+});

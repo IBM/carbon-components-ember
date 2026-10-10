@@ -5,13 +5,13 @@ import { withLayer } from '#storybook/decorators.gts';
 import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
 import preview from '#storybook/preview.ts';
 import DatePicker from './date-picker.gts';
+import DatePickerSkeleton from './date-picker-skeleton.gts';
 import DatePickerInput from './date-picker-input.gts';
 
 import type { DatePickerSignature } from './date-picker.gts';
 import type { DatePickerInputSignature } from './date-picker-input.gts';
 
 // Carbon React parity gaps (Components/DatePicker):
-// - `Skeleton`: there is no DatePickerSkeleton.
 // - No `locale`, `inline`, `disable`/`enable` date lists or
 //   `parseDate`/`invalidText` per-picker args.
 
@@ -289,4 +289,17 @@ export const WithAILabel = meta.story({
       </Input>
     </DatePicker>
   </template>,
+});
+
+export const Skeleton = meta.story({
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          '`DatePickerSkeleton` stands in for the component while its content loads. Its own page has controls for its arguments.',
+      },
+    },
+  },
+  render: () => <template><DatePickerSkeleton @range={{true}} /></template>,
 });

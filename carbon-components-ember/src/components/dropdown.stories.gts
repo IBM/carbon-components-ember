@@ -6,6 +6,7 @@ import { withLayer } from '#storybook/decorators.gts';
 import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
 import preview from '#storybook/preview.ts';
 import Dropdown from './dropdown.gts';
+import DropdownSkeleton from './dropdown-skeleton.gts';
 
 import type { DropdownSignature } from './dropdown.gts';
 
@@ -13,7 +14,6 @@ import type { DropdownSignature } from './dropdown.gts';
 // - Items can't be disabled (React's `Option 3` is `disabled: true`).
 // - `ExperimentalAutoAlign`: no `autoAlign`; the menu opens downwards or,
 //   with `@direction="top"`, upwards.
-// - `Skeleton`: there is no DropdownSkeleton.
 // - No `renderSelectedItem`, `translateWithId` or `downshiftProps`; a block
 //   can render each item instead.
 
@@ -236,3 +236,20 @@ export const WithAILabel = meta.story({
 });
 
 export const WithLayer = Default.extend({ decorators: [withLayer] });
+
+export const Skeleton = meta.story({
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          '`DropdownSkeleton` stands in for the component while its content loads. Its own page has controls for its arguments.',
+      },
+    },
+  },
+  render: () => <template>
+    <div style="width: 300px">
+      <DropdownSkeleton />
+    </div>
+  </template>,
+});
