@@ -129,13 +129,17 @@ export function manifestProvider(location) {
   };
 }
 
+/** How to use the components; the README offers it for AGENTS.md too. */
+export const instructions = () =>
+  fs.readFile(new URL('./instructions.md', import.meta.url), 'utf-8');
+
 export async function createServer(label) {
   const server = new McpServer(
     { name: pkg.name, version: pkg.version, description: `Docs for ${label}` },
     {
       adapter: new ValibotJsonSchemaAdapter(),
       capabilities: { tools: { listChanged: true } },
-      instructions: `These are the docs for ${label}: IBM's Carbon Design System as Ember components. They are Glimmer components, invoked with angle brackets and @ arguments in .gts templates; each component's docs show its import and its arguments.\n\n${STORYBOOK_MCP_INSTRUCTIONS}`,
+      instructions: `These tools serve the docs for ${label}.\n\n${await instructions()}\n${STORYBOOK_MCP_INSTRUCTIONS}`,
     },
   ).withContext();
 

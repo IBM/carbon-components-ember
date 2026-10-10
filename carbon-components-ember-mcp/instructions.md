@@ -1,0 +1,10 @@
+## carbon-components-ember
+
+This app's UI uses carbon-components-ember: IBM's Carbon Design System as Ember components.
+
+- **Look components up before using them.** The carbon-components-ember MCP server's `docs-list` tool lists the components; `docs-show` gives one component's import, arguments, blocks and examples. Use only what it documents. Without the server, read the component's signature in `node_modules/carbon-components-ember/declarations/components/<name>.d.ts`.
+- **Templates.** Components are invoked with angle brackets in `.gts` templates. They take `@` arguments, callbacks included (`@onChange`), and blocks for their content. They forward `...attributes`, so `class`, `aria-*` and modifiers such as `{{on "click"}}` go on the component itself.
+- **Icons are components.** Import each one from `carbon-components-ember/components/icons/<name>` and give it a `@size`: `import CheckmarkFilled from 'carbon-components-ember/components/icons/checkmark-filled'`, then `<CheckmarkFilled @size="16" />`.
+- **Coming from Carbon React?** The API follows it: a prop is an `@` argument with the same name and values (`labelText` is `@labelText`), `children` are blocks, and an icon's module is its `@carbon/icons-react` name in kebab case. A few components don't match React yet, so check `docs-show` rather than assume.
+- **Type-check what you write.** After editing `.gts` files, run the app's Glint check (`ember-tsc --noEmit`, often the `lint:types` script) and fix every error. Glint checks each component's arguments, blocks and attributes, so an error there usually means a wrong or misspelled argument. Look the component up again rather than casting the error away.
+- **Setup.** The app loads `@carbon/styles/css/styles.css` and `carbon-components-ember/styles.scss` once, and its application template renders `<div id="ember-basic-dropdown-wormhole"></div>` and `<div id="carbon-components-dialog-id"></div>`. If a Dropdown's menu or a confirmation dialog doesn't appear, check these first.
