@@ -6,6 +6,8 @@ import Loading from '../components/loading.gts';
 import renderSvgPart from '../components/icon/render-svg-part.ts';
 import { stylesheet } from 'astroturf';
 import type DialogManagerService from '../services/dialog-manager.ts';
+import Confirm from '../components/dialogs/confirm.gts';
+import type ConfirmDialog from '../components/dialogs/confirm.gts';
 
 /** An icon descriptor from `@carbon/icons` (e.g. `@carbon/icons/es/add/16`). */
 export type IconType = {
@@ -44,9 +46,10 @@ export interface IconSignature {
      */
     confirmText?: string;
     /**
-     * Use this component as dialog
+     * The confirmation dialog to show for `@danger`, instead of the built-in
+     * one. It receives `@onAccept`, `@onCancel`, `@header`, `@body` and `@type`.
      */
-    confirmDialog?: string;
+    confirmDialog?: typeof ConfirmDialog;
     /**
      * Use this icon to display
      */
@@ -100,6 +103,7 @@ export default class Icon extends Component<IconSignature> {
   dialogManager!: DialogManagerService;
   @tracked loading: boolean = false;
   @tracked disabled: boolean = false;
+  @tracked showDialog = false;
 
   get classes() {
     const classes: string[] = [];
@@ -116,38 +120,35 @@ export default class Icon extends Component<IconSignature> {
     return this.args.icon;
   }
 
-  onIconClick = () => {
-    const run = () => {
-      const promise = this.args.onClick && this.args.onClick();
-      this.loading = true;
-      this.disabled = true;
-      if (promise && promise.then) {
-        const finish = () => {
-          this.loading = false;
-          this.disabled = false;
-        };
-        promise.then(finish, finish);
-      } else {
-        setTimeout(() => {
-          if (this.isDestroyed) return;
-          this.loading = false;
-          this.disabled = false;
-        }, 350);
-      }
-    };
-    if (this.args.danger) {
-      this.dialogManager.open(
-        this.args.confirmDialog ||
-          'carbon-components-ember/components/dialogs/confirm.gts',
-        {
-          type: 'danger',
-          header: 'Danger',
-          body: this.args.confirmText || 'Confirm this operation',
-          onAccept: run,
-        },
-      );
+  run = () => {
+    this.showDialog = false;
+    const promise = this.args.onClick && this.args.onClick();
+    this.loading = true;
+    this.disabled = true;
+    if (promise && promise.then) {
+      const finish = () => {
+        this.loading = false;
+        this.disabled = false;
+      };
+      promise.then(finish, finish);
     } else {
-      run();
+      setTimeout(() => {
+        if (this.isDestroyed) return;
+        this.loading = false;
+        this.disabled = false;
+      }, 350);
+    }
+  };
+
+  cancel = () => {
+    this.showDialog = false;
+  };
+
+  onIconClick = () => {
+    if (this.args.danger) {
+      this.showDialog = true;
+    } else {
+      this.run();
     }
   };
 
@@ -199,6 +200,19 @@ export default class Icon extends Component<IconSignature> {
 
   // eslint-disable-next-line ember/template-require-splattributes -- the svg comes from a helper; use @svgClass
   <template>
+    {{#if this.showDialog}}
+      {{#let (or @confirmDialog Confirm) as |Dialog|}}
+        {{#in-element this.dialogManager.destinationElement}}
+          <Dialog
+            @onAccept={{this.run}}
+            @onCancel={{this.cancel}}
+            @header="Danger"
+            @body={{or @confirmText "Confirm this operation"}}
+            @type="danger"
+          />
+        {{/in-element}}
+      {{/let}}
+    {{/if}}
     {{#if (or @loading this.loading)}}
       <span class={{this.styles.loading}}>
         <Loading

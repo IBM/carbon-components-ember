@@ -11,9 +11,7 @@ import type { IconSignature } from './icon.gts';
 // `@carbon/icons-react` components directly). The equivalents here are the
 // generated icon components exported from `carbon-components-ember/icons`
 // (each one is an `Icon` with its SVG lazily imported per size), plus the
-// base `Icon` for SVGs registered by name. Not demoed: `@danger`, which
-// opens a confirmation dialog through the `carbon.dialog-manager` service and
-// needs an app-level dialog outlet.
+// base `Icon` for SVGs registered by name.
 
 registerIcon('bookmark', BookmarkSvg);
 
@@ -97,6 +95,47 @@ Clickable.test(
   async ({ canvas, userEvent, args }) => {
     const button = await canvas.findByRole('button', { name: 'Add task' });
     await userEvent.click(button);
+    await expect(args.onClick).toHaveBeenCalledOnce();
+  },
+);
+
+export const Danger = meta.story({
+  args: {
+    onClick: fn(),
+    confirmText: 'Do you really want to delete this?',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "With `@danger`, the icon runs `@onClick` only after the user confirms in a modal showing `@confirmText`. The modal renders into the dialog manager's destination element (`#carbon-components-dialog-id`), which the app adds to its application template.",
+      },
+    },
+  },
+  render: (args) => <template>
+    <Icons.TrashCan
+      @onClick={{args.onClick}}
+      @iconDescription="Delete"
+      @danger={{true}}
+      @confirmText={{args.confirmText}}
+    />
+    <div id="carbon-components-dialog-id"></div>
+  </template>,
+});
+
+Danger.test(
+  'asks for confirmation before calling onClick',
+  async ({ canvas, userEvent, args }) => {
+    await userEvent.click(
+      await canvas.findByRole('button', { name: 'Delete' }),
+    );
+    await expect(
+      await canvas.findByText('Do you really want to delete this?'),
+    ).toBeInTheDocument();
+    await expect(args.onClick).not.toHaveBeenCalled();
+
+    // The dialog's accept button, named by its text.
+    await userEvent.click(canvas.getByRole('button', { name: 'Okay' }));
     await expect(args.onClick).toHaveBeenCalledOnce();
   },
 );
