@@ -1,5 +1,9 @@
 # dom-parity
 
+Compares carbon-components-ember with a pinned `@carbon/react` release: its
+rendered DOM (below) and its components' arguments
+([Argument parity](#argument-parity)).
+
 DOM-level parity fixtures for `carbon-components-ember`.
 
 Renders a pinned `@carbon/react` release with `react-dom/client` (in jsdom,
@@ -68,13 +72,64 @@ recorded per component.
    value, like `cds--btn--lg`, only needs one entry per distinct value, not
    one per variant that happens to use that value).
 
+## Argument parity
+
+`arg-parity.mjs` compares each component's arguments with the props of the
+Carbon React component of the same name. It reads both libraries'
+TypeScript types: `@carbon/react`'s declarations, and the addon's
+signatures, which it emits with `ember-tsc` first (a few seconds).
+
+```sh
+pnpm --filter dom-parity args                     # components that differ
+pnpm --filter dom-parity args --component Button  # one component
+pnpm --filter dom-parity args --check             # what CI runs
+pnpm --filter dom-parity args --update            # record the differences
+```
+
+For each component it reports:
+
+- **missing:** props Carbon React declares that we take as neither an
+  argument nor a block. Deprecated props don't count, nor do props Ember
+  takes another way: `children` (blocks), refs (`ref`, `innerRef` and
+  `*Ref`: Ember passes an element or a modifier), DOM event handlers that
+  take only the event (`{{on}}`), and `className`, `aria-*`, `data-*`,
+  `role`, `style`, `tabIndex` and the HTML attributes React inherits
+  (`...attributes`). Neither do props a polymorphic component passes on to
+  the component it renders by default (Tooltip's Popover props).
+- **extra:** arguments React has no prop for. Arguments a parent binds
+  when it yields the component (`WithBoundArgs`) don't count; they're
+  Ember's stand-in for React context.
+- **values:** arguments whose fixed values differ from React's, such as a
+  `size` missing `"xs"`.
+
+`known-arg-differences.json` lists today's differences. `--check` fails on
+a difference that isn't listed and on a listed one that's been fixed, so
+the list stays the parity to-do list: fix the difference, or run
+`--update` and say why in the PR.
+
+`accepted-arg-differences.json` records deliberate differences with their
+reason, keyed by component and category, such as an HTML attribute Carbon
+re-declares that the component passes through `...attributes` without
+needing its value:
+
+```json
+{
+  "NumberInput": {
+    "missing": { "pattern": "Goes on the input through ...attributes." }
+  }
+}
+```
+
+They're left out of the comparison, and `--check` fails on an accepted
+difference that no longer differs.
+
 ## Version pinning
 
 `@carbon/react` is pinned in `pnpm-workspace.yaml`'s `carbon` catalog,
 alongside the `@carbon/styles`, icons and other Carbon packages the addon
 uses, since they share the class and markup generation. Dependabot ignores
 the catalog: upgrade it by hand, in one change led by `@carbon/react`, then
-rerun `generate`. AGENTS.md ("Upgrading Carbon and TypeScript") says where
+rerun `generate` and `args`. AGENTS.md ("Upgrading Carbon and TypeScript") says where
 each package's version comes from; start with:
 
 ```sh

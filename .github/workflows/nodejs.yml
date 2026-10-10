@@ -50,6 +50,14 @@ jobs:
           for p in $PACKAGES; do pnpm --filter "$p" lint || status=1; done
           exit $status
 
+      - name: Compare arguments with Carbon React
+        if: ${{ !cancelled() && needs.changes.outputs.addon == 'true' }}
+        run: pnpm --filter dom-parity args --check
+
+      - name: Test dom-parity
+        if: ${{ !cancelled() && contains(needs.changes.outputs.packages, 'dom-parity') }}
+        run: pnpm --filter dom-parity test
+
   mcp:
     name: MCP server
     needs: changes
