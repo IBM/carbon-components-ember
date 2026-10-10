@@ -93,7 +93,7 @@ For each component it reports:
   takes another way: `children` (blocks), refs (`ref`, `innerRef` and
   `*Ref`: Ember passes an element or a modifier), DOM event handlers that
   take only the event (`{{on}}`), and `className`, `aria-*`, `data-*`,
-  `role`, `tabIndex` and the HTML attributes React inherits
+  `role`, `style`, `tabIndex` and the HTML attributes React inherits
   (`...attributes`). Neither do props a polymorphic component passes on to
   the component it renders by default (Tooltip's Popover props).
 - **extra:** arguments React has no prop for. Arguments a parent binds

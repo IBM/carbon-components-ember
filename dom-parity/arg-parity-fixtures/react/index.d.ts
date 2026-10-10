@@ -6,6 +6,7 @@ import type {
   ChangeEvent,
   ComponentPropsWithoutRef,
   ComponentPropsWithRef,
+  CSSProperties,
   ElementType,
   FC,
   ForwardRefExoticComponent,
@@ -26,6 +27,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   labelText?: ReactNode;
   containerRef?: RefObject<HTMLDivElement | null>;
   'aria-label'?: string;
+  style?: CSSProperties;
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   onChange?: (
     event: ChangeEvent<HTMLButtonElement>,

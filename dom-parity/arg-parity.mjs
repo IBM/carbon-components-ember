@@ -36,7 +36,7 @@ export const IDIOMS = new Set(['children', 'className', 'key']);
 export const isIdiom = (name, prop) =>
   IDIOMS.has(name) ||
   /^ref$|Ref$/.test(name) ||
-  /^(aria|data)-|^(role|tabIndex)$/.test(name) ||
+  /^(aria|data)-|^(role|style|tabIndex)$/.test(name) ||
   prop.domEvent;
 
 const CATEGORIES = ['missing', 'extra', 'values'];
@@ -50,7 +50,8 @@ component of the same name, in the @carbon/react version dom-parity pins:
            a block. Deprecated props don't count, nor do props Ember takes
            another way: children (blocks), refs (elements or modifiers),
            DOM event handlers ({{on}}), and className, aria-*, data-*, role,
-           tabIndex and the HTML attributes React inherits (...attributes)
+           style, tabIndex and the HTML attributes React inherits
+           (...attributes)
   extra    arguments React has no prop for, other than those a parent binds
            when it yields the component
   values   arguments whose values differ from React's

@@ -35,7 +35,7 @@ test('compares the components both libraries have', () => {
 
 test("reports React's props we lack, our extra arguments and values", () => {
   assert.deepEqual(compare().get('Button'), {
-    // Not children, className, aria-label, containerRef, the inherited HTML
+    // Not children, className, aria-label, style, containerRef, the inherited HTML
     // attributes, the deprecated light, or onClick (a DOM event, so {{on}});
     // labelText is a block. onChange is a DOM event name but also takes
     // data, and onExpand isn't a DOM event.
