@@ -53,9 +53,9 @@ Other agents take the same command: `npx -y carbon-components-ember-mcp`.
 
 ## Instructions for your agent
 
-When an agent connects, the server sends it [instructions](https://github.com/IBM/carbon-components-ember/blob/main/carbon-components-ember-mcp/instructions.md) for using the components: to look each one up before using it and type-check the result with Glint, how templates and icons work, and how Carbon React's props map onto arguments. Agents that support MCP server instructions, such as Claude Code, add them to their context.
+When an agent connects, the server sends it the [agent skill](https://github.com/IBM/carbon-components-ember/blob/main/carbon-components-ember/skills/carbon-components-ember/SKILL.md) that ships with the installed carbon-components-ember: to look each component up before using it and type-check the result with Glint, how templates and icons work, and how Carbon React's props map onto arguments. Agents that support MCP server instructions, such as Claude Code, add them to their context. A release without the skill gets a short summary instead.
 
-To give every agent on your app these instructions, whether or not it uses the server, copy them into your `AGENTS.md`, `CLAUDE.md` or `.github/copilot-instructions.md`.
+The skill works without the server too: carbon-components-ember's [README](https://github.com/IBM/carbon-components-ember#use-with-ai-agents) says how to install it.
 
 ## Which docs it serves
 

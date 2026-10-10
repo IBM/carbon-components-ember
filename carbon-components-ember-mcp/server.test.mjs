@@ -7,7 +7,7 @@ import { test } from 'node:test';
 
 import {
   DOCS_URL,
-  installedVersion,
+  installedAddon,
   instructions,
   manifestProvider,
   releaseUrl,
@@ -28,7 +28,43 @@ test('finds the installed carbon-components-ember above a directory', async (t) 
   const nested = path.join(project, 'app', 'components');
   await fs.mkdir(nested, { recursive: true });
 
-  assert.equal(await installedVersion(nested), '3.1.0');
+  assert.deepEqual(await installedAddon(nested), {
+    root: addon,
+    version: '3.1.0',
+  });
+});
+
+test("sends the installed version's skill as instructions", async (t) => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'cce-mcp-'));
+  t.after(() => fs.rm(root, { recursive: true }));
+
+  assert.match(await instructions({ root }), /Carbon Design System as Ember/);
+
+  const skill = path.join(root, 'skills', 'carbon-components-ember');
+  await fs.mkdir(skill, { recursive: true });
+  await fs.writeFile(
+    path.join(skill, 'SKILL.md'),
+    '---\nname: carbon-components-ember\ndescription: Use it.\n---\n\n# Use it\n\nSee [the list](references/components.md), [this](#use-it) and [Carbon](https://carbondesignsystem.com).\n',
+  );
+  assert.equal(
+    await instructions({ root }),
+    `# Use it\n\nSee [the list](${path.join(skill, 'references/components.md')}), [this](#use-it) and [Carbon](https://carbondesignsystem.com).\n`,
+  );
+});
+
+test("reads the addon's own skill", async () => {
+  const root = path.join(import.meta.dirname, '..', 'carbon-components-ember');
+  const text = await instructions({ root });
+
+  assert.match(text, /^# carbon-components-ember\n/);
+  assert.ok(
+    text.includes(
+      path.join(
+        root,
+        'skills/carbon-components-ember/references/components.md',
+      ),
+    ),
+  );
 });
 
 test("serves a release's docs when they're published, else main's", async (t) => {
@@ -114,7 +150,11 @@ test("serves Storybook's docs tools over stdio", async (t) => {
   });
   assert.equal(init.serverInfo.name, 'carbon-components-ember-mcp');
   assert.match(init.instructions, /docs for carbon-components-ember/);
-  assert.ok(init.instructions.includes(await instructions()));
+  assert.ok(
+    init.instructions.includes(
+      await instructions(await installedAddon(process.cwd())),
+    ),
+  );
   client.notify('notifications/initialized');
 
   const { result: tools } = await client.request('tools/list', {});
@@ -150,7 +190,7 @@ test('publishes the files the server reads', () => {
     ),
   );
   const packed = files.map((file) => file.path);
-  for (const file of ['bin.mjs', 'server.mjs', 'instructions.md']) {
+  for (const file of ['bin.mjs', 'server.mjs']) {
     assert.ok(packed.includes(file), `${file} isn't published`);
   }
 });

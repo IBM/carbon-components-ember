@@ -78,6 +78,11 @@ jobs:
       - name: Build Storybook
         run: pnpm build:storybook
 
+      # Packing the addon writes its agent skill's references from this
+      # build; fail here, not at release, if the manifest stops fitting.
+      - name: Write the skill's component references
+        run: pnpm --filter carbon-components-ember create-skill-references
+
       # The deploy below publishes this build rather than building again.
       - name: Upload the site
         if: github.ref == 'refs/heads/main' || github.ref_type == 'tag'
