@@ -21,7 +21,7 @@ const meta = preview.type<{ args: DropdownSkeletonSignature['Args'] }>().meta({
     size: 'md',
   },
   argTypes: {
-    size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
+    size: { control: 'inline-radio', options: ['xs', 'sm', 'md', 'lg'] },
   },
   render: (args) => <template>
     <div style="width: 300px">

@@ -12,7 +12,8 @@ import type { TOC } from '@ember/component/template-only';
 export interface TagSkeletonSignature {
   Element: HTMLSpanElement;
   Args: {
-    size?: 'sm' | 'md' | 'lg';
+    /** `sm`, or leave it out for the default size. */
+    size?: 'sm';
   };
 }
 

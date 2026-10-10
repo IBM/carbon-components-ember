@@ -25,4 +25,16 @@ module('Integration | Component | ButtonSkeleton', (hooks) => {
       .hasClass('cds--btn--sm')
       .hasClass('cds--layout--size-sm');
   });
+
+  test('should render a link with @href', async function (assert) {
+    await render(<template><ButtonSkeleton @href="/save" /></template>);
+
+    assert
+      .dom('a.cds--skeleton.cds--btn')
+      .hasClass('cds--btn--lg')
+      .hasClass('cds--layout--size-lg')
+      .hasAttribute('href', '/save')
+      .hasAttribute('role', 'button');
+    assert.dom('div.cds--btn').doesNotExist();
+  });
 });

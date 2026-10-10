@@ -14,7 +14,7 @@ export interface DropdownSkeletonSignature {
   Args: {
     /** Leaves out the label placeholder. */
     hideLabel?: boolean;
-    size?: 'sm' | 'md' | 'lg';
+    size?: 'xs' | 'sm' | 'md' | 'lg';
   };
 }
 

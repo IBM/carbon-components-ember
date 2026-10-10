@@ -8,8 +8,10 @@
 import type { TOC } from '@ember/component/template-only';
 
 export interface ButtonSkeletonSignature {
-  Element: HTMLDivElement;
+  Element: HTMLDivElement | HTMLAnchorElement;
   Args: {
+    /** Renders the placeholder as a link to this URL, as Carbon React's does. */
+    href?: string;
     /** Defaults to `lg`. */
     size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   };
@@ -17,11 +19,23 @@ export interface ButtonSkeletonSignature {
 
 /** A loading placeholder for a `Button`. */
 const ButtonSkeleton: TOC<ButtonSkeletonSignature> = <template>
-  <div
-    class="cds--skeleton cds--btn cds--btn--{{if @size @size 'lg'}}
-      cds--layout--size-{{if @size @size 'lg'}}"
-    ...attributes
-  ></div>
+  {{#if @href}}
+    {{! An empty placeholder where the link will be, as in Carbon React. }}
+    {{! eslint-disable-next-line ember/template-no-invalid-link-text }}
+    <a
+      class="cds--skeleton cds--btn cds--btn--{{if @size @size 'lg'}}
+        cds--layout--size-{{if @size @size 'lg'}}"
+      href={{@href}}
+      role="button"
+      ...attributes
+    ></a>
+  {{else}}
+    <div
+      class="cds--skeleton cds--btn cds--btn--{{if @size @size 'lg'}}
+        cds--layout--size-{{if @size @size 'lg'}}"
+      ...attributes
+    ></div>
+  {{/if}}
 </template>;
 
 export default ButtonSkeleton;
