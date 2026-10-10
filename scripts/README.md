@@ -43,6 +43,24 @@ node parity-check.mjs --source carbon-ai-chat --mark-synced Launcher   # source-
 - `--source <id>` - scope the run to a single source: the main fetch/compare/report/issue-creation pipeline, as well as `--mark-synced` (default source for that flag: `react`); valid ids are the `id` fields in `SOURCES`. Omit it to run every configured source.
 - `--mark-synced Name1,Name2` / `--exclude Name --reason "..."` / `--include Name` / `--list-exclusions` - unchanged, see below (exclusions are a single flat list shared across sources, since upstream naming conventions don't currently collide - PascalCase React directories vs. kebab-case carbon-ai-chat ones)
 
+### story-parity.mjs
+
+Compares our Storybook with [Carbon React's](https://react.carbondesignsystem.com/), story by story. A React story counts as matched when we have a story of the same name on the page with the same title, ignoring case, spaces and punctuation. Feature-flag, deprecated and hook pages, and React's visual-snapshot stories, aren't tracked (`SKIPPED` lists them, with reasons).
+
+```bash
+node scripts/story-parity.mjs                                    # against main's deployed Storybook
+node scripts/story-parity.mjs --title "Components/Button"        # one page
+node scripts/story-parity.mjs --ember carbon-components-ember/storybook-static/index.json   # a local build
+node scripts/story-parity.mjs --json                             # for other tools
+```
+
+It runs in two places:
+
+- **Every Storybook build** (`docs.yml`): `--summary` writes how many React stories the build matches, and which it gained or lost against main's, to the job summary, and warns about any it lost.
+- **The weekly parity check**: `parity-check.mjs` adds a "Stories" section to `PARITY_REPORT.md` and records the matched count and the missing stories per page under `sources.react.stories` in `.parity-check-data.json`. Set `EMBER_STORYBOOK_INDEX` to compare a local build instead of main's.
+
+`pnpm --filter scripts test` runs its tests.
+
 ### fix-parity-issue.sh
 
 Local script to investigate and fix parity issues using agent.
