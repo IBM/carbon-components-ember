@@ -82,20 +82,12 @@ React story it can't match yet.
 
 ## Use with AI agents
 
-The package ships an [agent skill](https://agentskills.io) that teaches coding
-agents to use the components: look each one up rather than guess, write Ember
-rather than React, and type-check with Glint. It carries these docs for the
-version your app has installed: each component's import, arguments, blocks
-and examples.
-
-- **pnpm 12.11 or later** links it into your project's agent skills folders,
-  such as `.claude/skills` or `.cursor/skills`, once you approve it:
-  `pnpm approve carbon-components-ember`.
-- **npm and Yarn:** [`skills-npm`](https://github.com/antfu/skills-npm) links
-  it on every install.
-- **Any other agent:** tell it in your `AGENTS.md` to read
-  `node_modules/carbon-components-ember/skills/carbon-components-ember/SKILL.md`
-  before working on the UI.
+The package ships an [agent skill](https://agentskills.io) for coding agents:
+how to use the components, how Carbon's React-based docs and designs carry
+over to Ember, and these docs for the version your app has installed. With pnpm 12.11 or later, approve
+it once with `pnpm approve carbon-components-ember`. The
+[README](https://github.com/IBM/carbon-components-ember#use-with-ai-agents)
+covers the requirements, and the steps for TanStack Intent, npm and Yarn.
 
 [`carbon-components-ember-mcp`](https://github.com/IBM/carbon-components-ember/tree/main/carbon-components-ember-mcp#readme)
 serves the same docs over MCP, and gives agents the skill's instructions when

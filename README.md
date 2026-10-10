@@ -13,6 +13,8 @@ pnpm add -D sass
 
 It's a v2 addon. Embroider and Vite apps work as they are; classic ember-cli apps need `ember-auto-import` 2. Tested against `ember-source` 7, and in CI against its beta and alpha channels.
 
+pnpm 12 stops the first install at dependencies' build scripts. Carbon's packages (`@carbon/*` and `@ibm/plex*`) only send IBM's install telemetry, and `@parcel/watcher` (from `sass`) ships prebuilt, so deny them with [`pnpm approve`](https://pnpm.io/cli/permissions) or [`allowBuilds`](https://pnpm.io/settings/build#allowbuilds).
+
 ## Set Up
 
 Load Carbon's styles, then the addon's own, once in your app's entry point:
@@ -70,11 +72,14 @@ class Save extends Component {
 
 ## Use with AI agents
 
-The package ships an [agent skill](https://agentskills.io) that teaches coding agents to use the components: look each one up rather than guess, write Ember rather than React, and type-check with Glint. It carries every component's import, arguments, blocks and examples for the version your app has installed.
+The package ships an [agent skill](https://agentskills.io) for coding agents. It tells them to look each component up rather than guess, how Carbon's docs and Figma designs, written for React, carry over to Ember, and to type-check what they write with Glint. It also carries every component's import, arguments, blocks and examples. All of it comes with the version your app has installed, so it updates with the package and works offline.
 
-- **pnpm 12.11 or later** links it into your project's agent skills folders, such as `.claude/skills` or `.cursor/skills`, once you approve it: `pnpm approve carbon-components-ember`.
-- **npm and Yarn:** [`skills-npm`](https://github.com/antfu/skills-npm) links it on every install.
-- **Any other agent:** tell it in your `AGENTS.md` to read `node_modules/carbon-components-ember/skills/carbon-components-ember/SKILL.md` before working on the UI.
+Install it with one of these:
+
+- **pnpm 12.11 or later:** run `pnpm approve carbon-components-ember` once and commit the change it makes to `pnpm-workspace.yaml`. Every install then links the skill into an agent skills folder: one your project has, such as `.claude/skills`, the one of an agent running the install, or one named in `skills.dirs`. See pnpm's [Agent Skills](https://pnpm.io/agent-skills).
+- **[TanStack Intent](https://tanstack.com/intent/latest/docs/getting-started/quick-start-consumers),** with any package manager: once it's set up, agents load the skill as `carbon-components-ember#carbon-components-ember`.
+- **[skills-npm](https://github.com/antfu/skills-npm),** for npm and Yarn: it links the skill on every install.
+- **No tool:** tell your agent, in your `AGENTS.md`, to read `node_modules/carbon-components-ember/skills/carbon-components-ember/SKILL.md` before working on the UI.
 
 [`carbon-components-ember-mcp`](https://github.com/IBM/carbon-components-ember/tree/main/carbon-components-ember-mcp#readme) serves the same docs over MCP, and gives agents the skill's instructions when they connect. Add it from your app's directory, for example in Claude Code:
 
