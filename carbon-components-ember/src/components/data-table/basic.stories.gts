@@ -29,8 +29,6 @@ import type { StoryArgs, TableState } from '#storybook/fixtures/data-table.gts';
 // - `/WithAILabel` (`AILabel*`, `FullTableAI`): no AI label/slug support.
 // - Toolbar `WithOverflowMenu` and the toolbar menus in the batch-actions and
 //   pagination stories: no `TableToolbarMenu`.
-// - `/Skeleton`: no public `DataTableSkeleton`; that page shows `@isLoading`
-//   instead.
 // - `stickyHeader`, `useStaticWidth` and `locale` table props.
 
 const meta = preview.type<{ args: StoryArgs }>().meta({

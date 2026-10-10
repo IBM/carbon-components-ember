@@ -5,6 +5,7 @@ import { expect, fn, waitFor } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import Layer from './layer.gts';
 import Search from './search.gts';
+import SearchSkeleton from './search-skeleton.gts';
 
 import type { SearchSignature } from './search.gts';
 
@@ -12,8 +13,6 @@ import type { SearchSignature } from './search.gts';
 // - `Expandable`: there is no separate ExpandableSearch; `@expandable`
 //   only switches to the expandable toolbar styling, so the field doesn't
 //   collapse to its icon.
-// - `Skeleton`: there is no SearchSkeleton; `@isLoading` puts the field in
-//   its skeleton state instead.
 // - `value` seeds the field (it isn't controlled); there is no
 //   `defaultValue`, `renderIcon`, `isExpanded`/`onExpand` or `onKeyDown`.
 
@@ -115,7 +114,7 @@ export const ExpandableWithLayer = Expandable.extend({
   render: renderOnLayers,
 });
 
-export const Skeleton = meta.story({
+export const Loading = meta.story({
   args: {
     isLoading: true,
   },
@@ -154,4 +153,17 @@ export const Disabled = meta.story({
     labelText: 'Disabled search',
     disabled: true,
   },
+});
+
+export const Skeleton = meta.story({
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          '`SearchSkeleton` stands in for the component while its content loads. Its own page has controls for its arguments. A rendered `Search` can show `@isLoading` instead (see Loading).',
+      },
+    },
+  },
+  render: () => <template><SearchSkeleton /></template>,
 });
