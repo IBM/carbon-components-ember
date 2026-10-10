@@ -128,6 +128,9 @@ Compact.test(
       trigger.getAttribute('aria-describedby')!,
     );
     await expect(definition).toHaveTextContent('Failed');
+    // The pointer stays where the previous story left it, and can open the
+    // tooltip when this one renders underneath.
+    await userEvent.unhover(trigger);
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
 
     await userEvent.hover(trigger);
