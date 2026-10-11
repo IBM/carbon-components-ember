@@ -576,15 +576,16 @@
  *    (a) + 7 (b) + 2 (c) + 15 (assessed in #871) + 12 (d, #872) accounts
  *    for all 44 real `./ai-chat/*` exports.
  *
+ * The charts (`SimpleBarChart`/`LineChart`/`PieChart`, in their own
+ * barrel, `src/charts.ts`) aren't counted either: they wrap
+ * `@carbon/charts`, not `@carbon/react`, so there's no upstream React DOM
+ * for this harness to diff against.
+ *
  * The rest of the ~98 aren't scheduled above because they're explicit
  * non-goals for this harness, each verified against source rather than
  * assumed, matching the Breadcrumb/CodeSnippet reasoning earlier in this
  * comment:
  *
- * - `BarChart`/`LineChart`/`PieChart` wrap `@carbon/charts`
- *   (`SimpleBarChart` etc., see `charts/bar-chart.gts`'s own import), not
- *   `@carbon/react` - there's no upstream React DOM for this harness to
- *   diff against at all.
  * - `Icon`/`registerIcon` have no real upstream counterpart to compare
  *   against: `@carbon/react`'s own top-level `Icon` export is only
  *   `Icon.Skeleton` (confirmed by reading its `index.d.ts`, which is

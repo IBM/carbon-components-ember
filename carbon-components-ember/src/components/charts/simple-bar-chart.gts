@@ -1,10 +1,10 @@
 import Chart from './-components/chart.gts';
-import { SimpleBarChart } from '@carbon/charts';
+import { SimpleBarChart as CarbonChartsSimpleBarChart } from '@carbon/charts';
 import Component from '@glimmer/component';
 import { defaultArgs } from '../../utils/decorators.ts';
 import type { ChartSignature } from './-components/chart.gts';
 
-export interface BarChartSignature {
+export interface SimpleBarChartSignature {
   Args: {
     /**
      * The chart's title, rendered by @carbon/charts as the chart's heading
@@ -20,11 +20,11 @@ export interface BarChartSignature {
   };
 }
 
-export default class BarChart extends Component<BarChartSignature> {
-  ChartClass = SimpleBarChart;
+export default class SimpleBarChart extends Component<SimpleBarChartSignature> {
+  ChartClass = CarbonChartsSimpleBarChart;
 
   @defaultArgs
-  args: BarChartSignature['Args'] = {
+  args: SimpleBarChartSignature['Args'] = {
     /**
      * Is resizable
      */
