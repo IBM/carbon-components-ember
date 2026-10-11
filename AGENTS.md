@@ -170,6 +170,7 @@ Signatures follow the [Ember guides](https://guides.emberjs.com/release/typescri
 - **No `any`, and no YUIDoc tags** (`@argument`, `@type`, `@class`): the types document themselves.
 
 ### 7. What NOT to Reach For
+- **Referring to a component, icon or modifier by name** (`<Carbon::Tag>`, `{{component "carbon/tag"}}`) - only `services/**` is re-exported into the app tree (`appReexports` in rollup.config.mjs), so import everything else into strict-mode templates.
 - **`@ember/render-modifiers`** (`did-insert`, `did-update`) - write a real functional modifier instead.
 - **`MutationObserver`** on child DOM nodes - yield contextual components or a `ModifierLike` instead.
 - **`willDestroy()` overrides** - use `registerDestructor` or modifier teardowns.

@@ -111,28 +111,22 @@ export default {
     // up your addon's public API. Also make sure your package.json#exports
     // is aligned to the config here.
     // See https://github.com/embroider-build/embroider/blob/main/docs/v2-faq.md#how-can-i-define-the-public-exports-of-my-addon
-    addon.publicEntrypoints(['**/*.js', 'index.js', 'template-registry.js'], {
+    addon.publicEntrypoints(['**/*.js', 'index.js'], {
       // Storybook stories are colocated with components but never published.
       exclude: ['**/*.stories.*'],
     }),
 
-    // These are the modules that should get reexported into the traditional
-    // "app" tree. Things in here should also be in publicEntrypoints above, but
-    // not everything in publicEntrypoints necessarily needs to go here.
-    //
-    // Everything is namespaced under `carbon/` in the app tree, so e.g.
-    // `services/dialog-manager` is looked up as `service:carbon.dialog-manager`.
-    addon.appReexports(
-      ['components/**/*.js', 'modifiers/**/*.js', 'services/**/*.js'],
-      {
-        exclude: ['**/*.stories.*'],
-        mapFilename: (filename) => {
-          const parts = filename.split(sep);
-          parts.splice(1, 0, 'carbon');
-          return parts.join(sep);
-        },
+    // Only the services go into the app tree, because the components look
+    // them up by name: `services/dialog-manager` becomes
+    // `service:carbon.dialog-manager`. Apps import components and modifiers,
+    // so loose-mode `.hbs` templates can't resolve them by name.
+    addon.appReexports(['services/**/*.js'], {
+      mapFilename: (filename) => {
+        const parts = filename.split(sep);
+        parts.splice(1, 0, 'carbon');
+        return parts.join(sep);
       },
-    ),
+    }),
 
     // Follow the V2 Addon rules about dependencies. Your code can import from
     // `dependencies` and `peerDependencies` as well as standard Ember-provided

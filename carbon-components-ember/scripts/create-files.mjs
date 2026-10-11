@@ -13,7 +13,6 @@ function createIndexFiles() {
     if (!addonFilename.includes('.')) continue;
     if (addonFilename.includes('.gitkeep')) continue;
     if (/\.stories\.[gt]?[jt]s$|\.mdx$/.test(addonFilename)) continue;
-    if (addonFilename.includes('components/index.ts')) continue;
     if (addonFilename.includes('render-svg-part.ts')) continue;
     if (
       addonFilename.startsWith('components/icons') &&
@@ -36,7 +35,7 @@ function createIndexFiles() {
   }
   // `carbon-components-ember/components` and `carbon-components-ember/ai-chat`
   // (dist/components.js and dist/ai-chat.js, via the package.json `./*`
-  // export). src/components/index.ts re-exports the first.
+  // export).
   writeBarrel(groups.components, './src/components.ts');
   writeBarrel(groups.aiChat, './src/ai-chat.ts');
 
