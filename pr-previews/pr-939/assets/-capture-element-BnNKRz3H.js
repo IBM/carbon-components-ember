@@ -1,0 +1,1 @@
+import{n as r}from"./rolldown-runtime-BpgvRg6H.js";import{f as n,p as o}from"./preview-BepUKEWY.js";var s;function t(){return(t=r(()=>{n(),s=o((r,n,{onInsert:o})=>{o(r)})}))()}export{t as n,s as t};

@@ -1,0 +1,1 @@
+import{n as t}from"./rolldown-runtime-BpgvRg6H.js";var e;function r(){return(r=t(()=>{e={elem:"svg",attrs:{xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 8 4",fill:"currentColor",width:"8",height:"4"},content:[{elem:"path",attrs:{d:"M8 0 4 4 0 0z"}}],name:"caret--down",size:"glyph"}}))()}r();export{e as default};
