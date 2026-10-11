@@ -21,8 +21,7 @@ export interface ListItemSignature {
  * A single item within an `OrderedList` or `UnorderedList`.
  *
  * ```gjs
- * import ListItem from 'carbon-components-ember/components/list-item';
- * import OrderedList from 'carbon-components-ember/components/ordered-list';
+ * import { ListItem, OrderedList } from 'carbon-components-ember/components';
  *
  * <template>
  *   <OrderedList>
