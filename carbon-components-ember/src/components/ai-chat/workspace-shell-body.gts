@@ -19,8 +19,6 @@ export interface WorkspaceShellBodySignature {
  *
  * Ember port of `@carbon/ai-chat-components`'
  * [`cds-aichat-workspace-shell-body`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/workspace-shell).
- * Doesn't collide with any Carbon React component name, so it stays
- * unprefixed.
  */
 const WorkspaceShellBody: TOC<WorkspaceShellBodySignature> = <template>
   <div class="cds-aichat-workspace-shell__body" ...attributes>

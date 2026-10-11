@@ -54,7 +54,7 @@ import Add from 'carbon-components-ember/components/icons/add';
 </template>
 ```
 
-Icons are components too: import each one from `carbon-components-ember/components/icons/<name>` and give it a `@size`.
+Icons are components too: import each one from `carbon-components-ember/components/icons/<name>` and give it a `@size`. The [Carbon AI Chat](https://github.com/carbon-design-system/carbon-ai-chat) components come from `carbon-components-ember/ai-chat`, under upstream's names (`ChatShell`, `CodeSnippet`).
 
 Components forward `...attributes` to their main element, so `class`, `id`, ARIA attributes and modifiers work on them, and Glint type-checks every argument, block and attribute.
 

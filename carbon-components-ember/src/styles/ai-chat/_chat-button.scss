@@ -1,6 +1,6 @@
 // Ported from `@carbon/ai-chat-components`' `chat-button.scss`. Selectors
 // are adapted from upstream's shadow-DOM `:host(...)` to plain classes -
-// `AiChatChatButton` puts `.cds-aichat-button`/`.cds-aichat-button--quick-
+// `ChatButton` puts `.cds-aichat-button`/`.cds-aichat-button--quick-
 // action` directly on `Button`'s own root `<button>` (via `...attributes`),
 // not on a wrapping element, so these are compound selectors on one
 // element rather than descendant selectors.

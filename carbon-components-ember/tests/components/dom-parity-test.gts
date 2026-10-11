@@ -26,7 +26,7 @@ import SliderSkeleton from '#src/components/slider-skeleton.gts';
 import FileUploaderSkeleton from '#src/components/file-uploader/file-uploader-skeleton.gts';
 import Checkbox from '#src/components/checkbox.gts';
 import RadioButton from '#src/components/radio-button.gts';
-import RadioButtonGroup from '#src/components/radio-button/group.gts';
+import RadioButtonGroup from '#src/components/radio-button/radio-button-group.gts';
 import Toggle from '#src/components/toggle.gts';
 import TextInput from '#src/components/text-input.gts';
 import TextArea from '#src/components/text-area.gts';

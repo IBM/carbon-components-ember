@@ -10,13 +10,10 @@ import Launch from '../icons/launch.ts';
 import Maximize from '../icons/maximize.ts';
 import TrashCan from '../icons/trash-can.ts';
 import View from '../icons/view.ts';
-import AiChatCard from './card.gts';
-import AiChatCardFooter from './card-footer.gts';
+import Card from './card.gts';
+import CardFooter from './card-footer.gts';
 
-import type {
-  AiChatCardFooterSignature,
-  CardFooterAction,
-} from './card-footer.gts';
+import type { CardFooterSignature, CardFooterAction } from './card-footer.gts';
 
 // Upstream has no stories file of its own for `cds-aichat-card-footer`: it's
 // the `CardFooter` story in `Components/Card` (card/__stories__/
@@ -102,7 +99,7 @@ const MAX_WIDTHS = {
   lg: '535px',
 } as const;
 
-type StoryArgs = AiChatCardFooterSignature['Args'] & {
+type StoryArgs = CardFooterSignature['Args'] & {
   /** Story-only: preset `@actions`. */
   footerActions?: string;
   /** Story-only: max width of the story wrapper. */
@@ -120,12 +117,12 @@ const borderRadiusStyle = (on: boolean | undefined) =>
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'AI Chat/Card/Card Footer',
-  component: AiChatCardFooter,
+  component: CardFooter,
   parameters: {
     docs: {
       description: {
-        component: `\`AiChatCardFooter\` renders a row of action buttons for an
-\`AiChatCard\`'s \`<:footer>\` block, driven entirely by an \`@actions\` array
+        component: `\`CardFooter\` renders a row of action buttons for a
+\`Card\`'s \`<:footer>\` block, driven entirely by an \`@actions\` array
 rather than yielded content. When every action's \`label\` is empty, it
 switches to a row of icon-only ghost buttons instead of labeled buttons —
 matching upstream's own derivation. Each action's \`kind\` maps onto this
@@ -147,7 +144,7 @@ whenever a button is pressed.`,
   },
   render: (args) => <template>
     <div style={{wrapperStyle args.maxWidth}}>
-      <AiChatCardFooter
+      <CardFooter
         style={{borderRadiusStyle args.borderRadius}}
         @actions={{presetFor args.footerActions}}
         @onAction={{args.onAction}}
@@ -156,9 +153,11 @@ whenever a button is pressed.`,
   </template>,
 });
 
-export const CardFooter = meta.story();
+// The export can't be `CardFooter`, the component's name; `name` keeps the
+// story's.
+export const CardFooterStory = meta.story({ name: 'Card Footer' });
 
-CardFooter.test(
+CardFooterStory.test(
   'calls @onAction with the clicked action',
   async ({ canvas, userEvent, args }) => {
     await userEvent.click(canvas.getByRole('button', { name: 'Primary' }));
@@ -168,7 +167,7 @@ CardFooter.test(
   },
 );
 
-CardFooter.test(
+CardFooterStory.test(
   'a danger action is styled as danger and calls @onAction directly',
   async ({ canvas, userEvent, args }) => {
     const danger = canvas.getByRole('button', { name: 'Danger' });
@@ -206,7 +205,7 @@ export const InACard = meta.story({
     docs: {
       description: {
         story:
-          'Labeled actions and icon-only actions (no `label`; each icon button is wrapped in a `Tooltip` using `tooltipText`) inside an `AiChatCard`, reporting the last action.',
+          'Labeled actions and icon-only actions (no `label`; each icon button is wrapped in a `Tooltip` using `tooltipText`) inside a `Card`, reporting the last action.',
       },
     },
   },
@@ -233,26 +232,23 @@ export const InACard = meta.story({
 
     return <template>
       <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-        <AiChatCard style="max-inline-size: 18rem;">
+        <Card style="max-inline-size: 18rem;">
           <:header><h5>Confirm action</h5></:header>
           <:body>Do you want to proceed?</:body>
           <:footer>
-            <AiChatCardFooter
+            <CardFooter
               @actions={{labeledActions}}
               @onAction={{handleAction}}
             />
           </:footer>
-        </AiChatCard>
-        <AiChatCard style="max-inline-size: 18rem;">
+        </Card>
+        <Card style="max-inline-size: 18rem;">
           <:header><h5>Icon actions</h5></:header>
           <:body>Actions with no label render as icon-only buttons.</:body>
           <:footer>
-            <AiChatCardFooter
-              @actions={{iconActions}}
-              @onAction={{handleAction}}
-            />
+            <CardFooter @actions={{iconActions}} @onAction={{handleAction}} />
           </:footer>
-        </AiChatCard>
+        </Card>
       </div>
       <p>last action: <output>{{state.last}}</output></p>
     </template>;

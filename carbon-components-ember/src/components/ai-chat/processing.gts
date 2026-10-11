@@ -26,8 +26,6 @@ export interface ProcessingSignature {
  *
  * Ember port of `@carbon/ai-chat-components`'
  * [`cds-aichat-processing`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/processing).
- * Doesn't collide with any Carbon React component name, so it stays
- * unprefixed.
  */
 export default class Processing extends Component<ProcessingSignature> {
   get classes() {

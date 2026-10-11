@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, triggerKeyEvent } from '@ember/test-helpers';
 import Toggletip from '#src/components/toggletip.gts';
-import ToggletipLabel from '#src/components/toggletip/label.gts';
+import ToggletipLabel from '#src/components/toggletip/toggletip-label.gts';
 
 module('Integration | Component | Toggletip', (hooks) => {
   setupRenderingTest(hooks);

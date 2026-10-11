@@ -53,8 +53,6 @@ export interface AudioPlayerSignature {
  *
  * Ember port of `@carbon/ai-chat-components`'
  * [`cds-aichat-audio-player`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/audio-player).
- * Doesn't collide with any Carbon React component name, so it stays
- * unprefixed.
  *
  * `@source` drives a real provider abstraction (`BaseProvider` and its
  * `NativeAudioProvider`/`SoundCloudProvider` subclasses, both ported

@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, find, waitUntil } from '@ember/test-helpers';
-import AiChatCardSteps from '#src/components/ai-chat/card-steps.gts';
+import CardSteps from '#src/components/ai-chat/card-steps.gts';
 import type { CardStep } from '#src/components/ai-chat/card-steps.gts';
 
-module('Integration | Component | ai-chat/AiChatCardSteps', (hooks) => {
+module('Integration | Component | ai-chat/CardSteps', (hooks) => {
   setupRenderingTest(hooks);
 
   test('it renders a title/description per step', async function (assert) {
@@ -13,7 +13,7 @@ module('Integration | Component | ai-chat/AiChatCardSteps', (hooks) => {
       { title: 'Step 2' },
     ];
 
-    await render(<template><AiChatCardSteps @steps={{steps}} /></template>);
+    await render(<template><CardSteps @steps={{steps}} /></template>);
 
     assert.dom('.cds-aichat-card-step').exists({ count: 2 });
     assert
@@ -32,7 +32,7 @@ module('Integration | Component | ai-chat/AiChatCardSteps', (hooks) => {
   test('it renders a plain label for a step with no kind', async function (assert) {
     const steps: CardStep[] = [{ title: 'Step', label: 'Queued' }];
 
-    await render(<template><AiChatCardSteps @steps={{steps}} /></template>);
+    await render(<template><CardSteps @steps={{steps}} /></template>);
 
     assert.dom('.cds-aichat-card-step-indicator').doesNotExist();
     assert.dom('.cds-aichat-card-step').hasText('Queued Step');
@@ -43,7 +43,7 @@ module('Integration | Component | ai-chat/AiChatCardSteps', (hooks) => {
       { title: 'Step', kind: 'succeeded', label: 'Done' },
     ];
 
-    await render(<template><AiChatCardSteps @steps={{steps}} /></template>);
+    await render(<template><CardSteps @steps={{steps}} /></template>);
     await waitUntil(() => find('.cds-aichat-card-step-indicator svg'));
 
     assert.dom('.cds-aichat-card-step-indicator svg').exists();
@@ -55,7 +55,7 @@ module('Integration | Component | ai-chat/AiChatCardSteps', (hooks) => {
       { title: 'Step', kind: 'in-progress', label: 'Working' },
     ];
 
-    await render(<template><AiChatCardSteps @steps={{steps}} /></template>);
+    await render(<template><CardSteps @steps={{steps}} /></template>);
 
     assert.dom('.cds-aichat-card-step-indicator .cds--loading').exists();
     assert.dom('.cds-aichat-card-step-indicator').hasText('Loading Working');

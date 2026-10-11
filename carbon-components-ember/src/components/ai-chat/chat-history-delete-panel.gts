@@ -7,7 +7,7 @@
 
 import Component from '@glimmer/component';
 import { modifier as eModifier } from 'ember-modifier';
-import AiChatChatButton from './chat-button.gts';
+import ChatButton from './chat-button.gts';
 import { TrashCan } from '../../icons.ts';
 
 export interface ChatHistoryDeletePanelSignature {
@@ -72,14 +72,14 @@ export default class ChatHistoryDeletePanel extends Component<ChatHistoryDeleteP
           {{/if}}
         </span>
         <div class="cds-aichat-history-delete-panel__actions">
-          <AiChatChatButton
+          <ChatButton
             @kind="tertiary"
             @size="sm"
             @onClick={{this.handleCancel}}
           >
             {{or @cancelText "Cancel"}}
-          </AiChatChatButton>
-          <AiChatChatButton
+          </ChatButton>
+          <ChatButton
             @kind="danger"
             @size="sm"
             @onClick={{this.handleDelete}}
@@ -87,7 +87,7 @@ export default class ChatHistoryDeletePanel extends Component<ChatHistoryDeleteP
           >
             {{or @deleteText "Delete"}}
             <TrashCan @size="16" />
-          </AiChatChatButton>
+          </ChatButton>
         </div>
       </div>
     </div>

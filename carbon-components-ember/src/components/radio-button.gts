@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
-import type RadioButtonGroup from './radio-button/group.gts';
+import type RadioButtonGroup from './radio-button/radio-button-group.gts';
 import { defaultArgs } from '../utils/decorators.ts';
 import AILabel from './ai-label.gts';
 import type { WithBoundArgs } from '@glint/template';

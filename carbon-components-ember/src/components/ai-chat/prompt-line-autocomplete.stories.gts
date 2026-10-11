@@ -519,7 +519,7 @@ export const GroupsAndAvatars = meta.story({
     docs: {
       description: {
         story:
-          '`SuggestionItem.groupId`/`groupTitle` render items under group headings (ungrouped items first, groups in first-occurrence order); `avatar` takes a plain image URL string or an icon component (`ComponentLike<{ Args: { size?, svgClass?, fill? } }>` — the same icon-as-value pattern `AiChatCardFooter`\u2019s `CardFooterAction.icon` uses). Type `@`.',
+          '`SuggestionItem.groupId`/`groupTitle` render items under group headings (ungrouped items first, groups in first-occurrence order); `avatar` takes a plain image URL string or an icon component (`ComponentLike<{ Args: { size?, svgClass?, fill? } }>` — the same icon-as-value pattern `CardFooter`\u2019s `CardFooterAction.icon` uses). Type `@`.',
       },
     },
   },

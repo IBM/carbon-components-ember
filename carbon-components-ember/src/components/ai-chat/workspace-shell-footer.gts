@@ -53,14 +53,13 @@ const watchStacked = modifier(
  *
  * Ember port of `@carbon/ai-chat-components`'
  * [`cds-aichat-workspace-shell-footer`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/workspace-shell).
- * Doesn't collide with any Carbon React component name, so it stays
- * unprefixed. Upstream renders `size="2xl"` buttons via
+ * Upstream renders `size="2xl"` buttons via
  * `@carbon/web-components`; this addon's `Button` tops out at `'xl'`, so
  * that's what's used here instead - a real, documented gap, not a bug.
  *
  * Upstream's `kind` also accepts `danger--tertiary`/`danger--ghost`
  * combination kinds (from `@carbon/web-components`' `BUTTON_KIND`), same gap
- * as `AiChatChatButton` - `WorkspaceShellFooterAction['kind']` doesn't
+ * as `ChatButton` - `WorkspaceShellFooterAction['kind']` doesn't
  * accept them, so they're not reproduced here either.
  */
 export default class WorkspaceShellFooter extends Component<WorkspaceShellFooterSignature> {
@@ -89,7 +88,7 @@ export default class WorkspaceShellFooter extends Component<WorkspaceShellFooter
 
   /**
    * Resolves `action.kind` to `Button`'s own `@type`/`@tertiary`/`@ghost`
-   * args, exactly like `AiChatCardFooter`'s `buttonType`/`buttonTertiary`/
+   * args, exactly like `CardFooter`'s `buttonType`/`buttonTertiary`/
    * `buttonGhost`/`buttonDanger` helpers: `@type` covers `'primary'`/
    * `'secondary'`, `undefined` (with `@tertiary`/`@ghost` instead) covers
    * `'tertiary'`/`'ghost'`, and `'danger'` is the `cds--btn--danger` class

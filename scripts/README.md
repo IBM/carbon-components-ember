@@ -26,7 +26,7 @@ node parity-check.mjs --source carbon-ai-chat --mark-synced Launcher   # source-
 **Features:**
 
 - Fetches each source's component list from its GitHub repo
-- Compares with Ember implementation (shared `carbon-components-ember/src/components.ts` export list across all sources)
+- Compares each source with its own barrel (`carbon-components-ember/src/components.ts` for Carbon React, `src/ai-chat.ts` for Carbon AI Chat)
 - Generates one combined parity report with a section per source (PARITY_REPORT.md)
 - **Tracks commit SHAs** per source to detect component updates
 - **Detects outdated components** when upstream components change

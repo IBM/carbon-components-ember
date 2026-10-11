@@ -17,7 +17,7 @@ export type CardStep = {
   label?: string;
 };
 
-export interface AiChatCardStepsSignature {
+export interface CardStepsSignature {
   Element: HTMLDivElement;
   Args: {
     steps?: CardStep[];
@@ -26,7 +26,7 @@ export interface AiChatCardStepsSignature {
 
 /**
  * Renders a vertical list of steps (e.g. an agent's reasoning/progress
- * trail) for use inside `AiChatCard`.
+ * trail) for use inside `Card`.
  *
  * Ember port of `@carbon/ai-chat-components`'
  * [`cds-aichat-card-steps`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/card).
@@ -34,7 +34,7 @@ export interface AiChatCardStepsSignature {
  * instead of `IconIndicator`'s icon — that's ported below as-is (a step
  * with no `kind` at all renders only its `label`, matching upstream too).
  */
-export default class AiChatCardSteps extends Component<AiChatCardStepsSignature> {
+export default class CardSteps extends Component<CardStepsSignature> {
   get steps() {
     return this.args.steps ?? [];
   }

@@ -8,7 +8,7 @@
 import Component from '@glimmer/component';
 import type { ChatButtonSize } from './chat-button.gts';
 
-export interface AiChatChatButtonSkeletonSignature {
+export interface ChatButtonSkeletonSignature {
   Element: HTMLDivElement;
   Args: {
     /** Button size. Defaults to `'lg'`. */
@@ -17,7 +17,7 @@ export interface AiChatChatButtonSkeletonSignature {
 }
 
 /**
- * Loading placeholder for `AiChatChatButton`.
+ * Loading placeholder for `ChatButton`.
  *
  * Ember port of `@carbon/ai-chat-components`'
  * [`cds-aichat-button-skeleton`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/chat-button).
@@ -28,7 +28,7 @@ export interface AiChatChatButtonSkeletonSignature {
  * rule of its own, it only exists as a compound modifier paired with a
  * specific component's own class like `cds--btn`/`cds--text-input`).
  */
-export default class AiChatChatButtonSkeleton extends Component<AiChatChatButtonSkeletonSignature> {
+export default class ChatButtonSkeleton extends Component<ChatButtonSkeletonSignature> {
   get size() {
     return this.args.size ?? 'lg';
   }

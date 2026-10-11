@@ -1,7 +1,7 @@
 import { expect } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
-import GridSettings from './settings.gts';
+import GridSettings from './grid-settings.gts';
 
 import type { TOC } from '@ember/component/template-only';
 

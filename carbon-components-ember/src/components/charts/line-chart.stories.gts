@@ -7,7 +7,7 @@ import { runTask } from 'ember-lifeline';
 import { expect, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
-import LineChart from './line.gts';
+import LineChart from './line-chart.gts';
 
 import type { ChartData } from './-components/chart.gts';
 import type Owner from '@ember/owner';

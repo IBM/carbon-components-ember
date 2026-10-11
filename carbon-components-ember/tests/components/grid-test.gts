@@ -6,7 +6,7 @@ import FlexGrid from '#src/components/grid/flex-grid.gts';
 import Row from '#src/components/grid/row.gts';
 import Column from '#src/components/grid/column.gts';
 import ColumnHang from '#src/components/grid/column-hang.gts';
-import GridSettings from '#src/components/grid/settings.gts';
+import GridSettings from '#src/components/grid/grid-settings.gts';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import { tracked } from '@glimmer/tracking';

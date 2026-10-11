@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import type Icon from '../components/icon.gts';
-import OverflowMenuItem from '../components/overflow-menu/item.gts';
+import OverflowMenuItem from './overflow-menu/overflow-menu-item.gts';
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 import calculatePosition from 'ember-basic-dropdown/utils/calculate-position';
 import Tooltip from './-private/tooltip.gts';

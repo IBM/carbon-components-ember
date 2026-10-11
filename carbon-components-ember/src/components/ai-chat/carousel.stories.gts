@@ -2,14 +2,14 @@ import { trackedObject } from '@ember/reactive/collections';
 import { expect, fn, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
-import AiChatCard from './card.gts';
+import Card from './card.gts';
 import Carousel from './carousel.gts';
 
 import type { CarouselResponse } from '@carbon/utilities/carousel';
 import type { CarouselSignature } from './carousel.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `Components/Carousel` stories
-// (carousel/__stories__/carousel.stories.js): eight `AiChatCard`s as views.
+// (carousel/__stories__/carousel.stories.js): eight `Card`s as views.
 // Upstream slots them through one wrapper `<div>`; here every card is a
 // direct child of the default block, which is what makes each a view.
 
@@ -43,9 +43,9 @@ itself uses.`,
       @onChange={{args.onChange}}
     >
       {{#each CARDS as |card|}}
-        <AiChatCard>
+        <Card>
           <:body><div style="padding: 1rem;">{{card}}</div></:body>
-        </AiChatCard>
+        </Card>
       {{/each}}
     </Carousel>
   </template>,

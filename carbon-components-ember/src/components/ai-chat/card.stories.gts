@@ -2,23 +2,23 @@ import { htmlSafe } from '@ember/template';
 import { fn } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
-import AiChatCard from './card.gts';
-import AiChatCardFooter from './card-footer.gts';
+import Card from './card.gts';
+import CardFooter from './card-footer.gts';
 import ArrowRight from '../icons/arrow-right.ts';
 import Launch from '../icons/launch.ts';
 
-import type { AiChatCardSignature } from './card.gts';
+import type { CardSignature } from './card.gts';
 import type { CardFooterAction } from './card-footer.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `Components/Card` stories
 // (card/__stories__/card.stories.js). Upstream's `CardFooter` story lives in
 // `AI Chat/Card/Card Footer` (card-footer.stories.gts), next to the
-// `AiChatCardFooter` component it documents.
+// `CardFooter` component it documents.
 //
 // Parity gaps:
-// - `AiChatCardFooter` has no `size` arg (upstream's `footerSize`
+// - `CardFooter` has no `size` arg (upstream's `footerSize`
 //   `md`/`lg`), and actions carry no `payload`.
-// - Upstream's media slot sets `data-rounded`; `AiChatCard` doesn't
+// - Upstream's media slot sets `data-rounded`; `Card` doesn't
 //   implement externally-set rounding (see its class doc).
 // - Upstream uses a bundled `placeholder.png`; an inline SVG data URI stands
 //   in for it here.
@@ -67,10 +67,10 @@ const MAX_WIDTHS = {
   lg: '535px',
 } as const;
 
-type StoryArgs = AiChatCardSignature['Args'] & {
+type StoryArgs = CardSignature['Args'] & {
   /** Story-only: max width of the story wrapper (not the card itself). */
   maxWidth?: keyof typeof MAX_WIDTHS;
-  /** Story-only: preset actions shown in an `AiChatCardFooter`. */
+  /** Story-only: preset actions shown in a `CardFooter`. */
   footerActions?: string;
   /** Story-only: called with the clicked footer action. */
   onAction?: (action: CardFooterAction) => void;
@@ -101,16 +101,16 @@ const CardContent = <template>
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'AI Chat/Card',
-  component: AiChatCard,
-  subcomponents: { AiChatCardFooter },
+  component: Card,
+  subcomponents: { CardFooter },
   parameters: {
     docs: {
       description: {
-        component: `\`AiChatCard\` is a card container for
+        component: `\`Card\` is a card container for
 [Carbon AI Chat](https://github.com/carbon-design-system/carbon-ai-chat),
 typically rendered inside a message in \`ChatShell\`'s \`<:messages>\` block.
 Content is supplied through \`<:header>\`, \`<:media>\`, \`<:body>\`, \`<:footer>\`
-(commonly an \`AiChatCardFooter\`), and \`<:decorator>\` named blocks.`,
+(commonly a \`CardFooter\`), and \`<:decorator>\` named blocks.`,
       },
     },
   },
@@ -132,9 +132,9 @@ Content is supplied through \`<:header>\`, \`<:media>\`, \`<:body>\`, \`<:footer
   },
   render: (args) => <template>
     <div style={{maxWidthStyle args.maxWidth}}>
-      <AiChatCard @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
+      <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
         <:body><CardContent /></:body>
-      </AiChatCard>
+      </Card>
     </div>
   </template>,
 });
@@ -147,15 +147,15 @@ export const WithActions = meta.story({
   },
   render: (args) => <template>
     <div style={{maxWidthStyle args.maxWidth}}>
-      <AiChatCard @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
+      <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
         <:body><CardContent /></:body>
         <:footer>
-          <AiChatCardFooter
+          <CardFooter
             @actions={{footerActionsFor args.footerActions}}
             @onAction={{args.onAction}}
           />
         </:footer>
-      </AiChatCard>
+      </Card>
     </div>
   </template>,
 });
@@ -167,7 +167,7 @@ export const WithImage = meta.story({
   },
   render: (args) => <template>
     <div style={{maxWidthStyle args.maxWidth}}>
-      <AiChatCard @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
+      <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
         <:media>
           <div style="display: flex;">
             <img
@@ -179,12 +179,12 @@ export const WithImage = meta.story({
         </:media>
         <:body><CardContent /></:body>
         <:footer>
-          <AiChatCardFooter
+          <CardFooter
             @actions={{footerActionsFor args.footerActions}}
             @onAction={{args.onAction}}
           />
         </:footer>
-      </AiChatCard>
+      </Card>
     </div>
   </template>,
 });
@@ -195,7 +195,7 @@ export const OnlyImage = meta.story({
   },
   render: (args) => <template>
     <div style={{maxWidthStyle args.maxWidth}}>
-      <AiChatCard @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
+      <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
         <:media>
           <div style="display: flex;">
             <img
@@ -205,7 +205,7 @@ export const OnlyImage = meta.story({
             />
           </div>
         </:media>
-      </AiChatCard>
+      </Card>
     </div>
   </template>,
 });
@@ -218,7 +218,7 @@ export const WithAudio = meta.story({
   },
   render: (args) => <template>
     <div style={{maxWidthStyle args.maxWidth}}>
-      <AiChatCard @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
+      <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
         <:media>
           <div style="display: flex;">
             <iframe
@@ -237,7 +237,7 @@ export const WithAudio = meta.story({
             </p>
           </div>
         </:body>
-      </AiChatCard>
+      </Card>
     </div>
   </template>,
 });
@@ -250,7 +250,7 @@ export const OnlyVideo = meta.story({
   },
   render: (args) => <template>
     <div style={{maxWidthStyle args.maxWidth}}>
-      <AiChatCard @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
+      <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
         <:media>
           <div style="display: flex;">
             <iframe
@@ -263,7 +263,7 @@ export const OnlyVideo = meta.story({
             ></iframe>
           </div>
         </:media>
-      </AiChatCard>
+      </Card>
     </div>
   </template>,
 });
@@ -279,20 +279,20 @@ export const Variants = meta.story({
   },
   render: () => <template>
     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-      <AiChatCard style="max-inline-size: 18rem;">
+      <Card style="max-inline-size: 18rem;">
         <:header><h5>Default card</h5></:header>
         <:body>Card content goes here.</:body>
-      </AiChatCard>
-      <AiChatCard @isLayered={{true}} style="max-inline-size: 18rem;">
+      </Card>
+      <Card @isLayered={{true}} style="max-inline-size: 18rem;">
         <:header><h5>Layered card</h5></:header>
         <:body>Uses Carbon's layered-tile styling instead of the chat shell's
           default background.</:body>
-      </AiChatCard>
-      <AiChatCard @isFlush={{true}} style="max-inline-size: 18rem;">
+      </Card>
+      <Card @isFlush={{true}} style="max-inline-size: 18rem;">
         <:header><h5>Flush card</h5></:header>
         <:body>Removes the default padding, useful when the body needs to reach
           the card's edges.</:body>
-      </AiChatCard>
+      </Card>
     </div>
   </template>,
 });

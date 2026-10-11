@@ -5,9 +5,9 @@ import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
 import preview from '#storybook/preview.ts';
 import RadioButton from './radio-button.gts';
 import RadioButtonSkeleton from './radio-button-skeleton.gts';
-import RadioButtonGroup from './radio-button/group.gts';
+import RadioButtonGroup from './radio-button/radio-button-group.gts';
 
-import type { RadioButtonGroupSignature as GroupSignature } from './radio-button/group.gts';
+import type { RadioButtonGroupSignature as GroupSignature } from './radio-button/radio-button-group.gts';
 import type { Value } from './radio-button.gts';
 
 // Carbon React parity gaps (Components/RadioButton):

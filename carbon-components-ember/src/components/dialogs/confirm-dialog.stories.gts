@@ -3,9 +3,9 @@ import { expect, fn } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Button from '../button.gts';
-import ConfirmDialog from './confirm.gts';
+import ConfirmDialog from './confirm-dialog.gts';
 
-import type { ConfirmDialogSignature } from './confirm.gts';
+import type { ConfirmDialogSignature } from './confirm-dialog.gts';
 
 // Carbon React has no ConfirmDialog; it's an Ember-only convenience built on
 // the addon's Modal, closest to React's `Modal` `DangerModal` story. The

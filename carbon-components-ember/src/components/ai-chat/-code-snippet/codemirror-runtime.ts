@@ -10,7 +10,7 @@
  * `@codemirror/*`/`@lezer/*` - reached exclusively through
  * `code-snippet.gts`'s dynamic `import()` (via `./codemirror-loader.ts`),
  * so a bundler splits CodeMirror's core into its own lazy chunk and a page
- * that never renders `AiChatCodeSnippet` never ships it. Each individual
+ * that never renders `CodeSnippet` never ships it. Each individual
  * language grammar (`@codemirror/lang-*`) is a further, separate lazy chunk
  * of its own - see `./languages.ts` and `LanguageController` - so even a
  * page that *does* render a snippet only ships the one language grammar it

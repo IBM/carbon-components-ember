@@ -45,11 +45,11 @@
  *   the post-click feedback state does need the interaction/floating-ui
  *   decision's simulated-click route (see that entry's CopyButton bullet) -
  *   that one only, not the three base variants.
- * - Breadcrumb: Ember's `Breadcrumbs` has a structurally different API and
+ * - Breadcrumb: Ember's `Breadcrumb` has a structurally different API and
  *   DOM shape than Carbon React's `Breadcrumb`/`BreadcrumbItem`/
  *   `BreadcrumbLink` (a `<nav>` wrapping `crumbs: string[]` with href='#'
  *   placeholders, vs. React's `<div>` of real `BreadcrumbItem`/`Link`
- *   children). Explicit non-goal for this harness until Breadcrumbs itself
+ *   children). Explicit non-goal for this harness until Breadcrumb itself
  *   is reworked to accept real link/item children - a fixture comparison
  *   against the current API would mostly be diffing two unrelated shapes,
  *   not catching real regressions.
@@ -107,8 +107,8 @@
  *   what Ember's `file-uploader-item.gts` does too) - same `defaultOpen`
  *   route as Tooltip above, once FileUploaderItem itself is in scope.
  * - ConfirmDialog: wraps `@carbon/react`'s `Modal`, matching Ember's
- *   `dialogs/confirm.gts`, which itself wraps this addon's own `Modal` -
- *   confirmed by reading both: `confirm.gts` passes no `@open`-style arg to
+ *   `dialogs/confirm-dialog.gts`, which itself wraps this addon's own `Modal` -
+ *   confirmed by reading both: `confirm-dialog.gts` passes no `@open`-style arg to
  *   `Modal` at all, and `modal.gts` itself has no closed state to begin
  *   with (`@tracked isVisible = true`, no arg that starts it `false`) - so
  *   Ember's side needs no special handling here, it's already always
@@ -333,17 +333,17 @@
  * convention throughout this paragraph, not a silent one - they were
  * never scheduled. The ~98
  * total is every
- * `default as` export from `index.ts` outside `./ai-chat/`, plus the three
- * real secondary component exports on a shared line (`FlexGrid`,
- * `LayoutConstraint`, `PopoverContent`); it excludes `registerIcon` (a
+ * `default as` export from `src/components.ts`, plus the two real
+ * secondary component exports on a shared line (`LayoutConstraint`,
+ * `PopoverContent`); it excludes `registerIcon` (a
  * function) and the four enum/constant exports (`IconIndicatorKinds`/
  * `IconIndicatorAlignments`/`ShapeIndicatorKinds`/`TooltipAlignments`) -
- * re-run `grep -E '^export' src/components/index.ts | grep -v "'\./ai-chat/"`
+ * re-run `grep -E '^export' src/components.ts`
  * to recheck this count if it drifts. The `ai-chat/dom-parity-test.gts`
  * live path (see the README's "second, live path" section) is even further
- * behind: 2 of the 44 real `./ai-chat/*` exports (`Processing`,
+ * behind: 2 of the 44 exports of `src/ai-chat.ts` (`Processing`,
  * `ReasoningSteps`) - re-run
- * `grep -E "^export" src/components/index.ts | grep "'\./ai-chat/"` to
+ * `grep -E "^export" src/ai-chat.ts` to
  * recheck this count too (a review follow-up corrected this from an
  * earlier, undercounted "~28" that didn't match a real recount). Follow-up
  * todos scheduled to close this, in dependency order:
@@ -555,7 +555,7 @@
  *    family (`WorkspaceShell`/`WorkspaceShellBody`/`WorkspaceShellHeader`/
  *    `WorkspaceShellFooter`); `PromptLineShell`/`PromptLine`/
  *    `PromptLineAutocomplete`; `AudioPlayer`/`VideoPlayer`; `Carousel`;
- *    `Markdown`; `AiChatCodeSnippet`; `Launcher`; `SessionShell`.
+ *    `Markdown`; `CodeSnippet`; `Launcher`; `SessionShell`.
  *    `ChatShell`, `WorkspaceShell`, and `PromptLineShell` are flagged as
  *    likely weak/low-value candidates (slot-dominated) and
  *    `AudioPlayer`/`VideoPlayer` as likely low-value (native
@@ -582,7 +582,7 @@
  * comment:
  *
  * - `BarChart`/`LineChart`/`PieChart` wrap `@carbon/charts`
- *   (`SimpleBarChart` etc., see `charts/bar.gts`'s own import), not
+ *   (`SimpleBarChart` etc., see `charts/bar-chart.gts`'s own import), not
  *   `@carbon/react` - there's no upstream React DOM for this harness to
  *   diff against at all.
  * - `Icon`/`registerIcon` have no real upstream counterpart to compare
@@ -616,7 +616,7 @@
  *   counterpart, but neither renders any DOM of its own: `Portal` only
  *   relocates its own yielded content (see `portal.gts`), and
  *   `GridSettings` only yields `Grid`/`Column`/`Row`/`ColumnHang`
- *   pre-configured with a mode (see `grid/settings.gts`) - there's no
+ *   pre-configured with a mode (see `grid/grid-settings.gts`) - there's no
  *   wrapper markup for this harness to diff either way. `GridSettings` is
  *   the natural vehicle for this file's already-flagged css-grid-mode
  *   follow-up (see the Grid entry above) once that's picked up, rather

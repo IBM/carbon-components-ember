@@ -3,7 +3,7 @@
 //
 // Upstream sets `--line-clamp-value`/`--max-height-value` through a shared
 // shadow-DOM stylesheet helper needed only because of Lit shadow DOM + a
-// strict CSP; `AiChatTruncatedText` sets them via a plain inline `style`
+// strict CSP; `TruncatedText` sets them via a plain inline `style`
 // attribute instead (light DOM, matching every other component here), so
 // this partial only needs to consume those two custom properties, not
 // produce them. Selectors are adapted from `:host(...)` to plain

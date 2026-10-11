@@ -54,8 +54,7 @@ export interface PromptLineShellSignature {
  *
  * Ember port of `@carbon/ai-chat-components`'
  * [`cds-aichat-prompt-line-shell`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/prompt-line).
- * Doesn't collide with any Carbon React component name, so it stays
- * unprefixed. Upstream's five kebab-case slots become six camelCase named
+ * Upstream's five kebab-case slots become six camelCase named
  * blocks here (`message-actions` → `<:messageActions>`, etc.) — the extra
  * one, `editor`, is unnamed upstream's own JSDoc but is a real slot in its
  * implementation.

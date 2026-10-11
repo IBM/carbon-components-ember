@@ -33,8 +33,6 @@ export interface ReasoningStepsToggleSignature {
  *
  * Ember port of `@carbon/ai-chat-components`'
  * [`cds-aichat-reasoning-steps-toggle`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/reasoning-steps).
- * Doesn't collide with any Carbon React component name, so it stays
- * unprefixed.
  */
 export default class ReasoningStepsToggle extends Component<ReasoningStepsToggleSignature> {
   // Seeded from `@open` so a static `@open={{true}}` (without `@onToggle`)

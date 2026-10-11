@@ -94,8 +94,6 @@ class CollapseTracker {
  *
  * Ember port of `@carbon/ai-chat-components`'
  * [`cds-aichat-workspace-shell`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/workspace-shell).
- * Doesn't collide with any Carbon React component name, so it stays
- * unprefixed.
  */
 export default class WorkspaceShell extends Component<WorkspaceShellSignature> {
   @tracked shouldCollapseHeader = false;

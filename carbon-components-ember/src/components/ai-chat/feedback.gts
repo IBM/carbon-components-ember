@@ -64,8 +64,6 @@ export interface FeedbackSignature {
  *
  * Ember port of `@carbon/ai-chat-components`'
  * [`cds-aichat-feedback`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/feedback).
- * Doesn't collide with any Carbon React component name, so it stays
- * unprefixed.
  *
  * Category chips are plain `<button>`s styled to match upstream's
  * `cds-selectable-tag` (no `SelectableTag` component exists in this addon —

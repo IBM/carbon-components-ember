@@ -14,7 +14,7 @@ export type ChatButtonKind =
   'primary' | 'secondary' | 'tertiary' | 'ghost' | 'danger';
 export type ChatButtonSize = 'sm' | 'md' | 'lg';
 
-export interface AiChatChatButtonSignature {
+export interface ChatButtonSignature {
   Element: ButtonSignature['Element'];
   Args: {
     /** Button kind. Defaults to `'primary'` (or `'ghost'` when `@isQuickAction` is set and no kind is given). */
@@ -62,9 +62,8 @@ const blockProgrammaticClickWhenSelected = modifier(
  * [`cds-aichat-button`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/chat-button),
  * which itself extends `@carbon/web-components`' `cds-button` - this port
  * wraps this addon's own `Button` (Carbon React parity) instead, to stay
- * framework-consistent. Exported as `AiChatChatButton` because Carbon React
- * has its own not-yet-implemented `ChatButton` (see
- * `scripts/parity-check.mjs`'s `AI_CHAT_EXPORT_OVERRIDES`).
+ * framework-consistent. It's exported from `carbon-components-ember/ai-chat`,
+ * so it doesn't collide with Carbon React's own `ChatButton`.
  *
  * Upstream's `kind`/`size` also accept `danger--tertiary`/`danger--ghost`
  * combination kinds (from `@carbon/web-components`' `BUTTON_KIND`) and an
@@ -85,7 +84,7 @@ const blockProgrammaticClickWhenSelected = modifier(
  * that component IS already the confirmation UI, so a second, unrelated
  * confirm dialog nested inside it would be a broken double-confirmation.
  */
-export default class AiChatChatButton extends Component<AiChatChatButtonSignature> {
+export default class ChatButton extends Component<ChatButtonSignature> {
   get isBlocked() {
     return Boolean(this.args.isQuickAction && this.args.isSelected);
   }

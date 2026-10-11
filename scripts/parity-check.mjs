@@ -47,20 +47,6 @@ const GITHUB_LABEL = 'parity-check';
  * section) it's on, and the next live run will open issues for the
  * remaining ~18 still-unported components.
  */
-// Ember export name overrides for `carbon-ai-chat` components whose plain
-// PascalCase name would collide with an existing Carbon React component of
-// the same name in the shared `src/components.ts` export list (see the source's
-// `nameToEmberExport` comment below for why that matters). Keyed by the
-// upstream kebab-case directory name.
-const AI_CHAT_EXPORT_OVERRIDES = {
-  card: 'AiChatCard',
-  'truncated-text': 'AiChatTruncatedText',
-  'code-snippet': 'AiChatCodeSnippet',
-  // Carbon React has its own (not yet implemented) `ChatButton` - see the
-  // batch 3 write-up in AGENTS.md's "Porting Carbon AI Chat" section.
-  'chat-button': 'AiChatChatButton',
-};
-
 const SOURCES = [
   {
     id: 'react',
@@ -69,6 +55,8 @@ const SOURCES = [
     repo: 'carbon',
     componentsPath: 'packages/react/src/components',
     excludeDirs: [],
+    // The barrel whose exports count as this source's Ember components.
+    barrel: 'carbon-components-ember/src/components.ts',
     storybookStoriesUrl: 'https://react.carbondesignsystem.com/stories.json',
     storybookBaseUrl: 'https://react.carbondesignsystem.com/',
     issueTitlePrefix: '[Parity Check]',
@@ -96,6 +84,9 @@ const SOURCES = [
     componentsPath: 'packages/ai-chat-components/src/components',
     // Not a component - a shared-code folder alongside the real widgets.
     excludeDirs: ['shared'],
+    // AI Chat has its own barrel, like upstream's separate package, so its
+    // export names can match upstream's without colliding with React's.
+    barrel: 'carbon-components-ember/src/ai-chat.ts',
     storybookStoriesUrl: null,
     storybookBaseUrl: null,
     issueTitlePrefix: '[Parity Check][AI Chat]',
@@ -110,29 +101,13 @@ const SOURCES = [
     // still-unported component, not just ones that appeared since a
     // previous check - no separate remediation step needed here.
     createIssues: true,
-    // Every existing Ember component in this addon mirrors `react`, not
-    // this source, so diffing the full Ember export list against this
-    // source's component list would report ~all of them as "extra" -
-    // meaningless noise, not a real signal. Skip it until this source has
-    // its own implemented components to actually compare against.
+    // Off: the ai-chat barrel also exports the parts upstream keeps inside
+    // its components' folders (e.g. `ChatHistoryPanelItem`), which would
+    // all show up as extra.
     trackExtra: false,
     // Upstream directory names are kebab-case (e.g. "chat-shell"); the
-    // Ember port exports them as PascalCase (e.g. "ChatShell"). `emberComponents`
-    // (see comparison below) is a single flat list built from the *entire*
-    // `src/components.ts` export list, shared across every source - so a plain 1:1
-    // name would collide with any Carbon React component of the same name
-    // and silently satisfy that source's own "missing" check too (e.g.
-    // exporting `Card` here would close out the react source's Card issue
-    // #774 despite no React Card ever having been implemented). `Launcher`/
-    // `ChatShell` (see PR #838) didn't collide with anything in `react` and
-    // stay unprefixed so that PR's export names don't churn; `card`,
-    // `truncated-text` and `code-snippet` do collide (checked against
-    // `react`'s live component list when each was ported) and are exported
-    // with an `AiChat` prefix instead (`AiChatCard`, `AiChatTruncatedText`,
-    // `AiChatCodeSnippet`) - add a name here only when a real collision is
-    // confirmed, not preemptively.
-    nameToEmberExport: (name) =>
-      AI_CHAT_EXPORT_OVERRIDES[name] ?? kebabToPascalCase(name),
+    // ai-chat barrel exports them in PascalCase (e.g. "ChatShell").
+    nameToEmberExport: kebabToPascalCase,
   },
 ];
 
@@ -311,18 +286,11 @@ async function fetchUpstreamComponents(source) {
 }
 
 /**
- * Get Ember components from src/components.ts. Shared across all sources: whatever
- * gets added for a new source (e.g. `ChatShell`/`Launcher` for
- * `carbon-ai-chat`) is exported from the same public entrypoint, regardless
- * of which subfolder it lives under, so there is no need for a per-source
- * path here.
+ * Get a source's Ember components from its barrel (`source.barrel`).
  */
-async function getEmberComponents() {
+async function getEmberComponents(source) {
   try {
-    const indexPath = path.join(
-      ROOT_DIR,
-      'carbon-components-ember/src/components.ts',
-    );
+    const indexPath = path.join(ROOT_DIR, source.barrel);
     const content = await fs.readFile(indexPath, 'utf-8');
 
     // Match export statements
@@ -535,8 +503,7 @@ async function compareComponents(
   const implemented = upstreamComponents.filter((c) =>
     emberComponents.includes(source.nameToEmberExport(c)),
   );
-  // Meaningless for sources with no naming overlap against the Ember
-  // export list yet (see `trackExtra` on the source config).
+  // Only for sources with `trackExtra` (see each source's config).
   const extra = source.trackExtra
     ? emberComponents.filter((c) => !upstreamComponents.includes(c))
     : [];
@@ -986,7 +953,7 @@ async function runSource(source, exclusions) {
     );
   }
 
-  const emberComponents = await getEmberComponents();
+  const emberComponents = await getEmberComponents(source);
 
   const comparison = await compareComponents(
     source,

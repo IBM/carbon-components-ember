@@ -18,7 +18,7 @@ export interface BreadcrumbSkeletonSignature {
   };
 }
 
-/** A loading placeholder for a `Breadcrumbs` trail. */
+/** A loading placeholder for a `Breadcrumb` trail. */
 export default class BreadcrumbSkeleton extends Component<BreadcrumbSkeletonSignature> {
   get items() {
     return Array.from({ length: this.args.items ?? 3 });

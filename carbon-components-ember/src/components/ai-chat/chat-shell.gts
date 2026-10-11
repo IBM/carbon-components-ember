@@ -142,7 +142,7 @@ export interface ChatShellSignature {
  * building the machinery ahead of any real content to drive it.
  *
  * ```gjs
- * import { ChatShell } from 'carbon-components-ember/components';
+ * import { ChatShell } from 'carbon-components-ember/ai-chat';
  *
  * <template>
  *   <ChatShell @messagesAriaLabel='Chat messages'>

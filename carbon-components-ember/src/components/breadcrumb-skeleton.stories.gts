@@ -11,7 +11,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          'A loading placeholder for a `Breadcrumbs` trail of `@items` items.',
+          'A loading placeholder for a `Breadcrumb` trail of `@items` items.',
       },
     },
   },

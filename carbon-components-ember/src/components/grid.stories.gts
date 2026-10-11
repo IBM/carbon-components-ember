@@ -6,7 +6,7 @@ import Grid from './grid.gts';
 import Column from './grid/column.gts';
 import ColumnHang from './grid/column-hang.gts';
 import Row from './grid/row.gts';
-import GridSettings from './grid/settings.gts';
+import GridSettings from './grid/grid-settings.gts';
 
 import type { TOC } from '@ember/component/template-only';
 

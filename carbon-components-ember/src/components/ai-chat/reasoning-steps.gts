@@ -146,8 +146,6 @@ export interface ReasoningStepsSignature {
  *
  * Ember port of `@carbon/ai-chat-components`'
  * [`cds-aichat-reasoning-steps`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/reasoning-steps).
- * Doesn't collide with any Carbon React component name, so it stays
- * unprefixed.
  *
  * Upstream also emits `reasoning-animation-start`/`reasoning-animation-end`
  * composed events timed against the panel's CSS transition, purely for its

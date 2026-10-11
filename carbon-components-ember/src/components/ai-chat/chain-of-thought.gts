@@ -242,8 +242,6 @@ export interface ChainOfThoughtSignature {
  *
  * Ember port of `@carbon/ai-chat-components`'
  * [`cds-aichat-chain-of-thought`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/chain-of-thought).
- * Doesn't collide with any Carbon React component name, so it stays
- * unprefixed.
  *
  * Upstream also aggregates a `chain-of-thought-step-toggled` DOM event
  * bubbling up from any child step into its own `@onStepToggle` callback.

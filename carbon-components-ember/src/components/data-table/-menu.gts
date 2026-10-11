@@ -1,5 +1,5 @@
 import OverflowMenu from '../overflow-menu.gts';
-import type OverflowMenuItem from '../overflow-menu/item.gts';
+import type OverflowMenuItem from '../overflow-menu/overflow-menu-item.gts';
 import type { WithBoundArgs } from '@glint/template';
 import { OverflowMenuVertical } from '../../icons.ts';
 import type { TOC } from '@ember/component/template-only';

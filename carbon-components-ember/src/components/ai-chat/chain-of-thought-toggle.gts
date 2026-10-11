@@ -37,8 +37,6 @@ export interface ChainOfThoughtToggleSignature {
  *
  * Ember port of `@carbon/ai-chat-components`'
  * [`cds-aichat-chain-of-thought-toggle`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/chain-of-thought).
- * Doesn't collide with any Carbon React component name, so it stays
- * unprefixed.
  */
 export default class ChainOfThoughtToggle extends Component<ChainOfThoughtToggleSignature> {
   // Seeded from `@open` so a static `@open={{true}}` (without `@onToggle`)

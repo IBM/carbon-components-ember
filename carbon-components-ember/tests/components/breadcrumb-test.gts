@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, rerender } from '@ember/test-helpers';
-import Breadcrumbs from '#src/components/breadcrumbs.gts';
+import Breadcrumb from '#src/components/breadcrumb.gts';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import { tracked } from '@glimmer/tracking';
@@ -13,14 +13,14 @@ import {
   enableCarbonStyles,
 } from '../helpers';
 
-module('Integration | Component | Breadcrumbs', (hooks) => {
+module('Integration | Component | Breadcrumb', (hooks) => {
   setupRenderingTest(hooks);
 
   test('white theme: should display items', async function (this: RenderingTestContext, assert) {
     disableCarbonStyles();
     await render(
       <template>
-        <Breadcrumbs @crumbs={{array "a" "b" "c"}} @current="b" />
+        <Breadcrumb @crumbs={{array "a" "b" "c"}} @current="b" />
       </template>,
     );
 
@@ -44,7 +44,7 @@ module('Integration | Component | Breadcrumbs', (hooks) => {
     const darkStyleValue = tracked('');
     await render(
       <template>
-        <Breadcrumbs @crumbs={{array "a" "b" "c"}} @current="b" />
+        <Breadcrumb @crumbs={{array "a" "b" "c"}} @current="b" />
         <style>
           {{darkStyleValue.value}}
         </style>
@@ -70,7 +70,7 @@ module('Integration | Component | Breadcrumbs', (hooks) => {
   test('should allow click without handler', async function (assert) {
     assert.expect(0);
     await render(
-      <template><Breadcrumbs @crumbs={{array "a" "b" "c"}} /></template>,
+      <template><Breadcrumb @crumbs={{array "a" "b" "c"}} /></template>,
     );
 
     await click('.cds--breadcrumb-item');
@@ -81,7 +81,7 @@ module('Integration | Component | Breadcrumbs', (hooks) => {
     const onSelect = (crumb: string) => selected.push(crumb);
     await render(
       <template>
-        <Breadcrumbs @crumbs={{array "a" "b"}} @onSelect={{onSelect}} />
+        <Breadcrumb @crumbs={{array "a" "b"}} @onSelect={{onSelect}} />
       </template>,
     );
 
@@ -99,10 +99,7 @@ module('Integration | Component | Breadcrumbs', (hooks) => {
     const selected = tracked('');
     await render(
       <template>
-        <Breadcrumbs
-          @crumbs={{array "a" "b" "c"}}
-          @current={{selected.value}}
-        />
+        <Breadcrumb @crumbs={{array "a" "b" "c"}} @current={{selected.value}} />
       </template>,
     );
 

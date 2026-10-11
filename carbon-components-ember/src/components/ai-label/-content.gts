@@ -7,8 +7,8 @@
 
 import type { TOC } from '@ember/component/template-only';
 import type { WithBoundArgs } from '@glint/template';
-import type ToggletipContent from '../toggletip/content.gts';
-import type { ToggletipContentSignature } from '../toggletip/content.gts';
+import type ToggletipContent from '../toggletip/toggletip-content.gts';
+import type { ToggletipContentSignature } from '../toggletip/toggletip-content.gts';
 
 export interface AILabelContentSignature {
   Element: ToggletipContentSignature['Element'];

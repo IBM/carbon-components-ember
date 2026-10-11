@@ -3,7 +3,7 @@ import { expect } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import Button from './button.gts';
 import FormGroup from './form-group.gts';
-import RadioButtonGroup from './radio-button/group.gts';
+import RadioButtonGroup from './radio-button/radio-button-group.gts';
 import Stack from './stack.gts';
 import TextInput from './text-input.gts';
 

@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click, waitUntil, find, settled } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
-import AiChatCodeSnippet from '#src/components/ai-chat/code-snippet.gts';
+import CodeSnippet from '#src/components/ai-chat/code-snippet.gts';
 import { resetCodeMirrorRuntimeForTests } from '#src/components/ai-chat/-code-snippet/codemirror-loader.ts';
 import { Add } from '#src/icons.ts';
 
@@ -19,7 +19,7 @@ async function waitForEditor() {
   await waitUntil(() => find('.cm-content'), { timeout: 5000 });
 }
 
-module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
+module('Integration | Component | ai-chat/CodeSnippet', (hooks) => {
   setupRenderingTest(hooks);
 
   hooks.afterEach(() => {
@@ -31,9 +31,7 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
   });
 
   test('renders @code inside the CodeMirror editor', async function (assert) {
-    await render(
-      <template><AiChatCodeSnippet @code="const x = 1;" /></template>,
-    );
+    await render(<template><CodeSnippet @code="const x = 1;" /></template>);
 
     await waitForEditor();
 
@@ -49,7 +47,7 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
 
     class Host extends Component {
       state = state;
-      <template><AiChatCodeSnippet @code={{this.state.code}} /></template>
+      <template><CodeSnippet @code={{this.state.code}} /></template>
     }
 
     await render(<template><Host /></template>);
@@ -77,7 +75,7 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
 
     await render(
       <template>
-        <AiChatCodeSnippet @code="" @editable={{true}} @onChange={{onChange}} />
+        <CodeSnippet @code="" @editable={{true}} @onChange={{onChange}} />
       </template>,
     );
     await waitForEditor();
@@ -102,9 +100,7 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
   });
 
   test('a non-editable snippet has no contenteditable surface', async function (assert) {
-    await render(
-      <template><AiChatCodeSnippet @code="const x = 1;" /></template>,
-    );
+    await render(<template><CodeSnippet @code="const x = 1;" /></template>);
     await waitForEditor();
 
     assert.dom('.cm-content').hasAttribute('contenteditable', 'false');
@@ -112,7 +108,7 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
 
   test('@hideHeader hides the toolbar', async function (assert) {
     await render(
-      <template><AiChatCodeSnippet @code="x" @hideHeader={{true}} /></template>,
+      <template><CodeSnippet @code="x" @hideHeader={{true}} /></template>,
     );
     await waitForEditor();
 
@@ -120,9 +116,7 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
   });
 
   test('the copy action is the first toolbar action unless @hideCopyButton is set', async function (assert) {
-    await render(
-      <template><AiChatCodeSnippet @code="const x = 1;" /></template>,
-    );
+    await render(<template><CodeSnippet @code="const x = 1;" /></template>);
     await waitForEditor();
 
     assert
@@ -133,7 +127,7 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
   test('@hideCopyButton removes the copy action', async function (assert) {
     await render(
       <template>
-        <AiChatCodeSnippet @code="const x = 1;" @hideCopyButton={{true}} />
+        <CodeSnippet @code="const x = 1;" @hideCopyButton={{true}} />
       </template>,
     );
     await waitForEditor();
@@ -153,9 +147,7 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
     });
 
     try {
-      await render(
-        <template><AiChatCodeSnippet @code="const x = 1;" /></template>,
-      );
+      await render(<template><CodeSnippet @code="const x = 1;" /></template>);
       await waitForEditor();
 
       await click('.cds-aichat-toolbar__actions-container button');
@@ -177,7 +169,7 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
     ];
 
     await render(
-      <template><AiChatCodeSnippet @code="x" @actions={{actions}} /></template>,
+      <template><CodeSnippet @code="x" @actions={{actions}} /></template>,
     );
     await waitForEditor();
 
@@ -188,7 +180,7 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
 
   test('@disabled applies the disabled modifier class', async function (assert) {
     await render(
-      <template><AiChatCodeSnippet @code="x" @disabled={{true}} /></template>,
+      <template><CodeSnippet @code="x" @disabled={{true}} /></template>,
     );
     await waitForEditor();
 
@@ -196,9 +188,7 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
   });
 
   test('destroying the component tears down the CodeMirror editor without error', async function (assert) {
-    await render(
-      <template><AiChatCodeSnippet @code="const x = 1;" /></template>,
-    );
+    await render(<template><CodeSnippet @code="const x = 1;" /></template>);
     await waitForEditor();
 
     await render(<template></template>);
@@ -208,7 +198,7 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
   test('@language + @highlight + @detectLanguage locks in and renders the language label', async function (assert) {
     await render(
       <template>
-        <AiChatCodeSnippet
+        <CodeSnippet
           @code="const x = 1;"
           @language="javascript"
           @highlight={{true}}
@@ -225,7 +215,7 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
   test('without @detectLanguage or @language, no language label renders', async function (assert) {
     await render(
       <template>
-        <AiChatCodeSnippet @code="const x = 1;" @highlight={{true}} />
+        <CodeSnippet @code="const x = 1;" @highlight={{true}} />
       </template>,
     );
     await waitForEditor();
@@ -242,7 +232,7 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
 
     await render(
       <template>
-        <AiChatCodeSnippet @code={{pythonCode}} @detectLanguage={{true}} />
+        <CodeSnippet @code={{pythonCode}} @detectLanguage={{true}} />
       </template>,
     );
     await waitForEditor();
@@ -265,10 +255,7 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
 
     await render(
       <template>
-        <AiChatCodeSnippet
-          @code={{manyLines}}
-          @maxCollapsedNumberOfRows={{3}}
-        />
+        <CodeSnippet @code={{manyLines}} @maxCollapsedNumberOfRows={{3}} />
       </template>,
     );
     await waitForEditor();
@@ -298,11 +285,7 @@ module('Integration | Component | ai-chat/AiChatCodeSnippet', (hooks) => {
 
     await render(
       <template>
-        <AiChatCodeSnippet
-          @code={{diffCode}}
-          @language="diff"
-          @highlight={{true}}
-        />
+        <CodeSnippet @code={{diffCode}} @language="diff" @highlight={{true}} />
       </template>,
     );
     await waitForEditor();
