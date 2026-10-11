@@ -262,7 +262,7 @@
  * descendant control unfocusable regardless of its own `tabindex` - not
  * worth its own variant.
  *
- * Grid (Grid/GridColumn/GridRow/GridColumnHang) is covered below. The
+ * Grid (Grid/Column/Row/ColumnHang) is covered below. The
  * naive comparison target, `@carbon/react`'s `Grid`, is feature-flag
  * dependent - at this pinned version it renders CSS Grid by default
  * (`enable-css-grid` defaults on), not the flexbox grid Ember's `Grid`
@@ -277,8 +277,8 @@
  * (`Carbon.CSSGrid`, not directly exported - only reachable through the
  * flag) that deserves its own pass. Each component is exercised with a
  * plain-text child (not nested Grid components) so the `ember-view`/
- * auto-id artifact already documented for Link (Grid/GridColumn/GridRow/
- * GridColumnHang all render their root tag via the `element` helper too)
+ * auto-id artifact already documented for Link (Grid/Column/Row/
+ * ColumnHang all render their root tag via the `element` helper too)
  * shows up once per fixture instead of once per nesting depth.
  *
  * Notification is a single Ember component that conflates three upstream
@@ -1594,7 +1594,7 @@ export const COMPONENTS = [
     ],
   },
   {
-    name: 'GridRow',
+    name: 'Row',
     variants: [
       gridRow('default', {}),
       gridRow('condensed', { condensed: true }),
@@ -1602,7 +1602,7 @@ export const COMPONENTS = [
     ],
   },
   {
-    name: 'GridColumn',
+    name: 'Column',
     variants: [
       gridColumn('default', {}),
       gridColumn('sm', { sm: 2 }),
@@ -1612,7 +1612,7 @@ export const COMPONENTS = [
     ],
   },
   {
-    name: 'GridColumnHang',
+    name: 'ColumnHang',
     variants: [
       {
         name: 'default',

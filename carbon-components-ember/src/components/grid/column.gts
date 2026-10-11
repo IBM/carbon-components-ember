@@ -22,7 +22,7 @@ export type {
   ColumnSpanSimple,
 };
 
-export interface GridColumnSignature {
+export interface ColumnSignature {
   Element: HTMLElement;
   Args: {
     as?: keyof HTMLElementTagNameMap;
@@ -198,7 +198,7 @@ function spanClasses(value: ColumnSpan | undefined): string[] {
   return classes;
 }
 
-export default class GridColumn extends Component<GridColumnSignature> {
+export default class Column extends Component<ColumnSignature> {
   get tag(): keyof HTMLElementTagNameMap {
     return this.args.as ?? 'div';
   }

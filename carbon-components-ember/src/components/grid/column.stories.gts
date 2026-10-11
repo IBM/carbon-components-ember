@@ -2,10 +2,10 @@ import { expect } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Grid from '../grid.gts';
-import GridColumn from './column.gts';
+import Column from './column.gts';
 
 import type { TOC } from '@ember/component/template-only';
-import type { GridColumnSignature } from './column.gts';
+import type { ColumnSignature } from './column.gts';
 
 // Carbon React has no stories of its own for Column: it's a subcomponent of
 // Elements/Grid and Elements/FlexGrid. The controls drive the highlighted
@@ -19,8 +19,8 @@ const Box: TOC<{ Blocks: { default: [] } }> = <template>
   </div>
 </template>;
 
-const Columns: TOC<{ Args: { args: GridColumnSignature['Args'] } }> = <template>
-  <GridColumn
+const Columns: TOC<{ Args: { args: ColumnSignature['Args'] } }> = <template>
+  <Column
     @as={{@args.as}}
     @mode={{@args.mode}}
     @sm={{@args.sm}}
@@ -31,26 +31,26 @@ const Columns: TOC<{ Args: { args: GridColumnSignature['Args'] } }> = <template>
     @span={{@args.span}}
     style="outline: 2px solid var(--cds-focus, #0f62fe); outline-offset: -2px;"
   >
-    <Box>GridColumn</Box>
-  </GridColumn>
-  <GridColumn @mode={{@args.mode}} @sm={{1}} @md={{2}} @lg={{4}}>
+    <Box>Column</Box>
+  </Column>
+  <Column @mode={{@args.mode}} @sm={{1}} @md={{2}} @lg={{4}}>
     <Box>Sibling</Box>
-  </GridColumn>
-  <GridColumn @mode={{@args.mode}} @sm={{1}} @md={{2}} @lg={{4}}>
+  </Column>
+  <Column @mode={{@args.mode}} @sm={{1}} @md={{2}} @lg={{4}}>
     <Box>Sibling</Box>
-  </GridColumn>
+  </Column>
 </template>;
 
 const isFlexbox = (mode: string | undefined) => mode === 'flexbox';
 
 const meta = preview.meta({
-  title: 'Elements/Grid/GridColumn',
-  component: GridColumn,
+  title: 'Elements/Grid/Column',
+  component: Column,
   parameters: {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: `A column of the 2x Grid. Render the \`Column\` yielded by \`Grid\` (or \`GridSettings\`), which already has the grid's \`@mode\`: in the CSS Grid it's a direct child of the \`Grid\`, in the Flexbox grid it goes inside a \`GridRow\`.
+        component: `A column of the 2x Grid. Render the \`Column\` yielded by \`Grid\` (or \`GridSettings\`), which already has the grid's \`@mode\`: in the CSS Grid it's a direct child of the \`Grid\`, in the Flexbox grid it goes inside a \`Row\`.
 
 Each breakpoint arg (\`@sm\`, \`@md\`, \`@lg\`, \`@xlg\`, \`@max\`) takes \`true\` (an equal share of the remaining space), a number of columns, or an object like \`{{hash span=4 offset=2}}\`. In \`css-grid\` mode a column also takes a percentage (\`'25%'\` ... \`'100%'\`), \`start\`/\`end\` grid lines, and a breakpoint-independent \`@span\`. See *Elements/Grid* for examples.`,
       },

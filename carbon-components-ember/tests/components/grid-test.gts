@@ -1,10 +1,11 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, rerender } from '@ember/test-helpers';
-import Grid, { FlexGrid } from '#src/components/grid.gts';
-import GridRow from '#src/components/grid/row.gts';
-import GridColumn from '#src/components/grid/column.gts';
-import GridColumnHang from '#src/components/grid/column-hang.gts';
+import Grid from '#src/components/grid.gts';
+import FlexGrid from '#src/components/grid/flex-grid.gts';
+import Row from '#src/components/grid/row.gts';
+import Column from '#src/components/grid/column.gts';
+import ColumnHang from '#src/components/grid/column-hang.gts';
 import GridSettings from '#src/components/grid/settings.gts';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
@@ -25,10 +26,10 @@ module('Integration | Component | Grid', (hooks) => {
     await render(
       <template>
         <Grid>
-          <GridRow>
-            <GridColumn>Column 1</GridColumn>
-            <GridColumn>Column 2</GridColumn>
-          </GridRow>
+          <Row>
+            <Column>Column 1</Column>
+            <Column>Column 2</Column>
+          </Row>
         </Grid>
       </template>,
     );
@@ -52,10 +53,10 @@ module('Integration | Component | Grid', (hooks) => {
     await render(
       <template>
         <Grid>
-          <GridRow>
-            <GridColumn>Column 1</GridColumn>
-            <GridColumn>Column 2</GridColumn>
-          </GridRow>
+          <Row>
+            <Column>Column 1</Column>
+            <Column>Column 2</Column>
+          </Row>
         </Grid>
         <style>
           {{darkStyleValue.value}}
@@ -139,20 +140,20 @@ module('Integration | Component | Grid', (hooks) => {
     assert.dom('section.cds--grid').exists();
   });
 
-  test('GridRow renders the base row class', async function (assert) {
+  test('Row renders the base row class', async function (assert) {
     await render(
       <template>
-        <GridRow>content</GridRow>
+        <Row>content</Row>
       </template>,
     );
 
     assert.dom('.cds--row').exists();
   });
 
-  test('GridRow @condensed and @narrow add modifier classes', async function (assert) {
+  test('Row @condensed and @narrow add modifier classes', async function (assert) {
     await render(
       <template>
-        <GridRow @condensed={{true}} @narrow={{true}}>content</GridRow>
+        <Row @condensed={{true}} @narrow={{true}}>content</Row>
       </template>,
     );
 
@@ -160,30 +161,30 @@ module('Integration | Component | Grid', (hooks) => {
     assert.dom('.cds--row--narrow').exists();
   });
 
-  test('GridColumn defaults to the auto-width col class', async function (assert) {
+  test('Column defaults to the auto-width col class', async function (assert) {
     await render(
       <template>
-        <GridColumn>content</GridColumn>
+        <Column>content</Column>
       </template>,
     );
 
     assert.dom('.cds--col').exists();
   });
 
-  test('GridColumn @sm as true adds the auto column class for the breakpoint', async function (assert) {
+  test('Column @sm as true adds the auto column class for the breakpoint', async function (assert) {
     await render(
       <template>
-        <GridColumn @sm={{true}}>content</GridColumn>
+        <Column @sm={{true}}>content</Column>
       </template>,
     );
 
     assert.dom('.cds--col-sm').exists();
   });
 
-  test('GridColumn breakpoint span numbers add the matching column classes', async function (assert) {
+  test('Column breakpoint span numbers add the matching column classes', async function (assert) {
     await render(
       <template>
-        <GridColumn @sm={{2}} @md={{4}} @lg={{6}}>content</GridColumn>
+        <Column @sm={{2}} @md={{4}} @lg={{6}}>content</Column>
       </template>,
     );
 
@@ -192,10 +193,10 @@ module('Integration | Component | Grid', (hooks) => {
     assert.dom('.cds--col-lg-6').exists();
   });
 
-  test('GridColumn breakpoint objects add span and offset classes', async function (assert) {
+  test('Column breakpoint objects add span and offset classes', async function (assert) {
     await render(
       <template>
-        <GridColumn @sm={{hash span=1 offset=3}}>content</GridColumn>
+        <Column @sm={{hash span=1 offset=3}}>content</Column>
       </template>,
     );
 
@@ -203,21 +204,34 @@ module('Integration | Component | Grid', (hooks) => {
     assert.dom('.cds--offset-sm-3').exists();
   });
 
-  test('FlexGrid renders the flexbox grid even when @mode is css-grid', async function (assert) {
+  test('FlexGrid renders the flexbox grid', async function (assert) {
     await render(
       <template>
-        <FlexGrid @mode="css-grid">content</FlexGrid>
+        <FlexGrid @condensed={{true}} as |grid|>
+          <grid.Row><grid.Column @lg={{4}}>content</grid.Column></grid.Row>
+        </FlexGrid>
       </template>,
     );
 
-    assert.dom('.cds--grid').exists();
+    assert.dom('.cds--grid.cds--grid--condensed').exists();
     assert.dom('.cds--css-grid').doesNotExist();
+    assert.dom('.cds--row .cds--col-lg-4').hasText('content');
   });
 
-  test('GridColumnHang renders the column hang class', async function (assert) {
+  test('FlexGrid passes @as and attributes to the grid element', async function (assert) {
     await render(
       <template>
-        <GridColumnHang>Text</GridColumnHang>
+        <FlexGrid @as="section" class="custom" data-test-grid>content</FlexGrid>
+      </template>,
+    );
+
+    assert.dom('section.cds--grid.custom[data-test-grid]').hasText('content');
+  });
+
+  test('ColumnHang renders the column hang class', async function (assert) {
+    await render(
+      <template>
+        <ColumnHang>Text</ColumnHang>
       </template>,
     );
 

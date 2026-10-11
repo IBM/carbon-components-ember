@@ -6,9 +6,9 @@
  */
 
 import Component from '@glimmer/component';
-import GridColumn from './grid/column.gts';
-import GridColumnHang from './grid/column-hang.gts';
-import GridRow from './grid/row.gts';
+import Column from './grid/column.gts';
+import ColumnHang from './grid/column-hang.gts';
+import Row from './grid/row.gts';
 import type { GridAlign, GridMode, SubgridMode } from './grid/-types.ts';
 import type { WithBoundArgs } from '@glint/template';
 
@@ -21,19 +21,19 @@ export interface GridBlock {
    */
   Grid: WithBoundArgs<typeof Grid, 'mode' | 'subgrid'>;
   /**
-   * A `GridColumn` already bound to this grid's mode.
+   * A `Column` already bound to this grid's mode.
    */
-  Column: WithBoundArgs<typeof GridColumn, 'mode'>;
+  Column: WithBoundArgs<typeof Column, 'mode'>;
   /**
-   * A `GridRow`. Only meaningful in `flexbox` mode -- the CSS Grid has no
+   * A `Row`. Only meaningful in `flexbox` mode -- the CSS Grid has no
    * row elements.
    */
-  Row: typeof GridRow;
+  Row: typeof Row;
   /**
    * Renders content that hangs into the gutter, so it stays aligned across
    * different gutter modes.
    */
-  ColumnHang: typeof GridColumnHang;
+  ColumnHang: typeof ColumnHang;
   /**
    * The resolved grid mode.
    */
@@ -161,23 +161,13 @@ export default class Grid extends Component<GridSignature> {
         {{yield
           (hash
             Grid=(component Grid mode=this.mode subgrid=this.nestedSubgrid)
-            Column=(component GridColumn mode=this.mode)
-            Row=GridRow
-            ColumnHang=GridColumnHang
+            Column=(component Column mode=this.mode)
+            Row=Row
+            ColumnHang=ColumnHang
             mode=this.mode
           )
         }}
       </Tag>
     {{/let}}
   </template>
-}
-
-/**
- * A `Grid` that always renders Carbon's Flexbox grid, regardless of the
- * `mode` argument.
- */
-export class FlexGrid extends Grid {
-  override get mode(): GridMode {
-    return 'flexbox';
-  }
 }

@@ -327,7 +327,7 @@ async function getEmberComponents() {
 
     // Match export statements
     // Components can export named helpers next to their default (e.g.
-    // `export { default as Grid, FlexGrid }`), so don't require `}` right
+    // `export { default as Icon, registerIcon }`), so don't require `}` right
     // after the name.
     const exportRegex = /export\s*\{\s*default\s+as\s+(\w+)\s*[,}]/g;
     const components = [];

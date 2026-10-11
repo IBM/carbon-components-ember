@@ -1,5 +1,5 @@
 {
-  "component": "GridColumn",
+  "component": "Column",
   "generatedAt": "2026-10-04T14:24:38.821Z",
   "carbonReactVersion": "1.114.0",
   "reactVersion": "19.3.0",
