@@ -23,6 +23,8 @@ export default defineMain({
     '@storybook/addon-themes',
     '@storybook/addon-vitest',
     '@storybook/addon-mcp',
+    // Points the components manifest's imports at the components barrel.
+    './manifests.ts',
   ],
 
   framework: 'ember-storybook',

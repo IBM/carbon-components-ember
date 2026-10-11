@@ -2,7 +2,7 @@
 
 Carbon's website, its Figma kits and most of what agents know about Carbon describe `@carbon/react`. The components here follow its API, so what those sources say carries over with Ember's syntax. Look up each component in [components.md](components.md) for its exact arguments and blocks, because a few don't match React yet.
 
-- **Imports.** `import { TextInput } from '@carbon/react'` becomes `import TextInput from 'carbon-components-ember/components/text-input'`. Each component's reference shows its import.
+- **Imports.** `import { TextInput } from '@carbon/react'` becomes `import { TextInput } from 'carbon-components-ember/components'`. Each component's reference shows its import.
 - **Props** become arguments with the same names and values: `labelText="Name"` is `@labelText="Name"`. Booleans and numbers go in curlies: `disabled` is `@disabled={{true}}`, `max={10}` is `@max={{10}}`.
 - **`className` and pass-through attributes** (`aria-*`, `data-*`) are plain attributes on the component: `class="wide"`. A prop the component declares, such as TextInput's `id`, stays an argument (`@id`).
 - **`children`** are the default block: `<Tag>Beta</Tag>`.

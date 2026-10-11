@@ -173,7 +173,7 @@ test("serves Storybook's docs tools over stdio", async (t) => {
     name: 'docs-show',
     arguments: { id: 'components-button' },
   });
-  assert.match(show.content[0].text, /import Button from/);
+  assert.match(show.content[0].text, /import \{ Button \} from/);
   assert.match(show.content[0].text, /@kind/);
 });
 
