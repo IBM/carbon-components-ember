@@ -14,6 +14,9 @@ dom-parity/node_modules
 !.editorconfig
 !.gitignore
 !.mcp.json
+!.claude
+!.claude/skills
+!.claude/skills/**/*
 !.git-blame-ignore-revs
 !CHANGELOG.md
 !CONTRIBUTING.md
