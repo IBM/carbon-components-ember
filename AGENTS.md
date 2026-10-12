@@ -10,6 +10,7 @@ This document provides essential context and patterns for AI agents (like Bob Sh
 - **Carbon React Reference**: https://github.com/carbon-design-system/carbon/tree/main/packages/react
 - **Carbon Storybook**: https://react.carbondesignsystem.com/
 - **Technology**: Ember.js with Glimmer TypeScript (.gts files)
+- **Skills for this repo**: procedures for one kind of task live in `.claude/skills/<name>/SKILL.md`; agents that support skills load them when relevant, and any agent can read them. `implement-component` (add or align a component), `upgrade-carbon`, `port-ai-chat-component`. (The skill under `carbon-components-ember/skills/` is a different one: it ships to apps.)
 
 ---
 
@@ -206,9 +207,7 @@ Nothing registers icons with `IconMap` in app code, so string-based icon lookups
 ---
 
 ## Upgrading Carbon and TypeScript
-- `pnpm-workspace.yaml`'s catalogs pin the dependencies we upgrade by hand, referenced as `catalog:carbon` and `catalog:typescript`. Dependabot ignores them; never bump one on its own.
-- **Carbon:** upgrade the `carbon` catalog in one change, led by `@carbon/react`. `@carbon/styles` and `@carbon/layout` follow its dependencies, `@carbon/grid` and `@carbon/themes` follow `@carbon/styles`'s, and `@carbon/icons` and `@carbon/icon-helpers` follow `@carbon/icons-react`'s (`@carbon/icons` shares its version). `@carbon/utilities` may run ahead when the addon needs a newer API (0.25 for Carousel), and `@carbon/ai-chat-components` follows its own releases. Then regenerate the dom-parity fixtures (`pnpm --filter dom-parity generate`) and compare arguments (`pnpm --filter dom-parity args`). Fix what changed, or record it: DOM differences in `dom-parity/known-differences.json`, argument differences with `args --update`.
-- **TypeScript:** stays on 6.0 until Glint supports TypeScript 7; [#948](https://github.com/IBM/carbon-components-ember/pull/948) tracks the upgrade.
+`pnpm-workspace.yaml`'s catalogs pin the dependencies we upgrade by hand (`catalog:carbon`, `catalog:typescript`). Dependabot ignores them; never bump one on its own, and keep TypeScript on 6.0 until Glint supports TypeScript 7 ([#948](https://github.com/IBM/carbon-components-ember/pull/948)). The upgrade procedure is in [.claude/skills/upgrade-carbon/SKILL.md](.claude/skills/upgrade-carbon/SKILL.md).
 
 ---
 
@@ -248,50 +247,12 @@ Stories live as `src/components/**/<name>.stories.gts` next to their components.
 
 ## Porting Carbon AI Chat (`@carbon/ai-chat-components`)
 
-The port target is the Lit-based framework-agnostic widget library `@carbon/ai-chat-components`, **not** the React shell application.
-
-### 1. Names and the AI Chat Barrel
-AI Chat's components live in `src/components/ai-chat/` and are exported from their own barrel, `carbon-components-ember/ai-chat`, as upstream's are from a package of their own. So they take upstream's names even where Carbon React has a component of the same name: `ai-chat/code-snippet.gts` exports `CodeSnippet` from `carbon-components-ember/ai-chat`, next to Carbon's `CodeSnippet` in `carbon-components-ember/components`. The parity check compares each source with its own barrel.
-
-### 2. Slots and Block Mappings
-- Upstream kebab-case slots become camelCase named blocks (e.g. `header-after` -> `<:headerAfter>`).
-- Use `{{has-block "name"}}` instead of Lit `SlotObserver` MutationObservers.
-
-### 3. Styling Guidelines
-- Adapt upstream shadow-DOM `:host(...)` selectors to plain light-DOM classes.
-- Reference `@carbon/styles` compiled CSS custom properties directly (`var(--cds-*)`) rather than theme Sass variables.
-- Prefer static SCSS for layout over upstream's shadow-DOM-specific runtime CSSOM-injection helpers.
-
-### 4. Technical Gotchas for AI Chat Components
-- **Avoid `@tracked` on internal lazy caches**: If you lazily create or cache values (e.g. `URL.createObjectURL`), use plain private fields rather than `@tracked` properties if they are read and written in the same computation. Reading a tracked field in a getter and modifying it in the same pass triggers Ember's backtracking-rerender assertion.
-- **Announcer Region Tracking**: Do not use `@tracked` on the active announcer region index if multiple updates occur synchronously in a single runloop. Keep as plain private state to prevent re-entrant writes.
-- **Autotracking in Mount Modifiers**: A modifier's install function must never read a tracked `@arg` directly in its body if you don't want it to teardown and rebuild on every keystroke (e.g., streaming `@content`). Capture initial arguments in the constructor as plain fields, and use separate narrow modifiers (`syncArgs`, `syncValue`) to handle updates.
-- **Modifier Rerun Idempotency**: Glimmer can re-evaluate and rerun modifiers even if their declared args haven't changed. For modifiers with destructive or expensive side-effects (like loading a player/editor), use an internal shadow field (e.g. `lastLoadedSource`) to diff before executing.
-- **`.module.scss?inline` Imports in Theme Support**: Vite returns classname maps, not CSS text, for CSS Modules imported with `?inline`. Do not interpolate raw style exports into `<style>` blocks; instead, reference target classnames via properties (e.g., `.{{xStyle.default.className}}`).
-- **Markdown Sanitization**: Always run markdown parsed output through `DOMPurify.sanitize()` unconditionally.
-- **Tiptap Rich Text & Textarea Swap**: The textarea is upgraded to a Tiptap rich-text editor on the fly. We use `@onReady` callback returning a stable API object whose methods delegate to whichever controller is live.
-- **Same-transaction Race on Autocomplete triggers**: Autocomplete triggers can trigger synchronously in a single ProseMirror transaction. Batch events using microtasks (`Promise.resolve().then()`) to resolve the last non-null detail.
-
-### 5. State Management & Persistence
-- **Storage**: Default to `window.sessionStorage` rather than `localStorage` to avoid cookie policy requirements in the EU.
-- **Rehydration Sanitization**: Sanitize state when loading (e.g., force `streaming: false` on loaded messages, and advance the message ID counter past the highest loaded message ID to avoid key collisions).
+The port target is the Lit-based framework-agnostic widget library `@carbon/ai-chat-components`, **not** the React shell application. Its components live in `src/components/ai-chat/` and are exported from their own barrel, `carbon-components-ember/ai-chat`, under upstream's names. Before porting or changing one, read [.claude/skills/port-ai-chat-component/SKILL.md](.claude/skills/port-ai-chat-component/SKILL.md): slots, styling, and the autotracking and modifier gotchas.
 
 ---
 
 ## Component Implementation Checklist
-
-- [ ] Review React implementation at GitHub
-- [ ] Check Storybook for visual reference
-- [ ] Map each React construct to its Ember idiom
-- [ ] Create `.gts` file in `carbon-components-ember/src/components/`
-- [ ] Define TypeScript signature — fully typed, no `any`
-- [ ] Use `cds--` prefix for CSS classes
-- [ ] Export it: run `pnpm generate` to regenerate public barrel exports
-- [ ] Match React's props: `pnpm --filter dom-parity args --component <Name>`
-- [ ] When the PR closes a `[Parity Check]` issue, run `node scripts/parity-check.mjs --mark-synced <Component>` (with `GITHUB_TOKEN`) and commit `.parity-check-data.json`, or the weekly check reopens it; a React directory with no same-named export needs `--exclude <Name> --reason "..."`
-- [ ] Create test file in `tests/components/`
-- [ ] Add a colocated `<name>.stories.gts` mirroring Carbon React's stories; `node scripts/story-parity.mjs --title "Components/<Name>"` lists the ones it's missing
-- [ ] Validate locally: `pnpm build && pnpm test && pnpm test:storybook`
+Adding a component, or aligning one with Carbon React? Follow [.claude/skills/implement-component/SKILL.md](.claude/skills/implement-component/SKILL.md).
 
 ## Guidelines for Updating This Document
 
@@ -299,6 +260,7 @@ This document is a living resource for AI agents and developers. **You are stron
 
 To maintain the high quality of this guide and prevent future bloat, adhere to these strict rules when making updates:
 - **Do add newly discovered technical gotchas or constraints.** Focus on high-value, reusable patterns.
+- **Put a procedure for one kind of task in a skill** under `.claude/skills/`, and point to it from here. Rules that apply to every change stay in this file.
 - **Keep additions extremely concise, structured, and immediately actionable.** Frame issues as general rules (e.g., "Always do X because of Y") rather than stories (e.g., "In PR #123, we found...").
 - **Do not write chronological logs, PR-specific histories, diaries, progress logs, or review-round narratives.** Keep the history in git, and the guidelines in this file.
 
