@@ -78,6 +78,16 @@ jobs:
       - name: Build Storybook
         run: pnpm build:storybook
 
+      # Which Carbon React stories this build matches, and what changed from
+      # main's, in the job summary. Informational, so a network hiccup
+      # doesn't fail the build.
+      - name: Story parity
+        continue-on-error: true
+        run: >-
+          node scripts/story-parity.mjs --summary
+          --ember carbon-components-ember/storybook-static/index.json
+          --baseline https://ibm.github.io/carbon-components-ember/versions/main/index.json
+
       # The deploy below publishes this build rather than building again.
       - name: Upload the site
         if: github.ref == 'refs/heads/main' || github.ref_type == 'tag'

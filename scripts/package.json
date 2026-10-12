@@ -15,7 +15,9 @@
     "lint": "pnpm lint:js && pnpm lint:format",
     "lint:fix": "eslint . --fix && prettier . --write",
     "lint:format": "prettier . --check",
-    "lint:js": "eslint ."
+    "lint:js": "eslint .",
+    "story-parity": "node story-parity.mjs",
+    "test": "node --test"
   },
   "dependencies": {
     "@octokit/rest": "^22.0.1",
