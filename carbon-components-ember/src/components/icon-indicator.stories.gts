@@ -1,5 +1,5 @@
 import { htmlSafe } from '@ember/template';
-import { expect } from 'storybook/test';
+import { expect, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import IconIndicator, {
@@ -130,10 +130,15 @@ Compact.test(
     await expect(definition).toHaveTextContent('Failed');
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
 
+    // Ember re-renders after the event, so wait for the attribute to update.
     await userEvent.hover(trigger);
-    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    await waitFor(() =>
+      expect(trigger).toHaveAttribute('aria-expanded', 'true'),
+    );
 
     await userEvent.unhover(trigger);
-    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    await waitFor(() =>
+      expect(trigger).toHaveAttribute('aria-expanded', 'false'),
+    );
   },
 );
