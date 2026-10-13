@@ -11,9 +11,9 @@ import UnorderedList from '#src/components/unordered-list.gts';
 import OrderedList from '#src/components/ordered-list.gts';
 import ListItem from '#src/components/list-item.gts';
 import Grid from '#src/components/grid.gts';
-import GridRow from '#src/components/grid/row.gts';
-import GridColumn from '#src/components/grid/column.gts';
-import GridColumnHang from '#src/components/grid/column-hang.gts';
+import Row from '#src/components/grid/row.gts';
+import Column from '#src/components/grid/column.gts';
+import ColumnHang from '#src/components/grid/column-hang.gts';
 import Notification from '#src/components/notification.gts';
 import Tile from '#src/components/tile.gts';
 import RadioTile from '#src/components/radio-tile.gts';
@@ -71,9 +71,9 @@ import unorderedListFixture from '../../../dom-parity/fixtures/UnorderedList.jso
 import orderedListFixture from '../../../dom-parity/fixtures/OrderedList.json';
 import listItemFixture from '../../../dom-parity/fixtures/ListItem.json';
 import gridFixture from '../../../dom-parity/fixtures/Grid.json';
-import gridRowFixture from '../../../dom-parity/fixtures/GridRow.json';
-import gridColumnFixture from '../../../dom-parity/fixtures/GridColumn.json';
-import gridColumnHangFixture from '../../../dom-parity/fixtures/GridColumnHang.json';
+import gridRowFixture from '../../../dom-parity/fixtures/Row.json';
+import gridColumnFixture from '../../../dom-parity/fixtures/Column.json';
+import gridColumnHangFixture from '../../../dom-parity/fixtures/ColumnHang.json';
 import notificationFixture from '../../../dom-parity/fixtures/Notification.json';
 import tileFixture from '../../../dom-parity/fixtures/Tile.json';
 import clickableTileFixture from '../../../dom-parity/fixtures/ClickableTile.json';
@@ -1061,11 +1061,11 @@ module('DOM parity | Carbon React', function (hooks) {
     });
   });
 
-  module('GridRow', function () {
+  module('Row', function () {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <GridRow>Row content</GridRow>
+          <Row>Row content</Row>
         </template>,
       );
       assertDomParity(
@@ -1079,7 +1079,7 @@ module('DOM parity | Carbon React', function (hooks) {
     test('condensed', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <GridRow @condensed={{true}}>Row content</GridRow>
+          <Row @condensed={{true}}>Row content</Row>
         </template>,
       );
       assertDomParity(
@@ -1093,7 +1093,7 @@ module('DOM parity | Carbon React', function (hooks) {
     test('narrow', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <GridRow @narrow={{true}}>Row content</GridRow>
+          <Row @narrow={{true}}>Row content</Row>
         </template>,
       );
       assertDomParity(
@@ -1113,11 +1113,11 @@ module('DOM parity | Carbon React', function (hooks) {
     });
   });
 
-  module('GridColumn', function () {
+  module('Column', function () {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <GridColumn>Column content</GridColumn>
+          <Column>Column content</Column>
         </template>,
       );
       assertDomParity(
@@ -1131,7 +1131,7 @@ module('DOM parity | Carbon React', function (hooks) {
     test('sm', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <GridColumn @sm={{2}}>Column content</GridColumn>
+          <Column @sm={{2}}>Column content</Column>
         </template>,
       );
       assertDomParity(
@@ -1145,7 +1145,7 @@ module('DOM parity | Carbon React', function (hooks) {
     test('multi-breakpoint', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <GridColumn @sm={{4}} @md={{4}} @lg={{8}}>Column content</GridColumn>
+          <Column @sm={{4}} @md={{4}} @lg={{8}}>Column content</Column>
         </template>,
       );
       assertDomParity(
@@ -1159,7 +1159,7 @@ module('DOM parity | Carbon React', function (hooks) {
     test('auto', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <GridColumn @lg={{true}}>Column content</GridColumn>
+          <Column @lg={{true}}>Column content</Column>
         </template>,
       );
       assertDomParity(
@@ -1173,7 +1173,7 @@ module('DOM parity | Carbon React', function (hooks) {
     test('offset', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <GridColumn @lg={{hash span=4 offset=2}}>Column content</GridColumn>
+          <Column @lg={{hash span=4 offset=2}}>Column content</Column>
         </template>,
       );
       assertDomParity(
@@ -1195,11 +1195,11 @@ module('DOM parity | Carbon React', function (hooks) {
     });
   });
 
-  module('GridColumnHang', function () {
+  module('ColumnHang', function () {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <GridColumnHang>Hang content</GridColumnHang>
+          <ColumnHang>Hang content</ColumnHang>
         </template>,
       );
       assertDomParity(

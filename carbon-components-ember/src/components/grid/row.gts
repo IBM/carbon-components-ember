@@ -7,7 +7,7 @@
 
 import Component from '@glimmer/component';
 
-export interface GridRowSignature {
+export interface RowSignature {
   Element: HTMLElement;
   Args: {
     as?: keyof HTMLElementTagNameMap;
@@ -27,7 +27,7 @@ export interface GridRowSignature {
   };
 }
 
-export default class GridRow extends Component<GridRowSignature> {
+export default class Row extends Component<RowSignature> {
   get tag(): keyof HTMLElementTagNameMap {
     return this.args.as ?? 'div';
   }

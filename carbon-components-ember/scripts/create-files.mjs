@@ -48,15 +48,6 @@ function createIndexFiles() {
     if (comp.includes('radio-button/group')) {
       camelCased = 'RadioButtonGroup';
     }
-    if (comp.includes('grid/column')) {
-      camelCased = 'GridColumn';
-    }
-    if (comp.includes('grid/row')) {
-      camelCased = 'GridRow';
-    }
-    if (comp.includes('grid/column-hang')) {
-      camelCased = 'GridColumnHang';
-    }
     if (comp.includes('grid/settings')) {
       camelCased = 'GridSettings';
     }

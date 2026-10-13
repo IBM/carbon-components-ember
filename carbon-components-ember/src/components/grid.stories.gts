@@ -3,15 +3,15 @@ import { expect } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Grid from './grid.gts';
-import GridColumn from './grid/column.gts';
-import GridColumnHang from './grid/column-hang.gts';
-import GridRow from './grid/row.gts';
+import Column from './grid/column.gts';
+import ColumnHang from './grid/column-hang.gts';
+import Row from './grid/row.gts';
 import GridSettings from './grid/settings.gts';
 
 import type { TOC } from '@ember/component/template-only';
 
 // Mirrors Carbon React's `Elements/Grid` stories (the CSS Grid). The Flexbox
-// grid (React's `Elements/FlexGrid`) lives in `grid/row.stories.gts`.
+// grid (React's `Elements/FlexGrid`) lives in `grid/flex-grid.stories.gts`.
 // Story-only extras from the docs-app page: `SubgridGutterModes` and
 // `Alignment`. No parity gaps: every React Grid/Column/ColumnHang/
 // GridSettings prop exists here; the grid mode is picked with `@mode`
@@ -52,21 +52,21 @@ const HANG = htmlSafe(
 const meta = preview.meta({
   title: 'Elements/Grid',
   component: Grid,
-  subcomponents: { GridColumn, GridColumnHang, GridRow, GridSettings },
+  subcomponents: { Column, ColumnHang, Row, GridSettings },
   parameters: {
     layout: 'fullscreen',
     docs: {
       description: {
         component: `The 2x Grid is a flexible, 16-column grid system that can be used to build custom layouts. Carbon ships two layout engines for it, and \`Grid\` renders either one:
 
-- **Flexbox grid** (the default, \`@mode="flexbox"\`) — a \`Grid\` renders one or more \`GridRow\`s, and each \`GridRow\` renders one or more \`GridColumn\`s. See *Elements/FlexGrid*.
+- **Flexbox grid** (the default, \`@mode="flexbox"\`) — a \`Grid\` renders one or more \`Row\`s, and each \`Row\` renders one or more \`Column\`s. See *Elements/FlexGrid*.
 - **CSS Grid** (\`@mode="css-grid"\`, these stories) — there are no rows; columns are direct children of the \`Grid\`. This mode additionally supports subgrids, percentage spans, and explicit \`start\`/\`end\` placement.
 
 \`Grid\` yields \`Grid\`, \`Column\`, \`Row\` and \`ColumnHang\` components that are already bound to the surrounding grid's mode, so the mode is only picked once.
 
 ### Column span shorthand
 
-\`GridColumn\` accepts a value for each breakpoint (\`sm\`, \`md\`, \`lg\`, \`xlg\`, \`max\`):
+\`Column\` accepts a value for each breakpoint (\`sm\`, \`md\`, \`lg\`, \`xlg\`, \`max\`):
 
 - \`true\` — the column takes up an equal share of the remaining space
 - a \`number\` — the column spans that many columns

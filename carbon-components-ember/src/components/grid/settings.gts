@@ -7,9 +7,9 @@
 
 import Component from '@glimmer/component';
 import Grid from '../grid.gts';
-import GridColumn from './column.gts';
-import GridColumnHang from './column-hang.gts';
-import GridRow from './row.gts';
+import Column from './column.gts';
+import ColumnHang from './column-hang.gts';
+import Row from './row.gts';
 import type { GridBlock } from '../grid.gts';
 import type { GridMode } from './-types.ts';
 
@@ -58,9 +58,9 @@ export default class GridSettings extends Component<GridSettingsSignature> {
     {{yield
       (hash
         Grid=(component Grid mode=this.mode subgrid=this.subgrid)
-        Column=(component GridColumn mode=this.mode)
-        Row=GridRow
-        ColumnHang=GridColumnHang
+        Column=(component Column mode=this.mode)
+        Row=Row
+        ColumnHang=ColumnHang
         mode=this.mode
       )
     }}
