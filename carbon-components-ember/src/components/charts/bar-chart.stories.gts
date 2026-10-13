@@ -3,7 +3,7 @@ import '@carbon/charts/styles.css';
 import { expect, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
-import BarChart from './bar.gts';
+import BarChart from './bar-chart.gts';
 
 // Mirrors the simple bar stories of `@carbon/charts`' own storybook
 // ("Simple bar (discrete)" / "Simple bar (time series)") with the same

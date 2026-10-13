@@ -12,7 +12,7 @@ import {
 import preview from '#storybook/preview.ts';
 import Checkbox from './checkbox.gts';
 import Popover, { PopoverContent } from './popover.gts';
-import RadioButtonGroup from './radio-button/group.gts';
+import RadioButtonGroup from './radio-button/radio-button-group.gts';
 import CheckboxIcon from './icons/checkbox.ts';
 import Settings from './icons/settings.ts';
 

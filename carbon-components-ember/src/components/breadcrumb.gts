@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { defaultArgs } from '../utils/decorators.ts';
-export interface BreadcrumbsSignature {
+export interface BreadcrumbSignature {
   Element: HTMLElement;
 
   Args: {
@@ -10,8 +10,8 @@ export interface BreadcrumbsSignature {
   };
 }
 
-export default class Breadcrumbs extends Component<BreadcrumbsSignature> {
-  args: BreadcrumbsSignature['Args'] = defaultArgs(this, {
+export default class Breadcrumb extends Component<BreadcrumbSignature> {
+  args: BreadcrumbSignature['Args'] = defaultArgs(this, {
     crumbs: [],
   });
 

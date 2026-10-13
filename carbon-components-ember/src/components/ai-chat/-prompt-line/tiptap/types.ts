@@ -34,7 +34,7 @@ export interface SuggestionItem {
    * Optional leading visual. A plain string is rendered as an image `src`;
    * anything else is invoked as a component (`<entry.avatarIcon @size={{16}} />`),
    * matching the `ComponentLike` icon-arg pattern used elsewhere in this
-   * addon (e.g. `AiChatCardFooter`'s `CardFooterAction.icon`).
+   * addon (e.g. `CardFooter`'s `CardFooterAction.icon`).
    */
   avatar?:
     | string

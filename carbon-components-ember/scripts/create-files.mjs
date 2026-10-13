@@ -6,6 +6,7 @@ function createIndexFiles() {
   const files = fs.readdirSync('./src', { recursive: true }).sort();
   const groups = {
     components: [],
+    aiChat: [],
     icons: [],
   };
   for (const addonFilename of files) {
@@ -25,86 +26,19 @@ function createIndexFiles() {
       addonFilename.startsWith('components/') &&
       !addonFilename.includes('/-')
     ) {
-      groups.components.push(addonFilename);
+      // AI Chat has its own barrel, like upstream's separate package, so its
+      // components keep upstream's names (`Card`, `CodeSnippet`).
+      (addonFilename.startsWith('components/ai-chat/')
+        ? groups.aiChat
+        : groups.components
+      ).push(addonFilename);
     }
   }
-  const componentIndexFile = [];
-  for (const comp of groups.components) {
-    let camelCased = comp
-      .split('/')
-      .at(-1)
-      .split('.')
-      .at()
-      .replace(/-([a-zA-Z])/g, function (g) {
-        return g[1].toUpperCase();
-      });
-    camelCased = camelCased[0].toUpperCase() + camelCased.slice(1);
-    if (comp.includes('charts')) {
-      camelCased += 'Chart';
-    }
-    if (comp.includes('dialogs')) {
-      camelCased += 'Dialog';
-    }
-    if (comp.includes('radio-button/group')) {
-      camelCased = 'RadioButtonGroup';
-    }
-    if (comp.includes('grid/settings')) {
-      camelCased = 'GridSettings';
-    }
-    if (/^components\/ai-(?!chat\/)/.test(comp)) {
-      camelCased = 'AI' + camelCased.slice(2);
-    }
-    if (comp.split('/').at(-1) === 'ui-shell.gts') {
-      camelCased = 'UIShell';
-    }
-    if (comp.includes('toggletip/')) {
-      camelCased = 'Toggletip' + camelCased;
-    }
-    // These ai-chat/ components would otherwise export under a plain name
-    // that either collides with an existing Carbon React component in this
-    // same index (Card, TruncatedText, CodeSnippet, ChatButton - see
-    // scripts/parity-check.mjs's AI_CHAT_EXPORT_OVERRIDES) or breaks family-
-    // naming consistency with those (CardFooter, CardSteps,
-    // ChatButtonSkeleton). Table, Toolbar, Processing, FileUploads,
-    // FileUploadItem, WorkspaceShell (+ its Header/Body/Footer), Launcher,
-    // ChatShell, and the whole ChatHistory family (filenames already
-    // prefixed `chat-history-*`, so their PascalCase names come out
-    // `ChatHistory*` with no override needed) don't collide with anything
-    // and intentionally stay unprefixed.
-    if (
-      [
-        'ai-chat/card.gts',
-        'ai-chat/card-footer.gts',
-        'ai-chat/card-steps.gts',
-        'ai-chat/truncated-text.gts',
-        'ai-chat/code-snippet.gts',
-        'ai-chat/chat-button.gts',
-        'ai-chat/chat-button-skeleton.gts',
-      ].some((f) => comp.endsWith(f))
-    ) {
-      camelCased = 'AiChat' + camelCased;
-    }
-    if (
-      comp.split('/').at(-1) === 'item.gts' &&
-      comp.includes('overflow-menu/')
-    ) {
-      camelCased = 'OverflowMenuItem';
-    }
-    const relativePath = comp.replace('components/', '');
-    const source = fs
-      .readFileSync(path.join('./src/components', relativePath))
-      .toString();
-    const namedExports = [
-      ...source.matchAll(/^export (?:class|const|function) ([A-Za-z0-9_]+)/gm),
-    ].map((m) => m[1]);
-    const specifiers = [`default as ${camelCased}`, ...namedExports];
-    componentIndexFile.push(
-      `export { ${specifiers.join(', ')} } from './components/${relativePath}'`,
-    );
-  }
-  // `carbon-components-ember/components` (dist/components.js, via the
-  // package.json `./*` export). src/components/index.ts re-exports it.
-  fs.writeFileSync('./src/components.ts', componentIndexFile.join('\n'));
+  // `carbon-components-ember/components` and `carbon-components-ember/ai-chat`
+  // (dist/components.js and dist/ai-chat.js, via the package.json `./*`
+  // export). src/components/index.ts re-exports the first.
+  writeBarrel(groups.components, './src/components.ts');
+  writeBarrel(groups.aiChat, './src/ai-chat.ts');
 
   const iconsIndexFile = [];
   for (const comp of groups.icons) {
@@ -120,6 +54,47 @@ function createIndexFiles() {
     iconsIndexFile.push(`export { default as ${camelCased} } from './${comp}'`);
   }
   fs.writeFileSync('./src/icons.ts', iconsIndexFile.join('\n'));
+}
+
+/**
+ * Writes a barrel exporting each component under its file name in
+ * PascalCase (`text-input.gts` is `TextInput`), so name the file after the
+ * export. A top-level `ai-` or `ui-` file spells the acronym as Carbon React
+ * does (`AILabel`, `UIShell`).
+ */
+function writeBarrel(components, file) {
+  const lines = [];
+  const exportedFrom = new Map();
+  for (const comp of components) {
+    const camelCased = path
+      .basename(comp)
+      .replace(/\..*$/, '')
+      .split('-')
+      .map((word, i) =>
+        i === 0 && /^(ai|ui)$/.test(word) && path.dirname(comp) === 'components'
+          ? word.toUpperCase()
+          : word[0].toUpperCase() + word.slice(1),
+      )
+      .join('');
+    if (exportedFrom.has(camelCased)) {
+      throw new Error(
+        `${comp} and ${exportedFrom.get(camelCased)} would both export ${camelCased} from ${file}; rename one`,
+      );
+    }
+    exportedFrom.set(camelCased, comp);
+    const relativePath = comp.replace('components/', '');
+    const source = fs
+      .readFileSync(path.join('./src/components', relativePath))
+      .toString();
+    const namedExports = [
+      ...source.matchAll(/^export (?:class|const|function) ([A-Za-z0-9_]+)/gm),
+    ].map((m) => m[1]);
+    const specifiers = [`default as ${camelCased}`, ...namedExports];
+    lines.push(
+      `export { ${specifiers.join(', ')} } from './components/${relativePath}'`,
+    );
+  }
+  fs.writeFileSync(file, lines.join('\n'));
 }
 
 function createIconIndex() {

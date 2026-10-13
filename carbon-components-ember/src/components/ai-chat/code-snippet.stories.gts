@@ -8,8 +8,8 @@ import { expect, fn, waitFor } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import Download from '../icons/download.ts';
 import Share from '../icons/share.ts';
-import AiChatCard from './card.gts';
-import AiChatCodeSnippet from './code-snippet.gts';
+import Card from './card.gts';
+import CodeSnippet from './code-snippet.gts';
 
 // Loads CodeMirror up front so Vite pre-bundles its dependencies when it
 // collects this file; under vitest, discovering them mid-run from the
@@ -17,14 +17,14 @@ import AiChatCodeSnippet from './code-snippet.gts';
 import './-code-snippet/codemirror-runtime.ts';
 
 import type Owner from '@ember/owner';
-import type { AiChatCodeSnippetSignature } from './code-snippet.gts';
+import type { CodeSnippetSignature } from './code-snippet.gts';
 import type { ToolbarAction } from './toolbar.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `Components/Code snippet` stories
 // (code-snippet/__stories__/code-snippet.stories.js).
 //
 // Parity gaps:
-// - `AiChatCodeSnippet` has no `decorator` (AI label) or `fixed-actions`
+// - `CodeSnippet` has no `decorator` (AI label) or `fixed-actions`
 //   slots, so `WithHeaderSlotsFilled` only shows the overflowing `actions`.
 // - Upstream sets `data-rounded` on the snippet inside a card; the
 //   rounded-modifiers mixins aren't ported.
@@ -249,28 +249,28 @@ const MANY_LINES = Array.from(
   (_, i) => `line ${i + 1} = ${i};`,
 ).join('\n');
 
-type StoryArgs = AiChatCodeSnippetSignature['Args'] & {
-  /** Story-only: wrap the snippet in a flush `AiChatCard`. */
+type StoryArgs = CodeSnippetSignature['Args'] & {
+  /** Story-only: wrap the snippet in a flush `Card`. */
   useCard?: boolean;
 };
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'AI Chat/Code snippet',
-  component: AiChatCodeSnippet,
+  component: CodeSnippet,
   parameters: {
     docs: {
       description: {
-        component: `\`AiChatCodeSnippet\` is a CodeMirror 6 powered code display/editor: syntax
+        component: `\`CodeSnippet\` is a CodeMirror 6 powered code display/editor: syntax
 highlighting, line folding, and a collapse/expand affordance for long
-snippets. Exported as \`AiChatCodeSnippet\` (an existing Carbon React
-\`CodeSnippet\` already occupies the plain name). \`@code\` is the sole content
+snippets. Exported from \`carbon-components-ember/ai-chat\`, next to Carbon's
+own \`CodeSnippet\` in \`carbon-components-ember/components\`. \`@code\` is the sole content
 source — pass a plain string (update it however you like, e.g. token by
 token while streaming a response) and the editor stays in sync via a
 throttled diff, not a full reset, so scroll position and selection survive.
 
 CodeMirror itself, and each individual language grammar, is dynamically
 imported the first time a snippet actually renders — a page with no
-\`AiChatCodeSnippet\` on it never downloads any of this.`,
+\`CodeSnippet\` on it never downloads any of this.`,
       },
     },
   },
@@ -290,9 +290,9 @@ imported the first time a snippet actually renders — a page with no
   },
   render: (args: StoryArgs) => <template>
     {{#if args.useCard}}
-      <AiChatCard @isFlush={{true}}>
+      <Card @isFlush={{true}}>
         <:body>
-          <AiChatCodeSnippet
+          <CodeSnippet
             @code={{args.code}}
             @language={{args.language}}
             @editable={{args.editable}}
@@ -314,9 +314,9 @@ imported the first time a snippet actually renders — a page with no
             @onChange={{args.onChange}}
           />
         </:body>
-      </AiChatCard>
+      </Card>
     {{else}}
-      <AiChatCodeSnippet
+      <CodeSnippet
         @code={{args.code}}
         @language={{args.language}}
         @editable={{args.editable}}
@@ -386,9 +386,9 @@ export const Streaming = meta.story({
         {{on "click" restart}}
       >Restart Streaming</button>
       {{#if args.useCard}}
-        <AiChatCard @isFlush={{true}}>
+        <Card @isFlush={{true}}>
           <:body>
-            <AiChatCodeSnippet
+            <CodeSnippet
               @code={{code}}
               @language={{args.language}}
               @editable={{args.editable}}
@@ -397,9 +397,9 @@ export const Streaming = meta.story({
               @hideCopyButton={{args.hideCopyButton}}
             />
           </:body>
-        </AiChatCard>
+        </Card>
       {{else}}
-        <AiChatCodeSnippet
+        <CodeSnippet
           @code={{code}}
           @language={{args.language}}
           @editable={{args.editable}}
@@ -497,7 +497,7 @@ detection re-runs as you type when no explicit \`@language\` is set.`,
     };
 
     return <template>
-      <AiChatCodeSnippet
+      <CodeSnippet
         @code={{state.code}}
         @editable={{args.editable}}
         @highlight={{args.highlight}}

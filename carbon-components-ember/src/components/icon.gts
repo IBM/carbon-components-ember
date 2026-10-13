@@ -138,7 +138,7 @@ export default class Icon extends Component<IconSignature> {
     if (this.args.danger) {
       this.dialogManager.open(
         this.args.confirmDialog ||
-          'carbon-components-ember/components/dialogs/confirm.gts',
+          'carbon-components-ember/components/dialogs/confirm-dialog.gts',
         {
           type: 'danger',
           header: 'Danger',

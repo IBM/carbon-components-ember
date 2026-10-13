@@ -1,7 +1,7 @@
 import { expect, fn } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
-import RadioButtonGroup from './group.gts';
+import RadioButtonGroup from './radio-button-group.gts';
 
 // Carbon React has no stories of its own for RadioButtonGroup: it's a
 // subcomponent of Components/RadioButton. See that page for the parity gaps

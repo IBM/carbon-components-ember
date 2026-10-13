@@ -2,14 +2,14 @@ import { RenderStory } from 'ember-storybook';
 import { expect, spyOn, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
-import AiChatCard from './card.gts';
+import Card from './card.gts';
 import Table from './table.gts';
 
 import type { TableSignature } from './table.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `table.stories.js` (`Default`,
 // `Loading`), including its `useCard` wrapper toggle (renders the table in
-// a flush `AiChatCard` body) and its `story-data.js` rows.
+// a flush `Card` body) and its `story-data.js` rows.
 //
 // docs-app coverage: its first demo (an "Invoices" table with a CSV
 // download label, not wrapped in a card) is `Invoices`; its "Loading
@@ -65,7 +65,7 @@ const bodyRowNames = (canvasElement: HTMLElement) =>
   );
 
 type StoryArgs = TableSignature['Args'] & {
-  /** Story-only: wrap the table in a flush `AiChatCard` (upstream `useCard`). */
+  /** Story-only: wrap the table in a flush `Card` (upstream `useCard`). */
   useCard?: boolean;
 };
 
@@ -113,7 +113,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
   ],
   render: (args: StoryArgs) => <template>
     {{#if args.useCard}}
-      <AiChatCard @isFlush={{true}}>
+      <Card @isFlush={{true}}>
         <:body>
           <Table
             @tableTitle={{args.tableTitle}}
@@ -130,7 +130,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
             @defaultPageSize={{args.defaultPageSize}}
           />
         </:body>
-      </AiChatCard>
+      </Card>
     {{else}}
       <Table
         @tableTitle={{args.tableTitle}}

@@ -4,7 +4,7 @@ import { expect, fn, waitFor } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import Button from '../button.gts';
 import AudioPlayer from './audio-player.gts';
-import AiChatCard from './card.gts';
+import Card from './card.gts';
 
 import type { AudioPlayerSignature } from './audio-player.gts';
 
@@ -33,7 +33,7 @@ const SOUNDCLOUD_SOURCE =
   'https://soundcloud.com/ibmthinkleaders/leveraging-ai-to-tackle-large-problems-being-an-optimistic-futurist-feat-kate-oneill';
 
 type StoryArgs = AudioPlayerSignature['Args'] & {
-  /** Story-only: wrap the player in an `AiChatCard` with a title/description. */
+  /** Story-only: wrap the player in a `Card` with a title/description. */
   useCard?: boolean;
   /** Story-only: card title. */
   title?: string;
@@ -71,7 +71,7 @@ failing silently.`,
   },
   render: (args: StoryArgs) => <template>
     {{#if args.useCard}}
-      <AiChatCard @isFlush={{true}}>
+      <Card @isFlush={{true}}>
         <:media>
           <AudioPlayer
             @source={{args.source}}
@@ -92,7 +92,7 @@ failing silently.`,
             </p>
           </div>
         </:body>
-      </AiChatCard>
+      </Card>
     {{else}}
       <AudioPlayer
         @source={{args.source}}

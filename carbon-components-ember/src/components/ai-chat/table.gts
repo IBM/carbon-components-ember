@@ -91,7 +91,7 @@ const PAGE_SIZE_OPTIONS = [5, 10, 15, 20, 50];
  *
  * Upstream also accepts a `data-rounded` attribute (set by an outer shell)
  * that clips/rounds the table's own corners via `overflow: hidden`. Not
- * exposed here for the same reason `AiChatCard` doesn't expose it either —
+ * exposed here for the same reason `Card` doesn't expose it either —
  * nothing in this port provides that outer shell context.
  */
 export default class Table extends Component<TableSignature> {

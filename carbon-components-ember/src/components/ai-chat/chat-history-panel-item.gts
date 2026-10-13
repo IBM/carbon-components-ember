@@ -11,7 +11,7 @@ import { tracked } from '@glimmer/tracking';
 import { modifier as eModifier } from 'ember-modifier';
 import type { ComponentLike } from '@glint/template';
 import OverflowMenu from '../overflow-menu.gts';
-import OverflowMenuItem from '../overflow-menu/item.gts';
+import OverflowMenuItem from '../overflow-menu/overflow-menu-item.gts';
 import ChatHistoryPanelItemInput from './chat-history-panel-item-input.gts';
 import { OverflowMenuVertical } from '../../icons.ts';
 

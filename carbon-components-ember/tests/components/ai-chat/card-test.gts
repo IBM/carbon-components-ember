@@ -1,19 +1,19 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
-import AiChatCard from '#src/components/ai-chat/card.gts';
+import Card from '#src/components/ai-chat/card.gts';
 
-module('Integration | Component | ai-chat/AiChatCard', (hooks) => {
+module('Integration | Component | ai-chat/Card', (hooks) => {
   setupRenderingTest(hooks);
 
   test('it renders the header/body/footer named blocks', async function (assert) {
     await render(
       <template>
-        <AiChatCard>
+        <Card>
           <:header>Header content</:header>
           <:body>Body content</:body>
           <:footer>Footer content</:footer>
-        </AiChatCard>
+        </Card>
       </template>,
     );
 
@@ -25,9 +25,9 @@ module('Integration | Component | ai-chat/AiChatCard', (hooks) => {
   test('it applies is-layered/is-flush modifier classes', async function (assert) {
     await render(
       <template>
-        <AiChatCard @isLayered={{true}} @isFlush={{true}}>
+        <Card @isLayered={{true}} @isFlush={{true}}>
           <:body>Content</:body>
-        </AiChatCard>
+        </Card>
       </template>,
     );
 
@@ -38,9 +38,9 @@ module('Integration | Component | ai-chat/AiChatCard', (hooks) => {
   test('it applies neither modifier class by default', async function (assert) {
     await render(
       <template>
-        <AiChatCard>
+        <Card>
           <:body>Content</:body>
-        </AiChatCard>
+        </Card>
       </template>,
     );
 

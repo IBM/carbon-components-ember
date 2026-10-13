@@ -4,8 +4,8 @@ import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { modifier } from 'ember-modifier';
 import type { WithBoundArgs } from '@glint/template';
-import ToggletipButtonComponent from './toggletip/button.gts';
-import ToggletipContentComponent from './toggletip/content.gts';
+import ToggletipButtonComponent from './toggletip/toggletip-button.gts';
+import ToggletipContentComponent from './toggletip/toggletip-content.gts';
 import closeOnOutsideClick from '../modifiers/close-on-outside-click.ts';
 
 export type ToggletipAlignment =

@@ -45,8 +45,6 @@ export interface CarouselSignature {
  *
  * Ember port of `@carbon/ai-chat-components`'
  * [`cds-aichat-carousel`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/carousel).
- * Doesn't collide with any Carbon React component name, so it stays
- * unprefixed (same reasoning as `Launcher`/`ChatShell`/`Table`).
  *
  * Unlike the rest of this port, `next()`/`prev()`/the change event/the index
  * readout aren't reimplemented here - they delegate directly to
@@ -70,7 +68,7 @@ export interface CarouselSignature {
  * makes clicking past either end a no-op.
  *
  * ```gjs
- * import { Carousel } from 'carbon-components-ember/components';
+ * import { Carousel } from 'carbon-components-ember/ai-chat';
  *
  * <template>
  *   <Carousel @previousBtnText='Previous' @nextBtnText='Next'>

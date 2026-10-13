@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import ToggletipActions from '../toggletip/actions.gts';
+import ToggletipActions from '../toggletip/toggletip-actions.gts';
 
 import type { TOC } from '@ember/component/template-only';
-import type { ToggletipActionsSignature } from '../toggletip/actions.gts';
+import type { ToggletipActionsSignature } from '../toggletip/toggletip-actions.gts';
 
 export interface AILabelActionsSignature {
   Element: ToggletipActionsSignature['Element'];

@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { findAll, render, settled, waitUntil } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
-import LineChart from '#src/components/charts/line.gts';
+import LineChart from '#src/components/charts/line-chart.gts';
 import type { ChartData } from '#src/components/charts/-components/chart.gts';
 
 const KEYS = ['Qty', 'More', 'Sold'];

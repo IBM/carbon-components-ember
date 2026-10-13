@@ -4,16 +4,16 @@ import { expect, fn as spy } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import Add from '../icons/add.ts';
 import Link from '../icons/link.ts';
-import AiChatChatButton from './chat-button.gts';
+import ChatButton from './chat-button.gts';
 
-import type { AiChatChatButtonSignature } from './chat-button.gts';
+import type { ChatButtonSignature } from './chat-button.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `Components/Chat button` stories
 // (chat-button/__stories__/chat-button.stories.js). Its `Skeleton` story is
 // in `AI Chat/Chat button/Skeleton` (chat-button-skeleton.stories.gts), next
-// to `AiChatChatButtonSkeleton`.
+// to `ChatButtonSkeleton`.
 //
-// Parity gaps (AiChatChatButton wraps this addon's `Button`, not
+// Parity gaps (ChatButton wraps this addon's `Button`, not
 // `cds-button`):
 // - No `href`/`linkRole`, `isExpressive`, `type`, `dangerDescription`, or
 //   `tooltipText`/`tooltipAlignment`/`tooltipPosition` args, and no
@@ -26,7 +26,7 @@ import type { AiChatChatButtonSignature } from './chat-button.gts';
 
 const ICONS = { None: undefined, Add16: Add, Link16: Link } as const;
 
-type StoryArgs = AiChatChatButtonSignature['Args'] & {
+type StoryArgs = ChatButtonSignature['Args'] & {
   /** Story-only: the button text. */
   buttonText?: string;
   /** Story-only: icon placed in the button after its text. */
@@ -37,17 +37,17 @@ const iconFor = (name: StoryArgs['iconSlot']) => ICONS[name ?? 'None'];
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'AI Chat/Chat button',
-  component: AiChatChatButton,
+  component: ChatButton,
   parameters: {
     docs: {
       description: {
-        component: `\`AiChatChatButton\` is a button styled for AI Chat surfaces: a taller pill
+        component: `\`ChatButton\` is a button styled for AI Chat surfaces: a taller pill
 radius than this addon's plain \`Button\`, plus an \`@isQuickAction\` variant (a
 small, outlined chip used for quick-reply-style options) that can be marked
 \`@isSelected\` once chosen.
 
-Exported as \`AiChatChatButton\` because Carbon React has its own (not yet
-implemented) \`ChatButton\`.`,
+Exported from \`carbon-components-ember/ai-chat\`, so it doesn't collide
+with Carbon React's own (not yet implemented) \`ChatButton\`.`,
       },
     },
   },
@@ -61,7 +61,7 @@ implemented) \`ChatButton\`.`,
     onClick: spy(),
   },
   render: (args: StoryArgs) => <template>
-    <AiChatChatButton
+    <ChatButton
       @kind={{args.kind}}
       @size={{args.size}}
       @isQuickAction={{args.isQuickAction}}
@@ -75,7 +75,7 @@ implemented) \`ChatButton\`.`,
           <Icon @size={{16}} @svgClass="cds--btn__icon" />
         {{/if}}
       {{/let}}
-    </AiChatChatButton>
+    </ChatButton>
   </template>,
 });
 
@@ -164,11 +164,11 @@ export const QuickActionSelectedWithDisabled = meta.story({
         )
         as |label|
       }}
-        <AiChatChatButton
+        <ChatButton
           @isQuickAction={{true}}
           @isSelected={{eq label "button"}}
           @disabled={{if (eq label "button") false true}}
-        >{{label}}</AiChatChatButton>
+        >{{label}}</ChatButton>
       {{/each}}
     </div>
   </template>,
@@ -192,19 +192,19 @@ export const SelectingQuickActions = meta.story({
 
     return <template>
       <div style="display: flex; gap: 1rem; margin-block-end: 1rem;">
-        <AiChatChatButton @onClick={{fn select "primary"}}>Primary action</AiChatChatButton>
-        <AiChatChatButton
+        <ChatButton @onClick={{fn select "primary"}}>Primary action</ChatButton>
+        <ChatButton
           @kind="secondary"
           @onClick={{fn select "secondary"}}
-        >Secondary action</AiChatChatButton>
+        >Secondary action</ChatButton>
       </div>
       <div style="display: flex; gap: 0.5rem;">
         {{#each (array "red" "green" "blue") as |color|}}
-          <AiChatChatButton
+          <ChatButton
             @isQuickAction={{true}}
             @isSelected={{eq state.selected color}}
             @onClick={{fn select color}}
-          >{{color}}</AiChatChatButton>
+          >{{color}}</ChatButton>
         {{/each}}
       </div>
     </template>;

@@ -31,6 +31,16 @@
       "align"
     ]
   },
+  "Breadcrumb": {
+    "missing": [
+      "noTrailingSlash",
+      "size"
+    ],
+    "extra": [
+      "crumbs",
+      "current"
+    ]
+  },
   "Button": {
     "missing": [
       "as",
@@ -438,33 +448,6 @@
     "missing": [
       "ariaLabel",
       "unstable_ariaLabelHandleUpper"
-    ]
-  },
-  "Table": {
-    "missing": [
-      "experimentalAutoAlign",
-      "isSortable",
-      "overflowMenuOnHover",
-      "size",
-      "stickyHeader",
-      "useStaticWidth",
-      "useZebraStyles"
-    ],
-    "extra": [
-      "defaultPageSize",
-      "downloadLabelText",
-      "filterPlaceholderText",
-      "getPaginationStatusText",
-      "getPaginationSupplementalText",
-      "headers",
-      "itemsPerPageText",
-      "loading",
-      "locale",
-      "nextPageText",
-      "previousPageText",
-      "rows",
-      "tableDescription",
-      "tableTitle"
     ]
   },
   "Tabs": {

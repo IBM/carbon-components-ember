@@ -68,8 +68,7 @@ export interface VideoPlayerSignature {
  *
  * Ember port of `@carbon/ai-chat-components`'
  * [`cds-aichat-video-player`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/video-player).
- * Doesn't collide with any Carbon React component name, so it stays
- * unprefixed. Shares its provider/loading-state architecture and
+ * Shares its provider/loading-state architecture and
  * `-media/script-loader.ts` (`ScriptLoader`) with `AudioPlayer` - see that
  * file's class doc for the shared-infra reasoning.
  *

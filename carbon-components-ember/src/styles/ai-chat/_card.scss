@@ -5,7 +5,7 @@
 // Selectors are adapted from upstream's `:host(...)` (shadow DOM) to plain
 // `.cds-aichat-card*` classes (light DOM, matching every other component in
 // this addon), and colors reference `@carbon/styles`' compiled `--cds-*`
-// custom properties rather than its Sass theme module. `AiChatCard` already
+// custom properties rather than its Sass theme module. `Card` already
 // applies the real `.cds--tile` class from `@carbon/styles`' prebuilt CSS
 // for base tile spacing/typography — this partial only adds the
 // card-specific border/background/radius/modifier rules upstream layers on
@@ -77,14 +77,14 @@
 
 // Upstream's shared `rounded-modifiers` mixin (`globals/scss/_modifiers.scss`)
 // derives corner rounding for a whole grid of `data-rounded`/`data-stacked`
-// combinations that this addon's port doesn't need in full — `AiChatCard`
+// combinations that this addon's port doesn't need in full — `Card`
 // unconditionally rounds all 4 corners already (see `.cds-aichat-card`
-// above), and `AiChatCardFooter` only ever renders exactly the two values
+// above), and `CardFooter` only ever renders exactly the two values
 // below (`bottom` for labeled actions, `bottom-right` for icon-only
 // actions). Rather than porting the full mixin, this reproduces just those
 // two cases directly: the footer's first/last action gets the matching
 // bottom corner rounded (both, on the single last button, once stacked) so
-// its outer edge matches the card's own radius. `AiChatCard`'s own
+// its outer edge matches the card's own radius. `Card`'s own
 // `data-rounded` attribute (used by an outer shell to override which
 // corners a *nested* card should round) is intentionally not exposed here —
 // nothing in this vertical-slice port provides that shell context yet.

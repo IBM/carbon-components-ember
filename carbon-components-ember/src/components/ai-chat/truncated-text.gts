@@ -12,7 +12,7 @@ import { modifier } from 'ember-modifier';
 import { default as Tooltip } from '../tooltip.gts';
 import type { TooltipAlignments } from '../tooltip.gts';
 
-export interface AiChatTruncatedTextSignature {
+export interface TruncatedTextSignature {
   Element: HTMLDivElement;
   Args: {
     /** Tooltip alignment when `@type` is `'tooltip'`. Defaults to `'top'`. */
@@ -64,7 +64,7 @@ export interface AiChatTruncatedTextSignature {
  * when a default block is passed for the visible content — matching
  * upstream's own behavior.
  */
-export default class AiChatTruncatedText extends Component<AiChatTruncatedTextSignature> {
+export default class TruncatedText extends Component<TruncatedTextSignature> {
   @tracked isOverflowing = false;
   @tracked isExpanded = false;
   @tracked maxHeight = 'none';

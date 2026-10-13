@@ -7,7 +7,7 @@ import FluidTextInput from './fluid-text-input.gts';
 import FluidTextInputSkeleton from './fluid-text-input-skeleton.gts';
 import Information from './icons/information.ts';
 import Toggletip from './toggletip.gts';
-import ToggletipLabel from './toggletip/label.gts';
+import ToggletipLabel from './toggletip/toggletip-label.gts';
 
 import type { FluidTextInputSignature } from './fluid-text-input.gts';
 

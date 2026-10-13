@@ -10,9 +10,9 @@ import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
 import type { ComponentLike } from '@glint/template';
 import OverflowMenu from '../overflow-menu.gts';
-import OverflowMenuItem from '../overflow-menu/item.gts';
+import OverflowMenuItem from '../overflow-menu/overflow-menu-item.gts';
 import { OverflowMenuVertical } from '../../icons.ts';
-import AiChatTruncatedText from './truncated-text.gts';
+import TruncatedText from './truncated-text.gts';
 import ToolbarActionButton from './-toolbar-action.gts';
 
 export type ToolbarAction = {
@@ -83,9 +83,7 @@ function sortByFixed(actions: ToolbarAction[]) {
  *
  * Ember port of `@carbon/ai-chat-components`'
  * [`cds-aichat-toolbar`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/toolbar).
- * Doesn't collide with any Carbon React component name (React's own
- * `DataTable` has a private, unexported `-toolbar.gts`), so it stays
- * unprefixed. Reuses this addon's own `Button`/`Tooltip`/`OverflowMenu`
+ * Reuses this addon's own `Button`/`Tooltip`/`OverflowMenu`
  * instead of `@carbon/web-components`, following the same "reuse this
  * addon's own components" precedent `AiChatTable` set for `Search`/
  * `Pagination` in batch 1.
@@ -239,7 +237,7 @@ export default class Toolbar extends Component<ToolbarSignature> {
           {{#if (has-block "title")}}
             {{yield to="title"}}
           {{else if (or @titleText @nameText)}}
-            <AiChatTruncatedText
+            <TruncatedText
               @lines={{1}}
               @type="tooltip"
               @align="bottom-start"
@@ -249,7 +247,7 @@ export default class Toolbar extends Component<ToolbarSignature> {
               {{#if @nameText}}<span
                   class="cds-aichat-toolbar__name"
                 >{{@nameText}}</span>{{/if}}
-            </AiChatTruncatedText>
+            </TruncatedText>
           {{/if}}
         </div>
       </div>

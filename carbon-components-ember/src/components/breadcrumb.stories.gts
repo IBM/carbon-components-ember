@@ -1,7 +1,7 @@
 import { expect, fn } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
-import Breadcrumbs from './breadcrumbs.gts';
+import Breadcrumb from './breadcrumb.gts';
 import BreadcrumbSkeleton from './breadcrumb-skeleton.gts';
 
 // Carbon React parity gaps (Components/Breadcrumb):
@@ -12,7 +12,7 @@ import BreadcrumbSkeleton from './breadcrumb-skeleton.gts';
 // - `noTrailingSlash` is always on.
 const meta = preview.meta({
   title: 'Components/Breadcrumb',
-  component: Breadcrumbs,
+  component: Breadcrumb,
   parameters: {
     docs: {
       description: {

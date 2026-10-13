@@ -1,15 +1,15 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
-import AiChatChatButton from '#src/components/ai-chat/chat-button.gts';
+import ChatButton from '#src/components/ai-chat/chat-button.gts';
 
-module('Integration | Component | ai-chat/AiChatChatButton', (hooks) => {
+module('Integration | Component | ai-chat/ChatButton', (hooks) => {
   setupRenderingTest(hooks);
 
   test('renders a primary button by default', async function (assert) {
     await render(
       <template>
-        <AiChatChatButton>Click me</AiChatChatButton>
+        <ChatButton>Click me</ChatButton>
       </template>,
     );
 
@@ -20,7 +20,7 @@ module('Integration | Component | ai-chat/AiChatChatButton', (hooks) => {
   test('@isQuickAction forces sm size and ghost kind by default', async function (assert) {
     await render(
       <template>
-        <AiChatChatButton @isQuickAction={{true}}>Option</AiChatChatButton>
+        <ChatButton @isQuickAction={{true}}>Option</ChatButton>
       </template>,
     );
 
@@ -37,11 +37,11 @@ module('Integration | Component | ai-chat/AiChatChatButton', (hooks) => {
 
     await render(
       <template>
-        <AiChatChatButton
+        <ChatButton
           @isQuickAction={{true}}
           @isSelected={{true}}
           @onClick={{onClick}}
-        >Option</AiChatChatButton>
+        >Option</ChatButton>
       </template>,
     );
 
@@ -58,10 +58,7 @@ module('Integration | Component | ai-chat/AiChatChatButton', (hooks) => {
 
     await render(
       <template>
-        <AiChatChatButton
-          @isSelected={{true}}
-          @onClick={{onClick}}
-        >Go</AiChatChatButton>
+        <ChatButton @isSelected={{true}} @onClick={{onClick}}>Go</ChatButton>
       </template>,
     );
 
@@ -74,10 +71,10 @@ module('Integration | Component | ai-chat/AiChatChatButton', (hooks) => {
   test('an explicit @kind is respected even for a quick action', async function (assert) {
     await render(
       <template>
-        <AiChatChatButton
+        <ChatButton
           @isQuickAction={{true}}
           @kind="secondary"
-        >Option</AiChatChatButton>
+        >Option</ChatButton>
       </template>,
     );
 
@@ -87,7 +84,7 @@ module('Integration | Component | ai-chat/AiChatChatButton', (hooks) => {
   test('@kind="danger" renders as a danger button', async function (assert) {
     await render(
       <template>
-        <AiChatChatButton @kind="danger">Delete</AiChatChatButton>
+        <ChatButton @kind="danger">Delete</ChatButton>
       </template>,
     );
 

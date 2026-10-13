@@ -149,7 +149,7 @@
   "RadioButtonGroup": [
     {
       "path": "fieldset.classes[cds--radio-button-group--horizontal]",
-      "reason": "Ember's radio-button/group.gts always renders `cds--radio-button-group--{{this.args.orientation}}` (defaulting to 'horizontal'), while @carbon/react's `RadioButtonGroup.js` only conditionally adds this class for the vertical case (`[`${prefix}--radio-button-group--${orientation}`]: orientation === 'vertical'` - it never emits a `--horizontal` variant at all, even though `orientation` defaults to 'horizontal'). Harmless either way (horizontal is the group's default flex layout regardless of this modifier class), but a real, disclosed divergence - fixing it would mean Ember's class list stops being unconditional, out of scope for a one-line fix. Applies to every variant that isn't 'vertical'."
+      "reason": "Ember's radio-button/radio-button-group.gts always renders `cds--radio-button-group--{{this.args.orientation}}` (defaulting to 'horizontal'), while @carbon/react's `RadioButtonGroup.js` only conditionally adds this class for the vertical case (`[`${prefix}--radio-button-group--${orientation}`]: orientation === 'vertical'` - it never emits a `--horizontal` variant at all, even though `orientation` defaults to 'horizontal'). Harmless either way (horizontal is the group's default flex layout regardless of this modifier class), but a real, disclosed divergence - fixing it would mean Ember's class list stops being unconditional, out of scope for a one-line fix. Applies to every variant that isn't 'vertical'."
     },
     {
       "path": "fieldset > div[1].classes[cds--radio-button-wrapper--label-left]",

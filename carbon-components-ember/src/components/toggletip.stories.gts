@@ -4,8 +4,8 @@ import preview from '#storybook/preview.ts';
 import Button from './button.gts';
 import Link from './link.gts';
 import Toggletip from './toggletip.gts';
-import ToggletipActions from './toggletip/actions.gts';
-import ToggletipLabel from './toggletip/label.gts';
+import ToggletipActions from './toggletip/toggletip-actions.gts';
+import ToggletipLabel from './toggletip/toggletip-label.gts';
 import Information from './icons/information.ts';
 
 import type { ToggletipSignature } from './toggletip.gts';

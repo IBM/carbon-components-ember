@@ -50,13 +50,8 @@ interface UploadSnapshot {
  *
  * Ember port of `@carbon/ai-chat-components`'
  * [`cds-aichat-file-uploads`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/file-uploads).
- * Doesn't collide with any Carbon React component name, so it stays
- * unprefixed. `FileUploadItem`'s file-type icon and status affordance
- * were kept close to their basename (`FileUploadItem`) despite this
- * addon's existing, differently-named `FileUploaderItem` (Carbon React's
- * `FileUploader` sub-component) - the two don't collide via `find | sort |
- * uniq -d` and serve entirely different components, so no override was
- * needed per Pitfall 4's check.
+ * `FileUploadItem` is unrelated to this addon's `FileUploaderItem` (part
+ * of Carbon React's `FileUploader`), despite the similar name.
  */
 export default class FileUploads extends Component<FileUploadsSignature> {
   @tracked hasOverflow = false;

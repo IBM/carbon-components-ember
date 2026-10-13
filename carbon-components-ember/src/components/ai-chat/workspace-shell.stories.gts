@@ -14,7 +14,7 @@ import {
   Share,
   Version,
 } from '../../icons.ts';
-import AiChatCodeSnippet from './code-snippet.gts';
+import CodeSnippet from './code-snippet.gts';
 import Toolbar from './toolbar.gts';
 import WorkspaceShell from './workspace-shell.gts';
 import WorkspaceShellBody from './workspace-shell-body.gts';
@@ -36,7 +36,7 @@ import type { WorkspaceShellFooterAction } from './workspace-shell-footer.gts';
 //   `cds-inline-notification`; this addon's `Notification` (`@display=
 //   'inline'`) has neither option, so it renders high-contrast with its
 //   (aria-hidden) close button.
-// - The "long" body content uses `AiChatCodeSnippet` like upstream, with a
+// - The "long" body content uses `CodeSnippet` like upstream, with a
 //   shortened version of upstream's TypeScript showcase snippet. Upstream's
 //   `cds-table` (a full `@carbon/web-components` data table with toolbar
 //   search) isn't reproduced here - the Ember port's `WorkspaceShellBody`
@@ -324,7 +324,7 @@ export const Default = meta.story({
                     vitae sem eget lacus aliquam congue vitae ut elit.
                   </p>
                   <br />
-                  <AiChatCodeSnippet
+                  <CodeSnippet
                     @code={{MULTILINE_CODE}}
                     @language="typescript"
                     @highlight={{true}}

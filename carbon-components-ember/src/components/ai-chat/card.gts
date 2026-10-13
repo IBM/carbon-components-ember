@@ -7,7 +7,7 @@
 
 import type { TOC } from '@ember/component/template-only';
 
-export interface AiChatCardSignature {
+export interface CardSignature {
   Element: HTMLDivElement;
   Args: {
     /**
@@ -28,7 +28,7 @@ export interface AiChatCardSignature {
     media: [];
     /** Upstream `body` slot. */
     body: [];
-    /** Upstream `footer` slot — typically an `<AiChatCardFooter>`. */
+    /** Upstream `footer` slot — typically a `<CardFooter>`. */
     footer: [];
     /** Upstream `decorator` slot. */
     decorator: [];
@@ -54,20 +54,20 @@ export interface AiChatCardSignature {
  * unconditionally (matching upstream's own default, un-overridden
  * behavior) and doesn't expose `data-rounded` as an arg — nothing in this
  * port provides the outer shell context that would ever set it.
- * `AiChatCardFooter`'s own `data-rounded` (which *is* always rendered, to
+ * `CardFooter`'s own `data-rounded` (which *is* always rendered, to
  * match its bottom corners to this card's) is wired up in `_card.scss`.
  *
  * ```gjs
- * import { AiChatCard } from 'carbon-components-ember/components';
+ * import { Card } from 'carbon-components-ember/ai-chat';
  *
  * <template>
- *   <AiChatCard>
+ *   <Card>
  *     <:body>Card content</:body>
- *   </AiChatCard>
+ *   </Card>
  * </template>
  * ```
  */
-const AiChatCard: TOC<AiChatCardSignature> = <template>
+const Card: TOC<CardSignature> = <template>
   <div
     class="cds-aichat-card cds--tile
       {{if @isLayered 'cds-aichat-card--layered'}}
@@ -82,4 +82,4 @@ const AiChatCard: TOC<AiChatCardSignature> = <template>
   </div>
 </template>;
 
-export default AiChatCard;
+export default Card;

@@ -36,7 +36,7 @@ export type CardFooterAction = {
   isViewing?: boolean;
 };
 
-export interface AiChatCardFooterSignature {
+export interface CardFooterSignature {
   Element: HTMLDivElement;
   Args: {
     actions?: CardFooterAction[];
@@ -45,7 +45,7 @@ export interface AiChatCardFooterSignature {
 }
 
 /**
- * Footer action bar for `AiChatCard`.
+ * Footer action bar for `Card`.
  *
  * Ember port of `@carbon/ai-chat-components`'
  * [`cds-aichat-card-footer`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/card).
@@ -59,7 +59,7 @@ export interface AiChatCardFooterSignature {
  * wrapped in a `Tooltip` using `tooltipText`) — upstream derives this the
  * same way, from the actions list itself rather than a separate arg.
  */
-export default class AiChatCardFooter extends Component<AiChatCardFooterSignature> {
+export default class CardFooter extends Component<CardFooterSignature> {
   get actions() {
     return this.args.actions ?? [];
   }
@@ -89,7 +89,7 @@ export default class AiChatCardFooter extends Component<AiChatCardFooterSignatur
    * `'danger'` is styled with the `cds--btn--danger` class rather than
    * `Button`'s `@type='danger'`, which also makes `Button` ask for
    * confirmation before calling `@onClick` (upstream's danger kind is
-   * styling only) - the same approach as `AiChatChatButton`.
+   * styling only) - the same approach as `ChatButton`.
    */
   buttonType = (
     kind: CardFooterActionKind | undefined,

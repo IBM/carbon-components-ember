@@ -11,15 +11,15 @@ import Maximize from '../icons/maximize.ts';
 import Share from '../icons/share.ts';
 import Version from '../icons/version.ts';
 import View from '../icons/view.ts';
-import AiChatCard from './card.gts';
-import AiChatCardFooter from './card-footer.gts';
-import AiChatCardSteps from './card-steps.gts';
+import Card from './card.gts';
+import CardFooter from './card-footer.gts';
+import CardSteps from './card-steps.gts';
 import Toolbar from './toolbar.gts';
 
 import type Owner from '@ember/owner';
 import type { IconIndicatorKind } from '../icon-indicator.gts';
 import type { CardFooterAction } from './card-footer.gts';
-import type { AiChatCardStepsSignature, CardStep } from './card-steps.gts';
+import type { CardStepsSignature, CardStep } from './card-steps.gts';
 import type { ToolbarAction } from './toolbar.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `Components/Card/Preview Card`
@@ -30,7 +30,7 @@ import type { ToolbarAction } from './toolbar.gts';
 // - Upstream's `aiLabel` control renders a Carbon `cds-ai-label` in the
 //   card's/toolbar's `decorator` slot. This addon has no AILabel component,
 //   so the decorator is omitted.
-// - `AiChatCardFooter` has no `size` arg (upstream passes `size="md"`).
+// - `CardFooter` has no `size` arg (upstream passes `size="md"`).
 
 const MAX_WIDTHS = {
   unset: 'none',
@@ -81,10 +81,10 @@ const PREVIEW_FOOTER_PRESETS: Record<string, CardFooterAction[] | undefined> = {
   none: undefined,
 };
 
-type StoryArgs = AiChatCardStepsSignature['Args'] & {
-  /** Story-only: `AiChatCard`'s `@isLayered`. */
+type StoryArgs = CardStepsSignature['Args'] & {
+  /** Story-only: `Card`'s `@isLayered`. */
   isLayered?: boolean;
-  /** Story-only: `AiChatCard`'s `@isFlush`. */
+  /** Story-only: `Card`'s `@isFlush`. */
   isFlush?: boolean;
   /** Story-only: max width of the story wrapper. */
   maxWidth?: keyof typeof MAX_WIDTHS;
@@ -132,12 +132,12 @@ const PreviewHeading = <template>
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'AI Chat/Card/Preview Card',
-  component: AiChatCardSteps,
+  component: CardSteps,
   parameters: {
     docs: {
       description: {
-        component: `\`AiChatCardSteps\` renders a vertical list of steps — e.g. an
-agent's reasoning or progress trail — for use inside an \`AiChatCard\`'s
+        component: `\`CardSteps\` renders a vertical list of steps — e.g. an
+agent's reasoning or progress trail — for use inside a \`Card\`'s
 \`<:body>\` block. Each step's \`kind\` is one of \`IconIndicator\`'s kinds
 (\`'failed'\`, \`'caution-major'\`, \`'caution-minor'\`, \`'undefined'\`,
 \`'succeeded'\`, \`'normal'\`, \`'in-progress'\`, \`'incomplete'\`,
@@ -146,7 +146,7 @@ agent's reasoning or progress trail — for use inside an \`AiChatCard\`'s
 \`kind\` renders only its \`label\`.
 
 The other stories here mirror upstream's preview-card compositions of
-\`AiChatCard\`, \`AiChatCardFooter\`, \`Toolbar\` and \`AiChatCardSteps\`.`,
+\`Card\`, \`CardFooter\`, \`Toolbar\` and \`CardSteps\`.`,
       },
     },
   },
@@ -169,17 +169,17 @@ The other stories here mirror upstream's preview-card compositions of
   },
   render: (args) => <template>
     <div style={{wrapperStyle args.maxWidth}}>
-      <AiChatCard @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
+      <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
         <:body>
           <div style="padding: 1rem;"><PreviewHeading /></div>
         </:body>
         <:footer>
-          <AiChatCardFooter
+          <CardFooter
             @actions={{footerFor args.footerActions}}
             @onAction={{args.onAction}}
           />
         </:footer>
-      </AiChatCard>
+      </Card>
     </div>
   </template>,
 });
@@ -193,7 +193,7 @@ export const Default = meta.story({
   },
   render: (args) => <template>
     <div style={{wrapperStyle args.maxWidth}}>
-      <AiChatCard @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
+      <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
         <:header>
           <div
             style="padding: 1rem; border-block-end: 1px solid var(--cds-border-subtle);"
@@ -204,12 +204,12 @@ export const Default = meta.story({
         </:header>
         <:body><div style="block-size: 8rem;"></div></:body>
         <:footer>
-          <AiChatCardFooter
+          <CardFooter
             @actions={{footerFor args.footerActions}}
             @onAction={{args.onAction}}
           />
         </:footer>
-      </AiChatCard>
+      </Card>
     </div>
   </template>,
 });
@@ -221,7 +221,7 @@ export const WithToolbar = meta.story({
   },
   render: (args) => <template>
     <div style={{wrapperStyle args.maxWidth}}>
-      <AiChatCard @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
+      <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
         <:header>
           <Toolbar
             style="border-block-end: 1px solid var(--cds-border-subtle);"
@@ -235,12 +235,12 @@ export const WithToolbar = meta.story({
         </:header>
         <:body><div style="block-size: 8rem;"></div></:body>
         <:footer>
-          <AiChatCardFooter
+          <CardFooter
             @actions={{footerFor args.footerActions}}
             @onAction={{args.onAction}}
           />
         </:footer>
-      </AiChatCard>
+      </Card>
     </div>
   </template>,
 });
@@ -314,7 +314,7 @@ export const WithSteps = meta.story({
   render: (args) => <template>
     <div style={{wrapperStyle args.maxWidth}}>
       <ProgressingSteps as |steps status|>
-        <AiChatCard @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
+        <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
           <:header>
             <Toolbar
               style="border-block-end: 1px solid var(--cds-border-subtle);"
@@ -332,16 +332,16 @@ export const WithSteps = meta.story({
           </:header>
           <:body>
             <div style="padding: 1rem;">
-              <AiChatCardSteps @steps={{steps}} />
+              <CardSteps @steps={{steps}} />
             </div>
           </:body>
           <:footer>
-            <AiChatCardFooter
+            <CardFooter
               @actions={{footerFor args.footerActions}}
               @onAction={{args.onAction}}
             />
           </:footer>
-        </AiChatCard>
+        </Card>
       </ProgressingSteps>
     </div>
   </template>,
@@ -355,7 +355,10 @@ const stepsFor = (args: StoryArgs): CardStep[] =>
     description: args.description,
   }));
 
-export const CardSteps = meta.story({
+// The export can't be `CardSteps`, the component's name; `name` keeps the
+// story's.
+export const CardStepsStory = meta.story({
+  name: 'Card Steps',
   args: {
     numberOfSteps: 1,
     maxWidth: 'lg',
@@ -366,7 +369,7 @@ export const CardSteps = meta.story({
   },
   render: (args) => <template>
     <div style={{wrapperStyle args.maxWidth}}>
-      <AiChatCardSteps @steps={{stepsFor args}} />
+      <CardSteps @steps={{stepsFor args}} />
     </div>
   </template>,
 });
@@ -389,17 +392,17 @@ export const AgentProgress = meta.story({
     docs: {
       description: {
         story:
-          "`AiChatCardSteps` inside an `AiChatCard`'s `<:body>` block, mixing kinds, an in-progress spinner and a step with no indicator.",
+          "`CardSteps` inside a `Card`'s `<:body>` block, mixing kinds, an in-progress spinner and a step with no indicator.",
       },
     },
   },
   render: (args) => <template>
-    <AiChatCard style="max-inline-size: 24rem;">
+    <Card style="max-inline-size: 24rem;">
       <:header><h5>Agent progress</h5></:header>
       <:body>
-        <AiChatCardSteps @steps={{args.steps}} />
+        <CardSteps @steps={{args.steps}} />
       </:body>
-    </AiChatCard>
+    </Card>
   </template>,
 });
 

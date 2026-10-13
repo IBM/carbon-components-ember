@@ -3,8 +3,8 @@ import { defaultArgs } from '../utils/decorators.ts';
 import type DialogManagerService from '../services/dialog-manager.ts';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import type ConfirmDialogComponent from './dialogs/confirm.gts';
-import Confirm from './dialogs/confirm.gts';
+import type ConfirmDialogComponent from './dialogs/confirm-dialog.gts';
+import Confirm from './dialogs/confirm-dialog.gts';
 import InlineLoading from './inline-loading.gts';
 
 export interface ButtonSignature {

@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, triggerKeyEvent } from '@ember/test-helpers';
-import AiChatTruncatedText from '#src/components/ai-chat/truncated-text.gts';
+import TruncatedText from '#src/components/ai-chat/truncated-text.gts';
 import { waitForAnimationFrame } from '../../helpers';
 
-// `AiChatTruncatedText`'s overflow detection reads real `scrollHeight`/
+// `TruncatedText`'s overflow detection reads real `scrollHeight`/
 // `clientHeight` off `.cds-aichat-truncated-text__content`, which only
 // clamps to `@lines` once the real `-webkit-line-clamp` rule from this
 // addon's own `src/styles/ai-chat/_truncated-text.scss` applies. That
@@ -22,7 +22,7 @@ const lineClampStyle = `
   }
 `;
 
-module('Integration | Component | ai-chat/AiChatTruncatedText', (hooks) => {
+module('Integration | Component | ai-chat/TruncatedText', (hooks) => {
   setupRenderingTest(hooks);
 
   test('it renders @value as plain text when short', async function (assert) {
@@ -32,7 +32,7 @@ module('Integration | Component | ai-chat/AiChatTruncatedText', (hooks) => {
           {{lineClampStyle}}
         </style>
         <div style="width: 200px">
-          <AiChatTruncatedText @value="Short text" @lines={{2}} />
+          <TruncatedText @value="Short text" @lines={{2}} />
         </div>
       </template>,
     );
@@ -51,7 +51,7 @@ module('Integration | Component | ai-chat/AiChatTruncatedText', (hooks) => {
           {{lineClampStyle}}
         </style>
         <div style="width: 100px">
-          <AiChatTruncatedText @value={{longValue}} @lines={{1}} />
+          <TruncatedText @value={{longValue}} @lines={{1}} />
         </div>
       </template>,
     );
@@ -71,7 +71,7 @@ module('Integration | Component | ai-chat/AiChatTruncatedText', (hooks) => {
           {{lineClampStyle}}
         </style>
         <div style="width: 100px">
-          <AiChatTruncatedText
+          <TruncatedText
             @value={{longValue}}
             @lines={{1}}
             @type="expand"
@@ -142,7 +142,7 @@ module('Integration | Component | ai-chat/AiChatTruncatedText', (hooks) => {
             {{lineClampStyle}}
           </style>
           <div style="width: 100px">
-            <AiChatTruncatedText @value={{longValue}} @lines={{1}} />
+            <TruncatedText @value={{longValue}} @lines={{1}} />
           </div>
         </template>,
       );
@@ -175,9 +175,9 @@ module('Integration | Component | ai-chat/AiChatTruncatedText', (hooks) => {
           {{lineClampStyle}}
         </style>
         <div style="width: 200px">
-          <AiChatTruncatedText @value="Tooltip text" @lines={{2}}>
+          <TruncatedText @value="Tooltip text" @lines={{2}}>
             <strong>Rich content</strong>
-          </AiChatTruncatedText>
+          </TruncatedText>
         </div>
       </template>,
     );

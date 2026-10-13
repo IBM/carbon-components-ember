@@ -3,7 +3,7 @@ import '@carbon/charts/styles.css';
 import { expect, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
-import PieChart from './pie.gts';
+import PieChart from './pie-chart.gts';
 
 // Mirrors the pie story of `@carbon/charts`' own storybook, as far as the
 // Ember wrapper supports it. Parity gaps: no donut chart, no pie `labels`/

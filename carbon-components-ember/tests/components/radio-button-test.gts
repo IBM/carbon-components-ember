@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
 import RadioButton from '#src/components/radio-button.gts';
-import RadioButtonGroup from '#src/components/radio-button/group.gts';
+import RadioButtonGroup from '#src/components/radio-button/radio-button-group.gts';
 import { tracked } from '@glimmer/tracking';
 
 function setValue(target: { value: unknown }, value: unknown) {

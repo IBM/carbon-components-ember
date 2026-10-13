@@ -1,17 +1,17 @@
 import preview from '#storybook/preview.ts';
-import AiChatChatButtonSkeleton from './chat-button-skeleton.gts';
+import ChatButtonSkeleton from './chat-button-skeleton.gts';
 
 // Mirrors the `Skeleton` story of `@carbon/ai-chat-components`'
 // `Components/Chat button` (chat-button/__stories__/chat-button.stories.js),
-// next to the `AiChatChatButtonSkeleton` component it documents.
+// next to the `ChatButtonSkeleton` component it documents.
 
 const meta = preview.meta({
   title: 'AI Chat/Chat button/Skeleton',
-  component: AiChatChatButtonSkeleton,
+  component: ChatButtonSkeleton,
   parameters: {
     docs: {
       description: {
-        component: 'Loading placeholder for `AiChatChatButton`.',
+        component: 'Loading placeholder for `ChatButton`.',
       },
     },
   },
@@ -36,9 +36,9 @@ export const Sizes = meta.story({
   },
   render: () => <template>
     <div style="display: flex; gap: 1rem; align-items: center;">
-      <AiChatChatButtonSkeleton />
-      <AiChatChatButtonSkeleton @size="md" />
-      <AiChatChatButtonSkeleton @size="sm" />
+      <ChatButtonSkeleton />
+      <ChatButtonSkeleton @size="md" />
+      <ChatButtonSkeleton @size="sm" />
     </div>
   </template>,
 });

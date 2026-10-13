@@ -2,12 +2,11 @@ import { RenderStory } from 'ember-storybook';
 import { expect, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
-import AiChatTruncatedText from './truncated-text.gts';
+import TruncatedText from './truncated-text.gts';
 
 // Mirrors `@carbon/ai-chat-components`' `truncated-text.stories.js`
-// (`Default`, `Expand`). Exported from the addon as `AiChatTruncatedText`
-// (a plain `TruncatedText` would collide with Carbon React's component of
-// that name).
+// (`Default`, `Expand`), and exported from `carbon-components-ember/ai-chat`
+// like the rest of AI Chat.
 //
 // docs-app coverage: its single demo rendered the tooltip (default) and
 // expand modes, both clamped to 2 lines in a 20rem column - covered by
@@ -19,12 +18,12 @@ import AiChatTruncatedText from './truncated-text.gts';
 
 const meta = preview.meta({
   title: 'AI Chat/Truncated text',
-  component: AiChatTruncatedText,
+  component: TruncatedText,
   parameters: {
     docs: {
       description: {
         component: [
-          '`AiChatTruncatedText` clamps text (or arbitrary block content) to a maximum number of `@lines`, revealing the rest via a tooltip (`@type="tooltip"`, the default) or an inline expand/collapse toggle (`@type="expand"`).',
+          '`TruncatedText` clamps text (or arbitrary block content) to a maximum number of `@lines`, revealing the rest via a tooltip (`@type="tooltip"`, the default) or an inline expand/collapse toggle (`@type="expand"`).',
           '',
           "Pass `@value` for plain text, or a block for rich content — the tooltip variant's label always uses `@value`, matching upstream.",
         ].join('\n'),
@@ -49,7 +48,7 @@ const meta = preview.meta({
     </template>,
   ],
   render: (args) => <template>
-    <AiChatTruncatedText
+    <TruncatedText
       @align={{args.align}}
       @autoalign={{args.autoalign}}
       @collapseLabel={{args.collapseLabel}}

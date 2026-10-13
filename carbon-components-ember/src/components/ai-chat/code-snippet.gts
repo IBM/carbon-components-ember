@@ -30,7 +30,7 @@ import type { LineCountFormatter } from './-code-snippet/formatters.ts';
 import { loadCodeMirrorRuntime } from './-code-snippet/codemirror-loader.ts';
 import type { CodeMirrorRuntimeModule } from './-code-snippet/codemirror-loader.ts';
 
-export interface AiChatCodeSnippetSignature {
+export interface CodeSnippetSignature {
   Element: HTMLDivElement;
   Args: {
     /** The code to display/edit. The sole content source - see the class doc. */
@@ -83,10 +83,9 @@ export interface AiChatCodeSnippetSignature {
  * Ember port of `@carbon/ai-chat-components`'
  * [`cds-aichat-code-snippet`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/code-snippet) -
  * a CodeMirror 6 powered code display/editor with language detection,
- * folding, and a collapse/expand affordance for long snippets. Exported as
- * `AiChatCodeSnippet` (an existing Carbon React `CodeSnippet` already
- * occupies the plain name - see `scripts/parity-check.mjs`'s
- * `AI_CHAT_EXPORT_OVERRIDES`).
+ * folding, and a collapse/expand affordance for long snippets. It's exported
+ * from `carbon-components-ember/ai-chat`, next to Carbon's own `CodeSnippet`
+ * in `carbon-components-ember/components`.
  *
  * **CodeMirror itself is entirely dynamically imported** - `code-snippet.gts`
  * never statically imports `@codemirror/*`/`@lezer/*`; every real import
@@ -136,11 +135,11 @@ export interface AiChatCodeSnippetSignature {
  *
  * Container CSS custom properties (`--cds-snippet-max-height`/`-min-height`)
  * are applied via a plain `style` attribute binding (`containerStyle`,
- * following `AiChatTruncatedText`'s existing precedent) rather than
+ * following `TruncatedText`'s existing precedent) rather than
  * upstream's CSP-safe dynamic-stylesheet helper, for the same reason as the
  * copy fallback above.
  */
-export default class AiChatCodeSnippet extends Component<AiChatCodeSnippetSignature> {
+export default class CodeSnippet extends Component<CodeSnippetSignature> {
   @tracked private detectedLanguage: string | null = null;
   @tracked private languageLabelLocked = false;
   @tracked private lineCount: number | null = null;
@@ -165,7 +164,7 @@ export default class AiChatCodeSnippet extends Component<AiChatCodeSnippetSignat
   private fontSettleScheduled = false;
   private readonly rowHeightInPixels = 16;
 
-  constructor(owner: Owner, args: AiChatCodeSnippetSignature['Args']) {
+  constructor(owner: Owner, args: CodeSnippetSignature['Args']) {
     super(owner, args);
   }
 

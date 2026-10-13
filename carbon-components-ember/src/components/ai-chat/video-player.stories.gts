@@ -3,7 +3,7 @@ import { expect, fn, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Button from '../button.gts';
-import AiChatCard from './card.gts';
+import Card from './card.gts';
 import VideoPlayer from './video-player.gts';
 
 import type { VideoPlayerSignature } from './video-player.gts';
@@ -11,7 +11,7 @@ import type { VideoPlayerSignature } from './video-player.gts';
 // Mirrors `@carbon/ai-chat-components`' `video-player.stories.js`
 // (`Components/Video player`): Default, Standalone, WithMetadata, ErrorState
 // (with the same `useCard`/`title`/`description` story args, the card being
-// this addon's `AiChatCard`).
+// this addon's `Card`).
 //
 // docs-app's demos: the native clip is `Native`, "Aspect ratio" is
 // `AspectRatio`, "Subtitle tracks" is `SubtitleTracks`, the YouTube and
@@ -43,7 +43,7 @@ const youTubeSource = 'https://www.youtube.com/watch?v=eZ1NizUx9U4';
 const vimeoSource = 'https://vimeo.com/22439234';
 
 type StoryArgs = VideoPlayerSignature['Args'] & {
-  /** Story-only: wrap the player in an `AiChatCard` with a title/description. */
+  /** Story-only: wrap the player in a `Card` with a title/description. */
   useCard: boolean;
   /** Story-only: card title (when `useCard`). */
   title: string;
@@ -91,7 +91,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
   // args instead of the story-only ones declared via `preview.type()`.
   render: (args: StoryArgs) => <template>
     {{#if args.useCard}}
-      <AiChatCard @isFlush={{true}}>
+      <Card @isFlush={{true}}>
         <:media>
           <VideoPlayer
             @source={{args.source}}
@@ -114,7 +114,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
             </p>
           </div>
         </:body>
-      </AiChatCard>
+      </Card>
     {{else}}
       <VideoPlayer
         @source={{args.source}}

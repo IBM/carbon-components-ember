@@ -8,7 +8,7 @@
 /**
  * The dynamic `import()` split point for the CodeMirror runtime, mirroring
  * `-prompt-line/rich-loader.ts`'s shape exactly: a module-level cache so
- * every `AiChatCodeSnippet` instance on a page shares one `import()`
+ * every `CodeSnippet` instance on a page shares one `import()`
  * instead of racing its own.
  */
 

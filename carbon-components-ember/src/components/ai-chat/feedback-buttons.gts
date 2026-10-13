@@ -44,8 +44,6 @@ export interface FeedbackButtonsSignature {
  *
  * Ember port of `@carbon/ai-chat-components`'
  * [`cds-aichat-feedback-buttons`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/feedback).
- * Doesn't collide with any Carbon React component name, so it stays
- * unprefixed.
  *
  * Upstream flips its tooltip alignment (`top-start`/`top-end`) based on
  * document direction. Not reproduced — `Tooltip`'s own `@autoAlign` already

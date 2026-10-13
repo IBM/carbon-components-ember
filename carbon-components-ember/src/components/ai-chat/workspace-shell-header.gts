@@ -8,7 +8,7 @@
 import Component from '@glimmer/component';
 import { modifier } from 'ember-modifier';
 import { ChevronDown } from '../../icons.ts';
-import AiChatTruncatedText from './truncated-text.gts';
+import TruncatedText from './truncated-text.gts';
 
 export interface WorkspaceShellHeaderSignature {
   Element: HTMLDivElement | HTMLDetailsElement;
@@ -49,8 +49,6 @@ const watchToggle = modifier(
  *
  * Ember port of `@carbon/ai-chat-components`'
  * [`cds-aichat-workspace-shell-header`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/workspace-shell).
- * Doesn't collide with any Carbon React component name, so it stays
- * unprefixed.
  */
 export default class WorkspaceShellHeader extends Component<WorkspaceShellHeaderSignature> {
   handleToggle = (open: boolean) => {
@@ -67,7 +65,7 @@ export default class WorkspaceShellHeader extends Component<WorkspaceShellHeader
         <summary class="cds-aichat-workspace-shell__header-summary">
           {{#if @titleText}}
             <h1 class="cds-aichat-workspace-shell__header-title">
-              <AiChatTruncatedText
+              <TruncatedText
                 @value={{@titleText}}
                 @lines={{1}}
                 @type="tooltip"
@@ -93,7 +91,7 @@ export default class WorkspaceShellHeader extends Component<WorkspaceShellHeader
         <div class="cds-aichat-workspace-shell__header-content">
           {{#if @titleText}}
             <h1 class="cds-aichat-workspace-shell__header-title">
-              <AiChatTruncatedText
+              <TruncatedText
                 @value={{@titleText}}
                 @lines={{1}}
                 @type="tooltip"

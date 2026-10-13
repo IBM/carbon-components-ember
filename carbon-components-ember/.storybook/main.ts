@@ -23,7 +23,7 @@ export default defineMain({
     '@storybook/addon-themes',
     '@storybook/addon-vitest',
     '@storybook/addon-mcp',
-    // Points the components manifest's imports at the components barrel.
+    // Points the components manifest's imports at each component's barrel.
     './manifests.ts',
   ],
 

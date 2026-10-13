@@ -20,7 +20,7 @@ import {
 } from '../../icons.ts';
 import Button from '../button.gts';
 import OverflowMenu from '../overflow-menu.gts';
-import OverflowMenuItem from '../overflow-menu/item.gts';
+import OverflowMenuItem from '../overflow-menu/overflow-menu-item.gts';
 import Tooltip from '../tooltip.gts';
 import Toolbar from './toolbar.gts';
 

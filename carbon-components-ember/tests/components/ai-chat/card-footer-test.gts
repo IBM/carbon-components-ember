@@ -7,15 +7,15 @@ import {
   find,
   triggerEvent,
 } from '@ember/test-helpers';
-import AiChatCardFooter from '#src/components/ai-chat/card-footer.gts';
+import CardFooter from '#src/components/ai-chat/card-footer.gts';
 import type { CardFooterAction } from '#src/components/ai-chat/card-footer.gts';
 import Checkmark from '#src/components/icons/checkmark.ts';
 
-module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
+module('Integration | Component | ai-chat/CardFooter', (hooks) => {
   setupRenderingTest(hooks);
 
   test('it renders nothing when @actions is empty', async function (assert) {
-    await render(<template><AiChatCardFooter /></template>);
+    await render(<template><CardFooter /></template>);
 
     assert.dom('.cds-aichat-card-footer__actions').doesNotExist();
     assert.dom('.cds-aichat-card-footer__icon-actions').doesNotExist();
@@ -31,7 +31,7 @@ module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
 
     await render(
       <template>
-        <AiChatCardFooter @actions={{actions}} @onAction={{onAction}} />
+        <CardFooter @actions={{actions}} @onAction={{onAction}} />
       </template>,
     );
 
@@ -50,9 +50,7 @@ module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
       { id: 'b', label: '', tooltipText: 'Delete' },
     ];
 
-    await render(
-      <template><AiChatCardFooter @actions={{actions}} /></template>,
-    );
+    await render(<template><CardFooter @actions={{actions}} /></template>);
 
     assert.dom('.cds-aichat-card-footer__icon-actions').exists();
     assert.dom('.cds-aichat-card-footer__actions').doesNotExist();
@@ -66,9 +64,7 @@ module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
       { id: 'a', label: '', tooltipText: 'Copy' },
     ];
 
-    await render(
-      <template><AiChatCardFooter @actions={{actions}} /></template>,
-    );
+    await render(<template><CardFooter @actions={{actions}} /></template>);
 
     const container = find(
       '.cds-aichat-card-footer__icon-actions',
@@ -100,9 +96,7 @@ module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
       { id: 'c', label: 'Three' },
     ];
 
-    await render(
-      <template><AiChatCardFooter @actions={{actions}} /></template>,
-    );
+    await render(<template><CardFooter @actions={{actions}} /></template>);
 
     assert
       .dom('.cds-aichat-card-footer__actions')
@@ -127,7 +121,7 @@ module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
 
     await render(
       <template>
-        <div style="width: 500px"><AiChatCardFooter @actions={{two}} /></div>
+        <div style="width: 500px"><CardFooter @actions={{two}} /></div>
       </template>,
     );
     let { footer, buttons } = widths();
@@ -138,7 +132,7 @@ module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
 
     await render(
       <template>
-        <div style="width: 500px"><AiChatCardFooter @actions={{three}} /></div>
+        <div style="width: 500px"><CardFooter @actions={{three}} /></div>
       </template>,
     );
     ({ footer, buttons } = widths());
@@ -164,9 +158,7 @@ module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
       { id: 'e', label: 'Danger', kind: 'danger' },
     ];
 
-    await render(
-      <template><AiChatCardFooter @actions={{actions}} /></template>,
-    );
+    await render(<template><CardFooter @actions={{actions}} /></template>);
 
     const buttons = document.querySelectorAll(
       '.cds-aichat-card-footer__actions button',
@@ -204,9 +196,7 @@ module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
       { id: 'b', label: '', tooltipText: 'Danger', kind: 'danger' },
     ];
 
-    await render(
-      <template><AiChatCardFooter @actions={{actions}} /></template>,
-    );
+    await render(<template><CardFooter @actions={{actions}} /></template>);
 
     const buttons = document.querySelectorAll(
       '.cds-aichat-card-footer__icon-actions button',
@@ -233,9 +223,7 @@ module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
       { id: 'a', label: '', tooltipText: 'Copy', icon: Checkmark },
     ];
 
-    await render(
-      <template><AiChatCardFooter @actions={{actions}} /></template>,
-    );
+    await render(<template><CardFooter @actions={{actions}} /></template>);
     await waitUntil(() => find('.cds-aichat-card-footer__icon-actions svg'));
 
     assert
@@ -247,7 +235,7 @@ module('Integration | Component | ai-chat/AiChatCardFooter', (hooks) => {
     ];
 
     await render(
-      <template><AiChatCardFooter @actions={{labeledActions}} /></template>,
+      <template><CardFooter @actions={{labeledActions}} /></template>,
     );
     await waitUntil(() => find('.cds-aichat-card-footer__actions svg'));
 

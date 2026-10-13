@@ -72,7 +72,7 @@ export interface LauncherSignature {
  * a close button); this component doesn't model that state itself.
  *
  * ```gjs
- * import { Launcher } from 'carbon-components-ember/components';
+ * import { Launcher } from 'carbon-components-ember/ai-chat';
  *
  * <template>
  *   <Launcher @closedLabel='Open chat' @onToggle={{this.openChat}} />
