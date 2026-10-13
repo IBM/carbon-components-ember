@@ -205,7 +205,11 @@ Native.test(
     await expect(video).not.toBeNull();
     await expect(video?.getAttribute('src')).toBe(sampleVideoSource);
     await expect(video).toHaveAttribute('controls');
-    await waitFor(() => expect(args.onReady).toHaveBeenCalled());
+    // Loading the clip's metadata can take longer than the 5s configured in
+    // preview.ts on a busy runner. Vitest stops the whole test at 15s.
+    await waitFor(() => expect(args.onReady).toHaveBeenCalled(), {
+      timeout: 10_000,
+    });
     await expect(args.onError).not.toHaveBeenCalled();
   },
 );
