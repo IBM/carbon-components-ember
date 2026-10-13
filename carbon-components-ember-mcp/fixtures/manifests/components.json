@@ -5,7 +5,7 @@
       "id": "components-button",
       "name": "Button",
       "description": "Buttons are used to initialize an action.",
-      "import": "import Button from 'carbon-components-ember/components/button';",
+      "import": "import { Button } from 'carbon-components-ember/components';",
       "apiDescription": "## Arguments\n\n| Name | Type |\n| --- | --- |\n| `@kind` | `'primary' \\| 'secondary'` |",
       "stories": [
         {

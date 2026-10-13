@@ -47,4 +47,8 @@ runs:
         if [[ " ${packages[*]} " == *" dom-parity "* && " ${packages[*]} " != *" carbon-components-ember "* ]]; then
           packages+=(carbon-components-ember)
         fi
+        # The MCP server sends the addon's skill, and its tests read it.
+        if grep -q '^carbon-components-ember/skills/' <<< "$changed" && [[ " ${packages[*]} " != *" carbon-components-ember-mcp "* ]]; then
+          packages+=(carbon-components-ember-mcp)
+        fi
         report "${packages[@]}"
