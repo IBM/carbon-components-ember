@@ -16,6 +16,14 @@ import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+import {
+  compareStories,
+  EMBER_INDEX_URL,
+  loadIndex,
+  REACT_INDEX_URL,
+  storyReport,
+} from './story-parity.mjs';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -57,7 +65,7 @@ const SOURCES = [
     excludeDirs: [],
     // The barrel whose exports count as this source's Ember components.
     barrel: 'carbon-components-ember/src/components.ts',
-    storybookStoriesUrl: 'https://react.carbondesignsystem.com/stories.json',
+    storybookIndexUrl: REACT_INDEX_URL,
     storybookBaseUrl: 'https://react.carbondesignsystem.com/',
     issueTitlePrefix: '[Parity Check]',
     createIssues: true,
@@ -87,7 +95,7 @@ const SOURCES = [
     // AI Chat has its own barrel, like upstream's separate package, so its
     // export names can match upstream's without colliding with React's.
     barrel: 'carbon-components-ember/src/ai-chat.ts',
-    storybookStoriesUrl: null,
+    storybookIndexUrl: null,
     storybookBaseUrl: null,
     issueTitlePrefix: '[Parity Check][AI Chat]',
     // `Launcher` and `ChatShell` landed (see AGENTS.md's "Porting Carbon AI
@@ -308,45 +316,6 @@ async function getEmberComponents(source) {
     return components.sort();
   } catch (error) {
     console.error('Error reading Ember components:', error.message);
-    return [];
-  }
-}
-
-/**
- * Scrape Storybook for component details (only sources that configure a
- * storybookStoriesUrl support this - carbon-ai-chat does not have a known
- * stories.json endpoint, so it's skipped for that source rather than
- * guessed at).
- */
-async function scrapeStorybookComponents(source) {
-  if (!source.storybookStoriesUrl) return [];
-
-  try {
-    const response = await fetch(source.storybookStoriesUrl);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data = await response.json();
-
-    // Extract component names from stories
-    const components = new Set();
-    Object.keys(data.stories || {}).forEach((key) => {
-      const story = data.stories[key];
-      if (story.title) {
-        // Extract component name from title like "Components/Accordion"
-        const parts = story.title.split('/');
-        if (parts.length >= 2 && parts[0] === 'Components') {
-          components.add(parts[1]);
-        }
-      }
-    });
-
-    return Array.from(components).sort();
-  } catch (error) {
-    console.error(
-      `Error scraping Storybook for ${source.label}:`,
-      error.message,
-    );
     return [];
   }
 }
@@ -931,14 +900,23 @@ async function runSource(source, exclusions) {
   const upstreamDirComponents = await fetchUpstreamComponents(source);
   console.log(`Found ${upstreamDirComponents.length} components`);
 
-  const storybookComponents = await scrapeStorybookComponents(source);
-  if (source.storybookStoriesUrl) {
-    console.log(`Found ${storybookComponents.length} components in Storybook`);
+  // Storybook pages aren't a component list (they include groupings such as
+  // "Fluid Components"), so the stories are compared on their own.
+  let stories;
+  if (source.storybookIndexUrl) {
+    try {
+      stories = compareStories(
+        await loadIndex(source.storybookIndexUrl),
+        await loadIndex(process.env.EMBER_STORYBOOK_INDEX ?? EMBER_INDEX_URL),
+      );
+      console.log(
+        `Matched ${stories.matched} of ${stories.total} Storybook stories`,
+      );
+    } catch (error) {
+      console.error(`Error comparing Storybook stories: ${error.message}`);
+    }
   }
-
-  const mergedUpstreamComponents = Array.from(
-    new Set([...upstreamDirComponents, ...storybookComponents]),
-  ).sort();
+  const mergedUpstreamComponents = [...upstreamDirComponents].sort();
   console.log(
     `Total unique ${source.label} components: ${mergedUpstreamComponents.length}`,
   );
@@ -1047,6 +1025,17 @@ async function runSource(source, exclusions) {
       outdated: comparison.outdatedComponents?.map((c) => c.name) || [],
     },
     componentMetadata: comparison.componentMetadata || {},
+    ...(stories && {
+      stories: {
+        matched: stories.matched,
+        total: stories.total,
+        missing: Object.fromEntries(
+          stories.pages
+            .filter((page) => page.missing.length)
+            .map((page) => [page.title, page.missing]),
+        ),
+      },
+    }),
   };
 
   return {
@@ -1055,12 +1044,13 @@ async function runSource(source, exclusions) {
     currentVersion,
     currentCommitInfo,
     newSourceData,
-    reportSection: generateReportSection(
-      source,
-      comparison,
-      currentVersion,
-      currentCommitInfo,
-    ),
+    reportSection:
+      generateReportSection(
+        source,
+        comparison,
+        currentVersion,
+        currentCommitInfo,
+      ) + (stories ? `\n${storyReport(stories)}` : ''),
   };
 }
 
