@@ -2,7 +2,7 @@
  * An MCP server, over stdio, with the docs of the carbon-components-ember
  * version a project has installed. It serves the same tools as Storybook's
  * own MCP endpoint, reading the components manifest published with that
- * version's docs.
+ * version's docs, and gives agents that version's skill as instructions.
  */
 
 import fs from 'node:fs/promises';
@@ -36,12 +36,16 @@ in the current directory's project.
                          http://localhost:6006) or built Storybook directory
   --help                 Show this message`;
 
-/** The version of carbon-components-ember installed in `dir` or above it. */
-export async function installedVersion(dir) {
+/** The carbon-components-ember installed in `dir` or above it. */
+export async function installedAddon(dir) {
   for (let current = path.resolve(dir); ;) {
+    const root = path.join(current, 'node_modules', ADDON);
     try {
-      const file = path.join(current, 'node_modules', ADDON, 'package.json');
-      return JSON.parse(await fs.readFile(file, 'utf-8')).version;
+      const file = path.join(root, 'package.json');
+      return {
+        root,
+        version: JSON.parse(await fs.readFile(file, 'utf-8')).version,
+      };
     } catch {
       const parent = path.dirname(current);
       if (parent === current) return undefined;
@@ -68,10 +72,10 @@ async function hasManifest(location) {
  * Where to read the manifests: `manifests` if given, else the docs of
  * `release` or of the installed version, else main's.
  */
-export async function resolveManifests({ manifests, release, cwd }) {
+export async function resolveManifests({ manifests, release, addon }) {
   if (manifests) return { location: manifests, label: ADDON };
 
-  const version = release ?? (await installedVersion(cwd));
+  const version = release ?? addon?.version;
   if (version) {
     const location = releaseUrl(version);
     if (await hasManifest(location)) {
@@ -129,17 +133,33 @@ export function manifestProvider(location) {
   };
 }
 
-/** How to use the components; the README offers it for AGENTS.md too. */
-export const instructions = () =>
-  fs.readFile(new URL('./instructions.md', import.meta.url), 'utf-8');
+/**
+ * How to use the components: the installed version's agent skill, with its
+ * links made absolute, or a summary for a version that ships none.
+ */
+export async function instructions(addon) {
+  const skill = addon && path.join(addon.root, 'skills', ADDON);
+  const text =
+    skill &&
+    (await fs.readFile(path.join(skill, 'SKILL.md'), 'utf-8').catch(() => {}));
+  if (!text) {
+    return `${ADDON} is IBM's Carbon Design System as Ember components: Glimmer components, invoked with angle brackets and @ arguments in .gts templates. Each component's docs show its import and its arguments.\n`;
+  }
+  return text
+    .replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n+/, '')
+    .replace(
+      /\]\(((?![a-z]+:|#)[^)\s]+)\)/g,
+      (_, link) => `](${path.join(skill, link)})`,
+    );
+}
 
-export async function createServer(label) {
+export async function createServer(label, addon) {
   const server = new McpServer(
     { name: pkg.name, version: pkg.version, description: `Docs for ${label}` },
     {
       adapter: new ValibotJsonSchemaAdapter(),
       capabilities: { tools: { listChanged: true } },
-      instructions: `These tools serve the docs for ${label}.\n\n${await instructions()}\n${STORYBOOK_MCP_INSTRUCTIONS}`,
+      instructions: `These tools serve the docs for ${label}.\n\n${await instructions(addon)}\n${STORYBOOK_MCP_INSTRUCTIONS}`,
     },
   ).withContext();
 
@@ -165,11 +185,9 @@ export async function main(args = process.argv.slice(2)) {
     return;
   }
 
-  const { location, label } = await resolveManifests({
-    ...values,
-    cwd: process.cwd(),
-  });
-  const server = await createServer(label);
+  const addon = await installedAddon(process.cwd());
+  const { location, label } = await resolveManifests({ ...values, addon });
+  const server = await createServer(label, addon);
 
   new StdioTransport(server).listen({
     manifestProvider: manifestProvider(location),

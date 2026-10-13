@@ -20,7 +20,6 @@
   },
   "files": [
     "bin.mjs",
-    "instructions.md",
     "README.md",
     "server.mjs"
   ],
