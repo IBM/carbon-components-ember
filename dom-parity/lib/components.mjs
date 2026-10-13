@@ -314,7 +314,7 @@
  * indicators batch, and again for the Accordion/Tabs/StructuredList batch
  * below): this file covers
  * 53 of the ~98
- * non-ai-chat components exported from `src/components/index.ts` (56
+ * components exported from `src/components.ts` (56
  * fixture entries above, since the Tile family's
  * `Tile`/`ClickableTile`/`SelectableTile`/`ExpandableTile` all map to just
  * the single real `Tile` export, while `RadioTile` and `TileGroup` each map

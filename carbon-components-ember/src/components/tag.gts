@@ -70,7 +70,7 @@ export default class Tag extends Component<TagSignature> {
       console.error(
         `${
           this.args.type
-        } not supported type for Carbon::Tag, supported are:${types.join(',')}`,
+        } not supported type for Tag, supported are:${types.join(',')}`,
       );
     }
     return this.args.type;

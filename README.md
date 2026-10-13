@@ -11,7 +11,7 @@ pnpm add carbon-components-ember @carbon/styles
 pnpm add -D sass
 ```
 
-It's a v2 addon. Embroider and Vite apps work as they are; classic ember-cli apps need `ember-auto-import` 2. Tested against `ember-source` 7, and in CI against its beta and alpha channels.
+It's a v2 addon for strict-mode templates (`.gts` and `.gjs`). Embroider and Vite apps work as they are; classic ember-cli apps need `ember-auto-import` 2 and `ember-template-imports`. Tested against `ember-source` 7, and in CI against its beta and alpha channels.
 
 pnpm 12 stops the first install at dependencies' build scripts. Carbon's packages (`@carbon/*` and `@ibm/plex*`) only send IBM's install telemetry, and `@parcel/watcher` (from `sass`) ships prebuilt, so deny them with [`pnpm approve`](https://pnpm.io/cli/permissions) or [`allowBuilds`](https://pnpm.io/settings/build#allowbuilds).
 
@@ -56,9 +56,12 @@ import Add from 'carbon-components-ember/components/icons/add';
 
 Icons are components too: import each one from `carbon-components-ember/components/icons/<name>` and give it a `@size`. The [Carbon AI Chat](https://github.com/carbon-design-system/carbon-ai-chat) components come from `carbon-components-ember/ai-chat`, under upstream's names (`ChatShell`, `CodeSnippet`).
 
+> [!IMPORTANT]
+> **Strict mode only.** Import components, icons and modifiers as above. Loose-mode `.hbs` templates can't resolve them by name: `<Carbon::TextInput>` and `{{component "carbon/text-input"}}` don't work. Write the templates that use them as `.gts` or `.gjs`.
+
 Components forward `...attributes` to their main element, so `class`, `id`, ARIA attributes and modifiers work on them, and Glint type-checks every argument, block and attribute.
 
-Services are namespaced under `carbon.`:
+Unlike components, services are looked up by name, under `carbon.`:
 
 ```ts
 import Component from '@glimmer/component';
