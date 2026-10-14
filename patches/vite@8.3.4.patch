@@ -1,0 +1,35 @@
+diff --git a/dist/node/chunks/node.js b/dist/node/chunks/node.js
+index 121ef458164ab3687690f0e6d14c23ffe4c5d4a3..a35ce2199049a8156040bcf5fd4b9b05068fb826 100644
+--- a/dist/node/chunks/node.js
++++ b/dist/node/chunks/node.js
+@@ -35846,7 +35846,13 @@ function createDepsOptimizer(environment) {
+ 						}
+ 						const manuallyIncluded = Object.keys(manuallyIncludedDepsInfo);
+ 						discoveredDepsWhileScanning.push(...Object.keys(metadata.discovered).filter((dep) => !deps[dep] && !manuallyIncluded.includes(dep)));
+-						for (const id of Object.keys(deps)) if (!metadata.discovered[id]) addMissingDep(id, deps[id]);
++						const scannedDeps = {};
++						for (const id of Object.keys(deps)) if (!metadata.discovered[id]) scannedDeps[id] = deps[id];
++						const browserHash = getDiscoveredBrowserHash(metadata.hash, depsFromOptimizedDepInfo(metadata.optimized), {
++							...depsFromOptimizedDepInfo(metadata.discovered),
++							...scannedDeps
++						});
++						for (const id in scannedDeps) addMissingDep(id, scannedDeps[id], browserHash);
+ 						const knownDeps = prepareKnownDeps();
+ 						startNextDiscoveredBatch();
+ 						optimizationResult = runOptimizeDeps(environment, knownDeps);
+@@ -36001,13 +36007,13 @@ function createDepsOptimizer(environment) {
+ 		if (depsOptimizer.initState === "initialized" && !waitingForCrawlEnd) debouncedProcessing();
+ 		return missing;
+ 	}
+-	function addMissingDep(id, resolved) {
++	function addMissingDep(id, resolved, browserHash = getDiscoveredBrowserHash(metadata.hash, depsFromOptimizedDepInfo(metadata.optimized), depsFromOptimizedDepInfo(metadata.discovered))) {
+ 		newDepsDiscovered = true;
+ 		return addOptimizedDepInfo(metadata, "discovered", {
+ 			id,
+ 			file: getOptimizedDepPath(environment, id),
+ 			src: resolved,
+-			browserHash: getDiscoveredBrowserHash(metadata.hash, depsFromOptimizedDepInfo(metadata.optimized), depsFromOptimizedDepInfo(metadata.discovered)),
++			browserHash,
+ 			processing: depOptimizationProcessing.promise,
+ 			exportsData: extractExportsData(environment, resolved)
+ 		});
