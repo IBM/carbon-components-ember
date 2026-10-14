@@ -9,6 +9,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { modifier } from 'ember-modifier';
+import style from 'ember-style-modifier';
 import { default as Tooltip } from '../tooltip.gts';
 import type { TooltipAlignments } from '../tooltip.gts';
 
@@ -57,8 +58,7 @@ export interface TruncatedTextSignature {
  * Upstream sets `--line-clamp-value`/`--max-height-value` custom
  * properties through a shared shadow-DOM stylesheet helper needed only
  * because of Lit shadow DOM + a strict CSP; this addon renders in light
- * DOM and already uses plain inline `style` attributes elsewhere (see
- * `Pagination`'s `Loading`), so those are set directly here instead.
+ * DOM, so the `{{style}}` modifier sets them on the element instead.
  *
  * The tooltip variant's label always uses `@value` (plain text), even
  * when a default block is passed for the visible content — matching
@@ -91,8 +91,11 @@ export default class TruncatedText extends Component<TruncatedTextSignature> {
     return this.maxHeight || 'none';
   }
 
-  get contentStyle() {
-    return `--line-clamp-value: ${this.lineClampValue}; --max-height-value: ${this.maxHeightValue};`;
+  get contentStyles() {
+    return {
+      '--line-clamp-value': this.lineClampValue,
+      '--max-height-value': this.maxHeightValue,
+    };
   }
 
   get showTooltip() {
@@ -188,7 +191,7 @@ export default class TruncatedText extends Component<TruncatedTextSignature> {
                   this.isExpanded
                   'cds-aichat-truncated-text__content--expanded'
                 }}"
-              style={{this.contentStyle}}
+              {{style this.contentStyles}}
               {{this.observeContent}}
               {{this.remeasure this.lines @value}}
             >
@@ -211,7 +214,7 @@ export default class TruncatedText extends Component<TruncatedTextSignature> {
               this.isExpanded
               'cds-aichat-truncated-text__content--expanded'
             }}"
-          style={{this.contentStyle}}
+          {{style this.contentStyles}}
           {{this.observeContent}}
           {{this.remeasure this.lines @value}}
         >

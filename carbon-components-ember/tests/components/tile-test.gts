@@ -3,6 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click, waitUntil } from '@ember/test-helpers';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import Tile from '#src/components/tile.gts';
+import style from 'ember-style-modifier';
 
 module('Integration | Component | Tile', (hooks) => {
   setupRenderingTest(hooks);
@@ -149,7 +150,7 @@ module('Integration | Component | Tile', (hooks) => {
         <Tile @expandable={{true}}>
           <:above>Above the fold</:above>
           <:below>
-            <div style="height: 400px;">tall below content</div>
+            <div {{style height="400px"}}>tall below content</div>
           </:below>
         </Tile>
       </template>,

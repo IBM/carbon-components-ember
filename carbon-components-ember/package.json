@@ -94,6 +94,7 @@
     "ember-power-select": "^9.0.2",
     "ember-primitives": "^0.62.0",
     "ember-resize-modifier": "^1.1.0",
+    "ember-style-modifier": "^4.6.0",
     "flatpickr": "^4.6.13",
     "markdown-it": "14.3.2"
   },

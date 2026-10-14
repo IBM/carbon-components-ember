@@ -2,6 +2,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <!-- Blocks style attributes, as apps' strict CSPs do; see tests/helpers/csp.ts. -->
+    <meta http-equiv="Content-Security-Policy" content="style-src-attr 'none'" />
     <title>carbon-components-ember Tests</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

@@ -6,7 +6,7 @@
  */
 
 import Component from '@glimmer/component';
-import { htmlSafe } from '@ember/template';
+import style from 'ember-style-modifier';
 
 export type StackOrientation = 'horizontal' | 'vertical';
 
@@ -50,16 +50,15 @@ export default class Stack extends Component<StackSignature> {
     return classes.join(' ');
   }
 
-  get style() {
-    if (typeof this.args.gap === 'string') {
-      return htmlSafe(`--cds-stack-gap: ${this.args.gap};`);
-    }
-    return undefined;
+  get styles() {
+    return typeof this.args.gap === 'string'
+      ? { '--cds-stack-gap': this.args.gap }
+      : undefined;
   }
 
   <template>
     {{#let (element this.tag) as |Tag|}}
-      <Tag class={{this.classes}} style={{this.style}} ...attributes>
+      <Tag class={{this.classes}} {{style this.styles}} ...attributes>
         {{yield}}
       </Tag>
     {{/let}}

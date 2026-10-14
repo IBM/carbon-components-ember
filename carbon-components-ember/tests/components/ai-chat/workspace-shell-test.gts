@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, waitUntil, find } from '@ember/test-helpers';
 import WorkspaceShell from '#src/components/ai-chat/workspace-shell.gts';
+import style from 'ember-style-modifier';
 
 module('Integration | Component | ai-chat/WorkspaceShell', (hooks) => {
   setupRenderingTest(hooks);
@@ -47,7 +48,7 @@ module('Integration | Component | ai-chat/WorkspaceShell', (hooks) => {
       <template>
         <WorkspaceShell
           @autoCollapsibleHeader={{true}}
-          style="block-size: 40px; overflow: hidden;"
+          {{style blockSize="40px" overflow="hidden"}}
         >
           <:header as |Header|><Header @titleText="Order" /></:header>
           <:body><div class="bd">Body</div></:body>

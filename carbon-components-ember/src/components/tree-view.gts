@@ -11,8 +11,13 @@ import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { concat } from '@ember/helper';
 import type { WithBoundArgs } from '@glint/template';
-import { htmlSafe } from '@ember/template';
+import style from 'ember-style-modifier';
 import type Icon from './icon.gts';
+
+const labelOffset = (offset: number) => ({
+  marginInlineStart: `-${offset}rem`,
+  paddingInlineStart: `${offset}rem`,
+});
 
 export interface TreeNodeSignature {
   Element: HTMLLIElement;
@@ -89,18 +94,12 @@ class TreeNode extends Component<TreeNodeSignature> {
   // row's hover/selected background spans the full row width (flush with
   // the tree's left edge) instead of just starting where the label text
   // begins.
-  get parentLabelStyle() {
-    const offset = this.depth + 1;
-    return htmlSafe(
-      `margin-inline-start: -${offset}rem; padding-inline-start: ${offset}rem;`,
-    );
+  get parentLabelStyles() {
+    return labelOffset(this.depth + 1);
   }
 
-  get leafLabelStyle() {
-    const offset = this.depth + 2.5;
-    return htmlSafe(
-      `margin-inline-start: -${offset}rem; padding-inline-start: ${offset}rem;`,
-    );
+  get leafLabelStyles() {
+    return labelOffset(this.depth + 2.5);
   }
 
   select = (event: MouseEvent) => {
@@ -155,7 +154,7 @@ class TreeNode extends Component<TreeNodeSignature> {
     >
       <div
         class="cds--tree-node__label"
-        style={{if (has-block) this.parentLabelStyle this.leafLabelStyle}}
+        {{style (if (has-block) this.parentLabelStyles this.leafLabelStyles)}}
       >
         {{#if (has-block)}}
           {{! eslint-disable-next-line ember/template-no-invalid-interactive }}

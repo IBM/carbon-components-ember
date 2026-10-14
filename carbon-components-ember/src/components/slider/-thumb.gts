@@ -7,8 +7,8 @@
 
 import Component from '@glimmer/component';
 import { concat } from '@ember/helper';
-import type { SafeString } from '@ember/template';
 import { modifier } from 'ember-modifier';
+import style from 'ember-style-modifier';
 import type { HandlePosition } from '../slider.gts';
 
 const registerElement = modifier(
@@ -25,7 +25,7 @@ export interface SliderThumbSignature {
   Args: {
     position: HandlePosition;
     twoHandles: boolean;
-    style: SafeString;
+    percent: number;
     id?: string;
     disabled?: boolean;
     readOnly?: boolean;
@@ -51,6 +51,10 @@ export default class SliderThumb extends Component<SliderThumbSignature> {
     return this.args.twoHandles ? this.args.position : '';
   }
 
+  get insetInlineStart() {
+    return `${this.args.percent}%`;
+  }
+
   get tabindex() {
     return this.args.readOnly || this.args.disabled ? undefined : 0;
   }
@@ -59,7 +63,7 @@ export default class SliderThumb extends Component<SliderThumbSignature> {
     <div
       class="cds--icon-tooltip cds--slider__thumb-wrapper
         {{if this.suffix (concat 'cds--slider__thumb-wrapper--' this.suffix)}}"
-      style={{@style}}
+      {{style insetInlineStart=this.insetInlineStart}}
       ...attributes
     >
       <div

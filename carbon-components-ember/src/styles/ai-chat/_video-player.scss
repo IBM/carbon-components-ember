@@ -8,8 +8,8 @@
 // custom properties rather than the Sass theme module. Upstream's
 // `rounded-modifiers`/`data-rounded` host-attribute mixins, and its
 // `--video-player-aspect-ratio` custom property (written via a
-// CSP-safe constructable stylesheet, unnecessary here since Glimmer binds
-// the value directly into `style`), are skipped - see `video-player.gts`'s
+// constructable stylesheet, unnecessary here since the `{{style}}` modifier
+// sets the padding directly), are skipped - see `video-player.gts`'s
 // class doc for both.
 
 @use "@carbon/layout";

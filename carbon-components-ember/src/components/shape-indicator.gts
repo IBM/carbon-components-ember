@@ -8,6 +8,7 @@
 import Component from '@glimmer/component';
 import type { TOC } from '@ember/component/template-only';
 import DefinitionTooltip from './-private/definition-tooltip.gts';
+import style from 'ember-style-modifier';
 import type { IconIndicatorAlignment } from './icon-indicator.gts';
 import Critical from './icons/critical.ts';
 import CriticalSeverity from './icons/critical-severity.ts';
@@ -86,8 +87,7 @@ const IncompleteIcon: TOC<IncompleteIconSignature> = <template>
       fill-opacity="0.01"
       d="M0 0h16v16H0z"
       {{! Carbon React sets this inline too (DOM-parity covers it). }}
-      {{! eslint-disable-next-line ember/template-no-inline-styles }}
-      style="mix-blend-mode: multiply;"
+      {{style mixBlendMode="multiply"}}
     />
     <path
       fill="#161616"

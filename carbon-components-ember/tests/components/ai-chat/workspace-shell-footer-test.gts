@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, waitUntil, find } from '@ember/test-helpers';
 import WorkspaceShellFooter from '#src/components/ai-chat/workspace-shell-footer.gts';
+import style from 'ember-style-modifier';
 
 module('Integration | Component | ai-chat/WorkspaceShellFooter', (hooks) => {
   setupRenderingTest(hooks);
@@ -87,7 +88,7 @@ module('Integration | Component | ai-chat/WorkspaceShellFooter', (hooks) => {
 
     await render(
       <template>
-        <div style="max-inline-size: 400px;">
+        <div {{style maxInlineSize="400px"}}>
           <WorkspaceShellFooter @actions={{actions}} />
         </div>
       </template>,
@@ -114,7 +115,7 @@ module('Integration | Component | ai-chat/WorkspaceShellFooter', (hooks) => {
 
     await render(
       <template>
-        <div style="max-inline-size: 400px;">
+        <div {{style maxInlineSize="400px"}}>
           <WorkspaceShellFooter @actions={{actions}} />
         </div>
       </template>,

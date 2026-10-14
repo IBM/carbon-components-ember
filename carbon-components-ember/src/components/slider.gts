@@ -4,8 +4,8 @@ import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { registerDestructor } from '@ember/destroyable';
 import { concat } from '@ember/helper';
-import { htmlSafe } from '@ember/template';
 import { modifier } from 'ember-modifier';
+import style from 'ember-style-modifier';
 import SliderThumb from './slider/-thumb.gts';
 import SliderTextInput from './slider/-text-input.gts';
 
@@ -124,24 +124,12 @@ export default class Slider extends Component<SliderSignature> {
     return this.twoHandles ? this.percentFor(this.args.valueUpper) : 0;
   }
 
-  get lowerThumbStyle() {
-    return htmlSafe(`inset-inline-start: ${this.lowerPercent}%;`);
-  }
-
-  get upperThumbStyle() {
-    return htmlSafe(`inset-inline-start: ${this.upperPercent}%;`);
-  }
-
-  get filledTrackStyle() {
+  get filledTrackTransform() {
     if (this.twoHandles) {
       const scale = (this.upperPercent - this.lowerPercent) / 100;
-      return htmlSafe(
-        `transform: translate(${this.lowerPercent}%, -50%) scaleX(${scale});`,
-      );
+      return `translate(${this.lowerPercent}%, -50%) scaleX(${scale})`;
     }
-    return htmlSafe(
-      `transform: translate(0%, -50%) scaleX(${this.lowerPercent / 100});`,
-    );
+    return `translate(0%, -50%) scaleX(${this.lowerPercent / 100})`;
   }
 
   get lowerDisplayValue() {
@@ -461,7 +449,7 @@ export default class Slider extends Component<SliderSignature> {
           <SliderThumb
             @position="lower"
             @twoHandles={{this.twoHandles}}
-            @style={{this.lowerThumbStyle}}
+            @percent={{this.lowerPercent}}
             @id={{unless this.twoHandles this.id}}
             @disabled={{@disabled}}
             @readOnly={{@readOnly}}
@@ -479,7 +467,7 @@ export default class Slider extends Component<SliderSignature> {
             <SliderThumb
               @position="upper"
               @twoHandles={{this.twoHandles}}
-              @style={{this.upperThumbStyle}}
+              @percent={{this.upperPercent}}
               @disabled={{@disabled}}
               @readOnly={{@readOnly}}
               @ariaValueMax={{@max}}
@@ -494,7 +482,7 @@ export default class Slider extends Component<SliderSignature> {
           <div class="cds--slider__track"></div>
           <div
             class="cds--slider__filled-track"
-            style={{this.filledTrackStyle}}
+            {{style transform=this.filledTrackTransform}}
           ></div>
         </div>
 

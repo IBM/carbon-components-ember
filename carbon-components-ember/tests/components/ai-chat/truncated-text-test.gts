@@ -3,6 +3,8 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click, triggerKeyEvent } from '@ember/test-helpers';
 import TruncatedText from '#src/components/ai-chat/truncated-text.gts';
 import { waitForAnimationFrame } from '../../helpers';
+// Not `style`: that would turn this file's <style> elements into the modifier.
+import styleModifier from 'ember-style-modifier';
 
 // `TruncatedText`'s overflow detection reads real `scrollHeight`/
 // `clientHeight` off `.cds-aichat-truncated-text__content`, which only
@@ -31,7 +33,7 @@ module('Integration | Component | ai-chat/TruncatedText', (hooks) => {
         <style>
           {{lineClampStyle}}
         </style>
-        <div style="width: 200px">
+        <div {{styleModifier width="200px"}}>
           <TruncatedText @value="Short text" @lines={{2}} />
         </div>
       </template>,
@@ -50,7 +52,7 @@ module('Integration | Component | ai-chat/TruncatedText', (hooks) => {
         <style>
           {{lineClampStyle}}
         </style>
-        <div style="width: 100px">
+        <div {{styleModifier width="100px"}}>
           <TruncatedText @value={{longValue}} @lines={{1}} />
         </div>
       </template>,
@@ -70,7 +72,7 @@ module('Integration | Component | ai-chat/TruncatedText', (hooks) => {
         <style>
           {{lineClampStyle}}
         </style>
-        <div style="width: 100px">
+        <div {{styleModifier width="100px"}}>
           <TruncatedText
             @value={{longValue}}
             @lines={{1}}
@@ -141,7 +143,7 @@ module('Integration | Component | ai-chat/TruncatedText', (hooks) => {
           <style>
             {{lineClampStyle}}
           </style>
-          <div style="width: 100px">
+          <div {{styleModifier width="100px"}}>
             <TruncatedText @value={{longValue}} @lines={{1}} />
           </div>
         </template>,
@@ -174,7 +176,7 @@ module('Integration | Component | ai-chat/TruncatedText', (hooks) => {
         <style>
           {{lineClampStyle}}
         </style>
-        <div style="width: 200px">
+        <div {{styleModifier width="200px"}}>
           <TruncatedText @value="Tooltip text" @lines={{2}}>
             <strong>Rich content</strong>
           </TruncatedText>
