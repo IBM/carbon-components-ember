@@ -110,6 +110,38 @@ function snapshotWriter() {
   };
 }
 
+/**
+ * Logs requests that fail or are cut off while the stories run, so a story
+ * file that fails to load in CI ("Failed to fetch dynamically imported
+ * module") shows whether the server answered with an error or the browser
+ * gave up on it. Requests still in flight when a test's iframe closes, or
+ * when the run ends, are logged too; look for the failing story's own
+ * request, just before its failure.
+ */
+function logFailedRequests() {
+  return {
+    name: 'log-failed-requests',
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const start = Date.now();
+        let finished = false;
+        const log = (outcome) =>
+          console.error(
+            `[requests] ${new Date().toISOString()} ${outcome} ${req.url} (${Date.now() - start}ms)`,
+          );
+        res.on('finish', () => {
+          finished = true;
+          if (res.statusCode >= 400) log(res.statusCode);
+        });
+        res.on('close', () => {
+          if (!finished) log('cut off');
+        });
+        next();
+      });
+    },
+  };
+}
+
 export default defineConfig({
   plugins: [
     ...(isCompat ? [classicEmberSupport()] : []),
@@ -139,6 +171,7 @@ export default defineConfig({
       {
         extends: true,
         plugins: [
+          logFailedRequests(),
           storybookTest({
             configDir,
             storybookScript: 'pnpm storybook --no-open',
