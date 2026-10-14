@@ -2,8 +2,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <!-- Blocks style attributes, as apps' strict CSPs do; see tests/helpers/csp.ts. -->
-    <meta http-equiv="Content-Security-Policy" content="style-src-attr 'none'" />
+    <!-- A strict CSP, as apps use: no style attributes, and <style> elements
+      only with the page's nonce. See tests/helpers/csp.ts. -->
+    <meta property="csp-nonce" nonce="carbon-tests" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="style-src-attr 'none'; style-src-elem 'self' 'nonce-carbon-tests'"
+    />
     <title>carbon-components-ember Tests</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

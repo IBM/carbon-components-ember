@@ -11,6 +11,7 @@ import {
   waitForAnimationFrame,
   disableCarbonStyles,
   enableCarbonStyles,
+  nonce,
 } from '../helpers';
 
 module('Integration | Component | OrderedList', (hooks) => {
@@ -49,7 +50,7 @@ module('Integration | Component | OrderedList', (hooks) => {
           <Item>Item 1</Item>
           <Item>Item 2</Item>
         </OrderedList>
-        <style>
+        <style nonce={{nonce}}>
           {{darkStyleValue.value}}
         </style>
       </template>,

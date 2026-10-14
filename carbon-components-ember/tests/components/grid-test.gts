@@ -16,6 +16,7 @@ import {
   waitForAnimationFrame,
   disableCarbonStyles,
   enableCarbonStyles,
+  nonce,
 } from '../helpers';
 
 module('Integration | Component | Grid', (hooks) => {
@@ -58,7 +59,7 @@ module('Integration | Component | Grid', (hooks) => {
             <Column>Column 2</Column>
           </Row>
         </Grid>
-        <style>
+        <style nonce={{nonce}}>
           {{darkStyleValue.value}}
         </style>
       </template>,

@@ -11,6 +11,7 @@ import {
   waitForAnimationFrame,
   disableCarbonStyles,
   enableCarbonStyles,
+  nonce,
 } from '../helpers';
 
 module('Integration | Component | UnorderedList', (hooks) => {
@@ -49,7 +50,7 @@ module('Integration | Component | UnorderedList', (hooks) => {
           <li>Item 1</li>
           <li>Item 2</li>
         </UnorderedList>
-        <style>
+        <style nonce={{nonce}}>
           {{darkStyleValue.value}}
         </style>
       </template>,

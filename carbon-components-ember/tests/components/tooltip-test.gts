@@ -22,6 +22,7 @@ import {
   waitForAnimationFrame,
   disableCarbonStyles,
   enableCarbonStyles,
+  nonce,
 } from '../helpers';
 
 module('Integration | Component | Tooltip', (hooks) => {
@@ -58,7 +59,7 @@ module('Integration | Component | Tooltip', (hooks) => {
         <Tooltip @label="Close" @defaultOpen={{true}}>
           <button type="button">Trigger</button>
         </Tooltip>
-        <style>
+        <style nonce={{nonce}}>
           {{darkStyleValue.value}}
         </style>
       </template>,

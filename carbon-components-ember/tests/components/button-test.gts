@@ -11,6 +11,7 @@ import {
   waitForAnimationFrame,
   disableCarbonStyles,
   enableCarbonStyles,
+  nonce,
 } from '../helpers';
 
 module('Integration | Component | Button', (hooks) => {
@@ -100,7 +101,7 @@ module('Integration | Component | Button', (hooks) => {
     await render(
       <template>
         <Button @type="primary">Button</Button>
-        <style>
+        <style nonce={{nonce}}>
           {{darkStyleValue.value}}
         </style>
       </template>,

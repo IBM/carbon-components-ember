@@ -1,4 +1,8 @@
 import * as QUnit from 'qunit';
+import { cspNonce } from '#src/utils/csp-nonce.ts';
+
+/** The page's nonce, for the <style> elements tests render. */
+export const nonce = cspNonce();
 
 const violations: SecurityPolicyViolationEvent[] = [];
 
@@ -11,10 +15,17 @@ function describe(violation: SecurityPolicyViolationEvent) {
   return `${violation.sourceFile}:${violation.lineNumber}`;
 }
 
+const advice: Record<string, string> = {
+  'style-src-attr': 'use a class, or {{style}} for computed values',
+  'style-src-elem':
+    "give injected <style> elements the page's nonce (src/utils/csp-nonce.ts)",
+};
+
 /**
- * tests/index.html blocks `style` attributes, as an app's strict CSP does.
- * The browser drops them silently, so fail the test that rendered one. One
- * reported late fails the next test rather than going unreported.
+ * tests/index.html blocks `style` attributes and `<style>` elements without
+ * the page's nonce, as an app's strict CSP does. The browser drops them
+ * silently, so fail the test that rendered one. One reported late fails the
+ * next test rather than going unreported.
  */
 export function failOnCspViolations() {
   window.addEventListener('securitypolicyviolation', (event) =>
@@ -27,7 +38,7 @@ export function failOnCspViolations() {
         result: false,
         actual: describe(violation),
         expected: undefined,
-        message: `The CSP blocked this (${violation.effectiveDirective}); use a class, or {{style}} for computed values`,
+        message: `The CSP blocked this (${violation.effectiveDirective}); ${advice[violation.effectiveDirective] ?? 'see tests/helpers/csp.ts'}`,
       });
     }
   });

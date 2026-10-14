@@ -11,6 +11,7 @@ import {
   waitForAnimationFrame,
   disableCarbonStyles,
   enableCarbonStyles,
+  nonce,
 } from '../helpers';
 
 module('Integration | Component | ShapeIndicator', (hooks) => {
@@ -41,7 +42,7 @@ module('Integration | Component | ShapeIndicator', (hooks) => {
     await render(
       <template>
         <ShapeIndicator @kind="stable" @label="Stable" />
-        <style>
+        <style nonce={{nonce}}>
           {{darkStyleValue.value}}
         </style>
       </template>,

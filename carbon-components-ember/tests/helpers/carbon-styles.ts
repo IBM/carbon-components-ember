@@ -1,4 +1,5 @@
 import * as carbonStyles from '@carbon/styles/css/styles.css?inline';
+import { nonce } from './csp.ts';
 
 const ID = 'carbon-styles';
 
@@ -19,6 +20,7 @@ function carbonStyleElement() {
 export function installCarbonStyles() {
   const style = document.createElement('style');
   style.id = ID;
+  style.nonce = nonce ?? '';
   style.textContent = carbonStyles.default;
   document.head.prepend(style);
 }
