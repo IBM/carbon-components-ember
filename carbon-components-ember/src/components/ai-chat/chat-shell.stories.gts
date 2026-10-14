@@ -1,4 +1,3 @@
-import { htmlSafe } from '@ember/template';
 import { trackedArray, trackedObject } from '@ember/reactive/collections';
 import { RenderStory } from 'ember-storybook';
 import { expect, fn as spy, within } from 'storybook/test';
@@ -15,6 +14,7 @@ import PromptLine from './prompt-line.gts';
 import PromptLineShell from './prompt-line-shell.gts';
 
 import type { ChatShellSignature } from './chat-shell.gts';
+import style from 'ember-style-modifier';
 
 // Mirrors `@carbon/ai-chat-components`' `Preview/Chat shell` stories
 // (chat-shell/__stories__/shell.stories.js) and, as `Input`/
@@ -59,28 +59,24 @@ type StoryArgs = ChatShellSignature['Args'] & {
   onSend?: (message: string) => void;
 };
 
-const sample = (color: string, fill = false) =>
-  htmlSafe(
-    `padding: 0.5rem; text-align: center; color: #161616; background-color: ${color};${
-      fill ? ' block-size: 100%; inline-size: 100%;' : ''
-    }`,
-  );
+const sample = (color: string, fill = false) => ({
+  padding: '0.5rem',
+  textAlign: 'center' as const,
+  color: '#161616',
+  backgroundColor: color,
+  ...(fill ? { blockSize: '100%', inlineSize: '100%' } : {}),
+});
 
-const shellStyle = (args: StoryArgs) =>
-  htmlSafe(
-    [
-      'display: block; block-size: 512px; inline-size: 100%;',
-      args.messagesMaxWidth &&
-        `--cds-aichat-messages-max-width: ${args.messagesMaxWidth};`,
-      args.messagesMinWidth &&
-        `--cds-aichat-messages-min-width: ${args.messagesMinWidth};`,
-      args.workspaceMinWidth &&
-        `--cds-aichat-workspace-min-width: ${args.workspaceMinWidth};`,
-      args.historyWidth && `--cds-aichat-history-width: ${args.historyWidth};`,
-    ]
-      .filter(Boolean)
-      .join(' '),
-  );
+// The custom properties whose args are set.
+const shellVars = (args: StoryArgs) =>
+  Object.fromEntries(
+    Object.entries({
+      '--cds-aichat-messages-max-width': args.messagesMaxWidth,
+      '--cds-aichat-messages-min-width': args.messagesMinWidth,
+      '--cds-aichat-workspace-min-width': args.workspaceMinWidth,
+      '--cds-aichat-history-width': args.historyWidth,
+    }).filter(([, value]) => value),
+  ) as Record<`--${string}`, string>;
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'AI Chat/Chat shell',
@@ -154,10 +150,10 @@ component) into it.`,
       SLOTS.find((slot) => slot.name === name)!.color;
 
     return <template>
-      <fieldset style="margin-block-end: 1rem; border: 0; padding: 0;">
+      <fieldset {{style marginBlockEnd="1rem" border="0" padding="0"}}>
         <legend><strong>Slot Visibility</strong></legend>
         {{#each SLOTS as |slot|}}
-          <label style="margin-inline-end: 1rem;">
+          <label {{style marginInlineEnd="1rem"}}>
             <input
               type="checkbox"
               checked={{isVisible slot.name}}
@@ -168,7 +164,12 @@ component) into it.`,
         {{/each}}
       </fieldset>
       <ChatShell
-        style={{shellStyle args}}
+        {{style
+          (shellVars args)
+          display="block"
+          blockSize="512px"
+          inlineSize="100%"
+        }}
         @aiEnabled={{args.aiEnabled}}
         @showFrame={{args.showFrame}}
         @cornerAll={{args.cornerAll}}
@@ -184,44 +185,44 @@ component) into it.`,
       >
         <:header>
           {{#if visible.header}}
-            <div style={{sample (colorOf "header")}}>Header</div>
+            <div {{style (sample (colorOf "header"))}}>Header</div>
           {{/if}}
         </:header>
         <:headerAfter>
           {{#if visible.headerAfter}}
-            <div style={{sample (colorOf "headerAfter")}}>Header after</div>
+            <div {{style (sample (colorOf "headerAfter"))}}>Header after</div>
           {{/if}}
         </:headerAfter>
         <:messages>
           {{#if visible.messages}}
-            <div style={{sample (colorOf "messages") true}}>Messages</div>
+            <div {{style (sample (colorOf "messages") true)}}>Messages</div>
           {{/if}}
         </:messages>
         <:inputBefore>
           {{#if visible.inputBefore}}
-            <div style={{sample (colorOf "inputBefore")}}>Input before</div>
+            <div {{style (sample (colorOf "inputBefore"))}}>Input before</div>
           {{/if}}
         </:inputBefore>
         <:input>
           {{#if visible.input}}
-            <div style={{sample (colorOf "input")}}>Input</div>
+            <div {{style (sample (colorOf "input"))}}>Input</div>
           {{/if}}
         </:input>
         <:inputAfter>
           {{#if visible.inputAfter}}
-            <div style={{sample (colorOf "inputAfter")}}>Input after</div>
+            <div {{style (sample (colorOf "inputAfter"))}}>Input after</div>
           {{/if}}
         </:inputAfter>
         <:footer>
           {{#if visible.footer}}
-            <div style={{sample (colorOf "footer")}}>Footer</div>
+            <div {{style (sample (colorOf "footer"))}}>Footer</div>
           {{/if}}
         </:footer>
         <:history>
-          <div style={{sample "rgba(255, 213, 145, 0.5)" true}}>History</div>
+          <div {{style (sample "rgba(255, 213, 145, 0.5)" true)}}>History</div>
         </:history>
         <:workspace>
-          <div style={{sample "rgba(0, 0, 255, 0.5)" true}}>Workspace</div>
+          <div {{style (sample "rgba(0, 0, 255, 0.5)" true)}}>Workspace</div>
         </:workspace>
       </ChatShell>
     </template>;
@@ -256,7 +257,7 @@ export const SidebarWorkspace = meta.story({
 
     return <template>
       <ChatShell
-        style="display: block; block-size: 512px; inline-size: 100%;"
+        {{style display="block" blockSize="512px" inlineSize="100%"}}
         @aiEnabled={{args.aiEnabled}}
         @showFrame={{args.showFrame}}
         @cornerAll={{args.cornerAll}}
@@ -270,16 +271,16 @@ export const SidebarWorkspace = meta.story({
         @workspaceAriaLabel="Workspace"
       >
         <:header>
-          <div style={{sample "rgba(255, 255, 0, 0.5)"}}>Chat Header</div>
+          <div {{style (sample "rgba(255, 255, 0, 0.5)")}}>Chat Header</div>
         </:header>
         <:messages>
-          <div style={{sample "rgba(255, 0, 0, 0.5)" true}}>
+          <div {{style (sample "rgba(255, 0, 0, 0.5)" true)}}>
             <p>Messages area</p>
             <Button @size="sm" @onClick={{toggle}}>Open workspace</Button>
           </div>
         </:messages>
         <:workspace>
-          <div style={{sample "rgba(0, 0, 255, 0.5)" true}}>
+          <div {{style (sample "rgba(0, 0, 255, 0.5)" true)}}>
             <h3>Workspace</h3>
             <Button @size="sm" @onClick={{toggle}}>Close</Button>
             <p>Workspace content goes here</p>
@@ -287,7 +288,7 @@ export const SidebarWorkspace = meta.story({
           </div>
         </:workspace>
         <:input>
-          <div style={{sample "rgba(0, 255, 0, 0.5)"}}>Input area</div>
+          <div {{style (sample "rgba(0, 255, 0, 0.5)")}}>Input area</div>
         </:input>
       </ChatShell>
     </template>;
@@ -327,16 +328,16 @@ export const Input = meta.story({
   decorators: [
     (Story, context) => <template>
       <ChatShell
-        style="display: block; block-size: 512px; inline-size: 100%;"
+        {{style display="block" blockSize="512px" inlineSize="100%"}}
         @showFrame={{true}}
         @cornerAll="round"
         @contentMaxWidth={{true}}
       >
         <:header>
-          <div style={{sample "rgba(255, 255, 0, 0.5)"}}>Header</div>
+          <div {{style (sample "rgba(255, 255, 0, 0.5)")}}>Header</div>
         </:header>
         <:messages>
-          <div style={{sample "rgba(255, 0, 0, 0.5)" true}}>Messages</div>
+          <div {{style (sample "rgba(255, 0, 0, 0.5)" true)}}>Messages</div>
         </:messages>
         <:input>
           <RenderStory @story={{Story}} @args={{context.args}} />
@@ -477,7 +478,11 @@ export const WithPromptLine = meta.story({
       <Button @size="sm" @onClick={{toggleHistory}}>Toggle history</Button>
       <Button @size="sm" @onClick={{toggleWorkspace}}>Toggle workspace</Button>
       <div
-        style="block-size: 28rem; max-inline-size: 480px; margin-block-start: 1rem;"
+        {{style
+          blockSize="28rem"
+          maxInlineSize="480px"
+          marginBlockStart="1rem"
+        }}
       >
         <ChatShell
           @showHistory={{state.showHistory}}
@@ -487,21 +492,21 @@ export const WithPromptLine = meta.story({
           @workspaceAriaLabel={{args.workspaceAriaLabel}}
         >
           <:header><strong
-              style="padding-inline-start: 1rem;"
+              {{style paddingInlineStart="1rem"}}
             >Assistant</strong></:header>
           <:history>
-            <p style="padding: 1rem;">Conversation history goes here.</p>
+            <p {{style padding="1rem"}}>Conversation history goes here.</p>
           </:history>
           <:workspace>
-            <p style="padding: 1rem;">Workspace content goes here.</p>
+            <p {{style padding="1rem"}}>Workspace content goes here.</p>
           </:workspace>
           <:messages>
             {{#each messages as |message|}}
-              <p style="padding: 0.5rem 1rem;">{{message}}</p>
+              <p {{style padding="0.5rem 1rem"}}>{{message}}</p>
             {{/each}}
           </:messages>
           <:input>
-            <div style="padding: 1rem;">
+            <div {{style padding="1rem"}}>
               <PromptLineShell @rounded={{true}}>
                 <:editor>
                   <PromptLine
@@ -563,8 +568,8 @@ own frame.`,
     },
   },
   render: () => <template>
-    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-      <div style="block-size: 12rem; inline-size: 16rem;">
+    <div {{style display="flex" gap="1rem" flexWrap="wrap"}}>
+      <div {{style blockSize="12rem" inlineSize="16rem"}}>
         <ChatShell
           @cornerAll="round"
           @aiEnabled={{true}}
@@ -574,7 +579,7 @@ own frame.`,
           <:messages>Content</:messages>
         </ChatShell>
       </div>
-      <div style="block-size: 12rem; inline-size: 16rem;">
+      <div {{style blockSize="12rem" inlineSize="16rem"}}>
         <ChatShell
           @showFrame={{false}}
           @messagesAriaLabel="Frameless chat messages"

@@ -1,4 +1,3 @@
-import { htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';
 import { registerDestructor } from '@ember/destroyable';
 import { trackedObject } from '@ember/reactive/collections';
@@ -21,6 +20,7 @@ import type { IconIndicatorKind } from '../icon-indicator.gts';
 import type { CardFooterAction } from './card-footer.gts';
 import type { CardStepsSignature, CardStep } from './card-steps.gts';
 import type { ToolbarAction } from './toolbar.gts';
+import style from 'ember-style-modifier';
 
 // Mirrors `@carbon/ai-chat-components`' `Components/Card/Preview Card`
 // stories (card/__stories__/preview-card.stories.js), which is where upstream
@@ -106,8 +106,9 @@ type StoryArgs = CardStepsSignature['Args'] & {
   description?: string;
 };
 
-const wrapperStyle = (maxWidth: StoryArgs['maxWidth']) =>
-  htmlSafe(`max-width: ${MAX_WIDTHS[maxWidth ?? 'unset']}`);
+const wrapperStyle = (maxWidth: StoryArgs['maxWidth']) => ({
+  maxWidth: MAX_WIDTHS[maxWidth ?? 'unset'],
+});
 const footerFor = (name: string | undefined) =>
   name ? PREVIEW_FOOTER_PRESETS[name] : undefined;
 
@@ -126,8 +127,8 @@ const toolbarActionsFor = (
   }));
 
 const PreviewHeading = <template>
-  <h4 style="margin: 0 0 0.125rem;">Document title</h4>
-  <p style="margin: 0; color: var(--cds-text-secondary);">Subtitle</p>
+  <h4 {{style margin="0 0 0.125rem"}}>Document title</h4>
+  <p {{style margin="0" color="var(--cds-text-secondary)"}}>Subtitle</p>
 </template>;
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
@@ -168,10 +169,10 @@ The other stories here mirror upstream's preview-card compositions of
     onToolbarAction: fn(),
   },
   render: (args) => <template>
-    <div style={{wrapperStyle args.maxWidth}}>
+    <div {{style (wrapperStyle args.maxWidth)}}>
       <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
         <:body>
-          <div style="padding: 1rem;"><PreviewHeading /></div>
+          <div {{style padding="1rem"}}><PreviewHeading /></div>
         </:body>
         <:footer>
           <CardFooter
@@ -192,17 +193,22 @@ export const Default = meta.story({
     maxWidth: 'lg',
   },
   render: (args) => <template>
-    <div style={{wrapperStyle args.maxWidth}}>
+    <div {{style (wrapperStyle args.maxWidth)}}>
       <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
         <:header>
           <div
-            style="padding: 1rem; border-block-end: 1px solid var(--cds-border-subtle);"
+            {{style
+              padding="1rem"
+              borderBlockEnd="1px solid var(--cds-border-subtle)"
+            }}
           >
             <PreviewHeading />
-            <p style="margin: 0; color: var(--cds-text-secondary);">Subtitle</p>
+            <p
+              {{style margin="0" color="var(--cds-text-secondary)"}}
+            >Subtitle</p>
           </div>
         </:header>
-        <:body><div style="block-size: 8rem;"></div></:body>
+        <:body><div {{style blockSize="8rem"}}></div></:body>
         <:footer>
           <CardFooter
             @actions={{footerFor args.footerActions}}
@@ -220,20 +226,20 @@ export const WithToolbar = meta.story({
     footerActions: 'none',
   },
   render: (args) => <template>
-    <div style={{wrapperStyle args.maxWidth}}>
+    <div {{style (wrapperStyle args.maxWidth)}}>
       <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
         <:header>
           <Toolbar
-            style="border-block-end: 1px solid var(--cds-border-subtle);"
+            {{style borderBlockEnd="1px solid var(--cds-border-subtle)"}}
             @overflow={{true}}
             @actions={{toolbarActionsFor args.onToolbarAction}}
           >
             <:title>
-              <h4 style="margin: 0;">Resource consumption</h4>
+              <h4 {{style margin="0"}}>Resource consumption</h4>
             </:title>
           </Toolbar>
         </:header>
-        <:body><div style="block-size: 8rem;"></div></:body>
+        <:body><div {{style blockSize="8rem"}}></div></:body>
         <:footer>
           <CardFooter
             @actions={{footerFor args.footerActions}}
@@ -312,17 +318,17 @@ export const WithSteps = meta.story({
     footerActions: '1 ghost button with icon',
   },
   render: (args) => <template>
-    <div style={{wrapperStyle args.maxWidth}}>
+    <div {{style (wrapperStyle args.maxWidth)}}>
       <ProgressingSteps as |steps status|>
         <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
           <:header>
             <Toolbar
-              style="border-block-end: 1px solid var(--cds-border-subtle);"
+              {{style borderBlockEnd="1px solid var(--cds-border-subtle)"}}
             >
               <:title>
-                <div style="padding: 0.75rem 0.125rem;">
-                  <h4 style="margin: 0;">Optimising excess inventory</h4>
-                  <p style="margin: 0; color: var(--cds-text-secondary);">
+                <div {{style padding="0.75rem 0.125rem"}}>
+                  <h4 {{style margin="0"}}>Optimising excess inventory</h4>
+                  <p {{style margin="0" color="var(--cds-text-secondary)"}}>
                     Status:
                     {{status}}
                   </p>
@@ -331,7 +337,7 @@ export const WithSteps = meta.story({
             </Toolbar>
           </:header>
           <:body>
-            <div style="padding: 1rem;">
+            <div {{style padding="1rem"}}>
               <CardSteps @steps={{steps}} />
             </div>
           </:body>
@@ -368,7 +374,7 @@ export const CardStepsStory = meta.story({
     description: 'In progress...',
   },
   render: (args) => <template>
-    <div style={{wrapperStyle args.maxWidth}}>
+    <div {{style (wrapperStyle args.maxWidth)}}>
       <CardSteps @steps={{stepsFor args}} />
     </div>
   </template>,
@@ -397,7 +403,7 @@ export const AgentProgress = meta.story({
     },
   },
   render: (args) => <template>
-    <Card style="max-inline-size: 24rem;">
+    <Card {{style maxInlineSize="24rem"}}>
       <:header><h5>Agent progress</h5></:header>
       <:body>
         <CardSteps @steps={{args.steps}} />

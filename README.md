@@ -61,6 +61,8 @@ Icons are components too: import each one from `carbon-components-ember/componen
 
 Components forward `...attributes` to their main element, so `class`, `id`, ARIA attributes and modifiers work on them, and Glint type-checks every argument, block and attribute.
 
+Components don't render `style` attributes, which a Content Security Policy without `'unsafe-inline'` blocks. They set inline styles through CSSOM instead, with the `{{style}}` modifier from [ember-style-modifier](https://github.com/jelhan/ember-style-modifier), and their tests run under `style-src-attr 'none'`. Under such a policy, style them with classes rather than `style="..."`, and set values you compute with `{{style}}` (add ember-style-modifier to your app's dependencies).
+
 Unlike components, services are looked up by name, under `carbon.`:
 
 ```ts

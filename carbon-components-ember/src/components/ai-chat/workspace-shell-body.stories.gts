@@ -1,6 +1,7 @@
 import preview from '#storybook/preview.ts';
 import WorkspaceShell from './workspace-shell.gts';
 import WorkspaceShellBody from './workspace-shell-body.gts';
+import style from 'ember-style-modifier';
 
 // Mirrors `@carbon/ai-chat-components`' `workspace-shell-body.stories.js`
 // (`Components/Workspace shell/Body`): `Default`, `LongContent`,
@@ -41,8 +42,8 @@ const meta = preview.meta({
 
 export const Default = meta.story({
   render: () => <template>
-    <div style="display: flex; block-size: 30rem;">
-      <WorkspaceShell style="flex: 1;">
+    <div {{style display="flex" blockSize="30rem"}}>
+      <WorkspaceShell {{style flex="1"}}>
         <:body>
           <WorkspaceShellBody>{{SHORT_TEXT}}</WorkspaceShellBody>
         </:body>
@@ -53,12 +54,12 @@ export const Default = meta.story({
 
 export const LongContent = meta.story({
   render: () => <template>
-    <div style="display: flex; block-size: 30rem;">
-      <WorkspaceShell style="flex: 1;">
+    <div {{style display="flex" blockSize="30rem"}}>
+      <WorkspaceShell {{style flex="1"}}>
         <:body>
           <WorkspaceShellBody>
             {{#each LONG_PARAGRAPHS as |paragraph|}}
-              <p style="margin-block-end: 1rem;">{{paragraph}}</p>
+              <p {{style marginBlockEnd="1rem"}}>{{paragraph}}</p>
             {{/each}}
           </WorkspaceShellBody>
         </:body>
@@ -69,35 +70,52 @@ export const LongContent = meta.story({
 
 export const WithCustomContent = meta.story({
   render: () => <template>
-    <div style="display: flex; block-size: 30rem;">
-      <WorkspaceShell style="flex: 1;">
+    <div {{style display="flex" blockSize="30rem"}}>
+      <WorkspaceShell {{style flex="1"}}>
         <:body>
           <WorkspaceShellBody>
             <div>
-              <h3 style="margin-bottom: 1rem;">Custom Content Example</h3>
-              <p style="margin-bottom: 1rem;">
+              <h3 {{style marginBottom="1rem"}}>Custom Content Example</h3>
+              <p {{style marginBottom="1rem"}}>
                 This body can contain any custom HTML or components. The content
                 will automatically scroll if it exceeds the available height.
               </p>
               <div
-                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;"
+                {{style
+                  display="grid"
+                  gridTemplateColumns="repeat(auto-fit, minmax(200px, 1fr))"
+                  gap="1rem"
+                  marginTop="1rem"
+                }}
               >
                 <div
-                  style="padding: 1rem; background: var(--cds-layer-01); border-radius: 4px;"
+                  {{style
+                    padding="1rem"
+                    background="var(--cds-layer-01)"
+                    borderRadius="4px"
+                  }}
                 >
-                  <h4 style="margin-bottom: 0.5rem;">Card 1</h4>
+                  <h4 {{style marginBottom="0.5rem"}}>Card 1</h4>
                   <p>Custom card content</p>
                 </div>
                 <div
-                  style="padding: 1rem; background: var(--cds-layer-01); border-radius: 4px;"
+                  {{style
+                    padding="1rem"
+                    background="var(--cds-layer-01)"
+                    borderRadius="4px"
+                  }}
                 >
-                  <h4 style="margin-bottom: 0.5rem;">Card 2</h4>
+                  <h4 {{style marginBottom="0.5rem"}}>Card 2</h4>
                   <p>Custom card content</p>
                 </div>
                 <div
-                  style="padding: 1rem; background: var(--cds-layer-01); border-radius: 4px;"
+                  {{style
+                    padding="1rem"
+                    background="var(--cds-layer-01)"
+                    borderRadius="4px"
+                  }}
                 >
-                  <h4 style="margin-bottom: 0.5rem;">Card 3</h4>
+                  <h4 {{style marginBottom="0.5rem"}}>Card 3</h4>
                   <p>Custom card content</p>
                 </div>
               </div>
@@ -111,15 +129,23 @@ export const WithCustomContent = meta.story({
 
 export const EmptyState = meta.story({
   render: () => <template>
-    <div style="display: flex; block-size: 30rem;">
-      <WorkspaceShell style="flex: 1;">
+    <div {{style display="flex" blockSize="30rem"}}>
+      <WorkspaceShell {{style flex="1"}}>
         <:body>
           <WorkspaceShellBody>
             <div
-              style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 2rem; text-align: center;"
+              {{style
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="center"
+                height="100%"
+                padding="2rem"
+                textAlign="center"
+              }}
             >
-              <h3 style="margin-bottom: 1rem;">No content available</h3>
-              <p style="color: var(--cds-text-secondary);">
+              <h3 {{style marginBottom="1rem"}}>No content available</h3>
+              <p {{style color="var(--cds-text-secondary)"}}>
                 This workspace is empty. Add content to get started.
               </p>
             </div>
@@ -134,7 +160,10 @@ export const EmptyState = meta.story({
 export const Standalone = meta.story({
   render: () => <template>
     <div
-      style="max-inline-size: 24rem; border: 1px solid var(--cds-border-subtle);"
+      {{style
+        maxInlineSize="24rem"
+        border="1px solid var(--cds-border-subtle)"
+      }}
     >
       <WorkspaceShellBody>
         <p>Workspace body content goes here.</p>

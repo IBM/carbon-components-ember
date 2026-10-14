@@ -5,6 +5,7 @@ import preview from '#storybook/preview.ts';
 import ChatHistoryPanelItemInput from './chat-history-panel-item-input.gts';
 
 import type { ChatHistoryPanelItemInputSignature } from './chat-history-panel-item-input.gts';
+import style from 'ember-style-modifier';
 
 // Upstream documents `cds-aichat-history-panel-item-input` only through the
 // rename flow of its `Components/Chat history` stories (see
@@ -41,7 +42,7 @@ const meta = preview.meta({
     };
 
     return <template>
-      <div style="max-inline-size: 20rem;">
+      <div {{style maxInlineSize="20rem"}}>
         <ChatHistoryPanelItemInput
           @value={{args.value}}
           @labelText={{args.labelText}}

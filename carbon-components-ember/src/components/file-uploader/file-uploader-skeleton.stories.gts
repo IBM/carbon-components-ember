@@ -1,5 +1,6 @@
 import preview from '#storybook/preview.ts';
 import FileUploaderSkeleton from './file-uploader-skeleton.gts';
+import style from 'ember-style-modifier';
 
 // Carbon React has no stories of its own for FileUploaderSkeleton: it's the
 // `Skeleton` story of Components/FileUploader. It takes no arguments.
@@ -16,7 +17,7 @@ const meta = preview.meta({
     },
   },
   render: () => <template>
-    <div style="width: 500px">
+    <div {{style width="500px"}}>
       <FileUploaderSkeleton />
     </div>
   </template>,

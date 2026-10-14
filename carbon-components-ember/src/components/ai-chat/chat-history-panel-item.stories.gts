@@ -10,6 +10,7 @@ import type {
   ChatHistoryPanelItemSignature,
   ChatHistoryItemAction,
 } from './chat-history-panel-item.gts';
+import style from 'ember-style-modifier';
 
 // Upstream documents `cds-aichat-history-panel-item` only inside its
 // `Components/Chat history` stories (see chat-history.stories.gts); these
@@ -50,7 +51,7 @@ const meta = preview.meta({
     };
 
     return <template>
-      <ul style="max-inline-size: 20rem;">
+      <ul {{style maxInlineSize="20rem"}}>
         <ChatHistoryPanelItem
           @id={{args.id}}
           @name={{args.name}}

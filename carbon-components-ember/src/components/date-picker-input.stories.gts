@@ -7,6 +7,7 @@ import DatePicker from './date-picker.gts';
 import DatePickerInput from './date-picker-input.gts';
 
 import type { DatePickerInputSignature } from './date-picker-input.gts';
+import style from 'ember-style-modifier';
 
 type Args = DatePickerInputSignature['Args'];
 
@@ -18,7 +19,7 @@ type Args = DatePickerInputSignature['Args'];
 
 // Leave room for the calendar dropdown.
 const withRoom: Decorator = (Story, context) => <template>
-  <div style="min-height: 22rem">
+  <div {{style minHeight="22rem"}}>
     <RenderStory @story={{Story}} @args={{context.args}} />
   </div>
 </template>;

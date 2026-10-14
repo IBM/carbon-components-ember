@@ -5,6 +5,7 @@ import preview from '#storybook/preview.ts';
 import ChatHistoryHeader from './chat-history-header.gts';
 
 import type { ChatHistoryHeaderSignature } from './chat-history-header.gts';
+import style from 'ember-style-modifier';
 
 // Upstream documents `cds-aichat-history-header` only inside its
 // `Components/Chat history` stories (see chat-history.stories.gts); these
@@ -34,7 +35,7 @@ const meta = preview.meta({
     };
 
     return <template>
-      <div style="max-inline-size: 20rem;">
+      <div {{style maxInlineSize="20rem"}}>
         <ChatHistoryHeader
           @headerTitle={{args.headerTitle}}
           @closeButtonLabel={{args.closeButtonLabel}}

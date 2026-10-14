@@ -25,6 +25,7 @@ import Tooltip from '../tooltip.gts';
 import Toolbar from './toolbar.gts';
 
 import type { ToolbarSignature, ToolbarAction } from './toolbar.gts';
+import style from 'ember-style-modifier';
 
 // Mirrors `@carbon/ai-chat-components`' `toolbar.stories.js`
 // (`Components/Toolbar`): Default (with the same `title`/`navigation`/
@@ -149,9 +150,9 @@ The \`navigation\`, \`title\`, \`fixedActions\` and \`decorator\` named blocks m
     const actions = actionLists(args.onActionClick)[args.actionList];
     const navClick = () => args.onActionClick('navigation');
     const fixedClick = () => args.onActionClick('fixed');
-    const style = args.borderRadius
-      ? '--cds-aichat-border-radius: 8px; border-block-end: 1px solid var(--cds-border-subtle-00);'
-      : 'border-block-end: 1px solid var(--cds-border-subtle-00);';
+    const radius = args.borderRadius
+      ? { '--cds-aichat-border-radius': '8px' }
+      : undefined;
 
     return <template>
       <Toolbar
@@ -159,7 +160,7 @@ The \`navigation\`, \`title\`, \`fixedActions\` and \`decorator\` named blocks m
         @overflow={{args.overflow}}
         @titleText={{args.titleText}}
         @nameText={{args.nameText}}
-        style={{style}}
+        {{style radius borderBlockEnd="1px solid var(--cds-border-subtle-00)"}}
       >
         <:navigation>
           {{#if (eq args.navigation "home")}}
@@ -206,14 +207,21 @@ The \`navigation\`, \`title\`, \`fixedActions\` and \`decorator\` named blocks m
         </:navigation>
         <:title>
           {{#if (eq args.titleSlot "default")}}
-            <div style="white-space: nowrap;">
+            <div {{style whiteSpace="nowrap"}}>
               Title
               <span class="cds--type-heading-compact-01">text</span>
             </div>
           {{else if (eq args.titleSlot "with truncation")}}
             <div>
               <span
-                style="display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 1; line-height: normal; word-break: break-all;"
+                {{style
+                  display="-webkit-box"
+                  overflow="hidden"
+                  WebkitBoxOrient="vertical"
+                  WebkitLineClamp="1"
+                  lineHeight="normal"
+                  wordBreak="break-all"
+                }}
               >
                 Lorem ipsum dolor sit amet
                 <span class="cds--type-heading-compact-01">consectetur</span>
@@ -283,7 +291,11 @@ export const NarrowWithOverflow = meta.story({
 
     return <template>
       <div
-        style="max-inline-size: 20rem; border: 1px solid var(--cds-border-subtle); border-radius: 0.5rem 0.5rem 0 0;"
+        {{style
+          maxInlineSize="20rem"
+          border="1px solid var(--cds-border-subtle)"
+          borderRadius="0.5rem 0.5rem 0 0"
+        }}
       >
         <Toolbar
           @titleText={{args.titleText}}

@@ -5,6 +5,7 @@ import preview from '#storybook/preview.ts';
 import ChatHistoryToolbar from './chat-history-toolbar.gts';
 
 import type { ChatHistoryToolbarSignature } from './chat-history-toolbar.gts';
+import style from 'ember-style-modifier';
 
 // Upstream documents `cds-aichat-history-toolbar` only inside its
 // `Components/Chat history` stories (see chat-history.stories.gts); these
@@ -38,7 +39,7 @@ const meta = preview.meta({
     };
 
     return <template>
-      <div style="max-inline-size: 20rem;">
+      <div {{style maxInlineSize="20rem"}}>
         <ChatHistoryToolbar
           @newChatLabel={{args.newChatLabel}}
           @searchOff={{args.searchOff}}

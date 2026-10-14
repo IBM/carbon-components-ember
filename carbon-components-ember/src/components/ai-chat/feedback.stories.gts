@@ -3,6 +3,7 @@ import { expect, fn } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Feedback from './feedback.gts';
+import style from 'ember-style-modifier';
 
 // Mirrors `@carbon/ai-chat-components`' `feedback.stories.js` (`Default`,
 // `WithCategories`, `WithDisclaimer`, `ReadOnly`). Upstream's stories
@@ -64,7 +65,7 @@ const meta = preview.meta({
   },
   decorators: [
     (Story, context) => <template>
-      <div style="padding: 1rem; max-width: 24rem;">
+      <div {{style padding="1rem" maxWidth="24rem"}}>
         <RenderStory @story={{Story}} @args={{context.args}} />
       </div>
     </template>,

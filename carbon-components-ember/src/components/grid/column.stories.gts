@@ -6,6 +6,7 @@ import Column from './column.gts';
 
 import type { TOC } from '@ember/component/template-only';
 import type { ColumnSignature } from './column.gts';
+import style from 'ember-style-modifier';
 
 // Carbon React has no stories of its own for Column: it's a subcomponent of
 // Elements/Grid and Elements/FlexGrid. The controls drive the highlighted
@@ -13,7 +14,12 @@ import type { ColumnSignature } from './column.gts';
 
 const Box: TOC<{ Blocks: { default: [] } }> = <template>
   <div
-    style="padding: .5rem; background: var(--cds-layer-01); border: 1px solid var(--cds-border-subtle-01, #e0e0e0); text-align: center;"
+    {{style
+      padding=".5rem"
+      background="var(--cds-layer-01)"
+      border="1px solid var(--cds-border-subtle-01, #e0e0e0)"
+      textAlign="center"
+    }}
   >
     {{yield}}
   </div>
@@ -29,7 +35,7 @@ const Columns: TOC<{ Args: { args: ColumnSignature['Args'] } }> = <template>
     @xlg={{@args.xlg}}
     @max={{@args.max}}
     @span={{@args.span}}
-    style="outline: 2px solid var(--cds-focus, #0f62fe); outline-offset: -2px;"
+    {{style outline="2px solid var(--cds-focus, #0f62fe)" outlineOffset="-2px"}}
   >
     <Box>Column</Box>
   </Column>

@@ -2,6 +2,7 @@ import preview from '#storybook/preview.ts';
 import DropdownSkeleton from './dropdown-skeleton.gts';
 
 import type { DropdownSkeletonSignature } from './dropdown-skeleton.gts';
+import style from 'ember-style-modifier';
 
 // Carbon React has no stories of its own for DropdownSkeleton: it's the
 // `Skeleton` story of Components/Dropdown.
@@ -24,7 +25,7 @@ const meta = preview.type<{ args: DropdownSkeletonSignature['Args'] }>().meta({
     size: { control: 'inline-radio', options: ['xs', 'sm', 'md', 'lg'] },
   },
   render: (args) => <template>
-    <div style="width: 300px">
+    <div {{style width="300px"}}>
       <DropdownSkeleton @hideLabel={{args.hideLabel}} @size={{args.size}} />
     </div>
   </template>,

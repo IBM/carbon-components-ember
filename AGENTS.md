@@ -178,7 +178,7 @@ Signatures follow the [Ember guides](https://guides.emberjs.com/release/typescri
 - **`A()`, `NativeArray`, `pushObject`, `removeObject`, or `set()`** - use plain arrays/objects reassigned through `@tracked`.
 - **Classic `Component` + separate `.hbs`** - always use GTS files with `<template>` tags.
 - **`this.element`** - go through a modifier.
-- **`style` attributes**, static or bound (`htmlSafe` only silences Ember's warning) - strict CSPs block them. Use a class; for values computed from args, return them from a getter and apply it with the `{{style}}` modifier (`ember-style-modifier`), which writes through CSSOM. QUnit tests run under `style-src-attr 'none'` and fail on a violation.
+- **`style` attributes**, static or bound (`htmlSafe` only silences Ember's warning) - strict CSPs block them. Use a class; for values computed from args, return them from a getter and apply it with the `{{style}}` modifier (`ember-style-modifier`), which writes through CSSOM. The QUnit and Storybook tests run under `style-src-attr 'none'` and fail on a violation.
 
 ---
 

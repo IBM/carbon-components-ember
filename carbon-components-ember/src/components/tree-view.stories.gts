@@ -10,6 +10,7 @@ import Folder from './icons/folder.ts';
 import type { TreeViewSignature } from './tree-view.gts';
 import type Icon from './icon.gts';
 import type { TOC } from '@ember/component/template-only';
+import style from 'ember-style-modifier';
 
 // Parity gaps with Carbon React's TreeView stories:
 // - `WithLinks`: TreeNode has no `href` arg.
@@ -296,7 +297,7 @@ export const WithControlledExpansion = meta.story({
     const collapseAll = () => setAll(false);
 
     return <template>
-      <div style="margin-bottom: 1rem">
+      <div {{style marginBottom="1rem"}}>
         <Button @onClick={{expandAll}}>Expand all</Button>
         <Button @onClick={{collapseAll}}>Collapse all</Button>
       </div>

@@ -6,6 +6,7 @@ import FlexGrid from './flex-grid.gts';
 import Row from './row.gts';
 
 import type { TOC } from '@ember/component/template-only';
+import style from 'ember-style-modifier';
 
 // Mirrors Carbon React's `Elements/FlexGrid` stories; `grid.stories.gts`
 // covers the CSS Grid (`Elements/Grid`).
@@ -16,7 +17,12 @@ import type { TOC } from '@ember/component/template-only';
 
 const DemoContent: TOC<{ Blocks: { default: [] } }> = <template>
   <div
-    style="padding: .5rem; background: var(--cds-layer-01); border: 1px solid var(--cds-border-subtle-01, #e0e0e0); text-align: center;"
+    {{style
+      padding=".5rem"
+      background="var(--cds-layer-01)"
+      border="1px solid var(--cds-border-subtle-01, #e0e0e0)"
+      textAlign="center"
+    }}
   >
     {{yield}}
   </div>

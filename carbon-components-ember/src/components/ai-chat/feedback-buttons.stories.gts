@@ -6,6 +6,7 @@ import Feedback from './feedback.gts';
 import FeedbackButtons from './feedback-buttons.gts';
 
 import type { FeedbackDetails } from './feedback.gts';
+import style from 'ember-style-modifier';
 
 // Mirrors `@carbon/ai-chat-components`' `feedback-buttons.stories.js`
 // (`Default`, `WithDetailsPanel`). Upstream's `Default` `alert()`s on click;
@@ -182,8 +183,8 @@ export const Default = meta.story({
     isNegativeDisabled: false,
   },
   render: (args) => <template>
-    <div style="padding: 2rem;">
-      <p style="margin-bottom: 1rem;">
+    <div {{style padding="2rem"}}>
+      <p {{style marginBottom="1rem"}}>
         Click the buttons to provide feedback on this message.
       </p>
       <FeedbackButtons
@@ -235,8 +236,8 @@ export const WithDetailsPanel = meta.story({
     const negativePanelId = `${panelId}-feedback-negative`;
 
     return <template>
-      <div style="padding: 2rem;">
-        <p style="margin-bottom: 1rem;">
+      <div {{style padding="2rem"}}>
+        <p {{style marginBottom="1rem"}}>
           Both buttons open details panels for collecting more information. Try
           clicking the thumbs up or thumbs down buttons to provide feedback.
         </p>
@@ -254,7 +255,7 @@ export const WithDetailsPanel = meta.story({
           @panelId={{panelId}}
           @onClick={{state.toggle}}
         />
-        <div style="margin-block-start: 1rem; max-inline-size: 26rem;">
+        <div {{style marginBlockStart="1rem" maxInlineSize="26rem"}}>
           {{#if args.hasPositiveDetails}}
             <Feedback
               @id={{positivePanelId}}
@@ -293,7 +294,7 @@ export const WithDetailsPanel = meta.story({
         {{#if state.lastSubmission}}
           <p
             class="feedback-demo-note"
-            style="margin-block-start: 0.5rem; font-size: 0.875rem;"
+            {{style marginBlockStart="0.5rem" fontSize="0.875rem"}}
           >
             Last submission:
             <strong>

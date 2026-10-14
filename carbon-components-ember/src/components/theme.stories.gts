@@ -1,4 +1,3 @@
-import { htmlSafe } from '@ember/template';
 import { expect } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
@@ -7,6 +6,7 @@ import Stack from './stack.gts';
 import Theme from './theme.gts';
 
 import type { TOC } from '@ember/component/template-only';
+import style from 'ember-style-modifier';
 
 // Carbon React parity gaps:
 // - `usePrefersDarkScheme`: Ember has no `usePrefersDarkScheme()` hook.
@@ -17,13 +17,19 @@ import type { TOC } from '@ember/component/template-only';
 // - React's `GlobalTheme` subcomponent has no Ember equivalent.
 
 // Carbon React's `Theme-story.scss` classes.
-const sectionStyle = htmlSafe(
-  'padding: 1rem; background: var(--cds-background); color: var(--cds-text-primary);',
-);
-const headerStyle = htmlSafe('margin-block-end: 1rem;');
-const layerContentStyle = htmlSafe(
-  'padding: 1rem; background: var(--cds-layer); color: var(--cds-text-primary);',
-);
+const sectionStyle = {
+  padding: '1rem',
+  background: 'var(--cds-background)',
+  color: 'var(--cds-text-primary)',
+};
+const headerStyle = {
+  marginBlockEnd: '1rem',
+};
+const layerContentStyle = {
+  padding: '1rem',
+  background: 'var(--cds-layer)',
+  color: 'var(--cds-text-primary)',
+};
 
 const THEMES = ['white', 'g10', 'g90', 'g100'] as const;
 
@@ -57,7 +63,7 @@ The block receives \`theme\` and \`isDark\` so nested content can react to the a
   render: () => <template>
     {{#each THEMES as |theme|}}
       <Theme @theme={{theme}}>
-        <section style={{sectionStyle}}>{{theme}}</section>
+        <section {{style sectionStyle}}>{{theme}}</section>
       </Theme>
     {{/each}}
   </template>,
@@ -86,14 +92,14 @@ export const UseTheme = meta.story({
   render: (args) => <template>
     <div>
       <Theme @theme={{args.theme}} as |ctx|>
-        <section style={{sectionStyle}}>
+        <section {{style sectionStyle}}>
           <p>
             useTheme reveals... { theme: '{{ctx.theme}}', isDark: '{{ctx.isDark}}'}
           </p>
         </section>
       </Theme>
       <Theme @theme="g100" as |ctx|>
-        <section style={{sectionStyle}}>
+        <section {{style sectionStyle}}>
           <p>
             useTheme reveals... { theme: '{{ctx.theme}}', isDark: '{{ctx.isDark}}'}
           </p>
@@ -117,10 +123,10 @@ export const WithLayer = meta.story({
     <Stack @gap={{7}}>
       {{#each THEMES as |theme|}}
         <Theme @theme={{theme}}>
-          <article style={{sectionStyle}}>
-            <header style={{headerStyle}}>{{theme}} theme</header>
+          <article {{style sectionStyle}}>
+            <header {{style headerStyle}}>{{theme}} theme</header>
             <WithLayerTemplate>
-              <div style={{layerContentStyle}}>Content</div>
+              <div {{style layerContentStyle}}>Content</div>
             </WithLayerTemplate>
           </article>
         </Theme>

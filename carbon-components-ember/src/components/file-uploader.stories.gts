@@ -14,6 +14,7 @@ import FormItem from './form-item.gts';
 
 import type { FileUploaderSignature } from './file-uploader.gts';
 import type { FileUploaderAddedFile } from './file-uploader/file-uploader-drop-container.gts';
+import style from 'ember-style-modifier';
 
 // Mirrors Carbon React's `Components/FileUploader` stories: `Default`,
 // `FileUploaderItem`, `FileUploaderDropContainer`, the two drag-and-drop
@@ -503,7 +504,7 @@ export const DragAndDropUploadContainerExampleApplication = meta.story({
     },
   },
   render: (args) => <template>
-    <div style="width: 400px">
+    <div {{style width="400px"}}>
       <ExampleDropContainerApp
         @accept={{args.accept}}
         @disabled={{args.disabled}}
@@ -576,7 +577,7 @@ DragAndDropUploadSingleContainerExampleApplication.test(
 export const Skeleton = meta.story({
   parameters: { controls: { disable: true } },
   render: () => <template>
-    <div style="width: 500px">
+    <div {{style width="500px"}}>
       <FileUploaderSkeleton />
     </div>
   </template>,

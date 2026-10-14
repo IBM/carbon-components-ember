@@ -7,6 +7,7 @@ import { Information } from '../icons.ts';
 
 import type { FormLabelSignature } from './form-label.gts';
 import type { ToggletipAlignment } from './toggletip.gts';
+import style from 'ember-style-modifier';
 
 // Mirrors Carbon React's `Components/FormLabel` stories (`Default`,
 // `WithToggletip`). `label` (the yielded text) and `align` (the Toggletip's
@@ -56,7 +57,7 @@ export const WithToggletip = meta.story({
     },
   },
   render: (args) => <template>
-    <div style="display: flex; align-items: center; gap: 0.25rem">
+    <div {{style display="flex" alignItems="center" gap="0.25rem"}}>
       <FormLabel @id={{args.id}}>{{args.label}}</FormLabel>
       <Toggletip @align={{args.align}} as |t|>
         <t.Button @label="Show information">

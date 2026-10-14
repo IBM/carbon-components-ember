@@ -19,6 +19,7 @@ import './-code-snippet/codemirror-runtime.ts';
 import type Owner from '@ember/owner';
 import type { CodeSnippetSignature } from './code-snippet.gts';
 import type { ToolbarAction } from './toolbar.gts';
+import style from 'ember-style-modifier';
 
 // Mirrors `@carbon/ai-chat-components`' `Components/Code snippet` stories
 // (code-snippet/__stories__/code-snippet.stories.js).
@@ -382,7 +383,7 @@ export const Streaming = meta.story({
       <button
         type="button"
         class="cds--btn cds--btn--secondary cds--btn--sm"
-        style="margin-block-end: 1rem;"
+        {{style marginBlockEnd="1rem"}}
         {{on "click" restart}}
       >Restart Streaming</button>
       {{#if args.useCard}}
@@ -438,15 +439,21 @@ export const FullHeightMode = meta.story({
   decorators: [
     (Story, context) => <template>
       <div
-        style="height: 500px; display: flex; flex-direction: column; border: 1px solid #ccc; padding: 1rem;"
+        {{style
+          height="500px"
+          display="flex"
+          flexDirection="column"
+          border="1px solid #ccc"
+          padding="1rem"
+        }}
       >
-        <h3 style="margin: 0 0 1rem 0;">SQL Editor (Full-Height Mode)</h3>
-        <p style="margin: 0 0 1rem 0;">
+        <h3 {{style margin="0 0 1rem 0"}}>SQL Editor (Full-Height Mode)</h3>
+        <p {{style margin="0 0 1rem 0"}}>
           When both max-collapsed-number-of-rows and max-expanded-number-of-rows
           are set to 0, the component fills its container's height with a
           scrollbar. Perfect for edit mode scenarios.
         </p>
-        <div style="flex: 1; min-height: 0;">
+        <div {{style flex="1" minHeight="0"}}>
           <RenderStory @story={{Story}} @args={{context.args}} />
         </div>
       </div>

@@ -175,8 +175,6 @@ export default defineConfig([
       // an `@args` argument.
       'ember/template-no-args-paths': 'off',
       'ember/template-no-capital-arguments': 'off',
-      // Inline styles lay out the demos; they aren't part of the components.
-      'ember/template-no-inline-styles': 'off',
     },
   },
   {

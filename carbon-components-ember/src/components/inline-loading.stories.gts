@@ -6,6 +6,7 @@ import { expect, fn as spy, waitFor } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import Button from './button.gts';
 import InlineLoading from './inline-loading.gts';
+import style from 'ember-style-modifier';
 
 // Parity notes on Carbon React's InlineLoading stories:
 // - Carbon React's ButtonSet isn't ported yet, so the examples use its
@@ -55,14 +56,14 @@ export const UxExample = meta.story({
     const submission = new Submission();
 
     return <template>
-      <div class="cds--btn-set" style="width: 300px">
+      <div class="cds--btn-set" {{style width="300px"}}>
         <Button
           @type="secondary"
           @disabled={{or submission.submit.isRunning submission.success}}
         >Cancel</Button>
         {{#if (or submission.submit.isRunning submission.success)}}
           <InlineLoading
-            style="margin-left: 1rem"
+            {{style marginLeft="1rem"}}
             @status={{if submission.success "finished" "active"}}
             @description={{if submission.success "Submitted!" "Submitting..."}}
             @onSuccess={{submission.reset}}

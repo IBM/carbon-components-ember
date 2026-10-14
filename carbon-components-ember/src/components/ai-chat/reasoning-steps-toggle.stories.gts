@@ -7,6 +7,7 @@ import ReasoningSteps from './reasoning-steps.gts';
 import ReasoningStepsToggle from './reasoning-steps-toggle.gts';
 
 import type { ReasoningStepsToggleSignature } from './reasoning-steps-toggle.gts';
+import style from 'ember-style-modifier';
 
 // Mirrors `@carbon/ai-chat-components`' `reasoning-steps-toggle.stories.js`
 // (`Components/Reasoning steps/Toggle`: Default). Like upstream's demo
@@ -74,7 +75,12 @@ The toggle is DOM-decoupled from the panel (same as \`ChainOfThoughtToggle\`/\`C
 
     return <template>
       <div
-        style="display: flex; flex-direction: column; gap: 0.75rem; max-inline-size: 48rem;"
+        {{style
+          display="flex"
+          flexDirection="column"
+          gap="0.75rem"
+          maxInlineSize="48rem"
+        }}
       >
         <ReasoningStepsToggle
           @open={{state.open}}

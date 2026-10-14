@@ -1,9 +1,8 @@
-import { htmlSafe } from '@ember/template';
-
 import preview from '#storybook/preview.ts';
 import Layer from './layer.gts';
 
 import type { LayerSignature } from './layer.gts';
+import style from 'ember-style-modifier';
 
 // Carbon React parity gaps:
 // - `useLayer` story: Ember has no `useLayer()` hook (nor ambient
@@ -11,12 +10,15 @@ import type { LayerSignature } from './layer.gts';
 //   read the current layer level.
 
 // Carbon React's `.example-layer-test-component` story styles.
-const layerStyle = htmlSafe(
-  'padding: 1rem; background: var(--cds-layer); color: var(--cds-text-primary);',
-);
-const noBackgroundStyle = htmlSafe(
-  'padding: 1rem; color: var(--cds-text-primary);',
-);
+const layerStyle = {
+  padding: '1rem',
+  background: 'var(--cds-layer)',
+  color: 'var(--cds-text-primary)',
+};
+const noBackgroundStyle = {
+  padding: '1rem',
+  color: 'var(--cds-text-primary)',
+};
 
 // `label` isn't one of Layer's args: it's the text rendered on each layer.
 const meta = preview
@@ -48,11 +50,11 @@ const meta = preview
       label: { control: { type: 'text' } },
     },
     render: (args) => <template>
-      <div style={{layerStyle}}>{{args.label}}</div>
+      <div {{style layerStyle}}>{{args.label}}</div>
       <Layer as |L|>
-        <div style={{layerStyle}}>{{args.label}}</div>
+        <div {{style layerStyle}}>{{args.label}}</div>
         <L>
-          <div style={{layerStyle}}>{{args.label}}</div>
+          <div {{style layerStyle}}>{{args.label}}</div>
         </L>
       </Layer>
     </template>,
@@ -70,11 +72,11 @@ export const WithBackground = meta.story({
     },
   },
   render: (args) => <template>
-    <div style={{noBackgroundStyle}}>{{args.label}}</div>
+    <div {{style noBackgroundStyle}}>{{args.label}}</div>
     <Layer @withBackground={{true}} as |L|>
-      <div style={{noBackgroundStyle}}>{{args.label}}</div>
+      <div {{style noBackgroundStyle}}>{{args.label}}</div>
       <L @withBackground={{true}}>
-        <div style={{noBackgroundStyle}}>{{args.label}}</div>
+        <div {{style noBackgroundStyle}}>{{args.label}}</div>
       </L>
     </Layer>
   </template>,
@@ -97,7 +99,7 @@ export const CustomLevel = meta.story({
   },
   render: (args) => <template>
     <Layer @level={{args.level}}>
-      <div style={{layerStyle}}>{{args.label}}</div>
+      <div {{style layerStyle}}>{{args.label}}</div>
     </Layer>
   </template>,
 });
@@ -113,9 +115,9 @@ export const ResetLevel = meta.story({
   },
   render: (args) => <template>
     <Layer as |L|>
-      <div style={{layerStyle}}>{{args.label}} (layer two)</div>
+      <div {{style layerStyle}}>{{args.label}} (layer two)</div>
       <L @level={{0}}>
-        <div style={{layerStyle}}>{{args.label}} (reset to layer one)</div>
+        <div {{style layerStyle}}>{{args.label}} (reset to layer one)</div>
       </L>
     </Layer>
   </template>,

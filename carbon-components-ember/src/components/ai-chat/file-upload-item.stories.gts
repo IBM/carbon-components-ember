@@ -5,6 +5,7 @@ import FileUploadItem from './file-upload-item.gts';
 import { FileStatusValue } from './-file-uploads/types.ts';
 
 import type { FileUploadItemSignature } from './file-upload-item.gts';
+import style from 'ember-style-modifier';
 
 // `@carbon/ai-chat-components` ships no stories for
 // `cds-aichat-file-upload-item`, so these are based on the docs-app page;
@@ -176,7 +177,7 @@ export const Gallery = meta.story({
     controls: { disable: true },
   },
   render: () => <template>
-    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+    <div {{style display="flex" gap="0.5rem" flexWrap="wrap"}}>
       <FileUploadItem @upload={{hash id="1" file=notesFile status=EDIT}} />
       <FileUploadItem @upload={{hash id="2" file=photoFile status=EDIT}} />
       <FileUploadItem

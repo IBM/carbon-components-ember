@@ -5,6 +5,7 @@ import preview from '#storybook/preview.ts';
 import CopyButton from './copy-button.gts';
 
 import type { CopyButtonSignature } from './copy-button.gts';
+import style from 'ember-style-modifier';
 
 // Carbon React parity: Components/CopyButton only has a `Default` story,
 // which this file mirrors. React's CopyButton has no text to copy of its
@@ -30,7 +31,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
   // Leave room for the tooltip so it stays inside the canvas.
   decorators: [
     (Story, context) => <template>
-      <div style="padding: 3rem">
+      <div {{style padding="3rem"}}>
         <RenderStory @story={{Story}} @args={{context.args}} />
       </div>
     </template>,

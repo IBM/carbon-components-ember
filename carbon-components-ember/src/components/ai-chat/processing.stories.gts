@@ -1,5 +1,6 @@
 import preview from '#storybook/preview.ts';
 import Processing from './processing.gts';
+import style from 'ember-style-modifier';
 
 // Mirrors `@carbon/ai-chat-components`' `processing.stories.js`. Upstream's
 // `carbonTheme` arg isn't ported: the Storybook toolbar's theme switcher
@@ -39,7 +40,7 @@ export const LinearNoLoop = meta.story({
 // docs-app's demo rendered the three variants side by side.
 export const AllVariants = meta.story({
   render: () => <template>
-    <div style="display: flex; gap: 2rem;">
+    <div {{style display="flex" gap="2rem"}}>
       <Processing />
       <Processing @loop={{true}} />
       <Processing @quickLoad={{true}} />

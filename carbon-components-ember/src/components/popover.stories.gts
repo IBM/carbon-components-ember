@@ -17,6 +17,7 @@ import CheckboxIcon from './icons/checkbox.ts';
 import Settings from './icons/settings.ts';
 
 import type { PopoverSignature } from './popover.gts';
+import style from 'ember-style-modifier';
 
 // Parity notes on Carbon React's Popover stories:
 // - `@autoAlign` is a lighter approximation of React's floating-ui based
@@ -94,7 +95,7 @@ const meta = preview.meta({
 export const Default = meta.story({
   decorators: [
     (Story, context) => <template>
-      <div style="display: flex; justify-content: center; margin-top: 2.5rem">
+      <div {{style display="flex" justifyContent="center" marginTop="2.5rem"}}>
         <RenderStory @story={{Story}} @args={{context.args}} />
       </div>
     </template>,
@@ -121,7 +122,7 @@ export const Default = meta.story({
         >
           <CheckboxIcon />
         </button>
-        <PopoverContent style="padding: 1rem;">
+        <PopoverContent {{style padding="1rem"}}>
           <h2 class="cds--popover-title">Available storage</h2>
           <p>This server has 150 GB of block storage remaining.</p>
           <button type="button">Details</button>
@@ -167,7 +168,7 @@ export const TabTip = meta.story({
     const two = openState(args, false);
 
     return <template>
-      <div style="display: flex">
+      <div {{style display="flex"}}>
         <Popover
           @open={{one.state.open}}
           @align="bottom-start"
@@ -182,7 +183,7 @@ export const TabTip = meta.story({
           >
             <Settings />
           </button>
-          <PopoverContent style="padding: 1rem;">
+          <PopoverContent {{style padding="1rem"}}>
             <RadioButtonGroup
               @name="radio-button-group"
               @defaultSelected="small"
@@ -217,7 +218,7 @@ export const TabTip = meta.story({
           >
             <Settings />
           </button>
-          <PopoverContent style="padding: 1rem;">
+          <PopoverContent {{style padding="1rem"}}>
             <RadioButtonGroup
               @name="radio-button-group-2"
               @defaultSelected="small-2"
@@ -243,8 +244,14 @@ export const TabTip = meta.story({
   },
 });
 
-const AUTO_ALIGN_CONTAINER =
-  'display: grid; place-items: center; width: 200vw; min-width: 1200px; height: 200vh; min-height: 1200px;';
+const AUTO_ALIGN_CONTAINER = {
+  display: 'grid',
+  placeItems: 'center',
+  width: '200vw',
+  minWidth: '1200px',
+  height: '200vh',
+  minHeight: '1200px',
+};
 
 // Requested to align on top; when there isn't enough room above the trigger
 // in the viewport as it opens, `@autoAlign` flips it to the bottom.
@@ -256,7 +263,7 @@ export const ExperimentalAutoAlign = meta.story({
     const { state, toggle, close } = openState(args);
 
     return <template>
-      <div style={{AUTO_ALIGN_CONTAINER}}>
+      <div {{style AUTO_ALIGN_CONTAINER}}>
         <Popover
           @open={{state.open}}
           @align={{if args.align args.align "top"}}
@@ -273,7 +280,7 @@ export const ExperimentalAutoAlign = meta.story({
           >
             <CheckboxIcon />
           </button>
-          <PopoverContent style="padding: 1rem;">
+          <PopoverContent {{style padding="1rem"}}>
             <p class="cds--popover-title">This popover uses autoAlign</p>
             <p>
               Close and reopen it after scrolling the trigger towards an edge of
@@ -298,11 +305,19 @@ export const ExperimentalAutoAlignBoundary = meta.story({
 
     return <template>
       <div
-        style="display: grid; place-items: center; overflow: scroll; width: 800px; height: 500px; border: 1px dashed var(--cds-border-strong, #8d8d8d); margin: 0 auto;"
+        {{style
+          display="grid"
+          placeItems="center"
+          overflow="scroll"
+          width="800px"
+          height="500px"
+          border="1px dashed var(--cds-border-strong, #8d8d8d)"
+          margin="0 auto"
+        }}
         {{setBoundary}}
       >
-        <div style="width: 2100px; height: 1px;"></div>
-        <div style="height: 32px; width: 32px;">
+        <div {{style width="2100px" height="1px"}}></div>
+        <div {{style height="32px" width="32px"}}>
           {{#if boundary.element}}
             <Popover
               @open={{state.open}}
@@ -321,7 +336,7 @@ export const ExperimentalAutoAlignBoundary = meta.story({
               >
                 <CheckboxIcon />
               </button>
-              <PopoverContent style="padding: 1rem;">
+              <PopoverContent {{style padding="1rem"}}>
                 <p class="cds--popover-title">This popover uses autoAlign</p>
                 <p>
                   Its alignment is checked against the dashed boundary when it
@@ -330,7 +345,7 @@ export const ExperimentalAutoAlignBoundary = meta.story({
               </PopoverContent>
             </Popover>
           {{/if}}
-          <div style="height: 1000px; width: 1px;"></div>
+          <div {{style height="1000px" width="1px"}}></div>
         </div>
       </div>
     </template>;
@@ -345,7 +360,7 @@ export const TabTipExperimentalAutoAlign = meta.story({
     const { state, toggle, close } = openState(args);
 
     return <template>
-      <div style={{AUTO_ALIGN_CONTAINER}}>
+      <div {{style AUTO_ALIGN_CONTAINER}}>
         <Popover
           @open={{state.open}}
           @align="bottom-end"
@@ -362,7 +377,7 @@ export const TabTipExperimentalAutoAlign = meta.story({
           >
             <CheckboxIcon />
           </button>
-          <PopoverContent style="padding: 1rem;">
+          <PopoverContent {{style padding="1rem"}}>
             <p class="cds--popover-title">
               This popover uses autoAlign with isTabTip
             </p>
@@ -402,7 +417,7 @@ export const AutoAlignFlipsToBottom = meta.story({
         >
           <CheckboxIcon />
         </button>
-        <PopoverContent style="padding: 1rem;">
+        <PopoverContent {{style padding="1rem"}}>
           <p class="cds--popover-title">This popover uses autoAlign</p>
           <p>
             It was requested to align on top, but flips to bottom when there

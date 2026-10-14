@@ -9,6 +9,7 @@ import ToggletipLabel from './toggletip/toggletip-label.gts';
 import Information from './icons/information.ts';
 
 import type { ToggletipSignature } from './toggletip.gts';
+import style from 'ember-style-modifier';
 
 // Parity gaps with Carbon React's Toggletip stories:
 // - `ExperimentalAutoAlign`: no `autoAlign` (or `alignmentAxisOffset`) arg;
@@ -64,7 +65,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     },
   },
   render: (args: StoryArgs) => <template>
-    <div style="display: flex; align-items: center; padding: 1rem 0 12rem">
+    <div {{style display="flex" alignItems="center" padding="1rem 0 12rem"}}>
       <ToggletipLabel>{{args.labelText}}</ToggletipLabel>
       <Toggletip @align={{args.align}} @defaultOpen={{args.defaultOpen}} as |t|>
         <t.Button @label={{args.buttonLabel}}>

@@ -3,6 +3,7 @@ import { expect, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import TruncatedText from './truncated-text.gts';
+import style from 'ember-style-modifier';
 
 // Mirrors `@carbon/ai-chat-components`' `truncated-text.stories.js`
 // (`Default`, `Expand`), and exported from `carbon-components-ember/ai-chat`
@@ -42,7 +43,7 @@ const meta = preview.meta({
   },
   decorators: [
     (Story, context) => <template>
-      <div style="max-width: 20rem; padding: 3rem 0 1rem;">
+      <div {{style maxWidth="20rem" padding="3rem 0 1rem"}}>
         <RenderStory @story={{Story}} @args={{context.args}} />
       </div>
     </template>,

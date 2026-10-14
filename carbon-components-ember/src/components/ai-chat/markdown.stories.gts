@@ -5,6 +5,7 @@ import { expect } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import Button from '../button.gts';
 import Markdown from './markdown.gts';
+import style from 'ember-style-modifier';
 
 // Mirrors `@carbon/ai-chat-components`' `markdown.stories.js`
 // (`Components/Markdown`): Default, Streaming, WithHTMLSanitization,
@@ -129,7 +130,7 @@ This component can handle HTML content in different ways:
 
 When \`sanitize-html\` is enabled, potentially dangerous HTML is removed:
 
-<p style="color: blue;">This paragraph has inline styles (safe).</p>
+<p>This paragraph has <mark>highlighted</mark> and <kbd>keyboard</kbd> text (safe).</p>
 
 <script>alert('This would be removed')</script>
 
@@ -253,7 +254,7 @@ export const Streaming = meta.story({
 
     return <template>
       <div {{stream state.restarts}}>
-        <div style="margin-bottom: 1rem;">
+        <div {{style marginBottom="1rem"}}>
           <Button @size="sm" @tertiary={{true}} @onClick={{restart}}>
             Restart Streaming
           </Button>

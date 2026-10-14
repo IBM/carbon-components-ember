@@ -2,6 +2,7 @@ import preview from '#storybook/preview.ts';
 import AISkeletonIcon from './ai-skeleton-icon.gts';
 import AISkeletonPlaceholder from './ai-skeleton-placeholder.gts';
 import AISkeletonText from './ai-skeleton-text.gts';
+import style from 'ember-style-modifier';
 
 // Carbon React's three AISkeleton story files share this page; ours is one
 // file, documenting AISkeletonText. AISkeletonIcon and AISkeletonPlaceholder
@@ -23,8 +24,8 @@ const meta = preview.meta({
 export const _AISkeletonIcon = meta.story({
   name: 'AI Skeleton Icon',
   render: () => <template>
-    <AISkeletonIcon style="margin: 50px;" />
-    <AISkeletonIcon style="margin: 50px; width: 24px; height: 24px;" />
+    <AISkeletonIcon {{style margin="50px"}} />
+    <AISkeletonIcon {{style margin="50px" width="24px" height="24px"}} />
   </template>,
 });
 

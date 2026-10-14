@@ -5,6 +5,7 @@ import Grid from '../grid.gts';
 import Row from './row.gts';
 
 import type { TOC } from '@ember/component/template-only';
+import style from 'ember-style-modifier';
 
 // Carbon React has no stories of its own for Row: it's a subcomponent of
 // Elements/FlexGrid (`flex-grid.stories.gts`, next to this file). Both rows
@@ -13,7 +14,12 @@ import type { TOC } from '@ember/component/template-only';
 
 const DemoContent: TOC<{ Blocks: { default: [] } }> = <template>
   <div
-    style="padding: .5rem; background: var(--cds-layer-01); border: 1px solid var(--cds-border-subtle-01, #e0e0e0); text-align: center;"
+    {{style
+      padding=".5rem"
+      background="var(--cds-layer-01)"
+      border="1px solid var(--cds-border-subtle-01, #e0e0e0)"
+      textAlign="center"
+    }}
   >
     {{yield}}
   </div>

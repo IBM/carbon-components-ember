@@ -44,6 +44,7 @@ import type {
   SuggestionItem,
   TriggerSuggestionConfig,
 } from './-prompt-line/tiptap/types.ts';
+import style from 'ember-style-modifier';
 
 // Mirrors `@carbon/ai-chat-components`' `prompt-line.stories.js` (upstream
 // title `Preview/Prompt line`), which composes the shell, the prompt line
@@ -388,7 +389,7 @@ const InlineActions: TOC<{
     onAction: (text: string) => void;
   };
 }> = <template>
-  <div class="prompt-line-story__actions" style="display: flex;">
+  <div class="prompt-line-story__actions" {{style display="flex"}}>
     {{#each @actions as |action|}}
       <Tooltip @label={{action.text}} @autoAlign={{true}}>
         <Button
@@ -411,8 +412,8 @@ const ErrorMessage: TOC<{
   Args: { title?: string; description?: string };
 }> = <template>
   {{#if @title}}
-    <div role="alert" style="padding: 0.5rem 1rem;">
-      <p style="color: var(--cds-text-error, #da1e28);">{{@title}}</p>
+    <div role="alert" {{style padding="0.5rem 1rem"}}>
+      <p {{style color="var(--cds-text-error, #da1e28)"}}>{{@title}}</p>
       {{#if @description}}
         <p>{{@description}}</p>
       {{/if}}
@@ -421,7 +422,7 @@ const ErrorMessage: TOC<{
 </template>;
 
 const SentMessages: TOC<{ Args: { messages: string[] } }> = <template>
-  <ul aria-label="Sent messages" style="margin-block-end: 1rem;">
+  <ul aria-label="Sent messages" {{style marginBlockEnd="1rem"}}>
     {{#each @messages as |message|}}
       <li>{{message}}</li>
     {{/each}}
@@ -631,7 +632,7 @@ export const CommandsAndMentions = meta.story({
     const extensions = buildCarbonExtensions({ mention, command });
 
     return <template>
-      <p style="margin-block-end: 1rem;">
+      <p {{style marginBlockEnd="1rem"}}>
         Type
         <code>@</code>
         anywhere to mention a team member. Type
@@ -1082,7 +1083,7 @@ export const Standalone = meta.story({
     const state = new Composer(args);
 
     return <template>
-      <p style="margin-block-end: 1rem;">Last sent: {{state.lastSent}}</p>
+      <p {{style marginBlockEnd="1rem"}}>Last sent: {{state.lastSent}}</p>
       <PromptLine
         @content={{state.content}}
         @placeholder={{args.placeholder}}
@@ -1134,7 +1135,7 @@ export const RichMode = meta.story({
     const state = new RichComposer(args);
 
     return <template>
-      <div style="display: flex; gap: 1rem; margin-block-end: 1rem;">
+      <div {{style display="flex" gap="1rem" marginBlockEnd="1rem"}}>
         <Button
           @type="secondary"
           @size="sm"

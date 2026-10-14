@@ -1,4 +1,3 @@
-import { htmlSafe } from '@ember/template';
 import { trackedObject } from '@ember/reactive/collections';
 import { expect, fn } from 'storybook/test';
 
@@ -14,6 +13,7 @@ import Card from './card.gts';
 import CardFooter from './card-footer.gts';
 
 import type { CardFooterSignature, CardFooterAction } from './card-footer.gts';
+import style from 'ember-style-modifier';
 
 // Upstream has no stories file of its own for `cds-aichat-card-footer`: it's
 // the `CardFooter` story in `Components/Card` (card/__stories__/
@@ -108,12 +108,13 @@ type StoryArgs = CardFooterSignature['Args'] & {
   borderRadius?: boolean;
 };
 
-const wrapperStyle = (maxWidth: StoryArgs['maxWidth']) =>
-  htmlSafe(`max-width: ${MAX_WIDTHS[maxWidth ?? 'unset']}`);
+const wrapperStyle = (maxWidth: StoryArgs['maxWidth']) => ({
+  maxWidth: MAX_WIDTHS[maxWidth ?? 'unset'],
+});
 const presetFor = (name: string | undefined) =>
   name ? PRESETS[name] : undefined;
 const borderRadiusStyle = (on: boolean | undefined) =>
-  htmlSafe(on ? '--cds-aichat-border-radius: 8px;' : '');
+  on ? { '--cds-aichat-border-radius': '8px' } : undefined;
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'AI Chat/Card/Card Footer',
@@ -143,9 +144,9 @@ whenever a button is pressed.`,
     onAction: fn(),
   },
   render: (args) => <template>
-    <div style={{wrapperStyle args.maxWidth}}>
+    <div {{style (wrapperStyle args.maxWidth)}}>
       <CardFooter
-        style={{borderRadiusStyle args.borderRadius}}
+        {{style (borderRadiusStyle args.borderRadius)}}
         @actions={{presetFor args.footerActions}}
         @onAction={{args.onAction}}
       />
@@ -231,8 +232,8 @@ export const InACard = meta.story({
     ];
 
     return <template>
-      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-        <Card style="max-inline-size: 18rem;">
+      <div {{style display="flex" gap="1rem" flexWrap="wrap"}}>
+        <Card {{style maxInlineSize="18rem"}}>
           <:header><h5>Confirm action</h5></:header>
           <:body>Do you want to proceed?</:body>
           <:footer>
@@ -242,7 +243,7 @@ export const InACard = meta.story({
             />
           </:footer>
         </Card>
-        <Card style="max-inline-size: 18rem;">
+        <Card {{style maxInlineSize="18rem"}}>
           <:header><h5>Icon actions</h5></:header>
           <:body>Actions with no label render as icon-only buttons.</:body>
           <:footer>

@@ -1,10 +1,10 @@
-import { htmlSafe } from '@ember/template';
 import { expect } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import ShapeIndicator, { ShapeIndicatorKinds } from './shape-indicator.gts';
 
 import type { ShapeIndicatorKind } from './shape-indicator.gts';
+import style from 'ember-style-modifier';
 
 // Carbon React parity gaps:
 // - `align` and `autoAlign` (placement of the compact-mode tooltip) aren't
@@ -16,9 +16,11 @@ const KINDS = ShapeIndicatorKinds.map((kind) => ({
   label: kind.charAt(0).toUpperCase() + kind.slice(1),
 }));
 
-const columnStyle = htmlSafe(
-  'display: inline-flex; flex-flow: column; row-gap: .5rem;',
-);
+const columnStyle = {
+  display: 'inline-flex',
+  flexFlow: 'column',
+  rowGap: '.5rem',
+};
 
 // The parity stories render every kind from the list above; the `kind` and
 // `label` args only drive the single-indicator `Compact` story. (Typed as the
@@ -47,7 +49,7 @@ const meta = preview.meta({
     label: 'Failed',
   },
   render: (args) => <template>
-    <div style={{columnStyle}}>
+    <div {{style columnStyle}}>
       {{#each KINDS as |k|}}
         <ShapeIndicator
           @kind={{k.kind}}

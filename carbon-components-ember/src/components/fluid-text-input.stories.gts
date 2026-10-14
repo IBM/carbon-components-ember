@@ -10,6 +10,7 @@ import Toggletip from './toggletip.gts';
 import ToggletipLabel from './toggletip/toggletip-label.gts';
 
 import type { FluidTextInputSignature } from './fluid-text-input.gts';
+import style from 'ember-style-modifier';
 
 type Args = FluidTextInputSignature['Args'];
 
@@ -41,7 +42,7 @@ const meta = preview.meta({
   },
   decorators: [
     (Story, context) => <template>
-      <div style="width: 400px">
+      <div {{style width="400px"}}>
         <RenderStory @story={{Story}} @args={{context.args}} />
       </div>
     </template>,

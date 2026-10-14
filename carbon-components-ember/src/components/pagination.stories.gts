@@ -7,6 +7,7 @@ import Pagination from './pagination.gts';
 
 import type { PaginationSignature } from './pagination.gts';
 import type { TOC } from '@ember/component/template-only';
+import style from 'ember-style-modifier';
 
 // Parity gaps with Carbon React's Pagination stories:
 // - `PaginationWithCustomPageSizesLabel`: `@itemsPerPageOptions` only takes
@@ -28,7 +29,7 @@ const meta = preview.type<{ args: PaginationSignature['Args'] }>().meta({
   component: Pagination,
   decorators: [
     (Story, context) => <template>
-      <div style="max-width: 800px; margin-top: 15px">
+      <div {{style maxWidth="800px" marginTop="15px"}}>
         <RenderStory @story={{Story}} @args={{context.args}} />
       </div>
     </template>,

@@ -4,6 +4,7 @@ import { withLayer } from '#storybook/decorators.gts';
 import preview from '#storybook/preview.ts';
 import Accordion from './accordion.gts';
 import AccordionSkeleton from './accordion-skeleton.gts';
+import style from 'ember-style-modifier';
 
 // Carbon React parity gaps (Components/Accordion):
 // - `Controlled`: AccordionItem has no `onHeadingClick` callback, so the
@@ -141,7 +142,7 @@ export const Skeleton = meta.story({
     },
   },
   render: () => <template>
-    <div style="width: 500px">
+    <div {{style width="500px"}}>
       <AccordionSkeleton @open={{true}} @count={{4}} />
     </div>
   </template>,

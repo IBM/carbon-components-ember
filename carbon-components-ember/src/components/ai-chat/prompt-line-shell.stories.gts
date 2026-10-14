@@ -9,6 +9,7 @@ import PromptLine from './prompt-line.gts';
 import PromptLineShell from './prompt-line-shell.gts';
 
 import type { PromptLineShellSignature } from './prompt-line-shell.gts';
+import style from 'ember-style-modifier';
 
 // `@carbon/ai-chat-components` has no stories of its own for
 // `cds-aichat-prompt-line-shell`: the shell's variants (`rounded`,
@@ -85,7 +86,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     const state = new Conversation(args);
 
     return <template>
-      <ul aria-label="Sent messages" style="margin-block-end: 1rem;">
+      <ul aria-label="Sent messages" {{style marginBlockEnd="1rem"}}>
         {{#each state.messages as |message|}}
           <li>{{message}}</li>
         {{/each}}
@@ -101,7 +102,10 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
           {{#if args.hasError}}
             <p
               role="alert"
-              style="padding: 0.5rem 1rem; color: var(--cds-text-error, #da1e28);"
+              {{style
+                padding="0.5rem 1rem"
+                color="var(--cds-text-error, #da1e28)"
+              }}
             >{{args.errorTitle}}</p>
           {{/if}}
         </:fieldMessaging>

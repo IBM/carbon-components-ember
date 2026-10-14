@@ -10,6 +10,7 @@ import type {
   WorkspaceShellFooterSignature,
   WorkspaceShellFooterAction,
 } from './workspace-shell-footer.gts';
+import style from 'ember-style-modifier';
 
 // Mirrors `@carbon/ai-chat-components`' `workspace-shell-footer.stories.js`
 // (`Components/Workspace shell/Footer`): `Default`, `ThreeButtons`,
@@ -94,8 +95,8 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     const actions = actionsFor(args);
 
     return <template>
-      <div style="display: flex; block-size: 30rem;">
-        <WorkspaceShell style="flex: 1;">
+      <div {{style display="flex" blockSize="30rem"}}>
+        <WorkspaceShell {{style flex="1"}}>
           <:body>
             <WorkspaceShellBody>
               <p>{{BODY_TEXT}}</p>
@@ -193,7 +194,10 @@ export const Standalone = meta.story({
 
     return <template>
       <div
-        style="max-inline-size: 24rem; border: 1px solid var(--cds-border-subtle);"
+        {{style
+          maxInlineSize="24rem"
+          border="1px solid var(--cds-border-subtle)"
+        }}
       >
         <WorkspaceShellFooter
           @actions={{args.actions}}

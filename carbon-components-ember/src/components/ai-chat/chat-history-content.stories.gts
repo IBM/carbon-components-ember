@@ -4,6 +4,7 @@ import preview from '#storybook/preview.ts';
 import ChatHistoryContent from './chat-history-content.gts';
 
 import type { ChatHistoryContentSignature } from './chat-history-content.gts';
+import style from 'ember-style-modifier';
 
 // Upstream documents `cds-aichat-history-content` only inside its
 // `Components/Chat history` stories (see chat-history.stories.gts); these
@@ -24,12 +25,12 @@ const meta = preview.meta({
     resultsCount: 3,
   },
   render: (args: ChatHistoryContentSignature['Args']) => <template>
-    <div style="max-inline-size: 20rem; block-size: 8rem;">
+    <div {{style maxInlineSize="20rem" blockSize="8rem"}}>
       <ChatHistoryContent
         @resultsLabel={{args.resultsLabel}}
         @resultsCount={{args.resultsCount}}
       >
-        <p style="padding-inline-start: 1rem;">list content goes here</p>
+        <p {{style paddingInlineStart="1rem"}}>list content goes here</p>
       </ChatHistoryContent>
     </div>
   </template>,

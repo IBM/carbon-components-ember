@@ -8,6 +8,7 @@ import Tooltip, { TooltipAlignments } from './tooltip.gts';
 import OverflowMenuVertical from './icons/overflow-menu-vertical.ts';
 
 import type { TooltipSignature } from './tooltip.gts';
+import style from 'ember-style-modifier';
 
 // Parity with Carbon React's Tooltip stories (Default, Alignment,
 // ExperimentalAutoAlign, Duration): React's `Default` is the
@@ -40,7 +41,7 @@ const meta = preview.meta({
   // Leave room around the trigger so the popover stays inside the canvas.
   decorators: [
     (Story, context) => <template>
-      <div style="padding: 4rem 8rem">
+      <div {{style padding="4rem 8rem"}}>
         <RenderStory @story={{Story}} @args={{context.args}} />
       </div>
     </template>,
@@ -175,7 +176,14 @@ export const ExperimentalAutoAlign = meta.story({
   },
   render: (args: TooltipSignature['Args']) => <template>
     <div
-      style="display: grid; place-items: center; width: 200vw; min-width: 1200px; height: 200vh; min-height: 1200px;"
+      {{style
+        display="grid"
+        placeItems="center"
+        width="200vw"
+        minWidth="1200px"
+        height="200vh"
+        minHeight="1200px"
+      }}
     >
       <Tooltip
         @label={{args.label}}

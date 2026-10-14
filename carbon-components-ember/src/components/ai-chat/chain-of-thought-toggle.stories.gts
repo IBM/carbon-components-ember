@@ -8,6 +8,7 @@ import Markdown from './markdown.gts';
 
 import type { ChainOfThoughtStepStatus } from './chain-of-thought.gts';
 import type { ChainOfThoughtToggleSignature } from './chain-of-thought-toggle.gts';
+import style from 'ember-style-modifier';
 
 // Mirrors `@carbon/ai-chat-components`' `Components/Chain of thought/Toggle`
 // stories (chain-of-thought/__stories__/chain-of-thought-toggle.stories.js).
@@ -82,7 +83,12 @@ should happen, typically setting a \`ChainOfThought\`'s own \`@open\`.`,
 
     return <template>
       <div
-        style="display: flex; flex-direction: column; gap: 0.75rem; max-inline-size: 48rem;"
+        {{style
+          display="flex"
+          flexDirection="column"
+          gap="0.75rem"
+          maxInlineSize="48rem"
+        }}
       >
         <ChainOfThoughtToggle
           @open={{state.open}}

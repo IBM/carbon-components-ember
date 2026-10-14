@@ -6,6 +6,7 @@ import FormGroup from './form-group.gts';
 import RadioButtonGroup from './radio-button/radio-button-group.gts';
 import Stack from './stack.gts';
 import TextInput from './text-input.gts';
+import style from 'ember-style-modifier';
 
 // Mirrors Carbon React's `Components/FormGroup` stories (`Default`), plus the
 // disabled and invalid examples from the docs-app page. No parity gaps:
@@ -38,7 +39,7 @@ const meta = preview.meta({
       @invalid={{args.invalid}}
       @message={{args.message}}
       @messageText={{args.messageText}}
-      style="max-width: 400px"
+      {{style maxWidth="400px"}}
     >
       <Stack @gap={{7}}>
         <TextInput @id="one" @labelText="First Name" />

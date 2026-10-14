@@ -7,6 +7,7 @@ import Link from '../icons/link.ts';
 import ChatButton from './chat-button.gts';
 
 import type { ChatButtonSignature } from './chat-button.gts';
+import style from 'ember-style-modifier';
 
 // Mirrors `@carbon/ai-chat-components`' `Components/Chat button` stories
 // (chat-button/__stories__/chat-button.stories.js). Its `Skeleton` story is
@@ -149,7 +150,7 @@ export const QuickActionSelectedWithDisabled = meta.story({
     },
   },
   render: () => <template>
-    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+    <div {{style display="flex" flexWrap="wrap" gap="0.5rem"}}>
       {{#each
         (array
           "audio - mp3"
@@ -191,14 +192,14 @@ export const SelectingQuickActions = meta.story({
     };
 
     return <template>
-      <div style="display: flex; gap: 1rem; margin-block-end: 1rem;">
+      <div {{style display="flex" gap="1rem" marginBlockEnd="1rem"}}>
         <ChatButton @onClick={{fn select "primary"}}>Primary action</ChatButton>
         <ChatButton
           @kind="secondary"
           @onClick={{fn select "secondary"}}
         >Secondary action</ChatButton>
       </div>
-      <div style="display: flex; gap: 0.5rem;">
+      <div {{style display="flex" gap="0.5rem"}}>
         {{#each (array "red" "green" "blue") as |color|}}
           <ChatButton
             @isQuickAction={{true}}

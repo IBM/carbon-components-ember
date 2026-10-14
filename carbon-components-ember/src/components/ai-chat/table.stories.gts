@@ -6,6 +6,7 @@ import Card from './card.gts';
 import Table from './table.gts';
 
 import type { TableSignature } from './table.gts';
+import style from 'ember-style-modifier';
 
 // Mirrors `@carbon/ai-chat-components`' `table.stories.js` (`Default`,
 // `Loading`), including its `useCard` wrapper toggle (renders the table in
@@ -106,7 +107,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
   // Keep a chat-message-like width.
   decorators: [
     (Story, context) => <template>
-      <div style="max-width: 40rem;">
+      <div {{style maxWidth="40rem"}}>
         <RenderStory @story={{Story}} @args={{context.args}} />
       </div>
     </template>,

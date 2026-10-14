@@ -5,6 +5,7 @@ import preview from '#storybook/preview.ts';
 import Button from './button.gts';
 import ButtonSkeleton from './button-skeleton.gts';
 import Add from './icons/add.ts';
+import style from 'ember-style-modifier';
 
 // Carbon React parity gaps (Components/Button):
 // - `DangerTertiary` / `DangerGhost`: `@tertiary`/`@ghost` override
@@ -133,7 +134,7 @@ export const Small = meta.story({
 
 export const Sizes = meta.story({
   render: (args) => <template>
-    <div style="display: flex; flex-direction: column; gap: 1rem">
+    <div {{style display="flex" flexDirection="column" gap="1rem"}}>
       <Button @size="sm" @onClick={{args.onClick}}>Small</Button>
       <Button @size="md" @onClick={{args.onClick}}>Medium</Button>
       <Button @size="lg" @onClick={{args.onClick}}>Large</Button>

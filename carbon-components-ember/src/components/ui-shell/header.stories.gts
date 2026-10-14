@@ -20,6 +20,7 @@ import SwitcherIcon from '../icons/switcher.ts';
 import UserAvatar from '../icons/user-avatar.ts';
 
 import type { StoryArgs } from '#storybook/fixtures/ui-shell.gts';
+import style from 'ember-style-modifier';
 
 // Carbon React's UI Shell story pages: Header (with the Ember-only Overview
 // and HeaderContainer stories) and SideNav.
@@ -273,7 +274,7 @@ export const HeaderWActionsAndRightPanel = meta.story({
                 @onToggle={{onToggle}}
                 data-test-header-panel
               >
-                <p style="padding: 1rem">Header panel content</p>
+                <p {{style padding="1rem"}}>Header panel content</p>
               </HeaderPanel>
             </:headerPanel>
           </s.Header>
@@ -443,7 +444,7 @@ export const Overview = meta.story({
 export const HeaderContainer = meta.story({
   decorators: [
     (Story, context) => <template>
-      <div style={{SMALL_FRAME}}>
+      <div {{style SMALL_FRAME}}>
         <RenderStory @story={{Story}} @args={{context.args}} />
       </div>
     </template>,

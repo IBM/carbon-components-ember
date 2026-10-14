@@ -7,6 +7,7 @@ import Markdown from './markdown.gts';
 import ReasoningSteps from './reasoning-steps.gts';
 
 import type { ReasoningStepsSignature } from './reasoning-steps.gts';
+import style from 'ember-style-modifier';
 
 // Mirrors `@carbon/ai-chat-components`' `reasoning-steps.stories.js`
 // (`Components/Reasoning steps`: Default, WithStaticSteps, Controlled) AND
@@ -243,7 +244,7 @@ export const Controlled = meta.story({
     };
 
     return <template>
-      <div style="display: flex; gap: 0.5rem; margin-block-end: 0.75rem;">
+      <div {{style display="flex" gap="0.5rem" marginBlockEnd="0.75rem"}}>
         <Button @size="sm" @tertiary={{true}} @onClick={{openAll}}>
           Open all
         </Button>
