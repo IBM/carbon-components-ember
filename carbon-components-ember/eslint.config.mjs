@@ -56,7 +56,11 @@ export default defineConfig([
   ...emberTemplateLintMigration,
   {
     rules: {
-      'ember/template-no-inline-styles': 'warn',
+      // Strict CSPs block style attributes, bound ones too; see tests/helpers/csp.ts.
+      'ember/template-no-inline-styles': [
+        'error',
+        { allowDynamicStyles: false },
+      ],
       'ember/no-legacy-helper-imports': 'error',
     },
   },
@@ -191,8 +195,6 @@ export default defineConfig([
       ],
       // Bare inputs are test fixtures, not UI.
       'ember/template-require-input-label': 'off',
-      // Inline styles size and place test fixtures.
-      'ember/template-no-inline-styles': 'off',
     },
   },
   /**

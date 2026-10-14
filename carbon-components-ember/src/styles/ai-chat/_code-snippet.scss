@@ -97,9 +97,8 @@
   order: 1;
   // Default to "grow with content, no internal scroll". Pixel clamps are
   // applied per-instance by `buildContainerStyles` (driven by the
-  // `*NumberOfRows` args, written to this same element's `style` attribute
-  // by `CodeSnippet`'s `containerStyle` getter); fill-mode overrides
-  // separately below.
+  // `*NumberOfRows` args, set on this element by `CodeSnippet`'s
+  // `{{style}}` modifier); fill-mode overrides separately below.
   max-block-size: var(--cds-snippet-max-height, none);
   min-block-size: var(--cds-snippet-min-height, auto);
   overflow-y: auto;

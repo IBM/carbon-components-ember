@@ -2,8 +2,8 @@ import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
 import CheckmarkFilled from '../components/icons/checkmark-filled.ts';
 import ErrorFilled from '../components/icons/error-filled.ts';
-import { htmlSafe } from '@ember/template';
 import { concat } from '@ember/helper';
+import style from 'ember-style-modifier';
 import type { WithRequired } from '../utils/type-helpers.ts';
 
 export interface ProgressBarSignature {
@@ -103,9 +103,7 @@ export default class ProgressBar extends Component<ProgressBarSignature> {
     ) {
       return undefined;
     }
-    return htmlSafe(
-      `transform: scaleX(${this.cappedValue / this.defaultArgs.max});`,
-    );
+    return { transform: `scaleX(${this.cappedValue / this.defaultArgs.max})` };
   }
 
   <template>
@@ -149,7 +147,7 @@ export default class ProgressBar extends Component<ProgressBarSignature> {
         aria-valuemax={{unless this.indeterminate this.defaultArgs.max}}
         aria-valuenow={{unless this.indeterminate this.cappedValue}}
       >
-        <div class="cds--progress-bar__bar" style={{this.barStyle}}></div>
+        <div class="cds--progress-bar__bar" {{style this.barStyle}}></div>
       </div>
       {{#if @helperText}}
         <div

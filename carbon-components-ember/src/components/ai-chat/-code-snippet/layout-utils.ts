@@ -23,16 +23,15 @@ interface ContainerStyleConfig {
 }
 
 /**
- * Container style properties as CSS custom properties, applied imperatively
- * via a modifier (see `code-snippet.gts`'s `applyContainerStyle`) rather
- * than upstream's CSP-safe dynamic-stylesheet trick - this addon doesn't
- * target a strict `style-src-attr` CSP anywhere else, so a plain
- * `element.style.setProperty` modifier is the idiomatic equivalent here.
+ * Container style properties as CSS custom properties, which
+ * `code-snippet.gts` sets with the `{{style}}` modifier rather than
+ * upstream's dynamic-stylesheet trick; CSSOM writes are CSP-safe too.
  */
-export interface ContainerStyleProperties {
+// A type, not an interface: the {{style}} modifier needs its index signature.
+export type ContainerStyleProperties = {
   '--cds-snippet-max-height'?: string;
   '--cds-snippet-min-height'?: string;
-}
+};
 
 export function buildContainerStyles({
   expanded,

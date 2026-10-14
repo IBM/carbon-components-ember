@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import SkeletonIcon from '#src/components/skeleton-icon.gts';
+import style from 'ember-style-modifier';
 
 module('Integration | Component | SkeletonIcon', (hooks) => {
   setupRenderingTest(hooks);
@@ -15,7 +16,10 @@ module('Integration | Component | SkeletonIcon', (hooks) => {
   test('should pass through attributes', async function (assert) {
     await render(
       <template>
-        <SkeletonIcon class="custom-class" style="width: 2rem; height: 2rem;" />
+        <SkeletonIcon
+          class="custom-class"
+          {{style width="2rem" height="2rem"}}
+        />
       </template>,
     );
 

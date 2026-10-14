@@ -109,6 +109,8 @@ export async function waitForAnimationFrame() {
   });
 }
 
+export { failOnCspViolations, takeCspViolations } from './csp.ts';
+
 export {
   disableCarbonStyles,
   enableCarbonStyles,

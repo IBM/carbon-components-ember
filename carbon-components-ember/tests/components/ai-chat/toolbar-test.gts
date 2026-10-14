@@ -5,6 +5,8 @@ import { trackedObject } from '@ember/reactive/collections';
 import Toolbar from '#src/components/ai-chat/toolbar.gts';
 import type { ToolbarAction } from '#src/components/ai-chat/toolbar.gts';
 import { Add, Settings } from '#src/icons.ts';
+// Not `style`: that would turn this file's <style> elements into the modifier.
+import styleModifier from 'ember-style-modifier';
 
 const noActions: ToolbarAction[] = [];
 
@@ -86,7 +88,7 @@ module('Integration | Component | ai-chat/Toolbar', (hooks) => {
             pointer-events: none;
           }
         </style>
-        <div style="max-inline-size: 80px;">
+        <div {{styleModifier maxInlineSize="80px"}}>
           <Toolbar @overflow={{true}} @actions={{actions}} />
         </div>
       </template>,
@@ -249,7 +251,7 @@ module('Integration | Component | ai-chat/Toolbar', (hooks) => {
             pointer-events: none;
           }
         </style>
-        <div style="max-inline-size: 60px;">
+        <div {{styleModifier maxInlineSize="60px"}}>
           <Toolbar @overflow={{true}} @actions={{actions}} />
         </div>
       </template>,

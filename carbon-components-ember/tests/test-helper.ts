@@ -8,7 +8,11 @@ import { setTesting } from '@embroider/macros';
 import { setConfig as setBasicDropdownConfig } from 'ember-basic-dropdown/config';
 import { setupSnapshot } from './setup-snapshot.ts';
 
-import { enableCarbonStyles, installCarbonStyles } from './helpers/index.ts';
+import {
+  enableCarbonStyles,
+  failOnCspViolations,
+  installCarbonStyles,
+} from './helpers/index.ts';
 
 // The addon's own stylesheet (Carbon flex grid, component patches, ai-chat
 // partials), loaded the way a consuming app loads `carbon-components-ember/styles.scss`.
@@ -19,6 +23,8 @@ import '#src/styles/index.scss';
 // after every test in case one failed before doing so itself.
 installCarbonStyles();
 QUnit.hooks.afterEach(() => enableCarbonStyles());
+
+failOnCspViolations();
 
 class Router extends EmberRouter {
   location = 'none';

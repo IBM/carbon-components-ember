@@ -147,7 +147,29 @@ const styles = stylesheet`
     position: absolute;
     margin-left: -14px;
   }
-` as { trigger: string; label: string; tag: string; check: string };
+
+  /* !important: these were inline styles, which beat Carbon's state rules. */
+  .inline {
+    background: transparent !important;
+    border: none !important;
+  }
+
+  .field {
+    overflow: visible !important;
+  }
+
+  .singleField {
+    width: 50px !important;
+  }
+` as {
+  trigger: string;
+  label: string;
+  tag: string;
+  check: string;
+  inline: string;
+  field: string;
+  singleField: string;
+};
 
 const hasToJSON = (item: unknown): item is { toJSON(): unknown } =>
   typeof item === 'object' &&
@@ -401,8 +423,8 @@ export default class Select<T extends ContentValue> extends Component<
           {{if
             @select.isOpen
             'cds--multi-select--open cds--multi-select--filterable--input-focused cds--list-box--expanded'
-          }}"
-        style={{if this.extra.inline "background: transparent; border: none;"}}
+          }}
+          {{if this.extra.inline styles.inline}}"
         {{this.openChange @select.isOpen}}
         {{on "touchstart" this.chooseOption}}
         {{! eslint-disable-next-line ember/template-no-pointer-down-event-binding }}
@@ -488,12 +510,9 @@ export default class Select<T extends ContentValue> extends Component<
           {{! Styling only: power-select's own trigger is the focusable
             combobox, so this must not be a second one. }}
           <div
-            style={{if
-              this.extra.isSingleSelect
-              "overflow: visible; width: 50px;"
-              "overflow: visible; "
-            }}
-            class="cds--list-box__field"
+            class="cds--list-box__field
+              {{styles.field}}
+              {{if this.extra.isSingleSelect styles.singleField}}"
             aria-hidden="true"
           >
             {{! A single select shows its placeholder where the selection goes

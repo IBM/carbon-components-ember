@@ -3,6 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { waitForAnimationFrame } from '../../helpers';
 import ChatShell from '#src/components/ai-chat/chat-shell.gts';
+import style from 'ember-style-modifier';
 
 module('Integration | Component | ai-chat/ChatShell', (hooks) => {
   setupRenderingTest(hooks);
@@ -179,7 +180,7 @@ module('Integration | Component | ai-chat/ChatShell', (hooks) => {
     // real layout instead of the browser's static default.
     await render(
       <template>
-        <div style="inline-size: 480px">
+        <div {{style inlineSize="480px"}}>
           <ChatShell @showHistory={{true}}>
             <:history>history content</:history>
             <:messages></:messages>

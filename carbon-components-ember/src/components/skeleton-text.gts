@@ -6,7 +6,7 @@
  */
 
 import Component from '@glimmer/component';
-import { htmlSafe } from '@ember/template';
+import style from 'ember-style-modifier';
 
 // Fixed pseudo-random sequence matching the React implementation, so that
 // paragraph line widths are deterministic (and consistent with snapshots)
@@ -63,14 +63,14 @@ export default class SkeletonText extends Component<SkeletonTextSignature> {
       : 'cds--skeleton__text';
   }
 
-  get lineStyles() {
+  get lineWidths() {
     const width = this.width;
     const widthNum = parseInt(width, 10);
     const widthPx = width.includes('px');
     const widthPercent = width.includes('%');
     const paragraph = this.paragraph;
 
-    const styles: ReturnType<typeof htmlSafe>[] = [];
+    const widths: string[] = [];
     for (let i = 0; i < this.lineCount; i++) {
       let lineWidth = width;
       if (widthPercent && paragraph) {
@@ -79,26 +79,30 @@ export default class SkeletonText extends Component<SkeletonTextSignature> {
       } else if (widthPx && paragraph) {
         lineWidth = `${getRandomInt(Math.max(widthNum - 75, 0), widthNum, i)}px`;
       }
-      styles.push(htmlSafe(`width: ${lineWidth};`));
+      widths.push(lineWidth);
     }
-    return styles;
+    return widths;
   }
 
-  get singleLineStyle() {
-    return this.lineStyles[0];
+  get singleLineWidth() {
+    return this.lineWidths[0];
   }
 
   <template>
     {{#if this.isMultiLine}}
       <div>
-        {{#each this.lineStyles as |style|}}
-          <p class={{this.skeletonTextClass}} style={{style}} ...attributes></p>
+        {{#each this.lineWidths as |width|}}
+          <p
+            class={{this.skeletonTextClass}}
+            {{style width=width}}
+            ...attributes
+          ></p>
         {{/each}}
       </div>
     {{else}}
       <p
         class={{this.skeletonTextClass}}
-        style={{this.singleLineStyle}}
+        {{style width=this.singleLineWidth}}
         ...attributes
       ></p>
     {{/if}}

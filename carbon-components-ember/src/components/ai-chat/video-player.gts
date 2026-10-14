@@ -8,9 +8,8 @@
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
-import { htmlSafe } from '@ember/template';
-import type { SafeString } from '@ember/template';
 import { modifier as eModifier } from 'ember-modifier';
+import style from 'ember-style-modifier';
 import { registerDestructor } from '@ember/destroyable';
 import {
   detectVideoSource,
@@ -76,23 +75,12 @@ export interface VideoPlayerSignature {
  * `@errorMessage`/`@onError`, matching upstream - it is never silently
  * ignored.
  *
- * **`@aspectRatioPercentage` divergence, deliberate:** upstream routes this
- * value through `shared/dynamic-css-var-sheet.ts`, a constructable-
- * stylesheet mechanism that writes a per-instance `--video-player-aspect-
- * ratio` custom property from JS without touching any element's `style`
- * attribute - needed there because Lit's `render()` has no way to bind a
- * dynamic value directly into a CSS declaration, and because a raw
- * `el.style.setProperty` call is blocked by a strict CSP's `style-src-attr`
- * (only `style-src`, which a trusted stylesheet mutation satisfies,
- * without `'unsafe-inline'`). Glimmer doesn't have that limitation - a
- * template can bind a computed value straight into a `style` attribute
- * (the same pattern already used by `Slider`'s thumb positioning and
- * `CodeSnippet`'s expand height) - so the ~150-line stylesheet-adoption
- * machinery is unnecessary complexity here and isn't ported. The value is
- * sanitized through `aspectRatioPercentage` below (a finite, positive
- * number or the same `56.25` fallback) before being interpolated into
- * `style`, since it's the one place in this port where consumer input
- * flows into a `style` attribute.
+ * **`@aspectRatioPercentage` divergence, deliberate:** upstream writes a
+ * per-instance `--video-player-aspect-ratio` through a constructable
+ * stylesheet (`shared/dynamic-css-var-sheet.ts`). The `{{style}}` modifier
+ * sets the padding through CSSOM instead, which a strict CSP allows too, so
+ * that machinery isn't ported. `aspectRatioPercentage` below sanitizes the
+ * value (a finite, positive number, or the same `56.25` fallback).
  *
  * Upstream's `rounded-modifiers` SCSS mixins are skipped for the same
  * reason documented on `AudioPlayer`.
@@ -138,8 +126,8 @@ export default class VideoPlayer extends Component<VideoPlayerSignature> {
       : DEFAULT_ASPECT_RATIO_PERCENTAGE;
   }
 
-  get containerStyle(): SafeString {
-    return htmlSafe(`padding-block-start: ${this.aspectRatioPercentage}%;`);
+  get containerPadding() {
+    return `${this.aspectRatioPercentage}%`;
   }
 
   get providerClasses(): string {
@@ -333,7 +321,7 @@ export default class VideoPlayer extends Component<VideoPlayerSignature> {
       {{/if}}
       <div
         class="cds-aichat-video-player__container"
-        style={{this.containerStyle}}
+        {{style paddingBlockStart=this.containerPadding}}
       >
         {{#if this.hasError}}
           <div

@@ -4,6 +4,7 @@ import { findAll, render, settled, waitUntil } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import LineChart from '#src/components/charts/line-chart.gts';
 import type { ChartData } from '#src/components/charts/-components/chart.gts';
+import style from 'ember-style-modifier';
 
 const KEYS = ['Qty', 'More', 'Sold'];
 const FIRST = [10, 20, 30];
@@ -23,7 +24,7 @@ module('Integration | Component | Charts', function (hooks) {
       <template>
         <LineChart
           data-test-chart
-          style="height: 300px; width: 500px"
+          {{style height="300px" width="500px"}}
           as |chart|
         >
           <chart.Axis @axis="left" @title="y" />
@@ -57,7 +58,7 @@ module('Integration | Component | Charts', function (hooks) {
       <template>
         <LineChart
           data-test-chart
-          style="height: 300px; width: 500px"
+          {{style height="300px" width="500px"}}
           as |chart|
         >
           <chart.Axis @axis="left" @title="y" />
@@ -89,7 +90,7 @@ module('Integration | Component | Charts', function (hooks) {
         <LineChart
           data-test-chart
           @title={{title.value}}
-          style="height: 300px; width: 500px"
+          {{style height="300px" width="500px"}}
           as |chart|
         >
           <chart.Axis @axis="left" @title="y" />
@@ -123,7 +124,7 @@ module('Integration | Component | Charts', function (hooks) {
       <template>
         <LineChart
           data-test-chart
-          style="height: 300px; width: 500px"
+          {{style height="300px" width="500px"}}
           as |chart|
         >
           <chart.Axis @axis="left" @title="y" />

@@ -10,6 +10,7 @@ import {
 import CardFooter from '#src/components/ai-chat/card-footer.gts';
 import type { CardFooterAction } from '#src/components/ai-chat/card-footer.gts';
 import Checkmark from '#src/components/icons/checkmark.ts';
+import style from 'ember-style-modifier';
 
 module('Integration | Component | ai-chat/CardFooter', (hooks) => {
   setupRenderingTest(hooks);
@@ -121,7 +122,7 @@ module('Integration | Component | ai-chat/CardFooter', (hooks) => {
 
     await render(
       <template>
-        <div style="width: 500px"><CardFooter @actions={{two}} /></div>
+        <div {{style width="500px"}}><CardFooter @actions={{two}} /></div>
       </template>,
     );
     let { footer, buttons } = widths();
@@ -132,7 +133,7 @@ module('Integration | Component | ai-chat/CardFooter', (hooks) => {
 
     await render(
       <template>
-        <div style="width: 500px"><CardFooter @actions={{three}} /></div>
+        <div {{style width="500px"}}><CardFooter @actions={{three}} /></div>
       </template>,
     );
     ({ footer, buttons } = widths());

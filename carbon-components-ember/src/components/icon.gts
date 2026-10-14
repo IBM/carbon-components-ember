@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
-import { htmlSafe } from '@ember/template';
+import type { htmlSafe } from '@ember/template';
 import Loading from '../components/loading.gts';
 import renderSvgPart from '../components/icon/render-svg-part.ts';
 import { stylesheet } from 'astroturf';
@@ -72,11 +72,6 @@ export interface IconSignature {
      * decorative). Required whenever `@onClick` is passed.
      */
     iconDescription?: string;
-
-    /**
-     * button style
-     */
-    btnStyle?: string;
 
     /**
      * button classes
@@ -211,7 +206,6 @@ export default class Icon extends Component<IconSignature> {
       {{#if @onClick}}
         <button
           class="cds--btn cds--btn--sm cds--btn--ghost {{@btnClass}}"
-          style={{if @btnStyle (htmlSafe @btnStyle)}}
           type="button"
           aria-label={{@iconDescription}}
           {{on "click" this.onIconClick}}

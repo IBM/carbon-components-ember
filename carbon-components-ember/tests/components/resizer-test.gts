@@ -4,6 +4,15 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, triggerKeyEvent, waitUntil } from '@ember/test-helpers';
 import Resizer from '#src/components/resizer.gts';
 import { tracked } from '@glimmer/tracking';
+import { stylesheet } from 'astroturf';
+
+// A class, not {{style}}: Resizer measures its next sibling before that
+// sibling's modifiers run.
+const styles = stylesheet`
+  .pane {
+    height: 100px;
+  }
+` as { pane: string };
 
 function mouseEvent(type: string, options: MouseEventInit = {}) {
   return new MouseEvent(type, {
@@ -70,9 +79,9 @@ module('Integration | Component | Resizer', (hooks) => {
   test('dragging resizes the previous and next siblings by default', async function (this: RenderingTestContext, assert) {
     await render(
       <template>
-        <div style="height: 100px;"></div>
+        <div class={{styles.pane}}></div>
         <Resizer @orientation="horizontal" />
-        <div style="height: 100px;"></div>
+        <div class={{styles.pane}}></div>
       </template>,
     );
 
@@ -99,9 +108,9 @@ module('Integration | Component | Resizer', (hooks) => {
 
     await render(
       <template>
-        <div style="height: 100px;"></div>
+        <div class={{styles.pane}}></div>
         <Resizer @orientation="horizontal" @onResize={{onResize}} />
-        <div style="height: 100px;"></div>
+        <div class={{styles.pane}}></div>
       </template>,
     );
 
@@ -118,12 +127,12 @@ module('Integration | Component | Resizer', (hooks) => {
     assert.deepEqual(deltas, [15]);
     assert.strictEqual(
       prev.style.height,
-      '100px',
+      '',
       'siblings are not auto-resized when controlled',
     );
     assert.strictEqual(
       next.style.height,
-      '100px',
+      '',
       'siblings are not auto-resized when controlled',
     );
   });
@@ -157,9 +166,9 @@ module('Integration | Component | Resizer', (hooks) => {
   test("it reports the previous pane's share as aria-valuenow", async function (this: RenderingTestContext, assert) {
     await render(
       <template>
-        <div style="height: 100px;"></div>
+        <div class={{styles.pane}}></div>
         <Resizer @orientation="horizontal" />
-        <div style="height: 100px;"></div>
+        <div class={{styles.pane}}></div>
       </template>,
     );
 
@@ -178,9 +187,9 @@ module('Integration | Component | Resizer', (hooks) => {
   test('arrow keys resize by 5px, and by 25px with Shift', async function (this: RenderingTestContext, assert) {
     await render(
       <template>
-        <div style="height: 100px;"></div>
+        <div class={{styles.pane}}></div>
         <Resizer @orientation="horizontal" />
-        <div style="height: 100px;"></div>
+        <div class={{styles.pane}}></div>
       </template>,
     );
 
@@ -201,9 +210,9 @@ module('Integration | Component | Resizer', (hooks) => {
   test('Home key collapses the previous sibling to 0 and expands the next sibling', async function (this: RenderingTestContext, assert) {
     await render(
       <template>
-        <div style="height: 100px;"></div>
+        <div class={{styles.pane}}></div>
         <Resizer @orientation="horizontal" />
-        <div style="height: 100px;"></div>
+        <div class={{styles.pane}}></div>
       </template>,
     );
 
@@ -224,9 +233,9 @@ module('Integration | Component | Resizer', (hooks) => {
   test('End key collapses the next sibling to 0 and expands the previous sibling', async function (this: RenderingTestContext, assert) {
     await render(
       <template>
-        <div style="height: 100px;"></div>
+        <div class={{styles.pane}}></div>
         <Resizer @orientation="horizontal" />
-        <div style="height: 100px;"></div>
+        <div class={{styles.pane}}></div>
       </template>,
     );
 
@@ -270,9 +279,9 @@ module('Integration | Component | Resizer', (hooks) => {
   test('double-click resets siblings to their initial size', async function (this: RenderingTestContext, assert) {
     await render(
       <template>
-        <div style="height: 100px;"></div>
+        <div class={{styles.pane}}></div>
         <Resizer @orientation="horizontal" />
-        <div style="height: 100px;"></div>
+        <div class={{styles.pane}}></div>
       </template>,
     );
 
@@ -297,9 +306,9 @@ module('Integration | Component | Resizer', (hooks) => {
 
     await render(
       <template>
-        <div style="height: 100px;"></div>
+        <div class={{styles.pane}}></div>
         <Resizer @orientation="horizontal" @onDoubleClick={{onDoubleClick}} />
-        <div style="height: 100px;"></div>
+        <div class={{styles.pane}}></div>
       </template>,
     );
 

@@ -8,6 +8,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { modifier as eModifier } from 'ember-modifier';
+import style from 'ember-style-modifier';
 import type Owner from '@ember/owner';
 import type { EditorView } from '@codemirror/view';
 import type { Compartment } from '@codemirror/state';
@@ -124,20 +125,17 @@ export interface CodeSnippetSignature {
  *   made for `ReasoningSteps`' `data-last-item`/animation events. Add if a
  *   real consumer needs one.
  * - **Modern Clipboard API + a `document.execCommand('copy')` fallback**,
- *   matching upstream, but via a plain inline-styled off-screen `<textarea>`
- *   (same technique this addon's own `copy-button.gts` already uses)
- *   instead of upstream's CSP-safe dynamic-stylesheet trick - this addon
- *   doesn't target a strict `style-src-attr` CSP anywhere else.
+ *   matching upstream, but via an off-screen `<textarea>` positioned through
+ *   `element.style` (as `copy-button.gts` does) instead of upstream's
+ *   dynamic-stylesheet trick; CSSOM writes are allowed under a strict CSP.
  * - **`wrap-text` (a `:host([wrap-text])` rule in upstream's own SCSS) has
  *   no backing property anywhere in upstream's own `code-snippet.ts`
  *   either** - a pre-existing dead CSS hook, not something this port
  *   dropped. Not reproduced.
  *
  * Container CSS custom properties (`--cds-snippet-max-height`/`-min-height`)
- * are applied via a plain `style` attribute binding (`containerStyle`,
- * following `TruncatedText`'s existing precedent) rather than
- * upstream's CSP-safe dynamic-stylesheet helper, for the same reason as the
- * copy fallback above.
+ * are set with the `{{style}}` modifier rather than upstream's
+ * dynamic-stylesheet helper, for the same reason as the copy fallback above.
  */
 export default class CodeSnippet extends Component<CodeSnippetSignature> {
   @tracked private detectedLanguage: string | null = null;
@@ -194,8 +192,8 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
     );
   }
 
-  get containerStyle(): string {
-    const properties = buildContainerStyles({
+  get containerStyles() {
+    return buildContainerStyles({
       expanded: this.expandedCode,
       maxCollapsed: this.maxCollapsedNumberOfRows,
       maxExpanded: this.maxExpandedNumberOfRows,
@@ -203,10 +201,6 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
       minExpanded: this.minExpandedNumberOfRows,
       rowHeight: this.rowHeightInPixels,
     });
-    return Object.entries(properties)
-      .filter(([, value]) => value !== undefined)
-      .map(([key, value]) => `${key}: ${value};`)
-      .join(' ');
   }
 
   get ariaLabelEditable(): string {
@@ -679,7 +673,7 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
                 this.expandedCode 'cds-aichat-snippet-container--collapsed'
               )
             }}"
-          style={{this.containerStyle}}
+          {{style this.containerStyles}}
           role={{if @editable "textbox"}}
           {{! Upstream also labels the read-only container (with the whole code),
             but a role-less div can't carry a name; the editor content inside
