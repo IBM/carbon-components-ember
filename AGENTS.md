@@ -256,6 +256,9 @@ The port target is the Lit-based framework-agnostic widget library `@carbon/ai-c
 ## Component Implementation Checklist
 Adding a component, or aligning one with Carbon React? Follow [.claude/skills/implement-component/SKILL.md](.claude/skills/implement-component/SKILL.md).
 
+## Issues, Pull Requests and the Roadmap
+Every PR gets one release label (release-plan needs it), `Closes #N` and a roadmap item; work before the stable release also gets the `Stable` milestone. Issues go under their epic, with "blocked by" links for order. Follow [.claude/skills/track-work/SKILL.md](.claude/skills/track-work/SKILL.md).
+
 ## Guidelines for Updating This Document
 
 This document is a living resource for AI agents and developers. **You are strongly encouraged and expected to actively update this document whenever you discover a new undocumented gotcha, generalizable pitfall, or core architectural constraint.**
@@ -277,4 +280,4 @@ To maintain the high quality of this guide and prevent future bloat, adhere to t
 
 ---
 
-Last Updated: 2026-10-03
+Last Updated: 2026-10-14
