@@ -20,6 +20,7 @@ import {
   waitForAnimationFrame,
   disableCarbonStyles,
   enableCarbonStyles,
+  nonce,
 } from '../helpers';
 
 module('Integration | Component | IconIndicator', (hooks) => {
@@ -52,7 +53,7 @@ module('Integration | Component | IconIndicator', (hooks) => {
     await render(
       <template>
         <IconIndicator @kind="succeeded" @label="Succeeded" />
-        <style>
+        <style nonce={{nonce}}>
           {{darkStyleValue.value}}
         </style>
       </template>,

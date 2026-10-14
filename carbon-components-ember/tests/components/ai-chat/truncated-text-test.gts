@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, triggerKeyEvent } from '@ember/test-helpers';
 import TruncatedText from '#src/components/ai-chat/truncated-text.gts';
-import { waitForAnimationFrame } from '../../helpers';
+import { waitForAnimationFrame, nonce } from '../../helpers';
 // Not `style`: that would turn this file's <style> elements into the modifier.
 import styleModifier from 'ember-style-modifier';
 
@@ -30,7 +30,7 @@ module('Integration | Component | ai-chat/TruncatedText', (hooks) => {
   test('it renders @value as plain text when short', async function (assert) {
     await render(
       <template>
-        <style>
+        <style nonce={{nonce}}>
           {{lineClampStyle}}
         </style>
         <div {{styleModifier width="200px"}}>
@@ -49,7 +49,7 @@ module('Integration | Component | ai-chat/TruncatedText', (hooks) => {
 
     await render(
       <template>
-        <style>
+        <style nonce={{nonce}}>
           {{lineClampStyle}}
         </style>
         <div {{styleModifier width="100px"}}>
@@ -69,7 +69,7 @@ module('Integration | Component | ai-chat/TruncatedText', (hooks) => {
 
     await render(
       <template>
-        <style>
+        <style nonce={{nonce}}>
           {{lineClampStyle}}
         </style>
         <div {{styleModifier width="100px"}}>
@@ -140,7 +140,7 @@ module('Integration | Component | ai-chat/TruncatedText', (hooks) => {
     try {
       await render(
         <template>
-          <style>
+          <style nonce={{nonce}}>
             {{lineClampStyle}}
           </style>
           <div {{styleModifier width="100px"}}>
@@ -173,7 +173,7 @@ module('Integration | Component | ai-chat/TruncatedText', (hooks) => {
   test('it renders default block content instead of @value when passed', async function (assert) {
     await render(
       <template>
-        <style>
+        <style nonce={{nonce}}>
           {{lineClampStyle}}
         </style>
         <div {{styleModifier width="200px"}}>

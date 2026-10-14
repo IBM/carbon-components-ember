@@ -109,7 +109,7 @@ export async function waitForAnimationFrame() {
   });
 }
 
-export { failOnCspViolations, takeCspViolations } from './csp.ts';
+export { failOnCspViolations, nonce, takeCspViolations } from './csp.ts';
 
 export {
   disableCarbonStyles,

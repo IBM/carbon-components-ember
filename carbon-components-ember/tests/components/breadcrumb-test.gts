@@ -11,6 +11,7 @@ import {
   waitForAnimationFrame,
   disableCarbonStyles,
   enableCarbonStyles,
+  nonce,
 } from '../helpers';
 
 module('Integration | Component | Breadcrumb', (hooks) => {
@@ -45,7 +46,7 @@ module('Integration | Component | Breadcrumb', (hooks) => {
     await render(
       <template>
         <Breadcrumb @crumbs={{array "a" "b" "c"}} @current="b" />
-        <style>
+        <style nonce={{nonce}}>
           {{darkStyleValue.value}}
         </style>
       </template>,

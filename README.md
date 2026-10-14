@@ -63,6 +63,8 @@ Components forward `...attributes` to their main element, so `class`, `id`, ARIA
 
 Components don't render `style` attributes, which a Content Security Policy without `'unsafe-inline'` blocks. They set inline styles through CSSOM instead, with the `{{style}}` modifier from [ember-style-modifier](https://github.com/jelhan/ember-style-modifier), and their tests run under `style-src-attr 'none'`. Under such a policy, style them with classes rather than `style="..."`, and set values you compute with `{{style}}` (add ember-style-modifier to your app's dependencies).
 
+AI Chat's `CodeSnippet` adds the editor's styles as `<style>` elements, which a policy without `'unsafe-inline'` only allows with its nonce. Put the nonce in a `<meta property="csp-nonce" nonce="…">` tag, the one Vite emits when you set `html.cspNonce`; in a classic build, add the tag to `app/index.html`. Either way, your server fills in each response's nonce. The tests run under `style-src-elem 'self' 'nonce-…'` too.
+
 Unlike components, services are looked up by name, under `carbon.`:
 
 ```ts

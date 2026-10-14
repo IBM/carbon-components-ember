@@ -12,6 +12,7 @@ import {
   waitForAnimationFrame,
   disableCarbonStyles,
   enableCarbonStyles,
+  nonce,
 } from '../helpers';
 
 module('Integration | Component | TreeView', (hooks) => {
@@ -54,7 +55,7 @@ module('Integration | Component | TreeView', (hooks) => {
             <Child @id="node-2-1" @label="Node 2.1" />
           </Node>
         </TreeView>
-        <style>
+        <style nonce={{nonce}}>
           {{darkStyleValue.value}}
         </style>
       </template>,

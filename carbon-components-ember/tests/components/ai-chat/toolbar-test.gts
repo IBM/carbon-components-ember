@@ -7,6 +7,7 @@ import type { ToolbarAction } from '#src/components/ai-chat/toolbar.gts';
 import { Add, Settings } from '#src/icons.ts';
 // Not `style`: that would turn this file's <style> elements into the modifier.
 import styleModifier from 'ember-style-modifier';
+import { nonce } from '../../helpers';
 
 const noActions: ToolbarAction[] = [];
 
@@ -81,7 +82,7 @@ module('Integration | Component | ai-chat/Toolbar', (hooks) => {
     // ResizeObserver driving this test) thrash.
     await render(
       <template>
-        <style>
+        <style nonce={{nonce}}>
           .cds-aichat-toolbar__measure {
             position: absolute;
             visibility: hidden;
@@ -116,7 +117,7 @@ module('Integration | Component | ai-chat/Toolbar', (hooks) => {
 
     await render(
       <template>
-        <style>
+        <style nonce={{nonce}}>
           .cds-aichat-toolbar__measure {
             position: absolute;
             visibility: hidden;
@@ -244,7 +245,7 @@ module('Integration | Component | ai-chat/Toolbar', (hooks) => {
 
     await render(
       <template>
-        <style>
+        <style nonce={{nonce}}>
           .cds-aichat-toolbar__measure {
             position: absolute;
             visibility: hidden;

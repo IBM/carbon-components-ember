@@ -11,6 +11,7 @@ import {
   waitForAnimationFrame,
   disableCarbonStyles,
   enableCarbonStyles,
+  nonce,
 } from '../helpers';
 
 module('Integration | Component | TabContent', (hooks) => {
@@ -47,7 +48,7 @@ module('Integration | Component | TabContent', (hooks) => {
         <TabContent @selected={{true}}>
           <p>Lorem ipsum</p>
         </TabContent>
-        <style>
+        <style nonce={{nonce}}>
           {{darkStyleValue.value}}
         </style>
       </template>,

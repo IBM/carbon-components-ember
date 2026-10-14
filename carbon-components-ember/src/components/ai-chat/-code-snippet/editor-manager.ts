@@ -15,6 +15,7 @@ import { EditorView } from '@codemirror/view';
 import type { LanguageSupport } from '@codemirror/language';
 import { createCarbonTheme, makeScrollerFocusable } from './theme.ts';
 import { baseCodeMirrorSetup } from './base-setup.ts';
+import { cspNonce } from '../../../utils/csp-nonce.ts';
 import type { BaseCodeMirrorSetupOptions } from './base-setup.ts';
 
 interface EditorDocChangePayload {
@@ -73,6 +74,9 @@ export function createEditorView({
   // Enable diff decorator only for diff language
   const isDiffLanguage = detectedLanguage === 'diff';
 
+  // CodeMirror injects its styles as <style> elements, which need the nonce.
+  const nonce = cspNonce();
+
   const state = EditorState.create({
     doc,
     extensions: [
@@ -85,6 +89,7 @@ export function createEditorView({
       wrapCompartment.of(wrapTheme),
       contentAttributesCompartment.of(contentAttributesExtensions),
       makeScrollerFocusable(),
+      nonce ? EditorView.cspNonce.of(nonce) : [],
       EditorView.updateListener.of((update) => {
         if (update.docChanged && onDocChanged) {
           onDocChanged({

@@ -11,6 +11,7 @@ import {
   waitForAnimationFrame,
   disableCarbonStyles,
   enableCarbonStyles,
+  nonce,
 } from '../helpers';
 
 module('Integration | Component | Stack', (hooks) => {
@@ -51,7 +52,7 @@ module('Integration | Component | Stack', (hooks) => {
           <div>Item 2</div>
           <div>Item 3</div>
         </Stack>
-        <style>
+        <style nonce={{nonce}}>
           {{darkStyleValue.value}}
         </style>
       </template>,

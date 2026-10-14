@@ -11,6 +11,7 @@ import {
   waitForAnimationFrame,
   disableCarbonStyles,
   enableCarbonStyles,
+  nonce,
 } from '../helpers';
 
 module('Integration | Component | Accordion', (hooks) => {
@@ -51,7 +52,7 @@ module('Integration | Component | Accordion', (hooks) => {
             <p>Lorem ipsum</p>
           </A>
         </Accordion>
-        <style>
+        <style nonce={{nonce}}>
           {{darkStyleValue.value}}
         </style>
       </template>,

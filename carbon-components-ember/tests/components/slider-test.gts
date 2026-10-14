@@ -18,6 +18,7 @@ import {
   waitForAnimationFrame,
   disableCarbonStyles,
   enableCarbonStyles,
+  nonce,
 } from '../helpers';
 
 module('Integration | Component | Slider', (hooks) => {
@@ -60,7 +61,7 @@ module('Integration | Component | Slider', (hooks) => {
           @max={{100}}
           @value={{50}}
         />
-        <style>
+        <style nonce={{nonce}}>
           {{darkStyleValue.value}}
         </style>
       </template>,
