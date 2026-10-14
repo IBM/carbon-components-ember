@@ -23,6 +23,7 @@ import { NativeVideoProvider } from './-video-player/native-video-provider.ts';
 import { YouTubeProvider } from './-video-player/youtube-provider.ts';
 import { VimeoProvider } from './-video-player/vimeo-provider.ts';
 import { KalturaProvider } from './-video-player/kaltura-provider.ts';
+import './video-player.scss';
 
 const LOADING_TIMEOUT_MS = 10000;
 const DEFAULT_ASPECT_RATIO_PERCENTAGE = 56.25;

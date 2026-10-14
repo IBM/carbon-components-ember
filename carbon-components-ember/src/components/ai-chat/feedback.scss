@@ -4,12 +4,12 @@
 //
 // Selectors are adapted from `:host(...)` to plain `.cds-aichat-*` classes;
 // colors reference `@carbon/styles`' compiled `--cds-*` custom properties,
-// spacing uses literal rem values (see `_chain-of-thought.scss`'s header
+// spacing uses literal rem values (see `chain-of-thought.scss`'s header
 // comment for why). Upstream's `@include rounded-modifiers` (a generic
 // corner-rounding mixin driving a `data-rounded` attribute matrix) isn't
 // reproduced in full — only the two concrete corners this component itself
 // ever renders (`top-right` on the close button, `bottom-right` on the
-// submit button), matching the precedent set in `_card.scss`.
+// submit button), matching the precedent set in `card.scss`.
 
 .cds-aichat-feedback {
   border-radius: 0.5rem;

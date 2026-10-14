@@ -6,6 +6,7 @@
  */
 
 import Component from '@glimmer/component';
+import './prompt-line.scss';
 
 export interface PromptLineShellSignature {
   Element: HTMLDivElement;

@@ -7,6 +7,7 @@
 
 import Component from '@glimmer/component';
 import { concat } from '@ember/helper';
+import './chat-shell.scss';
 
 export type CornerStyle = 'round' | 'square';
 export type StartOrEnd = 'start' | 'end';
@@ -217,7 +218,7 @@ export default class ChatShell extends Component<ChatShellSignature> {
   <template>
     <div
       class={{this.shellClasses}}
-      {{! @glint-expect-error: non-standard host attributes mirrored from upstream cds-aichat-shell; _chat-shell.scss selects on them }}
+      {{! @glint-expect-error: non-standard host attributes mirrored from upstream cds-aichat-shell; chat-shell.scss selects on them }}
       workspace-location={{this.workspaceLocation}}
       {{! @glint-expect-error: see workspace-location above }}
       history-location={{this.historyLocation}}

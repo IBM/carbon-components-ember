@@ -14,6 +14,7 @@ import Tooltip from '../tooltip.gts';
 import Download from '../icons/download.ts';
 import { stringifyCSV } from './-csv.ts';
 import type { ComponentLike } from '@glint/template';
+import './table.scss';
 
 export type AiChatTableCell = {
   text: string;

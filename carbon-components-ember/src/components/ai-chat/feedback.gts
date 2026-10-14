@@ -14,6 +14,8 @@ import Tooltip from '../tooltip.gts';
 import Checkbox from '../checkbox.gts';
 import Markdown from './markdown.gts';
 import { Close } from '../../icons.ts';
+import './feedback.scss';
+import './markdown.scss';
 
 export type FeedbackDetails = {
   text?: string;

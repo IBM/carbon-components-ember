@@ -7,7 +7,7 @@
 // compiled `--cds-*` custom properties rather than its Sass theme module.
 // `@carbon/styles/scss/type`'s `type-style` mixin is theme-independent
 // (typography tokens don't vary by theme, only color does), so it's used
-// directly here, same as `_carousel.scss` already does - unlike `theme.$*`
+// directly here, same as `carousel.scss` already does - unlike `theme.$*`
 // color variables, it needs no Sass theme configuration to produce correct
 // output.
 //

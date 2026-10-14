@@ -5,9 +5,7 @@ import { trackedObject } from '@ember/reactive/collections';
 import Toolbar from '#src/components/ai-chat/toolbar.gts';
 import type { ToolbarAction } from '#src/components/ai-chat/toolbar.gts';
 import { Add, Settings } from '#src/icons.ts';
-// Not `style`: that would turn this file's <style> elements into the modifier.
-import styleModifier from 'ember-style-modifier';
-import { nonce } from '../../helpers';
+import style from 'ember-style-modifier';
 
 const noActions: ToolbarAction[] = [];
 
@@ -73,23 +71,9 @@ module('Integration | Component | ai-chat/Toolbar', (hooks) => {
       { text: 'Settings 2', icon: Settings, onClick: () => {} },
     ];
 
-    // The addon's own SCSS (`_toolbar.scss`, not part of `@carbon/styles`'
-    // prebuilt bundle) isn't reliably loaded by test-app's dev build - see
-    // the truncated-text-test.gts precedent for the same gotcha. Without
-    // it, `.cds-aichat-toolbar__measure` renders as a normal, space-taking
-    // flex row instead of `position: absolute`, which both defeats the
-    // measurement and can make the container's own size (and so the
-    // ResizeObserver driving this test) thrash.
     await render(
       <template>
-        <style nonce={{nonce}}>
-          .cds-aichat-toolbar__measure {
-            position: absolute;
-            visibility: hidden;
-            pointer-events: none;
-          }
-        </style>
-        <div {{styleModifier maxInlineSize="80px"}}>
+        <div {{style maxInlineSize="80px"}}>
           <Toolbar @overflow={{true}} @actions={{actions}} />
         </div>
       </template>,
@@ -117,13 +101,6 @@ module('Integration | Component | ai-chat/Toolbar', (hooks) => {
 
     await render(
       <template>
-        <style nonce={{nonce}}>
-          .cds-aichat-toolbar__measure {
-            position: absolute;
-            visibility: hidden;
-            pointer-events: none;
-          }
-        </style>
         <Toolbar @overflow={{true}} @actions={{state.actions}} />
       </template>,
     );
@@ -245,14 +222,7 @@ module('Integration | Component | ai-chat/Toolbar', (hooks) => {
 
     await render(
       <template>
-        <style nonce={{nonce}}>
-          .cds-aichat-toolbar__measure {
-            position: absolute;
-            visibility: hidden;
-            pointer-events: none;
-          }
-        </style>
-        <div {{styleModifier maxInlineSize="60px"}}>
+        <div {{style maxInlineSize="60px"}}>
           <Toolbar @overflow={{true}} @actions={{actions}} />
         </div>
       </template>,

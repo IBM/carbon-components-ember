@@ -10,6 +10,7 @@ import Search from '../search.gts';
 import Button from '../button.gts';
 import Tooltip from '../tooltip.gts';
 import { AddComment } from '../../icons.ts';
+import './chat-history.scss';
 
 /**
  * Upstream accepts a `searchAttributes` object keyed by literal DOM

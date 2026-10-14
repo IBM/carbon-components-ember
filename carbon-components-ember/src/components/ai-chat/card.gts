@@ -6,6 +6,7 @@
  */
 
 import type { TOC } from '@ember/component/template-only';
+import './card.scss';
 
 export interface CardSignature {
   Element: HTMLDivElement;
@@ -55,7 +56,7 @@ export interface CardSignature {
  * behavior) and doesn't expose `data-rounded` as an arg — nothing in this
  * port provides the outer shell context that would ever set it.
  * `CardFooter`'s own `data-rounded` (which *is* always rendered, to
- * match its bottom corners to this card's) is wired up in `_card.scss`.
+ * match its bottom corners to this card's) is wired up in `card.scss`.
  *
  * ```gjs
  * import { Card } from 'carbon-components-ember/ai-chat';

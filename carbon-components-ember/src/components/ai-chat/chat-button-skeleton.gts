@@ -7,6 +7,7 @@
 
 import Component from '@glimmer/component';
 import type { ChatButtonSize } from './chat-button.gts';
+import './chat-button.scss';
 
 export interface ChatButtonSkeletonSignature {
   Element: HTMLDivElement;

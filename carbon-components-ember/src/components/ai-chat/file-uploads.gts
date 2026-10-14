@@ -14,6 +14,7 @@ import type {
   FileRemoveEventDetail,
   FileUpload,
 } from './-file-uploads/types.ts';
+import './file-uploads.scss';
 
 export interface FileUploadsSignature {
   Element: HTMLDivElement;

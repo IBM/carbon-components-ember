@@ -16,7 +16,7 @@ import type {
  * `TextareaController` (`prompt-line-controller.ts`) — Tiptap-free, so this
  * file (and everything it imports) is safe to import eagerly. Auto-grows via
  * a hidden mirror capped at the same block size the rich contenteditable
- * uses (`_prompt-line.scss`'s `157px`), so the textarea→rich swap is
+ * uses (`prompt-line.scss`'s `157px`), so the textarea→rich swap is
  * imperceptible. Enter-to-send matches the rich editor's keymap: plain Enter
  * sends on a non-empty field, Mod-Enter always sends, Shift-Enter inserts a
  * newline, Escape blurs.

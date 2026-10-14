@@ -9,6 +9,7 @@ import Component from '@glimmer/component';
 import { modifier } from 'ember-modifier';
 import { ChevronDown } from '../../icons.ts';
 import TruncatedText from './truncated-text.gts';
+import './workspace-shell.scss';
 
 export interface WorkspaceShellHeaderSignature {
   Element: HTMLDivElement | HTMLDetailsElement;

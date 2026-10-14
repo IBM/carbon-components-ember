@@ -53,7 +53,7 @@ module('Integration | Component | ai-chat/PromptLineShell', (hooks) => {
 
     // The visual reflow (editor above, actions below) is driven entirely by
     // CSS `order` on the always-fixed DOM below, not by swapping markup —
-    // see _prompt-line.scss's `--expanded` `order` rules.
+    // see prompt-line.scss's `--expanded` `order` rules.
     const markers = document.querySelectorAll(
       '.cds-aichat-prompt-line-shell__text-and-actions .marker',
     );

@@ -7,6 +7,7 @@
 
 import SkeletonText from '../skeleton-text.gts';
 import type { TOC } from '@ember/component/template-only';
+import './chat-history.scss';
 
 export interface ChatHistoryLoadingSignature {
   Element: HTMLDivElement;

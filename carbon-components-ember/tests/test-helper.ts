@@ -14,11 +14,8 @@ import {
   installCarbonStyles,
 } from './helpers/index.ts';
 
-// The addon's own stylesheet (Carbon flex grid, component patches, ai-chat
-// partials), loaded the way a consuming app loads `carbon-components-ember/styles.scss`.
-import '#src/styles/index.scss';
-
-// `@carbon/styles` itself, ahead of the addon's stylesheet as in an app.
+// `@carbon/styles` itself, ahead of the components' own stylesheets (which
+// they import) as in an app.
 // Style snapshots turn it off for their unstyled baseline; turn it back on
 // after every test in case one failed before doing so itself.
 installCarbonStyles();

@@ -4,8 +4,8 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 import type { TaskInstance } from 'ember-concurrency';
-import { stylesheet } from 'astroturf';
 import type { SearchSignature } from '../search.gts';
+import './-search-input.scss';
 
 export interface TableToolbarSearchSignature {
   Element: SearchSignature['Element'];
@@ -47,20 +47,6 @@ export default class TableToolbarSearch extends Component<TableToolbarSearchSign
     return this.runSearch.perform(term);
   };
 
-  styles = stylesheet`
-    .is-searching {
-      .cds--search-magnifier {
-        display: none;
-      }
-    }
-
-    .loading {
-      position: relative;
-      top: -41px;
-      right: 7px;
-    }
-  ` as { 'is-searching': string; loading: string };
-
   <template>
     <SearchInput
       @isLoading={{@isLoading}}
@@ -70,11 +56,11 @@ export default class TableToolbarSearch extends Component<TableToolbarSearchSign
       @labelText={{if @labelText @labelText "Filter table"}}
       @placeholder={{if @placeholder @placeholder "Filter table"}}
       @onChange={{this.doSearch}}
-      class="{{if this.isSearching this.styles.is-searching}}"
+      class="{{if this.isSearching 'cds--ember-table-search--searching'}}"
       ...attributes
     />
     {{#if this.isSearching}}
-      <InlineLoading class={{this.styles.loading}} />
+      <InlineLoading class="cds--ember-table-search__loading" />
     {{/if}}
   </template>
 }

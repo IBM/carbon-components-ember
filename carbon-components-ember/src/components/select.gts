@@ -20,8 +20,9 @@ import type {
 } from 'ember-power-select/types';
 import { guidFor } from '@ember/object/internals';
 import { Close } from '../icons.ts';
-import { stylesheet } from 'astroturf';
 import type { TOC } from '@ember/component/template-only';
+import './select.scss';
+import './-private/basic-dropdown.scss';
 
 export interface SelectSignature<T extends ContentValue> {
   Args: {
@@ -123,59 +124,13 @@ const toggleHighlightedClass = modifier(
   },
 );
 
-// power-select types `@extra` per invocation; Select always passes a
-// SelectExtra.
-// Layout fixes for ember-power-select's markup, which Carbon's CSS doesn't
-// cover.
-const styles = stylesheet`
-  .trigger {
-    outline: none;
-  }
-
-  .label {
-    margin-left: 15px;
-    margin-right: 3px;
-    width: -webkit-fill-available;
-  }
-
-  .tag {
-    margin: 0;
-  }
-
-  .check {
-    font-weight: bold;
-    position: absolute;
-    margin-left: -14px;
-  }
-
-  /* !important: these were inline styles, which beat Carbon's state rules. */
-  .inline {
-    background: transparent !important;
-    border: none !important;
-  }
-
-  .field {
-    overflow: visible !important;
-  }
-
-  .singleField {
-    width: 50px !important;
-  }
-` as {
-  trigger: string;
-  label: string;
-  tag: string;
-  check: string;
-  inline: string;
-  field: string;
-  singleField: string;
-};
-
 const hasToJSON = (item: unknown): item is { toJSON(): unknown } =>
   typeof item === 'object' &&
   item !== null &&
   typeof (item as { toJSON?: unknown }).toJSON === 'function';
 
+// power-select types `@extra` per invocation; Select always passes a
+// SelectExtra.
 const selectExtra = (extra: unknown) => (extra ?? {}) as SelectExtra;
 
 const Options: TOC<
@@ -424,7 +379,7 @@ export default class Select<T extends ContentValue> extends Component<
             @select.isOpen
             'cds--multi-select--open cds--multi-select--filterable--input-focused cds--list-box--expanded'
           }}
-          {{if this.extra.inline styles.inline}}"
+          {{if this.extra.inline 'cds--ember-select--inline'}}"
         {{this.openChange @select.isOpen}}
         {{on "touchstart" this.chooseOption}}
         {{! eslint-disable-next-line ember/template-no-pointer-down-event-binding }}
@@ -439,14 +394,13 @@ export default class Select<T extends ContentValue> extends Component<
               (not (and @select.isOpen @searchEnabled))
             )
           }}
-            <div class="cds--list-box__label {{styles.label}}">{{#if
+            <div class="cds--list-box__label cds--ember-select__label">{{#if
                 @select.selected
               }}{{@select.selected}}{{else}}{{@placeholder}}{{/if}}</div>
           {{/if}}
           {{#if (and this.extra.showNumber @select.selected.length)}}
             <div
-              class="cds--tag cds--tag--filter cds--tag--high-contrast
-                {{styles.tag}}"
+              class="cds--tag cds--tag--filter cds--tag--high-contrast cds--ember-select__tag"
             >
               <span
                 class="cds--tag__label"
@@ -467,8 +421,7 @@ export default class Select<T extends ContentValue> extends Component<
           {{else}}
             {{#each @select.selected as |opt|}}
               <div
-                class="cds--tag cds--tag--filter cds--tag--high-contrast
-                  {{styles.tag}}"
+                class="cds--tag cds--tag--filter cds--tag--high-contrast cds--ember-select__tag"
               >
                 <span class="cds--tag__label" title="1">{{opt}}</span>
                 <div
@@ -510,9 +463,11 @@ export default class Select<T extends ContentValue> extends Component<
           {{! Styling only: power-select's own trigger is the focusable
             combobox, so this must not be a second one. }}
           <div
-            class="cds--list-box__field
-              {{styles.field}}
-              {{if this.extra.isSingleSelect styles.singleField}}"
+            class="cds--list-box__field cds--ember-select__field
+              {{if
+                this.extra.isSingleSelect
+                'cds--ember-select__field--single'
+              }}"
             aria-hidden="true"
           >
             {{! A single select shows its placeholder where the selection goes
@@ -557,8 +512,7 @@ export default class Select<T extends ContentValue> extends Component<
       <PowerSelect
         @multiple={{true}}
         ...attributes
-        class="cds--select cds--select-md
-          {{styles.trigger}}
+        class="cds--select cds--select-md cds--ember-select__trigger
           {{if @inline 'cds--select--inline'}}
           {{if @disabled 'cds--select--disabled'}}"
         @extra={{hash
@@ -627,8 +581,7 @@ export default class Select<T extends ContentValue> extends Component<
     {{else}}
       <PowerSelect
         ...attributes
-        class="cds--select cds--select-md
-          {{styles.trigger}}
+        class="cds--select cds--select-md cds--ember-select__trigger
           {{if @inline 'cds--select--inline'}}
           {{if @disabled 'cds--select--disabled'}}"
         @extra={{hash
@@ -673,7 +626,7 @@ export default class Select<T extends ContentValue> extends Component<
           {{addMenuItemClass}}
         >
           {{#if (isSelected option select.selected)}}
-            <span class={{styles.check}}>&check;</span>
+            <span class="cds--ember-select__check">&check;</span>
           {{/if}}
           {{#if (has-block)}}
             {{yield option}}

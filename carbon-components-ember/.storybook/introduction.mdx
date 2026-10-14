@@ -19,7 +19,6 @@ kept in parity with [`@carbon/react`](https://react.carbondesignsystem.com).
 
 ```sh
 pnpm add carbon-components-ember @carbon/styles
-pnpm add -D sass
 ```
 
 ### Compatibility
@@ -29,15 +28,14 @@ pnpm add -D sass
 - **Apps:** it's a v2 addon for strict-mode templates (`.gts` and `.gjs`).
   Loose-mode `.hbs` templates can't resolve its components by name
   (`<Carbon::TextInput>`). Embroider/Vite apps work as-is; classic ember-cli
-  apps need `ember-auto-import` 2 and `ember-template-imports`. Apps compile
-  its stylesheets, so they need `sass`.
+  apps need `ember-auto-import` 2 and `ember-template-imports`.
 
 Load Carbon's styles and the addon's own stylesheet once, in your app's
 entry point:
 
 ```ts
 import "@carbon/styles/css/styles.css";
-import "carbon-components-ember/styles.scss";
+import "carbon-components-ember/styles.css";
 ```
 
 Some components render elsewhere in the page, so add their two targets to

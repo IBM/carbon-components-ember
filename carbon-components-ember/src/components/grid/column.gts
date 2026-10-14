@@ -14,6 +14,7 @@ import type {
   ColumnSpanSimple,
   GridMode,
 } from './-types.ts';
+import './flex-grid.scss';
 
 export type {
   ColumnSpan,

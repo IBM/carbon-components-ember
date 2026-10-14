@@ -5,7 +5,7 @@
 // (shadow DOM) to plain `.cds-aichat-code-snippet*` classes (light DOM,
 // matching every other component in this addon), and colors reference
 // `@carbon/styles`' compiled `--cds-*` custom properties rather than its
-// Sass theme module, matching `_card.scss`'s established precedent.
+// Sass theme module, matching `card.scss`'s established precedent.
 //
 // Upstream's `:host { @each $token, $value in themes.$white { ... } }` /
 // `:host-context([data-theme='g90']) { @each ... themes.$g90 { ... } }`
@@ -36,7 +36,7 @@
   // when placed outside a card / on a non-white layer.
   // `--cds-chat-shell-background` is a single, layer-independent surface
   // (white in white/g10, dark in g90/g100), matching the card it usually
-  // lives in - see `_card.scss`'s identical rationale for the same token.
+  // lives in - see `card.scss`'s identical rationale for the same token.
   background: var(--cds-chat-shell-background, #ffffff);
   font-family: inherit;
   max-inline-size: 100%;

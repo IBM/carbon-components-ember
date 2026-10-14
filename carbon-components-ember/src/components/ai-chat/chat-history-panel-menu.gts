@@ -12,6 +12,7 @@ import { guidFor } from '@ember/object/internals';
 import type { WithBoundArgs } from '@glint/template';
 import ChatHistoryPanelItem from './chat-history-panel-item.gts';
 import { ChevronDown } from '../../icons.ts';
+import './chat-history.scss';
 
 export interface ChatHistoryPanelMenuSignature {
   Element: HTMLDivElement;

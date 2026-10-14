@@ -61,7 +61,10 @@ class="btn-set"
 class="carbon-btn-set"
 ```
 
-### 3. Component Arguments vs Props
+### 3. Component Styles
+Styles Carbon doesn't provide live next to the component (`icon.scss` beside `icon.gts`), and every component that uses them imports them explicitly (`import './icon.scss';`). Name their classes `cds--ember-<component>`. The build compiles every imported stylesheet into `dist/styles.css` (rollup-plugin-sass), the one stylesheet apps load after Carbon's, and leaves the imports out of the published JS and types, so apps need no Sass.
+
+### 4. Component Arguments vs Props
 Ember uses `@args` instead of React props:
 ```typescript
 // React
@@ -73,7 +76,7 @@ Ember uses `@args` instead of React props:
 
 Keep Carbon React's prop names and values. Props React inherits from the HTML element (`type`, `onClick`, ...) are plain attributes and `{{on}}` through `...attributes`; take one as an argument only when the component needs its value, as Button does `disabled`. `pnpm --filter dom-parity args --component <Name>` lists a component's differences from React's props, and CI fails on new ones (see `dom-parity/known-arg-differences.json`). Record a deliberate one, such as an attribute Carbon re-declares that the component doesn't need, with its reason in `dom-parity/accepted-arg-differences.json`.
 
-### 4. Event Handling
+### 5. Event Handling
 Use `{{on}}` modifier instead of React's event props:
 ```typescript
 // React
@@ -83,7 +86,7 @@ Use `{{on}}` modifier instead of React's event props:
 <button {{on "click" handler}}>Click</button>
 ```
 
-### 5. Dynamic Element Types
+### 6. Dynamic Element Types
 Use the built-in `element` keyword (Ember 7.1+); it needs no import:
 
 <template>
@@ -202,7 +205,7 @@ Nothing registers icons with `IconMap` in app code, so string-based icon lookups
 ---
 
 ## Tests
-- **Carbon's and the addon's stylesheets load globally** in `tests/test-helper.ts`, in an app's order (`@carbon/styles`, then `#src/styles/index.scss`). Never inline Carbon's CSS in a test.
+- **Carbon's stylesheet loads globally** in `tests/test-helper.ts`, ahead of the components' own stylesheets (which they import), as in an app. Never inline Carbon's CSS in a test.
 - **Style snapshots** record the diff from an unstyled baseline: call `disableCarbonStyles()` before rendering, capture the baseline, then `enableCarbonStyles()` and `waitForAnimationFrame()` (from `tests/helpers`) so Carbon's transitions finish. A global hook re-enables Carbon after every test.
 
 ---

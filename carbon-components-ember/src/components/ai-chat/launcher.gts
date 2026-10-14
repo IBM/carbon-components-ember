@@ -9,6 +9,7 @@ import Component from '@glimmer/component';
 import Tooltip from '../tooltip.gts';
 import AiLaunch from '../icons/ai-launch.ts';
 import ChatLaunch from '../icons/chat-launch.ts';
+import './launcher.scss';
 
 export interface LauncherSignature {
   Element: HTMLDivElement;

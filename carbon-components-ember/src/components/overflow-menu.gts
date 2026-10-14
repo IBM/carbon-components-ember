@@ -9,6 +9,8 @@ import type { WithBoundArgs } from '@glint/template';
 import { OverflowMenuVertical } from '../icons.ts';
 import type { BasicDropdownTriggerSignature } from 'ember-basic-dropdown/components/basic-dropdown-trigger';
 import type { CalculatePosition } from 'ember-basic-dropdown/utils/calculate-position';
+import './overflow-menu.scss';
+import './-private/basic-dropdown.scss';
 
 export interface OverflowMenuSignature {
   Element: BasicDropdownTriggerSignature['Element'];

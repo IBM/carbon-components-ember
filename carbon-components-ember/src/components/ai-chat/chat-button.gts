@@ -9,6 +9,8 @@ import Component from '@glimmer/component';
 import { modifier } from 'ember-modifier';
 import Button from '../button.gts';
 import type { ButtonSignature } from '../button.gts';
+import './chat-button.scss';
+import './chat-history.scss';
 
 export type ChatButtonKind =
   'primary' | 'secondary' | 'tertiary' | 'ghost' | 'danger';

@@ -5,6 +5,7 @@ import { guidFor } from '@ember/object/internals';
 import { WarningFilled, WarningAltFilled } from '../icons.ts';
 import AILabel from './ai-label.gts';
 import type { WithBoundArgs } from '@glint/template';
+import './text-area.scss';
 
 export interface TextAreaSignature {
   Args: {

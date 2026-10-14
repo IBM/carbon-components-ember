@@ -6,6 +6,7 @@
  */
 
 import Component from '@glimmer/component';
+import './processing.scss';
 
 export interface ProcessingSignature {
   Element: HTMLDivElement;

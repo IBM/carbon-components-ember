@@ -7,8 +7,8 @@ import CarbonPagination from '../components/pagination.gts';
 import ListColumnComponent from '../components/list/-column.gts';
 import ListBodyComponent from '../components/list/-body.gts';
 import ListHeaderComponent from '../components/list/-header.gts';
-import { stylesheet } from 'astroturf';
 import ListSkeletonComponent from '../components/list/-skeleton.gts';
+import './list.scss';
 
 export interface ListSignature<T> {
   Element: HTMLElement;
@@ -94,30 +94,12 @@ export default class List<T> extends Component<ListSignature<T>> {
     this.args.onSelect?.(item);
   };
 
-  styles = stylesheet`
-    .namespace {
-      position: relative;
-      :global(.cds--pagination) {
-        position: absolute;
-        right: 0;
-        left: 0;
-      }
-
-      :global(.cds--search) {
-        width: 250px;
-        display: table-caption;
-      }
-    }` as {
-    namespace: string;
-  };
-
   <template>
     {{#if @loading}}
       <ListSkeletonComponent ...attributes />
     {{else}}
       <section
-        class="cds--structured-list
-          {{this.styles.namespace}}
+        class="cds--structured-list cds--ember-list
           {{if @selectable 'cds--structured-list--selection'}}"
         {{this.delayItems}}
         ...attributes

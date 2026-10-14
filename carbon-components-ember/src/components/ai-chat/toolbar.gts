@@ -14,6 +14,8 @@ import OverflowMenuItem from '../overflow-menu/overflow-menu-item.gts';
 import { OverflowMenuVertical } from '../../icons.ts';
 import TruncatedText from './truncated-text.gts';
 import ToolbarActionButton from './-toolbar-action.gts';
+import './toolbar.scss';
+import './workspace-shell.scss';
 
 export type ToolbarAction = {
   /** Display text - also used as the tooltip label / overflow menu item text. */

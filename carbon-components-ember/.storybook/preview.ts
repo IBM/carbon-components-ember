@@ -1,7 +1,6 @@
+// Components import their own stylesheets; apps get them all in
+// `carbon-components-ember/styles.css`, after this one.
 import '@carbon/styles/css/styles.css';
-// The addon's own stylesheet, loaded the way a consuming app loads
-// `carbon-components-ember/styles.scss`.
-import '../src/styles/index.scss';
 
 import addonA11y from '@storybook/addon-a11y';
 import addonDocs from '@storybook/addon-docs';

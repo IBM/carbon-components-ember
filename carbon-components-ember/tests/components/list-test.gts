@@ -61,12 +61,12 @@ module('Integration | Component | List', (hooks) => {
     assert.strictEqual(
       getComputedStyle(search).display,
       'table-caption',
-      "list.gts's :global()-wrapped astroturf rule sets .cds--search to display: table-caption",
+      '.cds--ember-list sets its .cds--search to display: table-caption',
     );
     assert.strictEqual(
       getComputedStyle(pagination).position,
       'absolute',
-      "list.gts's :global()-wrapped astroturf rule sets .cds--pagination to position: absolute",
+      '.cds--ember-list sets its .cds--pagination to position: absolute',
     );
   });
 });

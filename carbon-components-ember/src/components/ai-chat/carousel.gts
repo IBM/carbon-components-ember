@@ -17,6 +17,7 @@ import Button from '../button.gts';
 import Tooltip from '../tooltip.gts';
 import ChevronLeft from '../icons/chevron-left.ts';
 import ChevronRight from '../icons/chevron-right.ts';
+import './carousel.scss';
 
 export interface CarouselSignature {
   Element: HTMLDivElement;

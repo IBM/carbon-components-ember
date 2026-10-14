@@ -6,6 +6,7 @@
  */
 
 import Component from '@glimmer/component';
+import './chat-history.scss';
 
 export interface ChatHistoryContentSignature {
   Element: HTMLDivElement;

@@ -4,8 +4,8 @@ import { service } from '@ember/service';
 import type { TrustedHTML } from '@ember/template';
 import Loading from '../components/loading.gts';
 import renderSvgPart from '../components/icon/render-svg-part.ts';
-import { stylesheet } from 'astroturf';
 import type DialogManagerService from '../services/dialog-manager.ts';
+import './icon.scss';
 
 /** An icon descriptor from `@carbon/icons` (e.g. `@carbon/icons/es/add/16`). */
 export type IconType = {
@@ -146,60 +146,14 @@ export default class Icon extends Component<IconSignature> {
     }
   };
 
-  styles = stylesheet`
-    @use "@carbon/styles/scss/theme" as *;
-
-    .loading {
-      display: inline-block;
-    }
-
-    .icon {
-      margin: 5px;
-      fill: $icon-primary;
-
-      .cds--icon-- {
-        &disabled {
-          cursor: initial;
-          opacity: 0.5;
-        }
-        &info {
-          fill: $background;
-          &:hover {
-            fill: $background-hover;
-          }
-        }
-        &danger {
-          fill: $support-error;
-          &:hover {
-            filter: brightness(0.85);
-          }
-        }
-      }
-
-      .loader {
-        width: 12px;
-        height: 16px;
-        display: inline-block;
-        .cds--loading {
-          display: inline-block;
-          width: 1rem;
-          height: 1rem;
-        }
-      }
-    }
-  ` as {
-    icon: string;
-    loading: string;
-  };
-
   // eslint-disable-next-line ember/template-require-splattributes -- the svg comes from a helper; use @svgClass
   <template>
     {{#if (or @loading this.loading)}}
-      <span class={{this.styles.loading}}>
+      <span class="cds--ember-icon__loading">
         <Loading
           @small={{true}}
           @withOverlay={{false}}
-          class="{{this.styles.icon}} {{this.classes}} loader"
+          class="cds--ember-icon {{this.classes}} loader"
         />
       </span>
     {{else}}
@@ -212,7 +166,7 @@ export default class Icon extends Component<IconSignature> {
         >
           {{renderSvgPart
             this.svg
-            class=(array (or @svgClass this.styles.icon) this.classes)
+            class=(array (or @svgClass "cds--ember-icon") this.classes)
             fill=(or @fill "currentColor")
             size=@size
             title=@title
@@ -221,7 +175,7 @@ export default class Icon extends Component<IconSignature> {
       {{else}}
         {{renderSvgPart
           this.svg
-          class=(array (or @svgClass this.styles.icon) this.classes)
+          class=(array (or @svgClass "cds--ember-icon") this.classes)
           fill=(or @fill "currentColor")
           size=@size
           title=@title

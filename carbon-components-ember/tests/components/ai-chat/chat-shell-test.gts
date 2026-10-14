@@ -172,7 +172,7 @@ module('Integration | Component | ai-chat/ChatShell', (hooks) => {
     // `.cds-aichat-shell__history` (320px) and the default
     // `min-inline-size` floor on `.cds-aichat-shell__input-and-messages`
     // (also 320px) together need more width than this 480px shell has -
-    // without the `show-history` override in `_chat-shell.scss`, the
+    // without the `show-history` override in `chat-shell.scss`, the
     // messages column overflows the shell's own right edge instead of
     // shrinking. That override only comes from real `@carbon/styles` CSS,
     // which test-app's dev-mode build doesn't reliably load for a

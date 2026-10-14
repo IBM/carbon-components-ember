@@ -12,6 +12,7 @@ import { modifier } from 'ember-modifier';
 import style from 'ember-style-modifier';
 import { default as Tooltip } from '../tooltip.gts';
 import type { TooltipAlignments } from '../tooltip.gts';
+import './truncated-text.scss';
 
 export interface TruncatedTextSignature {
   Element: HTMLDivElement;

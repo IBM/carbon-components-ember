@@ -29,6 +29,7 @@ import { Edit, TrashCan } from '../../icons.ts';
 import type { ChatHistoryItemAction } from './chat-history-panel-item.gts';
 import type ChatSessionService from '../../services/ai-chat-session.ts';
 import type { ChatSession } from '../../services/ai-chat-session.ts';
+import './session-shell.scss';
 
 export type SessionShellHistoryItem = {
   id: string;
