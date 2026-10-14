@@ -62,6 +62,15 @@ export default defineConfig([
         { allowDynamicStyles: false },
       ],
       'ember/no-legacy-helper-imports': 'error',
+      'no-restricted-imports': [
+        'error',
+        {
+          name: '@ember/template',
+          importNames: ['htmlSafe', 'isHTMLSafe', 'SafeString'],
+          message:
+            'Use their new names: trustHTML, isTrustedHTML, TrustedHTML.',
+        },
+      ],
     },
   },
   /**

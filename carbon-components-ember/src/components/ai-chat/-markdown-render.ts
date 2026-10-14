@@ -64,7 +64,7 @@ function getMarkdownIt(removeHTML: boolean): MarkdownIt {
 
 /**
  * Parses `markdown` and returns sanitized HTML, safe to inject via
- * `{{htmlSafe}}`.
+ * `trustHTML()`.
  *
  * Unlike upstream, sanitization is **unconditional** - it does not depend
  * on a `sanitizeHTML`-equivalent flag. Upstream's own default

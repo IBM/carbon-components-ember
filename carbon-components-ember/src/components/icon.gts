@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
-import type { htmlSafe } from '@ember/template';
+import type { TrustedHTML } from '@ember/template';
 import Loading from '../components/loading.gts';
 import renderSvgPart from '../components/icon/render-svg-part.ts';
 import { stylesheet } from 'astroturf';
@@ -54,9 +54,9 @@ export interface IconSignature {
 
     /**
      * Use this icon svg to display,
-     * must be a htmlSafe string
+     * marked as trusted with `trustHTML()`
      */
-    iconSvg?: ReturnType<typeof htmlSafe>;
+    iconSvg?: TrustedHTML;
     /**
      * Size of icon
      */
