@@ -2,7 +2,7 @@ import preview from '#storybook/preview.ts';
 import ChatHistoryPanelItems from './chat-history-panel-items.gts';
 
 import type { ChatHistoryPanelItemsSignature } from './chat-history-panel-items.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/ai-chat/chat-history-panel-items.css';
 
 // Upstream documents `cds-aichat-history-panel-items` only inside its
 // `Components/Chat history` stories (see chat-history.stories.gts); this
@@ -20,7 +20,7 @@ const meta = preview.meta({
     },
   },
   render: (args: ChatHistoryPanelItemsSignature['Args']) => <template>
-    <div {{style maxInlineSize="20rem"}}>
+    <div class="ai-chat-chat-history-panel-items-story__container">
       <ChatHistoryPanelItems @showActions={{args.showActions}} as |Item Menu|>
         <Item @id="chat-1" @name="Trip planning" @selected={{true}} />
         <Menu @title="Yesterday" as |NestedItem|>

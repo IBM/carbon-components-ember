@@ -1,0 +1,5 @@
+.toggletip-story__row {
+  display: flex;
+  align-items: center;
+  padding: 1rem 0 12rem;
+}

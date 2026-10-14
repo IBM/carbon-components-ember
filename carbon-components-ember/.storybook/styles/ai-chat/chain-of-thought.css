@@ -1,0 +1,5 @@
+.ai-chat-chain-of-thought-story__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}

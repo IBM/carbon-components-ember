@@ -5,7 +5,7 @@ import { expect } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import Button from '../button.gts';
 import Markdown from './markdown.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/ai-chat/markdown.css';
 
 // Mirrors `@carbon/ai-chat-components`' `markdown.stories.js`
 // (`Components/Markdown`): Default, Streaming, WithHTMLSanitization,
@@ -112,7 +112,6 @@ Use \`npm install\` to install dependencies and \`npm run build\` to build the p
 | March | $156,000 | 5,477 | +18% |
 | April | $168,000 | 5,892 | +21% |
 | **Total** | **$594,000** | **21,324** | **+16%** |
-
 
 ## Custom attributes
 
@@ -254,7 +253,7 @@ export const Streaming = meta.story({
 
     return <template>
       <div {{stream state.restarts}}>
-        <div {{style marginBottom="1rem"}}>
+        <div class="ai-chat-markdown-story__controls">
           <Button @size="sm" @tertiary={{true}} @onClick={{restart}}>
             Restart Streaming
           </Button>

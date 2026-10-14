@@ -7,7 +7,7 @@ import AudioPlayer from './audio-player.gts';
 import Card from './card.gts';
 
 import type { AudioPlayerSignature } from './audio-player.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/ai-chat/audio-player.css';
 
 // Mirrors `@carbon/ai-chat-components`' `Components/Audio player` stories
 // (audio-player/__stories__/audio-player.stories.js).
@@ -86,9 +86,9 @@ failing silently.`,
           />
         </:media>
         <:body>
-          <div {{style padding="1rem"}}>
-            <h4 {{style margin="0 0 0.5rem 0"}}>{{args.title}}</h4>
-            <p {{style margin="0" color="var(--cds-text-secondary)"}}>
+          <div class="ai-chat-audio-player-story__padded">
+            <h4 class="ai-chat-audio-player-story__heading">{{args.title}}</h4>
+            <p class="ai-chat-audio-player-story__text">
               {{args.description}}
             </p>
           </div>

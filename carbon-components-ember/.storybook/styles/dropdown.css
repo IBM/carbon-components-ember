@@ -1,0 +1,12 @@
+.dropdown-story__container {
+  width: 400px;
+  min-height: 20rem;
+}
+
+.dropdown-story__selected {
+  margin-top: 1rem;
+}
+
+.dropdown-story__skeleton {
+  width: 300px;
+}

@@ -7,7 +7,7 @@ import ReasoningSteps from './reasoning-steps.gts';
 import ReasoningStepsToggle from './reasoning-steps-toggle.gts';
 
 import type { ReasoningStepsToggleSignature } from './reasoning-steps-toggle.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/ai-chat/reasoning-steps-toggle.css';
 
 // Mirrors `@carbon/ai-chat-components`' `reasoning-steps-toggle.stories.js`
 // (`Components/Reasoning steps/Toggle`: Default). Like upstream's demo
@@ -74,14 +74,7 @@ The toggle is DOM-decoupled from the panel (same as \`ChainOfThoughtToggle\`/\`C
     };
 
     return <template>
-      <div
-        {{style
-          display="flex"
-          flexDirection="column"
-          gap="0.75rem"
-          maxInlineSize="48rem"
-        }}
-      >
+      <div class="ai-chat-reasoning-steps-toggle-story__stack">
         <ReasoningStepsToggle
           @open={{state.open}}
           @panelId={{args.panelId}}

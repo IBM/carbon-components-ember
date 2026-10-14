@@ -1,0 +1,47 @@
+.popover-story__centered-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5rem;
+}
+
+.popover-story__content {
+  padding: 1rem;
+}
+
+.popover-story__row {
+  display: flex;
+}
+
+.popover-story__auto-align-container {
+  display: grid;
+  place-items: center;
+  width: 200vw;
+  min-width: 1200px;
+  height: 200vh;
+  min-height: 1200px;
+}
+
+.popover-story__scroller {
+  display: grid;
+  place-items: center;
+  overflow: scroll;
+  width: 800px;
+  height: 500px;
+  border: 1px dashed var(--cds-border-strong, #8d8d8d);
+  margin: 0 auto;
+}
+
+.popover-story__wide-spacer {
+  width: 2100px;
+  height: 1px;
+}
+
+.popover-story__anchor {
+  height: 32px;
+  width: 32px;
+}
+
+.popover-story__tall-spacer {
+  height: 1000px;
+  width: 1px;
+}

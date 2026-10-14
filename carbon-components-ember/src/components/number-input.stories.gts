@@ -7,7 +7,7 @@ import NumberInput from './number-input.gts';
 import NumberInputSkeleton from './number-input-skeleton.gts';
 
 import type { NumberInputSignature } from './number-input.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/number-input.css';
 
 // Carbon React parity gaps (Components/NumberInput):
 // - `WithTypeOfText` / `WithTypeOfTextControlled` /
@@ -86,7 +86,7 @@ export const Default = meta.story({
         @value={{state.value}}
         @onChange={{onChange}}
       />
-      <p {{style marginTop="1rem"}}>value: {{state.value}}</p>
+      <p class="number-input-story__value">value: {{state.value}}</p>
     </template>;
   },
 });

@@ -1,0 +1,9 @@
+.notification-toast-story__corner {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.notification-toast-story__item {
+  margin: 2px;
+}

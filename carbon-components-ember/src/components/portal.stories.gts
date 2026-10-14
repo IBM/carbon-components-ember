@@ -4,7 +4,7 @@ import { expect, within } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Portal from './portal.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/portal.css';
 
 // Carbon React has no Portal stories (its Portal is an internal utility), so
 // these mirror the docs-app page.
@@ -35,7 +35,7 @@ export const Default = meta.story({
       <p>Portal target:</p>
       <div
         data-test-portal-target
-        {{style border="1px dashed" padding="1rem"}}
+        class="portal-story__target"
         {{setContainer}}
       ></div>
 

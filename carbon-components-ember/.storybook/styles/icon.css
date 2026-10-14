@@ -1,0 +1,20 @@
+.icon-story__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+}
+
+.icon-story__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.icon-story__code {
+  font-size: 0.75rem;
+  word-break: break-all;
+}

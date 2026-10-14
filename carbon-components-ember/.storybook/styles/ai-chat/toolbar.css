@@ -1,0 +1,26 @@
+.ai-chat-toolbar-story__nowrap-title {
+  white-space: nowrap;
+}
+
+.ai-chat-toolbar-story__title {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  line-height: normal;
+  word-break: break-all;
+}
+
+.ai-chat-toolbar-story__frame {
+  max-inline-size: 20rem;
+  border: 1px solid var(--cds-border-subtle);
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.ai-chat-toolbar-story__bar {
+  border-block-end: 1px solid var(--cds-border-subtle-00);
+}
+
+.ai-chat-toolbar-story__rounded {
+  --cds-aichat-border-radius: 8px;
+}

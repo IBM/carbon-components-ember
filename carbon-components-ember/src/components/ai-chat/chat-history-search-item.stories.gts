@@ -5,7 +5,7 @@ import preview from '#storybook/preview.ts';
 import ChatHistorySearchItem from './chat-history-search-item.gts';
 
 import type { ChatHistorySearchItemSignature } from './chat-history-search-item.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/ai-chat/chat-history-search-item.css';
 
 // Upstream documents `cds-aichat-history-search-item` only inside its
 // `Components/Chat history` stories (`SearchResults`, see
@@ -34,7 +34,7 @@ const meta = preview.meta({
     };
 
     return <template>
-      <ul {{style maxInlineSize="20rem"}}>
+      <ul class="ai-chat-chat-history-search-item-story__list">
         <ChatHistorySearchItem
           @id="chat-1"
           @name="Trip planning"
@@ -87,7 +87,7 @@ export const Disabled = meta.story({
     disabled: true,
   },
   render: (args: ChatHistorySearchItemSignature['Args']) => <template>
-    <ul {{style maxInlineSize="20rem"}}>
+    <ul class="ai-chat-chat-history-search-item-story__list">
       <ChatHistorySearchItem @disabled={{args.disabled}}>
         No available chats
       </ChatHistorySearchItem>

@@ -1,0 +1,20 @@
+.ai-chat-code-snippet-story__restart {
+  margin-block-end: 1rem;
+}
+
+.ai-chat-code-snippet-story__full-height {
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  padding: 1rem;
+}
+
+.ai-chat-code-snippet-story__intro {
+  margin: 0 0 1rem 0;
+}
+
+.ai-chat-code-snippet-story__editor {
+  flex: 1;
+  min-height: 0;
+}

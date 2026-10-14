@@ -2,7 +2,7 @@ import preview from '#storybook/preview.ts';
 import ChatHistoryPanel from './chat-history-panel.gts';
 
 import type { ChatHistoryPanelSignature } from './chat-history-panel.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/ai-chat/chat-history-panel.css';
 
 // Upstream documents `cds-aichat-history-panel` only inside its
 // `Components/Chat history` stories (see chat-history.stories.gts); this
@@ -20,7 +20,7 @@ const meta = preview.meta({
     },
   },
   render: (args: ChatHistoryPanelSignature['Args']) => <template>
-    <div {{style maxInlineSize="20rem" blockSize="10rem"}}>
+    <div class="ai-chat-chat-history-panel-story__container">
       <ChatHistoryPanel
         @expanded={{args.expanded}}
         @showActions={{args.showActions}}

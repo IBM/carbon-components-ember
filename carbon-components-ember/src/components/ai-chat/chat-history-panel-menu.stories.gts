@@ -5,7 +5,7 @@ import preview from '#storybook/preview.ts';
 import ChatHistoryPanelMenu from './chat-history-panel-menu.gts';
 
 import type { ChatHistoryPanelMenuSignature } from './chat-history-panel-menu.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/ai-chat/chat-history-panel-menu.css';
 
 // Upstream documents `cds-aichat-history-panel-menu` only inside its
 // `Components/Chat history` stories (see chat-history.stories.gts); these
@@ -29,7 +29,7 @@ const meta = preview.meta({
     title: 'Yesterday',
   },
   render: (args: ChatHistoryPanelMenuSignature['Args']) => <template>
-    <div {{style maxInlineSize="20rem"}} role="list">
+    <div class="ai-chat-chat-history-panel-menu-story__container" role="list">
       <ChatHistoryPanelMenu
         @title={{args.title}}
         @expanded={{args.expanded}}
@@ -75,7 +75,7 @@ export const Controlled = meta.story({
     };
 
     return <template>
-      <div {{style maxInlineSize="20rem"}} role="list">
+      <div class="ai-chat-chat-history-panel-menu-story__container" role="list">
         <ChatHistoryPanelMenu
           @title={{args.title}}
           @expanded={{state.expanded}}

@@ -1,0 +1,18 @@
+.menu-story__frame {
+  position: relative;
+  transform: translateZ(0);
+  min-block-size: 24rem;
+}
+
+.menu-story__frame-padded {
+  position: relative;
+  transform: translateZ(0);
+  min-block-size: 14rem;
+  padding: 1rem;
+}
+
+.menu-story__frame-short {
+  position: relative;
+  transform: translateZ(0);
+  min-block-size: 12rem;
+}

@@ -10,7 +10,7 @@ import Tile from './tile.gts';
 import TileGroup from './tile/tile-group.gts';
 
 import type { TileSignature } from './tile.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/tile.css';
 
 // Parity gaps with Carbon React's Tile stories:
 // - `ClickableWithCustomIcon`: clickable tiles have no `renderIcon`, `href`
@@ -151,10 +151,10 @@ export const Radio = meta.story({
         @onChange={{onChange}}
         as |RadioTile|
       >
-        <RadioTile @value="standard" {{style marginBottom=".5rem"}}>
+        <RadioTile @value="standard" class="tile-story__radio-tile">
           Option 1
         </RadioTile>
-        <RadioTile @value="default-selected" {{style marginBottom=".5rem"}}>
+        <RadioTile @value="default-selected" class="tile-story__radio-tile">
           Option 2
         </RadioTile>
         <RadioTile @value="selected">Option 3</RadioTile>
@@ -179,13 +179,13 @@ Radio.test(
 
 export const Expandable = meta.story({
   render: () => <template>
-    <div {{style width="400px"}}>
+    <div class="tile-story__container">
       <Tile @expandable={{true}}>
         <:above>
-          <div {{style height="200px"}}>Above the fold content here</div>
+          <div class="tile-story__above">Above the fold content here</div>
         </:above>
         <:below>
-          <div {{style height="400px"}}>Below the fold content here</div>
+          <div class="tile-story__below">Below the fold content here</div>
         </:below>
       </Tile>
     </div>
@@ -209,18 +209,18 @@ Expandable.test(
 
 export const ExpandableWithInteractive = meta.story({
   render: () => <template>
-    <div {{style width="400px"}}>
+    <div class="tile-story__container">
       <Tile @expandable={{true}}>
         <:above>
-          <div {{style height="200px" width="200px"}}>
+          <div class="tile-story__box">
             Above the fold content here
-            <div {{style paddingTop="1rem"}}>
+            <div class="tile-story__action">
               <Button>Example</Button>
             </div>
           </div>
         </:above>
         <:below>
-          <div {{style height="200px" width="200px"}}>
+          <div class="tile-story__box">
             Below the fold content here
             <TextInput @labelText="Text input label" />
           </div>
@@ -245,7 +245,7 @@ export const AllKinds = meta.story({
       </:above>
       <:below>
         test
-        <div {{style height="150px"}}>test height</div>
+        <div class="tile-story__footer">test height</div>
         footer
       </:below>
     </Tile>

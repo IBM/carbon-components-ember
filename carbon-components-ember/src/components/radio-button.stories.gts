@@ -9,7 +9,7 @@ import RadioButtonGroup from './radio-button/radio-button-group.gts';
 
 import type { RadioButtonGroupSignature as GroupSignature } from './radio-button/radio-button-group.gts';
 import type { Value } from './radio-button.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/radio-button.css';
 
 // Carbon React parity gaps (Components/RadioButton):
 // - RadioButtonGroup has no `helperText`, `invalid`/`invalidText` or
@@ -255,7 +255,7 @@ Standalone.test(
 // `@kind="inline"`.
 export const WithAILabel = meta.story({
   render: () => <template>
-    <div {{style display="flex" flexDirection="column" gap="2rem"}}>
+    <div class="radio-button-story__stack">
       <RadioButtonGroup
         @legendText="Group label"
         @name="radio-button-ai-label-group"

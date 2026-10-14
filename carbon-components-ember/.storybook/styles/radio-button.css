@@ -1,0 +1,5 @@
+.radio-button-story__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}

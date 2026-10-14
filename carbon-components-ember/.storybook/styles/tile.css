@@ -1,0 +1,28 @@
+.tile-story__radio-tile {
+  margin-bottom: 0.5rem;
+}
+
+.tile-story__container {
+  width: 400px;
+}
+
+.tile-story__above {
+  height: 200px;
+}
+
+.tile-story__below {
+  height: 400px;
+}
+
+.tile-story__box {
+  height: 200px;
+  width: 200px;
+}
+
+.tile-story__action {
+  padding-top: 1rem;
+}
+
+.tile-story__footer {
+  height: 150px;
+}

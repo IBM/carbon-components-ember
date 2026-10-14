@@ -8,7 +8,7 @@ import Row from './grid/row.gts';
 import GridSettings from './grid/grid-settings.gts';
 
 import type { TOC } from '@ember/component/template-only';
-import style from 'ember-style-modifier';
+import '#storybook/styles/grid.css';
 
 // Mirrors Carbon React's `Elements/Grid` stories (the CSS Grid). The Flexbox
 // grid (React's `Elements/FlexGrid`) lives in `grid/flex-grid.stories.gts`.
@@ -18,52 +18,23 @@ import style from 'ember-style-modifier';
 // instead of importing a different component.
 
 const Box: TOC<{ Blocks: { default: [] } }> = <template>
-  <div
-    {{style
-      padding=".5rem"
-      background="var(--cds-layer-01)"
-      border="1px solid var(--cds-border-subtle-01, #e0e0e0)"
-      textAlign="center"
-    }}
-  >
+  <div class="grid-story__cell">
     {{yield}}
   </div>
 </template>;
 
 const InnerBox: TOC<{ Blocks: { default: [] } }> = <template>
-  <div
-    {{style
-      padding=".5rem"
-      background="var(--cds-layer-02)"
-      border="1px solid var(--cds-border-subtle-01, #e0e0e0)"
-      textAlign="center"
-    }}
-  >
+  <div class="grid-story__cell-alt">
     {{yield}}
   </div>
 </template>;
 
 // Marks the true edge of the grid, so gutter differences are visible.
 const Frame: TOC<{ Blocks: { default: [] } }> = <template>
-  <div
-    {{style
-      outline="1px dashed var(--cds-border-strong-01, #8d8d8d)"
-      outlineOffset="-1px"
-    }}
-  >
+  <div class="grid-story__outline">
     {{yield}}
   </div>
 </template>;
-
-const OUTLINE = {
-  outline: '1px dashed var(--cds-border-strong-01, #8d8d8d)',
-  outlineOffset: '-1px',
-};
-const HANG = {
-  display: 'inline-block',
-  padding: '.25rem .5rem',
-  background: 'var(--cds-layer-01)',
-};
 
 const meta = preview.meta({
   title: 'Elements/Grid',
@@ -434,19 +405,23 @@ export const MixedGutterModes = meta.story({
     >
       <g.Column @span={{8}}>
         <g.Grid @narrow={{true}} as |sub|>
-          <sub.Column {{style OUTLINE}}>
-            <sub.ColumnHang {{style HANG}}>Text</sub.ColumnHang>
+          <sub.Column class="grid-story__outline">
+            <sub.ColumnHang class="grid-story__hang">Text</sub.ColumnHang>
           </sub.Column>
-          <sub.Column {{style OUTLINE}}>
-            <sub.ColumnHang {{style HANG}}>Text</sub.ColumnHang>
+          <sub.Column class="grid-story__outline">
+            <sub.ColumnHang class="grid-story__hang">Text</sub.ColumnHang>
           </sub.Column>
           <sub.Column @span={{4}}>
             <sub.Grid @condensed={{true}} as |inner|>
-              <inner.Column {{style OUTLINE}}>
-                <inner.ColumnHang {{style HANG}}>Text</inner.ColumnHang>
+              <inner.Column class="grid-story__outline">
+                <inner.ColumnHang
+                  class="grid-story__hang"
+                >Text</inner.ColumnHang>
               </inner.Column>
-              <inner.Column {{style OUTLINE}}>
-                <inner.ColumnHang {{style HANG}}>Text</inner.ColumnHang>
+              <inner.Column class="grid-story__outline">
+                <inner.ColumnHang
+                  class="grid-story__hang"
+                >Text</inner.ColumnHang>
               </inner.Column>
             </sub.Grid>
           </sub.Column>
@@ -565,28 +540,14 @@ export const Alignment = meta.story({
   },
   render: () => <template>
     <h2 class="cds--label">start</h2>
-    <div
-      {{style
-        width="110rem"
-        outline="1px dashed var(--cds-border-strong-01, #8d8d8d)"
-        outlineOffset="-1px"
-        overflowX="auto"
-      }}
-    >
+    <div class="grid-story__wide-outline">
       <Grid @mode="css-grid" @align="start" as |g|>
         <g.Column @sm={{4}}><Box>Column</Box></g.Column>
       </Grid>
     </div>
     <br />
     <h2 class="cds--label">end</h2>
-    <div
-      {{style
-        width="110rem"
-        outline="1px dashed var(--cds-border-strong-01, #8d8d8d)"
-        outlineOffset="-1px"
-        overflowX="auto"
-      }}
-    >
+    <div class="grid-story__wide-outline">
       <Grid @mode="css-grid" @align="end" as |g|>
         <g.Column @sm={{4}}><Box>Column</Box></g.Column>
       </Grid>

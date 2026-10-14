@@ -1,0 +1,17 @@
+.ai-chat-workspace-shell-header-story__host {
+  display: flex;
+  block-size: 30rem;
+}
+
+.ai-chat-workspace-shell-header-story__shell {
+  flex: 1;
+}
+
+.ai-chat-workspace-shell-header-story__tags {
+  display: flex;
+  gap: 4px;
+}
+
+.ai-chat-workspace-shell-header-story__preview {
+  max-inline-size: 24rem;
+}

@@ -1,0 +1,16 @@
+.ai-chat-chat-button-story__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ai-chat-chat-button-story__actions {
+  display: flex;
+  gap: 1rem;
+  margin-block-end: 1rem;
+}
+
+.ai-chat-chat-button-story__colors {
+  display: flex;
+  gap: 0.5rem;
+}

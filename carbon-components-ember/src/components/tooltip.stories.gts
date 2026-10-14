@@ -8,7 +8,7 @@ import Tooltip, { TooltipAlignments } from './tooltip.gts';
 import OverflowMenuVertical from './icons/overflow-menu-vertical.ts';
 
 import type { TooltipSignature } from './tooltip.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/tooltip.css';
 
 // Parity with Carbon React's Tooltip stories (Default, Alignment,
 // ExperimentalAutoAlign, Duration): React's `Default` is the
@@ -41,7 +41,7 @@ const meta = preview.meta({
   // Leave room around the trigger so the popover stays inside the canvas.
   decorators: [
     (Story, context) => <template>
-      <div {{style padding="4rem 8rem"}}>
+      <div class="tooltip-story__padded">
         <RenderStory @story={{Story}} @args={{context.args}} />
       </div>
     </template>,
@@ -175,16 +175,7 @@ export const ExperimentalAutoAlign = meta.story({
     docs: { story: { inline: false, iframeHeight: '400px' } },
   },
   render: (args: TooltipSignature['Args']) => <template>
-    <div
-      {{style
-        display="grid"
-        placeItems="center"
-        width="200vw"
-        minWidth="1200px"
-        height="200vh"
-        minHeight="1200px"
-      }}
-    >
+    <div class="tooltip-story__scroll-area">
       <Tooltip
         @label={{args.label}}
         @align={{args.align}}

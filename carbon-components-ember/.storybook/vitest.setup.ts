@@ -30,7 +30,7 @@ afterEach(async () => {
   const blocked = violations.splice(0);
   if (blocked.length) {
     throw new Error(
-      `The CSP blocked these style attributes; use the {{style}} modifier or a class:\n${blocked.map(describe).join('\n')}`,
+      `The CSP blocked these style attributes; use a class, or {{style}} for computed values:\n${blocked.map(describe).join('\n')}`,
     );
   }
 });

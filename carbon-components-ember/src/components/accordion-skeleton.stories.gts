@@ -2,7 +2,7 @@ import preview from '#storybook/preview.ts';
 import AccordionSkeleton from './accordion-skeleton.gts';
 
 import type { AccordionSkeletonSignature } from './accordion-skeleton.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/accordion-skeleton.css';
 
 // Carbon React has no stories of its own for AccordionSkeleton: it's the
 // `Skeleton` story of Components/Accordion.
@@ -29,7 +29,7 @@ const meta = preview.type<{ args: AccordionSkeletonSignature['Args'] }>().meta({
     align: { control: 'inline-radio', options: ['start', 'end'] },
   },
   render: (args) => <template>
-    <div {{style width="500px"}}>
+    <div class="accordion-skeleton-story__container">
       <AccordionSkeleton
         @align={{args.align}}
         @count={{args.count}}

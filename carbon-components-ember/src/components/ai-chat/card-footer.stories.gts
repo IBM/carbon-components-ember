@@ -14,6 +14,7 @@ import CardFooter from './card-footer.gts';
 
 import type { CardFooterSignature, CardFooterAction } from './card-footer.gts';
 import style from 'ember-style-modifier';
+import '#storybook/styles/ai-chat/card-footer.css';
 
 // Upstream has no stories file of its own for `cds-aichat-card-footer`: it's
 // the `CardFooter` story in `Components/Card` (card/__stories__/
@@ -113,8 +114,6 @@ const wrapperStyle = (maxWidth: StoryArgs['maxWidth']) => ({
 });
 const presetFor = (name: string | undefined) =>
   name ? PRESETS[name] : undefined;
-const borderRadiusStyle = (on: boolean | undefined) =>
-  on ? { '--cds-aichat-border-radius': '8px' } : undefined;
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'AI Chat/Card/Card Footer',
@@ -146,7 +145,7 @@ whenever a button is pressed.`,
   render: (args) => <template>
     <div {{style (wrapperStyle args.maxWidth)}}>
       <CardFooter
-        {{style (borderRadiusStyle args.borderRadius)}}
+        class={{if args.borderRadius "ai-chat-card-footer-story__rounded"}}
         @actions={{presetFor args.footerActions}}
         @onAction={{args.onAction}}
       />
@@ -232,8 +231,8 @@ export const InACard = meta.story({
     ];
 
     return <template>
-      <div {{style display="flex" gap="1rem" flexWrap="wrap"}}>
-        <Card {{style maxInlineSize="18rem"}}>
+      <div class="ai-chat-card-footer-story__row">
+        <Card class="ai-chat-card-footer-story__card">
           <:header><h5>Confirm action</h5></:header>
           <:body>Do you want to proceed?</:body>
           <:footer>
@@ -243,7 +242,7 @@ export const InACard = meta.story({
             />
           </:footer>
         </Card>
-        <Card {{style maxInlineSize="18rem"}}>
+        <Card class="ai-chat-card-footer-story__card">
           <:header><h5>Icon actions</h5></:header>
           <:body>Actions with no label render as icon-only buttons.</:body>
           <:footer>

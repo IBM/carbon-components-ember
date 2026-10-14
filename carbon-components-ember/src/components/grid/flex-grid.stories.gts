@@ -6,7 +6,7 @@ import FlexGrid from './flex-grid.gts';
 import Row from './row.gts';
 
 import type { TOC } from '@ember/component/template-only';
-import style from 'ember-style-modifier';
+import '#storybook/styles/grid/flex-grid.css';
 
 // Mirrors Carbon React's `Elements/FlexGrid` stories; `grid.stories.gts`
 // covers the CSS Grid (`Elements/Grid`).
@@ -16,14 +16,7 @@ import style from 'ember-style-modifier';
 // so the control is left out.
 
 const DemoContent: TOC<{ Blocks: { default: [] } }> = <template>
-  <div
-    {{style
-      padding=".5rem"
-      background="var(--cds-layer-01)"
-      border="1px solid var(--cds-border-subtle-01, #e0e0e0)"
-      textAlign="center"
-    }}
-  >
+  <div class="grid-flex-grid-story__cell">
     {{yield}}
   </div>
 </template>;

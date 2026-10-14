@@ -19,7 +19,7 @@ import TextItalic from './icons/text-italic.ts';
 import TrashCan from './icons/trash-can.ts';
 
 import type { MenuSignature } from './menu.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/menu.css';
 
 // Mirrors Carbon React's single Menu story (`Default`); `Opening from a
 // trigger` and `Sizes` port the docs-app demos. MenuItem, MenuItemDivider,
@@ -77,14 +77,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     const { state, setTarget } = targetBox();
 
     return <template>
-      <div
-        {{style
-          position="relative"
-          transform="translateZ(0)"
-          minBlockSize="24rem"
-        }}
-        {{setTarget}}
-      >
+      <div class="menu-story__frame" {{setTarget}}>
         {{#if state.target}}
           <Menu
             @label={{args.label}}
@@ -231,15 +224,7 @@ export const OpeningFromATrigger = meta.story({
     };
 
     return <template>
-      <div
-        {{style
-          position="relative"
-          transform="translateZ(0)"
-          minBlockSize="14rem"
-          padding="1rem"
-        }}
-        {{setTarget}}
-      >
+      <div class="menu-story__frame-padded" {{setTarget}}>
         <Button {{on "click" openMenu}}>Open menu</Button>
 
         {{#if state.target}}
@@ -304,14 +289,7 @@ export const Sizes = meta.story({
     const { state, setTarget } = targetBox();
 
     return <template>
-      <div
-        {{style
-          position="relative"
-          transform="translateZ(0)"
-          minBlockSize="12rem"
-        }}
-        {{setTarget}}
-      >
+      <div class="menu-story__frame-short" {{setTarget}}>
         {{#if state.target}}
           <Menu
             @label={{args.label}}

@@ -4,7 +4,7 @@ import Fade from '../../src/components/icons/fade.ts';
 
 import type { MenuItem } from '../../src/components/ui-shell/-sidenav.gts';
 import type { Decorator } from 'ember-storybook';
-import style from 'ember-style-modifier';
+import '#storybook/styles/fixtures/ui-shell.css';
 
 // Menus, frames and helpers the UI Shell story pages share.
 
@@ -40,21 +40,8 @@ export const NO_ITEMS: MenuItem[] = [];
 export const HOME: MenuItem = { title: 'Home', icon: Fade, submenus: [] };
 export const noop = () => {};
 
-// The shell's header and side nav are `position: fixed`; each story renders
-// it inside a box whose `transform` makes it their containing block, so the
-// shell stays inside the story instead of covering the page.
-const frame = (height: string) => ({
-  position: 'relative' as const,
-  height,
-  overflow: 'hidden',
-  transform: 'translate(0)',
-  border: '1px solid var(--cds-border-subtle-01, #e0e0e0)',
-});
-export const FRAME = frame('26rem');
-export const SMALL_FRAME = frame('14rem');
-
 export const withShellFrame: Decorator = (Story, context) => <template>
-  <div {{style FRAME}}>
+  <div class="fixtures-ui-shell-story__frame">
     <RenderStory @story={{Story}} @args={{context.args}} />
   </div>
 </template>;

@@ -2,23 +2,12 @@ import preview from '#storybook/preview.ts';
 import Layer from './layer.gts';
 
 import type { LayerSignature } from './layer.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/layer.css';
 
 // Carbon React parity gaps:
 // - `useLayer` story: Ember has no `useLayer()` hook (nor ambient
 //   `LayerContext`), and Layer doesn't yield its own level, so content can't
 //   read the current layer level.
-
-// Carbon React's `.example-layer-test-component` story styles.
-const layerStyle = {
-  padding: '1rem',
-  background: 'var(--cds-layer)',
-  color: 'var(--cds-text-primary)',
-};
-const noBackgroundStyle = {
-  padding: '1rem',
-  color: 'var(--cds-text-primary)',
-};
 
 // `label` isn't one of Layer's args: it's the text rendered on each layer.
 const meta = preview
@@ -50,11 +39,11 @@ const meta = preview
       label: { control: { type: 'text' } },
     },
     render: (args) => <template>
-      <div {{style layerStyle}}>{{args.label}}</div>
+      <div class="layer-story__box">{{args.label}}</div>
       <Layer as |L|>
-        <div {{style layerStyle}}>{{args.label}}</div>
+        <div class="layer-story__box">{{args.label}}</div>
         <L>
-          <div {{style layerStyle}}>{{args.label}}</div>
+          <div class="layer-story__box">{{args.label}}</div>
         </L>
       </Layer>
     </template>,
@@ -72,11 +61,11 @@ export const WithBackground = meta.story({
     },
   },
   render: (args) => <template>
-    <div {{style noBackgroundStyle}}>{{args.label}}</div>
+    <div class="layer-story__box-no-background">{{args.label}}</div>
     <Layer @withBackground={{true}} as |L|>
-      <div {{style noBackgroundStyle}}>{{args.label}}</div>
+      <div class="layer-story__box-no-background">{{args.label}}</div>
       <L @withBackground={{true}}>
-        <div {{style noBackgroundStyle}}>{{args.label}}</div>
+        <div class="layer-story__box-no-background">{{args.label}}</div>
       </L>
     </Layer>
   </template>,
@@ -99,7 +88,7 @@ export const CustomLevel = meta.story({
   },
   render: (args) => <template>
     <Layer @level={{args.level}}>
-      <div {{style layerStyle}}>{{args.label}}</div>
+      <div class="layer-story__box">{{args.label}}</div>
     </Layer>
   </template>,
 });
@@ -115,9 +104,9 @@ export const ResetLevel = meta.story({
   },
   render: (args) => <template>
     <Layer as |L|>
-      <div {{style layerStyle}}>{{args.label}} (layer two)</div>
+      <div class="layer-story__box">{{args.label}} (layer two)</div>
       <L @level={{0}}>
-        <div {{style layerStyle}}>{{args.label}} (reset to layer one)</div>
+        <div class="layer-story__box">{{args.label}} (reset to layer one)</div>
       </L>
     </Layer>
   </template>,

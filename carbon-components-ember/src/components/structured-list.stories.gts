@@ -7,7 +7,7 @@ import StructuredList from './structured-list.gts';
 import StructuredListSkeleton from './structured-list-skeleton.gts';
 
 import type { TOC } from '@ember/component/template-only';
-import style from 'ember-style-modifier';
+import '#storybook/styles/structured-list.css';
 
 // Carbon React parity gaps:
 // - React's `StructuredListInput` + checkmark cell are composed by hand in its
@@ -39,23 +39,19 @@ const SELECTION_ROWS = [
   },
 ];
 
-const annotationStyle = {
-  padding: '1rem',
-};
-
 // Carbon React's `WithLayer` storybook template: the content on the
 // background, then on two nested layers. Yields the layer index so each copy
 // can use its own row ids and input names.
 const WithLayer: TOC<{ Blocks: { default: [number] } }> = <template>
-  <div {{style annotationStyle}}>
+  <div class="structured-list-story__annotation">
     {{yield 0}}
   </div>
   <Layer @withBackground={{true}} as |L|>
-    <div {{style annotationStyle}}>
+    <div class="structured-list-story__annotation">
       {{yield 1}}
     </div>
     <L @withBackground={{true}}>
-      <div {{style annotationStyle}}>
+      <div class="structured-list-story__annotation">
         {{yield 2}}
       </div>
     </L>
@@ -376,7 +372,7 @@ export const Skeleton = meta.story({
     },
   },
   render: () => <template>
-    <div {{style width="800px"}}>
+    <div class="structured-list-story__skeleton">
       <StructuredListSkeleton />
     </div>
   </template>,

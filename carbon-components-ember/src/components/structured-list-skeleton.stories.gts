@@ -2,7 +2,7 @@ import preview from '#storybook/preview.ts';
 import StructuredListSkeleton from './structured-list-skeleton.gts';
 
 import type { StructuredListSkeletonSignature } from './structured-list-skeleton.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/structured-list-skeleton.css';
 
 // Carbon React has no stories of its own for StructuredListSkeleton: it's
 // the `Skeleton` story of Components/StructuredList.
@@ -27,7 +27,7 @@ const meta = preview
       rowCount: { control: { type: 'number', min: 1, max: 10 } },
     },
     render: (args) => <template>
-      <div {{style width="800px"}}>
+      <div class="structured-list-skeleton-story__container">
         <StructuredListSkeleton @rowCount={{args.rowCount}} />
       </div>
     </template>,

@@ -1,7 +1,7 @@
 import preview from '#storybook/preview.ts';
 import ChatHistoryContent from './chat-history-content.gts';
 import ChatHistoryLoading from './chat-history-loading.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/ai-chat/chat-history-loading.css';
 
 // Upstream documents `cds-aichat-history-loading` only as the `Loading`
 // story of `Components/Chat history` (see chat-history.stories.gts); this
@@ -19,7 +19,7 @@ const meta = preview.meta({
     },
   },
   render: () => <template>
-    <div {{style maxInlineSize="20rem" blockSize="20rem"}}>
+    <div class="ai-chat-chat-history-loading-story__container">
       <ChatHistoryContent>
         <ChatHistoryLoading />
       </ChatHistoryContent>

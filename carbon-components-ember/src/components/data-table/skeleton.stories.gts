@@ -9,7 +9,7 @@ import DataTable from '../data-table.gts';
 import DataTableSkeleton from '../data-table-skeleton.gts';
 
 import type { DataTableSkeletonSignature } from '../data-table-skeleton.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/data-table/skeleton.css';
 
 const meta = preview.type<{ args: DataTableSkeletonSignature['Args'] }>().meta({
   title: 'Components/DataTable/Skeleton',
@@ -34,7 +34,7 @@ const meta = preview.type<{ args: DataTableSkeletonSignature['Args'] }>().meta({
     headers: { control: false },
   },
   render: (args) => <template>
-    <div {{style width="800px"}}>
+    <div class="data-table-skeleton-story__container">
       <DataTableSkeleton
         @headers={{HEADERS}}
         @columnCount={{args.columnCount}}

@@ -1,0 +1,16 @@
+.ai-chat-session-shell-story__frame {
+  block-size: 32rem;
+  max-inline-size: 400px;
+  position: relative;
+}
+
+.ai-chat-session-shell-story__row {
+  display: flex;
+  gap: 1rem;
+}
+
+.ai-chat-session-shell-story__frame-small {
+  block-size: 24rem;
+  inline-size: 320px;
+  position: relative;
+}

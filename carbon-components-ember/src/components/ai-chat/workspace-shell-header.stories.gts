@@ -9,7 +9,7 @@ import WorkspaceShellBody from './workspace-shell-body.gts';
 import WorkspaceShellHeader from './workspace-shell-header.gts';
 
 import type { WorkspaceShellHeaderSignature } from './workspace-shell-header.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/ai-chat/workspace-shell-header.css';
 
 // Mirrors `@carbon/ai-chat-components`' `workspace-shell-header.stories.js`
 // (`Components/Workspace shell/Header`): `Default`, `WithDescription`,
@@ -68,8 +68,8 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     onToggle: fn(),
   },
   render: (args: StoryArgs) => <template>
-    <div {{style display="flex" blockSize="30rem"}}>
-      <WorkspaceShell {{style flex="1"}}>
+    <div class="ai-chat-workspace-shell-header-story__host">
+      <WorkspaceShell class="ai-chat-workspace-shell-header-story__shell">
         <:header>
           <WorkspaceShellHeader
             @titleText={{args.titleText}}
@@ -86,7 +86,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
                 </div>
               {{/unless}}
               {{#if (eq args.descriptionType "withTags")}}
-                <div {{style display="flex" gap="4px"}}>
+                <div class="ai-chat-workspace-shell-header-story__tags">
                   <Tag @size="sm" @type="gray">Tag</Tag>
                   <Tag @size="sm" @type="gray">Tag</Tag>
                   <Tag @size="sm" @type="gray">Tag</Tag>
@@ -194,7 +194,7 @@ export const Standalone = meta.story({
     },
   },
   render: (args) => <template>
-    <div {{style maxInlineSize="24rem"}}>
+    <div class="ai-chat-workspace-shell-header-story__preview">
       <WorkspaceShellHeader
         @titleText={{args.titleText}}
         @subTitleText={{args.subTitleText}}

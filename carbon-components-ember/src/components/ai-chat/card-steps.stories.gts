@@ -21,6 +21,7 @@ import type { CardFooterAction } from './card-footer.gts';
 import type { CardStepsSignature, CardStep } from './card-steps.gts';
 import type { ToolbarAction } from './toolbar.gts';
 import style from 'ember-style-modifier';
+import '#storybook/styles/ai-chat/card-steps.css';
 
 // Mirrors `@carbon/ai-chat-components`' `Components/Card/Preview Card`
 // stories (card/__stories__/preview-card.stories.js), which is where upstream
@@ -127,8 +128,8 @@ const toolbarActionsFor = (
   }));
 
 const PreviewHeading = <template>
-  <h4 {{style margin="0 0 0.125rem"}}>Document title</h4>
-  <p {{style margin="0" color="var(--cds-text-secondary)"}}>Subtitle</p>
+  <h4 class="ai-chat-card-steps-story__heading">Document title</h4>
+  <p class="ai-chat-card-steps-story__text">Subtitle</p>
 </template>;
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
@@ -172,7 +173,7 @@ The other stories here mirror upstream's preview-card compositions of
     <div {{style (wrapperStyle args.maxWidth)}}>
       <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
         <:body>
-          <div {{style padding="1rem"}}><PreviewHeading /></div>
+          <div class="ai-chat-card-steps-story__padded"><PreviewHeading /></div>
         </:body>
         <:footer>
           <CardFooter
@@ -196,19 +197,12 @@ export const Default = meta.story({
     <div {{style (wrapperStyle args.maxWidth)}}>
       <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
         <:header>
-          <div
-            {{style
-              padding="1rem"
-              borderBlockEnd="1px solid var(--cds-border-subtle)"
-            }}
-          >
+          <div class="ai-chat-card-steps-story__header">
             <PreviewHeading />
-            <p
-              {{style margin="0" color="var(--cds-text-secondary)"}}
-            >Subtitle</p>
+            <p class="ai-chat-card-steps-story__text">Subtitle</p>
           </div>
         </:header>
-        <:body><div {{style blockSize="8rem"}}></div></:body>
+        <:body><div class="ai-chat-card-steps-story__placeholder"></div></:body>
         <:footer>
           <CardFooter
             @actions={{footerFor args.footerActions}}
@@ -230,16 +224,17 @@ export const WithToolbar = meta.story({
       <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
         <:header>
           <Toolbar
-            {{style borderBlockEnd="1px solid var(--cds-border-subtle)"}}
+            class="ai-chat-card-steps-story__toolbar"
             @overflow={{true}}
             @actions={{toolbarActionsFor args.onToolbarAction}}
           >
             <:title>
-              <h4 {{style margin="0"}}>Resource consumption</h4>
+              <h4 class="ai-chat-card-steps-story__heading-flush">Resource
+                consumption</h4>
             </:title>
           </Toolbar>
         </:header>
-        <:body><div {{style blockSize="8rem"}}></div></:body>
+        <:body><div class="ai-chat-card-steps-story__placeholder"></div></:body>
         <:footer>
           <CardFooter
             @actions={{footerFor args.footerActions}}
@@ -322,13 +317,12 @@ export const WithSteps = meta.story({
       <ProgressingSteps as |steps status|>
         <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
           <:header>
-            <Toolbar
-              {{style borderBlockEnd="1px solid var(--cds-border-subtle)"}}
-            >
+            <Toolbar class="ai-chat-card-steps-story__toolbar">
               <:title>
-                <div {{style padding="0.75rem 0.125rem"}}>
-                  <h4 {{style margin="0"}}>Optimising excess inventory</h4>
-                  <p {{style margin="0" color="var(--cds-text-secondary)"}}>
+                <div class="ai-chat-card-steps-story__title">
+                  <h4 class="ai-chat-card-steps-story__heading-flush">Optimising
+                    excess inventory</h4>
+                  <p class="ai-chat-card-steps-story__text">
                     Status:
                     {{status}}
                   </p>
@@ -337,7 +331,7 @@ export const WithSteps = meta.story({
             </Toolbar>
           </:header>
           <:body>
-            <div {{style padding="1rem"}}>
+            <div class="ai-chat-card-steps-story__padded">
               <CardSteps @steps={{steps}} />
             </div>
           </:body>
@@ -403,7 +397,7 @@ export const AgentProgress = meta.story({
     },
   },
   render: (args) => <template>
-    <Card {{style maxInlineSize="24rem"}}>
+    <Card class="ai-chat-card-steps-story__card">
       <:header><h5>Agent progress</h5></:header>
       <:body>
         <CardSteps @steps={{args.steps}} />

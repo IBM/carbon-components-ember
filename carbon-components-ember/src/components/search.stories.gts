@@ -8,7 +8,7 @@ import Search from './search.gts';
 import SearchSkeleton from './search-skeleton.gts';
 
 import type { SearchSignature } from './search.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/search.css';
 
 // Carbon React parity gaps (Components/Search):
 // - `Expandable`: there is no separate ExpandableSearch; `@expandable`
@@ -37,15 +37,12 @@ const SearchOnLayer = <template>
 }>;
 
 const renderOnLayers = (args: SearchSignature['Args']) => <template>
-  <div {{style padding="1rem"}}>
+  <div class="search-story__padded">
     <SearchOnLayer @args={{args}} @layer="background" />
   </div>
-  <Layer @withBackground={{true}} {{style padding="1rem"}} as |NextLayer|>
+  <Layer @withBackground={{true}} class="search-story__padded" as |NextLayer|>
     <SearchOnLayer @args={{args}} @layer="layer 1" />
-    <NextLayer
-      @withBackground={{true}}
-      {{style padding="1rem" marginTop="1rem"}}
-    >
+    <NextLayer @withBackground={{true}} class="search-story__next-layer">
       <SearchOnLayer @args={{args}} @layer="layer 2" />
     </NextLayer>
   </Layer>
@@ -76,7 +73,7 @@ const meta = preview.meta({
   },
   decorators: [
     (Story, context) => <template>
-      <div {{style width="800px" maxWidth="100%"}}>
+      <div class="search-story__container">
         <RenderStory @story={{Story}} @args={{context.args}} />
       </div>
     </template>,

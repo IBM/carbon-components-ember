@@ -23,7 +23,7 @@ import WorkspaceShellFooter from './workspace-shell-footer.gts';
 import type { ToolbarAction } from './toolbar.gts';
 import type { WorkspaceShellSignature } from './workspace-shell.gts';
 import type { WorkspaceShellFooterAction } from './workspace-shell-footer.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/ai-chat/workspace-shell.css';
 
 // Mirrors `@carbon/ai-chat-components`' `workspace-shell.stories.js`
 // (`Components/Workspace shell` -> `Default`). Upstream's `carbonTheme`-style
@@ -263,10 +263,10 @@ export const Default = meta.story({
     const footerActions = FOOTER_ACTION_LIST[args.footerAction];
 
     return <template>
-      <div {{style display="flex" blockSize="40rem"}}>
+      <div class="ai-chat-workspace-shell-story__host">
         <WorkspaceShell
           @autoCollapsibleHeader={{args.autoCollapsibleHeader}}
-          {{style flex="1"}}
+          class="ai-chat-workspace-shell-story__shell"
         >
           <:toolbar>
             <Toolbar
@@ -295,7 +295,7 @@ export const Default = meta.story({
                   Ut enim ad minim veniam, quis nostrud exercitation ullamco.
                 </div>
                 {{#if (eq args.headerDescription "withTags")}}
-                  <div {{style display="flex" gap="4px"}}>
+                  <div class="ai-chat-workspace-shell-story__tags">
                     <Tag @size="sm" @type="gray">Tag</Tag>
                     <Tag @size="sm" @type="gray">Tag</Tag>
                     <Tag @size="sm" @type="gray">Tag</Tag>
@@ -401,7 +401,7 @@ export const OrderDetails = meta.story({
     };
 
     return <template>
-      <div {{style maxInlineSize="24rem" blockSize="20rem"}}>
+      <div class="ai-chat-workspace-shell-story__preview">
         <WorkspaceShell>
           <:toolbar>
             <Toolbar @titleText="Order details" />

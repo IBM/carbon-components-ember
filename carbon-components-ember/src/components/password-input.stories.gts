@@ -6,7 +6,7 @@ import preview from '#storybook/preview.ts';
 import PasswordInput from './password-input.gts';
 
 import type { PasswordInputSignature } from './password-input.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/password-input.css';
 
 type Args = PasswordInputSignature['Args'];
 
@@ -50,7 +50,7 @@ const meta = preview.meta({
   decorators: [
     // Leave room for the visibility toggle's tooltip.
     (Story, context) => <template>
-      <div {{style width="300px" paddingBottom="3rem"}}>
+      <div class="password-input-story__container">
         <RenderStory @story={{Story}} @args={{context.args}} />
       </div>
     </template>,

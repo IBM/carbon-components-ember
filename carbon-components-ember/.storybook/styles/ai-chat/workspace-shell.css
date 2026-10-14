@@ -1,0 +1,18 @@
+.ai-chat-workspace-shell-story__host {
+  display: flex;
+  block-size: 40rem;
+}
+
+.ai-chat-workspace-shell-story__shell {
+  flex: 1;
+}
+
+.ai-chat-workspace-shell-story__tags {
+  display: flex;
+  gap: 4px;
+}
+
+.ai-chat-workspace-shell-story__preview {
+  max-inline-size: 24rem;
+  block-size: 20rem;
+}

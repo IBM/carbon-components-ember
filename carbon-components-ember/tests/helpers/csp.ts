@@ -27,7 +27,7 @@ export function failOnCspViolations() {
         result: false,
         actual: describe(violation),
         expected: undefined,
-        message: `The CSP blocked this (${violation.effectiveDirective}); use the {{style}} modifier or a class`,
+        message: `The CSP blocked this (${violation.effectiveDirective}); use a class, or {{style}} for computed values`,
       });
     }
   });

@@ -1,0 +1,6 @@
+.ai-chat-reasoning-steps-toggle-story__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-inline-size: 48rem;
+}

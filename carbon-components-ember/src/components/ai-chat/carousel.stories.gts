@@ -7,7 +7,7 @@ import Carousel from './carousel.gts';
 
 import type { CarouselResponse } from '@carbon/utilities/carousel';
 import type { CarouselSignature } from './carousel.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/ai-chat/carousel.css';
 
 // Mirrors `@carbon/ai-chat-components`' `Components/Carousel` stories
 // (carousel/__stories__/carousel.stories.js): eight `Card`s as views.
@@ -45,7 +45,9 @@ itself uses.`,
     >
       {{#each CARDS as |card|}}
         <Card>
-          <:body><div {{style padding="1rem"}}>{{card}}</div></:body>
+          <:body><div
+              class="ai-chat-carousel-story__padded"
+            >{{card}}</div></:body>
         </Card>
       {{/each}}
     </Carousel>

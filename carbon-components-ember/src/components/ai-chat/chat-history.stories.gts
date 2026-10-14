@@ -16,7 +16,7 @@ import ChatHistorySearchItem from './chat-history-search-item.gts';
 import ChatHistoryToolbar from './chat-history-toolbar.gts';
 
 import type { ChatHistoryItemAction } from './chat-history-panel-item.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/ai-chat/chat-history.css';
 
 // Mirrors `@carbon/ai-chat-components`' `Components/Chat history` stories
 // (chat-history/__stories__/chat-history.stories.js). Every sub-component
@@ -409,7 +409,7 @@ overlay. \`ChatHistorySearchItem\` renders search results and
   },
   decorators: [
     (Story, context) => <template>
-      <div {{style blockSize="36rem" inlineSize="350px"}}>
+      <div class="ai-chat-chat-history-story__container">
         <RenderStory @story={{Story}} @args={{context.args}} />
       </div>
     </template>,

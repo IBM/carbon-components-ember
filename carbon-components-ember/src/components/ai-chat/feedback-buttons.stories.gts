@@ -6,7 +6,7 @@ import Feedback from './feedback.gts';
 import FeedbackButtons from './feedback-buttons.gts';
 
 import type { FeedbackDetails } from './feedback.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/ai-chat/feedback-buttons.css';
 
 // Mirrors `@carbon/ai-chat-components`' `feedback-buttons.stories.js`
 // (`Default`, `WithDetailsPanel`). Upstream's `Default` `alert()`s on click;
@@ -183,8 +183,8 @@ export const Default = meta.story({
     isNegativeDisabled: false,
   },
   render: (args) => <template>
-    <div {{style padding="2rem"}}>
-      <p {{style marginBottom="1rem"}}>
+    <div class="ai-chat-feedback-buttons-story__padded">
+      <p class="ai-chat-feedback-buttons-story__text">
         Click the buttons to provide feedback on this message.
       </p>
       <FeedbackButtons
@@ -236,8 +236,8 @@ export const WithDetailsPanel = meta.story({
     const negativePanelId = `${panelId}-feedback-negative`;
 
     return <template>
-      <div {{style padding="2rem"}}>
-        <p {{style marginBottom="1rem"}}>
+      <div class="ai-chat-feedback-buttons-story__padded">
+        <p class="ai-chat-feedback-buttons-story__text">
           Both buttons open details panels for collecting more information. Try
           clicking the thumbs up or thumbs down buttons to provide feedback.
         </p>
@@ -255,7 +255,7 @@ export const WithDetailsPanel = meta.story({
           @panelId={{panelId}}
           @onClick={{state.toggle}}
         />
-        <div {{style marginBlockStart="1rem" maxInlineSize="26rem"}}>
+        <div class="ai-chat-feedback-buttons-story__details">
           {{#if args.hasPositiveDetails}}
             <Feedback
               @id={{positivePanelId}}
@@ -292,10 +292,7 @@ export const WithDetailsPanel = meta.story({
           {{/if}}
         </div>
         {{#if state.lastSubmission}}
-          <p
-            class="feedback-demo-note"
-            {{style marginBlockStart="0.5rem" fontSize="0.875rem"}}
-          >
+          <p class="feedback-demo-note ai-chat-feedback-buttons-story__hint">
             Last submission:
             <strong>
               {{if state.lastSubmission.isPositive "Positive" "Negative"}}

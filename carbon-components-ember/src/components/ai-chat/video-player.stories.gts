@@ -7,7 +7,7 @@ import Card from './card.gts';
 import VideoPlayer from './video-player.gts';
 
 import type { VideoPlayerSignature } from './video-player.gts';
-import style from 'ember-style-modifier';
+import '#storybook/styles/ai-chat/video-player.css';
 
 // Mirrors `@carbon/ai-chat-components`' `video-player.stories.js`
 // (`Components/Video player`): Default, Standalone, WithMetadata, ErrorState
@@ -108,9 +108,9 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
           />
         </:media>
         <:body>
-          <div {{style padding="1rem"}}>
-            <h4 {{style margin="0 0 0.5rem 0"}}>{{args.title}}</h4>
-            <p {{style margin="0" color="var(--cds-text-secondary)"}}>
+          <div class="ai-chat-video-player-story__padded">
+            <h4 class="ai-chat-video-player-story__heading">{{args.title}}</h4>
+            <p class="ai-chat-video-player-story__text">
               {{args.description}}
             </p>
           </div>
