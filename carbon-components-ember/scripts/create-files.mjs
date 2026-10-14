@@ -7,6 +7,7 @@ function createIndexFiles() {
   const groups = {
     components: [],
     aiChat: [],
+    charts: [],
     icons: [],
   };
   for (const addonFilename of files) {
@@ -25,19 +26,23 @@ function createIndexFiles() {
       addonFilename.startsWith('components/') &&
       !addonFilename.includes('/-')
     ) {
-      // AI Chat has its own barrel, like upstream's separate package, so its
-      // components keep upstream's names (`Card`, `CodeSnippet`).
-      (addonFilename.startsWith('components/ai-chat/')
+      // AI Chat and the charts have their own barrels, as upstream's are
+      // packages of their own (`@carbon/ai-chat-components`,
+      // `@carbon/charts-react`), so AI Chat keeps upstream's names (`Card`,
+      // `CodeSnippet`).
+      const group = addonFilename.startsWith('components/ai-chat/')
         ? groups.aiChat
-        : groups.components
-      ).push(addonFilename);
+        : addonFilename.startsWith('components/charts/')
+          ? groups.charts
+          : groups.components;
+      group.push(addonFilename);
     }
   }
-  // `carbon-components-ember/components` and `carbon-components-ember/ai-chat`
-  // (dist/components.js and dist/ai-chat.js, via the package.json `./*`
-  // export).
+  // `carbon-components-ember/components`, `/ai-chat` and `/charts`
+  // (dist/components.js etc., via the package.json `./*` export).
   writeBarrel(groups.components, './src/components.ts');
   writeBarrel(groups.aiChat, './src/ai-chat.ts');
+  writeBarrel(groups.charts, './src/charts.ts');
 
   const iconsIndexFile = [];
   for (const comp of groups.icons) {

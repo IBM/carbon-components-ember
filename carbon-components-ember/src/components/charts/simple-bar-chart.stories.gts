@@ -3,7 +3,7 @@ import '@carbon/charts/styles.css';
 import { expect, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
-import BarChart from './bar-chart.gts';
+import SimpleBarChart from './simple-bar-chart.gts';
 
 // Mirrors the simple bar stories of `@carbon/charts`' own storybook
 // ("Simple bar (discrete)" / "Simple bar (time series)") with the same
@@ -25,8 +25,8 @@ const DATES = [
 ];
 
 const meta = preview.meta({
-  title: 'Charts/BarChart',
-  component: BarChart,
+  title: 'Charts/SimpleBarChart',
+  component: SimpleBarChart,
   parameters: {
     a11y: {
       config: {
@@ -49,7 +49,7 @@ const meta = preview.meta({
     legendClickable: true,
   },
   render: (args) => <template>
-    <BarChart
+    <SimpleBarChart
       @title={{args.title}}
       @resizable={{args.resizable}}
       @legendClickable={{args.legendClickable}}
@@ -64,7 +64,7 @@ const meta = preview.meta({
         @scaleType="labels"
       />
       <chart.TabularData @group="Name" @keys={{KEYS}} @values={{VALUES}} />
-    </BarChart>
+    </SimpleBarChart>
   </template>,
 });
 
@@ -86,7 +86,7 @@ Discrete.test('renders @title as the chart heading', async ({ canvas }) => {
 
 export const TimeSeries = meta.story({
   render: (args) => <template>
-    <BarChart
+    <SimpleBarChart
       @title={{args.title}}
       @resizable={{args.resizable}}
       @legendClickable={{args.legendClickable}}
@@ -96,7 +96,7 @@ export const TimeSeries = meta.story({
       <chart.Axis @axis="left" @title="Sales" />
       <chart.Axis @axis="bottom" @title="Date" @scaleType="time" />
       <chart.TabularData @group="Qty" @dates={{DATES}} @values={{VALUES}} />
-    </BarChart>
+    </SimpleBarChart>
   </template>,
 });
 
@@ -110,7 +110,7 @@ export const CustomColors = meta.story({
     },
   },
   render: (args) => <template>
-    <BarChart
+    <SimpleBarChart
       @title={{args.title}}
       @resizable={{args.resizable}}
       @legendClickable={{args.legendClickable}}
@@ -121,6 +121,6 @@ export const CustomColors = meta.story({
       <chart.Axis @axis="left" @title="2018 Annual Sales" />
       <chart.Axis @axis="bottom" @title="Figures" @scaleType="labels" />
       <chart.TabularData @group="Name" @keys={{KEYS}} @values={{VALUES}} />
-    </BarChart>
+    </SimpleBarChart>
   </template>,
 });
