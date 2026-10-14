@@ -5,9 +5,10 @@ import { render, triggerKeyEvent, waitUntil } from '@ember/test-helpers';
 import Resizer from '#src/components/resizer.gts';
 import { tracked } from '@glimmer/tracking';
 import { stylesheet } from 'astroturf';
+import style from 'ember-style-modifier';
 
-// A class, not {{style}}: Resizer measures its next sibling before that
-// sibling's modifiers run.
+// A class, not {{style}}: these tests read aria-valuenow right after render,
+// before Resizer re-measures a next sibling that a modifier sized.
 const styles = stylesheet`
   .pane {
     height: 100px;
@@ -298,6 +299,31 @@ module('Integration | Component | Resizer', (hooks) => {
 
     resizer.dispatchEvent(mouseEvent('dblclick'));
     assert.strictEqual(prev.style.height, `${initialHeight}px`);
+  });
+
+  test('double-click restores sizes the siblings got from their own modifiers', async function (this: RenderingTestContext, assert) {
+    await render(
+      <template>
+        <div {{style height="100px"}}></div>
+        <Resizer @orientation="horizontal" />
+        <div {{style height="100px"}}></div>
+      </template>,
+    );
+
+    const resizer = this.element.querySelector(
+      '[role="separator"]',
+    ) as HTMLElement;
+    const next = resizer.nextElementSibling as HTMLElement;
+    await waitUntil(() => resizer.getAttribute('aria-valuenow') === '50');
+    const nextHeight = next.getBoundingClientRect().height;
+
+    resizer.dispatchEvent(mouseEvent('mousedown', { clientX: 0, clientY: 0 }));
+    window.dispatchEvent(mouseEvent('mousemove', { clientX: 0, clientY: 30 }));
+    window.dispatchEvent(mouseEvent('mouseup', { clientX: 0, clientY: 30 }));
+    assert.strictEqual(next.style.height, `${nextHeight - 30}px`);
+
+    resizer.dispatchEvent(mouseEvent('dblclick'));
+    assert.strictEqual(next.style.height, `${nextHeight}px`);
   });
 
   test('@onDoubleClick suppresses the default reset behavior', async function (this: RenderingTestContext, assert) {

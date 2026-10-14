@@ -24,6 +24,7 @@ const NAVIGATION_KEYS = [
 ];
 
 type Size = { width: number; height: number };
+type Sizes = { prev: Size; next: Size };
 
 function sizeOf(element: Element | null): Size {
   const rect = element?.getBoundingClientRect();
@@ -105,11 +106,15 @@ const attachResizer = eModifier<{
       element.previousElementSibling as HTMLElement | null;
     const nextSibling = () => element.nextElementSibling as HTMLElement | null;
 
-    const initialSizes = {
+    const measure = (): Sizes => ({
       prev: sizeOf(prevSibling()),
       next: sizeOf(nextSibling()),
-    };
-    let dragSizes = initialSizes;
+    });
+    // Measured in the observer's first callback, once a sibling has a size
+    // (the next sibling's own modifiers, such as {{style}}, run after this
+    // one), or when a resize starts before then.
+    let initialSizes: Sizes | undefined;
+    let dragSizes: Sizes;
     let startPos = { x: 0, y: 0 };
 
     // A focusable separator must expose its position (aria-valuenow); report
@@ -124,7 +129,10 @@ const attachResizer = eModifier<{
       element.setAttribute('aria-valuenow', String(value));
     };
     updateValue();
-    const observer = new ResizeObserver(updateValue);
+    const observer = new ResizeObserver(() => {
+      initialSizes ??= measure();
+      updateValue();
+    });
     for (const sibling of [prevSibling(), nextSibling()]) {
       if (sibling) observer.observe(sibling);
     }
@@ -168,7 +176,8 @@ const attachResizer = eModifier<{
       if (prev) prev.style.transition = 'none';
       if (next) next.style.transition = 'none';
       startPos = { x: event.clientX, y: event.clientY };
-      dragSizes = { prev: sizeOf(prev), next: sizeOf(next) };
+      dragSizes = measure();
+      initialSizes ??= dragSizes;
       window.addEventListener('mousemove', handleMouseMove);
       window.addEventListener('mouseup', handleMouseUp);
     };
@@ -182,6 +191,7 @@ const attachResizer = eModifier<{
       const prop = orientation === 'horizontal' ? 'height' : 'width';
       const prev = prevSibling();
       const next = nextSibling();
+      initialSizes ??= measure();
       if (prev) prev.style[prop] = `${initialSizes.prev[prop]}px`;
       if (next) next.style[prop] = `${initialSizes.next[prop]}px`;
     };
@@ -191,7 +201,8 @@ const attachResizer = eModifier<{
       event.preventDefault();
       event.stopPropagation();
 
-      dragSizes = { prev: sizeOf(prevSibling()), next: sizeOf(nextSibling()) };
+      dragSizes = measure();
+      initialSizes ??= dragSizes;
 
       const step = event.shiftKey ? 25 : 5;
       const isHorizontal = orientation === 'horizontal';
