@@ -21,7 +21,7 @@ Planning lives in two GitHub Projects owned by the IBM org and linked to this re
 ## Issues
 
 - Describe the problem and the goal in terms of Carbon React's behaviour and this addon's code.
-- File each under its epic as a sub-issue: #1018 release, #1021 Carbon React's API on existing components, #1031 shared building blocks, #1041 missing components, #1043 bugs and robustness, #1061 agent tooling (MCP server, skills, agent docs), #1055 Carbon v12. Missing components reuse the parity check's "Investigate" issues.
+- File each under its epic as a sub-issue: #1018 release, #1021 Carbon React's API on existing components, #1031 shared building blocks, #1041 missing components, #1043 bugs and robustness, #1061 agent tooling (MCP server, skills, agent docs), #1087 docs parity with Carbon React's Storybook, #1055 Carbon v12. Missing components reuse the parity check's "Investigate" issues.
 - Record the order of work with "blocked by" links.
 - Labels besides the release ones: `a11y`, `i18n`, `primitive`, `new-component`, `api-parity`, `tooling`, `upstream-watch`, `needs-decision`.
 - The issue forms add new issues to the roadmap when their author can write to it.
