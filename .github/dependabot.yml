@@ -26,6 +26,8 @@ updates:
       - dependency-name: "@carbon/themes"
       - dependency-name: "@carbon/utilities"
       - dependency-name: "typescript"
+      # Pinned for patches/vite@8.3.4.patch until a Vite release has the fix (#1057).
+      - dependency-name: "vite"
 
   - package-ecosystem: "github-actions"
     # "/" covers .github/workflows; composite actions need their own entry.
