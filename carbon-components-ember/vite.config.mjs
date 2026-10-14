@@ -110,6 +110,34 @@ function snapshotWriter() {
   };
 }
 
+/**
+ * Experiment: log module requests that fail or are cut off, to see what the
+ * dev server and browser do when a story file fails to load on CI.
+ */
+function logFailedRequests() {
+  return {
+    name: 'log-failed-requests',
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const start = Date.now();
+        let finished = false;
+        const log = (what) =>
+          console.error(
+            `[requests] ${new Date().toISOString()} ${what} ${req.url} (${Date.now() - start}ms)`,
+          );
+        res.on('finish', () => {
+          finished = true;
+          if (res.statusCode >= 400) log(res.statusCode);
+        });
+        res.on('close', () => {
+          if (!finished) log('aborted');
+        });
+        next();
+      });
+    },
+  };
+}
+
 export default defineConfig({
   plugins: [
     ...(isCompat ? [classicEmberSupport()] : []),
@@ -139,6 +167,7 @@ export default defineConfig({
       {
         extends: true,
         plugins: [
+          logFailedRequests(),
           storybookTest({
             configDir,
             storybookScript: 'pnpm storybook --no-open',
