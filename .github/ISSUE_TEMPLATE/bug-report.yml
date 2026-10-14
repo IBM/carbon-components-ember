@@ -1,0 +1,31 @@
+name: Bug report
+description: A component breaks, or looks or behaves differently from Carbon React.
+labels: [bug]
+projects: [IBM/166]
+body:
+  - type: input
+    id: component
+    attributes:
+      label: Component
+      placeholder: DataTable
+    validations:
+      required: true
+  - type: textarea
+    id: what-happens
+    attributes:
+      label: What happens
+      description: What you see and what you expected. For a difference from Carbon, link the matching story on https://react.carbondesignsystem.com/.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: A minimal template, a link to one of our stories, or a repository.
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      placeholder: carbon-components-ember 2.2.0, ember-source 7.3.0, Chrome 154
+    validations:
+      required: true
