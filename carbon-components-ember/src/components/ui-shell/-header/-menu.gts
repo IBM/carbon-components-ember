@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { ChevronDown } from '../../../icons.ts';
+import ChevronDown from '../../icons/chevron-down.ts';
 import UIShellHeaderMenuItem from './-menu-item.gts';
 
 export interface UIShellHeaderMenuSignature {

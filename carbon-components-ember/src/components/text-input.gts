@@ -3,7 +3,8 @@ import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { concat } from '@ember/helper';
-import { WarningFilled, WarningAltFilled } from '../icons.ts';
+import WarningFilled from './icons/warning-filled.ts';
+import WarningAltFilled from './icons/warning-alt-filled.ts';
 import AILabel from './ai-label.gts';
 import type { WithBoundArgs } from '@glint/template';
 

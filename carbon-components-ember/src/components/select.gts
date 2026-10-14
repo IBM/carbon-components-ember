@@ -19,7 +19,7 @@ import type {
   PowerSelectSelectedItemSignature,
 } from 'ember-power-select/types';
 import { guidFor } from '@ember/object/internals';
-import { Close } from '../icons.ts';
+import Close from './icons/close.ts';
 import type { TOC } from '@ember/component/template-only';
 import './select.scss';
 import './-private/basic-dropdown.scss';

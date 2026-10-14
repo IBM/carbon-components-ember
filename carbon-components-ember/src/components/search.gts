@@ -6,7 +6,8 @@ import { timeout } from 'ember-concurrency';
 import type { TaskInstance } from 'ember-concurrency';
 import { concat } from '@ember/helper';
 import { runTask } from 'ember-lifeline';
-import { Close, Search as SearchIcon } from '../icons.ts';
+import Close from './icons/close.ts';
+import SearchIcon from './icons/search.ts';
 
 export interface SearchSignature {
   Args: {

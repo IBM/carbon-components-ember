@@ -2,22 +2,20 @@ import { trackedObject } from '@ember/reactive/collections';
 import { expect, fn, waitFor, within } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
-import {
-  Add,
-  ArrowLeft,
-  Close,
-  Download,
-  Home,
-  Launch,
-  Maximize,
-  Renew,
-  Settings,
-  Share,
-  Star,
-  StarFilled,
-  TrashCan,
-  Version,
-} from '../../icons.ts';
+import Add from '../icons/add.ts';
+import ArrowLeft from '../icons/arrow-left.ts';
+import Close from '../icons/close.ts';
+import Download from '../icons/download.ts';
+import Home from '../icons/home.ts';
+import Launch from '../icons/launch.ts';
+import Maximize from '../icons/maximize.ts';
+import Renew from '../icons/renew.ts';
+import Settings from '../icons/settings.ts';
+import Share from '../icons/share.ts';
+import Star from '../icons/star.ts';
+import StarFilled from '../icons/star-filled.ts';
+import TrashCan from '../icons/trash-can.ts';
+import Version from '../icons/version.ts';
 import Button from '../button.gts';
 import OverflowMenu from '../overflow-menu.gts';
 import OverflowMenuItem from '../overflow-menu/overflow-menu-item.gts';

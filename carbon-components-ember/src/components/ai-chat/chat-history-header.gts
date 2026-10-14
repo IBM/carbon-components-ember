@@ -8,7 +8,7 @@
 import Component from '@glimmer/component';
 import Button from '../button.gts';
 import Tooltip from '../tooltip.gts';
-import { ChevronLeft } from '../../icons.ts';
+import ChevronLeft from '../icons/chevron-left.ts';
 import './chat-history.scss';
 
 export interface ChatHistoryHeaderSignature {

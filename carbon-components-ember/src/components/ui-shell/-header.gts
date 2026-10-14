@@ -1,4 +1,5 @@
-import { Close, Menu } from '../../icons.ts';
+import Close from '../icons/close.ts';
+import Menu from '../icons/menu.ts';
 import UIShellHeaderGlobalAction from './-header/-global-action.gts';
 import UIShellHeaderPanel from './-header/-panel.gts';
 import type { TOC } from '@ember/component/template-only';

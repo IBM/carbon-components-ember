@@ -13,7 +13,7 @@ import Button from '../button.gts';
 import Tooltip from '../tooltip.gts';
 import Checkbox from '../checkbox.gts';
 import Markdown from './markdown.gts';
-import { Close } from '../../icons.ts';
+import Close from '../icons/close.ts';
 import './feedback.scss';
 import './markdown.scss';
 

@@ -1,4 +1,4 @@
-import { ChevronRight } from '../../../icons.ts';
+import ChevronRight from '../../icons/chevron-right.ts';
 import type { TOC } from '@ember/component/template-only';
 
 export interface UIShellSideNavFooterSignature {

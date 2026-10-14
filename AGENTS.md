@@ -181,6 +181,7 @@ Signatures follow the [Ember guides](https://guides.emberjs.com/release/typescri
 - **`A()`, `NativeArray`, `pushObject`, `removeObject`, or `set()`** - use plain arrays/objects reassigned through `@tracked`.
 - **Classic `Component` + separate `.hbs`** - always use GTS files with `<template>` tags.
 - **`this.element`** - go through a modifier.
+- **The package's barrels inside `src`** (`icons.ts`, `components.ts`, `ai-chat.ts`, `charts.ts`) - they're the public entry points for apps. Inside `src`, import the module itself (`import CheckmarkFilled from './icons/checkmark-filled.ts'`): in dev every module a barrel pulls in is its own request, and `icons.ts` alone re-exports 2,760 icons. Lint enforces this.
 - **`style` attributes**, static or bound (`trustHTML`, formerly `htmlSafe`, only silences Ember's warning) - strict CSPs block them. Use a class; for values computed from args, return them from a getter and apply it with the `{{style}}` modifier (`ember-style-modifier`), which writes through CSSOM. A modifier runs after the modifiers of the elements inside it, so a component measuring or positioning itself on render won't see its container's `{{style}}` yet: fixed values must be classes. Write vendor-prefixed properties hyphenated (`'-webkit-line-clamp'`); the modifier drops camelCase ones. Both test suites block style attributes (`style-src-attr 'none'`) and fail on a violation. The QUnit tests also block `<style>` elements without the page's nonce: pass `cspNonce()` (src/utils/csp-nonce.ts) to any library that injects them, and give a test template's `<style>` `nonce={{nonce}}` from tests/helpers.
 
 ---
@@ -200,7 +201,7 @@ Fights the Glimmer render pipeline. Instead, use contextual components so childr
 A backtick inside HBS comments (`{{! ... `word` ... }}`) breaks the Glint build step. Use single/double quotes instead.
 
 ### ❌ Pitfall 5: Generic `<Icon @icon='some-string'>` Path is Dead Code
-Nothing registers icons with `IconMap` in app code, so string-based icon lookups render nothing. Always import and use the specific per-icon components (e.g., `<CheckmarkFilled @size="16" />`).
+Nothing registers icons with `IconMap` in app code, so string-based icon lookups render nothing. Always import and use the specific per-icon components (e.g., `import CheckmarkFilled from './icons/checkmark-filled.ts'`, then `<CheckmarkFilled @size="16" />`).
 
 ---
 

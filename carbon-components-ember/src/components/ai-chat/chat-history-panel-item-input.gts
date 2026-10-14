@@ -11,7 +11,9 @@ import { tracked } from '@glimmer/tracking';
 import { modifier as eModifier } from 'ember-modifier';
 import Button from '../button.gts';
 import Tooltip from '../tooltip.gts';
-import { Checkmark, Close, WarningFilled } from '../../icons.ts';
+import Checkmark from '../icons/checkmark.ts';
+import Close from '../icons/close.ts';
+import WarningFilled from '../icons/warning-filled.ts';
 import './chat-history.scss';
 
 export interface ChatHistoryPanelItemInputSignature {

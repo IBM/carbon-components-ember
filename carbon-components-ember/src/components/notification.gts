@@ -6,15 +6,13 @@ import type { NotificationOptions } from '../services/notifications.ts';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import type { WithRequired } from '../utils/type-helpers.ts';
-import {
-  CheckmarkFilled,
-  Close,
-  ErrorFilled,
-  InformationFilled,
-  InformationSquareFilled,
-  WarningFilled,
-  WarningAltFilled,
-} from '../icons.ts';
+import CheckmarkFilled from './icons/checkmark-filled.ts';
+import Close from './icons/close.ts';
+import ErrorFilled from './icons/error-filled.ts';
+import InformationFilled from './icons/information-filled.ts';
+import InformationSquareFilled from './icons/information-square-filled.ts';
+import WarningFilled from './icons/warning-filled.ts';
+import WarningAltFilled from './icons/warning-alt-filled.ts';
 
 export interface NotificationSignature {
   Args: {

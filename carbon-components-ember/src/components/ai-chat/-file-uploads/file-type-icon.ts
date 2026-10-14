@@ -6,17 +6,15 @@
  */
 
 import type { ComponentLike } from '@glint/template';
-import {
-  Csv,
-  Doc,
-  Html,
-  Json,
-  Pdf,
-  Ppt,
-  Txt,
-  Xls,
-  Zip,
-} from '../../../icons.ts';
+import Csv from '../../icons/csv.ts';
+import Doc from '../../icons/doc.ts';
+import Html from '../../icons/html.ts';
+import Json from '../../icons/json.ts';
+import Pdf from '../../icons/pdf.ts';
+import Ppt from '../../icons/ppt.ts';
+import Txt from '../../icons/txt.ts';
+import Xls from '../../icons/xls.ts';
+import Zip from '../../icons/zip.ts';
 
 type FileTypeIconComponent = ComponentLike<{ Args: { size?: number } }>;
 

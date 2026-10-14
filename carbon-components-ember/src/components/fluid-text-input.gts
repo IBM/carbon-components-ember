@@ -2,7 +2,10 @@ import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import { WarningFilled, WarningAltFilled, View, ViewOff } from '../icons.ts';
+import WarningFilled from './icons/warning-filled.ts';
+import WarningAltFilled from './icons/warning-alt-filled.ts';
+import View from './icons/view.ts';
+import ViewOff from './icons/view-off.ts';
 import Tooltip from './tooltip.gts';
 
 export interface FluidTextInputSignature {

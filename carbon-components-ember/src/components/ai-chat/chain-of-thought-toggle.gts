@@ -8,7 +8,7 @@
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
-import { ChevronDown } from '../../icons.ts';
+import ChevronDown from '../icons/chevron-down.ts';
 import './chain-of-thought.scss';
 
 export interface ChainOfThoughtToggleSignature {

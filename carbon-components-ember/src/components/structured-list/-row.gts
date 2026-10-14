@@ -12,12 +12,10 @@ import type { WithBoundArgs } from '@glint/template';
 import Cell from './-cell.gts';
 import StructuredListInput from './-input.gts';
 import type StructuredList from '../structured-list.gts';
-import {
-  RadioButtonChecked,
-  RadioButton,
-  CheckboxChecked,
-  Checkbox,
-} from '../../icons.ts';
+import RadioButtonChecked from '../icons/radio-button-checked.ts';
+import RadioButton from '../icons/radio-button.ts';
+import CheckboxChecked from '../icons/checkbox-checked.ts';
+import Checkbox from '../icons/checkbox.ts';
 
 export interface StructuredListRowSignature {
   Element: HTMLDivElement;

@@ -3,6 +3,7 @@ import BookmarkSvg from '@carbon/icons/es/bookmark/32';
 
 import preview from '#storybook/preview.ts';
 import Icon, { registerIcon } from './icon.gts';
+// eslint-disable-next-line no-restricted-imports -- the gallery story lists every icon
 import * as Icons from '../icons.ts';
 
 import type { IconSignature } from './icon.gts';

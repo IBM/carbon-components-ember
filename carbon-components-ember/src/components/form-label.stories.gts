@@ -3,7 +3,7 @@ import { expect } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import FormLabel from './form-label.gts';
 import Toggletip from './toggletip.gts';
-import { Information } from '../icons.ts';
+import Information from './icons/information.ts';
 
 import type { FormLabelSignature } from './form-label.gts';
 import type { ToggletipAlignment } from './toggletip.gts';

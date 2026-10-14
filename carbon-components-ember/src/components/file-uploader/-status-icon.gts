@@ -7,7 +7,8 @@
 
 import Component from '@glimmer/component';
 import Loading from '../loading.gts';
-import { Close, CheckmarkFilled } from '../../icons.ts';
+import Close from '../icons/close.ts';
+import CheckmarkFilled from '../icons/checkmark-filled.ts';
 import type { LoadingSignature } from '../loading.gts';
 
 export interface FileUploaderStatusIconSignature {
