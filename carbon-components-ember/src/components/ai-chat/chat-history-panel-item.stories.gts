@@ -10,6 +10,7 @@ import type {
   ChatHistoryPanelItemSignature,
   ChatHistoryItemAction,
 } from './chat-history-panel-item.gts';
+import '#storybook/styles/ai-chat/chat-history-panel-item.css';
 
 // Upstream documents `cds-aichat-history-panel-item` only inside its
 // `Components/Chat history` stories (see chat-history.stories.gts); these
@@ -50,7 +51,7 @@ const meta = preview.meta({
     };
 
     return <template>
-      <ul style="max-inline-size: 20rem;">
+      <ul class="ai-chat-chat-history-panel-item-story__list">
         <ChatHistoryPanelItem
           @id={{args.id}}
           @name={{args.name}}

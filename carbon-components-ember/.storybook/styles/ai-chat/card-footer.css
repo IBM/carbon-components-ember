@@ -1,0 +1,13 @@
+.ai-chat-card-footer-story__rounded {
+  --cds-aichat-border-radius: 8px;
+}
+
+.ai-chat-card-footer-story__row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.ai-chat-card-footer-story__card {
+  max-inline-size: 18rem;
+}

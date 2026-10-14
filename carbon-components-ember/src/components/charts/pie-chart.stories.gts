@@ -4,6 +4,7 @@ import { expect, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import PieChart from './pie-chart.gts';
+import '#storybook/styles/charts/pie-chart.css';
 
 // Mirrors the pie story of `@carbon/charts`' own storybook, as far as the
 // Ember wrapper supports it. Parity gaps: no donut chart, no pie `labels`/
@@ -47,7 +48,7 @@ const meta = preview.meta({
         @title={{args.title}}
         @resizable={{args.resizable}}
         @legendClickable={{args.legendClickable}}
-        style="height: 400px; width: 600px; display: inline-block"
+        class="charts-pie-chart-story__chart"
         as |chart|
       >
         <chart.Axis @axis="left" @title="2018 Annual Sales" />

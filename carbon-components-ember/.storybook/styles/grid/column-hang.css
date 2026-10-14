@@ -1,0 +1,10 @@
+.grid-column-hang-story__outline {
+  outline: 1px dashed var(--cds-border-strong-01, #8d8d8d);
+  outline-offset: -1px;
+}
+
+.grid-column-hang-story__hang {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background: var(--cds-layer-01);
+}

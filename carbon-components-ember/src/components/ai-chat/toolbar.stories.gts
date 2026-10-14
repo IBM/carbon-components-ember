@@ -25,6 +25,7 @@ import Tooltip from '../tooltip.gts';
 import Toolbar from './toolbar.gts';
 
 import type { ToolbarSignature, ToolbarAction } from './toolbar.gts';
+import '#storybook/styles/ai-chat/toolbar.css';
 
 // Mirrors `@carbon/ai-chat-components`' `toolbar.stories.js`
 // (`Components/Toolbar`): Default (with the same `title`/`navigation`/
@@ -149,9 +150,6 @@ The \`navigation\`, \`title\`, \`fixedActions\` and \`decorator\` named blocks m
     const actions = actionLists(args.onActionClick)[args.actionList];
     const navClick = () => args.onActionClick('navigation');
     const fixedClick = () => args.onActionClick('fixed');
-    const style = args.borderRadius
-      ? '--cds-aichat-border-radius: 8px; border-block-end: 1px solid var(--cds-border-subtle-00);'
-      : 'border-block-end: 1px solid var(--cds-border-subtle-00);';
 
     return <template>
       <Toolbar
@@ -159,7 +157,8 @@ The \`navigation\`, \`title\`, \`fixedActions\` and \`decorator\` named blocks m
         @overflow={{args.overflow}}
         @titleText={{args.titleText}}
         @nameText={{args.nameText}}
-        style={{style}}
+        class="ai-chat-toolbar-story__bar
+          {{if args.borderRadius 'ai-chat-toolbar-story__rounded'}}"
       >
         <:navigation>
           {{#if (eq args.navigation "home")}}
@@ -206,15 +205,13 @@ The \`navigation\`, \`title\`, \`fixedActions\` and \`decorator\` named blocks m
         </:navigation>
         <:title>
           {{#if (eq args.titleSlot "default")}}
-            <div style="white-space: nowrap;">
+            <div class="ai-chat-toolbar-story__nowrap-title">
               Title
               <span class="cds--type-heading-compact-01">text</span>
             </div>
           {{else if (eq args.titleSlot "with truncation")}}
             <div>
-              <span
-                style="display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 1; line-height: normal; word-break: break-all;"
-              >
+              <span class="ai-chat-toolbar-story__title">
                 Lorem ipsum dolor sit amet
                 <span class="cds--type-heading-compact-01">consectetur</span>
               </span>
@@ -282,9 +279,7 @@ export const NarrowWithOverflow = meta.story({
     ];
 
     return <template>
-      <div
-        style="max-inline-size: 20rem; border: 1px solid var(--cds-border-subtle); border-radius: 0.5rem 0.5rem 0 0;"
-      >
+      <div class="ai-chat-toolbar-story__frame">
         <Toolbar
           @titleText={{args.titleText}}
           @overflow={{args.overflow}}

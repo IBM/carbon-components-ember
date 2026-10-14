@@ -7,7 +7,7 @@
 
 import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
-import { htmlSafe } from '@ember/template';
+import { trustHTML } from '@ember/template';
 import { modifier as eModifier } from 'ember-modifier';
 import { renderMarkdown } from './-markdown-render.ts';
 
@@ -97,7 +97,7 @@ export default class Markdown extends Component<MarkdownSignature> {
 
   @cached
   get renderedHtml() {
-    return htmlSafe(
+    return trustHTML(
       renderMarkdown(
         this.displayedMarkdown ?? '',
         this.args.removeHTML ?? false,

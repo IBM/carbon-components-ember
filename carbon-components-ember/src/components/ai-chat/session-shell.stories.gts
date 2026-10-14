@@ -18,6 +18,7 @@ import type {
   SessionShellHistoryItem,
   SessionShellSignature,
 } from './session-shell.gts';
+import '#storybook/styles/ai-chat/session-shell.css';
 
 // `@carbon/ai-chat-components` has no `SessionShell`: it is this addon's
 // Ember-native equivalent of `@carbon/ai-chat`'s React `AppShell`, so these
@@ -207,9 +208,7 @@ export const Default = meta.story({
     const instanceId = uniqueId('storybook-session-shell-default');
 
     return <template>
-      <div
-        style="block-size: 32rem; max-inline-size: 400px; position: relative;"
-      >
+      <div class="ai-chat-session-shell-story__frame">
         <SessionShellHost
           @instanceId={{instanceId}}
           @welcome="Hello! How can I help?"
@@ -259,9 +258,7 @@ export const WithPersistence = meta.story({
     const instanceId = uniqueId('storybook-session-shell-persistence');
 
     return <template>
-      <div
-        style="block-size: 32rem; max-inline-size: 400px; position: relative;"
-      >
+      <div class="ai-chat-session-shell-story__frame">
         <SessionShellHost
           @instanceId={{instanceId}}
           @persistenceKey={{PERSISTENCE_KEY}}
@@ -295,8 +292,8 @@ export const MultipleInstances = meta.story({
     const salesId = uniqueId('storybook-session-shell-sales');
 
     return <template>
-      <div style="display: flex; gap: 1rem;">
-        <div style="block-size: 24rem; inline-size: 320px; position: relative;">
+      <div class="ai-chat-session-shell-story__row">
+        <div class="ai-chat-session-shell-story__frame-small">
           <SessionShellHost
             @instanceId={{supportId}}
             @welcome="Hi, I'm the support widget."
@@ -305,7 +302,7 @@ export const MultipleInstances = meta.story({
             @onSend={{args.onSend}}
           />
         </div>
-        <div style="block-size: 24rem; inline-size: 320px; position: relative;">
+        <div class="ai-chat-session-shell-story__frame-small">
           <SessionShellHost
             @instanceId={{salesId}}
             @welcome="Hi, I'm the sales widget."

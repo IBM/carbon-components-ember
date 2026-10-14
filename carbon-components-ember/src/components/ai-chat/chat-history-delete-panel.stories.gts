@@ -5,6 +5,7 @@ import preview from '#storybook/preview.ts';
 import ChatHistoryDeletePanel from './chat-history-delete-panel.gts';
 
 import type { ChatHistoryDeletePanelSignature } from './chat-history-delete-panel.gts';
+import '#storybook/styles/ai-chat/chat-history-delete-panel.css';
 
 // Upstream documents `cds-aichat-history-delete-panel` only as part of the
 // `DeleteFlow` story of `Components/Chat history` (see
@@ -48,9 +49,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     };
 
     return <template>
-      <div
-        style="max-inline-size: 20rem; block-size: 10rem; position: relative; border: 1px solid var(--cds-border-subtle, #e0e0e0);"
-      >
+      <div class="ai-chat-chat-history-delete-panel-story__frame-bordered">
         <ChatHistoryDeletePanel
           @itemId={{args.itemId}}
           @cancelText={{args.cancelText}}
@@ -88,7 +87,7 @@ export const DefaultText = meta.story({
     },
   },
   render: (args: StoryArgs) => <template>
-    <div style="max-inline-size: 20rem; block-size: 10rem; position: relative;">
+    <div class="ai-chat-chat-history-delete-panel-story__frame">
       <ChatHistoryDeletePanel
         @itemId={{args.itemId}}
         @onCancel={{args.onCancel}}

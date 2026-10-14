@@ -4,6 +4,7 @@ import { expect, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import SimpleBarChart from './simple-bar-chart.gts';
+import '#storybook/styles/charts/simple-bar-chart.css';
 
 // Mirrors the simple bar stories of `@carbon/charts`' own storybook
 // ("Simple bar (discrete)" / "Simple bar (time series)") with the same
@@ -53,7 +54,7 @@ const meta = preview.meta({
       @title={{args.title}}
       @resizable={{args.resizable}}
       @legendClickable={{args.legendClickable}}
-      style="height: 400px; width: 600px; display: inline-block"
+      class="charts-simple-bar-chart-story__chart"
       as |chart|
     >
       <chart.Axis @axis="left" @title="2018 Annual Sales" @primary={{true}} />
@@ -90,7 +91,7 @@ export const TimeSeries = meta.story({
       @title={{args.title}}
       @resizable={{args.resizable}}
       @legendClickable={{args.legendClickable}}
-      style="height: 400px; width: 600px; display: inline-block"
+      class="charts-simple-bar-chart-story__chart"
       as |chart|
     >
       <chart.Axis @axis="left" @title="Sales" />
@@ -114,7 +115,7 @@ export const CustomColors = meta.story({
       @title={{args.title}}
       @resizable={{args.resizable}}
       @legendClickable={{args.legendClickable}}
-      style="height: 400px; width: 600px; display: inline-block"
+      class="charts-simple-bar-chart-story__chart"
       as |chart|
     >
       <chart.ColorScale @name="Name" @color="#6929c4" />

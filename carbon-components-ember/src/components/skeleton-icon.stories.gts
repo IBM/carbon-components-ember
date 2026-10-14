@@ -1,13 +1,15 @@
-import { htmlSafe } from '@ember/template';
-
 import preview from '#storybook/preview.ts';
 import SkeletonIcon from './skeleton-icon.gts';
+import style from 'ember-style-modifier';
 
 // Carbon React parity gaps: none. React's `className` arg is covered by
 // Ember's `...attributes` (pass `class=` directly).
 
-const sizeStyle = (size: number) =>
-  htmlSafe(`margin: 50px; width: ${size}px; height: ${size}px;`);
+const sizeStyle = (size: number) => ({
+  margin: '50px',
+  width: `${size}px`,
+  height: `${size}px`,
+});
 
 // `size` isn't one of SkeletonIcon's args (it has none): the story turns it
 // into an inline width/height, like Carbon React's story does.
@@ -18,7 +20,7 @@ const meta = preview.type<{ args: { size: number } }>().meta({
     docs: {
       description: {
         component:
-          'A placeholder for an icon while content is loading. It renders a 16px square by default; size it with a `style` or `class` attribute (e.g. `style="width: 24px; height: 24px;"`).',
+          'A placeholder for an icon while content is loading. It renders a 16px square by default; size it with a `class`, or with the `{{style}}` modifier for a computed size.',
       },
     },
   },
@@ -31,7 +33,7 @@ const meta = preview.type<{ args: { size: number } }>().meta({
     size: 16,
   },
   render: (args) => <template>
-    <SkeletonIcon style={{sizeStyle args.size}} />
+    <SkeletonIcon {{style (sizeStyle args.size)}} />
   </template>,
 });
 

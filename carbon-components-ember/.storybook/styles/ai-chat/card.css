@@ -1,0 +1,41 @@
+.ai-chat-card-story__padded {
+  padding: 1rem;
+}
+
+.ai-chat-card-story__heading {
+  margin: 0 0 0.75rem;
+}
+
+.ai-chat-card-story__text {
+  margin: 0;
+  color: var(--cds-text-secondary);
+}
+
+.ai-chat-card-story__media {
+  display: flex;
+}
+
+.ai-chat-card-story__image {
+  aspect-ratio: 16 / 9;
+  inline-size: 100%;
+}
+
+.ai-chat-card-story__embed {
+  aspect-ratio: 16 / 9;
+  inline-size: 100%;
+  border: 0;
+}
+
+.ai-chat-card-story__heading-flush {
+  margin: 0;
+}
+
+.ai-chat-card-story__row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.ai-chat-card-story__card {
+  max-inline-size: 18rem;
+}

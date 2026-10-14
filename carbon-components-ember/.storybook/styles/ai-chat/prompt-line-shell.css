@@ -1,0 +1,8 @@
+.ai-chat-prompt-line-shell-story__messages {
+  margin-block-end: 1rem;
+}
+
+.ai-chat-prompt-line-shell-story__error {
+  padding: 0.5rem 1rem;
+  color: var(--cds-text-error, #da1e28);
+}

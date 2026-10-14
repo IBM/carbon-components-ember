@@ -5,6 +5,7 @@ import { expect } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import Button from '../button.gts';
 import Markdown from './markdown.gts';
+import '#storybook/styles/ai-chat/markdown.css';
 
 // Mirrors `@carbon/ai-chat-components`' `markdown.stories.js`
 // (`Components/Markdown`): Default, Streaming, WithHTMLSanitization,
@@ -112,7 +113,6 @@ Use \`npm install\` to install dependencies and \`npm run build\` to build the p
 | April | $168,000 | 5,892 | +21% |
 | **Total** | **$594,000** | **21,324** | **+16%** |
 
-
 ## Custom attributes
 
 Attributes supported: (\`target\`, \`rel\`, \`class\`, \`id\`)
@@ -129,7 +129,7 @@ This component can handle HTML content in different ways:
 
 When \`sanitize-html\` is enabled, potentially dangerous HTML is removed:
 
-<p style="color: blue;">This paragraph has inline styles (safe).</p>
+<p>This paragraph has <mark>highlighted</mark> and <kbd>keyboard</kbd> text (safe).</p>
 
 <script>alert('This would be removed')</script>
 
@@ -253,7 +253,7 @@ export const Streaming = meta.story({
 
     return <template>
       <div {{stream state.restarts}}>
-        <div style="margin-bottom: 1rem;">
+        <div class="ai-chat-markdown-story__controls">
           <Button @size="sm" @tertiary={{true}} @onClick={{restart}}>
             Restart Streaming
           </Button>

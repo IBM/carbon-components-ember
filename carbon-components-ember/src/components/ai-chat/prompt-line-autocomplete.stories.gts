@@ -25,6 +25,7 @@ import type {
   SuggestionItem,
   TriggerSuggestionConfig,
 } from './-prompt-line/tiptap/types.ts';
+import '#storybook/styles/ai-chat/prompt-line-autocomplete.css';
 
 // Mirrors `@carbon/ai-chat-components`' `autocomplete.stories.js` (upstream
 // title `Preview/Prompt line/Autocomplete`): `Default`, `WithHeader`,
@@ -202,8 +203,8 @@ function renderTypeahead(args: StoryArgs) {
   const extensions = buildCarbonExtensions({ autocomplete });
 
   return <template>
-    <p style="margin-block-end: 1rem;">{{args.hint}}</p>
-    <div style="width: 320px;">
+    <p class="ai-chat-prompt-line-autocomplete-story__spaced">{{args.hint}}</p>
+    <div class="ai-chat-prompt-line-autocomplete-story__shell">
       <PromptLineShell @rounded={{true}}>
         <:autocompleteContent>
           <PromptLineAutocomplete
@@ -413,7 +414,10 @@ export const InShell = meta.story({
     const extensions = buildCarbonExtensions({ mention, command, starters });
 
     return <template>
-      <ul aria-label="Sent messages" style="margin-block-end: 1rem;">
+      <ul
+        aria-label="Sent messages"
+        class="ai-chat-prompt-line-autocomplete-story__spaced"
+      >
         {{#each host.messages as |message|}}
           <li>{{message}}</li>
         {{/each}}

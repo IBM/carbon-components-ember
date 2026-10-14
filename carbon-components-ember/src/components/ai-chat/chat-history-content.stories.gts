@@ -4,6 +4,7 @@ import preview from '#storybook/preview.ts';
 import ChatHistoryContent from './chat-history-content.gts';
 
 import type { ChatHistoryContentSignature } from './chat-history-content.gts';
+import '#storybook/styles/ai-chat/chat-history-content.css';
 
 // Upstream documents `cds-aichat-history-content` only inside its
 // `Components/Chat history` stories (see chat-history.stories.gts); these
@@ -24,12 +25,13 @@ const meta = preview.meta({
     resultsCount: 3,
   },
   render: (args: ChatHistoryContentSignature['Args']) => <template>
-    <div style="max-inline-size: 20rem; block-size: 8rem;">
+    <div class="ai-chat-chat-history-content-story__container">
       <ChatHistoryContent
         @resultsLabel={{args.resultsLabel}}
         @resultsCount={{args.resultsCount}}
       >
-        <p style="padding-inline-start: 1rem;">list content goes here</p>
+        <p class="ai-chat-chat-history-content-story__text">list content goes
+          here</p>
       </ChatHistoryContent>
     </div>
   </template>,

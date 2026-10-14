@@ -1,5 +1,3 @@
-import { htmlSafe } from '@ember/template';
-
 import preview from '#storybook/preview.ts';
 import Accordion from './accordion.gts';
 import Button from './button.gts';
@@ -9,11 +7,10 @@ import Tag from './tag.gts';
 import TextInput from './text-input.gts';
 
 import type { TOC } from '@ember/component/template-only';
+import '#storybook/styles/layout.css';
 
 // Carbon React parity gaps: none (Carbon React's `HStack`/`VStack` in the
 // demo become `Stack @orientation`).
-
-const alignEnd = htmlSafe('display: flex; align-items: flex-end;');
 
 // Carbon React's `Demo`: components at their default and small sizes, so the
 // effect of the surrounding layout context is visible.
@@ -21,10 +18,10 @@ const Demo: TOC<{ Element: null }> = <template>
   <Stack @gap={{6}}>
     <Stack @orientation="horizontal">
       <TextInput @labelText="<TextInput />" @placeholder="Placeholder" />
-      <div style={{alignEnd}}>
+      <div class="layout-story__align-end">
         <Button>&lt;Button /&gt;</Button>
       </div>
-      <div style={{alignEnd}}>
+      <div class="layout-story__align-end">
         <Tag @type="gray">&lt;Tag /&gt;</Tag>
       </div>
       <TextInput
@@ -32,10 +29,10 @@ const Demo: TOC<{ Element: null }> = <template>
         @size="sm"
         @placeholder="Placeholder"
       />
-      <div style={{alignEnd}}>
+      <div class="layout-story__align-end">
         <Button @size="sm">&lt;Button size="sm" /&gt;</Button>
       </div>
-      <div style={{alignEnd}}>
+      <div class="layout-story__align-end">
         <Tag @type="gray" @size="sm">&lt;Tag size="sm" /&gt;</Tag>
       </div>
     </Stack>

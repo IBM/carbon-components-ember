@@ -10,6 +10,7 @@ import Toggletip from './toggletip.gts';
 import ToggletipLabel from './toggletip/toggletip-label.gts';
 
 import type { FluidTextInputSignature } from './fluid-text-input.gts';
+import '#storybook/styles/fluid-text-input.css';
 
 type Args = FluidTextInputSignature['Args'];
 
@@ -41,7 +42,7 @@ const meta = preview.meta({
   },
   decorators: [
     (Story, context) => <template>
-      <div style="width: 400px">
+      <div class="fluid-text-input-story__container">
         <RenderStory @story={{Story}} @args={{context.args}} />
       </div>
     </template>,

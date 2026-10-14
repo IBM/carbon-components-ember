@@ -1,6 +1,4 @@
 import { trackedObject } from '@ember/reactive/collections';
-import { htmlSafe } from '@ember/template';
-import { modifier } from 'ember-modifier';
 import { RenderStory } from 'ember-storybook';
 import { expect, fn, waitFor } from 'storybook/test';
 
@@ -9,6 +7,8 @@ import Resizer from './resizer.gts';
 import DragVertical from './icons/drag-vertical.ts';
 
 import type { ResizerSignature } from './resizer.gts';
+import style from 'ember-style-modifier';
+import '#storybook/styles/resizer.css';
 
 // Mirrors Carbon React's Resizer stories (`Utilities/Resizer`). The only
 // gap: `With custom handles` ports two of React's seven handle styles (the
@@ -16,59 +16,6 @@ import type { ResizerSignature } from './resizer.gts';
 // variations of the same idea.
 
 type StoryArgs = ResizerSignature['Args'];
-
-// Widens the handles' hit area with an invisible pseudo-element, like Carbon
-// React's own story examples, so the draggable/hoverable region is larger
-// than the painted 4px line. Injected into <head> because the template
-// linter forbids <style> elements.
-const HIT_AREA_CSS = `
-  .resizer-story .cds--resizer--horizontal::before {
-    content: '';
-    position: absolute;
-    top: -0.5rem;
-    width: 100%;
-    height: calc(100% + 1rem);
-  }
-  .resizer-story .cds--resizer--vertical::before {
-    content: '';
-    position: absolute;
-    left: -0.5rem;
-    height: 100%;
-    width: calc(100% + 1rem);
-  }
-  .resizer-story .custom-drag-handler-1 {
-    position: absolute;
-    top: -6px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  .resizer-story .custom-drag-handler-4 {
-    position: absolute;
-    top: -5px;
-    left: 50%;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    width: 2rem;
-    transform: translateX(-50%);
-  }
-  .resizer-story .custom-drag-handler-4 > div {
-    height: 2px;
-    background: var(--cds-border-strong, #8d8d8d);
-  }
-`;
-
-const injectStyles = modifier(() => {
-  const style = document.createElement('style');
-  style.textContent = HIT_AREA_CSS;
-  document.head.append(style);
-  return () => style.remove();
-});
-
-const PANEL_CSS =
-  'padding: 1rem; background: var(--cds-layer); overflow: auto; min-block-size: 3rem;';
-const PANEL = htmlSafe(PANEL_CSS);
-const HALF_PANEL = htmlSafe(`${PANEL_CSS} height: 50%;`);
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'Utilities/Resizer',
@@ -89,7 +36,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
   },
   decorators: [
     (Story, context) => <template>
-      <div class="resizer-story" {{injectStyles}}>
+      <div class="resizer-story">
         <RenderStory @story={{Story}} @args={{context.args}} />
       </div>
     </template>,
@@ -101,10 +48,8 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
 export const SinglePanelNoBoundaries = meta.story({
   name: 'Single panel (no boundaries)',
   render: () => <template>
-    <div
-      style="display: flex; flex-direction: column; width: 100%; max-width: 600px; overflow: hidden;"
-    >
-      <div style={{PANEL}} data-test-panel>
+    <div class="resizer-story__frame">
+      <div class="resizer-story__panel" data-test-panel>
         <h5>Single panel</h5>
         <p>Drag the handle below, or focus it and use the arrow keys.</p>
       </div>
@@ -154,12 +99,8 @@ export const SinglePanelBounded = meta.story({
     };
 
     return <template>
-      <div
-        style="width: 100%; max-width: 600px; height: 200px; overflow: hidden; display: flex; flex-direction: column;"
-      >
-        <div
-          style="padding: 1rem; background: var(--cds-layer); overflow: auto; flex: 1;"
-        >
+      <div class="resizer-story__frame-fixed">
+        <div class="resizer-story__body">
           <h5>Single panel (bounded)</h5>
           <p>Constrained within a 200px-tall container.</p>
         </div>
@@ -188,19 +129,15 @@ SinglePanelBounded.test(
 export const SinglePanelOverlay = meta.story({
   name: 'Single panel (overlay)',
   render: () => <template>
-    <div
-      style="position: relative; width: 100%; max-width: 600px; height: 300px; overflow: hidden; border: 1px solid var(--cds-border-subtle-01, #e0e0e0);"
-    >
-      <div style="padding: 1rem; height: 100%; overflow: auto;">
+    <div class="resizer-story__overlay-host">
+      <div class="resizer-story__main">
         <h5>Main content</h5>
         <p>This stays fixed in the background while the overlay panel below is
           resized from its top edge.</p>
       </div>
-      <div
-        style="position: absolute; bottom: 0; left: 0; width: 100%; max-height: 300px; background: var(--cds-layer); display: flex; flex-direction: column;"
-      >
+      <div class="resizer-story__overlay">
         <Resizer @orientation="horizontal" />
-        <div style="padding: 1rem; overflow: auto; height: 120px;">
+        <div class="resizer-story__overlay-body">
           <h5>Overlay panel</h5>
           <p>Resize me from the top edge.</p>
         </div>
@@ -214,18 +151,12 @@ export const SinglePanelOverlay = meta.story({
 export const TwoPanelsHorizontal = meta.story({
   name: 'Two panels (horizontal)',
   render: () => <template>
-    <div
-      style="display: flex; flex-direction: column; width: 100%; max-width: 600px; height: 300px; overflow: hidden;"
-    >
-      <div
-        style="height: 100%; background: var(--cds-layer); padding: 1rem; overflow: auto; min-block-size: 48px;"
-      >
+    <div class="resizer-story__vertical">
+      <div class="resizer-story__pane">
         <h5>Top panel</h5>
       </div>
       <Resizer @orientation="horizontal" />
-      <div
-        style="height: 100%; background: var(--cds-layer); padding: 1rem; overflow: auto; min-block-size: 48px;"
-      >
+      <div class="resizer-story__pane">
         <h5>Bottom panel</h5>
       </div>
     </div>
@@ -237,19 +168,12 @@ export const TwoPanelsHorizontal = meta.story({
 export const TwoPanelsVertical = meta.story({
   name: 'Two panels (vertical)',
   render: () => <template>
-    <div
-      style="display: flex; width: 100%; max-width: 600px; height: 300px; overflow: hidden;"
-    >
-      <div
-        style="background: var(--cds-layer); padding: 1rem; overflow: hidden; min-inline-size: 48px;"
-        data-test-left
-      >
+    <div class="resizer-story__horizontal">
+      <div class="resizer-story__side-pane" data-test-left>
         <h5>Left panel</h5>
       </div>
       <Resizer @orientation="vertical" />
-      <div
-        style="background: var(--cds-layer); padding: 1rem; overflow: hidden; min-inline-size: 48px;"
-      >
+      <div class="resizer-story__side-pane">
         <h5>Right panel</h5>
       </div>
     </div>
@@ -274,21 +198,17 @@ TwoPanelsVertical.test(
 export const FourPanels = meta.story({
   name: 'Four panels',
   render: () => <template>
-    <div style="display: flex; height: 300px; width: 100%; max-width: 600px;">
-      <div
-        style="overflow: auto; min-inline-size: 3rem; width: 50%; display: flex; flex-direction: column;"
-      >
-        <div style={{HALF_PANEL}}><h5>Top left</h5></div>
+    <div class="resizer-story__split">
+      <div class="resizer-story__split-column">
+        <div class="resizer-story__half-panel"><h5>Top left</h5></div>
         <Resizer @orientation="horizontal" />
-        <div style={{HALF_PANEL}}><h5>Bottom left</h5></div>
+        <div class="resizer-story__half-panel"><h5>Bottom left</h5></div>
       </div>
       <Resizer @orientation="vertical" />
-      <div
-        style="overflow: auto; min-inline-size: 3rem; width: 50%; display: flex; flex-direction: column;"
-      >
-        <div style={{HALF_PANEL}}><h5>Top right</h5></div>
+      <div class="resizer-story__split-column">
+        <div class="resizer-story__half-panel"><h5>Top right</h5></div>
         <Resizer @orientation="horizontal" />
-        <div style={{HALF_PANEL}}><h5>Bottom right</h5></div>
+        <div class="resizer-story__half-panel"><h5>Bottom right</h5></div>
       </div>
     </div>
   </template>,
@@ -318,16 +238,17 @@ export const TwoPanelsVerticalGrid = meta.story({
       state.fraction = 0.5;
       args.onDoubleClick?.(event);
     };
-    const gridStyle = (fraction: number) =>
-      htmlSafe(
-        `display: grid; grid-template-columns: ${fraction}fr auto ${1 - fraction}fr; width: 100%; max-width: 600px; height: 200px;`,
-      );
+    const gridStyle = (fraction: number) => ({
+      display: 'grid',
+      gridTemplateColumns: `${fraction}fr auto ${1 - fraction}fr`,
+      width: '100%',
+      maxWidth: '600px',
+      height: '200px',
+    });
 
     return <template>
-      <div style={{gridStyle state.fraction}} data-test-grid>
-        <div
-          style="background: var(--cds-layer); padding: 1rem; overflow: auto; min-inline-size: 48px;"
-        >
+      <div {{style (gridStyle state.fraction)}} data-test-grid>
+        <div class="resizer-story__grid-pane">
           <h5>Left panel</h5>
         </div>
         <Resizer
@@ -335,9 +256,7 @@ export const TwoPanelsVerticalGrid = meta.story({
           @onResize={{onResize}}
           @onDoubleClick={{reset}}
         />
-        <div
-          style="background: var(--cds-layer); padding: 1rem; overflow: auto; min-inline-size: 48px;"
-        >
+        <div class="resizer-story__grid-pane">
           <h5>Right panel</h5>
         </div>
       </div>
@@ -364,21 +283,17 @@ TwoPanelsVerticalGrid.test(
 export const WithCustomHandles = meta.story({
   name: 'With custom handles',
   render: () => <template>
-    <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
-      <div
-        style="display: flex; flex-direction: column; width: 400px; height: 160px; overflow: hidden;"
-      >
-        <div style={{PANEL}}>
+    <div class="resizer-story__examples">
+      <div class="resizer-story__small-frame">
+        <div class="resizer-story__panel">
           <p>This panel demonstrates a custom drag handle with an icon</p>
         </div>
         <Resizer @orientation="horizontal">
           <DragVertical @size="16" @svgClass="custom-drag-handler-1" />
         </Resizer>
       </div>
-      <div
-        style="display: flex; flex-direction: column; width: 400px; height: 160px; overflow: hidden;"
-      >
-        <div style={{PANEL}}>
+      <div class="resizer-story__small-frame">
+        <div class="resizer-story__panel">
           <p>This panel demonstrates a custom drag handle with static divs</p>
         </div>
         <Resizer @orientation="horizontal">

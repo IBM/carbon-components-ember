@@ -178,7 +178,7 @@ Signatures follow the [Ember guides](https://guides.emberjs.com/release/typescri
 - **`A()`, `NativeArray`, `pushObject`, `removeObject`, or `set()`** - use plain arrays/objects reassigned through `@tracked`.
 - **Classic `Component` + separate `.hbs`** - always use GTS files with `<template>` tags.
 - **`this.element`** - go through a modifier.
-- **`style` attributes**, static or bound (`htmlSafe` only silences Ember's warning) - strict CSPs block them. Use a class; for values computed from args, return them from a getter and apply it with the `{{style}}` modifier (`ember-style-modifier`), which writes through CSSOM. QUnit tests run under `style-src-attr 'none'` and fail on a violation.
+- **`style` attributes**, static or bound (`trustHTML`, formerly `htmlSafe`, only silences Ember's warning) - strict CSPs block them. Use a class; for values computed from args, return them from a getter and apply it with the `{{style}}` modifier (`ember-style-modifier`), which writes through CSSOM. A modifier runs after the modifiers of the elements inside it, so a component measuring or positioning itself on render won't see its container's `{{style}}` yet: fixed values must be classes. Write vendor-prefixed properties hyphenated (`'-webkit-line-clamp'`); the modifier drops camelCase ones. The QUnit and Storybook tests run under `style-src-attr 'none'` and fail on a violation.
 
 ---
 
@@ -222,6 +222,7 @@ Stories live as `src/components/**/<name>.stories.gts` next to their components.
   - Keep useful Ember-only stories.
   - List the React stories that can't be ported, and why, in a "parity gaps" comment at the top of the file.
 - **Shared story code** lives in `.storybook/`, imported through `#storybook/*`: fixtures in `.storybook/fixtures/<component>.gts`, decorators such as `withLayer` in `.storybook/decorators.gts`. Never put it in `src/`, which ships.
+- **Styles**: lay demos out with classes in `.storybook/styles/<path>.css`, mirroring the story's path under `src/components` and imported as `#storybook/styles/<path>.css`. Prefix its classes with that path, `/` as `-`, then `-story__` (`ai-chat-toolbar-story__frame`), so same-named stories in different folders don't collide. Use `{{style}}` only for values computed from args.
 - **Descriptions and args**:
   - Every story file sets `parameters.docs.description.component`; it introduces the docs page and is what AI agents read about the component.
   - Write story `args` as plain values (strings, numbers, booleans, arrays and objects of those). "Show code" and the agent-facing snippets fill them in; computed values show up as `{{@name}}`.

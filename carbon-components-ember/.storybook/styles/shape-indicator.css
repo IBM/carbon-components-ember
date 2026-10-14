@@ -1,0 +1,5 @@
+.shape-indicator-story__column {
+  display: inline-flex;
+  flex-flow: column;
+  row-gap: 0.5rem;
+}

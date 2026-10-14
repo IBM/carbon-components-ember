@@ -1,0 +1,11 @@
+.grid-column-story__cell {
+  padding: 0.5rem;
+  background: var(--cds-layer-01);
+  border: 1px solid var(--cds-border-subtle-01, #e0e0e0);
+  text-align: center;
+}
+
+.grid-column-story__focus-outline {
+  outline: 2px solid var(--cds-focus, #0f62fe);
+  outline-offset: -2px;
+}

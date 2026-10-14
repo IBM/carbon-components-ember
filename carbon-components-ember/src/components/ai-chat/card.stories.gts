@@ -1,4 +1,3 @@
-import { htmlSafe } from '@ember/template';
 import { fn } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
@@ -9,6 +8,8 @@ import Launch from '../icons/launch.ts';
 
 import type { CardSignature } from './card.gts';
 import type { CardFooterAction } from './card-footer.gts';
+import style from 'ember-style-modifier';
+import '#storybook/styles/ai-chat/card.css';
 
 // Mirrors `@carbon/ai-chat-components`' `Components/Card` stories
 // (card/__stories__/card.stories.js). Upstream's `CardFooter` story lives in
@@ -82,16 +83,17 @@ type StoryArgs = CardSignature['Args'] & {
   video?: string;
 };
 
-const maxWidthStyle = (maxWidth: StoryArgs['maxWidth']) =>
-  htmlSafe(`max-width: ${MAX_WIDTHS[maxWidth ?? 'unset']}`);
+const maxWidthStyle = (maxWidth: StoryArgs['maxWidth']) => ({
+  maxWidth: MAX_WIDTHS[maxWidth ?? 'unset'],
+});
 
 const footerActionsFor = (preset: StoryArgs['footerActions']) =>
   preset ? CARD_FOOTER_PRESETS[preset] : undefined;
 
 const CardContent = <template>
-  <div style="padding: 1rem;">
-    <h4 style="margin: 0 0 0.75rem;">AI Chat Card</h4>
-    <p style="margin: 0; color: var(--cds-text-secondary);">
+  <div class="ai-chat-card-story__padded">
+    <h4 class="ai-chat-card-story__heading">AI Chat Card</h4>
+    <p class="ai-chat-card-story__text">
       The Carbon Design System provides a comprehensive library of components,
       tokens, and guidelines. We need to implement the new AI Chat component
       following Carbon's design principles and accessibility standards.
@@ -131,7 +133,7 @@ Content is supplied through \`<:header>\`, \`<:media>\`, \`<:body>\`, \`<:footer
     onAction: fn(),
   },
   render: (args) => <template>
-    <div style={{maxWidthStyle args.maxWidth}}>
+    <div {{style (maxWidthStyle args.maxWidth)}}>
       <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
         <:body><CardContent /></:body>
       </Card>
@@ -146,7 +148,7 @@ export const WithActions = meta.story({
     footerActions: 'primary danger buttons',
   },
   render: (args) => <template>
-    <div style={{maxWidthStyle args.maxWidth}}>
+    <div {{style (maxWidthStyle args.maxWidth)}}>
       <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
         <:body><CardContent /></:body>
         <:footer>
@@ -166,14 +168,14 @@ export const WithImage = meta.story({
     image: PLACEHOLDER_IMAGE,
   },
   render: (args) => <template>
-    <div style={{maxWidthStyle args.maxWidth}}>
+    <div {{style (maxWidthStyle args.maxWidth)}}>
       <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
         <:media>
-          <div style="display: flex;">
+          <div class="ai-chat-card-story__media">
             <img
               src={{args.image}}
               alt="Card"
-              style="aspect-ratio: 16 / 9; inline-size: 100%;"
+              class="ai-chat-card-story__image"
             />
           </div>
         </:media>
@@ -194,14 +196,14 @@ export const OnlyImage = meta.story({
     image: PLACEHOLDER_IMAGE,
   },
   render: (args) => <template>
-    <div style={{maxWidthStyle args.maxWidth}}>
+    <div {{style (maxWidthStyle args.maxWidth)}}>
       <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
         <:media>
-          <div style="display: flex;">
+          <div class="ai-chat-card-story__media">
             <img
               src={{args.image}}
               alt="Card"
-              style="aspect-ratio: 16 / 9; inline-size: 100%;"
+              class="ai-chat-card-story__image"
             />
           </div>
         </:media>
@@ -217,22 +219,23 @@ export const WithAudio = meta.story({
       'https://w.soundcloud.com/player/?url=https://soundcloud.com/kelab-gklm/baby-shark-do-do-do&visual=true&buying=false&liking=false&download=false&sharing=false&show_comments=false&show_playcount=false&callback=true',
   },
   render: (args) => <template>
-    <div style={{maxWidthStyle args.maxWidth}}>
+    <div {{style (maxWidthStyle args.maxWidth)}}>
       <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
         <:media>
-          <div style="display: flex;">
+          <div class="ai-chat-card-story__media">
             <iframe
               title="audio example"
               allow="autoplay"
               src={{args.audio}}
-              style="aspect-ratio: 16 / 9; inline-size: 100%; border: 0;"
+              class="ai-chat-card-story__embed"
             ></iframe>
           </div>
         </:media>
         <:body>
-          <div style="padding: 1rem;">
-            <h4 style="margin: 0;">An audio clip from SoundCloud</h4>
-            <p style="margin: 0; color: var(--cds-text-secondary);">
+          <div class="ai-chat-card-story__padded">
+            <h4 class="ai-chat-card-story__heading-flush">An audio clip from
+              SoundCloud</h4>
+            <p class="ai-chat-card-story__text">
               This description and the title above are optional.
             </p>
           </div>
@@ -249,17 +252,17 @@ export const OnlyVideo = meta.story({
     video: 'https://www.youtube.com/embed/QuW4_bRHbUk?si=oSsaxYKCvO_gEuzN',
   },
   render: (args) => <template>
-    <div style={{maxWidthStyle args.maxWidth}}>
+    <div {{style (maxWidthStyle args.maxWidth)}}>
       <Card @isLayered={{args.isLayered}} @isFlush={{args.isFlush}}>
         <:media>
-          <div style="display: flex;">
+          <div class="ai-chat-card-story__media">
             <iframe
               src={{args.video}}
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerpolicy="strict-origin-when-cross-origin"
               allowfullscreen
-              style="aspect-ratio: 16 / 9; inline-size: 100%; border: 0;"
+              class="ai-chat-card-story__embed"
             ></iframe>
           </div>
         </:media>
@@ -278,17 +281,17 @@ export const Variants = meta.story({
     },
   },
   render: () => <template>
-    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-      <Card style="max-inline-size: 18rem;">
+    <div class="ai-chat-card-story__row">
+      <Card class="ai-chat-card-story__card">
         <:header><h5>Default card</h5></:header>
         <:body>Card content goes here.</:body>
       </Card>
-      <Card @isLayered={{true}} style="max-inline-size: 18rem;">
+      <Card @isLayered={{true}} class="ai-chat-card-story__card">
         <:header><h5>Layered card</h5></:header>
         <:body>Uses Carbon's layered-tile styling instead of the chat shell's
           default background.</:body>
       </Card>
-      <Card @isFlush={{true}} style="max-inline-size: 18rem;">
+      <Card @isFlush={{true}} class="ai-chat-card-story__card">
         <:header><h5>Flush card</h5></:header>
         <:body>Removes the default padding, useful when the body needs to reach
           the card's edges.</:body>

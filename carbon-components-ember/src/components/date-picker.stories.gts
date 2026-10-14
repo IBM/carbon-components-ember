@@ -10,6 +10,7 @@ import DatePickerInput from './date-picker-input.gts';
 
 import type { DatePickerSignature } from './date-picker.gts';
 import type { DatePickerInputSignature } from './date-picker-input.gts';
+import '#storybook/styles/date-picker.css';
 
 // Carbon React parity gaps (Components/DatePicker):
 // - No `locale`, `inline`, `disable`/`enable` date lists or
@@ -64,7 +65,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
   // Leave room for the calendar dropdown.
   decorators: [
     (Story, context) => <template>
-      <div style="min-height: 22rem">
+      <div class="date-picker-story__container">
         <RenderStory @story={{Story}} @args={{context.args}} />
       </div>
     </template>,

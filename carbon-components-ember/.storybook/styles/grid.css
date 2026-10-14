@@ -1,0 +1,31 @@
+.grid-story__cell {
+  padding: 0.5rem;
+  background: var(--cds-layer-01);
+  border: 1px solid var(--cds-border-subtle-01, #e0e0e0);
+  text-align: center;
+}
+
+.grid-story__cell-alt {
+  padding: 0.5rem;
+  background: var(--cds-layer-02);
+  border: 1px solid var(--cds-border-subtle-01, #e0e0e0);
+  text-align: center;
+}
+
+.grid-story__outline {
+  outline: 1px dashed var(--cds-border-strong-01, #8d8d8d);
+  outline-offset: -1px;
+}
+
+.grid-story__hang {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background: var(--cds-layer-01);
+}
+
+.grid-story__wide-outline {
+  width: 110rem;
+  outline: 1px dashed var(--cds-border-strong-01, #8d8d8d);
+  outline-offset: -1px;
+  overflow-x: auto;
+}

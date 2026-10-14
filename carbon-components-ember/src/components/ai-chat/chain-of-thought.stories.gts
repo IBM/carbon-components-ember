@@ -11,6 +11,7 @@ import type {
   ChainOfThoughtStepStatus,
 } from './chain-of-thought.gts';
 import type { TOC } from '@ember/component/template-only';
+import '#storybook/styles/ai-chat/chain-of-thought.css';
 
 // Mirrors `@carbon/ai-chat-components`' `Components/Chain of thought`
 // stories (chain-of-thought/__stories__/chain-of-thought.stories.js) and, as
@@ -178,7 +179,7 @@ const INCIDENT_LOOKUP: ToolStep = {
 
 /** Story-only stand-in for upstream's unported `cds-aichat-tool-call-data`. */
 const ToolCallData: TOC<{ Args: { step: ToolStep } }> = <template>
-  <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+  <div class="ai-chat-chain-of-thought-story__stack">
     {{#if @step.description}}
       <Markdown @markdown={{@step.description}} />
     {{/if}}

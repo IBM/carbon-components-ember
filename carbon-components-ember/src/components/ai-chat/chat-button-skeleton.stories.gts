@@ -1,5 +1,6 @@
 import preview from '#storybook/preview.ts';
 import ChatButtonSkeleton from './chat-button-skeleton.gts';
+import '#storybook/styles/ai-chat/chat-button-skeleton.css';
 
 // Mirrors the `Skeleton` story of `@carbon/ai-chat-components`'
 // `Components/Chat button` (chat-button/__stories__/chat-button.stories.js),
@@ -35,7 +36,7 @@ export const Sizes = meta.story({
     },
   },
   render: () => <template>
-    <div style="display: flex; gap: 1rem; align-items: center;">
+    <div class="ai-chat-chat-button-skeleton-story__row">
       <ChatButtonSkeleton />
       <ChatButtonSkeleton @size="md" />
       <ChatButtonSkeleton @size="sm" />

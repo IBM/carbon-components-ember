@@ -15,6 +15,7 @@ import CodeSnippet from './code-snippet.gts';
 // collects this file; under vitest, discovering them mid-run from the
 // component's lazy `import()` stalls the import. Apps still load it lazily.
 import './-code-snippet/codemirror-runtime.ts';
+import '#storybook/styles/ai-chat/code-snippet.css';
 
 import type Owner from '@ember/owner';
 import type { CodeSnippetSignature } from './code-snippet.gts';
@@ -381,8 +382,7 @@ export const Streaming = meta.story({
     <StreamedCode as |code restart|>
       <button
         type="button"
-        class="cds--btn cds--btn--secondary cds--btn--sm"
-        style="margin-block-end: 1rem;"
+        class="cds--btn cds--btn--secondary cds--btn--sm ai-chat-code-snippet-story__restart"
         {{on "click" restart}}
       >Restart Streaming</button>
       {{#if args.useCard}}
@@ -437,16 +437,15 @@ export const FullHeightMode = meta.story({
   },
   decorators: [
     (Story, context) => <template>
-      <div
-        style="height: 500px; display: flex; flex-direction: column; border: 1px solid #ccc; padding: 1rem;"
-      >
-        <h3 style="margin: 0 0 1rem 0;">SQL Editor (Full-Height Mode)</h3>
-        <p style="margin: 0 0 1rem 0;">
+      <div class="ai-chat-code-snippet-story__full-height">
+        <h3 class="ai-chat-code-snippet-story__intro">SQL Editor (Full-Height
+          Mode)</h3>
+        <p class="ai-chat-code-snippet-story__intro">
           When both max-collapsed-number-of-rows and max-expanded-number-of-rows
           are set to 0, the component fills its container's height with a
           scrollbar. Perfect for edit mode scenarios.
         </p>
-        <div style="flex: 1; min-height: 0;">
+        <div class="ai-chat-code-snippet-story__editor">
           <RenderStory @story={{Story}} @args={{context.args}} />
         </div>
       </div>

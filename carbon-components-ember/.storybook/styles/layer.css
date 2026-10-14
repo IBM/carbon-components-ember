@@ -1,0 +1,12 @@
+/* Carbon React's `.example-layer-test-component` story styles. */
+
+.layer-story__box {
+  padding: 1rem;
+  background: var(--cds-layer);
+  color: var(--cds-text-primary);
+}
+
+.layer-story__box-no-background {
+  padding: 1rem;
+  color: var(--cds-text-primary);
+}

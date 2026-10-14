@@ -1,0 +1,6 @@
+.grid-row-story__cell {
+  padding: 0.5rem;
+  background: var(--cds-layer-01);
+  border: 1px solid var(--cds-border-subtle-01, #e0e0e0);
+  text-align: center;
+}

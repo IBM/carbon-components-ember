@@ -4,14 +4,13 @@ import preview from '#storybook/preview.ts';
 import GridSettings from './grid-settings.gts';
 
 import type { TOC } from '@ember/component/template-only';
+import '#storybook/styles/grid/grid-settings.css';
 
 // Carbon React's GridSettings has no stories of its own (it's the
 // `WithGridSettings` story of Elements/Grid).
 
 const Box: TOC<{ Blocks: { default: [] } }> = <template>
-  <div
-    style="padding: .5rem; background: var(--cds-layer-01); border: 1px solid var(--cds-border-subtle-01, #e0e0e0); text-align: center;"
-  >
+  <div class="grid-grid-settings-story__cell">
     {{yield}}
   </div>
 </template>;

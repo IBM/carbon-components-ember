@@ -6,6 +6,7 @@ import Icon, { registerIcon } from './icon.gts';
 import * as Icons from '../icons.ts';
 
 import type { IconSignature } from './icon.gts';
+import '#storybook/styles/icon.css';
 
 // Carbon React has no `Icon` component story to mirror (React consumes
 // `@carbon/icons-react` components directly). The equivalents here are the
@@ -144,15 +145,11 @@ export const Gallery = meta.story({
         matching icons ({{ICONS.length}}
         total)
       </p>
-      <ul
-        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr)); gap: 1rem; list-style: none; padding: 0;"
-      >
+      <ul class="icon-story__list">
         {{#each shown as |entry|}}
-          <li
-            style="display: flex; flex-direction: column; align-items: center; gap: .5rem; text-align: center;"
-          >
+          <li class="icon-story__item">
             <entry.component @size={{args.size}} />
-            <code style="font-size: .75rem; word-break: break-all;">
+            <code class="icon-story__code">
               {{entry.name}}
             </code>
           </li>

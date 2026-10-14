@@ -1,4 +1,5 @@
-import { htmlSafe } from '@ember/template';
+import { trustHTML } from '@ember/template';
+import type { TrustedHTML } from '@ember/template';
 import { guidFor } from '@ember/object/internals';
 import type { IconType } from '../icon.gts';
 
@@ -17,8 +18,8 @@ export default function renderSvgPart(
     size: number | string | undefined;
     title?: string;
   },
-): ReturnType<typeof htmlSafe> {
-  if (!svg) return htmlSafe('');
+): TrustedHTML {
+  if (!svg) return trustHTML('');
   // Mirrors the root attributes @carbon/icons-react renders for an
   // unlabelled icon (this helper has no way to label one, so it's always
   // decorative and hidden from the accessibility tree).
@@ -53,5 +54,5 @@ export default function renderSvgPart(
   // React appends `children` after the icon's own path elements, so the
   // <title> lands at the end - match that order so dom-parity index paths agree.
   const html = (base + rest + titleEl + '</svg>').trim();
-  return htmlSafe(html);
+  return trustHTML(html);
 }

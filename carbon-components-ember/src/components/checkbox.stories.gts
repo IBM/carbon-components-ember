@@ -5,6 +5,7 @@ import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
 import preview from '#storybook/preview.ts';
 import Checkbox from './checkbox.gts';
 import CheckboxSkeleton from './checkbox-skeleton.gts';
+import '#storybook/styles/checkbox.css';
 
 // Carbon React parity gaps (Components/Checkbox):
 // - `Default` / `Horizontal`: there is no CheckboxGroup (legend, helper
@@ -138,7 +139,7 @@ LabelInBlock.test(
 // `md`, so pass `@size="md"` with `@kind="inline"`.
 export const WithAILabel = meta.story({
   render: () => <template>
-    <div style="display: flex; flex-direction: column; gap: 2rem">
+    <div class="checkbox-story__stack">
       <div class="cds--form-item">
         <Checkbox @label="Checkbox label">
           <:decorator as |AILabel|>

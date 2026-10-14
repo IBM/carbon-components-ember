@@ -6,15 +6,14 @@ import Column from './column.gts';
 
 import type { TOC } from '@ember/component/template-only';
 import type { ColumnSignature } from './column.gts';
+import '#storybook/styles/grid/column.css';
 
 // Carbon React has no stories of its own for Column: it's a subcomponent of
 // Elements/Grid and Elements/FlexGrid. The controls drive the highlighted
 // first column; its two siblings span the rest of the grid.
 
 const Box: TOC<{ Blocks: { default: [] } }> = <template>
-  <div
-    style="padding: .5rem; background: var(--cds-layer-01); border: 1px solid var(--cds-border-subtle-01, #e0e0e0); text-align: center;"
-  >
+  <div class="grid-column-story__cell">
     {{yield}}
   </div>
 </template>;
@@ -29,7 +28,7 @@ const Columns: TOC<{ Args: { args: ColumnSignature['Args'] } }> = <template>
     @xlg={{@args.xlg}}
     @max={{@args.max}}
     @span={{@args.span}}
-    style="outline: 2px solid var(--cds-focus, #0f62fe); outline-offset: -2px;"
+    class="grid-column-story__focus-outline"
   >
     <Box>Column</Box>
   </Column>

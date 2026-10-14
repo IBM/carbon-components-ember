@@ -7,6 +7,7 @@ import Button from '../button.gts';
 import Notification from '../notification.gts';
 
 import type NotificationService from '../../services/notifications.ts';
+import '#storybook/styles/notification/toast.css';
 
 // Carbon React has a component per notification kind; the Ember addon has one
 // `Notification` whose `@display` picks it, so these pages each fix `@display`.
@@ -98,13 +99,10 @@ class NotificationsDemo extends Component {
       Notify
     </Button>
 
-    <div
-      data-test-notification-queue
-      style="position: absolute; top: 0; right: 0"
-    >
+    <div data-test-notification-queue class="notification-toast-story__corner">
       {{#each this.notifications.queue as |n|}}
         <Notification @notification={{n}} />
-        <div style="margin: 2px"></div>
+        <div class="notification-toast-story__item"></div>
       {{/each}}
     </div>
   </template>

@@ -1,4 +1,3 @@
-import { htmlSafe } from '@ember/template';
 import { expect, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
@@ -8,6 +7,7 @@ import IconIndicator, {
 } from './icon-indicator.gts';
 
 import type { IconIndicatorKind } from './icon-indicator.gts';
+import '#storybook/styles/icon-indicator.css';
 
 // Carbon React parity gaps: none. (React's `className` is covered by
 // Ember's `...attributes`.)
@@ -17,10 +17,6 @@ const KINDS = IconIndicatorKinds.map((kind) => {
   const words = kind.replace('-', ' ');
   return { kind, label: words.charAt(0).toUpperCase() + words.slice(1) };
 });
-
-const columnStyle = htmlSafe(
-  'display: inline-flex; flex-flow: column; row-gap: .5rem;',
-);
 
 // The parity stories render every kind from the list above; the `kind` and
 // `label` args only drive the single-indicator `Compact` story. (Typed as the
@@ -51,7 +47,7 @@ const meta = preview.meta({
     label: 'Failed',
   },
   render: (args) => <template>
-    <div style={{columnStyle}}>
+    <div class="icon-indicator-story__column">
       {{#each KINDS as |k|}}
         <IconIndicator
           @kind={{k.kind}}

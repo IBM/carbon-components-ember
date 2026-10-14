@@ -1,0 +1,17 @@
+/* Carbon React's `Theme-story.scss` classes. */
+
+.theme-story__section {
+  padding: 1rem;
+  background: var(--cds-background);
+  color: var(--cds-text-primary);
+}
+
+.theme-story__header {
+  margin-block-end: 1rem;
+}
+
+.theme-story__layer-content {
+  padding: 1rem;
+  background: var(--cds-layer);
+  color: var(--cds-text-primary);
+}

@@ -2,7 +2,6 @@ import '@carbon/charts/styles.css';
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { htmlSafe } from '@ember/template';
 import { runTask } from 'ember-lifeline';
 import { expect, waitFor } from 'storybook/test';
 
@@ -11,6 +10,7 @@ import LineChart from './line-chart.gts';
 
 import type { ChartData } from './-components/chart.gts';
 import type Owner from '@ember/owner';
+import '#storybook/styles/charts/line-chart.css';
 
 // Mirrors the line stories of `@carbon/charts`' own storybook ("Line
 // (discrete)", "Line (time series)") with comparable demo data, plus the
@@ -34,8 +34,6 @@ const DATES = [
   new Date(2019, 0, 13),
   new Date(2019, 0, 17),
 ];
-
-const STYLE = htmlSafe('height: 400px; width: 600px; display: inline-block');
 
 /**
  * The docs-app's sine wave: shifts the wave every second, to show that the
@@ -81,7 +79,7 @@ class Sinus extends Component<SinusSignature> {
       @title={{@title}}
       @resizable={{@resizable}}
       @legendClickable={{@legendClickable}}
-      style={{STYLE}}
+      class="charts-line-chart-story__chart"
       as |chart|
     >
       <chart.Axis @axis="left" @title="y" />
@@ -124,7 +122,7 @@ const meta = preview.meta({
         @title={{args.title}}
         @resizable={{args.resizable}}
         @legendClickable={{args.legendClickable}}
-        style={{STYLE}}
+        class="charts-line-chart-story__chart"
         as |chart|
       >
         <chart.Axis @axis="left" @title="2018 Annual Sales" @primary={{true}} />
@@ -148,7 +146,7 @@ export const Discrete = meta.story({
       @title={{args.title}}
       @resizable={{args.resizable}}
       @legendClickable={{args.legendClickable}}
-      style={{STYLE}}
+      class="charts-line-chart-story__chart"
       as |chart|
     >
       <chart.Axis @axis="left" @title="Conversion rate" />
@@ -185,7 +183,7 @@ export const TimeSeries = meta.story({
       @title={{args.title}}
       @resizable={{args.resizable}}
       @legendClickable={{args.legendClickable}}
-      style={{STYLE}}
+      class="charts-line-chart-story__chart"
       as |chart|
     >
       <chart.Axis @axis="left" @title="Conversion rate" />
@@ -215,7 +213,7 @@ export const ColorPairing = meta.story({
       @title={{args.title}}
       @resizable={{args.resizable}}
       @legendClickable={{args.legendClickable}}
-      style={{STYLE}}
+      class="charts-line-chart-story__chart"
       as |chart|
     >
       <chart.ColorPairing @numberOfVariants={{4}} @option={{2}} />
@@ -249,7 +247,7 @@ export const CustomColors = meta.story({
       @title={{args.title}}
       @resizable={{args.resizable}}
       @legendClickable={{args.legendClickable}}
-      style={{STYLE}}
+      class="charts-line-chart-story__chart"
       as |chart|
     >
       <chart.ColorScale @name="Dataset 1" @color="#da1e28" />

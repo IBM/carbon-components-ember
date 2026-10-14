@@ -9,6 +9,7 @@ import Dropdown from './dropdown.gts';
 import DropdownSkeleton from './dropdown-skeleton.gts';
 
 import type { DropdownSignature } from './dropdown.gts';
+import '#storybook/styles/dropdown.css';
 
 // Carbon React parity gaps (Components/Dropdown):
 // - Items can't be disabled (React's `Option 3` is `disabled: true`).
@@ -66,7 +67,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
   // Leave room for the open menu.
   decorators: [
     (Story, context) => <template>
-      <div style="width: 400px; min-height: 20rem">
+      <div class="dropdown-story__container">
         <RenderStory @story={{Story}} @args={{context.args}} />
       </div>
     </template>,
@@ -167,7 +168,7 @@ export const Controlled = meta.story({
         @selectedItem={{state.selected}}
         @onChange={{onChange}}
       />
-      <p style="margin-top: 1rem">Selected: {{state.selected.text}}</p>
+      <p class="dropdown-story__selected">Selected: {{state.selected.text}}</p>
     </template>;
   },
 });
@@ -248,7 +249,7 @@ export const Skeleton = meta.story({
     },
   },
   render: () => <template>
-    <div style="width: 300px">
+    <div class="dropdown-story__skeleton">
       <DropdownSkeleton />
     </div>
   </template>,

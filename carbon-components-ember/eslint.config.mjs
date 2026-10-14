@@ -62,6 +62,15 @@ export default defineConfig([
         { allowDynamicStyles: false },
       ],
       'ember/no-legacy-helper-imports': 'error',
+      'no-restricted-imports': [
+        'error',
+        {
+          name: '@ember/template',
+          importNames: ['htmlSafe', 'isHTMLSafe', 'SafeString'],
+          message:
+            'Use their new names: trustHTML, isTrustedHTML, TrustedHTML.',
+        },
+      ],
     },
   },
   /**
@@ -175,8 +184,6 @@ export default defineConfig([
       // an `@args` argument.
       'ember/template-no-args-paths': 'off',
       'ember/template-no-capital-arguments': 'off',
-      // Inline styles lay out the demos; they aren't part of the components.
-      'ember/template-no-inline-styles': 'off',
     },
   },
   {

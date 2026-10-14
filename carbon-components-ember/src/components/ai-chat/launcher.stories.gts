@@ -3,6 +3,7 @@ import { expect, fn } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Launcher from './launcher.gts';
+import '#storybook/styles/ai-chat/launcher.css';
 
 // Mirrors `@carbon/ai-chat-components`' `launcher.stories.js` (`Default`,
 // `AIEnabled`, `WithUnreadCount`, `WithAvatar`).
@@ -44,7 +45,7 @@ const meta = preview.meta({
   // Leave room for the tooltip so it stays inside the canvas.
   decorators: [
     (Story, context) => <template>
-      <div style="padding: 2rem 12rem 2rem 2rem;">
+      <div class="ai-chat-launcher-story__padded">
         <RenderStory @story={{Story}} @args={{context.args}} />
       </div>
     </template>,
@@ -116,9 +117,7 @@ WithUnreadIndicator.test('shows an empty indicator dot', async ({ canvas }) => {
 export const AllVariants = meta.story({
   name: 'All variants',
   render: (args) => <template>
-    <div
-      style="display: flex; gap: 2rem; align-items: flex-end; flex-wrap: wrap;"
-    >
+    <div class="ai-chat-launcher-story__row">
       <Launcher @closedLabel="Open chat" @onToggle={{args.onToggle}} />
       <Launcher
         @closedLabel="Open chat"

@@ -1,6 +1,7 @@
 import preview from '#storybook/preview.ts';
 import WorkspaceShell from './workspace-shell.gts';
 import WorkspaceShellBody from './workspace-shell-body.gts';
+import '#storybook/styles/ai-chat/workspace-shell-body.css';
 
 // Mirrors `@carbon/ai-chat-components`' `workspace-shell-body.stories.js`
 // (`Components/Workspace shell/Body`): `Default`, `LongContent`,
@@ -41,8 +42,8 @@ const meta = preview.meta({
 
 export const Default = meta.story({
   render: () => <template>
-    <div style="display: flex; block-size: 30rem;">
-      <WorkspaceShell style="flex: 1;">
+    <div class="ai-chat-workspace-shell-body-story__host">
+      <WorkspaceShell class="ai-chat-workspace-shell-body-story__shell">
         <:body>
           <WorkspaceShellBody>{{SHORT_TEXT}}</WorkspaceShellBody>
         </:body>
@@ -53,12 +54,14 @@ export const Default = meta.story({
 
 export const LongContent = meta.story({
   render: () => <template>
-    <div style="display: flex; block-size: 30rem;">
-      <WorkspaceShell style="flex: 1;">
+    <div class="ai-chat-workspace-shell-body-story__host">
+      <WorkspaceShell class="ai-chat-workspace-shell-body-story__shell">
         <:body>
           <WorkspaceShellBody>
             {{#each LONG_PARAGRAPHS as |paragraph|}}
-              <p style="margin-block-end: 1rem;">{{paragraph}}</p>
+              <p
+                class="ai-chat-workspace-shell-body-story__paragraph"
+              >{{paragraph}}</p>
             {{/each}}
           </WorkspaceShellBody>
         </:body>
@@ -69,35 +72,34 @@ export const LongContent = meta.story({
 
 export const WithCustomContent = meta.story({
   render: () => <template>
-    <div style="display: flex; block-size: 30rem;">
-      <WorkspaceShell style="flex: 1;">
+    <div class="ai-chat-workspace-shell-body-story__host">
+      <WorkspaceShell class="ai-chat-workspace-shell-body-story__shell">
         <:body>
           <WorkspaceShellBody>
             <div>
-              <h3 style="margin-bottom: 1rem;">Custom Content Example</h3>
-              <p style="margin-bottom: 1rem;">
+              <h3 class="ai-chat-workspace-shell-body-story__spaced">Custom
+                Content Example</h3>
+              <p class="ai-chat-workspace-shell-body-story__spaced">
                 This body can contain any custom HTML or components. The content
                 will automatically scroll if it exceeds the available height.
               </p>
-              <div
-                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;"
-              >
-                <div
-                  style="padding: 1rem; background: var(--cds-layer-01); border-radius: 4px;"
-                >
-                  <h4 style="margin-bottom: 0.5rem;">Card 1</h4>
+              <div class="ai-chat-workspace-shell-body-story__grid">
+                <div class="ai-chat-workspace-shell-body-story__card">
+                  <h4
+                    class="ai-chat-workspace-shell-body-story__card-title"
+                  >Card 1</h4>
                   <p>Custom card content</p>
                 </div>
-                <div
-                  style="padding: 1rem; background: var(--cds-layer-01); border-radius: 4px;"
-                >
-                  <h4 style="margin-bottom: 0.5rem;">Card 2</h4>
+                <div class="ai-chat-workspace-shell-body-story__card">
+                  <h4
+                    class="ai-chat-workspace-shell-body-story__card-title"
+                  >Card 2</h4>
                   <p>Custom card content</p>
                 </div>
-                <div
-                  style="padding: 1rem; background: var(--cds-layer-01); border-radius: 4px;"
-                >
-                  <h4 style="margin-bottom: 0.5rem;">Card 3</h4>
+                <div class="ai-chat-workspace-shell-body-story__card">
+                  <h4
+                    class="ai-chat-workspace-shell-body-story__card-title"
+                  >Card 3</h4>
                   <p>Custom card content</p>
                 </div>
               </div>
@@ -111,15 +113,14 @@ export const WithCustomContent = meta.story({
 
 export const EmptyState = meta.story({
   render: () => <template>
-    <div style="display: flex; block-size: 30rem;">
-      <WorkspaceShell style="flex: 1;">
+    <div class="ai-chat-workspace-shell-body-story__host">
+      <WorkspaceShell class="ai-chat-workspace-shell-body-story__shell">
         <:body>
           <WorkspaceShellBody>
-            <div
-              style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 2rem; text-align: center;"
-            >
-              <h3 style="margin-bottom: 1rem;">No content available</h3>
-              <p style="color: var(--cds-text-secondary);">
+            <div class="ai-chat-workspace-shell-body-story__empty-state">
+              <h3 class="ai-chat-workspace-shell-body-story__spaced">No content
+                available</h3>
+              <p class="ai-chat-workspace-shell-body-story__empty-text">
                 This workspace is empty. Add content to get started.
               </p>
             </div>
@@ -133,9 +134,7 @@ export const EmptyState = meta.story({
 // docs-app's live demo: the body on its own, outside a `WorkspaceShell`.
 export const Standalone = meta.story({
   render: () => <template>
-    <div
-      style="max-inline-size: 24rem; border: 1px solid var(--cds-border-subtle);"
-    >
+    <div class="ai-chat-workspace-shell-body-story__preview">
       <WorkspaceShellBody>
         <p>Workspace body content goes here.</p>
       </WorkspaceShellBody>

@@ -1,0 +1,175 @@
+/* Widens the handles' hit area with an invisible pseudo-element, like Carbon
+   React's own story examples. */
+.resizer-story .cds--resizer--horizontal::before {
+  content: "";
+  position: absolute;
+  top: -0.5rem;
+  width: 100%;
+  height: calc(100% + 1rem);
+}
+.resizer-story .cds--resizer--vertical::before {
+  content: "";
+  position: absolute;
+  left: -0.5rem;
+  height: 100%;
+  width: calc(100% + 1rem);
+}
+.resizer-story .custom-drag-handler-1 {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.resizer-story .custom-drag-handler-4 {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 2rem;
+  transform: translateX(-50%);
+}
+.resizer-story .custom-drag-handler-4 > div {
+  height: 2px;
+  background: var(--cds-border-strong, #8d8d8d);
+}
+
+.resizer-story__frame {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 600px;
+  overflow: hidden;
+}
+
+.resizer-story__panel {
+  padding: 1rem;
+  background: var(--cds-layer);
+  overflow: auto;
+  min-block-size: 3rem;
+}
+
+.resizer-story__frame-fixed {
+  width: 100%;
+  max-width: 600px;
+  height: 200px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.resizer-story__body {
+  padding: 1rem;
+  background: var(--cds-layer);
+  overflow: auto;
+  flex: 1;
+}
+
+.resizer-story__overlay-host {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  height: 300px;
+  overflow: hidden;
+  border: 1px solid var(--cds-border-subtle-01, #e0e0e0);
+}
+
+.resizer-story__main {
+  padding: 1rem;
+  height: 100%;
+  overflow: auto;
+}
+
+.resizer-story__overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-height: 300px;
+  background: var(--cds-layer);
+  display: flex;
+  flex-direction: column;
+}
+
+.resizer-story__overlay-body {
+  padding: 1rem;
+  overflow: auto;
+  height: 120px;
+}
+
+.resizer-story__vertical {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 600px;
+  height: 300px;
+  overflow: hidden;
+}
+
+.resizer-story__pane {
+  height: 100%;
+  background: var(--cds-layer);
+  padding: 1rem;
+  overflow: auto;
+  min-block-size: 48px;
+}
+
+.resizer-story__horizontal {
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  height: 300px;
+  overflow: hidden;
+}
+
+.resizer-story__side-pane {
+  background: var(--cds-layer);
+  padding: 1rem;
+  overflow: hidden;
+  min-inline-size: 48px;
+}
+
+.resizer-story__split {
+  display: flex;
+  height: 300px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.resizer-story__split-column {
+  overflow: auto;
+  min-inline-size: 3rem;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.resizer-story__half-panel {
+  padding: 1rem;
+  background: var(--cds-layer);
+  overflow: auto;
+  min-block-size: 3rem;
+  height: 50%;
+}
+
+.resizer-story__grid-pane {
+  background: var(--cds-layer);
+  padding: 1rem;
+  overflow: auto;
+  min-inline-size: 48px;
+}
+
+.resizer-story__examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.resizer-story__small-frame {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  height: 160px;
+  overflow: hidden;
+}

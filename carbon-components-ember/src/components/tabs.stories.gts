@@ -16,6 +16,7 @@ import UserAvatar from './icons/user-avatar.ts';
 
 import type { TabsSignature } from './tabs.gts';
 import type Icon from './icon.gts';
+import '#storybook/styles/tabs.css';
 
 // Parity gaps with Carbon React's Tabs stories:
 // - `IconOnly` / `Icon20Only` (+ their visual snapshots): no IconTab /
@@ -174,7 +175,7 @@ function dismissableRender(initial: TabDef[]) {
     };
 
     return <template>
-      <Button style="margin-bottom: 3rem" @onClick={{reset}}>Reset</Button>
+      <Button class="tabs-story__reset" @onClick={{reset}}>Reset</Button>
       <Tabs
         @dismissable={{true}}
         @contained={{args.contained}}

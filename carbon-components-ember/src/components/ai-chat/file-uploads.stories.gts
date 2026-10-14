@@ -10,6 +10,7 @@ import type {
   FileRemoveEventDetail,
   FileUpload,
 } from './-file-uploads/types.ts';
+import '#storybook/styles/ai-chat/file-uploads.css';
 
 // `@carbon/ai-chat-components` ships no stories for `cds-aichat-file-uploads`,
 // so these are based on the docs-app page; the title follows upstream's
@@ -86,7 +87,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     };
 
     return <template>
-      <div style="max-inline-size: 20rem;">
+      <div class="ai-chat-file-uploads-story__container">
         <FileUploads
           @uploads={{state.uploads}}
           @removeFileLabel={{args.removeFileLabel}}

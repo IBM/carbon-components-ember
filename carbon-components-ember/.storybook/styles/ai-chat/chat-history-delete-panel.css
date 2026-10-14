@@ -1,0 +1,12 @@
+.ai-chat-chat-history-delete-panel-story__frame-bordered {
+  max-inline-size: 20rem;
+  block-size: 10rem;
+  position: relative;
+  border: 1px solid var(--cds-border-subtle, #e0e0e0);
+}
+
+.ai-chat-chat-history-delete-panel-story__frame {
+  max-inline-size: 20rem;
+  block-size: 10rem;
+  position: relative;
+}
