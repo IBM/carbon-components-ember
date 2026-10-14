@@ -4,7 +4,7 @@
  * and `references/components/<id>.md` holds one page's import, arguments,
  * blocks and examples, as the components manifest has them.
  *
- * Usage: node scripts/create-skill-references.mjs [storybook-static]
+ * Usage: node scripts/skill-references.mjs [storybook-static]
  */
 
 import fs from 'node:fs';
