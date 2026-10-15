@@ -75,6 +75,7 @@
   .cds-aichat-history-content__results-count {
     display: block;
     padding: layout.$spacing-04 0 layout.$spacing-02 layout.$spacing-04;
+
     @include type.type-style("label-01");
   }
 }
@@ -156,7 +157,7 @@
   }
 
   .cds--side-nav__link:focus {
-    background-color: var(--cds-background-hover, rgba(141, 141, 141, 0.12));
+    background-color: var(--cds-background-hover, rgb(141 141 141 / 12%));
     outline: 2px solid var(--cds-focus, #0f62fe);
     outline-offset: -2px;
   }
@@ -243,8 +244,7 @@
 
 .cds-aichat-history-panel-item-input__invalid-message {
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
+  flex-flow: row nowrap;
   gap: layout.$spacing-05;
   padding-block-end: layout.$spacing-03;
   padding-inline-start: layout.$spacing-05;

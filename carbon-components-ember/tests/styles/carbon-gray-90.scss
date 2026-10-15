@@ -5,5 +5,5 @@
 
 :root {
   // Emit CSS Custom Properties for the current theme
-  @include themes.theme();
+  @include themes.theme;
 }
