@@ -6,7 +6,7 @@
  */
 
 import Component from '@glimmer/component';
-import { modifier as eModifier } from 'ember-modifier';
+import { modifier } from 'ember-modifier';
 import ChatButton from './chat-button.gts';
 import TrashCan from '../icons/trash-can.ts';
 import './chat-history.scss';
@@ -31,7 +31,7 @@ export interface ChatHistoryDeletePanelSignature {
   };
 }
 
-const autofocus = eModifier((element: HTMLElement) => {
+const autofocus = modifier((element: HTMLElement) => {
   requestAnimationFrame(() => element.focus());
 });
 
