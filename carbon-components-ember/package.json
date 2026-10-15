@@ -126,7 +126,7 @@
     "@types/qunit": "^2.19.14",
     "@types/react": "^19.3.0",
     "@vitest/browser": "^5.0.3",
-    "@vitest/browser-playwright": "^5.0.3",
+    "@vitest/browser-playwright": "^5.0.4",
     "babel-plugin-ember-template-compilation": "^4.0.1",
     "concurrently": "^10.0.6",
     "ember-page-title": "^9.0.3",
