@@ -56,7 +56,7 @@ const defaultTimeout = (toast: Toast) =>
  */
 export default class NotificationService extends Service {
   /** The toasts to show, newest first. */
-  @tracked toasts: Toast[] = [];
+  @tracked toasts: readonly Toast[] = [];
 
   /** Shows a toast. Returns it, to `remove` it later. */
   add(toast: Toast): Toast {
