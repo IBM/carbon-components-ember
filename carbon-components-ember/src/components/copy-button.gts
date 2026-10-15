@@ -1,8 +1,10 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import { modifier as eModifier } from 'ember-modifier';
+import { modifier } from 'ember-modifier';
 import { task, timeout } from 'ember-concurrency';
+import copyToClipboard from '../modifiers/copy-to-clipboard.ts';
+import { textOf } from '../utils/clipboard.ts';
 import Popover, { PopoverContent } from './popover.gts';
 import type { PopoverAlignment } from './popover.gts';
 import Button from '../components/button.gts';
@@ -27,26 +29,35 @@ export interface CopyButtonSignature {
   };
 }
 
-const captureElement = eModifier<{
+const captureElement = modifier<{
   Element: HTMLElement;
   Args: { Named: { onInsert: (element: HTMLElement) => void } };
 }>((element, _positional, { onInsert }) => {
   onInsert(element);
 });
 
+// Drops the template's own indentation around the copied text, keeping the
+// code's.
+function dedent(text: string) {
+  const lines = text
+    .replace(/^\s*\n/, '')
+    .trimEnd()
+    .split('\n');
+  const indents = lines
+    .filter((line) => line.trim())
+    .map((line) => /^[ \t]*/.exec(line)![0].length);
+  const indent = Math.min(...indents, Infinity);
+  return lines
+    .map((line) => line.slice(Number.isFinite(indent) ? indent : 0))
+    .join('\n');
+}
+
 export default class CopyButton extends Component<CopyButtonSignature> {
   @tracked didCopy: boolean = false;
   @tracked isHovered: boolean = false;
-  carbonElement?: HTMLElement;
+  codeElement?: HTMLElement;
 
   tooltipId = `${guidFor(this)}-copy-btn-tooltip`;
-
-  get options() {
-    return {
-      targetElement: this.args.targetElement,
-      targetElementId: this.args.targetElementId,
-    };
-  }
 
   get align(): PopoverAlignment {
     return this.args.align ?? 'bottom';
@@ -76,8 +87,8 @@ export default class CopyButton extends Component<CopyButtonSignature> {
     this.isHovered = false;
   };
 
-  captureCarbonElement = (element: HTMLElement) => {
-    this.carbonElement = element;
+  captureCodeElement = (element: HTMLElement) => {
+    this.codeElement = element;
   };
 
   hideFeedback = task({ restartable: true }, async () => {
@@ -85,38 +96,24 @@ export default class CopyButton extends Component<CopyButtonSignature> {
     this.didCopy = false;
   });
 
-  copyToClipboard = () => {
-    let targetElement: Element | null | undefined = this.options.targetElement;
-    if (!targetElement && this.options.targetElementId) {
-      targetElement = document.getElementById(this.options.targetElementId);
-    }
-    targetElement = targetElement || this.carbonElement;
-    const el = document.createElement('textarea'); // Create a <textarea> element
-    // Set its value to the string that you want copied
-    el.value = (targetElement?.textContent ?? '')
-      .trim()
-      .split('\n')
-      .map((x) => x.trim())
-      .join('\n');
-    el.setAttribute('readonly', ''); // Make it readonly to be tamper-proof
-    el.style.position = 'absolute';
-    el.style.left = '-9999px'; // Move outside the screen to make it invisible
-    document.body.appendChild(el); // Append the <textarea> element to the HTML document
-    const selected =
-      document.getSelection()!.rangeCount > 0 // Check if there is any content selected previously
-        ? document.getSelection()!.getRangeAt(0) // Store selection if found
-        : false; // Mark as false to know no selection existed before
-    el.select(); // Select the <textarea> content
-    document.execCommand('copy'); // Copy - only works as a result of a user action (e.g. click events)
-    document.body.removeChild(el); // Remove the <textarea> element
-    if (selected) {
-      // If a selection existed before copying
-      document.getSelection()!.removeAllRanges(); // Unselect everything on the HTML document
-      document.getSelection()!.addRange(selected); // Restore the original selection
-    }
+  textToCopy = () => {
+    const target =
+      this.args.targetElement ??
+      (this.args.targetElementId
+        ? document.getElementById(this.args.targetElementId)
+        : null) ??
+      this.codeElement;
+    return target ? dedent(textOf(target)) : '';
+  };
+
+  // Ignores the result, so a promise doesn't put Button into its loading state.
+  onClick = () => {
+    this.args.onClick?.();
+  };
+
+  showFeedback = () => {
     this.didCopy = true;
     void this.hideFeedback.perform();
-    this.args.onClick?.();
   };
 
   <template>
@@ -136,7 +133,7 @@ export default class CopyButton extends Component<CopyButtonSignature> {
         @size="md"
         @iconOnly={{true}}
         @disabled={{@disabled}}
-        @onClick={{this.copyToClipboard}}
+        @onClick={{this.onClick}}
         class="cds--copy
           {{if @inline 'cds--snippet cds--snippet--inline' 'cds--copy-btn'}}"
         ...attributes
@@ -144,10 +141,13 @@ export default class CopyButton extends Component<CopyButtonSignature> {
         {{on "mouseleave" this.hide}}
         {{on "focusin" this.show}}
         {{on "focusout" this.hide}}
-        {{captureElement onInsert=this.captureCarbonElement}}
+        {{copyToClipboard text=this.textToCopy onSuccess=this.showFeedback}}
       >
         {{#if (has-block)}}
-          <code class={{unless @inline "cds--visually-hidden"}}>
+          <code
+            class={{unless @inline "cds--visually-hidden"}}
+            {{captureElement onInsert=this.captureCodeElement}}
+          >
             {{~yield~}}
           </code>
         {{/if}}

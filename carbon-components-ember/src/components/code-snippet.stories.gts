@@ -1,4 +1,4 @@
-import { expect } from 'storybook/test';
+import { expect, spyOn, waitFor } from 'storybook/test';
 
 import { withLayer } from '#storybook/decorators.gts';
 import preview from '#storybook/preview.ts';
@@ -95,8 +95,14 @@ Inline.test(
   async ({ canvas, userEvent }) => {
     const button = canvas.getByRole('button', { name: 'Copy to clipboard' });
     await expect(button).toHaveTextContent('node -v');
+    // Story events are synthetic, which the real Clipboard API refuses.
+    const writeText = spyOn(
+      navigator.clipboard,
+      'writeText',
+    ).mockResolvedValue();
     await userEvent.click(button);
-    await expect(button).toHaveAccessibleName('Copied!');
+    await waitFor(() => expect(button).toHaveAccessibleName('Copied!'));
+    await expect(writeText).toHaveBeenCalledWith('node -v');
   },
 );
 
@@ -133,8 +139,11 @@ Singleline.test(
 
 Singleline.test('copies the snippet', async ({ canvas, userEvent }) => {
   const button = canvas.getByRole('button', { name: 'Copy to clipboard' });
+  // Story events are synthetic, which the real Clipboard API refuses.
+  const writeText = spyOn(navigator.clipboard, 'writeText').mockResolvedValue();
   await userEvent.click(button);
-  await expect(button).toHaveAccessibleName('Copied!');
+  await waitFor(() => expect(button).toHaveAccessibleName('Copied!'));
+  await expect(writeText).toHaveBeenCalledOnce();
 });
 
 export const InlineWithLayer = Inline.extend({

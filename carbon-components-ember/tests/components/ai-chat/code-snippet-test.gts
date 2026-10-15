@@ -6,6 +6,7 @@ import Component from '@glimmer/component';
 import CodeSnippet from '#src/components/ai-chat/code-snippet.gts';
 import { resetCodeMirrorRuntimeForTests } from '#src/components/ai-chat/-code-snippet/codemirror-loader.ts';
 import { Add } from '#src/icons.ts';
+import { setupClipboard } from '../../helpers';
 
 async function waitForEditor() {
   // The very first invocation of this helper in the whole suite is the only
@@ -21,6 +22,7 @@ async function waitForEditor() {
 
 module('Integration | Component | ai-chat/CodeSnippet', (hooks) => {
   setupRenderingTest(hooks);
+  const clipboard = setupClipboard(hooks);
 
   hooks.afterEach(() => {
     // The CodeMirror runtime chunk is a module-level singleton (mirroring
@@ -136,30 +138,11 @@ module('Integration | Component | ai-chat/CodeSnippet', (hooks) => {
   });
 
   test('clicking the copy action copies @code to the clipboard', async function (assert) {
-    // eslint-disable-next-line @typescript-eslint/unbound-method -- saved only to restore after stubbing
-    const original = navigator.clipboard?.writeText;
-    let copied: string | undefined;
-    Object.defineProperty(navigator, 'clipboard', {
-      configurable: true,
-      value: {
-        writeText: (text: string) => ((copied = text), Promise.resolve()),
-      },
-    });
+    await render(<template><CodeSnippet @code="const x = 1;" /></template>);
+    await waitForEditor();
 
-    try {
-      await render(<template><CodeSnippet @code="const x = 1;" /></template>);
-      await waitForEditor();
-
-      await click('.cds-aichat-toolbar__actions-container button');
-      assert.strictEqual(copied, 'const x = 1;');
-    } finally {
-      if (original) {
-        Object.defineProperty(navigator, 'clipboard', {
-          configurable: true,
-          value: { writeText: original },
-        });
-      }
-    }
+    await click('.cds-aichat-toolbar__actions-container button');
+    assert.deepEqual(clipboard.copied, ['const x = 1;']);
   });
 
   test('@actions render after the copy action', async function (assert) {
