@@ -268,9 +268,15 @@ importers:
       '@codemirror/view':
         specifier: 6.43.14
         version: 6.43.14
+      '@ember/test-waiters':
+        specifier: ^4.1.2
+        version: 4.1.2(supports-color@8.1.1)
       '@embroider/addon-shim':
         specifier: ^1.10.3
         version: 1.10.3(supports-color@8.1.1)
+      '@floating-ui/dom':
+        specifier: ^1.8.0
+        version: 1.8.0
       '@lezer/highlight':
         specifier: 1.2.5
         version: 1.2.5
@@ -368,9 +374,6 @@ importers:
       '@ember/test-helpers':
         specifier: ^5.7.0
         version: 5.7.0(@babel/core@8.0.7)(supports-color@8.1.1)
-      '@ember/test-waiters':
-        specifier: ^4.1.2
-        version: 4.1.2(supports-color@8.1.1)
       '@embroider/addon-dev':
         specifier: ^8.4.2
         version: 8.4.2(@glint/template@1.9.0)(rollup@4.64.6)(supports-color@8.1.1)
