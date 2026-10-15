@@ -1,4 +1,4 @@
-import EmberApp from 'ember-strict-application-resolver';
+import EmberApp from '@ember/application';
 import EmberRouter from '@ember/routing/router';
 import * as QUnit from 'qunit';
 import { setApplication } from '@ember/test-helpers';
