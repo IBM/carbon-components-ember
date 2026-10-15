@@ -1,0 +1,22 @@
+name: Feature request
+description: A Carbon React component, argument or behaviour that's missing here, or another idea.
+labels: [enhancement]
+projects: [IBM/166]
+body:
+  - type: input
+    id: component
+    attributes:
+      label: Component
+      placeholder: ComboBox
+  - type: textarea
+    id: request
+    attributes:
+      label: What's missing
+      description: For Carbon parity, link Carbon React's docs or story for it.
+    validations:
+      required: true
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use case
+      description: What you're building that needs it.

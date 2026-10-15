@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Documentation
+    url: https://ibm.github.io/carbon-components-ember/
+    about: Components, their arguments and examples.
+  - name: Carbon Design System
+    url: https://carbondesignsystem.com/
+    about: Usage guidance for Carbon's components.
