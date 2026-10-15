@@ -153,7 +153,7 @@
     "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-sass": "1.15.3",
     "sass-embedded": "^1.105.1",
-    "storybook": "^10.6.1",
+    "storybook": "^10.6.2",
     "testem": "^3.21.3",
     "typescript": "catalog:typescript",
     "typescript-eslint": "^8.71.1",
