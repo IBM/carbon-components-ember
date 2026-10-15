@@ -100,3 +100,10 @@ patchedDependencies:
   #   (ember-integrations/ember-storybook#89)
   # Drop once all are released.
   ember-storybook@0.4.2: patches/ember-storybook@0.4.2.patch
+  # Vite's dependency optimizer hashes every discovered dependency again each
+  # time its scan finds another one, so the work grows with the square of the
+  # count: minutes on CI for the ~11k @carbon/icons modules our stories import,
+  # before the first bundle starts. This hashes the scanned batch once. A fix
+  # is being proposed to Vite; drop this patch, and the exact `vite` pin and
+  # Dependabot ignore that go with it, once a release has it (#1057).
+  vite@8.3.4: patches/vite@8.3.4.patch
