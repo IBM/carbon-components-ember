@@ -4,7 +4,7 @@ import type Icon from '../components/icon.gts';
 import OverflowMenuItem from './overflow-menu/overflow-menu-item.gts';
 import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 import calculatePosition from 'ember-basic-dropdown/utils/calculate-position';
-import Tooltip from './-private/tooltip.gts';
+import Tooltip from './tooltip.gts';
 import type { WithBoundArgs } from '@glint/template';
 import OverflowMenuVertical from './icons/overflow-menu-vertical.ts';
 import type { BasicDropdownTriggerSignature } from 'ember-basic-dropdown/components/basic-dropdown-trigger';
@@ -120,21 +120,22 @@ export default class OverflowMenu extends Component<OverflowMenuSignature> {
       as |dd|
     >
       {{#if @tooltip}}
-        <Tooltip>
-          <:trigger as |reference|>
-            <dd.Trigger
-              @stopPropagation={{false}}
-              @eventType={{@eventType}}
-              class="cds--overflow-menu
-                {{if dd.isOpen 'cds--overflow-menu--open'}}"
-              aria-label={{this.iconDescription}}
-              {{reference}}
-              ...attributes
-            >
-              <this.icon @btnClass="cds--overflow-menu__icon" />
-            </dd.Trigger>
-          </:trigger>
-          <:content>{{@tooltip}}</:content>
+        {{! Floating, as before: menus often sit in clipping containers like DataTable }}
+        <Tooltip
+          class="cds--icon-tooltip"
+          @description={{@tooltip}}
+          @autoAlign={{true}}
+        >
+          <dd.Trigger
+            @stopPropagation={{false}}
+            @eventType={{@eventType}}
+            class="cds--overflow-menu
+              {{if dd.isOpen 'cds--overflow-menu--open'}}"
+            aria-label={{this.iconDescription}}
+            ...attributes
+          >
+            <this.icon @btnClass="cds--overflow-menu__icon" />
+          </dd.Trigger>
         </Tooltip>
       {{else}}
         <dd.Trigger

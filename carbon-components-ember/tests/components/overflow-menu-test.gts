@@ -1,6 +1,13 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, find, findAll, settled } from '@ember/test-helpers';
+import {
+  render,
+  click,
+  find,
+  findAll,
+  settled,
+  triggerEvent,
+} from '@ember/test-helpers';
 import OverflowMenu from '#src/components/overflow-menu.gts';
 import { tracked } from '@glimmer/tracking';
 
@@ -189,7 +196,18 @@ module('Integration | Component | OverflowMenu', (hooks) => {
       </template>,
     );
 
-    assert.dom('.cds--overflow-menu').exists();
+    assert.dom('.cds--tooltip .cds--overflow-menu').exists();
+    const describedBy = document
+      .querySelector('.cds--overflow-menu')!
+      .getAttribute('aria-describedby')!;
+    assert.dom(`#${describedBy}`).hasText('Options');
+    assert.dom('.cds--tooltip').hasClass('cds--icon-tooltip');
+
+    await triggerEvent('.cds--tooltip', 'mouseenter');
+    assert.true(
+      document.querySelector('.cds--tooltip-content')!.matches(':popover-open'),
+      'the tooltip floats in the top layer',
+    );
   });
 
   test('should render a divider item', async function (assert) {
