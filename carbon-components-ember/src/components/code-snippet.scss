@@ -1,0 +1,9 @@
+// !important: these were inline styles, which beat Carbon's own heights.
+
+.cds--ember-code-snippet__container {
+  min-height: 48px !important;
+}
+
+.cds--ember-code-snippet__container--collapsed {
+  max-height: 240px !important;
+}

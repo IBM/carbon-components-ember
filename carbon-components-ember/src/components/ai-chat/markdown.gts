@@ -10,6 +10,8 @@ import { tracked, cached } from '@glimmer/tracking';
 import { trustHTML } from '@ember/template';
 import { modifier as eModifier } from 'ember-modifier';
 import { renderMarkdown } from './-markdown-render.ts';
+import './code-snippet.scss';
+import './markdown.scss';
 
 const STREAM_THROTTLE_MS = 100;
 
@@ -76,7 +78,7 @@ export interface MarkdownSignature {
  * behavior), and exposes `markdownItPlugins`/`customRenderers` extension
  * points plus per-widget label args (`codeSnippet*`/`table*`). None of that
  * is ported: fenced code renders as plain `<pre><code>`, markdown tables as
- * plain `<table>` (styled via `_markdown.scss`), and the label/extensibility
+ * plain `<table>` (styled via `markdown.scss`), and the label/extensibility
  * args aren't accepted at all - they'd be dead public API with nothing to
  * label. This mirrors the same "port the public surface, not the internal
  * managers" scope cut already made for `ChatShell`'s manager classes and

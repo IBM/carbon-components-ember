@@ -14,6 +14,7 @@ import {
   ThumbsUp,
   ThumbsUpFilled,
 } from '../../icons.ts';
+import './feedback.scss';
 
 export interface FeedbackButtonsSignature {
   Element: HTMLDivElement;

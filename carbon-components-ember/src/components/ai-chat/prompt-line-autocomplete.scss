@@ -3,7 +3,7 @@
 //
 // Selectors are adapted from `:host(...)` to plain `.cds-aichat-*` classes;
 // colors reference `@carbon/styles`' compiled `--cds-*` custom properties,
-// spacing uses literal rem values (see `_chain-of-thought.scss`'s header
+// spacing uses literal rem values (see `chain-of-thought.scss`'s header
 // comment for why). Upstream's `[first-item]`/`[last-item]` boolean
 // attribute selectors (only ever used for corner-rounding, driven by a
 // single "is this the very first/last option overall" computation) become

@@ -22,6 +22,8 @@ function createIndexFiles() {
     if (!addonFilename.includes('.')) continue;
     if (addonFilename.includes('.gitkeep')) continue;
     if (/\.stories\.[gt]?[jt]s$|\.mdx$/.test(addonFilename)) continue;
+    // Components' own stylesheets, imported by the components themselves.
+    if (/\.s?css$/.test(addonFilename)) continue;
     if (addonFilename.includes('render-svg-part.ts')) continue;
     if (
       addonFilename.startsWith('components/icons') &&

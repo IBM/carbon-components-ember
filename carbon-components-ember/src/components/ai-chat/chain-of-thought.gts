@@ -12,6 +12,7 @@ import { modifier as eModifier } from 'ember-modifier';
 import type { WithBoundArgs } from '@glint/template';
 import InlineLoading from '../inline-loading.gts';
 import { CheckmarkFilled, ChevronRight, ErrorFilled } from '../../icons.ts';
+import './chain-of-thought.scss';
 
 export type ChainOfThoughtStepStatus = 'processing' | 'failure' | 'success';
 

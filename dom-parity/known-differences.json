@@ -66,7 +66,7 @@
   "RadioTile": [
     {
       "path": "div > label[1] > span[0] > svg[0].classes[cds--tile__checkmark-icon]",
-      "reason": "`.cds--tile__checkmark svg` is a plain descendant selector in the resolved @carbon/styles CSS (no class needed on the svg itself for styling), so `cds--tile__checkmark-icon` is an inert class - added to radio-tile.gts's `<CheckmarkFilled @svgClass=...>` invocation specifically to opt out of this addon's `Icon` base component's default hashed/margin-carrying class (see AGENTS.md's renderIcon-default-size gotcha, previously undocumented for this non-renderIcon direct-icon-usage case, now fixed the same way). @carbon/react's own icon has no class at all. Applies to every variant."
+      "reason": "`.cds--tile__checkmark svg` is a plain descendant selector in the resolved @carbon/styles CSS (no class needed on the svg itself for styling), so `cds--tile__checkmark-icon` is an inert class - added to radio-tile.gts's `<CheckmarkFilled @svgClass=...>` invocation specifically to opt out of this addon's `Icon` base component's default margin-carrying `cds--ember-icon` class (see AGENTS.md's renderIcon-default-size gotcha, previously undocumented for this non-renderIcon direct-icon-usage case, now fixed the same way). @carbon/react's own icon has no class at all. Applies to every variant."
     },
     {
       "path": "div > input[0].attributes.checked",
@@ -91,7 +91,7 @@
   "SelectableTile": [
     {
       "path": "div > span[0] > svg[0].classes[cds--tile__checkmark-icon]",
-      "reason": "Same inert-`@svgClass` gap as RadioTile's entry of the same name - added to tile.gts's `<Checkbox>`/`<CheckboxCheckedFilled>` invocations to opt out of this addon's `Icon` base component's default hashed/margin-carrying class (see AGENTS.md's renderIcon-default-size gotcha). @carbon/react's own icon has no class at all. Applies to every variant."
+      "reason": "Same inert-`@svgClass` gap as RadioTile's entry of the same name - added to tile.gts's `<Checkbox>`/`<CheckboxCheckedFilled>` invocations to opt out of this addon's `Icon` base component's default margin-carrying `cds--ember-icon` class (see AGENTS.md's renderIcon-default-size gotcha). @carbon/react's own icon has no class at all. Applies to every variant."
     }
   ],
   "ExpandableTile": [
@@ -106,7 +106,7 @@
     },
     {
       "path": "div > div[0] > button[1] > svg[0].classes[cds--tile__chevron-icon]",
-      "reason": "Same inert-`@svgClass` gap as RadioTile's entry of the same name - added to tile.gts's `<ChevronDown>` invocation to opt out of this addon's `Icon` base component's default hashed/margin-carrying class. @carbon/react's own icon has no class at all. Applies to every variant."
+      "reason": "Same inert-`@svgClass` gap as RadioTile's entry of the same name - added to tile.gts's `<ChevronDown>` invocation to opt out of this addon's `Icon` base component's default margin-carrying `cds--ember-icon` class. @carbon/react's own icon has no class at all. Applies to every variant."
     }
   ],
   "SliderSkeleton": [
@@ -555,7 +555,7 @@
   "ProgressIndicator": [
     {
       "path": "ul > li[0] > button[0] > svg[0].classes[cds--progress-step-icon]",
-      "reason": "`cds--progress-step-icon` is an inert class added to progress-indicator.gts's `Incomplete`/`CheckmarkOutline`/`CircleDash` icon invocations specifically to opt out of this addon's `Icon` base component's default hashed/margin-carrying class (see AGENTS.md's renderIcon-default-size gotcha) - @carbon/react's own icon has no class at all in this position (only the invalid-step's `Warning` icon carries a real class upstream, `cds--progress__warning`, already matched on both sides). Applies to every variant."
+      "reason": "`cds--progress-step-icon` is an inert class added to progress-indicator.gts's `Incomplete`/`CheckmarkOutline`/`CircleDash` icon invocations specifically to opt out of this addon's `Icon` base component's default margin-carrying `cds--ember-icon` class (see AGENTS.md's renderIcon-default-size gotcha) - @carbon/react's own icon has no class at all in this position (only the invalid-step's `Warning` icon carries a real class upstream, `cds--progress__warning`, already matched on both sides). Applies to every variant."
     },
     {
       "path": "ul > li[0] > button[0].attributes.index",
@@ -563,7 +563,7 @@
     },
     {
       "path": "ul > li[1] > button[0] > svg[0].classes[cds--progress-step-icon]",
-      "reason": "`cds--progress-step-icon` is an inert class added to progress-indicator.gts's `Incomplete`/`CheckmarkOutline`/`CircleDash` icon invocations specifically to opt out of this addon's `Icon` base component's default hashed/margin-carrying class (see AGENTS.md's renderIcon-default-size gotcha) - @carbon/react's own icon has no class at all in this position (only the invalid-step's `Warning` icon carries a real class upstream, `cds--progress__warning`, already matched on both sides). Applies to every variant."
+      "reason": "`cds--progress-step-icon` is an inert class added to progress-indicator.gts's `Incomplete`/`CheckmarkOutline`/`CircleDash` icon invocations specifically to opt out of this addon's `Icon` base component's default margin-carrying `cds--ember-icon` class (see AGENTS.md's renderIcon-default-size gotcha) - @carbon/react's own icon has no class at all in this position (only the invalid-step's `Warning` icon carries a real class upstream, `cds--progress__warning`, already matched on both sides). Applies to every variant."
     },
     {
       "path": "ul > li[1] > button[0].attributes.index",
@@ -571,7 +571,7 @@
     },
     {
       "path": "ul > li[2] > button[0] > svg[0].classes[cds--progress-step-icon]",
-      "reason": "`cds--progress-step-icon` is an inert class added to progress-indicator.gts's `Incomplete`/`CheckmarkOutline`/`CircleDash` icon invocations specifically to opt out of this addon's `Icon` base component's default hashed/margin-carrying class (see AGENTS.md's renderIcon-default-size gotcha) - @carbon/react's own icon has no class at all in this position (only the invalid-step's `Warning` icon carries a real class upstream, `cds--progress__warning`, already matched on both sides). Applies to every variant."
+      "reason": "`cds--progress-step-icon` is an inert class added to progress-indicator.gts's `Incomplete`/`CheckmarkOutline`/`CircleDash` icon invocations specifically to opt out of this addon's `Icon` base component's default margin-carrying `cds--ember-icon` class (see AGENTS.md's renderIcon-default-size gotcha) - @carbon/react's own icon has no class at all in this position (only the invalid-step's `Warning` icon carries a real class upstream, `cds--progress__warning`, already matched on both sides). Applies to every variant."
     },
     {
       "path": "ul > li[2] > button[0].attributes.index",

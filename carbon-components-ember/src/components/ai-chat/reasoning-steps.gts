@@ -10,6 +10,7 @@ import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import type { WithBoundArgs } from '@glint/template';
 import { ChevronRight } from '../../icons.ts';
+import './reasoning-steps.scss';
 
 export interface ReasoningStepSignature {
   Element: HTMLDivElement;

@@ -9,6 +9,7 @@ import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { ChevronUp } from '../../icons.ts';
+import './reasoning-steps.scss';
 
 export interface ReasoningStepsToggleSignature {
   Element: HTMLButtonElement;

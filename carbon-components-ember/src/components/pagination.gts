@@ -6,11 +6,11 @@ import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { cached, tracked } from '@glimmer/tracking';
 import { defaultArgs } from '../utils/decorators.ts';
-import { stylesheet } from 'astroturf';
 import { runTask } from 'ember-lifeline';
 import { guidFor } from '@ember/object/internals';
 import { ChevronLeft, ChevronRight } from '../icons.ts';
 import type { ComponentLike } from '@glint/template';
+import './pagination.scss';
 
 type TooltipPosition = 'top' | 'right' | 'bottom' | 'left';
 
@@ -198,12 +198,6 @@ export default class Pagination extends Component<PaginationSignature> {
     },
   );
 
-  styles = stylesheet`
-    .namespace {
-      width: 100%;
-    }
-  ` as { namespace: string };
-
   get guid() {
     return guidFor(this);
   }
@@ -212,7 +206,7 @@ export default class Pagination extends Component<PaginationSignature> {
     <div
       class="cds--pagination
         {{concat 'cds--pagination--' this.defaultArgs.size}}
-        {{this.styles.namespace}}
+        cds--ember-pagination
         {{if @isLoading 'cds--skeleton'}}"
       data-pagination
       {{this.notifyInitialPage}}

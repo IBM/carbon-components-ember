@@ -9,6 +9,7 @@ import Grid from '../grid.gts';
 
 import type { GridAlign, GridSignature } from '../grid.gts';
 import type { TOC } from '@ember/component/template-only';
+import './flex-grid.scss';
 
 export interface FlexGridSignature {
   Element: GridSignature['Element'];

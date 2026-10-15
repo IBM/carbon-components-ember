@@ -23,6 +23,8 @@ import type {
   TriggerChangeEventDetail,
   TriggerSuggestionConfig,
 } from './-prompt-line/tiptap/types.ts';
+import './prompt-line-autocomplete.scss';
+import './prompt-line.scss';
 
 /** Optional header shown above the list. */
 export interface HeaderConfig {

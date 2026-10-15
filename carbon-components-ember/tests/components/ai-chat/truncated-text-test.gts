@@ -2,27 +2,8 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, triggerKeyEvent } from '@ember/test-helpers';
 import TruncatedText from '#src/components/ai-chat/truncated-text.gts';
-import { waitForAnimationFrame, nonce } from '../../helpers';
-// Not `style`: that would turn this file's <style> elements into the modifier.
-import styleModifier from 'ember-style-modifier';
-
-// `TruncatedText`'s overflow detection reads real `scrollHeight`/
-// `clientHeight` off `.cds-aichat-truncated-text__content`, which only
-// clamps to `@lines` once the real `-webkit-line-clamp` rule from this
-// addon's own `src/styles/ai-chat/_truncated-text.scss` applies. That
-// partial isn't part of `@carbon/styles`' prebuilt bundle (the one
-// `?inline`-imported elsewhere in this test suite), and test-app's dev
-// build doesn't reliably load a new component's own SCSS either - so the
-// handful of rules the component actually depends on for clamping are
-// reproduced here directly, scoped to this test file.
-const lineClampStyle = `
-  .cds-aichat-truncated-text__content {
-    display: -webkit-box;
-    overflow: hidden;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: var(--line-clamp-value, 1);
-  }
-`;
+import { waitForAnimationFrame } from '../../helpers';
+import style from 'ember-style-modifier';
 
 module('Integration | Component | ai-chat/TruncatedText', (hooks) => {
   setupRenderingTest(hooks);
@@ -30,10 +11,7 @@ module('Integration | Component | ai-chat/TruncatedText', (hooks) => {
   test('it renders @value as plain text when short', async function (assert) {
     await render(
       <template>
-        <style nonce={{nonce}}>
-          {{lineClampStyle}}
-        </style>
-        <div {{styleModifier width="200px"}}>
+        <div {{style width="200px"}}>
           <TruncatedText @value="Short text" @lines={{2}} />
         </div>
       </template>,
@@ -49,10 +27,7 @@ module('Integration | Component | ai-chat/TruncatedText', (hooks) => {
 
     await render(
       <template>
-        <style nonce={{nonce}}>
-          {{lineClampStyle}}
-        </style>
-        <div {{styleModifier width="100px"}}>
+        <div {{style width="100px"}}>
           <TruncatedText @value={{longValue}} @lines={{1}} />
         </div>
       </template>,
@@ -69,10 +44,7 @@ module('Integration | Component | ai-chat/TruncatedText', (hooks) => {
 
     await render(
       <template>
-        <style nonce={{nonce}}>
-          {{lineClampStyle}}
-        </style>
-        <div {{styleModifier width="100px"}}>
+        <div {{style width="100px"}}>
           <TruncatedText
             @value={{longValue}}
             @lines={{1}}
@@ -140,10 +112,7 @@ module('Integration | Component | ai-chat/TruncatedText', (hooks) => {
     try {
       await render(
         <template>
-          <style nonce={{nonce}}>
-            {{lineClampStyle}}
-          </style>
-          <div {{styleModifier width="100px"}}>
+          <div {{style width="100px"}}>
             <TruncatedText @value={{longValue}} @lines={{1}} />
           </div>
         </template>,
@@ -173,10 +142,7 @@ module('Integration | Component | ai-chat/TruncatedText', (hooks) => {
   test('it renders default block content instead of @value when passed', async function (assert) {
     await render(
       <template>
-        <style nonce={{nonce}}>
-          {{lineClampStyle}}
-        </style>
-        <div {{styleModifier width="200px"}}>
+        <div {{style width="200px"}}>
           <TruncatedText @value="Tooltip text" @lines={{2}}>
             <strong>Rich content</strong>
           </TruncatedText>

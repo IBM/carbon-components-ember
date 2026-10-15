@@ -14,6 +14,7 @@ import OverflowMenu from '../overflow-menu.gts';
 import OverflowMenuItem from '../overflow-menu/overflow-menu-item.gts';
 import ChatHistoryPanelItemInput from './chat-history-panel-item-input.gts';
 import { OverflowMenuVertical } from '../../icons.ts';
+import './chat-history.scss';
 
 export type ChatHistoryItemAction = {
   text: string;

@@ -30,6 +30,7 @@ import { defaultLineCountText } from './-code-snippet/formatters.ts';
 import type { LineCountFormatter } from './-code-snippet/formatters.ts';
 import { loadCodeMirrorRuntime } from './-code-snippet/codemirror-loader.ts';
 import type { CodeMirrorRuntimeModule } from './-code-snippet/codemirror-loader.ts';
+import './code-snippet.scss';
 
 export interface CodeSnippetSignature {
   Element: HTMLDivElement;

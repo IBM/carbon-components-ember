@@ -53,7 +53,7 @@
 // the tooltip-branch content div) isn't reproduced: that div has no
 // `tabindex` in upstream's own template either, so it can never actually
 // receive focus — the same kind of pre-existing dead rule as the
-// `::slotted([slot='card-media'])` one documented in `_card.scss`.
+// `::slotted([slot='card-media'])` one documented in `card.scss`.
 .cds-aichat-truncated-text__toggle:focus {
   outline: 2px solid var(--cds-focus, #0f62fe);
   outline-offset: -2px;

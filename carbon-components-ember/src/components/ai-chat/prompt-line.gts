@@ -17,6 +17,8 @@ import {
 import { TextareaController } from './-prompt-line/textarea-controller.ts';
 import { textOffsetToDocPos } from './-prompt-line/text-utils.ts';
 import type { SuggestionItem } from './-prompt-line/tiptap/types.ts';
+import './prompt-line-autocomplete.scss';
+import './prompt-line.scss';
 
 /**
  * Imperative handle to the live editing surface, handed to `@onReady` once

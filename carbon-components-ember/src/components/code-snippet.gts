@@ -3,8 +3,8 @@ import { tracked } from '@glimmer/tracking';
 import { defaultArgs } from '../utils/decorators.ts';
 import CopyButton from '../components/copy-button.gts';
 import { modifier as eModifier } from 'ember-modifier';
-import { stylesheet } from 'astroturf';
 import type { TOC } from '@ember/component/template-only';
+import './code-snippet.scss';
 
 export interface CodeSnippetSignature {
   Args: {
@@ -16,17 +16,6 @@ export interface CodeSnippetSignature {
 }
 
 const noop = () => '';
-
-/* !important: these were inline styles, which beat Carbon's own heights. */
-const styles = stylesheet`
-  .container {
-    min-height: 48px !important;
-  }
-
-  .collapsed {
-    max-height: 240px !important;
-  }
-` as { container: string; collapsed: string };
 
 const captureElement = eModifier<{
   Element: HTMLElement;
@@ -108,9 +97,11 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
         data-code-snippet
       >
         <div
-          class="cds--snippet-container
-            {{styles.container}}
-            {{unless this.expanded styles.collapsed}}"
+          class="cds--snippet-container cds--ember-code-snippet__container
+            {{unless
+              this.expanded
+              'cds--ember-code-snippet__container--collapsed'
+            }}"
         >
           <PreCode
             @multiline={{true}}

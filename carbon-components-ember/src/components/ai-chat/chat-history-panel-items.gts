@@ -9,6 +9,7 @@ import type { WithBoundArgs } from '@glint/template';
 import ChatHistoryPanelItem from './chat-history-panel-item.gts';
 import ChatHistoryPanelMenu from './chat-history-panel-menu.gts';
 import type { TOC } from '@ember/component/template-only';
+import './chat-history.scss';
 
 export interface ChatHistoryPanelItemsSignature {
   Element: HTMLDivElement;

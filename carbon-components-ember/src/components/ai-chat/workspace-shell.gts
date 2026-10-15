@@ -10,6 +10,7 @@ import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
 import type { WithBoundArgs } from '@glint/template';
 import WorkspaceShellHeader from './workspace-shell-header.gts';
+import './workspace-shell.scss';
 
 export interface WorkspaceShellSignature {
   Element: HTMLDivElement;

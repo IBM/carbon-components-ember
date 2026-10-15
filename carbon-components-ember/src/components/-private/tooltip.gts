@@ -2,10 +2,10 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { modifier as eModifier } from 'ember-modifier';
-import { stylesheet } from 'astroturf';
 import { Popover } from 'ember-primitives/components/popover';
 
 import type { ModifierLike } from '@glint/template';
+import './tooltip.scss';
 
 export interface BaseTooltipSignature {
   Args: {
@@ -74,34 +74,6 @@ export default class BaseTooltip extends Component<BaseTooltipSignature> {
     return `tooltip-${guidFor(this)}`;
   }
 
-  styles = stylesheet`
-    .tooltip {
-      background: var(--cds-background-inverse, #393939);
-      color: var(--cds-text-inverse, #fff);
-      padding: 0.1875rem 0.5rem;
-      font-size: 0.75rem;
-      line-height: 1rem;
-      max-width: 18rem;
-      overflow-wrap: break-word;
-      border-radius: 0;
-      margin: 0.4375rem;
-    }
-
-    @media (max-width: 450px) {
-      .tooltip {
-        max-width: min(90vw, 400px);
-      }
-    }
-
-    .arrow {
-      position: absolute;
-      width: 0.5rem;
-      height: 0.5rem;
-      background: var(--cds-background-inverse, #393939);
-      transform: rotate(45deg);
-    }
-  ` as { tooltip: string; arrow: string };
-
   <template>
     {{! eslint-disable-next-line ember/template-require-splattributes -- the trigger is the caller's element }}
     <Popover @placement="top" as |p|>
@@ -124,9 +96,9 @@ export default class BaseTooltip extends Component<BaseTooltipSignature> {
         {{yield to="content"}}
       </span>
       {{#if this.isVisible}}
-        <p.Content class={{this.styles.tooltip}} aria-hidden="true">
+        <p.Content class="cds--ember-tooltip" aria-hidden="true">
           {{yield to="content"}}
-          <div class={{this.styles.arrow}} {{p.arrow}}></div>
+          <div class="cds--ember-tooltip__arrow" {{p.arrow}}></div>
         </p.Content>
       {{/if}}
     </Popover>

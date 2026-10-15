@@ -7,7 +7,7 @@
 
 // Upstream's `data-rounded="top"`/`data-rounded="top-right"` attributes are
 // driven by a shared `rounded-modifiers` mixin this port hasn't brought
-// over (see `_card.scss`'s own comment for the same call) - `Card`
+// over (see `card.scss`'s own comment for the same call) - `Card`
 // is the only consumer that needs a `data-rounded` matrix so far, and
 // `Toolbar`'s own corners are already covered by the explicit
 // `--cds-aichat-border-radius` rule below, so the attributes are left in

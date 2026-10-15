@@ -12,6 +12,7 @@ import { modifier as eModifier } from 'ember-modifier';
 import Button from '../button.gts';
 import Tooltip from '../tooltip.gts';
 import { Checkmark, Close, WarningFilled } from '../../icons.ts';
+import './chat-history.scss';
 
 export interface ChatHistoryPanelItemInputSignature {
   Element: HTMLDivElement;

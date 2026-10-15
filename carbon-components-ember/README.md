@@ -8,12 +8,11 @@ An Ember implementation of IBM's [Carbon Design System](https://carbondesignsyst
 
 ```sh
 pnpm add carbon-components-ember @carbon/styles
-pnpm add -D sass
 ```
 
 It's a v2 addon for strict-mode templates (`.gts` and `.gjs`). Embroider and Vite apps work as they are; classic ember-cli apps need `ember-auto-import` 2 and `ember-template-imports`. Tested against `ember-source` 7, and in CI against its beta and alpha channels.
 
-pnpm 12 stops the first install at dependencies' build scripts. Carbon's packages (`@carbon/*` and `@ibm/plex*`) only send IBM's install telemetry, and `@parcel/watcher` (from `sass`) ships prebuilt, so deny them with [`pnpm approve`](https://pnpm.io/cli/permissions) or [`allowBuilds`](https://pnpm.io/settings/build#allowbuilds).
+pnpm 12 stops the first install at dependencies' build scripts. Carbon's packages (`@carbon/*` and `@ibm/plex*`) only send IBM's install telemetry, so deny them with [`pnpm approve`](https://pnpm.io/cli/permissions) or [`allowBuilds`](https://pnpm.io/settings/build#allowbuilds).
 
 ## Set Up
 
@@ -21,7 +20,7 @@ Load Carbon's styles, then the addon's own, once in your app's entry point:
 
 ```ts
 import '@carbon/styles/css/styles.css';
-import 'carbon-components-ember/styles.scss';
+import 'carbon-components-ember/styles.css';
 ```
 
 Add the two elements some components render into to your application template:

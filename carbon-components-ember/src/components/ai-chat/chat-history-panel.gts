@@ -8,6 +8,7 @@
 import Component from '@glimmer/component';
 import type { WithBoundArgs } from '@glint/template';
 import ChatHistoryPanelItems from './chat-history-panel-items.gts';
+import './chat-history.scss';
 
 export interface ChatHistoryPanelSignature {
   Element: HTMLElement;

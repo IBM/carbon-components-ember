@@ -6,6 +6,7 @@
  */
 
 import type { TOC } from '@ember/component/template-only';
+import './workspace-shell.scss';
 
 export interface WorkspaceShellBodySignature {
   Element: HTMLDivElement;

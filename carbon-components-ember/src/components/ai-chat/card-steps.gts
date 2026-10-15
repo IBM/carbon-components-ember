@@ -9,6 +9,7 @@ import Component from '@glimmer/component';
 import Loading from '../loading.gts';
 import IconIndicator from '../icon-indicator.gts';
 import type { IconIndicatorKind } from '../icon-indicator.gts';
+import './card.scss';
 
 export type CardStep = {
   title: string;

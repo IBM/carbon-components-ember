@@ -11,6 +11,7 @@ import ColumnHang from './grid/column-hang.gts';
 import Row from './grid/row.gts';
 import type { GridAlign, GridMode, SubgridMode } from './grid/-types.ts';
 import type { WithBoundArgs } from '@glint/template';
+import './grid/flex-grid.scss';
 
 export type { GridAlign, GridMode, SubgridMode };
 

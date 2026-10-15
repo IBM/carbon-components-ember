@@ -6,6 +6,7 @@
  */
 
 import type { TOC } from '@ember/component/template-only';
+import './chat-history.scss';
 
 export interface ChatHistorySignature {
   Element: HTMLDivElement;

@@ -1,0 +1,5 @@
+/* A class, not {{style}}: these tests read aria-valuenow right after render,
+   before Resizer re-measures a next sibling that a modifier sized. */
+.resizer-test__pane {
+  height: 100px;
+}

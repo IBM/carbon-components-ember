@@ -6,6 +6,7 @@
  */
 
 import Component from '@glimmer/component';
+import './flex-grid.scss';
 
 export interface ColumnHangSignature {
   Element: HTMLElement;

@@ -10,6 +10,7 @@ import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
 import type { ComponentLike } from '@glint/template';
 import Button from '../button.gts';
+import './workspace-shell.scss';
 
 export type WorkspaceShellFooterAction = {
   label: string;
