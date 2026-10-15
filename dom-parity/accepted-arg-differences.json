@@ -1,1 +1,27 @@
-{}
+{
+  "ActionableNotification": {
+    "extra": {
+      "ariaLabel": "React's aria-label labels the close button; an aria-label attribute would label the notification."
+    }
+  },
+  "Callout": {
+    "values": {
+      "kind": "React deprecates the other kinds."
+    }
+  },
+  "InlineNotification": {
+    "extra": {
+      "ariaLabel": "React's aria-label labels the close button; an aria-label attribute would label the notification."
+    }
+  },
+  "NotificationButton": {
+    "missing": {
+      "name": "React only passes it to the icon, which renders it as an attribute of the svg."
+    }
+  },
+  "ToastNotification": {
+    "extra": {
+      "ariaLabel": "React's aria-label labels the close button; an aria-label attribute would label the notification."
+    }
+  }
+}

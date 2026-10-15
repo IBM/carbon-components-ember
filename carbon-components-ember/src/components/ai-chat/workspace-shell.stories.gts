@@ -3,7 +3,7 @@ import { expect, fn } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Button from '../button.gts';
-import Notification from '../notification.gts';
+import InlineNotification from '../notification/inline-notification.gts';
 import Tag from '../tag.gts';
 import Close from '../icons/close.ts';
 import Download from '../icons/download.ts';
@@ -31,10 +31,6 @@ import '#storybook/styles/ai-chat/workspace-shell.css';
 // Parity gaps (not faked):
 // - Upstream's toolbar carries a `cds-ai-label` in its `decorator` slot; this
 //   addon has no AILabel component, so the decorator block is left empty.
-// - Upstream's notification is a `low-contrast`, `hide-close-button`
-//   `cds-inline-notification`; this addon's `Notification` (`@display=
-//   'inline'`) has neither option, so it renders high-contrast with its
-//   (aria-hidden) close button.
 // - The "long" body content uses `CodeSnippet` like upstream, with a
 //   shortened version of upstream's TypeScript showcase snippet. Upstream's
 //   `cds-table` (a full `@carbon/web-components` data table with toolbar
@@ -198,11 +194,11 @@ const meta = preview
       },
       notificationTitle: {
         control: 'text',
-        description: 'Title text for the Notification component',
+        description: 'Title text for the InlineNotification component',
       },
       notificationSubTitle: {
         control: 'text',
-        description: 'Subtitle text for the Notification component',
+        description: 'Subtitle text for the InlineNotification component',
       },
       headerTitle: {
         control: 'text',
@@ -274,11 +270,12 @@ export const Default = meta.story({
             />
           </:toolbar>
           <:notification>
-            <Notification
-              @display="inline"
+            <InlineNotification
               @kind="warning"
+              @lowContrast={{true}}
+              @hideCloseButton={{true}}
               @title={{args.notificationTitle}}
-              @text={{args.notificationSubTitle}}
+              @subtitle={{args.notificationSubTitle}}
             />
           </:notification>
           <:header as |Header|>

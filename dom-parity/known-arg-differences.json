@@ -262,6 +262,26 @@
       "type"
     ]
   },
+  "NotificationActionButton": {
+    "missing": [
+      "as",
+      "dangerDescription",
+      "hasIconOnly",
+      "href",
+      "iconDescription",
+      "isExpressive",
+      "isSelected",
+      "kind",
+      "rel",
+      "renderIcon",
+      "size",
+      "target",
+      "tooltipAlignment",
+      "tooltipDropShadow",
+      "tooltipHighContrast",
+      "tooltipPosition"
+    ]
+  },
   "NumberInput": {
     "missing": [
       "disableWheel",

@@ -1,0 +1,158 @@
+{
+  "component": "NotificationButton",
+  "generatedAt": "2026-10-15T19:52:01.433Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "toast": {
+      "props": {
+        "notificationType": "toast"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--toast-notification__close-button"
+        ],
+        "attributes": {
+          "type": "button",
+          "aria-label": "close notification",
+          "title": "close notification"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--toast-notification__close-icon"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 32 32",
+              "aria-hidden": "true",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "inline": {
+      "props": {
+        "notificationType": "inline"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--inline-notification__close-button"
+        ],
+        "attributes": {
+          "type": "button",
+          "aria-label": "close notification",
+          "title": "close notification"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--inline-notification__close-icon"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 32 32",
+              "aria-hidden": "true",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "actionable": {
+      "props": {
+        "notificationType": "actionable"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--actionable-notification__close-button"
+        ],
+        "attributes": {
+          "type": "button",
+          "aria-label": "close notification",
+          "title": "close notification"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--actionable-notification__close-icon"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 32 32",
+              "aria-hidden": "true",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -71,8 +71,13 @@ import { service } from "@ember/service";
 
 class MyComponent {
   @service("carbon.notifications") notifications;
+
+  saved = () => this.notifications.success({ title: "Saved" });
 }
 ```
+
+The notifications service shows its toasts in a `ToastNotificationList`,
+rendered once in the application template.
 
 Every component page in the sidebar is generated from the component's own
 Glint signature: the args table, blocks and element come straight from the

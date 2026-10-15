@@ -1,64 +1,93 @@
 import Service from '@ember/service';
-import { A } from '@ember/array';
-import type { NativeArray } from '@ember/array';
+import { tracked } from '@glimmer/tracking';
+import type { NotificationKind } from '../components/notification/-notification-icon.gts';
 
-export type NotificationOptions = {
-  timeout?: number;
-  position?: 'bottom-left';
+/**
+ * A toast for the `carbon.notifications` service, rendered by
+ * `ToastNotificationList`: a `ToastNotification`, or an
+ * `ActionableNotification` when it has an `actionButtonLabel`. Each field is
+ * passed on as the argument of the same name.
+ */
+export interface Toast {
+  kind?: NotificationKind;
   title?: string;
-  text?: string;
+  subtitle?: string;
   caption?: string;
-  type?: 'info' | 'success' | 'warning' | 'error';
-  display?: 'toast' | 'inline' | 'actionable';
-  kind?:
-    'error' | 'info' | 'info-square' | 'success' | 'warning' | 'warning-alt';
-  actionTitle?: string;
-};
+  /**
+   * Closes the toast after this many milliseconds; `0` keeps it open.
+   * Defaults to 5000 for `info`, `info-square` and `success` toasts, and to
+   * `0` for errors and warnings. Toasts with an action ignore it: they stay
+   * until closed.
+   */
+  timeout?: number;
+  lowContrast?: boolean;
+  hideCloseButton?: boolean;
+  statusIconDescription?: string;
+  /** The close button's label. */
+  ariaLabel?: string;
+  /**
+   * `'status'` by default, or `'alertdialog'` for a toast with an action,
+   * which then takes focus.
+   */
+  role?: string;
+  /** Called when the toast closes. Return `false` from a close button click to keep it. */
+  onClose?: (event?: Event) => boolean | void;
+  /** Makes it an `ActionableNotification` with this action. */
+  actionButtonLabel?: string;
+  onActionButtonClick?: (event: MouseEvent) => void;
+  /** ActionableNotification only. */
+  closeOnEscape?: boolean;
+}
 
+const PERSISTENT_KINDS = new Set<NotificationKind | undefined>([
+  undefined,
+  'error',
+  'warning',
+  'warning-alt',
+]);
+
+const defaultTimeout = (toast: Toast) =>
+  toast.actionButtonLabel || PERSISTENT_KINDS.has(toast.kind) ? 0 : 5000;
+
+/**
+ * Shows toasts from anywhere in an app. Render a `ToastNotificationList` once,
+ * in the application template, then add toasts:
+ * `this.notifications.success({ title: 'Saved' })`.
+ */
 export default class NotificationService extends Service {
-  queue: NativeArray<NotificationOptions> = A<NotificationOptions>();
-  position = 'bottom-left';
-  defaults = {
-    timeout: 5000,
-    type: 'info',
-  };
+  /** The toasts to show, newest first. */
+  @tracked toasts: Toast[] = [];
 
-  info(opts: NotificationOptions) {
-    const options: NotificationOptions = {};
-    Object.assign(options, this.defaults, opts, { type: 'info' });
-    this.notify(options);
+  /** Shows a toast. Returns it, to `remove` it later. */
+  add(toast: Toast): Toast {
+    const added = { ...toast, timeout: toast.timeout ?? defaultTimeout(toast) };
+    this.toasts = [added, ...this.toasts];
+    return added;
   }
 
-  success(opts: NotificationOptions) {
-    const options: NotificationOptions = {};
-    Object.assign(options, this.defaults, opts, { type: 'success' });
-    this.notify(options);
+  info(toast: Omit<Toast, 'kind'>) {
+    return this.add({ ...toast, kind: 'info' });
   }
 
-  warning(opts: NotificationOptions) {
-    const options: NotificationOptions = {};
-    Object.assign(options, this.defaults, opts, { type: 'warning' });
-    this.notify(options);
+  success(toast: Omit<Toast, 'kind'>) {
+    return this.add({ ...toast, kind: 'success' });
   }
 
-  error(opts: NotificationOptions) {
-    const options: NotificationOptions = {};
-    Object.assign(options, this.defaults, opts, { type: 'error' });
-    this.notify(options);
+  warning(toast: Omit<Toast, 'kind'>) {
+    return this.add({ ...toast, kind: 'warning' });
   }
 
-  notify(options: NotificationOptions) {
-    this.queue.pushObject(options);
-    if (options.timeout && options.timeout >= 0) {
-      setTimeout(() => this.queue.removeObject(options), options.timeout);
-    }
+  error(toast: Omit<Toast, 'kind'>) {
+    return this.add({ ...toast, kind: 'error' });
   }
 
-  has(options: NotificationOptions) {
-    return this.queue.includes(options);
+  /** Closes a toast. */
+  remove(toast: Toast) {
+    this.toasts = this.toasts.filter((shown) => shown !== toast);
   }
 
-  remove(options: NotificationOptions) {
-    this.queue.removeObject(options);
+  /** Closes every toast. */
+  clear() {
+    this.toasts = [];
   }
 }

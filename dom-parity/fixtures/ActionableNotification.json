@@ -1,0 +1,1336 @@
+{
+  "component": "ActionableNotification",
+  "generatedAt": "2026-10-15T19:52:01.428Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.0",
+  "variants": {
+    "default": {
+      "props": {
+        "actionButtonLabel": "Action",
+        "caption": "Notification caption",
+        "title": "Notification title",
+        "subtitle": "Notification subtitle"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--actionable-notification",
+          "cds--actionable-notification--error",
+          "cds--actionable-notification--toast"
+        ],
+        "attributes": {
+          "role": "alertdialog",
+          "aria-labelledby": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--actionable-notification__focus-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--actionable-notification__details"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--toast-notification__icon"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "20",
+                      "height": "20",
+                      "viewBox": "0 0 20 20",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M10,1c-5,0-9,4-9,9s4,9,9,9s9-4,9-9S15,1,10,1z M13.5,14.5l-8-8l1-1l8,8L13.5,14.5z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M13.5,14.5l-8-8l1-1l8,8L13.5,14.5z",
+                          "data-icon-path": "inner-path",
+                          "opacity": "0"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "title",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "error icon"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--actionable-notification__text-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--actionable-notification__content"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--actionable-notification__title"
+                            ],
+                            "attributes": {
+                              "id": "#1",
+                              "dir": "auto"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Notification title"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--actionable-notification__subtitle"
+                            ],
+                            "attributes": {
+                              "id": "#2",
+                              "dir": "auto"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Notification subtitle"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--actionable-notification__caption"
+                            ],
+                            "attributes": {
+                              "dir": "auto"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Notification caption"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--actionable-notification__button-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--actionable-notification__action-button",
+                      "cds--btn",
+                      "cds--btn--sm",
+                      "cds--btn--tertiary",
+                      "cds--layout--size-sm"
+                    ],
+                    "attributes": {
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Action"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--actionable-notification__close-button"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "aria-label": "close notification",
+                      "title": "close notification"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [
+                          "cds--actionable-notification__close-icon"
+                        ],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "aria-hidden": "true",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "inline": {
+      "props": {
+        "actionButtonLabel": "Action",
+        "inline": true,
+        "kind": "success",
+        "title": "Notification title",
+        "subtitle": "Notification subtitle"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--actionable-notification",
+          "cds--actionable-notification--success"
+        ],
+        "attributes": {
+          "role": "alertdialog",
+          "aria-labelledby": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--actionable-notification__focus-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--actionable-notification__details"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--inline-notification__icon"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "20",
+                      "height": "20",
+                      "viewBox": "0 0 20 20",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M10,1c-4.9,0-9,4.1-9,9s4.1,9,9,9s9-4,9-9S15,1,10,1z M8.7,13.5l-3.2-3.2l1-1l2.2,2.2l4.8-4.8l1,1L8.7,13.5z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "fill": "none",
+                          "d": "M8.7,13.5l-3.2-3.2l1-1l2.2,2.2l4.8-4.8l1,1L8.7,13.5z",
+                          "data-icon-path": "inner-path",
+                          "opacity": "0"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "title",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "success icon"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--actionable-notification__text-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--actionable-notification__content"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--actionable-notification__title"
+                            ],
+                            "attributes": {
+                              "id": "#1",
+                              "dir": "auto"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Notification title"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--actionable-notification__subtitle"
+                            ],
+                            "attributes": {
+                              "id": "#2",
+                              "dir": "auto"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Notification subtitle"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--actionable-notification__button-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--actionable-notification__action-button",
+                      "cds--btn",
+                      "cds--btn--ghost",
+                      "cds--btn--sm",
+                      "cds--layout--size-sm"
+                    ],
+                    "attributes": {
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Action"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--actionable-notification__close-button"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "aria-label": "close notification",
+                      "title": "close notification"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [
+                          "cds--actionable-notification__close-icon"
+                        ],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "aria-hidden": "true",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "low-contrast": {
+      "props": {
+        "actionButtonLabel": "Action",
+        "lowContrast": true,
+        "kind": "info",
+        "title": "Notification title",
+        "subtitle": "Notification subtitle"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--actionable-notification",
+          "cds--actionable-notification--info",
+          "cds--actionable-notification--low-contrast",
+          "cds--actionable-notification--toast"
+        ],
+        "attributes": {
+          "role": "alertdialog",
+          "aria-labelledby": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--actionable-notification__focus-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--actionable-notification__details"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--toast-notification__icon"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "20",
+                      "height": "20",
+                      "viewBox": "0 0 32 32",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "fill": "none",
+                          "d": "M16,8a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,16,8Zm4,13.875H17.125v-8H13v2.25h1.875v5.75H12v2.25h8Z",
+                          "data-icon-path": "inner-path"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M16,2A14,14,0,1,0,30,16,14,14,0,0,0,16,2Zm0,6a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,16,8Zm4,16.125H12v-2.25h2.875v-5.75H13v-2.25h4.125v8H20Z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "title",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "info icon"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--actionable-notification__text-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--actionable-notification__content"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--actionable-notification__title"
+                            ],
+                            "attributes": {
+                              "id": "#1",
+                              "dir": "auto"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Notification title"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--actionable-notification__subtitle"
+                            ],
+                            "attributes": {
+                              "id": "#2",
+                              "dir": "auto"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Notification subtitle"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--actionable-notification__button-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--actionable-notification__action-button",
+                      "cds--btn",
+                      "cds--btn--sm",
+                      "cds--btn--tertiary",
+                      "cds--layout--size-sm"
+                    ],
+                    "attributes": {
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Action"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--actionable-notification__close-button"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "aria-label": "close notification",
+                      "title": "close notification"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [
+                          "cds--actionable-notification__close-icon"
+                        ],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "aria-hidden": "true",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "hide-close-button": {
+      "props": {
+        "actionButtonLabel": "Action",
+        "hideCloseButton": true,
+        "title": "Notification title",
+        "subtitle": "Notification subtitle"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--actionable-notification",
+          "cds--actionable-notification--error",
+          "cds--actionable-notification--hide-close-button",
+          "cds--actionable-notification--toast"
+        ],
+        "attributes": {
+          "role": "alertdialog",
+          "aria-labelledby": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--actionable-notification__focus-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--actionable-notification__details"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--toast-notification__icon"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "20",
+                      "height": "20",
+                      "viewBox": "0 0 20 20",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M10,1c-5,0-9,4-9,9s4,9,9,9s9-4,9-9S15,1,10,1z M13.5,14.5l-8-8l1-1l8,8L13.5,14.5z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M13.5,14.5l-8-8l1-1l8,8L13.5,14.5z",
+                          "data-icon-path": "inner-path",
+                          "opacity": "0"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "title",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "error icon"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--actionable-notification__text-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--actionable-notification__content"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--actionable-notification__title"
+                            ],
+                            "attributes": {
+                              "id": "#1",
+                              "dir": "auto"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Notification title"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--actionable-notification__subtitle"
+                            ],
+                            "attributes": {
+                              "id": "#2",
+                              "dir": "auto"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Notification subtitle"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--actionable-notification__button-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--actionable-notification__action-button",
+                      "cds--btn",
+                      "cds--btn--sm",
+                      "cds--btn--tertiary",
+                      "cds--layout--size-sm"
+                    ],
+                    "attributes": {
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Action"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "no-action": {
+      "props": {
+        "title": "Notification title",
+        "subtitle": "Notification subtitle"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--actionable-notification",
+          "cds--actionable-notification--error",
+          "cds--actionable-notification--toast"
+        ],
+        "attributes": {
+          "role": "alertdialog",
+          "aria-labelledby": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--actionable-notification__focus-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--actionable-notification__details"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--toast-notification__icon"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "20",
+                      "height": "20",
+                      "viewBox": "0 0 20 20",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M10,1c-5,0-9,4-9,9s4,9,9,9s9-4,9-9S15,1,10,1z M13.5,14.5l-8-8l1-1l8,8L13.5,14.5z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M13.5,14.5l-8-8l1-1l8,8L13.5,14.5z",
+                          "data-icon-path": "inner-path",
+                          "opacity": "0"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "title",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "error icon"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--actionable-notification__text-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--actionable-notification__content"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--actionable-notification__title"
+                            ],
+                            "attributes": {
+                              "id": "#1",
+                              "dir": "auto"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Notification title"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--actionable-notification__subtitle"
+                            ],
+                            "attributes": {
+                              "id": "#2",
+                              "dir": "auto"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Notification subtitle"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--actionable-notification__button-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--actionable-notification__close-button"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "aria-label": "close notification",
+                      "title": "close notification"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [
+                          "cds--actionable-notification__close-icon"
+                        ],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "aria-hidden": "true",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "subtitle-only": {
+      "props": {
+        "subtitle": "Notification subtitle",
+        "role": "status"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--actionable-notification",
+          "cds--actionable-notification--error",
+          "cds--actionable-notification--toast"
+        ],
+        "attributes": {
+          "role": "status",
+          "aria-labelledby": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--actionable-notification__focus-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--actionable-notification__details"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--toast-notification__icon"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "20",
+                      "height": "20",
+                      "viewBox": "0 0 20 20",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M10,1c-5,0-9,4-9,9s4,9,9,9s9-4,9-9S15,1,10,1z M13.5,14.5l-8-8l1-1l8,8L13.5,14.5z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M13.5,14.5l-8-8l1-1l8,8L13.5,14.5z",
+                          "data-icon-path": "inner-path",
+                          "opacity": "0"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "title",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "error icon"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--actionable-notification__text-wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--actionable-notification__content"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--actionable-notification__subtitle"
+                            ],
+                            "attributes": {
+                              "id": "#1",
+                              "dir": "auto"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Notification subtitle"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--actionable-notification__button-wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--actionable-notification__close-button"
+                    ],
+                    "attributes": {
+                      "type": "button",
+                      "aria-label": "close notification",
+                      "title": "close notification"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [
+                          "cds--actionable-notification__close-icon"
+                        ],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "aria-hidden": "true",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { render, click, find, waitUntil } from '@ember/test-helpers';
 import { Task } from '#src/icons.ts';
 
 module('Integration | Component | Icon', (hooks) => {
@@ -21,5 +21,32 @@ module('Integration | Component | Icon', (hooks) => {
     assert.dom('button').hasAttribute('aria-label', 'Add task');
     await click('button');
     assert.strictEqual(clicks, 1);
+  });
+
+  test('@ariaLabel makes the icon an image; @title is text', async function (assert) {
+    await render(
+      <template>
+        <Task @ariaLabel='Task "done"' @title="<b>Task</b>" />
+      </template>,
+    );
+    await waitUntil(() => find('svg'));
+
+    assert
+      .dom('svg')
+      .hasAttribute('role', 'img')
+      .hasAttribute('aria-label', 'Task "done"')
+      .doesNotHaveAttribute('aria-hidden');
+    assert.dom('svg title').hasText('<b>Task</b>');
+    assert.dom('svg b').doesNotExist();
+  });
+
+  test('without @ariaLabel the icon is hidden', async function (assert) {
+    await render(<template><Task /></template>);
+    await waitUntil(() => find('svg'));
+
+    assert
+      .dom('svg')
+      .hasAttribute('aria-hidden', 'true')
+      .doesNotHaveAttribute('role');
   });
 });

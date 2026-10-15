@@ -73,8 +73,12 @@ import type NotificationService from 'carbon-components-ember/services/notificat
 
 class Save extends Component {
   @service('carbon.notifications') declare notifications: NotificationService;
+
+  saved = () => this.notifications.success({ title: 'Saved' });
 }
 ```
+
+That service shows toasts in a `ToastNotificationList`, which you render once in the application template.
 
 ## Use with AI agents
 
