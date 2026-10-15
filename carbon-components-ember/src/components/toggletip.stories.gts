@@ -1,3 +1,4 @@
+import { modifier } from 'ember-modifier';
 import { expect, userEvent as globalUserEvent, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
@@ -11,10 +12,8 @@ import Information from './icons/information.ts';
 import type { ToggletipSignature } from './toggletip.gts';
 import '#storybook/styles/toggletip.css';
 
-// Parity gaps with Carbon React's Toggletip stories:
-// - `ExperimentalAutoAlign`: no `autoAlign` (or `alignmentAxisOffset`) arg;
-//   use `@align` to pick a static position instead.
-// - The deprecated `alignDeprecated` values aren't accepted.
+// Parity gap with Carbon React's Toggletip stories: the deprecated
+// `alignDeprecated` values aren't accepted.
 
 type StoryArgs = ToggletipSignature['Args'] & {
   labelText: string;
@@ -23,6 +22,10 @@ type StoryArgs = ToggletipSignature['Args'] & {
   linkText: string;
   buttonText: string;
 };
+
+const scrollIntoView = modifier((element: HTMLElement) => {
+  element.scrollIntoView({ block: 'center', inline: 'center' });
+});
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'Components/Toggletip',
@@ -137,5 +140,52 @@ DefaultOpen.test(
     await expect(button).toHaveAttribute('aria-expanded', 'true');
     await userEvent.click(button);
     await expect(button).toHaveAttribute('aria-expanded', 'false');
+  },
+);
+
+// `@autoAlign` keeps the toggletip within the viewport as the page scrolls.
+export const ExperimentalAutoAlign = meta.story({
+  args: {
+    align: 'bottom',
+    defaultOpen: true,
+    bodyText:
+      'Scroll the container up, down, left or right to observe how the Toggletip will automatically change its position in attempt to stay within the viewport. This works on initial render in addition to on scroll.',
+  },
+  parameters: {
+    docs: { story: { inline: false, iframeHeight: '400px' } },
+  },
+  render: (args: StoryArgs) => <template>
+    <div class="toggletip-story__scroll-area">
+      <div>
+        <ToggletipLabel>{{args.labelText}}</ToggletipLabel>
+        <Toggletip
+          @align={{args.align}}
+          @autoAlign={{true}}
+          @defaultOpen={{args.defaultOpen}}
+          as |t|
+        >
+          <t.Button @label={{args.buttonLabel}} {{scrollIntoView}}>
+            <Information />
+          </t.Button>
+          <t.Content>
+            <p>{{args.bodyText}}</p>
+            <ToggletipActions>
+              <Link @href="#">{{args.linkText}}</Link>
+              <Button @size="sm">{{args.buttonText}}</Button>
+            </ToggletipActions>
+          </t.Content>
+        </Toggletip>
+      </div>
+    </div>
+  </template>,
+});
+
+ExperimentalAutoAlign.test(
+  'renders the open content in the top layer',
+  async ({ canvasElement }) => {
+    const toggletip = canvasElement.querySelector('.cds--toggletip')!;
+    const content = toggletip.querySelector('.cds--popover-content')!;
+    await expect(toggletip).toHaveClass('cds--popover--auto-align');
+    await waitFor(() => expect(content.matches(':popover-open')).toBe(true));
   },
 );
