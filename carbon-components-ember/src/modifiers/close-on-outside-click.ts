@@ -21,8 +21,8 @@ export interface CloseOnOutsideClickOptions {
 }
 
 /**
- * Invokes `onOutsideClick` when a click happens outside the modified
- * element, and (optionally) when the window loses focus. Shared by
+ * Invokes `onOutsideClick` when a click both starts and ends outside the
+ * modified element, and (optionally) when the window loses focus. Shared by
  * `Popover` and `Toggletip`, whose previously-independent implementations
  * of this differed only in capture-phase and window-blur handling.
  */
@@ -32,20 +32,31 @@ export default modifier(
     [onOutsideClick]: [(event?: MouseEvent) => void],
     { capture = false, onWindowBlur = false }: CloseOnOutsideClickOptions = {},
   ) => {
+    // A drag from inside to outside (selecting text) fires its click on a
+    // common ancestor, outside the element. Keyboard and programmatic clicks
+    // (`detail` 0) have no press of their own, so they always count.
+    let pressedInside = false;
+    const handlePointerDown = (event: PointerEvent) => {
+      pressedInside =
+        event.target instanceof Node && element.contains(event.target);
+    };
     const handleClick = (event: MouseEvent) => {
       const target = event.target;
-      if (target instanceof Node && !element.contains(target)) {
+      const dragged = pressedInside && event.detail > 0;
+      if (!dragged && target instanceof Node && !element.contains(target)) {
         onOutsideClick(event);
       }
     };
     const handleWindowBlur = () => onOutsideClick();
 
+    document.addEventListener('pointerdown', handlePointerDown, true);
     document.addEventListener('click', handleClick, capture);
     if (onWindowBlur) {
       window.addEventListener('blur', handleWindowBlur);
     }
 
     return () => {
+      document.removeEventListener('pointerdown', handlePointerDown, true);
       document.removeEventListener('click', handleClick, capture);
       if (onWindowBlur) {
         window.removeEventListener('blur', handleWindowBlur);

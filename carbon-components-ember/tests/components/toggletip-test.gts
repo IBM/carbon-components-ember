@@ -1,6 +1,11 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, triggerKeyEvent } from '@ember/test-helpers';
+import {
+  render,
+  click,
+  triggerEvent,
+  triggerKeyEvent,
+} from '@ember/test-helpers';
 import Toggletip from '#src/components/toggletip.gts';
 import ToggletipLabel from '#src/components/toggletip/toggletip-label.gts';
 
@@ -129,6 +134,25 @@ module('Integration | Component | Toggletip', (hooks) => {
     assert
       .dom('.cds--popover-container')
       .doesNotHaveClass('cds--popover--open');
+  });
+
+  test('should stay open after a drag from the content to outside', async function (assert) {
+    await render(
+      <template>
+        <div id="outside">outside</div>
+        <Toggletip @defaultOpen={{true}} as |t|>
+          <t.Button>i</t.Button>
+          <t.Content>
+            <p>Some more information</p>
+          </t.Content>
+        </Toggletip>
+      </template>,
+    );
+
+    await triggerEvent('.cds--toggletip-content p', 'pointerdown');
+    await triggerEvent('#outside', 'click', { detail: 1 });
+
+    assert.dom('.cds--popover-container').hasClass('cds--popover--open');
   });
 
   test('should render ToggletipActions inside the content', async function (assert) {
