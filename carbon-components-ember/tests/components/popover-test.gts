@@ -1,6 +1,11 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, triggerKeyEvent } from '@ember/test-helpers';
+import {
+  render,
+  click,
+  triggerEvent,
+  triggerKeyEvent,
+} from '@ember/test-helpers';
 import Popover, { PopoverContent } from '#src/components/popover.gts';
 import { tracked } from '@glimmer/tracking';
 
@@ -205,6 +210,48 @@ module('Integration | Component | Popover', (hooks) => {
 
     await click('.cds--popover-content');
     assert.true(open.value);
+  });
+
+  test('a drag from the content to outside does not call onRequestClose', async function (assert) {
+    const open = tracked(true);
+    const onRequestClose = () => (open.value = false);
+
+    await render(
+      <template>
+        <div id="outside">outside</div>
+        <Popover @open={{open.value}} @onRequestClose={{onRequestClose}}>
+          <button type="button">Trigger</button>
+          <PopoverContent>Content</PopoverContent>
+        </Popover>
+      </template>,
+    );
+
+    await triggerEvent('.cds--popover-content', 'pointerdown');
+    await triggerEvent('#outside', 'click', { detail: 1 });
+    assert.true(open.value);
+
+    await triggerEvent('#outside', 'pointerdown');
+    await triggerEvent('#outside', 'click', { detail: 1 });
+    assert.false(open.value);
+  });
+
+  test('a keyboard click outside after a press inside calls onRequestClose', async function (assert) {
+    const open = tracked(true);
+    const onRequestClose = () => (open.value = false);
+
+    await render(
+      <template>
+        <button type="button" id="outside">outside</button>
+        <Popover @open={{open.value}} @onRequestClose={{onRequestClose}}>
+          <button type="button">Trigger</button>
+          <PopoverContent>Content</PopoverContent>
+        </Popover>
+      </template>,
+    );
+
+    await triggerEvent('.cds--popover-content', 'pointerdown');
+    await triggerEvent('#outside', 'click', { detail: 0 });
+    assert.false(open.value);
   });
 
   test('pressing Escape while focus is inside the content calls onRequestClose', async function (assert) {
