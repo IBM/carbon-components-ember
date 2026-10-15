@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
-import { WarningFilled } from '../icons.ts';
+import WarningFilled from './icons/warning-filled.ts';
 
 export interface FormInputSignature {
   Element: HTMLDivElement;

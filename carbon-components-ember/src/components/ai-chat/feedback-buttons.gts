@@ -8,12 +8,10 @@
 import Component from '@glimmer/component';
 import Button from '../button.gts';
 import Tooltip from '../tooltip.gts';
-import {
-  ThumbsDown,
-  ThumbsDownFilled,
-  ThumbsUp,
-  ThumbsUpFilled,
-} from '../../icons.ts';
+import ThumbsDown from '../icons/thumbs-down.ts';
+import ThumbsDownFilled from '../icons/thumbs-down-filled.ts';
+import ThumbsUp from '../icons/thumbs-up.ts';
+import ThumbsUpFilled from '../icons/thumbs-up-filled.ts';
 import './feedback.scss';
 
 export interface FeedbackButtonsSignature {

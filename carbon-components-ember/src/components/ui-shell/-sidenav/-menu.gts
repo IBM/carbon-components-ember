@@ -2,7 +2,7 @@ import type Icon from '../../../components/icon.gts';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import UIShellSideNavSubMenu from './-sub-menu.gts';
-import { ChevronDown } from '../../../icons.ts';
+import ChevronDown from '../../icons/chevron-down.ts';
 
 export type SubMenu = {
   icon?: typeof Icon;

@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { WarningFilled, WarningAltFilled } from '../../icons.ts';
+import WarningFilled from '../icons/warning-filled.ts';
+import WarningAltFilled from '../icons/warning-alt-filled.ts';
 import type { HandlePosition } from '../slider.gts';
 import type { TOC } from '@ember/component/template-only';
 

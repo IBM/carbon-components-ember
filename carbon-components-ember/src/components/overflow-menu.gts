@@ -6,7 +6,7 @@ import BasicDropdown from 'ember-basic-dropdown/components/basic-dropdown';
 import calculatePosition from 'ember-basic-dropdown/utils/calculate-position';
 import Tooltip from './-private/tooltip.gts';
 import type { WithBoundArgs } from '@glint/template';
-import { OverflowMenuVertical } from '../icons.ts';
+import OverflowMenuVertical from './icons/overflow-menu-vertical.ts';
 import type { BasicDropdownTriggerSignature } from 'ember-basic-dropdown/components/basic-dropdown-trigger';
 import type { CalculatePosition } from 'ember-basic-dropdown/utils/calculate-position';
 import './overflow-menu.scss';

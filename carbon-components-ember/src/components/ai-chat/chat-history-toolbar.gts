@@ -9,7 +9,7 @@ import Component from '@glimmer/component';
 import Search from '../search.gts';
 import Button from '../button.gts';
 import Tooltip from '../tooltip.gts';
-import { AddComment } from '../../icons.ts';
+import AddComment from '../icons/add-comment.ts';
 import './chat-history.scss';
 
 /**

@@ -13,7 +13,7 @@ import type { ComponentLike } from '@glint/template';
 import OverflowMenu from '../overflow-menu.gts';
 import OverflowMenuItem from '../overflow-menu/overflow-menu-item.gts';
 import ChatHistoryPanelItemInput from './chat-history-panel-item-input.gts';
-import { OverflowMenuVertical } from '../../icons.ts';
+import OverflowMenuVertical from '../icons/overflow-menu-vertical.ts';
 import './chat-history.scss';
 
 export type ChatHistoryItemAction = {

@@ -1,7 +1,7 @@
 import OverflowMenu from '../overflow-menu.gts';
 import type OverflowMenuItem from '../overflow-menu/overflow-menu-item.gts';
 import type { WithBoundArgs } from '@glint/template';
-import { OverflowMenuVertical } from '../../icons.ts';
+import OverflowMenuVertical from '../icons/overflow-menu-vertical.ts';
 import type { TOC } from '@ember/component/template-only';
 
 export interface TableMenuSignature {

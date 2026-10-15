@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
-import { CheckmarkFilled } from '../icons.ts';
+import CheckmarkFilled from './icons/checkmark-filled.ts';
 import type RadioTileGroup from './tile/tile-group.gts';
 
 export type Value = string | number;

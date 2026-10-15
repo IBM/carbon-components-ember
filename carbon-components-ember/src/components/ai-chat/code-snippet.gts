@@ -16,7 +16,8 @@ import Button from '../button.gts';
 import SkeletonText from '../skeleton-text.gts';
 import AiChatToolbar from './toolbar.gts';
 import type { ToolbarAction } from './toolbar.gts';
-import { Copy, ChevronDown } from '../../icons.ts';
+import Copy from '../icons/copy.ts';
+import ChevronDown from '../icons/chevron-down.ts';
 import type {
   LanguageController,
   LanguageStateUpdate,

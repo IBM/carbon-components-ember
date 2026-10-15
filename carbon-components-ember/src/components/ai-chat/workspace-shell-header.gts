@@ -7,7 +7,7 @@
 
 import Component from '@glimmer/component';
 import { modifier } from 'ember-modifier';
-import { ChevronDown } from '../../icons.ts';
+import ChevronDown from '../icons/chevron-down.ts';
 import TruncatedText from './truncated-text.gts';
 import './workspace-shell.scss';
 

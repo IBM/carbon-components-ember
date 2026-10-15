@@ -5,15 +5,13 @@ import preview from '#storybook/preview.ts';
 import Button from '../button.gts';
 import Notification from '../notification.gts';
 import Tag from '../tag.gts';
-import {
-  Close,
-  Download,
-  Edit,
-  Launch,
-  Maximize,
-  Share,
-  Version,
-} from '../../icons.ts';
+import Close from '../icons/close.ts';
+import Download from '../icons/download.ts';
+import Edit from '../icons/edit.ts';
+import Launch from '../icons/launch.ts';
+import Maximize from '../icons/maximize.ts';
+import Share from '../icons/share.ts';
+import Version from '../icons/version.ts';
 import CodeSnippet from './code-snippet.gts';
 import Toolbar from './toolbar.gts';
 import WorkspaceShell from './workspace-shell.gts';

@@ -11,7 +11,7 @@ import { modifier } from 'ember-modifier';
 import type { ComponentLike } from '@glint/template';
 import OverflowMenu from '../overflow-menu.gts';
 import OverflowMenuItem from '../overflow-menu/overflow-menu-item.gts';
-import { OverflowMenuVertical } from '../../icons.ts';
+import OverflowMenuVertical from '../icons/overflow-menu-vertical.ts';
 import TruncatedText from './truncated-text.gts';
 import ToolbarActionButton from './-toolbar-action.gts';
 import './toolbar.scss';

@@ -34,6 +34,14 @@ const tsParserOptions = {
   tsconfigRootDir: import.meta.dirname,
 };
 
+// A later `no-restricted-imports` replaces this one, so blocks that add their
+// own restrictions repeat it.
+const renamedTemplateImports = {
+  name: '@ember/template',
+  importNames: ['htmlSafe', 'isHTMLSafe', 'SafeString'],
+  message: 'Use their new names: trustHTML, isTrustedHTML, TrustedHTML.',
+};
+
 export default defineConfig([
   globalIgnores([
     'dist/',
@@ -62,15 +70,7 @@ export default defineConfig([
         { allowDynamicStyles: false },
       ],
       'ember/no-legacy-helper-imports': 'error',
-      'no-restricted-imports': [
-        'error',
-        {
-          name: '@ember/template',
-          importNames: ['htmlSafe', 'isHTMLSafe', 'SafeString'],
-          message:
-            'Use their new names: trustHTML, isTrustedHTML, TrustedHTML.',
-        },
-      ],
+      'no-restricted-imports': ['error', renamedTemplateImports],
     },
   },
   /**
@@ -164,6 +164,22 @@ export default defineConfig([
         'error',
         'always',
         { ignorePackages: true, checkTypeImports: true },
+      ],
+      // The barrels are the package's public entry points. Inside src, import
+      // the module itself: in dev every module a barrel pulls in is its own
+      // request, and icons.ts alone re-exports 2,760 icons.
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [renamedTemplateImports],
+          patterns: [
+            {
+              regex: '(^|/)(ai-chat|charts|components|icons)\\.ts$',
+              message:
+                "Import the module itself, not one of the package's barrels.",
+            },
+          ],
+        },
       ],
     },
   },

@@ -8,7 +8,8 @@ import { cached, tracked } from '@glimmer/tracking';
 import { defaultArgs } from '../utils/decorators.ts';
 import { runTask } from 'ember-lifeline';
 import { guidFor } from '@ember/object/internals';
-import { ChevronLeft, ChevronRight } from '../icons.ts';
+import ChevronLeft from './icons/chevron-left.ts';
+import ChevronRight from './icons/chevron-right.ts';
 import type { ComponentLike } from '@glint/template';
 import './pagination.scss';
 

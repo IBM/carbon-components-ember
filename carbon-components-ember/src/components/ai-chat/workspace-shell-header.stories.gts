@@ -3,7 +3,7 @@ import { expect, fn, waitFor } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import Button from '../button.gts';
 import Tag from '../tag.gts';
-import { Edit } from '../../icons.ts';
+import Edit from '../icons/edit.ts';
 import WorkspaceShell from './workspace-shell.gts';
 import WorkspaceShellBody from './workspace-shell-body.gts';
 import WorkspaceShellHeader from './workspace-shell-header.gts';

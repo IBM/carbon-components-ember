@@ -10,12 +10,10 @@ import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { task, timeout } from 'ember-concurrency';
 import type Owner from '@ember/owner';
-import {
-  ChevronDown,
-  Checkmark,
-  WarningFilled,
-  WarningAltFilled,
-} from '../icons.ts';
+import ChevronDown from './icons/chevron-down.ts';
+import Checkmark from './icons/checkmark.ts';
+import WarningFilled from './icons/warning-filled.ts';
+import WarningAltFilled from './icons/warning-alt-filled.ts';
 import AILabel from './ai-label.gts';
 import type { WithBoundArgs } from '@glint/template';
 

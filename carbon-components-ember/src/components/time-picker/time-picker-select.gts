@@ -9,7 +9,7 @@ import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import { ChevronDown } from '../../icons.ts';
+import ChevronDown from '../icons/chevron-down.ts';
 
 export interface TimePickerSelectSignature {
   Args: {

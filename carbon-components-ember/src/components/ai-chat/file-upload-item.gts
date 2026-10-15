@@ -10,7 +10,7 @@ import { tracked } from '@glimmer/tracking';
 import { registerDestructor } from '@ember/destroyable';
 import type Owner from '@ember/owner';
 import FileUploaderStatusIcon from '../file-uploader/-status-icon.gts';
-import { PlayFilledAlt } from '../../icons.ts';
+import PlayFilledAlt from '../icons/play-filled-alt.ts';
 import { pickFileTypeIcon } from './-file-uploads/file-type-icon.ts';
 import { FileStatusValue } from './-file-uploads/types.ts';
 import type {

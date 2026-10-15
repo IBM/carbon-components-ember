@@ -2,7 +2,9 @@ import Component from '@glimmer/component';
 import { cached, tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { modifier as eModifier } from 'ember-modifier';
-import { Checkbox, CheckboxCheckedFilled, ChevronDown } from '../icons.ts';
+import Checkbox from './icons/checkbox.ts';
+import CheckboxCheckedFilled from './icons/checkbox-checked-filled.ts';
+import ChevronDown from './icons/chevron-down.ts';
 
 // Matches @carbon/react's ExpandableTile: while collapsed, the tile's own
 // max-height is clamped to the above-the-fold content's real height (plus
