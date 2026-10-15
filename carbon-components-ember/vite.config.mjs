@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import { extensions, ember, classicEmberSupport } from '@embroider/vite';
+import { extensions, ember } from '@embroider/vite';
 import { babel } from '@rollup/plugin-babel';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -11,9 +11,6 @@ const configDir = resolve(
   dirname(fileURLToPath(import.meta.url)),
   '.storybook',
 );
-
-// For scenario testing
-const isCompat = Boolean(process.env.ENABLE_COMPAT_BUILD);
 
 /**
  * Lets `assert.snapshot()` write style snapshots while running the tests
@@ -76,7 +73,6 @@ function logFailedRequests() {
 
 export default defineConfig({
   plugins: [
-    ...(isCompat ? [classicEmberSupport()] : []),
     ember(),
     babel({
       babelHelpers: 'inline',

@@ -1,4 +1,4 @@
-import Application from 'ember-strict-application-resolver';
+import Application from '@ember/application';
 import EmberRouter from '@ember/routing/router';
 
 class Router extends EmberRouter {
