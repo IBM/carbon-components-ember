@@ -13,8 +13,7 @@ import '#storybook/styles/tooltip.css';
 // Parity with Carbon React's Tooltip stories (Default, Alignment,
 // ExperimentalAutoAlign, Duration): React's `Default` is the
 // `IconTrigger` story here; the existing `Default` keeps a plain text
-// button. `@autoAlign` only re-checks the alignment when the tooltip opens,
-// rather than continuously while scrolling.
+// button.
 
 const scrollIntoView = modifier((element: HTMLElement) => {
   element.scrollIntoView({ block: 'center', inline: 'center' });
@@ -162,12 +161,12 @@ export const CustomContent = meta.story({
   </template>,
 });
 
-// When `@autoAlign` is set, the tooltip flips to the opposite side if it
-// would otherwise overflow the viewport (or `@autoAlignBoundary`).
+// When `@autoAlign` is set, the tooltip moves to a side that fits in the
+// viewport (or `@autoAlignBoundary`), and keeps doing so as the page scrolls.
 export const ExperimentalAutoAlign = meta.story({
   args: {
     label:
-      'Scroll the container up, down, left or right, then hover the button again to observe how the tooltip changes its position in attempt to stay within the viewport.',
+      'Scroll the container up, down, left or right to observe how the tooltip will automatically change its position in attempt to stay within the viewport. This works on initial render in addition to on scroll.',
     align: 'top',
     autoAlign: true,
   },

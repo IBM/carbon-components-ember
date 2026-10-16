@@ -7,6 +7,9 @@ import type { WithBoundArgs } from '@glint/template';
 import ToggletipButtonComponent from './toggletip/toggletip-button.gts';
 import ToggletipContentComponent from './toggletip/toggletip-content.gts';
 import closeOnOutsideClick from '../modifiers/close-on-outside-click.ts';
+import Popover from './popover.gts';
+
+import type { PopoverSignature } from './popover.gts';
 
 export type ToggletipAlignment =
   | 'top'
@@ -29,11 +32,16 @@ export interface ToggletipSignature {
      */
     align?: ToggletipAlignment;
     /**
+     * **Experimental:** Keeps the toggletip within the viewport, as
+     * `Popover`'s `autoAlign` does.
+     */
+    autoAlign?: boolean;
+    /**
      * Specify if the toggletip should be open by default.
      */
     defaultOpen?: boolean;
   };
-  Element: HTMLSpanElement;
+  Element: PopoverSignature['Element'];
   Blocks: {
     default: [
       {
@@ -104,13 +112,14 @@ export default class Toggletip extends Component<ToggletipSignature> {
   };
 
   <template>
-    {{! eslint-disable-next-line ember/template-no-invalid-interactive }}
-    <span
-      class="cds--popover-container cds--popover--{{this.align}}
-        cds--popover--caret cds--popover--high-contrast
-        {{if this.open 'cds--popover--open'}}
-        cds--toggletip
-        {{if this.open 'cds--toggletip--open'}}"
+    <Popover
+      class="cds--toggletip {{if this.open 'cds--toggletip--open'}}"
+      @align={{this.align}}
+      @autoAlign={{@autoAlign}}
+      @caret={{true}}
+      @dropShadow={{false}}
+      @highContrast={{true}}
+      @open={{this.open}}
       {{this.registerElement}}
       {{closeOnOutsideClick this.onOutsideClick capture=true onWindowBlur=true}}
       {{on "keydown" this.onKeyDown}}
@@ -128,6 +137,6 @@ export default class Toggletip extends Component<ToggletipSignature> {
           Content=(component ToggletipContentComponent id=this.id)
         )
       }}
-    </span>
+    </Popover>
   </template>
 }

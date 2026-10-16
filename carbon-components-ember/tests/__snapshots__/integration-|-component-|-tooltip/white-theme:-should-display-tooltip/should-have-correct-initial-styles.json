@@ -1,6 +1,6 @@
 [
   [
-    "<span class=\"cds--popover-container cds--popover--caret cds--tooltip cds--popover--top cds--popover--high-contrast cds--popover--open\" data-index=\"0\"></span>",
+    "<span class=\"cds--popover-container cds--popover--caret cds--popover--high-contrast cds--popover--open cds--popover--top cds--tooltip\" data-index=\"0\"></span>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "bottom": "0px",
@@ -18,7 +18,7 @@
     }
   ],
   [
-    "<span:before class=\"cds--popover-container cds--popover--caret cds--tooltip cds--popover--top cds--popover--high-contrast cds--popover--open\" data-index=\"0\"></span:before>",
+    "<span:before class=\"cds--popover-container cds--popover--caret cds--popover--high-contrast cds--popover--open cds--popover--top cds--tooltip\" data-index=\"0\"></span:before>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -27,7 +27,7 @@
     }
   ],
   [
-    "<span:after class=\"cds--popover-container cds--popover--caret cds--tooltip cds--popover--top cds--popover--high-contrast cds--popover--open\" data-index=\"0\"></span:after>",
+    "<span:after class=\"cds--popover-container cds--popover--caret cds--popover--high-contrast cds--popover--open cds--popover--top cds--tooltip\" data-index=\"0\"></span:after>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
