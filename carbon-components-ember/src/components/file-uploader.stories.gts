@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { runTask } from 'ember-lifeline';
+import { task, timeout } from 'ember-concurrency';
 import { expect, fn, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
@@ -108,27 +108,19 @@ class ExampleDropContainerApp extends Component<{ Args: StoryArgs }> {
       });
       return;
     }
-    // Fixed (rather than React's random) delays keep the tests predictable;
-    // `runTask` cancels them if the story is torn down first.
-    runTask(
-      this,
-      () =>
-        this.update(file.uuid, {
-          status: 'complete',
-          iconDescription: 'Upload complete',
-        }),
-      500,
-    );
-    runTask(
-      this,
-      () =>
-        this.update(file.uuid, {
-          status: 'edit',
-          iconDescription: 'Delete file',
-        }),
-      1500,
-    );
+    // Fixed (rather than React's random) delays keep the tests predictable.
+    void this.finishUpload.perform(file.uuid);
   }
+
+  finishUpload = task(async (uuid: string) => {
+    await timeout(500);
+    this.update(uuid, {
+      status: 'complete',
+      iconDescription: 'Upload complete',
+    });
+    await timeout(1000);
+    this.update(uuid, { status: 'edit', iconDescription: 'Delete file' });
+  });
 
   onAddFiles = (
     event: Event,

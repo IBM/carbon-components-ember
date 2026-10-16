@@ -2,11 +2,11 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { registerDestructor } from '@ember/destroyable';
 import { service } from '@ember/service';
-import { runTask } from 'ember-lifeline';
 import { expect, fn, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import SessionShell from './session-shell.gts';
+import { afterRender } from '../../utils/after-render.ts';
 
 import type Owner from '@ember/owner';
 import type ChatSessionService from '../../services/ai-chat-session.ts';
@@ -81,9 +81,8 @@ class SessionShellHost extends Component<{ Args: HostArgs }> {
 
     // Restoring/seeding reads and then writes the session's tracked state,
     // which mustn't happen inside the render that constructs this component
-    // (Ember's backtracking-rerender assertion), so it's deferred to the next
-    // runloop; `runTask` is cancelled if this component is torn down first.
-    runTask(this, () => {
+    // (Ember's backtracking-rerender assertion), so it's deferred.
+    afterRender(this, () => {
       const restored = args.persistenceKey
         ? this.session.enablePersistence(
             window.sessionStorage,
