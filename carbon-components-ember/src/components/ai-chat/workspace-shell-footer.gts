@@ -11,6 +11,7 @@ import { modifier } from 'ember-modifier';
 import type { ComponentLike } from '@glint/template';
 import Button from '../button.gts';
 import './workspace-shell.scss';
+import { observeResize } from '../../utils/resize-observer.ts';
 
 export type WorkspaceShellFooterAction = {
   label: string;
@@ -38,11 +39,7 @@ const RANK: Record<string, number> = {
 
 const watchStacked = modifier(
   (element: HTMLElement, [onChange]: [(stacked: boolean) => void]) => {
-    const observer = new ResizeObserver(() => {
-      requestAnimationFrame(() => onChange(element.offsetWidth < 671));
-    });
-    observer.observe(element);
-    return () => observer.disconnect();
+    return observeResize(element, () => onChange(element.offsetWidth < 671));
   },
 );
 

@@ -16,6 +16,7 @@ import TruncatedText from './truncated-text.gts';
 import ToolbarActionButton from './-toolbar-action.gts';
 import './toolbar.scss';
 import './workspace-shell.scss';
+import { observeResize } from '../../utils/resize-observer.ts';
 
 export type ToolbarAction = {
   /** Display text - also used as the tooltip label / overflow menu item text. */
@@ -209,23 +210,7 @@ export default class Toolbar extends Component<ToolbarSignature> {
   // `splitIndex`, whose actions render inside this same subtree.
   observeOverflow = modifier((element: HTMLElement) => {
     if (!this.args.overflow) return undefined;
-    let raf: number | undefined;
-    // Deferring the actual measurement/write to the next animation frame
-    // (matching `WorkspaceShellFooter`'s own `watchStacked` modifier, and
-    // upstream's own `workspace-shell-footer.ts` comment for the same
-    // reason) keeps this callback from doing synchronous, layout-affecting
-    // work inside the ResizeObserver's own notification cycle, which is
-    // what the browser's "ResizeObserver loop completed with undelivered
-    // notifications" error guards against.
-    const observer = new ResizeObserver(() => {
-      if (raf !== undefined) cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => this.recomputeOverflow(element));
-    });
-    observer.observe(element);
-    return () => {
-      if (raf !== undefined) cancelAnimationFrame(raf);
-      observer.disconnect();
-    };
+    return observeResize(element, () => this.recomputeOverflow(element));
   });
 
   <template>
