@@ -29,6 +29,8 @@ import '#storybook/styles/tabs.css';
 //   each yielded TabPane is both the tab and its panel.
 // - Nothing is selected initially unless a TabPane sets `@isDefault` (React
 //   selects the first tab), so the stories mark their first tab.
+// - In right-to-left, ArrowLeft moves to the next tab (React keeps
+//   ArrowRight), as the ARIA tabs pattern recommends.
 
 type TabDef = {
   title: string;
