@@ -6,38 +6,6 @@
       "reason": "Same auto-generated-id artifact as the `a.attributes.id` entry above, for the as-button variant's <button> root."
     }
   ],
-  "Notification": [
-    {
-      "path": "div.attributes.role",
-      "reason": "@carbon/react's ToastNotification defaults `role` to 'status'; Ember's toast branch hardcodes `role='alert'` and doesn't expose a `role` arg to override it. A real behavioral difference (assertive vs. polite screen-reader announcement), not a DOM-generation bug - left as-is rather than changed, since Ember's default here may be intentional and changing it is a behavior change this pass didn't set out to make. Applies to every toast-* variant."
-    },
-    {
-      "path": "div.attributes.data-notification",
-      "reason": "Ember-only marker attribute (see notification.gts's `data-notification`) with no React counterpart - used internally, not part of the rendered-markup contract this harness checks. Applies to every toast-* variant."
-    },
-    {
-      "path": "div > button[2].attributes.data-notification-btn",
-      "reason": "Same kind of Ember-only marker attribute as `data-notification` above, on the toast close button. Applies to every toast-* variant."
-    },
-    {
-      "path": "div > button[1].attributes.aria-hidden",
-      "reason": "Ember's inline close button has no click handler wired up at all (unlike the toast branch's `{{on 'click' ...}}`) - inline notifications rendered directly in a template (not pushed through the notifications service) have no way to remove themselves, so the button is deliberately hidden from the accessibility tree and keyboard tab order instead of rendering a non-functional interactive element. React's InlineNotification always wires a working `onCloseButtonClick`, so it never adds these attributes. A real, functional gap (the close button does nothing), not just a markup one - fixing it means wiring real dismissal behavior for template-rendered inline notifications, out of scope for a DOM-parity-only pass. Applies to every inline-* variant."
-    },
-    {
-      "path": "div > button[1].attributes.tabindex",
-      "reason": "Same non-functional-close-button gap as the `aria-hidden` entry above. Applies to every inline-* variant."
-    },
-    {
-      "path": "div > svg[0] > path[0].attributes.d",
-      "variant": "toast-warning",
-      "reason": "Harness limitation, not a real bug: the `d` attribute is byte-identical between @carbon/icons' and @carbon/icons-react's copies of the Warning icon except for one whitespace separator (a literal tab vs. a space between two path commands), which the SVG path grammar treats as equivalent - this diffs as a text mismatch only because the comparison is a raw string diff, not an SVG-path-aware one."
-    },
-    {
-      "path": "div > div[0] > svg[0] > path[0].attributes.d",
-      "variant": "inline-warning",
-      "reason": "Same whitespace-only, harness-limitation diff as the toast branch's `div > svg[0] > path[0].attributes.d` entry above, on the inline branch's nested main icon."
-    }
-  ],
   "AiChatReasoningSteps": [
     {
       "path": "div > div[0] > div[0] > div[0].attributes.role",
@@ -671,6 +639,81 @@
       "path": "div.attributes.tabindex",
       "variant": "selected-panel",
       "reason": "Ember's yielded `TabPane` renders `tabindex=\"0\"` on its panel; the pinned `@carbon/react`'s `TabPanel` renders none. Left as-is: it only makes the panel itself focusable, which the WAI-ARIA tabs pattern recommends when a panel has no focusable content of its own, and removing it would silently change keyboard behaviour for existing consumers - a real, deliberate-looking divergence rather than a markup slip."
+    }
+  ],
+  "ToastNotification": [
+    {
+      "path": "div > svg[0].attributes.aria-label",
+      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
+    },
+    {
+      "path": "div > svg[0].attributes.role",
+      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
+    },
+    {
+      "path": "div > svg[0].attributes.aria-hidden",
+      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
+    },
+    {
+      "path": "div > svg[0] > path[0].attributes.d",
+      "variant": "warning",
+      "reason": "Whitespace only: @carbon/icons' Warning path has a tab where @carbon/icons-react's has a space, which SVG treats the same."
+    }
+  ],
+  "InlineNotification": [
+    {
+      "path": "div > div[0] > svg[0].attributes.aria-label",
+      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
+    },
+    {
+      "path": "div > div[0] > svg[0].attributes.role",
+      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
+    },
+    {
+      "path": "div > div[0] > svg[0].attributes.aria-hidden",
+      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
+    },
+    {
+      "path": "div > div[0] > svg[0] > path[0].attributes.d",
+      "variant": "warning",
+      "reason": "Whitespace only: @carbon/icons' Warning path has a tab where @carbon/icons-react's has a space, which SVG treats the same."
+    }
+  ],
+  "ActionableNotification": [
+    {
+      "path": "div > div[0] > div[0] > svg[0].attributes.aria-label",
+      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
+    },
+    {
+      "path": "div > div[0] > div[0] > svg[0].attributes.role",
+      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
+    },
+    {
+      "path": "div > div[0] > div[0] > svg[0].attributes.aria-hidden",
+      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
+    }
+  ],
+  "Callout": [
+    {
+      "path": "div > div[0] > svg[0].attributes.aria-label",
+      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
+    },
+    {
+      "path": "div > div[0] > svg[0].attributes.role",
+      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
+    },
+    {
+      "path": "div > div[0] > svg[0].attributes.aria-hidden",
+      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
+    },
+    {
+      "path": "div.classes[cds--actionable-notification--callout]",
+      "reason": "Carbon React 1.118 adds this class for the v12 styles (carbon#23362); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
+    },
+    {
+      "path": "div > div[0] > svg[0] > path[0].attributes.d",
+      "variant": "warning",
+      "reason": "Whitespace only: @carbon/icons' Warning path has a tab where @carbon/icons-react's has a space, which SVG treats the same."
     }
   ]
 }

@@ -155,6 +155,7 @@ Functional or class-based modifiers are Ember's replacement for `useRef` + `useE
 
 ### 5. Timing and Destructors
 Never use bare `setTimeout`. Use `ember-concurrency` restartable tasks which auto-cancel on component destruction. Anything else that must be cleaned up belongs in `registerDestructor` or a modifier teardown.
+`settled()` waits for `timeout()`, so a timer tests shouldn't wait out, such as a toast closing itself, uses `rawTimeout()`.
 
 ### 6. Signatures
 Signatures follow the [Ember guides](https://guides.emberjs.com/release/typescript/core-concepts/invokables/) and [Glint](https://typed-ember.gitbook.io/glint/environments/ember/component-signatures), and must match what the template does. Lint enforces the mechanical parts.

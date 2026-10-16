@@ -1,0 +1,14 @@
+@use "@carbon/styles/scss/spacing" as *;
+@use "@carbon/styles/scss/utilities/z-index" as *;
+
+// Carbon's toast placement: top right, below the UI Shell header (3rem),
+// stacked $spacing-03 apart. Above modals, like Carbon's floating menus.
+.cds--ember-toast-notification-list {
+  position: fixed;
+  z-index: z("dropdown");
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-03;
+  inset-block-start: calc(3rem + #{$spacing-05});
+  inset-inline-end: $spacing-05;
+}
