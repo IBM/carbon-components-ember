@@ -19,7 +19,7 @@
   position: relative;
   box-sizing: border-box;
   border: 1px solid var(--cds-chat-bubble-border, #e0e0e0);
-  background-color: var(--cds-chat-shell-background, #ffffff);
+  background-color: var(--cds-chat-shell-background, #fff);
   border-radius: inherit;
   container-type: inline-size;
   inline-size: 100%;
@@ -96,7 +96,7 @@
 .cds-aichat-feedback__tag--selected {
   border-color: var(--cds-background-inverse, #393939);
   background: var(--cds-background-inverse, #393939);
-  color: var(--cds-text-inverse, #ffffff);
+  color: var(--cds-text-inverse, #fff);
 }
 
 .cds-aichat-feedback__tag:disabled {

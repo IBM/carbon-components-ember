@@ -96,7 +96,7 @@
 
   svg {
     block-size: 100%;
-    fill: currentColor;
+    fill: currentcolor;
     inline-size: 100%;
   }
 }
@@ -128,7 +128,7 @@
 
   svg {
     block-size: 100%;
-    fill: currentColor;
+    fill: currentcolor;
     inline-size: 100%;
   }
 }
@@ -137,8 +137,7 @@
   display: grid;
   grid-template-rows: 0fr;
   opacity: 0;
-  padding-block-end: 0;
-  padding-block-start: 0;
+  padding-block: 0;
   padding-inline: calc(1rem + 0.5rem);
   pointer-events: none;
   transition:
@@ -154,8 +153,7 @@
 .cds-aichat-reasoning-step--open .cds-aichat-reasoning-step__panel {
   grid-template-rows: 1fr;
   opacity: 1;
-  padding-block-end: 0.25rem;
-  padding-block-start: 0.125rem;
+  padding-block: 0.125rem 0.25rem;
   pointer-events: auto;
 }
 
