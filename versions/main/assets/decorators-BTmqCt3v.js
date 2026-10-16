@@ -1,0 +1,1 @@
+import{n}from"./rolldown-runtime-BpgvRg6H.js";function r(n,r){return new Proxy({},{get:(t,i)=>i in n?n[i]:r[i]})}function t(n,t,i){if(!i)return r(n.args,t);const e=i.initializer;return i.initializer=function(){return r(this.args,e(this))},i}function i(){return(i=n(()=>{}))()}export{i as n,t};

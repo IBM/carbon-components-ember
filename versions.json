@@ -1,0 +1,368 @@
+{
+  "-latest": {
+    "path": "",
+    "name": "Latest",
+    "sha": "a0bb2d4db0636d748be2978ce911a18675f14e21",
+    "tag": "v1.0.2-carbon-components-ember"
+  },
+  "main": {
+    "path": "versions/main",
+    "name": "main",
+    "sha": "13075b1e2a046077af349bda0e938902e6639a4d",
+    "tag": null
+  },
+  "v0.1.5": {
+    "path": "versions/v0.1.5",
+    "name": "v0.1.5",
+    "sha": "0e56432705f22c9c7d9a91e1da97b2553654671b",
+    "tag": null
+  },
+  "v0.1.6": {
+    "path": "versions/v0.1.6",
+    "name": "v0.1.6",
+    "sha": "84b58ca5e2c306c250d555bb8c0cc1e091d562f5",
+    "tag": null
+  },
+  "v0.1.7": {
+    "path": "versions/v0.1.7",
+    "name": "v0.1.7",
+    "sha": "b30d59056bd95b67042b8ce9c48c05859420d6e7",
+    "tag": null
+  },
+  "v0.1.8": {
+    "path": "versions/v0.1.8",
+    "name": "v0.1.8",
+    "sha": "0818e7b90b8674545b9b7e013b271d6d1d041e78",
+    "tag": null
+  },
+  "v0.1.9": {
+    "path": "versions/v0.1.9",
+    "name": "v0.1.9",
+    "sha": "af88f743980d1a7e889a5faf3d6823f3099e5583",
+    "tag": null
+  },
+  "v0.1.10": {
+    "path": "versions/v0.1.10",
+    "name": "v0.1.10",
+    "sha": "34bcc241476c5bd9357438653c8a6b152d2b8352",
+    "tag": null
+  },
+  "v0.1.11": {
+    "path": "versions/v0.1.11",
+    "name": "v0.1.11",
+    "sha": "3ba51c4582c4ff62d7ae2a94d0a3a2753127c91c",
+    "tag": null
+  },
+  "v0.1.12": {
+    "path": "versions/v0.1.12",
+    "name": "v0.1.12",
+    "sha": "4bf5d784a4394580d396d5bc5ea6280b5d6dd0e2",
+    "tag": null
+  },
+  "v0.1.16": {
+    "path": "versions/v0.1.16",
+    "name": "v0.1.16",
+    "sha": "d96b172093526f8b889b05a8a40feb21addbda51",
+    "tag": null
+  },
+  "v0.1.17": {
+    "path": "versions/v0.1.17",
+    "name": "v0.1.17",
+    "sha": "22ab7c7282fd78ae56496607ac6845fb736e9c60",
+    "tag": null
+  },
+  "v0.1.18": {
+    "path": "versions/v0.1.18",
+    "name": "v0.1.18",
+    "sha": "088cd1c6a3441728369456f0fc6a241ae8bca382",
+    "tag": null
+  },
+  "v0.1.19": {
+    "path": "versions/v0.1.19",
+    "name": "v0.1.19",
+    "sha": "cf30aef15a3b7c0899aec907cc10b7775733c159",
+    "tag": null
+  },
+  "v0.2.0": {
+    "path": "versions/v0.2.0",
+    "name": "v0.2.0",
+    "sha": "0285a243fd8372ba83ecf75e2f70a985c54989e1",
+    "tag": null
+  },
+  "v0.2.1": {
+    "path": "versions/v0.2.1",
+    "name": "v0.2.1",
+    "sha": "ab4b2ee5e88bf675ad0f6d8a3312c94fbb9d349b",
+    "tag": null
+  },
+  "v0.2.2": {
+    "path": "versions/v0.2.2",
+    "name": "v0.2.2",
+    "sha": "32f7b238ffe3294ba69aa504b89676ac669be0ab",
+    "tag": null
+  },
+  "v0.2.3": {
+    "path": "versions/v0.2.3",
+    "name": "v0.2.3",
+    "sha": "e02161040f65165f88d92bf2f70398339ea097cc",
+    "tag": null
+  },
+  "v0.2.4": {
+    "path": "versions/v0.2.4",
+    "name": "v0.2.4",
+    "sha": "bd3286bc87c2b81d8dff027660ba72925b51de85",
+    "tag": null
+  },
+  "v0.2.5": {
+    "path": "versions/v0.2.5",
+    "name": "v0.2.5",
+    "sha": "0880e884d4f99ac753e03f6a9f136da3fbdf9f80",
+    "tag": null
+  },
+  "v0.2.6": {
+    "path": "versions/v0.2.6",
+    "name": "v0.2.6",
+    "sha": "ce48132d039f3df674cdc5e85954c1a07c97afc3",
+    "tag": null
+  },
+  "v0.2.8": {
+    "path": "versions/v0.2.8",
+    "name": "v0.2.8",
+    "sha": "99ae10fde78fdf05cf7811466f58fe26af99ff72",
+    "tag": null
+  },
+  "v0.3.0": {
+    "path": "versions/v0.3.0",
+    "name": "v0.3.0",
+    "sha": "d167b713dd4b11a52ce88ff00b9a78b646800879",
+    "tag": null
+  },
+  "v0.3.1": {
+    "path": "versions/v0.3.1",
+    "name": "v0.3.1",
+    "sha": "92a4c69587fd64cc34cf2fc0fd8fcf61e24d625f",
+    "tag": null
+  },
+  "v0.3.2": {
+    "path": "versions/v0.3.2",
+    "name": "v0.3.2",
+    "sha": "4521827450861e75bc15b3509ff73dd3c3c3924d",
+    "tag": null
+  },
+  "v0.3.3": {
+    "path": "versions/v0.3.3",
+    "name": "v0.3.3",
+    "sha": "6536e0faa06f772fae15054a90a26445801c9e0c",
+    "tag": null
+  },
+  "v0.3.5": {
+    "path": "versions/v0.3.5",
+    "name": "v0.3.5",
+    "sha": "f49f9b4cd94714a10b323fc7c2b2d80d09b4592b",
+    "tag": null
+  },
+  "v0.3.7": {
+    "path": "versions/v0.3.7",
+    "name": "v0.3.7",
+    "sha": "ba79aed8c021a14afd4aa655ac63e22d0e3862b8",
+    "tag": null
+  },
+  "v0.3.10": {
+    "path": "versions/v0.3.10",
+    "name": "v0.3.10",
+    "sha": "8c13026e2b7caa18080391b48fb1424996539712",
+    "tag": null
+  },
+  "v0.3.11": {
+    "path": "versions/v0.3.11",
+    "name": "v0.3.11",
+    "sha": "0168daa68ed0516981ddf8bfaddc625380b697c7",
+    "tag": null
+  },
+  "v0.3.12": {
+    "path": "versions/v0.3.12",
+    "name": "v0.3.12",
+    "sha": "338693bc5ad161525ea1e30ce416866bd2312f19",
+    "tag": null
+  },
+  "v0.3.13": {
+    "path": "versions/v0.3.13",
+    "name": "v0.3.13",
+    "sha": "dbc2d1d56658432494177ef17b94adb90098e838",
+    "tag": null
+  },
+  "v0.3.14": {
+    "path": "versions/v0.3.14",
+    "name": "v0.3.14",
+    "sha": "7b7f5d9ca84ff87df7435d4f9ed9ae20fd1c00f9",
+    "tag": null
+  },
+  "v0.3.15": {
+    "path": "versions/v0.3.15",
+    "name": "v0.3.15",
+    "sha": "017458f741a77b0521afab660ca54e71dd4166d1",
+    "tag": null
+  },
+  "v0.3.16": {
+    "path": "versions/v0.3.16",
+    "name": "v0.3.16",
+    "sha": "d4d3d09966ad9e422012604c3ac9018b8cdab7f6",
+    "tag": null
+  },
+  "v0.3.17": {
+    "path": "versions/v0.3.17",
+    "name": "v0.3.17",
+    "sha": "7a5317da01185bf8cf87c277c416c088beed5ec9",
+    "tag": null
+  },
+  "v0.3.18": {
+    "path": "versions/v0.3.18",
+    "name": "v0.3.18",
+    "sha": "15c54ec11c1bbeb8c942f7d6bef410dd4af93858",
+    "tag": null
+  },
+  "v0.3.19": {
+    "path": "versions/v0.3.19",
+    "name": "v0.3.19",
+    "sha": "aeda306937514420e4c5c2c33b9b7f45cb8c7716",
+    "tag": null
+  },
+  "v0.4.0": {
+    "path": "versions/v0.4.0",
+    "name": "v0.4.0",
+    "sha": "225cd96da2feeef1d1dc80c73e9ebba3260c708e",
+    "tag": null
+  },
+  "v0.4.1": {
+    "path": "versions/v0.4.1",
+    "name": "v0.4.1",
+    "sha": "74ab7e9ccae5517396de27aa338109ddf65eeb6b",
+    "tag": null
+  },
+  "v0.4.2": {
+    "path": "versions/v0.4.2",
+    "name": "v0.4.2",
+    "sha": "ab91942bda62a2887025bca7b7171f4722ca6749",
+    "tag": null
+  },
+  "v0.4.3": {
+    "path": "versions/v0.4.3",
+    "name": "v0.4.3",
+    "sha": "c97760da6076c8aa4af33be99ea36acf81745e31",
+    "tag": null
+  },
+  "v0.4.4": {
+    "path": "versions/v0.4.4",
+    "name": "v0.4.4",
+    "sha": "3a70a52cbbc7ceb6aa4633ede11d3ce52e693b3e",
+    "tag": null
+  },
+  "v0.4.5": {
+    "path": "versions/v0.4.5",
+    "name": "v0.4.5",
+    "sha": "32fa9fb47886ef87b59d6ff22687d56632b40b4c",
+    "tag": null
+  },
+  "v0.4.6": {
+    "path": "versions/v0.4.6",
+    "name": "v0.4.6",
+    "sha": "fd6e16c9d77ee644e2f761acc66fa9beae1e2386",
+    "tag": null
+  },
+  "v0.4.7": {
+    "path": "versions/v0.4.7",
+    "name": "v0.4.7",
+    "sha": "d0274a456a68895dc4e47213da75b010a2f75f22",
+    "tag": null
+  },
+  "v0.4.8": {
+    "path": "versions/v0.4.8",
+    "name": "v0.4.8",
+    "sha": "711c06bb8d6a6e98ab950866159f6219c037b94d",
+    "tag": null
+  },
+  "v0.4.9": {
+    "path": "versions/v0.4.9",
+    "name": "v0.4.9",
+    "sha": "0747fc50b408e2c49089a77033828cce359004fe",
+    "tag": null
+  },
+  "v0.4.10": {
+    "path": "versions/v0.4.10",
+    "name": "v0.4.10",
+    "sha": "07bb90cb2f233584ccef647c9ab488f642673345",
+    "tag": null
+  },
+  "v0.4.11": {
+    "path": "versions/v0.4.11",
+    "name": "v0.4.11",
+    "sha": "fe35c50256a46c08d5110556c46de0b478996008",
+    "tag": null
+  },
+  "v0.4.12": {
+    "path": "versions/v0.4.12",
+    "name": "v0.4.12",
+    "sha": "bb3941ed76b4f25abda9aafbba70e5eb041d9fe0",
+    "tag": null
+  },
+  "v0.4.13": {
+    "path": "versions/v0.4.13",
+    "name": "v0.4.13",
+    "sha": "97e43a7fc14a704a3d5a5ef7c5fe2e00d127b0a9",
+    "tag": null
+  },
+  "v0.5.0": {
+    "path": "versions/v0.5.0",
+    "name": "v0.5.0",
+    "sha": "d361b7810b4f8501e83f5f6be31f14ae1b4a049f",
+    "tag": null
+  },
+  "v0.4.14": {
+    "path": "versions/v0.4.14",
+    "name": "v0.4.14",
+    "sha": "2dcde9f5dbd2f5d5be92687d9bff682d58eed859",
+    "tag": null
+  },
+  "v0.4.15": {
+    "path": "versions/v0.4.15",
+    "name": "v0.4.15",
+    "sha": "5e24ed0dd870a7ac3b9fc86e62e17c676b0eb0d6",
+    "tag": null
+  },
+  "v0.6.0": {
+    "path": "versions/v0.6.0",
+    "name": "v0.6.0",
+    "sha": "af7e59ba7439e22bbd405451bf974e6fac2be24f",
+    "tag": null
+  },
+  "vnull": {
+    "path": "versions/vnull",
+    "name": "vnull",
+    "sha": "07748a72cf6d3d8af6352ce51f97e3151c07e824",
+    "tag": null
+  },
+  "v0.0.0": {
+    "path": "versions/v0.0.0",
+    "name": "v0.0.0",
+    "sha": "9d06e55883d292206f1bb021a8e10ba0e7e94605",
+    "tag": null
+  },
+  "v1.0.0": {
+    "path": "versions/v1.0.0",
+    "name": "v1.0.0",
+    "sha": "4509ecc134f6c8db1a0a87fcf5d74245c70e98ff",
+    "tag": null
+  },
+  "v1.0.1": {
+    "path": "versions/v1.0.1",
+    "name": "v1.0.1",
+    "sha": "c4a6ca83ff73df677b14608ceab61cf97427d3f8",
+    "tag": "v1.0.1-carbon-components-ember"
+  },
+  "v1.0.2-carbon-components-ember": {
+    "path": "versions/v1.0.2-carbon-components-ember",
+    "name": "v1.0.2-carbon-components-ember",
+    "sha": "a0bb2d4db0636d748be2978ce911a18675f14e21",
+    "tag": "v1.0.2-carbon-components-ember"
+  }
+}

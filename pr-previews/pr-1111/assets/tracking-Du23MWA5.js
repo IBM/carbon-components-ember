@@ -1,0 +1,1 @@
+import{n as t}from"./rolldown-runtime-BpgvRg6H.js";import{C as s}from"./preview-BF--VKk3.js";import{Jt as r,Ut as e,Yt as o}from"./outlet-placeholder-CgO7fIDo-pYQt8Jkv.js";var n;function a(){return(a=t(()=>{s(),o(),n=(...t)=>{const[s,o,n]=t,a=new WeakMap,i=n.get;n.get=function(){return a.has(this)||a.set(this,e(i.bind(this))),r(a.get(this))}}}))()}export{a as n,n as t};

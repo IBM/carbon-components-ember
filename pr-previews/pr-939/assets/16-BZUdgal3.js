@@ -1,0 +1,1 @@
+import{n as t}from"./rolldown-runtime-BpgvRg6H.js";var e;function r(){return(r=t(()=>{e={elem:"svg",attrs:{xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 32 32",fill:"currentColor",width:16,height:16},content:[{elem:"path",attrs:{d:"M17 11 17 15 15 15 15 11 13 11 13 17 17 17 17 21 19 21 19 11 17 11z"}}],name:"number--small--4",size:16}}))()}r();export{e as default};

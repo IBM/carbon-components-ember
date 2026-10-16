@@ -1,0 +1,1 @@
+import{n as r}from"./rolldown-runtime-BpgvRg6H.js";var s,e;function n(){return(n=r(()=>{s=(r,s,e)=>{let n=r.replace(/\s+/g,"-"),t=["control"];return e&&t.push(e),s&&t.push(s),t.push(n),t.join("-")},e=(r,s,e)=>{let n=r.replace(/\s+/g,"-"),t=["set"];return e&&t.push(e),s&&t.push(s),t.push(n),t.join("-")}}))()}export{e as n,n as r,s as t};
