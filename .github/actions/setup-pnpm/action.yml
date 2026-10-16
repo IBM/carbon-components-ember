@@ -13,6 +13,11 @@ inputs:
   registry-url:
     description: Optional registry for an .npmrc that reads NODE_AUTH_TOKEN
     default: ''
+  cache:
+    description: >
+      Restore and save the pnpm store. Turn it off in jobs that install
+      nothing, or they save an incomplete store for the lockfile.
+    default: 'true'
 
 runs:
   using: composite
@@ -34,10 +39,12 @@ runs:
         pnpm --version
 
     - name: Get pnpm store directory
+      if: inputs.cache == 'true'
       shell: bash
       run: echo "STORE_PATH=$(pnpm store path --silent)" >> "$GITHUB_ENV"
 
-    - uses: actions/cache@v6
+    - if: inputs.cache == 'true'
+      uses: actions/cache@v6
       with:
         path: ${{ env.STORE_PATH }}
         key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
