@@ -12,6 +12,7 @@ import { guidFor } from '@ember/object/internals';
 import { concat } from '@ember/helper';
 import type { WithBoundArgs } from '@glint/template';
 import style from 'ember-style-modifier';
+import { RovingFocus } from '../utils/roving-focus.ts';
 import type Icon from './icon.gts';
 
 const labelOffset = (offset: number) => ({
@@ -45,6 +46,12 @@ export interface TreeNodeSignature {
      * pass this manually.
      */
     depth?: number;
+    /**
+     * Whether an ancestor is collapsed, which takes the node out of
+     * keyboard navigation. Set automatically when nodes are yielded — do
+     * not pass this manually.
+     */
+    hidden?: boolean;
   };
   Blocks: {
     default: [TreeNode: WithBoundArgs<typeof TreeNode, 'treeView'>];
@@ -118,17 +125,40 @@ class TreeNode extends Component<TreeNodeSignature> {
     this.setExpanded(!this.expanded);
   };
 
+  // Up, Down, Home and End move between nodes in TreeView's RovingFocus.
   handleKeydown = (hasChildren: boolean, event: KeyboardEvent) => {
     if (this.args.disabled) return;
-    if (event.key === 'Enter' || event.key === ' ') {
+    const node = event.currentTarget as HTMLElement;
+    const { rovingFocus } = this.args.treeView;
+    if (['ArrowLeft', 'ArrowRight', 'Enter', ' '].includes(event.key)) {
+      // Nodes nest, so the parent's handler would act on the same key.
+      event.stopPropagation();
+    }
+    if (event.key === 'ArrowLeft') {
       event.preventDefault();
+      if (hasChildren && this.expanded) {
+        this.setExpanded(false);
+      } else {
+        const parent =
+          node.parentElement?.closest<HTMLElement>('[role="treeitem"]');
+        if (parent) rovingFocus.focus(parent);
+      }
+    } else if (event.key === 'ArrowRight' && hasChildren) {
+      event.preventDefault();
+      if (this.expanded) {
+        const firstChild = rovingFocus.items.find(
+          (item) => item !== node && node.contains(item),
+        );
+        if (firstChild) rovingFocus.focus(firstChild);
+      } else {
+        this.setExpanded(true);
+      }
+    } else if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      if (event.key === 'Enter' && hasChildren) {
+        this.setExpanded(!this.expanded);
+      }
       this.args.treeView.select(this, event);
-    } else if (hasChildren && event.key === 'ArrowRight' && !this.expanded) {
-      event.preventDefault();
-      this.setExpanded(true);
-    } else if (hasChildren && event.key === 'ArrowLeft' && this.expanded) {
-      event.preventDefault();
-      this.setExpanded(false);
     }
   };
 
@@ -141,7 +171,6 @@ class TreeNode extends Component<TreeNodeSignature> {
       aria-disabled={{if @disabled "true"}}
       aria-expanded={{if (has-block) (if this.expanded "true" "false")}}
       aria-owns={{if (has-block) (concat this.nodeId "__subtree")}}
-      tabindex={{unless @disabled "0"}}
       class="cds--tree-node
         {{if this.isSelected 'cds--tree-node--selected'}}
         {{if @disabled 'cds--tree-node--disabled'}}
@@ -150,6 +179,7 @@ class TreeNode extends Component<TreeNodeSignature> {
         {{if (has-block) 'cds--tree-parent-node' 'cds--tree-leaf-node'}}"
       {{on "click" this.select}}
       {{on "keydown" (fn this.handleKeydown (has-block))}}
+      {{@treeView.rovingFocus.item disabled=@disabled hidden=@hidden}}
       ...attributes
     >
       <div
@@ -198,7 +228,12 @@ class TreeNode extends Component<TreeNodeSignature> {
             {{unless this.expanded 'cds--tree-node--hidden'}}"
         >
           {{yield
-            (component TreeNode treeView=@treeView depth=this.childDepth)
+            (component
+              TreeNode
+              treeView=@treeView
+              depth=this.childDepth
+              hidden=(or @hidden (not this.expanded))
+            )
           }}
         </ul>
       {{/if}}
@@ -226,6 +261,8 @@ export interface TreeViewSignature {
 export default class TreeView extends Component<TreeViewSignature> {
   @tracked selectedIds: Array<string> = [];
   @tracked activeId?: string;
+
+  rovingFocus = new RovingFocus({ orientation: 'vertical' });
 
   get labelId() {
     return `tree-view-${guidFor(this)}__label`;
@@ -266,6 +303,7 @@ export default class TreeView extends Component<TreeViewSignature> {
       aria-labelledby={{unless @hideLabel this.labelId}}
       aria-multiselectable={{if @multiselect "true"}}
       class="cds--tree cds--tree--{{if @size @size 'sm'}}"
+      {{this.rovingFocus.container}}
       ...attributes
     >
       {{yield (component TreeNode treeView=this depth=0)}}
