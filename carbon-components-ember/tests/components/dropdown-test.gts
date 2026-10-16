@@ -3,6 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import {
   render,
   click,
+  focus,
   triggerEvent,
   triggerKeyEvent,
   find,
@@ -11,6 +12,7 @@ import {
 } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import Dropdown from '#src/components/dropdown.gts';
+import { nonce } from '../helpers';
 
 module('Integration | Component | Dropdown', (hooks) => {
   setupRenderingTest(hooks);
@@ -154,7 +156,7 @@ module('Integration | Component | Dropdown', (hooks) => {
     assert.dom('.cds--dropdown').doesNotHaveClass('cds--dropdown--open');
   });
 
-  test('ArrowUp opens the closed menu with the last item highlighted', async function (assert) {
+  test("ArrowUp doesn't open the closed menu, as in Carbon React", async function (assert) {
     await render(
       <template>
         <Dropdown
@@ -168,10 +170,7 @@ module('Integration | Component | Dropdown', (hooks) => {
     const button = find('.cds--list-box__field')!;
     await triggerKeyEvent(button, 'keydown', 'ArrowUp');
 
-    assert.dom('.cds--dropdown').hasClass('cds--dropdown--open');
-    assert
-      .dom(`[role="option"]:nth-child(${items.length})`)
-      .hasClass('cds--list-box__menu-item--highlighted');
+    assert.dom('.cds--dropdown').doesNotHaveClass('cds--dropdown--open');
   });
 
   test('exposes the keyboard-highlighted item via aria-activedescendant and role=combobox', async function (assert) {
@@ -756,6 +755,22 @@ module('Integration | Component | Dropdown', (hooks) => {
 
     assert.dom('.cds--dropdown').hasClass('cds--dropdown--sm');
     assert.dom('.cds--dropdown').hasClass('cds--list-box--sm');
+    assert.dom('.cds--dropdown').hasClass('cds--layout--size-sm');
+  });
+
+  test('without @size, renders no size classes, following an enclosing Layout', async function (assert) {
+    await render(
+      <template>
+        <Dropdown
+          @titleText="Choose an option"
+          @label="Select an option"
+          @items={{items}}
+        />
+      </template>,
+    );
+
+    assert.dom('.cds--dropdown').doesNotHaveClass('cds--dropdown--md');
+    assert.dom('.cds--dropdown').doesNotHaveClass('cds--layout--size-md');
   });
 
   test("@type='inline' adds the inline layout classes and suppresses helper text", async function (assert) {
@@ -800,5 +815,225 @@ module('Integration | Component | Dropdown', (hooks) => {
 
     assert.dom('.cds--label').hasClass('cds--visually-hidden');
     assert.dom('.cds--label').hasText('Choose an option');
+  });
+
+  test('renders the items only while open, with a checkmark on the selected one', async function (assert) {
+    await render(
+      <template>
+        <Dropdown
+          @titleText="Choose an option"
+          @label="Select an option"
+          @items={{items}}
+          @initialSelectedItem="Option 2"
+        />
+      </template>,
+    );
+    assert.dom('[role="option"]').doesNotExist('closed');
+
+    await click('.cds--list-box__field');
+    assert.dom('[role="option"]').exists({ count: 3 });
+    assert.dom('.cds--list-box__menu-item__selected-icon').exists({ count: 1 });
+    assert
+      .dom(
+        '.cds--list-box__menu-item--active .cds--list-box__menu-item__selected-icon',
+      )
+      .exists();
+  });
+
+  test('describes the field with its invalid, warning or helper text', async function (assert) {
+    const state = tracked<'invalid' | 'warn' | 'helper'>('invalid');
+
+    await render(
+      <template>
+        <Dropdown
+          @id="dd"
+          @titleText="Choose an option"
+          @label="Select an option"
+          @items={{items}}
+          @invalid={{eq state.value "invalid"}}
+          @invalidText="Required"
+          @warn={{eq state.value "warn"}}
+          @warnText="Careful"
+          @helperText="Pick one"
+        />
+      </template>,
+    );
+    assert.dom('#dd').hasAttribute('aria-describedby', 'dd-error-msg');
+    assert.dom('#dd-error-msg').hasText('Required');
+    assert.dom('#dd-helper-text').doesNotExist('the error replaces the helper');
+
+    state.value = 'warn';
+    await settled();
+    assert.dom('#dd').hasAttribute('aria-describedby', 'dd-warn-msg');
+    assert.dom('#dd-warn-msg').hasText('Careful');
+    assert
+      .dom('#dd-helper-text')
+      .doesNotExist('the warning replaces the helper');
+
+    state.value = 'helper';
+    await settled();
+    assert.dom('#dd').hasAttribute('aria-describedby', 'dd-helper-text');
+    assert.dom('#dd-helper-text').hasText('Pick one');
+  });
+
+  test('gives an item a title only when its text is cut off', async function (assert) {
+    const longItems = [
+      'Short',
+      'A very long option label that cannot possibly fit in a narrow menu',
+    ];
+
+    await render(
+      <template>
+        <style nonce={{nonce}}>
+          .dropdown-test__narrow {
+            width: 8rem;
+          }
+        </style>
+        <Dropdown
+          class="dropdown-test__narrow"
+          @titleText="Choose an option"
+          @label="Select an option"
+          @items={{longItems}}
+        />
+      </template>,
+    );
+    await click('.cds--list-box__field');
+
+    const [short, long] = Array.from(
+      document.querySelectorAll('[role="option"]'),
+    );
+    assert.dom(short).doesNotHaveAttribute('title');
+    assert.dom(long).hasAttribute('title', longItems[1]!);
+  });
+
+  test('an inline invalid field gets the inline invalid wrapper classes', async function (assert) {
+    await render(
+      <template>
+        <Dropdown
+          @titleText="Choose an option"
+          @label="Select an option"
+          @items={{items}}
+          @type="inline"
+          @invalid={{true}}
+          @invalidText="Required"
+        />
+      </template>,
+    );
+
+    assert
+      .dom('.cds--list-box__wrapper')
+      .hasClass('cds--dropdown__wrapper--inline--invalid')
+      .hasClass('cds--list-box__wrapper--inline--invalid');
+  });
+
+  test('the focus class applies only while nothing is selected', async function (assert) {
+    await render(
+      <template>
+        <Dropdown
+          @titleText="Choose an option"
+          @label="Select an option"
+          @items={{items}}
+        />
+      </template>,
+    );
+    await focus('.cds--list-box__field');
+    assert.dom('.cds--dropdown').hasClass('cds--dropdown--focus');
+
+    await click('.cds--list-box__field');
+    await click('[role="option"]');
+    await focus('.cds--list-box__field');
+    assert.dom('.cds--dropdown').doesNotHaveClass('cds--dropdown--focus');
+  });
+
+  test('the menu icon is titled by what clicking does', async function (assert) {
+    await render(
+      <template>
+        <Dropdown
+          @titleText="Choose an option"
+          @label="Select an option"
+          @items={{items}}
+        />
+      </template>,
+    );
+    assert.dom('.cds--list-box__menu-icon title').hasText('Open menu');
+
+    await click('.cds--list-box__field');
+    assert.dom('.cds--list-box__menu-icon title').hasText('Close menu');
+  });
+
+  test("Escape closing the menu doesn't reach the page", async function (assert) {
+    let escapes = 0;
+    const onKeydown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') escapes++;
+    };
+
+    await render(
+      <template>
+        {{! eslint-disable-next-line ember/template-no-invalid-interactive -- a probe for keydowns that escape the Dropdown }}
+        <div {{on "keydown" onKeydown}}>
+          <Dropdown
+            @titleText="Choose an option"
+            @label="Select an option"
+            @items={{items}}
+          />
+        </div>
+      </template>,
+    );
+    await click('.cds--list-box__field');
+    await triggerKeyEvent('.cds--list-box__field', 'keydown', 'Escape');
+
+    assert.dom('.cds--dropdown').doesNotHaveClass('cds--dropdown--open');
+    assert.strictEqual(escapes, 0);
+  });
+
+  test('a space mid-typeahead is part of what is typed', async function (assert) {
+    const spaced = ['Option 1', 'Option 2', 'Optional'];
+
+    await render(
+      <template>
+        <Dropdown
+          @titleText="Choose an option"
+          @label="Select an option"
+          @items={{spaced}}
+        />
+      </template>,
+    );
+    const button = find('.cds--list-box__field')!;
+    await click(button);
+    // Back to back, so the typeahead buffer doesn't reset in between.
+    for (const key of ['o', 'p', 't', 'i', 'o', 'n', ' ', '2']) {
+      button.dispatchEvent(
+        new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true }),
+      );
+    }
+    await settled();
+
+    assert.dom('.cds--dropdown').hasClass('cds--dropdown--open');
+    assert
+      .dom('[role="option"]:nth-child(2)')
+      .hasClass('cds--list-box__menu-item--highlighted');
+  });
+
+  test('clicking the field still reaches page-level listeners', async function (assert) {
+    let clicks = 0;
+    const onDocumentClick = () => clicks++;
+    document.addEventListener('click', onDocumentClick);
+
+    try {
+      await render(
+        <template>
+          <Dropdown
+            @titleText="Choose an option"
+            @label="Select an option"
+            @items={{items}}
+          />
+        </template>,
+      );
+      await click('.cds--list-box__field');
+    } finally {
+      document.removeEventListener('click', onDocumentClick);
+    }
+
+    assert.strictEqual(clicks, 1, 'an open Popover elsewhere can still close');
   });
 });
