@@ -14,6 +14,17 @@ export interface RovingFocusOptions {
   loop?: boolean;
 }
 
+export interface RovingFocusClassOptions extends RovingFocusOptions {
+  /**
+   * Make the focused item the tab stop. Defaults to `true`; with `false`,
+   * the items' `tabindex` is left to the caller (Tabs keeps it on the
+   * selected tab).
+   */
+  followFocus?: boolean;
+  /** Called when a key in the container moves focus to `element`. */
+  onNavigate?: (element: HTMLElement) => void;
+}
+
 /**
  * The index a key moves focus to, from `current` among `count` items, or
  * `undefined` when the key doesn't navigate. `rtl` swaps the horizontal
@@ -52,7 +63,8 @@ export function nextIndex(
   return Math.min(Math.max(next, 0), count - 1);
 }
 
-function byDocumentPosition(a: Node, b: Node) {
+/** Sorts nodes into document order. */
+export function byDocumentPosition(a: Node, b: Node) {
   return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING
     ? -1
     : 1;
@@ -68,7 +80,7 @@ interface ItemState {
  * and End. Items register through the `item` modifier and are ordered by
  * their position in the DOM, so an item rendered later in the middle stays
  * in the middle. Disabled and hidden items are skipped; the focused item
- * becomes the tab stop.
+ * becomes the tab stop, unless `followFocus` is off.
  *
  * ```gjs
  * <ul role="tree" {{this.rovingFocus.container}}>
@@ -77,13 +89,17 @@ interface ItemState {
  * ```
  */
 export class RovingFocus {
-  #options: RovingFocusOptions;
+  #options: RovingFocusClassOptions;
   #items = new Map<HTMLElement, ItemState>();
   #tabStop?: HTMLElement;
   #syncScheduled = false;
 
-  constructor(options: RovingFocusOptions = {}) {
+  constructor(options: RovingFocusClassOptions = {}) {
     this.#options = options;
+  }
+
+  get #followsFocus() {
+    return this.#options.followFocus ?? true;
   }
 
   /** The items focus can move to, in DOM order. */
@@ -95,8 +111,9 @@ export class RovingFocus {
   }
 
   /**
-   * Focuses `element` and makes it the tab stop, if focus can move to it:
-   * not a disabled, hidden or unregistered element.
+   * Focuses `element` and makes it the tab stop (unless `followFocus` is
+   * off), if focus can move to it: not a disabled, hidden or unregistered
+   * element.
    */
   focus(element: HTMLElement) {
     if (!this.items.includes(element)) return;
@@ -114,17 +131,21 @@ export class RovingFocus {
       // arrow press goes to the first or last item.
       if (current < 0 && target !== element) return;
       const index = nextIndex(event.key, current, items.length, {
-        ...this.#options,
+        orientation: this.#options.orientation,
+        loop: this.#options.loop,
         rtl: getComputedStyle(element).direction === 'rtl',
       });
       const next = index === undefined ? undefined : items[index];
       if (!next) return;
       event.preventDefault();
       this.focus(next);
+      this.#options.onNavigate?.(next);
     };
     const handleFocusin = (event: FocusEvent) => {
       const target = event.target as HTMLElement;
-      if (this.items.includes(target)) this.#setTabStop(target);
+      if (this.#followsFocus && this.items.includes(target)) {
+        this.#setTabStop(target);
+      }
     };
     element.addEventListener('keydown', handleKeydown);
     element.addEventListener('focusin', handleFocusin);
@@ -141,6 +162,9 @@ export class RovingFocus {
       { disabled = false, hidden = false }: Partial<ItemState>,
     ) => {
       this.#items.set(element, { disabled, hidden });
+      if (!this.#followsFocus) {
+        return () => this.#items.delete(element);
+      }
       if (disabled) {
         element.removeAttribute('tabindex');
       } else if (element !== this.#tabStop) {
@@ -155,7 +179,7 @@ export class RovingFocus {
   );
 
   #setTabStop(element: HTMLElement) {
-    if (this.#tabStop === element) return;
+    if (!this.#followsFocus || this.#tabStop === element) return;
     this.#demote(this.#tabStop);
     this.#tabStop = element;
     element.tabIndex = 0;
