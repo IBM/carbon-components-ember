@@ -119,8 +119,8 @@ export const Cells: TOC<{ Args: { Column: Column; item: LoadBalancer } }> =
     <@Column>{{@item.status}}</@Column>
   </template>;
 
-// The table shows its rows once it has set up its first page slice (on the
-// next run loop), so tests wait for them first.
+// The table shows its rows once it has set up its first page slice, after
+// its first render, so tests wait for them first.
 export const rowsRendered = (canvasElement: HTMLElement) =>
   waitFor(() =>
     expect(canvasElement.querySelectorAll('tbody tr').length).toBeGreaterThan(

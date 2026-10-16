@@ -23,7 +23,7 @@ import type TableColumn from '../components/data-table/-column.gts';
 import type { WithBoundArgs } from '@glint/template';
 import type ListHeaderComponent from '../components/data-table/-header.gts';
 import type { Header } from '../components/data-table/-header.gts';
-import { runTask } from 'ember-lifeline';
+import { afterRender } from '../utils/after-render.ts';
 
 class TrackedSet<T> extends Set<T> {
   @tracked counter = 0;
@@ -183,7 +183,7 @@ export default class DataTable<T> extends Component<DataTableSignature<T>> {
 
   constructor(...args: [never, never]) {
     super(...args);
-    runTask(this, () => {
+    afterRender(this, () => {
       if (!this.state.currentItemsSlice) {
         this.state.currentItemsSlice = {
           start: 0,
@@ -240,7 +240,7 @@ export default class DataTable<T> extends Component<DataTableSignature<T>> {
   }
 
   notifyRegisterState = modifier(() => {
-    runTask(this, () => this.args.registerState?.(this.state));
+    afterRender(this, () => this.args.registerState?.(this.state));
   });
 
   search = (term?: string) => {
