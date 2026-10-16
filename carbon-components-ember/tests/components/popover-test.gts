@@ -1,8 +1,16 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, triggerKeyEvent } from '@ember/test-helpers';
+import {
+  render,
+  click,
+  find,
+  settled,
+  triggerKeyEvent,
+} from '@ember/test-helpers';
 import Popover, { PopoverContent } from '#src/components/popover.gts';
 import { tracked } from '@glimmer/tracking';
+import { modifier } from 'ember-modifier';
+import { nonce } from '../helpers';
 
 module('Integration | Component | Popover', (hooks) => {
   setupRenderingTest(hooks);
@@ -224,5 +232,257 @@ module('Integration | Component | Popover', (hooks) => {
 
     await triggerKeyEvent('#inner', 'keydown', 'Escape');
     assert.false(open.value);
+  });
+
+  module('floating mode (@autoAlign)', () => {
+    test('adds the auto-align classes and puts the caret inside the content', async function (assert) {
+      await render(
+        <template>
+          <Popover @open={{false}} @autoAlign={{true}}>
+            <button type="button">Trigger</button>
+            <PopoverContent>Content</PopoverContent>
+          </Popover>
+        </template>,
+      );
+
+      assert
+        .dom('.cds--popover-container')
+        .hasClass('cds--popover--auto-align')
+        .hasClass('cds--autoalign');
+      assert
+        .dom('.cds--popover-content > .cds--popover-caret')
+        .hasClass('cds--popover--auto-align');
+      assert.dom('.cds--popover > .cds--popover-caret').doesNotExist();
+    });
+
+    test('renders the open content in the top layer, below the trigger', async function (assert) {
+      await render(
+        <template>
+          <Popover @open={{true}} @autoAlign={{true}}>
+            <button type="button">Trigger</button>
+            <PopoverContent>Content</PopoverContent>
+          </Popover>
+        </template>,
+      );
+
+      const content = find('.cds--popover-content') as HTMLElement;
+      const trigger = find('button')!;
+      assert.true(content.matches(':popover-open'));
+      assert.strictEqual(content.style.position, 'fixed');
+      assert.dom('.cds--popover-container').hasClass('cds--popover--bottom');
+      assert.true(
+        content.getBoundingClientRect().top >
+          trigger.getBoundingClientRect().bottom,
+      );
+      const caret = find(
+        '.cds--popover-content > .cds--popover-caret',
+      ) as HTMLElement;
+      assert.strictEqual(caret.style.top, '-6px', 'caret sits on the top edge');
+      assert.notStrictEqual(
+        caret.style.left,
+        '',
+        'caret is centred by Floating UI',
+      );
+    });
+
+    test('@alignmentAxisOffset shifts aligned placements', async function (assert) {
+      await render(
+        <template>
+          {{! Wide enough that the caret fits without shifting the content }}
+          <style nonce={{nonce}}>
+            .offset-test__trigger {
+              width: 12rem;
+            }
+          </style>
+          <Popover
+            @open={{true}}
+            @align="bottom-start"
+            @autoAlign={{true}}
+            @alignmentAxisOffset={{20}}
+          >
+            <button class="offset-test__trigger" type="button">Trigger</button>
+            <PopoverContent>Content</PopoverContent>
+          </Popover>
+        </template>,
+      );
+
+      const content = find('.cds--popover-content')!.getBoundingClientRect();
+      const trigger = find('button')!.getBoundingClientRect();
+      assert.strictEqual(Math.round(content.left - trigger.left), 20);
+    });
+
+    test('hides the content while the trigger is scrolled out of its scroll container', async function (assert) {
+      await render(
+        <template>
+          <style nonce={{nonce}}>
+            .hide-test__scroller {
+              height: 4rem;
+              overflow: auto;
+            }
+            .hide-test__spacer {
+              height: 40rem;
+            }
+          </style>
+          <div class="hide-test__scroller">
+            <div class="hide-test__spacer"></div>
+            <Popover @open={{true}} @autoAlign={{true}}>
+              <button type="button">Trigger</button>
+              <PopoverContent>Content</PopoverContent>
+            </Popover>
+          </div>
+        </template>,
+      );
+
+      const trigger = find('button')!.getBoundingClientRect();
+      const scroller = find('.hide-test__scroller')!.getBoundingClientRect();
+      assert.true(trigger.top > scroller.bottom, 'clipped by the scroller');
+      assert.true(trigger.bottom < window.innerHeight, 'inside the viewport');
+      assert.strictEqual(
+        (find('.cds--popover-content') as HTMLElement).style.visibility,
+        'hidden',
+      );
+    });
+
+    test('leaves the top layer when it closes', async function (assert) {
+      const open = tracked(true);
+
+      await render(
+        <template>
+          <Popover @open={{open.value}} @autoAlign={{true}}>
+            <button type="button">Trigger</button>
+            <PopoverContent>Content</PopoverContent>
+          </Popover>
+        </template>,
+      );
+
+      open.value = false;
+      await settled();
+
+      assert.dom('.cds--popover-content').doesNotHaveAttribute('popover');
+      assert.strictEqual(
+        (find('.cds--popover-content') as HTMLElement).style.position,
+        '',
+      );
+    });
+
+    test('flips to a side that fits within @autoAlignBoundary', async function (assert) {
+      const boundary = tracked<HTMLElement | undefined>(undefined);
+      const setBoundary = modifier((element: HTMLElement) => {
+        boundary.value = element;
+      });
+
+      await render(
+        <template>
+          <style nonce={{nonce}}>
+            .flip-test__boundary {
+              width: 16rem;
+              height: 20rem;
+            }
+            .flip-test__popover {
+              display: block;
+            }
+            .flip-test__trigger {
+              display: block;
+              width: 100%;
+              height: 2rem;
+            }
+            .flip-test__content {
+              width: 4rem;
+              height: 4rem;
+            }
+          </style>
+          <div class="flip-test__boundary" {{setBoundary}}>
+            {{#if boundary.value}}
+              <Popover
+                class="flip-test__popover"
+                @open={{true}}
+                @align="top"
+                @autoAlign={{true}}
+                @autoAlignBoundary={{boundary.value}}
+              >
+                <button
+                  class="flip-test__trigger"
+                  type="button"
+                >Trigger</button>
+                <PopoverContent class="flip-test__content">
+                  Content
+                </PopoverContent>
+              </Popover>
+            {{/if}}
+          </div>
+        </template>,
+      );
+
+      assert.dom('.cds--popover-container').hasClass('cds--popover--bottom');
+    });
+
+    test('connects content rendered after the popover', async function (assert) {
+      const show = tracked(false);
+
+      await render(
+        <template>
+          <Popover @open={{true}} @autoAlign={{true}}>
+            <button type="button">Trigger</button>
+            {{#if show.value}}
+              <PopoverContent>Content</PopoverContent>
+            {{/if}}
+          </Popover>
+        </template>,
+      );
+
+      show.value = true;
+      await settled();
+
+      const content = find('.cds--popover-content') as HTMLElement;
+      assert.dom('.cds--popover-content > .cds--popover-caret').exists();
+      assert.true(content.matches(':popover-open'));
+      assert.strictEqual(content.style.position, 'fixed');
+    });
+
+    test('positions content that replaces the previous one while open', async function (assert) {
+      const first = tracked(true);
+
+      await render(
+        <template>
+          <Popover @open={{true}} @autoAlign={{true}}>
+            <button type="button">Trigger</button>
+            {{#if first.value}}
+              <PopoverContent id="first">First</PopoverContent>
+            {{else}}
+              <PopoverContent id="second">Second</PopoverContent>
+            {{/if}}
+          </Popover>
+        </template>,
+      );
+
+      first.value = false;
+      await settled();
+
+      const content = find('#second') as HTMLElement;
+      assert.true(content.matches(':popover-open'));
+      assert.strictEqual(content.style.position, 'fixed');
+    });
+
+    test('moves the caret back when @autoAlign is turned off', async function (assert) {
+      const autoAlign = tracked(true);
+
+      await render(
+        <template>
+          <Popover @open={{true}} @autoAlign={{autoAlign.value}}>
+            <button type="button">Trigger</button>
+            <PopoverContent>Content</PopoverContent>
+          </Popover>
+        </template>,
+      );
+
+      autoAlign.value = false;
+      await settled();
+
+      assert
+        .dom('.cds--popover-container')
+        .doesNotHaveClass('cds--popover--auto-align');
+      assert.dom('.cds--popover > .cds--popover-caret').exists();
+      assert.dom('.cds--popover-content').doesNotHaveAttribute('popover');
+    });
   });
 });
