@@ -97,8 +97,6 @@ jobs:
     needs: changes
     if: needs.changes.outputs.addon == 'true'
     runs-on: ubuntu-26.04
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v7
 
@@ -117,7 +115,23 @@ jobs:
         env:
           CI: true
 
-      # For the try-scenarios job
+  # Lists the try-scenarios matrix in its own job, so the scenarios run
+  # alongside the Test job instead of after it.
+  scenarios:
+    name: Scenarios
+    needs: changes
+    if: needs.changes.outputs.addon == 'true'
+    runs-on: ubuntu-26.04
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Node and pnpm
+        uses: ./.github/actions/setup-pnpm
+        with:
+          cache: false
+
       - id: set-matrix
         working-directory: ./carbon-components-ember
         run: |
@@ -125,7 +139,7 @@ jobs:
 
   try-scenarios:
     name: ${{ matrix.name }}
-    needs: test
+    needs: scenarios
     timeout-minutes: 15
     runs-on: ubuntu-26.04
     continue-on-error: ${{ matrix.allowedToFail == true }}
@@ -133,7 +147,7 @@ jobs:
       CI: "true"
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.test.outputs.matrix) }}
+      matrix: ${{ fromJson(needs.scenarios.outputs.matrix) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7

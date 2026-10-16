@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { cached, tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import { modifier as eModifier } from 'ember-modifier';
+import { modifier } from 'ember-modifier';
 import Checkbox from './icons/checkbox.ts';
 import CheckboxCheckedFilled from './icons/checkbox-checked-filled.ts';
 import ChevronDown from './icons/chevron-down.ts';
@@ -16,7 +16,7 @@ import ChevronDown from './icons/chevron-down.ts';
 // declared positional arg (not read off `this` inside the body) so this
 // re-measures synchronously - no flash of unclipped content - on every
 // @expanded toggle, matching upstream's own layout-effect timing.
-const clipExpandableTile = eModifier<{
+const clipExpandableTile = modifier<{
   Element: HTMLElement;
   Args: { Positional: [expanded: boolean] };
 }>((aboveFoldElement, [expanded]) => {

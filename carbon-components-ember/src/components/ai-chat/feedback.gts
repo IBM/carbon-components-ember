@@ -8,7 +8,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import { modifier as eModifier } from 'ember-modifier';
+import { modifier } from 'ember-modifier';
 import Button from '../button.gts';
 import Tooltip from '../tooltip.gts';
 import Checkbox from '../checkbox.gts';
@@ -102,7 +102,7 @@ export default class Feedback extends Component<FeedbackSignature> {
     this.disclaimerChecked = false;
   }
 
-  watchInitialValues = eModifier<{
+  watchInitialValues = modifier<{
     Element: HTMLDivElement;
     Args: { Positional: [FeedbackDetails | null | undefined] };
   }>(() => {
@@ -120,7 +120,7 @@ export default class Feedback extends Component<FeedbackSignature> {
   // screen even though `this.textInput` was updated internally. Write
   // `.value` imperatively instead, same technique as PromptLine's
   // `syncContent` modifier.
-  syncTextInput = eModifier<{
+  syncTextInput = modifier<{
     Element: HTMLTextAreaElement;
     Args: { Positional: [string] };
   }>((element, [value]) => {

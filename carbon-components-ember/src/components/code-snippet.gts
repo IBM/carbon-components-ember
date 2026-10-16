@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { defaultArgs } from '../utils/decorators.ts';
 import CopyButton from '../components/copy-button.gts';
-import { modifier as eModifier } from 'ember-modifier';
+import { modifier } from 'ember-modifier';
 import type { TOC } from '@ember/component/template-only';
 import './code-snippet.scss';
 
@@ -17,7 +17,7 @@ export interface CodeSnippetSignature {
 
 const noop = () => '';
 
-const captureElement = eModifier<{
+const captureElement = modifier<{
   Element: HTMLElement;
   Args: { Named: { onInsert: (element: Element) => void } };
 }>((element, _positional, { onInsert }) => {

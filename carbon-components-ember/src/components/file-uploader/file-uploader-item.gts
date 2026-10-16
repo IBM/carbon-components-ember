@@ -8,7 +8,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import { modifier as eModifier } from 'ember-modifier';
+import { modifier } from 'ember-modifier';
 import Tooltip from '../tooltip.gts';
 import FileUploaderStatusIcon from './-status-icon.gts';
 
@@ -42,7 +42,7 @@ export interface FileUploaderItemSignature {
 // text-overflow, so the tooltip only wraps it when truncation is real.
 // Re-measures whenever `name` changes, mirroring React's
 // `useIsomorphicEffect(..., [prefix, name])`.
-const measureEllipsis = eModifier<{
+const measureEllipsis = modifier<{
   Element: HTMLElement;
   Args: { Named: { onMeasure: (active: boolean) => void; name?: string } };
 }>((element, _positional, { onMeasure, name }) => {

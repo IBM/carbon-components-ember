@@ -7,7 +7,7 @@ import type { WithBoundArgs } from '@glint/template';
 import type Owner from '@ember/owner';
 import type Icon from './icon.gts';
 import didResize from 'ember-resize-modifier/modifiers/did-resize';
-import { modifier as eModifier } from 'ember-modifier';
+import { modifier } from 'ember-modifier';
 import { runTask } from 'ember-lifeline';
 
 import TabsSkeleton from './tabs-skeleton.gts';
@@ -238,7 +238,7 @@ export default class Tabs extends Component<TabsSignature> {
     );
   }
 
-  registerTabsDiv = eModifier<{ Element: HTMLDivElement }>((element) => {
+  registerTabsDiv = modifier<{ Element: HTMLDivElement }>((element) => {
     this.tabsDivElement = element;
     return () => {
       this.tabsDivElement = undefined;
