@@ -63,6 +63,30 @@ export function nextIndex(
   return Math.min(Math.max(next, 0), count - 1);
 }
 
+/**
+ * The index of the next item whose text starts with what was typed, as a
+ * native select finds it. `typed` is everything typed in quick succession,
+ * searched from after `anchor`; a run of one repeated character instead
+ * cycles through the items starting with it, from after `current`. Returns
+ * -1 when nothing matches.
+ */
+export function typeaheadIndex(
+  texts: string[],
+  typed: string,
+  { current, anchor }: { current: number; anchor: number },
+): number {
+  const query = typed.toLowerCase();
+  const repeated =
+    query.length > 1 && [...query].every((char) => char === query[0]);
+  const search = repeated ? query.slice(0, 1) : query;
+  const startAfter = repeated ? current : anchor;
+  for (let offset = 1; offset <= texts.length; offset++) {
+    const index = (startAfter + offset + texts.length) % texts.length;
+    if (texts[index]?.toLowerCase().startsWith(search)) return index;
+  }
+  return -1;
+}
+
 /** Sorts nodes into document order. */
 export function byDocumentPosition(a: Node, b: Node) {
   return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING
