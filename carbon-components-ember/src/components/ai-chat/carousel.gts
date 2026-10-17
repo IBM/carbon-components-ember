@@ -7,7 +7,7 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { modifier as eModifier } from 'ember-modifier';
+import { modifier } from 'ember-modifier';
 import { initCarousel } from '@carbon/utilities/carousel';
 import type {
   CarouselResponse,
@@ -115,7 +115,7 @@ export default class Carousel extends Component<CarouselSignature> {
   // (e.g. a fresh `@onChange` closure) would tear down and rebuild the
   // carousel, silently resetting the active view back to index 0.
   // `@onChange` is read from `this.args` inside the closure instead.
-  attachCarousel = eModifier<{ Element: HTMLDivElement }>((element) => {
+  attachCarousel = modifier<{ Element: HTMLDivElement }>((element) => {
     const timeoutId = setTimeout(() => {
       this.carousel = initCarousel(element, {
         onViewChangeEnd: (data) => this.handleViewChangeEnd(data),

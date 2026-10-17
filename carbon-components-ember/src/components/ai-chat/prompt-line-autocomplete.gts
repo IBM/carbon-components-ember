@@ -7,7 +7,7 @@
 
 import Component from '@glimmer/component';
 import { cached, tracked } from '@glimmer/tracking';
-import { modifier as eModifier } from 'ember-modifier';
+import { modifier } from 'ember-modifier';
 import { guidFor } from '@ember/object/internals';
 import type { TOC } from '@ember/component/template-only';
 import type { ComponentLike } from '@glint/template';
@@ -778,7 +778,7 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
     event.preventDefault();
   };
 
-  attachListeners = eModifier<{ Element: HTMLDivElement }>((element) => {
+  attachListeners = modifier<{ Element: HTMLDivElement }>((element) => {
     this.popupElement = element;
     const target =
       this.args.target ??
@@ -817,7 +817,7 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
   // upstream's `AutocompleteController.setConfigs`. Runs on every args
   // change (including the first, when `this.trigger` is still null - a
   // harmless no-op).
-  watchConfigs = eModifier<{
+  watchConfigs = modifier<{
     Element: HTMLDivElement;
     Args: {
       Positional: [

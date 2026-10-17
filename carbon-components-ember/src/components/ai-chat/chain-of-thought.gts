@@ -8,7 +8,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import { modifier as eModifier } from 'ember-modifier';
+import { modifier } from 'ember-modifier';
 import type { WithBoundArgs } from '@glint/template';
 import InlineLoading from '../inline-loading.gts';
 import CheckmarkFilled from '../icons/checkmark-filled.ts';
@@ -268,7 +268,7 @@ export default class ChainOfThought extends Component<ChainOfThoughtSignature> {
   // Fires `@onToggle` whenever `@open` actually changes after the initial
   // render — not on mount itself, which upstream's own `firstUpdated()`
   // guard also excludes from its `chain-of-thought-toggled` dispatch.
-  watchOpen = eModifier<{
+  watchOpen = modifier<{
     Element: HTMLDivElement;
     Args: { Positional: [boolean] };
   }>((_element, [open]) => {

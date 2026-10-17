@@ -8,7 +8,7 @@
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
-import { modifier as eModifier } from 'ember-modifier';
+import { modifier } from 'ember-modifier';
 import { registerDestructor } from '@ember/destroyable';
 import {
   detectAudioSource,
@@ -293,7 +293,7 @@ export default class AudioPlayer extends Component<AudioPlayerSignature> {
   // every such unrelated render, discarding playback position and
   // re-fetching the source. `lastLoadedSource` makes the actual reload
   // decision explicit, the same fix already needed for `syncPlaying` below.
-  attachProvider = eModifier<{
+  attachProvider = modifier<{
     Element: HTMLDivElement;
     Args: { Positional: [string] };
   }>((element, [source]) => {
@@ -309,7 +309,7 @@ export default class AudioPlayer extends Component<AudioPlayerSignature> {
   // value is threaded through `provider.initialize()`'s `playing` config instead
   // (matches upstream's own `changedProperties.has('playing')` gate, which
   // likewise never fires on first render).
-  syncPlaying = eModifier<{
+  syncPlaying = modifier<{
     Element: HTMLDivElement;
     Args: { Positional: [boolean | undefined] };
   }>((_element, [playing]) => {

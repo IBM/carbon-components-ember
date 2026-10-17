@@ -7,7 +7,7 @@
 
 import Component from '@glimmer/component';
 import { concat } from '@ember/helper';
-import { modifier as eModifier } from 'ember-modifier';
+import { modifier } from 'ember-modifier';
 import { task, timeout } from 'ember-concurrency';
 
 const DEBOUNCE_DELAY = 100;
@@ -68,7 +68,7 @@ export interface ResizerSignature {
   };
 }
 
-const attachResizer = eModifier<{
+const attachResizer = modifier<{
   Element: HTMLDivElement;
   Args: {
     Named: {
