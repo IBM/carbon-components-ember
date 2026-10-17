@@ -9,6 +9,6 @@
 .cds--popover--drop-shadow > .cds--popover > .cds--popover-content[popover] {
   filter: var(
     --cds-popover-drop-shadow,
-    drop-shadow(0 0.125rem 0.125rem rgba(0, 0, 0, 0.2))
+    drop-shadow(0 0.125rem 0.125rem rgb(0 0 0 / 20%))
   );
 }
