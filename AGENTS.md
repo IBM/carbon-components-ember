@@ -179,6 +179,7 @@ Signatures follow the [Ember guides](https://guides.emberjs.com/release/typescri
 - **Referring to a component, icon or modifier by name** (`<Carbon::Tag>`, `{{component "carbon/tag"}}`) - only `services/**` is re-exported into the app tree (`appReexports` in rollup.config.mjs), so import everything else into strict-mode templates.
 - **`@ember/render-modifiers`** (`did-insert`, `did-update`) - write a real functional modifier instead.
 - **`MutationObserver`** on child DOM nodes - yield contextual components or a `ModifierLike` instead.
+- **A `ResizeObserver` per component** - use `observeResize` from `utils/resize-observer.ts`: one shared observer, calling back in the next animation frame, so no callback runs inside the observer's own notification.
 - **`willDestroy()` overrides** - use `registerDestructor` or modifier teardowns.
 - **`A()`, `NativeArray`, `pushObject`, `removeObject`, or `set()`** - use plain arrays/objects reassigned through `@tracked`.
 - **Classic `Component` + separate `.hbs`** - always use GTS files with `<template>` tags.

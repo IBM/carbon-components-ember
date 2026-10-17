@@ -15,6 +15,7 @@ import type {
   FileUpload,
 } from './-file-uploads/types.ts';
 import './file-uploads.scss';
+import { observeResize } from '../../utils/resize-observer.ts';
 
 export interface FileUploadsSignature {
   Element: HTMLDivElement;
@@ -99,9 +100,7 @@ export default class FileUploads extends Component<FileUploadsSignature> {
     const check = () => {
       this.hasOverflow = element.scrollWidth > element.clientWidth;
     };
-    const observer = new ResizeObserver(check);
-    observer.observe(element);
-    return () => observer.disconnect();
+    return observeResize(element, check);
   });
 
   // Fires on install (seeds `snapshots` from the already-rendered set, so

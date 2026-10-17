@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, triggerKeyEvent } from '@ember/test-helpers';
+import { render, click, triggerKeyEvent, waitUntil } from '@ember/test-helpers';
+import { tracked } from '@glimmer/tracking';
 import TruncatedText from '#src/components/ai-chat/truncated-text.gts';
 import { waitForAnimationFrame } from '../../helpers';
 import style from 'ember-style-modifier';
@@ -37,6 +38,30 @@ module('Integration | Component | ai-chat/TruncatedText', (hooks) => {
 
     assert.dom('.cds--tooltip-trigger__wrapper').exists();
     assert.dom('.cds--tooltip-content').hasText(longValue);
+  });
+
+  test('it keeps watching the content after the tooltip replaces it', async function (assert) {
+    const longValue = Array.from({ length: 40 }, () => 'word').join(' ');
+    const width = tracked('100px');
+
+    await render(
+      <template>
+        <div {{style width=width.value}}>
+          <TruncatedText @value={{longValue}} @lines={{1}} />
+        </div>
+      </template>,
+    );
+    await waitUntil(() =>
+      document.querySelector('.cds--tooltip-trigger__wrapper'),
+    );
+
+    width.value = '4000px';
+    await waitUntil(
+      () => !document.querySelector('.cds--tooltip-trigger__wrapper'),
+      { timeout: 2000 },
+    );
+
+    assert.dom('.cds--tooltip-trigger__wrapper').doesNotExist();
   });
 
   test('it toggles expanded state on click when @type is expand', async function (assert) {
@@ -78,65 +103,6 @@ module('Integration | Component | ai-chat/TruncatedText', (hooks) => {
       'Enter',
     );
     assert.dom('.cds-aichat-truncated-text__toggle').hasText('Show more');
-  });
-
-  test('it disconnects the previous ResizeObserver when the overflow flip re-renders the content element', async function (assert) {
-    const longValue = Array.from({ length: 40 }, () => 'word').join(' ');
-
-    const observed: { disconnected: boolean }[] = [];
-    const OriginalResizeObserver = window.ResizeObserver;
-    class TrackingResizeObserver {
-      state: { disconnected: boolean } = { disconnected: false };
-      observer: ResizeObserver;
-
-      constructor(callback: ResizeObserverCallback) {
-        observed.push(this.state);
-        this.observer = new OriginalResizeObserver(callback);
-      }
-
-      observe(target: Element, options?: ResizeObserverOptions) {
-        this.observer.observe(target, options);
-      }
-
-      unobserve(target: Element) {
-        this.observer.unobserve(target);
-      }
-
-      disconnect() {
-        this.state.disconnected = true;
-        this.observer.disconnect();
-      }
-    }
-    window.ResizeObserver = TrackingResizeObserver;
-
-    try {
-      await render(
-        <template>
-          <div {{style width="100px"}}>
-            <TruncatedText @value={{longValue}} @lines={{1}} />
-          </div>
-        </template>,
-      );
-      await waitForAnimationFrame();
-      await waitForAnimationFrame();
-
-      assert.dom('.cds--tooltip-trigger__wrapper').exists();
-      assert.strictEqual(
-        observed.length,
-        2,
-        'a second ResizeObserver is created for the tooltip-wrapped content',
-      );
-      assert.true(
-        observed[0]?.disconnected,
-        'the first (now-detached) ResizeObserver was disconnected',
-      );
-      assert.false(
-        observed[1]?.disconnected,
-        'the current ResizeObserver is still connected',
-      );
-    } finally {
-      window.ResizeObserver = OriginalResizeObserver;
-    }
   });
 
   test('it renders default block content instead of @value when passed', async function (assert) {
