@@ -31,15 +31,17 @@
 .cds-aichat-snippet {
   display: block;
   padding: 0;
+
   // Use the chat-shell surface token rather than plain `layer` - it tracks
   // the page canvas (e.g. gray in g10), so the snippet would render gray
   // when placed outside a card / on a non-white layer.
   // `--cds-chat-shell-background` is a single, layer-independent surface
   // (white in white/g10, dark in g90/g100), matching the card it usually
   // lives in - see `card.scss`'s identical rationale for the same token.
-  background: var(--cds-chat-shell-background, #ffffff);
+  background: var(--cds-chat-shell-background, #fff);
   font-family: inherit;
   max-inline-size: 100%;
+
   // Insulate from inherited `white-space: pre-wrap` (e.g. a contenteditable
   // ancestor). Without this, indented newlines in this file's own template
   // render as line boxes between block children, leaving a gap above/below
@@ -95,6 +97,7 @@
 .cds-aichat-snippet-container {
   position: relative;
   order: 1;
+
   // Default to "grow with content, no internal scroll". Pixel clamps are
   // applied per-instance by `buildContainerStyles` (driven by the
   // `*NumberOfRows` args, set on this element by `CodeSnippet`'s
@@ -123,6 +126,7 @@
 
 .cds-aichat-snippet-container--fill-mode {
   block-size: 100%;
+
   // Own the clamp explicitly so fill mode (a 0/0 row config) scrolls inside
   // its host rather than depending on the base container's `var()`
   // fallback, which defaults to `none` to let grow mode (`Infinity` rows)
@@ -179,13 +183,11 @@
 }
 
 .cds-aichat-snippet__header-separator {
-  padding-inline-end: layout.$spacing-02;
-  padding-inline-start: layout.$spacing-02;
+  padding-inline: layout.$spacing-02;
 }
 
 .cds-aichat-snippet-container--collapsed {
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto hidden;
   transition: max-height 150ms cubic-bezier(0.2, 0, 0.38, 0.9);
 }
 

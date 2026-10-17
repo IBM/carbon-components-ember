@@ -5,4 +5,4 @@
 // `css/styles.css` doesn't include them (flexbox grid is opt-in there and
 // disabled by default). Generate them here so the classes our components
 // emit actually have styles.
-@include grid.flex-grid();
+@include grid.flex-grid;

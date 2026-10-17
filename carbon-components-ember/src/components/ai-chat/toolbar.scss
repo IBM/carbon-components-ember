@@ -35,11 +35,11 @@
   margin-block: auto;
   margin-inline-end: auto;
   min-inline-size: layout.$spacing-10;
-  padding-inline-end: layout.$spacing-04;
-  padding-inline-start: var(
-    --cds-aichat-toolbar-title-padding-inline-start,
-    #{layout.$spacing-04}
-  );
+  padding-inline: var(
+      --cds-aichat-toolbar-title-padding-inline-start,
+      #{layout.$spacing-04}
+    )
+    layout.$spacing-04;
 }
 
 .cds-aichat-toolbar__navigation:has(> *) ~ .cds-aichat-toolbar__title {
