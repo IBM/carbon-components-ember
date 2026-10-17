@@ -290,6 +290,15 @@ export default class Popover extends Component<PopoverSignature> {
       popoverContents.get(content)?.connect(this, content);
     }
     this.markTabTipTrigger();
+  });
+
+  // Only a Popover that can ask to close needs the document listeners.
+  get listensForClose() {
+    return Boolean(this.args.open && this.args.onRequestClose);
+  }
+
+  closeOnEscape = modifier(() => {
+    if (!this.listensForClose) return;
     document.addEventListener('keydown', this.handleDocumentKeydown);
     return () => {
       document.removeEventListener('keydown', this.handleDocumentKeydown);
@@ -418,7 +427,10 @@ export default class Popover extends Component<PopoverSignature> {
         class={{this.classes}}
         {{this.manage}}
         {{this.positionContent}}
-        {{closeOnOutsideClick this.handleOutsideClick}}
+        {{this.closeOnEscape}}
+        {{(if this.listensForClose closeOnOutsideClick)
+          this.handleOutsideClick
+        }}
         ...attributes
       >
         {{yield}}

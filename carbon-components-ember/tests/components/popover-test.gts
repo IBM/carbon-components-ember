@@ -234,6 +234,59 @@ module('Integration | Component | Popover', (hooks) => {
     assert.false(open.value);
   });
 
+  test('listens on the document only while open with @onRequestClose', async function (assert) {
+    const listening = new Map<string, number>();
+    const count = (type: string) => listening.get(type) ?? 0;
+    // Only ever called with .apply(document, …).
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    const { addEventListener, removeEventListener } = document;
+    document.addEventListener = (
+      ...args: Parameters<typeof addEventListener>
+    ) => {
+      listening.set(args[0], count(args[0]) + 1);
+      addEventListener.apply(document, args);
+    };
+    document.removeEventListener = (
+      ...args: Parameters<typeof removeEventListener>
+    ) => {
+      listening.set(args[0], count(args[0]) - 1);
+      removeEventListener.apply(document, args);
+    };
+
+    const open = tracked(true);
+    const onRequestClose = () => (open.value = false);
+    const closable = tracked(false);
+
+    try {
+      await render(
+        <template>
+          <Popover
+            @open={{open.value}}
+            @onRequestClose={{if closable.value onRequestClose}}
+          >
+            <button type="button">Trigger</button>
+            <PopoverContent>Content</PopoverContent>
+          </Popover>
+        </template>,
+      );
+      assert.strictEqual(count('keydown'), 0, 'no @onRequestClose');
+      assert.strictEqual(count('click'), 0, 'no @onRequestClose');
+
+      closable.value = true;
+      await settled();
+      assert.strictEqual(count('keydown'), 1);
+      assert.strictEqual(count('click'), 1);
+
+      open.value = false;
+      await settled();
+      assert.strictEqual(count('keydown'), 0, 'closed');
+      assert.strictEqual(count('click'), 0, 'closed');
+    } finally {
+      document.addEventListener = addEventListener;
+      document.removeEventListener = removeEventListener;
+    }
+  });
+
   module('floating mode (@autoAlign)', () => {
     test('adds the auto-align classes and puts the caret inside the content', async function (assert) {
       await render(
