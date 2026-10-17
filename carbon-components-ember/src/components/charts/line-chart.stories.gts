@@ -2,7 +2,7 @@ import '@carbon/charts/styles.css';
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { runTask } from 'ember-lifeline';
+import { rawTimeout, task } from 'ember-concurrency';
 import { expect, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
@@ -48,20 +48,16 @@ class Sinus extends Component<SinusSignature> {
 
   constructor(owner: Owner, args: SinusSignature['Args']) {
     super(owner, args);
-    this.tick();
+    void this.tick.perform();
   }
 
-  // `runTask` is cancelled when the story is torn down.
-  tick() {
-    runTask(
-      this,
-      () => {
-        this.start = (this.start + 1) % 200;
-        this.tick();
-      },
-      1000,
-    );
-  }
+  // rawTimeout: tests shouldn't wait for an endless animation.
+  tick = task(async () => {
+    for (;;) {
+      await rawTimeout(1000);
+      this.start = (this.start + 1) % 200;
+    }
+  });
 
   get data(): ChartData[] {
     const values: ChartData[] = [];

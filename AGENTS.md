@@ -125,13 +125,13 @@ Yield child components pre-bound with parent-supplied args using `WithBoundArgs`
 ```typescript
 import type Owner from '@ember/owner';
 import { registerDestructor } from '@ember/destroyable';
-import { runTask } from 'ember-lifeline';
+import { afterRender } from '../utils/after-render.ts';
 
 export default class TabPane extends Component<TabPaneSignature> {
   constructor(owner: Owner, args: TabPaneSignature['Args']) {
     super(owner, args);
-    runTask(this, () => {
-      if (this.isDestroyed) return;
+    // The parent read its children during this render; register after it.
+    afterRender(this, () => {
       this.args.tab.registerTab(this);
       registerDestructor(this, () => this.args.tab.unregisterTab(this));
     });
@@ -155,7 +155,7 @@ When invoking a `renderIcon`-style `ComponentLike` arg, **always pass `@size` (a
 Functional or class-based modifiers are Ember's replacement for `useRef` + `useEffect`. When the consumer owns the element that needs the behavior, yield a `ModifierLike` modifier to them.
 
 ### 5. Timing and Destructors
-Never use bare `setTimeout`. Use `ember-concurrency` restartable tasks which auto-cancel on component destruction. Anything else that must be cleaned up belongs in `registerDestructor` or a modifier teardown.
+Never use bare `setTimeout`. Use `ember-concurrency` restartable tasks which auto-cancel on component destruction. To defer work past the current render (writing state the render read), use `afterRender` from `utils/after-render.ts`, not the run loop. Anything else that must be cleaned up belongs in `registerDestructor` or a modifier teardown.
 `settled()` waits for `timeout()`, so a timer tests shouldn't wait out, such as a toast closing itself, uses `rawTimeout()`.
 
 ### 6. Signatures

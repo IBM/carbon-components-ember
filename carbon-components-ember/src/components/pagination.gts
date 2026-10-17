@@ -6,7 +6,7 @@ import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { cached, tracked } from '@glimmer/tracking';
 import { defaultArgs } from '../utils/decorators.ts';
-import { runTask } from 'ember-lifeline';
+import { afterRender } from '../utils/after-render.ts';
 import { guidFor } from '@ember/object/internals';
 import ChevronLeft from './icons/chevron-left.ts';
 import ChevronRight from './icons/chevron-right.ts';
@@ -157,7 +157,7 @@ export default class Pagination extends Component<PaginationSignature> {
   };
 
   pageChanged = () => {
-    runTask(this, () => {
+    afterRender(this, () => {
       this.args.onPageChanged(this.currentSlice);
     });
   };
@@ -189,7 +189,7 @@ export default class Pagination extends Component<PaginationSignature> {
         this.syncedInitialState = true;
         return;
       }
-      runTask(this, () => {
+      afterRender(this, () => {
         if (state) {
           this.setState(state);
         } else {

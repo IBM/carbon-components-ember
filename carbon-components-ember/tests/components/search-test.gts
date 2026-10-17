@@ -1,6 +1,14 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn, click, find, triggerEvent } from '@ember/test-helpers';
+import {
+  render,
+  fillIn,
+  click,
+  find,
+  settled,
+  triggerEvent,
+} from '@ember/test-helpers';
+import { tracked } from '@glimmer/tracking';
 import Search from '#src/components/search.gts';
 
 module('Integration | Component | Search', (hooks) => {
@@ -160,5 +168,66 @@ module('Integration | Component | Search', (hooks) => {
     );
 
     assert.dom('.cds--search-close').hasAttribute('aria-label', 'Reset search');
+  });
+
+  test('a press in the input activates it, and a press outside an empty search deactivates it', async function (assert) {
+    await render(
+      <template>
+        <div id="outside">outside</div>
+        <Search @expandable={{true}} @labelText="Search" />
+      </template>,
+    );
+
+    await triggerEvent('.cds--search-input', 'mousedown');
+    assert
+      .dom('.cds--search')
+      .hasClass(
+        'cds--toolbar-search-container-active',
+        'stays active after the press that activated it',
+      );
+
+    await triggerEvent('#outside', 'mousedown');
+    assert
+      .dom('.cds--search')
+      .doesNotHaveClass('cds--toolbar-search-container-active');
+  });
+
+  test('stops listening on the document once it is torn down', async function (assert) {
+    let listening = 0;
+    // Only ever called with .apply(document, …).
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    const { addEventListener, removeEventListener } = document;
+    document.addEventListener = (
+      ...args: Parameters<typeof addEventListener>
+    ) => {
+      if (args[0] === 'mousedown') listening++;
+      addEventListener.apply(document, args);
+    };
+    document.removeEventListener = (
+      ...args: Parameters<typeof removeEventListener>
+    ) => {
+      if (args[0] === 'mousedown') listening--;
+      removeEventListener.apply(document, args);
+    };
+    const show = tracked(true);
+
+    try {
+      await render(
+        <template>
+          {{#if show.value}}
+            <Search @expandable={{true}} @labelText="Search" />
+          {{/if}}
+        </template>,
+      );
+      await triggerEvent('.cds--search-input', 'mousedown');
+      assert.strictEqual(listening, 1);
+
+      show.value = false;
+      await settled();
+      assert.strictEqual(listening, 0);
+    } finally {
+      document.addEventListener = addEventListener;
+      document.removeEventListener = removeEventListener;
+    }
   });
 });

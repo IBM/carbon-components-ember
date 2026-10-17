@@ -9,7 +9,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { modifier } from 'ember-modifier';
-import { runTask, cancelTask } from 'ember-lifeline';
+import { afterRender } from '../../utils/after-render.ts';
 import Menu, { findParentMenu } from '../menu.gts';
 import type { MenuItemFeatures } from '../menu.gts';
 import Checkmark from '../icons/checkmark.ts';
@@ -117,15 +117,14 @@ export default class MenuItem
     // its parent, so it isn't registered yet at this point. Look it up once
     // the render pass is done - which also keeps the class recomputation
     // this triggers out of the render that just read those classes.
-    // ember-lifeline types the timer as `any`.
-    const timer: unknown = runTask(this, () => {
+    const cancel = afterRender(this, () => {
       const menu = findParentMenu(element);
       if (!menu) return;
       menu.registerItem(this);
       unregister = () => menu.unregisterItem(this);
     });
     return () => {
-      cancelTask(this, timer);
+      cancel();
       unregister?.();
     };
   });
