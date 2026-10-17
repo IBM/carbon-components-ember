@@ -106,4 +106,28 @@ module('Integration | Utility | RovingFocus', function (hooks) {
     assert.dom('#two').isNotFocused();
     assert.dom('#two').doesNotHaveAttribute('tabindex');
   });
+
+  test('with followFocus off, leaves tabindex alone and reports navigation', async function (assert) {
+    const navigated: string[] = [];
+    const roving = new RovingFocus({
+      followFocus: false,
+      onNavigate: (element) => navigated.push(element.id),
+    });
+
+    await render(
+      <template>
+        <ul {{roving.container}}>
+          <li id="one" tabindex="0" {{roving.item}}>One</li>
+          <li id="two" tabindex="-1" {{roving.item}}>Two</li>
+        </ul>
+      </template>,
+    );
+    await focus('#one');
+    await triggerKeyEvent('#one', 'keydown', 'ArrowDown');
+
+    assert.dom('#two').isFocused();
+    assert.dom('#two').hasAttribute('tabindex', '-1');
+    assert.dom('#one').hasAttribute('tabindex', '0');
+    assert.deepEqual(navigated, ['two']);
+  });
 });
