@@ -1,10 +1,12 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, find, waitUntil, rerender } from '@ember/test-helpers';
+import { render, find, waitUntil } from '@ember/test-helpers';
 import CodeSnippet from '#src/components/code-snippet.gts';
+import { setupClipboard } from '../helpers';
 
 module('Integration | Component | CodeSnippet', (hooks) => {
   setupRenderingTest(hooks);
+  const clipboard = setupClipboard(hooks);
 
   test('@type="default" wires the copy button to the real rendered code element', async function (assert) {
     await render(
@@ -17,9 +19,9 @@ module('Integration | Component | CodeSnippet', (hooks) => {
     find('[data-copy-btn]')!.dispatchEvent(
       new MouseEvent('click', { bubbles: true }),
     );
-    await rerender();
+    await waitUntil(() => clipboard.copied.length > 0);
 
-    assert.dom('[data-copy-btn]').hasAttribute('aria-label', 'Copied!');
+    assert.deepEqual(clipboard.copied, ['const x = 1;']);
   });
 
   test('the scrolling code region is a focusable, read-only textbox', async function (assert) {
@@ -53,9 +55,9 @@ module('Integration | Component | CodeSnippet', (hooks) => {
     find('[data-copy-btn]')!.dispatchEvent(
       new MouseEvent('click', { bubbles: true }),
     );
-    await rerender();
+    await waitUntil(() => clipboard.copied.length > 0);
 
-    assert.dom('[data-copy-btn]').hasAttribute('aria-label', 'Copied!');
+    assert.deepEqual(clipboard.copied, ['const x = 1;']);
   });
 
   test('@type="inline" renders an inline CopyButton', async function (assert) {
