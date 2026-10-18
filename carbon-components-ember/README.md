@@ -38,7 +38,7 @@ Add the two elements some components render into to your application template:
 
 ## Use
 
-Import components into your `.gts` templates, from the package or from each component's own module:
+Import components into your `.gts` templates, from the package or from each component's own module. In a classic ember-cli build, use the modules (`carbon-components-ember/components/button`): ember-auto-import bundles everything `carbon-components-ember/components` exports, whichever components you use.
 
 ```gts
 import { Button, TextInput } from 'carbon-components-ember/components';

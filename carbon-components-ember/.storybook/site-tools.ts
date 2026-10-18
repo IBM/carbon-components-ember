@@ -130,15 +130,17 @@ function EditTool() {
   );
 }
 
-addons.register('carbon/site-tools', () => {
-  addons.add('carbon/site-tools/version', {
-    type: types.TOOLEXTRA,
-    title: 'Version',
-    render: VersionTool,
+export default function registerSiteTools() {
+  addons.register('carbon/site-tools', () => {
+    addons.add('carbon/site-tools/version', {
+      type: types.TOOLEXTRA,
+      title: 'Version',
+      render: VersionTool,
+    });
+    addons.add('carbon/site-tools/edit', {
+      type: types.TOOLEXTRA,
+      title: 'Edit this page',
+      render: EditTool,
+    });
   });
-  addons.add('carbon/site-tools/edit', {
-    type: types.TOOLEXTRA,
-    title: 'Edit this page',
-    render: EditTool,
-  });
-});
+}
