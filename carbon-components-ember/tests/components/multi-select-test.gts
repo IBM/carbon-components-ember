@@ -71,7 +71,7 @@ module('Integration | Component | MultiSelect', function (hooks) {
       .dom('#fruit')
       .hasClass('cds--multi-select')
       .hasClass('cds--list-box');
-    assert.dom(FIELD).hasText('Choose fruit');
+    assert.dom('.cds--list-box__label').hasText('Choose fruit');
     assert
       .dom(FIELD)
       .hasAttribute('role', 'combobox')
