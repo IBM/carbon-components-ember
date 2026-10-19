@@ -84,7 +84,7 @@ export const DefaultWithSize20 = meta.story({
     docs: {
       description: {
         story:
-          'Icon indicators have two size options, 16 (default) and 20. `@autoAlign` can be used to keep the compact-mode tooltip within the viewport, flipping to the opposite side when it would otherwise overflow.',
+          'Icon indicators have two size options, 16 (default) and 20. `@autoAlign` keeps the compact-mode tooltip within the viewport, moving it to another side when it would otherwise overflow.',
       },
     },
   },

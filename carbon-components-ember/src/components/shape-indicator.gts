@@ -43,7 +43,7 @@ export interface ShapeIndicatorSignature {
     align?: IconIndicatorAlignment;
     /**
      * Will auto-align the tooltip in compact mode so it stays within the
-     * viewport, flipping to the opposite side when it would otherwise overflow
+     * viewport, moving it to another side when it would otherwise overflow
      */
     autoAlign?: boolean;
     kind: ShapeIndicatorKind;
