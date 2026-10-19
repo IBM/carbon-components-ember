@@ -945,7 +945,7 @@ module('Integration | Component | Dropdown', (hooks) => {
     assert.dom('.cds--dropdown').doesNotHaveClass('cds--dropdown--focus');
   });
 
-  test('the menu icon is titled by what clicking does', async function (assert) {
+  test('the menu icon is labelled by what clicking does', async function (assert) {
     await render(
       <template>
         <Dropdown
@@ -956,9 +956,16 @@ module('Integration | Component | Dropdown', (hooks) => {
       </template>,
     );
     assert.dom('.cds--list-box__menu-icon title').hasText('Open menu');
+    assert
+      .dom('.cds--list-box__menu-icon svg')
+      .hasAttribute('aria-label', 'Open menu')
+      .hasAttribute('role', 'img');
 
     await click('.cds--list-box__field');
     assert.dom('.cds--list-box__menu-icon title').hasText('Close menu');
+    assert
+      .dom('.cds--list-box__menu-icon svg')
+      .hasAttribute('aria-label', 'Close menu');
   });
 
   test("Escape closing the menu doesn't reach the page", async function (assert) {

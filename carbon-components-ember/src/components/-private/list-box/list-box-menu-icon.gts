@@ -21,13 +21,14 @@ const ListBoxMenuIcon: TOC<ListBoxMenuIconSignature> = <template>
       {{if @isOpen 'cds--list-box__menu-icon--open'}}"
     ...attributes
   >
-    {{! Carbon React also labels the icon (aria-label); that needs Icon's
-      ariaLabel argument. }}
-    <ChevronDown
-      @size="16"
-      @svgClass="cds--list-box__menu-icon__svg"
-      @title={{if @isOpen "Close menu" "Open menu"}}
-    />
+    {{#let (if @isOpen "Close menu" "Open menu") as |description|}}
+      <ChevronDown
+        @size="16"
+        @svgClass="cds--list-box__menu-icon__svg"
+        @title={{description}}
+        @ariaLabel={{description}}
+      />
+    {{/let}}
   </div>
 </template>;
 
