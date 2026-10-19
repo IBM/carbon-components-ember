@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn, find, waitFor } from '@ember/test-helpers';
+import { render, fillIn, find } from '@ember/test-helpers';
 import TextInput from '#src/components/text-input.gts';
 
 module('Integration | Component | TextInput', (hooks) => {
@@ -76,8 +76,6 @@ module('Integration | Component | TextInput', (hooks) => {
         <TextInput @invalid={{true}} @invalidText="This field is required" />
       </template>,
     );
-    await waitFor('.cds--text-input__invalid-icon');
-
     assert.dom('input.cds--text-input').hasClass('cds--text-input--invalid');
     assert.dom('.cds--text-input__invalid-icon').exists();
     assert.dom('.cds--form-requirement').hasText('This field is required');
@@ -158,8 +156,6 @@ module('Integration | Component | TextInput', (hooks) => {
         </TextInput>
       </template>,
     );
-    await waitFor('.cds--text-input__invalid-icon');
-
     assert.strictEqual(
       getComputedStyle(find('.cds--text-input__invalid-icon')!).insetInlineEnd,
       '40px',
