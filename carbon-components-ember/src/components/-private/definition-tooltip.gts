@@ -20,7 +20,8 @@ export interface DefinitionTooltipSignature {
      */
     align?: NewPopoverAlignment;
     /**
-     * Flip the tooltip to the opposite side when it would overflow the viewport.
+     * Keep the tooltip within the viewport, moving it to another side when it
+     * would overflow.
      */
     autoAlign?: boolean;
     /**
@@ -119,8 +120,13 @@ export default class DefinitionTooltip extends Component<DefinitionTooltipSignat
       <span class="cds--popover" id={{this.tooltipId}}>
         <span class="cds--popover-content cds--definition-tooltip">
           {{@definition}}
+          {{#if @autoAlign}}
+            <span class="cds--popover-caret cds--popover--auto-align"></span>
+          {{/if}}
         </span>
-        <span class="cds--popover-caret"></span>
+        {{#unless @autoAlign}}
+          <span class="cds--popover-caret"></span>
+        {{/unless}}
       </span>
     </Popover>
   </template>
