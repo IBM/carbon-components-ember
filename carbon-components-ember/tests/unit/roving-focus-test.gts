@@ -2,7 +2,11 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { focus, render, settled, triggerKeyEvent } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
-import { nextIndex, RovingFocus } from '#src/utils/roving-focus.ts';
+import {
+  nextIndex,
+  RovingFocus,
+  typeaheadIndex,
+} from '#src/utils/roving-focus.ts';
 
 module('Unit | Utility | roving-focus', function () {
   test('vertical: ArrowDown and ArrowUp step, stopping at the ends', function (assert) {
@@ -46,6 +50,47 @@ module('Unit | Utility | roving-focus', function () {
   test('no items, no move', function (assert) {
     assert.strictEqual(nextIndex('Home', 0, 0), undefined);
     assert.strictEqual(nextIndex('ArrowDown', 0, 0), undefined);
+  });
+});
+
+module('Unit | Utility | typeaheadIndex', function () {
+  const texts = ['Apple', 'Banana', 'Blueberry', 'Cherry'];
+
+  test('finds the next item starting with what was typed', function (assert) {
+    assert.strictEqual(
+      typeaheadIndex(texts, 'b', { current: 0, anchor: 0 }),
+      1,
+    );
+    assert.strictEqual(
+      typeaheadIndex(texts, 'bl', { current: 1, anchor: 0 }),
+      2,
+    );
+    assert.strictEqual(
+      typeaheadIndex(texts, 'CH', { current: 0, anchor: 0 }),
+      3,
+    );
+  });
+
+  test('a repeated character cycles through the matches', function (assert) {
+    assert.strictEqual(
+      typeaheadIndex(texts, 'bb', { current: 1, anchor: 0 }),
+      2,
+    );
+    assert.strictEqual(
+      typeaheadIndex(texts, 'bbb', { current: 2, anchor: 0 }),
+      1,
+    );
+  });
+
+  test('wraps around, and returns -1 without a match', function (assert) {
+    assert.strictEqual(
+      typeaheadIndex(texts, 'a', { current: 3, anchor: 3 }),
+      0,
+    );
+    assert.strictEqual(
+      typeaheadIndex(texts, 'z', { current: 0, anchor: 0 }),
+      -1,
+    );
   });
 });
 

@@ -17,6 +17,8 @@ import '#storybook/styles/dropdown.css';
 //   with `@direction="top"`, upwards.
 // - No `renderSelectedItem`, `translateWithId` or `downshiftProps`; a block
 //   can render each item instead.
+// - Hovering an item moves the highlight; in React hover is only styled.
+// - The menu icon has a title but no `aria-label` yet.
 
 interface Item {
   text: string;
@@ -47,7 +49,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     docs: {
       description: {
         component:
-          "`Dropdown` is a single-select field that opens a listbox of items on click. It renders Carbon's `ListBox` markup directly - the menu is a plain descendant of the field, positioned with Carbon's own CSS - and manages its own open/highlight state internally.\n\nItems can be any value: `@itemToString` turns one into its label (the default is `String(item)`), or a block can render each item.",
+          "`Dropdown` is a single-select field that opens a listbox of items on click. Like Carbon React's, it's built on the ListBox parts: the menu is a plain descendant of the field, positioned with Carbon's own CSS, and focus stays on the field while the arrow keys move the highlight.\n\nItems can be any value: `@itemToString` turns one into its label (by default, a string or number item itself, or an object's string `label`), or a block can render each item.",
       },
     },
   },
