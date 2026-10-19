@@ -1,0 +1,35 @@
+// The select-all option's partly checked box. An option's checkbox is only
+// drawn (its children can't be interactive), from Carbon's contained
+// checkbox styles, which have no indeterminate state; these follow Carbon's
+// `:indeterminate` rules for a MultiSelect's checkboxes.
+.cds--multi-select
+  .cds--list-box__menu-item__option
+  .cds--ember-multi-select__checkbox--mixed::before {
+  border: none;
+  background-color: var(--cds-icon-primary);
+}
+
+.cds--multi-select
+  .cds--list-box__menu-item__option
+  .cds--ember-multi-select__checkbox--mixed::after {
+  border-block-end: 2px solid var(--cds-icon-inverse);
+  border-inline-start: 0 solid var(--cds-icon-inverse);
+  inline-size: 0.5rem;
+  inset-block-start: 0.5625rem;
+  transform: scale(1) rotate(0deg);
+}
+
+.cds--multi-select
+  .cds--list-box__menu-item__option
+  .cds--ember-multi-select__checkbox--mixed[data-contained-checkbox-disabled="true"]::before {
+  background-color: var(--cds-icon-disabled);
+}
+
+@media screen and (forced-colors: active) {
+  .cds--multi-select
+    .cds--list-box__menu-item__option
+    .cds--ember-multi-select__checkbox--mixed::before {
+    border: 1px solid ButtonBorder;
+    background-color: SelectedItem;
+  }
+}

@@ -270,6 +270,13 @@
       "type"
     ]
   },
+  "MultiSelect": {
+    "missing": [
+      "downshiftProps",
+      "itemToElement",
+      "translateWithId"
+    ]
+  },
   "NotificationActionButton": {
     "missing": [
       "as",

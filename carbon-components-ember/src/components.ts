@@ -56,6 +56,7 @@ export { default as MenuItemRadioGroup } from './components/menu/menu-item-radio
 export { default as MenuItemSelectable } from './components/menu/menu-item-selectable.gts'
 export { default as MenuItem } from './components/menu/menu-item.gts'
 export { default as Modal } from './components/modal.gts'
+export { default as MultiSelect } from './components/multi-select.gts'
 export { default as ActionableNotification } from './components/notification/actionable-notification.gts'
 export { default as Callout } from './components/notification/callout.gts'
 export { default as InlineNotification } from './components/notification/inline-notification.gts'

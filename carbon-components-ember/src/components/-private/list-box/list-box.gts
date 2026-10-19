@@ -29,9 +29,8 @@ export interface ListBoxSignature {
 }
 
 /**
- * The box of a list box field (Dropdown and ComboBox, and later MultiSelect),
- * with its invalid or warning text after it, as Carbon React's internal
- * `ListBox`.
+ * The box of a list box field (Dropdown, ComboBox and MultiSelect), with its
+ * invalid or warning text after it, as Carbon React's internal `ListBox`.
  */
 // As Carbon React's ListBox, every Escape inside the box stops here, so
 // closing the menu doesn't also close an enclosing Popover or Modal (nor
