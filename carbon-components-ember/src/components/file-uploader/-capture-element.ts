@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { modifier as eModifier } from 'ember-modifier';
+import { modifier } from 'ember-modifier';
 
 // A minimal `useRef` equivalent: hands the element back to the component so
 // it can be driven imperatively (`.click()`, `.value = ''`) the same way
 // React's `FileUploaderButton`/`FileUploaderDropContainer` drive their
 // hidden `<input type="file">` via a ref.
-const captureElement = eModifier<{
+const captureElement = modifier<{
   Element: HTMLElement;
   Args: { Named: { onInsert: (element: HTMLElement) => void } };
 }>((element, _positional, { onInsert }) => {

@@ -55,21 +55,21 @@
 }
 
 .ai-chat-chat-shell-story__sample--yellow {
-  background-color: rgba(255, 255, 0, 0.5);
+  background-color: rgb(255 255 0 / 50%);
 }
 
 .ai-chat-chat-shell-story__sample--red {
-  background-color: rgba(255, 0, 0, 0.5);
+  background-color: rgb(255 0 0 / 50%);
 }
 
 .ai-chat-chat-shell-story__sample--green {
-  background-color: rgba(0, 255, 0, 0.5);
+  background-color: rgb(0 255 0 / 50%);
 }
 
 .ai-chat-chat-shell-story__sample--peach {
-  background-color: rgba(255, 213, 145, 0.5);
+  background-color: rgb(255 213 145 / 50%);
 }
 
 .ai-chat-chat-shell-story__sample--blue {
-  background-color: rgba(0, 0, 255, 0.5);
+  background-color: rgb(0 0 255 / 50%);
 }

@@ -5,7 +5,8 @@ import { task } from 'ember-concurrency';
 import { timeout } from 'ember-concurrency';
 import type { TaskInstance } from 'ember-concurrency';
 import { concat } from '@ember/helper';
-import { runTask } from 'ember-lifeline';
+import { registerDestructor } from '@ember/destroyable';
+import type Owner from '@ember/owner';
 import Close from './icons/close.ts';
 import SearchIcon from './icons/search.ts';
 
@@ -32,6 +33,12 @@ export interface SearchSignature {
 export default class Search extends Component<SearchSignature> {
   @tracked value: string | null = null;
   @tracked isActive: boolean = false;
+  #stopListening?: () => void;
+
+  constructor(owner: Owner, args: SearchSignature['Args']) {
+    super(owner, args);
+    registerDestructor(this, () => this.#stopListening?.());
+  }
   isSearching: boolean = false;
 
   get hasInput() {
@@ -88,19 +95,23 @@ export default class Search extends Component<SearchSignature> {
     }
     const element = mouseEvent.target as HTMLDivElement;
     this.isActive = true;
-    runTask(this, () => {
-      const listener = (event: MouseEvent) => {
-        let target = event.target as Element | null;
-        if (target?.shadowRoot) {
-          target = target.shadowRoot.elementFromPoint(event.x, event.y);
-        }
-        if (element.contains(target)) return;
-        if (this.value) return;
-        this.isActive = false;
-        document.removeEventListener('mousedown', listener);
-      };
-      document.addEventListener('mousedown', listener);
-    });
+    // The press that activated the search reaches this listener too, from
+    // inside `element`, so it's ignored.
+    const listener = (event: MouseEvent) => {
+      let target = event.target as Element | null;
+      if (target?.shadowRoot) {
+        target = target.shadowRoot.elementFromPoint(event.x, event.y);
+      }
+      if (element.contains(target)) return;
+      if (this.value) return;
+      this.isActive = false;
+      this.#stopListening?.();
+    };
+    document.addEventListener('mousedown', listener);
+    this.#stopListening = () => {
+      document.removeEventListener('mousedown', listener);
+      this.#stopListening = undefined;
+    };
   };
 
   <template>

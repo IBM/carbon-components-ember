@@ -158,7 +158,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     docs: {
       description: {
         component:
-          "TreeView is used to render a hierarchical list of nested items that can be expanded or collapsed. `TreeView` and each node yield a bound `TreeNode` component that can be nested arbitrarily deep to build out the tree; select or activate a node by clicking on it.\n\nBy default only a single node can be selected at a time. `@multiselect` allows selecting additional nodes by clicking while holding <kbd>Cmd</kbd>/<kbd>Ctrl</kbd>. `@onSelect` is called with the array of selected node ids and the node that triggered the change, and `@onActivate` with the id of the node that received keyboard/click focus.\n\nA disabled node can't be selected or focused (it is removed from the tab order) but still renders, dimmed; on a parent node its toggle caret stays usable so its descendants remain reachable.",
+          "TreeView is used to render a hierarchical list of nested items that can be expanded or collapsed. `TreeView` and each node yield a bound `TreeNode` component that can be nested arbitrarily deep to build out the tree; select or activate a node by clicking on it.\n\nThe tree is a single tab stop. <kbd>Up</kbd>/<kbd>Down</kbd> move between visible nodes and <kbd>Home</kbd>/<kbd>End</kbd> jump to the first and last; <kbd>Right</kbd> expands a parent, then moves into it, and <kbd>Left</kbd> collapses it, or moves to the parent; <kbd>Enter</kbd> selects a node (and toggles a parent), <kbd>Space</kbd> selects it.\n\nBy default only a single node can be selected at a time. `@multiselect` allows selecting additional nodes by clicking while holding <kbd>Cmd</kbd>/<kbd>Ctrl</kbd>. `@onSelect` is called with the array of selected node ids and the node that triggered the change, and `@onActivate` with the id of the node that received keyboard/click focus.\n\nA disabled node can't be selected or focused (it is removed from the tab order) but still renders, dimmed; on a parent node its toggle caret stays usable so its descendants remain reachable.",
       },
     },
   },
@@ -217,6 +217,22 @@ Default.test(
       automation.querySelector<HTMLElement>('.cds--tree-parent-node__toggle')!,
     );
     await expect(automation).toHaveAttribute('aria-expanded', 'true');
+  },
+);
+
+Default.test(
+  'moves between nodes with the arrow keys',
+  async ({ canvas, userEvent }) => {
+    const items = canvas.getAllByRole('treeitem');
+    await expect(items.filter((item) => item.tabIndex === 0)).toHaveLength(1);
+
+    await userEvent.tab();
+    await expect(items[0]).toHaveFocus();
+    await userEvent.keyboard('{ArrowDown}');
+    await expect(items[1]).toHaveFocus();
+    await expect(items[1]).toHaveAttribute('tabindex', '0');
+    await userEvent.keyboard('{Home}');
+    await expect(items[0]).toHaveFocus();
   },
 );
 

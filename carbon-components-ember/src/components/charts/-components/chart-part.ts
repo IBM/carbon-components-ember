@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { registerDestructor } from '@ember/destroyable';
-import { runTask } from 'ember-lifeline';
+import { afterRender } from '../../../utils/after-render.ts';
 import type CarbonChart from './chart.gts';
 
 /**
@@ -17,9 +17,7 @@ export default class ChartPart<
     super(owner, args);
     // The chart has already read its parts while rendering, so registering
     // during that render would trip the backtracking-rerender assertion.
-    // `runTask` defers it to the next run loop, and cancels itself if this
-    // part is torn down first.
-    runTask(this, () => {
+    afterRender(this, () => {
       const chart = args.chart;
       if (!chart) return;
       chart.register(this);

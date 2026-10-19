@@ -9,7 +9,7 @@ import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { registerDestructor } from '@ember/destroyable';
-import { runTask } from 'ember-lifeline';
+import { afterRender } from '../utils/after-render.ts';
 import type { WithBoundArgs } from '@glint/template';
 import CheckmarkOutline from './icons/checkmark-outline.ts';
 import Warning from './icons/warning.ts';
@@ -52,10 +52,7 @@ export interface ProgressStepSignature {
 class ProgressStep extends Component<ProgressStepSignature> {
   constructor(owner: Owner, args: ProgressStep['args']) {
     super(owner, args);
-    runTask(this, () => {
-      if (this.isDestroyed) {
-        return;
-      }
+    afterRender(this, () => {
       this.args.indicator.registerStep(this);
       registerDestructor(this, () => {
         this.args.indicator.unregisterStep(this);

@@ -1,5 +1,5 @@
 import { RenderStory } from 'ember-storybook';
-import { expect, fn } from 'storybook/test';
+import { expect, fn, spyOn, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import CopyButton from './copy-button.gts';
@@ -24,7 +24,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     docs: {
       description: {
         component:
-          '`CopyButton` is an icon-only button that copies text to the clipboard and shows a "Copied!" tooltip as feedback. It is used internally by `CodeSnippet`, but can also be used on its own — pass the text to copy as the block content, or point it at another element via `@targetElement`/`@targetElementId`.',
+          '`CopyButton` is an icon-only button that copies text to the clipboard and shows a "Copied!" tooltip once the copy worked; if the browser refuses it, nothing changes. It is used internally by `CodeSnippet`, but can also be used on its own — pass the text to copy as the block content, or point it at another element via `@targetElement`/`@targetElementId`.',
       },
     },
   },
@@ -78,9 +78,15 @@ Default.test(
   'copies and shows the feedback label',
   async ({ canvas, userEvent, args }) => {
     const button = canvas.getByRole('button', { name: 'Copy to clipboard' });
+    // Story events are synthetic, which the real Clipboard API refuses.
+    const writeText = spyOn(
+      navigator.clipboard,
+      'writeText',
+    ).mockResolvedValue();
     await userEvent.click(button);
     await expect(args.onClick).toHaveBeenCalledOnce();
-    await expect(button).toHaveAccessibleName('Copied!');
+    await expect(writeText).toHaveBeenCalledOnce();
+    await waitFor(() => expect(button).toHaveAccessibleName('Copied!'));
   },
 );
 
@@ -104,8 +110,10 @@ CustomFeedback.test(
   'uses the custom labels and reverts after the timeout',
   async ({ canvas, userEvent }) => {
     const button = canvas.getByRole('button', { name: 'Duplicate' });
+    // Story events are synthetic, which the real Clipboard API refuses.
+    spyOn(navigator.clipboard, 'writeText').mockResolvedValue();
     await userEvent.click(button);
-    await expect(button).toHaveAccessibleName('Duplicated!');
+    await waitFor(() => expect(button).toHaveAccessibleName('Duplicated!'));
     await new Promise((resolve) => setTimeout(resolve, 1100));
     await expect(button).toHaveAccessibleName('Duplicate');
   },

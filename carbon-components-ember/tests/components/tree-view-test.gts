@@ -1,6 +1,14 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, rerender, waitUntil } from '@ember/test-helpers';
+import {
+  render,
+  click,
+  focus,
+  rerender,
+  settled,
+  triggerKeyEvent,
+  waitUntil,
+} from '@ember/test-helpers';
 import TreeView from '#src/components/tree-view.gts';
 import { Folder, Document } from '#src/icons.ts';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
@@ -440,5 +448,153 @@ module('Integration | Component | TreeView', (hooks) => {
     await rerender();
 
     assert.dom('.cds--tree-parent-node').hasAttribute('aria-expanded', 'true');
+  });
+
+  module('keyboard navigation', () => {
+    const KeyboardTree = <template>
+      <TreeView @label="Tree View" as |Node|>
+        <Node @id="a" @label="A" as |Child|>
+          <Child @id="a1" @label="A1" />
+          <Child @id="a2" @label="A2" />
+        </Node>
+        <Node @id="b" @label="B" />
+        <Node @id="c" @label="C" @disabled={{true}} />
+        <Node @id="d" @label="D" />
+      </TreeView>
+    </template>;
+
+    test('the tree has a single tab stop, on the first node', async function (assert) {
+      await render(KeyboardTree);
+
+      assert.dom('#a').hasAttribute('tabindex', '0');
+      assert.dom('#b').hasAttribute('tabindex', '-1');
+      assert.dom('#a1').hasAttribute('tabindex', '-1');
+      assert.dom('#c').doesNotHaveAttribute('tabindex');
+    });
+
+    test('ArrowDown and ArrowUp move between visible, enabled nodes', async function (assert) {
+      await render(KeyboardTree);
+      await focus('#a');
+
+      await triggerKeyEvent('#a', 'keydown', 'ArrowDown');
+      assert.dom('#b').isFocused('skips the collapsed children');
+      await triggerKeyEvent('#b', 'keydown', 'ArrowDown');
+      assert.dom('#d').isFocused('skips the disabled node');
+      await triggerKeyEvent('#d', 'keydown', 'ArrowDown');
+      assert.dom('#d').isFocused('stops at the end');
+      await triggerKeyEvent('#d', 'keydown', 'ArrowUp');
+      assert.dom('#b').isFocused();
+
+      assert.dom('#b').hasAttribute('tabindex', '0');
+      assert.dom('#a').hasAttribute('tabindex', '-1');
+    });
+
+    test('Home and End jump to the first and last node', async function (assert) {
+      await render(KeyboardTree);
+      await focus('#a');
+
+      await triggerKeyEvent('#a', 'keydown', 'End');
+      assert.dom('#d').isFocused();
+      await triggerKeyEvent('#d', 'keydown', 'Home');
+      assert.dom('#a').isFocused();
+    });
+
+    test('ArrowRight expands, then enters the children; ArrowLeft returns to the parent, then collapses', async function (assert) {
+      await render(KeyboardTree);
+      await focus('#a');
+
+      await triggerKeyEvent('#a', 'keydown', 'ArrowRight');
+      assert.dom('#a').hasAttribute('aria-expanded', 'true');
+      assert.dom('#a').isFocused();
+      await triggerKeyEvent('#a', 'keydown', 'ArrowRight');
+      assert.dom('#a1').isFocused();
+      await triggerKeyEvent('#a1', 'keydown', 'ArrowDown');
+      assert.dom('#a2').isFocused('expanded children are navigable');
+
+      await triggerKeyEvent('#a2', 'keydown', 'ArrowLeft');
+      assert.dom('#a').isFocused();
+      assert.dom('#a').hasAttribute('aria-expanded', 'true');
+      await triggerKeyEvent('#a', 'keydown', 'ArrowLeft');
+      assert.dom('#a').hasAttribute('aria-expanded', 'false');
+    });
+
+    test("Enter on a child selects only the child, and the parent doesn't handle it", async function (assert) {
+      await render(KeyboardTree);
+      await focus('#a');
+      await triggerKeyEvent('#a', 'keydown', 'Enter');
+      assert.dom('#a').hasAttribute('aria-expanded', 'true', 'Enter toggles');
+
+      await focus('#a1');
+      await triggerKeyEvent('#a1', 'keydown', 'Enter');
+
+      assert.dom('#a1').hasAttribute('aria-selected', 'true');
+      assert.dom('#a').hasAttribute('aria-selected', 'false');
+      assert.dom('#a').hasAttribute('aria-expanded', 'true');
+    });
+
+    test("ArrowLeft from a disabled parent's child stays put", async function (assert) {
+      await render(
+        <template>
+          <TreeView @label="Tree View" as |Node|>
+            <Node
+              @id="p"
+              @label="P"
+              @disabled={{true}}
+              @isExpanded={{true}}
+              as |Child|
+            >
+              <Child @id="p1" @label="P1" />
+            </Node>
+          </TreeView>
+        </template>,
+      );
+      await focus('#p1');
+      await triggerKeyEvent('#p1', 'keydown', 'ArrowLeft');
+
+      assert.dom('#p1').isFocused();
+      assert.dom('#p').doesNotHaveAttribute('tabindex');
+    });
+
+    test('collapsing a grandparent takes its grandchildren out of navigation', async function (assert) {
+      const expanded = tracked(true);
+      const onToggle = (value: boolean) => (expanded.value = value);
+
+      await render(
+        <template>
+          <TreeView @label="Tree View" as |Node|>
+            <Node
+              @id="g"
+              @label="G"
+              @isExpanded={{expanded.value}}
+              @onToggle={{onToggle}}
+              as |Child|
+            >
+              <Child @id="g1" @label="G1" @isExpanded={{true}} as |Grandchild|>
+                <Grandchild @id="g11" @label="G11" />
+              </Child>
+            </Node>
+            <Node @id="z" @label="Z" />
+          </TreeView>
+        </template>,
+      );
+      expanded.value = false;
+      await settled();
+      await focus('#g');
+      await triggerKeyEvent('#g', 'keydown', 'ArrowDown');
+
+      assert.dom('#z').isFocused();
+    });
+
+    test('collapsing the parent of the tab stop moves the tab stop out of it', async function (assert) {
+      await render(KeyboardTree);
+      await click('#a .cds--tree-parent-node__toggle');
+      await focus('#a2');
+      assert.dom('#a2').hasAttribute('tabindex', '0');
+
+      await click('#a .cds--tree-parent-node__toggle');
+
+      assert.dom('#a2').hasAttribute('tabindex', '-1');
+      assert.dom('#a').hasAttribute('tabindex', '0');
+    });
   });
 });

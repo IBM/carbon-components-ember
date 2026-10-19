@@ -13,6 +13,7 @@ import style from 'ember-style-modifier';
 import { default as Tooltip } from '../tooltip.gts';
 import type { TooltipAlignments } from '../tooltip.gts';
 import './truncated-text.scss';
+import { observeResize } from '../../utils/resize-observer.ts';
 
 export interface TruncatedTextSignature {
   Element: HTMLDivElement;
@@ -119,16 +120,15 @@ export default class TruncatedText extends Component<TruncatedTextSignature> {
       this.lineHeight = parseFloat(getComputedStyle(element).lineHeight);
       this.updateOverflowStatus();
     });
-    const resizeObserver = new ResizeObserver(() =>
+    const stopObserving = observeResize(element, () =>
       this.updateOverflowStatus(),
     );
-    resizeObserver.observe(element);
 
     return () => {
       if (pendingRaf !== undefined) {
         cancelAnimationFrame(pendingRaf);
       }
-      resizeObserver.disconnect();
+      stopObserving();
       if (this.contentElement === element) {
         this.contentElement = undefined;
       }

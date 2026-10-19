@@ -8,7 +8,7 @@
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
-import { modifier as eModifier } from 'ember-modifier';
+import { modifier } from 'ember-modifier';
 import type { ComponentLike } from '@glint/template';
 import OverflowMenu from '../overflow-menu.gts';
 import OverflowMenuItem from '../overflow-menu/overflow-menu-item.gts';
@@ -155,7 +155,7 @@ export default class ChatHistoryPanelItem extends Component<ChatHistoryPanelItem
   // item's rename UI too. A local save/cancel still exits immediately
   // without waiting for a matching `@rename` change, see the class doc
   // above.
-  watchRename = eModifier<{
+  watchRename = modifier<{
     Element: HTMLLIElement;
     Args: { Positional: [boolean | undefined] };
   }>((_element, [rename]) => {

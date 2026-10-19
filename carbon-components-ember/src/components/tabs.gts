@@ -7,10 +7,11 @@ import type { WithBoundArgs } from '@glint/template';
 import type Owner from '@ember/owner';
 import type Icon from './icon.gts';
 import didResize from 'ember-resize-modifier/modifiers/did-resize';
-import { modifier as eModifier } from 'ember-modifier';
+import { modifier } from 'ember-modifier';
 import { runTask } from 'ember-lifeline';
 
 import TabsSkeleton from './tabs-skeleton.gts';
+import { byDocumentPosition, RovingFocus } from '../utils/roving-focus.ts';
 
 export interface TabPaneSignature {
   Element: HTMLDivElement;
@@ -30,6 +31,8 @@ export interface TabPaneSignature {
 }
 
 class TabPane extends Component<TabPaneSignature> {
+  element?: HTMLElement;
+
   get index() {
     return this.args.tab.tabs.findIndex((t) => t === this);
   }
@@ -38,9 +41,13 @@ class TabPane extends Component<TabPaneSignature> {
     return this.args.tab.selectedTab === this;
   }
 
-  get isFocusable(): boolean {
-    return this.args.tab.focusableTab === this;
+  get isTabStop(): boolean {
+    return this.args.tab.tabStop === this;
   }
+
+  capture = modifier((element: HTMLDivElement) => {
+    this.element = element;
+  });
 
   constructor(owner: Owner, args: TabPaneSignature['Args']) {
     super(owner, args);
@@ -65,6 +72,7 @@ class TabPane extends Component<TabPaneSignature> {
       tabindex={{if this.isSelected "0"}}
       role="tabpanel"
       hidden={{unless this.isSelected true}}
+      {{this.capture}}
       ...attributes
     >
       {{yield}}
@@ -114,7 +122,6 @@ export default class Tabs extends Component<TabsSignature> {
   @tracked resized: number = 1;
   @tracked scrolled: number = 1;
   @tracked currentTab?: TabPane;
-  @tracked focusedTab?: TabPane;
   @tracked tabsDivElement?: HTMLDivElement;
   @tracked tabs: TabPane[] = [];
   @tracked isLg: boolean =
@@ -140,8 +147,25 @@ export default class Tabs extends Component<TabsSignature> {
     return guidFor(this);
   }
 
+  // Arrows move focus between the tabs; the tab stop stays on the selected
+  // tab, as in Carbon React, through the template's tabindex.
+  rovingFocus = new RovingFocus({
+    orientation: 'horizontal',
+    loop: true,
+    followFocus: false,
+    onNavigate: (element) => {
+      const tab = this.tabs.find(
+        (_tab, index) => element.id === `${this.guid}-tab-${index}`,
+      );
+      if (tab && this.activation === 'automatic') this.tabSelected(tab);
+    },
+  });
+
   registerTab(tab: TabPane) {
-    this.tabs = [...this.tabs, tab];
+    // In the panels' DOM order when a tab registers, not registration order.
+    this.tabs = [...this.tabs, tab].sort((a, b) =>
+      a.element && b.element ? byDocumentPosition(a.element, b.element) : 0,
+    );
     if (tab.args.isDefault && !this.currentTab) {
       this.tabSelected(tab);
     }
@@ -161,8 +185,13 @@ export default class Tabs extends Component<TabsSignature> {
     return this.currentTab ?? this.enabledTabs[0];
   }
 
-  get focusableTab(): TabPane | undefined {
-    return this.focusedTab ?? this.selectedTab ?? this.enabledTabs[0];
+  // The selected tab, as in Carbon React, or the first enabled tab when the
+  // selected one is missing or disabled, so the tablist stays reachable.
+  get tabStop(): TabPane | undefined {
+    const selected = this.selectedTab;
+    return selected && !this.isTabDisabled(selected)
+      ? selected
+      : this.enabledTabs[0];
   }
 
   isTabDisabled = (tab: TabPane) => {
@@ -206,7 +235,6 @@ export default class Tabs extends Component<TabsSignature> {
   tabSelected = (tab: TabPane) => {
     if (this.isTabDisabled(tab)) return;
     this.currentTab = tab;
-    this.focusedTab = tab;
     this.args.tabSelected?.(tab.args.title);
   };
 
@@ -238,19 +266,12 @@ export default class Tabs extends Component<TabsSignature> {
     );
   }
 
-  registerTabsDiv = eModifier<{ Element: HTMLDivElement }>((element) => {
+  registerTabsDiv = modifier<{ Element: HTMLDivElement }>((element) => {
     this.tabsDivElement = element;
     return () => {
       this.tabsDivElement = undefined;
     };
   });
-
-  focusTabElement(tab?: TabPane) {
-    if (!tab) return;
-    const index = this.tabs.indexOf(tab);
-    const element = document.getElementById(`${this.guid}-tab-${index}`);
-    element?.focus();
-  }
 
   scrollRight = () => {
     this.tabsDivElement?.scrollBy({
@@ -272,51 +293,8 @@ export default class Tabs extends Component<TabsSignature> {
     this.scrolled++;
   };
 
-  moveFocus = (direction: 1 | -1) => {
-    const enabled = this.enabledTabs;
-    if (!enabled.length) return;
-    const current = this.focusableTab;
-    const currentIndex = current ? enabled.indexOf(current) : -1;
-    const nextIndex =
-      currentIndex === -1
-        ? 0
-        : (currentIndex + direction + enabled.length) % enabled.length;
-    this.focusTab(enabled[nextIndex]);
-  };
-
-  focusEdge = (edge: 'first' | 'last') => {
-    const enabled = this.enabledTabs;
-    if (!enabled.length) return;
-    this.focusTab(edge === 'first' ? enabled[0] : enabled[enabled.length - 1]);
-  };
-
-  focusTab(tab?: TabPane) {
-    if (!tab) return;
-    this.focusedTab = tab;
-    if (this.activation === 'automatic') {
-      this.tabSelected(tab);
-    }
-    this.focusTabElement(tab);
-  }
-
   handleTabKeydown = (tab: TabPane, event: KeyboardEvent) => {
     switch (event.key) {
-      case 'ArrowRight':
-        event.preventDefault();
-        this.moveFocus(1);
-        break;
-      case 'ArrowLeft':
-        event.preventDefault();
-        this.moveFocus(-1);
-        break;
-      case 'Home':
-        event.preventDefault();
-        this.focusEdge('first');
-        break;
-      case 'End':
-        event.preventDefault();
-        this.focusEdge('last');
-        break;
       case 'Enter':
       case ' ':
         if (this.activation === 'manual') {
@@ -380,6 +358,7 @@ export default class Tabs extends Component<TabsSignature> {
           role="tablist"
           class="cds--tab--list"
           {{this.registerTabsDiv}}
+          {{this.rovingFocus.container}}
           {{didResize this.onResize}}
           {{on "scroll" this.onScroll}}
         >
@@ -394,10 +373,11 @@ export default class Tabs extends Component<TabsSignature> {
               class="cds--tabs__nav-item cds--tabs__nav-link
                 {{if tab.isSelected 'cds--tabs__nav-item--selected'}}
                 {{if (this.isTabDisabled tab) 'cds--tabs__nav-item--disabled'}}"
-              tabindex="{{if tab.isFocusable '0' '-1'}}"
+              tabindex="{{if tab.isTabStop '0' '-1'}}"
               type="button"
               {{on "click" (fn this.tabSelected tab)}}
               {{on "keydown" (fn this.handleTabKeydown tab)}}
+              {{this.rovingFocus.item disabled=(this.isTabDisabled tab)}}
             >
               <div class="cds--tabs__nav-item-label-wrapper">
                 {{#if (and @dismissable tab.args.renderIcon)}}
