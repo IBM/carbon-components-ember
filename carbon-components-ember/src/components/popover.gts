@@ -8,8 +8,12 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
+import { arrow, flip, hide, offset } from '@floating-ui/dom';
 import closeOnOutsideClick from '../modifiers/close-on-outside-click.ts';
-import type { TOC } from '@ember/component/template-only';
+import { float } from '../utils/floating.ts';
+import './popover.scss';
+
+import type { Boundary, Placement } from '@floating-ui/dom';
 
 /**
  * @deprecated Use NewPopoverAlignment instead.
@@ -55,20 +59,61 @@ function mapPopoverAlign(align: PopoverAlignment): NewPopoverAlignment {
   return deprecatedAlignmentMap[align] ?? (align as NewPopoverAlignment);
 }
 
-const flippedAlignmentMap: Record<string, NewPopoverAlignment> = {
-  top: 'bottom',
-  'top-start': 'bottom-start',
-  'top-end': 'bottom-end',
-  bottom: 'top',
-  'bottom-start': 'top-start',
-  'bottom-end': 'top-end',
-  left: 'right',
-  'left-start': 'right-start',
-  'left-end': 'right-end',
-  right: 'left',
-  'right-start': 'left-start',
-  'right-end': 'left-end',
+// Carbon React's flip fallbacks: the requested side first, then the others.
+const fallbackPlacements: Record<'top' | 'bottom', NewPopoverAlignment[]> = {
+  top: [
+    'top',
+    'top-start',
+    'top-end',
+    'left',
+    'left-start',
+    'left-end',
+    'right',
+    'right-start',
+    'right-end',
+    'bottom',
+    'bottom-start',
+    'bottom-end',
+  ],
+  bottom: [
+    'bottom',
+    'bottom-start',
+    'bottom-end',
+    'right',
+    'right-start',
+    'right-end',
+    'left',
+    'left-start',
+    'left-end',
+    'top',
+    'top-start',
+    'top-end',
+  ],
 };
+
+const tabTipFallbackPlacements: Record<
+  'top' | 'bottom',
+  NewPopoverAlignment[]
+> = {
+  top: ['top-start', 'top-end', 'bottom-start', 'bottom-end'],
+  bottom: ['bottom-start', 'bottom-end', 'top-start', 'top-end'],
+};
+
+const caretStaticSide = {
+  top: 'bottom',
+  right: 'left',
+  bottom: 'top',
+  left: 'right',
+} as const;
+
+function toPixels(value: string): number | undefined {
+  if (!value) return undefined;
+  const number = parseFloat(value);
+  return value.includes('px') ? number : number * 16;
+}
+
+const popovers = new WeakMap<Element, Popover>();
+const popoverContents = new WeakMap<Element, PopoverContent>();
 
 export interface PopoverSignature {
   Element: HTMLElement;
@@ -79,8 +124,7 @@ export interface PopoverSignature {
     align?: PopoverAlignment;
     /**
      * **Experimental:** Provide an offset value for alignment axis. Only takes
-     * effect when `autoAlign` is enabled. Not currently implemented in this
-     * Ember port.
+     * effect when `autoAlign` is enabled.
      */
     alignmentAxisOffset?: number;
     /**
@@ -88,15 +132,17 @@ export interface PopoverSignature {
      */
     as?: keyof HTMLElementTagNameMap;
     /**
-     * Will auto-align the popover on first render if it is not visible within
-     * the viewport (or `autoAlignBoundary`, if provided).
+     * **Experimental:** Positions the content with Floating UI and keeps it
+     * within the viewport (or `autoAlignBoundary`, if provided), flipping it
+     * to another side when it doesn't fit. The content renders in the top
+     * layer, so overflowing ancestors don't clip it.
      */
     autoAlign?: boolean;
     /**
-     * Specify a bounding element to be used for autoAlign calculations. The
-     * viewport is used by default.
+     * **Experimental:** Specify a bounding element to be used for autoAlign
+     * calculations. The viewport is used by default.
      */
-    autoAlignBoundary?: HTMLElement;
+    autoAlignBoundary?: Boundary;
     /**
      * Specify the background token to use. Default is 'layer'.
      */
@@ -154,7 +200,27 @@ export interface PopoverSignature {
  * ```
  */
 export default class Popover extends Component<PopoverSignature> {
-  @tracked autoAlignResult: NewPopoverAlignment | null = null;
+  @tracked placement?: Placement;
+  // Registered by PopoverContent; content rendered by hand is looked up.
+  // tracked() skips equal writes, so re-registering doesn't re-position.
+  #contentElement = tracked<HTMLElement | undefined>(undefined);
+  #caretElement = tracked<HTMLElement | undefined>(undefined);
+
+  get contentElement() {
+    return this.#contentElement.value;
+  }
+
+  set contentElement(element: HTMLElement | undefined) {
+    this.#contentElement.value = element;
+  }
+
+  get caretElement() {
+    return this.#caretElement.value;
+  }
+
+  set caretElement(element: HTMLElement | undefined) {
+    this.#caretElement.value = element;
+  }
 
   containerElement?: HTMLElement;
 
@@ -170,6 +236,10 @@ export default class Popover extends Component<PopoverSignature> {
     return this.args.dropShadow ?? true;
   }
 
+  get floating() {
+    return Boolean(this.args.autoAlign);
+  }
+
   get baseAlign(): NewPopoverAlignment {
     const align =
       this.args.align ?? (this.args.isTabTip ? 'bottom-start' : 'bottom');
@@ -177,7 +247,7 @@ export default class Popover extends Component<PopoverSignature> {
   }
 
   get align(): NewPopoverAlignment {
-    return this.autoAlignResult ?? this.baseAlign;
+    return (this.floating ? this.placement : undefined) ?? this.baseAlign;
   }
 
   get classes() {
@@ -197,6 +267,9 @@ export default class Popover extends Component<PopoverSignature> {
     if (this.args.open) {
       classes.push('cds--popover--open');
     }
+    if (this.floating) {
+      classes.push('cds--popover--auto-align', 'cds--autoalign');
+    }
     classes.push(`cds--popover--${this.align}`);
     if (this.args.isTabTip) {
       classes.push('cds--popover--tab-tip');
@@ -209,12 +282,107 @@ export default class Popover extends Component<PopoverSignature> {
 
   manage = modifier((element: HTMLElement) => {
     this.containerElement = element;
+    // On first render, PopoverContent's modifier runs before this one.
+    popovers.set(element, this);
+    for (const content of element.querySelectorAll<HTMLElement>(
+      ':scope > .cds--popover > .cds--popover-content',
+    )) {
+      popoverContents.get(content)?.connect(this, content);
+    }
     this.markTabTipTrigger();
-    this.updateAutoAlign();
+  });
+
+  // Only a Popover that can ask to close needs the document listeners.
+  get listensForClose() {
+    return Boolean(this.args.open && this.args.onRequestClose);
+  }
+
+  closeOnEscape = modifier(() => {
+    if (!this.listensForClose) return;
     document.addEventListener('keydown', this.handleDocumentKeydown);
     return () => {
       document.removeEventListener('keydown', this.handleDocumentKeydown);
     };
+  });
+
+  /**
+   * Floating mode (`@autoAlign`), configured like Carbon React's
+   * `useFloating` call. The reference is the trigger, as in
+   * `markTabTipTrigger`.
+   */
+  positionContent = modifier((container: HTMLElement) => {
+    if (!this.floating || !this.args.open) return;
+    const reference = container.querySelector(':scope > :not(.cds--popover)');
+    const content =
+      this.contentElement ??
+      container.querySelector<HTMLElement>(
+        ':scope > .cds--popover > .cds--popover-content',
+      );
+    if (!reference || !content) return;
+    const caretElement =
+      this.caretElement ??
+      content.querySelector<HTMLElement>(':scope > .cds--popover-caret');
+
+    const { caret, baseAlign } = this;
+    const isTabTip = Boolean(this.args.isTabTip);
+    const side = baseAlign.includes('bottom') ? 'bottom' : 'top';
+
+    let popoverOffset = 10;
+    let caretHeight = container.querySelector(
+      ':scope > [class*="ai-label"], :scope > [class*="slug"]',
+    )
+      ? 7
+      : 6;
+    if (caret) {
+      const style = getComputedStyle(container);
+      popoverOffset =
+        toPixels(style.getPropertyValue('--cds-popover-offset')) ??
+        popoverOffset;
+      caretHeight =
+        toPixels(style.getPropertyValue('--cds-popover-caret-height')) ??
+        caretHeight;
+    }
+
+    return float(reference, content, {
+      placement: baseAlign,
+      topLayer: true,
+      middleware: [
+        offset(
+          isTabTip
+            ? 0
+            : {
+                alignmentAxis: this.args.alignmentAxisOffset,
+                mainAxis: caret ? popoverOffset : 4,
+              },
+        ),
+        flip({
+          fallbackPlacements: (isTabTip
+            ? tabTipFallbackPlacements
+            : fallbackPlacements)[side],
+          fallbackStrategy: 'initialPlacement',
+          fallbackAxisSideDirection: 'start',
+          boundary: this.args.autoAlignBoundary,
+        }),
+        caretElement && arrow({ element: caretElement, padding: 16 }),
+        hide(),
+      ],
+      onUpdate: ({ placement, middlewareData }) => {
+        if (this.placement !== placement) {
+          this.placement = placement;
+        }
+        if (!caret || !caretElement || !middlewareData.arrow) return;
+        const { x, y } = middlewareData.arrow;
+        const staticSide =
+          caretStaticSide[
+            placement.split('-')[0] as keyof typeof caretStaticSide
+          ];
+        caretElement.style.left = x == null ? '' : `${x}px`;
+        caretElement.style.top = y == null ? '' : `${y}px`;
+        caretElement.style.right = '';
+        caretElement.style.bottom = '';
+        caretElement.style[staticSide] = `${-caretHeight}px`;
+      },
+    });
   });
 
   markTabTipTrigger() {
@@ -225,48 +393,6 @@ export default class Popover extends Component<PopoverSignature> {
       'cds--popover--tab-tip__button',
       !!this.args.isTabTip,
     );
-  }
-
-  updateAutoAlign() {
-    if (!this.args.autoAlign || !this.args.open || !this.containerElement) {
-      this.autoAlignResult = null;
-      return;
-    }
-
-    const content = this.containerElement.querySelector<HTMLElement>(
-      '.cds--popover-content',
-    );
-    if (!content) {
-      return;
-    }
-
-    const boundary = this.args.autoAlignBoundary;
-    const boundaryRect = boundary
-      ? boundary.getBoundingClientRect()
-      : {
-          top: 0,
-          left: 0,
-          right: window.innerWidth,
-          bottom: window.innerHeight,
-        };
-    const rect = content.getBoundingClientRect();
-
-    let align = this.baseAlign;
-    const overflowsVertically =
-      rect.top < boundaryRect.top || rect.bottom > boundaryRect.bottom;
-    const overflowsHorizontally =
-      rect.left < boundaryRect.left || rect.right > boundaryRect.right;
-
-    if (
-      ((align.startsWith('top') || align.startsWith('bottom')) &&
-        overflowsVertically) ||
-      ((align.startsWith('left') || align.startsWith('right')) &&
-        overflowsHorizontally)
-    ) {
-      align = flippedAlignmentMap[align] ?? align;
-    }
-
-    this.autoAlignResult = align;
   }
 
   handleOutsideClick = () => {
@@ -300,7 +426,11 @@ export default class Popover extends Component<PopoverSignature> {
       <Tag
         class={{this.classes}}
         {{this.manage}}
-        {{closeOnOutsideClick this.handleOutsideClick}}
+        {{this.positionContent}}
+        {{this.closeOnEscape}}
+        {{(if this.listensForClose closeOnOutsideClick)
+          this.handleOutsideClick
+        }}
         ...attributes
       >
         {{yield}}
@@ -320,11 +450,62 @@ export interface PopoverContentSignature {
  * `PopoverContent` renders the floating content of a `Popover`. It must be
  * used as a direct child of `Popover`, alongside the trigger element.
  */
-export const PopoverContent: TOC<PopoverContentSignature> = <template>
-  <span class="cds--popover">
-    <span class="cds--popover-content" ...attributes>
-      {{yield}}
+export class PopoverContent extends Component<PopoverContentSignature> {
+  @tracked popover?: Popover;
+  // Read by the modifiers instead of `popover`, so they never re-run.
+  #popover?: Popover;
+
+  /** In floating mode, Carbon puts the caret inside the content. */
+  get floating() {
+    return this.popover?.floating ?? false;
+  }
+
+  connect(popover: Popover, content: HTMLElement) {
+    popover.contentElement = content;
+    if (this.#popover === popover) return;
+    this.#popover = popover;
+    this.popover = popover;
+  }
+
+  register = modifier((content: HTMLElement) => {
+    popoverContents.set(content, this);
+    const container = content.parentElement?.parentElement;
+    const popover = container ? popovers.get(container) : undefined;
+    if (popover) {
+      this.connect(popover, content);
+    }
+    return () => {
+      if (this.#popover?.contentElement === content) {
+        this.#popover.contentElement = undefined;
+      }
+    };
+  });
+
+  registerCaret = modifier((caret: HTMLElement) => {
+    const popover = this.#popover;
+    if (!popover) return;
+    popover.caretElement = caret;
+    return () => {
+      if (popover.caretElement === caret) {
+        popover.caretElement = undefined;
+      }
+    };
+  });
+
+  <template>
+    <span class="cds--popover">
+      <span class="cds--popover-content" {{this.register}} ...attributes>
+        {{yield}}
+        {{#if this.floating}}
+          <span
+            class="cds--popover-caret cds--popover--auto-align"
+            {{this.registerCaret}}
+          ></span>
+        {{/if}}
+      </span>
+      {{#unless this.floating}}
+        <span class="cds--popover-caret"></span>
+      {{/unless}}
     </span>
-    <span class="cds--popover-caret"></span>
-  </span>
-</template>;
+  </template>
+}

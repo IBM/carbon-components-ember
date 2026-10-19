@@ -19,13 +19,9 @@ import Settings from './icons/settings.ts';
 import type { PopoverSignature } from './popover.gts';
 import '#storybook/styles/popover.css';
 
-// Parity notes on Carbon React's Popover stories:
-// - `@autoAlign` is a lighter approximation of React's floating-ui based
-//   `autoAlign`: it re-checks the alignment once, when the popover opens,
-//   rather than continuously while scrolling. The ExperimentalAutoAlign*
-//   stories therefore only flip on open.
-// - React's ExperimentalAutoAlign stories forward a ref to the Popover to
-//   scroll it into view; here a modifier on the trigger does that.
+// Parity note on Carbon React's Popover stories: React's ExperimentalAutoAlign
+// stories forward a ref to the Popover to scroll it into view; here a modifier
+// on the trigger does that.
 
 const ALIGNMENTS = [
   'top',
@@ -244,8 +240,8 @@ export const TabTip = meta.story({
   },
 });
 
-// Requested to align on top; when there isn't enough room above the trigger
-// in the viewport as it opens, `@autoAlign` flips it to the bottom.
+// Requested to align on top; `@autoAlign` moves it to a side that fits in the
+// viewport, and keeps doing so as the page scrolls.
 export const ExperimentalAutoAlign = meta.story({
   parameters: {
     docs: { story: { inline: false, iframeHeight: '400px' } },
@@ -274,8 +270,8 @@ export const ExperimentalAutoAlign = meta.story({
           <PopoverContent class="popover-story__content">
             <p class="cds--popover-title">This popover uses autoAlign</p>
             <p>
-              Close and reopen it after scrolling the trigger towards an edge of
-              the viewport to see it pick a side that fits.
+              Scroll the trigger towards an edge of the viewport to see it pick
+              a side that fits.
             </p>
           </PopoverContent>
         </Popover>
@@ -319,8 +315,7 @@ export const ExperimentalAutoAlignBoundary = meta.story({
               <PopoverContent class="popover-story__content">
                 <p class="cds--popover-title">This popover uses autoAlign</p>
                 <p>
-                  Its alignment is checked against the dashed boundary when it
-                  opens.
+                  It stays within the dashed boundary while you scroll it.
                 </p>
               </PopoverContent>
             </Popover>
@@ -361,7 +356,7 @@ export const TabTipExperimentalAutoAlign = meta.story({
             <p class="cds--popover-title">
               This popover uses autoAlign with isTabTip
             </p>
-            <p>It picks a side that fits in the viewport when it opens.</p>
+            <p>It picks a side that fits in the viewport.</p>
           </PopoverContent>
         </Popover>
       </div>
@@ -369,13 +364,13 @@ export const TabTipExperimentalAutoAlign = meta.story({
   },
 });
 
-export const AutoAlignFlipsToBottom = meta.story({
-  name: 'Auto align (flips at the top of the page)',
+export const AutoAlignAtTopOfPage = meta.story({
+  name: 'Auto align (at the top of the page)',
   parameters: {
     docs: {
       description: {
         story:
-          "**Experimental:** `@autoAlign` checks, when the popover opens, whether its content would render outside of the viewport (or `@autoAlignBoundary`) and flips it to the opposite side if so. Requested to align `top` right at the top of the page, there typically isn't enough room, so it renders `bottom` instead.",
+          "**Experimental:** `@autoAlign` positions the content with Floating UI, in the top layer, and moves it to another side when it would render outside of the viewport (or `@autoAlignBoundary`). Requested to align `top` right at the top of the page, there isn't enough room above the trigger, so it takes the first side in Carbon's fallback order that fits.",
       },
     },
   },
@@ -400,11 +395,22 @@ export const AutoAlignFlipsToBottom = meta.story({
         <PopoverContent class="popover-story__content">
           <p class="cds--popover-title">This popover uses autoAlign</p>
           <p>
-            It was requested to align on top, but flips to bottom when there
-            isn't enough room above it in the viewport.
+            It was requested to align on top, but moves to another side when
+            there isn't enough room above it in the viewport.
           </p>
         </PopoverContent>
       </Popover>
     </template>;
   },
 });
+
+AutoAlignAtTopOfPage.test(
+  'moves off the top side, into the top layer',
+  async ({ canvasElement }) => {
+    const popover = canvasElement.querySelector('.cds--popover-container')!;
+    const content = popover.querySelector('.cds--popover-content')!;
+    await expect(popover).toHaveClass('cds--popover--auto-align');
+    await expect(content.matches(':popover-open')).toBe(true);
+    await waitFor(() => expect(popover).not.toHaveClass('cds--popover--top'));
+  },
+);
