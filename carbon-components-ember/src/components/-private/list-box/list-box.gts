@@ -12,7 +12,7 @@ import type { TOC } from '@ember/component/template-only';
 export interface ListBoxSignature {
   Element: HTMLDivElement;
   Args: {
-    size?: 'sm' | 'md' | 'lg';
+    size?: 'xs' | 'sm' | 'md' | 'lg';
     type?: 'default' | 'inline';
     disabled?: boolean;
     isOpen?: boolean;
@@ -29,9 +29,9 @@ export interface ListBoxSignature {
 }
 
 /**
- * The box of a list box field (Dropdown, and later ComboBox and
- * MultiSelect), with its invalid or warning text after it, as Carbon React's
- * internal `ListBox`.
+ * The box of a list box field (Dropdown and ComboBox, and later MultiSelect),
+ * with its invalid or warning text after it, as Carbon React's internal
+ * `ListBox`.
  */
 // As Carbon React's ListBox, every Escape inside the box stops here, so
 // closing the menu doesn't also close an enclosing Popover or Modal (nor

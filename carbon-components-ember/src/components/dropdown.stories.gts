@@ -18,7 +18,6 @@ import '#storybook/styles/dropdown.css';
 // - No `renderSelectedItem`, `translateWithId` or `downshiftProps`; a block
 //   can render each item instead.
 // - Hovering an item moves the highlight; in React hover is only styled.
-// - The menu icon has a title but no `aria-label` yet.
 
 interface Item {
   text: string;
