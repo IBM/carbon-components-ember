@@ -14,6 +14,7 @@ import CodeSnippet from './code-snippet.gts';
 // Loads CodeMirror up front so Vite pre-bundles its dependencies when it
 // collects this file; under vitest, discovering them mid-run from the
 // component's lazy `import()` stalls the import. Apps still load it lazily.
+// eslint-disable-next-line import/no-unassigned-import -- only the dep scan needs it
 import './-code-snippet/codemirror-runtime.ts';
 import '#storybook/styles/ai-chat/code-snippet.css';
 
