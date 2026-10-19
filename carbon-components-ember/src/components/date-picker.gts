@@ -6,7 +6,7 @@
  */
 
 import Component from '@glimmer/component';
-import { modifier as eModifier } from 'ember-modifier';
+import { modifier } from 'ember-modifier';
 import type Owner from '@ember/owner';
 import type { WithBoundArgs } from '@glint/template';
 import flatpickr from 'flatpickr';
@@ -324,7 +324,7 @@ export default class DatePicker extends Component<DatePickerSignature> {
   // teardown or whenever one of these named args changes identity - all
   // structural flatpickr config that's cheap to fully rebuild on change,
   // unlike `@value` (see `syncValue`).
-  attachFlatpickr = eModifier<{
+  attachFlatpickr = modifier<{
     Element: HTMLDivElement;
     Args: {
       Named: {
@@ -447,7 +447,7 @@ export default class DatePicker extends Component<DatePickerSignature> {
   // directly to the raw `<input>` instead - mirrors Carbon React's
   // `DatePicker.js`, which does the same `calendarRef.current` presence
   // check on every `value` change.
-  syncValue = eModifier<{
+  syncValue = modifier<{
     Element: HTMLDivElement;
     Args: { Positional: [DatePickerSignature['Args']['value']] };
   }>((element, [value]) => {

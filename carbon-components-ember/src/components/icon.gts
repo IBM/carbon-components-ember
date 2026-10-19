@@ -87,6 +87,11 @@ export interface IconSignature {
      * description prop is present but empty.
      */
     title?: string;
+    /**
+     * Labels the icon for assistive technology, making it an image
+     * (`role="img"`) rather than decorative.
+     */
+    ariaLabel?: string;
   };
 }
 
@@ -170,6 +175,7 @@ export default class Icon extends Component<IconSignature> {
             fill=(or @fill "currentColor")
             size=@size
             title=@title
+            ariaLabel=@ariaLabel
           }}
         </button>
       {{else}}
@@ -179,6 +185,7 @@ export default class Icon extends Component<IconSignature> {
           fill=(or @fill "currentColor")
           size=@size
           title=@title
+          ariaLabel=@ariaLabel
         }}
       {{/if}}
     {{/if}}

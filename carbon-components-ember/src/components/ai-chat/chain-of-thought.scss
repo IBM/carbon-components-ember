@@ -37,7 +37,7 @@
 
 .cds-aichat-chain-of-thought-step {
   display: block;
-  background: var(--cds-layer-02, #ffffff);
+  background: var(--cds-layer-02, #fff);
   font-size: var(--cds-body-01-font-size, 0.875rem);
   line-height: var(--cds-body-01-line-height, 1.42857);
 }
@@ -119,7 +119,7 @@
   .cds-aichat-chain-of-thought-step__header,
 .cds-aichat-chain-of-thought-step--odd
   .cds-aichat-chain-of-thought-step__static {
-  background: var(--cds-layer-02, #ffffff);
+  background: var(--cds-layer-02, #fff);
 }
 
 .cds-aichat-chain-of-thought-step__header:focus,

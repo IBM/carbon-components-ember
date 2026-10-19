@@ -1,10 +1,11 @@
 import Component from '@glimmer/component';
 import { cached, tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import { modifier as eModifier } from 'ember-modifier';
+import { modifier } from 'ember-modifier';
 import Checkbox from './icons/checkbox.ts';
 import CheckboxCheckedFilled from './icons/checkbox-checked-filled.ts';
 import ChevronDown from './icons/chevron-down.ts';
+import { observeResize } from '../utils/resize-observer.ts';
 
 // Matches @carbon/react's ExpandableTile: while collapsed, the tile's own
 // max-height is clamped to the above-the-fold content's real height (plus
@@ -16,7 +17,7 @@ import ChevronDown from './icons/chevron-down.ts';
 // declared positional arg (not read off `this` inside the body) so this
 // re-measures synchronously - no flash of unclipped content - on every
 // @expanded toggle, matching upstream's own layout-effect timing.
-const clipExpandableTile = eModifier<{
+const clipExpandableTile = modifier<{
   Element: HTMLElement;
   Args: { Positional: [expanded: boolean] };
 }>((aboveFoldElement, [expanded]) => {
@@ -37,21 +38,8 @@ const clipExpandableTile = eModifier<{
   applyHeight();
 
   // Re-measure if the above-the-fold content's own size changes later (e.g.
-  // async content, a window resize reflowing text) - deferred to the next
-  // frame, matching this addon's established fix for the "ResizeObserver
-  // loop completed with undelivered notifications" class of bug (see
-  // Toolbar/WorkspaceShellFooter in AGENTS.md).
-  let frame = 0;
-  const resizeObserver = new ResizeObserver(() => {
-    cancelAnimationFrame(frame);
-    frame = requestAnimationFrame(applyHeight);
-  });
-  resizeObserver.observe(aboveFoldElement);
-
-  return () => {
-    cancelAnimationFrame(frame);
-    resizeObserver.disconnect();
-  };
+  // async content, a window resize reflowing text).
+  return observeResize(aboveFoldElement, applyHeight);
 });
 
 export interface TileSignature {

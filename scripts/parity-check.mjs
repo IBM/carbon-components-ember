@@ -75,8 +75,9 @@ const SOURCES = [
     // is a meaningful signal.
     trackExtra: true,
     // React's upstream directory names are already PascalCase and match
-    // the Ember export names 1:1.
-    nameToEmberExport: (name) => name,
+    // the Ember export names 1:1, except a directory of several components.
+    nameToEmberExport: (name) =>
+      ({ Notification: 'ToastNotification' })[name] ?? name,
   },
   {
     id: 'carbon-ai-chat',

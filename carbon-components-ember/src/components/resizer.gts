@@ -7,8 +7,9 @@
 
 import Component from '@glimmer/component';
 import { concat } from '@ember/helper';
-import { modifier as eModifier } from 'ember-modifier';
+import { modifier } from 'ember-modifier';
 import { task, timeout } from 'ember-concurrency';
+import { observeResize } from '../utils/resize-observer.ts';
 
 const DEBOUNCE_DELAY = 100;
 
@@ -68,7 +69,7 @@ export interface ResizerSignature {
   };
 }
 
-const attachResizer = eModifier<{
+const attachResizer = modifier<{
   Element: HTMLDivElement;
   Args: {
     Named: {
@@ -129,13 +130,13 @@ const attachResizer = eModifier<{
       element.setAttribute('aria-valuenow', String(value));
     };
     updateValue();
-    const observer = new ResizeObserver(() => {
+    const onPaneResize = () => {
       initialSizes ??= measure();
       updateValue();
-    });
-    for (const sibling of [prevSibling(), nextSibling()]) {
-      if (sibling) observer.observe(sibling);
-    }
+    };
+    const stopObserving = [prevSibling(), nextSibling()]
+      .filter((sibling) => sibling !== null)
+      .map((sibling) => observeResize(sibling, onPaneResize));
 
     const updateSizes = (event: MouseEvent | KeyboardEvent, delta: number) => {
       if (onResize) {
@@ -238,7 +239,7 @@ const attachResizer = eModifier<{
     element.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      observer.disconnect();
+      for (const stop of stopObserving) stop();
       element.removeEventListener('mousedown', handleMouseDown);
       element.removeEventListener('dblclick', handleDoubleClick);
       element.removeEventListener('keydown', handleKeyDown);

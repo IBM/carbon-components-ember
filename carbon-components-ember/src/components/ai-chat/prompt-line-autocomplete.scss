@@ -23,7 +23,7 @@
   border-end-start-radius: 0;
   border-start-end-radius: 0.5rem;
   border-start-start-radius: 0.5rem;
-  background: var(--cds-chat-prompt-background, #ffffff);
+  background: var(--cds-chat-prompt-background, #fff);
   max-block-size: 20rem;
 }
 
@@ -67,8 +67,7 @@
 }
 
 .cds-aichat-autocomplete-item-group__title {
-  padding-block-end: 0.25rem;
-  padding-block-start: 1rem;
+  padding-block: 1rem 0.25rem;
   padding-inline: 1rem;
   font-size: 0.75rem;
   line-height: 1rem;

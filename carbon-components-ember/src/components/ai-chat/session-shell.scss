@@ -12,7 +12,7 @@
   border-radius: layout.$spacing-03;
   background-color: var(--cds-layer, #f4f4f4);
   color: var(--cds-text-primary, #161616);
-  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .cds-aichat-session-shell__message--user {

@@ -7,7 +7,7 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { modifier as eModifier } from 'ember-modifier';
+import { modifier } from 'ember-modifier';
 import style from 'ember-style-modifier';
 import type Owner from '@ember/owner';
 import type { EditorView } from '@codemirror/view';
@@ -18,6 +18,7 @@ import AiChatToolbar from './toolbar.gts';
 import type { ToolbarAction } from './toolbar.gts';
 import Copy from '../icons/copy.ts';
 import ChevronDown from '../icons/chevron-down.ts';
+import { writeToClipboard } from '../../utils/clipboard.ts';
 import type {
   LanguageController,
   LanguageStateUpdate,
@@ -127,9 +128,8 @@ export interface CodeSnippetSignature {
  *   made for `ReasoningSteps`' `data-last-item`/animation events. Add if a
  *   real consumer needs one.
  * - **Modern Clipboard API + a `document.execCommand('copy')` fallback**,
- *   matching upstream, but via an off-screen `<textarea>` positioned through
- *   `element.style` (as `copy-button.gts` does) instead of upstream's
- *   dynamic-stylesheet trick; CSSOM writes are allowed under a strict CSP.
+ *   matching upstream, through the addon's shared `writeToClipboard`
+ *   (`utils/clipboard.ts`), which also falls back when the API rejects.
  * - **`wrap-text` (a `:host([wrap-text])` rule in upstream's own SCSS) has
  *   no backing property anywhere in upstream's own `code-snippet.ts`
  *   either** - a pre-existing dead CSS hook, not something this port
@@ -257,22 +257,7 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
 
   private async handleCopyClick() {
     try {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(this.code);
-      } else {
-        const textArea = document.createElement('textarea');
-        textArea.value = this.code;
-        textArea.setAttribute('aria-hidden', 'true');
-        textArea.setAttribute('tabindex', '-1');
-        textArea.style.position = 'fixed';
-        textArea.style.left = '-999999px';
-        textArea.style.top = '-999999px';
-        textArea.style.opacity = '0';
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
-      }
+      await writeToClipboard(this.code);
     } catch (error) {
       console.error('Failed to copy text:', error);
     }
@@ -471,7 +456,7 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
    * reactive re-invocation, not just final removal, so one-shot setup has
    * to live in a modifier with no reactive args of its own.
    */
-  mountContainer = eModifier<{ Element: HTMLDivElement }>((element) => {
+  mountContainer = modifier<{ Element: HTMLDivElement }>((element) => {
     this.container = element;
     const observer = new ResizeObserver(() => {
       // Defer to requestAnimationFrame to avoid ResizeObserver loop errors
@@ -503,7 +488,7 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
    * *first* editor once the CodeMirror runtime resolves - `recreateEditor`
    * itself awaits readiness and no-ops until then.
    */
-  mountEditor = eModifier<{
+  mountEditor = modifier<{
     Element: HTMLDivElement;
     Args: {
       Positional: [
@@ -518,7 +503,7 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
   });
 
   /** In-place diff-apply of `@code`, throttled - never a full recreate. */
-  syncContent = eModifier<{
+  syncContent = modifier<{
     Element: HTMLDivElement;
     Args: { Positional: [string] };
   }>((_element, [code]) => {
@@ -551,7 +536,7 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
   });
 
   /** In-place language-support swap on `@language`/`@highlight` changes. */
-  syncLanguage = eModifier<{
+  syncLanguage = modifier<{
     Element: HTMLDivElement;
     Args: { Positional: [string | undefined, boolean | undefined] };
   }>(() => {
@@ -577,7 +562,7 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
   });
 
   /** In-place readonly-configuration swap on `@disabled` changes. */
-  syncDisabled = eModifier<{
+  syncDisabled = modifier<{
     Element: HTMLDivElement;
     Args: { Positional: [boolean | undefined] };
   }>((_element, [disabled]) => {
@@ -606,7 +591,7 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
    * state's aria-multiline, matching upstream) - fires whenever the
    * resolved label text could have changed.
    */
-  syncAriaAttrs = eModifier<{
+  syncAriaAttrs = modifier<{
     Element: HTMLDivElement;
     Args: {
       Positional: [string | null, boolean | undefined, string, string];

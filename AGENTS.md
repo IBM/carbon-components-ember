@@ -118,19 +118,20 @@ Parity means matching Carbon React's **public API surface and behaviour**, not i
 | Debounce/timing | `task({ restartable: true })` + `timeout()` from `ember-concurrency` | `components/search.gts` |
 | `useEffect` cleanup return | `registerDestructor` (or the modifier's teardown function) | `components/tabs.gts` |
 | Lazily resolved value in template | `TrackedPromise` from `utils/tracked.ts` — re-renders once promise settles | `components/icons/*.ts` (lazy icons) |
+| Arrow-key navigation (roving `tabIndex`) | `RovingFocus` from `utils/roving-focus.ts`: its `container` modifier on the list, its `item` modifier on each item; items keep their DOM order | `components/tree-view.gts` |
 
 ### 1. Yield Contextual Components instead of Inspecting Children
 Yield child components pre-bound with parent-supplied args using `WithBoundArgs`. If the parent needs ordering or child lists (e.g. `Tabs`), let children register themselves with the parent on construction and deregister via `registerDestructor`:
 ```typescript
 import type Owner from '@ember/owner';
 import { registerDestructor } from '@ember/destroyable';
-import { runTask } from 'ember-lifeline';
+import { afterRender } from '../utils/after-render.ts';
 
 export default class TabPane extends Component<TabPaneSignature> {
   constructor(owner: Owner, args: TabPaneSignature['Args']) {
     super(owner, args);
-    runTask(this, () => {
-      if (this.isDestroyed) return;
+    // The parent read its children during this render; register after it.
+    afterRender(this, () => {
       this.args.tab.registerTab(this);
       registerDestructor(this, () => this.args.tab.unregisterTab(this));
     });
@@ -154,7 +155,8 @@ When invoking a `renderIcon`-style `ComponentLike` arg, **always pass `@size` (a
 Functional or class-based modifiers are Ember's replacement for `useRef` + `useEffect`. When the consumer owns the element that needs the behavior, yield a `ModifierLike` modifier to them.
 
 ### 5. Timing and Destructors
-Never use bare `setTimeout`. Use `ember-concurrency` restartable tasks which auto-cancel on component destruction. Anything else that must be cleaned up belongs in `registerDestructor` or a modifier teardown.
+Never use bare `setTimeout`. Use `ember-concurrency` restartable tasks which auto-cancel on component destruction. To defer work past the current render (writing state the render read), use `afterRender` from `utils/after-render.ts`, not the run loop. Anything else that must be cleaned up belongs in `registerDestructor` or a modifier teardown.
+`settled()` waits for `timeout()`, so a timer tests shouldn't wait out, such as a toast closing itself, uses `rawTimeout()`.
 
 ### 6. Signatures
 Signatures follow the [Ember guides](https://guides.emberjs.com/release/typescript/core-concepts/invokables/) and [Glint](https://typed-ember.gitbook.io/glint/environments/ember/component-signatures), and must match what the template does. Lint enforces the mechanical parts.
@@ -177,6 +179,7 @@ Signatures follow the [Ember guides](https://guides.emberjs.com/release/typescri
 - **Referring to a component, icon or modifier by name** (`<Carbon::Tag>`, `{{component "carbon/tag"}}`) - only `services/**` is re-exported into the app tree (`appReexports` in rollup.config.mjs), so import everything else into strict-mode templates.
 - **`@ember/render-modifiers`** (`did-insert`, `did-update`) - write a real functional modifier instead.
 - **`MutationObserver`** on child DOM nodes - yield contextual components or a `ModifierLike` instead.
+- **A `ResizeObserver` per component** - use `observeResize` from `utils/resize-observer.ts`: one shared observer, calling back in the next animation frame, so no callback runs inside the observer's own notification.
 - **`willDestroy()` overrides** - use `registerDestructor` or modifier teardowns.
 - **`A()`, `NativeArray`, `pushObject`, `removeObject`, or `set()`** - use plain arrays/objects reassigned through `@tracked`.
 - **Classic `Component` + separate `.hbs`** - always use GTS files with `<template>` tags.
@@ -248,6 +251,7 @@ Stories live as `src/components/**/<name>.stories.gts` next to their components.
 ## Linting
 - **Templates are linted by ESLint**, not ember-template-lint (being deprecated, emberjs/rfcs#1214): `eslint.config.mjs` spreads `eslint-plugin-ember`'s `template-lint-migration` config, so `pnpm lint:js` covers both.
 - Silence a template rule with `{{! eslint-disable-next-line ember/template-<rule> }}` directly above the line, with a comment saying why. A bare `{{! eslint-disable ... }}` disables the rule for the rest of the file.
+- **Stylesheets are linted by Stylelint** (`pnpm lint:css`, `stylelint.config.mjs`, on `stylelint-config-standard`, and its `-scss` variant for SCSS); Prettier still formats them. Class names are BEM, like Carbon's. Silence a rule with `/* stylelint-disable-next-line <rule> */` (plain CSS has no `//` comments) and a comment saying why.
 
 ---
 

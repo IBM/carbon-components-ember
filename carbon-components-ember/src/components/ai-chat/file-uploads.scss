@@ -11,7 +11,7 @@
 @mixin gradient-bg($direction, $color) {
   background: linear-gradient(
     $direction,
-    rgba(255, 255, 255, 0) 0%,
+    rgb(255 255 255 / 0%) 0%,
     $color 100%
   );
 }
@@ -38,8 +38,7 @@
   display: block;
   content: "";
   inline-size: layout.$spacing-05;
-  inset-block-end: 1px;
-  inset-block-start: 0;
+  inset-block: 0 1px;
   inset-inline-end: 0;
   pointer-events: none;
 }
@@ -56,8 +55,7 @@
   display: flex;
   flex-wrap: nowrap;
   gap: layout.$spacing-03;
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto hidden;
 }
 
 .cds-aichat-file-upload-item {
@@ -102,17 +100,16 @@
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  background: #00000099;
+  background: #0009;
   block-size: layout.$spacing-04;
   inline-size: layout.$spacing-05;
   inset-block-end: layout.$spacing-01;
-  inset-inline-end: 0;
-  inset-inline-start: layout.$spacing-02;
+  inset-inline: layout.$spacing-02 0;
   pointer-events: none;
 
   svg {
     block-size: layout.$spacing-03;
-    fill: #ffffff;
+    fill: #fff;
     inline-size: layout.$spacing-03;
   }
 }
@@ -150,5 +147,6 @@
 .cds-aichat-file-upload-item__error {
   display: block;
   color: theme.$text-error;
+
   @include type.type-style("label-01");
 }

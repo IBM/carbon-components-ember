@@ -6,7 +6,7 @@
  */
 
 import Component from '@glimmer/component';
-import { modifier as eModifier } from 'ember-modifier';
+import { modifier } from 'ember-modifier';
 import type Owner from '@ember/owner';
 import type { Editor, Extension } from '@tiptap/core';
 import type { EditingSurfaceController } from './-prompt-line/controller.ts';
@@ -362,7 +362,7 @@ export default class PromptLine extends Component<PromptLineSignature> {
   // import itself. Otherwise starts textarea, same as always; `watchRich`
   // below (installed right after, so it runs immediately afterward on the
   // same render) is what kicks off the async upgrade in that case.
-  mountSurface = eModifier<{ Element: HTMLDivElement }>((element) => {
+  mountSurface = modifier<{ Element: HTMLDivElement }>((element) => {
     this.editorHost = element;
     element.addEventListener('compositionstart', this.onCompositionStart);
     element.addEventListener('compositionend', this.onCompositionEnd);
@@ -422,7 +422,7 @@ export default class PromptLine extends Component<PromptLineSignature> {
   // the initial render as well as later changes), which is what lets a
   // `@rich={{true}}` supplied from the start trigger the upgrade right after
   // `mountSurface` above has mounted the textarea.
-  watchRich = eModifier<{
+  watchRich = modifier<{
     Element: HTMLDivElement;
     Args: { Positional: [boolean | undefined] };
   }>((_element, [rich]) => {
@@ -433,7 +433,7 @@ export default class PromptLine extends Component<PromptLineSignature> {
 
   // No-ops until the surface is actually rich - extensions are only staged
   // until then (read fresh off `@extensions` inside `upgradeToRich`).
-  watchExtensions = eModifier<{
+  watchExtensions = modifier<{
     Element: HTMLDivElement;
     Args: { Positional: [Extension[] | undefined] };
   }>((_element, [extensions]) => {
@@ -446,7 +446,7 @@ export default class PromptLine extends Component<PromptLineSignature> {
   // `DatePicker`'s `syncValue` - each of these controller methods is
   // idempotent, so re-calling all of them whenever any one of these named
   // args changes is harmless.
-  syncArgs = eModifier<{
+  syncArgs = modifier<{
     Element: HTMLDivElement;
     Args: {
       Named: {

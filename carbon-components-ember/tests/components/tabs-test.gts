@@ -3,7 +3,9 @@ import { setupRenderingTest } from 'ember-qunit';
 import {
   render,
   click,
+  focus,
   rerender,
+  settled,
   triggerKeyEvent,
   waitUntil,
   find,
@@ -290,14 +292,96 @@ module('Integration | Component | Tabs', (hooks) => {
         'true',
         'selection unchanged by arrow key alone',
       );
+    assert.dom(tabs()[1]).isFocused('focus moved to the next tab');
     assert
-      .dom(tabs()[1])
-      .hasAttribute('tabindex', '0', 'focus moved to the next tab');
+      .dom(tabs()[0])
+      .hasAttribute('tabindex', '0', 'the selected tab keeps the tab stop');
 
     await triggerKeyEvent(tabs()[1]!, 'keydown', 'Enter');
     assert
       .dom(tabs()[1])
       .hasAttribute('aria-selected', 'true', 'Enter selects the focused tab');
+  });
+
+  test('arrow keys wrap around and skip disabled tabs, selecting as they go', async function (assert) {
+    await render(
+      <template>
+        <Tabs as |TabPane|>
+          <TabPane @title="Tab 1">Content 1</TabPane>
+          <TabPane @title="Tab 2" @disabled={{true}}>Content 2</TabPane>
+          <TabPane @title="Tab 3">Content 3</TabPane>
+        </Tabs>
+      </template>,
+    );
+    const tabs = () => Array.from(document.querySelectorAll('[role="tab"]'));
+
+    await focus(tabs()[0]!);
+    await triggerKeyEvent(tabs()[0]!, 'keydown', 'ArrowRight');
+    assert.dom(tabs()[2]).isFocused('skips the disabled tab');
+    assert.dom(tabs()[2]).hasAttribute('aria-selected', 'true');
+    assert.dom(tabs()[2]).hasAttribute('tabindex', '0');
+
+    await triggerKeyEvent(tabs()[2]!, 'keydown', 'ArrowRight');
+    assert.dom(tabs()[0]).isFocused('wraps to the first tab');
+    await triggerKeyEvent(tabs()[0]!, 'keydown', 'End');
+    assert.dom(tabs()[2]).isFocused();
+  });
+
+  test('keeps a tab stop when @selectedTab names no tab', async function (assert) {
+    await render(
+      <template>
+        <Tabs @selectedTab="Missing" as |TabPane|>
+          <TabPane @title="Tab 1" @disabled={{true}}>Content 1</TabPane>
+          <TabPane @title="Tab 2">Content 2</TabPane>
+        </Tabs>
+      </template>,
+    );
+    const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+
+    assert.dom(tabs[1]).hasAttribute('tabindex', '0', 'the first enabled tab');
+    assert.dom(tabs[1]).hasAttribute('aria-selected', 'false');
+  });
+
+  test('in right-to-left, ArrowLeft moves to the next tab', async function (assert) {
+    await render(
+      <template>
+        <div dir="rtl">
+          <Tabs as |TabPane|>
+            <TabPane @title="Tab 1">Content 1</TabPane>
+            <TabPane @title="Tab 2">Content 2</TabPane>
+          </Tabs>
+        </div>
+      </template>,
+    );
+    const tabs = () => Array.from(document.querySelectorAll('[role="tab"]'));
+
+    await triggerKeyEvent(tabs()[0]!, 'keydown', 'ArrowLeft');
+    assert.dom(tabs()[1]).isFocused();
+  });
+
+  test('a tab rendered later in the middle stays in the middle', async function (assert) {
+    const showMiddle = tracked(false);
+
+    await render(
+      <template>
+        <Tabs as |TabPane|>
+          <TabPane @title="First">First</TabPane>
+          {{#if showMiddle.value}}
+            <TabPane @title="Middle">Middle</TabPane>
+          {{/if}}
+          <TabPane @title="Last">Last</TabPane>
+        </Tabs>
+      </template>,
+    );
+    showMiddle.value = true;
+    await settled();
+
+    assert.deepEqual(
+      Array.from(document.querySelectorAll('[role="tab"]')).map((tab) =>
+        tab.textContent?.trim(),
+      ),
+      ['First', 'Middle', 'Last'],
+    );
   });
 
   test('@dismissable renders a close button per tab and calls @onTabCloseRequest', async function (assert) {

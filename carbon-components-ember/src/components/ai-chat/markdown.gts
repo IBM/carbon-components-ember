@@ -8,7 +8,7 @@
 import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
 import { trustHTML } from '@ember/template';
-import { modifier as eModifier } from 'ember-modifier';
+import { modifier } from 'ember-modifier';
 import { renderMarkdown } from './-markdown-render.ts';
 import './code-snippet.scss';
 import './markdown.scss';
@@ -114,7 +114,7 @@ export default class Markdown extends Component<MarkdownSignature> {
   // 100ms, leading + trailing - matching upstream's own `scheduleRender`
   // throttle, which exists to avoid reparsing/re-rendering on every token
   // of a fast streaming append.
-  throttle = eModifier<{
+  throttle = modifier<{
     Element: Element;
     Args: { Positional: [string | undefined, boolean | undefined] };
   }>((_element, [markdown, streaming]) => {

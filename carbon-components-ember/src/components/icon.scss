@@ -8,22 +8,24 @@
   margin: 5px;
   fill: $icon-primary;
 
-  .cds--icon-- {
-    &disabled {
-      cursor: initial;
-      opacity: 0.5;
+  .cds--icon--disabled {
+    cursor: initial;
+    opacity: 0.5;
+  }
+
+  .cds--icon--info {
+    fill: $background;
+
+    &:hover {
+      fill: $background-hover;
     }
-    &info {
-      fill: $background;
-      &:hover {
-        fill: $background-hover;
-      }
-    }
-    &danger {
-      fill: $support-error;
-      &:hover {
-        filter: brightness(0.85);
-      }
+  }
+
+  .cds--icon--danger {
+    fill: $support-error;
+
+    &:hover {
+      filter: brightness(0.85);
     }
   }
 
@@ -31,6 +33,7 @@
     width: 12px;
     height: 16px;
     display: inline-block;
+
     .cds--loading {
       display: inline-block;
       width: 1rem;

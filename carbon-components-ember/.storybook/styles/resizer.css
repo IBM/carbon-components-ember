@@ -7,6 +7,7 @@
   width: 100%;
   height: calc(100% + 1rem);
 }
+
 .resizer-story .cds--resizer--vertical::before {
   content: "";
   position: absolute;
@@ -14,12 +15,14 @@
   height: 100%;
   width: calc(100% + 1rem);
 }
+
 .resizer-story .custom-drag-handler-1 {
   position: absolute;
   top: -6px;
   left: 50%;
   transform: translateX(-50%);
 }
+
 .resizer-story .custom-drag-handler-4 {
   position: absolute;
   top: -5px;
@@ -30,6 +33,7 @@
   width: 2rem;
   transform: translateX(-50%);
 }
+
 .resizer-story .custom-drag-handler-4 > div {
   height: 2px;
   background: var(--cds-border-strong, #8d8d8d);

@@ -35,7 +35,7 @@
   box-sizing: border-box;
   flex-wrap: wrap;
   align-items: center;
-  background-color: var(--cds-chat-prompt-background, #ffffff);
+  background-color: var(--cds-chat-prompt-background, #fff);
   color: var(--cds-text-primary, #161616);
   inline-size: 100%;
   min-block-size: 0;
@@ -99,8 +99,7 @@
   margin-block-start: 0.5rem;
   margin-inline-start: 0.5rem;
   max-block-size: 200px;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden auto;
 }
 
 .cds-aichat-prompt-line-shell__autocomplete-content {
@@ -118,7 +117,7 @@
 }
 
 .cds-aichat-prompt-line-shell__input-container
-  > *:not(:last-child):not(.cds-aichat-prompt-line-shell__field-messaging) {
+  > *:not(:last-child, .cds-aichat-prompt-line-shell__field-messaging) {
   margin-inline-end: 0.5rem;
 }
 
@@ -239,8 +238,7 @@
 
 .cds-aichat-prompt-line__field {
   appearance: none;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden auto;
   background: transparent;
   color: var(--cds-text-primary, #161616);
   inline-size: 100%;

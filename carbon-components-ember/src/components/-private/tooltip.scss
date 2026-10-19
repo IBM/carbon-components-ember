@@ -10,7 +10,7 @@
   margin: 0.4375rem;
 }
 
-@media (max-width: 450px) {
+@media (width <= 450px) {
   .cds--ember-tooltip {
     max-width: min(90vw, 400px);
   }

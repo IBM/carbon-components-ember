@@ -29,7 +29,7 @@
  * Notification, CodeSnippet, Breadcrumb, and the Tile family were all
  * considered for the batch that added Link/UnorderedList/OrderedList/
  * ListItem and deliberately left out - see todo #836 for the follow-up
- * investigation of each. Notification is now covered (see below); the
+ * investigation of each. The notifications are now covered (see below); the
  * Tile family is covered in part (see below); CodeSnippet turns out to have
  * been left out on a premise the interaction/floating-ui-dependent-DOM
  * decision below has since disproven (see that entry's CopyButton bullet)
@@ -281,30 +281,11 @@
  * ColumnHang all render their root tag via the `element` helper too)
  * shows up once per fixture instead of once per nesting depth.
  *
- * Notification is a single Ember component that conflates three upstream
- * ones behind `@display` - `toast`/`inline`/`actionable` map to
- * `Carbon.ToastNotification`/`InlineNotification`/`ActionableNotification`
- * respectively. Only `toast` and `inline` are covered
- * here: `actionable` additionally renders a `focus-wrapper`/
- * `button-wrapper` structure and (unless a feature flag is on - another
- * flag-dependent shape, like Grid's) two hidden focus-sentinel `<span>`s
- * that Ember's actionable branch has no counterpart for at all, which
- * would need a real structural addition to Ember's template, not just
- * known-differences entries, to compare meaningfully; left for a
- * follow-up. Variants are named by `kind` (which both the container class
- * and the icon key off, in both frameworks) rather than by the `low-
- * contrast`/`hideCloseButton`/custom-`role` props React also supports,
- * since Ember's `NotificationOptions` never exposes those - out of scope
- * per this file's own "args both sides implement" rule. React's
- * `subtitle` is Ember's `@text` - same content slot, different arg name -
- * so `props.subtitle` in the generated fixture is what the matching test
- * passes as `@text`. `title`/`text`/
- * `caption` are always given non-empty values in every variant, since
- * React only renders each of those wrapper elements when its value is
- * truthy while Ember always renders the wrapper regardless of value - a
- * real, separate gap from the `kind`-class one this batch fixes, but
- * deliberately not exercised (and so not fixed) by any variant here;
- * worth its own follow-up.
+ * The notifications (ToastNotification, InlineNotification,
+ * ActionableNotification, Callout and their two buttons) map 1:1 to their
+ * React exports. ActionableNotification renders under React's
+ * `enable-focus-wrap-without-sentinels` flag, the focus wrap Ember always
+ * uses, so neither side has the hidden sentinel elements.
  *
  * Coverage inventory (todo #854, 2026-09-20; recounted and corrected in a
  * review follow-up the same day - the first pass undercounted the total
@@ -724,32 +705,37 @@ const gridColumn = (name, props) => ({
     React.createElement(Carbon.Column, props, 'Column content'),
 });
 
-// `caption` is ToastNotification-only - InlineNotification doesn't
-// destructure it at all, so passing it there would just spread it onto
-// the root <div> as a stray, non-Carbon HTML attribute via its `...rest`,
-// not exercise any real InlineNotification behavior.
-const TOAST_CONTENT = {
-  title: 'Notification title',
-  subtitle: 'Notification subtitle',
-  caption: 'Notification caption',
-};
-const INLINE_CONTENT = {
+const NOTIFICATION_KINDS = [
+  'error',
+  'info',
+  'info-square',
+  'success',
+  'warning',
+  'warning-alt',
+];
+const NOTIFICATION_CONTENT = {
   title: 'Notification title',
   subtitle: 'Notification subtitle',
 };
 
-const toastNotification = (name, kind) => ({
+const notification = (component) => (name, props) => ({
   name,
-  props: { kind, ...TOAST_CONTENT },
+  props,
   createElement: (React, Carbon) =>
-    React.createElement(Carbon.ToastNotification, { kind, ...TOAST_CONTENT }),
+    React.createElement(Carbon[component], props),
 });
-
-const inlineNotification = (name, kind) => ({
+const toastNotification = notification('ToastNotification');
+const inlineNotification = notification('InlineNotification');
+const callout = notification('Callout');
+const actionableNotification = (name, props) => ({
   name,
-  props: { kind, ...INLINE_CONTENT },
+  props,
   createElement: (React, Carbon) =>
-    React.createElement(Carbon.InlineNotification, { kind, ...INLINE_CONTENT }),
+    React.createElement(
+      Carbon.FeatureFlags,
+      { enableFocusWrapWithoutSentinels: true },
+      React.createElement(Carbon.ActionableNotification, props),
+    ),
 });
 
 const tile = (name, props) => ({
@@ -1624,20 +1610,120 @@ export const COMPONENTS = [
     ],
   },
   {
-    name: 'Notification',
+    name: 'ToastNotification',
     variants: [
-      toastNotification('toast-error', 'error'),
-      toastNotification('toast-info', 'info'),
-      toastNotification('toast-info-square', 'info-square'),
-      toastNotification('toast-success', 'success'),
-      toastNotification('toast-warning', 'warning'),
-      toastNotification('toast-warning-alt', 'warning-alt'),
-      inlineNotification('inline-error', 'error'),
-      inlineNotification('inline-info', 'info'),
-      inlineNotification('inline-info-square', 'info-square'),
-      inlineNotification('inline-success', 'success'),
-      inlineNotification('inline-warning', 'warning'),
-      inlineNotification('inline-warning-alt', 'warning-alt'),
+      ...NOTIFICATION_KINDS.map((kind) =>
+        toastNotification(kind, {
+          kind,
+          ...NOTIFICATION_CONTENT,
+          caption: 'Notification caption',
+        }),
+      ),
+      toastNotification('low-contrast', {
+        lowContrast: true,
+        ...NOTIFICATION_CONTENT,
+      }),
+      toastNotification('hide-close-button', {
+        hideCloseButton: true,
+        ...NOTIFICATION_CONTENT,
+      }),
+      toastNotification('title-only', { title: 'Notification title' }),
+      toastNotification('labels', {
+        ...NOTIFICATION_CONTENT,
+        'aria-label': 'Dismiss',
+        statusIconDescription: 'Problem',
+      }),
+    ],
+  },
+  {
+    name: 'InlineNotification',
+    variants: [
+      ...NOTIFICATION_KINDS.map((kind) =>
+        inlineNotification(kind, { kind, ...NOTIFICATION_CONTENT }),
+      ),
+      inlineNotification('low-contrast', {
+        lowContrast: true,
+        ...NOTIFICATION_CONTENT,
+      }),
+      inlineNotification('hide-close-button', {
+        hideCloseButton: true,
+        ...NOTIFICATION_CONTENT,
+      }),
+      inlineNotification('title-only', { title: 'Notification title' }),
+    ],
+  },
+  {
+    name: 'ActionableNotification',
+    variants: [
+      actionableNotification('default', {
+        actionButtonLabel: 'Action',
+        caption: 'Notification caption',
+        ...NOTIFICATION_CONTENT,
+      }),
+      actionableNotification('inline', {
+        actionButtonLabel: 'Action',
+        inline: true,
+        kind: 'success',
+        ...NOTIFICATION_CONTENT,
+      }),
+      actionableNotification('low-contrast', {
+        actionButtonLabel: 'Action',
+        lowContrast: true,
+        kind: 'info',
+        ...NOTIFICATION_CONTENT,
+      }),
+      actionableNotification('hide-close-button', {
+        actionButtonLabel: 'Action',
+        hideCloseButton: true,
+        ...NOTIFICATION_CONTENT,
+      }),
+      actionableNotification('no-action', NOTIFICATION_CONTENT),
+      actionableNotification('subtitle-only', {
+        subtitle: 'Notification subtitle',
+        role: 'status',
+      }),
+    ],
+  },
+  {
+    name: 'Callout',
+    variants: [
+      callout('info', NOTIFICATION_CONTENT),
+      callout('warning', { kind: 'warning', ...NOTIFICATION_CONTENT }),
+      callout('low-contrast', { lowContrast: true, ...NOTIFICATION_CONTENT }),
+      callout('with-action', {
+        actionButtonLabel: 'Action',
+        titleId: 'callout-title',
+        ...NOTIFICATION_CONTENT,
+      }),
+    ],
+  },
+  {
+    name: 'NotificationButton',
+    variants: ['toast', 'inline', 'actionable'].map((notificationType) =>
+      notification('NotificationButton')(notificationType, {
+        notificationType,
+      }),
+    ),
+  },
+  {
+    name: 'NotificationActionButton',
+    variants: [
+      {
+        name: 'default',
+        props: {},
+        createElement: (React, Carbon) =>
+          React.createElement(Carbon.NotificationActionButton, {}, 'Action'),
+      },
+      {
+        name: 'inline',
+        props: { inline: true },
+        createElement: (React, Carbon) =>
+          React.createElement(
+            Carbon.NotificationActionButton,
+            { inline: true },
+            'Action',
+          ),
+      },
     ],
   },
   {

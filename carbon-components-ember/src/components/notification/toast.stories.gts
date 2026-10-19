@@ -1,140 +1,82 @@
-import Component from '@glimmer/component';
-import { service } from '@ember/service';
-import { expect, waitFor, within } from 'storybook/test';
+import { expect, fn as spy } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
-import Button from '../button.gts';
-import Notification from '../notification.gts';
+import ToastNotification from './toast-notification.gts';
 
-import type NotificationService from '../../services/notifications.ts';
-import '#storybook/styles/notification/toast.css';
-
-// Carbon React has a component per notification kind; the Ember addon has one
-// `Notification` whose `@display` picks it, so these pages each fix `@display`.
-//
-// Parity gaps:
-// - No Callout / StaticNotification variant.
-// - No `lowContrast`, `hideCloseButton`, `statusIconDescription`, `role`,
-//   `closeOnEscape` or `aria-label` args.
-// - No `onClose` / `onCloseButtonClick` / `onActionButtonClick` callbacks:
-//   only the toast's close button does anything (it hides the toast); the
-//   inline and actionable close buttons and the action button are inert.
-// - `@actionTitle` is the action *button* label; there is no subtitle for
-//   the actionable variant other than `@text`.
+// Carbon React parity: Components/Notifications/Toast has one story,
+// `Default`, which this file mirrors. React's `role` prop is the `role`
+// attribute here.
 
 const meta = preview.meta({
   title: 'Components/Notifications/Toast',
-  component: Notification,
+  component: ToastNotification,
   parameters: {
     docs: {
       description: {
         component:
-          'Toast notifications are non-modal, time-based messages that appear at the edge of the screen. A `Notification` is a toast by default (`@display="toast"`); `@type` (or `@kind`) sets its status. Toasts can also be queued through the `carbon.notifications` service (see the *Service* story).',
+          'Toast notifications are non-modal, time-based messages that slide in at the top right of the screen. Like `InlineNotification`, they can\'t contain interactive elements or rich text, don\'t take focus, and are announced by screen readers when rendered (`role="status"`; set `role="alert"` or `role="log"` for another announcement). Toasts stay until closed unless `@timeout` is set; Carbon suggests 5 seconds. Unlike Carbon React\'s, the countdown pauses while the pointer or focus is on the toast. Make sure the information can be found elsewhere once a toast is gone. To show toasts from anywhere in an app, use the `carbon.notifications` service and a `ToastNotificationList`.',
       },
     },
   },
   args: {
-    display: 'toast',
-    type: 'error',
-    title: 'Notification title',
-    text: 'Subtitle text goes here',
+    kind: 'error',
+    lowContrast: false,
+    hideCloseButton: false,
+    ariaLabel: 'closes notification',
+    statusIconDescription: 'notification',
+    onClose: spy(),
+    onCloseButtonClick: spy(),
   },
   argTypes: {
-    type: {
+    kind: {
       control: 'select',
-      options: ['info', 'success', 'warning', 'error'],
+      options: [
+        'error',
+        'info',
+        'info-square',
+        'success',
+        'warning',
+        'warning-alt',
+      ],
     },
   },
+  render: (args) => <template>
+    <ToastNotification
+      @ariaLabel={{args.ariaLabel}}
+      @caption={{args.caption}}
+      @hideCloseButton={{args.hideCloseButton}}
+      @kind={{args.kind}}
+      @lowContrast={{args.lowContrast}}
+      @onClose={{args.onClose}}
+      @onCloseButtonClick={{args.onCloseButtonClick}}
+      @statusIconDescription={{args.statusIconDescription}}
+      @subtitle={{args.subtitle}}
+      @timeout={{args.timeout}}
+      @title={{args.title}}
+    />
+  </template>,
 });
 
 export const Default = meta.story({
   args: {
     caption: '00:00:00 AM',
+    timeout: 0,
+    title: 'Notification title',
+    subtitle: 'Subtitle text goes here',
   },
 });
 
 Default.test(
-  'the close button hides the toast',
-  async ({ canvas, userEvent }) => {
-    await expect(canvas.getByRole('alert')).toHaveTextContent(
+  'the close button closes the toast',
+  async ({ canvas, userEvent, args }) => {
+    await expect(canvas.getByRole('status')).toHaveTextContent(
       'Notification title',
     );
     await userEvent.click(
-      canvas.getByRole('button', { name: 'close notification' }),
+      canvas.getByRole('button', { name: 'closes notification' }),
     );
-    await expect(canvas.queryByRole('alert')).toBeNull();
-  },
-);
-
-export const Success = meta.story({
-  args: {
-    type: 'success',
-    caption: 'success',
-    title: 'Success',
-    text: 'a long long long long message',
-  },
-});
-
-export const Warning = meta.story({
-  args: {
-    type: 'warning',
-    caption: 'warning',
-    title: undefined,
-    text: undefined,
-  },
-});
-
-class NotificationsDemo extends Component {
-  @service('carbon.notifications') declare notifications: NotificationService;
-
-  showNotification = () => {
-    this.notifications.info({
-      title: 'Info',
-      caption: 'test',
-    });
-  };
-
-  <template>
-    <Button @type="primary" @onClick={{this.showNotification}}>
-      Notify
-    </Button>
-
-    <div data-test-notification-queue class="notification-toast-story__corner">
-      {{#each this.notifications.queue as |n|}}
-        <Notification @notification={{n}} />
-        <div class="notification-toast-story__item"></div>
-      {{/each}}
-    </div>
-  </template>
-}
-
-// The `carbon.notifications` service keeps a queue of toasts; render it
-// wherever they should appear. Queued toasts disappear after their timeout
-// (5 seconds) or when closed.
-export const Service = meta.story({
-  parameters: {
-    docs: { story: { inline: false, iframeHeight: '200px' } },
-  },
-  render: () => <template><NotificationsDemo /></template>,
-});
-
-Service.test(
-  'queues a toast and removes it when closed',
-  async ({ canvas, canvasElement, userEvent }) => {
-    const queue = within(
-      canvasElement.querySelector<HTMLElement>(
-        '[data-test-notification-queue]',
-      )!,
-    );
-    await userEvent.click(canvas.getByRole('button', { name: 'Notify' }));
-    await expect(queue.getByRole('alert')).toHaveTextContent('Info');
-    // It keeps the type it was queued with (`info`).
-    await expect(queue.getByRole('alert')).toHaveClass(
-      'cds--toast-notification--info',
-    );
-    await userEvent.click(
-      queue.getByRole('button', { name: 'close notification' }),
-    );
-    await waitFor(() => expect(queue.queryByRole('alert')).toBeNull());
+    await expect(args.onCloseButtonClick).toHaveBeenCalledOnce();
+    await expect(args.onClose).toHaveBeenCalledOnce();
+    await expect(canvas.queryByRole('status')).toBeNull();
   },
 );

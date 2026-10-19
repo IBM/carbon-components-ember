@@ -14,7 +14,12 @@ import Grid from '#src/components/grid.gts';
 import Row from '#src/components/grid/row.gts';
 import Column from '#src/components/grid/column.gts';
 import ColumnHang from '#src/components/grid/column-hang.gts';
-import Notification from '#src/components/notification.gts';
+import ToastNotification from '#src/components/notification/toast-notification.gts';
+import InlineNotification from '#src/components/notification/inline-notification.gts';
+import ActionableNotification from '#src/components/notification/actionable-notification.gts';
+import Callout from '#src/components/notification/callout.gts';
+import NotificationButton from '#src/components/notification/notification-button.gts';
+import NotificationActionButton from '#src/components/notification/notification-action-button.gts';
 import Tile from '#src/components/tile.gts';
 import RadioTile from '#src/components/radio-tile.gts';
 import TileGroup from '#src/components/tile/tile-group.gts';
@@ -74,7 +79,12 @@ import gridFixture from '../../../dom-parity/fixtures/Grid.json';
 import gridRowFixture from '../../../dom-parity/fixtures/Row.json';
 import gridColumnFixture from '../../../dom-parity/fixtures/Column.json';
 import gridColumnHangFixture from '../../../dom-parity/fixtures/ColumnHang.json';
-import notificationFixture from '../../../dom-parity/fixtures/Notification.json';
+import toastNotificationFixture from '../../../dom-parity/fixtures/ToastNotification.json';
+import inlineNotificationFixture from '../../../dom-parity/fixtures/InlineNotification.json';
+import actionableNotificationFixture from '../../../dom-parity/fixtures/ActionableNotification.json';
+import calloutFixture from '../../../dom-parity/fixtures/Callout.json';
+import notificationButtonFixture from '../../../dom-parity/fixtures/NotificationButton.json';
+import notificationActionButtonFixture from '../../../dom-parity/fixtures/NotificationActionButton.json';
 import tileFixture from '../../../dom-parity/fixtures/Tile.json';
 import clickableTileFixture from '../../../dom-parity/fixtures/ClickableTile.json';
 import radioTileFixture from '../../../dom-parity/fixtures/RadioTile.json';
@@ -1215,54 +1225,132 @@ module('DOM parity | Carbon React', function (hooks) {
     });
   });
 
-  // See dom-parity/lib/components.mjs's top-of-file comment for why only
-  // the `toast` and `inline` displays are covered (not `actionable`) and
-  // why `title`/`text`/`caption` are always given non-empty values.
-  module('Notification', function () {
-    const kinds = [
-      'error',
-      'info',
-      'info-square',
-      'success',
-      'warning',
-      'warning-alt',
-    ] as const;
+  // Icons load their SVG asynchronously, so each test waits for its icons.
+  const notificationKinds = [
+    'error',
+    'info',
+    'info-square',
+    'success',
+    'warning',
+    'warning-alt',
+  ] as const;
 
-    for (const kind of kinds) {
-      test(`toast-${kind}`, async function (this: RenderingTestContext, assert) {
+  module('ToastNotification', function () {
+    for (const kind of notificationKinds) {
+      test(kind, async function (this: RenderingTestContext, assert) {
         await render(
           <template>
-            <Notification
+            <ToastNotification
               @kind={{kind}}
               @title="Notification title"
-              @text="Notification subtitle"
+              @subtitle="Notification subtitle"
               @caption="Notification caption"
             />
           </template>,
         );
-        // Notification renders two icons (the kind icon and the close
-        // icon) and, like every icon in this addon, each loads its SVG
-        // asynchronously via a TrackedPromise - settled() alone doesn't
-        // wait for it, so wait for both real <svg>s to land before diffing.
         await waitUntil(
           () => this.element.querySelectorAll('svg').length === 2,
         );
         assertDomParity(
           assert,
-          notificationFixture,
-          `toast-${kind}`,
+          toastNotificationFixture,
+          kind,
           this.element.firstElementChild,
         );
       });
+    }
 
-      test(`inline-${kind}`, async function (this: RenderingTestContext, assert) {
+    test('low-contrast', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ToastNotification
+            @lowContrast={{true}}
+            @title="Notification title"
+            @subtitle="Notification subtitle"
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
+      assertDomParity(
+        assert,
+        toastNotificationFixture,
+        'low-contrast',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('hide-close-button', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ToastNotification
+            @hideCloseButton={{true}}
+            @title="Notification title"
+            @subtitle="Notification subtitle"
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
+      assertDomParity(
+        assert,
+        toastNotificationFixture,
+        'hide-close-button',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('title-only', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><ToastNotification @title="Notification title" /></template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
+      assertDomParity(
+        assert,
+        toastNotificationFixture,
+        'title-only',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('labels', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ToastNotification
+            @ariaLabel="Dismiss"
+            @statusIconDescription="Problem"
+            @title="Notification title"
+            @subtitle="Notification subtitle"
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
+      assertDomParity(
+        assert,
+        toastNotificationFixture,
+        'labels',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, toastNotificationFixture, [
+        ...notificationKinds,
+        'low-contrast',
+        'hide-close-button',
+        'title-only',
+        'labels',
+      ]);
+    });
+  });
+
+  module('InlineNotification', function () {
+    for (const kind of notificationKinds) {
+      test(kind, async function (this: RenderingTestContext, assert) {
         await render(
           <template>
-            <Notification
-              @display="inline"
+            <InlineNotification
               @kind={{kind}}
               @title="Notification title"
-              @text="Notification subtitle"
+              @subtitle="Notification subtitle"
             />
           </template>,
         );
@@ -1271,17 +1359,351 @@ module('DOM parity | Carbon React', function (hooks) {
         );
         assertDomParity(
           assert,
-          notificationFixture,
-          `inline-${kind}`,
+          inlineNotificationFixture,
+          kind,
+          this.element.firstElementChild,
+        );
+      });
+    }
+
+    test('low-contrast', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <InlineNotification
+            @lowContrast={{true}}
+            @title="Notification title"
+            @subtitle="Notification subtitle"
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
+      assertDomParity(
+        assert,
+        inlineNotificationFixture,
+        'low-contrast',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('hide-close-button', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <InlineNotification
+            @hideCloseButton={{true}}
+            @title="Notification title"
+            @subtitle="Notification subtitle"
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
+      assertDomParity(
+        assert,
+        inlineNotificationFixture,
+        'hide-close-button',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('title-only', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><InlineNotification @title="Notification title" /></template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
+      assertDomParity(
+        assert,
+        inlineNotificationFixture,
+        'title-only',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, inlineNotificationFixture, [
+        ...notificationKinds,
+        'low-contrast',
+        'hide-close-button',
+        'title-only',
+      ]);
+    });
+  });
+
+  module('ActionableNotification', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ActionableNotification
+            @actionButtonLabel="Action"
+            @caption="Notification caption"
+            @title="Notification title"
+            @subtitle="Notification subtitle"
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
+      assertDomParity(
+        assert,
+        actionableNotificationFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('inline', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ActionableNotification
+            @actionButtonLabel="Action"
+            @inline={{true}}
+            @kind="success"
+            @title="Notification title"
+            @subtitle="Notification subtitle"
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
+      assertDomParity(
+        assert,
+        actionableNotificationFixture,
+        'inline',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('low-contrast', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ActionableNotification
+            @actionButtonLabel="Action"
+            @lowContrast={{true}}
+            @kind="info"
+            @title="Notification title"
+            @subtitle="Notification subtitle"
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
+      assertDomParity(
+        assert,
+        actionableNotificationFixture,
+        'low-contrast',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('hide-close-button', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ActionableNotification
+            @actionButtonLabel="Action"
+            @hideCloseButton={{true}}
+            @title="Notification title"
+            @subtitle="Notification subtitle"
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
+      assertDomParity(
+        assert,
+        actionableNotificationFixture,
+        'hide-close-button',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('no-action', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ActionableNotification
+            @title="Notification title"
+            @subtitle="Notification subtitle"
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
+      assertDomParity(
+        assert,
+        actionableNotificationFixture,
+        'no-action',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('subtitle-only', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ActionableNotification
+            @role="status"
+            @subtitle="Notification subtitle"
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
+      assertDomParity(
+        assert,
+        actionableNotificationFixture,
+        'subtitle-only',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, actionableNotificationFixture, [
+        'default',
+        'inline',
+        'low-contrast',
+        'hide-close-button',
+        'no-action',
+        'subtitle-only',
+      ]);
+    });
+  });
+
+  module('Callout', function () {
+    test('info', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Callout
+            @title="Notification title"
+            @subtitle="Notification subtitle"
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(
+        assert,
+        calloutFixture,
+        'info',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('warning', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Callout
+            @kind="warning"
+            @title="Notification title"
+            @subtitle="Notification subtitle"
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(
+        assert,
+        calloutFixture,
+        'warning',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('low-contrast', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Callout
+            @lowContrast={{true}}
+            @title="Notification title"
+            @subtitle="Notification subtitle"
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(
+        assert,
+        calloutFixture,
+        'low-contrast',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('with-action', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Callout
+            @actionButtonLabel="Action"
+            @titleId="callout-title"
+            @title="Notification title"
+            @subtitle="Notification subtitle"
+          />
+        </template>,
+      );
+      await waitUntil(() => this.element.querySelector('svg'));
+      assertDomParity(
+        assert,
+        calloutFixture,
+        'with-action',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, calloutFixture, [
+        'info',
+        'warning',
+        'low-contrast',
+        'with-action',
+      ]);
+    });
+  });
+
+  module('NotificationButton', function () {
+    const types = ['toast', 'inline', 'actionable'] as const;
+    for (const type of types) {
+      test(type, async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <NotificationButton @notificationType={{type}} />
+          </template>,
+        );
+        await waitUntil(() => this.element.querySelector('svg'));
+        assertDomParity(
+          assert,
+          notificationButtonFixture,
+          type,
           this.element.firstElementChild,
         );
       });
     }
 
     test('every fixture variant is covered', function (assert) {
-      assertFullCoverage(assert, notificationFixture, [
-        ...kinds.map((kind) => `toast-${kind}`),
-        ...kinds.map((kind) => `inline-${kind}`),
+      assertFullCoverage(assert, notificationButtonFixture, [...types]);
+    });
+  });
+
+  module('NotificationActionButton', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <NotificationActionButton>Action</NotificationActionButton>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        notificationActionButtonFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('inline', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <NotificationActionButton @inline={{true}}>
+            Action
+          </NotificationActionButton>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        notificationActionButtonFixture,
+        'inline',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, notificationActionButtonFixture, [
+        'default',
+        'inline',
       ]);
     });
   });

@@ -8,7 +8,7 @@
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
-import { modifier as eModifier } from 'ember-modifier';
+import { modifier } from 'ember-modifier';
 import style from 'ember-style-modifier';
 import { registerDestructor } from '@ember/destroyable';
 import {
@@ -274,7 +274,7 @@ export default class VideoPlayer extends Component<VideoPlayerSignature> {
   // itself actually changed - see AudioPlayer's identical modifier for why
   // this explicit diff is required instead of trusting the modifier's own
   // re-invocation.
-  attachProvider = eModifier<{
+  attachProvider = modifier<{
     Element: HTMLDivElement;
     Args: { Positional: [string] };
   }>((element, [source]) => {
@@ -286,7 +286,7 @@ export default class VideoPlayer extends Component<VideoPlayerSignature> {
     void this.loadVideo(element, source);
   });
 
-  syncPlaying = eModifier<{
+  syncPlaying = modifier<{
     Element: HTMLDivElement;
     Args: { Positional: [boolean | undefined] };
   }>((_element, [playing]) => {
