@@ -3,6 +3,11 @@
   min-height: 22rem;
 }
 
+/* As Carbon React's, the stories with an AI label are wider. */
+.multi-select-story__container:has(.cds--list-box__wrapper--decorator) {
+  width: 400px;
+}
+
 .multi-select-story__auto-align {
   width: 400px;
 }

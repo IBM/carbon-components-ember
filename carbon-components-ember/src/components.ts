@@ -27,6 +27,7 @@ export { default as FileUploaderButton } from './components/file-uploader/file-u
 export { default as FileUploaderDropContainer } from './components/file-uploader/file-uploader-drop-container.gts'
 export { default as FileUploaderItem } from './components/file-uploader/file-uploader-item.gts'
 export { default as FileUploaderSkeleton } from './components/file-uploader/file-uploader-skeleton.gts'
+export { default as FilterableMultiSelect } from './components/filterable-multi-select.gts'
 export { default as FluidTextInputSkeleton } from './components/fluid-text-input-skeleton.gts'
 export { default as FluidTextInput } from './components/fluid-text-input.gts'
 export { default as FormGroup } from './components/form-group.gts'

@@ -15,6 +15,7 @@ import WarningFilled from './icons/warning-filled.ts';
 import WarningAltFilled from './icons/warning-alt-filled.ts';
 import AILabel from './ai-label.gts';
 import ListBox from './-private/list-box/list-box.gts';
+import ListBoxCheckbox from './-private/list-box/list-box-checkbox.gts';
 import ListBoxMenu from './-private/list-box/list-box-menu.gts';
 import ListBoxMenuIcon from './-private/list-box/list-box-menu-icon.gts';
 import ListBoxMenuItem from './-private/list-box/list-box-menu-item.gts';
@@ -41,7 +42,6 @@ import type {
   SortItemsOptions,
 } from './-private/list-box/items.ts';
 import type { WithBoundArgs } from '@glint/template';
-import './multi-select.scss';
 
 export type { CompareItems, SortItemsOptions };
 
@@ -788,38 +788,19 @@ export default class MultiSelect<T> extends Component<MultiSelectSignature<T>> {
                 @title={{this.itemToString item}}
                 {{on "click" (fn this.handleItemClick item)}}
               >
-                {{! An option's children can't be interactive, so its checkbox is
-                  only drawn, from Carbon's styles; aria-checked says the same. }}
-                <div class="cds--checkbox-wrapper">
-                  <div class="cds--form-item cds--checkbox-wrapper">
-                    <div
-                      class="cds--checkbox-label
-                        {{if
-                          (this.isIndeterminate item)
-                          'cds--ember-multi-select__checkbox--mixed'
-                        }}"
-                      data-contained-checkbox-state={{if
-                        (this.isChecked item)
-                        "true"
-                        "false"
-                      }}
-                      data-contained-checkbox-disabled={{if
-                        @disabled
-                        "true"
-                        "false"
-                      }}
-                      title={{if @useTitleInItem (this.itemToString item)}}
-                    >
-                      <div class="cds--checkbox-label-text">
-                        {{#if (has-block)}}
-                          {{yield item}}
-                        {{else}}
-                          {{this.itemToString item}}
-                        {{/if}}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                {{! eslint-disable-next-line ember/template-require-presentational-children -- ListBoxCheckbox only draws the box, with divs }}
+                <ListBoxCheckbox
+                  @checked={{this.isChecked item}}
+                  @indeterminate={{this.isIndeterminate item}}
+                  @disabled={{@disabled}}
+                  @title={{if @useTitleInItem (this.itemToString item)}}
+                >
+                  {{#if (has-block)}}
+                    {{yield item}}
+                  {{else}}
+                    {{this.itemToString item}}
+                  {{/if}}
+                </ListBoxCheckbox>
               </ListBoxMenuItem>
             {{/each}}
           {{/if}}
