@@ -289,7 +289,9 @@ export default class OverflowMenu extends Component<OverflowMenuSignature> {
       middleware: [
         offset({ mainAxis, crossAxis }),
         flip({ fallbackPlacements }),
-        hide({ boundary: clippingBoundary(trigger) }),
+        // Derived on each update: a Modal opening in the same render isn't
+        // in the top layer yet when this runs.
+        hide(() => ({ boundary: clippingBoundary(trigger) })),
       ],
       onUpdate: ({ placement: placed }) => {
         if (this.placement !== placed) this.placement = placed;

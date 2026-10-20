@@ -66,16 +66,23 @@ export function float(
   const update = () => {
     void waitForPromise(
       computePosition(reference, floating, { strategy, ...config }),
-    ).then((result) => {
-      if (!active) return;
-      floating.style.position = result.strategy;
-      floating.style.left = `${result.x}px`;
-      floating.style.top = `${result.y}px`;
-      floating.style.visibility = result.middlewareData.hide?.referenceHidden
-        ? 'hidden'
-        : '';
-      onUpdate?.(result);
-    });
+    ).then(
+      (result) => {
+        if (!active) return;
+        floating.style.position = result.strategy;
+        floating.style.left = `${result.x}px`;
+        floating.style.top = `${result.y}px`;
+        floating.style.visibility = result.middlewareData.hide?.referenceHidden
+          ? 'hidden'
+          : '';
+        onUpdate?.(result);
+      },
+      (error: unknown) => {
+        // A position worked out as the elements left the page can fail; only
+        // a live one matters.
+        if (active) throw error;
+      },
+    );
   };
   const stopUpdates = autoUpdate(reference, floating, update);
 

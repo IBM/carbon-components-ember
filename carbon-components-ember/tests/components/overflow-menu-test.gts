@@ -383,6 +383,38 @@ module('Integration | Component | OverflowMenu', (hooks) => {
     assert.dom(item('Stop app')).isFocused();
   });
 
+  test('opens on its first render in a Modal opening with it, in a transformed, clipped box', async function (assert) {
+    await render(
+      <template>
+        <style nonce={{nonce}}>
+          .overflow-menu-test__clip {
+            position: fixed;
+            inset-block-end: 0;
+            inset-inline-end: 0;
+            inline-size: 1px;
+            block-size: 1px;
+            overflow: hidden;
+            transform: translateZ(0);
+          }
+        </style>
+        <div class="overflow-menu-test__clip">
+          {{! The Modal's first focus goes to the item, so the menu stays open. }}
+          <Modal @open={{true}}>
+            <OverflowMenu @open={{true}} as |Item|>
+              <Item @itemText="Stop app" data-modal-primary-focus />
+            </OverflowMenu>
+          </Modal>
+        </div>
+      </template>,
+    );
+
+    assert.notStrictEqual(
+      getComputedStyle(find(MENU)!).visibility,
+      'hidden',
+      'shown',
+    );
+  });
+
   test('closes when the trigger is pressed again', async function (assert) {
     await render(
       <template>

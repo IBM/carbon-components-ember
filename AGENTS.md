@@ -214,6 +214,9 @@ Glint types each element's attributes, so one HTML doesn't define for that eleme
 ### ❌ Pitfall 7: Binding `value` on a `<select>`
 Glimmer sets a `<select>`'s `value` before its options render, so `<select value={{x}}>` selects nothing on the first render. Select the value from a modifier once the options are in, and again when they change: `Select` does both, as the `SelectItem` it yields tells it when an option renders, goes or changes value.
 
+### ❌ Pitfall 8: Floating Content inside a Modal
+A Modal's `<dialog>` is in the top layer, out of everything around it, but Floating UI still counts the trigger's overflow ancestors outside it as clipping the trigger, so `hide()` hides what floats from inside it. With `utils/floating.ts`, give `hide()` `() => ({ boundary: clippingBoundary(reference) })`, derived so a Modal opening in the same render counts. Focus inside floating content with `{ preventScroll: true }`: until Floating UI places it, Carbon's styles can leave it at the top of the page.
+
 ---
 
 ## Tests
@@ -296,4 +299,4 @@ To maintain the high quality of this guide and prevent future bloat, adhere to t
 
 ---
 
-Last Updated: 2026-10-14
+Last Updated: 2026-10-20

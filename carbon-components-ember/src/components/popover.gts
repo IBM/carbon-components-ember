@@ -364,7 +364,9 @@ export default class Popover extends Component<PopoverSignature> {
           boundary: this.args.autoAlignBoundary,
         }),
         caretElement && arrow({ element: caretElement, padding: 16 }),
-        hide({ boundary: clippingBoundary(reference) }),
+        // Derived on each update: a Modal opening in the same render isn't
+        // in the top layer yet when this runs.
+        hide(() => ({ boundary: clippingBoundary(reference) })),
       ],
       onUpdate: ({ placement, middlewareData }) => {
         if (this.placement !== placement) {
