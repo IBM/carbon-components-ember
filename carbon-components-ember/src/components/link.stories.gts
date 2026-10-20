@@ -139,6 +139,3 @@ Disabled.test(
     await expect(args.onClick).not.toHaveBeenCalled();
   },
 );
-
-// TEMPORARY: a story main has no screenshot of.
-export const TemporaryNewStory = meta.story({});

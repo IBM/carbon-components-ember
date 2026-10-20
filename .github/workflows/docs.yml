@@ -43,9 +43,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          base=4f341c26a2e448b06c512af92e08cdda9164b1b3
+          base=$(git merge-base origin/main HEAD)
           runs=$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=story-screenshots-1&per_page=100" \
-            --jq '.artifacts[] | select(.workflow_run.head_branch == "feat/story-screenshots" and (.expired | not)) | "\(.workflow_run.head_sha) \(.workflow_run.id)"')
+            --jq '.artifacts[] | select(.workflow_run.head_branch == "main" and (.expired | not)) | "\(.workflow_run.head_sha) \(.workflow_run.id)"')
           for sha in $(git rev-list --first-parent --max-count=100 "$base"); do
             run=$(awk -v sha="$sha" '$1 == sha { print $2; exit }' <<< "$runs")
             [[ -n $run ]] || continue
