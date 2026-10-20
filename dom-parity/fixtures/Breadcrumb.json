@@ -1,0 +1,705 @@
+{
+  "component": "Breadcrumb",
+  "generatedAt": "2026-10-20T03:32:44.286Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {
+        "secondItem": {
+          "href": "#b"
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "nav",
+        "classes": [],
+        "attributes": {
+          "aria-label": "Breadcrumb"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "ol",
+            "classes": [
+              "cds--breadcrumb"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "li",
+                "classes": [
+                  "cds--breadcrumb-item"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "a",
+                    "classes": [
+                      "cds--link"
+                    ],
+                    "attributes": {
+                      "href": "#a"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Breadcrumb 1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "li",
+                "classes": [
+                  "cds--breadcrumb-item"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "a",
+                    "classes": [
+                      "cds--link"
+                    ],
+                    "attributes": {
+                      "href": "#b"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Breadcrumb 2"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "li",
+                "classes": [
+                  "cds--breadcrumb-item",
+                  "cds--breadcrumb-item--current"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--link"
+                    ],
+                    "attributes": {
+                      "aria-current": "true",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Breadcrumb 3"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "no-trailing-slash": {
+      "props": {
+        "noTrailingSlash": true,
+        "secondItem": {
+          "href": "#b"
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "nav",
+        "classes": [],
+        "attributes": {
+          "aria-label": "Breadcrumb"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "ol",
+            "classes": [
+              "cds--breadcrumb",
+              "cds--breadcrumb--no-trailing-slash"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "li",
+                "classes": [
+                  "cds--breadcrumb-item"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "a",
+                    "classes": [
+                      "cds--link"
+                    ],
+                    "attributes": {
+                      "href": "#a"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Breadcrumb 1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "li",
+                "classes": [
+                  "cds--breadcrumb-item"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "a",
+                    "classes": [
+                      "cds--link"
+                    ],
+                    "attributes": {
+                      "href": "#b"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Breadcrumb 2"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "li",
+                "classes": [
+                  "cds--breadcrumb-item",
+                  "cds--breadcrumb-item--current"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--link"
+                    ],
+                    "attributes": {
+                      "aria-current": "true",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Breadcrumb 3"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "size-sm": {
+      "props": {
+        "size": "sm",
+        "secondItem": {
+          "href": "#b"
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "nav",
+        "classes": [],
+        "attributes": {
+          "aria-label": "Breadcrumb"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "ol",
+            "classes": [
+              "cds--breadcrumb",
+              "cds--breadcrumb--sm"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "li",
+                "classes": [
+                  "cds--breadcrumb-item"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "a",
+                    "classes": [
+                      "cds--link"
+                    ],
+                    "attributes": {
+                      "href": "#a"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Breadcrumb 1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "li",
+                "classes": [
+                  "cds--breadcrumb-item"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "a",
+                    "classes": [
+                      "cds--link"
+                    ],
+                    "attributes": {
+                      "href": "#b"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Breadcrumb 2"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "li",
+                "classes": [
+                  "cds--breadcrumb-item",
+                  "cds--breadcrumb-item--current"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--link"
+                    ],
+                    "attributes": {
+                      "aria-current": "true",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Breadcrumb 3"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "aria-label": {
+      "props": {
+        "aria-label": "Breadcrumb container",
+        "secondItem": {
+          "href": "#b"
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "nav",
+        "classes": [],
+        "attributes": {
+          "aria-label": "Breadcrumb container"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "ol",
+            "classes": [
+              "cds--breadcrumb"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "li",
+                "classes": [
+                  "cds--breadcrumb-item"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "a",
+                    "classes": [
+                      "cds--link"
+                    ],
+                    "attributes": {
+                      "href": "#a"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Breadcrumb 1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "li",
+                "classes": [
+                  "cds--breadcrumb-item"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "a",
+                    "classes": [
+                      "cds--link"
+                    ],
+                    "attributes": {
+                      "href": "#b"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Breadcrumb 2"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "li",
+                "classes": [
+                  "cds--breadcrumb-item",
+                  "cds--breadcrumb-item--current"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--link"
+                    ],
+                    "attributes": {
+                      "aria-current": "true",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Breadcrumb 3"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "aria-current-page": {
+      "props": {
+        "secondItem": {
+          "href": "#b",
+          "aria-current": "page"
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "nav",
+        "classes": [],
+        "attributes": {
+          "aria-label": "Breadcrumb"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "ol",
+            "classes": [
+              "cds--breadcrumb"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "li",
+                "classes": [
+                  "cds--breadcrumb-item"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "a",
+                    "classes": [
+                      "cds--link"
+                    ],
+                    "attributes": {
+                      "href": "#a"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Breadcrumb 1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "li",
+                "classes": [
+                  "cds--breadcrumb-item"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "a",
+                    "classes": [
+                      "cds--link"
+                    ],
+                    "attributes": {
+                      "href": "#b",
+                      "aria-current": "page"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Breadcrumb 2"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "li",
+                "classes": [
+                  "cds--breadcrumb-item",
+                  "cds--breadcrumb-item--current"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--link"
+                    ],
+                    "attributes": {
+                      "aria-current": "true",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Breadcrumb 3"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "custom-link": {
+      "props": {
+        "secondItem": {
+          "link": "#b"
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "nav",
+        "classes": [],
+        "attributes": {
+          "aria-label": "Breadcrumb"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "ol",
+            "classes": [
+              "cds--breadcrumb"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "li",
+                "classes": [
+                  "cds--breadcrumb-item"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "a",
+                    "classes": [
+                      "cds--link"
+                    ],
+                    "attributes": {
+                      "href": "#a"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Breadcrumb 1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "li",
+                "classes": [
+                  "cds--breadcrumb-item"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "a",
+                    "classes": [
+                      "cds--link"
+                    ],
+                    "attributes": {
+                      "href": "#b"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Breadcrumb 2"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "li",
+                "classes": [
+                  "cds--breadcrumb-item",
+                  "cds--breadcrumb-item--current"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--link"
+                    ],
+                    "attributes": {
+                      "aria-current": "true",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Breadcrumb 3"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

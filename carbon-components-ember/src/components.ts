@@ -6,6 +6,7 @@ export { default as AISkeletonPlaceholder } from './components/ai-skeleton-place
 export { default as AISkeletonText } from './components/ai-skeleton-text.gts'
 export { default as BreadcrumbSkeleton } from './components/breadcrumb-skeleton.gts'
 export { default as Breadcrumb } from './components/breadcrumb.gts'
+export { default as BreadcrumbItem } from './components/breadcrumb/breadcrumb-item.gts'
 export { default as ButtonSkeleton } from './components/button-skeleton.gts'
 export { default as Button } from './components/button.gts'
 export { default as CheckboxSkeleton } from './components/checkbox-skeleton.gts'

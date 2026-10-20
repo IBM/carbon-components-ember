@@ -1,10 +1,9 @@
 [
   [
-    "<nav class=\"cds--breadcrumb cds--breadcrumb--no-trailing-slash\" aria-label=\"breadcrumb\" data-index=\"0\"></nav>",
+    "<nav aria-label=\"Breadcrumb\" data-index=\"0\"></nav>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
-      "display": "flex",
       "font": "",
       "height": "18px",
       "outline": "rgb(22, 22, 22) none 3px",
@@ -12,7 +11,39 @@
     }
   ],
   [
-    "<nav:before class=\"cds--breadcrumb cds--breadcrumb--no-trailing-slash\" aria-label=\"breadcrumb\" data-index=\"0\"></nav:before>",
+    "<nav:before aria-label=\"Breadcrumb\" data-index=\"0\"></nav:before>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "font": "",
+      "outline": "rgb(22, 22, 22) none 3px"
+    }
+  ],
+  [
+    "<nav:after aria-label=\"Breadcrumb\" data-index=\"0\"></nav:after>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "font": "",
+      "outline": "rgb(22, 22, 22) none 3px"
+    }
+  ],
+  [
+    "<ol class=\"cds--breadcrumb\n      \n      \" data-index=\"1\"></ol>",
+    {
+      "border": "0px none rgb(22, 22, 22)",
+      "color": "rgb(22, 22, 22)",
+      "display": "flex",
+      "font": "",
+      "height": "18px",
+      "margin": "0px",
+      "outline": "rgb(22, 22, 22) none 3px",
+      "padding": "0px",
+      "width": "1276px"
+    }
+  ],
+  [
+    "<ol:before class=\"cds--breadcrumb\n      \n      \" data-index=\"1\"></ol:before>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -22,7 +53,7 @@
     }
   ],
   [
-    "<nav:after class=\"cds--breadcrumb cds--breadcrumb--no-trailing-slash\" aria-label=\"breadcrumb\" data-index=\"0\"></nav:after>",
+    "<ol:after class=\"cds--breadcrumb\n      \n      \" data-index=\"1\"></ol:after>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -32,7 +63,7 @@
     }
   ],
   [
-    "<div class=\"cds--breadcrumb-item \" data-index=\"1\"></div>",
+    "<li class=\"cds--breadcrumb-item\n    \" data-index=\"2\"></li>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "bottom": "0px",
@@ -50,7 +81,7 @@
     }
   ],
   [
-    "<div:before class=\"cds--breadcrumb-item \" data-index=\"1\"></div:before>",
+    "<li:before class=\"cds--breadcrumb-item\n    \" data-index=\"2\"></li:before>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -60,7 +91,7 @@
     }
   ],
   [
-    "<div:after class=\"cds--breadcrumb-item \" data-index=\"1\"></div:after>",
+    "<li:after class=\"cds--breadcrumb-item\n    \" data-index=\"2\"></li:after>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -74,7 +105,7 @@
     }
   ],
   [
-    "<a href=\"#\" class=\"cds--link\" data-index=\"2\"></a>",
+    "<a class=\"cds--link\" href=\"#\" data-index=\"3\"></a>",
     {
       "border": "0px none rgb(15, 98, 254)",
       "color": "rgb(15, 98, 254)",
@@ -87,7 +118,7 @@
     }
   ],
   [
-    "<a:before href=\"#\" class=\"cds--link\" data-index=\"2\"></a:before>",
+    "<a:before class=\"cds--link\" href=\"#\" data-index=\"3\"></a:before>",
     {
       "border": "0px none rgb(15, 98, 254)",
       "color": "rgb(15, 98, 254)",
@@ -97,7 +128,7 @@
     }
   ],
   [
-    "<a:after href=\"#\" class=\"cds--link\" data-index=\"2\"></a:after>",
+    "<a:after class=\"cds--link\" href=\"#\" data-index=\"3\"></a:after>",
     {
       "border": "0px none rgb(15, 98, 254)",
       "color": "rgb(15, 98, 254)",
@@ -107,7 +138,7 @@
     }
   ],
   [
-    "<div class=\"cds--breadcrumb-item cds--breadcrumb-item--current\" data-index=\"3\"></div>",
+    "<li class=\"cds--breadcrumb-item\n    cds--breadcrumb-item--current\" data-index=\"4\"></li>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "bottom": "0px",
@@ -125,7 +156,7 @@
     }
   ],
   [
-    "<div:before class=\"cds--breadcrumb-item cds--breadcrumb-item--current\" data-index=\"3\"></div:before>",
+    "<li:before class=\"cds--breadcrumb-item\n    cds--breadcrumb-item--current\" data-index=\"4\"></li:before>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -135,7 +166,7 @@
     }
   ],
   [
-    "<div:after class=\"cds--breadcrumb-item cds--breadcrumb-item--current\" data-index=\"3\"></div:after>",
+    "<li:after class=\"cds--breadcrumb-item\n    cds--breadcrumb-item--current\" data-index=\"4\"></li:after>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -149,7 +180,7 @@
     }
   ],
   [
-    "<a href=\"#\" class=\"cds--link\" aria-current=\"true\" data-index=\"4\"></a>",
+    "<a class=\"cds--link\" href=\"#\" aria-current=\"true\" data-index=\"5\"></a>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -163,7 +194,7 @@
     }
   ],
   [
-    "<a:before href=\"#\" class=\"cds--link\" aria-current=\"true\" data-index=\"4\"></a:before>",
+    "<a:before class=\"cds--link\" href=\"#\" aria-current=\"true\" data-index=\"5\"></a:before>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -174,7 +205,7 @@
     }
   ],
   [
-    "<a:after href=\"#\" class=\"cds--link\" aria-current=\"true\" data-index=\"4\"></a:after>",
+    "<a:after class=\"cds--link\" href=\"#\" aria-current=\"true\" data-index=\"5\"></a:after>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -185,7 +216,7 @@
     }
   ],
   [
-    "<div class=\"cds--breadcrumb-item \" data-index=\"5\"></div>",
+    "<li class=\"cds--breadcrumb-item\n    \" data-index=\"6\"></li>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "bottom": "0px",
@@ -198,11 +229,11 @@
       "position": "relative",
       "right": "0px",
       "top": "0px",
-      "width": "15.2031px"
+      "width": "20.7344px"
     }
   ],
   [
-    "<div:before class=\"cds--breadcrumb-item \" data-index=\"5\"></div:before>",
+    "<li:before class=\"cds--breadcrumb-item\n    \" data-index=\"6\"></li:before>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -212,21 +243,21 @@
     }
   ],
   [
-    "<div:after class=\"cds--breadcrumb-item \" data-index=\"5\"></div:after>",
+    "<li:after class=\"cds--breadcrumb-item\n    \" data-index=\"6\"></li:after>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
-      "content": "\"\"",
+      "content": "\"/\"",
       "display": "block",
       "font": "",
-      "height": "0px",
+      "height": "18px",
       "margin": "0px 0px 0px 8px",
       "outline": "rgb(22, 22, 22) none 3px",
-      "width": "0px"
+      "width": "5.53125px"
     }
   ],
   [
-    "<a href=\"#\" class=\"cds--link\" data-index=\"6\"></a>",
+    "<a class=\"cds--link\" href=\"#\" data-index=\"7\"></a>",
     {
       "border": "0px none rgb(15, 98, 254)",
       "color": "rgb(15, 98, 254)",
@@ -239,7 +270,7 @@
     }
   ],
   [
-    "<a:before href=\"#\" class=\"cds--link\" data-index=\"6\"></a:before>",
+    "<a:before class=\"cds--link\" href=\"#\" data-index=\"7\"></a:before>",
     {
       "border": "0px none rgb(15, 98, 254)",
       "color": "rgb(15, 98, 254)",
@@ -249,7 +280,7 @@
     }
   ],
   [
-    "<a:after href=\"#\" class=\"cds--link\" data-index=\"6\"></a:after>",
+    "<a:after class=\"cds--link\" href=\"#\" data-index=\"7\"></a:after>",
     {
       "border": "0px none rgb(15, 98, 254)",
       "color": "rgb(15, 98, 254)",

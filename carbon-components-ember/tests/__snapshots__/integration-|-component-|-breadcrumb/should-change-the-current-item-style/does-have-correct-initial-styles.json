@@ -1,6 +1,6 @@
 [
   [
-    "<a href=\"#\" class=\"cds--link\" data-index=\"2\"></a>",
+    "<a class=\"cds--link\" href=\"#\" aria-current=\"false\" data-index=\"3\"></a>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -9,7 +9,7 @@
     }
   ],
   [
-    "<a:before href=\"#\" class=\"cds--link\" data-index=\"2\"></a:before>",
+    "<a:before class=\"cds--link\" href=\"#\" aria-current=\"false\" data-index=\"3\"></a:before>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -18,7 +18,7 @@
     }
   ],
   [
-    "<a:after href=\"#\" class=\"cds--link\" data-index=\"2\"></a:after>",
+    "<a:after class=\"cds--link\" href=\"#\" aria-current=\"false\" data-index=\"3\"></a:after>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
