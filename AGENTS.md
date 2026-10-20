@@ -207,6 +207,9 @@ A backtick inside HBS comments (`{{! ... `word` ... }}`) breaks the Glint build 
 ### ❌ Pitfall 5: Generic `<Icon @icon='some-string'>` Path is Dead Code
 Nothing registers icons with `IconMap` in app code, so string-based icon lookups render nothing. Always import and use the specific per-icon components (e.g., `import CheckmarkFilled from './icons/checkmark-filled.ts'`, then `<CheckmarkFilled @size="16" />`).
 
+### ❌ Pitfall 6: Binding `value` on a `<select>`
+Glimmer sets a `<select>`'s `value` before its options render, so `<select value={{x}}>` selects nothing on the first render. Select the value from a modifier once the options are in, and again when they change: `Select` does both, as the `SelectItem` it yields tells it when an option renders, goes or changes value.
+
 ---
 
 ## Tests

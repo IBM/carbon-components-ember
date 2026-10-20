@@ -416,39 +416,6 @@
       "isLoading"
     ]
   },
-  "Select": {
-    "missing": [
-      "decorator",
-      "defaultValue",
-      "hideLabel",
-      "id",
-      "invalid",
-      "invalidText",
-      "labelText",
-      "noLabel",
-      "readOnly",
-      "size",
-      "warn",
-      "warnText"
-    ],
-    "extra": [
-      "addItem",
-      "ariaLabelledBy",
-      "loadingMessage",
-      "onOpen",
-      "options",
-      "placeholder",
-      "removeItem",
-      "renderInPlace",
-      "search",
-      "searchEnabled",
-      "searchField",
-      "searchPlaceholder",
-      "selectFocused",
-      "selected",
-      "showNumber"
-    ]
-  },
   "Slider": {
     "missing": [
       "inputType",

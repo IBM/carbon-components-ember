@@ -40,7 +40,7 @@ export default defineMain({
     <style>${plexFontFaces ?? ''}</style>
   `,
 
-  // ember-basic-dropdown (behind Select, Dropdown, ...) renders its content
+  // ember-basic-dropdown (behind OverflowMenu) renders its content
   // into this element, which apps add to their application template.
   previewHead: (head) => `${head}
     <style>

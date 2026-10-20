@@ -212,6 +212,33 @@
       "reason": "Same whitespace-only diff as the `svg[1] > path[0].attributes.d` entry above, on the icon's second path."
     }
   ],
+  "Select": [
+    {
+      "path": "div > div[0] > div[1] > svg[2] > path[0].attributes.d",
+      "variant": "invalid",
+      "reason": "Same whitespace-only, harness-limitation diff as TextInput's `svg[1] > path[0].attributes.d` entry: @carbon/icons and @carbon/icons-react differ by one tab vs. space between two path commands, which the SVG path grammar treats as equivalent."
+    },
+    {
+      "path": "div > div[0] > div[1] > svg[2] > path[1].attributes.d",
+      "variant": "invalid",
+      "reason": "Same whitespace-only, harness-limitation diff as TextInput's `svg[1] > path[0].attributes.d` entry: @carbon/icons and @carbon/icons-react differ by one tab vs. space between two path commands, which the SVG path grammar treats as equivalent."
+    },
+    {
+      "path": "div > div[0] > div[1] > div[0] > svg[2] > path[0].attributes.d",
+      "variant": "inline-invalid",
+      "reason": "Same whitespace-only, harness-limitation diff as TextInput's `svg[1] > path[0].attributes.d` entry: @carbon/icons and @carbon/icons-react differ by one tab vs. space between two path commands, which the SVG path grammar treats as equivalent."
+    },
+    {
+      "path": "div > div[0] > div[1] > div[0] > svg[2] > path[1].attributes.d",
+      "variant": "inline-invalid",
+      "reason": "Same whitespace-only, harness-limitation diff as TextInput's `svg[1] > path[0].attributes.d` entry: @carbon/icons and @carbon/icons-react differ by one tab vs. space between two path commands, which the SVG path grammar treats as equivalent."
+    },
+    {
+      "path": "div > div[0] > div[1] > select[0].attributes.aria-describedby",
+      "variant": "warn",
+      "reason": "Deliberate a11y divergence: @carbon/react's Select renders the warning text with an id but never points `aria-describedby` at it (with helper text it points at the helper's id, which isn't rendered while warning). The Ember port describes the select with the warning text, as Carbon React's Dropdown and ComboBox do."
+    }
+  ],
   "TextArea": [
     {
       "path": "div > div[0] > label[0].attributes.dir",

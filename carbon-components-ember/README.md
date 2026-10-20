@@ -29,7 +29,7 @@ Add the two elements some components render into to your application template:
 <template>
   {{outlet}}
 
-  {{! Dropdown, Select and OverflowMenu menus }}
+  {{! OverflowMenu menus }}
   <div id="ember-basic-dropdown-wormhole"></div>
   {{! The confirmation dialog of a @danger Button or Icon }}
   <div id="carbon-components-dialog-id"></div>

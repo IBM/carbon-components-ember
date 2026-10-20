@@ -34,6 +34,8 @@ import RadioButton from '#src/components/radio-button.gts';
 import RadioButtonGroup from '#src/components/radio-button/radio-button-group.gts';
 import Toggle from '#src/components/toggle.gts';
 import TextInput from '#src/components/text-input.gts';
+import Select from '#src/components/select.gts';
+import type { SelectSignature } from '#src/components/select.gts';
 import TextArea from '#src/components/text-area.gts';
 import PasswordInput from '#src/components/password-input.gts';
 import NumberInput from '#src/components/number-input.gts';
@@ -102,6 +104,7 @@ import radioButtonFixture from '../../../dom-parity/fixtures/RadioButton.json';
 import radioButtonGroupFixture from '../../../dom-parity/fixtures/RadioButtonGroup.json';
 import toggleFixture from '../../../dom-parity/fixtures/Toggle.json';
 import textInputFixture from '../../../dom-parity/fixtures/TextInput.json';
+import selectFixture from '../../../dom-parity/fixtures/Select.json';
 import textAreaFixture from '../../../dom-parity/fixtures/TextArea.json';
 import passwordInputFixture from '../../../dom-parity/fixtures/PasswordInput.json';
 import numberInputFixture from '../../../dom-parity/fixtures/NumberInput.json';
@@ -2614,6 +2617,72 @@ module('DOM parity | Carbon React', function (hooks) {
         'size-lg',
         'helper-text',
       ]);
+    });
+  });
+
+  module('Select', function () {
+    // The props dom-parity/lib/components.mjs renders each variant with.
+    const variants: Record<string, SelectSignature['Args']> = {
+      default: {},
+      'default-value': { defaultValue: 'option-2' },
+      disabled: { disabled: true },
+      invalid: { invalid: true, invalidText: 'Invalid selection' },
+      warn: { warn: true, warnText: 'Warning message' },
+      'read-only': { readOnly: true },
+      'size-sm': { size: 'sm' },
+      'size-lg': { size: 'lg' },
+      'helper-text': { helperText: 'Helper text' },
+      'hide-label': { hideLabel: true },
+      'no-label': { noLabel: true },
+      inline: { inline: true, helperText: 'Helper text' },
+      'inline-invalid': {
+        inline: true,
+        invalid: true,
+        invalidText: 'Invalid selection',
+      },
+    };
+
+    for (const [variant, props] of Object.entries(variants)) {
+      test(variant, async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Select
+              @labelText="Select label"
+              @defaultValue={{props.defaultValue}}
+              @disabled={{props.disabled}}
+              @invalid={{props.invalid}}
+              @invalidText={{props.invalidText}}
+              @warn={{props.warn}}
+              @warnText={{props.warnText}}
+              @readOnly={{props.readOnly}}
+              @size={{props.size}}
+              @helperText={{props.helperText}}
+              @hideLabel={{props.hideLabel}}
+              @noLabel={{props.noLabel}}
+              @inline={{props.inline}}
+              as |SelectItem|
+            >
+              <SelectItem @value="option-1" @text="Option 1" />
+              <SelectItem @value="option-2" @text="Option 2" />
+            </Select>
+          </template>,
+        );
+        // Icons load their SVG asynchronously; settled() doesn't wait for it.
+        const icons = props.invalid || props.warn ? 2 : 1;
+        await waitUntil(
+          () => this.element.querySelectorAll('svg').length >= icons,
+        );
+        assertDomParity(
+          assert,
+          selectFixture,
+          variant,
+          this.element.firstElementChild,
+        );
+      });
+    }
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, selectFixture, Object.keys(variants));
     });
   });
 
