@@ -457,27 +457,47 @@ module('Integration | Component | OverflowMenu', (hooks) => {
     assert.true(Math.abs(menuRect.top - triggerRect.bottom - 4) < 1, 'top');
   });
 
-  test('Escape in the menu closes it without closing the Modal it is in', async function (assert) {
+  test('works in a Modal, even one a transformed, clipped box holds', async function (assert) {
     const onRequestClose = spy();
     await render(
       <template>
-        <Modal @open={{true}} @onRequestClose={{onRequestClose.call}}>
-          <OverflowMenu as |Item|>
-            <Item @itemText="Stop app" />
-          </OverflowMenu>
-        </Modal>
+        {{! A transform makes the box hold the fixed dialog for Floating UI,
+            though the top layer escapes it. }}
+        <style nonce={{nonce}}>
+          .overflow-menu-test__clip {
+            position: fixed;
+            inset-block-end: 0;
+            inset-inline-end: 0;
+            inline-size: 1px;
+            block-size: 1px;
+            overflow: hidden;
+            transform: translateZ(0);
+          }
+        </style>
+        <div class="overflow-menu-test__clip">
+          <Modal @open={{true}} @onRequestClose={{onRequestClose.call}}>
+            <OverflowMenu as |Item|>
+              <Item @itemText="Stop app" />
+            </OverflowMenu>
+          </Modal>
+        </div>
       </template>,
     );
 
     await click(TRIGGER);
+    assert.notStrictEqual(
+      getComputedStyle(find(MENU)!).visibility,
+      'hidden',
+      'shown',
+    );
     assert.dom(item('Stop app')).isFocused();
+
     await triggerKeyEvent(item('Stop app'), 'keydown', 'Escape');
     // What the browser fires on Escape: no synthetic keydown triggers it.
     find('dialog.cds--modal')!.dispatchEvent(
       new Event('cancel', { cancelable: true }),
     );
-
     assert.dom(MENU).doesNotExist();
-    assert.strictEqual(onRequestClose.calls.length, 0);
+    assert.strictEqual(onRequestClose.calls.length, 0, 'the Modal stays open');
   });
 });

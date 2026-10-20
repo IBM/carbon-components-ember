@@ -5,10 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { autoUpdate, computePosition } from '@floating-ui/dom';
+import {
+  autoUpdate,
+  computePosition,
+  getOverflowAncestors,
+} from '@floating-ui/dom';
 import { waitForPromise } from '@ember/test-waiters';
 
 import type {
+  Boundary,
   ComputePositionConfig,
   ComputePositionReturn,
   ReferenceElement,
@@ -25,6 +30,22 @@ export interface FloatOptions extends Partial<ComputePositionConfig> {
 }
 
 const POSITION_PROPERTIES = ['position', 'left', 'top', 'visibility'];
+
+/**
+ * What can clip `element`, for `hide()`: its clipping ancestors inside the
+ * top-layer element it's in (a modal dialog or an open popover), as nothing
+ * outside one clips it. Floating UI only knows that for top-layer elements
+ * themselves, so a transformed ancestor's scroll box outside a Modal would
+ * otherwise hide what floats from inside it.
+ */
+export function clippingBoundary(element: Element): Boundary {
+  const topLayer = element.parentElement?.closest(':modal, :popover-open');
+  if (!topLayer) return 'clippingAncestors';
+  return getOverflowAncestors(element).filter(
+    (ancestor): ancestor is Element =>
+      ancestor instanceof Element && topLayer.contains(ancestor),
+  );
+}
 
 /**
  * Positions `floating` next to `reference` with Floating UI, and keeps it

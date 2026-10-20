@@ -12,7 +12,7 @@ import { modifier } from 'ember-modifier';
 import { flip, hide, offset } from '@floating-ui/dom';
 import closeOnOutsideClick from '../modifiers/close-on-outside-click.ts';
 import { afterRender } from '../utils/after-render.ts';
-import { float } from '../utils/floating.ts';
+import { clippingBoundary, float } from '../utils/floating.ts';
 import { RovingFocus } from '../utils/roving-focus.ts';
 import OverflowMenuItem from './overflow-menu/overflow-menu-item.gts';
 import Tooltip from './tooltip.gts';
@@ -289,7 +289,7 @@ export default class OverflowMenu extends Component<OverflowMenuSignature> {
       middleware: [
         offset({ mainAxis, crossAxis }),
         flip({ fallbackPlacements }),
-        hide(),
+        hide({ boundary: clippingBoundary(trigger) }),
       ],
       onUpdate: ({ placement: placed }) => {
         if (this.placement !== placed) this.placement = placed;
