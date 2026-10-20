@@ -65,6 +65,12 @@ test("reads the addon's own skill", async () => {
       ),
     ),
   );
+  // The folder of component pages too, so an agent can open one by name.
+  assert.ok(
+    text.includes(
+      `](${path.join(root, 'skills/carbon-components-ember/references/components/')})`,
+    ),
+  );
 });
 
 test("serves a release's docs when they're published, else main's", async (t) => {

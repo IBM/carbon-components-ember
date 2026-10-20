@@ -1,8 +1,9 @@
 /**
  * Writes the component references of the carbon-components-ember skill
  * from a built Storybook: `references/components.md` lists every docs page,
- * and `references/components/<id>.md` holds one page's import, arguments,
- * blocks and examples, as the components manifest has them.
+ * and `references/components/<name>.md` holds one page's import, arguments,
+ * blocks and examples, as the components manifest has them. A page is named
+ * after its component, so agents can open it without the list.
  *
  * Usage: node scripts/skill-references.mjs [storybook-static]
  */
@@ -29,6 +30,46 @@ const titles = new Map(
     entry.title,
   ]),
 );
+
+const kebab = (name) =>
+  name
+    .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+    .replace(/([A-Z])([A-Z][a-z])/g, '$1-$2')
+    .replace(/[\s/]+/g, '-')
+    .toLowerCase();
+
+/** The barrel a page's import names: `components`, `ai-chat` or `charts`. */
+const barrelOf = (component) =>
+  component.import?.match(/from 'carbon-components-ember\/([\w-]+)'/)?.[1] ??
+  'components';
+
+/**
+ * A page's file name: its component in kebab case (`date-picker`). A name
+ * another barrel also has starts with its barrel (`ai-chat-code-snippet`),
+ * and a component with several pages ends with the page's name
+ * (`data-table-selection`), except on the component's own page.
+ */
+function fileName(component, title) {
+  const barrel = barrelOf(component);
+  const namesakes = Object.values(components).filter(
+    (other) => other.name === component.name,
+  );
+  let name = kebab(component.name);
+  if (
+    barrel !== 'components' &&
+    namesakes.some((other) => barrelOf(other) !== barrel)
+  ) {
+    name = `${barrel}-${name}`;
+  }
+  const page = kebab(title.split('/').at(-1));
+  if (
+    page !== kebab(component.name) &&
+    namesakes.filter((other) => barrelOf(other) === barrel).length > 1
+  ) {
+    name = `${name}-${page}`;
+  }
+  return name;
+}
 
 /** The first sentence of a description, for the list. */
 function summary(description = '') {
@@ -67,18 +108,26 @@ fs.rmSync(path.join(references, 'components'), {
 });
 fs.mkdirSync(path.join(references, 'components'), { recursive: true });
 
+const files = new Map();
 for (const [id, component] of Object.entries(components)) {
   const title = titles.get(id);
   if (!title) throw new Error(`${id} isn't in ${storybook}/index.json`);
   const [group, ...rest] = title.split('/');
   const name = rest.join('/') || group;
+  const file = `${fileName(component, title)}.md`;
+  if (files.has(file)) {
+    throw new Error(`${id} and ${files.get(file)} would both be ${file}`);
+  }
+  files.set(file, id);
 
   fs.writeFileSync(
-    path.join(references, 'components', `${id}.md`),
+    path.join(references, 'components', file),
     page(component, name),
   );
   if (!groups.has(group)) groups.set(group, []);
-  groups.get(group).push({ name, id, summary: summary(component.description) });
+  groups
+    .get(group)
+    .push({ name, id, file, summary: summary(component.description) });
 }
 
 if (!groups.size) throw new Error(`${storybook} has no components`);
@@ -94,11 +143,11 @@ for (const [group, pages] of [...groups].sort(([a], [b]) =>
   list.push('', `## ${group}`, '');
   // By id, so a page's subpages follow it ("Prompt line/Autocomplete"
   // before "Prompt line shell").
-  for (const { name, id, summary } of pages.sort((a, b) =>
+  for (const { name, file, summary } of pages.sort((a, b) =>
     a.id < b.id ? -1 : 1,
   )) {
     list.push(
-      `- [${name}](components/${id}.md)${summary ? `: ${summary}` : ''}`,
+      `- [${name}](components/${file})${summary ? `: ${summary}` : ''}`,
     );
   }
 }
