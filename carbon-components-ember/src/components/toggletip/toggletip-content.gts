@@ -1,10 +1,13 @@
+import { PopoverContent } from '../popover.gts';
+
 import type { TOC } from '@ember/component/template-only';
+import type { PopoverContentSignature } from '../popover.gts';
 
 export interface ToggletipContentSignature {
   Args: {
     id: string;
   };
-  Element: HTMLSpanElement;
+  Element: PopoverContentSignature['Element'];
   Blocks: {
     default: [];
   };
@@ -15,14 +18,11 @@ export interface ToggletipContentSignature {
  * `t.Content`.
  */
 const ToggletipContent: TOC<ToggletipContentSignature> = <template>
-  <span class="cds--popover">
-    <span id={{@id}} class="cds--popover-content" ...attributes>
-      <div class="cds--toggletip-content">
-        {{yield}}
-      </div>
-    </span>
-    <span class="cds--popover-caret"></span>
-  </span>
+  <PopoverContent id={{@id}} ...attributes>
+    <div class="cds--toggletip-content">
+      {{yield}}
+    </div>
+  </PopoverContent>
 </template>;
 
 export default ToggletipContent;

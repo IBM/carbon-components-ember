@@ -11,8 +11,8 @@ import View from './icons/view.ts';
 import type { AILabelSignature } from './ai-label.gts';
 
 // Parity gaps with Carbon React's AILabel stories:
-// - No `autoAlign`: Toggletip doesn't support it yet, so `@align` picks a
-//   static position.
+// - No `autoAlign`: AILabel doesn't pass it to its Toggletip yet, so `@align`
+//   picks a static position.
 // - The revert button has no tooltip (React's IconButton shows its label);
 //   `@revertLabel` names it for assistive technology.
 

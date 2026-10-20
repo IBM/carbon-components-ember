@@ -1,13 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import {
-  render,
-  fillIn,
-  click,
-  waitFor,
-  settled,
-  typeIn,
-} from '@ember/test-helpers';
+import { render, fillIn, click, settled, typeIn } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import { trackedObject } from '@ember/reactive/collections';
 import FluidTextInput from '#src/components/fluid-text-input.gts';
@@ -174,8 +167,6 @@ module('Integration | Component | FluidTextInput', (hooks) => {
         />
       </template>,
     );
-    await waitFor('.cds--text-input__invalid-icon');
-
     assert.dom('input.cds--text-input').hasClass('cds--text-input--invalid');
     assert.dom('.cds--text-input__invalid-icon').exists();
     assert.dom('.cds--form-requirement').hasText('This field is required');
@@ -203,8 +194,6 @@ module('Integration | Component | FluidTextInput', (hooks) => {
         />
       </template>,
     );
-    await waitFor('.cds--text-input__invalid-icon');
-
     assert.dom('input.cds--text-input').hasClass('cds--text-input--invalid');
     assert
       .dom('input.cds--text-input')

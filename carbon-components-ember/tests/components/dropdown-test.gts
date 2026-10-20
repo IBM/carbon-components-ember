@@ -8,7 +8,6 @@ import {
   triggerKeyEvent,
   find,
   settled,
-  waitFor,
 } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import Dropdown from '#src/components/dropdown.gts';
@@ -317,8 +316,6 @@ module('Integration | Component | Dropdown', (hooks) => {
         />
       </template>,
     );
-
-    await waitFor('.cds--list-box__invalid-icon');
 
     assert.dom('.cds--dropdown').hasClass('cds--dropdown--invalid');
     assert.dom('.cds--dropdown').hasClass('cds--list-box--invalid');

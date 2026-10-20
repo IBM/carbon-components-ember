@@ -109,15 +109,15 @@ Parity means matching Carbon React's **public API surface and behaviour**, not i
 | Component slot (`decorator`, `slug`) | A named block yielding the component pre-bound for the host: `<:decorator as \|AILabel\|>` | `components/tag.gts` |
 | `value` + `defaultValue` + `onChange` | Keep both: `@defaultValue` seeds `@tracked` state, `@value` wins whenever defined | `components/text-input.gts` |
 | State/controllable single prop | One arg plus a private `@tracked` fallback; arg is source of truth only when change handler is passed | `components/tree-view.gts` |
-| `useRef` + `useEffect` DOM listeners | A functional `modifier()` from `ember-modifier` returning its teardown | `components/-private/tooltip.gts` |
-| `forwardRef` | Yield a `ModifierLike` for the caller to apply to their own element | `components/-private/tooltip.gts` |
+| `useRef` + `useEffect` DOM listeners | A functional `modifier()` from `ember-modifier` returning its teardown | `modifiers/close-on-outside-click.ts` |
+| `forwardRef` | Yield a `ModifierLike` for the caller to apply to their own element | none yet |
 | `createPortal` | `{{#in-element}}` — use the existing `<Portal>` component | `components/portal.gts` |
 | React context / provider | A service, or the parent component instance yielded down to children | `services/notifications.ts` |
 | `useId` | `guidFor(this)` | `components/tree-view.gts` |
 | Floating UI positioning hooks | The addon's own `<Popover>` / `<PopoverContent>` | `components/popover.gts` |
 | Debounce/timing | `task({ restartable: true })` + `timeout()` from `ember-concurrency` | `components/search.gts` |
 | `useEffect` cleanup return | `registerDestructor` (or the modifier's teardown function) | `components/tabs.gts` |
-| Lazily resolved value in template | `TrackedPromise` from `utils/tracked.ts` — re-renders once promise settles | `components/icons/*.ts` (lazy icons) |
+| Lazily resolved value in template | `TrackedPromise` from `utils/tracked.ts` — re-renders once promise settles, and tests' `settled()` waits for it | `components/icons/*.ts` (lazy icons) |
 | Arrow-key navigation (roving `tabIndex`) | `RovingFocus` from `utils/roving-focus.ts`: its `container` modifier on the list, its `item` modifier on each item; items keep their DOM order | `components/tree-view.gts` |
 
 ### 1. Yield Contextual Components instead of Inspecting Children
