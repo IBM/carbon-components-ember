@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, rerender } from '@ember/test-helpers';
+import { render, rerender } from '@ember/test-helpers';
 import Breadcrumb from '#src/components/breadcrumb.gts';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
@@ -17,11 +17,178 @@ import {
 module('Integration | Component | Breadcrumb', (hooks) => {
   setupRenderingTest(hooks);
 
+  test('should accept an aria-label for the nav element', async function (assert) {
+    await render(<template><Breadcrumb aria-label="test-label" /></template>);
+
+    assert.dom('nav').hasAttribute('aria-label', 'test-label');
+  });
+
+  test('should provide a default aria-label for the nav element', async function (assert) {
+    await render(<template><Breadcrumb /></template>);
+
+    assert.dom('nav').hasAttribute('aria-label', 'Breadcrumb');
+  });
+
+  test('should render the BreadcrumbItems it yields', async function (assert) {
+    await render(
+      <template>
+        <Breadcrumb as |BreadcrumbItem|>
+          <BreadcrumbItem @href="#a">A</BreadcrumbItem>
+          <BreadcrumbItem @href="#b">B</BreadcrumbItem>
+          <BreadcrumbItem @href="#c">C</BreadcrumbItem>
+        </Breadcrumb>
+      </template>,
+    );
+
+    assert.dom('nav > ol.cds--breadcrumb > li.cds--breadcrumb-item').exists({
+      count: 3,
+    });
+    assert.dom('li:nth-child(2) a.cds--link').hasText('B');
+    assert.dom('li:nth-child(2) a').hasAttribute('href', '#b');
+  });
+
+  test('should accept @noTrailingSlash', async function (assert) {
+    await render(<template><Breadcrumb @noTrailingSlash={{true}} /></template>);
+
+    assert.dom('ol').hasClass('cds--breadcrumb--no-trailing-slash');
+  });
+
+  test('should respect @size', async function (assert) {
+    await render(<template><Breadcrumb @size="sm" /></template>);
+
+    assert.dom('ol').hasClass('cds--breadcrumb--sm');
+  });
+
+  test('should put class and other attributes on the nav element', async function (assert) {
+    await render(
+      <template><Breadcrumb class="test" data-test-id="test" /></template>,
+    );
+
+    assert.dom('nav').hasClass('test');
+    assert.dom('nav').hasAttribute('data-test-id', 'test');
+  });
+
+  module('BreadcrumbItem', function () {
+    test('with @href, renders a link', async function (assert) {
+      await render(
+        <template>
+          <Breadcrumb as |BreadcrumbItem|>
+            <BreadcrumbItem @href="/test">Test</BreadcrumbItem>
+          </Breadcrumb>
+        </template>,
+      );
+
+      assert
+        .dom('li a.cds--link')
+        .hasAttribute('href', '/test')
+        .hasText('Test');
+      assert.dom('li a').doesNotHaveAttribute('aria-current');
+    });
+
+    test('without @href, renders text', async function (assert) {
+      await render(
+        <template>
+          <Breadcrumb as |BreadcrumbItem|>
+            <BreadcrumbItem>Test</BreadcrumbItem>
+          </Breadcrumb>
+        </template>,
+      );
+
+      assert.dom('li a').doesNotExist();
+      assert.dom('li span.cds--link').hasText('Test');
+    });
+
+    test('@isCurrentPage marks the item and its link', async function (assert) {
+      await render(
+        <template>
+          <Breadcrumb as |BreadcrumbItem|>
+            <BreadcrumbItem @href="#" @isCurrentPage={{true}}>
+              Test
+            </BreadcrumbItem>
+          </Breadcrumb>
+        </template>,
+      );
+
+      assert.dom('li').hasClass('cds--breadcrumb-item--current');
+      assert.dom('li a').hasAttribute('aria-current', 'true');
+    });
+
+    test('@ariaCurrent="page" marks the link, which Carbon styles as current', async function (assert) {
+      await render(
+        <template>
+          <Breadcrumb as |BreadcrumbItem|>
+            <BreadcrumbItem
+              @href="#"
+              @isCurrentPage={{true}}
+              @ariaCurrent="page"
+            >
+              Test
+            </BreadcrumbItem>
+          </Breadcrumb>
+        </template>,
+      );
+
+      assert.dom('li').doesNotHaveClass('cds--breadcrumb-item--current');
+      assert.dom('li a').hasAttribute('aria-current', 'page');
+    });
+
+    test('with block params, the block renders its own link', async function (assert) {
+      await render(
+        <template>
+          <Breadcrumb as |BreadcrumbItem|>
+            <BreadcrumbItem @ariaCurrent="page" as |item|>
+              <a
+                href="/test"
+                class="custom-link {{item.class}}"
+                aria-current={{item.ariaCurrent}}
+              >Test</a>
+            </BreadcrumbItem>
+          </Breadcrumb>
+        </template>,
+      );
+
+      assert.dom('li > a').hasClass('cds--link').hasClass('custom-link');
+      assert.dom('li > a').hasAttribute('aria-current', 'page');
+      assert.dom('li span').doesNotExist();
+    });
+
+    test('with block params, the block renders as given', async function (assert) {
+      await render(
+        <template>
+          <Breadcrumb as |BreadcrumbItem|>
+            <BreadcrumbItem as |item|>
+              <a href="/a" class={{item.class}}>A</a>
+              <a href="/b" class={{item.class}}>B</a>
+            </BreadcrumbItem>
+          </Breadcrumb>
+        </template>,
+      );
+
+      assert.dom('li > a.cds--link').exists({ count: 2 });
+    });
+
+    test('puts class and other attributes on the li', async function (assert) {
+      await render(
+        <template>
+          <Breadcrumb as |BreadcrumbItem|>
+            <BreadcrumbItem class="test" data-test-item>Test</BreadcrumbItem>
+          </Breadcrumb>
+        </template>,
+      );
+
+      assert.dom('li').hasClass('test').hasAttribute('data-test-item');
+    });
+  });
+
   test('white theme: should display items', async function (this: RenderingTestContext, assert) {
     disableCarbonStyles();
     await render(
       <template>
-        <Breadcrumb @crumbs={{array "a" "b" "c"}} @current="b" />
+        <Breadcrumb as |BreadcrumbItem|>
+          <BreadcrumbItem @href="#">a</BreadcrumbItem>
+          <BreadcrumbItem @href="#" @isCurrentPage={{true}}>b</BreadcrumbItem>
+          <BreadcrumbItem @href="#">c</BreadcrumbItem>
+        </Breadcrumb>
       </template>,
     );
 
@@ -33,7 +200,7 @@ module('Integration | Component | Breadcrumb', (hooks) => {
       this.element.firstElementChild!,
     );
 
-    assert.equal(styles.length, 21);
+    assert.equal(styles.length, 24);
 
     const stylesDiff = getStylesDiff(styles, withCarbonStyles);
 
@@ -45,7 +212,11 @@ module('Integration | Component | Breadcrumb', (hooks) => {
     const darkStyleValue = tracked('');
     await render(
       <template>
-        <Breadcrumb @crumbs={{array "a" "b" "c"}} @current="b" />
+        <Breadcrumb as |BreadcrumbItem|>
+          <BreadcrumbItem @href="#">a</BreadcrumbItem>
+          <BreadcrumbItem @href="#" @isCurrentPage={{true}}>b</BreadcrumbItem>
+          <BreadcrumbItem @href="#">c</BreadcrumbItem>
+        </Breadcrumb>
         <style nonce={{nonce}}>
           {{darkStyleValue.value}}
         </style>
@@ -61,67 +232,50 @@ module('Integration | Component | Breadcrumb', (hooks) => {
       this.element.firstElementChild!,
     );
 
-    assert.equal(styles.length, 21);
+    assert.equal(styles.length, 24);
 
     const stylesDiff = getStylesDiff(styles, withCarbonStyles);
 
     assert.snapshot(stylesDiff, 'should correctly switch to dark styles');
   });
 
-  test('should allow click without handler', async function (assert) {
-    assert.expect(0);
-    await render(
-      <template><Breadcrumb @crumbs={{array "a" "b" "c"}} /></template>,
-    );
-
-    await click('.cds--breadcrumb-item');
-  });
-
-  test('selecting a crumb does not follow its href="#"', async function (assert) {
-    const selected: string[] = [];
-    const onSelect = (crumb: string) => selected.push(crumb);
+  test('should change the current item style', async function (this: RenderingTestContext, assert) {
+    const current = tracked('');
+    const isCurrent = (crumb: string) => current.value === crumb;
     await render(
       <template>
-        <Breadcrumb @crumbs={{array "a" "b"}} @onSelect={{onSelect}} />
-      </template>,
-    );
-
-    const link = document.querySelector<HTMLAnchorElement>(
-      '.cds--breadcrumb-item a',
-    )!;
-    const event = new MouseEvent('click', { bubbles: true, cancelable: true });
-    link.dispatchEvent(event);
-
-    assert.true(event.defaultPrevented, 'navigation to "#" is cancelled');
-    assert.deepEqual(selected, ['a']);
-  });
-
-  test('should change selected item style', async function (this: RenderingTestContext, assert) {
-    const selected = tracked('');
-    await render(
-      <template>
-        <Breadcrumb @crumbs={{array "a" "b" "c"}} @current={{selected.value}} />
+        <Breadcrumb as |BreadcrumbItem|>
+          <BreadcrumbItem @href="#" @isCurrentPage={{isCurrent "a"}}>
+            a
+          </BreadcrumbItem>
+          <BreadcrumbItem @href="#" @isCurrentPage={{isCurrent "b"}}>
+            b
+          </BreadcrumbItem>
+          <BreadcrumbItem @href="#" @isCurrentPage={{isCurrent "c"}}>
+            c
+          </BreadcrumbItem>
+        </Breadcrumb>
       </template>,
     );
 
     await waitForAnimationFrame();
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
-    selected.value = 'a';
+    current.value = 'a';
     await rerender();
     await waitForAnimationFrame();
-    const aSelectedStyle = getAllElementComputedStyles(
+    const aCurrentStyle = getAllElementComputedStyles(
       this.element.firstElementChild!,
     );
 
-    selected.value = 'b';
+    current.value = 'b';
     await rerender();
     await waitForAnimationFrame();
-    const bSelectedStyle = getAllElementComputedStyles(
+    const bCurrentStyle = getAllElementComputedStyles(
       this.element.firstElementChild!,
     );
 
-    const stylesDiffA = getStylesDiff(styles, aSelectedStyle);
-    const stylesDiffB = getStylesDiff(aSelectedStyle, bSelectedStyle);
+    const stylesDiffA = getStylesDiff(styles, aCurrentStyle);
+    const stylesDiffB = getStylesDiff(aCurrentStyle, bCurrentStyle);
 
     assert.snapshot(stylesDiffA, 'does have correct initial styles');
     assert.snapshot(

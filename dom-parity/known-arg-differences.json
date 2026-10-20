@@ -31,16 +31,6 @@
       "align"
     ]
   },
-  "Breadcrumb": {
-    "missing": [
-      "noTrailingSlash",
-      "size"
-    ],
-    "extra": [
-      "crumbs",
-      "current"
-    ]
-  },
   "Button": {
     "missing": [
       "as",

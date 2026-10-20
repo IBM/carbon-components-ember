@@ -1,6 +1,6 @@
 [
   [
-    "<a href=\"#\" class=\"cds--link\" data-index=\"2\"></a>",
+    "<a class=\"cds--link\" href=\"#\" aria-current=\"false\" data-index=\"3\"></a>",
     {
       "border": "0px none rgb(15, 98, 254)",
       "color": "rgb(15, 98, 254)",
@@ -9,7 +9,7 @@
     }
   ],
   [
-    "<a:before href=\"#\" class=\"cds--link\" data-index=\"2\"></a:before>",
+    "<a:before class=\"cds--link\" href=\"#\" aria-current=\"false\" data-index=\"3\"></a:before>",
     {
       "border": "0px none rgb(15, 98, 254)",
       "color": "rgb(15, 98, 254)",
@@ -18,7 +18,7 @@
     }
   ],
   [
-    "<a:after href=\"#\" class=\"cds--link\" data-index=\"2\"></a:after>",
+    "<a:after class=\"cds--link\" href=\"#\" aria-current=\"false\" data-index=\"3\"></a:after>",
     {
       "border": "0px none rgb(15, 98, 254)",
       "color": "rgb(15, 98, 254)",
@@ -27,7 +27,7 @@
     }
   ],
   [
-    "<a href=\"#\" class=\"cds--link\" data-index=\"4\" aria-current=\"true\"></a>",
+    "<a class=\"cds--link\" href=\"#\" aria-current=\"true\" data-index=\"5\"></a>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -36,7 +36,7 @@
     }
   ],
   [
-    "<a:before href=\"#\" class=\"cds--link\" data-index=\"4\" aria-current=\"true\"></a:before>",
+    "<a:before class=\"cds--link\" href=\"#\" aria-current=\"true\" data-index=\"5\"></a:before>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",
@@ -45,7 +45,7 @@
     }
   ],
   [
-    "<a:after href=\"#\" class=\"cds--link\" data-index=\"4\" aria-current=\"true\"></a:after>",
+    "<a:after class=\"cds--link\" href=\"#\" aria-current=\"true\" data-index=\"5\"></a:after>",
     {
       "border": "0px none rgb(22, 22, 22)",
       "color": "rgb(22, 22, 22)",

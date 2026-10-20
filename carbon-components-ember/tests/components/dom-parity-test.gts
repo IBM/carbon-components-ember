@@ -34,6 +34,7 @@ import RadioButton from '#src/components/radio-button.gts';
 import RadioButtonGroup from '#src/components/radio-button/radio-button-group.gts';
 import Toggle from '#src/components/toggle.gts';
 import TextInput from '#src/components/text-input.gts';
+import Breadcrumb from '#src/components/breadcrumb.gts';
 import Select from '#src/components/select.gts';
 import type { SelectSignature } from '#src/components/select.gts';
 import TextArea from '#src/components/text-area.gts';
@@ -104,6 +105,7 @@ import radioButtonFixture from '../../../dom-parity/fixtures/RadioButton.json';
 import radioButtonGroupFixture from '../../../dom-parity/fixtures/RadioButtonGroup.json';
 import toggleFixture from '../../../dom-parity/fixtures/Toggle.json';
 import textInputFixture from '../../../dom-parity/fixtures/TextInput.json';
+import breadcrumbFixture from '../../../dom-parity/fixtures/Breadcrumb.json';
 import selectFixture from '../../../dom-parity/fixtures/Select.json';
 import textAreaFixture from '../../../dom-parity/fixtures/TextArea.json';
 import passwordInputFixture from '../../../dom-parity/fixtures/PasswordInput.json';
@@ -2616,6 +2618,133 @@ module('DOM parity | Carbon React', function (hooks) {
         'size-sm',
         'size-lg',
         'helper-text',
+      ]);
+    });
+  });
+
+  module('Breadcrumb', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Breadcrumb as |BreadcrumbItem|>
+            <BreadcrumbItem @href="#a">Breadcrumb 1</BreadcrumbItem>
+            <BreadcrumbItem @href="#b">Breadcrumb 2</BreadcrumbItem>
+            <BreadcrumbItem @isCurrentPage={{true}}>Breadcrumb 3</BreadcrumbItem>
+          </Breadcrumb>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        breadcrumbFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('no-trailing-slash', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Breadcrumb @noTrailingSlash={{true}} as |BreadcrumbItem|>
+            <BreadcrumbItem @href="#a">Breadcrumb 1</BreadcrumbItem>
+            <BreadcrumbItem @href="#b">Breadcrumb 2</BreadcrumbItem>
+            <BreadcrumbItem @isCurrentPage={{true}}>Breadcrumb 3</BreadcrumbItem>
+          </Breadcrumb>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        breadcrumbFixture,
+        'no-trailing-slash',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('size-sm', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Breadcrumb @size="sm" as |BreadcrumbItem|>
+            <BreadcrumbItem @href="#a">Breadcrumb 1</BreadcrumbItem>
+            <BreadcrumbItem @href="#b">Breadcrumb 2</BreadcrumbItem>
+            <BreadcrumbItem @isCurrentPage={{true}}>Breadcrumb 3</BreadcrumbItem>
+          </Breadcrumb>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        breadcrumbFixture,
+        'size-sm',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('aria-label', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Breadcrumb aria-label="Breadcrumb container" as |BreadcrumbItem|>
+            <BreadcrumbItem @href="#a">Breadcrumb 1</BreadcrumbItem>
+            <BreadcrumbItem @href="#b">Breadcrumb 2</BreadcrumbItem>
+            <BreadcrumbItem @isCurrentPage={{true}}>Breadcrumb 3</BreadcrumbItem>
+          </Breadcrumb>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        breadcrumbFixture,
+        'aria-label',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('aria-current-page', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Breadcrumb as |BreadcrumbItem|>
+            <BreadcrumbItem @href="#a">Breadcrumb 1</BreadcrumbItem>
+            <BreadcrumbItem @href="#b" @ariaCurrent="page">Breadcrumb 2</BreadcrumbItem>
+            <BreadcrumbItem @isCurrentPage={{true}}>Breadcrumb 3</BreadcrumbItem>
+          </Breadcrumb>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        breadcrumbFixture,
+        'aria-current-page',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('custom-link', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Breadcrumb as |BreadcrumbItem|>
+            <BreadcrumbItem @href="#a">Breadcrumb 1</BreadcrumbItem>
+            <BreadcrumbItem as |item|>
+              <a
+                href="#b"
+                class={{item.class}}
+                aria-current={{item.ariaCurrent}}
+              >Breadcrumb 2</a>
+            </BreadcrumbItem>
+            <BreadcrumbItem @isCurrentPage={{true}}>Breadcrumb 3</BreadcrumbItem>
+          </Breadcrumb>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        breadcrumbFixture,
+        'custom-link',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, breadcrumbFixture, [
+        'default',
+        'no-trailing-slash',
+        'size-sm',
+        'aria-label',
+        'aria-current-page',
+        'custom-link',
       ]);
     });
   });
