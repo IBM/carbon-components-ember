@@ -15,8 +15,9 @@ import '#storybook/styles/dropdown.css';
 // - Items can't be disabled (React's `Option 3` is `disabled: true`).
 // - `ExperimentalAutoAlign`: no `autoAlign`; the menu opens downwards or,
 //   with `@direction="top"`, upwards.
-// - No `renderSelectedItem`, `translateWithId` or `downshiftProps`; a block
-//   can render each item instead.
+// - No `renderSelectedItem` or `translateWithId`, and no `downshiftProps`,
+//   as it isn't built on downshift; a block renders each item instead of
+//   `itemToElement`.
 // - Hovering an item moves the highlight; in React hover is only styled.
 
 interface Item {

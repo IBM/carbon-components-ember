@@ -16,8 +16,9 @@ import type {
 import '#storybook/styles/multi-select.css';
 
 // Carbon React parity gaps (Components/MultiSelect):
-// - No `translateWithId`, `downshiftProps` or (on FilterableMultiSelect)
-//   `inputProps`; a block renders each item instead of `itemToElement`.
+// - No `translateWithId` or (on FilterableMultiSelect) `inputProps`, and no
+//   `downshiftProps`, as neither is built on downshift; a block renders each
+//   item instead of `itemToElement`.
 // - Each item's checkbox is drawn rather than a real input, since an
 //   option's children can't be interactive.
 

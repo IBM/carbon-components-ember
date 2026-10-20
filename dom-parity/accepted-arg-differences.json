@@ -16,7 +16,21 @@
   },
   "ComboBox": {
     "missing": {
-      "inputProps": "Attributes on the component go to the input, through ...attributes."
+      "downshiftProps": "It isn't built on downshift, so there's nothing to pass them to.",
+      "inputProps": "Attributes on the component go to the input, through ...attributes.",
+      "itemToElement": "The default block renders each item."
+    }
+  },
+  "Dropdown": {
+    "missing": {
+      "downshiftProps": "It isn't built on downshift, so there's nothing to pass them to.",
+      "itemToElement": "The default block renders each item."
+    }
+  },
+  "FilterableMultiSelect": {
+    "missing": {
+      "downshiftProps": "It isn't built on downshift, so there's nothing to pass them to.",
+      "itemToElement": "The default block renders each item."
     }
   },
   "InlineNotification": {
@@ -27,6 +41,12 @@
   "Modal": {
     "missing": {
       "selectorsFloatingMenus": "A click in a menu rendered outside the modal can't reach it: the page outside a native dialog is inert, and DOM events don't bubble through a portal as React's do."
+    }
+  },
+  "MultiSelect": {
+    "missing": {
+      "downshiftProps": "It isn't built on downshift, so there's nothing to pass them to.",
+      "itemToElement": "The default block renders each item."
     }
   },
   "NotificationButton": {

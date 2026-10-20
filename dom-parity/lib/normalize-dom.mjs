@@ -135,6 +135,13 @@ function normalizeAttributes(el, idMap) {
       continue;
     }
 
+    if (!isHtml && name === 'd') {
+      // Path data treats any whitespace alike, and @carbon/icons puts a tab
+      // where @carbon/icons-react has a space.
+      attributes[name] = attr.value.replace(/\s+/g, ' ').trim();
+      continue;
+    }
+
     attributes[name] = attr.value;
   }
   return attributes;
