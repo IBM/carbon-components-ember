@@ -12,9 +12,10 @@ import type { ComboBoxChange, ComboBoxSignature } from './combo-box.gts';
 import '#storybook/styles/combo-box.css';
 
 // Carbon React parity gaps (Components/ComboBox):
-// - No `translateWithId`, `downshiftProps` or `downshiftActions`; a block
-//   renders each item instead of `itemToElement`, and attributes on the
-//   component go to the input instead of `inputProps`.
+// - No `translateWithId` or `downshiftActions`, and no `downshiftProps`, as
+//   it isn't built on downshift; a block renders each item instead of
+//   `itemToElement`, and attributes on the component go to the input
+//   instead of `inputProps`.
 // - Escape on a closed field clears it, as in React, but here it also
 //   calls `@onChange`.
 
