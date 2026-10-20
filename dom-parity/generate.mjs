@@ -28,14 +28,24 @@ const dom = new JSDOM('<!doctype html><html><body></body></html>');
 globalThis.window = dom.window;
 globalThis.document = dom.window.document;
 // Some @carbon/react components (e.g. Notification's/Tile's
-// useNoInteractiveChildren) reference DOM constructors like `HTMLElement`
-// as bare globals rather than off `window`.
+// useNoInteractiveChildren, OverflowMenu's portal target) reference DOM
+// constructors like `HTMLElement` as bare globals rather than off `window`.
+globalThis.Element = dom.window.Element;
+globalThis.Node = dom.window.Node;
 globalThis.HTMLElement = dom.window.HTMLElement;
 globalThis.HTMLButtonElement = dom.window.HTMLButtonElement;
 globalThis.HTMLInputElement = dom.window.HTMLInputElement;
 globalThis.HTMLSelectElement = dom.window.HTMLSelectElement;
 globalThis.HTMLTextAreaElement = dom.window.HTMLTextAreaElement;
 globalThis.HTMLAnchorElement = dom.window.HTMLAnchorElement;
+// OverflowMenu's FloatingMenu listens for resizes on `globalThis` as if it
+// were the window, and measures its target with a bare `getComputedStyle`.
+globalThis.addEventListener = dom.window.addEventListener.bind(dom.window);
+globalThis.removeEventListener = dom.window.removeEventListener.bind(
+  dom.window,
+);
+globalThis.requestAnimationFrame = (callback) => setTimeout(callback, 0);
+globalThis.getComputedStyle = dom.window.getComputedStyle.bind(dom.window);
 // jsdom has no ResizeObserver; ExpandableTile only uses it to re-measure
 // the above-the-fold content on resize, which this offline, one-shot
 // render never needs to react to.
