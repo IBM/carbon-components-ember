@@ -6,6 +6,7 @@ import { withLayer } from '#storybook/decorators.gts';
 import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
 import preview from '#storybook/preview.ts';
 import Button from './button.gts';
+import FilterableMultiSelect from './filterable-multi-select.gts';
 import MultiSelect from './multi-select.gts';
 
 import type {
@@ -15,9 +16,8 @@ import type {
 import '#storybook/styles/multi-select.css';
 
 // Carbon React parity gaps (Components/MultiSelect):
-// - The Filterable stories wait for FilterableMultiSelect.
-// - No `translateWithId` or `downshiftProps`; a block renders each item
-//   instead of `itemToElement`.
+// - No `translateWithId`, `downshiftProps` or (on FilterableMultiSelect)
+//   `inputProps`; a block renders each item instead of `itemToElement`.
 // - Each item's checkbox is drawn rather than a real input, since an
 //   option's children can't be interactive.
 
@@ -26,6 +26,7 @@ interface Item {
   text: string;
   disabled?: boolean;
   isSelectAll?: boolean;
+  searchTerms?: string[];
 }
 
 const items: Item[] = [
@@ -60,7 +61,10 @@ const itemToString = (item: Item) => item.text;
 
 // MultiSelect is generic over its item type, which signature inference
 // can't follow, so declare the story's args explicitly.
-type StoryArgs = MultiSelectSignature<Item>['Args'];
+type StoryArgs = MultiSelectSignature<Item>['Args'] & {
+  // FilterableMultiSelect's.
+  placeholder?: string;
+};
 
 const labelFor = ({ selectedItems }: MultiSelectChange<Item>) =>
   selectedItems.length === 1
@@ -72,6 +76,7 @@ const labelFor = ({ selectedItems }: MultiSelectChange<Item>) =>
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'Components/MultiSelect',
   component: MultiSelect,
+  subcomponents: { FilterableMultiSelect },
   parameters: {
     a11y: {
       // WCAG 1.4.3 exempts inactive components from contrast minimums; axe
@@ -387,3 +392,179 @@ ExperimentalAutoAlign.test(
     await expect(menu.style.width).toBe(`${field.clientWidth}px`);
   },
 );
+
+const customSearchItems: Item[] = [
+  { id: 'custom-search-item-0', text: 'Apple', searchTerms: ['fruit', 'red'] },
+  {
+    id: 'custom-search-item-1',
+    text: 'Orange',
+    searchTerms: ['fruit', 'orange'],
+  },
+  {
+    id: 'custom-search-item-2',
+    text: 'Broccoli',
+    searchTerms: ['vegetable', 'green'],
+  },
+];
+
+const renderFilterable = (args: StoryArgs) => <template>
+  <FilterableMultiSelect
+    @titleText={{args.titleText}}
+    @placeholder={{args.placeholder}}
+    @helperText={{args.helperText}}
+    @items={{args.items}}
+    @itemToString={{args.itemToString}}
+    @selectionFeedback={{args.selectionFeedback}}
+    @autoAlign={{args.autoAlign}}
+    @direction={{args.direction}}
+    @size={{args.size}}
+    @type={{args.type}}
+    @hideLabel={{args.hideLabel}}
+    @useTitleInItem={{args.useTitleInItem}}
+    @disabled={{args.disabled}}
+    @readOnly={{args.readOnly}}
+    @invalid={{args.invalid}}
+    @invalidText={{args.invalidText}}
+    @warn={{args.warn}}
+    @warnText={{args.warnText}}
+    @onChange={{args.onChange}}
+    @onMenuChange={{args.onMenuChange}}
+  />
+</template>;
+
+// FilterableMultiSelect has no `label` or `clearAnnouncement`, so their
+// controls are hidden, as in Carbon React.
+const filterableControls = { exclude: ['label', 'clearAnnouncement'] };
+
+export const Filterable = meta.story({
+  parameters: {
+    controls: filterableControls,
+    docs: {
+      description: {
+        story:
+          '`FilterableMultiSelect` adds a text input that narrows the items: by default to those whose text contains what was typed, or as `@filterItems` says. Focus stays in the input, so typing filters while the arrow keys and Enter choose items. Delete, Escape, or Backspace in the empty input clear the closed field.',
+      },
+    },
+  },
+  render: renderFilterable,
+});
+
+Filterable.test(
+  'filters the items, and checks the one chosen',
+  async ({ canvas, userEvent, args }) => {
+    const input = canvas.getByRole('combobox', { name: /^Label/ });
+    await userEvent.type(input, 'option 4');
+    await expect(canvas.getAllByRole('option')).toHaveLength(1);
+    await userEvent.keyboard('{ArrowDown}{Enter}');
+    await expect(args.onChange).toHaveBeenLastCalledWith({
+      selectedItems: [items[3]],
+    });
+    await expect(input).toHaveValue('option 4');
+  },
+);
+
+export const FilterableWithSelectAll = meta.story({
+  args: {
+    items: itemsWithSelectAll,
+  },
+  parameters: {
+    controls: filterableControls,
+    docs: {
+      description: {
+        story:
+          'With a select-all item, `FilterableMultiSelect` checks or clears the items the text typed lists, and keeps the rest of the selection.',
+      },
+    },
+  },
+  render: renderFilterable,
+});
+
+FilterableWithSelectAll.test(
+  'checks only the items listed',
+  async ({ canvas, userEvent, args }) => {
+    const input = canvas.getByRole('combobox', { name: /^Label/ });
+    await userEvent.type(input, 'own');
+    await userEvent.click(canvas.getByRole('option', { name: 'All roles' }));
+    await expect(args.onChange).toHaveBeenLastCalledWith({
+      selectedItems: [itemsWithSelectAll[1]],
+    });
+  },
+);
+
+export const FilterableWithCustomSearch = meta.story({
+  args: {
+    titleText: 'Filter by category or color',
+    helperText: 'Try searching for "fruit" or "green"',
+    items: customSearchItems,
+  },
+  parameters: {
+    controls: filterableControls,
+    docs: {
+      description: {
+        story:
+          'To search elsewhere, here on terms the items carry, pass a `@filterItems` that keeps the items as they are, and change `@items` from `@onInputValueChange`.',
+      },
+    },
+  },
+  render: (args: StoryArgs) => {
+    const results = tracked(args.items);
+    const keepItems = (list: readonly Item[]) => [...list];
+    const search = ({ inputValue }: { inputValue: string }) => {
+      const query = inputValue.trim().toLocaleLowerCase();
+      results.value = query
+        ? args.items.filter((item) =>
+            item.searchTerms?.some((term) => term.includes(query)),
+          )
+        : args.items;
+    };
+
+    return <template>
+      <FilterableMultiSelect
+        @titleText={{args.titleText}}
+        @helperText={{args.helperText}}
+        @items={{results.value}}
+        @itemToString={{args.itemToString}}
+        @filterItems={{keepItems}}
+        @onInputValueChange={{search}}
+        @onChange={{args.onChange}}
+      />
+    </template>;
+  },
+});
+
+FilterableWithCustomSearch.test(
+  'lists what the search finds',
+  async ({ canvas, userEvent }) => {
+    await userEvent.type(
+      canvas.getByRole('combobox', { name: /^Filter by category/ }),
+      'green',
+    );
+    await waitFor(() => expect(canvas.getAllByRole('option')).toHaveLength(1));
+    await expect(
+      canvas.getByRole('option', { name: 'Broccoli' }),
+    ).toBeVisible();
+  },
+);
+
+export const FilterableWithLayer = Filterable.extend({
+  decorators: [withLayer],
+});
+
+export const FilterableWithAILabel = meta.story({
+  parameters: { controls: filterableControls },
+  render: (args: StoryArgs) => <template>
+    <FilterableMultiSelect
+      @titleText={{args.titleText}}
+      @helperText={{args.helperText}}
+      @items={{args.items}}
+      @itemToString={{args.itemToString}}
+      @onChange={{args.onChange}}
+    >
+      <:decorator as |AILabel|>
+        <AILabel @align="bottom-end" as |label|>
+          <label.Content><AIExplanation /></label.Content>
+        </AILabel>
+      </:decorator>
+    </FilterableMultiSelect>
+  </template>,
+});

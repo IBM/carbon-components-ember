@@ -209,6 +209,14 @@
       "onAddFiles"
     ]
   },
+  "FilterableMultiSelect": {
+    "missing": [
+      "downshiftProps",
+      "inputProps",
+      "itemToElement",
+      "translateWithId"
+    ]
+  },
   "FluidTextInput": {
     "extra": [
       "hidePasswordLabel",

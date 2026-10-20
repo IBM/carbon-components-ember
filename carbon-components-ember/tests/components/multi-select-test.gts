@@ -491,7 +491,7 @@ module('Integration | Component | MultiSelect', function (hooks) {
         .doesNotHaveClass('cds--list-box__menu-item--active');
       assert
         .dom(`${OPTION}[aria-label="All roles"] .cds--checkbox-label`)
-        .hasClass('cds--ember-multi-select__checkbox--mixed');
+        .hasClass('cds--ember-list-box-checkbox--mixed');
 
       await click(option('Owner'));
       await click(option('Editor'));
