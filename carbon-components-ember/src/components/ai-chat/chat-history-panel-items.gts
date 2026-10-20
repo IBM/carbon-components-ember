@@ -44,8 +44,7 @@ export interface ChatHistoryPanelItemsSignature {
  * `@carbon/styles`' compiled CSS at all; that's a Carbon-React-only class
  * name). Upstream also sets a `data-floating-menu-container` attribute here
  * as a portal target for its `cds-overflow-menu`; not needed here, since
- * this addon's `OverflowMenu` already wormholes its content to
- * `document.body` via `ember-basic-dropdown`.
+ * this addon's `OverflowMenu` shows its menu in the top layer, in place.
  */
 const ChatHistoryPanelItems: TOC<ChatHistoryPanelItemsSignature> = <template>
   <div role="list" class="cds-aichat-history-panel-items" ...attributes>

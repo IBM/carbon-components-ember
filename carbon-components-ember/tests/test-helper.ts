@@ -5,7 +5,6 @@ import { setApplication } from '@ember/test-helpers';
 import { setup } from 'qunit-dom';
 import { start as qunitStart, setupEmberOnerrorValidation } from 'ember-qunit';
 import { setTesting } from '@embroider/macros';
-import { setConfig as setBasicDropdownConfig } from 'ember-basic-dropdown/config';
 import { setupSnapshot } from './setup-snapshot.ts';
 
 import {
@@ -53,8 +52,6 @@ Router.map(function () {});
 
 export function start() {
   setTesting(true);
-  // Render dropdown content inside the test container.
-  setBasicDropdownConfig({ rootElement: '#ember-testing' });
   setApplication(
     TestApp.create({
       autoboot: false,

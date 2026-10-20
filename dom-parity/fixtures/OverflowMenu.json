@@ -1,0 +1,1330 @@
+{
+  "component": "OverflowMenu",
+  "generatedAt": "2026-10-20T12:20:33.408Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "span",
+        "classes": [
+          "cds--overflow-menu__wrapper"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--icon-tooltip",
+              "cds--popover--caret",
+              "cds--popover--high-contrast",
+              "cds--popover--top",
+              "cds--popover-container",
+              "cds--tooltip"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tooltip-trigger__wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--btn",
+                      "cds--btn--ghost",
+                      "cds--btn--icon-only",
+                      "cds--overflow-menu"
+                    ],
+                    "attributes": {
+                      "aria-haspopup": "true",
+                      "aria-expanded": "false",
+                      "aria-labelledby": "#1",
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [
+                          "cds--overflow-menu__icon"
+                        ],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "aria-label": "Options",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 32 32",
+                          "role": "img",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "circle",
+                            "classes": [],
+                            "attributes": {
+                              "cx": "16",
+                              "cy": "8",
+                              "r": "2"
+                            },
+                            "style": {},
+                            "children": []
+                          },
+                          {
+                            "type": "element",
+                            "tag": "circle",
+                            "classes": [],
+                            "attributes": {
+                              "cx": "16",
+                              "cy": "16",
+                              "r": "2"
+                            },
+                            "style": {},
+                            "children": []
+                          },
+                          {
+                            "type": "element",
+                            "tag": "circle",
+                            "classes": [],
+                            "attributes": {
+                              "cx": "16",
+                              "cy": "24",
+                              "r": "2"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--popover"
+                ],
+                "attributes": {
+                  "aria-hidden": "true",
+                  "id": "#1",
+                  "role": "tooltip"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--popover-content",
+                      "cds--tooltip-content"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Options"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--popover-caret"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "trigger": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--ghost",
+          "cds--btn--icon-only",
+          "cds--overflow-menu"
+        ],
+        "attributes": {
+          "aria-haspopup": "true",
+          "aria-expanded": "false",
+          "aria-labelledby": "#1",
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--overflow-menu__icon"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "aria-label": "Options",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 32 32",
+              "role": "img",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [],
+                "attributes": {
+                  "cx": "16",
+                  "cy": "8",
+                  "r": "2"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [],
+                "attributes": {
+                  "cx": "16",
+                  "cy": "16",
+                  "r": "2"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [],
+                "attributes": {
+                  "cx": "16",
+                  "cy": "24",
+                  "r": "2"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "trigger-size-sm": {
+      "props": {
+        "size": "sm"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--ghost",
+          "cds--btn--icon-only",
+          "cds--btn--sm",
+          "cds--layout--size-sm",
+          "cds--overflow-menu",
+          "cds--overflow-menu--sm"
+        ],
+        "attributes": {
+          "aria-haspopup": "true",
+          "aria-expanded": "false",
+          "aria-labelledby": "#1",
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--overflow-menu__icon"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "aria-label": "Options",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 32 32",
+              "role": "img",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [],
+                "attributes": {
+                  "cx": "16",
+                  "cy": "8",
+                  "r": "2"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [],
+                "attributes": {
+                  "cx": "16",
+                  "cy": "16",
+                  "r": "2"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [],
+                "attributes": {
+                  "cx": "16",
+                  "cy": "24",
+                  "r": "2"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "trigger-size-lg": {
+      "props": {
+        "size": "lg"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--ghost",
+          "cds--btn--icon-only",
+          "cds--btn--lg",
+          "cds--layout--size-lg",
+          "cds--overflow-menu",
+          "cds--overflow-menu--lg"
+        ],
+        "attributes": {
+          "aria-haspopup": "true",
+          "aria-expanded": "false",
+          "aria-labelledby": "#1",
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--overflow-menu__icon"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "aria-label": "Options",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 32 32",
+              "role": "img",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [],
+                "attributes": {
+                  "cx": "16",
+                  "cy": "8",
+                  "r": "2"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [],
+                "attributes": {
+                  "cx": "16",
+                  "cy": "16",
+                  "r": "2"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [],
+                "attributes": {
+                  "cx": "16",
+                  "cy": "24",
+                  "r": "2"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "trigger-icon-description": {
+      "props": {
+        "iconDescription": "Settings"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--ghost",
+          "cds--btn--icon-only",
+          "cds--overflow-menu"
+        ],
+        "attributes": {
+          "aria-haspopup": "true",
+          "aria-expanded": "false",
+          "aria-labelledby": "#1",
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--overflow-menu__icon"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "aria-label": "Settings",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 32 32",
+              "role": "img",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [],
+                "attributes": {
+                  "cx": "16",
+                  "cy": "8",
+                  "r": "2"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [],
+                "attributes": {
+                  "cx": "16",
+                  "cy": "16",
+                  "r": "2"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [],
+                "attributes": {
+                  "cx": "16",
+                  "cy": "24",
+                  "r": "2"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "trigger-icon-class": {
+      "props": {
+        "iconClass": "custom-icon"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--ghost",
+          "cds--btn--icon-only",
+          "cds--overflow-menu"
+        ],
+        "attributes": {
+          "aria-haspopup": "true",
+          "aria-expanded": "false",
+          "aria-labelledby": "#1",
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--overflow-menu__icon",
+              "custom-icon"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "aria-label": "Options",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 32 32",
+              "role": "img",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [],
+                "attributes": {
+                  "cx": "16",
+                  "cy": "8",
+                  "r": "2"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [],
+                "attributes": {
+                  "cx": "16",
+                  "cy": "16",
+                  "r": "2"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [],
+                "attributes": {
+                  "cx": "16",
+                  "cy": "24",
+                  "r": "2"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "trigger-disabled": {
+      "props": {
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--disabled",
+          "cds--btn--ghost",
+          "cds--btn--icon-only",
+          "cds--overflow-menu"
+        ],
+        "attributes": {
+          "aria-haspopup": "true",
+          "aria-expanded": "false",
+          "aria-labelledby": "#1",
+          "disabled": true,
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--overflow-menu__icon"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "aria-label": "Options",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 32 32",
+              "role": "img",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [],
+                "attributes": {
+                  "cx": "16",
+                  "cy": "8",
+                  "r": "2"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [],
+                "attributes": {
+                  "cx": "16",
+                  "cy": "16",
+                  "r": "2"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [],
+                "attributes": {
+                  "cx": "16",
+                  "cy": "24",
+                  "r": "2"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "trigger-open": {
+      "props": {
+        "open": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--ghost",
+          "cds--btn--icon-only",
+          "cds--overflow-menu",
+          "cds--overflow-menu--open"
+        ],
+        "attributes": {
+          "aria-haspopup": "true",
+          "aria-expanded": "true",
+          "aria-controls": "#2",
+          "aria-labelledby": "#1",
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--overflow-menu__icon"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "aria-label": "Options",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 32 32",
+              "role": "img",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [],
+                "attributes": {
+                  "cx": "16",
+                  "cy": "8",
+                  "r": "2"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [],
+                "attributes": {
+                  "cx": "16",
+                  "cy": "16",
+                  "r": "2"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "circle",
+                "classes": [],
+                "attributes": {
+                  "cx": "16",
+                  "cy": "24",
+                  "r": "2"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "open": {
+      "props": {
+        "open": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "ul",
+        "classes": [
+          "cds--overflow-menu-options",
+          "cds--overflow-menu-options--open"
+        ],
+        "attributes": {
+          "tabindex": "-1",
+          "role": "menu",
+          "aria-label": "Overflow menu",
+          "id": "#2",
+          "data-floating-menu-direction": "bottom"
+        },
+        "style": {
+          "visibility": "hidden",
+          "top": "0px",
+          "position": "absolute",
+          "opacity": "1"
+        },
+        "children": [
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--overflow-menu-options__option"
+            ],
+            "attributes": {
+              "role": "none",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--overflow-menu-options__btn"
+                ],
+                "attributes": {
+                  "role": "menuitem",
+                  "tabindex": "-1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--overflow-menu-options__option-content"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Stop app"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--overflow-menu--divider",
+              "cds--overflow-menu-options__option",
+              "cds--overflow-menu-options__option--danger"
+            ],
+            "attributes": {
+              "role": "none",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--overflow-menu-options__btn"
+                ],
+                "attributes": {
+                  "role": "menuitem",
+                  "tabindex": "-1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--overflow-menu-options__option-content"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Delete app"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "open-flipped": {
+      "props": {
+        "open": true,
+        "flipped": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "ul",
+        "classes": [
+          "cds--overflow-menu--flip",
+          "cds--overflow-menu-options",
+          "cds--overflow-menu-options--open"
+        ],
+        "attributes": {
+          "tabindex": "-1",
+          "role": "menu",
+          "aria-label": "Overflow menu",
+          "id": "#2",
+          "data-floating-menu-direction": "bottom"
+        },
+        "style": {
+          "visibility": "hidden",
+          "top": "0px",
+          "position": "absolute",
+          "opacity": "1"
+        },
+        "children": [
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--overflow-menu-options__option"
+            ],
+            "attributes": {
+              "role": "none",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--overflow-menu-options__btn"
+                ],
+                "attributes": {
+                  "role": "menuitem",
+                  "tabindex": "-1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--overflow-menu-options__option-content"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Stop app"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--overflow-menu--divider",
+              "cds--overflow-menu-options__option",
+              "cds--overflow-menu-options__option--danger"
+            ],
+            "attributes": {
+              "role": "none",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--overflow-menu-options__btn"
+                ],
+                "attributes": {
+                  "role": "menuitem",
+                  "tabindex": "-1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--overflow-menu-options__option-content"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Delete app"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "open-top": {
+      "props": {
+        "open": true,
+        "direction": "top"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "ul",
+        "classes": [
+          "cds--overflow-menu-options",
+          "cds--overflow-menu-options--open"
+        ],
+        "attributes": {
+          "tabindex": "-1",
+          "role": "menu",
+          "aria-label": "Overflow menu",
+          "id": "#2",
+          "data-floating-menu-direction": "top"
+        },
+        "style": {
+          "visibility": "hidden",
+          "top": "0px",
+          "position": "absolute",
+          "opacity": "1"
+        },
+        "children": [
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--overflow-menu-options__option"
+            ],
+            "attributes": {
+              "role": "none",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--overflow-menu-options__btn"
+                ],
+                "attributes": {
+                  "role": "menuitem",
+                  "tabindex": "-1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--overflow-menu-options__option-content"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Stop app"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--overflow-menu--divider",
+              "cds--overflow-menu-options__option",
+              "cds--overflow-menu-options__option--danger"
+            ],
+            "attributes": {
+              "role": "none",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--overflow-menu-options__btn"
+                ],
+                "attributes": {
+                  "role": "menuitem",
+                  "tabindex": "-1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--overflow-menu-options__option-content"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Delete app"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "open-size-sm": {
+      "props": {
+        "open": true,
+        "size": "sm"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "ul",
+        "classes": [
+          "cds--layout--size-sm",
+          "cds--overflow-menu-options",
+          "cds--overflow-menu-options--open",
+          "cds--overflow-menu-options--sm"
+        ],
+        "attributes": {
+          "tabindex": "-1",
+          "role": "menu",
+          "aria-label": "Overflow menu",
+          "id": "#2",
+          "data-floating-menu-direction": "bottom"
+        },
+        "style": {
+          "visibility": "hidden",
+          "top": "0px",
+          "position": "absolute",
+          "opacity": "1"
+        },
+        "children": [
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--overflow-menu-options__option"
+            ],
+            "attributes": {
+              "role": "none",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--overflow-menu-options__btn"
+                ],
+                "attributes": {
+                  "role": "menuitem",
+                  "tabindex": "-1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--overflow-menu-options__option-content"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Stop app"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--overflow-menu--divider",
+              "cds--overflow-menu-options__option",
+              "cds--overflow-menu-options__option--danger"
+            ],
+            "attributes": {
+              "role": "none",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--overflow-menu-options__btn"
+                ],
+                "attributes": {
+                  "role": "menuitem",
+                  "tabindex": "-1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--overflow-menu-options__option-content"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Delete app"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "open-menu-options-class": {
+      "props": {
+        "open": true,
+        "menuOptionsClass": "custom-menu"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "ul",
+        "classes": [
+          "cds--overflow-menu-options",
+          "cds--overflow-menu-options--open",
+          "custom-menu"
+        ],
+        "attributes": {
+          "tabindex": "-1",
+          "role": "menu",
+          "aria-label": "Overflow menu",
+          "id": "#2",
+          "data-floating-menu-direction": "bottom"
+        },
+        "style": {
+          "visibility": "hidden",
+          "top": "0px",
+          "position": "absolute",
+          "opacity": "1"
+        },
+        "children": [
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--overflow-menu-options__option"
+            ],
+            "attributes": {
+              "role": "none",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--overflow-menu-options__btn"
+                ],
+                "attributes": {
+                  "role": "menuitem",
+                  "tabindex": "-1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--overflow-menu-options__option-content"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Stop app"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": [
+              "cds--overflow-menu--divider",
+              "cds--overflow-menu-options__option",
+              "cds--overflow-menu-options__option--danger"
+            ],
+            "attributes": {
+              "role": "none",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--overflow-menu-options__btn"
+                ],
+                "attributes": {
+                  "role": "menuitem",
+                  "tabindex": "-1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--overflow-menu-options__option-content"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Delete app"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -10,8 +10,6 @@ import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
 import type { ComponentLike } from '@glint/template';
 import OverflowMenu from '../overflow-menu.gts';
-import OverflowMenuItem from '../overflow-menu/overflow-menu-item.gts';
-import OverflowMenuVertical from '../icons/overflow-menu-vertical.ts';
 import TruncatedText from './truncated-text.gts';
 import ToolbarActionButton from './-toolbar-action.gts';
 import './toolbar.scss';
@@ -254,13 +252,9 @@ export default class Toolbar extends Component<ToolbarSignature> {
           {{/each}}
 
           {{#if this.showOverflowMenu}}
-            <OverflowMenu
-              @direction="bottom"
-              @tooltip="Options"
-              @icon={{OverflowMenuVertical}}
-            >
+            <OverflowMenu as |Item|>
               {{#each this.displayedHiddenActions as |toolbarAction|}}
-                <OverflowMenuItem
+                <Item
                   @itemText={{toolbarAction.text}}
                   @href={{toolbarAction.href}}
                   @disabled={{toolbarAction.disabled}}

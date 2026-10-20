@@ -259,50 +259,8 @@
   },
   "OverflowMenu": {
     "missing": [
-      "align",
-      "autoAlign",
       "badgeCount",
-      "closeOnActivation",
-      "defaultOpen",
-      "dropShadow",
-      "enterDelayMs",
-      "highContrast",
-      "href",
-      "iconClass",
-      "id",
-      "isSelected",
-      "leaveDelayMs",
-      "light",
-      "menuOffset",
-      "menuOffsetFlip",
-      "menuOptionsClass",
-      "onClick",
-      "onClose",
-      "onOpen",
-      "open",
-      "rel",
-      "renderIcon",
-      "selectorPrimaryFocus",
-      "size",
-      "target",
-      "wrapperClasses"
-    ],
-    "extra": [
-      "danger",
-      "eventType",
-      "horizontalPosition",
-      "icon",
-      "tooltip"
-    ],
-    "values": [
-      "direction"
-    ]
-  },
-  "OverflowMenuItem": {
-    "missing": [
-      "closeMenu",
-      "handleOverflowMenuItemFocus",
-      "index"
+      "isSelected"
     ]
   },
   "Pagination": {

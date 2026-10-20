@@ -7,13 +7,8 @@ import Filter from './icons/filter.ts';
 import type { OverflowMenuSignature } from './overflow-menu.gts';
 
 // Parity gaps with Carbon React's OverflowMenu stories:
-// - No `size`, `align`, `autoAlign`, `focusTrap`, `open`/`defaultOpen` or
-//   tooltip `enterDelayMs`/`leaveDelayMs` args.
-// - `@disabled`/`@danger` disable or mark *every item* rather than the
-//   trigger.
-//
-// The menu renders into ember-basic-dropdown's wormhole, outside the story
-// canvas, so the tests query `document.body` for it.
+// - No `focusTrap` control: Tab closes the menu, so there's no focus to
+//   trap.
 
 type StoryArgs = OverflowMenuSignature['Args'] & {
   onItemClick?: () => void;
@@ -22,20 +17,54 @@ type StoryArgs = OverflowMenuSignature['Args'] & {
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'Components/OverflowMenu',
   component: OverflowMenu,
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "A button that opens a menu of actions for the thing it sits next to. It yields `OverflowMenuItem` bound to the menu: an item closes the menu once it has run its `@onClick`, and the arrow keys move between enabled items. The menu renders in place, in the top layer, so containers like DataTable cells don't clip it and it stays usable inside a Modal. `@iconDescription` names the trigger and is its tooltip; `@ariaLabel` names the menu.",
+      },
+    },
+  },
   args: {
-    direction: 'bottom',
     flipped: false,
-    tooltip: 'Options',
+    iconDescription: 'Options',
+    open: false,
+    size: 'md',
     onItemClick: fn(),
+  },
+  argTypes: {
+    align: {
+      control: 'select',
+      options: [
+        'top',
+        'top-start',
+        'top-end',
+        'bottom',
+        'bottom-start',
+        'bottom-end',
+        'left',
+        'left-end',
+        'left-start',
+        'right',
+        'right-end',
+        'right-start',
+      ],
+    },
+    size: { control: 'select', options: ['xs', 'sm', 'md', 'lg'] },
   },
   render: (args: StoryArgs) => <template>
     <OverflowMenu
-      @direction={{args.direction}}
-      @flipped={{args.flipped}}
-      @tooltip={{args.tooltip}}
+      @ariaLabel="overflow-menu"
+      @align={{args.align}}
+      @autoAlign={{args.autoAlign}}
+      @defaultOpen={{args.defaultOpen}}
       @disabled={{args.disabled}}
-      @danger={{args.danger}}
-      @icon={{args.icon}}
+      @enterDelayMs={{args.enterDelayMs}}
+      @flipped={{args.flipped}}
+      @iconDescription={{args.iconDescription}}
+      @leaveDelayMs={{args.leaveDelayMs}}
+      @open={{args.open}}
+      @size={{args.size}}
       as |Item|
     >
       <Item @itemText="Stop app" @onClick={{args.onItemClick}} />
@@ -55,35 +84,54 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
 export const Default = meta.story();
 
 Default.test(
-  'opens the menu and closes it after choosing an item',
+  'opens the menu on the first item, and closes it after choosing one',
   async ({ canvasElement, userEvent, args }) => {
-    const body = within(document.body);
-    await userEvent.click(
-      canvasElement.querySelector<HTMLElement>('.cds--overflow-menu')!,
-    );
-    const item = await body.findByRole('menuitem', { name: 'Stop app' });
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', { name: 'Options' }));
+    const item = await canvas.findByRole('menuitem', { name: 'Stop app' });
+    await waitFor(() => expect(item).toHaveFocus());
     await expect(
-      body.getByRole('menuitem', { name: 'Clone and move app' }),
+      canvas.getByRole('menuitem', { name: 'Clone and move app' }),
     ).toBeDisabled();
     await userEvent.click(item);
     await expect(args.onItemClick).toHaveBeenCalledOnce();
+    await waitFor(() => expect(canvas.queryByRole('menu')).toBeNull());
+  },
+);
+
+Default.test(
+  'moves between enabled items with the arrow keys, and closes on Escape',
+  async ({ canvasElement, userEvent }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: 'Options' });
+    await userEvent.click(trigger);
     await waitFor(() =>
-      expect(body.queryByRole('menuitem', { name: 'Stop app' })).toBeNull(),
+      expect(canvas.getByRole('menuitem', { name: 'Stop app' })).toHaveFocus(),
     );
+    await userEvent.keyboard('{ArrowUp}');
+    await expect(
+      canvas.getByRole('menuitem', { name: 'Delete app' }),
+    ).toHaveFocus();
+    await userEvent.keyboard('{ArrowUp}{ArrowUp}');
+    // Past the disabled "Clone and move app".
+    await expect(
+      canvas.getByRole('menuitem', { name: 'Rename app' }),
+    ).toHaveFocus();
+    await userEvent.keyboard('{Escape}');
+    await waitFor(() => expect(canvas.queryByRole('menu')).toBeNull());
+    await expect(trigger).toHaveFocus();
   },
 );
 
 export const RenderCustomIcon = meta.story({
-  args: {
-    icon: Filter,
-    tooltip: 'Filter',
-  },
   render: (args: StoryArgs) => <template>
     <OverflowMenu
-      @direction={{args.direction}}
+      @align={{args.align}}
       @flipped={{args.flipped}}
-      @tooltip={{args.tooltip}}
-      @icon={{args.icon}}
+      @iconDescription={{args.iconDescription}}
+      @open={{args.open}}
+      @renderIcon={{Filter}}
+      @size={{args.size}}
       as |Item|
     >
       <Item @itemText="Filter A" />
@@ -92,17 +140,15 @@ export const RenderCustomIcon = meta.story({
   </template>,
 });
 
-// The docs-app demo: long items with `@requireTitle`, a delete item with a
-// `@dangerDescription`, a divider, a disabled item and a link item. Toggle
-// the `danger` and `disabled` controls to affect every item.
+// Long items with `@requireTitle`, a delete item with a `@dangerDescription`,
+// a divider, a disabled item and a link item.
 export const ItemVariants = meta.story({
   render: (args: StoryArgs) => <template>
     <OverflowMenu
-      @direction={{args.direction}}
+      @ariaLabel="overflow-menu"
       @flipped={{args.flipped}}
-      @tooltip={{args.tooltip}}
-      @danger={{args.danger}}
-      @disabled={{args.disabled}}
+      @iconDescription={{args.iconDescription}}
+      @size={{args.size}}
       as |Item|
     >
       <Item @itemText="option 1" />

@@ -205,18 +205,17 @@ module('Integration | Component | ai-chat/ChatHistoryPanelItem', (hooks) => {
         '.cds--overflow-menu-options__option:last-child .cds--overflow-menu-options__option-content svg',
       )
       .doesNotExist();
-    // "Rename" passes no `icon`, so its `.option-icon` wrapper (always
-    // present once ChatHistoryPanelItem's own `{{#if menuAction.icon}}`
-    // block is yielded to OverflowMenuItem at all, regardless of whether
-    // that inner `{{#if}}` ends up rendering anything) stays empty rather
-    // than being absent - `{{has-block}}` reflects whether a block was
-    // syntactically passed to the invocation, not whether it renders any
-    // content.
+    // "Rename" passes no `icon`, so it has no `.option-icon`.
     assert
       .dom(
         '.cds--overflow-menu-options__option:first-child .cds--overflow-menu-options__option-icon',
       )
-      .hasText('');
+      .doesNotExist();
+    assert
+      .dom(
+        '.cds--overflow-menu-options__option:first-child .cds--overflow-menu-options__option-content',
+      )
+      .hasText('Rename');
 
     await click('.cds--overflow-menu-options__option:last-child button');
     assert.deepEqual(calls, [
@@ -224,19 +223,10 @@ module('Integration | Component | ai-chat/ChatHistoryPanelItem', (hooks) => {
     ]);
   });
 
-  test('the overflow menu requests right-alignment, so it opens toward the panel interior instead of growing past its right edge', async function (assert) {
-    // The trigger sits flush against the right edge of a history panel
-    // that's usually much narrower than the browser viewport - `Overflow
-    // Menu`'s underlying `ember-basic-dropdown` `horizontalPosition='auto'`
-    // default would pick `'left'` (the menu already fits the *viewport*
-    // from there), letting it grow rightward out of the panel. `Chat
-    // HistoryPanelItem` passes `@horizontalPosition='right'` so the menu
-    // opens toward the panel's interior (leftward from the trigger)
-    // instead. Asserted via the resulting `ember-basic-dropdown-content--
-    // right` state class rather than measured pixel positions - the actual
-    // pixel math is `ember-basic-dropdown`'s own well-tested concern, and
-    // is sensitive to the QUnit test harness's own container/coordinate
-    // setup in a way unrelated to this component.
+  test('the overflow menu is flipped, so it opens back over the panel instead of past its end', async function (assert) {
+    // The trigger sits against the end of a history panel that's usually
+    // much narrower than the viewport, so the menu lines up with the
+    // trigger's end edge rather than its start edge.
     await render(
       <template>
         <ChatHistoryPanelItem
@@ -253,12 +243,8 @@ module('Integration | Component | ai-chat/ChatHistoryPanelItem', (hooks) => {
     await click('.cds--overflow-menu');
 
     assert
-      .dom(
-        document
-          .querySelector('.cds--overflow-menu-options')!
-          .closest('.ember-basic-dropdown-content'),
-      )
-      .hasClass('ember-basic-dropdown-content--right');
+      .dom('.cds--overflow-menu-options')
+      .hasClass('cds--overflow-menu--flip');
   });
 
   test('the overflow menu is hidden by default and shown via @showActions', async function (assert) {

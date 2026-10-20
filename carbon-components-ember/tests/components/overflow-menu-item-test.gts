@@ -133,13 +133,13 @@ module('Integration | Component | OverflowMenuItem', (hooks) => {
     assert.true(clicked.value);
   });
 
-  test('should apply className and wrapperClassName', async function (assert) {
+  test('puts class on the button and @wrapperClassName on its item', async function (assert) {
     await render(
       <template>
         <OverflowMenu @direction="bottom" as |Item|>
           <Item
             @itemText="option 1"
-            @className="my-btn-class"
+            class="my-btn-class"
             @wrapperClassName="my-wrapper-class"
           />
         </OverflowMenu>

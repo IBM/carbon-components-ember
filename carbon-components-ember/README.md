@@ -23,17 +23,6 @@ import '@carbon/styles/css/styles.css';
 import 'carbon-components-ember/styles.css';
 ```
 
-Add the element some menus render into to your application template:
-
-```gts
-<template>
-  {{outlet}}
-
-  {{! OverflowMenu menus }}
-  <div id="ember-basic-dropdown-wormhole"></div>
-</template>
-```
-
 ## Use
 
 Import components into your `.gts` templates, from the package or from each component's own module. In a classic ember-cli build, use the modules (`carbon-components-ember/components/button`): ember-auto-import bundles everything `carbon-components-ember/components` exports, whichever components you use.

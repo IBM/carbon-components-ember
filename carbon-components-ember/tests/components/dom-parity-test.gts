@@ -39,6 +39,8 @@ import Select from '#src/components/select.gts';
 import type { SelectSignature } from '#src/components/select.gts';
 import Modal from '#src/components/modal.gts';
 import type { ModalSignature } from '#src/components/modal.gts';
+import OverflowMenu from '#src/components/overflow-menu.gts';
+import type { OverflowMenuSignature } from '#src/components/overflow-menu.gts';
 import TextArea from '#src/components/text-area.gts';
 import PasswordInput from '#src/components/password-input.gts';
 import NumberInput from '#src/components/number-input.gts';
@@ -110,6 +112,7 @@ import textInputFixture from '../../../dom-parity/fixtures/TextInput.json';
 import breadcrumbFixture from '../../../dom-parity/fixtures/Breadcrumb.json';
 import selectFixture from '../../../dom-parity/fixtures/Select.json';
 import modalFixture from '../../../dom-parity/fixtures/Modal.json';
+import overflowMenuFixture from '../../../dom-parity/fixtures/OverflowMenu.json';
 import textAreaFixture from '../../../dom-parity/fixtures/TextArea.json';
 import passwordInputFixture from '../../../dom-parity/fixtures/PasswordInput.json';
 import numberInputFixture from '../../../dom-parity/fixtures/NumberInput.json';
@@ -2867,6 +2870,82 @@ module('DOM parity | Carbon React', function (hooks) {
 
     test('every fixture variant is covered', function (assert) {
       assertFullCoverage(assert, modalFixture, Object.keys(variants));
+    });
+  });
+
+  module('OverflowMenu', function () {
+    // The props dom-parity/lib/components.mjs renders each variant with;
+    // `trigger` variants compare the button and `menu` ones the open menu,
+    // with ids canonicalized over the whole render, as the fixture does.
+    const variants: Record<
+      string,
+      OverflowMenuSignature['Args'] & { root?: 'trigger' | 'menu' }
+    > = {
+      default: {},
+      trigger: { root: 'trigger' },
+      'trigger-size-sm': { size: 'sm', root: 'trigger' },
+      'trigger-size-lg': { size: 'lg', root: 'trigger' },
+      'trigger-icon-description': {
+        iconDescription: 'Settings',
+        root: 'trigger',
+      },
+      'trigger-icon-class': { iconClass: 'custom-icon', root: 'trigger' },
+      'trigger-disabled': { disabled: true, root: 'trigger' },
+      'trigger-open': { open: true, root: 'trigger' },
+      open: { open: true, root: 'menu' },
+      'open-flipped': { open: true, flipped: true, root: 'menu' },
+      'open-top': { open: true, direction: 'top', root: 'menu' },
+      'open-size-sm': { open: true, size: 'sm', root: 'menu' },
+      'open-menu-options-class': {
+        open: true,
+        menuOptionsClass: 'custom-menu',
+        root: 'menu',
+      },
+    };
+
+    for (const [variant, props] of Object.entries(variants)) {
+      test(variant, async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <OverflowMenu
+              @ariaLabel="Overflow menu"
+              @direction={{props.direction}}
+              @disabled={{props.disabled}}
+              @flipped={{props.flipped}}
+              @iconClass={{props.iconClass}}
+              @iconDescription={{props.iconDescription}}
+              @menuOptionsClass={{props.menuOptionsClass}}
+              @open={{props.open}}
+              @size={{props.size}}
+              as |Item|
+            >
+              <Item @itemText="Stop app" />
+              <Item
+                @itemText="Delete app"
+                @isDelete={{true}}
+                @hasDivider={{true}}
+              />
+            </OverflowMenu>
+          </template>,
+        );
+        const root = {
+          trigger: 'button.cds--overflow-menu',
+          menu: '.cds--overflow-menu-options',
+        };
+        assertDomParity(
+          assert,
+          overflowMenuFixture,
+          variant,
+          props.root
+            ? document.querySelector(root[props.root])
+            : this.element.firstElementChild,
+          props.root ? (this.element as Element) : undefined,
+        );
+      });
+    }
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, overflowMenuFixture, Object.keys(variants));
     });
   });
 
