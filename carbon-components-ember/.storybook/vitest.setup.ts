@@ -89,6 +89,9 @@ afterEach(async ({ story, task }) => {
     // the top layer, popovers in portals.
     await expect.element(document.documentElement).toMatchScreenshot(name, {
       screenshotOptions: { animations: 'disabled' },
+      // To find two screenshots in a row that match. Each can take a few
+      // seconds while the other story files boot.
+      timeout: 15_000,
     });
   } catch (error) {
     if (!report) throw error;
