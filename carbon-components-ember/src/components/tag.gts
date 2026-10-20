@@ -120,7 +120,7 @@ export default class Tag extends Component<TagSignature> {
     >
       {{#if this.showIcon}}
         <div class="cds--tag__custom-icon">
-          <@renderIcon @size="16" @svgClass="cds--tag__custom-icon-svg" />
+          <@renderIcon @size="16" />
         </div>
       {{/if}}
       <span class="cds--tag__label" dir="auto" {{this.syncLabelTitle @title}}>

@@ -24,7 +24,6 @@ const ListBoxMenuIcon: TOC<ListBoxMenuIconSignature> = <template>
     {{#let (if @isOpen "Close menu" "Open menu") as |description|}}
       <ChevronDown
         @size="16"
-        @svgClass="cds--list-box__menu-icon__svg"
         @title={{description}}
         @ariaLabel={{description}}
       />

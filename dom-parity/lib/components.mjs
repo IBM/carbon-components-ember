@@ -411,10 +411,9 @@
  *    `ErrorFilled` components every other icon-using component in this
  *    addon already uses. (3) `progress-indicator.gts`'s `Incomplete`/
  *    `CheckmarkOutline`/`CircleDash` icon invocations (unlike its
- *    `Warning` one) passed no `@svgClass` - the AGENTS.md renderIcon-
- *    default-size gotcha recurring a third time (after Tile/RadioTile) -
- *    fixed with an inert `@svgClass='cds--progress-step-icon'`, matching
- *    RadioTile's precedent. Two more were fixed as plain default-value/
+ *    `Warning` one) passed no `@svgClass`, so they got `Icon`'s default
+ *    margin, which is gone now that icons render bare. Two more were
+ *    fixed as plain default-value/
  *    conditional-rendering bugs, not icon issues: `progress-bar.gts`
  *    defaulted `@size` to `undefined` (upstream defaults `'big'`), so a
  *    default render silently emitted a malformed empty `cds--progress-
@@ -458,10 +457,8 @@
  *    The svg root `preserveAspectRatio`/`xmlns`/`aria-hidden`/
  *    `will-change` gap was fixed addon-wide in `render-svg-part.ts` (#911),
  *    so none of these five allowlist it any more. What's left in
- *    `known-differences.json` for them is ProgressIndicator's icon
- *    `<title>`/`@description` gap and its inert `cds--progress-step-icon`
- *    class (Ember's `Icon` has no way to inject a `<title>`), upstream
- *    quirks not worth copying (`scaleX(NaN)` on an indeterminate bar,
+ *    `known-differences.json` for them is upstream quirks not worth
+ *    copying (`scaleX(NaN)` on an indeterminate bar,
  *    ProgressStep's stray `index` attribute, Slider's stray `value` on its
  *    track div, ShapeIndicator's `size="16"` on its incomplete icon), and
  *    harness limitations (input `value` property vs. attribute, path

@@ -105,7 +105,7 @@ export default class Link extends Component<LinkSignature> {
         {{yield}}
         {{#if this.showIcon}}
           <span class="cds--link__icon">
-            <@renderIcon @size="16" @svgClass="cds--link__icon-svg" />
+            <@renderIcon @size="16" />
           </span>
         {{/if}}
       </Tag>

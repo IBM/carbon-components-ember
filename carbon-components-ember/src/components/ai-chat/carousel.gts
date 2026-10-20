@@ -142,11 +142,7 @@ export default class Carousel extends Component<CarouselSignature> {
             @iconOnly={{true}}
             @onClick={{this.prev}}
           >
-            <ChevronLeft
-              @size={{16}}
-              @fill="currentColor"
-              @svgClass="cds-aichat-carousel__nav-icon"
-            />
+            <ChevronLeft @size={{16}} @fill="currentColor" />
           </Button>
         </Tooltip>
         <span class="cds-aichat-carousel__indicator">
@@ -161,11 +157,7 @@ export default class Carousel extends Component<CarouselSignature> {
             @iconOnly={{true}}
             @onClick={{this.next}}
           >
-            <ChevronRight
-              @size={{16}}
-              @fill="currentColor"
-              @svgClass="cds-aichat-carousel__nav-icon"
-            />
+            <ChevronRight @size={{16}} @fill="currentColor" />
           </Button>
         </Tooltip>
       </div>

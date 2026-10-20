@@ -88,7 +88,7 @@ export default class RadioTile extends Component<RadioTileSignature> {
           {{if this.disabled 'cds--tile--disabled'}}"
       >
         <span class="cds--tile__checkmark">
-          <CheckmarkFilled @size="16" @svgClass="cds--tile__checkmark-icon" />
+          <CheckmarkFilled @size="16" />
         </span>
         {{! @carbon/react wraps this in Text, which defaults to a span with dir='auto' - same Text/dir='auto' pattern as Tag/ListItem }}
         <span class="cds--tile-content" dir="auto">

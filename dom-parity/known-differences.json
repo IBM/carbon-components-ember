@@ -33,10 +33,6 @@
   ],
   "RadioTile": [
     {
-      "path": "div > label[1] > span[0] > svg[0].classes[cds--tile__checkmark-icon]",
-      "reason": "`.cds--tile__checkmark svg` is a plain descendant selector in the resolved @carbon/styles CSS (no class needed on the svg itself for styling), so `cds--tile__checkmark-icon` is an inert class - added to radio-tile.gts's `<CheckmarkFilled @svgClass=...>` invocation specifically to opt out of this addon's `Icon` base component's default margin-carrying `cds--ember-icon` class (see AGENTS.md's renderIcon-default-size gotcha, previously undocumented for this non-renderIcon direct-icon-usage case, now fixed the same way). @carbon/react's own icon has no class at all. Applies to every variant."
-    },
-    {
       "path": "div > input[0].attributes.checked",
       "variant": "checked",
       "reason": "Harness limitation, not a functional gap: Glimmer sets a bound `checked={{...}}` on an `<input>` as the DOM `checked` IDL property, not a reflected HTML attribute - confirmed by this addon's own `tile-group-test.gts`, which already asserts `assert.dom('input.cds--tile-input').isChecked()` (a property-based check) and passes. `normalizeElement` only inspects `el.attributes` (real attribute nodes), which can't see property-only state, so React's copy (which jsdom does reflect onto the attribute) shows as present and Ember's as absent even though both render a genuinely checked radio button."
@@ -46,20 +42,6 @@
     {
       "path": "fieldset > div[1] > div[0] > input[0].attributes.checked",
       "reason": "Same harness limitation as RadioTile's `div > input[0].attributes.checked` entry above, for the first (selected, via `@defaultSelected`) RadioTile in this fixture's default variant."
-    },
-    {
-      "path": "fieldset > div[1] > div[0] > label[1] > span[0] > svg[0].classes[cds--tile__checkmark-icon]",
-      "reason": "Same inert-`@svgClass` gap as RadioTile's entry of the same name, for the first RadioTile in this fixture's default variant."
-    },
-    {
-      "path": "fieldset > div[1] > div[1] > label[1] > span[0] > svg[0].classes[cds--tile__checkmark-icon]",
-      "reason": "Same inert-`@svgClass` gap as RadioTile's entry of the same name, for the second RadioTile in this fixture's default variant."
-    }
-  ],
-  "SelectableTile": [
-    {
-      "path": "div > span[0] > svg[0].classes[cds--tile__checkmark-icon]",
-      "reason": "Same inert-`@svgClass` gap as RadioTile's entry of the same name - added to tile.gts's `<Checkbox>`/`<CheckboxCheckedFilled>` invocations to opt out of this addon's `Icon` base component's default margin-carrying `cds--ember-icon` class (see AGENTS.md's renderIcon-default-size gotcha). @carbon/react's own icon has no class at all. Applies to every variant."
     }
   ],
   "ExpandableTile": [
@@ -71,10 +53,6 @@
     {
       "path": "div > div[0] > div[2] > text(\"Below content\")[0]",
       "reason": "Ember always wraps the below-the-fold block's yielded content in its own `<span class=\"cds--tile-content__below-the-fold\">` (the real, styled target of @carbon/styles' opacity/visibility fade-in transition - see _tile.scss), so a caller's plain content gets the collapse fade animation for free. Upstream's ExpandableTile itself renders whatever children are passed with no such wrapper - only its own, separately-exported (and not ported here) `TileBelowTheFoldContent` sub-component adds that class, opt-in per caller. A deliberate, functional divergence (keeping the fade animation working without requiring a second sub-component this addon doesn't port), not an accidental structural gap. Applies to every variant."
-    },
-    {
-      "path": "div > div[0] > button[1] > svg[0].classes[cds--tile__chevron-icon]",
-      "reason": "Same inert-`@svgClass` gap as RadioTile's entry of the same name - added to tile.gts's `<ChevronDown>` invocation to opt out of this addon's `Icon` base component's default margin-carrying `cds--ember-icon` class. @carbon/react's own icon has no class at all. Applies to every variant."
     }
   ],
   "SliderSkeleton": [
@@ -475,24 +453,12 @@
   ],
   "ProgressIndicator": [
     {
-      "path": "ul > li[0] > button[0] > svg[0].classes[cds--progress-step-icon]",
-      "reason": "`cds--progress-step-icon` is an inert class added to progress-indicator.gts's `Incomplete`/`CheckmarkOutline`/`CircleDash` icon invocations specifically to opt out of this addon's `Icon` base component's default margin-carrying `cds--ember-icon` class (see AGENTS.md's renderIcon-default-size gotcha) - @carbon/react's own icon has no class at all in this position (only the invalid-step's `Warning` icon carries a real class upstream, `cds--progress__warning`, already matched on both sides). Applies to every variant."
-    },
-    {
       "path": "ul > li[0] > button[0].attributes.index",
       "reason": "@carbon/react's `ProgressIndicator` clones each child with `{ complete, current, index, onClick }` via `React.Children.map`/`cloneElement`, and `ProgressStep`'s own destructuring (`{ label, description, className, current, complete, invalid, secondaryLabel, disabled, onClick, translateWithId: t, ...rest }`) never picks `index` out of its props - it falls into `...rest` and gets spread onto the `<button>` as a literal, non-standard `index` attribute. Ember's `progress-indicator.gts` has no equivalent - a harmless React-only quirk, not a real feature to reproduce. Applies to every variant."
     },
     {
-      "path": "ul > li[1] > button[0] > svg[0].classes[cds--progress-step-icon]",
-      "reason": "`cds--progress-step-icon` is an inert class added to progress-indicator.gts's `Incomplete`/`CheckmarkOutline`/`CircleDash` icon invocations specifically to opt out of this addon's `Icon` base component's default margin-carrying `cds--ember-icon` class (see AGENTS.md's renderIcon-default-size gotcha) - @carbon/react's own icon has no class at all in this position (only the invalid-step's `Warning` icon carries a real class upstream, `cds--progress__warning`, already matched on both sides). Applies to every variant."
-    },
-    {
       "path": "ul > li[1] > button[0].attributes.index",
       "reason": "@carbon/react's `ProgressIndicator` clones each child with `{ complete, current, index, onClick }` via `React.Children.map`/`cloneElement`, and `ProgressStep`'s own destructuring (`{ label, description, className, current, complete, invalid, secondaryLabel, disabled, onClick, translateWithId: t, ...rest }`) never picks `index` out of its props - it falls into `...rest` and gets spread onto the `<button>` as a literal, non-standard `index` attribute. Ember's `progress-indicator.gts` has no equivalent - a harmless React-only quirk, not a real feature to reproduce. Applies to every variant."
-    },
-    {
-      "path": "ul > li[2] > button[0] > svg[0].classes[cds--progress-step-icon]",
-      "reason": "`cds--progress-step-icon` is an inert class added to progress-indicator.gts's `Incomplete`/`CheckmarkOutline`/`CircleDash` icon invocations specifically to opt out of this addon's `Icon` base component's default margin-carrying `cds--ember-icon` class (see AGENTS.md's renderIcon-default-size gotcha) - @carbon/react's own icon has no class at all in this position (only the invalid-step's `Warning` icon carries a real class upstream, `cds--progress__warning`, already matched on both sides). Applies to every variant."
     },
     {
       "path": "ul > li[2] > button[0].attributes.index",

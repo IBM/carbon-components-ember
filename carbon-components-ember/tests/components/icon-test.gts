@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, find, waitUntil } from '@ember/test-helpers';
+import { render, click, find, findAll, waitUntil } from '@ember/test-helpers';
 import { Task } from '#src/icons.ts';
 
 module('Integration | Component | Icon', (hooks) => {
@@ -48,5 +48,19 @@ module('Integration | Component | Icon', (hooks) => {
       .dom('svg')
       .hasAttribute('aria-hidden', 'true')
       .doesNotHaveAttribute('role');
+  });
+
+  test('renders a bare svg, with a class only from @svgClass', async function (assert) {
+    await render(
+      <template>
+        <Task />
+        <Task @svgClass="my-icon" />
+      </template>,
+    );
+    await waitUntil(() => findAll('svg').length === 2);
+    const [bare, classed] = findAll('svg');
+
+    assert.dom(bare).doesNotHaveAttribute('class');
+    assert.dom(classed).hasAttribute('class', 'my-icon');
   });
 });

@@ -155,12 +155,9 @@ export default class Tile extends Component<TileSignature> {
       >
         <span class="cds--tile__checkmark cds--tile__checkmark--persistent">
           {{#if this.selected}}
-            <CheckboxCheckedFilled
-              @size="16"
-              @svgClass="cds--tile__checkmark-icon"
-            />
+            <CheckboxCheckedFilled @size="16" />
           {{else}}
-            <Checkbox @size="16" @svgClass="cds--tile__checkmark-icon" />
+            <Checkbox @size="16" />
           {{/if}}
         </span>
         {{! eslint-disable-next-line ember/template-require-presentational-children, ember/template-no-nested-interactive }}
@@ -202,7 +199,7 @@ export default class Tile extends Component<TileSignature> {
             class="cds--tile__chevron cds--tile__chevron--interactive"
             {{on "click" this.toggleExpanded}}
           >
-            <ChevronDown @size="16" @svgClass="cds--tile__chevron-icon" />
+            <ChevronDown @size="16" />
           </button>
           <div class="cds--tile-content" id="tile-below-{{this.guid}}">
             <span class="cds--tile-content__below-the-fold">

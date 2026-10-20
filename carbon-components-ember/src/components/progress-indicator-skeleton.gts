@@ -32,10 +32,7 @@ const ProgressIndicatorSkeleton: TOC<ProgressIndicatorSkeletonSignature> =
           <div
             class="cds--progress-step-button cds--progress-step-button--unclickable"
           >
-            <CircleDash
-              @size="16"
-              @svgClass="cds--progress-indicator-skeleton__icon"
-            />
+            <CircleDash @size="16" />
             <p class="cds--progress-label"></p>
             <span class="cds--progress-line"></span>
           </div>

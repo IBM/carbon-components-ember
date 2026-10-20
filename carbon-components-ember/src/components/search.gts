@@ -166,7 +166,7 @@ export default class Search extends Component<SearchSignature> {
           disabled={{@disabled}}
           {{on "click" this.onSearchClear}}
         >
-          <Close @size="16" @svgClass="cds--search-clear" />
+          <Close @size="16" />
         </button>
       {{/if}}
     </div>
