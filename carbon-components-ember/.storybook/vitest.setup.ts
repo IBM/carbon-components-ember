@@ -1,4 +1,28 @@
-import { afterEach } from 'vitest';
+import { afterEach, expect, inject } from 'vitest';
+import { commands, server } from 'vitest/browser';
+
+declare module 'vitest' {
+  interface ProvidedContext {
+    storyScreenshots: { stories: string[]; report: boolean };
+  }
+  interface TestContext {
+    // Set by @storybook/addon-vitest.
+    story?: {
+      id: string;
+      tags: string[];
+      parameters: { screenshot?: { disable?: boolean } };
+    };
+  }
+}
+
+declare module 'vitest/browser' {
+  interface BrowserCommands {
+    servePlexLocally: () => Promise<void>;
+  }
+}
+
+// Before any story loads Carbon's stylesheet (see vite.config.mjs).
+await commands.servePlexLocally();
 
 // Blocks style attributes, as apps' strict CSPs do (see tests/helpers/csp.ts
 // for the QUnit side). The browser drops them silently, so fail the story
@@ -32,5 +56,39 @@ afterEach(async () => {
     throw new Error(
       `The CSP blocked these style attributes; use a class, or {{style}} for computed values:\n${blocked.map(describe).join('\n')}`,
     );
+  }
+});
+
+// Compares each story with its screenshot from main's CI run (see
+// .github/workflows/docs.yml); a story without one, such as a new story,
+// gets one once it's on main. `pnpm test:storybook --update` takes them
+// afresh. Opt a story out, saying why, with
+// `parameters: { screenshot: { disable: true } }`.
+const { stories, report } = inject('storyScreenshots');
+const withScreenshots = new Set(stories);
+const updating = server.config.snapshotOptions.updateSnapshot === 'all';
+
+afterEach(async ({ story, task }) => {
+  // Story tests (`.test()`) rerender their story; screenshot it once.
+  if (!story || story.tags.includes('test-fn')) return;
+  if (task.result?.state === 'fail' || story.parameters.screenshot?.disable) {
+    return;
+  }
+  const name = story.id.replace('--', '/');
+  if (!updating && !withScreenshots.has(name)) return;
+
+  // A font starts loading when layout first needs it: lay the page out, so
+  // `fonts.ready` waits for every font the story uses.
+  document.documentElement.getBoundingClientRect();
+  await document.fonts.ready;
+  try {
+    // The whole page, for what renders outside the story's root: modals in
+    // the top layer, popovers in portals.
+    await expect.element(document.documentElement).toMatchScreenshot(name, {
+      screenshotOptions: { animations: 'disabled' },
+    });
+  } catch (error) {
+    if (!report) throw error;
+    console.warn(error);
   }
 });

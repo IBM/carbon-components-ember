@@ -228,6 +228,8 @@ export const Streaming = meta.story({
     markdown: '',
     streaming: true,
   },
+  // Streams on a timer, so a screenshot catches it at any point.
+  parameters: { screenshot: { disable: true } },
   render: (args) => {
     const chunks = comprehensiveMarkdown.match(/(?:\S*\s+){1,3}|\S+$/g) ?? [];
     const state = trackedObject({ content: '', restarts: 0 });

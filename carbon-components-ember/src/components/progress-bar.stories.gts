@@ -57,6 +57,8 @@ export const Determinate = meta.story({
     label: 'Exporting data',
     max: SIZE,
   },
+  // A slow screenshot would catch the download at a random point.
+  parameters: { screenshot: { disable: true } },
   render: (args) => {
     const state = trackedObject({ progress: 0 });
     const simulate = modifier(() => {

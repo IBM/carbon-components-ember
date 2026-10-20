@@ -23,6 +23,9 @@ import '#storybook/styles/ai-chat/video-player.css';
 // Media sources: the sample clip and WebVTT captions are served from
 // `.storybook/public/demo-support/`, relative to the preview, so they work
 // under any deploy path and keep the native stories' tests offline.
+// Screenshots skip the native stories: the browser draws the player's
+// controls, which fill in the duration and the loaded range as the file
+// loads.
 //
 // Stories that embed YouTube/Vimeo load third-party SDKs and iframes over the
 // network, so they're tagged `!vitest` to keep the test run deterministic;
@@ -194,6 +197,7 @@ export const Native = meta.story({
     ariaLabel: 'Sample video clip',
     useCard: false,
   },
+  parameters: { screenshot: { disable: true } },
 });
 
 Native.test(
@@ -222,6 +226,7 @@ export const AspectRatio = meta.story({
     useCard: false,
   },
   parameters: {
+    screenshot: { disable: true },
     docs: {
       description: {
         story:
@@ -252,6 +257,7 @@ export const SubtitleTracks = meta.story({
     ],
   },
   parameters: {
+    screenshot: { disable: true },
     docs: {
       description: {
         story:
@@ -301,6 +307,7 @@ export const ControllingPlayback = meta.story({
     useCard: false,
   },
   parameters: {
+    screenshot: { disable: true },
     docs: {
       description: {
         story:

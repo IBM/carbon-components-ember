@@ -17,9 +17,15 @@ jobs:
   changes:
     name: Changes
     runs-on: ubuntu-26.04
+    permissions:
+      contents: read
+      actions: read # finds main's story screenshots
     outputs:
       addon: ${{ steps.changes.outputs.addon }}
       packages: ${{ steps.changes.outputs.packages }}
+      screenshots-run: ${{ steps.screenshots.outputs.run }}
+      screenshots-sha: ${{ steps.screenshots.outputs.sha }}
+      screenshots-stale: ${{ steps.screenshots.outputs.stale }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -27,6 +33,30 @@ jobs:
 
       - id: changes
         uses: ./.github/actions/changes
+
+      # The story screenshots a branch's are compared with: those of main's
+      # run for the commit the branch starts from, or the newest before it.
+      - id: screenshots
+        if: github.ref_type == 'branch' && github.ref != 'refs/heads/main' && steps.changes.outputs.addon == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          base=$(git merge-base origin/main HEAD)
+          runs=$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=story-screenshots-1&per_page=100" \
+            --jq '.artifacts[] | select(.workflow_run.head_branch == "main" and (.expired | not)) | "\(.workflow_run.head_sha) \(.workflow_run.id)"')
+          for sha in $(git rev-list --first-parent --max-count=100 "$base"); do
+            run=$(awk -v sha="$sha" '$1 == sha { print $2; exit }' <<< "$runs")
+            [[ -n $run ]] || continue
+            echo "Comparing story screenshots with main's at $sha (run $run)"
+            echo "run=$run" >> "$GITHUB_OUTPUT"
+            echo "sha=$sha" >> "$GITHUB_OUTPUT"
+            # Main has changed what renders since (its run for the branch's
+            # start is still going): differences may be main's own.
+            git diff --quiet "$sha" "$base" -- carbon-components-ember package.json pnpm-lock.yaml pnpm-workspace.yaml patches ||
+              echo "stale=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          done
+          echo "::notice::No story screenshots from main to compare with"
 
   # Every story (and its tests) renders in Chromium through Vitest. Most of
   # the time goes on booting Ember once per story file, so the files are
@@ -37,6 +67,10 @@ jobs:
     if: needs.changes.outputs.addon == 'true'
     runs-on: ubuntu-26.04
     timeout-minutes: 20
+    permissions:
+      contents: read
+      actions: read # downloads main's story screenshots
+      pull-requests: read # reads the PR's labels
     strategy:
       fail-fast: false
       matrix:
@@ -56,8 +90,54 @@ jobs:
           pnpm --filter carbon-components-ember exec playwright install chromium
           pnpm --filter carbon-components-ember generate
 
+      - name: Download main's story screenshots
+        if: needs.changes.outputs.screenshots-run
+        uses: actions/download-artifact@v8
+        with:
+          pattern: story-screenshots-*
+          merge-multiple: true
+          path: carbon-components-ember/__screenshots__
+          run-id: ${{ needs.changes.outputs.screenshots-run }}
+          github-token: ${{ github.token }}
+
+      # Each story is compared with its screenshot from main (see
+      # .storybook/vitest.setup.ts), and a difference fails it, unless the
+      # PR has the `preview` label, for visual changes: then the Docs job
+      # lists the differences on the PR. Main takes the screenshots afresh.
       - name: Test stories
-        run: pnpm --filter carbon-components-ember test:storybook --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STALE: ${{ needs.changes.outputs.screenshots-stale }}
+        run: |
+          args=(--shard=${{ matrix.shard }}/${{ strategy.job-total }})
+          if [[ $GITHUB_REF == refs/heads/main ]]; then
+            args+=(--update)
+          elif [[ $STALE == true ]] ||
+            gh pr list --head "$GITHUB_REF_NAME" --json labels --jq '.[].labels[].name' | grep -qx preview; then
+            export STORY_SCREENSHOTS=report
+          fi
+          pnpm --filter carbon-components-ember test:storybook "${args[@]}"
+
+      - name: Upload the story screenshots
+        if: github.ref == 'refs/heads/main' && !cancelled()
+        uses: actions/upload-artifact@v7
+        with:
+          name: story-screenshots-${{ matrix.shard }}
+          path: carbon-components-ember/__screenshots__
+          overwrite: true
+          retention-days: 30
+
+      # The actual and diff images of each story that differs.
+      - name: Upload the screenshots that differ
+        if: github.ref != 'refs/heads/main' && !cancelled()
+        uses: actions/upload-artifact@v7
+        with:
+          name: story-screenshot-diffs-${{ matrix.shard }}
+          path: carbon-components-ember/.vitest/attachments
+          include-hidden-files: true
+          if-no-files-found: ignore
+          overwrite: true
+          retention-days: 14
 
   build-storybook:
     name: Build Storybook
@@ -112,7 +192,94 @@ jobs:
     # a skipped required check counts as passing.
     if: always()
     runs-on: ubuntu-26.04
+    permissions:
+      pull-requests: write # comments with the stories whose screenshots differ
     steps:
+      - name: Download the screenshots that differ
+        if: needs.changes.outputs.screenshots-run
+        continue-on-error: true
+        uses: actions/download-artifact@v8
+        with:
+          pattern: story-screenshot-diffs-*
+          merge-multiple: true
+          path: diffs
+
+      # In the job summary and in a comment on the PR, kept up to date. Not
+      # part of the check, so a hiccup in either step doesn't fail it.
+      - name: List the stories whose screenshots differ
+        if: needs.changes.outputs.screenshots-run
+        continue-on-error: true
+        uses: actions/github-script@v9
+        env:
+          BASELINE: ${{ needs.changes.outputs.screenshots-sha }}
+          STALE: ${{ needs.changes.outputs.screenshots-stale }}
+        with:
+          script: |
+            const fs = require('node:fs');
+            const path = require('node:path');
+            const { owner, repo } = context.repo;
+            const site = 'https://ibm.github.io/carbon-components-ember';
+            const marker = '<!-- story-screenshots -->';
+
+            // diffs/**/<component>/<story>-actual-chromium-linux.png
+            const suffix = '-actual-chromium-linux.png';
+            const stories = fs.existsSync('diffs')
+              ? fs
+                  .readdirSync('diffs', { recursive: true })
+                  .filter((file) => file.endsWith(suffix))
+                  .map((file) => {
+                    const [component, story] = file.split(path.sep).slice(-2);
+                    return `${component}--${story.slice(0, -suffix.length)}`;
+                  })
+                  .sort()
+              : [];
+
+            const [pr] = (
+              await github.rest.pulls.list({
+                owner,
+                repo,
+                head: `${owner}:${context.ref.replace('refs/heads/', '')}`,
+              })
+            ).data;
+            const preview = pr?.labels.some(({ name }) => name === 'preview');
+            const link = (id) =>
+              `- [${id}](${site}/versions/main/?path=/story/${id})` +
+              (preview ? ` → [this PR](${site}/pr-previews/pr-${pr.number}/?path=/story/${id})` : '');
+            const baseline = process.env.BASELINE.slice(0, 7);
+
+            let body;
+            if (stories.length) {
+              body = [
+                `These stories' screenshots differ from main's (${baseline}):`,
+                '',
+                ...stories.map(link),
+                '',
+                `Their actual and diff images are in the [run's artifacts](${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}#artifacts).`,
+                process.env.STALE
+                  ? "Main has changed since, so some may be main's own; they don't fail the Docs check."
+                  : preview
+                    ? "The PR has the `preview` label, so they don't fail the Docs check."
+                    : 'They fail the Docs check. If the changes are intended, add the `preview` label and re-run the failed jobs.',
+              ].join('\n');
+            } else {
+              body = `No story screenshots differ from main's (${baseline}).`;
+            }
+            await core.summary.addRaw(body).write();
+            if (!pr) return;
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number: pr.number,
+            });
+            const existing = comments.find((c) => c.body?.includes(marker));
+            body = `${marker}\n### Story screenshots\n\n${body}`;
+            if (existing) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body });
+            } else if (stories.length) {
+              await github.rest.issues.createComment({ owner, repo, issue_number: pr.number, body });
+            }
+
       - name: Check the story tests and the Storybook build
         run: |
           echo "Stories: ${{ needs.stories.result }}"

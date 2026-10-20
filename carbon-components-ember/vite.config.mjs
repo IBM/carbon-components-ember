@@ -1,16 +1,59 @@
 import { defineConfig } from 'vite';
 import { extensions, ember } from '@embroider/vite';
 import { babel } from '@rollup/plugin-babel';
-import { mkdirSync, writeFileSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
+import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import { playwright } from '@vitest/browser-playwright';
 
-const configDir = resolve(
-  dirname(fileURLToPath(import.meta.url)),
-  '.storybook',
+const packageDir = dirname(fileURLToPath(import.meta.url));
+const configDir = resolve(packageDir, '.storybook');
+
+/**
+ * Story screenshots (see .storybook/vitest.setup.ts), one folder per
+ * component and one file per story, named for the platform that took them:
+ * macOS renders fonts differently from CI's Linux.
+ */
+const screenshotDir = resolve(packageDir, '__screenshots__');
+const screenshotSuffix = `-chromium-${process.platform}.png`;
+
+/** The stories with a screenshot to compare with on this platform. */
+function storiesWithScreenshots() {
+  if (!existsSync(screenshotDir)) return [];
+  return readdirSync(screenshotDir, { recursive: true })
+    .filter((file) => file.endsWith(screenshotSuffix))
+    .map((file) => file.slice(0, -screenshotSuffix.length));
+}
+
+/**
+ * Carbon's stylesheet loads IBM Plex from IBM's CDN. A browser command the
+ * story tests call first, so screenshots depend neither on the network nor
+ * on what the CDN serves today: it serves the fonts from the `@ibm/plex-*`
+ * packages @carbon/styles installs.
+ */
+const plexOnCdn =
+  /^https:\/\/1\.www\.s81c\.com\/common\/carbon\/plex\/fonts\/IBM-Plex-([\w-]+)\/(fonts\/.+)$/;
+const fromCarbon = createRequire(
+  createRequire(import.meta.url).resolve('@carbon/styles/package.json'),
 );
+const servingPlex = new WeakSet();
+
+async function servePlexLocally({ context }) {
+  if (servingPlex.has(context)) return;
+  servingPlex.add(context);
+  await context.route(plexOnCdn, (route) => {
+    const [, family, file] = plexOnCdn.exec(route.request().url());
+    const plex = fromCarbon.resolve(
+      `@ibm/plex-${family.toLowerCase()}/package.json`,
+    );
+    return route.fulfill({
+      path: join(dirname(plex), file),
+      headers: { 'Access-Control-Allow-Origin': '*' },
+    });
+  });
+}
 
 /**
  * Lets `assert.snapshot()` write style snapshots while running the tests
@@ -131,6 +174,14 @@ export default defineConfig({
         test: {
           name: 'storybook',
           setupFiles: ['.storybook/vitest.setup.ts'],
+          provide: {
+            storyScreenshots: {
+              stories: storiesWithScreenshots(),
+              // Report differences without failing (CI does when a PR has
+              // the `preview` label).
+              report: process.env.STORY_SCREENSHOTS === 'report',
+            },
+          },
           browser: {
             enabled: true,
             // A cold run pre-bundles the whole Ember dependency graph before
@@ -139,6 +190,16 @@ export default defineConfig({
             provider: playwright({}),
             headless: true,
             instances: [{ browser: 'chromium' }],
+            commands: { servePlexLocally },
+            expect: {
+              toMatchScreenshot: {
+                resolveScreenshotPath: ({ arg, browserName, platform, ext }) =>
+                  join(
+                    screenshotDir,
+                    `${arg}-${browserName}-${platform}${ext}`,
+                  ),
+              },
+            },
           },
         },
       },
