@@ -41,9 +41,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          base=$(git merge-base origin/main HEAD)
+          base=db887ae8b85ca008960eae97e75ab584714dad39
           runs=$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=story-screenshots-1&per_page=100" \
-            --jq '.artifacts[] | select(.workflow_run.head_branch == "main" and (.expired | not)) | "\(.workflow_run.head_sha) \(.workflow_run.id)"')
+            --jq '.artifacts[] | select(.workflow_run.head_branch == "feat/story-screenshots" and (.expired | not)) | "\(.workflow_run.head_sha) \(.workflow_run.id)"')
           for sha in $(git rev-list --first-parent --max-count=100 "$base"); do
             run=$(awk -v sha="$sha" '$1 == sha { print $2; exit }' <<< "$runs")
             [[ -n $run ]] || continue
@@ -110,7 +110,7 @@ jobs:
           STALE: ${{ needs.changes.outputs.screenshots-stale }}
         run: |
           args=(--shard=${{ matrix.shard }}/${{ strategy.job-total }})
-          if [[ $GITHUB_REF == refs/heads/main || $GITHUB_REF == refs/heads/feat/story-screenshots ]]; then
+          if [[ $GITHUB_REF == refs/heads/main ]]; then
             args+=(--update)
           elif [[ $STALE == true ]] ||
             gh pr list --head "$GITHUB_REF_NAME" --json labels --jq '.[].labels[].name' | grep -qx preview; then
@@ -119,7 +119,7 @@ jobs:
           pnpm --filter carbon-components-ember test:storybook "${args[@]}"
 
       - name: Upload the story screenshots
-        if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feat/story-screenshots') && !cancelled()
+        if: github.ref == 'refs/heads/main' && !cancelled()
         uses: actions/upload-artifact@v7
         with:
           name: story-screenshots-${{ matrix.shard }}
