@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn, click, waitFor } from '@ember/test-helpers';
+import { render, fillIn, click } from '@ember/test-helpers';
 import PasswordInput from '#src/components/password-input.gts';
 
 module('Integration | Component | PasswordInput', (hooks) => {
@@ -79,8 +79,6 @@ module('Integration | Component | PasswordInput', (hooks) => {
         />
       </template>,
     );
-    await waitFor('.cds--text-input__invalid-icon');
-
     assert.dom('input.cds--text-input').hasClass('cds--text-input--invalid');
     assert.dom('.cds--text-input__invalid-icon').exists();
     assert.dom('.cds--form-requirement').hasText('This field is required');
@@ -107,7 +105,9 @@ module('Integration | Component | PasswordInput', (hooks) => {
 
   test('should toggle the input type when the visibility button is clicked', async function (assert) {
     await render(<template><PasswordInput @labelText="Password" /></template>);
-    await waitFor('button.cds--text-input--password__visibility__toggle svg');
+    assert
+      .dom('button.cds--text-input--password__visibility__toggle svg')
+      .exists();
 
     assert.dom('input.cds--text-input').hasAttribute('type', 'password');
 
@@ -132,7 +132,9 @@ module('Integration | Component | PasswordInput', (hooks) => {
         />
       </template>,
     );
-    await waitFor('button.cds--text-input--password__visibility__toggle svg');
+    assert
+      .dom('button.cds--text-input--password__visibility__toggle svg')
+      .exists();
     await click('button.cds--text-input--password__visibility__toggle');
 
     assert.strictEqual(calls, 1);

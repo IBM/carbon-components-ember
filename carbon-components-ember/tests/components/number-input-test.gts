@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, fillIn, typeIn, waitFor } from '@ember/test-helpers';
+import { render, click, fillIn, typeIn } from '@ember/test-helpers';
 import { trackedObject } from '@ember/reactive/collections';
 import NumberInput from '#src/components/number-input.gts';
 
@@ -132,8 +132,6 @@ module('Integration | Component | NumberInput', (hooks) => {
         />
       </template>,
     );
-    await waitFor('.cds--number__invalid');
-
     assert.dom('.cds--number').hasAttribute('data-invalid', 'true');
     assert.dom('.cds--number__invalid').exists();
     assert.dom('.cds--form-requirement').hasText('Value must be 10 or less');
