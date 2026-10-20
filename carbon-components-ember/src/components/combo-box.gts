@@ -8,7 +8,6 @@
 import Component from '@glimmer/component';
 import { cached, tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import { flip, hide } from '@floating-ui/dom';
 import { modifier } from 'ember-modifier';
 import type Owner from '@ember/owner';
 import Checkmark from './icons/checkmark.ts';
@@ -21,13 +20,16 @@ import ListBoxMenuItem from './-private/list-box/list-box-menu-item.gts';
 import ListBoxSelection from './-private/list-box/list-box-selection.gts';
 import ListBoxTrigger from './-private/list-box/list-box-trigger.gts';
 import {
+  positionMenu,
+  scrollToHighlighted,
+} from './-private/list-box/menu-modifiers.ts';
+import {
   defaultItemToString,
   enabledIndex,
   isItemDisabled,
   nextEnabledIndex,
 } from './-private/list-box/items.ts';
 import { afterRender } from '../utils/after-render.ts';
-import { float } from '../utils/floating.ts';
 import type { WithBoundArgs } from '@glint/template';
 
 export interface ComboBoxChange<T> {
@@ -745,36 +747,6 @@ export default class ComboBox<T> extends Component<ComboBoxSignature<T>> {
     };
   });
 
-  // With @autoAlign, positions the open menu below or above the field, as
-  // wide as it.
-  positionMenu = modifier(
-    (
-      menu: HTMLElement,
-      _positional: [],
-      { placement }: { placement: 'top' | 'bottom' },
-    ) => {
-      const field = menu.parentElement;
-      if (!field) return;
-      const stop = float(field, menu, {
-        placement,
-        middleware: [flip(), hide()],
-        onUpdate: () => {
-          menu.style.width = `${field.clientWidth}px`;
-        },
-      });
-      return () => {
-        stop();
-        menu.style.removeProperty('width');
-      };
-    },
-  );
-
-  scrollToHighlighted = modifier(
-    (menu: HTMLElement, [index]: [index: number]) => {
-      menu.children[index]?.scrollIntoView({ block: 'nearest' });
-    },
-  );
-
   <template>
     <div
       class="cds--list-box__wrapper
@@ -870,8 +842,8 @@ export default class ComboBox<T> extends Component<ComboBoxSignature<T>> {
           aria-label={{unless @titleText "Choose an item"}}
           {{! eslint-disable-next-line ember/template-no-pointer-down-event-binding -- keeps focus in the input, see keepFocus }}
           {{on "mousedown" this.keepFocus}}
-          {{this.scrollToHighlighted this.highlightedIndex}}
-          {{(if this.floatsMenu this.positionMenu) placement=this.direction}}
+          {{scrollToHighlighted this.highlightedIndex}}
+          {{(if this.floatsMenu positionMenu) placement=this.direction}}
         >
           {{#if this.isOpen}}
             {{#each this.filteredItems as |item index|}}

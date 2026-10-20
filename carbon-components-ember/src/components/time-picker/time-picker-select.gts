@@ -9,6 +9,7 @@ import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
+import { modifier } from 'ember-modifier';
 import ChevronDown from '../icons/chevron-down.ts';
 
 export interface TimePickerSelectSignature {
@@ -30,11 +31,6 @@ export interface TimePickerSelectSignature {
      */
     defaultValue?: string;
     /**
-     * Specify an aria-label for the `<select>` (defaults to "open list of
-     * options")
-     */
-    ariaLabel?: string;
-    /**
      * Optionally provide an `onChange` handler that is called whenever the
      * `<select>` is updated
      */
@@ -50,13 +46,13 @@ export interface TimePickerSelectSignature {
 }
 
 export default class TimePickerSelect extends Component<TimePickerSelectSignature> {
-  @tracked internalValue: string;
+  @tracked internalValue?: string;
 
   guid = guidFor(this);
 
   constructor(owner: Owner, args: TimePickerSelectSignature['Args']) {
     super(owner, args);
-    this.internalValue = args.defaultValue ?? '';
+    this.internalValue = args.defaultValue;
   }
 
   get id() {
@@ -67,26 +63,32 @@ export default class TimePickerSelect extends Component<TimePickerSelectSignatur
     return this.args.value ?? this.internalValue;
   }
 
-  get ariaLabel() {
-    return this.args.ariaLabel ?? 'open list of options';
-  }
+  // Glimmer sets a <select>'s value before its options render, so a value
+  // attribute would select nothing. Select it once they're in.
+  syncValue = modifier(
+    (select: HTMLSelectElement, [value]: [value: string | undefined]) => {
+      if (value !== undefined) select.value = value;
+    },
+  );
 
   handleChange = (event: Event) => {
-    const value = (event.target as HTMLSelectElement).value;
-    this.internalValue = value;
-    this.args.onChange?.(value, event);
+    const select = event.currentTarget as HTMLSelectElement;
+    this.internalValue = select.value;
+    this.args.onChange?.(select.value, event);
+    // A controlled select goes back to `@value` if the change didn't update it.
+    if (this.args.value !== undefined) select.value = this.args.value;
   };
 
   <template>
     <div class="cds--select cds--time-picker__select">
       <select
-        aria-label={{this.ariaLabel}}
+        aria-label="open list of options"
         class="cds--select-input"
         id={{this.id}}
         disabled={{@disabled}}
-        value={{this.value}}
-        {{on "change" this.handleChange}}
         ...attributes
+        {{this.syncValue this.value}}
+        {{on "change" this.handleChange}}
       >
         {{yield}}
       </select>

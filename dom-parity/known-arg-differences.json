@@ -209,6 +209,14 @@
       "onAddFiles"
     ]
   },
+  "FilterableMultiSelect": {
+    "missing": [
+      "downshiftProps",
+      "inputProps",
+      "itemToElement",
+      "translateWithId"
+    ]
+  },
   "FluidTextInput": {
     "extra": [
       "hidePasswordLabel",
@@ -268,6 +276,13 @@
     "extra": [
       "onClose",
       "type"
+    ]
+  },
+  "MultiSelect": {
+    "missing": [
+      "downshiftProps",
+      "itemToElement",
+      "translateWithId"
     ]
   },
   "NotificationActionButton": {
@@ -486,11 +501,6 @@
       "expandable",
       "selectable",
       "tabindex"
-    ]
-  },
-  "TimePickerSelect": {
-    "extra": [
-      "ariaLabel"
     ]
   },
   "Toggle": {

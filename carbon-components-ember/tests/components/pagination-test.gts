@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, select } from '@ember/test-helpers';
+import { render, click, select, settled } from '@ember/test-helpers';
+import { tracked } from '@glimmer/tracking';
 import Pagination from '#src/components/pagination.gts';
 import type { TOC } from '@ember/component/template-only';
 import { trackedObject } from '@ember/reactive/collections';
@@ -196,6 +197,48 @@ module('Integration | Component | Pagination', (hooks) => {
     );
 
     assert.dom('[data-displayed-item-range]').hasText('5 - 10');
+  });
+
+  test('a shorter @length brings the page back within range', async function (assert) {
+    const length = tracked(30);
+
+    await render(
+      <template>
+        <Pagination @length={{length.value}} @onPageChanged={{noop}} />
+      </template>,
+    );
+
+    await click('[data-page-forward]');
+    await click('[data-page-forward]');
+    assert.dom('[data-displayed-item-range]').hasText('20 - 30');
+
+    length.value = 10;
+    await settled();
+    assert.dom('[data-displayed-item-range]').hasText('0 - 10');
+  });
+
+  test('a shorter @length leaves an unchanged @state alone', async function (assert) {
+    const state = { page: 2, itemsPerPage: 5 };
+    const length = tracked(25);
+
+    await render(
+      <template>
+        <Pagination
+          @length={{length.value}}
+          @state={{state}}
+          @onPageChanged={{noop}}
+        />
+      </template>,
+    );
+
+    await click('[data-page-forward]');
+    await click('[data-page-forward]');
+    assert.dom('[data-displayed-item-range]').hasText('15 - 20');
+
+    // 12 items make 3 pages: the last one, not @state's page 2.
+    length.value = 12;
+    await settled();
+    assert.dom('[data-displayed-item-range]').hasText('10 - 15');
   });
 
   test('@disabled disables the navigation buttons', async function (assert) {

@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn, click, select } from '@ember/test-helpers';
+import { render, fillIn, click, select, settled } from '@ember/test-helpers';
+import { tracked } from '@glimmer/tracking';
 import TimePicker from '#src/components/time-picker.gts';
 import TimePickerSelect from '#src/components/time-picker/time-picker-select.gts';
 
@@ -167,5 +168,68 @@ module('Integration | Component | TimePicker', (hooks) => {
     );
 
     assert.dom('#tp-select-disabled').isDisabled();
+  });
+
+  test('TimePickerSelect selects @defaultValue on the first render', async function (assert) {
+    await render(
+      <template>
+        <TimePickerSelect @id="tp-select" @defaultValue="PM">
+          <option value="AM">AM</option>
+          <option value="PM">PM</option>
+        </TimePickerSelect>
+      </template>,
+    );
+
+    assert.dom('#tp-select').hasValue('PM');
+  });
+
+  test('TimePickerSelect follows @value', async function (assert) {
+    const value = tracked('PM');
+
+    await render(
+      <template>
+        <TimePickerSelect @id="tp-select" @value={{value.value}}>
+          <option value="AM">AM</option>
+          <option value="PM">PM</option>
+        </TimePickerSelect>
+      </template>,
+    );
+
+    assert.dom('#tp-select').hasValue('PM');
+    value.value = 'AM';
+    await settled();
+    assert.dom('#tp-select').hasValue('AM');
+  });
+
+  test('TimePickerSelect goes back to @value after a change @onChange does not pass back', async function (assert) {
+    await render(
+      <template>
+        <TimePickerSelect @id="tp-select" @value="PM">
+          <option value="AM">AM</option>
+          <option value="PM">PM</option>
+        </TimePickerSelect>
+      </template>,
+    );
+
+    await select('#tp-select', 'AM');
+    assert.dom('#tp-select').hasValue('PM');
+  });
+
+  test('TimePickerSelect is labelled "open list of options" unless given an aria-label', async function (assert) {
+    await render(
+      <template>
+        <TimePickerSelect @id="tp-default">
+          <option value="AM">AM</option>
+        </TimePickerSelect>
+        <TimePickerSelect @id="tp-named" aria-label="Period">
+          <option value="AM">AM</option>
+        </TimePickerSelect>
+      </template>,
+    );
+
+    assert
+      .dom('#tp-default')
+      .hasAttribute('aria-label', 'open list of options');
+    assert.dom('#tp-named').hasAttribute('aria-label', 'Period');
   });
 });
