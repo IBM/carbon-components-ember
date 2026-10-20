@@ -1,159 +1,115 @@
-import { trackedObject } from '@ember/reactive/collections';
-import { expect, fn, waitFor, within } from 'storybook/test';
+import { RenderStory } from 'ember-storybook';
+import { expect, fn } from 'storybook/test';
 
 import { withLayer } from '#storybook/decorators.gts';
+import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
 import preview from '#storybook/preview.ts';
 import Select from './select.gts';
+import SelectItem from './select-item.gts';
+import SelectItemGroup from './select-item-group.gts';
 import SelectSkeleton from './select-skeleton.gts';
 
 import type { SelectSignature } from './select.gts';
+import '#storybook/styles/select.css';
 
-const FRUITS = ['Apple', 'Banana', 'Cherry', 'Durian', 'Elderberry'];
+// Carbon React parity gaps (Components/Select): none.
 
-// Carbon React parity gaps (Components/Select): React's Select wraps a
-// native `<select>` of SelectItem/SelectItemGroup options; this Select is a
-// custom listbox built on ember-power-select (see `SelectItem` and
-// `SelectItemGroup` for the native option elements).
-// - `withAILabel`: Select's field renders inside ember-power-select's
-//   trigger, so an AI label there would be a button inside a combobox.
-// - No `invalid`/`invalidText`, `warn`/`warnText`, `readOnly`, `size` or
-//   `hideLabel`; the label is `@title` (React's `labelText`).
+type StoryArgs = SelectSignature['Args'];
 
-// Select is generic over its option type, which signature inference can't
-// follow, so declare the story's args explicitly.
-const meta = preview
-  .type<{
-    args: Omit<
-      SelectSignature<string>['Args'],
-      'multiple' | 'selected' | 'onSelect'
-    > & {
-      multiple?: boolean;
-      onSelect: (selected: string | string[]) => void;
-    };
-  }>()
-  .meta({
-    title: 'Components/Select',
-    component: Select,
-    parameters: {
-      docs: {
-        description: {
-          component:
-            "A select lets the user pick one option (or several, with `@multiple`) from a dropdown list. Select is controlled: pass `@selected` and update it from `@onSelect`. Options can be any value; the block renders each one. The dropdown renders through ember-basic-dropdown's wormhole (`#ember-basic-dropdown-wormhole`) unless `@renderInPlace` is set.",
-        },
+const meta = preview.type<{ args: StoryArgs }>().meta({
+  title: 'Components/Select',
+  component: Select,
+  subcomponents: { SelectItem, SelectItemGroup, SelectSkeleton },
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "`Select` is a native `<select>` styled as a Carbon field. Its options are the `SelectItem` it yields (`as |SelectItem|`), optionally grouped in `SelectItemGroup`s; the yielded one keeps `@value` selected as the options change. Attributes on the component, such as `name` or `required`, go to the `<select>`; `@className` styles the field's wrapper.\n\nCarbon recommends an empty option, selected by default: make the first `SelectItem` one with an empty `@value`. Without one, the first option is selected, or the one whose value is `@defaultValue`. Pass `@value` instead to control the selection: the select shows it, and goes back to it after a change that `@onChange` doesn't pass back.",
       },
     },
-    args: {
-      options: FRUITS,
-      placeholder: 'Choose a fruit',
-      title: 'Fruit',
-      onSelect: fn(),
+    controls: {
+      include: [
+        'disabled',
+        'helperText',
+        'hideLabel',
+        'inline',
+        'invalid',
+        'invalidText',
+        'labelText',
+        'onChange',
+        'readOnly',
+        'size',
+        'warn',
+        'warnText',
+      ],
     },
-    // Select is controlled: keep the selection in story-local tracked state
-    // and report every change to the `onSelect` action. Its signature has
-    // separate single and `@multiple` modes, so each gets its own invocation.
-    render: (args) => {
-      const state = trackedObject<{ one?: string; many: string[] }>({
-        many: [],
-      });
-      const selectOne = (selected: string) => {
-        state.one = selected;
-        args.onSelect(selected);
-      };
-      const selectMany = (selected: string[]) => {
-        state.many = selected;
-        args.onSelect(selected);
-      };
-
-      return <template>
-        {{#if args.multiple}}
-          <Select
-            @options={{args.options}}
-            @placeholder={{args.placeholder}}
-            @title={{args.title}}
-            @helperText={{args.helperText}}
-            @disabled={{args.disabled}}
-            @inline={{args.inline}}
-            @searchEnabled={{args.searchEnabled}}
-            @multiple={{true}}
-            @selected={{state.many}}
-            @onSelect={{selectMany}}
-            as |option|
-          >
-            {{option}}
-          </Select>
-        {{else}}
-          <Select
-            @options={{args.options}}
-            @placeholder={{args.placeholder}}
-            @title={{args.title}}
-            @helperText={{args.helperText}}
-            @disabled={{args.disabled}}
-            @inline={{args.inline}}
-            @searchEnabled={{args.searchEnabled}}
-            @selected={{state.one}}
-            @onSelect={{selectOne}}
-            as |option|
-          >
-            {{option}}
-          </Select>
-        {{/if}}
-      </template>;
-    },
-  });
-
-// The open dropdown renders into ember-basic-dropdown's wormhole, outside
-// the story's canvas.
-const wormhole = () =>
-  within(document.getElementById('ember-basic-dropdown-wormhole')!);
+  },
+  argTypes: {
+    size: { control: 'select', options: ['xs', 'sm', 'md', 'lg'] },
+  },
+  args: {
+    disabled: false,
+    helperText: 'Select the region where your resources will be hosted.',
+    hideLabel: false,
+    inline: false,
+    invalid: false,
+    invalidText: 'Select a deployment region.',
+    labelText: 'Deployment region',
+    readOnly: false,
+    size: 'md',
+    warn: false,
+    warnText: 'This region has limited availability.',
+    onChange: fn(),
+  },
+  decorators: [
+    (Story, context) => <template>
+      <div class="select-story__container">
+        <RenderStory @story={{Story}} @args={{context.args}} />
+      </div>
+    </template>,
+  ],
+  render: (args: StoryArgs) => <template>
+    <Select
+      @labelText={{args.labelText}}
+      @helperText={{args.helperText}}
+      @disabled={{args.disabled}}
+      @inline={{args.inline}}
+      @hideLabel={{args.hideLabel}}
+      @invalid={{args.invalid}}
+      @invalidText={{args.invalidText}}
+      @warn={{args.warn}}
+      @warnText={{args.warnText}}
+      @readOnly={{args.readOnly}}
+      @size={{args.size}}
+      @onChange={{args.onChange}}
+      as |SelectItem|
+    >
+      <SelectItem @value="" @text="Choose a region" />
+      <SelectItem @value="us-south" @text="Dallas (us-south)" />
+      <SelectItem @value="us-east" @text="Washington, DC (us-east)" />
+      <SelectItem @value="eu-de" @text="Frankfurt (eu-de)" />
+      <SelectItem @value="au-syd" @text="Sydney (au-syd)" />
+    </Select>
+  </template>,
+});
 
 export const Default = meta.story();
 
 Default.test(
-  'shows the placeholder at the left, ahead of the chevron',
-  async ({ canvas, canvasElement }) => {
-    const placeholder = await canvas.findByText('Choose a fruit');
-    const chevron = canvasElement.querySelector('.cds--list-box__menu-icon')!;
-    const placeholderBox = placeholder.getBoundingClientRect();
-    const chevronBox = chevron.getBoundingClientRect();
-    await expect(placeholderBox.left).toBeLessThan(chevronBox.left);
-    await expect(placeholderBox.right).toBeLessThanOrEqual(chevronBox.left);
-  },
-);
+  'selects an option, and titles the select with it',
+  async ({ canvas, userEvent, args }) => {
+    const select = canvas.getByRole('combobox', { name: 'Deployment region' });
+    await expect(select).toHaveAccessibleDescription(
+      'Select the region where your resources will be hosted.',
+    );
 
-Default.test(
-  'selects an option',
-  async ({ canvasElement, userEvent, args }) => {
-    const trigger = canvasElement.querySelector<HTMLElement>(
-      '.ember-power-select-trigger',
-    )!;
-    await userEvent.click(trigger);
-    await userEvent.click(await wormhole().findByText('Cherry'));
-    await expect(args.onSelect).toHaveBeenCalledWith('Cherry');
-    await waitFor(() => expect(trigger).toHaveTextContent('Cherry'));
-  },
-);
-
-export const Multiple = meta.story({
-  args: {
-    multiple: true,
-  },
-});
-
-Multiple.test(
-  'selects several options',
-  async ({ canvasElement, userEvent, args }) => {
-    const trigger = () =>
-      canvasElement.querySelector<HTMLElement>('.ember-power-select-trigger')!;
-    await userEvent.click(trigger());
-    await userEvent.click(await wormhole().findByText('Apple'));
-    await expect(args.onSelect).toHaveBeenLastCalledWith(['Apple']);
-    await userEvent.click(await wormhole().findByText('Durian'));
-    await expect(args.onSelect).toHaveBeenLastCalledWith(['Apple', 'Durian']);
-
-    // Close the list: ember-storybook doesn't tear down the previous story's
-    // render, so a list left open in the wormhole leaks into the next story.
-    await userEvent.click(trigger());
-    await waitFor(() => expect(wormhole().queryByRole('listbox')).toBeNull());
+    await userEvent.selectOptions(select, 'Frankfurt (eu-de)');
+    await expect(args.onChange).toHaveBeenCalledWith(
+      'eu-de',
+      expect.any(Event),
+    );
+    await expect(select).toHaveValue('eu-de');
+    await expect(select).toHaveAttribute('title', 'Frankfurt (eu-de)');
   },
 );
 
@@ -163,35 +119,84 @@ export const Inline = meta.story({
   },
 });
 
-export const Searchable = meta.story({
-  args: {
-    searchEnabled: true,
+Inline.test(
+  'shows the field beside its label',
+  async ({ canvas, canvasElement }) => {
+    const select = canvas.getByRole('combobox', { name: 'Deployment region' });
+    const label = canvasElement.querySelector('.cds--label')!;
+    const labelBox = label.getBoundingClientRect();
+    const selectBox = select.getBoundingClientRect();
+    await expect(labelBox.right).toBeLessThanOrEqual(selectBox.left);
+    await expect(labelBox.top).toBeLessThan(selectBox.bottom);
+    await expect(labelBox.bottom).toBeGreaterThan(selectBox.top);
   },
-});
+);
 
-export const WithHelperText = meta.story({
+export const Skeleton = meta.story({
   args: {
-    helperText: 'Pick the one you like best',
+    hideLabel: false,
   },
-});
-
-export const Disabled = meta.story({
-  args: {
-    disabled: true,
+  parameters: {
+    controls: { include: ['hideLabel'] },
+    docs: {
+      description: {
+        story:
+          '`SelectSkeleton` stands in for the component while its content loads.',
+      },
+    },
   },
+  render: (args: StoryArgs) => <template>
+    <SelectSkeleton @hideLabel={{args.hideLabel}} />
+  </template>,
 });
 
 export const WithLayer = Default.extend({ decorators: [withLayer] });
 
-export const Skeleton = meta.story({
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          '`SelectSkeleton` stands in for the component while its content loads. Its own page has controls for its arguments.',
-      },
-    },
-  },
-  render: () => <template><SelectSkeleton /></template>,
+export const WithAILabel = meta.story({
+  render: (args: StoryArgs) => <template>
+    <Select
+      @labelText={{args.labelText}}
+      @helperText={{args.helperText}}
+      @disabled={{args.disabled}}
+      @inline={{args.inline}}
+      @hideLabel={{args.hideLabel}}
+      @invalid={{args.invalid}}
+      @invalidText={{args.invalidText}}
+      @warn={{args.warn}}
+      @warnText={{args.warnText}}
+      @readOnly={{args.readOnly}}
+      @size={{args.size}}
+      @onChange={{args.onChange}}
+    >
+      <:default as |SelectItem|>
+        <SelectItem @value="" @text="Choose a region" />
+        <SelectItem @value="us-south" @text="Dallas (us-south)" />
+        <SelectItem @value="us-east" @text="Washington, DC (us-east)" />
+        <SelectItem @value="eu-de" @text="Frankfurt (eu-de)" />
+        <SelectItem @value="au-syd" @text="Sydney (au-syd)" />
+      </:default>
+      <:decorator as |AILabel|>
+        <AILabel @align="bottom-end" as |label|>
+          <label.Content><AIExplanation /></label.Content>
+        </AILabel>
+      </:decorator>
+    </Select>
+  </template>,
 });
+
+WithAILabel.test(
+  'shows the AI label inside the field, ahead of the chevron',
+  async ({ canvas, canvasElement }) => {
+    const select = canvas.getByRole('combobox', { name: 'Deployment region' });
+    const aiLabel = canvasElement.querySelector('.cds--ai-label__button')!;
+    const chevron = canvasElement.querySelector('.cds--select__arrow')!;
+    const selectBox = select.getBoundingClientRect();
+    const aiLabelBox = aiLabel.getBoundingClientRect();
+    await expect(aiLabelBox.left).toBeGreaterThan(selectBox.left);
+    await expect(aiLabelBox.right).toBeLessThanOrEqual(
+      chevron.getBoundingClientRect().left,
+    );
+    await expect(aiLabelBox.top).toBeGreaterThanOrEqual(selectBox.top);
+    await expect(aiLabelBox.bottom).toBeLessThanOrEqual(selectBox.bottom);
+  },
+);
