@@ -118,6 +118,14 @@
       "type"
     ]
   },
+  "ComboBox": {
+    "missing": [
+      "downshiftActions",
+      "downshiftProps",
+      "itemToElement",
+      "translateWithId"
+    ]
+  },
   "CopyButton": {
     "missing": [
       "as",

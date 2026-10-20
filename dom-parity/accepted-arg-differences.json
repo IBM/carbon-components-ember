@@ -9,6 +9,11 @@
       "kind": "React deprecates the other kinds."
     }
   },
+  "ComboBox": {
+    "missing": {
+      "inputProps": "Attributes on the component go to the input, through ...attributes."
+    }
+  },
   "InlineNotification": {
     "extra": {
       "ariaLabel": "React's aria-label labels the close button; an aria-label attribute would label the notification."

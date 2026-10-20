@@ -207,6 +207,9 @@ A backtick inside HBS comments (`{{! ... `word` ... }}`) breaks the Glint build 
 ### ❌ Pitfall 5: Generic `<Icon @icon='some-string'>` Path is Dead Code
 Nothing registers icons with `IconMap` in app code, so string-based icon lookups render nothing. Always import and use the specific per-icon components (e.g., `import CheckmarkFilled from './icons/checkmark-filled.ts'`, then `<CheckmarkFilled @size="16" />`).
 
+### ❌ Pitfall 6: An Attribute the Element Doesn't Define
+Glint types each element's attributes, so one HTML doesn't define for that element fails type-checking, even where Carbon's CSS selects it (`disabled` on a list box `<li>`). Set it from a modifier with `element.toggleAttribute()`, as `-private/list-box/list-box-menu-item.gts` does.
+
 ---
 
 ## Tests
