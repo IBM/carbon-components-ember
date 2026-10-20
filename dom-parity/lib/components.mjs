@@ -33,7 +33,8 @@
  * Tile family is covered in part (see below); CodeSnippet turns out to have
  * been left out on a premise the interaction/floating-ui-dependent-DOM
  * decision below has since disproven (see that entry's CopyButton bullet)
- * and is unblocked today; Breadcrumb remains out of scope:
+ * and is unblocked today (see its note below). Breadcrumb is covered too,
+ * now that it takes real BreadcrumbItem children.
  *
  * - CodeSnippet: its three real variants (default/multiline/inline) need
  *   neither an open prop nor a simulated click at all - a closed, never-
@@ -45,14 +46,6 @@
  *   the post-click feedback state does need the interaction/floating-ui
  *   decision's simulated-click route (see that entry's CopyButton bullet) -
  *   that one only, not the three base variants.
- * - Breadcrumb: Ember's `Breadcrumb` has a structurally different API and
- *   DOM shape than Carbon React's `Breadcrumb`/`BreadcrumbItem`/
- *   `BreadcrumbLink` (a `<nav>` wrapping `crumbs: string[]` with href='#'
- *   placeholders, vs. React's `<div>` of real `BreadcrumbItem`/`Link`
- *   children). Explicit non-goal for this harness until Breadcrumb itself
- *   is reworked to accept real link/item children - a fixture comparison
- *   against the current API would mostly be diffing two unrelated shapes,
- *   not catching real regressions.
  *
  * Interaction/floating-ui-dependent DOM (todo #854 follow-up item 1,
  * resolved 2026-09-21): `generate.mjs` mounts via `react-dom/client` + `act()`
@@ -912,6 +905,37 @@ const textInput = (name, props) => ({
       labelText: 'Text input label',
       ...props,
     }),
+});
+
+// Two links and the current page as text. `second` replaces the second
+// item's props, or with `link`, renders it as a custom <a> child.
+const breadcrumb = (name, props, second = { href: '#b' }) => ({
+  name,
+  props: { ...props, secondItem: second },
+  createElement: (React, Carbon) => {
+    const { link, ...secondProps } = second;
+    return React.createElement(
+      Carbon.Breadcrumb,
+      props,
+      React.createElement(
+        Carbon.BreadcrumbItem,
+        { key: 'a', href: '#a' },
+        'Breadcrumb 1',
+      ),
+      React.createElement(
+        Carbon.BreadcrumbItem,
+        { key: 'b', ...secondProps },
+        link
+          ? React.createElement('a', { href: link }, 'Breadcrumb 2')
+          : 'Breadcrumb 2',
+      ),
+      React.createElement(
+        Carbon.BreadcrumbItem,
+        { key: 'c', isCurrentPage: true },
+        'Breadcrumb 3',
+      ),
+    );
+  },
 });
 
 // Two plain `SelectItem` children, as this addon's `Select` takes them.
@@ -1934,6 +1958,21 @@ export const COMPONENTS = [
       textInput('size-sm', { size: 'sm' }),
       textInput('size-lg', { size: 'lg' }),
       textInput('helper-text', { helperText: 'Helper text' }),
+    ],
+  },
+  {
+    name: 'Breadcrumb',
+    variants: [
+      breadcrumb('default', {}),
+      breadcrumb('no-trailing-slash', { noTrailingSlash: true }),
+      breadcrumb('size-sm', { size: 'sm' }),
+      breadcrumb('aria-label', { 'aria-label': 'Breadcrumb container' }),
+      breadcrumb(
+        'aria-current-page',
+        {},
+        { href: '#b', 'aria-current': 'page' },
+      ),
+      breadcrumb('custom-link', {}, { link: '#b' }),
     ],
   },
   {
