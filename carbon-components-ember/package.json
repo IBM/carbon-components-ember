@@ -32,6 +32,10 @@
     "src",
     "!src/**/*.stories.*"
   ],
+  "sideEffects": [
+    "**/*.css",
+    "./tests/**"
+  ],
   "scripts": {
     "build": "rollup --config",
     "build:skill": "storybook build --quiet && pnpm generate:skill-references",

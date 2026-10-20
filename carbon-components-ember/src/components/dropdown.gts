@@ -10,11 +10,15 @@ import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { task, timeout } from 'ember-concurrency';
 import type Owner from '@ember/owner';
-import ChevronDown from './icons/chevron-down.ts';
 import Checkmark from './icons/checkmark.ts';
 import WarningFilled from './icons/warning-filled.ts';
 import WarningAltFilled from './icons/warning-alt-filled.ts';
 import AILabel from './ai-label.gts';
+import ListBox from './-private/list-box/list-box.gts';
+import ListBoxMenu from './-private/list-box/list-box-menu.gts';
+import ListBoxMenuIcon from './-private/list-box/list-box-menu-icon.gts';
+import ListBoxMenuItem from './-private/list-box/list-box-menu-item.gts';
+import { nextIndex, typeaheadIndex } from '../utils/roving-focus.ts';
 import type { WithBoundArgs } from '@glint/template';
 
 export interface DropdownSignature<T> {
@@ -39,10 +43,11 @@ export interface DropdownSignature<T> {
      */
     label: string;
     /**
-     * Convert an item to display text. Used both for the field button's
-     * `title` attribute and, when no item block is supplied, as the default
-     * rendering of each menu item. Defaults to reading a `label` property
-     * off the item, falling back to an empty string.
+     * Convert an item to display text. Used for the field button's `title`,
+     * each item's title when its text is cut off and, when no item block is
+     * supplied, as the default rendering of each menu item. Defaults to
+     * reading a `label` property off the item, falling back to an empty
+     * string.
      */
     itemToString?: (item: T) => string;
     /**
@@ -127,11 +132,10 @@ export interface DropdownSignature<T> {
 
 /**
  * `Dropdown` is a single-select field that opens a listbox of items on
- * click. It is built directly on Carbon's `ListBox` markup (no positioning
- * library is involved - `.cds--list-box__menu` is a plain descendant of
- * `.cds--list-box`, absolutely positioned by Carbon's own CSS) and manages
- * its own open/highlight state, rather than going through
- * `ember-power-select`; see the accompanying commit message for why.
+ * click. Like Carbon React's, it's built on the internal ListBox parts;
+ * Carbon's CSS positions the menu below (or, with `@direction="top"`, above)
+ * the field, and focus stays on the field while the arrow keys move the
+ * highlight (`aria-activedescendant`).
  *
  * ```gjs
  * import { Dropdown } from 'carbon-components-ember/components';
@@ -183,8 +187,23 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
     return `${this.id}-menu`;
   }
 
-  get descriptionId() {
-    return `${this.id}-description`;
+  get invalidId() {
+    return `${this.id}-error-msg`;
+  }
+
+  get warnId() {
+    return `${this.id}-warn-msg`;
+  }
+
+  get helperId() {
+    return `${this.id}-helper-text`;
+  }
+
+  get describedBy() {
+    if (this.isInvalid) return this.invalidId;
+    if (this.isWarn) return this.warnId;
+    if (this.showHelperText) return this.helperId;
+    return undefined;
   }
 
   itemId = (index: number): string => {
@@ -197,22 +216,20 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
       : undefined;
   }
 
+  // As in Carbon React, the invalid or warning text replaces the helper.
   get showHelperText() {
-    return !!(this.args.helperText && !this.isInline);
-  }
-
-  get hasDescription() {
-    return this.isInvalid || this.isWarn || this.showHelperText;
+    return !!(
+      this.args.helperText &&
+      !this.isInline &&
+      !this.isInvalid &&
+      !this.isWarn
+    );
   }
 
   get selectedItem(): T | null {
     return this.args.selectedItem !== undefined
       ? this.args.selectedItem
       : this.internalSelectedItem;
-  }
-
-  get size() {
-    return this.args.size ?? 'md';
   }
 
   get isInline() {
@@ -240,36 +257,33 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
         'cds--dropdown__wrapper--inline',
         'cds--list-box__wrapper--inline',
       );
+      if (this.isInvalid) {
+        classes.push(
+          'cds--dropdown__wrapper--inline--invalid',
+          'cds--list-box__wrapper--inline--invalid',
+        );
+      }
     }
     return classes.join(' ');
   }
 
-  get boxClasses() {
-    const classes = ['cds--dropdown', 'cds--list-box'];
-    classes.push(`cds--dropdown--${this.size}`, `cds--list-box--${this.size}`);
-    if (this.isInvalid) {
-      classes.push('cds--dropdown--invalid', 'cds--list-box--invalid');
-    } else if (this.isWarn) {
-      classes.push('cds--dropdown--warning', 'cds--list-box--warning');
-    }
-    if (this.isOpen) {
-      classes.push('cds--dropdown--open', 'cds--list-box--expanded');
-    }
-    if (this.isFocused) {
+  // Dropdown's own classes; ListBox adds the list-box ones.
+  get dropdownClasses() {
+    // No size classes without @size, so the field follows an enclosing
+    // Layout's size, as in Carbon React.
+    const classes = ['cds--dropdown'];
+    if (this.args.size) classes.push(`cds--dropdown--${this.args.size}`);
+    if (this.isInvalid) classes.push('cds--dropdown--invalid');
+    if (this.isWarn) classes.push('cds--dropdown--warning');
+    if (this.isOpen) classes.push('cds--dropdown--open');
+    // As in Carbon React, only while nothing is selected.
+    if (this.isFocused && this.selectedItem === null) {
       classes.push('cds--dropdown--focus');
     }
-    if (this.isInline) {
-      classes.push('cds--dropdown--inline', 'cds--list-box--inline');
-    }
-    if (this.args.disabled) {
-      classes.push('cds--dropdown--disabled', 'cds--list-box--disabled');
-    }
-    if (this.args.readOnly) {
-      classes.push('cds--dropdown--readonly');
-    }
-    if (this.args.direction === 'top') {
-      classes.push('cds--list-box--up');
-    }
+    if (this.isInline) classes.push('cds--dropdown--inline');
+    if (this.args.disabled) classes.push('cds--dropdown--disabled');
+    if (this.args.readOnly) classes.push('cds--dropdown--readonly');
+    if (this.args.direction === 'top') classes.push('cds--list-box--up');
     return classes.join(' ');
   }
 
@@ -290,18 +304,13 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
     return '';
   };
 
-  openMenu(offset: -1 | 1 = 1) {
+  openMenu() {
     this.isOpen = true;
     const items = this.args.items;
     const selectedIndex =
       this.selectedItem !== null ? items.indexOf(this.selectedItem) : -1;
-    if (selectedIndex >= 0) {
-      this.highlightedIndex = selectedIndex;
-    } else if (items.length) {
-      this.highlightedIndex = offset < 0 ? items.length - 1 : 0;
-    } else {
-      this.highlightedIndex = -1;
-    }
+    this.highlightedIndex =
+      selectedIndex >= 0 ? selectedIndex : items.length ? 0 : -1;
   }
 
   close() {
@@ -331,26 +340,27 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
     const items = this.args.items;
     switch (event.key) {
       case 'ArrowDown':
+      case 'ArrowUp':
+        // As in Carbon React, ArrowUp on the closed field does nothing (the
+        // page can scroll); only ArrowDown opens the menu.
+        if (!this.isOpen && event.key === 'ArrowUp') break;
         event.preventDefault();
         if (!this.isOpen) {
           this.openMenu();
-        } else if (items.length) {
-          this.highlightedIndex = Math.min(
-            this.highlightedIndex + 1,
-            items.length - 1,
-          );
-        }
-        break;
-      case 'ArrowUp':
-        event.preventDefault();
-        if (!this.isOpen) {
-          this.openMenu(-1);
-        } else if (items.length) {
-          this.highlightedIndex = Math.max(this.highlightedIndex - 1, 0);
+        } else {
+          this.highlightedIndex =
+            nextIndex(event.key, this.highlightedIndex, items.length) ?? -1;
         }
         break;
       case 'Enter':
       case ' ':
+        // Mid-typeahead in the open menu, a space is part of what's typed
+        // ("Option 1"); on the closed field it opens the menu.
+        if (event.key === ' ' && this.isOpen && this.searchBuffer) {
+          event.preventDefault();
+          this.handleCharacterKey(' ');
+          break;
+        }
         event.preventDefault();
         if (!this.isOpen) {
           this.openMenu();
@@ -368,15 +378,11 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
         }
         break;
       case 'Home':
-        if (this.isOpen && items.length) {
-          event.preventDefault();
-          this.highlightedIndex = 0;
-        }
-        break;
       case 'End':
         if (this.isOpen && items.length) {
           event.preventDefault();
-          this.highlightedIndex = items.length - 1;
+          this.highlightedIndex =
+            nextIndex(event.key, this.highlightedIndex, items.length) ?? -1;
         }
         break;
       case 'Tab':
@@ -398,46 +404,33 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
   };
 
   // Jumps the highlight (or, when closed, the selection) to the next item
-  // whose text starts with the characters typed so far, the same
-  // native-`<select>`-like behavior downshift's `useSelect` provides by
-  // default.
+  // whose text starts with the characters typed so far, as a native
+  // `<select>` (and downshift's `useSelect`) does.
   handleCharacterKey(key: string) {
     const items = this.args.items;
     if (!items.length) return;
 
-    const currentIndex = this.isOpen
+    const current = this.isOpen
       ? this.highlightedIndex
       : this.selectedItem !== null
         ? items.indexOf(this.selectedItem)
         : -1;
     if (!this.searchBuffer) {
-      this.searchAnchorIndex = currentIndex;
+      this.searchAnchorIndex = current;
     }
-    this.searchBuffer += key.toLowerCase();
+    this.searchBuffer += key;
     void this.resetSearchBuffer.perform();
 
-    // A run of the same repeated character (e.g. "b", "b", "b") cycles
-    // through every item starting with that character, one per keypress,
-    // instead of narrowing to items starting with "bbb".
-    const isRepeatedChar =
-      this.searchBuffer.length > 1 &&
-      [...this.searchBuffer].every((char) => char === this.searchBuffer[0]);
-    const query = isRepeatedChar
-      ? (this.searchBuffer[0] as string)
-      : this.searchBuffer;
-    const startAfter = isRepeatedChar ? currentIndex : this.searchAnchorIndex;
-
-    for (let offset = 1; offset <= items.length; offset++) {
-      const index = (startAfter + offset + items.length) % items.length;
-      const text = this.itemToString(items[index] as T).toLowerCase();
-      if (text.startsWith(query)) {
-        if (this.isOpen) {
-          this.highlightedIndex = index;
-        } else {
-          this.selectItem(items[index] as T);
-        }
-        return;
-      }
+    const index = typeaheadIndex(
+      items.map((item) => this.itemToString(item)),
+      this.searchBuffer,
+      { current, anchor: this.searchAnchorIndex },
+    );
+    if (index < 0) return;
+    if (this.isOpen) {
+      this.highlightedIndex = index;
+    } else {
+      this.selectItem(items[index] as T);
     }
   }
 
@@ -482,7 +475,19 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
           {{if @disabled 'cds--label--disabled'}}
           {{if @hideLabel 'cds--visually-hidden'}}"
       >{{@titleText}}</label>
-      <div class={{this.boxClasses}} data-invalid={{if this.isInvalid "true"}}>
+      <ListBox
+        class={{this.dropdownClasses}}
+        @size={{@size}}
+        @type={{if this.isInline "inline" "default"}}
+        @disabled={{@disabled}}
+        @isOpen={{this.isOpen}}
+        @invalid={{this.isInvalid}}
+        @invalidText={{@invalidText}}
+        @invalidTextId={{this.invalidId}}
+        @warn={{this.isWarn}}
+        @warnText={{@warnText}}
+        @warnTextId={{this.warnId}}
+      >
         {{#if this.isInvalid}}
           <WarningFilled @size="16" @svgClass="cds--list-box__invalid-icon" />
         {{else if this.isWarn}}
@@ -501,8 +506,8 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
           aria-expanded={{if this.isOpen "true" "false"}}
           aria-controls={{this.menuId}}
           aria-activedescendant={{this.activeDescendant}}
-          aria-labelledby="{{this.labelId}} {{this.id}}"
-          aria-describedby={{if this.hasDescription this.descriptionId}}
+          aria-labelledby={{this.labelId}}
+          aria-describedby={{this.describedBy}}
           aria-disabled={{if @readOnly "true"}}
           disabled={{@disabled}}
           {{on "click" this.handleTriggerClick}}
@@ -511,75 +516,51 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
           {{on "blur" this.handleBlur}}
         >
           <span class="cds--list-box__label">{{this.triggerText}}</span>
-          <div
-            class="cds--list-box__menu-icon
-              {{if this.isOpen 'cds--list-box__menu-icon--open'}}"
-          >
-            <ChevronDown @size="16" @svgClass="cds--list-box__menu-icon__svg" />
-          </div>
+          <ListBoxMenuIcon @isOpen={{this.isOpen}} />
         </button>
         {{#if (has-block "decorator")}}
           <div class="cds--list-box__inner-wrapper--decorator">
             {{yield (component AILabel size="mini") to="decorator"}}
           </div>
         {{/if}}
-        <ul
-          id={{this.menuId}}
-          role="listbox"
-          class="cds--list-box__menu"
-          aria-labelledby={{this.id}}
-          {{! eslint-disable-next-line ember/template-no-pointer-down-event-binding }}
+        <ListBoxMenu
+          @id={{this.menuId}}
+          aria-labelledby={{this.labelId}}
+          {{! eslint-disable-next-line ember/template-no-pointer-down-event-binding -- keeps focus on the field, see preventMenuMouseDown }}
           {{on "mousedown" this.preventMenuMouseDown}}
         >
-          {{#each @items as |item index|}}
-            <li
-              id={{this.itemId index}}
-              role="option"
-              class="cds--list-box__menu-item
-                {{if
-                  (eq item this.selectedItem)
-                  'cds--list-box__menu-item--active'
-                }}
-                {{if
-                  (eq index this.highlightedIndex)
-                  'cds--list-box__menu-item--highlighted'
-                }}"
-              aria-selected={{if (eq item this.selectedItem) "true" "false"}}
-              title={{this.itemToString item}}
-              {{on "click" (fn this.handleItemClick item)}}
-              {{on "mouseenter" (fn this.setHighlighted index)}}
-            >
-              <div class="cds--list-box__menu-item__option">
+          {{#if this.isOpen}}
+            {{#each @items as |item index|}}
+              <ListBoxMenuItem
+                id={{this.itemId index}}
+                {{! eslint-disable-next-line ember/template-require-context-role -- ListBoxMenu is the role="listbox" }}
+                role="option"
+                aria-selected={{if (eq item this.selectedItem) "true" "false"}}
+                @isActive={{eq item this.selectedItem}}
+                @isHighlighted={{eq index this.highlightedIndex}}
+                @title={{this.itemToString item}}
+                {{on "click" (fn this.handleItemClick item)}}
+                {{on "mouseenter" (fn this.setHighlighted index)}}
+              >
                 {{#if (has-block)}}
                   {{yield item}}
                 {{else}}
                   {{this.itemToString item}}
                 {{/if}}
-                <span aria-hidden="true">
-                  {{! eslint-disable-next-line ember/template-require-presentational-children }}
+                {{#if (eq item this.selectedItem)}}
                   <Checkmark
                     @size="16"
                     @svgClass="cds--list-box__menu-item__selected-icon"
                   />
-                </span>
-              </div>
-            </li>
-          {{/each}}
-        </ul>
-      </div>
-      {{#if this.isInvalid}}
+                {{/if}}
+              </ListBoxMenuItem>
+            {{/each}}
+          {{/if}}
+        </ListBoxMenu>
+      </ListBox>
+      {{#if this.showHelperText}}
         <div
-          id={{this.descriptionId}}
-          class="cds--form-requirement"
-        >{{@invalidText}}</div>
-      {{else if this.isWarn}}
-        <div
-          id={{this.descriptionId}}
-          class="cds--form-requirement"
-        >{{@warnText}}</div>
-      {{else if this.showHelperText}}
-        <div
-          id={{this.descriptionId}}
+          id={{this.helperId}}
           class="cds--form__helper-text
             {{if @disabled 'cds--form__helper-text--disabled'}}"
         >{{@helperText}}</div>

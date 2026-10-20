@@ -184,6 +184,21 @@ export default defineConfig([
     },
   },
   {
+    // package.json marks everything but stylesheets and the tests free of side
+    // effects, so bundlers drop a module that is only imported for them.
+    files: ['src/**/*', '.storybook/**/*'],
+    plugins: {
+      import: importPlugin,
+    },
+    rules: {
+      'import/no-unassigned-import': [
+        'error',
+        // `**` skips dot directories.
+        { allow: ['**/*.{css,scss}', '**/.storybook/**/*.{css,scss}'] },
+      ],
+    },
+  },
+  {
     files: ['src/components/**/*.gts'],
     ignores: ['**/*.stories.gts'],
     rules: {
