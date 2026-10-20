@@ -200,39 +200,9 @@
       "path": "div > div[1] > div[0] > input[0].attributes.aria-describedby",
       "variant": "warn",
       "reason": "The input-side half of the disclosed gap in the `div > div[1] > div[1].attributes.id` entry: the warning text has no `id`, so the input has no `aria-describedby` pointing at it."
-    },
-    {
-      "path": "div > div[1] > div[0] > svg[1] > path[0].attributes.d",
-      "variant": "invalid",
-      "reason": "Same whitespace-only, harness-limitation diff as Notification's `div > svg[0] > path[0].attributes.d` entry: @carbon/icons and @carbon/icons-react differ by one tab vs. space between two path commands, which the SVG path grammar treats as equivalent."
-    },
-    {
-      "path": "div > div[1] > div[0] > svg[1] > path[1].attributes.d",
-      "variant": "invalid",
-      "reason": "Same whitespace-only diff as the `svg[1] > path[0].attributes.d` entry above, on the icon's second path."
     }
   ],
   "Select": [
-    {
-      "path": "div > div[0] > div[1] > svg[2] > path[0].attributes.d",
-      "variant": "invalid",
-      "reason": "Same whitespace-only, harness-limitation diff as TextInput's `svg[1] > path[0].attributes.d` entry: @carbon/icons and @carbon/icons-react differ by one tab vs. space between two path commands, which the SVG path grammar treats as equivalent."
-    },
-    {
-      "path": "div > div[0] > div[1] > svg[2] > path[1].attributes.d",
-      "variant": "invalid",
-      "reason": "Same whitespace-only, harness-limitation diff as TextInput's `svg[1] > path[0].attributes.d` entry: @carbon/icons and @carbon/icons-react differ by one tab vs. space between two path commands, which the SVG path grammar treats as equivalent."
-    },
-    {
-      "path": "div > div[0] > div[1] > div[0] > svg[2] > path[0].attributes.d",
-      "variant": "inline-invalid",
-      "reason": "Same whitespace-only, harness-limitation diff as TextInput's `svg[1] > path[0].attributes.d` entry: @carbon/icons and @carbon/icons-react differ by one tab vs. space between two path commands, which the SVG path grammar treats as equivalent."
-    },
-    {
-      "path": "div > div[0] > div[1] > div[0] > svg[2] > path[1].attributes.d",
-      "variant": "inline-invalid",
-      "reason": "Same whitespace-only, harness-limitation diff as TextInput's `svg[1] > path[0].attributes.d` entry: @carbon/icons and @carbon/icons-react differ by one tab vs. space between two path commands, which the SVG path grammar treats as equivalent."
-    },
     {
       "path": "div > div[0] > div[1] > select[0].attributes.aria-describedby",
       "variant": "warn",
@@ -267,16 +237,6 @@
     {
       "path": "div > div[1] > textarea[1].style.width",
       "reason": "Same imperative-effect-set `width: 100%` gap as the `textarea[0]` entry above, at the index the `<textarea>` occupies once an invalid/warn icon renders before it."
-    },
-    {
-      "path": "div > div[1] > svg[0] > path[0].attributes.d",
-      "variant": "invalid",
-      "reason": "Harness limitation, not a real bug - same whitespace-only (tab vs. space between two path commands) diff already documented for Notification's warning-icon entry of the same name; the SVG path grammar treats the two as equivalent."
-    },
-    {
-      "path": "div > div[1] > svg[0] > path[1].attributes.d",
-      "variant": "invalid",
-      "reason": "Same whitespace-only harness limitation as the `path[0]` entry above, for the icon's second path segment."
     },
     {
       "path": "div > div[1] > textarea[1].attributes.aria-errormessage",
@@ -324,16 +284,6 @@
     {
       "path": "div > div[1] > div[0] > span[2]",
       "reason": "Same structural Tooltip-internals difference as the `span[1]` entry above, at the index the tooltip occupies once an invalid/warn icon renders before it. Applies to the invalid and warn variants."
-    },
-    {
-      "path": "div > div[1] > div[0] > svg[0] > path[0].attributes.d",
-      "variant": "invalid",
-      "reason": "Harness limitation, not a real bug - same whitespace-only path-data diff already documented for Notification's warning-icon entry of the same name."
-    },
-    {
-      "path": "div > div[1] > div[0] > svg[0] > path[1].attributes.d",
-      "variant": "invalid",
-      "reason": "Same whitespace-only harness limitation as the `path[0]` entry above."
     },
     {
       "path": "div > div[1] > div[0] > input[1].attributes.aria-errormessage",
@@ -384,16 +334,6 @@
     {
       "path": "div > div[0] > div[1] > input[0].attributes.value",
       "reason": "Harness limitation, not a functional gap - same property-vs-attribute gap already documented for TextInput's `input[0].attributes.value` entry (Glimmer's bound `value={{this.value}}` sets the DOM property, not a reflected attribute). Applies to every variant (NumberInput's own internal default value is `0`, always present)."
-    },
-    {
-      "path": "div > div[0] > div[1] > svg[1] > path[0].attributes.d",
-      "variant": "invalid",
-      "reason": "Harness limitation, not a real bug - same whitespace-only path-data diff already documented for Notification's warning-icon entry of the same name."
-    },
-    {
-      "path": "div > div[0] > div[1] > svg[1] > path[1].attributes.d",
-      "variant": "invalid",
-      "reason": "Same whitespace-only harness limitation as the `path[0]` entry above."
     },
     {
       "path": "div > div[0] > div[1] > input[0].attributes.aria-describedby",
@@ -461,16 +401,6 @@
       "reason": "Same structural Tooltip-internals difference already documented for PasswordInput's `span[1]`/`span[2]` entries (the trigger wrapper's element, and where the tooltip's ARIA attributes sit) - swallows the whole internal-structure comparison in one entry, at the index the tooltip occupies here."
     },
     {
-      "path": "div > div[1] > div[0] > svg[0] > path[0].attributes.d",
-      "variant": "password-invalid",
-      "reason": "Harness limitation, not a real bug - same whitespace-only path-data diff already documented for Notification's warning-icon entry of the same name."
-    },
-    {
-      "path": "div > div[1] > div[0] > svg[0] > path[1].attributes.d",
-      "variant": "password-invalid",
-      "reason": "Same whitespace-only harness limitation as the `path[0]` entry above."
-    },
-    {
       "path": "div > div[1] > div[0] > input[1].classes[cds--text-input--fluid]",
       "variant": "password-invalid",
       "reason": "Same `cds--text-input--fluid` placement divergence as the `password` variant's entry of the same name above, at the index the input occupies once the invalid icon precedes it."
@@ -503,10 +433,6 @@
     {
       "path": "div > div[0].attributes.tabindex",
       "reason": "@carbon/react's Search always sets `tabIndex={isExpandableCollapsed ? 0 : -1}` on the magnifier div (resolving to `-1` here, since this fixture never sets `onExpand`); Ember's `<div class='cds--search-magnifier'>` in search.gts has no `tabindex` at all. Both are equally correct for the non-expandable case (a `-1` value contributes nothing to the tab order either), but the attribute's mere presence differs. Applies to every variant."
-    },
-    {
-      "path": "div > div[0] > svg[0] > path[0].attributes.d",
-      "reason": "Harness limitation, not a real bug - same whitespace-only (tab vs. space between two path commands) diff already documented for Notification's warning-icon entry of the same name; the SVG path grammar treats the two as equivalent. Applies to every variant."
     },
     {
       "path": "div > input[2].attributes.value",
@@ -575,21 +501,6 @@
   ],
   "IconIndicator": [
     {
-      "path": "div > svg[0] > path[0].attributes.d",
-      "variant": "undefined",
-      "reason": "Harness limitation, not a real bug - same whitespace-only (tab vs. space between two path commands) diff already documented for Notification's/Slider's warning-icon entries of the same name; the SVG path grammar treats the two as equivalent."
-    },
-    {
-      "path": "div > svg[0] > path[0].attributes.d",
-      "variant": "unknown",
-      "reason": "Harness limitation, not a real bug - same whitespace-only (tab vs. space between two path commands) diff already documented for Notification's/Slider's warning-icon entries of the same name; the SVG path grammar treats the two as equivalent."
-    },
-    {
-      "path": "div > svg[0] > path[1].attributes.d",
-      "variant": "unknown",
-      "reason": "Harness limitation, not a real bug - same whitespace-only (tab vs. space between two path commands) diff already documented for Notification's/Slider's warning-icon entries of the same name; the SVG path grammar treats the two as equivalent."
-    },
-    {
       "path": "div > span[0] > span[1].attributes.id",
       "variant": "compact",
       "reason": "The panel side of the same id-canonicalization side effect as the trigger's `aria-controls` entry above - the id is rendered on the same `.cds--popover` span as upstream, it just canonicalizes to `#2`."
@@ -630,16 +541,6 @@
       "path": "div > div[1] > div[4] > input[0].attributes.value",
       "variant": "two-handles",
       "reason": "Same property-vs-attribute harness limitation as the single-handle `div[3] > input[0].attributes.value` entry above, for the upper-handle input."
-    },
-    {
-      "path": "div > div[1] > div[3] > svg[1] > path[0].attributes.d",
-      "variant": "invalid",
-      "reason": "Harness limitation, not a real bug - same whitespace-only (tab vs. space between two path commands) diff already documented for Notification's warning-icon entry of the same name; the SVG path grammar treats the two as equivalent."
-    },
-    {
-      "path": "div > div[1] > div[3] > svg[1] > path[1].attributes.d",
-      "variant": "invalid",
-      "reason": "Harness limitation, not a real bug - same whitespace-only (tab vs. space between two path commands) diff already documented for Notification's warning-icon entry of the same name; the SVG path grammar treats the two as equivalent."
     }
   ],
   "StructuredList": [
@@ -680,11 +581,6 @@
     {
       "path": "div > svg[0].attributes.aria-hidden",
       "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
-    },
-    {
-      "path": "div > svg[0] > path[0].attributes.d",
-      "variant": "warning",
-      "reason": "Whitespace only: @carbon/icons' Warning path has a tab where @carbon/icons-react's has a space, which SVG treats the same."
     }
   ],
   "InlineNotification": [
@@ -699,11 +595,6 @@
     {
       "path": "div > div[0] > svg[0].attributes.aria-hidden",
       "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
-    },
-    {
-      "path": "div > div[0] > svg[0] > path[0].attributes.d",
-      "variant": "warning",
-      "reason": "Whitespace only: @carbon/icons' Warning path has a tab where @carbon/icons-react's has a space, which SVG treats the same."
     }
   ],
   "ActionableNotification": [
@@ -736,11 +627,6 @@
     {
       "path": "div.classes[cds--actionable-notification--callout]",
       "reason": "Carbon React 1.118 adds this class for the v12 styles (carbon#23362); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
-    },
-    {
-      "path": "div > div[0] > svg[0] > path[0].attributes.d",
-      "variant": "warning",
-      "reason": "Whitespace only: @carbon/icons' Warning path has a tab where @carbon/icons-react's has a space, which SVG treats the same."
     }
   ],
   "Modal": [
