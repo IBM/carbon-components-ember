@@ -153,6 +153,7 @@ When invoking a `renderIcon`-style `ComponentLike` arg, **always pass `@size` (a
 
 ### 4. Use Modifiers for DOM Work and Refs
 Functional or class-based modifiers are Ember's replacement for `useRef` + `useEffect`. When the consumer owns the element that needs the behavior, yield a `ModifierLike` modifier to them.
+A function modifier re-runs only for the arguments it reads, since ember-modifier passes it Glimmer's lazy arguments. Destructure every positional it should follow, and `void` one nothing else uses.
 
 ### 5. Timing and Destructors
 Never use bare `setTimeout`. Use `ember-concurrency` restartable tasks which auto-cancel on component destruction. To defer work past the current render (writing state the render read), use `afterRender` from `utils/after-render.ts`, not the run loop. Anything else that must be cleaned up belongs in `registerDestructor` or a modifier teardown.
