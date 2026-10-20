@@ -41,9 +41,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          base=db887ae8b85ca008960eae97e75ab584714dad39
+          base=$(git merge-base origin/main HEAD)
           runs=$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=story-screenshots-1&per_page=100" \
-            --jq '.artifacts[] | select(.workflow_run.head_branch == "feat/story-screenshots" and (.expired | not)) | "\(.workflow_run.head_sha) \(.workflow_run.id)"')
+            --jq '.artifacts[] | select(.workflow_run.head_branch == "main" and (.expired | not)) | "\(.workflow_run.head_sha) \(.workflow_run.id)"')
           for sha in $(git rev-list --first-parent --max-count=100 "$base"); do
             run=$(awk -v sha="$sha" '$1 == sha { print $2; exit }' <<< "$runs")
             [[ -n $run ]] || continue
@@ -127,13 +127,24 @@ jobs:
           overwrite: true
           retention-days: 30
 
-      # The actual and diff images of each story that differs.
+      # Vitest writes the actual and diff images of each story that differs;
+      # put main's screenshot next to them.
+      - name: Add main's screenshots of the stories that differ
+        if: github.ref != 'refs/heads/main' && !cancelled()
+        working-directory: carbon-components-ember
+        run: |
+          shopt -s globstar nullglob
+          for actual in .vitest/attachments/src/**/*-actual-chromium-linux.png; do
+            story=$(basename "$(dirname "$actual")")/$(basename "$actual" -actual-chromium-linux.png)
+            cp "__screenshots__/$story-chromium-linux.png" "${actual%-actual-chromium-linux.png}-reference-chromium-linux.png"
+          done
+
       - name: Upload the screenshots that differ
         if: github.ref != 'refs/heads/main' && !cancelled()
         uses: actions/upload-artifact@v7
         with:
           name: story-screenshot-diffs-${{ matrix.shard }}
-          path: carbon-components-ember/.vitest/attachments
+          path: carbon-components-ember/.vitest/attachments/src
           include-hidden-files: true
           if-no-files-found: ignore
           overwrite: true
@@ -254,7 +265,7 @@ jobs:
                 '',
                 ...stories.map(link),
                 '',
-                `Their actual and diff images are in the [run's artifacts](${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}#artifacts).`,
+                `Their reference, actual and diff images are in the [run's artifacts](${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}#artifacts).`,
                 process.env.STALE
                   ? "Main has changed since, so some may be main's own; they don't fail the Docs check."
                   : preview
