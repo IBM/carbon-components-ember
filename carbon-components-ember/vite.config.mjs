@@ -54,8 +54,9 @@ async function servePlexLocally({ context }) {
         headers: { 'Access-Control-Allow-Origin': '*' },
       });
     } catch {
-      // Not in the packages (a newer Carbon?): load it from the CDN.
-      await route.fallback();
+      // Not in the packages (a newer Carbon?): load it from the CDN. That
+      // fails too if the page closed meanwhile; let it.
+      await route.fallback().catch(() => {});
     }
   });
 }

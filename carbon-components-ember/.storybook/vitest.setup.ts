@@ -1,4 +1,4 @@
-import { hasPendingWaiters } from '@ember/test-waiters';
+import { getPendingWaiterState, hasPendingWaiters } from '@ember/test-waiters';
 import { afterEach, expect, inject, vi } from 'vitest';
 import { commands, server } from 'vitest/browser';
 
@@ -82,7 +82,12 @@ afterEach(async ({ story, task }) => {
   if (isNew && (updateSnapshot === 'new' || !withScreenshots.size)) return;
 
   // Lazy icons, floating content and modals register test waiters.
-  await vi.waitUntil(() => !hasPendingWaiters(), { timeout: 10_000 });
+  await vi
+    .waitUntil(() => !hasPendingWaiters(), { timeout: 10_000 })
+    .catch(() => {
+      const { waiters } = getPendingWaiterState();
+      throw new Error(`Test waiters still pending: ${JSON.stringify(waiters)}`);
+    });
   // A font starts loading when layout first needs it: lay the page out, so
   // `fonts.ready` waits for every font the story uses.
   document.documentElement.getBoundingClientRect();
