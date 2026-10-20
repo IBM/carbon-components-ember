@@ -28,6 +28,12 @@ updates:
       - dependency-name: "typescript"
       # Pinned for patches/vite@8.3.4.patch until a Vite release has the fix (#1057).
       - dependency-name: "vite"
+      # AI Chat's Markdown follows @carbon/ai-chat-components, which is on
+      # markdown-it 14; take a major when it does.
+      - dependency-name: "markdown-it"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/markdown-it"
+        update-types: ["version-update:semver-major"]
     # One PR for each kind of update instead of one per package. Majors
     # stay apart, as they're the ones that need code changes.
     groups:
