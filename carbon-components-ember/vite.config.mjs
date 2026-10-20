@@ -43,15 +43,20 @@ const servingPlex = new WeakSet();
 async function servePlexLocally({ context }) {
   if (servingPlex.has(context)) return;
   servingPlex.add(context);
-  await context.route(plexOnCdn, (route) => {
+  await context.route(plexOnCdn, async (route) => {
     const [, family, file] = plexOnCdn.exec(route.request().url());
-    const plex = fromCarbon.resolve(
-      `@ibm/plex-${family.toLowerCase()}/package.json`,
-    );
-    return route.fulfill({
-      path: join(dirname(plex), file),
-      headers: { 'Access-Control-Allow-Origin': '*' },
-    });
+    try {
+      const plex = fromCarbon.resolve(
+        `@ibm/plex-${family.toLowerCase()}/package.json`,
+      );
+      await route.fulfill({
+        path: join(dirname(plex), file),
+        headers: { 'Access-Control-Allow-Origin': '*' },
+      });
+    } catch {
+      // Not in the packages (a newer Carbon?): load it from the CDN.
+      await route.fallback();
+    }
   });
 }
 

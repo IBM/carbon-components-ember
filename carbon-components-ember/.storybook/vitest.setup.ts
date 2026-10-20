@@ -61,13 +61,14 @@ afterEach(async () => {
 });
 
 // Compares each story with its screenshot from main's CI run (see
-// .github/workflows/docs.yml); a story without one, such as a new story,
-// gets one once it's on main. `pnpm test:storybook --update` takes them
-// afresh. Opt a story out, saying why, with
+// .github/workflows/docs.yml); `pnpm test:storybook --update` takes them
+// afresh. A new story gets one once it's on main, and CI checks meanwhile
+// that it holds still. Opt a story out, saying why, with
 // `parameters: { screenshot: { disable: true } }`.
 const { stories, report } = inject('storyScreenshots');
 const withScreenshots = new Set(stories);
-const updating = server.config.snapshotOptions.updateSnapshot === 'all';
+// 'all' with --update, 'none' on CI and 'new' otherwise.
+const { updateSnapshot } = server.config.snapshotOptions;
 
 afterEach(async ({ story, task }) => {
   // Story tests (`.test()`) rerender their story; screenshot it once.
@@ -76,7 +77,9 @@ afterEach(async ({ story, task }) => {
     return;
   }
   const name = story.id.replace('--', '/');
-  if (!updating && !withScreenshots.has(name)) return;
+  const isNew = updateSnapshot !== 'all' && !withScreenshots.has(name);
+  // Nothing to compare with: locally, or with no screenshots from main.
+  if (isNew && (updateSnapshot === 'new' || !withScreenshots.size)) return;
 
   // Lazy icons, floating content and modals register test waiters.
   await vi.waitUntil(() => !hasPendingWaiters(), { timeout: 10_000 });
@@ -94,7 +97,12 @@ afterEach(async ({ story, task }) => {
       timeout: 15_000,
     });
   } catch (error) {
-    if (!report) throw error;
+    const { message } = error as Error;
+    if (isNew && message.includes('No existing reference screenshot')) return;
+    // Report differences, but not a story that won't hold still.
+    if (!report || message.includes('Could not capture a stable screenshot')) {
+      throw error;
+    }
     console.warn(error);
   }
 });
