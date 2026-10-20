@@ -18,6 +18,7 @@ import ListBox from './-private/list-box/list-box.gts';
 import ListBoxMenu from './-private/list-box/list-box-menu.gts';
 import ListBoxMenuIcon from './-private/list-box/list-box-menu-icon.gts';
 import ListBoxMenuItem from './-private/list-box/list-box-menu-item.gts';
+import { defaultItemToString } from './-private/list-box/items.ts';
 import { nextIndex, typeaheadIndex } from '../utils/roving-focus.ts';
 import type { WithBoundArgs } from '@glint/template';
 
@@ -287,22 +288,8 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
     return classes.join(' ');
   }
 
-  itemToString = (item: T): string => {
-    if (this.args.itemToString) {
-      return this.args.itemToString(item);
-    }
-    if (typeof item === 'string') return item;
-    if (typeof item === 'number') return `${item}`;
-    if (
-      item !== null &&
-      typeof item === 'object' &&
-      'label' in item &&
-      typeof (item as Record<string, unknown>)['label'] === 'string'
-    ) {
-      return (item as Record<string, unknown>)['label'] as string;
-    }
-    return '';
-  };
+  itemToString = (item: T): string =>
+    (this.args.itemToString ?? defaultItemToString)(item);
 
   openMenu() {
     this.isOpen = true;

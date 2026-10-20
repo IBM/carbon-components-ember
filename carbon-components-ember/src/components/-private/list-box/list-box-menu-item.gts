@@ -14,6 +14,8 @@ export interface ListBoxMenuItemSignature {
   Args: {
     isActive?: boolean;
     isHighlighted?: boolean;
+    /** Styles the item as one that can't be chosen. */
+    disabled?: boolean;
     /** Shown as the item's tooltip when its text is cut off. */
     title?: string;
   };
@@ -21,6 +23,14 @@ export interface ListBoxMenuItemSignature {
     default: [];
   };
 }
+
+// Carbon's styles select a `disabled` attribute, which an `<li>` has no
+// property for.
+const disabledAttribute = modifier(
+  (option: HTMLElement, [disabled]: [disabled: boolean | undefined]) => {
+    option.toggleAttribute('disabled', Boolean(disabled));
+  },
+);
 
 export default class ListBoxMenuItem extends Component<ListBoxMenuItemSignature> {
   @tracked isTruncated = false;
@@ -40,6 +50,7 @@ export default class ListBoxMenuItem extends Component<ListBoxMenuItemSignature>
         {{if @isHighlighted 'cds--list-box__menu-item--highlighted'}}"
       title={{if this.isTruncated @title}}
       ...attributes
+      {{disabledAttribute @disabled}}
     >
       <div class="cds--list-box__menu-item__option" {{this.measure @title}}>
         {{yield}}

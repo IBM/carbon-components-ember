@@ -15,13 +15,12 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          'A compact native `<select>` rendered next to the `TimePicker` field, e.g. for AM/PM or a time zone. Pass it, filled with `<option>`s, as the `TimePicker` block. Pass `@defaultValue` for an uncontrolled select, or `@value` with `@onChange` to control it.',
+          'A compact native `<select>` rendered next to the `TimePicker` field, e.g. for AM/PM or a time zone. Pass it, filled with `<option>`s, as the `TimePicker` block, and name it with `aria-label` (it defaults to "open list of options"). Pass `@defaultValue` for an uncontrolled select, or `@value` with `@onChange` to control it.',
       },
     },
   },
   args: {
-    ariaLabel: 'Period',
-    defaultValue: 'AM',
+    defaultValue: 'PM',
     disabled: false,
     onChange: fn(),
   },
@@ -29,16 +28,16 @@ const meta = preview.meta({
     <TimePicker @labelText="Select a time">
       <TimePickerSelect
         @id={{args.id}}
-        @ariaLabel={{args.ariaLabel}}
         @defaultValue={{args.defaultValue}}
         @value={{args.value}}
         @disabled={{args.disabled}}
         @onChange={{args.onChange}}
+        aria-label="Period"
       >
         <option value="AM">AM</option>
         <option value="PM">PM</option>
       </TimePickerSelect>
-      <TimePickerSelect @ariaLabel="Time zone">
+      <TimePickerSelect aria-label="Time zone">
         <option value="Time zone 1">Time zone 1</option>
         <option value="Time zone 2">Time zone 2</option>
       </TimePickerSelect>
@@ -52,12 +51,12 @@ Default.test(
   'reports the picked option',
   async ({ canvas, userEvent, args }) => {
     const select = canvas.getByRole('combobox', { name: 'Period' });
-    await expect(select).toHaveValue('AM');
-
-    await userEvent.selectOptions(select, 'PM');
     await expect(select).toHaveValue('PM');
+
+    await userEvent.selectOptions(select, 'AM');
+    await expect(select).toHaveValue('AM');
     await expect(args.onChange).toHaveBeenLastCalledWith(
-      'PM',
+      'AM',
       expect.anything(),
     );
   },

@@ -109,15 +109,15 @@ Parity means matching Carbon React's **public API surface and behaviour**, not i
 | Component slot (`decorator`, `slug`) | A named block yielding the component pre-bound for the host: `<:decorator as \|AILabel\|>` | `components/tag.gts` |
 | `value` + `defaultValue` + `onChange` | Keep both: `@defaultValue` seeds `@tracked` state, `@value` wins whenever defined | `components/text-input.gts` |
 | State/controllable single prop | One arg plus a private `@tracked` fallback; arg is source of truth only when change handler is passed | `components/tree-view.gts` |
-| `useRef` + `useEffect` DOM listeners | A functional `modifier()` from `ember-modifier` returning its teardown | `components/-private/tooltip.gts` |
-| `forwardRef` | Yield a `ModifierLike` for the caller to apply to their own element | `components/-private/tooltip.gts` |
+| `useRef` + `useEffect` DOM listeners | A functional `modifier()` from `ember-modifier` returning its teardown | `modifiers/close-on-outside-click.ts` |
+| `forwardRef` | Yield a `ModifierLike` for the caller to apply to their own element | none yet |
 | `createPortal` | `{{#in-element}}` — use the existing `<Portal>` component | `components/portal.gts` |
 | React context / provider | A service, or the parent component instance yielded down to children | `services/notifications.ts` |
 | `useId` | `guidFor(this)` | `components/tree-view.gts` |
 | Floating UI positioning hooks | The addon's own `<Popover>` / `<PopoverContent>` | `components/popover.gts` |
 | Debounce/timing | `task({ restartable: true })` + `timeout()` from `ember-concurrency` | `components/search.gts` |
 | `useEffect` cleanup return | `registerDestructor` (or the modifier's teardown function) | `components/tabs.gts` |
-| Lazily resolved value in template | `TrackedPromise` from `utils/tracked.ts` — re-renders once promise settles | `components/icons/*.ts` (lazy icons) |
+| Lazily resolved value in template | `TrackedPromise` from `utils/tracked.ts` — re-renders once promise settles, and tests' `settled()` waits for it | `components/icons/*.ts` (lazy icons) |
 | Arrow-key navigation (roving `tabIndex`) | `RovingFocus` from `utils/roving-focus.ts`: its `container` modifier on the list, its `item` modifier on each item; items keep their DOM order | `components/tree-view.gts` |
 
 ### 1. Yield Contextual Components instead of Inspecting Children
@@ -153,6 +153,7 @@ When invoking a `renderIcon`-style `ComponentLike` arg, **always pass `@size` (a
 
 ### 4. Use Modifiers for DOM Work and Refs
 Functional or class-based modifiers are Ember's replacement for `useRef` + `useEffect`. When the consumer owns the element that needs the behavior, yield a `ModifierLike` modifier to them.
+A function modifier re-runs only for the arguments it reads, since ember-modifier passes it Glimmer's lazy arguments. Destructure every positional it should follow, and `void` one nothing else uses.
 
 ### 5. Timing and Destructors
 Never use bare `setTimeout`. Use `ember-concurrency` restartable tasks which auto-cancel on component destruction. To defer work past the current render (writing state the render read), use `afterRender` from `utils/after-render.ts`, not the run loop. Anything else that must be cleaned up belongs in `registerDestructor` or a modifier teardown.
@@ -206,6 +207,12 @@ A backtick inside HBS comments (`{{! ... `word` ... }}`) breaks the Glint build 
 
 ### ❌ Pitfall 5: Generic `<Icon @icon='some-string'>` Path is Dead Code
 Nothing registers icons with `IconMap` in app code, so string-based icon lookups render nothing. Always import and use the specific per-icon components (e.g., `import CheckmarkFilled from './icons/checkmark-filled.ts'`, then `<CheckmarkFilled @size="16" />`).
+
+### ❌ Pitfall 6: An Attribute the Element Doesn't Define
+Glint types each element's attributes, so one HTML doesn't define for that element fails type-checking, even where Carbon's CSS selects it (`disabled` on a list box `<li>`). Set it from a modifier with `element.toggleAttribute()`, as `-private/list-box/list-box-menu-item.gts` does.
+
+### ❌ Pitfall 7: Binding `value` on a `<select>`
+Glimmer sets a `<select>`'s `value` before its options render, so `<select value={{x}}>` selects nothing on the first render. Select the value from a modifier once the options are in, and again when they change: `Select` does both, as the `SelectItem` it yields tells it when an option renders, goes or changes value.
 
 ---
 

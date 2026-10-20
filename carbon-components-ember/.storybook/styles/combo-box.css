@@ -1,0 +1,23 @@
+.combo-box-story__container {
+  width: 300px;
+  min-height: 20rem;
+}
+
+.combo-box-story__auto-align {
+  width: 400px;
+}
+
+.combo-box-story__spacer-above {
+  height: 300px;
+}
+
+.combo-box-story__spacer-below {
+  height: 800px;
+}
+
+.combo-box-story__controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+}

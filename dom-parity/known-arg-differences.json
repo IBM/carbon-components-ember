@@ -108,6 +108,14 @@
       "type"
     ]
   },
+  "ComboBox": {
+    "missing": [
+      "downshiftActions",
+      "downshiftProps",
+      "itemToElement",
+      "translateWithId"
+    ]
+  },
   "CopyButton": {
     "missing": [
       "as",
@@ -191,6 +199,14 @@
       "onAddFiles"
     ]
   },
+  "FilterableMultiSelect": {
+    "missing": [
+      "downshiftProps",
+      "inputProps",
+      "itemToElement",
+      "translateWithId"
+    ]
+  },
   "FluidTextInput": {
     "extra": [
       "hidePasswordLabel",
@@ -250,6 +266,13 @@
     "extra": [
       "onClose",
       "type"
+    ]
+  },
+  "MultiSelect": {
+    "missing": [
+      "downshiftProps",
+      "itemToElement",
+      "translateWithId"
     ]
   },
   "NotificationActionButton": {
@@ -406,39 +429,6 @@
       "isLoading"
     ]
   },
-  "Select": {
-    "missing": [
-      "decorator",
-      "defaultValue",
-      "hideLabel",
-      "id",
-      "invalid",
-      "invalidText",
-      "labelText",
-      "noLabel",
-      "readOnly",
-      "size",
-      "warn",
-      "warnText"
-    ],
-    "extra": [
-      "addItem",
-      "ariaLabelledBy",
-      "loadingMessage",
-      "onOpen",
-      "options",
-      "placeholder",
-      "removeItem",
-      "renderInPlace",
-      "search",
-      "searchEnabled",
-      "searchField",
-      "searchPlaceholder",
-      "selectFocused",
-      "selected",
-      "showNumber"
-    ]
-  },
   "Slider": {
     "missing": [
       "inputType",
@@ -503,11 +493,6 @@
       "tabindex"
     ]
   },
-  "TimePickerSelect": {
-    "extra": [
-      "ariaLabel"
-    ]
-  },
   "Toggle": {
     "missing": [
       "defaultToggled",
@@ -528,7 +513,6 @@
     "missing": [
       "alignmentAxisOffset",
       "as",
-      "autoAlign",
       "autoAlignBoundary",
       "backgroundToken",
       "border",

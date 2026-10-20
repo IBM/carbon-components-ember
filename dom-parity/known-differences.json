@@ -212,6 +212,33 @@
       "reason": "Same whitespace-only diff as the `svg[1] > path[0].attributes.d` entry above, on the icon's second path."
     }
   ],
+  "Select": [
+    {
+      "path": "div > div[0] > div[1] > svg[2] > path[0].attributes.d",
+      "variant": "invalid",
+      "reason": "Same whitespace-only, harness-limitation diff as TextInput's `svg[1] > path[0].attributes.d` entry: @carbon/icons and @carbon/icons-react differ by one tab vs. space between two path commands, which the SVG path grammar treats as equivalent."
+    },
+    {
+      "path": "div > div[0] > div[1] > svg[2] > path[1].attributes.d",
+      "variant": "invalid",
+      "reason": "Same whitespace-only, harness-limitation diff as TextInput's `svg[1] > path[0].attributes.d` entry: @carbon/icons and @carbon/icons-react differ by one tab vs. space between two path commands, which the SVG path grammar treats as equivalent."
+    },
+    {
+      "path": "div > div[0] > div[1] > div[0] > svg[2] > path[0].attributes.d",
+      "variant": "inline-invalid",
+      "reason": "Same whitespace-only, harness-limitation diff as TextInput's `svg[1] > path[0].attributes.d` entry: @carbon/icons and @carbon/icons-react differ by one tab vs. space between two path commands, which the SVG path grammar treats as equivalent."
+    },
+    {
+      "path": "div > div[0] > div[1] > div[0] > svg[2] > path[1].attributes.d",
+      "variant": "inline-invalid",
+      "reason": "Same whitespace-only, harness-limitation diff as TextInput's `svg[1] > path[0].attributes.d` entry: @carbon/icons and @carbon/icons-react differ by one tab vs. space between two path commands, which the SVG path grammar treats as equivalent."
+    },
+    {
+      "path": "div > div[0] > div[1] > select[0].attributes.aria-describedby",
+      "variant": "warn",
+      "reason": "Deliberate a11y divergence: @carbon/react's Select renders the warning text with an id but never points `aria-describedby` at it (with helper text it points at the helper's id, which isn't rendered while warning). The Ember port describes the select with the warning text, as Carbon React's Dropdown and ComboBox do."
+    }
+  ],
   "TextArea": [
     {
       "path": "div > div[0] > label[0].attributes.dir",
@@ -292,7 +319,7 @@
   "PasswordInput": [
     {
       "path": "div > div[1] > div[0] > span[1]",
-      "reason": "Structural: this addon's own private `Tooltip` component (`-private/tooltip.gts`, wrapping the show/hide-password toggle button) renders a genuinely different internal DOM shape than @carbon/react's Popover-based `Tooltip` - a plain `<span>` wrapping the trigger plus a differently-shaped tooltip-panel span, vs. upstream's `<div>`-wrapped panel with a real `role='tooltip'`/`id`/`aria-hidden` triple. This single entry (scoped to wherever the tooltip is the second child of the field wrapper, i.e. no invalid/warn icon precedes it) swallows the whole internal-structure comparison rather than trying to match it element-by-element - the tooltip's own behavior/markup is covered by this addon's own tooltip tests, not this harness. Applies to the default, disabled, and size-sm variants."
+      "reason": "Structural: the show/hide-password toggle's `Tooltip` differs from @carbon/react's inside: the trigger wrapper is a `<span>` (React: `<div class=\"cds--tooltip-trigger__wrapper\">`), and `role=\"tooltip\"`/`id`/`aria-hidden` sit on `.cds--popover-content` rather than React's outer `.cds--popover` span, because `PopoverContent` spreads `...attributes` on the inner span. This single entry (scoped to wherever the tooltip is the second child of the field wrapper, i.e. no invalid/warn icon precedes it) swallows the whole internal-structure comparison rather than matching it element by element; Tooltip's own tests cover its markup. Applies to the default, disabled, and size-sm variants."
     },
     {
       "path": "div > div[1] > div[0] > span[2]",
@@ -431,7 +458,7 @@
     {
       "path": "div > div[1] > div[0] > span[2]",
       "variant": "password",
-      "reason": "Same structural Tooltip-internals difference already documented for PasswordInput's `span[1]`/`span[2]` entries (this addon's own private `Tooltip` vs. upstream's Popover-based one) - swallows the whole internal-structure comparison in one entry, at the index the tooltip occupies here."
+      "reason": "Same structural Tooltip-internals difference already documented for PasswordInput's `span[1]`/`span[2]` entries (the trigger wrapper's element, and where the tooltip's ARIA attributes sit) - swallows the whole internal-structure comparison in one entry, at the index the tooltip occupies here."
     },
     {
       "path": "div > div[1] > div[0] > svg[0] > path[0].attributes.d",

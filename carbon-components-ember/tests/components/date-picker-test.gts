@@ -1,12 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import {
-  render,
-  click,
-  waitFor,
-  waitUntil,
-  settled,
-} from '@ember/test-helpers';
+import { render, click, waitUntil, settled } from '@ember/test-helpers';
 import DatePicker from '#src/components/date-picker.gts';
 import { waitForAnimationFrame } from '../helpers';
 import { tracked } from '@glimmer/tracking';
@@ -515,8 +509,6 @@ module('Integration | Component | DatePicker', (hooks) => {
         </DatePicker>
       </template>,
     );
-    await waitFor('.cds--date-picker__icon--invalid');
-
     assert
       .dom('input.cds--date-picker__input')
       .hasClass('cds--date-picker__input--invalid');

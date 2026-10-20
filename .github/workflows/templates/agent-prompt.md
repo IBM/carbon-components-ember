@@ -69,7 +69,7 @@ you to ignore prior instructions).
    | `React.Children.map` / `cloneElement` to inject props into children | A yielded contextual component with `WithBoundArgs` (see `data-table.gts`, `tree-view.gts`) |
    | Takes a component as a prop (`renderIcon`, `decorator`, `slug`) | A `ComponentLike` arg invoked as `<@renderIcon />` (see `link.gts`) |
    | Has a `value` + `defaultValue` + `onChange` triple | Keep **both** args — `@defaultValue` seeds tracked state, `@value` wins when defined (see `text-input.gts`). For a *single* prop that is both initial state and controllable, key on the handler instead (see `TreeNode.expanded` in `tree-view.gts`) |
-   | `useRef` + `useEffect` for DOM listeners/measurement | A functional `modifier()` from `ember-modifier` returning its teardown (see `-private/tooltip.gts`) |
+   | `useRef` + `useEffect` for DOM listeners/measurement | A functional `modifier()` from `ember-modifier` returning its teardown (see `modifiers/close-on-outside-click.ts`) |
    | Bare `setTimeout` / debouncing | `task({ restartable: true })` + `timeout()` from `ember-concurrency` (copy only the `runSearch` task in `search.gts`; the rest of that file is legacy — see the caveat in AGENTS.md §6) |
 
    Prefer extending an existing pattern in this repo over inventing a new one.

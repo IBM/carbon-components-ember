@@ -9,10 +9,12 @@ import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import { registerDestructor } from '@ember/destroyable';
 import { modifier } from 'ember-modifier';
-import { defaultArgs } from '../utils/decorators.ts';
+import { task, timeout } from 'ember-concurrency';
 import { scheduleTask } from 'ember-lifeline';
+import Popover, { PopoverContent } from './popover.gts';
+
+import type { PopoverSignature } from './popover.gts';
 
 export const TooltipAlignments = [
   'top',
@@ -38,29 +40,6 @@ export const TooltipAlignments = [
 ] as const;
 
 export type TooltipAlignment = (typeof TooltipAlignments)[number];
-
-const flippedAlignmentMap: Record<TooltipAlignment, TooltipAlignment> = {
-  top: 'bottom',
-  'top-left': 'bottom-left',
-  'top-start': 'bottom-start',
-  'top-right': 'bottom-right',
-  'top-end': 'bottom-end',
-  bottom: 'top',
-  'bottom-left': 'top-left',
-  'bottom-start': 'top-start',
-  'bottom-right': 'top-right',
-  'bottom-end': 'top-end',
-  left: 'right',
-  'left-bottom': 'right-bottom',
-  'left-end': 'right-end',
-  'left-top': 'right-top',
-  'left-start': 'right-start',
-  right: 'left',
-  'right-bottom': 'left-bottom',
-  'right-end': 'left-end',
-  'right-top': 'left-top',
-  'right-start': 'left-start',
-};
 
 /**
  * Puts `attribute` (aria-labelledby / aria-describedby) on the trigger the
@@ -90,7 +69,7 @@ const describeTrigger = modifier(
 );
 
 export interface TooltipSignature {
-  Element: HTMLSpanElement;
+  Element: PopoverSignature['Element'];
   Args: {
     /** Where the tooltip is placed relative to the trigger */
     align?: TooltipAlignment;
@@ -102,15 +81,15 @@ export interface TooltipSignature {
     /** Description text for the trigger, linked through `aria-describedby` */
     description?: string;
     /**
-     * Will auto-align the tooltip on open if it is not visible within the
-     * viewport (or `autoAlignBoundary`, if provided).
+     * **Experimental:** Keeps the tooltip within the viewport (or
+     * `autoAlignBoundary`, if provided), as `Popover`'s `autoAlign` does.
      */
     autoAlign?: boolean;
     /**
-     * Specify a bounding element to be used for autoAlign calculations. The
-     * viewport is used by default.
+     * **Experimental:** Specify a bounding element to be used for autoAlign
+     * calculations. The viewport is used by default.
      */
-    autoAlignBoundary?: HTMLElement;
+    autoAlignBoundary?: PopoverSignature['Args']['autoAlignBoundary'];
     /** Close the tooltip when the trigger is activated (click, Enter, Space) */
     closeOnActivation?: boolean;
     /** Render the tooltip open on initial render */
@@ -133,120 +112,51 @@ export interface TooltipSignature {
 }
 
 export default class Tooltip extends Component<TooltipSignature> {
-  @defaultArgs
-  args: TooltipSignature['Args'] = {
-    align: 'top',
-    closeOnActivation: false,
-    defaultOpen: false,
-    dropShadow: false,
-    enterDelayMs: 100,
-    highContrast: true,
-    leaveDelayMs: 300,
-  };
-
   @tracked open: boolean;
-  @tracked autoAlignResult: TooltipAlignment | null = null;
-
-  timer?: ReturnType<typeof setTimeout>;
-  containerElement?: HTMLElement;
 
   constructor(owner: Owner, args: TooltipSignature['Args']) {
     super(owner, args);
     this.open = args.defaultOpen ?? false;
-    registerDestructor(this, () => clearTimeout(this.timer));
   }
 
   get id() {
     return `${guidFor(this)}-tooltip`;
   }
 
+  get align() {
+    return this.args.align ?? 'top';
+  }
+
+  get dropShadow() {
+    return this.args.dropShadow ?? false;
+  }
+
+  get highContrast() {
+    return this.args.highContrast ?? true;
+  }
+
   get triggerAttribute() {
     return this.args.label ? 'aria-labelledby' : 'aria-describedby';
   }
 
-  get align(): TooltipAlignment {
-    return this.autoAlignResult ?? this.args.align ?? 'top';
-  }
-
-  get classes() {
-    const classes = [
-      'cds--popover-container',
-      'cds--popover--caret',
-      'cds--tooltip',
-      `cds--popover--${this.align}`,
-    ];
-    if (this.args.highContrast) classes.push('cds--popover--high-contrast');
-    if (this.args.dropShadow) classes.push('cds--popover--drop-shadow');
-    if (this.open) classes.push('cds--popover--open');
-    return classes.join(' ');
-  }
-
-  manageAutoAlign = modifier((element: HTMLElement) => {
-    this.containerElement = element;
-    this.updateAutoAlign();
-  });
-
-  updateAutoAlign() {
-    if (!this.args.autoAlign || !this.open || !this.containerElement) {
-      this.autoAlignResult = null;
-      return;
-    }
-
-    const content = this.containerElement.querySelector<HTMLElement>(
-      '.cds--popover-content',
-    );
-    if (!content) {
-      return;
-    }
-
-    const boundary = this.args.autoAlignBoundary;
-    const boundaryRect = boundary
-      ? boundary.getBoundingClientRect()
-      : {
-          top: 0,
-          left: 0,
-          right: window.innerWidth,
-          bottom: window.innerHeight,
-        };
-    const rect = content.getBoundingClientRect();
-
-    let align = this.args.align ?? 'top';
-    const overflowsVertically =
-      rect.top < boundaryRect.top || rect.bottom > boundaryRect.bottom;
-    const overflowsHorizontally =
-      rect.left < boundaryRect.left || rect.right > boundaryRect.right;
-
-    if (
-      ((align.startsWith('top') || align.startsWith('bottom')) &&
-        overflowsVertically) ||
-      ((align.startsWith('left') || align.startsWith('right')) &&
-        overflowsHorizontally)
-    ) {
-      align = flippedAlignmentMap[align] ?? align;
-    }
-
-    this.autoAlignResult = align;
-  }
-
-  setOpen(open: boolean, delayMs: number | undefined) {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      if (!this.isDestroying) {
-        this.open = open;
-      }
-    }, delayMs ?? 0);
-  }
+  setOpen = task(
+    { restartable: true },
+    async (open: boolean, delayMs: number) => {
+      await timeout(delayMs);
+      this.open = open;
+    },
+  );
 
   onMouseEnter = () => {
-    this.setOpen(true, this.args.enterDelayMs);
+    void this.setOpen.perform(true, this.args.enterDelayMs ?? 100);
   };
 
   onMouseLeave = () => {
-    this.setOpen(false, this.args.leaveDelayMs);
+    void this.setOpen.perform(false, this.args.leaveDelayMs ?? 300);
   };
 
   onFocusIn = () => {
-    clearTimeout(this.timer);
+    void this.setOpen.cancelAll();
     // Deferred via the runloop: a focusin/focusout can fire synchronously as
     // a side effect of a DOM mutation (e.g. a focused trigger becoming
     // `disabled`, which browsers blur automatically), which can happen while
@@ -258,7 +168,7 @@ export default class Tooltip extends Component<TooltipSignature> {
   };
 
   onFocusOut = () => {
-    clearTimeout(this.timer);
+    void this.setOpen.cancelAll();
     scheduleTask(this, 'actions', () => {
       this.open = false;
     });
@@ -270,24 +180,28 @@ export default class Tooltip extends Component<TooltipSignature> {
       this.open = false;
     }
     if (this.args.closeOnActivation && ['Enter', ' '].includes(event.key)) {
-      clearTimeout(this.timer);
+      void this.setOpen.cancelAll();
       this.open = false;
     }
   };
 
   onClick = () => {
     if (this.args.closeOnActivation) {
-      clearTimeout(this.timer);
+      void this.setOpen.cancelAll();
       this.open = false;
     }
   };
 
   <template>
-    {{! eslint-disable-next-line ember/template-no-invalid-interactive }}
-    <span
-      class={{this.classes}}
+    <Popover
+      class="cds--tooltip"
+      @align={{this.align}}
+      @autoAlign={{@autoAlign}}
+      @autoAlignBoundary={{@autoAlignBoundary}}
+      @dropShadow={{this.dropShadow}}
+      @highContrast={{this.highContrast}}
+      @open={{this.open}}
       ...attributes
-      {{this.manageAutoAlign}}
       {{on "mouseenter" this.onMouseEnter}}
       {{on "mouseleave" this.onMouseLeave}}
       {{on "focusin" this.onFocusIn}}
@@ -301,23 +215,20 @@ export default class Tooltip extends Component<TooltipSignature> {
       >
         {{yield}}
       </span>
-      <span class="cds--popover">
-        <span
-          class="cds--popover-content cds--tooltip-content"
-          id={{this.id}}
-          role="tooltip"
-          aria-hidden={{if this.open "false" "true"}}
-        >
-          {{#if (has-block "content")}}
-            {{yield to="content"}}
-          {{else if @label}}
-            {{@label}}
-          {{else}}
-            {{@description}}
-          {{/if}}
-        </span>
-        <span class="cds--popover-caret"></span>
-      </span>
-    </span>
+      <PopoverContent
+        class="cds--tooltip-content"
+        id={{this.id}}
+        role="tooltip"
+        aria-hidden={{if this.open "false" "true"}}
+      >
+        {{#if (has-block "content")}}
+          {{yield to="content"}}
+        {{else if @label}}
+          {{@label}}
+        {{else}}
+          {{@description}}
+        {{/if}}
+      </PopoverContent>
+    </Popover>
   </template>
 }
