@@ -505,7 +505,6 @@
     "missing": [
       "alignmentAxisOffset",
       "as",
-      "autoAlign",
       "autoAlignBoundary",
       "backgroundToken",
       "border",
