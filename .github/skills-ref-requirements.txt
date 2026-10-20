@@ -1,0 +1,13 @@
+# The Agent Skills specification's validator (github.com/agentskills/agentskills)
+# and its dependencies, pinned with hashes. CI installs them with
+# `pip install --require-hashes --no-deps --only-binary :all:`.
+skills-ref==0.1.1 \
+    --hash=sha256:d35db5bb8de71ae301daf5ca9cb71f8a555e8c6f83a6d40e46a5bc09f8f461b5
+click==8.5.0 \
+    --hash=sha256:255bc9599cf7748b4b1a446ccc735421bd08a2ae529a8b88597d3de5664ee360
+strictyaml==1.7.3 \
+    --hash=sha256:fb5c8a4edb43bebb765959e420f9b3978d7f1af88c80606c03fb420888f5d1c7
+python-dateutil==2.9.0.post0 \
+    --hash=sha256:a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427
+six==1.17.0 \
+    --hash=sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274
