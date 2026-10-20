@@ -14,7 +14,7 @@
  *   light DOM, so the Ember port intentionally uses unrelated, globally-
  *   scoped BEM class names instead (e.g. `cds-aichat-processing__dots`),
  *   since it has no shadow boundary to scope styles within - see
- *   AGENTS.md's "Porting Carbon AI Chat" section, point 3.
+ *   the styling rules in .claude/skills/port-ai-chat-component/SKILL.md.
  * - `part="..."` is a CSS Shadow Parts hook (`::part()`), letting a page
  *   outside the shadow root style specific elements inside it. Ember has no
  *   shadow boundary to pierce, so it never needs (or renders) one.

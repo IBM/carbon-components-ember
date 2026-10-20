@@ -18,7 +18,7 @@
  * component is its own light-DOM custom-element *host* wrapping a shadow
  * root, where the Ember port has no such wrapper at all - a ported
  * component's own template root directly *is* the comparable node (see
- * AGENTS.md's "Porting Carbon AI Chat" section; Ember has no light-DOM
+ * .claude/skills/port-ai-chat-component/SKILL.md; Ember has no light-DOM
  * custom-element concept to mirror). So whenever flattening reaches an
  * element with a shadow root - not just at the very top - it is unwrapped:
  * replaced by its shadow root's own single rendered root element. Without
