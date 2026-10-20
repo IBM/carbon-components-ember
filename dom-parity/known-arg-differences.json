@@ -513,11 +513,6 @@
       "tabindex"
     ]
   },
-  "TimePickerSelect": {
-    "extra": [
-      "ariaLabel"
-    ]
-  },
   "Toggle": {
     "missing": [
       "defaultToggled",
