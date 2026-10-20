@@ -302,7 +302,7 @@ async function resolveConfigItems(
  *   exactly, without the dead comparison logic.
  *
  * A same-transaction race between independent trigger extensions is real
- * (see AGENTS.md's "Porting Carbon AI Chat" section) — installing more than
+ * (see .claude/skills/port-ai-chat-component/SKILL.md) — installing more than
  * one of mention/command/autocomplete/starters can dispatch a same-tick
  * sequence like `starter(active) → mention(onStart) → null(starter's own
  * exit)`, where the *last* raw event is `null` even though a trigger is

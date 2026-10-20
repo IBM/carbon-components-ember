@@ -741,7 +741,7 @@ $(cat "$REVIEW_FILE")
 
 Fix every issue listed. For findings about un-Ember-ish code, apply the actual pattern named in the finding (see AGENTS.md's 'Idiomatic Ember Patterns' section and the referenced example component) — restructure the code rather than papering over it, and keep the component's public arg names matching the React source while you do. If you conclude a finding is wrong or not worth acting on, say so explicitly in your final message with the reason instead of silently skipping it.
 
-Run the build/lint/test commands referenced in the findings (or from AGENTS.md's Component Implementation Checklist) to confirm the fixes actually work, then commit and push. Once you've addressed everything, delete $REVIEW_FILE — it should not exist once its findings are resolved."
+Run the build/lint/test commands referenced in the findings (or from the checklist in .claude/skills/implement-component/SKILL.md) to confirm the fixes actually work, then commit and push. Once you've addressed everything, delete $REVIEW_FILE — it should not exist once its findings are resolved."
 
   echo "Fixing review round $REVIEW_ROUND findings..."
   until run_claude "$FIX_PROMPT"; do

@@ -129,8 +129,9 @@ difference that no longer differs.
 alongside the `@carbon/styles`, icons and other Carbon packages the addon
 uses, since they share the class and markup generation. Dependabot ignores
 the catalog: upgrade it by hand, in one change led by `@carbon/react`, then
-rerun `generate` and `args`. AGENTS.md ("Upgrading Carbon and TypeScript") says where
-each package's version comes from; start with:
+rerun `generate` and `args`. The upgrade-carbon skill
+(`.claude/skills/upgrade-carbon/SKILL.md`) says where each package's version
+comes from; start with:
 
 ```sh
 npm view @carbon/react@<candidate> dependencies
@@ -141,8 +142,8 @@ npm view @carbon/react@<candidate> dependencies
 Everything above covers only the `react` parity source. The Ember port
 target for the `carbon-ai-chat` source is `@carbon/ai-chat-components` - a
 framework-agnostic **Lit** widget library rendering into real shadow DOM
-(see `scripts/parity-check.mjs`'s `SOURCES` comment and AGENTS.md's
-"Porting Carbon AI Chat" section) - not a React tree, so there's nothing
+(see `scripts/parity-check.mjs`'s `SOURCES` comment and
+`.claude/skills/port-ai-chat-component/SKILL.md`) - not a React tree, so there's nothing
 for this package's `react-dom/client` + jsdom pipeline to render.
 
 That source is instead compared by a **second, independent** test module,
@@ -162,7 +163,8 @@ file's own module doc, summarized here:
 chat-components` renders into shadow DOM and styles itself with plain,
    shadow-scoped class names, while the Ember port deliberately uses
    unrelated, globally-scoped BEM names instead (it has no shadow boundary
-   to scope styles within) - see AGENTS.md, "Porting Carbon AI Chat", §3.
+   to scope styles within) - see the styling rules in
+   `.claude/skills/port-ai-chat-component/SKILL.md`.
    A literal class diff would flag that intentional translation as a
    failure on every element, so this path strips `classes` from both
    normalized trees before diffing (`dom-parity/lib/strip-classes.mjs`)
