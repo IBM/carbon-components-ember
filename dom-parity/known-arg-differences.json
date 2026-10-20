@@ -118,6 +118,14 @@
       "type"
     ]
   },
+  "ComboBox": {
+    "missing": [
+      "downshiftActions",
+      "downshiftProps",
+      "itemToElement",
+      "translateWithId"
+    ]
+  },
   "CopyButton": {
     "missing": [
       "as",
@@ -201,6 +209,14 @@
       "onAddFiles"
     ]
   },
+  "FilterableMultiSelect": {
+    "missing": [
+      "downshiftProps",
+      "inputProps",
+      "itemToElement",
+      "translateWithId"
+    ]
+  },
   "FluidTextInput": {
     "extra": [
       "hidePasswordLabel",
@@ -223,6 +239,13 @@
     "missing": [
       "dangerDescription",
       "kind"
+    ]
+  },
+  "MultiSelect": {
+    "missing": [
+      "downshiftProps",
+      "itemToElement",
+      "translateWithId"
     ]
   },
   "NotificationActionButton": {
@@ -501,7 +524,6 @@
     "missing": [
       "alignmentAxisOffset",
       "as",
-      "autoAlign",
       "autoAlignBoundary",
       "backgroundToken",
       "border",

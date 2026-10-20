@@ -1,12 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import {
-  render,
-  fillIn,
-  waitFor,
-  click,
-  triggerKeyEvent,
-} from '@ember/test-helpers';
+import { render, fillIn, click, triggerKeyEvent } from '@ember/test-helpers';
 import TextArea from '#src/components/text-area.gts';
 import TextAreaSkeleton from '#src/components/text-area-skeleton.gts';
 
@@ -74,8 +68,6 @@ module('Integration | Component | TextArea', (hooks) => {
         <TextArea @invalid={{true}} @invalidText="This field is required" />
       </template>,
     );
-    await waitFor('.cds--text-area__invalid-icon');
-
     assert.dom('textarea.cds--text-area').hasClass('cds--text-area--invalid');
     assert.dom('.cds--text-area__invalid-icon').exists();
     assert.dom('.cds--form-requirement').hasText('This field is required');
