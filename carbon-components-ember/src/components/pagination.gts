@@ -146,6 +146,14 @@ export default class Pagination extends Component<PaginationSignature> {
     this.pageChanged();
   };
 
+  // As in Carbon React, a new page size starts from the first page.
+  changeItemsPerPage = (value: string) => {
+    this.currentPage = 1;
+    this.setItemsPerPage(Number(value));
+  };
+
+  changePage = (value: string) => this.setCurrentPage(Number(value));
+
   pageBack = () => {
     this.currentPage -= 1;
     this.pageChanged();
@@ -173,24 +181,28 @@ export default class Pagination extends Component<PaginationSignature> {
     this.pageChanged();
   });
 
-  // Re-runs only when `@state` or `@length` change (its positional args).
-  // Applying them is scheduled rather than done inline: a function modifier
-  // tracks everything it reads while running, so reading this component's
-  // own page here would re-run it on every page change and reset the page
-  // to the (stale) `@state`.
+  // Re-runs when `@state` or `@length` change, as it reads both. Applying
+  // them is scheduled: reading this component's own page here would re-run
+  // it on every page change and reset the page to the (stale) `@state`.
   syncedInitialState = false;
+
+  syncedState?: State;
 
   syncState = modifier(
     (
       _element: HTMLElement,
-      [state]: [state: State | undefined, length: number],
+      [state, length]: [state: State | undefined, length: number],
     ) => {
+      // `lengthChanged` reads it; destructuring it is what tracks it.
+      void length;
+      const stateChanged = state !== this.syncedState;
+      this.syncedState = state;
       if (!this.syncedInitialState) {
         this.syncedInitialState = true;
         return;
       }
       afterRender(this, () => {
-        if (state) {
+        if (stateChanged && state) {
           this.setState(state);
         } else {
           this.lengthChanged();
@@ -219,23 +231,29 @@ export default class Pagination extends Component<PaginationSignature> {
       {{else}}
         <div class="cds--pagination__left">
           <label
-            id="select-{{this.guid}}-pagination-count-label"
+            id="cds-pagination-select-{{this.guid}}-count-label"
             class="cds--pagination__text"
+            for="cds-pagination-select-{{this.guid}}"
           >
             Items per page:
           </label>
-          <div class="cds--form-item cds--select__item-count">
-            <Select
-              @ariaLabelledBy="select-{{this.guid}}-pagination-count-label"
-              @inline={{true}}
-              @disabled={{@disabled}}
-              @searchEnabled={{false}}
-              @options={{this.itemsPerPageOptions}}
-              @onSelect={{this.setItemsPerPage}}
-              @selected={{this.itemsPerPage}}
-            />
-          </div>
-          <span class="cds--pagination__text">
+          <Select
+            @id="cds-pagination-select-{{this.guid}}"
+            @className="cds--select__item-count"
+            @labelText=""
+            @hideLabel={{true}}
+            @noLabel={{true}}
+            @inline={{true}}
+            @disabled={{@disabled}}
+            @value={{this.itemsPerPage}}
+            @onChange={{this.changeItemsPerPage}}
+            as |SelectItem|
+          >
+            {{#each this.itemsPerPageOptions as |size|}}
+              <SelectItem @value={{size}} @text="{{size}}" />
+            {{/each}}
+          </Select>
+          <span class="cds--pagination__text cds--pagination__items-count">
             <span data-displayed-item-range>
               {{this.currentSlice.start}}
               -
@@ -258,28 +276,28 @@ export default class Pagination extends Component<PaginationSignature> {
               @onSetPage={{this.setCurrentPage}}
             />
           {{else}}
-            <div class="cds--form-item cds--select__item-count">
-              <Select
-                @ariaLabelledBy="select-{{this.guid}}-pagination-page-label"
-                @inline={{true}}
-                @multiple={{false}}
-                @disabled={{@disabled}}
-                @searchEnabled={{false}}
-                @options={{range 1 this.pages true}}
-                @onSelect={{this.setCurrentPage}}
-                @selected={{this.currentPage}}
-              />
-            </div>
+            <Select
+              @id="cds-pagination-select-{{this.guid}}-right"
+              @className="cds--select__page-number"
+              @labelText={{this.pageSelectLabelText}}
+              @inline={{true}}
+              @hideLabel={{true}}
+              @disabled={{@disabled}}
+              @value={{this.currentPage}}
+              @onChange={{this.changePage}}
+              as |SelectItem|
+            >
+              {{#each (range 1 this.pages true) as |page|}}
+                <SelectItem @value={{page}} @text="{{page}}" />
+              {{/each}}
+            </Select>
           {{/if}}
-          <label
-            id="select-{{this.guid}}-pagination-page-label"
-            class="cds--pagination__text"
-          >
+          <span class="cds--pagination__text">
             {{this.currentPage}}
             of
             {{this.pages}}
             pages
-          </label>
+          </span>
           <div class="cds--pagination__control-buttons">
             <Tooltip
               @align={{this.defaultArgs.backwardTextTooltipPosition}}

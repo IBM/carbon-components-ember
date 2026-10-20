@@ -1,13 +1,11 @@
 import { expect } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
-import SelectItem from './select-item.gts';
+import Select from './select.gts';
 import SelectItemGroup from './select-item-group.gts';
 
 // Carbon React has no stories of its own for SelectItemGroup: it's a
-// subcomponent of Components/Select, a native `<select>`. This addon's
-// Select is a custom listbox, so SelectItemGroup is shown inside a plain
-// native `<select>` here.
+// subcomponent of Components/Select.
 
 const meta = preview.meta({
   title: 'Components/SelectItemGroup',
@@ -16,7 +14,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          '`SelectItemGroup` renders a native `<optgroup>` element, used to group related `<option>` elements (or `SelectItem`s) together inside a native `<select>`.',
+          '`SelectItemGroup` renders a native `<optgroup>` element, which groups related `SelectItem`s inside a `Select`.',
       },
     },
   },
@@ -24,23 +22,16 @@ const meta = preview.meta({
     label: 'Group 1',
   },
   render: (args) => <template>
-    <div class="cds--form-item">
-      <div class="cds--select">
-        <label for="select-item-group-story" class="cds--label">Select</label>
-        <div class="cds--select-input__wrapper">
-          <select id="select-item-group-story" class="cds--select-input">
-            <SelectItemGroup @label={{args.label}} @disabled={{args.disabled}}>
-              <option value="option-1">Option 1</option>
-              <option value="option-2">Option 2</option>
-            </SelectItemGroup>
-            <SelectItemGroup @label="Group 2" @disabled={{true}}>
-              <SelectItem @value="option-3" @text="Option 3" />
-              <SelectItem @value="option-4" @text="Option 4" />
-            </SelectItemGroup>
-          </select>
-        </div>
-      </div>
-    </div>
+    <Select as |SelectItem|>
+      <SelectItemGroup @label={{args.label}} @disabled={{args.disabled}}>
+        <SelectItem @value="option-1" @text="Option 1" />
+        <SelectItem @value="option-2" @text="Option 2" />
+      </SelectItemGroup>
+      <SelectItemGroup @label="Group 2" @disabled={{true}}>
+        <SelectItem @value="option-3" @text="Option 3" />
+        <SelectItem @value="option-4" @text="Option 4" />
+      </SelectItemGroup>
+    </Select>
   </template>,
 });
 

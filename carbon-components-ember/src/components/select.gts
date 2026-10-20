@@ -1,640 +1,359 @@
+/**
+ * Copyright IBM Corp. 2016, 2026
+ *
+ * This source code is licensed under the Apache-2.0 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import Component from '@glimmer/component';
-import { set } from '@ember/object';
-import { isBlank } from '@ember/utils';
-import { defaultArgs } from '../utils/decorators.ts';
-import PowerSelect from 'ember-power-select/components/power-select';
-import type {
-  PowerSelectArgs,
-  PowerSelectSignature,
-} from 'ember-power-select/components/power-select';
-import type { Select as PowerSelectApi } from 'ember-power-select/types';
-import type { ContentValue } from '@glint/template';
-import { modifier } from 'ember-modifier';
-import isSelected from 'ember-power-select/helpers/ember-power-select-is-equal';
-import TriggerComponent from 'ember-power-select/components/power-select/trigger';
-import OptionsComponent from 'ember-power-select/components/power-select/options';
-import type { PowerSelectOptionsSignature } from 'ember-power-select/components/power-select/options';
-import type {
-  Option,
-  PowerSelectSelectedItemSignature,
-} from 'ember-power-select/types';
+import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import Close from './icons/close.ts';
-import type { TOC } from '@ember/component/template-only';
-import './select.scss';
-import './-private/basic-dropdown.scss';
+import { modifier } from 'ember-modifier';
+import AILabel from './ai-label.gts';
+import SelectItem from './select-item.gts';
+import ChevronDown from './icons/chevron-down.ts';
+import WarningAltFilled from './icons/warning-alt-filled.ts';
+import WarningFilled from './icons/warning-filled.ts';
+import { afterRender } from '../utils/after-render.ts';
+import type { WithBoundArgs } from '@glint/template';
 
-export interface SelectSignature<T extends ContentValue> {
+export interface SelectSignature {
+  Element: HTMLSelectElement;
   Args: {
-    options: T[];
-    searchField?: string;
-    placeholder?: string;
-    loadingMessage?: string;
-    searchPlaceholder?: string;
     /**
-     * id of an element that labels the select, for a visible label rendered
-     * outside it (e.g. Pagination's "Items per page:"). Otherwise `@title` is
-     * the label, and the placeholder names it as a last resort.
+     * Specify an optional className to be applied to the node containing the
+     * label and the select box. Attributes go to the `<select>`.
      */
-    ariaLabelledBy?: string;
-    helperText?: string;
-    title?: string;
+    className?: string;
+    /**
+     * Optionally provide the default value of the `<select>`
+     */
+    defaultValue?: string | number;
+    /**
+     * Specify whether the control is disabled
+     */
     disabled?: boolean;
+    /**
+     * Provide text that is used alongside the control label for additional
+     * help
+     */
+    helperText?: string;
+    /**
+     * Specify whether the label should be hidden, or not
+     */
+    hideLabel?: boolean;
+    /**
+     * Specify a custom `id` for the `<select>`
+     */
+    id?: string;
+    /**
+     * Specify whether you want the inline version of this control
+     */
     inline?: boolean;
-    showNumber?: boolean;
-    searchEnabled?: boolean;
-    renderInPlace?: boolean;
-    addItem?: (item: T) => void;
-    removeItem?: (item: T) => void;
-  } & (
-    | {
-        selected?: T[];
-        multiple: true;
-        onSelect?: (item: T[]) => void;
-        onOpen?: PowerSelectArgs<T, true>['onOpen'];
-        search?: PowerSelectArgs<T, true>['search'];
-        selectFocused?: PowerSelectArgs<T, true>['onFocus'];
-      }
-    | {
-        selected?: T;
-        multiple?: false;
-        onSelect?: (item: T) => void;
-        onOpen?: PowerSelectArgs<T>['onOpen'];
-        search?: PowerSelectArgs<T>['search'];
-        selectFocused?: PowerSelectArgs<T>['onFocus'];
-      }
-  );
-  Element: PowerSelectSignature<T>['Element'];
+    /**
+     * Specify if the currently value is invalid.
+     */
+    invalid?: boolean;
+    /**
+     * Message which is displayed if the value is invalid.
+     */
+    invalidText?: string;
+    /**
+     * Provide label text to be read by screen readers when interacting with
+     * the control.
+     */
+    labelText?: string;
+    /**
+     * Reserved for use with Pagination component. Will not render a label for
+     * the select since Pagination renders one for us.
+     */
+    noLabel?: boolean;
+    /**
+     * Provide an optional `onChange` hook that is called each time the value
+     * of the underlying `<select>` changes.
+     */
+    onChange?: (value: string, event: Event) => void;
+    /**
+     * Whether the select should be read-only
+     */
+    readOnly?: boolean;
+    /**
+     * Specify the size of the Select Input.
+     */
+    size?: 'xs' | 'sm' | 'md' | 'lg';
+    /**
+     * The value of the `<select>`. While it's set, the select shows it, and
+     * goes back to it after a change `@onChange` doesn't pass back.
+     */
+    value?: string | number;
+    /**
+     * Specify whether the control is currently in warning state
+     */
+    warn?: boolean;
+    /**
+     * Provide the text that is displayed when the control is in warning state
+     */
+    warnText?: string;
+  };
   Blocks: {
-    default: [option: Option<T>];
+    /**
+     * The options: the yielded `SelectItem`, optionally grouped in
+     * `SelectItemGroup`s. It keeps `@value` selected as the options change.
+     */
+    default: [SelectItem: WithBoundArgs<typeof SelectItem, 'select'>];
+    /**
+     * **Experimental:** an AI label, or any other decorator, shown in the
+     * field. Yields an `AILabel` already set up for it.
+     */
+    decorator: [AILabel: WithBoundArgs<typeof AILabel, 'size'>];
   };
 }
 
-/** What `Select` passes to its custom power-select components via `@extra`. */
-interface SelectExtra {
-  title?: string;
-  helperText?: string;
-  /** id of the visible label, which names the trigger */
-  labelId?: string;
-  /** id of whatever labels the select (`@ariaLabelledBy` or the title) */
-  labelledBy?: string;
-  /** id of the helper text, which describes the trigger */
-  helperTextId?: string;
-  /** names the select and its options when nothing labels them */
-  ariaLabel?: string;
-  inline?: boolean;
-  isSingleSelect?: boolean;
-  showNumber?: boolean;
-  searchPlaceholder?: string;
+// Selects a value the way React does for a single <select>: the option with
+// that value, or else the first enabled one. A default value also becomes
+// that option's default, which a form reset goes back to.
+function selectValue(
+  select: HTMLSelectElement,
+  value: string | number,
+  isDefault = false,
+) {
+  const options = Array.from(select.options);
+  const match = options.find((option) => option.value === String(value));
+  if (match) {
+    match.selected = true;
+    if (isDefault) match.defaultSelected = true;
+    return;
+  }
+  const firstEnabled = options.find((option) => !option.disabled);
+  if (firstEnabled) firstEnabled.selected = true;
 }
 
-// The internal components below serve both the single and multiple modes,
-// and every option type. ember-power-select types its component args per
-// mode and option type, so typing these honestly would mean a copy of each
-// component per mode.
-/* eslint-disable @typescript-eslint/no-explicit-any */
-type AnySelectMode = any;
-type AnyOption = any;
-/* eslint-enable @typescript-eslint/no-explicit-any */
+// Carbon titles the select with the selected option's text, or the first
+// option's.
+const selectedText = (select: HTMLSelectElement) =>
+  select.options[select.selectedIndex]?.text || select.options[0]?.text || '';
 
-const addClassToParent = (el: HTMLElement, cls: string, ifTrue: boolean) => {
-  if (ifTrue !== false) {
-    setTimeout(() => {
-      el.parentElement?.classList.add(cls);
-    });
-  }
-  if (ifTrue === false) {
-    setTimeout(() => {
-      el.parentElement?.classList.remove(cls);
-    });
-  }
-};
+export default class Select extends Component<SelectSignature> {
+  @tracked title?: string;
 
-const addMenuItemClass = modifier((element: HTMLElement) => {
-  addClassToParent(element, 'cds--list-box__menu-item', true);
-});
+  // Toggling `@inline` renders a new <select>.
+  selectElement?: HTMLSelectElement;
 
-const toggleHighlightedClass = modifier(
-  (element: HTMLElement, [highlighted]: [boolean]) => {
-    addClassToParent(
-      element,
-      'cds--list-box__menu-item--highlighted',
-      highlighted,
-    );
-  },
-);
+  // React applies `@defaultValue` to each <select> it mounts.
+  defaulted = new WeakSet<HTMLSelectElement>();
 
-const hasToJSON = (item: unknown): item is { toJSON(): unknown } =>
-  typeof item === 'object' &&
-  item !== null &&
-  typeof (item as { toJSON?: unknown }).toJSON === 'function';
+  resyncing = false;
 
-// power-select types `@extra` per invocation; Select always passes a
-// SelectExtra.
-const selectExtra = (extra: unknown) => (extra ?? {}) as SelectExtra;
-
-const Options: TOC<
-  PowerSelectOptionsSignature<AnyOption, unknown, AnySelectMode>
-> = <template>
-  {{#let (selectExtra @extra) as |extra|}}
-    <OptionsComponent
-      @options={{@options}}
-      @select={{@select}}
-      @groupIndex="{{@groupIndex}}"
-      @listboxId="{{@listboxId}}"
-      @loadingMessage="{{@loadingMessage}}"
-      @optionsComponent={{@optionsComponent}}
-      @groupComponent={{@groupComponent}}
-      @extra={{@extra}}
-      role="listbox"
-      aria-labelledby={{extra.labelledBy}}
-      aria-label={{unless extra.labelledBy extra.ariaLabel}}
-      ...attributes
-      class="cds--list-box--expanded cds--list-box__menu"
-      as |option|
-    >
-      {{yield option @select}}
-    </OptionsComponent>
-  {{/let}}
-</template>;
-
-const SelectedItem: TOC<
-  PowerSelectSelectedItemSignature<AnyOption, unknown, AnySelectMode>
-> = <template>
-  <div class="cds--tag cds--tag--filter cds--tag--high-contrast">
-    <span class="cds--tag__label" title="1">{{@selected}}</span>
-    <div
-      {{on "click" (fn @select.actions.select @selected)}}
-      role="button"
-      tabindex="-1"
-      class="cds--tag__close-icon"
-      aria-label="Clear all selected items"
-      title="Clear all selected items"
-    >
-      {{! eslint-disable-next-line ember/template-require-presentational-children }}
-      <svg
-        focusable="false"
-        preserveAspectRatio="xMidYMid meet"
-        fill="currentColor"
-        width="16"
-        height="16"
-        viewBox="0 0 32 32"
-        aria-hidden="true"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        {{! eslint-disable-next-line ember/template-require-presentational-children }}
-        <path
-          d="M17.4141 16L24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
-        ></path>
-      </svg>
-    </div>
-  </div>
-</template>;
-
-export default class Select<T extends ContentValue> extends Component<
-  SelectSignature<T>
-> {
-  args: SelectSignature<T>['Args'] = defaultArgs(this, {
-    options: [] as T[],
-    multiple: false,
-    disabled: false,
-    onSelect: () => null,
-    addItem: () => null,
-    removeItem: () => null,
-  });
-
-  searchMatcher(item: unknown, term: string) {
-    if (!term || term === '') return 1;
-    const source = hasToJSON(item) ? item.toJSON() : item;
-    const pass = Object.values(source as object)
-      .filter(
-        (v: unknown) =>
-          v && !(v as { defaultAdapter?: unknown }).defaultAdapter,
-      )
-      .some((v) =>
-        typeof v === 'string'
-          ? v.includes(term)
-          : JSON.stringify(v).includes(term),
-      );
-    if (pass) return 1;
-    return -1;
+  get id() {
+    return this.args.id ?? `select-${guidFor(this)}`;
   }
 
-  indexOfOption = (opt: T) => {
-    return this.args.options.indexOf(opt);
-  };
-
-  get selectedOption() {
-    return this.args.selected as Option<T> | undefined;
+  get labelText() {
+    return this.args.labelText ?? 'Select';
   }
 
-  get selectedOptions() {
-    return this.args.selected as Option<T>[] | undefined;
+  // As Carbon normalizes them: read-only wins over disabled, and both win
+  // over invalid and warn.
+  get disabled() {
+    return !this.args.readOnly && !!this.args.disabled;
   }
 
-  onChange = (selection: Option<T> | Option<T>[] | undefined) => {
-    const choice = selection as T | T[] | undefined;
-    if (choice && this.args.multiple === true && Array.isArray(choice)) {
-      choice.forEach((item) => {
-        if (
-          !this.args.selected ||
-          !(this.args.selected as T[]).includes(item)
-        ) {
-          if (this.args.addItem) this.args.addItem(item);
-        }
-      });
-      if (this.args.selected && Array.isArray(this.args.selected)) {
-        this.args.selected.forEach((item) => {
-          if (!choice.includes(item)) {
-            if (this.args.removeItem) this.args.removeItem(item);
-          }
-        });
-      }
-    }
-    const { args } = this;
-    if (args.multiple === true) {
-      args.onSelect?.(choice as T[]);
-    } else {
-      args.onSelect?.(choice as T);
-    }
-  };
-
-  selectFocused = (
-    select: PowerSelectApi<T, true> | PowerSelectApi<T, false>,
-    event: FocusEvent,
-  ) => {
-    const { args } = this;
-    if (args.multiple === true) {
-      args.selectFocused?.(select as PowerSelectApi<T, true>, event);
-    } else {
-      args.selectFocused?.(select as PowerSelectApi<T, false>, event);
-    }
-  };
-
-  handleKeydown = (
-    select: PowerSelectApi<T, true> | PowerSelectApi<T, false>,
-    event: KeyboardEvent,
-  ) => {
-    const selected = this.args.selected || ([] as T[]);
-
-    let backspaceHandled = false;
-
-    // Delete the entire last tag if backspacing into the tags area.
-    if (
-      event.keyCode === 8 &&
-      isBlank((event.target as HTMLInputElement).value)
-    ) {
-      // BACKSPACE === 8
-      if (Array.isArray(selected)) {
-        if (this.args.removeItem) this.args.removeItem(selected.slice(-1)[0]!);
-      }
-      event.preventDefault();
-      return false;
-    }
-
-    if (event.keyCode === 13) {
-      // enter === 8
-      set(select, 'searchText', '');
-      backspaceHandled = true;
-    }
-
-    if (backspaceHandled) {
-      event.preventDefault();
-    }
-    return undefined;
-  };
-
-  get guid() {
-    return guidFor(this);
+  get invalid() {
+    return !this.args.readOnly && !this.args.disabled && !!this.args.invalid;
   }
 
-  get labelId() {
-    return `${this.guid}-label`;
-  }
-
-  get helperTextId() {
-    return `${this.guid}-helper-text`;
-  }
-
-  get labelledBy() {
+  get warn() {
     return (
-      this.args.ariaLabelledBy ?? (this.args.title ? this.labelId : undefined)
+      !this.args.readOnly &&
+      !this.args.invalid &&
+      !this.args.disabled &&
+      !!this.args.warn
     );
   }
 
-  private optionsComponent = Options;
+  get invalidId() {
+    return `${this.id}-error-msg`;
+  }
 
-  selectedItemComponent = SelectedItem;
+  get warnId() {
+    return `${this.id}-warn-msg`;
+  }
 
-  private triggerComponent = class CarbonTriggerComponent extends TriggerComponent<
-    AnyOption,
-    unknown,
-    AnySelectMode
-  > {
-    get extra(): SelectExtra {
-      return this.args.extra ?? {};
-    }
+  get helperId() {
+    return `${this.id}-helper-text`;
+  }
 
-    get guid() {
-      return guidFor(this);
-    }
+  // The invalid or warning text replaces the helper text, except inline,
+  // where it shows in the field's wrapper instead.
+  get showHelper() {
+    return (
+      !!this.args.helperText &&
+      (!!this.args.inline || (!this.invalid && !this.warn))
+    );
+  }
 
-    removeSelected = (opt: unknown) => {
-      const selected = [...(this.args.select.selected as unknown[])];
-      const i = selected.indexOf(opt);
-      selected.splice(i, 1);
-      this.args.select.actions.select(selected);
-    };
+  get describedBy() {
+    if (this.invalid) return this.invalidId;
+    if (this.warn) return this.warnId;
+    if (!this.args.inline && this.args.helperText) return this.helperId;
+    return undefined;
+  }
 
-    removeAll = () => {
-      this.args.select.actions.select([]);
-    };
+  get sizeClasses() {
+    const { size } = this.args;
+    return size ? `cds--select--${size} cds--layout--size-${size}` : undefined;
+  }
 
-    doSearch = (event: Event) => {
-      this.args.select.actions.search((event.target as HTMLInputElement).value);
-    };
+  // The options render after the <select>'s attributes are set, so a value
+  // attribute would find nothing to select. Select it once they're in, and
+  // whenever `@value` changes.
+  syncValue = modifier(
+    (
+      select: HTMLSelectElement,
+      [value]: [value: string | number | undefined],
+    ) => {
+      if (value !== undefined) {
+        selectValue(select, value);
+      } else if (
+        !this.defaulted.has(select) &&
+        this.args.defaultValue !== undefined
+      ) {
+        selectValue(select, this.args.defaultValue, true);
+      }
+      this.defaulted.add(select);
+      this.selectElement = select;
+      afterRender(this, () => (this.title = selectedText(select)));
+    },
+  );
 
-    focus = modifier((element: HTMLElement) => {
-      element.focus();
+  // Options rendered later, or in place of the selected one, would lose
+  // `@value`; React selects it again on that render, so this does too.
+  optionsChanged = () => {
+    if (this.resyncing) return;
+    this.resyncing = true;
+    afterRender(this, () => {
+      this.resyncing = false;
+      const select = this.selectElement;
+      if (!select?.isConnected) return;
+      if (this.args.value !== undefined) selectValue(select, this.args.value);
+      this.title = selectedText(select);
     });
+  };
 
-    <template>
-      {{#if this.extra.title}}
-        {{! It names power-select's trigger (the real combobox) through
-          aria-labelledby; the trigger isn't a labelable element for "for". }}
-        <label
-          class="cds--label {{if @select.disabled 'cds--label--disabled'}}"
-          id={{this.extra.labelId}}
-        >{{this.extra.title}}</label>
-      {{/if}}
-      {{! power-select's own trigger handlers (removing selected items on
-        mousedown), as in its stock trigger; this sits inside power-select's
-        focusable trigger, which is the interactive element. }}
-      {{! eslint-disable-next-line ember/template-no-invalid-interactive }}
-      <div
-        class="cds--multi-select cds--combo-box cds--list-box
-          {{if @select.disabled 'cds--list-box--disabled'}}
-          {{if @searchEnabled 'cds--multi-select--filterable'}}
-          {{if
-            @select.isOpen
-            'cds--multi-select--open cds--multi-select--filterable--input-focused cds--list-box--expanded'
-          }}
-          {{if this.extra.inline 'cds--ember-select--inline'}}"
-        {{this.openChange @select.isOpen}}
-        {{on "touchstart" this.chooseOption}}
-        {{! eslint-disable-next-line ember/template-no-pointer-down-event-binding }}
-        {{on "mousedown" this.chooseOption}}
-        {{! @glint-expect-error: power-select types its trigger as a <ul>; this one renders a <div> }}
-        ...attributes
-      >
-        <div class="cds--list-box__field--wrapper">
-          {{#if
-            (and
-              this.extra.isSingleSelect
-              (not (and @select.isOpen @searchEnabled))
-            )
-          }}
-            <div class="cds--list-box__label cds--ember-select__label">{{#if
-                @select.selected
-              }}{{@select.selected}}{{else}}{{@placeholder}}{{/if}}</div>
-          {{/if}}
-          {{#if (and this.extra.showNumber @select.selected.length)}}
-            <div
-              class="cds--tag cds--tag--filter cds--tag--high-contrast cds--ember-select__tag"
-            >
-              <span
-                class="cds--tag__label"
-                title="{{@select.selected.length}}"
-              >{{@select.selected.length}}</span>
-              <div
-                {{on "click" this.removeAll}}
-                role="button"
-                tabindex="-1"
-                class="cds--tag__close-icon"
-                aria-label="Clear all selected items"
-                title="Clear all selected items"
-              >
-                {{! eslint-disable-next-line ember/template-require-presentational-children }}
-                <Close />
-              </div>
-            </div>
-          {{else}}
-            {{#each @select.selected as |opt|}}
-              <div
-                class="cds--tag cds--tag--filter cds--tag--high-contrast cds--ember-select__tag"
-              >
-                <span class="cds--tag__label" title="1">{{opt}}</span>
-                <div
-                  {{on "click" (fn this.removeSelected opt)}}
-                  role="button"
-                  tabindex="-1"
-                  class="cds--tag__close-icon"
-                  aria-label="Clear all selected items"
-                  title="Clear all selected items"
-                >
-                  {{! eslint-disable-next-line ember/template-require-presentational-children }}
-                  <Close />
-                </div>
-              </div>
-            {{/each}}
-          {{/if}}
-          {{#if (and @searchEnabled @select.isOpen)}}
-            <input
-              placeholder="{{this.extra.searchPlaceholder}}"
-              class="cds--text-input cds--text-input--empty"
-              aria-activedescendant={{@ariaActiveDescendant}}
-              aria-autocomplete="list"
-              aria-expanded="true"
-              autocomplete="off"
-              id="carbon-multiselect-{{this.guid}}-input"
-              role="combobox"
-              aria-describedby={{if
-                this.extra.helperText
-                this.extra.helperTextId
-              }}
-              aria-haspopup="listbox"
-              value=""
-              aria-controls="carbon-multiselect-{{this.guid}}__menu"
-              {{on "input" this.doSearch}}
-              {{this.focus}}
-            />
-          {{/if}}
+  handleChange = (event: Event) => {
+    const select = event.currentTarget as HTMLSelectElement;
+    this.args.onChange?.(select.value, event);
+    if (this.args.value !== undefined) selectValue(select, this.args.value);
+    this.title = selectedText(select);
+  };
 
-          {{! Styling only: power-select's own trigger is the focusable
-            combobox, so this must not be a second one. }}
-          <div
-            class="cds--list-box__field cds--ember-select__field
-              {{if
-                this.extra.isSingleSelect
-                'cds--ember-select__field--single'
-              }}"
-            aria-hidden="true"
-          >
-            {{! A single select shows its placeholder where the selection goes
-              (above); this narrow field only holds the chevron. }}
-            {{#unless (or @select.selected this.extra.isSingleSelect)}}
-              <span
-                id="multiselect-field-label-id-:{{this.guid}}:"
-                class="cds--list-box__label"
-              >{{@placeholder}}</span>
-            {{/unless}}
-            <div class="cds--list-box__menu-icon">
-              <svg
-                focusable="false"
-                preserveAspectRatio="xMidYMid meet"
-                fill="currentColor"
-                {{! @glint-expect-error: name is not a standard svg attribute, but matches the markup @carbon/react renders }}
-                name="chevron--down"
-                aria-label="Open menu"
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                role="img"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"></path><title
-                >Open menu</title>
-              </svg>
-            </div>
-          </div>
-        </div>
-        {{#if this.extra.helperText}}
-          <div id={{this.extra.helperTextId}} class="cds--form__helper-text">
-            {{this.extra.helperText}}
-          </div>
-        {{/if}}
-      </div>
-    </template>
+  // A read-only select takes focus, but doesn't open or change from the
+  // keyboard.
+  handleMouseDown = (event: MouseEvent) => {
+    if (!this.args.readOnly) return;
+    event.preventDefault();
+    (event.currentTarget as HTMLSelectElement).focus();
+  };
+
+  handleKeyDown = (event: KeyboardEvent) => {
+    if (
+      this.args.readOnly &&
+      ['ArrowDown', 'ArrowUp', ' '].includes(event.key)
+    ) {
+      event.preventDefault();
+    }
   };
 
   <template>
-    {{#if @multiple}}
-      <PowerSelect
-        @multiple={{true}}
-        ...attributes
-        class="cds--select cds--select-md cds--ember-select__trigger
+    <div class="cds--form-item {{@className}}">
+      <div
+        class="cds--select
           {{if @inline 'cds--select--inline'}}
-          {{if @disabled 'cds--select--disabled'}}"
-        @extra={{hash
-          helperText=@helperText
-          helperTextId=this.helperTextId
-          title=@title
-          labelId=this.labelId
-          labelledBy=this.labelledBy
-          ariaLabel=@placeholder
-          showNumber=@showNumber
-          searchPlaceholder=@searchPlaceholder
-          inline=@inline
-        }}
-        @ariaLabelledBy={{this.labelledBy}}
-        @ariaLabel={{unless this.labelledBy @placeholder}}
-        @ariaDescribedBy={{if @helperText this.helperTextId}}
-        @triggerComponent={{this.triggerComponent}}
-        @optionsComponent={{this.optionsComponent}}
-        @selectedItemComponent={{this.selectedItemComponent}}
-        @renderInPlace={{or @renderInPlace false}}
-        @disabled={{@disabled}}
-        @eventType="click"
-        @searchEnabled={{or @searchEnabled false}}
-        @search={{@search}}
-        @options={{@options}}
-        @onFocus={{this.selectFocused}}
-        @searchField={{@searchField}}
-        @searchPlaceholder={{@searchPlaceholder}}
-        @loadingMessage={{@loadingMessage}}
-        @matcher={{this.searchMatcher}}
-        @selected={{this.selectedOptions}}
-        @placeholder={{@placeholder}}
-        @onChange={{this.onChange}}
-        @onKeydown={{this.handleKeydown}}
-        @closeOnSelect={{false}}
-        as |option select|
+          {{if this.invalid 'cds--select--invalid'}}
+          {{if this.disabled 'cds--select--disabled'}}
+          {{if @readOnly 'cds--select--readonly'}}
+          {{if this.warn 'cds--select--warning'}}
+          {{if (has-block 'decorator') 'cds--select--decorator'}}
+          {{this.sizeClasses}}"
       >
-        <div
-          class="cds--list-box__menu-item__option"
-          {{toggleHighlightedClass (eq option select.highlighted)}}
-          {{addMenuItemClass}}
-        >
-          {{! A drawn checkbox, as in Carbon React's MultiSelect: the option
-            itself carries the selection (aria-selected), so a real checkbox
-            here would be a control nested in a control. }}
-          <div class="cds--checkbox-wrapper">
-            <span
-              class="cds--checkbox-label"
-              data-contained-checkbox-state={{if
-                (isSelected option select.selected)
-                "true"
-                "false"
-              }}
+        {{#unless @noLabel}}
+          <label
+            for={{this.id}}
+            class="cds--label
+              {{if @hideLabel 'cds--visually-hidden'}}
+              {{if this.disabled 'cds--label--disabled'}}"
+            dir="auto"
+          >{{this.labelText}}</label>
+        {{/unless}}
+        {{! Inline, the field and its validation message share a wrapper. }}
+        {{#let (element (if @inline "div" "")) as |InlineWrapper|}}
+          <InlineWrapper class="cds--select-input--inline__wrapper">
+            <div
+              class="cds--select-input__wrapper"
+              data-invalid={{if this.invalid "true"}}
             >
-              <span class="cds--checkbox-label-text">
-                {{#if (has-block)}}
-                  {{yield option}}
-                {{else}}
-                  {{option}}
-                {{/if}}
-              </span>
-            </span>
-          </div>
-        </div>
-      </PowerSelect>
-    {{else}}
-      <PowerSelect
-        ...attributes
-        class="cds--select cds--select-md cds--ember-select__trigger
-          {{if @inline 'cds--select--inline'}}
-          {{if @disabled 'cds--select--disabled'}}"
-        @extra={{hash
-          isSingleSelect=true
-          helperText=@helperText
-          helperTextId=this.helperTextId
-          title=@title
-          labelId=this.labelId
-          labelledBy=this.labelledBy
-          ariaLabel=@placeholder
-          searchPlaceholder=@searchPlaceholder
-          inline=@inline
-        }}
-        @ariaLabelledBy={{this.labelledBy}}
-        @ariaLabel={{unless this.labelledBy @placeholder}}
-        @ariaDescribedBy={{if @helperText this.helperTextId}}
-        @renderInPlace={{or @renderInPlace false}}
-        {{! @glint-expect-error: null is allowed }}
-        @beforeOptionsComponent={{null}}
-        @triggerComponent={{this.triggerComponent}}
-        @optionsComponent={{this.optionsComponent}}
-        @selectedItemComponent={{this.selectedItemComponent}}
-        @disabled={{@disabled}}
-        @eventType="click"
-        @search={{@search}}
-        @searchEnabled={{or @searchEnabled false}}
-        @searchPlaceholder={{@searchPlaceholder}}
-        @loadingMessage={{@loadingMessage}}
-        @options={{@options}}
-        @onFocus={{this.selectFocused}}
-        @onOpen={{@onOpen}}
-        @searchField={{@searchField}}
-        @matcher={{this.searchMatcher}}
-        @selected={{this.selectedOption}}
-        @placeholder={{@placeholder}}
-        @onChange={{this.onChange}}
-        as |option select|
-      >
-        <div
-          class="cds--list-box__menu-item__option"
-          {{toggleHighlightedClass (eq option select.highlighted)}}
-          {{addMenuItemClass}}
-        >
-          {{#if (isSelected option select.selected)}}
-            <span class="cds--ember-select__check">&check;</span>
-          {{/if}}
-          {{#if (has-block)}}
-            {{yield option}}
-          {{else}}
-            {{option}}
-          {{/if}}
-        </div>
-      </PowerSelect>
-    {{/if}}
+              {{! The title goes first, so a title attribute replaces it. }}
+              <select
+                title={{this.title}}
+                ...attributes
+                id={{this.id}}
+                class="cds--select-input"
+                disabled={{this.disabled}}
+                aria-describedby={{this.describedBy}}
+                aria-invalid={{if this.invalid "true"}}
+                aria-readonly={{if @readOnly "true"}}
+                {{this.syncValue @value}}
+                {{on "change" this.handleChange}}
+                {{! eslint-disable-next-line ember/template-no-pointer-down-event-binding -- a select opens on mousedown, so a read-only one prevents it there }}
+                {{on "mousedown" this.handleMouseDown}}
+                {{on "keydown" this.handleKeyDown}}
+              >
+                {{yield (component SelectItem select=this)}}
+              </select>
+              <ChevronDown @size="16" @svgClass="cds--select__arrow" />
+              {{#if this.invalid}}
+                <WarningFilled
+                  @size="16"
+                  @svgClass="cds--select__invalid-icon"
+                />
+              {{else if this.warn}}
+                <WarningAltFilled
+                  @size="16"
+                  @svgClass="cds--select__invalid-icon cds--select__invalid-icon--warning"
+                />
+              {{/if}}
+              {{#if (has-block "decorator")}}
+                {{#unless @inline}}
+                  <div class="cds--select__inner-wrapper--decorator">
+                    {{yield (component AILabel size="mini") to="decorator"}}
+                  </div>
+                {{/unless}}
+              {{/if}}
+            </div>
+            {{#if this.invalid}}
+              <div
+                class="cds--form-requirement"
+                id={{this.invalidId}}
+                dir="auto"
+              >{{@invalidText}}</div>
+            {{else if this.warn}}
+              <div
+                class="cds--form-requirement"
+                id={{this.warnId}}
+                dir="auto"
+              >{{@warnText}}</div>
+            {{/if}}
+          </InlineWrapper>
+        {{/let}}
+        {{#if this.showHelper}}
+          <div
+            id={{this.helperId}}
+            class="cds--form__helper-text
+              {{if this.disabled 'cds--form__helper-text--disabled'}}"
+            dir="auto"
+          >{{@helperText}}</div>
+        {{/if}}
+      </div>
+    </div>
   </template>
 }

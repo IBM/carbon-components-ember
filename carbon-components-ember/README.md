@@ -29,7 +29,7 @@ Add the element some menus render into to your application template:
 <template>
   {{outlet}}
 
-  {{! Dropdown, Select and OverflowMenu menus }}
+  {{! OverflowMenu menus }}
   <div id="ember-basic-dropdown-wormhole"></div>
 </template>
 ```

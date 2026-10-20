@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { render, click, select, settled } from '@ember/test-helpers';
+import { tracked } from '@glimmer/tracking';
 import Pagination from '#src/components/pagination.gts';
 import type { TOC } from '@ember/component/template-only';
 import { trackedObject } from '@ember/reactive/collections';
@@ -144,21 +145,46 @@ module('Integration | Component | Pagination', (hooks) => {
     assert.strictEqual(state.slice.page, 3);
   });
 
-  test('its selects are named by their visible labels', async function (assert) {
+  test('its selects are named by their labels', async function (assert) {
     await render(
       <template>
         <Pagination @length={{25}} @onPageChanged={{noop}} />
       </template>,
     );
 
-    const triggers = document.querySelectorAll('.ember-power-select-trigger');
-    const names = Array.from(triggers).map((trigger) =>
-      document
-        .getElementById(trigger.getAttribute('aria-labelledby') ?? '')
-        ?.textContent?.replace(/\s+/g, ' ')
-        .trim(),
+    const names = Array.from(document.querySelectorAll('select')).map(
+      (select) =>
+        document
+          .querySelector(`label[for="${select.id}"]`)
+          ?.textContent?.replace(/\s+/g, ' ')
+          .trim(),
     );
-    assert.deepEqual(names, ['Items per page:', '1 of 3 pages']);
+    assert.deepEqual(names, ['Items per page:', 'Page 1 of 3 pages']);
+  });
+
+  test('the selects change the page size and the page', async function (assert) {
+    const onPageChanged = (slice: { page: number; itemsPerPage: number }) => {
+      assert.step(`page-${slice.page}-of-${slice.itemsPerPage}`);
+    };
+
+    await render(
+      <template>
+        <Pagination @length={{25}} @onPageChanged={{onPageChanged}} />
+      </template>,
+    );
+
+    assert.dom('.cds--select__item-count select').hasValue('10');
+    assert.dom('.cds--select__page-number select').hasValue('1');
+    assert.dom('.cds--select__page-number option').exists({ count: 3 });
+
+    await select('.cds--select__page-number select', '3');
+    assert.dom('[data-displayed-item-range]').hasText('20 - 30');
+
+    await select('.cds--select__item-count select', '20');
+    assert.dom('.cds--select__page-number option').exists({ count: 2 });
+    assert.dom('.cds--select__page-number select').hasValue('1');
+    assert.dom('[data-displayed-item-range]').hasText('0 - 20');
+    assert.verifySteps(['page-1-of-10', 'page-3-of-10', 'page-1-of-20']);
   });
 
   test('starts from the initial @state', async function (assert) {
@@ -171,6 +197,48 @@ module('Integration | Component | Pagination', (hooks) => {
     );
 
     assert.dom('[data-displayed-item-range]').hasText('5 - 10');
+  });
+
+  test('a shorter @length brings the page back within range', async function (assert) {
+    const length = tracked(30);
+
+    await render(
+      <template>
+        <Pagination @length={{length.value}} @onPageChanged={{noop}} />
+      </template>,
+    );
+
+    await click('[data-page-forward]');
+    await click('[data-page-forward]');
+    assert.dom('[data-displayed-item-range]').hasText('20 - 30');
+
+    length.value = 10;
+    await settled();
+    assert.dom('[data-displayed-item-range]').hasText('0 - 10');
+  });
+
+  test('a shorter @length leaves an unchanged @state alone', async function (assert) {
+    const state = { page: 2, itemsPerPage: 5 };
+    const length = tracked(25);
+
+    await render(
+      <template>
+        <Pagination
+          @length={{length.value}}
+          @state={{state}}
+          @onPageChanged={{noop}}
+        />
+      </template>,
+    );
+
+    await click('[data-page-forward]');
+    await click('[data-page-forward]');
+    assert.dom('[data-displayed-item-range]').hasText('15 - 20');
+
+    // 12 items make 3 pages: the last one, not @state's page 2.
+    length.value = 12;
+    await settled();
+    assert.dom('[data-displayed-item-range]').hasText('10 - 15');
   });
 
   test('@disabled disables the navigation buttons', async function (assert) {
@@ -216,9 +284,7 @@ module('Integration | Component | Pagination', (hooks) => {
 
     assert.dom('[data-custom-page-select]').exists();
     assert.dom('[data-custom-page-select]').hasText('1/10');
-    assert
-      .dom('.cds--pagination__right .cds--select__item-count')
-      .doesNotExist();
+    assert.dom('.cds--pagination__right .cds--select').doesNotExist();
 
     await click('[data-custom-page-select]');
 

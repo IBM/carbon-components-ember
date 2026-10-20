@@ -914,6 +914,27 @@ const textInput = (name, props) => ({
     }),
 });
 
+// Two plain `SelectItem` children, as this addon's `Select` takes them.
+const select = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.Select,
+      { id: 'select-1', labelText: 'Select label', ...props },
+      React.createElement(Carbon.SelectItem, {
+        key: 'option-1',
+        value: 'option-1',
+        text: 'Option 1',
+      }),
+      React.createElement(Carbon.SelectItem, {
+        key: 'option-2',
+        value: 'option-2',
+        text: 'Option 2',
+      }),
+    ),
+});
+
 // Carbon React's Modal wraps its container in an overlay <div>; this addon's
 // overlay is the <dialog> itself, so compare from the container in.
 const modal = (name, props) => ({
@@ -1913,6 +1934,28 @@ export const COMPONENTS = [
       textInput('size-sm', { size: 'sm' }),
       textInput('size-lg', { size: 'lg' }),
       textInput('helper-text', { helperText: 'Helper text' }),
+    ],
+  },
+  {
+    name: 'Select',
+    variants: [
+      select('default', {}),
+      select('default-value', { defaultValue: 'option-2' }),
+      select('disabled', { disabled: true }),
+      select('invalid', { invalid: true, invalidText: 'Invalid selection' }),
+      select('warn', { warn: true, warnText: 'Warning message' }),
+      select('read-only', { readOnly: true }),
+      select('size-sm', { size: 'sm' }),
+      select('size-lg', { size: 'lg' }),
+      select('helper-text', { helperText: 'Helper text' }),
+      select('hide-label', { hideLabel: true }),
+      select('no-label', { noLabel: true }),
+      select('inline', { inline: true, helperText: 'Helper text' }),
+      select('inline-invalid', {
+        inline: true,
+        invalid: true,
+        invalidText: 'Invalid selection',
+      }),
     ],
   },
   {
