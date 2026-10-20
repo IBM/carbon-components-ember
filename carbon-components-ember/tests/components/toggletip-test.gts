@@ -3,6 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import {
   render,
   click,
+  find,
   triggerEvent,
   triggerKeyEvent,
 } from '@ember/test-helpers';
@@ -153,6 +154,50 @@ module('Integration | Component | Toggletip', (hooks) => {
     await triggerEvent('#outside', 'click', { detail: 1 });
 
     assert.dom('.cds--popover-container').hasClass('cds--popover--open');
+  });
+
+  test('@autoAlign positions the open content in the top layer', async function (assert) {
+    await render(
+      <template>
+        <Toggletip @autoAlign={{true}} @defaultOpen={{true}} as |t|>
+          <t.Button>i</t.Button>
+          <t.Content>
+            <p>Some more information</p>
+          </t.Content>
+        </Toggletip>
+      </template>,
+    );
+
+    const content = find('.cds--popover-content') as HTMLElement;
+    assert
+      .dom('.cds--toggletip')
+      .hasClass('cds--popover--auto-align')
+      .hasClass('cds--autoalign');
+    assert.dom('.cds--popover-content > .cds--popover-caret').exists();
+    assert.true(content.matches(':popover-open'));
+  });
+
+  test('@autoAlign still closes on Escape and outside clicks', async function (assert) {
+    await render(
+      <template>
+        <div id="outside">outside</div>
+        <Toggletip @autoAlign={{true}} as |t|>
+          <t.Button>i</t.Button>
+          <t.Content>
+            <button type="button" id="inner">Inner</button>
+          </t.Content>
+        </Toggletip>
+      </template>,
+    );
+
+    await click('.cds--toggletip-button');
+    await triggerKeyEvent('#inner', 'keydown', 'Escape');
+    assert.dom('.cds--toggletip').doesNotHaveClass('cds--toggletip--open');
+    assert.dom('.cds--toggletip-button').isFocused();
+
+    await click('.cds--toggletip-button');
+    await click('#outside');
+    assert.dom('.cds--toggletip').doesNotHaveClass('cds--toggletip--open');
   });
 
   test('should render ToggletipActions inside the content', async function (assert) {

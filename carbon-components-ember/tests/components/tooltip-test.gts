@@ -10,7 +10,9 @@ import {
   triggerKeyEvent,
   waitUntil,
   settled,
+  find,
 } from '@ember/test-helpers';
+import { modifier } from 'ember-modifier';
 import { trackedObject } from '@ember/reactive/collections';
 import Tooltip from '#src/components/tooltip.gts';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
@@ -290,68 +292,98 @@ module('Integration | Component | Tooltip', (hooks) => {
     assert.dom('.cds--tooltip-content [data-custom]').hasText('Custom content');
   });
 
-  test('@autoAlign flips the alignment when the tooltip would overflow @autoAlignBoundary', async function (this: RenderingTestContext, assert) {
-    // A fake boundary positioned far below the trigger guarantees the
-    // rendered tooltip content (which sits above the trigger for a 'top'
-    // alignment) overflows it, regardless of the trigger's real page
-    // position.
-    const boundary = {
-      getBoundingClientRect: () => ({
-        top: 10000,
-        left: 0,
-        right: 10000,
-        bottom: 20000,
-      }),
-    } as unknown as HTMLElement;
+  test('@autoAlign moves the tooltip to a side that fits within @autoAlignBoundary', async function (assert) {
+    const boundary = tracked<HTMLElement | undefined>(undefined);
+    const setBoundary = modifier((element: HTMLElement) => {
+      boundary.value = element;
+    });
 
     await render(
       <template>
-        <Tooltip
-          @label="Close"
-          @align="top"
-          @autoAlign={{true}}
-          @autoAlignBoundary={{boundary}}
-          @defaultOpen={{true}}
-        >
-          <button type="button">Trigger</button>
-        </Tooltip>
+        <style nonce={{nonce}}>
+          .tooltip-flip-test__boundary {
+            width: 16rem;
+            height: 20rem;
+          }
+          .tooltip-flip-test__tooltip {
+            display: block;
+          }
+          .tooltip-flip-test__trigger {
+            display: block;
+            width: 100%;
+            height: 2rem;
+          }
+        </style>
+        <div class="tooltip-flip-test__boundary" {{setBoundary}}>
+          {{#if boundary.value}}
+            <Tooltip
+              class="tooltip-flip-test__tooltip"
+              @label="Close"
+              @align="top"
+              @autoAlign={{true}}
+              @autoAlignBoundary={{boundary.value}}
+              @defaultOpen={{true}}
+            >
+              <button class="tooltip-flip-test__trigger" type="button">
+                Trigger
+              </button>
+            </Tooltip>
+          {{/if}}
+        </div>
       </template>,
     );
-    await waitForAnimationFrame();
 
-    await waitUntil(() =>
-      document
-        .querySelector('.cds--tooltip')!
-        .classList.contains('cds--popover--bottom'),
-    );
+    assert.dom('.cds--tooltip').hasClass('cds--popover--auto-align');
     assert.dom('.cds--tooltip').hasClass('cds--popover--bottom');
-    assert.dom('.cds--tooltip').doesNotHaveClass('cds--popover--top');
+    assert.true(
+      (find('.cds--tooltip-content') as HTMLElement).matches(':popover-open'),
+    );
   });
 
-  test('without @autoAlign the alignment class does not flip', async function (assert) {
-    const boundary = {
-      getBoundingClientRect: () => ({
-        top: 10000,
-        left: 0,
-        right: 10000,
-        bottom: 20000,
-      }),
-    } as unknown as HTMLElement;
-
+  test('without @autoAlign the alignment class does not change', async function (assert) {
     await render(
       <template>
-        <Tooltip
-          @label="Close"
-          @align="top"
-          @autoAlignBoundary={{boundary}}
-          @defaultOpen={{true}}
-        >
+        <Tooltip @label="Close" @align="top" @defaultOpen={{true}}>
           <button type="button">Trigger</button>
         </Tooltip>
       </template>,
     );
 
     assert.dom('.cds--tooltip').hasClass('cds--popover--top');
+    assert.dom('.cds--tooltip').doesNotHaveClass('cds--popover--auto-align');
+  });
+
+  test('keeps its defaults when args are passed as undefined', async function (assert) {
+    await render(
+      <template>
+        <Tooltip
+          @label="Close"
+          @align={{undefined}}
+          @dropShadow={{undefined}}
+          @highContrast={{undefined}}
+        >
+          <button type="button">Trigger</button>
+        </Tooltip>
+      </template>,
+    );
+
+    assert
+      .dom('.cds--tooltip')
+      .hasClass('cds--popover--top')
+      .hasClass('cds--popover--high-contrast')
+      .doesNotHaveClass('cds--popover--drop-shadow');
+  });
+
+  test('maps deprecated alignments to the new names', async function (assert) {
+    await render(
+      <template>
+        <Tooltip @label="Close" @align="top-left">
+          <button type="button">Trigger</button>
+        </Tooltip>
+      </template>,
+    );
+
+    assert.dom('.cds--tooltip').hasClass('cds--popover--top-start');
   });
 
   test('passes through html attributes', async function (assert) {
