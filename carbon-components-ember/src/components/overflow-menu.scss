@@ -1,7 +1,9 @@
 // The menu renders in the top layer (`popover="manual"`). Undo the user
 // agent's popover styles that Carbon doesn't set; `overflow` would clip the
-// `::after` that joins the menu to its trigger.
+// `::after` that joins the menu to its trigger. Fixed from the start, as
+// Floating UI places it, so it never sits at the top of the page.
 .cds--overflow-menu-options[popover] {
+  position: fixed;
   inset: auto;
   overflow: visible;
   color: inherit;

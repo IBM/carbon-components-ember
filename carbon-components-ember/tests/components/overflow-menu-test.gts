@@ -141,6 +141,29 @@ module('Integration | Component | OverflowMenu', (hooks) => {
     assert.dom(item('Stop app')).isFocused();
   });
 
+  test("opening doesn't scroll the page", async function (assert) {
+    const spacer = document.createElement('div');
+    spacer.style.height = '300vh';
+    document.body.append(spacer);
+    window.scrollTo(0, 1000);
+    try {
+      await render(
+        <template>
+          <OverflowMenu as |Item|>
+            <Item @itemText="Stop app" />
+          </OverflowMenu>
+        </template>,
+      );
+
+      await click(TRIGGER);
+      assert.dom(item('Stop app')).isFocused();
+      assert.strictEqual(window.scrollY, 1000);
+    } finally {
+      window.scrollTo(0, 0);
+      spacer.remove();
+    }
+  });
+
   test('focuses the @selectorPrimaryFocus match when it opens', async function (assert) {
     await render(
       <template>

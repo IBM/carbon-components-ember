@@ -305,7 +305,8 @@ export default class OverflowMenu extends Component<OverflowMenuSignature> {
       this.args.selectorPrimaryFocus ?? '[data-floating-menu-primary-focus]';
     const primary = menu.querySelector<HTMLElement>(selector);
     const first = this.rovingFocus.items[0];
-    (primary ?? first ?? menu).focus();
+    // Without scrolling: Floating UI may not have placed the menu yet.
+    (primary ?? first ?? menu).focus({ preventScroll: true });
   }
 
   <template>
