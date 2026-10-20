@@ -11,6 +11,9 @@ outputs:
   packages:
     description: Space-separated names of the changed packages
     value: ${{ steps.changes.outputs.packages }}
+  skills:
+    description: '"true" when an agent skill (.claude/skills or the addon''s) or anything shared changed'
+    value: ${{ steps.changes.outputs.skills }}
 
 runs:
   using: composite
@@ -19,11 +22,13 @@ runs:
       shell: bash
       run: |
         all=(carbon-components-ember carbon-components-ember-mcp dom-parity scripts)
+        skills=true
         report() {
           local addon=false
           [[ " $* " == *" carbon-components-ember "* ]] && addon=true
           echo "addon=$addon" >> "$GITHUB_OUTPUT"
           echo "packages=$*" >> "$GITHUB_OUTPUT"
+          echo "skills=$skills" >> "$GITHUB_OUTPUT"
           echo "Changed packages: ${*:-none}"
         }
 
@@ -39,6 +44,8 @@ runs:
           report "${all[@]}"
           exit 0
         fi
+
+        grep -qE '^(\.claude/skills|carbon-components-ember/skills)/' <<< "$changed" || skills=false
 
         packages=()
         for p in "${all[@]}"; do

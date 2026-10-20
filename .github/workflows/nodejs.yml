@@ -18,6 +18,7 @@ jobs:
     outputs:
       addon: ${{ steps.changes.outputs.addon }}
       packages: ${{ steps.changes.outputs.packages }}
+      skills: ${{ steps.changes.outputs.skills }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -25,6 +26,28 @@ jobs:
 
       - id: changes
         uses: ./.github/actions/changes
+
+  skills:
+    name: Agent skills
+    needs: changes
+    if: needs.changes.outputs.skills == 'true'
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v7
+
+      # The specification's own validator, pinned with hashes. It reads only
+      # SKILL.md and the folder's name, so this covers the packed skill too.
+      - name: Validate against the Agent Skills specification
+        run: |
+          python3 -m venv "$RUNNER_TEMP/skills-ref"
+          "$RUNNER_TEMP/skills-ref/bin/pip" install --quiet --disable-pip-version-check \
+            --require-hashes --no-deps --only-binary :all: \
+            -r .github/skills-ref-requirements.txt
+          status=0
+          for skill in carbon-components-ember/skills/*/ .claude/skills/*/; do
+            "$RUNNER_TEMP/skills-ref/bin/agentskills" validate "$skill" || status=1
+          done
+          exit $status
 
   lint:
     name: Lint

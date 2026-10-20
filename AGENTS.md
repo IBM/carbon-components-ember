@@ -253,7 +253,7 @@ Stories live as `src/components/**/<name>.stories.gts` next to their components.
 - `.storybook/manifests.ts` then points each component's import at its barrel: `carbon-components-ember/components`, `/ai-chat` or `/charts`. It's a preset in `addons` because ember-storybook's `StorybookConfig` type rejects `experimental_manifests` in `defineMain`.
 - `/manifests/components.html` on the running Storybook shows what agents get.
 - Apps get the same tools from `carbon-components-ember-mcp`, which reads the manifest published with each release's docs. Try changes to it against your running Storybook with `node carbon-components-ember-mcp/bin.mjs --manifests http://localhost:6006`.
-- `carbon-components-ember/skills/carbon-components-ember/` is the agent skill apps install with the package, and that server sends its `SKILL.md` as instructions. Update it when a setup step or app-facing convention changes (imports, icons, the wormhole elements). Its `references/components*` are written from the Storybook manifest when the package is packed (`pnpm build:skill`), so they're not committed.
+- `carbon-components-ember/skills/carbon-components-ember/` is the agent skill apps install with the package, and that server sends its `SKILL.md` as instructions. Update it when a setup step or app-facing convention changes (imports, icons, the wormhole elements). Its `references/components*` are written from the Storybook manifest when the package is packed (`pnpm build:skill`), so they're not committed; each page is named after its component, as `SKILL.md` tells agents. CI checks this skill and `.claude/skills` with the [Agent Skills specification](https://agentskills.io/specification)'s validator (`.github/skills-ref-requirements.txt`).
 
 ---
 
