@@ -1,4 +1,5 @@
 import { tracked } from '@glimmer/tracking';
+import { waitForPromise } from '@ember/test-waiters';
 
 export class TrackedPromise<T> {
   @tracked value: T | undefined;
@@ -6,7 +7,9 @@ export class TrackedPromise<T> {
   load: () => Promise<T>;
   getValue(): T | undefined {
     if (!this.promise) {
-      this.promise = this.load();
+      // Tests' settled() waits for the load, so a lazy icon has rendered by
+      // the time render() resolves.
+      this.promise = waitForPromise(this.load());
       this.promise.then(
         (v) => {
           this.value = v;
