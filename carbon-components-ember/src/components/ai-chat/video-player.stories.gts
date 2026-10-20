@@ -28,7 +28,7 @@ import '#storybook/styles/ai-chat/video-player.css';
 // loads.
 //
 // Stories that embed YouTube/Vimeo load third-party SDKs and iframes over the
-// network, so they're tagged `!vitest` to keep the test run deterministic;
+// network, so they're tagged `!test` to keep the test run deterministic;
 // tests only cover native-provider (and error-state) stories.
 //
 // Parity gaps:
@@ -138,12 +138,12 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
 
 // Network embed (YouTube): excluded from the test run.
 export const Default = meta.story({
-  tags: ['!vitest'],
+  tags: ['!test'],
 });
 
 // Network embed (YouTube): excluded from the test run.
 export const Standalone = meta.story({
-  tags: ['!vitest'],
+  tags: ['!test'],
   args: {
     useCard: false,
   },
@@ -151,7 +151,7 @@ export const Standalone = meta.story({
 
 // Network embed (YouTube): excluded from the test run.
 export const WithMetadata = meta.story({
-  tags: ['!vitest'],
+  tags: ['!test'],
   args: {
     title: 'Understanding AI and Machine Learning',
     description:
@@ -282,7 +282,7 @@ SubtitleTracks.test(
 
 // docs-app's YouTube embed. Network embed: excluded from the test run.
 export const YouTube = meta.story({
-  tags: ['!vitest'],
+  tags: ['!test'],
   args: {
     source: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
     ariaLabel: 'YouTube video',
@@ -292,7 +292,7 @@ export const YouTube = meta.story({
 
 // docs-app's Vimeo embed. Network embed: excluded from the test run.
 export const Vimeo = meta.story({
-  tags: ['!vitest'],
+  tags: ['!test'],
   args: {
     source: vimeoSource,
     ariaLabel: 'Vimeo video',

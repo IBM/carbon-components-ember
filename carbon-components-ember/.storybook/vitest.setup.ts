@@ -1,4 +1,5 @@
-import { afterEach, expect, inject } from 'vitest';
+import { hasPendingWaiters } from '@ember/test-waiters';
+import { afterEach, expect, inject, vi } from 'vitest';
 import { commands, server } from 'vitest/browser';
 
 declare module 'vitest' {
@@ -77,6 +78,8 @@ afterEach(async ({ story, task }) => {
   const name = story.id.replace('--', '/');
   if (!updating && !withScreenshots.has(name)) return;
 
+  // Lazy icons, floating content and modals register test waiters.
+  await vi.waitUntil(() => !hasPendingWaiters(), { timeout: 10_000 });
   // A font starts loading when layout first needs it: lay the page out, so
   // `fonts.ready` waits for every font the story uses.
   document.documentElement.getBoundingClientRect();
