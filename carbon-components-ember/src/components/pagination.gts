@@ -173,24 +173,28 @@ export default class Pagination extends Component<PaginationSignature> {
     this.pageChanged();
   });
 
-  // Re-runs only when `@state` or `@length` change (its positional args).
-  // Applying them is scheduled rather than done inline: a function modifier
-  // tracks everything it reads while running, so reading this component's
-  // own page here would re-run it on every page change and reset the page
-  // to the (stale) `@state`.
+  // Re-runs when `@state` or `@length` change, as it reads both. Applying
+  // them is scheduled: reading this component's own page here would re-run
+  // it on every page change and reset the page to the (stale) `@state`.
   syncedInitialState = false;
+
+  syncedState?: State;
 
   syncState = modifier(
     (
       _element: HTMLElement,
-      [state]: [state: State | undefined, length: number],
+      [state, length]: [state: State | undefined, length: number],
     ) => {
+      // `lengthChanged` reads it; destructuring it is what tracks it.
+      void length;
+      const stateChanged = state !== this.syncedState;
+      this.syncedState = state;
       if (!this.syncedInitialState) {
         this.syncedInitialState = true;
         return;
       }
       afterRender(this, () => {
-        if (state) {
+        if (stateChanged && state) {
           this.setState(state);
         } else {
           this.lengthChanged();
