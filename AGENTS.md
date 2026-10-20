@@ -112,6 +112,7 @@ Parity means matching Carbon React's **public API surface and behaviour**, not i
 | `useRef` + `useEffect` DOM listeners | A functional `modifier()` from `ember-modifier` returning its teardown | `modifiers/close-on-outside-click.ts` |
 | `forwardRef` | Yield a `ModifierLike` for the caller to apply to their own element | none yet |
 | `createPortal` | `{{#in-element}}` — use the existing `<Portal>` component | `components/portal.gts` |
+| A modal over the page | A native `<dialog>` opened with `showModal()`, rendered in place: the top layer needs no portal or target element. A component inside one that closes on Escape stops the event, so the modal stays open | `components/modal.gts` |
 | React context / provider | A service, or the parent component instance yielded down to children | `services/notifications.ts` |
 | `useId` | `guidFor(this)` | `components/tree-view.gts` |
 | Floating UI positioning hooks | The addon's own `<Popover>` / `<PopoverContent>` | `components/popover.gts` |

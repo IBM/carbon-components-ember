@@ -37,6 +37,8 @@ import TextInput from '#src/components/text-input.gts';
 import Breadcrumb from '#src/components/breadcrumb.gts';
 import Select from '#src/components/select.gts';
 import type { SelectSignature } from '#src/components/select.gts';
+import Modal from '#src/components/modal.gts';
+import type { ModalSignature } from '#src/components/modal.gts';
 import TextArea from '#src/components/text-area.gts';
 import PasswordInput from '#src/components/password-input.gts';
 import NumberInput from '#src/components/number-input.gts';
@@ -107,6 +109,7 @@ import toggleFixture from '../../../dom-parity/fixtures/Toggle.json';
 import textInputFixture from '../../../dom-parity/fixtures/TextInput.json';
 import breadcrumbFixture from '../../../dom-parity/fixtures/Breadcrumb.json';
 import selectFixture from '../../../dom-parity/fixtures/Select.json';
+import modalFixture from '../../../dom-parity/fixtures/Modal.json';
 import textAreaFixture from '../../../dom-parity/fixtures/TextArea.json';
 import passwordInputFixture from '../../../dom-parity/fixtures/PasswordInput.json';
 import numberInputFixture from '../../../dom-parity/fixtures/NumberInput.json';
@@ -2812,6 +2815,58 @@ module('DOM parity | Carbon React', function (hooks) {
 
     test('every fixture variant is covered', function (assert) {
       assertFullCoverage(assert, selectFixture, Object.keys(variants));
+    });
+  });
+
+  module('Modal', function () {
+    // The props dom-parity/lib/components.mjs renders each variant with.
+    const variants: Record<string, ModalSignature['Args']> = {
+      default: { primaryButtonText: 'Add', secondaryButtonText: 'Cancel' },
+      label: { modalLabel: 'Account resources', primaryButtonText: 'Add' },
+      passive: { passiveModal: true },
+      danger: {
+        danger: true,
+        primaryButtonText: 'Delete',
+        secondaryButtonText: 'Cancel',
+      },
+      'size-sm': { size: 'sm', primaryButtonText: 'Add' },
+      'full-width': { isFullWidth: true, primaryButtonText: 'Add' },
+      scrolling: { hasScrollingContent: true, primaryButtonText: 'Add' },
+    };
+
+    for (const [variant, props] of Object.entries(variants)) {
+      test(variant, async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Modal
+              @open={{true}}
+              @modalHeading="Add a custom domain"
+              @modalLabel={{props.modalLabel}}
+              @primaryButtonText={{props.primaryButtonText}}
+              @secondaryButtonText={{props.secondaryButtonText}}
+              @passiveModal={{props.passiveModal}}
+              @danger={{props.danger}}
+              @size={{props.size}}
+              @isFullWidth={{props.isFullWidth}}
+              @hasScrollingContent={{props.hasScrollingContent}}
+            >
+              <p>Content</p>
+            </Modal>
+          </template>,
+        );
+        // Icons load their SVG asynchronously; settled() doesn't wait for it.
+        await waitUntil(() => this.element.querySelector('svg') !== null);
+        assertDomParity(
+          assert,
+          modalFixture,
+          variant,
+          document.querySelector('.cds--modal-container'),
+        );
+      });
+    }
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, modalFixture, Object.keys(variants));
     });
   });
 

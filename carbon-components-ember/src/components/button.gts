@@ -1,7 +1,5 @@
 import Component from '@glimmer/component';
 import { defaultArgs } from '../utils/decorators.ts';
-import type DialogManagerService from '../services/dialog-manager.ts';
-import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import type ConfirmDialogComponent from './dialogs/confirm-dialog.gts';
 import Confirm from './dialogs/confirm-dialog.gts';
@@ -73,8 +71,6 @@ export default class Button extends Component<ButtonSignature> {
   @tracked loading: boolean = false;
   @tracked disabled = false;
   @tracked showDialog = false;
-  @service('carbon.dialog-manager')
-  dialogManager!: DialogManagerService;
 
   @defaultArgs
   args: ButtonSignature['Args'] = {
@@ -100,19 +96,6 @@ export default class Button extends Component<ButtonSignature> {
       type="button"
       ...attributes
     >
-      {{#if this.showDialog}}
-        {{#let (or @confirmDialog Confirm) as |Dialog|}}
-          {{#in-element this.dialogManager.destinationElement}}
-            <Dialog
-              @onAccept={{this.runButtonClick}}
-              @onCancel={{this.cancel}}
-              @header="Danger"
-              @body={{or @confirmText "Confirm this operation"}}
-              @type="danger"
-            />
-          {{/in-element}}
-        {{/let}}
-      {{/if}}
       {{#if (or this.loading @loading)}}
         <InlineLoading />
       {{else}}
@@ -123,6 +106,18 @@ export default class Button extends Component<ButtonSignature> {
         {{/if}}
       {{/if}}
     </button>
+    {{! The confirmation is a modal <dialog>, shown above the page from here. }}
+    {{#if this.showDialog}}
+      {{#let (or @confirmDialog Confirm) as |Dialog|}}
+        <Dialog
+          @onAccept={{this.runButtonClick}}
+          @onCancel={{this.cancel}}
+          @header="Danger"
+          @body={{or @confirmText "Confirm this operation"}}
+          @type="danger"
+        />
+      {{/let}}
+    {{/if}}
   </template>
 
   // @type has no "off" value (it defaults to 'primary'), so a caller that

@@ -37,37 +37,18 @@ export default class ConfirmDialog extends Component<ConfirmDialogSignature> {
   };
 
   <template>
-    <Modal @onClose={{this.onCancel}} ...attributes>
-      <:label>
-        {{@label}}
-      </:label>
-
-      <:header>
-        {{@header}}
-      </:header>
-
-      <:body>
-        {{@body}}
-      </:body>
-
-      <:footer>
-        <button
-          class="cds--btn cds--btn--secondary"
-          type="button"
-          data-modal-close
-          {{on "click" this.onCancel}}
-        >
-          {{or @cancelText "Cancel"}}
-        </button>
-        <button
-          class="cds--btn cds--btn--{{@type}} cds--btn--primary"
-          type="button"
-          {{on "click" this.onAccept}}
-          data-modal-primary-focus
-        >
-          {{or @acceptText "Okay"}}
-        </button>
-      </:footer>
+    <Modal
+      @open={{true}}
+      @modalLabel={{@label}}
+      @modalHeading={{@header}}
+      @primaryButtonText={{or @acceptText "Okay"}}
+      @secondaryButtonText={{or @cancelText "Cancel"}}
+      @danger={{eq @type "danger"}}
+      @onRequestClose={{this.onCancel}}
+      @onRequestSubmit={{this.onAccept}}
+      ...attributes
+    >
+      {{@body}}
     </Modal>
   </template>
 }

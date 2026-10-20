@@ -2,7 +2,7 @@
 @use "@carbon/styles/scss/utilities/z-index" as *;
 
 // Carbon's toast placement: top right, below the UI Shell header (3rem),
-// stacked $spacing-03 apart. Above modals, like Carbon's floating menus.
+// stacked $spacing-03 apart. An open Modal is in the top layer, above them.
 .cds--ember-toast-notification-list {
   position: fixed;
   z-index: z("dropdown");

@@ -99,8 +99,6 @@ OverlayLoading.test(
   },
 );
 
-// The Ember Modal has no `open` arg or primary/secondary button props, so the
-// modal is rendered conditionally and composed from its named blocks.
 export const OverlayLoadingBehindModal = meta.story({
   name: 'Overlay Loading Behind Modal',
   parameters: {
@@ -122,32 +120,21 @@ export const OverlayLoadingBehindModal = meta.story({
       {{! eslint-disable-next-line ember/template-no-duplicate-landmark-elements }}
       <main {{cleanup}}>
         <Button @onClick={{openModal}}>Open modal</Button>
-        {{#if state.modalOpen}}
-          <Modal @onClose={{closeModal}}>
-            <:label></:label>
-            <:header>Account settings</:header>
-            <:body>
-              <p>
-                Select
-                <strong>Save</strong>
-                to trigger a two second loading state behind this modal. The
-                overlay is the layer below, so it leaves focus alone.
-              </p>
-            </:body>
-            <:footer>
-              <button
-                class="cds--btn cds--btn--secondary"
-                type="button"
-                {{on "click" closeModal}}
-              >Cancel</button>
-              <button
-                class="cds--btn cds--btn--primary"
-                type="button"
-                {{on "click" startLoading}}
-              >Save</button>
-            </:footer>
-          </Modal>
-        {{/if}}
+        <Modal
+          @open={{state.modalOpen}}
+          @modalHeading="Account settings"
+          @primaryButtonText="Save"
+          @secondaryButtonText="Cancel"
+          @onRequestClose={{closeModal}}
+          @onRequestSubmit={{startLoading}}
+        >
+          <p>
+            Select
+            <strong>Save</strong>
+            to trigger a two second loading state behind this modal. The overlay
+            is the layer below, so it leaves focus alone.
+          </p>
+        </Modal>
         {{#if state.active}}
           <Loading
             @withOverlay={{true}}

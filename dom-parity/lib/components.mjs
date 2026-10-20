@@ -959,6 +959,20 @@ const select = (name, props) => ({
     ),
 });
 
+// Carbon React's Modal wraps its container in an overlay <div>; this addon's
+// overlay is the <dialog> itself, so compare from the container in.
+const modal = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.Modal,
+      { open: true, modalHeading: 'Add a custom domain', ...props },
+      React.createElement('p', null, 'Content'),
+    ),
+  pickRoot: (container) => container.querySelector('.cds--modal-container'),
+});
+
 const textArea = (name, props) => ({
   name,
   props,
@@ -1980,6 +1994,31 @@ export const COMPONENTS = [
         inline: true,
         invalid: true,
         invalidText: 'Invalid selection',
+      }),
+    ],
+  },
+  {
+    name: 'Modal',
+    variants: [
+      modal('default', {
+        primaryButtonText: 'Add',
+        secondaryButtonText: 'Cancel',
+      }),
+      modal('label', {
+        modalLabel: 'Account resources',
+        primaryButtonText: 'Add',
+      }),
+      modal('passive', { passiveModal: true }),
+      modal('danger', {
+        danger: true,
+        primaryButtonText: 'Delete',
+        secondaryButtonText: 'Cancel',
+      }),
+      modal('size-sm', { size: 'sm', primaryButtonText: 'Add' }),
+      modal('full-width', { isFullWidth: true, primaryButtonText: 'Add' }),
+      modal('scrolling', {
+        hasScrollingContent: true,
+        primaryButtonText: 'Add',
       }),
     ],
   },

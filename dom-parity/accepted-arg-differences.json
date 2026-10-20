@@ -24,6 +24,11 @@
       "ariaLabel": "React's aria-label labels the close button; an aria-label attribute would label the notification."
     }
   },
+  "Modal": {
+    "missing": {
+      "selectorsFloatingMenus": "A click in a menu rendered outside the modal can't reach it: the page outside a native dialog is inert, and DOM events don't bubble through a portal as React's do."
+    }
+  },
   "NotificationButton": {
     "missing": {
       "name": "React only passes it to the icon, which renders it as an attribute of the svg."

@@ -1,0 +1,21 @@
+// Carbon styles the modal's overlay as a <div>; this one is a <dialog>, so
+// undo what browsers give a dialog. Carbon's own `.cds--modal` rules keep it
+// laid out while closed, for its fade-out.
+.cds--ember-modal {
+  max-block-size: none;
+  max-inline-size: none;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  color: inherit;
+  overflow: visible;
+}
+
+.cds--ember-modal::backdrop {
+  background: transparent;
+}
+
+// The page doesn't scroll behind an open modal.
+:root:has(.cds--ember-modal[open]) {
+  overflow: hidden;
+}
