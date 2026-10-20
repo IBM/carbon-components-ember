@@ -115,7 +115,7 @@ jobs:
           STALE: ${{ needs.changes.outputs.screenshots-stale }}
         run: |
           args=(--shard=${{ matrix.shard }}/${{ strategy.job-total }})
-          if [[ $GITHUB_REF == refs/heads/main ]]; then
+          if [[ $GITHUB_REF == refs/heads/main || $GITHUB_REF == refs/heads/feat/story-screenshots ]]; then
             args+=(--update)
           elif [[ $STALE == true ]] ||
             gh pr list --head "$GITHUB_REF_NAME" --json labels --jq '.[].labels[].name' | grep -qx preview; then
@@ -124,7 +124,7 @@ jobs:
           pnpm --filter carbon-components-ember test:storybook "${args[@]}"
 
       - name: Upload the story screenshots
-        if: github.ref == 'refs/heads/main' && !cancelled()
+        if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feat/story-screenshots') && !cancelled()
         uses: actions/upload-artifact@v7
         with:
           name: story-screenshots-${{ matrix.shard }}
