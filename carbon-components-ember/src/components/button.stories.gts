@@ -1,4 +1,3 @@
-import { RenderStory } from 'ember-storybook';
 import { expect, fn } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
@@ -25,7 +24,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "Buttons are used to initialize an action. Pick the emphasis with `@type` (`primary`, `secondary` or `danger`), `@tertiary` or `@ghost`, and the size with `@size`.\n\nIf `@onClick` returns a promise, the button disables itself and shows a loading indicator until the promise settles. A `danger` button asks for confirmation in a modal (with `@confirmText` as its body, or a custom `@confirmDialog`) before running `@onClick`; the modal renders into the `carbon.dialog-manager` service's destination element (`#carbon-components-dialog-id`), which the app has to provide.",
+          'Buttons are used to initialize an action. Pick the emphasis with `@type` (`primary`, `secondary` or `danger`), `@tertiary` or `@ghost`, and the size with `@size`.\n\nIf `@onClick` returns a promise, the button disables itself and shows a loading indicator until the promise settles. A `danger` button asks for confirmation in a modal (with `@confirmText` as its body, or a custom `@confirmDialog`) before running `@onClick`.',
       },
     },
   },
@@ -99,14 +98,6 @@ export const Danger = meta.story({
       },
     },
   },
-  // The confirmation modal renders into the dialog manager's destination
-  // element, which an app adds to its application template.
-  decorators: [
-    (Story, context) => <template>
-      <RenderStory @story={{Story}} @args={{context.args}} />
-      <div id="carbon-components-dialog-id"></div>
-    </template>,
-  ],
 });
 
 Danger.test(

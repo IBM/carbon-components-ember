@@ -13,11 +13,6 @@ export default class DialogManagerService extends Service {
   /** The dialog to show: a component's module path. */
   @tracked currentDialog?: string;
   @tracked options: DialogOptions | null = null;
-  id = 'carbon-components-dialog-id';
-
-  get destinationElement(): HTMLElement {
-    return document.getElementById(this.id)!;
-  }
 
   open(ref: string, options: DialogOptions) {
     this.currentDialog = ref;

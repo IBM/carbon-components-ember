@@ -225,43 +225,6 @@
       "kind"
     ]
   },
-  "Modal": {
-    "missing": [
-      "alert",
-      "closeButtonLabel",
-      "danger",
-      "dangerDescription",
-      "decorator",
-      "hasScrollingContent",
-      "id",
-      "isFullWidth",
-      "loadingDescription",
-      "loadingIconDescription",
-      "loadingStatus",
-      "modalAriaLabel",
-      "modalHeading",
-      "modalLabel",
-      "onLoadingSuccess",
-      "onRequestClose",
-      "onRequestSubmit",
-      "onSecondarySubmit",
-      "open",
-      "passiveModal",
-      "preventCloseOnClickOutside",
-      "primaryButtonDisabled",
-      "primaryButtonText",
-      "secondaryButtonText",
-      "secondaryButtons",
-      "selectorPrimaryFocus",
-      "selectorsFloatingMenus",
-      "shouldSubmitOnEnter",
-      "size"
-    ],
-    "extra": [
-      "onClose",
-      "type"
-    ]
-  },
   "NotificationActionButton": {
     "missing": [
       "as",

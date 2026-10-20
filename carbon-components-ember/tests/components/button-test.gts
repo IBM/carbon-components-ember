@@ -48,7 +48,6 @@ module('Integration | Component | Button', (hooks) => {
         <form aria-label="Delete" {{on "submit" onSubmit}}>
           <Button type="submit" @danger={{true}}>Delete</Button>
         </form>
-        <div id="carbon-components-dialog-id"></div>
       </template>,
     );
 

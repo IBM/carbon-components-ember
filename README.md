@@ -23,7 +23,7 @@ import '@carbon/styles/css/styles.css';
 import 'carbon-components-ember/styles.css';
 ```
 
-Add the two elements some components render into to your application template:
+Add the element some menus render into to your application template:
 
 ```gts
 <template>
@@ -31,8 +31,6 @@ Add the two elements some components render into to your application template:
 
   {{! Dropdown, Select and OverflowMenu menus }}
   <div id="ember-basic-dropdown-wormhole"></div>
-  {{! The confirmation dialog of a @danger Button or Icon }}
-  <div id="carbon-components-dialog-id"></div>
 </template>
 ```
 

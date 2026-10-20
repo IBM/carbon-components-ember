@@ -1,0 +1,15 @@
+.modal-story__intro {
+  margin-block-end: 2rem;
+}
+
+.modal-story__paragraph {
+  margin-block-end: 1rem;
+}
+
+.modal-story__field {
+  margin-block-end: 24px;
+}
+
+.modal-story__list {
+  margin-block-end: 48px;
+}
