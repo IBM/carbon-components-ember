@@ -8,6 +8,7 @@ import {
   triggerEvent,
   triggerKeyEvent,
 } from '@ember/test-helpers';
+import Modal from '#src/components/modal.gts';
 import Popover, { PopoverContent } from '#src/components/popover.gts';
 import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
@@ -435,6 +436,71 @@ module('Integration | Component | Popover', (hooks) => {
       assert.true(trigger.bottom < window.innerHeight, 'inside the viewport');
       assert.strictEqual(
         (find('.cds--popover-content') as HTMLElement).style.visibility,
+        'hidden',
+      );
+    });
+
+    test('stays shown in a Modal that a transformed, clipped box holds', async function (assert) {
+      await render(
+        <template>
+          {{! The top layer escapes the box, though its transform makes it
+              hold the fixed dialog for Floating UI. }}
+          <style nonce={{nonce}}>
+            .hide-test__clip {
+              position: fixed;
+              inset-block-end: 0;
+              inset-inline-end: 0;
+              inline-size: 1px;
+              block-size: 1px;
+              overflow: hidden;
+              transform: translateZ(0);
+            }
+          </style>
+          <div class="hide-test__clip">
+            <Modal @open={{true}}>
+              <Popover @open={{true}} @autoAlign={{true}}>
+                <button type="button" data-test-trigger>Trigger</button>
+                <PopoverContent data-test-content>Content</PopoverContent>
+              </Popover>
+            </Modal>
+          </div>
+        </template>,
+      );
+
+      const content = find('[data-test-content]') as HTMLElement;
+      assert.true(content.matches(':popover-open'));
+      assert.notStrictEqual(content.style.visibility, 'hidden');
+    });
+
+    test('in a Modal, still hides while the trigger is scrolled out of a scroll container there', async function (assert) {
+      await render(
+        <template>
+          <style nonce={{nonce}}>
+            .hide-test__scroller {
+              height: 4rem;
+              overflow: auto;
+            }
+            .hide-test__spacer {
+              height: 40rem;
+            }
+          </style>
+          <Modal @open={{true}}>
+            <div class="hide-test__scroller">
+              <div class="hide-test__spacer"></div>
+              <Popover @open={{true}} @autoAlign={{true}}>
+                <button type="button" data-test-trigger>Trigger</button>
+                <PopoverContent data-test-content>Content</PopoverContent>
+              </Popover>
+            </div>
+          </Modal>
+        </template>,
+      );
+
+      const trigger = find('[data-test-trigger]')!.getBoundingClientRect();
+      const scroller = find('.hide-test__scroller')!.getBoundingClientRect();
+      assert.true(trigger.top > scroller.bottom, 'clipped by the scroller');
+      assert.strictEqual(
+        (find('[data-test-content]') as HTMLElement).style.visibility,
         'hidden',
       );
     });

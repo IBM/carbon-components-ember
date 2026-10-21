@@ -316,9 +316,6 @@ importers:
       dompurify:
         specifier: 3.4.17
         version: 3.4.17
-      ember-basic-dropdown:
-        specifier: ^9.0.1
-        version: 9.0.1(@babel/core@8.0.7)(@ember/test-helpers@5.7.0(@babel/core@8.0.7)(supports-color@8.1.1))(@embroider/macros@1.21.3(@babel/core@8.0.7)(@glint/template@1.9.0)(supports-color@8.1.1))(@glimmer/component@2.1.1(supports-color@8.1.1))(supports-color@8.1.1)
       ember-concurrency:
         specifier: ^5.3.0
         version: 5.3.0(@babel/core@8.0.7)(@glint/template@1.9.0)(supports-color@8.1.1)
@@ -4833,13 +4830,6 @@ packages:
   electron-to-chromium@1.5.405:
     resolution: {integrity: sha512-bNglH7lPH5l+yHOes7Zr4VqxhOy4BQ9ZBUX4VdoFgxMpzJk7W1ZoO3Vgd9Pxa9PyjQ76sfm2aKH/nzEcCNRlew==}
 
-  ember-basic-dropdown@9.0.1:
-    resolution: {integrity: sha512-sjgyXVk4k0DnjVP53b7tSXiofon6E+fZD/ibIf5kEY6g1A0dn3HSL0RjKZRBmnYCLgS7Sq0BnwGieMyyy/igYw==}
-    peerDependencies:
-      '@ember/test-helpers': ^5.7.0
-      '@embroider/macros': ^1.21.3
-      '@glimmer/component': ^2.1.1
-
   ember-cli-babel-plugin-helpers@1.1.1:
     resolution: {integrity: sha512-sKvOiPNHr5F/60NLd7SFzMpYPte/nnGkq/tMIfXejfKHIhaiIkYFqX8Z9UFTKWLLn+V7NOaby6niNPZUdvKCRw==}
     engines: {node: 6.* || 8.* || >= 10.*}
@@ -4877,10 +4867,6 @@ packages:
     peerDependenciesMeta:
       '@glint/template':
         optional: true
-
-  ember-element-helper@0.8.8:
-    resolution: {integrity: sha512-3slTltQV5ke53t3YVP2GYoswsQ6y+lhuVzKmt09tbEx91DapG8I/xa8W5OA0StvcQlavL3/vHrz/vCQEFs8bBA==}
-    engines: {node: 14.* || 16.* || >= 18}
 
   ember-eslint-parser@0.14.7:
     resolution: {integrity: sha512-nX56tbFbL9/PsWYFVdmqVKh0CtEjWGa82RQYtmn1OzfQ1/jK47uUdDftveo+kB6zxf/K7VwTc1rvzdhNX/qVqA==}
@@ -4948,9 +4934,6 @@ packages:
   ember-style-modifier@4.6.0:
     resolution: {integrity: sha512-ZM1pztpyEdZDfQEgOkWREiiUrsfnYGJGJzEw5QO60Sd2GAZIXLhCHxOTaT3ox5pUGb+ldG4I9Fk3srQreMJlQw==}
     engines: {node: 18.* || >= 20, pnpm: '>= 10.*'}
-
-  ember-truth-helpers@5.0.0:
-    resolution: {integrity: sha512-PnQd6D6hvlNC3k6gBu0SC2cvfXX6wH6W0nToomIIoxqyrD5cllk0zBh/j/1H0KsczVCWeuF9PWj5xJgL4jQAGg==}
 
   emoji-regex@10.6.0:
     resolution: {integrity: sha512-toUI84YS5YmxW219erniWD0CIVOo46xGKColeNQRgOzDorgBi1v4D71/OFzgD9GO2UGKIv1C3Sp8DAn0+j5w7A==}
@@ -13828,21 +13811,6 @@ snapshots:
 
   electron-to-chromium@1.5.405: {}
 
-  ember-basic-dropdown@9.0.1(@babel/core@8.0.7)(@ember/test-helpers@5.7.0(@babel/core@8.0.7)(supports-color@8.1.1))(@embroider/macros@1.21.3(@babel/core@8.0.7)(@glint/template@1.9.0)(supports-color@8.1.1))(@glimmer/component@2.1.1(supports-color@8.1.1))(supports-color@8.1.1):
-    dependencies:
-      '@ember/test-helpers': 5.7.0(@babel/core@8.0.7)(supports-color@8.1.1)
-      '@embroider/addon-shim': 1.10.3(supports-color@8.1.1)
-      '@embroider/macros': 1.21.3(@babel/core@8.0.7)(@glint/template@1.9.0)(supports-color@8.1.1)
-      '@glimmer/component': 2.1.1(supports-color@8.1.1)
-      decorator-transforms: 2.4.0(@babel/core@8.0.7)
-      ember-element-helper: 0.8.8(supports-color@8.1.1)
-      ember-modifier: 4.3.0(@babel/core@8.0.7)(supports-color@8.1.1)
-      ember-style-modifier: 4.6.0(@babel/core@8.0.7)(supports-color@8.1.1)
-      ember-truth-helpers: 5.0.0(supports-color@8.1.1)
-    transitivePeerDependencies:
-      - '@babel/core'
-      - supports-color
-
   ember-cli-babel-plugin-helpers@1.1.1: {}
 
   ember-cli-babel@8.3.1(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1):
@@ -13949,12 +13917,6 @@ snapshots:
       '@glint/template': 1.9.0
     transitivePeerDependencies:
       - '@babel/core'
-      - supports-color
-
-  ember-element-helper@0.8.8(supports-color@8.1.1):
-    dependencies:
-      '@embroider/addon-shim': 1.10.3(supports-color@8.1.1)
-    transitivePeerDependencies:
       - supports-color
 
   ember-eslint-parser@0.14.7(@babel/eslint-parser@8.0.7(@babel/core@8.0.7)(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1)))(@typescript-eslint/parser@8.71.2(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(typescript@6.0.3):
@@ -14090,12 +14052,6 @@ snapshots:
       ember-modifier: 4.3.0(@babel/core@8.0.7)(supports-color@8.1.1)
     transitivePeerDependencies:
       - '@babel/core'
-      - supports-color
-
-  ember-truth-helpers@5.0.0(supports-color@8.1.1):
-    dependencies:
-      '@embroider/addon-shim': 1.10.3(supports-color@8.1.1)
-    transitivePeerDependencies:
       - supports-color
 
   emoji-regex@10.6.0: {}

@@ -646,5 +646,23 @@
       "variant": "passive",
       "reason": "The close button's tooltip is this addon's Tooltip, whose markup differs from Carbon React's (a <span> trigger wrapper, and the tooltip's id and role on its content rather than the .cds--popover). Tooltip's own; its move onto Popover reworks this markup. A passive modal's close button comes first in its header, as in Carbon React."
     }
+  ],
+  "OverflowMenu": [
+    {
+      "path": "span > span[0] > div[0]",
+      "reason": "The trigger's tooltip is this addon's Tooltip, whose markup differs from Carbon React's (a <span> trigger wrapper, and the tooltip's id, role and aria-hidden on its content rather than the .cds--popover)."
+    },
+    {
+      "path": "span > span[0] > span[1]",
+      "reason": "Same Tooltip markup difference as the `span > span[0] > div[0]` entry."
+    },
+    {
+      "path": "ul.attributes.popover",
+      "reason": "Deliberate: the menu shows in the top layer (popover=\"manual\"), positioned by Floating UI, rather than as FloatingMenu's absolutely positioned portal."
+    },
+    {
+      "path": "ul.style",
+      "reason": "Same as the `ul.attributes.popover` entry: Floating UI writes a fixed position with left and top, where FloatingMenu writes absolute offsets (hidden in jsdom, which it can't measure)."
+    }
   ]
 }

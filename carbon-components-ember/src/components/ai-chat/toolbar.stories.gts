@@ -18,7 +18,6 @@ import TrashCan from '../icons/trash-can.ts';
 import Version from '../icons/version.ts';
 import Button from '../button.gts';
 import OverflowMenu from '../overflow-menu.gts';
-import OverflowMenuItem from '../overflow-menu/overflow-menu-item.gts';
 import Toolbar from './toolbar.gts';
 
 import type { ToolbarSignature, ToolbarAction } from './toolbar.gts';
@@ -183,16 +182,13 @@ The \`navigation\`, \`title\`, \`fixedActions\` and \`decorator\` named blocks m
               <ArrowLeft @size={{16}} />
             </Button>
           {{else if (eq args.navigation "custom 1")}}
-            <OverflowMenu @tooltip="Menu" @direction="bottom">
-              <OverflowMenuItem @itemText="Stop app" />
-              <OverflowMenuItem @itemText="Restart app" />
-              <OverflowMenuItem @itemText="Rename app" />
-              <OverflowMenuItem
-                @itemText="Clone and move app"
-                @disabled={{true}}
-              />
-              <OverflowMenuItem @itemText="Edit routes and access" />
-              <OverflowMenuItem
+            <OverflowMenu @iconDescription="Menu" as |Item|>
+              <Item @itemText="Stop app" />
+              <Item @itemText="Restart app" />
+              <Item @itemText="Rename app" />
+              <Item @itemText="Clone and move app" @disabled={{true}} />
+              <Item @itemText="Edit routes and access" />
+              <Item
                 @itemText="Delete app"
                 @hasDivider={{true}}
                 @isDelete={{true}}

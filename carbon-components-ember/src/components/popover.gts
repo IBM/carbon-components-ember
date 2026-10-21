@@ -10,7 +10,7 @@ import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
 import { arrow, flip, hide, offset } from '@floating-ui/dom';
 import closeOnOutsideClick from '../modifiers/close-on-outside-click.ts';
-import { float } from '../utils/floating.ts';
+import { clippingBoundary, float } from '../utils/floating.ts';
 import './popover.scss';
 
 import type { Boundary, Placement } from '@floating-ui/dom';
@@ -364,7 +364,9 @@ export default class Popover extends Component<PopoverSignature> {
           boundary: this.args.autoAlignBoundary,
         }),
         caretElement && arrow({ element: caretElement, padding: 16 }),
-        hide(),
+        // Derived on each update: a Modal opening in the same render isn't
+        // in the top layer yet when this runs.
+        hide(() => ({ boundary: clippingBoundary(reference) })),
       ],
       onUpdate: ({ placement, middlewareData }) => {
         if (this.placement !== placement) {

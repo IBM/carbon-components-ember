@@ -11,9 +11,7 @@ import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
 import type { ComponentLike } from '@glint/template';
 import OverflowMenu from '../overflow-menu.gts';
-import OverflowMenuItem from '../overflow-menu/overflow-menu-item.gts';
 import ChatHistoryPanelItemInput from './chat-history-panel-item-input.gts';
-import OverflowMenuVertical from '../icons/overflow-menu-vertical.ts';
 import './chat-history.scss';
 
 export type ChatHistoryItemAction = {
@@ -98,40 +96,29 @@ export interface ChatHistoryPanelItemSignature {
  *   `<button>` that selects the item, and needs an explicit
  *   `composedPath()`-based click guard (`_handleClick`'s
  *   `isOverflowMenuClick` check) to stop a menu-trigger click from also
- *   selecting the row. This port's `OverflowMenu` (built on
- *   `ember-basic-dropdown`) already renders its trigger as a sibling, not
- *   a descendant, of the row button - both to avoid invalid nested
+ *   selecting the row. This port puts the `OverflowMenu` beside the row
+ *   button rather than in it - both to avoid invalid nested
  *   interactive-content HTML, and because it makes the guard unnecessary:
  *   a click on the trigger never bubbles through the row button at all.
  * - Upstream's `OverflowMenuVertical16`-triggered menu doesn't support
  *   flipping to open upward when there isn't room below (its own
  *   `_adjustMenuPosition` is a documented workaround for that gap). This
- *   addon's `OverflowMenu` is built on `ember-basic-dropdown`, whose
- *   `verticalPosition` already defaults to `'auto'` (flips automatically
- *   based on available *viewport* space) - so the workaround isn't
- *   ported. The one real divergence: upstream flips relative to the
- *   nearest `cds-aichat-history-content` ancestor's bounds, not the
- *   viewport, so in a history panel shorter than the viewport the menu
- *   can still open downward and overflow the panel while fitting the
- *   viewport just fine.
+ *   addon's `OverflowMenu` already opens on the other side when its own
+ *   doesn't fit the *viewport*, so the workaround isn't ported. The one
+ *   real divergence: upstream flips relative to the nearest
+ *   `cds-aichat-history-content` ancestor's bounds, so in a history panel
+ *   shorter than the viewport this menu can still open downward and
+ *   overflow the panel.
  * - Upstream's host also listens for `Enter` at the keydown level and
  *   re-dispatches its click handler (with `preventDefault()` first, so
  *   the button's own native Enter-triggered click doesn't double-fire).
  *   This port's row is a real `<button>`, which already activates via
  *   Enter/Space natively - no separate keydown handling is needed to get
  *   the same end-user behavior.
- * - Upstream's overflow menu supports Arrow Up/Down cycling between menu
- *   items (`_handleMenuItemKeyDown`) - not ported; `OverflowMenu` doesn't
- *   provide it, and it's a keyboard enhancement rather than core
- *   functionality (Tab still reaches every item).
  *
- * `@horizontalPosition='right'` is passed explicitly to `OverflowMenu`: its
- * underlying `ember-basic-dropdown` default (`'auto'`) picks whichever side
- * fits the *viewport*, which - since the trigger sits flush against the
- * right edge of the (usually much narrower) history panel - almost always
- * resolves to `'left'` and lets the menu grow rightward out of the panel
- * into whatever sits beside it. Forcing `'right'` opens the menu leftward
- * instead, keeping it within the panel's own bounds.
+ * The menu is `@flipped`, lined up with the trigger's end edge: the trigger
+ * sits against the end of the (usually narrow) history panel, so the menu
+ * grows back over the panel instead of out of it.
  */
 export default class ChatHistoryPanelItem extends Component<ChatHistoryPanelItemSignature> {
   @tracked internalRename: boolean;
@@ -224,22 +211,25 @@ export default class ChatHistoryPanelItem extends Component<ChatHistoryPanelItem
             }}"
         >
           <OverflowMenu
-            @direction="bottom"
-            @tooltip={{or @overflowMenuLabel "Options"}}
-            @icon={{OverflowMenuVertical}}
-            @horizontalPosition="right"
+            @iconDescription={{or @overflowMenuLabel "Options"}}
+            @flipped={{true}}
+            as |Item|
           >
             {{#each @actions as |menuAction|}}
-              <OverflowMenuItem
-                @itemText={{menuAction.text}}
+              <Item
                 @isDelete={{menuAction.delete}}
                 @hasDivider={{menuAction.divider}}
                 @onClick={{fn this.handleMenuAction menuAction.text}}
               >
+                <div class="cds--overflow-menu-options__option-content">
+                  {{menuAction.text}}
+                </div>
                 {{#if menuAction.icon}}
-                  <menuAction.icon @size={{16}} />
+                  <span class="cds--overflow-menu-options__option-icon">
+                    <menuAction.icon @size={{16}} />
+                  </span>
                 {{/if}}
-              </OverflowMenuItem>
+              </Item>
             {{/each}}
           </OverflowMenu>
         </span>

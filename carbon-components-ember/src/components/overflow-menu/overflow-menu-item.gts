@@ -1,26 +1,47 @@
+/**
+ * Copyright IBM Corp. 2016, 2026
+ *
+ * This source code is licensed under the Apache-2.0 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import Component from '@glimmer/component';
+import { guidFor } from '@ember/object/internals';
+
+import type OverflowMenu from '../overflow-menu.gts';
 
 export interface OverflowMenuItemSignature {
-  Args: {
-    itemText?: string;
-    title?: string;
-    requireTitle?: boolean;
-    disabled?: boolean;
-    hasDivider?: boolean;
-    isDelete?: boolean;
-    dangerDescription?: string;
-    href?: string;
-    className?: string;
-    wrapperClassName?: string;
-    onClick?: (event: MouseEvent) => void;
-  };
   Element: HTMLButtonElement | HTMLAnchorElement;
+  Args: {
+    /** Hidden text read after a delete item's text. */
+    dangerDescription?: string;
+    disabled?: boolean;
+    /** Draws a divider above the item. */
+    hasDivider?: boolean;
+    /** Renders the item as a link. */
+    href?: string;
+    /** Styles the item as a destructive action. */
+    isDelete?: boolean;
+    /** The item's text. A block replaces it, for richer content. */
+    itemText?: string;
+    /** The menu the item is in: OverflowMenu yields the item bound to it. */
+    menu?: OverflowMenu;
+    /** Called when the item is chosen, before the menu closes. */
+    onClick?: (event: MouseEvent) => void;
+    /** Gives the item a `title`: `@title`, or else `@itemText`. */
+    requireTitle?: boolean;
+    title?: string;
+    /** Classes for the item's `<li>`. */
+    wrapperClassName?: string;
+  };
   Blocks: {
     default: [];
   };
 }
 
 export default class OverflowMenuItem extends Component<OverflowMenuItemSignature> {
+  assistiveId = `${guidFor(this)}-danger-description`;
+
   get tag() {
     return this.args.href ? 'a' : 'button';
   }
@@ -36,45 +57,44 @@ export default class OverflowMenuItem extends Component<OverflowMenuItemSignatur
     return classes.join(' ');
   }
 
-  get btnClass() {
-    const classes = ['cds--overflow-menu-options__btn'];
-    if (this.args.className) classes.push(this.args.className);
-    return classes.join(' ');
-  }
-
   get title() {
     if (!this.args.requireTitle) return undefined;
-    return this.args.title ?? this.args.itemText;
+    return this.args.title || this.args.itemText;
   }
 
-  onClick = (evt: MouseEvent) => {
-    return this.args.onClick?.(evt);
+  get hasDangerDescription() {
+    return Boolean(this.args.isDelete && this.args.dangerDescription);
+  }
+
+  handleClick = (event: MouseEvent) => {
+    this.args.onClick?.(event);
+    this.args.menu?.close();
   };
 
   <template>
     {{#let (element this.tag) as |Tag|}}
-      <li class={{this.wrapperClass}} role="none">
+      <li class={{this.wrapperClass}} role="none" dir="auto">
         <Tag
-          {{on "click" this.onClick}}
-          class={{this.btnClass}}
+          class="cds--overflow-menu-options__btn"
+          role="menuitem"
+          tabindex="-1"
           href={{@href}}
           title={{this.title}}
           disabled={{@disabled}}
-          role="menuitem"
-          tabindex="-1"
+          {{on "click" this.handleClick}}
+          {{(if @menu @menu.rovingFocus.item) disabled=@disabled}}
           ...attributes
         >
-          <span class="cds--overflow-menu-options__option-content">
-            {{@itemText}}
-          </span>
           {{#if (has-block)}}
-            <span class="cds--overflow-menu-options__option-icon">
-              {{yield}}
-            </span>
-          {{/if}}
-          {{#if @dangerDescription}}
-            {{#if @isDelete}}
-              <span class="cds--visually-hidden">{{@dangerDescription}}</span>
+            {{yield}}
+          {{else}}
+            <div class="cds--overflow-menu-options__option-content">
+              {{@itemText}}
+            </div>
+            {{#if this.hasDangerDescription}}
+              <span id={{this.assistiveId}} class="cds--visually-hidden">
+                {{@dangerDescription}}
+              </span>
             {{/if}}
           {{/if}}
         </Tag>

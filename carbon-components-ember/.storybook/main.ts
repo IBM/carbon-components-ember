@@ -40,8 +40,6 @@ export default defineMain({
     <style>${plexFontFaces ?? ''}</style>
   `,
 
-  // ember-basic-dropdown (behind OverflowMenu) renders its content
-  // into this element, which apps add to their application template.
   previewHead: (head) => `${head}
     <style>
       /* As in @carbon/react's Storybook: the docs page follows the OS
@@ -80,10 +78,6 @@ export default defineMain({
         }
       }
     </style>
-  `,
-
-  previewBody: (body) => `${body}
-    <div id="ember-basic-dropdown-wormhole"></div>
   `,
 
   core: {

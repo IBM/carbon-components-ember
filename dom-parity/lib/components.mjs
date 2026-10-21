@@ -976,6 +976,40 @@ const modal = (name, props) => ({
   pickRoot: (container) => container.querySelector('.cds--modal-container'),
 });
 
+// Two items, the second a danger item after a divider. `trigger` variants
+// compare the button, which the tooltip's wrapper would hide (its tag
+// differs), and `menu` ones the open menu, which FloatingMenu portals out of
+// the wrapper. Both canonicalize ids over the whole page, so the button's
+// references to the tooltip and the menu compare.
+const overflowMenu = (name, props, { root = 'wrapper' } = {}) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.OverflowMenu,
+      { 'aria-label': 'Overflow menu', ...props },
+      React.createElement(Carbon.OverflowMenuItem, {
+        key: 'a',
+        itemText: 'Stop app',
+      }),
+      React.createElement(Carbon.OverflowMenuItem, {
+        key: 'b',
+        itemText: 'Delete app',
+        isDelete: true,
+        hasDivider: true,
+      }),
+    ),
+  ...(root !== 'wrapper' && {
+    pickRoot: (container) =>
+      container.ownerDocument.querySelector(
+        root === 'trigger'
+          ? 'button.cds--overflow-menu'
+          : '.cds--overflow-menu-options',
+      ),
+    idScope: (container) => container.ownerDocument.body,
+  }),
+});
+
 const textArea = (name, props) => ({
   name,
   props,
@@ -2031,6 +2065,48 @@ export const COMPONENTS = [
         invalid: true,
         invalidText: 'Invalid selection',
       }),
+    ],
+  },
+  {
+    name: 'OverflowMenu',
+    variants: [
+      overflowMenu('default', {}),
+      overflowMenu('trigger', {}, { root: 'trigger' }),
+      overflowMenu('trigger-size-sm', { size: 'sm' }, { root: 'trigger' }),
+      overflowMenu('trigger-size-lg', { size: 'lg' }, { root: 'trigger' }),
+      overflowMenu(
+        'trigger-icon-description',
+        { iconDescription: 'Settings' },
+        { root: 'trigger' },
+      ),
+      overflowMenu(
+        'trigger-icon-class',
+        { iconClass: 'custom-icon' },
+        { root: 'trigger' },
+      ),
+      overflowMenu('trigger-disabled', { disabled: true }, { root: 'trigger' }),
+      overflowMenu('trigger-open', { open: true }, { root: 'trigger' }),
+      overflowMenu('open', { open: true }, { root: 'menu' }),
+      overflowMenu(
+        'open-flipped',
+        { open: true, flipped: true },
+        { root: 'menu' },
+      ),
+      overflowMenu(
+        'open-top',
+        { open: true, direction: 'top' },
+        { root: 'menu' },
+      ),
+      overflowMenu(
+        'open-size-sm',
+        { open: true, size: 'sm' },
+        { root: 'menu' },
+      ),
+      overflowMenu(
+        'open-menu-options-class',
+        { open: true, menuOptionsClass: 'custom-menu' },
+        { root: 'menu' },
+      ),
     ],
   },
   {

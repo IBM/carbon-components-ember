@@ -214,6 +214,9 @@ Glint types each element's attributes, so one HTML doesn't define for that eleme
 ### ❌ Pitfall 7: Binding `value` on a `<select>`
 Glimmer sets a `<select>`'s `value` before its options render, so `<select value={{x}}>` selects nothing on the first render. Select the value from a modifier once the options are in, and again when they change: `Select` does both, as the `SelectItem` it yields tells it when an option renders, goes or changes value.
 
+### ❌ Pitfall 8: Floating Content inside a Modal
+A Modal's `<dialog>` is in the top layer, out of everything around it, but Floating UI still counts the trigger's overflow ancestors outside it as clipping the trigger, so `hide()` hides what floats from inside it. With `utils/floating.ts`, give `hide()` `() => ({ boundary: clippingBoundary(reference) })`, derived so a Modal opening in the same render counts. Focus inside floating content with `{ preventScroll: true }`: until Floating UI places it, Carbon's styles can leave it at the top of the page.
+
 ---
 
 ## Tests
@@ -252,7 +255,7 @@ Stories live as `src/components/**/<name>.stories.gts` next to their components.
 - `.storybook/manifests.ts` then points each component's import at its barrel: `carbon-components-ember/components`, `/ai-chat` or `/charts`. It's a preset in `addons` because ember-storybook's `StorybookConfig` type rejects `experimental_manifests` in `defineMain`.
 - `/manifests/components.html` on the running Storybook shows what agents get.
 - Apps get the same tools from `carbon-components-ember-mcp`, which reads the manifest published with each release's docs. Try changes to it against your running Storybook with `node carbon-components-ember-mcp/bin.mjs --manifests http://localhost:6006`.
-- `carbon-components-ember/skills/carbon-components-ember/` is the agent skill apps install with the package, and that server sends its `SKILL.md` as instructions. Update it when a setup step or app-facing convention changes (imports, icons, the wormhole elements). Its `references/components*` are written from the Storybook manifest when the package is packed (`pnpm build:skill`), so they're not committed; each page is named after its component, as `SKILL.md` tells agents. CI checks this skill and `.claude/skills` with the [Agent Skills specification](https://agentskills.io/specification)'s validator (`.github/skills-ref-requirements.txt`).
+- `carbon-components-ember/skills/carbon-components-ember/` is the agent skill apps install with the package, and that server sends its `SKILL.md` as instructions. Update it when a setup step or app-facing convention changes (imports, icons, the toast list). Its `references/components*` are written from the Storybook manifest when the package is packed (`pnpm build:skill`), so they're not committed; each page is named after its component, as `SKILL.md` tells agents. CI checks this skill and `.claude/skills` with the [Agent Skills specification](https://agentskills.io/specification)'s validator (`.github/skills-ref-requirements.txt`).
 
 ---
 
@@ -296,4 +299,4 @@ To maintain the high quality of this guide and prevent future bloat, adhere to t
 
 ---
 
-Last Updated: 2026-10-14
+Last Updated: 2026-10-20
