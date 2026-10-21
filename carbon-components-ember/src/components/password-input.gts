@@ -19,6 +19,11 @@ import type { TooltipAlignment } from './tooltip.gts';
 
 export interface PasswordInputSignature {
   Args: {
+    /**
+     * Classes for the wrapper, as Carbon React's `className`. `class` and the
+     * other attributes go on the `<input>`.
+     */
+    className?: string;
     id?: string;
     labelText?: string;
     hideLabel?: boolean;
@@ -41,10 +46,9 @@ export interface PasswordInputSignature {
     tooltipPosition?: 'top' | 'right' | 'bottom' | 'left';
     tooltipAlignment?: 'start' | 'center' | 'end';
     onChange?: (value: string, event: Event) => void;
-    onClick?: (event: MouseEvent) => void;
     onTogglePasswordVisibility?: (event: MouseEvent) => void;
   };
-  Element: HTMLDivElement;
+  Element: HTMLInputElement;
 }
 
 export default class PasswordInput extends Component<PasswordInputSignature> {
@@ -114,10 +118,6 @@ export default class PasswordInput extends Component<PasswordInputSignature> {
     this.args.onChange?.(value, event);
   };
 
-  handleClick = (event: MouseEvent) => {
-    this.args.onClick?.(event);
-  };
-
   toggleVisibility = (event: MouseEvent) => {
     this.passwordVisible = !this.passwordVisible;
     this.args.onTogglePasswordVisibility?.(event);
@@ -133,8 +133,8 @@ export default class PasswordInput extends Component<PasswordInputSignature> {
           (and @inline this.isInvalid)
           'cds--text-input-wrapper--inline--invalid'
         }}
-        {{if @size (concat 'cds--layout--size-' @size)}}"
-      ...attributes
+        {{if @size (concat 'cds--layout--size-' @size)}}
+        {{@className}}"
     >
       {{#if @labelText}}
         <label
@@ -167,6 +167,7 @@ export default class PasswordInput extends Component<PasswordInputSignature> {
             />
           {{/if}}
           <input
+            ...attributes
             id={{this.id}}
             type={{this.inputType}}
             class="cds--text-input cds--password-input
@@ -186,7 +187,6 @@ export default class PasswordInput extends Component<PasswordInputSignature> {
             }}
             value={{this.boundValue}}
             {{on "input" this.updateValue}}
-            {{on "click" this.handleClick}}
           />
           <Tooltip
             @label={{this.toggleLabel}}

@@ -30,6 +30,11 @@
       "itemToElement": "The default block renders each item."
     }
   },
+  "DatePickerInput": {
+    "missing": {
+      "onClick": "{{on \"click\"}} on the component reaches the <input>, through ...attributes, where Carbon React puts its onClick."
+    }
+  },
   "Dropdown": {
     "missing": {
       "downshiftProps": "It isn't built on downshift, so there's nothing to pass them to.",

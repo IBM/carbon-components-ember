@@ -207,4 +207,28 @@ module('Integration | Component | NumberInput', (hooks) => {
       )
       .exists('the yielded AI label is mini, as in Carbon React');
   });
+
+  test('attributes and {{on "click"}} go on the <input>, @className on the wrapper', async function (assert) {
+    let clicks = 0;
+    const onClick = () => clicks++;
+    await render(
+      <template>
+        <NumberInput
+          @label="Count"
+          @className="my-field"
+          class="my-input"
+          data-test-count
+          {{on "click" onClick}}
+        />
+      </template>,
+    );
+
+    assert.dom('.cds--form-item').hasClass('my-field');
+    assert
+      .dom('input[type="number"]')
+      .hasClass('my-input')
+      .hasAttribute('data-test-count');
+    await click('input[type="number"]');
+    assert.strictEqual(clicks, 1);
+  });
 });

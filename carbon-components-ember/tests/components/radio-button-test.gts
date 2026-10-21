@@ -204,4 +204,29 @@ module('Integration | Component | RadioButton', (hooks) => {
       )
       .exists();
   });
+
+  test('attributes and {{on "click"}} go on the <input>, @className on the wrapper', async function (assert) {
+    let clicks = 0;
+    const onClick = () => clicks++;
+    await render(
+      <template>
+        <RadioButton
+          @labelText="A"
+          @value="a"
+          @className="my-field"
+          class="my-input"
+          data-test-choice
+          {{on "click" onClick}}
+        />
+      </template>,
+    );
+
+    assert.dom('.cds--radio-button-wrapper').hasClass('my-field');
+    assert
+      .dom('input.cds--radio-button')
+      .hasClass('my-input')
+      .hasAttribute('data-test-choice');
+    await click('input.cds--radio-button');
+    assert.strictEqual(clicks, 1);
+  });
 });

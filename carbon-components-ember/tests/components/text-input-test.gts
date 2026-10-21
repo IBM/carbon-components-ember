@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn, find } from '@ember/test-helpers';
+import { click, render, fillIn, find } from '@ember/test-helpers';
 import TextInput from '#src/components/text-input.gts';
 
 module('Integration | Component | TextInput', (hooks) => {
@@ -161,5 +161,29 @@ module('Integration | Component | TextInput', (hooks) => {
       '40px',
       "Carbon's decorator offset applies, as the icon follows the input",
     );
+  });
+
+  test('attributes and {{on "click"}} go on the <input>, @className on the wrapper', async function (assert) {
+    let clicks = 0;
+    const onClick = () => clicks++;
+    await render(
+      <template>
+        <TextInput
+          @labelText="Email"
+          @className="my-field"
+          class="my-input"
+          name="email"
+          {{on "click" onClick}}
+        />
+      </template>,
+    );
+
+    assert.dom('.cds--text-input-wrapper').hasClass('my-field');
+    assert
+      .dom('input.cds--text-input')
+      .hasClass('my-input')
+      .hasAttribute('name');
+    await click('input.cds--text-input');
+    assert.strictEqual(clicks, 1);
   });
 });

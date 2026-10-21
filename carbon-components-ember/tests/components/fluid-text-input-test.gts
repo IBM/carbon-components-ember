@@ -296,4 +296,28 @@ module('Integration | Component | FluidTextInput', (hooks) => {
       .hasAttribute('aria-label', 'Conceal');
     assert.strictEqual(callCount, 1);
   });
+
+  test('attributes and {{on "click"}} go on the <input>, @className on the wrapper', async function (assert) {
+    let clicks = 0;
+    const onClick = () => clicks++;
+    await render(
+      <template>
+        <FluidTextInput
+          @labelText="Email"
+          @className="my-field"
+          class="my-input"
+          name="email"
+          {{on "click" onClick}}
+        />
+      </template>,
+    );
+
+    assert.dom('.cds--text-input--fluid').hasClass('my-field');
+    assert
+      .dom('input.cds--text-input')
+      .hasClass('my-input')
+      .hasAttribute('name');
+    await click('input.cds--text-input');
+    assert.strictEqual(clicks, 1);
+  });
 });

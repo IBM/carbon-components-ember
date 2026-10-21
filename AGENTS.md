@@ -188,7 +188,7 @@ Signatures follow the [Ember guides](https://guides.emberjs.com/release/typescri
   - A DOM element gets its own type, a union when branches differ.
   - When spreading onto another component, derive it: `Element: ButtonSignature['Element']`.
   - No `...attributes`, no `Element`. Never write `Element: null`.
-- **`...attributes`:** every component spreads it, on its root or on the element Carbon React spreads its rest props onto (Toggle's `<button>`). A component with no element of its own opts out of `ember/template-require-splattributes` inline, with the reason.
+- **`...attributes`:** every component spreads it, on its root or on the element Carbon React spreads its rest props onto (Toggle's `<button>`, TextInput's `<input>`). When that isn't the root, React's `className` still styles the root, so take it as `@className`, as the inputs do. A component with no element of its own opts out of `ember/template-require-splattributes` inline, with the reason.
 - **`Blocks`:** only the blocks the template yields.
   - Label positional params: `default: [TabPane: WithBoundArgs<typeof TabPane, 'tab'>]`. The label becomes the block param name in editors and Storybook's "Show code".
   - A yielded hash stays unlabelled, since its keys name its entries.

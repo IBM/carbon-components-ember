@@ -10,6 +10,11 @@ import type { WithBoundArgs } from '@glint/template';
 
 export interface TextInputSignature {
   Args: {
+    /**
+     * Classes for the wrapper, as Carbon React's `className`. `class` and the
+     * other attributes go on the `<input>`.
+     */
+    className?: string;
     id?: string;
     labelText?: string;
     hideLabel?: boolean;
@@ -29,9 +34,8 @@ export interface TextInputSignature {
     maxCount?: number;
     light?: boolean;
     onChange?: (value: string, event: Event) => void;
-    onClick?: (event: MouseEvent) => void;
   };
-  Element: HTMLDivElement;
+  Element: HTMLInputElement;
   Blocks: {
     /**
      * **Experimental:** an AI label, or any other decorator, shown in the field.
@@ -95,16 +99,12 @@ export default class TextInput extends Component<TextInputSignature> {
     this.args.onChange?.(value, event);
   };
 
-  handleClick = (event: MouseEvent) => {
-    this.args.onClick?.(event);
-  };
-
   <template>
     <div
       class="cds--form-item cds--text-input-wrapper
         {{if @readOnly 'cds--text-input-wrapper--readonly'}}
-        {{if @light 'cds--text-input-wrapper--light'}}"
-      ...attributes
+        {{if @light 'cds--text-input-wrapper--light'}}
+        {{@className}}"
     >
       <div class="cds--text-input__label-wrapper">
         {{#if @labelText}}
@@ -136,6 +136,7 @@ export default class TextInput extends Component<TextInputSignature> {
           data-invalid={{if this.isInvalid "true"}}
         >
           <input
+            ...attributes
             id={{this.id}}
             type={{this.type}}
             class="cds--text-input
@@ -151,7 +152,6 @@ export default class TextInput extends Component<TextInputSignature> {
             data-invalid={{if this.isInvalid "true"}}
             value={{this.boundValue}}
             {{on "input" this.updateValue}}
-            {{on "click" this.handleClick}}
           />
           {{#if this.isInvalid}}
             <WarningFilled

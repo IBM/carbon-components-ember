@@ -15,7 +15,7 @@ import AILabel from './ai-label.gts';
 import type { WithBoundArgs } from '@glint/template';
 
 export interface DatePickerInputSignature {
-  Element: HTMLDivElement;
+  Element: HTMLInputElement;
   Blocks: {
     /**
      * **Experimental:** an AI label, or any other decorator, shown in the field.
@@ -24,6 +24,11 @@ export interface DatePickerInputSignature {
     decorator: [AILabel: WithBoundArgs<typeof AILabel, 'size'>];
   };
   Args: {
+    /**
+     * Classes for the wrapper, as Carbon React's `className`. `class` and the
+     * other attributes go on the `<input>`.
+     */
+    className?: string;
     /**
      * The id of the `<input>`. Also used to associate the label with the
      * field. Auto-generated when omitted.
@@ -96,10 +101,6 @@ export interface DatePickerInputSignature {
      * this is for consumers that want the raw text as the user types it.
      */
     onChange?: (event: Event) => void;
-    /**
-     * Called when the field is clicked.
-     */
-    onClick?: (event: MouseEvent) => void;
   };
 }
 
@@ -167,16 +168,11 @@ export default class DatePickerInput extends Component<DatePickerInputSignature>
     this.args.onChange?.(event);
   };
 
-  handleClick = (event: MouseEvent) => {
-    if (this.args.disabled) return;
-    this.args.onClick?.(event);
-  };
-
   <template>
     <div
       class="cds--date-picker-container
-        {{unless @labelText 'cds--date-picker--nolabel'}}"
-      ...attributes
+        {{unless @labelText 'cds--date-picker--nolabel'}}
+        {{@className}}"
     >
       {{#if @labelText}}
         <label
@@ -198,6 +194,7 @@ export default class DatePickerInput extends Component<DatePickerInputSignature>
       >
         <span>
           <input
+            ...attributes
             id={{this.id}}
             type={{this.type}}
             class="cds--date-picker__input
@@ -212,7 +209,6 @@ export default class DatePickerInput extends Component<DatePickerInputSignature>
             data-invalid={{if this.isInvalid "true"}}
             aria-describedby={{if this.hasDescription this.descriptionId}}
             {{on "change" this.handleChange}}
-            {{on "click" this.handleClick}}
           />
           {{#if (has-block "decorator")}}
             <div class="cds--date-picker-input-inner-wrapper--decorator">

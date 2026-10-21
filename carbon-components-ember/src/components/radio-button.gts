@@ -8,6 +8,11 @@ export type Value = string | number;
 
 export interface RadioButtonSignature {
   Args: {
+    /**
+     * Classes for the wrapper, as Carbon React's `className`. `class` and the
+     * other attributes go on the `<input>`.
+     */
+    className?: string;
     id?: string;
     labelText?: string;
     value?: Value;
@@ -25,9 +30,8 @@ export interface RadioButtonSignature {
       name: string | undefined,
       event: Event,
     ) => void;
-    onClick?: (event: MouseEvent) => void;
   };
-  Element: HTMLDivElement;
+  Element: HTMLInputElement;
   Blocks: {
     /** The label's content. Keep it text: put an AI label or other controls in `<:decorator>`. */
     default: [];
@@ -100,17 +104,14 @@ export default class RadioButton extends Component<RadioButtonSignature> {
     this.args.onChange?.(this.args.value, this.name, event);
   };
 
-  handleClick = (event: MouseEvent) => {
-    this.args.onClick?.(event);
-  };
-
   <template>
     <div
       class="{{this.wrapperClass}}
-        {{if (has-block 'decorator') 'cds--radio-button-wrapper--decorator'}}"
-      ...attributes
+        {{if (has-block 'decorator') 'cds--radio-button-wrapper--decorator'}}
+        {{@className}}"
     >
       <input
+        ...attributes
         type="radio"
         class="cds--radio-button"
         id={{this.id}}
@@ -120,7 +121,6 @@ export default class RadioButton extends Component<RadioButtonSignature> {
         required={{this.required}}
         name={{this.name}}
         checked={{this.checked}}
-        {{on "click" this.handleClick}}
         {{on "change" this.handleChange}}
       />
       <label for={{this.id}} class="cds--radio-button__label">

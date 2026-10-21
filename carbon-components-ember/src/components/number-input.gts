@@ -19,6 +19,11 @@ import type { WithBoundArgs } from '@glint/template';
 
 export interface NumberInputSignature {
   Args: {
+    /**
+     * Classes for the wrapper, as Carbon React's `className`. `class` and the
+     * other attributes go on the `<input>`.
+     */
+    className?: string;
     id?: string;
     label?: string;
     hideLabel?: boolean;
@@ -48,7 +53,7 @@ export interface NumberInputSignature {
     onClick?: (event: MouseEvent) => void;
     onBlur?: (event: FocusEvent) => void;
   };
-  Element: HTMLDivElement;
+  Element: HTMLInputElement;
   Blocks: {
     /**
      * **Experimental:** an AI label, or any other decorator, shown in the field.
@@ -197,7 +202,7 @@ export default class NumberInput extends Component<NumberInputSignature> {
   };
 
   <template>
-    <div class="cds--form-item" ...attributes>
+    <div class="cds--form-item {{@className}}">
       <div
         class="cds--number cds--number--helpertext
           {{if @readOnly 'cds--number--readonly'}}
@@ -226,6 +231,7 @@ export default class NumberInput extends Component<NumberInputSignature> {
             }}"
         >
           <input
+            ...attributes
             id={{this.id}}
             type="number"
             data-invalid={{if this.isInvalid "true"}}
