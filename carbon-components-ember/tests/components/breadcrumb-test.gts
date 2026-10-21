@@ -50,25 +50,34 @@ module('Integration | Component | Breadcrumb', (hooks) => {
   test('an item yields an OverflowMenu set up for a breadcrumb', async function (assert) {
     await render(
       <template>
-        <Breadcrumb as |BreadcrumbItem|>
-          <BreadcrumbItem @href="#a">A</BreadcrumbItem>
-          <BreadcrumbItem as |item|>
-            <item.OverflowMenu as |OverflowMenuItem|>
-              <OverflowMenuItem @itemText="B" />
-            </item.OverflowMenu>
-          </BreadcrumbItem>
-        </Breadcrumb>
+        <style nonce={{nonce}}>
+          .breadcrumb-test__center {
+            padding-inline-start: 12rem;
+          }
+        </style>
+        <div class="breadcrumb-test__center">
+          <Breadcrumb as |BreadcrumbItem|>
+            <BreadcrumbItem @href="#a">A</BreadcrumbItem>
+            <BreadcrumbItem as |item|>
+              <item.OverflowMenu as |OverflowMenuItem|>
+                <OverflowMenuItem @itemText="B" />
+              </item.OverflowMenu>
+            </BreadcrumbItem>
+          </Breadcrumb>
+        </div>
       </template>,
     );
     await waitUntil(() => find('.cds--overflow-menu svg'));
 
     assert
-      .dom('li:nth-child(2) .cds--overflow-menu svg')
-      .hasClass('cds--overflow-menu__icon');
+      .dom('.cds--overflow-menu svg circle[cy="16"]')
+      .exists({ count: 3 }, 'the horizontal icon');
     await click('.cds--overflow-menu');
-    assert
-      .dom('.cds--breadcrumb-menu-options')
-      .exists('the menu has the breadcrumb class');
+    const trigger = find('.cds--overflow-menu')!.getBoundingClientRect();
+    const menu = find('.cds--breadcrumb-menu-options')!.getBoundingClientRect();
+    const center = (rect: DOMRect) => rect.left + rect.width / 2;
+    assert.true(Math.abs(center(menu) - center(trigger) - 59) < 1, 'left');
+    assert.true(Math.abs(menu.top - trigger.bottom - 10) < 1, 'top');
   });
 
   test('should accept @noTrailingSlash', async function (assert) {

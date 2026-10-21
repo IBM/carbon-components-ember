@@ -2,6 +2,7 @@ import { expect, userEvent, within } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Breadcrumb from './breadcrumb.gts';
+import type { BreadcrumbSignature } from './breadcrumb.gts';
 import BreadcrumbItem from './breadcrumb/breadcrumb-item.gts';
 import BreadcrumbSkeleton from './breadcrumb-skeleton.gts';
 
@@ -90,10 +91,15 @@ CurrentPage.test('marks the current page', async ({ canvas }) => {
   );
 });
 
-type OverflowArgs = { size?: 'sm' | 'md' };
+type OverflowArgs = Pick<BreadcrumbSignature['Args'], 'size'>;
 
 const overflowTrail = (args: OverflowArgs) => <template>
-  <Breadcrumb @noTrailingSlash={{true}} @size={{args.size}} as |BreadcrumbItem|>
+  <Breadcrumb
+    @noTrailingSlash={{true}}
+    @size={{args.size}}
+    aria-label="Breadcrumb container"
+    as |BreadcrumbItem|
+  >
     <BreadcrumbItem as |item|>
       <a
         href="/#"

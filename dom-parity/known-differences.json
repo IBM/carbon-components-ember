@@ -2,7 +2,7 @@
   "Breadcrumb": [
     {
       "path": "nav > ol[0] > li[1] > span[0] > span[0] > div[0]",
-      "reason": "The item's OverflowMenu trigger has this addon's Tooltip, whose markup differs from Carbon React's: see OverflowMenu's entries.",
+      "reason": "The item's OverflowMenu trigger has this addon's Tooltip, whose markup differs from Carbon React's (see OverflowMenu's entries). The comparison stops at that tag, so breadcrumb-test checks the trigger's icon instead.",
       "variant": "overflow-menu"
     },
     {
