@@ -48,7 +48,6 @@ export interface TileSignature {
     selectable?: boolean;
     clickable?: boolean;
     expandable?: boolean;
-    onClick?: () => null;
     onSelect?: () => null;
     /**
      * Only applies to `@selectable` tiles - matches @carbon/react's
@@ -100,9 +99,9 @@ export default class Tile extends Component<TileSignature> {
     return this.args.tabindex ?? '0';
   }
 
-  onClick = (event: Event) => {
+  // Its href is a placeholder.
+  preventNavigation = (event: Event) => {
     event.preventDefault();
-    this.args.onClick?.();
   };
 
   onSelectableClick = (event: Event) => {
@@ -219,7 +218,8 @@ export default class Tile extends Component<TileSignature> {
       <a
         class="cds--link cds--tile cds--tile--clickable"
         href="#"
-        {{on "click" this.onClick}}
+        ...attributes
+        {{on "click" this.preventNavigation}}
       >
         {{yield to="content"}}
       </a>

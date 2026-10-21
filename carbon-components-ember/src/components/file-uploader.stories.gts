@@ -37,10 +37,12 @@ type Status = 'uploading' | 'edit' | 'complete';
 // the story args are the union of what each story's component takes.
 type StoryArgs = Omit<
   FileUploaderSignature['Args'],
-  'onDelete' | 'filenameStatus' | 'size'
+  'onClick' | 'onDelete' | 'filenameStatus' | 'size'
 > & {
   filenameStatus?: Status;
   size?: Size;
+  // Always a spy, set on the meta.
+  onClick: (event: Event) => void;
   onDelete?: (...args: unknown[]) => void;
   // FileUploaderItem
   status?: Status;
@@ -166,8 +168,8 @@ class ExampleDropContainerApp extends Component<{ Args: StoryArgs }> {
         @maxFileSize={{@maxFileSize}}
         @multiple={{@multiple}}
         @name={{@name}}
-        @onClick={{@onClick}}
         @onAddFiles={{this.onAddFiles}}
+        {{on "click" @onClick}}
       />
       <div class="cds--file-container cds--file-container--drop">
         {{#each this.files key="uuid" as |file|}}
@@ -465,7 +467,7 @@ export const FileUploaderDropContainerStory = meta.story({
       @multiple={{args.multiple}}
       @name={{args.name}}
       @onAddFiles={{args.onAddFiles}}
-      @onClick={{args.onClick}}
+      {{on "click" args.onClick}}
     />
   </template>,
 });

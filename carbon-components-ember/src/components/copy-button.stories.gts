@@ -15,7 +15,11 @@ import '#storybook/styles/copy-button.css';
 // `code` isn't one of CopyButton's args: it's the text yielded into the
 // button's block, which is what gets copied. `render` is annotated so the
 // story-only arg is part of the inferred args.
-type StoryArgs = CopyButtonSignature['Args'] & { code: string };
+type StoryArgs = CopyButtonSignature['Args'] & {
+  code: string;
+  /** Story-only: called on click, through `{{on "click"}}`. */
+  onClick: () => void;
+};
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'Components/CopyButton',
@@ -67,7 +71,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
       @feedback={{args.feedback}}
       @feedbackTimeout={{args.feedbackTimeout}}
       @iconDescription={{args.iconDescription}}
-      @onClick={{args.onClick}}
+      {{on "click" args.onClick}}
     >{{args.code}}</CopyButton>
   </template>,
 });

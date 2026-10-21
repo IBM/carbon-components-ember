@@ -13,7 +13,7 @@ import captureElement from './-capture-element.ts';
 export type FileUploaderAddedFile = File & { invalidFileType?: boolean };
 
 export interface FileUploaderDropContainerSignature {
-  Element: HTMLDivElement;
+  Element: HTMLButtonElement;
   Args: {
     /** Specify the types of files that this input should be able to receive */
     accept?: string[];
@@ -34,8 +34,6 @@ export interface FileUploaderDropContainerSignature {
       event: Event,
       data: { addedFiles: FileUploaderAddedFile[] },
     ) => void;
-    /** Called each time the drop area is clicked */
-    onClick?: (event: MouseEvent) => void;
     /** Provide a custom regex pattern used to extract a file's extension */
     pattern?: string;
   };
@@ -184,8 +182,7 @@ export default class FileUploaderDropContainer extends Component<FileUploaderDro
     (event.target as HTMLInputElement).value = '';
   };
 
-  handleButtonClick = (event: MouseEvent) => {
-    this.args.onClick?.(event);
+  handleButtonClick = () => {
     if (!this.args.disabled) {
       this.inputElement?.click();
     }
@@ -197,11 +194,12 @@ export default class FileUploaderDropContainer extends Component<FileUploaderDro
       {{on "dragover" this.handleDragOver}}
       {{on "dragleave" this.handleDragLeave}}
       {{on "drop" this.handleDrop}}
-      ...attributes
     >
+      {{! As in Carbon React, the rest props go on the drop area. }}
       <button
         type="button"
         class={{this.dropareaClasses}}
+        ...attributes
         {{on "click" this.handleButtonClick}}
       >{{this.labelText}}</button>
       <label

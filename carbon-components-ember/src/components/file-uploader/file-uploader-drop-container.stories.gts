@@ -26,7 +26,6 @@ const meta = preview.meta({
     multiple: true,
     name: '',
     onAddFiles: fn(),
-    onClick: fn(),
   },
 });
 

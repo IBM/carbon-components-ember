@@ -150,6 +150,10 @@ export default class Toolbar extends Component<ToolbarSignature> {
   // "ResizeObserver loop completed with undelivered notifications".
   private lastIdx: number | undefined;
 
+  runAction = (action: ToolbarAction) => {
+    action.onClick?.();
+  };
+
   recomputeOverflow = (endContainer: HTMLElement) => {
     const actionsContainer = endContainer.querySelector<HTMLElement>(
       '.cds-aichat-toolbar__actions-container',
@@ -261,7 +265,7 @@ export default class Toolbar extends Component<ToolbarSignature> {
                   @isDelete={{toolbarAction.danger}}
                   @dangerDescription={{toolbarAction.dangerDescription}}
                   @hasDivider={{toolbarAction.divider}}
-                  @onClick={{toolbarAction.onClick}}
+                  {{on "click" (fn this.runAction toolbarAction)}}
                 />
               {{/each}}
             </OverflowMenu>

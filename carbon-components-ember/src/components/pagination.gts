@@ -312,7 +312,7 @@ export default class Pagination extends Component<PaginationSignature> {
                 type="button"
                 {{on "click" this.pageBack}}
               >
-                <ChevronLeft @btnClass="cds--pagination__nav-arrow" />
+                <ChevronLeft />
               </button>
             </Tooltip>
             <Tooltip
@@ -328,7 +328,7 @@ export default class Pagination extends Component<PaginationSignature> {
                 type="button"
                 {{on "click" this.pageForward}}
               >
-                <ChevronRight @btnClass="cds--pagination__nav-arrow" />
+                <ChevronRight />
               </button>
             </Tooltip>
           </div>

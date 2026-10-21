@@ -25,6 +25,8 @@ import '#storybook/styles/tile.css';
 type Value = string | number;
 type StoryArgs = TileSignature['Args'] & {
   onChange?: (value: Value | undefined) => void;
+  /** Story-only: called on click, through `{{on "click"}}`. */
+  onClick: () => void;
 };
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
@@ -40,6 +42,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
   },
   args: {
     id: 'tile-1',
+    onClick: fn(),
   },
 });
 
@@ -57,11 +60,8 @@ export const Default = meta.story({
 });
 
 export const Clickable = meta.story({
-  args: {
-    onClick: fn(),
-  },
   render: (args: StoryArgs) => <template>
-    <Tile @clickable={{true}} @onClick={{args.onClick}}>
+    <Tile @clickable={{true}} {{on "click" args.onClick}}>
       <:content>Clickable Tile</:content>
     </Tile>
   </template>,

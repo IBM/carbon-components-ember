@@ -1,4 +1,4 @@
-import { expect, fn } from 'storybook/test';
+import { expect } from 'storybook/test';
 import BookmarkSvg from '@carbon/icons/es/bookmark/32';
 
 import preview from '#storybook/preview.ts';
@@ -29,9 +29,7 @@ const meta = preview
     parameters: {
       docs: {
         description: {
-          component: `\`Icon\` renders a Carbon SVG icon. Use the generated icon components from \`carbon-components-ember/icons\` (e.g. \`<Bookmark @size={{16}} />\`), which load the SVG for the requested size on demand, or register an SVG from \`@carbon/icons\` with \`registerIcon(name, svg)\` and render it with \`<Icon @icon="name" />\`.
-
-Passing \`@onClick\` renders the icon inside a ghost button and shows a loading state while the (optionally async) handler runs.`,
+          component: `\`Icon\` renders a Carbon SVG icon. Use the generated icon components from \`carbon-components-ember/icons\` (e.g. \`<Bookmark @size={{16}} />\`), which load the SVG for the requested size on demand, or register an SVG from \`@carbon/icons\` with \`registerIcon(name, svg)\` and render it with \`<Icon @icon="name" />\`.`,
         },
       },
     },
@@ -82,24 +80,6 @@ export const Sizes = meta.story({
     <Icons.Bookmark @size={{32}} />
   </template>,
 });
-
-export const Clickable = meta.story({
-  args: {
-    onClick: fn(),
-  },
-  render: (args) => <template>
-    <Icons.Task @onClick={{args.onClick}} @iconDescription="Add task" />
-  </template>,
-});
-
-Clickable.test(
-  'calls onClick when the icon button is pressed',
-  async ({ canvas, userEvent, args }) => {
-    const button = await canvas.findByRole('button', { name: 'Add task' });
-    await userEvent.click(button);
-    await expect(args.onClick).toHaveBeenCalledOnce();
-  },
-);
 
 export const Loading = meta.story({
   args: { loading: true },

@@ -130,12 +130,12 @@ module('Integration | Component | CopyButton', (hooks) => {
     assert.deepEqual(clipboard.copied, ['  deeper\nshallower']);
   });
 
-  test('an async @onClick does not put the button into a loading state', async function (assert) {
+  test('an async click handler does not put the button into a loading state', async function (assert) {
     const onClick = () => new Promise<void>(() => {});
 
     await render(
       <template>
-        <CopyButton @onClick={{onClick}}>copy me</CopyButton>
+        <CopyButton {{on "click" onClick}}>copy me</CopyButton>
       </template>,
     );
     find('[data-copy-btn]')!.dispatchEvent(
@@ -158,20 +158,22 @@ module('Integration | Component | CopyButton', (hooks) => {
     assert.dom('[data-copy-btn]').hasAttribute('aria-label', 'Duplicate');
   });
 
-  test('should call the onClick handler when clicked', async function (assert) {
+  test('calls a click handler, and still copies', async function (assert) {
     let called = 0;
     const onClick = () => called++;
 
     await render(
       <template>
-        <CopyButton @onClick={{onClick}}>copy me</CopyButton>
+        <CopyButton {{on "click" onClick}}>copy me</CopyButton>
       </template>,
     );
     await waitUntil(() => find('[data-copy-btn]'));
 
     await click('[data-copy-btn]');
+    await waitUntil(() => clipboard.copied.length > 0);
 
     assert.strictEqual(called, 1);
+    assert.deepEqual(clipboard.copied, ['copy me']);
   });
 
   test('should support the disabled arg', async function (assert) {

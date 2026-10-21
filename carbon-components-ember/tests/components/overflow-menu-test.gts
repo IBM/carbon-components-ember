@@ -223,7 +223,7 @@ module('Integration | Component | OverflowMenu', (hooks) => {
     await render(
       <template>
         <OverflowMenu as |Item|>
-          <Item @itemText="Stop app" @onClick={{onClick.call}} />
+          <Item @itemText="Stop app" {{on "click" onClick.call}} />
         </OverflowMenu>
       </template>,
     );

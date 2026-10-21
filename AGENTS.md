@@ -77,14 +77,15 @@ Ember uses `@args` instead of React props:
 Keep Carbon React's prop names and values. Props React inherits from the HTML element (`type`, `onClick`, ...) are plain attributes and `{{on}}` through `...attributes`; take one as an argument only when the component needs its value, as Button does `disabled`. `pnpm --filter dom-parity args --component <Name>` lists a component's differences from React's props, and CI fails on new ones (see `dom-parity/known-arg-differences.json`). Record a deliberate one, such as an attribute Carbon re-declares that the component doesn't need, with its reason in `dom-parity/accepted-arg-differences.json`.
 
 ### 5. Event Handling
-Use `{{on}}` modifier instead of React's event props:
+Use `{{on}}` instead of React's event props, on components too. A component passes it on through `...attributes`, which must sit on the element Carbon React spreads its rest props onto, where React puts the handler:
 ```typescript
 // React
-<button onClick={handler}>Click</button>
+<Button onClick={save}>Save</Button>
 
 // Ember
-<button {{on "click" handler}}>Click</button>
+<Button {{on "click" this.save}}>Save</Button>
 ```
+Take a callback argument such as `@onClick` only when the component calls it itself: with a payload (NumberInput's steppers, FileUploader removing a file), from another event (MenuItem on Enter and Space), or holding it back (Link while disabled). Record a React event prop that becomes `{{on}}` in `dom-parity/accepted-arg-differences.json`.
 
 ### 6. Dynamic Element Types
 Use the built-in `element` keyword (Ember 7.1+); it needs no import:

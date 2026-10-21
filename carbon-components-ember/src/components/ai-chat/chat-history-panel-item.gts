@@ -219,7 +219,7 @@ export default class ChatHistoryPanelItem extends Component<ChatHistoryPanelItem
               <Item
                 @isDelete={{menuAction.delete}}
                 @hasDivider={{menuAction.divider}}
-                @onClick={{fn this.handleMenuAction menuAction.text}}
+                {{on "click" (fn this.handleMenuAction menuAction.text)}}
               >
                 <div class="cds--overflow-menu-options__option-content">
                   {{menuAction.text}}
