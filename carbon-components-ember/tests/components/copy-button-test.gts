@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, find, waitUntil, click } from '@ember/test-helpers';
 import CopyButton from '#src/components/copy-button.gts';
-import { setupClipboard } from '../helpers';
+import { setupClipboard, waitForAnimationFrame } from '../helpers';
 
 module('Integration | Component | CopyButton', (hooks) => {
   setupRenderingTest(hooks);
@@ -145,6 +145,21 @@ module('Integration | Component | CopyButton', (hooks) => {
 
     assert.dom('[data-copy-btn]').isNotDisabled();
     assert.dom('[data-copy-btn] .cds--inline-loading').doesNotExist();
+  });
+
+  test('a click handler that prevents the default cancels the copy', async function (assert) {
+    const preventDefault = (event: MouseEvent) => event.preventDefault();
+    await render(
+      <template>
+        <CopyButton {{on "click" preventDefault}}>copy me</CopyButton>
+      </template>,
+    );
+    await waitUntil(() => find('[data-copy-btn]'));
+
+    await click('[data-copy-btn]');
+    await waitForAnimationFrame();
+
+    assert.deepEqual(clipboard.copied, []);
   });
 
   test('should support a custom iconDescription', async function (assert) {

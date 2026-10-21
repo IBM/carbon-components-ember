@@ -131,6 +131,22 @@ module('Integration | Component | FileUploaderDropContainer', (hooks) => {
     assert.strictEqual(clicks, 1);
   });
 
+  test('a click handler that prevents the default keeps the picker closed', async function (assert) {
+    const preventDefault = (event: MouseEvent) => event.preventDefault();
+    await render(
+      <template>
+        <FileUploaderDropContainer {{on "click" preventDefault}} />
+      </template>,
+    );
+
+    const input = find('input[type="file"]') as HTMLInputElement;
+    let opened = false;
+    input.addEventListener('click', () => (opened = true));
+    await click('.cds--file-browse-btn');
+
+    assert.false(opened);
+  });
+
   test('clicking the drop area button clicks the hidden input', async function (assert) {
     await render(<template><FileUploaderDropContainer /></template>);
 

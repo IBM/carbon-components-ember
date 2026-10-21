@@ -93,7 +93,7 @@ Use `{{on}}` instead of React's event props, on components too. A component pass
 <Button {{on "click" this.save}}>Save</Button>
 ```
 
-Take a callback argument such as `@onClick` only when the component calls it itself: with a payload (NumberInput's steppers, FileUploader removing a file), from another event (MenuItem on Enter and Space), or holding it back (Link while disabled). Record a React event prop that becomes `{{on}}` in `dom-parity/accepted-arg-differences.json`.
+Take a callback argument such as `@onClick` only when the component calls it itself: with a payload (NumberInput's steppers, Modal's secondary buttons, AI Chat's FeedbackButtons), from another element or event (FileUploader's remove buttons, MenuItem on Enter and Space), or holding it back (Link while disabled). The arg check skips React's event props that take the event; one it still flags, typed without the event like FileUploaderDropContainer's `onClick`, goes in `dom-parity/accepted-arg-differences.json` with its reason.
 
 ### 6. Dynamic Element Types
 

@@ -46,7 +46,10 @@ export default modifier(
       }
       onSuccess?.(value);
     };
-    const handleClick = () => void copy();
+    // As in Carbon React, a click handler can cancel the copy.
+    const handleClick = (event: Event) => {
+      if (!event.defaultPrevented) void copy();
+    };
     element.addEventListener('click', handleClick);
     return () => element.removeEventListener('click', handleClick);
   },

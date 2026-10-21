@@ -78,9 +78,9 @@ export default class OverflowMenuItem extends Component<OverflowMenuItemSignatur
           href={{@href}}
           title={{this.title}}
           disabled={{@disabled}}
-          {{on "click" this.close}}
           {{(if @menu @menu.rovingFocus.item) disabled=@disabled}}
           ...attributes
+          {{on "click" this.close}}
         >
           {{#if (has-block)}}
             {{yield}}
