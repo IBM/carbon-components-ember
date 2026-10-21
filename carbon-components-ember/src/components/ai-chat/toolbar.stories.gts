@@ -167,7 +167,7 @@ The \`navigation\`, \`title\`, \`fixedActions\` and \`decorator\` named blocks m
                 @size="md"
                 @onClick={{navClick}}
               >
-                <Home @size={{16}} @svgClass="cds-aichat-story-icon" />
+                <Home @size={{16}} />
               </Button>
             </Tooltip>
           {{else if (eq args.navigation "back")}}
@@ -178,7 +178,7 @@ The \`navigation\`, \`title\`, \`fixedActions\` and \`decorator\` named blocks m
                 @size="md"
                 @onClick={{navClick}}
               >
-                <ArrowLeft @size={{16}} @svgClass="cds-aichat-story-icon" />
+                <ArrowLeft @size={{16}} />
               </Button>
             </Tooltip>
           {{else if (eq args.navigation "custom 1")}}

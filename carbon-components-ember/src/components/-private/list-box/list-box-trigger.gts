@@ -30,7 +30,7 @@ const ListBoxTrigger: TOC<ListBoxTriggerSignature> = <template>
       aria-label={{description}}
       title={{description}}
     >
-      <ChevronDown @size="16" @svgClass="cds--list-box__menu-icon__svg" />
+      <ChevronDown @size="16" />
     </button>
   {{/let}}
 </template>;

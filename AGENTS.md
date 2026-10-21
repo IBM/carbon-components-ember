@@ -142,10 +142,9 @@ export default class TabPane extends Component<TabPaneSignature> {
 For a cleaner registration example, read the charts: every yielded part extends `charts/-components/chart-part.ts`, which registers with the chart this way, and the chart derives its options and data from the registered parts' args with plain getters. Don't write a template helper that exists for its side effect.
 
 ### 2. Accept Components as Args & Icon Size Gotcha
-When invoking a `renderIcon`-style `ComponentLike` arg, **always pass `@size` (and an inert `@svgClass`)**. The base `Icon` component defaults to a 24px SVG with 5px margins unless `@size` and `@svgClass` are passed, causing alignment/overflow issues:
+When invoking a `renderIcon`-style `ComponentLike` arg, **always pass `@size`**: the per-icon components default to 24px, where `@carbon/icons-react`'s default to 16px. Icons render a bare `<svg>`, as React's do. `@svgClass` is `@carbon/icons-react`'s `className`: pass the class Carbon React (or, for AI Chat, upstream) passes there, and nothing else.
 ```gts
-{{! RIGHT — matches Carbon's spec size and neutralizes the default margin }}
-<@renderIcon @size='16' @svgClass='cds--component__icon-svg' />
+<@renderIcon @size='16' />
 ```
 
 ### 3. Model Controlled vs Uncontrolled Explicitly

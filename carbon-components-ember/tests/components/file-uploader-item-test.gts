@@ -59,7 +59,7 @@ module('Integration | Component | FileUploaderItem', (hooks) => {
     );
 
     assert.dom('.cds--file-close').exists();
-    await waitUntil(() => find('.cds--file-close__icon'));
+    await waitUntil(() => find('.cds--file-close svg'));
 
     await click('.cds--file-close');
 

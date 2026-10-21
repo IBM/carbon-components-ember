@@ -9,7 +9,7 @@ Carbon's website, its Figma kits and most of what agents know about Carbon descr
 - **Parts used as children**, such as `AccordionItem` or `AILabelContent`, are usually yielded by their parent, already wired to it: `<Accordion as |Item|><Item @title="Plan">…</Item></Accordion>`.
 - **A prop that takes an element**, such as `decorator={<AILabel>…</AILabel>}`, is a named block that yields the part: `<:decorator as |AILabel|><AILabel as |label|><label.Content>…</label.Content></AILabel></:decorator>`.
 - **A prop that takes a component**, such as `renderIcon={Add}`, takes it as an argument: `@renderIcon={{Add}}`.
-- **Icons.** `import { Add } from '@carbon/icons-react'` and `<Add size={16} />` become `import Add from 'carbon-components-ember/components/icons/add'` and `<Add @size="16" />`. The module is the React name in kebab case.
+- **Icons.** `import { Add } from '@carbon/icons-react'` and `<Add size={16} />` become `import Add from 'carbon-components-ember/components/icons/add'` and `<Add @size="16" />`. The module is the React name in kebab case, and an icon's `className` is `@svgClass`.
 - **Render props**, such as DataTable's `{({ rows, headers, getTableProps }) => …}`, are yielded components: `<DataTable as |table|>` yields `<table.Table>`, `<table.Header>` and `<table.EachBodyRows>`. The component's reference shows its arguments and how the parts fit together.
 - **Callbacks**: `onChange={handler}` is `@onChange={{this.handler}}`. Check the argument's type in the reference for what the callback receives.
 - **Controlled and uncontrolled** components take the same arguments as in React, where they have them: `@value` with `@onChange`, or `@defaultValue`.

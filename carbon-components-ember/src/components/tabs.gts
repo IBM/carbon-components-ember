@@ -383,10 +383,7 @@ export default class Tabs extends Component<TabsSignature> {
                 {{#if (and @dismissable tab.args.renderIcon)}}
                   <div class="cds--tabs__nav-item--icon-left">
                     {{#let tab.args.renderIcon as |RenderIcon|}}
-                      <RenderIcon
-                        @size="16"
-                        @svgClass="cds--tabs__nav-item-icon-svg"
-                      />
+                      <RenderIcon @size="16" />
                     {{/let}}
                   </div>
                 {{/if}}
@@ -396,10 +393,7 @@ export default class Tabs extends Component<TabsSignature> {
                 {{#if (and (not @dismissable) tab.args.renderIcon)}}
                   <div class="cds--tabs__nav-item--icon">
                     {{#let tab.args.renderIcon as |RenderIcon|}}
-                      <RenderIcon
-                        @size="16"
-                        @svgClass="cds--tabs__nav-item-icon-svg"
-                      />
+                      <RenderIcon @size="16" />
                     {{/let}}
                   </div>
                 {{/if}}

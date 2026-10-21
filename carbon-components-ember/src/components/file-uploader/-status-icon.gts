@@ -61,7 +61,7 @@ export default class FileUploaderStatusIcon extends Component<FileUploaderStatus
         {{on "click" this.handleClick}}
         ...attributes
       >
-        <Close @size="16" @svgClass="cds--file-close__icon" />
+        <Close @size="16" />
       </button>
     {{else if (eq this.status "complete")}}
       <span tabindex="-1" ...attributes>
