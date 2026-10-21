@@ -28,7 +28,7 @@ const TableBatchActions: TOC<TableBatchActionsSignature> = <template>
     >
       <div class="cds--action-list">
         {{yield (hash close=(fn clearSelection @table))}}
-        <Button @type="primary" @onClick={{fn clearSelection @table}}>
+        <Button @kind="primary" {{on "click" (fn clearSelection @table)}}>
           Cancel
         </Button>
       </div>

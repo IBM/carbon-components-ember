@@ -7,12 +7,13 @@
 
 import Component from '@glimmer/component';
 import Button from '../button.gts';
+import type { ButtonSignature } from '../button.gts';
 import Tooltip from '../tooltip.gts';
 import type { TooltipSignature } from '../tooltip.gts';
 import type { ToolbarAction } from './toolbar.gts';
 
 export interface ToolbarActionButtonSignature {
-  Element: TooltipSignature['Element'];
+  Element: TooltipSignature['Element'] | ButtonSignature['Element'];
   Args: {
     action: ToolbarAction;
   };
@@ -20,11 +21,15 @@ export interface ToolbarActionButtonSignature {
 
 /**
  * A single toolbar action rendered as an icon-only ghost button (or, when
- * `href` is set, a matching-styled link), wrapped in a `Tooltip` showing its
- * label. Shared between `Toolbar`'s visible row and its offscreen
- * measurement row - see `toolbar.gts`.
+ * `href` is set, a matching-styled link), with a tooltip showing its label.
+ * Shared between `Toolbar`'s visible row and its offscreen measurement row -
+ * see `toolbar.gts`.
  */
 export default class ToolbarActionButton extends Component<ToolbarActionButtonSignature> {
+  handleClick = () => {
+    this.args.action.onClick?.();
+  };
+
   handleLinkClick = (event: MouseEvent) => {
     if (this.args.action.disabled) {
       event.preventDefault();
@@ -33,8 +38,8 @@ export default class ToolbarActionButton extends Component<ToolbarActionButtonSi
   };
 
   <template>
-    <Tooltip @label={{@action.text}} @align="bottom" ...attributes>
-      {{#if @action.href}}
+    {{#if @action.href}}
+      <Tooltip @label={{@action.text}} @align="bottom" ...attributes>
         <a
           href={{unless @action.disabled @action.href}}
           target={{if @action.href (or @action.target "_self")}}
@@ -50,18 +55,21 @@ export default class ToolbarActionButton extends Component<ToolbarActionButtonSi
         >
           <@action.icon @size={{16}} />
         </a>
-      {{else}}
-        <Button
-          @ghost={{true}}
-          @iconOnly={{true}}
-          @size={{or @action.size "md"}}
-          @disabled={{@action.disabled}}
-          @onClick={{@action.onClick}}
-          data-testid={{@action.testId}}
-        >
-          <@action.icon @size={{16}} />
-        </Button>
-      {{/if}}
-    </Tooltip>
+      </Tooltip>
+    {{else}}
+      <Button
+        @kind="ghost"
+        @hasIconOnly={{true}}
+        @iconDescription={{@action.text}}
+        @tooltipPosition="bottom"
+        @size={{or @action.size "md"}}
+        @disabled={{@action.disabled}}
+        data-testid={{@action.testId}}
+        ...attributes
+        {{on "click" this.handleClick}}
+      >
+        <@action.icon @size={{16}} />
+      </Button>
+    {{/if}}
   </template>
 }

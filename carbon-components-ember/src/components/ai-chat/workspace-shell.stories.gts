@@ -301,9 +301,8 @@ export const Default = meta.story({
               </:headerDescription>
               <:headerAction>
                 {{#if args.showHeaderAction}}
-                  <Button @type={{undefined}} @tertiary={{true}}>
+                  <Button @kind="tertiary" @renderIcon={{Edit}}>
                     Edit Plan
-                    <Edit @size="16" @svgClass="cds--btn__icon" />
                   </Button>
                 {{/if}}
               </:headerAction>

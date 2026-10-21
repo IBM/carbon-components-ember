@@ -230,7 +230,7 @@ export const Controlled = meta.story({
       />
       <div class="cds--btn-set multi-select-story__controls">
         <Button {{on "click" selectAll}}>Select all</Button>
-        <Button @type="secondary" {{on "click" clear}}>Clear</Button>
+        <Button @kind="secondary" {{on "click" clear}}>Clear</Button>
       </div>
     </template>;
   },

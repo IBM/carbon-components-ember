@@ -31,42 +31,6 @@
       "align"
     ]
   },
-  "Button": {
-    "missing": [
-      "as",
-      "dangerDescription",
-      "hasIconOnly",
-      "href",
-      "iconDescription",
-      "isExpressive",
-      "isSelected",
-      "kind",
-      "rel",
-      "renderIcon",
-      "target",
-      "tooltipAlignment",
-      "tooltipDropShadow",
-      "tooltipHighContrast",
-      "tooltipPosition"
-    ],
-    "extra": [
-      "bubbles",
-      "confirmDialog",
-      "confirmText",
-      "danger",
-      "ghost",
-      "iconOnly",
-      "label",
-      "loading",
-      "primary",
-      "secondary",
-      "tertiary"
-    ],
-    "values": [
-      "size",
-      "type"
-    ]
-  },
   "Checkbox": {
     "missing": [
       "defaultChecked",

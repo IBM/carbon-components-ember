@@ -10,7 +10,6 @@ import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
 import { modifier } from 'ember-modifier';
 import Button from '../button.gts';
-import Tooltip from '../tooltip.gts';
 import Launcher from './launcher.gts';
 import ChatShell from './chat-shell.gts';
 import Processing from './processing.gts';
@@ -246,30 +245,26 @@ export default class SessionShell extends Component<SessionShellSignature> {
         >
           <:header>
             {{yield to="header"}}
-            <Tooltip @label="Chat history" @autoAlign={{true}}>
-              <Button
-                @type={{undefined}}
-                @ghost={{true}}
-                @size="sm"
-                @iconOnly={{true}}
-                @onClick={{this.session.toggleHistory}}
-                aria-label="Chat history"
-              >
-                <RecentlyViewed @size="16" />
-              </Button>
-            </Tooltip>
-            <Tooltip @label="Close" @autoAlign={{true}}>
-              <Button
-                @type={{undefined}}
-                @ghost={{true}}
-                @size="sm"
-                @iconOnly={{true}}
-                @onClick={{this.session.toggleOpen}}
-                aria-label="Close chat"
-              >
-                <Close @size="16" />
-              </Button>
-            </Tooltip>
+            <Button
+              @kind="ghost"
+              @hasIconOnly={{true}}
+              @autoAlign={{true}}
+              @size="sm"
+              @iconDescription="Chat history"
+              {{on "click" this.session.toggleHistory}}
+            >
+              <RecentlyViewed @size="16" />
+            </Button>
+            <Button
+              @kind="ghost"
+              @hasIconOnly={{true}}
+              @autoAlign={{true}}
+              @size="sm"
+              @iconDescription="Close chat"
+              {{on "click" this.session.toggleOpen}}
+            >
+              <Close @size="16" />
+            </Button>
           </:header>
           <:history>
             {{#if (has-block "history")}}
@@ -338,10 +333,9 @@ export default class SessionShell extends Component<SessionShellSignature> {
               <div class="cds-aichat-session-shell__streaming-actions">
                 <Processing />
                 <Button
-                  @type={{undefined}}
-                  @ghost={{true}}
+                  @kind="ghost"
                   @size="sm"
-                  @onClick={{this.stopStreaming}}
+                  {{on "click" this.stopStreaming}}
                 >
                   Stop generating
                 </Button>
@@ -364,19 +358,17 @@ export default class SessionShell extends Component<SessionShellSignature> {
                   />
                 </:editor>
                 <:sendControl>
-                  <Tooltip @label="Send" @autoAlign={{true}}>
-                    <Button
-                      @type={{undefined}}
-                      @ghost={{true}}
-                      @size="sm"
-                      @iconOnly={{true}}
-                      @disabled={{this.session.isReadonly}}
-                      @onClick={{this.sendMessage}}
-                      aria-label="Send"
-                    >
-                      <Send @size="16" />
-                    </Button>
-                  </Tooltip>
+                  <Button
+                    @kind="ghost"
+                    @hasIconOnly={{true}}
+                    @autoAlign={{true}}
+                    @size="sm"
+                    @disabled={{this.session.isReadonly}}
+                    @iconDescription="Send"
+                    {{on "click" this.sendMessage}}
+                  >
+                    <Send @size="16" />
+                  </Button>
                 </:sendControl>
               </PromptLineShell>
             </div>

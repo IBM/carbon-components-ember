@@ -193,7 +193,7 @@ export const SharedState = meta.story({
             <table.SearchInput />
           </toolbar.Content>
           <toolbar.Actions>
-            <Button @type="primary">Save</Button>
+            <Button @kind="primary">Save</Button>
           </toolbar.Actions>
         </table.Toolbar>
         <table.Table
@@ -224,7 +224,7 @@ export const SharedState = meta.story({
             <table.SearchInput @labelText="Filter table copy" />
           </toolbar.Content>
           <toolbar.Actions>
-            <Button @type="primary">Save</Button>
+            <Button @kind="primary">Save</Button>
           </toolbar.Actions>
         </table.Toolbar>
         <table.Table

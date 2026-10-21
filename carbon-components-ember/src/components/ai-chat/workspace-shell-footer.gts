@@ -84,32 +84,6 @@ export default class WorkspaceShellFooter extends Component<WorkspaceShellFooter
     this.args.onClick?.(footerAction);
   };
 
-  /**
-   * Resolves `action.kind` to `Button`'s own `@type`/`@tertiary`/`@ghost`
-   * args, exactly like `CardFooter`'s `buttonType`/`buttonTertiary`/
-   * `buttonGhost`/`buttonDanger` helpers: `@type` covers `'primary'`/
-   * `'secondary'`, `undefined` (with `@tertiary`/`@ghost` instead) covers
-   * `'tertiary'`/`'ghost'`, and `'danger'` is the `cds--btn--danger` class
-   * (`Button`'s `@type='danger'` would also ask for confirmation first).
-   */
-  buttonType = (kind: WorkspaceShellFooterAction['kind']) => {
-    const resolved = kind ?? 'primary';
-    return resolved === 'tertiary' ||
-      resolved === 'ghost' ||
-      resolved === 'danger'
-      ? undefined
-      : resolved;
-  };
-
-  buttonDanger = (kind: WorkspaceShellFooterAction['kind']) =>
-    kind === 'danger';
-
-  buttonTertiary = (kind: WorkspaceShellFooterAction['kind']) =>
-    (kind ?? 'primary') === 'tertiary';
-
-  buttonGhost = (kind: WorkspaceShellFooterAction['kind']) =>
-    (kind ?? 'primary') === 'ghost';
-
   <template>
     <div
       data-rounded="bottom"
@@ -124,13 +98,10 @@ export default class WorkspaceShellFooter extends Component<WorkspaceShellFooter
     >
       {{#each this.sortedActions as |footerAction|}}
         <Button
-          class={{if (this.buttonDanger footerAction.kind) "cds--btn--danger"}}
-          @type={{this.buttonType footerAction.kind}}
-          @tertiary={{this.buttonTertiary footerAction.kind}}
-          @ghost={{this.buttonGhost footerAction.kind}}
+          @kind={{footerAction.kind}}
           @size="xl"
           @disabled={{footerAction.disabled}}
-          @onClick={{fn this.handleClick footerAction}}
+          {{on "click" (fn this.handleClick footerAction)}}
         >
           {{#if footerAction.icon}}<footerAction.icon @size={{16}} />{{/if}}
           {{footerAction.label}}

@@ -177,7 +177,7 @@ function dismissableRender(initial: TabDef[]) {
     };
 
     return <template>
-      <Button class="tabs-story__reset" @onClick={{reset}}>Reset</Button>
+      <Button class="tabs-story__reset" {{on "click" reset}}>Reset</Button>
       <Tabs
         @dismissable={{true}}
         @contained={{args.contained}}
@@ -453,8 +453,8 @@ export const StandaloneTabContent = meta.story({
     };
 
     return <template>
-      <Button @type="secondary" @onClick={{selectA}}>Show A</Button>
-      <Button @type="secondary" @onClick={{selectB}}>Show B</Button>
+      <Button @kind="secondary" {{on "click" selectA}}>Show A</Button>
+      <Button @kind="secondary" {{on "click" selectB}}>Show B</Button>
       <TabContent @selected={{isSelected "a"}}>Content A</TabContent>
       <TabContent @selected={{isSelected "b"}}>Content B</TabContent>
     </template>;

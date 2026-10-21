@@ -8,7 +8,6 @@
 import Component from '@glimmer/component';
 import Search from '../search.gts';
 import Button from '../button.gts';
-import Tooltip from '../tooltip.gts';
 import AddComment from '../icons/add-comment.ts';
 import './chat-history.scss';
 
@@ -78,16 +77,16 @@ export default class ChatHistoryToolbar extends Component<ChatHistoryToolbarSign
         />
       {{/unless}}
       {{yield to="actionsEnd"}}
-      <Tooltip @label={{or @newChatLabel "New chat"}} @align="top-right">
-        <Button
-          class="cds-aichat-history-toolbar__new-chat"
-          @iconOnly={{true}}
-          @size="md"
-          @onClick={{this.handleNewChat}}
-        >
-          <AddComment @size="16" />
-        </Button>
-      </Tooltip>
+      <Button
+        @hasIconOnly={{true}}
+        @iconDescription={{or @newChatLabel "New chat"}}
+        @tooltipAlignment="end"
+        @size="md"
+        class="cds-aichat-history-toolbar__new-chat"
+        {{on "click" this.handleNewChat}}
+      >
+        <AddComment @size="16" />
+      </Button>
     </div>
   </template>
 }

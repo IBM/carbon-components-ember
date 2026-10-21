@@ -693,10 +693,10 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
         {{#if this.shouldShowMoreLessButton}}
           <div class="cds-aichat-snippet__footer">
             <Button
-              @ghost={{true}}
+              @kind="ghost"
               @size="sm"
               @disabled={{@disabled}}
-              @onClick={{this.toggleExpanded}}
+              {{on "click" this.toggleExpanded}}
             >
               <span
                 class="cds-aichat-snippet-btn--text"
