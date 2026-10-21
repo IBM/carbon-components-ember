@@ -58,8 +58,11 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      # It installs only the root, so it mustn't save the store.
       - name: Setup Node and pnpm
         uses: ./.github/actions/setup-pnpm
+        with:
+          cache: false
 
       # markdownlint-cli2 and cspell are root dependencies, so skip the packages.
       - name: Install dependencies
