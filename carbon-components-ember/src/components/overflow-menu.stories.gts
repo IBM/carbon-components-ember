@@ -11,7 +11,7 @@ import type { OverflowMenuSignature } from './overflow-menu.gts';
 //   trap.
 
 type StoryArgs = OverflowMenuSignature['Args'] & {
-  onItemClick?: () => void;
+  onItemClick: () => void;
 };
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
@@ -21,7 +21,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     docs: {
       description: {
         component:
-          "A button that opens a menu of actions for the thing it sits next to. It yields `OverflowMenuItem` bound to the menu: an item closes the menu once it has run its `@onClick`, and the arrow keys move between enabled items. The menu renders in place, in the top layer, so containers like DataTable cells don't clip it and it stays usable inside a Modal. `@iconDescription` names the trigger and is its tooltip; `@ariaLabel` names the menu.",
+          'A button that opens a menu of actions for the thing it sits next to. It yields `OverflowMenuItem` bound to the menu: an item closes the menu once its `{{on "click"}}` has run, and the arrow keys move between enabled items. The menu renders in place, in the top layer, so containers like DataTable cells don\'t clip it and it stays usable inside a Modal. `@iconDescription` names the trigger and is its tooltip; `@ariaLabel` names the menu.',
       },
     },
   },
@@ -67,7 +67,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
       @size={{args.size}}
       as |Item|
     >
-      <Item @itemText="Stop app" @onClick={{args.onItemClick}} />
+      <Item @itemText="Stop app" {{on "click" args.onItemClick}} />
       <Item @itemText="Restart app" />
       <Item @itemText="Rename app" />
       <Item
@@ -156,7 +156,7 @@ export const ItemVariants = meta.story({
         @itemText="Option 2 is an example of a really long string and how we recommend handling this"
         @requireTitle={{true}}
       />
-      <Item @itemText="option 3" @onClick={{args.onItemClick}} />
+      <Item @itemText="option 3" {{on "click" args.onItemClick}} />
       <Item
         @itemText="delete"
         @isDelete={{true}}

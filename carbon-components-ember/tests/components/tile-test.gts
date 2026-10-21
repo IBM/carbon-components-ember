@@ -19,6 +19,41 @@ module('Integration | Component | Tile', (hooks) => {
     assert.dom('.cds--tile').hasText('Plain content');
   });
 
+  test('a clickable tile takes attributes and {{on "click"}} on its link', async function (assert) {
+    let clicks = 0;
+    const onClick = () => clicks++;
+    await render(
+      <template>
+        <Tile @clickable={{true}} class="my-tile" {{on "click" onClick}}>
+          <:content>Go</:content>
+        </Tile>
+      </template>,
+    );
+
+    assert.dom('a.cds--tile--clickable').hasClass('my-tile');
+    await click('a.cds--tile--clickable');
+    assert.strictEqual(clicks, 1);
+  });
+
+  test('a clickable tile cancels only its placeholder link', async function (this: RenderingTestContext, assert) {
+    await render(
+      <template>
+        <Tile @clickable={{true}}><:content>Placeholder</:content></Tile>
+        <Tile @clickable={{true}} href="/docs"><:content>Docs</:content></Tile>
+      </template>,
+    );
+    const prevented: boolean[] = [];
+    // Records what the tile decided, then keeps the test page in place.
+    this.element.addEventListener('click', (event) => {
+      prevented.push(event.defaultPrevented);
+      event.preventDefault();
+    });
+
+    await click('a[href="#"]');
+    await click('a[href="/docs"]');
+    assert.deepEqual(prevented, [true, false]);
+  });
+
   test('@clickable renders an anchor tile', async function (assert) {
     await render(
       <template>

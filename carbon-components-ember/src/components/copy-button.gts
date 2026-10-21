@@ -21,7 +21,6 @@ export interface CopyButtonSignature {
     feedback?: string;
     feedbackTimeout?: number;
     iconDescription?: string;
-    onClick?: () => void;
   };
   Element: ButtonSignature['Element'];
   Blocks: {
@@ -106,10 +105,6 @@ export default class CopyButton extends Component<CopyButtonSignature> {
     return target ? dedent(textOf(target)) : '';
   };
 
-  onClick = () => {
-    this.args.onClick?.();
-  };
-
   showFeedback = () => {
     this.didCopy = true;
     void this.hideFeedback.perform();
@@ -140,7 +135,6 @@ export default class CopyButton extends Component<CopyButtonSignature> {
         {{on "focusin" this.show}}
         {{on "focusout" this.hide}}
         {{copyToClipboard text=this.textToCopy onSuccess=this.showFeedback}}
-        {{on "click" this.onClick}}
       >
         {{#if (has-block)}}
           <code

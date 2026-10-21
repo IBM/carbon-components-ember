@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, find, waitUntil, click } from '@ember/test-helpers';
 import CopyButton from '#src/components/copy-button.gts';
-import { setupClipboard } from '../helpers';
+import { setupClipboard, waitForAnimationFrame } from '../helpers';
 
 module('Integration | Component | CopyButton', (hooks) => {
   setupRenderingTest(hooks);
@@ -130,12 +130,12 @@ module('Integration | Component | CopyButton', (hooks) => {
     assert.deepEqual(clipboard.copied, ['  deeper\nshallower']);
   });
 
-  test('an async @onClick does not put the button into a loading state', async function (assert) {
+  test('an async click handler does not put the button into a loading state', async function (assert) {
     const onClick = () => new Promise<void>(() => {});
 
     await render(
       <template>
-        <CopyButton @onClick={{onClick}}>copy me</CopyButton>
+        <CopyButton {{on "click" onClick}}>copy me</CopyButton>
       </template>,
     );
     find('[data-copy-btn]')!.dispatchEvent(
@@ -145,6 +145,21 @@ module('Integration | Component | CopyButton', (hooks) => {
 
     assert.dom('[data-copy-btn]').isNotDisabled();
     assert.dom('[data-copy-btn] .cds--inline-loading').doesNotExist();
+  });
+
+  test('a click handler that prevents the default cancels the copy', async function (assert) {
+    const preventDefault = (event: MouseEvent) => event.preventDefault();
+    await render(
+      <template>
+        <CopyButton {{on "click" preventDefault}}>copy me</CopyButton>
+      </template>,
+    );
+    await waitUntil(() => find('[data-copy-btn]'));
+
+    await click('[data-copy-btn]');
+    await waitForAnimationFrame();
+
+    assert.deepEqual(clipboard.copied, []);
   });
 
   test('should support a custom iconDescription', async function (assert) {
@@ -158,20 +173,22 @@ module('Integration | Component | CopyButton', (hooks) => {
     assert.dom('[data-copy-btn]').hasAttribute('aria-label', 'Duplicate');
   });
 
-  test('should call the onClick handler when clicked', async function (assert) {
+  test('calls a click handler, and still copies', async function (assert) {
     let called = 0;
     const onClick = () => called++;
 
     await render(
       <template>
-        <CopyButton @onClick={{onClick}}>copy me</CopyButton>
+        <CopyButton {{on "click" onClick}}>copy me</CopyButton>
       </template>,
     );
     await waitUntil(() => find('[data-copy-btn]'));
 
     await click('[data-copy-btn]');
+    await waitUntil(() => clipboard.copied.length > 0);
 
     assert.strictEqual(called, 1);
+    assert.deepEqual(clipboard.copied, ['copy me']);
   });
 
   test('should support the disabled arg', async function (assert) {

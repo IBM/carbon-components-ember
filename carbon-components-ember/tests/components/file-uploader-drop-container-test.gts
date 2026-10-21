@@ -110,6 +110,43 @@ module('Integration | Component | FileUploaderDropContainer', (hooks) => {
     assert.true(received[0]?.invalidFileType);
   });
 
+  test('attributes and {{on "click"}} go on the drop area, as in Carbon React', async function (assert) {
+    let clicks = 0;
+    const onClick = () => clicks++;
+    await render(
+      <template>
+        <FileUploaderDropContainer
+          class="my-drop-area"
+          data-test-drop
+          {{on "click" onClick}}
+        />
+      </template>,
+    );
+
+    assert
+      .dom('button.cds--file__drop-container')
+      .hasClass('my-drop-area')
+      .hasAttribute('data-test-drop');
+    await click('button.cds--file__drop-container');
+    assert.strictEqual(clicks, 1);
+  });
+
+  test('a click handler that prevents the default keeps the picker closed', async function (assert) {
+    const preventDefault = (event: MouseEvent) => event.preventDefault();
+    await render(
+      <template>
+        <FileUploaderDropContainer {{on "click" preventDefault}} />
+      </template>,
+    );
+
+    const input = find('input[type="file"]') as HTMLInputElement;
+    let opened = false;
+    input.addEventListener('click', () => (opened = true));
+    await click('.cds--file-browse-btn');
+
+    assert.false(opened);
+  });
+
   test('clicking the drop area button clicks the hidden input', async function (assert) {
     await render(<template><FileUploaderDropContainer /></template>);
 

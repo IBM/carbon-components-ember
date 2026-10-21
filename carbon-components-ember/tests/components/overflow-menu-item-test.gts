@@ -115,14 +115,14 @@ module('Integration | Component | OverflowMenuItem', (hooks) => {
     assert.dom(options[1]).doesNotHaveAttribute('title');
   });
 
-  test('should call onClick when clicked', async function (assert) {
+  test('calls a click handler', async function (assert) {
     const clicked = tracked(false);
     const onClick = () => (clicked.value = true);
 
     await render(
       <template>
         <OverflowMenu @direction="bottom" as |Item|>
-          <Item @itemText="option 1" @onClick={{onClick}} />
+          <Item @itemText="option 1" {{on "click" onClick}} />
         </OverflowMenu>
       </template>,
     );

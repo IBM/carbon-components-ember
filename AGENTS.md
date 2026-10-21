@@ -6,9 +6,9 @@ This document provides essential context and patterns for AI agents (like Bob Sh
 
 **carbon-components-ember** is an Ember.js implementation of IBM's Carbon Design System components, maintaining parity with the React implementation.
 
-- **Repository**: https://github.com/IBM/carbon-components-ember
-- **Carbon React Reference**: https://github.com/carbon-design-system/carbon/tree/main/packages/react
-- **Carbon Storybook**: https://react.carbondesignsystem.com/
+- **Repository**: <https://github.com/IBM/carbon-components-ember>
+- **Carbon React Reference**: <https://github.com/carbon-design-system/carbon/tree/main/packages/react>
+- **Carbon Storybook**: <https://react.carbondesignsystem.com/>
 - **Technology**: Ember.js with Glimmer TypeScript (.gts files)
 - **Skills for this repo**: procedures for one kind of task live in `.claude/skills/<name>/SKILL.md`; agents that support skills load them when relevant, and any agent can read them. `implement-component` (add or align a component), `upgrade-carbon`, `port-ai-chat-component`. (The skill under `carbon-components-ember/skills/` is a different one: it ships to apps.)
 
@@ -17,6 +17,7 @@ This document provides essential context and patterns for AI agents (like Bob Sh
 ## Component Implementation Patterns
 
 ### 1. Basic Component Structure
+
 All components follow this pattern. The license header is always the first thing in the file; new imports go below it.
 
 ```typescript
@@ -49,6 +50,7 @@ export default class ComponentName extends Component<ComponentNameSignature> {
 ```
 
 ### 2. CSS Class Naming Convention
+
 **Always use `cds--` prefix** (Carbon Design System):
 
 ```typescript
@@ -62,10 +64,13 @@ class="carbon-btn-set"
 ```
 
 ### 3. Component Styles
+
 Styles Carbon doesn't provide live next to the component (`icon.scss` beside `icon.gts`), and every component that uses them imports them explicitly (`import './icon.scss';`). Name their classes `cds--ember-<component>`. The build compiles every imported stylesheet into `dist/styles.css` (rollup-plugin-sass), the one stylesheet apps load after Carbon's, and leaves the imports out of the published JS and types, so apps need no Sass.
 
 ### 4. Component Arguments vs Props
+
 Ember uses `@args` instead of React props:
+
 ```typescript
 // React
 <Button size="lg" kind="primary" />
@@ -77,18 +82,24 @@ Ember uses `@args` instead of React props:
 Keep Carbon React's prop names and values. Props React inherits from the HTML element (`type`, `onClick`, ...) are plain attributes and `{{on}}` through `...attributes`; take one as an argument only when the component needs its value, as Button does `disabled`. `pnpm --filter dom-parity args --component <Name>` lists a component's differences from React's props, and CI fails on new ones (see `dom-parity/known-arg-differences.json`). Record a deliberate one, such as an attribute Carbon re-declares that the component doesn't need, with its reason in `dom-parity/accepted-arg-differences.json`.
 
 ### 5. Event Handling
-Use `{{on}}` modifier instead of React's event props:
+
+Use `{{on}}` instead of React's event props, on components too. A component passes it on through `...attributes`, which must sit on the element Carbon React spreads its rest props onto, where React puts the handler:
+
 ```typescript
 // React
-<button onClick={handler}>Click</button>
+<Button onClick={save}>Save</Button>
 
 // Ember
-<button {{on "click" handler}}>Click</button>
+<Button {{on "click" this.save}}>Save</Button>
 ```
 
+Take a callback argument such as `@onClick` only when the component calls it itself: with a payload (NumberInput's steppers, Modal's secondary buttons, AI Chat's FeedbackButtons), from another element or event (FileUploader's remove buttons, MenuItem on Enter and Space), or holding it back (Link while disabled). The arg check skips React's event props that take the event; one it still flags, typed without the event like FileUploaderDropContainer's `onClick`, goes in `dom-parity/accepted-arg-differences.json` with its reason.
+
 ### 6. Dynamic Element Types
+
 Use the built-in `element` keyword (Ember 7.1+); it needs no import:
 
+```gts
 <template>
   {{#let (element this.elementType) as |Tag|}}
     <Tag class="my-class">{{yield}}</Tag>
@@ -100,7 +111,7 @@ Use the built-in `element` keyword (Ember 7.1+); it needs no import:
 
 ## Idiomatic Ember Patterns (Prefer These Over Transliterating React)
 
-Parity means matching Carbon React's **public API surface and behaviour**, not its implementation strategy. 
+Parity means matching Carbon React's **public API surface and behaviour**, not its implementation strategy.
 
 | Carbon React construct | Idiomatic Ember equivalent | Live example in this repo |
 | --- | --- | --- |
@@ -122,7 +133,9 @@ Parity means matching Carbon React's **public API surface and behaviour**, not i
 | Arrow-key navigation (roving `tabIndex`) | `RovingFocus` from `utils/roving-focus.ts`: its `container` modifier on the list, its `item` modifier on each item; items keep their DOM order | `components/tree-view.gts` |
 
 ### 1. Yield Contextual Components instead of Inspecting Children
+
 Yield child components pre-bound with parent-supplied args using `WithBoundArgs`. If the parent needs ordering or child lists (e.g. `Tabs`), let children register themselves with the parent on construction and deregister via `registerDestructor`:
+
 ```typescript
 import type Owner from '@ember/owner';
 import { registerDestructor } from '@ember/destroyable';
@@ -139,28 +152,36 @@ export default class TabPane extends Component<TabPaneSignature> {
   }
 }
 ```
+
 For a cleaner registration example, read the charts: every yielded part extends `charts/-components/chart-part.ts`, which registers with the chart this way, and the chart derives its options and data from the registered parts' args with plain getters. Don't write a template helper that exists for its side effect.
 
 ### 2. Accept Components as Args & Icon Size Gotcha
+
 When invoking a `renderIcon`-style `ComponentLike` arg, **always pass `@size`**: the per-icon components default to 24px, where `@carbon/icons-react`'s default to 16px. Icons render a bare `<svg>`, as React's do. `@svgClass` is `@carbon/icons-react`'s `className`: pass the class Carbon React (or, for AI Chat, upstream) passes there, and nothing else.
+
 ```gts
 <@renderIcon @size='16' />
 ```
 
 ### 3. Model Controlled vs Uncontrolled Explicitly
+
 - **Case A (React `value` + `defaultValue`):** Keep both args. `@defaultValue` seeds private tracked state; `@value` wins whenever defined.
 - **Case B (React has single controllable prop):** Key on the change handler: the arg is the source of truth only when the change handler was also passed; otherwise it just seeds tracked state so the control isn't locked.
 
 ### 4. Use Modifiers for DOM Work and Refs
+
 Functional or class-based modifiers are Ember's replacement for `useRef` + `useEffect`. When the consumer owns the element that needs the behavior, yield a `ModifierLike` modifier to them.
 A function modifier re-runs only for the arguments it reads, since ember-modifier passes it Glimmer's lazy arguments. Destructure every positional it should follow, and `void` one nothing else uses.
 
 ### 5. Timing and Destructors
+
 Never use bare `setTimeout`. Use `ember-concurrency` restartable tasks which auto-cancel on component destruction. To defer work past the current render (writing state the render read), use `afterRender` from `utils/after-render.ts`, not the run loop. Anything else that must be cleaned up belongs in `registerDestructor` or a modifier teardown.
 `settled()` waits for `timeout()`, so a timer tests shouldn't wait out, such as a toast closing itself, uses `rawTimeout()`.
 
 ### 6. Signatures
+
 Signatures follow the [Ember guides](https://guides.emberjs.com/release/typescript/core-concepts/invokables/) and [Glint](https://typed-ember.gitbook.io/glint/environments/ember/component-signatures), and must match what the template does. Lint enforces the mechanical parts.
+
 - **Name:** `export interface <Name>Signature`, where `<Name>` is the component's public export name. The class or `TOC` const is named the same. A signature is never a `type` alias.
 - **`Args`:** written inline in the signature. Code elsewhere refers to them as `<Name>Signature['Args']`; there is no separate `Args` type.
 - **`Element`:** the element `...attributes` is spread on.
@@ -177,6 +198,7 @@ Signatures follow the [Ember guides](https://guides.emberjs.com/release/typescri
 - **No `any`, and no YUIDoc tags** (`@argument`, `@type`, `@class`): the types document themselves.
 
 ### 7. What NOT to Reach For
+
 - **Referring to a component, icon or modifier by name** (`<Carbon::Tag>`, `{{component "carbon/tag"}}`) - only `services/**` is re-exported into the app tree (`appReexports` in rollup.config.mjs), so import everything else into strict-mode templates.
 - **`@ember/render-modifiers`** (`did-insert`, `did-update`) - write a real functional modifier instead.
 - **`MutationObserver`** on child DOM nodes - yield contextual components or a `ModifierLike` instead.
@@ -194,44 +216,56 @@ Signatures follow the [Ember guides](https://guides.emberjs.com/release/typescri
 ## Common Pitfalls and Solutions
 
 ### ❌ Pitfall 1: Shadowing a Built-in Keyword
+
 Template keywords such as `fn`, `on`, `eq`, and `element` resolve to a same-named JavaScript binding in scope. Alias such imports when using the template keyword: import Storybook's spy as `fn as spy`. Never import `fn` or `on` from Ember (`ember/no-legacy-helper-imports`). Lowercase tags resolve the same way: importing the `{{style}}` modifier as `style` turns that file's `<style>` elements into invocations of it, so alias it there (`styleModifier`).
 
 ### ❌ Pitfall 2: Naming a File Differently from Its Export
+
 File names are kebab-case, and `pnpm generate` names each export of the `carbon-components-ember/components`, `/ai-chat` and `/charts` barrels after its file: `text-input.gts` exports `TextInput`, and a top-level `ai-` or `ui-` file spells the acronym (`AILabel`, `UIShell`). It fails when two files would export the same name from one barrel. So name a file after its export in full: `toggletip/toggletip-button.gts`, not `toggletip/button.gts`. Two files sharing a basename (`tile/group.gts` and `radio-button/group.gts`) once made the production rollup build mis-name exports.
 
 ### ❌ Pitfall 3: MutationObservers to inspect Child DOM Nodes
+
 Fights the Glimmer render pipeline. Instead, use contextual components so children render with correct classes/attributes declaratively.
 
 ### ❌ Pitfall 4: Backticks in Handlebars Template Comments
-A backtick inside HBS comments (`{{! ... `word` ... }}`) breaks the Glint build step. Use single/double quotes instead.
+
+A backtick inside HBS comments (``{{! ... `word` ... }}``) breaks the Glint build step. Use single/double quotes instead.
 
 ### ❌ Pitfall 5: Generic `<Icon @icon='some-string'>` Path is Dead Code
+
 Nothing registers icons with `IconMap` in app code, so string-based icon lookups render nothing. Always import and use the specific per-icon components (e.g., `import CheckmarkFilled from './icons/checkmark-filled.ts'`, then `<CheckmarkFilled @size="16" />`).
 
 ### ❌ Pitfall 6: An Attribute the Element Doesn't Define
+
 Glint types each element's attributes, so one HTML doesn't define for that element fails type-checking, even where Carbon's CSS selects it (`disabled` on a list box `<li>`). Set it from a modifier with `element.toggleAttribute()`, as `-private/list-box/list-box-menu-item.gts` does.
 
 ### ❌ Pitfall 7: Binding `value` on a `<select>`
+
 Glimmer sets a `<select>`'s `value` before its options render, so `<select value={{x}}>` selects nothing on the first render. Select the value from a modifier once the options are in, and again when they change: `Select` does both, as the `SelectItem` it yields tells it when an option renders, goes or changes value.
 
 ### ❌ Pitfall 8: Floating Content inside a Modal
+
 A Modal's `<dialog>` is in the top layer, out of everything around it, but Floating UI still counts the trigger's overflow ancestors outside it as clipping the trigger, so `hide()` hides what floats from inside it. With `utils/floating.ts`, give `hide()` `() => ({ boundary: clippingBoundary(reference) })`, derived so a Modal opening in the same render counts. Focus inside floating content with `{ preventScroll: true }`: until Floating UI places it, Carbon's styles can leave it at the top of the page.
 
 ---
 
 ## Tests
+
 - **Carbon's stylesheet loads globally** in `tests/test-helper.ts`, ahead of the components' own stylesheets (which they import), as in an app. Never inline Carbon's CSS in a test.
 - **Style snapshots** record the diff from an unstyled baseline: call `disableCarbonStyles()` before rendering, capture the baseline, then `enableCarbonStyles()` and `waitForAnimationFrame()` (from `tests/helpers`) so Carbon's transitions finish. A global hook re-enables Carbon after every test.
 
 ---
 
 ## Upgrading Carbon and TypeScript
+
 `pnpm-workspace.yaml`'s catalogs pin the dependencies we upgrade by hand (`catalog:carbon`, `catalog:typescript`). Dependabot ignores them; never bump one on its own, and keep TypeScript on 6.0 until Glint supports TypeScript 7 ([#948](https://github.com/IBM/carbon-components-ember/pull/948)). The upgrade procedure is in [.claude/skills/upgrade-carbon/SKILL.md](.claude/skills/upgrade-carbon/SKILL.md).
 
 ---
 
 ## Storybook Conventions
+
 Stories live as `src/components/**/<name>.stories.gts` next to their components.
+
 - **One name per component**: its file, its export, its stories file and its page title agree. `radio-button/radio-button-group.gts` exports `RadioButtonGroup`, its stories are `radio-button-group.stories.gts`, and its page title is `Components/RadioButton/RadioButtonGroup`, unless the upstream Storybook (Carbon React's, or Carbon AI Chat's for its components) titles the page otherwise. A component that React splits into pages keeps them in a folder named after it (`data-table/selection.stories.gts`).
 - **CSF Next**: Use CSF Next format (`preview.meta()`, `meta.story()`).
 - **React Parity**: Mirror [Carbon React's Storybook](https://react.carbondesignsystem.com/) (its `index.json` lists every title and story):
@@ -250,6 +284,7 @@ Stories live as `src/components/**/<name>.stories.gts` next to their components.
 ---
 
 ## Component Docs for Agents (Storybook MCP)
+
 - `pnpm storybook` serves an MCP endpoint at `http://localhost:6006/mcp` (`@storybook/addon-mcp`). Use its `docs-list`, `docs-show` and `docs-show-story` tools for a component's API and examples rather than reading its source. The repo's `.mcp.json` registers it for Claude Code; it connects while Storybook runs.
 - Its manifest is generated from component signatures and stories (the ember-storybook patch). An argument's JSDoc, a block's labelled params and a story's description are what agents read, so keep them accurate.
 - `.storybook/manifests.ts` then points each component's import at its barrel: `carbon-components-ember/components`, `/ai-chat` or `/charts`. It's a preset in `addons` because ember-storybook's `StorybookConfig` type rejects `experimental_manifests` in `defineMain`.
@@ -260,6 +295,7 @@ Stories live as `src/components/**/<name>.stories.gts` next to their components.
 ---
 
 ## Linting
+
 - **Templates are linted by ESLint**, not ember-template-lint (being deprecated, emberjs/rfcs#1214): `eslint.config.mjs` spreads `eslint-plugin-ember`'s `template-lint-migration` config, so `pnpm lint:js` covers both.
 - Silence a template rule with `{{! eslint-disable-next-line ember/template-<rule> }}` directly above the line, with a comment saying why. A bare `{{! eslint-disable ... }}` disables the rule for the rest of the file.
 - **Stylesheets are linted by Stylelint** (`pnpm lint:css`, `stylelint.config.mjs`, on `stylelint-config-standard`, and its `-scss` variant for SCSS); Prettier still formats them. Class names are BEM, like Carbon's. Silence a rule with `/* stylelint-disable-next-line <rule> */` (plain CSS has no `//` comments) and a comment saying why.
@@ -273,9 +309,11 @@ The port target is the Lit-based framework-agnostic widget library `@carbon/ai-c
 ---
 
 ## Component Implementation Checklist
+
 Adding a component, or aligning one with Carbon React? Follow [.claude/skills/implement-component/SKILL.md](.claude/skills/implement-component/SKILL.md).
 
 ## Issues, Pull Requests and the Roadmap
+
 Every PR gets one release label (release-plan needs it), `Closes #N` and a roadmap item; work before the stable release also gets the `Stable` milestone. Issues go under their epic, with "blocked by" links for order. Follow [.claude/skills/track-work/SKILL.md](.claude/skills/track-work/SKILL.md).
 
 ## Guidelines for Updating This Document
@@ -283,6 +321,7 @@ Every PR gets one release label (release-plan needs it), `Closes #N` and a roadm
 This document is a living resource for AI agents and developers. **You are strongly encouraged and expected to actively update this document whenever you discover a new undocumented gotcha, generalizable pitfall, or core architectural constraint.**
 
 To maintain the high quality of this guide and prevent future bloat, adhere to these strict rules when making updates:
+
 - **Do add newly discovered technical gotchas or constraints.** Focus on high-value, reusable patterns.
 - **Put a procedure for one kind of task in a skill** under `.claude/skills/`, and point to it from here. Rules that apply to every change stay in this file.
 - **Keep additions extremely concise, structured, and immediately actionable.** Frame issues as general rules (e.g., "Always do X because of Y") rather than stories (e.g., "In PR #123, we found...").
@@ -292,10 +331,10 @@ To maintain the high quality of this guide and prevent future bloat, adhere to t
 
 ## Key Resources
 
-- **Carbon React**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components
-- **Carbon Storybook**: https://react.carbondesignsystem.com/
-- **Carbon AI Chat**: https://github.com/carbon-design-system/carbon-ai-chat
-- **Ember Guides**: https://guides.emberjs.com/
+- **Carbon React**: <https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components>
+- **Carbon Storybook**: <https://react.carbondesignsystem.com/>
+- **Carbon AI Chat**: <https://github.com/carbon-design-system/carbon-ai-chat>
+- **Ember Guides**: <https://guides.emberjs.com/>
 
 ---
 

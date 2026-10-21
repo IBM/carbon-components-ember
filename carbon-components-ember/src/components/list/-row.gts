@@ -36,10 +36,7 @@ export default class ListRow<T> extends Component<ListRowSignature<T>> {
           {{on "click" (fn this.onSelect @item)}}
         />
         <div class="cds--structured-list-td">
-          <Icon
-            @icon="checkmark--filled"
-            @btnClass="cds--structured-list-svg"
-          />
+          <Icon @icon="checkmark--filled" />
         </div>
       {{/if}}
     </div>

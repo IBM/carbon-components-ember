@@ -36,6 +36,11 @@
       "itemToElement": "The default block renders each item."
     }
   },
+  "FileUploaderDropContainer": {
+    "missing": {
+      "onClick": "{{on \"click\"}} on the component reaches the drop area, through ...attributes, where Carbon React composes its onClick."
+    }
+  },
   "FilterableMultiSelect": {
     "missing": {
       "downshiftProps": "It isn't built on downshift, so there's nothing to pass them to.",

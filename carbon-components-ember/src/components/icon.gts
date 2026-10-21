@@ -1,5 +1,4 @@
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
 import type { TrustedHTML } from '@ember/template';
 import Loading from '../components/loading.gts';
 import renderSvgPart from '../components/icon/render-svg-part.ts';
@@ -49,21 +48,6 @@ export interface IconSignature {
     // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
     size?: 16 | 20 | 24 | 32 | number | string;
     /**
-     * action to trigger on click
-     */
-    onClick?: () => void | Promise<never>;
-
-    /**
-     * Names the `@onClick` button for assistive technology (the icon itself is
-     * decorative). Required whenever `@onClick` is passed.
-     */
-    iconDescription?: string;
-
-    /**
-     * button classes
-     */
-    btnClass?: string;
-    /**
      * Classes for the `<svg>`, as `@carbon/icons-react`'s `className`.
      */
     svgClass?: string;
@@ -85,13 +69,9 @@ export interface IconSignature {
 }
 
 export default class Icon extends Component<IconSignature> {
-  @tracked loading: boolean = false;
-  @tracked disabled: boolean = false;
-
   get classes() {
     const classes: string[] = [];
     if (this.args.info) classes.push('cds--icon--info');
-    if (this.disabled) classes.push('cds--icon--disabled');
     return classes.join(' ');
   }
 
@@ -102,28 +82,9 @@ export default class Icon extends Component<IconSignature> {
     return this.args.icon;
   }
 
-  onIconClick = () => {
-    const promise = this.args.onClick && this.args.onClick();
-    this.loading = true;
-    this.disabled = true;
-    if (promise && promise.then) {
-      const finish = () => {
-        this.loading = false;
-        this.disabled = false;
-      };
-      promise.then(finish, finish);
-    } else {
-      setTimeout(() => {
-        if (this.isDestroyed) return;
-        this.loading = false;
-        this.disabled = false;
-      }, 350);
-    }
-  };
-
   // eslint-disable-next-line ember/template-require-splattributes -- the svg comes from a helper; use @svgClass
   <template>
-    {{#if (or @loading this.loading)}}
+    {{#if @loading}}
       <span class="cds--ember-icon__loading">
         <Loading
           @small={{true}}
@@ -132,32 +93,14 @@ export default class Icon extends Component<IconSignature> {
         />
       </span>
     {{else}}
-      {{#if @onClick}}
-        <button
-          class="cds--btn cds--btn--sm cds--btn--ghost {{@btnClass}}"
-          type="button"
-          aria-label={{@iconDescription}}
-          {{on "click" this.onIconClick}}
-        >
-          {{renderSvgPart
-            this.svg
-            class=(array @svgClass this.classes)
-            fill=(or @fill "currentColor")
-            size=@size
-            title=@title
-            ariaLabel=@ariaLabel
-          }}
-        </button>
-      {{else}}
-        {{renderSvgPart
-          this.svg
-          class=(array @svgClass this.classes)
-          fill=(or @fill "currentColor")
-          size=@size
-          title=@title
-          ariaLabel=@ariaLabel
-        }}
-      {{/if}}
+      {{renderSvgPart
+        this.svg
+        class=(array @svgClass this.classes)
+        fill=(or @fill "currentColor")
+        size=@size
+        title=@title
+        ariaLabel=@ariaLabel
+      }}
     {{/if}}
   </template>
 }

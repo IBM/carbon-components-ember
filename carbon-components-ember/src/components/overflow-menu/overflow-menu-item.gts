@@ -26,8 +26,6 @@ export interface OverflowMenuItemSignature {
     itemText?: string;
     /** The menu the item is in: OverflowMenu yields the item bound to it. */
     menu?: OverflowMenu;
-    /** Called when the item is chosen, before the menu closes. */
-    onClick?: (event: MouseEvent) => void;
     /** Gives the item a `title`: `@title`, or else `@itemText`. */
     requireTitle?: boolean;
     title?: string;
@@ -66,8 +64,7 @@ export default class OverflowMenuItem extends Component<OverflowMenuItemSignatur
     return Boolean(this.args.isDelete && this.args.dangerDescription);
   }
 
-  handleClick = (event: MouseEvent) => {
-    this.args.onClick?.(event);
+  close = () => {
     this.args.menu?.close();
   };
 
@@ -81,9 +78,9 @@ export default class OverflowMenuItem extends Component<OverflowMenuItemSignatur
           href={{@href}}
           title={{this.title}}
           disabled={{@disabled}}
-          {{on "click" this.handleClick}}
           {{(if @menu @menu.rovingFocus.item) disabled=@disabled}}
           ...attributes
+          {{on "click" this.close}}
         >
           {{#if (has-block)}}
             {{yield}}
