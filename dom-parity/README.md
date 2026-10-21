@@ -50,8 +50,8 @@ tracked as a follow-up, not something this package does today.
 Coverage is scoped to args both sides actually implement and that produce
 comparable DOM - skip an Ember-only arg with no React counterpart, a
 React-only prop Ember never ported, and a React prop that switches to an
-entirely different component (e.g. Button's `hasIconOnly`, which renders
-`IconButton`) rather than toggling a class on the same root element. See the
+entirely different component the Ember side doesn't render, rather than
+toggling a class on the same root element. See the
 comment at the top of `lib/components.mjs` for the reasoning already
 recorded per component.
 

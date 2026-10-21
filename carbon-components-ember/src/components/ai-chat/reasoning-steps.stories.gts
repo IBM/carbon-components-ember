@@ -245,13 +245,13 @@ export const Controlled = meta.story({
 
     return <template>
       <div class="ai-chat-reasoning-steps-story__actions">
-        <Button @size="sm" @tertiary={{true}} @onClick={{openAll}}>
+        <Button @kind="tertiary" @size="sm" {{on "click" openAll}}>
           Open all
         </Button>
-        <Button @size="sm" @tertiary={{true}} @onClick={{collapseAll}}>
+        <Button @kind="tertiary" @size="sm" {{on "click" collapseAll}}>
           Collapse all
         </Button>
-        <Button @size="sm" @tertiary={{true}} @onClick={{toggleWrapper}}>
+        <Button @kind="tertiary" @size="sm" {{on "click" toggleWrapper}}>
           {{if state.wrapperOpen "Hide all" "Show all"}}
         </Button>
       </div>

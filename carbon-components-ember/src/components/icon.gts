@@ -1,10 +1,8 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { service } from '@ember/service';
 import type { TrustedHTML } from '@ember/template';
 import Loading from '../components/loading.gts';
 import renderSvgPart from '../components/icon/render-svg-part.ts';
-import type DialogManagerService from '../services/dialog-manager.ts';
 import './icon.scss';
 
 /** An icon descriptor from `@carbon/icons` (e.g. `@carbon/icons/es/add/16`). */
@@ -35,18 +33,6 @@ export interface IconSignature {
      * Indicates if the icon is informative
      */
     info?: boolean;
-    /**
-     * Indicates if the action is dangerous, showing a confirmation dialog before calling `onClick`
-     */
-    danger?: boolean;
-    /**
-     * If the action is dangerous, this text message will be shown in the dialog
-     */
-    confirmText?: string;
-    /**
-     * Use this component as dialog
-     */
-    confirmDialog?: string;
     /**
      * Use this icon to display
      */
@@ -99,15 +85,12 @@ export interface IconSignature {
 }
 
 export default class Icon extends Component<IconSignature> {
-  @service('carbon.dialog-manager')
-  dialogManager!: DialogManagerService;
   @tracked loading: boolean = false;
   @tracked disabled: boolean = false;
 
   get classes() {
     const classes: string[] = [];
     if (this.args.info) classes.push('cds--icon--info');
-    if (this.args.danger) classes.push('cds--icon--danger');
     if (this.disabled) classes.push('cds--icon--disabled');
     return classes.join(' ');
   }
@@ -120,37 +103,21 @@ export default class Icon extends Component<IconSignature> {
   }
 
   onIconClick = () => {
-    const run = () => {
-      const promise = this.args.onClick && this.args.onClick();
-      this.loading = true;
-      this.disabled = true;
-      if (promise && promise.then) {
-        const finish = () => {
-          this.loading = false;
-          this.disabled = false;
-        };
-        promise.then(finish, finish);
-      } else {
-        setTimeout(() => {
-          if (this.isDestroyed) return;
-          this.loading = false;
-          this.disabled = false;
-        }, 350);
-      }
-    };
-    if (this.args.danger) {
-      this.dialogManager.open(
-        this.args.confirmDialog ||
-          'carbon-components-ember/components/dialogs/confirm-dialog.gts',
-        {
-          type: 'danger',
-          header: 'Danger',
-          body: this.args.confirmText || 'Confirm this operation',
-          onAccept: run,
-        },
-      );
+    const promise = this.args.onClick && this.args.onClick();
+    this.loading = true;
+    this.disabled = true;
+    if (promise && promise.then) {
+      const finish = () => {
+        this.loading = false;
+        this.disabled = false;
+      };
+      promise.then(finish, finish);
     } else {
-      run();
+      setTimeout(() => {
+        if (this.isDestroyed) return;
+        this.loading = false;
+        this.disabled = false;
+      }, 350);
     }
   };
 

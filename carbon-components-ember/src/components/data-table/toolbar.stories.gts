@@ -44,7 +44,7 @@ export const Default = meta.story({
       <table.Toolbar as |toolbar|>
         <toolbar.Content>
           <table.SearchInput @expandable={{true}} />
-          <Button @type="primary">Primary Button</Button>
+          <Button @kind="primary">Primary Button</Button>
         </toolbar.Content>
       </table.Toolbar>
       <table.Table @size={{args.size}} @useZebraStyles={{args.useZebraStyles}}>
@@ -71,7 +71,7 @@ export const PersistentToolbar = meta.story({
       <table.Toolbar as |toolbar|>
         <toolbar.Content>
           <table.SearchInput />
-          <Button @type="primary">Primary Button</Button>
+          <Button @kind="primary">Primary Button</Button>
         </toolbar.Content>
       </table.Toolbar>
       <table.Table @size={{args.size}} @useZebraStyles={{args.useZebraStyles}}>
@@ -98,7 +98,7 @@ export const SmallPersistentToolbar = meta.story({
       <table.Toolbar @size="sm" as |toolbar|>
         <toolbar.Content>
           <table.SearchInput @size="sm" />
-          <Button @type="primary" @size="sm">Primary Button</Button>
+          <Button @kind="primary" @size="sm">Primary Button</Button>
         </toolbar.Content>
       </table.Toolbar>
       <table.Table @size={{args.size}} @useZebraStyles={{args.useZebraStyles}}>

@@ -18,9 +18,7 @@ import '#storybook/styles/ai-chat/workspace-shell-header.css';
 // Upstream's `carbonTheme`-style theming isn't ported: the Storybook
 // toolbar's theme switcher applies Carbon's theme classes instead.
 //
-// Parity gaps: none in the header itself. Upstream's "Edit Plan" action is a
-// `cds-button kind="tertiary"`; this uses the addon's own `Button
-// @tertiary`.
+// Parity gaps: none.
 
 type DescriptionType = 'none' | 'basic' | 'withTags';
 
@@ -97,9 +95,8 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
             </:headerDescription>
             <:headerAction>
               {{#if args.showAction}}
-                <Button @type={{undefined}} @tertiary={{true}}>
+                <Button @kind="tertiary" @renderIcon={{Edit}}>
                   Edit Plan
-                  <Edit @size="16" @svgClass="cds--btn__icon" />
                 </Button>
               {{/if}}
             </:headerAction>

@@ -1,8 +1,8 @@
 {
   "component": "Button",
-  "generatedAt": "2026-10-04T14:24:38.788Z",
+  "generatedAt": "2026-10-21T00:50:28.999Z",
   "carbonReactVersion": "1.114.0",
-  "reactVersion": "19.3.0",
+  "reactVersion": "19.3.1",
   "variants": {
     "primary-lg": {
       "props": {
@@ -237,6 +237,552 @@
           {
             "type": "text",
             "text": "Button"
+          }
+        ]
+      }
+    },
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": ["cds--btn", "cds--btn--primary"],
+        "attributes": {
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Button"
+          }
+        ]
+      }
+    },
+    "size-xs": {
+      "props": {
+        "size": "xs"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--primary",
+          "cds--btn--xs",
+          "cds--layout--size-xs"
+        ],
+        "attributes": {
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Button"
+          }
+        ]
+      }
+    },
+    "size-2xl": {
+      "props": {
+        "size": "2xl"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--2xl",
+          "cds--btn--primary",
+          "cds--layout--size-2xl"
+        ],
+        "attributes": {
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Button"
+          }
+        ]
+      }
+    },
+    "danger-primary": {
+      "props": {
+        "kind": "danger--primary"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": ["cds--btn", "cds--btn--danger--primary"],
+        "attributes": {
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Button"
+          }
+        ]
+      }
+    },
+    "danger-tertiary": {
+      "props": {
+        "kind": "danger--tertiary"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": ["cds--btn", "cds--btn--danger--tertiary"],
+        "attributes": {
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Button"
+          }
+        ]
+      }
+    },
+    "danger-ghost": {
+      "props": {
+        "kind": "danger--ghost"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": ["cds--btn", "cds--btn--danger--ghost"],
+        "attributes": {
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Button"
+          }
+        ]
+      }
+    },
+    "danger-description": {
+      "props": {
+        "kind": "danger",
+        "dangerDescription": "Deletes the project"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": ["cds--btn", "cds--btn--danger"],
+        "attributes": {
+          "type": "button",
+          "aria-describedby": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": ["cds--visually-hidden"],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Deletes the project"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Button"
+          }
+        ]
+      }
+    },
+    "expressive": {
+      "props": {
+        "isExpressive": true,
+        "size": "lg"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--expressive",
+          "cds--btn--primary",
+          "cds--layout--size-lg"
+        ],
+        "attributes": {
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Button"
+          }
+        ]
+      }
+    },
+    "href": {
+      "props": {
+        "href": "#docs"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "a",
+        "classes": ["cds--btn", "cds--btn--primary"],
+        "attributes": {
+          "href": "#docs"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Button"
+          }
+        ]
+      }
+    },
+    "href-disabled": {
+      "props": {
+        "href": "#docs",
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": ["cds--btn", "cds--btn--disabled", "cds--btn--primary"],
+        "attributes": {
+          "disabled": true,
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Button"
+          }
+        ]
+      }
+    },
+    "href-danger-description": {
+      "props": {
+        "href": "#docs",
+        "kind": "danger",
+        "dangerDescription": "Deletes the project"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "a",
+        "classes": ["cds--btn", "cds--btn--danger"],
+        "attributes": {
+          "href": "#docs"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": ["cds--visually-hidden"],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Deletes the project"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Button"
+          }
+        ]
+      }
+    },
+    "with-icon": {
+      "props": {
+        "renderIcon": "Add",
+        "iconDescription": "Add"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": ["cds--btn", "cds--btn--primary"],
+        "attributes": {
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Button"
+          },
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": ["cds--btn__icon"],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "aria-label": "Add",
+              "aria-hidden": "true",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 32 32",
+              "role": "img",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M17 15 17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "icon-only": {
+      "props": {
+        "hasIconOnly": true,
+        "renderIcon": "Add",
+        "iconDescription": "Add",
+        "kind": "ghost"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "span",
+        "classes": [
+          "cds--icon-tooltip",
+          "cds--popover--caret",
+          "cds--popover--high-contrast",
+          "cds--popover--top",
+          "cds--popover-container",
+          "cds--tooltip"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--tooltip-trigger__wrapper"],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--btn",
+                  "cds--btn--ghost",
+                  "cds--btn--icon-only"
+                ],
+                "attributes": {
+                  "aria-labelledby": "#1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 32 32",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M17 15 17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": ["cds--popover"],
+            "attributes": {
+              "aria-hidden": "true",
+              "id": "#1",
+              "role": "tooltip"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": ["cds--popover-content", "cds--tooltip-content"],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Add"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": ["cds--popover-caret"],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "icon-only-selected": {
+      "props": {
+        "hasIconOnly": true,
+        "renderIcon": "Add",
+        "iconDescription": "Add",
+        "kind": "ghost",
+        "isSelected": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "span",
+        "classes": [
+          "cds--icon-tooltip",
+          "cds--popover--caret",
+          "cds--popover--high-contrast",
+          "cds--popover--top",
+          "cds--popover-container",
+          "cds--tooltip"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--tooltip-trigger__wrapper"],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--btn",
+                  "cds--btn--ghost",
+                  "cds--btn--icon-only",
+                  "cds--btn--selected"
+                ],
+                "attributes": {
+                  "aria-labelledby": "#1",
+                  "type": "button",
+                  "aria-pressed": "true"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 32 32",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M17 15 17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": ["cds--popover"],
+            "attributes": {
+              "aria-hidden": "true",
+              "id": "#1",
+              "role": "tooltip"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": ["cds--popover-content", "cds--tooltip-content"],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Add"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": ["cds--popover-caret"],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
           }
         ]
       }

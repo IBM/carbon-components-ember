@@ -7,7 +7,6 @@
 
 import Component from '@glimmer/component';
 import Button from '../button.gts';
-import Tooltip from '../tooltip.gts';
 import type { ComponentLike } from '@glint/template';
 import './card.scss';
 
@@ -78,47 +77,6 @@ export default class CardFooter extends Component<CardFooterSignature> {
     this.args.onAction?.(action);
   };
 
-  /**
-   * Resolves `action.kind` (defaulting per upstream, `'secondary'` for
-   * labeled actions and `'ghost'` for icon-only ones) to `Button`'s own
-   * `@type`/`@tertiary`/`@ghost` args. `Button` treats those three as
-   * independently-truthy flags rather than a single mutually-exclusive
-   * variant, so exactly one of them must be set per resolved kind:
-   * `@type` for `'primary'`/`'secondary'`, and `undefined` (with
-   * `@tertiary`/`@ghost` instead) for `'tertiary'`/`'ghost'`.
-   *
-   * `'danger'` is styled with the `cds--btn--danger` class rather than
-   * `Button`'s `@type='danger'`, which also makes `Button` ask for
-   * confirmation before calling `@onClick` (upstream's danger kind is
-   * styling only) - the same approach as `ChatButton`.
-   */
-  buttonType = (
-    kind: CardFooterActionKind | undefined,
-    fallback: CardFooterActionKind,
-  ) => {
-    const resolved = kind ?? fallback;
-    return resolved === 'tertiary' ||
-      resolved === 'ghost' ||
-      resolved === 'danger'
-      ? undefined
-      : resolved;
-  };
-
-  buttonDanger = (
-    kind: CardFooterActionKind | undefined,
-    fallback: CardFooterActionKind,
-  ) => (kind ?? fallback) === 'danger';
-
-  buttonTertiary = (
-    kind: CardFooterActionKind | undefined,
-    fallback: CardFooterActionKind,
-  ) => (kind ?? fallback) === 'tertiary';
-
-  buttonGhost = (
-    kind: CardFooterActionKind | undefined,
-    fallback: CardFooterActionKind,
-  ) => (kind ?? fallback) === 'ghost';
-
   <template>
     {{#if this.actions.length}}
       {{#if this.isIconButton}}
@@ -129,28 +87,21 @@ export default class CardFooter extends Component<CardFooterSignature> {
           ...attributes
         >
           {{#each this.actions as |cardAction|}}
-            <Tooltip @label={{cardAction.tooltipText}}>
-              <Button
-                class={{if
-                  (this.buttonDanger cardAction.kind "ghost")
-                  "cds--btn--danger"
-                }}
-                @type={{this.buttonType cardAction.kind "ghost"}}
-                @tertiary={{this.buttonTertiary cardAction.kind "ghost"}}
-                @ghost={{this.buttonGhost cardAction.kind "ghost"}}
-                @iconOnly={{true}}
-                @disabled={{cardAction.disabled}}
-                @onClick={{fn this.handleAction cardAction}}
-              >
-                {{#if cardAction.icon}}
-                  <cardAction.icon
-                    @size={{16}}
-                    @fill="currentColor"
-                    @svgClass="cds-aichat-card-footer__action-icon"
-                  />
-                {{/if}}
-              </Button>
-            </Tooltip>
+            <Button
+              @kind={{or cardAction.kind "ghost"}}
+              @hasIconOnly={{true}}
+              @iconDescription={{cardAction.tooltipText}}
+              @disabled={{cardAction.disabled}}
+              {{on "click" (fn this.handleAction cardAction)}}
+            >
+              {{#if cardAction.icon}}
+                <cardAction.icon
+                  @size={{16}}
+                  @fill="currentColor"
+                  @svgClass="cds-aichat-card-footer__action-icon"
+                />
+              {{/if}}
+            </Button>
           {{/each}}
         </div>
       {{else}}
@@ -163,19 +114,13 @@ export default class CardFooter extends Component<CardFooterSignature> {
         >
           {{#each this.actions as |cardAction|}}
             <Button
-              class="{{if
-                  (this.buttonDanger cardAction.kind 'secondary')
-                  'cds--btn--danger'
-                }}
-                {{if
-                  cardAction.isViewing
-                  'cds-aichat-card-footer__action-viewing'
-                }}"
-              @type={{this.buttonType cardAction.kind "secondary"}}
-              @tertiary={{this.buttonTertiary cardAction.kind "secondary"}}
-              @ghost={{this.buttonGhost cardAction.kind "secondary"}}
+              @kind={{or cardAction.kind "secondary"}}
               @disabled={{or cardAction.disabled cardAction.isViewing}}
-              @onClick={{fn this.handleAction cardAction}}
+              class={{if
+                cardAction.isViewing
+                "cds-aichat-card-footer__action-viewing"
+              }}
+              {{on "click" (fn this.handleAction cardAction)}}
             >
               {{#if cardAction.isViewing}}
                 {{#if cardAction.icon}}<cardAction.icon

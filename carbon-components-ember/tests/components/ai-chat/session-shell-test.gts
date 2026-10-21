@@ -15,6 +15,7 @@ import { service } from '@ember/service';
 import type Owner from '@ember/owner';
 import SessionShell from '#src/components/ai-chat/session-shell.gts';
 import type ChatSessionService from '#src/services/ai-chat-session.ts';
+import { findButton } from '../../helpers';
 
 module('Integration | Component | ai-chat/SessionShell', (hooks) => {
   setupRenderingTest(hooks);
@@ -50,7 +51,7 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
     session(this).open = true;
     await render(<template><SessionShell /></template>);
 
-    await click('[aria-label="Close chat"]');
+    await click(findButton('Close chat'));
 
     assert.dom('.cds-aichat-launcher').exists();
     assert.false(session(this).open);
@@ -75,7 +76,7 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
     await render(<template><SessionShell /></template>);
 
     await fillIn('.cds-aichat-prompt-line__field', 'via button');
-    await click('[aria-label="Send"]');
+    await click(findButton('Send'));
 
     assert
       .dom('.cds-aichat-session-shell__message--user')
@@ -191,7 +192,7 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
     svc.isReadonly = true;
     await render(<template><SessionShell /></template>);
 
-    assert.dom('[aria-label="Send"]').isDisabled();
+    assert.dom(findButton('Send')).isDisabled();
 
     svc.draft = 'should not send';
     await triggerKeyEvent('.cds-aichat-prompt-line__field', 'keydown', 'Enter');
@@ -322,11 +323,11 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
 
       assert.dom('.cds-aichat-shell__history').doesNotExist();
 
-      await click('[aria-label="Chat history"]');
+      await click(findButton('Chat history'));
       assert.dom('.cds-aichat-shell__history').exists();
       assert.true(session(this).showHistory);
 
-      await click('[aria-label="Chat history"]');
+      await click(findButton('Chat history'));
       assert.dom('.cds-aichat-shell__history').doesNotExist();
     });
 
@@ -452,10 +453,10 @@ module('Integration | Component | ai-chat/SessionShell', (hooks) => {
         .exists('delete-confirm overlay opened');
 
       // Leave via the header's history toggle instead of Cancel/Confirm.
-      await click('[aria-label="Chat history"]');
+      await click(findButton('Chat history'));
       assert.dom('.cds-aichat-shell__history').doesNotExist();
 
-      await click('[aria-label="Chat history"]');
+      await click(findButton('Chat history'));
       assert.dom('.cds-aichat-shell__history').exists();
       assert
         .dom('.cds-aichat-history-delete-panel')

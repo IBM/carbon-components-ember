@@ -68,7 +68,7 @@ export const OverlayLoading = meta.story({
 
     return <template>
       <main {{cleanup}}>
-        <Button @onClick={{startLoading}}>Start</Button>
+        <Button {{on "click" startLoading}}>Start</Button>
         {{#if state.active}}
           <Loading
             @withOverlay={{true}}
@@ -119,7 +119,7 @@ export const OverlayLoadingBehindModal = meta.story({
         never has two. }}
       {{! eslint-disable-next-line ember/template-no-duplicate-landmark-elements }}
       <main {{cleanup}}>
-        <Button @onClick={{openModal}}>Open modal</Button>
+        <Button {{on "click" openModal}}>Open modal</Button>
         <Modal
           @open={{state.modalOpen}}
           @modalHeading="Account settings"

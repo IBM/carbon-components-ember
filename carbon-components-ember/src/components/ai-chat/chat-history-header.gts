@@ -7,7 +7,6 @@
 
 import Component from '@glimmer/component';
 import Button from '../button.gts';
-import Tooltip from '../tooltip.gts';
 import ChevronLeft from '../icons/chevron-left.ts';
 import './chat-history.scss';
 
@@ -36,20 +35,17 @@ export default class ChatHistoryHeader extends Component<ChatHistoryHeaderSignat
   <template>
     <div class="cds-aichat-history-header" ...attributes>
       {{#if @showCloseAction}}
-        <Tooltip
-          @label={{or @closeButtonLabel "Close chat history"}}
-          @align="bottom"
+        <Button
+          @kind="ghost"
+          @hasIconOnly={{true}}
+          @iconDescription={{or @closeButtonLabel "Close chat history"}}
+          @tooltipPosition="bottom"
+          @size="sm"
+          class="cds-aichat-history-header__close-button"
+          {{on "click" this.handleClose}}
         >
-          <Button
-            class="cds-aichat-history-header__close-button"
-            @ghost={{true}}
-            @iconOnly={{true}}
-            @size="sm"
-            @onClick={{this.handleClose}}
-          >
-            <ChevronLeft @size="16" />
-          </Button>
-        </Tooltip>
+          <ChevronLeft @size="16" />
+        </Button>
       {{/if}}
       <span class="cds-aichat-history-header__title">{{or
           @headerTitle

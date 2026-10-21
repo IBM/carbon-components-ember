@@ -7,7 +7,6 @@
 
 import Component from '@glimmer/component';
 import Button from '../button.gts';
-import Tooltip from '../tooltip.gts';
 import ThumbsDown from '../icons/thumbs-down.ts';
 import ThumbsDownFilled from '../icons/thumbs-down-filled.ts';
 import ThumbsUp from '../icons/thumbs-up.ts';
@@ -86,50 +85,44 @@ export default class FeedbackButtons extends Component<FeedbackButtonsSignature>
 
   <template>
     <div class="cds-aichat-feedback-buttons" ...attributes>
-      <Tooltip
-        @label={{if @positiveLabel @positiveLabel "Good response"}}
+      <Button
+        @kind="ghost"
+        @hasIconOnly={{true}}
+        @iconDescription={{if @positiveLabel @positiveLabel "Good response"}}
         @autoAlign={{true}}
+        @size="sm"
+        @disabled={{@isPositiveDisabled}}
+        class="cds-aichat-feedback-buttons__positive"
+        aria-pressed={{if @isPositiveSelected "true" undefined}}
+        aria-expanded={{this.positiveExpanded}}
+        aria-controls={{this.positiveControls}}
+        {{on "click" this.clickPositive}}
       >
-        <Button
-          class="cds-aichat-feedback-buttons__positive"
-          @ghost={{true}}
-          @iconOnly={{true}}
-          @size="sm"
-          @disabled={{@isPositiveDisabled}}
-          @onClick={{this.clickPositive}}
-          aria-pressed={{if @isPositiveSelected "true" undefined}}
-          aria-expanded={{this.positiveExpanded}}
-          aria-controls={{this.positiveControls}}
-        >
-          {{#if @isPositiveSelected}}
-            <ThumbsUpFilled @size="16" />
-          {{else}}
-            <ThumbsUp @size="16" />
-          {{/if}}
-        </Button>
-      </Tooltip>
-      <Tooltip
-        @label={{if @negativeLabel @negativeLabel "Bad response"}}
+        {{#if @isPositiveSelected}}
+          <ThumbsUpFilled @size="16" />
+        {{else}}
+          <ThumbsUp @size="16" />
+        {{/if}}
+      </Button>
+      <Button
+        @kind="ghost"
+        @hasIconOnly={{true}}
+        @iconDescription={{if @negativeLabel @negativeLabel "Bad response"}}
         @autoAlign={{true}}
+        @size="sm"
+        @disabled={{@isNegativeDisabled}}
+        class="cds-aichat-feedback-buttons__negative"
+        aria-pressed={{if @isNegativeSelected "true" undefined}}
+        aria-expanded={{this.negativeExpanded}}
+        aria-controls={{this.negativeControls}}
+        {{on "click" this.clickNegative}}
       >
-        <Button
-          class="cds-aichat-feedback-buttons__negative"
-          @ghost={{true}}
-          @iconOnly={{true}}
-          @size="sm"
-          @disabled={{@isNegativeDisabled}}
-          @onClick={{this.clickNegative}}
-          aria-pressed={{if @isNegativeSelected "true" undefined}}
-          aria-expanded={{this.negativeExpanded}}
-          aria-controls={{this.negativeControls}}
-        >
-          {{#if @isNegativeSelected}}
-            <ThumbsDownFilled @size="16" />
-          {{else}}
-            <ThumbsDown @size="16" />
-          {{/if}}
-        </Button>
-      </Tooltip>
+        {{#if @isNegativeSelected}}
+          <ThumbsDownFilled @size="16" />
+        {{else}}
+          <ThumbsDown @size="16" />
+        {{/if}}
+      </Button>
     </div>
   </template>
 }

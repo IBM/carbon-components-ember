@@ -38,9 +38,9 @@ class ToastsDemo extends Component {
 
   <template>
     <Stack @orientation="horizontal" @gap={{3}}>
-      <Button @onClick={{this.saved}}>Save</Button>
-      <Button @type="secondary" @onClick={{this.failed}}>Upload</Button>
-      <Button @tertiary={{true}} @onClick={{this.deleted}}>Delete</Button>
+      <Button {{on "click" this.saved}}>Save</Button>
+      <Button @kind="secondary" {{on "click" this.failed}}>Upload</Button>
+      <Button @kind="tertiary" {{on "click" this.deleted}}>Delete</Button>
     </Stack>
     <ToastNotificationList />
   </template>

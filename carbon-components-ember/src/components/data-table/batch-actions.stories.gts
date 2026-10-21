@@ -67,13 +67,13 @@ export const Default = meta.story({
       >
         <table.Toolbar as |toolbar|>
           <toolbar.Actions>
-            <Button @onClick={{remove}}>Delete</Button>
-            <Button @onClick={{save}}>Save</Button>
-            <Button @onClick={{download}}>Download</Button>
+            <Button {{on "click" remove}}>Delete</Button>
+            <Button {{on "click" save}}>Save</Button>
+            <Button {{on "click" download}}>Download</Button>
           </toolbar.Actions>
           <toolbar.Content>
             <table.SearchInput />
-            <Button @type="primary">Add new</Button>
+            <Button @kind="primary">Add new</Button>
           </toolbar.Content>
         </table.Toolbar>
         <table.Table
