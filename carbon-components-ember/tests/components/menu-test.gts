@@ -653,6 +653,7 @@ module('Integration | Component | Menu', (hooks) => {
           <MenuItemGroup
             @label="Font style"
             @className="my-group"
+            aria-label="Other"
             data-test-group
           >
             <MenuItemSelectable @label="Bold" />

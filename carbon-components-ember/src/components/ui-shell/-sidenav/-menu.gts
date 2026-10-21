@@ -70,11 +70,11 @@ export default class UIShellSideNavMenu extends Component<UIShellSideNavMenuSign
       {{#unless @hidden}}
         <li class="cds--side-nav__item">
           <a
-            ...attributes
             href="#"
             class="cds--side-nav__link"
             aria-current="{{if @isCurrent 'page'}}"
             role="button"
+            ...attributes
             {{on "click" @transitionTo}}
           >
             {{#if @icon}}

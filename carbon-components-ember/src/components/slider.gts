@@ -439,13 +439,13 @@ export default class Slider extends Component<SliderSignature> {
           }}</span>
 
         <div
-          ...attributes
           class="cds--slider
             {{if @disabled 'cds--slider--disabled'}}
             {{if @readOnly 'cds--slider--readonly'}}"
           role="presentation"
           tabindex="-1"
           data-invalid={{if @invalid "true"}}
+          ...attributes
           {{registerElement this.registerTrack}}
           {{! eslint-disable-next-line ember/template-no-pointer-down-event-binding }}
           {{on "mousedown" this.onDragStart}}

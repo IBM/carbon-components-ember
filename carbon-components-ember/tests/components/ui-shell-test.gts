@@ -247,14 +247,20 @@ module('Integration | Component | UIShell', (hooks) => {
     const noop = () => {};
     // A link, not a menu: no submenus.
     const submenus: [] = [];
+    const subLinks = [{ title: 'Sub-link' }];
     await render(
       <template>
         <UIShell>
           <:shell as |s|>
             <s.Header @title="IBM" @subtitle="Platform">
               <:header>
-                <s.Nav as |Item|>
+                <s.Nav as |Item Menu|>
                   <Item @className="nav-item" data-test-nav-link>Link</Item>
+                  <Menu @menuLinkName="More" as |MenuItem|>
+                    <MenuItem @className="menu-item" data-test-menu-link>
+                      Sub-link
+                    </MenuItem>
+                  </Menu>
                 </s.Nav>
               </:header>
             </s.Header>
@@ -266,8 +272,24 @@ module('Integration | Component | UIShell', (hooks) => {
                   @isCurrent={{false}}
                   @transitionTo={{noop}}
                   @submenus={{submenus}}
+                  href="/home"
                   data-test-side-link
                 />
+                {{! @glint-expect-error: @submenus is only used for its length here, but is typed as the full SubMenu[] }}
+                <Menu
+                  @title="Category"
+                  @open={{true}}
+                  @submenus={{subLinks}}
+                  as |Sub|
+                >
+                  <Sub
+                    @title="Sub-link"
+                    @isCurrent={{false}}
+                    @transitionTo={{noop}}
+                    @className="sub-item"
+                    data-test-sub-link
+                  />
+                </Menu>
               </:default>
             </s.Sidenav>
             <s.Switcher @aria-label="App switcher" as |Item Divider|>
@@ -283,7 +305,11 @@ module('Integration | Component | UIShell', (hooks) => {
     );
 
     assert.dom('li.nav-item > a[data-test-nav-link]').exists();
-    assert.dom('a.cds--side-nav__link[data-test-side-link]').exists();
+    assert.dom('li.menu-item > a[data-test-menu-link]').exists();
+    assert
+      .dom('a.cds--side-nav__link[data-test-side-link]')
+      .hasAttribute('href', '/home');
+    assert.dom('li.sub-item > a[data-test-sub-link]').exists();
     assert.dom('li.switcher-item > a[data-test-switcher-link]').exists();
     assert.dom('hr[data-test-divider]').exists();
   });

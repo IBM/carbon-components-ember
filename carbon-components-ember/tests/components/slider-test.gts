@@ -324,6 +324,28 @@ module('Integration | Component | Slider', (hooks) => {
 
     assert.strictEqual(value.value, 45);
   });
+
+  test('class and attributes go on the .cds--slider track, @className on the wrapper', async function (assert) {
+    await render(
+      <template>
+        <Slider
+          @labelText="Volume"
+          @min={{0}}
+          @max={{100}}
+          @value={{50}}
+          @className="my-field"
+          class="my-track"
+          data-test-slider
+        />
+      </template>,
+    );
+
+    assert.dom('.cds--form-item.my-field .cds--slider').exists();
+    assert
+      .dom('.cds--slider')
+      .hasClass('my-track')
+      .hasAttribute('data-test-slider');
+  });
 });
 
 module('Integration | Component | SliderSkeleton', (hooks) => {
@@ -346,27 +368,5 @@ module('Integration | Component | SliderSkeleton', (hooks) => {
     await render(<template><SliderSkeleton @hideLabel={{true}} /></template>);
 
     assert.dom('.cds--label').doesNotExist();
-  });
-
-  test('class and attributes go on the .cds--slider track, @className on the wrapper', async function (assert) {
-    await render(
-      <template>
-        <Slider
-          @labelText="Volume"
-          @min={{0}}
-          @max={{100}}
-          @value={{50}}
-          @className="my-field"
-          class="my-track"
-          data-test-slider
-        />
-      </template>,
-    );
-
-    assert.dom('.cds--form-item.my-field .cds--slider').exists();
-    assert
-      .dom('.cds--slider')
-      .hasClass('my-track')
-      .hasAttribute('data-test-slider');
   });
 });

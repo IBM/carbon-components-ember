@@ -141,4 +141,21 @@ module('Integration | Component | TileGroup', (hooks) => {
       .hasClass('my-tile')
       .hasAttribute('data-test-tile');
   });
+
+  test('a RadioTile puts @aria-describedby and @aria-labelledby on its input, as Carbon React does', async function (assert) {
+    await render(
+      <template>
+        <RadioTile
+          @value="a"
+          @aria-describedby="tile-hint"
+          @aria-labelledby="tile-title"
+        >Option</RadioTile>
+      </template>,
+    );
+
+    assert
+      .dom('input.cds--tile-input')
+      .hasAttribute('aria-describedby', 'tile-hint')
+      .hasAttribute('aria-labelledby', 'tile-title');
+  });
 });

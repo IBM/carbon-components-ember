@@ -78,7 +78,7 @@ export default class MenuItemRadioGroup<Item = string> extends Component<
 
   <template>
     <li class="cds--menu-item-radio-group {{@className}}" role="none">
-      <ul role="group" aria-label={{@label}} ...attributes>
+      <ul ...attributes role="group" aria-label={{@label}}>
         {{#each this.entries as |entry|}}
           <MenuItem
             @label={{entry.label}}
