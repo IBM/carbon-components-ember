@@ -60,12 +60,6 @@
       "feedbackTimeout",
       "hideCopyButton",
       "light",
-      "maxCollapsedNumberOfRows",
-      "maxExpandedNumberOfRows",
-      "minCollapsedNumberOfRows",
-      "minExpandedNumberOfRows",
-      "showLessText",
-      "showMoreText",
       "wrapText"
     ],
     "values": [
