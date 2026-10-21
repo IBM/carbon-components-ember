@@ -4,6 +4,11 @@ import type { TOC } from '@ember/component/template-only';
 export interface UIShellSideNavSubMenuSignature {
   Element: HTMLAnchorElement;
   Args: {
+    /**
+     * Classes for the `<li>`, as Carbon React's `className`. `class` and the
+     * other attributes go on the link.
+     */
+    className?: string;
     isCurrent: boolean;
     transitionTo: () => void;
     icon?: typeof Icon;
@@ -12,7 +17,7 @@ export interface UIShellSideNavSubMenuSignature {
 }
 
 const UIShellSideNavSubMenu: TOC<UIShellSideNavSubMenuSignature> = <template>
-  <li class="cds--side-nav__menu-item">
+  <li class="cds--side-nav__menu-item {{@className}}">
     <a
       href="#"
       aria-current="{{if @isCurrent 'page'}}"

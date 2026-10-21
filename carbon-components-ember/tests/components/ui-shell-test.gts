@@ -243,6 +243,51 @@ module('Integration | Component | UIShell', (hooks) => {
     assert.dom('.cds--switcher__item--divider').exists();
   });
 
+  test('attributes go on the links and the divider, as in Carbon React, and @className on the list items', async function (assert) {
+    const noop = () => {};
+    // A link, not a menu: no submenus.
+    const submenus: [] = [];
+    await render(
+      <template>
+        <UIShell>
+          <:shell as |s|>
+            <s.Header @title="IBM" @subtitle="Platform">
+              <:header>
+                <s.Nav as |Item|>
+                  <Item @className="nav-item" data-test-nav-link>Link</Item>
+                </s.Nav>
+              </:header>
+            </s.Header>
+            {{! @glint-expect-error: Sidenav's yielded-block mode doesn't need @menuItems/@currentMenu/@transitionTo, but its signature marks them required }}
+            <s.Sidenav @open={{true}}>
+              <:default as |Menu|>
+                <Menu
+                  @title="Home"
+                  @isCurrent={{false}}
+                  @transitionTo={{noop}}
+                  @submenus={{submenus}}
+                  data-test-side-link
+                />
+              </:default>
+            </s.Sidenav>
+            <s.Switcher @aria-label="App switcher" as |Item Divider|>
+              <Item @className="switcher-item" data-test-switcher-link>
+                App
+              </Item>
+              <Divider data-test-divider />
+            </s.Switcher>
+          </:shell>
+          <:content></:content>
+        </UIShell>
+      </template>,
+    );
+
+    assert.dom('li.nav-item > a[data-test-nav-link]').exists();
+    assert.dom('a.cds--side-nav__link[data-test-side-link]').exists();
+    assert.dom('li.switcher-item > a[data-test-switcher-link]').exists();
+    assert.dom('hr[data-test-divider]').exists();
+  });
+
   test('sidenav renders SideNavHeader, SideNavDetails and HeaderSideNavItems', async function (assert) {
     await render(
       <template>

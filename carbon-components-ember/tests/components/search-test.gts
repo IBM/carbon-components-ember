@@ -230,4 +230,28 @@ module('Integration | Component | Search', (hooks) => {
       document.removeEventListener = removeEventListener;
     }
   });
+
+  test('attributes and {{on "click"}} go on the <input>, @className on the wrapper', async function (assert) {
+    let clicks = 0;
+    const onClick = () => clicks++;
+    await render(
+      <template>
+        <Search
+          @labelText="Search"
+          @className="my-field"
+          class="my-input"
+          name="q"
+          {{on "click" onClick}}
+        />
+      </template>,
+    );
+
+    assert.dom('.cds--search').hasClass('my-field');
+    assert
+      .dom('input.cds--search-input')
+      .hasClass('my-input')
+      .hasAttribute('name', 'q');
+    await click('input.cds--search-input');
+    assert.strictEqual(clicks, 1);
+  });
 });

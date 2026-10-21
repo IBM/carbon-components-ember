@@ -21,7 +21,7 @@ export interface RadioTileSignature {
       event: Event,
     ) => void;
   };
-  Element: HTMLDivElement;
+  Element: HTMLLabelElement;
   Blocks: {
     default: [];
   };
@@ -66,7 +66,7 @@ export default class RadioTile extends Component<RadioTileSignature> {
   };
 
   <template>
-    <div ...attributes>
+    <div>
       <input
         type="radio"
         class="cds--tile-input"
@@ -82,6 +82,7 @@ export default class RadioTile extends Component<RadioTileSignature> {
         {{on "change" this.handleChange}}
       />
       <label
+        ...attributes
         for={{this.id}}
         class="cds--tile cds--tile--selectable cds--tile--radio
           {{if this.checked 'cds--tile--is-selected'}}

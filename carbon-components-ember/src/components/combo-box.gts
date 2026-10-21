@@ -49,6 +49,11 @@ export interface ComboBoxSignature<T> {
   Element: HTMLInputElement;
   Args: {
     /**
+     * Classes for the wrapper, as Carbon React's `className`. `class` and the
+     * other attributes go on the `<input>`.
+     */
+    className?: string;
+    /**
      * The id of the input. The label, menu and items derive theirs from it,
      * so pass it as `@id`: an `id` attribute is ignored. Auto-generated when
      * omitted.
@@ -750,7 +755,8 @@ export default class ComboBox<T> extends Component<ComboBoxSignature<T>> {
   <template>
     <div
       class="cds--list-box__wrapper
-        {{if (has-block 'decorator') 'cds--list-box__wrapper--decorator'}}"
+        {{if (has-block 'decorator') 'cds--list-box__wrapper--decorator'}}
+        {{@className}}"
     >
       {{#if @titleText}}
         <label

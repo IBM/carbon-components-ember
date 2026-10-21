@@ -6,7 +6,11 @@ import type { WithBoundArgs } from '@glint/template';
 
 export interface CheckboxSignature {
   Args: {
-    name?: string;
+    /**
+     * Classes for the wrapper, as Carbon React's `className`. `class` and the
+     * other attributes go on the `<input>`.
+     */
+    className?: string;
     readonly?: boolean;
     indeterminate?: boolean;
     checked?: boolean;
@@ -17,7 +21,7 @@ export interface CheckboxSignature {
     /** Visually hide the label, keeping it as the checkbox's accessible name (as Carbon React's `hideLabel`). */
     hideLabel?: boolean;
   };
-  Element: HTMLDivElement;
+  Element: HTMLInputElement;
   Blocks: {
     default: [];
     /**
@@ -49,8 +53,8 @@ export default class Checkbox extends Component<CheckboxSignature> {
   <template>
     <div
       class="cds--checkbox-wrapper
-        {{if (has-block 'decorator') 'cds--checkbox-wrapper--decorator'}}"
-      ...attributes
+        {{if (has-block 'decorator') 'cds--checkbox-wrapper--decorator'}}
+        {{@className}}"
     >
       <label
         tabindex="0"
@@ -63,12 +67,12 @@ export default class Checkbox extends Component<CheckboxSignature> {
         data-contained-checkbox-state="{{if @indeterminate 'mixed' @checked}}"
       >
         <input
+          ...attributes
           disabled={{if @disabled true false}}
           id="checkbox-{{this.guid}}"
           readonly={{@readonly}}
           class="cds--checkbox"
           type="checkbox"
-          name="{{@name}}"
           checked={{if @indeterminate true @checked}}
           {{on "change" this.onCheckChange}}
         />

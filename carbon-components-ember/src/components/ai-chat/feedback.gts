@@ -245,7 +245,7 @@ export default class Feedback extends Component<FeedbackSignature> {
           </div>
           {{#if @disclaimerCheckbox}}
             <Checkbox
-              class="cds-aichat-feedback__disclaimer-checkbox"
+              @className="cds-aichat-feedback__disclaimer-checkbox"
               @disabled={{@isReadonly}}
               @checked={{this.disclaimerChecked}}
               @onChange={{this.handleDisclaimerCheckboxChange}}

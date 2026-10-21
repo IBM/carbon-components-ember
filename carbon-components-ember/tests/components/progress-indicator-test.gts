@@ -138,4 +138,19 @@ module('Integration | Component | ProgressIndicator', (hooks) => {
 
     assert.dom('.cds--progress-optional').hasText('Optional');
   });
+
+  test('a step puts attributes on its <button> and @className on its <li>, as Carbon React does', async function (assert) {
+    await render(
+      <template>
+        <ProgressIndicator as |Step|>
+          <Step @label="First" @className="my-step" data-test-step />
+        </ProgressIndicator>
+      </template>,
+    );
+
+    assert.dom('li.cds--progress-step').hasClass('my-step');
+    assert
+      .dom('button.cds--progress-step-button')
+      .hasAttribute('data-test-step');
+  });
 });

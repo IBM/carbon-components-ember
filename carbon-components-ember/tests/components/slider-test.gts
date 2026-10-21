@@ -347,4 +347,26 @@ module('Integration | Component | SliderSkeleton', (hooks) => {
 
     assert.dom('.cds--label').doesNotExist();
   });
+
+  test('class and attributes go on the .cds--slider track, @className on the wrapper', async function (assert) {
+    await render(
+      <template>
+        <Slider
+          @labelText="Volume"
+          @min={{0}}
+          @max={{100}}
+          @value={{50}}
+          @className="my-field"
+          class="my-track"
+          data-test-slider
+        />
+      </template>,
+    );
+
+    assert.dom('.cds--form-item.my-field .cds--slider').exists();
+    assert
+      .dom('.cds--slider')
+      .hasClass('my-track')
+      .hasAttribute('data-test-slider');
+  });
 });

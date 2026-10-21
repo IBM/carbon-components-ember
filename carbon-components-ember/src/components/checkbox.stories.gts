@@ -12,9 +12,9 @@ import '#storybook/styles/checkbox.css';
 //   text, orientation, invalid/warn states for a set of checkboxes).
 // - `withAILabel`: without a CheckboxGroup there is no label on a group;
 //   the story shows labels on single checkboxes.
-// - Checkbox itself has no `helperText`, `invalid`/`invalidText`,
-//   `warn`/`warnText` or `hideLabel` args; its label is `@label` (or the
-//   block) rather than `labelText`.
+// - Checkbox itself has no `helperText`, `invalid`/`invalidText` or
+//   `warn`/`warnText` args; its label is `@label` (or the block) rather
+//   than `labelText`.
 const meta = preview.meta({
   title: 'Components/Checkbox',
   component: Checkbox,
@@ -42,7 +42,6 @@ const meta = preview.meta({
 
     return <template>
       <Checkbox
-        @name={{args.name}}
         @label={{args.label}}
         @checked={{state.checked}}
         @indeterminate={{args.indeterminate}}

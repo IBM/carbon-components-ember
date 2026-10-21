@@ -258,4 +258,17 @@ module('Integration | Component | TimePicker', (hooks) => {
     await click('input.cds--time-picker__input-field');
     assert.strictEqual(clicks, 1);
   });
+
+  test('TimePickerSelect takes @className for its wrapper', async function (assert) {
+    await render(
+      <template>
+        <TimePickerSelect @className="my-select" data-test-select>
+          <option value="AM">AM</option>
+        </TimePickerSelect>
+      </template>,
+    );
+
+    assert.dom('.cds--time-picker__select').hasClass('my-select');
+    assert.dom('select.cds--select-input').hasAttribute('data-test-select');
+  });
 });

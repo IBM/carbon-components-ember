@@ -4,6 +4,11 @@ import { guidFor } from '@ember/object/internals';
 export interface ToggleSignature {
   Element: HTMLButtonElement;
   Args: {
+    /**
+     * Classes for the wrapper, as Carbon React's `className`. `class` and the
+     * other attributes go on the `<button>`.
+     */
+    className?: string;
     onChange?: (checked: boolean) => void;
     value?: boolean;
     readonly?: boolean;
@@ -25,8 +30,13 @@ export default class Toggle extends Component<ToggleSignature> {
   };
 
   <template>
-    <div class="cds--toggle {{if @disabled 'cds--toggle--disabled'}}">
+    <div
+      class="cds--toggle
+        {{if @disabled 'cds--toggle--disabled'}}
+        {{@className}}"
+    >
       <button
+        ...attributes
         id="toggle-{{this.guid}}"
         class="cds--toggle__button"
         role="switch"
@@ -34,7 +44,6 @@ export default class Toggle extends Component<ToggleSignature> {
         aria-checked="{{@value}}"
         disabled={{@disabled}}
         {{on "click" this.onToggleChange}}
-        ...attributes
       ></button>
       <label class="cds--toggle__label" for="toggle-{{this.guid}}">
         <span class="cds--toggle__label-text">

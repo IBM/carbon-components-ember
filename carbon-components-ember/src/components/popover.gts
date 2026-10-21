@@ -496,6 +496,8 @@ export class PopoverContent extends Component<PopoverContentSignature> {
 
   <template>
     <span class="cds--popover">
+      {{! Not on the .cds--popover, as React: a tooltip's id there leaves its
+        trigger unnamed in testing-library, which skips the hidden content. }}
       <span class="cds--popover-content" {{this.register}} ...attributes>
         {{yield}}
         {{#if this.floating}}

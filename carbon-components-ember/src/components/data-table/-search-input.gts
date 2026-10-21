@@ -10,6 +10,11 @@ import './-search-input.scss';
 export interface TableToolbarSearchSignature {
   Element: SearchSignature['Element'];
   Args: {
+    /**
+     * Classes for the search's wrapper, as Carbon React's `className`.
+     * `class` and the other attributes go on the `<input>`.
+     */
+    className?: string;
     onChange: (value: string) => TaskInstance<unknown> | undefined;
     isLoading: boolean;
     expandable?: boolean;
@@ -56,7 +61,8 @@ export default class TableToolbarSearch extends Component<TableToolbarSearchSign
       @labelText={{if @labelText @labelText "Filter table"}}
       @placeholder={{if @placeholder @placeholder "Filter table"}}
       @onChange={{this.doSearch}}
-      class="{{if this.isSearching 'cds--ember-table-search--searching'}}"
+      @className="{{if this.isSearching 'cds--ember-table-search--searching'}}
+        {{@className}}"
       ...attributes
     />
     {{#if this.isSearching}}

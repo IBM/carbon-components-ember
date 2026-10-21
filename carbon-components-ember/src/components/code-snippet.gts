@@ -5,8 +5,10 @@ import { modifier } from 'ember-modifier';
 import style from 'ember-style-modifier';
 import { observeResize } from '../utils/resize-observer.ts';
 import type { TOC } from '@ember/component/template-only';
+import type { CopyButtonSignature } from '../components/copy-button.gts';
 
 export interface CodeSnippetSignature {
+  Element: HTMLDivElement | CopyButtonSignature['Element'];
   Args: {
     /** The variant. Defaults to `'default'`, a single line. */
     type?: 'default' | 'multiline' | 'inline';
@@ -154,7 +156,7 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
 
   <template>
     {{#if (eq this.type "default")}}
-      <div class="cds--snippet cds--snippet--single">
+      <div class="cds--snippet cds--snippet--single" ...attributes>
         {{! As Carbon React: the single-line container is a focusable,
           read-only textbox, so its horizontally scrolling content is
           keyboard reachable. }}
@@ -177,6 +179,7 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
         class="cds--snippet cds--snippet--multi
           {{if this.expanded 'cds--snippet--expand'}}"
         data-code-snippet
+        ...attributes
       >
         <div class="cds--snippet-container" {{style this.heights}}>
           <PreCode
@@ -214,7 +217,7 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
       </div>
     {{/if}}
     {{#if (eq this.type "inline")}}
-      <CopyButton @inline={{true}}>
+      <CopyButton @inline={{true}} ...attributes>
         {{~yield~}}
       </CopyButton>
     {{/if}}

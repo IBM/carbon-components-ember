@@ -8,9 +8,9 @@ module('Integration | Component | AILabel', (hooks) => {
   setupRenderingTest(hooks);
 
   test('should render a default label', async function (assert) {
-    await render(<template><AILabel data-test-label /></template>);
+    await render(<template><AILabel /></template>);
 
-    assert.dom('[data-test-label]').hasClass('cds--ai-label');
+    assert.dom('.cds--ai-label').exists();
     assert
       .dom('.cds--ai-label__button')
       .hasClass('cds--ai-label__button--xs')
@@ -87,5 +87,30 @@ module('Integration | Component | AILabel', (hooks) => {
 
     await click(findButton('Revert to AI input'));
     assert.verifySteps(['revert']);
+  });
+
+  test('class and attributes go on the toggletip, @className on the wrapper, as Carbon React does', async function (assert) {
+    await render(
+      <template>
+        <AILabel @className="my-label" class="my-toggletip" data-test-label />
+      </template>,
+    );
+
+    assert.dom('.cds--ai-label').hasClass('my-label');
+    assert
+      .dom('.cds--toggletip')
+      .hasClass('my-toggletip')
+      .hasAttribute('data-test-label');
+  });
+
+  test('with @revertActive, attributes go on the revert button', async function (assert) {
+    await render(
+      <template><AILabel @revertActive={{true}} data-test-label /></template>,
+    );
+
+    assert.strictEqual(
+      findButton('Revert to AI input'),
+      document.querySelector('[data-test-label]'),
+    );
   });
 });
