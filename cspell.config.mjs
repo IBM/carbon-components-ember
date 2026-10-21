@@ -19,10 +19,14 @@ export default {
     // The roadmap project's name on GitHub, "carbonv12".
     'carbonv',
     'CSSOM',
+    'emberjs',
     'pipefail',
     // GitHub's project item ids start with it.
     'PVTI',
     'runloop',
+    'splattributes',
     'subclassing',
+    'teardowns',
+    'toggletip',
   ],
 };
