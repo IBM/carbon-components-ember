@@ -25,11 +25,6 @@ export interface DatePickerInputSignature {
   };
   Args: {
     /**
-     * Classes for the wrapper, as Carbon React's `className`. `class` and the
-     * other attributes go on the `<input>`.
-     */
-    className?: string;
-    /**
      * The id of the `<input>`. Also used to associate the label with the
      * field. Auto-generated when omitted.
      */
@@ -171,8 +166,7 @@ export default class DatePickerInput extends Component<DatePickerInputSignature>
   <template>
     <div
       class="cds--date-picker-container
-        {{unless @labelText 'cds--date-picker--nolabel'}}
-        {{@className}}"
+        {{unless @labelText 'cds--date-picker--nolabel'}}"
     >
       {{#if @labelText}}
         <label

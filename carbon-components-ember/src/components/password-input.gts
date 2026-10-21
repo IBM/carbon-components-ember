@@ -19,11 +19,6 @@ import type { TooltipAlignment } from './tooltip.gts';
 
 export interface PasswordInputSignature {
   Args: {
-    /**
-     * Classes for the wrapper, as Carbon React's `className`. `class` and the
-     * other attributes go on the `<input>`.
-     */
-    className?: string;
     id?: string;
     labelText?: string;
     hideLabel?: boolean;
@@ -133,8 +128,7 @@ export default class PasswordInput extends Component<PasswordInputSignature> {
           (and @inline this.isInvalid)
           'cds--text-input-wrapper--inline--invalid'
         }}
-        {{if @size (concat 'cds--layout--size-' @size)}}
-        {{@className}}"
+        {{if @size (concat 'cds--layout--size-' @size)}}"
     >
       {{#if @labelText}}
         <label

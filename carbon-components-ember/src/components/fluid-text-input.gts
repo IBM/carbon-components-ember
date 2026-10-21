@@ -11,8 +11,9 @@ import Tooltip from './tooltip.gts';
 export interface FluidTextInputSignature {
   Args: {
     /**
-     * Classes for the wrapper, as Carbon React's `className`. `class` and the
-     * other attributes go on the `<input>`.
+     * Carbon React's `className`: classes for the wrapper, or for the
+     * `<input>` with `@isPassword`, as in React. `class` and the other
+     * attributes go on the `<input>`.
      */
     className?: string;
     id?: string;
@@ -120,7 +121,7 @@ export default class FluidTextInput extends Component<FluidTextInputSignature> {
       class="cds--form-item cds--text-input-wrapper cds--text-input--fluid
         {{if @isPassword 'cds--password-input-wrapper'}}
         {{if @readOnly 'cds--text-input-wrapper--readonly'}}
-        {{@className}}"
+        {{unless @isPassword @className}}"
     >
       <div class="cds--text-input__label-wrapper">
         {{#if (has-block "labelText")}}
@@ -170,7 +171,8 @@ export default class FluidTextInput extends Component<FluidTextInputSignature> {
             class="cds--text-input
               {{if @isPassword 'cds--password-input'}}
               {{if this.isInvalid 'cds--text-input--invalid'}}
-              {{if this.isWarn 'cds--text-input--warning'}}"
+              {{if this.isWarn 'cds--text-input--warning'}}
+              {{if @isPassword @className}}"
             placeholder={{@placeholder}}
             disabled={{@disabled}}
             readonly={{@readOnly}}

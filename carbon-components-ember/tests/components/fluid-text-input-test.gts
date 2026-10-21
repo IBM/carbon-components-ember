@@ -320,4 +320,19 @@ module('Integration | Component | FluidTextInput', (hooks) => {
     await click('input.cds--text-input');
     assert.strictEqual(clicks, 1);
   });
+
+  test('with @isPassword, @className goes on the <input>, as in Carbon React', async function (assert) {
+    await render(
+      <template>
+        <FluidTextInput
+          @labelText="Password"
+          @isPassword={{true}}
+          @className="my-field"
+        />
+      </template>,
+    );
+
+    assert.dom('input.cds--password-input').hasClass('my-field');
+    assert.dom('.cds--text-input--fluid').doesNotHaveClass('my-field');
+  });
 });

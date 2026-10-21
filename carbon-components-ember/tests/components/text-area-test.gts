@@ -139,6 +139,14 @@ module('Integration | Component | TextArea', (hooks) => {
     assert.dom('textarea.cds--text-area').doesNotHaveAttribute('maxlength');
   });
 
+  test('keeps a maxlength attribute when the counter sets none', async function (assert) {
+    await render(
+      <template><TextArea @labelText="Notes" maxlength="20" /></template>,
+    );
+
+    assert.dom('textarea.cds--text-area').hasAttribute('maxlength', '20');
+  });
+
   test('should count words when counterMode is word', async function (assert) {
     await render(
       <template>

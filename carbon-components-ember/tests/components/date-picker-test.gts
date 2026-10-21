@@ -601,14 +601,13 @@ module('Integration | Component | DatePicker', (hooks) => {
       .exists('the yielded AI label is mini, as in Carbon React');
   });
 
-  test('attributes and {{on "click"}} go on the <input>, @className on the wrapper', async function (assert) {
+  test('class, attributes and {{on "click"}} go on the <input>', async function (assert) {
     let clicks = 0;
     const onClick = () => clicks++;
     await render(
       <template>
         <DatePicker @datePickerType="simple" as |Input|><Input
             @labelText="Date"
-            @className="my-field"
             class="my-input"
             data-test-date
             {{on "click" onClick}}
@@ -616,7 +615,6 @@ module('Integration | Component | DatePicker', (hooks) => {
       </template>,
     );
 
-    assert.dom('.cds--date-picker-container').hasClass('my-field');
     assert
       .dom('input.cds--date-picker__input')
       .hasClass('my-input')

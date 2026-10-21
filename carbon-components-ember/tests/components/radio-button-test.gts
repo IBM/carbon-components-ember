@@ -229,4 +229,17 @@ module('Integration | Component | RadioButton', (hooks) => {
     await click('input.cds--radio-button');
     assert.strictEqual(clicks, 1);
   });
+
+  test('a name attribute does not take a radio button out of its group', async function (assert) {
+    await render(
+      <template>
+        <RadioButtonGroup @name="size" as |Radio|>
+          <Radio @value="s" @labelText="Small" name="other" />
+          <Radio @value="m" @labelText="Medium" />
+        </RadioButtonGroup>
+      </template>,
+    );
+
+    assert.dom('input[value="s"]').hasAttribute('name', 'size');
+  });
 });

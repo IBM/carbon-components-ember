@@ -150,6 +150,7 @@ export default class TextArea extends Component<TextAreaSignature> {
           />
         {{/if}}
         <textarea
+          maxlength={{this.maxLength}}
           ...attributes
           id={{this.id}}
           class="cds--text-area
@@ -161,7 +162,6 @@ export default class TextArea extends Component<TextAreaSignature> {
           placeholder={{@placeholder}}
           disabled={{@disabled}}
           readonly={{@readOnly}}
-          maxlength={{this.maxLength}}
           aria-invalid={{if this.isInvalid "true"}}
           data-invalid={{if this.isInvalid "true"}}
           {{on "input" this.updateValue}}
