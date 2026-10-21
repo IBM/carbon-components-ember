@@ -21,6 +21,7 @@ dom-parity/node_modules
 !.claude/skills/**/*
 !.git-blame-ignore-revs
 !CHANGELOG.md
+!AGENTS.md
 !CONTRIBUTING.md
 !LICENSE.md
 !package.json
