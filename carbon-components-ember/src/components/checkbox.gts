@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import { cached, tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import { defaultArgs } from '../utils/decorators.ts';
 import AILabel from './ai-label.gts';
 import type { WithBoundArgs } from '@glint/template';
 
@@ -32,12 +31,6 @@ export interface CheckboxSignature {
 
 export default class Checkbox extends Component<CheckboxSignature> {
   @tracked isFocus = false;
-
-  args: CheckboxSignature['Args'] = defaultArgs(this, {
-    disabled: false,
-    onChange: () => null,
-    state: undefined,
-  });
 
   @cached
   get guid() {
