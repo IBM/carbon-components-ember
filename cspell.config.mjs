@@ -16,7 +16,8 @@ export default {
   ],
   words: [
     'autotracking',
-    // The roadmap project's name on GitHub, "carbonv12".
+    // The Carbon v12 project's name on GitHub ends "carbonv12", and cspell
+    // drops the digits.
     'carbonv',
     'CSSOM',
     'emberjs',
