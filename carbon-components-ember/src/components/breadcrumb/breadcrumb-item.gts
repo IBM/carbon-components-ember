@@ -6,7 +6,10 @@
  */
 
 import Link from '../link.gts';
+import OverflowMenu from '../overflow-menu.gts';
+import OverflowMenuHorizontal from '../icons/overflow-menu-horizontal.ts';
 import type { TOC } from '@ember/component/template-only';
+import type { WithBoundArgs } from '@glint/template';
 
 type AriaCurrent =
   boolean | 'false' | 'true' | 'page' | 'step' | 'location' | 'date' | 'time';
@@ -35,8 +38,20 @@ export interface BreadcrumbItemSignature {
      * `LinkTo`, and `@href` is unused: put `item.class` and
      * `item.ariaCurrent` on it. As in Carbon React, `item.ariaCurrent` is
      * `@ariaCurrent` only; `@isCurrentPage` styles the item but not the link.
+     * Or render `item.OverflowMenu`, set up for a breadcrumb as Carbon React
+     * sets up an OverflowMenu child: Carbon's breadcrumb menu class and
+     * offset, and the horizontal icon.
      */
-    default: [{ class: string; ariaCurrent: string | undefined }];
+    default: [
+      {
+        class: string;
+        ariaCurrent: string | undefined;
+        OverflowMenu: WithBoundArgs<
+          typeof OverflowMenu,
+          'menuOptionsClass' | 'menuOffset' | 'renderIcon'
+        >;
+      },
+    ];
   };
 }
 
@@ -51,6 +66,8 @@ const linkAriaCurrent = (ariaCurrent?: AriaCurrent, isCurrentPage?: boolean) =>
 const isCurrent = (isCurrentPage?: boolean, ariaCurrent?: AriaCurrent) =>
   isCurrentPage && ariaCurrent !== 'page';
 
+const breadcrumbMenuOffset = { top: 10, left: 59 };
+
 const BreadcrumbItem: TOC<BreadcrumbItemSignature> = <template>
   <li
     class="cds--breadcrumb-item
@@ -61,7 +78,16 @@ const BreadcrumbItem: TOC<BreadcrumbItemSignature> = <template>
     ...attributes
   >
     {{#let
-      (hash class="cds--link" ariaCurrent=(toAttribute @ariaCurrent))
+      (hash
+        class="cds--link"
+        ariaCurrent=(toAttribute @ariaCurrent)
+        OverflowMenu=(component
+          OverflowMenu
+          menuOptionsClass="cds--breadcrumb-menu-options"
+          menuOffset=breadcrumbMenuOffset
+          renderIcon=OverflowMenuHorizontal
+        )
+      )
       as |item|
     }}
       {{#if (has-block-params)}}

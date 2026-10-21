@@ -1,6 +1,6 @@
 {
   "component": "Breadcrumb",
-  "generatedAt": "2026-10-20T03:32:44.286Z",
+  "generatedAt": "2026-10-21T08:20:09.461Z",
   "carbonReactVersion": "1.114.0",
   "reactVersion": "19.3.1",
   "variants": {
@@ -661,6 +661,258 @@
                       {
                         "type": "text",
                         "text": "Breadcrumb 2"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "li",
+                "classes": [
+                  "cds--breadcrumb-item",
+                  "cds--breadcrumb-item--current"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--link"
+                    ],
+                    "attributes": {
+                      "aria-current": "true",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Breadcrumb 3"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "overflow-menu": {
+      "props": {
+        "secondItem": {
+          "overflowMenu": true
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "nav",
+        "classes": [],
+        "attributes": {
+          "aria-label": "Breadcrumb"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "ol",
+            "classes": [
+              "cds--breadcrumb"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "li",
+                "classes": [
+                  "cds--breadcrumb-item"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "a",
+                    "classes": [
+                      "cds--link"
+                    ],
+                    "attributes": {
+                      "href": "#a"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Breadcrumb 1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "li",
+                "classes": [
+                  "cds--breadcrumb-item"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--overflow-menu__wrapper"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--icon-tooltip",
+                          "cds--popover--bottom",
+                          "cds--popover--caret",
+                          "cds--popover--high-contrast",
+                          "cds--popover-container",
+                          "cds--tooltip"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--tooltip-trigger__wrapper"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "button",
+                                "classes": [
+                                  "cds--btn",
+                                  "cds--btn--ghost",
+                                  "cds--btn--icon-only",
+                                  "cds--overflow-menu"
+                                ],
+                                "attributes": {
+                                  "aria-haspopup": "true",
+                                  "aria-expanded": "false",
+                                  "aria-labelledby": "#1",
+                                  "type": "button"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "svg",
+                                    "classes": [
+                                      "cds--overflow-menu__icon"
+                                    ],
+                                    "attributes": {
+                                      "focusable": "false",
+                                      "preserveAspectRatio": "xMidYMid meet",
+                                      "fill": "currentColor",
+                                      "width": "16",
+                                      "height": "16",
+                                      "viewBox": "0 0 32 32",
+                                      "aria-hidden": "true",
+                                      "xmlns": "http://www.w3.org/2000/svg"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "circle",
+                                        "classes": [],
+                                        "attributes": {
+                                          "cx": "8",
+                                          "cy": "16",
+                                          "r": "2"
+                                        },
+                                        "style": {},
+                                        "children": []
+                                      },
+                                      {
+                                        "type": "element",
+                                        "tag": "circle",
+                                        "classes": [],
+                                        "attributes": {
+                                          "cx": "16",
+                                          "cy": "16",
+                                          "r": "2"
+                                        },
+                                        "style": {},
+                                        "children": []
+                                      },
+                                      {
+                                        "type": "element",
+                                        "tag": "circle",
+                                        "classes": [],
+                                        "attributes": {
+                                          "cx": "24",
+                                          "cy": "16",
+                                          "r": "2"
+                                        },
+                                        "style": {},
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover"
+                            ],
+                            "attributes": {
+                              "aria-hidden": "true",
+                              "id": "#1",
+                              "role": "tooltip"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover-content",
+                                  "cds--tooltip-content"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Options"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover-caret"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
                       }
                     ]
                   }
