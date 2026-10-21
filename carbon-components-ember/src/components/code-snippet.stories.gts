@@ -120,12 +120,12 @@ export const Multiline = meta.story({
 });
 
 Multiline.test('expands with Show more', async ({ canvas, userEvent }) => {
-  const toggle = await canvas.findByRole('button', { name: /show more/i });
+  const toggle = await canvas.findByRole('button', { name: 'Show more' });
   const snippet = toggle.closest('.cds--snippet')!;
   await expect(snippet).not.toHaveClass('cds--snippet--expand');
   await userEvent.click(toggle);
   await expect(snippet).toHaveClass('cds--snippet--expand');
-  await expect(toggle).toHaveTextContent('Show less');
+  await expect(toggle).toHaveAccessibleName('Show less');
 });
 
 export const Singleline = meta.story({

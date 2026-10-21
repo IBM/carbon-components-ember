@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
+import { tracked } from '@glimmer/tracking';
 import { render, click, find, waitUntil } from '@ember/test-helpers';
 import CodeSnippet from '#src/components/code-snippet.gts';
-import { setupClipboard, waitForAnimationFrame } from '../helpers';
+import { setupClipboard } from '../helpers';
 
 const longCode = Array.from({ length: 30 }, (_, i) => `line ${i + 1}`).join(
   '\n',
@@ -91,15 +92,40 @@ module('Integration | Component | CodeSnippet', (hooks) => {
     });
   });
 
-  test('a multi-line snippet that fits has no Show more', async function (assert) {
+  test('once the code fits, Show more goes and the snippet collapses', async function (assert) {
+    const code = tracked(longCode);
     await render(
       <template>
-        <CodeSnippet @type="multiline">const y = 2;</CodeSnippet>
+        <CodeSnippet @type="multiline">{{code.value}}</CodeSnippet>
       </template>,
     );
-    await waitForAnimationFrame();
+    await waitUntil(() => find('.cds--snippet-btn--expand'));
+    await click('.cds--snippet-btn--expand');
 
-    assert.dom('.cds--snippet-btn--expand').doesNotExist();
+    code.value = 'const y = 2;';
+    await waitUntil(() => !find('.cds--snippet-btn--expand'));
+    assert.dom('.cds--snippet--multi').doesNotHaveClass('cds--snippet--expand');
+  });
+
+  test('the expanded limits and text come from their arguments', async function (assert) {
+    await render(
+      <template>
+        <CodeSnippet
+          @type="multiline"
+          @maxExpandedNumberOfRows={{20}}
+          @minExpandedNumberOfRows={{10}}
+          @showLessText="Less"
+        >{{longCode}}</CodeSnippet>
+      </template>,
+    );
+    await waitUntil(() => find('.cds--snippet-btn--expand'));
+    await click('.cds--snippet-btn--expand');
+
+    assert.deepEqual(heightsOf('.cds--snippet-container'), {
+      maxHeight: '320px',
+      minHeight: '160px',
+    });
+    assert.dom('.cds--snippet-btn--text').hasText('Less');
   });
 
   test('the row limits come from the NumberOfRows arguments', async function (assert) {

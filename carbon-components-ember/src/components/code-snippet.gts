@@ -16,8 +16,9 @@ export interface CodeSnippetSignature {
      */
     maxCollapsedNumberOfRows?: number;
     /**
-     * The most rows an expanded multi-line snippet shows. Defaults to `0`,
-     * no limit.
+     * The most rows an expanded multi-line snippet shows; at or below
+     * `@maxCollapsedNumberOfRows`, there's no Show more. Defaults to `0`, no
+     * limit.
      */
     maxExpandedNumberOfRows?: number;
     /** The fewest rows a collapsed multi-line snippet takes. Defaults to `3`. */
@@ -202,11 +203,8 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
               width="12"
               height="7"
               viewBox="0 0 12 7"
-              aria-label="Show more icon"
+              aria-hidden="true"
             >
-              <title>
-                Show more icon
-              </title>
               <path
                 fill-rule="nonzero"
                 d="M6.002 5.55L11.27 0l.726.685L6.003 7 0 .685.726 0z"
