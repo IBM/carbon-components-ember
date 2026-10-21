@@ -2991,6 +2991,34 @@ module('DOM parity | Carbon React', function (hooks) {
       );
     });
 
+    test('overflow-menu', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Breadcrumb as |BreadcrumbItem|>
+            <BreadcrumbItem @href="#a">Breadcrumb 1</BreadcrumbItem>
+            <BreadcrumbItem as |item|>
+              <item.OverflowMenu
+                @align="bottom"
+                @ariaLabel="Overflow menu in a breadcrumb"
+                as |OverflowMenuItem|
+              >
+                <OverflowMenuItem @itemText="Breadcrumb 2" />
+                <OverflowMenuItem @itemText="Breadcrumb 2b" />
+              </item.OverflowMenu>
+            </BreadcrumbItem>
+            <BreadcrumbItem @isCurrentPage={{true}}>Breadcrumb 3</BreadcrumbItem>
+          </Breadcrumb>
+        </template>,
+      );
+      await waitUntil(() => find('.cds--overflow-menu svg'));
+      assertDomParity(
+        assert,
+        breadcrumbFixture,
+        'overflow-menu',
+        this.element.firstElementChild,
+      );
+    });
+
     test('every fixture variant is covered', function (assert) {
       assertFullCoverage(assert, breadcrumbFixture, [
         'default',
@@ -2999,6 +3027,7 @@ module('DOM parity | Carbon React', function (hooks) {
         'aria-label',
         'aria-current-page',
         'custom-link',
+        'overflow-menu',
       ]);
     });
   });

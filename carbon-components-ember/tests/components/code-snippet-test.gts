@@ -70,6 +70,16 @@ module('Integration | Component | CodeSnippet', (hooks) => {
     assert.deepEqual(clipboard.copied, ['const x = 1;']);
   });
 
+  test('without @type it renders a single line', async function (assert) {
+    await render(
+      <template>
+        <CodeSnippet>const x = 1;</CodeSnippet>
+      </template>,
+    );
+
+    assert.dom('.cds--snippet--single code').hasText('const x = 1;');
+  });
+
   test('a long multi-line snippet collapses to 15 rows, with Show more', async function (assert) {
     await render(
       <template>

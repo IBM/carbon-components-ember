@@ -1,7 +1,6 @@
 import Chart from './-components/chart.gts';
 import { PieChart as CarbonChartsPieChart } from '@carbon/charts';
 import Component from '@glimmer/component';
-import { defaultArgs } from '../../utils/decorators.ts';
 import type { ChartSignature } from '../../components/charts/-components/chart.gts';
 
 export interface PieChartSignature {
@@ -11,7 +10,12 @@ export interface PieChartSignature {
      * (its `title` option).
      */
     title?: string;
+    /** Whether the chart resizes with its container. Defaults to `true`. */
     resizable?: boolean;
+    /**
+     * Whether clicking a legend item shows or hides its data. Defaults to
+     * `true`.
+     */
     legendClickable?: boolean;
   };
   Element: ChartSignature['Element'];
@@ -22,19 +26,6 @@ export interface PieChartSignature {
 
 export default class PieChart extends Component<PieChartSignature> {
   ChartClass = CarbonChartsPieChart;
-
-  @defaultArgs
-  args: PieChartSignature['Args'] = {
-    /**
-     * Is resizable
-     */
-    resizable: true,
-
-    /**
-     * Is legendClickable
-     */
-    legendClickable: true,
-  };
 
   <template>
     <Chart

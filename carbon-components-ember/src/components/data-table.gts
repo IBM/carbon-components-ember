@@ -9,7 +9,6 @@ import Menu from './data-table/-menu.gts';
 import { modifier } from 'ember-modifier';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { defaultArgs } from '../utils/decorators.ts';
 import { A } from '@ember/array';
 import type { NativeArray } from '@ember/array';
 import { task } from 'ember-concurrency';
@@ -144,18 +143,6 @@ export default class DataTable<T> extends Component<DataTableSignature<T>> {
   // incremented by each Column instance to associate it with its header id;
   // reset to 0 by each Row so column position stays 1:1 with the headers array
   columnIndexCounter = 0;
-
-  @defaultArgs
-  args: DataTableSignature<T>['Args'] = {
-    onSelectionChange: () => null,
-    registerState: () => null,
-    search: undefined,
-    state: undefined,
-    items: undefined as never,
-    isLoading: false,
-    title: '',
-    description: '',
-  };
 
   @tracked internalState: State<T>;
 

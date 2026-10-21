@@ -1,6 +1,5 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { defaultArgs } from '../utils/decorators.ts';
 import CopyButton from '../components/copy-button.gts';
 import { modifier } from 'ember-modifier';
 import style from 'ember-style-modifier';
@@ -9,7 +8,8 @@ import type { TOC } from '@ember/component/template-only';
 
 export interface CodeSnippetSignature {
   Args: {
-    type: 'default' | 'multiline' | 'inline';
+    /** The variant. Defaults to `'default'`, a single line. */
+    type?: 'default' | 'multiline' | 'inline';
     /**
      * The most rows a collapsed multi-line snippet shows; longer code gets
      * a Show more button. `0` removes the limit. Defaults to `15`.
@@ -91,6 +91,10 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
     this.expanded = !this.expanded;
   };
 
+  get type() {
+    return this.args.type ?? 'default';
+  }
+
   get maxCollapsedNumberOfRows() {
     return this.args.maxCollapsedNumberOfRows ?? 15;
   }
@@ -148,13 +152,8 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
     }),
   );
 
-  @defaultArgs
-  args: CodeSnippetSignature['Args'] = {
-    type: 'default',
-  };
-
   <template>
-    {{#if (eq @type "default")}}
+    {{#if (eq this.type "default")}}
       <div class="cds--snippet cds--snippet--single">
         {{! As Carbon React: the single-line container is a focusable,
           read-only textbox, so its horizontally scrolling content is
@@ -173,7 +172,7 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
         <CopyButton @targetElement={{this.carbonElement}} />
       </div>
     {{/if}}
-    {{#if (eq @type "multiline")}}
+    {{#if (eq this.type "multiline")}}
       <div
         class="cds--snippet cds--snippet--multi
           {{if this.expanded 'cds--snippet--expand'}}"
@@ -214,7 +213,7 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
         {{/if}}
       </div>
     {{/if}}
-    {{#if (eq @type "inline")}}
+    {{#if (eq this.type "inline")}}
       <CopyButton @inline={{true}}>
         {{~yield~}}
       </CopyButton>

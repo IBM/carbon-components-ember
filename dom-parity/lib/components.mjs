@@ -911,12 +911,29 @@ const textInput = (name, props) => ({
 });
 
 // Two links and the current page as text. `second` replaces the second
-// item's props, or with `link`, renders it as a custom <a> child.
+// item's props, or with `link`, renders it as a custom <a> child, or with
+// `overflowMenu`, as a closed OverflowMenu of two items.
 const breadcrumb = (name, props, second = { href: '#b' }) => ({
   name,
   props: { ...props, secondItem: second },
   createElement: (React, Carbon) => {
-    const { link, ...secondProps } = second;
+    const { link, overflowMenu, ...secondProps } = second;
+    const content = overflowMenu
+      ? React.createElement(
+          Carbon.OverflowMenu,
+          { align: 'bottom', 'aria-label': 'Overflow menu in a breadcrumb' },
+          React.createElement(Carbon.OverflowMenuItem, {
+            key: 'x',
+            itemText: 'Breadcrumb 2',
+          }),
+          React.createElement(Carbon.OverflowMenuItem, {
+            key: 'y',
+            itemText: 'Breadcrumb 2b',
+          }),
+        )
+      : link
+        ? React.createElement('a', { href: link }, 'Breadcrumb 2')
+        : 'Breadcrumb 2';
     return React.createElement(
       Carbon.Breadcrumb,
       props,
@@ -928,9 +945,7 @@ const breadcrumb = (name, props, second = { href: '#b' }) => ({
       React.createElement(
         Carbon.BreadcrumbItem,
         { key: 'b', ...secondProps },
-        link
-          ? React.createElement('a', { href: link }, 'Breadcrumb 2')
-          : 'Breadcrumb 2',
+        content,
       ),
       React.createElement(
         Carbon.BreadcrumbItem,
@@ -2043,6 +2058,7 @@ export const COMPONENTS = [
         { href: '#b', 'aria-current': 'page' },
       ),
       breadcrumb('custom-link', {}, { link: '#b' }),
+      breadcrumb('overflow-menu', {}, { overflowMenu: true }),
     ],
   },
   {
@@ -2328,9 +2344,9 @@ export const COMPONENTS = [
   {
     name: 'ProgressBar',
     variants: [
-      // No `size` passed - Ember's `defaultArgs.size` now matches
-      // upstream's own `size = 'big'` default, so both sides render
-      // `cds--progress-bar--big` with nothing explicit needed here.
+      // No `size` passed - Ember's `size` default matches upstream's own
+      // `size = 'big'`, so both sides render `cds--progress-bar--big` with
+      // nothing explicit needed here.
       progressBar('default', { value: 50 }),
       progressBar('size-small', { size: 'small', value: 50 }),
       progressBar('type-inline', { type: 'inline', value: 30 }),
