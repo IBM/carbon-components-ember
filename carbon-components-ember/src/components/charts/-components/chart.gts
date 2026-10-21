@@ -5,7 +5,6 @@ import ColorScale from '../../charts/-components/color/scale.gts';
 import { modifier } from 'ember-modifier';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { defaultArgs } from '../../../utils/decorators.ts';
 import type {
   AxisChartOptions,
   Chart as CarbonChartsChart,
@@ -47,24 +46,6 @@ export interface ChartSignature {
 }
 
 export default class Chart extends Component<ChartSignature> {
-  @defaultArgs
-  args: ChartSignature['Args'] = {
-    /**
-     * Is resizable
-     */
-    resizable: true,
-
-    /**
-     * Is legendClickable
-     */
-    legendClickable: true,
-
-    /**
-     * Chart class
-     */
-    ChartClass: undefined,
-  };
-
   /**
    * The yielded `Axis`, `TabularData`, `ColorScale` and `ColorPairing`
    * components register themselves here. The chart's options and data are
@@ -96,8 +77,8 @@ export default class Chart extends Component<ChartSignature> {
         ...(hasScale ? { scale } : {}),
         ...(pairing ? { pairing } : {}),
       },
-      legend: { clickable: this.args.legendClickable! },
-      resizable: this.args.resizable!,
+      legend: { clickable: this.args.legendClickable ?? true },
+      resizable: this.args.resizable ?? true,
       timeScale: {},
       title: this.args.title,
     };

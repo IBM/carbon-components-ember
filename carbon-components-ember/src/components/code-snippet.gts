@@ -1,6 +1,5 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { defaultArgs } from '../utils/decorators.ts';
 import CopyButton from '../components/copy-button.gts';
 import { modifier } from 'ember-modifier';
 import type { TOC } from '@ember/component/template-only';
@@ -8,7 +7,8 @@ import './code-snippet.scss';
 
 export interface CodeSnippetSignature {
   Args: {
-    type: 'default' | 'multiline' | 'inline';
+    /** The variant. Defaults to `'default'`, a single line. */
+    type?: 'default' | 'multiline' | 'inline';
   };
   Blocks: {
     default: [];
@@ -65,13 +65,12 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
     this.expanded = !this.expanded;
   };
 
-  @defaultArgs
-  args: CodeSnippetSignature['Args'] = {
-    type: 'default',
-  };
+  get type() {
+    return this.args.type ?? 'default';
+  }
 
   <template>
-    {{#if (eq @type "default")}}
+    {{#if (eq this.type "default")}}
       <div class="cds--snippet cds--snippet--single">
         {{! As Carbon React: the single-line container is a focusable,
           read-only textbox, so its horizontally scrolling content is
@@ -90,7 +89,7 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
         <CopyButton @targetElement={{this.carbonElement}} />
       </div>
     {{/if}}
-    {{#if (eq @type "multiline")}}
+    {{#if (eq this.type "multiline")}}
       <div
         class="cds--snippet cds--snippet--multi
           {{if this.expanded 'cds--snippet--expand'}}"
@@ -142,7 +141,7 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
         </button>
       </div>
     {{/if}}
-    {{#if (eq @type "inline")}}
+    {{#if (eq this.type "inline")}}
       <CopyButton @inline={{true}}>
         {{~yield~}}
       </CopyButton>

@@ -4,15 +4,18 @@ import CheckmarkFilled from '../components/icons/checkmark-filled.ts';
 import ErrorFilled from '../components/icons/error-filled.ts';
 import { concat } from '@ember/helper';
 import style from 'ember-style-modifier';
-import type { WithRequired } from '../utils/type-helpers.ts';
 
 export interface ProgressBarSignature {
   Element: HTMLDivElement;
   Args: {
+    /** Defaults to `'active'`. */
     status?: 'active' | 'finished' | 'error' | 'indeterminate';
+    /** Defaults to `'big'`. */
     size?: 'small' | 'big';
+    /** Defaults to `'default'`. */
     type?: 'default' | 'inline' | 'indented';
     value?: number;
+    /** Defaults to `100`. */
     max?: number;
     label?: string;
     helperText?: string;
@@ -28,28 +31,16 @@ export default class ProgressBar extends Component<ProgressBarSignature> {
     return guidFor(this);
   }
 
-  get defaultArgs(): WithRequired<ProgressBarSignature['Args'], 'max'> {
-    return Object.assign(
-      {},
-      {
-        status: 'active',
-        value: undefined,
-        max: 100,
-        size: 'big',
-        type: 'default',
-        helperText: '',
-        label: '',
-      },
-      this.args,
-    );
+  get max() {
+    return this.args.max ?? 100;
   }
 
   get isFinished() {
-    return this.defaultArgs.status === 'finished';
+    return this.args.status === 'finished';
   }
 
   get isError() {
-    return this.defaultArgs.status === 'error';
+    return this.args.status === 'error';
   }
 
   /**
@@ -60,9 +51,9 @@ export default class ProgressBar extends Component<ProgressBarSignature> {
   get indeterminate() {
     if (this.isFinished || this.isError) return false;
     return (
-      this.defaultArgs.status === 'indeterminate' ||
-      this.defaultArgs.value === undefined ||
-      this.defaultArgs.value === null
+      this.args.status === 'indeterminate' ||
+      this.args.value === undefined ||
+      this.args.value === null
     );
   }
 
@@ -71,10 +62,10 @@ export default class ProgressBar extends Component<ProgressBarSignature> {
    * finished - the value reported via `aria-valuenow`.
    */
   get cappedValue() {
-    const { max } = this.defaultArgs;
+    const { max } = this;
     if (this.isError) return 0;
     if (this.isFinished) return max;
-    const value = this.defaultArgs.value;
+    const value = this.args.value;
     if (value === undefined || value === null) return undefined;
     return Math.min(Math.max(value, 0), max);
   }
@@ -82,8 +73,8 @@ export default class ProgressBar extends Component<ProgressBarSignature> {
   get classes() {
     const classes = [
       'cds--progress-bar',
-      `cds--progress-bar--${this.defaultArgs.size}`,
-      `cds--progress-bar--${this.defaultArgs.type}`,
+      `cds--progress-bar--${this.args.size ?? 'big'}`,
+      `cds--progress-bar--${this.args.type ?? 'default'}`,
     ];
     if (this.indeterminate) classes.push('cds--progress-bar--indeterminate');
     if (this.isFinished) classes.push('cds--progress-bar--finished');
@@ -103,7 +94,7 @@ export default class ProgressBar extends Component<ProgressBarSignature> {
     ) {
       return undefined;
     }
-    return { transform: `scaleX(${this.cappedValue / this.defaultArgs.max})` };
+    return { transform: `scaleX(${this.cappedValue / this.max})` };
   }
 
   <template>
@@ -114,7 +105,7 @@ export default class ProgressBar extends Component<ProgressBarSignature> {
         id="progress-bar-{{this.guid}}"
       >
         <span class="cds--progress-bar__label-text">
-          {{this.defaultArgs.label}}
+          {{@label}}
         </span>
         {{#if this.isFinished}}
           <CheckmarkFilled
@@ -144,7 +135,7 @@ export default class ProgressBar extends Component<ProgressBarSignature> {
           (concat "progress-bar-helper-text-" this.guid)
         }}
         aria-valuemin={{unless this.indeterminate "0"}}
-        aria-valuemax={{unless this.indeterminate this.defaultArgs.max}}
+        aria-valuemax={{unless this.indeterminate this.max}}
         aria-valuenow={{unless this.indeterminate this.cappedValue}}
       >
         <div class="cds--progress-bar__bar" {{style this.barStyle}}></div>

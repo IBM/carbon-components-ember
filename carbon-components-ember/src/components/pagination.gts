@@ -5,7 +5,6 @@ import { concat } from '@ember/helper';
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { cached, tracked } from '@glimmer/tracking';
-import { defaultArgs } from '../utils/decorators.ts';
 import { afterRender } from '../utils/after-render.ts';
 import { guidFor } from '@ember/object/internals';
 import ChevronLeft from './icons/chevron-left.ts';
@@ -36,21 +35,24 @@ export interface PaginationSignature {
     onPageChanged: (currentSlice: Slice) => void;
     state?: State;
     itemsPerPageOptions?: (number | string)[];
+    /** Defaults to `'md'`. */
     size?: 'xs' | 'sm' | 'md' | 'lg';
     /**
      * The description for the backward icon, also used as its tooltip content.
+     * Defaults to `'Previous page'`.
      */
     backwardText?: string;
     /**
-     * The tooltip position for the backward button.
+     * The tooltip position for the backward button. Defaults to `'top'`.
      */
     backwardTextTooltipPosition?: TooltipPosition;
     /**
      * The description for the forward icon, also used as its tooltip content.
+     * Defaults to `'Next page'`.
      */
     forwardText?: string;
     /**
-     * The tooltip position for the forward button.
+     * The tooltip position for the forward button. Defaults to `'top'`.
      */
     forwardTextTooltipPosition?: TooltipPosition;
     /**
@@ -74,20 +76,6 @@ export default class Pagination extends Component<PaginationSignature> {
   @tracked currentPage: number;
   @tracked itemsPerPage: number;
 
-  args: PaginationSignature['Args'] = defaultArgs(this, {
-    disabled: false,
-    length: 1,
-    onPageChanged: () => null,
-    state: undefined,
-    itemsPerPageOptions: undefined,
-    size: 'md',
-    backwardText: 'Previous page',
-    backwardTextTooltipPosition: 'top',
-    forwardText: 'Next page',
-    forwardTextTooltipPosition: 'top',
-    renderPageSelect: undefined,
-  });
-
   constructor(owner: Owner, args: PaginationSignature['Args']) {
     super(owner, args);
     // Seeded from the initial `@state`; later changes are applied by
@@ -96,17 +84,21 @@ export default class Pagination extends Component<PaginationSignature> {
     this.itemsPerPage = args.state?.itemsPerPage ?? 10;
   }
 
-  get defaultArgs() {
-    return this.args;
+  get backwardText() {
+    return this.args.backwardText ?? 'Previous page';
+  }
+
+  get forwardText() {
+    return this.args.forwardText ?? 'Next page';
   }
 
   // `@itemsPerPageOptions` accepts strings too, but the selected value is
   // always the numeric `itemsPerPage`, so normalize the options to match.
   @cached
   get itemsPerPageOptions(): number[] {
-    return (
-      this.defaultArgs.itemsPerPageOptions ?? [10, 20, 30, 40, 50, 100]
-    ).map(Number);
+    return (this.args.itemsPerPageOptions ?? [10, 20, 30, 40, 50, 100]).map(
+      Number,
+    );
   }
 
   get pageSelectLabelText() {
@@ -218,7 +210,7 @@ export default class Pagination extends Component<PaginationSignature> {
   <template>
     <div
       class="cds--pagination
-        {{concat 'cds--pagination--' this.defaultArgs.size}}
+        {{concat 'cds--pagination--' (or @size 'md')}}
         cds--ember-pagination
         {{if @isLoading 'cds--skeleton'}}"
       data-pagination
@@ -261,7 +253,7 @@ export default class Pagination extends Component<PaginationSignature> {
             </span>
             of
             <span data-total-items>
-              {{this.defaultArgs.length}}
+              {{@length}}
             </span>
             items
           </span>
@@ -300,15 +292,15 @@ export default class Pagination extends Component<PaginationSignature> {
           </span>
           <div class="cds--pagination__control-buttons">
             <Tooltip
-              @align={{this.defaultArgs.backwardTextTooltipPosition}}
-              @label={{this.defaultArgs.backwardText}}
+              @align={{or @backwardTextTooltipPosition "top"}}
+              @label={{this.backwardText}}
             >
               <button
                 disabled={{or (eq this.currentPage 1) @disabled}}
                 class="cds--btn--icon-only cds--pagination__button cds--pagination__button--backward cds--btn cds--btn--md cds--btn--ghost"
                 tabindex="0"
                 data-page-backward
-                aria-label={{this.defaultArgs.backwardText}}
+                aria-label={{this.backwardText}}
                 type="button"
                 {{on "click" this.pageBack}}
               >
@@ -316,15 +308,15 @@ export default class Pagination extends Component<PaginationSignature> {
               </button>
             </Tooltip>
             <Tooltip
-              @align={{this.defaultArgs.forwardTextTooltipPosition}}
-              @label={{this.defaultArgs.forwardText}}
+              @align={{or @forwardTextTooltipPosition "top"}}
+              @label={{this.forwardText}}
             >
               <button
                 disabled={{or (eq this.currentPage this.pages) @disabled}}
                 class="cds--btn--icon-only cds--pagination__button cds--pagination__button--forward cds--btn cds--btn--md cds--btn--ghost"
                 tabindex="0"
                 data-page-forward
-                aria-label={{this.defaultArgs.forwardText}}
+                aria-label={{this.forwardText}}
                 type="button"
                 {{on "click" this.pageForward}}
               >

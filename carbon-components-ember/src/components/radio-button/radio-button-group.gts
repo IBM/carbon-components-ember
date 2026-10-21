@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import { defaultArgs } from '../../utils/decorators.ts';
 import type { WithBoundArgs } from '@glint/template';
 import AILabel from '../ai-label.gts';
 import RadioButton from '../radio-button.gts';
@@ -9,7 +8,9 @@ import type { Value } from '../radio-button.gts';
 
 export interface RadioButtonGroupSignature {
   Args: {
+    /** Defaults to `'horizontal'`. */
     orientation?: 'horizontal' | 'vertical';
+    /** Defaults to `'right'`. */
     labelPosition?: 'left' | 'right';
     legendText?: string;
     name?: string;
@@ -41,21 +42,16 @@ export interface RadioButtonGroupSignature {
 }
 
 export default class RadioButtonGroup extends Component<RadioButtonGroupSignature> {
-  args: RadioButtonGroupSignature['Args'] = defaultArgs(this, {
-    orientation: 'horizontal',
-    labelPosition: 'right',
-  });
-
   guid = guidFor(this);
 
   @tracked _selectedValue?: Value;
 
   get orientation() {
-    return this.args.orientation;
+    return this.args.orientation ?? 'horizontal';
   }
 
   get labelPosition() {
-    return this.args.labelPosition;
+    return this.args.labelPosition ?? 'right';
   }
 
   get selectedValue() {

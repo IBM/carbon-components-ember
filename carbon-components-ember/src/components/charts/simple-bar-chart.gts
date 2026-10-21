@@ -1,7 +1,6 @@
 import Chart from './-components/chart.gts';
 import { SimpleBarChart as CarbonChartsSimpleBarChart } from '@carbon/charts';
 import Component from '@glimmer/component';
-import { defaultArgs } from '../../utils/decorators.ts';
 import type { ChartSignature } from './-components/chart.gts';
 
 export interface SimpleBarChartSignature {
@@ -22,19 +21,6 @@ export interface SimpleBarChartSignature {
 
 export default class SimpleBarChart extends Component<SimpleBarChartSignature> {
   ChartClass = CarbonChartsSimpleBarChart;
-
-  @defaultArgs
-  args: SimpleBarChartSignature['Args'] = {
-    /**
-     * Is resizable
-     */
-    resizable: true,
-
-    /**
-     * Is legendClickable
-     */
-    legendClickable: true,
-  };
 
   <template>
     <Chart
