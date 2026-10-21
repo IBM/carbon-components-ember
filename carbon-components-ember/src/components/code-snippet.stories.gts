@@ -8,11 +8,9 @@ import CodeSnippetSkeleton from './code-snippet-skeleton.gts';
 import type { CodeSnippetSignature } from './code-snippet.gts';
 
 // Carbon React parity gaps (Components/CodeSnippet):
-// - CodeSnippet only takes `type`; React's `align`, `autoAlign`,
-//   `copyButtonDescription`, `feedback`, `feedbackTimeout`, `copyText`,
-//   `disabled`, `hideCopyButton`, `wrapText`, `showMoreText`/`showLessText`
-//   and the `min|max{Collapsed,Expanded}NumberOfRows` row limits aren't
-//   supported (the multiline variant always collapses at 240px).
+// - React's `align`, `autoAlign`, `copyButtonDescription`, `feedback`,
+//   `feedbackTimeout`, `copyText`, `disabled`, `hideCopyButton` and
+//   `wrapText` aren't supported.
 // - React's single-line type is `single`/`multi`; here it is
 //   `default`/`multiline`.
 
@@ -64,7 +62,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     docs: {
       description: {
         component:
-          'Code snippets are strings or small blocks of reusable code that can be copied and inserted in a code file.\n\nPass the code as the block. `@type` picks the variant: `default` (a single line), `multiline` (collapsed to 240px with a "Show more" toggle) or `inline` (a copy button that shows the code inline in running text).',
+          'Code snippets are strings or small blocks of reusable code that can be copied and inserted in a code file.\n\nPass the code as the block. `@type` picks the variant: `default` (a single line), `multiline` (collapsed to 15 rows, with a "Show more" button when the code is longer; the `@…NumberOfRows` arguments change the limits) or `inline` (a copy button that shows the code inline in running text).',
       },
     },
   },
@@ -79,7 +77,15 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     code: singlelineCode,
   },
   render: (args: StoryArgs) => <template>
-    <CodeSnippet @type={{args.type}}>{{args.code}}</CodeSnippet>
+    <CodeSnippet
+      @type={{args.type}}
+      @maxCollapsedNumberOfRows={{args.maxCollapsedNumberOfRows}}
+      @maxExpandedNumberOfRows={{args.maxExpandedNumberOfRows}}
+      @minCollapsedNumberOfRows={{args.minCollapsedNumberOfRows}}
+      @minExpandedNumberOfRows={{args.minExpandedNumberOfRows}}
+      @showMoreText={{args.showMoreText}}
+      @showLessText={{args.showLessText}}
+    >{{args.code}}</CodeSnippet>
   </template>,
 });
 
@@ -114,11 +120,12 @@ export const Multiline = meta.story({
 });
 
 Multiline.test('expands with Show more', async ({ canvas, userEvent }) => {
-  const toggle = canvas.getByRole('button', { name: /show more/i });
+  const toggle = await canvas.findByRole('button', { name: /show more/i });
   const snippet = toggle.closest('.cds--snippet')!;
   await expect(snippet).not.toHaveClass('cds--snippet--expand');
   await userEvent.click(toggle);
   await expect(snippet).toHaveClass('cds--snippet--expand');
+  await expect(toggle).toHaveTextContent('Show less');
 });
 
 export const Singleline = meta.story({
