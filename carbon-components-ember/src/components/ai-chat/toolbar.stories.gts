@@ -19,7 +19,6 @@ import Version from '../icons/version.ts';
 import Button from '../button.gts';
 import OverflowMenu from '../overflow-menu.gts';
 import OverflowMenuItem from '../overflow-menu/overflow-menu-item.gts';
-import Tooltip from '../tooltip.gts';
 import Toolbar from './toolbar.gts';
 
 import type { ToolbarSignature, ToolbarAction } from './toolbar.gts';
@@ -160,27 +159,29 @@ The \`navigation\`, \`title\`, \`fixedActions\` and \`decorator\` named blocks m
       >
         <:navigation>
           {{#if (eq args.navigation "home")}}
-            <Tooltip @label="Home" @align="bottom-start">
-              <Button
-                @ghost={{true}}
-                @iconOnly={{true}}
-                @size="md"
-                @onClick={{navClick}}
-              >
-                <Home @size={{16}} />
-              </Button>
-            </Tooltip>
+            <Button
+              @kind="ghost"
+              @hasIconOnly={{true}}
+              @iconDescription="Home"
+              @tooltipPosition="bottom"
+              @tooltipAlignment="start"
+              @size="md"
+              {{on "click" navClick}}
+            >
+              <Home @size={{16}} />
+            </Button>
           {{else if (eq args.navigation "back")}}
-            <Tooltip @label="Back" @align="bottom-start">
-              <Button
-                @ghost={{true}}
-                @iconOnly={{true}}
-                @size="md"
-                @onClick={{navClick}}
-              >
-                <ArrowLeft @size={{16}} />
-              </Button>
-            </Tooltip>
+            <Button
+              @kind="ghost"
+              @hasIconOnly={{true}}
+              @iconDescription="Back"
+              @tooltipPosition="bottom"
+              @tooltipAlignment="start"
+              @size="md"
+              {{on "click" navClick}}
+            >
+              <ArrowLeft @size={{16}} />
+            </Button>
           {{else if (eq args.navigation "custom 1")}}
             <OverflowMenu @tooltip="Menu" @direction="bottom">
               <OverflowMenuItem @itemText="Stop app" />
@@ -198,7 +199,7 @@ The \`navigation\`, \`title\`, \`fixedActions\` and \`decorator\` named blocks m
               />
             </OverflowMenu>
           {{else if (eq args.navigation "custom 2")}}
-            <Button @size="md" @onClick={{navClick}}>test</Button>
+            <Button @size="md" {{on "click" navClick}}>test</Button>
           {{/if}}
         </:navigation>
         <:title>
@@ -218,7 +219,7 @@ The \`navigation\`, \`title\`, \`fixedActions\` and \`decorator\` named blocks m
         </:title>
         <:fixedActions>
           {{#if (eq args.fixedActions "custom 1")}}
-            <Button @size="md" @onClick={{fixedClick}}>test</Button>
+            <Button @size="md" {{on "click" fixedClick}}>test</Button>
           {{/if}}
         </:fixedActions>
       </Toolbar>

@@ -1,8 +1,8 @@
 {
   "component": "Link",
-  "generatedAt": "2026-10-04T14:24:38.809Z",
+  "generatedAt": "2026-10-21T00:50:29.025Z",
   "carbonReactVersion": "1.114.0",
-  "reactVersion": "19.3.0",
+  "reactVersion": "19.3.1",
   "variants": {
     "default": {
       "props": {
@@ -11,9 +11,7 @@
       "dom": {
         "type": "element",
         "tag": "a",
-        "classes": [
-          "cds--link"
-        ],
+        "classes": ["cds--link"],
         "attributes": {
           "href": "/about"
         },
@@ -34,10 +32,7 @@
       "dom": {
         "type": "element",
         "tag": "a",
-        "classes": [
-          "cds--link",
-          "cds--link--disabled"
-        ],
+        "classes": ["cds--link", "cds--link--disabled"],
         "attributes": {
           "role": "link",
           "aria-disabled": "true"
@@ -59,10 +54,7 @@
       "dom": {
         "type": "element",
         "tag": "a",
-        "classes": [
-          "cds--link",
-          "cds--link--inline"
-        ],
+        "classes": ["cds--link", "cds--link--inline"],
         "attributes": {
           "href": "/about"
         },
@@ -83,10 +75,7 @@
       "dom": {
         "type": "element",
         "tag": "a",
-        "classes": [
-          "cds--link",
-          "cds--link--visited"
-        ],
+        "classes": ["cds--link", "cds--link--visited"],
         "attributes": {
           "href": "/about"
         },
@@ -107,10 +96,7 @@
       "dom": {
         "type": "element",
         "tag": "a",
-        "classes": [
-          "cds--link",
-          "cds--link--sm"
-        ],
+        "classes": ["cds--link", "cds--link--sm"],
         "attributes": {
           "href": "/about"
         },
@@ -131,10 +117,7 @@
       "dom": {
         "type": "element",
         "tag": "a",
-        "classes": [
-          "cds--link",
-          "cds--link--lg"
-        ],
+        "classes": ["cds--link", "cds--link--lg"],
         "attributes": {
           "href": "/about"
         },
@@ -155,9 +138,7 @@
       "dom": {
         "type": "element",
         "tag": "a",
-        "classes": [
-          "cds--link"
-        ],
+        "classes": ["cds--link"],
         "attributes": {
           "rel": "noopener",
           "target": "_blank",
@@ -180,9 +161,7 @@
       "dom": {
         "type": "element",
         "tag": "button",
-        "classes": [
-          "cds--link"
-        ],
+        "classes": ["cds--link"],
         "attributes": {
           "href": "/about"
         },
@@ -191,6 +170,64 @@
           {
             "type": "text",
             "text": "Link text"
+          }
+        ]
+      }
+    },
+    "with-icon": {
+      "props": {
+        "href": "/about",
+        "renderIcon": "Add"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "a",
+        "classes": ["cds--link", "cds--link--icon"],
+        "attributes": {
+          "href": "/about"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Link text"
+          },
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": ["cds--link__icon"],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 32 32",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M17 15 17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
           }
         ]
       }

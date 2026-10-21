@@ -1,6 +1,6 @@
 [
   [
-    "<button class=\"cds--btn\n        cds--btn--primary cds--btn--md\n        cds--layout--size-md\n        \" type=\"button\" data-index=\"0\"></button>",
+    "<button class=\"cds--btn cds--btn--primary\" type=\"button\" data-index=\"0\"></button>",
     {
       "background": "rgb(15, 98, 254) none repeat scroll 0% 0% / auto padding-box border-box",
       "border": "1px solid rgba(0, 0, 0, 0)",
@@ -10,11 +10,11 @@
       "display": "inline-flex",
       "flex": "0 0 auto",
       "font": "14px / 18.0001px \"IBM Plex Sans\", system-ui, -apple-system, \"system-ui\", \".SFNSText-Regular\", sans-serif",
-      "height": "40px",
+      "height": "48px",
       "inset": "0px",
       "left": "0px",
       "outline": "rgb(255, 255, 255) none 3px",
-      "padding": "9.99996px 63px 9.99996px 15px",
+      "padding": "14px 63px 14px 15px",
       "position": "relative",
       "right": "0px",
       "top": "0px",
@@ -23,7 +23,7 @@
     }
   ],
   [
-    "<button:before class=\"cds--btn\n        cds--btn--primary cds--btn--md\n        cds--layout--size-md\n        \" type=\"button\" data-index=\"0\"></button:before>",
+    "<button:before class=\"cds--btn cds--btn--primary\" type=\"button\" data-index=\"0\"></button:before>",
     {
       "border": "0px none rgb(255, 255, 255)",
       "color": "rgb(255, 255, 255)",
@@ -34,7 +34,7 @@
     }
   ],
   [
-    "<button:after class=\"cds--btn\n        cds--btn--primary cds--btn--md\n        cds--layout--size-md\n        \" type=\"button\" data-index=\"0\"></button:after>",
+    "<button:after class=\"cds--btn cds--btn--primary\" type=\"button\" data-index=\"0\"></button:after>",
     {
       "border": "0px none rgb(255, 255, 255)",
       "color": "rgb(255, 255, 255)",

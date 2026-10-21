@@ -314,8 +314,8 @@ export const WithControlledExpansion = meta.story({
 
     return <template>
       <div class="tree-view-story__controls">
-        <Button @onClick={{expandAll}}>Expand all</Button>
-        <Button @onClick={{collapseAll}}>Collapse all</Button>
+        <Button {{on "click" expandAll}}>Expand all</Button>
+        <Button {{on "click" collapseAll}}>Collapse all</Button>
       </div>
       <TreeView
         @label={{args.label}}
@@ -365,7 +365,7 @@ export const ControlledNode = meta.story({
     };
 
     return <template>
-      <Button @onClick={{toggleCloud}}>Toggle "Cloud computing"</Button>
+      <Button {{on "click" toggleCloud}}>Toggle "Cloud computing"</Button>
       <br />
       <br />
       <TreeView @label={{args.label}} as |Node|>

@@ -3,7 +3,6 @@ import { expect, fn, waitFor, within } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Button from '../button.gts';
-import Tooltip from '../tooltip.gts';
 import Book from '../icons/book.ts';
 import ChartLine from '../icons/chart-line.ts';
 import DataBase from '../icons/data-base.ts';
@@ -445,19 +444,17 @@ export const InShell = meta.story({
           />
         </:editor>
         <:sendControl>
-          <Tooltip @label="Send" @autoAlign={{true}}>
-            <Button
-              @type={{undefined}}
-              @ghost={{true}}
-              @size="sm"
-              @iconOnly={{true}}
-              @disabled={{host.sendDisabled}}
-              @onClick={{host.send}}
-              aria-label="Send"
-            >
-              <Send @size="16" />
-            </Button>
-          </Tooltip>
+          <Button
+            @kind="ghost"
+            @hasIconOnly={{true}}
+            @autoAlign={{true}}
+            @size="sm"
+            @disabled={{host.sendDisabled}}
+            @iconDescription="Send"
+            {{on "click" host.send}}
+          >
+            <Send @size="16" />
+          </Button>
         </:sendControl>
       </PromptLineShell>
     </template>;

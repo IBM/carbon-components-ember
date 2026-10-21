@@ -12,8 +12,7 @@ import type { ButtonSignature } from '../button.gts';
 import './chat-button.scss';
 import './chat-history.scss';
 
-export type ChatButtonKind =
-  'primary' | 'secondary' | 'tertiary' | 'ghost' | 'danger';
+export type ChatButtonKind = NonNullable<ButtonSignature['Args']['kind']>;
 export type ChatButtonSize = 'sm' | 'md' | 'lg';
 
 export interface ChatButtonSignature {
@@ -42,7 +41,7 @@ export interface ChatButtonSignature {
 }
 
 const blockProgrammaticClickWhenSelected = modifier(
-  (element: HTMLButtonElement, [blocked]: [boolean]) => {
+  (element: HTMLElement, [blocked]: [boolean]) => {
     const handler = (event: Event) => {
       if (blocked) {
         event.stopImmediatePropagation();
@@ -66,27 +65,12 @@ const blockProgrammaticClickWhenSelected = modifier(
  * wraps this addon's own `Button` (Carbon React parity) instead, to stay
  * framework-consistent. It's exported from `carbon-components-ember/ai-chat`,
  * so it doesn't collide with Carbon React's own `ChatButton`.
- *
- * Upstream's `kind`/`size` also accept `danger--tertiary`/`danger--ghost`
- * combination kinds (from `@carbon/web-components`' `BUTTON_KIND`) and an
- * `xl`/`2xl` size range; this addon's `Button` only exposes
- * `primary`/`secondary`/`tertiary`/`ghost`/`danger` and `sm`/`md`/`lg`/`xl`,
- * so those combinations aren't reproduced - not a behavior consumers of
- * this addon have relied on elsewhere either.
- *
- * `@kind='danger'` deliberately does NOT pass through as `Button`'s
- * `@type='danger'`: that arg doesn't just add styling, it also opts into
- * `Button`'s own built-in native-confirm-dialog-before-click flow (see its
- * `showDialog`/`onButtonClick`) - a Carbon-React-parity feature with no
- * upstream `cds-aichat-button` equivalent (there, `kind="danger"` is a
- * pure color variant, `@click` always fires immediately). Adding the
- * `cds--btn--danger` class directly gets the same styling without opting
- * into that unrelated behavior - real, not hypothetical: `kind='danger'`
- * is exactly what `ChatHistoryDeletePanel`'s own Delete button uses, and
- * that component IS already the confirmation UI, so a second, unrelated
- * confirm dialog nested inside it would be a broken double-confirmation.
  */
 export default class ChatButton extends Component<ChatButtonSignature> {
+  handleClick = () => {
+    this.args.onClick?.();
+  };
+
   get isBlocked() {
     return Boolean(this.args.isQuickAction && this.args.isSelected);
   }
@@ -101,25 +85,13 @@ export default class ChatButton extends Component<ChatButtonSignature> {
     return this.args.isQuickAction ? 'ghost' : 'primary';
   }
 
-  get buttonType() {
-    return this.effectiveKind === 'ghost' ||
-      this.effectiveKind === 'tertiary' ||
-      this.effectiveKind === 'danger'
-      ? undefined
-      : this.effectiveKind;
-  }
-
   <template>
     <Button
-      class="cds-aichat-button
-        {{if @isQuickAction 'cds-aichat-button--quick-action'}}
-        {{if (eq this.effectiveKind 'danger') 'cds--btn--danger'}}"
-      @type={{this.buttonType}}
-      @tertiary={{eq this.effectiveKind "tertiary"}}
-      @ghost={{eq this.effectiveKind "ghost"}}
+      @kind={{this.effectiveKind}}
       @size={{this.effectiveSize}}
       @disabled={{@disabled}}
-      @onClick={{@onClick}}
+      class="cds-aichat-button
+        {{if @isQuickAction 'cds-aichat-button--quick-action'}}"
       inert={{if this.isBlocked true}}
       {{! Only ever -1 or 0; the rule can't read the nested if. }}
       {{! eslint-disable-next-line ember/template-no-positive-tabindex }}
@@ -127,6 +99,7 @@ export default class ChatButton extends Component<ChatButtonSignature> {
       data-is-selected={{if @isSelected ""}}
       {{blockProgrammaticClickWhenSelected this.isBlocked}}
       ...attributes
+      {{on "click" this.handleClick}}
     >
       {{yield}}
     </Button>

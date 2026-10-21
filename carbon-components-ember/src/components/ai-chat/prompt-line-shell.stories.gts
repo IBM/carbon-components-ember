@@ -3,7 +3,6 @@ import { expect, fn } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Button from '../button.gts';
-import Tooltip from '../tooltip.gts';
 import Send from '../icons/send.ts';
 import PromptLine from './prompt-line.gts';
 import PromptLineShell from './prompt-line-shell.gts';
@@ -119,19 +118,17 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
           />
         </:editor>
         <:sendControl>
-          <Tooltip @label="Send" @autoAlign={{true}}>
-            <Button
-              @type={{undefined}}
-              @ghost={{true}}
-              @size="sm"
-              @iconOnly={{true}}
-              @disabled={{state.sendDisabled}}
-              @onClick={{state.send}}
-              aria-label="Send"
-            >
-              <Send @size="16" />
-            </Button>
-          </Tooltip>
+          <Button
+            @kind="ghost"
+            @hasIconOnly={{true}}
+            @autoAlign={{true}}
+            @size="sm"
+            @disabled={{state.sendDisabled}}
+            @iconDescription="Send"
+            {{on "click" state.send}}
+          >
+            <Send @size="16" />
+          </Button>
         </:sendControl>
       </PromptLineShell>
     </template>;

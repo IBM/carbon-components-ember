@@ -58,7 +58,7 @@ export const UxExample = meta.story({
     return <template>
       <div class="cds--btn-set inline-loading-story__btn-set">
         <Button
-          @type="secondary"
+          @kind="secondary"
           @disabled={{or submission.submit.isRunning submission.success}}
         >Cancel</Button>
         {{#if (or submission.submit.isRunning submission.success)}}

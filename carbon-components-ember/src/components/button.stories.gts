@@ -1,54 +1,65 @@
-import { expect, fn } from 'storybook/test';
+import { expect, fn as spy } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Button from './button.gts';
+import type { ButtonSignature } from './button.gts';
 import ButtonSkeleton from './button-skeleton.gts';
 import Add from './icons/add.ts';
 import '#storybook/styles/button.css';
 
 // Carbon React parity gaps (Components/Button):
-// - `DangerTertiary` / `DangerGhost`: `@tertiary`/`@ghost` override
-//   `@type`, so a danger button can't also be tertiary or ghost.
+// - `IconButtonWithBadge`: no `IconButton` with a `badgeCount` yet (#454).
 // - `Radius`: no corner-radius tokens.
-// - `IconButtonWithBadge`: no `badgeCount`.
-// - No `renderIcon` (an icon next to the label), `href` (rendering as a
-//   link), `iconDescription`/tooltip for icon-only buttons (use
-//   `aria-label`) or `2xl` size.
-// - A danger button always asks for confirmation in a modal before running
-//   `@onClick` (React's `dangerDescription` is only an assistive label).
 
-const meta = preview.meta({
+type StoryArgs = ButtonSignature['Args'] & {
+  /** Story-only: the button's label. */
+  label?: string;
+  /** Story-only: called on click, through `{{on "click"}}`. */
+  onClick: () => void;
+};
+
+const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'Components/Button',
   component: Button,
   parameters: {
     docs: {
       description: {
         component:
-          'Buttons are used to initialize an action. Pick the emphasis with `@type` (`primary`, `secondary` or `danger`), `@tertiary` or `@ghost`, and the size with `@size`.\n\nIf `@onClick` returns a promise, the button disables itself and shows a loading indicator until the promise settles. A `danger` button asks for confirmation in a modal (with `@confirmText` as its body, or a custom `@confirmDialog`) before running `@onClick`.',
+          'Buttons are used to initialize an action. Pick the emphasis with `@kind` and the size with `@size`. Handle clicks with `{{on "click"}}`, and make a submit button with `type="submit"`, as on a native `<button>`. With `@href` it renders a link styled as a button.\n\nWith `@hasIconOnly`, it shows only its icon, in a tooltip naming it with `@iconDescription`. For a loading state, show an `InlineLoading` in its place while the work runs, as InlineLoading\'s UX example does.',
       },
     },
   },
   argTypes: {
-    type: {
-      control: 'inline-radio',
-      options: ['primary', 'secondary', 'danger'],
+    kind: {
+      control: 'select',
+      options: [
+        'primary',
+        'secondary',
+        'tertiary',
+        'ghost',
+        'danger',
+        'danger--primary',
+        'danger--tertiary',
+        'danger--ghost',
+      ],
     },
-    size: { control: 'inline-radio', options: ['sm', 'md', 'lg', 'xl'] },
+    size: {
+      control: 'inline-radio',
+      options: ['xs', 'sm', 'md', 'lg', 'xl', '2xl'],
+    },
   },
   args: {
     label: 'Button',
-    onClick: fn(),
+    onClick: spy(),
   },
   render: (args) => <template>
     <Button
-      @type={{args.type}}
+      @kind={{args.kind}}
       @size={{args.size}}
-      @tertiary={{args.tertiary}}
-      @ghost={{args.ghost}}
       @disabled={{args.disabled}}
-      @loading={{args.loading}}
-      @confirmText={{args.confirmText}}
-      @onClick={{args.onClick}}
+      @isExpressive={{args.isExpressive}}
+      @dangerDescription={{args.dangerDescription}}
+      {{on "click" args.onClick}}
     >
       {{args.label}}
     </Button>
@@ -57,7 +68,7 @@ const meta = preview.meta({
 
 export const Default = meta.story({
   args: {
-    type: 'primary',
+    kind: 'primary',
   },
 });
 
@@ -68,148 +79,155 @@ Default.test('calls onClick', async ({ canvas, userEvent, args }) => {
 
 export const Secondary = meta.story({
   args: {
-    type: 'secondary',
+    kind: 'secondary',
   },
 });
 
 export const Tertiary = meta.story({
   args: {
-    tertiary: true,
-  },
-});
-
-export const Ghost = meta.story({
-  args: {
-    ghost: true,
+    kind: 'tertiary',
   },
 });
 
 export const Danger = meta.story({
   args: {
-    type: 'danger',
+    kind: 'danger',
     label: 'Delete',
-    confirmText: 'Do you really want to delete this?',
+    dangerDescription: 'Deletes the project',
   },
   parameters: {
     docs: {
       description: {
         story:
-          'A danger button runs `@onClick` only after the user confirms in a modal showing `@confirmText`.',
+          '`@dangerDescription` tells assistive technology what the button does. A danger button runs its click handler right away; ask for confirmation there if the action needs it.',
       },
     },
   },
 });
 
-Danger.test(
-  'asks for confirmation before calling onClick',
-  async ({ canvas, userEvent, args }) => {
-    await userEvent.click(canvas.getByRole('button', { name: 'Delete' }));
-    await expect(
-      await canvas.findByText('Do you really want to delete this?'),
-    ).toBeInTheDocument();
-    await expect(args.onClick).not.toHaveBeenCalled();
+Danger.test('describes what it does', async ({ canvas, userEvent, args }) => {
+  // Its name includes the visually hidden description, as in Carbon React.
+  const button = canvas.getByRole('button', { name: /Delete$/ });
+  await expect(button).toHaveAccessibleDescription('Deletes the project');
+  await userEvent.click(button);
+  await expect(args.onClick).toHaveBeenCalledOnce();
+});
 
-    // The dialog's accept button, named by its text.
-    await userEvent.click(canvas.getByRole('button', { name: 'Okay' }));
-    await expect(args.onClick).toHaveBeenCalledOnce();
-  },
-);
-
-export const Small = meta.story({
+export const DangerTertiary = meta.story({
   args: {
-    type: 'secondary',
-    size: 'sm',
-    label: 'Secondary small button',
+    kind: 'danger--tertiary',
+    label: 'Tertiary danger button',
   },
 });
 
-export const Sizes = meta.story({
-  render: (args) => <template>
-    <div class="button-story__stack">
-      <Button @size="sm" @onClick={{args.onClick}}>Small</Button>
-      <Button @size="md" @onClick={{args.onClick}}>Medium</Button>
-      <Button @size="lg" @onClick={{args.onClick}}>Large</Button>
-      <Button @size="xl" @onClick={{args.onClick}}>Extra large</Button>
-    </div>
-  </template>,
+export const DangerGhost = meta.story({
+  args: {
+    kind: 'danger--ghost',
+    label: 'Ghost danger button',
+  },
+});
+
+export const Ghost = meta.story({
+  args: {
+    kind: 'ghost',
+  },
 });
 
 export const IconButton = meta.story({
+  args: {
+    kind: 'primary',
+    iconDescription: 'Icon Description',
+  },
   parameters: {
     docs: {
       description: {
         story:
-          'With `@iconOnly`, pass the icon as the block and give the button an accessible name with `aria-label`.',
+          'With `@hasIconOnly`, the button shows only `@renderIcon`, in a tooltip that names it with `@iconDescription`. `@tooltipPosition` and `@tooltipAlignment` place the tooltip.',
       },
     },
   },
   render: (args) => <template>
     <Button
-      @iconOnly={{true}}
-      @type={{args.type}}
+      @kind={{args.kind}}
       @size={{args.size}}
       @disabled={{args.disabled}}
-      @onClick={{args.onClick}}
-      aria-label="Add item"
-    >
-      <Add @size="16" @svgClass="cds--btn__icon" />
-    </Button>
+      @hasIconOnly={{true}}
+      @renderIcon={{Add}}
+      @iconDescription={{args.iconDescription}}
+      @tooltipPosition={{args.tooltipPosition}}
+      @tooltipAlignment={{args.tooltipAlignment}}
+      {{on "click" args.onClick}}
+    />
   </template>,
 });
 
 IconButton.test(
-  'is named by its aria-label',
+  'is named by its iconDescription',
   async ({ canvas, userEvent, args }) => {
-    await userEvent.click(canvas.getByRole('button', { name: 'Add item' }));
+    await userEvent.click(
+      canvas.getByRole('button', { name: 'Icon Description' }),
+    );
     await expect(args.onClick).toHaveBeenCalledOnce();
   },
 );
 
-export const Loading = Default.extend({
-  args: {
-    loading: true,
+export const WithIcon = meta.story({
+  parameters: {
+    docs: {
+      description: {
+        story: '`@renderIcon` shows an icon after the label.',
+      },
+    },
   },
+  render: (args) => <template>
+    <Button
+      @kind={{args.kind}}
+      @size={{args.size}}
+      @renderIcon={{Add}}
+      {{on "click" args.onClick}}
+    >
+      {{args.label}}
+    </Button>
+  </template>,
 });
 
-export const PromiseLoading = meta.story({
+export const Link = meta.story({
   args: {
-    size: 'xl',
-    label: 'Button with loading indicator if onClick returns a promise',
+    href: 'https://carbondesignsystem.com/components/button/usage/',
+    label: 'Button usage',
   },
   parameters: {
     docs: {
       description: {
         story:
-          'When `@onClick` returns a promise, the button shows a loading indicator and is disabled until it settles.',
+          'With `@href`, the button is a link. With `@disabled` as well, it renders a disabled `<button>` instead.',
       },
     },
   },
-  render: (args) => {
-    const onClick = () => {
-      void args.onClick?.();
-      return new Promise<void>((resolve) => setTimeout(resolve, 1000));
-    };
-
-    return <template>
-      <Button @size={{args.size}} @onClick={{onClick}}>
-        {{args.label}}
-      </Button>
-    </template>;
-  },
+  render: (args) => <template>
+    <Button
+      @kind={{args.kind}}
+      @size={{args.size}}
+      @href={{args.href}}
+      @disabled={{args.disabled}}
+    >
+      {{args.label}}
+    </Button>
+  </template>,
 });
 
-PromiseLoading.test(
-  'is busy until the promise settles',
-  async ({ canvas, userEvent, args }) => {
-    const button = canvas.getByRole('button');
-    await userEvent.click(button);
-    await expect(args.onClick).toHaveBeenCalledOnce();
-    await expect(button).toBeDisabled();
-    await expect(button.querySelector('.cds--inline-loading')).not.toBeNull();
-    await new Promise((resolve) => setTimeout(resolve, 1100));
-    await expect(button).toBeEnabled();
-  },
-);
+export const Sizes = meta.story({
+  render: (args) => <template>
+    <div class="button-story__stack">
+      <Button @size="xs" {{on "click" args.onClick}}>Extra small</Button>
+      <Button @size="sm" {{on "click" args.onClick}}>Small</Button>
+      <Button @size="md" {{on "click" args.onClick}}>Medium</Button>
+      <Button @size="lg" {{on "click" args.onClick}}>Large</Button>
+      <Button @size="xl" {{on "click" args.onClick}}>Extra large</Button>
+      <Button @size="2xl" {{on "click" args.onClick}}>2XL</Button>
+    </div>
+  </template>,
+});
 
 export const Disabled = Default.extend({
   args: {

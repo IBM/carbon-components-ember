@@ -3,7 +3,6 @@ import { expect, fn as spy, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Button from '../button.gts';
-import Tooltip from '../tooltip.gts';
 import AddLarge from '../icons/add-large.ts';
 import Book from '../icons/book.ts';
 import ChartLine from '../icons/chart-line.ts';
@@ -367,20 +366,22 @@ function commandConfig(args: StoryArgs): TriggerSuggestionConfig {
 const SendControl: TOC<{
   Args: { label?: string; disabled: boolean; onSend: () => void };
 }> = <template>
-  <Tooltip @label={{@label}} @autoAlign={{true}}>
-    <Button
-      @type={{undefined}}
-      @ghost={{true}}
-      @size="sm"
-      @iconOnly={{true}}
-      @disabled={{@disabled}}
-      @onClick={{@onSend}}
-      aria-label={{@label}}
-    >
-      <Send @size="16" />
-    </Button>
-  </Tooltip>
+  <Button
+    @kind="ghost"
+    @hasIconOnly={{true}}
+    @autoAlign={{true}}
+    @size="sm"
+    @disabled={{@disabled}}
+    @iconDescription={{@label}}
+    {{on "click" @onSend}}
+  >
+    <Send @size="16" />
+  </Button>
 </template>;
+
+// A click handler that calls `onAction` with the action's text alone.
+const act = (onAction: (text: string) => void, text: string) => () =>
+  onAction(text);
 
 const InlineActions: TOC<{
   Args: {
@@ -391,19 +392,17 @@ const InlineActions: TOC<{
 }> = <template>
   <div class="ai-chat-prompt-line-story__actions">
     {{#each @actions as |action|}}
-      <Tooltip @label={{action.text}} @autoAlign={{true}}>
-        <Button
-          @type={{undefined}}
-          @ghost={{true}}
-          @size="sm"
-          @iconOnly={{true}}
-          @disabled={{@disabled}}
-          @onClick={{fn @onAction action.text}}
-          aria-label={{action.text}}
-        >
-          <action.icon @size={{16}} />
-        </Button>
-      </Tooltip>
+      <Button
+        @kind="ghost"
+        @hasIconOnly={{true}}
+        @autoAlign={{true}}
+        @size="sm"
+        @disabled={{@disabled}}
+        @iconDescription={{action.text}}
+        {{on "click" (act @onAction action.text)}}
+      >
+        <action.icon @size={{16}} />
+      </Button>
     {{/each}}
   </div>
 </template>;
@@ -780,23 +779,21 @@ export const ConversationStarters = meta.story({
           />
         </:editor>
         <:messageActions>
-          <Tooltip @label={{state.toggleLabel}} @autoAlign={{true}}>
-            <Button
-              @type={{undefined}}
-              @ghost={{true}}
-              @size="sm"
-              @iconOnly={{true}}
-              @disabled={{state.toggleDisabled}}
-              @onClick={{state.toggleStarters}}
-              aria-label={{state.toggleLabel}}
-            >
-              {{#if state.startersOn}}
-                <ChatOff @size="16" />
-              {{else}}
-                <Chat @size="16" />
-              {{/if}}
-            </Button>
-          </Tooltip>
+          <Button
+            @kind="ghost"
+            @hasIconOnly={{true}}
+            @autoAlign={{true}}
+            @size="sm"
+            @disabled={{state.toggleDisabled}}
+            @iconDescription={{state.toggleLabel}}
+            {{on "click" state.toggleStarters}}
+          >
+            {{#if state.startersOn}}
+              <ChatOff @size="16" />
+            {{else}}
+              <Chat @size="16" />
+            {{/if}}
+          </Button>
         </:messageActions>
         <:sendControl>
           <SendControl
@@ -897,19 +894,17 @@ export const FileUploads = meta.story({
               aria-label="Attach file"
               {{on "change" state.filesSelected}}
             />
-            <Tooltip @label="Attach file" @autoAlign={{true}}>
-              <Button
-                @type={{undefined}}
-                @ghost={{true}}
-                @size="sm"
-                @iconOnly={{true}}
-                @disabled={{args.disabled}}
-                aria-label="Attach file"
-                {{on "click" state.attach}}
-              >
-                <AddLarge @size="16" />
-              </Button>
-            </Tooltip>
+            <Button
+              @kind="ghost"
+              @hasIconOnly={{true}}
+              @autoAlign={{true}}
+              @size="sm"
+              @disabled={{args.disabled}}
+              @iconDescription="Attach file"
+              {{on "click" state.attach}}
+            >
+              <AddLarge @size="16" />
+            </Button>
           </div>
         </:messageActions>
         <:sendControl>
@@ -1138,14 +1133,14 @@ export const RichMode = meta.story({
     return <template>
       <div class="ai-chat-prompt-line-story__controls">
         <Button
-          @type="secondary"
+          @kind="secondary"
           @size="sm"
           @disabled={{state.rich}}
-          @onClick={{state.enableRich}}
+          {{on "click" state.enableRich}}
         >
           Switch to rich editing
         </Button>
-        <Button @type="secondary" @size="sm" @onClick={{state.undo}}>
+        <Button @kind="secondary" @size="sm" {{on "click" state.undo}}>
           Undo
         </Button>
       </div>

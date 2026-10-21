@@ -52,7 +52,7 @@ export const Default = meta.story({
       <table.Toolbar as |toolbar|>
         <toolbar.Content>
           <table.SearchInput />
-          <Button @type="primary">Primary Button</Button>
+          <Button @kind="primary">Primary Button</Button>
         </toolbar.Content>
       </table.Toolbar>
       <table.Table @size={{args.size}} @useZebraStyles={{args.useZebraStyles}}>

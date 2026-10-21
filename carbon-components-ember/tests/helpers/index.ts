@@ -111,6 +111,7 @@ export async function waitForAnimationFrame() {
 
 export { failOnCspViolations, nonce, takeCspViolations } from './csp.ts';
 export { setupClipboard } from './clipboard.ts';
+export { findButton } from './find-button.ts';
 
 export {
   disableCarbonStyles,

@@ -69,6 +69,10 @@ export interface AILabelSignature {
 export default class AILabel extends Component<AILabelSignature> {
   id = guidFor(this);
 
+  revert = () => {
+    this.args.onRevertClick?.();
+  };
+
   get aiText() {
     return this.args.aiText ?? 'AI';
   }
@@ -114,11 +118,11 @@ export default class AILabel extends Component<AILabelSignature> {
     >
       {{#if @revertActive}}
         <Button
-          @iconOnly={{true}}
-          @ghost={{true}}
+          @kind="ghost"
+          @hasIconOnly={{true}}
           @size="sm"
-          @onClick={{@onRevertClick}}
-          aria-label={{if @revertLabel @revertLabel "Revert to AI input"}}
+          @iconDescription={{if @revertLabel @revertLabel "Revert to AI input"}}
+          {{on "click" this.revert}}
         >
           <Undo @size="16" />
         </Button>

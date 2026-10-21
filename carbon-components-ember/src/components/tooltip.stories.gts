@@ -122,7 +122,7 @@ export const Alignment = meta.story({
   },
   render: (args: TooltipSignature['Args']) => <template>
     <Tooltip @label={{args.label}} @align={{args.align}}>
-      <Button @type="secondary">This button has a tooltip</Button>
+      <Button @kind="secondary">This button has a tooltip</Button>
     </Tooltip>
   </template>,
 });
@@ -137,7 +137,7 @@ export const Description = meta.story({
   },
   render: (args: TooltipSignature['Args']) => <template>
     <Tooltip @description={{args.description}} @align={{args.align}}>
-      <Button @type="secondary">Large text</Button>
+      <Button @kind="secondary">Large text</Button>
     </Tooltip>
   </template>,
 });
@@ -155,7 +155,7 @@ export const CustomContent = meta.story({
       @dropShadow={{args.dropShadow}}
       @highContrast={{args.highContrast}}
     >
-      <:default><Button @type="secondary">Low contrast</Button></:default>
+      <:default><Button @kind="secondary">Low contrast</Button></:default>
       <:content><strong>Custom</strong> content</:content>
     </Tooltip>
   </template>,

@@ -14,7 +14,6 @@ import type {
   InitCarousel,
 } from '@carbon/utilities/carousel';
 import Button from '../button.gts';
-import Tooltip from '../tooltip.gts';
 import ChevronLeft from '../icons/chevron-left.ts';
 import ChevronRight from '../icons/chevron-right.ts';
 import './carousel.scss';
@@ -135,31 +134,35 @@ export default class Carousel extends Component<CarouselSignature> {
         <div class="carousel__itemsWrapper">{{yield}}</div>
       </div>
       <div class="cds-aichat-carousel__controls">
-        <Tooltip @label={{@previousBtnText}}>
-          <Button
-            class="cds-aichat-carousel__previous-btn"
-            @ghost={{true}}
-            @iconOnly={{true}}
-            @onClick={{this.prev}}
-          >
-            <ChevronLeft @size={{16}} @fill="currentColor" />
-          </Button>
-        </Tooltip>
+        <Button
+          @kind="ghost"
+          @hasIconOnly={{true}}
+          @iconDescription={{@previousBtnText}}
+          @size="sm"
+          @tooltipPosition="bottom"
+          @tooltipAlignment="start"
+          class="cds-aichat-carousel__previous-btn"
+          {{on "click" this.prev}}
+        >
+          <ChevronLeft @size={{16}} @fill="currentColor" />
+        </Button>
         <span class="cds-aichat-carousel__indicator">
           {{this.displayCurrentIndex}}
           /
           {{this.displayLastIndex}}
         </span>
-        <Tooltip @label={{@nextBtnText}}>
-          <Button
-            class="cds-aichat-carousel__next-btn"
-            @ghost={{true}}
-            @iconOnly={{true}}
-            @onClick={{this.next}}
-          >
-            <ChevronRight @size={{16}} @fill="currentColor" />
-          </Button>
-        </Tooltip>
+        <Button
+          @kind="ghost"
+          @hasIconOnly={{true}}
+          @iconDescription={{@nextBtnText}}
+          @size="sm"
+          @tooltipPosition="bottom"
+          @tooltipAlignment="start"
+          class="cds-aichat-carousel__next-btn"
+          {{on "click" this.next}}
+        >
+          <ChevronRight @size={{16}} @fill="currentColor" />
+        </Button>
       </div>
     </div>
   </template>

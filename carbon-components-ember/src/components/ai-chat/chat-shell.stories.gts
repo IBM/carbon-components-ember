@@ -4,7 +4,6 @@ import { expect, fn as spy, within } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Button from '../button.gts';
-import Tooltip from '../tooltip.gts';
 import Document from '../icons/document.ts';
 import Idea from '../icons/idea.ts';
 import Language from '../icons/language.ts';
@@ -284,7 +283,7 @@ export const SidebarWorkspace = meta.story({
             class="ai-chat-chat-shell-story__sample ai-chat-chat-shell-story__sample--red ai-chat-chat-shell-story__sample--fill"
           >
             <p>Messages area</p>
-            <Button @size="sm" @onClick={{toggle}}>Open workspace</Button>
+            <Button @size="sm" {{on "click" toggle}}>Open workspace</Button>
           </div>
         </:messages>
         <:workspace>
@@ -292,7 +291,7 @@ export const SidebarWorkspace = meta.story({
             class="ai-chat-chat-shell-story__sample ai-chat-chat-shell-story__sample--blue ai-chat-chat-shell-story__sample--fill"
           >
             <h3>Workspace</h3>
-            <Button @size="sm" @onClick={{toggle}}>Close</Button>
+            <Button @size="sm" {{on "click" toggle}}>Close</Button>
             <p>Workspace content goes here</p>
             <p>This area can contain any additional tools or information.</p>
           </div>
@@ -382,17 +381,16 @@ export const Input = meta.story({
           />
         </:editor>
         <:sendControl>
-          <Tooltip @label="Send" @autoAlign={{true}}>
-            <Button
-              @ghost={{true}}
-              @size="sm"
-              @iconOnly={{true}}
-              @onClick={{send}}
-              aria-label="Send"
-            >
-              <Send @size="16" />
-            </Button>
-          </Tooltip>
+          <Button
+            @kind="ghost"
+            @hasIconOnly={{true}}
+            @autoAlign={{true}}
+            @size="sm"
+            @iconDescription="Send"
+            {{on "click" send}}
+          >
+            <Send @size="16" />
+          </Button>
         </:sendControl>
       </PromptLineShell>
     </template>;
@@ -422,30 +420,28 @@ export const InputExpanded = Input.extend({
         </:editor>
         <:messageActions>
           {{#each DUMMY_ACTIONS as |action|}}
-            <Tooltip @label={{action.text}} @align="top-start">
-              <Button
-                @ghost={{true}}
-                @size="sm"
-                @iconOnly={{true}}
-                aria-label={{action.text}}
-              >
-                <action.icon @size="16" />
-              </Button>
-            </Tooltip>
+            <Button
+              @kind="ghost"
+              @hasIconOnly={{true}}
+              @tooltipAlignment="start"
+              @size="sm"
+              @iconDescription={{action.text}}
+            >
+              <action.icon @size="16" />
+            </Button>
           {{/each}}
         </:messageActions>
         <:sendControl>
-          <Tooltip @label="Send" @autoAlign={{true}}>
-            <Button
-              @ghost={{true}}
-              @size="sm"
-              @iconOnly={{true}}
-              @onClick={{send}}
-              aria-label="Send"
-            >
-              <Send @size="16" />
-            </Button>
-          </Tooltip>
+          <Button
+            @kind="ghost"
+            @hasIconOnly={{true}}
+            @autoAlign={{true}}
+            @size="sm"
+            @iconDescription="Send"
+            {{on "click" send}}
+          >
+            <Send @size="16" />
+          </Button>
         </:sendControl>
       </PromptLineShell>
     </template>;
@@ -491,8 +487,8 @@ export const WithPromptLine = meta.story({
     };
 
     return <template>
-      <Button @size="sm" @onClick={{toggleHistory}}>Toggle history</Button>
-      <Button @size="sm" @onClick={{toggleWorkspace}}>Toggle workspace</Button>
+      <Button @size="sm" {{on "click" toggleHistory}}>Toggle history</Button>
+      <Button @size="sm" {{on "click" toggleWorkspace}}>Toggle workspace</Button>
       <div class="ai-chat-chat-shell-story__frame">
         <ChatShell
           @showHistory={{state.showHistory}}
@@ -529,17 +525,16 @@ export const WithPromptLine = meta.story({
                   />
                 </:editor>
                 <:sendControl>
-                  <Tooltip @label="Send" @autoAlign={{true}}>
-                    <Button
-                      @ghost={{true}}
-                      @size="sm"
-                      @iconOnly={{true}}
-                      @onClick={{send}}
-                      aria-label="Send"
-                    >
-                      <Send @size="16" />
-                    </Button>
-                  </Tooltip>
+                  <Button
+                    @kind="ghost"
+                    @hasIconOnly={{true}}
+                    @autoAlign={{true}}
+                    @size="sm"
+                    @iconDescription="Send"
+                    {{on "click" send}}
+                  >
+                    <Send @size="16" />
+                  </Button>
                 </:sendControl>
               </PromptLineShell>
             </div>

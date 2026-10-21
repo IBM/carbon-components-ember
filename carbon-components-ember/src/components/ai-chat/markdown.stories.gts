@@ -254,7 +254,7 @@ export const Streaming = meta.story({
     return <template>
       <div {{stream state.restarts}}>
         <div class="ai-chat-markdown-story__controls">
-          <Button @size="sm" @tertiary={{true}} @onClick={{restart}}>
+          <Button @kind="tertiary" @size="sm" {{on "click" restart}}>
             Restart Streaming
           </Button>
         </div>

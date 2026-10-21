@@ -13,9 +13,7 @@ import '#storybook/styles/icon.css';
 // `@carbon/icons-react` components directly). The equivalents here are the
 // generated icon components exported from `carbon-components-ember/icons`
 // (each one is an `Icon` with its SVG lazily imported per size), plus the
-// base `Icon` for SVGs registered by name. Not demoed: `@danger`, which
-// opens a confirmation dialog through the `carbon.dialog-manager` service and
-// needs an app-level dialog outlet.
+// base `Icon` for SVGs registered by name.
 
 registerIcon('bookmark', BookmarkSvg);
 
