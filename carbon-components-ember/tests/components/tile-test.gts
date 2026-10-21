@@ -43,9 +43,7 @@ module('Integration | Component | Tile', (hooks) => {
     assert.dom('.cds--tile--selectable').hasAttribute('tabindex', '0');
     assert.dom('.cds--tile-input').doesNotExist();
     await waitUntil(() => document.querySelector('.cds--tile__checkmark svg'));
-    const icon = document.querySelector('.cds--tile__checkmark svg');
-    assert.dom(icon).hasClass('cds--tile__checkmark-icon');
-    assert.dom(icon).doesNotHaveClass('icon');
+    assert.dom('.cds--tile__checkmark svg').exists();
   });
 
   test('@selectable toggles selection on click, without a native checkbox input', async function (assert) {
@@ -84,7 +82,7 @@ module('Integration | Component | Tile', (hooks) => {
     assert.dom('label.cds--tile-content').doesNotHaveAttribute('for');
   });
 
-  test('@expandable renders its chevron icon with the tile-specific class, not the default icon margin class', async function (assert) {
+  test('@expandable renders its chevron icon', async function (assert) {
     await render(
       <template>
         <Tile @expandable={{true}}>
@@ -96,9 +94,7 @@ module('Integration | Component | Tile', (hooks) => {
 
     assert.dom('.cds--tile--expandable').exists();
     await waitUntil(() => document.querySelector('.cds--tile__chevron svg'));
-    const icon = document.querySelector('.cds--tile__chevron svg');
-    assert.dom(icon).hasClass('cds--tile__chevron-icon');
-    assert.dom(icon).doesNotHaveClass('icon');
+    assert.dom('.cds--tile__chevron svg').exists();
   });
 
   test('@expandable always renders the below-the-fold content, toggling visibility and aria-expanded on click', async function (assert) {

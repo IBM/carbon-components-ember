@@ -34,6 +34,8 @@ export default function renderSvgPart(
   const a11y = ariaLabel
     ? `aria-label="${escapeHTML(ariaLabel)}" role="img"`
     : 'aria-hidden="true"';
+  // Like @carbon/icons-react, no class unless one is passed.
+  const className = classes.filter(Boolean).join(' ');
   const base = `<svg focusable="false"
              preserveAspectRatio="xMidYMid meet"
              xmlns="http://www.w3.org/2000/svg"
@@ -42,7 +44,7 @@ export default function renderSvgPart(
              height="${size || svg.attrs.height}"
              viewBox="${svg.attrs.viewBox}"
              ${a11y}
-             class="${classes.join(' ')}">`;
+             ${className ? `class="${className}"` : ''}>`;
   // A title element (even empty) matches @carbon/icons-react's behaviour:
   // every per-icon component always renders `{children}` inside the <svg>,
   // and callers pass `<title>{description}</title>` as children when they

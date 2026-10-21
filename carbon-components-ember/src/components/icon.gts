@@ -77,6 +77,9 @@ export interface IconSignature {
      * button classes
      */
     btnClass?: string;
+    /**
+     * Classes for the `<svg>`, as `@carbon/icons-react`'s `className`.
+     */
     svgClass?: string;
     fill?: string;
     /**
@@ -158,7 +161,7 @@ export default class Icon extends Component<IconSignature> {
         <Loading
           @small={{true}}
           @withOverlay={{false}}
-          class="cds--ember-icon {{this.classes}} loader"
+          class={{this.classes}}
         />
       </span>
     {{else}}
@@ -171,7 +174,7 @@ export default class Icon extends Component<IconSignature> {
         >
           {{renderSvgPart
             this.svg
-            class=(array (or @svgClass "cds--ember-icon") this.classes)
+            class=(array @svgClass this.classes)
             fill=(or @fill "currentColor")
             size=@size
             title=@title
@@ -181,7 +184,7 @@ export default class Icon extends Component<IconSignature> {
       {{else}}
         {{renderSvgPart
           this.svg
-          class=(array (or @svgClass "cds--ember-icon") this.classes)
+          class=(array @svgClass this.classes)
           fill=(or @fill "currentColor")
           size=@size
           title=@title

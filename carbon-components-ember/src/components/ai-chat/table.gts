@@ -263,11 +263,7 @@ export default class Table extends Component<TableSignature> {
                   @iconOnly={{true}}
                   @onClick={{this.download}}
                 >
-                  <Download
-                    @size={{16}}
-                    @fill="currentColor"
-                    @svgClass="cds-aichat-table__download-icon"
-                  />
+                  <Download @size={{16}} @fill="currentColor" />
                 </Button>
               </Tooltip>
             </div>

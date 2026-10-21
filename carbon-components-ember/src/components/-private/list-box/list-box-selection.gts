@@ -54,7 +54,7 @@ const ListBoxSelection: TOC<ListBoxSelectionSignature> = <template>
           aria-disabled={{if @readOnly "true"}}
           {{on "click" (fn clear @clearSelection)}}
         >
-          <Close @size="16" @svgClass="cds--list-box__selection-icon" />
+          <Close @size="16" />
         </button>
       </div>
     {{else}}
@@ -69,7 +69,7 @@ const ListBoxSelection: TOC<ListBoxSelectionSignature> = <template>
         aria-disabled={{if @readOnly "true"}}
         {{on "click" (fn clear @clearSelection)}}
       >
-        <Close @size="16" @svgClass="cds--list-box__selection-icon" />
+        <Close @size="16" />
       </button>
     {{/if}}
   {{/let}}

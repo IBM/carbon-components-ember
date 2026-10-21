@@ -153,21 +153,18 @@ class ProgressStep extends Component<ProgressStepSignature> {
         {{else if this.isCurrent}}
           <Incomplete
             @size={{16}}
-            @svgClass="cds--progress-step-icon"
             @fill="currentColor"
             @title={{this.iconTitle}}
           />
         {{else if this.isComplete}}
           <CheckmarkOutline
             @size={{16}}
-            @svgClass="cds--progress-step-icon"
             @fill="currentColor"
             @title={{this.iconTitle}}
           />
         {{else}}
           <CircleDash
             @size={{16}}
-            @svgClass="cds--progress-step-icon"
             @fill="currentColor"
             @title={{this.iconTitle}}
           />
