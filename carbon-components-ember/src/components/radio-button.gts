@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
 import type RadioButtonGroup from './radio-button/radio-button-group.gts';
-import { defaultArgs } from '../utils/decorators.ts';
 import AILabel from './ai-label.gts';
 import type { WithBoundArgs } from '@glint/template';
 
@@ -42,10 +41,6 @@ export interface RadioButtonSignature {
 }
 
 export default class RadioButton extends Component<RadioButtonSignature> {
-  args: RadioButtonSignature['Args'] = defaultArgs(this, {
-    hideLabel: false,
-  });
-
   guid = guidFor(this);
 
   get groupGuid() {

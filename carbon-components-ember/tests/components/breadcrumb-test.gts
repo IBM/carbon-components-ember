@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, rerender } from '@ember/test-helpers';
+import { render, rerender, click, find, waitUntil } from '@ember/test-helpers';
 import Breadcrumb from '#src/components/breadcrumb.gts';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
@@ -45,6 +45,39 @@ module('Integration | Component | Breadcrumb', (hooks) => {
     });
     assert.dom('li:nth-child(2) a.cds--link').hasText('B');
     assert.dom('li:nth-child(2) a').hasAttribute('href', '#b');
+  });
+
+  test('an item yields an OverflowMenu set up for a breadcrumb', async function (assert) {
+    await render(
+      <template>
+        <style nonce={{nonce}}>
+          .breadcrumb-test__center {
+            padding-inline-start: 12rem;
+          }
+        </style>
+        <div class="breadcrumb-test__center">
+          <Breadcrumb as |BreadcrumbItem|>
+            <BreadcrumbItem @href="#a">A</BreadcrumbItem>
+            <BreadcrumbItem as |item|>
+              <item.OverflowMenu as |OverflowMenuItem|>
+                <OverflowMenuItem @itemText="B" />
+              </item.OverflowMenu>
+            </BreadcrumbItem>
+          </Breadcrumb>
+        </div>
+      </template>,
+    );
+    await waitUntil(() => find('.cds--overflow-menu svg'));
+
+    assert
+      .dom('.cds--overflow-menu svg circle[cy="16"]')
+      .exists({ count: 3 }, 'the horizontal icon');
+    await click('.cds--overflow-menu');
+    const trigger = find('.cds--overflow-menu')!.getBoundingClientRect();
+    const menu = find('.cds--breadcrumb-menu-options')!.getBoundingClientRect();
+    const center = (rect: DOMRect) => rect.left + rect.width / 2;
+    assert.true(Math.abs(center(menu) - center(trigger) - 59) < 1, 'left');
+    assert.true(Math.abs(menu.top - trigger.bottom - 10) < 1, 'top');
   });
 
   test('should accept @noTrailingSlash', async function (assert) {
