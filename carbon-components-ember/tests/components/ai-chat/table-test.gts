@@ -138,6 +138,25 @@ module('Integration | Component | ai-chat/AiChatTable', (hooks) => {
     assert.dom('tbody tr').exists({ count: 5 });
   });
 
+  test('its page buttons are named "Previous page" and "Next page" by default', async function (assert) {
+    const rows = rowsOf(8);
+
+    await render(
+      <template>
+        <AiChatTable
+          @headers={{headers}}
+          @rows={{rows}}
+          @defaultPageSize={{5}}
+        />
+      </template>,
+    );
+
+    assert
+      .dom('[data-page-backward]')
+      .hasAttribute('aria-label', 'Previous page');
+    assert.dom('[data-page-forward]').hasAttribute('aria-label', 'Next page');
+  });
+
   test('it keeps the default page size after pagination unmounts and remounts due to filtering', async function (assert) {
     const rows = rowsOf(8);
 

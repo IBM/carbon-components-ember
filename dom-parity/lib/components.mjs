@@ -2216,9 +2216,9 @@ export const COMPONENTS = [
   {
     name: 'ProgressBar',
     variants: [
-      // No `size` passed - Ember's `defaultArgs.size` now matches
-      // upstream's own `size = 'big'` default, so both sides render
-      // `cds--progress-bar--big` with nothing explicit needed here.
+      // No `size` passed - Ember's `size` default matches upstream's own
+      // `size = 'big'`, so both sides render `cds--progress-bar--big` with
+      // nothing explicit needed here.
       progressBar('default', { value: 50 }),
       progressBar('size-small', { size: 'small', value: 50 }),
       progressBar('type-inline', { type: 'inline', value: 30 }),

@@ -10,7 +10,12 @@ export interface LineChartSignature {
      * (its `title` option).
      */
     title?: string;
+    /** Whether the chart resizes with its container. Defaults to `true`. */
     resizable?: boolean;
+    /**
+     * Whether clicking a legend item shows or hides its data. Defaults to
+     * `true`.
+     */
     legendClickable?: boolean;
   };
   Element: ChartSignature['Element'];
@@ -21,17 +26,6 @@ export interface LineChartSignature {
 
 export default class LineChart extends Component<LineChartSignature> {
   ChartClass = CarbonChartsLineChart;
-  args: LineChartSignature['Args'] = {
-    /**
-     * Is resizable
-     */
-    resizable: true,
-
-    /**
-     * Is legendClickable
-     */
-    legendClickable: true,
-  };
 
   <template>
     <Chart

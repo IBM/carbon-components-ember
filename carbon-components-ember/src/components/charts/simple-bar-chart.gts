@@ -10,7 +10,12 @@ export interface SimpleBarChartSignature {
      * (its `title` option).
      */
     title?: string;
+    /** Whether the chart resizes with its container. Defaults to `true`. */
     resizable?: boolean;
+    /**
+     * Whether clicking a legend item shows or hides its data. Defaults to
+     * `true`.
+     */
     legendClickable?: boolean;
   };
   Element: ChartSignature['Element'];

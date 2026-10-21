@@ -60,6 +60,16 @@ module('Integration | Component | CodeSnippet', (hooks) => {
     assert.deepEqual(clipboard.copied, ['const x = 1;']);
   });
 
+  test('without @type it renders a single line', async function (assert) {
+    await render(
+      <template>
+        <CodeSnippet>const x = 1;</CodeSnippet>
+      </template>,
+    );
+
+    assert.dom('.cds--snippet--single code').hasText('const x = 1;');
+  });
+
   test('@type="inline" renders an inline CopyButton', async function (assert) {
     await render(
       <template>
