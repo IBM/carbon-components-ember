@@ -379,7 +379,7 @@ export const WithClearFiles = meta.story({
       @onDelete={{args.onDelete}}
       as |clearFiles|
     >
-      <Button @ghost={{true}} @size="sm" @onClick={{clearFiles}}>
+      <Button @kind="ghost" @size="sm" {{on "click" clearFiles}}>
         Clear files
       </Button>
     </FileUploader>

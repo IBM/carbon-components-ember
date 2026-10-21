@@ -7,7 +7,7 @@ import copyToClipboard from '../modifiers/copy-to-clipboard.ts';
 import { textOf } from '../utils/clipboard.ts';
 import Popover, { PopoverContent } from './popover.gts';
 import type { PopoverAlignment } from './popover.gts';
-import Button from '../components/button.gts';
+import ButtonBase from './-private/button-base.gts';
 import type { ButtonSignature } from '../components/button.gts';
 
 export interface CopyButtonSignature {
@@ -106,7 +106,6 @@ export default class CopyButton extends Component<CopyButtonSignature> {
     return target ? dedent(textOf(target)) : '';
   };
 
-  // Ignores the result, so a promise doesn't put Button into its loading state.
   onClick = () => {
     this.args.onClick?.();
   };
@@ -124,16 +123,15 @@ export default class CopyButton extends Component<CopyButtonSignature> {
       @highContrast={{true}}
       class="cds--tooltip cds--icon-tooltip"
     >
-      <Button
-        data-copy-btn
+      <ButtonBase
+        @kind="primary"
+        @hasIconOnly={{true}}
+        @size="md"
+        @disabled={{@disabled}}
         aria-label={{this.label}}
+        data-copy-btn
         aria-describedby={{this.tooltipId}}
         tabindex="0"
-        @type="primary"
-        @size="md"
-        @iconOnly={{true}}
-        @disabled={{@disabled}}
-        @onClick={{this.onClick}}
         class="cds--copy
           {{if @inline 'cds--snippet cds--snippet--inline' 'cds--copy-btn'}}"
         ...attributes
@@ -142,6 +140,7 @@ export default class CopyButton extends Component<CopyButtonSignature> {
         {{on "focusin" this.show}}
         {{on "focusout" this.hide}}
         {{copyToClipboard text=this.textToCopy onSuccess=this.showFeedback}}
+        {{on "click" this.onClick}}
       >
         {{#if (has-block)}}
           <code
@@ -166,7 +165,7 @@ export default class CopyButton extends Component<CopyButtonSignature> {
             />
           </svg>
         {{/unless}}
-      </Button>
+      </ButtonBase>
       <PopoverContent
         id={{this.tooltipId}}
         role="tooltip"

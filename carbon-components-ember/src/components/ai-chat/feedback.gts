@@ -10,7 +10,6 @@ import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { modifier } from 'ember-modifier';
 import Button from '../button.gts';
-import Tooltip from '../tooltip.gts';
 import Checkbox from '../checkbox.gts';
 import Markdown from './markdown.gts';
 import Close from '../icons/close.ts';
@@ -169,17 +168,16 @@ export default class Feedback extends Component<FeedbackSignature> {
           {{unless @isOpen 'cds-aichat-feedback__container--closed'}}"
       >
         <div class="cds-aichat-feedback__close">
-          <Tooltip @label="Close">
-            <Button
-              @ghost={{true}}
-              @iconOnly={{true}}
-              @size="lg"
-              @disabled={{@isReadonly}}
-              @onClick={{this.handleClose}}
-            >
-              <Close @size="16" />
-            </Button>
-          </Tooltip>
+          <Button
+            @kind="ghost"
+            @hasIconOnly={{true}}
+            @iconDescription="Close"
+            @size="lg"
+            @disabled={{@isReadonly}}
+            {{on "click" this.handleClose}}
+          >
+            <Close @size="16" />
+          </Button>
         </div>
         <div class="cds-aichat-feedback__title-row">
           <div class="cds-aichat-feedback__title">
@@ -258,10 +256,10 @@ export default class Feedback extends Component<FeedbackSignature> {
         <div class="cds-aichat-feedback__buttons">
           <div class="cds-aichat-feedback__submit">
             <Button
-              @type="primary"
+              @kind="primary"
               @size="lg"
               @disabled={{this.isSubmitDisabled}}
-              @onClick={{this.handleSubmit}}
+              {{on "click" this.handleSubmit}}
             >
               {{if @primaryLabel @primaryLabel "Submit"}}
             </Button>

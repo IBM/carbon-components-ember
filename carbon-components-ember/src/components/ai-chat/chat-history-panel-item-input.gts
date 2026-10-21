@@ -10,7 +10,6 @@ import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
 import Button from '../button.gts';
-import Tooltip from '../tooltip.gts';
 import Checkmark from '../icons/checkmark.ts';
 import Close from '../icons/close.ts';
 import WarningFilled from '../icons/warning-filled.ts';
@@ -155,29 +154,27 @@ export default class ChatHistoryPanelItemInput extends Component<ChatHistoryPane
           {{this.focusAndSelect}}
         />
         <div class="cds-aichat-history-panel-item-input__actions">
-          <Tooltip @label={{or @cancelLabel "Cancel"}} @align="top">
-            <Button
-              class="cds-aichat-history-panel-item-input__cancel"
-              @ghost={{true}}
-              @iconOnly={{true}}
-              @size="sm"
-              @onClick={{this.handleCancel}}
-            >
-              <Close @size="16" />
-            </Button>
-          </Tooltip>
-          <Tooltip @label={{or @saveLabel "Save"}} @align="top">
-            <Button
-              class="cds-aichat-history-panel-item-input__save"
-              @ghost={{true}}
-              @iconOnly={{true}}
-              @size="sm"
-              @disabled={{not this.canSave}}
-              @onClick={{this.handleSave}}
-            >
-              <Checkmark @size="16" />
-            </Button>
-          </Tooltip>
+          <Button
+            @kind="ghost"
+            @hasIconOnly={{true}}
+            @iconDescription={{or @cancelLabel "Cancel"}}
+            @size="sm"
+            class="cds-aichat-history-panel-item-input__cancel"
+            {{on "click" this.handleCancel}}
+          >
+            <Close @size="16" />
+          </Button>
+          <Button
+            @kind="ghost"
+            @hasIconOnly={{true}}
+            @iconDescription={{or @saveLabel "Save"}}
+            @size="sm"
+            @disabled={{not this.canSave}}
+            class="cds-aichat-history-panel-item-input__save"
+            {{on "click" this.handleSave}}
+          >
+            <Checkmark @size="16" />
+          </Button>
         </div>
       </div>
       {{#if (and @invalid @invalidMessage)}}

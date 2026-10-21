@@ -55,7 +55,7 @@ const meta = preview.meta({
     };
 
     return <template>
-      <Button @onClick={{ask}}>Ask</Button>
+      <Button {{on "click" ask}}>Ask</Button>
       {{#if state.open}}
         <ConfirmDialog
           @type={{args.type}}

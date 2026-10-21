@@ -1,194 +1,148 @@
 import Component from '@glimmer/component';
-import { defaultArgs } from '../utils/decorators.ts';
-import { tracked } from '@glimmer/tracking';
-import type ConfirmDialogComponent from './dialogs/confirm-dialog.gts';
-import Confirm from './dialogs/confirm-dialog.gts';
-import InlineLoading from './inline-loading.gts';
+import type { ComponentLike } from '@glint/template';
+import ButtonBase from './-private/button-base.gts';
+import Tooltip from './tooltip.gts';
+import type { TooltipAlignment } from './tooltip.gts';
 
 export interface ButtonSignature {
-  Element: HTMLButtonElement;
+  Element: HTMLButtonElement | HTMLAnchorElement;
   Args: {
     /**
-     * Will display a spinning Wheel inside the button
+     * The element to render in place of the `<button>` (or, with `@href`,
+     * the `<a>`).
      */
-    loading?: boolean;
-
+    as?: keyof HTMLElementTagNameMap;
+    /**
+     * **Experimental:** Keeps an icon-only button's tooltip within the
+     * viewport.
+     */
+    autoAlign?: boolean;
+    /**
+     * Describes what a danger button does, for assistive technology: a
+     * visually hidden span the button points to with `aria-describedby`.
+     * For the `danger`, `danger--tertiary` and `danger--ghost` kinds.
+     */
+    dangerDescription?: string;
+    /**
+     * Disables the button. With `@href`, it renders a disabled `<button>`
+     * instead of the link.
+     */
     disabled?: boolean;
-
+    /** Renders a link to this URL, styled as a button. */
+    href?: string;
     /**
-     * Pass `false` to cancel the click's default action, such as a
-     * `type="submit"` button submitting its form. The click still bubbles.
+     * Shows only the icon, in a tooltip that names the button with
+     * `@iconDescription`.
      */
-    bubbles?: boolean;
-
-    onClick?: () => void | null | Promise<unknown>;
-
+    hasIconOnly?: boolean;
+    /** Names an icon-only button, in its tooltip. */
+    iconDescription?: string;
+    /** Uses Carbon's expressive button style. */
+    isExpressive?: boolean;
+    /** Marks an icon-only ghost button as selected, with `aria-pressed`. */
+    isSelected?: boolean;
+    /** The button's style. Defaults to `primary`. */
+    kind?:
+      | 'primary'
+      | 'secondary'
+      | 'tertiary'
+      | 'ghost'
+      | 'danger'
+      | 'danger--primary'
+      | 'danger--tertiary'
+      | 'danger--ghost';
     /**
-     * Indicates the type of the button
+     * An icon component, shown at 16px after the label, or alone with
+     * `@hasIconOnly`.
      */
-    type?: 'primary' | 'secondary' | 'danger';
-    /** Same as `@type="primary"`. */
-    primary?: boolean;
-    /** Same as `@type="secondary"`. */
-    secondary?: boolean;
+    renderIcon?: ComponentLike<{
+      Args: { size?: number | string; svgClass?: string };
+    }>;
+    /** The button's size. Without one, Carbon's default, `lg`, applies. */
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
     /**
-     * Same as `@type="danger"`, including the confirmation dialog before
-     * `@onClick` runs.
+     * How an icon-only button's tooltip lines up with it, along
+     * `@tooltipPosition`. Defaults to `center`.
      */
-    danger?: boolean;
-
+    tooltipAlignment?: 'start' | 'center' | 'end';
+    /** Gives an icon-only button's tooltip a drop shadow. */
+    tooltipDropShadow?: boolean;
     /**
-     * If the action is dangerous, this text message will be shown in the dialog
+     * Renders an icon-only button's tooltip in the high-contrast theme.
+     * Defaults to `true`.
      */
-    confirmText?: string;
-    /**
-     * Use this component as dialog
-     */
-    confirmDialog?: typeof ConfirmDialogComponent;
-    /**
-     * If the button is tertiary
-     */
-    tertiary?: boolean;
-    /**
-     * the button size
-     */
-    size?: 'sm' | 'md' | 'lg' | 'xl';
-    /**
-     * If the button is a ghost button
-     */
-    ghost?: boolean;
-
-    label?: string;
-
-    iconOnly?: boolean;
+    tooltipHighContrast?: boolean;
+    /** Which side of an icon-only button its tooltip is on. Defaults to `top`. */
+    tooltipPosition?: 'top' | 'right' | 'bottom' | 'left';
   };
   Blocks: {
+    /**
+     * The button's label, or an icon-only button's icon when there's no
+     * `@renderIcon`.
+     */
     default: [];
   };
 }
 
+/**
+ * Carbon's button. Clicks are a plain `{{on "click"}}` and `type` a plain
+ * attribute (`type="submit"`), as on a native `<button>`.
+ */
 export default class Button extends Component<ButtonSignature> {
-  @tracked loading: boolean = false;
-  @tracked disabled = false;
-  @tracked showDialog = false;
-
-  @defaultArgs
-  args: ButtonSignature['Args'] = {
-    loading: false,
-    disabled: false,
-    onClick: undefined,
-    type: 'primary',
-    confirmText: '',
-    confirmDialog: undefined,
-    tertiary: false,
-    size: 'md',
-    ghost: false,
-  };
+  get tooltipAlign(): TooltipAlignment {
+    const position = this.args.tooltipPosition ?? 'top';
+    const alignment = this.args.tooltipAlignment ?? 'center';
+    if (position === 'left' || position === 'right') return position;
+    return alignment === 'center' ? position : `${position}-${alignment}`;
+  }
 
   <template>
-    <button
-      onclick={{this.onButtonClick}}
-      class="cds--btn
-        {{this.classes}}
-        {{this.layout}}
-        {{if (or this.loading @loading) 'cds--btn--ghost'}}"
-      disabled={{or @disabled this.loading @loading}}
-      type="button"
-      ...attributes
-    >
-      {{#if (or this.loading @loading)}}
-        <InlineLoading />
-      {{else}}
-        {{#if (has-block)}}
-          {{yield}}
-        {{else}}
-          {{@label}}
-        {{/if}}
-      {{/if}}
-    </button>
-    {{! The confirmation is a modal <dialog>, shown above the page from here. }}
-    {{#if this.showDialog}}
-      {{#let (or @confirmDialog Confirm) as |Dialog|}}
-        <Dialog
-          @onAccept={{this.runButtonClick}}
-          @onCancel={{this.cancel}}
-          @header="Danger"
-          @body={{or @confirmText "Confirm this operation"}}
-          @type="danger"
-        />
-      {{/let}}
+    {{#if @hasIconOnly}}
+      {{! Carbon React's IconButton: the button in a tooltip naming it. }}
+      <Tooltip
+        class="cds--icon-tooltip {{if @disabled 'cds--icon-tooltip--disabled'}}"
+        @align={{this.tooltipAlign}}
+        @autoAlign={{@autoAlign}}
+        @label={{@iconDescription}}
+        @highContrast={{@tooltipHighContrast}}
+        @dropShadow={{@tooltipDropShadow}}
+        @closeOnActivation={{true}}
+        @leaveDelayMs={{100}}
+      >
+        <ButtonBase
+          @as={{@as}}
+          @dangerDescription={{@dangerDescription}}
+          @disabled={{@disabled}}
+          @hasIconOnly={{true}}
+          @href={{@href}}
+          @isExpressive={{@isExpressive}}
+          @isSelected={{@isSelected}}
+          @kind={{@kind}}
+          @size={{@size}}
+          ...attributes
+        >
+          {{#if @renderIcon}}
+            <@renderIcon @size={{16}} />
+          {{else}}
+            {{yield}}
+          {{/if}}
+        </ButtonBase>
+      </Tooltip>
+    {{else}}
+      <ButtonBase
+        @as={{@as}}
+        @dangerDescription={{@dangerDescription}}
+        @disabled={{@disabled}}
+        @href={{@href}}
+        @iconDescription={{@iconDescription}}
+        @isExpressive={{@isExpressive}}
+        @kind={{@kind}}
+        @renderIcon={{@renderIcon}}
+        @size={{@size}}
+        ...attributes
+      >
+        {{yield}}
+      </ButtonBase>
     {{/if}}
   </template>
-
-  // @type has no "off" value (it defaults to 'primary'), so a caller that
-  // only sets @tertiary/@ghost still has @type default to 'primary' behind
-  // the scenes - without this guard, `primary` would also resolve true and
-  // `cds--btn--tertiary`/`cds--btn--ghost` would render alongside a
-  // conflicting `cds--btn--primary`. A caller that wants a plain @type-based
-  // kind with neither @tertiary nor @ghost set (the common case, and the
-  // only way @type ever resolves to its real default) is unaffected.
-  get primary() {
-    if (this.args.tertiary || this.args.ghost) return false;
-    return this.args.primary || this.args.type === 'primary';
-  }
-
-  get secondary() {
-    if (this.args.tertiary || this.args.ghost) return false;
-    return this.args.secondary || this.args.type === 'secondary';
-  }
-
-  get danger() {
-    if (this.args.tertiary || this.args.ghost) return false;
-    return this.args.danger || this.args.type === 'danger';
-  }
-
-  get layout() {
-    return this.args.size ? `cds--layout--size-${this.args.size}` : '';
-  }
-
-  get classes() {
-    const classes: string[] = [];
-    if (this.primary) classes.push('cds--btn--primary');
-    if (this.secondary) classes.push('cds--btn--secondary');
-    if (this.danger) classes.push('cds--btn--danger');
-    if (this.args.tertiary) classes.push('cds--btn--tertiary');
-    if (this.args.ghost) classes.push('cds--btn--ghost');
-    if (this.disabled || this.args.disabled) classes.push('cds--btn--disabled');
-    if (this.args.iconOnly) classes.push('cds--btn--icon-only');
-    if (this.args.size) classes.push(`cds--btn--${this.args.size}`);
-    return classes.join(' ');
-  }
-
-  runButtonClick = () => {
-    const ac = this.args.onClick;
-    if (ac) {
-      const ret = ac();
-      if (ret && ret.then) {
-        this.disabled = true;
-        this.loading = true;
-        const end = () => {
-          this.disabled = false;
-          this.loading = false;
-          this.showDialog = false;
-        };
-        ret.then(end, end);
-      }
-    }
-    this.showDialog = false;
-  };
-
-  cancel = () => {
-    this.showDialog = false;
-  };
-
-  onButtonClick = () => {
-    if (this.danger) {
-      this.showDialog = true;
-    } else {
-      this.runButtonClick();
-    }
-    // Returning false cancels the default action; undefined leaves it. A
-    // danger button cancels it, so a submit waits for the confirmation.
-    return this.danger ? false : this.args.bubbles;
-  };
 }

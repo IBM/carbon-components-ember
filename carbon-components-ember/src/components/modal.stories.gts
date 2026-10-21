@@ -90,7 +90,7 @@ export const Default = meta.story({
   render: (args: StoryArgs) => {
     const { state, launch, close } = modalState(args);
     return <template>
-      <Button @onClick={{launch}}>Launch modal</Button>
+      <Button {{on "click" launch}}>Launch modal</Button>
       <Modal
         @open={{state.open}}
         @onRequestClose={{close}}
@@ -175,7 +175,7 @@ export const FullWidth = meta.story({
   render: (args: StoryArgs) => {
     const { state, launch, close } = modalState(args);
     return <template>
-      <Button @onClick={{launch}}>Launch modal</Button>
+      <Button {{on "click" launch}}>Launch modal</Button>
       <Modal
         @open={{state.open}}
         @onRequestClose={{close}}
@@ -229,7 +229,7 @@ export const DangerModal = meta.story({
   render: (args: StoryArgs) => {
     const { state, launch, close } = modalState(args);
     return <template>
-      <Button @onClick={{launch}}>Launch modal</Button>
+      <Button {{on "click" launch}}>Launch modal</Button>
       <Modal
         @open={{state.open}}
         @onRequestClose={{close}}
@@ -271,7 +271,7 @@ export const WithScrollingContent = meta.story({
   render: (args: StoryArgs) => {
     const { state, launch, close } = modalState(args);
     return <template>
-      <Button @onClick={{launch}}>Launch modal</Button>
+      <Button {{on "click" launch}}>Launch modal</Button>
       <Modal
         @open={{state.open}}
         @onRequestClose={{close}}
@@ -337,7 +337,7 @@ export const WithStateManager = meta.story({
   render: (args: StoryArgs) => {
     const { state, launch, close } = modalState(args, false);
     return <template>
-      <Button @onClick={{launch}}>Launch modal</Button>
+      <Button {{on "click" launch}}>Launch modal</Button>
       <Modal
         @open={{state.open}}
         @onRequestClose={{close}}
@@ -384,7 +384,7 @@ export const PassiveModal = meta.story({
   render: (args: StoryArgs) => {
     const { state, launch, close } = modalState(args);
     return <template>
-      <Button @onClick={{launch}}>Launch modal</Button>
+      <Button {{on "click" launch}}>Launch modal</Button>
       <Modal
         @open={{state.open}}
         @onRequestClose={{close}}
@@ -448,7 +448,7 @@ export const WithInlineLoading = meta.story({
     const cleanup = modifier(() => () => clearTimeout(timer));
     return <template>
       <div {{cleanup}}>
-        <Button @onClick={{launch}}>Launch modal</Button>
+        <Button {{on "click" launch}}>Launch modal</Button>
         <Modal
           @open={{state.open}}
           @onRequestClose={{close}}
@@ -490,7 +490,7 @@ export const WithAILabel = meta.story({
   render: (args: StoryArgs) => {
     const { state, launch, close } = modalState(args);
     return <template>
-      <Button @onClick={{launch}}>Launch modal</Button>
+      <Button {{on "click" launch}}>Launch modal</Button>
       <Modal
         @open={{state.open}}
         @onRequestClose={{close}}

@@ -226,7 +226,7 @@ own controls.`,
 
     return <template>
       <p>Status: {{state.status}}</p>
-      <Button @onClick={{toggle}}>{{if state.playing "Pause" "Play"}}</Button>
+      <Button {{on "click" toggle}}>{{if state.playing "Pause" "Play"}}</Button>
       <AudioPlayer
         @source={{args.source}}
         @playing={{state.playing}}

@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
 import AILabel from '#src/components/ai-label.gts';
+import { findButton } from '../helpers';
 
 module('Integration | Component | AILabel', (hooks) => {
   setupRenderingTest(hooks);
@@ -84,7 +85,7 @@ module('Integration | Component | AILabel', (hooks) => {
     assert.dom('.cds--ai-label').hasClass('cds--ai-label--revert');
     assert.dom('.cds--ai-label__button').doesNotExist();
 
-    await click('button[aria-label="Revert to AI input"]');
+    await click(findButton('Revert to AI input'));
     assert.verifySteps(['revert']);
   });
 });

@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, waitUntil, click } from '@ember/test-helpers';
+import { render, waitUntil, click, find } from '@ember/test-helpers';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import Button from '#src/components/button.gts';
+import Add from '#src/components/icons/add.ts';
 import Tag from '#src/components/tag.gts';
 import InlineLoading from '#src/components/inline-loading.gts';
 import Loading from '#src/components/loading.gts';
@@ -231,7 +232,7 @@ module('DOM parity | Carbon React', function (hooks) {
     test('primary-lg', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Button @type="primary" @size="lg">Button</Button>
+          <Button @kind="primary" @size="lg">Button</Button>
         </template>,
       );
       assertDomParity(
@@ -245,7 +246,7 @@ module('DOM parity | Carbon React', function (hooks) {
     test('secondary', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Button @type="secondary" @size="md">Button</Button>
+          <Button @kind="secondary" @size="md">Button</Button>
         </template>,
       );
       assertDomParity(
@@ -259,7 +260,7 @@ module('DOM parity | Carbon React', function (hooks) {
     test('danger', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Button @type="danger" @size="md">Button</Button>
+          <Button @kind="danger" @size="md">Button</Button>
         </template>,
       );
       assertDomParity(
@@ -273,7 +274,7 @@ module('DOM parity | Carbon React', function (hooks) {
     test('tertiary', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Button @tertiary={{true}} @size="md">Button</Button>
+          <Button @kind="tertiary" @size="md">Button</Button>
         </template>,
       );
       assertDomParity(
@@ -287,7 +288,7 @@ module('DOM parity | Carbon React', function (hooks) {
     test('ghost', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Button @ghost={{true}} @size="md">Button</Button>
+          <Button @kind="ghost" @size="md">Button</Button>
         </template>,
       );
       assertDomParity(
@@ -301,7 +302,7 @@ module('DOM parity | Carbon React', function (hooks) {
     test('size-sm', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Button @type="primary" @size="sm">Button</Button>
+          <Button @kind="primary" @size="sm">Button</Button>
         </template>,
       );
       assertDomParity(
@@ -315,7 +316,7 @@ module('DOM parity | Carbon React', function (hooks) {
     test('size-md', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Button @type="primary" @size="md">Button</Button>
+          <Button @kind="primary" @size="md">Button</Button>
         </template>,
       );
       assertDomParity(
@@ -329,7 +330,7 @@ module('DOM parity | Carbon React', function (hooks) {
     test('size-xl', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Button @type="primary" @size="xl">Button</Button>
+          <Button @kind="primary" @size="xl">Button</Button>
         </template>,
       );
       assertDomParity(
@@ -343,13 +344,230 @@ module('DOM parity | Carbon React', function (hooks) {
     test('disabled', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Button @type="primary" @size="md" @disabled={{true}}>Button</Button>
+          <Button @kind="primary" @size="md" @disabled={{true}}>Button</Button>
         </template>,
       );
       assertDomParity(
         assert,
         buttonFixture,
         'disabled',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Button>Button</Button>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('size-xs', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Button @size="xs">Button</Button>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'size-xs',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('size-2xl', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Button @size="2xl">Button</Button>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'size-2xl',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('danger-primary', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Button @kind="danger--primary">Button</Button>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'danger-primary',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('danger-tertiary', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Button @kind="danger--tertiary">Button</Button>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'danger-tertiary',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('danger-ghost', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Button @kind="danger--ghost">Button</Button>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'danger-ghost',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('danger-description', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Button
+            @kind="danger"
+            @dangerDescription="Deletes the project"
+          >Button</Button>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'danger-description',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('expressive', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Button @isExpressive={{true}} @size="lg">Button</Button>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'expressive',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('href', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Button @href="#docs">Button</Button>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'href',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('href-disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Button @href="#docs" @disabled={{true}}>Button</Button>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'href-disabled',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('href-danger-description', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Button
+            @href="#docs"
+            @kind="danger"
+            @dangerDescription="Deletes the project"
+          >Button</Button>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'href-danger-description',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('with-icon', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Button @renderIcon={{Add}} @iconDescription="Add">Button</Button>
+        </template>,
+      );
+      await waitUntil(() => find('svg'));
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'with-icon',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('icon-only', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Button
+            @hasIconOnly={{true}}
+            @renderIcon={{Add}}
+            @iconDescription="Add"
+            @kind="ghost"
+          >Button</Button>
+        </template>,
+      );
+      await waitUntil(() => find('svg'));
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'icon-only',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('icon-only-selected', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Button
+            @hasIconOnly={{true}}
+            @renderIcon={{Add}}
+            @iconDescription="Add"
+            @kind="ghost"
+            @isSelected={{true}}
+          >Button</Button>
+        </template>,
+      );
+      await waitUntil(() => find('svg'));
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'icon-only-selected',
         this.element.firstElementChild,
       );
     });
@@ -365,6 +583,20 @@ module('DOM parity | Carbon React', function (hooks) {
         'size-md',
         'size-xl',
         'disabled',
+        'default',
+        'size-xs',
+        'size-2xl',
+        'danger-primary',
+        'danger-tertiary',
+        'danger-ghost',
+        'danger-description',
+        'expressive',
+        'href',
+        'href-disabled',
+        'href-danger-description',
+        'with-icon',
+        'icon-only',
+        'icon-only-selected',
       ]);
     });
   });
@@ -822,6 +1054,21 @@ module('DOM parity | Carbon React', function (hooks) {
       );
     });
 
+    test('with-icon', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Link @href="/about" @renderIcon={{Add}}>Link text</Link>
+        </template>,
+      );
+      await waitUntil(() => find('svg'));
+      assertDomParity(
+        assert,
+        linkFixture,
+        'with-icon',
+        this.element.firstElementChild,
+      );
+    });
+
     test('every fixture variant is covered', function (assert) {
       assertFullCoverage(assert, linkFixture, [
         'default',
@@ -832,6 +1079,7 @@ module('DOM parity | Carbon React', function (hooks) {
         'size-lg',
         'target-blank',
         'as-button',
+        'with-icon',
       ]);
     });
   });

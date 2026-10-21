@@ -10,21 +10,12 @@
  *
  * Variant coverage is scoped to args that both sides actually implement and
  * that produce comparable DOM: Ember-only args with no React counterpart
- * (Button's `loading`, `confirmDialog`, `bubbles`, `onClick`) and
- * React-only props Ember never ported (`href`, `isExpressive`,
- * `tooltip*`, the `danger--*` compound kinds, sizes Ember doesn't support)
  * are out of scope for this harness - see AGENTS.md's parity-check script
- * for tracking those instead. `hasIconOnly` is also skipped for Button: in
- * @carbon/react it swaps in an entirely different component (`IconButton`,
- * wrapped in a tooltip) rather than toggling a class on the same root
- * element, so it isn't a fair "variation of args" comparison here.
- *
- * Link's `renderIcon` is skipped for the same reason `hasIconOnly` is
- * skipped for Button: the icon markup itself comes from each side's own,
- * unrelated icon component, so a `renderIcon` variant would mostly be
- * comparing two different icon implementations rather than Link's own
- * wrapping markup. `onClick` is Ember-only DOM-invisible behavior, out of
- * scope like Button's.
+ * for tracking those instead. Button covers its whole API, including
+ * `renderIcon` and `hasIconOnly` (an `IconButton` in a tooltip on both
+ * sides), and Link its `renderIcon`: icons render the same svg as
+ * `@carbon/icons-react`'s. `onClick` is DOM-invisible behavior, out of
+ * scope.
  *
  * Notification, CodeSnippet, Breadcrumb, and the Tile family were all
  * considered for the batch that added Link/UnorderedList/OrderedList/
@@ -614,12 +605,23 @@
 // generate.mjs, so this doesn't end up mixing two separate module
 // instances of the same component family.
 import { LayoutConstraint as CarbonLayoutConstraint } from '@carbon/react/lib/components/Layout/index.js';
+import { createRequire } from 'node:module';
 
+// `@carbon/icons-react` is `@carbon/react`'s dependency, not this package's.
+const { Add } = createRequire(
+  createRequire(import.meta.url).resolve('@carbon/react'),
+)('@carbon/icons-react');
+
+// The fixture records `props` as JSON, so an icon goes in by name.
 const button = (name, props) => ({
   name,
   props,
   createElement: (React, Carbon) =>
-    React.createElement(Carbon.Button, props, 'Button'),
+    React.createElement(
+      Carbon.Button,
+      { ...props, ...(props.renderIcon && { renderIcon: Add }) },
+      'Button',
+    ),
 });
 
 const tag = (name, props) => ({
@@ -633,7 +635,11 @@ const link = (name, props) => ({
   name,
   props,
   createElement: (React, Carbon) =>
-    React.createElement(Carbon.Link, props, 'Link text'),
+    React.createElement(
+      Carbon.Link,
+      { ...props, ...(props.renderIcon && { renderIcon: Add }) },
+      'Link text',
+    ),
 });
 
 const inlineLoading = (name, props) => ({
@@ -1449,6 +1455,38 @@ export const COMPONENTS = [
       button('size-md', { kind: 'primary', size: 'md' }),
       button('size-xl', { kind: 'primary', size: 'xl' }),
       button('disabled', { kind: 'primary', size: 'md', disabled: true }),
+      button('default', {}),
+      button('size-xs', { size: 'xs' }),
+      button('size-2xl', { size: '2xl' }),
+      button('danger-primary', { kind: 'danger--primary' }),
+      button('danger-tertiary', { kind: 'danger--tertiary' }),
+      button('danger-ghost', { kind: 'danger--ghost' }),
+      button('danger-description', {
+        kind: 'danger',
+        dangerDescription: 'Deletes the project',
+      }),
+      button('expressive', { isExpressive: true, size: 'lg' }),
+      button('href', { href: '#docs' }),
+      button('href-disabled', { href: '#docs', disabled: true }),
+      button('href-danger-description', {
+        href: '#docs',
+        kind: 'danger',
+        dangerDescription: 'Deletes the project',
+      }),
+      button('with-icon', { renderIcon: 'Add', iconDescription: 'Add' }),
+      button('icon-only', {
+        hasIconOnly: true,
+        renderIcon: 'Add',
+        iconDescription: 'Add',
+        kind: 'ghost',
+      }),
+      button('icon-only-selected', {
+        hasIconOnly: true,
+        renderIcon: 'Add',
+        iconDescription: 'Add',
+        kind: 'ghost',
+        isSelected: true,
+      }),
     ],
   },
   {
@@ -1626,6 +1664,7 @@ export const COMPONENTS = [
       link('size-lg', { href: '/about', size: 'lg' }),
       link('target-blank', { href: '/about', target: '_blank' }),
       link('as-button', { as: 'button', href: '/about' }),
+      link('with-icon', { href: '/about', renderIcon: 'Add' }),
     ],
   },
   {

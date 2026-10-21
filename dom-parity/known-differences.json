@@ -1,4 +1,24 @@
 {
+  "Button": [
+    {
+      "path": "button > svg[1].attributes.aria-label",
+      "variant": "with-icon",
+      "reason": "@carbon/react's ButtonBase gives the icon both `aria-label` (`iconDescription`) and `aria-hidden=\"true\"`, which @carbon/icons-react renders as a labelled image that's hidden anyway. Ember's `Icon` renders a labelled image or a hidden icon, not both, so this one is only `aria-hidden`, which is what React's is in effect."
+    },
+    {
+      "path": "button > svg[1].attributes.role",
+      "variant": "with-icon",
+      "reason": "The other half of the `aria-label` entry above: React's icon is `role=\"img\"` and `aria-hidden` at once."
+    },
+    {
+      "path": "span > div[0]",
+      "reason": "Same Tooltip internals as PasswordInput's entries: Ember's `Tooltip` wraps an icon-only button in a `<span class=\"cds--tooltip-trigger__wrapper\">`, where @carbon/react's uses a `<div>`."
+    },
+    {
+      "path": "span > span[1]",
+      "reason": "Same Tooltip internals as PasswordInput's entries: Ember's `Tooltip` puts `role=\"tooltip\"`, the `id` and `aria-hidden` on the popover's content span, where @carbon/react's puts them on the popover span."
+    }
+  ],
   "Link": [
     {
       "path": "button.attributes.id",

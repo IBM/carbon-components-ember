@@ -9,6 +9,15 @@
       "ariaCurrent": "React's aria-current goes to the item's link, which Carbon styles as the current page; an aria-current attribute would go to the <li>."
     }
   },
+  "Button": {
+    "missing": {
+      "rel": "A plain attribute, through `...attributes`, as on a native `<a>`.",
+      "target": "A plain attribute, through `...attributes`, as on a native `<a>`."
+    },
+    "extra": {
+      "autoAlign": "Carbon React's Button takes `autoAlign` at runtime and passes it to the icon-only button's tooltip, though its types leave it out."
+    }
+  },
   "Callout": {
     "values": {
       "kind": "React deprecates the other kinds."

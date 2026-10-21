@@ -74,13 +74,21 @@ const meta = preview.type<{ args: AILabelSignature['Args'] }>().meta({
       <label.Content>
         <AIExplanation />
         <label.Actions>
-          <Button @iconOnly={{true}} @ghost={{true}} aria-label="View">
+          <Button @kind="ghost" @hasIconOnly={{true}} @iconDescription="View">
             <View @size="16" />
           </Button>
-          <Button @iconOnly={{true}} @ghost={{true}} aria-label="Open folder">
+          <Button
+            @kind="ghost"
+            @hasIconOnly={{true}}
+            @iconDescription="Open folder"
+          >
             <FolderOpen @size="16" />
           </Button>
-          <Button @iconOnly={{true}} @ghost={{true}} aria-label="Folders">
+          <Button
+            @kind="ghost"
+            @hasIconOnly={{true}}
+            @iconDescription="Folders"
+          >
             <Folders @size="16" />
           </Button>
           <Button>View details</Button>

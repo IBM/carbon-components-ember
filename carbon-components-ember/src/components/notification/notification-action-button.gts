@@ -31,8 +31,7 @@ export interface NotificationActionButtonSignature {
 const NotificationActionButton: TOC<NotificationActionButtonSignature> =
   <template>
     <Button
-      @tertiary={{not @inline}}
-      @ghost={{@inline}}
+      @kind={{if @inline "ghost" "tertiary"}}
       @size="sm"
       class="cds--actionable-notification__action-button"
       ...attributes

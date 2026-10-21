@@ -10,7 +10,6 @@ import { tracked } from '@glimmer/tracking';
 import Search from '../search.gts';
 import Pagination from '../pagination.gts';
 import Button from '../button.gts';
-import Tooltip from '../tooltip.gts';
 import Download from '../icons/download.ts';
 import { stringifyCSV } from './-csv.ts';
 import type { ComponentLike } from '@glint/template';
@@ -257,15 +256,14 @@ export default class Table extends Component<TableSignature> {
                 @onClear={{this.search}}
                 @expandable={{false}}
               />
-              <Tooltip @label={{@downloadLabelText}}>
-                <Button
-                  @ghost={{true}}
-                  @iconOnly={{true}}
-                  @onClick={{this.download}}
-                >
-                  <Download @size={{16}} @fill="currentColor" />
-                </Button>
-              </Tooltip>
+              <Button
+                @kind="ghost"
+                @hasIconOnly={{true}}
+                @iconDescription={{@downloadLabelText}}
+                {{on "click" this.download}}
+              >
+                <Download @size={{16}} @fill="currentColor" />
+              </Button>
             </div>
           </div>
           <table class="cds--data-table cds--data-table--sort">

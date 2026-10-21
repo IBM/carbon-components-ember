@@ -33,10 +33,8 @@ import Add from 'carbon-components-ember/components/icons/add';
 
 <template>
   <TextInput @labelText="Name" />
-  <Button @type="primary">Save</Button>
-  <Button @iconOnly={{true}} aria-label="Add">
-    <Add @size="16" />
-  </Button>
+  <Button @kind="primary">Save</Button>
+  <Button @hasIconOnly={{true}} @renderIcon={{Add}} @iconDescription="Add" />
 </template>
 ```
 

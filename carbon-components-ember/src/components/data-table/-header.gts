@@ -90,7 +90,7 @@ export default class TableHeader extends Component<TableHeaderSignature> {
         {{#each @headers as |h index|}}
           <th id={{get this.headerIds index}}>
             {{#if h.sortable}}
-              <Button @type="primary" class="cds--table-sort" title={{h.label}}>
+              <Button @kind="primary" class="cds--table-sort" title={{h.label}}>
                 <span class="cds--table-header-label">
                   {{h.label}}
                 </span>
