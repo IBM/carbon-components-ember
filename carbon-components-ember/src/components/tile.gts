@@ -99,9 +99,10 @@ export default class Tile extends Component<TileSignature> {
     return this.args.tabindex ?? '0';
   }
 
-  // Its href is a placeholder.
+  // Its placeholder href goes nowhere; a caller's href navigates.
   preventNavigation = (event: Event) => {
-    event.preventDefault();
+    const link = event.currentTarget as HTMLAnchorElement;
+    if (link.getAttribute('href') === '#') event.preventDefault();
   };
 
   onSelectableClick = (event: Event) => {

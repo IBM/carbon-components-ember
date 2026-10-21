@@ -182,10 +182,10 @@ export default class FileUploaderDropContainer extends Component<FileUploaderDro
     (event.target as HTMLInputElement).value = '';
   };
 
-  handleButtonClick = () => {
-    if (!this.args.disabled) {
-      this.inputElement?.click();
-    }
+  // As in Carbon React, a click handler can keep the picker closed.
+  handleButtonClick = (event: Event) => {
+    if (event.defaultPrevented || this.args.disabled) return;
+    this.inputElement?.click();
   };
 
   <template>

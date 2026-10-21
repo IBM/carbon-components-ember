@@ -237,6 +237,26 @@ module('Integration | Component | OverflowMenu', (hooks) => {
     assert.dom(TRIGGER).isFocused();
   });
 
+  test("runs an item's click handler before the menu closes", async function (assert) {
+    let closed = false;
+    let closedFirst: boolean | undefined;
+    const onClose = () => (closed = true);
+    const onClick = () => (closedFirst = closed);
+    await render(
+      <template>
+        <OverflowMenu @onClose={{onClose}} as |Item|>
+          <Item @itemText="Stop app" {{on "click" onClick}} />
+        </OverflowMenu>
+      </template>,
+    );
+
+    await click(TRIGGER);
+    await click(item('Stop app'));
+
+    assert.false(closedFirst, 'the handler ran while the menu was open');
+    assert.true(closed);
+  });
+
   test('closes on a click outside, and when focus leaves it', async function (assert) {
     await render(
       <template>
