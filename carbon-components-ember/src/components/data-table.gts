@@ -93,6 +93,11 @@ export interface DataTableSignature<T> {
     search?: () => Promise<boolean>;
     state?: State<T>;
     items: T[];
+    /**
+     * Shows the table as DataTableSkeleton does, with placeholders for its
+     * title, description and cells (five rows while it has no items), and its
+     * search and pagination in their loading state.
+     */
     isLoading?: boolean;
     title?: string;
     description?: string;

@@ -187,7 +187,7 @@ module('Integration | Component | DataTable', (hooks) => {
     assert.dom('tbody').hasText('');
   });
 
-  test('@isLoading with no items yet shows five placeholder rows', async function (assert) {
+  test('@isLoading with no items yet shows five placeholder rows, without running the block', async function (assert) {
     const none: typeof items = [];
     await render(
       <template>
@@ -198,10 +198,12 @@ module('Integration | Component | DataTable', (hooks) => {
           as |table|
         >
           <table.Table>
+            <table.Header
+              @headers={{array (hash label="Name") (hash label="details")}}
+            />
             <table.EachBodyRows as |row|>
-              <row.Row>
+              <row.Row data-test-row>
                 <table.Column>{{row.item.name}}</table.Column>
-                <table.Column>{{row.item.b}}</table.Column>
               </row.Row>
             </table.EachBodyRows>
           </table.Table>
@@ -211,6 +213,49 @@ module('Integration | Component | DataTable', (hooks) => {
 
     assert.dom('tbody tr').exists({ count: 5 });
     assert.dom('tbody td span').exists({ count: 10 });
+    assert.dom('[data-test-row]').doesNotExist();
+  });
+
+  test('while loading, the controls wait for the data', async function (assert) {
+    await render(
+      <template>
+        <DataTable
+          @title="Table title"
+          @isLoading={{true}}
+          @items={{items}}
+          as |table|
+        >
+          <table.Table>
+            <table.Header
+              @isExpandable={{true}}
+              @isCheckable={{true}}
+              @headers={{array
+                (hash label="Name" sortable=true)
+                (hash label="Actions" hideLabel=true)
+              }}
+            />
+            <table.EachBodyRows as |row|>
+              <row.Row @isCheckable={{true}}>
+                <:default>
+                  <table.Column>{{row.item.name}}</table.Column>
+                  <table.Menu as |Item|><Item @itemText="Edit" /></table.Menu>
+                </:default>
+                <:expanded>Details</:expanded>
+              </row.Row>
+            </table.EachBodyRows>
+          </table.Table>
+        </DataTable>
+      </template>,
+    );
+
+    assert.dom('input[type="checkbox"]').doesNotExist();
+    assert.dom('.cds--table-expand__button').doesNotExist();
+    assert.dom('.cds--table-sort').doesNotExist();
+    assert.dom('.cds--overflow-menu').doesNotExist();
+    assert.dom('.cds--expandable-row').doesNotExist();
+    assert
+      .dom('th div.cds--table-header-label.cds--visually-hidden')
+      .hasText('Actions');
   });
 
   test('should support checkable rows and selection', async function (assert) {

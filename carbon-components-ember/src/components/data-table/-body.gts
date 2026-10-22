@@ -25,34 +25,55 @@ export interface DataTableBodySignature<T> {
   };
 }
 
-// DataTableSkeleton's default row count, for a table loading its first items.
-const PLACEHOLDER_ROWS = Array.from({ length: 5 }, () => ({}));
+// DataTableSkeleton's defaults, for a table loading before it has items.
+const PLACEHOLDER_ROWS = 5;
+const PLACEHOLDER_COLUMNS = 5;
 
 export default class DataTableBody<T> extends Component<
   DataTableBodySignature<T>
 > {
-  get items() {
-    if (this.args.table.isLoading && !this.args.items.length) {
-      return PLACEHOLDER_ROWS as T[];
-    }
-    return this.args.items;
+  // Drawn here, as DataTableSkeleton does, so the app's block never gets a
+  // made-up item.
+  get placeholderRows() {
+    const { table } = this.args;
+    if (!table.isLoading || table.args.items?.length) return undefined;
+    return Array.from({ length: PLACEHOLDER_ROWS });
+  }
+
+  get placeholderColumns() {
+    const headers = this.args.table.headers as unknown[] | undefined;
+    return Array.from({ length: headers?.length || PLACEHOLDER_COLUMNS });
   }
 
   <template>
     <tbody ...attributes>
-      {{#each this.items as |item|}}
-        {{#let
-          (component
-            ListRow
-            isExpandable=@isExpandable
-            isCheckable=@isCheckable
-            table=@table
-            item=item
-          )
-          as |Row|
-        }}
-          {{yield (hash Row=Row item=item)}}
-        {{/let}}
+      {{#each this.placeholderRows}}
+        <tr>
+          {{#if @isExpandable}}
+            <td class="cds--table-expand"></td>
+          {{/if}}
+          {{#if @isCheckable}}
+            <td class="cds--table-column-checkbox"></td>
+          {{/if}}
+          {{#each this.placeholderColumns}}
+            <td><span></span></td>
+          {{/each}}
+        </tr>
+      {{else}}
+        {{#each @items as |item|}}
+          {{#let
+            (component
+              ListRow
+              isExpandable=@isExpandable
+              isCheckable=@isCheckable
+              table=@table
+              item=item
+            )
+            as |Row|
+          }}
+            {{yield (hash Row=Row item=item)}}
+          {{/let}}
+        {{/each}}
       {{/each}}
     </tbody>
   </template>
