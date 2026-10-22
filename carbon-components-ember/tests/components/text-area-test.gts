@@ -139,6 +139,14 @@ module('Integration | Component | TextArea', (hooks) => {
     assert.dom('textarea.cds--text-area').doesNotHaveAttribute('maxlength');
   });
 
+  test('keeps a maxlength attribute when the counter sets none', async function (assert) {
+    await render(
+      <template><TextArea @labelText="Notes" maxlength="20" /></template>,
+    );
+
+    assert.dom('textarea.cds--text-area').hasAttribute('maxlength', '20');
+  });
+
   test('should count words when counterMode is word', async function (assert) {
     await render(
       <template>
@@ -154,11 +162,11 @@ module('Integration | Component | TextArea', (hooks) => {
     assert.dom('.cds--text-area__label-counter').hasText('3/5');
   });
 
-  test('should call onClick when clicked', async function (assert) {
+  test('a click handler goes on the textarea', async function (assert) {
     let clicked = false;
     const handleClick = () => (clicked = true);
 
-    await render(<template><TextArea @onClick={{handleClick}} /></template>);
+    await render(<template><TextArea {{on "click" handleClick}} /></template>);
 
     await click('textarea.cds--text-area');
 
@@ -214,5 +222,29 @@ module('Integration | Component | TextAreaSkeleton', (hooks) => {
 
     assert.dom('.cds--label').doesNotExist();
     assert.dom('.cds--skeleton.cds--text-area').exists();
+  });
+
+  test('attributes and {{on "click"}} go on the <textarea>, @className on the wrapper', async function (assert) {
+    let clicks = 0;
+    const onClick = () => clicks++;
+    await render(
+      <template>
+        <TextArea
+          @labelText="Notes"
+          @className="my-field"
+          class="my-input"
+          data-test-notes
+          {{on "click" onClick}}
+        />
+      </template>,
+    );
+
+    assert.dom('.cds--form-item').hasClass('my-field');
+    assert
+      .dom('textarea.cds--text-area')
+      .hasClass('my-input')
+      .hasAttribute('data-test-notes');
+    await click('textarea.cds--text-area');
+    assert.strictEqual(clicks, 1);
   });
 });

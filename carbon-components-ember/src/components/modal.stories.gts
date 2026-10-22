@@ -21,8 +21,6 @@ import '#storybook/styles/modal.css';
 //   until it's a native <select>. OverflowMenu and Menu render theirs
 //   outside it too, so they can't be used in a modal yet.
 // - No `numberOfButtons` control: set `secondaryButtons` instead.
-// - TextInput puts attributes on its wrapper, so the stories focus the
-//   field with `@selectorPrimaryFocus` rather than `data-modal-primary-focus`.
 
 type StoryArgs = ModalSignature['Args'];
 
@@ -103,7 +101,6 @@ export const Default = meta.story({
         @alert={{args.alert}}
         @size={{args.size}}
         @preventCloseOnClickOutside={{args.preventCloseOnClickOutside}}
-        @selectorPrimaryFocus="#modal-story-domain"
         aria-label="Modal content"
       >
         <p class="modal-story__intro">
@@ -112,10 +109,10 @@ export const Default = meta.story({
           domain, a shared subdomain, or a shared domain and host.
         </p>
         <TextInput
-          @id="modal-story-domain"
           @labelText="Domain name"
           @placeholder="For example, GitHub.com"
           class="modal-story__field"
+          data-modal-primary-focus
         />
         <div class="modal-story__field">
           <Dropdown
@@ -282,7 +279,6 @@ export const WithScrollingContent = meta.story({
         @primaryButtonText={{args.primaryButtonText}}
         @secondaryButtonText={{args.secondaryButtonText}}
         @size={{args.size}}
-        @selectorPrimaryFocus="#modal-story-scrolling-domain"
       >
         <p class="modal-story__paragraph">
           Custom domains direct requests for your apps in this Cloud Foundry
@@ -299,10 +295,10 @@ export const WithScrollingContent = meta.story({
           Engine CLI.
         </p>
         <TextInput
-          @id="modal-story-scrolling-domain"
           @labelText="Domain name"
           @placeholder="For example, GitHub.com"
           class="modal-story__field"
+          data-modal-primary-focus
         />
       </Modal>
     </template>;
@@ -347,7 +343,6 @@ export const WithStateManager = meta.story({
         @primaryButtonText={{args.primaryButtonText}}
         @secondaryButtonText={{args.secondaryButtonText}}
         @size={{args.size}}
-        @selectorPrimaryFocus="#modal-story-manager-domain"
       >
         <p class="modal-story__paragraph">
           Custom domains direct requests for your apps in this Cloud Foundry
@@ -355,9 +350,9 @@ export const WithStateManager = meta.story({
           domain, a shared subdomain, or a shared domain and host.
         </p>
         <TextInput
-          @id="modal-story-manager-domain"
           @labelText="Domain name"
           @placeholder="e.g. github.com"
+          data-modal-primary-focus
         />
       </Modal>
     </template>;
@@ -500,7 +495,6 @@ export const WithAILabel = meta.story({
         @primaryButtonText={{args.primaryButtonText}}
         @secondaryButtonText={{args.secondaryButtonText}}
         @size={{args.size}}
-        @selectorPrimaryFocus="#modal-story-ai-domain"
       >
         <:default>
           <p class="modal-story__intro">
@@ -509,10 +503,10 @@ export const WithAILabel = meta.story({
             domain, a shared subdomain, or a shared domain and host.
           </p>
           <TextInput
-            @id="modal-story-ai-domain"
             @labelText="Domain name"
             @placeholder="For example, GitHub.com"
             class="modal-story__field"
+            data-modal-primary-focus
           />
           <TextArea @labelText="Comments" />
         </:default>

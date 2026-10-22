@@ -10,6 +10,11 @@ import './text-area.scss';
 
 export interface TextAreaSignature {
   Args: {
+    /**
+     * Classes for the wrapper, as Carbon React's `className`. `class` and the
+     * other attributes go on the `<textarea>`.
+     */
+    className?: string;
     id?: string;
     labelText?: string;
     hideLabel?: boolean;
@@ -30,10 +35,9 @@ export interface TextAreaSignature {
     counterMode?: 'character' | 'word';
     light?: boolean;
     onChange?: (value: string, event: Event) => void;
-    onClick?: (event: MouseEvent) => void;
     onKeyDown?: (event: KeyboardEvent) => void;
   };
-  Element: HTMLDivElement;
+  Element: HTMLTextAreaElement;
   Blocks: {
     /**
      * **Experimental:** an AI label, or any other decorator, shown in the field.
@@ -104,16 +108,12 @@ export default class TextArea extends Component<TextAreaSignature> {
     this.args.onChange?.(value, event);
   };
 
-  handleClick = (event: MouseEvent) => {
-    this.args.onClick?.(event);
-  };
-
   handleKeyDown = (event: KeyboardEvent) => {
     this.args.onKeyDown?.(event);
   };
 
   <template>
-    <div class="cds--form-item" ...attributes>
+    <div class="cds--form-item {{@className}}">
       <div class="cds--text-area__label-wrapper">
         {{#if @labelText}}
           <label
@@ -150,6 +150,8 @@ export default class TextArea extends Component<TextAreaSignature> {
           />
         {{/if}}
         <textarea
+          maxlength={{this.maxLength}}
+          ...attributes
           id={{this.id}}
           class="cds--text-area
             {{if @light 'cds--text-area--light'}}
@@ -160,11 +162,9 @@ export default class TextArea extends Component<TextAreaSignature> {
           placeholder={{@placeholder}}
           disabled={{@disabled}}
           readonly={{@readOnly}}
-          maxlength={{this.maxLength}}
           aria-invalid={{if this.isInvalid "true"}}
           data-invalid={{if this.isInvalid "true"}}
           {{on "input" this.updateValue}}
-          {{on "click" this.handleClick}}
           {{on "keydown" this.handleKeyDown}}
         >{{this.value}}</textarea>
         {{#if (has-block "decorator")}}

@@ -9,7 +9,10 @@ import DatePickerInput from './date-picker-input.gts';
 import type { DatePickerInputSignature } from './date-picker-input.gts';
 import '#storybook/styles/date-picker-input.css';
 
-type Args = DatePickerInputSignature['Args'];
+type Args = DatePickerInputSignature['Args'] & {
+  /** Story-only: called on click, through `{{on "click"}}`. */
+  onClick: () => void;
+};
 
 // Carbon React has no stories of its own for DatePickerInput: it's a
 // subcomponent of Components/DatePicker, so it's rendered inside one here.
@@ -78,7 +81,7 @@ const meta = preview.type<{ args: Args }>().meta({
         @warnText={{args.warnText}}
         @helperText={{args.helperText}}
         @onChange={{args.onChange}}
-        @onClick={{args.onClick}}
+        {{on "click" args.onClick}}
       />
     </DatePicker>
   </template>,

@@ -600,4 +600,26 @@ module('Integration | Component | DatePicker', (hooks) => {
       )
       .exists('the yielded AI label is mini, as in Carbon React');
   });
+
+  test('class, attributes and {{on "click"}} go on the <input>', async function (assert) {
+    let clicks = 0;
+    const onClick = () => clicks++;
+    await render(
+      <template>
+        <DatePicker @datePickerType="simple" as |Input|><Input
+            @labelText="Date"
+            class="my-input"
+            data-test-date
+            {{on "click" onClick}}
+          /></DatePicker>
+      </template>,
+    );
+
+    assert
+      .dom('input.cds--date-picker__input')
+      .hasClass('my-input')
+      .hasAttribute('data-test-date');
+    await click('input.cds--date-picker__input');
+    assert.strictEqual(clicks, 1);
+  });
 });

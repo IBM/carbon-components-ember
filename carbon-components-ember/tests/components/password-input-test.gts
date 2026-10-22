@@ -145,4 +145,26 @@ module('Integration | Component | PasswordInput', (hooks) => {
 
     assert.dom('input.cds--text-input').hasAttribute('type', 'text');
   });
+
+  test('class, attributes and {{on "click"}} go on the <input>, where Carbon React puts className', async function (assert) {
+    let clicks = 0;
+    const onClick = () => clicks++;
+    await render(
+      <template>
+        <PasswordInput
+          @labelText="Password"
+          class="my-input"
+          autocomplete="current-password"
+          {{on "click" onClick}}
+        />
+      </template>,
+    );
+
+    assert
+      .dom('input.cds--password-input')
+      .hasClass('my-input')
+      .hasAttribute('autocomplete');
+    await click('input.cds--password-input');
+    assert.strictEqual(clicks, 1);
+  });
 });

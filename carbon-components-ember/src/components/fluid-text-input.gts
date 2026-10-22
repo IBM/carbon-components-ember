@@ -10,6 +10,12 @@ import Tooltip from './tooltip.gts';
 
 export interface FluidTextInputSignature {
   Args: {
+    /**
+     * Carbon React's `className`: classes for the wrapper, or for the
+     * `<input>` with `@isPassword`, as in React. `class` and the other
+     * attributes go on the `<input>`.
+     */
+    className?: string;
     id?: string;
     labelText?: string;
     value?: string;
@@ -27,13 +33,12 @@ export interface FluidTextInputSignature {
     showPasswordLabel?: string;
     hidePasswordLabel?: string;
     onChange?: (value: string, event: Event) => void;
-    onClick?: (event: MouseEvent) => void;
     onTogglePasswordVisibility?: (event: MouseEvent) => void;
   };
   Blocks: {
     labelText: [];
   };
-  Element: HTMLDivElement;
+  Element: HTMLInputElement;
 }
 
 export default class FluidTextInput extends Component<FluidTextInputSignature> {
@@ -106,10 +111,6 @@ export default class FluidTextInput extends Component<FluidTextInputSignature> {
     this.args.onChange?.(value, event);
   };
 
-  handleClick = (event: MouseEvent) => {
-    this.args.onClick?.(event);
-  };
-
   togglePasswordVisibility = (event: MouseEvent) => {
     this.passwordVisible = !this.passwordVisible;
     this.args.onTogglePasswordVisibility?.(event);
@@ -119,8 +120,8 @@ export default class FluidTextInput extends Component<FluidTextInputSignature> {
     <div
       class="cds--form-item cds--text-input-wrapper cds--text-input--fluid
         {{if @isPassword 'cds--password-input-wrapper'}}
-        {{if @readOnly 'cds--text-input-wrapper--readonly'}}"
-      ...attributes
+        {{if @readOnly 'cds--text-input-wrapper--readonly'}}
+        {{unless @isPassword @className}}"
     >
       <div class="cds--text-input__label-wrapper">
         {{#if (has-block "labelText")}}
@@ -164,12 +165,14 @@ export default class FluidTextInput extends Component<FluidTextInputSignature> {
             />
           {{/if}}
           <input
+            ...attributes
             id={{this.id}}
             type={{this.type}}
             class="cds--text-input
               {{if @isPassword 'cds--password-input'}}
               {{if this.isInvalid 'cds--text-input--invalid'}}
-              {{if this.isWarn 'cds--text-input--warning'}}"
+              {{if this.isWarn 'cds--text-input--warning'}}
+              {{if @isPassword @className}}"
             placeholder={{@placeholder}}
             disabled={{@disabled}}
             readonly={{@readOnly}}
@@ -177,7 +180,6 @@ export default class FluidTextInput extends Component<FluidTextInputSignature> {
             data-invalid={{if this.isInvalid "true"}}
             value={{this.boundValue}}
             {{on "input" this.updateValue}}
-            {{on "click" this.handleClick}}
           />
           {{#unless @isPassword}}
             <span

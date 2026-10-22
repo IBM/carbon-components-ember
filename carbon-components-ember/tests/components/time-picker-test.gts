@@ -74,11 +74,13 @@ module('Integration | Component | TimePicker', (hooks) => {
     assert.strictEqual(received, '11:00');
   });
 
-  test('should call onClick when the input is clicked', async function (assert) {
+  test('a click handler goes on the input', async function (assert) {
     let called = false;
     const handleClick = () => (called = true);
 
-    await render(<template><TimePicker @onClick={{handleClick}} /></template>);
+    await render(
+      <template><TimePicker {{on "click" handleClick}} /></template>,
+    );
 
     await click('input.cds--time-picker__input-field');
 
@@ -231,5 +233,29 @@ module('Integration | Component | TimePicker', (hooks) => {
       .dom('#tp-default')
       .hasAttribute('aria-label', 'open list of options');
     assert.dom('#tp-named').hasAttribute('aria-label', 'Period');
+  });
+
+  test('attributes and {{on "click"}} go on the <input>, @className on the wrapper', async function (assert) {
+    let clicks = 0;
+    const onClick = () => clicks++;
+    await render(
+      <template>
+        <TimePicker
+          @labelText="Time"
+          @className="my-field"
+          class="my-input"
+          data-test-time
+          {{on "click" onClick}}
+        />
+      </template>,
+    );
+
+    assert.dom('.cds--form-item').hasClass('my-field');
+    assert
+      .dom('input.cds--time-picker__input-field')
+      .hasClass('my-input')
+      .hasAttribute('data-test-time');
+    await click('input.cds--time-picker__input-field');
+    assert.strictEqual(clicks, 1);
   });
 });

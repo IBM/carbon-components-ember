@@ -16,6 +16,11 @@ import WarningAltFilled from './icons/warning-alt-filled.ts';
 export interface TimePickerSignature {
   Args: {
     /**
+     * Classes for the wrapper, as Carbon React's `className`. `class` and the
+     * other attributes go on the `<input>`.
+     */
+    className?: string;
+    /**
      * Specify a custom `id` for the `<input>`
      */
     id?: string;
@@ -105,17 +110,12 @@ export interface TimePickerSignature {
      */
     onChange?: (value: string, event: Event) => void;
     /**
-     * Optionally provide an `onClick` handler that is called whenever the
-     * `<input>` is clicked
-     */
-    onClick?: (event: MouseEvent) => void;
-    /**
      * Optionally provide an `onBlur` handler that is called whenever the
      * `<input>` loses focus
      */
     onBlur?: (event: FocusEvent) => void;
   };
-  Element: HTMLDivElement;
+  Element: HTMLInputElement;
   Blocks: {
     /**
      * Pass in `TimePickerSelect` components to render next to the `<input>`
@@ -177,18 +177,13 @@ export default class TimePicker extends Component<TimePickerSignature> {
     this.args.onChange?.(value, event);
   };
 
-  handleClick = (event: MouseEvent) => {
-    if (this.args.disabled) return;
-    this.args.onClick?.(event);
-  };
-
   handleBlur = (event: FocusEvent) => {
     if (this.args.disabled) return;
     this.args.onBlur?.(event);
   };
 
   <template>
-    <div class="cds--form-item" ...attributes>
+    <div class="cds--form-item {{@className}}">
       {{#if @labelText}}
         <label
           for={{this.id}}
@@ -208,6 +203,7 @@ export default class TimePicker extends Component<TimePickerSignature> {
       >
         <div class="cds--time-picker__input">
           <input
+            ...attributes
             id={{this.id}}
             type={{this.type}}
             class="cds--time-picker__input-field cds--text-input
@@ -224,7 +220,6 @@ export default class TimePicker extends Component<TimePickerSignature> {
             aria-invalid={{if this.isInvalid "true"}}
             data-invalid={{if this.isInvalid "true"}}
             {{on "input" this.handleChange}}
-            {{on "click" this.handleClick}}
             {{on "blur" this.handleBlur}}
           />
           {{#if this.isInvalid}}

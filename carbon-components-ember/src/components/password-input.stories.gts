@@ -11,7 +11,7 @@ import '#storybook/styles/password-input.css';
 type Args = PasswordInputSignature['Args'];
 
 // Carbon React parity: Components/PasswordInput only has a `Default`
-// story, mirrored here. Gaps: no `decorator`/`slug`, `autoComplete` or
+// story, mirrored here. Gaps: no `decorator`/`slug` or
 // `onTogglePasswordVisibility` that can cancel the toggle.
 
 const meta = preview.meta({

@@ -41,10 +41,9 @@ export interface PasswordInputSignature {
     tooltipPosition?: 'top' | 'right' | 'bottom' | 'left';
     tooltipAlignment?: 'start' | 'center' | 'end';
     onChange?: (value: string, event: Event) => void;
-    onClick?: (event: MouseEvent) => void;
     onTogglePasswordVisibility?: (event: MouseEvent) => void;
   };
-  Element: HTMLDivElement;
+  Element: HTMLInputElement;
 }
 
 export default class PasswordInput extends Component<PasswordInputSignature> {
@@ -114,10 +113,6 @@ export default class PasswordInput extends Component<PasswordInputSignature> {
     this.args.onChange?.(value, event);
   };
 
-  handleClick = (event: MouseEvent) => {
-    this.args.onClick?.(event);
-  };
-
   toggleVisibility = (event: MouseEvent) => {
     this.passwordVisible = !this.passwordVisible;
     this.args.onTogglePasswordVisibility?.(event);
@@ -134,7 +129,6 @@ export default class PasswordInput extends Component<PasswordInputSignature> {
           'cds--text-input-wrapper--inline--invalid'
         }}
         {{if @size (concat 'cds--layout--size-' @size)}}"
-      ...attributes
     >
       {{#if @labelText}}
         <label
@@ -167,6 +161,7 @@ export default class PasswordInput extends Component<PasswordInputSignature> {
             />
           {{/if}}
           <input
+            ...attributes
             id={{this.id}}
             type={{this.inputType}}
             class="cds--text-input cds--password-input
@@ -186,7 +181,6 @@ export default class PasswordInput extends Component<PasswordInputSignature> {
             }}
             value={{this.boundValue}}
             {{on "input" this.updateValue}}
-            {{on "click" this.handleClick}}
           />
           <Tooltip
             @label={{this.toggleLabel}}
