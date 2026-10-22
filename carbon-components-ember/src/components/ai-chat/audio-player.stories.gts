@@ -23,7 +23,9 @@ import '#storybook/styles/ai-chat/audio-player.css';
 //
 // The native-audio stories play a real sample, `demo-support/sample-audio.mp3`,
 // served from `.storybook/public/` (relative to the preview, so it works under
-// any deploy path, and keeps the tests offline).
+// any deploy path, and keeps the tests offline). Screenshots skip them: the
+// browser draws the player's controls, which fill in the duration and the
+// loaded range as the file loads.
 //
 // SoundCloud stories load the SoundCloud Widget API from the network, so
 // they are excluded from the test run (`!test` tag) to keep it deterministic.
@@ -135,6 +137,7 @@ export const WithTranscript = meta.story({
     description:
       'This example includes a transcript for accessibility. (The transcript element itself is not ported yet.)',
   },
+  parameters: { screenshot: { disable: true } },
 });
 
 export const ErrorState = meta.story({
@@ -155,6 +158,7 @@ export const NativeAudio = meta.story({
     useCard: false,
   },
   parameters: {
+    screenshot: { disable: true },
     docs: {
       description: {
         story:
@@ -201,6 +205,7 @@ export const ControllingPlayback = meta.story({
     useCard: false,
   },
   parameters: {
+    screenshot: { disable: true },
     docs: {
       description: {
         story: `\`@playing\` is only reacted to on a *change* after mount (the initial value is

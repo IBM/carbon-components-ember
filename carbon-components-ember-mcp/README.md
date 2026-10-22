@@ -8,7 +8,7 @@ It's an [MCP](https://modelcontextprotocol.io/) server that talks over stdio. It
 
 Add it to your agent from your app's directory, the one where carbon-components-ember is installed.
 
-**Claude Code**
+**Claude Code**, in a terminal:
 
 ```sh
 claude mcp add carbon-components-ember -- npx -y carbon-components-ember-mcp

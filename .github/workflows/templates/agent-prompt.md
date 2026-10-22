@@ -3,10 +3,11 @@
 ## Component: {{COMPONENT_NAME}}
 
 ## Context
+
 - **Issue**: #{{ISSUE_NUMBER}}
 - **Repository**: {{GITHUB_REPOSITORY}}
-- **React Implementation**: https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/{{COMPONENT_NAME}}
-- **Storybook**: https://react.carbondesignsystem.com/?path=/docs/components-{{COMPONENT_NAME_LOWER}}--overview
+- **React Implementation**: <https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/{{COMPONENT_NAME}}>
+- **Storybook**: <https://react.carbondesignsystem.com/?path=/docs/components-{{COMPONENT_NAME_LOWER}}--overview>
 - **Screenshot**: @/tmp/screenshots/{{COMPONENT_NAME}}-react.png
 
 ## Your Mission
@@ -105,7 +106,7 @@ component synced and push that update (see Phase 4, step 3).
 
 3. **Fix Implementation**
    - Update component signature — `Args` when the component takes args (omit
-     it, rather than declaring `Args: {}`, for argless wrappers), `Element`
+     it, rather than declaring `Args: {}`, for wrappers without arguments), `Element`
      when it spreads `...attributes`, `Blocks` only for blocks it actually
      yields, with
      yielded values typed via `WithBoundArgs` / `ComponentLike` /
@@ -153,7 +154,6 @@ component synced and push that update (see Phase 4, step 3).
    - Test all variants/props
    - Test edge cases
 
-
 5. **Add Documentation (stories)**
    - The docs site is Storybook. Add a colocated story file next to the component, `carbon-components-ember/src/components/{{COMPONENT_NAME_KEBAB}}.stories.gts`, following the conventions in AGENTS.md's "Storybook (`ember-storybook`)" section (CSF Next: `preview.meta()` / `meta.story()`, the `component` in the meta, a `docs.description.component` paragraph). Look at an existing file, e.g. `tree-view.stories.gts`, for the pattern
    - Its docs page (args table, element, blocks) is generated from the component's Glint signature and JSDoc, so document every arg with JSDoc in the component itself
@@ -168,10 +168,12 @@ component synced and push that update (see Phase 4, step 3).
 Use this path only when the component genuinely doesn't belong as a standalone Ember component (e.g. it's a React-only utility/context/HOC with no Ember equivalent, or it's really just a piece of another component that's already implemented here).
 
 1. **Record the exclusion**
+
    ```bash
    cd scripts
    node parity-check.mjs --exclude {{COMPONENT_NAME}} --reason "<why this doesn't apply to Ember>" --issue {{ISSUE_NUMBER}}
    ```
+
    - This removes `{{COMPONENT_NAME}}` from `.parity-check-data.json` and `PARITY_REPORT.md` going forward
    - It also comments on and closes issue #{{ISSUE_NUMBER}} with the reason
 2. **Do not** create a PR or make component changes for this path - skip Phase 3 and Phase 4 below, you're done once the exclusion is recorded
@@ -179,13 +181,16 @@ Use this path only when the component genuinely doesn't belong as a standalone E
 ### Phase 3: Validation (Required)
 
 1. **Build**
+
    ```bash
    cd carbon-components-ember && pnpm build
    ```
+
    - Must succeed without errors
    - Fix any TypeScript errors
 
 2. **Test** (if time permits)
+
    ```bash
    cd carbon-components-ember && pnpm test
    ```
@@ -194,6 +199,7 @@ Use this path only when the component genuinely doesn't belong as a standalone E
    `{{COMPONENT_NAME_KEBAB}}/{{COMPONENT_NAME_KEBAB}}-item.gts`, not
    `{{COMPONENT_NAME_KEBAB}}/item.gts`. The barrel names each export after
    its file, and this fails if two files would export the same name:
+
    ```bash
    pnpm --filter carbon-components-ember generate
    ```
@@ -212,6 +218,7 @@ Use this path only when the component genuinely doesn't belong as a standalone E
    parity with React — **including when nothing needed fixing**, i.e. you
    determined the existing Ember implementation already matches and made no
    code changes. "Nothing to fix" is a successful outcome, not a skip:
+
    ```bash
    cd scripts
    node parity-check.mjs --mark-synced {{COMPONENT_NAME}}
@@ -219,6 +226,7 @@ Use this path only when the component genuinely doesn't belong as a standalone E
    node parity-check.mjs --mark-synced Button,Accordion,DataTable
    cd ..
    ```
+
    This updates `.parity-check-data.json` at the repo root. Do this *before*
    the commit/push step below, so the change rides along in the same commit
    instead of being left uncommitted after you've already pushed.
@@ -226,11 +234,14 @@ Use this path only when the component genuinely doesn't belong as a standalone E
 3. **Use signed commits: Signed-off-by: Author Name <authoremail@example.com>**
 
 4. **Commit and Push — always, even if the only change is the sync marker**
+
    ```bash
    git checkout -b feat/{{COMPONENT_NAME_KEBAB}}
    git add -A
    ```
+
    - If you made component/code changes:
+
      ```bash
      git commit -m "feat: implement {{COMPONENT_NAME}} component"
      git push -u origin feat/{{COMPONENT_NAME_KEBAB}}
@@ -238,9 +249,11 @@ Use this path only when the component genuinely doesn't belong as a standalone E
        --body "Closes #{{ISSUE_NUMBER}}" \
        --label "parity-check"
      ```
+
    - If no code changes were needed (component already matched React) — the
      working tree still has the `.parity-check-data.json` sync update from
      step 2 above; commit and push *that*, don't skip this step:
+
      ```bash
      git commit -m "chore: mark {{COMPONENT_NAME}} as synced (already at parity, no changes needed)"
      git push -u origin feat/{{COMPONENT_NAME_KEBAB}}
@@ -248,6 +261,7 @@ Use this path only when the component genuinely doesn't belong as a standalone E
        --body "Closes #{{ISSUE_NUMBER}} — verified {{COMPONENT_NAME}} already matches the React implementation, no changes needed." \
        --label "parity-check"
      ```
+
      The change-type label in the next step doesn't apply here (it's not a
      bug/enhancement/breaking change) — skip it for this case only.
 
@@ -263,11 +277,13 @@ Use this path only when the component genuinely doesn't belong as a standalone E
    ```
 
 6. **Add Preview Label**
+
    ```bash
    gh pr edit <PR_NUMBER> --add-label "preview"
    ```
 
 7. **Add parity-check Label**
+
    ```bash
    gh pr edit <PR_NUMBER> --add-label "parity-check"
    ```
@@ -300,7 +316,7 @@ Otherwise, your implementation is complete when ALL of these are true:
 - [ ] CSS classes use `cds--` prefix
 - [ ] Each React construct was translated to its Ember idiom per Phase 1 step 4 / AGENTS.md, not transliterated (skip if no code changes were needed)
 - [ ] No new uses of the "What NOT to Reach For" list in AGENTS.md (`did-insert`/`did-update`, `A()`/`pushObject`, `set()` for tracked state, `this.element`) (skip if no code changes were needed)
-- [ ] Signature declares what the component actually has — `Args` when it takes args, `Element` when it spreads `...attributes`, `Blocks` only for blocks it actually yields (don't add an empty `Args` to an argless wrapper or an empty `Blocks` to a component with no `{{yield}}`) — and no `any` in it; yielded values via `WithBoundArgs`/`ComponentLike`/`ModifierLike` (skip if no code changes were needed)
+- [ ] Signature declares what the component actually has — `Args` when it takes args, `Element` when it spreads `...attributes`, `Blocks` only for blocks it actually yields (don't add an empty `Args` to a wrapper without arguments or an empty `Blocks` to a component with no `{{yield}}`) — and no `any` in it; yielded values via `WithBoundArgs`/`ComponentLike`/`ModifierLike` (skip if no code changes were needed)
 - [ ] API matches every prop enumerated from the React source in Phase 1 step 2, not just the ones the default story exercises
 - [ ] Visual design matches screenshot/Storybook for every story enumerated in Phase 1 step 2, not just the default one
 - [ ] Issue updated with findings
@@ -355,6 +371,6 @@ it happened before stopping.
 - Testing/Validation: 5-10 minutes
 - Documentation: 5 minutes
 
-**Total: ~35-55 minutes per component**
+Total: about 35-55 minutes per component.
 
 If you can't complete in this time, document progress in the issue and move on.
