@@ -167,4 +167,18 @@ module('Integration | Component | CodeSnippet', (hooks) => {
 
     assert.dom('.cds--snippet--inline').exists();
   });
+
+  test("attributes go on the snippet, or an inline one's button, as Carbon React does", async function (assert) {
+    await render(
+      <template>
+        <CodeSnippet @type="default" data-test-single>x</CodeSnippet>
+        <CodeSnippet @type="multiline" data-test-multi>y</CodeSnippet>
+        <CodeSnippet @type="inline" data-test-inline>z</CodeSnippet>
+      </template>,
+    );
+
+    assert.dom('.cds--snippet--single').hasAttribute('data-test-single');
+    assert.dom('.cds--snippet--multi').hasAttribute('data-test-multi');
+    assert.dom('button[data-test-inline]').exists();
+  });
 });

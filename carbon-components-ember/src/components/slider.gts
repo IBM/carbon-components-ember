@@ -22,6 +22,11 @@ const registerElement = modifier(
 
 export interface SliderSignature {
   Args: {
+    /**
+     * Classes for the wrapper, as Carbon React's `className`. `class` and the
+     * other attributes go on the `.cds--slider` track.
+     */
+    className?: string;
     ariaLabelInput?: string;
     ariaLabelInputUpper?: string;
     disabled?: boolean;
@@ -387,7 +392,7 @@ export default class Slider extends Component<SliderSignature> {
   };
 
   <template>
-    <div class="cds--form-item" ...attributes>
+    <div class="cds--form-item {{@className}}">
       <label
         for={{unless this.twoHandles this.id}}
         class="cds--label
@@ -440,6 +445,7 @@ export default class Slider extends Component<SliderSignature> {
           role="presentation"
           tabindex="-1"
           data-invalid={{if @invalid "true"}}
+          ...attributes
           {{registerElement this.registerTrack}}
           {{! eslint-disable-next-line ember/template-no-pointer-down-event-binding }}
           {{on "mousedown" this.onDragStart}}

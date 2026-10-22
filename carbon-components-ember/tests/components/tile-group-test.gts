@@ -128,4 +128,34 @@ module('Integration | Component | TileGroup', (hooks) => {
 
     assert.dom('.cds--tile-group input').hasAttribute('name', 'my-tiles');
   });
+
+  test('a RadioTile puts class and attributes on its label, as Carbon React does', async function (assert) {
+    await render(
+      <template>
+        <RadioTile @value="a" class="my-tile" data-test-tile>Option</RadioTile>
+      </template>,
+    );
+
+    assert
+      .dom('label.cds--tile')
+      .hasClass('my-tile')
+      .hasAttribute('data-test-tile');
+  });
+
+  test('a RadioTile puts @aria-describedby and @aria-labelledby on its input, as Carbon React does', async function (assert) {
+    await render(
+      <template>
+        <RadioTile
+          @value="a"
+          @aria-describedby="tile-hint"
+          @aria-labelledby="tile-title"
+        >Option</RadioTile>
+      </template>,
+    );
+
+    assert
+      .dom('input.cds--tile-input')
+      .hasAttribute('aria-describedby', 'tile-hint')
+      .hasAttribute('aria-labelledby', 'tile-title');
+  });
 });

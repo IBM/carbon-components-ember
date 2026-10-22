@@ -87,4 +87,28 @@ module('Integration | Component | Checkbox', (hooks) => {
       .hasClass('cds--ai-label__button--md')
       .hasClass('cds--ai-label__button--inline');
   });
+
+  test('attributes and {{on "click"}} go on the <input>, @className on the wrapper', async function (assert) {
+    let clicks = 0;
+    const onClick = () => clicks++;
+    await render(
+      <template>
+        <Checkbox
+          @label="Accept"
+          @className="my-field"
+          class="my-input"
+          name="terms"
+          {{on "click" onClick}}
+        />
+      </template>,
+    );
+
+    assert.dom('.cds--checkbox-wrapper').hasClass('my-field');
+    assert
+      .dom('input.cds--checkbox')
+      .hasClass('my-input')
+      .hasAttribute('name', 'terms');
+    await click('input.cds--checkbox');
+    assert.strictEqual(clicks, 1);
+  });
 });

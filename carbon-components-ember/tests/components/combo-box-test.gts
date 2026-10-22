@@ -1072,4 +1072,20 @@ module('Integration | Component | ComboBox', function (hooks) {
 
     assert.dom(INPUT).hasValue('Banana');
   });
+
+  test('attributes go on the <input>, @className on the wrapper', async function (assert) {
+    await render(
+      <template>
+        <ComboBox
+          @items={{items}}
+          @itemToString={{itemToString}}
+          @className="my-field"
+          name="fruit"
+        />
+      </template>,
+    );
+
+    assert.dom('.cds--list-box__wrapper').hasClass('my-field');
+    assert.dom(INPUT).hasAttribute('name', 'fruit');
+  });
 });

@@ -12,6 +12,11 @@ import SearchIcon from './icons/search.ts';
 
 export interface SearchSignature {
   Args: {
+    /**
+     * Classes for the wrapper, as Carbon React's `className`. `class` and the
+     * other attributes go on the `<input>`.
+     */
+    className?: string;
     onChange?(value: string | null): TaskInstance<unknown> | undefined | void;
     onClear?(): void;
     labelText?: string;
@@ -27,7 +32,7 @@ export interface SearchSignature {
     autoComplete?: string;
     type?: string;
   };
-  Element: HTMLDivElement;
+  Element: HTMLInputElement;
 }
 
 export default class Search extends Component<SearchSignature> {
@@ -131,8 +136,8 @@ export default class Search extends Component<SearchSignature> {
           'cds--toolbar-search-container-expandable'
           'cds--toolbar-search-container-persistent'
         }}
-        {{if this.isActive 'cds--toolbar-search-container-active'}}"
-      ...attributes
+        {{if this.isActive 'cds--toolbar-search-container-active'}}
+        {{@className}}"
     >
       <div class="cds--search-magnifier">
         <SearchIcon @size="16" @svgClass="cds--search-magnifier-icon" />
@@ -145,6 +150,7 @@ export default class Search extends Component<SearchSignature> {
         {{@labelText}}
       </label>
       <input
+        ...attributes
         class="cds--search-input"
         type={{or @type "search"}}
         id={{this.inputId}}

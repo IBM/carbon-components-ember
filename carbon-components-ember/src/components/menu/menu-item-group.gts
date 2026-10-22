@@ -8,8 +8,13 @@
 import type { TOC } from '@ember/component/template-only';
 
 export interface MenuItemGroupSignature {
-  Element: HTMLLIElement;
+  Element: HTMLUListElement;
   Args: {
+    /**
+     * Classes for the `<li>`, as Carbon React's `className`. `class` and the
+     * other attributes go on the group's `<ul>`.
+     */
+    className?: string;
     /**
      * A required label titling this group.
      */
@@ -21,8 +26,8 @@ export interface MenuItemGroupSignature {
 }
 
 const MenuItemGroup: TOC<MenuItemGroupSignature> = <template>
-  <li class="cds--menu-item-group" role="none" ...attributes>
-    <ul role="group" aria-label={{@label}}>
+  <li class="cds--menu-item-group {{@className}}" role="none">
+    <ul ...attributes role="group" aria-label={{@label}}>
       {{yield}}
     </ul>
   </li>

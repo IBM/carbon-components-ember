@@ -11,8 +11,13 @@ import { tracked } from '@glimmer/tracking';
 import MenuItem from './menu-item.gts';
 
 export interface MenuItemRadioGroupSignature<Item = string> {
-  Element: HTMLLIElement;
+  Element: HTMLUListElement;
   Args: {
+    /**
+     * Classes for the `<li>`, as Carbon React's `className`. `class` and the
+     * other attributes go on the group's `<ul>`.
+     */
+    className?: string;
     /**
      * A required label titling this radio group.
      */
@@ -72,8 +77,8 @@ export default class MenuItemRadioGroup<Item = string> extends Component<
   };
 
   <template>
-    <li class="cds--menu-item-radio-group" role="none" ...attributes>
-      <ul role="group" aria-label={{@label}}>
+    <li class="cds--menu-item-radio-group {{@className}}" role="none">
+      <ul ...attributes role="group" aria-label={{@label}}>
         {{#each this.entries as |entry|}}
           <MenuItem
             @label={{entry.label}}

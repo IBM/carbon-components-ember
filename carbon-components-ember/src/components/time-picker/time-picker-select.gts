@@ -15,6 +15,11 @@ import ChevronDown from '../icons/chevron-down.ts';
 export interface TimePickerSelectSignature {
   Args: {
     /**
+     * Classes for the wrapper, as Carbon React's `className`. `class` and the
+     * other attributes go on the `<select>`.
+     */
+    className?: string;
+    /**
      * Specify a custom `id` for the `<select>`
      */
     id?: string;
@@ -80,7 +85,7 @@ export default class TimePickerSelect extends Component<TimePickerSelectSignatur
   };
 
   <template>
-    <div class="cds--select cds--time-picker__select">
+    <div class="cds--select cds--time-picker__select {{@className}}">
       <select
         aria-label="open list of options"
         class="cds--select-input"

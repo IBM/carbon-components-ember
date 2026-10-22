@@ -8,8 +8,7 @@ import ToggleSkeleton from './toggle-skeleton.gts';
 // Carbon React parity gaps (Components/Toggle):
 // - The label is `@name`; there is no `labelText`/`hideLabel`, and the
 //   state text is always "On"/"Off" (no `labelA`/`labelB`).
-// - `WithAccessibleLabels`: Toggle doesn't spread `...attributes`, so it
-//   can't be labelled with `aria-labelledby`, and there's no `hideLabel`.
+// - `WithAccessibleLabels`: there's no `hideLabel`.
 // - React's `toggled`/`defaultToggled` + `onToggle` are a single controlled
 //   `@value` + `@onChange` here; there is no uncontrolled mode.
 const meta = preview.meta({

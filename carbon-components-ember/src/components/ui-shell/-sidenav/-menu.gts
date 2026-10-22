@@ -10,7 +10,8 @@ export type SubMenu = {
 };
 
 export interface UIShellSideNavMenuSignature {
-  Element: HTMLLIElement;
+  /** The `<li>` with `@submenus`, as Carbon React's SideNavMenu; else the link, as its SideNavLink. */
+  Element: HTMLLIElement | HTMLAnchorElement;
   Args: {
     transitionTo: () => void;
     hidden?: boolean;
@@ -67,12 +68,13 @@ export default class UIShellSideNavMenu extends Component<UIShellSideNavMenuSign
       </li>
     {{else}}
       {{#unless @hidden}}
-        <li class="cds--side-nav__item" ...attributes>
+        <li class="cds--side-nav__item">
           <a
             href="#"
             class="cds--side-nav__link"
             aria-current="{{if @isCurrent 'page'}}"
             role="button"
+            ...attributes
             {{on "click" @transitionTo}}
           >
             {{#if @icon}}

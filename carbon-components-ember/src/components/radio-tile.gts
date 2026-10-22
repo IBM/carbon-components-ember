@@ -7,6 +7,10 @@ export type Value = string | number;
 
 export interface RadioTileSignature {
   Args: {
+    /** Goes on the radio `<input>`, as in Carbon React; other attributes go on the `<label>`. */
+    'aria-describedby'?: string;
+    /** Goes on the radio `<input>`, as in Carbon React; other attributes go on the `<label>`. */
+    'aria-labelledby'?: string;
     id?: string;
     value: Value;
     name?: string;
@@ -21,7 +25,7 @@ export interface RadioTileSignature {
       event: Event,
     ) => void;
   };
-  Element: HTMLDivElement;
+  Element: HTMLLabelElement;
   Blocks: {
     default: [];
   };
@@ -66,7 +70,7 @@ export default class RadioTile extends Component<RadioTileSignature> {
   };
 
   <template>
-    <div ...attributes>
+    <div>
       <input
         type="radio"
         class="cds--tile-input"
@@ -79,9 +83,12 @@ export default class RadioTile extends Component<RadioTileSignature> {
         {{! Forwards @tabindex, as Carbon React's tabIndex prop does. }}
         {{! eslint-disable-next-line ember/template-no-positive-tabindex }}
         tabindex={{this.tabindex}}
+        aria-describedby={{@aria-describedby}}
+        aria-labelledby={{@aria-labelledby}}
         {{on "change" this.handleChange}}
       />
       <label
+        ...attributes
         for={{this.id}}
         class="cds--tile cds--tile--selectable cds--tile--radio
           {{if this.checked 'cds--tile--is-selected'}}

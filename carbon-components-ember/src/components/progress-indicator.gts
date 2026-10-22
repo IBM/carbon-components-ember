@@ -19,6 +19,11 @@ import Incomplete from './icons/incomplete.ts';
 export interface ProgressStepSignature {
   Args: {
     /**
+     * Classes for the step's `<li>`, as Carbon React's `className`. `class`
+     * and the other attributes go on its `<button>`.
+     */
+    className?: string;
+    /**
      * Provide the label for the ProgressStep
      */
     label: string;
@@ -46,7 +51,7 @@ export interface ProgressStepSignature {
     complete?: boolean;
     indicator: ProgressIndicator;
   };
-  Element: HTMLLIElement;
+  Element: HTMLButtonElement;
 }
 
 class ProgressStep extends Component<ProgressStepSignature> {
@@ -132,7 +137,7 @@ class ProgressStep extends Component<ProgressStepSignature> {
   };
 
   <template>
-    <li class={{this.liClasses}} ...attributes>
+    <li class="{{this.liClasses}} {{@className}}">
       <button
         type="button"
         class={{this.buttonClasses}}
@@ -142,6 +147,7 @@ class ProgressStep extends Component<ProgressStepSignature> {
         title={{@label}}
         {{on "click" this.handleClick}}
         {{on "keydown" this.handleKeyDown}}
+        ...attributes
       >
         {{#if @invalid}}
           <Warning

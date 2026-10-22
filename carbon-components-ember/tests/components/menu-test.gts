@@ -642,4 +642,42 @@ module('Integration | Component | Menu', (hooks) => {
       .dom('.cds--menu-item .cds--menu', this.container)
       .hasClass('cds--menu--open', 'the submenu still opens on click');
   });
+
+  test('the groups put attributes on their <ul> and @className on their <li>, as Carbon React does', async function (this: {
+    container: HTMLElement;
+  }, assert) {
+    const target = this.container;
+    await render(
+      <template>
+        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+          <MenuItemGroup
+            @label="Font style"
+            @className="my-group"
+            aria-label="Other"
+            data-test-group
+          >
+            <MenuItemSelectable @label="Bold" />
+          </MenuItemGroup>
+          <MenuItemRadioGroup
+            @label="Size"
+            @items={{array "Small" "Large"}}
+            @className="my-radio-group"
+            data-test-radio-group
+          />
+        </Menu>
+      </template>,
+    );
+    await waitForAnimationFrame();
+
+    assert.dom('li.cds--menu-item-group', target).hasClass('my-group');
+    assert
+      .dom('ul[data-test-group]', target)
+      .hasAttribute('aria-label', 'Font style');
+    assert
+      .dom('li.cds--menu-item-radio-group', target)
+      .hasClass('my-radio-group');
+    assert
+      .dom('ul[data-test-radio-group]', target)
+      .hasAttribute('aria-label', 'Size');
+  });
 });

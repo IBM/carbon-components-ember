@@ -3,6 +3,11 @@ import type { TOC } from '@ember/component/template-only';
 export interface UIShellHeaderMenuItemSignature {
   Element: HTMLAnchorElement;
   Args: {
+    /**
+     * Classes for the `<li>`, as Carbon React's `className`. `class` and the
+     * other attributes go on the link.
+     */
+    className?: string;
     isActive?: boolean;
   };
   Blocks: {
@@ -11,7 +16,7 @@ export interface UIShellHeaderMenuItemSignature {
 }
 
 const UIShellHeaderMenuItem: TOC<UIShellHeaderMenuItemSignature> = <template>
-  <li>
+  <li class={{@className}}>
     <a
       class="cds--header__menu-item
         {{if @isActive 'cds--header__menu-item--current'}}"

@@ -1,6 +1,6 @@
 [
   [
-    "<div class=\"cds--form-item\" data-index=\"0\"></div>",
+    "<div class=\"cds--form-item \" data-index=\"0\"></div>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
@@ -13,7 +13,7 @@
     }
   ],
   [
-    "<div:before class=\"cds--form-item\" data-index=\"0\"></div:before>",
+    "<div:before class=\"cds--form-item \" data-index=\"0\"></div:before>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",
@@ -23,7 +23,7 @@
     }
   ],
   [
-    "<div:after class=\"cds--form-item\" data-index=\"0\"></div:after>",
+    "<div:after class=\"cds--form-item \" data-index=\"0\"></div:after>",
     {
       "border": "0px none rgb(244, 244, 244)",
       "color": "rgb(244, 244, 244)",

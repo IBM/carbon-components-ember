@@ -63,7 +63,7 @@ export default class ChatHistoryToolbar extends Component<ChatHistoryToolbarSign
       {{yield to="actionsStart"}}
       {{#unless @searchOff}}
         <Search
-          class="cds-aichat-history-toolbar__search"
+          @className="cds-aichat-history-toolbar__search"
           @labelText={{@searchAttributes.labelText}}
           @placeholder={{@searchAttributes.placeholder}}
           @disabled={{@searchAttributes.disabled}}

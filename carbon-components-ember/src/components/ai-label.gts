@@ -14,14 +14,21 @@ import Button from './button.gts';
 import Undo from './icons/undo.ts';
 import Toggletip from './toggletip.gts';
 
-import type { ToggletipAlignment } from './toggletip.gts';
+import type { ButtonSignature } from './button.gts';
+import type { ToggletipAlignment, ToggletipSignature } from './toggletip.gts';
 import type { WithBoundArgs } from '@glint/template';
 
 export type AILabelSize = 'mini' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export interface AILabelSignature {
-  Element: HTMLDivElement;
+  Element: ToggletipSignature['Element'] | ButtonSignature['Element'];
   Args: {
+    /**
+     * Classes for the wrapper, as Carbon React's `className`. `class` and the
+     * other attributes go on the toggletip, or on the revert button with
+     * `@revertActive`.
+     */
+    className?: string;
     /** The text in the label's button. Defaults to `AI`. */
     aiText?: string;
     /**
@@ -113,8 +120,9 @@ export default class AILabel extends Component<AILabelSignature> {
   <template>
     <div
       id={{this.id}}
-      class="cds--ai-label {{if @revertActive 'cds--ai-label--revert'}}"
-      ...attributes
+      class="cds--ai-label
+        {{if @revertActive 'cds--ai-label--revert'}}
+        {{@className}}"
     >
       {{#if @revertActive}}
         <Button
@@ -123,6 +131,7 @@ export default class AILabel extends Component<AILabelSignature> {
           @size="sm"
           @iconDescription={{if @revertLabel @revertLabel "Revert to AI input"}}
           {{on "click" this.revert}}
+          ...attributes
         >
           <Undo @size="16" />
         </Button>
@@ -130,6 +139,7 @@ export default class AILabel extends Component<AILabelSignature> {
         <Toggletip
           @align={{@align}}
           @defaultOpen={{@defaultOpen}}
+          ...attributes
           as |toggletip|
         >
           <toggletip.Button

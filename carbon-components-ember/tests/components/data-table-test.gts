@@ -137,6 +137,23 @@ module('Integration | Component | DataTable', (hooks) => {
       .hasAttribute('placeholder', 'Filter table');
   });
 
+  test('the toolbar search takes @className for its wrapper, and attributes on its <input>', async function (assert) {
+    await render(
+      <template>
+        <DataTable @title="Table title" @items={{items}} as |table|>
+          <table.Toolbar as |toolbar|>
+            <toolbar.Content>
+              <table.SearchInput @className="my-search" data-test-search />
+            </toolbar.Content>
+          </table.Toolbar>
+        </DataTable>
+      </template>,
+    );
+
+    assert.dom('.cds--search').hasClass('my-search');
+    assert.dom('input.cds--search-input').hasAttribute('data-test-search');
+  });
+
   test('should support checkable rows and selection', async function (assert) {
     await render(
       <template>
