@@ -2,7 +2,7 @@ import SearchInput from '../search.gts';
 import InlineLoading from '../inline-loading.gts';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency';
+import { task, timeout } from 'ember-concurrency';
 import type { TaskInstance } from 'ember-concurrency';
 import type { SearchSignature } from '../search.gts';
 import './-search-input.scss';
@@ -34,7 +34,9 @@ export default class TableToolbarSearch extends Component<TableToolbarSearchSign
   @tracked isSearching: boolean = false;
   lastTerm?: string = undefined;
 
+  // Filters once typing pauses, rather than on every keystroke.
   runSearch = task({ restartable: true }, async (term: string) => {
+    await timeout(200);
     this.isSearching = true;
     const task = this.args.onChange(term);
     try {
@@ -45,11 +47,11 @@ export default class TableToolbarSearch extends Component<TableToolbarSearchSign
     }
   });
 
-  doSearch = (term: string) => {
+  doSearch = (event: Event & { target: HTMLInputElement }) => {
+    const term = event.target.value;
     if (this.lastTerm === term) return;
     this.lastTerm = term;
-    void this.runSearch.cancelAll();
-    return this.runSearch.perform(term);
+    void this.runSearch.perform(term);
   };
 
   <template>

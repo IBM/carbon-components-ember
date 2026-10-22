@@ -56,6 +56,10 @@ export interface ChatHistoryToolbarSignature {
  * upstream's own documented preference for the newer prop.
  */
 export default class ChatHistoryToolbar extends Component<ChatHistoryToolbarSignature> {
+  search = (event: Event & { target: HTMLInputElement }) => {
+    this.args.onSearch?.(event.target.value);
+  };
+
   handleNewChat = () => this.args.onNewChat?.();
 
   <template>
@@ -72,7 +76,7 @@ export default class ChatHistoryToolbar extends Component<ChatHistoryToolbarSign
             @searchAttributes.closeButtonLabelText
             "Clear search"
           }}
-          @onChange={{@onSearch}}
+          @onChange={{this.search}}
           @onClear={{@onSearchClear}}
         />
       {{/unless}}

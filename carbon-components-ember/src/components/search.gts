@@ -1,12 +1,10 @@
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
 import { cached, tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency';
-import { timeout } from 'ember-concurrency';
-import type { TaskInstance } from 'ember-concurrency';
 import { concat } from '@ember/helper';
 import { registerDestructor } from '@ember/destroyable';
 import type Owner from '@ember/owner';
+import { modifier } from 'ember-modifier';
 import Close from './icons/close.ts';
 import SearchIcon from './icons/search.ts';
 
@@ -17,10 +15,19 @@ export interface SearchSignature {
      * other attributes go on the `<input>`.
      */
     className?: string;
-    onChange?(value: string | null): TaskInstance<unknown> | undefined | void;
-    onClear?(): void;
+    /**
+     * Called with the `input` event on each change, as Carbon React's
+     * `onChange`, and once more when the field is cleared; the value is
+     * `event.target.value`.
+     */
+    onChange?: (event: Event & { target: HTMLInputElement }) => void;
+    /** Called once the field is cleared, with its close button or Escape. */
+    onClear?: () => void;
     labelText?: string;
+    /** The field's value. A new one replaces what was typed. */
     value?: string;
+    /** The field's initial value, when it isn't controlled by `@value`. */
+    defaultValue?: string;
     placeholder?: string;
     size?: 'xs' | 'sm' | 'md' | 'lg';
     isLoading?: boolean;
@@ -36,18 +43,32 @@ export interface SearchSignature {
 }
 
 export default class Search extends Component<SearchSignature> {
-  @tracked value: string | null = null;
+  // What was typed, and the `@value` it replaced: as in Carbon React, it shows
+  // until `@value` changes.
+  @tracked typed?: { value: string; over: string | undefined };
   @tracked isActive: boolean = false;
+  #input?: HTMLInputElement;
   #stopListening?: () => void;
 
   constructor(owner: Owner, args: SearchSignature['Args']) {
     super(owner, args);
     registerDestructor(this, () => this.#stopListening?.());
   }
-  isSearching: boolean = false;
+
+  get value() {
+    if (this.typed && this.typed.over === this.args.value) {
+      return this.typed.value;
+    }
+    return this.args.value ?? this.args.defaultValue ?? '';
+  }
+
+  // An empty initial value renders no `value` attribute, as in Carbon React.
+  get boundValue() {
+    return this.value === '' ? undefined : this.value;
+  }
 
   get hasInput() {
-    return !!this.value;
+    return this.value !== '';
   }
 
   @cached
@@ -65,33 +86,32 @@ export default class Search extends Component<SearchSignature> {
     return this.args.id ?? `search__input-${this.guid}`;
   }
 
-  runSearch = task({ restartable: true }, async () => {
-    this.isSearching = true;
-    await timeout(200);
-    const task = this.args.onChange?.(this.value);
-    try {
-      return await task;
-    } finally {
-      this.isSearching = false;
-      await task?.cancel?.();
-    }
+  registerInput = modifier((input: HTMLInputElement) => {
+    this.#input = input;
   });
 
-  onSearchClear = () => {
-    this.value = null;
-    void this.runSearch.perform();
-    this.args.onClear?.();
+  handleInput = (event: Event) => {
+    const input = event.target as HTMLInputElement;
+    this.typed = { value: input.value, over: this.args.value };
+    this.args.onChange?.(event as Event & { target: HTMLInputElement });
   };
 
-  setValue = (v: Event | string | null | undefined) => {
-    if (v instanceof Event) {
-      const next = (v.target as HTMLInputElement).value;
-      if (next === this.value) return;
-      this.value = next;
-      void this.runSearch.perform();
-      return;
-    }
-    this.value = v ?? null;
+  // As in Carbon React: the empty value goes through `@onChange`, then
+  // `@onClear` is called, and focus stays in the field.
+  clear = () => {
+    const input = this.#input;
+    if (!input) return;
+    input.value = '';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    this.args.onClear?.();
+    input.focus();
+  };
+
+  handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key !== 'Escape' || !this.#input?.value) return;
+    // Clearing the field is all Escape does, so a Modal around it stays open.
+    event.stopPropagation();
+    this.clear();
   };
 
   activate = (mouseEvent: Event) => {
@@ -120,7 +140,6 @@ export default class Search extends Component<SearchSignature> {
   };
 
   <template>
-    {{this.setValue @value}}
     <div
       data-search
       role="search"
@@ -156,10 +175,11 @@ export default class Search extends Component<SearchSignature> {
         id={{this.inputId}}
         placeholder={{this.placeholder}}
         autocomplete={{or @autoComplete "off"}}
-        value={{this.value}}
+        value={{this.boundValue}}
         disabled={{@disabled}}
-        {{on "change" this.setValue}}
-        {{on "input" this.setValue}}
+        {{this.registerInput}}
+        {{on "input" this.handleInput}}
+        {{on "keydown" this.handleKeyDown}}
         {{! eslint-disable-next-line ember/template-no-pointer-down-event-binding }}
         {{on "mousedown" this.activate}}
       />
@@ -170,7 +190,7 @@ export default class Search extends Component<SearchSignature> {
           aria-label={{or @closeButtonLabelText "Clear search input"}}
           type="button"
           disabled={{@disabled}}
-          {{on "click" this.onSearchClear}}
+          {{on "click" this.clear}}
         >
           <Close @size="16" />
         </button>

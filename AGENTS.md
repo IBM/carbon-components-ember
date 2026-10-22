@@ -127,7 +127,7 @@ Parity means matching Carbon React's **public API surface and behaviour**, not i
 | React context / provider | A service, or the parent component instance yielded down to children | `services/notifications.ts` |
 | `useId` | `guidFor(this)` | `components/tree-view.gts` |
 | Floating UI positioning hooks | The addon's own `<Popover>` / `<PopoverContent>` | `components/popover.gts` |
-| Debounce/timing | `task({ restartable: true })` + `timeout()` from `ember-concurrency` | `components/search.gts` |
+| Debounce/timing | `task({ restartable: true })` + `timeout()` from `ember-concurrency` | `components/data-table/-search-input.gts` |
 | `useEffect` cleanup return | `registerDestructor` (or the modifier's teardown function) | `components/tabs.gts` |
 | Lazily resolved value in template | `TrackedPromise` from `utils/tracked.ts` — re-renders once promise settles, and tests' `settled()` waits for it | `components/icons/*.ts` (lazy icons) |
 | Arrow-key navigation (roving `tabIndex`) | `RovingFocus` from `utils/roving-focus.ts`: its `container` modifier on the list, its `item` modifier on each item; items keep their DOM order | `components/tree-view.gts` |

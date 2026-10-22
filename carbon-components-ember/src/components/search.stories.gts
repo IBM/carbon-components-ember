@@ -1,6 +1,6 @@
 import type { TOC } from '@ember/component/template-only';
 import { RenderStory } from 'ember-storybook';
-import { expect, fn, waitFor } from 'storybook/test';
+import { expect, fn } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Layer from './layer.gts';
@@ -14,8 +14,7 @@ import '#storybook/styles/search.css';
 // - `Expandable`: there is no separate ExpandableSearch; `@expandable`
 //   only switches to the expandable toolbar styling, so the field doesn't
 //   collapse to its icon.
-// - `value` seeds the field (it isn't controlled); there is no
-//   `defaultValue`, `renderIcon`, `isExpanded`/`onExpand` or `onKeyDown`.
+// - There is no `renderIcon` or `isExpanded`/`onExpand`.
 
 // Renders a search on the background and on two nested layers, like
 // Carbon React's `WithLayer` story template. Each search is a `search`
@@ -55,7 +54,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "Search allows users to enter a term to be used to find specific content, filtering out results that don't match.\n\n`@onChange` is called with the term 200ms after the user stops typing (a pending call is cancelled by the next keystroke), and again with an empty value when the field is cleared with its close button, which also calls `@onClear`.",
+          "Search allows users to enter a term to be used to find specific content, filtering out results that don't match.\n\n`@onChange` is called with the `input` event on every change, as in Carbon React, so the term is `event.target.value`; debounce it yourself for an expensive search. Clearing the field with its close button or Escape calls it once more with the empty value, then calls `@onClear`. Pass `@defaultValue` for an uncontrolled field, or `@value` to set it.",
       },
     },
   },
@@ -87,17 +86,19 @@ Default.test(
   async ({ canvas, userEvent, args }) => {
     const input = canvas.getByRole('searchbox', { name: 'Site search' });
     await userEvent.type(input, 'carbon');
-    await waitFor(() =>
-      expect(args.onChange).toHaveBeenLastCalledWith('carbon'),
+    // One call per keystroke, as in Carbon React.
+    await expect(args.onChange).toHaveBeenCalledTimes(6);
+    await expect(args.onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ target: input }),
     );
-    // Debounced: one call for the whole word.
-    await expect(args.onChange).toHaveBeenCalledOnce();
 
     await userEvent.click(
       canvas.getByRole('button', { name: 'Clear search input' }),
     );
     await expect(input).toHaveValue('');
+    await expect(args.onChange).toHaveBeenCalledTimes(7);
     await expect(args.onClear).toHaveBeenCalledOnce();
+    await expect(input).toHaveFocus();
   },
 );
 
