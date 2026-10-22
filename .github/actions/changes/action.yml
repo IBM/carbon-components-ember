@@ -14,6 +14,9 @@ outputs:
   skills:
     description: '"true" when an agent skill (.claude/skills or the addon''s) or anything shared changed'
     value: ${{ steps.changes.outputs.skills }}
+  markdown:
+    description: '"true" when a Markdown file, markdownlint''s config or anything shared changed'
+    value: ${{ steps.changes.outputs.markdown }}
 
 runs:
   using: composite
@@ -23,12 +26,14 @@ runs:
       run: |
         all=(carbon-components-ember carbon-components-ember-mcp dom-parity scripts)
         skills=true
+        markdown=true
         report() {
           local addon=false
           [[ " $* " == *" carbon-components-ember "* ]] && addon=true
           echo "addon=$addon" >> "$GITHUB_OUTPUT"
           echo "packages=$*" >> "$GITHUB_OUTPUT"
           echo "skills=$skills" >> "$GITHUB_OUTPUT"
+          echo "markdown=$markdown" >> "$GITHUB_OUTPUT"
           echo "Changed packages: ${*:-none}"
         }
 
@@ -46,6 +51,7 @@ runs:
         fi
 
         grep -qE '^(\.claude/skills|carbon-components-ember/skills)/' <<< "$changed" || skills=false
+        grep -qE '(\.md$|^\.markdownlint-cli2\.mjs$)' <<< "$changed" || markdown=false
 
         packages=()
         for p in "${all[@]}"; do

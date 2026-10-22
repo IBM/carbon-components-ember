@@ -12,6 +12,7 @@ dom-parity/node_modules
 !patches
 !patches/**/*
 !.editorconfig
+!.markdownlint-cli2.mjs
 !.gitignore
 !.mcp.json
 !.claude
@@ -19,6 +20,7 @@ dom-parity/node_modules
 !.claude/skills/**/*
 !.git-blame-ignore-revs
 !CHANGELOG.md
+!AGENTS.md
 !CONTRIBUTING.md
 !LICENSE.md
 !package.json

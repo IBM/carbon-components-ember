@@ -37,7 +37,7 @@ The documentation site is a Storybook: each component has a colocated
 `*.stories.gts` file, and its docs page is generated from the component's Glint
 signature and JSDoc.
 
-- `pnpm storybook` – starts Storybook on http://localhost:6006
+- `pnpm storybook` – starts Storybook on <http://localhost:6006>
 - `pnpm --filter carbon-components-ember test:storybook` – runs every story as a
   browser test, axe accessibility checks included
 - `pnpm build:storybook` – builds the static site (published at
