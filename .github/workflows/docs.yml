@@ -35,8 +35,8 @@ jobs:
         uses: ./.github/actions/changes
 
       # The story screenshots a branch's are compared with: those of main's
-      # run for the commit the branch starts from, or the newest finished one
-      # before it. If this fails, nothing is compared.
+      # run for the commit the branch starts from, once it finishes, or the
+      # newest finished one before it. If this fails, nothing is compared.
       - id: screenshots
         if: github.ref_type == 'branch' && github.ref != 'refs/heads/main' && steps.changes.outputs.addon == 'true'
         continue-on-error: true
@@ -44,6 +44,14 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           base=$(git merge-base origin/main HEAD)
+          # A branch rebased right after a merge starts while main's run for
+          # it is still going. An older run's screenshots would be stale.
+          pending=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/docs.yml/runs?branch=main&event=push&head_sha=$base" \
+            --jq '.workflow_runs[0] // empty | select(.status != "completed") | .id')
+          if [[ -n $pending ]]; then
+            echo "Waiting for main's run at $base (run $pending)"
+            timeout 15m gh run watch "$pending" -R "$GITHUB_REPOSITORY" -i 15 > /dev/null || true
+          fi
           runs=$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=story-screenshots-1&per_page=100" \
             --jq '.artifacts[] | select(.workflow_run.head_branch == "main" and (.expired | not)) | "\(.workflow_run.head_sha) \(.workflow_run.id)"')
           for sha in $(git rev-list --first-parent --max-count=100 "$base"); do
