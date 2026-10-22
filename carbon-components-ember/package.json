@@ -176,7 +176,6 @@
     "main": "addon-main.cjs",
     "app-js": {
       "./services/carbon/ai-chat-session.js": "./dist/_app_/services/carbon/ai-chat-session.js",
-      "./services/carbon/dialog-manager.js": "./dist/_app_/services/carbon/dialog-manager.js",
       "./services/carbon/notifications.js": "./dist/_app_/services/carbon/notifications.js"
     }
   }

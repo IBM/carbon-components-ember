@@ -28,7 +28,7 @@ class Router extends EmberRouter {
 }
 
 // Apps get the addon's services through its app-tree re-exports, which
-// namespace them under `carbon/` (e.g. `service:carbon.dialog-manager`).
+// namespace them under `carbon/` (e.g. `service:carbon.notifications`).
 // Register them the same way here.
 const services = Object.fromEntries(
   Object.entries(

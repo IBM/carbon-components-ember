@@ -556,7 +556,7 @@ export class ChatSession {
  * Registry of `ChatSession`s, keyed by an arbitrary string id - the Ember
  * equivalent of upstream's `NamespaceService` (multi-instance isolation).
  * Registered under the `carbon.` namespace like this addon's other
- * services (`carbon.notifications`, `carbon.dialog-manager`) - inject with
+ * services (`carbon.notifications`) - inject with
  * `@service('carbon.ai-chat-session')`.
  *
  * A single-widget page never needs an id: `service.default` (equivalent to
