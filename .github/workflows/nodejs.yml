@@ -19,6 +19,7 @@ jobs:
       addon: ${{ steps.changes.outputs.addon }}
       packages: ${{ steps.changes.outputs.packages }}
       skills: ${{ steps.changes.outputs.skills }}
+      markdown: ${{ steps.changes.outputs.markdown }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -48,6 +49,31 @@ jobs:
             "$RUNNER_TEMP/skills-ref/bin/agentskills" validate "$skill" || status=1
           done
           exit $status
+
+  markdown:
+    name: Markdown
+    needs: changes
+    if: needs.changes.outputs.markdown == 'true'
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v7
+
+      # It installs only the root, so it mustn't save the store.
+      - name: Setup Node and pnpm
+        uses: ./.github/actions/setup-pnpm
+        with:
+          cache: false
+
+      # markdownlint-cli2 and cspell are root dependencies, so skip the packages.
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --filter .
+
+      - name: Lint Markdown
+        run: pnpm lint:md
+
+      - name: Check spelling
+        if: ${{ !cancelled() }}
+        run: pnpm lint:spelling
 
   lint:
     name: Lint

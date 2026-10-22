@@ -23,9 +23,12 @@ import '#storybook/styles/ai-chat/video-player.css';
 // Media sources: the sample clip and WebVTT captions are served from
 // `.storybook/public/demo-support/`, relative to the preview, so they work
 // under any deploy path and keep the native stories' tests offline.
+// Screenshots skip the native stories: the browser draws the player's
+// controls, which fill in the duration and the loaded range as the file
+// loads.
 //
 // Stories that embed YouTube/Vimeo load third-party SDKs and iframes over the
-// network, so they're tagged `!vitest` to keep the test run deterministic;
+// network, so they're tagged `!test` to keep the test run deterministic;
 // tests only cover native-provider (and error-state) stories.
 //
 // Parity gaps:
@@ -135,12 +138,12 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
 
 // Network embed (YouTube): excluded from the test run.
 export const Default = meta.story({
-  tags: ['!vitest'],
+  tags: ['!test'],
 });
 
 // Network embed (YouTube): excluded from the test run.
 export const Standalone = meta.story({
-  tags: ['!vitest'],
+  tags: ['!test'],
   args: {
     useCard: false,
   },
@@ -148,7 +151,7 @@ export const Standalone = meta.story({
 
 // Network embed (YouTube): excluded from the test run.
 export const WithMetadata = meta.story({
-  tags: ['!vitest'],
+  tags: ['!test'],
   args: {
     title: 'Understanding AI and Machine Learning',
     description:
@@ -194,6 +197,7 @@ export const Native = meta.story({
     ariaLabel: 'Sample video clip',
     useCard: false,
   },
+  parameters: { screenshot: { disable: true } },
 });
 
 Native.test(
@@ -222,6 +226,7 @@ export const AspectRatio = meta.story({
     useCard: false,
   },
   parameters: {
+    screenshot: { disable: true },
     docs: {
       description: {
         story:
@@ -252,6 +257,7 @@ export const SubtitleTracks = meta.story({
     ],
   },
   parameters: {
+    screenshot: { disable: true },
     docs: {
       description: {
         story:
@@ -276,7 +282,7 @@ SubtitleTracks.test(
 
 // docs-app's YouTube embed. Network embed: excluded from the test run.
 export const YouTube = meta.story({
-  tags: ['!vitest'],
+  tags: ['!test'],
   args: {
     source: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
     ariaLabel: 'YouTube video',
@@ -286,7 +292,7 @@ export const YouTube = meta.story({
 
 // docs-app's Vimeo embed. Network embed: excluded from the test run.
 export const Vimeo = meta.story({
-  tags: ['!vitest'],
+  tags: ['!test'],
   args: {
     source: vimeoSource,
     ariaLabel: 'Vimeo video',
@@ -301,6 +307,7 @@ export const ControllingPlayback = meta.story({
     useCard: false,
   },
   parameters: {
+    screenshot: { disable: true },
     docs: {
       description: {
         story:

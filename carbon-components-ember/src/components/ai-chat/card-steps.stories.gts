@@ -312,6 +312,8 @@ export const WithSteps = meta.story({
     maxWidth: 'lg',
     footerActions: '1 ghost button with icon',
   },
+  // The steps advance on timers, from 3 seconds after it renders.
+  parameters: { screenshot: { disable: true } },
   render: (args) => <template>
     <div {{style (wrapperStyle args.maxWidth)}}>
       <ProgressingSteps as |steps status|>
