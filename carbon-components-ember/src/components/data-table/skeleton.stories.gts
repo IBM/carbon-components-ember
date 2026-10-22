@@ -57,7 +57,7 @@ export const Loading = meta.story({
     docs: {
       description: {
         story:
-          '`@isLoading` puts a `DataTable`, its search and its pagination into their loading state.',
+          '`@isLoading` renders a `DataTable` as `DataTableSkeleton` does, with placeholders for its title, description and cells (five rows while it has no items yet), and puts its search and pagination into their loading state.',
       },
     },
   },

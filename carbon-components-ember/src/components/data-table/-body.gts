@@ -25,12 +25,22 @@ export interface DataTableBodySignature<T> {
   };
 }
 
+// DataTableSkeleton's default row count, for a table loading its first items.
+const PLACEHOLDER_ROWS = Array.from({ length: 5 }, () => ({}));
+
 export default class DataTableBody<T> extends Component<
   DataTableBodySignature<T>
 > {
+  get items() {
+    if (this.args.table.isLoading && !this.args.items.length) {
+      return PLACEHOLDER_ROWS as T[];
+    }
+    return this.args.items;
+  }
+
   <template>
     <tbody ...attributes>
-      {{#each @items as |item|}}
+      {{#each this.items as |item|}}
         {{#let
           (component
             ListRow

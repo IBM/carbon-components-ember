@@ -154,6 +154,65 @@ module('Integration | Component | DataTable', (hooks) => {
     assert.dom('input.cds--search-input').hasAttribute('data-test-search');
   });
 
+  test('@isLoading renders the table as DataTableSkeleton does', async function (assert) {
+    await render(
+      <template>
+        <DataTable
+          @title="Table title"
+          @description="Table description"
+          @isLoading={{true}}
+          @items={{items}}
+          as |table|
+        >
+          <table.Table>
+            <table.Header @headers={{array (hash label="Name")}} />
+            <table.EachBodyRows as |row|>
+              <row.Row>
+                <table.Column>{{row.item.name}}</table.Column>
+              </row.Row>
+            </table.EachBodyRows>
+          </table.Table>
+        </DataTable>
+      </template>,
+    );
+
+    assert.dom('.cds--data-table-container').hasClass('cds--skeleton');
+    assert.dom('table.cds--data-table').hasClass('cds--skeleton');
+    // Carbon's skeleton draws placeholders in the empty title and description.
+    assert.dom('.cds--data-table-header__title').hasText('');
+    assert.dom('.cds--data-table-header__description').hasText('');
+    assert.dom('th div.cds--table-header-label').hasText('Name');
+    assert.dom('tbody tr').exists({ count: 2 });
+    assert.dom('tbody td span').exists({ count: 2 });
+    assert.dom('tbody').hasText('');
+  });
+
+  test('@isLoading with no items yet shows five placeholder rows', async function (assert) {
+    const none: typeof items = [];
+    await render(
+      <template>
+        <DataTable
+          @title="Table title"
+          @isLoading={{true}}
+          @items={{none}}
+          as |table|
+        >
+          <table.Table>
+            <table.EachBodyRows as |row|>
+              <row.Row>
+                <table.Column>{{row.item.name}}</table.Column>
+                <table.Column>{{row.item.b}}</table.Column>
+              </row.Row>
+            </table.EachBodyRows>
+          </table.Table>
+        </DataTable>
+      </template>,
+    );
+
+    assert.dom('tbody tr').exists({ count: 5 });
+    assert.dom('tbody td span').exists({ count: 10 });
+  });
+
   test('should support checkable rows and selection', async function (assert) {
     await render(
       <template>

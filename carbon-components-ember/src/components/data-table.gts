@@ -115,7 +115,7 @@ export interface DataTableSignature<T> {
           'table' | 'isExpandable' | 'isCheckable' | 'items'
         >;
         Column: WithBoundArgs<typeof TableColumn, 'table'>;
-        Menu: typeof TableMenuComponent;
+        Menu: WithBoundArgs<typeof TableMenuComponent, 'isLoading'>;
         Header: WithBoundArgs<typeof ListHeaderComponent, 'table'>;
       },
     ];
@@ -127,6 +127,8 @@ export interface DataTableSignature<T> {
  * them depend on the item type, so those components accept any table.
  */
 export interface DataTableContext {
+  /** With `@isLoading`, the parts render as DataTableSkeleton does. */
+  isLoading: boolean;
   columnIndexCounter: number;
   headerIds: (string | undefined)[];
   allChecked: boolean;
@@ -143,6 +145,10 @@ export default class DataTable<T> extends Component<DataTableSignature<T>> {
   // incremented by each Column instance to associate it with its header id;
   // reset to 0 by each Row so column position stays 1:1 with the headers array
   columnIndexCounter = 0;
+
+  get isLoading() {
+    return !!this.args.isLoading;
+  }
 
   @tracked internalState: State<T>;
 
@@ -265,17 +271,23 @@ export default class DataTable<T> extends Component<DataTableSignature<T>> {
 
   <template>
     <div
-      class="cds--data-table-container {{if @isLoading 'bx-skeleton'}}"
+      class="cds--data-table-container {{if @isLoading 'cds--skeleton'}}"
       data-table
       ...attributes
     >
       <div class="cds--data-table-header" {{this.notifyRegisterState}}>
-        <h4 class="cds--data-table-header__title">
-          {{@title}}
-        </h4>
-        <p class="cds--data-table-header__description">
-          {{@description}}
-        </p>
+        {{#if @isLoading}}
+          {{! Empty, as in DataTableSkeleton, so Carbon draws placeholders. }}
+          <div class="cds--data-table-header__title"></div>
+          <div class="cds--data-table-header__description"></div>
+        {{else}}
+          <h4 class="cds--data-table-header__title">
+            {{@title}}
+          </h4>
+          <p class="cds--data-table-header__description">
+            {{@description}}
+          </p>
+        {{/if}}
       </div>
 
       {{yield
@@ -293,7 +305,7 @@ export default class DataTable<T> extends Component<DataTableSignature<T>> {
             state=this.state.currentItemsSlice
             onPageChanged=this.changePage
           )
-          Menu=Menu
+          Menu=(component Menu isLoading=@isLoading)
           Table=(component Table isLoading=@isLoading)
           Column=(component ListColumn table=this)
           EachBodyRows=(component
