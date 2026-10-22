@@ -38,6 +38,22 @@ module('Integration | Component | Checkbox', (hooks) => {
     });
   });
 
+  test('a read-only checkbox neither toggles nor calls onChange, as in Carbon React', async function (assert) {
+    let calls = 0;
+    const onChange = () => calls++;
+
+    await render(
+      <template>
+        <Checkbox @label="Accept" @readonly={{true}} @onChange={{onChange}} />
+      </template>,
+    );
+
+    await click('input.cds--checkbox');
+
+    assert.dom('input.cds--checkbox').isNotChecked();
+    assert.strictEqual(calls, 0);
+  });
+
   test('toggles the focus class on the label when the input is focused/blurred', async function (assert) {
     await render(<template><Checkbox @label="Accept" /></template>);
 

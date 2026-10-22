@@ -48,7 +48,13 @@ export default class Checkbox extends Component<CheckboxSignature> {
     return guidFor(this);
   }
 
+  // A read-only checkbox doesn't toggle or report a change, as in Carbon React.
+  preventToggle = (event: MouseEvent) => {
+    if (this.args.readonly) event.preventDefault();
+  };
+
   onCheckChange = (event: Event) => {
+    if (this.args.readonly) return;
     const input = event.target as HTMLInputElement;
     this.args.onChange?.(event as Event & { target: HTMLInputElement }, {
       checked: input.checked,
@@ -84,6 +90,7 @@ export default class Checkbox extends Component<CheckboxSignature> {
           class="cds--checkbox"
           type="checkbox"
           checked={{if @indeterminate true @checked}}
+          {{on "click" this.preventToggle}}
           {{on "change" this.onCheckChange}}
         />
 
