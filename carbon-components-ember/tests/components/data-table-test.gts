@@ -199,6 +199,8 @@ module('Integration | Component | DataTable', (hooks) => {
         >
           <table.Table>
             <table.Header
+              @isExpandable={{true}}
+              @isCheckable={{true}}
               @headers={{array (hash label="Name") (hash label="details")}}
             />
             <table.EachBodyRows as |row|>
@@ -213,6 +215,8 @@ module('Integration | Component | DataTable', (hooks) => {
 
     assert.dom('tbody tr').exists({ count: 5 });
     assert.dom('tbody td span').exists({ count: 10 });
+    // Empty expand and checkbox cells too, as the header has those columns.
+    assert.dom('tbody tr:first-child td').exists({ count: 4 });
     assert.dom('[data-test-row]').doesNotExist();
   });
 
