@@ -280,6 +280,7 @@ Stories live as `src/components/**/<name>.stories.gts` next to their components.
   - Write story `args` as plain values (strings, numbers, booleans, arrays and objects of those). "Show code" and the agent-facing snippets fill them in; computed values show up as `{{@name}}`.
 - **Controlled Components**: Keep state in a `trackedObject` in `render` and forward changes to `fn()` spy args.
 - **Axe/a11y**: Axe violations fail Storybook tests (`pnpm test:storybook`). Set `parameters: { a11y: { test: 'todo' } }` only with a comment explaining the rules to fix.
+- **Screenshots**: CI fails a story whose screenshot differs from main's, unless the PR has the `preview` label, and a story that never holds still, new or not, whatever the labels. A story renders the same every time: fixed data and dates, nothing on a timer or waiting on media when it renders. Otherwise opt it out with `parameters: { screenshot: { disable: true } }` and a comment saying why.
 
 ---
 

@@ -42,3 +42,10 @@ signature and JSDoc.
   browser test, axe accessibility checks included
 - `pnpm build:storybook` – builds the static site (published at
   `versions/<version>/` on GitHub Pages)
+
+CI also compares each story with its screenshot from main and fails on a
+difference unless the PR has the `preview` label, for visual changes. A comment
+on the PR lists the stories that differ, and the run's artifacts hold their
+images. CI takes the screenshots on Linux, so locally there's nothing to compare
+with until you take your own: run `test:storybook --update` on main, then
+`test:storybook` on your branch.
