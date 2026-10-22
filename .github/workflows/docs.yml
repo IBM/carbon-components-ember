@@ -209,6 +209,7 @@ jobs:
     if: always()
     runs-on: ubuntu-26.04
     permissions:
+      contents: write # pushes the screenshots that differ to story-screenshots
       pull-requests: write # comments with the stories whose screenshots differ
     steps:
       - name: Download the screenshots that differ
@@ -220,6 +221,66 @@ jobs:
           merge-multiple: true
           path: diffs
 
+      - name: Find the branch's pull request
+        id: pr
+        if: needs.changes.outputs.screenshots-run
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api -X GET "repos/$GITHUB_REPOSITORY/pulls" -f head="$GITHUB_REPOSITORY_OWNER:$GITHUB_REF_NAME" \
+            --jq '.[0] // empty | "number=\(.number)\npreview=\(any(.labels[]; .name == "preview"))"' >> "$GITHUB_OUTPUT"
+
+      # On a branch of their own, not gh-pages, so they don't rebuild the site.
+      # Under the commit, so GitHub's image cache never shows an earlier
+      # commit's.
+      - name: Publish the screenshots that differ
+        id: publish
+        if: steps.pr.outputs.number && hashFiles('diffs/**/*-actual-chromium-linux.png')
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ steps.pr.outputs.number }}
+        run: |
+          shopt -s globstar nullglob
+          git init -q "$RUNNER_TEMP/screenshots"
+          cd "$RUNNER_TEMP/screenshots"
+          git config user.name 'Patrick Pircher'
+          git config user.email 'patricklx@users.noreply.github.com'
+          git remote add origin "https://x-access-token:$GH_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+          for i in 1 2 3 4 5; do
+            # The branch holds one commit; the lease is on it, or on there being
+            # no branch yet.
+            BASE=
+            if git fetch -q --depth 1 origin story-screenshots 2> /dev/null; then
+              BASE=$(git rev-parse FETCH_HEAD)
+              git checkout -q -f "$BASE"
+              git clean -fdq
+            fi
+            # Replaces the PR's earlier screenshots.
+            rm -rf "pr-$PR"
+            dir="pr-$PR/$GITHUB_SHA"
+            mkdir -p "$dir"
+            for actual in "$GITHUB_WORKSPACE"/diffs/**/*-actual-chromium-linux.png; do
+              base=${actual%-actual-chromium-linux.png}
+              id=$(basename "$(dirname "$actual")")--$(basename "$base")
+              for kind in actual diff reference; do
+                if [[ -f $base-$kind-chromium-linux.png ]]; then
+                  cp "$base-$kind-chromium-linux.png" "$dir/$id-$kind.png"
+                fi
+              done
+            done
+            git add -A .
+            COMMIT=$(git commit-tree "$(git write-tree)" -m "Story screenshots for PR #$PR ($GITHUB_SHA)")
+            if git push -q --force-with-lease=story-screenshots:"$BASE" origin "$COMMIT:refs/heads/story-screenshots"; then
+              exit 0
+            fi
+            echo "Push rejected (attempt $i), retrying against the latest story-screenshots..."
+            sleep $((RANDOM % 5 + 1))
+          done
+          echo "Failed to push story-screenshots after retries"
+          exit 1
+
       # In the job summary and in a comment on the PR, kept up to date. Not
       # part of the check, so a hiccup in either step doesn't fail it.
       - name: List the stories whose screenshots differ
@@ -228,6 +289,9 @@ jobs:
         uses: actions/github-script@v9
         env:
           BASELINE: ${{ needs.changes.outputs.screenshots-sha }}
+          PR: ${{ steps.pr.outputs.number }}
+          PREVIEW: ${{ steps.pr.outputs.preview }}
+          PUBLISHED: ${{ steps.publish.outcome == 'success' }}
           STALE: ${{ needs.changes.outputs.screenshots-stale }}
           STORIES: ${{ needs.stories.result }}
         with:
@@ -237,41 +301,77 @@ jobs:
             const { owner, repo } = context.repo;
             const site = 'https://ibm.github.io/carbon-components-ember';
             const marker = '<!-- story-screenshots -->';
+            const pr = process.env.PR;
+            const preview = process.env.PREVIEW === 'true';
+            const published = process.env.PUBLISHED === 'true';
+            const images = `https://raw.githubusercontent.com/${owner}/${repo}/story-screenshots/pr-${pr}/${context.sha}`;
 
-            // diffs/**/<component>/<story>-actual-chromium-linux.png
+            // diffs/**/<component>/<story>-actual-chromium-linux.png, with
+            // -diff and -reference beside it when main has the story.
             const suffix = '-actual-chromium-linux.png';
             const stories = fs.existsSync('diffs')
               ? fs
                   .readdirSync('diffs', { recursive: true })
                   .filter((file) => file.endsWith(suffix))
                   .map((file) => {
+                    const base = path.join('diffs', file.slice(0, -suffix.length));
                     const [component, story] = file.split(path.sep).slice(-2);
-                    return `${component}--${story.slice(0, -suffix.length)}`;
+                    const has = (kind) => fs.existsSync(`${base}-${kind}-chromium-linux.png`);
+                    return {
+                      id: `${component}--${story.slice(0, -suffix.length)}`,
+                      diff: has('diff'),
+                      reference: has('reference'),
+                    };
                   })
-                  .sort()
+                  .sort((a, b) => a.id.localeCompare(b.id))
               : [];
 
-            const [pr] = (
-              await github.rest.pulls.list({
-                owner,
-                repo,
-                head: `${owner}:${context.ref.replace('refs/heads/', '')}`,
-              })
-            ).data;
-            const preview = pr?.labels.some(({ name }) => name === 'preview');
-            const link = (id) =>
-              `- [${id}](${site}/versions/main/?path=/story/${id})` +
-              (preview ? ` → [this PR](${site}/pr-previews/pr-${pr.number}/?path=/story/${id})` : '');
+            const links = (id) =>
+              `[${id}](${site}/versions/main/?path=/story/${id})` +
+              (preview ? ` → [this PR](${site}/pr-previews/pr-${pr}/?path=/story/${id})` : '');
+            // Collapsed, so a PR with many differences stays readable.
+            const expanded = ({ id, diff, reference }) => {
+              const full = [
+                reference && `[main's](${images}/${id}-reference.png)`,
+                `[this branch's](${images}/${id}-actual.png)`,
+              ].filter(Boolean);
+              const shown = diff ? `${id}-diff.png` : `${id}-actual.png`;
+              return [
+                `<details><summary>${id}</summary>`,
+                '',
+                `${links(id)} · full size: ${full.join(', ')}`,
+                '',
+                `![${diff ? 'What changed' : "This branch's screenshot"}](${images}/${shown})`,
+                '',
+                '</details>',
+              ].join('\n');
+            };
+            // GitHub refuses a comment over 65,536 characters: past a budget,
+            // stories get just their links, then only a count.
+            const entries = [];
+            let length = 0;
+            for (const story of stories) {
+              const plain = `- ${links(story.id)}`;
+              const full = published && length < 40_000 ? expanded(story) : plain;
+              if (length + full.length > 60_000) {
+                entries.push(`- and ${stories.length - entries.length} more, in the run's artifacts`);
+                break;
+              }
+              entries.push(full);
+              length += full.length + 1;
+            }
             const baseline = process.env.BASELINE.slice(0, 7);
 
             let body;
             if (stories.length) {
               body = [
-                `These stories' screenshots differ from main's (${baseline}):`,
+                `At ${context.sha.slice(0, 7)}, these stories' screenshots differ from main's (${baseline}):`,
                 '',
-                ...stories.map(link),
+                ...entries,
                 '',
-                `Their reference, actual and diff images are in the [run's artifacts](${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}#artifacts).`,
+                published
+                  ? `Expand a story to see what changed. The images are also in the [run's artifacts](${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}#artifacts).`
+                  : `Their reference, actual and diff images are in the [run's artifacts](${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}#artifacts).`,
                 process.env.STALE
                   ? "Main has changed since, so some may be main's own; they don't fail the Docs check."
                   : !preview
@@ -281,7 +381,7 @@ jobs:
                       : 'The PR has the `preview` label now, so re-run the failed jobs.',
               ].join('\n');
             } else {
-              body = `No story screenshots differ from main's (${baseline}).`;
+              body = `At ${context.sha.slice(0, 7)}, no story screenshots differ from main's (${baseline}).`;
             }
             await core.summary.addRaw(body).write();
             if (!pr) return;
@@ -289,14 +389,14 @@ jobs:
             const comments = await github.paginate(github.rest.issues.listComments, {
               owner,
               repo,
-              issue_number: pr.number,
+              issue_number: pr,
             });
             const existing = comments.find((c) => c.body?.includes(marker));
             body = `${marker}\n### Story screenshots\n\n${body}`;
             if (existing) {
               await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body });
             } else if (stories.length) {
-              await github.rest.issues.createComment({ owner, repo, issue_number: pr.number, body });
+              await github.rest.issues.createComment({ owner, repo, issue_number: pr, body });
             }
 
       - name: Check the story tests and the Storybook build
