@@ -64,12 +64,16 @@ jobs:
         with:
           cache: false
 
-      # markdownlint-cli2 is a root dependency, so skip the packages.
+      # markdownlint-cli2 and cspell are root dependencies, so skip the packages.
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --filter .
 
       - name: Lint Markdown
         run: pnpm lint:md
+
+      - name: Check spelling
+        if: ${{ !cancelled() }}
+        run: pnpm lint:spelling
 
   lint:
     name: Lint

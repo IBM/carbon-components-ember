@@ -11,14 +11,16 @@
     "build:carbon": "pnpm --filter carbon-components-ember build",
     "build:storybook": "pnpm --filter carbon-components-ember build-storybook",
     "format": "pnpm -r --if-present format",
-    "lint": "pnpm -r --if-present lint && pnpm lint:md",
+    "lint": "pnpm -r --if-present lint && pnpm lint:md && pnpm lint:spelling",
     "lint:fix": "pnpm -r --if-present lint:fix && pnpm lint:md --fix",
     "lint:md": "markdownlint-cli2",
+    "lint:spelling": "cspell --no-progress",
     "start": "pnpm --filter carbon-components-ember start",
     "storybook": "pnpm --filter carbon-components-ember storybook",
     "test": "pnpm --filter carbon-components-ember test"
   },
   "devDependencies": {
+    "cspell": "10.3.6",
     "markdownlint-cli2": "0.23.3",
     "release-plan": "^0.20.1"
   },

@@ -301,6 +301,7 @@ Stories live as `src/components/**/<name>.stories.gts` next to their components.
 - Silence a template rule with `{{! eslint-disable-next-line ember/template-<rule> }}` directly above the line, with a comment saying why. A bare `{{! eslint-disable ... }}` disables the rule for the rest of the file.
 - **Stylesheets are linted by Stylelint** (`pnpm lint:css`, `stylelint.config.mjs`, on `stylelint-config-standard`, and its `-scss` variant for SCSS); Prettier still formats them. Class names are BEM, like Carbon's. Silence a rule with `/* stylelint-disable-next-line <rule> */` (plain CSS has no `//` comments) and a comment saying why.
 - **Markdown is linted by markdownlint** (`pnpm lint:md` at the root, with `.markdownlint-cli2.mjs`: its defaults without line length). `pnpm lint:md --fix` fixes most findings.
+- **Markdown's spelling is checked by cspell** (`pnpm lint:spelling`, with `cspell.config.mjs`), in US or British English. Add a real term to its `words`; reword a coined word.
 
 ---
 

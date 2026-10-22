@@ -13,6 +13,7 @@ dom-parity/node_modules
 !patches/**/*
 !.editorconfig
 !.markdownlint-cli2.mjs
+!cspell.config.mjs
 !.gitignore
 !.mcp.json
 !.claude
