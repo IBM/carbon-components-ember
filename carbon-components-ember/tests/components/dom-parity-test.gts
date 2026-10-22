@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, waitUntil, click, find } from '@ember/test-helpers';
+import { render, waitUntil, click } from '@ember/test-helpers';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import Button from '#src/components/button.gts';
 import Add from '#src/components/icons/add.ts';
@@ -522,7 +522,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <Button @renderIcon={{Add}} @iconDescription="Add">Button</Button>
         </template>,
       );
-      await waitUntil(() => find('svg'));
       assertDomParity(
         assert,
         buttonFixture,
@@ -542,7 +541,6 @@ module('DOM parity | Carbon React', function (hooks) {
           >Button</Button>
         </template>,
       );
-      await waitUntil(() => find('svg'));
       assertDomParity(
         assert,
         buttonFixture,
@@ -563,7 +561,6 @@ module('DOM parity | Carbon React', function (hooks) {
           >Button</Button>
         </template>,
       );
-      await waitUntil(() => find('svg'));
       assertDomParity(
         assert,
         buttonFixture,
@@ -904,8 +901,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      // Icons load their SVG asynchronously; settled() doesn't wait for it.
-      await waitUntil(() => this.element.querySelector('svg') !== null);
       assertDomParity(
         assert,
         inlineLoadingFixture,
@@ -920,8 +915,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <InlineLoading @status="error" @description="Failed" />
         </template>,
       );
-      // Icons load their SVG asynchronously; settled() doesn't wait for it.
-      await waitUntil(() => this.element.querySelector('svg') !== null);
       assertDomParity(
         assert,
         inlineLoadingFixture,
@@ -1060,7 +1053,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <Link @href="/about" @renderIcon={{Add}}>Link text</Link>
         </template>,
       );
-      await waitUntil(() => find('svg'));
       assertDomParity(
         assert,
         linkFixture,
@@ -1484,7 +1476,6 @@ module('DOM parity | Carbon React', function (hooks) {
     });
   });
 
-  // Icons load their SVG asynchronously, so each test waits for its icons.
   const notificationKinds = [
     'error',
     'info',
@@ -1507,9 +1498,6 @@ module('DOM parity | Carbon React', function (hooks) {
             />
           </template>,
         );
-        await waitUntil(
-          () => this.element.querySelectorAll('svg').length === 2,
-        );
         assertDomParity(
           assert,
           toastNotificationFixture,
@@ -1529,7 +1517,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
       assertDomParity(
         assert,
         toastNotificationFixture,
@@ -1548,7 +1535,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
       assertDomParity(
         assert,
         toastNotificationFixture,
@@ -1561,7 +1547,6 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template><ToastNotification @title="Notification title" /></template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
       assertDomParity(
         assert,
         toastNotificationFixture,
@@ -1581,7 +1566,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
       assertDomParity(
         assert,
         toastNotificationFixture,
@@ -1613,9 +1597,6 @@ module('DOM parity | Carbon React', function (hooks) {
             />
           </template>,
         );
-        await waitUntil(
-          () => this.element.querySelectorAll('svg').length === 2,
-        );
         assertDomParity(
           assert,
           inlineNotificationFixture,
@@ -1635,7 +1616,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
       assertDomParity(
         assert,
         inlineNotificationFixture,
@@ -1654,7 +1634,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
       assertDomParity(
         assert,
         inlineNotificationFixture,
@@ -1667,7 +1646,6 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template><InlineNotification @title="Notification title" /></template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
       assertDomParity(
         assert,
         inlineNotificationFixture,
@@ -1698,7 +1676,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
       assertDomParity(
         assert,
         actionableNotificationFixture,
@@ -1719,7 +1696,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
       assertDomParity(
         assert,
         actionableNotificationFixture,
@@ -1740,7 +1716,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
       assertDomParity(
         assert,
         actionableNotificationFixture,
@@ -1760,7 +1735,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
       assertDomParity(
         assert,
         actionableNotificationFixture,
@@ -1778,7 +1752,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
       assertDomParity(
         assert,
         actionableNotificationFixture,
@@ -1796,7 +1769,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
       assertDomParity(
         assert,
         actionableNotificationFixture,
@@ -1827,7 +1799,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         calloutFixture,
@@ -1846,7 +1817,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         calloutFixture,
@@ -1865,7 +1835,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         calloutFixture,
@@ -1885,7 +1854,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         calloutFixture,
@@ -1913,7 +1881,6 @@ module('DOM parity | Carbon React', function (hooks) {
             <NotificationButton @notificationType={{type}} />
           </template>,
         );
-        await waitUntil(() => this.element.querySelector('svg'));
         assertDomParity(
           assert,
           notificationButtonFixture,
@@ -2017,7 +1984,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <RadioTile @value="a">Radio tile content</RadioTile>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
       assertDomParity(
         assert,
         radioTileFixture,
@@ -2032,7 +1998,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <RadioTile @value="a" @checked={{true}}>Radio tile content</RadioTile>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
       assertDomParity(
         assert,
         radioTileFixture,
@@ -2047,7 +2012,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <RadioTile @value="a" @disabled={{true}}>Radio tile content</RadioTile>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
       assertDomParity(
         assert,
         radioTileFixture,
@@ -2080,7 +2044,6 @@ module('DOM parity | Carbon React', function (hooks) {
           </TileGroup>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
       assertDomParity(
         assert,
         tileGroupFixture,
@@ -2101,7 +2064,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <Tile @selectable={{true}}><:content>Selectable tile content</:content></Tile>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
       assertDomParity(
         assert,
         selectableTileFixture,
@@ -2125,7 +2087,6 @@ module('DOM parity | Carbon React', function (hooks) {
           </Tile>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
       assertDomParity(
         assert,
         expandableTileFixture,
@@ -2143,7 +2104,6 @@ module('DOM parity | Carbon React', function (hooks) {
           </Tile>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 1);
       await click('.cds--tile__chevron');
       assertDomParity(
         assert,
@@ -2762,7 +2722,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         textInputFixture,
@@ -2781,7 +2740,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         textInputFixture,
@@ -3010,7 +2968,6 @@ module('DOM parity | Carbon React', function (hooks) {
           </Breadcrumb>
         </template>,
       );
-      await waitUntil(() => find('.cds--overflow-menu svg'));
       assertDomParity(
         assert,
         breadcrumbFixture,
@@ -3079,11 +3036,6 @@ module('DOM parity | Carbon React', function (hooks) {
             </Select>
           </template>,
         );
-        // Icons load their SVG asynchronously; settled() doesn't wait for it.
-        const icons = props.invalid || props.warn ? 2 : 1;
-        await waitUntil(
-          () => this.element.querySelectorAll('svg').length >= icons,
-        );
         assertDomParity(
           assert,
           selectFixture,
@@ -3134,8 +3086,6 @@ module('DOM parity | Carbon React', function (hooks) {
             </Modal>
           </template>,
         );
-        // Icons load their SVG asynchronously; settled() doesn't wait for it.
-        await waitUntil(() => this.element.querySelector('svg') !== null);
         assertDomParity(
           assert,
           modalFixture,
@@ -3277,7 +3227,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         textAreaFixture,
@@ -3296,7 +3245,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         textAreaFixture,
@@ -3362,14 +3310,10 @@ module('DOM parity | Carbon React', function (hooks) {
   });
 
   module('PasswordInput', function () {
-    // The show/hide-password toggle's View/ViewOff icon loads its SVG
-    // lazily via TrackedPromise - waitUntil before snapshotting, per the
-    // lazy-icon-test-pattern gotcha.
     test('default', async function (this: RenderingTestContext, assert) {
       await render(
         <template><PasswordInput @labelText="Password label" /></template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         passwordInputFixture,
@@ -3384,7 +3328,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <PasswordInput @labelText="Password label" @disabled={{true}} />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         passwordInputFixture,
@@ -3403,7 +3346,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
       assertDomParity(
         assert,
         passwordInputFixture,
@@ -3422,7 +3364,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
       assertDomParity(
         assert,
         passwordInputFixture,
@@ -3437,7 +3378,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <PasswordInput @labelText="Password label" @size="sm" />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         passwordInputFixture,
@@ -3458,13 +3398,8 @@ module('DOM parity | Carbon React', function (hooks) {
   });
 
   module('NumberInput', function () {
-    // NumberInput's stepper icons (Add/Subtract) load their SVG lazily via
-    // TrackedPromise - waitUntil for both before snapshotting the DOM, per
-    // the lazy-icon-test-pattern gotcha (await settled() alone is not
-    // reliable here).
     test('default', async function (this: RenderingTestContext, assert) {
       await render(<template><NumberInput @label="Number label" /></template>);
-      await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
       assertDomParity(
         assert,
         numberInputFixture,
@@ -3479,7 +3414,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <NumberInput @label="Number label" @disabled={{true}} />
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
       assertDomParity(
         assert,
         numberInputFixture,
@@ -3498,7 +3432,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length >= 3);
       assertDomParity(
         assert,
         numberInputFixture,
@@ -3517,7 +3450,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length >= 3);
       assertDomParity(
         assert,
         numberInputFixture,
@@ -3532,7 +3464,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <NumberInput @label="Number label" @readOnly={{true}} />
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
       assertDomParity(
         assert,
         numberInputFixture,
@@ -3547,7 +3478,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <NumberInput @label="Number label" @light={{true}} />
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
       assertDomParity(
         assert,
         numberInputFixture,
@@ -3574,7 +3504,6 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template><NumberInput @label="Number label" @size="sm" /></template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
       assertDomParity(
         assert,
         numberInputFixture,
@@ -3639,7 +3568,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         fluidTextInputFixture,
@@ -3658,7 +3586,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         fluidTextInputFixture,
@@ -3693,7 +3620,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         fluidTextInputFixture,
@@ -3713,7 +3639,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
       assertDomParity(
         assert,
         fluidTextInputFixture,
@@ -3736,12 +3661,8 @@ module('DOM parity | Carbon React', function (hooks) {
   });
 
   module('Search', function () {
-    // The magnifier SearchIcon (and, once a value is present, the Close
-    // clear-button icon) loads its SVG lazily via TrackedPromise - waitUntil
-    // before snapshotting, per the lazy-icon-test-pattern gotcha.
     test('default', async function (this: RenderingTestContext, assert) {
       await render(<template><Search @labelText="Search label" /></template>);
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         searchFixture,
@@ -3756,7 +3677,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <Search @labelText="Search label" @value="Search term" />
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length >= 2);
       assertDomParity(
         assert,
         searchFixture,
@@ -3771,7 +3691,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <Search @labelText="Search label" @disabled={{true}} />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         searchFixture,
@@ -3786,7 +3705,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <Search @labelText="Search label" @light={{true}} />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         searchFixture,
@@ -3799,7 +3717,6 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template><Search @labelText="Search label" @size="sm" /></template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         searchFixture,
@@ -3812,7 +3729,6 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template><Search @labelText="Search label" @size="lg" /></template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         searchFixture,
@@ -4627,7 +4543,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <ProgressBar @label="Uploading file" @status="finished" />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         progressBarFixture,
@@ -4642,7 +4557,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <ProgressBar @label="Uploading file" @status="error" />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         progressBarFixture,
@@ -4708,7 +4622,6 @@ module('DOM parity | Carbon React', function (hooks) {
           </ProgressIndicator>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 3);
       assertDomParity(
         assert,
         progressIndicatorFixture,
@@ -4727,7 +4640,6 @@ module('DOM parity | Carbon React', function (hooks) {
           </ProgressIndicator>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 3);
       assertDomParity(
         assert,
         progressIndicatorFixture,
@@ -4750,7 +4662,6 @@ module('DOM parity | Carbon React', function (hooks) {
           </ProgressIndicator>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 3);
       assertDomParity(
         assert,
         progressIndicatorFixture,
@@ -4769,7 +4680,6 @@ module('DOM parity | Carbon React', function (hooks) {
           </ProgressIndicator>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 3);
       assertDomParity(
         assert,
         progressIndicatorFixture,
@@ -4788,7 +4698,6 @@ module('DOM parity | Carbon React', function (hooks) {
           </ProgressIndicator>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 3);
       assertDomParity(
         assert,
         progressIndicatorFixture,
@@ -4807,7 +4716,6 @@ module('DOM parity | Carbon React', function (hooks) {
           </ProgressIndicator>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 3);
       assertDomParity(
         assert,
         progressIndicatorFixture,
@@ -4826,7 +4734,6 @@ module('DOM parity | Carbon React', function (hooks) {
           </ProgressIndicator>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 3);
       assertDomParity(
         assert,
         progressIndicatorFixture,
@@ -4853,7 +4760,6 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template><IconIndicator @kind="failed" @label="Failed" /></template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         iconIndicatorFixture,
@@ -4868,7 +4774,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <IconIndicator @kind="caution-major" @label="Caution major" />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         iconIndicatorFixture,
@@ -4883,7 +4788,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <IconIndicator @kind="caution-minor" @label="Caution minor" />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         iconIndicatorFixture,
@@ -4898,7 +4802,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <IconIndicator @kind="undefined" @label="Undefined" />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         iconIndicatorFixture,
@@ -4913,7 +4816,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <IconIndicator @kind="succeeded" @label="Succeeded" />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         iconIndicatorFixture,
@@ -4926,7 +4828,6 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template><IconIndicator @kind="normal" @label="Normal" /></template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         iconIndicatorFixture,
@@ -4941,7 +4842,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <IconIndicator @kind="in-progress" @label="In progress" />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         iconIndicatorFixture,
@@ -4956,7 +4856,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <IconIndicator @kind="incomplete" @label="Incomplete" />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         iconIndicatorFixture,
@@ -4971,7 +4870,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <IconIndicator @kind="not-started" @label="Not started" />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         iconIndicatorFixture,
@@ -4984,7 +4882,6 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template><IconIndicator @kind="pending" @label="Pending" /></template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         iconIndicatorFixture,
@@ -4997,7 +4894,6 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template><IconIndicator @kind="unknown" @label="Unknown" /></template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         iconIndicatorFixture,
@@ -5012,7 +4908,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <IconIndicator @kind="informative" @label="Informative" />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         iconIndicatorFixture,
@@ -5027,7 +4922,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <IconIndicator @kind="succeeded" @label="Succeeded" @size={{20}} />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         iconIndicatorFixture,
@@ -5046,7 +4940,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         iconIndicatorFixture,
@@ -5080,7 +4973,6 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template><ShapeIndicator @kind="failed" @label="Failed" /></template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         shapeIndicatorFixture,
@@ -5095,7 +4987,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <ShapeIndicator @kind="critical" @label="Critical" />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         shapeIndicatorFixture,
@@ -5108,7 +4999,6 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template><ShapeIndicator @kind="high" @label="High" /></template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         shapeIndicatorFixture,
@@ -5121,7 +5011,6 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template><ShapeIndicator @kind="medium" @label="Medium" /></template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         shapeIndicatorFixture,
@@ -5134,7 +5023,6 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template><ShapeIndicator @kind="low" @label="Low" /></template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         shapeIndicatorFixture,
@@ -5149,7 +5037,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <ShapeIndicator @kind="cautious" @label="Cautious" />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         shapeIndicatorFixture,
@@ -5164,7 +5051,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <ShapeIndicator @kind="undefined" @label="Undefined" />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         shapeIndicatorFixture,
@@ -5177,7 +5063,6 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template><ShapeIndicator @kind="stable" @label="Stable" /></template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         shapeIndicatorFixture,
@@ -5192,7 +5077,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <ShapeIndicator @kind="informative" @label="Informative" />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         shapeIndicatorFixture,
@@ -5207,7 +5091,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <ShapeIndicator @kind="incomplete" @label="Incomplete" />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         shapeIndicatorFixture,
@@ -5220,7 +5103,6 @@ module('DOM parity | Carbon React', function (hooks) {
       await render(
         <template><ShapeIndicator @kind="draft" @label="Draft" /></template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         shapeIndicatorFixture,
@@ -5235,7 +5117,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <ShapeIndicator @kind="stable" @label="Stable" @textSize={{14}} />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         shapeIndicatorFixture,
@@ -5250,7 +5131,6 @@ module('DOM parity | Carbon React', function (hooks) {
           <ShapeIndicator @kind="stable" @label="Stable" @compact={{true}} />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         shapeIndicatorFixture,
@@ -5355,7 +5235,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         sliderFixture,
@@ -5378,7 +5257,6 @@ module('DOM parity | Carbon React', function (hooks) {
           />
         </template>,
       );
-      await waitUntil(() => this.element.querySelector('svg'));
       assertDomParity(
         assert,
         sliderFixture,
@@ -5672,7 +5550,6 @@ module('DOM parity | Carbon React', function (hooks) {
           </StructuredList>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
       assertDomParity(
         assert,
         structuredListFixture,
@@ -5718,7 +5595,6 @@ module('DOM parity | Carbon React', function (hooks) {
           </StructuredList>
         </template>,
       );
-      await waitUntil(() => this.element.querySelectorAll('svg').length === 2);
       assertDomParity(
         assert,
         structuredListFixture,

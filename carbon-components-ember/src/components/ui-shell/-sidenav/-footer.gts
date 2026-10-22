@@ -21,7 +21,7 @@ const UIShellSideNavFooter: TOC<UIShellSideNavFooterSignature> = <template>
       class="cds--side-nav__icon cds--side-nav__icon--sm cds--side-nav__toggle
         {{if @open 'cds--side-nav__icon--expanded'}}"
     >
-      <ChevronRight />
+      <ChevronRight @size="20" />
     </div>
   </button>
 </template>;

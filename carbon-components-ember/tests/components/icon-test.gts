@@ -1,7 +1,13 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, find, findAll, waitUntil } from '@ember/test-helpers';
-import { Task, Terminal_3270 } from '#src/icons.ts';
+import { render, findAll } from '@ember/test-helpers';
+import {
+  Caution,
+  Checkmark,
+  ChevronDown,
+  Task,
+  Terminal_3270,
+} from '#src/icons.ts';
 
 module('Integration | Component | Icon', (hooks) => {
   setupRenderingTest(hooks);
@@ -12,7 +18,6 @@ module('Integration | Component | Icon', (hooks) => {
         <Task @ariaLabel='Task "done"' @title="<b>Task</b>" />
       </template>,
     );
-    await waitUntil(() => find('svg'));
 
     assert
       .dom('svg')
@@ -25,7 +30,6 @@ module('Integration | Component | Icon', (hooks) => {
 
   test('without @ariaLabel the icon is hidden', async function (assert) {
     await render(<template><Task /></template>);
-    await waitUntil(() => find('svg'));
 
     assert
       .dom('svg')
@@ -40,7 +44,6 @@ module('Integration | Component | Icon', (hooks) => {
         <Task @svgClass="my-icon" />
       </template>,
     );
-    await waitUntil(() => findAll('svg').length === 2);
     const [bare, classed] = findAll('svg');
 
     assert.dom(bare).doesNotHaveAttribute('class');
@@ -49,8 +52,38 @@ module('Integration | Component | Icon', (hooks) => {
 
   test('an icon whose name contains its size keeps it, as in @carbon/icons-react', async function (assert) {
     await render(<template><Terminal_3270 @size="16" /></template>);
-    await waitUntil(() => find('svg'));
 
     assert.dom('svg').hasAttribute('width', '16');
+  });
+
+  test('is 16px by default, as in @carbon/icons-react', async function (assert) {
+    await render(<template><Task /></template>);
+
+    assert.dom('svg').hasAttribute('width', '16').hasAttribute('height', '16');
+  });
+
+  test('a size draws its own artwork where the icon has one, and scales the 32px one otherwise', async function (assert) {
+    await render(
+      <template>
+        <Checkmark @size="20" />
+        <Checkmark @size="20px" />
+        <Checkmark @size="16" />
+        <Caution @size="24" />
+        <ChevronDown @size="glyph" />
+      </template>,
+    );
+    const [own, px, scaled, single, glyph] = findAll('svg');
+
+    assert.dom(own).hasAttribute('viewBox', '0 0 20 20');
+    assert.dom(px).hasAttribute('viewBox', '0 0 20 20');
+    assert
+      .dom(scaled)
+      .hasAttribute('viewBox', '0 0 32 32')
+      .hasAttribute('width', '16');
+    assert
+      .dom(single)
+      .hasAttribute('viewBox', '0 0 16 16')
+      .hasAttribute('width', '24');
+    assert.dom(glyph).hasAttribute('viewBox', '0 0 10 6');
   });
 });

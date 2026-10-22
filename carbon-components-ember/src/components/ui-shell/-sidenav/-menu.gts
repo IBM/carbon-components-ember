@@ -57,7 +57,7 @@ export default class UIShellSideNavMenu extends Component<UIShellSideNavMenuSign
           <div
             class="cds--side-nav__icon cds--side-nav__icon--small cds--side-nav__submenu-chevron"
           >
-            <ChevronDown />
+            <ChevronDown @size="20" />
           </div>
         </button>
         {{#if (or @open this.expanded)}}

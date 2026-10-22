@@ -7,8 +7,16 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 
-function createIconComponents() {
+// An icon size's drawing, to tell which sizes have artwork of their own.
+async function artwork(iconPath, size) {
+  const file = path.resolve('./node_modules', `${iconPath}/${size}.js`);
+  const { default: svg } = await import(pathToFileURL(file).href);
+  return JSON.stringify([svg.attrs.viewBox, svg.content]);
+}
+
+async function createIconComponents() {
   const iconsIndex = path.resolve('./node_modules/@carbon/icons/es/index.js');
   const content = fs.readFileSync(iconsIndex).toString();
 
@@ -64,24 +72,42 @@ type Icon = {
   fs.mkdirSync('./src/components/icons', { recursive: true });
   fs.writeFileSync('./src/components/icons/.gitkeep', 'auto generated icons\n');
   for (const [icon, sizes] of Object.entries(icons)) {
-    const iconSizeMap = sizes
-      .map(
-        (size) =>
-          `'${size}': new TrackedPromise(() => import('${icon}/${size}')),`,
-      )
-      .join('\n  ');
-    const index = sizes.includes('index') ? 'index' : '32';
+    // As in @carbon/icons-react: a size with no artwork of its own scales the
+    // 32px drawing, so only the sizes that have one are imported, and an
+    // `index` beside them is the `glyph` size. A few shapes come only as `index`.
+    const baseSize = sizes.includes('32') ? '32' : 'index';
+    const base = await artwork(icon, baseSize);
+    const own = [];
+    for (const size of ['16', '20', '24']) {
+      if (sizes.includes(size) && (await artwork(icon, size)) !== base) {
+        own.push([size, size]);
+      }
+    }
+    if (baseSize === '32' && sizes.includes('index')) {
+      own.push(['glyph', 'index']);
+    }
+    const imports = [
+      `import icon from '${icon}/${baseSize}';`,
+      ...own.map(
+        ([size, file]) => `import icon_${size} from '${icon}/${file}';`,
+      ),
+    ].join('\n');
+    // React also takes '16px' for 16.
+    const svg = own.length
+      ? `sized[String(this.size).replace(/px$/, '')] ?? icon`
+      : 'icon';
+    const sized = own.length
+      ? `\nconst sized: Record<string, typeof icon | undefined> = {\n${own
+          .map(([size]) => `  ${size}: icon_${size},`)
+          .join('\n')}\n};\n`
+      : '';
     const content = `
 import Icon from '../icon.gts';
-import { TrackedPromise } from '../../utils/tracked.ts';
-
-const icons = {
-  ${iconSizeMap}
-};
-
+${imports}
+${sized}
 export default class ${iconNames[icon]} extends Icon {
   get svg() {
-    return (icons[(this.args.size || 24).toString() as keyof typeof icons] || icons['${index}']).getValue()?.default;
+    return ${svg};
   }
 }
     `;
@@ -100,4 +126,4 @@ export default class ${iconNames[icon]} extends Icon {
   );
 }
 
-createIconComponents();
+await createIconComponents();

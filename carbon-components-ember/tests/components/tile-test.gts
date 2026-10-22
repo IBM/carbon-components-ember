@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, waitUntil } from '@ember/test-helpers';
+import { render, click } from '@ember/test-helpers';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import Tile from '#src/components/tile.gts';
 import style from 'ember-style-modifier';
@@ -77,7 +77,6 @@ module('Integration | Component | Tile', (hooks) => {
     assert.dom('.cds--tile--selectable').hasAttribute('aria-checked', 'false');
     assert.dom('.cds--tile--selectable').hasAttribute('tabindex', '0');
     assert.dom('.cds--tile-input').doesNotExist();
-    await waitUntil(() => document.querySelector('.cds--tile__checkmark svg'));
     assert.dom('.cds--tile__checkmark svg').exists();
   });
 
@@ -128,7 +127,6 @@ module('Integration | Component | Tile', (hooks) => {
     );
 
     assert.dom('.cds--tile--expandable').exists();
-    await waitUntil(() => document.querySelector('.cds--tile__chevron svg'));
     assert.dom('.cds--tile__chevron svg').exists();
   });
 

@@ -1,12 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import {
-  find,
-  render,
-  rerender,
-  settled,
-  waitUntil,
-} from '@ember/test-helpers';
+import { find, render, rerender, settled } from '@ember/test-helpers';
 import { trackedObject } from '@ember/reactive/collections';
 import InlineLoading from '#src/components/inline-loading.gts';
 
@@ -63,14 +57,12 @@ module('Integration | Component | InlineLoading', (hooks) => {
       </template>,
     );
 
-    // Icons load their SVG asynchronously; settled() doesn't wait for it.
-    await waitUntil(() => find('svg.cds--inline-loading__checkmark-container'));
     assert
       .dom('svg.cds--inline-loading__checkmark-container title')
       .hasText('finished');
 
     state.status = 'error';
-    await waitUntil(() => find('svg.cds--inline-loading--error'));
+    await rerender();
     assert.dom('svg.cds--inline-loading--error title').hasText('error');
   });
 

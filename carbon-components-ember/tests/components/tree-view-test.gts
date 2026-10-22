@@ -7,7 +7,6 @@ import {
   rerender,
   settled,
   triggerKeyEvent,
-  waitUntil,
 } from '@ember/test-helpers';
 import TreeView from '#src/components/tree-view.gts';
 import { Folder, Document } from '#src/icons.ts';
@@ -319,10 +318,6 @@ module('Integration | Component | TreeView', (hooks) => {
     );
 
     assert.dom('#node-1').hasClass('cds--tree-node--with-icon');
-    // The icon's SVG is loaded via a dynamic import, so wait for it to resolve.
-    await waitUntil(() =>
-      document.querySelector('#node-1 .cds--tree-node__icon'),
-    );
     assert
       .dom('#node-1 .cds--tree-node__icon')
       .hasAttribute('width', '16', 'drawn at 16px, as Carbon React');
@@ -363,11 +358,6 @@ module('Integration | Component | TreeView', (hooks) => {
     );
 
     const nodeIds = ['ai', 'ml', 'nlp', 'cloud', 'iaas', 'paas', 'security'];
-    await waitUntil(() =>
-      nodeIds.every((id) =>
-        document.querySelector(`#${id} .cds--tree-node__icon`),
-      ),
-    );
 
     for (const id of nodeIds) {
       assert

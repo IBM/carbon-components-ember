@@ -1,14 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import {
-  click,
-  find,
-  render,
-  select,
-  settled,
-  tab,
-  waitFor,
-} from '@ember/test-helpers';
+import { click, find, render, select, settled, tab } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import Select from '#src/components/select.gts';
 import SelectItemGroup from '#src/components/select-item-group.gts';
@@ -263,8 +255,6 @@ module('Integration | Component | Select', function (hooks) {
       assert
         .dom('.cds--select-input__wrapper')
         .hasAttribute('data-invalid', 'true');
-      // Icons load their SVG asynchronously; settled() doesn't wait for it.
-      await waitFor('.cds--select__invalid-icon');
       assert.dom('.cds--select__invalid-icon').exists();
     });
 
@@ -417,7 +407,6 @@ module('Integration | Component | Select', function (hooks) {
       );
 
       assert.dom('.cds--select').hasClass('cds--select--warning');
-      await waitFor('.cds--select__invalid-icon');
       assert
         .dom('.cds--select__invalid-icon')
         .hasClass('cds--select__invalid-icon--warning');

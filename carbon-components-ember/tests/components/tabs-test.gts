@@ -7,7 +7,6 @@ import {
   rerender,
   settled,
   triggerKeyEvent,
-  waitUntil,
   find,
 } from '@ember/test-helpers';
 import Tabs from '#src/components/tabs.gts';
@@ -424,7 +423,6 @@ module('Integration | Component | Tabs', (hooks) => {
     );
 
     assert.dom('.cds--tabs__nav-item--icon').exists();
-    await waitUntil(() => find('.cds--tabs__nav-item--icon svg'));
     assert.dom('.cds--tabs__nav-item--icon svg').hasAttribute('width', '16');
     assert.dom('.cds--tabs__nav-item--icon svg').hasAttribute('height', '16');
   });
@@ -441,7 +439,6 @@ module('Integration | Component | Tabs', (hooks) => {
     );
 
     assert.dom('.cds--tabs__nav-item--icon-left').exists();
-    await waitUntil(() => find('.cds--tabs__nav-item--icon-left svg'));
     assert
       .dom('.cds--tabs__nav-item--icon-left svg')
       .hasAttribute('width', '16');
@@ -460,7 +457,6 @@ module('Integration | Component | Tabs', (hooks) => {
         </Tabs>
       </template>,
     );
-    await waitUntil(() => find('.cds--tabs__nav-item--icon svg'));
     await waitForAnimationFrame();
 
     const wrapper = find('.cds--tabs__nav-item--icon') as HTMLElement;

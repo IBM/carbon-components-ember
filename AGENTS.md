@@ -129,7 +129,6 @@ Parity means matching Carbon React's **public API surface and behaviour**, not i
 | Floating UI positioning hooks | The addon's own `<Popover>` / `<PopoverContent>` | `components/popover.gts` |
 | Debounce/timing | `task({ restartable: true })` + `timeout()` from `ember-concurrency` | `components/search.gts` |
 | `useEffect` cleanup return | `registerDestructor` (or the modifier's teardown function) | `components/tabs.gts` |
-| Lazily resolved value in template | `TrackedPromise` from `utils/tracked.ts` — re-renders once promise settles, and tests' `settled()` waits for it | `components/icons/*.ts` (lazy icons) |
 | Arrow-key navigation (roving `tabIndex`) | `RovingFocus` from `utils/roving-focus.ts`: its `container` modifier on the list, its `item` modifier on each item; items keep their DOM order | `components/tree-view.gts` |
 
 ### 1. Yield Contextual Components instead of Inspecting Children
@@ -155,12 +154,12 @@ export default class TabPane extends Component<TabPaneSignature> {
 
 For a cleaner registration example, read the charts: every yielded part extends `charts/-components/chart-part.ts`, which registers with the chart this way, and the chart derives its options and data from the registered parts' args with plain getters. Don't write a template helper that exists for its side effect.
 
-### 2. Accept Components as Args & Icon Size Gotcha
+### 2. Accept Components as Args
 
-When invoking a `renderIcon`-style `ComponentLike` arg, **always pass `@size`**: the per-icon components default to 24px, where `@carbon/icons-react`'s default to 16px. Icons render a bare `<svg>`, as React's do. `@svgClass` is `@carbon/icons-react`'s `className`: pass the class Carbon React (or, for AI Chat, upstream) passes there, and nothing else.
+Invoke a `renderIcon`-style `ComponentLike` arg as Carbon React does, passing a `@size` only where React passes `size`: icons are 16px by default and render a bare `<svg>`, as `@carbon/icons-react`'s do. `@svgClass` is `@carbon/icons-react`'s `className`: pass the class Carbon React (or, for AI Chat, upstream) passes there, and nothing else.
 
 ```gts
-<@renderIcon @size='16' />
+<@renderIcon />
 ```
 
 ### 3. Model Controlled vs Uncontrolled Explicitly
@@ -233,7 +232,7 @@ A backtick inside HBS comments (``{{! ... `word` ... }}``) breaks the Glint buil
 
 ### ❌ Pitfall 5: Generic `<Icon @icon='some-string'>` Path is Dead Code
 
-Nothing registers icons with `IconMap` in app code, so string-based icon lookups render nothing. Always import and use the specific per-icon components (e.g., `import CheckmarkFilled from './icons/checkmark-filled.ts'`, then `<CheckmarkFilled @size="16" />`).
+Nothing registers icons with `IconMap` in app code, so string-based icon lookups render nothing. Always import and use the specific per-icon components (e.g., `import CheckmarkFilled from './icons/checkmark-filled.ts'`, then `<CheckmarkFilled />`).
 
 ### ❌ Pitfall 6: An Attribute the Element Doesn't Define
 

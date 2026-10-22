@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, find, waitUntil } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import CardSteps from '#src/components/ai-chat/card-steps.gts';
 import type { CardStep } from '#src/components/ai-chat/card-steps.gts';
 
@@ -44,7 +44,6 @@ module('Integration | Component | ai-chat/CardSteps', (hooks) => {
     ];
 
     await render(<template><CardSteps @steps={{steps}} /></template>);
-    await waitUntil(() => find('.cds-aichat-card-step-indicator svg'));
 
     assert.dom('.cds-aichat-card-step-indicator svg').exists();
     assert.dom('.cds-aichat-card-step-indicator').hasText('Done');

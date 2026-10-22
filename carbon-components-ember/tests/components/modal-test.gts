@@ -9,7 +9,6 @@ import {
   rerender,
   settled,
   triggerKeyEvent,
-  waitFor,
 } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import Modal from '#src/components/modal.gts';
@@ -101,7 +100,6 @@ module('Integration | Component | Modal', function (hooks) {
     test('should keep the close icon out of the accessibility tree', async function (assert) {
       await render(<template><Modal @open={{true}} /></template>);
 
-      await waitFor('.cds--modal-close__icon');
       assert.dom('.cds--modal-close__icon').hasAttribute('aria-hidden', 'true');
       assert.dom('.cds--modal-close').hasAttribute('aria-label', 'Close');
     });

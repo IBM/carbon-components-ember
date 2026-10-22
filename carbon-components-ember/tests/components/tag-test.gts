@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, waitUntil, find } from '@ember/test-helpers';
+import { render, find } from '@ember/test-helpers';
 import Tag from '#src/components/tag.gts';
 import { Add } from '#src/icons.ts';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
@@ -84,7 +84,6 @@ module('Integration | Component | Tag', (hooks) => {
         <Tag @type="red" @renderIcon={{Add}}>Tag content</Tag>
       </template>,
     );
-    await waitUntil(() => find('.cds--tag__custom-icon svg'));
 
     assert.dom('.cds--tag__custom-icon svg').exists();
     assert.dom('.cds--tag__custom-icon svg').hasAttribute('width', '16');
@@ -97,7 +96,6 @@ module('Integration | Component | Tag', (hooks) => {
         <Tag @type="red" @renderIcon={{Add}}>Tag content</Tag>
       </template>,
     );
-    await waitUntil(() => find('.cds--tag__custom-icon svg'));
     await waitForAnimationFrame();
 
     const wrapper = find('.cds--tag__custom-icon') as HTMLElement;

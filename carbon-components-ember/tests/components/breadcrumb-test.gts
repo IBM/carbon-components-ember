@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, rerender, click, find, waitUntil } from '@ember/test-helpers';
+import { render, rerender, click, find } from '@ember/test-helpers';
 import Breadcrumb from '#src/components/breadcrumb.gts';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
@@ -67,7 +67,6 @@ module('Integration | Component | Breadcrumb', (hooks) => {
         </div>
       </template>,
     );
-    await waitUntil(() => find('.cds--overflow-menu svg'));
 
     assert
       .dom('.cds--overflow-menu svg circle[cy="16"]')
