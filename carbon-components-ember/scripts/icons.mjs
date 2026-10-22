@@ -53,7 +53,11 @@ type Icon = {
     const commonPath = fullPath.split('/').slice(0, -1).join('/');
     icons[commonPath] = icons[commonPath] || [];
     icons[commonPath].push(size);
-    iconNames[commonPath] = exportName.replace(size, '').replace('Glyph', '');
+    // Strip the size from the end only: `Terminal_327032` is `Terminal_3270`.
+    const name = exportName.endsWith(size)
+      ? exportName.slice(0, -size.length)
+      : exportName;
+    iconNames[commonPath] = name.replace('Glyph', '');
   }
   // Start clean, so icons renamed or removed upstream don't leave stale files.
   fs.rmSync('./src/components/icons', { recursive: true, force: true });
