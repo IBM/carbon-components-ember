@@ -1,15 +1,28 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, find, waitUntil, click } from '@ember/test-helpers';
+import {
+  render,
+  find,
+  waitUntil,
+  click,
+  settled,
+  triggerEvent,
+} from '@ember/test-helpers';
 import CopyButton from '#src/components/copy-button.gts';
 import { setupClipboard, waitForAnimationFrame } from '../helpers';
+
+const BUTTON = 'button.cds--copy';
 
 module('Integration | Component | CopyButton', (hooks) => {
   setupRenderingTest(hooks);
   const clipboard = setupClipboard(hooks);
 
-  const copiedLabel = () =>
-    find('[data-copy-btn]')?.getAttribute('aria-label') !== 'Copy to clipboard';
+  // The tooltip names the button, as in Carbon React.
+  const label = () =>
+    find(
+      `#${find(BUTTON)?.getAttribute('aria-labelledby')}`,
+    )?.textContent?.trim();
+  const copiedLabel = () => label() !== 'Copy to clipboard';
 
   test('should render with the default icon description', async function (assert) {
     await render(
@@ -17,12 +30,9 @@ module('Integration | Component | CopyButton', (hooks) => {
         <CopyButton>some code</CopyButton>
       </template>,
     );
-    await waitUntil(() => find('[data-copy-btn]'));
 
-    assert
-      .dom('[data-copy-btn]')
-      .hasAttribute('aria-label', 'Copy to clipboard');
-    assert.dom('[data-copy-btn] code').hasText('some code');
+    assert.strictEqual(label(), 'Copy to clipboard');
+    assert.dom(`${BUTTON} code`).hasText('some code');
   });
 
   test('without @inline, block content is visually hidden behind the icon', async function (assert) {
@@ -31,10 +41,9 @@ module('Integration | Component | CopyButton', (hooks) => {
         <CopyButton>some code</CopyButton>
       </template>,
     );
-    await waitUntil(() => find('[data-copy-btn]'));
 
-    assert.dom('[data-copy-btn] code').hasClass('cds--visually-hidden');
-    assert.dom('[data-copy-btn] svg').exists();
+    assert.dom(`${BUTTON} code`).hasClass('cds--visually-hidden');
+    assert.dom(`${BUTTON} svg`).exists();
   });
 
   test('should copy the block content to the clipboard and show feedback on click', async function (assert) {
@@ -43,20 +52,14 @@ module('Integration | Component | CopyButton', (hooks) => {
         <CopyButton>copy me</CopyButton>
       </template>,
     );
-    await waitUntil(() => find('[data-copy-btn]'));
 
     // Dispatch a raw click and wait only for the feedback, rather than the
     // `click()` test helper's full `settled()`, which would also wait out
     // the feedback timeout task and observe the reverted state.
-    find('[data-copy-btn]')!.dispatchEvent(
-      new MouseEvent('click', { bubbles: true }),
-    );
+    find(BUTTON)!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     await waitUntil(copiedLabel);
 
-    assert.dom('[data-copy-btn]').hasAttribute('aria-label', 'Copied!');
-    assert
-      .dom(`#${find('[data-copy-btn]')!.getAttribute('aria-describedby')}`)
-      .hasText('Copied!');
+    assert.strictEqual(label(), 'Copied!');
     assert.deepEqual(clipboard.copied, ['copy me']);
   });
 
@@ -66,14 +69,11 @@ module('Integration | Component | CopyButton', (hooks) => {
         <CopyButton @feedback="Done!">copy me</CopyButton>
       </template>,
     );
-    await waitUntil(() => find('[data-copy-btn]'));
 
-    find('[data-copy-btn]')!.dispatchEvent(
-      new MouseEvent('click', { bubbles: true }),
-    );
+    find(BUTTON)!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     await waitUntil(copiedLabel);
 
-    assert.dom('[data-copy-btn]').hasAttribute('aria-label', 'Done!');
+    assert.strictEqual(label(), 'Done!');
   });
 
   test('shows no feedback when copying fails', async function (assert) {
@@ -88,14 +88,12 @@ module('Integration | Component | CopyButton', (hooks) => {
           <CopyButton>copy me</CopyButton>
         </template>,
       );
-      await click('[data-copy-btn]');
+      await click(BUTTON);
     } finally {
       document.execCommand = execCommand;
     }
 
-    assert
-      .dom('[data-copy-btn]')
-      .hasAttribute('aria-label', 'Copy to clipboard');
+    assert.strictEqual(label(), 'Copy to clipboard');
   });
 
   test('copies multiline content without the template indentation, keeping its own', async function (assert) {
@@ -106,9 +104,7 @@ module('Integration | Component | CopyButton', (hooks) => {
         <CopyButton>{{code}}</CopyButton>
       </template>,
     );
-    find('[data-copy-btn]')!.dispatchEvent(
-      new MouseEvent('click', { bubbles: true }),
-    );
+    find(BUTTON)!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     await waitUntil(copiedLabel);
 
     assert.deepEqual(clipboard.copied, ['function f() {\n  return 1;\n}']);
@@ -122,9 +118,7 @@ module('Integration | Component | CopyButton', (hooks) => {
         <CopyButton>{{code}}</CopyButton>
       </template>,
     );
-    find('[data-copy-btn]')!.dispatchEvent(
-      new MouseEvent('click', { bubbles: true }),
-    );
+    find(BUTTON)!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     await waitUntil(copiedLabel);
 
     assert.deepEqual(clipboard.copied, ['  deeper\nshallower']);
@@ -138,13 +132,11 @@ module('Integration | Component | CopyButton', (hooks) => {
         <CopyButton {{on "click" onClick}}>copy me</CopyButton>
       </template>,
     );
-    find('[data-copy-btn]')!.dispatchEvent(
-      new MouseEvent('click', { bubbles: true }),
-    );
+    find(BUTTON)!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     await waitUntil(copiedLabel);
 
-    assert.dom('[data-copy-btn]').isNotDisabled();
-    assert.dom('[data-copy-btn] .cds--inline-loading').doesNotExist();
+    assert.dom(BUTTON).isNotDisabled();
+    assert.dom(`${BUTTON} .cds--inline-loading`).doesNotExist();
   });
 
   test('a click handler that prevents the default cancels the copy', async function (assert) {
@@ -154,9 +146,8 @@ module('Integration | Component | CopyButton', (hooks) => {
         <CopyButton {{on "click" preventDefault}}>copy me</CopyButton>
       </template>,
     );
-    await waitUntil(() => find('[data-copy-btn]'));
 
-    await click('[data-copy-btn]');
+    await click(BUTTON);
     await waitForAnimationFrame();
 
     assert.deepEqual(clipboard.copied, []);
@@ -168,9 +159,8 @@ module('Integration | Component | CopyButton', (hooks) => {
         <CopyButton @iconDescription="Duplicate">copy me</CopyButton>
       </template>,
     );
-    await waitUntil(() => find('[data-copy-btn]'));
 
-    assert.dom('[data-copy-btn]').hasAttribute('aria-label', 'Duplicate');
+    assert.strictEqual(label(), 'Duplicate');
   });
 
   test('calls a click handler, and still copies', async function (assert) {
@@ -182,9 +172,8 @@ module('Integration | Component | CopyButton', (hooks) => {
         <CopyButton {{on "click" onClick}}>copy me</CopyButton>
       </template>,
     );
-    await waitUntil(() => find('[data-copy-btn]'));
 
-    await click('[data-copy-btn]');
+    await click(BUTTON);
     await waitUntil(() => clipboard.copied.length > 0);
 
     assert.strictEqual(called, 1);
@@ -197,9 +186,8 @@ module('Integration | Component | CopyButton', (hooks) => {
         <CopyButton @disabled={{true}}>copy me</CopyButton>
       </template>,
     );
-    await waitUntil(() => find('[data-copy-btn]'));
 
-    assert.dom('[data-copy-btn]').isDisabled();
+    assert.dom(BUTTON).isDisabled();
   });
 
   test('should support the align arg', async function (assert) {
@@ -208,7 +196,6 @@ module('Integration | Component | CopyButton', (hooks) => {
         <CopyButton @align="top">copy me</CopyButton>
       </template>,
     );
-    await waitUntil(() => find('[data-copy-btn]'));
 
     assert.dom('.cds--popover-container').hasClass('cds--popover--top');
   });
@@ -220,26 +207,67 @@ module('Integration | Component | CopyButton', (hooks) => {
         <CopyButton @targetElementId="target" />
       </template>,
     );
-    await waitUntil(() => find('[data-copy-btn]'));
 
-    find('[data-copy-btn]')!.dispatchEvent(
-      new MouseEvent('click', { bubbles: true }),
-    );
+    find(BUTTON)!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     await waitUntil(copiedLabel);
 
-    assert.dom('[data-copy-btn]').hasAttribute('aria-label', 'Copied!');
+    assert.strictEqual(label(), 'Copied!');
     assert.deepEqual(clipboard.copied, ['target content']);
   });
 
-  test('should render inline snippet classes', async function (assert) {
+  test("@inline shows the block as the button's content, and is described by it", async function (assert) {
     await render(
       <template>
         <CopyButton @inline={{true}}>inline code</CopyButton>
       </template>,
     );
-    await waitUntil(() => find('[data-copy-btn]'));
+    const code = find(`${BUTTON} code`)!;
 
-    assert.dom('[data-copy-btn]').hasClass('cds--snippet--inline');
-    assert.dom('[data-copy-btn] svg').doesNotExist();
+    assert
+      .dom(code)
+      .hasText('inline code')
+      .doesNotHaveClass('cds--visually-hidden');
+    assert.dom(BUTTON).hasAttribute('aria-describedby', code.id);
+    assert
+      .dom(BUTTON)
+      .hasClass('cds--snippet')
+      .hasClass('cds--snippet--inline');
+    assert.dom(`${BUTTON} svg`).doesNotExist();
+    assert.strictEqual(label(), 'Copy to clipboard');
+  });
+
+  test('the tooltip keeps the feedback up for @feedbackTimeout after the pointer leaves', async function (assert) {
+    await render(
+      <template>
+        <CopyButton @feedbackTimeout={{1000}}>copy me</CopyButton>
+      </template>,
+    );
+    await triggerEvent('.cds--tooltip', 'mouseenter');
+    assert.dom('.cds--tooltip').hasClass('cds--popover--open');
+
+    find(BUTTON)!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    await waitUntil(copiedLabel);
+    find('.cds--tooltip')!.dispatchEvent(new MouseEvent('mouseleave'));
+    // Longer than the 100ms it waits to close without feedback.
+    const left = performance.now();
+    await waitUntil(() => performance.now() - left > 200);
+    assert.dom('.cds--tooltip').hasClass('cds--popover--open');
+    assert.strictEqual(label(), 'Copied!');
+
+    await settled();
+    assert.dom('.cds--tooltip').doesNotHaveClass('cds--popover--open');
+    assert.strictEqual(label(), 'Copy to clipboard');
+  });
+
+  test('@copyText is copied instead of the block', async function (assert) {
+    await render(
+      <template>
+        <CopyButton @copyText="the text">the block</CopyButton>
+      </template>,
+    );
+    find(BUTTON)!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    await waitUntil(copiedLabel);
+
+    assert.deepEqual(clipboard.copied, ['the text']);
   });
 });

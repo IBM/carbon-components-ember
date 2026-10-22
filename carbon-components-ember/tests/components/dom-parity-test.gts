@@ -6,6 +6,7 @@ import Button from '#src/components/button.gts';
 import Add from '#src/components/icons/add.ts';
 import Tag from '#src/components/tag.gts';
 import InlineLoading from '#src/components/inline-loading.gts';
+import CodeSnippet from '#src/components/code-snippet.gts';
 import Loading from '#src/components/loading.gts';
 import Link from '#src/components/link.gts';
 import UnorderedList from '#src/components/unordered-list.gts';
@@ -79,6 +80,7 @@ import buttonFixture from '../../../dom-parity/fixtures/Button.json';
 import tagFixture from '../../../dom-parity/fixtures/Tag.json';
 import loadingFixture from '../../../dom-parity/fixtures/Loading.json';
 import inlineLoadingFixture from '../../../dom-parity/fixtures/InlineLoading.json';
+import codeSnippetFixture from '../../../dom-parity/fixtures/CodeSnippet.json';
 import linkFixture from '../../../dom-parity/fixtures/Link.json';
 import unorderedListFixture from '../../../dom-parity/fixtures/UnorderedList.json';
 import orderedListFixture from '../../../dom-parity/fixtures/OrderedList.json';
@@ -930,6 +932,193 @@ module('DOM parity | Carbon React', function (hooks) {
         'inactive',
         'finished',
         'error',
+      ]);
+    });
+  });
+
+  module('CodeSnippet', function () {
+    test('single', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <CodeSnippet>npm install</CodeSnippet>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        codeSnippetFixture,
+        'single',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('multi', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <CodeSnippet @type="multi">line 1 line 2</CodeSnippet>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        codeSnippetFixture,
+        'multi',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('inline', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <CodeSnippet @type="inline">npm install</CodeSnippet>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        codeSnippetFixture,
+        'inline',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <CodeSnippet @disabled={{true}}>npm install</CodeSnippet>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        codeSnippetFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('multi-disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <CodeSnippet @type="multi" @disabled={{true}}>npm install</CodeSnippet>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        codeSnippetFixture,
+        'multi-disabled',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('inline-disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <CodeSnippet @type="inline" @disabled={{true}}>npm install</CodeSnippet>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        codeSnippetFixture,
+        'inline-disabled',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('hide-copy-button', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <CodeSnippet @hideCopyButton={{true}}>npm install</CodeSnippet>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        codeSnippetFixture,
+        'hide-copy-button',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('inline-hide-copy-button', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <CodeSnippet @type="inline" @hideCopyButton={{true}}>npm install</CodeSnippet>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        codeSnippetFixture,
+        'inline-hide-copy-button',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('wrap-text', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <CodeSnippet @type="multi" @wrapText={{true}}>npm install</CodeSnippet>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        codeSnippetFixture,
+        'wrap-text',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('aria-label', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <CodeSnippet @ariaLabel="Install command">npm install</CodeSnippet>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        codeSnippetFixture,
+        'aria-label',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('copy-button-description', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <CodeSnippet @copyButtonDescription="Copy the command">npm install</CodeSnippet>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        codeSnippetFixture,
+        'copy-button-description',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('align', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <CodeSnippet @type="multi" @align="top">npm install</CodeSnippet>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        codeSnippetFixture,
+        'align',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, codeSnippetFixture, [
+        'single',
+        'multi',
+        'inline',
+        'disabled',
+        'multi-disabled',
+        'inline-disabled',
+        'hide-copy-button',
+        'inline-hide-copy-button',
+        'wrap-text',
+        'aria-label',
+        'copy-button-description',
+        'align',
       ]);
     });
   });

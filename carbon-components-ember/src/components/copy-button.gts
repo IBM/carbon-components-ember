@@ -5,15 +5,19 @@ import { modifier } from 'ember-modifier';
 import { task, timeout } from 'ember-concurrency';
 import copyToClipboard from '../modifiers/copy-to-clipboard.ts';
 import { textOf } from '../utils/clipboard.ts';
-import Popover, { PopoverContent } from './popover.gts';
-import type { PopoverAlignment } from './popover.gts';
 import ButtonBase from './-private/button-base.gts';
-import type { ButtonSignature } from '../components/button.gts';
+import CopyIcon from './icons/copy.ts';
+import { LayoutConstraint } from './layout.gts';
+import Tooltip from './tooltip.gts';
+import type { TOC } from '@ember/component/template-only';
+import type { ButtonSignature } from './button.gts';
+import type { PopoverAlignment } from './popover.gts';
 
 export interface CopyButtonSignature {
   Args: {
     targetElementId?: string;
     targetElement?: Element;
+    /** Renders an inline CodeSnippet's button: the block as its content, with the snippet's classes. */
     inline?: boolean;
     align?: PopoverAlignment;
     autoAlign?: boolean;
@@ -21,6 +25,10 @@ export interface CopyButtonSignature {
     feedback?: string;
     feedbackTimeout?: number;
     iconDescription?: string;
+    /** The button's size. Defaults to `'md'`, and to none when `@inline`. */
+    size?: ButtonSignature['Args']['size'];
+    /** The text to copy, instead of the target's or the block's. */
+    copyText?: string;
   };
   Element: ButtonSignature['Element'];
   Blocks: {
@@ -51,51 +59,87 @@ function dedent(text: string) {
     .join('\n');
 }
 
+// As Carbon React's CopyButton.
+const SIZE = { default: 'md', max: 'lg' } as const;
+
+interface CopyTriggerSignature {
+  Element: ButtonSignature['Element'];
+  Args: { button: CopyButton };
+  Blocks: { default: [] };
+}
+
+// Carbon React's Copy: an icon button named by its tooltip, which says when
+// the copy worked.
+const CopyTrigger: TOC<CopyTriggerSignature> = <template>
+  <Tooltip
+    class="cds--icon-tooltip
+      {{if @button.args.disabled 'cds--icon-tooltip--disabled'}}"
+    @align={{@button.align}}
+    @autoAlign={{@button.args.autoAlign}}
+    @label={{@button.label}}
+    @closeOnActivation={{false}}
+    @leaveDelayMs={{@button.leaveDelayMs}}
+  >
+    <ButtonBase
+      @kind="primary"
+      @hasIconOnly={{true}}
+      @size={{@button.size}}
+      @disabled={{@button.args.disabled}}
+      class="cds--copy
+        {{if
+          @button.args.inline
+          'cds--snippet cds--snippet--inline'
+          'cds--copy-btn'
+        }}"
+      ...attributes
+      {{copyToClipboard text=@button.textToCopy onSuccess=@button.showFeedback}}
+    >
+      {{yield}}
+    </ButtonBase>
+  </Tooltip>
+</template>;
+
 export default class CopyButton extends Component<CopyButtonSignature> {
   @tracked didCopy: boolean = false;
-  @tracked isHovered: boolean = false;
   codeElement?: HTMLElement;
 
-  tooltipId = `${guidFor(this)}-copy-btn-tooltip`;
+  codeId = `${guidFor(this)}-code`;
 
   get align(): PopoverAlignment {
     return this.args.align ?? 'bottom';
   }
 
-  get feedback() {
-    return this.args.feedback ?? 'Copied!';
+  get feedbackTimeout() {
+    return this.args.feedbackTimeout ?? 2000;
   }
 
-  get iconDescription() {
-    return this.args.iconDescription ?? 'Copy to clipboard';
-  }
-
-  get isOpen() {
-    return this.didCopy || this.isHovered;
+  get size() {
+    return this.args.size ?? (this.args.inline ? undefined : 'md');
   }
 
   get label() {
-    return this.didCopy ? this.feedback : this.iconDescription;
+    return this.didCopy
+      ? (this.args.feedback ?? 'Copied!')
+      : (this.args.iconDescription ?? 'Copy to clipboard');
   }
 
-  show = () => {
-    this.isHovered = true;
-  };
-
-  hide = () => {
-    this.isHovered = false;
-  };
+  // As Carbon React: the feedback stays up for its timeout after the
+  // pointer leaves.
+  get leaveDelayMs() {
+    return this.didCopy ? this.feedbackTimeout : 100;
+  }
 
   captureCodeElement = (element: HTMLElement) => {
     this.codeElement = element;
   };
 
   hideFeedback = task({ restartable: true }, async () => {
-    await timeout(this.args.feedbackTimeout ?? 2000);
+    await timeout(this.feedbackTimeout);
     this.didCopy = false;
   });
 
   textToCopy = () => {
+    if (this.args.copyText !== undefined) return this.args.copyText;
     const target =
       this.args.targetElement ??
       (this.args.targetElementId
@@ -111,63 +155,33 @@ export default class CopyButton extends Component<CopyButtonSignature> {
   };
 
   <template>
-    <Popover
-      @open={{this.isOpen}}
-      @align={{this.align}}
-      @autoAlign={{@autoAlign}}
-      @highContrast={{true}}
-      class="cds--tooltip cds--icon-tooltip"
-    >
-      <ButtonBase
-        @kind="primary"
-        @hasIconOnly={{true}}
-        @size="md"
-        @disabled={{@disabled}}
-        aria-label={{this.label}}
-        data-copy-btn
-        aria-describedby={{this.tooltipId}}
-        tabindex="0"
-        class="cds--copy
-          {{if @inline 'cds--snippet cds--snippet--inline' 'cds--copy-btn'}}"
+    {{#if @inline}}
+      <CopyTrigger
+        @button={{this}}
+        aria-describedby={{this.codeId}}
         ...attributes
-        {{on "mouseenter" this.show}}
-        {{on "mouseleave" this.hide}}
-        {{on "focusin" this.show}}
-        {{on "focusout" this.hide}}
-        {{copyToClipboard text=this.textToCopy onSuccess=this.showFeedback}}
       >
-        {{#if (has-block)}}
-          <code
-            class={{unless @inline "cds--visually-hidden"}}
-            {{captureElement onInsert=this.captureCodeElement}}
-          >
-            {{~yield~}}
-          </code>
-        {{/if}}
-        {{#unless @inline}}
-          <svg
-            class="cds--snippet__icon"
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-          >
-            <path d="M1 10H0V2C0 .9.9 0 2 0h8v1H2c-.6 0-1 .5-1 1v8z" />
-            <path
-              d="M11 4.2V8h3.8L11 4.2zM15 9h-4c-.6 0-1-.4-1-1V4H4.5c-.3 0-.5.2-.5.5v10c0 .3.2.5.5.5h10c.3 0 .5-.2.5-.5V9zm-4-6c.1 0 .3.1.4.1l4.5 4.5c0
-              .1.1.3.1.4v6.5c0 .8-.7 1.5-1.5 1.5h-10c-.8 0-1.5-.7-1.5-1.5v-10C3 3.7 3.7 3 4.5 3H11z"
-            />
-          </svg>
-        {{/unless}}
-      </ButtonBase>
-      <PopoverContent
-        id={{this.tooltipId}}
-        role="tooltip"
-        class="cds--tooltip-content"
-        aria-hidden={{if this.isOpen "false" "true"}}
-      >
-        {{this.label}}
-      </PopoverContent>
-    </Popover>
+        <code
+          id={{this.codeId}}
+          {{captureElement onInsert=this.captureCodeElement}}
+        >
+          {{~yield~}}
+        </code>
+      </CopyTrigger>
+    {{else}}
+      <LayoutConstraint @size={{SIZE}}>
+        <CopyTrigger @button={{this}} ...attributes>
+          {{#if (has-block)}}
+            <code
+              class="cds--visually-hidden"
+              {{captureElement onInsert=this.captureCodeElement}}
+            >
+              {{~yield~}}
+            </code>
+          {{/if}}
+          <CopyIcon @svgClass="cds--snippet__icon" />
+        </CopyTrigger>
+      </LayoutConstraint>
+    {{/if}}
   </template>
 }

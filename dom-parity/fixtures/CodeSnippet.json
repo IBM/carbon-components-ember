@@ -1,0 +1,1799 @@
+{
+  "component": "CodeSnippet",
+  "generatedAt": "2026-10-22T11:05:22.216Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "single": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": ["cds--snippet", "cds--snippet--single"],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--snippet-container"],
+            "attributes": {
+              "role": "textbox",
+              "tabindex": "0",
+              "aria-label": "Copy to clipboard",
+              "aria-readonly": "true"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "pre",
+                "classes": [],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "code",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "npm install"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--layout-constraint--size__default-md",
+              "cds--layout-constraint--size__max-lg"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--icon-tooltip",
+                  "cds--popover--bottom",
+                  "cds--popover--caret",
+                  "cds--popover--high-contrast",
+                  "cds--popover-container",
+                  "cds--tooltip"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": ["cds--tooltip-trigger__wrapper"],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--btn",
+                          "cds--btn--icon-only",
+                          "cds--btn--md",
+                          "cds--btn--primary",
+                          "cds--copy",
+                          "cds--copy-btn",
+                          "cds--layout--size-md"
+                        ],
+                        "attributes": {
+                          "aria-labelledby": "#1",
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": ["cds--snippet__icon"],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 32 32",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M28,10V28H10V10H28m0-2H10a2,2,0,0,0-2,2V28a2,2,0,0,0,2,2H28a2,2,0,0,0,2-2V10a2,2,0,0,0-2-2Z"
+                                },
+                                "style": {},
+                                "children": []
+                              },
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M4,18H2V4A2,2,0,0,1,4,2H18V4H4Z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": ["cds--popover"],
+                    "attributes": {
+                      "aria-hidden": "true",
+                      "id": "#1",
+                      "role": "tooltip"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--popover-content",
+                          "cds--tooltip-content"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Copy to clipboard"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": ["cds--popover-caret"],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "multi": {
+      "props": {
+        "type": "multi"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": ["cds--snippet", "cds--snippet--multi"],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--snippet-container"],
+            "attributes": {
+              "role": "textbox",
+              "tabindex": "0",
+              "aria-label": "Copy to clipboard",
+              "aria-readonly": "true",
+              "aria-multiline": "true"
+            },
+            "style": {
+              "max-height": "240px",
+              "min-height": "48px"
+            },
+            "children": [
+              {
+                "type": "element",
+                "tag": "pre",
+                "classes": [],
+                "attributes": {},
+                "style": {
+                  "max-height": "240px",
+                  "min-height": "48px"
+                },
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "code",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "line 1 line 2"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--layout-constraint--size__default-md",
+              "cds--layout-constraint--size__max-lg"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--icon-tooltip",
+                  "cds--popover--bottom",
+                  "cds--popover--caret",
+                  "cds--popover--high-contrast",
+                  "cds--popover-container",
+                  "cds--tooltip"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": ["cds--tooltip-trigger__wrapper"],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--btn",
+                          "cds--btn--icon-only",
+                          "cds--btn--primary",
+                          "cds--btn--sm",
+                          "cds--copy",
+                          "cds--copy-btn",
+                          "cds--layout--size-sm"
+                        ],
+                        "attributes": {
+                          "aria-labelledby": "#1",
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": ["cds--snippet__icon"],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 32 32",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M28,10V28H10V10H28m0-2H10a2,2,0,0,0-2,2V28a2,2,0,0,0,2,2H28a2,2,0,0,0,2-2V10a2,2,0,0,0-2-2Z"
+                                },
+                                "style": {},
+                                "children": []
+                              },
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M4,18H2V4A2,2,0,0,1,4,2H18V4H4Z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": ["cds--popover"],
+                    "attributes": {
+                      "aria-hidden": "true",
+                      "id": "#1",
+                      "role": "tooltip"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--popover-content",
+                          "cds--tooltip-content"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Copy to clipboard"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": ["cds--popover-caret"],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "inline": {
+      "props": {
+        "type": "inline"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "span",
+        "classes": [
+          "cds--icon-tooltip",
+          "cds--popover--bottom",
+          "cds--popover--caret",
+          "cds--popover--high-contrast",
+          "cds--popover-container",
+          "cds--tooltip"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--tooltip-trigger__wrapper"],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--btn",
+                  "cds--btn--icon-only",
+                  "cds--btn--primary",
+                  "cds--copy",
+                  "cds--snippet",
+                  "cds--snippet--inline"
+                ],
+                "attributes": {
+                  "aria-describedby": "#1",
+                  "aria-labelledby": "#2",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "code",
+                    "classes": [],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "npm install"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": ["cds--popover"],
+            "attributes": {
+              "aria-hidden": "true",
+              "id": "#2",
+              "role": "tooltip"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": ["cds--popover-content", "cds--tooltip-content"],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Copy to clipboard"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": ["cds--popover-caret"],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "disabled": {
+      "props": {
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--snippet",
+          "cds--snippet--disabled",
+          "cds--snippet--single"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--snippet-container"],
+            "attributes": {
+              "role": "textbox",
+              "aria-label": "Copy to clipboard",
+              "aria-readonly": "true"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "pre",
+                "classes": [],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "code",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "npm install"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--layout-constraint--size__default-md",
+              "cds--layout-constraint--size__max-lg"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--icon-tooltip",
+                  "cds--icon-tooltip--disabled",
+                  "cds--popover--bottom",
+                  "cds--popover--caret",
+                  "cds--popover--high-contrast",
+                  "cds--popover-container",
+                  "cds--tooltip"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": ["cds--tooltip-trigger__wrapper"],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--btn",
+                          "cds--btn--disabled",
+                          "cds--btn--icon-only",
+                          "cds--btn--md",
+                          "cds--btn--primary",
+                          "cds--copy",
+                          "cds--copy-btn",
+                          "cds--layout--size-md"
+                        ],
+                        "attributes": {
+                          "aria-labelledby": "#1",
+                          "disabled": true,
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": ["cds--snippet__icon"],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 32 32",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M28,10V28H10V10H28m0-2H10a2,2,0,0,0-2,2V28a2,2,0,0,0,2,2H28a2,2,0,0,0,2-2V10a2,2,0,0,0-2-2Z"
+                                },
+                                "style": {},
+                                "children": []
+                              },
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M4,18H2V4A2,2,0,0,1,4,2H18V4H4Z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": ["cds--popover"],
+                    "attributes": {
+                      "aria-hidden": "true",
+                      "id": "#1",
+                      "role": "tooltip"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--popover-content",
+                          "cds--tooltip-content"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Copy to clipboard"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": ["cds--popover-caret"],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "multi-disabled": {
+      "props": {
+        "type": "multi",
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--snippet",
+          "cds--snippet--disabled",
+          "cds--snippet--multi"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--snippet-container"],
+            "attributes": {
+              "role": "textbox",
+              "aria-label": "Copy to clipboard",
+              "aria-readonly": "true",
+              "aria-multiline": "true"
+            },
+            "style": {
+              "max-height": "240px",
+              "min-height": "48px"
+            },
+            "children": [
+              {
+                "type": "element",
+                "tag": "pre",
+                "classes": [],
+                "attributes": {},
+                "style": {
+                  "max-height": "240px",
+                  "min-height": "48px"
+                },
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "code",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "npm install"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--layout-constraint--size__default-md",
+              "cds--layout-constraint--size__max-lg"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--icon-tooltip",
+                  "cds--icon-tooltip--disabled",
+                  "cds--popover--bottom",
+                  "cds--popover--caret",
+                  "cds--popover--high-contrast",
+                  "cds--popover-container",
+                  "cds--tooltip"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": ["cds--tooltip-trigger__wrapper"],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--btn",
+                          "cds--btn--disabled",
+                          "cds--btn--icon-only",
+                          "cds--btn--primary",
+                          "cds--btn--sm",
+                          "cds--copy",
+                          "cds--copy-btn",
+                          "cds--layout--size-sm"
+                        ],
+                        "attributes": {
+                          "aria-labelledby": "#1",
+                          "disabled": true,
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": ["cds--snippet__icon"],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 32 32",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M28,10V28H10V10H28m0-2H10a2,2,0,0,0-2,2V28a2,2,0,0,0,2,2H28a2,2,0,0,0,2-2V10a2,2,0,0,0-2-2Z"
+                                },
+                                "style": {},
+                                "children": []
+                              },
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M4,18H2V4A2,2,0,0,1,4,2H18V4H4Z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": ["cds--popover"],
+                    "attributes": {
+                      "aria-hidden": "true",
+                      "id": "#1",
+                      "role": "tooltip"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--popover-content",
+                          "cds--tooltip-content"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Copy to clipboard"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": ["cds--popover-caret"],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "inline-disabled": {
+      "props": {
+        "type": "inline",
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "span",
+        "classes": [
+          "cds--icon-tooltip",
+          "cds--icon-tooltip--disabled",
+          "cds--popover--bottom",
+          "cds--popover--caret",
+          "cds--popover--high-contrast",
+          "cds--popover-container",
+          "cds--tooltip"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--tooltip-trigger__wrapper"],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--btn",
+                  "cds--btn--disabled",
+                  "cds--btn--icon-only",
+                  "cds--btn--primary",
+                  "cds--copy",
+                  "cds--snippet",
+                  "cds--snippet--inline"
+                ],
+                "attributes": {
+                  "aria-describedby": "#1",
+                  "aria-labelledby": "#2",
+                  "disabled": true,
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "code",
+                    "classes": [],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "npm install"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": ["cds--popover"],
+            "attributes": {
+              "aria-hidden": "true",
+              "id": "#2",
+              "role": "tooltip"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": ["cds--popover-content", "cds--tooltip-content"],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Copy to clipboard"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": ["cds--popover-caret"],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "hide-copy-button": {
+      "props": {
+        "hideCopyButton": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--snippet",
+          "cds--snippet--no-copy",
+          "cds--snippet--single"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--snippet-container"],
+            "attributes": {
+              "role": "textbox",
+              "tabindex": "0",
+              "aria-label": "Copy to clipboard",
+              "aria-readonly": "true"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "pre",
+                "classes": [],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "code",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "npm install"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "inline-hide-copy-button": {
+      "props": {
+        "type": "inline",
+        "hideCopyButton": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "span",
+        "classes": [
+          "cds--snippet",
+          "cds--snippet--inline",
+          "cds--snippet--no-copy"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "code",
+            "classes": [],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "npm install"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "wrap-text": {
+      "props": {
+        "type": "multi",
+        "wrapText": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--snippet",
+          "cds--snippet--multi",
+          "cds--snippet--wraptext"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--snippet-container"],
+            "attributes": {
+              "role": "textbox",
+              "tabindex": "0",
+              "aria-label": "Copy to clipboard",
+              "aria-readonly": "true",
+              "aria-multiline": "true"
+            },
+            "style": {
+              "max-height": "240px",
+              "min-height": "48px"
+            },
+            "children": [
+              {
+                "type": "element",
+                "tag": "pre",
+                "classes": [],
+                "attributes": {},
+                "style": {
+                  "max-height": "240px",
+                  "min-height": "48px"
+                },
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "code",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "npm install"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--layout-constraint--size__default-md",
+              "cds--layout-constraint--size__max-lg"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--icon-tooltip",
+                  "cds--popover--bottom",
+                  "cds--popover--caret",
+                  "cds--popover--high-contrast",
+                  "cds--popover-container",
+                  "cds--tooltip"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": ["cds--tooltip-trigger__wrapper"],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--btn",
+                          "cds--btn--icon-only",
+                          "cds--btn--primary",
+                          "cds--btn--sm",
+                          "cds--copy",
+                          "cds--copy-btn",
+                          "cds--layout--size-sm"
+                        ],
+                        "attributes": {
+                          "aria-labelledby": "#1",
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": ["cds--snippet__icon"],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 32 32",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M28,10V28H10V10H28m0-2H10a2,2,0,0,0-2,2V28a2,2,0,0,0,2,2H28a2,2,0,0,0,2-2V10a2,2,0,0,0-2-2Z"
+                                },
+                                "style": {},
+                                "children": []
+                              },
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M4,18H2V4A2,2,0,0,1,4,2H18V4H4Z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": ["cds--popover"],
+                    "attributes": {
+                      "aria-hidden": "true",
+                      "id": "#1",
+                      "role": "tooltip"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--popover-content",
+                          "cds--tooltip-content"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Copy to clipboard"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": ["cds--popover-caret"],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "aria-label": {
+      "props": {
+        "aria-label": "Install command"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": ["cds--snippet", "cds--snippet--single"],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--snippet-container"],
+            "attributes": {
+              "role": "textbox",
+              "tabindex": "0",
+              "aria-label": "Install command",
+              "aria-readonly": "true"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "pre",
+                "classes": [],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "code",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "npm install"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--layout-constraint--size__default-md",
+              "cds--layout-constraint--size__max-lg"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--icon-tooltip",
+                  "cds--popover--bottom",
+                  "cds--popover--caret",
+                  "cds--popover--high-contrast",
+                  "cds--popover-container",
+                  "cds--tooltip"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": ["cds--tooltip-trigger__wrapper"],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--btn",
+                          "cds--btn--icon-only",
+                          "cds--btn--md",
+                          "cds--btn--primary",
+                          "cds--copy",
+                          "cds--copy-btn",
+                          "cds--layout--size-md"
+                        ],
+                        "attributes": {
+                          "aria-labelledby": "#1",
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": ["cds--snippet__icon"],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 32 32",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M28,10V28H10V10H28m0-2H10a2,2,0,0,0-2,2V28a2,2,0,0,0,2,2H28a2,2,0,0,0,2-2V10a2,2,0,0,0-2-2Z"
+                                },
+                                "style": {},
+                                "children": []
+                              },
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M4,18H2V4A2,2,0,0,1,4,2H18V4H4Z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": ["cds--popover"],
+                    "attributes": {
+                      "aria-hidden": "true",
+                      "id": "#1",
+                      "role": "tooltip"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--popover-content",
+                          "cds--tooltip-content"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Copy to clipboard"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": ["cds--popover-caret"],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "copy-button-description": {
+      "props": {
+        "copyButtonDescription": "Copy the command"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": ["cds--snippet", "cds--snippet--single"],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--snippet-container"],
+            "attributes": {
+              "role": "textbox",
+              "tabindex": "0",
+              "aria-label": "Copy to clipboard",
+              "aria-readonly": "true"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "pre",
+                "classes": [],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "code",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "npm install"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--layout-constraint--size__default-md",
+              "cds--layout-constraint--size__max-lg"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--icon-tooltip",
+                  "cds--popover--bottom",
+                  "cds--popover--caret",
+                  "cds--popover--high-contrast",
+                  "cds--popover-container",
+                  "cds--tooltip"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": ["cds--tooltip-trigger__wrapper"],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--btn",
+                          "cds--btn--icon-only",
+                          "cds--btn--md",
+                          "cds--btn--primary",
+                          "cds--copy",
+                          "cds--copy-btn",
+                          "cds--layout--size-md"
+                        ],
+                        "attributes": {
+                          "aria-labelledby": "#1",
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": ["cds--snippet__icon"],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 32 32",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M28,10V28H10V10H28m0-2H10a2,2,0,0,0-2,2V28a2,2,0,0,0,2,2H28a2,2,0,0,0,2-2V10a2,2,0,0,0-2-2Z"
+                                },
+                                "style": {},
+                                "children": []
+                              },
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M4,18H2V4A2,2,0,0,1,4,2H18V4H4Z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": ["cds--popover"],
+                    "attributes": {
+                      "aria-hidden": "true",
+                      "id": "#1",
+                      "role": "tooltip"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--popover-content",
+                          "cds--tooltip-content"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Copy the command"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": ["cds--popover-caret"],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "align": {
+      "props": {
+        "type": "multi",
+        "align": "top"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": ["cds--snippet", "cds--snippet--multi"],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--snippet-container"],
+            "attributes": {
+              "role": "textbox",
+              "tabindex": "0",
+              "aria-label": "Copy to clipboard",
+              "aria-readonly": "true",
+              "aria-multiline": "true"
+            },
+            "style": {
+              "max-height": "240px",
+              "min-height": "48px"
+            },
+            "children": [
+              {
+                "type": "element",
+                "tag": "pre",
+                "classes": [],
+                "attributes": {},
+                "style": {
+                  "max-height": "240px",
+                  "min-height": "48px"
+                },
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "code",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "npm install"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--layout-constraint--size__default-md",
+              "cds--layout-constraint--size__max-lg"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--icon-tooltip",
+                  "cds--popover--caret",
+                  "cds--popover--high-contrast",
+                  "cds--popover--top",
+                  "cds--popover-container",
+                  "cds--tooltip"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": ["cds--tooltip-trigger__wrapper"],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--btn",
+                          "cds--btn--icon-only",
+                          "cds--btn--primary",
+                          "cds--btn--sm",
+                          "cds--copy",
+                          "cds--copy-btn",
+                          "cds--layout--size-sm"
+                        ],
+                        "attributes": {
+                          "aria-labelledby": "#1",
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": ["cds--snippet__icon"],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 32 32",
+                              "aria-hidden": "true",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M28,10V28H10V10H28m0-2H10a2,2,0,0,0-2,2V28a2,2,0,0,0,2,2H28a2,2,0,0,0,2-2V10a2,2,0,0,0-2-2Z"
+                                },
+                                "style": {},
+                                "children": []
+                              },
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M4,18H2V4A2,2,0,0,1,4,2H18V4H4Z"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": ["cds--popover"],
+                    "attributes": {
+                      "aria-hidden": "true",
+                      "id": "#1",
+                      "role": "tooltip"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--popover-content",
+                          "cds--tooltip-content"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Copy to clipboard"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": ["cds--popover-caret"],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

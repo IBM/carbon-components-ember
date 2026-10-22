@@ -1,4 +1,4 @@
-import { expect, spyOn, waitFor } from 'storybook/test';
+import { expect, fn, spyOn, waitFor } from 'storybook/test';
 
 import { withLayer } from '#storybook/decorators.gts';
 import preview from '#storybook/preview.ts';
@@ -8,11 +8,7 @@ import CodeSnippetSkeleton from './code-snippet-skeleton.gts';
 import type { CodeSnippetSignature } from './code-snippet.gts';
 
 // Carbon React parity gaps (Components/CodeSnippet):
-// - React's `align`, `autoAlign`, `copyButtonDescription`, `feedback`,
-//   `feedbackTimeout`, `copyText`, `disabled`, `hideCopyButton` and
-//   `wrapText` aren't supported.
-// - React's single-line type is `single`/`multi`; here it is
-//   `default`/`multiline`.
+// - No `light`: deprecated in Carbon React in favour of Layer.
 
 const singlelineCode =
   'yarn add carbon-components@latest carbon-components-react@latest @carbon/icons-react@latest carbon-icons@latest';
@@ -62,23 +58,59 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     docs: {
       description: {
         component:
-          'Code snippets are strings or small blocks of reusable code that can be copied and inserted in a code file.\n\nPass the code as the block. `@type` picks the variant: `default` (a single line), `multiline` (collapsed to 15 rows, with a "Show more" button when the code is longer; the `@…NumberOfRows` arguments change the limits) or `inline` (a copy button that shows the code inline in running text).',
+          'Code snippets are strings or small blocks of reusable code that can be copied and inserted in a code file.\n\nPass the code as the block. `@type` picks the variant: `single` (one line, the default), `multi` (collapsed to 15 rows, with a "Show more" button when the code is longer; the `@…NumberOfRows` arguments change the limits) or `inline` (a copy button that shows the code inline in running text). The copy button copies the code, or `@copyText`, and calls `@onClick`.',
       },
     },
   },
   argTypes: {
     type: {
       control: 'inline-radio',
-      options: ['default', 'multiline', 'inline'],
+      options: ['single', 'multi', 'inline'],
+    },
+    align: {
+      control: 'select',
+      options: [
+        'top',
+        'top-start',
+        'top-end',
+        'bottom',
+        'bottom-start',
+        'bottom-end',
+        'left',
+        'left-start',
+        'left-end',
+        'right',
+        'right-start',
+        'right-end',
+      ],
     },
   },
   args: {
-    type: 'default',
+    type: 'single',
     code: singlelineCode,
+    align: 'bottom',
+    autoAlign: false,
+    disabled: false,
+    feedback: 'Copied!',
+    feedbackTimeout: 2000,
+    hideCopyButton: false,
+    wrapText: false,
+    onClick: fn(),
   },
   render: (args: StoryArgs) => <template>
     <CodeSnippet
       @type={{args.type}}
+      @align={{args.align}}
+      @autoAlign={{args.autoAlign}}
+      @ariaLabel={{args.ariaLabel}}
+      @copyButtonDescription={{args.copyButtonDescription}}
+      @copyText={{args.copyText}}
+      @disabled={{args.disabled}}
+      @feedback={{args.feedback}}
+      @feedbackTimeout={{args.feedbackTimeout}}
+      @hideCopyButton={{args.hideCopyButton}}
+      @wrapText={{args.wrapText}}
+      @onClick={{args.onClick}}
       @maxCollapsedNumberOfRows={{args.maxCollapsedNumberOfRows}}
       @maxExpandedNumberOfRows={{args.maxExpandedNumberOfRows}}
       @minCollapsedNumberOfRows={{args.minCollapsedNumberOfRows}}
@@ -114,7 +146,7 @@ Inline.test(
 
 export const Multiline = meta.story({
   args: {
-    type: 'multiline',
+    type: 'multi',
     code: multilineCode,
   },
 });
@@ -130,7 +162,7 @@ Multiline.test('expands with Show more', async ({ canvas, userEvent }) => {
 
 export const Singleline = meta.story({
   args: {
-    type: 'default',
+    type: 'single',
     code: singlelineCode,
   },
 });
@@ -138,19 +170,20 @@ export const Singleline = meta.story({
 Singleline.test(
   'the scrolling code is a focusable read-only textbox',
   async ({ canvas }) => {
-    const textbox = canvas.getByRole('textbox', { name: 'Code Snippet Text' });
+    const textbox = canvas.getByRole('textbox', { name: 'Copy to clipboard' });
     await expect(textbox).toHaveAttribute('tabindex', '0');
     await expect(textbox).toHaveAttribute('aria-readonly', 'true');
   },
 );
 
-Singleline.test('copies the snippet', async ({ canvas, userEvent }) => {
+Singleline.test('copies the snippet', async ({ canvas, userEvent, args }) => {
   const button = canvas.getByRole('button', { name: 'Copy to clipboard' });
   // Story events are synthetic, which the real Clipboard API refuses.
   const writeText = spyOn(navigator.clipboard, 'writeText').mockResolvedValue();
   await userEvent.click(button);
   await waitFor(() => expect(button).toHaveAccessibleName('Copied!'));
-  await expect(writeText).toHaveBeenCalledOnce();
+  await expect(writeText).toHaveBeenCalledWith(singlelineCode);
+  await expect(args.onClick).toHaveBeenCalledOnce();
 });
 
 export const InlineWithLayer = Inline.extend({

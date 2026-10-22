@@ -21,22 +21,9 @@
  * considered for the batch that added Link/UnorderedList/OrderedList/
  * ListItem and deliberately left out - see todo #836 for the follow-up
  * investigation of each. The notifications are now covered (see below); the
- * Tile family is covered in part (see below); CodeSnippet turns out to have
- * been left out on a premise the interaction/floating-ui-dependent-DOM
- * decision below has since disproven (see that entry's CopyButton bullet)
- * and is unblocked today (see its note below). Breadcrumb is covered too,
+ * Tile family is covered in part (see below); CodeSnippet is covered, its
+ * closed, never-clicked `CopyButton` included. Breadcrumb is covered too,
  * now that it takes real BreadcrumbItem children.
- *
- * - CodeSnippet: its three real variants (default/multiline/inline) need
- *   neither an open prop nor a simulated click at all - a closed, never-
- *   clicked `CopyButton` (the only interactive/floating-ui-based thing it
- *   embeds) mounts cleanly and renders real `cds--popover-container`/
- *   `cds--tooltip` markup with the harness's *current* jsdom shims,
- *   confirmed directly for all three `type`s. Add it as its own component
- *   entry same as any other. A fourth, optional "copied" variant capturing
- *   the post-click feedback state does need the interaction/floating-ui
- *   decision's simulated-click route (see that entry's CopyButton bullet) -
- *   that one only, not the three base variants.
  *
  * Interaction/floating-ui-dependent DOM (todo #854 follow-up item 1,
  * resolved 2026-09-21): `generate.mjs` mounts via `react-dom/client` + `act()`
@@ -640,6 +627,13 @@ const link = (name, props) => ({
       { ...props, ...(props.renderIcon && { renderIcon: Add }) },
       'Link text',
     ),
+});
+
+const codeSnippet = (name, props, code = 'npm install') => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.CodeSnippet, props, code),
 });
 
 const inlineLoading = (name, props) => ({
@@ -1647,6 +1641,28 @@ export const COMPONENTS = [
             description: 'Stopped loading indicator',
           }),
       },
+    ],
+  },
+  {
+    name: 'CodeSnippet',
+    variants: [
+      codeSnippet('single', {}),
+      codeSnippet('multi', { type: 'multi' }, 'line 1\nline 2'),
+      codeSnippet('inline', { type: 'inline' }),
+      codeSnippet('disabled', { disabled: true }),
+      codeSnippet('multi-disabled', { type: 'multi', disabled: true }),
+      codeSnippet('inline-disabled', { type: 'inline', disabled: true }),
+      codeSnippet('hide-copy-button', { hideCopyButton: true }),
+      codeSnippet('inline-hide-copy-button', {
+        type: 'inline',
+        hideCopyButton: true,
+      }),
+      codeSnippet('wrap-text', { type: 'multi', wrapText: true }),
+      codeSnippet('aria-label', { 'aria-label': 'Install command' }),
+      codeSnippet('copy-button-description', {
+        copyButtonDescription: 'Copy the command',
+      }),
+      codeSnippet('align', { type: 'multi', align: 'top' }),
     ],
   },
   {

@@ -31,6 +31,64 @@
       "reason": "Same Tooltip internals as PasswordInput's entries: Ember's `Tooltip` puts `role=\"tooltip\"`, the `id` and `aria-hidden` on the popover's content span, where @carbon/react's puts them on the popover span."
     }
   ],
+  "CodeSnippet": [
+    {
+      "path": "div > div[1] > span[0] > div[0]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` wraps the copy button in a `<span class=\"cds--tooltip-trigger__wrapper\">`, where @carbon/react's uses a `<div>`. The button inside matches."
+    },
+    {
+      "path": "div > div[1] > span[0] > span[1]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` puts `role=\"tooltip\"`, the `id` and `aria-hidden` on the popover's content span, where @carbon/react's puts them on the popover span."
+    },
+    {
+      "path": "span > div[0]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` wraps the copy button in a `<span class=\"cds--tooltip-trigger__wrapper\">`, where @carbon/react's uses a `<div>`. The button inside matches."
+    },
+    {
+      "path": "span > span[1]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` puts `role=\"tooltip\"`, the `id` and `aria-hidden` on the popover's content span, where @carbon/react's puts them on the popover span."
+    },
+    {
+      "path": "div > div[0].attributes",
+      "variant": "multi",
+      "reason": "Deliberate: Carbon CSS scrolls a multi-line snippet's <pre> sideways, but Carbon React makes its container the focusable textbox, which only scrolls down, so a keyboard can't scroll the code sideways (axe's scrollable-region-focusable). The <pre> is the textbox here."
+    },
+    {
+      "path": "div > div[0] > pre[0].attributes",
+      "variant": "multi",
+      "reason": "The other half of the container entry: the <pre> is the textbox."
+    },
+    {
+      "path": "div > div[0].attributes",
+      "variant": "multi-disabled",
+      "reason": "Deliberate: Carbon CSS scrolls a multi-line snippet's <pre> sideways, but Carbon React makes its container the focusable textbox, which only scrolls down, so a keyboard can't scroll the code sideways (axe's scrollable-region-focusable). The <pre> is the textbox here."
+    },
+    {
+      "path": "div > div[0] > pre[0].attributes",
+      "variant": "multi-disabled",
+      "reason": "The other half of the container entry: the <pre> is the textbox."
+    },
+    {
+      "path": "div > div[0].attributes",
+      "variant": "wrap-text",
+      "reason": "Deliberate: Carbon CSS scrolls a multi-line snippet's <pre> sideways, but Carbon React makes its container the focusable textbox, which only scrolls down, so a keyboard can't scroll the code sideways (axe's scrollable-region-focusable). The <pre> is the textbox here."
+    },
+    {
+      "path": "div > div[0] > pre[0].attributes",
+      "variant": "wrap-text",
+      "reason": "The other half of the container entry: the <pre> is the textbox."
+    },
+    {
+      "path": "div > div[0].attributes",
+      "variant": "align",
+      "reason": "Deliberate: Carbon CSS scrolls a multi-line snippet's <pre> sideways, but Carbon React makes its container the focusable textbox, which only scrolls down, so a keyboard can't scroll the code sideways (axe's scrollable-region-focusable). The <pre> is the textbox here."
+    },
+    {
+      "path": "div > div[0] > pre[0].attributes",
+      "variant": "align",
+      "reason": "The other half of the container entry: the <pre> is the textbox."
+    }
+  ],
   "Link": [
     {
       "path": "button.attributes.id",

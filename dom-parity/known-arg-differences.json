@@ -48,24 +48,6 @@
       "state"
     ]
   },
-  "CodeSnippet": {
-    "missing": [
-      "align",
-      "ariaLabel",
-      "autoAlign",
-      "copyButtonDescription",
-      "copyText",
-      "disabled",
-      "feedback",
-      "feedbackTimeout",
-      "hideCopyButton",
-      "light",
-      "wrapText"
-    ],
-    "values": [
-      "type"
-    ]
-  },
   "ComboBox": {
     "missing": [
       "downshiftActions",
@@ -83,7 +65,6 @@
       "kind",
       "rel",
       "renderIcon",
-      "size",
       "target",
       "tooltipAlignment",
       "tooltipDropShadow",
@@ -91,6 +72,7 @@
       "tooltipPosition"
     ],
     "extra": [
+      "copyText",
       "inline",
       "targetElement",
       "targetElementId"
