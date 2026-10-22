@@ -200,20 +200,20 @@ jobs:
       matrix: ${{ fromJson(needs.scenarios.outputs.matrix) }}
     steps:
       - name: Checkout
-        if: needs.changes.outputs.addon == 'true'
+        if: needs.changes.outputs.addon == 'never'
         uses: actions/checkout@v7
 
       - name: Setup Node and pnpm
-        if: needs.changes.outputs.addon == 'true'
+        if: needs.changes.outputs.addon == 'never'
         uses: ./.github/actions/setup-pnpm
 
       - name: Apply scenario
-        if: needs.changes.outputs.addon == 'true'
+        if: needs.changes.outputs.addon == 'never'
         working-directory: ./carbon-components-ember
         run: pnpm dlx @embroider/try apply ${{ matrix.name }}
 
       - name: Install dependencies
-        if: needs.changes.outputs.addon == 'true'
+        if: needs.changes.outputs.addon == 'never'
         run: |
           pnpm install --no-frozen-lockfile
           # See the same step's comment in the `test` job above.
@@ -221,6 +221,6 @@ jobs:
           pnpm --filter carbon-components-ember generate
 
       - name: Run tests
-        if: needs.changes.outputs.addon == 'true'
+        if: needs.changes.outputs.addon == 'never'
         run: pnpm test
         env: ${{ matrix.env }}
