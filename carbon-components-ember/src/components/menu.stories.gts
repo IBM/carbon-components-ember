@@ -90,7 +90,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
             @y={{0}}
             @onClose={{args.onClose}}
           >
-            <MenuItem @label="Share with" @renderIcon={{FolderShared}}>
+            <MenuItem @label="Share it with" @renderIcon={{FolderShared}}>
               <MenuItemRadioGroup
                 @label="Share with"
                 @items={{SHARE_WITH}}
