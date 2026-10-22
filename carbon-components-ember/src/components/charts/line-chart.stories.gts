@@ -270,6 +270,8 @@ export const CustomColors = meta.story({
 export const SineWave = meta.story({
   name: 'Sinus',
   parameters: {
+    // It never stops moving.
+    screenshot: { disable: true },
     docs: {
       description: {
         story:

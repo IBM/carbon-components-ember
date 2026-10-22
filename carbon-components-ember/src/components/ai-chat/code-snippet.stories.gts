@@ -379,6 +379,8 @@ export const Streaming = meta.story({
   args: {
     highlight: true,
   },
+  // Streams on a timer, so a screenshot catches it at any point.
+  parameters: { screenshot: { disable: true } },
   render: (args: StoryArgs) => <template>
     <StreamedCode as |code restart|>
       <button

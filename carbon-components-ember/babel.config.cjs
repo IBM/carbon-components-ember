@@ -5,7 +5,15 @@
  */
 const { buildMacros } = require('@embroider/macros/babel');
 
-const macros = buildMacros();
+const macros = buildMacros({
+  // Vitest sets NODE_ENV=test. Build the story tests in development, as
+  // `pnpm storybook` is, or test waiters do nothing.
+  configure(macros) {
+    if (process.env.NODE_ENV === 'test') {
+      macros.enablePackageDevelopment(process.cwd());
+    }
+  },
+});
 
 module.exports = {
   plugins: [

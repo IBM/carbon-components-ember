@@ -28,3 +28,7 @@ node_modules/
 # storybook
 storybook-static/
 *storybook.log
+
+# story screenshots and their diffs (see vite.config.mjs)
+__screenshots__/
+.vitest/
