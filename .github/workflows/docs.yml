@@ -45,9 +45,9 @@ jobs:
         run: |
           base=$(git merge-base origin/main HEAD)
           # A branch rebased right after a merge starts while main's run for
-          # it is still going. An older run's screenshots would be stale.
-          pending=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/docs.yml/runs?branch=main&event=push&head_sha=$base" \
-            --jq '.workflow_runs[0] // empty | select(.status != "completed") | .id')
+          # that commit is still going. An older run's screenshots would be stale.
+          pending=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/docs.yml/runs?branch=main&head_sha=$base" \
+            --jq '.workflow_runs[0] // empty | select(.status != "completed") | .id') || true
           if [[ -n $pending ]]; then
             echo "Waiting for main's run at $base (run $pending)"
             timeout 15m gh run watch "$pending" -R "$GITHUB_REPOSITORY" -i 15 > /dev/null || true
