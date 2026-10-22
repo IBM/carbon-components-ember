@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import {
   click,
+  fillIn,
   findAll,
   render,
   settled,
@@ -152,6 +153,33 @@ module('Integration | Component | DataTable', (hooks) => {
 
     assert.dom('.cds--search').hasClass('my-search');
     assert.dom('input.cds--search-input').hasAttribute('data-test-search');
+  });
+
+  test('the toolbar search filters the rows once typing pauses', async function (assert) {
+    await render(
+      <template>
+        <DataTable @title="Table title" @items={{items}} as |table|>
+          <table.Toolbar as |toolbar|>
+            <toolbar.Content>
+              <table.SearchInput />
+            </toolbar.Content>
+          </table.Toolbar>
+          <table.Table>
+            <table.EachBodyRows as |row|>
+              <row.Row>
+                <table.Column>{{row.item.name}}</table.Column>
+              </row.Row>
+            </table.EachBodyRows>
+          </table.Table>
+        </DataTable>
+      </template>,
+    );
+
+    // settled() waits for the search's debounce.
+    await fillIn('input.cds--search-input', 'john');
+
+    assert.dom('tbody tr').exists({ count: 1 });
+    assert.dom('tbody tr').hasText('John');
   });
 
   test('should support checkable rows and selection', async function (assert) {

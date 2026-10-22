@@ -5,6 +5,7 @@ import { concat } from '@ember/helper';
 import { registerDestructor } from '@ember/destroyable';
 import type Owner from '@ember/owner';
 import { modifier } from 'ember-modifier';
+import { afterRender } from '../utils/after-render.ts';
 import Close from './icons/close.ts';
 import SearchIcon from './icons/search.ts';
 
@@ -43,10 +44,10 @@ export interface SearchSignature {
 }
 
 export default class Search extends Component<SearchSignature> {
-  // What was typed, and the `@value` it replaced: as in Carbon React, it shows
-  // until `@value` changes.
-  @tracked typed?: { value: string; over: string | undefined };
   @tracked isActive: boolean = false;
+  // What was typed shows until `@value` changes, so a controlled value that
+  // catches up later doesn't hide it.
+  @tracked typed?: string;
   #input?: HTMLInputElement;
   #stopListening?: () => void;
 
@@ -56,10 +57,7 @@ export default class Search extends Component<SearchSignature> {
   }
 
   get value() {
-    if (this.typed && this.typed.over === this.args.value) {
-      return this.typed.value;
-    }
-    return this.args.value ?? this.args.defaultValue ?? '';
+    return this.typed ?? this.args.value ?? this.args.defaultValue ?? '';
   }
 
   // An empty initial value renders no `value` attribute, as in Carbon React.
@@ -90,9 +88,19 @@ export default class Search extends Component<SearchSignature> {
     this.#input = input;
   });
 
+  // Runs again whenever `@value` changes, even back to an earlier value. It
+  // reads `typed` after the render, so typing doesn't run it.
+  followValue = modifier(
+    (_input: HTMLInputElement, [value]: [value: string | undefined]) => {
+      void value;
+      afterRender(this, () => {
+        if (this.typed !== undefined) this.typed = undefined;
+      });
+    },
+  );
+
   handleInput = (event: Event) => {
-    const input = event.target as HTMLInputElement;
-    this.typed = { value: input.value, over: this.args.value };
+    this.typed = (event.target as HTMLInputElement).value;
     this.args.onChange?.(event as Event & { target: HTMLInputElement });
   };
 
@@ -108,6 +116,7 @@ export default class Search extends Component<SearchSignature> {
   };
 
   handleKeyDown = (event: KeyboardEvent) => {
+    if (event.defaultPrevented) return;
     if (event.key !== 'Escape' || !this.#input?.value) return;
     // Clearing the field is all Escape does, so a Modal around it stays open.
     event.stopPropagation();
@@ -178,6 +187,7 @@ export default class Search extends Component<SearchSignature> {
         value={{this.boundValue}}
         disabled={{@disabled}}
         {{this.registerInput}}
+        {{this.followValue @value}}
         {{on "input" this.handleInput}}
         {{on "keydown" this.handleKeyDown}}
         {{! eslint-disable-next-line ember/template-no-pointer-down-event-binding }}

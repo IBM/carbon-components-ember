@@ -84,6 +84,34 @@ module('Integration | Component | Search', (hooks) => {
     assert.strictEqual(received?.target.value, 'carbon');
   });
 
+  test('a new @value replaces what was typed, even one it had before', async function (assert) {
+    const value = tracked('');
+    await render(
+      <template>
+        <Search @labelText="Search" @value={{value.value}} />
+      </template>,
+    );
+
+    await fillIn('input.cds--search-input', 'a');
+    value.value = 'a';
+    await settled();
+    assert.dom('input.cds--search-input').hasValue('a');
+
+    value.value = '';
+    await settled();
+    assert.dom('input.cds--search-input').hasValue('');
+    assert.dom('.cds--search-close').doesNotExist();
+  });
+
+  test('what was typed shows until @value catches up', async function (assert) {
+    await render(<template><Search @labelText="Search" @value="" /></template>);
+
+    await fillIn('input.cds--search-input', 'a');
+
+    assert.dom('input.cds--search-input').hasValue('a');
+    assert.dom('.cds--search-close').exists();
+  });
+
   test('@defaultValue fills an uncontrolled field', async function (assert) {
     await render(
       <template>
@@ -177,7 +205,7 @@ module('Integration | Component | Search', (hooks) => {
     assert.strictEqual(escapes, 0, 'the event stops at the field');
   });
 
-  test('does not call onChange twice when a change event follows an input event with the same value', async function (assert) {
+  test('ignores change events, so a change after an input calls onChange once', async function (assert) {
     let calls = 0;
     const onChange = () => {
       calls++;
