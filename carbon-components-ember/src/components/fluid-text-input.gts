@@ -32,7 +32,11 @@ export interface FluidTextInputSignature {
     isPassword?: boolean;
     showPasswordLabel?: string;
     hidePasswordLabel?: string;
-    onChange?: (value: string, event: Event) => void;
+    /**
+     * Called with the `input` event on each change, as Carbon React's
+     * `onChange`; the value is `event.target.value`.
+     */
+    onChange?: (event: Event & { target: HTMLInputElement }) => void;
     onTogglePasswordVisibility?: (event: MouseEvent) => void;
   };
   Blocks: {
@@ -108,7 +112,7 @@ export default class FluidTextInput extends Component<FluidTextInputSignature> {
   updateValue = (event: Event) => {
     const value = (event.target as HTMLInputElement).value;
     this.internalValue = value;
-    this.args.onChange?.(value, event);
+    this.args.onChange?.(event as Event & { target: HTMLInputElement });
   };
 
   togglePasswordVisibility = (event: MouseEvent) => {

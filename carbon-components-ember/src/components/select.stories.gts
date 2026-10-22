@@ -105,8 +105,7 @@ Default.test(
 
     await userEvent.selectOptions(select, 'Frankfurt (eu-de)');
     await expect(args.onChange).toHaveBeenCalledWith(
-      'eu-de',
-      expect.any(Event),
+      expect.objectContaining({ target: select }),
     );
     await expect(select).toHaveValue('eu-de');
     await expect(select).toHaveAttribute('title', 'Frankfurt (eu-de)');

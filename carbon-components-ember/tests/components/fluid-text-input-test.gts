@@ -79,9 +79,10 @@ module('Integration | Component | FluidTextInput', (hooks) => {
       .hasClass('cds--text-input-wrapper--readonly');
   });
 
-  test('should call onChange with the new value when typed into', async function (assert) {
-    let received;
-    const handleChange = (value: string) => (received = value);
+  test('should call onChange with the input event when typed into, as Carbon React does', async function (assert) {
+    let received: (Event & { target: HTMLInputElement }) | undefined;
+    const handleChange = (event: Event & { target: HTMLInputElement }) =>
+      (received = event);
 
     await render(
       <template><FluidTextInput @onChange={{handleChange}} /></template>,
@@ -89,7 +90,8 @@ module('Integration | Component | FluidTextInput', (hooks) => {
 
     await fillIn('input.cds--text-input', 'new value');
 
-    assert.strictEqual(received, 'new value');
+    assert.strictEqual(received?.type, 'input');
+    assert.strictEqual(received?.target.value, 'new value');
   });
 
   test('should reflect external updates to a controlled value', async function (assert) {
@@ -97,7 +99,8 @@ module('Integration | Component | FluidTextInput', (hooks) => {
       @tracked value = '';
     }
     const state = new State();
-    const update = (value: string) => (state.value = value);
+    const update = (event: Event & { target: HTMLInputElement }) =>
+      (state.value = event.target.value);
 
     await render(
       <template>
@@ -116,8 +119,8 @@ module('Integration | Component | FluidTextInput', (hooks) => {
 
   test('should keep a TrackedObject-backed controlled value in sync while typing, matching the docs demo', async function (assert) {
     const context = trackedObject<{ value: string }>({ value: '' });
-    const update = (value: string) => {
-      context.value = value;
+    const update = (event: Event & { target: HTMLInputElement }) => {
+      context.value = event.target.value;
     };
 
     await render(
@@ -139,7 +142,8 @@ module('Integration | Component | FluidTextInput', (hooks) => {
 
   test('should keep a tracked-value-backed controlled value in sync while typing, matching the docs demo', async function (assert) {
     const value = tracked('');
-    const update = (newValue: string) => (value.value = newValue);
+    const update = (event: Event & { target: HTMLInputElement }) =>
+      (value.value = event.target.value);
 
     await render(
       <template>

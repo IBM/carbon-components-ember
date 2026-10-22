@@ -36,10 +36,10 @@ export interface TimePickerSelectSignature {
      */
     defaultValue?: string;
     /**
-     * Optionally provide an `onChange` handler that is called whenever the
-     * `<select>` is updated
+     * Called with the `change` event on each change, as Carbon React's
+     * `onChange`; the value is `event.target.value`.
      */
-    onChange?: (value: string, event: Event) => void;
+    onChange?: (event: Event & { target: HTMLSelectElement }) => void;
   };
   Element: HTMLSelectElement;
   Blocks: {
@@ -79,7 +79,7 @@ export default class TimePickerSelect extends Component<TimePickerSelectSignatur
   handleChange = (event: Event) => {
     const select = event.currentTarget as HTMLSelectElement;
     this.internalValue = select.value;
-    this.args.onChange?.(select.value, event);
+    this.args.onChange?.(event as Event & { target: HTMLSelectElement });
     // A controlled select goes back to `@value` if the change didn't update it.
     if (this.args.value !== undefined) select.value = this.args.value;
   };

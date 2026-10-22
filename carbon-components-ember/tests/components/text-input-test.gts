@@ -59,15 +59,17 @@ module('Integration | Component | TextInput', (hooks) => {
     assert.dom('input.cds--text-input').hasAttribute('readonly');
   });
 
-  test('should call onChange with the new value when typed into', async function (assert) {
-    let received;
-    const handleChange = (value: string) => (received = value);
+  test('should call onChange with the input event when typed into, as Carbon React does', async function (assert) {
+    let received: (Event & { target: HTMLInputElement }) | undefined;
+    const handleChange = (event: Event & { target: HTMLInputElement }) =>
+      (received = event);
 
     await render(<template><TextInput @onChange={{handleChange}} /></template>);
 
     await fillIn('input.cds--text-input', 'new value');
 
-    assert.strictEqual(received, 'new value');
+    assert.strictEqual(received?.type, 'input');
+    assert.strictEqual(received?.target.value, 'new value');
   });
 
   test('should show the invalid state and message', async function (assert) {

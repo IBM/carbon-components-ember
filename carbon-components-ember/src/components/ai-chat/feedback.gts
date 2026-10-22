@@ -141,7 +141,10 @@ export default class Feedback extends Component<FeedbackSignature> {
       : [...this.selectedCategories, category];
   };
 
-  handleDisclaimerCheckboxChange = (checked: boolean) => {
+  handleDisclaimerCheckboxChange = (
+    _event: Event,
+    { checked }: { checked: boolean },
+  ) => {
     this.disclaimerChecked = checked;
   };
 

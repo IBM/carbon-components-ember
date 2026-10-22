@@ -20,6 +20,17 @@ function spy<T>() {
   return { calls, call: (value: T) => void calls.push(value) };
 }
 
+// Records the select's value with each @onChange call: the event's target is
+// the live select, so its value is read when the call happens.
+function valueSpy() {
+  const calls: string[] = [];
+  return {
+    calls,
+    call: (event: Event & { target: HTMLSelectElement }) =>
+      void calls.push(event.target.value),
+  };
+}
+
 // Whether a cancelable event dispatched on the select had its default
 // action prevented.
 function prevented(event: Event) {
@@ -341,7 +352,7 @@ module('Integration | Component | Select', function (hooks) {
     });
 
     test('should respect @readOnly', async function (assert) {
-      const onChange = spy<string>();
+      const onChange = valueSpy();
       const onClick = spy<Event>();
 
       await render(
@@ -583,8 +594,8 @@ module('Integration | Component | Select', function (hooks) {
   });
 
   module('behaves as expected', function () {
-    test('should call @onChange with the value', async function (assert) {
-      const onChange = spy<string>();
+    test('should call @onChange with the change event', async function (assert) {
+      const onChange = valueSpy();
 
       await render(
         <template>
@@ -704,7 +715,8 @@ module('Integration | Component | Select', function (hooks) {
 
     test('a change @onChange passes back to @value sticks', async function (assert) {
       const value = tracked('option-1');
-      const onChange = (selected: string) => (value.value = selected);
+      const onChange = (event: Event & { target: HTMLSelectElement }) =>
+        (value.value = event.target.value);
 
       await render(
         <template>
@@ -726,7 +738,7 @@ module('Integration | Component | Select', function (hooks) {
     });
 
     test('a change @onChange does not pass back to @value is undone', async function (assert) {
-      const onChange = spy<string>();
+      const onChange = valueSpy();
 
       await render(
         <template>

@@ -33,7 +33,11 @@ export interface TextInputSignature {
     enableCounter?: boolean;
     maxCount?: number;
     light?: boolean;
-    onChange?: (value: string, event: Event) => void;
+    /**
+     * Called with the `input` event on each change, as Carbon React's
+     * `onChange`; the value is `event.target.value`.
+     */
+    onChange?: (event: Event & { target: HTMLInputElement }) => void;
   };
   Element: HTMLInputElement;
   Blocks: {
@@ -96,7 +100,7 @@ export default class TextInput extends Component<TextInputSignature> {
   updateValue = (event: Event) => {
     const value = (event.target as HTMLInputElement).value;
     this.internalValue = value;
-    this.args.onChange?.(value, event);
+    this.args.onChange?.(event as Event & { target: HTMLInputElement });
   };
 
   <template>

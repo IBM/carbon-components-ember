@@ -45,10 +45,14 @@ export interface NumberInputSignature {
     size?: 'sm' | 'md' | 'lg';
     light?: boolean;
     iconDescription?: string;
+    /**
+     * Called on each change, as Carbon React's `onChange`: with the `input`
+     * event when typing, or the stepper's `click` event, and the new value
+     * and the direction it moved in.
+     */
     onChange?: (
-      value: number | '',
       event: Event,
-      direction: 'up' | 'down',
+      state: { value: number | ''; direction: 'up' | 'down' },
     ) => void;
     onClick?: (event: MouseEvent) => void;
     onBlur?: (event: FocusEvent) => void;
@@ -129,7 +133,7 @@ export default class NumberInput extends Component<NumberInputSignature> {
     if (this.args.value === undefined) {
       this.internalValue = newValue;
     }
-    this.args.onChange?.(newValue, event, direction);
+    this.args.onChange?.(event, { value: newValue, direction });
   }
 
   updateValue = (event: Event) => {

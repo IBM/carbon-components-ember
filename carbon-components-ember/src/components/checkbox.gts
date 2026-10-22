@@ -15,7 +15,14 @@ export interface CheckboxSignature {
     indeterminate?: boolean;
     checked?: boolean;
     disabled?: boolean;
-    onChange?: (checked: boolean) => void;
+    /**
+     * Called with the `change` event, as Carbon React's `onChange`, and the
+     * new checked state and the `<input>`'s id.
+     */
+    onChange?: (
+      event: Event & { target: HTMLInputElement },
+      data: { checked: boolean; id: string },
+    ) => void;
     state?: object;
     label?: string;
     /** Visually hide the label, keeping it as the checkbox's accessible name (as Carbon React's `hideLabel`). */
@@ -42,8 +49,11 @@ export default class Checkbox extends Component<CheckboxSignature> {
   }
 
   onCheckChange = (event: Event) => {
-    const value = (event.target as HTMLInputElement).checked;
-    if (this.args.onChange) this.args.onChange(value);
+    const input = event.target as HTMLInputElement;
+    this.args.onChange?.(event as Event & { target: HTMLInputElement }, {
+      checked: input.checked,
+      id: input.id,
+    });
   };
 
   setFocus = (val: boolean) => {

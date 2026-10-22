@@ -40,7 +40,11 @@ export interface PasswordInputSignature {
     showPasswordLabel?: string;
     tooltipPosition?: 'top' | 'right' | 'bottom' | 'left';
     tooltipAlignment?: 'start' | 'center' | 'end';
-    onChange?: (value: string, event: Event) => void;
+    /**
+     * Called with the `input` event on each change, as Carbon React's
+     * `onChange`; the value is `event.target.value`.
+     */
+    onChange?: (event: Event & { target: HTMLInputElement }) => void;
     onTogglePasswordVisibility?: (event: MouseEvent) => void;
   };
   Element: HTMLInputElement;
@@ -110,7 +114,7 @@ export default class PasswordInput extends Component<PasswordInputSignature> {
   updateValue = (event: Event) => {
     const value = (event.target as HTMLInputElement).value;
     this.internalValue = value;
-    this.args.onChange?.(value, event);
+    this.args.onChange?.(event as Event & { target: HTMLInputElement });
   };
 
   toggleVisibility = (event: MouseEvent) => {

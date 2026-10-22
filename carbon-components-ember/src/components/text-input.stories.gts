@@ -26,7 +26,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          'TextInput allows the user to enter a single line of text.\n\nPass `@defaultValue` for an uncontrolled field, or `@value` with `@onChange` to control it; `@onChange` receives the new value and the event.',
+          'TextInput allows the user to enter a single line of text.\n\nPass `@defaultValue` for an uncontrolled field, or `@value` with `@onChange` to control it; `@onChange` receives the `input` event, as in Carbon React, so the value is `event.target.value`.',
       },
     },
   },
@@ -49,8 +49,7 @@ Default.test(
     await userEvent.type(input, 'Hello');
     await expect(input).toHaveValue('Hello');
     await expect(args.onChange).toHaveBeenLastCalledWith(
-      'Hello',
-      expect.anything(),
+      expect.objectContaining({ target: input }),
     );
   },
 );
@@ -90,9 +89,9 @@ export const Controlled = meta.story({
   },
   render: (args: Args) => {
     const state = trackedObject({ value: args.value });
-    const onChange = (value: string, event: Event) => {
-      state.value = value;
-      args.onChange?.(value, event);
+    const onChange = (event: Event & { target: HTMLInputElement }) => {
+      state.value = event.target.value;
+      args.onChange?.(event);
     };
 
     return <template>

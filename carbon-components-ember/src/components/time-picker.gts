@@ -105,10 +105,10 @@ export interface TimePickerSignature {
      */
     pickerClassName?: string;
     /**
-     * Optionally provide an `onChange` handler that is called whenever
-     * `<input>` is updated
+     * Called with the `input` event on each change, as Carbon React's
+     * `onChange`; the value is `event.target.value`.
      */
-    onChange?: (value: string, event: Event) => void;
+    onChange?: (event: Event & { target: HTMLInputElement }) => void;
     /**
      * Optionally provide an `onBlur` handler that is called whenever the
      * `<input>` loses focus
@@ -174,7 +174,7 @@ export default class TimePicker extends Component<TimePickerSignature> {
     if (this.args.disabled || this.args.readOnly) return;
     const value = (event.target as HTMLInputElement).value;
     this.internalValue = value;
-    this.args.onChange?.(value, event);
+    this.args.onChange?.(event as Event & { target: HTMLInputElement });
   };
 
   handleBlur = (event: FocusEvent) => {

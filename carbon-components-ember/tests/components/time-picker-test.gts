@@ -61,9 +61,10 @@ module('Integration | Component | TimePicker', (hooks) => {
     assert.dom('.cds--time-picker').hasClass('cds--time-picker--readonly');
   });
 
-  test('should call onChange with the new value when typed into', async function (assert) {
-    let received;
-    const handleChange = (value: string) => (received = value);
+  test('should call onChange with the input event when typed into, as Carbon React does', async function (assert) {
+    let received: (Event & { target: HTMLInputElement }) | undefined;
+    const handleChange = (event: Event & { target: HTMLInputElement }) =>
+      (received = event);
 
     await render(
       <template><TimePicker @onChange={{handleChange}} /></template>,
@@ -71,7 +72,8 @@ module('Integration | Component | TimePicker', (hooks) => {
 
     await fillIn('input.cds--time-picker__input-field', '11:00');
 
-    assert.strictEqual(received, '11:00');
+    assert.strictEqual(received?.type, 'input');
+    assert.strictEqual(received?.target.value, '11:00');
   });
 
   test('a click handler goes on the input', async function (assert) {
@@ -142,9 +144,10 @@ module('Integration | Component | TimePicker', (hooks) => {
     assert.dom('select#time-picker-select-1 option').exists({ count: 2 });
   });
 
-  test('TimePickerSelect should call onChange when a new option is selected', async function (assert) {
-    let received;
-    const handleChange = (value: string) => (received = value);
+  test('TimePickerSelect should call onChange with the change event when a new option is selected', async function (assert) {
+    let received: (Event & { target: HTMLSelectElement }) | undefined;
+    const handleChange = (event: Event & { target: HTMLSelectElement }) =>
+      (received = event);
 
     await render(
       <template>
@@ -157,7 +160,8 @@ module('Integration | Component | TimePicker', (hooks) => {
 
     await select('#tp-select', 'PM');
 
-    assert.strictEqual(received, 'PM');
+    assert.strictEqual(received?.type, 'change');
+    assert.strictEqual(received?.target.value, 'PM');
   });
 
   test('TimePickerSelect should respect the disabled argument', async function (assert) {

@@ -139,12 +139,13 @@ export default class Pagination extends Component<PaginationSignature> {
   };
 
   // As in Carbon React, a new page size starts from the first page.
-  changeItemsPerPage = (value: string) => {
+  changeItemsPerPage = (event: Event & { target: HTMLSelectElement }) => {
     this.currentPage = 1;
-    this.setItemsPerPage(Number(value));
+    this.setItemsPerPage(Number(event.target.value));
   };
 
-  changePage = (value: string) => this.setCurrentPage(Number(value));
+  changePage = (event: Event & { target: HTMLSelectElement }) =>
+    this.setCurrentPage(Number(event.target.value));
 
   pageBack = () => {
     this.currentPage -= 1;
