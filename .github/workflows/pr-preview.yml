@@ -14,6 +14,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      actions: write # starts the Pages deploy
     steps:
       - uses: actions/checkout@v7
 
@@ -36,6 +37,7 @@ jobs:
           path: gh-pages
 
       - name: Deploy to gh-pages
+        id: push
         run: |
           cd $GITHUB_WORKSPACE/gh-pages
           git config --global user.name 'Patrick Pircher'
@@ -55,6 +57,7 @@ jobs:
             BASE=$(git rev-parse HEAD)
             COMMIT=$(git commit-tree "$(git write-tree)" -m "Deploy docs preview for PR #${{ github.event.pull_request.number }} (${{ github.event.pull_request.head.sha }})")
             if git push --force-with-lease=gh-pages:"$BASE" origin "$COMMIT:refs/heads/gh-pages"; then
+              echo "pushed=true" >> "$GITHUB_OUTPUT"
               exit 0
             fi
             echo "Push rejected (attempt $i), retrying against latest gh-pages..."
@@ -64,6 +67,13 @@ jobs:
           done
           echo "Failed to push to gh-pages after retries"
           exit 1
+
+      # Pages deploys from main only, and this push starts no workflow.
+      - name: Deploy the site
+        if: steps.push.outputs.pushed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages.yml --repo "$GITHUB_REPOSITORY" --ref main
 
       - name: Post or update preview comment
         uses: actions/github-script@v9
@@ -113,6 +123,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      actions: write # starts the Pages deploy
     steps:
       - name: Checkout gh-pages branch
         uses: actions/checkout@v7
@@ -122,6 +133,7 @@ jobs:
           path: gh-pages
 
       - name: Remove preview from gh-pages
+        id: push
         run: |
           cd $GITHUB_WORKSPACE/gh-pages
           if [ -d "pr-previews/pr-${{ github.event.pull_request.number }}" ]; then
@@ -139,6 +151,7 @@ jobs:
               BASE=$(git rev-parse HEAD)
               COMMIT=$(git commit-tree "$(git write-tree)" -m "Remove docs preview for PR #${{ github.event.pull_request.number }}")
               if git push --force-with-lease=gh-pages:"$BASE" origin "$COMMIT:refs/heads/gh-pages"; then
+                echo "pushed=true" >> "$GITHUB_OUTPUT"
                 exit 0
               fi
               echo "Push rejected (attempt $i), retrying against latest gh-pages..."
@@ -149,6 +162,13 @@ jobs:
             echo "Failed to push to gh-pages after retries"
             exit 1
           fi
+
+      # Pages deploys from main only, and this push starts no workflow.
+      - name: Deploy the site
+        if: steps.push.outputs.pushed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages.yml --repo "$GITHUB_REPOSITORY" --ref main
 
       - name: Update preview comment
         uses: actions/github-script@v9

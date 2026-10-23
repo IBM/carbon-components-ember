@@ -1,0 +1,47 @@
+name: Pages
+
+# Deploys gh-pages, the docs site with its versions and PR previews, to GitHub
+# Pages. The jobs that push to gh-pages start it on main: the github-pages
+# environment only deploys from main, and a push with the workflow's token
+# starts no workflow of its own.
+on:
+  workflow_dispatch:
+  # Deploys once when this workflow changes, so it starts the site off.
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/pages.yml
+
+permissions:
+  contents: read
+
+# A deploy finishes; the newest one waiting runs after it.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: gh-pages
+          path: site
+
+      # Leaves out .git.
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+
+      - id: deploy
+        uses: actions/deploy-pages@v5
