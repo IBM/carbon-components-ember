@@ -116,6 +116,14 @@
       "query": "Query params for @route, as LinkTo's @query (#1040)."
     }
   },
+  "Tag": {
+    "extra": {
+      "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
+      "query": "Query params for @route, as LinkTo's @query (#1040).",
+      "href": "Carbon React's Tag takes `as` (a router Link, or `a` with `href`), which Ember can't take; @href links the tag's icon and label, keeping a decorator's button out of the link."
+    }
+  },
   "ToastNotification": {
     "extra": {
       "ariaLabel": "React's aria-label labels the close button; an aria-label attribute would label the notification."

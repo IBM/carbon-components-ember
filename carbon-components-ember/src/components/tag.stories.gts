@@ -110,6 +110,24 @@ export const Sizes = meta.story({
   </template>,
 });
 
+// Ember-only: with `@href`, or `@route` for one of the app's routes, the
+// tag's icon and label are a link.
+export const AsALink = meta.story({
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "With `@href`, or `@route` (plus `@models` and `@query`) for one of the app's routes, the tag's icon and label are a link. A decorator stays outside the link, so its button isn't nested in it.",
+      },
+    },
+  },
+  render: (args: StoryArgs) => <template>
+    <Tag @type={{args.type}} @size={{args.size}} @href="#">
+      {{args.label}}
+    </Tag>
+  </template>,
+});
+
 // `@renderIcon` renders an icon inside the tag. The icon is hidden for the
 // `sm` size.
 export const WithIcon = meta.story({

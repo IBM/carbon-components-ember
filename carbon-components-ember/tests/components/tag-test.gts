@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
-import { render, find } from '@ember/test-helpers';
+import { setupApplicationTest, setupRenderingTest } from 'ember-qunit';
+import { click, find, render } from '@ember/test-helpers';
 import Tag from '#src/components/tag.gts';
 import { Add } from '#src/icons.ts';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
-import { waitForAnimationFrame } from '../helpers';
+import { setupRoutes, visitWith, waitForAnimationFrame } from '../helpers';
 
 module('Integration | Component | Tag', (hooks) => {
   setupRenderingTest(hooks);
@@ -162,5 +162,44 @@ module('Integration | Component | Tag', (hooks) => {
     );
 
     assert.dom('.cds--tag__label').hasAttribute('title', 'Custom Title');
+  });
+
+  test("@href links the tag's label, beside its decorator, unless it is disabled", async function (assert) {
+    await render(
+      <template>
+        <Tag @type="blue" @href="/tags/blue" id="blue">
+          <:default>Blue</:default>
+          <:decorator as |AILabel|><AILabel /></:decorator>
+        </Tag>
+        <Tag @type="red" @href="/tags/red" @disabled={{true}} id="red">Red</Tag>
+      </template>,
+    );
+    assert.dom('div#blue').hasClass('cds--tag').hasClass('cds--tag--blue');
+    assert
+      .dom('#blue > a.cds--ember-tag__link')
+      .hasAttribute('href', '/tags/blue');
+    assert.dom('#blue > a .cds--tag__label').hasText('Blue');
+    assert
+      .dom('#blue > .cds--tag__decorator')
+      .exists("the decorator's button is outside the link");
+    assert.dom('#red a').doesNotExist();
+  });
+});
+
+module('Integration | Component | Tag > with @route', function (hooks) {
+  setupApplicationTest(hooks);
+  setupRoutes(hooks);
+
+  test('the tag links to its route', async function (assert) {
+    await visitWith(
+      this,
+      <template>
+        <Tag @type="green" @route="settings">Settings</Tag>
+      </template>,
+    );
+    assert.dom('.cds--tag a').hasAttribute('href', '/settings');
+    await click('.cds--tag a');
+    const router = this.owner.lookup('service:router');
+    assert.strictEqual(router.currentRouteName, 'settings');
   });
 });
