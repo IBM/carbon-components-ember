@@ -32,8 +32,8 @@ export interface DataTableSkeletonSignature {
 }
 
 /**
- * A loading placeholder for a `DataTable`, for before there's any data to
- * give it. A `DataTable` that has its data can show `@isLoading` instead.
+ * A loading placeholder for a table, as Carbon React's DataTableSkeleton. A
+ * `DataTable` shows the same with `@isLoading`.
  */
 export default class DataTableSkeleton extends Component<DataTableSkeletonSignature> {
   get columns() {
