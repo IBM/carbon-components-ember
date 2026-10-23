@@ -56,8 +56,7 @@ Default.test(
     await userEvent.selectOptions(select, 'AM');
     await expect(select).toHaveValue('AM');
     await expect(args.onChange).toHaveBeenLastCalledWith(
-      'AM',
-      expect.anything(),
+      expect.objectContaining({ target: select }),
     );
   },
 );

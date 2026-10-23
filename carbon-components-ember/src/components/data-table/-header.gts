@@ -32,6 +32,10 @@ export default class TableHeader extends Component<TableHeaderSignature> {
     return guidFor(this);
   }
 
+  toggleSelectAll = (_event: Event, { checked }: { checked: boolean }) => {
+    this.args.table.toggleSelectAllItems(checked);
+  };
+
   @cached
   get headerIds(): (string | undefined)[] {
     return this.args.headers.map((h, index) =>
@@ -82,7 +86,7 @@ export default class TableHeader extends Component<TableHeaderSignature> {
             {{#unless @table.isLoading}}
               <Checkbox
                 @checked={{@table.allChecked}}
-                @onChange={{@table.toggleSelectAllItems}}
+                @onChange={{this.toggleSelectAll}}
                 @label="Select all rows in the table"
                 @hideLabel={{true}}
               />

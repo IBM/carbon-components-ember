@@ -65,7 +65,10 @@ module('Integration | Component | NumberInput', (hooks) => {
 
   test('should increment the value when the up stepper is clicked', async function (assert) {
     let received;
-    const handleChange = (value: number | '') => (received = value);
+    const handleChange = (
+      _event: Event,
+      change: { value: number | ''; direction: 'up' | 'down' },
+    ) => (received = change);
 
     await render(
       <template>
@@ -76,7 +79,7 @@ module('Integration | Component | NumberInput', (hooks) => {
     await click('.cds--number__control-btn.up-icon');
 
     assert.dom('input').hasValue('2');
-    assert.strictEqual(received, 2);
+    assert.deepEqual(received, { value: 2, direction: 'up' });
   });
 
   test('should decrement the value when the down stepper is clicked', async function (assert) {
@@ -109,9 +112,10 @@ module('Integration | Component | NumberInput', (hooks) => {
     assert.dom('input').hasValue('10');
   });
 
-  test('should call onChange with the new value when typed into', async function (assert) {
-    let received;
-    const handleChange = (value: number | '') => (received = value);
+  test('should call onChange with the input event and the new value when typed into, as Carbon React does', async function (assert) {
+    let received: [Event, { value: number | '' }] | undefined;
+    const handleChange = (event: Event, change: { value: number | '' }) =>
+      (received = [event, change]);
 
     await render(
       <template><NumberInput @onChange={{handleChange}} /></template>,
@@ -119,7 +123,8 @@ module('Integration | Component | NumberInput', (hooks) => {
 
     await fillIn('input', '42');
 
-    assert.strictEqual(received, 42);
+    assert.strictEqual(received?.[0].type, 'input');
+    assert.strictEqual(received?.[1].value, 42);
   });
 
   test('should show an invalid state when the value is out of range', async function (assert) {
@@ -160,7 +165,7 @@ module('Integration | Component | NumberInput', (hooks) => {
 
   test('should update a bound @value through @onChange when used as a controlled input, mirroring the docs demo', async function (assert) {
     const context = trackedObject<{ value?: number | '' }>({});
-    const update = (value: number | '') => {
+    const update = (_event: Event, { value }: { value: number | '' }) => {
       context.value = value;
     };
 

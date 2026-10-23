@@ -15,7 +15,14 @@ export interface CheckboxSignature {
     indeterminate?: boolean;
     checked?: boolean;
     disabled?: boolean;
-    onChange?: (checked: boolean) => void;
+    /**
+     * Called with the `change` event, as Carbon React's `onChange`, and the
+     * new checked state and the `<input>`'s id.
+     */
+    onChange?: (
+      event: Event & { target: HTMLInputElement },
+      data: { checked: boolean; id: string },
+    ) => void;
     state?: object;
     label?: string;
     /** Visually hide the label, keeping it as the checkbox's accessible name (as Carbon React's `hideLabel`). */
@@ -41,9 +48,18 @@ export default class Checkbox extends Component<CheckboxSignature> {
     return guidFor(this);
   }
 
+  // A read-only checkbox doesn't toggle or report a change, as in Carbon React.
+  preventToggle = (event: MouseEvent) => {
+    if (this.args.readonly) event.preventDefault();
+  };
+
   onCheckChange = (event: Event) => {
-    const value = (event.target as HTMLInputElement).checked;
-    if (this.args.onChange) this.args.onChange(value);
+    if (this.args.readonly) return;
+    const input = event.target as HTMLInputElement;
+    this.args.onChange?.(event as Event & { target: HTMLInputElement }, {
+      checked: input.checked,
+      id: input.id,
+    });
   };
 
   setFocus = (val: boolean) => {
@@ -74,6 +90,7 @@ export default class Checkbox extends Component<CheckboxSignature> {
           class="cds--checkbox"
           type="checkbox"
           checked={{if @indeterminate true @checked}}
+          {{on "click" this.preventToggle}}
           {{on "change" this.onCheckChange}}
         />
 

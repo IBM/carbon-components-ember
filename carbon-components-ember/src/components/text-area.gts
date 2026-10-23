@@ -34,7 +34,11 @@ export interface TextAreaSignature {
     maxCount?: number;
     counterMode?: 'character' | 'word';
     light?: boolean;
-    onChange?: (value: string, event: Event) => void;
+    /**
+     * Called with the `input` event on each change, as Carbon React's
+     * `onChange`; the value is `event.target.value`.
+     */
+    onChange?: (event: Event & { target: HTMLTextAreaElement }) => void;
     onKeyDown?: (event: KeyboardEvent) => void;
   };
   Element: HTMLTextAreaElement;
@@ -105,7 +109,7 @@ export default class TextArea extends Component<TextAreaSignature> {
   updateValue = (event: Event) => {
     const value = (event.target as HTMLTextAreaElement).value;
     this.internalValue = value;
-    this.args.onChange?.(value, event);
+    this.args.onChange?.(event as Event & { target: HTMLTextAreaElement });
   };
 
   handleKeyDown = (event: KeyboardEvent) => {

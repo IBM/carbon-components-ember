@@ -67,8 +67,7 @@ Default.test(
 
     await userEvent.type(input, 'hunter22');
     await expect(args.onChange).toHaveBeenLastCalledWith(
-      'hunter22',
-      expect.anything(),
+      expect.objectContaining({ target: input }),
     );
 
     const toggle = canvasElement.querySelector<HTMLButtonElement>(
@@ -99,9 +98,9 @@ export const Controlled = meta.story({
   },
   render: (args: Args) => {
     const state = trackedObject({ value: args.value });
-    const onChange = (value: string, event: Event) => {
-      state.value = value;
-      args.onChange?.(value, event);
+    const onChange = (event: Event & { target: HTMLInputElement }) => {
+      state.value = event.target.value;
+      args.onChange?.(event);
     };
 
     return <template>

@@ -24,7 +24,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          'NumberInput allows the user to enter a number, and to increment/decrement the value using stepper buttons.\n\nPass `@defaultValue` for an uncontrolled input, or `@value` with `@onChange` to control it; `@onChange` receives the new value, the event and the stepper direction.',
+          'NumberInput allows the user to enter a number, and to increment/decrement the value using stepper buttons.\n\nPass `@defaultValue` for an uncontrolled input, or `@value` with `@onChange` to control it; `@onChange` receives the event and `{ value, direction }`, as in Carbon React.',
       },
     },
   },
@@ -58,12 +58,11 @@ export const Default = meta.story({
       value: args.value,
     });
     const onChange = (
-      value: number | '',
       event: Event,
-      direction: 'up' | 'down',
+      change: { value: number | ''; direction: 'up' | 'down' },
     ) => {
-      state.value = value;
-      args.onChange?.(value, event, direction);
+      state.value = change.value;
+      args.onChange?.(event, change);
     };
 
     return <template>
@@ -101,11 +100,10 @@ Default.test(
       canvas.getByRole('button', { name: 'Increment number' }),
     );
     await expect(input).toHaveValue(51);
-    await expect(args.onChange).toHaveBeenLastCalledWith(
-      51,
-      expect.anything(),
-      'up',
-    );
+    await expect(args.onChange).toHaveBeenLastCalledWith(expect.anything(), {
+      value: 51,
+      direction: 'up',
+    });
 
     await userEvent.click(
       canvas.getByRole('button', { name: 'Decrement number' }),
@@ -124,9 +122,8 @@ Default.test('accepts typed numbers', async ({ canvas, userEvent, args }) => {
   await userEvent.type(input, '42');
   await expect(input).toHaveValue(42);
   await expect(args.onChange).toHaveBeenLastCalledWith(
-    42,
     expect.anything(),
-    expect.anything(),
+    expect.objectContaining({ value: 42 }),
   );
 });
 

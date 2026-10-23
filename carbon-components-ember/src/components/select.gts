@@ -69,10 +69,10 @@ export interface SelectSignature {
      */
     noLabel?: boolean;
     /**
-     * Provide an optional `onChange` hook that is called each time the value
-     * of the underlying `<select>` changes.
+     * Called with the `change` event on each change, as Carbon React's
+     * `onChange`; the value is `event.target.value`.
      */
-    onChange?: (value: string, event: Event) => void;
+    onChange?: (event: Event & { target: HTMLSelectElement }) => void;
     /**
      * Whether the select should be read-only
      */
@@ -242,7 +242,7 @@ export default class Select extends Component<SelectSignature> {
 
   handleChange = (event: Event) => {
     const select = event.currentTarget as HTMLSelectElement;
-    this.args.onChange?.(select.value, event);
+    this.args.onChange?.(event as Event & { target: HTMLSelectElement });
     if (this.args.value !== undefined) selectValue(select, this.args.value);
     this.title = selectedText(select);
   };

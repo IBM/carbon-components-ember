@@ -74,8 +74,7 @@ Default.test(
     await userEvent.type(input, '11:30');
     await expect(input).toHaveValue('11:30');
     await expect(args.onChange).toHaveBeenLastCalledWith(
-      '11:30',
-      expect.anything(),
+      expect.objectContaining({ target: input }),
     );
 
     const [period] = canvas.getAllByRole('combobox');
@@ -98,9 +97,9 @@ export const Controlled = meta.story({
   },
   render: (args: Args) => {
     const state = trackedObject({ value: args.value });
-    const onChange = (value: string, event: Event) => {
-      state.value = value;
-      args.onChange?.(value, event);
+    const onChange = (event: Event & { target: HTMLInputElement }) => {
+      state.value = event.target.value;
+      args.onChange?.(event);
     };
 
     return <template>

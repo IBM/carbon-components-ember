@@ -51,15 +51,17 @@ module('Integration | Component | TextArea', (hooks) => {
     assert.dom('textarea.cds--text-area').hasAttribute('rows', '4');
   });
 
-  test('should call onChange with the new value when typed into', async function (assert) {
-    let received;
-    const handleChange = (value: string) => (received = value);
+  test('should call onChange with the input event when typed into, as Carbon React does', async function (assert) {
+    let received: (Event & { target: HTMLTextAreaElement }) | undefined;
+    const handleChange = (event: Event & { target: HTMLTextAreaElement }) =>
+      (received = event);
 
     await render(<template><TextArea @onChange={{handleChange}} /></template>);
 
     await fillIn('textarea.cds--text-area', 'new value');
 
-    assert.strictEqual(received, 'new value');
+    assert.strictEqual(received?.type, 'input');
+    assert.strictEqual(received?.target.value, 'new value');
   });
 
   test('should show the invalid state and message', async function (assert) {

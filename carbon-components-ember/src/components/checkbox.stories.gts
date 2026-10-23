@@ -22,7 +22,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          'Checkboxes are used when there are multiple items to select in a list. Users can select zero, one, or any number of items.\n\nCheckbox is controlled: pass `@checked` and update it from `@onChange`, which receives the new checked state.',
+          'Checkboxes are used when there are multiple items to select in a list. Users can select zero, one, or any number of items.\n\nCheckbox is controlled: pass `@checked` and update it from `@onChange`, which receives the `change` event and `{ checked, id }`, as in Carbon React.',
       },
     },
   },
@@ -35,9 +35,12 @@ const meta = preview.meta({
   // `checked` arg, and report every change to the `onChange` action.
   render: (args) => {
     const state = trackedObject({ checked: args.checked });
-    const onChange = (checked: boolean) => {
-      state.checked = checked;
-      args.onChange?.(checked);
+    const onChange = (
+      event: Event & { target: HTMLInputElement },
+      change: { checked: boolean; id: string },
+    ) => {
+      state.checked = change.checked;
+      args.onChange?.(event, change);
     };
 
     return <template>
@@ -63,11 +66,17 @@ Single.test(
 
     await userEvent.click(checkbox);
     await expect(checkbox).toBeChecked();
-    await expect(args.onChange).toHaveBeenLastCalledWith(true);
+    await expect(args.onChange).toHaveBeenLastCalledWith(
+      expect.anything(),
+      expect.objectContaining({ checked: true }),
+    );
 
     await userEvent.click(checkbox);
     await expect(checkbox).not.toBeChecked();
-    await expect(args.onChange).toHaveBeenLastCalledWith(false);
+    await expect(args.onChange).toHaveBeenLastCalledWith(
+      expect.anything(),
+      expect.objectContaining({ checked: false }),
+    );
   },
 );
 
@@ -109,9 +118,12 @@ export const LabelInBlock = meta.story({
   },
   render: (args) => {
     const state = trackedObject({ checked: args.checked });
-    const onChange = (checked: boolean) => {
-      state.checked = checked;
-      args.onChange?.(checked);
+    const onChange = (
+      event: Event & { target: HTMLInputElement },
+      change: { checked: boolean; id: string },
+    ) => {
+      state.checked = change.checked;
+      args.onChange?.(event, change);
     };
 
     return <template>

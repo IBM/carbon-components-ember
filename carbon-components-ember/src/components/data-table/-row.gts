@@ -50,6 +50,10 @@ export default class DataTableRow<T> extends Component<
     }
   }
 
+  toggleSelection = (_event: Event, { checked }: { checked: boolean }) => {
+    this.args.table.toggleItemSelection(this.args.item, checked);
+  };
+
   get isSelected() {
     return this.args.table?.state.selectedItems.has(this.args.item) ?? false;
   }
@@ -133,7 +137,7 @@ export default class DataTableRow<T> extends Component<
           {{#unless @table.isLoading}}
             <Checkbox
               @checked={{this.isSelected}}
-              @onChange={{fn @table.toggleItemSelection @item}}
+              @onChange={{this.toggleSelection}}
               @label="Select row"
               @hideLabel={{true}}
             />

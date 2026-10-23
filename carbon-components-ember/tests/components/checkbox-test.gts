@@ -16,10 +16,13 @@ module('Integration | Component | Checkbox', (hooks) => {
     assert.strictEqual(label.getAttribute('for'), input.id);
   });
 
-  test('calls onChange with the new checked state', async function (assert) {
-    let received: unknown;
-    const onChange = (value: boolean) => {
-      received = value;
+  test('calls onChange with the change event, the checked state and the id, as Carbon React does', async function (assert) {
+    let received: [Event, { checked: boolean; id: string }] | undefined;
+    const onChange = (
+      event: Event & { target: HTMLInputElement },
+      change: { checked: boolean; id: string },
+    ) => {
+      received = [event, change];
     };
 
     await render(
@@ -28,7 +31,27 @@ module('Integration | Component | Checkbox', (hooks) => {
 
     await click('input.cds--checkbox');
 
-    assert.true(received);
+    assert.strictEqual(received?.[0].type, 'change');
+    assert.deepEqual(received?.[1], {
+      checked: true,
+      id: find('input.cds--checkbox')!.id,
+    });
+  });
+
+  test('a read-only checkbox neither toggles nor calls onChange, as in Carbon React', async function (assert) {
+    let calls = 0;
+    const onChange = () => calls++;
+
+    await render(
+      <template>
+        <Checkbox @label="Accept" @readonly={{true}} @onChange={{onChange}} />
+      </template>,
+    );
+
+    await click('input.cds--checkbox');
+
+    assert.dom('input.cds--checkbox').isNotChecked();
+    assert.strictEqual(calls, 0);
   });
 
   test('toggles the focus class on the label when the input is focused/blurred', async function (assert) {
