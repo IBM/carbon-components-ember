@@ -246,6 +246,10 @@ Glimmer sets a `<select>`'s `value` before its options render, so `<select value
 
 A Modal's `<dialog>` is in the top layer, out of everything around it, but Floating UI still counts the trigger's overflow ancestors outside it as clipping the trigger, so `hide()` hides what floats from inside it. With `utils/floating.ts`, give `hide()` `() => ({ boundary: clippingBoundary(reference) })`, derived so a Modal opening in the same render counts. Focus inside floating content with `{ preventScroll: true }`: until Floating UI places it, Carbon's styles can leave it at the top of the page.
 
+### ❌ Pitfall 9: A Modifier That Reads Too Little, or Too Much
+
+A function modifier tracks only what its body reads before returning. An argument it ignores, or reads only after an `await` or in a callback, never re-runs it, so destructure each one (lint flags a signature's arguments the callback doesn't take). Tracked state it reads on the way, even inside a method it calls, re-runs it on every change. Where something else already handles that state, compare the arguments with the last run's and read the state only when they changed, as `PromptLineAutocomplete`'s `watchConfigs` does.
+
 ---
 
 ## Tests

@@ -813,10 +813,12 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
     };
   });
 
+  private lastConfigs: unknown[] = [];
+
   // Re-resolves the active trigger's items against fresh configs, matching
-  // upstream's `AutocompleteController.setConfigs`. Runs on every args
-  // change (including the first, when `this.trigger` is still null - a
-  // harmless no-op).
+  // upstream's `AutocompleteController.setConfigs`. It reads `this.trigger`
+  // only when a config changed, so a trigger change, which
+  // handleTriggerChange() resolves itself, doesn't re-run it.
   watchConfigs = modifier<{
     Element: HTMLDivElement;
     Args: {
@@ -827,8 +829,11 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
         StartersConfig | undefined,
       ];
     };
-  }>(() => {
-    if (this.trigger) {
+  }>((_element, [mention, command, autocomplete, starters]) => {
+    const configs = [mention, command, autocomplete, starters];
+    const changed = configs.some((config, i) => config !== this.lastConfigs[i]);
+    this.lastConfigs = configs;
+    if (changed && this.trigger) {
       this.kickoffResolve(this.trigger);
     }
   });
