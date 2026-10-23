@@ -1,6 +1,13 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, find } from '@ember/test-helpers';
+import {
+  find,
+  render,
+  settled,
+  triggerEvent,
+  waitUntil,
+} from '@ember/test-helpers';
+import { tracked } from '@glimmer/tracking';
 import Tag from '#src/components/tag.gts';
 import { Add } from '#src/icons.ts';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
@@ -162,5 +169,68 @@ module('Integration | Component | Tag', (hooks) => {
     );
 
     assert.dom('.cds--tag__label').hasAttribute('title', 'Custom Title');
+  });
+
+  test('a label that is cut off shows in a definition tooltip, opened by a press rather than hover', async function (assert) {
+    const label = 'Tag content with a long text description that goes on';
+    await render(
+      <template>
+        <Tag @type="red">{{label}}</Tag>
+      </template>,
+    );
+    await waitUntil(() => find('.cds--definition--tooltip--tag'));
+
+    assert
+      .dom(
+        '.cds--definition--tooltip--tag .cds--definition-term .cds--tag__label',
+      )
+      .hasText(label);
+    assert.dom('.cds--definition-tooltip').hasText(label);
+    const term = '.cds--definition-term';
+    await triggerEvent('.cds--definition--tooltip--tag', 'mouseenter');
+    assert.dom(term).hasAttribute('aria-expanded', 'false');
+    await triggerEvent(term, 'mousedown', { button: 0 });
+    assert.dom(term).hasAttribute('aria-expanded', 'true');
+  });
+
+  test('the tooltip goes once the label fits', async function (assert) {
+    const label = tracked(
+      'Tag content with a long text description that goes on',
+    );
+    await render(
+      <template>
+        <Tag @type="red">{{label.value}}</Tag>
+      </template>,
+    );
+    await waitUntil(() => find('.cds--definition--tooltip--tag'));
+
+    label.value = 'Tag content';
+    await settled();
+    await waitUntil(() => !find('.cds--definition--tooltip--tag'));
+    assert.dom('.cds--tag > .cds--tag__label').hasText('Tag content');
+  });
+
+  test('the tooltip shows the block, and follows it while it stays cut off', async function (assert) {
+    const label = tracked(
+      'Tag content with a long text description that goes on',
+    );
+    await render(
+      <template>
+        <Tag @type="red" id="tag" class="extra" @title="Tag title">
+          <em>{{label.value}}</em>
+        </Tag>
+      </template>,
+    );
+    await waitUntil(() => find('.cds--definition--tooltip--tag'));
+
+    assert.dom('.cds--definition-tooltip em').hasText(label.value);
+    assert.dom('#tag').hasClass('cds--tag').hasClass('extra');
+    assert
+      .dom('.cds--definition-term .cds--tag__label')
+      .hasAttribute('title', 'Tag title');
+
+    label.value = 'Another tag content with a long text description';
+    await settled();
+    assert.dom('.cds--definition-tooltip em').hasText(label.value);
   });
 });
