@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import { setupApplicationTest, setupRenderingTest } from 'ember-qunit';
 import { click, render, triggerKeyEvent } from '@ember/test-helpers';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import Tile from '#src/components/tile.gts';
 import style from 'ember-style-modifier';
-import { setupRoutes } from '../helpers';
+import { setupRoutes, visitWith } from '../helpers';
 
 module('Integration | Component | Tile', (hooks) => {
   setupRenderingTest(hooks);
@@ -89,38 +89,6 @@ module('Integration | Component | Tile', (hooks) => {
     await triggerKeyEvent('a.cds--tile--clickable', 'keydown', 'Enter');
     await click('a.cds--tile--clickable');
     assert.verifySteps([]);
-  });
-
-  module('with @route', function (hooks) {
-    setupRoutes(hooks);
-
-    test('a clickable tile links to its route', async function (assert) {
-      await render(
-        <template>
-          <Tile @clickable={{true}} @route="settings">
-            <:content>Settings</:content>
-          </Tile>
-        </template>,
-      );
-      assert.dom('a.cds--tile--clickable').hasAttribute('href', '/settings');
-      await click('a.cds--tile--clickable');
-      const router = this.owner.lookup('service:router');
-      assert.strictEqual(router.currentRouteName, 'settings');
-    });
-
-    test('a disabled one is no link', async function (assert) {
-      await render(
-        <template>
-          <Tile @clickable={{true}} @route="settings" @disabled={{true}}>
-            <:content>Settings</:content>
-          </Tile>
-        </template>,
-      );
-      assert
-        .dom('a.cds--tile--clickable')
-        .doesNotHaveAttribute('href')
-        .hasAttribute('aria-disabled', 'true');
-    });
   });
 
   test('@clickable renders an anchor tile', async function (assert) {
@@ -283,5 +251,40 @@ module('Integration | Component | Tile', (hooks) => {
       expandedHeight > collapsedHeight + 300,
       `expanded height (${expandedHeight}) should be well past collapsed height (${collapsedHeight}) once the 400px-tall below-the-fold content is visible`,
     );
+  });
+});
+
+module('Integration | Component | Tile > with @route', function (hooks) {
+  setupApplicationTest(hooks);
+  setupRoutes(hooks);
+
+  test('a clickable tile links to its route', async function (assert) {
+    await visitWith(
+      this,
+      <template>
+        <Tile @clickable={{true}} @route="settings">
+          <:content>Settings</:content>
+        </Tile>
+      </template>,
+    );
+    assert.dom('a.cds--tile--clickable').hasAttribute('href', '/settings');
+    await click('a.cds--tile--clickable');
+    const router = this.owner.lookup('service:router');
+    assert.strictEqual(router.currentRouteName, 'settings');
+  });
+
+  test('a disabled one is no link', async function (assert) {
+    await visitWith(
+      this,
+      <template>
+        <Tile @clickable={{true}} @route="settings" @disabled={{true}}>
+          <:content>Settings</:content>
+        </Tile>
+      </template>,
+    );
+    assert
+      .dom('a.cds--tile--clickable')
+      .doesNotHaveAttribute('href')
+      .hasAttribute('aria-disabled', 'true');
   });
 });
