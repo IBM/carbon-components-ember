@@ -14,15 +14,26 @@ export type MenuItem = {
   submenus: SubMenu[];
   icon?: typeof Icon;
   title: string;
+  /** The URL it links to. */
+  href?: string;
+  /** A route to link to through the Ember router, in place of `href`. */
+  route?: string;
+  /** The models for `route`'s dynamic segments, in order. */
+  models?: unknown[];
+  /** Query params for `route`. */
+  query?: Record<string, unknown>;
 };
 
 export interface UIShellSideNavSignature {
   Element: HTMLElement;
   Args: {
     open: boolean;
-    menuItems: MenuItem[];
-    currentMenu: MenuItem;
-    transitionTo: (menu: MenuItem | SubMenu) => void;
+    /** The menus to render, in place of the block. */
+    menuItems?: MenuItem[];
+    /** The current one of `@menuItems`, for an item without a route. */
+    currentMenu?: MenuItem;
+    /** Called with the clicked one of `@menuItems`. */
+    transitionTo?: (menu: MenuItem | SubMenu) => void;
   };
   Blocks: {
     default: [
@@ -63,13 +74,21 @@ const UIShellSideNav: TOC<UIShellSideNavSignature> = <template>
           @title={{menu.title}}
           @open={{@open}}
           @isCurrent={{eq menu @currentMenu}}
-          @transitionTo={{fn @transitionTo menu}}
+          @transitionTo={{if @transitionTo (fn @transitionTo menu)}}
+          @href={{menu.href}}
+          @route={{menu.route}}
+          @models={{menu.models}}
+          @query={{menu.query}}
           as |Sub|
         >
           {{#each menu.submenus as |submenu|}}
             <Sub
               @isCurrent={{eq submenu @currentMenu}}
-              @transitionTo={{fn @transitionTo submenu}}
+              @transitionTo={{if @transitionTo (fn @transitionTo submenu)}}
+              @href={{submenu.href}}
+              @route={{submenu.route}}
+              @models={{submenu.models}}
+              @query={{submenu.query}}
               @icon={{submenu.icon}}
               @title={{submenu.title}}
             />

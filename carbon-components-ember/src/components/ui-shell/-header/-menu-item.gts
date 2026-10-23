@@ -1,3 +1,4 @@
+import RouterLink from '../../-private/router-link.gts';
 import type { TOC } from '@ember/component/template-only';
 
 export interface UIShellHeaderMenuItemSignature {
@@ -8,6 +9,18 @@ export interface UIShellHeaderMenuItemSignature {
      * other attributes go on the link.
      */
     className?: string;
+    /** The URL it links to. */
+    href?: string;
+    /**
+     * A route to link to through the Ember router, in place of `@href`, as
+     * Ember's `LinkTo`. It's the current link while the route is current.
+     */
+    route?: string;
+    /** The models for `@route`'s dynamic segments, in order. */
+    models?: unknown[];
+    /** Query params for `@route`. */
+    query?: Record<string, unknown>;
+    /** Marks it as the current link, as Carbon React's `isActive`. */
     isActive?: boolean;
   };
   Blocks: {
@@ -17,18 +30,22 @@ export interface UIShellHeaderMenuItemSignature {
 
 const UIShellHeaderMenuItem: TOC<UIShellHeaderMenuItemSignature> = <template>
   <li class={{@className}}>
-    <a
-      class="cds--header__menu-item
-        {{if @isActive 'cds--header__menu-item--current'}}"
-      href="#"
+    <RouterLink
+      @href={{@href}}
+      @route={{@route}}
+      @models={{@models}}
+      @query={{@query}}
+      @isActive={{@isActive}}
+      @activeClass="cds--header__menu-item--current"
+      @ariaCurrent="true"
+      class="cds--header__menu-item"
       tabindex="0"
-      aria-current="{{if @isActive 'page'}}"
       ...attributes
     >
       <span class="cds--text-truncate--end">
         {{yield}}
       </span>
-    </a>
+    </RouterLink>
   </li>
 </template>;
 

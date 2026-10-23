@@ -27,14 +27,10 @@ import '#storybook/styles/ui-shell/header.css';
 // Parity gaps:
 // - `Side Nav Rail with Header`: no rail (`isRail`) mode.
 // - `Side Nav with Large Side Nav Items`: no `large` side-nav items.
-// - No `SkipToContent`/`HeaderName` `prefix`/`href` customization (the
-//   header always renders "Skip to main content" and an `href="#"` name),
-//   no `HeaderMenuButton` `isCollapsible`, and no `HeaderNavigation`
-//   `aria-label` (it is always "IBM [Platform]").
-// - Sidenav's signature requires `@menuItems`, `@currentMenu` and
-//   `@transitionTo` even when it is composed through its block, and every
-//   menu/submenu `icon` is required although the templates render fine
-//   without one. The `Fixed Side Nav` story casts its icon-less items.
+// - No `SkipToContent` customization (the header always renders "Skip to
+//   main content") or `HeaderName` `prefix`, no `HeaderMenuButton`
+//   `isCollapsible`, and no `HeaderNavigation` `aria-label` (it is always
+//   "IBM [Platform]").
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'Components/UI Shell/Header',
@@ -43,7 +39,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     docs: {
       description: {
         component:
-          "The UI Shell is the structural framework of an application that houses navigational elements and page content, so users can move through an application consistently and predictably. Its `shell` block yields a `Header` (top bar with the product name, navigation, and global actions), a `Nav` (top-level navigation links and `HeaderMenu`s), a `Sidenav` (left-hand navigation panel), a `Switcher` and a `HeaderContainer`; the `content` block is the page content.\n\nThe `Header` yields a `GlobalAction` into its `headerGlobal` block (icon buttons for search, notifications, the app switcher, ...) and a `HeaderPanel` into its `headerPanel` block. The `Sidenav` block yields `Menu`, `Divider`, `SideNavHeader`, `SideNavDetails`, `SideNavIcon` and `HeaderSideNavItems`, and its `footer` block a `Footer` toggle; wire the toggle to the same `@open`/`@onToggle` state as the `Header`'s menu button (or use `HeaderContainer`, which manages it).",
+          "The UI Shell is the structural framework of an application that houses navigational elements and page content, so users can move through an application consistently and predictably. Its `shell` block yields a `Header` (top bar with the product name, navigation, and global actions), a `Nav` (top-level navigation links and `HeaderMenu`s), a `Sidenav` (left-hand navigation panel), a `Switcher` and a `HeaderContainer`; the `content` block is the page content.\n\nThe header name, nav items, menu items, switcher items and side-nav menus link to an `@href`, or to one of the app's routes with `@route` (plus `@models` and `@query`), which renders Ember's `LinkTo` and marks the link to the current route as current.\n\nThe `Header` yields a `GlobalAction` into its `headerGlobal` block (icon buttons for search, notifications, the app switcher, ...) and a `HeaderPanel` into its `headerPanel` block. The `Sidenav` block yields `Menu`, `Divider`, `SideNavHeader`, `SideNavDetails`, `SideNavIcon` and `HeaderSideNavItems`, and its `footer` block a `Footer` toggle; wire the toggle to the same `@open`/`@onToggle` state as the `Header`'s menu button (or use `HeaderContainer`, which manages it).",
       },
     },
   },
@@ -60,16 +56,16 @@ export const HeaderWNavigation = meta.story({
   render: (args: StoryArgs) => <template>
     <UIShell>
       <:shell as |s|>
-        <s.Header @title={{args.title}} @subtitle={{args.subtitle}}>
+        <s.Header @href="#" @title={{args.title}} @subtitle={{args.subtitle}}>
           <:header>
             <s.Nav as |Item HeaderMenu|>
-              <Item>Link 1</Item>
-              <Item>Link 2</Item>
-              <Item>Link 3</Item>
+              <Item @href="#">Link 1</Item>
+              <Item @href="#">Link 2</Item>
+              <Item @href="#">Link 3</Item>
               <HeaderMenu @menuLinkName="Link 4" as |MenuItemLink|>
-                <MenuItemLink>Sub-link 1</MenuItemLink>
-                <MenuItemLink>Sub-link 2</MenuItemLink>
-                <MenuItemLink>Sub-link 3</MenuItemLink>
+                <MenuItemLink @href="#">Sub-link 1</MenuItemLink>
+                <MenuItemLink @href="#">Sub-link 2</MenuItemLink>
+                <MenuItemLink @href="#">Sub-link 3</MenuItemLink>
               </HeaderMenu>
             </s.Nav>
           </:header>
@@ -97,12 +93,12 @@ export const HeaderWNavigationAndActions = meta.story({
   render: (args: StoryArgs) => <template>
     <UIShell>
       <:shell as |s|>
-        <s.Header @title={{args.title}} @subtitle={{args.subtitle}}>
+        <s.Header @href="#" @title={{args.title}} @subtitle={{args.subtitle}}>
           <:header>
             <s.Nav as |Item|>
-              <Item>Link 1</Item>
-              <Item>Link 2</Item>
-              <Item>Link 3</Item>
+              <Item @href="#">Link 1</Item>
+              <Item @href="#">Link 2</Item>
+              <Item @href="#">Link 3</Item>
             </s.Nav>
           </:header>
           <:headerGlobal as |GlobalAction|>
@@ -153,6 +149,7 @@ export const HeaderWNavigationActionsAndSideNav = meta.story({
       <UIShell>
         <:shell as |s|>
           <s.Header
+            @href="#"
             @title={{args.title}}
             @subtitle={{args.subtitle}}
             @open={{state.open}}
@@ -160,9 +157,9 @@ export const HeaderWNavigationActionsAndSideNav = meta.story({
           >
             <:header>
               <s.Nav as |Item|>
-                <Item>Link 1</Item>
-                <Item>Link 2</Item>
-                <Item>Link 3</Item>
+                <Item @href="#">Link 1</Item>
+                <Item @href="#">Link 2</Item>
+                <Item @href="#">Link 3</Item>
               </s.Nav>
             </:header>
             <:headerGlobal as |GlobalAction|>
@@ -219,6 +216,7 @@ export const HeaderWSideNav = meta.story({
       <UIShell>
         <:shell as |s|>
           <s.Header
+            @href="#"
             @title={{args.title}}
             @subtitle={{args.subtitle}}
             @open={{state.open}}
@@ -254,7 +252,7 @@ export const HeaderWActionsAndRightPanel = meta.story({
     return <template>
       <UIShell>
         <:shell as |s|>
-          <s.Header @title={{args.title}} @subtitle={{args.subtitle}}>
+          <s.Header @href="#" @title={{args.title}} @subtitle={{args.subtitle}}>
             <:headerGlobal as |GlobalAction|>
               <GlobalAction
                 @aria-label="Search"
@@ -318,7 +316,7 @@ export const HeaderWActionsAndSwitcher = meta.story({
     return <template>
       <UIShell>
         <:shell as |s|>
-          <s.Header @title={{args.title}} @subtitle={{args.subtitle}}>
+          <s.Header @href="#" @title={{args.title}} @subtitle={{args.subtitle}}>
             <:headerGlobal as |GlobalAction|>
               <GlobalAction
                 @aria-label="Search"
@@ -334,13 +332,14 @@ export const HeaderWActionsAndSwitcher = meta.story({
             <:headerPanel as |HeaderPanel|>
               <HeaderPanel @expanded={{state.expanded}} @onToggle={{onToggle}}>
                 <s.Switcher @aria-label="Switcher Container" as |Item Divider|>
-                  <Item @aria-label="Link 1" @isSelected={{true}}>Link 1</Item>
+                  <Item @href="#" @aria-label="Link 1" @isSelected={{true}}>Link
+                    1</Item>
                   <Divider />
-                  <Item @aria-label="Link 2">Link 2</Item>
-                  <Item @aria-label="Link 3">Link 3</Item>
-                  <Item @aria-label="Link 4">Link 4</Item>
+                  <Item @href="#" @aria-label="Link 2">Link 2</Item>
+                  <Item @href="#" @aria-label="Link 3">Link 3</Item>
+                  <Item @href="#" @aria-label="Link 4">Link 4</Item>
                   <Divider />
-                  <Item @aria-label="Link 5">Link 5</Item>
+                  <Item @href="#" @aria-label="Link 5">Link 5</Item>
                 </s.Switcher>
               </HeaderPanel>
             </:headerPanel>
@@ -367,6 +366,7 @@ export const Overview = meta.story({
       <UIShell>
         <:shell as |s|>
           <s.Header
+            @href="#"
             @title="IBM"
             @subtitle="Platform"
             @open={{state.open}}
@@ -374,9 +374,9 @@ export const Overview = meta.story({
           >
             <:header>
               <s.Nav as |Item|>
-                <Item>Link 1</Item>
-                <Item>Link 2</Item>
-                <Item>Link 3</Item>
+                <Item @href="#">Link 1</Item>
+                <Item @href="#">Link 2</Item>
+                <Item @href="#">Link 3</Item>
               </s.Nav>
             </:header>
             <:headerGlobal as |GlobalAction|>
@@ -454,6 +454,7 @@ export const HeaderContainer = meta.story({
       <:shell as |s|>
         <s.HeaderContainer as |c|>
           <s.Header
+            @href="#"
             @title={{args.title}}
             @subtitle={{args.subtitle}}
             @open={{c.isSideNavExpanded}}

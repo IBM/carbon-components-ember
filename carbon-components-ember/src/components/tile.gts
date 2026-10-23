@@ -5,6 +5,8 @@ import { modifier } from 'ember-modifier';
 import Checkbox from './icons/checkbox.ts';
 import CheckboxCheckedFilled from './icons/checkbox-checked-filled.ts';
 import ChevronDown from './icons/chevron-down.ts';
+import Link from './link.gts';
+import type { LinkSignature } from './link.gts';
 import { observeResize } from '../utils/resize-observer.ts';
 
 // Matches @carbon/react's ExpandableTile: while collapsed, the tile's own
@@ -43,10 +45,31 @@ const clipExpandableTile = modifier<{
 });
 
 export interface TileSignature {
-  Element: HTMLDivElement | HTMLAnchorElement;
+  Element: HTMLDivElement | LinkSignature['Element'];
   Args: {
     selectable?: boolean;
+    /**
+     * A clickable tile: Carbon React's `ClickableTile`, a `Link` styled as
+     * a tile. Without `@href` or `@route`, it's focusable, and Enter and
+     * Space click it, for an `{{on "click"}}` handler.
+     */
     clickable?: boolean;
+    /** The URL a `@clickable` tile links to. */
+    href?: string;
+    /**
+     * A route for a `@clickable` tile to link to through the Ember router,
+     * in place of `@href`, as Ember's `LinkTo`.
+     */
+    route?: string;
+    /** The models for `@route`'s dynamic segments, in order. */
+    models?: unknown[];
+    /** Query params for `@route`. */
+    query?: Record<string, unknown>;
+    /**
+     * Disables a `@clickable` tile: it's no link, can't be focused, and
+     * stops clicks before any `{{on "click"}}` handler.
+     */
+    disabled?: boolean;
     expandable?: boolean;
     onSelect?: () => null;
     /**
@@ -99,10 +122,26 @@ export default class Tile extends Component<TileSignature> {
     return this.args.tabindex ?? '0';
   }
 
-  // Its placeholder href goes nowhere; a caller's href navigates.
-  preventNavigation = (event: Event) => {
-    const link = event.currentTarget as HTMLAnchorElement;
-    if (link.getAttribute('href') === '#') event.preventDefault();
+  get clickableIsLink() {
+    return Boolean(this.args.href || this.args.route);
+  }
+
+  // As Carbon React's, which only calls onClick while enabled: a click on
+  // a disabled tile goes no further. Listening in the capture phase runs
+  // this before the caller's handlers on the same element.
+  stopDisabledClick = (event: MouseEvent) => {
+    if (!this.args.disabled) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  };
+
+  // As Carbon React's: a clickable tile without a link clicks on Enter and
+  // Space.
+  clickOnKey = (event: KeyboardEvent) => {
+    if (this.clickableIsLink || this.args.disabled) return;
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    (event.currentTarget as HTMLElement).click();
   };
 
   onSelectableClick = (event: Event) => {
@@ -215,15 +254,20 @@ export default class Tile extends Component<TileSignature> {
       </div>
     {{/if}}
     {{#if @clickable}}
-      {{! @carbon/react's Link never sets role='button' on a real <a href ...attributes> (only role='link' when disabled) - a real <a href> already conveys link semantics on its own }}
-      <a
-        class="cds--link cds--tile cds--tile--clickable"
-        href="#"
+      <Link
+        @href={{@href}}
+        @route={{@route}}
+        @models={{@models}}
+        @query={{@query}}
+        @disabled={{@disabled}}
+        class="cds--tile cds--tile--clickable"
+        tabindex={{unless (or this.clickableIsLink @disabled) "0"}}
+        {{on "click" this.stopDisabledClick capture=true}}
+        {{on "keydown" this.clickOnKey}}
         ...attributes
-        {{on "click" this.preventNavigation}}
       >
         {{yield to="content"}}
-      </a>
+      </Link>
     {{/if}}
   </template>
 }

@@ -2,6 +2,7 @@ import Close from '../icons/close.ts';
 import Menu from '../icons/menu.ts';
 import UIShellHeaderGlobalAction from './-header/-global-action.gts';
 import UIShellHeaderPanel from './-header/-panel.gts';
+import RouterLink from '../-private/router-link.gts';
 import type { TOC } from '@ember/component/template-only';
 
 export interface UIShellHeaderSignature {
@@ -9,6 +10,17 @@ export interface UIShellHeaderSignature {
   Args: {
     title: string;
     subtitle: string;
+    /** The URL the name links to, as Carbon React's HeaderName `href`. */
+    href?: string;
+    /**
+     * A route for the name to link to through the Ember router, in place
+     * of `@href`, as Ember's `LinkTo`.
+     */
+    route?: string;
+    /** The models for `@route`'s dynamic segments, in order. */
+    models?: unknown[];
+    /** Query params for `@route`. */
+    query?: Record<string, unknown>;
     open?: boolean;
     onToggle?: (value: boolean) => void;
   };
@@ -40,14 +52,21 @@ const UIShellHeader: TOC<UIShellHeaderSignature> = <template>
         {{/if}}
       </button>
     {{/if}}
-    <a class="cds--header__name" href="#">
+    <RouterLink
+      @href={{@href}}
+      @route={{@route}}
+      @models={{@models}}
+      @query={{@query}}
+      @activeClass=""
+      class="cds--header__name"
+    >
       <span class="cds--header__name--prefix">
         {{@title}}
         <small>
           {{@subtitle}}
         </small>
       </span>
-    </a>
+    </RouterLink>
     {{yield to="header"}}
     <div class="cds--header__global">
       {{yield UIShellHeaderGlobalAction to="headerGlobal"}}

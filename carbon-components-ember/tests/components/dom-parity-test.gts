@@ -2150,7 +2150,7 @@ module('DOM parity | Carbon React', function (hooks) {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tile @clickable={{true}}><:content>Clickable tile content</:content></Tile>
+          <Tile @clickable={{true}} @href="#"><:content>Clickable tile content</:content></Tile>
         </template>,
       );
       assertDomParity(
