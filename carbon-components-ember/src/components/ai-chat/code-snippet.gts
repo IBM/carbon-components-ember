@@ -8,6 +8,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
+import { waitForPromise } from '@ember/test-waiters';
 import style from 'ember-style-modifier';
 import type Owner from '@ember/owner';
 import type { EditorView } from '@codemirror/view';
@@ -499,7 +500,7 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
     };
   }>((element) => {
     this.editorContainer = element;
-    void this.recreateEditor();
+    void waitForPromise(this.recreateEditor());
   });
 
   /** In-place diff-apply of `@code`, throttled - never a full recreate. */

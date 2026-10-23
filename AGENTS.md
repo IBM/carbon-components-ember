@@ -174,7 +174,7 @@ A function modifier re-runs only for the arguments it reads, since ember-modifie
 
 ### 5. Timing and Destructors
 
-Never use bare `setTimeout`. Use `ember-concurrency` restartable tasks which auto-cancel on component destruction. To defer work past the current render (writing state the render read), use `afterRender` from `utils/after-render.ts`, not the run loop. Anything else that must be cleaned up belongs in `registerDestructor` or a modifier teardown.
+Never use bare `setTimeout`. Use `ember-concurrency` restartable tasks which auto-cancel on component destruction; lint enforces this outside stories. A plain class can hold tasks too: `destroy(this)` from `@ember/destroyable` cancels them, as the AI Chat media providers' `teardown()` does. `settled()` waits for a timer only once it has started, so wrap native async that leads to one (a dynamic `import()`, a fetch) in `waitForPromise` from `@ember/test-waiters`. To defer work past the current render (writing state the render read), use `afterRender` from `utils/after-render.ts`, not the run loop. Anything else that must be cleaned up belongs in `registerDestructor` or a modifier teardown.
 `settled()` waits for `timeout()`, so a timer tests shouldn't wait out, such as a toast closing itself, uses `rawTimeout()`.
 
 ### 6. Signatures

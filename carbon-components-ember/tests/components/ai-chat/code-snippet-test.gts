@@ -213,7 +213,8 @@ module('Integration | Component | ai-chat/CodeSnippet', (hooks) => {
       '        print(name)',
     ].join('\n');
 
-    await render(
+    // render() settles only after the detection delay, so look before then.
+    const rendered = render(
       <template>
         <CodeSnippet @code={{pythonCode}} @detectLanguage={{true}} />
       </template>,
@@ -224,9 +225,7 @@ module('Integration | Component | ai-chat/CodeSnippet', (hooks) => {
       .dom('.cds-aichat-snippet__language')
       .doesNotExist('no @language was given, so nothing is locked in yet');
 
-    await waitUntil(() => find('.cds-aichat-snippet__language'), {
-      timeout: 2000,
-    });
+    await rendered;
     assert.dom('.cds-aichat-snippet__language').hasText('Python');
   });
 

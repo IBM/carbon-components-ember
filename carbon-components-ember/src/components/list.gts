@@ -1,6 +1,7 @@
 import { modifier } from 'ember-modifier';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { task, timeout } from 'ember-concurrency';
 import SearchComponent from '../components/search.gts';
 import type { WithBoundArgs } from '@glint/template';
 import CarbonPagination from '../components/pagination.gts';
@@ -80,13 +81,16 @@ export default class List<T> extends Component<ListSignature<T>> {
     this.currentItemsSlice = slice;
   };
 
+  showAllItems = task(async () => {
+    await timeout(200);
+    if (!this.currentItemsSlice) {
+      this.currentItemsSlice = { start: 0, end: undefined };
+    }
+  });
+
   delayItems = modifier(() => {
-    const timer = setTimeout(() => {
-      if (!this.currentItemsSlice) {
-        this.currentItemsSlice = { start: 0, end: undefined };
-      }
-    }, 200);
-    return () => clearTimeout(timer);
+    void this.showAllItems.perform();
+    return () => void this.showAllItems.cancelAll();
   });
 
   onSelect = (item: T) => {
