@@ -1,11 +1,12 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import { setupApplicationTest, setupRenderingTest } from 'ember-qunit';
 import { render, click, waitUntil, find, settled } from '@ember/test-helpers';
 import { trackedObject } from '@ember/reactive/collections';
 import Toolbar from '#src/components/ai-chat/toolbar.gts';
 import type { ToolbarAction } from '#src/components/ai-chat/toolbar.gts';
 import { Add, Settings } from '#src/icons.ts';
 import style from 'ember-style-modifier';
+import { setupRoutes, visitWith } from '../../helpers';
 
 const noActions: ToolbarAction[] = [];
 
@@ -238,3 +239,65 @@ module('Integration | Component | ai-chat/Toolbar', (hooks) => {
       .exists();
   });
 });
+
+module(
+  'Integration | Component | ai-chat/Toolbar > with routes',
+  function (hooks) {
+    setupApplicationTest(hooks);
+    setupRoutes(hooks);
+
+    test('a route action links to its route, unless it is disabled', async function (assert) {
+      const actions = [
+        { text: 'Settings', icon: Settings, route: 'settings', testId: 'on' },
+        {
+          text: 'User',
+          icon: Add,
+          route: 'user',
+          models: [7],
+          disabled: true,
+          testId: 'off',
+        },
+      ];
+
+      await visitWith(
+        this,
+        <template><Toolbar @actions={{actions}} /></template>,
+      );
+
+      assert
+        .dom('.cds-aichat-toolbar__actions-container [data-testid="off"]')
+        .doesNotHaveAttribute('href')
+        .hasAttribute('aria-disabled', 'true');
+      await click('.cds-aichat-toolbar__actions-container [data-testid="on"]');
+      const router = this.owner.lookup('service:router');
+      assert.strictEqual(router.currentRouteName, 'settings');
+    });
+
+    test('a route action in the overflow menu links to its route', async function (assert) {
+      const actions = [
+        { text: 'Add', icon: Add, onClick: () => {} },
+        { text: 'Add 2', icon: Add, onClick: () => {} },
+        { text: 'Settings', icon: Settings, route: 'settings' },
+        { text: 'User', icon: Settings, route: 'user', models: [7] },
+      ];
+
+      await visitWith(
+        this,
+        <template>
+          <div {{style maxInlineSize="80px"}}>
+            <Toolbar @overflow={{true}} @actions={{actions}} />
+          </div>
+        </template>,
+      );
+      await waitUntil(() => find('.cds-aichat-toolbar .cds--overflow-menu'));
+      await click('.cds-aichat-toolbar .cds--overflow-menu');
+
+      assert
+        .dom('a.cds--overflow-menu-options__btn[href="/users/7"]')
+        .hasText('User');
+      await click('a.cds--overflow-menu-options__btn[href="/users/7"]');
+      const router = this.owner.lookup('service:router');
+      assert.strictEqual(router.currentURL, '/users/7');
+    });
+  },
+);

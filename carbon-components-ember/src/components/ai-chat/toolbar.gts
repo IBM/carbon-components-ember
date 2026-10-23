@@ -24,6 +24,15 @@ export type ToolbarAction = {
   onClick?: () => void;
   /** Renders the action as a link instead of a button. */
   href?: string;
+  /**
+   * Renders the action as a link to this route through the Ember router, in
+   * place of `href`, as Ember's `LinkTo`.
+   */
+  route?: string;
+  /** The models for `route`'s dynamic segments, in order. */
+  models?: unknown[];
+  /** Query params for `route`. */
+  query?: Record<string, unknown>;
   target?: string;
   disabled?: boolean;
   /** Renders the action as a destructive option in the overflow menu (no effect on a visible icon button). */
@@ -261,6 +270,9 @@ export default class Toolbar extends Component<ToolbarSignature> {
                 <Item
                   @itemText={{toolbarAction.text}}
                   @href={{toolbarAction.href}}
+                  @route={{toolbarAction.route}}
+                  @models={{toolbarAction.models}}
+                  @query={{toolbarAction.query}}
                   @disabled={{toolbarAction.disabled}}
                   @isDelete={{toolbarAction.danger}}
                   @dangerDescription={{toolbarAction.dangerDescription}}

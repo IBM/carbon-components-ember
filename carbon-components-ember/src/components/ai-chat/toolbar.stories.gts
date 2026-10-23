@@ -109,7 +109,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
   parameters: {
     docs: {
       description: {
-        component: `\`Toolbar\` renders a horizontal action bar: a navigation area, a title, and a row of icon-button actions. Setting \`@overflow\` collapses actions that don't fit the available width into an overflow menu; actions marked \`fixed\` never overflow.
+        component: `\`Toolbar\` renders a horizontal action bar: a navigation area, a title, and a row of icon-button actions. Setting \`@overflow\` collapses actions that don't fit the available width into an overflow menu; actions marked \`fixed\` never overflow. An action with \`href\`, or \`route\` (plus \`models\` and \`query\`) for one of the app's routes, is a link.
 
 The \`navigation\`, \`title\`, \`fixedActions\` and \`decorator\` named blocks mirror upstream's slots of the same names.`,
       },
