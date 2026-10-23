@@ -176,3 +176,39 @@ jobs:
                 body,
               });
             }
+
+      # The Docs job's screenshots of the stories that differ, which don't
+      # depend on the `preview` label: only when the PR closes.
+      - name: Remove the story screenshots
+        if: github.event.action == 'closed'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          git init -q "$RUNNER_TEMP/screenshots"
+          cd "$RUNNER_TEMP/screenshots"
+          git config user.name 'Patrick Pircher'
+          git config user.email 'patricklx@users.noreply.github.com'
+          git remote add origin "https://x-access-token:$GH_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+          for i in 1 2 3 4 5; do
+            if ! git fetch -q --depth 1 origin story-screenshots 2> /dev/null; then
+              echo "No story screenshots"
+              exit 0
+            fi
+            BASE=$(git rev-parse FETCH_HEAD)
+            git checkout -q -f "$BASE"
+            if [ ! -d "pr-$PR" ]; then
+              echo "No story screenshots for this PR"
+              exit 0
+            fi
+            git rm -rfq "pr-$PR"
+            # The branch holds one commit, leased on the one we started from.
+            COMMIT=$(git commit-tree "$(git write-tree)" -m "Remove story screenshots for PR #$PR")
+            if git push -q --force-with-lease=story-screenshots:"$BASE" origin "$COMMIT:refs/heads/story-screenshots"; then
+              exit 0
+            fi
+            echo "Push rejected (attempt $i), retrying against the latest story-screenshots..."
+            sleep $((RANDOM % 5 + 1))
+          done
+          echo "Failed to push story-screenshots after retries"
+          exit 1

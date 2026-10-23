@@ -154,6 +154,114 @@ module('Integration | Component | DataTable', (hooks) => {
     assert.dom('input.cds--search-input').hasAttribute('data-test-search');
   });
 
+  test('@isLoading renders the table as DataTableSkeleton does', async function (assert) {
+    await render(
+      <template>
+        <DataTable
+          @title="Table title"
+          @description="Table description"
+          @isLoading={{true}}
+          @items={{items}}
+          as |table|
+        >
+          <table.Table>
+            <table.Header @headers={{array (hash label="Name")}} />
+            <table.EachBodyRows as |row|>
+              <row.Row>
+                <table.Column>{{row.item.name}}</table.Column>
+              </row.Row>
+            </table.EachBodyRows>
+          </table.Table>
+        </DataTable>
+      </template>,
+    );
+
+    assert.dom('.cds--data-table-container').hasClass('cds--skeleton');
+    assert.dom('table.cds--data-table').hasClass('cds--skeleton');
+    // Carbon's skeleton draws placeholders in the empty title and description.
+    assert.dom('.cds--data-table-header__title').hasText('');
+    assert.dom('.cds--data-table-header__description').hasText('');
+    assert.dom('th div.cds--table-header-label').hasText('Name');
+    assert.dom('tbody tr').exists({ count: 2 });
+    assert.dom('tbody td span').exists({ count: 2 });
+    assert.dom('tbody').hasText('');
+  });
+
+  test('@isLoading with no items yet shows five placeholder rows, without running the block', async function (assert) {
+    const none: typeof items = [];
+    await render(
+      <template>
+        <DataTable
+          @title="Table title"
+          @isLoading={{true}}
+          @items={{none}}
+          as |table|
+        >
+          <table.Table>
+            <table.Header
+              @isExpandable={{true}}
+              @isCheckable={{true}}
+              @headers={{array (hash label="Name") (hash label="details")}}
+            />
+            <table.EachBodyRows as |row|>
+              <row.Row data-test-row>
+                <table.Column>{{row.item.name}}</table.Column>
+              </row.Row>
+            </table.EachBodyRows>
+          </table.Table>
+        </DataTable>
+      </template>,
+    );
+
+    assert.dom('tbody tr').exists({ count: 5 });
+    assert.dom('tbody td span').exists({ count: 10 });
+    // Empty expand and checkbox cells too, as the header has those columns.
+    assert.dom('tbody tr:first-child td').exists({ count: 4 });
+    assert.dom('[data-test-row]').doesNotExist();
+  });
+
+  test('while loading, the controls wait for the data', async function (assert) {
+    await render(
+      <template>
+        <DataTable
+          @title="Table title"
+          @isLoading={{true}}
+          @items={{items}}
+          as |table|
+        >
+          <table.Table>
+            <table.Header
+              @isExpandable={{true}}
+              @isCheckable={{true}}
+              @headers={{array
+                (hash label="Name" sortable=true)
+                (hash label="Actions" hideLabel=true)
+              }}
+            />
+            <table.EachBodyRows as |row|>
+              <row.Row @isCheckable={{true}}>
+                <:default>
+                  <table.Column>{{row.item.name}}</table.Column>
+                  <table.Menu as |Item|><Item @itemText="Edit" /></table.Menu>
+                </:default>
+                <:expanded>Details</:expanded>
+              </row.Row>
+            </table.EachBodyRows>
+          </table.Table>
+        </DataTable>
+      </template>,
+    );
+
+    assert.dom('input[type="checkbox"]').doesNotExist();
+    assert.dom('.cds--table-expand__button').doesNotExist();
+    assert.dom('.cds--table-sort').doesNotExist();
+    assert.dom('.cds--overflow-menu').doesNotExist();
+    assert.dom('.cds--expandable-row').doesNotExist();
+    assert
+      .dom('th div.cds--table-header-label.cds--visually-hidden')
+      .hasText('Actions');
+  });
+
   test('should support checkable rows and selection', async function (assert) {
     await render(
       <template>
