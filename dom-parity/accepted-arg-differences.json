@@ -23,6 +23,11 @@
       "kind": "React deprecates the other kinds."
     }
   },
+  "CodeSnippet": {
+    "missing": {
+      "light": "Deprecated in Carbon React; use Layer."
+    }
+  },
   "ComboBox": {
     "missing": {
       "downshiftProps": "It isn't built on downshift, so there's nothing to pass them to.",

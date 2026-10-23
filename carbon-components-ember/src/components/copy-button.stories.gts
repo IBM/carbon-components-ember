@@ -28,7 +28,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     docs: {
       description: {
         component:
-          '`CopyButton` is an icon-only button that copies text to the clipboard and shows a "Copied!" tooltip once the copy worked; if the browser refuses it, nothing changes. It is used internally by `CodeSnippet`, but can also be used on its own — pass the text to copy as the block content, or point it at another element via `@targetElement`/`@targetElementId`.',
+          '`CopyButton` is an icon-only button that copies text to the clipboard and shows a "Copied!" tooltip once the copy worked; if the browser refuses it, nothing changes. It is used internally by `CodeSnippet`, but can also be used on its own: pass the text to copy as `@copyText` or the block content, or point it at another element via `@targetElement`/`@targetElementId`. `@size` sizes the button (`md` by default), and `@inline` renders the button of an inline `CodeSnippet`, with the block as its visible content.',
       },
     },
   },

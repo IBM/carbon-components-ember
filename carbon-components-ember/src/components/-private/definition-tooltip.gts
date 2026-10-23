@@ -50,7 +50,7 @@ export interface DefinitionTooltipSignature {
  * Upstream's `PopoverContent` puts `id` (and every other prop) on the outer
  * `.cds--popover` span and only `className` on the inner
  * `.cds--popover-content` span. This addon's `PopoverContent` spreads
- * `...attributes` onto the inner span, and callers such as `CopyButton` rely on
+ * `...attributes` onto the inner span, and callers such as `Tooltip` rely on
  * `class` landing there, so changing it isn't an option.
  */
 export default class DefinitionTooltip extends Component<DefinitionTooltipSignature> {

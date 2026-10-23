@@ -1,13 +1,20 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { tracked } from '@glimmer/tracking';
-import { render, click, find, waitUntil } from '@ember/test-helpers';
+import { render, rerender, click, find, waitUntil } from '@ember/test-helpers';
 import CodeSnippet from '#src/components/code-snippet.gts';
+import type { CodeSnippetSignature } from '#src/components/code-snippet.gts';
 import { setupClipboard } from '../helpers';
 
 const longCode = Array.from({ length: 30 }, (_, i) => `line ${i + 1}`).join(
   '\n',
 );
+
+// The copy button is named by its tooltip, as in Carbon React.
+const labelOf = (selector: string) =>
+  find(
+    `#${find(selector)?.getAttribute('aria-labelledby')}`,
+  )?.textContent?.trim();
 
 const heightsOf = (selector: string) => {
   const { maxHeight, minHeight } = (find(selector) as HTMLElement).style;
@@ -18,15 +25,14 @@ module('Integration | Component | CodeSnippet', (hooks) => {
   setupRenderingTest(hooks);
   const clipboard = setupClipboard(hooks);
 
-  test('@type="default" wires the copy button to the real rendered code element', async function (assert) {
+  test('@type="single" wires the copy button to the real rendered code element', async function (assert) {
     await render(
       <template>
-        <CodeSnippet @type="default">const x = 1;</CodeSnippet>
+        <CodeSnippet @type="single">const x = 1;</CodeSnippet>
       </template>,
     );
-    await waitUntil(() => find('[data-copy-btn]'));
 
-    find('[data-copy-btn]')!.dispatchEvent(
+    find('.cds--copy')!.dispatchEvent(
       new MouseEvent('click', { bubbles: true }),
     );
     await waitUntil(() => clipboard.copied.length > 0);
@@ -37,8 +43,8 @@ module('Integration | Component | CodeSnippet', (hooks) => {
   test('the scrolling code region is a focusable, read-only textbox', async function (assert) {
     await render(
       <template>
-        <CodeSnippet @type="default">const x = 1;</CodeSnippet>
-        <CodeSnippet @type="multiline">const y = 2;</CodeSnippet>
+        <CodeSnippet @type="single">const x = 1;</CodeSnippet>
+        <CodeSnippet @type="multi">const y = 2;</CodeSnippet>
       </template>,
     );
 
@@ -52,17 +58,19 @@ module('Integration | Component | CodeSnippet', (hooks) => {
       .hasAttribute('role', 'textbox')
       .hasAttribute('tabindex', '0')
       .hasAttribute('aria-multiline', 'true');
+    assert
+      .dom('.cds--snippet--multi .cds--snippet-container')
+      .doesNotHaveAttribute('role');
   });
 
-  test('@type="multiline" wires the copy button to the real rendered code element', async function (assert) {
+  test('@type="multi" wires the copy button to the real rendered code element', async function (assert) {
     await render(
       <template>
-        <CodeSnippet @type="multiline">const x = 1;</CodeSnippet>
+        <CodeSnippet @type="multi">const x = 1;</CodeSnippet>
       </template>,
     );
-    await waitUntil(() => find('[data-copy-btn]'));
 
-    find('[data-copy-btn]')!.dispatchEvent(
+    find('.cds--copy')!.dispatchEvent(
       new MouseEvent('click', { bubbles: true }),
     );
     await waitUntil(() => clipboard.copied.length > 0);
@@ -83,7 +91,7 @@ module('Integration | Component | CodeSnippet', (hooks) => {
   test('a long multi-line snippet collapses to 15 rows, with Show more', async function (assert) {
     await render(
       <template>
-        <CodeSnippet @type="multiline">{{longCode}}</CodeSnippet>
+        <CodeSnippet @type="multi">{{longCode}}</CodeSnippet>
       </template>,
     );
     await waitUntil(() => find('.cds--snippet-btn--expand'));
@@ -106,7 +114,7 @@ module('Integration | Component | CodeSnippet', (hooks) => {
     const code = tracked(longCode);
     await render(
       <template>
-        <CodeSnippet @type="multiline">{{code.value}}</CodeSnippet>
+        <CodeSnippet @type="multi">{{code.value}}</CodeSnippet>
       </template>,
     );
     await waitUntil(() => find('.cds--snippet-btn--expand'));
@@ -117,11 +125,27 @@ module('Integration | Component | CodeSnippet', (hooks) => {
     assert.dom('.cds--snippet--multi').doesNotHaveClass('cds--snippet--expand');
   });
 
+  test('a snippet that stops being multi-line drops Show more', async function (assert) {
+    const type = tracked<CodeSnippetSignature['Args']['type']>('multi');
+    await render(
+      <template>
+        <CodeSnippet @type={{type.value}}>{{longCode}}</CodeSnippet>
+      </template>,
+    );
+    await waitUntil(() => find('.cds--snippet-btn--expand'));
+    await click('.cds--snippet-btn--expand');
+
+    type.value = 'single';
+    await rerender();
+    assert.dom('.cds--snippet-btn--expand').doesNotExist();
+    assert.dom('.cds--snippet').doesNotHaveClass('cds--snippet--expand');
+  });
+
   test('the expanded limits and text come from their arguments', async function (assert) {
     await render(
       <template>
         <CodeSnippet
-          @type="multiline"
+          @type="multi"
           @maxExpandedNumberOfRows={{20}}
           @minExpandedNumberOfRows={{10}}
           @showLessText="Less"
@@ -142,7 +166,7 @@ module('Integration | Component | CodeSnippet', (hooks) => {
     await render(
       <template>
         <CodeSnippet
-          @type="multiline"
+          @type="multi"
           @maxCollapsedNumberOfRows={{5}}
           @minCollapsedNumberOfRows={{0}}
           @showMoreText="More"
@@ -171,8 +195,8 @@ module('Integration | Component | CodeSnippet', (hooks) => {
   test("attributes go on the snippet, or an inline one's button, as Carbon React does", async function (assert) {
     await render(
       <template>
-        <CodeSnippet @type="default" data-test-single>x</CodeSnippet>
-        <CodeSnippet @type="multiline" data-test-multi>y</CodeSnippet>
+        <CodeSnippet @type="single" data-test-single>x</CodeSnippet>
+        <CodeSnippet @type="multi" data-test-multi>y</CodeSnippet>
         <CodeSnippet @type="inline" data-test-inline>z</CodeSnippet>
       </template>,
     );
@@ -180,5 +204,99 @@ module('Integration | Component | CodeSnippet', (hooks) => {
     assert.dom('.cds--snippet--single').hasAttribute('data-test-single');
     assert.dom('.cds--snippet--multi').hasAttribute('data-test-multi');
     assert.dom('button[data-test-inline]').exists();
+  });
+
+  test('@copyText is copied instead of the code', async function (assert) {
+    await render(
+      <template>
+        <CodeSnippet @copyText="npm i carbon">npm install</CodeSnippet>
+        <CodeSnippet @type="inline" @copyText="node -v">node</CodeSnippet>
+      </template>,
+    );
+
+    await click('.cds--snippet--single .cds--copy');
+    await click('.cds--snippet--inline');
+    await waitUntil(() => clipboard.copied.length === 2);
+
+    assert.deepEqual(clipboard.copied, ['npm i carbon', 'node -v']);
+  });
+
+  test('@onClick is called when the copy button is clicked', async function (assert) {
+    const clicks: MouseEvent[] = [];
+    const onClick = (event: MouseEvent) => clicks.push(event);
+    await render(
+      <template>
+        <CodeSnippet @onClick={{onClick}}>npm install</CodeSnippet>
+      </template>,
+    );
+
+    await click('.cds--snippet-container');
+    assert.strictEqual(clicks.length, 0);
+    await click('.cds--copy');
+    assert.strictEqual(clicks.length, 1);
+    assert.true(clicks[0] instanceof MouseEvent);
+  });
+
+  test('@ariaLabel labels the code, and @copyButtonDescription the copy button', async function (assert) {
+    await render(
+      <template>
+        <CodeSnippet
+          @ariaLabel="Install command"
+          @copyButtonDescription="Copy the command"
+        >npm install</CodeSnippet>
+        <CodeSnippet @type="inline" @ariaLabel="Copy the version">node -v</CodeSnippet>
+      </template>,
+    );
+
+    assert
+      .dom('.cds--snippet-container')
+      .hasAttribute('aria-label', 'Install command');
+    assert.strictEqual(
+      labelOf('.cds--snippet--single .cds--copy'),
+      'Copy the command',
+    );
+    assert.strictEqual(labelOf('.cds--snippet--inline'), 'Copy the version');
+  });
+
+  test('@hideCopyButton leaves out the copy button', async function (assert) {
+    await render(
+      <template>
+        <CodeSnippet @hideCopyButton={{true}}>npm install</CodeSnippet>
+        <CodeSnippet @type="inline" @hideCopyButton={{true}} data-test-inline>
+          node -v
+        </CodeSnippet>
+      </template>,
+    );
+
+    assert.dom('.cds--copy').doesNotExist();
+    assert.dom('.cds--snippet--single').hasClass('cds--snippet--no-copy');
+    assert
+      .dom('span.cds--snippet--inline')
+      .hasClass('cds--snippet--no-copy')
+      .hasAttribute('data-test-inline');
+    assert.dom('span.cds--snippet--inline code').hasText('node -v');
+  });
+
+  test('@disabled disables the copy button and takes the code out of the tab order', async function (assert) {
+    await render(
+      <template>
+        <CodeSnippet @type="multi" @disabled={{true}}>npm install</CodeSnippet>
+      </template>,
+    );
+
+    assert.dom('.cds--snippet--multi').hasClass('cds--snippet--disabled');
+    assert.dom('.cds--snippet-container pre').doesNotHaveAttribute('tabindex');
+    assert.dom('.cds--copy').isDisabled();
+  });
+
+  test('@wrapText wraps long lines, and a multi-line snippet has a small copy button', async function (assert) {
+    await render(
+      <template>
+        <CodeSnippet @type="multi" @wrapText={{true}}>npm install</CodeSnippet>
+      </template>,
+    );
+
+    assert.dom('.cds--snippet--multi').hasClass('cds--snippet--wraptext');
+    assert.dom('.cds--copy').hasClass('cds--btn--sm');
   });
 });
