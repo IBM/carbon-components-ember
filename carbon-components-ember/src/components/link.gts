@@ -6,6 +6,7 @@
  */
 
 import Component from '@glimmer/component';
+import RouterLink from './-private/router-link.gts';
 import type { ComponentLike } from '@glint/template';
 
 export interface LinkSignature {
@@ -24,6 +25,16 @@ export interface LinkSignature {
      * Provide the `href` attribute for the `<a>` node.
      */
     href?: string;
+    /**
+     * A route to link to through the Ember router, in place of `@href`, as
+     * Ember's `LinkTo`: the link navigates without reloading the page, and
+     * has the `active` class while its route is current. `@as` overrides it.
+     */
+    route?: string;
+    /** The models for `@route`'s dynamic segments, in order. */
+    models?: unknown[];
+    /** Query params for `@route`. */
+    query?: Record<string, unknown>;
     /**
      * Specify whether you want the inline version of this control.
      */
@@ -77,6 +88,10 @@ export default class Link extends Component<LinkSignature> {
     return classes.join(' ');
   }
 
+  get isRouteLink() {
+    return Boolean(this.args.route) && !this.args.disabled && !this.args.as;
+  }
+
   get showIcon() {
     return !this.args.inline && !!this.args.renderIcon;
   }
@@ -91,12 +106,12 @@ export default class Link extends Component<LinkSignature> {
   };
 
   <template>
-    {{#let (element this.tag) as |Tag|}}
-      <Tag
+    {{#if this.isRouteLink}}
+      <RouterLink
+        @route={{@route}}
+        @models={{@models}}
+        @query={{@query}}
         class={{this.classes}}
-        href={{unless @disabled @href}}
-        role={{if @disabled "link"}}
-        aria-disabled={{if @disabled "true"}}
         target={{@target}}
         rel={{this.rel}}
         {{on "click" this.handleClick}}
@@ -108,7 +123,27 @@ export default class Link extends Component<LinkSignature> {
             <@renderIcon @size="16" />
           </span>
         {{/if}}
-      </Tag>
-    {{/let}}
+      </RouterLink>
+    {{else}}
+      {{#let (element this.tag) as |Tag|}}
+        <Tag
+          class={{this.classes}}
+          href={{unless @disabled @href}}
+          role={{if @disabled "link"}}
+          aria-disabled={{if @disabled "true"}}
+          target={{@target}}
+          rel={{this.rel}}
+          {{on "click" this.handleClick}}
+          ...attributes
+        >
+          {{yield}}
+          {{#if this.showIcon}}
+            <span class="cds--link__icon">
+              <@renderIcon @size="16" />
+            </span>
+          {{/if}}
+        </Tag>
+      {{/let}}
+    {{/if}}
   </template>
 }

@@ -24,12 +24,22 @@ export interface ButtonSignature {
      */
     dangerDescription?: string;
     /**
-     * Disables the button. With `@href`, it renders a disabled `<button>`
-     * instead of the link.
+     * Disables the button. With `@href` or `@route`, it renders a disabled
+     * `<button>` instead of the link.
      */
     disabled?: boolean;
     /** Renders a link to this URL, styled as a button. */
     href?: string;
+    /**
+     * A route to link to through the Ember router, in place of `@href`, as
+     * Ember's `LinkTo`: the link navigates without reloading the page, and
+     * has the `active` class while its route is current. `@as` overrides it.
+     */
+    route?: string;
+    /** The models for `@route`'s dynamic segments, in order. */
+    models?: unknown[];
+    /** Query params for `@route`. */
+    query?: Record<string, unknown>;
     /**
      * Shows only the icon, in a tooltip that names the button with
      * `@iconDescription`.
@@ -115,6 +125,9 @@ export default class Button extends Component<ButtonSignature> {
           @disabled={{@disabled}}
           @hasIconOnly={{true}}
           @href={{@href}}
+          @route={{@route}}
+          @models={{@models}}
+          @query={{@query}}
           @isExpressive={{@isExpressive}}
           @isSelected={{@isSelected}}
           @kind={{@kind}}
@@ -134,6 +147,9 @@ export default class Button extends Component<ButtonSignature> {
         @dangerDescription={{@dangerDescription}}
         @disabled={{@disabled}}
         @href={{@href}}
+        @route={{@route}}
+        @models={{@models}}
+        @query={{@query}}
         @iconDescription={{@iconDescription}}
         @isExpressive={{@isExpressive}}
         @kind={{@kind}}

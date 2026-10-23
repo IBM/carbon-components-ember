@@ -7,6 +7,7 @@
 
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
+import RouterLink from '../-private/router-link.gts';
 
 import type OverflowMenu from '../overflow-menu.gts';
 
@@ -20,6 +21,16 @@ export interface OverflowMenuItemSignature {
     hasDivider?: boolean;
     /** Renders the item as a link. */
     href?: string;
+    /**
+     * A route to link to through the Ember router, in place of `@href`, as
+     * Ember's `LinkTo`: the link navigates without reloading the page, and
+     * has the `active` class while its route is current.
+     */
+    route?: string;
+    /** The models for `@route`'s dynamic segments, in order. */
+    models?: unknown[];
+    /** Query params for `@route`. */
+    query?: Record<string, unknown>;
     /** Styles the item as a destructive action. */
     isDelete?: boolean;
     /** The item's text. A block replaces it, for richer content. */
@@ -42,6 +53,11 @@ export default class OverflowMenuItem extends Component<OverflowMenuItemSignatur
 
   get tag() {
     return this.args.href ? 'a' : 'button';
+  }
+
+  // A disabled item stays a button.
+  get isRouteLink() {
+    return Boolean(this.args.route) && !this.args.disabled;
   }
 
   get wrapperClass() {
@@ -69,16 +85,17 @@ export default class OverflowMenuItem extends Component<OverflowMenuItemSignatur
   };
 
   <template>
-    {{#let (element this.tag) as |Tag|}}
-      <li class={{this.wrapperClass}} role="none" dir="auto">
-        <Tag
+    <li class={{this.wrapperClass}} role="none" dir="auto">
+      {{#if this.isRouteLink}}
+        <RouterLink
+          @route={{@route}}
+          @models={{@models}}
+          @query={{@query}}
           class="cds--overflow-menu-options__btn"
           role="menuitem"
           tabindex="-1"
-          href={{@href}}
           title={{this.title}}
-          disabled={{@disabled}}
-          {{(if @menu @menu.rovingFocus.item) disabled=@disabled}}
+          {{(if @menu @menu.rovingFocus.item)}}
           ...attributes
           {{on "click" this.close}}
         >
@@ -94,8 +111,35 @@ export default class OverflowMenuItem extends Component<OverflowMenuItemSignatur
               </span>
             {{/if}}
           {{/if}}
-        </Tag>
-      </li>
-    {{/let}}
+        </RouterLink>
+      {{else}}
+        {{#let (element this.tag) as |Tag|}}
+          <Tag
+            class="cds--overflow-menu-options__btn"
+            role="menuitem"
+            tabindex="-1"
+            href={{@href}}
+            title={{this.title}}
+            disabled={{@disabled}}
+            {{(if @menu @menu.rovingFocus.item) disabled=@disabled}}
+            ...attributes
+            {{on "click" this.close}}
+          >
+            {{#if (has-block)}}
+              {{yield}}
+            {{else}}
+              <div class="cds--overflow-menu-options__option-content">
+                {{@itemText}}
+              </div>
+              {{#if this.hasDangerDescription}}
+                <span id={{this.assistiveId}} class="cds--visually-hidden">
+                  {{@dangerDescription}}
+                </span>
+              {{/if}}
+            {{/if}}
+          </Tag>
+        {{/let}}
+      {{/if}}
+    </li>
   </template>
 }

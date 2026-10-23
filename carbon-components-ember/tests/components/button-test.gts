@@ -13,6 +13,7 @@ import {
   disableCarbonStyles,
   enableCarbonStyles,
   nonce,
+  setupRoutes,
 } from '../helpers';
 
 module('Integration | Component | Button', (hooks) => {
@@ -305,5 +306,32 @@ module('Integration | Component | Button', (hooks) => {
         'cds--btn--disabled',
         'class names should include cds--btn--disabled',
       );
+  });
+
+  module('with @route', function (hooks) {
+    setupRoutes(hooks);
+
+    test('renders a link to the route, styled as a button', async function (assert) {
+      await render(
+        <template>
+          <Button @route="settings">Settings</Button>
+        </template>,
+      );
+      assert.dom('a.cds--btn').hasAttribute('href', '/settings');
+
+      await click('a.cds--btn');
+      const router = this.owner.lookup('service:router');
+      assert.strictEqual(router.currentRouteName, 'settings');
+    });
+
+    test('a disabled one is a disabled button', async function (assert) {
+      await render(
+        <template>
+          <Button @route="settings" @disabled={{true}}>Settings</Button>
+        </template>,
+      );
+      assert.dom('a').doesNotExist();
+      assert.dom('button.cds--btn').isDisabled();
+    });
   });
 });

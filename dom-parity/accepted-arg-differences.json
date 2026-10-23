@@ -6,7 +6,10 @@
   },
   "BreadcrumbItem": {
     "extra": {
-      "ariaCurrent": "React's aria-current goes to the item's link, which Carbon styles as the current page; an aria-current attribute would go to the <li>."
+      "ariaCurrent": "React's aria-current goes to the item's link, which Carbon styles as the current page; an aria-current attribute would go to the <li>.",
+      "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
+      "query": "Query params for @route, as LinkTo's @query (#1040)."
     }
   },
   "Button": {
@@ -15,7 +18,10 @@
       "target": "A plain attribute, through `...attributes`, as on a native `<a>`."
     },
     "extra": {
-      "autoAlign": "Carbon React's Button takes `autoAlign` at runtime and passes it to the icon-only button's tooltip, though its types leave it out."
+      "autoAlign": "Carbon React's Button takes `autoAlign` at runtime and passes it to the icon-only button's tooltip, though its types leave it out.",
+      "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
+      "query": "Query params for @route, as LinkTo's @query (#1040)."
     }
   },
   "Callout": {
@@ -62,6 +68,13 @@
       "ariaLabel": "React's aria-label labels the close button; an aria-label attribute would label the notification."
     }
   },
+  "Link": {
+    "extra": {
+      "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
+      "query": "Query params for @route, as LinkTo's @query (#1040)."
+    }
+  },
   "Modal": {
     "missing": {
       "selectorsFloatingMenus": "A click in a menu rendered outside the modal can't reach it: the page outside a native dialog is inert, and DOM events don't bubble through a portal as React's do."
@@ -96,6 +109,11 @@
       "closeMenu": "OverflowMenu yields the item bound to it (@menu), which closes the menu; Carbon React clones these props into its children.",
       "handleOverflowMenuItemFocus": "OverflowMenu yields the item bound to it (@menu), whose RovingFocus moves between items; Carbon React clones these props into its children.",
       "index": "OverflowMenu yields the item bound to it (@menu), whose RovingFocus keeps the items in DOM order; Carbon React clones these props into its children."
+    },
+    "extra": {
+      "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
+      "query": "Query params for @route, as LinkTo's @query (#1040)."
     }
   },
   "ToastNotification": {

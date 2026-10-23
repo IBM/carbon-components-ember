@@ -27,15 +27,25 @@ export interface BreadcrumbItemSignature {
      */
     href?: string;
     /**
+     * A route to link to through the Ember router, in place of `@href`, as
+     * Ember's `LinkTo`: the link navigates without reloading the page, and
+     * has the `active` class while its route is current.
+     */
+    route?: string;
+    /** The models for `@route`'s dynamic segments, in order. */
+    models?: unknown[];
+    /** Query params for `@route`. */
+    query?: Record<string, unknown>;
+    /**
      * Provide if this breadcrumb item represents the current page
      */
     isCurrentPage?: boolean;
   };
   Blocks: {
     /**
-     * The item's text, shown as a link with `@href`. With block params
-     * (`as |item|`), the block renders its own link instead, such as a
-     * `LinkTo`, and `@href` is unused: put `item.class` and
+     * The item's text, shown as a link with `@href` or `@route`. With block
+     * params (`as |item|`), the block renders its own link instead, and
+     * `@href` and `@route` are unused: put `item.class` and
      * `item.ariaCurrent` on it. As in Carbon React, `item.ariaCurrent` is
      * `@ariaCurrent` only; `@isCurrentPage` styles the item but not the link.
      * Or render `item.OverflowMenu`, set up for a breadcrumb as Carbon React
@@ -92,9 +102,12 @@ const BreadcrumbItem: TOC<BreadcrumbItemSignature> = <template>
     }}
       {{#if (has-block-params)}}
         {{yield item}}
-      {{else if @href}}
+      {{else if (or @href @route)}}
         <Link
           @href={{@href}}
+          @route={{@route}}
+          @models={{@models}}
+          @query={{@query}}
           aria-current={{linkAriaCurrent @ariaCurrent @isCurrentPage}}
         >{{yield item}}</Link>
       {{else}}

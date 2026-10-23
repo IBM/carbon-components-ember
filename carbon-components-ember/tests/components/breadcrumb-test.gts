@@ -12,6 +12,7 @@ import {
   disableCarbonStyles,
   enableCarbonStyles,
   nonce,
+  setupRoutes,
 } from '../helpers';
 
 module('Integration | Component | Breadcrumb', (hooks) => {
@@ -314,5 +315,26 @@ module('Integration | Component | Breadcrumb', (hooks) => {
       stylesDiffB,
       'does correctly change styles after selection',
     );
+  });
+
+  module('with @route', function (hooks) {
+    setupRoutes(hooks);
+
+    test('an item links to its route', async function (assert) {
+      const models = ['7'];
+      await render(
+        <template>
+          <Breadcrumb as |BreadcrumbItem|>
+            <BreadcrumbItem
+              @route="user"
+              @models={{models}}
+            >Grace</BreadcrumbItem>
+          </Breadcrumb>
+        </template>,
+      );
+      assert
+        .dom('.cds--breadcrumb-item a.cds--link')
+        .hasAttribute('href', '/users/7');
+    });
   });
 });
