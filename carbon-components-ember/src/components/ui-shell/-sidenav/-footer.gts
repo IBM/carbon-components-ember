@@ -1,4 +1,5 @@
 import ChevronRight from '../../icons/chevron-right.ts';
+import Close from '../../icons/close.ts';
 import type { TOC } from '@ember/component/template-only';
 
 export interface UIShellSideNavFooterSignature {
@@ -21,7 +22,12 @@ const UIShellSideNavFooter: TOC<UIShellSideNavFooterSignature> = <template>
       class="cds--side-nav__icon cds--side-nav__icon--sm cds--side-nav__toggle
         {{if @open 'cds--side-nav__icon--expanded'}}"
     >
-      <ChevronRight @size="20" />
+      {{! As Carbon React: Close while the side nav is open. }}
+      {{#if @open}}
+        <Close @size="20" />
+      {{else}}
+        <ChevronRight @size="20" />
+      {{/if}}
     </div>
   </button>
 </template>;
