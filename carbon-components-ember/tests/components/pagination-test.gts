@@ -5,8 +5,11 @@ import { tracked } from '@glimmer/tracking';
 import Pagination from '#src/components/pagination.gts';
 import type { TOC } from '@ember/component/template-only';
 import { trackedObject } from '@ember/reactive/collections';
+import caretLeft from '@carbon/icons/es/caret--left/32';
+import caretRight from '@carbon/icons/es/caret--right/32';
 
 const noop = () => null;
+const pathOf = (icon: typeof caretLeft) => String(icon.content[0]?.attrs['d']);
 
 module('Integration | Component | Pagination', (hooks) => {
   setupRenderingTest(hooks);
@@ -21,6 +24,21 @@ module('Integration | Component | Pagination', (hooks) => {
     assert.dom('[data-pagination]').exists();
     assert.dom('[data-total-items]').hasText('25');
     assert.dom('[data-displayed-item-range]').hasText('0 - 10');
+  });
+
+  test("its arrows are Carbon React's carets", async function (assert) {
+    await render(
+      <template>
+        <Pagination @length={{25}} @onPageChanged={{noop}} />
+      </template>,
+    );
+
+    assert
+      .dom('[data-page-backward] svg path')
+      .hasAttribute('d', pathOf(caretLeft));
+    assert
+      .dom('[data-page-forward] svg path')
+      .hasAttribute('d', pathOf(caretRight));
   });
 
   test('backward/forward buttons default to "Previous page"/"Next page" as aria-label and tooltip content', async function (assert) {
