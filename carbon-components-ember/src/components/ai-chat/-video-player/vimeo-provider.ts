@@ -12,6 +12,7 @@
  * https://github.com/cookpete/react-player/blob/v2.15.1/LICENSE
  */
 
+import { task, timeout } from 'ember-concurrency';
 import { BaseProvider } from './base-provider.ts';
 import type { ProviderConfig } from './base-provider.ts';
 import { ScriptLoader } from '../-media/script-loader.ts';
@@ -54,7 +55,7 @@ function cleanUrl(url: string): string {
 
 /**
  * Ember port of `@carbon/ai-chat-components`' `VimeoProvider`, ported
- * verbatim. Loads the Vimeo Player API via the shared `ScriptLoader` and
+ * verbatim but with ember-concurrency tasks for its timers. Loads the Vimeo Player API via the shared `ScriptLoader` and
  * drives it through `window.Vimeo.Player`.
  */
 export class VimeoProvider extends BaseProvider {
@@ -93,24 +94,17 @@ export class VimeoProvider extends BaseProvider {
     }
 
     await ScriptLoader.load(SDK_URL);
-
-    return new Promise((resolve, reject) => {
-      const checkVimeo = () => {
-        if (window.Vimeo?.Player) {
-          resolve();
-        } else {
-          setTimeout(checkVimeo, 100);
-        }
-      };
-      checkVimeo();
-
-      setTimeout(() => {
-        if (!window.Vimeo?.Player) {
-          reject(new Error('Vimeo Player API failed to load'));
-        }
-      }, 5000);
-    });
+    await this.waitForVimeo.perform();
   }
+
+  private waitForVimeo = task(async () => {
+    for (let waited = 0; !window.Vimeo?.Player; waited += 100) {
+      if (waited >= 5000) {
+        throw new Error('Vimeo Player API failed to load');
+      }
+      await timeout(100);
+    }
+  });
 
   async load(url: string): Promise<void> {
     if (!this.playerContainer) {

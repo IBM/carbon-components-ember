@@ -8,6 +8,7 @@
 import Component from '@glimmer/component';
 import { cached, tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
+import { task, timeout } from 'ember-concurrency';
 import { guidFor } from '@ember/object/internals';
 import type { TOC } from '@ember/component/template-only';
 import type { ComponentLike } from '@glint/template';
@@ -329,7 +330,6 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
   private resolveToken = 0;
   private pendingBatch: Array<TriggerChangeEventDetail | null> = [];
   private batchScheduled = false;
-  private moveAnnounceTimer: ReturnType<typeof setTimeout> | null = null;
   private popupElement: HTMLElement | null = null;
   private listenTarget: HTMLElement | null = null;
   private readonly labelIdBase = guidFor(this);
@@ -650,13 +650,13 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
   }
 
   private scheduleMoveAnnouncement() {
-    if (this.moveAnnounceTimer !== null) {
-      clearTimeout(this.moveAnnounceTimer);
-    }
-    const index = this.focusedIndex;
-    const total = this.totalItemCount;
-    this.moveAnnounceTimer = setTimeout(() => {
-      this.moveAnnounceTimer = null;
+    void this.announceMove.perform(this.focusedIndex, this.totalItemCount);
+  }
+
+  private announceMove = task(
+    { restartable: true },
+    async (index: number, total: number) => {
+      await timeout(50);
       const item = this.getItemAtIndex(index);
       if (!item) {
         return;
@@ -670,8 +670,8 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
           position,
         ),
       );
-    }, 50);
-  }
+    },
+  );
 
   private scrollActiveItemIntoView() {
     const index = this.focusedIndex;
@@ -804,10 +804,7 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
         target.removeEventListener('focusout', this.handleEditorFocusOut);
       }
       document.removeEventListener('click', this.handleDocumentClick);
-      if (this.moveAnnounceTimer !== null) {
-        clearTimeout(this.moveAnnounceTimer);
-        this.moveAnnounceTimer = null;
-      }
+      void this.announceMove.cancelAll();
       this.popupElement = null;
       this.listenTarget = null;
     };

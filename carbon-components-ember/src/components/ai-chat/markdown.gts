@@ -9,6 +9,7 @@ import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
 import { trustHTML } from '@ember/template';
 import { modifier } from 'ember-modifier';
+import { task, timeout } from 'ember-concurrency';
 import { renderMarkdown } from './-markdown-render.ts';
 import './code-snippet.scss';
 import './markdown.scss';
@@ -94,7 +95,6 @@ export interface MarkdownSignature {
  */
 export default class Markdown extends Component<MarkdownSignature> {
   @tracked private displayedMarkdown = this.args.markdown ?? '';
-  private pendingTimer?: ReturnType<typeof setTimeout>;
   private lastRenderedAt = 0;
 
   @cached
@@ -106,6 +106,12 @@ export default class Markdown extends Component<MarkdownSignature> {
       ),
     );
   }
+
+  private renderAfter = task(async (value: string, ms: number) => {
+    await timeout(ms);
+    this.lastRenderedAt = Date.now();
+    this.displayedMarkdown = value;
+  });
 
   // Re-runs whenever `@markdown`/`@streaming` change (ember-modifier tracks
   // its own positional args and re-invokes on change, tearing down the
@@ -130,13 +136,10 @@ export default class Markdown extends Component<MarkdownSignature> {
       this.lastRenderedAt = Date.now();
       this.displayedMarkdown = value;
     } else {
-      this.pendingTimer = setTimeout(() => {
-        this.lastRenderedAt = Date.now();
-        this.displayedMarkdown = value;
-      }, STREAM_THROTTLE_MS - elapsed);
+      void this.renderAfter.perform(value, STREAM_THROTTLE_MS - elapsed);
     }
 
-    return () => clearTimeout(this.pendingTimer);
+    return () => void this.renderAfter.cancelAll();
   });
 
   <template>
