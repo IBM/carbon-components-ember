@@ -12,6 +12,9 @@ import {
 } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import Modal from '#src/components/modal.gts';
+import ActionableNotification from '#src/components/notification/actionable-notification.gts';
+import Popover, { PopoverContent } from '#src/components/popover.gts';
+import Portal from '#src/components/portal.gts';
 import Toggletip from '#src/components/toggletip.gts';
 
 const DIALOG = 'dialog.cds--modal';
@@ -523,6 +526,73 @@ module('Integration | Component | Modal', function (hooks) {
       assert.strictEqual(onRequestClose.calls.length, 1);
     });
 
+    test('an Escape a Popover in it used does not ask to close', async function (assert) {
+      const onRequestClose = spy();
+      const popoverOpen = tracked(true);
+      const closePopover = () => (popoverOpen.value = false);
+      await render(
+        <template>
+          <Modal @open={{true}} @onRequestClose={{onRequestClose.call}}>
+            <Popover
+              @open={{popoverOpen.value}}
+              @onRequestClose={{closePopover}}
+            >
+              <button type="button">Trigger</button>
+              <PopoverContent>
+                <button type="button" id="inner">Inner</button>
+              </PopoverContent>
+            </Popover>
+          </Modal>
+        </template>,
+      );
+
+      await triggerKeyEvent('#inner', 'keydown', 'Escape');
+      cancel();
+      assert.false(popoverOpen.value);
+      assert.strictEqual(onRequestClose.calls.length, 0);
+    });
+
+    test('an Escape a toast in it closed on does not ask to close', async function (assert) {
+      const onRequestClose = spy();
+      await render(
+        <template>
+          <Modal @open={{true}} @onRequestClose={{onRequestClose.call}}>
+            <ActionableNotification @title="Expiring" />
+          </Modal>
+        </template>,
+      );
+
+      await triggerKeyEvent(
+        '.cds--actionable-notification',
+        'keydown',
+        'Escape',
+      );
+      cancel();
+      assert.dom('.cds--actionable-notification').doesNotExist();
+      assert.strictEqual(onRequestClose.calls.length, 0);
+    });
+
+    test('portals render into the topmost open modal', async function (assert) {
+      const second = tracked(true);
+      await render(
+        <template>
+          <Modal @open={{true}} id="first" />
+          <Modal @open={{second.value}} id="second">
+            <Portal><button type="button" id="layer">Layer</button></Portal>
+          </Modal>
+        </template>,
+      );
+      assert.strictEqual(find('#layer')?.parentElement, find('#second'));
+      // Nothing outside the topmost modal dialog can take focus.
+      const layer = find('#layer') as HTMLElement;
+      layer.focus();
+      assert.dom(layer).isFocused();
+
+      second.value = false;
+      await settled();
+      assert.strictEqual(find('#layer')?.parentElement, find('#first'));
+    });
+
     test('when the browser closes it anyway, it asks to close and reopens while @open stays true', async function (assert) {
       const onRequestClose = spy();
       await render(
@@ -699,6 +769,24 @@ module('Integration | Component | Modal', function (hooks) {
         await click('[data-test-content]');
         assert.strictEqual(onRequestClose.calls.length, 0);
       });
+
+      test('a click in a layer rendered into it is not one', async function (assert) {
+        const onRequestClose = spy();
+        await render(
+          <template>
+            <Modal
+              @open={{true}}
+              @passiveModal={{true}}
+              @onRequestClose={{onRequestClose.call}}
+            >
+              <Portal><button type="button" id="layer">Layer</button></Portal>
+            </Modal>
+          </template>,
+        );
+
+        await click('#layer');
+        assert.strictEqual(onRequestClose.calls.length, 0);
+      });
     });
 
     test('@shouldSubmitOnEnter submits on Enter', async function (assert) {
@@ -728,6 +816,25 @@ module('Integration | Component | Modal', function (hooks) {
         'Enter',
       );
       assert.strictEqual(onRequestSubmit.calls.length, 1);
+    });
+
+    test('Enter in a layer rendered into it does not submit', async function (assert) {
+      const onRequestSubmit = spy();
+      await render(
+        <template>
+          <Modal
+            @open={{true}}
+            @primaryButtonText="Add"
+            @shouldSubmitOnEnter={{true}}
+            @onRequestSubmit={{onRequestSubmit.call}}
+          >
+            <Portal><input aria-label="Search" id="layer" /></Portal>
+          </Modal>
+        </template>,
+      );
+
+      await triggerKeyEvent('#layer', 'keydown', 'Enter');
+      assert.strictEqual(onRequestSubmit.calls.length, 0);
     });
 
     test('Enter does not submit without @shouldSubmitOnEnter', async function (assert) {

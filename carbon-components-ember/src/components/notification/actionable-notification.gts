@@ -153,6 +153,8 @@ export default class ActionableNotification extends Component<ActionableNotifica
   onKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Escape' && this.args.closeOnEscape !== false) {
       this.close(event);
+      // Once it closes, stopped, so a Modal the toast is in stays open.
+      if (!this.isOpen) event.stopPropagation();
     } else if (event.key === 'Tab' && this.isAlertDialog) {
       const container = event.currentTarget as HTMLElement;
       const elements = tabbables(container);
