@@ -103,48 +103,53 @@ export default class DataTableRow<T> extends Component<
           class="cds--table-expand"
           data-previous-value={{if this.isExpanded "collapsed"}}
         >
-          <button
-            type="button"
-            class="cds--table-expand__button"
-            aria-label={{if
-              this.isExpanded
-              "Collapse current row"
-              "Expand current row"
-            }}
-            aria-expanded={{if this.isExpanded "true" "false"}}
-            aria-controls={{this.expandedRowId}}
-            {{on "click" this.toggleExpanded}}
-          >
-            <svg
-              focusable="false"
-              preserveAspectRatio="xMidYMid meet"
-              xmlns="http://www.w3.org/2000/svg"
-              class="cds--table-expand__svg"
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              aria-hidden="true"
+          {{#unless @table.isLoading}}
+            <button
+              type="button"
+              class="cds--table-expand__button"
+              aria-label={{if
+                this.isExpanded
+                "Collapse current row"
+                "Expand current row"
+              }}
+              aria-expanded={{if this.isExpanded "true" "false"}}
+              aria-controls={{this.expandedRowId}}
+              {{on "click" this.toggleExpanded}}
             >
-              <path d="M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"></path>
-            </svg>
-          </button>
+              <svg
+                focusable="false"
+                preserveAspectRatio="xMidYMid meet"
+                xmlns="http://www.w3.org/2000/svg"
+                class="cds--table-expand__svg"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                aria-hidden="true"
+              >
+                <path d="M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"></path>
+              </svg>
+            </button>
+          {{/unless}}
         </td>
       {{/if}}
       {{#if @isCheckable}}
         <td class="cds--table-column-checkbox">
-          <Checkbox
-            @checked={{this.isSelected}}
-            @onChange={{this.toggleSelection}}
-            @label="Select row"
-            @hideLabel={{true}}
-          />
+          {{#unless @table.isLoading}}
+            <Checkbox
+              @checked={{this.isSelected}}
+              @onChange={{this.toggleSelection}}
+              @label="Select row"
+              @hideLabel={{true}}
+            />
+          {{/unless}}
         </td>
       {{/if}}
       {{yield}}
     </tr>
-    {{#if @isExpandable}}
-      {{! Always rendered, as in Carbon React: Carbon's CSS collapses it to zero
-        height unless the parent row has cds--expandable-row. }}
+    {{! Always rendered, as in Carbon React, except while loading, as in
+      DataTableSkeleton: Carbon's CSS collapses it to zero height unless the
+      parent row has cds--expandable-row. }}
+    {{#if (and @isExpandable (not @table.isLoading))}}
       <tr
         id={{this.expandedRowId}}
         class="cds--expandable-row"
