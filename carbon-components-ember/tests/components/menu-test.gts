@@ -3,11 +3,8 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click, settled, triggerKeyEvent } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import Menu from '#src/components/menu.gts';
-import MenuItem from '#src/components/menu/menu-item.gts';
 import MenuItemDivider from '#src/components/menu/menu-item-divider.gts';
 import MenuItemGroup from '#src/components/menu/menu-item-group.gts';
-import MenuItemRadioGroup from '#src/components/menu/menu-item-radio-group.gts';
-import MenuItemSelectable from '#src/components/menu/menu-item-selectable.gts';
 import { Copy } from '#src/icons.ts';
 import { waitForAnimationFrame } from '../helpers';
 
@@ -37,7 +34,12 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{false}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{false}}
+          @target={{target}}
+          as |MenuItem|
+        >
           <MenuItem @label="Cut" />
         </Menu>
       </template>,
@@ -52,7 +54,12 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
           <MenuItem @label="Cut" />
           <MenuItemDivider />
           <MenuItem @label="Delete" @kind="danger" />
@@ -91,6 +98,7 @@ module('Integration | Component | Menu', (hooks) => {
           @open={{true}}
           @target={{target}}
           @onClose={{onClose}}
+          as |MenuItem|
         >
           <MenuItem @label="Cut" @onClick={{onClick}} />
         </Menu>
@@ -115,7 +123,12 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
           <MenuItem @label="Cut" @disabled={{true}} @onClick={{onClick}} />
         </Menu>
       </template>,
@@ -140,7 +153,12 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
           <MenuItem @label="Copy" @renderIcon={{Copy}} />
         </Menu>
       </template>,
@@ -165,7 +183,12 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem MenuItemSelectable|
+        >
           <MenuItem @label="Cut" />
           {{#if state.extras}}
             <MenuItem @label="Copy" @renderIcon={{Copy}} />
@@ -211,8 +234,13 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
-          <MenuItem @label="Share with">
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
+          <MenuItem @label="Share with" as |MenuItem MenuItemSelectable|>
             <MenuItemSelectable @label="Product team" />
           </MenuItem>
         </Menu>
@@ -243,7 +271,12 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem MenuItemSelectable|
+        >
           <MenuItemSelectable
             @label="Bold"
             @defaultSelected={{true}}
@@ -276,7 +309,12 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem MenuItemSelectable|
+        >
           <MenuItemGroup @label="Font style">
             <MenuItemSelectable @label="Bold" />
             <MenuItemSelectable @label="Italic" />
@@ -307,7 +345,12 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem MenuItemSelectable MenuItemRadioGroup|
+        >
           <MenuItemRadioGroup
             @label="Text decoration"
             @items={{array "None" "Underline"}}
@@ -347,8 +390,13 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
-          <MenuItem @label="Share with">
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
+          <MenuItem @label="Share with" as |MenuItem|>
             <MenuItem @label="Product team" />
           </MenuItem>
         </Menu>
@@ -400,9 +448,14 @@ module('Integration | Component | Menu', (hooks) => {
 
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
-          <MenuItem @label="Share with">
-            <MenuItem @label="Product team">
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
+          <MenuItem @label="Share with" as |MenuItem|>
+            <MenuItem @label="Product team" as |MenuItem|>
               <MenuItem @label="Nested" />
             </MenuItem>
           </MenuItem>
@@ -464,6 +517,7 @@ module('Integration | Component | Menu', (hooks) => {
           @open={{true}}
           @target={{target}}
           @onClose={{onClose}}
+          as |MenuItem|
         >
           <MenuItem @label="Cut" />
         </Menu>
@@ -486,7 +540,12 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
           <MenuItem @label="Cut" />
         </Menu>
       </template>,
@@ -497,7 +556,13 @@ module('Integration | Component | Menu', (hooks) => {
 
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}} @size="lg">
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          @size="lg"
+          as |MenuItem|
+        >
           <MenuItem @label="Cut" />
         </Menu>
       </template>,
@@ -520,6 +585,7 @@ module('Integration | Component | Menu', (hooks) => {
           @border={{true}}
           @backgroundToken="background"
           @menuAlignment="top-start"
+          as |MenuItem|
         >
           <MenuItem @label="Cut" />
         </Menu>
@@ -543,7 +609,12 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
           <MenuItem @label="Cut" />
           <MenuItem @label="Copy" />
           <MenuItem @label="Paste" />
@@ -585,13 +656,18 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
           <MenuItem
             @label="Delete"
             @kind="danger"
             @dangerDescription="This cannot be undone"
           />
-          <MenuItem @label="Share with" @kind="danger">
+          <MenuItem @label="Share with" @kind="danger" as |MenuItem|>
             <MenuItem @label="Product team" />
           </MenuItem>
         </Menu>
@@ -620,8 +696,13 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
-          <MenuItem @label="Share with" @disabled={{true}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
+          <MenuItem @label="Share with" @disabled={{true}} as |MenuItem|>
             <MenuItem @label="Product team" />
           </MenuItem>
         </Menu>
@@ -649,7 +730,12 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem MenuItemSelectable MenuItemRadioGroup|
+        >
           <MenuItemGroup
             @label="Font style"
             @className="my-group"
