@@ -167,8 +167,8 @@ export default class Table extends Component<TableSignature> {
     return Array.from({ length: this.currentSlice.itemsPerPage }, (_, i) => i);
   }
 
-  search = (term?: string | null) => {
-    this.filterTerm = term ?? '';
+  search = (event: Event & { target: HTMLInputElement }) => {
+    this.filterTerm = event.target.value;
     this.currentSlice = {
       ...this.currentSlice,
       page: 1,
@@ -253,7 +253,6 @@ export default class Table extends Component<TableSignature> {
                 @labelText={{@filterPlaceholderText}}
                 @placeholder={{@filterPlaceholderText}}
                 @onChange={{this.search}}
-                @onClear={{this.search}}
                 @expandable={{false}}
               />
               <Button

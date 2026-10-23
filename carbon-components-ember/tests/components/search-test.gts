@@ -7,6 +7,7 @@ import {
   find,
   settled,
   triggerEvent,
+  triggerKeyEvent,
 } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import Search from '#src/components/search.gts';
@@ -66,10 +67,10 @@ module('Integration | Component | Search', (hooks) => {
     assert.dom('.cds--search').hasClass('cds--search--sm');
   });
 
-  test('calls onChange with the entered value', async function (assert) {
-    let received: unknown;
-    const onChange = (value: unknown) => {
-      received = value;
+  test('calls onChange with the input event, as Carbon React does', async function (assert) {
+    let received: (Event & { target: HTMLInputElement }) | undefined;
+    const onChange = (event: Event & { target: HTMLInputElement }) => {
+      received = event;
     };
 
     await render(
@@ -79,7 +80,47 @@ module('Integration | Component | Search', (hooks) => {
     );
     await fillIn('input.cds--search-input', 'carbon');
 
-    assert.strictEqual(received, 'carbon');
+    assert.strictEqual(received?.type, 'input');
+    assert.strictEqual(received?.target.value, 'carbon');
+  });
+
+  test('a new @value replaces what was typed, even one it had before', async function (assert) {
+    const value = tracked('');
+    await render(
+      <template>
+        <Search @labelText="Search" @value={{value.value}} />
+      </template>,
+    );
+
+    await fillIn('input.cds--search-input', 'a');
+    value.value = 'a';
+    await settled();
+    assert.dom('input.cds--search-input').hasValue('a');
+
+    value.value = '';
+    await settled();
+    assert.dom('input.cds--search-input').hasValue('');
+    assert.dom('.cds--search-close').doesNotExist();
+  });
+
+  test('what was typed shows until @value catches up', async function (assert) {
+    await render(<template><Search @labelText="Search" @value="" /></template>);
+
+    await fillIn('input.cds--search-input', 'a');
+
+    assert.dom('input.cds--search-input').hasValue('a');
+    assert.dom('.cds--search-close').exists();
+  });
+
+  test('@defaultValue fills an uncontrolled field', async function (assert) {
+    await render(
+      <template>
+        <Search @labelText="Search" @defaultValue="carbon" />
+      </template>,
+    );
+
+    assert.dom('input.cds--search-input').hasValue('carbon');
+    assert.dom('.cds--search-close').exists();
   });
 
   test('shows a clear button once there is input and clears it on click', async function (assert) {
@@ -110,14 +151,13 @@ module('Integration | Component | Search', (hooks) => {
     assert.true(cleared);
   });
 
-  test('clicking the clear button also calls onChange with the cleared value', async function (assert) {
-    const changeCalls: unknown[] = [];
-    const onChange = (value: unknown) => {
-      changeCalls.push(value);
+  test('clicking the clear button calls onChange with the empty value, then onClear, and keeps focus in the field', async function (assert) {
+    const calls: string[] = [];
+    const onChange = (event: Event & { target: HTMLInputElement }) => {
+      calls.push(`change:${event.target.value}`);
     };
-    let cleared = false;
     const onClear = () => {
-      cleared = true;
+      calls.push('clear');
     };
 
     await render(
@@ -132,11 +172,40 @@ module('Integration | Component | Search', (hooks) => {
     );
     await click('.cds--search-close');
 
-    assert.true(cleared);
-    assert.deepEqual(changeCalls, [null]);
+    assert.deepEqual(calls, ['change:', 'clear']);
+    assert.dom('input.cds--search-input').isFocused();
   });
 
-  test('does not call onChange twice when a change event follows an input event with the same value', async function (assert) {
+  test('Escape clears the field, and goes no further', async function (assert) {
+    let cleared = false;
+    const onClear = () => (cleared = true);
+    let escapes = 0;
+    const countEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') escapes++;
+    };
+    document.addEventListener('keydown', countEscape);
+
+    try {
+      await render(
+        <template>
+          <Search
+            @labelText="Search"
+            @defaultValue="abc"
+            @onClear={{onClear}}
+          />
+        </template>,
+      );
+      await triggerKeyEvent('input.cds--search-input', 'keydown', 'Escape');
+    } finally {
+      document.removeEventListener('keydown', countEscape);
+    }
+
+    assert.dom('input.cds--search-input').hasValue('');
+    assert.true(cleared);
+    assert.strictEqual(escapes, 0, 'the event stops at the field');
+  });
+
+  test('ignores change events, so a change after an input calls onChange once', async function (assert) {
     let calls = 0;
     const onChange = () => {
       calls++;

@@ -72,8 +72,8 @@ export default class List<T> extends Component<ListSignature<T>> {
     );
   }
 
-  setCurrentSearch = (search: string) => {
-    this.currentSearch = search;
+  setCurrentSearch = (event: Event & { target: HTMLInputElement }) => {
+    this.currentSearch = event.target.value;
   };
 
   setCurrentItemsSlice = (slice: { start: number; end: number }) => {
