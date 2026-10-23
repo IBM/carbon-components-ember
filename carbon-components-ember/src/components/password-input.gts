@@ -15,6 +15,7 @@ import ViewOff from './icons/view-off.ts';
 import WarningFilled from './icons/warning-filled.ts';
 import WarningAltFilled from './icons/warning-alt-filled.ts';
 import Tooltip from './tooltip.gts';
+import { FieldMessage, fieldState } from './-private/field.gts';
 import type { TooltipAlignment } from './tooltip.gts';
 
 export interface PasswordInputSignature {
@@ -80,12 +81,24 @@ export default class PasswordInput extends Component<PasswordInputSignature> {
     return this.passwordVisible ? 'text' : 'password';
   }
 
+  get field() {
+    return fieldState(this.id, this.args);
+  }
+
   get isInvalid() {
-    return !!this.args.invalid;
+    return this.field.invalid;
   }
 
   get isWarn() {
-    return this.isInvalid ? false : !!this.args.warn;
+    return this.field.warn;
+  }
+
+  // The invalid or warning text, else the helper text. Carbon React only
+  // makes the invalid text the error message, which nothing announces.
+  get describedBy() {
+    if (this.isInvalid) return this.field.invalidId;
+    if (this.isWarn) return this.field.warnId;
+    return this.args.helperText ? this.field.helperId : undefined;
   }
 
   get hidePasswordLabel() {
@@ -165,6 +178,8 @@ export default class PasswordInput extends Component<PasswordInputSignature> {
             />
           {{/if}}
           <input
+            aria-describedby={{this.describedBy}}
+            aria-errormessage={{if this.isInvalid this.field.invalidId}}
             ...attributes
             id={{this.id}}
             type={{this.inputType}}
@@ -205,16 +220,14 @@ export default class PasswordInput extends Component<PasswordInputSignature> {
             </button>
           </Tooltip>
         </div>
-        {{#if this.isInvalid}}
-          <div class="cds--form-requirement">{{@invalidText}}</div>
-        {{else if this.isWarn}}
-          <div class="cds--form-requirement">{{@warnText}}</div>
-        {{else if @helperText}}
-          <div
-            class="cds--form__helper-text
-              {{if @disabled 'cds--form__helper-text--disabled'}}"
-          >{{@helperText}}</div>
-        {{/if}}
+        <FieldMessage
+          @field={{this.field}}
+          @invalidText={{@invalidText}}
+          @warnText={{@warnText}}
+          @helperText={{@helperText}}
+          @disabled={{@disabled}}
+          @plainHelper={{true}}
+        />
       </div>
     </div>
   </template>

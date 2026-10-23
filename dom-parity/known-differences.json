@@ -238,36 +238,14 @@
   ],
   "TextInput": [
     {
-      "path": "div > div[0] > label[0].attributes.dir",
-      "reason": "@carbon/react wraps the label text in its own `Text` component (`as='label'`), which sets `dir='auto'` on itself. Ember's `<label>` in text-input.gts is a plain element with no `dir` attribute. Applies to every variant."
-    },
-    {
       "path": "div > div[1] > div[0] > input[0].attributes.value",
       "variant": "with-value",
       "reason": "Harness limitation, not a functional gap: Glimmer's bound `value={{this.value}}` on an `<input>` sets the DOM `value` IDL property, not a reflected HTML attribute (the same class of gap already documented for `checked` on RadioTile/RadioButton) - `normalizeElement` only inspects real attribute nodes, so it sees the value as absent on the Ember side even though the input genuinely displays 'Hello'."
     },
     {
-      "path": "div > div[1] > div[1].attributes.id",
-      "reason": "@carbon/react wraps its invalid/warn/helper text in its own `Text` component (`as='div'`), which upstream also gives a real `id` (`invalidId`/`warnId`/`helperId`) so the input can reference it via `aria-describedby`/`aria-errormessage`. Ember's plain `<div class='cds--form-requirement'>`/`<div class='cds--form__helper-text'>` in text-input.gts has neither an `id` nor the input-side `aria-*` link - a real, disclosed accessibility gap, out of scope for a DOM-parity-only pass. Applies wherever this div renders (invalid/warn/helper-text variants)."
-    },
-    {
-      "path": "div > div[1] > div[1].attributes.dir",
-      "reason": "Same `Text`-wrapper `dir='auto'` gap as the `div > div[0] > label[0].attributes.dir` entry above, on the invalid/warn/helper-text div instead of the label. Applies wherever this div renders."
-    },
-    {
       "path": "div > div[1] > div[0] > input[0].attributes.aria-describedby",
-      "variant": "helper-text",
-      "reason": "The other half of the missing helper-text `id`/`aria-describedby` link described in the `div[1].attributes.id` entry above - the input itself has no `aria-describedby` pointing at the (also id-less) helper div."
-    },
-    {
-      "path": "div > div[1] > div[0] > input[0].attributes.aria-errormessage",
       "variant": "invalid",
-      "reason": "The input-side half of the disclosed gap in the `div > div[1] > div[1].attributes.id` entry: the invalid text has no `id`, so the input has no `aria-errormessage` pointing at it."
-    },
-    {
-      "path": "div > div[1] > div[0] > input[0].attributes.aria-describedby",
-      "variant": "warn",
-      "reason": "The input-side half of the disclosed gap in the `div > div[1] > div[1].attributes.id` entry: the warning text has no `id`, so the input has no `aria-describedby` pointing at it."
+      "reason": "Deliberate a11y divergence: @carbon/react's TextInput points `aria-errormessage` at the invalid text but nothing announces it (axe `aria-valid-attr-value`: no `aria-describedby`, live region or `role=\"alert\"`). The Ember port also describes the input with the invalid text, as Carbon React's NumberInput does."
     }
   ],
   "Select": [
@@ -279,24 +257,12 @@
   ],
   "TextArea": [
     {
-      "path": "div > div[0] > label[0].attributes.dir",
-      "reason": "Same `Text`-wrapper `dir='auto'` gap as TextInput's entry of the same name. Applies to every variant."
-    },
-    {
       "path": "div > div[1] > textarea[0].attributes.placeholder",
       "reason": "@carbon/react's TextArea defaults `placeholder = \"\"`, so it's always a real (if empty) rendered attribute; Ember's `placeholder={{@placeholder}}` in text-area.gts omits the attribute entirely when `@placeholder` is absent. No visible difference (an empty placeholder renders no text either way). Applies to every variant that doesn't pass `@placeholder`, at whichever index the `<textarea>` occupies (index 0 when no icon renders before it)."
     },
     {
       "path": "div > div[1] > textarea[1].attributes.placeholder",
       "reason": "Same default-`placeholder=\"\"` gap as the `textarea[0]` entry above, at the index the `<textarea>` occupies once an invalid/warn icon renders before it."
-    },
-    {
-      "path": "div > div[1] > textarea[0].attributes.aria-invalid",
-      "reason": "@carbon/react's TextArea always sets `aria-invalid` (`true`/`false`); Ember's text-area.gts only renders the attribute at all when invalid (`aria-invalid={{if this.isInvalid 'true'}}` omits it otherwise, rather than rendering `'false'`). Applies to every variant that isn't already invalid, at whichever index the `<textarea>` occupies."
-    },
-    {
-      "path": "div > div[1] > textarea[1].attributes.aria-invalid",
-      "reason": "Same always-vs-only-when-true `aria-invalid` gap as the `textarea[0]` entry above, at the index the `<textarea>` occupies once a warn icon renders before it (the warn variant is legitimately not invalid, so this still applies there)."
     },
     {
       "path": "div > div[1] > textarea[0].style.width",
@@ -307,41 +273,9 @@
       "reason": "Same imperative-effect-set `width: 100%` gap as the `textarea[0]` entry above, at the index the `<textarea>` occupies once an invalid/warn icon renders before it."
     },
     {
-      "path": "div > div[1] > textarea[1].attributes.aria-errormessage",
-      "variant": "invalid",
-      "reason": "@carbon/react's invalid TextArea links the `<textarea>` to its own id-bearing error `Text` div via `aria-errormessage`. Ember's text-area.gts has no equivalent id/link (see the `div[2].attributes.id` entry below) - a real, disclosed accessibility gap, out of scope for a DOM-parity-only pass."
-    },
-    {
       "path": "div > div[1] > textarea[1].attributes.data-invalid",
       "variant": "invalid",
       "reason": "Ember-only marker attribute (`data-invalid={{if this.isInvalid 'true'}}` on the `<textarea>` itself, in addition to the wrapper div's own `data-invalid`) with no React counterpart - used internally, not part of the rendered-markup contract this harness checks."
-    },
-    {
-      "path": "div > div[1] > textarea[0].attributes.aria-readonly",
-      "variant": "read-only",
-      "reason": "@carbon/react's TextArea always sets `aria-readonly` (mirroring `readOnly`); Ember's text-area.gts sets the `readonly` HTML attribute but never `aria-readonly`. A real, disclosed accessibility gap, out of scope for a DOM-parity-only pass."
-    },
-    {
-      "path": "div > div[1] > textarea[1].attributes.aria-describedby",
-      "variant": "warn",
-      "reason": "@carbon/react's warn TextArea links the `<textarea>` to its own id-bearing warning `Text` div via `aria-describedby`. Ember's text-area.gts has no equivalent id/link (see the `div[2].attributes.id` entry below) - a real, disclosed accessibility gap, out of scope for a DOM-parity-only pass."
-    },
-    {
-      "path": "div > div[1] > textarea[0].attributes.aria-describedby",
-      "variant": "helper-text",
-      "reason": "Same missing helper-text `id`/`aria-describedby` link as the `warn` variant's entry of the same name above, for the plain helper-text case."
-    },
-    {
-      "path": "div > div[2].attributes.role",
-      "reason": "@carbon/react wraps its invalid/warn text in its own `Text` component with `role='alert'`; Ember's plain `<div class='cds--form-requirement'>` in text-area.gts has no `role`. Applies to the invalid and warn variants."
-    },
-    {
-      "path": "div > div[2].attributes.id",
-      "reason": "Same missing-`id` gap as TextInput's `div[1].attributes.id` entry, on TextArea's invalid/warn/helper-text div instead. Applies wherever this div renders (invalid/warn/helper-text variants)."
-    },
-    {
-      "path": "div > div[2].attributes.dir",
-      "reason": "Same `Text`-wrapper `dir='auto'` gap as the label entry above, on the invalid/warn/helper-text div instead. Applies wherever this div renders."
     }
   ],
   "PasswordInput": [
@@ -354,24 +288,6 @@
       "reason": "Same structural Tooltip-internals difference as the `span[1]` entry above, at the index the tooltip occupies once an invalid/warn icon renders before it. Applies to the invalid and warn variants."
     },
     {
-      "path": "div > div[1] > div[0] > input[1].attributes.aria-errormessage",
-      "variant": "invalid",
-      "reason": "Same missing invalid-text `id`/`aria-errormessage` link already documented for TextArea's entry of the same name - Ember's password-input.gts `<div class='cds--form-requirement'>` has no `id` for the input to reference."
-    },
-    {
-      "path": "div > div[1] > div[0] > input[1].attributes.aria-describedby",
-      "variant": "warn",
-      "reason": "Same missing warn-text `id`/`aria-describedby` link already documented for TextArea's entry of the same name."
-    },
-    {
-      "path": "div > div[1] > div[1].attributes.id",
-      "reason": "Same missing-`id` gap as TextInput's/TextArea's entries of the same name, on PasswordInput's invalid/warn `Text`-wrapped div. Applies to the invalid and warn variants."
-    },
-    {
-      "path": "div > div[1] > div[1].attributes.dir",
-      "reason": "Same `Text`-wrapper `dir='auto'` gap as this file's other label/helper-text entries, on PasswordInput's invalid/warn div. Applies to the invalid and warn variants."
-    },
-    {
       "path": "div.classes[cds--layout--size-sm]",
       "variant": "size-sm",
       "reason": "@carbon/react's PasswordInput puts `cds--layout--size-{size}` on the inner field-wrapper div (via `fieldWrapperClasses`), while Ember's password-input.gts puts it on the outer form-item wrapper div instead (see the matching `div > div[1] > div[0].classes[cds--layout--size-sm]` entry below) - a real placement divergence, not a missing class. Reworking which element carries this class is a structural template change (affects the CSS custom-property scoping documented in AGENTS.md's PR #838 list-box-padding write-up), out of scope for a DOM-parity-only pass; left as a known difference rather than moved."
@@ -380,17 +296,14 @@
       "path": "div > div[1] > div[0].classes[cds--layout--size-sm]",
       "variant": "size-sm",
       "reason": "The other half of the `cds--layout--size-sm` placement divergence described in the `div.classes[cds--layout--size-sm]` entry above."
+    },
+    {
+      "path": "div > div[1] > div[0] > input[1].attributes.aria-describedby",
+      "variant": "invalid",
+      "reason": "Deliberate a11y divergence: @carbon/react's PasswordInput points `aria-errormessage` at the invalid text but nothing announces it (axe `aria-valid-attr-value`: no `aria-describedby`, live region or `role=\"alert\"`). The Ember port also describes the input with the invalid text, as Carbon React's NumberInput does."
     }
   ],
   "NumberInput": [
-    {
-      "path": "div > div[0] > label[0].attributes.dir",
-      "reason": "Same `Text`-wrapper `dir='auto'` gap as TextInput's entry of the same name, on NumberInput's `Label`. Applies to every variant."
-    },
-    {
-      "path": "div > div[0] > div[1] > input[0].attributes.aria-invalid",
-      "reason": "Same always-vs-only-when-true `aria-invalid` gap as TextArea's entry of the same name. Applies to every variant that isn't already invalid."
-    },
     {
       "path": "div > div[0] > div[1] > input[0].attributes.pattern",
       "reason": "@carbon/react's NumberInput always sets a default `pattern=\"[0-9]*\"` on the `<input>` (used for its own text-mode input validation); Ember's number-input.gts never sets `pattern` at all - both render a native `type=\"number\"` input either way, so this has no visible effect. Applies to every variant."
@@ -402,24 +315,12 @@
     {
       "path": "div > div[0] > div[1] > input[0].attributes.value",
       "reason": "Harness limitation, not a functional gap - same property-vs-attribute gap already documented for TextInput's `input[0].attributes.value` entry (Glimmer's bound `value={{this.value}}` sets the DOM property, not a reflected attribute). Applies to every variant (NumberInput's own internal default value is `0`, always present)."
-    },
-    {
-      "path": "div > div[0] > div[1] > input[0].attributes.aria-describedby",
-      "reason": "Same missing invalid/warn/helper-text `id`/`aria-describedby` link already documented for TextArea's/PasswordInput's entries of the same name - Ember's number-input.gts `<div class='cds--form-requirement'>`/`<div class='cds--form__helper-text'>` has no `id` for the input to reference. Applies to the invalid and warn variants."
-    },
-    {
-      "path": "div > div[0] > div[2].attributes.id",
-      "reason": "Same missing-`id` gap as this file's other label/helper-text entries, on NumberInput's invalid/warn `Text`-wrapped div. Applies to the invalid and warn variants."
-    },
-    {
-      "path": "div > div[0] > div[2].attributes.dir",
-      "reason": "Same `Text`-wrapper `dir='auto'` gap as this file's other label/helper-text entries, on NumberInput's invalid/warn div. Applies to the invalid and warn variants."
     }
   ],
   "FluidTextInput": [
     {
       "path": "div > div[0] > label[0].attributes.dir",
-      "reason": "Same `Text`-wrapper `dir='auto'` gap as TextInput's entry of the same name. Applies to the default, disabled, invalid, warn, and read-only variants (the non-password branch, which reuses TextInput's own label rendering)."
+      "reason": "@carbon/react wraps the label text in its own `Text` component (`as='label'`), which sets `dir='auto'`; FluidTextInput's own label doesn't. Goes once FluidTextInput shares TextInput's control (#1034). Applies to the default, disabled, invalid, warn, and read-only variants (the non-password branch, which reuses TextInput's own label rendering)."
     },
     {
       "path": "div > div[1] > div[0] > input[0]",
@@ -443,7 +344,7 @@
     },
     {
       "path": "div > div[1] > div[0] > div[4].attributes.id",
-      "reason": "Same missing-`id` gap as TextInput's `div[1].attributes.id` entry, on FluidTextInput's own invalid/warn validation div. Applies to the invalid and warn (non-password) variants."
+      "reason": "@carbon/react gives the invalid/warn text an id (`${id}-error-msg`/`${id}-warn-msg`) for the input's `aria-errormessage`/`aria-describedby`; FluidTextInput's own validation div has none. Goes once FluidTextInput shares TextInput's control (#1034)."
     },
     {
       "path": "div > div[1] > div[0] > div[4].attributes.dir",
@@ -476,7 +377,7 @@
     {
       "path": "div > div[1] > div[0] > input[1].attributes.aria-errormessage",
       "variant": "password-invalid",
-      "reason": "Same missing invalid-text `id`/`aria-errormessage` link already documented for TextArea's/PasswordInput's entries of the same name."
+      "reason": "@carbon/react's FluidPasswordInput points the input's `aria-errormessage` at its invalid text; FluidTextInput's own password input doesn't. Goes once FluidTextInput shares PasswordInput's control (#1034)."
     },
     {
       "path": "div > div[1] > div[0] > input[1].attributes.data-toggle-password-visibility",

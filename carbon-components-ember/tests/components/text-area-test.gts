@@ -1,6 +1,12 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn, click, triggerKeyEvent } from '@ember/test-helpers';
+import {
+  click,
+  fillIn,
+  find,
+  render,
+  triggerKeyEvent,
+} from '@ember/test-helpers';
 import TextArea from '#src/components/text-area.gts';
 import TextAreaSkeleton from '#src/components/text-area-skeleton.gts';
 
@@ -248,5 +254,39 @@ module('Integration | Component | TextAreaSkeleton', (hooks) => {
       .hasAttribute('data-test-notes');
     await click('textarea.cds--text-area');
     assert.strictEqual(clicks, 1);
+  });
+
+  test('links its texts by id and announces them, as Carbon React does', async function (assert) {
+    await render(
+      <template>
+        <TextArea
+          @labelText="Notes"
+          @readOnly={{true}}
+          @helperText="Optional"
+        />
+      </template>,
+    );
+    assert
+      .dom('textarea')
+      .hasAttribute('aria-invalid', 'false')
+      .hasAttribute('aria-readonly', 'true')
+      .hasAttribute('aria-describedby', find('.cds--form__helper-text')!.id);
+
+    await render(
+      <template>
+        <TextArea
+          @labelText="Notes"
+          @invalid={{true}}
+          @invalidText="Too long"
+        />
+      </template>,
+    );
+    const error = find('.cds--form-requirement')!;
+    assert.dom(error).hasAttribute('role', 'alert');
+    assert
+      .dom('textarea')
+      .hasAttribute('aria-invalid', 'true')
+      .hasAttribute('aria-errormessage', error.id)
+      .doesNotHaveAttribute('aria-describedby');
   });
 });

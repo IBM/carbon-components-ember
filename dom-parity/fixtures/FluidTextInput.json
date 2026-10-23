@@ -1,8 +1,8 @@
 {
   "component": "FluidTextInput",
-  "generatedAt": "2026-10-04T14:24:38.961Z",
+  "generatedAt": "2026-10-23T12:13:58.864Z",
   "carbonReactVersion": "1.114.0",
-  "reactVersion": "19.3.0",
+  "reactVersion": "19.3.1",
   "variants": {
     "default": {
       "props": {},
@@ -292,7 +292,7 @@
                       "id": "#1",
                       "data-invalid": "true",
                       "aria-invalid": "true",
-                      "aria-errormessage": "fluid-text-input-1-error-msg",
+                      "aria-errormessage": "#2",
                       "type": "text"
                     },
                     "style": {},
@@ -997,7 +997,7 @@
                       "id": "#1",
                       "data-invalid": "true",
                       "aria-invalid": "true",
-                      "aria-errormessage": "fluid-password-input-1-error-msg",
+                      "aria-errormessage": "#3",
                       "data-toggle-password-visibility": "true",
                       "type": "password"
                     },
