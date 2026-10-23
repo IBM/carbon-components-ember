@@ -7,8 +7,8 @@ import type Owner from '@ember/owner';
 import { cached, tracked } from '@glimmer/tracking';
 import { afterRender } from '../utils/after-render.ts';
 import { guidFor } from '@ember/object/internals';
-import ChevronLeft from './icons/chevron-left.ts';
-import ChevronRight from './icons/chevron-right.ts';
+import CaretLeft from './icons/caret-left.ts';
+import CaretRight from './icons/caret-right.ts';
 import type { ComponentLike } from '@glint/template';
 import './pagination.scss';
 
@@ -305,7 +305,7 @@ export default class Pagination extends Component<PaginationSignature> {
                 type="button"
                 {{on "click" this.pageBack}}
               >
-                <ChevronLeft />
+                <CaretLeft />
               </button>
             </Tooltip>
             <Tooltip
@@ -321,7 +321,7 @@ export default class Pagination extends Component<PaginationSignature> {
                 type="button"
                 {{on "click" this.pageForward}}
               >
-                <ChevronRight />
+                <CaretRight />
               </button>
             </Tooltip>
           </div>
