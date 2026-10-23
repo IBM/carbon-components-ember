@@ -319,70 +319,19 @@
   ],
   "FluidTextInput": [
     {
-      "path": "div > div[0] > label[0].attributes.dir",
-      "reason": "@carbon/react wraps the label text in its own `Text` component (`as='label'`), which sets `dir='auto'`; FluidTextInput's own label doesn't. Goes once FluidTextInput shares TextInput's control (#1034). Applies to the default, disabled, invalid, warn, and read-only variants (the non-password branch, which reuses TextInput's own label rendering)."
-    },
-    {
-      "path": "div > div[1] > div[0] > input[0]",
+      "path": "div > div[1] > div[0] > input[0].attributes.aria-describedby",
       "variant": "invalid",
-      "reason": "Same icon/input DOM-ordering swap already documented for TextInput's entries of the same name (upstream renders `[input, Icon]`, Ember renders `[Icon, input]`) - purely a DOM-order artifact, no visual effect since both are positioned via CSS."
+      "reason": "Deliberate a11y divergence, as PasswordInput's and TextInput's entries of the same name: @carbon/react points `aria-errormessage` at the invalid text but nothing announces it; the Ember port also describes the input with it."
     },
     {
-      "path": "div > div[1] > div[0] > svg[1]",
-      "variant": "invalid",
-      "reason": "The other half of the icon/input ordering swap described in the `input[0]` entry above."
-    },
-    {
-      "path": "div > div[1] > div[0] > input[0]",
-      "variant": "warn",
-      "reason": "Same icon/input ordering swap as the `invalid` variant's entries of the same name above, for the `WarningAltFilled` icon."
-    },
-    {
-      "path": "div > div[1] > div[0] > svg[1]",
-      "variant": "warn",
-      "reason": "The other half of the icon/input ordering swap described in the `input[0]` entry above."
-    },
-    {
-      "path": "div > div[1] > div[0] > div[4].attributes.id",
-      "reason": "@carbon/react gives the invalid/warn text an id (`${id}-error-msg`/`${id}-warn-msg`) for the input's `aria-errormessage`/`aria-describedby`; FluidTextInput's own validation div has none. Goes once FluidTextInput shares TextInput's control (#1034)."
-    },
-    {
-      "path": "div > div[1] > div[0] > div[4].attributes.dir",
-      "reason": "Same `Text`-wrapper `dir='auto'` gap as this file's other label/validation entries, on FluidTextInput's own invalid/warn validation div. Applies to the invalid and warn (non-password) variants."
-    },
-    {
-      "path": "div > label[0]",
-      "reason": "Structural: `@isPassword` renders through upstream's separate `FluidPasswordInput` component (see `fluidPasswordInput` in dom-parity/lib/components.mjs), whose root's first child is a plain `<label>` with no wrapping div - unlike the plain (non-password) `FluidTextInput`/`TextInput` path, which always wraps its label in a `cds--text-input__label-wrapper` div. Ember's fluid-text-input.gts reuses the exact same template/wrapper for both modes, so its root's first child is always that wrapper div. This one tag mismatch swallows the label's own deeper comparison (see the `div > input[0]` entry's own note on this file's checkbox entries for why that's an acceptable tradeoff) - reworking the password branch to drop the wrapper is a structural change out of scope here. Applies to the password and password-invalid variants."
-    },
-    {
-      "path": "div > div[1] > div[0] > input[0].classes[cds--text-input--fluid]",
-      "variant": "password",
-      "reason": "@carbon/react's `FluidPasswordInput` puts `cds--text-input--fluid` directly on the `<input>` (via its own `sharedTextInputProps.className`); Ember's fluid-text-input.gts only puts the class on the outer wrapper div. A real placement divergence, not a missing class - see PasswordInput's own `cds--layout--size-sm` placement entry for the same class of gap. Out of scope to move here."
-    },
-    {
-      "path": "div > div[1] > div[0] > input[0].attributes.data-toggle-password-visibility",
-      "variant": "password",
-      "reason": "Ember's `password-input.gts` sets a `data-toggle-password-visibility` marker attribute on its `<input>` (used internally to reflect the current visibility state); FluidTextInput's own password branch doesn't set this at all, since it renders its own template rather than delegating to `PasswordInput`. Not part of the rendered-markup contract this harness checks otherwise, but worth noting as a real inconsistency between this addon's two password-input components."
+      "path": "div > div[1] > div[0] > input[1].attributes.aria-describedby",
+      "variant": "password-invalid",
+      "reason": "Deliberate a11y divergence, as PasswordInput's and TextInput's entries of the same name: @carbon/react points `aria-errormessage` at the invalid text but nothing announces it; the Ember port also describes the input with it."
     },
     {
       "path": "div > div[1] > div[0] > span[2]",
       "variant": "password",
       "reason": "Same structural Tooltip-internals difference already documented for PasswordInput's `span[1]`/`span[2]` entries (the trigger wrapper's element, and where the tooltip's ARIA attributes sit) - swallows the whole internal-structure comparison in one entry, at the index the tooltip occupies here."
-    },
-    {
-      "path": "div > div[1] > div[0] > input[1].classes[cds--text-input--fluid]",
-      "variant": "password-invalid",
-      "reason": "Same `cds--text-input--fluid` placement divergence as the `password` variant's entry of the same name above, at the index the input occupies once the invalid icon precedes it."
-    },
-    {
-      "path": "div > div[1] > div[0] > input[1].attributes.aria-errormessage",
-      "variant": "password-invalid",
-      "reason": "@carbon/react's FluidPasswordInput points the input's `aria-errormessage` at its invalid text; FluidTextInput's own password input doesn't. Goes once FluidTextInput shares PasswordInput's control (#1034)."
-    },
-    {
-      "path": "div > div[1] > div[0] > input[1].attributes.data-toggle-password-visibility",
-      "variant": "password-invalid",
-      "reason": "Same missing marker attribute as the `password` variant's entry of the same name above, at the index the input occupies once the invalid icon precedes it."
     },
     {
       "path": "div > div[1] > div[0] > span[3]",

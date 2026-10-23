@@ -47,8 +47,20 @@ export interface PasswordInputSignature {
      */
     onChange?: (event: Event & { target: HTMLInputElement }) => void;
     onTogglePasswordVisibility?: (event: MouseEvent) => void;
+    /**
+     * @internal Set by FluidTextInput, as Carbon React's `FormContext`: the
+     * fluid style, with the invalid or warning text inside the field.
+     */
+    isFluid?: boolean;
   };
   Element: HTMLInputElement;
+  Blocks: {
+    /**
+     * The label, in place of `@labelText`, when it's more than plain text,
+     * such as formatted text or a required marker.
+     */
+    labelText: [];
+  };
 }
 
 export default class PasswordInput extends Component<PasswordInputSignature> {
@@ -145,16 +157,21 @@ export default class PasswordInput extends Component<PasswordInputSignature> {
           (and @inline this.isInvalid)
           'cds--text-input-wrapper--inline--invalid'
         }}
-        {{if @size (concat 'cds--layout--size-' @size)}}"
+        {{if @size (concat 'cds--layout--size-' @size)}}
+        {{if @isFluid 'cds--text-input--fluid'}}"
     >
-      {{#if @labelText}}
+      {{#if (or (has-block "labelText") @labelText)}}
         <label
           for={{this.id}}
           class="cds--label
             {{if @hideLabel 'cds--visually-hidden'}}
             {{if @disabled 'cds--label--disabled'}}"
         >
-          {{@labelText}}
+          {{#if (has-block "labelText")}}
+            {{yield to="labelText"}}
+          {{else}}
+            {{@labelText}}
+          {{/if}}
         </label>
       {{/if}}
       <div
@@ -201,6 +218,9 @@ export default class PasswordInput extends Component<PasswordInputSignature> {
             value={{this.boundValue}}
             {{on "input" this.updateValue}}
           />
+          {{#if @isFluid}}
+            <hr class="cds--text-input__divider" />
+          {{/if}}
           <Tooltip
             @label={{this.toggleLabel}}
             @align={{this.tooltipAlign}}
@@ -219,15 +239,24 @@ export default class PasswordInput extends Component<PasswordInputSignature> {
               {{/if}}
             </button>
           </Tooltip>
+          {{#if @isFluid}}
+            <FieldMessage
+              @field={{this.field}}
+              @invalidText={{@invalidText}}
+              @warnText={{@warnText}}
+            />
+          {{/if}}
         </div>
-        <FieldMessage
-          @field={{this.field}}
-          @invalidText={{@invalidText}}
-          @warnText={{@warnText}}
-          @helperText={{@helperText}}
-          @disabled={{@disabled}}
-          @plainHelper={{true}}
-        />
+        {{#unless @isFluid}}
+          <FieldMessage
+            @field={{this.field}}
+            @invalidText={{@invalidText}}
+            @warnText={{@warnText}}
+            @helperText={{@helperText}}
+            @disabled={{@disabled}}
+            @plainHelper={{true}}
+          />
+        {{/unless}}
       </div>
     </div>
   </template>

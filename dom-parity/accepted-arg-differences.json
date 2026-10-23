@@ -98,6 +98,16 @@
       "index": "OverflowMenu yields the item bound to it (@menu), whose RovingFocus keeps the items in DOM order; Carbon React clones these props into its children."
     }
   },
+  "PasswordInput": {
+    "extra": {
+      "isFluid": "Stands in for Carbon React's FormContext, through which its FluidTextInput turns on the fluid style. Marked @internal."
+    }
+  },
+  "TextInput": {
+    "extra": {
+      "isFluid": "Stands in for Carbon React's FormContext, through which its FluidTextInput turns on the fluid style. Marked @internal."
+    }
+  },
   "ToastNotification": {
     "extra": {
       "ariaLabel": "React's aria-label labels the close button; an aria-label attribute would label the notification."

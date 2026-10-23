@@ -39,9 +39,19 @@ export interface TextInputSignature {
      * `onChange`; the value is `event.target.value`.
      */
     onChange?: (event: Event & { target: HTMLInputElement }) => void;
+    /**
+     * @internal Set by FluidTextInput, as Carbon React's `FormContext`: the
+     * fluid style, with the invalid or warning text inside the field.
+     */
+    isFluid?: boolean;
   };
   Element: HTMLInputElement;
   Blocks: {
+    /**
+     * The label, in place of `@labelText`, when it's more than plain text,
+     * such as formatted text or a required marker.
+     */
+    labelText: [];
     /**
      * **Experimental:** an AI label, or any other decorator, shown in the field.
      * Yields an `AILabel` already set up for it.
@@ -124,7 +134,7 @@ export default class TextInput extends Component<TextInputSignature> {
         {{@className}}"
     >
       <div class="cds--text-input__label-wrapper">
-        {{#if @labelText}}
+        {{#if (or (has-block "labelText") @labelText)}}
           <label
             for={{this.id}}
             class="cds--label
@@ -132,7 +142,11 @@ export default class TextInput extends Component<TextInputSignature> {
               {{if this.field.disabled 'cds--label--disabled'}}"
             dir="auto"
           >
-            {{@labelText}}
+            {{#if (has-block "labelText")}}
+              {{yield to="labelText"}}
+            {{else}}
+              {{@labelText}}
+            {{/if}}
           </label>
         {{/if}}
         {{#if this.showCounter}}
@@ -197,14 +211,24 @@ export default class TextInput extends Component<TextInputSignature> {
           >
             {{#if this.isOverCountLimit}}{{this.count}}/{{@maxCount}}{{/if}}
           </span>
+          {{#if @isFluid}}
+            <hr class="cds--text-input__divider" />
+            <FieldMessage
+              @field={{this.field}}
+              @invalidText={{@invalidText}}
+              @warnText={{@warnText}}
+            />
+          {{/if}}
         </div>
-        <FieldMessage
-          @field={{this.field}}
-          @invalidText={{@invalidText}}
-          @warnText={{@warnText}}
-          @helperText={{@helperText}}
-          @disabled={{this.field.disabled}}
-        />
+        {{#unless @isFluid}}
+          <FieldMessage
+            @field={{this.field}}
+            @invalidText={{@invalidText}}
+            @warnText={{@warnText}}
+            @helperText={{@helperText}}
+            @disabled={{this.field.disabled}}
+          />
+        {{/unless}}
       </div>
     </div>
   </template>
