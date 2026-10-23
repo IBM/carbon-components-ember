@@ -163,7 +163,7 @@ export default class MenuItem
       <li
         role={{this.role}}
         class={{this.classesFor hasChildren}}
-        tabindex={{if (this.isDisabled hasChildren) "-1" "0"}}
+        tabindex={{if @disabled "-1" "0"}}
         aria-disabled={{if (this.isDisabled hasChildren) "true"}}
         aria-haspopup={{if hasChildren "true"}}
         aria-expanded={{if hasChildren (if this.submenuOpen "true" "false")}}
@@ -172,6 +172,7 @@ export default class MenuItem
         {{on "click" (fn this.handleClick hasChildren)}}
         {{on "keydown" (fn this.handleKeyDown hasChildren)}}
         {{this.registerWithMenu}}
+        {{@menu.rovingFocus.item disabled=@disabled}}
         ...attributes
       >
         <div class="cds--menu-item__selection-icon">
