@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, find, waitUntil } from '@ember/test-helpers';
+import { render, click, find } from '@ember/test-helpers';
 import UIShell from '#src/components/ui-shell.gts';
 import { Notification } from '#src/icons.ts';
 import { tracked } from '@glimmer/tracking';
@@ -49,13 +49,11 @@ module('Integration | Component | UIShell', (hooks) => {
     );
 
     assert.dom('.cds--header__menu-toggle').exists();
-    await waitUntil(() => find('.cds--header__menu-toggle svg'));
     assert.dom('.cds--header__menu-toggle svg').exists();
     const beforeIcon = find('.cds--header__menu-toggle svg')?.innerHTML;
 
     await click('.cds--header__menu-toggle');
     assert.true(open.value);
-    await waitUntil(() => find('.cds--header__menu-toggle svg'));
     const afterIcon = find('.cds--header__menu-toggle svg')?.innerHTML;
     assert.notStrictEqual(
       beforeIcon,
@@ -91,9 +89,6 @@ module('Integration | Component | UIShell', (hooks) => {
     assert
       .dom('.cds--header__global .cds--header__action')
       .hasClass('cds--btn--icon-only');
-    await waitUntil(() =>
-      find('.cds--header__global .cds--header__action svg'),
-    );
     assert.dom('.cds--header__global .cds--header__action svg').exists();
     await click('.cds--header__global .cds--header__action');
     assert.true(clicked.value);

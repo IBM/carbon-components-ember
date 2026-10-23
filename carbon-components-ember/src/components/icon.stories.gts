@@ -11,9 +11,8 @@ import '#storybook/styles/icon.css';
 
 // Carbon React has no `Icon` component story to mirror (React consumes
 // `@carbon/icons-react` components directly). The equivalents here are the
-// generated icon components exported from `carbon-components-ember/icons`
-// (each one is an `Icon` with its SVG lazily imported per size), plus the
-// base `Icon` for SVGs registered by name.
+// generated icon components exported from `carbon-components-ember/icons`,
+// plus the base `Icon` for SVGs registered by name.
 
 registerIcon('bookmark', BookmarkSvg);
 
@@ -29,7 +28,7 @@ const meta = preview
     parameters: {
       docs: {
         description: {
-          component: `\`Icon\` renders a Carbon SVG icon. Use the generated icon components from \`carbon-components-ember/icons\` (e.g. \`<Bookmark @size={{16}} />\`), which load the SVG for the requested size on demand, or register an SVG from \`@carbon/icons\` with \`registerIcon(name, svg)\` and render it with \`<Icon @icon="name" />\`.`,
+          component: `\`Icon\` renders a Carbon SVG icon. Use the generated icon components from \`carbon-components-ember/icons\` (e.g. \`<Bookmark />\`), which are 16px unless given \`@size\`, as in \`@carbon/icons-react\`, or register an SVG from \`@carbon/icons\` with \`registerIcon(name, svg)\` and render it with \`<Icon @icon="name" />\`.`,
         },
       },
     },
@@ -61,7 +60,7 @@ export const IconComponents = meta.story({
     docs: {
       description: {
         story:
-          'Every icon in `@carbon/icons` is also exported as its own component from `carbon-components-ember/icons`; `@size` picks the 16, 20, 24 or 32px artwork.',
+          'Every icon in `@carbon/icons` is also exported as its own component from `carbon-components-ember/icons`. `@size` defaults to 16; a size the icon has no artwork for scales its 32px drawing, as in `@carbon/icons-react`.',
       },
     },
   },
@@ -95,8 +94,7 @@ export const Gallery = meta.story({
     filter: { control: 'text', description: 'Filter icons by name' },
     limit: {
       control: { type: 'number', min: 1 },
-      description:
-        'Render at most this many icons (each one lazily loads its SVG)',
+      description: 'Render at most this many icons',
     },
     size: { control: 'select', options: [16, 20, 24, 32] },
   },
@@ -142,13 +140,11 @@ export const GalleryFiltered = Gallery.extend({
   args: { filter: 'bookmark' },
 });
 
-// Only the listing is asserted: each icon's SVG is a lazy `import()`. The
-// SVGs render in Storybook itself, but under the Vitest runner the icon
-// doesn't reliably re-render once its import resolves.
 GalleryFiltered.test(
   'lists the icons matching the filter',
-  async ({ canvas }) => {
+  async ({ canvas, canvasElement }) => {
     await expect(canvas.getAllByRole('listitem')).toHaveLength(3);
+    await expect(canvasElement.querySelectorAll('svg')).toHaveLength(3);
     await expect(canvas.getByText('Bookmark')).toBeVisible();
     await expect(canvas.getByText('BookmarkAdd')).toBeVisible();
     await expect(canvas.getByText('BookmarkFilled')).toBeVisible();

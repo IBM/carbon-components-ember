@@ -43,7 +43,9 @@ export interface IconSignature {
      */
     iconSvg?: TrustedHTML;
     /**
-     * Size of icon
+     * Size of the icon, 16 by default, as in `@carbon/icons-react`. A size
+     * the icon has no artwork for scales its 32px drawing; `"glyph"` draws
+     * its glyph, where it has one.
      */
     // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
     size?: 16 | 20 | 24 | 32 | number | string;
@@ -69,6 +71,11 @@ export interface IconSignature {
 }
 
 export default class Icon extends Component<IconSignature> {
+  // As in @carbon/icons-react.
+  get size() {
+    return this.args.size ?? 16;
+  }
+
   get classes() {
     const classes: string[] = [];
     if (this.args.info) classes.push('cds--icon--info');
@@ -97,7 +104,7 @@ export default class Icon extends Component<IconSignature> {
         this.svg
         class=(array @svgClass this.classes)
         fill=(or @fill "currentColor")
-        size=@size
+        size=this.size
         title=@title
         ariaLabel=@ariaLabel
       }}

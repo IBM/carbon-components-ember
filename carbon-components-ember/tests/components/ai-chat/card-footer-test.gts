@@ -225,7 +225,6 @@ module('Integration | Component | ai-chat/CardFooter', (hooks) => {
     ];
 
     await render(<template><CardFooter @actions={{actions}} /></template>);
-    await waitUntil(() => find('.cds-aichat-card-footer__icon-actions svg'));
 
     assert
       .dom('.cds-aichat-card-footer__icon-actions svg')
@@ -238,7 +237,6 @@ module('Integration | Component | ai-chat/CardFooter', (hooks) => {
     await render(
       <template><CardFooter @actions={{labeledActions}} /></template>,
     );
-    await waitUntil(() => find('.cds-aichat-card-footer__actions svg'));
 
     assert
       .dom('.cds-aichat-card-footer__actions svg')

@@ -4,7 +4,6 @@ import {
   render,
   rerender,
   find,
-  waitUntil,
   triggerEvent,
   triggerKeyEvent,
   focus,
@@ -34,7 +33,6 @@ module('Integration | Component | IconIndicator', (hooks) => {
       </template>,
     );
 
-    await waitUntil(() => find('.cds--icon-indicator svg'));
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
     enableCarbonStyles();
     await waitForAnimationFrame();
@@ -59,7 +57,6 @@ module('Integration | Component | IconIndicator', (hooks) => {
       </template>,
     );
 
-    await waitUntil(() => find('.cds--icon-indicator svg'));
     const styles = getAllElementComputedStyles(this.element.firstElementChild!);
     enableCarbonStyles();
     darkStyleValue.value = carbonDarkStyle.default;
@@ -78,7 +75,6 @@ module('Integration | Component | IconIndicator', (hooks) => {
     await render(
       <template><IconIndicator @kind="failed" @label="Failed" /></template>,
     );
-    await waitUntil(() => find('.cds--icon-indicator svg'));
 
     assert.dom('.cds--icon-indicator').hasText('Failed');
     assert.dom('.cds--icon-indicator--failed').exists();
@@ -104,7 +100,6 @@ module('Integration | Component | IconIndicator', (hooks) => {
       await render(
         <template><IconIndicator @kind={{kind}} @label={{kind}} /></template>,
       );
-      await waitUntil(() => find(`.cds--icon-indicator--${kind}`));
 
       assert.dom(`.cds--icon-indicator--${kind}`).exists();
     });
@@ -137,7 +132,6 @@ module('Integration | Component | IconIndicator', (hooks) => {
         <IconIndicator @kind="failed" @label="Failed" @compact={{true}} />
       </template>,
     );
-    await waitUntil(() => find('.cds--icon-indicator__button svg'));
 
     assert.dom('.cds--icon-indicator__button').exists();
     assert
@@ -160,7 +154,6 @@ module('Integration | Component | IconIndicator', (hooks) => {
         />
       </template>,
     );
-    await waitUntil(() => find('.cds--icon-indicator__button svg'));
 
     assert
       .dom('.cds--icon-indicator__button .cds--visually-hidden')
@@ -179,7 +172,6 @@ module('Integration | Component | IconIndicator', (hooks) => {
         />
       </template>,
     );
-    await waitUntil(() => find('.cds--icon-indicator__button svg'));
 
     assert.dom('.cds--icon-indicator__button').exists();
     assert.ok(
@@ -194,7 +186,6 @@ module('Integration | Component | IconIndicator', (hooks) => {
         <IconIndicator @kind="failed" @label="Failed" @compact={{true}} />
       </template>,
     );
-    await waitUntil(() => find('.cds--icon-indicator__button svg'));
 
     const trigger = '.cds--icon-indicator__button';
     const container = '.cds--popover-container';

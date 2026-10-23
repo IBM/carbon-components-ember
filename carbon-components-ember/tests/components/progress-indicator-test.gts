@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import type { RenderingTestContext } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, waitUntil } from '@ember/test-helpers';
+import { render, click } from '@ember/test-helpers';
 import ProgressIndicator from '#src/components/progress-indicator.gts';
 import { tracked } from '@glimmer/tracking';
 
@@ -75,7 +75,6 @@ module('Integration | Component | ProgressIndicator', (hooks) => {
     );
 
     const steps = this.element.querySelectorAll('li.cds--progress-step');
-    await waitUntil(() => steps[0]?.querySelector('svg'));
     assert
       .dom(steps[0]?.querySelector('svg'))
       .hasClass('cds--progress__warning');

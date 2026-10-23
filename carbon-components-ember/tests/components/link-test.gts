@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, waitUntil, find } from '@ember/test-helpers';
+import { render, click } from '@ember/test-helpers';
 import Link from '#src/components/link.gts';
 import { Add } from '#src/icons.ts';
 
@@ -109,7 +109,6 @@ module('Integration | Component | Link', (hooks) => {
         <Link @href="/foo" @renderIcon={{Add}}>Link text</Link>
       </template>,
     );
-    await waitUntil(() => find('.cds--link__icon svg'));
 
     assert.dom('a.cds--link').hasClass('cds--link--icon');
     assert

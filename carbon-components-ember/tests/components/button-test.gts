@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, find, rerender, waitUntil } from '@ember/test-helpers';
+import { render, click, find, rerender } from '@ember/test-helpers';
 import Button from '#src/components/button.gts';
 import Add from '#src/components/icons/add.ts';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
@@ -172,7 +172,6 @@ module('Integration | Component | Button', (hooks) => {
         />
       </template>,
     );
-    await waitUntil(() => find('button svg'));
 
     assert.dom('.cds--icon-tooltip button').hasClass('cds--btn--icon-only');
     const label = find('button')?.getAttribute('aria-labelledby');
@@ -248,7 +247,6 @@ module('Integration | Component | Button', (hooks) => {
         <Button @renderIcon={{Add}}>Add</Button>
       </template>,
     );
-    await waitUntil(() => find('button svg'));
 
     assert.dom('button svg').hasClass('cds--btn__icon');
     assert.strictEqual(

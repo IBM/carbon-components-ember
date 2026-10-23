@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { find, render, waitUntil } from '@ember/test-helpers';
+import { find, render } from '@ember/test-helpers';
 import NotificationButton from '#src/components/notification/notification-button.gts';
 import Add from '#src/components/icons/add.ts';
 
@@ -34,7 +34,6 @@ module('Integration | Component | NotificationButton', (hooks) => {
     await render(
       <template><NotificationButton @renderIcon={{Add}} /></template>,
     );
-    await waitUntil(() => find('svg'));
 
     assert
       .dom('svg')

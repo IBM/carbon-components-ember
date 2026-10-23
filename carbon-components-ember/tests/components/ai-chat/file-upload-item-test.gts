@@ -17,8 +17,6 @@ module('Integration | Component | ai-chat/FileUploadItem', (hooks) => {
     await render(<template><FileUploadItem @upload={{upload}} /></template>);
 
     assert.dom('.cds-aichat-file-upload-item__name').hasText('report.pdf');
-    // Icons load their SVG asynchronously via a TrackedPromise - settled() alone isn't enough.
-    await waitUntil(() => find('.cds-aichat-file-upload-item__icon svg'));
     assert.dom('.cds-aichat-file-upload-item__icon svg').exists();
   });
 
@@ -140,7 +138,6 @@ module('Integration | Component | ai-chat/FileUploadItem', (hooks) => {
     );
 
     assert.dom('.cds-aichat-file-upload-item__name').hasText('archive.zip');
-    await waitUntil(() => find('.cds-aichat-file-upload-item__icon svg'));
     assert.dom('.cds-aichat-file-upload-item__icon svg').exists();
   });
 

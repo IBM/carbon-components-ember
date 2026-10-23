@@ -10,7 +10,6 @@ import {
   settled,
   triggerEvent,
   triggerKeyEvent,
-  waitFor,
 } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import ComboBox from '#src/components/combo-box.gts';
@@ -147,8 +146,6 @@ module('Integration | Component | ComboBox', function (hooks) {
       .dom(option('Apricot'))
       .hasClass('cds--list-box__menu-item--active')
       .hasClass('cds--list-box__menu-item--highlighted');
-    // Icons load their SVG lazily, which settled() doesn't wait for.
-    await waitFor('.cds--list-box__menu-item__selected-icon');
     assert.dom('.cds--list-box__menu-item__selected-icon').exists({ count: 1 });
 
     await click(option('Apricot'));
@@ -890,14 +887,12 @@ module('Integration | Component | ComboBox', function (hooks) {
         ?.textContent;
 
     assert.dom('.cds--combo-box').hasClass('cds--list-box--invalid');
-    await waitFor('.cds--list-box__invalid-icon');
     assert.dom('.cds--form__helper-text').doesNotExist();
     assert.strictEqual(describedText(), 'Required');
 
     state.value = 'warn';
     await settled();
     assert.dom('.cds--combo-box').hasClass('cds--combo-box--warning');
-    await waitFor('.cds--list-box__invalid-icon--warning');
     assert.strictEqual(describedText(), 'Check this');
 
     state.value = 'helper';

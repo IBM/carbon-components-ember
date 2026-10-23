@@ -28,7 +28,6 @@ module('Integration | Component | ToastNotification', (hooks) => {
         </ToastNotification>
       </template>,
     );
-    await waitUntil(() => find('svg[role="img"]'));
 
     assert
       .dom('.cds--toast-notification')
@@ -65,7 +64,6 @@ module('Integration | Component | ToastNotification', (hooks) => {
         />
       </template>,
     );
-    await waitUntil(() => find('svg[role="img"]'));
 
     assert
       .dom('.cds--toast-notification')

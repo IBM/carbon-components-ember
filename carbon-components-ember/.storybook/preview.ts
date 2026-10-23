@@ -13,7 +13,7 @@ import { createApp } from './app.ts';
 import theme from './theme.ts';
 
 // Testing Library's 1s default for `waitFor`/`findBy*` is too short on CI for
-// media metadata and lazily imported icons.
+// media metadata.
 configure({ asyncUtilTimeout: 5000 });
 
 export default definePreview({
