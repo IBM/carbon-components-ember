@@ -1,0 +1,268 @@
+{
+  "component": "Copy",
+  "generatedAt": "2026-10-23T10:01:03.190Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {
+        "aria-label": "Copy"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "span",
+        "classes": [
+          "cds--icon-tooltip",
+          "cds--popover--bottom",
+          "cds--popover--caret",
+          "cds--popover--high-contrast",
+          "cds--popover-container",
+          "cds--tooltip"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--tooltip-trigger__wrapper"],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--btn",
+                  "cds--btn--icon-only",
+                  "cds--btn--primary",
+                  "cds--copy"
+                ],
+                "attributes": {
+                  "aria-labelledby": "#1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "npm install"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": ["cds--popover"],
+            "attributes": {
+              "aria-hidden": "true",
+              "id": "#1",
+              "role": "tooltip"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": ["cds--popover-content", "cds--tooltip-content"],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Copy"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": ["cds--popover-caret"],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "align-top": {
+      "props": {
+        "aria-label": "Copy",
+        "align": "top"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "span",
+        "classes": [
+          "cds--icon-tooltip",
+          "cds--popover--caret",
+          "cds--popover--high-contrast",
+          "cds--popover--top",
+          "cds--popover-container",
+          "cds--tooltip"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--tooltip-trigger__wrapper"],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--btn",
+                  "cds--btn--icon-only",
+                  "cds--btn--primary",
+                  "cds--copy"
+                ],
+                "attributes": {
+                  "aria-labelledby": "#1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "npm install"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": ["cds--popover"],
+            "attributes": {
+              "aria-hidden": "true",
+              "id": "#1",
+              "role": "tooltip"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": ["cds--popover-content", "cds--tooltip-content"],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Copy"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": ["cds--popover-caret"],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "disabled": {
+      "props": {
+        "aria-label": "Copy",
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "span",
+        "classes": [
+          "cds--icon-tooltip",
+          "cds--icon-tooltip--disabled",
+          "cds--popover--bottom",
+          "cds--popover--caret",
+          "cds--popover--high-contrast",
+          "cds--popover-container",
+          "cds--tooltip"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--tooltip-trigger__wrapper"],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--btn",
+                  "cds--btn--disabled",
+                  "cds--btn--icon-only",
+                  "cds--btn--primary",
+                  "cds--copy"
+                ],
+                "attributes": {
+                  "aria-labelledby": "#1",
+                  "disabled": true,
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "npm install"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": ["cds--popover"],
+            "attributes": {
+              "aria-hidden": "true",
+              "id": "#1",
+              "role": "tooltip"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": ["cds--popover-content", "cds--tooltip-content"],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Copy"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": ["cds--popover-caret"],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

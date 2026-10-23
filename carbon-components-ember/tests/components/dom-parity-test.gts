@@ -7,6 +7,7 @@ import Add from '#src/components/icons/add.ts';
 import Tag from '#src/components/tag.gts';
 import InlineLoading from '#src/components/inline-loading.gts';
 import CodeSnippet from '#src/components/code-snippet.gts';
+import Copy from '#src/components/copy.gts';
 import Loading from '#src/components/loading.gts';
 import Link from '#src/components/link.gts';
 import UnorderedList from '#src/components/unordered-list.gts';
@@ -81,6 +82,7 @@ import tagFixture from '../../../dom-parity/fixtures/Tag.json';
 import loadingFixture from '../../../dom-parity/fixtures/Loading.json';
 import inlineLoadingFixture from '../../../dom-parity/fixtures/InlineLoading.json';
 import codeSnippetFixture from '../../../dom-parity/fixtures/CodeSnippet.json';
+import copyFixture from '../../../dom-parity/fixtures/Copy.json';
 import linkFixture from '../../../dom-parity/fixtures/Link.json';
 import unorderedListFixture from '../../../dom-parity/fixtures/UnorderedList.json';
 import orderedListFixture from '../../../dom-parity/fixtures/OrderedList.json';
@@ -932,6 +934,58 @@ module('DOM parity | Carbon React', function (hooks) {
         'inactive',
         'finished',
         'error',
+      ]);
+    });
+  });
+
+  module('Copy', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Copy @ariaLabel="Copy">npm install</Copy>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        copyFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('align-top', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Copy @ariaLabel="Copy" @align="top">npm install</Copy>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        copyFixture,
+        'align-top',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Copy @ariaLabel="Copy" @disabled={{true}}>npm install</Copy>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        copyFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, copyFixture, [
+        'default',
+        'align-top',
+        'disabled',
       ]);
     });
   });
