@@ -134,6 +134,7 @@ export default class FileUploaderItem extends Component<FileUploaderItemSignatur
           <FileUploaderStatusIcon
             @status={{this.status}}
             @name={{@name}}
+            @invalid={{@invalid}}
             @disabled={{@disabled}}
             @iconDescription={{@iconDescription}}
             @onActivate={{this.handleDelete}}
