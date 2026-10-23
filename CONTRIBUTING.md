@@ -45,7 +45,7 @@ signature and JSDoc.
 
 CI also compares each story with its screenshot from main and fails on a
 difference unless the PR has the `preview` label, for visual changes. A comment
-on the PR lists the stories that differ, and the run's artifacts hold their
-images. CI takes the screenshots on Linux, so locally there's nothing to compare
+on the PR lists the stories that differ, each with what changed in it, and the
+run's artifacts hold their images. CI takes the screenshots on Linux, so locally there's nothing to compare
 with until you take your own: run `test:storybook --update` on main, then
 `test:storybook` on your branch.
