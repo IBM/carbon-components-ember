@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, find, findAll, waitUntil } from '@ember/test-helpers';
-import { Task } from '#src/icons.ts';
+import { Task, Terminal_3270 } from '#src/icons.ts';
 
 module('Integration | Component | Icon', (hooks) => {
   setupRenderingTest(hooks);
@@ -45,5 +45,12 @@ module('Integration | Component | Icon', (hooks) => {
 
     assert.dom(bare).doesNotHaveAttribute('class');
     assert.dom(classed).hasAttribute('class', 'my-icon');
+  });
+
+  test('an icon whose name contains its size keeps it, as in @carbon/icons-react', async function (assert) {
+    await render(<template><Terminal_3270 @size="16" /></template>);
+    await waitUntil(() => find('svg'));
+
+    assert.dom('svg').hasAttribute('width', '16');
   });
 });
