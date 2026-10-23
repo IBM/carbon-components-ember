@@ -262,7 +262,11 @@ export default class TreeView extends Component<TreeViewSignature> {
   @tracked selectedIds: Array<string> = [];
   @tracked activeId?: string;
 
-  rovingFocus = new RovingFocus({ orientation: 'vertical' });
+  // A tall tree usually scrolls in a panel.
+  rovingFocus = new RovingFocus({
+    orientation: 'vertical',
+    scrollIntoView: true,
+  });
 
   get labelId() {
     return `tree-view-${guidFor(this)}__label`;

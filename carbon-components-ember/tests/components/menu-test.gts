@@ -625,29 +625,99 @@ module('Integration | Component | Menu', (hooks) => {
     await waitForAnimationFrame();
 
     const items = this.container.querySelectorAll('[role="menuitem"]');
-    const menu = this.container.querySelector('[role="menu"]')!;
+    // Keys go to the focused item.
+    const press = (key: string) =>
+      triggerKeyEvent(document.activeElement!, 'keydown', key);
 
     assert.strictEqual(document.activeElement, items[0]);
 
-    await triggerKeyEvent(menu, 'keydown', 'ArrowDown');
+    await press('ArrowDown');
     assert.strictEqual(document.activeElement, items[1]);
 
-    await triggerKeyEvent(menu, 'keydown', 'ArrowDown');
+    await press('ArrowDown');
     assert.strictEqual(document.activeElement, items[2]);
 
-    await triggerKeyEvent(menu, 'keydown', 'ArrowDown');
+    await press('ArrowDown');
     assert.strictEqual(
       document.activeElement,
       items[0],
       'wraps around past the last item',
     );
 
-    await triggerKeyEvent(menu, 'keydown', 'ArrowUp');
+    await press('ArrowUp');
     assert.strictEqual(
       document.activeElement,
       items[2],
       'wraps around past the first item',
     );
+  });
+
+  test('Home and End go to the ends, and the arrows skip disabled items', async function (this: {
+    container: HTMLElement;
+  }, assert) {
+    const target = this.container;
+    await render(
+      <template>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
+          <MenuItem @label="Cut" id="cut" />
+          <MenuItem @label="Copy" @disabled={{true}} />
+          <MenuItem @label="Paste" id="paste" />
+          <MenuItem @label="Delete" @disabled={{true}} />
+        </Menu>
+      </template>,
+    );
+    await waitForAnimationFrame();
+    const press = (key: string) =>
+      triggerKeyEvent(document.activeElement!, 'keydown', key);
+
+    assert.dom('#cut', target).isFocused();
+    await press('ArrowDown');
+    assert.dom('#paste', target).isFocused();
+    await press('Home');
+    assert.dom('#cut', target).isFocused();
+    await press('End');
+    assert.dom('#paste', target).isFocused();
+  });
+
+  test('the arrows in a submenu move between its own items', async function (this: {
+    container: HTMLElement;
+  }, assert) {
+    const target = this.container;
+    await render(
+      <template>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
+          <MenuItem @label="Share with" id="share" as |MenuItem|>
+            <MenuItem @label="Product team" id="product" />
+            <MenuItem @label="Design team" id="design" />
+          </MenuItem>
+          <MenuItem @label="Delete" />
+        </Menu>
+      </template>,
+    );
+    await waitForAnimationFrame();
+    const press = (key: string) =>
+      triggerKeyEvent(document.activeElement!, 'keydown', key);
+
+    await press('ArrowRight');
+    await waitForAnimationFrame();
+    assert.dom('#product', target).isFocused();
+    await press('ArrowDown');
+    assert.dom('#design', target).isFocused();
+    await press('ArrowDown');
+    assert.dom('#product', target).isFocused('wraps within the submenu');
+
+    await press('ArrowLeft');
+    assert.dom('#share', target).isFocused();
   });
 
   test('@dangerDescription is only rendered for a danger item without a submenu', async function (this: {
@@ -713,8 +783,10 @@ module('Integration | Component | Menu', (hooks) => {
 
     const parent = this.container.querySelector('[aria-haspopup="true"]')!;
     assert.dom(parent).doesNotHaveClass('cds--menu-item--disabled');
-    assert.dom(parent).hasAttribute('tabindex', '0');
     assert.dom(parent).doesNotHaveAttribute('aria-disabled');
+    // As Carbon React's, it's no tab stop and the arrows skip it.
+    assert.dom(parent).hasAttribute('tabindex', '-1');
+    assert.dom(parent).isNotFocused();
 
     await click(parent);
     await waitForAnimationFrame();
