@@ -1,9 +1,9 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import { setupApplicationTest, setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
 import Link from '#src/components/link.gts';
 import { Add } from '#src/icons.ts';
-import { setupRoutes } from '../helpers';
+import { setupRoutes, visitWith } from '../helpers';
 
 module('Integration | Component | Link', (hooks) => {
   setupRenderingTest(hooks);
@@ -136,50 +136,54 @@ module('Integration | Component | Link', (hooks) => {
 
     assert.dom('span.cds--link').exists();
   });
+});
 
-  module('with @route', function (hooks) {
-    setupRoutes(hooks);
+module('Integration | Component | Link > with @route', function (hooks) {
+  setupApplicationTest(hooks);
+  setupRoutes(hooks);
 
-    test('links to the route, and navigates there with the router', async function (assert) {
-      const models = ['42'];
-      const query = { tab: 'profile' };
-      await render(
-        <template>
-          <Link @route="user" @models={{models}} @query={{query}}>Ada</Link>
-          <Link @route="settings" id="settings">Settings</Link>
-        </template>,
-      );
-      assert.dom('a.cds--link').hasAttribute('href', '/users/42?tab=profile');
-      assert.dom('#settings').doesNotHaveClass('active');
+  test('links to the route, and navigates there with the router', async function (assert) {
+    const models = ['42'];
+    const query = { tab: 'profile' };
+    await visitWith(
+      this,
+      <template>
+        <Link @route="user" @models={{models}} @query={{query}}>Ada</Link>
+        <Link @route="settings" id="settings">Settings</Link>
+      </template>,
+    );
+    assert.dom('a.cds--link').hasAttribute('href', '/users/42?tab=profile');
+    assert.dom('#settings').doesNotHaveClass('active');
 
-      await click('#settings');
-      const router = this.owner.lookup('service:router');
-      assert.strictEqual(router.currentURL, '/settings');
-      assert.dom('#settings').hasClass('active');
-    });
+    await click('#settings');
+    const router = this.owner.lookup('service:router');
+    assert.strictEqual(router.currentURL, '/settings');
+    assert.dom('#settings').hasClass('active');
+  });
 
-    test('a click handler can cancel the navigation, as in React Router', async function (assert) {
-      const cancel = (event: MouseEvent) => event.preventDefault();
-      await render(
-        <template>
-          <Link @route="settings" @onClick={{cancel}}>Settings</Link>
-        </template>,
-      );
-      await click('a.cds--link');
-      const router = this.owner.lookup('service:router');
-      assert.notStrictEqual(router.currentRouteName, 'settings');
-    });
+  test('a click handler can cancel the navigation, as in React Router', async function (assert) {
+    const cancel = (event: MouseEvent) => event.preventDefault();
+    await visitWith(
+      this,
+      <template>
+        <Link @route="settings" @onClick={{cancel}}>Settings</Link>
+      </template>,
+    );
+    await click('a.cds--link');
+    const router = this.owner.lookup('service:router');
+    assert.notStrictEqual(router.currentRouteName, 'settings');
+  });
 
-    test('a disabled one is no link', async function (assert) {
-      await render(
-        <template>
-          <Link @route="settings" @disabled={{true}}>Settings</Link>
-        </template>,
-      );
-      assert
-        .dom('.cds--link')
-        .doesNotHaveAttribute('href')
-        .hasAttribute('aria-disabled', 'true');
-    });
+  test('a disabled one is no link', async function (assert) {
+    await visitWith(
+      this,
+      <template>
+        <Link @route="settings" @disabled={{true}}>Settings</Link>
+      </template>,
+    );
+    assert
+      .dom('.cds--link')
+      .doesNotHaveAttribute('href')
+      .hasAttribute('aria-disabled', 'true');
   });
 });

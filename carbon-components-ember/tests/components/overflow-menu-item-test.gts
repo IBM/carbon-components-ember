@@ -1,8 +1,8 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import { setupApplicationTest, setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
 import OverflowMenu from '#src/components/overflow-menu.gts';
-import { setupRoutes } from '../helpers';
+import { setupRoutes, visitWith } from '../helpers';
 import { tracked } from '@glimmer/tracking';
 
 module('Integration | Component | OverflowMenuItem', (hooks) => {
@@ -154,12 +154,17 @@ module('Integration | Component | OverflowMenuItem', (hooks) => {
       .dom('.cds--overflow-menu-options__option')
       .hasClass('my-wrapper-class');
   });
+});
 
-  module('with @route', function (hooks) {
+module(
+  'Integration | Component | OverflowMenuItem > with @route',
+  function (hooks) {
+    setupApplicationTest(hooks);
     setupRoutes(hooks);
 
     test('an item links to its route, and closes the menu on the way', async function (assert) {
-      await render(
+      await visitWith(
+        this,
         <template>
           <OverflowMenu @direction="bottom" as |Item|>
             <Item @itemText="Settings" @route="settings" />
@@ -181,5 +186,5 @@ module('Integration | Component | OverflowMenuItem', (hooks) => {
       assert.strictEqual(router.currentRouteName, 'settings');
       assert.dom('.cds--overflow-menu-options').doesNotExist();
     });
-  });
-});
+  },
+);

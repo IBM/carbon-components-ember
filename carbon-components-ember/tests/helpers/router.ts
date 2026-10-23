@@ -1,13 +1,16 @@
 import EmberRouter from '@ember/routing/router';
+import { visit } from '@ember/test-helpers';
 import type { TestContext } from '@ember/test-helpers';
 
+interface Registry {
+  register(name: string, factory: unknown): void;
+  unregister(name: string): void;
+}
+
 /**
- * Gives each test a router with `settings`, `users/:id`, and `docs` with a
- * `docs.guides` child route, set up
- * so `LinkTo` renders their URLs and transitions to them. `settled()`
- * doesn't wait for transitions here, as it does after `visit()`; these
- * routes finish within the click, but a route with an async `model` hook
- * would need a waiter.
+ * For an application test of links that navigate: a router with
+ * `settings`, `users/:id`, and `docs` with a `docs.guides` child route.
+ * Render what the test needs with `visitWith`.
  */
 export function setupRoutes(hooks: NestedHooks) {
   hooks.beforeEach(function (this: TestContext) {
@@ -22,13 +25,21 @@ export function setupRoutes(hooks: NestedHooks) {
         this.route('guides');
       });
     });
-    const owner = this.owner as unknown as {
-      register(name: string, factory: unknown): void;
-      unregister(name: string): void;
-      setupRouter(): void;
-    };
+    const owner = this.owner as unknown as Registry;
     owner.unregister('router:main');
     owner.register('router:main', Router);
-    owner.setupRouter();
   });
+}
+
+/**
+ * Renders `template` as the application template and visits `/`. Unlike
+ * `render()`'s, it stays on the page while the router transitions, on
+ * every Ember version.
+ */
+export async function visitWith(context: TestContext, template: object) {
+  (context.owner as unknown as Registry).register(
+    'template:application',
+    template,
+  );
+  await visit('/');
 }
