@@ -4,6 +4,10 @@ import { render, click, find } from '@ember/test-helpers';
 import UIShell from '#src/components/ui-shell.gts';
 import { Notification } from '#src/icons.ts';
 import { tracked } from '@glimmer/tracking';
+import chevronRight from '@carbon/icons/es/chevron--right/32';
+import close from '@carbon/icons/es/close/32';
+
+const pathOf = (icon: typeof close) => String(icon.content[0]?.attrs['d']);
 
 module('Integration | Component | UIShell', (hooks) => {
   setupRenderingTest(hooks);
@@ -392,7 +396,14 @@ module('Integration | Component | UIShell', (hooks) => {
     );
 
     assert.dom('.cds--side-nav__footer').exists();
+    assert
+      .dom('.cds--side-nav__footer svg path')
+      .hasAttribute('d', pathOf(chevronRight));
     await click('.cds--side-nav__footer');
     assert.true(open.value);
+    // As Carbon React: Close while open.
+    assert
+      .dom('.cds--side-nav__footer svg path')
+      .hasAttribute('d', pathOf(close));
   });
 });
