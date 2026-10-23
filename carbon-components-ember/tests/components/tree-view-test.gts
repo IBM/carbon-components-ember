@@ -255,6 +255,73 @@ module('Integration | Component | TreeView', (hooks) => {
       .hasClass('cds--tree-parent-node__toggle-icon--expanded');
   });
 
+  test("with icons, every row starts at the tree's left edge, so its focus ring shows whole", async function (assert) {
+    await render(
+      <template>
+        <TreeView @label="Tree View" as |Node|>
+          <Node @id="leaf" @label="Leaf" @icon={{Document}} />
+          <Node
+            @id="one"
+            @label="One"
+            @icon={{Folder}}
+            @isExpanded={{true}}
+            as |Child|
+          >
+            <Child
+              @id="two"
+              @label="Two"
+              @icon={{Folder}}
+              @isExpanded={{true}}
+              as |Grandchild|
+            >
+              <Grandchild @id="deep" @label="Deep" @icon={{Document}} />
+            </Child>
+          </Node>
+        </TreeView>
+      </template>,
+    );
+    await waitForAnimationFrame();
+
+    const treeLeft = document
+      .querySelector('.cds--tree')!
+      .getBoundingClientRect().left;
+    for (const id of ['leaf', 'one', 'two', 'deep']) {
+      const label = document.querySelector(`#${id} > .cds--tree-node__label`)!;
+      assert.strictEqual(label.getBoundingClientRect().left, treeLeft, id);
+    }
+  });
+
+  test('in a tree mixing nodes with and without icons, every row starts at its edge too', async function (assert) {
+    await render(
+      <template>
+        <TreeView @label="Tree View" as |Node|>
+          <Node @id="plain" @label="Plain" @isExpanded={{true}} as |Child|>
+            <Child
+              @id="iconParent"
+              @label="Icon parent"
+              @icon={{Folder}}
+              @isExpanded={{true}}
+              as |Grandchild|
+            >
+              <Grandchild @id="plainLeaf" @label="Plain leaf" />
+            </Child>
+          </Node>
+        </TreeView>
+      </template>,
+    );
+    await waitForAnimationFrame();
+
+    const tree = document.querySelector('.cds--tree')!;
+    for (const id of ['plain', 'iconParent', 'plainLeaf']) {
+      const label = document.querySelector(`#${id} > .cds--tree-node__label`)!;
+      assert.strictEqual(
+        label.getBoundingClientRect().left,
+        tree.getBoundingClientRect().left,
+        id,
+      );
+    }
+  });
+
   test('a selected row highlights the full row width under real Carbon styles, not just the label text', async function (this: RenderingTestContext, assert) {
     await render(
       <template>
