@@ -15,6 +15,7 @@ export { default as CodeSnippetSkeleton } from './components/code-snippet-skelet
 export { default as CodeSnippet } from './components/code-snippet.gts'
 export { default as ComboBox } from './components/combo-box.gts'
 export { default as CopyButton } from './components/copy-button.gts'
+export { default as Copy } from './components/copy.gts'
 export { default as DataTableSkeleton } from './components/data-table-skeleton.gts'
 export { default as DataTable } from './components/data-table.gts'
 export { default as DatePickerInput } from './components/date-picker-input.gts'
