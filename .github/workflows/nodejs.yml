@@ -165,11 +165,12 @@ jobs:
           CI: true
 
   # Lists the try-scenarios matrix in its own job, so the scenarios run
-  # alongside the Test job instead of after it.
+  # alongside the Test job instead of after it. It runs even when the addon
+  # didn't change: a matrix job skipped before it expands reports as
+  # "${{ matrix.name }}", and main requires ember-latest.
   scenarios:
     name: Scenarios
     needs: changes
-    if: needs.changes.outputs.addon == 'true'
     runs-on: ubuntu-26.04
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
@@ -188,7 +189,7 @@ jobs:
 
   try-scenarios:
     name: ${{ matrix.name }}
-    needs: scenarios
+    needs: [changes, scenarios]
     timeout-minutes: 15
     runs-on: ubuntu-26.04
     continue-on-error: ${{ matrix.allowedToFail == true }}
@@ -199,16 +200,20 @@ jobs:
       matrix: ${{ fromJson(needs.scenarios.outputs.matrix) }}
     steps:
       - name: Checkout
+        if: needs.changes.outputs.addon == 'true'
         uses: actions/checkout@v7
 
       - name: Setup Node and pnpm
+        if: needs.changes.outputs.addon == 'true'
         uses: ./.github/actions/setup-pnpm
 
       - name: Apply scenario
+        if: needs.changes.outputs.addon == 'true'
         working-directory: ./carbon-components-ember
         run: pnpm dlx @embroider/try apply ${{ matrix.name }}
 
       - name: Install dependencies
+        if: needs.changes.outputs.addon == 'true'
         run: |
           pnpm install --no-frozen-lockfile
           # See the same step's comment in the `test` job above.
@@ -216,5 +221,6 @@ jobs:
           pnpm --filter carbon-components-ember generate
 
       - name: Run tests
+        if: needs.changes.outputs.addon == 'true'
         run: pnpm test
         env: ${{ matrix.env }}

@@ -18,7 +18,7 @@ const meta = preview.type<{ args: DataTableSkeletonSignature['Args'] }>().meta({
     docs: {
       description: {
         component:
-          'A loading placeholder for a `DataTable`, for before there is any data to give it. Pass it the headers you will give the table, and it shows a column for each. A `DataTable` that already has its data can show `@isLoading` instead.',
+          "A loading placeholder for a table, as Carbon React's DataTableSkeleton. Pass it the headers you will give the table, and it shows a column for each. A `DataTable` shows the same with `@isLoading`, keeping its toolbar.",
       },
     },
   },
@@ -57,7 +57,7 @@ export const Loading = meta.story({
     docs: {
       description: {
         story:
-          '`@isLoading` puts a `DataTable`, its search and its pagination into their loading state.',
+          '`@isLoading` renders a `DataTable` as `DataTableSkeleton` does, with placeholders for its title, description and cells (five rows while it has no items yet), and puts its search and pagination into their loading state.',
       },
     },
   },

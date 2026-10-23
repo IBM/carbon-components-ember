@@ -35,7 +35,11 @@ export default class TableColumn extends Component<TableColumnSignature> {
 
   <template>
     <td headers={{this.headerId}} ...attributes>
-      {{yield}}
+      {{#if @table.isLoading}}
+        <span></span>
+      {{else}}
+        {{yield}}
+      {{/if}}
     </td>
   </template>
 }
