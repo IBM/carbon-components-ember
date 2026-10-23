@@ -425,6 +425,7 @@ jobs:
     runs-on: ubuntu-26.04
     permissions:
       contents: write # pushes the built docs to gh-pages
+      actions: write # starts the Pages deploy
     steps:
       - uses: actions/download-artifact@v8
         with:
@@ -435,7 +436,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: gh-pages
           path: gh-pages
-      - run: |-
+      - id: push
+        run: |-
           cd $GITHUB_WORKSPACE/gh-pages
           git config --global user.name 'Patrick Pircher'
           git config --global user.email 'patricklx@users.noreply.github.com'
@@ -457,6 +459,7 @@ jobs:
             BASE=$(git rev-parse HEAD)
             COMMIT=$(git commit-tree "$(git write-tree)" -m 'docs')
             if git push --force-with-lease=gh-pages:"$BASE" origin "$COMMIT:refs/heads/gh-pages"; then
+              echo "pushed=true" >> "$GITHUB_OUTPUT"
               exit 0
             fi
             echo "Push rejected (attempt $i), retrying against latest gh-pages..."
@@ -466,6 +469,13 @@ jobs:
           done
           echo "Failed to push to gh-pages after retries"
           exit 1
+
+      # Pages deploys from main only, and this push starts no workflow.
+      - name: Deploy the site
+        if: steps.push.outputs.pushed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages.yml --repo "$GITHUB_REPOSITORY" --ref main
 
 
 
