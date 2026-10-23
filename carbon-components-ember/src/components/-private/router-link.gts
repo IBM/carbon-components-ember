@@ -26,6 +26,11 @@ export interface RouterLinkSignature {
     ariaCurrent?: string;
     /** Makes it the current link, whatever the route. */
     isActive?: boolean;
+    /**
+     * Only `@route` itself is current, not while one of its child routes
+     * is.
+     */
+    exact?: boolean;
   };
   Blocks: {
     default: [];
@@ -60,6 +65,14 @@ export default class RouterLink extends Component<RouterLinkSignature> {
     } = this.args;
     if (this.args.isActive) return true;
     if (!route || !(activeClass || ariaCurrent)) return false;
+    const { currentRouteName } = this.router;
+    if (
+      this.args.exact &&
+      currentRouteName !== route &&
+      currentRouteName !== `${route}.index`
+    ) {
+      return false;
+    }
     return this.router.isActive(route, ...models, { queryParams: query ?? {} });
   }
 
