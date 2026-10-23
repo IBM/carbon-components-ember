@@ -44,7 +44,7 @@
  * DOM only exists once opened (Modal, Popover/PopoverContent, Tooltip,
  * Toggletip(+Actions/Button/Content/Label), OverflowMenu(+Item), Dropdown,
  * the Menu family, DatePicker(+Input), TimePicker(+Select), CopyButton,
- * CodeSnippet, ConfirmDialog, FileUploaderItem) previously had no decided
+ * CodeSnippet, FileUploaderItem) previously had no decided
  * way to capture that state. Decision: drive each component open through
  * whichever real prop it exposes (a fully controlled `open`/`isOpen`, or an
  * uncontrolled `defaultOpen`/`initialIsOpen` that still avoids simulating
@@ -90,14 +90,6 @@
  *   own `Tooltip` around the filename (confirmed by reading it, matching
  *   what Ember's `file-uploader-item.gts` does too) - same `defaultOpen`
  *   route as Tooltip above, once FileUploaderItem itself is in scope.
- * - ConfirmDialog: wraps `@carbon/react`'s `Modal`, matching Ember's
- *   `dialogs/confirm-dialog.gts`, which itself wraps this addon's own `Modal` -
- *   confirmed by reading both: `confirm-dialog.gts` passes no `@open`-style arg to
- *   `Modal` at all, and `modal.gts` itself has no closed state to begin
- *   with (`@tracked isVisible = true`, no arg that starts it `false`) - so
- *   Ember's side needs no special handling here, it's already always
- *   "open" once mounted. Same `open: true` route as Modal above on the
- *   React side.
  * - CopyButton (and by extension CodeSnippet, which only embeds it): no
  *   open/default-open prop of any kind for its post-click "Copied!"
  *   feedback state - it's local `useState` set from `onClick` inside the
@@ -319,8 +311,8 @@
  *    Modal, Popover/PopoverContent, Tooltip,
  *    Toggletip(+ToggletipActions/ToggletipButton/ToggletipContent/
  *    ToggletipLabel), OverflowMenu(+Item), Dropdown, the Menu family,
- *    DatePicker(+Input), CopyButton, CodeSnippet, ConfirmDialog (wraps
- *    Modal), and FileUploaderItem (embeds a Tooltip around its filename) to
+ *    DatePicker(+Input), CopyButton, CodeSnippet, and FileUploaderItem
+ *    (embeds a Tooltip around its filename) to
  *    be scheduled and implemented individually, each following that
  *    decision's per-component routing. `Select(+SelectItem/
  *    SelectItemGroup)` and `TimePicker(+Select)` turned out not to be
