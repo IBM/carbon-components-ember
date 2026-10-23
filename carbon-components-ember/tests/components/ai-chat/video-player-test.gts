@@ -106,6 +106,24 @@ function stubKalturaSDK() {
   window.playerjs = { Player: FakePlayer };
 }
 
+// The Kaltura provider waits for its embed to load. Load nothing instead of
+// Kaltura's page, which can take longer than the test waits.
+let restoreIframeSrc: (() => void) | undefined;
+function stubIframeLoads() {
+  const src = Object.getOwnPropertyDescriptor(
+    HTMLIFrameElement.prototype,
+    'src',
+  )!;
+  Object.defineProperty(HTMLIFrameElement.prototype, 'src', {
+    configurable: true,
+    set(this: HTMLIFrameElement) {
+      queueMicrotask(() => this.dispatchEvent(new Event('load')));
+    },
+  });
+  restoreIframeSrc = () =>
+    Object.defineProperty(HTMLIFrameElement.prototype, 'src', src);
+}
+
 async function waitForReady(
   selector = '.cds-aichat-video-player__provider--ready',
 ) {
@@ -116,6 +134,8 @@ module('Integration | Component | ai-chat/VideoPlayer', (hooks) => {
   setupRenderingTest(hooks);
 
   hooks.afterEach(function () {
+    restoreIframeSrc?.();
+    restoreIframeSrc = undefined;
     ScriptLoader.clearCache();
     delete (window as unknown as { YT?: unknown }).YT;
     delete (window as unknown as { Vimeo?: unknown }).Vimeo;
@@ -249,6 +269,7 @@ module('Integration | Component | ai-chat/VideoPlayer', (hooks) => {
 
   test('a Kaltura source fires @onReady through the provider', async function (assert) {
     stubKalturaSDK();
+    stubIframeLoads();
     let readyCount = 0;
     const onReady = () => (readyCount += 1);
 

@@ -49,8 +49,8 @@ export default {
     }),
 
     // Only the services go into the app tree, because the components look
-    // them up by name: `services/dialog-manager` becomes
-    // `service:carbon.dialog-manager`. Apps import components and modifiers,
+    // them up by name: `services/notifications` becomes
+    // `service:carbon.notifications`. Apps import components and modifiers,
     // so loose-mode `.hbs` templates can't resolve them by name.
     addon.appReexports(['services/**/*.js'], {
       mapFilename: (filename) => {

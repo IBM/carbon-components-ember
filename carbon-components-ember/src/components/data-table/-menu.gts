@@ -5,6 +5,10 @@ import type { TOC } from '@ember/component/template-only';
 
 export interface TableMenuSignature {
   Element: HTMLTableCellElement;
+  Args: {
+    /** Shows a skeleton in place of the menu. */
+    isLoading?: boolean;
+  };
   Blocks: {
     default: [OverflowMenuItem: WithBoundArgs<typeof OverflowMenuItem, 'menu'>];
   };
@@ -12,9 +16,13 @@ export interface TableMenuSignature {
 
 const TableMenu: TOC<TableMenuSignature> = <template>
   <td class="cds--table-column-menu" ...attributes>
-    <OverflowMenu @flipped={{true}} as |Item|>
-      {{yield Item}}
-    </OverflowMenu>
+    {{#if @isLoading}}
+      <span></span>
+    {{else}}
+      <OverflowMenu @flipped={{true}} as |Item|>
+        {{yield Item}}
+      </OverflowMenu>
+    {{/if}}
   </td>
 </template>;
 
