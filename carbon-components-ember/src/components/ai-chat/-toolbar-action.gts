@@ -32,17 +32,20 @@ export default class ToolbarActionButton extends Component<ToolbarActionButtonSi
     this.args.action.onClick?.();
   };
 
+  // As upstream's, a link action calls its onClick too.
   handleLinkClick = (event: MouseEvent) => {
     if (this.args.action.disabled) {
       event.preventDefault();
       event.stopPropagation();
+      return;
     }
+    this.args.action.onClick?.();
   };
 
   <template>
     {{#if (or @action.href @action.route)}}
       <Tooltip @label={{@action.text}} @align="bottom" ...attributes>
-        {{! Disabled, it's a link to nowhere, as upstream's. }}
+        {{! Disabled, it's a link to nowhere. }}
         <RouterLink
           @href={{unless @action.disabled @action.href}}
           @route={{unless @action.disabled @action.route}}

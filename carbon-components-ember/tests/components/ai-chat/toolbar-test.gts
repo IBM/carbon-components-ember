@@ -247,8 +247,15 @@ module(
     setupRoutes(hooks);
 
     test('a route action links to its route, unless it is disabled', async function (assert) {
+      let clicks = 0;
       const actions = [
-        { text: 'Settings', icon: Settings, route: 'settings', testId: 'on' },
+        {
+          text: 'Settings',
+          icon: Settings,
+          route: 'settings',
+          onClick: () => clicks++,
+          testId: 'on',
+        },
         {
           text: 'User',
           icon: Add,
@@ -271,6 +278,7 @@ module(
       await click('.cds-aichat-toolbar__actions-container [data-testid="on"]');
       const router = this.owner.lookup('service:router');
       assert.strictEqual(router.currentRouteName, 'settings');
+      assert.strictEqual(clicks, 1, 'it calls onClick too');
     });
 
     test('a route action in the overflow menu links to its route', async function (assert) {
