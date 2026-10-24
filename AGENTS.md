@@ -184,7 +184,6 @@ Signatures follow the [Ember guides](https://guides.emberjs.com/release/typescri
 
 - **Name:** `export interface <Name>Signature`, where `<Name>` is the component's public export name. The class or `TOC` const is named the same. A signature is never a `type` alias.
 - **`Args`:** written inline in the signature. Code elsewhere refers to them as `<Name>Signature['Args']`; there is no separate `Args` type.
-- **Shared args and types:** declare each once and import it; never copy an arg or a type from another file, as copies drift. A group of args several components take is an exported interface the signature intersects: `Args: RouteArgs & { … }` (`-private/router-link.gts`).
 - **`Element`:** the element `...attributes` is spread on.
   - A DOM element gets its own type, a union when branches differ.
   - When spreading onto another component, derive it: `Element: ButtonSignature['Element']`.
