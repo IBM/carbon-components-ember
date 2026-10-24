@@ -4,11 +4,12 @@ import { modifier } from 'ember-modifier';
 import type Icon from './icon.gts';
 import AILabel from './ai-label.gts';
 import RouterLink from './-private/router-link.gts';
+import type { RouteArgs } from './-private/router-link.gts';
 import './tag.scss';
 import type { WithBoundArgs } from '@glint/template';
 
 export interface TagSignature {
-  Args: {
+  Args: RouteArgs & {
     /**
      * Specify the id for the tag.
      */
@@ -22,17 +23,11 @@ export interface TagSignature {
      * Specify if the `Tag` is disabled.
      */
     disabled?: boolean;
-    /** Makes the tag's icon and label a link to this URL. */
-    href?: string;
     /**
-     * Makes the tag's icon and label a link to this route through the Ember
-     * router, in place of `@href`, as Ember's `LinkTo`.
+     * Makes the tag's icon and label a link to this URL. `@route` links them
+     * to one of the app's routes.
      */
-    route?: string;
-    /** The models for `@route`'s dynamic segments, in order. */
-    models?: unknown[];
-    /** Query params for `@route`. */
-    query?: Record<string, unknown>;
+    href?: string;
     /**
      * A component used to render an icon.
      */
