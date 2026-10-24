@@ -15,24 +15,19 @@ import ToolbarActionButton from './-toolbar-action.gts';
 import './toolbar.scss';
 import './workspace-shell.scss';
 import { observeResize } from '../../utils/resize-observer.ts';
+import type { RouteArgs } from '../-private/router-link.gts';
 
-export type ToolbarAction = {
+export type ToolbarAction = RouteArgs & {
   /** Display text - also used as the tooltip label / overflow menu item text. */
   text: string;
   /** Icon component rendered for the action. */
   icon: ComponentLike<{ Args: { size?: number } }>;
   onClick?: () => void;
-  /** Renders the action as a link instead of a button. */
-  href?: string;
   /**
-   * Renders the action as a link to this route through the Ember router, in
-   * place of `href`, as Ember's `LinkTo`.
+   * Renders the action as a link instead of a button; `route` links it to
+   * one of the app's routes.
    */
-  route?: string;
-  /** The models for `route`'s dynamic segments, in order. */
-  models?: unknown[];
-  /** Query params for `route`. */
-  query?: Record<string, unknown>;
+  href?: string;
   target?: string;
   disabled?: boolean;
   /** Renders the action as a destructive option in the overflow menu (no effect on a visible icon button). */
