@@ -182,7 +182,7 @@ Never use bare `setTimeout`. Use `ember-concurrency` restartable tasks which aut
 Signatures follow the [Ember guides](https://guides.emberjs.com/release/typescript/core-concepts/invokables/) and [Glint](https://typed-ember.gitbook.io/glint/environments/ember/component-signatures), and must match what the template does. Lint enforces the mechanical parts.
 
 - **Name:** `export interface <Name>Signature`, where `<Name>` is the component's public export name. The class or `TOC` const is named the same. A signature is never a `type` alias.
-- **`Args`:** written inline in the signature. Code elsewhere refers to them as `<Name>Signature['Args']`; there is no separate `Args` type.
+- **`Args`:** written inline in the signature, after any shared args it intersects (`Args: SharedArgs & { … }`). Code elsewhere refers to them as `<Name>Signature['Args']`; there is no separate `Args` type for one component.
 - **Declare each arg, type and helper once.** Copies drift: one gains a value or a doc the others lack. Before writing one, search `src` for it, and import what exists.
   - A group of args several components take is an exported interface, which each signature intersects: `Args: SharedArgs & { … }`.
   - A part, variant or skeleton takes its component's type: `size?: ButtonSignature['Args']['size']`.
