@@ -15,7 +15,7 @@ import ViewOff from './icons/view-off.ts';
 import WarningFilled from './icons/warning-filled.ts';
 import WarningAltFilled from './icons/warning-alt-filled.ts';
 import Tooltip from './tooltip.gts';
-import type { TooltipAlignment } from './tooltip.gts';
+import type { NewPopoverAlignment } from './popover.gts';
 
 export interface PasswordInputSignature {
   Args: {
@@ -102,7 +102,7 @@ export default class PasswordInput extends Component<PasswordInputSignature> {
       : this.showPasswordLabel;
   }
 
-  get tooltipAlign(): TooltipAlignment {
+  get tooltipAlign(): NewPopoverAlignment {
     const position = this.args.tooltipPosition ?? 'bottom';
     const alignment = this.args.tooltipAlignment ?? 'end';
     if (position === 'top' || position === 'bottom') {

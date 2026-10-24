@@ -11,7 +11,7 @@ import {
 
 import preview from '#storybook/preview.ts';
 import Checkbox from './checkbox.gts';
-import Popover, { PopoverContent } from './popover.gts';
+import Popover, { NewPopoverAlignments, PopoverContent } from './popover.gts';
 import RadioButtonGroup from './radio-button/radio-button-group.gts';
 import CheckboxIcon from './icons/checkbox.ts';
 import Settings from './icons/settings.ts';
@@ -22,21 +22,6 @@ import '#storybook/styles/popover.css';
 // Parity note on Carbon React's Popover stories: React's ExperimentalAutoAlign
 // stories forward a ref to the Popover to scroll it into view; here a modifier
 // on the trigger does that.
-
-const ALIGNMENTS = [
-  'top',
-  'top-start',
-  'top-end',
-  'bottom',
-  'bottom-start',
-  'bottom-end',
-  'left',
-  'left-end',
-  'left-start',
-  'right',
-  'right-end',
-  'right-start',
-];
 
 // Popover is controlled: each story keeps `open` in local state, toggles it
 // from the trigger, and closes it (reporting to the `onRequestClose` action)
@@ -80,7 +65,7 @@ const meta = preview.meta({
     onRequestClose: fn(),
   },
   argTypes: {
-    align: { control: 'select', options: ALIGNMENTS },
+    align: { control: 'select', options: NewPopoverAlignments },
     backgroundToken: { control: 'select', options: ['layer', 'background'] },
   },
 });

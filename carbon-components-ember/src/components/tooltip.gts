@@ -14,32 +14,7 @@ import { task, timeout } from 'ember-concurrency';
 import { scheduleTask } from 'ember-lifeline';
 import Popover, { PopoverContent } from './popover.gts';
 
-import type { PopoverSignature } from './popover.gts';
-
-export const TooltipAlignments = [
-  'top',
-  'top-left',
-  'top-start',
-  'top-right',
-  'top-end',
-  'bottom',
-  'bottom-left',
-  'bottom-start',
-  'bottom-right',
-  'bottom-end',
-  'left',
-  'left-bottom',
-  'left-end',
-  'left-top',
-  'left-start',
-  'right',
-  'right-bottom',
-  'right-end',
-  'right-top',
-  'right-start',
-] as const;
-
-export type TooltipAlignment = (typeof TooltipAlignments)[number];
+import type { PopoverAlignment, PopoverSignature } from './popover.gts';
 
 /**
  * Puts `attribute` (aria-labelledby / aria-describedby) on the trigger the
@@ -72,7 +47,7 @@ export interface TooltipSignature {
   Element: PopoverSignature['Element'];
   Args: {
     /** Where the tooltip is placed relative to the trigger */
-    align?: TooltipAlignment;
+    align?: PopoverAlignment;
     /**
      * Label text identifying the trigger. It names the trigger element through
      * `aria-labelledby` (use it for icon-only triggers).

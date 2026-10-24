@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import type { ComponentLike } from '@glint/template';
 import ButtonBase from './-private/button-base.gts';
 import Tooltip from './tooltip.gts';
-import type { TooltipAlignment } from './tooltip.gts';
+import type { NewPopoverAlignment } from './popover.gts';
 
 export interface ButtonSignature {
   Element: HTMLButtonElement | HTMLAnchorElement;
@@ -89,7 +89,7 @@ export interface ButtonSignature {
  * attribute (`type="submit"`), as on a native `<button>`.
  */
 export default class Button extends Component<ButtonSignature> {
-  get tooltipAlign(): TooltipAlignment {
+  get tooltipAlign(): NewPopoverAlignment {
     const position = this.args.tooltipPosition ?? 'top';
     const alignment = this.args.tooltipAlignment ?? 'center';
     if (position === 'left' || position === 'right') return position;

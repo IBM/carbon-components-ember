@@ -9,7 +9,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import Popover from '../popover.gts';
-import type { NewPopoverAlignment } from '../popover.gts';
+import type { PopoverAlignment } from '../popover.gts';
 import type { PopoverSignature } from '../popover.gts';
 
 export interface DefinitionTooltipSignature {
@@ -18,7 +18,7 @@ export interface DefinitionTooltipSignature {
     /**
      * How the tooltip is aligned relative to its trigger.
      */
-    align?: NewPopoverAlignment;
+    align?: PopoverAlignment;
     /**
      * Keep the tooltip within the viewport, moving it to another side when it
      * would overflow.
