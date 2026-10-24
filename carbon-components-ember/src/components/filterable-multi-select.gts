@@ -14,6 +14,7 @@ import WarningFilled from './icons/warning-filled.ts';
 import WarningAltFilled from './icons/warning-alt-filled.ts';
 import AILabel from './ai-label.gts';
 import ListBox from './-private/list-box/list-box.gts';
+import type { ListBoxSize } from './-private/list-box/list-box.gts';
 import ListBoxCheckbox from './-private/list-box/list-box-checkbox.gts';
 import ListBoxMenu from './-private/list-box/list-box-menu.gts';
 import ListBoxMenuItem from './-private/list-box/list-box-menu-item.gts';
@@ -147,7 +148,7 @@ export interface FilterableMultiSelectSignature<T> {
      * The field's height. Without it, the field follows an enclosing
      * Layout's size.
      */
-    size?: 'xs' | 'sm' | 'md' | 'lg';
+    size?: ListBoxSize;
     /** `inline` lays the field out next to its label. */
     type?: 'default' | 'inline';
     /** Specify if the control should be disabled, or not. */
