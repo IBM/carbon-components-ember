@@ -15,14 +15,18 @@ import ToolbarActionButton from './-toolbar-action.gts';
 import './toolbar.scss';
 import './workspace-shell.scss';
 import { observeResize } from '../../utils/resize-observer.ts';
+import type { RouteArgs } from '../-private/router-link.gts';
 
-export type ToolbarAction = {
+export type ToolbarAction = RouteArgs & {
   /** Display text - also used as the tooltip label / overflow menu item text. */
   text: string;
   /** Icon component rendered for the action. */
   icon: ComponentLike<{ Args: { size?: number } }>;
   onClick?: () => void;
-  /** Renders the action as a link instead of a button. */
+  /**
+   * Renders the action as a link instead of a button; `route` links it to
+   * one of the app's routes.
+   */
   href?: string;
   target?: string;
   disabled?: boolean;
@@ -261,6 +265,9 @@ export default class Toolbar extends Component<ToolbarSignature> {
                 <Item
                   @itemText={{toolbarAction.text}}
                   @href={{toolbarAction.href}}
+                  @route={{toolbarAction.route}}
+                  @models={{toolbarAction.models}}
+                  @query={{toolbarAction.query}}
                   @disabled={{toolbarAction.disabled}}
                   @isDelete={{toolbarAction.danger}}
                   @dangerDescription={{toolbarAction.dangerDescription}}
