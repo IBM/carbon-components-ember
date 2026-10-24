@@ -1,0 +1,1 @@
+import{n as r}from"./rolldown-runtime-BpgvRg6H.js";import{v as o}from"./preview-h3cuS-BP.js";import{an as t,in as n,rn as e}from"./outlet-placeholder-CgO7fIDo-CN_awSXV.js";function s(r,o){let e=!1;return queueMicrotask(()=>{e||t(r)||n(r)||o()}),()=>{e=!0}}function a(){return(a=r(()=>{o()}))()}export{a as n,s as t};
