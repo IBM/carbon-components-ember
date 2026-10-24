@@ -14,6 +14,7 @@ import type { WithBoundArgs } from '@glint/template';
 import style from 'ember-style-modifier';
 import { RovingFocus } from '../utils/roving-focus.ts';
 import RouterLink from './-private/router-link.gts';
+import type { RouteArgs } from './-private/router-link.gts';
 import type Icon from './icon.gts';
 import type { TOC } from '@ember/component/template-only';
 
@@ -25,7 +26,7 @@ const labelOffset = (offset: number) => ({
 export interface TreeNodeSignature {
   /** The `<li>`, or a link node's `<a>`. */
   Element: HTMLLIElement | HTMLAnchorElement;
-  Args: {
+  Args: RouteArgs & {
     treeView: TreeView;
     id?: string;
     label: string;
@@ -55,18 +56,12 @@ export interface TreeNodeSignature {
      * not pass this manually.
      */
     hidden?: boolean;
-    /** Makes the node a link to this URL, as Carbon React's `href`. */
-    href?: string;
     /**
-     * Makes the node a link to this route through the Ember router, in
-     * place of `@href`, as Ember's `LinkTo`. The router, not selection,
-     * makes it the active node: while this route itself is current.
+     * Makes the node a link to this URL, as Carbon React's `href`. With
+     * `@route` instead, the router, not selection, makes it the active node:
+     * while that route itself is current.
      */
-    route?: string;
-    /** The models for `@route`'s dynamic segments, in order. */
-    models?: unknown[];
-    /** Query params for `@route`. */
-    query?: Record<string, unknown>;
+    href?: string;
   };
   Blocks: {
     default: [TreeNode: WithBoundArgs<typeof TreeNode, 'treeView'>];
