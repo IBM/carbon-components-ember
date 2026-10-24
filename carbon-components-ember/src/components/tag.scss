@@ -1,0 +1,21 @@
+@use "@carbon/styles/scss/utilities/focus-outline" as *;
+
+// Carbon doesn't style a link in a tag: it takes the tag's colour and
+// layout, with Carbon Link's underline and focus outline.
+.cds--ember-tag__link {
+  display: inline-flex;
+  align-items: center;
+  min-inline-size: 0;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover .cds--tag__label,
+  &:focus .cds--tag__label {
+    text-decoration: underline;
+  }
+
+  &:focus {
+    @include focus-outline;
+  }
+}

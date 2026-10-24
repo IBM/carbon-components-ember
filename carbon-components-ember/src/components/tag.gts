@@ -3,10 +3,13 @@ import { guidFor } from '@ember/object/internals';
 import { modifier } from 'ember-modifier';
 import type Icon from './icon.gts';
 import AILabel from './ai-label.gts';
+import RouterLink from './-private/router-link.gts';
+import type { RouteArgs } from './-private/router-link.gts';
+import './tag.scss';
 import type { WithBoundArgs } from '@glint/template';
 
 export interface TagSignature {
-  Args: {
+  Args: RouteArgs & {
     /**
      * Specify the id for the tag.
      */
@@ -20,6 +23,11 @@ export interface TagSignature {
      * Specify if the `Tag` is disabled.
      */
     disabled?: boolean;
+    /**
+     * Makes the tag's icon and label a link to this URL. `@route` links them
+     * to one of the app's routes.
+     */
+    href?: string;
     /**
      * A component used to render an icon.
      */
@@ -86,6 +94,11 @@ export default class Tag extends Component<TagSignature> {
     return classes.join(' ');
   }
 
+  // A disabled one is no link.
+  get isLink() {
+    return Boolean(this.args.href || this.args.route) && !this.args.disabled;
+  }
+
   get showIcon() {
     return !!this.args.renderIcon && this.args.size !== 'sm';
   }
@@ -118,14 +131,38 @@ export default class Tag extends Component<TagSignature> {
       disabled={{if @disabled true}}
       ...attributes
     >
-      {{#if this.showIcon}}
-        <div class="cds--tag__custom-icon">
-          <@renderIcon @size="16" />
-        </div>
+      {{! The link holds the icon and label, so the decorator's button isn't inside it. }}
+      {{#if this.isLink}}
+        <RouterLink
+          @href={{@href}}
+          @route={{@route}}
+          @models={{@models}}
+          @query={{@query}}
+          class="cds--ember-tag__link"
+        >
+          {{#if this.showIcon}}
+            <div class="cds--tag__custom-icon">
+              <@renderIcon @size="16" />
+            </div>
+          {{/if}}
+          <span
+            class="cds--tag__label"
+            dir="auto"
+            {{this.syncLabelTitle @title}}
+          >
+            {{yield}}
+          </span>
+        </RouterLink>
+      {{else}}
+        {{#if this.showIcon}}
+          <div class="cds--tag__custom-icon">
+            <@renderIcon @size="16" />
+          </div>
+        {{/if}}
+        <span class="cds--tag__label" dir="auto" {{this.syncLabelTitle @title}}>
+          {{yield}}
+        </span>
       {{/if}}
-      <span class="cds--tag__label" dir="auto" {{this.syncLabelTitle @title}}>
-        {{yield}}
-      </span>
       {{#if (has-block "decorator")}}
         <div class="cds--tag__decorator">
           {{yield (component AILabel size="sm" kind="inline") to="decorator"}}
