@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import { setupApplicationTest, setupRenderingTest } from 'ember-qunit';
 import { render, rerender, click, find } from '@ember/test-helpers';
 import Breadcrumb from '#src/components/breadcrumb.gts';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
@@ -12,6 +12,8 @@ import {
   disableCarbonStyles,
   enableCarbonStyles,
   nonce,
+  setupRoutes,
+  visitWith,
 } from '../helpers';
 
 module('Integration | Component | Breadcrumb', (hooks) => {
@@ -314,5 +316,28 @@ module('Integration | Component | Breadcrumb', (hooks) => {
       stylesDiffB,
       'does correctly change styles after selection',
     );
+  });
+});
+
+module('Integration | Component | Breadcrumb > with @route', function (hooks) {
+  setupApplicationTest(hooks);
+  setupRoutes(hooks);
+
+  test('an item links to its route', async function (assert) {
+    const models = ['7'];
+    await visitWith(
+      this,
+      <template>
+        <Breadcrumb as |BreadcrumbItem|>
+          <BreadcrumbItem
+            @route="user"
+            @models={{models}}
+          >Grace</BreadcrumbItem>
+        </Breadcrumb>
+      </template>,
+    );
+    assert
+      .dom('.cds--breadcrumb-item a.cds--link')
+      .hasAttribute('href', '/users/7');
   });
 });

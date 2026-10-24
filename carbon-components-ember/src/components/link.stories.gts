@@ -20,7 +20,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     docs: {
       description: {
         component:
-          'Links are used as navigational elements. They may be used on their own, within a sentence or paragraph, or directly following the content they are relevant to.',
+          "Links are used as navigational elements. They may be used on their own, within a sentence or paragraph, or directly following the content they are relevant to. Link to a URL with `@href`, or to one of the app's routes with `@route` (plus `@models` and `@query`), which renders Ember's `LinkTo`: it navigates without reloading the page and has the `active` class while its route is current.",
       },
     },
   },
