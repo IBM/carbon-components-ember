@@ -9,6 +9,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import type { ComponentLike, WithBoundArgs } from '@glint/template';
 import RouterLink from './-private/router-link.gts';
+import type { RouteArgs } from './-private/router-link.gts';
 import ArrowRight from './icons/arrow-right.ts';
 import CardAction from './card/card-action.gts';
 import CardActions from './card/card-actions.gts';
@@ -23,7 +24,7 @@ import CardTitleMedia from './card/card-title-media.gts';
 
 export interface CardSignature {
   Element: HTMLDivElement | HTMLAnchorElement;
-  Args: {
+  Args: RouteArgs & {
     /**
      * Makes the whole card clickable: a `{{on "click"}}` on it runs on
      * click, Enter and Space, and a footer icon shows it can be clicked.
@@ -46,18 +47,9 @@ export interface CardSignature {
     renderFooterIcon?: ComponentLike;
     /**
      * Makes the card a clickable link to this URL, as Carbon React's
-     * `as="a"` with `href`.
+     * `as="a"` with `href`. `@route` links it to one of the app's routes.
      */
     href?: string;
-    /**
-     * Makes the card a clickable link to this route through the Ember
-     * router, in place of `@href`, as Ember's `LinkTo`.
-     */
-    route?: string;
-    /** The models for `@route`'s dynamic segments, in order. */
-    models?: unknown[];
-    /** Query params for `@route`. */
-    query?: Record<string, unknown>;
   };
   Blocks: {
     default: [
