@@ -3,25 +3,20 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import UIShellSideNavSubMenu from './-sub-menu.gts';
 import RouterLink from '../../-private/router-link.gts';
+import type { RouteArgs } from '../../-private/router-link.gts';
 import ChevronDown from '../../icons/chevron-down.ts';
 
-export type SubMenu = {
+export type SubMenu = RouteArgs & {
   icon?: typeof Icon;
   title: string;
-  /** The URL it links to. */
+  /** The URL it links to. `route` links it to one of the app's routes. */
   href?: string;
-  /** A route to link to through the Ember router, in place of `href`. */
-  route?: string;
-  /** The models for `route`'s dynamic segments, in order. */
-  models?: unknown[];
-  /** Query params for `route`. */
-  query?: Record<string, unknown>;
 };
 
 export interface UIShellSideNavMenuSignature {
   /** The `<li>` with `@submenus`, as Carbon React's SideNavMenu; else the link, as its SideNavLink. */
   Element: HTMLLIElement | HTMLAnchorElement;
-  Args: {
+  Args: RouteArgs & {
     /**
      * Called on a click, for an item with neither `@href` nor `@route`.
      * Prefer `@route`, which also marks the current link.
@@ -31,17 +26,11 @@ export interface UIShellSideNavMenuSignature {
     open?: boolean;
     /** Marks it as the current link, as Carbon React's `isActive`. */
     isCurrent?: boolean;
-    /** The URL it links to. */
-    href?: string;
     /**
-     * A route to link to through the Ember router, in place of `@href`, as
-     * Ember's `LinkTo`. It's the current link while the route is current.
+     * The URL it links to. `@route` links it to one of the app's routes,
+     * and makes it the current link while that route is current.
      */
-    route?: string;
-    /** The models for `@route`'s dynamic segments, in order. */
-    models?: unknown[];
-    /** Query params for `@route`. */
-    query?: Record<string, unknown>;
+    href?: string;
     icon?: typeof Icon;
     title: string;
     submenus: SubMenu[];

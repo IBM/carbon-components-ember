@@ -9,19 +9,14 @@ import UIShellSideNavIcon from './-sidenav/-icon.gts';
 import UIShellHeaderSideNavItems from './-header/-side-nav-items.gts';
 import type Icon from '../icon.gts';
 import type { TOC } from '@ember/component/template-only';
+import type { RouteArgs } from '../-private/router-link.gts';
 
-export type MenuItem = {
+export type MenuItem = RouteArgs & {
   submenus: SubMenu[];
   icon?: typeof Icon;
   title: string;
-  /** The URL it links to. */
+  /** The URL it links to. `route` links it to one of the app's routes. */
   href?: string;
-  /** A route to link to through the Ember router, in place of `href`. */
-  route?: string;
-  /** The models for `route`'s dynamic segments, in order. */
-  models?: unknown[];
-  /** Query params for `route`. */
-  query?: Record<string, unknown>;
 };
 
 export interface UIShellSideNavSignature {

@@ -8,6 +8,7 @@ import ChevronDown from './icons/chevron-down.ts';
 import Link from './link.gts';
 import type { LinkSignature } from './link.gts';
 import { observeResize } from '../utils/resize-observer.ts';
+import type { RouteArgs } from './-private/router-link.gts';
 
 // Matches @carbon/react's ExpandableTile: while collapsed, the tile's own
 // max-height is clamped to the above-the-fold content's real height (plus
@@ -46,7 +47,7 @@ const clipExpandableTile = modifier<{
 
 export interface TileSignature {
   Element: HTMLDivElement | LinkSignature['Element'];
-  Args: {
+  Args: RouteArgs & {
     selectable?: boolean;
     /**
      * A clickable tile: Carbon React's `ClickableTile`, a `Link` styled as
@@ -54,17 +55,11 @@ export interface TileSignature {
      * Space click it, for an `{{on "click"}}` handler.
      */
     clickable?: boolean;
-    /** The URL a `@clickable` tile links to. */
-    href?: string;
     /**
-     * A route for a `@clickable` tile to link to through the Ember router,
-     * in place of `@href`, as Ember's `LinkTo`.
+     * The URL a `@clickable` tile links to. `@route` links it to one of the
+     * app's routes.
      */
-    route?: string;
-    /** The models for `@route`'s dynamic segments, in order. */
-    models?: unknown[];
-    /** Query params for `@route`. */
-    query?: Record<string, unknown>;
+    href?: string;
     /**
      * Disables a `@clickable` tile: it's no link, can't be focused, and
      * stops clicks before any `{{on "click"}}` handler.

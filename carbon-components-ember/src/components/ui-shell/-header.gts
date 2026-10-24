@@ -3,24 +3,19 @@ import Menu from '../icons/menu.ts';
 import UIShellHeaderGlobalAction from './-header/-global-action.gts';
 import UIShellHeaderPanel from './-header/-panel.gts';
 import RouterLink from '../-private/router-link.gts';
+import type { RouteArgs } from '../-private/router-link.gts';
 import type { TOC } from '@ember/component/template-only';
 
 export interface UIShellHeaderSignature {
   Element: HTMLElement;
-  Args: {
+  Args: RouteArgs & {
     title: string;
     subtitle: string;
-    /** The URL the name links to, as Carbon React's HeaderName `href`. */
-    href?: string;
     /**
-     * A route for the name to link to through the Ember router, in place
-     * of `@href`, as Ember's `LinkTo`.
+     * The URL the name links to, as Carbon React's HeaderName `href`.
+     * `@route` links it to one of the app's routes.
      */
-    route?: string;
-    /** The models for `@route`'s dynamic segments, in order. */
-    models?: unknown[];
-    /** Query params for `@route`. */
-    query?: Record<string, unknown>;
+    href?: string;
     open?: boolean;
     onToggle?: (value: boolean) => void;
   };
