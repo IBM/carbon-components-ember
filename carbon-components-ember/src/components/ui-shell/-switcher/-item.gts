@@ -1,9 +1,10 @@
 import RouterLink from '../../-private/router-link.gts';
+import type { RouteArgs } from '../../-private/router-link.gts';
 import type { TOC } from '@ember/component/template-only';
 
 export interface UIShellSwitcherItemSignature {
   Element: HTMLAnchorElement;
-  Args: {
+  Args: RouteArgs & {
     /**
      * Classes for the `<li>`, as Carbon React's `className`. `class` and the
      * other attributes go on the link.
@@ -12,17 +13,11 @@ export interface UIShellSwitcherItemSignature {
     'aria-label'?: string;
     /** Marks the current product, as does `@route` while it's current. */
     isSelected?: boolean;
-    /** The URL it links to. */
-    href?: string;
     /**
-     * A route to link to through the Ember router, in place of `@href`, as
-     * Ember's `LinkTo`. It's the current link while the route is current.
+     * The URL it links to. `@route` links it to one of the app's routes,
+     * and makes it the current link while that route is current.
      */
-    route?: string;
-    /** The models for `@route`'s dynamic segments, in order. */
-    models?: unknown[];
-    /** Query params for `@route`. */
-    query?: Record<string, unknown>;
+    href?: string;
   };
   Blocks: {
     default: [];
