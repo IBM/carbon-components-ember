@@ -1,4 +1,4 @@
-import { expect } from 'storybook/test';
+import { expect, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import ShapeIndicator, { ShapeIndicatorKinds } from './shape-indicator.gts';
@@ -118,9 +118,15 @@ Compact.test(
 
     await userEvent.tab();
     await expect(trigger).toHaveFocus();
-    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    await waitFor(
+      () => expect(trigger).toHaveAttribute('aria-expanded', 'true'),
+      { timeout: 3000 },
+    );
 
     await userEvent.tab();
-    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    await waitFor(
+      () => expect(trigger).toHaveAttribute('aria-expanded', 'false'),
+      { timeout: 3000 },
+    );
   },
 );

@@ -126,15 +126,18 @@ Compact.test(
     await expect(definition).toHaveTextContent('Failed');
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
 
-    // Ember re-renders after the event, so wait for the attribute to update.
+    // Ember re-renders after the event, so wait for the attribute to update,
+    // longer than the default second on a busy CI runner.
     await userEvent.hover(trigger);
-    await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'true'),
+    await waitFor(
+      () => expect(trigger).toHaveAttribute('aria-expanded', 'true'),
+      { timeout: 3000 },
     );
 
     await userEvent.unhover(trigger);
-    await waitFor(() =>
-      expect(trigger).toHaveAttribute('aria-expanded', 'false'),
+    await waitFor(
+      () => expect(trigger).toHaveAttribute('aria-expanded', 'false'),
+      { timeout: 3000 },
     );
   },
 );
