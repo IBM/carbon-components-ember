@@ -1,15 +1,16 @@
 import Component from '@glimmer/component';
 import type { ComponentLike } from '@glint/template';
 import ButtonBase from './-private/button-base.gts';
+import type { RouteArgs } from './-private/router-link.gts';
 import Tooltip from './tooltip.gts';
 import type { TooltipAlignment } from './tooltip.gts';
 
 export interface ButtonSignature {
   Element: HTMLButtonElement | HTMLAnchorElement;
-  Args: {
+  Args: RouteArgs & {
     /**
      * The element to render in place of the `<button>` (or, with `@href`,
-     * the `<a>`).
+     * the `<a>`). It overrides `@route`.
      */
     as?: keyof HTMLElementTagNameMap;
     /**
@@ -30,16 +31,6 @@ export interface ButtonSignature {
     disabled?: boolean;
     /** Renders a link to this URL, styled as a button. */
     href?: string;
-    /**
-     * A route to link to through the Ember router, in place of `@href`, as
-     * Ember's `LinkTo`: the link navigates without reloading the page, and
-     * has the `active` class while its route is current. `@as` overrides it.
-     */
-    route?: string;
-    /** The models for `@route`'s dynamic segments, in order. */
-    models?: unknown[];
-    /** Query params for `@route`. */
-    query?: Record<string, unknown>;
     /**
      * Shows only the icon, in a tooltip that names the button with
      * `@iconDescription`.

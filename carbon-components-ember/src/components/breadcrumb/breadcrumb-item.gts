@@ -8,6 +8,7 @@
 import Link from '../link.gts';
 import OverflowMenu from '../overflow-menu.gts';
 import OverflowMenuHorizontal from '../icons/overflow-menu-horizontal.ts';
+import type { RouteArgs } from '../-private/router-link.gts';
 import type { TOC } from '@ember/component/template-only';
 import type { WithBoundArgs } from '@glint/template';
 
@@ -16,7 +17,7 @@ type AriaCurrent =
 
 export interface BreadcrumbItemSignature {
   Element: HTMLLIElement;
-  Args: {
+  Args: RouteArgs & {
     /**
      * The `aria-current` of the item's link, such as "page". Carbon React
      * takes it as its `aria-current` prop, which goes to the link.
@@ -26,16 +27,6 @@ export interface BreadcrumbItemSignature {
      * Optional string representing the link location for the BreadcrumbItem
      */
     href?: string;
-    /**
-     * A route to link to through the Ember router, in place of `@href`, as
-     * Ember's `LinkTo`: the link navigates without reloading the page, and
-     * has the `active` class while its route is current.
-     */
-    route?: string;
-    /** The models for `@route`'s dynamic segments, in order. */
-    models?: unknown[];
-    /** Query params for `@route`. */
-    query?: Record<string, unknown>;
     /**
      * Provide if this breadcrumb item represents the current page
      */

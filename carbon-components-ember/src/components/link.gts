@@ -7,14 +7,15 @@
 
 import Component from '@glimmer/component';
 import RouterLink from './-private/router-link.gts';
+import type { RouteArgs } from './-private/router-link.gts';
 import type { ComponentLike } from '@glint/template';
 
 export interface LinkSignature {
   Element: HTMLElement;
-  Args: {
+  Args: RouteArgs & {
     /**
      * Provide a custom element or component to render the top-level node for
-     * the component. Defaults to `a`.
+     * the component. Defaults to `a`. It overrides `@route`.
      */
     as?: keyof HTMLElementTagNameMap;
     /**
@@ -25,16 +26,6 @@ export interface LinkSignature {
      * Provide the `href` attribute for the `<a>` node.
      */
     href?: string;
-    /**
-     * A route to link to through the Ember router, in place of `@href`, as
-     * Ember's `LinkTo`: the link navigates without reloading the page, and
-     * has the `active` class while its route is current. `@as` overrides it.
-     */
-    route?: string;
-    /** The models for `@route`'s dynamic segments, in order. */
-    models?: unknown[];
-    /** Query params for `@route`. */
-    query?: Record<string, unknown>;
     /**
      * Specify whether you want the inline version of this control.
      */
