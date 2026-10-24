@@ -183,6 +183,11 @@ Signatures follow the [Ember guides](https://guides.emberjs.com/release/typescri
 
 - **Name:** `export interface <Name>Signature`, where `<Name>` is the component's public export name. The class or `TOC` const is named the same. A signature is never a `type` alias.
 - **`Args`:** written inline in the signature. Code elsewhere refers to them as `<Name>Signature['Args']`; there is no separate `Args` type.
+- **Declare each arg, type and helper once.** Copies drift: one gains a value or a doc the others lack. Before writing one, search `src` for it, and import what exists.
+  - A group of args several components take is an exported interface, which each signature intersects: `Args: SharedArgs & { … }`.
+  - A part, variant or skeleton takes its component's type: `size?: ButtonSignature['Args']['size']`.
+  - Share what Carbon React shares: one type where React declares one (`ListBoxSize`), separate ones where React keeps them separate.
+  - A helper or modifier two components need goes in `utils/` or `-private/`, not in each component.
 - **`Element`:** the element `...attributes` is spread on.
   - A DOM element gets its own type, a union when branches differ.
   - When spreading onto another component, derive it: `Element: ButtonSignature['Element']`.
