@@ -13,6 +13,11 @@ import Text from '../text.gts';
 import NotificationActionButton from './notification-action-button.gts';
 import NotificationButton from './notification-button.gts';
 import NotificationIcon from './-notification-icon.gts';
+import type {
+  NotificationArgs,
+  NotificationCaptionArgs,
+  NotificationCloseHandler,
+} from './-notification-args.ts';
 import type { NotificationKind } from './-notification-icon.gts';
 
 const TABBABLE = [
@@ -34,79 +39,44 @@ const tabbables = (container: HTMLElement) =>
 
 export interface ActionableNotificationSignature {
   Element: HTMLDivElement;
-  Args: {
-    /**
-     * Pass in the action button label that will be rendered within the
-     * ActionableNotification. Without it, there's no action button.
-     */
-    actionButtonLabel?: string;
-    /**
-     * Provide a description for the "close" icon button that can be read by
-     * screen readers. Carbon React's `aria-label`; an `aria-label` attribute
-     * would label the notification instead.
-     */
-    ariaLabel?: string;
-    /**
-     * Specify the caption.
-     */
-    caption?: string;
-    /**
-     * Specify if pressing the escape key should close the notification.
-     * Defaults to `true`.
-     */
-    closeOnEscape?: boolean;
-    /**
-     * Specify whether the close button should be hidden.
-     */
-    hideCloseButton?: boolean;
-    /**
-     * Style the notification like an `InlineNotification` instead of a toast.
-     */
-    inline?: boolean;
-    /**
-     * Specify what state the notification represents. Defaults to `'error'`.
-     */
-    kind?: NotificationKind;
-    /**
-     * Specify whether you are using the low contrast variant of the
-     * ActionableNotification.
-     */
-    lowContrast?: boolean;
-    /**
-     * Provide a function that is called when the action is clicked.
-     */
-    onActionButtonClick?: (event: MouseEvent) => void;
-    /**
-     * Provide a function that is called when the close button or the escape
-     * key closes the notification. Return `false` to keep it open.
-     */
-    onClose?: (event: MouseEvent | KeyboardEvent) => boolean | void;
-    /**
-     * Provide a function that is called when the close button is clicked, or
-     * the escape key is pressed.
-     */
-    onCloseButtonClick?: (event: MouseEvent | KeyboardEvent) => void;
-    /**
-     * Provide an accessible role. Defaults to `'alertdialog'`, which moves
-     * focus to the action button and keeps it inside the notification. Any
-     * other role does neither, so make the notification reachable another
-     * way, or use a `Callout`.
-     */
-    role?: string;
-    /**
-     * Provide a description for the "status" icon that can be read by screen
-     * readers. Defaults to `'<kind> icon'`.
-     */
-    statusIconDescription?: string;
-    /**
-     * Specify the subtitle.
-     */
-    subtitle?: string;
-    /**
-     * Specify the title.
-     */
-    title?: string;
-  };
+  Args: NotificationArgs &
+    NotificationCaptionArgs & {
+      /**
+       * Pass in the action button label that will be rendered within the
+       * ActionableNotification. Without it, there's no action button.
+       */
+      actionButtonLabel?: string;
+      /**
+       * Specify if pressing the escape key should close the notification.
+       * Defaults to `true`.
+       */
+      closeOnEscape?: boolean;
+      /**
+       * Style the notification like an `InlineNotification` instead of a toast.
+       */
+      inline?: boolean;
+      /**
+       * Provide a function that is called when the action is clicked.
+       */
+      onActionButtonClick?: (event: MouseEvent) => void;
+      /**
+       * Provide a function that is called when the close button or the escape
+       * key closes the notification. Return `false` to keep it open.
+       */
+      onClose?: NotificationCloseHandler<MouseEvent | KeyboardEvent>;
+      /**
+       * Provide a function that is called when the close button is clicked, or
+       * the escape key is pressed.
+       */
+      onCloseButtonClick?: (event: MouseEvent | KeyboardEvent) => void;
+      /**
+       * Provide an accessible role. Defaults to `'alertdialog'`, which moves
+       * focus to the action button and keeps it inside the notification. Any
+       * other role does neither, so make the notification reachable another
+       * way, or use a `Callout`.
+       */
+      role?: string;
+    };
   Blocks: {
     /** More content, after the caption: links, other interactive elements or rich text. */
     default: [];
@@ -135,10 +105,6 @@ export default class ActionableNotification extends Component<ActionableNotifica
 
   get isAlertDialog() {
     return this.role === 'alertdialog';
-  }
-
-  get statusIconDescription() {
-    return this.args.statusIconDescription || `${this.kind} icon`;
   }
 
   close = (event: MouseEvent | KeyboardEvent) => {
@@ -194,7 +160,7 @@ export default class ActionableNotification extends Component<ActionableNotifica
             <NotificationIcon
               @notificationType={{if @inline "inline" "toast"}}
               @kind={{this.kind}}
-              @iconDescription={{this.statusIconDescription}}
+              @iconDescription={{@statusIconDescription}}
             />
             <div class="cds--actionable-notification__text-wrapper">
               <div class="cds--actionable-notification__content">
