@@ -127,11 +127,9 @@
  * matching upstream component rather than one shared fixture:
  *
  * - `Tile` (no args) and `ClickableTile` (`@clickable`) are covered.
- *   `ClickableTile`'s only variant passes `href: '#'` to the upstream side
- *   to match what Ember's clickable branch always renders (it hardcodes
- *   `href='#'` and has no `@href` arg at all) - with `href` set, upstream's
- *   `tabIndex = !href && !disabled ? 0 : undefined` resolves to absent on
- *   both sides, same as Ember's. `light`/`slug`/`decorator` are
+ *   `ClickableTile`'s only variant passes `href: '#'`, as Ember's test passes
+ *   `@href="#"`; with `href` set, `tabIndex = !href && !disabled ? 0 :
+ *   undefined` resolves to absent on both sides. `light`/`slug`/`decorator` are
  *   experimental/deprecated upstream props Ember never ported - out of
  *   scope per this file's own "args both sides implement" rule.
  * - `RadioTile` and `TileGroup` are covered. `RadioTile` is exercised both
