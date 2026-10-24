@@ -79,7 +79,7 @@ jobs:
     needs: changes
     if: needs.changes.outputs.addon == 'true'
     runs-on: ubuntu-26.04
-    timeout-minutes: 20
+    timeout-minutes: 30
     permissions:
       contents: read
       actions: read # downloads main's story screenshots

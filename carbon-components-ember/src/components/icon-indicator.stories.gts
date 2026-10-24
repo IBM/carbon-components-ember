@@ -126,18 +126,19 @@ Compact.test(
     await expect(definition).toHaveTextContent('Failed');
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
 
-    // Ember re-renders after the event, so wait for the attribute to update,
-    // longer than the default second on a busy CI runner.
+    // Ember re-renders after the event, so wait for the attribute to update.
     await userEvent.hover(trigger);
-    await waitFor(
-      () => expect(trigger).toHaveAttribute('aria-expanded', 'true'),
-      { timeout: 3000 },
+    await waitFor(() =>
+      expect(trigger).toHaveAttribute('aria-expanded', 'true'),
     );
 
+    // A rerender would leave the test holding a stale trigger (#1241).
+    await expect(trigger.isConnected, 'the trigger is still rendered').toBe(
+      true,
+    );
     await userEvent.unhover(trigger);
-    await waitFor(
-      () => expect(trigger).toHaveAttribute('aria-expanded', 'false'),
-      { timeout: 3000 },
+    await waitFor(() =>
+      expect(trigger).toHaveAttribute('aria-expanded', 'false'),
     );
   },
 );

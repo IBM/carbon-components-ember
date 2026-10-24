@@ -93,9 +93,11 @@ afterEach(async ({ story, task }) => {
   document.documentElement.getBoundingClientRect();
   await document.fonts.ready;
   // And for images, which can finish after the story renders. A broken one
-  // still counts as done.
+  // still counts as done; a lazy one offscreen would never load.
   await Promise.all(
-    Array.from(document.images, (image) => image.decode().catch(() => {})),
+    Array.from(document.images)
+      .filter((image) => image.loading !== 'lazy')
+      .map((image) => image.decode().catch(() => {})),
   );
   try {
     // The whole page, for what renders outside the story's root: modals in
@@ -115,4 +117,6 @@ afterEach(async ({ story, task }) => {
     }
     console.warn(error);
   }
-});
+  // Above browser mode's 30-second hook default, which would otherwise cut
+  // the waits and the matcher short.
+}, 60_000);
