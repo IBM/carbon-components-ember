@@ -8,13 +8,23 @@
 import { LinkTo } from '@ember/routing';
 import type { TOC } from '@ember/component/template-only';
 
+/** The arguments that link a component to one of the app's routes. */
+export interface RouteArgs {
+  /**
+   * Links to this route through the Ember router, in place of `@href`, as
+   * Ember's `LinkTo`: the link navigates without reloading the page.
+   */
+  route?: string;
+  /** The models for `@route`'s dynamic segments, in order. */
+  models?: unknown[];
+  /** Query params for `@route`. */
+  query?: Record<string, unknown>;
+}
+
 export interface RouterLinkSignature {
   Element: HTMLAnchorElement;
-  Args: {
+  Args: RouteArgs & {
     href?: string;
-    route?: string;
-    models?: unknown[];
-    query?: Record<string, unknown>;
   };
   Blocks: {
     default: [];
