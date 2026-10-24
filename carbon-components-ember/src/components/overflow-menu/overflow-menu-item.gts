@@ -8,12 +8,13 @@
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
 import RouterLink from '../-private/router-link.gts';
+import type { RouteArgs } from '../-private/router-link.gts';
 
 import type OverflowMenu from '../overflow-menu.gts';
 
 export interface OverflowMenuItemSignature {
   Element: HTMLButtonElement | HTMLAnchorElement;
-  Args: {
+  Args: RouteArgs & {
     /** Hidden text read after a delete item's text. */
     dangerDescription?: string;
     disabled?: boolean;
@@ -21,16 +22,6 @@ export interface OverflowMenuItemSignature {
     hasDivider?: boolean;
     /** Renders the item as a link. */
     href?: string;
-    /**
-     * A route to link to through the Ember router, in place of `@href`, as
-     * Ember's `LinkTo`: the link navigates without reloading the page, and
-     * has the `active` class while its route is current.
-     */
-    route?: string;
-    /** The models for `@route`'s dynamic segments, in order. */
-    models?: unknown[];
-    /** Query params for `@route`. */
-    query?: Record<string, unknown>;
     /** Styles the item as a destructive action. */
     isDelete?: boolean;
     /** The item's text. A block replaces it, for richer content. */
