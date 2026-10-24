@@ -1,6 +1,13 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest, setupRenderingTest } from 'ember-qunit';
-import { click, find, render, triggerKeyEvent } from '@ember/test-helpers';
+import {
+  click,
+  find,
+  render,
+  rerender,
+  triggerKeyEvent,
+} from '@ember/test-helpers';
+import { trackedObject } from '@ember/reactive/collections';
 import Card from '#src/components/card.gts';
 import Share from '#src/components/icons/share.ts';
 import { setupRoutes, visitWith } from '../helpers';
@@ -228,8 +235,9 @@ module('Integration | Component | Card', function (hooks) {
   test('@href makes the card a clickable link, unless it is disabled', async function (assert) {
     await render(
       <template>
-        <Card @href="/reports" id="link" as |card|>
+        <Card @href="/reports" @clickable={{true}} id="link" as |card|>
           <card.Body>Reports</card.Body>
+          <card.Footer>Own footer</card.Footer>
         </Card>
         <Card @href="/reports" @disabled={{true}} id="disabled" />
       </template>,
@@ -240,12 +248,52 @@ module('Integration | Component | Card', function (hooks) {
       .hasClass('cds--card')
       .hasClass('cds--card--clickable')
       .hasAttribute('href', '/reports')
-      .doesNotHaveAttribute('role');
+      .doesNotHaveAttribute('role')
+      .doesNotHaveAttribute('tabindex');
     assert.dom('#link > .cds--card__clickable-footer').exists();
+    assert
+      .dom('#link .cds--card__footer')
+      .doesNotExist('a link card has its own footer');
     assert
       .dom('div#disabled')
       .hasClass('cds--card--disabled')
+      .hasAttribute('role', 'link')
+      .hasAttribute('tabindex', '-1')
       .hasAttribute('aria-disabled', 'true');
+  });
+
+  test('Content wraps only in a horizontal card', async function (assert) {
+    await render(
+      <template>
+        <Card id="vertical" as |card|>
+          <card.Content><card.Body>Body</card.Body></card.Content>
+        </Card>
+      </template>,
+    );
+
+    assert.dom('#vertical > .cds--card__body').exists();
+    assert.dom('.cds--card__content').doesNotExist();
+  });
+
+  test('the card loses its AI styles with its decorator', async function (assert) {
+    const state = trackedObject({ decorated: true });
+    await render(
+      <template>
+        <Card as |card|>
+          {{#if state.decorated}}
+            <card.Header>
+              <:default>Title</:default>
+              <:decorator as |AILabel|><AILabel /></:decorator>
+            </card.Header>
+          {{/if}}
+        </Card>
+      </template>,
+    );
+    assert.dom('.cds--card').hasClass('cds--card--has-ai-label');
+
+    state.decorated = false;
+    await rerender();
+    assert.dom('.cds--card').doesNotHaveClass('cds--card--has-ai-label');
   });
 });
 

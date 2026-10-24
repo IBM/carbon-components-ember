@@ -21,8 +21,8 @@ export interface CardHeaderSignature {
     default: [];
     /**
      * Carbon React's `decorator` on `Card`, rendered here, where React's
-     * header renders it: usually an `AILabel`, in the header's top corner,
-     * which gives the card its AI gradient.
+     * header renders it, in the header's top corner. Put an `AILabel` in it:
+     * the card takes its AI styles from the block.
      */
     decorator: [AILabel: typeof AILabel];
   };

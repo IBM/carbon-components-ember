@@ -140,29 +140,31 @@ export const Default = meta.story({
           <card.Media @ratio="16x9">
             <img src="card/placeholder-16x9.svg" alt="" width="100%" />
           </card.Media>
-          <card.Header>
-            <card.Title
-              @label={{if args.label args.label}}
-              @description={{if args.description args.description}}
-              @titleTruncate={{args.titleTruncate}}
-            >{{args.title}}</card.Title>
-            {{#if args.actionCount}}
-              <card.Actions>
-                {{#each (actionsFor args.actionCount) as |item|}}
-                  <card.Action>
-                    <Button
-                      @kind="ghost"
-                      @hasIconOnly={{true}}
-                      @iconDescription={{item.label}}
-                      @renderIcon={{item.icon}}
-                      @size="sm"
-                    />
-                  </card.Action>
-                {{/each}}
-              </card.Actions>
-            {{/if}}
-          </card.Header>
-          <card.Body>{{args.bodyText}}</card.Body>
+          <card.Content>
+            <card.Header>
+              <card.Title
+                @label={{if args.label args.label}}
+                @description={{if args.description args.description}}
+                @titleTruncate={{args.titleTruncate}}
+              >{{args.title}}</card.Title>
+              {{#if args.actionCount}}
+                <card.Actions>
+                  {{#each (actionsFor args.actionCount) as |item|}}
+                    <card.Action>
+                      <Button
+                        @kind="ghost"
+                        @hasIconOnly={{true}}
+                        @iconDescription={{item.label}}
+                        @renderIcon={{item.icon}}
+                        @size="sm"
+                      />
+                    </card.Action>
+                  {{/each}}
+                </card.Actions>
+              {{/if}}
+            </card.Header>
+            <card.Body>{{args.bodyText}}</card.Body>
+          </card.Content>
         </Card>
       </g.Column>
     </Grid>

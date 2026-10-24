@@ -65,9 +65,9 @@ export interface CardSignature {
         Action: typeof CardAction;
         /**
          * The header, body and footer of a horizontal card, beside its
-         * media.
+         * media. It renders only its block in a vertical card.
          */
-        Content: typeof CardContent;
+        Content: WithBoundArgs<typeof CardContent, 'horizontal'>;
       },
     ];
   };
@@ -108,20 +108,26 @@ export default class Card extends Component<CardSignature> {
       .join(' ');
   }
 
+  // A disabled link card stays a link, without its URL, as Link does.
+  get role() {
+    if (this.args.href || this.args.route) return 'link';
+    return this.args.clickable ? 'button' : undefined;
+  }
+
   get tabIndex(): '0' | '-1' | undefined {
-    if (!this.args.clickable) return undefined;
+    if (!this.isClickable) return undefined;
     return this.args.disabled ? '-1' : '0';
   }
 
   get ariaDisabled() {
-    if (this.args.clickable) return String(Boolean(this.args.disabled));
+    if (this.isClickable) return String(Boolean(this.args.disabled));
     return this.args.disabled ? 'true' : undefined;
   }
 
   // Carbon's styles take pointer events from a disabled card; this stops
-  // the clicks left, such as `click()`.
+  // the clicks left on a clickable one, such as `click()`.
   stopDisabledClick = (event: MouseEvent) => {
-    if (!this.args.disabled) return;
+    if (!this.args.disabled || !this.isClickable) return;
     event.preventDefault();
     event.stopImmediatePropagation();
   };
@@ -146,7 +152,7 @@ export default class Card extends Component<CardSignature> {
         TitleMedia=CardTitleMedia
         Actions=CardActions
         Action=CardAction
-        Content=CardContent
+        Content=(component CardContent horizontal=@horizontal)
       )
       as |parts|
     }}
@@ -167,11 +173,11 @@ export default class Card extends Component<CardSignature> {
       {{else}}
         <div
           class={{this.classes}}
-          role={{if @clickable "button"}}
+          ...attributes
+          role={{this.role}}
           {{! eslint-disable-next-line ember/template-no-positive-tabindex -- the getter returns 0 or -1 }}
           tabindex={{this.tabIndex}}
           aria-disabled={{this.ariaDisabled}}
-          ...attributes
           {{on "click" this.stopDisabledClick capture=true}}
           {{on "keydown" this.clickOnKey}}
         >
