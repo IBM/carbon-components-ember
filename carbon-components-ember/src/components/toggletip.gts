@@ -9,28 +9,14 @@ import ToggletipContentComponent from './toggletip/toggletip-content.gts';
 import closeOnOutsideClick from '../modifiers/close-on-outside-click.ts';
 import Popover from './popover.gts';
 
-import type { PopoverSignature } from './popover.gts';
-
-export type ToggletipAlignment =
-  | 'top'
-  | 'top-start'
-  | 'top-end'
-  | 'bottom'
-  | 'bottom-start'
-  | 'bottom-end'
-  | 'left'
-  | 'left-start'
-  | 'left-end'
-  | 'right'
-  | 'right-start'
-  | 'right-end';
+import type { PopoverAlignment, PopoverSignature } from './popover.gts';
 
 export interface ToggletipSignature {
   Args: {
     /**
      * Specify how the toggletip should align with its trigger button.
      */
-    align?: ToggletipAlignment;
+    align?: PopoverAlignment;
     /**
      * **Experimental:** Keeps the toggletip within the viewport, as
      * `Popover`'s `autoAlign` does.

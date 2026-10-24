@@ -4,6 +4,7 @@ import { withLayer } from '#storybook/decorators.gts';
 import preview from '#storybook/preview.ts';
 import CodeSnippet from './code-snippet.gts';
 import CodeSnippetSkeleton from './code-snippet-skeleton.gts';
+import { NewPopoverAlignments } from './popover.gts';
 
 import type { CodeSnippetSignature } from './code-snippet.gts';
 
@@ -69,20 +70,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     },
     align: {
       control: 'select',
-      options: [
-        'top',
-        'top-start',
-        'top-end',
-        'bottom',
-        'bottom-start',
-        'bottom-end',
-        'left',
-        'left-start',
-        'left-end',
-        'right',
-        'right-start',
-        'right-end',
-      ],
+      options: NewPopoverAlignments,
     },
   },
   args: {

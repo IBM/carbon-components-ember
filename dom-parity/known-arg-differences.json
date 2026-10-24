@@ -26,9 +26,6 @@
     ],
     "extra": [
       "ariaLabel"
-    ],
-    "values": [
-      "align"
     ]
   },
   "Checkbox": {
@@ -373,9 +370,6 @@
       "highContrast",
       "isTabTip",
       "onRequestClose"
-    ],
-    "values": [
-      "align"
     ]
   },
   "ToggletipLabel": {

@@ -7,6 +7,7 @@ import Button from './button.gts';
 import FolderOpen from './icons/folder-open.ts';
 import Folders from './icons/folders.ts';
 import View from './icons/view.ts';
+import { NewPopoverAlignments } from './popover.gts';
 
 import type { AILabelSignature } from './ai-label.gts';
 
@@ -43,20 +44,7 @@ const meta = preview.type<{ args: AILabelSignature['Args'] }>().meta({
     kind: { control: 'inline-radio', options: ['default', 'inline'] },
     align: {
       control: 'select',
-      options: [
-        'top',
-        'top-start',
-        'top-end',
-        'bottom',
-        'bottom-start',
-        'bottom-end',
-        'left',
-        'left-start',
-        'left-end',
-        'right',
-        'right-start',
-        'right-end',
-      ],
+      options: NewPopoverAlignments,
     },
   },
   render: (args) => <template>

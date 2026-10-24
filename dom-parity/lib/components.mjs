@@ -281,7 +281,7 @@
  * secondary component exports on a shared line (`LayoutConstraint`,
  * `PopoverContent`); it excludes `registerIcon` (a
  * function) and the four enum/constant exports (`IconIndicatorKinds`/
- * `IconIndicatorAlignments`/`ShapeIndicatorKinds`/`TooltipAlignments`) -
+ * `NewPopoverAlignments`/`PopoverAlignments`/`ShapeIndicatorKinds`) -
  * re-run `grep -E '^export' src/components.ts`
  * to recheck this count if it drifts. The `ai-chat/dom-parity-test.gts`
  * live path (see the README's "second, live path" section) is even further

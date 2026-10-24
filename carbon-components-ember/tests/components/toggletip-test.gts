@@ -93,6 +93,19 @@ module('Integration | Component | Toggletip', (hooks) => {
     assert.dom('.cds--popover-container').hasClass('cds--popover--bottom-end');
   });
 
+  test('takes the deprecated alignments, as Carbon React does', async function (assert) {
+    await render(
+      <template>
+        <Toggletip @align="top-left" as |t|>
+          <t.Button>i</t.Button>
+          <t.Content>Some more information</t.Content>
+        </Toggletip>
+      </template>,
+    );
+
+    assert.dom('.cds--popover-container').hasClass('cds--popover--top-start');
+  });
+
   test('should close when pressing Escape and return focus to the button', async function (assert) {
     await render(
       <template>

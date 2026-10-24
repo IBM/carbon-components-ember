@@ -8,6 +8,7 @@ import Toggletip from './toggletip.gts';
 import ToggletipActions from './toggletip/toggletip-actions.gts';
 import ToggletipLabel from './toggletip/toggletip-label.gts';
 import Information from './icons/information.ts';
+import { NewPopoverAlignments } from './popover.gts';
 
 import type { ToggletipSignature } from './toggletip.gts';
 import '#storybook/styles/toggletip.css';
@@ -51,20 +52,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
   argTypes: {
     align: {
       control: 'select',
-      options: [
-        'top',
-        'top-start',
-        'top-end',
-        'bottom',
-        'bottom-start',
-        'bottom-end',
-        'left',
-        'left-start',
-        'left-end',
-        'right',
-        'right-start',
-        'right-end',
-      ],
+      options: NewPopoverAlignments,
     },
   },
   render: (args: StoryArgs) => <template>
