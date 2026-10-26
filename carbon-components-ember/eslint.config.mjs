@@ -154,6 +154,12 @@ export default defineConfig([
         },
         {
           selector:
+            "TSInterfaceDeclaration[id.name=/Signature$/] > TSInterfaceBody > TSPropertySignature[key.name='Args'] > TSTypeAnnotation > TSIntersectionType:not(:has(> TSTypeLiteral))",
+          message:
+            "Intersect shared args with the component's own inline `{ … }`: `Args: SharedArgs & { … }`.",
+        },
+        {
+          selector:
             "TSInterfaceDeclaration[id.name=/Signature$/] > TSInterfaceBody > TSPropertySignature[key.name='Blocks'] TSTupleType > :not(TSNamedTupleMember, TSTypeLiteral)",
           message: 'Label block params: `default: [item: Item]`.',
         },
