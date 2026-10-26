@@ -1,4 +1,5 @@
 import { module, test } from 'qunit';
+import { settled } from '@ember/test-helpers';
 import type { TestContext } from '@ember/test-helpers';
 import { setupTest } from '../../helpers';
 import { DEFAULT_CHAT_SESSION_ID } from '#src/services/ai-chat-session.ts';
@@ -43,10 +44,6 @@ module('Unit | Service | ai-chat-session', function (hooks) {
       setItem: (key, value) => void map.set(key, value),
       removeItem: (key) => void map.delete(key),
     };
-  }
-
-  function wait(ms: number): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   test('send() appends a user message and clears the draft', function (assert) {
@@ -539,7 +536,7 @@ module('Unit | Service | ai-chat-session', function (hooks) {
         'not written synchronously',
       );
 
-      await wait(300);
+      await settled();
 
       const raw = storage.getItem('carbon-ai-chat-session');
       assert.true(raw !== null);
@@ -620,7 +617,7 @@ module('Unit | Service | ai-chat-session', function (hooks) {
       session.setDraft('not yet flushed'); // schedules a debounced write to 'key-a'
 
       session.enablePersistence(storage, 'key-b');
-      await wait(300);
+      await settled();
 
       assert.strictEqual(
         storage.getItem('key-a'),

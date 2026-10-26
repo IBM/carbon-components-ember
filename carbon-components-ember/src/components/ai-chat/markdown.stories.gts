@@ -240,7 +240,9 @@ export const Streaming = meta.story({
     const stream = modifier<{
       Element: HTMLElement;
       Args: { Positional: [number] };
-    }>(() => {
+    }>((_element, [restarts]) => {
+      // Destructuring it is what restarts the stream on a restart.
+      void restarts;
       let index = 0;
       const interval = setInterval(() => {
         const chunk = chunks[index++];

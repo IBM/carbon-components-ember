@@ -9,8 +9,12 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
 import { modifier } from 'ember-modifier';
+import MenuItem from './menu/menu-item.gts';
+import MenuItemRadioGroup from './menu/menu-item-radio-group.gts';
+import MenuItemSelectable from './menu/menu-item-selectable.gts';
 import type LayersService from '../services/layers.ts';
 import type { TOC } from '@ember/component/template-only';
+import type { WithBoundArgs } from '@glint/template';
 
 const SPACING = 8;
 
@@ -19,26 +23,12 @@ function range(value: number | [number, number]): [number, number] {
 }
 
 /**
- * The part of a menu item its owning `Menu` needs to know about to derive
- * the `--with-icons`/`--with-selectable-items` modifier classes. Declared as
- * an interface so `Menu` doesn't have to import `MenuItem`, which imports
- * `Menu` itself.
+ * The part of a menu item its `Menu` needs to know about to derive the
+ * `--with-icons`/`--with-selectable-items` modifier classes.
  */
 export interface MenuItemFeatures {
   hasIcon: boolean;
   isSelectable: boolean;
-}
-
-// `MenuItem` & friends are invoked as standalone components rather than
-// being yielded by `Menu`, so they have no argument pointing back at the
-// menu they belong to. Every rendered menu registers itself under its own
-// `<ul>` here, which lets an item find its owner by walking up the DOM once,
-// when it is inserted.
-const MENUS = new WeakMap<Element, Menu>();
-
-export function findParentMenu(element: Element): Menu | undefined {
-  const list = element.parentElement?.closest('.cds--menu');
-  return list ? MENUS.get(list) : undefined;
 }
 
 export interface MenuSignature {
@@ -113,7 +103,16 @@ export interface MenuSignature {
     anchor?: HTMLElement;
   };
   Blocks: {
-    default: [];
+    /**
+     * The items: the yielded `MenuItem`, `MenuItemSelectable` and
+     * `MenuItemRadioGroup`, bound to the menu, with `MenuItemGroup` and
+     * `MenuItemDivider` around and between them.
+     */
+    default: [
+      MenuItem: WithBoundArgs<typeof MenuItem, 'menu'>,
+      MenuItemSelectable: WithBoundArgs<typeof MenuItemSelectable, 'menu'>,
+      MenuItemRadioGroup: WithBoundArgs<typeof MenuItemRadioGroup, 'menu'>,
+    ];
   };
 }
 
@@ -136,7 +135,6 @@ const MenuList: TOC<MenuListSignature> = <template>
     {{on "keydown" @menu.handleKeyDown}}
     {{on "focusout" @menu.handleBlur}}
     {{on "click" @menu.handleClick}}
-    {{@menu.registerList}}
     {{@menu.positionMenu}}
     ...attributes
   >
@@ -162,10 +160,11 @@ export default class Menu extends Component<MenuSignature> {
     return this.items.some((item) => item.isSelectable);
   }
 
-  registerList = modifier((element: HTMLUListElement) => {
-    MENUS.set(element, this);
-    return () => MENUS.delete(element);
-  });
+  /**
+   * @internal The Menu class, for MenuItem's submenu: MenuItem can't import
+   * Menu, which imports it.
+   */
+  Submenu: typeof Menu = Menu;
 
   registerItem(item: MenuItemFeatures) {
     if (this.isDestroying || this.isDestroyed) return;
@@ -371,11 +370,23 @@ export default class Menu extends Component<MenuSignature> {
     {{#if this.isRoot}}
       {{#if @open}}
         {{#in-element this.target insertBefore=null}}
-          <MenuList @menu={{this}} ...attributes>{{yield}}</MenuList>
+          <MenuList @menu={{this}} ...attributes>
+            {{yield
+              (component MenuItem menu=this)
+              (component MenuItemSelectable menu=this)
+              (component MenuItemRadioGroup menu=this)
+            }}
+          </MenuList>
         {{/in-element}}
       {{/if}}
     {{else}}
-      <MenuList @menu={{this}} ...attributes>{{yield}}</MenuList>
+      <MenuList @menu={{this}} ...attributes>
+        {{yield
+          (component MenuItem menu=this)
+          (component MenuItemSelectable menu=this)
+          (component MenuItemRadioGroup menu=this)
+        }}
+      </MenuList>
     {{/if}}
   </template>
 }
