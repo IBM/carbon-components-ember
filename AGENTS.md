@@ -152,6 +152,8 @@ export default class TabPane extends Component<TabPaneSignature> {
 }
 ```
 
+A yielded child that renders its parent again, as a MenuItem renders its submenu, can't import the parent, which imports it (rollup warns on the cycle): the parent hands over its own class (`<@menu.Submenu>`).
+
 For a cleaner registration example, read the charts: every yielded part extends `charts/-components/chart-part.ts`, which registers with the chart this way, and the chart derives its options and data from the registered parts' args with plain getters. Don't write a template helper that exists for its side effect.
 
 ### 2. Accept Components as Args
