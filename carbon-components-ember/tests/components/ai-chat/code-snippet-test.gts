@@ -287,4 +287,81 @@ module('Integration | Component | ai-chat/CodeSnippet', (hooks) => {
     assert.false(insertedLines.includes('+++ b/file.txt'));
     assert.false(deletedLines.includes('--- a/file.txt'));
   });
+
+  test('changing @editable, @hideLineNumbers or @hideFold rebuilds the editor', async function (assert) {
+    const editable = tracked(false);
+    const hideLineNumbers = tracked(false);
+    const hideFold = tracked(false);
+
+    await render(
+      <template>
+        <CodeSnippet
+          @code="const x = 1;"
+          @editable={{editable.value}}
+          @hideLineNumbers={{hideLineNumbers.value}}
+          @hideFold={{hideFold.value}}
+        />
+      </template>,
+    );
+    await waitForEditor();
+    assert.dom('.cm-content').hasAttribute('contenteditable', 'false');
+    assert.dom('.cm-lineNumbers').exists();
+    assert.dom('.cm-foldGutter').exists();
+
+    editable.value = true;
+    await waitUntil(() => find('.cm-content[contenteditable="true"]'));
+    assert.dom('.cm-content').hasAttribute('contenteditable', 'true');
+
+    hideLineNumbers.value = true;
+    // No .cm-content exists between destroying the editor and recreating it.
+    await waitUntil(() => find('.cm-content') && !find('.cm-lineNumbers'));
+    assert.dom('.cm-lineNumbers').doesNotExist();
+
+    hideFold.value = true;
+    await waitUntil(() => find('.cm-content') && !find('.cm-foldGutter'));
+    assert.dom('.cm-foldGutter').doesNotExist();
+    assert.dom('.cm-content').hasText('const x = 1;');
+  });
+
+  test('changing @language re-resolves the language', async function (assert) {
+    const language = tracked('javascript');
+
+    await render(
+      <template>
+        <CodeSnippet
+          @code="x = 1"
+          @language={{language.value}}
+          @highlight={{true}}
+          @detectLanguage={{true}}
+        />
+      </template>,
+    );
+    await waitForEditor();
+    await waitUntil(() => find('.cds-aichat-snippet__language'));
+    assert.dom('.cds-aichat-snippet__language').hasText('JavaScript');
+
+    language.value = 'python';
+    await waitUntil(
+      () => find('.cds-aichat-snippet__language')?.textContent === 'Python',
+    );
+    assert.dom('.cds-aichat-snippet__language').hasText('Python');
+  });
+
+  test('changing @ariaLabelReadOnly relabels the editor', async function (assert) {
+    const label = tracked('Example code');
+
+    await render(
+      <template>
+        <CodeSnippet @code="const x = 1;" @ariaLabelReadOnly={{label.value}} />
+      </template>,
+    );
+    await waitForEditor();
+    assert.dom('.cm-content').hasAttribute('aria-label', 'Example code');
+
+    label.value = 'Updated code';
+    await waitUntil(
+      () => find('.cm-content')?.getAttribute('aria-label') === 'Updated code',
+    );
+    assert.dom('.cm-content').hasAttribute('aria-label', 'Updated code');
+  });
 });

@@ -73,6 +73,20 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
   // reference (see class doc). Driven via raw event dispatch on the
   // `.cds-aichat-prompt-line-shell` container so each case is deterministic,
   // independent of real Tiptap extension timing.
+  function dispatch(detail: TriggerChangeEventDetail | null) {
+    const container = find('[data-test-container]')!;
+    container.dispatchEvent(
+      new CustomEvent<TriggerChangeEventDetail | null>(
+        'cds-aichat-trigger-change',
+        {
+          detail,
+          bubbles: true,
+          composed: true,
+        },
+      ),
+    );
+  }
+
   // -----------------------------------------------------------------------
   module('same-tick batch reconciliation', () => {
     const api = fakeApi();
@@ -92,20 +106,6 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
             />
           </div>
         </template>,
-      );
-    }
-
-    function dispatch(detail: TriggerChangeEventDetail | null) {
-      const container = find('[data-test-container]')!;
-      container.dispatchEvent(
-        new CustomEvent<TriggerChangeEventDetail | null>(
-          'cds-aichat-trigger-change',
-          {
-            detail,
-            bubbles: true,
-            composed: true,
-          },
-        ),
       );
     }
 
@@ -203,6 +203,59 @@ module('Integration | Component | ai-chat/PromptLineAutocomplete', (hooks) => {
   // -----------------------------------------------------------------------
   // Real end-to-end behavior against a live `PromptLine` + Tiptap extensions.
   // -----------------------------------------------------------------------
+
+  module('config args', () => {
+    test('a trigger resolves its items once', async function (assert) {
+      const queries: string[] = [];
+      const mentionConfig = {
+        trigger: '@',
+        items: (query: string) => {
+          queries.push(query);
+          return PEOPLE;
+        },
+      };
+
+      await render(
+        <template>
+          <div class="cds-aichat-prompt-line-shell" data-test-container>
+            <PromptLineAutocomplete
+              @promptLine={{(fakeApi)}}
+              @mention={{mentionConfig}}
+            />
+          </div>
+        </template>,
+      );
+      dispatch({ type: 'mention', query: 'a', triggerOffset: 0 });
+      await settled();
+
+      assert.dom('.cds-aichat-autocomplete-item').exists({ count: 2 });
+      assert.deepEqual(queries, ['a']);
+    });
+
+    test('a new config re-resolves the open list', async function (assert) {
+      const mention = tracked({ trigger: '@', items: PEOPLE });
+
+      await render(
+        <template>
+          <div class="cds-aichat-prompt-line-shell" data-test-container>
+            <PromptLineAutocomplete
+              @promptLine={{(fakeApi)}}
+              @mention={{mention.value}}
+            />
+          </div>
+        </template>,
+      );
+      dispatch({ type: 'mention', query: '', triggerOffset: 0 });
+      await settled();
+      assert.dom('.cds-aichat-autocomplete-item').exists({ count: 2 });
+
+      mention.value = { trigger: '@', items: [{ id: '3', label: 'Carol' }] };
+      await settled();
+
+      assert.dom('.cds-aichat-autocomplete-item').exists({ count: 1 });
+      assert.dom('.cds-aichat-autocomplete-item').hasText('Carol');
+    });
+  });
 
   test('live repro: focusing empty (starters) then typing "@" (mention) ends up showing mention, not closed', async function (assert) {
     const { handle: api, onReady } = apiHandle();

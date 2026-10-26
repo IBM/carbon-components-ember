@@ -157,6 +157,19 @@ export default defineConfig([
             "TSInterfaceDeclaration[id.name=/Signature$/] > TSInterfaceBody > TSPropertySignature[key.name='Blocks'] TSTupleType > :not(TSNamedTupleMember, TSTypeLiteral)",
           message: 'Label block params: `default: [item: Item]`.',
         },
+        // A function modifier re-runs only for the args it reads.
+        {
+          selector:
+            "CallExpression[callee.name='modifier']:has(TSPropertySignature[key.name='Positional']) > ArrowFunctionExpression[params.length<2]",
+          message:
+            'Destructure the positional args, or the modifier never re-runs when they change.',
+        },
+        {
+          selector:
+            "CallExpression[callee.name='modifier']:has(TSPropertySignature[key.name='Named']) > ArrowFunctionExpression[params.length<3]",
+          message:
+            'Destructure the named args, or the modifier never re-runs when they change.',
+        },
       ],
     },
   },
