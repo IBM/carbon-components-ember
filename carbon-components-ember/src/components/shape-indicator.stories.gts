@@ -120,6 +120,12 @@ Compact.test(
     await expect(trigger).toHaveFocus();
     await expect(trigger).toHaveAttribute('aria-expanded', 'true');
 
+    // If the trigger lost focus here, the next Tab would land on it again
+    // and reopen the tooltip (#1241): say so instead.
+    await expect(
+      trigger.ownerDocument.activeElement,
+      'the trigger kept focus until the second Tab',
+    ).toBe(trigger);
     await userEvent.tab();
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
   },
