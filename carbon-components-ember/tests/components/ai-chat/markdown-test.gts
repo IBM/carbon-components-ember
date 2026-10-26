@@ -1,14 +1,10 @@
 import { module, test } from 'qunit';
 import type { RenderingTestContext } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, settled } from '@ember/test-helpers';
+import { render, rerender, settled } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import Markdown from '#src/components/ai-chat/markdown.gts';
-
-function delay(ms: number) {
-  return new Promise<void>((resolve) => setTimeout(resolve, ms));
-}
 
 module('Integration | Component | ai-chat/Markdown', (hooks) => {
   setupRenderingTest(hooks);
@@ -140,12 +136,11 @@ module('Integration | Component | ai-chat/Markdown', (hooks) => {
     assert.dom('.cds-aichat-markdown').hasText('v1');
 
     state.markdown = 'v2';
-    await settled();
+    await rerender();
     assert
       .dom('.cds-aichat-markdown')
       .hasText('v1', 'update is throttled, not applied synchronously');
 
-    await delay(150);
     await settled();
     assert
       .dom('.cds-aichat-markdown')

@@ -12,6 +12,7 @@
  * https://github.com/cookpete/react-player/blob/v2.15.1/LICENSE
  */
 
+import { task, timeout } from 'ember-concurrency';
 import { BaseProvider } from './base-provider.ts';
 import type { ProviderConfig } from './base-provider.ts';
 import { ScriptLoader } from '../-media/script-loader.ts';
@@ -51,7 +52,7 @@ declare global {
 
 /**
  * Ember port of `@carbon/ai-chat-components`' `SoundCloudProvider`, ported
- * verbatim. Loads the SoundCloud Widget API via the shared `ScriptLoader`
+ * verbatim but with ember-concurrency tasks for its timers. Loads the SoundCloud Widget API via the shared `ScriptLoader`
  * and drives an `<iframe>` through `window.SC.Widget`.
  */
 export class SoundCloudProvider extends BaseProvider {
@@ -104,24 +105,17 @@ export class SoundCloudProvider extends BaseProvider {
     }
 
     await ScriptLoader.load(SDK_URL);
-
-    return new Promise((resolve, reject) => {
-      const checkSC = () => {
-        if (window.SC?.Widget) {
-          resolve();
-        } else {
-          setTimeout(checkSC, 100);
-        }
-      };
-      checkSC();
-
-      setTimeout(() => {
-        if (!window.SC?.Widget) {
-          reject(new Error(this.config.errorMessage));
-        }
-      }, 5000);
-    });
+    await this.waitForSoundCloud.perform();
   }
+
+  private waitForSoundCloud = task(async () => {
+    for (let waited = 0; !window.SC?.Widget; waited += 100) {
+      if (waited >= 5000) {
+        throw new Error(this.config.errorMessage);
+      }
+      await timeout(100);
+    }
+  });
 
   async load(url: string): Promise<void> {
     if (!this.iframe) {
