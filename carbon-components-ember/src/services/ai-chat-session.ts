@@ -7,10 +7,8 @@
 
 import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import {
-  associateDestroyableChild,
-  registerDestructor,
-} from '@ember/destroyable';
+import { associateDestroyableChild } from '@ember/destroyable';
+import { task, timeout } from 'ember-concurrency';
 
 export type ChatMessageRole = 'user' | 'assistant';
 
@@ -116,11 +114,6 @@ export class ChatSession {
 
   constructor(id: string) {
     this.id = id;
-    registerDestructor(this, () => {
-      if (this.#persistTimer !== undefined) {
-        clearTimeout(this.#persistTimer);
-      }
-    });
   }
 
   @tracked messages: ChatMessage[] = [];
@@ -155,7 +148,6 @@ export class ChatSession {
   #cancelledResponses = new Set<string>();
   #storage?: ChatSessionStorage;
   #storageKey = DEFAULT_STORAGE_KEY;
-  #persistTimer?: ReturnType<typeof setTimeout>;
 
   /** Equivalent of `instance.on()`. */
   on = <T = unknown>(
@@ -421,10 +413,7 @@ export class ChatSession {
       this.persist();
       return this.wasRehydrated;
     }
-    if (this.#persistTimer !== undefined) {
-      clearTimeout(this.#persistTimer);
-      this.#persistTimer = undefined;
-    }
+    void this.debouncedPersist.cancelAll();
     this.#storage = storage;
     this.#storageKey = key;
     this.wasRehydrated = this.rehydrate();
@@ -434,10 +423,7 @@ export class ChatSession {
   /** Stops automatic persistence. Does not clear anything already stored - see `clearPersistedSession()`. */
   disablePersistence = (): void => {
     this.#storage = undefined;
-    if (this.#persistTimer !== undefined) {
-      clearTimeout(this.#persistTimer);
-      this.#persistTimer = undefined;
-    }
+    void this.debouncedPersist.cancelAll();
   };
 
   /**
@@ -464,10 +450,11 @@ export class ChatSession {
    * can force a final write (e.g. from a `beforeunload` handler).
    */
   persist = (): void => {
-    if (this.#persistTimer !== undefined) {
-      clearTimeout(this.#persistTimer);
-      this.#persistTimer = undefined;
-    }
+    void this.debouncedPersist.cancelAll();
+    this.writeSnapshot();
+  };
+
+  private writeSnapshot(): void {
     if (!this.#storage) {
       return;
     }
@@ -484,27 +471,26 @@ export class ChatSession {
     } catch (error) {
       console.error('Failed to persist chat session', error);
     }
-  };
+  }
 
   /**
-   * Internal - debounces `persist()` for the two high-frequency mutators
+   * Internal - debounces the write `persist()` makes for the two
+   * high-frequency mutators
    * (`appendChunk()`, `setDraft()`). Not prefixed `#` like the fields above
    * since this addon's babel config doesn't enable private *methods*
    * (only private fields) - matches this file's existing convention of
    * plain, unprefixed "internal" methods.
    */
   schedulePersist(): void {
-    if (!this.#storage) {
-      return;
+    if (this.#storage) {
+      void this.debouncedPersist.perform();
     }
-    if (this.#persistTimer !== undefined) {
-      clearTimeout(this.#persistTimer);
-    }
-    this.#persistTimer = setTimeout(() => {
-      this.#persistTimer = undefined;
-      this.persist();
-    }, 250);
   }
+
+  private debouncedPersist = task({ restartable: true }, async () => {
+    await timeout(250);
+    this.writeSnapshot();
+  });
 
   rehydrate(): boolean {
     if (!this.#storage) {

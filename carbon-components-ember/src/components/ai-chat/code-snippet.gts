@@ -8,6 +8,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
+import { waitForPromise } from '@ember/test-waiters';
 import style from 'ember-style-modifier';
 import type Owner from '@ember/owner';
 import type { EditorView } from '@codemirror/view';
@@ -440,9 +441,12 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
       return;
     }
     this.isCreatingEditor = true;
-    this.destroyEditor();
-    await this.createEditor();
-    this.isCreatingEditor = false;
+    try {
+      this.destroyEditor();
+      await this.createEditor();
+    } finally {
+      this.isCreatingEditor = false;
+    }
   }
 
   /**
@@ -497,9 +501,12 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
         boolean | undefined,
       ];
     };
-  }>((element) => {
+  }>((element, [editable, hideLineNumbers, hideFold]) => {
+    // Destructuring the args re-runs the modifier when they change;
+    // createEditor() reads them from this.args.
+    void [editable, hideLineNumbers, hideFold];
     this.editorContainer = element;
-    void this.recreateEditor();
+    void waitForPromise(this.recreateEditor());
   });
 
   /** In-place diff-apply of `@code`, throttled - never a full recreate. */
@@ -539,7 +546,10 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
   syncLanguage = modifier<{
     Element: HTMLDivElement;
     Args: { Positional: [string | undefined, boolean | undefined] };
-  }>(() => {
+  }>((_element, [language, highlight]) => {
+    // Destructuring the args re-runs the modifier when they change; the
+    // body reads them after an await, which doesn't track them.
+    void [language, highlight];
     void (async () => {
       const ready = await this.ensureCodeMirrorRuntime();
       if (
@@ -585,18 +595,19 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
   });
 
   /**
-   * In-place `aria-label`/`aria-readonly`/`aria-multiline` content-attribute
-   * swap, keyed on everything `ariaLabel` (above) reads plus `@editable`
-   * (the contentAttributes compartment also carries the editor's editable
-   * state's aria-multiline, matching upstream) - fires whenever the
-   * resolved label text could have changed.
+   * In-place swap of the editor content's `aria-label`, keyed on everything
+   * `ariaLabel` (above) reads, so it fires whenever the label could have
+   * changed.
    */
   syncAriaAttrs = modifier<{
     Element: HTMLDivElement;
     Args: {
       Positional: [string | null, boolean | undefined, string, string];
     };
-  }>(() => {
+  }>((_element, [detectedLanguage, editable, readOnlyLabel, editableLabel]) => {
+    // Destructuring the args re-runs the modifier when they change; the
+    // body reads them after an await, which doesn't track them.
+    void [detectedLanguage, editable, readOnlyLabel, editableLabel];
     void (async () => {
       const ready = await this.ensureCodeMirrorRuntime();
       if (

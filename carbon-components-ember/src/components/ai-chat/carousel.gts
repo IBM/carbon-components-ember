@@ -8,6 +8,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
+import { task, timeout } from 'ember-concurrency';
 import { initCarousel } from '@carbon/utilities/carousel';
 import type {
   CarouselResponse,
@@ -109,20 +110,23 @@ export default class Carousel extends Component<CarouselSignature> {
     this.carousel?.next();
   };
 
+  mountCarousel = task(async (element: HTMLDivElement) => {
+    await timeout(100);
+    this.carousel = initCarousel(element, {
+      onViewChangeEnd: (data) => this.handleViewChangeEnd(data),
+    });
+  });
+
   // Deliberately takes no named args: `initCarousel` fully owns the DOM it's
   // given once constructed, so re-running this on every arg-identity change
   // (e.g. a fresh `@onChange` closure) would tear down and rebuild the
   // carousel, silently resetting the active view back to index 0.
   // `@onChange` is read from `this.args` inside the closure instead.
   attachCarousel = modifier<{ Element: HTMLDivElement }>((element) => {
-    const timeoutId = setTimeout(() => {
-      this.carousel = initCarousel(element, {
-        onViewChangeEnd: (data) => this.handleViewChangeEnd(data),
-      });
-    }, 100);
+    void this.mountCarousel.perform(element);
 
     return () => {
-      clearTimeout(timeoutId);
+      void this.mountCarousel.cancelAll();
       this.carousel?.destroyEvents?.();
       this.carousel = undefined;
     };
