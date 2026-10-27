@@ -6,12 +6,12 @@ import { registerDestructor } from '@ember/destroyable';
 import type { WithBoundArgs } from '@glint/template';
 import type Owner from '@ember/owner';
 import type Icon from './icon.gts';
-import didResize from 'ember-resize-modifier/modifiers/did-resize';
 import { modifier } from 'ember-modifier';
 import { runTask } from 'ember-lifeline';
 
 import TabsSkeleton from './tabs-skeleton.gts';
 import { mediaQuery, minWidth } from '../utils/media-query.ts';
+import { observeResize } from '../utils/resize-observer.ts';
 import { byDocumentPosition, RovingFocus } from '../utils/roving-focus.ts';
 
 export interface TabPaneSignature {
@@ -253,7 +253,9 @@ export default class Tabs extends Component<TabsSignature> {
 
   registerTabsDiv = modifier<{ Element: HTMLDivElement }>((element) => {
     this.tabsDivElement = element;
+    const stopObserving = observeResize(element, this.onResize);
     return () => {
+      stopObserving();
       this.tabsDivElement = undefined;
     };
   });
@@ -344,7 +346,6 @@ export default class Tabs extends Component<TabsSignature> {
           class="cds--tab--list"
           {{this.registerTabsDiv}}
           {{this.rovingFocus.container}}
-          {{didResize this.onResize}}
           {{on "scroll" this.onScroll}}
         >
           {{#each this.tabs as |tab index|}}
