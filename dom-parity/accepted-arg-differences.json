@@ -131,6 +131,15 @@
       "isFluid": "Stands in for Carbon React's FormContext, through which its FluidTextInput turns on the fluid style. Marked @internal."
     }
   },
+  "Tile": {
+    "extra": {
+      "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
+      "query": "Query params for @route, as LinkTo's @query (#1040).",
+      "href": "Carbon React's ClickableTile's href: this Tile also renders the ClickableTile (@clickable).",
+      "disabled": "Carbon React's ClickableTile's disabled: this Tile also renders the ClickableTile (@clickable)."
+    }
+  },
   "ToastNotification": {
     "extra": {
       "ariaLabel": "React's aria-label labels the close button; an aria-label attribute would label the notification."

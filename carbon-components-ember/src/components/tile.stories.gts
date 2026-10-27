@@ -36,7 +36,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     docs: {
       description: {
         component:
-          'A tile is a highly flexible component for displaying a wide variety of content. `Tile` renders a default, `@clickable`, `@selectable` or `@expandable` tile; its `content`, `above` and `below` named blocks hold the content (`above`/`below` are the always-visible and expandable parts of an expandable tile). Use `TileGroup` together with its yielded `RadioTile` to build a group of tiles where only one tile can be selected at a time.',
+          "A tile is a highly flexible component for displaying a wide variety of content. `Tile` renders a default, `@clickable`, `@selectable` or `@expandable` tile; a clickable tile is a link to its `@href`, or with `@route` to one of the app's routes, and without either Enter and Space click it; its `content`, `above` and `below` named blocks hold the content (`above`/`below` are the always-visible and expandable parts of an expandable tile). Use `TileGroup` together with its yielded `RadioTile` to build a group of tiles where only one tile can be selected at a time.",
       },
     },
   },
@@ -67,9 +67,14 @@ export const Clickable = meta.story({
   </template>,
 });
 
+// Without @href or @route it's an <a> without the link role, as in Carbon
+// React, which Enter and Space click.
 Clickable.test('calls onClick', async ({ canvas, userEvent, args }) => {
-  await userEvent.click(canvas.getByRole('link', { name: 'Clickable Tile' }));
+  await userEvent.click(canvas.getByText('Clickable Tile'));
   await expect(args.onClick).toHaveBeenCalledOnce();
+  canvas.getByText('Clickable Tile').focus();
+  await userEvent.keyboard('{Enter}');
+  await expect(args.onClick).toHaveBeenCalledTimes(2);
 });
 
 export const Selectable = meta.story({
