@@ -516,6 +516,29 @@ module('Integration | Component | Tabs', (hooks) => {
     assert.dom('.cds--tabs').hasClass('cds--layout--size-lg');
   });
 
+  test('@fullWidth applies only from the lg breakpoint', async function (assert) {
+    // eslint-disable-next-line @typescript-eslint/unbound-method -- restored below
+    const { matchMedia } = window;
+    window.matchMedia = (query: string) =>
+      Object.assign(new EventTarget(), {
+        matches: false,
+        media: query,
+      }) as unknown as MediaQueryList;
+    try {
+      await render(
+        <template>
+          <Tabs @contained={{true}} @fullWidth={{true}} as |TabPane|>
+            <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
+          </Tabs>
+        </template>,
+      );
+    } finally {
+      window.matchMedia = matchMedia;
+    }
+
+    assert.dom('.cds--tabs').doesNotHaveClass('cds--tabs--full-width');
+  });
+
   test('@size="lg" without @contained does not add the size class (line tabs cap out at md)', async function (assert) {
     await render(
       <template>
