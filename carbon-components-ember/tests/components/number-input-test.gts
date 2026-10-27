@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, fillIn, typeIn } from '@ember/test-helpers';
+import { click, fillIn, find, render, typeIn } from '@ember/test-helpers';
 import { trackedObject } from '@ember/reactive/collections';
 import NumberInput from '#src/components/number-input.gts';
 
@@ -51,13 +51,17 @@ module('Integration | Component | NumberInput', (hooks) => {
   });
 
   test('should respect the disabled and readOnly arguments', async function (assert) {
+    await render(<template><NumberInput @disabled={{true}} /></template>);
+    assert.dom('input').isDisabled();
+
+    // Read-only wins, as in Carbon React; the steppers stay disabled.
     await render(
       <template>
         <NumberInput @disabled={{true}} @readOnly={{true}} />
       </template>,
     );
 
-    assert.dom('input').isDisabled();
+    assert.dom('input').isNotDisabled();
     assert.dom('input').hasAttribute('readonly');
     assert.dom('.cds--number__control-btn.up-icon').isDisabled();
     assert.dom('.cds--number__control-btn.down-icon').isDisabled();
@@ -235,5 +239,32 @@ module('Integration | Component | NumberInput', (hooks) => {
       .hasAttribute('data-test-count');
     await click('input[type="number"]');
     assert.strictEqual(clicks, 1);
+  });
+
+  test('links its invalid, warning and helper texts by id', async function (assert) {
+    await render(
+      <template>
+        <NumberInput @label="Count" @helperText="How many" />
+      </template>,
+    );
+    assert
+      .dom('input')
+      .hasAttribute('aria-invalid', 'false')
+      .hasAttribute('aria-describedby', find('.cds--form__helper-text')!.id);
+
+    await render(
+      <template>
+        <NumberInput
+          @label="Count"
+          @max={{5}}
+          @value={{9}}
+          @invalidText="Too many"
+        />
+      </template>,
+    );
+    assert
+      .dom('input')
+      .hasAttribute('aria-invalid', 'true')
+      .hasAttribute('aria-describedby', find('.cds--form-requirement')!.id);
   });
 });

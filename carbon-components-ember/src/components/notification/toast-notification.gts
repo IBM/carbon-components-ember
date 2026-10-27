@@ -13,65 +13,35 @@ import { modifier } from 'ember-modifier';
 import Text from '../text.gts';
 import NotificationButton from './notification-button.gts';
 import NotificationIcon from './-notification-icon.gts';
+import type {
+  NotificationArgs,
+  NotificationCaptionArgs,
+  NotificationCloseHandler,
+} from './-notification-args.ts';
 import type { NotificationKind } from './-notification-icon.gts';
 
 export interface ToastNotificationSignature {
   Element: HTMLDivElement;
-  Args: {
-    /**
-     * Provide a description for the "close" icon button that can be read by
-     * screen readers. Carbon React's `aria-label`; an `aria-label` attribute
-     * would label the notification instead.
-     */
-    ariaLabel?: string;
-    /**
-     * Specify the caption.
-     */
-    caption?: string;
-    /**
-     * Specify whether the close button should be hidden.
-     */
-    hideCloseButton?: boolean;
-    /**
-     * Specify what state the notification represents. Defaults to `'error'`.
-     */
-    kind?: NotificationKind;
-    /**
-     * Specify whether you are using the low contrast variant of the
-     * ToastNotification.
-     */
-    lowContrast?: boolean;
-    /**
-     * Provide a function that is called when the notification closes, from
-     * its close button or its timeout. Return `false` to keep it open after
-     * a click on the close button.
-     */
-    onClose?: (event?: Event) => boolean | void;
-    /**
-     * Provide a function that is called when the close button is clicked.
-     */
-    onCloseButtonClick?: (event: MouseEvent) => void;
-    /**
-     * Provide a description for the "status" icon that can be read by screen
-     * readers. Defaults to `'<kind> icon'`.
-     */
-    statusIconDescription?: string;
-    /**
-     * Specify the subtitle.
-     */
-    subtitle?: string;
-    /**
-     * Specify an optional duration, in milliseconds, after which the
-     * notification closes. `0` (the default) keeps it open. Unlike Carbon
-     * React's, the countdown pauses while the pointer or focus is on the
-     * notification.
-     */
-    timeout?: number;
-    /**
-     * Specify the title.
-     */
-    title?: string;
-  };
+  Args: NotificationArgs &
+    NotificationCaptionArgs & {
+      /**
+       * Provide a function that is called when the notification closes, from
+       * its close button or its timeout. Return `false` to keep it open after
+       * a click on the close button.
+       */
+      onClose?: NotificationCloseHandler<Event | undefined>;
+      /**
+       * Provide a function that is called when the close button is clicked.
+       */
+      onCloseButtonClick?: (event: MouseEvent) => void;
+      /**
+       * Specify an optional duration, in milliseconds, after which the
+       * notification closes. `0` (the default) keeps it open. Unlike Carbon
+       * React's, the countdown pauses while the pointer or focus is on the
+       * notification.
+       */
+      timeout?: number;
+    };
   Blocks: {
     /** More content, after the caption. Don't put interactive elements here; use an `ActionableNotification` for those. */
     default: [];
@@ -90,10 +60,6 @@ export default class ToastNotification extends Component<ToastNotificationSignat
     return this.args.kind ?? 'error';
   }
 
-  get statusIconDescription() {
-    return this.args.statusIconDescription || `${this.kind} icon`;
-  }
-
   onCloseButtonClick = (event: MouseEvent) => {
     this.args.onCloseButtonClick?.(event);
     if (this.args.onClose?.(event) !== false) this.isOpen = false;
@@ -104,7 +70,8 @@ export default class ToastNotification extends Component<ToastNotificationSignat
   closeAfter = task({ restartable: true }, async (ms: number) => {
     await rawTimeout(ms);
     this.isOpen = false;
-    this.args.onClose?.();
+    // The timeout closes it with no event.
+    this.args.onClose?.(undefined);
   });
 
   // Counts `timeout` down while neither the pointer nor focus is on the toast.
@@ -171,7 +138,7 @@ export default class ToastNotification extends Component<ToastNotificationSignat
         <NotificationIcon
           @notificationType="toast"
           @kind={{this.kind}}
-          @iconDescription={{this.statusIconDescription}}
+          @iconDescription={{@statusIconDescription}}
         />
         <div class="cds--toast-notification__details">
           {{#if @title}}

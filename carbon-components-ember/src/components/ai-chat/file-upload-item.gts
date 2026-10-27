@@ -21,7 +21,7 @@ import type {
 import './file-uploads.scss';
 
 export interface FileUploadItemSignature {
-  Element: HTMLSpanElement;
+  Element: HTMLDivElement;
   Args: {
     upload: FileUpload | FileAttachment | null;
     /** Renders the chip without status or a remove button, for a file on an already-sent message. */
@@ -51,10 +51,9 @@ function isUpload(value: FileUpload | FileAttachment): value is FileUpload {
  * [`cds-aichat-file-upload-item`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/file-uploads).
  * Upstream wraps `@carbon/web-components`' `cds-file-uploader-item` and
  * patches two of its shadow-root-internal styles via injected `<style>`
- * elements, because it exposes no `part=` for either. This port instead
- * reuses this addon's own (private) `FileUploaderStatusIcon` directly and
- * writes its own markup, so those two patches - and the whole "inject a
- * style into a child's shadow root" mechanism - simply don't apply.
+ * elements, because it exposes no `part=` for either. This port renders
+ * that item's markup itself, with this addon's (private)
+ * `FileUploaderStatusIcon`, so those patches don't apply.
  */
 export default class FileUploadItem extends Component<FileUploadItemSignature> {
   @tracked failedPreviewURL: string | null = null;
@@ -133,6 +132,15 @@ export default class FileUploadItem extends Component<FileUploadItemSignature> {
     };
   }
 
+  get invalid() {
+    return !this.args.readOnly && this.uploadError.isError;
+  }
+
+  /** `cds-file-uploader-item` hides its error block unless it's invalid or has error text. */
+  get showError() {
+    return this.invalid || Boolean(this.uploadError.message);
+  }
+
   get displayName() {
     return this.resolved?.name || this.args.fallbackLabel || 'Attachment';
   }
@@ -191,74 +199,61 @@ export default class FileUploadItem extends Component<FileUploadItemSignature> {
   };
 
   <template>
-    <span
+    <div
       class="cds-aichat-file-upload-item
         {{if @readOnly 'cds-aichat-file-upload-item--read-only'}}"
       ...attributes
     >
-      {{#if this.hasImagePreview}}
-        <span class="cds-aichat-file-upload-item__preview-wrapper">
-          <img
-            class="cds-aichat-file-upload-item__preview"
-            src={{this.previewURL}}
-            width="36"
-            height="36"
-            alt=""
-            aria-hidden="true"
-            {{on "error" this.handleImageError}}
-          />
-        </span>
-      {{else if this.hasVideoPreview}}
-        <button
-          type="button"
-          class="cds-aichat-file-upload-item__preview-wrapper cds-aichat-file-upload-item__video-preview-wrapper"
-          aria-label="Play video"
-          {{on "click" this.openVideo}}
-        >
-          <video
-            class="cds-aichat-file-upload-item__preview"
-            src={{this.previewURL}}
-            width="36"
-            height="36"
-            preload="metadata"
-            muted
-            playsinline
-            aria-hidden="true"
-          ></video>
-          <span
-            class="cds-aichat-file-upload-item__play-badge"
-            aria-hidden="true"
-          >
-            <PlayFilledAlt @size="16" />
+      <p class="cds--file-filename">
+        {{#if this.hasImagePreview}}
+          <span class="cds-aichat-file-upload-item__preview-wrapper">
+            <img
+              class="cds-aichat-file-upload-item__preview"
+              src={{this.previewURL}}
+              width="36"
+              height="36"
+              alt=""
+              aria-hidden="true"
+              {{on "error" this.handleImageError}}
+            />
           </span>
-        </button>
-      {{else if this.fileTypeIcon}}
-        <span class="cds-aichat-file-upload-item__icon" aria-hidden="true">
-          <this.fileTypeIcon @size={{20}} />
-        </span>
-      {{/if}}
-
-      <span
-        class="cds-aichat-file-upload-item__name
-          {{if
-            (and
-              @readOnly
-              (not this.hasImagePreview)
-              (not this.hasVideoPreview)
-              (not this.fileTypeIcon)
-            )
-            'cds-aichat-file-upload-item__name--no-icon'
-          }}"
-        title={{this.displayName}}
-      >{{this.displayName}}</span>
-
-      {{#if (and (not @readOnly) this.iconStatus)}}
-        <span
-          class="cds-aichat-file-upload-item__status cds--file__state-container"
-        >
+        {{else if this.hasVideoPreview}}
+          <button
+            type="button"
+            class="cds-aichat-file-upload-item__preview-wrapper cds-aichat-file-upload-item__video-preview-wrapper"
+            aria-label="Play video"
+            {{on "click" this.openVideo}}
+          >
+            <video
+              class="cds-aichat-file-upload-item__preview"
+              src={{this.previewURL}}
+              width="36"
+              height="36"
+              preload="metadata"
+              muted
+              playsinline
+              aria-hidden="true"
+            ></video>
+            <span
+              class="cds-aichat-file-upload-item__play-badge"
+              aria-hidden="true"
+            >
+              <PlayFilledAlt @size="16" />
+            </span>
+          </button>
+        {{else if this.fileTypeIcon}}
+          <span class="cds-aichat-file-upload-item__icon" aria-hidden="true">
+            <this.fileTypeIcon @size={{20}} />
+          </span>
+        {{/if}}
+        {{this.displayName}}
+      </p>
+      <span class="cds--file__state-container">
+        {{#if this.iconStatus}}
           <FileUploaderStatusIcon
             @status={{this.iconStatus}}
             @name={{this.displayName}}
+            @invalid={{this.invalid}}
             @iconDescription={{if
               (eq this.iconStatus "uploading")
               (or @uploadingFileLabel "Uploading file")
@@ -266,17 +261,14 @@ export default class FileUploadItem extends Component<FileUploadItemSignature> {
             }}
             @onActivate={{this.handleRemove}}
           />
-        </span>
-      {{/if}}
-
-      {{#if
-        (and (not @readOnly) this.uploadError.isError this.uploadError.message)
-      }}
-        <span
-          class="cds-aichat-file-upload-item__error"
-          role="alert"
-        >{{this.uploadError.message}}</span>
-      {{/if}}
-    </span>
+        {{/if}}
+      </span>
+      <div class="cds--form-requirement" hidden={{not this.showError}}>
+        <div
+          class="cds--form-requirement__title"
+        >{{this.uploadError.message}}</div>
+        <p class="cds--form-requirement__supplement" hidden></p>
+      </div>
+    </div>
   </template>
 }

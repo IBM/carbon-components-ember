@@ -15,6 +15,7 @@ import WarningFilled from './icons/warning-filled.ts';
 import WarningAltFilled from './icons/warning-alt-filled.ts';
 import AILabel from './ai-label.gts';
 import ListBox from './-private/list-box/list-box.gts';
+import type { ListBoxSize } from './-private/list-box/list-box.gts';
 import ListBoxMenu from './-private/list-box/list-box-menu.gts';
 import ListBoxMenuIcon from './-private/list-box/list-box-menu-icon.gts';
 import ListBoxMenuItem from './-private/list-box/list-box-menu-item.gts';
@@ -100,9 +101,10 @@ export interface DropdownSignature<T> {
      */
     hideLabel?: boolean;
     /**
-     * Specify the size of the Dropdown.
+     * The field's height. Without it, the field follows an enclosing
+     * Layout's size.
      */
-    size?: 'sm' | 'md' | 'lg';
+    size?: ListBoxSize;
     /**
      * `default` renders the standalone field; `inline` lays the field out
      * next to its label (via flex layout classes) and suppresses the helper

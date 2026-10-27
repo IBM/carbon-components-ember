@@ -15,6 +15,7 @@ import Subtract from './icons/subtract.ts';
 import WarningFilled from './icons/warning-filled.ts';
 import WarningAltFilled from './icons/warning-alt-filled.ts';
 import AILabel from './ai-label.gts';
+import { FieldMessage, fieldState } from './-private/field.gts';
 import type { WithBoundArgs } from '@glint/template';
 
 export interface NumberInputSignature {
@@ -109,8 +110,24 @@ export default class NumberInput extends Component<NumberInputSignature> {
     );
   }
 
+  get field() {
+    return fieldState(this.id, {
+      disabled: this.args.disabled,
+      readOnly: this.args.readOnly,
+      invalid: !!this.args.invalid || this.isOutOfRange,
+      warn: this.args.warn,
+    });
+  }
+
   get isInvalid() {
-    return !!this.args.invalid || this.isOutOfRange;
+    return this.field.invalid;
+  }
+
+  // As Carbon React's: the invalid or warning text, else the helper text.
+  get describedBy() {
+    if (this.isInvalid) return this.field.invalidId;
+    if (this.isWarn) return this.field.warnId;
+    return this.args.helperText ? this.field.helperId : undefined;
   }
 
   get steppersDisabled() {
@@ -118,7 +135,7 @@ export default class NumberInput extends Component<NumberInputSignature> {
   }
 
   get isWarn() {
-    return this.isInvalid ? false : !!this.args.warn;
+    return this.field.warn;
   }
 
   get incrementLabel() {
@@ -220,8 +237,9 @@ export default class NumberInput extends Component<NumberInputSignature> {
           <label
             for={{this.id}}
             class="cds--label
-              {{if @disabled 'cds--label--disabled'}}
+              {{if this.field.disabled 'cds--label--disabled'}}
               {{if @hideLabel 'cds--visually-hidden'}}"
+            dir="auto"
           >
             {{@label}}
           </label>
@@ -235,13 +253,14 @@ export default class NumberInput extends Component<NumberInputSignature> {
             }}"
         >
           <input
+            aria-describedby={{this.describedBy}}
             ...attributes
             id={{this.id}}
             type="number"
             data-invalid={{if this.isInvalid "true"}}
-            aria-invalid={{if this.isInvalid "true"}}
+            aria-invalid={{if this.isInvalid "true" "false"}}
             aria-readonly={{if @readOnly "true"}}
-            disabled={{@disabled}}
+            disabled={{this.field.disabled}}
             readonly={{@readOnly}}
             min={{@min}}
             max={{@max}}
@@ -293,16 +312,13 @@ export default class NumberInput extends Component<NumberInputSignature> {
             </div>
           {{/unless}}
         </div>
-        {{#if this.isInvalid}}
-          <div class="cds--form-requirement">{{@invalidText}}</div>
-        {{else if this.isWarn}}
-          <div class="cds--form-requirement">{{@warnText}}</div>
-        {{else if @helperText}}
-          <div
-            class="cds--form__helper-text
-              {{if @disabled 'cds--form__helper-text--disabled'}}"
-          >{{@helperText}}</div>
-        {{/if}}
+        <FieldMessage
+          @field={{this.field}}
+          @invalidText={{@invalidText}}
+          @warnText={{@warnText}}
+          @helperText={{@helperText}}
+          @disabled={{@disabled}}
+        />
       </div>
     </div>
   </template>

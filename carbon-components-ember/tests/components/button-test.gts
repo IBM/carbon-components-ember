@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import { setupApplicationTest, setupRenderingTest } from 'ember-qunit';
 import { render, click, find, rerender } from '@ember/test-helpers';
 import Button from '#src/components/button.gts';
 import Add from '#src/components/icons/add.ts';
@@ -13,6 +13,8 @@ import {
   disableCarbonStyles,
   enableCarbonStyles,
   nonce,
+  setupRoutes,
+  visitWith,
 } from '../helpers';
 
 module('Integration | Component | Button', (hooks) => {
@@ -305,5 +307,35 @@ module('Integration | Component | Button', (hooks) => {
         'cds--btn--disabled',
         'class names should include cds--btn--disabled',
       );
+  });
+});
+
+module('Integration | Component | Button > with @route', function (hooks) {
+  setupApplicationTest(hooks);
+  setupRoutes(hooks);
+
+  test('renders a link to the route, styled as a button', async function (assert) {
+    await visitWith(
+      this,
+      <template>
+        <Button @route="settings">Settings</Button>
+      </template>,
+    );
+    assert.dom('a.cds--btn').hasAttribute('href', '/settings');
+
+    await click('a.cds--btn');
+    const router = this.owner.lookup('service:router');
+    assert.strictEqual(router.currentRouteName, 'settings');
+  });
+
+  test('a disabled one is a disabled button', async function (assert) {
+    await visitWith(
+      this,
+      <template>
+        <Button @route="settings" @disabled={{true}}>Settings</Button>
+      </template>,
+    );
+    assert.dom('a').doesNotExist();
+    assert.dom('button.cds--btn').isDisabled();
   });
 });

@@ -10,6 +10,7 @@ import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { modifier } from 'ember-modifier';
 import Tooltip from '../tooltip.gts';
+import { isTruncated } from '../../utils/truncation.ts';
 import FileUploaderStatusIcon from './-status-icon.gts';
 
 export interface FileUploaderItemSignature {
@@ -47,7 +48,7 @@ const measureEllipsis = modifier<{
   Args: { Named: { onMeasure: (active: boolean) => void; name?: string } };
 }>((element, _positional, { onMeasure, name }) => {
   void name;
-  onMeasure(element.offsetWidth < element.scrollWidth);
+  onMeasure(isTruncated(element));
 });
 
 /**
@@ -134,6 +135,7 @@ export default class FileUploaderItem extends Component<FileUploaderItemSignatur
           <FileUploaderStatusIcon
             @status={{this.status}}
             @name={{@name}}
+            @invalid={{@invalid}}
             @disabled={{@disabled}}
             @iconDescription={{@iconDescription}}
             @onActivate={{this.handleDelete}}
