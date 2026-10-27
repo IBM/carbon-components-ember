@@ -72,7 +72,8 @@ module('Integration | Component | FluidTextInput', (hooks) => {
       </template>,
     );
 
-    assert.dom('input.cds--text-input').isDisabled();
+    // Read-only wins, as in Carbon React.
+    assert.dom('input.cds--text-input').isNotDisabled();
     assert.dom('input.cds--text-input').hasAttribute('readonly');
     assert
       .dom('.cds--text-input-wrapper')
@@ -244,8 +245,8 @@ module('Integration | Component | FluidTextInput', (hooks) => {
 
     assert.dom('input.cds--text-input').hasAttribute('type', 'password');
     assert
-      .dom('.cds--text-input--password__visibility__toggle')
-      .hasAttribute('aria-label', 'Show password');
+      .dom('.cds--toggle-password-tooltip .cds--popover-content')
+      .hasText('Show password');
     assert
       .dom('.cds--text-input--password__visibility__toggle')
       .hasClass('cds--tooltip__trigger');
@@ -255,8 +256,8 @@ module('Integration | Component | FluidTextInput', (hooks) => {
 
     assert.dom('input.cds--text-input').hasAttribute('type', 'text');
     assert
-      .dom('.cds--text-input--password__visibility__toggle')
-      .hasAttribute('aria-label', 'Hide password');
+      .dom('.cds--toggle-password-tooltip .cds--popover-content')
+      .hasText('Hide password');
   });
 
   test('should disable the password toggle when disabled', async function (assert) {
@@ -290,14 +291,14 @@ module('Integration | Component | FluidTextInput', (hooks) => {
     );
 
     assert
-      .dom('.cds--text-input--password__visibility__toggle')
-      .hasAttribute('aria-label', 'Reveal');
+      .dom('.cds--toggle-password-tooltip .cds--popover-content')
+      .hasText('Reveal');
 
     await click('.cds--text-input--password__visibility__toggle');
 
     assert
-      .dom('.cds--text-input--password__visibility__toggle')
-      .hasAttribute('aria-label', 'Conceal');
+      .dom('.cds--toggle-password-tooltip .cds--popover-content')
+      .hasText('Conceal');
     assert.strictEqual(callCount, 1);
   });
 
@@ -338,5 +339,17 @@ module('Integration | Component | FluidTextInput', (hooks) => {
 
     assert.dom('input.cds--password-input').hasClass('my-field');
     assert.dom('.cds--text-input--fluid').doesNotHaveClass('my-field');
+  });
+
+  test('renders no label without one, as Carbon React', async function (assert) {
+    await render(<template><FluidTextInput @placeholder="Name" /></template>);
+    assert.dom('label.cds--label').doesNotExist();
+
+    await render(
+      <template>
+        <FluidTextInput @placeholder="Password" @isPassword={{true}} />
+      </template>,
+    );
+    assert.dom('label.cds--label').doesNotExist();
   });
 });
