@@ -1,8 +1,8 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import { modifier } from 'ember-modifier';
 import { task, timeout } from 'ember-concurrency';
+import captureElement from '../modifiers/capture-element.ts';
 import copyToClipboard from '../modifiers/copy-to-clipboard.ts';
 import { textOf } from '../utils/clipboard.ts';
 import CopyTrigger from './-private/copy-trigger.gts';
@@ -33,13 +33,6 @@ export interface CopyButtonSignature {
     default: [];
   };
 }
-
-const captureElement = modifier<{
-  Element: HTMLElement;
-  Args: { Named: { onInsert: (element: HTMLElement) => void } };
-}>((element, _positional, { onInsert }) => {
-  onInsert(element);
-});
 
 // Drops the template's own indentation around the copied text, keeping the
 // code's.
@@ -129,10 +122,7 @@ export default class CopyButton extends Component<CopyButtonSignature> {
         ...attributes
         {{copyToClipboard text=this.textToCopy onSuccess=this.showFeedback}}
       >
-        <code
-          id={{this.codeId}}
-          {{captureElement onInsert=this.captureCodeElement}}
-        >
+        <code id={{this.codeId}} {{captureElement this.captureCodeElement}}>
           {{~yield~}}
         </code>
       </CopyTrigger>
@@ -152,7 +142,7 @@ export default class CopyButton extends Component<CopyButtonSignature> {
           {{#if (has-block)}}
             <code
               class="cds--visually-hidden"
-              {{captureElement onInsert=this.captureCodeElement}}
+              {{captureElement this.captureCodeElement}}
             >
               {{~yield~}}
             </code>

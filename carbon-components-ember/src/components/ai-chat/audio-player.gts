@@ -18,9 +18,8 @@ import {
 import type { BaseProvider } from './-audio-player/base-provider.ts';
 import { NativeAudioProvider } from './-audio-player/native-audio-provider.ts';
 import { SoundCloudProvider } from './-audio-player/soundcloud-provider.ts';
+import { LOADING_TIMEOUT_MS } from './-media/loading-timeout.ts';
 import './audio-player.scss';
-
-const LOADING_TIMEOUT_MS = 10000;
 
 export interface AudioPlayerSignature {
   Element: HTMLDivElement;

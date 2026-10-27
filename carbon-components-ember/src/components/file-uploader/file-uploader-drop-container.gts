@@ -8,7 +8,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import captureElement from './-capture-element.ts';
+import captureElement from '../../modifiers/capture-element.ts';
 
 export type FileUploaderAddedFile = File & { invalidFileType?: boolean };
 
@@ -215,7 +215,7 @@ export default class FileUploaderDropContainer extends Component<FileUploaderDro
         accept={{this.acceptAttr}}
         name={{@name}}
         multiple={{@multiple}}
-        {{captureElement onInsert=this.setInputElement}}
+        {{captureElement this.setInputElement}}
         {{on "change" this.handleInputChange}}
         {{on "click" this.resetInputValue}}
       />

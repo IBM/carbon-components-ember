@@ -2,10 +2,10 @@ import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import { modifier } from 'ember-modifier';
 import type { WithBoundArgs } from '@glint/template';
 import ToggletipButtonComponent from './toggletip/toggletip-button.gts';
 import ToggletipContentComponent from './toggletip/toggletip-content.gts';
+import captureElement from '../modifiers/capture-element.ts';
 import closeOnOutsideClick from '../modifiers/close-on-outside-click.ts';
 import Popover from './popover.gts';
 
@@ -75,9 +75,9 @@ export default class Toggletip extends Component<ToggletipSignature> {
     }
   };
 
-  registerElement = modifier((element: HTMLElement) => {
+  setElement = (element: HTMLElement) => {
     this.element = element;
-  });
+  };
 
   onOutsideClick = () => {
     if (this.open) this.open = false;
@@ -106,7 +106,7 @@ export default class Toggletip extends Component<ToggletipSignature> {
       @dropShadow={{false}}
       @highContrast={{true}}
       @open={{this.open}}
-      {{this.registerElement}}
+      {{captureElement this.setElement}}
       {{closeOnOutsideClick this.onOutsideClick capture=true onWindowBlur=true}}
       {{on "keydown" this.onKeyDown}}
       {{on "focusout" this.onFocusOut}}
