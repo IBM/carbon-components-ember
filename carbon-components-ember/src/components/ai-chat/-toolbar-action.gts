@@ -9,6 +9,7 @@ import Component from '@glimmer/component';
 import Button from '../button.gts';
 import type { ButtonSignature } from '../button.gts';
 import Tooltip from '../tooltip.gts';
+import RouterLink from '../-private/router-link.gts';
 import type { TooltipSignature } from '../tooltip.gts';
 import type { ToolbarAction } from './toolbar.gts';
 
@@ -21,7 +22,8 @@ export interface ToolbarActionButtonSignature {
 
 /**
  * A single toolbar action rendered as an icon-only ghost button (or, when
- * `href` is set, a matching-styled link), with a tooltip showing its label.
+ * `href` or `route` is set, a matching-styled link), with a tooltip showing
+ * its label.
  * Shared between `Toolbar`'s visible row and its offscreen measurement row -
  * see `toolbar.gts`.
  */
@@ -30,19 +32,26 @@ export default class ToolbarActionButton extends Component<ToolbarActionButtonSi
     this.args.action.onClick?.();
   };
 
+  // As upstream's, a link action calls its onClick too.
   handleLinkClick = (event: MouseEvent) => {
     if (this.args.action.disabled) {
       event.preventDefault();
       event.stopPropagation();
+      return;
     }
+    this.args.action.onClick?.();
   };
 
   <template>
-    {{#if @action.href}}
+    {{#if (or @action.href @action.route)}}
       <Tooltip @label={{@action.text}} @align="bottom" ...attributes>
-        <a
-          href={{unless @action.disabled @action.href}}
-          target={{if @action.href (or @action.target "_self")}}
+        {{! Disabled, it's a link to nowhere. }}
+        <RouterLink
+          @href={{unless @action.disabled @action.href}}
+          @route={{unless @action.disabled @action.route}}
+          @models={{@action.models}}
+          @query={{@action.query}}
+          target={{or @action.target "_self"}}
           class="cds--btn cds--btn--icon-only cds--btn--ghost cds--layout--size-{{or
               @action.size
               'md'
@@ -54,7 +63,7 @@ export default class ToolbarActionButton extends Component<ToolbarActionButtonSi
           {{on "click" this.handleLinkClick}}
         >
           <@action.icon @size={{16}} />
-        </a>
+        </RouterLink>
       </Tooltip>
     {{else}}
       <Button
