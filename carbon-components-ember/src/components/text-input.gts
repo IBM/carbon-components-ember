@@ -6,6 +6,7 @@ import { concat } from '@ember/helper';
 import WarningFilled from './icons/warning-filled.ts';
 import WarningAltFilled from './icons/warning-alt-filled.ts';
 import AILabel from './ai-label.gts';
+import { FieldMessage, fieldState } from './-private/field.gts';
 import type { WithBoundArgs } from '@glint/template';
 
 export interface TextInputSignature {
@@ -38,9 +39,19 @@ export interface TextInputSignature {
      * `onChange`; the value is `event.target.value`.
      */
     onChange?: (event: Event & { target: HTMLInputElement }) => void;
+    /**
+     * @internal Set by FluidTextInput, as Carbon React's `FormContext`: the
+     * fluid style, with the invalid or warning text inside the field.
+     */
+    isFluid?: boolean;
   };
   Element: HTMLInputElement;
   Blocks: {
+    /**
+     * The label, in place of `@labelText`, when it's more than plain text,
+     * such as formatted text or a required marker.
+     */
+    labelText: [];
     /**
      * **Experimental:** an AI label, or any other decorator, shown in the field.
      * Yields an `AILabel` already set up for it.
@@ -77,12 +88,24 @@ export default class TextInput extends Component<TextInputSignature> {
     return this.args.type ?? 'text';
   }
 
+  get field() {
+    return fieldState(this.id, this.args);
+  }
+
   get isInvalid() {
-    return !!this.args.invalid;
+    return this.field.invalid;
   }
 
   get isWarn() {
-    return this.isInvalid ? false : !!this.args.warn;
+    return this.field.warn;
+  }
+
+  // The invalid or warning text, else the helper text. Carbon React only
+  // makes the invalid text the error message, which nothing announces.
+  get describedBy() {
+    if (this.isInvalid) return this.field.invalidId;
+    if (this.isWarn) return this.field.warnId;
+    return this.args.helperText ? this.field.helperId : undefined;
   }
 
   get count() {
@@ -111,14 +134,19 @@ export default class TextInput extends Component<TextInputSignature> {
         {{@className}}"
     >
       <div class="cds--text-input__label-wrapper">
-        {{#if @labelText}}
+        {{#if (or (has-block "labelText") @labelText)}}
           <label
             for={{this.id}}
             class="cds--label
               {{if @hideLabel 'cds--visually-hidden'}}
-              {{if @disabled 'cds--label--disabled'}}"
+              {{if this.field.disabled 'cds--label--disabled'}}"
+            dir="auto"
           >
-            {{@labelText}}
+            {{#if (has-block "labelText")}}
+              {{yield to="labelText"}}
+            {{else}}
+              {{@labelText}}
+            {{/if}}
           </label>
         {{/if}}
         {{#if this.showCounter}}
@@ -140,6 +168,8 @@ export default class TextInput extends Component<TextInputSignature> {
           data-invalid={{if this.isInvalid "true"}}
         >
           <input
+            aria-describedby={{this.describedBy}}
+            aria-errormessage={{if this.isInvalid this.field.invalidId}}
             ...attributes
             id={{this.id}}
             type={{this.type}}
@@ -150,7 +180,7 @@ export default class TextInput extends Component<TextInputSignature> {
               {{if this.isInvalid 'cds--text-input--invalid'}}
               {{if this.isWarn 'cds--text-input--warning'}}"
             placeholder={{@placeholder}}
-            disabled={{@disabled}}
+            disabled={{this.field.disabled}}
             readonly={{@readOnly}}
             aria-invalid={{if this.isInvalid "true"}}
             data-invalid={{if this.isInvalid "true"}}
@@ -181,17 +211,24 @@ export default class TextInput extends Component<TextInputSignature> {
           >
             {{#if this.isOverCountLimit}}{{this.count}}/{{@maxCount}}{{/if}}
           </span>
+          {{#if @isFluid}}
+            <hr class="cds--text-input__divider" />
+            <FieldMessage
+              @field={{this.field}}
+              @invalidText={{@invalidText}}
+              @warnText={{@warnText}}
+            />
+          {{/if}}
         </div>
-        {{#if this.isInvalid}}
-          <div class="cds--form-requirement">{{@invalidText}}</div>
-        {{else if this.isWarn}}
-          <div class="cds--form-requirement">{{@warnText}}</div>
-        {{else if @helperText}}
-          <div
-            class="cds--form__helper-text
-              {{if @disabled 'cds--form__helper-text--disabled'}}"
-          >{{@helperText}}</div>
-        {{/if}}
+        {{#unless @isFluid}}
+          <FieldMessage
+            @field={{this.field}}
+            @invalidText={{@invalidText}}
+            @warnText={{@warnText}}
+            @helperText={{@helperText}}
+            @disabled={{this.field.disabled}}
+          />
+        {{/unless}}
       </div>
     </div>
   </template>

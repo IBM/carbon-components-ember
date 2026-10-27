@@ -121,6 +121,16 @@
       "query": "Query params for @route, as LinkTo's @query (#1040)."
     }
   },
+  "PasswordInput": {
+    "extra": {
+      "isFluid": "Stands in for Carbon React's FormContext, through which its FluidTextInput turns on the fluid style. Marked @internal."
+    }
+  },
+  "TextInput": {
+    "extra": {
+      "isFluid": "Stands in for Carbon React's FormContext, through which its FluidTextInput turns on the fluid style. Marked @internal."
+    }
+  },
   "Tile": {
     "extra": {
       "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
