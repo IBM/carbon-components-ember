@@ -9,10 +9,15 @@ import { concat } from '@ember/helper';
 
 import type { TOC } from '@ember/component/template-only';
 
+/** The list boxes' heights, as Carbon React's `listBoxSizes`. */
+export const listBoxSizes = ['xs', 'sm', 'md', 'lg'] as const;
+
+export type ListBoxSize = (typeof listBoxSizes)[number];
+
 export interface ListBoxSignature {
   Element: HTMLDivElement;
   Args: {
-    size?: 'xs' | 'sm' | 'md' | 'lg';
+    size?: ListBoxSize;
     type?: 'default' | 'inline';
     disabled?: boolean;
     isOpen?: boolean;

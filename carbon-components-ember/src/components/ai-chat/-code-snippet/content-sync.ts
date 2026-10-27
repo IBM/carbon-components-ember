@@ -13,55 +13,46 @@
  * editor doesn't reset the whole doc (and scroll position/selection) on
  * every token. The only real change from upstream: a small local
  * leading+trailing throttle instead of `lodash-es/throttle`, since this
- * addon has no existing `lodash-es` dependency and the behavior needed
- * (invoke immediately, then at most once more per interval with the
- * latest args) is a dozen lines.
+ * addon has no existing `lodash-es` dependency. It waits with an
+ * ember-concurrency task, so tests wait for it too.
  */
+import { task, timeout } from 'ember-concurrency';
 import type { EditorView } from '@codemirror/view';
 
-function throttle(fn: (value: string) => void, ms: number) {
-  let timer: number | null = null;
-  let pendingValue: string | null = null;
-  let lastRun = 0;
+// Calls `fn` at once, then at most once more per `ms` with the latest value.
+class Throttle {
+  #lastRun = 0;
+  #pending: string | null = null;
+  private readonly fn: (value: string) => void;
+  private readonly ms: number;
 
-  function invoke(value: string) {
-    lastRun = Date.now();
-    pendingValue = null;
-    fn(value);
+  constructor(fn: (value: string) => void, ms: number) {
+    this.fn = fn;
+    this.ms = ms;
   }
 
-  function run(value: string) {
-    const now = Date.now();
-    const remaining = ms - (now - lastRun);
-    if (remaining <= 0) {
-      if (timer !== null) {
-        window.clearTimeout(timer);
-        timer = null;
-      }
-      invoke(value);
-      return;
-    }
-
-    pendingValue = value;
-    if (timer === null) {
-      timer = window.setTimeout(() => {
-        timer = null;
-        if (pendingValue !== null) {
-          invoke(pendingValue);
-        }
-      }, remaining);
-    }
+  run(value: string) {
+    this.#pending = value;
+    void this.flush.perform();
   }
 
-  function cancel() {
-    if (timer !== null) {
-      window.clearTimeout(timer);
-      timer = null;
-    }
-    pendingValue = null;
+  cancel() {
+    this.#pending = null;
+    void this.flush.cancelAll();
   }
 
-  return { run, cancel };
+  private flush = task({ drop: true }, async () => {
+    const remaining = this.ms - (Date.now() - this.#lastRun);
+    if (remaining > 0) {
+      await timeout(remaining);
+    }
+    const value = this.#pending;
+    if (value !== null) {
+      this.#lastRun = Date.now();
+      this.#pending = null;
+      this.fn(value);
+    }
+  });
 }
 
 interface ContentSyncHooks {
@@ -80,7 +71,7 @@ export function createContentSync({
   onAfterApply,
   throttleMs = 200,
 }: ContentSyncHooks): ContentSyncHandle {
-  const throttled = throttle((content: string) => {
+  const throttled = new Throttle((content: string) => {
     const view = getEditorView();
     if (!view) {
       return;

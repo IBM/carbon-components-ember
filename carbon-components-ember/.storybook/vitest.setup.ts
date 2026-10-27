@@ -92,14 +92,21 @@ afterEach(async ({ story, task }) => {
   // `fonts.ready` waits for every font the story uses.
   document.documentElement.getBoundingClientRect();
   await document.fonts.ready;
+  // And for images, which can finish after the story renders. A broken one
+  // still counts as done; a lazy one offscreen would never load.
+  await Promise.all(
+    Array.from(document.images)
+      .filter((image) => image.loading !== 'lazy')
+      .map((image) => image.decode().catch(() => {})),
+  );
   try {
     // The whole page, for what renders outside the story's root: modals in
     // the top layer, popovers in portals.
     await expect.element(document.documentElement).toMatchScreenshot(name, {
       screenshotOptions: { animations: 'disabled' },
       // To find two screenshots in a row that match. Each can take a few
-      // seconds while the other story files boot.
-      timeout: 15_000,
+      // seconds while the other story files boot, and more on a busy runner.
+      timeout: 30_000,
     });
   } catch (error) {
     const { message } = error as Error;
@@ -110,4 +117,6 @@ afterEach(async ({ story, task }) => {
     }
     console.warn(error);
   }
-});
+  // Above browser mode's 30-second hook default, which would otherwise cut
+  // the waits and the matcher short.
+}, 60_000);

@@ -12,6 +12,7 @@ Follow AGENTS.md's patterns, conventions and pitfalls at each step.
 - [ ] Map each React construct to its Ember idiom
 - [ ] Create `.gts` file in `carbon-components-ember/src/components/`
 - [ ] Define TypeScript signature — fully typed, no `any`
+- [ ] Reuse the args, types and helpers that exist instead of copying them (AGENTS.md, "Declare each arg, type and helper once")
 - [ ] Use `cds--` prefix for CSS classes
 - [ ] Export it: run `pnpm generate` to regenerate public barrel exports
 - [ ] Match React's props: `pnpm --filter dom-parity args --component <Name>`

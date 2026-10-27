@@ -11,6 +11,8 @@ The port target is the Lit-based framework-agnostic widget library `@carbon/ai-c
 
 AI Chat's components live in `src/components/ai-chat/` and are exported from their own barrel, `carbon-components-ember/ai-chat`, as upstream's are from a package of their own. So they take upstream's names even where Carbon React has a component of the same name: `ai-chat/code-snippet.gts` exports `CodeSnippet` from `carbon-components-ember/ai-chat`, next to Carbon's `CodeSnippet` in `carbon-components-ember/components`. The parity check compares each source with its own barrel.
 
+They reuse the addon's args, types and helpers (Button's `kind`, the icon type) rather than declaring their own copies; see AGENTS.md, "Declare each arg, type and helper once".
+
 ## 2. Slots and Block Mappings
 
 - Upstream kebab-case slots become camelCase named blocks (e.g. `header-after` -> `<:headerAfter>`).

@@ -104,7 +104,10 @@ export default class Feedback extends Component<FeedbackSignature> {
   watchInitialValues = modifier<{
     Element: HTMLDivElement;
     Args: { Positional: [FeedbackDetails | null | undefined] };
-  }>(() => {
+  }>((_element, [initialValues]) => {
+    // Destructuring it re-runs the modifier when it changes;
+    // applyInitialValues() reads it from this.args.
+    void initialValues;
     this.applyInitialValues();
   });
 

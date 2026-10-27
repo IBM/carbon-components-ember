@@ -1,7 +1,9 @@
 import { module, test } from 'qunit';
 import type { RenderingTestContext } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { find, render, settled } from '@ember/test-helpers';
+import { tracked } from '@glimmer/tracking';
+import Modal from '#src/components/modal.gts';
 import Portal from '#src/components/portal.gts';
 
 module('Integration | Component | Portal', (hooks) => {
@@ -44,6 +46,27 @@ module('Integration | Component | Portal', (hooks) => {
     assert.dom('[data-test-existing]', container).hasText('Existing');
     assert.dom('[data-test-portal-content]', container).hasText('Hello');
     container.remove();
+  });
+
+  test('without @container it renders into an open Modal, and back', async function (assert) {
+    const open = tracked(true);
+    await render(
+      <template>
+        <Portal><span data-test-layer>Layer</span></Portal>
+        <Modal @open={{open.value}} />
+      </template>,
+    );
+    assert.strictEqual(
+      document.querySelector('[data-test-layer]')?.parentElement,
+      find('dialog'),
+    );
+
+    open.value = false;
+    await settled();
+    assert.strictEqual(
+      document.querySelector('[data-test-layer]')?.parentElement,
+      document.body,
+    );
   });
 
   test('without @container it appends to document.body', async function (assert) {

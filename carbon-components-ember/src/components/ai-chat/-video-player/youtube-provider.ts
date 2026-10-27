@@ -12,6 +12,7 @@
  * https://github.com/cookpete/react-player/blob/v2.15.1/LICENSE
  */
 
+import { task, timeout } from 'ember-concurrency';
 import { BaseProvider } from './base-provider.ts';
 import type { ProviderConfig } from './base-provider.ts';
 import { ScriptLoader } from '../-media/script-loader.ts';
@@ -57,7 +58,7 @@ declare global {
 
 /**
  * Ember port of `@carbon/ai-chat-components`' `YouTubeProvider`, ported
- * verbatim. Loads the YouTube IFrame API via the shared `ScriptLoader` and
+ * verbatim but with ember-concurrency tasks for its timers. Loads the YouTube IFrame API via the shared `ScriptLoader` and
  * drives it through `window.YT.Player`.
  */
 export class YouTubeProvider extends BaseProvider {
@@ -166,16 +167,19 @@ export class YouTubeProvider extends BaseProvider {
         },
       });
 
-      setTimeout(() => {
-        this.iframe = this.playerContainer?.querySelector(
-          'iframe',
-        ) as HTMLIFrameElement;
-        if (this.iframe) {
-          this.updateAriaAttributes(this.iframe, 'loading');
-        }
-      }, 100);
+      void this.labelLoading.perform();
     }
   }
+
+  private labelLoading = task(async () => {
+    await timeout(100);
+    this.iframe = this.playerContainer?.querySelector(
+      'iframe',
+    ) as HTMLIFrameElement;
+    if (this.iframe) {
+      this.updateAriaAttributes(this.iframe, 'loading');
+    }
+  });
 
   private handleStateChange(event: { data: number }): void {
     const { YT } = window;

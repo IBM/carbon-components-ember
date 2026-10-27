@@ -259,6 +259,16 @@ module('Integration | Component | CopyButton', (hooks) => {
     assert.strictEqual(label(), 'Copy to clipboard');
   });
 
+  test('@size sizes an inline button too', async function (assert) {
+    await render(
+      <template>
+        <CopyButton @inline={{true}} @size="sm">npm</CopyButton>
+      </template>,
+    );
+
+    assert.dom(BUTTON).hasClass('cds--btn--sm');
+  });
+
   test('@copyText is copied instead of the block', async function (assert) {
     await render(
       <template>

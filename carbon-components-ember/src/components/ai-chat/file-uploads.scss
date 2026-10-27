@@ -1,9 +1,9 @@
 // Ported from `@carbon/ai-chat-components`' `file-uploads.scss` /
 // `file-upload-item.scss`. Selectors are adapted from upstream's
-// shadow-DOM `:host`/custom-element-tag selectors to plain classes; the
-// chip's own visual styling (border/radius/status layout) is new, since
-// this port renders its own markup instead of wrapping
-// `cds-file-uploader-item` - see `file-upload-item.gts`'s class doc.
+// shadow-DOM `:host`/custom-element-tag selectors to plain classes. The
+// item renders `cds-file-uploader-item`'s markup without its
+// `cds--file__selected-file` root, so the chip styles its own box and
+// overrides the Carbon rules that apply outside one.
 @use "@carbon/layout";
 @use "@carbon/styles/scss/theme";
 @use "@carbon/styles/scss/type";
@@ -61,9 +61,12 @@
 .cds-aichat-file-upload-item {
   @include type.type-style("body-compact-01");
 
-  display: inline-flex;
+  // As Carbon's selected file: the name and status, then the error below.
+  display: inline-grid;
   flex-shrink: 0;
   align-items: center;
+  gap: layout.$spacing-02 0;
+  grid-template-columns: minmax(0, 1fr) auto;
   border: 1px solid theme.$border-subtle;
   border-radius: layout.$spacing-03;
   background: theme.$layer;
@@ -129,24 +132,37 @@
   vertical-align: middle;
 }
 
-.cds-aichat-file-upload-item__name {
+// Carbon styles a <p> as body-02.
+.cds-aichat-file-upload-item .cds--file-filename {
   overflow: hidden;
-  flex: 1;
+  margin: 0;
+  font: inherit;
+  letter-spacing: inherit;
   min-inline-size: 0;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.cds-aichat-file-upload-item__status {
+.cds-aichat-file-upload-item .cds--file__state-container {
   display: inline-flex;
   flex-shrink: 0;
   align-items: center;
   margin-inline-start: layout.$spacing-03;
 }
 
-.cds-aichat-file-upload-item__error {
+// Read-only and status-less items render no affordance; upstream collapses the container too.
+.cds-aichat-file-upload-item .cds--file__state-container:not(:has(*)) {
+  display: none;
+}
+
+// Carbon hides a form requirement outside a form field (display and max-block-size).
+.cds-aichat-file-upload-item .cds--form-requirement:not([hidden]) {
   display: block;
+  overflow: visible;
+  margin: 0;
+  max-block-size: none;
   color: theme.$text-error;
+  grid-column: 1 / -1;
 
   @include type.type-style("label-01");
 }

@@ -14,6 +14,7 @@ import type {
   MultiSelectSignature,
 } from './multi-select.gts';
 import '#storybook/styles/multi-select.css';
+import { listBoxSizes } from './-private/list-box/list-box.gts';
 
 // Carbon React parity gaps (Components/MultiSelect):
 // - No `translateWithId` or (on FilterableMultiSelect) `inputProps`, and no
@@ -92,7 +93,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     },
   },
   argTypes: {
-    size: { control: 'inline-radio', options: ['xs', 'sm', 'md', 'lg'] },
+    size: { control: 'inline-radio', options: listBoxSizes },
     type: { control: 'inline-radio', options: ['default', 'inline'] },
     direction: { control: 'inline-radio', options: ['top', 'bottom'] },
     selectionFeedback: {
