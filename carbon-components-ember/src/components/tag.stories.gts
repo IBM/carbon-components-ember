@@ -9,6 +9,8 @@ import type { TagSignature } from './tag.gts';
 // Parity gaps with Carbon React's Tag stories:
 // - No `filter` arg, and no DismissibleTag, OperationalTag or
 //   SelectableTag components (React's separate Tag story files).
+// - React moves `tabIndex` to the tooltip's trigger while the label is cut
+//   off; a `tabindex` attribute here stays on the tag.
 
 const TYPES: TagSignature['Args']['type'][] = [
   'red',
@@ -33,6 +35,14 @@ type StoryArgs = TagSignature['Args'] & { label: string };
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'Components/Tag',
   component: Tag,
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'Tags label, categorize or organize items with a keyword or two. `@type` picks the color, `@size` the size (`sm`, `md` or `lg`), and `@renderIcon` adds an icon. A label too long for the tag is cut off and shows in a tooltip on a press or focus, as in Carbon React. Its `<:decorator>` block takes an AI label.',
+      },
+    },
+  },
   args: {
     label: 'Tag content',
     type: 'gray',
@@ -88,8 +98,16 @@ export const Disabled = meta.story({
   },
 });
 
-// One tag of every type.
+// One tag of every type; the first one's label is cut off.
 export const ReadOnly = meta.story({
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'One tag of every type. The first label is too long for its tag, so it is cut off and shows in a tooltip on a press or focus.',
+      },
+    },
+  },
   render: (args: StoryArgs) => <template>
     <div>
       {{#each TYPES as |type index|}}

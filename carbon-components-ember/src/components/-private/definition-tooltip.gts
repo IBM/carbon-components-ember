@@ -25,9 +25,9 @@ export interface DefinitionTooltipSignature {
      */
     autoAlign?: boolean;
     /**
-     * The text shown in the tooltip.
+     * The text shown in the tooltip, unless the `definition` block is given.
      */
-    definition: string;
+    definition?: string;
     /**
      * Open the tooltip on hover, not only on focus/click.
      */
@@ -39,12 +39,14 @@ export interface DefinitionTooltipSignature {
   };
   Blocks: {
     default: [];
+    /** What the tooltip shows, in place of `@definition`. */
+    definition: [];
   };
 }
 
 /**
  * Port of `@carbon/react`'s `DefinitionTooltip`, used by `IconIndicator` and
- * `ShapeIndicator` in compact mode.
+ * `ShapeIndicator` in compact mode, and by `Tag` for a cut-off label.
  *
  * The panel spans are written out here instead of using `PopoverContent`.
  * Upstream's `PopoverContent` puts `id` (and every other prop) on the outer
@@ -119,7 +121,11 @@ export default class DefinitionTooltip extends Component<DefinitionTooltipSignat
       </button>
       <span class="cds--popover" id={{this.tooltipId}}>
         <span class="cds--popover-content cds--definition-tooltip">
-          {{@definition}}
+          {{#if (has-block "definition")}}
+            {{yield to="definition"}}
+          {{else}}
+            {{@definition}}
+          {{/if}}
           {{#if @autoAlign}}
             <span class="cds--popover-caret cds--popover--auto-align"></span>
           {{/if}}

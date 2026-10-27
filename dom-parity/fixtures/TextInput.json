@@ -1,8 +1,8 @@
 {
   "component": "TextInput",
-  "generatedAt": "2026-10-04T14:24:38.919Z",
+  "generatedAt": "2026-10-23T12:13:58.734Z",
   "carbonReactVersion": "1.114.0",
-  "reactVersion": "19.3.0",
+  "reactVersion": "19.3.1",
   "variants": {
     "default": {
       "props": {},
@@ -365,7 +365,7 @@
                       "id": "#1",
                       "data-invalid": "true",
                       "aria-invalid": "true",
-                      "aria-errormessage": "text-input-1-error-msg",
+                      "aria-errormessage": "#2",
                       "type": "text"
                     },
                     "style": {},

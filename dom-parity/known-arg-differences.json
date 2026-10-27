@@ -117,9 +117,6 @@
       "autoAlign",
       "renderSelectedItem",
       "translateWithId"
-    ],
-    "values": [
-      "size"
     ]
   },
   "FileUploaderButton": {

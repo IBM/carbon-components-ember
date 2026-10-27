@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn, click } from '@ember/test-helpers';
+import { click, fillIn, find, render } from '@ember/test-helpers';
 import PasswordInput from '#src/components/password-input.gts';
 
 module('Integration | Component | PasswordInput', (hooks) => {
@@ -168,5 +168,34 @@ module('Integration | Component | PasswordInput', (hooks) => {
       .hasAttribute('autocomplete');
     await click('input.cds--password-input');
     assert.strictEqual(clicks, 1);
+  });
+
+  test('links its invalid, warning and helper texts by id', async function (assert) {
+    const input = 'input.cds--password-input';
+    await render(
+      <template>
+        <PasswordInput @labelText="Password" @helperText="8 characters" />
+      </template>,
+    );
+    const helper = find('.cds--form__helper-text')!;
+    assert.dom(helper).doesNotHaveAttribute('dir');
+    assert.dom(input).hasAttribute('aria-describedby', helper.id);
+
+    await render(
+      <template>
+        <PasswordInput
+          @labelText="Password"
+          @inline={{true}}
+          @helperText="8 characters"
+          @invalid={{true}}
+          @invalidText="Too short"
+        />
+      </template>,
+    );
+    const error = find('.cds--form-requirement')!;
+    assert
+      .dom(input)
+      .hasAttribute('aria-errormessage', error.id)
+      .hasAttribute('aria-describedby', error.id);
   });
 });

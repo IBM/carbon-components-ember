@@ -5,6 +5,7 @@ import { guidFor } from '@ember/object/internals';
 import WarningFilled from './icons/warning-filled.ts';
 import WarningAltFilled from './icons/warning-alt-filled.ts';
 import AILabel from './ai-label.gts';
+import { FieldMessage, fieldState } from './-private/field.gts';
 import type { WithBoundArgs } from '@glint/template';
 import './text-area.scss';
 
@@ -73,12 +74,28 @@ export default class TextArea extends Component<TextAreaSignature> {
     return this.args.rows ?? 4;
   }
 
+  // Carbon React's TextArea leaves disabled and read-only out of it.
+  get field() {
+    return fieldState(this.id, {
+      invalid: this.args.invalid,
+      warn: this.args.warn,
+    });
+  }
+
   get isInvalid() {
-    return !!this.args.invalid;
+    return this.field.invalid;
   }
 
   get isWarn() {
-    return this.isInvalid ? false : !!this.args.warn;
+    return this.field.warn;
+  }
+
+  // As Carbon React's: the warning, else the helper text. The invalid text
+  // is the textarea's error message instead.
+  get describedBy() {
+    if (this.isInvalid) return undefined;
+    if (this.isWarn) return this.field.warnId;
+    return this.args.helperText ? this.field.helperId : undefined;
   }
 
   get wordCount() {
@@ -125,6 +142,7 @@ export default class TextArea extends Component<TextAreaSignature> {
             class="cds--label
               {{if @hideLabel 'cds--visually-hidden'}}
               {{if @disabled 'cds--label--disabled'}}"
+            dir="auto"
           >
             {{@labelText}}
           </label>
@@ -155,6 +173,8 @@ export default class TextArea extends Component<TextAreaSignature> {
         {{/if}}
         <textarea
           maxlength={{this.maxLength}}
+          aria-describedby={{this.describedBy}}
+          aria-errormessage={{if this.isInvalid this.field.invalidId}}
           ...attributes
           id={{this.id}}
           class="cds--text-area
@@ -166,7 +186,8 @@ export default class TextArea extends Component<TextAreaSignature> {
           placeholder={{@placeholder}}
           disabled={{@disabled}}
           readonly={{@readOnly}}
-          aria-invalid={{if this.isInvalid "true"}}
+          aria-invalid={{if this.isInvalid "true" "false"}}
+          aria-readonly={{if @readOnly "true"}}
           data-invalid={{if this.isInvalid "true"}}
           {{on "input" this.updateValue}}
           {{on "keydown" this.handleKeyDown}}
@@ -185,16 +206,14 @@ export default class TextArea extends Component<TextAreaSignature> {
           {{#if this.isOverCountLimit}}{{this.count}}/{{@maxCount}}{{/if}}
         </span>
       </div>
-      {{#if this.isInvalid}}
-        <div class="cds--form-requirement">{{@invalidText}}</div>
-      {{else if this.isWarn}}
-        <div class="cds--form-requirement">{{@warnText}}</div>
-      {{else if @helperText}}
-        <div
-          class="cds--form__helper-text
-            {{if @disabled 'cds--form__helper-text--disabled'}}"
-        >{{@helperText}}</div>
-      {{/if}}
+      <FieldMessage
+        @field={{this.field}}
+        @invalidText={{@invalidText}}
+        @warnText={{@warnText}}
+        @helperText={{@helperText}}
+        @disabled={{@disabled}}
+        @role="alert"
+      />
     </div>
   </template>
 }

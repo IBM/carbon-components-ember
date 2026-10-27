@@ -7,10 +7,12 @@
 
 /**
  * Ported near-verbatim from `@carbon/ai-chat-components`'
- * `code-snippet/src/codemirror/language-controller.ts` - the only change is
- * importing `languages` from `./languages.ts` (the real
- * `@codemirror/language-data`, minus one entry) instead of a vendored fork.
+ * `code-snippet/src/codemirror/language-controller.ts`. It imports
+ * `languages` from `./languages.ts` (the real `@codemirror/language-data`,
+ * minus one entry) instead of a vendored fork, and debounces with
+ * ember-concurrency tasks, which tests wait for, instead of `setTimeout`.
  */
+import { task, timeout } from 'ember-concurrency';
 import type { Compartment } from '@codemirror/state';
 import { LanguageDescription } from '@codemirror/language';
 import type { LanguageSupport } from '@codemirror/language';
@@ -41,9 +43,6 @@ function loadLanguageSupport(langDesc: LanguageDescription) {
 
 export class LanguageController {
   private pendingLanguageLoad: Promise<void> | null = null;
-  private languageDetectionTimeout: number | null = null;
-  private highlightingDetectionTimeout: number | null = null;
-  private editableLanguageDetectionTimeout: number | null = null;
   private canDetectForHighlighting = true;
 
   private readonly config: LanguageControllerConfig;
@@ -162,13 +161,10 @@ export class LanguageController {
       }
     }
 
-    this.clearLanguageDetectionTimeout();
-
-    if (!this.config.isLanguageLabelLocked()) {
-      this.languageDetectionTimeout = window.setTimeout(() => {
-        this.languageDetectionTimeout = null;
-        this.lockDetectedLanguageFromContent();
-      }, 200);
+    if (this.config.isLanguageLabelLocked()) {
+      void this.languageDetection.cancelAll();
+    } else {
+      void this.languageDetection.perform();
     }
   }
 
@@ -183,10 +179,18 @@ export class LanguageController {
       return;
     }
 
-    this.clearEditableDetectionTimeout();
+    void this.editableLanguageDetection.perform(trimmed);
+  }
 
-    this.editableLanguageDetectionTimeout = window.setTimeout(() => {
-      this.editableLanguageDetectionTimeout = null;
+  private languageDetection = task({ restartable: true }, async () => {
+    await timeout(200);
+    this.lockDetectedLanguageFromContent();
+  });
+
+  private editableLanguageDetection = task(
+    { restartable: true },
+    async (trimmed: string) => {
+      await timeout(200);
       const detected = detectLanguage(trimmed);
       if (!detected) {
         return;
@@ -224,8 +228,8 @@ export class LanguageController {
             this.pendingLanguageLoad = null;
           });
       }
-    }, 200);
-  }
+    },
+  );
 
   reset() {
     this.disposeTimers();
@@ -261,37 +265,17 @@ export class LanguageController {
   }
 
   private scheduleHighlightingDetectionReset() {
-    this.clearHighlightingDetectionTimeout();
-    this.highlightingDetectionTimeout = window.setTimeout(() => {
-      this.canDetectForHighlighting = true;
-      this.highlightingDetectionTimeout = null;
-    }, 200);
+    void this.highlightingDetectionReset.perform();
   }
 
-  private clearLanguageDetectionTimeout() {
-    if (this.languageDetectionTimeout !== null) {
-      window.clearTimeout(this.languageDetectionTimeout);
-      this.languageDetectionTimeout = null;
-    }
-  }
-
-  private clearHighlightingDetectionTimeout() {
-    if (this.highlightingDetectionTimeout !== null) {
-      window.clearTimeout(this.highlightingDetectionTimeout);
-      this.highlightingDetectionTimeout = null;
-    }
-  }
-
-  private clearEditableDetectionTimeout() {
-    if (this.editableLanguageDetectionTimeout !== null) {
-      window.clearTimeout(this.editableLanguageDetectionTimeout);
-      this.editableLanguageDetectionTimeout = null;
-    }
-  }
+  private highlightingDetectionReset = task({ restartable: true }, async () => {
+    await timeout(200);
+    this.canDetectForHighlighting = true;
+  });
 
   private disposeTimers() {
-    this.clearLanguageDetectionTimeout();
-    this.clearHighlightingDetectionTimeout();
-    this.clearEditableDetectionTimeout();
+    void this.languageDetection.cancelAll();
+    void this.highlightingDetectionReset.cancelAll();
+    void this.editableLanguageDetection.cancelAll();
   }
 }

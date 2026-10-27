@@ -1,9 +1,11 @@
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
 import { expect, waitFor, within } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Button from '../button.gts';
+import Modal from '../modal.gts';
 import Stack from '../stack.gts';
 import ToastNotificationList from './toast-notification-list.gts';
 
@@ -46,6 +48,38 @@ class ToastsDemo extends Component {
   </template>
 }
 
+class ModalDemo extends Component {
+  @service('carbon.notifications') declare notifications: NotificationService;
+
+  open = tracked(true);
+
+  show = () => (this.open.value = true);
+
+  hide = () => (this.open.value = false);
+
+  failed = () => {
+    this.notifications.error({
+      title: 'Upload failed',
+      subtitle: 'The file is larger than 10 MB.',
+    });
+  };
+
+  <template>
+    <Button {{on "click" this.show}}>Upload files</Button>
+    <Modal
+      @open={{this.open.value}}
+      @modalHeading="Upload files"
+      @primaryButtonText="Upload"
+      @secondaryButtonText="Cancel"
+      @onRequestClose={{this.hide}}
+      @onRequestSubmit={{this.failed}}
+    >
+      <p>Max file size is 10 MB.</p>
+    </Modal>
+    <ToastNotificationList />
+  </template>
+}
+
 const meta = preview.meta({
   title: 'Components/Notifications/ToastNotificationList',
   component: ToastNotificationList,
@@ -53,7 +87,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "Shows toasts from anywhere in an app. Render a `ToastNotificationList` once, in the application template, and add toasts through the `carbon.notifications` service: `info`, `success`, `warning` and `error` take a `ToastNotification`'s arguments and return the toast, `add` takes its `kind` too, and `remove` and `clear` close toasts. A toast with an `actionButtonLabel` is an `ActionableNotification`, which takes focus. Toasts stack at the top right, newest first. `info` and `success` toasts close after 5 seconds unless they set a `timeout`; errors, warnings and toasts with an action stay until closed.",
+          "Shows toasts from anywhere in an app. Render a `ToastNotificationList` once, in the application template, and add toasts through the `carbon.notifications` service: `info`, `success`, `warning` and `error` take a `ToastNotification`'s arguments and return the toast, `add` takes its `kind` too, and `remove` and `clear` close toasts. A toast with an `actionButtonLabel` is an `ActionableNotification`, which takes focus. Toasts stack at the top right, newest first; while a `Modal` is open, the list moves into it. `info` and `success` toasts close after 5 seconds unless they set a `timeout`; errors, warnings and toasts with an action stay until closed.",
       },
       story: { inline: false, iframeHeight: '320px' },
     },
@@ -85,5 +119,40 @@ Default.test(
     await userEvent.click(canvas.getByRole('button', { name: 'Delete' }));
     await userEvent.click(list.getByRole('button', { name: 'Undo' }));
     await expect(list.queryByRole('alertdialog')).toBeNull();
+  },
+);
+
+// Ember-only: the list moves into an open Modal, so its toasts stay usable.
+export const OverAModal = meta.story({
+  parameters: {
+    docs: {
+      story: { inline: false, iframeHeight: '640px' },
+      description: {
+        story:
+          'While a `Modal` is open, the list moves into it: a toast raised then shows over the modal and can be read, focused and closed. It moves back when the modal closes.',
+      },
+    },
+  },
+  render: () => <template><ModalDemo /></template>,
+});
+
+OverAModal.test(
+  'shows toasts over an open modal',
+  async ({ canvasElement, userEvent }) => {
+    const dialog = within(canvasElement.ownerDocument.querySelector('dialog')!);
+    await userEvent.click(dialog.getByRole('button', { name: 'Upload' }));
+    const toast = await dialog.findByRole('status');
+    await expect(toast).toHaveTextContent('Upload failed');
+
+    const close = within(toast).getByRole('button', {
+      name: 'close notification',
+    });
+    close.focus();
+    await expect(close).toHaveFocus();
+    await userEvent.click(close);
+    await waitFor(() => expect(dialog.queryByRole('status')).toBeNull());
+    await expect(
+      canvasElement.ownerDocument.querySelector('dialog'),
+    ).toHaveProperty('open', true);
   },
 );

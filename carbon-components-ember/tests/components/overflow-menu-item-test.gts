@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import { setupApplicationTest, setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
 import OverflowMenu from '#src/components/overflow-menu.gts';
+import { setupRoutes, visitWith } from '../helpers';
 import { tracked } from '@glimmer/tracking';
 
 module('Integration | Component | OverflowMenuItem', (hooks) => {
@@ -154,3 +155,36 @@ module('Integration | Component | OverflowMenuItem', (hooks) => {
       .hasClass('my-wrapper-class');
   });
 });
+
+module(
+  'Integration | Component | OverflowMenuItem > with @route',
+  function (hooks) {
+    setupApplicationTest(hooks);
+    setupRoutes(hooks);
+
+    test('an item links to its route, and closes the menu on the way', async function (assert) {
+      await visitWith(
+        this,
+        <template>
+          <OverflowMenu @direction="bottom" as |Item|>
+            <Item @itemText="Settings" @route="settings" />
+            <Item @itemText="Locked" @route="settings" @disabled={{true}} />
+          </OverflowMenu>
+        </template>,
+      );
+      await click('.cds--overflow-menu');
+      assert
+        .dom('a.cds--overflow-menu-options__btn')
+        .hasAttribute('href', '/settings')
+        .hasAttribute('role', 'menuitem');
+      assert
+        .dom('button.cds--overflow-menu-options__btn')
+        .isDisabled('a disabled one stays a button');
+
+      await click('a.cds--overflow-menu-options__btn');
+      const router = this.owner.lookup('service:router');
+      assert.strictEqual(router.currentRouteName, 'settings');
+      assert.dom('.cds--overflow-menu-options').doesNotExist();
+    });
+  },
+);

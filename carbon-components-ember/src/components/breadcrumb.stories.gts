@@ -14,7 +14,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          'The breadcrumb is a secondary navigation pattern that helps a user understand the hierarchy among levels and navigate back through them. Its items are the `BreadcrumbItem` it yields: one with `@href` is a link, one without is text, and `@isCurrentPage` marks the current page. To render your own link, such as a `LinkTo`, give the item block params (`<BreadcrumbItem as |item|>`): `@href` is then unused, and `item.class` and `item.ariaCurrent` go on your link. `item.ariaCurrent` comes from `@ariaCurrent` only, as in Carbon React. For levels collapsed into a menu, render `item.OverflowMenu`, which the item sets up for a breadcrumb.',
+          "The breadcrumb is a secondary navigation pattern that helps a user understand the hierarchy among levels and navigate back through them. Its items are the `BreadcrumbItem` it yields: one with `@href`, or `@route` for one of the app's routes, is a link, one without is text, and `@isCurrentPage` marks the current page. To render your own link, give the item block params (`<BreadcrumbItem as |item|>`): `@href` is then unused, and `item.class` and `item.ariaCurrent` go on your link. `item.ariaCurrent` comes from `@ariaCurrent` only, as in Carbon React. For levels collapsed into a menu, render `item.OverflowMenu`, which the item sets up for a breadcrumb.",
       },
     },
   },

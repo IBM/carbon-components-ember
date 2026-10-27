@@ -10,6 +10,7 @@ import ComboBox from './combo-box.gts';
 
 import type { ComboBoxChange, ComboBoxSignature } from './combo-box.gts';
 import '#storybook/styles/combo-box.css';
+import { listBoxSizes } from './-private/list-box/list-box.gts';
 
 // Carbon React parity gaps (Components/ComboBox):
 // - No `translateWithId` or `downshiftActions`, and no `downshiftProps`, as
@@ -64,7 +65,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     },
   },
   argTypes: {
-    size: { control: 'inline-radio', options: ['xs', 'sm', 'md', 'lg'] },
+    size: { control: 'inline-radio', options: listBoxSizes },
     direction: { control: 'inline-radio', options: ['top', 'bottom'] },
   },
   args: {

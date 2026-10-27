@@ -16,7 +16,7 @@ module('Integration | Component | ai-chat/FileUploadItem', (hooks) => {
 
     await render(<template><FileUploadItem @upload={{upload}} /></template>);
 
-    assert.dom('.cds-aichat-file-upload-item__name').hasText('report.pdf');
+    assert.dom('.cds--file-filename').hasText('report.pdf');
     assert.dom('.cds-aichat-file-upload-item__icon svg').exists();
   });
 
@@ -39,7 +39,7 @@ module('Integration | Component | ai-chat/FileUploadItem', (hooks) => {
     assert.deepEqual(calls, ['42']);
   });
 
-  test('the status wrapper carries cds--file__state-container, so @carbon/styles actually styles the close/loading/complete icons', async function (assert) {
+  test('the status icon sits in cds--file__state-container, so @carbon/styles styles it', async function (assert) {
     const upload = {
       id: '1',
       file: new File(['x'], 'a.txt', { type: 'text/plain' }),
@@ -48,9 +48,7 @@ module('Integration | Component | ai-chat/FileUploadItem', (hooks) => {
 
     await render(<template><FileUploadItem @upload={{upload}} /></template>);
 
-    assert
-      .dom('.cds-aichat-file-upload-item__status')
-      .hasClass('cds--file__state-container');
+    assert.dom('.cds--file__state-container .cds--file-close').exists();
   });
 
   test('status "uploading" shows a loading indicator, not a remove button', async function (assert) {
@@ -110,7 +108,7 @@ module('Integration | Component | ai-chat/FileUploadItem', (hooks) => {
     assert.dom('.cds--file-loading').doesNotExist();
   });
 
-  test('an error message renders as an alert', async function (assert) {
+  test('an error message renders in the form requirement block', async function (assert) {
     const upload = {
       id: '1',
       file: new File(['x'], 'a.txt', { type: 'text/plain' }),
@@ -121,7 +119,47 @@ module('Integration | Component | ai-chat/FileUploadItem', (hooks) => {
 
     await render(<template><FileUploadItem @upload={{upload}} /></template>);
 
-    assert.dom('.cds-aichat-file-upload-item__error').hasText('Too large');
+    assert.dom('.cds--form-requirement').isVisible();
+    assert.dom('.cds--form-requirement__title').hasText('Too large');
+    assert.dom('.cds--file-invalid + .cds--file-close').exists();
+    // Carbon collapses a form requirement outside a form field.
+    assert.true(
+      find('.cds--form-requirement__title')!.getBoundingClientRect().height > 0,
+    );
+  });
+
+  test('the form requirement block is hidden without an error', async function (assert) {
+    const upload = {
+      id: '1',
+      file: new File(['x'], 'a.txt', { type: 'text/plain' }),
+      status: 'edit' as const,
+    };
+
+    await render(<template><FileUploadItem @upload={{upload}} /></template>);
+
+    assert.dom('.cds--form-requirement').isNotVisible();
+  });
+
+  test('read-only, isError alone hides the block but error text still shows', async function (assert) {
+    const file = new File(['x'], 'a.txt', { type: 'text/plain' });
+    const upload = tracked({
+      id: '1',
+      file,
+      status: 'edit' as const,
+      isError: true,
+      errorMessage: undefined as string | undefined,
+    });
+
+    await render(
+      <template>
+        <FileUploadItem @readOnly={{true}} @upload={{upload.value}} />
+      </template>,
+    );
+    assert.dom('.cds--form-requirement').isNotVisible();
+
+    upload.value = { ...upload.value, errorMessage: 'Too large' };
+    await rerender();
+    assert.dom('.cds--form-requirement').isVisible();
   });
 
   test('a FileAttachment with no live File uses its stated name/type', async function (assert) {
@@ -137,7 +175,7 @@ module('Integration | Component | ai-chat/FileUploadItem', (hooks) => {
       </template>,
     );
 
-    assert.dom('.cds-aichat-file-upload-item__name').hasText('archive.zip');
+    assert.dom('.cds--file-filename').hasText('archive.zip');
     assert.dom('.cds-aichat-file-upload-item__icon svg').exists();
   });
 

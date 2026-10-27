@@ -9,6 +9,7 @@ import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
+import { rawTimeout, task } from 'ember-concurrency';
 import style from 'ember-style-modifier';
 import { registerDestructor } from '@ember/destroyable';
 import {
@@ -93,7 +94,6 @@ export default class VideoPlayer extends Component<VideoPlayerSignature> {
   @tracked statusMessage = '';
 
   private provider: BaseProvider | null = null;
-  private loadingTimeout: ReturnType<typeof setTimeout> | null = null;
   private loadGeneration = 0;
   // The `@source` last (re)loaded - see AudioPlayer's identical field and
   // `attachProvider` below for why this explicit diff is required.
@@ -160,10 +160,7 @@ export default class VideoPlayer extends Component<VideoPlayerSignature> {
   private teardownProvider(): void {
     this.providerReady = false;
     this.loadGeneration++;
-    if (this.loadingTimeout) {
-      clearTimeout(this.loadingTimeout);
-      this.loadingTimeout = null;
-    }
+    void this.failIfStillLoading.cancelAll();
     if (this.provider) {
       this.provider.teardown();
       this.provider = null;
@@ -176,10 +173,6 @@ export default class VideoPlayer extends Component<VideoPlayerSignature> {
     this.providerReady = true;
     this.lastSyncedPlaying = this.args.playing ?? false;
     this.statusMessage = this.args.readyStatusMessage ?? 'Video player ready';
-    if (this.loadingTimeout) {
-      clearTimeout(this.loadingTimeout);
-      this.loadingTimeout = null;
-    }
     this.args.onReady?.();
   }
 
@@ -195,12 +188,17 @@ export default class VideoPlayer extends Component<VideoPlayerSignature> {
     this.isLoading = false;
     this.hasError = true;
     this.statusMessage = '';
-    if (this.loadingTimeout) {
-      clearTimeout(this.loadingTimeout);
-      this.loadingTimeout = null;
-    }
     this.args.onError?.({ message: this.errorMessage });
   }
+
+  // rawTimeout, not timeout: settled() mustn't wait out a load that never
+  // finishes.
+  private failIfStillLoading = task({ restartable: true }, async () => {
+    await rawTimeout(LOADING_TIMEOUT_MS);
+    if (this.isLoading) {
+      this.handleError();
+    }
+  });
 
   private async loadVideo(
     container: HTMLDivElement,
@@ -215,11 +213,7 @@ export default class VideoPlayer extends Component<VideoPlayerSignature> {
     this.statusMessage =
       this.args.loadingStatusMessage ?? 'Video player loading';
 
-    this.loadingTimeout = setTimeout(() => {
-      if (generation === this.loadGeneration && this.isLoading) {
-        this.handleError();
-      }
-    }, LOADING_TIMEOUT_MS);
+    void this.failIfStillLoading.perform();
 
     const provider = this.createProvider(videoSourceType);
     if (!provider) {

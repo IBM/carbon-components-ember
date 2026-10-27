@@ -6,12 +6,18 @@ It's an [MCP](https://modelcontextprotocol.io/) server that talks over stdio. It
 
 ## Set up
 
-Add it to your agent from your app's directory, the one where carbon-components-ember is installed.
+Install it in your app, next to carbon-components-ember, so it only changes when you update it:
+
+```sh
+pnpm add -D carbon-components-ember-mcp
+```
+
+Then add it to your agent from your app's directory. `--no` makes npx run the installed server and never download one.
 
 **Claude Code**, in a terminal:
 
 ```sh
-claude mcp add carbon-components-ember -- npx -y carbon-components-ember-mcp
+claude mcp add carbon-components-ember -- npx --no carbon-components-ember-mcp
 ```
 
 **VS Code** (GitHub Copilot), in `.vscode/mcp.json`:
@@ -22,7 +28,7 @@ claude mcp add carbon-components-ember -- npx -y carbon-components-ember-mcp
     "carbon-components-ember": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "carbon-components-ember-mcp"]
+      "args": ["--no", "carbon-components-ember-mcp"]
     }
   }
 }
@@ -35,13 +41,13 @@ claude mcp add carbon-components-ember -- npx -y carbon-components-ember-mcp
   "mcpServers": {
     "carbon-components-ember": {
       "command": "npx",
-      "args": ["-y", "carbon-components-ember-mcp"]
+      "args": ["--no", "carbon-components-ember-mcp"]
     }
   }
 }
 ```
 
-Other agents take the same command: `npx -y carbon-components-ember-mcp`.
+Other agents take the same command: `npx --no carbon-components-ember-mcp`.
 
 ## Tools
 

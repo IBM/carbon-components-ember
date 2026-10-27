@@ -1,15 +1,16 @@
 import Component from '@glimmer/component';
 import type { ComponentLike } from '@glint/template';
 import ButtonBase from './-private/button-base.gts';
+import type { RouteArgs } from './-private/router-link.gts';
 import Tooltip from './tooltip.gts';
 import type { NewPopoverAlignment } from './popover.gts';
 
 export interface ButtonSignature {
   Element: HTMLButtonElement | HTMLAnchorElement;
-  Args: {
+  Args: RouteArgs & {
     /**
      * The element to render in place of the `<button>` (or, with `@href`,
-     * the `<a>`).
+     * the `<a>`). It overrides `@route`.
      */
     as?: keyof HTMLElementTagNameMap;
     /**
@@ -24,8 +25,8 @@ export interface ButtonSignature {
      */
     dangerDescription?: string;
     /**
-     * Disables the button. With `@href`, it renders a disabled `<button>`
-     * instead of the link.
+     * Disables the button. With `@href` or `@route`, it renders a disabled
+     * `<button>` instead of the link.
      */
     disabled?: boolean;
     /** Renders a link to this URL, styled as a button. */
@@ -115,6 +116,9 @@ export default class Button extends Component<ButtonSignature> {
           @disabled={{@disabled}}
           @hasIconOnly={{true}}
           @href={{@href}}
+          @route={{@route}}
+          @models={{@models}}
+          @query={{@query}}
           @isExpressive={{@isExpressive}}
           @isSelected={{@isSelected}}
           @kind={{@kind}}
@@ -134,6 +138,9 @@ export default class Button extends Component<ButtonSignature> {
         @dangerDescription={{@dangerDescription}}
         @disabled={{@disabled}}
         @href={{@href}}
+        @route={{@route}}
+        @models={{@models}}
+        @query={{@query}}
         @iconDescription={{@iconDescription}}
         @isExpressive={{@isExpressive}}
         @kind={{@kind}}
