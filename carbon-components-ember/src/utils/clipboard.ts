@@ -24,7 +24,7 @@ export function textOf(element: Element): string {
   return clone.textContent ?? '';
 }
 
-function copyWithExecCommand(text: string): boolean {
+function copyWithExecCommand(text: string, from?: Element): boolean {
   const active = document.activeElement;
   const selection = document.getSelection();
   const range = selection?.rangeCount ? selection.getRangeAt(0) : undefined;
@@ -34,7 +34,8 @@ function copyWithExecCommand(text: string): boolean {
   textarea.setAttribute('aria-hidden', 'true');
   textarea.style.position = 'fixed';
   textarea.style.opacity = '0';
-  document.body.append(textarea);
+  // Outside an open modal dialog, it couldn't take focus.
+  (from?.closest('dialog') ?? document.body).append(textarea);
   textarea.select();
   try {
     return document.execCommand('copy');
@@ -54,16 +55,19 @@ function copyWithExecCommand(text: string): boolean {
 }
 
 /**
- * Writes `text` to the clipboard. The Clipboard API is missing outside
- * secure contexts and rejects where the permission is denied (an Electron
- * app's permission handler, for one), so both fall back to
- * `execCommand('copy')`. Rejects with the Clipboard API's error when that
+ * Writes `text` to the clipboard, for a click on `from`. The Clipboard API
+ * is missing outside secure contexts and rejects where the permission is
+ * denied (an Electron app's permission handler, for one), so both fall back
+ * to `execCommand('copy')`. Rejects with the Clipboard API's error when that
  * fails too.
  */
-export async function writeToClipboard(text: string): Promise<void> {
+export async function writeToClipboard(
+  text: string,
+  from?: Element,
+): Promise<void> {
   try {
     await navigator.clipboard.writeText(text);
   } catch (error) {
-    if (!copyWithExecCommand(text)) throw error;
+    if (!copyWithExecCommand(text, from)) throw error;
   }
 }

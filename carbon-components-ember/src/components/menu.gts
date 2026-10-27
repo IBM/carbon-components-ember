@@ -7,11 +7,13 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { service } from '@ember/service';
 import { modifier } from 'ember-modifier';
 import { RovingFocus } from '../utils/roving-focus.ts';
 import MenuItem from './menu/menu-item.gts';
 import MenuItemRadioGroup from './menu/menu-item-radio-group.gts';
 import MenuItemSelectable from './menu/menu-item-selectable.gts';
+import type LayersService from '../services/layers.ts';
 import type { TOC } from '@ember/component/template-only';
 import type { WithBoundArgs } from '@glint/template';
 
@@ -61,6 +63,7 @@ export interface MenuSignature {
     size?: 'xs' | 'sm' | 'md' | 'lg';
     /**
      * Specify a DOM node where the Menu should be rendered in. Defaults to
+     * the topmost open `Modal`, so the Menu can be used over it, else
      * `document.body`. Pass a node inside your own root when the Menu is
      * rendered in a shadow root, otherwise it escapes into the light DOM
      * where your styles don't reach it. Submenus aren't portaled - they
@@ -142,6 +145,8 @@ const MenuList: TOC<MenuListSignature> = <template>
 </template>;
 
 export default class Menu extends Component<MenuSignature> {
+  @service('carbon.layers') declare layers: LayersService;
+
   @tracked items: readonly MenuItemFeatures[] = [];
   @tracked shown = false;
 
@@ -186,7 +191,7 @@ export default class Menu extends Component<MenuSignature> {
   }
 
   get target() {
-    return this.args.target ?? document.body;
+    return this.args.target ?? this.layers.target;
   }
 
   get classes() {

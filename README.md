@@ -63,7 +63,7 @@ class Save extends Component {
 }
 ```
 
-That service shows toasts in a `ToastNotificationList`, which you render once in the application template.
+That service shows toasts in a `ToastNotificationList`, which you render once in the application template. While a `Modal` is open, the list moves into it, so its toasts can be used over the modal.
 
 ## Use with AI agents
 

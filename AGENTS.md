@@ -122,7 +122,7 @@ Parity means matching Carbon React's **public API surface and behaviour**, not i
 | State/controllable single prop | One arg plus a private `@tracked` fallback; arg is source of truth only when change handler is passed | `components/tree-view.gts` |
 | `useRef` + `useEffect` DOM listeners | A functional `modifier()` from `ember-modifier` returning its teardown | `modifiers/close-on-outside-click.ts` |
 | `forwardRef` | Yield a `ModifierLike` for the caller to apply to their own element | none yet |
-| `createPortal` | `{{#in-element}}` — use the existing `<Portal>` component | `components/portal.gts` |
+| `createPortal` | `{{#in-element}}` — use the existing `<Portal>` component, which renders into the topmost open Modal (the `carbon.layers` service), as nothing outside it works. A layer that must keep its state as modals open and close moves its element instead | `components/portal.gts`, `notification/toast-notification-list.gts` |
 | A modal over the page | A native `<dialog>` opened with `showModal()`, rendered in place: the top layer needs no portal or target element. A component inside one that closes on Escape stops the event, so the modal stays open | `components/modal.gts` |
 | React context / provider | A service, or the parent component instance yielded down to children | `services/notifications.ts` |
 | `useId` | `guidFor(this)` | `components/tree-view.gts` |

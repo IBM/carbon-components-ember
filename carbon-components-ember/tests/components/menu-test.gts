@@ -3,6 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click, settled, triggerKeyEvent } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import Menu from '#src/components/menu.gts';
+import Modal from '#src/components/modal.gts';
 import MenuItemDivider from '#src/components/menu/menu-item-divider.gts';
 import MenuItemGroup from '#src/components/menu/menu-item-group.gts';
 import { Copy } from '#src/icons.ts';
@@ -499,6 +500,23 @@ module('Integration | Component | Menu', (hooks) => {
       Math.abs(nestedRect.top - anchorRect.top) < 10,
       `nested submenu top (${nestedRect.top}) should be near anchor top (${anchorRect.top})`,
     );
+  });
+
+  test('without @target it renders into an open Modal', async function (assert) {
+    await render(
+      <template>
+        <Modal @open={{true}}>
+          <Menu @label="Test menu" @open={{true}} as |MenuItem|>
+            <MenuItem @label="Cut" />
+          </Menu>
+        </Modal>
+      </template>,
+    );
+
+    await waitForAnimationFrame();
+    const menu = document.querySelector('[role="menu"]');
+    assert.strictEqual(menu?.parentElement, document.querySelector('dialog'));
+    assert.dom('.cds--menu-item', menu).isFocused();
   });
 
   test('pressing Escape calls @onClose', async function (this: {
