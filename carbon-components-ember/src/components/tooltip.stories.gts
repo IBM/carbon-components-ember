@@ -4,7 +4,8 @@ import { expect, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Button from './button.gts';
-import Tooltip, { TooltipAlignments } from './tooltip.gts';
+import Tooltip from './tooltip.gts';
+import { PopoverAlignments } from './popover.gts';
 import OverflowMenuVertical from './icons/overflow-menu-vertical.ts';
 
 import type { TooltipSignature } from './tooltip.gts';
@@ -31,7 +32,7 @@ const meta = preview.meta({
     },
   },
   argTypes: {
-    align: { control: 'select', options: [...TooltipAlignments] },
+    align: { control: 'select', options: PopoverAlignments },
   },
   args: {
     label: 'Occasionally, services are updated in a specified time window.',

@@ -6,7 +6,7 @@ import Toggletip from './toggletip.gts';
 import Information from './icons/information.ts';
 
 import type { FormLabelSignature } from './form-label.gts';
-import type { ToggletipAlignment } from './toggletip.gts';
+import type { PopoverAlignment } from './popover.gts';
 import '#storybook/styles/form-label.css';
 
 // Mirrors Carbon React's `Components/FormLabel` stories (`Default`,
@@ -19,7 +19,7 @@ const meta = preview
   .type<{
     args: FormLabelSignature['Args'] & {
       label: string;
-      align?: ToggletipAlignment;
+      align?: PopoverAlignment;
     };
   }>()
   .meta({

@@ -13,9 +13,9 @@ type Args = TextInputSignature['Args'];
 
 // Carbon React parity gaps (Components/TextInput):
 // - `Inline`: no `inline` arg.
-// - No `labelText` as a node, `xs` size or `TestInvalidTextNoOverlap`
-//   visual-regression story. PasswordInput and FluidTextInput are their own
-//   components with their own stories.
+// - No `xs` size or `TestInvalidTextNoOverlap` visual-regression story.
+//   PasswordInput and FluidTextInput are their own components with their
+//   own stories.
 
 // No `render`: every arg is passed straight through as a named argument
 // (`@labelText`, `@placeholder`, ...).

@@ -12,6 +12,7 @@
  * https://github.com/cookpete/react-player/blob/v2.15.1/LICENSE
  */
 
+import { task, timeout } from 'ember-concurrency';
 import { BaseProvider } from './base-provider.ts';
 import type { ProviderConfig } from './base-provider.ts';
 import { ScriptLoader } from '../-media/script-loader.ts';
@@ -40,7 +41,7 @@ declare global {
 
 /**
  * Ember port of `@carbon/ai-chat-components`' `KalturaProvider`, ported
- * verbatim. Kaltura uses the player.js standard for iframe communication,
+ * verbatim but with ember-concurrency tasks for its timers. Kaltura uses the player.js standard for iframe communication,
  * loaded via the shared `ScriptLoader`.
  */
 export class KalturaProvider extends BaseProvider {
@@ -92,24 +93,17 @@ export class KalturaProvider extends BaseProvider {
     }
 
     await ScriptLoader.load(SDK_URL);
-
-    return new Promise((resolve, reject) => {
-      const checkPlayerJS = () => {
-        if (window.playerjs?.Player) {
-          resolve();
-        } else {
-          setTimeout(checkPlayerJS, 100);
-        }
-      };
-      checkPlayerJS();
-
-      setTimeout(() => {
-        if (!window.playerjs?.Player) {
-          reject(new Error('player.js API failed to load'));
-        }
-      }, 5000);
-    });
+    await this.waitForPlayerJS.perform();
   }
+
+  private waitForPlayerJS = task(async () => {
+    for (let waited = 0; !window.playerjs?.Player; waited += 100) {
+      if (waited >= 5000) {
+        throw new Error('player.js API failed to load');
+      }
+      await timeout(100);
+    }
+  });
 
   async load(url: string): Promise<void> {
     if (!this.iframe) {
@@ -135,19 +129,20 @@ export class KalturaProvider extends BaseProvider {
     const player = new playerjs.Player(this.iframe);
     this.player = player;
 
-    player.on('ready', () => {
-      // Arbitrary timeout required for event listeners to work, matching
-      // upstream (player.js docs call this out as a known quirk).
-      setTimeout(() => {
-        if (this.iframe) {
-          this.updateAriaAttributes(this.iframe, 'ready');
-        }
-        this.isReady = true;
-        this.addListeners();
-        this.triggerReady();
-      }, 500);
-    });
+    player.on('ready', () => void this.markReady.perform());
   }
+
+  private markReady = task(async () => {
+    // Arbitrary timeout required for event listeners to work, matching
+    // upstream (player.js docs call this out as a known quirk).
+    await timeout(500);
+    if (this.iframe) {
+      this.updateAriaAttributes(this.iframe, 'ready');
+    }
+    this.isReady = true;
+    this.addListeners();
+    this.triggerReady();
+  });
 
   private addListeners(): void {
     if (!this.player) {

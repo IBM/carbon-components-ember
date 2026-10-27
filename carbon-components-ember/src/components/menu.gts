@@ -7,8 +7,15 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { service } from '@ember/service';
 import { modifier } from 'ember-modifier';
+import { RovingFocus } from '../utils/roving-focus.ts';
+import MenuItem from './menu/menu-item.gts';
+import MenuItemRadioGroup from './menu/menu-item-radio-group.gts';
+import MenuItemSelectable from './menu/menu-item-selectable.gts';
+import type LayersService from '../services/layers.ts';
 import type { TOC } from '@ember/component/template-only';
+import type { WithBoundArgs } from '@glint/template';
 
 const SPACING = 8;
 
@@ -17,26 +24,12 @@ function range(value: number | [number, number]): [number, number] {
 }
 
 /**
- * The part of a menu item its owning `Menu` needs to know about to derive
- * the `--with-icons`/`--with-selectable-items` modifier classes. Declared as
- * an interface so `Menu` doesn't have to import `MenuItem`, which imports
- * `Menu` itself.
+ * The part of a menu item its `Menu` needs to know about to derive the
+ * `--with-icons`/`--with-selectable-items` modifier classes.
  */
 export interface MenuItemFeatures {
   hasIcon: boolean;
   isSelectable: boolean;
-}
-
-// `MenuItem` & friends are invoked as standalone components rather than
-// being yielded by `Menu`, so they have no argument pointing back at the
-// menu they belong to. Every rendered menu registers itself under its own
-// `<ul>` here, which lets an item find its owner by walking up the DOM once,
-// when it is inserted.
-const MENUS = new WeakMap<Element, Menu>();
-
-export function findParentMenu(element: Element): Menu | undefined {
-  const list = element.parentElement?.closest('.cds--menu');
-  return list ? MENUS.get(list) : undefined;
 }
 
 export interface MenuSignature {
@@ -70,6 +63,7 @@ export interface MenuSignature {
     size?: 'xs' | 'sm' | 'md' | 'lg';
     /**
      * Specify a DOM node where the Menu should be rendered in. Defaults to
+     * the topmost open `Modal`, so the Menu can be used over it, else
      * `document.body`. Pass a node inside your own root when the Menu is
      * rendered in a shadow root, otherwise it escapes into the light DOM
      * where your styles don't reach it. Submenus aren't portaled - they
@@ -110,7 +104,16 @@ export interface MenuSignature {
     anchor?: HTMLElement;
   };
   Blocks: {
-    default: [];
+    /**
+     * The items: the yielded `MenuItem`, `MenuItemSelectable` and
+     * `MenuItemRadioGroup`, bound to the menu, with `MenuItemGroup` and
+     * `MenuItemDivider` around and between them.
+     */
+    default: [
+      MenuItem: WithBoundArgs<typeof MenuItem, 'menu'>,
+      MenuItemSelectable: WithBoundArgs<typeof MenuItemSelectable, 'menu'>,
+      MenuItemRadioGroup: WithBoundArgs<typeof MenuItemRadioGroup, 'menu'>,
+    ];
   };
 }
 
@@ -133,7 +136,7 @@ const MenuList: TOC<MenuListSignature> = <template>
     {{on "keydown" @menu.handleKeyDown}}
     {{on "focusout" @menu.handleBlur}}
     {{on "click" @menu.handleClick}}
-    {{@menu.registerList}}
+    {{@menu.rovingFocus.container}}
     {{@menu.positionMenu}}
     ...attributes
   >
@@ -142,8 +145,14 @@ const MenuList: TOC<MenuListSignature> = <template>
 </template>;
 
 export default class Menu extends Component<MenuSignature> {
+  @service('carbon.layers') declare layers: LayersService;
+
   @tracked items: readonly MenuItemFeatures[] = [];
   @tracked shown = false;
+
+  // The arrow keys, Home and End move between enabled items, wrapping as
+  // Carbon React's do; the items keep their own tabindex.
+  rovingFocus = new RovingFocus({ loop: true, followFocus: false });
 
   // Carbon derives these two modifier classes from a React Context its items
   // push into as they mount. The Ember equivalent is having the items
@@ -157,10 +166,11 @@ export default class Menu extends Component<MenuSignature> {
     return this.items.some((item) => item.isSelectable);
   }
 
-  registerList = modifier((element: HTMLUListElement) => {
-    MENUS.set(element, this);
-    return () => MENUS.delete(element);
-  });
+  /**
+   * @internal The Menu class, for MenuItem's submenu: MenuItem can't import
+   * Menu, which imports it.
+   */
+  Submenu: typeof Menu = Menu;
 
   registerItem(item: MenuItemFeatures) {
     if (this.isDestroying || this.isDestroyed) return;
@@ -181,7 +191,7 @@ export default class Menu extends Component<MenuSignature> {
   }
 
   get target() {
-    return this.args.target ?? document.body;
+    return this.args.target ?? this.layers.target;
   }
 
   get classes() {
@@ -213,7 +223,7 @@ export default class Menu extends Component<MenuSignature> {
     const raf = requestAnimationFrame(() => {
       this.applyPosition(element);
       this.shown = true;
-      this.focusItem(element);
+      this.focusFirstItem();
       this.args.onOpen?.();
     });
     return () => cancelAnimationFrame(raf);
@@ -296,32 +306,11 @@ export default class Menu extends Component<MenuSignature> {
     element.style.insetBlockStart = `${top - originTop}px`;
   }
 
-  focusableItemsSelector =
-    ':scope > .cds--menu-item:not(.cds--menu-item--disabled), :scope > .cds--menu-item-group > ul > .cds--menu-item:not(.cds--menu-item--disabled), :scope > .cds--menu-item-radio-group > ul > .cds--menu-item:not(.cds--menu-item--disabled)';
-
-  focusItem(element: HTMLUListElement, direction?: 'up' | 'down') {
-    const items = Array.from(
-      element.querySelectorAll<HTMLElement>(this.focusableItemsSelector),
-    );
-    if (!items.length) return;
-
-    const active = element.ownerDocument.activeElement;
-    let index = items.indexOf(active as HTMLElement);
-
-    if (index === -1) {
-      index = 0;
-    } else if (direction === 'up') {
-      index -= 1;
-    } else if (direction === 'down') {
-      index += 1;
-    } else {
-      return;
-    }
-
-    if (index < 0) index = items.length - 1;
-    if (index >= items.length) index = 0;
-
-    items[index]?.focus();
+  // Unless an item has focus already.
+  focusFirstItem() {
+    const { items } = this.rovingFocus;
+    if (items.some((item) => item === document.activeElement)) return;
+    if (items[0]) this.rovingFocus.focus(items[0]);
   }
 
   handleKeyDown = (event: KeyboardEvent) => {
@@ -334,14 +323,6 @@ export default class Menu extends Component<MenuSignature> {
     if (closesMenu) {
       event.preventDefault();
       this.args.onClose?.();
-      return;
-    }
-    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-      event.preventDefault();
-      this.focusItem(
-        event.currentTarget as HTMLUListElement,
-        event.key === 'ArrowUp' ? 'up' : 'down',
-      );
     }
   };
 
@@ -366,11 +347,23 @@ export default class Menu extends Component<MenuSignature> {
     {{#if this.isRoot}}
       {{#if @open}}
         {{#in-element this.target insertBefore=null}}
-          <MenuList @menu={{this}} ...attributes>{{yield}}</MenuList>
+          <MenuList @menu={{this}} ...attributes>
+            {{yield
+              (component MenuItem menu=this)
+              (component MenuItemSelectable menu=this)
+              (component MenuItemRadioGroup menu=this)
+            }}
+          </MenuList>
         {{/in-element}}
       {{/if}}
     {{else}}
-      <MenuList @menu={{this}} ...attributes>{{yield}}</MenuList>
+      <MenuList @menu={{this}} ...attributes>
+        {{yield
+          (component MenuItem menu=this)
+          (component MenuItemSelectable menu=this)
+          (component MenuItemRadioGroup menu=this)
+        }}
+      </MenuList>
     {{/if}}
   </template>
 }

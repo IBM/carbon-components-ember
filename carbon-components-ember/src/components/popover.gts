@@ -15,32 +15,46 @@ import './popover.scss';
 
 import type { Boundary, Placement } from '@floating-ui/dom';
 
+/** Carbon React's `NewPopoverAlignment` values. */
+export const NewPopoverAlignments = [
+  'top',
+  'top-start',
+  'top-end',
+  'bottom',
+  'bottom-start',
+  'bottom-end',
+  'left',
+  'left-start',
+  'left-end',
+  'right',
+  'right-start',
+  'right-end',
+] as const;
+
+const deprecatedPopoverAlignments = [
+  'top-left',
+  'top-right',
+  'bottom-left',
+  'bottom-right',
+  'left-bottom',
+  'left-top',
+  'right-bottom',
+  'right-top',
+] as const;
+
+/** Every alignment Carbon React's `PopoverAlignment` takes. */
+export const PopoverAlignments = [
+  ...NewPopoverAlignments,
+  ...deprecatedPopoverAlignments,
+] as const;
+
+export type NewPopoverAlignment = (typeof NewPopoverAlignments)[number];
+
 /**
  * @deprecated Use NewPopoverAlignment instead.
  */
 export type DeprecatedPopoverAlignment =
-  | 'top-left'
-  | 'top-right'
-  | 'bottom-left'
-  | 'bottom-right'
-  | 'left-bottom'
-  | 'left-top'
-  | 'right-bottom'
-  | 'right-top';
-
-export type NewPopoverAlignment =
-  | 'top'
-  | 'bottom'
-  | 'left'
-  | 'right'
-  | 'top-start'
-  | 'top-end'
-  | 'bottom-start'
-  | 'bottom-end'
-  | 'left-end'
-  | 'left-start'
-  | 'right-end'
-  | 'right-start';
+  (typeof deprecatedPopoverAlignments)[number];
 
 export type PopoverAlignment = DeprecatedPopoverAlignment | NewPopoverAlignment;
 
@@ -297,14 +311,6 @@ export default class Popover extends Component<PopoverSignature> {
     return Boolean(this.args.open && this.args.onRequestClose);
   }
 
-  closeOnEscape = modifier(() => {
-    if (!this.listensForClose) return;
-    document.addEventListener('keydown', this.handleDocumentKeydown);
-    return () => {
-      document.removeEventListener('keydown', this.handleDocumentKeydown);
-    };
-  });
-
   /**
    * Floating mode (`@autoAlign`), configured like Carbon React's
    * `useFloating` call. The reference is the trigger, as in
@@ -403,20 +409,26 @@ export default class Popover extends Component<PopoverSignature> {
     }
   };
 
-  handleDocumentKeydown = (event: KeyboardEvent) => {
-    if (!this.args.open || event.key !== 'Escape' || !this.containerElement) {
-      return;
-    }
-    const target = event.target;
+  // Escape in its own content closes it, and goes no further: a Popover or
+  // Modal around it stays open.
+  handleKeydown = (event: KeyboardEvent) => {
     if (
-      !(target instanceof Element) ||
-      !target.closest('.cds--popover-content')
+      !this.listensForClose ||
+      event.key !== 'Escape' ||
+      event.defaultPrevented ||
+      !this.containerElement
     ) {
       return;
     }
-    if (!this.containerElement.contains(target)) {
+    const target = event.target;
+    const content =
+      target instanceof Element
+        ? target.closest('.cds--popover-content')
+        : null;
+    if (content?.parentElement?.parentElement !== this.containerElement) {
       return;
     }
+    event.stopPropagation();
     this.args.onRequestClose?.();
     this.containerElement
       .querySelector<HTMLElement>('button, [tabindex]')
@@ -429,7 +441,7 @@ export default class Popover extends Component<PopoverSignature> {
         class={{this.classes}}
         {{this.manage}}
         {{this.positionContent}}
-        {{this.closeOnEscape}}
+        {{on "keydown" this.handleKeydown}}
         {{(if this.listensForClose closeOnOutsideClick)
           this.handleOutsideClick
         }}

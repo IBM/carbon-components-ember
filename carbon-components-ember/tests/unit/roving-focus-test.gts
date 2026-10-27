@@ -1,6 +1,12 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { focus, render, settled, triggerKeyEvent } from '@ember/test-helpers';
+import {
+  find,
+  focus,
+  render,
+  settled,
+  triggerKeyEvent,
+} from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import {
   nextIndex,
@@ -150,6 +156,37 @@ module('Integration | Utility | RovingFocus', function (hooks) {
 
     assert.dom('#two').isNotFocused();
     assert.dom('#two').doesNotHaveAttribute('tabindex');
+  });
+
+  test('with scrollIntoView, scrolls a keyboard-focused item into view by the least amount', async function (assert) {
+    const roving = new RovingFocus({ scrollIntoView: true });
+
+    await render(
+      <template>
+        <ul {{roving.container}}>
+          <li {{roving.item}}>One</li>
+          <li {{roving.item}}>Two</li>
+          <li {{roving.item}}>Three</li>
+          <li {{roving.item}}>Four</li>
+          <li {{roving.item}}>Five</li>
+        </ul>
+      </template>,
+    );
+    const list = find('ul')!;
+    list.style.overflow = 'auto';
+    list.style.height = '40px';
+    for (const item of list.querySelectorAll('li')) {
+      item.style.height = '20px';
+    }
+    const press = (key: string) =>
+      triggerKeyEvent(document.activeElement!, 'keydown', key);
+
+    await focus('li');
+    await press('ArrowDown');
+    assert.strictEqual(list.scrollTop, 0, 'the second item is in view');
+    await press('ArrowDown');
+    // The browser's own scroll would centre the third item, at 30.
+    assert.strictEqual(list.scrollTop, 20);
   });
 
   test('with followFocus off, leaves tabindex alone and reports navigation', async function (assert) {

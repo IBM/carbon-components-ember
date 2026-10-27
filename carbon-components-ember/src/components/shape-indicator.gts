@@ -9,7 +9,7 @@ import Component from '@glimmer/component';
 import type { TOC } from '@ember/component/template-only';
 import DefinitionTooltip from './-private/definition-tooltip.gts';
 import style from 'ember-style-modifier';
-import type { IconIndicatorAlignment } from './icon-indicator.gts';
+import type { PopoverAlignment } from './popover.gts';
 import Critical from './icons/critical.ts';
 import CriticalSeverity from './icons/critical-severity.ts';
 import Caution from './icons/caution.ts';
@@ -40,7 +40,7 @@ export interface ShapeIndicatorSignature {
     /**
      * Specify how the tooltip should align with the shape in compact mode
      */
-    align?: IconIndicatorAlignment;
+    align?: PopoverAlignment;
     /**
      * Will auto-align the tooltip in compact mode so it stays within the
      * viewport, moving it to another side when it would otherwise overflow

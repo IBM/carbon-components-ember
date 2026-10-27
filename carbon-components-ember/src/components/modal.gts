@@ -9,6 +9,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { concat } from '@ember/helper';
 import { guidFor } from '@ember/object/internals';
+import { service } from '@ember/service';
 import { buildWaiter } from '@ember/test-waiters';
 import { modifier } from 'ember-modifier';
 import AILabel from './ai-label.gts';
@@ -17,6 +18,7 @@ import Tooltip from './tooltip.gts';
 import Close from './icons/close.ts';
 import { afterRender } from '../utils/after-render.ts';
 import { observeResize } from '../utils/resize-observer.ts';
+import type LayersService from '../services/layers.ts';
 import type { InlineLoadingSignature } from './inline-loading.gts';
 import type { TOC } from '@ember/component/template-only';
 import type { WithBoundArgs } from '@glint/template';
@@ -179,6 +181,8 @@ const CloseButton: TOC<{
 </template>;
 
 export default class Modal extends Component<ModalSignature> {
+  @service('carbon.layers') declare layers: LayersService;
+
   /** The modal's content is taller than its box. */
   @tracked scrollable = false;
 
@@ -267,7 +271,8 @@ export default class Modal extends Component<ModalSignature> {
   }
 
   // Opens and closes the <dialog> with `@open`. Closing it, also when it
-  // goes away, returns focus to where it was.
+  // goes away, returns focus to where it was. While it's open, menus,
+  // portals and toasts render into it.
   syncOpen = modifier(
     (dialog: HTMLDialogElement, [open]: [open: boolean | undefined]) => {
       this.dialog = dialog;
@@ -281,7 +286,9 @@ export default class Modal extends Component<ModalSignature> {
       } else if (!open && dialog.open) {
         this.close(dialog);
       }
+      const removeLayer = open ? this.layers.addModal(dialog) : undefined;
       return () => {
+        removeLayer?.();
         if (dialog.open) this.close(dialog);
       };
     },
@@ -304,16 +311,16 @@ export default class Modal extends Component<ModalSignature> {
   // secondary button, or else the primary button (the close button when
   // passive).
   focusInitial = () => {
-    const dialog = this.dialog;
-    if (!dialog?.open) return;
+    const container = this.container;
+    if (!this.dialog?.open || !container) return;
     const selector =
       this.args.selectorPrimaryFocus ?? '[data-modal-primary-focus]';
     const target =
-      dialog.querySelector<HTMLElement>(selector) ??
+      container.querySelector<HTMLElement>(selector) ??
       (this.args.danger
-        ? dialog.querySelector<HTMLElement>('.cds--btn--secondary')
+        ? container.querySelector<HTMLElement>('.cds--btn--secondary')
         : null) ??
-      dialog.querySelector<HTMLElement>(
+      container.querySelector<HTMLElement>(
         this.args.passiveModal
           ? '.cds--modal-close'
           : '.cds--modal-footer .cds--btn:last-child',
@@ -381,9 +388,17 @@ export default class Modal extends Component<ModalSignature> {
     }
   };
 
+  get container() {
+    return this.dialog?.querySelector<HTMLElement>('.cds--modal-container');
+  }
+
+  // Around the modal's box is the dialog itself. A menu or toast rendered
+  // into it is inside.
   isInside(target: EventTarget | null) {
-    const container = this.dialog?.querySelector('.cds--modal-container');
-    return target instanceof Node && !!container?.contains(target);
+    const dialog = this.dialog;
+    return (
+      target instanceof Node && target !== dialog && !!dialog?.contains(target)
+    );
   }
 
   handleKeyDown = (event: KeyboardEvent) => {
@@ -393,6 +408,7 @@ export default class Modal extends Component<ModalSignature> {
       event.key === 'Enter' &&
       this.args.shouldSubmitOnEnter &&
       target instanceof Element &&
+      this.container?.contains(target) &&
       !this.isCloseButton(target) &&
       !target.closest('.cds--modal-footer .cds--btn:last-child')
     ) {

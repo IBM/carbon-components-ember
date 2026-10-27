@@ -11,6 +11,7 @@ import { modifier } from 'ember-modifier';
 import { runTask } from 'ember-lifeline';
 
 import TabsSkeleton from './tabs-skeleton.gts';
+import { mediaQuery, minWidth } from '../utils/media-query.ts';
 import { byDocumentPosition, RovingFocus } from '../utils/roving-focus.ts';
 
 export interface TabPaneSignature {
@@ -114,33 +115,17 @@ export interface TabsSignature {
   };
 }
 
-// Carbon's `lg` breakpoint — same `rem` value upstream uses in `Tabs.js`
-// (`breakpoints.lg.width` from `@carbon/layout`, which is `66rem`).
-const LG_BREAKPOINT = '(min-width: 66rem)';
-
 export default class Tabs extends Component<TabsSignature> {
   @tracked resized: number = 1;
   @tracked scrolled: number = 1;
   @tracked currentTab?: TabPane;
   @tracked tabsDivElement?: HTMLDivElement;
   @tracked tabs: TabPane[] = [];
-  @tracked isLg: boolean =
-    typeof window !== 'undefined'
-      ? window.matchMedia(LG_BREAKPOINT).matches
-      : true;
+  // Carbon React's Tabs reads the same breakpoint.
+  #lg = mediaQuery(this, minWidth('lg'), true);
 
-  constructor(owner: Owner, args: TabsSignature['Args']) {
-    super(owner, args);
-    if (typeof window !== 'undefined') {
-      const mql = window.matchMedia(LG_BREAKPOINT);
-      const onChange = (e: MediaQueryListEvent) => {
-        this.isLg = e.matches;
-      };
-      mql.addEventListener('change', onChange);
-      registerDestructor(this, () =>
-        mql.removeEventListener('change', onChange),
-      );
-    }
+  get isLg() {
+    return this.#lg.matches;
   }
 
   get guid() {

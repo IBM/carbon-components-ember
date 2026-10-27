@@ -3,6 +3,7 @@ import { expect, fn, spyOn, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import CopyButton from './copy-button.gts';
+import { NewPopoverAlignments } from './popover.gts';
 
 import type { CopyButtonSignature } from './copy-button.gts';
 import '#storybook/styles/copy-button.css';
@@ -43,20 +44,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
   argTypes: {
     align: {
       control: 'select',
-      options: [
-        'top',
-        'top-start',
-        'top-end',
-        'bottom',
-        'bottom-start',
-        'bottom-end',
-        'left',
-        'left-start',
-        'left-end',
-        'right',
-        'right-start',
-        'right-end',
-      ],
+      options: NewPopoverAlignments,
     },
   },
   args: {

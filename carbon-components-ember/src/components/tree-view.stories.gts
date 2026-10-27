@@ -13,7 +13,6 @@ import type { TOC } from '@ember/component/template-only';
 import '#storybook/styles/tree-view.css';
 
 // Parity gaps with Carbon React's TreeView stories:
-// - `WithLinks`: TreeNode has no `href` arg.
 // - TreeNode has no `value` arg (selection reports node ids), and labels
 //   are plain strings.
 // - In `WithComplexNesting`, React's "TreeNode wrapped in a <div>" pattern
@@ -32,6 +31,7 @@ type NodeDef = {
   isExpanded?: boolean;
   disabled?: boolean;
   icon?: typeof Icon;
+  href?: string;
   children?: NodeDef[];
 };
 
@@ -39,6 +39,10 @@ type StoryArgs = TreeViewSignature['Args'] & {
   nodes: NodeDef[];
   withIcons?: boolean;
 };
+
+// So the story's links only pretend to navigate, as in Carbon React's.
+const stayOnPage = (event: MouseEvent) => event.preventDefault();
+const noop = () => {};
 
 // Expansion state for WithControlledExpansion, keyed by node id.
 type Expansion = {
@@ -58,6 +62,7 @@ const TreeNodes: TOC<{
     nodes: NodeDef[];
     Node: TreeNodeComponent;
     withIcons?: boolean;
+    withLinks?: boolean;
     expansion?: Expansion;
   };
 }> = <template>
@@ -68,14 +73,17 @@ const TreeNodes: TOC<{
         @label={{node.label}}
         @disabled={{node.disabled}}
         @icon={{if @withIcons node.icon}}
+        @href={{if @withLinks node.href}}
         @isExpanded={{isExpanded node @expansion}}
         @onToggle={{if @expansion (fn @expansion.set node.id)}}
+        {{on "click" (if @withLinks stayOnPage noop)}}
         as |Child|
       >
         <TreeNodes
           @nodes={{node.children}}
           @Node={{Child}}
           @withIcons={{@withIcons}}
+          @withLinks={{@withLinks}}
           @expansion={{@expansion}}
         />
       </@Node>
@@ -85,6 +93,8 @@ const TreeNodes: TOC<{
         @label={{node.label}}
         @disabled={{node.disabled}}
         @icon={{if @withIcons node.icon}}
+        @href={{if @withLinks node.href}}
+        {{on "click" (if @withLinks stayOnPage noop)}}
       />
     {{/if}}
   {{/each}}
@@ -151,6 +161,90 @@ const NODES: NodeDef[] = [
   ),
 ];
 
+const link = (node: NodeDef, href: string): NodeDef => ({ ...node, href });
+
+const LINK_NODES: NodeDef[] = [
+  link(leaf('1', 'Artificial intelligence'), '/artificial-intelligence'),
+  link(leaf('2', 'Blockchain'), '/blockchain'),
+  link(
+    parent('3', 'Business automation', [
+      link(
+        leaf('3-1', 'Business process automation'),
+        '/business-process-automation',
+      ),
+      link(
+        leaf('3-2', 'Business process mapping'),
+        '/business-process-mapping',
+      ),
+    ]),
+    '/business-automation',
+  ),
+  link(leaf('4', 'Business operations'), '/business-operations'),
+  link(
+    parent(
+      '5',
+      'Cloud computing',
+      [
+        link(leaf('5-1', 'Containers'), '/containers'),
+        link(leaf('5-2', 'Databases'), '/databases'),
+        link(
+          parent(
+            '5-3',
+            'DevOps',
+            [
+              link(leaf('5-4', 'Solutions'), '/solutions'),
+              link(
+                parent(
+                  '5-5',
+                  'Case studies',
+                  [link(leaf('5-6', 'Resources'), '/resources')],
+                  { isExpanded: true },
+                ),
+                '/case-studies',
+              ),
+            ],
+            { isExpanded: true },
+          ),
+          '/devops',
+        ),
+      ],
+      { isExpanded: true },
+    ),
+    '/cloud-computing',
+  ),
+  link(
+    parent('6', 'Data & Analytics', [
+      link(leaf('6-1', 'Big data'), '/big-data'),
+      link(leaf('6-2', 'Business intelligence'), '/business-intelligence'),
+    ]),
+    '/data-analytics',
+  ),
+  link(
+    parent(
+      '7',
+      'Models',
+      [
+        link(leaf('7-1', 'Audit'), '/audit'),
+        link(leaf('7-2', 'Monthly data'), '/monthly-data'),
+        link(
+          parent(
+            '8',
+            'Data warehouse',
+            [
+              link(leaf('8-1', 'Report samples'), '/report-samples'),
+              link(leaf('8-2', 'Sales performance'), '/sales-performance'),
+            ],
+            { isExpanded: true },
+          ),
+          '/data-warehouse',
+        ),
+      ],
+      { isExpanded: true, disabled: true },
+    ),
+    '/models',
+  ),
+];
+
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'Components/TreeView',
   component: TreeView,
@@ -158,7 +252,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     docs: {
       description: {
         component:
-          "TreeView is used to render a hierarchical list of nested items that can be expanded or collapsed. `TreeView` and each node yield a bound `TreeNode` component that can be nested arbitrarily deep to build out the tree; select or activate a node by clicking on it.\n\nThe tree is a single tab stop. <kbd>Up</kbd>/<kbd>Down</kbd> move between visible nodes and <kbd>Home</kbd>/<kbd>End</kbd> jump to the first and last; <kbd>Right</kbd> expands a parent, then moves into it, and <kbd>Left</kbd> collapses it, or moves to the parent; <kbd>Enter</kbd> selects a node (and toggles a parent), <kbd>Space</kbd> selects it.\n\nBy default only a single node can be selected at a time. `@multiselect` allows selecting additional nodes by clicking while holding <kbd>Cmd</kbd>/<kbd>Ctrl</kbd>. `@onSelect` is called with the array of selected node ids and the node that triggered the change, and `@onActivate` with the id of the node that received keyboard/click focus.\n\nA disabled node can't be selected or focused (it is removed from the tab order) but still renders, dimmed; on a parent node its toggle caret stays usable so its descendants remain reachable.",
+          "TreeView is used to render a hierarchical list of nested items that can be expanded or collapsed. `TreeView` and each node yield a bound `TreeNode` component that can be nested arbitrarily deep to build out the tree; select or activate a node by clicking on it.\n\nThe tree is a single tab stop. <kbd>Up</kbd>/<kbd>Down</kbd> move between visible nodes and <kbd>Home</kbd>/<kbd>End</kbd> jump to the first and last; <kbd>Right</kbd> expands a parent, then moves into it, and <kbd>Left</kbd> collapses it, or moves to the parent; <kbd>Enter</kbd> selects a node (and toggles a parent), <kbd>Space</kbd> selects it.\n\nA node with `@href`, or `@route` for one of the app's routes, is a link: Enter and Space follow it, and it's still selected. A route node is the active node while its route is current.\n\nBy default only a single node can be selected at a time. `@multiselect` allows selecting additional nodes by clicking while holding <kbd>Cmd</kbd>/<kbd>Ctrl</kbd>. `@onSelect` is called with the array of selected node ids and the node that triggered the change, and `@onActivate` with the id of the node that received keyboard/click focus.\n\nA disabled node can't be selected or focused (it is removed from the tab order) but still renders, dimmed; on a parent node its toggle caret stays usable so its descendants remain reachable.",
       },
     },
   },
@@ -419,3 +513,69 @@ export const WithComplexNesting = meta.story({
     </TreeView>
   </template>,
 });
+
+export const WithLinks = meta.story({
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "A node with `@href` is a link, or with `@route` a link to one of the app's routes, which is the active node while its route is current. Enter follows it. Here the links only pretend to navigate, and the page shows the selected one.",
+      },
+    },
+  },
+  args: { hideLabel: true },
+  render: (args: StoryArgs) => {
+    const page = trackedObject({
+      current: 'Artificial intelligence',
+      id: '1',
+    });
+    const selectPage: TreeViewSignature['Args']['onSelect'] = (
+      selected,
+      node,
+    ) => {
+      page.current = node.args.label;
+      page.id = node.nodeId;
+      args.onSelect?.(selected, node);
+    };
+    const selectedPage = () => [page.id];
+    return <template>
+      <div class="tree-view-story__page">
+        <TreeView
+          @label={{args.label}}
+          @hideLabel={{args.hideLabel}}
+          @size={{args.size}}
+          @active={{page.id}}
+          @selected={{(selectedPage)}}
+          @onSelect={{selectPage}}
+          as |Node|
+        >
+          <TreeNodes
+            @nodes={{LINK_NODES}}
+            @Node={{Node}}
+            @withIcons={{true}}
+            @withLinks={{true}}
+          />
+        </TreeView>
+        <main>
+          <h3>The current page is: {{page.current}}</h3>
+        </main>
+      </div>
+    </template>;
+  },
+});
+
+WithLinks.test(
+  'shows the clicked link as the current page',
+  async ({ canvas, userEvent }) => {
+    const blockchain = canvas.getByRole('treeitem', { name: 'Blockchain' });
+    await userEvent.click(blockchain);
+    await expect(
+      canvas.getByText('The current page is: Blockchain'),
+    ).toBeInTheDocument();
+    // One current page, as in Carbon React's story.
+    await expect(blockchain).toHaveAttribute('aria-current', 'page');
+    await expect(
+      canvas.getByRole('treeitem', { name: 'Artificial intelligence' }),
+    ).not.toHaveAttribute('aria-current');
+  },
+);

@@ -3,6 +3,7 @@ import { expect, fn, waitFor, within } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import OverflowMenu from './overflow-menu.gts';
 import Filter from './icons/filter.ts';
+import { NewPopoverAlignments } from './popover.gts';
 
 import type { OverflowMenuSignature } from './overflow-menu.gts';
 
@@ -35,20 +36,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
   argTypes: {
     align: {
       control: 'select',
-      options: [
-        'top',
-        'top-start',
-        'top-end',
-        'bottom',
-        'bottom-start',
-        'bottom-end',
-        'left',
-        'left-end',
-        'left-start',
-        'right',
-        'right-end',
-        'right-start',
-      ],
+      options: NewPopoverAlignments,
     },
     size: { control: 'select', options: ['xs', 'sm', 'md', 'lg'] },
   },

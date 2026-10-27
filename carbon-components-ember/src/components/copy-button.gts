@@ -5,11 +5,9 @@ import { modifier } from 'ember-modifier';
 import { task, timeout } from 'ember-concurrency';
 import copyToClipboard from '../modifiers/copy-to-clipboard.ts';
 import { textOf } from '../utils/clipboard.ts';
-import ButtonBase from './-private/button-base.gts';
+import CopyTrigger from './-private/copy-trigger.gts';
 import CopyIcon from './icons/copy.ts';
 import { LayoutConstraint } from './layout.gts';
-import Tooltip from './tooltip.gts';
-import type { TOC } from '@ember/component/template-only';
 import type { ButtonSignature } from './button.gts';
 import type { PopoverAlignment } from './popover.gts';
 
@@ -61,43 +59,6 @@ function dedent(text: string) {
 
 // As Carbon React's CopyButton.
 const SIZE = { default: 'md', max: 'lg' } as const;
-
-interface CopyTriggerSignature {
-  Element: ButtonSignature['Element'];
-  Args: { button: CopyButton };
-  Blocks: { default: [] };
-}
-
-// Carbon React's Copy: an icon button named by its tooltip, which says when
-// the copy worked.
-const CopyTrigger: TOC<CopyTriggerSignature> = <template>
-  <Tooltip
-    class="cds--icon-tooltip
-      {{if @button.args.disabled 'cds--icon-tooltip--disabled'}}"
-    @align={{@button.align}}
-    @autoAlign={{@button.args.autoAlign}}
-    @label={{@button.label}}
-    @closeOnActivation={{false}}
-    @leaveDelayMs={{@button.leaveDelayMs}}
-  >
-    <ButtonBase
-      @kind="primary"
-      @hasIconOnly={{true}}
-      @size={{@button.size}}
-      @disabled={{@button.args.disabled}}
-      class="cds--copy
-        {{if
-          @button.args.inline
-          'cds--snippet cds--snippet--inline'
-          'cds--copy-btn'
-        }}"
-      ...attributes
-      {{copyToClipboard text=@button.textToCopy onSuccess=@button.showFeedback}}
-    >
-      {{yield}}
-    </ButtonBase>
-  </Tooltip>
-</template>;
 
 export default class CopyButton extends Component<CopyButtonSignature> {
   @tracked didCopy: boolean = false;
@@ -157,9 +118,16 @@ export default class CopyButton extends Component<CopyButtonSignature> {
   <template>
     {{#if @inline}}
       <CopyTrigger
-        @button={{this}}
+        @align={{this.align}}
+        @autoAlign={{@autoAlign}}
+        @disabled={{@disabled}}
+        @label={{this.label}}
+        @leaveDelayMs={{this.leaveDelayMs}}
+        @size={{this.size}}
+        class="cds--snippet cds--snippet--inline"
         aria-describedby={{this.codeId}}
         ...attributes
+        {{copyToClipboard text=this.textToCopy onSuccess=this.showFeedback}}
       >
         <code
           id={{this.codeId}}
@@ -170,7 +138,17 @@ export default class CopyButton extends Component<CopyButtonSignature> {
       </CopyTrigger>
     {{else}}
       <LayoutConstraint @size={{SIZE}}>
-        <CopyTrigger @button={{this}} ...attributes>
+        <CopyTrigger
+          @align={{this.align}}
+          @autoAlign={{@autoAlign}}
+          @disabled={{@disabled}}
+          @label={{this.label}}
+          @leaveDelayMs={{this.leaveDelayMs}}
+          @size={{this.size}}
+          class="cds--copy-btn"
+          ...attributes
+          {{copyToClipboard text=this.textToCopy onSuccess=this.showFeedback}}
+        >
           {{#if (has-block)}}
             <code
               class="cds--visually-hidden"

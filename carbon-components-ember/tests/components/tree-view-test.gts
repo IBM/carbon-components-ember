@@ -1,8 +1,10 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import { setupApplicationTest, setupRenderingTest } from 'ember-qunit';
 import {
   render,
   click,
+  find,
+  getRootElement,
   focus,
   rerender,
   settled,
@@ -20,6 +22,8 @@ import {
   disableCarbonStyles,
   enableCarbonStyles,
   nonce,
+  setupRoutes,
+  visitWith,
 } from '../helpers';
 
 module('Integration | Component | TreeView', (hooks) => {
@@ -253,6 +257,73 @@ module('Integration | Component | TreeView', (hooks) => {
     assert
       .dom('.cds--tree-parent-node__toggle-icon')
       .hasClass('cds--tree-parent-node__toggle-icon--expanded');
+  });
+
+  test("with icons, every row starts at the tree's left edge, so its focus ring shows whole", async function (assert) {
+    await render(
+      <template>
+        <TreeView @label="Tree View" as |Node|>
+          <Node @id="leaf" @label="Leaf" @icon={{Document}} />
+          <Node
+            @id="one"
+            @label="One"
+            @icon={{Folder}}
+            @isExpanded={{true}}
+            as |Child|
+          >
+            <Child
+              @id="two"
+              @label="Two"
+              @icon={{Folder}}
+              @isExpanded={{true}}
+              as |Grandchild|
+            >
+              <Grandchild @id="deep" @label="Deep" @icon={{Document}} />
+            </Child>
+          </Node>
+        </TreeView>
+      </template>,
+    );
+    await waitForAnimationFrame();
+
+    const treeLeft = document
+      .querySelector('.cds--tree')!
+      .getBoundingClientRect().left;
+    for (const id of ['leaf', 'one', 'two', 'deep']) {
+      const label = document.querySelector(`#${id} > .cds--tree-node__label`)!;
+      assert.strictEqual(label.getBoundingClientRect().left, treeLeft, id);
+    }
+  });
+
+  test('in a tree mixing nodes with and without icons, every row starts at its edge too', async function (assert) {
+    await render(
+      <template>
+        <TreeView @label="Tree View" as |Node|>
+          <Node @id="plain" @label="Plain" @isExpanded={{true}} as |Child|>
+            <Child
+              @id="iconParent"
+              @label="Icon parent"
+              @icon={{Folder}}
+              @isExpanded={{true}}
+              as |Grandchild|
+            >
+              <Grandchild @id="plainLeaf" @label="Plain leaf" />
+            </Child>
+          </Node>
+        </TreeView>
+      </template>,
+    );
+    await waitForAnimationFrame();
+
+    const tree = document.querySelector('.cds--tree')!;
+    for (const id of ['plain', 'iconParent', 'plainLeaf']) {
+      const label = document.querySelector(`#${id} > .cds--tree-node__label`)!;
+      assert.strictEqual(
+        label.getBoundingClientRect().left,
+        tree.getBoundingClientRect().left,
+        id,
+      );
+    }
   });
 
   test('a selected row highlights the full row width under real Carbon styles, not just the label text', async function (this: RenderingTestContext, assert) {
@@ -586,5 +657,178 @@ module('Integration | Component | TreeView', (hooks) => {
       assert.dom('#a2').hasAttribute('tabindex', '-1');
       assert.dom('#a').hasAttribute('tabindex', '0');
     });
+  });
+
+  test("a disabled node's click doesn't select its parent, as in Carbon React", async function (assert) {
+    const selections: string[][] = [];
+    const onSelect = (selected: string[]) => selections.push(selected);
+    await render(
+      <template>
+        <TreeView @label="Tree" @onSelect={{onSelect}} as |Node|>
+          <Node @id="parent" @label="Parent" @isExpanded={{true}} as |Child|>
+            <Child @id="child" @label="Child" @disabled={{true}} />
+          </Node>
+        </TreeView>
+      </template>,
+    );
+    await click('#child');
+    assert.deepEqual(selections, []);
+  });
+});
+
+module('Integration | Component | TreeView > link nodes', function (hooks) {
+  setupApplicationTest(hooks);
+  setupRoutes(hooks);
+
+  test('a node with @href is a link treeitem, with its group beside it, as in Carbon React', async function (assert) {
+    await visitWith(
+      this,
+      <template>
+        <TreeView @label="Docs" as |Node|>
+          <Node @id="guides" @label="Guides" @href="/guides" as |Child|>
+            <Child @id="intro" @label="Intro" @href="/guides/intro" />
+          </Node>
+          <Node @id="off" @label="Off" @href="/off" @disabled={{true}} />
+        </TreeView>
+      </template>,
+    );
+
+    assert
+      .dom('li[role="none"].cds--tree-node-link-parent > a#guides')
+      .hasAttribute('role', 'treeitem')
+      .hasAttribute('href', '/guides')
+      .hasAttribute('aria-expanded', 'false')
+      .doesNotHaveAttribute('aria-selected')
+      .hasClass('cds--tree-parent-node');
+    assert
+      .dom('li.cds--tree-node-link-parent > ul#guides__subtree #intro')
+      .hasAttribute('href', '/guides/intro');
+    assert
+      .dom('a#off')
+      .doesNotHaveAttribute('href')
+      .hasAttribute('aria-disabled', 'true');
+  });
+
+  test("the arrows move between link nodes, and the toggle doesn't follow the link", async function (assert) {
+    await visitWith(
+      this,
+      <template>
+        <TreeView @label="Docs" as |Node|>
+          <Node @id="guides" @label="Guides" @href="/guides" as |Child|>
+            <Child @id="intro" @label="Intro" @href="/guides/intro" />
+          </Node>
+        </TreeView>
+      </template>,
+    );
+    const toggleClick = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+    });
+    find('.cds--tree-parent-node__toggle')!.dispatchEvent(toggleClick);
+    await settled();
+    assert.true(
+      toggleClick.defaultPrevented,
+      'the toggle click is no navigation',
+    );
+    assert.dom('#guides').hasAttribute('aria-expanded', 'true');
+
+    await focus('#guides');
+    await triggerKeyEvent('#guides', 'keydown', 'ArrowRight');
+    assert.dom('#intro').isFocused();
+    await triggerKeyEvent('#intro', 'keydown', 'ArrowLeft');
+    assert.dom('#guides').isFocused();
+  });
+
+  test('a node with @route is active while its route is current, and Enter follows it', async function (assert) {
+    await visitWith(
+      this,
+      <template>
+        <TreeView @label="App" as |Node|>
+          <Node @id="settings" @label="Settings" @route="settings" />
+        </TreeView>
+      </template>,
+    );
+    assert
+      .dom('#settings')
+      .hasAttribute('href', '/settings')
+      .doesNotHaveClass('cds--tree-node--active');
+
+    await focus('#settings');
+    await triggerKeyEvent('#settings', 'keydown', 'Enter');
+    const router = this.owner.lookup('service:router');
+    assert.strictEqual(router.currentRouteName, 'settings');
+    assert
+      .dom('#settings')
+      .hasClass('cds--tree-node--active')
+      .hasAttribute('aria-current', 'page');
+  });
+
+  test("the tree's active node, as Carbon React's, and Enter selects a link node once", async function (assert) {
+    const selections: string[][] = [];
+    const onSelect = (selected: string[]) => selections.push(selected);
+    await visitWith(
+      this,
+      <template>
+        <TreeView
+          @label="Docs"
+          @active="intro"
+          @onSelect={{onSelect}}
+          as |Node|
+        >
+          <Node @id="intro" @label="Intro" @href="/intro" />
+          <Node @id="faq" @label="FAQ" @href="/faq" />
+        </TreeView>
+      </template>,
+    );
+    // Keeps the test page where it is: capturing, as the node stops the
+    // click from bubbling.
+    getRootElement().addEventListener(
+      'click',
+      (event) => event.preventDefault(),
+      true,
+    );
+
+    assert
+      .dom('#intro')
+      .hasClass('cds--tree-node--active')
+      .hasAttribute('aria-current', 'page')
+      .hasAttribute('aria-expanded', 'false');
+
+    await focus('#faq');
+    await triggerKeyEvent('#faq', 'keydown', 'Enter');
+    assert.deepEqual(selections, [['faq']]);
+  });
+
+  test('a route node is active only while its own route is current', async function (assert) {
+    await visitWith(
+      this,
+      <template>
+        <TreeView @label="Docs" as |Node|>
+          <Node
+            @id="docs"
+            @label="Docs"
+            @route="docs"
+            @isExpanded={{true}}
+            as |Child|
+          >
+            <Child @id="guides" @label="Guides" @route="docs.guides" />
+          </Node>
+          <Node @id="settings" @label="Settings" @route="settings" />
+        </TreeView>
+      </template>,
+    );
+    const router = this.owner.lookup('service:router');
+
+    await click('#guides');
+    assert.dom('#guides').hasAttribute('aria-current', 'page');
+    assert.dom('#docs').doesNotHaveAttribute('aria-current');
+
+    await router.transitionTo('settings');
+    await settled();
+    assert
+      .dom('#guides')
+      .doesNotHaveAttribute('aria-current')
+      .doesNotHaveClass('cds--tree-node--active');
+    assert.dom('#settings').hasAttribute('aria-current', 'page');
   });
 });

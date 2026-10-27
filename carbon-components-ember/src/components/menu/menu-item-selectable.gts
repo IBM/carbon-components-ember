@@ -10,6 +10,7 @@ import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import MenuItem from './menu-item.gts';
 import type Icon from '../icon.gts';
+import type Menu from '../menu.gts';
 
 export interface MenuItemSelectableSignature {
   Element: HTMLLIElement;
@@ -18,6 +19,8 @@ export interface MenuItemSelectableSignature {
      * A required label titling this option.
      */
     label: string;
+    /** The menu the item is in: Menu yields the item bound to it. */
+    menu: Menu;
     /**
      * Specify whether the option should be selected by default.
      */
@@ -57,6 +60,7 @@ export default class MenuItemSelectable extends Component<MenuItemSelectableSign
 
   <template>
     <MenuItem
+      @menu={{@menu}}
       @label={{@label}}
       @shortcut={{@shortcut}}
       @renderIcon={{@renderIcon}}

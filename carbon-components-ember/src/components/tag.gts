@@ -1,8 +1,11 @@
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { modifier } from 'ember-modifier';
 import type Icon from './icon.gts';
 import AILabel from './ai-label.gts';
+import DefinitionTooltip from './-private/definition-tooltip.gts';
+import { observeTruncation } from '../utils/truncation.ts';
 import type { WithBoundArgs } from '@glint/template';
 
 export interface TagSignature {
@@ -54,8 +57,14 @@ export interface TagSignature {
   };
 }
 
+const textOf = (element: HTMLElement) =>
+  (element.textContent ?? '').replace(/\s+/g, ' ').trim();
+
 export default class Tag extends Component<TagSignature> {
   guid = guidFor(this);
+
+  // While the label is cut off, it shows in a tooltip, as in Carbon React.
+  @tracked truncated = false;
 
   get id() {
     return this.args.id ?? `tag-${this.guid}`;
@@ -90,7 +99,7 @@ export default class Tag extends Component<TagSignature> {
     return !!this.args.renderIcon && this.args.size !== 'sm';
   }
 
-  // @carbon/react's Tag derives the label's `title` (used for a truncation
+  // @carbon/react's Tag derives the label's `title` (the browser's own
   // tooltip) from its `children` prop or explicit `title` prop. In Ember, we set
   // the title attribute from `@title` or fallback to the element's text content.
   syncLabelTitle = modifier(
@@ -98,7 +107,7 @@ export default class Tag extends Component<TagSignature> {
       if (title !== undefined) {
         element.title = title;
       } else {
-        const text = (element.textContent ?? '').replace(/\s+/g, ' ').trim();
+        const text = textOf(element);
         if (text) {
           element.title = text;
         }
@@ -108,6 +117,12 @@ export default class Tag extends Component<TagSignature> {
         element.removeAttribute('title');
       };
     },
+  );
+
+  watchTruncation = modifier((label: HTMLElement) =>
+    observeTruncation(label, (truncated) => {
+      if (this.truncated !== truncated) this.truncated = truncated;
+    }),
   );
 
   <template>
@@ -123,9 +138,34 @@ export default class Tag extends Component<TagSignature> {
           <@renderIcon @size="16" />
         </div>
       {{/if}}
-      <span class="cds--tag__label" dir="auto" {{this.syncLabelTitle @title}}>
-        {{yield}}
-      </span>
+      {{#if this.truncated}}
+        {{! As in Carbon React, the tooltip shows the block again. }}
+        <DefinitionTooltip
+          @openOnHover={{false}}
+          class="cds--definition--tooltip--tag"
+        >
+          <:default>
+            <span
+              class="cds--tag__label"
+              dir="auto"
+              {{this.syncLabelTitle @title}}
+              {{this.watchTruncation}}
+            >
+              {{yield}}
+            </span>
+          </:default>
+          <:definition>{{yield}}</:definition>
+        </DefinitionTooltip>
+      {{else}}
+        <span
+          class="cds--tag__label"
+          dir="auto"
+          {{this.syncLabelTitle @title}}
+          {{this.watchTruncation}}
+        >
+          {{yield}}
+        </span>
+      {{/if}}
       {{#if (has-block "decorator")}}
         <div class="cds--tag__decorator">
           {{yield (component AILabel size="sm" kind="inline") to="decorator"}}
