@@ -15,32 +15,46 @@ import './popover.scss';
 
 import type { Boundary, Placement } from '@floating-ui/dom';
 
+/** Carbon React's `NewPopoverAlignment` values. */
+export const NewPopoverAlignments = [
+  'top',
+  'top-start',
+  'top-end',
+  'bottom',
+  'bottom-start',
+  'bottom-end',
+  'left',
+  'left-start',
+  'left-end',
+  'right',
+  'right-start',
+  'right-end',
+] as const;
+
+const deprecatedPopoverAlignments = [
+  'top-left',
+  'top-right',
+  'bottom-left',
+  'bottom-right',
+  'left-bottom',
+  'left-top',
+  'right-bottom',
+  'right-top',
+] as const;
+
+/** Every alignment Carbon React's `PopoverAlignment` takes. */
+export const PopoverAlignments = [
+  ...NewPopoverAlignments,
+  ...deprecatedPopoverAlignments,
+] as const;
+
+export type NewPopoverAlignment = (typeof NewPopoverAlignments)[number];
+
 /**
  * @deprecated Use NewPopoverAlignment instead.
  */
 export type DeprecatedPopoverAlignment =
-  | 'top-left'
-  | 'top-right'
-  | 'bottom-left'
-  | 'bottom-right'
-  | 'left-bottom'
-  | 'left-top'
-  | 'right-bottom'
-  | 'right-top';
-
-export type NewPopoverAlignment =
-  | 'top'
-  | 'bottom'
-  | 'left'
-  | 'right'
-  | 'top-start'
-  | 'top-end'
-  | 'bottom-start'
-  | 'bottom-end'
-  | 'left-end'
-  | 'left-start'
-  | 'right-end'
-  | 'right-start';
+  (typeof deprecatedPopoverAlignments)[number];
 
 export type PopoverAlignment = DeprecatedPopoverAlignment | NewPopoverAlignment;
 

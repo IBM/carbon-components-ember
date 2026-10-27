@@ -11,7 +11,7 @@ import { guidFor } from '@ember/object/internals';
 import { modifier } from 'ember-modifier';
 import style from 'ember-style-modifier';
 import { default as Tooltip } from '../tooltip.gts';
-import type { TooltipAlignments } from '../tooltip.gts';
+import type { PopoverAlignment } from '../popover.gts';
 import './truncated-text.scss';
 import { observeResize } from '../../utils/resize-observer.ts';
 
@@ -19,7 +19,7 @@ export interface TruncatedTextSignature {
   Element: HTMLDivElement;
   Args: {
     /** Tooltip alignment when `@type` is `'tooltip'`. Defaults to `'top'`. */
-    align?: (typeof TooltipAlignments)[number];
+    align?: PopoverAlignment;
     /** Auto-align the tooltip so it stays within the viewport. */
     autoalign?: boolean;
     /** Label for the collapse ("show less") button in `'expand'` mode. */

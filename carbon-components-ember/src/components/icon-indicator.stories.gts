@@ -1,10 +1,9 @@
 import { expect, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
-import IconIndicator, {
-  IconIndicatorAlignments,
-  IconIndicatorKinds,
-} from './icon-indicator.gts';
+import IconIndicator, { IconIndicatorKinds } from './icon-indicator.gts';
+
+import { NewPopoverAlignments } from './popover.gts';
 
 import type { IconIndicatorKind } from './icon-indicator.gts';
 import '#storybook/styles/icon-indicator.css';
@@ -34,7 +33,7 @@ const meta = preview.meta({
     },
   },
   argTypes: {
-    align: { control: { type: 'select' }, options: IconIndicatorAlignments },
+    align: { control: { type: 'select' }, options: NewPopoverAlignments },
     autoAlign: { control: { type: 'boolean' } },
     compact: { control: { type: 'boolean' } },
     iconDescription: { control: { type: 'text' } },

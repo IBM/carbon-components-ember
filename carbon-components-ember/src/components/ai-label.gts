@@ -15,7 +15,8 @@ import Undo from './icons/undo.ts';
 import Toggletip from './toggletip.gts';
 
 import type { ButtonSignature } from './button.gts';
-import type { ToggletipAlignment, ToggletipSignature } from './toggletip.gts';
+import type { ToggletipSignature } from './toggletip.gts';
+import type { PopoverAlignment } from './popover.gts';
 import type { WithBoundArgs } from '@glint/template';
 
 export type AILabelSize = 'mini' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -41,7 +42,7 @@ export interface AILabelSignature {
     /** Defaults to `xs`. Components that host an AI label pass their own. */
     size?: AILabelSize;
     /** Where the label's content opens relative to its button. */
-    align?: ToggletipAlignment;
+    align?: PopoverAlignment;
     /** Opens the content on first render. */
     defaultOpen?: boolean;
     /**

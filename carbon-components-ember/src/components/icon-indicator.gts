@@ -7,6 +7,7 @@
 
 import Component from '@glimmer/component';
 import DefinitionTooltip from './-private/definition-tooltip.gts';
+import type { PopoverAlignment } from './popover.gts';
 import ErrorFilled from './icons/error-filled.ts';
 import CheckmarkFilled from './icons/checkmark-filled.ts';
 import CheckmarkOutline from './icons/checkmark-outline.ts';
@@ -37,23 +38,6 @@ export const IconIndicatorKinds = [
 
 export type IconIndicatorKind = (typeof IconIndicatorKinds)[number];
 
-export const IconIndicatorAlignments = [
-  'top',
-  'top-start',
-  'top-end',
-  'bottom',
-  'bottom-start',
-  'bottom-end',
-  'left',
-  'left-start',
-  'left-end',
-  'right',
-  'right-start',
-  'right-end',
-] as const;
-
-export type IconIndicatorAlignment = (typeof IconIndicatorAlignments)[number];
-
 const icons: Record<IconIndicatorKind, typeof ErrorFilled> = {
   failed: ErrorFilled,
   'caution-major': WarningAltInvertedFilled,
@@ -75,7 +59,7 @@ export interface IconIndicatorSignature {
     /**
      * Specify how the tooltip should align with the icon in compact mode
      */
-    align?: IconIndicatorAlignment;
+    align?: PopoverAlignment;
     /**
      * Will auto-align the tooltip in compact mode so it stays within the
      * viewport, moving it to another side when it would otherwise overflow
