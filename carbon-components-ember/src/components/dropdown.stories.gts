@@ -10,6 +10,7 @@ import DropdownSkeleton from './dropdown-skeleton.gts';
 
 import type { DropdownSignature } from './dropdown.gts';
 import '#storybook/styles/dropdown.css';
+import { listBoxSizes } from './-private/list-box/list-box.gts';
 
 // Carbon React parity gaps (Components/Dropdown):
 // - Items can't be disabled (React's `Option 3` is `disabled: true`).
@@ -54,7 +55,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     },
   },
   argTypes: {
-    size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
+    size: { control: 'inline-radio', options: listBoxSizes },
     type: { control: 'inline-radio', options: ['default', 'inline'] },
     direction: { control: 'inline-radio', options: ['top', 'bottom'] },
   },

@@ -5,11 +5,8 @@ import { expect, fn, waitFor, within } from 'storybook/test';
 import preview from '#storybook/preview.ts';
 import Button from './button.gts';
 import Menu from './menu.gts';
-import MenuItem from './menu/menu-item.gts';
 import MenuItemDivider from './menu/menu-item-divider.gts';
 import MenuItemGroup from './menu/menu-item-group.gts';
-import MenuItemRadioGroup from './menu/menu-item-radio-group.gts';
-import MenuItemSelectable from './menu/menu-item-selectable.gts';
 import Copy from './icons/copy.ts';
 import Cut from './icons/cut.ts';
 import FolderShared from './icons/folder-shared.ts';
@@ -22,10 +19,8 @@ import type { MenuSignature } from './menu.gts';
 import '#storybook/styles/menu.css';
 
 // Mirrors Carbon React's single Menu story (`Default`); `Opening from a
-// trigger` and `Sizes` port the docs-app demos. MenuItem, MenuItemDivider,
-// MenuItemGroup, MenuItemRadioGroup and MenuItemSelectable are separate
-// components (not yielded by Menu), so their API isn't listed on this page;
-// see their JSDoc in `src/components/menu/`.
+// trigger` and `Sizes` port the docs-app demos. The item components' API
+// isn't listed on this page; see their JSDoc in `src/components/menu/`.
 //
 // Each story renders the menu into a local box passed as `@target`
 // (Menu defaults to `document.body`). The box carries a `transform`, which
@@ -56,7 +51,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     docs: {
       description: {
         component:
-          "Menu is a low-level building block for rendering a floating list of actions; `OverflowMenu` and context menus are built on top of it. It's a controlled component: pass `@open` and toggle it from `@onClose`/your own trigger. Compose it out of `MenuItem`, `MenuItemDivider`, `MenuItemGroup`, `MenuItemRadioGroup`, and `MenuItemSelectable`.\n\nBy default the Menu renders into `document.body`; `@target` renders it into another element. `@x`/`@y` position it; passing both edges of a trigger (`[x1, x2]`/`[y1, y2]`) lets it flip to the other side when it doesn't fit. Clicking a leaf item, pressing <kbd>Escape</kbd>, or moving focus outside the menu all call `@onClose`.",
+          "Menu is a low-level building block for rendering a floating list of actions, such as a context menu. It's a controlled component: pass `@open` and toggle it from `@onClose`/your own trigger. It yields `MenuItem`, `MenuItemSelectable` and `MenuItemRadioGroup` bound to it (`<Menu as |MenuItem MenuItemSelectable MenuItemRadioGroup|>`); group them in `MenuItemGroup` and separate them with `MenuItemDivider`, which you import. A `MenuItem` with a submenu yields the same three, bound to the submenu.\n\nBy default the Menu renders into `document.body`; `@target` renders it into another element. `@x`/`@y` position it; passing both edges of a trigger (`[x1, x2]`/`[y1, y2]`) lets it flip to the other side when it doesn't fit. Clicking a leaf item, pressing <kbd>Escape</kbd>, or moving focus outside the menu all call `@onClose`.",
       },
     },
   },
@@ -89,8 +84,13 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
             @x={{0}}
             @y={{0}}
             @onClose={{args.onClose}}
+            as |MenuItem MenuItemSelectable MenuItemRadioGroup|
           >
-            <MenuItem @label="Share with" @renderIcon={{FolderShared}}>
+            <MenuItem
+              @label="Share with"
+              @renderIcon={{FolderShared}}
+              as |MenuItem MenuItemSelectable MenuItemRadioGroup|
+            >
               <MenuItemRadioGroup
                 @label="Share with"
                 @items={{SHARE_WITH}}
@@ -236,6 +236,7 @@ export const OpeningFromATrigger = meta.story({
             @x={{state.x}}
             @y={{state.y}}
             @onClose={{closeMenu}}
+            as |MenuItem|
           >
             <MenuItem
               @label="Cut"
@@ -299,6 +300,7 @@ export const Sizes = meta.story({
             @x={{0}}
             @y={{0}}
             @onClose={{args.onClose}}
+            as |MenuItem|
           >
             <MenuItem @label="Cut" @shortcut="⌘X" />
             <MenuItem @label="Copy" @shortcut="⌘C" />

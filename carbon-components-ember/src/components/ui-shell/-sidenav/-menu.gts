@@ -2,21 +2,35 @@ import type Icon from '../../../components/icon.gts';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import UIShellSideNavSubMenu from './-sub-menu.gts';
+import RouterLink from '../../-private/router-link.gts';
+import type { RouteArgs } from '../../-private/router-link.gts';
 import ChevronDown from '../../icons/chevron-down.ts';
 
-export type SubMenu = {
+export type SubMenu = RouteArgs & {
   icon?: typeof Icon;
   title: string;
+  /** The URL it links to. `route` links it to one of the app's routes. */
+  href?: string;
 };
 
 export interface UIShellSideNavMenuSignature {
   /** The `<li>` with `@submenus`, as Carbon React's SideNavMenu; else the link, as its SideNavLink. */
   Element: HTMLLIElement | HTMLAnchorElement;
-  Args: {
-    transitionTo: () => void;
+  Args: RouteArgs & {
+    /**
+     * Called on a click, for an item with neither `@href` nor `@route`.
+     * Prefer `@route`, which also marks the current link.
+     */
+    transitionTo?: () => void;
     hidden?: boolean;
     open?: boolean;
-    isCurrent: boolean;
+    /** Marks it as the current link, as Carbon React's `isActive`. */
+    isCurrent?: boolean;
+    /**
+     * The URL it links to. `@route` links it to one of the app's routes,
+     * and makes it the current link while that route is current.
+     */
+    href?: string;
     icon?: typeof Icon;
     title: string;
     submenus: SubMenu[];
@@ -28,6 +42,12 @@ export interface UIShellSideNavMenuSignature {
 
 export default class UIShellSideNavMenu extends Component<UIShellSideNavMenuSignature> {
   @tracked expanded = false;
+
+  get isLink() {
+    return Boolean(this.args.href || this.args.route);
+  }
+
+  transition = () => this.args.transitionTo?.();
 
   toggleExpanded = () => {
     this.expanded = !this.expanded;
@@ -69,13 +89,19 @@ export default class UIShellSideNavMenu extends Component<UIShellSideNavMenuSign
     {{else}}
       {{#unless @hidden}}
         <li class="cds--side-nav__item">
-          <a
-            href="#"
+          {{! Without a link, it's a "#" button for @transitionTo. }}
+          <RouterLink
+            @href={{if this.isLink @href "#"}}
+            @route={{@route}}
+            @models={{@models}}
+            @query={{@query}}
+            @isActive={{@isCurrent}}
+            @activeClass="cds--side-nav__link--current"
+            @ariaCurrent="page"
             class="cds--side-nav__link"
-            aria-current="{{if @isCurrent 'page'}}"
-            role="button"
+            role={{unless this.isLink "button"}}
             ...attributes
-            {{on "click" @transitionTo}}
+            {{on "click" this.transition}}
           >
             {{#if @icon}}
               <div class="cds--side-nav__icon cds--side-nav__icon--small">
@@ -85,7 +111,7 @@ export default class UIShellSideNavMenu extends Component<UIShellSideNavMenuSign
             <span class="cds--side-nav__link-text">
               {{@title}}
             </span>
-          </a>
+          </RouterLink>
         </li>
       {{/unless}}
     {{/if}}

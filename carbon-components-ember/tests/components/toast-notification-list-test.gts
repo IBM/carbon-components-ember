@@ -1,6 +1,15 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, find, findAll, render, waitUntil } from '@ember/test-helpers';
+import {
+  click,
+  find,
+  findAll,
+  render,
+  settled,
+  waitUntil,
+} from '@ember/test-helpers';
+import { tracked } from '@glimmer/tracking';
+import Modal from '#src/components/modal.gts';
 import ToastNotificationList from '#src/components/notification/toast-notification-list.gts';
 
 module('Unit | Service | notifications', (hooks) => {
@@ -93,6 +102,70 @@ module('Integration | Component | ToastNotificationList', (hooks) => {
 
     await waitUntil(() => service.toasts.length === 0);
     assert.dom('.cds--toast-notification').doesNotExist();
+  });
+
+  test('moves into an open Modal, so its toasts can be used over it', async function (assert) {
+    const service = this.owner.lookup('service:carbon.notifications');
+    const open = tracked(false);
+    await render(
+      <template>
+        <ToastNotificationList class="app-toasts" />
+        <Modal @open={{open.value}} @modalHeading="Edit" />
+      </template>,
+    );
+    const home = find('.cds--ember-toast-notification-list__home');
+    service.error({ title: 'Failed' });
+    await waitUntil(() => find('.cds--toast-notification'));
+    const toast = find('.cds--toast-notification');
+
+    open.value = true;
+    await settled();
+    const dialog = find('dialog');
+    assert.strictEqual(
+      find('.app-toasts')?.parentElement,
+      dialog,
+      'the list is in the modal',
+    );
+    assert.strictEqual(
+      find('.cds--toast-notification'),
+      toast,
+      'its toasts are not rendered again',
+    );
+    // Nothing outside an open modal dialog can take focus.
+    const close = toast!.querySelector('button')!;
+    close.focus();
+    assert.dom(close).isFocused();
+
+    service.warning({ title: 'Quota' });
+    await waitUntil(() => findAll('.cds--toast-notification').length === 2);
+    assert.dom('.cds--toast-notification', dialog).exists({ count: 2 });
+
+    open.value = false;
+    await settled();
+    assert.strictEqual(find('.app-toasts')?.parentElement, home, 'and back');
+  });
+
+  test('goes back when an open Modal goes away', async function (assert) {
+    const service = this.owner.lookup('service:carbon.notifications');
+    const shown = tracked(true);
+    await render(
+      <template>
+        <ToastNotificationList class="app-toasts" />
+        {{#if shown.value}}
+          <Modal @open={{true}} @modalHeading="Edit" />
+        {{/if}}
+      </template>,
+    );
+    service.error({ title: 'Failed' });
+    await waitUntil(() => find('dialog .cds--toast-notification'));
+
+    shown.value = false;
+    await settled();
+    assert.strictEqual(
+      find('.app-toasts')?.parentElement,
+      find('.cds--ember-toast-notification-list__home'),
+    );
+    assert.dom('.cds--toast-notification').exists();
   });
 
   test('a toast with an action is an ActionableNotification', async function (assert) {

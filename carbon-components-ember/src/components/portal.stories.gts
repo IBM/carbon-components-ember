@@ -16,7 +16,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          'Helper component for rendering content within a portal. By default, the portal renders into `document.body`. You can customize this behavior with the `@container` argument. Any content yielded to this component will be rendered inside of the container.',
+          'Helper component for rendering content within a portal. By default, the portal renders into the topmost open `Modal`, so the content can be used over it, else into `document.body`; it renders again whenever a modal opens or closes, unless you pass a `@container`. You can customize this behavior with the `@container` argument. Any content yielded to this component will be rendered inside of the container.',
       },
     },
   },

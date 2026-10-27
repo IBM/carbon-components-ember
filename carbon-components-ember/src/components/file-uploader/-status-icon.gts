@@ -9,6 +9,7 @@ import Component from '@glimmer/component';
 import Loading from '../loading.gts';
 import Close from '../icons/close.ts';
 import CheckmarkFilled from '../icons/checkmark-filled.ts';
+import WarningFilled from '../icons/warning-filled.ts';
 import type { LoadingSignature } from '../loading.gts';
 
 export interface FileUploaderStatusIconSignature {
@@ -16,6 +17,8 @@ export interface FileUploaderStatusIconSignature {
   Args: {
     status?: 'uploading' | 'edit' | 'complete';
     name?: string;
+    /** Shows a warning icon before the remove button. */
+    invalid?: boolean;
     disabled?: boolean;
     iconDescription?: string;
     ariaDescribedby?: string;
@@ -52,6 +55,9 @@ export default class FileUploaderStatusIcon extends Component<FileUploaderStatus
         ...attributes
       />
     {{else if (eq this.status "edit")}}
+      {{#if @invalid}}
+        <WarningFilled @svgClass="cds--file-invalid" />
+      {{/if}}
       <button
         type="button"
         disabled={{@disabled}}

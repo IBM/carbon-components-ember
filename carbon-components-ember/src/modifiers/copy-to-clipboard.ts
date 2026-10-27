@@ -39,7 +39,7 @@ export default modifier(
       }
       if (value === undefined) return;
       try {
-        await writeToClipboard(value);
+        await writeToClipboard(value, element);
       } catch (error) {
         onError?.(value, error);
         return;

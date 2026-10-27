@@ -1,10 +1,9 @@
 import { expect, waitFor } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
-import IconIndicator, {
-  IconIndicatorAlignments,
-  IconIndicatorKinds,
-} from './icon-indicator.gts';
+import IconIndicator, { IconIndicatorKinds } from './icon-indicator.gts';
+
+import { NewPopoverAlignments } from './popover.gts';
 
 import type { IconIndicatorKind } from './icon-indicator.gts';
 import '#storybook/styles/icon-indicator.css';
@@ -34,7 +33,7 @@ const meta = preview.meta({
     },
   },
   argTypes: {
-    align: { control: { type: 'select' }, options: IconIndicatorAlignments },
+    align: { control: { type: 'select' }, options: NewPopoverAlignments },
     autoAlign: { control: { type: 'boolean' } },
     compact: { control: { type: 'boolean' } },
     iconDescription: { control: { type: 'text' } },
@@ -132,6 +131,10 @@ Compact.test(
       expect(trigger).toHaveAttribute('aria-expanded', 'true'),
     );
 
+    // A rerender would leave the test holding a stale trigger (#1241).
+    await expect(trigger.isConnected, 'the trigger is still rendered').toBe(
+      true,
+    );
     await userEvent.unhover(trigger);
     await waitFor(() =>
       expect(trigger).toHaveAttribute('aria-expanded', 'false'),

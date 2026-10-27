@@ -9,7 +9,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import Popover from '../popover.gts';
-import type { NewPopoverAlignment } from '../popover.gts';
+import type { PopoverAlignment } from '../popover.gts';
 import type { PopoverSignature } from '../popover.gts';
 
 export interface DefinitionTooltipSignature {
@@ -18,16 +18,16 @@ export interface DefinitionTooltipSignature {
     /**
      * How the tooltip is aligned relative to its trigger.
      */
-    align?: NewPopoverAlignment;
+    align?: PopoverAlignment;
     /**
      * Keep the tooltip within the viewport, moving it to another side when it
      * would overflow.
      */
     autoAlign?: boolean;
     /**
-     * The text shown in the tooltip.
+     * The text shown in the tooltip, unless the `definition` block is given.
      */
-    definition: string;
+    definition?: string;
     /**
      * Open the tooltip on hover, not only on focus/click.
      */
@@ -39,12 +39,14 @@ export interface DefinitionTooltipSignature {
   };
   Blocks: {
     default: [];
+    /** What the tooltip shows, in place of `@definition`. */
+    definition: [];
   };
 }
 
 /**
  * Port of `@carbon/react`'s `DefinitionTooltip`, used by `IconIndicator` and
- * `ShapeIndicator` in compact mode.
+ * `ShapeIndicator` in compact mode, and by `Tag` for a cut-off label.
  *
  * The panel spans are written out here instead of using `PopoverContent`.
  * Upstream's `PopoverContent` puts `id` (and every other prop) on the outer
@@ -119,7 +121,11 @@ export default class DefinitionTooltip extends Component<DefinitionTooltipSignat
       </button>
       <span class="cds--popover" id={{this.tooltipId}}>
         <span class="cds--popover-content cds--definition-tooltip">
-          {{@definition}}
+          {{#if (has-block "definition")}}
+            {{yield to="definition"}}
+          {{else}}
+            {{@definition}}
+          {{/if}}
           {{#if @autoAlign}}
             <span class="cds--popover-caret cds--popover--auto-align"></span>
           {{/if}}

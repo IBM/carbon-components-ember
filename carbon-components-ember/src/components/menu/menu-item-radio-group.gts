@@ -9,6 +9,7 @@ import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import MenuItem from './menu-item.gts';
+import type Menu from '../menu.gts';
 
 export interface MenuItemRadioGroupSignature<Item = string> {
   Element: HTMLUListElement;
@@ -22,15 +23,19 @@ export interface MenuItemRadioGroupSignature<Item = string> {
      * A required label titling this radio group.
      */
     label: string;
+    /** The menu the group is in: Menu yields the group bound to it. */
+    menu: Menu;
     /**
      * Provide the options for this radio group. Can be of any type, as
      * long as you provide an appropriate `@itemToString` function.
      */
     items: Item[];
+    // The handlers are methods, which TypeScript checks loosely: the group
+    // Menu yields is typed for any items, and takes the caller's handlers.
     /**
      * Converts an item into a string for display. Defaults to `String(item)`.
      */
-    itemToString?: (item: Item) => string;
+    itemToString?(item: Item): string;
     /**
      * Specify the default selected item.
      */
@@ -42,7 +47,7 @@ export interface MenuItemRadioGroupSignature<Item = string> {
     /**
      * Provide an optional function to be called when the selection changes.
      */
-    onChange?: (selectedItem: Item) => void;
+    onChange?(selectedItem: Item): void;
   };
 }
 
@@ -81,6 +86,7 @@ export default class MenuItemRadioGroup<Item = string> extends Component<
       <ul ...attributes role="group" aria-label={{@label}}>
         {{#each this.entries as |entry|}}
           <MenuItem
+            @menu={{@menu}}
             @label={{entry.label}}
             @role="menuitemradio"
             @ariaChecked={{entry.checked}}

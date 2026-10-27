@@ -56,9 +56,6 @@ export interface CalloutSignature {
   };
 }
 
-const iconDescription = (description: string | undefined, kind: string) =>
-  description || `${kind} icon`;
-
 const noop = () => {};
 
 /**
@@ -77,7 +74,7 @@ const Callout: TOC<CalloutSignature> = <template>
         <NotificationIcon
           @notificationType="inline"
           @kind={{kind}}
-          @iconDescription={{iconDescription @statusIconDescription kind}}
+          @iconDescription={{@statusIconDescription}}
         />
         <div class="cds--actionable-notification__text-wrapper">
           {{#if @title}}

@@ -1,0 +1,4 @@
+.aspect-ratio-story__frame .cds--aspect-ratio {
+  padding: 1rem;
+  background: var(--cds-layer);
+}

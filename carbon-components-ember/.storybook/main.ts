@@ -29,7 +29,8 @@ export default defineMain({
 
   framework: 'ember-storybook',
 
-  // The logo, and sample media for the AudioPlayer and VideoPlayer stories.
+  // The logo, sample media for the AudioPlayer and VideoPlayer stories, and
+  // the Launcher's avatar.
   staticDirs: ['./public'],
 
   // The project logo as the favicon (relative, so it works under any

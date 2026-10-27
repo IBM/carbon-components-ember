@@ -88,6 +88,9 @@ module('Integration | Component | FileUploaderItem', (hooks) => {
     assert
       .dom('.cds--form-requirement__supplement')
       .hasText('1 MB max file size.');
+    assert
+      .dom('.cds--file__state-container .cds--file-invalid + .cds--file-close')
+      .exists();
   });
 
   test('@size applies the corresponding size class', async function (assert) {

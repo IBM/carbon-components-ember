@@ -143,8 +143,10 @@ Everything above covers only the `react` parity source. The Ember port
 target for the `carbon-ai-chat` source is `@carbon/ai-chat-components` - a
 framework-agnostic **Lit** widget library rendering into real shadow DOM
 (see `scripts/parity-check.mjs`'s `SOURCES` comment and
-`.claude/skills/port-ai-chat-component/SKILL.md`) - not a React tree, so there's nothing
-for this package's `react-dom/client` + jsdom pipeline to render.
+`.claude/skills/port-ai-chat-component/SKILL.md`) - not a React tree. Its
+`es/react/*.js` wrappers are `@lit/react` shims around the same Lit
+elements, so this package's `react-dom/client` + jsdom pipeline can't
+render them faithfully either.
 
 That source is instead compared by a **second, independent** test module,
 `carbon-components-ember/tests/components/ai-chat/dom-parity-test.gts`, with two real
@@ -184,7 +186,11 @@ real custom element's shadow DOM/`<slot>` content into a plain, detached
 DOM subtree first, since `normalizeElement` only ever walks
 `.childNodes`/`.classList` and can't cross a shadow boundary on its own -
 see that file's own doc comment for the "unwrap every nested custom-
-element boundary, not just the outermost one" design decision.
+element boundary, not just the outermost one" design decision. A host
+whose shadow root renders several root elements, as FileUploads' does,
+stays as an attribute-less `<div>`, so compare it with a variant whose
+upstream root count matches the Ember template: an empty named slot can
+leave upstream with a single root.
 
 **Adding a component to this path** means adding a `test`/`module` to
 `ai-chat/dom-parity-test.gts` directly (mounting the real custom element
@@ -197,8 +203,7 @@ dir) for how deeply it composes `@carbon/web-components` custom elements
 (`chat-button` extends `CDSButton` directly) - those are real, in scope,
 and `flattenComposedTree` handles them structurally, but the Ember port
 frequently reuses this addon's _own_ components instead of a 1:1 port of
-the nested web-component (e.g. `Toolbar` reuses `Tooltip`/`OverflowMenu`,
-`FileUploads` renders its own markup instead of `cds-file-uploader-item`),
+the nested web-component (e.g. `Toolbar` reuses `Tooltip`/`OverflowMenu`),
 so expect real, legitimate structural differences there that need their
 own `known-differences.json` reasoning per component - it isn't only a
 copy-paste of the `Processing`/`ReasoningSteps` pattern already in the

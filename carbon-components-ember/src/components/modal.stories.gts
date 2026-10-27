@@ -16,10 +16,8 @@ import type { ModalSignature } from './modal.gts';
 import '#storybook/styles/modal.css';
 
 // Carbon React parity gaps (Components/Modal):
-// - The forms leave out ComboBox, MultiSelect and CheckboxGroup, which
-//   aren't here yet, and Select, whose menu renders outside the dialog
-//   until it's a native <select>. OverflowMenu and Menu render theirs
-//   outside it too, so they can't be used in a modal yet.
+// - The forms leave out Select, ComboBox and MultiSelect, still to add,
+//   and CheckboxGroup, which isn't here yet.
 // - No `numberOfButtons` control: set `secondaryButtons` instead.
 
 type StoryArgs = ModalSignature['Args'];
@@ -57,7 +55,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
       story: { inline: false, iframeHeight: '640px' },
       description: {
         component:
-          "Modals focus the user's attention exclusively on one task or piece of information. `Modal` is a native `<dialog>` opened with `showModal()`: it shows above the rest of the page, which is inert while it's open, and returns focus to where it was when it closes. It needs no element in the application template. Anything rendered outside it, such as a toast or a menu rendered elsewhere in the page, stays under it and can't be used while it's open.\n\n`@open` shows it. Closing is up to you: the close button, Escape, the secondary button and, for a passive modal, a click outside call `@onRequestClose`, and the primary button calls `@onRequestSubmit`.",
+          "Modals focus the user's attention exclusively on one task or piece of information. `Modal` is a native `<dialog>` opened with `showModal()`: it shows above the rest of the page, which is inert while it's open, and returns focus to where it was when it closes. It needs no element in the application template. Menus, portals and the `ToastNotificationList` render into the topmost open modal, so they can be used over it; anything else rendered outside it stays under it and can't be used while it's open.\n\n`@open` shows it. Closing is up to you: the close button, Escape, the secondary button and, for a passive modal, a click outside call `@onRequestClose`, and the primary button calls `@onRequestSubmit`.",
       },
     },
     controls: {

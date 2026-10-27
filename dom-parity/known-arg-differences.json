@@ -26,9 +26,6 @@
     ],
     "extra": [
       "ariaLabel"
-    ],
-    "values": [
-      "align"
     ]
   },
   "Checkbox": {
@@ -120,9 +117,6 @@
       "autoAlign",
       "renderSelectedItem",
       "translateWithId"
-    ],
-    "values": [
-      "size"
     ]
   },
   "FileUploaderButton": {
@@ -373,9 +367,6 @@
       "highContrast",
       "isTabTip",
       "onRequestClose"
-    ],
-    "values": [
-      "align"
     ]
   },
   "ToggletipLabel": {

@@ -8,13 +8,14 @@
 import { concat } from '@ember/helper';
 
 import type { TOC } from '@ember/component/template-only';
+import type { ListBoxSize } from './-private/list-box/list-box.gts';
 
 export interface DropdownSkeletonSignature {
   Element: HTMLDivElement;
   Args: {
     /** Leaves out the label placeholder. */
     hideLabel?: boolean;
-    size?: 'xs' | 'sm' | 'md' | 'lg';
+    size?: ListBoxSize;
   };
 }
 

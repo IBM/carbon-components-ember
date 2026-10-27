@@ -278,6 +278,33 @@ module('Integration | Component | Popover', (hooks) => {
     assert.false(open.value);
   });
 
+  test('Escape closes only the innermost Popover', async function (assert) {
+    const outer = tracked(true);
+    const inner = tracked(true);
+    const closeOuter = () => (outer.value = false);
+    const closeInner = () => (inner.value = false);
+
+    await render(
+      <template>
+        <Popover @open={{outer.value}} @onRequestClose={{closeOuter}}>
+          <button type="button">Outer</button>
+          <PopoverContent>
+            <Popover @open={{inner.value}} @onRequestClose={{closeInner}}>
+              <button type="button">Inner</button>
+              <PopoverContent>
+                <button type="button" id="inner">Inside</button>
+              </PopoverContent>
+            </Popover>
+          </PopoverContent>
+        </Popover>
+      </template>,
+    );
+
+    await triggerKeyEvent('#inner', 'keydown', 'Escape');
+    assert.false(inner.value);
+    assert.true(outer.value);
+  });
+
   test('listens on the document only while open with @onRequestClose', async function (assert) {
     const listening = new Map<string, number>();
     const count = (type: string) => listening.get(type) ?? 0;
@@ -313,17 +340,15 @@ module('Integration | Component | Popover', (hooks) => {
           </Popover>
         </template>,
       );
-      assert.strictEqual(count('keydown'), 0, 'no @onRequestClose');
       assert.strictEqual(count('click'), 0, 'no @onRequestClose');
 
       closable.value = true;
       await settled();
-      assert.strictEqual(count('keydown'), 1);
       assert.strictEqual(count('click'), 1);
+      assert.strictEqual(count('keydown'), 0, 'Escape is heard on the popover');
 
       open.value = false;
       await settled();
-      assert.strictEqual(count('keydown'), 0, 'closed');
       assert.strictEqual(count('click'), 0, 'closed');
     } finally {
       document.addEventListener = addEventListener;
