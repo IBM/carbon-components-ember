@@ -39,7 +39,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     docs: {
       description: {
         component:
-          'Tags label, categorize or organize items with a keyword or two. `@type` picks the color, `@size` the size (`sm`, `md` or `lg`), and `@renderIcon` adds an icon. A label too long for the tag is cut off and shows in a tooltip on a press or focus, as in Carbon React. Its `<:decorator>` block takes an AI label.',
+          "Tags label, categorize or organize items with a keyword or two. `@type` picks the color, `@size` the size (`sm`, `md` or `lg`), and `@renderIcon` adds an icon. A label too long for the tag is cut off and shows in a tooltip on a press or focus, as in Carbon React. With `@href`, or `@route` (plus `@models` and `@query`) for one of the app's routes, the tag's icon and label are a link, and a cut-off label gets no tooltip. Its `<:decorator>` block takes an AI label.",
       },
     },
   },
@@ -125,6 +125,29 @@ export const Sizes = meta.story({
     <Tag @type="blue" @size="sm">Small</Tag>
     <Tag @type="blue" @size="md">Medium</Tag>
     <Tag @type="blue" @size="lg">Large</Tag>
+  </template>,
+});
+
+// Ember-only: with `@href`, or `@route` for one of the app's routes, the
+// tag's icon and label are a link.
+export const AsALink = meta.story({
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "With `@href`, or `@route` (plus `@models` and `@query`) for one of the app's routes, the tag's icon and label are a link. A decorator stays outside the link, so its button isn't nested in it.",
+      },
+    },
+  },
+  render: (args: StoryArgs) => <template>
+    <Tag @type={{args.type}} @size={{args.size}} @href="#">
+      <:default>{{args.label}}</:default>
+      <:decorator as |AILabel|>
+        <AILabel @align="bottom-start" as |label|>
+          <label.Content><AIExplanation /></label.Content>
+        </AILabel>
+      </:decorator>
+    </Tag>
   </template>,
 });
 

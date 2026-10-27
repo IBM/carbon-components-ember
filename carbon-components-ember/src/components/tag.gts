@@ -5,11 +5,14 @@ import { modifier } from 'ember-modifier';
 import type Icon from './icon.gts';
 import AILabel from './ai-label.gts';
 import DefinitionTooltip from './-private/definition-tooltip.gts';
+import RouterLink from './-private/router-link.gts';
+import type { RouteArgs } from './-private/router-link.gts';
 import { observeTruncation } from '../utils/truncation.ts';
+import './tag.scss';
 import type { WithBoundArgs } from '@glint/template';
 
 export interface TagSignature {
-  Args: {
+  Args: RouteArgs & {
     /**
      * Specify the id for the tag.
      */
@@ -23,6 +26,11 @@ export interface TagSignature {
      * Specify if the `Tag` is disabled.
      */
     disabled?: boolean;
+    /**
+     * Makes the tag's icon and label a link to this URL. `@route` links them
+     * to one of the app's routes.
+     */
+    href?: string;
     /**
      * A component used to render an icon.
      */
@@ -95,6 +103,11 @@ export default class Tag extends Component<TagSignature> {
     return classes.join(' ');
   }
 
+  // A disabled one is no link.
+  get isLink() {
+    return Boolean(this.args.href || this.args.route) && !this.args.disabled;
+  }
+
   get showIcon() {
     return !!this.args.renderIcon && this.args.size !== 'sm';
   }
@@ -133,38 +146,63 @@ export default class Tag extends Component<TagSignature> {
       disabled={{if @disabled true}}
       ...attributes
     >
-      {{#if this.showIcon}}
-        <div class="cds--tag__custom-icon">
-          <@renderIcon @size="16" />
-        </div>
-      {{/if}}
-      {{#if this.truncated}}
-        {{! As in Carbon React, the tooltip shows the block again. }}
-        <DefinitionTooltip
-          @openOnHover={{false}}
-          class="cds--definition--tooltip--tag"
+      {{! The link holds the icon and label, so the decorator's button isn't inside it. }}
+      {{#if this.isLink}}
+        <RouterLink
+          @href={{@href}}
+          @route={{@route}}
+          @models={{@models}}
+          @query={{@query}}
+          class="cds--ember-tag__link"
         >
-          <:default>
-            <span
-              class="cds--tag__label"
-              dir="auto"
-              {{this.syncLabelTitle @title}}
-              {{this.watchTruncation}}
-            >
-              {{yield}}
-            </span>
-          </:default>
-          <:definition>{{yield}}</:definition>
-        </DefinitionTooltip>
+          {{#if this.showIcon}}
+            <div class="cds--tag__custom-icon">
+              <@renderIcon @size="16" />
+            </div>
+          {{/if}}
+          <span
+            class="cds--tag__label"
+            dir="auto"
+            {{this.syncLabelTitle @title}}
+          >
+            {{yield}}
+          </span>
+        </RouterLink>
       {{else}}
-        <span
-          class="cds--tag__label"
-          dir="auto"
-          {{this.syncLabelTitle @title}}
-          {{this.watchTruncation}}
-        >
-          {{yield}}
-        </span>
+        {{#if this.showIcon}}
+          <div class="cds--tag__custom-icon">
+            <@renderIcon @size="16" />
+          </div>
+        {{/if}}
+        {{! A linked tag's label gets no tooltip: its trigger, a button, can't sit inside the link. }}
+        {{#if this.truncated}}
+          {{! As in Carbon React, the tooltip shows the block again. }}
+          <DefinitionTooltip
+            @openOnHover={{false}}
+            class="cds--definition--tooltip--tag"
+          >
+            <:default>
+              <span
+                class="cds--tag__label"
+                dir="auto"
+                {{this.syncLabelTitle @title}}
+                {{this.watchTruncation}}
+              >
+                {{yield}}
+              </span>
+            </:default>
+            <:definition>{{yield}}</:definition>
+          </DefinitionTooltip>
+        {{else}}
+          <span
+            class="cds--tag__label"
+            dir="auto"
+            {{this.syncLabelTitle @title}}
+            {{this.watchTruncation}}
+          >
+            {{yield}}
+          </span>
+        {{/if}}
       {{/if}}
       {{#if (has-block "decorator")}}
         <div class="cds--tag__decorator">
