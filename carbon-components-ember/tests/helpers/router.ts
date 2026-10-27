@@ -9,8 +9,8 @@ interface Registry {
 
 /**
  * For an application test of links that navigate: a router with
- * `settings` and `users/:id` routes. Render what the test needs with
- * `visitWith`.
+ * `settings`, `users/:id`, and `docs` with a `docs.guides` child route.
+ * Render what the test needs with `visitWith`.
  */
 export function setupRoutes(hooks: NestedHooks) {
   hooks.beforeEach(function (this: TestContext) {
@@ -21,6 +21,9 @@ export function setupRoutes(hooks: NestedHooks) {
     Router.map(function () {
       this.route('settings');
       this.route('user', { path: '/users/:id' });
+      this.route('docs', function () {
+        this.route('guides');
+      });
     });
     const owner = this.owner as unknown as Registry;
     owner.unregister('router:main');

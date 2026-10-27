@@ -13,7 +13,10 @@ import { concat } from '@ember/helper';
 import type { WithBoundArgs } from '@glint/template';
 import style from 'ember-style-modifier';
 import { RovingFocus } from '../utils/roving-focus.ts';
+import RouterLink from './-private/router-link.gts';
+import type { RouteArgs } from './-private/router-link.gts';
 import type Icon from './icon.gts';
+import type { TOC } from '@ember/component/template-only';
 
 const labelOffset = (offset: number) => ({
   marginInlineStart: `-${offset}rem`,
@@ -21,8 +24,9 @@ const labelOffset = (offset: number) => ({
 });
 
 export interface TreeNodeSignature {
-  Element: HTMLLIElement;
-  Args: {
+  /** The `<li>`, or a link node's `<a>`. */
+  Element: HTMLLIElement | HTMLAnchorElement;
+  Args: RouteArgs & {
     treeView: TreeView;
     id?: string;
     label: string;
@@ -52,11 +56,69 @@ export interface TreeNodeSignature {
      * not pass this manually.
      */
     hidden?: boolean;
+    /**
+     * Makes the node a link to this URL, as Carbon React's `href`. With
+     * `@route` instead, the router, not selection, makes it the active node:
+     * while that route itself is current.
+     */
+    href?: string;
   };
   Blocks: {
     default: [TreeNode: WithBoundArgs<typeof TreeNode, 'treeView'>];
   };
 }
+
+// The parent node's treeitem: the <li> holding this node's group, or the
+// <a> beside it in a link node's <li>. None for a top-level node.
+function parentItem(node: HTMLElement) {
+  const group = node.closest('[role="group"], [role="tree"]');
+  if (!group || group.matches('[role="tree"]')) return null;
+  const owner = group.parentElement;
+  if (!owner) return null;
+  return owner.matches('[role="treeitem"]')
+    ? owner
+    : owner.querySelector<HTMLElement>(':scope > [role="treeitem"]');
+}
+
+const NodeLabel: TOC<{
+  Args: { node: TreeNode; hasChildren: boolean };
+}> = <template>
+  {{! eslint-disable-next-line ember/template-require-splattributes -- part of a TreeNode, which takes the attributes }}
+  <div
+    class="cds--tree-node__label"
+    {{style (if @hasChildren @node.parentLabelStyles @node.leafLabelStyles)}}
+  >
+    {{#if @hasChildren}}
+      {{! eslint-disable-next-line ember/template-no-invalid-interactive }}
+      <span class="cds--tree-parent-node__toggle" {{on "click" @node.toggle}}>
+        <svg
+          class="cds--tree-parent-node__toggle-icon
+            {{if
+              @node.expanded
+              'cds--tree-parent-node__toggle-icon--expanded'
+            }}"
+          focusable="false"
+          preserveAspectRatio="xMidYMid meet"
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 32 32"
+          aria-hidden="true"
+        >
+          <path d="M24 12 16 22 8 12z"></path>
+        </svg>
+      </span>
+    {{/if}}
+    <span class="cds--tree-node__label__details">
+      {{#if @node.args.icon}}
+        <@node.args.icon @size="16" @svgClass="cds--tree-node__icon" />
+      {{/if}}
+      <span id="{{@node.nodeId}}__label" class="cds--tree-node__label__text">
+        {{@node.args.label}}
+      </span>
+    </span>
+  </div>
+</template>;
 
 class TreeNode extends Component<TreeNodeSignature> {
   @tracked uncontrolledExpanded: boolean;
@@ -89,6 +151,10 @@ class TreeNode extends Component<TreeNodeSignature> {
     return this.args.treeView.isActive(this.nodeId);
   }
 
+  get isLink() {
+    return Boolean(this.args.href || this.args.route);
+  }
+
   get depth() {
     return this.args.depth ?? 0;
   }
@@ -110,8 +176,9 @@ class TreeNode extends Component<TreeNodeSignature> {
   }
 
   select = (event: MouseEvent) => {
-    if (this.args.disabled) return;
+    // As Carbon React's: a disabled node's click doesn't reach its parent.
     event.stopPropagation();
+    if (this.args.disabled) return;
     this.args.treeView.select(this, event);
   };
 
@@ -122,6 +189,8 @@ class TreeNode extends Component<TreeNodeSignature> {
 
   toggle = (event: MouseEvent) => {
     event.stopPropagation();
+    // The toggle is inside a link node's link.
+    if (this.isLink) event.preventDefault();
     this.setExpanded(!this.expanded);
   };
 
@@ -139,15 +208,16 @@ class TreeNode extends Component<TreeNodeSignature> {
       if (hasChildren && this.expanded) {
         this.setExpanded(false);
       } else {
-        const parent =
-          node.parentElement?.closest<HTMLElement>('[role="treeitem"]');
+        const parent = parentItem(node);
         if (parent) rovingFocus.focus(parent);
       }
     } else if (event.key === 'ArrowRight' && hasChildren) {
       event.preventDefault();
       if (this.expanded) {
+        // A link node's children are beside its link.
+        const subtree = this.isLink ? node.parentElement : node;
         const firstChild = rovingFocus.items.find(
-          (item) => item !== node && node.contains(item),
+          (item) => item !== node && subtree?.contains(item),
         );
         if (firstChild) rovingFocus.focus(firstChild);
       } else {
@@ -158,86 +228,103 @@ class TreeNode extends Component<TreeNodeSignature> {
       if (event.key === 'Enter' && hasChildren) {
         this.setExpanded(!this.expanded);
       }
-      this.args.treeView.select(this, event);
+      // A link node follows its link, and its click selects it.
+      if (this.isLink) node.click();
+      else this.args.treeView.select(this, event);
     }
   };
 
   <template>
-    <li
-      role="treeitem"
-      id={{this.nodeId}}
-      aria-current={{if this.isActive "true"}}
-      aria-selected={{unless @disabled (if this.isSelected "true" "false")}}
-      aria-disabled={{if @disabled "true"}}
-      aria-expanded={{if (has-block) (if this.expanded "true" "false")}}
-      aria-owns={{if (has-block) (concat this.nodeId "__subtree")}}
-      class="cds--tree-node
-        {{if this.isSelected 'cds--tree-node--selected'}}
-        {{if @disabled 'cds--tree-node--disabled'}}
-        {{if this.isActive 'cds--tree-node--active'}}
-        {{if @icon 'cds--tree-node--with-icon'}}
-        {{if (has-block) 'cds--tree-parent-node' 'cds--tree-leaf-node'}}"
-      {{on "click" this.select}}
-      {{on "keydown" (fn this.handleKeydown (has-block))}}
-      {{@treeView.rovingFocus.item disabled=@disabled hidden=@hidden}}
-      ...attributes
-    >
-      <div
-        class="cds--tree-node__label"
-        {{style (if (has-block) this.parentLabelStyles this.leafLabelStyles)}}
-      >
-        {{#if (has-block)}}
-          {{! eslint-disable-next-line ember/template-no-invalid-interactive }}
-          <span
-            class="cds--tree-parent-node__toggle"
-            {{on "click" this.toggle}}
-          >
-            <svg
-              class="cds--tree-parent-node__toggle-icon
-                {{if
-                  this.expanded
-                  'cds--tree-parent-node__toggle-icon--expanded'
-                }}"
-              focusable="false"
-              preserveAspectRatio="xMidYMid meet"
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 32 32"
-              aria-hidden="true"
-            >
-              <path d="M24 12 16 22 8 12z"></path>
-            </svg>
-          </span>
-        {{/if}}
-        <span class="cds--tree-node__label__details">
-          {{#if @icon}}
-            <@icon @size="16" @svgClass="cds--tree-node__icon" />
-          {{/if}}
-          <span id="{{this.nodeId}}__label" class="cds--tree-node__label__text">
-            {{@label}}
-          </span>
-        </span>
-      </div>
-      {{#if (has-block)}}
-        <ul
-          id="{{this.nodeId}}__subtree"
-          role="group"
-          aria-labelledby="{{this.nodeId}}__label"
-          class="cds--tree-node__children
-            {{unless this.expanded 'cds--tree-node--hidden'}}"
+    {{#if this.isLink}}
+      {{! As Carbon React's: the treeitem is the link, and its group sits beside it. }}
+      <li role="none" class={{if (has-block) "cds--tree-node-link-parent"}}>
+        {{! eslint-disable-next-line ember/template-require-mandatory-role-attributes -- as Carbon React's, a link node navigates, so it has no aria-selected }}
+        <RouterLink
+          @href={{unless @disabled @href}}
+          @route={{unless @disabled @route}}
+          @models={{@models}}
+          @query={{@query}}
+          @isActive={{unless @route this.isActive}}
+          @exact={{true}}
+          @activeClass="cds--tree-node--active"
+          @ariaCurrent="page"
+          role="treeitem"
+          id={{this.nodeId}}
+          aria-disabled={{if @disabled "true"}}
+          aria-expanded={{if this.expanded "true" "false"}}
+          aria-owns={{if (has-block) (concat this.nodeId "__subtree")}}
+          class="cds--tree-node
+            {{if this.isSelected 'cds--tree-node--selected'}}
+            {{if @disabled 'cds--tree-node--disabled'}}
+            {{if @icon 'cds--tree-node--with-icon'}}
+            {{if (has-block) 'cds--tree-parent-node' 'cds--tree-leaf-node'}}"
+          {{on "click" this.select}}
+          {{on "keydown" (fn this.handleKeydown (has-block))}}
+          {{@treeView.rovingFocus.item disabled=@disabled hidden=@hidden}}
+          ...attributes
         >
-          {{yield
-            (component
-              TreeNode
-              treeView=@treeView
-              depth=this.childDepth
-              hidden=(or @hidden (not this.expanded))
-            )
-          }}
-        </ul>
-      {{/if}}
-    </li>
+          <NodeLabel @node={{this}} @hasChildren={{has-block}} />
+        </RouterLink>
+        {{#if (has-block)}}
+          <ul
+            id="{{this.nodeId}}__subtree"
+            role="group"
+            aria-labelledby="{{this.nodeId}}__label"
+            class="cds--tree-node__children
+              {{unless this.expanded 'cds--tree-node--hidden'}}"
+          >
+            {{yield
+              (component
+                TreeNode
+                treeView=@treeView
+                depth=this.childDepth
+                hidden=(or @hidden (not this.expanded))
+              )
+            }}
+          </ul>
+        {{/if}}
+      </li>
+    {{else}}
+      <li
+        role="treeitem"
+        id={{this.nodeId}}
+        aria-current={{if this.isActive "true"}}
+        aria-selected={{unless @disabled (if this.isSelected "true" "false")}}
+        aria-disabled={{if @disabled "true"}}
+        aria-expanded={{if (has-block) (if this.expanded "true" "false")}}
+        aria-owns={{if (has-block) (concat this.nodeId "__subtree")}}
+        class="cds--tree-node
+          {{if this.isSelected 'cds--tree-node--selected'}}
+          {{if @disabled 'cds--tree-node--disabled'}}
+          {{if this.isActive 'cds--tree-node--active'}}
+          {{if @icon 'cds--tree-node--with-icon'}}
+          {{if (has-block) 'cds--tree-parent-node' 'cds--tree-leaf-node'}}"
+        {{on "click" this.select}}
+        {{on "keydown" (fn this.handleKeydown (has-block))}}
+        {{@treeView.rovingFocus.item disabled=@disabled hidden=@hidden}}
+        ...attributes
+      >
+        <NodeLabel @node={{this}} @hasChildren={{has-block}} />
+        {{#if (has-block)}}
+          <ul
+            id="{{this.nodeId}}__subtree"
+            role="group"
+            aria-labelledby="{{this.nodeId}}__label"
+            class="cds--tree-node__children
+              {{unless this.expanded 'cds--tree-node--hidden'}}"
+          >
+            {{yield
+              (component
+                TreeNode
+                treeView=@treeView
+                depth=this.childDepth
+                hidden=(or @hidden (not this.expanded))
+              )
+            }}
+          </ul>
+        {{/if}}
+      </li>
+    {{/if}}
   </template>
 }
 
