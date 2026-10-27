@@ -38,6 +38,7 @@ const ID_REF_ATTRIBUTES = new Set([
   'aria-activedescendant',
   'aria-flowto',
   'aria-details',
+  'aria-errormessage',
   'for',
   'list',
 ]);

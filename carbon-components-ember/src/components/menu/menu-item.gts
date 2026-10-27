@@ -10,11 +10,14 @@ import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { modifier } from 'ember-modifier';
 import { afterRender } from '../../utils/after-render.ts';
-import Menu, { findParentMenu } from '../menu.gts';
-import type { MenuItemFeatures } from '../menu.gts';
 import Checkmark from '../icons/checkmark.ts';
 import CaretRight from '../icons/caret-right.ts';
 import type Icon from '../icon.gts';
+import type Menu from '../menu.gts';
+import type { MenuItemFeatures } from '../menu.gts';
+import type MenuItemRadioGroup from './menu-item-radio-group.gts';
+import type MenuItemSelectable from './menu-item-selectable.gts';
+import type { WithBoundArgs } from '@glint/template';
 
 export interface MenuItemSignature {
   Element: HTMLLIElement;
@@ -23,6 +26,8 @@ export interface MenuItemSignature {
      * A required label titling the MenuItem. Rendered as its text content.
      */
     label: string;
+    /** The menu the item is in: Menu yields the item bound to it. */
+    menu: Menu;
     /**
      * Specify whether the MenuItem is disabled or not.
      */
@@ -60,9 +65,15 @@ export interface MenuItemSignature {
     ariaChecked?: boolean;
   };
   Blocks: {
-    // A nested Menu (submenu) — props.children can't be used to specify
-    // the label of the MenuItem itself, use @label instead.
-    default: [];
+    /**
+     * The items of its submenu, as Menu yields them, bound to the submenu.
+     * The item's own text is `@label`.
+     */
+    default: [
+      MenuItem: WithBoundArgs<typeof MenuItem, 'menu'>,
+      MenuItemSelectable: WithBoundArgs<typeof MenuItemSelectable, 'menu'>,
+      MenuItemRadioGroup: WithBoundArgs<typeof MenuItemRadioGroup, 'menu'>,
+    ];
   };
 }
 
@@ -111,21 +122,12 @@ export default class MenuItem
 
   registerWithMenu = modifier((element: HTMLLIElement) => {
     this.liElement = element;
-    let unregister: (() => void) | undefined;
-    // The menu we belong to registers itself from a modifier on its own
-    // `<ul>`, and Glimmer installs an element's modifiers before those of
-    // its parent, so it isn't registered yet at this point. Look it up once
-    // the render pass is done - which also keeps the class recomputation
-    // this triggers out of the render that just read those classes.
-    const cancel = afterRender(this, () => {
-      const menu = findParentMenu(element);
-      if (!menu) return;
-      menu.registerItem(this);
-      unregister = () => menu.unregisterItem(this);
-    });
+    const { menu } = this.args;
+    // Register after the render: it read the menu classes this changes.
+    const cancel = afterRender(this, () => menu.registerItem(this));
     return () => {
       cancel();
-      unregister?.();
+      menu.unregisterItem(this);
     };
   });
 
@@ -161,7 +163,7 @@ export default class MenuItem
       <li
         role={{this.role}}
         class={{this.classesFor hasChildren}}
-        tabindex={{if (this.isDisabled hasChildren) "-1" "0"}}
+        tabindex={{if @disabled "-1" "0"}}
         aria-disabled={{if (this.isDisabled hasChildren) "true"}}
         aria-haspopup={{if hasChildren "true"}}
         aria-expanded={{if hasChildren (if this.submenuOpen "true" "false")}}
@@ -170,6 +172,7 @@ export default class MenuItem
         {{on "click" (fn this.handleClick hasChildren)}}
         {{on "keydown" (fn this.handleKeyDown hasChildren)}}
         {{this.registerWithMenu}}
+        {{@menu.rovingFocus.item disabled=@disabled}}
         ...attributes
       >
         <div class="cds--menu-item__selection-icon">
@@ -202,15 +205,16 @@ export default class MenuItem
           <div class="cds--menu-item__shortcut">
             <CaretRight />
           </div>
-          <Menu
+          <@menu.Submenu
             @label={{@label}}
             @open={{this.submenuOpen}}
             @isRoot={{false}}
             @anchor={{this.liElement}}
             @onClose={{this.closeSubmenu}}
+            as |Item Selectable RadioGroup|
           >
-            {{yield}}
-          </Menu>
+            {{yield Item Selectable RadioGroup}}
+          </@menu.Submenu>
         {{/if}}
       </li>
     {{/let}}

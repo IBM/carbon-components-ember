@@ -3,11 +3,9 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click, settled, triggerKeyEvent } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import Menu from '#src/components/menu.gts';
-import MenuItem from '#src/components/menu/menu-item.gts';
+import Modal from '#src/components/modal.gts';
 import MenuItemDivider from '#src/components/menu/menu-item-divider.gts';
 import MenuItemGroup from '#src/components/menu/menu-item-group.gts';
-import MenuItemRadioGroup from '#src/components/menu/menu-item-radio-group.gts';
-import MenuItemSelectable from '#src/components/menu/menu-item-selectable.gts';
 import { Copy } from '#src/icons.ts';
 import { waitForAnimationFrame } from '../helpers';
 
@@ -37,7 +35,12 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{false}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{false}}
+          @target={{target}}
+          as |MenuItem|
+        >
           <MenuItem @label="Cut" />
         </Menu>
       </template>,
@@ -52,7 +55,12 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
           <MenuItem @label="Cut" />
           <MenuItemDivider />
           <MenuItem @label="Delete" @kind="danger" />
@@ -91,6 +99,7 @@ module('Integration | Component | Menu', (hooks) => {
           @open={{true}}
           @target={{target}}
           @onClose={{onClose}}
+          as |MenuItem|
         >
           <MenuItem @label="Cut" @onClick={{onClick}} />
         </Menu>
@@ -115,7 +124,12 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
           <MenuItem @label="Cut" @disabled={{true}} @onClick={{onClick}} />
         </Menu>
       </template>,
@@ -140,7 +154,12 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
           <MenuItem @label="Copy" @renderIcon={{Copy}} />
         </Menu>
       </template>,
@@ -165,7 +184,12 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem MenuItemSelectable|
+        >
           <MenuItem @label="Cut" />
           {{#if state.extras}}
             <MenuItem @label="Copy" @renderIcon={{Copy}} />
@@ -211,8 +235,13 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
-          <MenuItem @label="Share with">
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
+          <MenuItem @label="Share with" as |MenuItem MenuItemSelectable|>
             <MenuItemSelectable @label="Product team" />
           </MenuItem>
         </Menu>
@@ -243,7 +272,12 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem MenuItemSelectable|
+        >
           <MenuItemSelectable
             @label="Bold"
             @defaultSelected={{true}}
@@ -276,7 +310,12 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem MenuItemSelectable|
+        >
           <MenuItemGroup @label="Font style">
             <MenuItemSelectable @label="Bold" />
             <MenuItemSelectable @label="Italic" />
@@ -307,7 +346,12 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem MenuItemSelectable MenuItemRadioGroup|
+        >
           <MenuItemRadioGroup
             @label="Text decoration"
             @items={{array "None" "Underline"}}
@@ -347,8 +391,13 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
-          <MenuItem @label="Share with">
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
+          <MenuItem @label="Share with" as |MenuItem|>
             <MenuItem @label="Product team" />
           </MenuItem>
         </Menu>
@@ -400,9 +449,14 @@ module('Integration | Component | Menu', (hooks) => {
 
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
-          <MenuItem @label="Share with">
-            <MenuItem @label="Product team">
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
+          <MenuItem @label="Share with" as |MenuItem|>
+            <MenuItem @label="Product team" as |MenuItem|>
               <MenuItem @label="Nested" />
             </MenuItem>
           </MenuItem>
@@ -448,6 +502,23 @@ module('Integration | Component | Menu', (hooks) => {
     );
   });
 
+  test('without @target it renders into an open Modal', async function (assert) {
+    await render(
+      <template>
+        <Modal @open={{true}}>
+          <Menu @label="Test menu" @open={{true}} as |MenuItem|>
+            <MenuItem @label="Cut" />
+          </Menu>
+        </Modal>
+      </template>,
+    );
+
+    await waitForAnimationFrame();
+    const menu = document.querySelector('[role="menu"]');
+    assert.strictEqual(menu?.parentElement, document.querySelector('dialog'));
+    assert.dom('.cds--menu-item', menu).isFocused();
+  });
+
   test('pressing Escape calls @onClose', async function (this: {
     container: HTMLElement;
   }, assert) {
@@ -464,6 +535,7 @@ module('Integration | Component | Menu', (hooks) => {
           @open={{true}}
           @target={{target}}
           @onClose={{onClose}}
+          as |MenuItem|
         >
           <MenuItem @label="Cut" />
         </Menu>
@@ -486,7 +558,12 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
           <MenuItem @label="Cut" />
         </Menu>
       </template>,
@@ -497,7 +574,13 @@ module('Integration | Component | Menu', (hooks) => {
 
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}} @size="lg">
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          @size="lg"
+          as |MenuItem|
+        >
           <MenuItem @label="Cut" />
         </Menu>
       </template>,
@@ -520,6 +603,7 @@ module('Integration | Component | Menu', (hooks) => {
           @border={{true}}
           @backgroundToken="background"
           @menuAlignment="top-start"
+          as |MenuItem|
         >
           <MenuItem @label="Cut" />
         </Menu>
@@ -543,7 +627,12 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
           <MenuItem @label="Cut" />
           <MenuItem @label="Copy" />
           <MenuItem @label="Paste" />
@@ -554,29 +643,99 @@ module('Integration | Component | Menu', (hooks) => {
     await waitForAnimationFrame();
 
     const items = this.container.querySelectorAll('[role="menuitem"]');
-    const menu = this.container.querySelector('[role="menu"]')!;
+    // Keys go to the focused item.
+    const press = (key: string) =>
+      triggerKeyEvent(document.activeElement!, 'keydown', key);
 
     assert.strictEqual(document.activeElement, items[0]);
 
-    await triggerKeyEvent(menu, 'keydown', 'ArrowDown');
+    await press('ArrowDown');
     assert.strictEqual(document.activeElement, items[1]);
 
-    await triggerKeyEvent(menu, 'keydown', 'ArrowDown');
+    await press('ArrowDown');
     assert.strictEqual(document.activeElement, items[2]);
 
-    await triggerKeyEvent(menu, 'keydown', 'ArrowDown');
+    await press('ArrowDown');
     assert.strictEqual(
       document.activeElement,
       items[0],
       'wraps around past the last item',
     );
 
-    await triggerKeyEvent(menu, 'keydown', 'ArrowUp');
+    await press('ArrowUp');
     assert.strictEqual(
       document.activeElement,
       items[2],
       'wraps around past the first item',
     );
+  });
+
+  test('Home and End go to the ends, and the arrows skip disabled items', async function (this: {
+    container: HTMLElement;
+  }, assert) {
+    const target = this.container;
+    await render(
+      <template>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
+          <MenuItem @label="Cut" id="cut" />
+          <MenuItem @label="Copy" @disabled={{true}} />
+          <MenuItem @label="Paste" id="paste" />
+          <MenuItem @label="Delete" @disabled={{true}} />
+        </Menu>
+      </template>,
+    );
+    await waitForAnimationFrame();
+    const press = (key: string) =>
+      triggerKeyEvent(document.activeElement!, 'keydown', key);
+
+    assert.dom('#cut', target).isFocused();
+    await press('ArrowDown');
+    assert.dom('#paste', target).isFocused();
+    await press('Home');
+    assert.dom('#cut', target).isFocused();
+    await press('End');
+    assert.dom('#paste', target).isFocused();
+  });
+
+  test('the arrows in a submenu move between its own items', async function (this: {
+    container: HTMLElement;
+  }, assert) {
+    const target = this.container;
+    await render(
+      <template>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
+          <MenuItem @label="Share with" id="share" as |MenuItem|>
+            <MenuItem @label="Product team" id="product" />
+            <MenuItem @label="Design team" id="design" />
+          </MenuItem>
+          <MenuItem @label="Delete" />
+        </Menu>
+      </template>,
+    );
+    await waitForAnimationFrame();
+    const press = (key: string) =>
+      triggerKeyEvent(document.activeElement!, 'keydown', key);
+
+    await press('ArrowRight');
+    await waitForAnimationFrame();
+    assert.dom('#product', target).isFocused();
+    await press('ArrowDown');
+    assert.dom('#design', target).isFocused();
+    await press('ArrowDown');
+    assert.dom('#product', target).isFocused('wraps within the submenu');
+
+    await press('ArrowLeft');
+    assert.dom('#share', target).isFocused();
   });
 
   test('@dangerDescription is only rendered for a danger item without a submenu', async function (this: {
@@ -585,13 +744,18 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
           <MenuItem
             @label="Delete"
             @kind="danger"
             @dangerDescription="This cannot be undone"
           />
-          <MenuItem @label="Share with" @kind="danger">
+          <MenuItem @label="Share with" @kind="danger" as |MenuItem|>
             <MenuItem @label="Product team" />
           </MenuItem>
         </Menu>
@@ -620,8 +784,13 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
-          <MenuItem @label="Share with" @disabled={{true}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
+          <MenuItem @label="Share with" @disabled={{true}} as |MenuItem|>
             <MenuItem @label="Product team" />
           </MenuItem>
         </Menu>
@@ -632,8 +801,10 @@ module('Integration | Component | Menu', (hooks) => {
 
     const parent = this.container.querySelector('[aria-haspopup="true"]')!;
     assert.dom(parent).doesNotHaveClass('cds--menu-item--disabled');
-    assert.dom(parent).hasAttribute('tabindex', '0');
     assert.dom(parent).doesNotHaveAttribute('aria-disabled');
+    // As Carbon React's, it's no tab stop and the arrows skip it.
+    assert.dom(parent).hasAttribute('tabindex', '-1');
+    assert.dom(parent).isNotFocused();
 
     await click(parent);
     await waitForAnimationFrame();
@@ -649,7 +820,12 @@ module('Integration | Component | Menu', (hooks) => {
     const target = this.container;
     await render(
       <template>
-        <Menu @label="Test menu" @open={{true}} @target={{target}}>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem MenuItemSelectable MenuItemRadioGroup|
+        >
           <MenuItemGroup
             @label="Font style"
             @className="my-group"

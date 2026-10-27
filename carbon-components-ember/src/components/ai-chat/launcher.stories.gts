@@ -17,7 +17,8 @@ import '#storybook/styles/ai-chat/launcher.css';
 //
 // Parity gaps: `@openLabel` is accepted but, like upstream's own
 // `open-label`, never read (see the component's doc comment).
-// `WithAvatar` points at the same remote avatar URL upstream uses.
+// `WithAvatar` shows a local avatar, `demo-support/avatar.svg`, where
+// upstream's loads a remote one, so its screenshot doesn't wait on the network.
 
 const meta = preview.meta({
   title: 'AI Chat/Launcher',
@@ -91,7 +92,7 @@ WithUnreadCount.test(
 export const WithAvatar = meta.story({
   name: 'With avatar',
   args: {
-    launcherAvatarUrl: 'https://i.pravatar.cc/150?u=33',
+    launcherAvatarUrl: 'demo-support/avatar.svg',
   },
 });
 

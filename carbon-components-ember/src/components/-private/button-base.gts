@@ -7,6 +7,7 @@
 
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
+import RouterLink from './router-link.gts';
 import type { ButtonSignature } from '../button.gts';
 
 export interface ButtonBaseSignature {
@@ -27,13 +28,14 @@ export default class ButtonBase extends Component<ButtonBaseSignature> {
   }
 
   get isLink() {
-    return !this.args.as && Boolean(this.args.href) && !this.args.disabled;
+    const { as, href, route, disabled } = this.args;
+    return !as && Boolean(href || route) && !disabled;
   }
 
   // Typed as the button or link `@as` stands in for, so callers can pass
   // `type="submit"`, as Carbon React's types do for `as`.
   get tag() {
-    return (this.args.as ?? (this.isLink ? 'a' : 'button')) as 'a' | 'button';
+    return (this.args.as ?? 'button') as 'a' | 'button';
   }
 
   get classes() {
@@ -71,21 +73,28 @@ export default class ButtonBase extends Component<ButtonBaseSignature> {
   }
 
   <template>
-    {{#let (element this.tag) as |Tag|}}
-      {{#if this.isLink}}
-        <Tag class={{this.classes}} href={{@href}} ...attributes>
-          {{! Carbon React keeps the description in a link, without aria-describedby. }}
-          {{#if this.dangerDescriptionId}}
-            <span id={{this.dangerDescriptionId}} class="cds--visually-hidden">
-              {{@dangerDescription}}
-            </span>
-          {{/if}}
-          {{yield}}
-          {{#if @renderIcon}}
-            <@renderIcon @size={{16}} @svgClass="cds--btn__icon" />
-          {{/if}}
-        </Tag>
-      {{else}}
+    {{#if this.isLink}}
+      <RouterLink
+        @href={{@href}}
+        @route={{@route}}
+        @models={{@models}}
+        @query={{@query}}
+        class={{this.classes}}
+        ...attributes
+      >
+        {{! Carbon React keeps the description in a link, without aria-describedby. }}
+        {{#if this.dangerDescriptionId}}
+          <span id={{this.dangerDescriptionId}} class="cds--visually-hidden">
+            {{@dangerDescription}}
+          </span>
+        {{/if}}
+        {{yield}}
+        {{#if @renderIcon}}
+          <@renderIcon @size={{16}} @svgClass="cds--btn__icon" />
+        {{/if}}
+      </RouterLink>
+    {{else}}
+      {{#let (element this.tag) as |Tag|}}
         <Tag
           class={{this.classes}}
           disabled={{@disabled}}
@@ -105,7 +114,7 @@ export default class ButtonBase extends Component<ButtonBaseSignature> {
             <@renderIcon @size={{16}} @svgClass="cds--btn__icon" />
           {{/if}}
         </Tag>
-      {{/if}}
-    {{/let}}
+      {{/let}}
+    {{/if}}
   </template>
 }

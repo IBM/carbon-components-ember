@@ -24,7 +24,14 @@
  * replaced by its shadow root's own single rendered root element. Without
  * this, comparing a nested step would fail on `tag` alone
  * (`cds-aichat-reasoning-step` vs. Ember's `div`) before ever reaching the
- * interesting content inside.
+ * interesting content inside. A shadow root with several root elements
+ * (`cds-aichat-file-uploads`' live regions and list) has none to unwrap to,
+ * so its host stays, as an attribute-less `<div>`: the counterpart of the
+ * Ember port's own `...attributes` root.
+ *
+ * Shadow-scoped `<style>` elements and `slot="..."` attributes are dropped
+ * too: both only serve the shadow boundary, which the Ember port doesn't
+ * have.
  *
  * The host element's *own* light-DOM attributes are deliberately dropped,
  * not folded onto the unwrapped root - a first version tried merging them
@@ -68,15 +75,15 @@ function flattenChildren(parent, target) {
   }
 }
 
-function firstAndOnlyElementChild(fragment, describeFor) {
-  const elementChildren = Array.from(fragment.childNodes).filter(isElement);
-  if (elementChildren.length > 1) {
-    throw new Error(
-      `flattenComposedTree: expected exactly one rendered root element in ${describeFor}'s ` +
-        `shadow root, got ${elementChildren.length}`,
-    );
-  }
-  return elementChildren[0] ?? null;
+function shadowHostReplacement(shadowContent) {
+  const elementChildren = Array.from(shadowContent.childNodes).filter(
+    isElement,
+  );
+  if (elementChildren.length <= 1) return elementChildren[0] ?? null;
+
+  const host = document.createElement('div');
+  host.appendChild(shadowContent);
+  return host;
 }
 
 /**
@@ -120,11 +127,13 @@ export function flattenComposedTree(node) {
   }
 
   if (node.shadowRoot) {
-    const shadowContent = flattenComposedTree(node.shadowRoot);
-    return firstAndOnlyElementChild(shadowContent, tagName);
+    return shadowHostReplacement(flattenComposedTree(node.shadowRoot));
   }
 
+  if (tagName === 'style') return null;
+
   const clone = node.cloneNode(false); // tag + attributes only, no children
+  clone.removeAttribute('slot');
   flattenChildren(node, clone);
   return clone;
 }

@@ -1,9 +1,10 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { setupApplicationTest, setupRenderingTest } from 'ember-qunit';
+import { click, render, triggerKeyEvent } from '@ember/test-helpers';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import Tile from '#src/components/tile.gts';
 import style from 'ember-style-modifier';
+import { setupRoutes, visitWith } from '../helpers';
 
 module('Integration | Component | Tile', (hooks) => {
   setupRenderingTest(hooks);
@@ -35,23 +36,59 @@ module('Integration | Component | Tile', (hooks) => {
     assert.strictEqual(clicks, 1);
   });
 
-  test('a clickable tile cancels only its placeholder link', async function (this: RenderingTestContext, assert) {
+  test('a clickable tile links to @href, as Carbon React', async function (assert) {
     await render(
       <template>
-        <Tile @clickable={{true}}><:content>Placeholder</:content></Tile>
-        <Tile @clickable={{true}} href="/docs"><:content>Docs</:content></Tile>
+        <Tile @clickable={{true}} @href="/docs"><:content>Docs</:content></Tile>
       </template>,
     );
-    const prevented: boolean[] = [];
-    // Records what the tile decided, then keeps the test page in place.
-    this.element.addEventListener('click', (event) => {
-      prevented.push(event.defaultPrevented);
-      event.preventDefault();
-    });
+    assert
+      .dom('a.cds--tile--clickable')
+      .hasClass('cds--link')
+      .hasAttribute('href', '/docs')
+      .doesNotHaveAttribute('tabindex');
+  });
 
-    await click('a[href="#"]');
-    await click('a[href="/docs"]');
-    assert.deepEqual(prevented, [true, false]);
+  test('a clickable tile without a link is focusable, and Enter and Space click it', async function (assert) {
+    const onClick = () => assert.step('click');
+    await render(
+      <template>
+        <Tile @clickable={{true}} {{on "click" onClick}}>
+          <:content>Open</:content>
+        </Tile>
+      </template>,
+    );
+    assert
+      .dom('a.cds--tile--clickable')
+      .doesNotHaveAttribute('href')
+      .hasAttribute('tabindex', '0');
+    await triggerKeyEvent('a.cds--tile--clickable', 'keydown', 'Enter');
+    await triggerKeyEvent('a.cds--tile--clickable', 'keydown', ' ');
+    assert.verifySteps(['click', 'click']);
+  });
+
+  test('a disabled clickable tile is no link and ignores clicks', async function (assert) {
+    const onClick = () => assert.step('click');
+    await render(
+      <template>
+        <Tile
+          @clickable={{true}}
+          @href="/docs"
+          @disabled={{true}}
+          {{on "click" onClick}}
+        >
+          <:content>Docs</:content>
+        </Tile>
+      </template>,
+    );
+    assert
+      .dom('a.cds--tile--clickable')
+      .doesNotHaveAttribute('href')
+      .doesNotHaveAttribute('tabindex')
+      .hasClass('cds--link--disabled');
+    await triggerKeyEvent('a.cds--tile--clickable', 'keydown', 'Enter');
+    await click('a.cds--tile--clickable');
+    assert.verifySteps([]);
   });
 
   test('@clickable renders an anchor tile', async function (assert) {
@@ -214,5 +251,40 @@ module('Integration | Component | Tile', (hooks) => {
       expandedHeight > collapsedHeight + 300,
       `expanded height (${expandedHeight}) should be well past collapsed height (${collapsedHeight}) once the 400px-tall below-the-fold content is visible`,
     );
+  });
+});
+
+module('Integration | Component | Tile > with @route', function (hooks) {
+  setupApplicationTest(hooks);
+  setupRoutes(hooks);
+
+  test('a clickable tile links to its route', async function (assert) {
+    await visitWith(
+      this,
+      <template>
+        <Tile @clickable={{true}} @route="settings">
+          <:content>Settings</:content>
+        </Tile>
+      </template>,
+    );
+    assert.dom('a.cds--tile--clickable').hasAttribute('href', '/settings');
+    await click('a.cds--tile--clickable');
+    const router = this.owner.lookup('service:router');
+    assert.strictEqual(router.currentRouteName, 'settings');
+  });
+
+  test('a disabled one is no link', async function (assert) {
+    await visitWith(
+      this,
+      <template>
+        <Tile @clickable={{true}} @route="settings" @disabled={{true}}>
+          <:content>Settings</:content>
+        </Tile>
+      </template>,
+    );
+    assert
+      .dom('a.cds--tile--clickable')
+      .doesNotHaveAttribute('href')
+      .hasAttribute('aria-disabled', 'true');
   });
 });

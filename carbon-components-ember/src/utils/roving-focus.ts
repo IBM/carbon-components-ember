@@ -23,6 +23,13 @@ export interface RovingFocusClassOptions extends RovingFocusOptions {
   followFocus?: boolean;
   /** Called when a key in the container moves focus to `element`. */
   onNavigate?: (element: HTMLElement) => void;
+  /**
+   * Scroll an item into view by the least amount when it gets keyboard
+   * focus (`:focus-visible`), as long lists need, rather than the
+   * browser's centring; `focus()` then doesn't scroll by itself. Defaults
+   * to `false`.
+   */
+  scrollIntoView?: boolean;
 }
 
 /**
@@ -142,7 +149,7 @@ export class RovingFocus {
   focus(element: HTMLElement) {
     if (!this.items.includes(element)) return;
     this.#setTabStop(element);
-    element.focus();
+    element.focus({ preventScroll: this.#options.scrollIntoView });
   }
 
   container = modifier((element: HTMLElement) => {
@@ -167,8 +174,10 @@ export class RovingFocus {
     };
     const handleFocusin = (event: FocusEvent) => {
       const target = event.target as HTMLElement;
-      if (this.#followsFocus && this.items.includes(target)) {
-        this.#setTabStop(target);
+      if (!this.items.includes(target)) return;
+      if (this.#followsFocus) this.#setTabStop(target);
+      if (this.#options.scrollIntoView && target.matches(':focus-visible')) {
+        target.scrollIntoView({ block: 'nearest', inline: 'nearest' });
       }
     };
     element.addEventListener('keydown', handleKeydown);

@@ -6,7 +6,10 @@
   },
   "BreadcrumbItem": {
     "extra": {
-      "ariaCurrent": "React's aria-current goes to the item's link, which Carbon styles as the current page; an aria-current attribute would go to the <li>."
+      "ariaCurrent": "React's aria-current goes to the item's link, which Carbon styles as the current page; an aria-current attribute would go to the <li>.",
+      "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
+      "query": "Query params for @route, as LinkTo's @query (#1040)."
     }
   },
   "Button": {
@@ -15,7 +18,10 @@
       "target": "A plain attribute, through `...attributes`, as on a native `<a>`."
     },
     "extra": {
-      "autoAlign": "Carbon React's Button takes `autoAlign` at runtime and passes it to the icon-only button's tooltip, though its types leave it out."
+      "autoAlign": "Carbon React's Button takes `autoAlign` at runtime and passes it to the icon-only button's tooltip, though its types leave it out.",
+      "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
+      "query": "Query params for @route, as LinkTo's @query (#1040)."
     }
   },
   "Callout": {
@@ -33,6 +39,11 @@
       "downshiftProps": "It isn't built on downshift, so there's nothing to pass them to.",
       "inputProps": "Attributes on the component go to the input, through ...attributes.",
       "itemToElement": "The default block renders each item."
+    }
+  },
+  "Copy": {
+    "extra": {
+      "ariaLabel": "Carbon React's Copy reads its aria-label prop as the tooltip's label; a component can't read a caller's aria-label attribute, so it takes @ariaLabel."
     }
   },
   "DatePickerInput": {
@@ -60,6 +71,13 @@
   "InlineNotification": {
     "extra": {
       "ariaLabel": "React's aria-label labels the close button; an aria-label attribute would label the notification."
+    }
+  },
+  "Link": {
+    "extra": {
+      "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
+      "query": "Query params for @route, as LinkTo's @query (#1040)."
     }
   },
   "Modal": {
@@ -96,6 +114,30 @@
       "closeMenu": "OverflowMenu yields the item bound to it (@menu), which closes the menu; Carbon React clones these props into its children.",
       "handleOverflowMenuItemFocus": "OverflowMenu yields the item bound to it (@menu), whose RovingFocus moves between items; Carbon React clones these props into its children.",
       "index": "OverflowMenu yields the item bound to it (@menu), whose RovingFocus keeps the items in DOM order; Carbon React clones these props into its children."
+    },
+    "extra": {
+      "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
+      "query": "Query params for @route, as LinkTo's @query (#1040)."
+    }
+  },
+  "PasswordInput": {
+    "extra": {
+      "isFluid": "Stands in for Carbon React's FormContext, through which its FluidTextInput turns on the fluid style. Marked @internal."
+    }
+  },
+  "TextInput": {
+    "extra": {
+      "isFluid": "Stands in for Carbon React's FormContext, through which its FluidTextInput turns on the fluid style. Marked @internal."
+    }
+  },
+  "Tile": {
+    "extra": {
+      "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
+      "query": "Query params for @route, as LinkTo's @query (#1040).",
+      "href": "Carbon React's ClickableTile's href: this Tile also renders the ClickableTile (@clickable).",
+      "disabled": "Carbon React's ClickableTile's disabled: this Tile also renders the ClickableTile (@clickable)."
     }
   },
   "ToastNotification": {

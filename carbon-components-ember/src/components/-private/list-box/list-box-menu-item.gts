@@ -8,6 +8,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
+import { isTruncated } from '../../../utils/truncation.ts';
 
 export interface ListBoxMenuItemSignature {
   Element: HTMLLIElement;
@@ -38,8 +39,7 @@ export default class ListBoxMenuItem extends Component<ListBoxMenuItemSignature>
   // Re-measures when the title (the item's text) changes.
   measure = modifier(
     (option: HTMLElement, [title]: [title: string | undefined]) => {
-      this.isTruncated =
-        title !== undefined && option.offsetWidth < option.scrollWidth;
+      this.isTruncated = title !== undefined && isTruncated(option);
     },
   );
 
